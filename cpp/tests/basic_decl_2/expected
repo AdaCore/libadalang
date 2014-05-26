@@ -1,0 +1,1 @@
+ObjectDecl([Id(A), Id(B)], False, False, in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)), None, RenamingClause(NameExpr([NameComponent([Id(C)]), NameComponent([Id(D)]), NameComponent([Id(E)])])), None)

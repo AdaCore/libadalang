@@ -1,0 +1,1 @@
+NameExpr([NameComponent([Id(A)]), NameComponent([AccessDeref()]), NameComponent([CallExpr(Id(fooify), [ParamList([(None, BinOp(BinOp(Num(12), mult, Num(15)), eq, Num(2)))])])])])

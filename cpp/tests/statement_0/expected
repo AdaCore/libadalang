@@ -1,0 +1,1 @@
+LoopStatement(None, WhileLoopSpec(BinOp(NameExpr([NameComponent([Id(A)])]), gt, Num(12))), [NullStatement()])

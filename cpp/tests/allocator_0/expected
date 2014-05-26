@@ -1,0 +1,1 @@
+Allocator(NameExpr([NameComponent([Id(Pool)])]), TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer), Num(12)])]), None)))

@@ -1,0 +1,6 @@
+-I/home/amiard/apps/quex
+-Wall
+-Wextra
+-std=c++11
+-Wconversion
+-pedantic

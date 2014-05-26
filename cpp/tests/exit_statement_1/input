@@ -1,0 +1,2 @@
+exit_statement
+exit My_Loop when A < 12

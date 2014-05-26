@@ -1,0 +1,1 @@
+Pragma(Id(Unreferenced), [(None, NameExpr([NameComponent([Id(A)])])), (None, NameExpr([NameComponent([Id(B)])]))])

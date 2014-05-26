@@ -1,0 +1,2 @@
+aggregate
+(A => 12, B => 15, C => 89, others => <>)

@@ -1,0 +1,2 @@
+full_type_decl
+type A (Discr_1, Discr_2 : Integer) is tagged record B, C : Integer; end record;

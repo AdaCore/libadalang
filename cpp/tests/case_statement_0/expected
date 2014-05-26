@@ -1,0 +1,1 @@
+CaseStatement(NameExpr([NameComponent([Id(X)])]), [([Num(1)], [NameExpr([NameComponent([Id(Walk_The_Dog)])])]), ([Num(5)], [NameExpr([NameComponent([Id(Launch_Nuke)])])]), ([Num(8), Num(10)], [NameExpr([NameComponent([Id(Sell_All_Stock)])])]), ([OthersDesignator()], [NameExpr([NameComponent([Id(Self_Destruct)])])])])

@@ -1,0 +1,2 @@
+raise_statement
+raise NotImplementedError with "too bad"

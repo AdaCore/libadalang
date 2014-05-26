@@ -1,0 +1,1 @@
+UsePkgDecl([StaticNameExpr([Id(Ada), Id(Text_IO)]), StaticNameExpr([Id(Ada), Id(Vectors)])])

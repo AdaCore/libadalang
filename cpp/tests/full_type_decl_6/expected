@@ -1,0 +1,1 @@
+FullTypeDecl(Id(Rec), None, DerivedTypeDef(False, False, False, False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(A)])]), None)), None, [], RecordDef(ComponentList([ComponentDecl([Id(A), Id(B)], ComponentDef(False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None))), None, None)], None)), False), None)

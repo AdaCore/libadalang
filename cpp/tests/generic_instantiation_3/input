@@ -1,0 +1,2 @@
+generic_instantiation
+package P is new Q (A => B, others => <>)

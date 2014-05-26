@@ -1,0 +1,2 @@
+protected_type_decl
+protected type Protected_Buffer_Type is entry Insert (An_Item : in  Item); entry Remove (An_Item : out Item); private Buffer : Item; Empty  : Boolean := True; end Protected_Buffer_Type

@@ -1,0 +1,1 @@
+ForLoopSpec(Id(A), in, False, BinOp(NameExpr([NameComponent([Id(B), Id(First)])]), ellipsis, NameExpr([NameComponent([Id(Last)])])))

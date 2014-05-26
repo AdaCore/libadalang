@@ -1,0 +1,2 @@
+full_type_decl
+type A is delta 1 / (60 * 60) range 0.0 .. 360.0

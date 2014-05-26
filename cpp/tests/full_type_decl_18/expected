@@ -1,0 +1,1 @@
+FullTypeDecl(Id(Arr), None, ArrayTypeDef(ConstrainedArrayIndices([BinOp(Num(12), ellipsis, Num(15))]), ComponentDef(False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)))), None)

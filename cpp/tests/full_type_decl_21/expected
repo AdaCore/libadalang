@@ -1,0 +1,1 @@
+FullTypeDecl(Id(A), None, AccessDef(TypeAccessExpression(True, False, NameExpr([NameComponent([Id(B)])]))), None)

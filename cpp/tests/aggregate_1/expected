@@ -1,0 +1,1 @@
+Aggregate([(NameExpr([NameComponent([Id(A)])]), Num(12)), (NameExpr([NameComponent([Id(B)])]), Num(15)), (NameExpr([NameComponent([Id(C)])]), Num(89)), (AggregateMember([OthersDesignator()]), DiamondExpr())])

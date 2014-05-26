@@ -1,0 +1,2 @@
+case_expression
+case A is when 12 => 15, when 14 => 16

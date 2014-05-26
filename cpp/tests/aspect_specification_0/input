@@ -1,0 +1,2 @@
+aspect_specification
+with Pre'Class => A < 12

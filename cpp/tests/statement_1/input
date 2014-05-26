@@ -1,0 +1,2 @@
+statement
+A: while A > 12 loop null; end loop

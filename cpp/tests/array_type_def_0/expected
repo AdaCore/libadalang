@@ -1,0 +1,1 @@
+ArrayTypeDef(ConstrainedArrayIndices([BinOp(NameExpr([NameComponent([Id(B)])]), ellipsis, NameExpr([NameComponent([Id(A)])]))]), ComponentDef(False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Pouet)])]), None))))

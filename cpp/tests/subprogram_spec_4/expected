@@ -1,0 +1,1 @@
+SubprogramSpec(NameExpr([NameComponent([Id(A)])]), None, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Pkg)]), NameComponent([CallExpr(Id(Arr), [BinOp(Num(12), ellipsis, Num(18))])])]), None)))

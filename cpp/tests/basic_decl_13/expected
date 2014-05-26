@@ -1,0 +1,1 @@
+ObjectDecl([Id(Columns_Config)], False, False, in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Line_Info_Display_Array_Access)])]), None)), None, RenamingClause(NameExpr([NameComponent([Id(Buffer)]), NameComponent([Id(Editable_Line_Info_Columns)]), NameComponent([AccessDeref()])])), None)

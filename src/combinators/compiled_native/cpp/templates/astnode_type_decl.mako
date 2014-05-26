@@ -1,0 +1,1 @@
+class ${cls.name()};

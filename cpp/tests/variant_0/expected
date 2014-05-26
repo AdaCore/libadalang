@@ -1,0 +1,1 @@
+Variant([Num(12), Num(15)], ComponentList([ComponentDecl([Id(C)], ComponentDef(False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None))), None, None)], None))

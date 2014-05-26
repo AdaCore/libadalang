@@ -1,0 +1,2 @@
+full_type_decl
+type B is new A delta 1.0

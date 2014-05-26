@@ -1,0 +1,135 @@
+/* -*- C++ -*- vim: set syntax=cpp:
+ * PURPOSE: File containing definition of token-identifier and
+ *          a function that maps token identifiers to a string
+ *          name.
+ *
+ * NOTE: This file has been created automatically by Quex.
+ *       Visit quex.org for further info.
+ *
+ * DATE: Mon Jun 30 18:21:09 2014
+ *
+ * (C) 2005-2010 Frank-Rene Schaefer
+ * ABSOLUTELY NO WARRANTY                                           */
+#ifndef __QUEX_INCLUDE_GUARD__AUTO_TOKEN_IDS_QUEX_EASYLEXER__QUEX_TOKEN__
+#define __QUEX_INCLUDE_GUARD__AUTO_TOKEN_IDS_QUEX_EASYLEXER__QUEX_TOKEN__
+
+#ifndef __QUEX_OPTION_PLAIN_C
+#   include<cstdio> 
+#else
+#   include<stdio.h> 
+#endif
+
+/* The token class definition file can only be included after 
+ * the definition on TERMINATION and UNINITIALIZED.          
+ * (fschaef 12y03m24d: "I do not rememember why I wrote this.")    */
+#include "EasyLexer-token.h"
+
+#define QUEX_TKN_ABORT         ((QUEX_TYPE_TOKEN_ID)4100)
+#define QUEX_TKN_ABS           ((QUEX_TYPE_TOKEN_ID)4101)
+#define QUEX_TKN_ABSTRACT      ((QUEX_TYPE_TOKEN_ID)4102)
+#define QUEX_TKN_ACCEPT        ((QUEX_TYPE_TOKEN_ID)4103)
+#define QUEX_TKN_ACCESS        ((QUEX_TYPE_TOKEN_ID)4104)
+#define QUEX_TKN_ALIASED       ((QUEX_TYPE_TOKEN_ID)4105)
+#define QUEX_TKN_ALL           ((QUEX_TYPE_TOKEN_ID)4106)
+#define QUEX_TKN_AMP           ((QUEX_TYPE_TOKEN_ID)4107)
+#define QUEX_TKN_AND           ((QUEX_TYPE_TOKEN_ID)4108)
+#define QUEX_TKN_ARRAY         ((QUEX_TYPE_TOKEN_ID)4109)
+#define QUEX_TKN_ARROW         ((QUEX_TYPE_TOKEN_ID)4110)
+#define QUEX_TKN_AT            ((QUEX_TYPE_TOKEN_ID)4111)
+#define QUEX_TKN_BEGIN         ((QUEX_TYPE_TOKEN_ID)4112)
+#define QUEX_TKN_BODY          ((QUEX_TYPE_TOKEN_ID)4113)
+#define QUEX_TKN_CASE          ((QUEX_TYPE_TOKEN_ID)4114)
+#define QUEX_TKN_COLON         ((QUEX_TYPE_TOKEN_ID)4115)
+#define QUEX_TKN_COMMA         ((QUEX_TYPE_TOKEN_ID)4116)
+#define QUEX_TKN_CONSTANT      ((QUEX_TYPE_TOKEN_ID)4117)
+#define QUEX_TKN_DECLARE       ((QUEX_TYPE_TOKEN_ID)4118)
+#define QUEX_TKN_DEDENT        ((QUEX_TYPE_TOKEN_ID)4096)
+#define QUEX_TKN_DELAY         ((QUEX_TYPE_TOKEN_ID)4119)
+#define QUEX_TKN_DELTA         ((QUEX_TYPE_TOKEN_ID)4120)
+#define QUEX_TKN_DIAMOND       ((QUEX_TYPE_TOKEN_ID)4121)
+#define QUEX_TKN_DIGITS        ((QUEX_TYPE_TOKEN_ID)4122)
+#define QUEX_TKN_DIVIDE        ((QUEX_TYPE_TOKEN_ID)4123)
+#define QUEX_TKN_DO            ((QUEX_TYPE_TOKEN_ID)4124)
+#define QUEX_TKN_DOT           ((QUEX_TYPE_TOKEN_ID)4125)
+#define QUEX_TKN_DOUBLEDOT     ((QUEX_TYPE_TOKEN_ID)4126)
+#define QUEX_TKN_ELSE          ((QUEX_TYPE_TOKEN_ID)4127)
+#define QUEX_TKN_ELSIF         ((QUEX_TYPE_TOKEN_ID)4128)
+#define QUEX_TKN_END           ((QUEX_TYPE_TOKEN_ID)4129)
+#define QUEX_TKN_ENTRY         ((QUEX_TYPE_TOKEN_ID)4130)
+#define QUEX_TKN_EQUAL         ((QUEX_TYPE_TOKEN_ID)4131)
+#define QUEX_TKN_EXCEPTION     ((QUEX_TYPE_TOKEN_ID)4132)
+#define QUEX_TKN_EXIT          ((QUEX_TYPE_TOKEN_ID)4133)
+#define QUEX_TKN_FOR           ((QUEX_TYPE_TOKEN_ID)4134)
+#define QUEX_TKN_FUNCTION      ((QUEX_TYPE_TOKEN_ID)4135)
+#define QUEX_TKN_GENERIC       ((QUEX_TYPE_TOKEN_ID)4136)
+#define QUEX_TKN_GOTO          ((QUEX_TYPE_TOKEN_ID)4137)
+#define QUEX_TKN_GT            ((QUEX_TYPE_TOKEN_ID)4138)
+#define QUEX_TKN_GTE           ((QUEX_TYPE_TOKEN_ID)4139)
+#define QUEX_TKN_IDENTIFIER    ((QUEX_TYPE_TOKEN_ID)4140)
+#define QUEX_TKN_IF            ((QUEX_TYPE_TOKEN_ID)4141)
+#define QUEX_TKN_IN            ((QUEX_TYPE_TOKEN_ID)4142)
+#define QUEX_TKN_INDENT        ((QUEX_TYPE_TOKEN_ID)4097)
+#define QUEX_TKN_INTERFACE     ((QUEX_TYPE_TOKEN_ID)4143)
+#define QUEX_TKN_IS            ((QUEX_TYPE_TOKEN_ID)4144)
+#define QUEX_TKN_LIMITED       ((QUEX_TYPE_TOKEN_ID)4145)
+#define QUEX_TKN_LOOP          ((QUEX_TYPE_TOKEN_ID)4146)
+#define QUEX_TKN_LT            ((QUEX_TYPE_TOKEN_ID)4147)
+#define QUEX_TKN_LTE           ((QUEX_TYPE_TOKEN_ID)4148)
+#define QUEX_TKN_MINUS         ((QUEX_TYPE_TOKEN_ID)4149)
+#define QUEX_TKN_MOD           ((QUEX_TYPE_TOKEN_ID)4150)
+#define QUEX_TKN_MULT          ((QUEX_TYPE_TOKEN_ID)4151)
+#define QUEX_TKN_NEW           ((QUEX_TYPE_TOKEN_ID)4152)
+#define QUEX_TKN_NODENT        ((QUEX_TYPE_TOKEN_ID)4098)
+#define QUEX_TKN_NOT           ((QUEX_TYPE_TOKEN_ID)4153)
+#define QUEX_TKN_NOTEQUAL      ((QUEX_TYPE_TOKEN_ID)4154)
+#define QUEX_TKN_NULL          ((QUEX_TYPE_TOKEN_ID)4155)
+#define QUEX_TKN_NUMBER        ((QUEX_TYPE_TOKEN_ID)4156)
+#define QUEX_TKN_OF            ((QUEX_TYPE_TOKEN_ID)4157)
+#define QUEX_TKN_OR            ((QUEX_TYPE_TOKEN_ID)4158)
+#define QUEX_TKN_OTHERS        ((QUEX_TYPE_TOKEN_ID)4159)
+#define QUEX_TKN_OUT           ((QUEX_TYPE_TOKEN_ID)4160)
+#define QUEX_TKN_OVERRIDING    ((QUEX_TYPE_TOKEN_ID)4161)
+#define QUEX_TKN_PACKAGE       ((QUEX_TYPE_TOKEN_ID)4162)
+#define QUEX_TKN_PAR_CLOSE     ((QUEX_TYPE_TOKEN_ID)4163)
+#define QUEX_TKN_PAR_OPEN      ((QUEX_TYPE_TOKEN_ID)4164)
+#define QUEX_TKN_PIPE          ((QUEX_TYPE_TOKEN_ID)4165)
+#define QUEX_TKN_PLUS          ((QUEX_TYPE_TOKEN_ID)4166)
+#define QUEX_TKN_POWER         ((QUEX_TYPE_TOKEN_ID)4167)
+#define QUEX_TKN_PRAGMA        ((QUEX_TYPE_TOKEN_ID)4168)
+#define QUEX_TKN_PRIVATE       ((QUEX_TYPE_TOKEN_ID)4169)
+#define QUEX_TKN_PROCEDURE     ((QUEX_TYPE_TOKEN_ID)4170)
+#define QUEX_TKN_PROTECTED     ((QUEX_TYPE_TOKEN_ID)4171)
+#define QUEX_TKN_RAISE         ((QUEX_TYPE_TOKEN_ID)4172)
+#define QUEX_TKN_RANGE         ((QUEX_TYPE_TOKEN_ID)4173)
+#define QUEX_TKN_RECORD        ((QUEX_TYPE_TOKEN_ID)4174)
+#define QUEX_TKN_REM           ((QUEX_TYPE_TOKEN_ID)4175)
+#define QUEX_TKN_RENAMES       ((QUEX_TYPE_TOKEN_ID)4176)
+#define QUEX_TKN_REQUEUE       ((QUEX_TYPE_TOKEN_ID)4177)
+#define QUEX_TKN_RETURN        ((QUEX_TYPE_TOKEN_ID)4178)
+#define QUEX_TKN_REVERSE       ((QUEX_TYPE_TOKEN_ID)4179)
+#define QUEX_TKN_SELECT        ((QUEX_TYPE_TOKEN_ID)4180)
+#define QUEX_TKN_SEMICOLON     ((QUEX_TYPE_TOKEN_ID)4181)
+#define QUEX_TKN_SEPARATE      ((QUEX_TYPE_TOKEN_ID)4182)
+#define QUEX_TKN_SOME          ((QUEX_TYPE_TOKEN_ID)4183)
+#define QUEX_TKN_SUBTYPE       ((QUEX_TYPE_TOKEN_ID)4184)
+#define QUEX_TKN_SYNCHRONIZED  ((QUEX_TYPE_TOKEN_ID)4185)
+#define QUEX_TKN_TAGGED        ((QUEX_TYPE_TOKEN_ID)4186)
+#define QUEX_TKN_TASK          ((QUEX_TYPE_TOKEN_ID)4187)
+#define QUEX_TKN_TERMINATE     ((QUEX_TYPE_TOKEN_ID)4188)
+#define QUEX_TKN_TERMINATION   ((QUEX_TYPE_TOKEN_ID)0)
+#define QUEX_TKN_THEN          ((QUEX_TYPE_TOKEN_ID)4189)
+#define QUEX_TKN_TICK          ((QUEX_TYPE_TOKEN_ID)4190)
+#define QUEX_TKN_TYPE          ((QUEX_TYPE_TOKEN_ID)4191)
+#define QUEX_TKN_UNINITIALIZED ((QUEX_TYPE_TOKEN_ID)4099)
+#define QUEX_TKN_USE           ((QUEX_TYPE_TOKEN_ID)4192)
+#define QUEX_TKN_WHEN          ((QUEX_TYPE_TOKEN_ID)4193)
+#define QUEX_TKN_WHILE         ((QUEX_TYPE_TOKEN_ID)4194)
+#define QUEX_TKN_WITH          ((QUEX_TYPE_TOKEN_ID)4195)
+#define QUEX_TKN_XOR           ((QUEX_TYPE_TOKEN_ID)4196)
+
+
+QUEX_NAMESPACE_TOKEN_OPEN
+extern const char* QUEX_NAME_TOKEN(map_id_to_name)(const QUEX_TYPE_TOKEN_ID TokenID);
+QUEX_NAMESPACE_TOKEN_CLOSE
+
+#endif /* __QUEX_INCLUDE_GUARD__AUTO_TOKEN_IDS_QUEX_EASYLEXER__QUEX_TOKEN__ */

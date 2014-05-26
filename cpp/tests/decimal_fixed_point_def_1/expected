@@ -1,0 +1,1 @@
+DecimalFixedPointDef(NameExpr([NameComponent([Id(Delta_Value)])]), NameExpr([NameComponent([Id(Num_Digits)])]), BinOp(NameExpr([NameComponent([Id(Low)])]), ellipsis, NameExpr([NameComponent([Id(High)])])))

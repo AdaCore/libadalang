@@ -1,0 +1,2 @@
+generic_renaming_decl
+generic procedure A renames B

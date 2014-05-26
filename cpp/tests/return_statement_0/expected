@@ -1,0 +1,1 @@
+ReturnStatement(NameExpr([NameComponent([CallExpr(Id(Lol), [ParamList([(None, NameExpr([NameComponent([Id(Wat)])])), (None, BinOp(Num(12), plus, Num(15)))])])])]))

@@ -1,0 +1,2 @@
+variant
+when 12 | 15 => C : Integer;

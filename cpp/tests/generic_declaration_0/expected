@@ -1,0 +1,1 @@
+GenericSubprogramDecl([FullTypeDecl(Id(Element_T), None, PrivateTypeDef(False, False, False), None)], SubprogramSpec(NameExpr([NameComponent([Id(Swap)])]), [ParameterProfile([Id(X), Id(Y)], inout, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Element_T)])]), None)), None)], None))

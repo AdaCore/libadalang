@@ -1,0 +1,1 @@
+AspectSpecification([AspectAssoc(NameExpr([NameComponent([Id(Pre), Id(Class)])]), BinOp(NameExpr([NameComponent([Id(A)])]), lt, Num(12)))])

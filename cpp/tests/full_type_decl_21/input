@@ -1,0 +1,2 @@
+full_type_decl
+type A is access all B

@@ -1,0 +1,2 @@
+statement
+declare A : Integer := 12; begin Foo (A); end

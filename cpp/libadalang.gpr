@@ -1,0 +1,26 @@
+with "gnatcoll";
+
+project Libadalang is
+
+   for Languages use ("Ada", "C", "C++");
+   for Source_Dirs use ("lexer");
+   for Object_Dir use "obj";
+   for Exec_Dir use "obj";
+   for Main use ("main.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-g", "-gnatp", "-O3", "-gnata", "-gnatVa", "-gnatQ", "-gnaty3abcefhiklprt",
+         "-gnatwaCJe", "-gnat2012", "-gnateE");
+
+      for Default_Switches ("C") use ("-g", "-I/home/amiard/apps/quex",
+                                      "-DQUEX_OPTION_ASSERTS_DISABLED",
+                                      "-O3");
+
+      for Default_Switches ("C++") use ("-g", "-I/home/amiard/apps/quex",
+                                      "-DQUEX_OPTION_ASSERTS_DISABLED", "-std=c++11",
+                                      "-O3");
+
+   end Compiler;
+
+end Libadalang;

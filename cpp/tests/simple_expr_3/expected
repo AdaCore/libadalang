@@ -1,0 +1,1 @@
+UnOp(minus, BinOp(BinOp(Num(12), pow, Num(4)), mod, Num(2)))

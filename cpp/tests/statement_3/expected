@@ -1,0 +1,1 @@
+LoopStatement(None, None, [NameExpr([NameComponent([CallExpr(Id(World), [ParamList([(None, NameExpr([NameComponent([Id(A)])])), (None, NameExpr([NameComponent([Id(B)])])), (None, NameExpr([NameComponent([Id(C)])]))])])])])])

@@ -1,0 +1,2 @@
+subprogram_spec
+function A (B, C, D : String; E : access Integer) return Integer

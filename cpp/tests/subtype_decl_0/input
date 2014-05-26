@@ -1,0 +1,2 @@
+subtype_decl
+subtype A is B (1 .. 12)

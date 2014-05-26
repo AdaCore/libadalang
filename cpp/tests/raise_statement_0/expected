@@ -1,0 +1,1 @@
+RaiseStatement(NameExpr([NameComponent([Id(NotImplementedError)])]), Str("too bad"))

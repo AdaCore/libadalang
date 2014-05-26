@@ -1,0 +1,1 @@
+Allocator(None, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(A), Id(Class), Aggregate([(None, Num(12)), (None, Num(15))])])]), None)))

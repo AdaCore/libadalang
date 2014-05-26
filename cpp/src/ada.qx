@@ -1,0 +1,457 @@
+// -*- C++ -*-
+
+token_type {
+   header {
+       #include <stdio.h>
+       #include <string.h>
+
+       extern uint32_t last_id;
+       struct $TOKEN_CLASS_tag;
+
+       extern const char* 
+       $TOKEN_CLASS_get_string(struct $TOKEN_CLASS_tag* me,  char*  buffer, size_t   BufferSize); 
+
+       extern const char* 
+       $TOKEN_CLASS_pretty_char_text(struct $TOKEN_CLASS_tag* me, char*   buffer, size_t  BufferSize); 
+
+#      if ! defined(__QUEX_OPTION_WCHAR_T_DISABLED)
+       extern const wchar_t* 
+       $TOKEN_CLASS_pretty_wchar_text(struct $TOKEN_CLASS_tag* me, wchar_t*  buffer, size_t BufferSize); 
+#      endif
+
+$INCLUDE_CONVERTER_DECLARATION
+   }
+   standard {
+        id            : uint32_t;
+        line_number   : size_t;
+        column_number : size_t;
+   }
+   distinct {
+       text   :  const QUEX_TYPE_CHARACTER*;
+       number :  size_t;
+       len    :  size_t;
+   }
+
+   inheritable;
+
+   constructor {
+       self.number = 0;
+       self.text   = LexemeNull;
+   }
+
+   destructor {
+       if( self.text != LexemeNull ) {
+           QUEX_NAME(MemoryManager_Text_free)((QUEX_TYPE_CHARACTER*)self.text);
+           self.text = LexemeNull;
+       }
+   }
+
+   copy {
+        self._id  = Other._id;
+
+        if( self.text != LexemeNull ) {
+            QUEX_NAME(MemoryManager_Text_free)((QUEX_TYPE_CHARACTER*)self.text);
+        }
+        if( Other.text != LexemeNull ) {
+            self.text = QUEX_NAME(MemoryManager_Text_allocate)(
+                                    sizeof(QUEX_TYPE_CHARACTER) 
+                                  * (QUEX_NAME(strlen)(Other.text) + 1));
+            __QUEX_STD_memcpy((void*)self.text, (void*)Other.text, 
+                                sizeof(QUEX_TYPE_CHARACTER) 
+                              * (QUEX_NAME(strlen)(Other.text) + 1));
+        }
+        self.number = Other.number;
+    #   ifdef     QUEX_OPTION_TOKEN_STAMPING_WITH_LINE_AND_COLUMN
+        __QUEX_IF_COUNT_LINES(self._line_n     = Other._line_n);
+        __QUEX_IF_COUNT_COLUMNS(self._column_n = Other._column_n);
+    #   endif
+   }
+
+   take_text {
+
+#       if 0
+        /* Hint for debug: To check take_text change "#if 0" to "#if 1" */
+        {
+            const QUEX_TYPE_CHARACTER* it = 0x0;
+            printf("previous:  '");
+            if( self.text != LexemeNull ) {
+                for(it = self.text; *it ; ++it) printf("%04X.", (int)*it);
+                printf("%04X.", (int)*it);
+            }
+            printf("'\n");
+            printf("take_text: '");
+            for(it = Begin; it != End; ++it) printf("%04X.", (int)*it);
+            printf("%04X.", (int)*it);
+            printf("'\n");
+        }
+#       endif
+
+        if( Begin != LexemeNull ) {
+            self.text = Begin;
+            self.len = (size_t)(End - Begin);
+        } else {
+            self.text = LexemeNull;
+            self.len = 0;
+        }
+
+#       if 0
+        /* Hint for debug: To check take_text change "#if 0" to "#if 1" */
+        {
+            const QUEX_TYPE_CHARACTER* it = 0x0;
+            printf("after:     '");
+            if( self.text != LexemeNull ) { 
+                for(it = self.text; *it ; ++it) printf("%04X.", (int)*it);
+                printf("%04X.", (int)*it);
+            }
+            printf("'\n");
+        }
+#       endif
+
+        /* This token copied the text from the chunk into the string, 
+         * so we do not claim owneship over it.                       */
+        return false;
+   }
+
+   body {
+       /*
+        */
+   }
+
+   repetition_set {
+       self.number = N;
+   }
+
+   repetition_get {
+       return self.number;
+   }
+
+   footer {
+        const char* 
+        $TOKEN_CLASS_get_string($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize) 
+        {
+            const char*  token_type_str = $TOKEN_CLASS_map_id_to_name(me->_id);
+            const char*  BufferEnd  = buffer + BufferSize;
+            const char*  iterator   = 0;
+            char*        writerator = 0;
+
+            /* Token Type */
+            iterator = token_type_str;
+            writerator = buffer; 
+            while( (*iterator) && writerator != BufferEnd ) {
+                *writerator++ = *iterator++;
+            }
+
+            /* Opening Quote */
+            if( BufferEnd - writerator > 2 ) {
+                *writerator++ = ' ';
+                *writerator++ = '\'';
+            }
+
+            /* The String */
+            $TOKEN_CLASS_pretty_char_text(me, writerator, (size_t)(BufferEnd - writerator));
+
+            while( *writerator ) {
+                ++writerator;
+            }
+
+            /* Closing Quote */
+            if( BufferEnd - writerator > 1 ) {
+                *writerator++ = '\'';
+            }
+            *writerator = '\0';
+            return buffer;
+        }
+
+        const char* 
+        $TOKEN_CLASS_pretty_char_text($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize) 
+        /* Provides a somehow pretty-print of the text in the token. Note, that the buffer
+         * in case of UTF8 should be 4bytes longer than the longest expected string.       */
+        {
+            const QUEX_TYPE_CHARACTER*  source    = me->text;
+            char*                       drain     = buffer;
+            const char*                 DrainEnd  = buffer + BufferSize;
+
+            const QUEX_TYPE_CHARACTER*  SourceEnd = me->text + (size_t)(QUEX_NAME(strlen)(source)) + 1;
+            $CONVERTER_STRING(&source, SourceEnd, &drain, DrainEnd);
+            return buffer;
+        }
+
+#       if ! defined(__QUEX_OPTION_WCHAR_T_DISABLED)
+        const wchar_t* 
+        $TOKEN_CLASS_pretty_wchar_text($TOKEN_CLASS* me, wchar_t*  buffer, size_t    BufferSize) 
+        {
+            wchar_t*                    drain     = buffer;
+            const wchar_t*              DrainEnd  = buffer + (ptrdiff_t)BufferSize;
+            const QUEX_TYPE_CHARACTER*  source    = me->text;
+            const QUEX_TYPE_CHARACTER*  SourceEnd = me->text + (ptrdiff_t)(QUEX_NAME(strlen)(source)) + 1;
+
+            $CONVERTER_WSTRING(&source, SourceEnd, &drain, DrainEnd);
+            return buffer;
+        }
+#       endif
+
+$INCLUDE_CONVERTER_IMPLEMENTATION
+   }
+}
+
+
+header {
+#include <stdlib.h>  /* for: atoi() */
+}
+
+token {
+    // Identifier
+    IDENTIFIER = 5000;
+    ALL = 5001;
+
+    // Keywords
+    ABORT = 5002;
+    ELSE = 5003;
+    NEW = 5004;
+    RETURN = 5005;
+    ABS = 5006;
+    ELSIF = 5007;
+    NOT = 5008;
+    REVERSE = 5009;
+    ABSTRACT = 5010;
+    END = 5011;
+    NULL = 5012;
+    ACCEPT = 5013;
+    ENTRY = 5014;
+    SELECT = 5015;
+    ACCESS = 5016;
+    EXCEPTION = 5017;
+    OF = 5018;
+    SEPARATE = 5019;
+    ALIASED = 5020;
+    EXIT = 5021;
+    OR = 5022;
+    SOME = 5023;
+    OTHERS = 5025;
+    SUBTYPE = 5026;
+    AND = 5027;
+    FOR = 5028;
+    OUT = 5029;
+    SYNCHRONIZED = 5030;
+    ARRAY = 5031;
+    FUNCTION = 5032;
+    OVERRIDING = 5033;
+    AT = 5034;
+    TAGGED = 5035;
+    GENERIC = 5036;
+    PACKAGE = 5037;
+    TASK = 5038;
+    BEGIN = 5039;
+    GOTO = 5040;
+    PRAGMA = 5041;
+    TERMINATE = 5042;
+    BODY = 5043;
+    PRIVATE = 5044;
+    THEN = 5045;
+    IF = 5046;
+    PROCEDURE = 5047;
+    TYPE = 5048;
+    CASE = 5049;
+    IN = 5050;
+    PROTECTED = 5051;
+    CONSTANT = 5052;
+    INTERFACE = 5053;
+    IS = 5054;
+    RAISE = 5055;
+    USE = 5056;
+    DECLARE = 5057;
+    RANGE = 5058;
+    DELAY = 5059;
+    UNTIL = 5060;
+    LIMITED = 5061;
+    RECORD = 5062;
+    WHEN = 5063;
+    DELTA = 5064;
+    LOOP = 5065;
+    REM = 5066;
+    WHILE = 5067;
+    DIGITS = 5068;
+    RENAMES = 5069;
+    WITHS = 5070;
+    DO = 5071;
+    MOD = 5072;
+    REQUEUE = 5073;
+    XOR = 5074;
+
+    // Label
+    LABEL = 5075;
+
+    // Punctuation
+    PAR_CLOSE = 5076;
+    PAR_OPEN = 5077;
+    SEMICOLON = 5078;
+    COLON = 5079;
+    COMMA = 5080;
+    DOUBLEDOT = 5081;
+    DOT = 5082;
+    DIAMOND = 5083;
+    LTE = 5084;
+    GTE = 5085;
+    ARROW = 5086;
+    EQUAL = 5087;
+    LT = 5088;
+    GT = 5089;
+    PLUS = 5090;
+    MINUS = 5091;
+    POWER = 5092;
+    MULT = 5093;
+    AMP = 5094;
+    NOTEQUAL = 5095;
+    DIVIDE = 5096;
+    TICK = 5097;
+    PIPE = 5098;
+    ASSIGN = 5099;
+
+    // String and char literals
+    STRING = 5100;
+    CHAR = 5101;
+
+    // Fail token
+    LEX_FAIL = 5102;
+}
+
+define {
+    P_STRING                \"(\"\"|[^\n\"])*\"
+    DIGIT                   [0-9]
+    EXTENDED_DIGIT          [0-9a-zA-Z]
+    INTEGER                 ({DIGIT}(_?{DIGIT})*)
+    EXPONENT                ([eE](\+?|-){INTEGER})
+    DECIMAL_LITERAL         {INTEGER}(\.?{INTEGER})?{EXPONENT}?
+    BASE                    {INTEGER}
+    BASED_INTEGER           {EXTENDED_DIGIT}(_?{EXTENDED_DIGIT})*
+    BASED_LITERAL           {BASE}#{BASED_INTEGER}(\.{BASED_INTEGER})?#{EXPONENT}?
+}
+
+mode ONE_AND_ONLY
+{
+    <<EOF>>     => QUEX_TKN_TERMINATION;
+
+    [ \t\r\n]+  { }
+    --(.?)+  { }
+    \C{abort} => QUEX_TKN_ABORT; 
+    \C{else} => QUEX_TKN_ELSE;
+    \C{new} => QUEX_TKN_NEW;
+    \C{return} => QUEX_TKN_RETURN;
+    \C{abs} => QUEX_TKN_ABS;
+    \C{elsif} => QUEX_TKN_ELSIF;
+    \C{not} => QUEX_TKN_NOT;
+    \C{reverse} => QUEX_TKN_REVERSE;
+    \C{abstract} => QUEX_TKN_ABSTRACT;
+    \C{end} => QUEX_TKN_END;
+    \C{null} => QUEX_TKN_NULL(Lexeme);
+    \C{accept} => QUEX_TKN_ACCEPT;
+    \C{entry} => QUEX_TKN_ENTRY;
+    \C{select} => QUEX_TKN_SELECT;
+    \C{access} => QUEX_TKN_ACCESS;
+    \C{exception} => QUEX_TKN_EXCEPTION;
+    \C{of} => QUEX_TKN_OF;
+    \C{separate} => QUEX_TKN_SEPARATE;
+    \C{aliased} => QUEX_TKN_ALIASED;
+    \C{exit} => QUEX_TKN_EXIT;
+    \C{or} => QUEX_TKN_OR;
+    \C{some} => QUEX_TKN_SOME;
+    \C{all} => QUEX_TKN_ALL;
+    \C{others} => QUEX_TKN_OTHERS;
+    \C{subtype} => QUEX_TKN_SUBTYPE;
+    \C{and} => QUEX_TKN_AND;
+    \C{for} => QUEX_TKN_FOR;
+    \C{out} => QUEX_TKN_OUT;
+    \C{synchronized} => QUEX_TKN_SYNCHRONIZED;
+    \C{array} => QUEX_TKN_ARRAY;
+    \C{function} => QUEX_TKN_FUNCTION;
+    \C{overriding} => QUEX_TKN_OVERRIDING;
+    \C{at} => QUEX_TKN_AT;
+    \C{tagged} => QUEX_TKN_TAGGED;
+    \C{generic} => QUEX_TKN_GENERIC;
+    \C{package} => QUEX_TKN_PACKAGE;
+    \C{task} => QUEX_TKN_TASK;
+    \C{begin} => QUEX_TKN_BEGIN;
+    \C{goto} => QUEX_TKN_GOTO;
+    \C{pragma} => QUEX_TKN_PRAGMA;
+    \C{terminate} => QUEX_TKN_TERMINATE;
+    \C{body} => QUEX_TKN_BODY;
+    \C{private} => QUEX_TKN_PRIVATE;
+    \C{then} => QUEX_TKN_THEN;
+    \C{if} => QUEX_TKN_IF;
+    \C{procedure} => QUEX_TKN_PROCEDURE;
+    \C{type} => QUEX_TKN_TYPE;
+    \C{case} => QUEX_TKN_CASE;
+    \C{in} => QUEX_TKN_IN;
+    \C{protected} => QUEX_TKN_PROTECTED;
+    \C{constant} => QUEX_TKN_CONSTANT;
+    \C{interface} => QUEX_TKN_INTERFACE;
+    \C{is} => QUEX_TKN_IS;
+    \C{raise} => QUEX_TKN_RAISE;
+    \C{use} => QUEX_TKN_USE;
+    \C{declare} => QUEX_TKN_DECLARE;
+    \C{range} => QUEX_TKN_RANGE;
+    \C{delay} => QUEX_TKN_DELAY;
+    \C{until} => QUEX_TKN_UNTIL;
+    \C{limited} => QUEX_TKN_LIMITED;
+    \C{record} => QUEX_TKN_RECORD;
+    \C{when} => QUEX_TKN_WHEN;
+    \C{delta} => QUEX_TKN_DELTA;
+    \C{loop} => QUEX_TKN_LOOP;
+    \C{rem} => QUEX_TKN_REM;
+    \C{while} => QUEX_TKN_WHILE;
+    \C{digits} => QUEX_TKN_DIGITS;
+    \C{renames} => QUEX_TKN_RENAMES;
+    \C{with} => QUEX_TKN_WITH;
+    \C{do} => QUEX_TKN_DO;
+    \C{mod} => QUEX_TKN_MOD;
+    \C{requeue} => QUEX_TKN_REQUEUE;
+    \C{xor} => QUEX_TKN_XOR;
+
+    "(" => QUEX_TKN_PAR_OPEN(Lexeme);
+    ")" => QUEX_TKN_PAR_CLOSE(Lexeme);
+    ";" => QUEX_TKN_SEMICOLON(Lexeme); 
+    ":" => QUEX_TKN_COLON(Lexeme); 
+    "," => QUEX_TKN_COMMA(Lexeme); 
+    ".." => QUEX_TKN_DOUBLEDOT(Lexeme); 
+    ":=" => QUEX_TKN_ASSIGN(Lexeme); 
+    "." => QUEX_TKN_DOT(Lexeme); 
+    "<>" => QUEX_TKN_DIAMOND(Lexeme); 
+    "<=" => QUEX_TKN_LTE(Lexeme);
+    ">=" => QUEX_TKN_GTE(Lexeme); 
+    "=>" => QUEX_TKN_ARROW(Lexeme); 
+    "=" => QUEX_TKN_EQUAL(Lexeme); 
+    "<" => QUEX_TKN_LT(Lexeme); 
+    ">" => QUEX_TKN_GT(Lexeme); 
+    "+" => QUEX_TKN_PLUS(Lexeme); 
+    "-" => QUEX_TKN_MINUS(Lexeme); 
+    "**" => QUEX_TKN_POWER(Lexeme); 
+    "*" => QUEX_TKN_MULT(Lexeme); 
+    "&" => QUEX_TKN_AMP(Lexeme); 
+    "/=" => QUEX_TKN_NOTEQUAL(Lexeme); 
+    "/" => QUEX_TKN_DIVIDE(Lexeme);
+    "'" => QUEX_TKN_TICK(Lexeme); 
+    "|" => QUEX_TKN_PIPE(Lexeme);
+
+    {DECIMAL_LITERAL} => QUEX_TKN_NUMBER(Lexeme);
+    {BASED_LITERAL} => QUEX_TKN_NUMBER(Lexeme);
+    [_a-zA-Z][_a-zA-Z0-9]*  { self_send1(QUEX_TKN_IDENTIFIER, Lexeme); RETURN; }
+    <<([_a-zA-Z][_a-zA-Z0-9]*)?>>  { self_send1(QUEX_TKN_LABEL, Lexeme); RETURN; }
+
+    {P_STRING}      => QUEX_TKN_STRING(Lexeme);
+
+    '.' {
+        if (!(last_id >= QUEX_TKN_IDENTIFIER && last_id <= QUEX_TKN_ALL)) {
+            self_send1(QUEX_TKN_CHAR, Lexeme); 
+        } else {
+            self_send1(QUEX_TKN_TICK, Lexeme);
+            QUEX_NAME(seek_backward)(&self, 2);
+        }
+
+        RETURN; 
+    }
+
+    on_failure => QUEX_TKN_LEX_FAIL(Lexeme);
+}
+
+
+

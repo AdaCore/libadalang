@@ -1,0 +1,2 @@
+generic_instantiation
+   package Int_Vectors is new Ada.Containers.Vectors (Natural, Integer)

@@ -1,0 +1,1 @@
+BinOp(Num(12), mult, BinOp(BinOp(Num(12), pow, Num(12)), div, Num(15)))

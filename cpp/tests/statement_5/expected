@@ -1,0 +1,1 @@
+AcceptStatement(Id(SEIZE), None, None, HandledStatements([AssignStatement(NameExpr([NameComponent([Id(BUSY)])]), NameExpr([NameComponent([Id(TRUE)])]))], None))

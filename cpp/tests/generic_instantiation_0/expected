@@ -1,0 +1,1 @@
+GenericInstantiation(Id(Int_Vectors), StaticNameExpr([Id(Ada), Id(Containers), Id(Vectors)]), ParamList([(None, NameExpr([NameComponent([Id(Natural)])])), (None, NameExpr([NameComponent([Id(Integer)])]))]), None)

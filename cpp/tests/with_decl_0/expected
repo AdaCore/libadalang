@@ -1,0 +1,1 @@
+WithDecl(False, False, [StaticNameExpr([Id(Ada), Id(Text_IO)])])

@@ -1,0 +1,2 @@
+exception_handler
+when Pouet'Abort_Signal => Prout;

@@ -1,0 +1,2 @@
+loop_statement
+A: for A in B loop null; end loop

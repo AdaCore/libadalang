@@ -1,0 +1,1 @@
+BinOp(Num(12), plus, NameExpr([NameComponent([IfExpr(NameExpr([NameComponent([QuantifiedExpr(all, ForLoopSpec(Id(A), in, False, NameExpr([NameComponent([Id(B)])])), BinOp(NameExpr([NameComponent([Id(A)])]), eq, Num(12)))])]), Num(15), [], Num(16))])]))

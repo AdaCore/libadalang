@@ -1,6 +1,7 @@
 #ifndef CFFI_INTERFACE_H
 #define CFFI_INTERFACE_H
 
+#include <list>
 #include <unordered_map>
 #include <cstdlib>
 #include <cstdint>
@@ -34,7 +35,9 @@ struct _lexer {
     quex_EasyLexer* lexer;
     quex_Token tk_memory[1024];
     long current_offset;
-    std::unordered_map<const char*, const char*, CharHash, eqstr> hmap;
+    std::unordered_map<char*, char*, CharHash, eqstr> hmap;
+    std::list<uint8_t*> str_literals;
+    char* buffer_ptr;
 };
 
 extern Token no_token;
@@ -82,4 +85,5 @@ inline Token get(Lexer* lexer, long offset) {
 }
 
 Token receive(Lexer* lexer);
+void free_lexer (Lexer* lex);
 #endif

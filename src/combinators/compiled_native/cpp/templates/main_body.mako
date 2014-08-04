@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 #include "${header_name}"
 #include <unordered_map>
 
@@ -18,6 +20,15 @@ const int memo_size=256;
 /*--------------------------
 -- Memoization data types --
 --------------------------*/
+template <typename T> void dec_ref (T& el) { 
+    el.dec_ref(); 
+}
+template <typename T> void dec_ref (T*& el) { 
+    if (el) { 
+        el->dec_ref(); 
+        el = nullptr; 
+    } 
+}
 
 template <typename T> struct Memo {
 
@@ -30,19 +41,37 @@ template <typename T> struct Memo {
     long current_offset;
     MemoEntry memo_array[memo_size];
 
+    inline void clear() {
+        for (int i = 0; i < memo_size; i++) {
+            if (this->memo_array[i].state == MemoState::Success) {
+#if DEBUG_MODE
+                printf("dec ref at pos %d\n", i);
+#endif
+                dec_ref(this->memo_array[i].instance);
+            }
+            this->memo_array[i].state = MemoState::Nores;
+        }
+    }
+
     inline MemoEntry get(long offset) {
 
         if (offset < this->current_offset - memo_size) {
 #if DEBUG_MODE
             printf("Failure in memo get\n");
 #endif
-            return { MemoState::Nores };
+            MemoEntry ret;
+            ret.state = MemoState::Nores;
+            return ret;
         }
 
         long coffset = this->current_offset;
 
         while (coffset <= offset) {
-            this->memo_array[coffset % memo_size].state = MemoState::Nores;
+            int i = coffset % memo_size;
+            if (this->memo_array[i].state == MemoState::Success) {
+                dec_ref(this->memo_array[i].instance);
+            }
+            this->memo_array[i].state = MemoState::Nores;
             coffset++;
         }
 
@@ -52,19 +81,23 @@ template <typename T> struct Memo {
         return res;
     }
 
-    inline void set(long offset, bool success, T instance, long final_pos) {
+    inline bool set(long offset, bool success, T instance, long final_pos) {
 
         if (offset < this->current_offset - memo_size) {
 #if DEBUG_MODE
             printf("Failure in memo set\n");
 #endif
-            return;
+            return false;
         }
 
         long coffset = this->current_offset;
 
         while (coffset <= offset) {
-            this->memo_array[coffset % memo_size].state = MemoState::Nores;
+            int i = coffset % memo_size;
+            if (this->memo_array[i].state == MemoState::Success) {
+                dec_ref(this->memo_array[i].instance);
+            }
+            this->memo_array[i].state = MemoState::Nores;
             coffset++;
         }
 
@@ -73,6 +106,7 @@ template <typename T> struct Memo {
         this->memo_array[offset % memo_size].final_pos = final_pos;
 
         this->current_offset = coffset;
+        return true;
     }
 };
 
@@ -100,4 +134,14 @@ void print_diagnostics() {
     }
 */
 % endfor
+}
+
+void clean_all_memos() {
+    % for fn in _self.fns:
+#if DEBUG_MODE
+        printf("CLEANING MEMO FOR ${fn}\n");
+        fflush(stdout);
+#endif
+        ${fn}_memo.clear();
+    % endfor
 }

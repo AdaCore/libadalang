@@ -37,7 +37,7 @@ import ycm_core
 flags = [
     "-I/home/amiard/apps/quex",
     "-Wall",
-    "-Wextra",
+    "-extra",
     "-std=c++11",
     "-Wconversion",
     "-pedantic"

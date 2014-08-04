@@ -282,14 +282,10 @@ A.add_rules(
 
     aggregate=Row(
         "(",
-        Or(
-            Row(
-                A.expression, _("with"),
-                _(Opt("null", "record")),
-                A.aggregate_content_empty_valid,
-            ) ^ Aggregate,
-            Row(Null(Expr), A.aggregate_content) ^ Aggregate,
-        ),
+        Or(Row(A.expression, _("with"),
+               _(Opt("null", "record")),
+               A.aggregate_content_empty_valid) ^ Aggregate,
+           Row(Null(Expr), A.aggregate_content) ^ Aggregate),
         ")"
     ) >> 1,
 

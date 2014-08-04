@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "ast.hpp"
-#include "cffi_interface.h"
+#include "cffi_interface.hpp"
 
 using namespace std;
 extern long current_pos;
@@ -11,15 +11,6 @@ extern long current_pos;
 /*----------------------
 -- Types declarations --
 ----------------------*/
-
-template <typename T> class ASTList : ASTNode {
-public:
-    std::vector<T> vec;
-
-    virtual std::string repr() {
-        return vec_repr(this->vec);
-    };
-};
 
 % for el in map(unicode.strip, _self.types_declarations):
 ${el}
@@ -53,5 +44,6 @@ ${el}
 % endfor
 
 void print_diagnostics();
+void clean_all_memos();
 
 #endif

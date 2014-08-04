@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser(description='Execute the libadalang testsuite')
 parser.add_argument('-w', '--write', default=[], nargs=2,
                     help='Write a test with name and input string')
 parser.add_argument('-r', '--rewrite', dest='rewrite', action='store_true')
+parser.add_argument('--valgrind', dest='valgrind', action='store_true')
 parser.set_defaults(rewrite=False)
 args = parser.parse_args()
 
@@ -62,7 +63,14 @@ else:
             with open(path.join(cdir, "input")) as f:
                 rule_name = f.readline().strip()
                 input_text = f.read().strip()
+
+            if args.valgrind:
+                out = sp.check_output(["valgrind", "../bin/parse", "-r", rule_name, "--input", input_text])
+                print "{0}Test valgrind{1} - {2}".format(C.OKGREEN, C.ENDC, cdir[2:])
+                continue
+
             out = sp.check_output(["../bin/parse", "-r", rule_name, "--input", input_text])
+
             with open(path.join(cdir, "expected")) as f:
                 expected = f.read()
 

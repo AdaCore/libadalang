@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 std::string enum_repr(${cls.name()} enum_inst) {
     switch (enum_inst) {
 % for alt in cls.alternatives:
@@ -8,3 +10,5 @@ std::string enum_repr(${cls.name()} enum_inst) {
         return "uninitialized";
     }
 }
+
+void dec_ref (${cls.name()} self) {}

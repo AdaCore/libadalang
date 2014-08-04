@@ -41,7 +41,6 @@ $INCLUDE_CONVERTER_DECLARATION
 
    destructor {
        if( self.text != LexemeNull ) {
-           QUEX_NAME(MemoryManager_Text_free)((QUEX_TYPE_CHARACTER*)self.text);
            self.text = LexemeNull;
        }
    }

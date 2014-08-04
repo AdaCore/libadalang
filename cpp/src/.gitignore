@@ -1,3 +1,4 @@
 EasyLexer*
 parse.cpp
 parse.hpp
+parse_main.cpp

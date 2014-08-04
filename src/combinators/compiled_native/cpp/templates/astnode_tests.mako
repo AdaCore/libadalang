@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 % for test_name, (ada_string, res_ast_str) in zip(test_names, cls.tests):
 void ${test_name} () {
     Lexer* lex = make_lexer_from_string(${c_repr(ada_string)}, ${len(ada_string)});

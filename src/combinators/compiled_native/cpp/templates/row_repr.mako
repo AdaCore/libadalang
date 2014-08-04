@@ -1,1 +1,1 @@
-${self_access_string}.repr()
+${self_access_string}${"->" if _self.is_ptr() else "."}repr()

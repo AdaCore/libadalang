@@ -85,8 +85,8 @@ class Decl(object):
         self.default_val = None
         if inspect.isclass(self.type) and issubclass(self.type, AdaType):
             self.default_val = self.type.nullexpr()
-
-
+        if self.comb and self.comb.is_ptr():
+            self.default_val = null_constant()
 
 
 def wrap(locs):
@@ -101,6 +101,7 @@ def wrap(locs):
 
 
 template_cache = {}
+
 
 def mako_template(file_name):
     t_path = path.join(path.dirname(path.realpath(__file__)),
@@ -191,6 +192,7 @@ def get_tk_bound(field, field_val, start=False):
         typ = typ[0]
     if issubclass(ASTNode, typ):
         res = getattr(res, "tk_start" if start else "tk_end")
+        res = getattr(res, "tk_start" if start else "tk_end")
     return res
 
 
@@ -257,9 +259,8 @@ class ASTNode(AdaType):
 
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
                 base_comb = copy(new_comb)
-                if is_row:
-                    if len(cls.fields):
-                        base_comb.matchers = base_comb.matchers[:-len(cls.fields)]
+                if is_row and len(cls.fields):
+                    base_comb.matchers = base_comb.matchers[:-len(cls.fields)]
                 base_class.add_to_context(compile_ctx, base_comb)
 
             compile_ctx.types.add(cls)
@@ -396,6 +397,9 @@ class Combinator(object):
     def is_ptr(self):
         raise NotImplementedError()
 
+    def needs_refcount(self):
+        return True
+
     def nullexpr(self):
         raise NotImplementedError()
 
@@ -519,6 +523,9 @@ class Tok(Combinator):
     def __repr__(self):
         return "Tok({0})".format(repr(self.tok.val))
 
+    def needs_refcount(self):
+        return False
+
     def __init__(self, tok):
         """ :type tok: Token """
         Combinator.__init__(self)
@@ -553,6 +560,9 @@ class TokClass(Combinator):
         CharLit: token_map.names_to_ids['CHAR'],
         StringLit: token_map.names_to_ids['STRING']
     }
+
+    def needs_refcount(self):
+        return False
 
     def __repr__(self):
         return "TokClass({0})".format(self.tok_class.__name__)
@@ -641,6 +651,11 @@ class Or(Combinator):
     def children(self):
         return self.matchers
 
+    def needs_refcount(self):
+        assert(all(i.needs_refcount() == self.matchers[0].needs_refcount()
+                   for i in self.matchers))
+        return self.matchers[0].needs_refcount()
+
     def is_ptr(self):
         if not self.locked:
             self.locked = True
@@ -687,10 +702,10 @@ class Or(Combinator):
             self.locked = False
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        groups = get_comb_groups(self, 0)
-        for group in (g for g in groups if len(g) > 1):
-            for comb in group[1:]:
-                comb.precomputed_res = group[0]
+        # groups = get_comb_groups(self, 0)
+        # for group in (g for g in groups if len(g) > 1):
+        #     for comb in group[1:]:
+        #         comb.precomputed_res = group[0]
 
         pos, res = gen_names("or_pos", "or_res")
         typ = self.get_type_string()
@@ -705,6 +720,9 @@ class Or(Combinator):
 
 class Row(Combinator):
 
+    def needs_refcount(self):
+        return True
+
     def __repr__(self):
         return "Row({0})".format(", ".join(repr(m) for m in self.matchers))
 
@@ -714,9 +732,10 @@ class Row(Combinator):
         self.matchers = [resolve(m) for m in matchers]
         self.make_tuple = True
         self.type_name = gen_name("Row")
+        self.components_need_inc_ref = True
 
     def is_ptr(self):
-        return False
+        return True
 
     def children(self):
         return self.matchers
@@ -728,7 +747,7 @@ class Row(Combinator):
         return self.type_name
 
     def nullexpr(self):
-        return "nil_{0}".format(self.type_name)
+        return null_constant() if self.is_ptr() else "nil_{0}".format(self.type_name)
 
     def create_type(self, compile_ctx):
         matchers = [m for m in self.matchers if not isinstance(m, _)]
@@ -762,11 +781,13 @@ class Row(Combinator):
                                       for i in range(len(self.matchers))]))
         exit_label = gen_name("row_exit_label")
 
+        tokeep_matchers = [m for m in self.matchers if not isinstance(m, _)]
         self.args = [r for r, m in zip(subresults, self.matchers)
                      if not isinstance(m, _)]
 
         bodies = []
-        for matcher, subresult in zip(self.matchers, subresults):
+        for i, (matcher, subresult) in enumerate(zip(self.matchers,
+                                                     subresults)):
             is_discard = isinstance(matcher, _)
             mpos, mres, m_code, m_decls = matcher.gen_code_or_fncall(
                 compile_ctx, pos
@@ -775,7 +796,6 @@ class Row(Combinator):
             if not is_discard:
                 decls.append((subresult, Decl(matcher)))
 
-            bodies.append(m_code)
             bodies.append(
                 mako_template('row_submatch').render(**wrap(locals()))
             )
@@ -790,6 +810,9 @@ class Row(Combinator):
 
 
 class List(Combinator):
+
+    def needs_refcount(self):
+        return self.parser.needs_refcount()
 
     def __repr__(self):
         return "List({0})".format(
@@ -850,6 +873,11 @@ class List(Combinator):
 
 class Opt(Combinator):
 
+    def needs_refcount(self):
+        if self._booleanize:
+            return False
+        return self.matcher.needs_refcount()
+
     def __repr__(self):
         return "Opt({0})".format(self.matcher)
 
@@ -872,6 +900,8 @@ class Opt(Combinator):
         return mako_template("opt_repr").render(**wrap(locals())).strip()
 
     def is_ptr(self):
+        if self._booleanize:
+            return False
         return self.matcher.is_ptr()
 
     def nullexpr(self):
@@ -904,6 +934,9 @@ class Opt(Combinator):
 
 class Extract(Combinator):
 
+    def needs_refcount(self):
+        return self.comb.needs_refcount()
+
     def __repr__(self):
         return "{0} >> {1}".format(self.comb, self.index)
 
@@ -917,6 +950,7 @@ class Extract(Combinator):
         self.comb = comb
         self.index = index
         assert isinstance(self.comb, Row)
+        self.comb.components_need_inc_ref = False
 
     def children(self):
         return [self.comb]
@@ -943,6 +977,9 @@ class Extract(Combinator):
 
 class Discard(Combinator):
 
+    def needs_refcount(self):
+        return self.parser.needs_refcount()
+
     def __repr__(self):
         return "Discard({0})".format(self.parser)
 
@@ -957,7 +994,7 @@ class Discard(Combinator):
         return self.parser.get_type()
 
     def is_ptr(self):
-        return True
+        return self.parser.is_ptr()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         return self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -967,6 +1004,10 @@ _ = Discard
 
 
 class Defer(Combinator):
+
+    def needs_refcount(self):
+        self.resolve_combinator()
+        return self.combinator.needs_refcount()
 
     def __repr__(self):
         self.resolve_combinator()
@@ -1006,6 +1047,9 @@ class Defer(Combinator):
 
 
 class Transform(Combinator):
+
+    def needs_refcount(self):
+        return True
 
     def __repr__(self):
         return "{0} ^ {1}".format(self.combinator, self.typ.name())
@@ -1060,6 +1104,9 @@ class Success(Combinator):
 
     def __repr__(self):
         return "Success({0})".format(self.typ.name())
+
+    def needs_refcount(self):
+        return True
 
     def __init__(self, result_typ):
         Combinator.__init__(self)
@@ -1143,6 +1190,10 @@ class EnumType(object):
 
 
 class Enum(Combinator):
+
+    def needs_refcount(self):
+        return False
+
     def __repr__(self):
         return "Enum({0}, {1})".format(self.combinator, self.enum_type_inst)
 

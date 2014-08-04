@@ -1,3 +1,4 @@
 *.pyc
 *.swp
+.*.swp
 .idea/workspace.xml

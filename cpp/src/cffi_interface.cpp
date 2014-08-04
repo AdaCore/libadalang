@@ -1,4 +1,5 @@
-#include "cffi_interface.h"
+#include "cffi_interface.hpp"
+#include <cstdlib>
 
 
 #include <cstdint> /* Replace with <stdint.h> if appropriate */
@@ -72,6 +73,7 @@ Lexer* make_lexer_from_file(const char* filename, const char* char_encoding) {
     Lexer* lex = new Lexer;
     lex->lexer = new quex_EasyLexer;
     lex->current_offset = 0;
+    lex->buffer_ptr = nullptr;
 
     quex_EasyLexer_construct_file_name(lex->lexer, filename, char_encoding, false);
     quex_EasyLexer_token_p_set(lex->lexer, &buffer_tk);
@@ -83,7 +85,10 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
     lex->lexer = new quex_EasyLexer;
     lex->current_offset = 0;
 
-    char* buffer = (char*)malloc(len + 2);
+    char* buffer = (char*)malloc(len + 3);
+    lex->buffer_ptr = buffer;
+    buffer++;
+
     strncpy(buffer + 1, string, len);
     buffer[0] = 0;
     buffer[len + 1] = 0;
@@ -94,6 +99,16 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
    return lex;
 }
 
+void free_lexer (Lexer* lex) {
+    for (auto kv : lex->hmap) free(kv.first);
+    for (auto str : lex->str_literals) free(str);
+    QUEX_NAME (destruct) (lex->lexer);
+    delete lex->lexer;
+    if (lex->buffer_ptr) free(lex->buffer_ptr);
+
+    delete lex;
+}
+
 const char* empty_str="";
 
 void symbolize(Lexer* lexer, quex_Token* tk) {
@@ -102,6 +117,7 @@ void symbolize(Lexer* lexer, quex_Token* tk) {
 
     if (tk->_id == QUEX_TKN_STRING) {
         tk->text = (const uint8_t*)strndup((const char*)tk->text, tk->len);
+        lexer->str_literals.push_back((uint8_t*)tk->text);
         return;
     }
 
@@ -119,10 +135,10 @@ void symbolize(Lexer* lexer, quex_Token* tk) {
 
     auto it = lexer->hmap.find (text_buffer);
     if (it == lexer->hmap.end()) {
-        tk->text = (const uint8_t*)strdup(text_buffer);
-        lexer->hmap[(const char*)tk->text] = (const char*)tk->text;
+        tk->text = (uint8_t*)strdup(text_buffer);
+        lexer->hmap[(char*)tk->text] = (char*)tk->text;
     } else {
-        tk->text = (const uint8_t*)it->second;
+        tk->text = (uint8_t*)it->second;
     }
 }
 

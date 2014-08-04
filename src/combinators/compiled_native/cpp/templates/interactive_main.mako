@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 #include <boost/program_options/cmdline.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -7,11 +9,6 @@
 
 namespace po = boost::program_options;
 using namespace std;
-
-void exit_and_print_usage() {
-    printf("Usage : parse <rule_name> <input_string>\n");
-    exit(2);
-}
 
 int main (int argc, char** argv) {
 
@@ -54,21 +51,33 @@ int main (int argc, char** argv) {
          lex = make_lexer_from_string(input.c_str(), input.length());
     }
 
-% for i, (rule_name, combinator) in enumerate(_self.rules_to_fn_names.items()):
-    ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
-        auto res = ${combinator.gen_fn_name}(lex, 0);
-        if (current_pos == -1) {
-            printf("Failed !!\n");
-            printf("Last token pos : Line %d, Col %d, cat %d\n", max_token.line_n, max_token.column_n, max_token._id);
-        } else {
-            if (!vm["silent"].as<bool>())
-                printf("%s\n", (${combinator.emit_repr("res")}).c_str());
+    % for i, (rule_name, combinator) in enumerate(_self.rules_to_fn_names.items()):
+        ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
+            auto res = ${combinator.gen_fn_name}(lex, 0);
+
+            if (current_pos == -1) {
+                printf("Failed !!\n");
+                printf("Last token pos : Line %d, Col %d, cat %d\n", 
+                       max_token.line_n, max_token.column_n, max_token._id);
+            } else {
+                % if combinator.needs_refcount():
+                    res${"->" if combinator.is_ptr() else "."}inc_ref();
+                % endif
+                clean_all_memos();
+                if (!vm["silent"].as<bool>())
+                    printf("%s\n", (${combinator.emit_repr("res")}).c_str());
+                % if combinator.needs_refcount():
+                    res${"->" if combinator.is_ptr() else "."}dec_ref();
+                % endif
+            }
+
         }
-    }
-% endfor
+    % endfor
     else {
         printf("Unknown rule : %s\n", rule_name.c_str());
     }
+    
     print_diagnostics();
+    free_lexer(lex);
     return 0;
 }

@@ -12,16 +12,16 @@ class Expr(ASTNode):
 
 class UnOp(Expr):
     fields = [
-        Field("op", tk_start=True, repr=True),
-        Field("expr", tk_end=True, repr=True)
+        Field("op", repr=True),
+        Field("expr", repr=True)
     ]
 
 
 class BinOp(Expr):
     fields = [
-        Field("left", tk_start=True, repr=True),
+        Field("left", repr=True),
         Field("op", repr=True),
-        Field("right", tk_end=True, repr=True)
+        Field("right", repr=True)
     ]
 
 
@@ -63,7 +63,7 @@ class StaticNameExpr(Expr):
 
 class CallExpr(Expr):
     fields = [
-        Field("prefix", tk_start=True, repr=True),
+        Field("prefix", repr=True),
         Field("calls", repr=True),
     ]
 
@@ -130,7 +130,7 @@ class CaseExpr(Expr):
 class SingleTokNode(Expr):
     abstract = True
     fields = [
-        Field("tok", repr=True, tk_start=True, tk_end=True)
+        Field("tok", repr=True)
     ]
 
 
@@ -206,7 +206,8 @@ class Allocator(Expr):
 
 class NameComponent(Expr):
     fields = [
-        Field("list", repr=True),
+        Field("prefix", repr=True),
+        Field("suffix", repr=True)
     ]
 
 
@@ -221,6 +222,13 @@ class NullAggregateContent(AbstractAggregateContent):
 class AggregateContent(AbstractAggregateContent):
     fields = [
         Field("fields", repr=True)
+    ]
+
+
+class Prefix(Expr):
+    fields = [
+        Field("prefix", repr=True),
+        Field("suffix", repr=True)
     ]
 
 
@@ -322,15 +330,16 @@ A.add_rules(
 
     qual_expr_content=Or(Row("(", A.expression, ")") >> 1, A.aggregate),
 
-    name_component=List(A._name_component | A.qual_expr_content, sep="'") ^ NameComponent,
+    name_component=List(A._name_component | A.qual_expr_content, sep="'",
+                        revtree=NameComponent),
 
-    name=Row(List(A.name_component | A.direct_name, sep=".")) ^ NameExpr,
+    name=List(A.name_component | A.direct_name, sep=".", revtree=Prefix),
 
     access_deref=Tok(Token("all")) ^ AccessDeref,
 
-    type_name=Row(List(A.direct_name, sep=".")) ^ NameExpr,
+    type_name=List(A.direct_name, sep=".", revtree=Prefix),
 
-    static_name=Row(List(A.identifier, sep=".")) ^ StaticNameExpr,
+    static_name=List(A.identifier, sep=".", revtree=Prefix),
 
     primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,

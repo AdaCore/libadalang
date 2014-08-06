@@ -22,13 +22,13 @@ void parse_input(Lexer* lex, string rule_name, bool print) {
                        max_token.line_n, max_token.column_n, max_token._id);
             } else {
                 % if combinator.needs_refcount():
-                    res${"->" if combinator.is_ptr() else "."}inc_ref();
+                    res${"->" if combinator.get_type().is_ptr else "."}inc_ref();
                 % endif
                 current_pos = 0;
                 if (print)
-                    printf("%s\n", (${combinator.emit_repr("res")}).c_str());
+                    printf("%s\n", get_repr(res).c_str());
                 % if combinator.needs_refcount():
-                    res${"->" if combinator.is_ptr() else "."}dec_ref();
+                    res${"->" if combinator.get_type().is_ptr else "."}dec_ref();
                 % endif
             }
 

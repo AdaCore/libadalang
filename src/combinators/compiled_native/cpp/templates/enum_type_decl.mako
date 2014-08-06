@@ -6,4 +6,4 @@ enum class ${cls.name()} : char {
 
 void dec_ref (${cls.name()} self);
 
-std::string enum_repr(${cls.name()} enum_inst);
+std::string get_repr(${cls.name()} enum_inst);

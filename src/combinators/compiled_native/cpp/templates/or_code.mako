@@ -1,5 +1,5 @@
 ${pos} = -1;
-${res} = ${_self.nullexpr()};
+${res} = ${_self.get_type().nullexpr()};
 % for mpos, mres, m_code, _ in results:
     ${m_code}
     if (${mpos} != -1) {

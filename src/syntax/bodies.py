@@ -1,7 +1,7 @@
 from syntax import ASTNode, A, Field
-from combinators import Opt, List, Or, Row, _, EnumType, Enum, TokClass, \
+from combinators import Opt, List, Or, Row, _, TokClass, \
     Success
-from syntax.exprs import SingleTokNode, LoopSpec
+from syntax.exprs import LoopSpec
 from tokenizer import Lbl, NoToken
 
 

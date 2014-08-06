@@ -1,1 +1,1 @@
-class ${_self.type_name};
+class ${_self.typ.as_string()};

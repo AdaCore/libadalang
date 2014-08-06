@@ -3,8 +3,8 @@
 long ${cls.name().lower()}_counter = 0;
 
 ${cls.name()}::~${cls.name()}() {
-        % for m, f in zip(matchers, cls.fields):
-            % if m.is_ptr():
+        % for t, f in zip(types, cls.fields):
+            % if t.is_ptr:
                 if (${f.name}) ${f.name}->dec_ref();
             % endif
         % endfor
@@ -24,12 +24,12 @@ std::string ${cls.name()}::repr() {
     % else:
         std::string result = this->__name() + "(";
 
-        % for i, (m, f) in enumerate(repr_m_to_fields):
+        % for i, (t, f) in enumerate(repr_m_to_fields):
             % if f.opt:
-                if (${f.name} != ${m.nullexpr()}) {
+                if (${f.name} != ${t.nullexpr()}) {
             % endif
 
-            result.append(${m.emit_repr("this->" + f.name)});
+            result.append(get_repr(${f.name}));
 
             % if f.opt:
                 } else result.append("None");

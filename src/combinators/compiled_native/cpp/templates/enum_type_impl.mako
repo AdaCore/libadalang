@@ -1,6 +1,6 @@
 ## vim: filetype=cpp
 
-std::string enum_repr(${cls.name()} enum_inst) {
+std::string get_repr(${cls.name()} enum_inst) {
     switch (enum_inst) {
 % for alt in cls.alternatives:
     case ${cls.name()}::${alt}:

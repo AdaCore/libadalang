@@ -1,1 +1,1 @@
-${res} = ${_self.nullexpr()};
+${res} = ${_self.get_type().nullexpr()};

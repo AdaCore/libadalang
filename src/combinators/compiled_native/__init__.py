@@ -2,14 +2,14 @@ from collections import defaultdict
 import inspect
 from itertools import takewhile, chain
 from os import path
-from copy import copy
 import sys
 
 from mako.template import Template
 
 from tokenizer import *
-from utils import isalambda, Colors, printcol
+from utils import isalambda, Colors
 from quex_tokens import token_map
+
 
 try:
     from IPython.core import ultratb
@@ -60,33 +60,9 @@ def null_constant():
 ###############
 
 
-class Decl(object):
-    def __init__(self, typ_or_comb):
-        self.comb = None
-        self.need_free = False
-        self.need_unref = False
-
-        if typ_or_comb in (long, bool):
-            self.type = typ_or_comb
-            self.typestring = get_type(typ_or_comb)
-        elif isinstance(typ_or_comb, Combinator):
-            self.type = typ_or_comb.get_type()
-            self.typestring = typ_or_comb.get_type_string()
-            self.comb = typ_or_comb
-            if self.comb.is_ptr():
-                if self.comb.force_fn_call():
-                    self.need_unref = True
-                else:
-                    self.need_free = True
-        elif isinstance(typ_or_comb, basestring):
-            self.type = None
-            self.typestring = typ_or_comb
-
-        self.default_val = None
-        if inspect.isclass(self.type) and issubclass(self.type, AdaType):
-            self.default_val = self.type.nullexpr()
-        if self.comb and self.comb.is_ptr():
-            self.default_val = null_constant()
+def decl_type(ada_type):
+    res = ada_type.as_string()
+    return res.strip() + ("*" if ada_type.is_ptr else "")
 
 
 def wrap(locs):
@@ -131,29 +107,51 @@ class AdaType(object):
 
     is_ptr = True
 
-    @classmethod
-    def create_type_declaration(cls):
+    def create_type_declaration(self):
+        raise NotImplementedError()
+
+    def add_to_context(self, compile_ctx, comb):
+        raise NotImplementedError()
+
+    def create_type_definition(self, compile_ctx, source_combinator):
+        raise NotImplementedError()
+
+    def create_instantiation(self, args):
+        raise NotImplementedError()
+
+    def name(self):
+        raise NotImplementedError()
+
+    def nullexpr(self):
         raise NotImplementedError()
 
     @classmethod
-    def add_to_context(cls, compile_ctx, comb):
-        raise NotImplementedError()
+    def as_string(cls):
+        return cls.__name__
+
+
+class BoolType(AdaType):
+    is_ptr = False
 
     @classmethod
-    def create_type_definition(cls, compile_ctx, source_combinator):
-        raise NotImplementedError()
-
-    @classmethod
-    def create_instantiation(cls, args):
-        raise NotImplementedError()
-
-    @classmethod
-    def name(cls):
-        raise NotImplementedError()
+    def as_string(cls):
+        return get_type(bool)
 
     @classmethod
     def nullexpr(cls):
-        raise NotImplementedError()
+        return "false"
+
+
+class LongType(AdaType):
+    is_ptr = False
+
+    @classmethod
+    def as_string(cls):
+        return get_type(long)
+
+    @classmethod
+    def nullexpr(cls):
+        return None
 
 
 class TokenType:
@@ -161,20 +159,14 @@ class TokenType:
 
 
 class Field(object):
-    def __init__(self, name, tk_start=False, tk_end=False, type=None,
+    def __init__(self, name, type=None,
                  repr=False, kw_repr=False, opt=False, norepr_null=False):
         self.name = name
         self.kw_repr = kw_repr
         self.repr = repr
         self.type = type
         self.norepr_null = norepr_null
-        self.tk_end = tk_end
         self.opt = opt
-        self.tk_start = tk_start
-
-    def tstring(self):
-        if self.type:
-            return self.type.__name__
 
 
 class AstNodeMetaclass(type):
@@ -182,18 +174,6 @@ class AstNodeMetaclass(type):
         super(AstNodeMetaclass, cls).__init__(name, base, dct)
         cls.fields = dct.get("fields", [])
         cls.abstract = dct.get("abstract", False)
-
-
-def get_tk_bound(field, field_val, start=False):
-    res = field_val
-    typ = field.type
-    if isinstance(typ, list):
-        res = field_val[0]
-        typ = typ[0]
-    if issubclass(ASTNode, typ):
-        res = getattr(res, "tk_start" if start else "tk_end")
-        res = getattr(res, "tk_start" if start else "tk_end")
-    return res
 
 
 class ASTNode(AdaType):
@@ -204,24 +184,13 @@ class ASTNode(AdaType):
     def __init__(self, *args):
         for field, field_val in zip(self.fields, args):
             setattr(self, field.name, field_val)
-            if field.tk_start:
-                self.tk_start = get_tk_bound(field, field_val, True)
-            if field.tk_end:
-                self.tk_end = get_tk_bound(field, field_val, False)
 
     @classmethod
     def create_type_declaration(cls):
         return mako_template("astnode_type_decl").render(**wrap(locals()))
 
     @classmethod
-    def create_type_definition(cls, compile_ctx, source_combinator):
-
-        if not source_combinator:
-            matchers = []
-        elif isinstance(source_combinator, Row):
-            matchers = source_combinator.matchers[-len(cls.fields):]
-        else:
-            matchers = [source_combinator]
+    def create_type_definition(cls, compile_ctx, types):
 
         base_class = cls.__bases__[0]
         base_name = base_class.name()
@@ -232,7 +201,7 @@ class ASTNode(AdaType):
         else:
             compile_ctx.val_types_definitions.append(tdef)
 
-        repr_m_to_fields = [(m, f) for m, f in zip(matchers, cls.fields)
+        repr_m_to_fields = [(m, f) for m, f in zip(types, cls.fields)
                             if f.repr]
         compile_ctx.body.append(
             mako_template("astnode_type_impl").render(**wrap(locals()))
@@ -245,28 +214,27 @@ class ASTNode(AdaType):
         return bfields + cls.fields
 
     @classmethod
-    def add_to_context(cls, compile_ctx, comb):
+    def add_to_context(cls, compile_ctx, comb=None):
         if not cls in compile_ctx.types:
+            if not comb:
+                matchers = []
+            elif isinstance(comb, Row):
+                matchers = [m for m in comb.matchers if not isinstance(m, _)]
+                matchers = matchers[-len(cls.fields):]
+            else:
+                matchers = [comb]
 
-            is_row = isinstance(comb, Row)
-            new_comb = copy(comb)
-
-            if is_row:
-                new_comb.matchers = [m for m in new_comb.matchers
-                                     if not isinstance(m, _)]
+            types = [m.get_type() for m in matchers]
 
             base_class = cls.__bases__[0]
-
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
-                base_comb = copy(new_comb)
-                if is_row and len(cls.fields):
-                    base_comb.matchers = base_comb.matchers[:-len(cls.fields)]
-                base_class.add_to_context(compile_ctx, base_comb)
+                bcomb = comb if not cls.fields else None
+                base_class.add_to_context(compile_ctx, bcomb)
 
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
                 cls.create_type_declaration())
-            cls.create_type_definition(compile_ctx, new_comb)
+            cls.create_type_definition(compile_ctx, types)
 
     @classmethod
     def name(cls):
@@ -392,20 +360,9 @@ class Combinator(object):
         self._name = ""
         self.res = None
         self.pos = None
-        self.precomputed_res = None
-        self.res_needed_by_others = False
-
-    def is_ptr(self):
-        raise NotImplementedError()
 
     def needs_refcount(self):
         return True
-
-    def nullexpr(self):
-        raise NotImplementedError()
-
-    def emit_repr(self, self_access_string):
-        raise NotImplementedError()
 
     def __or__(self, other):
         other_comb = resolve(other)
@@ -475,11 +432,6 @@ class Combinator(object):
     def get_type(self):
         raise NotImplementedError()
 
-    def get_type_string(self):
-        t = self.get_type()
-        res = t if isinstance(t, basestring) else t.__name__
-        return res.strip() + ("*" if self.is_ptr() else "")
-
     def gen_code_or_fncall(self, compile_ctx, pos_name="pos",
                            force_fncall=False):
 
@@ -487,9 +439,6 @@ class Combinator(object):
             print "Compiling rule : {0}".format(
                 Colors.HEADER + self.gen_fn_name + Colors.ENDC
             )
-
-        if self.precomputed_res:
-            return self.precomputed_res.pos, self.precomputed_res.res, "", []
 
         if self.force_fn_call() or force_fncall or \
                 self.gen_fn_name in compile_ctx.fns:
@@ -502,8 +451,8 @@ class Combinator(object):
 
             self.res = res
             self.pos = pos
-            return pos, res, fncall_block, [(pos, Decl(long)),
-                                            (res, Decl(self))]
+            return pos, res, fncall_block, [(pos, LongType),
+                                            (res, self.get_type())]
         else:
             pos, res, code, decls = self.generate_code(compile_ctx, pos_name)
             self.res = res
@@ -536,20 +485,11 @@ class Tok(Combinator):
     def get_type(self):
         return Token
 
-    def is_ptr(self):
-        return False
-
-    def nullexpr(self):
-        return "no_token"
-
-    def emit_repr(self, self_access_string):
-        return '"{0}"'.format(self.tok.val)
-
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_pos", "tk_res")
         repr_tok_val = repr(self.tok.val)
         code = mako_template("tok_code").render(**wrap(locals()))
-        return pos, res, code, [(pos, Decl(long)), (res, Decl("Token"))]
+        return pos, res, code, [(pos, LongType), (res, Token)]
 
 
 class TokClass(Combinator):
@@ -576,20 +516,11 @@ class TokClass(Combinator):
     def get_type(self):
         return Token
 
-    def nullexpr(self):
-        return "no_token"
-
-    def emit_repr(self, self_access_string):
-        return mako_template("tokclass_repr").render(**wrap(locals())).strip()
-
-    def is_ptr(self):
-        return False
-
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         _id = self.classes_to_identifiers[self.tok_class]
         code = mako_template("tokclass_code").render(**wrap(locals()))
-        return pos, res, code, [(pos, Decl(long)), (res, Decl("Token"))]
+        return pos, res, code, [(pos, LongType), (res, Token)]
 
 
 def common_ancestor(*cs):
@@ -630,6 +561,7 @@ def group_by(lst, transform_fn=None):
 
     return res.values()
 
+
 def get_comb_groups(comb, idx):
     def tr(c):
         if isinstance(c, Defer):
@@ -649,6 +581,7 @@ class Or(Combinator):
         Combinator.__init__(self)
         self.matchers = [resolve(m) for m in matchers]
         self.locked = False
+        self.cached_type = None
 
     def children(self):
         return self.matchers
@@ -658,69 +591,57 @@ class Or(Combinator):
                    for i in self.matchers))
         return self.matchers[0].needs_refcount()
 
-    def is_ptr(self):
-        if not self.locked:
-            self.locked = True
-            assert all(i.is_ptr() == self.matchers[0].is_ptr() for i in self.matchers)
-            self.locked = False
-
-        return self.matchers[0].is_ptr()
-
-    def emit_repr(self, self_access_string):
-        return self.matchers[0].emit_repr(self_access_string)
-
-    def nullexpr(self):
-        t = self.get_type()
-        if inspect.isclass(t):
-            if issubclass(t, Token):
-                return "no_token"
-            return t.nullexpr()
-        elif t == "Token":
-            return "no_token"
-        else:
-            return null_constant()
-
     def get_type(self):
+        if self.cached_type:
+            return self.cached_type
         if self.locked:
             return None
         try:
             self.locked = True
             types = set()
-
             for m in self.matchers:
                 t = m.get_type()
                 if t:
                     types.add(t)
 
-            if len(types) == 1 and isinstance(list(types)[0], basestring):
-                return list(types)[0]
-            elif inspect.isclass(list(types)[0]):
-                return common_ancestor(*types)
+            if all(inspect.isclass(t) for t in types):
+                res = common_ancestor(*types)
             else:
-                raise AssertionError(
-                    "Or.get_type not implemented for types {0}".format(types)
-                )
+                typs = list(types)
+                assert all(type(t) == type(typs[0]) for t in typs)
+                res = typs[0]
+
+            self.cached_type = res
+            return res
         finally:
             self.locked = False
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        # groups = get_comb_groups(self, 0)
-        # for group in (g for g in groups if len(g) > 1):
-        #     for comb in group[1:]:
-        #         comb.precomputed_res = group[0]
-
-        #     for comb in group[:-1]:
-        #         group[0].res_needed_by_others = True
-
         pos, res = gen_names("or_pos", "or_res")
-        typ = self.get_type_string()
         results = [m.gen_code_or_fncall(compile_ctx, pos_name)
                    for m in self.matchers]
-        decls = list(chain([(pos, Decl(long)), (res, Decl(self))]
+        decls = list(chain([(pos, LongType), (res, self.get_type())]
                            , *[r[3] for r in results]))
         exit_label = gen_name("Exit_Or")
-        code = mako_template("or_code").render(**wrap(locals()))
+        code = mako_template("or_code").render(
+            typ=decl_type(self.get_type()),
+            **wrap(locals())
+        )
         return pos, res, code, decls
+
+
+class RowType(AdaType):
+
+    is_ptr = True
+
+    def __init__(self, name):
+        self.name = name
+
+    def as_string(self):
+        return self.name
+
+    def nullexpr(self):
+        return null_constant()
 
 
 class Row(Combinator):
@@ -736,23 +657,14 @@ class Row(Combinator):
         Combinator.__init__(self)
         self.matchers = [resolve(m) for m in matchers]
         self.make_tuple = True
-        self.type_name = gen_name("Row")
+        self.typ = RowType(gen_name("Row"))
         self.components_need_inc_ref = True
-
-    def is_ptr(self):
-        return True
 
     def children(self):
         return self.matchers
 
-    def emit_repr(self, self_access_string):
-        return mako_template("row_repr").render(**wrap(locals())).strip()
-
     def get_type(self):
-        return self.type_name
-
-    def nullexpr(self):
-        return null_constant() if self.is_ptr() else "nil_{0}".format(self.type_name)
+        return self.typ
 
     def create_type(self, compile_ctx):
         matchers = [m for m in self.matchers if not isinstance(m, _)]
@@ -776,10 +688,10 @@ class Row(Combinator):
 
         # Create decls for declarative part of the parse subprogram.
         # If make_tuple is false we don't want a variable for the result.
-        decls = [(pos, Decl(long)), (did_fail, Decl(bool))]
+        decls = [(pos, LongType), (did_fail, BoolType)]
 
         if self.make_tuple:
-            decls.append((res, Decl(self)))
+            decls.append((res, self.get_type()))
             self.create_type(compile_ctx)
 
         subresults = list(gen_names(*["row_subres_{0}".format(i)
@@ -799,7 +711,7 @@ class Row(Combinator):
             )
             decls += m_decls
             if not is_discard:
-                decls.append((subresult, Decl(matcher)))
+                decls.append((subresult, matcher.get_type()))
 
             bodies.append(
                 mako_template('row_submatch').render(**wrap(locals()))
@@ -814,6 +726,21 @@ class Row(Combinator):
         return Extract(self, index)
 
 
+class ListType(AdaType):
+
+    is_ptr = True
+
+    def __init__(self, el_type):
+        self.el_type = el_type
+
+    def as_string(self):
+        return mako_template("list_type").render(el_type=self.el_type,
+                                                 **wrap(locals()))
+
+    def nullexpr(self):
+        return null_constant()
+
+
 class List(Combinator):
 
     def needs_refcount(self):
@@ -825,7 +752,7 @@ class List(Combinator):
                                  if self.sep else "")
         )
 
-    def __init__(self, parser, sep=None, empty_valid=False):
+    def __init__(self, parser, sep=None, empty_valid=False, revtree=None):
         """
         :type sep: Token|string
         :type empty_valid: bool
@@ -834,21 +761,19 @@ class List(Combinator):
         self.parser = resolve(parser)
         self.sep = resolve(sep) if sep else None
         self.empty_valid = empty_valid
+        self.revtree_class = revtree
+
+        if empty_valid:
+            assert not self.revtree_class
 
     def children(self):
         return [self.parser]
 
-    def is_ptr(self):
-        return True
-
-    def nullexpr(self):
-        return null_constant()
-
-    def emit_repr(self, self_access_string):
-        return mako_template("list_repr").render(**wrap(locals())).strip()
-
     def get_type(self):
-        return mako_template("list_type").render(**wrap(locals()))
+        if self.revtree_class:
+            return common_ancestor(self.parser.get_type(), self.revtree_class)
+        else:
+            return ListType(self.parser.get_type())
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: CompileCtx"""
@@ -859,10 +784,17 @@ class List(Combinator):
             compile_ctx, cpos
         )
         pcode = indent(pcode)
-        compile_ctx.generic_vectors.add(self.parser.get_type_string())
-        decls = [(pos, Decl(long)),
-                 (res, Decl(self)),
-                 (cpos, Decl(long))] + pdecls
+        compile_ctx.generic_vectors.add(self.parser.get_type().as_string())
+        decls = [(pos, LongType),
+                 (res, self.get_type()),
+                 (cpos, LongType)] + pdecls
+
+        if self.revtree_class:
+            if not self.revtree_class in compile_ctx.types:
+                compile_ctx.types.add(self.revtree_class)
+                self.revtree_class.create_type_definition(
+                    compile_ctx, [self.get_type(), self.get_type()]
+                )
 
         sep_pos, sep_res, sep_code, sep_decls = None, None, None, None
 
@@ -901,21 +833,8 @@ class Opt(Combinator):
     def children(self):
         return [self.matcher]
 
-    def emit_repr(self, self_access_string):
-        return mako_template("opt_repr").render(**wrap(locals())).strip()
-
-    def is_ptr(self):
-        if self._booleanize:
-            return False
-        return self.matcher.is_ptr()
-
-    def nullexpr(self):
-        if self._booleanize:
-            return "false"
-        return self.matcher.nullexpr()
-
     def get_type(self):
-        return bool if self._booleanize else self.matcher.get_type()
+        return BoolType if self._booleanize else self.matcher.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         mpos, mres, code, decls = self.matcher.gen_code_or_fncall(
@@ -926,7 +845,7 @@ class Opt(Combinator):
         code = mako_template("opt_code").render(**wrap(locals()))
 
         if self._booleanize:
-            decls.append((bool_res, Decl(bool)))
+            decls.append((bool_res, BoolType))
             mres = bool_res
 
         return mpos, mres, code, decls
@@ -963,15 +882,6 @@ class Extract(Combinator):
     def get_type(self):
         return self.comb.matchers[self.index].get_type()
 
-    def nullexpr(self):
-        return self.comb.matchers[self.index].nullexpr()
-
-    def emit_repr(self, self_access_string):
-        return self.comb.matchers[self.index].emit_repr(self_access_string)
-
-    def is_ptr(self):
-        return self.comb.matchers[self.index].is_ptr()
-
     def generate_code(self, compile_ctx, pos_name="pos"):
         self.comb.make_tuple = False
         cpos, cres, code, decls = self.comb.gen_code_or_fncall(
@@ -997,9 +907,6 @@ class Discard(Combinator):
 
     def get_type(self):
         return self.parser.get_type()
-
-    def is_ptr(self):
-        return self.parser.is_ptr()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         return self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -1027,18 +934,6 @@ class Defer(Combinator):
     def resolve_combinator(self):
         if not self.combinator:
             self.combinator = self.parser_fn()
-
-    def nullexpr(self):
-        self.resolve_combinator()
-        return self.combinator.nullexpr()
-
-    def emit_repr(self, self_access_string):
-        self.resolve_combinator()
-        return self.combinator.emit_repr(self_access_string)
-
-    def is_ptr(self):
-        self.resolve_combinator()
-        return self.combinator.is_ptr()
 
     def get_type(self):
         self.resolve_combinator()
@@ -1074,15 +969,6 @@ class Transform(Combinator):
     def get_type(self):
         return self.typ
 
-    def emit_repr(self, self_access_string):
-        return mako_template("transform_repr").render(**wrap(locals()))
-
-    def nullexpr(self):
-        return self.get_type().nullexpr()
-
-    def is_ptr(self):
-        return self._is_ptr
-
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: CompileCtx"""
 
@@ -1102,7 +988,7 @@ class Transform(Combinator):
         code = mako_template('transform_code').render(**wrap(locals()))
         compile_ctx.diag_types.append(self.typ)
 
-        return cpos, res, code, decls + [(res, Decl(self))]
+        return cpos, res, code, decls + [(res, self.get_type())]
 
 
 class Success(Combinator):
@@ -1117,27 +1003,18 @@ class Success(Combinator):
         Combinator.__init__(self)
         self.typ = result_typ
 
-    def is_ptr(self):
-        return self.typ.is_ptr
-
     def children(self):
         return []
 
     def get_type(self):
         return self.typ
 
-    def emit_repr(self, self_access_string):
-        return mako_template("transform_repr").render(**wrap(locals()))
-
-    def nullexpr(self):
-        return self.typ.nullexpr()
-
     def generate_code(self, compile_ctx, pos_name="pos"):
         self.typ.add_to_context(compile_ctx, None)
         res = gen_name("success_res")
         code = mako_template("success_code").render(**wrap(locals()))
 
-        return pos_name, res, code, [(res, Decl(self))]
+        return pos_name, res, code, [(res, self.get_type())]
 
 
 class Null(Success):
@@ -1147,27 +1024,20 @@ class Null(Success):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         typ = self.get_type()
-        if isinstance(typ, AdaType):
+        if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx, None)
         res = gen_name("null_res")
         code = mako_template("null_code").render(**wrap(locals()))
-        return pos_name, res, code, [(res, Decl(self))]
-
-    def emit_repr(self, self_access_string):
-        return '"None"'
+        return pos_name, res, code, [(res, self.get_type())]
 
     def get_type(self):
         return (self.typ if inspect.isclass(self.typ)
                 and issubclass(self.typ, AdaType)
                 else self.typ.get_type())
 
-    def is_ptr(self):
-        return (self.typ.is_ptr if inspect.isclass(self.typ)
-                and issubclass(self.typ, AdaType)
-                else self.typ.is_ptr())
-
 
 class EnumType(AdaType):
+    is_ptr = False
     alternatives = []
 
     def __init__(self, alt):
@@ -1207,20 +1077,11 @@ class Enum(Combinator):
         self.combinator = resolve(combinator) if combinator else None
         self.enum_type_inst = enum_type_inst
 
-    def is_ptr(self):
-        return False
-
     def children(self):
         return []
 
     def get_type(self):
         return self.enum_type_inst.__class__
-
-    def emit_repr(self, self_access_string):
-        return "enum_repr({0})".format(self_access_string)
-
-    def nullexpr(self):
-        return self.enum_type_inst.nullexpr()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         self.enum_type_inst.add_to_context(compile_ctx)
@@ -1239,4 +1100,4 @@ class Enum(Combinator):
 
         body = mako_template("enum_code").render(**wrap(locals()))
 
-        return cpos, res, body, [(res, Decl(self))] + decls
+        return cpos, res, body, [(res, self.get_type())] + decls

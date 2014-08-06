@@ -5,6 +5,16 @@ from utils import copy_with
 
 class Token(object):
 
+    is_ptr = False
+
+    @classmethod
+    def nullexpr(cls):
+        return "no_token"
+
+    @classmethod
+    def as_string(cls):
+        return cls.__name__
+
     _match_attrs = ["val"]
 
     def __init__(self, val, line=-1, col=-1):

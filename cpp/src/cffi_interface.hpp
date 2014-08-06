@@ -180,4 +180,6 @@ static inline std::string &trim(std::string &s) {
         return ltrim(rtrim(s));
 }
 
+inline std::string get_repr (Token node) { return std::string(node.text); }
+
 #endif

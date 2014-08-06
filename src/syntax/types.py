@@ -1,12 +1,11 @@
-from syntax import ASTNode, Field, TokenType, A
-from syntax.decl import TypeExpression
-from combinators import Opt, List, Or, Row, _, Success, Tok, Null, \
+from syntax import ASTNode, Field, A
+from combinators import Opt, List, Or, Row, _, Null, \
     EnumType, Enum
 
 
 class DiscriminantSpec(ASTNode):
     fields = [
-        Field("ids", tk_start=True, repr=True),
+        Field("ids", repr=True),
         Field("type_expr", repr=True),
         Field("default_expr", repr=True)
     ]

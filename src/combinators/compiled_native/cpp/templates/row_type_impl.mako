@@ -1,10 +1,8 @@
 ## vim: filetype=cpp
 
-${_self.type_name} nil_${_self.type_name};
-
-${_self.type_name}::~${_self.type_name}() {
+${_self.typ.as_string()}::~${_self.typ.as_string()}() {
         % for i, m in enumerate(matchers):
-            % if m.is_ptr():
+            % if m.get_type().is_ptr:
                 if (field_${i}) {
                     field_${i}->dec_ref();
                     field_${i} = nullptr;
@@ -12,14 +10,14 @@ ${_self.type_name}::~${_self.type_name}() {
             % endif
         % endfor
     #if DEBUG_MODE
-        printf("DELETING ROW ${_self.type_name}\n");
+        printf("DELETING ROW ${decl_type(_self.typ)}\n");
     #endif
 }
 
-std::string ${_self.type_name}::repr() {
+std::string ${_self.typ.as_string()}::repr() {
     std::string res = "(";
     % for i, m in enumerate(matchers):
-    res.append(${m.emit_repr("this->field_%d" % i)});
+    res.append(get_repr(this->field_${i}));
     % if i < len(matchers) - 1:
     res.append(", ");
     % endif

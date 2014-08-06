@@ -1,1 +1,1 @@
-ASTList<${_self.parser.get_type_string()}>
+ASTList<${decl_type(el_type)}>

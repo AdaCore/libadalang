@@ -1,10 +1,10 @@
 ## vim: filetype=cpp
 
-Memo<${_self.get_type_string()}> ${_self.gen_fn_name}_memo;
+Memo<${decl_type(_self.get_type())}> ${_self.gen_fn_name}_memo;
 
 ${fn_profile} {
-    % for name, decl in defs:
-    ${decl.typestring} ${name} ${" = " + decl.default_val if decl.default_val else ""};
+    % for name, typ in defs:
+    ${decl_type(typ)} ${name} ${" = " + typ.nullexpr() if typ.nullexpr() else ""};
     % endfor
 
     auto m = ${_self.gen_fn_name}_memo.get(pos);
@@ -35,7 +35,7 @@ ${fn_profile} {
     ${code}
     ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
     % if _self.needs_refcount():
-        % if _self.is_ptr():
+        % if _self.get_type().is_ptr:
         if (${res}) ${res}->inc_ref();
         % else:
             ${res}.inc_ref();
@@ -63,14 +63,6 @@ ${fn_profile} {
     printf("%s", indent_str.c_str());
     printf("-- LEAVING ${_self.gen_fn_name}\n");
 #endif
-
-    /* if (current_pos == -1) { // Need to free stuff
-    % for name, decl in defs:
-    % if decl.default_val == "nullptr":
-    if (${name} != nullptr) free (${name});
-    % endif
-    % endfor
-    } */
 
     return ${res};
 }

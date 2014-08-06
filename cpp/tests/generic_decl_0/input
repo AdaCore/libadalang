@@ -1,0 +1,2 @@
+generic_decl
+generic package A is procedure Set; end A;

@@ -295,7 +295,10 @@ class ProtectedTypeDecl(ASTNode):
 
 
 class AccessDef(TypeDef):
-    fields = [Field("access_expr", repr=True)]
+    fields = [
+        Field("not_null", repr=True),
+        Field("access_expr", repr=True)
+    ]
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -314,7 +317,8 @@ A.add_rules(
         A.protected_def
     ) ^ ProtectedTypeDecl,
 
-    protected_op=Or(A.subprogram_decl, A.entry_decl, A.aspect_clause),
+    protected_op=Or(A.subprogram_decl, A.entry_decl, A.aspect_clause,
+                    A.pragma),
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=Row(
@@ -467,7 +471,10 @@ A.add_rules(
         A.record_def
     ) ^ RecordTypeDef,
 
-    access_def=A.access_expression ^ AccessDef,
+    access_def=Row(
+        Opt("not", "null").as_bool(),
+        A.access_expression
+    ) ^ AccessDef,
 
     type_def=Or(A.enum_type_def, A.record_type_def, A.real_type_def,
                 A.derived_type_def, A.signed_int_type_def,

@@ -2,21 +2,7 @@
 
 long ${cls.name().lower()}_counter = 0;
 
-void ${cls.name()}::inc_ref() { 
-    ref++; 
-#if DEBUG_MODE
-    printf("%s", indent_str.c_str());
-    printf("IN INC REF FOR ${cls.name()}, REF = %d\n", ref);
-#endif
-}
-
-int ${cls.name()}::dec_ref() {
-    ref--;
-#if DEBUG_MODE
-    printf("%s", indent_str.c_str());
-    printf("IN DEC REF FOR ${cls.name()} NODE, REF AFTER DEC REF = %d\n", ref);
-#endif
-    if (ref <= 0) {
+${cls.name()}::~${cls.name()}() {
         % for m, f in zip(matchers, cls.fields):
             % if m.is_ptr():
                 if (${f.name}) ${f.name}->dec_ref();
@@ -26,17 +12,17 @@ int ${cls.name()}::dec_ref() {
         printf("%s", indent_str.c_str());
         printf("DELETING NODE with type ${cls.name()}\n");
 #endif
-        delete this;
-        return true;
-    }
-    return false;
 }
 
 
 % if not cls.abstract:
     std::string ${cls.name()}::repr() {
         % if not cls.fields:
-            return ${cls.__bases__[0].name()}::repr();
+            % if cls.__bases__[0].fields:
+                return ${cls.__bases__[0].name()}::repr();
+            % else:
+                return this->__name() + "()";
+            % endif
         % else:
             std::string result = this->__name() + "(";
 

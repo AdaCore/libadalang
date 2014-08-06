@@ -3,7 +3,6 @@
 Memo<${_self.get_type_string()}> ${_self.gen_fn_name}_memo;
 
 ${fn_profile} {
-    bool memo_set;
     % for name, decl in defs:
     ${decl.typestring} ${name} ${" = " + decl.default_val if decl.default_val else ""};
     % endfor
@@ -34,15 +33,13 @@ ${fn_profile} {
     }
 
     ${code}
-    memo_set = ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
+    ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
     % if _self.needs_refcount():
-        if (memo_set) {
-            % if _self.is_ptr():
-            if (${res}) ${res}->inc_ref();
-            % else:
-                ${res}.inc_ref();
-            % endif
-        }
+        % if _self.is_ptr():
+        if (${res}) ${res}->inc_ref();
+        % else:
+            ${res}.inc_ref();
+        % endif
     % elif isinstance(_self, Row):
         ${res}.inc_ref();
     % endif

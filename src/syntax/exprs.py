@@ -1,6 +1,6 @@
 from copy import deepcopy
 from combinators import Opt, List, Or, Row, _, EnumType, Enum, Tok, \
-    TokClass, Null
+    TokClass, Null, Success
 from syntax import ASTNode, A, Field, TokenType
 from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
 from utils import extract
@@ -44,9 +44,8 @@ class MembershipExpr(Expr):
 
 class Aggregate(Expr):
     fields = [
-        Field("ancestor_expr", kw_repr=True),
+        Field("ancestor_expr", repr=True),
         Field("assocs", repr=True),
-        Field("close_par", tk_end=True)
     ]
 
 
@@ -210,6 +209,20 @@ class NameComponent(Expr):
     ]
 
 
+class AbstractAggregateContent(ASTNode):
+    abstract = True
+
+
+class NullAggregateContent(AbstractAggregateContent):
+    pass
+
+
+class AggregateContent(AbstractAggregateContent):
+    fields = [
+        Field("fields", repr=True)
+    ]
+
+
 A.add_rules(
     identifier=TokClass(Id) ^ Identifier,
     qualified_name=List(A.identifier, sep=".") ^ QualifiedName,
@@ -265,29 +278,29 @@ A.add_rules(
     others_designator=Tok(Token("others")) ^ OthersDesignator,
 
     aggregate_field=Or(
-        A.expression,
         A.choice_list ^ AggregateMember,
+        A.expression,
         A.others_designator,
     ),
 
-    aggregate_assoc = Row(
-            Opt(A.aggregate_field, _("=>")) >> 0,
-            Or(A.diamond_expr, A.expression)
+    aggregate_assoc=Row(
+        Opt(A.aggregate_field, _("=>")) >> 0,
+        Or(A.diamond_expr, A.expression)
     ),
-    aggregate_content_empty_valid=List(A.aggregate_assoc, sep=",",
-                                       empty_valid=True),
-    aggregate_content=List(A.aggregate_assoc, sep=","),
+    aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
+    aggregate_content_null=Row(
+        "null", "record", Success(NullAggregateContent)
+    ) >> 2,
 
     positional_aggregate=List(A.expression, sep=","),
 
     aggregate=Row(
         "(",
-        Or(Row(A.expression, _("with"),
-               _(Opt("null", "record")),
-               A.aggregate_content_empty_valid) ^ Aggregate,
-           Row(Null(Expr), A.aggregate_content) ^ Aggregate),
-        ")"
-    ) >> 1,
+        Row(
+            Opt(A.expression, "with") >> 0,
+            Or(A.aggregate_content_null, A.aggregate_content)
+        ) ^ Aggregate
+        , ")") >> 1,
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal,
                    A.access_deref, A.attribute),
@@ -318,7 +331,7 @@ A.add_rules(
 
     static_name=Row(List(A.identifier, sep=".")) ^ StaticNameExpr,
 
-    primary=Or(A.num_literal, A.null_literal, A.string_literal,
+    primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,
                A.conditional_expression,
                Row("(", A.conditional_expression | A.expression, ")") >> 1,
@@ -376,7 +389,7 @@ A.add_rules(
                        Enum("..", Op("ellipsis")), A.expression) ^ BinOp,
 
     range_expression=Or(
-        A.discrete_range, A.name
+        A.discrete_range
     ),
 
     choice=Or(A.range_expression, A.expression, A.others_designator),

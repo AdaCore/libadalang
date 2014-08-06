@@ -1,1 +1,1 @@
-GenericInstantiation(Id(P), StaticNameExpr([Id(Q)]), ParamList([(None, DiamondExpr())]), None)
+GenericInstantiation(StaticNameExpr([Id(P)]), StaticNameExpr([Id(Q)]), ParamList([(None, DiamondExpr())]), None)

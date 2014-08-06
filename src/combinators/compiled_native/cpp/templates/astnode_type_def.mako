@@ -13,8 +13,7 @@ public:
     ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, m.nullexpr()) for m, f in zip(matchers, cls.fields))} {}
 % endif
     std::string __name();
-    void inc_ref();
-    int dec_ref();
+    ~${cls.name()}();
 };
 
 extern long ${cls.name().lower()}_counter;

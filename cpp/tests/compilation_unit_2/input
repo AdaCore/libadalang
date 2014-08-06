@@ -1,0 +1,2 @@
+compilation_unit
+package A is new B (C)

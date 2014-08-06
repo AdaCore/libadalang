@@ -1,0 +1,2 @@
+compilation_unit
+private package A is function B return Boolean; end A;

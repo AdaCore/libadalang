@@ -298,10 +298,12 @@ A.add_rules(
     ),
 
     generic_formal_part=Row(
-        "generic", List(Row(A.generic_formal_decl | A.use_decl, ";") >> 0)
+        "generic", List(Row(A.generic_formal_decl | A.use_decl, ";") >> 0,
+                        empty_valid=True)
     ) >> 1,
 
     generic_formal_decl=Or(
+        A.pragma,
         A.object_decl,
         A.full_type_decl,
         A.formal_subp_decl,
@@ -324,7 +326,7 @@ A.add_rules(
     ) ^ GenericRenamingDecl,
 
     generic_instantiation=Row(
-        Or("package", "function", "procedure"), A.identifier, _("is"),
+        Or("package", "function", "procedure"), A.static_name, _("is"),
         _("new"), A.static_name,
         Opt("(", A.call_suffix, ")") >> 1,
         A.aspect_specification

@@ -1,0 +1,1 @@
+CompilationUnit([WithDecl(False, False, [StaticNameExpr([Id(Foo)])]), WithDecl(False, False, [StaticNameExpr([Id(Bar)])])], LibraryItem(False, GenericInstantiation(StaticNameExpr([Id(A)]), StaticNameExpr([Id(B)]), ParamList([(None, NameExpr([NameComponent([Id(C)])]))]), None)))

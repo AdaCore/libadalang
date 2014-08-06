@@ -100,6 +100,7 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
 }
 
 void free_lexer (Lexer* lex) {
+    max_token = no_token;
     for (auto kv : lex->hmap) free(kv.first);
     for (auto str : lex->str_literals) free(str);
     QUEX_NAME (destruct) (lex->lexer);

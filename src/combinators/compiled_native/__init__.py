@@ -393,6 +393,7 @@ class Combinator(object):
         self.res = None
         self.pos = None
         self.precomputed_res = None
+        self.res_needed_by_others = False
 
     def is_ptr(self):
         raise NotImplementedError()
@@ -558,7 +559,8 @@ class TokClass(Combinator):
         Lbl: token_map.names_to_ids['LABEL'],
         NumLit: token_map.names_to_ids['NUMBER'],
         CharLit: token_map.names_to_ids['CHAR'],
-        StringLit: token_map.names_to_ids['STRING']
+        StringLit: token_map.names_to_ids['STRING'],
+        NoToken: token_map.names_to_ids['TERMINATION'],
     }
 
     def needs_refcount(self):
@@ -706,6 +708,9 @@ class Or(Combinator):
         # for group in (g for g in groups if len(g) > 1):
         #     for comb in group[1:]:
         #         comb.precomputed_res = group[0]
+
+        #     for comb in group[:-1]:
+        #         group[0].res_needed_by_others = True
 
         pos, res = gen_names("or_pos", "or_res")
         typ = self.get_type_string()

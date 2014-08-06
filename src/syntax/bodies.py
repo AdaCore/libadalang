@@ -1,7 +1,8 @@
 from syntax import ASTNode, A, Field
-from combinators import Opt, List, Or, Row, _, EnumType, Enum, TokClass
+from combinators import Opt, List, Or, Row, _, EnumType, Enum, TokClass, \
+    Success
 from syntax.exprs import SingleTokNode, LoopSpec
-from tokenizer import Lbl
+from tokenizer import Lbl, NoToken
 
 
 class CompilationUnit(ASTNode):
@@ -247,6 +248,17 @@ class PackageBodyStub(ASTNode):
     ]
 
 
+class LibraryItem(ASTNode):
+    fields = [
+        Field("is_private", repr=True),
+        Field("item", repr=True)
+    ]
+
+
+class NoBody(ASTNode):
+    pass
+
+
 A.add_rules(
     subunit=Row(
         _("separate"), _("("), A.static_name, _(")"),
@@ -267,12 +279,16 @@ A.add_rules(
         A.generic_renaming_decl,
     ),
 
-    library_item=Or(A.library_unit_body, A.library_unit_decl,
-                    A.library_unit_renaming_decl),
+    library_item=Row(
+        Opt("private").as_bool(),
+        Or(A.library_unit_body, A.library_unit_decl,
+           A.library_unit_renaming_decl)
+    ) ^ LibraryItem,
 
     compilation_unit=Row(
         List(Row(A.context_item, ";") >> 0, empty_valid=True),
-        Or(A.library_item, A.subunit)
+        Or(A.library_item, A.subunit, A.generic_instantiation,
+           Row(TokClass(NoToken), Success(NoBody)) >> 1)
     ) ^ CompilationUnit,
 
     entry_body=Row(
@@ -444,6 +460,6 @@ A.add_rules(
                      ReturnStatement,
 
     requeue_statement=Row(
-        _("requeue"), A.static_name, Opt("with", "abort").as_bool()
+        _("requeue"), A.expression, Opt("with", "abort").as_bool()
     ) ^ RequeueStatement,
 )

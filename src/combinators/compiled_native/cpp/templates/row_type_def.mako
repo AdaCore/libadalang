@@ -7,10 +7,9 @@ public:
    ${m.get_type_string()} field_${i};
 % endfor
     std::string repr();
-    void inc_ref();
-    int dec_ref();
-
     ${_self.type_name}() : ${", ".join("field_{0}({1})".format(i, m.nullexpr()) for i, m in enumerate(matchers))} {}
+
+    ~${_self.type_name}();
 
 };
 

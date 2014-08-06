@@ -1,0 +1,2 @@
+compilation_unit
+with Foo; with Bar; package A is new B (C)

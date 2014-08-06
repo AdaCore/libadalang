@@ -3,6 +3,10 @@
 
 #include <list>
 #include <unordered_map>
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+#include <locale>
 #include <cstdlib>
 #include <cstdint>
 #include <cstring>
@@ -86,4 +90,94 @@ inline Token get(Lexer* lexer, long offset) {
 
 Token receive(Lexer* lexer);
 void free_lexer (Lexer* lex);
+
+
+enum class MemoState {
+    Nores, Fail, Success
+};
+
+const int memo_size=256;
+
+/*--------------------------
+-- Memoization data types --
+--------------------------*/
+template <typename T> void dec_ref (T& el) { 
+    el.dec_ref(); 
+}
+template <typename T> void dec_ref (T*& el) { 
+    if (el) { 
+        el->dec_ref(); 
+        el = nullptr; 
+    } 
+}
+
+template <typename T> struct Memo {
+
+    struct MemoEntry {
+        MemoState state;
+        T instance;
+        long offset, final_pos;
+    };
+
+    MemoEntry memo_array[memo_size];
+
+    inline void clear() {
+        for (int i = 0; i < memo_size; i++) {
+            if (this->memo_array[i].state == MemoState::Success) {
+#if DEBUG_MODE
+                printf("dec ref at pos %d\n", i);
+#endif
+                dec_ref(this->memo_array[i].instance);
+            }
+            this->memo_array[i].state = MemoState::Nores;
+        }
+    }
+
+    inline MemoEntry get(long offset) {
+        auto res = this->memo_array[offset % memo_size];
+        if (res.offset == offset) {
+            return res;
+        } else {
+            MemoEntry ret;
+            ret.state = MemoState::Nores;
+            return ret;
+        }
+    }
+
+    inline void set(long offset, bool success, T instance, long final_pos) {
+        long off = offset % memo_size;
+        // printf("IN MEMO SET, off = %d, offset = %d, state = %d\n", off, offset, memo_array[off].state);
+
+        if (!(memo_array[off].state != MemoState::Nores && memo_array[off].offset == offset)) {
+            
+            // Do we need to free something ?
+            if (memo_array[off].state == MemoState::Success) {
+                dec_ref(memo_array[off].instance);
+            }
+
+            memo_array[off].final_pos = final_pos;
+            memo_array[off].instance = instance;
+            memo_array[off].offset = offset;
+            memo_array[off].state = success ? MemoState::Success : MemoState::Fail;
+        }
+    }
+};
+
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+        return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+        return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+        return ltrim(rtrim(s));
+}
+
 #endif

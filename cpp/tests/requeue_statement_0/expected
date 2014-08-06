@@ -1,1 +1,1 @@
-RequeueStatement(StaticNameExpr([Id(Lol)]), True)
+RequeueStatement(NameExpr([NameComponent([Id(Lol)])]), True)

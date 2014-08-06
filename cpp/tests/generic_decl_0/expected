@@ -1,0 +1,1 @@
+GenericPackageDecl([], PackageDecl(StaticNameExpr([Id(A)]), None, [SubprogramDecl(unspecified, SubprogramSpec(NameExpr([NameComponent([Id(Set)])]), None, None), False, False, None, None)], None))

@@ -1,1 +1,1 @@
-Aggregate([(NameExpr([NameComponent([Id(B)])]), NameExpr([NameComponent([Id(C)])])), (NameExpr([NameComponent([Id(D)])]), NameExpr([NameComponent([Id(E)])]))])
+Aggregate(NameExpr([NameComponent([Id(A)])]), AggregateContent([(AggregateMember([NameExpr([NameComponent([Id(B)])])]), NameExpr([NameComponent([Id(C)])])), (AggregateMember([NameExpr([NameComponent([Id(D)])])]), NameExpr([NameComponent([Id(E)])]))]))

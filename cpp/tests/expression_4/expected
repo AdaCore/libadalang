@@ -1,1 +1,1 @@
-BinOp(Num(7), plus, BinOp(NameExpr([NameComponent([IfExpr(NameExpr([NameComponent([Id(B)])]), Num(4), [], Num(5))])]), div, NameExpr([NameComponent([CaseExpr(NameExpr([NameComponent([Id(A)])]), [([Num(12)], Num(15)), ([Num(14)], Num(16))])])])))
+BinOp(Num(7), plus, BinOp(IfExpr(Id(B), Num(4), [], Num(5)), div, CaseExpr(Id(A), [([Num(12)], Num(15)), ([Num(14)], Num(16))])))

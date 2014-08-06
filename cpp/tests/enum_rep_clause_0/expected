@@ -1,1 +1,1 @@
-AttributeDefClause(NameExpr([NameComponent([Id(r)])]), NameExpr([NameComponent([Aggregate(None, AggregateContent([(AggregateMember([NameExpr([NameComponent([Id(A)])])]), Num(1)), (AggregateMember([NameExpr([NameComponent([Id(B)])])]), Num(5)), (AggregateMember([NameExpr([NameComponent([Id(C)])])]), Num(10))]))])]))
+AttributeDefClause(Id(r), Aggregate(None, AggregateContent([(AggregateMember([Id(A)]), Num(1)), (AggregateMember([Id(B)]), Num(5)), (AggregateMember([Id(C)]), Num(10))])))

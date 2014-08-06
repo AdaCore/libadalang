@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(Integer), Num(12)])])
+NameComponent(Id(Integer), Num(12))

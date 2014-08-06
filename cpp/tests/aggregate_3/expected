@@ -1,1 +1,1 @@
-Aggregate(NameExpr([NameComponent([Id(c)])]), NullAggregateContent())
+Aggregate(Id(c), NullAggregateContent())

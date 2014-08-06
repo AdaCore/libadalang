@@ -1,1 +1,1 @@
-ExitStatement(Id(My_Loop), BinOp(NameExpr([NameComponent([Id(A)])]), lt, Num(12)))
+ExitStatement(Id(My_Loop), BinOp(Id(A), lt, Num(12)))

@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(Lol)]), NameComponent([Str("=")])])
+Prefix(Id(Lol), Str("="))

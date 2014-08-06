@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, OrdinaryFixedPointDef(BinOp(Num(1), div, NameExpr([NameComponent([BinOp(Num(60), mult, Num(60))])])), BinOp(Num(0.0), ellipsis, Num(360.0))), None)
+FullTypeDecl(Id(A), None, OrdinaryFixedPointDef(BinOp(Num(1), div, BinOp(Num(60), mult, Num(60))), BinOp(Num(0.0), ellipsis, Num(360.0))), None)

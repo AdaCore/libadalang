@@ -1,1 +1,1 @@
-GenericRenamingDecl(StaticNameExpr([Id(A)]), StaticNameExpr([Id(B)]), None)
+GenericRenamingDecl(Id(A), Id(B), None)

@@ -1,1 +1,1 @@
-AbortStatement([StaticNameExpr([Id(Lol)]), StaticNameExpr([Id(Wat)])])
+AbortStatement([Id(Lol), Id(Wat)])

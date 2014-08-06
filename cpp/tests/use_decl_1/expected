@@ -1,1 +1,1 @@
-UseTypDecl(True, [NameExpr([NameComponent([Id(Ada)]), NameComponent([Id(Containers)]), NameComponent([Id(Vector)])])])
+UseTypDecl(True, [Prefix(Prefix(Id(Ada), Id(Containers)), Id(Vector))])

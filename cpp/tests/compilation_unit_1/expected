@@ -1,1 +1,1 @@
-CompilationUnit([], LibraryItem(True, PackageDecl(StaticNameExpr([Id(A)]), None, [SubprogramDecl(unspecified, SubprogramSpec(NameExpr([NameComponent([Id(B)])]), None, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Boolean)])]), None))), False, False, None, None)], None)))
+CompilationUnit([], LibraryItem(True, PackageDecl(Id(A), None, [SubprogramDecl(unspecified, SubprogramSpec(Id(B), None, TypeExpression(False, TypeRef(Id(Boolean), None))), False, False, None, None)], None)))

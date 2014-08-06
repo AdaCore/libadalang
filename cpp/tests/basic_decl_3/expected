@@ -1,1 +1,1 @@
-PackageRenamingDecl(StaticNameExpr([Id(A)]), RenamingClause(NameExpr([NameComponent([Id(B)])])), None)
+PackageRenamingDecl(Id(A), RenamingClause(Id(B)), None)

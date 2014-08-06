@@ -1,1 +1,1 @@
-TypeDiscriminant([DiscriminantSpec([Id(A)], TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)), None), DiscriminantSpec([Id(B)], TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(String)])]), None)), None)])
+TypeDiscriminant([DiscriminantSpec([Id(A)], TypeExpression(False, TypeRef(Id(Integer), None)), None), DiscriminantSpec([Id(B)], TypeExpression(False, TypeRef(Id(String), None)), None)])

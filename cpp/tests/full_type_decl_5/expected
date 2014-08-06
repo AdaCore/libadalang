@@ -1,1 +1,1 @@
-FullTypeDecl(Id(Pouet), None, DecimalFixedPointDef(NameExpr([NameComponent([Id(Delta_Value)])]), NameExpr([NameComponent([Id(Num_Digits)])]), BinOp(NameExpr([NameComponent([Id(Low)])]), ellipsis, NameExpr([NameComponent([Id(High)])]))), None)
+FullTypeDecl(Id(Pouet), None, DecimalFixedPointDef(Id(Delta_Value), Id(Num_Digits), BinOp(Id(Low), ellipsis, Id(High))), None)

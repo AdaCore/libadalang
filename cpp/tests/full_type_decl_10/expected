@@ -1,1 +1,1 @@
-FullTypeDecl(Id(B), None, DerivedTypeDef(False, False, False, False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(A)])]), DeltaConstraint(Num(1.0), None))), None, [], None, False), None)
+FullTypeDecl(Id(B), None, DerivedTypeDef(False, False, False, False, TypeExpression(False, TypeRef(Id(A), DeltaConstraint(Num(1.0), None))), None, [], None, False), None)

@@ -1,1 +1,1 @@
-FormalSubpDecl(SubprogramSpec(NameExpr([NameComponent([Id(Pouet)])]), [ParameterProfile([Id(X), Id(Y)], in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Element_T)])]), None)), None)], TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Element_T)])]), None))), True, DiamondExpr())
+FormalSubpDecl(SubprogramSpec(Id(Pouet), [ParameterProfile([Id(X), Id(Y)], in, TypeExpression(False, TypeRef(Id(Element_T), None)), None)], TypeExpression(False, TypeRef(Id(Element_T), None))), True, DiamondExpr())

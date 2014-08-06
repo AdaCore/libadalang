@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, InterfaceTypeDef(None, []), None)
+FullTypeDecl(Id(A), None, InterfaceTypeDef(uninitialized, []), None)

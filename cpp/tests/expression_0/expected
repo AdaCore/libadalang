@@ -1,1 +1,1 @@
-BinOp(NameExpr([NameComponent([CallExpr(Id(a), [ParamList([(Id(b), Num(12)), (Id(c), Num(15))])])])]), plus, Num(12))
+BinOp(CallExpr(Id(a), [ParamList([(Id(b), Num(12)), (Id(c), Num(15))])]), plus, Num(12))

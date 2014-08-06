@@ -1,1 +1,1 @@
-AssignStatement(NameExpr([NameComponent([Id(A)]), NameComponent([Id(B)]), NameComponent([Id(C)])]), Num(12))
+AssignStatement(Prefix(Prefix(Id(A), Id(B)), Id(C)), Num(12))

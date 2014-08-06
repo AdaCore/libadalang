@@ -1,1 +1,1 @@
-MembershipExpr(NameExpr([NameComponent([Id(A)])]), in, [Num(12), Num(16), Num(87)])
+MembershipExpr(Id(A), in, [Num(12), Num(16), Num(87)])

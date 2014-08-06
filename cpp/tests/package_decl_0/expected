@@ -1,1 +1,1 @@
-PackageDecl(StaticNameExpr([Id(A)]), None, [NumberDecl([Id(B)], Num(12))], None)
+PackageDecl(Id(A), None, [NumberDecl([Id(B)], Num(12))], None)

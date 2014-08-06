@@ -1,1 +1,1 @@
-FullTypeDecl(Id(Arr), None, ArrayTypeDef(UnconstrainedArrayIndices([NameExpr([Id(Integer)])]), ComponentDef(False, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)))), None)
+FullTypeDecl(Id(Arr), None, ArrayTypeDef(UnconstrainedArrayIndices([Id(Integer)]), ComponentDef(False, TypeExpression(False, TypeRef(Id(Integer), None)))), None)

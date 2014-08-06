@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(User_Data), Aggregate(None, NullAggregateContent())])])
+NameComponent(Id(User_Data), Aggregate(None, NullAggregateContent()))

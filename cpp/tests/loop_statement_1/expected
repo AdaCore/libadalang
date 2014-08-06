@@ -1,1 +1,1 @@
-LoopStatement(None, ForLoopSpec(Id(A), in, False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), RangeConstraint(BinOp(Num(1), ellipsis, Num(16))))), [NullStatement()])
+LoopStatement(None, ForLoopSpec(Id(A), in, False, TypeRef(Id(Integer), RangeConstraint(BinOp(Num(1), ellipsis, Num(16))))), [NullStatement()])

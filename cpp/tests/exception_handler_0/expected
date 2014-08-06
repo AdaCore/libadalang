@@ -1,1 +1,1 @@
-ExceptionHandler(None, [NameExpr([NameComponent([Id(Pouet), Id(Abort_Signal)])])], [NameExpr([NameComponent([Id(Prout)])])])
+ExceptionHandler(None, [NameComponent(Id(Pouet), Id(Abort_Signal))], [Id(Prout)])

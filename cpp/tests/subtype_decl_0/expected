@@ -1,1 +1,1 @@
-SubtypeDecl(Id(A), TypeExpression(False, TypeRef(NameExpr([NameComponent([CallExpr(Id(B), [BinOp(Num(1), ellipsis, Num(12))])])]), None)), None)
+SubtypeDecl(Id(A), TypeExpression(False, TypeRef(CallExpr(Id(B), [BinOp(Num(1), ellipsis, Num(12))]), None)), None)

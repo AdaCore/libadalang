@@ -1,1 +1,1 @@
-AcceptStatement(Id(Insert), None, [ParameterProfile([Id(An_Item)], in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Item)])]), None)), None)], HandledStatements([AssignStatement(NameExpr([NameComponent([Id(Datum)])]), NameExpr([NameComponent([Id(An_Item)])]))], None))
+AcceptStatement(Id(Insert), None, [ParameterProfile([Id(An_Item)], in, TypeExpression(False, TypeRef(Id(Item), None)), None)], HandledStatements([AssignStatement(Id(Datum), Id(An_Item))], None))

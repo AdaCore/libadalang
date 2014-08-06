@@ -1,1 +1,1 @@
-DelayStatement(True, NameExpr([NameComponent([Id(Del)])]))
+DelayStatement(True, Id(Del))

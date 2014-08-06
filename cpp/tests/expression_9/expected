@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Str("lol""")])])
+Str("lol""")

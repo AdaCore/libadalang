@@ -1,1 +1,1 @@
-GenericInstantiation(StaticNameExpr([Id(Int_Vectors)]), StaticNameExpr([Id(Ada), Id(Containers), Id(Vectors)]), ParamList([(Id(Index_Type), NameExpr([NameComponent([Id(Natural)])])), (Id(Element_Type), NameExpr([NameComponent([Id(Integer)])]))]), None)
+GenericInstantiation(Id(Int_Vectors), Prefix(Prefix(Id(Ada), Id(Containers)), Id(Vectors)), ParamList([(Id(Index_Type), Id(Natural)), (Id(Element_Type), Id(Integer))]), None)

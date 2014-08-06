@@ -1,1 +1,1 @@
-SubprogramDecl(overriding, SubprogramSpec(NameExpr([NameComponent([Id(A)])]), [ParameterProfile([Id(B)], in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)), None)], None), False, True, None, None)
+SubprogramDecl(overriding, SubprogramSpec(Id(A), [ParameterProfile([Id(B)], in, TypeExpression(False, TypeRef(Id(Integer), None)), None)], None), False, True, None, None)

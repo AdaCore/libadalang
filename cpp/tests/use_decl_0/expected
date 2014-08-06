@@ -1,1 +1,1 @@
-UsePkgDecl([StaticNameExpr([Id(Ada), Id(Text_IO)]), StaticNameExpr([Id(Ada), Id(Vectors)])])
+UsePkgDecl([Prefix(Id(Ada), Id(Text_IO)), Prefix(Id(Ada), Id(Vectors))])

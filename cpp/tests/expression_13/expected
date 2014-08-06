@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(A), Id(C), NameExpr([NameComponent([Chr('D')])]), Id(Pointer)])])
+NameComponent(NameComponent(NameComponent(Id(A), Id(C)), Chr('D')), Id(Pointer))

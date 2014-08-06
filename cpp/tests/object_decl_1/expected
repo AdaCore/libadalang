@@ -1,1 +1,1 @@
-ObjectDecl([Id(A), Id(B)], False, False, in, TypeExpression(True, TypeAccessExpression(False, True, NameExpr([NameComponent([Id(Integer)])]))), Null(null), None, AspectSpecification([AspectAssoc(NameExpr([NameComponent([Id(Foo)])]), NameExpr([NameComponent([Id(Bar)])]))]))
+ObjectDecl([Id(A), Id(B)], False, False, in, TypeExpression(True, TypeAccessExpression(False, True, Id(Integer))), Null(null), None, AspectSpecification([AspectAssoc(Id(Foo), Id(Bar))]))

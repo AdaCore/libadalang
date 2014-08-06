@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(A), Id(Img)])])
+NameComponent(Id(A), Id(Img))

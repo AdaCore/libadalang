@@ -1,1 +1,1 @@
-AggregateMember([BinOp(NameExpr([NameComponent([Id(A)])]), ellipsis, NameExpr([NameComponent([Id(B)])])), BinOp(NameExpr([NameComponent([Id(C)])]), ellipsis, NameExpr([NameComponent([Id(D)])]))])
+AggregateMember([BinOp(Id(A), ellipsis, Id(B)), BinOp(Id(C), ellipsis, Id(D))])

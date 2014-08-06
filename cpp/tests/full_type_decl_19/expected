@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, InterfaceTypeDef(synchronized, [StaticNameExpr([Id(Ilol)]), StaticNameExpr([Id(Imdr)])]), None)
+FullTypeDecl(Id(A), None, InterfaceTypeDef(synchronized, [Id(Ilol), Id(Imdr)]), None)

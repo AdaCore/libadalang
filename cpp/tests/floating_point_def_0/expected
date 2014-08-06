@@ -1,1 +1,1 @@
-FloatingPointDef(NameExpr([NameComponent([Id(Digs)])]), BinOp(NameExpr([NameComponent([Id(Low)])]), ellipsis, NameExpr([NameComponent([Id(High)])])))
+FloatingPointDef(Id(Digs), BinOp(Id(Low), ellipsis, Id(High)))

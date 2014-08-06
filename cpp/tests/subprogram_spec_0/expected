@@ -1,1 +1,1 @@
-SubprogramSpec(NameExpr([NameComponent([Id(A)])]), [ParameterProfile([Id(B)], in, TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(String)])]), None)), None)], TypeExpression(False, TypeRef(NameExpr([NameComponent([Id(Integer)])]), None)))
+SubprogramSpec(Id(A), [ParameterProfile([Id(B)], in, TypeExpression(False, TypeRef(Id(String), None)), None)], TypeExpression(False, TypeRef(Id(Integer), None)))

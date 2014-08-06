@@ -1,1 +1,1 @@
-NameExpr([NameComponent([Id(A)]), NameComponent([CallExpr(AccessDeref(), [ParamList([(None, NameExpr([NameComponent([Id(B)])]))])])])])
+Prefix(Id(A), CallExpr(AccessDeref(), [ParamList([(None, Id(B))])]))

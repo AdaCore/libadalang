@@ -1,1 +1,1 @@
-LoopStatement(None, None, [NameExpr([NameComponent([Id(World)])])])
+LoopStatement(None, None, [Id(World)])

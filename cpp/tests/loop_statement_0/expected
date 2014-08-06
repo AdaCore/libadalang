@@ -1,1 +1,1 @@
-LoopStatement(Id(A), ForLoopSpec(Id(A), in, False, NameExpr([NameComponent([Id(B)])])), [NullStatement()])
+LoopStatement(Id(A), ForLoopSpec(Id(A), in, False, Id(B)), [NullStatement()])

@@ -1,1 +1,1 @@
-OrdinaryFixedPointDef(NameExpr([NameComponent([Id(Delt)])]), BinOp(NameExpr([NameComponent([Id(Low)])]), ellipsis, NameExpr([NameComponent([Id(High)])])))
+OrdinaryFixedPointDef(Id(Delt), BinOp(Id(Low), ellipsis, Id(High)))

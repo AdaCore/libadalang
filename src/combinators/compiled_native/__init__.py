@@ -90,8 +90,8 @@ class Decl(object):
 
 
 def wrap(locs):
-    d = dict(**locs)
-    d.update(globals())
+    d = dict(globals())
+    d.update(locs)
     new_locs = dict(is_class=inspect.isclass, **d)
     s = new_locs.get("self", None)
     if s:

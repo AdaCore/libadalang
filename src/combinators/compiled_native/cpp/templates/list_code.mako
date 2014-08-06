@@ -30,6 +30,8 @@ while (true) {
             auto new_res = ${_self.revtree_class.as_string()}_new();
             new_res->${_self.revtree_class.fields[0].name} = ${res};
             new_res->${_self.revtree_class.fields[1].name} = ${pres};
+            ${res}->inc_ref();
+            ${pres}->inc_ref();
             ${res} = new_res;
         }
     % else:
@@ -37,14 +39,15 @@ while (true) {
             ${res} = new ASTList<${decl_type(_self.parser.get_type())}>;
         }
         ${res}${"->" if _self.get_type().is_ptr else "."}vec.push_back (${pres});
-    % endif
 
-    % if _self.parser.needs_refcount():
-        % if _self.parser.get_type().is_ptr:
-            if (${pres}) ${pres}->inc_ref();
-        % else:
-            ${pres}.inc_ref();
+        % if _self.parser.needs_refcount():
+            % if _self.parser.get_type().is_ptr:
+                if (${pres}) ${pres}->inc_ref();
+            % else:
+                ${pres}.inc_ref();
+            % endif
         % endif
+
     % endif
 
     % if _self.sep:

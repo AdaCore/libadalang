@@ -27,7 +27,7 @@ ifneq (,$(findstring sun, $(COMPILER)))
 endif	
 
 OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 \
-	  -c -g -O0 -I./ -I$(QUEX_PATH)  -ferror-limit=1\
+	  -c -g -O2 -I./ -I$(QUEX_PATH)  -ferror-limit=1\
 	  $(ADD_FLAGS) $(CCFLAG_ASSERTS) \
       -DQUEX_OPTION_ASSERTS_DISABLED \
       -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED \

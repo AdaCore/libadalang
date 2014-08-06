@@ -11,7 +11,7 @@ class WithDecl(ASTNode):
 
 
 class UseDecl(ASTNode):
-    pass
+    abstract = True
 
 
 class UsePkgDecl(UseDecl):
@@ -125,7 +125,7 @@ class InOut(EnumType):
 
 
 class AspectClause(ASTNode):
-    pass
+    abstract = True
 
 
 class EnumRepClause(AspectClause):

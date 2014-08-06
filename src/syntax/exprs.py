@@ -128,6 +128,7 @@ class CaseExpr(Expr):
 
 
 class SingleTokNode(Expr):
+    abstract = True
     fields = [
         Field("tok", repr=True, tk_start=True, tk_end=True)
     ]

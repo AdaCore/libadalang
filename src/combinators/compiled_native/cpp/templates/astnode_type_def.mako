@@ -3,15 +3,17 @@
 class ${cls.name()} : public ${base_name} {
 protected:
 public:
-% for m, f in zip(matchers, cls.fields):
-     ${f.tstring() + "*" if f.tstring() else m.get_type_string()} ${f.name};
-% endfor
-% if not cls.abstract:
+
+    % for m, f in zip(matchers, cls.fields):
+         ${f.tstring() + "*" if f.tstring() else m.get_type_string()} ${f.name};
+    % endfor
+
     std::string repr();
-% endif
-% if cls.fields:
-    ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, m.nullexpr()) for m, f in zip(matchers, cls.fields))} {}
-% endif
+
+    % if cls.fields:
+        ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, m.nullexpr()) for m, f in zip(matchers, cls.fields))} {}
+    % endif
+
     std::string __name();
     ~${cls.name()}();
 };

@@ -20,12 +20,8 @@ class TypeDiscriminant(ASTNode):
     ]
 
 
-class TypeDecl(ASTNode):
-    pass
-
-
 class TypeDef(ASTNode):
-    pass
+    abstract = True
 
 
 class EnumTypeDef(TypeDef):
@@ -89,7 +85,7 @@ class RecordTypeDef(TypeDef):
 
 
 class RealTypeDef(TypeDef):
-    pass
+    abstract = True
 
 
 class FullTypeDecl(ASTNode):
@@ -128,7 +124,7 @@ class DecimalFixedPointDef(RealTypeDef):
 
 
 class Constraint(ASTNode):
-    pass
+    abstract = True
 
 
 class RangeConstraint(Constraint):

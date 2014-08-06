@@ -11,4 +11,6 @@ std::string enum_repr(${cls.name()} enum_inst) {
     }
 }
 
-void dec_ref (${cls.name()} self) {}
+void dec_ref (${cls.name()} self) {
+    #pragma unused(self)
+}

@@ -14,39 +14,36 @@ ${cls.name()}::~${cls.name()}() {
 #endif
 }
 
-
-% if not cls.abstract:
-    std::string ${cls.name()}::repr() {
-        % if not cls.fields:
-            % if cls.__bases__[0].fields:
-                return ${cls.__bases__[0].name()}::repr();
-            % else:
-                return this->__name() + "()";
-            % endif
+std::string ${cls.name()}::repr() {
+    % if not cls.fields:
+        % if cls.__bases__[0].fields:
+            return ${cls.__bases__[0].name()}::repr();
         % else:
-            std::string result = this->__name() + "(";
-
-            % for i, (m, f) in enumerate(repr_m_to_fields):
-                % if f.opt:
-                    if (${f.name} != ${m.nullexpr()}) {
-                % endif
-
-                result.append(${m.emit_repr("this->" + f.name)});
-
-                % if f.opt:
-                    } else result.append("None");
-                % endif
-
-                % if i < len(repr_m_to_fields) - 1:
-                    result.append(", ");
-                % endif
-            % endfor
-
-            result.append(")");
-            return result;
+            return this->__name() + "()";
         % endif
-    }
-% endif
+    % else:
+        std::string result = this->__name() + "(";
+
+        % for i, (m, f) in enumerate(repr_m_to_fields):
+            % if f.opt:
+                if (${f.name} != ${m.nullexpr()}) {
+            % endif
+
+            result.append(${m.emit_repr("this->" + f.name)});
+
+            % if f.opt:
+                } else result.append("None");
+            % endif
+
+            % if i < len(repr_m_to_fields) - 1:
+                result.append(", ");
+            % endif
+        % endfor
+
+        result.append(")");
+        return result;
+    % endif
+}
 
 % if cls.is_ptr and not cls.abstract:
     static inline ${cls.name()}* ${cls.name()}_new() {

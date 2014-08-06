@@ -1167,7 +1167,7 @@ class Null(Success):
                 else self.typ.is_ptr())
 
 
-class EnumType(object):
+class EnumType(AdaType):
     alternatives = []
 
     def __init__(self, alt):
@@ -1179,7 +1179,7 @@ class EnumType(object):
         return cls.__name__
 
     @classmethod
-    def add_to_context(cls, compile_ctx):
+    def add_to_context(cls, compile_ctx, comb=None):
         if not cls in compile_ctx.types:
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(

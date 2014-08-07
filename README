@@ -1,0 +1,29 @@
+Dependencies
+------------
+
+- Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64/. 
+  Follow the installation guide in the quex README
+- The mako template system for python
+- Clang-format
+- boost options
+- If you want interactive debugging when code is generated, install IPython
+
+Building
+--------
+
+Go into the cpp/ directory and just run make. If you got all the dependencies
+install, and you did set QUEX_PATH and the quex executable as said in the quex
+readme, it should build.
+
+Testing
+-------
+
+Go into the cpp/ directory and run:
+
+$ python tests/driver.py
+
+run:
+
+$ python tests/driver.py -h
+
+For some more help on the driver's command.

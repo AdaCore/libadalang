@@ -55,6 +55,14 @@ def get_type(typ):
 def null_constant():
     return null_constants[LANGUAGE]
 
+
+def is_row(combinator):
+    return isinstance(combinator, Row)
+
+
+def is_discard(combinator):
+    return isinstance(combinator, Discard)
+
 ###############
 # AST HELPERS #
 ###############
@@ -65,15 +73,69 @@ def decl_type(ada_type):
     return res.strip() + ("*" if ada_type.is_ptr else "")
 
 
-def wrap(locs):
-    d = dict(globals())
-    d.update(locs)
-    new_locs = dict(is_class=inspect.isclass, **d)
-    s = new_locs.get("self", None)
-    if s:
-        del new_locs["self"]
-        new_locs["_self"] = s
-    return new_locs
+class TemplateEnvironment(object):
+    """
+    Environment that gathers names for template processing.
+
+    Names are associated to values with the attribute syntax.
+    """
+
+    def __init__(self, parent_env=None, **kwargs):
+        """
+        Create an environment and fill it with var (a dict) and with **kwargs.
+        If `parent_env` is provided, the as_dict method will return a dict
+        based on the parent's.
+        """
+        self.parent_env = parent_env
+        self.update(kwargs)
+
+    def update(self, vars):
+        for name, value in vars.iteritems():
+            setattr(self, name, value)
+
+    def as_dict(self):
+        """
+        Return all names in this environment and the corresponding values as a
+        dict.
+        """
+        result = self.parent_env.as_dict() if self.parent_env else {}
+        result.update(self.__dict__)
+        return result
+
+    def __setattr__(self, name, value):
+        if name == 'as_dict':
+            raise TypeError('This attribute is reserved')
+        else:
+            super(TemplateEnvironment, self).__setattr__(name, value)
+
+
+def render_template(template_name, template_env=None, **kwargs):
+    """
+    Render the Mako template `template_name` providing it a context that
+    includes the names in `template_env` plus the ones in **kwargs. Return the
+    resulting string.
+    """
+    context = {
+        'c_repr':           c_repr,
+        'get_type':         get_type,
+        'null_constant':    null_constant,
+        'is_row':           is_row,
+        'is_discard':       is_discard,
+
+        'is_class':         inspect.isclass,
+        'decl_type':        decl_type,
+    }
+    if template_env:
+        context.update(template_env.as_dict())
+    context.update(kwargs)
+
+    # "self" is a reserved name in Mako, so our variables cannot use it.
+    # TODO: don't use "_self" at all in templates. Use more specific names
+    # instead.
+    if context.has_key('self'):
+        context['_self'] = context.pop('self')
+
+    return mako_template(template_name).render(**context)
 
 
 template_cache = {}
@@ -187,25 +249,25 @@ class ASTNode(AdaType):
 
     @classmethod
     def create_type_declaration(cls):
-        return mako_template("astnode_type_decl").render(**wrap(locals()))
+        return render_template('astnode_type_decl', cls=cls)
 
     @classmethod
     def create_type_definition(cls, compile_ctx, types):
-
         base_class = cls.__bases__[0]
-        base_name = base_class.name()
 
-        tdef = mako_template("astnode_type_def").render(**wrap(locals()))
+        t_env = TemplateEnvironment(
+            cls=cls, types=types, base_name=base_class.name()
+        )
+        tdef = render_template('astnode_type_def', t_env)
         if cls.is_ptr:
             compile_ctx.types_definitions.append(tdef)
         else:
             compile_ctx.val_types_definitions.append(tdef)
 
-        repr_m_to_fields = [(m, f) for m, f in zip(types, cls.fields)
-                            if f.repr]
-        compile_ctx.body.append(
-            mako_template("astnode_type_impl").render(**wrap(locals()))
-        )
+        t_env.repr_m_to_fields = [
+            (m, f) for m, f in zip(types, cls.fields) if f.repr
+        ]
+        compile_ctx.body.append(render_template('astnode_type_impl', t_env))
 
     @classmethod
     def get_fields(cls):
@@ -293,17 +355,26 @@ class CompileCtx():
         self.rules_to_fn_names = {}
 
     def get_header(self):
-        tdecls = map(indent, self.types_declarations)
-        tdefs = map(indent, self.types_definitions)
-        fndecls = map(indent, self.fns_decls)
-        return mako_template("main_header").render(**wrap(locals()))
+        return render_template(
+            'main_header',
+            self=self,
+            tdecls=map(indent, self.types_declarations),
+            tdefs=map(indent, self.types_definitions),
+            fndecls=map(indent, self.fns_decls),
+        )
 
     def get_source(self, header_name):
-        bodies = map(indent, self.body)
-        return mako_template("main_body").render(**wrap(locals()))
+        return render_template(
+            'main_body',
+            self=self, header_name=header_name,
+            bodies=map(indent, self.body)
+        )
 
     def get_interactive_main(self, header_name):
-        return mako_template("interactive_main").render(**wrap(locals()))
+        return render_template(
+            'interactive_main',
+            self=self, header_name=header_name
+        )
 
     def has_type(self, typ):
         return typ in self.types
@@ -404,6 +475,8 @@ class Combinator(object):
 
     def compile(self, compile_ctx=None):
         """:type compile_ctx: CompileCtx"""
+        t_env = TemplateEnvironment()
+        t_env.self = self
 
         # Verify that the function hasn't been compiled yet
         if self.gen_fn_name in compile_ctx.fns:
@@ -413,15 +486,15 @@ class Combinator(object):
         if not compile_ctx:
             compile_ctx = CompileCtx()
 
-        pos, res, code, defs = self.generate_code(compile_ctx=compile_ctx)
-        code = indent(code)
-        fn_profile = mako_template(
-            "combinator_fn_profile").render(**wrap(locals()))
+        t_env.pos, t_env.res, t_env.code, t_env.defs = (
+            self.generate_code(compile_ctx=compile_ctx)
+        )
+        t_env.code = indent(t_env.code)
+        t_env.fn_profile = render_template('combinator_fn_profile', t_env)
+        t_env.fn_code = render_template('combinator_fn_code', t_env)
 
-        fn_code = mako_template("combinator_fn_code").render(**wrap(locals()))
-
-        compile_ctx.body.append(fn_code)
-        compile_ctx.fns_decls.append(fn_profile)
+        compile_ctx.body.append(t_env.fn_code)
+        compile_ctx.fns_decls.append(t_env.fn_profile)
 
     def compile_and_exec(self, compile_ctx=None):
         raise NotImplementedError()
@@ -444,15 +517,16 @@ class Combinator(object):
                 self.gen_fn_name in compile_ctx.fns:
 
             self.compile(compile_ctx)
-            pos, res = gen_names("fncall_pos", "fncall_res")
+            self.pos, self.res = gen_names("fncall_pos", "fncall_res")
 
-            fncall_block = mako_template("combinator_fncall").render(**wrap(
-                locals()))
-
-            self.res = res
-            self.pos = pos
-            return pos, res, fncall_block, [(pos, LongType),
-                                            (res, self.get_type())]
+            fncall_block = render_template(
+                'combinator_fncall',
+                self=self, pos_name=pos_name
+            )
+            return self.pos, self.res, fncall_block, [
+                (self.pos, LongType),
+                (self.res, self.get_type())
+            ]
         else:
             pos, res, code, decls = self.generate_code(compile_ctx, pos_name)
             self.res = res
@@ -488,7 +562,11 @@ class Tok(Combinator):
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_pos", "tk_res")
         repr_tok_val = repr(self.tok.val)
-        code = mako_template("tok_code").render(**wrap(locals()))
+        code = render_template(
+            'tok_code',
+            self=self, pos_name=pos_name,
+            pos=pos, res=res,
+        )
         return pos, res, code, [(pos, LongType), (res, Token)]
 
 
@@ -519,7 +597,11 @@ class TokClass(Combinator):
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         _id = self.classes_to_identifiers[self.tok_class]
-        code = mako_template("tokclass_code").render(**wrap(locals()))
+        code = render_template(
+            'tokclass_code',
+            self=self, pos_name=pos_name,
+            pos=pos, res=res, _id=_id,
+        )
         return pos, res, code, [(pos, LongType), (res, Token)]
 
 
@@ -618,16 +700,25 @@ class Or(Combinator):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("or_pos", "or_res")
-        results = [m.gen_code_or_fncall(compile_ctx, pos_name)
-                   for m in self.matchers]
-        decls = list(chain([(pos, LongType), (res, self.get_type())]
-                           , *[r[3] for r in results]))
-        exit_label = gen_name("Exit_Or")
-        code = mako_template("or_code").render(
+
+        t_env = TemplateEnvironment()
+        t_env.self = self
+
+        t_env.results = [
+            m.gen_code_or_fncall(compile_ctx, pos_name)
+            for m in self.matchers
+        ]
+        t_env.decls = list(chain(
+            [(pos, LongType), (res, self.get_type())],
+            *[r[3] for r in t_env.results]
+        ))
+        t_env.exit_label = gen_name("Exit_Or")
+        code = render_template(
+            'or_code', t_env,
+            pos=pos, res=res,
             typ=decl_type(self.get_type()),
-            **wrap(locals())
         )
-        return pos, res, code, decls
+        return pos, res, code, t_env.decls
 
 
 class RowType(AdaType):
@@ -667,60 +758,72 @@ class Row(Combinator):
         return self.typ
 
     def create_type(self, compile_ctx):
-        matchers = [m for m in self.matchers if not isinstance(m, _)]
+        t_env = TemplateEnvironment(
+            matchers=[m for m in self.matchers if not isinstance(m, _)]
+        )
+        t_env.self = self
+
         compile_ctx.types_declarations.append(
-            mako_template("row_type_decl").render(**wrap(locals()))
+            render_template('row_type_decl', t_env)
         )
 
-        compile_ctx.types_definitions.insert(0, mako_template(
-            'row_type_def').render(**wrap(locals()))
-        )
+        compile_ctx.types_definitions.insert(0, render_template(
+            'row_type_def', t_env
+        ))
 
-        compile_ctx.body.append(mako_template(
-            'row_type_impl').render(**wrap(locals()))
-        )
+        compile_ctx.body.append(render_template(
+            'row_type_impl', t_env
+        ))
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """ :type compile_ctx: CompileCtx """
+        t_env = TemplateEnvironment(pos_name=pos_name)
+        t_env.self=self
 
         c_pos_name = pos_name
-        pos, res, did_fail = gen_names("row_pos", "row_res", "row_did_fail")
+        t_env.pos, t_env.res, t_env.did_fail = gen_names(
+            "row_pos", "row_res", "row_did_fail"
+        )
 
         # Create decls for declarative part of the parse subprogram.
         # If make_tuple is false we don't want a variable for the result.
-        decls = [(pos, LongType), (did_fail, BoolType)]
+        decls = [(t_env.pos, LongType), (t_env.did_fail, BoolType)]
 
         if self.make_tuple:
-            decls.append((res, self.get_type()))
+            decls.append((t_env.res, self.get_type()))
             self.create_type(compile_ctx)
 
-        subresults = list(gen_names(*["row_subres_{0}".format(i)
-                                      for i in range(len(self.matchers))]))
-        exit_label = gen_name("row_exit_label")
+        t_env.subresults = list(gen_names(*[
+            "row_subres_{0}".format(i)
+            for i in range(len(self.matchers))
+        ]))
+        t_env.exit_label = gen_name("row_exit_label")
 
         tokeep_matchers = [m for m in self.matchers if not isinstance(m, _)]
-        self.args = [r for r, m in zip(subresults, self.matchers)
+        self.args = [r for r, m in zip(t_env.subresults, self.matchers)
                      if not isinstance(m, _)]
 
         bodies = []
         for i, (matcher, subresult) in enumerate(zip(self.matchers,
-                                                     subresults)):
-            is_discard = isinstance(matcher, _)
-            mpos, mres, m_code, m_decls = matcher.gen_code_or_fncall(
-                compile_ctx, pos
+                                                     t_env.subresults)):
+            t_subenv = TemplateEnvironment(
+                t_env,
+                matcher=matcher, subresult=subresult, i=i,
             )
-            decls += m_decls
-            if not is_discard:
+            (t_subenv.mpos,
+             t_subenv.mres,
+             t_subenv.m_code,
+             t_subenv.m_decls) = (
+                matcher.gen_code_or_fncall(compile_ctx, t_env.pos)
+            )
+            decls += t_subenv.m_decls
+            if not is_discard(matcher):
                 decls.append((subresult, matcher.get_type()))
 
-            bodies.append(
-                mako_template('row_submatch').render(**wrap(locals()))
-            )
+            bodies.append(render_template('row_submatch', t_subenv))
 
-        body = '\n'.join(bodies)
-        code = mako_template("row_code").render(**wrap(locals()))
-
-        return pos, res, code, decls
+        code = render_template('row_code', t_env, body='\n'.join(bodies))
+        return t_env.pos, t_env.res, code, decls
 
     def __rshift__(self, index):
         return Extract(self, index)
@@ -734,8 +837,7 @@ class ListType(AdaType):
         self.el_type = el_type
 
     def as_string(self):
-        return mako_template("list_type").render(el_type=self.el_type,
-                                                 **wrap(locals()))
+        return render_template('list_type', el_type=self.el_type)
 
     def nullexpr(self):
         return null_constant()
@@ -777,17 +879,23 @@ class List(Combinator):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: CompileCtx"""
-
-        pos, res, cpos = gen_names("lst_pos", "lst_res", "lst_cpos")
-        seps = gen_name("lst_seps")
-        ppos, pres, pcode, pdecls = self.parser.gen_code_or_fncall(
-            compile_ctx, cpos
+        t_env = TemplateEnvironment(
+            pos_name=pos_name
         )
-        pcode = indent(pcode)
+        t_env.self = self
+
+        t_env.pos, t_env.res, t_env.cpos = gen_names(
+            "lst_pos", "lst_res", "lst_cpos"
+        )
+        seps = gen_name("lst_seps")
+        t_env.ppos, t_env.pres, t_env.pcode, t_env.pdecls = (
+            self.parser.gen_code_or_fncall(compile_ctx, t_env.cpos)
+        )
+        t_env.pcode = indent(t_env.pcode)
         compile_ctx.generic_vectors.add(self.parser.get_type().as_string())
-        decls = [(pos, LongType),
-                 (res, self.get_type()),
-                 (cpos, LongType)] + pdecls
+        decls = [(t_env.pos, LongType),
+                 (t_env.res, self.get_type()),
+                 (t_env.cpos, LongType)] + t_env.pdecls
 
         if self.revtree_class:
             if not self.revtree_class in compile_ctx.types:
@@ -796,16 +904,19 @@ class List(Combinator):
                     compile_ctx, [self.get_type(), self.get_type()]
                 )
 
-        sep_pos, sep_res, sep_code, sep_decls = None, None, None, None
+        (t_env.sep_pos,
+         t_env.sep_res,
+         t_env.sep_code,
+         t_env.sep_decls) = (
+            self.sep.gen_code_or_fncall(compile_ctx, t_env.cpos)
+            if self.sep else
+            (None, None, None, None)
+        )
+        if t_env.sep_decls:
+            decls += t_env.sep_decls
 
-        if self.sep:
-            sep_pos, sep_res, sep_code, sep_decls = \
-                self.sep.gen_code_or_fncall(compile_ctx, cpos)
-            decls += sep_decls
-
-        code = mako_template("list_code").render(**wrap(locals()))
-
-        return pos, res, code, decls
+        code = render_template('list_code', t_env)
+        return t_env.pos, t_env.res, code, decls
 
 
 class Opt(Combinator):
@@ -837,18 +948,21 @@ class Opt(Combinator):
         return BoolType if self._booleanize else self.matcher.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        mpos, mres, code, decls = self.matcher.gen_code_or_fncall(
-            compile_ctx, pos_name
-        )
-        bool_res = gen_name("opt_bool_res")
+        t_env = TemplateEnvironment(pos_name=pos_name)
+        t_env.self = self
 
-        code = mako_template("opt_code").render(**wrap(locals()))
+        t_env.mpos, t_env.mres, t_env.code, decls = (
+            self.matcher.gen_code_or_fncall(compile_ctx, pos_name)
+        )
+        t_env.bool_res = gen_name("opt_bool_res")
+
+        code = render_template('opt_code', t_env)
 
         if self._booleanize:
-            decls.append((bool_res, BoolType))
-            mres = bool_res
+            decls.append((t_env.bool_res, BoolType))
+            t_env.mres = t_env.bool_res
 
-        return mpos, mres, code, decls
+        return t_env.mpos, t_env.mres, code, decls
 
     def __rshift__(self, index):
         m = self.matcher
@@ -971,24 +1085,30 @@ class Transform(Combinator):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: CompileCtx"""
+        t_env = TemplateEnvironment()
+        t_env.self = self
 
         self.typ.add_to_context(compile_ctx, self.combinator)
 
         if isinstance(self.combinator, Row):
             self.combinator.make_tuple = False
-            cpos, cres, code, decls = self.combinator.gen_code_or_fncall(
-                compile_ctx, pos_name)
-            args = self.combinator.args
-        else:
-            cpos, cres, code, decls = self.combinator.gen_code_or_fncall(
-                compile_ctx, pos_name)
-            args = [cres]
 
-        res = gen_name("transform_res")
-        code = mako_template('transform_code').render(**wrap(locals()))
+        t_env.cpos, t_env.cres, t_env.code, decls = (
+            self.combinator.gen_code_or_fncall(compile_ctx, pos_name)
+        )
+        t_env.args = (
+            self.combinator.args
+            if isinstance(self.combinator, Row) else
+            [t_env.cres]
+        )
+
+        t_env.res = gen_name("transform_res")
+        code = render_template('transform_code', t_env)
         compile_ctx.diag_types.append(self.typ)
 
-        return cpos, res, code, decls + [(res, self.get_type())]
+        return t_env.cpos, t_env.res, code, decls + [
+            (t_env.res, self.get_type())
+        ]
 
 
 class Success(Combinator):
@@ -1012,7 +1132,7 @@ class Success(Combinator):
     def generate_code(self, compile_ctx, pos_name="pos"):
         self.typ.add_to_context(compile_ctx, None)
         res = gen_name("success_res")
-        code = mako_template("success_code").render(**wrap(locals()))
+        code = render_template('success_code', self=self, res=res)
 
         return pos_name, res, code, [(res, self.get_type())]
 
@@ -1027,7 +1147,7 @@ class Null(Success):
         if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx, None)
         res = gen_name("null_res")
-        code = mako_template("null_code").render(**wrap(locals()))
+        code = render_template('null_code', self=self, res=res)
         return pos_name, res, code, [(res, self.get_type())]
 
     def get_type(self):
@@ -1053,10 +1173,10 @@ class EnumType(AdaType):
         if not cls in compile_ctx.types:
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
-                mako_template("enum_type_decl").render(**wrap(locals()))
+                render_template('enum_type_decl', cls=cls)
             )
             compile_ctx.body.append(
-                mako_template("enum_type_impl").render(**wrap(locals()))
+                render_template('enum_type_impl', cls=cls)
             )
 
     @classmethod
@@ -1098,6 +1218,8 @@ class Enum(Combinator):
         else:
             cpos, code, decls = pos_name, "", []
 
-        body = mako_template("enum_code").render(**wrap(locals()))
+        body = render_template(
+            'enum_code',
+            self=self, res=res, cpos=cpos, code=code)
 
         return cpos, res, body, [(res, self.get_type())] + decls

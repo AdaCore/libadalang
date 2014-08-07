@@ -40,7 +40,7 @@ ${fn_profile} {
         % else:
             ${res}.inc_ref();
         % endif
-    % elif isinstance(_self, Row):
+    % elif is_row(_self):
         ${res}.inc_ref();
     % endif
 

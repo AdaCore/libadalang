@@ -6,7 +6,7 @@ ${code}
 % endif
 
 if (${cpos} != -1) {
-    % if _self.combinator.needs_refcount() and not isinstance(_self.combinator, Row):
+    % if _self.combinator.needs_refcount() and not is_row(_self.combinator):
         if (${cres}) ${cres}->inc_ref();
     % endif
 

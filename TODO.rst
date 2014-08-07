@@ -4,7 +4,8 @@ TODO LIST - Libadalang
 * Handle file resolution and dependencies.
 * Create the high level public API - notions of TranslationContext and TranslationUnit.
 * Renaming work (folders and files). Do that together.
-* Code generation templates : Use a context instead of dirty locals + globals hack.
+* Code generation templates : Use a context instead of dirty locals + globals
+  hack. DONE
 * Implement memory management of ASTNodes - DONE
 * Implement full ada grammar (lol) - DONE !!
 * Refactor the parsing lib to store and move around a tokenizer offset rather

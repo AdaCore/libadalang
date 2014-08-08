@@ -145,7 +145,12 @@ def mako_template(file_name):
     t_path = path.join(path.dirname(path.realpath(__file__)),
                        LANGUAGE, "templates", file_name + ".mako")
     t = template_cache.get(t_path, None)
-    return t or Template(strict_undefined=True, filename=t_path)
+
+    if not t:
+        t = Template(strict_undefined=True, filename=t_path)
+        template_cache[t_path] = t
+
+    return t
 
 
 __next_ids = defaultdict(int)

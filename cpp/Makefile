@@ -27,7 +27,7 @@ ifneq (,$(findstring sun, $(COMPILER)))
 endif	
 
 OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 \
-	  -c -g -O2 -I./ -I$(QUEX_PATH)  -ferror-limit=1\
+	  -c -g -O0 -I./ -I$(QUEX_PATH)  -ferror-limit=1\
 	  $(ADD_FLAGS) $(CCFLAG_ASSERTS) \
       -DQUEX_OPTION_ASSERTS_DISABLED \
       -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED \
@@ -44,24 +44,15 @@ LD = $(COMPILER)
 bin/parse_main: bin obj/parse.o obj/parse_main.o obj/EasyLexer.o obj/cffi_interface.o
 	$(COMPILER) -o bin/parse obj/parse_main.o obj/parse.o obj/EasyLexer.o obj/cffi_interface.o -lboost_program_options
 
-bin/tests: bin obj/parse.o obj/parsetests.o obj/EasyLexer.o obj/cffi_interface.o
-	$(COMPILER) -o bin/tests obj/parsetests.o obj/parse.o obj/EasyLexer.o obj/cffi_interface.o
-
-_lexer.so: obj/EasyLexer.o obj/cffi_interface.o
-	$(COMPILER) -shared -o obj/$@ obj/EasyLexer.o obj/cffi_interface.o
-
 obj:
 	mkdir obj
 bin:
 	mkdir bin
 
-bin/test: obj/test.o obj/EasyLexer.o obj/cffi_interface.o
-	$(CC) -o bin/test_lexer obj/test.o obj/EasyLexer.o obj/cffi_interface.o
-
-obj/%.o: src/%.cpp obj
+obj/%.o: src/%.cpp obj src/EasyLexer.c src/parse.cpp
 	$(CC) -std=c++11 $< -o $@ 
           
-obj/%.o: src/%.c obj
+obj/%.o: src/%.c obj src/EasyLexer.c src/parse.cpp
 	$(CC) $< -o $@ 
 
 # Macro expansions (only for debugging):

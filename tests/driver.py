@@ -37,7 +37,7 @@ if args.write:
         dirname = "{0}_{1}".format(rule_name, i)
         os.mkdir(dirname)
 
-        out = sp.check_output(["../bin/parse", "-r", rule_name, "--input", test_input])
+        out = sp.check_output(["../build/bin/parse", "-r", rule_name, "--input", test_input])
 
         printcol("Success", C.OKGREEN)
         print "Got out : {0}".format(out)
@@ -69,7 +69,7 @@ else:
                 print "{0}Test valgrind{1} - {2}".format(C.OKGREEN, C.ENDC, cdir[2:])
                 continue
 
-            out = sp.check_output(["../bin/parse", "-r", rule_name, "--input", input_text])
+            out = sp.check_output(["../build/bin/parse", "-r", rule_name, "--input", input_text])
 
             with open(path.join(cdir, "expected")) as f:
                 expected = f.read()
@@ -90,6 +90,8 @@ else:
         except Exception, e:
             printcol("Error with test {0}".format(cdir), C.FAIL)
             num_failed += 1
+            import traceback
+            traceback.print_exc()
             print e
 
     print "SUMMARY : {0}{1} passed{2}, {3}{4} failed{5} {6}".format(

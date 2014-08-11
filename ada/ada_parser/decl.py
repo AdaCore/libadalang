@@ -1,5 +1,5 @@
-from syntax import ASTNode, A, Field
-from combinators import Opt, List, Or, Row, _, EnumType, Enum
+from ada_parser import A
+from parsers import Field, ASTNode, Opt, List, Or, Row, _, EnumType, Enum
 
 
 class WithDecl(ASTNode):

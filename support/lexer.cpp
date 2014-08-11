@@ -1,4 +1,4 @@
-#include "cffi_interface.hpp"
+#include "lexer.hpp"
 #include <cstdlib>
 
 
@@ -67,22 +67,22 @@ uint32_t CharHash::operator() (const char * const string) const {
     hash += hash >> 6;
 
     return hash;
-}
+};
 
 Lexer* make_lexer_from_file(const char* filename, const char* char_encoding) {
     Lexer* lex = new Lexer;
-    lex->lexer = new quex_EasyLexer;
+    lex->lexer = new quex_quex_lexer;
     lex->current_offset = 0;
     lex->buffer_ptr = nullptr;
 
-    quex_EasyLexer_construct_file_name(lex->lexer, filename, char_encoding, false);
-    quex_EasyLexer_token_p_set(lex->lexer, &buffer_tk);
+    quex_quex_lexer_construct_file_name(lex->lexer, filename, char_encoding, false);
+    quex_quex_lexer_token_p_set(lex->lexer, &buffer_tk);
     return lex;
 }
 
 Lexer* make_lexer_from_string(const char* string, const size_t len) {
     Lexer* lex = new Lexer;
-    lex->lexer = new quex_EasyLexer;
+    lex->lexer = new quex_quex_lexer;
     lex->current_offset = 0;
 
     char* buffer = (char*)malloc(len + 3);
@@ -92,10 +92,10 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
     strncpy(buffer + 1, string, len);
     buffer[0] = 0;
     buffer[len + 1] = 0;
-    quex_EasyLexer_construct_memory(lex->lexer, (uint8_t*)buffer, 
+    quex_quex_lexer_construct_memory(lex->lexer, (uint8_t*)buffer, 
                                     0, (uint8_t*)(buffer + len + 1), 0, false);
 
-    quex_EasyLexer_token_p_set(lex->lexer, &buffer_tk);
+    quex_quex_lexer_token_p_set(lex->lexer, &buffer_tk);
    return lex;
 }
 
@@ -141,17 +141,4 @@ void symbolize(Lexer* lexer, quex_Token* tk) {
     } else {
         tk->text = (uint8_t*)it->second;
     }
-}
-
-
-Token receive(Lexer* lexer) {
-    #pragma unused(lexer)
-    return no_token;
-    /*
-    Token* tk = NULL;
-    quex_EasyLexer_receive(lexer->lexer, (quex_Token**)&tk);
-    Token owned_tk = *tk;
-    symbolize(lexer, &owned_tk);
-    return owned_tk;
-    */
 }

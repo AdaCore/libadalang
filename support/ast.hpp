@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "lexer.hpp"
 
 class ASTNode {
 public:
@@ -67,5 +68,18 @@ template <typename T> inline void vec_dec_ref (std::vector<T*>& vec) { for (auto
 template <typename T> inline void vec_dec_ref (std::vector<T>& vec) { for (auto el : vec) el.dec_ref(); }
 
 inline std::string get_repr (int el) { return el ? "True" : "False"; }
+
+template <typename T> void dec_ref (T& el) { 
+    el.dec_ref(); 
+}
+
+template <typename T> void dec_ref (T*& el) { 
+    if (el) { 
+        el->dec_ref(); 
+        el = nullptr; 
+    } 
+}
+
+inline std::string get_repr (Token node) { return std::string(node.text); }
 
 #endif

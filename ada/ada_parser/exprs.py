@@ -1,7 +1,7 @@
 from copy import deepcopy
-from combinators import Opt, List, Or, Row, _, EnumType, Enum, Tok, \
-    TokClass, Null, Success
-from syntax import ASTNode, A, Field, TokenType
+from parsers import Opt, List, Or, Row, _, EnumType, Enum, Tok, \
+    TokClass, Null, Success, ASTNode, Field, TokenType
+from ada_parser import A
 from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
 from utils import extract
 

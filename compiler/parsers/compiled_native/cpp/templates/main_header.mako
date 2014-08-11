@@ -3,7 +3,8 @@
 
 #include <vector>
 #include "ast.hpp"
-#include "cffi_interface.hpp"
+#include "lexer.hpp"
+#include "packrat.hpp"
 
 using namespace std;
 extern long current_pos;

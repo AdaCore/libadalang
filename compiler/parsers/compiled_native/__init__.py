@@ -3,24 +3,17 @@ import inspect
 from itertools import takewhile, chain
 from os import path
 import sys
+import subprocess
 
 from mako.template import Template
 
-from tokenizer import *
 from utils import isalambda, Colors
 from quex_tokens import token_map
 
 
-try:
-    from IPython.core import ultratb
-
-    sys.excepthook = ultratb.FormattedTB(
-        mode='Verbose', color_scheme='Linux', call_pdb=1
-    )
-except ImportError, i:
-    pass
-
 LANGUAGE = "cpp"
+
+TOKEN_PREFIX = "QUEX_TKN_"
 
 languages_extensions = {
     "ada": "adb",
@@ -72,6 +65,41 @@ def decl_type(ada_type):
     res = ada_type.as_string()
     return res.strip() + ("*" if ada_type.is_ptr else "")
 
+
+class Token(object):
+
+    is_ptr = False
+
+    @classmethod
+    def nullexpr(cls):
+        return "no_token"
+
+    @classmethod
+    def as_string(cls):
+        return cls.__name__
+
+    def __init__(self, val=None):
+        self.val = val
+
+    def __repr__(self):
+        return "{0}({1})".format(
+            self.__class__.__name__,
+            repr(self.val),
+        )
+
+    def __or__(self, other):
+        assert isinstance(other, Token)
+        return Or(self, other)
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.val == other.val
+
+
+class NoToken(Token):
+    quex_token_name = "TERMINATION"
+
+
+no_token = NoToken()
 
 class TemplateEnvironment(object):
     """
@@ -385,6 +413,13 @@ class CompileCtx():
         return typ in self.types
 
 
+def write_cpp_file(file_path, source):
+    with open(file_path, "wb") as out_file:
+        p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE, stdout=out_file)
+        p.communicate(source)
+        assert p.returncode == 0 
+
+
 class Grammar(object):
 
     def __init__(self):
@@ -415,14 +450,14 @@ class Grammar(object):
             r.compile(ctx)
             ctx.rules_to_fn_names[r_name] = r
 
-        with open(path.join(file_path, file_name + ".cpp"), "w") as f:
-            f.write(ctx.get_source(header_name=file_name + ".hpp"))
+        write_cpp_file(path.join(file_path, file_name + ".cpp"), 
+                       ctx.get_source(header_name=file_name + ".hpp"))
 
-        with open(path.join(file_path, file_name + ".hpp"), "w") as f:
-            f.write(ctx.get_header())
+        write_cpp_file(path.join(file_path, file_name + ".hpp"), 
+                       ctx.get_header())
 
-        with open(path.join(file_path, file_name + "_main.cpp"), "w") as f:
-            f.write(ctx.get_interactive_main(header_name=file_name + ".hpp"))
+        write_cpp_file(path.join(file_path, file_name + "_main.cpp"), 
+                       ctx.get_interactive_main(header_name=file_name + ".hpp"))
 
 
 class Combinator(object):
@@ -559,7 +594,7 @@ class Tok(Combinator):
         """ :type tok: Token """
         Combinator.__init__(self)
         self.tok = tok
-        self._id = token_map.names_to_ids[token_map.str_to_names[tok.val]]
+        self._id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
 
     def get_type(self):
         return Token
@@ -577,15 +612,6 @@ class Tok(Combinator):
 
 class TokClass(Combinator):
 
-    classes_to_identifiers = {
-        Id: token_map.names_to_ids['IDENTIFIER'],
-        Lbl: token_map.names_to_ids['LABEL'],
-        NumLit: token_map.names_to_ids['NUMBER'],
-        CharLit: token_map.names_to_ids['CHAR'],
-        StringLit: token_map.names_to_ids['STRING'],
-        NoToken: token_map.names_to_ids['TERMINATION'],
-    }
-
     def needs_refcount(self):
         return False
 
@@ -601,7 +627,7 @@ class TokClass(Combinator):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
-        _id = self.classes_to_identifiers[self.tok_class]
+        _id = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = render_template(
             'tokclass_code',
             self=self, pos_name=pos_name,

@@ -2,3 +2,5 @@
 *.swp
 .*.swp
 .idea/workspace.xml
+__pycache__
+build

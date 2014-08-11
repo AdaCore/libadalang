@@ -1,8 +1,8 @@
-from syntax import ASTNode, A, Field
-from combinators import Opt, List, Or, Row, _, TokClass, \
-    Success
-from syntax.exprs import LoopSpec
-from tokenizer import Lbl, NoToken
+from parsers import Opt, List, Or, Row, _, TokClass, \
+    Success, ASTNode, Field, NoToken
+from ada_parser.exprs import LoopSpec
+from ada_parser import A
+from tokenizer import Lbl
 
 
 class CompilationUnit(ASTNode):

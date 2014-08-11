@@ -137,6 +137,11 @@ class SingleTokNode(Expr):
 class Identifier(SingleTokNode):
     _repr_name = "Id"
 
+    # properties = {
+    #     "type": ParentProperty("type")
+    # }
+
+
 
 class CharLiteral(SingleTokNode):
     _repr_name = "Chr"

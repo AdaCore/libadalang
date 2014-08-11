@@ -217,6 +217,12 @@ class ObjectDecl(ASTNode):
         Field("aspects", repr=True)
     ]
 
+    # properties = {
+    #     "type": ChildNodeProperty("type")
+    # }
+
+    # env_action = AddToEnv("vars", "ids")
+
 
 class PackageDecl(ASTNode):
     fields = [

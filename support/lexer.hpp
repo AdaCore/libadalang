@@ -31,7 +31,7 @@ struct eqstr {
 };
 
 struct _lexer {
-    quex_quex_lexer* lexer;
+    QUEX_TYPE_ANALYZER* lexer;
     quex_Token tk_memory[1024];
     long current_offset;
     std::unordered_map<char*, char*, CharHash, eqstr> hmap;
@@ -62,8 +62,8 @@ inline Token get(Lexer* lexer, long offset) {
 #endif
 
     while (offset >= coffset) {
-        quex_quex_lexer_token_p_set(lexer->lexer, (quex_Token*)&buffer_tk);
-        quex_quex_lexer_receive(lexer->lexer);
+        QUEX_NAME(token_p_set)(lexer->lexer, (quex_Token*)&buffer_tk);
+        QUEX_NAME(receive)(lexer->lexer);
         lexer->tk_memory[coffset % 1024] = buffer_tk;
         symbolize(lexer, &lexer->tk_memory[coffset % 1024]);
         last_id = lexer->tk_memory[coffset % 1024]._id;

@@ -71,18 +71,18 @@ uint32_t CharHash::operator() (const char * const string) const {
 
 Lexer* make_lexer_from_file(const char* filename, const char* char_encoding) {
     Lexer* lex = new Lexer;
-    lex->lexer = new quex_quex_lexer;
+    lex->lexer = new QUEX_TYPE_ANALYZER;
     lex->current_offset = 0;
     lex->buffer_ptr = nullptr;
 
-    quex_quex_lexer_construct_file_name(lex->lexer, filename, char_encoding, false);
-    quex_quex_lexer_token_p_set(lex->lexer, &buffer_tk);
+    QUEX_NAME(construct_file_name)(lex->lexer, filename, char_encoding, false);
+    QUEX_NAME(token_p_set)(lex->lexer, &buffer_tk);
     return lex;
 }
 
 Lexer* make_lexer_from_string(const char* string, const size_t len) {
     Lexer* lex = new Lexer;
-    lex->lexer = new quex_quex_lexer;
+    lex->lexer = new QUEX_TYPE_ANALYZER;
     lex->current_offset = 0;
 
     char* buffer = (char*)malloc(len + 3);
@@ -92,10 +92,10 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
     strncpy(buffer + 1, string, len);
     buffer[0] = 0;
     buffer[len + 1] = 0;
-    quex_quex_lexer_construct_memory(lex->lexer, (uint8_t*)buffer, 
+    QUEX_NAME(construct_memory)(lex->lexer, (uint8_t*)buffer, 
                                     0, (uint8_t*)(buffer + len + 1), 0, false);
 
-    quex_quex_lexer_token_p_set(lex->lexer, &buffer_tk);
+    QUEX_NAME(token_p_set)(lex->lexer, &buffer_tk);
    return lex;
 }
 

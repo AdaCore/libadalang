@@ -4,9 +4,9 @@ import os
 import shutil
 import subprocess
 from glob import glob
+import env
 
-current_dir = path.dirname(path.abspath(__file__))
-sys.path.extend([path.join(current_dir, '../ada')])
+
 
 for d in ["build", "build/include", "build/obj", "build/src", "build/bin"]:
     if not path.exists(d):

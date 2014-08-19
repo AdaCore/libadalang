@@ -366,11 +366,6 @@ def resolve(matcher):
         return Defer(matcher)
 
 
-def indent(string, indent_level=3):
-    return "\n".join((" " * indent_level) + s if s else ""
-                     for s in string.splitlines())
-
-
 class CompileCtx():
     def __init__(self):
         self.body = []
@@ -391,16 +386,16 @@ class CompileCtx():
         return render_template(
             'main_header',
             self=self,
-            tdecls=map(indent, self.types_declarations),
-            tdefs=map(indent, self.types_definitions),
-            fndecls=map(indent, self.fns_decls),
+            tdecls=self.types_declarations,
+            tdefs=self.types_definitions,
+            fndecls=self.fns_decls,
         )
 
     def get_source(self, header_name):
         return render_template(
             'main_body',
             self=self, header_name=header_name,
-            bodies=map(indent, self.body)
+            bodies=self.body
         )
 
     def get_interactive_main(self, header_name):
@@ -472,6 +467,10 @@ class Combinator(object):
         self.res = None
         self.pos = None
 
+    @property
+    def name(self):
+        return self._name
+
     def needs_refcount(self):
         return True
 
@@ -500,11 +499,23 @@ class Combinator(object):
 
     def set_name(self, name):
         for c in self.children():
-            if c._name and not isinstance(c, Defer):
+            if not c._name and not isinstance(c, Defer):
                 c.set_name(name)
-            self._name = name
+
+        self._name = name
         self.gen_fn_name = gen_name("{0}_{1}_parse".format(
             name, self.__class__.__name__.lower()))
+
+    def is_left_recursive(self):
+        return self._is_left_recursive(self.name)
+
+    def _is_left_recursive(self, rule_name):
+        """
+        Private function used only by is_left_recursive, will explore the
+        parser tree to verify whether the named parser with name rule_name is
+        left recursive or not.
+        """
+        raise NotImplementedError()
 
     def parse(self, tkz, pos):
         raise NotImplemented
@@ -512,6 +523,10 @@ class Combinator(object):
     # noinspection PyMethodMayBeStatic
     def children(self):
         return []
+
+    def first_child(self):
+        if len(self.children) > 0:
+            return self.children[0]
 
     def compile(self, compile_ctx=None):
         """:type compile_ctx: CompileCtx"""
@@ -529,7 +544,7 @@ class Combinator(object):
         t_env.pos, t_env.res, t_env.code, t_env.defs = (
             self.generate_code(compile_ctx=compile_ctx)
         )
-        t_env.code = indent(t_env.code)
+        t_env.code = t_env.code
         t_env.fn_profile = render_template('combinator_fn_profile', t_env)
         t_env.fn_code = render_template('combinator_fn_code', t_env)
 
@@ -548,7 +563,7 @@ class Combinator(object):
     def gen_code_or_fncall(self, compile_ctx, pos_name="pos",
                            force_fncall=False):
 
-        if self._name:
+        if self.name:
             print "Compiling rule : {0}".format(
                 Colors.HEADER + self.gen_fn_name + Colors.ENDC
             )
@@ -590,6 +605,9 @@ class Tok(Combinator):
     def needs_refcount(self):
         return False
 
+    def _is_left_recursive(self, rule_name):
+        return False
+
     def __init__(self, tok):
         """ :type tok: Token """
         Combinator.__init__(self)
@@ -611,6 +629,9 @@ class Tok(Combinator):
 
 
 class TokClass(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        return False
 
     def needs_refcount(self):
         return False
@@ -685,6 +706,9 @@ def get_comb_groups(comb, idx):
 
 
 class Or(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        return any(comb._is_left_recursive(rule_name) for comb in self.matchers)
 
     def __repr__(self):
         return "Or({0})".format(", ".join(repr(m) for m in self.matchers))
@@ -766,7 +790,22 @@ class RowType(AdaType):
         return null_constant()
 
 
+def always_make_progress(comb):
+    if isinstance(comb, List):
+        return not comb.empty_valid or always_make_progress(comb.parser)
+    return not isinstance(comb, (Opt, Success, Null))
+
+
 class Row(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        for comb in self.matchers:
+            res = comb._is_left_recursive(rule_name)
+            if res:
+                return True
+            if always_make_progress(comb):
+                break
+        return False
 
     def needs_refcount(self):
         return True
@@ -876,6 +915,14 @@ class ListType(AdaType):
 
 class List(Combinator):
 
+    def _is_left_recursive(self, rule_name):
+        res = self.parser._is_left_recursive(rule_name)
+        assert not(
+            res and (self.empty_valid
+                     or not always_make_progress(self.parser))
+        )
+        return res
+
     def needs_refcount(self):
         return self.parser.needs_refcount()
 
@@ -922,7 +969,6 @@ class List(Combinator):
         t_env.ppos, t_env.pres, t_env.pcode, t_env.pdecls = (
             self.parser.gen_code_or_fncall(compile_ctx, t_env.cpos)
         )
-        t_env.pcode = indent(t_env.pcode)
         compile_ctx.generic_vectors.add(self.parser.get_type().as_string())
         decls = [(t_env.pos, LongType),
                  (t_env.res, self.get_type()),
@@ -951,6 +997,9 @@ class List(Combinator):
 
 
 class Opt(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        return self.matcher._is_left_recursive(rule_name)
 
     def needs_refcount(self):
         if self._booleanize:
@@ -1003,6 +1052,9 @@ class Opt(Combinator):
 
 class Extract(Combinator):
 
+    def _is_left_recursive(self, rule_name):
+        return self.comb._is_left_recursive(rule_name)
+
     def needs_refcount(self):
         return self.comb.needs_refcount()
 
@@ -1037,6 +1089,9 @@ class Extract(Combinator):
 
 class Discard(Combinator):
 
+    def _is_left_recursive(self, rule_name):
+        return self.parser._is_left_recursive(rule_name)
+
     def needs_refcount(self):
         return self.parser.needs_refcount()
 
@@ -1062,36 +1117,47 @@ _ = Discard
 
 class Defer(Combinator):
 
-    def needs_refcount(self):
+    @property
+    def combinator(self):
         self.resolve_combinator()
+        return self._combinator
+
+    @property
+    def name(self):
+        return self.combinator.name
+
+    def _is_left_recursive(self, rule_name):
+        return self.name == rule_name
+
+    def needs_refcount(self):
         return self.combinator.needs_refcount()
 
     def __repr__(self):
-        self.resolve_combinator()
         return "Defer({0})".format(getattr(self.combinator, "_name", ".."))
 
     def __init__(self, parser_fn):
         Combinator.__init__(self)
         self.parser_fn = parser_fn
-        self.combinator = None
+        self._combinator = None
         ":type: Combinator"
 
     def resolve_combinator(self):
-        if not self.combinator:
-            self.combinator = self.parser_fn()
+        if not self._combinator:
+            self._combinator = self.parser_fn()
 
     def get_type(self):
-        self.resolve_combinator()
         return self.combinator.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        self.resolve_combinator()
         return self.combinator.gen_code_or_fncall(
             compile_ctx, pos_name=pos_name, force_fncall=True
         )
 
 
 class Transform(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        return self.combinator._is_left_recursive(rule_name)
 
     def needs_refcount(self):
         return True
@@ -1144,6 +1210,9 @@ class Transform(Combinator):
 
 class Success(Combinator):
 
+    def _is_left_recursive(self, rule_name):
+        return False
+
     def __repr__(self):
         return "Success({0})".format(self.typ.name())
 
@@ -1169,6 +1238,9 @@ class Success(Combinator):
 
 
 class Null(Success):
+
+    def _is_left_recursive(self, rule_name):
+        return False
 
     def __repr__(self):
         return "Null"
@@ -1216,6 +1288,11 @@ class EnumType(AdaType):
 
 
 class Enum(Combinator):
+
+    def _is_left_recursive(self, rule_name):
+        if self.combinator:
+            return self.combinator._is_left_recursive(rule_name)
+        return False
 
     def needs_refcount(self):
         return False

@@ -45,17 +45,14 @@ template <typename T> struct Memo {
         long off = offset % MEMO_SIZE;
         // printf("IN MEMO SET, off = %d, offset = %d, state = %d\n", off, offset, memo_array[off].state);
 
-        if (!(memo_array[off].state != MemoState::Nores && memo_array[off].offset == offset)) {
-            
-            // Do we need to free something ?
-            if (memo_array[off].state == MemoState::Success) {
-                dec_ref(memo_array[off].instance);
-            }
-
-            memo_array[off].final_pos = final_pos;
-            memo_array[off].instance = instance;
-            memo_array[off].offset = offset;
-            memo_array[off].state = success ? MemoState::Success : MemoState::Fail;
+        // Do we need to free something ?
+        if (memo_array[off].state == MemoState::Success) {
+            dec_ref(memo_array[off].instance);
         }
+
+        memo_array[off].final_pos = final_pos;
+        memo_array[off].instance = instance;
+        memo_array[off].offset = offset;
+        memo_array[off].state = success ? MemoState::Success : MemoState::Fail;
     }
 };

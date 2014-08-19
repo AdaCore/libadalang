@@ -6,7 +6,10 @@ ${fn_profile} {
     % for name, typ in defs:
     ${decl_type(typ)} ${name} ${" = " + typ.nullexpr() if typ.nullexpr() else ""};
     % endfor
-
+    % if _self.is_left_recursive():
+        long mem_pos = pos;
+        ${decl_type(_self.get_type())} mem_res = ${_self.get_type().nullexpr()};
+    % endif
     auto m = ${_self.gen_fn_name}_memo.get(pos);
 
 #if DEBUG_MODE
@@ -32,16 +35,62 @@ ${fn_profile} {
         goto return_label;
     }
 
+    % if _self.is_left_recursive():
+        ${_self.gen_fn_name}_memo.set(pos, false, ${res}, mem_pos);
+    % endif
+
+    % if _self.is_left_recursive():
+        try_again:
+    % endif
+
+    /**************************
+    *  MAIN COMBINATORS CODE  *
+    **************************/
+
     ${code}
+
+    /******************************
+    *  END MAIN COMBINATORS CODE  *
+    ******************************/
+
+    % if _self.is_left_recursive():
+        if (${pos} > mem_pos) {
+            mem_pos = ${pos};
+            % if _self.needs_refcount():
+                if (mem_res != nullptr) dec_ref(mem_res);
+            % endif
+            mem_res = ${res};
+            % if _self.needs_refcount():
+                mem_res->inc_ref();
+            % endif
+            ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
+            % if _self.needs_refcount():
+                ${res}->inc_ref();
+            % endif
+            goto try_again;
+        } else if (mem_pos > pos) {
+            % if _self.needs_refcount():
+                if (${res}) {
+                    ${res}->inc_ref();
+                    ${res}->dec_ref();
+                }
+            % endif
+
+            % if _self.needs_refcount():
+                mem_res->dec_ref();
+            % endif
+            ${res} = mem_res;
+            goto no_memo;
+        }
+    % endif
+
     ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
     % if _self.needs_refcount():
-        % if _self.get_type().is_ptr:
         if (${res}) ${res}->inc_ref();
-        % else:
-            ${res}.inc_ref();
-        % endif
-    % elif is_row(_self):
-        ${res}.inc_ref();
+    % endif
+
+    % if _self.is_left_recursive():
+        no_memo:
     % endif
 
 #if DEBUG_MODE

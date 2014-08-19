@@ -23,6 +23,15 @@ class C:
 def printcol(msg, color):
     print "{0}{1}{2}".format(color, msg, C.ENDC)
 
+def match_testcase(test_patterns, testcase):
+    """
+    Return whether `testcase` matches at least one pattern.  Always return true
+    when there is no test pattern.
+    """
+    return (
+        not test_patterns
+        or any(testcase.startswith(pattern) for pattern in test_patterns)
+    )
 
 #
 # Valgrind-based checking utilities
@@ -175,6 +184,10 @@ parser.add_argument('-w', '--write', default=[], nargs=2,
 parser.add_argument('-r', '--rewrite', dest='rewrite', action='store_true')
 parser.add_argument('--valgrind', dest='valgrind', action='store_true')
 parser.set_defaults(rewrite=False)
+parser.add_argument('test-patterns', nargs='*',
+                    help='If provided, run only tests that start with the'
+                         ' given patterns. For instance: "delay_" for all'
+                         ' tests whose name start with "delay_".')
 args = parser.parse_args()
 
 dr_path = path.dirname(path.realpath(__file__))
@@ -211,7 +224,9 @@ else:
     num_failed = 0
     num_rewriten = 0
     for cdir, subdirs, files in os.walk("."):
-        if cdir == ".":
+        testcase = cdir[2:]
+        if (cdir == "."
+            or not match_testcase(getattr(args, 'test-patterns'), testcase)):
             continue
         try:
             with open(path.join(cdir, "input")) as f:
@@ -224,9 +239,9 @@ else:
 
             if args.valgrind:
                 memory_errors.parse_from_valgrind_xml_output(
-                    cdir[2:], get_valgrind_xml_report(argv)
+                    testcase, get_valgrind_xml_report(argv)
                 )
-                print "{0}Test valgrind{1} - {2}".format(C.OKGREEN, C.ENDC, cdir[2:])
+                print "{0}Test valgrind{1} - {2}".format(C.OKGREEN, C.ENDC, testcase)
                 continue
 
             out = sp.check_output(argv)
@@ -235,20 +250,20 @@ else:
                 expected = f.read()
 
             if out == expected:
-                print "{0}Test passed{1} - {2}".format(C.OKGREEN, C.ENDC, cdir[2:])
+                print "{0}Test passed{1} - {2}".format(C.OKGREEN, C.ENDC, testcase)
                 num_passed += 1
             else:
-                print "{0}Test failed{1} - {2}".format(C.FAIL, C.ENDC, cdir[2:])
+                print "{0}Test failed{1} - {2}".format(C.FAIL, C.ENDC, testcase)
                 print "OUT : \t\t", out.strip()
                 print "EXPECTED : \t", expected.strip()
                 num_failed += 1
                 if args.rewrite:
-                    print "Rewriting test {0}{1}{2}".format(C.HEADER, cdir, C.ENDC)
+                    print "Rewriting test {0}{1}{2}".format(C.HEADER, testcase, C.ENDC)
                     with open(path.join(cdir, "expected"), "w") as f:
                         f.write(out)
 
         except Exception, e:
-            printcol("Error with test {0}".format(cdir), C.FAIL)
+            printcol("Error with test {0}".format(testcase), C.FAIL)
             num_failed += 1
             import traceback
             traceback.print_exc()

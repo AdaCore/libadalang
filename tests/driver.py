@@ -166,7 +166,7 @@ class MemoryErrors(object):
             first_testcase = True
             for testcase in sorted(testcases):
                 if not first_testcase:
-                    ptoks((Text, ', '), endl=False)
+                    ptoks((Text, ', '))
                 first_testcase = False
                 ptoks((Name.Variable, testcase))
             pendl()

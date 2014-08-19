@@ -18,7 +18,8 @@ readme, it should build.
 Testing
 -------
 
-Go into the cpp/ directory and run:
+First, make sure your Python 2 installation has access to the "pygments"
+package. Go into the cpp/ directory and run:
 
 $ python tests/driver.py
 

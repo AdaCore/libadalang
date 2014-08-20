@@ -5,23 +5,19 @@ import os
 import os.path as path
 import sys
 import tempfile
+import traceback
 import xml.etree.ElementTree as etree
 
 import pygments
 import pygments.formatters
+import pygments.style
 from pygments.token import *
 
 
-class C:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
+#
+# Main testsuite framework
+#
 
-def printcol(msg, color):
-    print "{0}{1}{2}".format(color, msg, C.ENDC)
 
 def match_testcase(test_patterns, testcase):
     """
@@ -32,6 +28,186 @@ def match_testcase(test_patterns, testcase):
         not test_patterns
         or any(testcase.startswith(pattern) for pattern in test_patterns)
     )
+
+
+class Stats(object):
+    """Helper to hold statistics about run tests."""
+
+    PASSED, FAILED, REWRITTEN, CRASHED = range(4)
+
+    COLUMNS = (PASSED, FAILED, REWRITTEN, CRASHED)
+    COLUMNS_LABEL = {
+        PASSED:    (Generic.OK,        'OK'),
+        FAILED:    (Generic.Error,     'FAIL'),
+        REWRITTEN: (Generic.Rewritten, 'Rewritten'),
+        CRASHED:   (Generic.Crash,     'CRASH'),
+    }
+    LABEL_MAX_LENGTH = max(
+        len(label[1])
+        for label in COLUMNS_LABEL.itervalues()
+    )
+
+    def __init__(self):
+        self.cols = {key: 0 for key in self.COLUMNS}
+
+    def add(self, status):
+        self.cols[status] += 1
+
+    def label(self, status):
+        return self.COLUMNS_LABEL[status]
+
+    def label_padding(self, status):
+        token, text = self.label(status)
+        return (Text, ' ' * (self.LABEL_MAX_LENGTH - len(text)))
+
+    def __iter__(self):
+        for column in self.COLUMNS:
+            yield column, self.cols[column]
+
+
+class Testcase(object):
+    def __init__(self, name):
+        self.name = name
+
+    @property
+    def input_file(self):
+        return path.join(self.name, 'input')
+
+    @property
+    def expected_file(self):
+        return path.join(self.name, 'expected')
+
+
+class Testsuite(object):
+
+    def __init__(self, console, run_valgrind, rewrite):
+        self.run_valgrind = run_valgrind
+        self.rewrite = rewrite
+
+        self.console = console
+        self.memory_errors = MemoryErrors()
+        self.stats = Stats()
+
+        self.queue = collections.deque()
+
+    def add_test(self, testcase):
+        self.queue.append(testcase)
+
+    def run(self):
+        while self.queue:
+            testcase = self.queue.popleft()
+            try:
+                self._run_testcase(testcase)
+            except Exception as e:
+                self.report_testcase(testcase, Stats.CRASHED)
+                self.console.write((Text, traceback.format_exc()))
+                self.console.endl()
+
+    def report_testcase(self, testcase, status):
+        label = self.stats.label(status)
+        self.stats.add(status)
+        self.console.write(
+            # Padding to align labels to the right
+            self.stats.label_padding(status),
+            label,
+            (Text, ' '),
+            (Text, testcase.name)
+        )
+        self.console.endl()
+
+    def _run_testcase(self, testcase):
+        with open(testcase.input_file) as f:
+            rule_name = f.readline().strip()
+            input_text = f.read().strip()
+
+        parse_argv = [
+            "../build/bin/parse",
+            "-r", rule_name,
+            "--input", input_text,
+        ]
+
+        # If we are running Valgrind, we are not interested in actual testsuite
+        # results. We just want to know if we have memory issues.
+        if self.run_valgrind:
+            has_errors = self.memory_errors.parse_from_valgrind_xml_output(
+                testcase, get_valgrind_xml_report(parse_argv)
+            )
+            self.report_testcase(testcase, has_errors)
+            return
+
+        out = sp.check_output(parse_argv)
+
+        with open(testcase.expected_file) as f:
+            expected = f.read()
+
+        has_failed = out != expected
+        self.report_testcase(testcase, has_failed)
+
+        if has_failed:
+            self.console.write((Generic.Deleted,
+                'OUT:      {}'.format(expected.strip())))
+            self.console.endl()
+            self.console.write((Generic.Inserted,
+                'EXPECTED: {}'.format(out.strip())))
+            self.console.endl()
+
+            if self.rewrite:
+                self.stats.add(Stats.REWRITTEN)
+                self.console.write((Comment, 'Rewriting test'))
+                self.console.endl()
+                with open(testcase.expected_file, 'w') as f:
+                    f.write(out)
+
+
+#
+# Output formatting utilities
+#
+
+def updated(dict1, dict2):
+    """Return a copy of dict1 updated using dict2."""
+    result = dict1.copy()
+    result.update(dict2)
+    return result
+
+
+class OutputStyle(pygments.style.Style):
+    default_style = ''
+    styles = updated(pygments.styles.get_style_by_name('native').styles, {
+        Generic.OK: '#6ab825',
+        Generic.Crash: 'bold #ff0000',
+        Generic.Rewritten: '#ed9d13',
+    })
+
+
+class ConsoleColorConfig:
+    NONE = 0
+    COLORS_16 = 1
+    COLORS_256 = 2
+
+
+class Console(object):
+
+    def __init__(self, stream, color_config):
+        self.stream = stream
+
+        formatter_name = {
+            ConsoleColorConfig.NONE:       'text',
+            ConsoleColorConfig.COLORS_16:  'terminal',
+            ConsoleColorConfig.COLORS_256: 'terminal256',
+        }[color_config]
+        self.formatter = pygments.formatters.get_formatter_by_name(
+            formatter_name, style=OutputStyle
+        )
+
+    def flush(self):
+        self.stream.flush()
+
+    def write(self, *tokens):
+        self.stream.write(pygments.format(tokens, self.formatter))
+
+    def endl(self):
+        self.stream.write('\n')
+
 
 #
 # Valgrind-based checking utilities
@@ -64,7 +240,8 @@ def get_valgrind_xml_report(argv):
             'valgrind',
             '--xml=yes', '--xml-file={}'.format(temp_file),
         ]
-        sp.check_call(valgrind_args + argv)
+        with open(os.devnull, 'r') as devnull:
+            sp.check_call(valgrind_args + argv, stdout=devnull)
 
         with open(temp_file) as xml_file:
             return etree.parse(xml_file).getroot()
@@ -126,8 +303,10 @@ class MemoryErrors(object):
         self.errors = collections.defaultdict(set)
 
     def parse_from_valgrind_xml_output(self, testcase, xml_root):
+        has_errors = False
         for elt in xml_root:
             if elt.tag == 'error':
+                has_errors = True
                 message = get_text_in_child(get_child(elt, 'xwhat'), 'text')
                 stack = []
                 for frame in get_child(elt, 'stack'):
@@ -141,41 +320,32 @@ class MemoryErrors(object):
                         get_text_in_child(frame, 'line'),
                     ))
                 self.add(testcase, Error(message, tuple(stack)))
+        return has_errors
 
     def add(self, testcase, error):
         self.errors[error].add(testcase)
 
-    def print_report(self, file=sys.stderr, pygmentize=False):
-        formatter = pygments.formatters.get_formatter_by_name(
-            'terminal256' if pygmentize else 'text',
-            style='native'
-        )
-
-        def ptoks(*tokens):
-            sys.stderr.write(pygments.format(tokens, formatter))
-        def pendl():
-            sys.stderr.write('\n')
-
+    def print_report(self, console):
         first = True
         for error, testcases in self.errors.iteritems():
             if not first:
-                pendl()
+                console.endl()
             first = False
 
-            ptoks((Text, 'Occurred in: '))
+            console.write((Text, 'Occurred in: '))
             first_testcase = True
             for testcase in sorted(testcases):
                 if not first_testcase:
-                    ptoks((Text, ', '))
+                    console.write((Text, ', '))
                 first_testcase = False
-                ptoks((Name.Variable, testcase))
-            pendl()
+                console.write((Name.Variable, testcase.name))
+            console.endl()
 
             for frame in error.stack:
-                ptoks((Text, '  '), *format_stack_frame(frame))
-                pendl()
-            ptoks((Generic.Error, error.message))
-            pendl()
+                console.write((Text, '  '), *format_stack_frame(frame))
+                console.endl()
+            console.write((Generic.Error, error.message))
+            console.endl()
 
 
 parser = argparse.ArgumentParser(description='Execute the libadalang testsuite')
@@ -190,88 +360,62 @@ parser.add_argument('test-patterns', nargs='*',
                          ' tests whose name start with "delay_".')
 args = parser.parse_args()
 
+# Move to the testsuite directory
 dr_path = path.dirname(path.realpath(__file__))
 os.chdir(dr_path)
 
-if args.write:
-    rule_name = args.write[0]
-    test_input = args.write[1]
-    try:
-        i = 0
-        while os.path.exists("./{0}_{1}".format(rule_name, i)):
-            i += 1
-        dirname = "{0}_{1}".format(rule_name, i)
-        os.mkdir(dirname)
+console = Console(sys.stdout, ConsoleColorConfig.COLORS_256)
+testsuite = Testsuite(console, args.valgrind, args.rewrite)
 
-        out = sp.check_output(["../build/bin/parse", "-r", rule_name, "--input", test_input])
+# Add the testcases to the queue
+for cdir, subdirs, files in os.walk("."):
+    testcase = Testcase(cdir[2:])
+    if (
+        cdir == '.'
+        or not match_testcase(getattr(args, 'test-patterns'), testcase.name)
+    ):
+        continue
+    testsuite.add_test(testcase)
 
-        printcol("Success", C.OKGREEN)
-        print "Got out : {0}".format(out)
+# And then run it!
+testsuite_aborted = False
+try:
+    testsuite.run()
+except KeyboardInterrupt:
+    testsuite_aborted = True
 
-        with open(path.join(dirname, "input"), "w") as f:
-            f.write(rule_name + "\n")
-            f.write(test_input)
+# Report time...
+if testsuite_aborted:
+    console.endl()
+    console.write((Punctuation, '*************************'))
+    console.endl()
+    console.write((Punctuation, '*** Testsuite aborted ***'))
+    console.endl()
+    console.write((Punctuation, '*************************'))
+    console.endl()
 
-        with open(path.join(dirname, "expected"), "w") as f:
-            f.write(out)
+if args.valgrind:
+    console.endl()
+    console.write((Generic.Heading, 'Valgrind report'))
+    console.endl()
+    console.write((Generic.Heading, '==============='))
+    console.endl()
+    testsuite.memory_errors.print_report(console)
 
-    except Exception, e:
-        printcol("Failed writing test for rule {0}".format(rule_name), C.FAIL)
-        print e
-else:
-    memory_errors = MemoryErrors()
-    num_passed = 0
-    num_failed = 0
-    num_rewriten = 0
-    for cdir, subdirs, files in os.walk("."):
-        testcase = cdir[2:]
-        if (cdir == "."
-            or not match_testcase(getattr(args, 'test-patterns'), testcase)):
-            continue
-        try:
-            with open(path.join(cdir, "input")) as f:
-                rule_name = f.readline().strip()
-                input_text = f.read().strip()
 
-            argv = [
-                "../build/bin/parse", "-r", rule_name, "--input", input_text
-            ]
+console.endl()
+console.write((Generic.Heading, 'Testsuite report'))
+console.endl()
+console.write((Generic.Heading, '================'))
+console.endl()
 
-            if args.valgrind:
-                memory_errors.parse_from_valgrind_xml_output(
-                    testcase, get_valgrind_xml_report(argv)
-                )
-                print "{0}Test valgrind{1} - {2}".format(C.OKGREEN, C.ENDC, testcase)
-                continue
-
-            out = sp.check_output(argv)
-
-            with open(path.join(cdir, "expected")) as f:
-                expected = f.read()
-
-            if out == expected:
-                print "{0}Test passed{1} - {2}".format(C.OKGREEN, C.ENDC, testcase)
-                num_passed += 1
-            else:
-                print "{0}Test failed{1} - {2}".format(C.FAIL, C.ENDC, testcase)
-                print "OUT : \t\t", out.strip()
-                print "EXPECTED : \t", expected.strip()
-                num_failed += 1
-                if args.rewrite:
-                    print "Rewriting test {0}{1}{2}".format(C.HEADER, testcase, C.ENDC)
-                    with open(path.join(cdir, "expected"), "w") as f:
-                        f.write(out)
-
-        except Exception, e:
-            printcol("Error with test {0}".format(testcase), C.FAIL)
-            num_failed += 1
-            import traceback
-            traceback.print_exc()
-            print e
-
-    if args.valgrind:
-        memory_errors.print_report(sys.stdout, pygmentize=True)
-    print "SUMMARY : {0}{1} passed{2}, {3}{4} failed{5} {6}".format(
-        C.OKGREEN, num_passed, C.ENDC, C.FAIL, num_failed, C.ENDC,
-        ", {0}{1} rewritten{2}".format(C.WARNING, num_rewriten, C.ENDC) if args.rewrite else ""
+for status, count in testsuite.stats:
+    if not count:
+        continue
+    console.write(
+        testsuite.stats.label_padding(status),
+        testsuite.stats.label(status),
+        (Text, ' '),
+        (Number.Integer, str(count))
     )
+    console.endl()

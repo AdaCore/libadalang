@@ -145,10 +145,10 @@ class Testsuite(object):
 
         if has_failed:
             self.console.write((Generic.Deleted,
-                'OUT:      {}'.format(expected.strip())))
+                'EXPECTED: {}'.format(expected.strip())))
             self.console.endl()
             self.console.write((Generic.Inserted,
-                'EXPECTED: {}'.format(out.strip())))
+                'OUT:      {}'.format(out.strip())))
             self.console.endl()
 
             if self.rewrite:

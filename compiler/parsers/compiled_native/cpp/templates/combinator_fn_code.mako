@@ -80,6 +80,7 @@ ${fn_profile} {
                 mem_res->dec_ref();
             % endif
             ${res} = mem_res;
+            ${pos} = mem_pos;
             goto no_memo;
         }
     % endif

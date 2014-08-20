@@ -25,15 +25,6 @@ class BinOp(Expr):
     ]
 
 
-class AttributeExpr(Expr):
-    fields = [
-        Field("expr", repr=True),
-        Field("attr", repr=True),
-        Field("args", repr=True),
-        Field("tk_end")
-    ]
-
-
 class MembershipExpr(Expr):
     fields = [
         Field("expr", repr=True),
@@ -209,7 +200,7 @@ class Allocator(Expr):
     ]
 
 
-class NameComponent(Expr):
+class QualExpr(Expr):
     fields = [
         Field("prefix", repr=True),
         Field("suffix", repr=True)
@@ -236,6 +227,13 @@ class Prefix(Expr):
         Field("suffix", repr=True)
     ]
 
+
+class AttributeRef(Expr):
+    fields = [
+        Field("prefix", repr=True),
+        Field("attribute", repr=True),
+        Field("args", repr=True)
+    ]
 
 A.add_rules(
     identifier=TokClass(Id) ^ Identifier,
@@ -327,18 +325,14 @@ A.add_rules(
         ^ ParamList
     ),
 
-    _name_component=Or(
-        Row(A.direct_name,
-            List(Row("(", A.call_suffix, ")") >> 1)) ^ CallExpr,
+    name=Or(
+        Row(A.name, _("("), A.call_suffix, _(")")) ^ CallExpr,
+        Row(A.name, _("."), A.direct_name) ^ Prefix,
+        Row(A.name, _("'"), A.attribute, Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
+        Row(A.name, _("'"),
+            Or(Row("(", A.expression, ")") >> 1, A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),
-
-    qual_expr_content=Or(Row("(", A.expression, ")") >> 1, A.aggregate),
-
-    name_component=List(A._name_component | A.qual_expr_content, sep="'",
-                        revtree=NameComponent),
-
-    name=List(A.name_component | A.direct_name, sep=".", revtree=Prefix),
 
     access_deref=Tok(Token("all")) ^ AccessDeref,
 

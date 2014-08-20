@@ -1,1 +1,1 @@
-LoopStatement(None, None, [CallExpr(Id(World), [ParamList([(None, Id(A)), (None, Id(B)), (None, Id(C))])])])
+LoopStatement(None, None, [CallExpr(Id(World), ParamList([(None, Id(A)), (None, Id(B)), (None, Id(C))]))])

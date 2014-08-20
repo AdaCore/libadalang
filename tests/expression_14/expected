@@ -1,1 +1,1 @@
-NameComponent(Id(User_Data), Aggregate(None, NullAggregateContent()))
+QualExpr(Id(User_Data), Aggregate(None, NullAggregateContent()))

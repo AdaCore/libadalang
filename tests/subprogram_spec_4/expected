@@ -1,1 +1,1 @@
-SubprogramSpec(Id(A), None, TypeExpression(False, TypeRef(Prefix(Id(Pkg), CallExpr(Id(Arr), [BinOp(Num(12), ellipsis, Num(18))])), None)))
+SubprogramSpec(Id(A), None, TypeExpression(False, TypeRef(CallExpr(Prefix(Id(Pkg), Id(Arr)), BinOp(Num(12), ellipsis, Num(18))), None)))

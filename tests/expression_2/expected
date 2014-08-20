@@ -1,1 +1,1 @@
-Prefix(Prefix(Id(A), AccessDeref()), CallExpr(Id(fooify), [ParamList([(None, BinOp(BinOp(Num(12), mult, Num(15)), eq, Num(2)))])]))
+CallExpr(Prefix(Prefix(Id(A), AccessDeref()), Id(fooify)), ParamList([(None, BinOp(BinOp(Num(12), mult, Num(15)), eq, Num(2)))]))

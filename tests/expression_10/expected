@@ -1,1 +1,1 @@
-Allocator(None, TypeExpression(False, TypeRef(NameComponent(NameComponent(Id(A), Id(Class)), Aggregate(None, AggregateContent([(None, Num(12)), (None, Num(15))]))), None)))
+Allocator(None, TypeExpression(False, TypeRef(QualExpr(AttributeRef(Id(A), Id(Class), None), Aggregate(None, AggregateContent([(None, Num(12)), (None, Num(15))]))), None)))

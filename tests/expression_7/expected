@@ -1,1 +1,1 @@
-NameComponent(Id(A), Id(Img))
+AttributeRef(Id(A), Id(Img), None)

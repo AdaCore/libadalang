@@ -1,1 +1,1 @@
-CallExpr(Id(Set_Text), [ParamList([(None, Id(Layout)), (None, Aggregate(None, AggregateContent([(AggregateMember([Num(1)]), Chr('0'))])))])])
+CallExpr(Id(Set_Text), ParamList([(None, Id(Layout)), (None, Aggregate(None, AggregateContent([(AggregateMember([Num(1)]), Chr('0'))])))]))

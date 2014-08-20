@@ -1,1 +1,1 @@
-AspectSpecification([AspectAssoc(NameComponent(Id(Pre), Id(Class)), BinOp(Id(A), lt, Num(12)))])
+AspectSpecification([AspectAssoc(AttributeRef(Id(Pre), Id(Class), None), BinOp(Id(A), lt, Num(12)))])

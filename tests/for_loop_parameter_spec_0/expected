@@ -1,1 +1,1 @@
-ForLoopSpec(Id(A), in, False, BinOp(NameComponent(Id(B), Id(First)), ellipsis, Id(Last)))
+ForLoopSpec(Id(A), in, False, BinOp(AttributeRef(Id(B), Id(First), None), ellipsis, Id(Last)))

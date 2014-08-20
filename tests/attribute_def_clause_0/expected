@@ -1,1 +1,1 @@
-AttributeDefClause(NameComponent(Id(Small), Id(Size)), Num(16))
+AttributeDefClause(AttributeRef(Id(Small), Id(Size), None), Num(16))

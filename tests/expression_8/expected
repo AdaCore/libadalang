@@ -1,1 +1,1 @@
-Prefix(Id(A), CallExpr(AccessDeref(), [ParamList([(None, Id(B))])]))
+CallExpr(Prefix(Id(A), AccessDeref()), ParamList([(None, Id(B))]))

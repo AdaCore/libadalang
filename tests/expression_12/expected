@@ -1,1 +1,1 @@
-NameComponent(NameComponent(NameComponent(Id(A), Id(C)), Chr('D')), Id(Pointer))
+AttributeRef(QualExpr(AttributeRef(Id(A), Id(C), None), Chr('D')), Id(Pointer), None)

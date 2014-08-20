@@ -67,6 +67,8 @@ def decl_type(ada_type):
 
 
 class Token(object):
+    # TODO??? Turn this into a CompiledType subclass: it makes more sense since
+    # it's used to specify a token type for values (see Parser.get_type).
 
     is_ptr = False
 
@@ -157,7 +159,7 @@ def render_template(template_name, template_env=None, **kwargs):
     context.update(kwargs)
 
     # "self" is a reserved name in Mako, so our variables cannot use it.
-    # TODO: don't use "_self" at all in templates. Use more specific names
+    # TODO??? don't use "_self" at all in templates. Use more specific names
     # instead.
     if context.has_key('self'):
         context['_self'] = context.pop('self')
@@ -194,19 +196,28 @@ def gen_names(*var_names):
 
 
 class CompiledType(object):
+    """Base class used to describe types in the generated code."""
 
     is_ptr = True
-
-    def create_type_declaration(self):
-        raise NotImplementedError()
 
     def add_to_context(self, compile_ctx, parser):
         raise NotImplementedError()
 
+    # TODO??? The following two methods are not used except in
+    # Parser.add_to_context[1].  Maybe they should be instead only internal to
+    # Parser.
+
+    # [1] ... and in List.generate_code. It looks like this method should be
+    # refactored, in order to use add_to_context instead.
+
     def create_type_definition(self, compile_ctx, source_parser):
         raise NotImplementedError()
 
+    def create_type_declaration(self):
+        raise NotImplementedError()
+
     def create_instantiation(self, args):
+        # TODO??? This is unused!
         raise NotImplementedError()
 
     def name(self):
@@ -249,8 +260,15 @@ class TokenType:
 
 
 class Field(object):
+    """
+    Placeholder descriptors used to associate data to AST nodes (see below).
+    """
+
     def __init__(self, name, type=None,
                  repr=False, kw_repr=False, opt=False, norepr_null=False):
+        """Create an AST node field called "name"."""
+        # TODO??? "opt" is used in templates but could be avoided (opt can be
+        # True only for pointers, anyway). All other arguments seem unused!
         self.name = name
         self.kw_repr = kw_repr
         self.repr = repr
@@ -260,6 +278,10 @@ class Field(object):
 
 
 class AstNodeMetaclass(type):
+    """
+    Internal metaclass for AST nodes, used to ease fields handling during code
+    generation.
+    """
     def __init__(cls, name, base, dct):
         super(AstNodeMetaclass, cls).__init__(name, base, dct)
         cls.fields = dct.get("fields", [])
@@ -267,6 +289,19 @@ class AstNodeMetaclass(type):
 
 
 class ASTNode(CompiledType):
+    """
+    Base class for all user AST nodes.
+
+    Subclasses can define new AST node types, but they also can be abstract
+    themselves (to form a true tree of AST node types).  Each subclass can
+    define a list of fields (see the above Field class), so that each concrete
+    class' fields are the sum of all its subclass' fields plus its own.
+
+    This base class defines utilities to emit native code for the AST node
+    types: type declaration, type definition and type usage (to declare
+    AST node variables).
+    """
+
     abstract = False
     fields = []
     __metaclass__ = AstNodeMetaclass
@@ -277,10 +312,20 @@ class ASTNode(CompiledType):
 
     @classmethod
     def create_type_declaration(cls):
+        """Return a forward type declaration for this AST node type."""
         return render_template('astnode_type_decl', cls=cls)
 
     @classmethod
     def create_type_definition(cls, compile_ctx, types):
+        """
+        Emit a type definition for this AST node type in
+        `compile_ctx.types_definitions`, emit:
+          - a class with all its fields and its methods;
+          - a forward declaration for this AST node type's "nil" singleton;
+
+        Also emit the implementation for the corresponding methods/singletons
+        in `compile_ctx.body`.
+        """
         base_class = cls.__bases__[0]
 
         t_env = TemplateEnvironment(
@@ -299,12 +344,19 @@ class ASTNode(CompiledType):
 
     @classmethod
     def get_fields(cls):
+        """
+        Return the list of all the fields `cls` has, including its parents'.
+        """
         b = cls.__bases__[0]
         bfields = b.fields if b != ASTNode else []
         return bfields + cls.fields
 
     @classmethod
     def add_to_context(cls, compile_ctx, parser=None):
+        """
+        Emit code to `compile_ctx` for this AST node type.  Do nothing if
+        called more than once on a single class.
+        """
         if not cls in compile_ctx.types:
             if not parser:
                 parsers = []
@@ -328,14 +380,23 @@ class ASTNode(CompiledType):
 
     @classmethod
     def name(cls):
+        """
+        Return the name that will be used in code generation for this AST node
+        type.
+        """
         return cls.__name__
 
     @classmethod
     def repr_name(cls):
+        """Return a name that will be used when serializing this AST node."""
         return getattr(cls, "_repr_name", cls.name())
 
     @classmethod
     def nullexpr(cls):
+        """
+        Return a value that can be considered as "null" for this AST node type.
+        It indicates the absence of AST node.
+        """
         if cls.is_ptr:
             return null_constant()
         else:
@@ -362,7 +423,10 @@ def resolve(parser):
 
 
 class CompileCtx():
+    """State holder for native code emission."""
+
     def __init__(self):
+        # TODO???  A short description for all these fields would help!
         self.body = []
         self.types_declarations = []
         self.types_definitions = []
@@ -412,27 +476,47 @@ def write_cpp_file(file_path, source):
 
 
 class Grammar(object):
+    """
+    Holder for parsing rules.
+
+    Parsing rules can be added incrementally while referencing each other: this
+    class will automatically resolve forward references when needed.
+    """
 
     def __init__(self):
         self.resolved = False
         self.rules = {}
 
     def add_rules(self, **kwargs):
+        """
+        Add rules to the grammar.  The keyword arguments will provide a name to
+        rules.
+        """
         for name, rule in kwargs.items():
             self.rules[name] = rule
             rule.set_name(name)
             rule.set_grammar(self)
             rule.is_root = True
 
-    def __getattr__(self, item_name):
-        if item_name in self.rules:
-            r = self.rules[item_name]
+    def __getattr__(self, rule_name):
+        """
+        Return the rule that is called `rule_name` if has been registered.
+        Build and return a Defer one to allow forward references otherwise.
+        """
+        if rule_name in self.rules:
+            r = self.rules[rule_name]
             return Defer(lambda: r)
 
         assert not self.resolved
-        return Defer(lambda: self.rules[item_name])
+        return Defer(lambda: self.rules[rule_name])
 
     def dump_to_file(self, file_path=".", file_name="parse"):
+        """
+        Emit native code for all the rules in this grammar as a library:
+        a library specification and the corresponding implementation.  Also
+        emit a tiny program that can parse starting with any parsing rule for
+        testing purposes.
+        """
         ctx = CompileCtx()
         for r_name, r in self.rules.items():
 
@@ -452,6 +536,7 @@ class Grammar(object):
 
 
 class Parser(object):
+    """Base class for parsers building blocks."""
 
     # noinspection PyMissingConstructor
     def __init__(self):
@@ -471,7 +556,11 @@ class Parser(object):
         return True
 
     def __or__(self, other):
+        """Return a new parser that matches this one or `other`."""
         other_parser = resolve(other)
+        # TODO??? In the two first cases, we have to check that the Or parser
+        # isn't a root rule, otherwise some rule declaration could modify
+        # another one!
         if isinstance(other_parser, Or):
             other_parser.parsers.append(self)
             return other_parser
@@ -489,11 +578,16 @@ class Parser(object):
         return Transform(self, transform_fn)
 
     def set_grammar(self, grammar):
+        """Associate `grammar` to this parser and to all its children."""
         for c in self.children():
             c.set_grammar(grammar)
         self.grammar = grammar
 
     def set_name(self, name):
+        """
+        Rename this parser and all its children so that `name` is part of the
+        corresponding function in the generated code.
+        """
         for c in self.children():
             if not c._name and not isinstance(c, Defer):
                 c.set_name(name)
@@ -503,6 +597,7 @@ class Parser(object):
             name, self.__class__.__name__.lower()))
 
     def is_left_recursive(self):
+        """Return whether this parser is left-recursive."""
         return self._is_left_recursive(self.name)
 
     def _is_left_recursive(self, rule_name):
@@ -518,14 +613,24 @@ class Parser(object):
 
     # noinspection PyMethodMayBeStatic
     def children(self):
+        """
+        Parsers are combined to create new and more complex parsers.  They make
+        up a parser tree.  Return a list of children for this parser.
+
+        Subclasses should override this method if they have children.
+        """
         return []
 
     def compile(self, compile_ctx=None):
-        """:type compile_ctx: CompileCtx"""
+        """
+        Emit code for this parser into the `compile_ctx` parser.
+
+        :type compile_ctx: CompileCtx
+        """
         t_env = TemplateEnvironment()
         t_env.self = self
 
-        # Verify that the function hasn't been compiled yet
+        # Don't emit code twice for the same parser.
         if self.gen_fn_name in compile_ctx.fns:
             return
         compile_ctx.fns.add(self.gen_fn_name)
@@ -546,23 +651,42 @@ class Parser(object):
     def compile_and_exec(self, compile_ctx=None):
         raise NotImplementedError()
 
+    def get_type(self):
+        """
+        Return a descriptor for the type this parser returns in the generated
+        code.  It can be either the Token class or a CompiledType subtype.
+
+        Subclasses must override this method.
+        """
+        raise NotImplementedError()
+
     def force_fn_call(self):
         return self.is_root
 
-    def get_type(self):
-        raise NotImplementedError()
-
     def gen_code_or_fncall(self, compile_ctx, pos_name="pos",
                            force_fncall=False):
+        """
+        Return generated code for this parser into `compile_ctx`.
+
+        `pos_name` is the name of a variable that contains the position of the
+        next token in the lexer.
+
+        Either the "parsing code" is returned, either it is emitted in a
+        dedicated function and a call to it is returned instead.  This method
+        relies on the subclasses-defined `generated_code` for "parsing code"
+        generation.
+        """
+        # TODO??? document what exactly this function returns.
 
         if self.name:
             print "Compiling rule : {0}".format(
                 Colors.HEADER + self.gen_fn_name + Colors.ENDC
             )
 
+        # Users must be able to run parsers that implement a named rule, so
+        # generate dedicated functions for them.
         if self.force_fn_call() or force_fncall or \
                 self.gen_fn_name in compile_ctx.fns:
-
             self.compile(compile_ctx)
             self.pos, self.res = gen_names("fncall_pos", "fncall_res")
 
@@ -574,6 +698,7 @@ class Parser(object):
                 (self.pos, LongType),
                 (self.res, self.get_type())
             ]
+
         else:
             pos, res, code, decls = self.generate_code(compile_ctx, pos_name)
             self.res = res
@@ -581,10 +706,17 @@ class Parser(object):
             return pos, res, code, decls
 
     def generate_code(self, compile_ctx, pos_name="pos"):
+        """
+        Return generated code for this parser into `compile_ctx`.
+
+        Subclasses must override this method.  It is a low-level routine used
+        by the `gen_code_or_fncall` method.
+        """
         raise NotImplementedError()
 
 
 class Tok(Parser):
+    """Parser that matches a specific token."""
 
     def __repr__(self):
         return "Tok({0})".format(repr(self.tok.val))
@@ -596,7 +728,11 @@ class Tok(Parser):
         return False
 
     def __init__(self, tok):
-        """ :type tok: Token """
+        """
+        Create a parser that matches `tok`.
+
+        :type tok: Token
+        """
         Parser.__init__(self)
         self.tok = tok
         self._id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
@@ -615,6 +751,7 @@ class Tok(Parser):
 
 
 class TokClass(Parser):
+    """Parser that matches a class of tokens."""
 
     def _is_left_recursive(self, rule_name):
         return False
@@ -626,6 +763,9 @@ class TokClass(Parser):
         return "TokClass({0})".format(self.tok_class.__name__)
 
     def __init__(self, tok_class):
+        """
+        Create a parser that matches all tokens in `tok_class`.
+        """
         Parser.__init__(self)
         self.tok_class = tok_class
 
@@ -644,6 +784,7 @@ class TokClass(Parser):
 
 
 def common_ancestor(*cs):
+    """Return the common class ancestor for all arguments."""
     assert all(inspect.isclass(c) for c in cs)
     rmro = lambda k: reversed(k.mro())
     return list(takewhile(lambda a: len(set(a)) == 1,
@@ -651,6 +792,7 @@ def common_ancestor(*cs):
 
 
 class Or(Parser):
+    """Parser that matches what the first sub-parser accepts."""
 
     def _is_left_recursive(self, rule_name):
         return any(parser._is_left_recursive(rule_name)
@@ -660,7 +802,12 @@ class Or(Parser):
         return "Or({0})".format(", ".join(repr(m) for m in self.parsers))
 
     def __init__(self, *parsers):
-        """ :type parsers: list[Parser|Token|type] """
+        """
+        Create a parser that matches any thing that the first parser in
+        `parsers` accepts.
+
+        :type parsers: list[Parser|Token|type]
+        """
         Parser.__init__(self)
         self.parsers = [resolve(m) for m in parsers]
         self.locked = False
@@ -723,6 +870,10 @@ class Or(Parser):
 
 
 class RowType(CompiledType):
+    """
+    Compiled type generated to hold matches from Rows that are not transformed
+    into specific AST nodes.
+    """
 
     is_ptr = True
 
@@ -737,12 +888,14 @@ class RowType(CompiledType):
 
 
 def always_make_progress(parser):
+    """Return whether `parser` cannot match an empty sequence of tokens."""
     if isinstance(parser, List):
         return not parser.empty_valid or always_make_progress(parser.parser)
     return not isinstance(parser, (Opt, Success, Null))
 
 
 class Row(Parser):
+    """Parser that matches a what sub-parsers match in sequence."""
 
     def _is_left_recursive(self, rule_name):
         for parser in self.parsers:
@@ -760,9 +913,16 @@ class Row(Parser):
         return "Row({0})".format(", ".join(repr(m) for m in self.parsers))
 
     def __init__(self, *parsers):
-        """ :type parsers: list[Parser|Token|type] """
+        """
+        Create a parser that matches the sequence of matches for all
+        sub-parsers in `parsers`.
+
+        :type parsers: list[Parser|Token|type]
+        """
         Parser.__init__(self)
         self.parsers = [resolve(m) for m in parsers]
+        # TODO??? provide a cleaner interface for "tuple resolution".
+        # Currently, elsewhere code sets this to False.
         self.make_tuple = True
         self.typ = RowType(gen_name("Row"))
         self.components_need_inc_ref = True
@@ -775,6 +935,7 @@ class Row(Parser):
         return self.typ
 
     def create_type(self, compile_ctx):
+        """Internal utility used to emit code for a RowType."""
         t_env = TemplateEnvironment(
             parsers=[m for m in self.parsers if not isinstance(m, _)]
         )
@@ -841,10 +1002,15 @@ class Row(Parser):
         return t_env.pos, t_env.res, code, decls
 
     def __rshift__(self, index):
+        """
+        Return a parser that matches `self` and that discards everything except
+        the `index`th field in the row.
+        """
         return Extract(self, index)
 
 
 class ListType(CompiledType):
+    """Compiled type generated to hold matches from Lists."""
 
     is_ptr = True
 
@@ -859,6 +1025,7 @@ class ListType(CompiledType):
 
 
 class List(Parser):
+    """Parser that matches a list.  A sub-parser matches list items."""
 
     def _is_left_recursive(self, rule_name):
         res = self.parser._is_left_recursive(rule_name)
@@ -879,6 +1046,17 @@ class List(Parser):
 
     def __init__(self, parser, sep=None, empty_valid=False, revtree=None):
         """
+        Create a parser that matches a list of elements.
+
+        Each element will be matched by `parser`.  If `sep` is provided, it is
+        a parser that is used to match separators between elements.
+
+        By default, this parser will not match empty sequences but it will if
+        `empty_valid` is True.
+
+        If `revtree` is provided, it must be an ASTNode subclass.  It is then
+        used to fold the list into a binary tree.
+
         :type sep: Token|string
         :type empty_valid: bool
         """
@@ -939,6 +1117,10 @@ class List(Parser):
 
 
 class Opt(Parser):
+    """
+    Parser that matches something if possible or that matches an empty sequence
+    otherwise.
+    """
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -952,6 +1134,12 @@ class Opt(Parser):
         return "Opt({0})".format(self.parser)
 
     def __init__(self, parser, *parsers):
+        """
+        Create a parser that matches `parser` and then `parsers` if possible or
+        matches an empty sequence otherwise.  The result is equivalent to:
+
+            Opt(Row(parser, *parsers)).
+        """
         Parser.__init__(self)
         self._booleanize = False
         if parsers:
@@ -987,12 +1175,17 @@ class Opt(Parser):
         return t_env.mpos, t_env.mres, code, decls
 
     def __rshift__(self, index):
+        """Same as Row.__rshift__."""
         m = self.parser
         assert isinstance(m, Row)
         return Opt(Extract(m, index))
 
 
 class Extract(Parser):
+    """
+    Wrapper parser used to discard everything from a Row parser except a single
+    field in it.
+    """
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -1030,6 +1223,7 @@ class Extract(Parser):
 
 
 class Discard(Parser):
+    """Wrapper parser used to discard the match."""
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -1058,6 +1252,7 @@ _ = Discard
 
 
 class Defer(Parser):
+    """Stub parser used to implement forward references."""
 
     @property
     def parser(self):
@@ -1078,6 +1273,11 @@ class Defer(Parser):
         return "Defer({0})".format(getattr(self.parser, "_name", ".."))
 
     def __init__(self, parser_fn):
+        """
+        Create a stub parser.
+
+        `parser_fn` must be a callable that returns the referenced parser.
+        """
         Parser.__init__(self)
         self.parser_fn = parser_fn
         self._parser = None
@@ -1091,12 +1291,11 @@ class Defer(Parser):
         return self.parser.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        return self.parser.gen_code_or_fncall(
-            compile_ctx, pos_name=pos_name, force_fncall=True
-        )
+        return self.parser.gen_code_or_fncall(compile_ctx, pos_name=pos_name)
 
 
 class Transform(Parser):
+    """Wrapper parser for a Row parser used to instantiate an AST node."""
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -1108,6 +1307,10 @@ class Transform(Parser):
         return "{0} ^ {1}".format(self.parser, self.typ.name())
 
     def __init__(self, parser, typ):
+        """
+        Create a Transform parser wrapping `parser` and that instintiate AST
+        nodes whose type is `typ`.
+        """
         Parser.__init__(self)
         assert issubclass(typ, CompiledType)
         self.parser = parser
@@ -1151,6 +1354,10 @@ class Transform(Parser):
 
 
 class Success(Parser):
+    """
+    Parser that matches the empty sequence and that instanciates a specific AST
+    node type.
+    """
 
     def _is_left_recursive(self, rule_name):
         return False
@@ -1180,6 +1387,7 @@ class Success(Parser):
 
 
 class Null(Success):
+    """Parser that matches the empty sequence and that yields no AST node."""
 
     def _is_left_recursive(self, rule_name):
         return False
@@ -1202,10 +1410,19 @@ class Null(Success):
 
 
 class EnumType(CompiledType):
+    """
+    Base class for compiled types that hold a single value in a set of possible
+    ones.
+
+    Subclasses must override the `alternatives` member to hold a list of
+    distinct strings that represent the set of possibilities.
+    """
+
     is_ptr = False
     alternatives = []
 
     def __init__(self, alt):
+        """Create a value that represent one of the enum alternatives."""
         assert alt in self.alternatives
         self.alt = alt
 
@@ -1230,6 +1447,7 @@ class EnumType(CompiledType):
 
 
 class Enum(Parser):
+    """Wrapper parser used to returns an enumeration value for an match."""
 
     def _is_left_recursive(self, rule_name):
         if self.parser:
@@ -1243,6 +1461,10 @@ class Enum(Parser):
         return "Enum({0}, {1})".format(self.parser, self.enum_type_inst)
 
     def __init__(self, parser, enum_type_inst):
+        """
+        Create a wrapper parser around `parser` that returns `enum_type_inst`
+        (an EnumType subclass instance) when matching.
+        """
         Parser.__init__(self)
         self.parser = resolve(parser) if parser else None
         self.enum_type_inst = enum_type_inst

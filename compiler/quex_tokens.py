@@ -11,7 +11,7 @@ def get_file(name):
 class TokenMap(object):
 
     def __init__(self):
-        qx_grammar = open(get_file("../../../ada/ada.qx")).read()
+        qx_grammar = open(get_file("../ada/ada.qx")).read()
         # noinspection PyTypeChecker
         els = map(lambda x: [y for y in x if y],
                re.findall(r'(?:\\C\{(.*?)\}|"(.*?)") => QUEX_TKN_(\w*)',

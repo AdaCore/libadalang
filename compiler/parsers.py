@@ -171,7 +171,7 @@ template_cache = {}
 
 def mako_template(file_name):
     t_path = path.join(path.dirname(path.realpath(__file__)),
-                       LANGUAGE, "templates", file_name + ".mako")
+                       "templates", LANGUAGE, file_name + ".mako")
     t = template_cache.get(t_path, None)
 
     if not t:
@@ -194,7 +194,7 @@ def gen_names(*var_names):
         yield gen_name(var_name)
 
 
-class AdaType(object):
+class CompiledType(object):
 
     is_ptr = True
 
@@ -221,7 +221,7 @@ class AdaType(object):
         return cls.__name__
 
 
-class BoolType(AdaType):
+class BoolType(CompiledType):
     is_ptr = False
 
     @classmethod
@@ -233,7 +233,7 @@ class BoolType(AdaType):
         return "false"
 
 
-class LongType(AdaType):
+class LongType(CompiledType):
     is_ptr = False
 
     @classmethod
@@ -267,7 +267,7 @@ class AstNodeMetaclass(type):
         cls.abstract = dct.get("abstract", False)
 
 
-class ASTNode(AdaType):
+class ASTNode(CompiledType):
     abstract = False
     fields = []
     __metaclass__ = AstNodeMetaclass
@@ -730,7 +730,7 @@ class Or(Parser):
         return pos, res, code, t_env.decls
 
 
-class RowType(AdaType):
+class RowType(CompiledType):
 
     is_ptr = True
 
@@ -853,7 +853,7 @@ class Row(Parser):
         return Extract(self, index)
 
 
-class ListType(AdaType):
+class ListType(CompiledType):
 
     is_ptr = True
 
@@ -1121,10 +1121,10 @@ class Transform(Parser):
 
     def __init__(self, parser, typ):
         Parser.__init__(self)
-        assert issubclass(typ, AdaType)
+        assert issubclass(typ, CompiledType)
         self.parser = parser
         self.typ = typ
-        ":type: AdaType"
+        ":type: CompiledType"
 
         self._is_ptr = typ.is_ptr
 
@@ -1209,11 +1209,11 @@ class Null(Success):
 
     def get_type(self):
         return (self.typ if inspect.isclass(self.typ)
-                and issubclass(self.typ, AdaType)
+                and issubclass(self.typ, CompiledType)
                 else self.typ.get_type())
 
 
-class EnumType(AdaType):
+class EnumType(CompiledType):
     is_ptr = False
     alternatives = []
 

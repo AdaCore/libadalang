@@ -13,23 +13,23 @@ namespace po = boost::program_options;
 using namespace std;
 
 void parse_input(Lexer* lex, string rule_name, bool print) {
-    % for i, (rule_name, combinator) in enumerate(_self.rules_to_fn_names.items()):
+    % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
         ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
-            auto res = ${combinator.gen_fn_name}(lex, 0);
+            auto res = ${parser.gen_fn_name}(lex, 0);
 
             if (current_pos == -1) {
                 printf("Failed !!\n");
                 printf("Last token pos : Line %d, Col %d, cat %d\n", 
                        max_token.line_n, max_token.column_n, max_token._id);
             } else {
-                % if combinator.needs_refcount():
-                    res${"->" if combinator.get_type().is_ptr else "."}inc_ref();
+                % if parser.needs_refcount():
+                    res${"->" if parser.get_type().is_ptr else "."}inc_ref();
                 % endif
                 current_pos = 0;
                 if (print)
                     printf("%s\n", get_repr(res).c_str());
-                % if combinator.needs_refcount():
-                    res${"->" if combinator.get_type().is_ptr else "."}dec_ref();
+                % if parser.needs_refcount():
+                    res${"->" if parser.get_type().is_ptr else "."}dec_ref();
                 % endif
             }
 

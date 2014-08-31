@@ -2,13 +2,13 @@
 
 ${m_code}
 
-% if not is_discard(matcher):
-   ${subresult} = ${matcher.get_type().nullexpr()};
+% if not is_discard(parser):
+   ${subresult} = ${parser.get_type().nullexpr()};
 % endif
 
 if (${mpos} != -1) {
-    % if matcher.needs_refcount() and _self.components_need_inc_ref and not is_discard(matcher):
-        % if matcher.get_type().is_ptr:
+    % if parser.needs_refcount() and _self.components_need_inc_ref and not is_discard(parser):
+        % if parser.get_type().is_ptr:
             if (${mres}) ${mres}->inc_ref();
         % else:
             ${mres}.inc_ref();
@@ -19,7 +19,7 @@ if (${mpos} != -1) {
         ${pos} = ${mpos};
     % endif
 
-    % if not is_discard(matcher):
+    % if not is_discard(parser):
         ${subresult} = ${mres};
     % endif
 

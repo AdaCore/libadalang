@@ -7,5 +7,5 @@ if (${mpos} == -1) {
     ${bool_res} = false;
     % endif
     ${mpos} = ${pos_name};
-    ${mres} = ${_self.matcher.get_type().nullexpr()};
+    ${mres} = ${_self.parser.get_type().nullexpr()};
 }

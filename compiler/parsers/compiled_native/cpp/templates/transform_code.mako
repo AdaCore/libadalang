@@ -6,7 +6,7 @@ ${code}
 % endif
 
 if (${cpos} != -1) {
-    % if _self.combinator.needs_refcount() and not is_row(_self.combinator):
+    % if _self.parser.needs_refcount() and not is_row(_self.parser):
         if (${cres}) ${cres}->inc_ref();
     % endif
 

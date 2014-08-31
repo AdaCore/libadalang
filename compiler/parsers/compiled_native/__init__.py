@@ -49,12 +49,12 @@ def null_constant():
     return null_constants[LANGUAGE]
 
 
-def is_row(combinator):
-    return isinstance(combinator, Row)
+def is_row(parser):
+    return isinstance(parser, Row)
 
 
-def is_discard(combinator):
-    return isinstance(combinator, Discard)
+def is_discard(parser):
+    return isinstance(parser, Discard)
 
 ###############
 # AST HELPERS #
@@ -194,10 +194,6 @@ def gen_names(*var_names):
         yield gen_name(var_name)
 
 
-###############
-# Combinators #
-###############
-
 class AdaType(object):
 
     is_ptr = True
@@ -205,10 +201,10 @@ class AdaType(object):
     def create_type_declaration(self):
         raise NotImplementedError()
 
-    def add_to_context(self, compile_ctx, comb):
+    def add_to_context(self, compile_ctx, parser):
         raise NotImplementedError()
 
-    def create_type_definition(self, compile_ctx, source_combinator):
+    def create_type_definition(self, compile_ctx, source_parser):
         raise NotImplementedError()
 
     def create_instantiation(self, args):
@@ -309,22 +305,22 @@ class ASTNode(AdaType):
         return bfields + cls.fields
 
     @classmethod
-    def add_to_context(cls, compile_ctx, comb=None):
+    def add_to_context(cls, compile_ctx, parser=None):
         if not cls in compile_ctx.types:
-            if not comb:
-                matchers = []
-            elif isinstance(comb, Row):
-                matchers = [m for m in comb.matchers if not isinstance(m, _)]
-                matchers = matchers[-len(cls.fields):]
+            if not parser:
+                parsers = []
+            elif isinstance(parser, Row):
+                parsers = [m for m in parser.parsers if not isinstance(m, _)]
+                parsers = parsers[-len(cls.fields):]
             else:
-                matchers = [comb]
+                parsers = [parser]
 
-            types = [m.get_type() for m in matchers]
+            types = [m.get_type() for m in parsers]
 
             base_class = cls.__bases__[0]
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
-                bcomb = comb if not cls.fields else None
-                base_class.add_to_context(compile_ctx, bcomb)
+                bparser = parser if not cls.fields else None
+                base_class.add_to_context(compile_ctx, bparser)
 
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
@@ -347,23 +343,23 @@ class ASTNode(AdaType):
             return "nil_{0}".format(cls.name())
 
 
-def resolve(matcher):
+def resolve(parser):
     """
-    :type matcher: Combinator|Token|ParserContainer
-    :rtype: Combinator
+    :type parser: Parser|Token|ParserContainer
+    :rtype: Parser
     """
-    if isinstance(matcher, Combinator):
-        return matcher
-    elif isinstance(matcher, type) and issubclass(matcher, Token):
-        return TokClass(matcher)
-    elif isinstance(matcher, Token):
-        return Tok(matcher)
-    elif isinstance(matcher, str):
-        return Tok(Token(matcher))
-    elif isalambda(matcher):
-        return Defer(matcher)
+    if isinstance(parser, Parser):
+        return parser
+    elif isinstance(parser, type) and issubclass(parser, Token):
+        return TokClass(parser)
+    elif isinstance(parser, Token):
+        return Tok(parser)
+    elif isinstance(parser, str):
+        return Tok(Token(parser))
+    elif isalambda(parser):
+        return Defer(parser)
     else:
-        return Defer(matcher)
+        return Defer(parser)
 
 
 class CompileCtx():
@@ -376,7 +372,7 @@ class CompileCtx():
         self.fns = set()
         self.generic_vectors = set()
         self.types = set()
-        self.main_comb = ""
+        self.main_parser = ""
         self.diag_types = []
         self.test_bodies = []
         self.test_names = []
@@ -455,7 +451,7 @@ class Grammar(object):
                        ctx.get_interactive_main(header_name=file_name + ".hpp"))
 
 
-class Combinator(object):
+class Parser(object):
 
     # noinspection PyMissingConstructor
     def __init__(self):
@@ -475,15 +471,15 @@ class Combinator(object):
         return True
 
     def __or__(self, other):
-        other_comb = resolve(other)
-        if isinstance(other_comb, Or):
-            other_comb.matchers.append(self)
-            return other_comb
+        other_parser = resolve(other)
+        if isinstance(other_parser, Or):
+            other_parser.parsers.append(self)
+            return other_parser
         elif isinstance(self, Or):
-            self.matchers.append(other_comb)
+            self.parsers.append(other_parser)
             return self
         else:
-            return Or(self, other_comb)
+            return Or(self, other_parser)
 
     def __xor__(self, transform_fn):
         """
@@ -545,8 +541,8 @@ class Combinator(object):
             self.generate_code(compile_ctx=compile_ctx)
         )
         t_env.code = t_env.code
-        t_env.fn_profile = render_template('combinator_fn_profile', t_env)
-        t_env.fn_code = render_template('combinator_fn_code', t_env)
+        t_env.fn_profile = render_template('parser_fn_profile', t_env)
+        t_env.fn_code = render_template('parser_fn_code', t_env)
 
         compile_ctx.body.append(t_env.fn_code)
         compile_ctx.fns_decls.append(t_env.fn_profile)
@@ -575,7 +571,7 @@ class Combinator(object):
             self.pos, self.res = gen_names("fncall_pos", "fncall_res")
 
             fncall_block = render_template(
-                'combinator_fncall',
+                'parser_fncall',
                 self=self, pos_name=pos_name
             )
             return self.pos, self.res, fncall_block, [
@@ -597,7 +593,7 @@ class Combinator(object):
         return res
 
 
-class Tok(Combinator):
+class Tok(Parser):
 
     def __repr__(self):
         return "Tok({0})".format(repr(self.tok.val))
@@ -610,7 +606,7 @@ class Tok(Combinator):
 
     def __init__(self, tok):
         """ :type tok: Token """
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.tok = tok
         self._id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
 
@@ -628,7 +624,7 @@ class Tok(Combinator):
         return pos, res, code, [(pos, LongType), (res, Token)]
 
 
-class TokClass(Combinator):
+class TokClass(Parser):
 
     def _is_left_recursive(self, rule_name):
         return False
@@ -640,7 +636,7 @@ class TokClass(Combinator):
         return "TokClass({0})".format(self.tok_class.__name__)
 
     def __init__(self, tok_class):
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.tok_class = tok_class
 
     def get_type(self):
@@ -663,70 +659,28 @@ def common_ancestor(*cs):
     return list(takewhile(lambda a: len(set(a)) == 1, zip(*map(rmro, cs))))[-1][0]
 
 
-def get_combs_at_index(comb, idx):
-    if isinstance(comb, Or):
-        return list(chain(*(get_combs_at_index(subc, idx)
-                            for subc in comb.matchers)))
-    elif isinstance(comb, Row):
-        return get_combs_at_index(comb.matchers[idx], 0) if len(comb.matchers) > idx else []
-    elif isinstance(comb, Opt):
-        return get_combs_at_index(comb.matcher, idx)
-    elif isinstance(comb, Transform):
-        return get_combs_at_index(comb.combinator, idx)
-    else:
-        if idx == 0:
-            return [comb]
-        else:
-            return None
-
-
-def group_by(lst, transform_fn=None):
-    if not transform_fn:
-        transform_fn = lambda x: x
-
-    res = defaultdict(list)
-
-    for el in lst:
-        t = transform_fn(el)
-        res[transform_fn(el)].append(el)
-
-    if res.get(None):
-        del res[None]
-
-    return res.values()
-
-
-def get_comb_groups(comb, idx):
-    def tr(c):
-        if isinstance(c, Defer):
-            c.resolve_combinator()
-            return c.combinator
-        return None
-    return group_by(get_combs_at_index(comb, idx), tr)
-
-
-class Or(Combinator):
+class Or(Parser):
 
     def _is_left_recursive(self, rule_name):
-        return any(comb._is_left_recursive(rule_name) for comb in self.matchers)
+        return any(parser._is_left_recursive(rule_name) for parser in self.parsers)
 
     def __repr__(self):
-        return "Or({0})".format(", ".join(repr(m) for m in self.matchers))
+        return "Or({0})".format(", ".join(repr(m) for m in self.parsers))
 
-    def __init__(self, *matchers):
-        """ :type matchers: list[Combinator|Token|type] """
-        Combinator.__init__(self)
-        self.matchers = [resolve(m) for m in matchers]
+    def __init__(self, *parsers):
+        """ :type parsers: list[Parser|Token|type] """
+        Parser.__init__(self)
+        self.parsers = [resolve(m) for m in parsers]
         self.locked = False
         self.cached_type = None
 
     def children(self):
-        return self.matchers
+        return self.parsers
 
     def needs_refcount(self):
-        assert(all(i.needs_refcount() == self.matchers[0].needs_refcount()
-                   for i in self.matchers))
-        return self.matchers[0].needs_refcount()
+        assert(all(i.needs_refcount() == self.parsers[0].needs_refcount()
+                   for i in self.parsers))
+        return self.parsers[0].needs_refcount()
 
     def get_type(self):
         if self.cached_type:
@@ -736,7 +690,7 @@ class Or(Combinator):
         try:
             self.locked = True
             types = set()
-            for m in self.matchers:
+            for m in self.parsers:
                 t = m.get_type()
                 if t:
                     types.add(t)
@@ -761,7 +715,7 @@ class Or(Combinator):
 
         t_env.results = [
             m.gen_code_or_fncall(compile_ctx, pos_name)
-            for m in self.matchers
+            for m in self.parsers
         ]
         t_env.decls = list(chain(
             [(pos, LongType), (res, self.get_type())],
@@ -790,20 +744,20 @@ class RowType(AdaType):
         return null_constant()
 
 
-def always_make_progress(comb):
-    if isinstance(comb, List):
-        return not comb.empty_valid or always_make_progress(comb.parser)
-    return not isinstance(comb, (Opt, Success, Null))
+def always_make_progress(parser):
+    if isinstance(parser, List):
+        return not parser.empty_valid or always_make_progress(parser.parser)
+    return not isinstance(parser, (Opt, Success, Null))
 
 
-class Row(Combinator):
+class Row(Parser):
 
     def _is_left_recursive(self, rule_name):
-        for comb in self.matchers:
-            res = comb._is_left_recursive(rule_name)
+        for parser in self.parsers:
+            res = parser._is_left_recursive(rule_name)
             if res:
                 return True
-            if always_make_progress(comb):
+            if always_make_progress(parser):
                 break
         return False
 
@@ -811,25 +765,25 @@ class Row(Combinator):
         return True
 
     def __repr__(self):
-        return "Row({0})".format(", ".join(repr(m) for m in self.matchers))
+        return "Row({0})".format(", ".join(repr(m) for m in self.parsers))
 
-    def __init__(self, *matchers):
-        """ :type matchers: list[Combinator|Token|type] """
-        Combinator.__init__(self)
-        self.matchers = [resolve(m) for m in matchers]
+    def __init__(self, *parsers):
+        """ :type parsers: list[Parser|Token|type] """
+        Parser.__init__(self)
+        self.parsers = [resolve(m) for m in parsers]
         self.make_tuple = True
         self.typ = RowType(gen_name("Row"))
         self.components_need_inc_ref = True
 
     def children(self):
-        return self.matchers
+        return self.parsers
 
     def get_type(self):
         return self.typ
 
     def create_type(self, compile_ctx):
         t_env = TemplateEnvironment(
-            matchers=[m for m in self.matchers if not isinstance(m, _)]
+            parsers=[m for m in self.parsers if not isinstance(m, _)]
         )
         t_env.self = self
 
@@ -865,30 +819,30 @@ class Row(Combinator):
 
         t_env.subresults = list(gen_names(*[
             "row_subres_{0}".format(i)
-            for i in range(len(self.matchers))
+            for i in range(len(self.parsers))
         ]))
         t_env.exit_label = gen_name("row_exit_label")
 
-        tokeep_matchers = [m for m in self.matchers if not isinstance(m, _)]
-        self.args = [r for r, m in zip(t_env.subresults, self.matchers)
+        tokeep_parsers = [m for m in self.parsers if not isinstance(m, _)]
+        self.args = [r for r, m in zip(t_env.subresults, self.parsers)
                      if not isinstance(m, _)]
 
         bodies = []
-        for i, (matcher, subresult) in enumerate(zip(self.matchers,
+        for i, (parser, subresult) in enumerate(zip(self.parsers,
                                                      t_env.subresults)):
             t_subenv = TemplateEnvironment(
                 t_env,
-                matcher=matcher, subresult=subresult, i=i,
+                parser=parser, subresult=subresult, i=i,
             )
             (t_subenv.mpos,
              t_subenv.mres,
              t_subenv.m_code,
              t_subenv.m_decls) = (
-                matcher.gen_code_or_fncall(compile_ctx, t_env.pos)
+                parser.gen_code_or_fncall(compile_ctx, t_env.pos)
             )
             decls += t_subenv.m_decls
-            if not is_discard(matcher):
-                decls.append((subresult, matcher.get_type()))
+            if not is_discard(parser):
+                decls.append((subresult, parser.get_type()))
 
             bodies.append(render_template('row_submatch', t_subenv))
 
@@ -913,7 +867,7 @@ class ListType(AdaType):
         return null_constant()
 
 
-class List(Combinator):
+class List(Parser):
 
     def _is_left_recursive(self, rule_name):
         res = self.parser._is_left_recursive(rule_name)
@@ -937,7 +891,7 @@ class List(Combinator):
         :type sep: Token|string
         :type empty_valid: bool
         """
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.parser = resolve(parser)
         self.sep = resolve(sep) if sep else None
         self.empty_valid = empty_valid
@@ -996,43 +950,43 @@ class List(Combinator):
         return t_env.pos, t_env.res, code, decls
 
 
-class Opt(Combinator):
+class Opt(Parser):
 
     def _is_left_recursive(self, rule_name):
-        return self.matcher._is_left_recursive(rule_name)
+        return self.parser._is_left_recursive(rule_name)
 
     def needs_refcount(self):
         if self._booleanize:
             return False
-        return self.matcher.needs_refcount()
+        return self.parser.needs_refcount()
 
     def __repr__(self):
-        return "Opt({0})".format(self.matcher)
+        return "Opt({0})".format(self.parser)
 
-    def __init__(self, matcher, *matchers):
-        Combinator.__init__(self)
+    def __init__(self, parser, *parsers):
+        Parser.__init__(self)
         self._booleanize = False
-        if matchers:
-            self.matcher = Row(matcher, *matchers)
+        if parsers:
+            self.parser = Row(parser, *parsers)
         else:
-            self.matcher = resolve(matcher)
+            self.parser = resolve(parser)
 
     def as_bool(self):
         self._booleanize = True
         return self
 
     def children(self):
-        return [self.matcher]
+        return [self.parser]
 
     def get_type(self):
-        return BoolType if self._booleanize else self.matcher.get_type()
+        return BoolType if self._booleanize else self.parser.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         t_env = TemplateEnvironment(pos_name=pos_name)
         t_env.self = self
 
         t_env.mpos, t_env.mres, t_env.code, decls = (
-            self.matcher.gen_code_or_fncall(compile_ctx, pos_name)
+            self.parser.gen_code_or_fncall(compile_ctx, pos_name)
         )
         t_env.bool_res = gen_name("opt_bool_res")
 
@@ -1045,49 +999,49 @@ class Opt(Combinator):
         return t_env.mpos, t_env.mres, code, decls
 
     def __rshift__(self, index):
-        m = self.matcher
+        m = self.parser
         assert isinstance(m, Row)
         return Opt(Extract(m, index))
 
 
-class Extract(Combinator):
+class Extract(Parser):
 
     def _is_left_recursive(self, rule_name):
-        return self.comb._is_left_recursive(rule_name)
+        return self.parser._is_left_recursive(rule_name)
 
     def needs_refcount(self):
-        return self.comb.needs_refcount()
+        return self.parser.needs_refcount()
 
     def __repr__(self):
-        return "{0} >> {1}".format(self.comb, self.index)
+        return "{0} >> {1}".format(self.parser, self.index)
 
-    def __init__(self, comb, index):
+    def __init__(self, parser, index):
         """
-        :param Row comb: The combinator that will serve as target for
+        :param Row parser: The parser that will serve as target for
         extract operation
         :param int index: The index you want to extract from the row
         """
-        Combinator.__init__(self)
-        self.comb = comb
+        Parser.__init__(self)
+        self.parser = parser
         self.index = index
-        assert isinstance(self.comb, Row)
-        self.comb.components_need_inc_ref = False
+        assert isinstance(self.parser, Row)
+        self.parser.components_need_inc_ref = False
 
     def children(self):
-        return [self.comb]
+        return [self.parser]
 
     def get_type(self):
-        return self.comb.matchers[self.index].get_type()
+        return self.parser.parsers[self.index].get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        self.comb.make_tuple = False
-        cpos, cres, code, decls = self.comb.gen_code_or_fncall(
+        self.parser.make_tuple = False
+        cpos, cres, code, decls = self.parser.gen_code_or_fncall(
             compile_ctx, pos_name)
-        args = self.comb.args
+        args = self.parser.args
         return cpos, args[self.index], code, decls
 
 
-class Discard(Combinator):
+class Discard(Parser):
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -1099,7 +1053,7 @@ class Discard(Combinator):
         return "Discard({0})".format(self.parser)
 
     def __init__(self, parser):
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.parser = resolve(parser)
 
     def children(self):
@@ -1115,67 +1069,67 @@ class Discard(Combinator):
 _ = Discard
 
 
-class Defer(Combinator):
+class Defer(Parser):
 
     @property
-    def combinator(self):
-        self.resolve_combinator()
-        return self._combinator
+    def parser(self):
+        self.resolve_parser()
+        return self._parser
 
     @property
     def name(self):
-        return self.combinator.name
+        return self.parser.name
 
     def _is_left_recursive(self, rule_name):
         return self.name == rule_name
 
     def needs_refcount(self):
-        return self.combinator.needs_refcount()
+        return self.parser.needs_refcount()
 
     def __repr__(self):
-        return "Defer({0})".format(getattr(self.combinator, "_name", ".."))
+        return "Defer({0})".format(getattr(self.parser, "_name", ".."))
 
     def __init__(self, parser_fn):
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.parser_fn = parser_fn
-        self._combinator = None
-        ":type: Combinator"
+        self._parser = None
+        ":type: Parser"
 
-    def resolve_combinator(self):
-        if not self._combinator:
-            self._combinator = self.parser_fn()
+    def resolve_parser(self):
+        if not self._parser:
+            self._parser = self.parser_fn()
 
     def get_type(self):
-        return self.combinator.get_type()
+        return self.parser.get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        return self.combinator.gen_code_or_fncall(
+        return self.parser.gen_code_or_fncall(
             compile_ctx, pos_name=pos_name, force_fncall=True
         )
 
 
-class Transform(Combinator):
+class Transform(Parser):
 
     def _is_left_recursive(self, rule_name):
-        return self.combinator._is_left_recursive(rule_name)
+        return self.parser._is_left_recursive(rule_name)
 
     def needs_refcount(self):
         return True
 
     def __repr__(self):
-        return "{0} ^ {1}".format(self.combinator, self.typ.name())
+        return "{0} ^ {1}".format(self.parser, self.typ.name())
 
-    def __init__(self, combinator, typ):
-        Combinator.__init__(self)
+    def __init__(self, parser, typ):
+        Parser.__init__(self)
         assert issubclass(typ, AdaType)
-        self.combinator = combinator
+        self.parser = parser
         self.typ = typ
         ":type: AdaType"
 
         self._is_ptr = typ.is_ptr
 
     def children(self):
-        return [self.combinator]
+        return [self.parser]
 
     def get_type(self):
         return self.typ
@@ -1185,17 +1139,17 @@ class Transform(Combinator):
         t_env = TemplateEnvironment()
         t_env.self = self
 
-        self.typ.add_to_context(compile_ctx, self.combinator)
+        self.typ.add_to_context(compile_ctx, self.parser)
 
-        if isinstance(self.combinator, Row):
-            self.combinator.make_tuple = False
+        if isinstance(self.parser, Row):
+            self.parser.make_tuple = False
 
         t_env.cpos, t_env.cres, t_env.code, decls = (
-            self.combinator.gen_code_or_fncall(compile_ctx, pos_name)
+            self.parser.gen_code_or_fncall(compile_ctx, pos_name)
         )
         t_env.args = (
-            self.combinator.args
-            if isinstance(self.combinator, Row) else
+            self.parser.args
+            if isinstance(self.parser, Row) else
             [t_env.cres]
         )
 
@@ -1208,7 +1162,7 @@ class Transform(Combinator):
         ]
 
 
-class Success(Combinator):
+class Success(Parser):
 
     def _is_left_recursive(self, rule_name):
         return False
@@ -1220,7 +1174,7 @@ class Success(Combinator):
         return True
 
     def __init__(self, result_typ):
-        Combinator.__init__(self)
+        Parser.__init__(self)
         self.typ = result_typ
 
     def children(self):
@@ -1272,7 +1226,7 @@ class EnumType(AdaType):
         return cls.__name__
 
     @classmethod
-    def add_to_context(cls, compile_ctx, comb=None):
+    def add_to_context(cls, compile_ctx, parser=None):
         if not cls in compile_ctx.types:
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
@@ -1287,22 +1241,22 @@ class EnumType(AdaType):
         return cls.name() + "::uninitialized"
 
 
-class Enum(Combinator):
+class Enum(Parser):
 
     def _is_left_recursive(self, rule_name):
-        if self.combinator:
-            return self.combinator._is_left_recursive(rule_name)
+        if self.parser:
+            return self.parser._is_left_recursive(rule_name)
         return False
 
     def needs_refcount(self):
         return False
 
     def __repr__(self):
-        return "Enum({0}, {1})".format(self.combinator, self.enum_type_inst)
+        return "Enum({0}, {1})".format(self.parser, self.enum_type_inst)
 
-    def __init__(self, combinator, enum_type_inst):
-        Combinator.__init__(self)
-        self.combinator = resolve(combinator) if combinator else None
+    def __init__(self, parser, enum_type_inst):
+        Parser.__init__(self)
+        self.parser = resolve(parser) if parser else None
         self.enum_type_inst = enum_type_inst
 
     def children(self):
@@ -1316,11 +1270,11 @@ class Enum(Combinator):
 
         res = gen_name("enum_res")
 
-        if self.combinator:
-            if isinstance(self.combinator, Row):
-                self.combinator.make_tuple = False
+        if self.parser:
+            if isinstance(self.parser, Row):
+                self.parser.make_tuple = False
 
-            cpos, _, code, decls = self.combinator.gen_code_or_fncall(
+            cpos, _, code, decls = self.parser.gen_code_or_fncall(
                 compile_ctx, pos_name
             )
         else:

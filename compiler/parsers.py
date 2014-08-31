@@ -101,6 +101,7 @@ class NoToken(Token):
 
 no_token = NoToken()
 
+
 class TemplateEnvironment(object):
     """
     Environment that gathers names for template processing.
@@ -406,7 +407,8 @@ class CompileCtx():
 
 def write_cpp_file(file_path, source):
     with open(file_path, "wb") as out_file:
-        p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE, stdout=out_file)
+        p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE,
+                             stdout=out_file)
         p.communicate(source)
         assert p.returncode == 0 
 
@@ -447,8 +449,10 @@ class Grammar(object):
         write_cpp_file(path.join(file_path, file_name + ".hpp"), 
                        ctx.get_header())
 
-        write_cpp_file(path.join(file_path, file_name + "_main.cpp"), 
-                       ctx.get_interactive_main(header_name=file_name + ".hpp"))
+        write_cpp_file(
+            path.join(file_path, file_name + "_main.cpp"),
+            ctx.get_interactive_main(header_name=file_name + ".hpp")
+        )
 
 
 class Parser(object):
@@ -520,10 +524,6 @@ class Parser(object):
     def children(self):
         return []
 
-    def first_child(self):
-        if len(self.children) > 0:
-            return self.children[0]
-
     def compile(self, compile_ctx=None):
         """:type compile_ctx: CompileCtx"""
         t_env = TemplateEnvironment()
@@ -587,11 +587,6 @@ class Parser(object):
     def generate_code(self, compile_ctx, pos_name="pos"):
         raise NotImplemented
 
-    def test_parser(self, ada_string):
-        tkz = make_ada_tokenizer(ada_string)
-        npos, res = self.parse(tkz, 0)
-        return res
-
 
 class Tok(Parser):
 
@@ -615,7 +610,6 @@ class Tok(Parser):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_pos", "tk_res")
-        repr_tok_val = repr(self.tok.val)
         code = render_template(
             'tok_code',
             self=self, pos_name=pos_name,
@@ -656,13 +650,15 @@ class TokClass(Parser):
 def common_ancestor(*cs):
     assert all(inspect.isclass(c) for c in cs)
     rmro = lambda k: reversed(k.mro())
-    return list(takewhile(lambda a: len(set(a)) == 1, zip(*map(rmro, cs))))[-1][0]
+    return list(takewhile(lambda a: len(set(a)) == 1,
+                          zip(*map(rmro, cs))))[-1][0]
 
 
 class Or(Parser):
 
     def _is_left_recursive(self, rule_name):
-        return any(parser._is_left_recursive(rule_name) for parser in self.parsers)
+        return any(parser._is_left_recursive(rule_name)
+                   for parser in self.parsers)
 
     def __repr__(self):
         return "Or({0})".format(", ".join(repr(m) for m in self.parsers))
@@ -774,6 +770,7 @@ class Row(Parser):
         self.make_tuple = True
         self.typ = RowType(gen_name("Row"))
         self.components_need_inc_ref = True
+        self.args = []
 
     def children(self):
         return self.parsers
@@ -802,9 +799,8 @@ class Row(Parser):
     def generate_code(self, compile_ctx, pos_name="pos"):
         """ :type compile_ctx: CompileCtx """
         t_env = TemplateEnvironment(pos_name=pos_name)
-        t_env.self=self
+        t_env.self = self
 
-        c_pos_name = pos_name
         t_env.pos, t_env.res, t_env.did_fail = gen_names(
             "row_pos", "row_res", "row_did_fail"
         )
@@ -823,13 +819,12 @@ class Row(Parser):
         ]))
         t_env.exit_label = gen_name("row_exit_label")
 
-        tokeep_parsers = [m for m in self.parsers if not isinstance(m, _)]
         self.args = [r for r, m in zip(t_env.subresults, self.parsers)
                      if not isinstance(m, _)]
 
         bodies = []
         for i, (parser, subresult) in enumerate(zip(self.parsers,
-                                                     t_env.subresults)):
+                                                    t_env.subresults)):
             t_subenv = TemplateEnvironment(
                 t_env,
                 parser=parser, subresult=subresult, i=i,
@@ -911,15 +906,12 @@ class List(Parser):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: CompileCtx"""
-        t_env = TemplateEnvironment(
-            pos_name=pos_name
-        )
+        t_env = TemplateEnvironment(pos_name=pos_name)
         t_env.self = self
 
         t_env.pos, t_env.res, t_env.cpos = gen_names(
             "lst_pos", "lst_res", "lst_cpos"
         )
-        seps = gen_name("lst_seps")
         t_env.ppos, t_env.pres, t_env.pcode, t_env.pdecls = (
             self.parser.gen_code_or_fncall(compile_ctx, t_env.cpos)
         )

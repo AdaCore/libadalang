@@ -5,17 +5,17 @@ from parsers import Opt, List, Or, Row, _, Null, \
 
 class DiscriminantSpec(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("type_expr", repr=True),
-        Field("default_expr", repr=True)
+        Field("ids"),
+        Field("type_expr"),
+        Field("default_expr")
     ]
 
 
 class TypeDiscriminant(ASTNode):
     fields = [
-        Field("opening_par"),
-        Field("discr_specs", repr=True),
-        Field("closing_par")
+        Field("opening_par", repr=False),
+        Field("discr_specs"),
+        Field("closing_par", repr=False)
     ]
 
 
@@ -25,9 +25,9 @@ class TypeDef(ASTNode):
 
 class EnumTypeDef(TypeDef):
     fields = [
-        Field("opening_par"),
-        Field("enum_literals", repr=True),
-        Field("closing_par")
+        Field("opening_par", repr=False),
+        Field("enum_literals"),
+        Field("closing_par", repr=False)
     ]
 
 
@@ -37,49 +37,49 @@ class DiscreteChoice(ASTNode):
 
 class Variant(ASTNode):
     fields = [
-        Field("when_kw"),
-        Field("choice_list", repr=True),
-        Field("components", repr=True)
+        Field("when_kw", repr=False),
+        Field("choice_list"),
+        Field("components")
     ]
 
 
 class VariantPart(ASTNode):
     fields = [
-        Field("discr_name", repr=True),
-        Field("variant", repr=True)
+        Field("discr_name"),
+        Field("variant")
     ]
 
 
 class ComponentDecl(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("component_def", repr=True),
-        Field("default_expr", repr=True),
-        Field("aspects", repr=True)
+        Field("ids"),
+        Field("component_def"),
+        Field("default_expr"),
+        Field("aspects")
     ]
 
 
 class ComponentList(ASTNode):
     fields = [
-        Field("components", repr=True),
-        Field("variant_part", repr=True)
+        Field("components"),
+        Field("variant_part")
     ]
 
 
 class RecordDef(ASTNode):
     fields = [
-        Field("tk_start"),
-        Field("components", repr=True),
-        Field("tk_end")
+        Field("tk_start", repr=False),
+        Field("components"),
+        Field("tk_end", repr=False)
     ]
 
 
 class RecordTypeDef(TypeDef):
     fields = [
-        Field("abstract", repr=True),
-        Field("tagged", repr=True),
-        Field("limited", repr=True),
-        Field("record_def", repr=True)
+        Field("abstract"),
+        Field("tagged"),
+        Field("limited"),
+        Field("record_def")
     ]
 
 
@@ -89,36 +89,36 @@ class RealTypeDef(TypeDef):
 
 class FullTypeDecl(ASTNode):
     fields = [
-        Field("type_kw"),
-        Field("type_id", repr=True),
-        Field("discriminants", repr=True),
-        Field("type_def", repr=True),
-        Field("aspects", repr=True)
+        Field("type_kw", repr=False),
+        Field("type_id"),
+        Field("discriminants"),
+        Field("type_def"),
+        Field("aspects")
     ]
 
 
 class FloatingPointDef(RealTypeDef):
     fields = [
-        Field("digits_kw"),
-        Field("num_digits", repr=True),
-        Field("range", repr=True)
+        Field("digits_kw", repr=False),
+        Field("num_digits"),
+        Field("range")
     ]
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
     fields = [
-        Field("delta_kw"),
-        Field("delta", repr=True),
-        Field("range", repr=True)
+        Field("delta_kw", repr=False),
+        Field("delta"),
+        Field("range")
     ]
 
 
 class DecimalFixedPointDef(RealTypeDef):
     fields = [
-        Field("delta_kw"),
-        Field("delta", repr=True),
-        Field("digits", repr=True),
-        Field("range", repr=True)
+        Field("delta_kw", repr=False),
+        Field("delta"),
+        Field("digits"),
+        Field("range")
     ]
 
 
@@ -127,77 +127,77 @@ class Constraint(ASTNode):
 
 
 class RangeConstraint(Constraint):
-    fields = [Field("range", repr=True)]
+    fields = [Field("range")]
 
 
 class DigitsConstraint(Constraint):
     fields = [
-        Field("digits", repr=True),
-        Field("range", repr=True)
+        Field("digits"),
+        Field("range")
     ]
 
 
 class DeltaConstraint(Constraint):
     fields = [
-        Field("digits", repr=True),
-        Field("range", repr=True)
+        Field("digits"),
+        Field("range")
     ]
 
 
 class IndexConstraint(Constraint):
-    fields = [Field("constraints", repr=True)]
+    fields = [Field("constraints")]
 
 
 class DiscriminantConstraint(Constraint):
-    fields = [Field("constraints", repr=True)]
+    fields = [Field("constraints")]
 
 
 class DiscriminantAssociation(Constraint):
     fields = [
-        Field("ids", repr=True),
-        Field("expr", repr=True)
+        Field("ids"),
+        Field("expr")
     ]
 
 
 class DerivedTypeDef(TypeDef):
     fields = [
-        Field("abstract", repr=True),
-        Field("limited", repr=True),
-        Field("synchronized", repr=True),
-        Field("null_exclusion", repr=True),
-        Field("name", repr=True),
-        Field("constraint", repr=True),
-        Field("interfaces", repr=True),
-        Field("record_extension", repr=True),
-        Field("has_private_part", repr=True)
+        Field("abstract"),
+        Field("limited"),
+        Field("synchronized"),
+        Field("null_exclusion"),
+        Field("name"),
+        Field("constraint"),
+        Field("interfaces"),
+        Field("record_extension"),
+        Field("has_private_part")
     ]
 
 
 class IncompleteTypeDef(TypeDef):
     fields = [
-        Field("is_tagged", repr=True)
+        Field("is_tagged")
     ]
 
 
 class PrivateTypeDef(TypeDef):
     fields = [
-        Field("abstract", repr=True),
-        Field("tagged", repr=True),
-        Field("limited", repr=True),
-        Field("private_kw")
+        Field("abstract"),
+        Field("tagged"),
+        Field("limited"),
+        Field("private_kw", repr=False)
     ]
 
 
 class SignedIntTypeDef(TypeDef):
     fields = [
-        Field("range", repr=True)
+        Field("range")
     ]
 
 
 class ModIntTypeDef(TypeDef):
     fields = [
-        Field("mod_kw"),
-        Field("expr", repr=True)
+        Field("mod_kw", repr=False),
+        Field("expr")
     ]
 
 
@@ -207,28 +207,28 @@ class ArrayIndices(ASTNode):
 
 class UnconstrainedArrayIndices(ArrayIndices):
     fields = [
-        Field("list", repr=True)
+        Field("list")
     ]
 
 
 class ConstrainedArrayIndices(ArrayIndices):
     fields = [
-        Field("list", repr=True)
+        Field("list")
     ]
 
 
 class ComponentDef(ASTNode):
     fields = [
-        Field("aliased", repr=True),
-        Field("type_expr", repr=True)
+        Field("aliased"),
+        Field("type_expr")
     ]
 
 
 class ArrayTypeDef(TypeDef):
     fields = [
-        Field("array_kw"),
-        Field("indices", repr=True),
-        Field("stored_component", repr=True)
+        Field("array_kw", repr=False),
+        Field("indices"),
+        Field("stored_component")
     ]
 
 
@@ -238,61 +238,61 @@ class InterfaceKind(EnumType):
 
 class InterfaceTypeDef(TypeDef):
     fields = [
-        Field("interface_kind", repr=True),
-        Field("interfaces", repr=True)
+        Field("interface_kind"),
+        Field("interfaces")
     ]
 
 
 class SubtypeDecl(ASTNode):
     fields = [
-        Field("tk_subtype"),
-        Field("id", repr=True),
-        Field("type_expr", repr=True),
-        Field("aspects", repr=True)
+        Field("tk_subtype", repr=False),
+        Field("id"),
+        Field("type_expr"),
+        Field("aspects")
     ]
 
 
 class TaskDef(ASTNode):
     fields = [
-        Field("items", repr=True),
-        Field("private_items", repr=True),
-        Field("end_id", repr=True)
+        Field("items"),
+        Field("private_items"),
+        Field("end_id")
     ]
 
 
 class ProtectedDef(ASTNode):
     fields = [
-        Field("public_ops", repr=True),
-        Field("private_components", repr=True),
-        Field("end_id", repr=True)
+        Field("public_ops"),
+        Field("private_components"),
+        Field("end_id")
     ]
 
 
 class TaskTypeDecl(ASTNode):
     fields = [
-        Field("task_kw"),
-        Field("task_type_name", repr=True),
-        Field("discrs", repr=True),
-        Field("aspects", repr=True),
-        Field("interfaces", repr=True),
-        Field("def", repr=True)
+        Field("task_kw", repr=False),
+        Field("task_type_name"),
+        Field("discrs"),
+        Field("aspects"),
+        Field("interfaces"),
+        Field("def")
     ]
 
 
 class ProtectedTypeDecl(ASTNode):
     fields = [
-        Field("task_type_name", repr=True),
-        Field("discrs", repr=True),
-        Field("aspects", repr=True),
-        Field("interfaces", repr=True),
-        Field("def", repr=True)
+        Field("task_type_name"),
+        Field("discrs"),
+        Field("aspects"),
+        Field("interfaces"),
+        Field("def")
     ]
 
 
 class AccessDef(TypeDef):
     fields = [
-        Field("not_null", repr=True),
-        Field("access_expr", repr=True)
+        Field("not_null"),
+        Field("access_expr")
     ]
 
 

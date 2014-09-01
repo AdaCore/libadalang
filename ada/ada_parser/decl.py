@@ -4,9 +4,9 @@ from parsers import Field, ASTNode, Opt, List, Or, Row, _, EnumType, Enum
 
 class WithDecl(ASTNode):
     fields = [
-        Field("is_limited", repr=True),
-        Field("is_private", repr=True),
-        Field("packages", repr=True)
+        Field("is_limited"),
+        Field("is_private"),
+        Field("packages")
     ]
 
 
@@ -16,16 +16,16 @@ class UseDecl(ASTNode):
 
 class UsePkgDecl(UseDecl):
     fields = [
-        Field("start_token"),
-        Field("packages", repr=True)
+        Field("start_token", repr=False),
+        Field("packages")
     ]
 
 
 class UseTypDecl(UseDecl):
     fields = [
-        Field("start_token"),
-        Field("all", repr=True),
-        Field("types", repr=True)
+        Field("start_token", repr=False),
+        Field("all"),
+        Field("types")
     ]
 
 
@@ -35,8 +35,8 @@ class TypeExpression(ASTNode):
     in the Ada syntax tree.
     """
     fields = [
-        Field("null_exclusion", repr=True),
-        Field("type_expr_variant", repr=True)
+        Field("null_exclusion"),
+        Field("type_expr_variant")
     ]
 
 
@@ -46,8 +46,8 @@ class TypeExprVariant(ASTNode):
 
 class TypeRef(TypeExprVariant):
     fields = [
-        Field("name", repr=True),
-        Field("constraint", repr=True)
+        Field("name"),
+        Field("constraint")
     ]
 
 
@@ -57,62 +57,62 @@ class AccessExpression(TypeExprVariant):
 
 class SubprogramAccessExpression(AccessExpression):
     fields = [
-        Field("access_token"),
-        Field("is_protected"),
-        Field("subp_spec", repr=True)
+        Field("access_token", repr=False),
+        Field("is_protected", repr=False),
+        Field("subp_spec")
     ]
 
 
 class TypeAccessExpression(AccessExpression):
     fields = [
-        Field("is_all", repr=True),
-        Field("is_constant", repr=True),
-        Field("subtype_name", repr=True)
+        Field("is_all"),
+        Field("is_constant"),
+        Field("subtype_name")
     ]
 
 
 class ParameterProfile(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("is_aliased"),
-        Field("mode", repr=True),
-        Field("type_expr", repr=True),
-        Field("_default", repr=True)
+        Field("ids"),
+        Field("is_aliased", repr=False),
+        Field("mode"),
+        Field("type_expr"),
+        Field("_default")
     ]
 
 
 class AspectSpecification(ASTNode):
     fields = [
-        Field("aspect_assocs", repr=True)
+        Field("aspect_assocs")
     ]
 
 
 class SubprogramSpec(ASTNode):
     fields = [
-        Field("tk_start"),
-        Field("name", repr=True),
-        Field("params", repr=True),
-        Field("returns", repr=True),
+        Field("tk_start", repr=False),
+        Field("name"),
+        Field("params"),
+        Field("returns"),
     ]
 
 
 class SubprogramDecl(ASTNode):
     fields = [
-        Field("is_overriding", repr=True),
-        Field("subp_spec", repr=True),
-        Field("is_null", repr=True),
-        Field("is_abstract", repr=True),
-        Field("expression", repr=True),
-        Field("renames", repr=True),
-        Field("aspects"),
+        Field("is_overriding"),
+        Field("subp_spec"),
+        Field("is_null"),
+        Field("is_abstract"),
+        Field("expression"),
+        Field("renames"),
+        Field("aspects", repr=False),
     ]
 
 
 class Pragma(ASTNode):
     fields = [
-        Field("pragma_kw"),
-        Field("id", repr=True),
-        Field("args", repr=True),
+        Field("pragma_kw", repr=False),
+        Field("id"),
+        Field("args"),
     ]
 
 
@@ -130,91 +130,91 @@ class AspectClause(ASTNode):
 
 class EnumRepClause(AspectClause):
     fields = [
-        Field("type_name", repr=True),
-        Field("aggregate", repr=True)
+        Field("type_name"),
+        Field("aggregate")
     ]
 
 
 class AttributeDefClause(AspectClause):
     fields = [
-        Field("attribute_expr", repr=True),
-        Field("expr", repr=True)
+        Field("attribute_expr"),
+        Field("expr")
     ]
 
 
 class RecordRepComponent(ASTNode):
     fields = [
-        Field("id", repr=True),
-        Field("position", repr=True),
-        Field("range", repr=True)
+        Field("id"),
+        Field("position"),
+        Field("range")
     ]
 
 
 class RecordRepClause(AspectClause):
     fields = [
-        Field("component_name", repr=True),
-        Field("at_expr", repr=True),
-        Field("components", repr=True)
+        Field("component_name"),
+        Field("at_expr"),
+        Field("components")
     ]
 
 
 class AtClause(AspectClause):
     fields = [
-        Field("name", repr=True),
-        Field("expr", repr=True),
+        Field("name"),
+        Field("expr"),
     ]
 
 
 class EntryDecl(ASTNode):
     fields = [
-        Field("overriding", repr=True),
-        Field("entry_id", repr=True),
-        Field("family_type", repr=True),
-        Field("params", repr=True),
-        Field("aspects", repr=True)
+        Field("overriding"),
+        Field("entry_id"),
+        Field("family_type"),
+        Field("params"),
+        Field("aspects")
     ]
 
 
 class TaskDecl(ASTNode):
     fields = [
-        Field("task_name", repr=True),
-        Field("aspects", repr=True),
-        Field("def", repr=True)
+        Field("task_name"),
+        Field("aspects"),
+        Field("def")
     ]
 
 
 class ProtectedDecl(ASTNode):
     fields = [
-        Field("protected_name", repr=True),
-        Field("aspects", repr=True),
-        Field("def", repr=True)
+        Field("protected_name"),
+        Field("aspects"),
+        Field("def")
     ]
 
 
 class AspectAssoc(ASTNode):
     fields = [
-        Field("id", repr=True),
-        Field("expr", repr=True)
+        Field("id"),
+        Field("expr")
     ]
 
 
 class NumberDecl(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("expr", repr=True)
+        Field("ids"),
+        Field("expr")
     ]
 
 
 class ObjectDecl(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("aliased", repr=True),
-        Field("constant", repr=True),
-        Field("inout", repr=True),
-        Field("type", repr=True),
-        Field("default_expr", repr=True),
-        Field("renaming_clause", repr=True),
-        Field("aspects", repr=True)
+        Field("ids"),
+        Field("aliased"),
+        Field("constant"),
+        Field("inout"),
+        Field("type"),
+        Field("default_expr"),
+        Field("renaming_clause"),
+        Field("aspects")
     ]
 
     # properties = {
@@ -226,56 +226,56 @@ class ObjectDecl(ASTNode):
 
 class PackageDecl(ASTNode):
     fields = [
-        Field("name", repr=True),
-        Field("aspects", repr=True),
-        Field("decls", repr=True),
-        Field("private_decls", repr=True),
+        Field("name"),
+        Field("aspects"),
+        Field("decls"),
+        Field("private_decls"),
     ]
 
 
 class ExceptionDecl(ASTNode):
     fields = [
-        Field("ids", repr=True),
-        Field("renames", repr=True),
-        Field("aspects", repr=True)
+        Field("ids"),
+        Field("renames"),
+        Field("aspects")
     ]
 
 
 class GenericInstantiation(ASTNode):
     fields = [
-        Field("type_token"),
-        Field("name", repr=True),
-        Field("generic_entity_name", repr=True),
-        Field("parameters", repr=True),
-        Field("aspects", repr=True)
+        Field("type_token", repr=False),
+        Field("name"),
+        Field("generic_entity_name"),
+        Field("parameters"),
+        Field("aspects")
     ]
 
 
 class RenamingClause(ASTNode):
-    fields = [Field("renamed_object", repr=True)]
+    fields = [Field("renamed_object")]
 
 
 class PackageRenamingDecl(ASTNode):
     fields = [
-        Field("name", repr=True),
-        Field("renames", repr=True),
-        Field("aspects", repr=True),
+        Field("name"),
+        Field("renames"),
+        Field("aspects"),
     ]
 
 
 class GenericRenamingDecl(ASTNode):
     fields = [
-        Field("name", repr=True),
-        Field("renames", repr=True),
-        Field("aspects", repr=True)
+        Field("name"),
+        Field("renames"),
+        Field("aspects")
     ]
 
 
 class FormalSubpDecl(ASTNode):
     fields = [
-        Field("subp_spec", repr=True),
-        Field("is_abstract", repr=True),
-        Field("default_value", repr=True)
+        Field("subp_spec"),
+        Field("is_abstract"),
+        Field("default_value")
     ]
 
 
@@ -285,15 +285,15 @@ class Overriding(EnumType):
 
 class GenericSubprogramDecl(ASTNode):
     fields = [
-        Field("formal_part", repr=True),
-        Field("subp_spec", repr=True)
+        Field("formal_part"),
+        Field("subp_spec")
     ]
 
 
 class GenericPackageDecl(ASTNode):
     fields = [
-        Field("formal_part", repr=True),
-        Field("package_decl", repr=True)
+        Field("formal_part"),
+        Field("package_decl")
     ]
 
 

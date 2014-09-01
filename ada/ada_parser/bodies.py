@@ -7,41 +7,41 @@ from tokenizer import Lbl
 
 class CompilationUnit(ASTNode):
     fields = [
-        Field("prelude", repr=True),
-        Field("body", repr=True),
+        Field("prelude"),
+        Field("body"),
     ]
 
 
 class SubprogramBody(ASTNode):
     fields = [
-        Field("overriding", repr=True),
-        Field("subp_spec", repr=True),
-        Field("aspects", repr=True),
-        Field("decls", repr=True),
-        Field("statements", repr=True),
-        Field("end_id", repr=True),
+        Field("overriding"),
+        Field("subp_spec"),
+        Field("aspects"),
+        Field("decls"),
+        Field("statements"),
+        Field("end_id"),
     ]
 
 
 class HandledStatements(ASTNode):
     fields = [
-        Field("statements", repr=True),
-        Field("exceptions", repr=True)
+        Field("statements"),
+        Field("exceptions")
     ]
 
 
 class ExceptionHandler(ASTNode):
     fields = [
-        Field("exc_name", repr=True),
-        Field("catched_exceptions", repr=True),
-        Field("statements", repr=True),
+        Field("exc_name"),
+        Field("catched_exceptions"),
+        Field("statements"),
     ]
 
 
 class StatementList(ASTNode):
     fields = [
-        Field("statements", repr=True),
-        Field("labels", repr=True)
+        Field("statements"),
+        Field("labels")
     ]
 
 
@@ -51,123 +51,123 @@ class Statement(ASTNode):
 
 class StatementWithLabels(Statement):
     fields = [
-        Field("labels", repr=True),
-        Field("statement", repr=True)
+        Field("labels"),
+        Field("statement")
     ]
 
 
 class NullStatement(Statement):
-    fields = [Field("null_lit")]
+    fields = [Field("null_lit", repr=False)]
 
 
 class AssignStatement(Statement):
     fields = [
-        Field("dest", repr=True),
-        Field("expr", repr=True),
+        Field("dest"),
+        Field("expr"),
     ]
 
 
 class GotoStatement(Statement):
-    fields = [Field("label_name", repr=True)]
+    fields = [Field("label_name")]
 
 
 class ExitStatement(Statement):
     fields = [
-        Field("loop_name", repr=True),
-        Field("condition", repr=True)
+        Field("loop_name"),
+        Field("condition")
     ]
 
 
 class ReturnStatement(Statement):
     fields = [
-        Field("return_expr", repr=True)
+        Field("return_expr")
     ]
 
 
 class RequeueStatement(Statement):
-    fields = [Field("call_name", repr=True),
-              Field("with_abort", repr=True)]
+    fields = [Field("call_name"),
+              Field("with_abort")]
 
 
 class AbortStatement(Statement):
-    fields = [Field("names", repr=True)]
+    fields = [Field("names")]
 
 
 class DelayStatement(Statement):
     fields = [
-        Field("until", repr=True),
-        Field("expr", repr=True)
+        Field("until"),
+        Field("expr")
     ]
 
 
 class RaiseStatement(Statement):
     fields = [
-        Field("exception_name", repr=True),
-        Field("error_message", repr=True)
+        Field("exception_name"),
+        Field("error_message")
     ]
 
 
 class IfStatement(Statement):
     fields = [
-        Field("condition", repr=True),
-        Field("statements", repr=True),
-        Field("alternatives", repr=True),
-        Field("else_statements", repr=True),
+        Field("condition"),
+        Field("statements"),
+        Field("alternatives"),
+        Field("else_statements"),
     ]
 
 
 class Label(Statement):
-    fields = [Field("token", repr=True)]
+    fields = [Field("token")]
 
 
 class WhileLoopSpec(LoopSpec):
-    fields = [Field("expr", repr=True)]
+    fields = [Field("expr")]
 
 
 class LoopStatement(Statement):
     fields = [
-        Field("name", repr=True),
-        Field("spec", repr=True),
-        Field("statements", repr=True),
+        Field("name"),
+        Field("spec"),
+        Field("statements"),
     ]
 
 
 class BlockStatement(Statement):
     fields = [
-        Field("name", repr=True),
-        Field("decls", repr=True),
-        Field("statements", repr=True),
+        Field("name"),
+        Field("decls"),
+        Field("statements"),
     ]
 
 
 class ExtReturnStatement(ASTNode):
     fields = [
-        Field("object_decl", repr=True),
-        Field("statements", repr=True),
+        Field("object_decl"),
+        Field("statements"),
     ]
 
 
 class CaseStatement(Statement):
     fields = [
-        Field("case_expr", repr=True),
-        Field("case_alts", repr=True),
+        Field("case_expr"),
+        Field("case_alts"),
     ]
 
 
 class AcceptStatement(Statement):
     fields = [
-        Field("name", repr=True),
-        Field("entry_index_expr", repr=True),
-        Field("parameters", repr=True),
-        Field("statements", repr=True),
+        Field("name"),
+        Field("entry_index_expr"),
+        Field("parameters"),
+        Field("statements"),
     ]
 
 
 class SelectStatement(Statement):
     fields = [
-        Field("guards", repr=True),
-        Field("else_statements", repr=True),
-        Field("abort_statements", repr=True)
+        Field("guards"),
+        Field("else_statements"),
+        Field("abort_statements")
     ]
 
 
@@ -177,81 +177,81 @@ class TerminateStatement(Statement):
 
 class PackageBody(ASTNode):
     fields = [
-        Field("package_name", repr=True),
-        Field("aspects", repr=True),
-        Field("decls", repr=True),
-        Field("statements", repr=True),
+        Field("package_name"),
+        Field("aspects"),
+        Field("decls"),
+        Field("statements"),
     ]
 
 
 class TaskBody(ASTNode):
     fields = [
-        Field("package_name", repr=True),
-        Field("aspects", repr=True),
-        Field("decls", repr=True),
-        Field("statements", repr=True),
+        Field("package_name"),
+        Field("aspects"),
+        Field("decls"),
+        Field("statements"),
     ]
 
 
 class ProtectedBody(ASTNode):
     fields = [
-        Field("package_name", repr=True),
-        Field("aspects", repr=True),
-        Field("decls", repr=True),
-        Field("body_stub", repr=True),
+        Field("package_name"),
+        Field("aspects"),
+        Field("decls"),
+        Field("body_stub"),
     ]
 
 
 class EntryBody(ASTNode):
     fields = [
-        Field("entry_name", repr=True),
-        Field("index_spec", repr=True),
-        Field("parameters", repr=True),
-        Field("when_cond", repr=True),
-        Field("decls", repr=True),
-        Field("statements", repr=True),
+        Field("entry_name"),
+        Field("index_spec"),
+        Field("parameters"),
+        Field("when_cond"),
+        Field("decls"),
+        Field("statements"),
     ]
 
 
 class EntryIndexSpec(ASTNode):
     fields = [
-        Field("id", repr=True),
-        Field("subtype", repr=True),
+        Field("id"),
+        Field("subtype"),
     ]
 
 
 class Subunit(ASTNode):
     fields = [
-        Field("name", repr=True),
-        Field("body", repr=True),
+        Field("name"),
+        Field("body"),
     ]
 
 
 class BodyStub(ASTNode):
     fields = [
-        Field("aspects", repr=True)
+        Field("aspects")
     ]
 
 
 class SubprogramBodyStub(ASTNode):
     fields = [
-        Field("overriding", repr=True),
-        Field("subp_spec", repr=True),
-        Field("aspects", repr=True)
+        Field("overriding"),
+        Field("subp_spec"),
+        Field("aspects")
     ]
 
 
 class PackageBodyStub(ASTNode):
     fields = [
-        Field("name", repr=True),
-        Field("aspects", repr=True),
+        Field("name"),
+        Field("aspects"),
     ]
 
 
 class LibraryItem(ASTNode):
     fields = [
-        Field("is_private", repr=True),
-        Field("item", repr=True)
+        Field("is_private"),
+        Field("item"),
     ]
 
 

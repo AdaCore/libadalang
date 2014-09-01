@@ -247,16 +247,12 @@ class Field(object):
     Placeholder descriptors used to associate data to AST nodes (see below).
     """
 
-    def __init__(self, name, type=None,
-                 repr=False, kw_repr=False, opt=False, norepr_null=False):
+    def __init__(self, name, repr=False, opt=False):
         """Create an AST node field called "name"."""
         # TODO??? "opt" is used in templates but could be avoided (opt can be
         # True only for pointers, anyway). All other arguments seem unused!
         self.name = name
-        self.kw_repr = kw_repr
         self.repr = repr
-        self.type = type
-        self.norepr_null = norepr_null
         self.opt = opt
 
 

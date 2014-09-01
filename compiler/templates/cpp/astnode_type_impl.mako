@@ -25,13 +25,13 @@ std::string ${cls.name()}::repr() {
         std::string result = this->__name() + "(";
 
         % for i, (t, f) in enumerate(repr_m_to_fields):
-            % if f.opt:
+            % if t.is_ptr:
                 if (${f.name} != ${t.nullexpr()}) {
             % endif
 
-            result.append(get_repr(${f.name}));
+                result.append(get_repr(${f.name}));
 
-            % if f.opt:
+            % if t.is_ptr:
                 } else result.append("None");
             % endif
 

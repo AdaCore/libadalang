@@ -36,7 +36,7 @@ class TypeExpression(ASTNode):
     """
     fields = [
         Field("null_exclusion", repr=True),
-        Field("type_expr_variant", repr=True, norepr_null=True)
+        Field("type_expr_variant", repr=True)
     ]
 
 
@@ -47,7 +47,7 @@ class TypeExprVariant(ASTNode):
 class TypeRef(TypeExprVariant):
     fields = [
         Field("name", repr=True),
-        Field("constraint", repr=True, opt=True)
+        Field("constraint", repr=True)
     ]
 
 
@@ -58,7 +58,7 @@ class AccessExpression(TypeExprVariant):
 class SubprogramAccessExpression(AccessExpression):
     fields = [
         Field("access_token"),
-        Field("is_protected", kw_repr=True),
+        Field("is_protected"),
         Field("subp_spec", repr=True)
     ]
 
@@ -74,7 +74,7 @@ class TypeAccessExpression(AccessExpression):
 class ParameterProfile(ASTNode):
     fields = [
         Field("ids", repr=True),
-        Field("is_aliased", kw_repr=True),
+        Field("is_aliased"),
         Field("mode", repr=True),
         Field("type_expr", repr=True),
         Field("_default", repr=True)

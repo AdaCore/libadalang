@@ -14,7 +14,7 @@ class DiscriminantSpec(ASTNode):
 class TypeDiscriminant(ASTNode):
     fields = [
         Field("opening_par"),
-        Field("discr_specs", repr=True, opt=True),
+        Field("discr_specs", repr=True),
         Field("closing_par")
     ]
 
@@ -69,7 +69,7 @@ class ComponentList(ASTNode):
 class RecordDef(ASTNode):
     fields = [
         Field("tk_start"),
-        Field("components", repr=True, opt=True),
+        Field("components", repr=True),
         Field("tk_end")
     ]
 

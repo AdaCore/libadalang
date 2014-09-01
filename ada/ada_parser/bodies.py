@@ -1,4 +1,4 @@
-from parsers import Opt, List, Or, Row, _, TokClass, \
+from parsers import abstract, Opt, List, Or, Row, _, TokClass, \
     Success, ASTNode, Field, NoToken
 from ada_parser.exprs import LoopSpec
 from ada_parser import A
@@ -6,253 +6,198 @@ from tokenizer import Lbl
 
 
 class CompilationUnit(ASTNode):
-    fields = [
-        Field("prelude"),
-        Field("body"),
-    ]
+    prelude = Field()
+    body = Field()
 
 
 class SubprogramBody(ASTNode):
-    fields = [
-        Field("overriding"),
-        Field("subp_spec"),
-        Field("aspects"),
-        Field("decls"),
-        Field("statements"),
-        Field("end_id"),
-    ]
+    overriding = Field()
+    subp_spec = Field()
+    aspects = Field()
+    decls = Field()
+    statements = Field()
+    end_id = Field()
 
 
 class HandledStatements(ASTNode):
-    fields = [
-        Field("statements"),
-        Field("exceptions")
-    ]
+    statements = Field()
+    exceptions = Field()
 
 
 class ExceptionHandler(ASTNode):
-    fields = [
-        Field("exc_name"),
-        Field("catched_exceptions"),
-        Field("statements"),
-    ]
+    exc_name = Field()
+    catched_exceptions = Field()
+    statements = Field()
 
 
 class StatementList(ASTNode):
-    fields = [
-        Field("statements"),
-        Field("labels")
-    ]
+    statements = Field()
+    labels = Field()
 
 
+@abstract
 class Statement(ASTNode):
-    abstract = True
+    pass
 
 
 class StatementWithLabels(Statement):
-    fields = [
-        Field("labels"),
-        Field("statement")
-    ]
+    labels = Field()
+    statement = Field()
 
 
 class NullStatement(Statement):
-    fields = [Field("null_lit", repr=False)]
+    null_lit = Field(repr=False)
 
 
 class AssignStatement(Statement):
-    fields = [
-        Field("dest"),
-        Field("expr"),
-    ]
+    dest = Field()
+    expr = Field()
 
 
 class GotoStatement(Statement):
-    fields = [Field("label_name")]
+    label_name = Field()
 
 
 class ExitStatement(Statement):
-    fields = [
-        Field("loop_name"),
-        Field("condition")
-    ]
+    loop_name = Field()
+    condition = Field()
 
 
 class ReturnStatement(Statement):
-    fields = [
-        Field("return_expr")
-    ]
+    return_expr = Field()
 
 
 class RequeueStatement(Statement):
-    fields = [Field("call_name"),
-              Field("with_abort")]
+    call_name = Field()
+    with_abort = Field()
 
 
 class AbortStatement(Statement):
-    fields = [Field("names")]
+    names = Field()
 
 
 class DelayStatement(Statement):
-    fields = [
-        Field("until"),
-        Field("expr")
-    ]
+    until = Field()
+    expr = Field()
 
 
 class RaiseStatement(Statement):
-    fields = [
-        Field("exception_name"),
-        Field("error_message")
-    ]
+    exception_name = Field()
+    error_message = Field()
 
 
 class IfStatement(Statement):
-    fields = [
-        Field("condition"),
-        Field("statements"),
-        Field("alternatives"),
-        Field("else_statements"),
-    ]
+    condition = Field()
+    statements = Field()
+    alternatives = Field()
+    else_statements = Field()
 
 
 class Label(Statement):
-    fields = [Field("token")]
+    token = Field()
 
 
 class WhileLoopSpec(LoopSpec):
-    fields = [Field("expr")]
+    expr = Field()
 
 
 class LoopStatement(Statement):
-    fields = [
-        Field("name"),
-        Field("spec"),
-        Field("statements"),
-    ]
+    name = Field()
+    spec = Field()
+    statements = Field()
 
 
 class BlockStatement(Statement):
-    fields = [
-        Field("name"),
-        Field("decls"),
-        Field("statements"),
-    ]
+    name = Field()
+    decls = Field()
+    statements = Field()
 
 
 class ExtReturnStatement(ASTNode):
-    fields = [
-        Field("object_decl"),
-        Field("statements"),
-    ]
+    object_decl = Field()
+    statements = Field()
 
 
 class CaseStatement(Statement):
-    fields = [
-        Field("case_expr"),
-        Field("case_alts"),
-    ]
+    case_expr = Field()
+    case_alts = Field()
 
 
 class AcceptStatement(Statement):
-    fields = [
-        Field("name"),
-        Field("entry_index_expr"),
-        Field("parameters"),
-        Field("statements"),
-    ]
+    name = Field()
+    entry_index_expr = Field()
+    parameters = Field()
+    statements = Field()
 
 
 class SelectStatement(Statement):
-    fields = [
-        Field("guards"),
-        Field("else_statements"),
-        Field("abort_statements")
-    ]
+    guards = Field()
+    else_statements = Field()
+    abort_statements = Field()
 
 
 class TerminateStatement(Statement):
-    fields = [Field("token")]
+    token = Field()
 
 
 class PackageBody(ASTNode):
-    fields = [
-        Field("package_name"),
-        Field("aspects"),
-        Field("decls"),
-        Field("statements"),
-    ]
+    package_name = Field()
+    aspects = Field()
+    decls = Field()
+    statements = Field()
 
 
 class TaskBody(ASTNode):
-    fields = [
-        Field("package_name"),
-        Field("aspects"),
-        Field("decls"),
-        Field("statements"),
-    ]
+    package_name = Field()
+    aspects = Field()
+    decls = Field()
+    statements = Field()
 
 
 class ProtectedBody(ASTNode):
-    fields = [
-        Field("package_name"),
-        Field("aspects"),
-        Field("decls"),
-        Field("body_stub"),
-    ]
+    package_name = Field()
+    aspects = Field()
+    decls = Field()
+    body_stub = Field()
 
 
 class EntryBody(ASTNode):
-    fields = [
-        Field("entry_name"),
-        Field("index_spec"),
-        Field("parameters"),
-        Field("when_cond"),
-        Field("decls"),
-        Field("statements"),
-    ]
+    entry_name = Field()
+    index_spec = Field()
+    parameters = Field()
+    when_cond = Field()
+    decls = Field()
+    statements = Field()
 
 
 class EntryIndexSpec(ASTNode):
-    fields = [
-        Field("id"),
-        Field("subtype"),
-    ]
+    id = Field()
+    subtype = Field()
 
 
 class Subunit(ASTNode):
-    fields = [
-        Field("name"),
-        Field("body"),
-    ]
+    name = Field()
+    body = Field()
 
 
 class BodyStub(ASTNode):
-    fields = [
-        Field("aspects")
-    ]
+    aspects = Field()
 
 
 class SubprogramBodyStub(ASTNode):
-    fields = [
-        Field("overriding"),
-        Field("subp_spec"),
-        Field("aspects")
-    ]
+    overriding = Field()
+    subp_spec = Field()
+    aspects = Field()
 
 
 class PackageBodyStub(ASTNode):
-    fields = [
-        Field("name"),
-        Field("aspects"),
-    ]
+    name = Field()
+    aspects = Field()
 
 
 class LibraryItem(ASTNode):
-    fields = [
-        Field("is_private"),
-        Field("item"),
-    ]
+    is_private = Field()
+    item = Field()
 
 
 class NoBody(ASTNode):

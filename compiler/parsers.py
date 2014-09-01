@@ -1,6 +1,6 @@
 from collections import defaultdict
 import inspect
-from itertools import takewhile, chain
+from itertools import count, takewhile, chain
 from os import path
 import sys
 import subprocess
@@ -247,14 +247,36 @@ class Field(object):
     Placeholder descriptors used to associate data to AST nodes (see below).
     """
 
-    def __init__(self, name, repr=True):
-        """Create an AST node field called "name".
+    # Hack: the field declarations order in AST nodes matters.  The simple and
+    # very handy syntax we use here for such declarations doesn't preserve this
+    # order in Python2, however.  Waiting for the move to Python3, we use a
+    # hack here: the following counter will help us to recover the declaration
+    # order (assuming it is the same as the Field instantiation order).
+    _counter = iter(count(0))
+
+    def __init__(self, repr=True):
+        """Create an AST node field.
 
         If `repr`, the field will be displayed when pretty-printing the
         embedding AST node.
         """
-        self.name = name
         self.repr = repr
+        self._name = None
+
+        self._index = next(self._counter)
+
+    def _get_name(self):
+        assert self._name
+        return self._name
+
+    def _set_name(self, name):
+        assert isinstance(name, basestring)
+        self._name = name
+
+    name = property(_get_name, _set_name)
+
+    def __repr__(self):
+        return '<ASTNode {} Field({})>'.format(self._index, self._name)
 
 
 class AstNodeMetaclass(type):
@@ -262,10 +284,35 @@ class AstNodeMetaclass(type):
     Internal metaclass for AST nodes, used to ease fields handling during code
     generation.
     """
-    def __init__(cls, name, base, dct):
-        super(AstNodeMetaclass, cls).__init__(name, base, dct)
-        cls.fields = dct.get("fields", [])
-        cls.abstract = dct.get("abstract", False)
+    def __new__(cls, name, base, dct):
+        fields = []
+
+        # Associate a name to all fields and collect them into `field`...
+        for fld_name, fld_value in dct.items():
+            if isinstance(fld_value, Field):
+                fld_value.name = fld_name
+                fields.append(fld_value)
+
+        # ... and then remove them as class members: we want then to be
+        # stored in a single class member: the "field" one, being a list.
+        for field in fields:
+            dct.pop(field.name)
+
+        # Hack to recover the order of field declarations.  See the Field class
+        # definition for more details.
+        dct['fields'] = sorted(fields, key=lambda field: field._index)
+
+        # By default, ASTNode subtypes aren't abstract.
+        dct['abstract'] = False
+
+        return type.__new__(cls, name, base, dct)
+
+
+def abstract(cls):
+    """Decorator to tag an ASTNode subclass as abstract."""
+    assert issubclass(cls, ASTNode)
+    cls.abstract = True
+    return cls
 
 
 class ASTNode(CompiledType):
@@ -324,7 +371,7 @@ class ASTNode(CompiledType):
         Return the list of all the fields `cls` has, including its parents'.
         """
         b = cls.__bases__[0]
-        bfields = b.fields if b != ASTNode else []
+        bfields = b.get_fields() if b != ASTNode else []
         return bfields + cls.fields
 
     @classmethod

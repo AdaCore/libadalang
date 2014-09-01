@@ -1,84 +1,67 @@
 from copy import deepcopy
-from parsers import Opt, List, Or, Row, _, EnumType, Enum, Tok, \
+from parsers import abstract, Opt, List, Or, Row, _, EnumType, Enum, Tok, \
     TokClass, Null, Success, ASTNode, Field, TokenType
 from ada_parser import A
 from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
 from utils import extract
 
 
+@abstract
 class Expr(ASTNode):
-    abstract = True
+    pass
 
 
 class UnOp(Expr):
-    fields = [
-        Field("op"),
-        Field("expr")
-    ]
+    op = Field()
+    expr = Field()
 
 
 class BinOp(Expr):
-    fields = [
-        Field("left"),
-        Field("op"),
-        Field("right")
-    ]
+    left = Field()
+    op = Field()
+    right = Field()
 
 
 class MembershipExpr(Expr):
-    fields = [
-        Field("expr"),
-        Field("op"),
-        Field("membership_exprs")
-    ]
+    expr = Field()
+    op = Field()
+    membership_exprs = Field()
 
 
 class Aggregate(Expr):
-    fields = [
-        Field("ancestor_expr"),
-        Field("assocs"),
-    ]
+    ancestor_expr = Field()
+    assocs = Field()
 
 
 class NameExpr(Expr):
-    fields = [
-        Field("expr_list")
-    ]
+    expr_list = Field()
 
 
 class StaticNameExpr(Expr):
-    fields = [
-        Field("id_list")
-    ]
+    id_list = Field()
 
 
 class CallExpr(Expr):
-    fields = [
-        Field("prefix"),
-        Field("calls"),
-    ]
+    prefix = Field()
+    calls = Field()
 
 
 class ExprList(ASTNode):
-    fields = [
-        Field("tk_start"),
-        Field("exprs"),
-        Field("tk_end")
-    ]
+    tk_start = Field()
+    exprs = Field()
+    tk_end = Field()
 
 
 class ParamList(ASTNode):
-    fields = [
-        Field("params")
-    ]
+    params = Field()
 
 
 class AccessDeref(Expr):
-    fields = [Field("token", repr=False)]
+    token = Field(repr=False)
 
 
 class DiamondExpr(Expr):
-    fields = [Field("token", repr=False)]
+    token = Field(repr=False)
 
 
 class AggregateField(ASTNode):
@@ -86,11 +69,11 @@ class AggregateField(ASTNode):
 
 
 class OthersDesignator(ASTNode):
-    fields = [Field("token", repr=False)]
+    token = Field(repr=False)
 
 
 class AggregateMember(ASTNode):
-    fields = [Field("choice_list")]
+    choice_list = Field()
 
 
 class Op(EnumType):
@@ -101,28 +84,22 @@ class Op(EnumType):
 
 
 class IfExpr(Expr):
-    fields = [
-        Field("if_kw", repr=False),
-        Field("cond_expr"),
-        Field("then_expr"),
-        Field("elsif_list"),
-        Field("else_expr"),
-        Field("tok_end", repr=False)
-    ]
+    if_kw = Field(repr=False)
+    cond_expr = Field()
+    then_expr = Field()
+    elsif_list = Field()
+    else_expr = Field()
+    tok_end = Field(repr=False)
 
 
 class CaseExpr(Expr):
-    fields = [
-        Field("expr"),
-        Field("cases")
-    ]
+    expr = Field()
+    cases = Field()
 
 
+@abstract
 class SingleTokNode(Expr):
-    abstract = True
-    fields = [
-        Field("tok")
-    ]
+    tok = Field()
 
 
 class Identifier(SingleTokNode):
@@ -155,7 +132,7 @@ class Attribute(SingleTokNode):
 
 
 class QualifiedName(Expr):
-    fields = [Field("ids")]
+    ids = Field()
 
 
 class Quantifier(EnumType):
@@ -166,49 +143,44 @@ class IterType(EnumType):
     alternatives = ["in", "of"]
 
 
+@abstract
 class LoopSpec(ASTNode):
-    abstract = True
+    pass
 
 
 class ForLoopSpec(LoopSpec):
-    fields = [
-        Field("id"),
-        Field("loop_type"),
-        Field("is_reverse"),
-        Field("iter_expr")
-    ]
+    id = Field()
+    loop_type = Field()
+    is_reverse = Field()
+    iter_expr = Field()
 
 
 class QuantifiedExpr(Expr):
-    fields = [
-        Field("for_kw", repr=False),
-        Field("quantifier"),
-        Field("loop_spec"),
-        Field("expr")
-    ]
+    for_kw = Field(repr=False)
+    quantifier = Field()
+    loop_spec = Field()
+    expr = Field()
 
 
 class QualifiedExpr(Expr):
-    fields = [Field("subtype_mark"), Field("expr")]
+    subtype_mark = Field()
+    expr = Field()
 
 
 class Allocator(Expr):
-    fields = [
-        Field("new_kw", repr=False),
-        Field("subpool"),
-        Field("expr")
-    ]
+    new_kw = Field(repr=False)
+    subpool = Field()
+    expr = Field()
 
 
 class QualExpr(Expr):
-    fields = [
-        Field("prefix"),
-        Field("suffix")
-    ]
+    prefix = Field()
+    suffix = Field()
 
 
+@abstract
 class AbstractAggregateContent(ASTNode):
-    abstract = True
+    pass
 
 
 class NullAggregateContent(AbstractAggregateContent):
@@ -216,24 +188,19 @@ class NullAggregateContent(AbstractAggregateContent):
 
 
 class AggregateContent(AbstractAggregateContent):
-    fields = [
-        Field("fields")
-    ]
+    fields = Field()
 
 
 class Prefix(Expr):
-    fields = [
-        Field("prefix"),
-        Field("suffix")
-    ]
+    prefix = Field()
+    suffix = Field()
 
 
 class AttributeRef(Expr):
-    fields = [
-        Field("prefix"),
-        Field("attribute"),
-        Field("args")
-    ]
+    prefix = Field()
+    attribute = Field()
+    args = Field()
+
 
 A.add_rules(
     identifier=TokClass(Id) ^ Identifier,

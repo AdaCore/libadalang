@@ -1,34 +1,29 @@
 from ada_parser import  A
-from parsers import Opt, List, Or, Row, _, Null, \
+from parsers import abstract, Opt, List, Or, Row, _, Null, \
     EnumType, Enum, ASTNode, Field
 
 
 class DiscriminantSpec(ASTNode):
-    fields = [
-        Field("ids"),
-        Field("type_expr"),
-        Field("default_expr")
-    ]
+    ids = Field()
+    type_expr = Field()
+    default_expr = Field()
 
 
 class TypeDiscriminant(ASTNode):
-    fields = [
-        Field("opening_par", repr=False),
-        Field("discr_specs"),
-        Field("closing_par", repr=False)
-    ]
+    opening_par = Field(repr=False)
+    discr_specs = Field()
+    closing_par = Field(repr=False)
 
 
+@abstract
 class TypeDef(ASTNode):
-    abstract = True
+    pass
 
 
 class EnumTypeDef(TypeDef):
-    fields = [
-        Field("opening_par", repr=False),
-        Field("enum_literals"),
-        Field("closing_par", repr=False)
-    ]
+    opening_par = Field(repr=False)
+    enum_literals = Field()
+    closing_par = Field(repr=False)
 
 
 class DiscreteChoice(ASTNode):
@@ -36,200 +31,159 @@ class DiscreteChoice(ASTNode):
 
 
 class Variant(ASTNode):
-    fields = [
-        Field("when_kw", repr=False),
-        Field("choice_list"),
-        Field("components")
-    ]
+    when_kw = Field(repr=False)
+    choice_list = Field()
+    components = Field()
 
 
 class VariantPart(ASTNode):
-    fields = [
-        Field("discr_name"),
-        Field("variant")
-    ]
+    discr_name = Field()
+    variant = Field()
 
 
 class ComponentDecl(ASTNode):
-    fields = [
-        Field("ids"),
-        Field("component_def"),
-        Field("default_expr"),
-        Field("aspects")
-    ]
+    ids = Field()
+    component_def = Field()
+    default_expr = Field()
+    aspects = Field()
 
 
 class ComponentList(ASTNode):
-    fields = [
-        Field("components"),
-        Field("variant_part")
-    ]
+    components = Field()
+    variant_part = Field()
 
 
 class RecordDef(ASTNode):
-    fields = [
-        Field("tk_start", repr=False),
-        Field("components"),
-        Field("tk_end", repr=False)
-    ]
+    tk_start = Field(repr=False)
+    components = Field()
+    tk_end = Field(repr=False)
 
 
 class RecordTypeDef(TypeDef):
-    fields = [
-        Field("abstract"),
-        Field("tagged"),
-        Field("limited"),
-        Field("record_def")
-    ]
+    abstract = Field()
+    tagged = Field()
+    limited = Field()
+    record_def = Field()
 
 
+@abstract
 class RealTypeDef(TypeDef):
-    abstract = True
+    pass
 
 
 class FullTypeDecl(ASTNode):
-    fields = [
-        Field("type_kw", repr=False),
-        Field("type_id"),
-        Field("discriminants"),
-        Field("type_def"),
-        Field("aspects")
-    ]
+    type_kw = Field(repr=False)
+    type_id = Field()
+    discriminants = Field()
+    type_def = Field()
+    aspects = Field()
 
 
 class FloatingPointDef(RealTypeDef):
-    fields = [
-        Field("digits_kw", repr=False),
-        Field("num_digits"),
-        Field("range")
-    ]
+    digits_kw = Field(repr=False)
+    num_digits = Field()
+    range = Field()
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
-    fields = [
-        Field("delta_kw", repr=False),
-        Field("delta"),
-        Field("range")
-    ]
+    delta_kw = Field(repr=False)
+    delta = Field()
+    range = Field()
 
 
 class DecimalFixedPointDef(RealTypeDef):
-    fields = [
-        Field("delta_kw", repr=False),
-        Field("delta"),
-        Field("digits"),
-        Field("range")
-    ]
+    delta_kw = Field(repr=False)
+    delta = Field()
+    digits = Field()
+    range = Field()
 
 
+@abstract
 class Constraint(ASTNode):
-    abstract = True
+    pass
 
 
 class RangeConstraint(Constraint):
-    fields = [Field("range")]
+    range = Field()
 
 
 class DigitsConstraint(Constraint):
-    fields = [
-        Field("digits"),
-        Field("range")
-    ]
+    digits = Field()
+    range = Field()
 
 
 class DeltaConstraint(Constraint):
-    fields = [
-        Field("digits"),
-        Field("range")
-    ]
+    digits = Field()
+    range = Field()
 
 
 class IndexConstraint(Constraint):
-    fields = [Field("constraints")]
+    constraints = Field()
 
 
 class DiscriminantConstraint(Constraint):
-    fields = [Field("constraints")]
+    constraints = Field()
 
 
 class DiscriminantAssociation(Constraint):
-    fields = [
-        Field("ids"),
-        Field("expr")
-    ]
+    ids = Field()
+    expr = Field()
 
 
 class DerivedTypeDef(TypeDef):
-    fields = [
-        Field("abstract"),
-        Field("limited"),
-        Field("synchronized"),
-        Field("null_exclusion"),
-        Field("name"),
-        Field("constraint"),
-        Field("interfaces"),
-        Field("record_extension"),
-        Field("has_private_part")
-    ]
+    abstract = Field()
+    limited = Field()
+    synchronized = Field()
+    null_exclusion = Field()
+    name = Field()
+    constraint = Field()
+    interfaces = Field()
+    record_extension = Field()
+    has_private_part = Field()
 
 
 class IncompleteTypeDef(TypeDef):
-    fields = [
-        Field("is_tagged")
-    ]
+    is_tagged = Field()
 
 
 class PrivateTypeDef(TypeDef):
-    fields = [
-        Field("abstract"),
-        Field("tagged"),
-        Field("limited"),
-        Field("private_kw", repr=False)
-    ]
+    abstract = Field()
+    tagged = Field()
+    limited = Field()
+    private_kw = Field(repr=False)
 
 
 class SignedIntTypeDef(TypeDef):
-    fields = [
-        Field("range")
-    ]
+    range = Field()
 
 
 class ModIntTypeDef(TypeDef):
-    fields = [
-        Field("mod_kw", repr=False),
-        Field("expr")
-    ]
+    mod_kw = Field(repr=False)
+    expr = Field()
 
 
+@abstract
 class ArrayIndices(ASTNode):
-    abstract = True
+    pass
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    fields = [
-        Field("list")
-    ]
+    list = Field()
 
 
 class ConstrainedArrayIndices(ArrayIndices):
-    fields = [
-        Field("list")
-    ]
+    list = Field()
 
 
 class ComponentDef(ASTNode):
-    fields = [
-        Field("aliased"),
-        Field("type_expr")
-    ]
+    aliased = Field()
+    type_expr = Field()
 
 
 class ArrayTypeDef(TypeDef):
-    fields = [
-        Field("array_kw", repr=False),
-        Field("indices"),
-        Field("stored_component")
-    ]
+    array_kw = Field(repr=False)
+    indices = Field()
+    stored_component = Field()
 
 
 class InterfaceKind(EnumType):
@@ -237,71 +191,57 @@ class InterfaceKind(EnumType):
 
 
 class InterfaceTypeDef(TypeDef):
-    fields = [
-        Field("interface_kind"),
-        Field("interfaces")
-    ]
+    interface_kind = Field()
+    interfaces = Field()
 
 
 class SubtypeDecl(ASTNode):
-    fields = [
-        Field("tk_subtype", repr=False),
-        Field("id"),
-        Field("type_expr"),
-        Field("aspects")
-    ]
+    tk_subtype = Field(repr=False)
+    id = Field()
+    type_expr = Field()
+    aspects = Field()
 
 
 class TaskDef(ASTNode):
-    fields = [
-        Field("items"),
-        Field("private_items"),
-        Field("end_id")
-    ]
+    items = Field()
+    private_items = Field()
+    end_id = Field()
 
 
 class ProtectedDef(ASTNode):
-    fields = [
-        Field("public_ops"),
-        Field("private_components"),
-        Field("end_id")
-    ]
+    public_ops = Field()
+    private_components = Field()
+    end_id = Field()
 
 
 class TaskTypeDecl(ASTNode):
-    fields = [
-        Field("task_kw", repr=False),
-        Field("task_type_name"),
-        Field("discrs"),
-        Field("aspects"),
-        Field("interfaces"),
-        Field("def")
-    ]
+    task_kw = Field(repr=False)
+    task_type_name = Field()
+    discrs = Field()
+    aspects = Field()
+    interfaces = Field()
+    definition = Field()
 
 
 class ProtectedTypeDecl(ASTNode):
-    fields = [
-        Field("task_type_name"),
-        Field("discrs"),
-        Field("aspects"),
-        Field("interfaces"),
-        Field("def")
-    ]
+    task_type_name = Field()
+    discrs = Field()
+    aspects = Field()
+    interfaces = Field()
+    definition = Field()
 
 
 class AccessDef(TypeDef):
-    fields = [
-        Field("not_null"),
-        Field("access_expr")
-    ]
+    not_null = Field()
+    access_expr = Field()
 
 
 class FormalDiscreteTypeDef(TypeDef):
-    fields = [Field("diamond")]
+    diamond = Field()
 
 
 class NullComponentDecl(ASTNode):
-    fields = []
+    pass
 
 
 A.add_rules(

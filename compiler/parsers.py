@@ -132,10 +132,8 @@ class TemplateEnvironment(object):
         return result
 
     def __setattr__(self, name, value):
-        if name == 'as_dict':
-            raise TypeError('This attribute is reserved')
-        else:
-            super(TemplateEnvironment, self).__setattr__(name, value)
+        assert name != 'as_dict'
+        super(TemplateEnvironment, self).__setattr__(name, value)
 
 
 def render_template(template_name, template_env=None, **kwargs):
@@ -431,10 +429,8 @@ class Grammar(object):
             r = self.rules[item_name]
             return Defer(lambda: r)
 
-        if not self.resolved:
-            return Defer(lambda: self.rules[item_name])
-        else:
-            raise AttributeError
+        assert not self.resolved
+        return Defer(lambda: self.rules[item_name])
 
     def dump_to_file(self, file_path=".", file_name="parse"):
         ctx = CompileCtx()
@@ -518,7 +514,7 @@ class Parser(object):
         raise NotImplementedError()
 
     def parse(self, tkz, pos):
-        raise NotImplemented
+        raise NotImplementedError()
 
     # noinspection PyMethodMayBeStatic
     def children(self):
@@ -585,7 +581,7 @@ class Parser(object):
             return pos, res, code, decls
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        raise NotImplemented
+        raise NotImplementedError()
 
 
 class Tok(Parser):

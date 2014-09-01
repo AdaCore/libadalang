@@ -17,7 +17,7 @@ goto ${exit_label}_0;
 % endfor
 
 if (!${did_fail}) {
-    % if _self.make_tuple:
+    % if _self.needs_tuple:
         % if _self.get_type().is_ptr:
             ${res} = new ${_self.typ.as_string()};
         % endif

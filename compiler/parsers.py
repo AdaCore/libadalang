@@ -302,8 +302,9 @@ class AstNodeMetaclass(type):
         # definition for more details.
         dct['fields'] = sorted(fields, key=lambda field: field._index)
 
-        # By default, ASTNode subtypes aren't abstract.
+        # By default, ASTNode subtypes aren't abstract and aren't anonymous.
         dct['abstract'] = False
+        dct['anonymous'] = False
 
         return type.__new__(cls, name, base, dct)
 
@@ -312,6 +313,13 @@ def abstract(cls):
     """Decorator to tag an ASTNode subclass as abstract."""
     assert issubclass(cls, ASTNode)
     cls.abstract = True
+    return cls
+
+
+def anonymous(cls):
+    """Decorator to tag an ASTNode subclass as anonymous."""
+    assert issubclass(cls, ASTNode)
+    cls.anonymous = True
     return cls
 
 
@@ -873,24 +881,6 @@ class Or(Parser):
         return pos, res, code, t_env.decls
 
 
-class RowType(CompiledType):
-    """
-    Compiled type generated to hold matches from Rows that are not transformed
-    into specific AST nodes.
-    """
-
-    is_ptr = True
-
-    def __init__(self, name):
-        self.name = name
-
-    def as_string(self):
-        return self.name
-
-    def nullexpr(self):
-        return null_constant()
-
-
 def always_make_progress(parser):
     """Return whether `parser` cannot match an empty sequence of tokens."""
     if isinstance(parser, List):
@@ -925,37 +915,56 @@ class Row(Parser):
         """
         Parser.__init__(self)
         self.parsers = [resolve(m) for m in parsers]
-        # TODO??? provide a cleaner interface for "tuple resolution".
-        # Currently, elsewhere code sets this to False.
-        self.make_tuple = True
-        self.typ = RowType(gen_name("Row"))
+
+        # The type this row returns is initialized either when assigning a
+        # wrapper parser or when trying to get the type (though the get_type
+        # method) while no wrapper has been assigned.
+        self.typ = None
+
+        # Whether this row needs to store its result into a variable and if no
+        # wrapper parser provided a dedicated ASTNode type for it.
+        self.needs_tuple = True
+
         self.components_need_inc_ref = True
         self.args = []
+
+    def assign_wrapper(self, parser):
+        """Associate `parser` as a wrapper for this Row.
+
+        Note that a Row can have at most only one wrapper, so this does nothing
+        if this Row is a root parser.
+        """
+        assert not self.typ, "At most one parser can wrap a Row."
+
+        if self.is_root:
+            return
+
+        self.typ = parser.get_type()
+        self.needs_tuple = False
 
     def children(self):
         return self.parsers
 
     def get_type(self):
+        if not self.typ:
+            # We need a result type for this parser and no wrapper parser has
+            # made a claim, so let's build a dedicated ASTNode type for this
+            # matter.
+            assert self.needs_tuple
+
+            name = gen_name("Row")
+            fields = {}
+            types = []
+
+            parsers = (p for p in self.parsers if not isinstance(p, Discard))
+            for i, parser in enumerate(parsers):
+                fields['field_{}'.format(i)] = Field()
+                types.append(parser.get_type())
+
+            self.typ = anonymous(type(name, (ASTNode, ), fields))
+            self.fields_types = types
+
         return self.typ
-
-    def create_type(self, compile_ctx):
-        """Internal utility used to emit code for a RowType."""
-        t_env = TemplateEnvironment(
-            parsers=[m for m in self.parsers if not isinstance(m, _)]
-        )
-        t_env.self = self
-
-        compile_ctx.types_declarations.append(
-            render_template('row_type_decl', t_env)
-        )
-
-        compile_ctx.types_definitions.insert(0, render_template(
-            'row_type_def', t_env
-        ))
-
-        compile_ctx.body.append(render_template(
-            'row_type_impl', t_env
-        ))
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """ :type compile_ctx: CompileCtx """
@@ -967,12 +976,22 @@ class Row(Parser):
         )
 
         # Create decls for declarative part of the parse subprogram.
-        # If make_tuple is false we don't want a variable for the result.
+        # If self.typ is already set to a type (i.e. some Extract or some
+        # Transform uses the result of this Row) we don't want a variable for
+        # the result.
         decls = [(t_env.pos, LongType), (t_env.did_fail, BoolType)]
 
-        if self.make_tuple:
-            decls.append((t_env.res, self.get_type()))
-            self.create_type(compile_ctx)
+        if self.needs_tuple or self.is_root:
+            # Create the tuple type for the parsing result variable.
+            tuple_type = self.get_type()
+            compile_ctx.types_declarations.append(
+                tuple_type.create_type_declaration()
+            )
+            self.typ.create_type_definition(compile_ctx, self.fields_types)
+
+            # And create the variable itself.
+            decls.append((t_env.res, tuple_type))
+
 
         t_env.subresults = list(gen_names(*[
             "row_subres_{0}".format(i)
@@ -1215,7 +1234,7 @@ class Extract(Parser):
         return self.parser.parsers[self.index].get_type()
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        self.parser.make_tuple = False
+        self.parser.assign_wrapper(self)
         cpos, cres, code, decls = self.parser.gen_code_or_fncall(
             compile_ctx, pos_name)
         args = self.parser.args
@@ -1327,10 +1346,10 @@ class Transform(Parser):
         t_env = TemplateEnvironment()
         t_env.self = self
 
-        self.typ.add_to_context(compile_ctx, self.parser)
-
         if isinstance(self.parser, Row):
-            self.parser.make_tuple = False
+            self.parser.assign_wrapper(self)
+
+        self.typ.add_to_context(compile_ctx, self.parser)
 
         t_env.cpos, t_env.cres, t_env.code, decls = (
             self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -1479,7 +1498,7 @@ class Enum(Parser):
 
         if self.parser:
             if isinstance(self.parser, Row):
-                self.parser.make_tuple = False
+                self.parser.assign_wrapper(self)
 
             cpos, _, code, decls = self.parser.gen_code_or_fncall(
                 compile_ctx, pos_name

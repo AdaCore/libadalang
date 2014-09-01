@@ -203,23 +203,6 @@ class CompiledType(object):
     def add_to_context(self, compile_ctx, parser):
         raise NotImplementedError()
 
-    # TODO??? The following two methods are not used except in
-    # Parser.add_to_context[1].  Maybe they should be instead only internal to
-    # Parser.
-
-    # [1] ... and in List.generate_code. It looks like this method should be
-    # refactored, in order to use add_to_context instead.
-
-    def create_type_definition(self, compile_ctx, source_parser):
-        raise NotImplementedError()
-
-    def create_type_declaration(self):
-        raise NotImplementedError()
-
-    def create_instantiation(self, args):
-        # TODO??? This is unused!
-        raise NotImplementedError()
-
     def name(self):
         raise NotImplementedError()
 
@@ -305,10 +288,6 @@ class ASTNode(CompiledType):
     abstract = False
     fields = []
     __metaclass__ = AstNodeMetaclass
-
-    def __init__(self, *args):
-        for field, field_val in zip(self.fields, args):
-            setattr(self, field.name, field_val)
 
     @classmethod
     def create_type_declaration(cls):
@@ -463,9 +442,6 @@ class CompileCtx():
             self=self, header_name=header_name
         )
 
-    def has_type(self, typ):
-        return typ in self.types
-
 
 def write_cpp_file(file_path, source):
     with open(file_path, "wb") as out_file:
@@ -484,7 +460,6 @@ class Grammar(object):
     """
 
     def __init__(self):
-        self.resolved = False
         self.rules = {}
 
     def add_rules(self, **kwargs):
@@ -507,7 +482,6 @@ class Grammar(object):
             r = self.rules[rule_name]
             return Defer(lambda: r)
 
-        assert not self.resolved
         return Defer(lambda: self.rules[rule_name])
 
     def dump_to_file(self, file_path=".", file_name="parse"):
@@ -608,9 +582,6 @@ class Parser(object):
         """
         raise NotImplementedError()
 
-    def parse(self, tkz, pos):
-        raise NotImplementedError()
-
     # noinspection PyMethodMayBeStatic
     def children(self):
         """
@@ -621,7 +592,7 @@ class Parser(object):
         """
         return []
 
-    def compile(self, compile_ctx=None):
+    def compile(self, compile_ctx):
         """
         Emit code for this parser into the `compile_ctx` parser.
 
@@ -635,9 +606,6 @@ class Parser(object):
             return
         compile_ctx.fns.add(self.gen_fn_name)
 
-        if not compile_ctx:
-            compile_ctx = CompileCtx()
-
         t_env.pos, t_env.res, t_env.code, t_env.defs = (
             self.generate_code(compile_ctx=compile_ctx)
         )
@@ -648,9 +616,6 @@ class Parser(object):
         compile_ctx.body.append(t_env.fn_code)
         compile_ctx.fns_decls.append(t_env.fn_profile)
 
-    def compile_and_exec(self, compile_ctx=None):
-        raise NotImplementedError()
-
     def get_type(self):
         """
         Return a descriptor for the type this parser returns in the generated
@@ -660,11 +625,7 @@ class Parser(object):
         """
         raise NotImplementedError()
 
-    def force_fn_call(self):
-        return self.is_root
-
-    def gen_code_or_fncall(self, compile_ctx, pos_name="pos",
-                           force_fncall=False):
+    def gen_code_or_fncall(self, compile_ctx, pos_name="pos"):
         """
         Return generated code for this parser into `compile_ctx`.
 
@@ -685,8 +646,7 @@ class Parser(object):
 
         # Users must be able to run parsers that implement a named rule, so
         # generate dedicated functions for them.
-        if self.force_fn_call() or force_fncall or \
-                self.gen_fn_name in compile_ctx.fns:
+        if self.is_root:
             self.compile(compile_ctx)
             self.pos, self.res = gen_names("fncall_pos", "fncall_res")
 
@@ -1095,11 +1055,7 @@ class List(Parser):
                  (t_env.cpos, LongType)] + t_env.pdecls
 
         if self.revtree_class:
-            if not self.revtree_class in compile_ctx.types:
-                compile_ctx.types.add(self.revtree_class)
-                self.revtree_class.create_type_definition(
-                    compile_ctx, [self.get_type(), self.get_type()]
-                )
+            self.revtree_class.add_to_context(compile_ctx, self)
 
         (t_env.sep_pos,
          t_env.sep_res,
@@ -1256,7 +1212,8 @@ class Defer(Parser):
 
     @property
     def parser(self):
-        self.resolve_parser()
+        if not self._parser:
+            self._parser = self.parser_fn()
         return self._parser
 
     @property
@@ -1282,10 +1239,6 @@ class Defer(Parser):
         self.parser_fn = parser_fn
         self._parser = None
         ":type: Parser"
-
-    def resolve_parser(self):
-        if not self._parser:
-            self._parser = self.parser_fn()
 
     def get_type(self):
         return self.parser.get_type()

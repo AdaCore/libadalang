@@ -518,14 +518,7 @@ class Grammar(object):
             rule.is_root = True
 
     def __getattr__(self, rule_name):
-        """
-        Return the rule that is called `rule_name` if has been registered.
-        Build and return a Defer one to allow forward references otherwise.
-        """
-        if rule_name in self.rules:
-            r = self.rules[rule_name]
-            return Defer(lambda: r)
-
+        """Build and return a Defer parser that references the above rule."""
         return Defer(lambda: self.rules[rule_name])
 
     def dump_to_file(self, file_path=".", file_name="parse"):

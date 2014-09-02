@@ -563,8 +563,6 @@ class Parser(object):
         self.grammar = None
         self.is_root = False
         self._name = ""
-        self.res = None
-        self.pos = None
 
     @property
     def name(self):
@@ -703,21 +701,20 @@ class Parser(object):
         # generate dedicated functions for them.
         if self.is_root:
             self.compile(compile_ctx)
-            self.pos, self.res = gen_names("fncall_pos", "fncall_res")
+            pos, res = gen_names("fncall_pos", "fncall_res")
 
             fncall_block = render_template(
                 'parser_fncall',
-                self=self, pos_name=pos_name
+                self=self, pos_name=pos_name,
+                pos=pos, res=res
             )
-            return self.pos, self.res, fncall_block, [
-                (self.pos, LongType),
-                (self.res, self.get_type())
+            return pos, res, fncall_block, [
+                (pos, LongType),
+                (res, self.get_type())
             ]
 
         else:
             pos, res, code, decls = self.generate_code(compile_ctx, pos_name)
-            self.res = res
-            self.pos = pos
             return pos, res, code, decls
 
     def generate_code(self, compile_ctx, pos_name="pos"):

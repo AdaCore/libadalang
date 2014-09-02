@@ -1,1 +1,1 @@
-GenericInstantiation(Id(Int_Vectors), Prefix(Prefix(Id(Ada), Id(Containers)), Id(Vectors)), ParamList([(None, Id(Natural)), (None, Id(Integer))]), None)
+GenericInstantiation(Id(Int_Vectors), Prefix(Prefix(Id(Ada), Id(Containers)), Id(Vectors)), ParamList([ParamAssoc(None, Id(Natural)), ParamAssoc(None, Id(Integer))]), None)

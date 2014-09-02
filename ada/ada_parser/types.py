@@ -329,7 +329,7 @@ A.add_rules(
 
     discriminant_association=Row(
         List(A.identifier, sep="|"), _("=>"), A.expression
-    ),
+    ) ^ DiscriminantAssociation,
 
     discriminant_constraint=Row(
         _("("), List(A.discriminant_association, sep=","), _(")")

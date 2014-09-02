@@ -52,6 +52,11 @@ class ExprList(ASTNode):
     tk_end = Field()
 
 
+class ParamAssoc(ASTNode):
+    designator = Field()
+    expr = Field()
+
+
 class ParamList(ASTNode):
     params = Field()
 
@@ -92,9 +97,19 @@ class IfExpr(Expr):
     tok_end = Field(repr=False)
 
 
+class ElsifExprPart(ASTNode):
+    cond_expr = Field()
+    then_expr = Field()
+
+
 class CaseExpr(Expr):
     expr = Field()
     cases = Field()
+
+
+class CaseExprAlternative(Expr):
+    choices = Field()
+    expr = Field()
 
 
 @abstract
@@ -191,6 +206,11 @@ class AggregateContent(AbstractAggregateContent):
     fields = Field()
 
 
+class AggregateAssoc(ASTNode):
+    designator = Field()
+    expr = Field()
+
+
 class Prefix(Expr):
     prefix = Field()
     suffix = Field()
@@ -240,12 +260,12 @@ A.add_rules(
 
     case_expr_alt=Row(
         _("when"), A.choice_list, _("=>"), A.expression
-    ),
+    ) ^ CaseExprAlternative,
 
     if_expression=Row(
         "if", A.expression, _("then"), A.expression,
         List(Row(_("elsif"), A.expression,
-                 _("then"), A.expression), empty_valid=True),
+                 _("then"), A.expression) ^ ElsifExprPart, empty_valid=True),
         Opt("else", A.expression) >> 1,
     ) ^ IfExpr,
 
@@ -265,7 +285,7 @@ A.add_rules(
     aggregate_assoc=Row(
         Opt(A.aggregate_field, _("=>")) >> 0,
         Or(A.diamond_expr, A.expression)
-    ),
+    ) ^ AggregateAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
     aggregate_content_null=Row(
         "null", "record", Success(NullAggregateContent)
@@ -284,11 +304,15 @@ A.add_rules(
     direct_name=Or(A.identifier, A.string_literal, A.char_literal,
                    A.access_deref, A.attribute),
 
+    param_assoc=Row(
+        Opt(A.identifier | A.others_designator | A.string_literal,
+            "=>") >> 0,
+        A.expression | A.diamond_expr
+    ) ^ ParamAssoc,
+
     call_suffix=Or(
         A.discrete_range,
-        List(Row(Opt(A.identifier | A.others_designator | A.string_literal,
-                     "=>") >> 0,
-                 A.expression | A.diamond_expr), sep=",")
+        List(A.param_assoc, sep=",")
         ^ ParamList
     ),
 

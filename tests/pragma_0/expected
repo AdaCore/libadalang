@@ -1,1 +1,1 @@
-Pragma(Id(Unreferenced), [(None, Id(A)), (None, Id(B))])
+Pragma(Id(Unreferenced), [PragmaArgument(None, Id(A)), PragmaArgument(None, Id(B))])

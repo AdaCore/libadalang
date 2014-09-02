@@ -1,1 +1,1 @@
-ReturnStatement(CallExpr(Id(Lol), ParamList([(None, Id(Wat)), (None, BinOp(Num(12), plus, Num(15)))])))
+ReturnStatement(CallExpr(Id(Lol), ParamList([ParamAssoc(None, Id(Wat)), ParamAssoc(None, BinOp(Num(12), plus, Num(15)))])))

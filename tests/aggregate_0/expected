@@ -1,1 +1,1 @@
-Aggregate(None, AggregateContent([(AggregateMember([Id(A)]), Num(12)), (AggregateMember([Id(B)]), Num(15))]))
+Aggregate(None, AggregateContent([AggregateAssoc(AggregateMember([Id(A)]), Num(12)), AggregateAssoc(AggregateMember([Id(B)]), Num(15))]))

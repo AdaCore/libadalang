@@ -1,1 +1,1 @@
-CompilationUnit([WithDecl(False, False, [Id(Foo)]), WithDecl(False, False, [Id(Bar)])], LibraryItem(False, GenericInstantiation(Prefix(Prefix(Id(A), Id(B)), Id(C)), Id(B), ParamList([(None, Id(C))]), None)))
+CompilationUnit([WithDecl(False, False, [Id(Foo)]), WithDecl(False, False, [Id(Bar)])], LibraryItem(False, GenericInstantiation(Prefix(Prefix(Id(A), Id(B)), Id(C)), Id(B), ParamList([ParamAssoc(None, Id(C))]), None)))

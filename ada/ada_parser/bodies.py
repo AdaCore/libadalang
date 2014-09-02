@@ -93,6 +93,11 @@ class IfStatement(Statement):
     else_statements = Field()
 
 
+class ElsifStatementPart(ASTNode):
+    expr = Field()
+    statements = Field()
+
+
 class Label(Statement):
     token = Field()
 
@@ -123,6 +128,11 @@ class CaseStatement(Statement):
     case_alts = Field()
 
 
+class CaseStatementAlternative(ASTNode):
+    choices = Field()
+    statements = Field()
+
+
 class AcceptStatement(Statement):
     name = Field()
     entry_index_expr = Field()
@@ -134,6 +144,11 @@ class SelectStatement(Statement):
     guards = Field()
     else_statements = Field()
     abort_statements = Field()
+
+
+class SelectWhenPart(Statement):
+    choices = Field()
+    statements = Field()
 
 
 class TerminateStatement(Statement):
@@ -277,7 +292,9 @@ A.add_rules(
 
     select_statement=Row(
         _("select"),
-        List(Row(Opt("when", A.expression, "=>") >> 1, A.statements),
+        List(
+            Row(Opt("when", A.expression, "=>") >> 1,
+                A.statements) ^ SelectWhenPart,
              sep="or"),
         Opt("else", A.statements) >> 1,
         Opt("then", "abort", A.statements) >> 2,
@@ -292,7 +309,7 @@ A.add_rules(
 
     case_alt=Row(
         _("when"), A.choice_list, _("=>"), A.statements
-    ),
+    ) ^ CaseStatementAlternative,
 
     case_statement=Row(
         _("case"), A.expression, _("is"), List(A.case_alt), _("end"), _("case")
@@ -330,7 +347,8 @@ A.add_rules(
     if_statement=Row(
         _("if"), A.expression, _("then"), A.statements,
         List(Row(_("elsif"), A.expression,
-                 _("then"), A.statements), empty_valid=True),
+                 _("then"), A.statements) ^ ElsifStatementPart,
+             empty_valid=True),
         Opt("else", A.statements) >> 1,
         _("end"), _("if")
     ) ^ IfStatement,

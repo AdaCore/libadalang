@@ -1,1 +1,1 @@
-CaseExpr(Id(A), [([Num(12)], Num(15)), ([Num(14)], Num(16))])
+CaseExpr(Id(A), [CaseExprAlternative([Num(12)], Num(15)), CaseExprAlternative([Num(14)], Num(16))])

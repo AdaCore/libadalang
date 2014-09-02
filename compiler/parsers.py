@@ -302,9 +302,8 @@ class AstNodeMetaclass(type):
         # definition for more details.
         dct['fields'] = sorted(fields, key=lambda field: field._index)
 
-        # By default, ASTNode subtypes aren't abstract and aren't anonymous.
+        # By default, ASTNode subtypes aren't abstract.
         dct['abstract'] = False
-        dct['anonymous'] = False
 
         return type.__new__(cls, name, base, dct)
 
@@ -313,13 +312,6 @@ def abstract(cls):
     """Decorator to tag an ASTNode subclass as abstract."""
     assert issubclass(cls, ASTNode)
     cls.abstract = True
-    return cls
-
-
-def anonymous(cls):
-    """Decorator to tag an ASTNode subclass as anonymous."""
-    assert issubclass(cls, ASTNode)
-    cls.anonymous = True
     return cls
 
 
@@ -932,10 +924,6 @@ class Row(Parser):
         # method) while no wrapper has been assigned.
         self.typ = None
 
-        # Whether this row needs to store its result into a variable and if no
-        # wrapper parser provided a dedicated ASTNode type for it.
-        self.needs_tuple = True
-
         self.components_need_inc_ref = True
         self.args = []
 
@@ -945,37 +933,18 @@ class Row(Parser):
         Note that a Row can have at most only one wrapper, so this does nothing
         if this Row is a root parser.
         """
-        assert not self.typ, "At most one parser can wrap a Row."
-
-        if self.is_root:
-            return
+        assert not self.is_root and not self.typ, (
+            "Row parsers do not represent a concrete result. They must be used"
+            " by a parent parser, such as Extract or Transform."
+        )
 
         self.typ = parser.get_type()
-        self.needs_tuple = False
 
     def children(self):
         return self.parsers
 
     def get_type(self):
-        if not self.typ:
-            # We need a result type for this parser and no wrapper parser has
-            # made a claim, so let's build a dedicated ASTNode type for this
-            # matter.
-            assert self.needs_tuple
-
-            name = gen_name("Row")
-            fields = {}
-            types = []
-
-            parsers = (p for p in self.parsers if not isinstance(p, Discard))
-            for i, parser in enumerate(parsers):
-                fields['field_{}'.format(i)] = Field()
-                types.append(parser.get_type())
-
-            self.typ = anonymous(type(name, (ASTNode, ), fields))
-            self.fields_types = types
-
-        return self.typ
+        assert False, "A Row parser never yields a concrete result itself."
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """ :type compile_ctx: CompileCtx """
@@ -985,24 +954,7 @@ class Row(Parser):
         t_env.pos, t_env.res, t_env.did_fail = gen_names(
             "row_pos", "row_res", "row_did_fail"
         )
-
-        # Create decls for declarative part of the parse subprogram.
-        # If self.typ is already set to a type (i.e. some Extract or some
-        # Transform uses the result of this Row) we don't want a variable for
-        # the result.
         decls = [(t_env.pos, LongType), (t_env.did_fail, BoolType)]
-
-        if self.needs_tuple or self.is_root:
-            # Create the tuple type for the parsing result variable.
-            tuple_type = self.get_type()
-            compile_ctx.types_declarations.append(
-                tuple_type.create_type_declaration()
-            )
-            self.typ.create_type_definition(compile_ctx, self.fields_types)
-
-            # And create the variable itself.
-            decls.append((t_env.res, tuple_type))
-
 
         t_env.subresults = list(gen_names(*[
             "row_subres_{0}".format(i)

@@ -42,6 +42,7 @@ class Coverage(object):
 
             self.cov.exclude('def __repr__')
             self.cov.exclude('raise NotImplementedError()')
+            self.cov.exclude('assert False')
 
     def __enter__(self):
         if self.enabled:

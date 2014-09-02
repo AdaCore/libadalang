@@ -97,6 +97,11 @@ class Pragma(ASTNode):
     args = Field()
 
 
+class PragmaArgument(ASTNode):
+    id = Field()
+    expr = Field()
+
+
 # #####################
 # GRAMMAR DEFINITION #
 ######################
@@ -482,7 +487,9 @@ A.add_rules(
     # Pragmas #
     ###########
 
-    pragma_arg=Row(Opt(A.identifier, "=>") >> 0, A.expression),
+    pragma_arg=Row(
+        Opt(A.identifier, "=>") >> 0, A.expression
+    ) ^ PragmaArgument,
 
     pragma=Row("pragma", A.identifier,
                Opt("(", List(A.pragma_arg, ","), ")") >> 1) ^ Pragma,

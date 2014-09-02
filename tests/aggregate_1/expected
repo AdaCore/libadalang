@@ -1,1 +1,1 @@
-Aggregate(None, AggregateContent([(AggregateMember([Id(A)]), Num(12)), (AggregateMember([Id(B)]), Num(15)), (AggregateMember([Id(C)]), Num(89)), (AggregateMember([OthersDesignator()]), DiamondExpr())]))
+Aggregate(None, AggregateContent([AggregateAssoc(AggregateMember([Id(A)]), Num(12)), AggregateAssoc(AggregateMember([Id(B)]), Num(15)), AggregateAssoc(AggregateMember([Id(C)]), Num(89)), AggregateAssoc(AggregateMember([OthersDesignator()]), DiamondExpr())]))

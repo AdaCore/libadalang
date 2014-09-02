@@ -1,1 +1,1 @@
-CaseStatement(Id(X), [([Num(1)], [Id(Walk_The_Dog)]), ([Num(5)], [Id(Launch_Nuke)]), ([Num(8), Num(10)], [Id(Sell_All_Stock)]), ([OthersDesignator()], [Id(Self_Destruct)])])
+CaseStatement(Id(X), [CaseStatementAlternative([Num(1)], [Id(Walk_The_Dog)]), CaseStatementAlternative([Num(5)], [Id(Launch_Nuke)]), CaseStatementAlternative([Num(8), Num(10)], [Id(Sell_All_Stock)]), CaseStatementAlternative([OthersDesignator()], [Id(Self_Destruct)])])

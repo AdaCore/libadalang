@@ -1,1 +1,1 @@
-CompilationUnit([], LibraryItem(False, GenericInstantiation(Id(A), Id(B), ParamList([(None, Id(C))]), None)))
+CompilationUnit([], LibraryItem(False, GenericInstantiation(Id(A), Id(B), ParamList([ParamAssoc(None, Id(C))]), None)))

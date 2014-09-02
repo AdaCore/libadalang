@@ -1,1 +1,1 @@
-BlockStatement(None, [ObjectDecl([Id(A)], False, False, in, TypeExpression(False, TypeRef(Id(Integer), None)), Num(12), None, None)], HandledStatements([CallExpr(Id(Foo), ParamList([(None, Id(A))]))], None))
+BlockStatement(None, [ObjectDecl([Id(A)], False, False, in, TypeExpression(False, TypeRef(Id(Integer), None)), Num(12), None, None)], HandledStatements([CallExpr(Id(Foo), ParamList([ParamAssoc(None, Id(A))]))], None))

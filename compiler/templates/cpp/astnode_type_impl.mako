@@ -22,12 +22,7 @@ std::string ${cls.name()}::repr() {
             return this->__name() + "()";
         % endif
     % else:
-        std::string result;
-
-        % if not cls.anonymous:
-            result = this->__name();
-        % endif
-        result += "(";
+        std::string result = this->__name() + "(";
 
         % for i, (t, f) in enumerate(repr_m_to_fields):
             % if t.is_ptr:
@@ -51,10 +46,7 @@ std::string ${cls.name()}::repr() {
 }
 
 ## Abstract nodes are never instanciated directly.
-## Anonymous nodes are used inside named rules only.  As a consequence, since
-## they cannot escape the function they are used in, they are not dynamically
-## allocated.
-% if cls.is_ptr and not cls.abstract and not cls.anonymous:
+% if cls.is_ptr and not cls.abstract:
     static inline ${cls.name()}* ${cls.name()}_new() {
         ${cls.name().lower()}_counter++;
         return new ${cls.name()};

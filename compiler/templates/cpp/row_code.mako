@@ -15,14 +15,3 @@ goto ${exit_label}_0;
         % endif
     % endif
 % endfor
-
-if (!${did_fail}) {
-    % if _self.needs_tuple:
-        % if _self.get_type().is_ptr:
-            ${res} = new ${_self.typ.as_string()};
-        % endif
-        % for fid, arg in enumerate(_self.args):
-            ${res}${"->" if _self.get_type().is_ptr else "."}field_${fid} = ${arg};
-        % endfor
-    % endif
-}

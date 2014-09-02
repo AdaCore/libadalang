@@ -583,18 +583,29 @@ class Parser(object):
 
     def __or__(self, other):
         """Return a new parser that matches this one or `other`."""
+
+        # Optimization: if we are building an `Or` parser out of other `Or`
+        # parsers, flatten the result.
+
+        # Here, we used to mutate existing parsers instead of cloning them.
+        # This is bad since parsers can be shared, and user expect such
+        # combinatory operations to create new parsers without affecting
+        # existing ones.
+
+        alternatives = []
         other_parser = resolve(other)
-        # TODO??? In the two first cases, we have to check that the Or parser
-        # isn't a root rule, otherwise some rule declaration could modify
-        # another one!
-        if isinstance(other_parser, Or):
-            other_parser.parsers.append(self)
-            return other_parser
-        elif isinstance(self, Or):
-            self.parsers.append(other_parser)
-            return self
+
+        if isinstance(self, Or):
+            alternatives.extend(self.parsers)
         else:
-            return Or(self, other_parser)
+            alternatives.append(self)
+
+        if isinstance(other_parser, Or):
+            alternatives.extend(other_parser.parsers)
+        else:
+            alternatives.append(other_parser)
+
+        return Or(*alternatives)
 
     def __xor__(self, transform_fn):
         """

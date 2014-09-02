@@ -1172,6 +1172,7 @@ class Opt(Parser):
         """
         Parser.__init__(self)
         self._booleanize = False
+        self.contains_anonymous_row = bool(parsers)
         if parsers:
             self.parser = Row(parser, *parsers)
         else:
@@ -1179,6 +1180,11 @@ class Opt(Parser):
 
     def as_bool(self):
         self._booleanize = True
+        if self.contains_anonymous_row:
+            # What the sub-parser will match will not be returned, so there is
+            # no need to generate an anonymous row type.  Tell so to the
+            # Row sub-parser.
+            self.parser.assign_wrapper(self)
         return self
 
     def children(self):
@@ -1267,12 +1273,15 @@ class Discard(Parser):
     def __init__(self, parser):
         Parser.__init__(self)
         self.parser = resolve(parser)
+        if isinstance(self.parser, Row):
+            self.parser.assign_wrapper(self)
 
     def children(self):
         return [self.parser]
 
     def get_type(self):
-        return self.parser.get_type()
+        # Discard parsers return nothing!
+        return None
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         return self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -1503,14 +1512,16 @@ class Enum(Parser):
         return self.enum_type_inst.__class__
 
     def generate_code(self, compile_ctx, pos_name="pos"):
+        # The sub-parser result will not be used.  We have to notify it if it's
+        # a Row so it does not try to generate an anonymous row type.
+        if isinstance(self.parser, Row):
+            self.parser.assign_wrapper(self)
+
         self.enum_type_inst.add_to_context(compile_ctx)
 
         res = gen_name("enum_res")
 
         if self.parser:
-            if isinstance(self.parser, Row):
-                self.parser.assign_wrapper(self)
-
             cpos, _, code, decls = self.parser.gen_code_or_fncall(
                 compile_ctx, pos_name
             )

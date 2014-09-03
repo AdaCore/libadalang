@@ -1,1 +1,0 @@
-${_self.parser.get_type_string()}_Vector_Access

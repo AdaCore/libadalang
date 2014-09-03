@@ -1,6 +1,6 @@
 from copy import deepcopy
 from parsers import abstract, Opt, List, Or, Row, _, EnumType, Enum, Tok, \
-    TokClass, Null, Success, ASTNode, Field, TokenType
+    TokClass, Null, ASTNode, Field, TokenType, Null
 from ada_parser import A
 from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
 from utils import extract
@@ -198,10 +198,6 @@ class AbstractAggregateContent(ASTNode):
     pass
 
 
-class NullAggregateContent(AbstractAggregateContent):
-    pass
-
-
 class AggregateContent(AbstractAggregateContent):
     fields = Field()
 
@@ -288,7 +284,7 @@ A.add_rules(
     ) ^ AggregateAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
     aggregate_content_null=Row(
-        "null", "record", Success(NullAggregateContent)
+        "null", "record", Null(AggregateContent)
     ) >> 2,
 
     positional_aggregate=List(A.expression, sep=","),

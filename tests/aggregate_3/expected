@@ -1,1 +1,1 @@
-Aggregate(Id(c), NullAggregateContent())
+Aggregate(Id(c), None)

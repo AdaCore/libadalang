@@ -878,7 +878,7 @@ def always_make_progress(parser):
     """Return whether `parser` cannot match an empty sequence of tokens."""
     if isinstance(parser, List):
         return not parser.empty_valid or always_make_progress(parser.parser)
-    return not isinstance(parser, (Opt, Success, Null))
+    return not isinstance(parser, (Opt, Null))
 
 
 class Row(Parser):
@@ -1331,20 +1331,8 @@ class Transform(Parser):
         ]
 
 
-class Success(Parser):
-    """
-    Parser that matches the empty sequence and that instanciates a specific AST
-    node type.
-    """
-
-    def _is_left_recursive(self, rule_name):
-        return False
-
-    def __repr__(self):
-        return "Success({0})".format(self.typ.name())
-
-    def needs_refcount(self):
-        return True
+class Null(Parser):
+    """Parser that matches the empty sequence and that yields no AST node."""
 
     def __init__(self, result_typ):
         Parser.__init__(self)
@@ -1355,17 +1343,6 @@ class Success(Parser):
 
     def get_type(self):
         return self.typ
-
-    def generate_code(self, compile_ctx, pos_name="pos"):
-        self.typ.add_to_context(compile_ctx, None)
-        res = gen_name("success_res")
-        code = render_template('success_code', self=self, res=res)
-
-        return pos_name, res, code, [(res, self.get_type())]
-
-
-class Null(Success):
-    """Parser that matches the empty sequence and that yields no AST node."""
 
     def _is_left_recursive(self, rule_name):
         return False

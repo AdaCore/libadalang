@@ -1,5 +1,5 @@
 from parsers import abstract, Opt, List, Or, Row, _, TokClass, \
-    Success, ASTNode, Field, NoToken
+    ASTNode, Field, NoToken, Null
 from ada_parser.exprs import LoopSpec
 from ada_parser import A
 from tokenizer import Lbl
@@ -215,10 +215,6 @@ class LibraryItem(ASTNode):
     item = Field()
 
 
-class NoBody(ASTNode):
-    pass
-
-
 A.add_rules(
     subunit=Row(
         _("separate"), _("("), A.static_name, _(")"),
@@ -248,7 +244,7 @@ A.add_rules(
     compilation_unit=Row(
         List(Row(A.context_item, ";") >> 0, empty_valid=True),
         Or(A.library_item, A.subunit, A.generic_instantiation,
-           Row(TokClass(NoToken), Success(NoBody)) >> 1)
+           Row(TokClass(NoToken), Null(ASTNode)) >> 1)
     ) ^ CompilationUnit,
 
     entry_body=Row(

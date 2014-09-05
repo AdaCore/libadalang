@@ -1,11 +1,11 @@
 import argparse
 import env
+from compile_context import CompileCtx
 from glob import glob
 import os
 import os.path as path
 import shutil
-import subprocess
-import sys
+from utils import file_path
 
 args_parser = argparse.ArgumentParser(
     description='Generate native code for libadalang'
@@ -52,11 +52,8 @@ class Coverage(object):
 
 
 def main():
-    for d in [
-        "build", "build/include", "build/obj", "build/src", "build/bin"
-    ]:
-        if not path.exists(d):
-            os.mkdir(d)
+    context = CompileCtx()
+    context.set_lexer_file(path.join(file_path(__file__), "ada.qx"))
 
     from ada_parser import A
     import ada_parser.decl
@@ -64,23 +61,9 @@ def main():
     import ada_parser.exprs
     import ada_parser.bodies
 
-    A.dump_to_file(file_path="build/src/", file_name="parse")
-    shutil.copy("support/Makefile", "build/Makefile")
+    context.set_grammar(A)
+    context.emit(file_root="build", file_name="parse")
 
-    for f in glob("support/*.hpp"):
-        shutil.copy(f, "build/include")
-
-    for f in glob("support/*.cpp"):
-        shutil.copy(f, "build/src")
-
-    subprocess.check_call(["quex", "-i", "../../ada/ada.qx",
-                           "--engine", "quex_lexer",
-                           "--token-id-offset",  "0x1000",
-                           "--language", "C",
-                           "--no-mode-transition-check",
-                           "--single-mode-analyzer",
-                           "--token-memory-management-by-user",
-                           "--token-policy", "single"], cwd="build/src")
 
 if __name__ == '__main__':
     args = args_parser.parse_args()

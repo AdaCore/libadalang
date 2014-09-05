@@ -1,4 +1,5 @@
 from copy import copy
+from os import path
 
 
 class StructEq(object):
@@ -70,3 +71,6 @@ class Colors:
 def printcol(msg, color):
     print "{0}{1}{2}".format(color, msg, Colors.ENDC)
 
+
+def file_path(f):
+    return path.dirname(path.abspath(f))

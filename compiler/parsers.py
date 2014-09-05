@@ -2,52 +2,15 @@ from collections import defaultdict
 import inspect
 from itertools import count, takewhile, chain
 from os import path
-import sys
 import subprocess
+from common import gen_name, gen_names, get_type, null_constant, TOKEN_PREFIX
 
 from mako.template import Template
 
+from compile_context import CompileCtx
+from template_utils import TemplateEnvironment, Renderer, common_renderer
 from utils import isalambda, Colors
 from quex_tokens import token_map
-
-
-LANGUAGE = "cpp"
-
-TOKEN_PREFIX = "QUEX_TKN_"
-
-languages_extensions = {
-    "ada": "adb",
-    "cpp": "cpp",
-}
-
-basic_types = {
-    "ada": {
-        long: "Long_Integer",
-        bool: "Boolean"
-    },
-    "cpp": {
-        long: "long",
-        bool: "bool"
-    }
-}
-
-null_constants = {
-    "ada": "null",
-    "cpp": "nullptr"
-}
-
-
-def c_repr(string):
-    return '"{0}"'.format(repr(string)[1:-1].replace('"', r'\"'))
-
-
-def get_type(typ):
-    return basic_types[LANGUAGE][typ]
-
-
-def null_constant():
-    return null_constants[LANGUAGE]
-
 
 def is_row(parser):
     return isinstance(parser, Row)
@@ -98,97 +61,11 @@ class NoToken(Token):
     quex_token_name = "TERMINATION"
 
 
-no_token = NoToken()
-
-
-class TemplateEnvironment(object):
-    """
-    Environment that gathers names for template processing.
-
-    Names are associated to values with the attribute syntax.
-    """
-
-    def __init__(self, parent_env=None, **kwargs):
-        """
-        Create an environment and fill it with var (a dict) and with **kwargs.
-        If `parent_env` is provided, the as_dict method will return a dict
-        based on the parent's.
-        """
-        self.parent_env = parent_env
-        self.update(kwargs)
-
-    def update(self, vars):
-        for name, value in vars.iteritems():
-            setattr(self, name, value)
-
-    def as_dict(self):
-        """
-        Return all names in this environment and the corresponding values as a
-        dict.
-        """
-        result = self.parent_env.as_dict() if self.parent_env else {}
-        result.update(self.__dict__)
-        return result
-
-    def __setattr__(self, name, value):
-        assert name != 'as_dict'
-        super(TemplateEnvironment, self).__setattr__(name, value)
-
-
-def render_template(template_name, template_env=None, **kwargs):
-    """
-    Render the Mako template `template_name` providing it a context that
-    includes the names in `template_env` plus the ones in **kwargs. Return the
-    resulting string.
-    """
-    context = {
-        'c_repr':           c_repr,
-        'get_type':         get_type,
-        'null_constant':    null_constant,
-        'is_row':           is_row,
-        'is_class':         inspect.isclass,
-        'decl_type':        decl_type,
-    }
-    if template_env:
-        context.update(template_env.as_dict())
-    context.update(kwargs)
-
-    # "self" is a reserved name in Mako, so our variables cannot use it.
-    # TODO??? don't use "_self" at all in templates. Use more specific names
-    # instead.
-    if context.has_key('self'):
-        context['_self'] = context.pop('self')
-
-    return mako_template(template_name).render(**context)
-
-
-template_cache = {}
-
-
-def mako_template(file_name):
-    t_path = path.join(path.dirname(path.realpath(__file__)),
-                       "templates", LANGUAGE, file_name + ".mako")
-    t = template_cache.get(t_path, None)
-
-    if not t:
-        t = Template(strict_undefined=True, filename=t_path)
-        template_cache[t_path] = t
-
-    return t
-
-
-__next_ids = defaultdict(int)
-
-
-def gen_name(var_name):
-    __next_ids[var_name] += 1
-    return "{0}_{1}".format(var_name, __next_ids[var_name])
-
-
-def gen_names(*var_names):
-    for var_name in var_names:
-        yield gen_name(var_name)
-
+render_template = common_renderer.update({
+    'is_row':           is_row,
+    'is_class':         inspect.isclass,
+    'decl_type':        decl_type,
+}).render
 
 class CompiledType(object):
     """Base class used to describe types in the generated code."""
@@ -440,56 +317,6 @@ def resolve(parser):
         return Defer(parser)
 
 
-class CompileCtx():
-    """State holder for native code emission."""
-
-    def __init__(self):
-        # TODO???  A short description for all these fields would help!
-        self.body = []
-        self.types_declarations = []
-        self.types_definitions = []
-        self.val_types_definitions = []
-        self.fns_decls = []
-        self.fns = set()
-        self.generic_vectors = set()
-        self.types = set()
-        self.main_parser = ""
-        self.diag_types = []
-        self.test_bodies = []
-        self.test_names = []
-        self.rules_to_fn_names = {}
-
-    def get_header(self):
-        return render_template(
-            'main_header',
-            self=self,
-            tdecls=self.types_declarations,
-            tdefs=self.types_definitions,
-            fndecls=self.fns_decls,
-        )
-
-    def get_source(self, header_name):
-        return render_template(
-            'main_body',
-            self=self, header_name=header_name,
-            bodies=self.body
-        )
-
-    def get_interactive_main(self, header_name):
-        return render_template(
-            'interactive_main',
-            self=self, header_name=header_name
-        )
-
-
-def write_cpp_file(file_path, source):
-    with open(file_path, "wb") as out_file:
-        p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE,
-                             stdout=out_file)
-        p.communicate(source)
-        assert p.returncode == 0 
-
-
 class Grammar(object):
     """
     Holder for parsing rules.
@@ -515,30 +342,6 @@ class Grammar(object):
     def __getattr__(self, rule_name):
         """Build and return a Defer parser that references the above rule."""
         return Defer(lambda: self.rules[rule_name])
-
-    def dump_to_file(self, file_path=".", file_name="parse"):
-        """
-        Emit native code for all the rules in this grammar as a library:
-        a library specification and the corresponding implementation.  Also
-        emit a tiny program that can parse starting with any parsing rule for
-        testing purposes.
-        """
-        ctx = CompileCtx()
-        for r_name, r in self.rules.items():
-
-            r.compile(ctx)
-            ctx.rules_to_fn_names[r_name] = r
-
-        write_cpp_file(path.join(file_path, file_name + ".cpp"), 
-                       ctx.get_source(header_name=file_name + ".hpp"))
-
-        write_cpp_file(path.join(file_path, file_name + ".hpp"), 
-                       ctx.get_header())
-
-        write_cpp_file(
-            path.join(file_path, file_name + "_main.cpp"),
-            ctx.get_interactive_main(header_name=file_name + ".hpp")
-        )
 
 
 class Parser(object):
@@ -640,10 +443,10 @@ class Parser(object):
         """
         Emit code for this parser into the `compile_ctx` parser.
 
-        :type compile_ctx: CompileCtx
+        :type compile_ctx: compile_context.CompileCtx
         """
         t_env = TemplateEnvironment()
-        t_env.self = self
+        t_env._self = self
 
         # Don't emit code twice for the same parser.
         if self.gen_fn_name in compile_ctx.fns:
@@ -653,6 +456,7 @@ class Parser(object):
         t_env.pos, t_env.res, t_env.code, t_env.defs = (
             self.generate_code(compile_ctx=compile_ctx)
         )
+
         t_env.code = t_env.code
         t_env.fn_profile = render_template('parser_fn_profile', t_env)
         t_env.fn_code = render_template('parser_fn_code', t_env)
@@ -696,7 +500,7 @@ class Parser(object):
 
             fncall_block = render_template(
                 'parser_fncall',
-                self=self, pos_name=pos_name,
+                _self=self, pos_name=pos_name,
                 pos=pos, res=res
             )
             return pos, res, fncall_block, [
@@ -751,7 +555,7 @@ class Tok(Parser):
         pos, res = gen_names("tk_pos", "tk_res")
         code = render_template(
             'tok_code',
-            self=self, pos_name=pos_name,
+            _self=self, pos_name=pos_name,
             pos=pos, res=res,
         )
         return pos, res, code, [(pos, LongType), (res, Token)]
@@ -788,7 +592,7 @@ class TokClass(Parser):
         _id = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = render_template(
             'tokclass_code',
-            self=self, pos_name=pos_name,
+            _self=self, pos_name=pos_name,
             pos=pos, res=res, _id=_id,
         )
         return pos, res, code, [(pos, LongType), (res, Token)]
@@ -861,7 +665,7 @@ class Or(Parser):
         pos, res = gen_names("or_pos", "or_res")
 
         t_env = TemplateEnvironment()
-        t_env.self = self
+        t_env._self = self
 
         t_env.results = [
             m.gen_code_or_fncall(compile_ctx, pos_name)
@@ -944,9 +748,9 @@ class Row(Parser):
         assert False, "A Row parser never yields a concrete result itself."
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        """ :type compile_ctx: CompileCtx """
+        """ :type compile_ctx: compile_context.CompileCtx """
         t_env = TemplateEnvironment(pos_name=pos_name)
-        t_env.self = self
+        t_env._self = self
 
         t_env.pos, t_env.res, t_env.did_fail = gen_names(
             "row_pos", "row_res", "row_did_fail"
@@ -1064,9 +868,9 @@ class List(Parser):
             return ListType(self.parser.get_type())
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        """:type compile_ctx: CompileCtx"""
+        """:type compile_ctx: compile_context.CompileCtx"""
         t_env = TemplateEnvironment(pos_name=pos_name)
-        t_env.self = self
+        t_env._self = self
 
         t_env.pos, t_env.res, t_env.cpos = gen_names(
             "lst_pos", "lst_res", "lst_cpos"
@@ -1146,7 +950,7 @@ class Opt(Parser):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         t_env = TemplateEnvironment(pos_name=pos_name)
-        t_env.self = self
+        t_env._self = self
 
         t_env.mpos, t_env.mres, t_env.code, decls = (
             self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -1313,9 +1117,9 @@ class Transform(Parser):
         return self.typ
 
     def generate_code(self, compile_ctx, pos_name="pos"):
-        """:type compile_ctx: CompileCtx"""
+        """:type compile_ctx: compile_context.CompileCtx"""
         t_env = TemplateEnvironment()
-        t_env.self = self
+        t_env._self = self
 
         if isinstance(self.parser, Row):
             self.parser.assign_wrapper(self)
@@ -1364,7 +1168,7 @@ class Null(Parser):
         if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx, None)
         res = gen_name("null_res")
-        code = render_template('null_code', self=self, res=res)
+        code = render_template('null_code', _self=self, res=res)
         return pos_name, res, code, [(res, self.get_type())]
 
     def get_type(self):
@@ -1458,7 +1262,7 @@ class Enum(Parser):
 
         body = render_template(
             'enum_code',
-            self=self, res=res, cpos=cpos, code=code)
+            _self=self, res=res, cpos=cpos, code=code)
 
         return cpos, res, body, [(res, self.get_type())] + decls
 

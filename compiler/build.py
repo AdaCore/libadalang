@@ -7,7 +7,6 @@ import shutil
 import subprocess
 import sys
 
-
 args_parser = argparse.ArgumentParser(
     description='Generate native code for libadalang'
 )

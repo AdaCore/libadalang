@@ -152,7 +152,7 @@ class SelectWhenPart(Statement):
 
 
 class TerminateStatement(Statement):
-    token = Field()
+    pass
 
 
 class PackageBody(ASTNode):
@@ -217,7 +217,7 @@ class LibraryItem(ASTNode):
 
 A.add_rules(
     subunit=Row(
-        _("separate"), _("("), A.static_name, _(")"),
+        "separate", "(", A.static_name, ")",
         Or(A.subprogram_body, A.package_body, A.task_body, A.protected_body)
     ) ^ Subunit,
 
@@ -248,91 +248,91 @@ A.add_rules(
     ) ^ CompilationUnit,
 
     entry_body=Row(
-        _("entry"), A.identifier,
-        Opt(Row(_("("), _("for"), A.identifier, _("in"),
-                A.discrete_subtype_definition, _(")")) ^ EntryIndexSpec),
+        "entry", A.identifier,
+        Opt(Row("(", "for", A.identifier, "in",
+                A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
         Opt(A.parameter_profiles),
-        _("when"), A.expression,
-        _("is"), A.basic_decls,
+        "when", A.expression,
+        "is", A.basic_decls,
         Opt("begin", A.handled_statements) >> 1,
-        _("end"), _(Opt(A.static_name))
+        "end", _(Opt(A.static_name))
     ) ^ EntryBody,
 
     protected_body=Row(
-        _("protected"), _("body"), A.static_name, A.aspect_specification,
-        _("is"),
+        "protected", "body", A.static_name, A.aspect_specification,
+        "is",
         Opt(A.basic_decls, "end", Opt(A.static_name)) >> 0,
         Opt((Row("separate", A.aspect_specification) >> 1) ^ BodyStub)
     ) ^ ProtectedBody,
 
     task_body=Row(
-        _("task"), _("body"), A.static_name, A.aspect_specification,
-        _("is"), A.basic_decls,
+        "task", "body", A.static_name, A.aspect_specification,
+        "is", A.basic_decls,
         Opt("begin", A.handled_statements) >> 1,
-        _("end"), _(Opt(A.static_name))
+        "end", _(Opt(A.static_name))
     ) ^ TaskBody,
 
     package_body_stub=Row(
-        _("package"), _("body"), A.static_name,
-        _("is"), _("separate"), A.aspect_specification
+        "package", "body", A.static_name,
+        "is", "separate", A.aspect_specification
     ) ^ PackageBodyStub,
 
     package_body=Row(
-        _("package"), _("body"), A.static_name, A.aspect_specification,
-        _("is"), A.basic_decls,
+        "package", "body", A.static_name, A.aspect_specification,
+        "is", A.basic_decls,
         Opt("begin", A.handled_statements) >> 1,
-        _("end"), _(Opt(A.static_name))
+        "end", _(Opt(A.static_name))
     ) ^ PackageBody,
 
     terminate_statement=Row("terminate") ^ TerminateStatement,
 
     select_statement=Row(
-        _("select"),
+        "select",
         List(
             Row(Opt("when", A.expression, "=>") >> 1,
                 A.statements) ^ SelectWhenPart,
              sep="or"),
         Opt("else", A.statements) >> 1,
         Opt("then", "abort", A.statements) >> 2,
-        _("end"), _("select")
+        "end", "select"
     ) ^ SelectStatement,
 
     accept_statement=Row(
-        _("accept"), A.identifier, Opt("(", A.expression, ")") >> 1,
+        "accept", A.identifier, Opt("(", A.expression, ")") >> 1,
         Opt(A.parameter_profiles),
         Opt("do", A.handled_statements, "end", Opt(A.identifier)) >> 1
     ) ^ AcceptStatement,
 
     case_alt=Row(
-        _("when"), A.choice_list, _("=>"), A.statements
+        "when", A.choice_list, "=>", A.statements
     ) ^ CaseStatementAlternative,
 
     case_statement=Row(
-        _("case"), A.expression, _("is"), List(A.case_alt), _("end"), _("case")
+        "case", A.expression, "is", List(A.case_alt), "end", "case"
     ) ^ CaseStatement,
 
     ext_return_statement=Row(
-        _("return"), A._object_decl,
+        "return", A._object_decl,
         Opt("do", A.handled_statements, "end", "return") >> 1
     ) ^ ExtReturnStatement,
 
     block_statement=Row(
         Opt(A.identifier, ":") >> 0,
         Opt("declare", A.basic_decls) >> 1,
-        _("begin"), A.handled_statements, _("end"), _(Opt(A.identifier))
+        "begin", A.handled_statements, "end", _(Opt(A.identifier))
     ) ^ BlockStatement,
 
     loop_statement=Row(
         Opt(A.identifier, ":") >> 0,
         Opt(A.iteration_scheme),
-        _("loop"),
+        "loop",
         A.statements,
-        _("end"), _("loop"), _(Opt(A.identifier))
+        "end", "loop", _(Opt(A.identifier))
     ) ^ LoopStatement,
 
     iteration_scheme=Or(
         Row("for", A.for_loop_parameter_spec) >> 1,
-        Row(_("while"), A.expression) ^ WhileLoopSpec
+        Row("while", A.expression) ^ WhileLoopSpec
     ),
 
     compound_statement=Or(A.if_statement, A.block_statement,
@@ -341,24 +341,24 @@ A.add_rules(
                           A.select_statement),
 
     if_statement=Row(
-        _("if"), A.expression, _("then"), A.statements,
-        List(Row(_("elsif"), A.expression,
-                 _("then"), A.statements) ^ ElsifStatementPart,
+        "if", A.expression, "then", A.statements,
+        List(Row("elsif", A.expression,
+                 "then", A.statements) ^ ElsifStatementPart,
              empty_valid=True),
         Opt("else", A.statements) >> 1,
-        _("end"), _("if")
+        "end", "if"
     ) ^ IfStatement,
 
     raise_statement=Row(
-        _("raise"), Opt(A.name), Opt("with", A.expression) >> 1
+        "raise", Opt(A.name), Opt("with", A.expression) >> 1
     ) ^ RaiseStatement,
 
     delay_statement=Row(
-        _("delay"), Opt("until").as_bool(), A.expression
+        "delay", Opt("until").as_bool(), A.expression
     ) ^ DelayStatement,
 
     abort_statement=Row(
-        _("abort"), List(A.static_name, sep=",")
+        "abort", List(A.static_name, sep=",")
     ) ^ AbortStatement,
 
     body=Or(A.subprogram_body, A.package_body, A.task_body,
@@ -369,19 +369,19 @@ A.add_rules(
     subprogram_body_stub=Row(
         A.overriding_indicator,
         A.subprogram_spec,
-        _("is"),
-        _("separate"),
+        "is",
+        "separate",
         A.aspect_specification
     ) ^ SubprogramBodyStub,
 
     subprogram_body=Row(A.overriding_indicator,
                         A.subprogram_spec,
                         A.aspect_specification,
-                        _("is"),
+                        "is",
                         A.basic_decls,
-                        _("begin"),
+                        "begin",
                         A.handled_statements,
-                        _("end"),
+                        "end",
                         Opt(A.name)) ^ SubprogramBody,
 
     handled_statements=Row(
@@ -389,8 +389,8 @@ A.add_rules(
     ) ^ HandledStatements,
 
     exception_handler=Row(
-        _("when"), Opt(A.identifier, ":") >> 0,
-        List(A.name | A.others_designator, sep="|"), _("=>"),
+        "when", Opt(A.identifier, ":") >> 0,
+        List(A.name | A.others_designator, sep="|"), "=>",
         A.statements
     ) ^ ExceptionHandler,
 
@@ -408,17 +408,17 @@ A.add_rules(
 
     null_statement=A.null_literal ^ NullStatement,
 
-    assignment_statement=Row(A.name, _(":="), A.expression) ^ AssignStatement,
+    assignment_statement=Row(A.name, ":=", A.expression) ^ AssignStatement,
 
-    goto_statement=Row(_("goto"), A.identifier) ^ GotoStatement,
+    goto_statement=Row("goto", A.identifier) ^ GotoStatement,
 
-    exit_statement=Row(_("exit"), Opt(A.identifier),
+    exit_statement=Row("exit", Opt(A.identifier),
                        Opt("when", A.expression) >> 1) ^ ExitStatement,
 
-    return_statement=Row(_("return"), Opt(A.expression | A.raise_statement)) ^
+    return_statement=Row("return", Opt(A.expression | A.raise_statement)) ^
                      ReturnStatement,
 
     requeue_statement=Row(
-        _("requeue"), A.expression, Opt("with", "abort").as_bool()
+        "requeue", A.expression, Opt("with", "abort").as_bool()
     ) ^ RequeueStatement,
 )

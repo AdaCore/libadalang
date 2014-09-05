@@ -1,9 +1,7 @@
-from copy import deepcopy
 from parsers import abstract, Opt, List, Or, Row, _, EnumType, Enum, Tok, \
     TokClass, Null, ASTNode, Field, TokenType, Null
 from ada_parser import A
 from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
-from utils import extract
 
 
 @abstract
@@ -62,11 +60,11 @@ class ParamList(ASTNode):
 
 
 class AccessDeref(Expr):
-    token = Field(repr=False)
+    pass
 
 
 class DiamondExpr(Expr):
-    token = Field(repr=False)
+    pass
 
 
 class AggregateField(ASTNode):
@@ -74,7 +72,7 @@ class AggregateField(ASTNode):
 
 
 class OthersDesignator(ASTNode):
-    token = Field(repr=False)
+    pass
 
 
 class AggregateMember(ASTNode):
@@ -89,12 +87,10 @@ class Op(EnumType):
 
 
 class IfExpr(Expr):
-    if_kw = Field(repr=False)
     cond_expr = Field()
     then_expr = Field()
     elsif_list = Field()
     else_expr = Field()
-    tok_end = Field(repr=False)
 
 
 class ElsifExprPart(ASTNode):
@@ -171,7 +167,6 @@ class ForLoopSpec(LoopSpec):
 
 
 class QuantifiedExpr(Expr):
-    for_kw = Field(repr=False)
     quantifier = Field()
     loop_spec = Field()
     expr = Field()
@@ -183,7 +178,6 @@ class QualifiedExpr(Expr):
 
 
 class Allocator(Expr):
-    new_kw = Field(repr=False)
     subpool = Field()
     expr = Field()
 
@@ -219,12 +213,11 @@ class AttributeRef(Expr):
 
 
 A.add_rules(
-    identifier=TokClass(Id) ^ Identifier,
-    qualified_name=List(A.identifier, sep=".") ^ QualifiedName,
-    char_literal=TokClass(CharLit) ^ CharLiteral,
-    string_literal=TokClass(StringLit) ^ StringLiteral,
-    num_literal=TokClass(NumLit) ^ NumLiteral,
-    null_literal=Tok(Token("null")) ^ NullLiteral,
+    identifier=TokClass(Id, keep=True) ^ Identifier,
+    char_literal=TokClass(CharLit, keep=True) ^ CharLiteral,
+    string_literal=TokClass(StringLit, keep=True) ^ StringLiteral,
+    num_literal=TokClass(NumLit, keep=True) ^ NumLiteral,
+    null_literal=Tok(Token("null"), keep=True) ^ NullLiteral,
 
     allocator=Row(
         "new", Opt("(", A.name, ")") >> 1, A.type_expression | A.name
@@ -240,7 +233,7 @@ A.add_rules(
     quantified_expression=Row(
         "for", Or(Enum("all", Quantifier("all")),
                   Enum("some", Quantifier("some"))),
-        A.for_loop_parameter_spec, _("=>"),
+        A.for_loop_parameter_spec, "=>",
         A.expression | A.discrete_range
     ) ^ QuantifiedExpr,
 
@@ -250,18 +243,18 @@ A.add_rules(
     ),
 
     case_expression=Row(
-        _("case"), A.expression, _("is"),
+        "case", A.expression, "is",
         List(A.case_expr_alt, sep=",")
     ) ^ CaseExpr,
 
     case_expr_alt=Row(
-        _("when"), A.choice_list, _("=>"), A.expression
+        "when", A.choice_list, "=>", A.expression
     ) ^ CaseExprAlternative,
 
     if_expression=Row(
-        "if", A.expression, _("then"), A.expression,
-        List(Row(_("elsif"), A.expression,
-                 _("then"), A.expression) ^ ElsifExprPart, empty_valid=True),
+        "if", A.expression, "then", A.expression,
+        List(Row("elsif", A.expression,
+                 "then", A.expression) ^ ElsifExprPart, empty_valid=True),
         Opt("else", A.expression) >> 1,
     ) ^ IfExpr,
 
@@ -279,7 +272,7 @@ A.add_rules(
     ),
 
     aggregate_assoc=Row(
-        Opt(A.aggregate_field, _("=>")) >> 0,
+        Opt(A.aggregate_field, "=>") >> 0,
         Or(A.diamond_expr, A.expression)
     ) ^ AggregateAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
@@ -313,10 +306,10 @@ A.add_rules(
     ),
 
     name=Or(
-        Row(A.name, _("("), A.call_suffix, _(")")) ^ CallExpr,
-        Row(A.name, _("."), A.direct_name) ^ Prefix,
-        Row(A.name, _("'"), A.attribute, Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
-        Row(A.name, _("'"),
+        Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
+        Row(A.name, ".", A.direct_name) ^ Prefix,
+        Row(A.name, "'", A.attribute, Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
+        Row(A.name, "'",
             Or(Row("(", A.expression, ")") >> 1, A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),

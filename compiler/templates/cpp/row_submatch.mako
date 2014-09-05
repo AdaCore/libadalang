@@ -2,12 +2,12 @@
 
 ${m_code}
 
-% if not is_discard(parser):
+% if not parser.discard():
    ${subresult} = ${parser.get_type().nullexpr()};
 % endif
 
 if (${mpos} != -1) {
-    % if parser.needs_refcount() and _self.components_need_inc_ref and not is_discard(parser):
+    % if parser.needs_refcount() and _self.components_need_inc_ref and not parser.discard():
         % if parser.get_type().is_ptr:
             if (${mres}) ${mres}->inc_ref();
         % else:
@@ -19,7 +19,7 @@ if (${mpos} != -1) {
         ${pos} = ${mpos};
     % endif
 
-    % if not is_discard(parser):
+    % if not parser.discard():
         ${subresult} = ${mres};
     % endif
 

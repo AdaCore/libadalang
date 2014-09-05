@@ -16,12 +16,10 @@ class UseDecl(ASTNode):
 
 
 class UsePkgDecl(UseDecl):
-    start_token = Field(repr=False)
     packages = Field()
 
 
 class UseTypDecl(UseDecl):
-    start_token = Field(repr=False)
     all = Field()
     types = Field()
 
@@ -51,7 +49,6 @@ class AccessExpression(TypeExprVariant):
 
 
 class SubprogramAccessExpression(AccessExpression):
-    access_token = Field(repr=False)
     is_protected = Field(repr=False)
     subp_spec = Field()
 
@@ -75,7 +72,6 @@ class AspectSpecification(ASTNode):
 
 
 class SubprogramSpec(ASTNode):
-    tk_start = Field(repr=False)
     name = Field()
     params = Field()
     returns = Field()
@@ -92,7 +88,6 @@ class SubprogramDecl(ASTNode):
 
 
 class Pragma(ASTNode):
-    pragma_kw = Field(repr=False)
     id = Field()
     args = Field()
 
@@ -203,7 +198,6 @@ class ExceptionDecl(ASTNode):
 
 
 class GenericInstantiation(ASTNode):
-    type_token = Field(repr=False)
     name = Field()
     generic_entity_name = Field()
     parameters = Field()
@@ -266,43 +260,43 @@ A.add_rules(
     ),
 
     formal_subp_decl=Row(
-        _("with"),
+        "with",
         A.subprogram_spec,
         _(Opt("is")),
         Opt("abstract").as_bool(),
         Opt(Or(A.diamond_expr, A.static_name, A.null_literal))
     ) ^ FormalSubpDecl,
 
-    renaming_clause=Row(_("renames"), A.name) ^ RenamingClause,
+    renaming_clause=Row("renames", A.name) ^ RenamingClause,
 
     generic_renaming_decl=Row(
-        _("generic"), _(Or("package", "function", "procedure")), A.static_name,
-        _("renames"), A.static_name, A.aspect_specification
+        "generic", _(Or("package", "function", "procedure")), A.static_name,
+        "renames", A.static_name, A.aspect_specification
     ) ^ GenericRenamingDecl,
 
     generic_instantiation=Row(
-        Or("package", "function", "procedure"), A.static_name, _("is"),
-        _("new"), A.static_name,
+        _(Or("package", "function", "procedure")), A.static_name, "is",
+        "new", A.static_name,
         Opt("(", A.call_suffix, ")") >> 1,
         A.aspect_specification
     ) ^ GenericInstantiation,
 
     exception_decl=Row(
-        A.id_list, _(":"), _("exception"),
+        A.id_list, ":", "exception",
         Opt(A.renaming_clause), A.aspect_specification
     ) ^ ExceptionDecl,
 
     basic_decls=List(Row(A.basic_decl, ";") >> 0, empty_valid=True),
 
     package_renaming_decl=Row(
-        _("package"), A.static_name, A.renaming_clause, A.aspect_specification
+        "package", A.static_name, A.renaming_clause, A.aspect_specification
     ) ^ PackageRenamingDecl,
 
     package_decl=Row(
-        _("package"), A.static_name, A.aspect_specification, _("is"),
+        "package", A.static_name, A.aspect_specification, "is",
         A.basic_decls,
         Opt("private", A.basic_decls) >> 1,
-        _("end"), _(A.static_name)
+        "end", _(A.static_name)
     ) ^ PackageDecl,
 
     basic_decl=Or(
@@ -333,7 +327,7 @@ A.add_rules(
     ),
 
     _object_decl=Row(
-        A.id_list,  _(":"),
+        A.id_list,  ":",
         Opt("aliased").as_bool(),
         Opt("constant").as_bool(),
         Opt(A.in_out),
@@ -346,7 +340,7 @@ A.add_rules(
     id_list=List(A.identifier, sep=","),
 
     number_decl=Row(
-        A.id_list, _(":"), _("constant"), _(":="),
+        A.id_list, ":", "constant", ":=",
         A.simple_expr
     ) ^ NumberDecl,
 
@@ -356,18 +350,18 @@ A.add_rules(
 
     aspect_specification=Opt(
         Row(
-            _("with"),
+            "with",
             List(A.aspect_assoc, sep=",")
         ) ^ AspectSpecification
     ),
 
     protected_decl=Row(
-        _("protected"), A.identifier, A.aspect_specification,
-        _("is"), A.protected_def
+        "protected", A.identifier, A.aspect_specification,
+        "is", A.protected_def
     ) ^ ProtectedDecl,
 
-    task_decl=Row(_("task"), A.identifier, A.aspect_specification,
-                  _("is"), A.task_def) ^ TaskDecl,
+    task_decl=Row("task", A.identifier, A.aspect_specification,
+                  "is", A.task_def) ^ TaskDecl,
 
     overriding_indicator=Or(
         Enum("overriding", Overriding("overriding")),
@@ -377,7 +371,7 @@ A.add_rules(
 
     entry_decl=Row(
         A.overriding_indicator,
-        _("entry"),
+        "entry",
         A.identifier,
         Opt("(", A.type_ref, ")") >> 1,
         Opt(A.parameter_profiles),
@@ -386,28 +380,25 @@ A.add_rules(
 
 
     rep_component_clause=Row(
-        A.identifier, _("at"), A.simple_expr, A.range_spec
+        A.identifier, "at", A.simple_expr, A.range_spec
     ) ^ RecordRepComponent,
 
     aspect_clause=Or(
-        Row(_("for"), A.name, _("use"), A.expression)
-        ^ AttributeDefClause,
+        Row("for", A.name, "use", A.expression) ^ AttributeDefClause,
 
-        Row(_("for"), A.static_name, _("use"), A.aggregate)
-        ^ EnumRepClause,
+        Row("for", A.static_name, "use", A.aggregate) ^ EnumRepClause,
 
-        Row(_("for"), A.static_name, _("use"), _("record"),
+        Row("for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr) >> 2,
             List(Row(A.rep_component_clause, ";") >> 0, empty_valid=True),
-            _("end"), _("record")) ^ RecordRepClause,
+            "end", "record") ^ RecordRepClause,
 
-        Row(_("for"), A.direct_name, _("use"), _("at"), A.expression)
-        ^ AtClause
+        Row("for", A.direct_name, "use", "at", A.expression) ^ AtClause
     ),
 
     parameter_profile=Row(
         List(A.identifier, sep=","),
-        _(":"),
+        ":",
         Opt("aliased").as_bool(),
         Opt(A.in_out),
         A.type_expression,
@@ -417,7 +408,7 @@ A.add_rules(
     parameter_profiles=Row("(", List(A.parameter_profile, sep=";"), ")") >> 1,
 
     subprogram_spec=Row(
-        Or("procedure", "function"),
+        _(Or("procedure", "function")),
         Opt(A.name),
         Opt(A.parameter_profiles),
         Opt("return", A.type_expression) >> 1
@@ -436,15 +427,12 @@ A.add_rules(
     ) ^ SubprogramDecl,
 
     type_access_expression=Row(
-        _("access"),
-        Opt("all").as_bool(),
-        Opt("constant").as_bool(), A.name
+        "access", Opt("all").as_bool(), Opt("constant").as_bool(), A.name
     ) ^ TypeAccessExpression,
 
     with_decl=Row(
-        Opt("limited").as_bool(),
-        Opt("private").as_bool(),
-        _("with"), List(A.static_name, sep=",")
+        Opt("limited").as_bool(), Opt("private").as_bool(),
+        "with", List(A.static_name, sep=",")
     ) ^ WithDecl,
 
     context_item=Or(A.with_decl, A.use_decl, A.pragma),
@@ -453,7 +441,7 @@ A.add_rules(
 
     use_package_decl=Row("use", List(A.static_name, sep=",")) ^ UsePkgDecl,
 
-    use_type_decl=Row("use", Opt("all").as_bool(), _("type"),
+    use_type_decl=Row("use", Opt("all").as_bool(), "type",
                       List(A.name, sep=",")) ^ UseTypDecl,
 
     subprogram_access_expression=Row(

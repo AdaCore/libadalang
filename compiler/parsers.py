@@ -53,9 +53,6 @@ def is_row(parser):
     return isinstance(parser, Row)
 
 
-def is_discard(parser):
-    return isinstance(parser, Discard)
-
 ###############
 # AST HELPERS #
 ###############
@@ -149,8 +146,6 @@ def render_template(template_name, template_env=None, **kwargs):
         'get_type':         get_type,
         'null_constant':    null_constant,
         'is_row':           is_row,
-        'is_discard':       is_discard,
-
         'is_class':         inspect.isclass,
         'decl_type':        decl_type,
     }
@@ -384,7 +379,7 @@ class ASTNode(CompiledType):
             if not parser:
                 parsers = []
             elif isinstance(parser, Row):
-                parsers = [m for m in parser.parsers if not isinstance(m, _)]
+                parsers = [m for m in parser.parsers if not m.discard()]
                 parsers = parsers[-len(cls.fields):]
             else:
                 parsers = [parser]
@@ -561,6 +556,9 @@ class Parser(object):
     def name(self):
         return self._name
 
+    def discard(self):
+        return False
+
     def needs_refcount(self):
         return True
 
@@ -726,13 +724,16 @@ class Tok(Parser):
     def __repr__(self):
         return "Tok({0})".format(repr(self.tok.val))
 
+    def discard(self):
+        return not self.keep
+
     def needs_refcount(self):
         return False
 
     def _is_left_recursive(self, rule_name):
         return False
 
-    def __init__(self, tok):
+    def __init__(self, tok, keep=False):
         """
         Create a parser that matches `tok`.
 
@@ -740,6 +741,7 @@ class Tok(Parser):
         """
         Parser.__init__(self)
         self.tok = tok
+        self.keep = keep
         self._id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
 
     def get_type(self):
@@ -761,17 +763,21 @@ class TokClass(Parser):
     def _is_left_recursive(self, rule_name):
         return False
 
+    def discard(self):
+        return not self.keep
+
     def needs_refcount(self):
         return False
 
     def __repr__(self):
         return "TokClass({0})".format(self.tok_class.__name__)
 
-    def __init__(self, tok_class):
+    def __init__(self, tok_class, keep=False):
         """
         Create a parser that matches all tokens in `tok_class`.
         """
         Parser.__init__(self)
+        self.keep = keep
         self.tok_class = tok_class
 
     def get_type(self):
@@ -916,6 +922,7 @@ class Row(Parser):
 
         self.components_need_inc_ref = True
         self.args = []
+        self.allargs = []
 
     def assign_wrapper(self, parser):
         """Associate `parser` as a wrapper for this Row.
@@ -953,7 +960,9 @@ class Row(Parser):
         t_env.exit_label = gen_name("row_exit_label")
 
         self.args = [r for r, m in zip(t_env.subresults, self.parsers)
-                     if not isinstance(m, _)]
+                     if not m.discard()]
+        self.allargs = [r for r, m in zip(t_env.subresults, self.parsers)]
+
 
         bodies = []
         for i, (parser, subresult) in enumerate(zip(self.parsers,
@@ -969,7 +978,7 @@ class Row(Parser):
                 parser.gen_code_or_fncall(compile_ctx, t_env.pos)
             )
             decls += t_subenv.m_decls
-            if not is_discard(parser):
+            if not parser.discard():
                 decls.append((subresult, parser.get_type()))
 
             bodies.append(render_template('row_submatch', t_subenv))
@@ -1196,12 +1205,15 @@ class Extract(Parser):
         self.parser.assign_wrapper(self)
         cpos, cres, code, decls = self.parser.gen_code_or_fncall(
             compile_ctx, pos_name)
-        args = self.parser.args
+        args = self.parser.allargs
         return cpos, args[self.index], code, decls
 
 
 class Discard(Parser):
     """Wrapper parser used to discard the match."""
+
+    def discard(self):
+        return True
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
@@ -1227,9 +1239,6 @@ class Discard(Parser):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         return self.parser.gen_code_or_fncall(compile_ctx, pos_name)
-
-
-_ = Discard
 
 
 class Defer(Parser):
@@ -1452,3 +1461,6 @@ class Enum(Parser):
             self=self, res=res, cpos=cpos, code=code)
 
         return cpos, res, body, [(res, self.get_type())] + decls
+
+
+_ = Discard

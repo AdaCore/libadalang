@@ -10,9 +10,7 @@ class DiscriminantSpec(ASTNode):
 
 
 class TypeDiscriminant(ASTNode):
-    opening_par = Field(repr=False)
     discr_specs = Field()
-    closing_par = Field(repr=False)
 
 
 @abstract
@@ -21,9 +19,7 @@ class TypeDef(ASTNode):
 
 
 class EnumTypeDef(TypeDef):
-    opening_par = Field(repr=False)
     enum_literals = Field()
-    closing_par = Field(repr=False)
 
 
 class DiscreteChoice(ASTNode):
@@ -31,7 +27,6 @@ class DiscreteChoice(ASTNode):
 
 
 class Variant(ASTNode):
-    when_kw = Field(repr=False)
     choice_list = Field()
     components = Field()
 
@@ -54,9 +49,7 @@ class ComponentList(ASTNode):
 
 
 class RecordDef(ASTNode):
-    tk_start = Field(repr=False)
     components = Field()
-    tk_end = Field(repr=False)
 
 
 class RecordTypeDef(TypeDef):
@@ -72,7 +65,6 @@ class RealTypeDef(TypeDef):
 
 
 class FullTypeDecl(ASTNode):
-    type_kw = Field(repr=False)
     type_id = Field()
     discriminants = Field()
     type_def = Field()
@@ -80,19 +72,16 @@ class FullTypeDecl(ASTNode):
 
 
 class FloatingPointDef(RealTypeDef):
-    digits_kw = Field(repr=False)
     num_digits = Field()
     range = Field()
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
-    delta_kw = Field(repr=False)
     delta = Field()
     range = Field()
 
 
 class DecimalFixedPointDef(RealTypeDef):
-    delta_kw = Field(repr=False)
     delta = Field()
     digits = Field()
     range = Field()
@@ -150,7 +139,6 @@ class PrivateTypeDef(TypeDef):
     abstract = Field()
     tagged = Field()
     limited = Field()
-    private_kw = Field(repr=False)
 
 
 class SignedIntTypeDef(TypeDef):
@@ -158,7 +146,6 @@ class SignedIntTypeDef(TypeDef):
 
 
 class ModIntTypeDef(TypeDef):
-    mod_kw = Field(repr=False)
     expr = Field()
 
 
@@ -181,7 +168,6 @@ class ComponentDef(ASTNode):
 
 
 class ArrayTypeDef(TypeDef):
-    array_kw = Field(repr=False)
     indices = Field()
     stored_component = Field()
 
@@ -196,7 +182,6 @@ class InterfaceTypeDef(TypeDef):
 
 
 class SubtypeDecl(ASTNode):
-    tk_subtype = Field(repr=False)
     id = Field()
     type_expr = Field()
     aspects = Field()
@@ -215,7 +200,6 @@ class ProtectedDef(ASTNode):
 
 
 class TaskTypeDecl(ASTNode):
-    task_kw = Field(repr=False)
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
@@ -237,7 +221,7 @@ class AccessDef(TypeDef):
 
 
 class FormalDiscreteTypeDef(TypeDef):
-    diamond = Field()
+    pass
 
 
 class NullComponentDecl(ASTNode):
@@ -246,9 +230,9 @@ class NullComponentDecl(ASTNode):
 
 A.add_rules(
     protected_type_decl=Row(
-        _("protected"), _("type"), A.identifier, Opt(A.type_discriminant),
+        "protected", "type", A.identifier, Opt(A.type_discriminant),
         A.aspect_specification,
-        _("is"), Opt("new", List(A.static_name, sep="and"), "with") >> 1,
+        "is", Opt("new", List(A.static_name, sep="and"), "with") >> 1,
         A.protected_def
     ) ^ ProtectedTypeDecl,
 
@@ -261,7 +245,7 @@ A.add_rules(
         Opt("private", List(Row(A.protected_el, ";") >> 0,
                             empty_valid=True))
         >> 1,
-        _("end"),
+        "end",
         Opt(A.identifier)
     ) ^ ProtectedDef,
 
@@ -270,19 +254,19 @@ A.add_rules(
     task_def=Row(
         List(Row(A.task_item, ";") >> 0, empty_valid=True),
         Opt("private", List(Row(A.task_item, ";") >> 0, empty_valid=True)) >> 1,
-        _("end"),
+        "end",
         Opt(A.identifier)
     ) ^ TaskDef,
 
     task_type_decl=Row(
-        "task", _("type"), A.identifier, Opt(A.type_discriminant),
+        "task", "type", A.identifier, Opt(A.type_discriminant),
         A.aspect_specification,
-        _("is"), Opt("new", List(A.static_name, sep="and"), "with") >> 1,
+        "is", Opt("new", List(A.static_name, sep="and"), "with") >> 1,
         A.task_def
     ) ^ TaskTypeDecl,
 
     subtype_decl=Row(
-        "subtype", A.identifier, _("is"), A.type_expression,
+        "subtype", A.identifier, "is", A.type_expression,
         A.aspect_specification
     ) ^ SubtypeDecl,
 
@@ -292,13 +276,13 @@ A.add_rules(
             Enum("task", InterfaceKind("task")),
             Enum("protected", InterfaceKind("_protected")),
             Enum("synchronized", InterfaceKind("synchronized")))),
-        _("interface"),
+        "interface",
         List(Row("and", A.static_name) >> 1, empty_valid=True)
     ) ^ InterfaceTypeDef,
 
     array_type_def=Row(
         "array",
-        _("("),
+        "(",
         Or(
             List(Row(A.type_name, "range", "<>") >> 0, sep=",")
             ^ UnconstrainedArrayIndices,
@@ -306,7 +290,7 @@ A.add_rules(
             List(A.discrete_subtype_definition, sep=",")
             ^ ConstrainedArrayIndices
         ),
-        _(")"), _("of"), A.component_def
+        ")", "of", A.component_def
     ) ^ ArrayTypeDef,
 
     discrete_subtype_definition=A.discrete_range | A.type_expression,
@@ -318,7 +302,7 @@ A.add_rules(
         Opt("abstract").as_bool(),
         Opt("limited").as_bool(),
         Opt("synchronized").as_bool(),
-        _("new"),
+        "new",
         Opt("not", "null").as_bool(),
         A.type_expression,
         Opt(A.constraint),
@@ -328,23 +312,23 @@ A.add_rules(
     ) ^ DerivedTypeDef,
 
     discriminant_association=Row(
-        List(A.identifier, sep="|"), _("=>"), A.expression
+        List(A.identifier, sep="|"), "=>", A.expression
     ) ^ DiscriminantAssociation,
 
     discriminant_constraint=Row(
-        _("("), List(A.discriminant_association, sep=","), _(")")
+        "(", List(A.discriminant_association, sep=","), ")"
     ) ^ DiscriminantConstraint,
 
     index_constraint=Row(
-        _("("), List(A.discrete_subtype_definition, sep=","), _(")")
+        "(", List(A.discrete_subtype_definition, sep=","), ")"
     ) ^ IndexConstraint,
 
     digits_constraint=Row(
-        _("digits"), A.simple_expr, Opt(A.range_spec)
+        "digits", A.simple_expr, Opt(A.range_spec)
     ) ^ DigitsConstraint,
 
     delta_constraint=Row(
-        _("delta"), A.simple_expr, Opt(A.range_spec)
+        "delta", A.simple_expr, Opt(A.range_spec)
     ) ^ DeltaConstraint,
 
     range_constraint=Row(A.range_spec) ^ RangeConstraint,
@@ -354,7 +338,7 @@ A.add_rules(
                   A.discriminant_constraint),
 
     discriminant_spec=Row(
-        List(A.identifier, sep=","), _(":"), A.type_expression,
+        List(A.identifier, sep=","), ":", A.type_expression,
         A.default_expr
     ) ^ DiscriminantSpec,
 
@@ -371,11 +355,11 @@ A.add_rules(
     ) ^ EnumTypeDef,
 
     formal_discrete_type_def=Row(
-        _("("), "<>", _(")")
+        "(", "<>", ")"
     ) ^ FormalDiscreteTypeDef,
 
     record_def=Or(
-        Row("record", A.component_list, _("end"), "record") ^ RecordDef,
+        Row("record", A.component_list, "end", "record") ^ RecordDef,
         Row("null", Null(ComponentList), "record") ^ RecordDef
     ),
 
@@ -391,7 +375,7 @@ A.add_rules(
     ) ^ OrdinaryFixedPointDef,
 
     decimal_fixed_point_def=Row(
-        "delta", A.sexpr_or_diamond, _("digits"),
+        "delta", A.sexpr_or_diamond, "digits",
         A.sexpr_or_diamond, Opt(A.range_spec)
     ) ^ DecimalFixedPointDef,
 
@@ -417,7 +401,7 @@ A.add_rules(
                 A.access_def, A.formal_discrete_type_def),
 
     variant=Row(
-        "when", A.choice_list, _("=>"), A.component_list
+        "when", A.choice_list, "=>", A.component_list
     ) ^ Variant,
 
     full_type_decl=Row(
@@ -425,7 +409,7 @@ A.add_rules(
         Or(
             Row("is", A.type_def) >> 1,
 
-            Row(_("is"),
+            Row("is",
                 Opt("abstract").as_bool(), Opt("tagged").as_bool(),
                 Opt("limited").as_bool(), "private") ^ PrivateTypeDef,
 
@@ -435,16 +419,16 @@ A.add_rules(
     ) ^ FullTypeDecl,
 
     variant_part=Row(
-        _("case"), A.identifier, _("is"),
+        "case", A.identifier, "is",
         List(A.variant),
-        _("end"), _("case"), _(";")
+        "end", "case", ";"
     ) ^ VariantPart,
 
     component_def=Row(
         Opt("aliased").as_bool(), A.type_expression) ^ ComponentDef,
 
     component_item=Or(
-        Row(_("null")) ^ NullComponentDecl,
+        Row("null") ^ NullComponentDecl,
         A.component_decl,
         A.aspect_clause,
         A.pragma
@@ -453,7 +437,7 @@ A.add_rules(
     default_expr=Opt(":=", A.expression) >> 1,
 
     component_decl=Row(
-        List(A.identifier, sep=","), _(":"), A.component_def,
+        List(A.identifier, sep=","), ":", A.component_def,
         A.default_expr, A.aspect_specification
     ) ^ ComponentDecl,
 

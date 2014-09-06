@@ -15,6 +15,16 @@ from quex_tokens import token_map
 def is_row(parser):
     return isinstance(parser, Row)
 
+def is_ast_node(compiled_type, allow_lists=True):
+    # TODO???  The following check is currently needed because during typing,
+    # sometimes we use CompiledType subclasses and sometimes we use an
+    # instance.  It would be great to be consistent, though.
+    if inspect.isclass(compiled_type):
+        return issubclass(compiled_type, ASTNode)
+    else:
+        return ((allow_lists and isinstance(compiled_type, ListType))
+                or isinstance(compiled_type, ASTNode))
+
 
 ###############
 # AST HELPERS #
@@ -64,6 +74,7 @@ class NoToken(Token):
 render_template = common_renderer.update({
     'is_row':           is_row,
     'is_class':         inspect.isclass,
+    'is_ast_node':      is_ast_node,
     'decl_type':        decl_type,
 }).render
 

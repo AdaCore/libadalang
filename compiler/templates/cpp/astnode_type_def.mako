@@ -2,6 +2,10 @@
 
 class ${cls.name()} : public ${base_name} {
 protected:
+    % if not cls.abstract:
+        virtual ASTNode *lookup_children(const SourceLocation &sloc);
+    % endif
+
 public:
 
     % for t, f in cls_field_decls:

@@ -14,7 +14,7 @@
                        +(uint32_t)(((const uint8_t *)(d))[0]) )
 #endif
 
-Token no_token = {0, 0, 0, NULL};
+Token no_token = {0, NULL, SourceLocationRange()};
 quex_Token buffer_tk = {0, NULL, 0, 0, 0, 0};
 Token max_token;
 uint32_t last_id;

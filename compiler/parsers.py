@@ -441,7 +441,7 @@ class Parser(object):
 
     def compile(self, compile_ctx):
         """
-        Emit code for this parser into the `compile_ctx` parser.
+        Emit code for this parser as a function into the `compile_ctx` parser.
 
         :type compile_ctx: compile_context.CompileCtx
         """
@@ -517,7 +517,7 @@ class Parser(object):
         Return generated code for this parser into `compile_ctx`.
 
         Subclasses must override this method.  It is a low-level routine used
-        by the `gen_code_or_fncall` method.
+        by the `gen_code_or_fncall` method.  See above for arguments meaning.
         """
         raise NotImplementedError()
 

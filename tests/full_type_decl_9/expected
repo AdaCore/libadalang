@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, OrdinaryFixedPointDef(BinOp(Num(1), div, BinOp(Num(60), mult, Num(60))), BinOp(Num(0.0), ellipsis, Num(360.0))), None)
+FullTypeDecl[1:1-1:49](Id[1:6-1:7](A), None, OrdinaryFixedPointDef[1:11-1:49](BinOp[1:17-1:30](Num[1:17-1:18](1), div, BinOp[1:22-1:29](Num[1:22-1:24](60), mult, Num[1:27-1:29](60))), BinOp[1:37-1:49](Num[1:37-1:40](0.0), ellipsis, Num[1:44-1:49](360.0))), None)

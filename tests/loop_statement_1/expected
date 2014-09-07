@@ -1,1 +1,1 @@
-LoopStatement(None, ForLoopSpec(Id(A), in, False, TypeRef(Id(Integer), RangeConstraint(BinOp(Num(1), ellipsis, Num(16))))), [NullStatement()])
+LoopStatement[1:1-1:51](None, ForLoopSpec[1:5-1:31](Id[1:5-1:6](A), in, False, TypeRef[1:10-1:31](Id[1:10-1:17](Integer), RangeConstraint[1:18-1:31](BinOp[1:24-1:31](Num[1:24-1:25](1), ellipsis, Num[1:29-1:31](16))))), [NullStatement[1:37-1:41]()])

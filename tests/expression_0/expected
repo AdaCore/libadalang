@@ -1,1 +1,1 @@
-BinOp(CallExpr(Id(a), ParamList([ParamAssoc(Id(b), Num(12)), ParamAssoc(Id(c), Num(15))])), plus, Num(12))
+BinOp[1:1-1:26](CallExpr[1:1-1:21](Id[1:1-1:2](a), ParamList[1:4-1:20]([ParamAssoc[1:4-1:11](Id[1:4-1:5](b), Num[1:9-1:11](12)), ParamAssoc[1:13-1:20](Id[1:13-1:14](c), Num[1:18-1:20](15))])), plus, Num[1:24-1:26](12))

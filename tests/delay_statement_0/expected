@@ -1,1 +1,1 @@
-DelayStatement(True, Num(12))
+DelayStatement[1:1-1:15](True, Num[1:13-1:15](12))

@@ -1,1 +1,1 @@
-ExceptionHandler(None, [AttributeRef(Id(Pouet), Id(Abort_Signal), None)], [Id(Prout)])
+ExceptionHandler[1:1-1:34](None, [AttributeRef[1:6-1:24](Id[1:6-1:11](Pouet), Id[1:12-1:24](Abort_Signal), None)], [Id[1:28-1:33](Prout)])

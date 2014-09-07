@@ -1,1 +1,1 @@
-FullTypeDecl(Id(T), None, DecimalFixedPointDef(DiamondExpr(), DiamondExpr(), None), None)
+FullTypeDecl[1:1-1:29](Id[1:6-1:7](T), None, DecimalFixedPointDef[1:11-1:29](DiamondExpr[1:17-1:19](), DiamondExpr[1:27-1:29](), None), None)

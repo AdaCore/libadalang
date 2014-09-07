@@ -1,1 +1,1 @@
-SubtypeDecl(Id(A), TypeExpression(False, TypeRef(CallExpr(Id(B), BinOp(Num(1), ellipsis, Num(12))), None)), None)
+SubtypeDecl[1:1-1:25](Id[1:9-1:10](A), TypeExpression[1:14-1:25](False, TypeRef[1:14-1:25](CallExpr[1:14-1:25](Id[1:14-1:15](B), BinOp[1:17-1:24](Num[1:17-1:18](1), ellipsis, Num[1:22-1:24](12))), None)), None)

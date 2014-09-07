@@ -1,1 +1,1 @@
-FullTypeDecl(Id(T), None, ModIntTypeDef(DiamondExpr()), None)
+FullTypeDecl[1:1-1:17](Id[1:6-1:7](T), None, ModIntTypeDef[1:11-1:17](DiamondExpr[1:15-1:17]()), None)

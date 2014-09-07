@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, IncompleteTypeDef(True), None)
+FullTypeDecl[1:1-1:17](Id[1:6-1:7](A), None, IncompleteTypeDef[1:8-1:17](True), None)

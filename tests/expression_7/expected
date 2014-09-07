@@ -1,1 +1,1 @@
-AttributeRef(Id(A), Id(Img), None)
+AttributeRef[1:1-1:6](Id[1:1-1:2](A), Id[1:3-1:6](Img), None)

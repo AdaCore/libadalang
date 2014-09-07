@@ -19,6 +19,13 @@ token_type {
        $TOKEN_CLASS_pretty_wchar_text(struct $TOKEN_CLASS_tag* me, wchar_t*  buffer, size_t BufferSize); 
 #      endif
 
+#undef QUEX_ACTION_TOKEN_STAMP
+#define QUEX_ACTION_TOKEN_STAMP(TOKEN_P)                \
+    TOKEN_P->_line_n    = self_line_number_at_begin();    \
+    TOKEN_P->_column_n  = self_column_number_at_begin();  \
+    TOKEN_P->end_line   = self_line_number_at_end();      \
+    TOKEN_P->end_column = self_column_number_at_end();
+
 $INCLUDE_CONVERTER_DECLARATION
    }
    standard {
@@ -27,9 +34,11 @@ $INCLUDE_CONVERTER_DECLARATION
         column_number : size_t;
    }
    distinct {
-       text   :  const QUEX_TYPE_CHARACTER*;
-       number :  size_t;
-       len    :  size_t;
+        text         : const QUEX_TYPE_CHARACTER*;
+        number       : size_t;
+        len          : size_t;
+        end_line     : size_t;
+        end_column   : size_t;
    }
 
    inheritable;
@@ -61,8 +70,10 @@ $INCLUDE_CONVERTER_DECLARATION
         }
         self.number = Other.number;
     #   ifdef     QUEX_OPTION_TOKEN_STAMPING_WITH_LINE_AND_COLUMN
-        __QUEX_IF_COUNT_LINES(self._line_n     = Other._line_n);
-        __QUEX_IF_COUNT_COLUMNS(self._column_n = Other._column_n);
+        __QUEX_IF_COUNT_LINES(self._line_n        = Other._line_n);
+        __QUEX_IF_COUNT_LINES(self.end_line       = Other.end_line);
+        __QUEX_IF_COUNT_COLUMNS(self._column_n    = Other._column_n);
+        __QUEX_IF_COUNT_COLUMNS(self.end_column   = Other.end_column);
     #   endif
    }
 

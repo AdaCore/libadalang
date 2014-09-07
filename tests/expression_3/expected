@@ -1,1 +1,1 @@
-MembershipExpr(Id(A), in, [Num(12), Num(16), Num(87)])
+MembershipExpr[1:1-1:18](Id[1:1-1:2](A), in, [Num[1:6-1:8](12), Num[1:11-1:13](16), Num[1:16-1:18](87)])

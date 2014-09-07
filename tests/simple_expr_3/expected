@@ -1,1 +1,1 @@
-UnOp(minus, BinOp(BinOp(Num(12), pow, Num(4)), mod, Num(2)))
+UnOp[1:1-1:15](minus, BinOp[1:2-1:15](BinOp[1:2-1:9](Num[1:2-1:4](12), pow, Num[1:8-1:9](4)), mod, Num[1:14-1:15](2)))

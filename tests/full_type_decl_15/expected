@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, SignedIntTypeDef(BinOp(Num(1), ellipsis, Num(12))), None)
+FullTypeDecl[1:1-1:24](Id[1:6-1:7](A), None, SignedIntTypeDef[1:11-1:24](BinOp[1:17-1:24](Num[1:17-1:18](1), ellipsis, Num[1:22-1:24](12))), None)

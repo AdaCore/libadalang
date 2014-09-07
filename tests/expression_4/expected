@@ -1,1 +1,1 @@
-BinOp(Num(7), plus, BinOp(IfExpr(Id(B), Num(4), [], Num(5)), div, CaseExpr(Id(A), [CaseExprAlternative([Num(12)], Num(15)), CaseExprAlternative([Num(14)], Num(16))])))
+BinOp[1:1-1:68](Num[1:1-1:2](7), plus, BinOp[1:5-1:68](IfExpr[1:6-1:24](Id[1:9-1:10](B), Num[1:16-1:17](4), [], Num[1:23-1:24](5)), div, CaseExpr[1:29-1:67](Id[1:34-1:35](A), [CaseExprAlternative[1:39-1:52]([Num[1:44-1:46](12)], Num[1:50-1:52](15)), CaseExprAlternative[1:54-1:67]([Num[1:59-1:61](14)], Num[1:65-1:67](16))])))

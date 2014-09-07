@@ -1,1 +1,1 @@
-ExceptionDecl([Id(A), Id(B), Id(Douche)], None, None)
+ExceptionDecl[1:1-1:25]([Id[1:1-1:2](A), Id[1:4-1:5](B), Id[1:7-1:13](Douche)], None, None)

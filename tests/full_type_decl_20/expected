@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, InterfaceTypeDef(uninitialized, []), None)
+FullTypeDecl[1:1-1:20](Id[1:6-1:7](A), None, InterfaceTypeDef[1:11-1:20](uninitialized, []), None)

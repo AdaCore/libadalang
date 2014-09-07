@@ -1,1 +1,1 @@
-ObjectDecl([Id(A), Id(B)], False, False, in, TypeExpression(False, TypeRef(Id(Integer), None)), None, RenamingClause(Prefix(Prefix(Id(C), Id(D)), Id(E))), None)
+ObjectDecl[1:1-1:29]([Id[1:1-1:2](A), Id[1:4-1:5](B)], False, False, in, TypeExpression[1:8-1:15](False, TypeRef[1:8-1:15](Id[1:8-1:15](Integer), None)), None, RenamingClause[1:16-1:29](Prefix[1:24-1:29](Prefix[1:24-1:27](Id[1:24-1:25](C), Id[1:26-1:27](D)), Id[1:28-1:29](E))), None)

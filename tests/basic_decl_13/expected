@@ -1,1 +1,1 @@
-ObjectDecl([Id(Columns_Config)], False, False, in, TypeExpression(False, TypeRef(Id(Line_Info_Display_Array_Access), None)), None, RenamingClause(Prefix(Prefix(Id(Buffer), Id(Editable_Line_Info_Columns)), AccessDeref())), None)
+ObjectDecl[1:1-1:94]([Id[1:1-1:15](Columns_Config)], False, False, in, TypeExpression[1:18-1:48](False, TypeRef[1:18-1:48](Id[1:18-1:48](Line_Info_Display_Array_Access), None)), None, RenamingClause[1:49-1:94](Prefix[1:57-1:94](Prefix[1:57-1:90](Id[1:57-1:63](Buffer), Id[1:64-1:90](Editable_Line_Info_Columns)), AccessDeref[1:91-1:94]())), None)

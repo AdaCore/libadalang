@@ -1,1 +1,1 @@
-Allocator(None, TypeExpression(False, TypeRef(QualExpr(AttributeRef(Id(A), Id(Class), None), Aggregate(None, AggregateContent([AggregateAssoc(None, Num(12)), AggregateAssoc(None, Num(15))]))), None)))
+Allocator[1:1-1:21](None, TypeExpression[1:5-1:21](False, TypeRef[1:5-1:21](QualExpr[1:5-1:21](AttributeRef[1:5-1:12](Id[1:5-1:6](A), Id[1:7-1:12](Class), None), Aggregate[1:14-1:20](None, AggregateContent[1:14-1:20]([AggregateAssoc[1:14-1:16](None, Num[1:14-1:16](12)), AggregateAssoc[1:18-1:20](None, Num[1:18-1:20](15))]))), None)))

@@ -119,7 +119,23 @@ class Testsuite(object):
 
     def _run_testcase(self, testcase):
         with open(testcase.input_file) as f:
+            # Read the rule to use to start parsing.
             rule_name = f.readline().strip()
+
+            # Read AST node lookups to process.
+            lookups = []
+            while True:
+                pos = f.tell()
+                lookup_line = f.readline().strip()
+                if lookup_line.startswith("lookup: "):
+                    _, sloc = lookup_line.split()
+                    line, column = sloc.split(":")
+                    lookups.append((int(line), int(column)))
+                else:
+                    f.seek(pos)
+                    break
+
+            # The rest of the file is the text to parse.
             input_text = f.read().strip()
 
         parse_argv = [
@@ -127,6 +143,10 @@ class Testsuite(object):
             "-r", rule_name,
             "--input", input_text,
         ]
+        for line, column in lookups:
+            parse_argv.extend([
+                "--lookup", "{}:{}".format(line, column)
+            ])
 
         # If we are running Valgrind, we are not interested in actual testsuite
         # results. We just want to know if we have memory issues.

@@ -1,1 +1,1 @@
-PackageRenamingDecl(Id(A), RenamingClause(Id(B)), None)
+PackageRenamingDecl[1:1-1:20](Id[1:9-1:10](A), RenamingClause[1:11-1:20](Id[1:19-1:20](B)), None)

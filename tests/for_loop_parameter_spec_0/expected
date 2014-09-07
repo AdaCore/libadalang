@@ -1,1 +1,1 @@
-ForLoopSpec(Id(A), in, False, BinOp(AttributeRef(Id(B), Id(First), None), ellipsis, Id(Last)))
+ForLoopSpec[1:1-1:21](Id[1:1-1:2](A), in, False, BinOp[1:6-1:21](AttributeRef[1:6-1:13](Id[1:6-1:7](B), Id[1:8-1:13](First), None), ellipsis, Id[1:17-1:21](Last)))

@@ -1,1 +1,1 @@
-UsePkgDecl([Prefix(Id(Ada), Id(Text_IO)), Prefix(Id(Ada), Id(Vectors))])
+UsePkgDecl[1:1-1:29]([Prefix[1:5-1:16](Id[1:5-1:8](Ada), Id[1:9-1:16](Text_IO)), Prefix[1:18-1:29](Id[1:18-1:21](Ada), Id[1:22-1:29](Vectors))])

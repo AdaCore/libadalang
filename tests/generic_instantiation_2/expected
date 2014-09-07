@@ -1,1 +1,1 @@
-GenericInstantiation(Id(P), Id(Q), ParamList([ParamAssoc(None, DiamondExpr())]), None)
+GenericInstantiation[1:1-1:24](Id[1:9-1:10](P), Id[1:18-1:19](Q), ParamList[1:21-1:23]([ParamAssoc[1:21-1:23](None, DiamondExpr[1:21-1:23]())]), None)

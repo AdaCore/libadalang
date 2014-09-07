@@ -1,1 +1,1 @@
-GenericRenamingDecl(Id(A), Id(B), None)
+GenericRenamingDecl[1:1-1:30](Id[1:19-1:20](A), Id[1:29-1:30](B), None)

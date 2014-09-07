@@ -17,7 +17,7 @@ ${cls.name()}::~${cls.name()}() {
 }
 
 std::string ${cls.name()}::repr() {
-    std::string result = this->__name() + "(";
+    std::string result = this->__name() + "[" + sloc_range_.repr() + "]" + "(";
 
     % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
         % if i > 0:
@@ -60,7 +60,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
         /* Look for a child node that contains SLOC (i.e. return the most
            precise result).  */
-        % for i, (field_type, field) in enumerate(repr_m_to_fields):
+        % for i, (field_type, field) in enumerate(all_field_decls):
             % if is_ast_node(field_type):
                 /* Note that we assume here that child nodes are ordered so
                    that the first one has a sloc range that is before the sloc

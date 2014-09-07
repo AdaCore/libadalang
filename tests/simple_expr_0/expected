@@ -1,1 +1,1 @@
-BinOp(BinOp(Num(12), mult, Num(5)), plus, BinOp(BinOp(BinOp(Num(512), pow, Num(12)), div, Num(15)), minus, BinOp(Num(2), plus, Num(5))))
+BinOp[1:1-1:32](BinOp[1:1-1:7](Num[1:1-1:3](12), mult, Num[1:6-1:7](5)), plus, BinOp[1:10-1:32](BinOp[1:10-1:24](BinOp[1:10-1:19](Num[1:10-1:13](512), pow, Num[1:17-1:19](12)), div, Num[1:22-1:24](15)), minus, BinOp[1:27-1:32](Num[1:27-1:28](2), plus, Num[1:31-1:32](5))))

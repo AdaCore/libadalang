@@ -1,1 +1,1 @@
-IfExpr(BinOp(Id(A), eq, Id(B)), Num(12), [ElsifExprPart(BinOp(Id(A), eq, Id(C)), Num(14))], Num(15))
+IfExpr[1:1-1:45](BinOp[1:4-1:9](Id[1:4-1:5](A), eq, Id[1:8-1:9](B)), Num[1:15-1:17](12), [ElsifExprPart[1:18-1:37](BinOp[1:24-1:29](Id[1:24-1:25](A), eq, Id[1:28-1:29](C)), Num[1:35-1:37](14))], Num[1:43-1:45](15))

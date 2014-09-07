@@ -1,1 +1,1 @@
-TaskTypeDecl(Id(TT1), None, None, [Id(Server)], TaskDef([EntryDecl(unspecified, Id(Q), None, [ParameterProfile([Id(X)], in, TypeExpression(False, TypeRef(Id(Item), None)), None)], None)], None, Id(TT1)))
+TaskTypeDecl[1:1-1:62](Id[1:11-1:14](TT1), None, None, [Id[1:22-1:28](Server)], TaskDef[1:34-1:62]([EntryDecl[1:34-1:53](unspecified, Id[1:40-1:41](Q), None, [ParameterProfile[1:42-1:52]([Id[1:42-1:43](X)], in, TypeExpression[1:48-1:52](False, TypeRef[1:48-1:52](Id[1:48-1:52](Item), None)), None)], None)], None, Id[1:59-1:62](TT1)))

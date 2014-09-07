@@ -1,1 +1,1 @@
-RaiseStatement(Id(NotImplementedError), Str("too bad"))
+RaiseStatement[1:1-1:41](Id[1:7-1:26](NotImplementedError), Str[1:32-1:41]("too bad"))

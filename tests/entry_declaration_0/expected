@@ -1,1 +1,1 @@
-EntryDecl(unspecified, Id(Insert), TypeRef(Id(Buffer_Id), None), [ParameterProfile([Id(An_Item)], in, TypeExpression(False, TypeRef(Id(Item), None)), None)], None)
+EntryDecl[1:1-1:45](unspecified, Id[1:7-1:13](Insert), TypeRef[1:15-1:24](Id[1:15-1:24](Buffer_Id), None), [ParameterProfile[1:27-1:44]([Id[1:27-1:34](An_Item)], in, TypeExpression[1:40-1:44](False, TypeRef[1:40-1:44](Id[1:40-1:44](Item), None)), None)], None)

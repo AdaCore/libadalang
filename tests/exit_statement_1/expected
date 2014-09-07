@@ -1,1 +1,1 @@
-ExitStatement(Id(My_Loop), BinOp(Id(A), lt, Num(12)))
+ExitStatement[1:1-1:25](Id[1:6-1:13](My_Loop), BinOp[1:19-1:25](Id[1:19-1:20](A), lt, Num[1:23-1:25](12)))

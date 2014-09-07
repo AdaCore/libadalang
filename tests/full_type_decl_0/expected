@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, EnumTypeDef([Id(B), Id(C), Id(D)]), None)
+FullTypeDecl[1:1-1:20](Id[1:6-1:7](A), None, EnumTypeDef[1:11-1:20]([Id[1:12-1:13](B), Id[1:15-1:16](C), Id[1:18-1:19](D)]), None)

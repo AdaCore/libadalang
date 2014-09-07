@@ -1,1 +1,1 @@
-BinOp(Num(12), gte, Num(5))
+BinOp[1:1-1:8](Num[1:1-1:3](12), gte, Num[1:7-1:8](5))

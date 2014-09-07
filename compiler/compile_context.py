@@ -3,7 +3,6 @@ import os
 import shutil
 import subprocess
 from os import path
-from template_utils import common_renderer
 
 
 def write_cpp_file(file_path, source):
@@ -60,8 +59,15 @@ class CompileCtx():
         )
         self.ast_fields_types[astnode] = types
 
+    @property
+    def render_template(self):
+        # Kludge: to avoid circular dependency issues, do not import parsers
+        # until needed.
+        from parsers import render_template
+        return render_template
+
     def get_header(self):
-        return common_renderer.render(
+        return self.render_template(
             'main_header',
             _self=self,
             tdecls=self.types_declarations,
@@ -70,7 +76,7 @@ class CompileCtx():
         )
 
     def get_source(self, header_name):
-        return common_renderer.render(
+        return self.render_template(
             'main_body',
             _self=self,
             header_name=header_name,
@@ -78,7 +84,7 @@ class CompileCtx():
         )
 
     def get_interactive_main(self, header_name):
-        return common_renderer.render(
+        return self.render_template(
             'interactive_main',
             _self=self, header_name=header_name
         )

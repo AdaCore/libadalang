@@ -1,1 +1,1 @@
-Allocator(Id(Pool), TypeExpression(False, TypeRef(QualExpr(Id(Integer), Num(12)), None)))
+Allocator[1:1-1:24](Id[1:6-1:10](Pool), TypeExpression[1:12-1:24](False, TypeRef[1:12-1:24](QualExpr[1:12-1:24](Id[1:12-1:19](Integer), Num[1:21-1:23](12)), None)))

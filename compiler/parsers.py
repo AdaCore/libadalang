@@ -121,6 +121,18 @@ class LongType(CompiledType):
         return None
 
 
+class SourceLocationRangeType(CompiledType):
+    is_ptr = False
+
+    @classmethod
+    def as_string(cls):
+        return "SourceLocationRange"
+
+    @classmethod
+    def nullexpr(cls):
+        return "{}()".format(cls.as_string());
+
+
 class TokenType:
     pass
 
@@ -946,10 +958,14 @@ class List(Parser):
         t_env.ppos, t_env.pres, t_env.pcode, t_env.pdecls = (
             self.parser.gen_code_or_fncall(compile_ctx, t_env.cpos)
         )
+        t_env.start_sloc_range_var = gen_name("start_sloc_range");
+
         compile_ctx.generic_vectors.add(self.parser.get_type().as_string())
         decls = [(t_env.pos, LongType),
                  (t_env.res, self.get_type()),
-                 (t_env.cpos, LongType)] + t_env.pdecls
+                 (t_env.cpos, LongType),
+                 (t_env.start_sloc_range_var, SourceLocationRangeType)
+        ] + t_env.pdecls
 
         if self.revtree_class:
             self.revtree_class.add_to_context(compile_ctx)
@@ -1231,7 +1247,9 @@ class Transform(Parser):
         )
 
         t_env.res = gen_name("transform_res")
-        code = render_template('transform_code', t_env)
+        t_env.start_sloc_range_var = gen_name("start_sloc_range");
+        decls.append((t_env.start_sloc_range_var, SourceLocationRangeType))
+        code = render_template('transform_code', t_env, pos_name=pos_name)
         compile_ctx.diag_types.append(self.typ)
 
         return t_env.cpos, t_env.res, code, decls + [

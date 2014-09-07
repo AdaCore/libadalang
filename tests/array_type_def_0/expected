@@ -1,1 +1,1 @@
-ArrayTypeDef(ConstrainedArrayIndices([BinOp(Id(B), ellipsis, Id(A))]), ComponentDef(False, TypeExpression(False, TypeRef(Id(Pouet), None))))
+ArrayTypeDef[1:1-1:24](ConstrainedArrayIndices[1:8-1:14]([BinOp[1:8-1:14](Id[1:8-1:9](B), ellipsis, Id[1:13-1:14](A))]), ComponentDef[1:19-1:24](False, TypeExpression[1:19-1:24](False, TypeRef[1:19-1:24](Id[1:19-1:24](Pouet), None))))

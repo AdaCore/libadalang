@@ -1,1 +1,1 @@
-RecordDef(ComponentList([ComponentDecl([Id(A), Id(B)], ComponentDef(False, TypeExpression(False, TypeRef(Id(Integer), None))), None, None)], None))
+RecordDef[1:1-1:34](ComponentList[1:8-1:23]([ComponentDecl[1:8-1:22]([Id[1:8-1:9](A), Id[1:11-1:12](B)], ComponentDef[1:15-1:22](False, TypeExpression[1:15-1:22](False, TypeRef[1:15-1:22](Id[1:15-1:22](Integer), None))), None, None)], None))

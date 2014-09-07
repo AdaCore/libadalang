@@ -15,7 +15,7 @@
 #endif
 
 Token no_token = {0, NULL, SourceLocationRange()};
-quex_Token buffer_tk = {0, NULL, 0, 0, 0, 0};
+quex_Token buffer_tk = {0, 0, NULL, 0, 0, 0, 0, 0};
 Token max_token;
 uint32_t last_id;
 long max_pos;

@@ -1,1 +1,1 @@
-CompilationUnit([], LibraryItem(True, PackageDecl(Id(A), None, [SubprogramDecl(unspecified, SubprogramSpec(Id(B), None, TypeExpression(False, TypeRef(Id(Boolean), None))), False, False, None, None)], None)))
+CompilationUnit[1:1-1:54]([], LibraryItem[1:1-1:54](True, PackageDecl[1:9-1:54](Id[1:17-1:18](A), None, [SubprogramDecl[1:22-1:47](unspecified, SubprogramSpec[1:22-1:47](Id[1:31-1:32](B), None, TypeExpression[1:40-1:47](False, TypeRef[1:40-1:47](Id[1:40-1:47](Boolean), None))), False, False, None, None)], None)))

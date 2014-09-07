@@ -95,14 +95,14 @@ struct SourceLocationRange {
     RelativePosition compare(const SourceLocation &sloc) const
     {
         assert(not sloc.is_null() && not is_null());
-        switch (sloc.compare(get_start()))
+        switch (get_start().compare(sloc))
         {
             case BEFORE:
                 return BEFORE;
             case IN:
                 return IN;
             case AFTER:
-                if (sloc.compare(get_end()) == AFTER)
+                if (get_end().compare(sloc) == AFTER)
                     return AFTER;
                 else
                     return IN;
@@ -178,8 +178,10 @@ inline Token get(Lexer* lexer, long offset) {
     Token res = {
         (uint16_t)qtk._id,
         (const char *)qtk.text,
-        SourceLocationRange((uint32_t) qtk._line_n, 0,
-                            (uint16_t) qtk._column_n, 0)
+        SourceLocationRange((uint32_t) qtk._line_n,
+                            (uint32_t) qtk.end_line,
+                            (uint16_t) qtk._column_n,
+                            (uint16_t) qtk.end_column)
     };
 
     if (offset > max_pos) {

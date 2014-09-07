@@ -1,1 +1,1 @@
-FullTypeDecl(Id(B), None, DerivedTypeDef(False, False, False, False, TypeExpression(False, TypeRef(Id(A), DeltaConstraint(Num(1.0), None))), None, [], None, False), None)
+FullTypeDecl[1:1-1:26](Id[1:6-1:7](B), None, DerivedTypeDef[1:11-1:26](False, False, False, False, TypeExpression[1:15-1:26](False, TypeRef[1:15-1:26](Id[1:15-1:16](A), DeltaConstraint[1:17-1:26](Num[1:23-1:26](1.0), None))), None, [], None, False), None)

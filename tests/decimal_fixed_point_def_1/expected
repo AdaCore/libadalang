@@ -1,1 +1,1 @@
-DecimalFixedPointDef(Id(Delta_Value), Id(Num_Digits), BinOp(Id(Low), ellipsis, Id(High)))
+DecimalFixedPointDef[1:1-1:54](Id[1:7-1:18](Delta_Value), Id[1:26-1:36](Num_Digits), BinOp[1:43-1:54](Id[1:43-1:46](Low), ellipsis, Id[1:50-1:54](High)))

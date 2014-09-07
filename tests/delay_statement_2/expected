@@ -1,1 +1,1 @@
-DelayStatement(False, Id(Del))
+DelayStatement[1:1-1:10](False, Id[1:7-1:10](Del))

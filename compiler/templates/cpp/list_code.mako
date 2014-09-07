@@ -1,5 +1,7 @@
 ## vim: filetype=cpp
 
+${start_sloc_range_var} = get(lex, ${pos_name}).sloc_range;
+
 % if _self.empty_valid:
     ${pos} = ${pos_name};
 % else:
@@ -57,4 +59,15 @@ while (true) {
         }
         else break;
     % endif
+}
+
+## If we managed to parse a list, compute and set the sloc range for this AST
+## node.
+if (${pos} != -1)
+{
+    ${res}${"->" if _self.get_type().is_ptr else "."}sloc_range_ =
+        SourceLocationRange(${start_sloc_range_var}.get_start(),
+                            (${cpos} == ${pos_name})
+                            ? ${start_sloc_range_var}.get_end()
+                            : get(lex, ${cpos} - 1).sloc_range.get_end());
 }

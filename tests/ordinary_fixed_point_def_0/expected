@@ -1,1 +1,1 @@
-OrdinaryFixedPointDef(Id(Delt), BinOp(Id(Low), ellipsis, Id(High)))
+OrdinaryFixedPointDef[1:1-1:29](Id[1:7-1:11](Delt), BinOp[1:18-1:29](Id[1:18-1:21](Low), ellipsis, Id[1:25-1:29](High)))

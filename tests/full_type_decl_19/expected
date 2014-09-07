@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, InterfaceTypeDef(synchronized, [Id(Ilol), Id(Imdr)]), None)
+FullTypeDecl[1:1-1:51](Id[1:6-1:7](A), None, InterfaceTypeDef[1:11-1:51](synchronized, [Id[1:38-1:42](Ilol), Id[1:47-1:51](Imdr)]), None)

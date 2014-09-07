@@ -1,1 +1,1 @@
-GotoStatement(Id(Label))
+GotoStatement[1:1-1:11](Id[1:6-1:11](Label))

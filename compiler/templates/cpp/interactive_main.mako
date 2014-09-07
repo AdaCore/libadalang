@@ -12,7 +12,11 @@
 namespace po = boost::program_options;
 using namespace std;
 
-void parse_input(Lexer* lex, string rule_name, bool print) {
+void parse_input(Lexer* lex,
+                 string rule_name,
+                 bool print,
+                 const vector<string> &lookups)
+{
     % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
         ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
             auto res = ${parser.gen_fn_name}(lex, 0);
@@ -27,8 +31,35 @@ void parse_input(Lexer* lex, string rule_name, bool print) {
                     res${"->" if parser.get_type().is_ptr else "."}inc_ref();
                 % endif
                 current_pos = 0;
+
                 if (print)
                     printf("%s\n", get_repr(res).c_str());
+
+                % if is_ast_node(parser.get_type()):
+                    for (auto lookup : lookups) {
+                        printf("\n");
+                        unsigned line, column;
+                        if (sscanf(lookup.c_str(),
+                                   "%u:%u", &line, &column) != 2)
+                            printf("Invalid lookup request: %s\n",
+                                   lookup.c_str());
+                        else
+                        {
+                            const SourceLocation sloc((uint32_t) line,
+                                                      (uint16_t) column);
+                            const std::string lookup_str = sloc.repr();
+                            auto lookup_res = res->lookup(sloc);
+
+                            printf("Lookup %s: %s\n",
+                                   lookup_str.c_str(),
+                                   get_repr(lookup_res).c_str());
+                        }
+                    }
+                % else:
+                    if (!lookups.empty())
+                        printf("Cannot lookup non-AST nodes!\n");
+                % endif
+
                 % if parser.needs_refcount():
                     res${"->" if parser.get_type().is_ptr else "."}dec_ref();
                 % endif
@@ -55,7 +86,8 @@ int main (int argc, char** argv) {
          "trigger the file input mode")
         ("filelist,F", po::value<string>(), "list of files")
         ("rule-name,r", po::value<string>()->default_value("compilation_unit"), "rule name to parse")
-        ("input", po::value<string>()->default_value(""), "input file or string");
+        ("input", po::value<string>()->default_value(""), "input file or string")
+        ("lookup", po::value<vector<string>>(), "sloc lookups to perform");
 
     po::variables_map vm;
     po::positional_options_description p;
@@ -75,6 +107,10 @@ int main (int argc, char** argv) {
     string input = vm["input"].as<string>();
     string rule_name = vm["rule-name"].as<string>();
     bool print = !vm["silent"].as<bool>();
+    vector<string> lookups;
+
+    if (vm.count("lookup"))
+        lookups = vm["lookup"].as<vector<string>>();
 
     if (vm.count("filelist")) {
         std::ifstream fl(vm["filelist"].as<string>());
@@ -83,7 +119,7 @@ int main (int argc, char** argv) {
             input_file = trim(input_file);
             if (input_file != "") {
                 cout << "file name : " << input_file << endl; lex = make_lexer_from_file(input_file.c_str(), nullptr);
-                parse_input(lex, rule_name, print);
+                parse_input(lex, rule_name, print, lookups);
                 free_lexer(lex);
             }
         }
@@ -92,12 +128,12 @@ int main (int argc, char** argv) {
         for (auto input_file : input_files) {
             cout << "file name : " << input_file << endl;
             lex = make_lexer_from_file(input_file.c_str(), nullptr);
-            parse_input(lex, rule_name, print);
+            parse_input(lex, rule_name, print, lookups);
             free_lexer(lex);
         }
     } else {
         lex = make_lexer_from_string(input.c_str(), input.length());
-        parse_input(lex, rule_name, print);
+        parse_input(lex, rule_name, print, lookups);
         free_lexer(lex);
     }
 

@@ -1,1 +1,1 @@
-ObjectDecl([Id(Arr)], True, True, in, ArrayTypeDef(ConstrainedArrayIndices([BinOp(Num(1), ellipsis, Num(12))]), ComponentDef(False, TypeExpression(False, TypeRef(Id(Integer), None)))), None, None, None)
+ObjectDecl[1:1-1:50]([Id[1:1-1:4](Arr)], True, True, in, ArrayTypeDef[1:24-1:50](ConstrainedArrayIndices[1:31-1:38]([BinOp[1:31-1:38](Num[1:31-1:32](1), ellipsis, Num[1:36-1:38](12))]), ComponentDef[1:43-1:50](False, TypeExpression[1:43-1:50](False, TypeRef[1:43-1:50](Id[1:43-1:50](Integer), None)))), None, None, None)

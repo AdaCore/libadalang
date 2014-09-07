@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, PrivateTypeDef(True, True, False), None)
+FullTypeDecl[1:1-1:34](Id[1:6-1:7](A), None, PrivateTypeDef[1:8-1:34](True, True, False), None)

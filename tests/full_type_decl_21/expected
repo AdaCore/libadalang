@@ -1,1 +1,1 @@
-FullTypeDecl(Id(A), None, AccessDef(False, TypeAccessExpression(True, False, Id(B))), None)
+FullTypeDecl[1:1-1:23](Id[1:6-1:7](A), None, AccessDef[1:11-1:23](False, TypeAccessExpression[1:11-1:23](True, False, Id[1:22-1:23](B))), None)

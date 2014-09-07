@@ -1,1 +1,1 @@
-AttributeRef(QualExpr(AttributeRef(Id(A), Id(C), None), Chr('D')), Id(Pointer), None)
+AttributeRef[1:1-1:22](QualExpr[1:1-1:14](AttributeRef[1:1-1:6](Id[1:1-1:2](A), Id[1:5-1:6](C), None), Chr[1:10-1:13]('D')), Id[1:15-1:22](Pointer), None)

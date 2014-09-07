@@ -1,1 +1,1 @@
-AcceptStatement(Id(SEIZE), None, None, HandledStatements([AssignStatement(Id(BUSY), Id(TRUE))], None))
+AcceptStatement[1:1-1:34](Id[1:8-1:13](SEIZE), None, None, HandledStatements[1:17-1:30]([AssignStatement[1:17-1:29](Id[1:17-1:21](BUSY), Id[1:25-1:29](TRUE))], None))

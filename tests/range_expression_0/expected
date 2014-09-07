@@ -1,1 +1,1 @@
-BinOp(Num(12), ellipsis, Num(15))
+BinOp[1:1-1:9](Num[1:1-1:3](12), ellipsis, Num[1:7-1:9](15))

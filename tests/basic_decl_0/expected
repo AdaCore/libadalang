@@ -1,1 +1,1 @@
-FullTypeDecl(Id(Printable), None, InterfaceTypeDef(task, []), None)
+FullTypeDecl[1:1-1:33](Id[1:6-1:15](Printable), None, InterfaceTypeDef[1:19-1:33](task, []), None)

@@ -1,1 +1,1 @@
-ExtReturnStatement(ObjectDecl([Id(A)], False, False, in, TypeExpression(False, TypeRef(Id(Integer), None)), None, None, None), HandledStatements([AssignStatement(Id(A), Num(3))], None))
+ExtReturnStatement[1:1-1:41](ObjectDecl[1:8-1:19]([Id[1:8-1:9](A)], False, False, in, TypeExpression[1:12-1:19](False, TypeRef[1:12-1:19](Id[1:12-1:19](Integer), None)), None, None, None), HandledStatements[1:23-1:30]([AssignStatement[1:23-1:29](Id[1:23-1:24](A), Num[1:28-1:29](3))], None))

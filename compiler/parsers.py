@@ -546,7 +546,7 @@ class Tok(Parser):
         Parser.__init__(self)
         self.tok = tok
         self.keep = keep
-        self._id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
+        self.id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
 
     def get_type(self):
         return Token
@@ -556,7 +556,7 @@ class Tok(Parser):
         code = render_template(
             'tok_code',
             _self=self, pos_name=pos_name,
-            pos=pos, res=res,
+            pos=pos, res=res, id=self.id
         )
         return pos, res, code, [(pos, LongType), (res, Token)]
 
@@ -589,11 +589,11 @@ class TokClass(Parser):
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
-        _id = TOKEN_PREFIX + self.tok_class.quex_token_name
+        id = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = render_template(
             'tokclass_code',
             _self=self, pos_name=pos_name,
-            pos=pos, res=res, _id=_id,
+            pos=pos, res=res, id=id,
         )
         return pos, res, code, [(pos, LongType), (res, Token)]
 

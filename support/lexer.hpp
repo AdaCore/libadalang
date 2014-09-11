@@ -12,7 +12,7 @@ typedef struct _lexer Lexer;
 extern uint32_t last_id;
 
 struct _token {
-    uint16_t _id;
+    uint16_t id;
     uint16_t column_n;
     uint32_t line_n;
     const char* text;

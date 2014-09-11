@@ -451,6 +451,3 @@ mode ONE_AND_ONLY
 
     on_failure => QUEX_TKN_LEX_FAIL(Lexeme);
 }
-
-
-

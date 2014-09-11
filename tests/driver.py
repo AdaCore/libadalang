@@ -80,8 +80,10 @@ class Testcase(object):
 
 class Testsuite(object):
 
-    def __init__(self, console, run_valgrind, rewrite):
+    def __init__(self, console, run_valgrind, debug, debugger, rewrite):
         self.run_valgrind = run_valgrind
+        self.debug = debug
+        self.debugger = debugger
         self.rewrite = rewrite
 
         self.console = console
@@ -133,6 +135,13 @@ class Testsuite(object):
                 testcase, get_valgrind_xml_report(parse_argv)
             )
             self.report_testcase(testcase, has_errors)
+            return
+
+        # If we are running a debugger, results aren't important, too.
+        if self.debug:
+            parse_argv = [self.debugger, '--args'] + parse_argv
+            print(parse_argv)
+            sp.check_call(parse_argv)
             return
 
         out = sp.check_output(parse_argv)
@@ -353,6 +362,10 @@ parser.add_argument('-w', '--write', default=[], nargs=2,
                     help='Write a test with name and input string')
 parser.add_argument('-r', '--rewrite', dest='rewrite', action='store_true')
 parser.add_argument('--valgrind', dest='valgrind', action='store_true')
+parser.add_argument('--debug', '-g', action='store_true',
+                    help='Run a test under GDB')
+parser.add_argument('--debugger', '-G', default='gdb',
+                    help='Program to use as a debugger')
 parser.set_defaults(rewrite=False)
 parser.add_argument('test-patterns', nargs='*',
                     help='If provided, run only tests that start with the'
@@ -365,7 +378,9 @@ dr_path = path.dirname(path.realpath(__file__))
 os.chdir(dr_path)
 
 console = Console(sys.stdout, ConsoleColorConfig.COLORS_256)
-testsuite = Testsuite(console, args.valgrind, args.rewrite)
+testsuite = Testsuite(console, args.valgrind,
+                      args.debug, args.debugger,
+                      args.rewrite)
 
 # Add the testcases to the queue
 for cdir, subdirs, files in os.walk("."):
@@ -376,6 +391,10 @@ for cdir, subdirs, files in os.walk("."):
     ):
         continue
     testsuite.add_test(testcase)
+
+    # When debugging, we want to run exactly one test.
+    if args.debug:
+        break
 
 # And then run it!
 testsuite_aborted = False

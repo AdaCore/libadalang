@@ -78,6 +78,7 @@ render_template = common_renderer.update({
     'decl_type':        decl_type,
 }).render
 
+
 class CompiledType(object):
     """Base class used to describe types in the generated code."""
 
@@ -191,7 +192,7 @@ class AstNodeMetaclass(type):
                 fld_value.name = fld_name
                 fields.append(fld_value)
 
-        # ... and then remove them as class members: we want then to be
+        # ... and then remove them as class members: we want them to be
         # stored in a single class member: the "field" one, being a list.
         for field in fields:
             dct.pop(field.name)
@@ -392,7 +393,7 @@ class Grammar(object):
 
     def __getattr__(self, rule_name):
         """Build and return a Defer parser that references the above rule."""
-        return Defer(lambda: self.rules[rule_name])
+        return Defer(rule_name, lambda: self.rules[rule_name])
 
 
 class Parser(object):
@@ -686,7 +687,13 @@ class Or(Parser):
         """
         Parser.__init__(self)
         self.parsers = [resolve(m) for m in parsers]
-        self.locked = False
+
+        # Typing resolution for this parser is a recursive process.  So first
+        # we need to prevent infinite recursions (because of recursive
+        # grammars)...
+        self.is_processing_type = False
+
+        # ... and we want to memoize the result.
         self.cached_type = None
 
     def children(self):
@@ -700,10 +707,15 @@ class Or(Parser):
     def get_type(self):
         if self.cached_type:
             return self.cached_type
-        if self.locked:
+
+        # Callers are already visiting this node, so we cannot return its type
+        # right now.  Return None so that it doesn't contribute to type
+        # resolution.
+        if self.is_processing_type:
             return None
+
         try:
-            self.locked = True
+            self.is_processing_type = True
             types = set()
             for m in self.parsers:
                 t = m.get_type()
@@ -720,7 +732,7 @@ class Or(Parser):
             self.cached_type = res
             return res
         finally:
-            self.locked = False
+            self.is_processing_type = False
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         pos, res = gen_names("or_pos", "or_res")
@@ -1140,7 +1152,9 @@ class Defer(Parser):
 
     @property
     def name(self):
-        return self.parser.name
+        # Don't rely on `self.parser` since it may not be available right now
+        # (that's why it is deferred in the first place).
+        return self.rule_name
 
     def _is_left_recursive(self, rule_name):
         return self.name == rule_name
@@ -1149,15 +1163,18 @@ class Defer(Parser):
         return self.parser.needs_refcount()
 
     def __repr__(self):
-        return "Defer({0})".format(getattr(self.parser, "_name", ".."))
+        return "Defer({0})".format(self.name)
 
-    def __init__(self, parser_fn):
+    def __init__(self, rule_name, parser_fn):
         """
         Create a stub parser.
 
-        `parser_fn` must be a callable that returns the referenced parser.
+        `rule_name` must be the name of the deferred parser (used for
+        pretty-printing).  `parser_fn` must be a callable that returns the
+        referenced parser.
         """
         Parser.__init__(self)
+        self.rule_name = rule_name
         self.parser_fn = parser_fn
         self._parser = None
         ":type: Parser"
@@ -1266,9 +1283,6 @@ class Null(Parser):
 
     def children(self):
         return []
-
-    def get_type(self):
-        return self.typ
 
     def _is_left_recursive(self, rule_name):
         return False

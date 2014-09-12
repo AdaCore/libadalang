@@ -54,9 +54,10 @@ class CompileCtx():
         # types).
         assert (astnode not in self.ast_fields_types or
                 self.ast_fields_types[astnode] == types), (
-            "Already associated Types for some fields are not consistant with"
-            " current ones."
-        )
+            "Already associated types for some fields are not consistant with"
+            " current ones:\n- {}\n- {}".format(
+            self.ast_fields_types[astnode], types
+        ))
         self.ast_fields_types[astnode] = types
 
     @property

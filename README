@@ -16,7 +16,7 @@ Building
 First, let's generate code for libadalang itself. In the top-level directory,
 run:
 
-$ python compiler/build.py
+$ python ada/build.py
 
 You can also pass a "-c" flag in order to get a code coverage report in the
 "coverage" directory.

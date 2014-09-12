@@ -1,6 +1,6 @@
 from collections import defaultdict
 import inspect
-from itertools import count, takewhile, chain
+from itertools import count, chain
 from os import path
 import subprocess
 from common import gen_name, gen_names, get_type, null_constant, TOKEN_PREFIX
@@ -9,21 +9,17 @@ from mako.template import Template
 
 from compile_context import CompileCtx
 from template_utils import TemplateEnvironment, Renderer, common_renderer
-from utils import isalambda, Colors
+from utils import common_ancestor, isalambda, Colors, memoized
 from quex_tokens import token_map
+
 
 def is_row(parser):
     return isinstance(parser, Row)
 
-def is_ast_node(compiled_type, allow_lists=True):
-    # TODO???  The following check is currently needed because during typing,
-    # sometimes we use CompiledType subclasses and sometimes we use an
-    # instance.  It would be great to be consistent, though.
-    if inspect.isclass(compiled_type):
-        return issubclass(compiled_type, ASTNode)
-    else:
-        return ((allow_lists and isinstance(compiled_type, ListType))
-                or isinstance(compiled_type, ASTNode))
+
+def is_ast_node(compiled_type):
+    """Return whether `compiled_type` is an ASTNode in the generated code."""
+    return issubclass(compiled_type, ASTNode)
 
 
 ###############
@@ -32,7 +28,7 @@ def is_ast_node(compiled_type, allow_lists=True):
 
 
 def decl_type(ada_type):
-    res = ada_type.as_string()
+    res = ada_type.name()
     return res.strip() + ("*" if ada_type.is_ptr else "")
 
 
@@ -47,7 +43,7 @@ class Token(object):
         return "no_token"
 
     @classmethod
-    def as_string(cls):
+    def name(cls):
         return cls.__name__
 
     def __init__(self, val=None):
@@ -80,58 +76,82 @@ render_template = common_renderer.update({
 
 
 class CompiledType(object):
-    """Base class used to describe types in the generated code."""
+    """
+    Base class used to describe types in the generated code.
 
+    It is intended to be subclassed in order to create now compiled types.
+    However, subclasses are not intended to be instantiated.
+    """
+
+    # Whether this type is handled through pointers only in the generated code.
     is_ptr = True
 
-    def add_to_context(self, compile_ctx, parser):
-        raise NotImplementedError()
+    def __init__(self):
+        assert False, (
+            'CompiledType subclasses are not meant to be instantiated'
+        )
 
-    def name(self):
-        raise NotImplementedError()
+    @classmethod
+    def add_to_context(cls, compile_ctx, parser):
+        """
+        If needed, put bits into `compile_ctx` to implement this compiled type.
 
-    def nullexpr(self):
+        Must be overriden in subclasses.
+        """
         raise NotImplementedError()
 
     @classmethod
-    def as_string(cls):
-        return cls.__name__
+    def name(cls):
+        """
+        Return a string to be used in code generation to reference this type.
 
-
-class BoolType(CompiledType):
-    is_ptr = False
-
-    @classmethod
-    def as_string(cls):
-        return get_type(bool)
+        Must be overriden in subclasses.
+        """
+        raise NotImplementedError()
 
     @classmethod
     def nullexpr(cls):
-        return "false"
+        """
+        Return a string to be used in code generation for "null" expressions.
+
+        Must be overriden in subclasses.
+        """
+        raise NotImplementedError()
 
 
-class LongType(CompiledType):
-    is_ptr = False
-
-    @classmethod
-    def as_string(cls):
-        return get_type(long)
-
-    @classmethod
-    def nullexpr(cls):
-        return None
-
-
-class SourceLocationRangeType(CompiledType):
-    is_ptr = False
+class BasicType(CompiledType):
+    """
+    Base class used to describe simple types that do not need declaration code
+    generation.
+    """
+    _name = None
+    _nullexpr = None
 
     @classmethod
-    def as_string(cls):
-        return "SourceLocationRange"
+    def name(cls):
+        return cls._name
 
     @classmethod
     def nullexpr(cls):
-        return "{}()".format(cls.as_string());
+        return cls._nullexpr
+
+
+class BoolType(BasicType):
+    is_ptr = False
+    _name = get_type(bool)
+    _nullexpr = "false"
+
+
+class LongType(BasicType):
+    is_ptr = False
+    _name = get_type(long)
+    _nullexpr = "0"
+
+
+class SourceLocationRangeType(BasicType):
+    is_ptr = False
+    _name = "SourceLocationRange"
+    _nullexpr = "SourceLocationRange()"
 
 
 class TokenType:
@@ -313,9 +333,9 @@ class ASTNode(CompiledType):
     def add_to_context(cls, compile_ctx):
         """
         Emit code to `compile_ctx` for this AST node type.  Do nothing if
-        called more than once on a single class.
+        called more than once on a single class or if called on ASTNode itself.
         """
-        if not cls in compile_ctx.types:
+        if not cls in compile_ctx.types and cls != ASTNode:
             base_class = cls.__bases__[0]
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
                 base_class.add_to_context(compile_ctx)
@@ -660,14 +680,6 @@ class TokClass(Parser):
         return pos, res, code, [(pos, LongType), (res, Token)]
 
 
-def common_ancestor(*cs):
-    """Return the common class ancestor for all arguments."""
-    assert all(inspect.isclass(c) for c in cs)
-    rmro = lambda k: reversed(k.mro())
-    return list(takewhile(lambda a: len(set(a)) == 1,
-                          zip(*map(rmro, cs))))[-1][0]
-
-
 class Or(Parser):
     """Parser that matches what the first sub-parser accepts."""
 
@@ -722,7 +734,12 @@ class Or(Parser):
                 if t:
                     types.add(t)
 
-            if all(inspect.isclass(t) for t in types):
+            # There are two possibilities:
+            #  - if all alternatives return AST nodes: then this parser's
+            #    return type is the common ancestor for all of these.
+            #  - otherwise, make sure that all alternatives return exactly the
+            #    same type.
+            if all(issubclass(t, ASTNode) for t in types):
                 res = common_ancestor(*types)
             else:
                 typs = list(types)
@@ -871,19 +888,30 @@ class Row(Parser):
         return Extract(self, index)
 
 
-class ListType(CompiledType):
-    """Compiled type generated to hold matches from Lists."""
+# We want structural equality on lists whose elements have the same types.
+# Memoization is one way to make sure that, for each CompiledType subclass X:
+#    list_type(X) == list_type(X)
+@memoized
+def list_type(element_type):
+    """
+    Return an ASTNode subclass that represent a list of `element_type`.
+    """
 
-    is_ptr = True
+    # List types do not need generated code for their declaration since they
+    # are instantiations of a generic "ASTList" type, which inherits ASTNode
+    # (so they can be considered as ASTNode).
 
-    def __init__(self, el_type):
-        self.el_type = el_type
-
-    def as_string(self):
-        return render_template('list_type', el_type=self.el_type)
-
-    def nullexpr(self):
-        return null_constant()
+    return type(
+        '{}ListType'.format(element_type.name()),
+        (ASTNode, ),
+        {
+            'is_ptr':   True,
+            'name':     classmethod(
+                lambda cls: render_template('list_type', el_type=element_type)
+            ),
+            'nullexpr': classmethod(lambda cls: null_constant()),
+        }
+    )
 
 
 class List(Parser):
@@ -938,7 +966,7 @@ class List(Parser):
         if self.revtree_class:
             return common_ancestor(self.parser.get_type(), self.revtree_class)
         else:
-            return ListType(self.parser.get_type())
+            return list_type(self.parser.get_type())
 
     def compute_fields_types(self, compile_ctx):
         Parser.compute_fields_types(self, compile_ctx)
@@ -972,7 +1000,7 @@ class List(Parser):
         )
         t_env.start_sloc_range_var = gen_name("start_sloc_range");
 
-        compile_ctx.generic_vectors.add(self.parser.get_type().as_string())
+        compile_ctx.generic_vectors.add(self.parser.get_type().name())
         decls = [(t_env.pos, LongType),
                  (t_env.res, self.get_type()),
                  (t_env.cpos, LongType),
@@ -1204,11 +1232,9 @@ class Transform(Parser):
         nodes whose type is `typ`.
         """
         Parser.__init__(self)
-        assert issubclass(typ, CompiledType)
+        assert isinstance(typ, CompiledType) or issubclass(typ, CompiledType)
         self.parser = parser
         self.typ = typ
-        ":type: CompiledType"
-
         self._is_ptr = typ.is_ptr
 
     def children(self):
@@ -1277,9 +1303,21 @@ class Transform(Parser):
 class Null(Parser):
     """Parser that matches the empty sequence and that yields no AST node."""
 
-    def __init__(self, result_typ):
+    def __init__(self, result_type):
+        """
+        Create a new Null parser.  `result_type` is either a CompiledType
+        subclass that defines what nullexpr this parser returns, either a
+        Parser subclass' instance.  In the latter case, this parser will return
+        the same type as the other parser.
+        """
         Parser.__init__(self)
-        self.typ = result_typ
+        if isinstance(result_type, (CompiledType, Parser)):
+            self.typ = result_type
+        elif issubclass(result_type, CompiledType):
+            self.typ = result_type
+        else:
+            raise TypeError(
+                'Invalid result type for Null parser: {}'.format(result_type))
 
     def children(self):
         return []
@@ -1299,9 +1337,11 @@ class Null(Parser):
         return pos_name, res, code, [(res, self.get_type())]
 
     def get_type(self):
-        return (self.typ if inspect.isclass(self.typ)
-                and issubclass(self.typ, CompiledType)
-                else self.typ.get_type())
+        return (
+            self.typ.get_type()
+            if isinstance(self.typ, Parser) else
+            self.typ
+        )
 
 
 class EnumType(CompiledType):
@@ -1310,7 +1350,11 @@ class EnumType(CompiledType):
     ones.
 
     Subclasses must override the `alternatives` member to hold a list of
-    distinct strings that represent the set of possibilities.
+    distinct strings that represent the set of possibilities.  They represent
+    the compiled type.
+
+    Instances represent either the enum type itself in the generated code or a
+    particular enum value.
     """
 
     is_ptr = False
@@ -1318,6 +1362,8 @@ class EnumType(CompiledType):
 
     def __init__(self, alt):
         """Create a value that represent one of the enum alternatives."""
+        # CompiledType are not usually supposed to be instantiated.  EnumType
+        # is an exception to this rule, so do not call CompiledType.__init__.
         assert alt in self.alternatives
         self.alt = alt
 
@@ -1368,7 +1414,7 @@ class Enum(Parser):
         return []
 
     def get_type(self):
-        return self.enum_type_inst.__class__
+        return type(self.enum_type_inst)
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         # The sub-parser result will not be used.  We have to notify it if it's

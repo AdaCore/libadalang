@@ -29,7 +29,7 @@ while (true) {
         if (${res} == ${_self.get_type().nullexpr()})
             ${res} = ${pres};
         else {
-            auto new_res = ${_self.revtree_class.as_string()}_new();
+            auto new_res = ${_self.revtree_class.name()}_new();
             new_res->${_self.revtree_class.fields[0].name} = ${res};
             new_res->${_self.revtree_class.fields[1].name} = ${pres};
             ${res}->inc_ref();

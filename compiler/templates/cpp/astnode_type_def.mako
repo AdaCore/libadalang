@@ -4,14 +4,14 @@ class ${cls.name()} : public ${base_name} {
 protected:
 public:
 
-    % for t, f in zip(types, cls.fields):
+    % for t, f in cls_field_decls:
          ${decl_type(t)} ${f.name};
     % endfor
 
     std::string repr();
 
     % if cls.fields:
-        ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, t.nullexpr()) for t, f in zip(types, cls.fields))} {}
+        ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, t.nullexpr()) for t, f in all_field_decls)} {}
     % endif
 
     std::string __name();

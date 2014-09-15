@@ -35,6 +35,31 @@ class CompileCtx():
         self.grammar = None
         self.lexer_file = None
 
+        # Mapping: ASTNode -> list of CompiledType instances
+        self.ast_fields_types = {}
+
+    def set_ast_fields_types(self, astnode, types):
+        """
+        Associate `types` (a list of CompiledType) to fields in `astnode` (an
+        ASTNode sub-class). It is valid to perform this association multiple
+        times as long as types are consistent.
+        """
+        assert len(astnode.fields) == len(types), (
+            "{} has {} fields ({} types given). You probably have"
+            " inconsistent grammar rules and type declarations".format(
+                astnode, len(astnode.fields), len(types)
+            )
+        )
+        # TODO: instead of expecting types to be *exactly* the same, perform
+        # type unification (take the nearest common ancestor for all field
+        # types).
+        assert (astnode not in self.ast_fields_types or
+                self.ast_fields_types[astnode] == types), (
+            "Already associated Types for some fields are not consistant with"
+            " current ones."
+        )
+        self.ast_fields_types[astnode] = types
+
     def get_header(self):
         return common_renderer.render(
             'main_header',
@@ -100,7 +125,9 @@ class CompileCtx():
             shutil.copy(f, path.join(file_root, "src"))
 
         for r_name, r in self.grammar.rules.items():
+            r.compute_fields_types(self)
 
+        for r_name, r in self.grammar.rules.items():
             r.compile(self)
             self.rules_to_fn_names[r_name] = r
 

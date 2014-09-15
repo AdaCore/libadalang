@@ -209,12 +209,24 @@ class ASTNode(CompiledType):
     __metaclass__ = AstNodeMetaclass
 
     @classmethod
+    def get_inheritance_chain(cls):
+        """
+        Return a list for all classes from ASTNode to `cls` in the inheritance
+        chain.
+        """
+        return reversed([
+            base_class
+            for base_class in cls.mro()
+            if issubclass(base_class, ASTNode)
+        ])
+
+    @classmethod
     def create_type_declaration(cls):
         """Return a forward type declaration for this AST node type."""
         return render_template('astnode_type_decl', cls=cls)
 
     @classmethod
-    def create_type_definition(cls, compile_ctx, types):
+    def create_type_definition(cls, compile_ctx):
         """
         Emit a type definition for this AST node type in
         `compile_ctx.types_definitions`, emit:
@@ -226,8 +238,23 @@ class ASTNode(CompiledType):
         """
         base_class = cls.__bases__[0]
 
+        # Some templates need all fields (inherited and not inherited) and some
+        # need only not inherited ones.
+        assert len(cls.get_types(compile_ctx)) == len(cls.get_fields()), (
+            "{}: {} <-> {}".format(
+                cls,
+                cls.get_types(compile_ctx), cls.get_fields()
+            )
+        )
+        all_field_decls = zip(cls.get_types(compile_ctx), cls.get_fields())
+        cls_field_decls = zip(compile_ctx.ast_fields_types[cls], cls.fields)
+
         t_env = TemplateEnvironment(
-            cls=cls, types=types, base_name=base_class.name()
+            cls=cls,
+            all_field_decls=all_field_decls,
+            cls_field_decls=cls_field_decls,
+            types=compile_ctx.ast_fields_types[cls],
+            base_name=base_class.name()
         )
         tdef = render_template('astnode_type_def', t_env)
         if cls.is_ptr:
@@ -235,9 +262,6 @@ class ASTNode(CompiledType):
         else:
             compile_ctx.val_types_definitions.append(tdef)
 
-        t_env.repr_m_to_fields = [
-            (m, f) for m, f in zip(types, cls.fields) if f.repr
-        ]
         compile_ctx.body.append(render_template('astnode_type_impl', t_env))
 
     @classmethod
@@ -245,36 +269,37 @@ class ASTNode(CompiledType):
         """
         Return the list of all the fields `cls` has, including its parents'.
         """
-        b = cls.__bases__[0]
-        bfields = b.get_fields() if b != ASTNode else []
-        return bfields + cls.fields
+        fields = []
+        for base_class in cls.get_inheritance_chain():
+            fields.extend(base_class.fields)
+        return fields
 
     @classmethod
-    def add_to_context(cls, compile_ctx, parser=None):
+    def get_types(cls, compile_ctx):
+        """
+        Return the list of types for all the fields `cls` has, inclusing its
+        parents'.
+        """
+        types = []
+        for base_class in cls.get_inheritance_chain():
+            types.extend(compile_ctx.ast_fields_types[base_class])
+        return types
+
+    @classmethod
+    def add_to_context(cls, compile_ctx):
         """
         Emit code to `compile_ctx` for this AST node type.  Do nothing if
         called more than once on a single class.
         """
         if not cls in compile_ctx.types:
-            if not parser:
-                parsers = []
-            elif isinstance(parser, Row):
-                parsers = [m for m in parser.parsers if not m.discard()]
-                parsers = parsers[-len(cls.fields):]
-            else:
-                parsers = [parser]
-
-            types = [m.get_type() for m in parsers]
-
             base_class = cls.__bases__[0]
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
-                bparser = parser if not cls.fields else None
-                base_class.add_to_context(compile_ctx, bparser)
+                base_class.add_to_context(compile_ctx)
 
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
                 cls.create_type_declaration())
-            cls.create_type_definition(compile_ctx, types)
+            cls.create_type_definition(compile_ctx)
 
     @classmethod
     def name(cls):
@@ -441,6 +466,16 @@ class Parser(object):
         Subclasses should override this method if they have children.
         """
         return []
+
+    def compute_fields_types(self, compile_ctx):
+        """
+        Infer ASTNode's fields from this parsers tree.
+
+        This method recurses over child parsers.  Parser subclasses must
+        override this method if they contribute to fields typing.
+        """
+        for child in self.children():
+            child.compute_fields_types(compile_ctx)
 
     def compile(self, compile_ctx):
         """
@@ -870,6 +905,25 @@ class List(Parser):
         else:
             return ListType(self.parser.get_type())
 
+    def compute_fields_types(self, compile_ctx):
+        Parser.compute_fields_types(self, compile_ctx)
+
+        # If this parser does no folding, it does not contribute itself to
+        # fields typing, so we can stop here.
+        if not self.revtree_class:
+            return
+
+        assert len(self.revtree_class.get_fields()) == 2, (
+            "For folding, revtree classes must have two fields"
+        )
+        assert len(self.revtree_class.fields) == 2, (
+            "Inheritance is not supported for revtree classes"
+        )
+
+        compile_ctx.set_ast_fields_types(
+            self.revtree_class, [self.get_type()] * 2
+        )
+
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: compile_context.CompileCtx"""
         t_env = TemplateEnvironment(pos_name=pos_name)
@@ -887,7 +941,7 @@ class List(Parser):
                  (t_env.cpos, LongType)] + t_env.pdecls
 
         if self.revtree_class:
-            self.revtree_class.add_to_context(compile_ctx, self)
+            self.revtree_class.add_to_context(compile_ctx)
 
         (t_env.sep_pos,
          t_env.sep_res,
@@ -1119,6 +1173,33 @@ class Transform(Parser):
     def get_type(self):
         return self.typ
 
+    def compute_fields_types(self, compile_ctx):
+        # Gather field types that come from all child parsers.
+        fields_types = (
+            # There are multiple fields for Row parsers.
+            [
+                parser.get_type()
+                for parser in self.parser.parsers
+                if not parser.discard()
+            ]
+            if isinstance(self.parser, Row) else
+            [self.parser.get_type()]
+        )
+        assert all(t for t in fields_types), (
+            "Internal error when computing field types for {}:"
+            " some are None: {}".format(self.typ, fields_types)
+        )
+
+        # Then dispatch these types to all the fields distributed amongst the
+        # ASTNode hierarchy.
+        for cls in self.typ.get_inheritance_chain():
+            compile_ctx.set_ast_fields_types(
+                cls, fields_types[:len(cls.fields)]
+            )
+            fields_types = fields_types[len(cls.fields):]
+
+        Parser.compute_fields_types(self, compile_ctx)
+
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: compile_context.CompileCtx"""
         t_env = TemplateEnvironment()
@@ -1127,7 +1208,7 @@ class Transform(Parser):
         if isinstance(self.parser, Row):
             self.parser.assign_wrapper(self)
 
-        self.typ.add_to_context(compile_ctx, self.parser)
+        self.typ.add_to_context(compile_ctx)
 
         t_env.cpos, t_env.cres, t_env.code, decls = (
             self.parser.gen_code_or_fncall(compile_ctx, pos_name)
@@ -1169,7 +1250,7 @@ class Null(Parser):
     def generate_code(self, compile_ctx, pos_name="pos"):
         typ = self.get_type()
         if isinstance(typ, ASTNode):
-            self.get_type().add_to_context(compile_ctx, None)
+            self.get_type().add_to_context(compile_ctx)
         res = gen_name("null_res")
         code = render_template('null_code', _self=self, res=res)
         return pos_name, res, code, [(res, self.get_type())]
@@ -1202,7 +1283,7 @@ class EnumType(CompiledType):
         return cls.__name__
 
     @classmethod
-    def add_to_context(cls, compile_ctx, parser=None):
+    def add_to_context(cls, compile_ctx):
         if not cls in compile_ctx.types:
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(

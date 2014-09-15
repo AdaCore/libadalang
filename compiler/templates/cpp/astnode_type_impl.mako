@@ -3,7 +3,9 @@
 long ${cls.name().lower()}_counter = 0;
 
 ${cls.name()}::~${cls.name()}() {
-        % for t, f in zip(types, cls.fields):
+        /* In C++, the mother class' destructor is automatically called at the
+           end of this function, so iterate only on own fields.  */
+        % for t, f in cls_field_decls:
             % if t.is_ptr:
                 if (${f.name}) ${f.name}->dec_ref();
             % endif
@@ -15,34 +17,26 @@ ${cls.name()}::~${cls.name()}() {
 }
 
 std::string ${cls.name()}::repr() {
-    % if not cls.fields:
-        % if cls.__bases__[0].fields:
-            return ${cls.__bases__[0].name()}::repr();
-        % else:
-            return this->__name() + "()";
+    std::string result = this->__name() + "(";
+
+    % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+        % if i > 0:
+            result.append(", ");
         % endif
-    % else:
-        std::string result = this->__name() + "(";
 
-        % for i, (t, f) in enumerate(repr_m_to_fields):
-            % if t.is_ptr:
-                if (${f.name} != ${t.nullexpr()}) {
-            % endif
+        % if t.is_ptr:
+            if (${f.name} != ${t.nullexpr()}) {
+        % endif
 
-                result.append(get_repr(${f.name}));
+            result.append(get_repr(${f.name}));
 
-            % if t.is_ptr:
-                } else result.append("None");
-            % endif
+        % if t.is_ptr:
+            } else result.append("None");
+        % endif
+    % endfor
 
-            % if i < len(repr_m_to_fields) - 1:
-                result.append(", ");
-            % endif
-        % endfor
-
-        result.append(")");
-        return result;
-    % endif
+    result.append(")");
+    return result;
 }
 
 ## Abstract nodes are never instanciated directly.

@@ -1156,7 +1156,7 @@ class Transform(Parser):
 
     def __init__(self, parser, typ):
         """
-        Create a Transform parser wrapping `parser` and that instintiate AST
+        Create a Transform parser wrapping `parser` and that instantiates AST
         nodes whose type is `typ`.
         """
         Parser.__init__(self)

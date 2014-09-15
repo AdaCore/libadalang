@@ -156,7 +156,10 @@ class AstNodeMetaclass(type):
     Internal metaclass for AST nodes, used to ease fields handling during code
     generation.
     """
-    def __new__(cls, name, base, dct):
+    def __new__(cls, name, bases, dct):
+        assert len(bases) == 1, (
+            "Multiple inheritance for AST nodes is not supported")
+
         fields = []
 
         # Associate a name to all fields and collect them into `field`...
@@ -177,7 +180,7 @@ class AstNodeMetaclass(type):
         # By default, ASTNode subtypes aren't abstract.
         dct['abstract'] = False
 
-        return type.__new__(cls, name, base, dct)
+        return type.__new__(cls, name, bases, dct)
 
 
 def abstract(cls):

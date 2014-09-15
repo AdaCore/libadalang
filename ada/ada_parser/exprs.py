@@ -45,9 +45,7 @@ class CallExpr(Expr):
 
 
 class ExprList(ASTNode):
-    tk_start = Field()
     exprs = Field()
-    tk_end = Field()
 
 
 class ParamAssoc(ASTNode):

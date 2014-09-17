@@ -1,14 +1,24 @@
 Dependencies
 ------------
 
+To generate and build the library itself:
+
 - Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64/. 
   Follow the installation guide in the quex README
 - The mako template system for python
 - Clang-format
 - boost options
+
+To develop comfortably:
+
 - If you want interactive debugging when code is generated, install IPython
 - If you want to compute code coverage for the code generator, install
   coverage.py (pip install coverage)
+
+To build the documentation:
+
+- Sphinx
+- Pygments
 
 Building
 --------
@@ -38,3 +48,16 @@ $ python tests/driver.py
 
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a "-h" flag.
+
+Documentation
+-------------
+
+The developer's documentation for the project is in doc/dev_guide. You can
+consult it as a text files or you can build it.  For instance, to generate HTML
+documents, run from the top directory:
+
+$ make -C doc/dev_guide html
+
+And then open the following file in your favorite browser:
+
+    doc/dev_guide/_build/html/index.html

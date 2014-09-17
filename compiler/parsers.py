@@ -1,14 +1,8 @@
-from collections import defaultdict
 import inspect
 from itertools import count, chain
-from os import path
-import subprocess
 from common import gen_name, gen_names, get_type, null_constant, TOKEN_PREFIX
 
-from mako.template import Template
-
-from compile_context import CompileCtx
-from template_utils import TemplateEnvironment, Renderer, common_renderer
+from template_utils import TemplateEnvironment, common_renderer
 from utils import common_ancestor, isalambda, Colors, memoized
 from quex_tokens import token_map
 
@@ -30,41 +24,6 @@ def is_ast_node(compiled_type):
 def decl_type(ada_type):
     res = ada_type.name()
     return res.strip() + ("*" if ada_type.is_ptr else "")
-
-
-class Token(object):
-    # TODO??? Turn this into a CompiledType subclass: it makes more sense since
-    # it's used to specify a token type for values (see Parser.get_type).
-
-    is_ptr = False
-
-    @classmethod
-    def nullexpr(cls):
-        return "no_token"
-
-    @classmethod
-    def name(cls):
-        return cls.__name__
-
-    def __init__(self, val=None):
-        self.val = val
-
-    def __repr__(self):
-        return "{0}({1})".format(
-            self.__class__.__name__,
-            repr(self.val),
-        )
-
-    def __or__(self, other):
-        assert isinstance(other, Token)
-        return Or(self, other)
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.val == other.val
-
-
-class NoToken(Token):
-    quex_token_name = "TERMINATION"
 
 
 render_template = common_renderer.update({
@@ -154,8 +113,14 @@ class SourceLocationRangeType(BasicType):
     _nullexpr = "SourceLocationRange()"
 
 
-class TokenType:
-    pass
+class Token(BasicType):
+    is_ptr = False
+    _name = "Token"
+    _nullexpr = "no_token"
+
+
+class NoToken(Token):
+    quex_token_name = "TERMINATION"
 
 
 class Field(object):
@@ -335,7 +300,7 @@ class ASTNode(CompiledType):
         Emit code to `compile_ctx` for this AST node type.  Do nothing if
         called more than once on a single class or if called on ASTNode itself.
         """
-        if not cls in compile_ctx.types and cls != ASTNode:
+        if cls not in compile_ctx.types and cls != ASTNode:
             base_class = cls.__bases__[0]
             if issubclass(base_class, ASTNode) and base_class != ASTNode:
                 base_class.add_to_context(compile_ctx)
@@ -382,7 +347,7 @@ def resolve(parser):
     elif isinstance(parser, Token):
         return Tok(parser)
     elif isinstance(parser, str):
-        return Tok(Token(parser))
+        return Tok(parser)
     elif isalambda(parser):
         return Defer(parser)
     else:
@@ -608,7 +573,7 @@ class Tok(Parser):
     """Parser that matches a specific token."""
 
     def __repr__(self):
-        return "Tok({0})".format(repr(self.tok.val))
+        return "Tok({0})".format(repr(self.val))
 
     def discard(self):
         return not self.keep
@@ -619,16 +584,16 @@ class Tok(Parser):
     def _is_left_recursive(self, rule_name):
         return False
 
-    def __init__(self, tok, keep=False):
+    def __init__(self, val, keep=False):
         """
         Create a parser that matches `tok`.
 
         :type tok: Token
         """
         Parser.__init__(self)
-        self.tok = tok
+        self.val = val
         self.keep = keep
-        self.id = TOKEN_PREFIX + token_map.str_to_names[tok.val]
+        self.id = TOKEN_PREFIX + token_map.str_to_names[val]
 
     def get_type(self):
         return Token
@@ -857,7 +822,6 @@ class Row(Parser):
                      if not m.discard()]
         self.allargs = [r for r, m in zip(t_env.subresults, self.parsers)]
 
-
         bodies = []
         for i, (parser, subresult) in enumerate(zip(self.parsers,
                                                     t_env.subresults)):
@@ -998,13 +962,14 @@ class List(Parser):
         t_env.ppos, t_env.pres, t_env.pcode, t_env.pdecls = (
             self.parser.gen_code_or_fncall(compile_ctx, t_env.cpos)
         )
-        t_env.start_sloc_range_var = gen_name("start_sloc_range");
+        t_env.start_sloc_range_var = gen_name("start_sloc_range")
 
         compile_ctx.generic_vectors.add(self.parser.get_type().name())
-        decls = [(t_env.pos, LongType),
-                 (t_env.res, self.get_type()),
-                 (t_env.cpos, LongType),
-                 (t_env.start_sloc_range_var, SourceLocationRangeType)
+        decls = [
+            (t_env.pos, LongType),
+            (t_env.res, self.get_type()),
+            (t_env.cpos, LongType),
+            (t_env.start_sloc_range_var, SourceLocationRangeType)
         ] + t_env.pdecls
 
         if self.revtree_class:
@@ -1290,7 +1255,7 @@ class Transform(Parser):
         )
 
         t_env.res = gen_name("transform_res")
-        t_env.start_sloc_range_var = gen_name("start_sloc_range");
+        t_env.start_sloc_range_var = gen_name("start_sloc_range")
         decls.append((t_env.start_sloc_range_var, SourceLocationRangeType))
         code = render_template('transform_code', t_env, pos_name=pos_name)
         compile_ctx.diag_types.append(self.typ)
@@ -1373,7 +1338,7 @@ class EnumType(CompiledType):
 
     @classmethod
     def add_to_context(cls, compile_ctx):
-        if not cls in compile_ctx.types:
+        if cls not in compile_ctx.types:
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
                 render_template('enum_type_decl', cls=cls)

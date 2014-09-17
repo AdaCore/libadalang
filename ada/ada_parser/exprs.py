@@ -1,7 +1,7 @@
-from parsers import abstract, Opt, List, Or, Row, _, EnumType, Enum, Tok, \
-    TokClass, Null, ASTNode, Field, TokenType, Null
+from parsers import abstract, Opt, List, Or, Row, EnumType, Enum, Tok, \
+    TokClass, ASTNode, Field, Null
 from ada_parser import A
-from tokenizer import Token, Id, CharLit, StringLit, NumLit, Lbl
+from tokenizer import Id, CharLit, StringLit, NumLit
 
 
 @abstract
@@ -114,11 +114,6 @@ class SingleTokNode(Expr):
 class Identifier(SingleTokNode):
     _repr_name = "Id"
 
-    # properties = {
-    #     "type": ParentProperty("type")
-    # }
-
-
 
 class CharLiteral(SingleTokNode):
     _repr_name = "Chr"
@@ -215,7 +210,7 @@ A.add_rules(
     char_literal=TokClass(CharLit, keep=True) ^ CharLiteral,
     string_literal=TokClass(StringLit, keep=True) ^ StringLiteral,
     num_literal=TokClass(NumLit, keep=True) ^ NumLiteral,
-    null_literal=Tok(Token("null"), keep=True) ^ NullLiteral,
+    null_literal=Tok("null", keep=True) ^ NullLiteral,
 
     allocator=Row(
         "new", Opt("(", A.name, ")") >> 1, A.type_expression | A.name
@@ -259,9 +254,9 @@ A.add_rules(
     conditional_expression=Or(A.if_expression, A.case_expression,
                               A.quantified_expression),
 
-    diamond_expr=Tok(Token("<>")) ^ DiamondExpr,
+    diamond_expr=Tok("<>") ^ DiamondExpr,
 
-    others_designator=Tok(Token("others")) ^ OthersDesignator,
+    others_designator=Tok("others") ^ OthersDesignator,
 
     aggregate_field=Or(
         A.choice_list ^ AggregateMember,
@@ -285,8 +280,8 @@ A.add_rules(
         Row(
             Opt(A.expression, "with") >> 0,
             Or(A.aggregate_content_null, A.aggregate_content)
-        ) ^ Aggregate
-        , ")") >> 1,
+        ) ^ Aggregate,
+        ")") >> 1,
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal,
                    A.access_deref, A.attribute),
@@ -306,13 +301,14 @@ A.add_rules(
     name=Or(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ Prefix,
-        Row(A.name, "'", A.attribute, Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
+        Row(A.name, "'", A.attribute,
+            Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
         Row(A.name, "'",
             Or(Row("(", A.expression, ")") >> 1, A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),
 
-    access_deref=Tok(Token("all")) ^ AccessDeref,
+    access_deref=Tok("all") ^ AccessDeref,
 
     type_name=List(A.direct_name, sep=".", revtree=Prefix),
 

@@ -3,14 +3,18 @@ import os
 import shutil
 import subprocess
 from os import path
+from distutils.spawn import find_executable
 
 
 def write_cpp_file(file_path, source):
     with open(file_path, "wb") as out_file:
-        p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE,
-                             stdout=out_file)
-        p.communicate(source)
-        assert p.returncode == 0
+        if find_executable('clang-format'):
+            p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE,
+                                 stdout=out_file)
+            p.communicate(source)
+            assert p.returncode == 0
+        else:
+            out_file.write(source)
 
 
 class CompileCtx():

@@ -19,10 +19,11 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <value>
-          <list size="3">
+          <list size="4">
             <item index="0" class="java.lang.String" itemvalue="GPS.EditorBuffer.__insert_at_location" />
             <item index="1" class="java.lang.String" itemvalue="type.parse" />
             <item index="2" class="java.lang.String" itemvalue="combinators.Grammar.*" />
+            <item index="3" class="java.lang.String" itemvalue="quex_tokens.token_map" />
           </list>
         </value>
       </option>

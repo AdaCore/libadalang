@@ -1,5 +1,6 @@
 from parsers import Token
 
+
 class NumLit(Token):
     quex_token_name = 'NUMBER'
 

@@ -9,8 +9,8 @@ class TokenMap(object):
 
         # noinspection PyTypeChecker
         els = map(lambda x: [y for y in x if y],
-               re.findall(r'(?:\\C\{(.*?)\}|"(.*?)") => QUEX_TKN_(\w*)',
-                          qx_grammar))
+                  re.findall(r'(?:\\C\{(.*?)\}|"(.*?)") => QUEX_TKN_(\w*)',
+                             qx_grammar))
         self.str_to_names = dict(els)
 
 

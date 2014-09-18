@@ -291,7 +291,7 @@ A.add_rules(
         List(
             Row(Opt("when", A.expression, "=>") >> 1,
                 A.statements) ^ SelectWhenPart,
-             sep="or"),
+            sep="or"),
         Opt("else", A.statements) >> 1,
         Opt("then", "abort", A.statements) >> 2,
         "end", "select"
@@ -415,8 +415,9 @@ A.add_rules(
     exit_statement=Row("exit", Opt(A.identifier),
                        Opt("when", A.expression) >> 1) ^ ExitStatement,
 
-    return_statement=Row("return", Opt(A.expression | A.raise_statement)) ^
-                     ReturnStatement,
+    return_statement=(
+        Row("return", Opt(A.expression | A.raise_statement)) ^ ReturnStatement
+    ),
 
     requeue_statement=Row(
         "requeue", A.expression, Opt("with", "abort").as_bool()

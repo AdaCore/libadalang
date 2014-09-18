@@ -82,7 +82,7 @@ def common_ancestor(*classes):
     """Return the bottom-most common parent class for all `classes`."""
     rmro = lambda k: reversed(k.mro())
     result = list(takewhile(lambda a: len(set(a)) == 1,
-                          zip(*map(rmro, classes))))[-1][0]
+                            zip(*map(rmro, classes))))[-1][0]
     return result
 
 
@@ -93,6 +93,7 @@ def memoized(func):
     This function must be passed only hashable arguments.
     """
     cache = {}
+
     def wrapper(*args, **kwargs):
         key = (args, tuple(kwargs.items()))
         try:

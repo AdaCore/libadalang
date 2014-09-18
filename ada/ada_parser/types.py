@@ -1,4 +1,4 @@
-from ada_parser import  A
+from ada_parser import A
 from parsers import abstract, Opt, List, Or, Row, _, Null, \
     EnumType, Enum, ASTNode, Field
 
@@ -253,7 +253,9 @@ A.add_rules(
 
     task_def=Row(
         List(Row(A.task_item, ";") >> 0, empty_valid=True),
-        Opt("private", List(Row(A.task_item, ";") >> 0, empty_valid=True)) >> 1,
+        Opt(
+            "private", List(Row(A.task_item, ";") >> 0, empty_valid=True)
+        ) >> 1,
         "end",
         Opt(A.identifier)
     ) ^ TaskDef,
@@ -441,7 +443,8 @@ A.add_rules(
         A.default_expr, A.aspect_specification
     ) ^ ComponentDecl,
 
-    component_list=
-        Row(List(Row(A.component_item, ";") >> 0, empty_valid=True),
-            Opt(A.variant_part)) ^ ComponentList,
+    component_list=Row(
+        List(Row(A.component_item, ";") >> 0, empty_valid=True),
+        Opt(A.variant_part)
+    ) ^ ComponentList,
 )

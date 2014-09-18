@@ -2,7 +2,7 @@ from glob import glob
 import os
 import shutil
 import subprocess
-from os import path
+from os import path, environ
 from distutils.spawn import find_executable
 
 
@@ -60,8 +60,9 @@ class CompileCtx():
                 self.ast_fields_types[astnode] == types), (
             "Already associated types for some fields are not consistant with"
             " current ones:\n- {}\n- {}".format(
-            self.ast_fields_types[astnode], types
-        ))
+                self.ast_fields_types[astnode], types
+            )
+        )
         self.ast_fields_types[astnode] = types
 
     @property
@@ -153,7 +154,9 @@ class CompileCtx():
             self.get_interactive_main(header_name=file_name + ".hpp")
         )
 
-        subprocess.check_call(["quex", "-i", self.lexer_file,
+        quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
+
+        subprocess.check_call(["python", quex_py_file, "-i", self.lexer_file,
                                "--engine", "quex_lexer",
                                "--token-id-offset",  "0x1000",
                                "--language", "C",
@@ -162,4 +165,3 @@ class CompileCtx():
                                "--token-memory-management-by-user",
                                "--token-policy", "single"],
                               cwd=path.join(file_root, "src"))
-

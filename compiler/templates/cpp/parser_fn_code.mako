@@ -56,27 +56,27 @@ ${fn_profile} {
     % if _self.is_left_recursive():
         if (${pos} > mem_pos) {
             mem_pos = ${pos};
-            % if _self.needs_refcount():
+            % if _self.needs_refcount:
                 if (mem_res != nullptr) dec_ref(mem_res);
             % endif
             mem_res = ${res};
-            % if _self.needs_refcount():
+            % if _self.needs_refcount:
                 mem_res->inc_ref();
             % endif
             ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
-            % if _self.needs_refcount():
+            % if _self.needs_refcount:
                 ${res}->inc_ref();
             % endif
             goto try_again;
         } else if (mem_pos > pos) {
-            % if _self.needs_refcount():
+            % if _self.needs_refcount:
                 if (${res}) {
                     ${res}->inc_ref();
                     ${res}->dec_ref();
                 }
             % endif
 
-            % if _self.needs_refcount():
+            % if _self.needs_refcount:
                 mem_res->dec_ref();
             % endif
             ${res} = mem_res;
@@ -86,7 +86,7 @@ ${fn_profile} {
     % endif
 
     ${_self.gen_fn_name}_memo.set(pos, ${pos} != -1, ${res}, ${pos});
-    % if _self.needs_refcount():
+    % if _self.needs_refcount:
         if (${res}) ${res}->inc_ref();
     % endif
 

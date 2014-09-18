@@ -7,7 +7,7 @@ ${m_code}
 % endif
 
 if (${mpos} != -1) {
-    % if parser.needs_refcount() and _self.components_need_inc_ref and not parser.discard():
+    % if parser.needs_refcount and _self.components_need_inc_ref and not parser.discard():
         % if parser.get_type().is_ptr:
             if (${mres}) ${mres}->inc_ref();
         % else:

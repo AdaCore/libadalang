@@ -8,7 +8,7 @@ ${code}
 % endif
 
 if (${cpos} != -1) {
-    % if _self.parser.needs_refcount() and not is_row(_self.parser):
+    % if not is_row(_self.parser) and _self.parser.needs_refcount:
         if (${cres}) ${cres}->inc_ref();
     % endif
 

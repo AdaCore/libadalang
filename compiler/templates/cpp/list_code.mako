@@ -42,7 +42,7 @@ while (true) {
         }
         ${res}${"->" if _self.get_type().is_ptr else "."}vec.push_back (${pres});
 
-        % if _self.parser.needs_refcount():
+        % if _self.parser.needs_refcount:
             % if _self.parser.get_type().is_ptr:
                 if (${pres}) ${pres}->inc_ref();
             % else:

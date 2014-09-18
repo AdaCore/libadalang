@@ -60,6 +60,11 @@ class CompiledType(object):
         raise NotImplementedError()
 
     @classmethod
+    @property
+    def needs_refcount(cls):
+        raise NotImplementedError()
+
+    @classmethod
     def name(cls):
         """
         Return a string to be used in code generation to reference this type.
@@ -85,6 +90,7 @@ class BasicType(CompiledType):
     """
     _name = None
     _nullexpr = None
+    needs_refcount = False
 
     @classmethod
     def name(cls):
@@ -233,6 +239,11 @@ class ASTNode(CompiledType):
     def create_type_declaration(cls):
         """Return a forward type declaration for this AST node type."""
         return render_template('astnode_type_decl', cls=cls)
+
+    @classmethod
+    @property
+    def needs_refcount(cls):
+        return True
 
     @classmethod
     def create_type_definition(cls, compile_ctx):
@@ -399,8 +410,11 @@ class Parser(object):
     def discard(self):
         return False
 
+    @property
     def needs_refcount(self):
-        return True
+        if self.get_type():
+            return self.get_type().needs_refcount
+        return False
 
     def __or__(self, other):
         """Return a new parser that matches this one or `other`."""
@@ -578,9 +592,6 @@ class Tok(Parser):
     def discard(self):
         return not self.keep
 
-    def needs_refcount(self):
-        return False
-
     def _is_left_recursive(self, rule_name):
         return False
 
@@ -616,9 +627,6 @@ class TokClass(Parser):
 
     def discard(self):
         return not self.keep
-
-    def needs_refcount(self):
-        return False
 
     def __repr__(self):
         return "TokClass({0})".format(self.tok_class.__name__)
@@ -675,11 +683,6 @@ class Or(Parser):
 
     def children(self):
         return self.parsers
-
-    def needs_refcount(self):
-        assert(all(i.needs_refcount() == self.parsers[0].needs_refcount()
-                   for i in self.parsers))
-        return self.parsers[0].needs_refcount()
 
     def get_type(self):
         if self.cached_type:
@@ -758,9 +761,6 @@ class Row(Parser):
                 break
         return False
 
-    def needs_refcount(self):
-        return True
-
     def __repr__(self):
         return "Row({0})".format(", ".join(repr(m) for m in self.parsers))
 
@@ -800,7 +800,8 @@ class Row(Parser):
         return self.parsers
 
     def get_type(self):
-        assert False, "A Row parser never yields a concrete result itself."
+        # A Row parser never yields a concrete result itself.
+        return None
 
     def generate_code(self, compile_ctx, pos_name="pos"):
         """ :type compile_ctx: compile_context.CompileCtx """
@@ -888,9 +889,6 @@ class List(Parser):
                      or not always_make_progress(self.parser))
         )
         return res
-
-    def needs_refcount(self):
-        return self.parser.needs_refcount()
 
     def __repr__(self):
         return "List({0})".format(
@@ -999,11 +997,6 @@ class Opt(Parser):
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
 
-    def needs_refcount(self):
-        if self._booleanize:
-            return False
-        return self.parser.needs_refcount()
-
     def __repr__(self):
         return "Opt({0})".format(self.parser)
 
@@ -1070,9 +1063,6 @@ class Extract(Parser):
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
 
-    def needs_refcount(self):
-        return self.parser.needs_refcount()
-
     def __repr__(self):
         return "{0} >> {1}".format(self.parser, self.index)
 
@@ -1110,9 +1100,6 @@ class Discard(Parser):
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
-
-    def needs_refcount(self):
-        return self.parser.needs_refcount()
 
     def __repr__(self):
         return "Discard({0})".format(self.parser)
@@ -1152,9 +1139,6 @@ class Defer(Parser):
     def _is_left_recursive(self, rule_name):
         return self.name == rule_name
 
-    def needs_refcount(self):
-        return self.parser.needs_refcount()
-
     def __repr__(self):
         return "Defer({0})".format(self.name)
 
@@ -1184,9 +1168,6 @@ class Transform(Parser):
 
     def _is_left_recursive(self, rule_name):
         return self.parser._is_left_recursive(rule_name)
-
-    def needs_refcount(self):
-        return True
 
     def __repr__(self):
         return "{0} ^ {1}".format(self.parser, self.typ.name())
@@ -1323,6 +1304,7 @@ class EnumType(CompiledType):
     """
 
     is_ptr = False
+    needs_refcount = False
     alternatives = []
 
     def __init__(self, alt):
@@ -1358,9 +1340,6 @@ class Enum(Parser):
     def _is_left_recursive(self, rule_name):
         if self.parser:
             return self.parser._is_left_recursive(rule_name)
-        return False
-
-    def needs_refcount(self):
         return False
 
     def __repr__(self):

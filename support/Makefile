@@ -10,13 +10,13 @@ ifneq (,$(findstring sun, $(COMPILER)))
 endif
 
 OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 \
-	  -c -g -O0 -I$(QUEX_PATH) -Iinclude -Isrc -ferror-limit=1\
+	  -c -g -O0 -I$(QUEX_PATH) -Iinclude -Isrc \
 	  $(ADD_FLAGS) \
       -DQUEX_OPTION_ASSERTS_DISABLED \
       -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED \
 	 # -DDEBUG_MODE
      # -DQUEX_OPTION_DEBUG_SHOW
-	 #
+
 CC = $(COMPILER) $(OPTS)   
 
 LD = $(COMPILER) 

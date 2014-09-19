@@ -1,6 +1,7 @@
 from glob import glob
 import os
 import shutil
+import sys
 import subprocess
 from os import path, environ
 from distutils.spawn import find_executable
@@ -156,7 +157,8 @@ class CompileCtx():
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 
-        subprocess.check_call(["python", quex_py_file, "-i", self.lexer_file,
+        subprocess.check_call([sys.executable, quex_py_file, "-i",
+                               self.lexer_file,
                                "--engine", "quex_lexer",
                                "--token-id-offset",  "0x1000",
                                "--language", "C",

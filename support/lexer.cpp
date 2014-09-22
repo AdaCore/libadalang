@@ -115,9 +115,13 @@ const char* empty_str="";
 void symbolize(Lexer* lexer, quex_Token* tk) {
 
     static char text_buffer[1024];
+    uint8_t *buffer = NULL;
 
     if (tk->_id == QUEX_TKN_STRING) {
-        tk->text = (const uint8_t*)strndup((const char*)tk->text, tk->len);
+        buffer = (uint8_t *)malloc (tk->len + 1);
+        strncpy(buffer, (const char*)tk->text, tk->len);
+        buffer[tk->len] = 0;
+        tk->text = buffer;
         lexer->str_literals.push_back((uint8_t*)tk->text);
         return;
     }

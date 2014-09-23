@@ -119,7 +119,7 @@ void symbolize(Lexer* lexer, quex_Token* tk) {
 
     if (tk->_id == QUEX_TKN_STRING) {
         buffer = (uint8_t *)malloc (tk->len + 1);
-        strncpy(buffer, (const char*)tk->text, tk->len);
+        strncpy((char*)buffer, (const char*)tk->text, tk->len);
         buffer[tk->len] = 0;
         tk->text = buffer;
         lexer->str_literals.push_back((uint8_t*)tk->text);

@@ -62,6 +62,22 @@ public:
        is included in this node's sloc range.  Behaves just like lookup
        otherwise.  */
     virtual ASTNode *lookup_children(const SourceLocation &sloc) = 0;
+
+    ASTNode* _parent;
+
+    ASTNode* parent() {
+       return this->_parent;
+    }
+
+    void setParent (ASTNode *parent) {
+       this->_parent = parent;
+    }
+
+    /* Method invoked in the testing phase which provides support to verify
+       the decoration of the AST nodes. Currently it is overriden in the
+       derived classes to check the decoration of the _parent attribute
+       but it is a hook for adding further checks */
+    virtual void validate() = 0;
 };
 
 template <typename T> class ASTList : public ASTNode {
@@ -77,6 +93,8 @@ public:
         #endif
         vec_dec_ref (vec); 
     }
+
+    void validate();
 };
 
 template <typename T> ASTNode *
@@ -143,5 +161,18 @@ template <typename T> void dec_ref (T*& el) {
 }
 
 inline std::string get_repr (Token node) { return std::string(node.text); }
+
+template <typename T> void
+ASTList<T>::validate() {
+   for (typename std::vector<T>::iterator it = vec.begin();
+        it != vec.end(); ++it)
+   {
+      ASTNode *node = (ASTNode*) *it;
+      if (node) {
+         assert(node->parent() == this && "wrong parent in list component");
+         node->validate();
+      }
+   }
+}
 
 #endif

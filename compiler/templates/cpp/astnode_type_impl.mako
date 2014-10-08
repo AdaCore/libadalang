@@ -89,4 +89,16 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
         return this;
     }
+
+    void ${cls.name()}::validate() {
+       % for t, f in all_field_decls:
+         % if is_ast_node (t):
+              if (${f.name}) {
+                 assert(${f.name}->parent() == this &&
+                        "validate: wrong parent in ${cls.name()}::${f.name}");
+                 ${f.name}->validate();
+              }
+         % endif
+       % endfor
+    }
 % endif

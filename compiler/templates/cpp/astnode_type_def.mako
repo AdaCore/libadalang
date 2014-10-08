@@ -20,6 +20,10 @@ public:
 
     std::string __name();
     ~${cls.name()}();
+
+    % if not cls.abstract:
+        void validate();
+    % endif
 };
 
 extern long ${cls.name().lower()}_counter;

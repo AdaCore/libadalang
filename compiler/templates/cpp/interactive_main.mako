@@ -55,6 +55,7 @@ void parse_input(Lexer* lex,
                                    get_repr(lookup_res).c_str());
                         }
                     }
+                    res->validate();
                 % else:
                     if (!lookups.empty())
                         printf("Cannot lookup non-AST nodes!\n");

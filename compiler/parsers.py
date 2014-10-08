@@ -1221,6 +1221,10 @@ class Transform(Parser):
         t_env = TemplateEnvironment()
         t_env._self = self
 
+        # The template needs the compiler context to retrieve the types
+        # of the tree fields (required by get_types())
+        t_env._compile_ctx = compile_ctx
+
         if isinstance(self.parser, Row):
             self.parser.assign_wrapper(self)
 

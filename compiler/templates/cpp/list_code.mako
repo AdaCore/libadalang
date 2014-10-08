@@ -34,13 +34,19 @@ while (true) {
             new_res->${_self.revtree_class.fields[1].name} = ${pres};
             ${res}->inc_ref();
             ${pres}->inc_ref();
+            ${res}->setParent(new_res);
+            ${pres}->setParent(new_res);
             ${res} = new_res;
         }
+
     % else:
         if (${res} == ${_self.get_type().nullexpr()}) {
             ${res} = new ASTList<${decl_type(_self.parser.get_type())}>;
         }
         ${res}${"->" if _self.get_type().is_ptr else "."}vec.push_back (${pres});
+        % if is_ast_node (_self.parser.get_type()):
+             if (${pres}) ${pres}->setParent(${res});
+        % endif
 
         % if _self.parser.needs_refcount:
             % if _self.parser.get_type().is_ptr:

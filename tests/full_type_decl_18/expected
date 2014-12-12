@@ -1,1 +1,28 @@
-FullTypeDecl[1:1-1:40](Id[1:6-1:9](Arr), None, ArrayTypeDef[1:13-1:40](ConstrainedArrayIndices[1:20-1:28]([BinOp[1:20-1:28](Num[1:20-1:22](12), ellipsis, Num[1:26-1:28](15))]), ComponentDef[1:33-1:40](False, TypeExpression[1:33-1:40](False, TypeRef[1:33-1:40](Id[1:33-1:40](Integer), None)))), None)
+FullTypeDecl[1:1-1:40]
+| type_id:
+| | Id[1:6-1:9]
+| | | tok: Arr
+| type_def:
+| | ArrayTypeDef[1:13-1:40]
+| | | indices:
+| | | | ConstrainedArrayIndices[1:20-1:28]
+| | | | | list:
+| | | | | | BinOp[1:20-1:28]
+| | | | | | | left:
+| | | | | | | | Num[1:20-1:22]
+| | | | | | | | | tok: 12
+| | | | | | | op: ellipsis
+| | | | | | | right:
+| | | | | | | | Num[1:26-1:28]
+| | | | | | | | | tok: 15
+| | | stored_component:
+| | | | ComponentDef[1:33-1:40]
+| | | | | aliased: False
+| | | | | type_expr:
+| | | | | | TypeExpression[1:33-1:40]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:33-1:40]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:33-1:40]
+| | | | | | | | | | | tok: Integer

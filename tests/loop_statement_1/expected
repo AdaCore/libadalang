@@ -1,1 +1,26 @@
-LoopStatement[1:1-1:51](None, ForLoopSpec[1:5-1:31](Id[1:5-1:6](A), in, False, TypeRef[1:10-1:31](Id[1:10-1:17](Integer), RangeConstraint[1:18-1:31](BinOp[1:24-1:31](Num[1:24-1:25](1), ellipsis, Num[1:29-1:31](16))))), [NullStatement[1:37-1:41]()])
+LoopStatement[1:1-1:51]
+| spec:
+| | ForLoopSpec[1:5-1:31]
+| | | id:
+| | | | Id[1:5-1:6]
+| | | | | tok: A
+| | | loop_type: in
+| | | is_reverse: False
+| | | iter_expr:
+| | | | TypeRef[1:10-1:31]
+| | | | | name:
+| | | | | | Id[1:10-1:17]
+| | | | | | | tok: Integer
+| | | | | constraint:
+| | | | | | RangeConstraint[1:18-1:31]
+| | | | | | | range:
+| | | | | | | | BinOp[1:24-1:31]
+| | | | | | | | | left:
+| | | | | | | | | | Num[1:24-1:25]
+| | | | | | | | | | | tok: 1
+| | | | | | | | | op: ellipsis
+| | | | | | | | | right:
+| | | | | | | | | | Num[1:29-1:31]
+| | | | | | | | | | | tok: 16
+| statements:
+| | NullStatement[1:37-1:41]

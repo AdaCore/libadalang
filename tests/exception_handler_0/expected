@@ -1,1 +1,12 @@
-ExceptionHandler[1:1-1:34](None, [AttributeRef[1:6-1:24](Id[1:6-1:11](Pouet), Id[1:12-1:24](Abort_Signal), None)], [Id[1:28-1:33](Prout)])
+ExceptionHandler[1:1-1:34]
+| catched_exceptions:
+| | AttributeRef[1:6-1:24]
+| | | prefix:
+| | | | Id[1:6-1:11]
+| | | | | tok: Pouet
+| | | attribute:
+| | | | Id[1:12-1:24]
+| | | | | tok: Abort_Signal
+| statements:
+| | Id[1:28-1:33]
+| | | tok: Prout

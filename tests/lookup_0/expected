@@ -1,27 +1,658 @@
-CompilationUnit[1:1-17:9]([WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])], LibraryItem[3:1-17:9](False, SubprogramBody[3:1-17:9](unspecified, SubprogramSpec[3:1-3:47](Id[3:11-3:22](Hello_World), [ParameterProfile[3:24-3:46]([Id[3:24-3:31](Console)], in, TypeExpression[3:34-3:46](False, TypeRef[3:34-3:46](Id[3:34-3:46](Console_Type), None)), None)], None), None, [SubprogramBody[5:4-12:12](unspecified, SubprogramSpec[5:4-5:46](Id[5:13-5:17](Fact), [ParameterProfile[5:19-5:30]([Id[5:19-5:20](N)], in, TypeExpression[5:23-5:30](False, TypeRef[5:23-5:30](Id[5:23-5:30](Integer), None)), None)], TypeExpression[5:39-5:46](False, TypeRef[5:39-5:46](Id[5:39-5:46](Integer), None))), None, [], HandledStatements[7:7-11:14]([IfStatement[7:7-11:13](BinOp[7:10-7:16](Id[7:10-7:11](N), lte, Num[7:15-7:16](1)), [ReturnStatement[8:10-8:18](Num[8:17-8:18](1))], [], [ReturnStatement[10:10-10:33](BinOp[10:17-10:33](Id[10:17-10:18](N), mult, CallExpr[10:21-10:33](Id[10:21-10:25](Fact), ParamList[10:27-10:32]([ParamAssoc[10:27-10:32](None, BinOp[10:27-10:32](Id[10:27-10:28](N), minus, Num[10:31-10:32](1)))]))))])], None), Id[12:8-12:12](Fact))], HandledStatements[15:4-16:68]([CallExpr[15:4-15:42](Prefix[15:4-15:24](Prefix[15:4-15:15](Id[15:4-15:7](Ada), Id[15:8-15:15](Text_IO)), Id[15:16-15:24](Put_Line)), ParamList[15:26-15:41]([ParamAssoc[15:26-15:41](None, Str[15:26-15:41]("Hello, world!"))])), CallExpr[16:4-16:67](Prefix[16:4-16:24](Prefix[16:4-16:15](Id[16:4-16:7](Ada), Id[16:8-16:15](Text_IO)), Id[16:16-16:24](Put_Line)), ParamList[16:26-16:66]([ParamAssoc[16:26-16:66](None, BinOp[16:26-16:66](Str[16:26-16:39]("Fact (6) = "), bin_and, AttributeRef[16:42-16:66](Id[16:42-16:49](Integer), Id[16:50-16:55](Image), ParamList[16:57-16:65]([ParamAssoc[16:57-16:65](None, CallExpr[16:57-16:65](Id[16:57-16:61](Fact), ParamList[16:63-16:64]([ParamAssoc[16:63-16:64](None, Num[16:63-16:64](6))])))]))))]))], None), Id[17:5-17:9](Fact))))
+CompilationUnit[1:1-17:9]
+| prelude:
+| | WithDecl[1:1-1:17]
+| | | is_limited: False
+| | | is_private: False
+| | | packages:
+| | | | Prefix[1:6-1:17]
+| | | | | prefix:
+| | | | | | Id[1:6-1:9]
+| | | | | | | tok: Ada
+| | | | | suffix:
+| | | | | | Id[1:10-1:17]
+| | | | | | | tok: Text_IO
+| body:
+| | LibraryItem[3:1-17:9]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[3:1-17:9]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[3:1-3:47]
+| | | | | | | name:
+| | | | | | | | Id[3:11-3:22]
+| | | | | | | | | tok: Hello_World
+| | | | | | | params:
+| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[3:24-3:31]
+| | | | | | | | | | | tok: Console
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[3:34-3:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | | | | | tok: Console_Type
+| | | | | decls:
+| | | | | | SubprogramBody[5:4-12:12]
+| | | | | | | overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[5:4-5:46]
+| | | | | | | | | name:
+| | | | | | | | | | Id[5:13-5:17]
+| | | | | | | | | | | tok: Fact
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[5:19-5:20]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | returns:
+| | | | | | | | | | TypeExpression[5:39-5:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[5:39-5:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[5:39-5:46]
+| | | | | | | | | | | | | | | tok: Integer
+| | | | | | | statements:
+| | | | | | | | HandledStatements[7:7-11:14]
+| | | | | | | | | statements:
+| | | | | | | | | | IfStatement[7:7-11:13]
+| | | | | | | | | | | condition:
+| | | | | | | | | | | | BinOp[7:10-7:16]
+| | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | Id[7:10-7:11]
+| | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | op: lte
+| | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | Num[7:15-7:16]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | statements:
+| | | | | | | | | | | | ReturnStatement[8:10-8:18]
+| | | | | | | | | | | | | return_expr:
+| | | | | | | | | | | | | | Num[8:17-8:18]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | else_statements:
+| | | | | | | | | | | | ReturnStatement[10:10-10:33]
+| | | | | | | | | | | | | return_expr:
+| | | | | | | | | | | | | | BinOp[10:17-10:33]
+| | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | Id[10:17-10:18]
+| | | | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | | | op: mult
+| | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | CallExpr[10:21-10:33]
+| | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | Id[10:21-10:25]
+| | | | | | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | | | | | ParamList[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | ParamAssoc[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | BinOp[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | | | | | | | | | Num[10:31-10:32]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: 1
+| | | | | | | end_id:
+| | | | | | | | Id[12:8-12:12]
+| | | | | | | | | tok: Fact
+| | | | | statements:
+| | | | | | HandledStatements[15:4-16:68]
+| | | | | | | statements:
+| | | | | | | | CallExpr[15:4-15:42]
+| | | | | | | | | prefix:
+| | | | | | | | | | Prefix[15:4-15:24]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[15:4-15:7]
+| | | | | | | | | | | | | | | tok: Ada
+| | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | Id[15:8-15:15]
+| | | | | | | | | | | | | | | tok: Text_IO
+| | | | | | | | | | | suffix:
+| | | | | | | | | | | | Id[15:16-15:24]
+| | | | | | | | | | | | | tok: Put_Line
+| | | | | | | | | calls:
+| | | | | | | | | | ParamList[15:26-15:41]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[15:26-15:41]
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | Str[15:26-15:41]
+| | | | | | | | | | | | | | | tok: "Hello, world!"
+| | | | | | | | CallExpr[16:4-16:67]
+| | | | | | | | | prefix:
+| | | | | | | | | | Prefix[16:4-16:24]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[16:4-16:7]
+| | | | | | | | | | | | | | | tok: Ada
+| | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | Id[16:8-16:15]
+| | | | | | | | | | | | | | | tok: Text_IO
+| | | | | | | | | | | suffix:
+| | | | | | | | | | | | Id[16:16-16:24]
+| | | | | | | | | | | | | tok: Put_Line
+| | | | | | | | | calls:
+| | | | | | | | | | ParamList[16:26-16:66]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[16:26-16:66]
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | BinOp[16:26-16:66]
+| | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | Str[16:26-16:39]
+| | | | | | | | | | | | | | | | | tok: "Fact (6) = "
+| | | | | | | | | | | | | | | op: bin_and
+| | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | AttributeRef[16:42-16:66]
+| | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | Id[16:42-16:49]
+| | | | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | | | | | attribute:
+| | | | | | | | | | | | | | | | | | Id[16:50-16:55]
+| | | | | | | | | | | | | | | | | | | tok: Image
+| | | | | | | | | | | | | | | | | args:
+| | | | | | | | | | | | | | | | | | ParamList[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | ParamAssoc[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | CallExpr[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | | | | | | | Id[16:57-16:61]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | | | | | | | | | | | ParamList[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | | | | | | | ParamAssoc[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | Num[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: 6
+| | | | | end_id:
+| | | | | | Id[17:5-17:9]
+| | | | | | | tok: Fact
 
-Lookup 1:1: WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])
+Lookup 1:1:
+WithDecl[1:1-1:17]
+| is_limited: False
+| is_private: False
+| packages:
+| | Prefix[1:6-1:17]
+| | | prefix:
+| | | | Id[1:6-1:9]
+| | | | | tok: Ada
+| | | suffix:
+| | | | Id[1:10-1:17]
+| | | | | tok: Text_IO
 
-Lookup 1:2: WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])
+Lookup 1:2:
+WithDecl[1:1-1:17]
+| is_limited: False
+| is_private: False
+| packages:
+| | Prefix[1:6-1:17]
+| | | prefix:
+| | | | Id[1:6-1:9]
+| | | | | tok: Ada
+| | | suffix:
+| | | | Id[1:10-1:17]
+| | | | | tok: Text_IO
 
-Lookup 1:4: WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])
+Lookup 1:4:
+WithDecl[1:1-1:17]
+| is_limited: False
+| is_private: False
+| packages:
+| | Prefix[1:6-1:17]
+| | | prefix:
+| | | | Id[1:6-1:9]
+| | | | | tok: Ada
+| | | suffix:
+| | | | Id[1:10-1:17]
+| | | | | tok: Text_IO
 
-Lookup 1:5: WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])
+Lookup 1:5:
+WithDecl[1:1-1:17]
+| is_limited: False
+| is_private: False
+| packages:
+| | Prefix[1:6-1:17]
+| | | prefix:
+| | | | Id[1:6-1:9]
+| | | | | tok: Ada
+| | | suffix:
+| | | | Id[1:10-1:17]
+| | | | | tok: Text_IO
 
-Lookup 1:6: Id[1:6-1:9](Ada)
+Lookup 1:6:
+Id[1:6-1:9]
+| tok: Ada
 
-Lookup 1:8: Id[1:6-1:9](Ada)
+Lookup 1:8:
+Id[1:6-1:9]
+| tok: Ada
 
-Lookup 1:9: Id[1:6-1:9](Ada)
+Lookup 1:9:
+Id[1:6-1:9]
+| tok: Ada
 
-Lookup 1:10: Id[1:10-1:17](Text_IO)
+Lookup 1:10:
+Id[1:10-1:17]
+| tok: Text_IO
 
-Lookup 1:16: Id[1:10-1:17](Text_IO)
+Lookup 1:16:
+Id[1:10-1:17]
+| tok: Text_IO
 
-Lookup 1:17: Id[1:10-1:17](Text_IO)
+Lookup 1:17:
+Id[1:10-1:17]
+| tok: Text_IO
 
-Lookup 2:1: CompilationUnit[1:1-17:9]([WithDecl[1:1-1:17](False, False, [Prefix[1:6-1:17](Id[1:6-1:9](Ada), Id[1:10-1:17](Text_IO))])], LibraryItem[3:1-17:9](False, SubprogramBody[3:1-17:9](unspecified, SubprogramSpec[3:1-3:47](Id[3:11-3:22](Hello_World), [ParameterProfile[3:24-3:46]([Id[3:24-3:31](Console)], in, TypeExpression[3:34-3:46](False, TypeRef[3:34-3:46](Id[3:34-3:46](Console_Type), None)), None)], None), None, [SubprogramBody[5:4-12:12](unspecified, SubprogramSpec[5:4-5:46](Id[5:13-5:17](Fact), [ParameterProfile[5:19-5:30]([Id[5:19-5:20](N)], in, TypeExpression[5:23-5:30](False, TypeRef[5:23-5:30](Id[5:23-5:30](Integer), None)), None)], TypeExpression[5:39-5:46](False, TypeRef[5:39-5:46](Id[5:39-5:46](Integer), None))), None, [], HandledStatements[7:7-11:14]([IfStatement[7:7-11:13](BinOp[7:10-7:16](Id[7:10-7:11](N), lte, Num[7:15-7:16](1)), [ReturnStatement[8:10-8:18](Num[8:17-8:18](1))], [], [ReturnStatement[10:10-10:33](BinOp[10:17-10:33](Id[10:17-10:18](N), mult, CallExpr[10:21-10:33](Id[10:21-10:25](Fact), ParamList[10:27-10:32]([ParamAssoc[10:27-10:32](None, BinOp[10:27-10:32](Id[10:27-10:28](N), minus, Num[10:31-10:32](1)))]))))])], None), Id[12:8-12:12](Fact))], HandledStatements[15:4-16:68]([CallExpr[15:4-15:42](Prefix[15:4-15:24](Prefix[15:4-15:15](Id[15:4-15:7](Ada), Id[15:8-15:15](Text_IO)), Id[15:16-15:24](Put_Line)), ParamList[15:26-15:41]([ParamAssoc[15:26-15:41](None, Str[15:26-15:41]("Hello, world!"))])), CallExpr[16:4-16:67](Prefix[16:4-16:24](Prefix[16:4-16:15](Id[16:4-16:7](Ada), Id[16:8-16:15](Text_IO)), Id[16:16-16:24](Put_Line)), ParamList[16:26-16:66]([ParamAssoc[16:26-16:66](None, BinOp[16:26-16:66](Str[16:26-16:39]("Fact (6) = "), bin_and, AttributeRef[16:42-16:66](Id[16:42-16:49](Integer), Id[16:50-16:55](Image), ParamList[16:57-16:65]([ParamAssoc[16:57-16:65](None, CallExpr[16:57-16:65](Id[16:57-16:61](Fact), ParamList[16:63-16:64]([ParamAssoc[16:63-16:64](None, Num[16:63-16:64](6))])))]))))]))], None), Id[17:5-17:9](Fact))))
+Lookup 2:1:
+CompilationUnit[1:1-17:9]
+| prelude:
+| | WithDecl[1:1-1:17]
+| | | is_limited: False
+| | | is_private: False
+| | | packages:
+| | | | Prefix[1:6-1:17]
+| | | | | prefix:
+| | | | | | Id[1:6-1:9]
+| | | | | | | tok: Ada
+| | | | | suffix:
+| | | | | | Id[1:10-1:17]
+| | | | | | | tok: Text_IO
+| body:
+| | LibraryItem[3:1-17:9]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[3:1-17:9]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[3:1-3:47]
+| | | | | | | name:
+| | | | | | | | Id[3:11-3:22]
+| | | | | | | | | tok: Hello_World
+| | | | | | | params:
+| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[3:24-3:31]
+| | | | | | | | | | | tok: Console
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[3:34-3:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | | | | | tok: Console_Type
+| | | | | decls:
+| | | | | | SubprogramBody[5:4-12:12]
+| | | | | | | overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[5:4-5:46]
+| | | | | | | | | name:
+| | | | | | | | | | Id[5:13-5:17]
+| | | | | | | | | | | tok: Fact
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[5:19-5:20]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | returns:
+| | | | | | | | | | TypeExpression[5:39-5:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[5:39-5:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[5:39-5:46]
+| | | | | | | | | | | | | | | tok: Integer
+| | | | | | | statements:
+| | | | | | | | HandledStatements[7:7-11:14]
+| | | | | | | | | statements:
+| | | | | | | | | | IfStatement[7:7-11:13]
+| | | | | | | | | | | condition:
+| | | | | | | | | | | | BinOp[7:10-7:16]
+| | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | Id[7:10-7:11]
+| | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | op: lte
+| | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | Num[7:15-7:16]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | statements:
+| | | | | | | | | | | | ReturnStatement[8:10-8:18]
+| | | | | | | | | | | | | return_expr:
+| | | | | | | | | | | | | | Num[8:17-8:18]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | else_statements:
+| | | | | | | | | | | | ReturnStatement[10:10-10:33]
+| | | | | | | | | | | | | return_expr:
+| | | | | | | | | | | | | | BinOp[10:17-10:33]
+| | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | Id[10:17-10:18]
+| | | | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | | | op: mult
+| | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | CallExpr[10:21-10:33]
+| | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | Id[10:21-10:25]
+| | | | | | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | | | | | ParamList[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | ParamAssoc[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | BinOp[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | | | | | | | | | Num[10:31-10:32]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: 1
+| | | | | | | end_id:
+| | | | | | | | Id[12:8-12:12]
+| | | | | | | | | tok: Fact
+| | | | | statements:
+| | | | | | HandledStatements[15:4-16:68]
+| | | | | | | statements:
+| | | | | | | | CallExpr[15:4-15:42]
+| | | | | | | | | prefix:
+| | | | | | | | | | Prefix[15:4-15:24]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[15:4-15:7]
+| | | | | | | | | | | | | | | tok: Ada
+| | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | Id[15:8-15:15]
+| | | | | | | | | | | | | | | tok: Text_IO
+| | | | | | | | | | | suffix:
+| | | | | | | | | | | | Id[15:16-15:24]
+| | | | | | | | | | | | | tok: Put_Line
+| | | | | | | | | calls:
+| | | | | | | | | | ParamList[15:26-15:41]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[15:26-15:41]
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | Str[15:26-15:41]
+| | | | | | | | | | | | | | | tok: "Hello, world!"
+| | | | | | | | CallExpr[16:4-16:67]
+| | | | | | | | | prefix:
+| | | | | | | | | | Prefix[16:4-16:24]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[16:4-16:7]
+| | | | | | | | | | | | | | | tok: Ada
+| | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | Id[16:8-16:15]
+| | | | | | | | | | | | | | | tok: Text_IO
+| | | | | | | | | | | suffix:
+| | | | | | | | | | | | Id[16:16-16:24]
+| | | | | | | | | | | | | tok: Put_Line
+| | | | | | | | | calls:
+| | | | | | | | | | ParamList[16:26-16:66]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[16:26-16:66]
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | BinOp[16:26-16:66]
+| | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | Str[16:26-16:39]
+| | | | | | | | | | | | | | | | | tok: "Fact (6) = "
+| | | | | | | | | | | | | | | op: bin_and
+| | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | AttributeRef[16:42-16:66]
+| | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | Id[16:42-16:49]
+| | | | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | | | | | attribute:
+| | | | | | | | | | | | | | | | | | Id[16:50-16:55]
+| | | | | | | | | | | | | | | | | | | tok: Image
+| | | | | | | | | | | | | | | | | args:
+| | | | | | | | | | | | | | | | | | ParamList[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | ParamAssoc[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | CallExpr[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | | | | | | | Id[16:57-16:61]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | | | | | | | | | | | ParamList[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | | | | | | | ParamAssoc[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | Num[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: 6
+| | | | | end_id:
+| | | | | | Id[17:5-17:9]
+| | | | | | | tok: Fact
 
-Lookup 4:1: SubprogramBody[3:1-17:9](unspecified, SubprogramSpec[3:1-3:47](Id[3:11-3:22](Hello_World), [ParameterProfile[3:24-3:46]([Id[3:24-3:31](Console)], in, TypeExpression[3:34-3:46](False, TypeRef[3:34-3:46](Id[3:34-3:46](Console_Type), None)), None)], None), None, [SubprogramBody[5:4-12:12](unspecified, SubprogramSpec[5:4-5:46](Id[5:13-5:17](Fact), [ParameterProfile[5:19-5:30]([Id[5:19-5:20](N)], in, TypeExpression[5:23-5:30](False, TypeRef[5:23-5:30](Id[5:23-5:30](Integer), None)), None)], TypeExpression[5:39-5:46](False, TypeRef[5:39-5:46](Id[5:39-5:46](Integer), None))), None, [], HandledStatements[7:7-11:14]([IfStatement[7:7-11:13](BinOp[7:10-7:16](Id[7:10-7:11](N), lte, Num[7:15-7:16](1)), [ReturnStatement[8:10-8:18](Num[8:17-8:18](1))], [], [ReturnStatement[10:10-10:33](BinOp[10:17-10:33](Id[10:17-10:18](N), mult, CallExpr[10:21-10:33](Id[10:21-10:25](Fact), ParamList[10:27-10:32]([ParamAssoc[10:27-10:32](None, BinOp[10:27-10:32](Id[10:27-10:28](N), minus, Num[10:31-10:32](1)))]))))])], None), Id[12:8-12:12](Fact))], HandledStatements[15:4-16:68]([CallExpr[15:4-15:42](Prefix[15:4-15:24](Prefix[15:4-15:15](Id[15:4-15:7](Ada), Id[15:8-15:15](Text_IO)), Id[15:16-15:24](Put_Line)), ParamList[15:26-15:41]([ParamAssoc[15:26-15:41](None, Str[15:26-15:41]("Hello, world!"))])), CallExpr[16:4-16:67](Prefix[16:4-16:24](Prefix[16:4-16:15](Id[16:4-16:7](Ada), Id[16:8-16:15](Text_IO)), Id[16:16-16:24](Put_Line)), ParamList[16:26-16:66]([ParamAssoc[16:26-16:66](None, BinOp[16:26-16:66](Str[16:26-16:39]("Fact (6) = "), bin_and, AttributeRef[16:42-16:66](Id[16:42-16:49](Integer), Id[16:50-16:55](Image), ParamList[16:57-16:65]([ParamAssoc[16:57-16:65](None, CallExpr[16:57-16:65](Id[16:57-16:61](Fact), ParamList[16:63-16:64]([ParamAssoc[16:63-16:64](None, Num[16:63-16:64](6))])))]))))]))], None), Id[17:5-17:9](Fact))
+Lookup 4:1:
+SubprogramBody[3:1-17:9]
+| overriding: unspecified
+| subp_spec:
+| | SubprogramSpec[3:1-3:47]
+| | | name:
+| | | | Id[3:11-3:22]
+| | | | | tok: Hello_World
+| | | params:
+| | | | ParameterProfile[3:24-3:46]
+| | | | | ids:
+| | | | | | Id[3:24-3:31]
+| | | | | | | tok: Console
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[3:34-3:46]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | name:
+| | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | tok: Console_Type
+| decls:
+| | SubprogramBody[5:4-12:12]
+| | | overriding: unspecified
+| | | subp_spec:
+| | | | SubprogramSpec[5:4-5:46]
+| | | | | name:
+| | | | | | Id[5:13-5:17]
+| | | | | | | tok: Fact
+| | | | | params:
+| | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | ids:
+| | | | | | | | Id[5:19-5:20]
+| | | | | | | | | tok: N
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | tok: Integer
+| | | | | returns:
+| | | | | | TypeExpression[5:39-5:46]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[5:39-5:46]
+| | | | | | | | | name:
+| | | | | | | | | | Id[5:39-5:46]
+| | | | | | | | | | | tok: Integer
+| | | statements:
+| | | | HandledStatements[7:7-11:14]
+| | | | | statements:
+| | | | | | IfStatement[7:7-11:13]
+| | | | | | | condition:
+| | | | | | | | BinOp[7:10-7:16]
+| | | | | | | | | left:
+| | | | | | | | | | Id[7:10-7:11]
+| | | | | | | | | | | tok: N
+| | | | | | | | | op: lte
+| | | | | | | | | right:
+| | | | | | | | | | Num[7:15-7:16]
+| | | | | | | | | | | tok: 1
+| | | | | | | statements:
+| | | | | | | | ReturnStatement[8:10-8:18]
+| | | | | | | | | return_expr:
+| | | | | | | | | | Num[8:17-8:18]
+| | | | | | | | | | | tok: 1
+| | | | | | | else_statements:
+| | | | | | | | ReturnStatement[10:10-10:33]
+| | | | | | | | | return_expr:
+| | | | | | | | | | BinOp[10:17-10:33]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Id[10:17-10:18]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | op: mult
+| | | | | | | | | | | right:
+| | | | | | | | | | | | CallExpr[10:21-10:33]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[10:21-10:25]
+| | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | ParamList[10:27-10:32]
+| | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | ParamAssoc[10:27-10:32]
+| | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | BinOp[10:27-10:32]
+| | | | | | | | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
+| | | | | | | | | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | | | | | | | Num[10:31-10:32]
+| | | | | | | | | | | | | | | | | | | | | tok: 1
+| | | end_id:
+| | | | Id[12:8-12:12]
+| | | | | tok: Fact
+| statements:
+| | HandledStatements[15:4-16:68]
+| | | statements:
+| | | | CallExpr[15:4-15:42]
+| | | | | prefix:
+| | | | | | Prefix[15:4-15:24]
+| | | | | | | prefix:
+| | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[15:4-15:7]
+| | | | | | | | | | | tok: Ada
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[15:8-15:15]
+| | | | | | | | | | | tok: Text_IO
+| | | | | | | suffix:
+| | | | | | | | Id[15:16-15:24]
+| | | | | | | | | tok: Put_Line
+| | | | | calls:
+| | | | | | ParamList[15:26-15:41]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[15:26-15:41]
+| | | | | | | | | expr:
+| | | | | | | | | | Str[15:26-15:41]
+| | | | | | | | | | | tok: "Hello, world!"
+| | | | CallExpr[16:4-16:67]
+| | | | | prefix:
+| | | | | | Prefix[16:4-16:24]
+| | | | | | | prefix:
+| | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[16:4-16:7]
+| | | | | | | | | | | tok: Ada
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[16:8-16:15]
+| | | | | | | | | | | tok: Text_IO
+| | | | | | | suffix:
+| | | | | | | | Id[16:16-16:24]
+| | | | | | | | | tok: Put_Line
+| | | | | calls:
+| | | | | | ParamList[16:26-16:66]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[16:26-16:66]
+| | | | | | | | | expr:
+| | | | | | | | | | BinOp[16:26-16:66]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Str[16:26-16:39]
+| | | | | | | | | | | | | tok: "Fact (6) = "
+| | | | | | | | | | | op: bin_and
+| | | | | | | | | | | right:
+| | | | | | | | | | | | AttributeRef[16:42-16:66]
+| | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | Id[16:42-16:49]
+| | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | attribute:
+| | | | | | | | | | | | | | Id[16:50-16:55]
+| | | | | | | | | | | | | | | tok: Image
+| | | | | | | | | | | | | args:
+| | | | | | | | | | | | | | ParamList[16:57-16:65]
+| | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | ParamAssoc[16:57-16:65]
+| | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | CallExpr[16:57-16:65]
+| | | | | | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | | | | | Id[16:57-16:61]
+| | | | | | | | | | | | | | | | | | | | | tok: Fact
+| | | | | | | | | | | | | | | | | | | calls:
+| | | | | | | | | | | | | | | | | | | | ParamList[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | | | | | | | ParamAssoc[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | | | | | | | Num[16:63-16:64]
+| | | | | | | | | | | | | | | | | | | | | | | | | tok: 6
+| end_id:
+| | Id[17:5-17:9]
+| | | tok: Fact
 
-Lookup 10:19: BinOp[10:17-10:33](Id[10:17-10:18](N), mult, CallExpr[10:21-10:33](Id[10:21-10:25](Fact), ParamList[10:27-10:32]([ParamAssoc[10:27-10:32](None, BinOp[10:27-10:32](Id[10:27-10:28](N), minus, Num[10:31-10:32](1)))])))
+Lookup 10:19:
+BinOp[10:17-10:33]
+| left:
+| | Id[10:17-10:18]
+| | | tok: N
+| op: mult
+| right:
+| | CallExpr[10:21-10:33]
+| | | prefix:
+| | | | Id[10:21-10:25]
+| | | | | tok: Fact
+| | | calls:
+| | | | ParamList[10:27-10:32]
+| | | | | params:
+| | | | | | ParamAssoc[10:27-10:32]
+| | | | | | | expr:
+| | | | | | | | BinOp[10:27-10:32]
+| | | | | | | | | left:
+| | | | | | | | | | Id[10:27-10:28]
+| | | | | | | | | | | tok: N
+| | | | | | | | | op: minus
+| | | | | | | | | right:
+| | | | | | | | | | Num[10:31-10:32]
+| | | | | | | | | | | tok: 1

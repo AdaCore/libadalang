@@ -1,1 +1,21 @@
-FullTypeDecl[1:1-1:68](Id[1:6-1:11](Pouet), None, DecimalFixedPointDef[1:15-1:68](Id[1:21-1:32](Delta_Value), Id[1:40-1:50](Num_Digits), BinOp[1:57-1:68](Id[1:57-1:60](Low), ellipsis, Id[1:64-1:68](High))), None)
+FullTypeDecl[1:1-1:68]
+| type_id:
+| | Id[1:6-1:11]
+| | | tok: Pouet
+| type_def:
+| | DecimalFixedPointDef[1:15-1:68]
+| | | delta:
+| | | | Id[1:21-1:32]
+| | | | | tok: Delta_Value
+| | | digits:
+| | | | Id[1:40-1:50]
+| | | | | tok: Num_Digits
+| | | range:
+| | | | BinOp[1:57-1:68]
+| | | | | left:
+| | | | | | Id[1:57-1:60]
+| | | | | | | tok: Low
+| | | | | op: ellipsis
+| | | | | right:
+| | | | | | Id[1:64-1:68]
+| | | | | | | tok: High

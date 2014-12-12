@@ -78,6 +78,25 @@ public:
        derived classes to check the decoration of the _parent attribute
        but it is a hook for adding further checks */
     virtual void validate() = 0;
+
+    /* (debugging) Tree output */
+    virtual void print_node(int level = 0) = 0;
+
+    /* Subsidiary routine of print_node overriden in ASTList; used to avoid
+       the need of performing a dynamic cast to identify tree components
+       containing a non-empty lists of nodes */
+    virtual bool is_empty_list() {
+       return false;
+    }
+
+protected:
+    /* Subsidiary routine of print_node used to visualize the deep level of
+       the tree components in the left margin of the output */
+    void print_tab(int level) {
+       for (int j=0; j<level; j++) {
+          printf("| ");
+       }
+    }
 };
 
 template <typename T> class ASTList : public ASTNode {
@@ -95,6 +114,8 @@ public:
     }
 
     void validate();
+    void print_node(int level = 0);
+    virtual bool is_empty_list();
 };
 
 template <typename T> ASTNode *
@@ -173,6 +194,23 @@ ASTList<T>::validate() {
          node->validate();
       }
    }
+}
+
+template <typename T> void
+ASTList<T>::print_node(int level) {
+   if (vec.empty())
+      return;
+
+   for (auto node : vec) {
+      if (node) {
+         node->print_node(level);
+      }
+   }
+}
+
+template <typename T> bool
+ASTList<T>::is_empty_list() {
+   return vec.empty();
 }
 
 #endif

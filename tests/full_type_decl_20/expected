@@ -1,1 +1,7 @@
-FullTypeDecl[1:1-1:20](Id[1:6-1:7](A), None, InterfaceTypeDef[1:11-1:20](uninitialized, []), None)
+FullTypeDecl[1:1-1:20]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: A
+| type_def:
+| | InterfaceTypeDef[1:11-1:20]
+| | | interface_kind: uninitialized

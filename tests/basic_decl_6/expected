@@ -1,1 +1,8 @@
-FullTypeDecl[1:1-1:19](Id[1:6-1:7](T), None, SignedIntTypeDef[1:11-1:19](DiamondExpr[1:17-1:19]()), None)
+FullTypeDecl[1:1-1:19]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: T
+| type_def:
+| | SignedIntTypeDef[1:11-1:19]
+| | | range:
+| | | | DiamondExpr[1:17-1:19]

@@ -1,1 +1,14 @@
-FullTypeDecl[1:1-1:30](Id[1:6-1:9](Ref), None, AccessDef[1:13-1:30](True, TypeAccessExpression[1:22-1:30](False, False, Id[1:29-1:30](A))), None)
+FullTypeDecl[1:1-1:30]
+| type_id:
+| | Id[1:6-1:9]
+| | | tok: Ref
+| type_def:
+| | AccessDef[1:13-1:30]
+| | | not_null: True
+| | | access_expr:
+| | | | TypeAccessExpression[1:22-1:30]
+| | | | | is_all: False
+| | | | | is_constant: False
+| | | | | subtype_name:
+| | | | | | Id[1:29-1:30]
+| | | | | | | tok: A

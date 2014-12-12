@@ -101,4 +101,24 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
          % endif
        % endfor
     }
+
+    void ${cls.name()}::print_node(int level) {
+       print_tab(level);
+
+       std::string result = this->__name() + "[" + sloc_range_.repr() + "]";
+       printf("%s\n", result.c_str());
+
+       % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+           % if t.is_ptr:
+               if (${f.name} && !${f.name}->is_empty_list()) {
+                  print_tab(level+1);
+                  printf("${f.name}:\n");
+                  ${f.name}->print_node(level+2);
+               }
+           % else:
+               print_tab(level+1);
+               printf("${f.name}: %s\n", get_repr(${f.name}).c_str());
+           % endif
+       % endfor
+    }
 % endif

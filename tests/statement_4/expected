@@ -1,1 +1,34 @@
-BlockStatement[1:1-1:46](None, [ObjectDecl[1:9-1:26]([Id[1:9-1:10](A)], False, False, in, TypeExpression[1:13-1:20](False, TypeRef[1:13-1:20](Id[1:13-1:20](Integer), None)), Num[1:24-1:26](12), None, None)], HandledStatements[1:34-1:42]([CallExpr[1:34-1:41](Id[1:34-1:37](Foo), ParamList[1:39-1:40]([ParamAssoc[1:39-1:40](None, Id[1:39-1:40](A))]))], None))
+BlockStatement[1:1-1:46]
+| decls:
+| | ObjectDecl[1:9-1:26]
+| | | ids:
+| | | | Id[1:9-1:10]
+| | | | | tok: A
+| | | aliased: False
+| | | constant: False
+| | | inout: in
+| | | type:
+| | | | TypeExpression[1:13-1:20]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:13-1:20]
+| | | | | | | name:
+| | | | | | | | Id[1:13-1:20]
+| | | | | | | | | tok: Integer
+| | | default_expr:
+| | | | Num[1:24-1:26]
+| | | | | tok: 12
+| statements:
+| | HandledStatements[1:34-1:42]
+| | | statements:
+| | | | CallExpr[1:34-1:41]
+| | | | | prefix:
+| | | | | | Id[1:34-1:37]
+| | | | | | | tok: Foo
+| | | | | calls:
+| | | | | | ParamList[1:39-1:40]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:39-1:40]
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:39-1:40]
+| | | | | | | | | | | tok: A

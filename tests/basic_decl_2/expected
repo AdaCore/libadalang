@@ -1,1 +1,32 @@
-ObjectDecl[1:1-1:29]([Id[1:1-1:2](A), Id[1:4-1:5](B)], False, False, in, TypeExpression[1:8-1:15](False, TypeRef[1:8-1:15](Id[1:8-1:15](Integer), None)), None, RenamingClause[1:16-1:29](Prefix[1:24-1:29](Prefix[1:24-1:27](Id[1:24-1:25](C), Id[1:26-1:27](D)), Id[1:28-1:29](E))), None)
+ObjectDecl[1:1-1:29]
+| ids:
+| | Id[1:1-1:2]
+| | | tok: A
+| | Id[1:4-1:5]
+| | | tok: B
+| aliased: False
+| constant: False
+| inout: in
+| type:
+| | TypeExpression[1:8-1:15]
+| | | null_exclusion: False
+| | | type_expr_variant:
+| | | | TypeRef[1:8-1:15]
+| | | | | name:
+| | | | | | Id[1:8-1:15]
+| | | | | | | tok: Integer
+| renaming_clause:
+| | RenamingClause[1:16-1:29]
+| | | renamed_object:
+| | | | Prefix[1:24-1:29]
+| | | | | prefix:
+| | | | | | Prefix[1:24-1:27]
+| | | | | | | prefix:
+| | | | | | | | Id[1:24-1:25]
+| | | | | | | | | tok: C
+| | | | | | | suffix:
+| | | | | | | | Id[1:26-1:27]
+| | | | | | | | | tok: D
+| | | | | suffix:
+| | | | | | Id[1:28-1:29]
+| | | | | | | tok: E

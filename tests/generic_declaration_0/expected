@@ -1,1 +1,32 @@
-GenericSubprogramDecl[1:1-1:76]([FullTypeDecl[1:9-1:34](Id[1:14-1:23](Element_T), None, PrivateTypeDef[1:24-1:34](False, False, False), None)], SubprogramSpec[1:36-1:76](Id[1:46-1:50](Swap), [ParameterProfile[1:52-1:75]([Id[1:52-1:53](X), Id[1:55-1:56](Y)], inout, TypeExpression[1:66-1:75](False, TypeRef[1:66-1:75](Id[1:66-1:75](Element_T), None)), None)], None))
+GenericSubprogramDecl[1:1-1:76]
+| formal_part:
+| | FullTypeDecl[1:9-1:34]
+| | | type_id:
+| | | | Id[1:14-1:23]
+| | | | | tok: Element_T
+| | | type_def:
+| | | | PrivateTypeDef[1:24-1:34]
+| | | | | abstract: False
+| | | | | tagged: False
+| | | | | limited: False
+| subp_spec:
+| | SubprogramSpec[1:36-1:76]
+| | | name:
+| | | | Id[1:46-1:50]
+| | | | | tok: Swap
+| | | params:
+| | | | ParameterProfile[1:52-1:75]
+| | | | | ids:
+| | | | | | Id[1:52-1:53]
+| | | | | | | tok: X
+| | | | | | Id[1:55-1:56]
+| | | | | | | tok: Y
+| | | | | mode: inout
+| | | | | type_expr:
+| | | | | | TypeExpression[1:66-1:75]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:66-1:75]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:66-1:75]
+| | | | | | | | | | | tok: Element_T

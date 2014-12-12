@@ -1,1 +1,44 @@
-SubprogramSpec[1:1-1:69](Id[1:11-1:12](I), [ParameterProfile[1:14-1:55]([Id[1:14-1:15](A)], inout, TypeExpression[1:25-1:55](False, SubprogramAccessExpression[1:25-1:55](SubprogramSpec[1:32-1:55](None, [ParameterProfile[1:43-1:54]([Id[1:43-1:44](A)], in, TypeExpression[1:47-1:54](False, TypeRef[1:47-1:54](Id[1:47-1:54](Integer), None)), None)], None))), None), ParameterProfile[1:57-1:68]([Id[1:57-1:58](B)], in, TypeExpression[1:61-1:68](False, TypeRef[1:61-1:68](Id[1:61-1:68](Integer), None)), None)], None)
+SubprogramSpec[1:1-1:69]
+| name:
+| | Id[1:11-1:12]
+| | | tok: I
+| params:
+| | ParameterProfile[1:14-1:55]
+| | | ids:
+| | | | Id[1:14-1:15]
+| | | | | tok: A
+| | | mode: inout
+| | | type_expr:
+| | | | TypeExpression[1:25-1:55]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | SubprogramAccessExpression[1:25-1:55]
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[1:32-1:55]
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[1:43-1:54]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[1:43-1:44]
+| | | | | | | | | | | | | tok: A
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[1:47-1:54]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:47-1:54]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:47-1:54]
+| | | | | | | | | | | | | | | | | tok: Integer
+| | ParameterProfile[1:57-1:68]
+| | | ids:
+| | | | Id[1:57-1:58]
+| | | | | tok: B
+| | | mode: in
+| | | type_expr:
+| | | | TypeExpression[1:61-1:68]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:61-1:68]
+| | | | | | | name:
+| | | | | | | | Id[1:61-1:68]
+| | | | | | | | | tok: Integer

@@ -1,1 +1,32 @@
-TaskTypeDecl[1:1-1:62](Id[1:11-1:14](TT1), None, None, [Id[1:22-1:28](Server)], TaskDef[1:34-1:62]([EntryDecl[1:34-1:53](unspecified, Id[1:40-1:41](Q), None, [ParameterProfile[1:42-1:52]([Id[1:42-1:43](X)], in, TypeExpression[1:48-1:52](False, TypeRef[1:48-1:52](Id[1:48-1:52](Item), None)), None)], None)], None, Id[1:59-1:62](TT1)))
+TaskTypeDecl[1:1-1:62]
+| task_type_name:
+| | Id[1:11-1:14]
+| | | tok: TT1
+| interfaces:
+| | Id[1:22-1:28]
+| | | tok: Server
+| definition:
+| | TaskDef[1:34-1:62]
+| | | items:
+| | | | EntryDecl[1:34-1:53]
+| | | | | overriding: unspecified
+| | | | | entry_id:
+| | | | | | Id[1:40-1:41]
+| | | | | | | tok: Q
+| | | | | params:
+| | | | | | ParameterProfile[1:42-1:52]
+| | | | | | | ids:
+| | | | | | | | Id[1:42-1:43]
+| | | | | | | | | tok: X
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:48-1:52]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:48-1:52]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:48-1:52]
+| | | | | | | | | | | | | tok: Item
+| | | end_id:
+| | | | Id[1:59-1:62]
+| | | | | tok: TT1

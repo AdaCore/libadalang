@@ -1,1 +1,27 @@
-ExtReturnStatement[1:1-1:41](ObjectDecl[1:8-1:19]([Id[1:8-1:9](A)], False, False, in, TypeExpression[1:12-1:19](False, TypeRef[1:12-1:19](Id[1:12-1:19](Integer), None)), None, None, None), HandledStatements[1:23-1:30]([AssignStatement[1:23-1:29](Id[1:23-1:24](A), Num[1:28-1:29](3))], None))
+ExtReturnStatement[1:1-1:41]
+| object_decl:
+| | ObjectDecl[1:8-1:19]
+| | | ids:
+| | | | Id[1:8-1:9]
+| | | | | tok: A
+| | | aliased: False
+| | | constant: False
+| | | inout: in
+| | | type:
+| | | | TypeExpression[1:12-1:19]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:12-1:19]
+| | | | | | | name:
+| | | | | | | | Id[1:12-1:19]
+| | | | | | | | | tok: Integer
+| statements:
+| | HandledStatements[1:23-1:30]
+| | | statements:
+| | | | AssignStatement[1:23-1:29]
+| | | | | dest:
+| | | | | | Id[1:23-1:24]
+| | | | | | | tok: A
+| | | | | expr:
+| | | | | | Num[1:28-1:29]
+| | | | | | | tok: 3

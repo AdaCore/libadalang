@@ -1,1 +1,19 @@
-CompilationUnit[1:1-1:23]([], LibraryItem[1:1-1:23](False, GenericInstantiation[1:1-1:23](Id[1:9-1:10](A), Id[1:18-1:19](B), ParamList[1:21-1:22]([ParamAssoc[1:21-1:22](None, Id[1:21-1:22](C))]), None)))
+CompilationUnit[1:1-1:23]
+| body:
+| | LibraryItem[1:1-1:23]
+| | | is_private: False
+| | | item:
+| | | | GenericInstantiation[1:1-1:23]
+| | | | | name:
+| | | | | | Id[1:9-1:10]
+| | | | | | | tok: A
+| | | | | generic_entity_name:
+| | | | | | Id[1:18-1:19]
+| | | | | | | tok: B
+| | | | | parameters:
+| | | | | | ParamList[1:21-1:22]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:21-1:22]
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:21-1:22]
+| | | | | | | | | | | tok: C

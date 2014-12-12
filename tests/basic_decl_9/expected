@@ -1,1 +1,10 @@
-FullTypeDecl[1:1-1:29](Id[1:6-1:7](T), None, DecimalFixedPointDef[1:11-1:29](DiamondExpr[1:17-1:19](), DiamondExpr[1:27-1:29](), None), None)
+FullTypeDecl[1:1-1:29]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: T
+| type_def:
+| | DecimalFixedPointDef[1:11-1:29]
+| | | delta:
+| | | | DiamondExpr[1:17-1:19]
+| | | digits:
+| | | | DiamondExpr[1:27-1:29]

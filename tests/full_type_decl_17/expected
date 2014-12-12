@@ -1,1 +1,38 @@
-FullTypeDecl[1:1-1:50](Id[1:6-1:9](Arr), None, ArrayTypeDef[1:13-1:50](ConstrainedArrayIndices[1:20-1:38]([TypeExpression[1:20-1:38](False, TypeRef[1:20-1:38](CallExpr[1:20-1:38](Id[1:20-1:27](Integer), BinOp[1:29-1:37](Num[1:29-1:31](12), ellipsis, Num[1:35-1:37](15))), None))]), ComponentDef[1:43-1:50](False, TypeExpression[1:43-1:50](False, TypeRef[1:43-1:50](Id[1:43-1:50](Integer), None)))), None)
+FullTypeDecl[1:1-1:50]
+| type_id:
+| | Id[1:6-1:9]
+| | | tok: Arr
+| type_def:
+| | ArrayTypeDef[1:13-1:50]
+| | | indices:
+| | | | ConstrainedArrayIndices[1:20-1:38]
+| | | | | list:
+| | | | | | TypeExpression[1:20-1:38]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:20-1:38]
+| | | | | | | | | name:
+| | | | | | | | | | CallExpr[1:20-1:38]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Id[1:20-1:27]
+| | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | calls:
+| | | | | | | | | | | | BinOp[1:29-1:37]
+| | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | Num[1:29-1:31]
+| | | | | | | | | | | | | | | tok: 12
+| | | | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | Num[1:35-1:37]
+| | | | | | | | | | | | | | | tok: 15
+| | | stored_component:
+| | | | ComponentDef[1:43-1:50]
+| | | | | aliased: False
+| | | | | type_expr:
+| | | | | | TypeExpression[1:43-1:50]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:43-1:50]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:43-1:50]
+| | | | | | | | | | | tok: Integer

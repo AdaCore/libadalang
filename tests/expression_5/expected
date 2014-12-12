@@ -1,1 +1,35 @@
-BinOp[1:1-1:53](Num[1:1-1:3](12), plus, IfExpr[1:7-1:52](QuantifiedExpr[1:11-1:35](all, ForLoopSpec[1:19-1:25](Id[1:19-1:20](A), in, False, Id[1:24-1:25](B)), BinOp[1:29-1:35](Id[1:29-1:30](A), eq, Num[1:33-1:35](12))), Num[1:42-1:44](15), [], Num[1:50-1:52](16)))
+BinOp[1:1-1:53]
+| left:
+| | Num[1:1-1:3]
+| | | tok: 12
+| op: plus
+| right:
+| | IfExpr[1:7-1:52]
+| | | cond_expr:
+| | | | QuantifiedExpr[1:11-1:35]
+| | | | | quantifier: all
+| | | | | loop_spec:
+| | | | | | ForLoopSpec[1:19-1:25]
+| | | | | | | id:
+| | | | | | | | Id[1:19-1:20]
+| | | | | | | | | tok: A
+| | | | | | | loop_type: in
+| | | | | | | is_reverse: False
+| | | | | | | iter_expr:
+| | | | | | | | Id[1:24-1:25]
+| | | | | | | | | tok: B
+| | | | | expr:
+| | | | | | BinOp[1:29-1:35]
+| | | | | | | left:
+| | | | | | | | Id[1:29-1:30]
+| | | | | | | | | tok: A
+| | | | | | | op: eq
+| | | | | | | right:
+| | | | | | | | Num[1:33-1:35]
+| | | | | | | | | tok: 12
+| | | then_expr:
+| | | | Num[1:42-1:44]
+| | | | | tok: 15
+| | | else_expr:
+| | | | Num[1:50-1:52]
+| | | | | tok: 16

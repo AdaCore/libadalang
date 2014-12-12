@@ -1,1 +1,16 @@
-GenericPackageDecl[1:1-1:42]([], PackageDecl[1:9-1:42](Id[1:17-1:18](A), None, [SubprogramDecl[1:22-1:35](unspecified, SubprogramSpec[1:22-1:35](Id[1:32-1:35](Set), None, None), False, False, None, None)], None))
+GenericPackageDecl[1:1-1:42]
+| package_decl:
+| | PackageDecl[1:9-1:42]
+| | | name:
+| | | | Id[1:17-1:18]
+| | | | | tok: A
+| | | decls:
+| | | | SubprogramDecl[1:22-1:35]
+| | | | | is_overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[1:22-1:35]
+| | | | | | | name:
+| | | | | | | | Id[1:32-1:35]
+| | | | | | | | | tok: Set
+| | | | | is_null: False
+| | | | | is_abstract: False

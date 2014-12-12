@@ -1,1 +1,15 @@
-FullTypeDecl[1:1-1:24](Id[1:6-1:7](A), None, SignedIntTypeDef[1:11-1:24](BinOp[1:17-1:24](Num[1:17-1:18](1), ellipsis, Num[1:22-1:24](12))), None)
+FullTypeDecl[1:1-1:24]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: A
+| type_def:
+| | SignedIntTypeDef[1:11-1:24]
+| | | range:
+| | | | BinOp[1:17-1:24]
+| | | | | left:
+| | | | | | Num[1:17-1:18]
+| | | | | | | tok: 1
+| | | | | op: ellipsis
+| | | | | right:
+| | | | | | Num[1:22-1:24]
+| | | | | | | tok: 12

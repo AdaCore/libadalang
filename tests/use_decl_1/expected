@@ -1,1 +1,15 @@
-UseTypDecl[1:1-1:35](True, [Prefix[1:14-1:35](Prefix[1:14-1:28](Id[1:14-1:17](Ada), Id[1:18-1:28](Containers)), Id[1:29-1:35](Vector))])
+UseTypDecl[1:1-1:35]
+| all: True
+| types:
+| | Prefix[1:14-1:35]
+| | | prefix:
+| | | | Prefix[1:14-1:28]
+| | | | | prefix:
+| | | | | | Id[1:14-1:17]
+| | | | | | | tok: Ada
+| | | | | suffix:
+| | | | | | Id[1:18-1:28]
+| | | | | | | tok: Containers
+| | | suffix:
+| | | | Id[1:29-1:35]
+| | | | | tok: Vector

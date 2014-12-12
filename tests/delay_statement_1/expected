@@ -1,1 +1,5 @@
-DelayStatement[1:1-1:16](True, Id[1:13-1:16](Del))
+DelayStatement[1:1-1:16]
+| until: True
+| expr:
+| | Id[1:13-1:16]
+| | | tok: Del

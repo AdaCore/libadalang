@@ -1,1 +1,30 @@
-FullTypeDecl[1:1-1:49](Id[1:6-1:7](A), None, OrdinaryFixedPointDef[1:11-1:49](BinOp[1:17-1:30](Num[1:17-1:18](1), div, BinOp[1:22-1:29](Num[1:22-1:24](60), mult, Num[1:27-1:29](60))), BinOp[1:37-1:49](Num[1:37-1:40](0.0), ellipsis, Num[1:44-1:49](360.0))), None)
+FullTypeDecl[1:1-1:49]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: A
+| type_def:
+| | OrdinaryFixedPointDef[1:11-1:49]
+| | | delta:
+| | | | BinOp[1:17-1:30]
+| | | | | left:
+| | | | | | Num[1:17-1:18]
+| | | | | | | tok: 1
+| | | | | op: div
+| | | | | right:
+| | | | | | BinOp[1:22-1:29]
+| | | | | | | left:
+| | | | | | | | Num[1:22-1:24]
+| | | | | | | | | tok: 60
+| | | | | | | op: mult
+| | | | | | | right:
+| | | | | | | | Num[1:27-1:29]
+| | | | | | | | | tok: 60
+| | | range:
+| | | | BinOp[1:37-1:49]
+| | | | | left:
+| | | | | | Num[1:37-1:40]
+| | | | | | | tok: 0.0
+| | | | | op: ellipsis
+| | | | | right:
+| | | | | | Num[1:44-1:49]
+| | | | | | | tok: 360.0

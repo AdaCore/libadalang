@@ -1,1 +1,17 @@
-LoopStatement[1:1-1:36](Id[1:1-1:2](A), WhileLoopSpec[1:4-1:16](BinOp[1:10-1:16](Id[1:10-1:11](A), gt, Num[1:14-1:16](12))), [NullStatement[1:22-1:26]()])
+LoopStatement[1:1-1:36]
+| name:
+| | Id[1:1-1:2]
+| | | tok: A
+| spec:
+| | WhileLoopSpec[1:4-1:16]
+| | | expr:
+| | | | BinOp[1:10-1:16]
+| | | | | left:
+| | | | | | Id[1:10-1:11]
+| | | | | | | tok: A
+| | | | | op: gt
+| | | | | right:
+| | | | | | Num[1:14-1:16]
+| | | | | | | tok: 12
+| statements:
+| | NullStatement[1:22-1:26]

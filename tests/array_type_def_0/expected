@@ -1,1 +1,23 @@
-ArrayTypeDef[1:1-1:24](ConstrainedArrayIndices[1:8-1:14]([BinOp[1:8-1:14](Id[1:8-1:9](B), ellipsis, Id[1:13-1:14](A))]), ComponentDef[1:19-1:24](False, TypeExpression[1:19-1:24](False, TypeRef[1:19-1:24](Id[1:19-1:24](Pouet), None))))
+ArrayTypeDef[1:1-1:24]
+| indices:
+| | ConstrainedArrayIndices[1:8-1:14]
+| | | list:
+| | | | BinOp[1:8-1:14]
+| | | | | left:
+| | | | | | Id[1:8-1:9]
+| | | | | | | tok: B
+| | | | | op: ellipsis
+| | | | | right:
+| | | | | | Id[1:13-1:14]
+| | | | | | | tok: A
+| stored_component:
+| | ComponentDef[1:19-1:24]
+| | | aliased: False
+| | | type_expr:
+| | | | TypeExpression[1:19-1:24]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:19-1:24]
+| | | | | | | name:
+| | | | | | | | Id[1:19-1:24]
+| | | | | | | | | tok: Pouet

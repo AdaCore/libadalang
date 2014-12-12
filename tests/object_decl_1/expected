@@ -1,1 +1,32 @@
-ObjectDecl[1:1-1:64]([Id[1:1-1:2](A), Id[1:4-1:5](B)], False, False, in, TypeExpression[1:8-1:40](True, TypeAccessExpression[1:17-1:40](False, True, Id[1:33-1:40](Integer))), Null[1:44-1:48](null), None, AspectSpecification[1:49-1:64]([AspectAssoc[1:54-1:64](Id[1:54-1:57](Foo), Id[1:61-1:64](Bar))]))
+ObjectDecl[1:1-1:64]
+| ids:
+| | Id[1:1-1:2]
+| | | tok: A
+| | Id[1:4-1:5]
+| | | tok: B
+| aliased: False
+| constant: False
+| inout: in
+| type:
+| | TypeExpression[1:8-1:40]
+| | | null_exclusion: True
+| | | type_expr_variant:
+| | | | TypeAccessExpression[1:17-1:40]
+| | | | | is_all: False
+| | | | | is_constant: True
+| | | | | subtype_name:
+| | | | | | Id[1:33-1:40]
+| | | | | | | tok: Integer
+| default_expr:
+| | Null[1:44-1:48]
+| | | tok: null
+| aspects:
+| | AspectSpecification[1:49-1:64]
+| | | aspect_assocs:
+| | | | AspectAssoc[1:54-1:64]
+| | | | | id:
+| | | | | | Id[1:54-1:57]
+| | | | | | | tok: Foo
+| | | | | expr:
+| | | | | | Id[1:61-1:64]
+| | | | | | | tok: Bar

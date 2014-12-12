@@ -1,1 +1,82 @@
-ProtectedTypeDecl[1:1-1:185](Id[1:16-1:37](Protected_Buffer_Type), None, None, None, ProtectedDef[1:41-1:185]([EntryDecl[1:41-1:74](unspecified, Id[1:47-1:53](Insert), None, [ParameterProfile[1:55-1:73]([Id[1:55-1:62](An_Item)], in, TypeExpression[1:69-1:73](False, TypeRef[1:69-1:73](Id[1:69-1:73](Item), None)), None)], None), EntryDecl[1:76-1:109](unspecified, Id[1:82-1:88](Remove), None, [ParameterProfile[1:90-1:108]([Id[1:90-1:97](An_Item)], out, TypeExpression[1:104-1:108](False, TypeRef[1:104-1:108](Id[1:104-1:108](Item), None)), None)], None)], [ComponentDecl[1:119-1:132]([Id[1:119-1:125](Buffer)], ComponentDef[1:128-1:132](False, TypeExpression[1:128-1:132](False, TypeRef[1:128-1:132](Id[1:128-1:132](Item), None))), None, None), ComponentDecl[1:134-1:158]([Id[1:134-1:139](Empty)], ComponentDef[1:143-1:150](False, TypeExpression[1:143-1:150](False, TypeRef[1:143-1:150](Id[1:143-1:150](Boolean), None))), Id[1:154-1:158](True), None)], Id[1:164-1:185](Protected_Buffer_Type)))
+ProtectedTypeDecl[1:1-1:185]
+| task_type_name:
+| | Id[1:16-1:37]
+| | | tok: Protected_Buffer_Type
+| definition:
+| | ProtectedDef[1:41-1:185]
+| | | public_ops:
+| | | | EntryDecl[1:41-1:74]
+| | | | | overriding: unspecified
+| | | | | entry_id:
+| | | | | | Id[1:47-1:53]
+| | | | | | | tok: Insert
+| | | | | params:
+| | | | | | ParameterProfile[1:55-1:73]
+| | | | | | | ids:
+| | | | | | | | Id[1:55-1:62]
+| | | | | | | | | tok: An_Item
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:69-1:73]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | | | tok: Item
+| | | | EntryDecl[1:76-1:109]
+| | | | | overriding: unspecified
+| | | | | entry_id:
+| | | | | | Id[1:82-1:88]
+| | | | | | | tok: Remove
+| | | | | params:
+| | | | | | ParameterProfile[1:90-1:108]
+| | | | | | | ids:
+| | | | | | | | Id[1:90-1:97]
+| | | | | | | | | tok: An_Item
+| | | | | | | mode: out
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:104-1:108]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:104-1:108]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:104-1:108]
+| | | | | | | | | | | | | tok: Item
+| | | private_components:
+| | | | ComponentDecl[1:119-1:132]
+| | | | | ids:
+| | | | | | Id[1:119-1:125]
+| | | | | | | tok: Buffer
+| | | | | component_def:
+| | | | | | ComponentDef[1:128-1:132]
+| | | | | | | aliased: False
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:128-1:132]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:128-1:132]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:128-1:132]
+| | | | | | | | | | | | | tok: Item
+| | | | ComponentDecl[1:134-1:158]
+| | | | | ids:
+| | | | | | Id[1:134-1:139]
+| | | | | | | tok: Empty
+| | | | | component_def:
+| | | | | | ComponentDef[1:143-1:150]
+| | | | | | | aliased: False
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:143-1:150]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:143-1:150]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:143-1:150]
+| | | | | | | | | | | | | tok: Boolean
+| | | | | default_expr:
+| | | | | | Id[1:154-1:158]
+| | | | | | | tok: True
+| | | end_id:
+| | | | Id[1:164-1:185]
+| | | | | tok: Protected_Buffer_Type

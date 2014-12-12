@@ -1,1 +1,20 @@
-ForLoopSpec[1:1-1:21](Id[1:1-1:2](A), in, False, BinOp[1:6-1:21](AttributeRef[1:6-1:13](Id[1:6-1:7](B), Id[1:8-1:13](First), None), ellipsis, Id[1:17-1:21](Last)))
+ForLoopSpec[1:1-1:21]
+| id:
+| | Id[1:1-1:2]
+| | | tok: A
+| loop_type: in
+| is_reverse: False
+| iter_expr:
+| | BinOp[1:6-1:21]
+| | | left:
+| | | | AttributeRef[1:6-1:13]
+| | | | | prefix:
+| | | | | | Id[1:6-1:7]
+| | | | | | | tok: B
+| | | | | attribute:
+| | | | | | Id[1:8-1:13]
+| | | | | | | tok: First
+| | | op: ellipsis
+| | | right:
+| | | | Id[1:17-1:21]
+| | | | | tok: Last

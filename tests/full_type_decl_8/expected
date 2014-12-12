@@ -1,1 +1,51 @@
-FullTypeDecl[1:1-1:78](Id[1:6-1:7](B), None, DerivedTypeDef[1:11-1:78](False, False, False, False, TypeExpression[1:15-1:42](False, TypeRef[1:15-1:42](Id[1:15-1:16](A), DiscriminantConstraint[1:17-1:42]([DiscriminantAssociation[1:18-1:41]([Id[1:18-1:25](Discr_1), Id[1:28-1:35](Discr_2)], Num[1:39-1:41](12))]))), None, [], RecordDef[1:48-1:78](ComponentList[1:55-1:67]([ComponentDecl[1:55-1:66]([Id[1:55-1:56](D)], ComponentDef[1:59-1:66](False, TypeExpression[1:59-1:66](False, TypeRef[1:59-1:66](Id[1:59-1:66](Integer), None))), None, None)], None)), False), None)
+FullTypeDecl[1:1-1:78]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: B
+| type_def:
+| | DerivedTypeDef[1:11-1:78]
+| | | abstract: False
+| | | limited: False
+| | | synchronized: False
+| | | null_exclusion: False
+| | | name:
+| | | | TypeExpression[1:15-1:42]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:15-1:42]
+| | | | | | | name:
+| | | | | | | | Id[1:15-1:16]
+| | | | | | | | | tok: A
+| | | | | | | constraint:
+| | | | | | | | DiscriminantConstraint[1:17-1:42]
+| | | | | | | | | constraints:
+| | | | | | | | | | DiscriminantAssociation[1:18-1:41]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[1:18-1:25]
+| | | | | | | | | | | | | tok: Discr_1
+| | | | | | | | | | | | Id[1:28-1:35]
+| | | | | | | | | | | | | tok: Discr_2
+| | | | | | | | | | | expr:
+| | | | | | | | | | | | Num[1:39-1:41]
+| | | | | | | | | | | | | tok: 12
+| | | record_extension:
+| | | | RecordDef[1:48-1:78]
+| | | | | components:
+| | | | | | ComponentList[1:55-1:67]
+| | | | | | | components:
+| | | | | | | | ComponentDecl[1:55-1:66]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:55-1:56]
+| | | | | | | | | | | tok: D
+| | | | | | | | | component_def:
+| | | | | | | | | | ComponentDef[1:59-1:66]
+| | | | | | | | | | | aliased: False
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[1:59-1:66]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:59-1:66]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:59-1:66]
+| | | | | | | | | | | | | | | | | tok: Integer
+| | | has_private_part: False

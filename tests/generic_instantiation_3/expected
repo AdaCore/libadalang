@@ -1,1 +1,22 @@
-GenericInstantiation[1:1-1:42](Id[1:9-1:10](P), Id[1:18-1:19](Q), ParamList[1:21-1:41]([ParamAssoc[1:21-1:27](Id[1:21-1:22](A), Id[1:26-1:27](B)), ParamAssoc[1:29-1:41](OthersDesignator[1:29-1:35](), DiamondExpr[1:39-1:41]())]), None)
+GenericInstantiation[1:1-1:42]
+| name:
+| | Id[1:9-1:10]
+| | | tok: P
+| generic_entity_name:
+| | Id[1:18-1:19]
+| | | tok: Q
+| parameters:
+| | ParamList[1:21-1:41]
+| | | params:
+| | | | ParamAssoc[1:21-1:27]
+| | | | | designator:
+| | | | | | Id[1:21-1:22]
+| | | | | | | tok: A
+| | | | | expr:
+| | | | | | Id[1:26-1:27]
+| | | | | | | tok: B
+| | | | ParamAssoc[1:29-1:41]
+| | | | | designator:
+| | | | | | OthersDesignator[1:29-1:35]
+| | | | | expr:
+| | | | | | DiamondExpr[1:39-1:41]

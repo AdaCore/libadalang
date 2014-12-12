@@ -1,1 +1,32 @@
-CompilationUnit[1:1-1:43]([WithDecl[1:1-1:9](False, False, [Id[1:6-1:9](Foo)]), WithDecl[1:11-1:19](False, False, [Id[1:16-1:19](Bar)])], LibraryItem[1:21-1:43](False, GenericInstantiation[1:21-1:43](Id[1:29-1:30](A), Id[1:38-1:39](B), ParamList[1:41-1:42]([ParamAssoc[1:41-1:42](None, Id[1:41-1:42](C))]), None)))
+CompilationUnit[1:1-1:43]
+| prelude:
+| | WithDecl[1:1-1:9]
+| | | is_limited: False
+| | | is_private: False
+| | | packages:
+| | | | Id[1:6-1:9]
+| | | | | tok: Foo
+| | WithDecl[1:11-1:19]
+| | | is_limited: False
+| | | is_private: False
+| | | packages:
+| | | | Id[1:16-1:19]
+| | | | | tok: Bar
+| body:
+| | LibraryItem[1:21-1:43]
+| | | is_private: False
+| | | item:
+| | | | GenericInstantiation[1:21-1:43]
+| | | | | name:
+| | | | | | Id[1:29-1:30]
+| | | | | | | tok: A
+| | | | | generic_entity_name:
+| | | | | | Id[1:38-1:39]
+| | | | | | | tok: B
+| | | | | parameters:
+| | | | | | ParamList[1:41-1:42]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:41-1:42]
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:41-1:42]
+| | | | | | | | | | | tok: C

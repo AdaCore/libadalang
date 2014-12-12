@@ -1,1 +1,43 @@
-SelectStatement[1:1-1:125]([SelectWhenPart[1:8-1:59](UnOp[1:13-1:21](_not, Id[1:17-1:21](BUSY)), [AcceptStatement[1:25-1:58](Id[1:32-1:37](SEIZE), None, None, HandledStatements[1:41-1:54]([AssignStatement[1:41-1:53](Id[1:41-1:45](BUSY), Id[1:49-1:53](TRUE))], None))]), SelectWhenPart[1:63-1:100](None, [AcceptStatement[1:63-1:99](Id[1:70-1:77](RELEASE), None, None, HandledStatements[1:81-1:95]([AssignStatement[1:81-1:94](Id[1:81-1:85](BUSY), Id[1:89-1:94](FALSE))], None))]), SelectWhenPart[1:104-1:114](None, [TerminateStatement[1:104-1:113]()])], None, None)
+SelectStatement[1:1-1:125]
+| guards:
+| | SelectWhenPart[1:8-1:59]
+| | | choices:
+| | | | UnOp[1:13-1:21]
+| | | | | op: _not
+| | | | | expr:
+| | | | | | Id[1:17-1:21]
+| | | | | | | tok: BUSY
+| | | statements:
+| | | | AcceptStatement[1:25-1:58]
+| | | | | name:
+| | | | | | Id[1:32-1:37]
+| | | | | | | tok: SEIZE
+| | | | | statements:
+| | | | | | HandledStatements[1:41-1:54]
+| | | | | | | statements:
+| | | | | | | | AssignStatement[1:41-1:53]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:41-1:45]
+| | | | | | | | | | | tok: BUSY
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:49-1:53]
+| | | | | | | | | | | tok: TRUE
+| | SelectWhenPart[1:63-1:100]
+| | | statements:
+| | | | AcceptStatement[1:63-1:99]
+| | | | | name:
+| | | | | | Id[1:70-1:77]
+| | | | | | | tok: RELEASE
+| | | | | statements:
+| | | | | | HandledStatements[1:81-1:95]
+| | | | | | | statements:
+| | | | | | | | AssignStatement[1:81-1:94]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:81-1:85]
+| | | | | | | | | | | tok: BUSY
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:89-1:94]
+| | | | | | | | | | | tok: FALSE
+| | SelectWhenPart[1:104-1:114]
+| | | statements:
+| | | | TerminateStatement[1:104-1:113]

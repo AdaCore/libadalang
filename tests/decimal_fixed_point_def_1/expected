@@ -1,1 +1,16 @@
-DecimalFixedPointDef[1:1-1:54](Id[1:7-1:18](Delta_Value), Id[1:26-1:36](Num_Digits), BinOp[1:43-1:54](Id[1:43-1:46](Low), ellipsis, Id[1:50-1:54](High)))
+DecimalFixedPointDef[1:1-1:54]
+| delta:
+| | Id[1:7-1:18]
+| | | tok: Delta_Value
+| digits:
+| | Id[1:26-1:36]
+| | | tok: Num_Digits
+| range:
+| | BinOp[1:43-1:54]
+| | | left:
+| | | | Id[1:43-1:46]
+| | | | | tok: Low
+| | | op: ellipsis
+| | | right:
+| | | | Id[1:50-1:54]
+| | | | | tok: High

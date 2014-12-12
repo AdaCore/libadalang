@@ -1,1 +1,7 @@
-GenericRenamingDecl[1:1-1:30](Id[1:19-1:20](A), Id[1:29-1:30](B), None)
+GenericRenamingDecl[1:1-1:30]
+| name:
+| | Id[1:19-1:20]
+| | | tok: A
+| renames:
+| | Id[1:29-1:30]
+| | | tok: B

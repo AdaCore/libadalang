@@ -1,1 +1,9 @@
-FullTypeDecl[1:1-1:17](Id[1:6-1:7](A), None, ModIntTypeDef[1:11-1:17](Num[1:15-1:17](12)), None)
+FullTypeDecl[1:1-1:17]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: A
+| type_def:
+| | ModIntTypeDef[1:11-1:17]
+| | | expr:
+| | | | Num[1:15-1:17]
+| | | | | tok: 12

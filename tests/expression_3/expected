@@ -1,1 +1,12 @@
-MembershipExpr[1:1-1:18](Id[1:1-1:2](A), in, [Num[1:6-1:8](12), Num[1:11-1:13](16), Num[1:16-1:18](87)])
+MembershipExpr[1:1-1:18]
+| expr:
+| | Id[1:1-1:2]
+| | | tok: A
+| op: in
+| membership_exprs:
+| | Num[1:6-1:8]
+| | | tok: 12
+| | Num[1:11-1:13]
+| | | tok: 16
+| | Num[1:16-1:18]
+| | | tok: 87

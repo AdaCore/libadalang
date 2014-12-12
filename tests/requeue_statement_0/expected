@@ -1,1 +1,5 @@
-RequeueStatement[1:1-1:23](Id[1:9-1:12](Lol), True)
+RequeueStatement[1:1-1:23]
+| call_name:
+| | Id[1:9-1:12]
+| | | tok: Lol
+| with_abort: True

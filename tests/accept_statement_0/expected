@@ -1,1 +1,28 @@
-AcceptStatement[1:1-1:67](Id[1:8-1:14](Insert), None, [ParameterProfile[1:16-1:34]([Id[1:16-1:23](An_Item)], in, TypeExpression[1:30-1:34](False, TypeRef[1:30-1:34](Id[1:30-1:34](Item), None)), None)], HandledStatements[1:39-1:56]([AssignStatement[1:39-1:55](Id[1:39-1:44](Datum), Id[1:48-1:55](An_Item))], None))
+AcceptStatement[1:1-1:67]
+| name:
+| | Id[1:8-1:14]
+| | | tok: Insert
+| parameters:
+| | ParameterProfile[1:16-1:34]
+| | | ids:
+| | | | Id[1:16-1:23]
+| | | | | tok: An_Item
+| | | mode: in
+| | | type_expr:
+| | | | TypeExpression[1:30-1:34]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:30-1:34]
+| | | | | | | name:
+| | | | | | | | Id[1:30-1:34]
+| | | | | | | | | tok: Item
+| statements:
+| | HandledStatements[1:39-1:56]
+| | | statements:
+| | | | AssignStatement[1:39-1:55]
+| | | | | dest:
+| | | | | | Id[1:39-1:44]
+| | | | | | | tok: Datum
+| | | | | expr:
+| | | | | | Id[1:48-1:55]
+| | | | | | | tok: An_Item

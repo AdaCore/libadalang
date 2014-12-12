@@ -1,1 +1,45 @@
-PackageDecl[1:1-1:105](Id[1:9-1:22](Generic_Stack), None, [SubprogramDecl[1:26-1:55](unspecified, SubprogramSpec[1:26-1:55](Id[1:36-1:40](Push), [ParameterProfile[1:42-1:54]([Id[1:42-1:43](E)], in, TypeExpression[1:45-1:54](False, TypeRef[1:45-1:54](Id[1:45-1:54](Element_T), None)), None)], None), False, False, None, None), SubprogramDecl[1:57-1:86](unspecified, SubprogramSpec[1:57-1:86](Id[1:66-1:69](Pop), None, TypeExpression[1:77-1:86](False, TypeRef[1:77-1:86](Id[1:77-1:86](Element_T), None))), False, False, None, None)], None)
+PackageDecl[1:1-1:105]
+| name:
+| | Id[1:9-1:22]
+| | | tok: Generic_Stack
+| decls:
+| | SubprogramDecl[1:26-1:55]
+| | | is_overriding: unspecified
+| | | subp_spec:
+| | | | SubprogramSpec[1:26-1:55]
+| | | | | name:
+| | | | | | Id[1:36-1:40]
+| | | | | | | tok: Push
+| | | | | params:
+| | | | | | ParameterProfile[1:42-1:54]
+| | | | | | | ids:
+| | | | | | | | Id[1:42-1:43]
+| | | | | | | | | tok: E
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:45-1:54]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:45-1:54]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:45-1:54]
+| | | | | | | | | | | | | tok: Element_T
+| | | is_null: False
+| | | is_abstract: False
+| | SubprogramDecl[1:57-1:86]
+| | | is_overriding: unspecified
+| | | subp_spec:
+| | | | SubprogramSpec[1:57-1:86]
+| | | | | name:
+| | | | | | Id[1:66-1:69]
+| | | | | | | tok: Pop
+| | | | | returns:
+| | | | | | TypeExpression[1:77-1:86]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:77-1:86]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:77-1:86]
+| | | | | | | | | | | tok: Element_T
+| | | is_null: False
+| | | is_abstract: False

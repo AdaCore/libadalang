@@ -1,1 +1,17 @@
-Allocator[1:1-1:24](Id[1:6-1:10](Pool), TypeExpression[1:12-1:24](False, TypeRef[1:12-1:24](QualExpr[1:12-1:24](Id[1:12-1:19](Integer), Num[1:21-1:23](12)), None)))
+Allocator[1:1-1:24]
+| subpool:
+| | Id[1:6-1:10]
+| | | tok: Pool
+| expr:
+| | TypeExpression[1:12-1:24]
+| | | null_exclusion: False
+| | | type_expr_variant:
+| | | | TypeRef[1:12-1:24]
+| | | | | name:
+| | | | | | QualExpr[1:12-1:24]
+| | | | | | | prefix:
+| | | | | | | | Id[1:12-1:19]
+| | | | | | | | | tok: Integer
+| | | | | | | suffix:
+| | | | | | | | Num[1:21-1:23]
+| | | | | | | | | tok: 12

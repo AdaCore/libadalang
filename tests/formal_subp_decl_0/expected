@@ -1,1 +1,33 @@
-FormalSubpDecl[1:1-1:70](SubprogramSpec[1:6-1:55](Id[1:15-1:20](Pouet), [ParameterProfile[1:22-1:37]([Id[1:22-1:23](X), Id[1:25-1:26](Y)], in, TypeExpression[1:28-1:37](False, TypeRef[1:28-1:37](Id[1:28-1:37](Element_T), None)), None)], TypeExpression[1:46-1:55](False, TypeRef[1:46-1:55](Id[1:46-1:55](Element_T), None))), True, DiamondExpr[1:68-1:70]())
+FormalSubpDecl[1:1-1:70]
+| subp_spec:
+| | SubprogramSpec[1:6-1:55]
+| | | name:
+| | | | Id[1:15-1:20]
+| | | | | tok: Pouet
+| | | params:
+| | | | ParameterProfile[1:22-1:37]
+| | | | | ids:
+| | | | | | Id[1:22-1:23]
+| | | | | | | tok: X
+| | | | | | Id[1:25-1:26]
+| | | | | | | tok: Y
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:28-1:37]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:28-1:37]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:28-1:37]
+| | | | | | | | | | | tok: Element_T
+| | | returns:
+| | | | TypeExpression[1:46-1:55]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:46-1:55]
+| | | | | | | name:
+| | | | | | | | Id[1:46-1:55]
+| | | | | | | | | tok: Element_T
+| is_abstract: True
+| default_value:
+| | DiamondExpr[1:68-1:70]

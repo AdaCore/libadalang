@@ -1,1 +1,26 @@
-CallExpr[1:1-1:30](Id[1:1-1:9](Set_Text), ParamList[1:11-1:29]([ParamAssoc[1:11-1:17](None, Id[1:11-1:17](Layout)), ParamAssoc[1:19-1:29](None, Aggregate[1:20-1:28](None, AggregateContent[1:20-1:28]([AggregateAssoc[1:20-1:28](AggregateMember[1:20-1:21]([Num[1:20-1:21](1)]), Chr[1:25-1:28]('0'))])))]))
+CallExpr[1:1-1:30]
+| prefix:
+| | Id[1:1-1:9]
+| | | tok: Set_Text
+| calls:
+| | ParamList[1:11-1:29]
+| | | params:
+| | | | ParamAssoc[1:11-1:17]
+| | | | | expr:
+| | | | | | Id[1:11-1:17]
+| | | | | | | tok: Layout
+| | | | ParamAssoc[1:19-1:29]
+| | | | | expr:
+| | | | | | Aggregate[1:20-1:28]
+| | | | | | | assocs:
+| | | | | | | | AggregateContent[1:20-1:28]
+| | | | | | | | | fields:
+| | | | | | | | | | AggregateAssoc[1:20-1:28]
+| | | | | | | | | | | designator:
+| | | | | | | | | | | | AggregateMember[1:20-1:21]
+| | | | | | | | | | | | | choice_list:
+| | | | | | | | | | | | | | Num[1:20-1:21]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | expr:
+| | | | | | | | | | | | Chr[1:25-1:28]
+| | | | | | | | | | | | | tok: '0'

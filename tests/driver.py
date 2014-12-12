@@ -173,11 +173,13 @@ class Testsuite(object):
         self.report_testcase(testcase, has_failed)
 
         if has_failed:
-            self.console.write((Generic.Deleted,
-                'EXPECTED: {}'.format(expected.strip())))
+            self.console.write(
+                (Generic.Deleted,
+                 'EXPECTED:\n{}'.format(expected.strip())))
             self.console.endl()
-            self.console.write((Generic.Inserted,
-                'OUT:      {}'.format(out.strip())))
+            self.console.write(
+                (Generic.Inserted,
+                 'OUT:\n{}'.format(out.strip())))
             self.console.endl()
 
             if self.rewrite:
@@ -377,7 +379,9 @@ class MemoryErrors(object):
             console.endl()
 
 
-parser = argparse.ArgumentParser(description='Execute the libadalang testsuite')
+parser = argparse.ArgumentParser(
+    description='Execute the libadalang testsuite'
+)
 parser.add_argument('-w', '--write', default=[], nargs=2,
                     help='Write a test with name and input string')
 parser.add_argument('-r', '--rewrite', dest='rewrite', action='store_true')

@@ -1,1 +1,39 @@
-BinOp[1:1-1:68](Num[1:1-1:2](7), plus, BinOp[1:5-1:68](IfExpr[1:6-1:24](Id[1:9-1:10](B), Num[1:16-1:17](4), [], Num[1:23-1:24](5)), div, CaseExpr[1:29-1:67](Id[1:34-1:35](A), [CaseExprAlternative[1:39-1:52]([Num[1:44-1:46](12)], Num[1:50-1:52](15)), CaseExprAlternative[1:54-1:67]([Num[1:59-1:61](14)], Num[1:65-1:67](16))])))
+BinOp[1:1-1:68]
+| left:
+| | Num[1:1-1:2]
+| | | tok: 7
+| op: plus
+| right:
+| | BinOp[1:5-1:68]
+| | | left:
+| | | | IfExpr[1:6-1:24]
+| | | | | cond_expr:
+| | | | | | Id[1:9-1:10]
+| | | | | | | tok: B
+| | | | | then_expr:
+| | | | | | Num[1:16-1:17]
+| | | | | | | tok: 4
+| | | | | else_expr:
+| | | | | | Num[1:23-1:24]
+| | | | | | | tok: 5
+| | | op: div
+| | | right:
+| | | | CaseExpr[1:29-1:67]
+| | | | | expr:
+| | | | | | Id[1:34-1:35]
+| | | | | | | tok: A
+| | | | | cases:
+| | | | | | CaseExprAlternative[1:39-1:52]
+| | | | | | | choices:
+| | | | | | | | Num[1:44-1:46]
+| | | | | | | | | tok: 12
+| | | | | | | expr:
+| | | | | | | | Num[1:50-1:52]
+| | | | | | | | | tok: 15
+| | | | | | CaseExprAlternative[1:54-1:67]
+| | | | | | | choices:
+| | | | | | | | Num[1:59-1:61]
+| | | | | | | | | tok: 14
+| | | | | | | expr:
+| | | | | | | | Num[1:65-1:67]
+| | | | | | | | | tok: 16

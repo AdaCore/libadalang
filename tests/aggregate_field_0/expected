@@ -1,1 +1,18 @@
-AggregateMember[1:1-1:16]([BinOp[1:1-1:7](Id[1:1-1:2](A), ellipsis, Id[1:6-1:7](B)), BinOp[1:10-1:16](Id[1:10-1:11](C), ellipsis, Id[1:15-1:16](D))])
+AggregateMember[1:1-1:16]
+| choice_list:
+| | BinOp[1:1-1:7]
+| | | left:
+| | | | Id[1:1-1:2]
+| | | | | tok: A
+| | | op: ellipsis
+| | | right:
+| | | | Id[1:6-1:7]
+| | | | | tok: B
+| | BinOp[1:10-1:16]
+| | | left:
+| | | | Id[1:10-1:11]
+| | | | | tok: C
+| | | op: ellipsis
+| | | right:
+| | | | Id[1:15-1:16]
+| | | | | tok: D

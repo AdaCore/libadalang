@@ -1,1 +1,48 @@
-FullTypeDecl[1:1-1:80](Id[1:6-1:7](A), TypeDiscriminant[1:8-1:36]([DiscriminantSpec[1:9-1:35]([Id[1:9-1:16](Discr_1), Id[1:18-1:25](Discr_2)], TypeExpression[1:28-1:35](False, TypeRef[1:28-1:35](Id[1:28-1:35](Integer), None)), None)]), RecordTypeDef[1:40-1:80](False, True, False, RecordDef[1:47-1:80](ComponentList[1:54-1:69]([ComponentDecl[1:54-1:68]([Id[1:54-1:55](B), Id[1:57-1:58](C)], ComponentDef[1:61-1:68](False, TypeExpression[1:61-1:68](False, TypeRef[1:61-1:68](Id[1:61-1:68](Integer), None))), None, None)], None))), None)
+FullTypeDecl[1:1-1:80]
+| type_id:
+| | Id[1:6-1:7]
+| | | tok: A
+| discriminants:
+| | TypeDiscriminant[1:8-1:36]
+| | | discr_specs:
+| | | | DiscriminantSpec[1:9-1:35]
+| | | | | ids:
+| | | | | | Id[1:9-1:16]
+| | | | | | | tok: Discr_1
+| | | | | | Id[1:18-1:25]
+| | | | | | | tok: Discr_2
+| | | | | type_expr:
+| | | | | | TypeExpression[1:28-1:35]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:28-1:35]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:28-1:35]
+| | | | | | | | | | | tok: Integer
+| type_def:
+| | RecordTypeDef[1:40-1:80]
+| | | abstract: False
+| | | tagged: True
+| | | limited: False
+| | | record_def:
+| | | | RecordDef[1:47-1:80]
+| | | | | components:
+| | | | | | ComponentList[1:54-1:69]
+| | | | | | | components:
+| | | | | | | | ComponentDecl[1:54-1:68]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:54-1:55]
+| | | | | | | | | | | tok: B
+| | | | | | | | | | Id[1:57-1:58]
+| | | | | | | | | | | tok: C
+| | | | | | | | | component_def:
+| | | | | | | | | | ComponentDef[1:61-1:68]
+| | | | | | | | | | | aliased: False
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[1:61-1:68]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:61-1:68]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:61-1:68]
+| | | | | | | | | | | | | | | | | tok: Integer

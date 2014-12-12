@@ -1,1 +1,7 @@
-Prefix[1:1-1:8](Id[1:1-1:4](Lol), Str[1:5-1:8]("="))
+Prefix[1:1-1:8]
+| prefix:
+| | Id[1:1-1:4]
+| | | tok: Lol
+| suffix:
+| | Str[1:5-1:8]
+| | | tok: "="

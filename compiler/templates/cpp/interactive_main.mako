@@ -33,9 +33,15 @@ void parse_input(Lexer* lex,
                 current_pos = 0;
 
                 if (print)
-                    printf("%s\n", get_repr(res).c_str());
+                   % if is_ast_node(parser.get_type()):
+                        res->print_node();
+                   % else:
+                        printf("%s\n", get_repr(res).c_str());
+                   % endif
 
                 % if is_ast_node(parser.get_type()):
+                    res->validate();
+
                     for (auto lookup : lookups) {
                         printf("\n");
                         unsigned line, column;
@@ -50,12 +56,13 @@ void parse_input(Lexer* lex,
                             const std::string lookup_str = sloc.repr();
                             auto lookup_res = res->lookup(sloc);
 
-                            printf("Lookup %s: %s\n",
-                                   lookup_str.c_str(),
-                                   get_repr(lookup_res).c_str());
+                            printf("Lookup %s:\n",
+                                   lookup_str.c_str());
+                            lookup_res->print_node();
+
+                            lookup_res->validate();
                         }
                     }
-                    res->validate();
                 % else:
                     if (!lookups.empty())
                         printf("Cannot lookup non-AST nodes!\n");

@@ -1,1 +1,33 @@
-IfStatement[1:1-1:86](BinOp[1:4-1:23](Id[1:4-1:15](Temperature), gte, Num[1:19-1:23](40.0)), [CallExpr[1:29-1:45](Id[1:29-1:37](Put_Line), ParamList[1:39-1:44]([ParamAssoc[1:39-1:44](None, Str[1:39-1:44]("Wow"))])), CallExpr[1:47-1:78](Id[1:47-1:55](Put_Line), ParamList[1:57-1:77]([ParamAssoc[1:57-1:77](None, Str[1:57-1:77]("It's extremely hot"))]))], [], None)
+IfStatement[1:1-1:86]
+| condition:
+| | BinOp[1:4-1:23]
+| | | left:
+| | | | Id[1:4-1:15]
+| | | | | tok: Temperature
+| | | op: gte
+| | | right:
+| | | | Num[1:19-1:23]
+| | | | | tok: 40.0
+| statements:
+| | CallExpr[1:29-1:45]
+| | | prefix:
+| | | | Id[1:29-1:37]
+| | | | | tok: Put_Line
+| | | calls:
+| | | | ParamList[1:39-1:44]
+| | | | | params:
+| | | | | | ParamAssoc[1:39-1:44]
+| | | | | | | expr:
+| | | | | | | | Str[1:39-1:44]
+| | | | | | | | | tok: "Wow"
+| | CallExpr[1:47-1:78]
+| | | prefix:
+| | | | Id[1:47-1:55]
+| | | | | tok: Put_Line
+| | | calls:
+| | | | ParamList[1:57-1:77]
+| | | | | params:
+| | | | | | ParamAssoc[1:57-1:77]
+| | | | | | | expr:
+| | | | | | | | Str[1:57-1:77]
+| | | | | | | | | tok: "It's extremely hot"

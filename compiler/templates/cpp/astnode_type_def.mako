@@ -23,6 +23,7 @@ public:
 
     % if not cls.abstract:
         void validate();
+        void print_node(int level = 0);
     % endif
 };
 

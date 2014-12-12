@@ -1,1 +1,28 @@
-SubprogramSpec[1:1-1:37](Id[1:10-1:11](A), None, TypeExpression[1:19-1:37](False, TypeRef[1:19-1:37](CallExpr[1:19-1:37](Prefix[1:19-1:26](Id[1:19-1:22](Pkg), Id[1:23-1:26](Arr)), BinOp[1:28-1:36](Num[1:28-1:30](12), ellipsis, Num[1:34-1:36](18))), None)))
+SubprogramSpec[1:1-1:37]
+| name:
+| | Id[1:10-1:11]
+| | | tok: A
+| returns:
+| | TypeExpression[1:19-1:37]
+| | | null_exclusion: False
+| | | type_expr_variant:
+| | | | TypeRef[1:19-1:37]
+| | | | | name:
+| | | | | | CallExpr[1:19-1:37]
+| | | | | | | prefix:
+| | | | | | | | Prefix[1:19-1:26]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[1:19-1:22]
+| | | | | | | | | | | tok: Pkg
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[1:23-1:26]
+| | | | | | | | | | | tok: Arr
+| | | | | | | calls:
+| | | | | | | | BinOp[1:28-1:36]
+| | | | | | | | | left:
+| | | | | | | | | | Num[1:28-1:30]
+| | | | | | | | | | | tok: 12
+| | | | | | | | | op: ellipsis
+| | | | | | | | | right:
+| | | | | | | | | | Num[1:34-1:36]
+| | | | | | | | | | | tok: 18

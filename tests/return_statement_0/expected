@@ -1,1 +1,23 @@
-ReturnStatement[1:1-1:26](CallExpr[1:8-1:26](Id[1:8-1:11](Lol), ParamList[1:13-1:25]([ParamAssoc[1:13-1:16](None, Id[1:13-1:16](Wat)), ParamAssoc[1:18-1:25](None, BinOp[1:18-1:25](Num[1:18-1:20](12), plus, Num[1:23-1:25](15)))])))
+ReturnStatement[1:1-1:26]
+| return_expr:
+| | CallExpr[1:8-1:26]
+| | | prefix:
+| | | | Id[1:8-1:11]
+| | | | | tok: Lol
+| | | calls:
+| | | | ParamList[1:13-1:25]
+| | | | | params:
+| | | | | | ParamAssoc[1:13-1:16]
+| | | | | | | expr:
+| | | | | | | | Id[1:13-1:16]
+| | | | | | | | | tok: Wat
+| | | | | | ParamAssoc[1:18-1:25]
+| | | | | | | expr:
+| | | | | | | | BinOp[1:18-1:25]
+| | | | | | | | | left:
+| | | | | | | | | | Num[1:18-1:20]
+| | | | | | | | | | | tok: 12
+| | | | | | | | | op: plus
+| | | | | | | | | right:
+| | | | | | | | | | Num[1:23-1:25]
+| | | | | | | | | | | tok: 15

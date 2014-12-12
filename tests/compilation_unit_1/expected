@@ -1,1 +1,27 @@
-CompilationUnit[1:1-1:54]([], LibraryItem[1:1-1:54](True, PackageDecl[1:9-1:54](Id[1:17-1:18](A), None, [SubprogramDecl[1:22-1:47](unspecified, SubprogramSpec[1:22-1:47](Id[1:31-1:32](B), None, TypeExpression[1:40-1:47](False, TypeRef[1:40-1:47](Id[1:40-1:47](Boolean), None))), False, False, None, None)], None)))
+CompilationUnit[1:1-1:54]
+| body:
+| | LibraryItem[1:1-1:54]
+| | | is_private: True
+| | | item:
+| | | | PackageDecl[1:9-1:54]
+| | | | | name:
+| | | | | | Id[1:17-1:18]
+| | | | | | | tok: A
+| | | | | decls:
+| | | | | | SubprogramDecl[1:22-1:47]
+| | | | | | | is_overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[1:22-1:47]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:31-1:32]
+| | | | | | | | | | | tok: B
+| | | | | | | | | returns:
+| | | | | | | | | | TypeExpression[1:40-1:47]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:40-1:47]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:40-1:47]
+| | | | | | | | | | | | | | | tok: Boolean
+| | | | | | | is_null: False
+| | | | | | | is_abstract: False

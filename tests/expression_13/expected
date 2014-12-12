@@ -1,1 +1,17 @@
-AttributeRef[1:1-1:22](QualExpr[1:1-1:14](AttributeRef[1:1-1:6](Id[1:1-1:2](A), Id[1:5-1:6](C), None), Chr[1:10-1:13]('D')), Id[1:15-1:22](Pointer), None)
+AttributeRef[1:1-1:22]
+| prefix:
+| | QualExpr[1:1-1:14]
+| | | prefix:
+| | | | AttributeRef[1:1-1:6]
+| | | | | prefix:
+| | | | | | Id[1:1-1:2]
+| | | | | | | tok: A
+| | | | | attribute:
+| | | | | | Id[1:5-1:6]
+| | | | | | | tok: C
+| | | suffix:
+| | | | Chr[1:10-1:13]
+| | | | | tok: 'D'
+| attribute:
+| | Id[1:15-1:22]
+| | | tok: Pointer

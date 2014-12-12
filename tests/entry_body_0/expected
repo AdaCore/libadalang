@@ -1,1 +1,38 @@
-EntryBody[1:1-1:100](Id[1:7-1:13](insert), None, [ParameterProfile[1:15-1:33]([Id[1:15-1:22](an_item)], in, TypeExpression[1:29-1:33](False, TypeRef[1:29-1:33](Id[1:29-1:33](item), None)), None)], Id[1:40-1:45](empty), [], HandledStatements[1:55-1:89]([AssignStatement[1:55-1:72](Id[1:55-1:61](buffer), Id[1:65-1:72](an_item)), AssignStatement[1:74-1:88](Id[1:74-1:79](empty), Id[1:83-1:88](false))], None))
+EntryBody[1:1-1:100]
+| entry_name:
+| | Id[1:7-1:13]
+| | | tok: insert
+| parameters:
+| | ParameterProfile[1:15-1:33]
+| | | ids:
+| | | | Id[1:15-1:22]
+| | | | | tok: an_item
+| | | mode: in
+| | | type_expr:
+| | | | TypeExpression[1:29-1:33]
+| | | | | null_exclusion: False
+| | | | | type_expr_variant:
+| | | | | | TypeRef[1:29-1:33]
+| | | | | | | name:
+| | | | | | | | Id[1:29-1:33]
+| | | | | | | | | tok: item
+| when_cond:
+| | Id[1:40-1:45]
+| | | tok: empty
+| statements:
+| | HandledStatements[1:55-1:89]
+| | | statements:
+| | | | AssignStatement[1:55-1:72]
+| | | | | dest:
+| | | | | | Id[1:55-1:61]
+| | | | | | | tok: buffer
+| | | | | expr:
+| | | | | | Id[1:65-1:72]
+| | | | | | | tok: an_item
+| | | | AssignStatement[1:74-1:88]
+| | | | | dest:
+| | | | | | Id[1:74-1:79]
+| | | | | | | tok: empty
+| | | | | expr:
+| | | | | | Id[1:83-1:88]
+| | | | | | | tok: false

@@ -31,7 +31,7 @@ class CompileCtx():
         self.fns = set()
         self.generic_vectors = set()
         self.types = set()
-        self.main_parser = ""
+        self.main_rule_name = ""
         self.diag_types = []
         self.test_bodies = []
         self.test_names = []

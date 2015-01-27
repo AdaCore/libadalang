@@ -97,7 +97,7 @@ class PragmaArgument(ASTNode):
     expr = Field()
 
 
-# #####################
+######################
 # GRAMMAR DEFINITION #
 ######################
 

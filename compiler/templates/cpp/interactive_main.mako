@@ -93,7 +93,7 @@ int main (int argc, char** argv) {
         ("files,f", po::value<vector<string>>(), 
          "trigger the file input mode")
         ("filelist,F", po::value<string>(), "list of files")
-        ("rule-name,r", po::value<string>()->default_value("compilation_unit"), "rule name to parse")
+        ("rule-name,r", po::value<string>()->default_value("${_self.main_rule_name}"), "rule name to parse")
         ("input", po::value<string>()->default_value(""), "input file or string")
         ("lookup", po::value<vector<string>>(), "sloc lookups to perform");
 

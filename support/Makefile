@@ -9,8 +9,9 @@ ifneq (,$(findstring sun, $(COMPILER)))
 	ADD_FLAGS := +w
 endif
 
+OPTIM_FLAG=-O0
 OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 \
-	  -c -g -O0 -I$(QUEX_PATH) -Iinclude -Isrc \
+	  -c -g $(OPTIM_FLAG) -I$(QUEX_PATH) -Iinclude -Isrc \
 	  $(ADD_FLAGS) \
       -DQUEX_OPTION_ASSERTS_DISABLED \
       -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED \

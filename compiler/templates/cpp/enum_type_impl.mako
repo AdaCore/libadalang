@@ -11,6 +11,12 @@ std::string get_repr(${cls.name()} enum_inst) {
     }
 }
 
+boost::property_tree::ptree get_ptree(${cls.name()} enum_inst) {
+    ptree result;
+    result.put("", get_repr(enum_inst));
+    return result;
+}
+
 void dec_ref (${cls.name()} self) {
     #pragma unused(self)
 }

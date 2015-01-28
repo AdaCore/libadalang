@@ -24,6 +24,7 @@ public:
     AnalysisUnit(std::string file_name, ParseFunction parse_function);
 
     void print();
+    void print_json();
 
 private:
     int ref = 0;

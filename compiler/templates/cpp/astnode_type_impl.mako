@@ -102,11 +102,29 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
        % endfor
     }
 
-    void ${cls.name()}::print_node(int level) {
-       print_tab(level);
+    ptree ${cls.name()}::get_property_tree() {
 
-       std::string result = this->__name() + "[" + sloc_range_.repr() + "]";
-       printf("%s\n", result.c_str());
+        ptree result;
+        result.put("kind", this->__name());
+        result.add_child("sloc", sloc_range_.get_property_tree());
+
+       % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+           % if t.is_ptr:
+               if (${f.name} && !${f.name}->is_empty_list()) {
+                  result.add_child("${f.name}", ${f.name}->get_property_tree());
+               }
+           % else:
+               result.add_child("${f.name}", get_ptree(${f.name}));
+           % endif
+       % endfor
+
+       return result;
+    }
+
+    void ${cls.name()}::print_node(int level) {
+        print_tab(level);
+        std::string result = this->__name() + "[" + sloc_range_.repr() + "]";
+        printf("%s\n", result.c_str());
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
            % if t.is_ptr:

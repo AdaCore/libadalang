@@ -11,6 +11,7 @@
 
 namespace po = boost::program_options;
 using namespace std;
+using boost::property_tree::ptree;
 
 void parse_input(Lexer* lex,
                  string rule_name,
@@ -24,7 +25,7 @@ void parse_input(Lexer* lex,
             if (current_pos == -1) {
                 SourceLocation sloc = max_token.sloc_range.get_start();
                 printf("Failed !!\n");
-                printf("Last token pos : Line %d, Col %d, cat %d\n", 
+                printf("Last token pos : Line %d, Col %d, cat %d\n",
                        sloc.line, sloc.column, max_token.id);
             } else {
                 % if parser.needs_refcount:
@@ -88,9 +89,13 @@ int main (int argc, char** argv) {
         ("help", "produce help message")
         ("silent,s", po::value<bool>()->default_value(false)
                                        ->implicit_value(true)
-                                       ->zero_tokens(), 
+                                       ->zero_tokens(),
          "print the representation of the resulting tree")
-        ("files,f", po::value<vector<string>>(), 
+        ("json,j", po::value<bool>()->default_value(false)
+                                    ->implicit_value(true)
+                                    ->zero_tokens(),
+         "print the representation of the resulting tree as json")
+        ("files,f", po::value<vector<string>>(),
          "trigger the file input mode")
         ("filelist,F", po::value<string>(), "list of files")
         ("rule-name,r", po::value<string>()->default_value("${_self.main_rule_name}"), "rule name to parse")
@@ -115,11 +120,12 @@ int main (int argc, char** argv) {
     string input = vm["input"].as<string>();
     string rule_name = vm["rule-name"].as<string>();
     bool print = !vm["silent"].as<bool>();
+    bool json = vm["json"].as<bool>();
     vector<string> lookups;
 
     if (vm.count("lookup")) lookups = vm["lookup"].as<vector<string>>();
 
-    bool is_filelist = (bool)vm.count("filelist"), 
+    bool is_filelist = (bool)vm.count("filelist"),
         is_files = (bool)vm.count("files");
 
     if (is_filelist || is_files) {
@@ -147,7 +153,12 @@ int main (int argc, char** argv) {
         for (auto input_file : file_list) {
             cout << "file name : " << input_file << endl;
             auto unit = parse_file(input_file);
-            if (print) unit->print();
+            if (print) {
+                if (json)
+                    unit->print_json();
+                else
+                    unit->print();
+            }
             delete unit;
         }
     } else {
@@ -156,7 +167,7 @@ int main (int argc, char** argv) {
         free_lexer(lex);
     }
 
-    
+
     print_diagnostics();
     return 0;
 }

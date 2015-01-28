@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 #include <iostream>
+#include <boost/property_tree/ptree.hpp>
 #include "lexer.hpp"
 
 class ASTNode {
@@ -82,6 +83,8 @@ public:
     /* (debugging) Tree output */
     virtual void print_node(int level = 0) = 0;
 
+    virtual boost::property_tree::ptree get_property_tree() = 0;
+
     /* Subsidiary routine of print_node overriden in ASTList; used to avoid
        the need of performing a dynamic cast to identify tree components
        containing a non-empty lists of nodes */
@@ -115,6 +118,7 @@ public:
 
     void validate();
     void print_node(int level = 0);
+    boost::property_tree::ptree get_property_tree();
     virtual bool is_empty_list();
 };
 
@@ -169,6 +173,7 @@ template <typename T> inline void vec_dec_ref (std::vector<T*>& vec) { for (auto
 template <typename T> inline void vec_dec_ref (std::vector<T>& vec) { for (auto el : vec) el.dec_ref(); }
 
 inline std::string get_repr (int el) { return el ? "True" : "False"; }
+boost::property_tree::ptree get_ptree (int el);
 
 template <typename T> void dec_ref (T& el) { 
     el.dec_ref(); 
@@ -182,6 +187,7 @@ template <typename T> void dec_ref (T*& el) {
 }
 
 inline std::string get_repr (Token node) { return std::string(node.text); }
+boost::property_tree::ptree get_ptree (Token node);
 
 template <typename T> void
 ASTList<T>::validate() {
@@ -214,5 +220,13 @@ ASTList<T>::is_empty_list() {
 }
 
 typedef ASTNode*(*ParseFunction)(Lexer*, long);
+
+template <typename T> boost::property_tree::ptree ASTList<T>::get_property_tree() {
+    boost::property_tree::ptree result;
+    for (auto node : vec) {
+        if (node) result.push_back(std::make_pair("", node->get_property_tree()));
+    }
+    return result;
+}
 
 #endif

@@ -2,6 +2,8 @@
 #define CFFI_INTERFACE_H
 
 #include <assert.h>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <list>
 #include <unordered_map>
 #include <cstdlib>
@@ -49,11 +51,14 @@ struct SourceLocation {
         else
             return IN;
     }
+
     std::string repr() const {
         std::ostringstream oss;
         oss << line << ":" << column;
         return oss.str();
     }
+
+    boost::property_tree::ptree get_property_tree(); 
 };
 
 struct SourceLocationRange {
@@ -112,6 +117,8 @@ struct SourceLocationRange {
     std::string repr() const {
         return get_start().repr() + "-" + get_end().repr();
     }
+
+    boost::property_tree::ptree get_property_tree(); 
 };
 
 struct _token {

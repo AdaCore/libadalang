@@ -3,6 +3,8 @@
 #include "${header_name}"
 #include <unordered_map>
 
+using boost::property_tree::ptree;
+
 template< typename T, class Allocator > void shrink_capacity(std::vector<T,Allocator>* v)
 {
    std::vector<T,Allocator>(v->begin(),v->end()).swap(*v);

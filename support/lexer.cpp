@@ -146,3 +146,17 @@ void symbolize(Lexer* lexer, quex_Token* tk) {
         tk->text = (uint8_t*)it->second;
     }
 }
+
+using boost::property_tree::ptree;
+
+boost::property_tree::ptree SourceLocation::get_property_tree() {
+    ptree result;
+    result.put("", this->repr());
+    return result;
+}
+
+boost::property_tree::ptree SourceLocationRange::get_property_tree() {
+    ptree result;
+    result.put("", this->repr());
+    return result;
+}

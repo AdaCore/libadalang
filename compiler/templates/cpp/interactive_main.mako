@@ -53,7 +53,7 @@ void parse_input(Lexer* lex,
                         {
                             const SourceLocation sloc((uint32_t) line,
                                                       (uint16_t) column);
-                            const std::string lookup_str = sloc.repr();
+                            const string lookup_str = sloc.repr();
                             auto lookup_res = res->lookup(sloc);
 
                             printf("Lookup %s:\n",
@@ -117,27 +117,38 @@ int main (int argc, char** argv) {
     bool print = !vm["silent"].as<bool>();
     vector<string> lookups;
 
-    if (vm.count("lookup"))
-        lookups = vm["lookup"].as<vector<string>>();
+    if (vm.count("lookup")) lookups = vm["lookup"].as<vector<string>>();
 
-    if (vm.count("filelist")) {
-        std::ifstream fl(vm["filelist"].as<string>());
-        string input_file;
-        while (std::getline(fl, input_file)) {
-            input_file = trim(input_file);
-            if (input_file != "") {
-                cout << "file name : " << input_file << endl; lex = make_lexer_from_file(input_file.c_str(), nullptr);
-                parse_input(lex, rule_name, print, lookups);
-                free_lexer(lex);
+    bool is_filelist = (bool)vm.count("filelist"), 
+        is_files = (bool)vm.count("files");
+
+    if (is_filelist || is_files) {
+        vector<string> file_list;
+        if (rule_name != "${_self.main_rule_name}") {
+            cout << "You can't supply a custom rule when you are parsing whole"
+                "files, the main rule ${_self.main_rule_name} is necessarily"
+                "used" << endl;
+            return 1;
+        }
+        if (is_filelist) {
+            ifstream fl(vm["filelist"].as<string>());
+            string input_file;
+            while (getline(fl, input_file)) {
+                input_file = trim(input_file);
+                file_list.push_back(input_file);
             }
         }
-    } else if (vm.count("files")) {
-        auto input_files = vm["files"].as<vector<string>>();
-        for (auto input_file : input_files) {
+
+        if (is_files) {
+            auto files = vm["files"].as<vector<string>>();
+            file_list.insert(file_list.end(), files.begin(), files.end());
+        }
+
+        for (auto input_file : file_list) {
             cout << "file name : " << input_file << endl;
-            lex = make_lexer_from_file(input_file.c_str(), nullptr);
-            parse_input(lex, rule_name, print, lookups);
-            free_lexer(lex);
+            auto unit = parse_file(input_file);
+            if (print) unit->print();
+            delete unit;
         }
     } else {
         lex = make_lexer_from_string(input.c_str(), input.length());

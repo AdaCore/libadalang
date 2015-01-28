@@ -19,14 +19,13 @@ OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 
      # -DQUEX_OPTION_DEBUG_SHOW
 
 CC = $(COMPILER) $(OPTS)   
-
 LD = $(COMPILER) 
 
 # (*) RULES ____________________________________________________________________
 # -- application
 #
-bin/parse_main: bin obj/parse.o obj/parse_main.o obj/quex_lexer.o obj/lexer.o
-	$(COMPILER) -o bin/parse obj/parse_main.o obj/parse.o obj/quex_lexer.o obj/lexer.o -lboost_program_options
+bin/parse_main: bin obj/parse.o obj/parse_main.o obj/quex_lexer.o obj/lexer.o obj/context.o
+	$(COMPILER) -o bin/parse obj/parse_main.o obj/parse.o obj/quex_lexer.o obj/lexer.o obj/context.o -lboost_program_options
 
 obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
 	$(CC) -std=c++11 $< -o $@ 

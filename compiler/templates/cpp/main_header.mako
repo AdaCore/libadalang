@@ -5,6 +5,7 @@
 #include "ast.hpp"
 #include "lexer.hpp"
 #include "packrat.hpp"
+#include "context.hpp"
 
 using namespace std;
 extern long current_pos;
@@ -46,5 +47,7 @@ ${el}
 
 void print_diagnostics();
 void clean_all_memos();
+
+AnalysisUnit* parse_file(std::string file_name);
 
 #endif

@@ -21,7 +21,7 @@ def write_cpp_file(file_path, source):
 class CompileCtx():
     """State holder for native code emission."""
 
-    def __init__(self):
+    def __init__(self, main_rule_name):
         # TODO???  A short description for all these fields would help!
         self.body = []
         self.types_declarations = []
@@ -31,7 +31,7 @@ class CompileCtx():
         self.fns = set()
         self.generic_vectors = set()
         self.types = set()
-        self.main_rule_name = ""
+        self.main_rule_name = main_rule_name
         self.diag_types = []
         self.test_bodies = []
         self.test_names = []

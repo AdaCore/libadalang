@@ -52,7 +52,7 @@ class Coverage(object):
 
 
 def main():
-    context = CompileCtx()
+    context = CompileCtx("compilation_unit")
     context.set_lexer_file(path.join(file_path(__file__), "ada.qx"))
 
     from ada_parser import A

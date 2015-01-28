@@ -213,4 +213,6 @@ ASTList<T>::is_empty_list() {
    return vec.empty();
 }
 
+typedef ASTNode*(*ParseFunction)(Lexer*, long);
+
 #endif

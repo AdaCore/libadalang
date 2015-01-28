@@ -35,3 +35,7 @@ void clean_all_memos() {
         ${fn}_memo.clear();
     % endfor
 }
+
+AnalysisUnit* parse_file(std::string file_name) {
+    return new AnalysisUnit(file_name, (ParseFunction)&${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name});
+}

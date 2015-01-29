@@ -11,6 +11,7 @@ import xml.etree.ElementTree as etree
 import pygments
 import pygments.formatters
 import pygments.style
+import pygments.styles
 from pygments.token import *
 
 

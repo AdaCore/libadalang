@@ -16,7 +16,7 @@ public:
     virtual std::string __name() { return "ASTNode"; }
     void inc_ref() { ref++; }
     int dec_ref() {
-        ref--; 
+        ref--;
         if (ref <= 0) {
             delete this;
             return true;
@@ -109,11 +109,11 @@ protected:
 public:
     std::vector<T> vec;
     std::string repr() { return get_repr(vec); };
-    ~ASTList() { 
+    ~ASTList() {
         #if DEBUG_MODE
         printf("DELETING VECTOR\n");
         #endif
-        vec_dec_ref (vec); 
+        vec_dec_ref (vec);
     }
 
     void validate();
@@ -141,8 +141,8 @@ ASTList<T>::lookup_children(const SourceLocation &sloc)
     return this;
 }
 
-template <typename T> inline void vec_free (std::vector<T>& vec) { for (auto el : vec) el.free(); } 
-template <typename T> inline void vec_free (std::vector<T*>& vec) { for (auto el : vec) el->free(); } 
+template <typename T> inline void vec_free (std::vector<T>& vec) { for (auto el : vec) el.free(); }
+template <typename T> inline void vec_free (std::vector<T*>& vec) { for (auto el : vec) el->free(); }
 
 template <typename T> inline std::string get_repr (std::vector<T>& vec) {
     std::string res;
@@ -175,15 +175,15 @@ template <typename T> inline void vec_dec_ref (std::vector<T>& vec) { for (auto 
 inline std::string get_repr (int el) { return el ? "True" : "False"; }
 boost::property_tree::ptree get_ptree (int el);
 
-template <typename T> void dec_ref (T& el) { 
-    el.dec_ref(); 
+template <typename T> void dec_ref (T& el) {
+    el.dec_ref();
 }
 
-template <typename T> void dec_ref (T*& el) { 
-    if (el) { 
-        el->dec_ref(); 
-        el = nullptr; 
-    } 
+template <typename T> void dec_ref (T*& el) {
+    if (el) {
+        el->dec_ref();
+        el = nullptr;
+    }
 }
 
 inline std::string get_repr (Token node) { return std::string(node.text); }

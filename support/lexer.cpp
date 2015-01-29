@@ -92,7 +92,7 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
     strncpy(buffer + 1, string, len);
     buffer[0] = 0;
     buffer[len + 1] = 0;
-    QUEX_NAME(construct_memory)(lex->lexer, (uint8_t*)buffer, 
+    QUEX_NAME(construct_memory)(lex->lexer, (uint8_t*)buffer,
                                     0, (uint8_t*)(buffer + len + 1), 0, false);
 
     QUEX_NAME(token_p_set)(lex->lexer, &buffer_tk);

@@ -58,7 +58,7 @@ struct SourceLocation {
         return oss.str();
     }
 
-    boost::property_tree::ptree get_property_tree(); 
+    boost::property_tree::ptree get_property_tree();
 };
 
 struct SourceLocationRange {
@@ -118,7 +118,7 @@ struct SourceLocationRange {
         return get_start().repr() + "-" + get_end().repr();
     }
 
-    boost::property_tree::ptree get_property_tree(); 
+    boost::property_tree::ptree get_property_tree();
 };
 
 struct _token {

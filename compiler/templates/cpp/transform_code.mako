@@ -24,7 +24,7 @@ if (${cpos} != -1) {
                             : get(lex, ${cpos} - 1).sloc_range.get_end());
 
     % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types(_compile_ctx)):
-        ${res}${"->" if _self.get_type().is_ptr else "."}${f.name} = ${arg}; 
+        ${res}${"->" if _self.get_type().is_ptr else "."}${f.name} = ${arg};
         % if is_ast_node (typ):
              if (${arg}) ${arg}->setParent(${res});
         % endif

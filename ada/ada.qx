@@ -8,15 +8,15 @@ token_type {
        extern uint32_t last_id;
        struct $TOKEN_CLASS_tag;
 
-       extern const char* 
-       $TOKEN_CLASS_get_string(struct $TOKEN_CLASS_tag* me,  char*  buffer, size_t   BufferSize); 
+       extern const char*
+       $TOKEN_CLASS_get_string(struct $TOKEN_CLASS_tag* me,  char*  buffer, size_t   BufferSize);
 
-       extern const char* 
-       $TOKEN_CLASS_pretty_char_text(struct $TOKEN_CLASS_tag* me, char*   buffer, size_t  BufferSize); 
+       extern const char*
+       $TOKEN_CLASS_pretty_char_text(struct $TOKEN_CLASS_tag* me, char*   buffer, size_t  BufferSize);
 
 #      if ! defined(__QUEX_OPTION_WCHAR_T_DISABLED)
-       extern const wchar_t* 
-       $TOKEN_CLASS_pretty_wchar_text(struct $TOKEN_CLASS_tag* me, wchar_t*  buffer, size_t BufferSize); 
+       extern const wchar_t*
+       $TOKEN_CLASS_pretty_wchar_text(struct $TOKEN_CLASS_tag* me, wchar_t*  buffer, size_t BufferSize);
 #      endif
 
 #undef QUEX_ACTION_TOKEN_STAMP
@@ -62,10 +62,10 @@ $INCLUDE_CONVERTER_DECLARATION
         }
         if( Other.text != LexemeNull ) {
             self.text = QUEX_NAME(MemoryManager_Text_allocate)(
-                                    sizeof(QUEX_TYPE_CHARACTER) 
+                                    sizeof(QUEX_TYPE_CHARACTER)
                                   * (QUEX_NAME(strlen)(Other.text) + 1));
-            __QUEX_STD_memcpy((void*)self.text, (void*)Other.text, 
-                                sizeof(QUEX_TYPE_CHARACTER) 
+            __QUEX_STD_memcpy((void*)self.text, (void*)Other.text,
+                                sizeof(QUEX_TYPE_CHARACTER)
                               * (QUEX_NAME(strlen)(Other.text) + 1));
         }
         self.number = Other.number;
@@ -109,7 +109,7 @@ $INCLUDE_CONVERTER_DECLARATION
         {
             const QUEX_TYPE_CHARACTER* it = 0x0;
             printf("after:     '");
-            if( self.text != LexemeNull ) { 
+            if( self.text != LexemeNull ) {
                 for(it = self.text; *it ; ++it) printf("%04X.", (int)*it);
                 printf("%04X.", (int)*it);
             }
@@ -117,7 +117,7 @@ $INCLUDE_CONVERTER_DECLARATION
         }
 #       endif
 
-        /* This token copied the text from the chunk into the string, 
+        /* This token copied the text from the chunk into the string,
          * so we do not claim owneship over it.                       */
         return false;
    }
@@ -136,8 +136,8 @@ $INCLUDE_CONVERTER_DECLARATION
    }
 
    footer {
-        const char* 
-        $TOKEN_CLASS_get_string($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize) 
+        const char*
+        $TOKEN_CLASS_get_string($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize)
         {
             const char*  token_type_str = $TOKEN_CLASS_map_id_to_name(me->_id);
             const char*  BufferEnd  = buffer + BufferSize;
@@ -146,7 +146,7 @@ $INCLUDE_CONVERTER_DECLARATION
 
             /* Token Type */
             iterator = token_type_str;
-            writerator = buffer; 
+            writerator = buffer;
             while( (*iterator) && writerator != BufferEnd ) {
                 *writerator++ = *iterator++;
             }
@@ -172,8 +172,8 @@ $INCLUDE_CONVERTER_DECLARATION
             return buffer;
         }
 
-        const char* 
-        $TOKEN_CLASS_pretty_char_text($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize) 
+        const char*
+        $TOKEN_CLASS_pretty_char_text($TOKEN_CLASS* me, char*   buffer, size_t  BufferSize)
         /* Provides a somehow pretty-print of the text in the token. Note, that the buffer
          * in case of UTF8 should be 4bytes longer than the longest expected string.       */
         {
@@ -187,8 +187,8 @@ $INCLUDE_CONVERTER_DECLARATION
         }
 
 #       if ! defined(__QUEX_OPTION_WCHAR_T_DISABLED)
-        const wchar_t* 
-        $TOKEN_CLASS_pretty_wchar_text($TOKEN_CLASS* me, wchar_t*  buffer, size_t    BufferSize) 
+        const wchar_t*
+        $TOKEN_CLASS_pretty_wchar_text($TOKEN_CLASS* me, wchar_t*  buffer, size_t    BufferSize)
         {
             wchar_t*                    drain     = buffer;
             const wchar_t*              DrainEnd  = buffer + (ptrdiff_t)BufferSize;
@@ -343,7 +343,7 @@ mode ONE_AND_ONLY
 
     [ \t\r\n]+  { }
     --(.?)+  { }
-    \C{abort} => QUEX_TKN_ABORT; 
+    \C{abort} => QUEX_TKN_ABORT;
     \C{else} => QUEX_TKN_ELSE;
     \C{new} => QUEX_TKN_NEW;
     \C{return} => QUEX_TKN_RETURN;
@@ -419,27 +419,27 @@ mode ONE_AND_ONLY
 
     "(" => QUEX_TKN_PAR_OPEN(Lexeme);
     ")" => QUEX_TKN_PAR_CLOSE(Lexeme);
-    ";" => QUEX_TKN_SEMICOLON(Lexeme); 
-    ":" => QUEX_TKN_COLON(Lexeme); 
-    "," => QUEX_TKN_COMMA(Lexeme); 
-    ".." => QUEX_TKN_DOUBLEDOT(Lexeme); 
-    ":=" => QUEX_TKN_ASSIGN(Lexeme); 
-    "." => QUEX_TKN_DOT(Lexeme); 
-    "<>" => QUEX_TKN_DIAMOND(Lexeme); 
+    ";" => QUEX_TKN_SEMICOLON(Lexeme);
+    ":" => QUEX_TKN_COLON(Lexeme);
+    "," => QUEX_TKN_COMMA(Lexeme);
+    ".." => QUEX_TKN_DOUBLEDOT(Lexeme);
+    ":=" => QUEX_TKN_ASSIGN(Lexeme);
+    "." => QUEX_TKN_DOT(Lexeme);
+    "<>" => QUEX_TKN_DIAMOND(Lexeme);
     "<=" => QUEX_TKN_LTE(Lexeme);
-    ">=" => QUEX_TKN_GTE(Lexeme); 
-    "=>" => QUEX_TKN_ARROW(Lexeme); 
-    "=" => QUEX_TKN_EQUAL(Lexeme); 
-    "<" => QUEX_TKN_LT(Lexeme); 
-    ">" => QUEX_TKN_GT(Lexeme); 
-    "+" => QUEX_TKN_PLUS(Lexeme); 
-    "-" => QUEX_TKN_MINUS(Lexeme); 
-    "**" => QUEX_TKN_POWER(Lexeme); 
-    "*" => QUEX_TKN_MULT(Lexeme); 
-    "&" => QUEX_TKN_AMP(Lexeme); 
-    "/=" => QUEX_TKN_NOTEQUAL(Lexeme); 
+    ">=" => QUEX_TKN_GTE(Lexeme);
+    "=>" => QUEX_TKN_ARROW(Lexeme);
+    "=" => QUEX_TKN_EQUAL(Lexeme);
+    "<" => QUEX_TKN_LT(Lexeme);
+    ">" => QUEX_TKN_GT(Lexeme);
+    "+" => QUEX_TKN_PLUS(Lexeme);
+    "-" => QUEX_TKN_MINUS(Lexeme);
+    "**" => QUEX_TKN_POWER(Lexeme);
+    "*" => QUEX_TKN_MULT(Lexeme);
+    "&" => QUEX_TKN_AMP(Lexeme);
+    "/=" => QUEX_TKN_NOTEQUAL(Lexeme);
     "/" => QUEX_TKN_DIVIDE(Lexeme);
-    "'" => QUEX_TKN_TICK(Lexeme); 
+    "'" => QUEX_TKN_TICK(Lexeme);
     "|" => QUEX_TKN_PIPE(Lexeme);
 
     {DECIMAL_LITERAL} => QUEX_TKN_NUMBER(Lexeme);
@@ -451,13 +451,13 @@ mode ONE_AND_ONLY
 
     '.' {
         if (!(last_id >= QUEX_TKN_IDENTIFIER && last_id <= QUEX_TKN_ALL)) {
-            self_send1(QUEX_TKN_CHAR, Lexeme); 
+            self_send1(QUEX_TKN_CHAR, Lexeme);
         } else {
             self_send1(QUEX_TKN_TICK, Lexeme);
             QUEX_NAME(seek_backward)(&self, 2);
         }
 
-        RETURN; 
+        RETURN;
     }
 
     on_failure => QUEX_TKN_LEX_FAIL(Lexeme);

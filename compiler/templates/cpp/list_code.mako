@@ -60,8 +60,8 @@ while (true) {
 
     % if _self.sep:
         ${sep_code}
-        if (${sep_pos} != -1) { 
-            ${cpos} = ${sep_pos}; 
+        if (${sep_pos} != -1) {
+            ${cpos} = ${sep_pos};
         }
         else break;
     % endif

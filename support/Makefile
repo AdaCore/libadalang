@@ -2,7 +2,7 @@ ifndef QUEX_PATH
     $(error The environment variable QUEX_PATH is not defined!)
 endif
 
-COMPILER   = clang++ 
+COMPILER   = clang++
 ADD_FLAGS := -fpic
 
 ifneq (,$(findstring sun, $(COMPILER)))
@@ -18,8 +18,8 @@ OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 
 	 # -DDEBUG_MODE
      # -DQUEX_OPTION_DEBUG_SHOW
 
-CC = $(COMPILER) $(OPTS)   
-LD = $(COMPILER) 
+CC = $(COMPILER) $(OPTS)
+LD = $(COMPILER)
 
 # (*) RULES ____________________________________________________________________
 # -- application
@@ -28,14 +28,14 @@ bin/parse_main: bin obj/parse.o obj/parse_main.o obj/quex_lexer.o obj/lexer.o ob
 	$(COMPILER) -o bin/parse obj/parse_main.o obj/parse.o obj/quex_lexer.o obj/lexer.o obj/context.o obj/ast.o -lboost_program_options
 
 obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
-	$(CC) -std=c++11 $< -o $@ 
-          
+	$(CC) -std=c++11 $< -o $@
+
 obj/%.o: src/%.c src/quex_lexer.c src/parse.cpp
-	$(CC) $< -o $@ 
+	$(CC) $< -o $@
 
 # Macro expansions (only for debugging):
-%.E: %.cpp    
-	$(CC) -E $< -o $@ 
+%.E: %.cpp
+	$(CC) -E $< -o $@
 
 # (*) HELPERS __________________________________________________________________
 clean:	

@@ -12,7 +12,6 @@
 #include <sstream>
 #include "quex_lexer.h"
 
-typedef struct _lexer Lexer;
 extern uint32_t last_id;
 
 enum RelativePosition {
@@ -121,13 +120,11 @@ struct SourceLocationRange {
     boost::property_tree::ptree get_property_tree();
 };
 
-struct _token {
+struct Token {
     uint16_t id;
     const char* text;
     SourceLocationRange sloc_range;
 } __attribute__((packed));
-
-typedef struct _token Token;
 
 struct CharHash {
     uint32_t operator() (const char * const string) const;
@@ -139,7 +136,7 @@ struct eqstr {
     }
 };
 
-struct _lexer {
+struct Lexer {
     QUEX_TYPE_ANALYZER* lexer;
     quex_Token tk_memory[1024];
     long current_offset;

@@ -35,22 +35,7 @@ struct SourceLocation {
     bool is_null() const { return line == 0; }
 
     /* Compute the relative position of SLOC with respect to this sloc.  */
-    RelativePosition compare(const SourceLocation &sloc) const
-    {
-        assert (!is_null() && !sloc.is_null());
-        if (sloc.line < line)
-            return BEFORE;
-        else if (line < sloc.line)
-            return AFTER;
-        /* In the following cases, both slocs are on the same line.  */
-        else if (sloc.column < column)
-            return BEFORE;
-        else if (column < sloc.column)
-            return AFTER;
-        else
-            return IN;
-    }
-
+    RelativePosition compare(const SourceLocation &sloc) const;
     std::string repr() const {
         std::ostringstream oss;
         oss << line << ":" << column;
@@ -89,29 +74,16 @@ struct SourceLocationRange {
     SourceLocation get_start() const {
         return SourceLocation(start_line, start_column);
     }
+
     SourceLocation get_end() const {
         return SourceLocation(end_line, end_column);
     }
+
     bool is_null() const { return start_line == 0; }
 
     /* Compute the relative position of SLOC with respect to this sloc
        range.  */
-    RelativePosition compare(const SourceLocation &sloc) const
-    {
-        assert(not sloc.is_null() && not is_null());
-        switch (get_start().compare(sloc))
-        {
-            case BEFORE:
-                return BEFORE;
-            case IN:
-                return IN;
-            case AFTER:
-                if (get_end().compare(sloc) == AFTER)
-                    return AFTER;
-                else
-                    return IN;
-        }
-    }
+    RelativePosition compare(const SourceLocation &sloc) const;
 
     std::string repr() const {
         return get_start().repr() + "-" + get_end().repr();

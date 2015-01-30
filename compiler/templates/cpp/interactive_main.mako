@@ -130,6 +130,7 @@ int main (int argc, char** argv) {
 
     if (is_filelist || is_files) {
         vector<string> file_list;
+        AnalysisContext context;
         if (rule_name != "${_self.main_rule_name}") {
             cout << "You can't supply a custom rule when you are parsing whole"
                 "files, the main rule ${_self.main_rule_name} is necessarily"
@@ -152,14 +153,12 @@ int main (int argc, char** argv) {
 
         for (auto input_file : file_list) {
             cout << "file name : " << input_file << endl;
-            auto unit = parse_file(input_file);
+            auto unit = context.create_from_file(input_file);
             if (print) {
-                if (json)
-                    unit->print_json();
-                else
-                    unit->print();
+                if (json) unit->print_json();
+                else unit->print();
             }
-            delete unit;
+            context.remove(input_file);
         }
     } else {
         lex = make_lexer_from_string(input.c_str(), input.length());

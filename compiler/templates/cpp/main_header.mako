@@ -5,7 +5,6 @@
 #include "ast.hpp"
 #include "lexer.hpp"
 #include "packrat.hpp"
-#include "context.hpp"
 
 using namespace std;
 extern long current_pos;
@@ -48,6 +47,27 @@ ${el}
 void print_diagnostics();
 void clean_all_memos();
 
-AnalysisUnit* parse_file(std::string file_name);
+class AnalysisUnit {
+public:
+
+    AnalysisUnit(std::string file_name);
+    virtual ~AnalysisUnit();
+    void print();
+    void print_json();
+
+private:
+    std::string file_name;
+    ASTNode* ast_root;
+    Lexer* lexer;
+};
+
+class AnalysisContext {
+public:
+    AnalysisUnit* create_from_file(std::string file_name);
+    void remove(std::string file_name);
+    virtual ~AnalysisContext();
+private:
+    std::unordered_map<std::string, AnalysisUnit*> units_map;
+};
 
 #endif

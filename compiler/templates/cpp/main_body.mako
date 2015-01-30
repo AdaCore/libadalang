@@ -38,6 +38,36 @@ void clean_all_memos() {
     % endfor
 }
 
-AnalysisUnit* parse_file(std::string file_name) {
-    return new AnalysisUnit(file_name, (ParseFunction)&${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name});
+AnalysisUnit::AnalysisUnit(std::string file_name) {
+    this->file_name = file_name;
+    this->lexer = make_lexer_from_file(file_name.c_str(), nullptr);
+    this->ast_root = ${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name}(this->lexer, 0);
+}
+
+AnalysisUnit::~AnalysisUnit() {
+    delete ast_root;
+    free_lexer(this->lexer);
+}
+
+void AnalysisUnit::print() {
+    this->ast_root->print_node();
+}
+
+void AnalysisUnit::print_json() {
+    write_json(std::cout, ast_root->get_property_tree());
+}
+
+AnalysisContext::~AnalysisContext() {
+    for (auto kv : units_map) delete kv.second;
+}
+
+AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {
+    AnalysisUnit* el = new AnalysisUnit(file_name);
+    this->units_map[file_name] = el;
+    return el;
+}
+
+void AnalysisContext::remove(std::string file_name) {
+    delete this->units_map[file_name];
+    this->units_map.erase(file_name);
 }

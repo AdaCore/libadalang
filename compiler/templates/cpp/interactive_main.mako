@@ -17,10 +17,11 @@ void parse_input(Lexer* lex,
                  string rule_name,
                  bool print,
                  const vector<string> &lookups)
-{
+{   Parser parser;
+
     % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
         ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
-            auto res = ${parser.gen_fn_name}(lex, 0);
+            auto res = parser.${parser.gen_fn_name}(lex, 0);
 
             if (current_pos == -1) {
                 SourceLocation sloc = max_token.sloc_range.get_start();

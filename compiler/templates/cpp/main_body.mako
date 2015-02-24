@@ -41,11 +41,13 @@ void clean_all_memos() {
 AnalysisUnit::AnalysisUnit(std::string file_name) {
     this->file_name = file_name;
     this->lexer = make_lexer_from_file(file_name.c_str(), nullptr);
-    this->ast_root = ${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name}(this->lexer, 0);
+    this->parser = new Parser();
+    this->ast_root = parser->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name}(this->lexer, 0);
 }
 
 AnalysisUnit::~AnalysisUnit() {
     delete ast_root;
+    free(this->parser);
     free_lexer(this->lexer);
 }
 

@@ -21,10 +21,13 @@ ${el}
 -- Function declarations --
 -------------------------*/
 
+class Parser {
+public:
 % for el in map(unicode.strip, _self.fns_decls):
 ${el};
 
 % endfor
+};
 
 /*---------------------------
 -- Value Types definitions --
@@ -59,6 +62,7 @@ private:
     std::string file_name;
     ASTNode* ast_root;
     Lexer* lexer;
+    Parser* parser;
 };
 
 class AnalysisContext {

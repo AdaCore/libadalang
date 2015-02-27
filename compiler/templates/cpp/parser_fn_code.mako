@@ -2,7 +2,7 @@
 
 Memo<${decl_type(_self.get_type())}> ${_self.gen_fn_name}_memo;
 
-${decl_type(_self.get_type())} Parser::${_self.gen_fn_name} (Lexer* lex, long pos) {
+${decl_type(_self.get_type())} Parser::${_self.gen_fn_name} (long pos) {
 
     % for name, typ in defs:
     ${decl_type(typ)} ${name} ${" = " + typ.nullexpr() if typ.nullexpr() else ""};

@@ -1,4 +1,4 @@
-${res} = get (lex, ${pos_name});
+${res} = get (this->lexer, ${pos_name});
 ${pos} = ${pos_name} + 1;
 if (${res}.id != ${id}) {
    ${pos} = -1;

@@ -13,15 +13,15 @@ namespace po = boost::program_options;
 using namespace std;
 using boost::property_tree::ptree;
 
-void parse_input(Lexer* lex,
+void parse_input(string input,
                  string rule_name,
                  bool print,
                  const vector<string> &lookups)
-{   Parser parser;
+{   Parser parser = Parser(input.c_str(), input.length());
 
     % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
         ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
-            auto res = parser.${parser.gen_fn_name}(lex, 0);
+            auto res = parser.${parser.gen_fn_name}(0);
 
             if (current_pos == -1) {
                 SourceLocation sloc = max_token.sloc_range.get_start();
@@ -117,7 +117,6 @@ int main (int argc, char** argv) {
         return 1;
     }
 
-    Lexer* lex;
     string input = vm["input"].as<string>();
     string rule_name = vm["rule-name"].as<string>();
     bool print = !vm["silent"].as<bool>();
@@ -162,9 +161,7 @@ int main (int argc, char** argv) {
             context.remove(input_file);
         }
     } else {
-        lex = make_lexer_from_string(input.c_str(), input.length());
-        parse_input(lex, rule_name, print, lookups);
-        free_lexer(lex);
+        parse_input(input, rule_name, print, lookups);
     }
 
 

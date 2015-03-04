@@ -25,15 +25,16 @@ class Parser {
 public:
     Parser(const char* string, const size_t len);
     Parser(const std::string file_name);
+    ASTNode* parse();
     virtual ~Parser();
+
+    % for el in map(unicode.strip, _self.fns_decls):
+    ${el};
+    % endfor
 
 private:
     Lexer* lexer;
 
-public:
-% for el in map(unicode.strip, _self.fns_decls):
-${el};
-% endfor
 };
 
 /*---------------------------
@@ -66,8 +67,8 @@ public:
     void print_json();
 
     ASTNode*    ast_root;
-    std::string file_name;
     Parser*     parser;
+    std::string file_name;
 };
 
 class AnalysisContext {

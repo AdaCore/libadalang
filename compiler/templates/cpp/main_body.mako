@@ -50,14 +50,19 @@ Parser::~Parser() {
      free_lexer(this->lexer);
 }
 
+ASTNode* Parser::parse() {
+    return this->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
+}
+
 AnalysisUnit::AnalysisUnit(const std::string file_name) {
     this->file_name = file_name;
-    this->ast_root = NULL;
+    this->parser = new Parser(file_name);
+    this->ast_root = this->parser->parse();
 }
 
 AnalysisUnit::~AnalysisUnit() {
     delete this->ast_root;
-    free(this->parser);
+    delete this->parser;
 }
 
 void AnalysisUnit::print() {
@@ -76,11 +81,6 @@ AnalysisContext::~AnalysisContext() {
 
 AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {
     AnalysisUnit* aunit = new AnalysisUnit(file_name);
-    Parser* parser = new Parser(file_name);
-
-    aunit->ast_root =
-      parser->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
-
     this->units_map[file_name] = aunit;
     return aunit;
 }

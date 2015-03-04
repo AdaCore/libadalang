@@ -12,8 +12,6 @@
 #include <sstream>
 #include "quex_lexer.h"
 
-extern uint32_t last_id;
-
 enum RelativePosition {
     BEFORE,
     IN,
@@ -111,16 +109,16 @@ struct eqstr {
 struct Lexer {
     QUEX_TYPE_ANALYZER* lexer;
     quex_Token tk_memory[1024];
+    quex_Token buffer_tk;
     long current_offset;
+    long max_pos;
+    Token max_token;
     std::unordered_map<char*, char*, CharHash, eqstr> hmap;
     std::list<uint8_t*> str_literals;
     char* buffer_ptr;
 };
 
 extern Token no_token;
-extern quex_Token buffer_tk;
-extern Token max_token;
-extern long max_pos;
 
 Lexer* make_lexer_from_file(const char* filename, const char* char_encoding);
 Lexer* make_lexer_from_string(const char* string, const size_t len);
@@ -140,11 +138,11 @@ inline Token get(Lexer* lexer, long offset) {
 #endif
 
     while (offset >= coffset) {
-        QUEX_NAME(token_p_set)(lexer->lexer, (quex_Token*)&buffer_tk);
+        QUEX_NAME(token_p_set)(lexer->lexer, (quex_Token*)&lexer->buffer_tk);
         QUEX_NAME(receive)(lexer->lexer);
-        lexer->tk_memory[coffset % 1024] = buffer_tk;
+        lexer->tk_memory[coffset % 1024] = lexer->buffer_tk;
         symbolize(lexer, &lexer->tk_memory[coffset % 1024]);
-        last_id = lexer->tk_memory[coffset % 1024]._id;
+        lexer->buffer_tk.last_id = lexer->tk_memory[coffset % 1024]._id;
         coffset++;
     }
 
@@ -160,9 +158,9 @@ inline Token get(Lexer* lexer, long offset) {
                             (uint16_t) qtk.end_column)
     };
 
-    if (offset > max_pos) {
-        max_pos = offset;
-        max_token = res;
+    if (offset > lexer->max_pos) {
+        lexer->max_pos = offset;
+        lexer->max_token = res;
     }
 
     return res;

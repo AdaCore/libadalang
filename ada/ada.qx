@@ -5,7 +5,6 @@ token_type {
        #include <stdio.h>
        #include <string.h>
 
-       extern uint32_t last_id;
        struct $TOKEN_CLASS_tag;
 
        extern const char*
@@ -39,6 +38,7 @@ $INCLUDE_CONVERTER_DECLARATION
         len          : size_t;
         end_line     : size_t;
         end_column   : size_t;
+        last_id      : uint32_t;
    }
 
    inheritable;
@@ -450,7 +450,8 @@ mode ONE_AND_ONLY
     {P_STRING}      => QUEX_TKN_STRING(Lexeme);
 
     '.' {
-        if (!(last_id >= QUEX_TKN_IDENTIFIER && last_id <= QUEX_TKN_ALL)) {
+        if (!(me->token->last_id >= QUEX_TKN_IDENTIFIER &&
+                me->token->last_id <= QUEX_TKN_ALL)) {
             self_send1(QUEX_TKN_CHAR, Lexeme);
         } else {
             self_send1(QUEX_TKN_TICK, Lexeme);

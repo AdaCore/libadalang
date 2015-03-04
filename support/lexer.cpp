@@ -15,10 +15,6 @@
 #endif
 
 Token no_token = {0, NULL, SourceLocationRange()};
-quex_Token buffer_tk = {0, 0, NULL, 0, 0, 0, 0, 0};
-Token max_token;
-uint32_t last_id;
-long max_pos;
 
 uint32_t CharHash::operator() (const char * const string) const {
 
@@ -72,18 +68,24 @@ uint32_t CharHash::operator() (const char * const string) const {
 Lexer* make_lexer_from_file(const char* filename, const char* char_encoding) {
     Lexer* lex = new Lexer;
     lex->lexer = new QUEX_TYPE_ANALYZER;
-    lex->current_offset = 0;
     lex->buffer_ptr = nullptr;
+    lex->buffer_tk = {0, NULL, 0, 0, 0, 0, 0, 0, 0};
+    lex->current_offset = 0;
+    lex->max_pos = 0;
+    lex->max_token = no_token;
 
     QUEX_NAME(construct_file_name)(lex->lexer, filename, char_encoding, false);
-    QUEX_NAME(token_p_set)(lex->lexer, &buffer_tk);
+    QUEX_NAME(token_p_set)(lex->lexer, &lex->buffer_tk);
     return lex;
 }
 
 Lexer* make_lexer_from_string(const char* string, const size_t len) {
     Lexer* lex = new Lexer;
     lex->lexer = new QUEX_TYPE_ANALYZER;
+    lex->buffer_tk = {0, NULL, 0, 0, 0, 0, 0, 0, 0};
     lex->current_offset = 0;
+    lex->max_pos = 0;
+    lex->max_token = no_token;
 
     char* buffer = (char*)malloc(len + 3);
     lex->buffer_ptr = buffer;
@@ -95,12 +97,12 @@ Lexer* make_lexer_from_string(const char* string, const size_t len) {
     QUEX_NAME(construct_memory)(lex->lexer, (uint8_t*)buffer,
                                     0, (uint8_t*)(buffer + len + 1), 0, false);
 
-    QUEX_NAME(token_p_set)(lex->lexer, &buffer_tk);
+    QUEX_NAME(token_p_set)(lex->lexer, &lex->buffer_tk);
    return lex;
 }
 
 void free_lexer (Lexer* lex) {
-    max_token = no_token;
+    lex->max_token = no_token;
     for (auto kv : lex->hmap) free(kv.first);
     for (auto str : lex->str_literals) free(str);
     QUEX_NAME (destruct) (lex->lexer);

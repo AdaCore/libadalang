@@ -24,10 +24,10 @@ void parse_input(string input,
             auto res = parser.${parser.gen_fn_name}(0);
 
             if (current_pos == -1) {
-                SourceLocation sloc = max_token.sloc_range.get_start();
+                SourceLocation sloc = parser.max_token().sloc_range.get_start();
                 printf("Failed !!\n");
                 printf("Last token pos : Line %d, Col %d, cat %d\n",
-                       sloc.line, sloc.column, max_token.id);
+                       sloc.line, sloc.column, parser.max_token().id);
             } else {
                 % if parser.needs_refcount:
                     res${"->" if parser.get_type().is_ptr else "."}inc_ref();

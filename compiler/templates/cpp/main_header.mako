@@ -28,6 +28,10 @@ public:
     ASTNode* parse();
     virtual ~Parser();
 
+    Token max_token() {
+       return lexer->max_token;
+    }
+ 
     % for el in map(unicode.strip, _self.fns_decls):
     ${el};
     % endfor

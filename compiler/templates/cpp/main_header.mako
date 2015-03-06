@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
@@ -5,6 +7,7 @@
 #include "ast.hpp"
 #include "lexer.hpp"
 #include "packrat.hpp"
+#include "tokendatahandler.hpp"
 
 using namespace std;
 extern long current_pos;
@@ -23,22 +26,21 @@ ${el}
 
 class Parser {
 public:
-    Parser(const char* string, const size_t len);
-    Parser(const std::string file_name);
+    Parser(const char* string, const size_t len, TokenDataHandler* token_data);
+    Parser(const std::string file_name, TokenDataHandler* token_data);
     ASTNode* parse();
     virtual ~Parser();
 
     Token max_token() {
        return lexer->max_token;
     }
- 
+
     % for el in map(unicode.strip, _self.fns_decls):
     ${el};
     % endfor
 
 private:
     Lexer* lexer;
-
 };
 
 /*---------------------------
@@ -62,9 +64,22 @@ ${el}
 void print_diagnostics();
 void clean_all_memos();
 
+class AnalysisUnit;
+
+class AnalysisContext {
+public:
+    AnalysisContext();
+    AnalysisUnit* create_from_file(const std::string file_name);
+    void remove(const std::string file_name);
+    virtual ~AnalysisContext();
+
+    std::unordered_map<std::string, AnalysisUnit*> units_map;
+    SymbolTable* symbol_table;
+};
+
 class AnalysisUnit {
 public:
-    AnalysisUnit(const std::string file_name);
+    AnalysisUnit(AnalysisContext* context, const std::string file_name);
     virtual ~AnalysisUnit();
 
     void print();
@@ -73,15 +88,8 @@ public:
     ASTNode*    ast_root;
     Parser*     parser;
     std::string file_name;
-};
-
-class AnalysisContext {
-public:
-    AnalysisUnit* create_from_file(const std::string file_name);
-    void remove(const std::string file_name);
-    virtual ~AnalysisContext();
-private:
-    std::unordered_map<std::string, AnalysisUnit*> units_map;
+    TokenDataHandler* token_data_handler;
+    AnalysisContext* context;
 };
 
 #endif

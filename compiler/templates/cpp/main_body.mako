@@ -2,6 +2,7 @@
 
 #include "${header_name}"
 #include <unordered_map>
+#include "tokendatahandler.hpp"
 
 using boost::property_tree::ptree;
 
@@ -38,12 +39,16 @@ void clean_all_memos() {
     % endfor
 }
 
-Parser::Parser(const char* string, const size_t len) {
-    this->lexer = make_lexer_from_string(string, len);
+Parser::Parser(const char* string, const size_t len, TokenDataHandler* token_data) {
+    this->lexer = make_lexer_from_string(
+        string, len, token_data
+    );
 }
 
-Parser::Parser(const std::string file_name) {
-    this->lexer = make_lexer_from_file(file_name.c_str(), nullptr);
+Parser::Parser(const std::string file_name, TokenDataHandler* token_data) {
+    this->lexer = make_lexer_from_file(
+        file_name.c_str(), nullptr, token_data
+    );
 }
 
 Parser::~Parser() {
@@ -57,15 +62,18 @@ ASTNode* Parser::parse() {
     return res;
 }
 
-AnalysisUnit::AnalysisUnit(const std::string file_name) {
+AnalysisUnit::AnalysisUnit(AnalysisContext *context, const std::string file_name) {
     this->file_name = file_name;
-    this->parser = new Parser(file_name);
+    this->context = context;
+    this->token_data_handler = new TokenDataHandler(context->symbol_table);
+    this->parser = new Parser(file_name, this->token_data_handler);
     this->ast_root = this->parser->parse();
+    delete this->parser;
 }
 
 AnalysisUnit::~AnalysisUnit() {
     this->ast_root->dec_ref();
-    delete this->parser;
+    delete this->token_data_handler;
 }
 
 void AnalysisUnit::print() {
@@ -78,12 +86,16 @@ void AnalysisUnit::print_json() {
     write_json(std::cout, this->ast_root->get_property_tree());
 }
 
+AnalysisContext::AnalysisContext() {
+    this->symbol_table = new SymbolTable;
+}
+
 AnalysisContext::~AnalysisContext() {
     for (auto kv : units_map) delete kv.second;
 }
 
 AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {
-    AnalysisUnit* aunit = new AnalysisUnit(file_name);
+    AnalysisUnit* aunit = new AnalysisUnit(this, file_name);
     this->units_map[file_name] = aunit;
     return aunit;
 }

@@ -6,6 +6,7 @@ endif
 BUILD_MODE=dev
 
 CXX = clang++
+CC = clang
 CFLAGS := -fpic -Iinclude -Isrc -I$(QUEX_PATH) \
 	-Wno-deprecated-register \
         -DQUEX_OPTION_ASSERTS_DISABLED \
@@ -21,7 +22,7 @@ ifeq ($(BUILD_MODE),dev)
     # -DDEBUG_MODE \
     # -DQUEX_OPTION_DEBUG_SHOW
 else
-    CFLAGS += -O2 -g0
+    CFLAGS += -Ofast -g0
 endif
 
 ifneq (,$(findstring sun, $(CXX)))
@@ -32,7 +33,7 @@ ifdef BOOST_LIBRARY_PATH
     LDFLAGS += -L$(BOOST_LIBRARY_PATH)
 endif
 
-LIB_OBJECTS = obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o
+LIB_OBJECTS = obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o obj/token.o obj/symboltable.o obj/tokendatahandler.o
 
 # (*) RULES ____________________________________________________________________
 # -- application
@@ -44,14 +45,14 @@ obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
 	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 obj/%.o: src/%.c src/quex_lexer.c src/parse.cpp
-	$(CXX) -c $(CXXFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 # Macro expansions (only for debugging):
 %.E: %.cpp
 	$(CXX) $(CXXFLAGS) -E $< -o $@
 
 # (*) HELPERS __________________________________________________________________
-clean:	
+clean:
 	rm -f obj/*
 	rm -f lib/*
 	rm -f bin/*

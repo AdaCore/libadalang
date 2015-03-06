@@ -19,8 +19,12 @@ void parse_input(string input,
                  string rule_name,
                  bool print,
                  const vector<string> &lookups)
-{   Parser parser = Parser(input.c_str(), input.length());
+{
 
+    AnalysisContext context;
+    TokenDataHandler tdh(context.symbol_table);
+
+    Parser parser = Parser(input.c_str(), input.length(), &tdh);
     % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
         ${"if" if i == 0 else "else if"} (rule_name == ${c_repr(rule_name)}) {
             auto res = parser.${parser.gen_fn_name}(0);

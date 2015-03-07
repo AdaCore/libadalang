@@ -8,10 +8,12 @@
 #include <cstdlib>
 #include "${header_name}"
 #include <fstream>
+#include <chrono>
 
 namespace po = boost::program_options;
 using namespace std;
 using boost::property_tree::ptree;
+using namespace std::chrono;
 
 void parse_input(string input,
                  string rule_name,
@@ -92,6 +94,10 @@ int main (int argc, char** argv) {
                                        ->implicit_value(true)
                                        ->zero_tokens(),
          "print the representation of the resulting tree")
+        ("time,t", po::value<bool>()->default_value(false)
+                                    ->implicit_value(true)
+                                    ->zero_tokens(),
+         "Time the execution of parsing")
         ("json,j", po::value<bool>()->default_value(false)
                                     ->implicit_value(true)
                                     ->zero_tokens(),
@@ -120,6 +126,7 @@ int main (int argc, char** argv) {
     string input = vm["input"].as<string>();
     string rule_name = vm["rule-name"].as<string>();
     bool print = !vm["silent"].as<bool>();
+    bool time = vm["time"].as<bool>();
     bool json = vm["json"].as<bool>();
     vector<string> lookups;
 
@@ -127,6 +134,9 @@ int main (int argc, char** argv) {
 
     bool is_filelist = (bool)vm.count("filelist"),
         is_files = (bool)vm.count("files");
+
+    high_resolution_clock::time_point t1;
+
 
     if (is_filelist || is_files) {
         vector<string> file_list;
@@ -152,12 +162,19 @@ int main (int argc, char** argv) {
         }
 
         for (auto input_file : file_list) {
+            if (time) t1 = high_resolution_clock::now();
             cout << "file name : " << input_file << endl;
             auto unit = context.create_from_file(input_file);
             if (print) {
                 if (json) unit->print_json();
                 else unit->print();
             }
+            if (time) {
+                auto t2 = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>( t2 - t1 ).count();
+                cout << "TIME : " << duration << "ms" << endl;
+            }
+            cout << "removing file " << input_file << endl;
             context.remove(input_file);
         }
     } else {

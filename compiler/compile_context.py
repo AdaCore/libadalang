@@ -55,17 +55,29 @@ class CompileCtx():
                 astnode, len(astnode.fields), len(types)
             )
         )
+
+        def is_subtype(base_type, subtype):
+            return issubclass(subtype, base_type)
+
+        def are_subtypes(base_list, new_list):
+            return all(is_subtype(m, n) for m, n in zip(base_list, new_list))
+
         # TODO: instead of expecting types to be *exactly* the same, perform
         # type unification (take the nearest common ancestor for all field
         # types).
         assert (astnode not in self.ast_fields_types or
-                self.ast_fields_types[astnode] == types), (
-            "Already associated types for some fields are not consistant with"
+                are_subtypes(self.ast_fields_types[astnode], types)), (
+            "Already associated types for some fields are not consistent with"
             " current ones:\n- {}\n- {}".format(
                 self.ast_fields_types[astnode], types
             )
         )
-        self.ast_fields_types[astnode] = types
+
+        # Only assign types if astnode was not yet typed. In the case where it
+        # was already typed, we checked above that the new types were
+        # consistent with the already present ones
+        if astnode not in self.ast_fields_types:
+            self.ast_fields_types[astnode] = types
 
     @property
     def render_template(self):

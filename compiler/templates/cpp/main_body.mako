@@ -51,7 +51,10 @@ Parser::~Parser() {
 }
 
 ASTNode* Parser::parse() {
-    return this->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
+    auto res = this->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
+    res->inc_ref();
+    clean_all_memos();
+    return res;
 }
 
 AnalysisUnit::AnalysisUnit(const std::string file_name) {
@@ -61,7 +64,7 @@ AnalysisUnit::AnalysisUnit(const std::string file_name) {
 }
 
 AnalysisUnit::~AnalysisUnit() {
-    delete this->ast_root;
+    this->ast_root->dec_ref();
     delete this->parser;
 }
 

@@ -56,7 +56,7 @@ First, make sure you have the "build/bin" directory in your PATH so the
 testcases can access the "parse" program. Then, in the top-level directory,
 run:
 
-$ python testsuite.py
+$ python testsuite/testsuite.py
 
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a "-h" flag.

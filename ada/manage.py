@@ -102,8 +102,8 @@ def build(args, dirs):
     """Build generated source code."""
     try:
         subprocess.check_call([
-            'make', '-C', dirs.build_dir, '-j{}'.format(args.jobs)
-        ])
+            'make', '-C', dirs.build_dir, '-j{}'.format(args.jobs),
+        ] + list(getattr(args, 'make-options')))
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Build failed: {}'.format(exc)
         sys.exit(1)
@@ -146,6 +146,10 @@ build_parser = subparsers.add_parser(
 build_parser.add_argument(
     '--jobs', '-j', type=int, default=1,
     help='Number of parallel jobs to spawn in parallel (default: only one)'
+)
+build_parser.add_argument(
+    'make-options', nargs='*',
+    help='Options to pass directly to make'
 )
 build_parser.set_defaults(func=build)
 

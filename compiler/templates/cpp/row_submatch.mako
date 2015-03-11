@@ -1,26 +1,26 @@
 ## vim: filetype=cpp
 
-${m_code}
+${parser_context.code}
 
 % if not parser.discard():
    ${subresult} = ${parser.get_type().nullexpr()};
 % endif
 
-if (${mpos} != -1) {
-    % if parser.needs_refcount and _self.components_need_inc_ref and not parser.discard():
+if (${parser_context.pos_var_name} != -1) {
+    % if parser.needs_refcount() and _self.components_need_inc_ref and not parser.discard():
         % if parser.get_type().is_ptr:
-            if (${mres}) ${mres}->inc_ref();
+            if (${parser_context.res_var_name}) ${parser_context.res_var_name}->inc_ref();
         % else:
-            ${mres}.inc_ref();
+            ${parser_context.res_var_name}.inc_ref();
         % endif
     % endif
 
-    % if pos != mpos:
-        ${pos} = ${mpos};
+    % if pos != parser_context.pos_var_name:
+        ${pos} = ${parser_context.pos_var_name};
     % endif
 
     % if not parser.discard():
-        ${subresult} = ${mres};
+        ${subresult} = ${parser_context.res_var_name};
     % endif
 
 } else {

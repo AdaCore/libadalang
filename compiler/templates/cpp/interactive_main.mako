@@ -31,7 +31,7 @@ void parse_input(string input,
                 printf("Last token pos : Line %d, Col %d, cat %d\n",
                        sloc.line, sloc.column, parser.max_token().id);
             } else {
-                % if parser.needs_refcount:
+                % if parser.needs_refcount():
                     res${"->" if parser.get_type().is_ptr else "."}inc_ref();
                 % endif
                 current_pos = 0;
@@ -72,7 +72,7 @@ void parse_input(string input,
                         printf("Cannot lookup non-AST nodes!\n");
                 % endif
 
-                % if parser.needs_refcount:
+                % if parser.needs_refcount():
                     res${"->" if parser.get_type().is_ptr else "."}dec_ref();
                 % endif
             }

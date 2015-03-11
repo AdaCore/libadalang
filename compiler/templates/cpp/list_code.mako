@@ -17,25 +17,25 @@ ${start_sloc_range_var} = get(this->lexer, ${pos_name}).sloc_range;
 ${cpos} = ${pos_name};
 
 while (true) {
-    ${pcode}
-    if (${ppos} == -1) break;
+    ${parser_context.code}
+    if (${parser_context.pos_var_name} == -1) break;
 
-    ${pos} = ${ppos};
-    % if cpos != ppos:
-        ${cpos} = ${ppos};
+    ${pos} = ${parser_context.pos_var_name};
+    % if cpos != parser_context.pos_var_name:
+        ${cpos} = ${parser_context.pos_var_name};
     % endif
 
     % if _self.revtree_class:
         if (${res} == ${_self.get_type().nullexpr()})
-            ${res} = ${pres};
+            ${res} = ${parser_context.res_var_name};
         else {
             auto new_res = ${_self.revtree_class.name()}_new();
             new_res->${_self.revtree_class.fields[0].name} = ${res};
-            new_res->${_self.revtree_class.fields[1].name} = ${pres};
+            new_res->${_self.revtree_class.fields[1].name} = ${parser_context.res_var_name};
             ${res}->inc_ref();
-            ${pres}->inc_ref();
+            ${parser_context.res_var_name}->inc_ref();
             ${res}->setParent(new_res);
-            ${pres}->setParent(new_res);
+            ${parser_context.res_var_name}->setParent(new_res);
             ${res} = new_res;
         }
 
@@ -43,25 +43,27 @@ while (true) {
         if (${res} == ${_self.get_type().nullexpr()}) {
             ${res} = new ASTList<${decl_type(_self.parser.get_type())}>;
         }
-        ${res}${"->" if _self.get_type().is_ptr else "."}vec.push_back (${pres});
+        ${res}${"->" if _self.get_type().is_ptr else "."}vec.push_back
+          (${parser_context.res_var_name});
         % if is_ast_node (_self.parser.get_type()):
-             if (${pres}) ${pres}->setParent(${res});
+             if (${parser_context.res_var_name}) ${parser_context.res_var_name}->setParent(${res});
         % endif
 
-        % if _self.parser.needs_refcount:
+        % if _self.parser.needs_refcount():
             % if _self.parser.get_type().is_ptr:
-                if (${pres}) ${pres}->inc_ref();
+                if (${parser_context.res_var_name})
+                ${parser_context.res_var_name}->inc_ref();
             % else:
-                ${pres}.inc_ref();
+                ${parser_context.res_var_name}.inc_ref();
             % endif
         % endif
 
     % endif
 
     % if _self.sep:
-        ${sep_code}
-        if (${sep_pos} != -1) {
-            ${cpos} = ${sep_pos};
+        ${sep_context.code}
+        if (${sep_context.pos_var_name} != -1) {
+            ${cpos} = ${sep_context.pos_var_name};
         }
         else break;
     % endif

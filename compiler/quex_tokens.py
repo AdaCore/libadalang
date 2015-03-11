@@ -14,6 +14,9 @@ class TokenMap(object):
         self.str_to_names = dict(els)
 
 
+token_map = None
+
+
 def init_token_map(compile_ctx):
     global token_map
     token_map = TokenMap(compile_ctx.lexer_file)

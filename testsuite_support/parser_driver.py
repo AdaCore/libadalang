@@ -42,13 +42,7 @@ class ParserDriver(BaseDriver):
         lookups = self.get_lookups()
         input_text = self.read_file(self.input_file)
 
-        parse_argv = [
-            os.path.realpath(
-                os.path.join(self.root_dir, 'build', 'bin', 'parse')
-            ),
-            '-r', rule_name,
-            '--input', input_text,
-        ]
+        parse_argv = ['parse', '-r', rule_name, '--input', input_text]
         for lookup in lookups:
             parse_argv.extend([
                 '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])

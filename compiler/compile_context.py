@@ -137,7 +137,7 @@ class CompileCtx():
         if not path.exists(file_root):
             os.mkdir(file_root)
 
-        for d in ["include", "obj", "src", "bin"]:
+        for d in ["include", "obj", "src", "bin", "lib"]:
             p = path.join(file_root, d)
             if not path.exists(p):
                 os.mkdir(p)

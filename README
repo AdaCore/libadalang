@@ -30,22 +30,31 @@ Building
 First, let's generate code for libadalang itself. In the top-level directory,
 run:
 
-$ python ada/build.py
+$ python ada/manage.py generate
 
 You can also pass a "-c" flag in order to get a code coverage report in the
 "coverage" directory.
 
 Then, let's build it:
 
-$ make -C build -j8
+$ python ada/manage.py build
 
 If you satisfied all the above dependencies and if you did set QUEX_PATH and
 the quex executable as said in quex's README, it should build fine.
 
+Install
+-------
+
+Once you built libadalang, you can install the library in any place you want:
+
+$ python ada/manage.py install $INSTALL_DIR
+
 Testing
 -------
 
-In the top-level directory, run:
+First, make sure you have the "build/bin" directory in your PATH so the
+testcases can access the "parse" program. Then, in the top-level directory,
+run:
 
 $ python testsuite.py
 

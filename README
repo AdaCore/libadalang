@@ -61,6 +61,17 @@ $ python testsuite/testsuite.py
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a "-h" flag.
 
+Because adding "build/bin" to the PATH is not very convenient, ada/manage.py
+provides a shortcut to run the testsuite:
+
+$ python ada/manage.py test
+
+It runs the testsuite with the --enable-color option. It is also possible to
+pass other arguments to testsuite.py. For instance, if you want to run under a
+debugger only the abort_statement_0 testcase, execute:
+
+$ python ada/manage.py test -- -g testsuite/tests/parser/abort_statement_0
+
 Documentation
 -------------
 

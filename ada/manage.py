@@ -118,6 +118,30 @@ def install(args, dirs):
         )
 
 
+def test(args, dirs):
+    """
+    Run the testsuite.
+
+    The added value is the correct environment tuning.
+    """
+
+    # Make the "parse" program available from testcases.
+    env = dict(os.environ)
+    env['PATH'] = '{}:{}'.format(
+        dirs.under_build('bin'),
+        env['PATH']
+    )
+
+    try:
+        subprocess.check_call([
+            dirs.under_source('testsuite', 'testsuite.py'),
+            '--enable-color',
+        ] + getattr(args, 'testsuite-args'), env=env)
+    except subprocess.CalledProcessError as exc:
+        print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
+        sys.exit(1)
+
+
 args_parser = argparse.ArgumentParser(
     description='Generate native code for libadalang'
 )
@@ -161,6 +185,15 @@ install_parser.add_argument(
     help='Installation directory.'
 )
 install_parser.set_defaults(func=install)
+
+test_parser = subparsers.add_parser(
+    'test', help=test.__doc__
+)
+test_parser.add_argument(
+    'testsuite-args', nargs='*',
+    help='Arguments to pass to testsuite.py.'
+)
+test_parser.set_defaults(func=test)
 
 
 if __name__ == '__main__':

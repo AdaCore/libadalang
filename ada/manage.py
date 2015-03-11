@@ -104,7 +104,7 @@ def build(args, dirs):
         subprocess.check_call([
             'make', '-C', dirs.build_dir, '-j{}'.format(args.jobs)
         ])
-    except subprocess.CheckedCallException as exc:
+    except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Build failed: {}'.format(exc)
         sys.exit(1)
 

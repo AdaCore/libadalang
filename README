@@ -9,11 +9,15 @@ To generate and build the library itself:
 - Clang-format
 - boost options
 
+You will need GNATpython in order to run the testsuite.
+
 To develop comfortably:
 
 - If you want interactive debugging when code is generated, install IPython
 - If you want to compute code coverage for the code generator, install
   coverage.py (pip install coverage)
+- If you want to check memory issues, the testsuite has an option to track them
+  using Valgrind.
 
 To build the documentation:
 
@@ -41,10 +45,9 @@ the quex executable as said in quex's README, it should build fine.
 Testing
 -------
 
-First, make sure your Python 2 installation has access to the "pygments"
-package. Still in the top-level directory, run:
+In the top-level directory, run:
 
-$ python tests/driver.py
+$ python testsuite.py
 
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a "-h" flag.

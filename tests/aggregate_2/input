@@ -1,2 +1,1 @@
-aggregate
 (A with B => C, D => E)

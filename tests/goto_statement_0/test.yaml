@@ -1,0 +1,2 @@
+driver: parser
+rule: goto_statement

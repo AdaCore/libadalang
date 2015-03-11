@@ -1,2 +1,1 @@
-generic_instantiation
 package Int_Vectors is new Ada.Containers.Vectors (Index_Type => Natural, Element_Type => Integer)

@@ -1,2 +1,1 @@
-type_discriminant
 (A : Integer; B : String)

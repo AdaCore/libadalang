@@ -1,2 +1,1 @@
-generic_instantiation
 package P is new Q (<>)

@@ -1,0 +1,2 @@
+driver: parser
+rule: floating_point_def

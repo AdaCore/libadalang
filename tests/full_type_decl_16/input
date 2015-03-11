@@ -1,2 +1,1 @@
-full_type_decl
 type Arr is array (Integer range <>) of Integer

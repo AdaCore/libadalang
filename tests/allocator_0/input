@@ -1,2 +1,1 @@
-allocator
 new (Pool) Integer'(12)

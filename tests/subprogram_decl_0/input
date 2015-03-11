@@ -1,2 +1,1 @@
-subprogram_decl
 overriding procedure A (B : Integer) is abstract

@@ -1,2 +1,1 @@
-full_type_decl
 type Rec is record A, B : Integer; end record

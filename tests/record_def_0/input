@@ -1,2 +1,1 @@
-record_def
 record A, B : Integer; end record

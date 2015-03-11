@@ -1,2 +1,1 @@
-subprogram_spec
 function A return Pkg.Arr (12 .. 18)

@@ -1,2 +1,1 @@
-use_decl
 use Ada.Text_IO, Ada.Vectors

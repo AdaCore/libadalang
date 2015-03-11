@@ -1,2 +1,1 @@
-package_decl
 package A is B : constant := 12; end A;

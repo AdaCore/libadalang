@@ -1,0 +1,2 @@
+driver: parser
+rule: exception_decl

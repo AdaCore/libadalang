@@ -1,2 +1,1 @@
-basic_decl
 A, B : Integer renames C.D.E

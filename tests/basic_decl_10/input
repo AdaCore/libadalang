@@ -1,2 +1,1 @@
-basic_decl
 not overriding procedure A (B : Integer; C : Natural)

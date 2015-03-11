@@ -3,7 +3,7 @@ Dependencies
 
 To generate and build the library itself:
 
-- Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64/. 
+- Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64/.
   Follow the installation guide in the quex README
 - The mako template system for python
 - Clang-format
@@ -41,6 +41,13 @@ $ python ada/manage.py build
 
 If you satisfied all the above dependencies and if you did set QUEX_PATH and
 the quex executable as said in quex's README, it should build fine.
+
+Also, while developing libadalang you might be happy to use the
+
+$ python ada/manage.py make
+
+command, that will wrap the two previous commands in one, generating the code
+and building it in one step
 
 Install
 -------

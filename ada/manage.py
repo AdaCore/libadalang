@@ -1,15 +1,17 @@
 #! /usr/bin/env python
 
 import argparse
-from glob import glob
 import os.path
-import shutil
 import subprocess
+import multiprocessing
+
+# Set the environment
+from env import setenv
+setenv()
 
 from gnatpython import fileutils
-import env
+import sys
 from compile_context import CompileCtx
-from utils import file_path
 
 
 class Directories(object):
@@ -74,6 +76,7 @@ class Coverage(object):
         self.cov.start()
 
     def __exit__(self, value, type, traceback):
+        del value, type, traceback
         self.cov.stop()
 
     def generate_report(self):
@@ -94,6 +97,9 @@ def generate(args, dirs):
     import ada_parser.exprs
     import ada_parser.bodies
 
+    del args
+    del ada_parser
+
     context.set_grammar(A)
     context.emit(file_root=dirs.build_dir, file_name='parse')
 
@@ -109,8 +115,16 @@ def build(args, dirs):
         sys.exit(1)
 
 
+def make(args, dirs):
+    """Generate and build in one command"""
+    generate(args, dirs)
+    build(args, dirs)
+
+
 def install(args, dirs):
     """Install programs and libraries."""
+    del args
+
     for subdir in ('bin', 'include', 'lib'):
         fileutils.sync_tree(
             dirs.under_build(subdir),
@@ -168,14 +182,30 @@ build_parser = subparsers.add_parser(
     'build', help=build.__doc__
 )
 build_parser.add_argument(
-    '--jobs', '-j', type=int, default=1,
-    help='Number of parallel jobs to spawn in parallel (default: only one)'
+    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    help='Number of parallel jobs to spawn in parallel '
+         '(default: your number of cpu)'
 )
 build_parser.add_argument(
     'make-options', nargs='*',
     help='Options to pass directly to make'
 )
 build_parser.set_defaults(func=build)
+
+make_parser = subparsers.add_parser(
+    'make', help=make.__doc__
+)
+make_parser.add_argument(
+    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    help='Number of parallel jobs to spawn in parallel'
+         ' (default: your number of cpu)'
+)
+make_parser.add_argument(
+    'make-options', nargs='*',
+    help='Options to pass directly to make'
+)
+make_parser.set_defaults(func=make)
+
 
 install_parser = subparsers.add_parser(
     'install', help=install.__doc__

@@ -4,6 +4,7 @@
     <option name="myLocal" value="false" />
     <inspection_tool class="PyClassHasNoInitInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PyMethodMayBeStaticInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyProtectedMemberInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PyRedundantParenthesesInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="myIgnorePercOperator" value="false" />
       <option name="myIgnoreTupleInReturn" value="false" />
@@ -18,14 +19,9 @@
     </inspection_tool>
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
-        <value>
-          <list size="4">
-            <item index="0" class="java.lang.String" itemvalue="GPS.EditorBuffer.__insert_at_location" />
-            <item index="1" class="java.lang.String" itemvalue="type.parse" />
-            <item index="2" class="java.lang.String" itemvalue="combinators.Grammar.*" />
-            <item index="3" class="java.lang.String" itemvalue="quex_tokens.token_map" />
-          </list>
-        </value>
+        <list>
+          <option value="quex_tokens.token_map" />
+        </list>
       </option>
     </inspection_tool>
     <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">

@@ -1,6 +1,8 @@
 *.pyc
 *.swp
+*.swo
 .*.swp
+.*.swo
 .idea/workspace.xml
 __pycache__
 build

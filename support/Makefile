@@ -2,42 +2,56 @@ ifndef QUEX_PATH
     $(error The environment variable QUEX_PATH is not defined!)
 endif
 
-COMPILER   = clang++
-ADD_FLAGS := -fpic
+# Supported build modes: prod dev
+BUILD_MODE=dev
 
-ifneq (,$(findstring sun, $(COMPILER)))
-	ADD_FLAGS := +w
+CXX = clang++
+CFLAGS := -fpic -Iinclude -Isrc -I$(QUEX_PATH) \
+	-Wno-deprecated-register \
+        -DQUEX_OPTION_ASSERTS_DISABLED \
+        -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED
+CXXFLAGS = $(CFLAGS) -std=c++11
+LDFLAGS := -lboost_program_options
+
+ifeq ($(BUILD_MODE),dev)
+    # Make programs debuggable
+    CFLAGS += -O0 -g
+    # Enable all warnings and force developpers to fix them.
+    CFLAGS += -Wall -W -pedantic \
+    # -DDEBUG_MODE \
+    # -DQUEX_OPTION_DEBUG_SHOW
+else
+    CFLAGS += -O2 -g0
 endif
 
-OPTIM_FLAG=-O0
-OPTS= -ggdb -pedantic -Wconversion -Wall -W -Wno-deprecated-register -std=c++11 \
-	  -c -g $(OPTIM_FLAG) -I$(QUEX_PATH) -Iinclude -Isrc \
-	  $(ADD_FLAGS) \
-      -DQUEX_OPTION_ASSERTS_DISABLED \
-      -DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED \
-	 # -DDEBUG_MODE
-     # -DQUEX_OPTION_DEBUG_SHOW
+ifneq (,$(findstring sun, $(CXX)))
+    CFLAGS += +w
+endif
 
-CC = $(COMPILER) $(OPTS)
-LD = $(COMPILER)
+ifdef BOOST_LIBRARY_PATH
+    LDFLAGS += -L$(BOOST_LIBRARY_PATH)
+endif
+
+LIB_OBJECTS = obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o
 
 # (*) RULES ____________________________________________________________________
 # -- application
 #
-bin/parse_main: bin obj/parse.o obj/parse_main.o obj/quex_lexer.o obj/lexer.o obj/ast.o
-	$(COMPILER) -o bin/parse obj/parse_main.o obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o -lboost_program_options
+bin/parse: obj/parse_main.o $(LIB_OBJECTS)
+	$(CXX) -o $@ obj/parse_main.o $(LIB_OBJECTS) $(LDFLAGS)
 
 obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
-	$(CC) -std=c++11 $< -o $@
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 obj/%.o: src/%.c src/quex_lexer.c src/parse.cpp
-	$(CC) $< -o $@
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 # Macro expansions (only for debugging):
 %.E: %.cpp
-	$(CC) -E $< -o $@
+	$(CXX) $(CXXFLAGS) -E $< -o $@
 
 # (*) HELPERS __________________________________________________________________
 clean:	
 	rm -f obj/*
+	rm -f lib/*
 	rm -f bin/*

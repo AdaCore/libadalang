@@ -34,9 +34,3 @@ class Testsuite(gnatpython.testsuite.Testsuite):
             '--rewrite', '-r', action='store_true',
             help='Rewrite test baselines according to current output.'
         )
-
-    def tear_up(self):
-        pass
-
-    def tear_down(self):
-        pass

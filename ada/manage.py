@@ -136,7 +136,9 @@ def test(args, dirs):
     """
     Run the testsuite.
 
-    The added value is the correct environment tuning.
+    This is a wrapper around testsuite/testsuite.py tuned for interactive use:
+    it correctly setups the environment according to the build directory, it
+    enables colored output and it displays test outputs on error.
     """
 
     # Make the "parse" program available from testcases.
@@ -149,7 +151,7 @@ def test(args, dirs):
     try:
         subprocess.check_call([
             dirs.under_source('testsuite', 'testsuite.py'),
-            '--enable-color',
+            '--enable-color', '--show-error-output',
         ] + getattr(args, 'testsuite-args'), env=env)
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Testsuite failed: {}'.format(exc)

@@ -9,6 +9,8 @@
 #include "packrat.hpp"
 #include "tokendatahandler.hpp"
 
+#include "${_self.c_api_settings.lib_name}.h"
+
 using namespace std;
 extern long current_pos;
 
@@ -73,6 +75,11 @@ public:
     void remove(const std::string file_name);
     virtual ~AnalysisContext();
 
+    /* Get a C API value wrapping this unit.  */
+    ${capi.analysis_context_type.tagged_name} wrap() {
+        return static_cast<${capi.analysis_context_type.tagged_name}>(this);
+    }
+
     std::unordered_map<std::string, AnalysisUnit*> units_map;
     SymbolTable* symbol_table;
 };
@@ -84,6 +91,11 @@ public:
 
     void print();
     void print_json();
+
+    /* Get a C API value wrapping this context.  */
+    ${capi.analysis_unit_type.tagged_name} wrap() {
+        return static_cast<${capi.analysis_unit_type.tagged_name}>(this);
+    }
 
     ASTNode*    ast_root;
     Parser*     parser;

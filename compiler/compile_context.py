@@ -1,3 +1,4 @@
+from collections import defaultdict
 from glob import glob
 import os
 import shutil
@@ -19,9 +20,20 @@ def write_cpp_file(file_path, source):
 
 
 class CompileCtx():
-    """State holder for native code emission."""
+    """State holder for native code emission"""
 
-    def __init__(self, lang_name, main_rule_name, verbose=False):
+    def __init__(self, lang_name, c_api_settings, main_rule_name,
+                 verbose=False):
+        """Create a new context for code emission
+
+        lang_name: Name of the target language.
+
+        c_api_settings: a c_api_settings.CAPISettings instance.
+
+        main_rule_name: Name for the grammar rule that will be used as an entry
+        point when parsing units.
+        """
+        # TODO???  lang_name is not actually used anywhere at the moment.
         # TODO???  A short description for all these fields would help!
         self.body = []
         self.types_declarations = []
@@ -38,7 +50,18 @@ class CompileCtx():
         self.rules_to_fn_names = {}
         self.grammar = None
         self.lexer_file = None
+
+        # Holders for the C external API generated code chunks
+
+        # Mapping: ASTNode subclass -> GeneratedFunction instances for all
+        # subclass field accessors.
+        self.c_astnode_primitives = defaultdict(list)
+        # Mapping: CompiledType -> string (C declarations) for types used in
+        # AST node fields.
+        self.c_astnode_field_types = {}
+
         self.lang_name = lang_name
+        self.c_api_settings = c_api_settings
         self.verbose = verbose
 
         # Mapping: ASTNode -> list of CompiledType instances
@@ -81,6 +104,15 @@ class CompileCtx():
             self.ast_fields_types[astnode] = types
 
     @property
+    def astnode_types(self):
+        """Return a sequence containing all types that subclass ASTNode"""
+        # Sort them one way or another so that generated declarations are kept
+        # in a relatively stable order. This is really useful for debugging
+        # purposes.
+        return sorted(self.ast_fields_types.keys(),
+                      key=lambda astnode: astnode.name())
+
+    @property
     def render_template(self):
         # Kludge: to avoid circular dependency issues, do not import parsers
         # until needed.
@@ -91,6 +123,7 @@ class CompileCtx():
         return self.render_template(
             'main_header',
             _self=self,
+            capi=self.c_api_settings,
             tdecls=self.types_declarations,
             tdefs=self.types_definitions,
             fndecls=self.fns_decls,
@@ -133,6 +166,7 @@ class CompileCtx():
         assert self.lexer_file, "Set lexer before calling emit"
 
         src_path = path.join(file_root, "src")
+        include_path = path.join(file_root, "include")
 
         if not path.exists(file_root):
             os.mkdir(file_root)
@@ -142,13 +176,19 @@ class CompileCtx():
             if not path.exists(p):
                 os.mkdir(p)
 
-        shutil.copy("support/Makefile", path.join(file_root, "Makefile"))
+        with open(path.join(file_root, "Makefile"), "w") as f:
+            f.write(self.render_template(
+                "Makefile",
+                capi=self.c_api_settings,
+            ))
 
+        # These are internal headers, so they go to "src". Only external ones
+        # headers (for the public API) go to "include" (see below).
         for f in glob("support/*.hpp"):
-            shutil.copy(f, path.join(file_root, "include"))
+            shutil.copy(f, src_path)
 
         for f in glob("support/*.cpp"):
-            shutil.copy(f, path.join(file_root, "src"))
+            shutil.copy(f, src_path)
 
         for r_name, r in self.grammar.rules.items():
             r.compute_fields_types(self)
@@ -168,6 +208,16 @@ class CompileCtx():
             self.get_interactive_main()
         )
 
+        write_cpp_file(
+            path.join(src_path, "ast.hpp"),
+            self.render_template(
+                "ast_header",
+                capi=self.c_api_settings,
+            )
+        )
+
+        self.emit_c_api(src_path, include_path)
+
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 
         subprocess.check_call([sys.executable, quex_py_file, "-i",
@@ -180,3 +230,28 @@ class CompileCtx():
                                "--token-memory-management-by-user",
                                "--token-policy", "single"],
                               cwd=path.join(file_root, "src"))
+
+    def emit_c_api(self, src_path, include_path):
+        """Generate header and binding body for the external C API"""
+        def render(template_name):
+            return self.render_template(
+                template_name,
+                _self=self,
+                capi=self.c_api_settings,
+            )
+
+        write_cpp_file(
+            path.join(include_path,
+                      "{}.h".format(self.c_api_settings.lib_name)),
+            render("c_header")
+        )
+        write_cpp_file(
+            path.join(src_path,
+                      "{}.cpp".format(self.c_api_settings.lib_name)),
+            render("c_body")
+        )
+
+        write_cpp_file(
+            path.join(src_path, "c_utils.hpp"),
+            render("c_utils")
+        )

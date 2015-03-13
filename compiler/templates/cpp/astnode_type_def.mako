@@ -25,6 +25,11 @@ public:
         void validate();
         void print_node(int level = 0);
         boost::property_tree::ptree get_property_tree();
+        std::vector<ASTNode*> get_children();
+
+        virtual ${capi.node_kind_type.tagged_name} kind() {
+            return ${capi.get_name(cls.name())};
+        }
     % endif
 };
 

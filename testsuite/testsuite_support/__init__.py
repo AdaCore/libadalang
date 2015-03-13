@@ -1,12 +1,14 @@
 import gnatpython.testsuite
 
 import testsuite_support.parser_driver
+import testsuite_support.capi_driver
 
 
 class Testsuite(gnatpython.testsuite.Testsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
         'parser': testsuite_support.parser_driver.ParserDriver,
+        'c-api': testsuite_support.capi_driver.CAPIDriver,
     }
 
     def add_options(self):

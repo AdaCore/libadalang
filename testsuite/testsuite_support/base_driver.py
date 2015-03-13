@@ -81,6 +81,10 @@ class BaseDriver(TestDriver):
     def expected_file(self):
         return os.path.join(self.working_dir, 'test.out')
 
+    @property
+    def original_expected_file(self):
+        return os.path.join(self.test_dir, 'test.out')
+
     #
     # Tear up helpers
     #

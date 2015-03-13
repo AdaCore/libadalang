@@ -1,7 +1,12 @@
+from collections import namedtuple
 from copy import copy
 import inspect
 from itertools import takewhile
 from os import path
+
+
+GeneratedFunction = namedtuple('GeneratedFunction',
+                               'declaration implementation')
 
 
 class StructEq(object):

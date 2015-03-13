@@ -1,0 +1,3 @@
+testsuite/tests/*/*/*.adb no-precommit-check
+testsuite/tests/*/*/*.ads no-precommit-check
+testsuite/tests/*/*/*.c no-precommit-check

@@ -3,13 +3,19 @@ import inspect
 from itertools import count, chain
 from common import gen_name, gen_names, get_type, null_constant, TOKEN_PREFIX
 
+from c_api import CAPIType
 from template_utils import TemplateEnvironment, common_renderer
-from utils import common_ancestor, memoized, copy_with, Colors
+from utils import (common_ancestor, memoized, copy_with, Colors,
+                   GeneratedFunction)
 import quex_tokens
 
 
 def is_row(parser):
     return isinstance(parser, Row)
+
+
+def is_enum(compiled_type):
+    return issubclass(compiled_type, EnumType)
 
 
 def is_ast_node(compiled_type):
@@ -29,6 +35,7 @@ def decl_type(ada_type):
 
 render_template = common_renderer.update({
     'is_row':           is_row,
+    'is_enum':          is_enum,
     'is_class':         inspect.isclass,
     'is_ast_node':      is_ast_node,
     'decl_type':        decl_type,
@@ -109,6 +116,14 @@ class CompiledType(object):
         """
         raise NotImplementedError()
 
+    @classmethod
+    def c_type(cls, c_api_settings):
+        """Return a CAPIType instance for this type
+
+        Must be overriden in subclasses.
+        """
+        raise NotImplementedError()
+
 
 class BasicType(CompiledType):
     """
@@ -117,6 +132,7 @@ class BasicType(CompiledType):
     """
     _name = None
     _nullexpr = None
+    _external = False
 
     @classmethod
     def needs_refcount(cls):
@@ -130,23 +146,41 @@ class BasicType(CompiledType):
     def nullexpr(cls):
         return cls._nullexpr
 
+    @classmethod
+    def c_type(cls, c_api_settings):
+        # Default implementation: tagged types should override this
+        return CAPIType(c_api_settings, cls.name(), external=cls._external)
+
 
 class BoolType(BasicType):
     is_ptr = False
     _name = get_type(bool)
     _nullexpr = "false"
 
+    @classmethod
+    def c_type(cls, c_api_settings):
+        # "bool" is not a built-in in C: do not force users to pull
+        # stdbool.h...
+        return CAPIType(c_api_settings, 'int', external=True)
+
 
 class LongType(BasicType):
     is_ptr = False
     _name = get_type(long)
     _nullexpr = "0"
+    _external = True
 
 
 class SourceLocationRangeType(BasicType):
     is_ptr = False
     _name = "SourceLocationRange"
     _nullexpr = "SourceLocationRange()"
+
+    @classmethod
+    def c_type(cls, c_api_settings):
+        # "bool" is not a built-in in C: do not force users to pull
+        # stdbool.h...
+        return CAPIType(c_api_settings, 'source_location_range', 'struct')
 
 
 class Token(BasicType):
@@ -288,6 +322,7 @@ class ASTNode(CompiledType):
 
         t_env = TemplateEnvironment(
             cls=cls,
+            capi=compile_ctx.c_api_settings,
             all_field_decls=all_field_decls,
             cls_field_decls=cls_field_decls,
             types=compile_ctx.ast_fields_types[cls],
@@ -332,6 +367,19 @@ class ASTNode(CompiledType):
         return types
 
     @classmethod
+    def get_public_fields(cls, compile_ctx):
+        """
+        Return a (field, field type) list for all the fields that are
+        readable through the public API for this node (excluding fields from
+        parents).
+        """
+        # All fields are exported unless they hold a token.
+        return [(field, field_type)
+                for field, field_type in zip(
+                    cls.get_fields(), cls.get_types(compile_ctx))
+                if not issubclass(field_type, Token)]
+
+    @classmethod
     def add_to_context(cls, compile_ctx):
         """
         Emit code to `compile_ctx` for this AST node type.  Do nothing if
@@ -346,6 +394,20 @@ class ASTNode(CompiledType):
             compile_ctx.types_declarations.append(
                 cls.create_type_declaration())
             cls.create_type_definition(compile_ctx)
+
+            primitives = []
+            for field, field_type in cls.get_public_fields(compile_ctx):
+                t_env = TemplateEnvironment(
+                    capi=compile_ctx.c_api_settings,
+                    astnode=cls,
+                    field=field,
+                    field_type=field_type,
+                )
+                primitives.append(GeneratedFunction(
+                    render_template('c_astnode_field_access_decl', t_env),
+                    render_template('c_astnode_field_access_impl', t_env),
+                ))
+            compile_ctx.c_astnode_primitives[cls] = primitives
 
     @classmethod
     def name(cls):
@@ -370,6 +432,10 @@ class ASTNode(CompiledType):
             return null_constant()
         else:
             return "nil_{0}".format(cls.name())
+
+    @classmethod
+    def c_type(cls, c_api_settings):
+        return CAPIType(c_api_settings, 'node')
 
 
 def resolve(parser):
@@ -1429,10 +1495,34 @@ class EnumType(CompiledType):
             compile_ctx.body.append(
                 render_template('enum_type_impl', cls=cls)
             )
+            compile_ctx.c_astnode_field_types[cls] = render_template(
+                'enum_c_type_decl',
+                cls=cls,
+                capi=compile_ctx.c_api_settings
+            )
 
     @classmethod
     def nullexpr(cls):
         return cls.name() + "::uninitialized"
+
+    @classmethod
+    def c_type(cls, c_api_settings):
+        return CAPIType(c_api_settings, cls.name(), 'enum')
+
+    @classmethod
+    def c_alternatives(cls, c_api_settings):
+        """
+        Return the sequence of names to use for alternatives in the C API
+        """
+        # Before wrapping, names can have "_" suffixes or prefixes in order to
+        # avoid clashes with keywords. This is not needed anymore after
+        # wrapping so remove it to have pleasant names.
+        return [
+            c_api_settings.get_name(
+                "{}_{}".format(cls.name(), alt.strip('_'))
+            )
+            for alt in cls.alternatives
+        ]
 
 
 class Enum(Parser):

@@ -54,6 +54,16 @@ std::string ${cls.name()}::repr() {
 std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
 % if not cls.abstract:
+    std::vector<ASTNode*> ${cls.name()}::get_children() {
+        std::vector<ASTNode*> children;
+        % for i, (field_type, field) in enumerate(all_field_decls):
+            % if is_ast_node(field_type):
+                children.push_back(${field.name});
+            % endif
+        % endfor
+        return children;
+    }
+
     ASTNode *${cls.name()}::lookup_children(const SourceLocation &sloc)
     {
         assert(sloc_range_.compare(sloc) == IN);

@@ -12,6 +12,7 @@ setenv()
 from gnatpython import fileutils
 from gnatpython.ex import which
 import sys
+from c_api_settings import CAPISettings
 from compile_context import CompileCtx
 from utils import Colors
 
@@ -102,7 +103,12 @@ def get_default_compiler():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    context = CompileCtx('ada', 'compilation_unit', verbose=args.verbose)
+    c_api_settings = CAPISettings(
+        'libadalang',
+        symbol_prefix='ada',
+    )
+    context = CompileCtx('ada', c_api_settings, 'compilation_unit',
+                         verbose=args.verbose)
     context.set_lexer_file(dirs.under_source('ada', 'ada.qx'))
 
     from ada_parser import A

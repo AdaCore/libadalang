@@ -1,3 +1,5 @@
+## vim: filetype=make
+
 ifndef QUEX_PATH
     $(error The environment variable QUEX_PATH is not defined!)
 endif
@@ -34,20 +36,27 @@ ifdef BOOST_LIBRARY_PATH
     LDFLAGS += -L$(BOOST_LIBRARY_PATH)
 endif
 
-LIB_OBJECTS = obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o obj/token.o obj/symboltable.o obj/tokendatahandler.o
+LIB_OBJECTS = obj/ast.o \
+	      obj/lexer.o \
+	      obj/parse.o \
+	      obj/quex_lexer.o \
+	      obj/symboltable.o \
+	      obj/token.o \
+	      obj/tokendatahandler.o \
+	      obj/${capi.lib_name}.o
 
 # (*) RULES ____________________________________________________________________
 # -- application
 
-all: bin/parse lib/libadalang.a lib/libadalang.so
+all: bin/parse lib/${capi.lib_name}.a lib/${capi.lib_name}.so
 
 bin/parse: obj/parse_main.o $(LIB_OBJECTS)
 	$(CXX) -o $@ obj/parse_main.o $(LIB_OBJECTS) $(LDFLAGS)
 
-lib/libadalang.a: $(LIB_OBJECTS)
+lib/${capi.lib_name}.a: $(LIB_OBJECTS)
 	$(AR) cru $@ $(LIB_OBJECTS)
 
-lib/libadalang.so: $(LIB_OBJECTS)
+lib/${capi.lib_name}.so: $(LIB_OBJECTS)
 	$(CXX) -o $@ -shared $(LIB_OBJECTS)
 
 obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
@@ -57,7 +66,7 @@ obj/%.o: src/%.c src/quex_lexer.c src/parse.cpp
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 # Macro expansions (only for debugging):
-%.E: %.cpp
+${"%"}.E: %.cpp
 	$(CXX) $(CXXFLAGS) -E $< -o $@
 
 # (*) HELPERS __________________________________________________________________

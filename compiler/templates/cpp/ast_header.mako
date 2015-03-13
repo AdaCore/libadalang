@@ -1,3 +1,5 @@
+## vim: filetype=cpp
+
 #ifndef AST_H
 #define AST_H
 
@@ -7,6 +9,7 @@
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include "lexer.hpp"
+#include "${capi.lib_name}.h"
 
 class ASTNode {
 public:
@@ -58,6 +61,11 @@ public:
 
     SourceLocationRange sloc_range_;
 
+    /* Get a C API value wrapping this node.  */
+    ${capi.node_type.tagged_name} wrap() {
+        return static_cast<${capi.node_type.tagged_name}>(this);
+    }
+
 public:
     /* Implementation helper for the previous lookup method.  Assumes that SLOC
        is included in this node's sloc range.  Behaves just like lookup
@@ -92,6 +100,12 @@ public:
        return false;
     }
 
+    virtual std::vector<ASTNode*> get_children() = 0;
+
+    /* Get a value that identifies the kind of this node.  Each concrete
+       subclass must override this to provide the appropriate value.  */
+    virtual ${capi.node_kind_type.tagged_name} kind() = 0;
+
 protected:
     /* Subsidiary routine of print_node used to visualize the deep level of
        the tree components in the left margin of the output */
@@ -120,6 +134,16 @@ public:
     void print_node(int level = 0);
     boost::property_tree::ptree get_property_tree();
     virtual bool is_empty_list();
+    virtual ${capi.node_kind_type.tagged_name} kind() {
+        return ${capi.get_name("list")};
+    }
+
+    virtual std::vector<ASTNode*> get_children() {
+        std::vector<ASTNode*> result;
+        for (auto node : vec)
+            result.push_back(node);
+        return result;
+    }
 };
 
 template <typename T> ASTNode *

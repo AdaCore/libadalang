@@ -321,8 +321,12 @@ token {
     STRING = 5100;
     CHAR = 5101;
 
+    WITH = 5102;
+    NUMBER = 5103;
+
     // Fail token
-    LEX_FAIL = 5102;
+    LEX_FAIL = 5104;
+
 }
 
 define {

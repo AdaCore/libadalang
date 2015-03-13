@@ -102,6 +102,7 @@ AnalysisContext::AnalysisContext() {
 
 AnalysisContext::~AnalysisContext() {
     for (auto kv : units_map) delete kv.second;
+    delete this->symbol_table;
 }
 
 AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {

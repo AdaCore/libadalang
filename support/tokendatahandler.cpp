@@ -13,6 +13,6 @@ const char* TokenDataHandler::add_string(const char* text, size_t len) {
 }
 
 TokenDataHandler::~TokenDataHandler() {
-    for (auto str : this->str_literals) free(str);
+    for (auto str : this->str_literals)
+        delete[] str;
 }
-

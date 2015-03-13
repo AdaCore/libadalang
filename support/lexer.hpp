@@ -48,7 +48,14 @@ void symbolize(Lexer* lexer, quex_Token* tk);
 inline Token get(Lexer* lexer, long offset);
 
 inline Token get(Lexer* lexer, long offset) {
-    return lexer->token_data_handler->tokens[offset];
+    auto ret = lexer->token_data_handler->tokens[offset];
+
+    if (lexer->max_pos < offset) {
+        lexer->max_pos = offset;
+        lexer->max_token = ret;
+    }
+
+    return ret;
 }
 
 void free_lexer (Lexer* lex);

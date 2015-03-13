@@ -47,4 +47,3 @@ RelativePosition SourceLocation::compare(const SourceLocation &sloc) const {
     else
         return IN;
 }
-

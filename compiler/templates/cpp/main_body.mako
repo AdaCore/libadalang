@@ -57,7 +57,13 @@ Parser::~Parser() {
 
 ASTNode* Parser::parse() {
     auto res = this->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
-    res->inc_ref();
+    if (!res) {
+        SourceLocation sloc = max_token().sloc_range.get_start();
+        printf("Parsing failed, last token pos : Line %d, Col %d, cat %d\n",
+               sloc.line, sloc.column, max_token().id);
+    } else {
+        res->inc_ref();
+    }
     clean_all_memos();
     return res;
 }
@@ -72,13 +78,17 @@ AnalysisUnit::AnalysisUnit(AnalysisContext *context, const std::string file_name
 }
 
 AnalysisUnit::~AnalysisUnit() {
-    this->ast_root->dec_ref();
+    if (this->ast_root) {
+        this->ast_root->dec_ref();
+    }
     delete this->token_data_handler;
 }
 
 void AnalysisUnit::print() {
-    assert(this->ast_root);
-    this->ast_root->print_node();
+    if (this->ast_root)
+        this->ast_root->print_node();
+    else
+        printf("<empty analysis unit>\n");
 }
 
 void AnalysisUnit::print_json() {

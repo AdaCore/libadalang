@@ -2,7 +2,7 @@
 
 // Start transform_code
 
-${start_sloc_range_var} = get(this->lexer, ${pos_name}).sloc_range;
+${start_sloc_range_var} = this->lexer->get(${pos_name}).sloc_range;
 
 ${parser_context.code}
 % if _self.get_type().is_ptr:
@@ -23,7 +23,7 @@ if (${parser_context.pos_var_name} != -1) {
         SourceLocationRange(${start_sloc_range_var}.get_start(),
                             (${parser_context.pos_var_name} == ${pos_name})
                             ? ${start_sloc_range_var}.get_end()
-                            : get(this->lexer, ${parser_context.pos_var_name} - 1).sloc_range.get_end());
+                            : this->lexer->get(${parser_context.pos_var_name} - 1).sloc_range.get_end());
 
     % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types(_compile_ctx)):
         ${res}${"->" if _self.get_type().is_ptr else "."}${f.name} = ${arg};

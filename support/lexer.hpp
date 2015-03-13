@@ -19,6 +19,23 @@ extern "C" {
 
 class Lexer {
 public:
+    Lexer (
+        const char* filename,
+        const char* char_encoding,
+        TokenDataHandler* token_data_handler
+    );
+
+    Lexer (
+        const char* string,
+        const size_t len,
+        TokenDataHandler* token_data_handler
+    );
+
+    void symbolize();
+    void populate_tokens();
+
+    ~Lexer();
+
     QUEX_TYPE_ANALYZER* lexer;
     quex_Token tk_memory[1024];
     quex_Token buffer_tk;
@@ -27,36 +44,20 @@ public:
     Token max_token;
     char* buffer_ptr;
     TokenDataHandler* token_data_handler;
+
+    inline Token get(long offset) {
+        auto ret = token_data_handler->tokens[offset]; 
+        if (max_pos < offset) {
+            max_pos = offset;
+            max_token = ret;
+        }
+
+        return ret;
+    }
+
 };
 
 extern Token no_token;
-
-Lexer* make_lexer_from_file(
-    const char* filename,
-    const char* char_encoding,
-    TokenDataHandler* token_data_handler
-);
-
-Lexer* make_lexer_from_string(
-    const char* string,
-    const size_t len,
-    TokenDataHandler* token_data_handler
-);
-
-void symbolize(Lexer* lexer, quex_Token* tk);
-
-inline Token get(Lexer* lexer, long offset);
-
-inline Token get(Lexer* lexer, long offset) {
-    auto ret = lexer->token_data_handler->tokens[offset];
-
-    if (lexer->max_pos < offset) {
-        lexer->max_pos = offset;
-        lexer->max_token = ret;
-    }
-
-    return ret;
-}
 
 void free_lexer (Lexer* lex);
 

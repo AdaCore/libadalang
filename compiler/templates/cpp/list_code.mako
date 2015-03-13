@@ -1,6 +1,6 @@
 ## vim: filetype=cpp
 
-${start_sloc_range_var} = get(this->lexer, ${pos_name}).sloc_range;
+${start_sloc_range_var} = this->lexer->get(${pos_name}).sloc_range;
 
 % if _self.empty_valid:
     ${pos} = ${pos_name};
@@ -77,5 +77,5 @@ if (${pos} != -1)
         SourceLocationRange(${start_sloc_range_var}.get_start(),
                             (${cpos} == ${pos_name})
                             ? ${start_sloc_range_var}.get_end()
-                            : get(this->lexer, ${cpos} - 1).sloc_range.get_end());
+                            : this->lexer->get(${cpos} - 1).sloc_range.get_end());
 }

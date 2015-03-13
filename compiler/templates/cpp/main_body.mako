@@ -40,19 +40,15 @@ void clean_all_memos() {
 }
 
 Parser::Parser(const char* string, const size_t len, TokenDataHandler* token_data) {
-    this->lexer = make_lexer_from_string(
-        string, len, token_data
-    );
+    this->lexer = new Lexer(string, len, token_data);
 }
 
 Parser::Parser(const std::string file_name, TokenDataHandler* token_data) {
-    this->lexer = make_lexer_from_file(
-        file_name.c_str(), nullptr, token_data
-    );
+    this->lexer = new Lexer(file_name.c_str(), nullptr, token_data);
 }
 
 Parser::~Parser() {
-     free_lexer(this->lexer);
+     delete this->lexer;
 }
 
 ASTNode* Parser::parse() {

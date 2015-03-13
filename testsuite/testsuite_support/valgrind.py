@@ -30,7 +30,9 @@ class Valgrind(object):
 
         for elt in xml_root:
             if elt.tag == 'error':
-                message = get_text_in_child(get_child(elt, 'xwhat'), 'text')
+                what_elt = get_child(elt, 'xwhat') or get_child(elt, 'what')
+                message = (get_text_in_child(what_elt, 'text')
+                           if what_elt else 'Unknown reason')
                 stack = []
                 for frame in get_child(elt, 'stack'):
                     assert frame.tag == 'frame'

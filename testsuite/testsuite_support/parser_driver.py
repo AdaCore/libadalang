@@ -15,25 +15,16 @@ class ParserDriver(BaseDriver):
     TIMEOUT = 300
 
     #
-    # Driver entry points.
+    # Driver entry points
     #
 
     @catch_test_errors
     def tear_up(self):
+        super(ParserDriver, self).tear_up()
+
         # Testcases are expected to provide two files...
         for filename in ('input', 'expected'):
             self.check_file(os.path.join(self.test_dir, filename))
-
-        self.create_test_workspace()
-
-        self.valgrind = (
-            Valgrind(self.working_dir)
-            if self.global_env['options'].valgrind else None
-        )
-
-    @catch_test_errors
-    def tear_down(self):
-        pass
 
     @catch_test_errors
     def run(self):
@@ -48,62 +39,7 @@ class ParserDriver(BaseDriver):
                 '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])
             ])
 
-        if self.valgrind:
-            parse_argv = self.valgrind.wrap_argv(parse_argv)
-
-        # If we are running a debugger, we aren't even interested in the
-        # result.
-        if opts.debug:
-            print('Running {} under a debugger...'.format(
-                self.test_env['test_name']
-            ))
-            parse_argv = [opts.debugger, '--args'] + parse_argv
-            print(' '.join(pipes.quote(arg) for arg in parse_argv))
-            subprocess.check_call(parse_argv, cwd=self.working_dir)
-            raise TestError('Test was running from a debugger: no result')
-            return
-
-        p = Run(parse_argv, cwd=self.working_dir,
-                timeout=self.TIMEOUT,
-                output=self.output_file,
-                error=STDOUT)
-        if p.status != 0:
-            self.result.actual_output += self.read_file(self.output_file)
-            self.result.set_status(
-                'FAILED', 'parse returned nonzero: {}'.format(p.status)
-            )
-
-    def analyze(self):
-        rewrite = self.global_env['options'].rewrite
-        failures = []
-
-        # Check for the test output itself.
-        diff = fileutils.diff(self.expected_file, self.output_file)
-        if diff:
-            if rewrite:
-                new_baseline = self.read_file(self.output_file)
-                with open(self.original_expected_file, 'w') as f:
-                    f.write(new_baseline)
-            self.result.actual_output += diff
-            failures.append('output is not as expected{}'.format(
-                ' (baseline updated)' if rewrite else ''
-            ))
-
-        # Check memory issues if asked to.
-        if self.valgrind:
-            errors = self.valgrind.parse_report()
-            if errors:
-                self.result.actual_output += (
-                    'Valgrind reported the following errors:\n{}'.format(
-                        self.valgrind.format_report(errors)
-                    )
-                )
-                failures.append('memory isuses detected')
-
-        if failures:
-            self.result.set_status('FAILED', ' | '.join(failures))
-        else:
-            self.result.set_status('PASSED')
+        self.run_and_check(parse_argv, for_debug=True)
 
     #
     # Convenience path builders

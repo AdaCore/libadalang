@@ -34,3 +34,10 @@ class Testsuite(gnatpython.testsuite.Testsuite):
             '--rewrite', '-r', action='store_true',
             help='Rewrite test baselines according to current output.'
         )
+
+    def tear_up(self):
+        super(Testsuite, self).tear_up()
+
+        opts = self.global_env['options']
+        assert not opts.valgrind or not opts.debug, (
+            'Debugging while checking memory with Valgrind is not supported.')

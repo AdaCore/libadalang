@@ -21,7 +21,7 @@ def write_cpp_file(file_path, source):
 class CompileCtx():
     """State holder for native code emission."""
 
-    def __init__(self, lang_name, main_rule_name):
+    def __init__(self, lang_name, main_rule_name, verbose=False):
         # TODO???  A short description for all these fields would help!
         self.body = []
         self.types_declarations = []
@@ -39,6 +39,7 @@ class CompileCtx():
         self.grammar = None
         self.lexer_file = None
         self.lang_name = lang_name
+        self.verbose = verbose
 
         # Mapping: ASTNode -> list of CompiledType instances
         self.ast_fields_types = {}

@@ -571,7 +571,7 @@ class Parser(object):
         :rtype: ParserCodeContext
         """
 
-        if self.name:
+        if self.name and compile_ctx.verbose:
             print "Compiling rule : {0}".format(
                 Colors.HEADER + self.gen_fn_name + Colors.ENDC
             )

@@ -13,6 +13,7 @@ from gnatpython import fileutils
 from gnatpython.ex import which
 import sys
 from compile_context import CompileCtx
+from utils import Colors
 
 
 class Directories(object):
@@ -101,7 +102,7 @@ def get_default_compiler():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    context = CompileCtx('ada', 'compilation_unit')
+    context = CompileCtx('ada', 'compilation_unit', verbose=args.verbose)
     context.set_lexer_file(dirs.under_source('ada', 'ada.qx'))
 
     from ada_parser import A
@@ -110,11 +111,13 @@ def generate(args, dirs):
     import ada_parser.exprs
     import ada_parser.bodies
 
-    del args
     del ada_parser
 
     context.set_grammar(A)
+
+    print Colors.HEADER + "Generating source for libadalang ..." + Colors.ENDC
     context.emit(file_root=dirs.build_dir)
+    print Colors.OKGREEN + "Generation complete !" + Colors.ENDC
 
 
 def build(args, dirs):
@@ -208,6 +211,10 @@ args_parser.add_argument(
     default=get_default_compiler(),
     help='Select what native toolchain to use (Clang or GCC)'
 )
+args_parser.add_argument(
+    '--verbose', '-v', action='store_true',
+    help='Show verbose output'
+)
 
 help_parser = subparsers.add_parser('help', help=do_help.__doc__)
 help_parser.set_defaults(func=do_help)
@@ -246,6 +253,10 @@ make_parser.add_argument(
 make_parser.add_argument(
     'make-options', nargs='*',
     help='Options to pass directly to make'
+)
+make_parser.add_argument(
+    '--verbose', '-v', action='store_true',
+    help='Show verbose output'
 )
 make_parser.set_defaults(func=make)
 

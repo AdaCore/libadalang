@@ -6,7 +6,7 @@
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <cstdlib>
-#include "${header_name}"
+#include "parse.hpp"
 #include <fstream>
 #include <chrono>
 

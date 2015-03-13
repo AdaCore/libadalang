@@ -101,7 +101,7 @@ def generate(args, dirs):
     del ada_parser
 
     context.set_grammar(A)
-    context.emit(file_root=dirs.build_dir, file_name='parse')
+    context.emit(file_root=dirs.build_dir)
 
 
 def build(args, dirs):

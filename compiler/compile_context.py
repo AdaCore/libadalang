@@ -95,18 +95,17 @@ class CompileCtx():
             fndecls=self.fns_decls,
         )
 
-    def get_source(self, header_name):
+    def get_source(self):
         return self.render_template(
             'main_body',
             _self=self,
-            header_name=header_name,
             bodies=self.body
         )
 
-    def get_interactive_main(self, header_name):
+    def get_interactive_main(self):
         return self.render_template(
             'interactive_main',
-            _self=self, header_name=header_name
+            _self=self,
         )
 
     def set_grammar(self, grammar):
@@ -122,7 +121,7 @@ class CompileCtx():
         import quex_tokens
         quex_tokens.init_token_map(self)
 
-    def emit(self, file_root=".", file_name="parse"):
+    def emit(self, file_root="."):
         """
         Emit native code for all the rules in this grammar as a library:
         a library specification and the corresponding implementation.  Also
@@ -157,15 +156,15 @@ class CompileCtx():
             r.compile(self)
             self.rules_to_fn_names[r_name] = r
 
-        write_cpp_file(path.join(src_path, file_name + ".cpp"),
-                       self.get_source(header_name=file_name + ".hpp"))
+        write_cpp_file(path.join(src_path, "parse.cpp"),
+                       self.get_source())
 
-        write_cpp_file(path.join(src_path, file_name + ".hpp"),
+        write_cpp_file(path.join(src_path, "parse.hpp"),
                        self.get_header())
 
         write_cpp_file(
-            path.join(src_path, file_name + "_main.cpp"),
-            self.get_interactive_main(header_name=file_name + ".hpp")
+            path.join(src_path, "parse_main.cpp"),
+            self.get_interactive_main()
         )
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")

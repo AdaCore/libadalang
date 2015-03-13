@@ -140,11 +140,16 @@ def build(args, dirs):
                  'CC={}'.format(c_compiler),
                  'CXX={}'.format(cxx_compiler)]
     make_argv.extend(getattr(args, 'make-options'))
+    print (
+        Colors.HEADER
+        + "Building the generated source code ..." + Colors.ENDC
+    )
     try:
         subprocess.check_call(make_argv)
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Build failed: {}'.format(exc)
         sys.exit(1)
+    print Colors.OKGREEN + "Compilation complete !" + Colors.ENDC
 
 
 def make(args, dirs):

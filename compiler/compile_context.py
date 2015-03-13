@@ -6,6 +6,7 @@ import sys
 import subprocess
 from os import path, environ
 from distutils.spawn import find_executable
+from utils import Colors
 
 
 def write_cpp_file(file_path, source):
@@ -171,6 +172,8 @@ class CompileCtx():
         if not path.exists(file_root):
             os.mkdir(file_root)
 
+        print Colors.OKBLUE + "File setup ..." + Colors.ENDC
+
         for d in ["include", "obj", "src", "bin", "lib"]:
             p = path.join(file_root, d)
             if not path.exists(p):
@@ -189,6 +192,8 @@ class CompileCtx():
 
         for f in glob("support/*.cpp"):
             shutil.copy(f, src_path)
+
+        print Colors.OKBLUE + "Compiling the grammar ... " + Colors.ENDC
 
         for r_name, r in self.grammar.rules.items():
             r.compute_fields_types(self)
@@ -217,6 +222,11 @@ class CompileCtx():
         )
 
         self.emit_c_api(src_path, include_path)
+
+        print (
+            Colors.OKBLUE + "Compiling the quex lexer specification"
+            + Colors.ENDC
+        )
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 

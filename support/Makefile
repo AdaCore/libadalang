@@ -5,8 +5,9 @@ endif
 # Supported build modes: prod dev
 BUILD_MODE=dev
 
-CXX = clang++
+AR = ar
 CC = clang
+CXX = clang++
 CFLAGS := -fpic -Iinclude -Isrc -I$(QUEX_PATH) \
 	-Wno-deprecated-register \
         -DQUEX_OPTION_ASSERTS_DISABLED \
@@ -37,9 +38,17 @@ LIB_OBJECTS = obj/parse.o obj/quex_lexer.o obj/lexer.o obj/ast.o obj/token.o obj
 
 # (*) RULES ____________________________________________________________________
 # -- application
-#
+
+all: bin/parse lib/libadalang.a lib/libadalang.so
+
 bin/parse: obj/parse_main.o $(LIB_OBJECTS)
 	$(CXX) -o $@ obj/parse_main.o $(LIB_OBJECTS) $(LDFLAGS)
+
+lib/libadalang.a: $(LIB_OBJECTS)
+	$(AR) cru $@ $(LIB_OBJECTS)
+
+lib/libadalang.so: $(LIB_OBJECTS)
+	$(CXX) -o $@ -shared $(LIB_OBJECTS)
 
 obj/%.o: src/%.cpp src/quex_lexer.c src/parse.cpp
 	$(CXX) -c $(CXXFLAGS) -o $@ $<

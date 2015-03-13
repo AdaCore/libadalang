@@ -141,12 +141,17 @@ def test(args, dirs):
     enables colored output and it displays test outputs on error.
     """
 
-    # Make the "parse" program available from testcases.
+    # Make builds available from testcases
     env = dict(os.environ)
-    env['PATH'] = '{}:{}'.format(
-        dirs.under_build('bin'),
-        env['PATH']
-    )
+
+    def add_path(name, path):
+        old = env.get(name, '')
+        env[name] = '{}:{}'.format(path, old) if old else path
+
+    add_path('PATH', dirs.under_build('bin'))
+    add_path('C_INCLUDE_PATH', dirs.under_build('include'))
+    add_path('LIBRARY_PATH', dirs.under_build('lib'))
+    add_path('LD_LIBRARY_PATH', dirs.under_build('lib'))
 
     try:
         subprocess.check_call([

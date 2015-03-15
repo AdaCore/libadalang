@@ -22,10 +22,10 @@ BlockStatement[1:1-1:46]
 | | HandledStatements[1:34-1:42]
 | | | statements:
 | | | | CallExpr[1:34-1:41]
-| | | | | prefix:
+| | | | | name:
 | | | | | | Id[1:34-1:37]
 | | | | | | | tok: Foo
-| | | | | calls:
+| | | | | suffix:
 | | | | | | ParamList[1:39-1:40]
 | | | | | | | params:
 | | | | | | | | ParamAssoc[1:39-1:40]

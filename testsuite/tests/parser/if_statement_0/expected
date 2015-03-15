@@ -10,10 +10,10 @@ IfStatement[1:1-1:86]
 | | | | | tok: 40.0
 | statements:
 | | CallExpr[1:29-1:45]
-| | | prefix:
+| | | name:
 | | | | Id[1:29-1:37]
 | | | | | tok: Put_Line
-| | | calls:
+| | | suffix:
 | | | | ParamList[1:39-1:44]
 | | | | | params:
 | | | | | | ParamAssoc[1:39-1:44]
@@ -21,10 +21,10 @@ IfStatement[1:1-1:86]
 | | | | | | | | Str[1:39-1:44]
 | | | | | | | | | tok: "Wow"
 | | CallExpr[1:47-1:78]
-| | | prefix:
+| | | name:
 | | | | Id[1:47-1:55]
 | | | | | tok: Put_Line
-| | | calls:
+| | | suffix:
 | | | | ParamList[1:57-1:77]
 | | | | | params:
 | | | | | | ParamAssoc[1:57-1:77]

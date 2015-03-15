@@ -1,18 +1,12 @@
 ## vim: filetype=cpp
 
-${start_sloc_range_var} = this->lexer->get(${pos_name}).sloc_range;
-
 % if _self.empty_valid:
     ${pos} = ${pos_name};
 % else:
     ${pos} = -1;
 % endif
 
-% if _self.empty_valid:
-    ${res} = new ASTList<${decl_type(_self.parser.get_type())}>;
-% else:
-    ${res} = ${_self.get_type().nullexpr()};
-% endif
+${res} = ${_self.get_type().nullexpr()};
 
 ${cpos} = ${pos_name};
 
@@ -37,6 +31,9 @@ while (true) {
             ${res}->setParent(new_res);
             ${parser_context.res_var_name}->setParent(new_res);
             ${res} = new_res;
+            ${res}->token_data = token_data;
+            ${res}->token_start = ${pos_name};
+            ${res}->token_end = (${cpos} == ${pos_name}) ? ${pos_name} : ${cpos} - 1;
         }
 
     % else:
@@ -71,11 +68,8 @@ while (true) {
 
 ## If we managed to parse a list, compute and set the sloc range for this AST
 ## node.
-if (${pos} != -1)
-{
-    ${res}${"->" if _self.get_type().is_ptr else "."}sloc_range_ =
-        SourceLocationRange(${start_sloc_range_var}.get_start(),
-                            (${cpos} == ${pos_name})
-                            ? ${start_sloc_range_var}.get_end()
-                            : this->lexer->get(${cpos} - 1).sloc_range.get_end());
+if (${res}) {
+    ${res}->token_data = token_data;
+    ${res}->token_start = ${pos_name};
+    ${res}->token_end = (${cpos} == ${pos_name}) ? ${pos_name} : ${cpos} - 1;
 }

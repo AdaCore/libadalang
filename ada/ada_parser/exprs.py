@@ -40,8 +40,9 @@ class StaticNameExpr(Expr):
 
 
 class CallExpr(Expr):
-    prefix = Field()
-    calls = Field()
+    name = Field()
+    paren_tok = Field(repr=False)
+    suffix = Field()
 
 
 class ExprList(ASTNode):
@@ -299,7 +300,7 @@ A.add_rules(
     ),
 
     name=Or(
-        Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
+        Row(A.name, Tok("(", keep=True), A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ Prefix,
         Row(A.name, "'", A.attribute,
             Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,

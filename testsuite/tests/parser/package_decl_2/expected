@@ -11,19 +11,21 @@ PackageDecl[1:1-1:105]
 | | | | | | Id[1:36-1:40]
 | | | | | | | tok: Push
 | | | | | params:
-| | | | | | ParameterProfile[1:42-1:54]
-| | | | | | | ids:
-| | | | | | | | Id[1:42-1:43]
-| | | | | | | | | tok: E
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:45-1:54]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:45-1:54]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:45-1:54]
-| | | | | | | | | | | | | tok: Element_T
+| | | | | | SubprogramParams[1:41-1:55]
+| | | | | | | params:
+| | | | | | | | ParameterProfile[1:42-1:54]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:42-1:43]
+| | | | | | | | | | | tok: E
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:45-1:54]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:45-1:54]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:45-1:54]
+| | | | | | | | | | | | | | | tok: Element_T
 | | | is_null: False
 | | | is_abstract: False
 | | SubprogramDecl[1:57-1:86]

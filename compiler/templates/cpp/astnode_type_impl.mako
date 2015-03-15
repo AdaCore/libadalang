@@ -17,7 +17,7 @@ ${cls.name()}::~${cls.name()}() {
 }
 
 std::string ${cls.name()}::repr() {
-    std::string result = this->__name() + "[" + sloc_range_.repr() + "]" + "(";
+    std::string result = this->__name() + "[" + get_sloc_range().repr() + "]" + "(";
 
     % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
         % if i > 0:
@@ -54,6 +54,22 @@ std::string ${cls.name()}::repr() {
 std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
 % if not cls.abstract:
+    void ${cls.name()}::compute_indent_level() {
+        % for i, (field_type, field) in enumerate(all_field_decls):
+            % if is_ast_node(field_type):
+                if (${field.name}) {
+                    % if field.indent.kind == field.indent.KIND_REL_POS:
+                        ${field.name}->indent_level = this->indent_level + ${field.indent.rel_pos};
+                    % elif field.indent.kind == field.indent.KIND_TOKEN_POS:
+                        ${field.name}->indent_level = this->${field.indent.token_field_name}.sloc_range.end_column - 1;
+                    % endif
+
+                    ${field.name}->compute_indent_level();
+                }
+            % endif
+        % endfor
+    }
+
     std::vector<ASTNode*> ${cls.name()}::get_children() {
         std::vector<ASTNode*> children;
         % for i, (field_type, field) in enumerate(all_field_decls):
@@ -64,9 +80,9 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
         return children;
     }
 
-    ASTNode *${cls.name()}::lookup_children(const SourceLocation &sloc)
+    ASTNode *${cls.name()}::lookup_children(const SourceLocation &sloc, bool snap)
     {
-        assert(sloc_range_.compare(sloc) == IN);
+        assert(get_sloc_range(snap).compare(sloc) == IN);
 
         /* Look for a child node that contains SLOC (i.e. return the most
            precise result).  */
@@ -76,7 +92,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
                    that the first one has a sloc range that is before the sloc
                    range of the second child node, etc.  */
                 if (${field.name} != ${field_type.nullexpr()}) {
-                    auto sub_lookup = ${field.name}->lookup_relative(sloc);
+                    auto sub_lookup = ${field.name}->lookup_relative(sloc, snap);
                     switch (sub_lookup.first) {
                     case BEFORE:
                         /* If this is the first node, SLOC is before it, so we
@@ -116,7 +132,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
         ptree result;
         result.put("kind", this->__name());
-        result.add_child("sloc", sloc_range_.get_property_tree());
+        result.add_child("sloc", get_sloc_range().get_property_tree());
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
            % if t.is_ptr:
@@ -133,7 +149,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
     void ${cls.name()}::print_node(int level) {
         print_tab(level);
-        std::string result = this->__name() + "[" + sloc_range_.repr() + "]";
+        std::string result = this->__name() + "[" + get_sloc_range().repr() + "]";
         printf("%s\n", result.c_str());
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):

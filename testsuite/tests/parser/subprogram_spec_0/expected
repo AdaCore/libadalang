@@ -3,19 +3,21 @@ SubprogramSpec[1:1-1:39]
 | | Id[1:10-1:11]
 | | | tok: A
 | params:
-| | ParameterProfile[1:13-1:23]
-| | | ids:
-| | | | Id[1:13-1:14]
-| | | | | tok: B
-| | | mode: in
-| | | type_expr:
-| | | | TypeExpression[1:17-1:23]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:17-1:23]
-| | | | | | | name:
-| | | | | | | | Id[1:17-1:23]
-| | | | | | | | | tok: String
+| | SubprogramParams[1:12-1:24]
+| | | params:
+| | | | ParameterProfile[1:13-1:23]
+| | | | | ids:
+| | | | | | Id[1:13-1:14]
+| | | | | | | tok: B
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:17-1:23]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:17-1:23]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:17-1:23]
+| | | | | | | | | | | tok: String
 | returns:
 | | TypeExpression[1:32-1:39]
 | | | null_exclusion: False

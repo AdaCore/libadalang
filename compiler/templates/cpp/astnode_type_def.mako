@@ -3,7 +3,7 @@
 class ${cls.name()} : public ${base_name} {
 protected:
     % if not cls.abstract:
-        virtual ASTNode *lookup_children(const SourceLocation &sloc);
+        virtual ASTNode *lookup_children(const SourceLocation &sloc, bool snap=false);
     % endif
 
 public:
@@ -30,6 +30,8 @@ public:
         virtual ${capi.node_kind_type.tagged_name} kind() {
             return ${capi.get_name(cls.name())};
         }
+
+        void compute_indent_level();
     % endif
 };
 

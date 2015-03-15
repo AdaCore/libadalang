@@ -95,4 +95,6 @@ struct Token {
     SourceLocationRange sloc_range;
 } __attribute__((packed));
 
+typedef int TokenId;
+
 #endif

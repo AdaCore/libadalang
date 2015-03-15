@@ -5,6 +5,7 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/parsers.hpp>
+#include <boost/algorithm/string.hpp>
 #include <cstdlib>
 #include "parse.hpp"
 #include <fstream>
@@ -89,23 +90,79 @@ void parse_input(string input,
     }
 }
 
+struct IndentStatus {
+    int last_line = 0;
+    std::vector<short> lines_indent;
+    ASTNode* root;
+    std::vector<std::string>* lines;
+};
+
+ASTNode::VisitStatus compute_lines_indent (ASTNode* node, IndentStatus* status) {
+    int nstart = node->get_sloc_range().get_start().line;
+
+    if (status->last_line < nstart) {
+
+        for (int i = status->last_line + 1; i < nstart; i++) {
+            // We're getting the first non blank char, adding 1 for 1-based indexing,
+            // and adding 1 more to be past the end of the snap zone.
+            // TODO: This is sub-optimal:
+            // 1. The snap zone should probably end 1 char before to be practical.
+            // 2. Rather than finding the first token manually this way, we
+            //    should iterate on the list of tokens here, to avoid doing some
+            //    more processing
+            auto start_col = (*status->lines)[i - 1].find_first_not_of(" ") + 2;
+
+            // If start_col == 0, means that find_first_not_of returned -1, so
+            // the line is blank, start_col needs to be 1
+            start_col = start_col == 0 ? 1 : start_col;
+            auto lookup_pos = SourceLocation(i, start_col);
+
+            ASTNode* lookup_node = status->root->lookup(lookup_pos, /*snap=*/true);
+            if (lookup_node) {
+                cout << "LOOKUPED NODE FOR LINE " << i << " : " << lookup_node->__name()
+                    << "[" << lookup_node->get_sloc_range(true).repr() << "]"
+                    << " lookup_pos " << lookup_pos.repr() << " LINE " << (*status->lines)[i - 1] << endl;
+            }
+            status->lines_indent.push_back(lookup_node ? lookup_node->indent_level : 0);
+        }
+
+        cout << "CURRENT NODE FOR LINE " << nstart << " : " << node->__name()
+            << "[" << node->get_sloc_range().repr() << "]"
+            << endl;
+
+        status->last_line = nstart;
+        status->lines_indent.push_back(node->indent_level);
+    }
+
+    return ASTNode::VisitStatus::Into;
+}
+
 int main (int argc, char** argv) {
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
+
         ("silent,s", po::value<bool>()->default_value(false)
                                        ->implicit_value(true)
                                        ->zero_tokens(),
          "print the representation of the resulting tree")
+
         ("time,t", po::value<bool>()->default_value(false)
                                     ->implicit_value(true)
                                     ->zero_tokens(),
          "Time the execution of parsing")
+
+        ("indent,i", po::value<bool>()->default_value(false)
+                                      ->implicit_value(true)
+                                      ->zero_tokens(),
+         "Print an indented representation of the input code")
+
         ("json,j", po::value<bool>()->default_value(false)
                                     ->implicit_value(true)
                                     ->zero_tokens(),
          "print the representation of the resulting tree as json")
+
         ("files,f", po::value<vector<string>>(),
          "trigger the file input mode")
         ("filelist,F", po::value<string>(), "list of files")
@@ -130,6 +187,7 @@ int main (int argc, char** argv) {
     string input = vm["input"].as<string>();
     string rule_name = vm["rule-name"].as<string>();
     bool print = !vm["silent"].as<bool>();
+    bool indent = vm["indent"].as<bool>();
     bool time = vm["time"].as<bool>();
     bool json = vm["json"].as<bool>();
     vector<string> lookups;
@@ -140,7 +198,6 @@ int main (int argc, char** argv) {
         is_files = (bool)vm.count("files");
 
     high_resolution_clock::time_point t1;
-
 
     if (is_filelist || is_files) {
         vector<string> file_list;
@@ -167,24 +224,61 @@ int main (int argc, char** argv) {
 
         for (auto input_file : file_list) {
             if (time) t1 = high_resolution_clock::now();
+
             cout << "file name : " << input_file << endl;
+
             auto unit = context.create_from_file(input_file);
+
             if (print) {
                 if (json) unit->print_json();
                 else unit->print();
             }
+
+            if (indent) {
+                std::ifstream infile(input_file);
+                std::string line;
+                std::vector<std::string> lines;
+                while (std::getline(infile, line))
+                    lines.push_back(line);
+
+                unit->ast_root->compute_indent_level();
+                IndentStatus indent_status;
+                indent_status.root = unit->ast_root;
+                indent_status.lines = &lines;
+                ASTNode::Visitor<IndentStatus*> visitor = compute_lines_indent;
+                unit->ast_root->visit_all_children(visitor, &indent_status);
+
+                for (string& line: lines) {
+                    boost::trim_left(line);
+                }
+
+                cout << "============= UNINDENTED CODE ==============" << endl << endl;
+
+                for (auto line: lines) {
+                    cout << line << endl;
+                }
+
+                cout << endl << "============= INDENTED CODE ==============" << endl << endl;
+
+                for (int i = 0; i < indent_status.lines_indent.size(); i++) {
+                    cout << string(indent_status.lines_indent [i], ' ') << lines[i] << endl;
+                }
+
+                cout << endl << "==========================================" << endl;
+            }
+
             if (time) {
                 auto t2 = high_resolution_clock::now();
                 auto duration = duration_cast<milliseconds>( t2 - t1 ).count();
                 cout << "TIME : " << duration << "ms" << endl;
             }
+
             cout << "removing file " << input_file << endl;
             context.remove(input_file);
         }
     } else {
         parse_input(input, rule_name, print, lookups);
     }
-
 
     print_diagnostics();
     return 0;

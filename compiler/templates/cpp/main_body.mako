@@ -41,10 +41,12 @@ void clean_all_memos() {
 
 Parser::Parser(const char* string, const size_t len, TokenDataHandler* token_data) {
     this->lexer = new Lexer(string, len, token_data);
+    this->token_data = token_data;
 }
 
 Parser::Parser(const std::string file_name, TokenDataHandler* token_data) {
     this->lexer = new Lexer(file_name.c_str(), nullptr, token_data);
+    this->token_data = token_data;
 }
 
 Parser::~Parser() {
@@ -69,6 +71,7 @@ AnalysisUnit::AnalysisUnit(AnalysisContext *context, const std::string file_name
     this->context = context;
     this->token_data_handler = new TokenDataHandler(context->symbol_table);
     this->parser = new Parser(file_name, this->token_data_handler);
+
     this->ast_root = this->parser->parse();
     delete this->parser;
 }
@@ -110,4 +113,8 @@ AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {
 void AnalysisContext::remove(std::string file_name) {
     delete this->units_map[file_name];
     this->units_map.erase(file_name);
+}
+
+
+short AnalysisUnit::get_indent_level_at_line (int line) {
 }

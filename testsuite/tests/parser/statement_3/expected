@@ -1,10 +1,10 @@
 LoopStatement[1:1-1:30]
 | statements:
 | | CallExpr[1:6-1:20]
-| | | prefix:
+| | | name:
 | | | | Id[1:6-1:11]
 | | | | | tok: World
-| | | calls:
+| | | suffix:
 | | | | ParamList[1:12-1:19]
 | | | | | params:
 | | | | | | ParamAssoc[1:12-1:13]

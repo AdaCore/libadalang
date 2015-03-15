@@ -75,7 +75,7 @@ void
 ${capi.get_name("node_sloc_range")}(
         ${capi.node_type.tagged_name} node,
         ${capi.sloc_range_type.tagged_name} *sloc_range) {
-    *sloc_range = wrap(unwrap<ASTNode>(node)->sloc_range_);
+    *sloc_range = wrap(unwrap<ASTNode>(node)->get_sloc_range());
 }
 
 ${capi.node_type.tagged_name}

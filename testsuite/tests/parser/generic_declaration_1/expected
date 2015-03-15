@@ -38,19 +38,21 @@ GenericPackageDecl[1:1-1:155]
 | | | | | | | | Id[1:86-1:90]
 | | | | | | | | | tok: Push
 | | | | | | | params:
-| | | | | | | | ParameterProfile[1:92-1:104]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:92-1:93]
-| | | | | | | | | | | tok: E
-| | | | | | | | | mode: in
-| | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:95-1:104]
-| | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:95-1:104]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:95-1:104]
-| | | | | | | | | | | | | | | tok: Element_T
+| | | | | | | | SubprogramParams[1:91-1:105]
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[1:92-1:104]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[1:92-1:93]
+| | | | | | | | | | | | | tok: E
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[1:95-1:104]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:95-1:104]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:95-1:104]
+| | | | | | | | | | | | | | | | | tok: Element_T
 | | | | | is_null: False
 | | | | | is_abstract: False
 | | | | SubprogramDecl[1:107-1:136]

@@ -1,6 +1,7 @@
 from ada_parser import A
 from parsers import (
-    abstract, Field, ASTNode, Opt, List, Or, Row, _, EnumType, Enum
+    abstract, Field, ASTNode, Opt, List, Or, Row, _,
+    EnumType, Enum, indent_rel, Tok, indent_token
 )
 
 
@@ -71,9 +72,14 @@ class AspectSpecification(ASTNode):
     aspect_assocs = Field()
 
 
+class SubprogramParams(ASTNode):
+    open_par = Field(repr=False)
+    params = Field(indent=indent_token("open_par"))
+
+
 class SubprogramSpec(ASTNode):
     name = Field()
-    params = Field()
+    params = Field(indent=indent_rel(2))
     returns = Field()
 
 
@@ -410,7 +416,11 @@ A.add_rules(
     subprogram_spec=Row(
         _(Or("procedure", "function")),
         Opt(A.name),
-        Opt(A.parameter_profiles),
+        Opt(
+            Row(Tok("(", keep=True),
+                List(A.parameter_profile, sep=";"),
+                ")") ^ SubprogramParams
+        ),
         Opt("return", A.type_expression) >> 1
     ) ^ SubprogramSpec,
 

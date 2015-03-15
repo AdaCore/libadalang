@@ -14,8 +14,8 @@ class SubprogramBody(ASTNode):
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
-    decls = Field()
-    statements = Field()
+    decls = Field(indent=3)
+    statements = Field(indent=3)
     end_id = Field()
 
 
@@ -88,14 +88,14 @@ class RaiseStatement(Statement):
 
 class IfStatement(Statement):
     condition = Field()
-    statements = Field()
+    statements = Field(indent=3)
     alternatives = Field()
-    else_statements = Field()
+    else_statements = Field(indent=3)
 
 
 class ElsifStatementPart(ASTNode):
     expr = Field()
-    statements = Field()
+    statements = Field(indent=3)
 
 
 class Label(Statement):
@@ -158,8 +158,8 @@ class TerminateStatement(Statement):
 class PackageBody(ASTNode):
     package_name = Field()
     aspects = Field()
-    decls = Field()
-    statements = Field()
+    decls = Field(indent=3)
+    statements = Field(indent=3)
 
 
 class TaskBody(ASTNode):
@@ -374,15 +374,17 @@ A.add_rules(
         A.aspect_specification
     ) ^ SubprogramBodyStub,
 
-    subprogram_body=Row(A.overriding_indicator,
-                        A.subprogram_spec,
-                        A.aspect_specification,
-                        "is",
-                        A.basic_decls,
-                        "begin",
-                        A.handled_statements,
-                        "end",
-                        Opt(A.name)) ^ SubprogramBody,
+    subprogram_body=Row(
+        A.overriding_indicator,
+        A.subprogram_spec,
+        A.aspect_specification,
+        "is",
+        A.basic_decls,
+        "begin",
+        A.handled_statements,
+        "end",
+        Opt(A.name)
+    ) ^ SubprogramBody,
 
     handled_statements=Row(
         A.statements, Opt("exception", List(A.exception_handler)) >> 1

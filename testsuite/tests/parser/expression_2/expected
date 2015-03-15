@@ -1,5 +1,5 @@
 CallExpr[1:1-1:27]
-| prefix:
+| name:
 | | Prefix[1:1-1:13]
 | | | prefix:
 | | | | Prefix[1:1-1:6]
@@ -11,7 +11,7 @@ CallExpr[1:1-1:27]
 | | | suffix:
 | | | | Id[1:7-1:13]
 | | | | | tok: fooify
-| calls:
+| suffix:
 | | ParamList[1:15-1:26]
 | | | params:
 | | | | ParamAssoc[1:15-1:26]

@@ -8,15 +8,28 @@
 #include <vector>
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
+#include <functional>
 #include "lexer.hpp"
 #include "${capi.lib_name}.h"
+
+enum class IndentType { None, Anchor, Relative };
+
+struct IndentProperties {
+    IndentType indent_type;
+    union {
+        short relative_level;
+        Token* anchor;
+    };
+};
 
 class ASTNode {
 public:
     virtual ~ASTNode() {}
     int ref = 0;
+
     virtual std::string repr() { return "not impl"; }
     virtual std::string __name() { return "ASTNode"; }
+
     void inc_ref() { ref++; }
     int dec_ref() {
         ref--;
@@ -27,11 +40,15 @@ public:
         return false;
     }
 
+    short indent_level = 0;
+
+    virtual void compute_indent_level() = 0;
+
     /* Return the bottom-most AST node from this one that contains SLOC, or
        nullptr if there is none.   */
-    ASTNode *lookup(const SourceLocation &sloc)
+    ASTNode *lookup(const SourceLocation &sloc, bool snap=false)
     {
-        return lookup_relative(sloc).second;
+        return lookup_relative(sloc, snap).second;
     }
 
     /* Implementation helper for the other lookup method.  First compare SLOC
@@ -40,9 +57,9 @@ public:
        (<pos>, nullptr) otherwise, where <pos> is SLOC's position with respect
        to this nodes' sloc range.  */
     std::pair<RelativePosition, ASTNode *>
-    lookup_relative(const SourceLocation &sloc)
+    lookup_relative(const SourceLocation &sloc, bool snap=false)
     {
-        const RelativePosition result = sloc_range_.compare(sloc);
+        const RelativePosition result = get_sloc_range(snap).compare(sloc);
 
         /* Parents' sloc range always contain their childrens'.  Thus if SLOC
            is outside the sloc range that covers this node, then no node under
@@ -52,14 +69,27 @@ public:
 
         /* Past this point, we *know* that SLOC is inside this node's sloc
            range (result == IN).  */
-        return std::make_pair(IN, lookup_children(sloc));
+        return std::make_pair(IN, lookup_children(sloc, snap));
     }
 
-    RelativePosition compare(const SourceLocation &sloc) const {
-        return sloc_range_.compare(sloc);
+    RelativePosition compare(const SourceLocation &sloc, bool snap=false) const {
+        return get_sloc_range(snap).compare(sloc);
     }
 
-    SourceLocationRange sloc_range_;
+    TokenDataHandler* token_data;
+    TokenId token_start, token_end;
+
+    SourceLocationRange get_sloc_range(bool snap=false) const {
+        SourceLocation sloc_start, sloc_end;
+        if (snap) {
+            sloc_start = token_data->tokens[std::max<long>(token_start - 1, 0)].sloc_range.get_end();
+            sloc_end = token_data->tokens[std::min<long>(token_end + 1, token_data->tokens.size() - 1)].sloc_range.get_start();
+        } else {
+            sloc_start = token_data->tokens[token_start].sloc_range.get_start();
+            sloc_end = token_data->tokens[token_end].sloc_range.get_end();
+        }
+        return SourceLocationRange(sloc_start, sloc_end);
+    }
 
     /* Get a C API value wrapping this node.  */
     ${capi.node_type.tagged_name} wrap() {
@@ -70,7 +100,7 @@ public:
     /* Implementation helper for the previous lookup method.  Assumes that SLOC
        is included in this node's sloc range.  Behaves just like lookup
        otherwise.  */
-    virtual ASTNode *lookup_children(const SourceLocation &sloc) = 0;
+    virtual ASTNode *lookup_children(const SourceLocation &sloc, bool snap=false) = 0;
 
     ASTNode* _parent;
 
@@ -100,11 +130,37 @@ public:
        return false;
     }
 
-    virtual std::vector<ASTNode*> get_children() = 0;
 
     /* Get a value that identifies the kind of this node.  Each concrete
        subclass must override this to provide the appropriate value.  */
     virtual ${capi.node_kind_type.tagged_name} kind() = 0;
+
+    virtual std::vector<ASTNode*> get_children() = 0;
+
+    enum class VisitStatus { Into, Over, Stop };
+
+    template <typename VisitContext>
+        using Visitor = std::function<VisitStatus (ASTNode*, VisitContext)>;
+
+    template <typename VisitContext>
+    void visit_all_children (
+        Visitor<VisitContext> visitor,
+        VisitContext context
+    ) {
+        for (auto child : this->get_children()) {
+
+            if (!child)
+                continue;
+
+            auto status = visitor(child, context);
+
+            if (status == VisitStatus::Into)
+                child->visit_all_children(visitor, context);
+            else if (status == VisitStatus::Stop)
+                return;
+
+        }
+    }
 
 protected:
     /* Subsidiary routine of print_node used to visualize the deep level of
@@ -118,7 +174,7 @@ protected:
 
 template <typename T> class ASTList : public ASTNode {
 protected:
-    virtual ASTNode *lookup_children(const SourceLocation &sloc);
+    virtual ASTNode *lookup_children(const SourceLocation &sloc, bool snap=false);
 
 public:
     std::vector<T> vec;
@@ -134,6 +190,7 @@ public:
     void print_node(int level = 0);
     boost::property_tree::ptree get_property_tree();
     virtual bool is_empty_list();
+
     virtual ${capi.node_kind_type.tagged_name} kind() {
         return ${capi.get_name("list")};
     }
@@ -144,13 +201,21 @@ public:
             result.push_back(node);
         return result;
     }
+
+    virtual std::string __name() { return "ASTList"; }
+    void compute_indent_level() {
+        for (auto el : vec) {
+            el->indent_level = this->indent_level;
+            el->compute_indent_level();
+        }
+    }
 };
 
 template <typename T> ASTNode *
-ASTList<T>::lookup_children(const SourceLocation &sloc)
+ASTList<T>::lookup_children(const SourceLocation &sloc, bool snap)
 {
     for (T child : vec) {
-        auto sub_lookup = child->lookup_relative(sloc);
+        auto sub_lookup = child->lookup_relative(sloc, snap);
         switch (sub_lookup.first) {
             case BEFORE:
                 return this;

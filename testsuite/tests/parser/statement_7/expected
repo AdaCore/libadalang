@@ -1,8 +1,8 @@
 CallExpr[1:1-1:30]
-| prefix:
+| name:
 | | Id[1:1-1:9]
 | | | tok: Set_Text
-| calls:
+| suffix:
 | | ParamList[1:11-1:29]
 | | | params:
 | | | | ParamAssoc[1:11-1:17]

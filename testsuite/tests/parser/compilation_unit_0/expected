@@ -63,10 +63,10 @@ CompilationUnit[1:1-7:9]
 | | | | | | HandledStatements[6:4-6:16]
 | | | | | | | statements:
 | | | | | | | | CallExpr[6:4-6:15]
-| | | | | | | | | prefix:
+| | | | | | | | | name:
 | | | | | | | | | | Id[6:4-6:12]
 | | | | | | | | | | | tok: Put_Line
-| | | | | | | | | calls:
+| | | | | | | | | suffix:
 | | | | | | | | | | ParamList[6:13-6:14]
 | | | | | | | | | | | params:
 | | | | | | | | | | | | ParamAssoc[6:13-6:14]

@@ -193,6 +193,24 @@ class NoToken(Token):
     quex_token_name = "TERMINATION"
 
 
+class Indent(object):
+    KIND_REL_POS = 1
+    KIND_TOKEN_POS = 2
+
+    def __init__(self, kind, rel_pos=0, token_field_name=""):
+        self.kind = kind
+        self.rel_pos = rel_pos
+        self.token_field_name = token_field_name
+
+
+def indent_rel(pos=0):
+    return Indent(Indent.KIND_REL_POS, rel_pos=pos)
+
+
+def indent_token(field_name=""):
+    return Indent(Indent.KIND_TOKEN_POS, token_field_name=field_name)
+
+
 class Field(object):
     """
     Placeholder descriptors used to associate data to AST nodes (see below).
@@ -205,7 +223,7 @@ class Field(object):
     # order (assuming it is the same as the Field instantiation order).
     _counter = iter(count(0))
 
-    def __init__(self, repr=True):
+    def __init__(self, repr=True, indent=indent_rel()):
         """Create an AST node field.
 
         If `repr`, the field will be displayed when pretty-printing the
@@ -213,6 +231,11 @@ class Field(object):
         """
         self.repr = repr
         self._name = None
+
+        if type(indent) == int:
+            indent = indent_rel(indent)
+
+        self.indent = indent
 
         self._index = next(self._counter)
 
@@ -1107,7 +1130,6 @@ class List(Parser):
             res=gen_name("lst_res"),
             cpos=cpos,
             parser_context=parser_context,
-            start_sloc_range_var=gen_name("start_sloc_range"),
             sep_context=sep_context
         )
 
@@ -1115,7 +1137,6 @@ class List(Parser):
             (t_env.pos, LongType),
             (t_env.res, self.get_type()),
             (t_env.cpos, LongType),
-            (t_env.start_sloc_range_var, SourceLocationRangeType)
         ] + parser_context.var_defs + sep_context.var_defs
 
         return ParserCodeContext(
@@ -1387,14 +1408,12 @@ class Transform(Parser):
                 [parser_context.res_var_name]
             ),
             res=gen_name("transform_res"),
-            start_sloc_range_var=gen_name("start_sloc_range")
         )
 
         return copy_with(
             parser_context,
             res_var_name=t_env.res,
             var_defs=parser_context.var_defs + [
-                (t_env.start_sloc_range_var, SourceLocationRangeType),
                 (t_env.res, self.get_type()),
             ],
             code=render_template(

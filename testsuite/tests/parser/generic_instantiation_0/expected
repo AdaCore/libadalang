@@ -5,7 +5,7 @@ GenericInstantiation[1:1-1:69]
 | generic_entity_name:
 | | Prefix[1:28-1:50]
 | | | prefix:
-| | | | Prefix[0:0-0:0]
+| | | | Prefix[1:28-1:42]
 | | | | | prefix:
 | | | | | | Id[1:28-1:31]
 | | | | | | | tok: Ada

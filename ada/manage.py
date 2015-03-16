@@ -186,6 +186,11 @@ def test(args, dirs):
         sys.exit(1)
 
 
+def do_help(args, dirs):
+    """Print usage and exit"""
+    args_parser.print_help()
+
+
 args_parser = argparse.ArgumentParser(
     description='Generate native code for libadalang'
 )
@@ -203,6 +208,9 @@ args_parser.add_argument(
     default=get_default_compiler(),
     help='Select what native toolchain to use (Clang or GCC)'
 )
+
+help_parser = subparsers.add_parser('help', help=do_help.__doc__)
+help_parser.set_defaults(func=do_help)
 
 generate_parser = subparsers.add_parser(
     'generate', help=generate.__doc__

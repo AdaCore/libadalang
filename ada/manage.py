@@ -10,6 +10,7 @@ from env import setenv
 setenv()
 
 from gnatpython import fileutils
+from gnatpython.ex import which
 import sys
 from compile_context import CompileCtx
 
@@ -86,6 +87,18 @@ class Coverage(object):
         )
 
 
+def get_default_compiler():
+    """
+    Return either "clang" or "gcc" depending on what is available.
+    """
+    if which('clang') and which('clang++'):
+        return 'clang'
+    elif which('gcc') and which('g++'):
+        return 'gcc'
+    else:
+        raise RuntimeError('Could not find a C/C++ native toolchain')
+
+
 def generate(args, dirs):
     """Generate source code for libadalang."""
     context = CompileCtx('ada', 'compilation_unit')
@@ -106,10 +119,20 @@ def generate(args, dirs):
 
 def build(args, dirs):
     """Build generated source code."""
+
+    # Select compilers
+    c_compiler, cxx_compiler = {
+        'clang': ('clang', 'clang++'),
+        'gcc':   ('gcc',   'g++'),
+    }[args.compiler]
+
+    make_argv = ['make', '-C', dirs.build_dir,
+                 '-j{}'.format(args.jobs),
+                 'CC={}'.format(c_compiler),
+                 'CXX={}'.format(cxx_compiler)]
+    make_argv.extend(getattr(args, 'make-options'))
     try:
-        subprocess.check_call([
-            'make', '-C', dirs.build_dir, '-j{}'.format(args.jobs),
-        ] + list(getattr(args, 'make-options')))
+        subprocess.check_call(make_argv)
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Build failed: {}'.format(exc)
         sys.exit(1)
@@ -175,12 +198,17 @@ args_parser.add_argument(
         ' use "build" in the current directory.'
     )
 )
+args_parser.add_argument(
+    '--compiler', '-c', choices=('clang', 'gcc'),
+    default=get_default_compiler(),
+    help='Select what native toolchain to use (Clang or GCC)'
+)
 
 generate_parser = subparsers.add_parser(
     'generate', help=generate.__doc__
 )
 generate_parser.add_argument(
-    '--coverage', '-c', action='store_true',
+    '--coverage', '-C', action='store_true',
     help='Compute code coverage for the code generator'
 )
 generate_parser.set_defaults(func=generate)

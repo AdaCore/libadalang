@@ -123,7 +123,7 @@ class BaseDriver(TestDriver):
 
         # If we are running a debugger, we aren't even interested in the
         # result.
-        if opts.debug:
+        if for_debug and opts.debug:
             print('Running {} ({}) under a debugger...'.format(
                 program,
                 self.test_env['test_name']

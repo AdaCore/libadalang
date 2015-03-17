@@ -254,10 +254,6 @@ make_parser.add_argument(
     'make-options', nargs='*',
     help='Options to pass directly to make'
 )
-make_parser.add_argument(
-    '--verbose', '-v', action='store_true',
-    help='Show verbose output'
-)
 make_parser.set_defaults(func=make)
 
 

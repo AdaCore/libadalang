@@ -7,7 +7,7 @@ TOKEN_PREFIX = "QUEX_TKN_"
 languages_extensions = {
     "ada": "adb",
     "cpp": "cpp",
-    }
+}
 
 null_constants = {
     "ada": "null",

@@ -780,7 +780,7 @@ class TokClass(Parser):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         token_kind = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = render_template(
-            'tokclass_code',
+            'tok_code',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=token_kind,
         )

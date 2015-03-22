@@ -70,14 +70,25 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
         % endfor
     }
 
-    std::vector<ASTNode*> ${cls.name()}::get_children() {
-        std::vector<ASTNode*> children;
-        % for i, (field_type, field) in enumerate(all_field_decls):
-            % if is_ast_node(field_type):
-                children.push_back(${field.name});
-            % endif
-        % endfor
-        return children;
+    unsigned ${cls.name()}::get_child_count() const {
+        return ${len(astnode_field_decls)};
+    }
+
+    bool ${cls.name()}::get_child(unsigned index, ASTNode*& result) {
+        ## Some ASTnodes have no ASTNode child: avoid the "unused parameter"
+        ## compilation warning for them.
+        % if not astnode_field_decls:
+            (void) result;
+        % endif
+        switch (index) {
+            % for i, field in enumerate(astnode_field_decls):
+                case ${i}:
+                    result = ${field.name};
+                    return true;
+            % endfor
+            default:
+                return false;
+        }
     }
 
     ASTNode *${cls.name()}::lookup_children(const SourceLocation &sloc, bool snap)

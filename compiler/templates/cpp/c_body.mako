@@ -90,21 +90,18 @@ ${capi.get_name("node_parent")}(${node.tagged} node) {
 
 unsigned
 ${capi.get_name("node_child_count")}(${node.tagged} node) {
-    return unwrap<ASTNode>(node)->get_children().size();
+    return unwrap<ASTNode>(node)->get_child_count();
 }
 
 extern int
 ${capi.get_name("node_child")}(${node.tagged} node,
                                unsigned n,
                                ${node.tagged}* child_p) {
-    std::vector<ASTNode*> children
-      = unwrap<ASTNode>(node)->get_children();
-    if (n >= children.size())
-        return 0;
-    else {
-        *child_p = children[n]->wrap();
-        return 1;
-    }
+    ASTNode *result;
+    const bool success = unwrap<ASTNode>(node)->get_child(n, result);
+    if (success)
+        *child_p = result->wrap();
+    return success;
 }
 
 

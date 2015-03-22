@@ -130,12 +130,29 @@ public:
        return false;
     }
 
+    /* Helpers to ease visitors' implementation  */
+
+    /* Return the number of children for this node.  */
+    virtual unsigned get_child_count() const = 0;
+
+    /* If "index" references a valid child (i.e. if it's between 0
+       (included) and the number of children (excluded), return true and
+       put the Nth child for this node in "result".  Just return false
+       otherwise.  */
+    virtual bool get_child(unsigned index, ASTNode*& result) = 0;
+
+    /* Return the Nth child for this node or nullptr if it does not
+       exist.  Note that this can return nullptr even if the child exist:
+       some children can be null.  */
+    ASTNode *get_child(unsigned index) {
+        ASTNode *result = nullptr;
+        get_child(index, result);
+        return result;
+    }
 
     /* Get a value that identifies the kind of this node.  Each concrete
        subclass must override this to provide the appropriate value.  */
     virtual ${node_kind.tagged} kind() = 0;
-
-    virtual std::vector<ASTNode*> get_children() = 0;
 
     enum class VisitStatus { Into, Over, Stop };
 
@@ -147,8 +164,11 @@ public:
         Visitor<VisitContext> visitor,
         VisitContext context
     ) {
-        for (auto child : this->get_children()) {
-
+        const unsigned child_count = get_child_count();
+        for (unsigned i = 0; i < child_count; ++i) {
+            ASTNode *child;
+            if (!get_child(i, child))
+                break;
             if (!child)
                 continue;
 
@@ -195,11 +215,17 @@ public:
         return ${capi.get_name("list")};
     }
 
-    virtual std::vector<ASTNode*> get_children() {
-        std::vector<ASTNode*> result;
-        for (auto node : vec)
-            result.push_back(node);
-        return result;
+    unsigned get_child_count() const {
+        return vec.size();
+    }
+    bool get_child(unsigned index, ASTNode*& result) {
+        if (index >= vec.size())
+            return false;
+        else
+        {
+            result = vec[index];
+            return true;
+        }
     }
 
     virtual std::string __name() { return "ASTList"; }

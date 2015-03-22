@@ -361,11 +361,15 @@ class ASTNode(CompiledType):
             )
         )
         all_field_decls = zip(cls.get_types(compile_ctx), cls.get_fields())
+        astnode_field_decls = [field
+                               for (field_type, field) in all_field_decls
+                               if is_ast_node(field_type)]
         cls_field_decls = zip(compile_ctx.ast_fields_types[cls], cls.fields)
 
         t_env = TemplateEnvironment(
             cls=cls,
             all_field_decls=all_field_decls,
+            astnode_field_decls=astnode_field_decls,
             cls_field_decls=cls_field_decls,
             types=compile_ctx.ast_fields_types[cls],
             base_name=base_class.name()

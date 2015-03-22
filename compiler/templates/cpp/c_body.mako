@@ -11,20 +11,20 @@
  * Analysis primitives
  */
 
-${capi.analysis_context_type.tagged_name}
+${analysis_context.tagged}
 ${capi.get_name("create_analysis_context")}(void) {
     return (new AnalysisContext())->wrap();
 }
 
 void
 ${capi.get_name("destroy_analysis_context")}(
-        ${capi.analysis_context_type.tagged_name} context) {
+        ${analysis_context.tagged} context) {
     delete unwrap<AnalysisContext>(context);
 }
 
-${capi.analysis_unit_type.tagged_name}
+${analysis_unit.tagged}
 ${capi.get_name("create_analysis_unit_from_file")}(
-        ${capi.analysis_context_type.tagged_name} context,
+        ${analysis_context.tagged} context,
         const char *filename) {
     AnalysisContext *context_ = unwrap<AnalysisContext>(context);
     AnalysisUnit *unit_ = context_->create_from_file(filename);
@@ -32,16 +32,14 @@ ${capi.get_name("create_analysis_unit_from_file")}(
 }
 
 void
-${capi.get_name("remove_analysis_unit")}(
-        ${capi.analysis_context_type.tagged_name} context,
-        const char *filename) {
+${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
+                                         const char *filename) {
     AnalysisContext *context_ = unwrap<AnalysisContext>(context);
     context_->remove(filename);
 }
 
-${capi.node_type.tagged_name}
-${capi.get_name("unit_root")}(
-        ${capi.analysis_unit_type.tagged_name} unit) {
+${node.tagged}
+${capi.get_name("unit_root")}(${analysis_unit.tagged} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     return unit_->ast_root->wrap();
 }
@@ -60,46 +58,45 @@ static const char* node_kind_names[] = {
 % endfor
 };
 
-${capi.node_kind_type.tagged_name}
-${capi.get_name("node_kind")}(${capi.node_type.tagged_name} node) {
+${node_kind.tagged}
+${capi.get_name("node_kind")}(${node.tagged} node) {
     return unwrap<ASTNode>(node)->kind();
 }
 
 const char*
 ${capi.get_name("kind_name")}(
-        ${capi.node_kind_type.tagged_name} kind) {
+        ${node_kind.tagged} kind) {
     return node_kind_names[kind];
 }
 
 void
-${capi.get_name("node_sloc_range")}(
-        ${capi.node_type.tagged_name} node,
-        ${capi.sloc_range_type.tagged_name} *sloc_range) {
+${capi.get_name("node_sloc_range")}(${node.tagged} node,
+                                    ${sloc_range.tagged} *sloc_range) {
     *sloc_range = wrap(unwrap<ASTNode>(node)->get_sloc_range());
 }
 
-${capi.node_type.tagged_name}
-${capi.get_name("lookup_in_node")}(${capi.node_type.tagged_name} node,
-                                   const ${capi.sloc_type.tagged_name} *sloc) {
+${node.tagged}
+${capi.get_name("lookup_in_node")}(${node.tagged} node,
+                                   const ${sloc.tagged} *sloc) {
     ASTNode *result = unwrap<ASTNode>(node)->lookup(unwrap (*sloc));
     return result->wrap();
 }
 
-${capi.node_type.tagged_name}
-${capi.get_name("node_parent")}(${capi.node_type.tagged_name} node) {
+${node.tagged}
+${capi.get_name("node_parent")}(${node.tagged} node) {
     ASTNode *result = unwrap<ASTNode>(node)->parent();
     return result->wrap();
 }
 
 unsigned
-${capi.get_name("node_child_count")}(${capi.node_type.tagged_name} node) {
+${capi.get_name("node_child_count")}(${node.tagged} node) {
     return unwrap<ASTNode>(node)->get_children().size();
 }
 
 extern int
-${capi.get_name("node_child")}(${capi.node_type.tagged_name} node,
+${capi.get_name("node_child")}(${node.tagged} node,
                                unsigned n,
-                               ${capi.node_type.tagged_name}* child_p) {
+                               ${node.tagged}* child_p) {
     std::vector<ASTNode*> children
       = unwrap<ASTNode>(node)->get_children();
     if (n >= children.size())

@@ -35,8 +35,8 @@ class CompileCtx():
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
         """
-        # TODO???  lang_name is not actually used anywhere at the moment.
-        # TODO???  A short description for all these fields would help!
+        # TODO: lang_name is not actually used anywhere at the moment.
+        # TODO: A short description for all these fields would help!
         self.body = []
         self.types_declarations = []
         self.types_definitions = []
@@ -118,14 +118,13 @@ class CompileCtx():
     def render_template(self):
         # Kludge: to avoid circular dependency issues, do not import parsers
         # until needed.
-        from parsers import render_template
-        return render_template
+        from parsers import make_renderer
+        return make_renderer(self).render
 
     def get_header(self):
         return self.render_template(
-            'main_header',
+            'main_header', compile_ctx=self,
             _self=self,
-            capi=self.c_api_settings,
             tdecls=self.types_declarations,
             tdefs=self.types_definitions,
             fndecls=self.fns_decls,
@@ -133,7 +132,7 @@ class CompileCtx():
 
     def get_source(self):
         return self.render_template(
-            'main_body',
+            'main_body', compile_ctx=self,
             _self=self,
             token_map=quex_tokens.token_map,
             bodies=self.body
@@ -141,7 +140,7 @@ class CompileCtx():
 
     def get_interactive_main(self):
         return self.render_template(
-            'interactive_main',
+            'interactive_main', compile_ctx=self,
             _self=self,
         )
 
@@ -183,7 +182,7 @@ class CompileCtx():
         with open(path.join(file_root, "Makefile"), "w") as f:
             f.write(self.render_template(
                 "Makefile",
-                capi=self.c_api_settings,
+                compile_ctx=self,
             ))
 
         # These are internal headers, so they go to "src". Only external ones
@@ -216,10 +215,7 @@ class CompileCtx():
 
         write_cpp_file(
             path.join(src_path, "ast.hpp"),
-            self.render_template(
-                "ast_header",
-                capi=self.c_api_settings,
-            )
+            self.render_template("ast_header", compile_ctx=self),
         )
 
         self.emit_c_api(src_path, include_path)
@@ -246,9 +242,8 @@ class CompileCtx():
         """Generate header and binding body for the external C API"""
         def render(template_name):
             return self.render_template(
-                template_name,
+                template_name, compile_ctx=self,
                 _self=self,
-                capi=self.c_api_settings,
             )
 
         write_cpp_file(

@@ -37,14 +37,31 @@ def decl_type(ada_type):
     return res.strip() + ("*" if ada_type.is_ptr else "")
 
 
-render_template = common_renderer.update({
-    'is_tok':           is_tok,
-    'is_row':           is_row,
-    'is_enum':          is_enum,
-    'is_class':         inspect.isclass,
-    'is_ast_node':      is_ast_node,
-    'decl_type':        decl_type,
-}).render
+def make_renderer(compile_ctx=None):
+    """Create a template renderer with common helpers
+
+    If "compile_ctx" is provided, its CAPISettings instance is passed to the
+    renderer and so are all commonly used C API types.
+    """
+    template_args = {
+        'is_row':           is_row,
+        'is_enum':          is_enum,
+        'is_class':         inspect.isclass,
+        'is_ast_node':      is_ast_node,
+        'decl_type':        decl_type,
+    }
+    if compile_ctx:
+        capi = compile_ctx.c_api_settings
+        template_args.update({
+            'capi':             capi,
+            'analysis_context': CAPIType(capi, 'analysis_context'),
+            'analysis_unit':    CAPIType(capi, 'analysis_unit'),
+            'node_kind':        CAPIType(capi, 'node_kind', 'enum'),
+            'node':             CAPIType(capi, 'node'),
+            'sloc':             CAPIType(capi, 'source_location', 'struct'),
+            'sloc_range':       SourceLocationRangeType.c_type(capi),
+        })
+    return common_renderer.update(template_args)
 
 
 class ParserCodeContext(object):
@@ -183,8 +200,6 @@ class SourceLocationRangeType(BasicType):
 
     @classmethod
     def c_type(cls, c_api_settings):
-        # "bool" is not a built-in in C: do not force users to pull
-        # stdbool.h...
         return CAPIType(c_api_settings, 'source_location_range', 'struct')
 
 
@@ -318,7 +333,7 @@ class ASTNode(CompiledType):
     @classmethod
     def create_type_declaration(cls):
         """Return a forward type declaration for this AST node type."""
-        return render_template('astnode_type_decl', cls=cls)
+        return make_renderer().render('astnode_type_decl', cls=cls)
 
     @classmethod
     def needs_refcount(cls):
@@ -350,19 +365,20 @@ class ASTNode(CompiledType):
 
         t_env = TemplateEnvironment(
             cls=cls,
-            capi=compile_ctx.c_api_settings,
             all_field_decls=all_field_decls,
             cls_field_decls=cls_field_decls,
             types=compile_ctx.ast_fields_types[cls],
             base_name=base_class.name()
         )
-        tdef = render_template('astnode_type_def', t_env)
+        tdef = make_renderer(compile_ctx).render('astnode_type_def', t_env)
         if cls.is_ptr:
             compile_ctx.types_definitions.append(tdef)
         else:
             compile_ctx.val_types_definitions.append(tdef)
 
-        compile_ctx.body.append(render_template('astnode_type_impl', t_env))
+        compile_ctx.body.append(make_renderer(compile_ctx).render(
+            'astnode_type_impl', t_env
+        ))
 
     @classmethod
     def get_inheritance_chain(cls):
@@ -398,8 +414,12 @@ class ASTNode(CompiledType):
     def get_public_fields(cls, compile_ctx):
         """
         Return a (field, field type) list for all the fields that are
-        readable through the public API for this node (excluding fields from
-        parents).
+        readable through the public API for this node type (excluding fields
+        from parents types).
+
+        This is used in the context of accessors generation. Fields from
+        parent types are handled as part of parent types themselves, so there
+        is no need to handle them here.
         """
         # All fields are exported unless they hold a token.
         return [(field, field_type)
@@ -423,17 +443,21 @@ class ASTNode(CompiledType):
                 cls.create_type_declaration())
             cls.create_type_definition(compile_ctx)
 
+            # Generate field accessors (C public API) for this node kind
             primitives = []
+            render = make_renderer(compile_ctx).render
             for field, field_type in cls.get_public_fields(compile_ctx):
                 t_env = TemplateEnvironment(
-                    capi=compile_ctx.c_api_settings,
                     astnode=cls,
                     field=field,
                     field_type=field_type,
+                    accessor_name=compile_ctx.c_api_settings.get_name(
+                        '{}_{}'.format(cls.name(), field.name)
+                    ),
                 )
                 primitives.append(GeneratedFunction(
-                    render_template('c_astnode_field_access_decl', t_env),
-                    render_template('c_astnode_field_access_impl', t_env),
+                    render('c_astnode_field_access_decl', t_env),
+                    render('c_astnode_field_access_impl', t_env),
                 ))
             compile_ctx.c_astnode_primitives[cls] = primitives
 
@@ -635,8 +659,9 @@ class Parser(object):
             self.generate_code(compile_ctx=compile_ctx)
         )
 
-        t_env.fn_profile = render_template('parser_fn_profile', t_env)
-        t_env.fn_code = render_template('parser_fn_code', t_env)
+        render = make_renderer(compile_ctx).render
+        t_env.fn_profile = render('parser_fn_profile', t_env)
+        t_env.fn_code = render('parser_fn_code', t_env)
 
         compile_ctx.body.append(t_env.fn_code)
         compile_ctx.fns_decls.append(t_env.fn_profile)
@@ -681,7 +706,7 @@ class Parser(object):
             # Generate a call to the previously compiled function, and return
             # the context corresponding to this call
             pos, res = gen_names("fncall_pos", "fncall_res")
-            fncall_block = render_template(
+            fncall_block = make_renderer(compile_ctx).render(
                 'parser_fncall',
                 _self=self, pos_name=pos_name,
                 pos=pos, res=res
@@ -741,7 +766,7 @@ class Tok(Parser):
         # Generate the code to match the token of kind 'token_kind', and return
         # the corresponding context
         pos, res = gen_names("tk_pos", "tk_res")
-        code = render_template(
+        code = make_renderer(compile_ctx).render(
             'tok_code',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=self.token_kind
@@ -784,7 +809,7 @@ class TokClass(Parser):
         # the corresponding context
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         token_kind = TOKEN_PREFIX + self.tok_class.quex_token_name
-        code = render_template(
+        code = make_renderer(compile_ctx).render(
             'tok_code',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=token_kind,
@@ -887,7 +912,7 @@ class Or(Parser):
             typ=decl_type(self.get_type())
         )
 
-        code = render_template('or_code', t_env)
+        code = make_renderer(compile_ctx).render('or_code', t_env)
 
         return ParserCodeContext(
             pos_var_name=t_env.pos,
@@ -998,9 +1023,13 @@ class Row(Parser):
             if not parser.discard():
                 decls.append((subresult, parser.get_type()))
 
-            bodies.append(render_template('row_submatch', t_subenv))
+            bodies.append(make_renderer(compile_ctx).render(
+                'row_submatch', t_subenv)
+            )
 
-        code = render_template('row_code', t_env, body='\n'.join(bodies))
+        code = make_renderer(compile_ctx).render(
+            'row_code', t_env, body='\n'.join(bodies)
+        )
 
         return ParserCodeContext(
             pos_var_name=t_env.pos,
@@ -1036,7 +1065,8 @@ def list_type(element_type):
         {
             'is_ptr':   True,
             'name':     classmethod(
-                lambda cls: render_template('list_type', el_type=element_type)
+                lambda cls: make_renderer().render('list_type',
+                                                   el_type=element_type)
             ),
             'nullexpr': classmethod(lambda cls: null_constant()),
         }
@@ -1147,7 +1177,7 @@ class List(Parser):
         return ParserCodeContext(
             pos_var_name=t_env.pos,
             res_var_name=t_env.res,
-            code=render_template('list_code', t_env),
+            code=make_renderer(compile_ctx).render('list_code', t_env),
             var_defs=decls
         )
 
@@ -1227,7 +1257,7 @@ class Opt(Parser):
 
         return copy_with(
             parser_context,
-            code=render_template('opt_code', t_env),
+            code=make_renderer(compile_ctx).render('opt_code', t_env),
             res_var_name=(t_env.bool_res if self._booleanize
                           else parser_context.res_var_name),
             var_defs=parser_context.var_defs + ([(t_env.bool_res, BoolType)]
@@ -1442,7 +1472,7 @@ class Transform(Parser):
             var_defs=parser_context.var_defs + [
                 (t_env.res, self.get_type()),
             ],
-            code=render_template(
+            code=make_renderer(compile_ctx).render(
                 'transform_code', t_env, pos_name=pos_name
             )
         )
@@ -1481,7 +1511,8 @@ class Null(Parser):
         if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx)
         res = gen_name("null_res")
-        code = render_template('null_code', _self=self, res=res)
+        code = make_renderer(compile_ctx).render('null_code',
+                                                 _self=self, res=res)
 
         return ParserCodeContext(
             pos_name,
@@ -1533,17 +1564,16 @@ class EnumType(CompiledType):
     @classmethod
     def add_to_context(cls, compile_ctx):
         if cls not in compile_ctx.types:
+            render = make_renderer(compile_ctx).render
             compile_ctx.types.add(cls)
             compile_ctx.types_declarations.append(
-                render_template('enum_type_decl', cls=cls)
+                render('enum_type_decl', cls=cls)
             )
             compile_ctx.body.append(
-                render_template('enum_type_impl', cls=cls)
+                render('enum_type_impl', compile_ctx=compile_ctx, cls=cls)
             )
-            compile_ctx.c_astnode_field_types[cls] = render_template(
-                'enum_c_type_decl',
-                cls=cls,
-                capi=compile_ctx.c_api_settings
+            compile_ctx.c_astnode_field_types[cls] = render(
+                'enum_c_type_decl', compile_ctx=compile_ctx, cls=cls,
             )
 
     @classmethod
@@ -1560,8 +1590,9 @@ class EnumType(CompiledType):
         Return the sequence of names to use for alternatives in the C API
         """
         # Before wrapping, names can have "_" suffixes or prefixes in order to
-        # avoid clashes with keywords. This is not needed anymore after
-        # wrapping so remove it to have pleasant names.
+        # avoid clashes with keywords (for instance: "or_" instead of "or").
+        # This is not needed anymore after wrapping (libfoobar_or is not a
+        # reserved keyword) so remove it to have pleasant names.
         return [
             c_api_settings.get_name(
                 "{}_{}".format(cls.name(), alt.strip('_'))
@@ -1628,7 +1659,7 @@ class Enum(Parser):
         return copy_with(
             parser_context,
             res_var_name=env.res,
-            code=render_template('enum_code', env),
+            code=make_renderer(compile_ctx).render('enum_code', env),
             var_defs=parser_context.var_defs + [(env.res, self.get_type())]
         )
 

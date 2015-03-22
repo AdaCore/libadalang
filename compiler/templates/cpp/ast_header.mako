@@ -92,8 +92,8 @@ public:
     }
 
     /* Get a C API value wrapping this node.  */
-    ${capi.node_type.tagged_name} wrap() {
-        return static_cast<${capi.node_type.tagged_name}>(this);
+    ${node.tagged} wrap() {
+        return static_cast<${node.tagged}>(this);
     }
 
 public:
@@ -133,7 +133,7 @@ public:
 
     /* Get a value that identifies the kind of this node.  Each concrete
        subclass must override this to provide the appropriate value.  */
-    virtual ${capi.node_kind_type.tagged_name} kind() = 0;
+    virtual ${node_kind.tagged} kind() = 0;
 
     virtual std::vector<ASTNode*> get_children() = 0;
 
@@ -191,7 +191,7 @@ public:
     boost::property_tree::ptree get_property_tree();
     virtual bool is_empty_list();
 
-    virtual ${capi.node_kind_type.tagged_name} kind() {
+    virtual ${node_kind.tagged} kind() {
         return ${capi.get_name("list")};
     }
 

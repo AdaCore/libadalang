@@ -27,7 +27,7 @@ public:
         boost::property_tree::ptree get_property_tree();
         std::vector<ASTNode*> get_children();
 
-        virtual ${capi.node_kind_type.tagged_name} kind() {
+        virtual ${node_kind.tagged} kind() {
             return ${capi.get_name(cls.name())};
         }
 

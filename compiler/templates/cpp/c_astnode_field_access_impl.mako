@@ -1,9 +1,8 @@
 ## vim: filetype=makocpp
 
 int
-${capi.get_name("{}_{}".format(astnode.name(), field.name))}(
-        ${capi.node_type.tagged_name} node,
-        ${field_type.c_type(capi).tagged_name} *value_p) {
+${accessor_name}(${node.tagged} node,
+                 ${field_type.c_type(capi).tagged} *value_p) {
     ASTNode* node_ = unwrap<ASTNode>(node);
     ${astnode.name()}* typed_node = dynamic_cast<${astnode.name()}*>(node_);
 
@@ -12,7 +11,7 @@ ${capi.get_name("{}_{}".format(astnode.name(), field.name))}(
         return 0;
     else {
         % if is_enum(field_type):
-            *value_p = (${field_type.c_type(capi).tagged_name}) typed_node->${field.name};
+            *value_p = (${field_type.c_type(capi).tagged}) typed_node->${field.name};
         % elif is_ast_node(field_type):
             *value_p = typed_node->${field.name}->wrap();
         % else:

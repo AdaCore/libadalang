@@ -1,6 +1,6 @@
 ## vim: filetype=makocpp
 
-enum ${cls.c_type(capi).name} {
+enum ${cls.c_type(capi).simple} {
     ${capi.get_name("{}_{}".format(cls.name(), "uninitialized"))} = 0,
     ${", ".join("{} = {}".format(alt, i)
                 for i, alt in enumerate(cls.c_alternatives(capi), 1))}

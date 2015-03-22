@@ -1,12 +1,16 @@
-from collections import namedtuple
 from copy import copy
 import inspect
 from itertools import takewhile
 from os import path
 
 
-GeneratedFunction = namedtuple('GeneratedFunction',
-                               'declaration implementation')
+class GeneratedFunction(object):
+    """
+    Simple holder for functions' declaration/implementation generated code
+    """
+    def __init__(self, declaration=None, implementation=None):
+        self.declaration = declaration
+        self.implementation = implementation
 
 
 class StructEq(object):

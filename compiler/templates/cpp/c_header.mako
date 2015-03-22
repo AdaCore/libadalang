@@ -10,17 +10,17 @@ extern "C" {
 #endif
 
 /* Context for all source analysis.  */
-typedef void* ${capi.analysis_context_type.name};
+typedef void* ${analysis_context.simple};
 
 /* Context for the analysis of a single compilation unit.  */
-typedef void* ${capi.analysis_unit_type.name};
+typedef void* ${analysis_unit.simple};
 
 /* Data type for all AST nodes.  AST nodes are assembled to make up a tree.
    See the AST node primitives below to inspect such trees.  */
-typedef void* ${capi.node_type.name};
+typedef void* ${node.simple};
 
 /* Kind of AST nodes in parse trees.  */
-enum ${capi.node_kind_type.name} {
+enum ${node_kind.simple} {
     /* TODO: do we switch to UPPER_CASE for labels?  */
     /* TODO: do we keep a single node kind for all lists or should we
        specialize them?  */
@@ -35,14 +35,14 @@ enum ${capi.node_kind_type.name} {
 
 /* Helper data structures for source location handling.  */
 
-struct ${capi.sloc_type.name} {
+struct ${sloc.simple} {
     uint32_t line;
     uint16_t column;
 };
 
-struct ${capi.sloc_range_type.name} {
-    ${capi.sloc_type.tagged_name} start;
-    ${capi.sloc_type.tagged_name} end;
+struct ${sloc_range.simple} {
+    ${sloc.tagged} start;
+    ${sloc.tagged} end;
 };
 
 
@@ -60,26 +60,24 @@ struct ${capi.sloc_range_type.name} {
  * Analysis primitives
  */
 
-extern ${capi.analysis_context_type.tagged_name}
+extern ${analysis_context.tagged}
 ${capi.get_name("create_analysis_context")}(void);
 
 extern void
 ${capi.get_name("destroy_analysis_context")}(
-        ${capi.analysis_context_type.tagged_name} context);
+        ${analysis_context.tagged} context);
 
-extern ${capi.analysis_unit_type.tagged_name}
+extern ${analysis_unit.tagged}
 ${capi.get_name("create_analysis_unit_from_file")}(
-        ${capi.analysis_context_type.tagged_name} context,
+        ${analysis_context.tagged} context,
         const char *filename);
 
 extern void
-${capi.get_name("remove_analysis_unit")}(
-        ${capi.analysis_context_type.tagged_name} context,
-        const char *filename);
+${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
+                                         const char *filename);
 
-extern ${capi.node_type.tagged_name}
-${capi.get_name("unit_root")}(
-        ${capi.analysis_unit_type.tagged_name} unit);
+extern ${node.tagged}
+${capi.get_name("unit_root")}(${analysis_unit.tagged} unit);
 
 
 /*
@@ -87,39 +85,39 @@ ${capi.get_name("unit_root")}(
  */
 
 /* Get the kind of an AST node.  */
-extern ${capi.node_kind_type.tagged_name}
-${capi.get_name("node_kind")}(${capi.node_type.tagged_name} node);
+extern ${node_kind.tagged}
+${capi.get_name("node_kind")}(${node.tagged} node);
 
 /* Helper for textual dump: return the name of a node kind.  */
 extern const char*
-${capi.get_name("kind_name")}(${capi.node_kind_type.tagged_name} kind);
+${capi.get_name("kind_name")}(${node_kind.tagged} kind);
 
 /* Get the spanning source location range for an AST node.  */
 extern void
-${capi.get_name("node_sloc_range")}(${capi.node_type.tagged_name} node,
-                                        ${capi.sloc_range_type.tagged_name} *sloc_range);
+${capi.get_name("node_sloc_range")}(${node.tagged} node,
+                                    ${sloc_range.tagged} *sloc_range);
 
 /* Return the bottom-most AST node from NODE that contains SLOC, or NULL if
    there is none.  */
-extern ${capi.node_type.tagged_name}
-${capi.get_name("lookup_in_node")}(${capi.node_type.tagged_name} node,
-                                   const ${capi.sloc_type.tagged_name} *sloc);
+extern ${node.tagged}
+${capi.get_name("lookup_in_node")}(${node.tagged} node,
+                                   const ${sloc.tagged} *sloc);
 
 /* Return the lexical parent of NODE, if any.  Return NULL for the root AST
    node.  */
-extern ${capi.node_type.tagged_name}
-${capi.get_name("node_parent")}(${capi.node_type.tagged_name} node);
+extern ${node.tagged}
+${capi.get_name("node_parent")}(${node.tagged} node);
 
 /* Return the number of AST node in NODE's fields.  */
 extern unsigned
-${capi.get_name("node_child_count")}(${capi.node_type.tagged_name} node);
+${capi.get_name("node_child_count")}(${node.tagged} node);
 
 /* Get the Nth child AST node in NODE's fields and store it in *CHILD_P.
    Return zero on failure (when N is too big).  */
 extern int
-${capi.get_name("node_child")}(${capi.node_type.tagged_name} node,
+${capi.get_name("node_child")}(${node.tagged} node,
                                unsigned n,
-                               ${capi.node_type.tagged_name}* child_p);
+                               ${node.tagged}* child_p);
 
 
 /*

@@ -85,8 +85,8 @@ public:
     virtual ~AnalysisContext();
 
     /* Get a C API value wrapping this unit.  */
-    ${capi.analysis_context_type.tagged_name} wrap() {
-        return static_cast<${capi.analysis_context_type.tagged_name}>(this);
+    ${analysis_context.tagged} wrap() {
+        return static_cast<${analysis_context.tagged}>(this);
     }
 
     std::unordered_map<std::string, AnalysisUnit*> units_map;
@@ -102,8 +102,8 @@ public:
     void print_json();
 
     /* Get a C API value wrapping this context.  */
-    ${capi.analysis_unit_type.tagged_name} wrap() {
-        return static_cast<${capi.analysis_unit_type.tagged_name}>(this);
+    ${analysis_unit.tagged} wrap() {
+        return static_cast<${analysis_unit.tagged}>(this);
     }
 
     ASTNode*    ast_root;

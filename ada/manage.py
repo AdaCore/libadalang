@@ -12,7 +12,7 @@ setenv()
 from gnatpython import fileutils
 from gnatpython.ex import which
 import sys
-from c_api_settings import CAPISettings
+from c_api import CAPISettings
 from compile_context import CompileCtx
 from utils import Colors
 

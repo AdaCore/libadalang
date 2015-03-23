@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #include "utils.hpp"
 #include <boost/program_options/cmdline.hpp>

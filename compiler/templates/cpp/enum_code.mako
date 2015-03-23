@@ -1,3 +1,5 @@
+## vim: filetype=makocpp
+
 ${parser_context.code}
 if (${parser_context.pos_var_name} != -1) {
     ${res} =

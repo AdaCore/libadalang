@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 Memo<${decl_type(_self.get_type())}> ${_self.gen_fn_name}_memo;
 

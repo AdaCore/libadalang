@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #ifndef PARSER_HPP
 #define PARSER_HPP

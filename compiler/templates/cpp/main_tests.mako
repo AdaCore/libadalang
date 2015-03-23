@@ -1,3 +1,5 @@
+## vim: filetype=makocpp
+
 #include "parse.hpp"
 #define red   "\033[1;31m"        /* 0 -> normal ;  31 -> red */
 #define cyan  "\033[1;36m"        /* 1 -> bold ;  36 -> cyan */

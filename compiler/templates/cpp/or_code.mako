@@ -1,3 +1,5 @@
+## vim: filetype=makocpp
+
 ${pos} = -1;
 ${res} = ${_self.get_type().nullexpr()};
 % for ctx in results:

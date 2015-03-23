@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 ${pos} = ${pos_name};
 ${did_fail} = false;

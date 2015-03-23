@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #include "parse.hpp"
 #include <unordered_map>

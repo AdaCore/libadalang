@@ -91,3 +91,11 @@ $ make -C doc/dev_guide html
 And then open the following file in your favorite browser:
 
     doc/dev_guide/_build/html/index.html
+
+Developper tools
+----------------
+
+The meta compiler uses mako templates generating C++ code. This can be hard to
+read. To ease development, a vim syntax file is available under
+utils/makocpp.vim. Put it in your .vim/syntax directory to get automatic
+highlighting of the template files.

@@ -1,3 +1,3 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 class ${cls.name()};

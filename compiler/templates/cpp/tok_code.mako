@@ -1,4 +1,7 @@
+## vim: filetype=makocpp
+
 ${res} = this->lexer->get(${pos_name});
+
 ${pos} = ${pos_name} + 1;
 if (${res}.id != ${token_kind}) {
    ${pos} = -1;

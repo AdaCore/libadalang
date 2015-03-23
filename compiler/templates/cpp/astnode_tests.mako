@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 % for test_name, (ada_string, res_ast_str) in zip(test_names, cls.tests):
 void ${test_name} () {

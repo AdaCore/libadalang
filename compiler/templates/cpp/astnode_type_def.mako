@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 class ${cls.name()} : public ${base_name} {
 protected:

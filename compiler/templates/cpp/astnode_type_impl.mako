@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 long ${cls.name().lower()}_counter = 0;
 

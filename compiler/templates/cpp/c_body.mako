@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #include "${capi.lib_name}.h"
 #include "c_utils.hpp"

@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #ifndef ${capi.header_guard_id}
 #define ${capi.header_guard_id}

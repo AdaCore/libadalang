@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 int
 ${capi.get_name("{}_{}".format(astnode.name(), field.name))}(

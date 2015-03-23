@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 % if _self.empty_valid:
     ${pos} = ${pos_name};

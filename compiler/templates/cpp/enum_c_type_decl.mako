@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 enum ${cls.c_type(capi).name} {
     ${capi.get_name("{}_{}".format(cls.name(), "uninitialized"))} = 0,

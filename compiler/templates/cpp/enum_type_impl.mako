@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 std::string get_repr(${cls.name()} enum_inst) {
     switch (enum_inst) {

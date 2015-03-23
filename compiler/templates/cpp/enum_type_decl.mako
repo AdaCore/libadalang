@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 enum class ${cls.name()} : char {
     ## Assign explicit constants members to ease binding to other languages.

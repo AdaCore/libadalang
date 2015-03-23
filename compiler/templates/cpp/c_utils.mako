@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 #ifndef C_UTILS_HPP
 #define C_UTILS_HPP

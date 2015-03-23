@@ -55,12 +55,16 @@ class CAPIDriver(BaseDriver):
             'gcc', '-o', self.test_program, '-g',
             # Be as pedantic as possible, even for testcases.
             '-Wall', '-W', '-Werror', '-pedantic',
-            '-lstdc++',
         ]
         self.gcc_argv.extend(compile_units)
+
         # Link with the static library: the resulting program is easier to run
         # out of the test environment.
         self.gcc_argv.append(static_lib)
+
+        # Put stdc++ link option at the end of the link command line so that
+        # c++ symbols can be found by the libadalang library.
+        self.gcc_argv.append('-lstdc++')
 
     @catch_test_errors
     def run(self):

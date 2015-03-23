@@ -4,6 +4,7 @@ import argparse
 import os.path
 import subprocess
 import multiprocessing
+import pipes
 
 # Set the environment
 from env import setenv
@@ -175,6 +176,14 @@ def install(args, dirs):
         )
 
 
+def setup_environment(dirs, add_path):
+    add_path('PATH', dirs.under_build('bin'))
+    add_path('C_INCLUDE_PATH', dirs.under_build('include'))
+    add_path('LIBRARY_PATH', dirs.under_build('lib'))
+    add_path('LD_LIBRARY_PATH', dirs.under_build('lib'))
+    add_path('PYTHONPATH', dirs.under_build('python'))
+
+
 def test(args, dirs):
     """
     Run the testsuite.
@@ -190,11 +199,7 @@ def test(args, dirs):
     def add_path(name, path):
         old = env.get(name, '')
         env[name] = '{}:{}'.format(path, old) if old else path
-
-    add_path('PATH', dirs.under_build('bin'))
-    add_path('C_INCLUDE_PATH', dirs.under_build('include'))
-    add_path('LIBRARY_PATH', dirs.under_build('lib'))
-    add_path('LD_LIBRARY_PATH', dirs.under_build('lib'))
+    setup_environment(dirs, add_path)
 
     try:
         subprocess.check_call([
@@ -204,6 +209,18 @@ def test(args, dirs):
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
         sys.exit(1)
+
+
+def setenv(args, dirs):
+    """
+    Display Bourne shell commands that setup environment in order to make
+    libadalang available.
+    """
+    def add_path(name, path):
+        print('{name}={path}:${name}; export {name}'.format(
+            name=name, path=pipes.quote(path)
+        ))
+    setup_environment(dirs, add_path)
 
 
 def do_help(args, dirs):
@@ -233,9 +250,11 @@ args_parser.add_argument(
     help='Show verbose output'
 )
 
+# Help
 help_parser = subparsers.add_parser('help', help=do_help.__doc__)
 help_parser.set_defaults(func=do_help)
 
+# Generate
 generate_parser = subparsers.add_parser(
     'generate', help=generate.__doc__
 )
@@ -243,8 +262,14 @@ generate_parser.add_argument(
     '--coverage', '-C', action='store_true',
     help='Compute code coverage for the code generator'
 )
+generate_parser.add_argument(
+    '--bindings', '-b', choices=Bindings.CHOICES, nargs='*',
+    default={Bindings.PYTHON},
+    help='Bindings to generate (default: only Python)'
+)
 generate_parser.set_defaults(func=generate)
 
+# Build
 build_parser = subparsers.add_parser(
     'build', help=build.__doc__
 )
@@ -259,6 +284,7 @@ build_parser.add_argument(
 )
 build_parser.set_defaults(func=build)
 
+# Make
 make_parser = subparsers.add_parser(
     'make', help=make.__doc__
 )
@@ -273,7 +299,7 @@ make_parser.add_argument(
 )
 make_parser.set_defaults(func=make)
 
-
+# Install
 install_parser = subparsers.add_parser(
     'install', help=install.__doc__
 )
@@ -283,6 +309,7 @@ install_parser.add_argument(
 )
 install_parser.set_defaults(func=install)
 
+# Test
 test_parser = subparsers.add_parser(
     'test', help=test.__doc__
 )
@@ -291,6 +318,12 @@ test_parser.add_argument(
     help='Arguments to pass to testsuite.py.'
 )
 test_parser.set_defaults(func=test)
+
+# Setenv
+setenv_parser = subparsers.add_parser(
+    'setenv', help=setenv.__doc__
+)
+setenv_parser.set_defaults(func=setenv)
 
 
 if __name__ == '__main__':

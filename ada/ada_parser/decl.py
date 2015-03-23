@@ -419,7 +419,7 @@ A.add_rules(
         Opt(
             Row(Tok("(", keep=True),
                 List(A.parameter_profile, sep=";"),
-                ")") ^ SubprogramParams
+                Opt(")").error()) ^ SubprogramParams
         ),
         Opt("return", A.type_expression) >> 1
     ) ^ SubprogramSpec,

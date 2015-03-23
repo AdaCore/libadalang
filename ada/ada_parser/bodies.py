@@ -396,7 +396,8 @@ A.add_rules(
         A.statements
     ) ^ ExceptionHandler,
 
-    statements=List(Or(Row(A.statement, ";") >> 0, A.label), empty_valid=True),
+    statements=List(Or(Row(A.statement, Opt(";").error()) >> 0,
+                       A.label), empty_valid=True),
 
     label=TokClass(Lbl) ^ Label,
 

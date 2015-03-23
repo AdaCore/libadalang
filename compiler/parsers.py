@@ -14,6 +14,10 @@ def is_row(parser):
     return isinstance(parser, Row)
 
 
+def is_tok(parser):
+    return isinstance(parser, Tok)
+
+
 def is_enum(compiled_type):
     return issubclass(compiled_type, EnumType)
 
@@ -34,6 +38,7 @@ def decl_type(ada_type):
 
 
 render_template = common_renderer.update({
+    'is_tok':           is_tok,
     'is_row':           is_row,
     'is_enum':          is_enum,
     'is_class':         inspect.isclass,
@@ -1168,8 +1173,29 @@ class Opt(Parser):
         """
         Parser.__init__(self)
         self._booleanize = False
+        self._is_error = False
         self.contains_anonymous_row = bool(parsers)
         self.parser = Row(parser, *parsers) if parsers else resolve(parser)
+
+    def error(self):
+        """
+        Returns the self parser, modified to function as an error recovery
+        parser.
+
+        The semantic of Opt in this case is that it will try to parse it's
+        sub parser, and when failing, it will add a diagnostic to the
+        parser's diagnostic list.
+
+        NOTE: There is no diagnostics backtracking if the parent parser is
+        discarded. That means that you should only use this parser in cases
+        in which you are sure that you are in a successfull branch of your
+        parser. This is neither checked statically nor dynamically so use
+        with care !
+
+        :rtype: Opt
+        """
+        self._is_error = True
+        return self
 
     def as_bool(self):
         self._booleanize = True

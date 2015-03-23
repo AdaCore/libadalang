@@ -24,16 +24,23 @@ def write_cpp_file(file_path, source):
 class CompileCtx():
     """State holder for native code emission"""
 
-    def __init__(self, lang_name, c_api_settings, main_rule_name,
+    def __init__(self, lang_name, main_rule_name, c_api_settings,
+                 python_api_settings=None,
                  verbose=False):
         """Create a new context for code emission
 
         lang_name: Name of the target language.
 
-        c_api_settings: a c_api.CAPISettings instance.
-
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
+
+        c_api_settings: a c_api.CAPISettings instance.
+
+        python_api_settings: If provided, it must be a
+        python_api.PythonAPISettings instance. In this case, a Python binding
+        around the C API is generated.
+
+        bindings: Language bindings to generate (Bindings instance).
         """
         # TODO: lang_name is not actually used anywhere at the moment.
         # TODO: A short description for all these fields would help!
@@ -53,7 +60,22 @@ class CompileCtx():
         self.grammar = None
         self.lexer_file = None
 
+        self.python_api_settings = python_api_settings
+
+        # List for all ASTnode subclasses (ASTNode excluded), sorted so that A
+        # is before B when A is a parent class for B. This sorting is important
+        # to output declarations in dependency order.
+        # This is computed right after field types inference.
+        self.astnode_types = None
+
+        #
         # Holders for the C external API generated code chunks
+        #
+
+        # Mapping: ASTNode concrete (i.e. non abstract) subclass -> int,
+        # associating specific constants to be used reliably in bindings.  This
+        # mapping is built at the beginning of code emission.
+        self.node_kind_constants = {}
 
         # Mapping: ASTNode concrete (i.e. non abstract) subclass -> int,
         # associating specific constants to be used reliably in bindings.  This
@@ -63,9 +85,22 @@ class CompileCtx():
         # Mapping: ASTNode subclass -> GeneratedFunction instances for all
         # subclass field accessors.
         self.c_astnode_primitives = defaultdict(list)
+
         # Mapping: CompiledType -> string (C declarations) for types used in
         # AST node fields.
         self.c_astnode_field_types = {}
+
+        #
+        # Corresponding holders for the Python API
+        #
+
+        # Mapping: ASTNode subclass -> string (generated Python code ASTNode
+        # subclass declarations).
+        self.py_astnode_subclasses = {}
+
+        # Mapping CompiledType -> string (Python declarations) for types used
+        # in AST node fields.
+        self.py_astnode_field_types = {}
 
         self.lang_name = lang_name
         self.c_api_settings = c_api_settings
@@ -110,14 +145,25 @@ class CompileCtx():
         if astnode not in self.ast_fields_types:
             self.ast_fields_types[astnode] = types
 
-    @property
-    def astnode_types(self):
-        """Return a sequence containing all types that subclass ASTNode"""
-        # Sort them one way or another so that generated declarations are kept
-        # in a relatively stable order. This is really useful for debugging
+    def compute_astnode_types(self):
+        """Compute the "astnode_types" field"""
+        # We consider that ASTNode is not a subclass itself since it's a
+        # special case for code generation. TODO: Well, actually it would be
+        # cleaner to consider it, but it should be properly tagged as
+        # abstract...
+        from parsers import ASTNode
+        self.astnode_types = [astnode
+                              for astnode in self.ast_fields_types.keys()
+                              if astnode != ASTNode]
+        # Sort them in dependency order as required but also then in
+        # alphabetical order so that generated declarations are kept in a
+        # relatively stable order. This is really useful for debugging
         # purposes.
-        return sorted(self.ast_fields_types.keys(),
-                      key=lambda astnode: astnode.name())
+        keys = {
+            cls: '.'.join(cls.name() for cls in cls.get_inheritance_chain())
+            for cls in self.astnode_types
+        }
+        self.astnode_types.sort(key=lambda cls: keys[cls])
 
     @property
     def render_template(self):
@@ -207,6 +253,7 @@ class CompileCtx():
             r.compile(self)
             self.rules_to_fn_names[r_name] = r
 
+        self.compute_astnode_types()
         for i, astnode in enumerate(
             (astnode
              for astnode in self.astnode_types
@@ -234,6 +281,11 @@ class CompileCtx():
         )
 
         self.emit_c_api(src_path, include_path)
+        if self.python_api_settings:
+            python_path = path.join(file_root, "python")
+            if not path.exists(python_path):
+                os.mkdir(python_path)
+            self.emit_python_api(python_path)
 
         print (
             Colors.OKBLUE + "Compiling the quex lexer specification"
@@ -276,3 +328,25 @@ class CompileCtx():
             path.join(src_path, "c_utils.hpp"),
             render("c_utils")
         )
+
+    def emit_python_api(self, python_path):
+        """Generate the Python binding module"""
+        module_filename = "{}.py".format(self.python_api_settings.module_name)
+
+        # Collect ASTNode subclass declarations preserving "astnode_types"'s
+        # order so that dependencies comes first.
+        astnode_subclass_decls = []
+        for cls in self.astnode_types:
+            try:
+                decl = self.py_astnode_subclasses[cls]
+            except KeyError:
+                pass
+            else:
+                astnode_subclass_decls.append(decl)
+
+        with open(os.path.join(python_path, module_filename), "w") as f:
+            f.write(self.render_template(
+                'python/module', _self=self,
+                pyapi=self.python_api_settings,
+                astnode_subclass_decls=astnode_subclass_decls,
+            ))

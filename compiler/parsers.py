@@ -4,9 +4,10 @@ from itertools import count, chain
 from common import gen_name, gen_names, get_type, null_constant, TOKEN_PREFIX
 
 from c_api import CAPIType
+from python_api import PythonAPIType
 from template_utils import TemplateEnvironment, common_renderer
 from utils import (common_ancestor, memoized, copy_with, Colors,
-                   GeneratedFunction)
+                   FieldAccessor)
 import quex_tokens
 
 
@@ -22,9 +23,22 @@ def is_enum(compiled_type):
     return issubclass(compiled_type, EnumType)
 
 
+def is_long(compiled_type):
+    return issubclass(compiled_type, LongType)
+
+
+def is_bool(compiled_type):
+    return issubclass(compiled_type, BoolType)
+
+
 def is_ast_node(compiled_type):
     """Return whether `compiled_type` is an ASTNode in the generated code."""
     return issubclass(compiled_type, ASTNode)
+
+
+def is_sloc_range(compiled_type):
+    """Return whether `compiled_type` is a sloc range in the generated code"""
+    return issubclass(compiled_type, SourceLocationRangeType)
 
 
 ###############
@@ -47,8 +61,11 @@ def make_renderer(compile_ctx=None):
         'is_tok':           is_tok,
         'is_row':           is_row,
         'is_enum':          is_enum,
+        'is_long':          is_long,
+        'is_bool':          is_bool,
         'is_class':         inspect.isclass,
         'is_ast_node':      is_ast_node,
+        'is_sloc_range':    is_sloc_range,
         'decl_type':        decl_type,
     }
     if compile_ctx:
@@ -147,6 +164,14 @@ class CompiledType(object):
         """
         raise NotImplementedError()
 
+    @classmethod
+    def py_type(cls, python_api_settings):
+        """Return a PythonAPIType instance for this type
+
+        Must be overriden in subclasses.
+        """
+        raise NotImplementedError()
+
 
 class BasicType(CompiledType):
     """
@@ -186,12 +211,20 @@ class BoolType(BasicType):
         # stdbool.h...
         return CAPIType(c_api_settings, 'int', external=True)
 
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'c_int', True)
+
 
 class LongType(BasicType):
     is_ptr = False
     _name = get_type(long)
     _nullexpr = "0"
     _external = True
+
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'c_long', True)
 
 
 class SourceLocationRangeType(BasicType):
@@ -202,6 +235,10 @@ class SourceLocationRangeType(BasicType):
     @classmethod
     def c_type(cls, c_api_settings):
         return CAPIType(c_api_settings, 'source_location_range', 'struct')
+
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'SlocRange', False)
 
 
 class Token(BasicType):
@@ -470,19 +507,39 @@ class ASTNode(CompiledType):
             primitives = []
             render = make_renderer(compile_ctx).render
             for field, field_type in cls.get_public_fields(compile_ctx):
+                accessor_basename = '{}_{}'.format(cls.name(), field.name)
+                accessor_fullname = compile_ctx.c_api_settings.get_name(
+                    accessor_basename)
+
                 t_env = TemplateEnvironment(
                     astnode=cls,
                     field=field,
                     field_type=field_type,
-                    accessor_name=compile_ctx.c_api_settings.get_name(
-                        '{}_{}'.format(cls.name(), field.name)
-                    ),
+                    accessor_name=accessor_fullname,
                 )
-                primitives.append(GeneratedFunction(
-                    render('c_astnode_field_access_decl', t_env),
-                    render('c_astnode_field_access_impl', t_env),
+                accessor_decl = render('c_astnode_field_access_decl', t_env)
+                accessor_impl = render('c_astnode_field_access_impl', t_env)
+
+                primitives.append(FieldAccessor(
+                    accessor_basename,
+                    declaration=accessor_decl,
+                    implementation=accessor_impl,
+                    field=field,
+                    field_type=field_type,
                 ))
             compile_ctx.c_astnode_primitives[cls] = primitives
+
+            # For the Python API, generate subclasses for each AST node kind
+            # (for both abstract and concrete classes). Each will ship accessor
+            # for the fields they define.
+            if compile_ctx.python_api_settings:
+                compile_ctx.py_astnode_subclasses[cls] = render(
+                    'python/ast_subclass',
+                    pyapi=compile_ctx.python_api_settings,
+                    cls=cls,
+                    parent_cls=list(cls.get_inheritance_chain())[-2],
+                    primitives=primitives,
+                )
 
     @classmethod
     def name(cls):
@@ -511,6 +568,10 @@ class ASTNode(CompiledType):
     @classmethod
     def c_type(cls, c_api_settings):
         return CAPIType(c_api_settings, 'node')
+
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'node', False)
 
 
 def resolve(parser):
@@ -1616,6 +1677,11 @@ class EnumType(CompiledType):
             compile_ctx.c_astnode_field_types[cls] = render(
                 'enum_c_type_decl', compile_ctx=compile_ctx, cls=cls,
             )
+            if compile_ctx.python_api_settings:
+                compile_ctx.py_astnode_field_types[cls] = render(
+                    'python/enum_type_decl', cls=cls,
+                    pyapi=compile_ctx.python_api_settings
+                )
 
     @classmethod
     def nullexpr(cls):
@@ -1624,6 +1690,10 @@ class EnumType(CompiledType):
     @classmethod
     def c_type(cls, c_api_settings):
         return CAPIType(c_api_settings, cls.name(), 'enum')
+
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'c_uint', True)
 
     @classmethod
     def c_alternatives(cls, c_api_settings):

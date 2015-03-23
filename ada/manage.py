@@ -15,6 +15,7 @@ from gnatpython.ex import which
 import sys
 from c_api import CAPISettings
 from compile_context import CompileCtx
+from python_api import PythonAPISettings
 from utils import Colors
 
 
@@ -120,7 +121,11 @@ def generate(args, dirs):
         'libadalang',
         symbol_prefix='ada',
     )
-    context = CompileCtx('ada', c_api_settings, 'compilation_unit',
+    python_api_settings = (PythonAPISettings('libadalang', c_api_settings)
+                           if 'python' in args.bindings else None)
+    context = CompileCtx('ada', 'compilation_unit',
+                         c_api_settings,
+                         python_api_settings,
                          verbose=args.verbose)
     context.set_lexer_file(dirs.under_source('ada', 'ada.qx'))
 
@@ -169,7 +174,7 @@ def install(args, dirs):
     """Install programs and libraries."""
     del args
 
-    for subdir in ('bin', 'include', 'lib'):
+    for subdir in ('bin', 'include', 'lib', 'python'):
         fileutils.sync_tree(
             dirs.under_build(subdir),
             dirs.under_install(subdir)
@@ -244,6 +249,11 @@ args_parser.add_argument(
     '--compiler', '-c', choices=('clang', 'gcc'),
     default=get_default_compiler(),
     help='Select what native toolchain to use (Clang or GCC)'
+)
+args_parser.add_argument(
+    '--bindings', '-b', nargs='+', choices=('python', ),
+    default=['python'],
+    help='Bindings to generate (by default: only Python)'
 )
 args_parser.add_argument(
     '--verbose', '-v', action='store_true',

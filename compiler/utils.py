@@ -8,9 +8,18 @@ class GeneratedFunction(object):
     """
     Simple holder for functions' declaration/implementation generated code
     """
-    def __init__(self, declaration=None, implementation=None):
+    def __init__(self, name, declaration=None, implementation=None):
+        self.name = name
         self.declaration = declaration
         self.implementation = implementation
+
+
+class FieldAccessor(GeneratedFunction):
+    """Generated function that expose field read access"""
+    def __init__(self, name, field, field_type, **kwargs):
+        super(FieldAccessor, self).__init__(name, **kwargs)
+        self.field = field
+        self.field_type = field_type
 
 
 class StructEq(object):

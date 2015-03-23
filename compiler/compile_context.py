@@ -7,6 +7,7 @@ import subprocess
 from os import path, environ
 from distutils.spawn import find_executable
 from utils import Colors
+import quex_tokens
 
 
 def write_cpp_file(file_path, source):
@@ -134,6 +135,7 @@ class CompileCtx():
         return self.render_template(
             'main_body',
             _self=self,
+            token_map=quex_tokens.token_map,
             bodies=self.body
         )
 
@@ -153,7 +155,6 @@ class CompileCtx():
         needs to be aware of the quex lexer.
         """
         self.lexer_file = lexer_file
-        import quex_tokens
         quex_tokens.init_token_map(self)
 
     def emit(self, file_root="."):

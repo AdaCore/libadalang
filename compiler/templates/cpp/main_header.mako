@@ -8,6 +8,7 @@
 #include "lexer.hpp"
 #include "packrat.hpp"
 #include "tokendatahandler.hpp"
+#include "diagnostic.hpp"
 
 #include "${_self.c_api_settings.lib_name}.h"
 
@@ -37,9 +38,16 @@ public:
        return lexer->max_token;
     }
 
+    struct FailInfo {
+        long pos = -1;
+        int expected_token_id, found_token_id;
+    } last_fail;
+
     % for el in map(unicode.strip, _self.fns_decls):
     ${el};
     % endfor
+
+    vector<Diagnostic> diagnostics;
 
 private:
     Lexer* lexer;
@@ -103,6 +111,7 @@ public:
     std::string file_name;
     TokenDataHandler* token_data_handler;
     AnalysisContext* context;
+    vector<Diagnostic> diagnostics;
 };
 
 #endif

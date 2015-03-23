@@ -6,6 +6,16 @@
 
 using boost::property_tree::ptree;
 
+std::unordered_map<int, std::string> token_texts = {
+    % for tok_name, _ in token_map.tokens.items():
+        {${token_map.TOKEN_PREFIX + tok_name}, "${token_map.names_to_str.get(tok_name, tok_name.lower())}"}
+        % if (not loop.last):
+            ,
+        % endif
+    % endfor
+};
+
+
 template< typename T, class Allocator > void shrink_capacity(std::vector<T,Allocator>* v)
 {
    std::vector<T,Allocator>(v->begin(),v->end()).swap(*v);
@@ -55,10 +65,18 @@ Parser::~Parser() {
 
 ASTNode* Parser::parse() {
     auto res = this->${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (0);
+
+    ## If the result is null, we want to generate a sane diagnostic, informing
+    ## the user of where parsing failed, what token was expected, and what token
+    ## was found
+
     if (!res) {
-        SourceLocation sloc = max_token().sloc_range.get_start();
-        printf("Parsing failed, last token pos : Line %d, Col %d, cat %d\n",
-               sloc.line, sloc.column, max_token().id);
+        auto diag = Diagnostic(
+            "\tExpected \"" + token_texts[last_fail.expected_token_id]
+            + "\", got \"" + token_texts[last_fail.found_token_id] + "\"\n",
+            lexer->get(last_fail.pos).sloc_range
+        );
+        this->diagnostics.push_back(diag);
     } else {
         res->inc_ref();
     }
@@ -71,8 +89,11 @@ AnalysisUnit::AnalysisUnit(AnalysisContext *context, const std::string file_name
     this->context = context;
     this->token_data_handler = new TokenDataHandler(context->symbol_table);
     this->parser = new Parser(file_name, this->token_data_handler);
-
     this->ast_root = this->parser->parse();
+    this->diagnostics.insert(
+        diagnostics.end(),
+        parser->diagnostics.begin(), parser->diagnostics.end()
+    );
     delete this->parser;
 }
 

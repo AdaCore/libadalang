@@ -229,6 +229,13 @@ int main (int argc, char** argv) {
 
             auto unit = context.create_from_file(input_file);
 
+            if (!unit->diagnostics.empty()) {
+                cout << "Errors during parsing" << endl;
+                for (auto diag : unit->diagnostics) {
+                    cout << diag.get_pretty_message() << endl;
+                }
+            }
+
             if (print) {
                 if (json) unit->print_json();
                 else unit->print();

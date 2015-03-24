@@ -44,6 +44,7 @@ def make_renderer(compile_ctx=None):
     renderer and so are all commonly used C API types.
     """
     template_args = {
+        'is_tok':           is_tok,
         'is_row':           is_row,
         'is_enum':          is_enum,
         'is_class':         inspect.isclass,

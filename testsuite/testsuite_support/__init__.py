@@ -16,6 +16,14 @@ class Testsuite(gnatpython.testsuite.Testsuite):
             '--valgrind', action='store_true',
             help='Run tests within Valgrind to check memory issues.'
         )
+        self.main.add_option(
+            '--c-compiler', default='gcc',
+            help='C compiler to use for test material'
+        )
+        self.main.add_option(
+            '--cxx-compiler', default='g++',
+            help='C++ compiler to use for test material'
+        )
 
         #
         # Convenience options for developpers

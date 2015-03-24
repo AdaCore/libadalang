@@ -52,7 +52,8 @@ class CAPIDriver(BaseDriver):
             raise TestError('Could not locate libadalang.a')
 
         self.gcc_argv = [
-            'gcc', '-o', self.test_program, '-g',
+            self.global_env['options'].c_compiler,
+            '-o', self.test_program, '-g',
             # Be as pedantic as possible, even for testcases.
             '-Wall', '-W', '-Werror', '-pedantic',
         ]

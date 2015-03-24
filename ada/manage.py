@@ -101,6 +101,18 @@ def get_default_compiler():
         raise RuntimeError('Could not find a C/C++ native toolchain')
 
 
+def get_compilers(name):
+    """
+    Return a couple (C compiler, C++ compiler) corresponding to "name".
+
+    Name can be either "gcc" or "clang".
+    """
+    return {
+        'clang': ('clang', 'clang++'),
+        'gcc':   ('gcc',   'g++'),
+    }[name]
+
+
 def generate(args, dirs):
     """Generate source code for libadalang."""
     c_api_settings = CAPISettings(
@@ -128,13 +140,7 @@ def generate(args, dirs):
 
 def build(args, dirs):
     """Build generated source code."""
-
-    # Select compilers
-    c_compiler, cxx_compiler = {
-        'clang': ('clang', 'clang++'),
-        'gcc':   ('gcc',   'g++'),
-    }[args.compiler]
-
+    c_compiler, cxx_compiler = get_compilers(args.compiler)
     make_argv = ['make', '-C', dirs.build_dir,
                  '-j{}'.format(args.jobs),
                  'CC={}'.format(c_compiler),

@@ -104,6 +104,19 @@ ${capi.get_name("node_child")}(${node.tagged} node,
     return success;
 }
 
+${node.tagged}
+${capi.get_name("node_incref")}(${node.tagged} node) {
+    ASTNode *node_ = unwrap<ASTNode>(node);
+    node_->inc_ref();
+    return node;
+}
+
+void
+${capi.get_name("node_decref")}(${node.tagged} node) {
+    ASTNode *node_ = unwrap<ASTNode>(node);
+    node_->dec_ref();
+}
+
 
 /*
  * Kind-specific AST node primitives

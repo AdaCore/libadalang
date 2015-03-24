@@ -16,7 +16,8 @@ typedef void* ${analysis_context.simple};
 typedef void* ${analysis_unit.simple};
 
 /* Data type for all AST nodes.  AST nodes are assembled to make up a tree.
-   See the AST node primitives below to inspect such trees.  */
+   See the AST node primitives below to inspect such trees.  References are
+   ref-counted.  */
 typedef void* ${node.simple};
 
 /* Kind of AST nodes in parse trees.  */
@@ -105,7 +106,7 @@ ${capi.get_name("lookup_in_node")}(${node.tagged} node,
                                    const ${sloc.tagged} *sloc);
 
 /* Return the lexical parent of NODE, if any.  Return NULL for the root AST
-   node.  */
+   node or for AST nodes for which no one has a reference to the parent.  */
 extern ${node.tagged}
 ${capi.get_name("node_parent")}(${node.tagged} node);
 
@@ -113,12 +114,21 @@ ${capi.get_name("node_parent")}(${node.tagged} node);
 extern unsigned
 ${capi.get_name("node_child_count")}(${node.tagged} node);
 
-/* Get the Nth child AST node in NODE's fields and store it in *CHILD_P.
+/* Get the Nth child AST node in NODE's fields and store it into *CHILD_P.
    Return zero on failure (when N is too big).  */
 extern int
 ${capi.get_name("node_child")}(${node.tagged} node,
                                unsigned n,
                                ${node.tagged}* child_p);
+
+/* Increase the reference count to an AST node.  Return the reference for
+   convenience.  */
+extern ${node.tagged}
+${capi.get_name("node_incref")}(${node.tagged} node);
+
+/* Decrease the reference count to an AST node.  */
+extern void
+${capi.get_name("node_decref")}(${node.tagged} node);
 
 
 /*
@@ -127,7 +137,8 @@ ${capi.get_name("node_child")}(${node.tagged} node,
 
 /* All these primitives return their result through an OUT parameter.  They
    return a boolean telling whether the operation was successful (it can fail
-   if the node does not have the proper type, for instance).  */
+   if the node does not have the proper type, for instance).  When an AST node
+   is returned, its ref-count is left as-is.  */
 
 % for astnode in _self.astnode_types:
     % for primitive in _self.c_astnode_primitives[astnode]:

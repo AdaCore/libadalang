@@ -49,6 +49,7 @@ class BaseDriver(TestDriver):
         self.create_test_workspace()
         self.valgrind = (Valgrind(self.working_dir)
                          if self.global_env['options'].valgrind else None)
+        self.valgrind_errors = []
 
     def read_file(self, filename):
         """Return the content of `filename`."""
@@ -111,13 +112,17 @@ class BaseDriver(TestDriver):
     # Run helpers
     #
 
-    def run_and_check(self, argv, for_debug=False):
+    def run_and_check(self, argv, for_debug=False, memcheck=False):
         """
         Run a subprocess with `argv` and check it completes with status code 0
 
-        If `for_debug` is True, then the program is run under Valgrind/GDB if
-        asked to in the main testsuite driver. For GDB runs, the test is
-        automatically assumed to have failed.
+        If `for_debug` is True, then the program is run under GDB if asked to
+        in the main testsuite driver. For GDB runs, the test is automatically
+        assumed to have failed.
+
+        If `memcheck` is True then the program is run under Valgrind if asked
+        to in the main testsuite driver. Any memory issue will be reported and
+        turned into a testcase failure.
 
         In case of failure, the test output is appended to the actual output
         and a TestError is raised.
@@ -139,19 +144,23 @@ class BaseDriver(TestDriver):
             return
 
         # Run valgrind if asked to
-        if self.valgrind:
+        if memcheck and self.valgrind:
             argv = self.valgrind.wrap_argv(argv)
 
         p = Run(argv, cwd=self.working_dir,
                 timeout=self.TIMEOUT,
                 output=self.output_file,
                 error=STDOUT)
+
         if p.status != 0:
             self.result.actual_output += (
                 '{} returned status code {}\n'.format(program, p.status))
             self.result.actual_output += self.read_file(self.output_file)
             raise TestError(
                 '{} returned status code {}'.format(program, p.status))
+
+        if memcheck and self.valgrind:
+            self.valgrind_errors.extend(self.valgrind.parse_report())
 
     #
     # Analysis helpers
@@ -174,15 +183,13 @@ class BaseDriver(TestDriver):
             ))
 
         # Check memory issues if asked to.
-        if self.valgrind:
-            errors = self.valgrind.parse_report()
-            if errors:
-                self.result.actual_output += (
-                    'Valgrind reported the following errors:\n{}'.format(
-                        self.valgrind.format_report(errors)
-                    )
+        if self.valgrind_errors:
+            self.result.actual_output += (
+                'Valgrind reported the following errors:\n{}'.format(
+                    self.valgrind.format_report(self.valgrind_errors)
                 )
-                failures.append('memory isuses detected')
+            )
+            failures.append('memory isuses detected')
 
         if failures:
             self.result.set_status('FAILED', ' | '.join(failures))

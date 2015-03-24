@@ -7,7 +7,6 @@ from gnatpython.ex import Run, STDOUT
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, TestError,
 )
-from testsuite_support.valgrind import Valgrind
 
 
 class CAPIDriver(BaseDriver):
@@ -73,7 +72,7 @@ class CAPIDriver(BaseDriver):
     def run(self):
         # Build the test program and then run it
         self.run_and_check(self.gcc_argv)
-        self.run_and_check([self.test_program], for_debug=True)
+        self.run_and_check([self.test_program], for_debug=True, memcheck=True)
 
     #
     # Helpers

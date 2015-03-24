@@ -8,7 +8,6 @@ import gnatpython.fileutils as fileutils
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, TestError,
 )
-from testsuite_support.valgrind import Valgrind
 
 
 class ParserDriver(BaseDriver):
@@ -39,7 +38,7 @@ class ParserDriver(BaseDriver):
                 '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])
             ])
 
-        self.run_and_check(parse_argv, for_debug=True)
+        self.run_and_check(parse_argv, for_debug=True, memcheck=True)
 
     #
     # Convenience path builders

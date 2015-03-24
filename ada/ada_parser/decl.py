@@ -74,7 +74,7 @@ class AspectSpecification(ASTNode):
 
 class SubprogramParams(ASTNode):
     open_par = Field(repr=False)
-    params = Field(indent=indent_token("open_par"))
+    params = Field(indent="open_par")
 
 
 class SubprogramSpec(ASTNode):

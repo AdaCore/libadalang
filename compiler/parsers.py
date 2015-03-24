@@ -244,19 +244,37 @@ class Field(object):
     # order (assuming it is the same as the Field instantiation order).
     _counter = iter(count(0))
 
-    def __init__(self, repr=True, indent=indent_rel()):
+    def __init__(self, repr=True, indent=None):
         """Create an AST node field.
 
-        If `repr`, the field will be displayed when pretty-printing the
-        embedding AST node.
+        :param bool repr: If true, the field will be displayed when
+        pretty-printing the embedding AST node.
+
+        :param indent: Property used for determining the indentation rules
+        for this field. The expected type is the `:class:Indent`, but there
+        are shorcuts for int and basestring that will be automatically
+        converted to an indent instance according to the following rules:
+          * str -> relative to ASTNode instance's own field name
+          * int -> relative offset (as before)
+          * others -> no shortcut
+
+        :type indent: int|basestring|Indent
         """
         self.repr = repr
         self._name = None
 
-        if type(indent) == int:
-            indent = indent_rel(indent)
+        self.indent = None
+        ":type: Indent"
 
-        self.indent = indent
+        if indent is None:
+            self.indent = indent_rel()
+        elif isinstance(indent, int):
+            self.indent = indent_rel(indent)
+        elif isinstance(indent, basestring):
+            self.indent = indent_token(indent)
+        else:
+            assert isinstance(indent, Indent)
+            self.indent = indent
 
         self._index = next(self._counter)
 

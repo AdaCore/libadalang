@@ -28,7 +28,7 @@ main(void)
 
     tree = ada_unit_root(unit);
     if (tree != NULL)
-        error("Got a non-null node for a source with syntax errors");
+        error("Got a non-null node for a source with fatal syntax errors");
 
     ada_destroy_analysis_context(ctx);
     puts("Done.");

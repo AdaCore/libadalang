@@ -64,8 +64,10 @@ class CAPIDriver(BaseDriver):
         self.gcc_argv.append(static_lib)
 
         # Put stdc++ link option at the end of the link command line so that
-        # c++ symbols can be found by the libadalang library.
+        # c++ symbols can be found by the libadalang library. Likewise for the
+        # math library (needed by some std::unordered_map instantiations).
         self.gcc_argv.append('-lstdc++')
+        self.gcc_argv.append('-lm')
 
     @catch_test_errors
     def run(self):

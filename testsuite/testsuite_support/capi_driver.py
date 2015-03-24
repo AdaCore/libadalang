@@ -78,20 +78,6 @@ class CAPIDriver(BaseDriver):
     # Helpers
     #
 
-    def check_file_list(self, file_list, can_be_empty=True):
-        """Raise a TestError if `file_list` is not a list of strings
-
-        Also raise an error if it is an empty list while `can_be_empty` is
-        False.
-        """
-        if (not isinstance(file_list, list) or
-                (not can_be_empty and len(file_list) == 0) or
-                not all(isinstance(cu, basestring) for cu in file_list)):
-            empty_msg = 'non-empty '
-            raise TestError(
-                '"compile_units" must be a {}list of strings'.format(
-                    empty_msg))
-
     @property
     def test_program(self):
         return os.path.join(self.working_dir, self.test_env['test_name'])

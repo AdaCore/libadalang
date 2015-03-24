@@ -1229,18 +1229,31 @@ class Opt(Parser):
 
         :rtype: Opt
         """
-        self._is_error = True
-        return self
+        return copy_with(self, _is_error=True)
 
     def as_bool(self):
-        self._booleanize = True
-        if self.contains_anonymous_row:
+        """
+        Returns the self parser, modified to return a bool rather than the
+        sub-parser result. The result will be true if the parse was
+        successful, false otherwise.
+
+        This is typically useful to store specific tokens as attributes,
+        for example in Ada, you'll mark a subprogram as overriding with the
+        "overriding" keyword, and we want to store that in the tree as a
+        boolean attribute, so we'll use
+
+        Opt("overriding").as_bool()
+
+        :rtype: Opt
+        """
+        new = copy_with(self, _booleanize=True)
+        if new.contains_anonymous_row:
             # What the sub-parser will match will not be returned, so there is
             # no need to generate an anonymous row type.  Tell so to the
             # Row sub-parser.
-            assert isinstance(self.parser, Row)
-            self.parser.assign_wrapper(self)
-        return self
+            assert isinstance(new.parser, Row)
+            new.parser.assign_wrapper(new)
+        return new
 
     def children(self):
         return [self.parser]
@@ -1270,7 +1283,12 @@ class Opt(Parser):
         )
 
     def __rshift__(self, index):
-        """Same as Row.__rshift__."""
+        """Same as Row.__rshift__:
+        Return a parser that matches `self` and that discards everything except
+        the `index`th field in the row.
+
+        Used as a shortcut, will only work if the Opt's sub-parser is a row.
+        """
         m = self.parser
         assert isinstance(m, Row)
         return Opt(Extract(m, index))

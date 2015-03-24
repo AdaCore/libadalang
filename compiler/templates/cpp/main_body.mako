@@ -114,7 +114,3 @@ void AnalysisContext::remove(std::string file_name) {
     delete this->units_map[file_name];
     this->units_map.erase(file_name);
 }
-
-
-short AnalysisUnit::get_indent_level_at_line (int line) {
-}

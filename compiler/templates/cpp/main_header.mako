@@ -92,7 +92,6 @@ public:
 
     void print();
     void print_json();
-    short get_indent_level_at_line(int line);
 
     /* Get a C API value wrapping this context.  */
     ${capi.analysis_unit_type.tagged_name} wrap() {

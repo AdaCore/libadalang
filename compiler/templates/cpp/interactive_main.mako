@@ -260,7 +260,7 @@ int main (int argc, char** argv) {
 
                 cout << endl << "============= INDENTED CODE ==============" << endl << endl;
 
-                for (int i = 0; i < indent_status.lines_indent.size(); i++) {
+                for (size_t i = 0; i < indent_status.lines_indent.size(); i++) {
                     cout << string(indent_status.lines_indent [i], ' ') << lines[i] << endl;
                 }
 

@@ -44,6 +44,19 @@ ${capi.get_name("unit_root")}(${analysis_unit.tagged} unit) {
     return unit_->ast_root->wrap();
 }
 
+${analysis_unit.tagged}
+${capi.get_name("unit_incref")}(${analysis_unit.tagged} unit) {
+    AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
+    unit_->inc_ref();
+    return unit;
+}
+
+void
+${capi.get_name("unit_decref")}(${analysis_unit.tagged} unit) {
+    AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
+    unit_->dec_ref();
+}
+
 
 /*
  * General AST node primitives

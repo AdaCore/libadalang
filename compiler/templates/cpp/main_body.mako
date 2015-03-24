@@ -84,7 +84,9 @@ ASTNode* Parser::parse() {
     return res;
 }
 
-AnalysisUnit::AnalysisUnit(AnalysisContext *context, const std::string file_name) {
+AnalysisUnit::AnalysisUnit(AnalysisContext *context,
+                           const std::string file_name)
+  : ref_count(1) {
     this->file_name = file_name;
     this->context = context;
     this->token_data_handler = new TokenDataHandler(context->symbol_table);
@@ -121,17 +123,28 @@ AnalysisContext::AnalysisContext() {
 }
 
 AnalysisContext::~AnalysisContext() {
-    for (auto kv : units_map) delete kv.second;
+    for (auto pair : units_map) {
+        pair.second->context = nullptr;
+        pair.second->dec_ref();
+    }
     delete this->symbol_table;
 }
 
 AnalysisUnit* AnalysisContext::create_from_file(std::string file_name) {
     AnalysisUnit* aunit = new AnalysisUnit(this, file_name);
-    this->units_map[file_name] = aunit;
+    /* AnalysisUnit automatically have one reference upon creation.
+       "units_map" is supposed to own this reference, so there's no need to
+       increase the ref-count.  */
+    units_map[file_name] = aunit;
     return aunit;
 }
 
 void AnalysisContext::remove(std::string file_name) {
-    delete this->units_map[file_name];
-    this->units_map.erase(file_name);
+    /* We remove the corresponding analysis unit from this context but users
+       could keep references on it, so make sure it can live independently.  */
+    AnalysisUnit *unit = units_map[file_name];
+    unit->context = nullptr;
+    unit->dec_ref();
+
+    units_map.erase(file_name);
 }

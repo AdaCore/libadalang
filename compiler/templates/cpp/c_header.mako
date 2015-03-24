@@ -12,7 +12,8 @@ extern "C" {
 /* Context for all source analysis.  */
 typedef void* ${analysis_context.simple};
 
-/* Context for the analysis of a single compilation unit.  */
+/* Context for the analysis of a single compilation unit.  References are
+   ref-counted.  */
 typedef void* ${analysis_unit.simple};
 
 /* Data type for all AST nodes.  AST nodes are assembled to make up a tree.
@@ -62,24 +63,43 @@ struct ${sloc_range.simple} {
  * Analysis primitives
  */
 
+/* Create and return an analysis context.  The caller is responsible to destroy
+   it when done with it.  */
 extern ${analysis_context.tagged}
 ${capi.get_name("create_analysis_context")}(void);
 
+/* Destroy an analysis context.  Any analysis units it contains may survive if
+   there are still references to it.  */
 extern void
 ${capi.get_name("destroy_analysis_context")}(
         ${analysis_context.tagged} context);
 
+/* Create an analysis unit out under this context from some source file.  At
+   this point the returned analysis unit is owned only by the analysis
+   context.  */
 extern ${analysis_unit.tagged}
 ${capi.get_name("create_analysis_unit_from_file")}(
         ${analysis_context.tagged} context,
         const char *filename);
 
+/* Remove the corresponding analysis unit from this context.  Note that if
+   someone still owns a reference to this unit, it is still available.  */
 extern void
 ${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
                                          const char *filename);
 
+/* Return the root AST node for this unit, or NULL if there is none.  */
 extern ${node.tagged}
 ${capi.get_name("unit_root")}(${analysis_unit.tagged} unit);
+
+/* Increase the reference count to an analysis unit.  Return the reference for
+   convenience.  */
+extern ${analysis_unit.tagged}
+${capi.get_name("unit_incref")}(${analysis_unit.tagged} unit);
+
+/* Decrease the reference count to an analysis unit.  */
+extern void
+${capi.get_name("unit_decref")}(${analysis_unit.tagged} unit);
 
 
 /*

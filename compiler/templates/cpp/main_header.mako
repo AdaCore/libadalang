@@ -80,15 +80,27 @@ class AnalysisUnit;
 class AnalysisContext {
 public:
     AnalysisContext();
-    AnalysisUnit* create_from_file(const std::string file_name);
-    void remove(const std::string file_name);
     virtual ~AnalysisContext();
+
+    /* Create a new AnalysisUnit for "file_name", register it and return a new
+       reference to it: the caller must decrease the ref count once done with
+       it.  */
+    AnalysisUnit* create_from_file(const std::string file_name);
+
+    /* Remove the corresponding AnalysisUnit from this context.  If someone
+       still owns a reference to it, it remains available but becomes
+       context-less.  */
+    void remove(const std::string file_name);
 
     /* Get a C API value wrapping this unit.  */
     ${analysis_context.tagged} wrap() {
         return static_cast<${analysis_context.tagged}>(this);
     }
 
+    /* This map owns a reference for each AnalysisUnit in it.  Note that users
+       may reference it too.  Once we remove this reference (on AnalysisContext
+       destruction or on unit removing), we must reset its "context" attribute
+       to avoid dangling pointers.  */
     std::unordered_map<std::string, AnalysisUnit*> units_map;
     SymbolTable* symbol_table;
 };
@@ -98,6 +110,12 @@ public:
     AnalysisUnit(AnalysisContext* context, const std::string file_name);
     virtual ~AnalysisUnit();
 
+    void inc_ref() { ++ref_count; }
+    void dec_ref() {
+        if (--ref_count == 0)
+            delete this;
+    }
+
     void print();
     void print_json();
 
@@ -106,12 +124,20 @@ public:
         return static_cast<${analysis_unit.tagged}>(this);
     }
 
+    /* A back-link to the embedding context.  Beware that even though all units
+       are created within a context, this back-link may become a null pointer
+       if the context is destroyed while someone still owns a reference to this
+       unit.  */
+    AnalysisContext* context;
+
     ASTNode*    ast_root;
     Parser*     parser;
     std::string file_name;
     TokenDataHandler* token_data_handler;
-    AnalysisContext* context;
     vector<Diagnostic> diagnostics;
+
+private:
+    unsigned ref_count;
 };
 
 #endif

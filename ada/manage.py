@@ -262,11 +262,6 @@ generate_parser.add_argument(
     '--coverage', '-C', action='store_true',
     help='Compute code coverage for the code generator'
 )
-generate_parser.add_argument(
-    '--bindings', '-b', choices=Bindings.CHOICES, nargs='*',
-    default={Bindings.PYTHON},
-    help='Bindings to generate (default: only Python)'
-)
 generate_parser.set_defaults(func=generate)
 
 # Build

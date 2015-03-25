@@ -73,7 +73,7 @@ main(void)
     subp_body = tmp;
 
     if (ada_node_kind(subp_body) != ada_SubprogramBody)
-        error("Got something else than a SubprogramDecl");
+        error("Got something else than a SubprogramBody");
     if (!ada_SubprogramBody_overriding(subp_body, &overriding))
         error("Could got get SubprogramBody.overriding");
     printf ("WithDecl: overriding = %d\n", overriding);

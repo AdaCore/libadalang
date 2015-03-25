@@ -27,8 +27,15 @@ public:
     virtual ~ASTNode() {}
     int ref = 0;
 
+    /* Get a value that identifies the kind of this node.  Each concrete
+       subclass must override this to provide the appropriate value.  */
+    virtual ${node_kind.tagged} kind() = 0;
+
+    /* Get a string that identifies the kind of this node.  Each concrete
+       subclass must override this to provide the appropriate value.  */
+    virtual std::string kind_name() = 0;
+
     virtual std::string repr() { return "not impl"; }
-    virtual std::string __name() { return "ASTNode"; }
 
     void inc_ref() { ref++; }
     int dec_ref() {
@@ -150,10 +157,6 @@ public:
         return result;
     }
 
-    /* Get a value that identifies the kind of this node.  Each concrete
-       subclass must override this to provide the appropriate value.  */
-    virtual ${node_kind.tagged} kind() = 0;
-
     enum class VisitStatus { Into, Over, Stop };
 
     template <typename VisitContext>
@@ -215,6 +218,8 @@ public:
         return ${capi.get_name("list")};
     }
 
+    virtual std::string kind_name() { return "ASTList"; }
+
     unsigned get_child_count() const {
         return vec.size();
     }
@@ -228,7 +233,6 @@ public:
         }
     }
 
-    virtual std::string __name() { return "ASTList"; }
     void compute_indent_level() {
         for (auto el : vec) {
             el->indent_level = this->indent_level;

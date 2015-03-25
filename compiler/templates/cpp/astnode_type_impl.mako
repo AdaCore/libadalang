@@ -17,7 +17,7 @@ ${cls.name()}::~${cls.name()}() {
 }
 
 std::string ${cls.name()}::repr() {
-    std::string result = this->__name() + "[" + get_sloc_range().repr() + "]" + "(";
+    std::string result = this->kind_name() + "[" + get_sloc_range().repr() + "]" + "(";
 
     % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
         % if i > 0:
@@ -51,9 +51,9 @@ std::string ${cls.name()}::repr() {
     ${cls.name()} nil_${cls.name()};
 % endif
 
-std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
-
 % if not cls.abstract:
+    std::string ${cls.name()}::kind_name() { return "${cls.repr_name()}"; }
+
     void ${cls.name()}::compute_indent_level() {
         % for i, (field_type, field) in enumerate(all_field_decls):
             % if is_ast_node(field_type):
@@ -142,7 +142,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
     ptree ${cls.name()}::get_property_tree() {
 
         ptree result;
-        result.put("kind", this->__name());
+        result.put("kind", this->kind_name());
         result.add_child("sloc", get_sloc_range().get_property_tree());
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
@@ -160,7 +160,7 @@ std::string ${cls.name()}::__name() { return "${cls.repr_name()}"; }
 
     void ${cls.name()}::print_node(int level) {
         print_tab(level);
-        std::string result = this->__name() + "[" + get_sloc_range().repr() + "]";
+        std::string result = this->kind_name() + "[" + get_sloc_range().repr() + "]";
         printf("%s\n", result.c_str());
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):

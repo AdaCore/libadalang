@@ -119,14 +119,14 @@ ASTNode::VisitStatus compute_lines_indent (ASTNode* node, IndentStatus* status) 
 
             ASTNode* lookup_node = status->root->lookup(lookup_pos, /*snap=*/true);
             if (lookup_node) {
-                cout << "LOOKUPED NODE FOR LINE " << i << " : " << lookup_node->__name()
+                cout << "LOOKUPED NODE FOR LINE " << i << " : " << lookup_node->kind_name()
                     << "[" << lookup_node->get_sloc_range(true).repr() << "]"
                     << " lookup_pos " << lookup_pos.repr() << " LINE " << (*status->lines)[i - 1] << endl;
             }
             status->lines_indent.push_back(lookup_node ? lookup_node->indent_level : 0);
         }
 
-        cout << "CURRENT NODE FOR LINE " << nstart << " : " << node->__name()
+        cout << "CURRENT NODE FOR LINE " << nstart << " : " << node->kind_name()
             << "[" << node->get_sloc_range().repr() << "]"
             << endl;
 

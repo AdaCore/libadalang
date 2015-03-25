@@ -18,10 +18,14 @@ public:
         ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, t.nullexpr()) for t, f in all_field_decls)} {}
     % endif
 
-    std::string __name();
     ~${cls.name()}();
 
     % if not cls.abstract:
+        std::string kind_name();
+        ${node_kind.tagged} kind() {
+            return ${capi.get_name(cls.name())};
+        }
+
         void validate();
         void print_node(int level = 0);
         boost::property_tree::ptree get_property_tree();
@@ -29,9 +33,6 @@ public:
         unsigned get_child_count() const;
         bool get_child(unsigned index, ASTNode*& result);
 
-        virtual ${node_kind.tagged} kind() {
-            return ${capi.get_name(cls.name())};
-        }
 
         void compute_indent_level();
     % endif

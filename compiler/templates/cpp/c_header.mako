@@ -24,10 +24,11 @@ enum ${node_kind.simple} {
     /* TODO: do we switch to UPPER_CASE for labels?  */
     /* TODO: do we keep a single node kind for all lists or should we
        specialize them?  */
-    ${capi.get_name("list")},
+    ${capi.get_name("list")} = 0,
 % for astnode in _self.astnode_types:
     % if not astnode.abstract:
-        ${capi.get_name(astnode.name())},
+        ${capi.get_name(astnode.name())}
+          = ${compile_ctx.node_kind_constants[astnode]},
     % endif
 % endfor
 };

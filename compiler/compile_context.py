@@ -55,6 +55,11 @@ class CompileCtx():
 
         # Holders for the C external API generated code chunks
 
+        # Mapping: ASTNode concrete (i.e. non abstract) subclass -> int,
+        # associating specific constants to be used reliably in bindings.  This
+        # mapping is built at the beginning of code emission.
+        self.node_kind_constants = {}
+
         # Mapping: ASTNode subclass -> GeneratedFunction instances for all
         # subclass field accessors.
         self.c_astnode_primitives = defaultdict(list)
@@ -201,6 +206,16 @@ class CompileCtx():
         for r_name, r in self.grammar.rules.items():
             r.compile(self)
             self.rules_to_fn_names[r_name] = r
+
+        for i, astnode in enumerate(
+            (astnode
+             for astnode in self.astnode_types
+             if not astnode.abstract),
+            # Compute kind constants for all ASTNode concrete subclasses.
+            # Start with 1: the constant 0 is reserved for all ASTList nodes.
+            start=1
+        ):
+            self.node_kind_constants[astnode] = i
 
         write_cpp_file(path.join(src_path, "parse.cpp"),
                        self.get_source())

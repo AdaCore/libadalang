@@ -9,8 +9,7 @@ class CAPIType(object):
     def __init__(self, c_api_settings, name, tag=None, external=False):
         """Create a stub for a C API type
 
-        c_api_settings: A c_api_settings.CAPISettings instance.
-
+        c_api_settings: A c_api.CAPISettings instance.
 
         name: The name for the type (without any tag).
 

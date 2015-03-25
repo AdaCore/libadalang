@@ -30,7 +30,7 @@ class CompileCtx():
 
         lang_name: Name of the target language.
 
-        c_api_settings: a c_api_settings.CAPISettings instance.
+        c_api_settings: a c_api.CAPISettings instance.
 
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.

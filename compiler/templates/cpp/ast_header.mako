@@ -22,9 +22,18 @@ struct IndentProperties {
     };
 };
 
+/* Data structures for ASTNode extension: see in ASTNode below.  */
+class ASTNode;
+typedef void ASTNodeExtension;
+typedef std::function<void(ASTNode*, ASTNodeExtension*)> ASTNodeExtensionDestructor;
+
 class ASTNode {
 public:
-    virtual ~ASTNode() {}
+    virtual ~ASTNode() {
+        /* Detroy all extensions.  */
+        for (auto& slot : extensions)
+            slot.dtor(this, slot.value);
+    }
     int ref = 0;
 
     /* Get a value that identifies the kind of this node.  Each concrete
@@ -45,6 +54,24 @@ public:
             return true;
         }
         return false;
+    }
+
+    /* Get an already registered extension for "ext_id" (see extensions.hpp).
+       If there's such an extension, return a pointer to it. If there's not,
+       create one, associate the "dtor" destructor to it and return a pointer
+       to it (the pointed value is initialized to nullptr in such a case).
+
+       Note that returned pointers are not guaranteed to stay valid after other
+       calls to get_extension are made.  */
+    ASTNodeExtension** get_extension(unsigned ext_id,
+                                     ASTNodeExtensionDestructor dtor) {
+        for (auto& slot : extensions) {
+            if (slot.extension_id == ext_id)
+                return &slot.value;
+        }
+        ASTNodeExtensionSlot new_slot = {ext_id, nullptr, dtor};
+        extensions.push_back(new_slot);
+        return &extensions[extensions.size() - 1].value;
     }
 
     short indent_level = 0;
@@ -193,6 +220,15 @@ protected:
           printf("| ");
        }
     }
+
+private:
+    /* Holder for extensions.  */
+    struct ASTNodeExtensionSlot {
+        unsigned extension_id;
+        ASTNodeExtension *value;
+        ASTNodeExtensionDestructor dtor;
+    };
+    std::vector<ASTNodeExtensionSlot> extensions;
 };
 
 template <typename T> class ASTList : public ASTNode {

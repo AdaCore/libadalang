@@ -282,6 +282,22 @@ _${primitive.name} = _import_func(
 % endfor
 
 
+# Extensions handling
+_register_extension = _import_func(
+    '${capi.get_name("register_extension")}',
+    [ctypes.c_char_p], ctypes.c_uint
+)
+_node_extension_destructor = ctypes.CFUNCTYPE(
+    ctypes.c_void_p,
+    _node, ctypes.c_void_p
+)
+_node_extension = _import_func(
+    '${capi.get_name("node_extension")}',
+    [_node, ctypes.c_uint, _node_extension_destructor],
+    ctypes.POINTER(ctypes.c_void_p)
+)
+
+
 #
 # Layering helpers
 #
@@ -310,9 +326,50 @@ _kind_to_astnode_cls = {
     % endfor
 }
 
+# We use the extension mechanism to keep a single wrapper ASTNode instance per
+# underlying AST node. This way, users can store attributes in wrappers and
+# expect to find these attributes back when getting the same node later.
+
+# TODO: this mechanism currently introduces reference loops between the ASTNode
+# and its wrapper. When a Python wraper is created for some ASTNode, both will
+# never be deallocated (i.e. we have memory leaks). This absolutely needs to be
+# fixed for real world use but in the meantime, let's keep this implementation
+# for prototyping.
+
+_node_extension_id = _register_extension("python_api_astnode_wrapper")
+def _node_ext_dtor_py(c_node, c_pyobj):
+    """
+    Callback for extension upon ASTNode destruction: free the reference for the
+    Python wrapper.
+    """
+    c_pyobj = ctypes.py_object(c_pyobj)
+    ctypes.pythonapi.Py_DecRef(c_pyobj)
+
+_node_ext_dtor_c = _node_extension_destructor(_node_ext_dtor_py)
+
 def _wrap_astnode(c_value):
     if not c_value:
         return None
 
-    kind = _node_kind(c_value)
-    return _kind_to_astnode_cls[kind](c_value)
+    # First, look if we already built a wrapper for this node so that we only
+    # have one wrapper per node.
+    c_pyobj_p = _node_extension(c_value, _node_extension_id, _node_ext_dtor_c)
+    c_pyobj_p = ctypes.cast(
+        c_pyobj_p,
+        ctypes.POINTER(ctypes.py_object)
+    )
+    if c_pyobj_p.contents:
+        return c_pyobj_p.contents.value
+    else:
+        # Create a new wrapper for this node...
+        kind = _node_kind(c_value)
+        py_obj = _kind_to_astnode_cls[kind](c_value)
+
+        # .. and store it in our extension.
+        c_pyobj_p[0] = ctypes.py_object(py_obj)
+
+        # We want to increment its ref count so that the wrapper will be alive
+        # as long as the extension references it.
+        ctypes.pythonapi.Py_IncRef(ctypes.py_object(py_obj))
+
+        return py_obj

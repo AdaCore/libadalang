@@ -5,6 +5,7 @@
 #include "lexer.hpp"
 #include "ast.hpp"
 #include "parse.hpp"
+#include "extensions.hpp"
 
 
 /*
@@ -162,3 +163,22 @@ ${capi.get_name("node_decref")}(${node.tagged} node) {
         ${primitive.implementation}
     % endfor
 % endfor
+
+
+/*
+ * Extensions handling
+ */
+
+unsigned
+${capi.get_name("register_extension")}(const char *name) {
+    return register_extension(name);
+}
+
+void **
+${capi.get_name("node_extension")}(${node.tagged} node,
+                                   unsigned ext_id,
+                                   ${capi.get_name("node_extension_destructor")} dtor) {
+    ASTNode *node_ = unwrap<ASTNode>(node);
+    ASTNodeExtensionDestructor dtor_(dtor);
+    return node_->get_extension(ext_id, dtor_);
+}

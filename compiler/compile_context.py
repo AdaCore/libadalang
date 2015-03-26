@@ -24,12 +24,14 @@ def write_cpp_file(file_path, source):
 class CompileCtx():
     """State holder for native code emission"""
 
-    def __init__(self, lang_name, main_rule_name, c_api_settings,
+    def __init__(self, lang_name, lexer_file, main_rule_name, c_api_settings,
                  python_api_settings=None,
                  verbose=False):
         """Create a new context for code emission
 
         lang_name: Name of the target language.
+
+        lexer_file: Filename for the Quex lexer specification.
 
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
@@ -58,7 +60,9 @@ class CompileCtx():
         self.test_names = []
         self.rules_to_fn_names = {}
         self.grammar = None
-        self.lexer_file = None
+
+        self.lexer_file = lexer_file
+        quex_tokens.init_token_map(lexer_file)
 
         self.python_api_settings = python_api_settings
 
@@ -197,15 +201,6 @@ class CompileCtx():
 
     def set_grammar(self, grammar):
         self.grammar = grammar
-
-    def set_lexer_file(self, lexer_file):
-        """
-        Set the quex file for this compile ctx. This needs to be called
-        BEFORE any grammar rules are created, because Tok and TokClass rules
-        needs to be aware of the quex lexer.
-        """
-        self.lexer_file = lexer_file
-        quex_tokens.init_token_map(self)
 
     def emit(self, file_root="."):
         """

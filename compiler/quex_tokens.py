@@ -50,6 +50,6 @@ class TokenMap(object):
 token_map = None
 
 
-def init_token_map(compile_ctx):
+def init_token_map(lexer_file):
     global token_map
-    token_map = TokenMap(compile_ctx.lexer_file)
+    token_map = TokenMap(lexer_file)

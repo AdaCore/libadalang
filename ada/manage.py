@@ -117,17 +117,17 @@ def get_compilers(name):
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
+    lexer_file = dirs.under_source('ada', 'ada.qx')
     c_api_settings = CAPISettings(
         'libadalang',
         symbol_prefix='ada',
     )
     python_api_settings = (PythonAPISettings('libadalang', c_api_settings)
                            if 'python' in args.bindings else None)
-    context = CompileCtx('ada', 'compilation_unit',
+    context = CompileCtx('ada', lexer_file, 'compilation_unit',
                          c_api_settings,
                          python_api_settings,
                          verbose=args.verbose)
-    context.set_lexer_file(dirs.under_source('ada', 'ada.qx'))
 
     from ada_parser import A
     import ada_parser.decl

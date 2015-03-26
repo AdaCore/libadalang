@@ -31,25 +31,25 @@ class Directories(object):
         ))
 
     @property
-    def source_dir(self):
+    def root_source_dir(self):
         return self.root_dir
 
     @property
-    def build_dir(self):
+    def root_build_dir(self):
         return os.path.abspath(self.args.build_dir)
 
     @property
-    def install_dir(self):
+    def root_install_dir(self):
         return os.path.abspath(getattr(self.args, 'install-dir'))
 
-    def under_source(self, *args):
-        return os.path.join(self.source_dir, *args)
+    def source_dir(self, *args):
+        return os.path.join(self.root_source_dir, *args)
 
-    def under_build(self, *args):
-        return os.path.join(self.build_dir, *args)
+    def build_dir(self, *args):
+        return os.path.join(self.root_build_dir, *args)
 
-    def under_install(self, *args):
-        return os.path.join(self.install_dir, *args)
+    def install_dir(self, *args):
+        return os.path.join(self.root_install_dir, *args)
 
 
 class Coverage(object):
@@ -64,12 +64,12 @@ class Coverage(object):
         self.cov = coverage.coverage(
             branch=True,
             source=[
-                self.dirs.source_dir,
-                self.dirs.under_source('ada'),
+                self.dirs.source_dir(),
+                self.dirs.source_dir('ada'),
             ],
             omit=[
-                self.dirs.under_source('compiler', 'build.py'),
-                self.dirs.under_source('compiler', 'env.py'),
+                self.dirs.source_dir('compiler', 'build.py'),
+                self.dirs.source_dir('compiler', 'env.py'),
             ],
         )
 
@@ -86,7 +86,7 @@ class Coverage(object):
 
     def generate_report(self):
         self.cov.html_report(
-            directory=self.dirs.under_build('coverage'),
+            directory=self.dirs.build_dir('coverage'),
             ignore_errors=True
         )
 
@@ -117,7 +117,7 @@ def get_compilers(name):
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    lexer_file = dirs.under_source('ada', 'ada.qx')
+    lexer_file = dirs.source_dir('ada', 'ada.qx')
     c_api_settings = CAPISettings(
         'libadalang',
         symbol_prefix='ada',
@@ -140,14 +140,14 @@ def generate(args, dirs):
     context.set_grammar(A)
 
     print Colors.HEADER + "Generating source for libadalang ..." + Colors.ENDC
-    context.emit(file_root=dirs.build_dir)
+    context.emit(file_root=dirs.build_dir())
     print Colors.OKGREEN + "Generation complete !" + Colors.ENDC
 
 
 def build(args, dirs):
     """Build generated source code."""
     c_compiler, cxx_compiler = get_compilers(args.compiler)
-    make_argv = ['make', '-C', dirs.build_dir,
+    make_argv = ['make', '-C', dirs.build_dir(),
                  '-j{}'.format(args.jobs),
                  'CC={}'.format(c_compiler),
                  'CXX={}'.format(cxx_compiler)]
@@ -176,17 +176,17 @@ def install(args, dirs):
 
     for subdir in ('bin', 'include', 'lib', 'python'):
         fileutils.sync_tree(
-            dirs.under_build(subdir),
-            dirs.under_install(subdir)
+            dirs.build_dir(subdir),
+            dirs.install_dir(subdir)
         )
 
 
 def setup_environment(dirs, add_path):
-    add_path('PATH', dirs.under_build('bin'))
-    add_path('C_INCLUDE_PATH', dirs.under_build('include'))
-    add_path('LIBRARY_PATH', dirs.under_build('lib'))
-    add_path('LD_LIBRARY_PATH', dirs.under_build('lib'))
-    add_path('PYTHONPATH', dirs.under_build('python'))
+    add_path('PATH', dirs.build_dir('bin'))
+    add_path('C_INCLUDE_PATH', dirs.build_dir('include'))
+    add_path('LIBRARY_PATH', dirs.build_dir('lib'))
+    add_path('LD_LIBRARY_PATH', dirs.build_dir('lib'))
+    add_path('PYTHONPATH', dirs.build_dir('python'))
 
 
 def test(args, dirs):
@@ -208,7 +208,7 @@ def test(args, dirs):
 
     try:
         subprocess.check_call([
-            dirs.under_source('testsuite', 'testsuite.py'),
+            dirs.source_dir('testsuite', 'testsuite.py'),
             '--enable-color', '--show-error-output',
         ] + getattr(args, 'testsuite-args'), env=env)
     except subprocess.CalledProcessError as exc:

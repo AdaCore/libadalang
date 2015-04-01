@@ -26,6 +26,27 @@ class AnalysisContext(object):
 class AnalysisUnit(object):
     # TODO: document this class and its methods
 
+    class DiagnosticsList(object):
+        def __init__(self, unit):
+            self.unit = unit
+
+        def __len__(self):
+            return _unit_diagnostic_count(self.unit._c_value)
+
+        def __getitem__(self, key):
+            if not isinstance(key, int):
+                msg = 'list indices must be integers, not {}'.format(
+                    type(key))
+                raise TypeError(msg)
+
+            result = _Diagnostic()
+            success = _unit_diagnostic(self.unit._c_value, key,
+                                       ctypes.byref(result))
+            if not success:
+                raise IndexError('child index out of range')
+            else:
+                return _wrap_diagnostic(result)
+
     def __init__(self, c_value):
         self._c_value = c_value
         _unit_incref(self._c_value)
@@ -37,6 +58,10 @@ class AnalysisUnit(object):
     @property
     def root(self):
         return _wrap_astnode(_unit_root(self._c_value))
+
+    @property
+    def diagnostics(self):
+        return self.DiagnosticsList(self)
 
 
 class Sloc(object):
@@ -59,6 +84,14 @@ class SlocRange(object):
 
     def __nonzero__(self):
         return self.start or self.end
+
+
+class Diagnostic(object):
+    # TODO: document this class and its methods
+
+    def __init__(self, sloc_range, message):
+        self.sloc_range = sloc_range
+        self.message = message
 
 
 class ASTNode(object):
@@ -157,6 +190,10 @@ class _SlocRange(ctypes.Structure):
     _fields_ = [("start", _Sloc),
                 ("end", _Sloc)]
 
+class _Diagnostic(ctypes.Structure):
+    _fields_ = [("sloc_range", _SlocRange),
+                ("message", ctypes.c_char_p)]
+
 # Analysis primitives
 _create_analysis_context = _import_func(
     '${capi.get_name("create_analysis_context")}',
@@ -177,6 +214,14 @@ _remove_analysis_unit = _import_func(
 _unit_root = _import_func(
     '${capi.get_name("unit_root")}',
     [_analysis_unit], _node
+)
+_unit_diagnostic_count = _import_func(
+    '${capi.get_name("unit_diagnostic_count")}',
+    [_analysis_unit], ctypes.c_uint
+)
+_unit_diagnostic = _import_func(
+    '${capi.get_name("unit_diagnostic")}',
+    [_analysis_unit, ctypes.c_uint, ctypes.POINTER(_Diagnostic)], ctypes.c_int
 )
 _unit_incref = _import_func(
     '${capi.get_name("unit_incref")}',
@@ -250,6 +295,10 @@ def _unwrap_sloc(sloc):
 def _wrap_sloc_range(c_value):
     return SlocRange(_wrap_sloc(c_value.start),
                      _wrap_sloc(c_value.end))
+
+def _wrap_diagnostic(c_value):
+    return Diagnostic(_wrap_sloc_range(c_value.sloc_range),
+                      c_value.message)
 
 
 _kind_to_astnode_cls = {

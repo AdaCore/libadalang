@@ -72,8 +72,8 @@ ASTNode* Parser::parse() {
 
     if (!res) {
         auto diag = Diagnostic(
-            "\tExpected \"" + token_texts[last_fail.expected_token_id]
-            + "\", got \"" + token_texts[last_fail.found_token_id] + "\"\n",
+            "Expected \"" + token_texts[last_fail.expected_token_id]
+            + "\", got \"" + token_texts[last_fail.found_token_id] + "\"",
             lexer->get(last_fail.pos).sloc_range
         );
         this->diagnostics.push_back(diag);

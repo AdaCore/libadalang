@@ -78,6 +78,7 @@ def make_renderer(compile_ctx=None):
             'node':             CAPIType(capi, 'node'),
             'sloc':             CAPIType(capi, 'source_location', 'struct'),
             'sloc_range':       SourceLocationRangeType.c_type(capi),
+            'diagnostic':       CAPIType(capi, 'diagnostic', 'struct'),
         })
     return common_renderer.update(template_args)
 

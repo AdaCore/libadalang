@@ -49,6 +49,16 @@ struct ${sloc_range.simple} {
 };
 
 
+/* Analysis unit diagnostics.  */
+struct ${diagnostic.simple} {
+    ${sloc_range.tagged} sloc_range;
+    /* Reference to the diagnostic message: it can become invalid (a dangling
+       pointer) as soon as diagnostic are appended or removed from the
+       corresponding analysis unit.  */
+    const char *message;
+};
+
+
 /*
  * Data structures held in AST nodes
  */
@@ -91,6 +101,17 @@ ${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
 /* Return the root AST node for this unit, or NULL if there is none.  */
 extern ${node.tagged}
 ${capi.get_name("unit_root")}(${analysis_unit.tagged} unit);
+
+/* Return the number of diagnostics associated to this unit.  */
+extern unsigned
+${capi.get_name("unit_diagnostic_count")}(${analysis_unit.tagged} unit);
+
+/* Get the Nth diagnostic in this unit and store it into *DIAGNOSTIC_P.  Return
+   zero on failure (when N is too big).  */
+extern int
+${capi.get_name("unit_diagnostic")}(${analysis_unit.tagged} unit,
+                                    unsigned n,
+                                    ${diagnostic.tagged} *diagnostic_p);
 
 /* Increase the reference count to an analysis unit.  Return the reference for
    convenience.  */

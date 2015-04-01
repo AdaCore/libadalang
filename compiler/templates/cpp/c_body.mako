@@ -44,6 +44,28 @@ ${capi.get_name("unit_root")}(${analysis_unit.tagged} unit) {
     return unit_->ast_root->wrap();
 }
 
+unsigned
+${capi.get_name("unit_diagnostic_count")}(${analysis_unit.tagged} unit) {
+    AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
+    return unit_->diagnostics.size();
+}
+
+int
+${capi.get_name("unit_diagnostic")}(${analysis_unit.tagged} unit,
+                                    unsigned n,
+                                    ${diagnostic.tagged} *diagnostic_p) {
+    AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
+    auto& diagnostics = unit_->diagnostics;
+    if (n < diagnostics.size())
+    {
+        auto& d = diagnostics[n];
+        diagnostic_p->sloc_range = wrap(d.sloc_range);
+        diagnostic_p->message = d.raw_message.c_str();
+        return 1;
+    }
+    return 0;
+}
+
 ${analysis_unit.tagged}
 ${capi.get_name("unit_incref")}(${analysis_unit.tagged} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);

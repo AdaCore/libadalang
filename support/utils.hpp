@@ -1,3 +1,6 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
 #include <algorithm>
 #include <functional>
 #include <cctype>
@@ -20,3 +23,4 @@ static inline std::string &trim(std::string &s) {
         return ltrim(rtrim(s));
 }
 
+#endif

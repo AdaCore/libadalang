@@ -37,6 +37,7 @@ ifdef BOOST_LIBRARY_PATH
 endif
 
 LIB_OBJECTS = obj/ast.o \
+	      obj/indent_engine.o \
 	      obj/lexer.o \
 	      obj/parse.o \
 	      obj/quex_lexer.o \

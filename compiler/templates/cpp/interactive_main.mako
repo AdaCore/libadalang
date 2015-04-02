@@ -10,6 +10,7 @@
 #include "parse.hpp"
 #include <fstream>
 #include <chrono>
+#include "indent_engine.hpp"
 
 namespace po = boost::program_options;
 using namespace std;
@@ -26,7 +27,26 @@ std::vector<std::string> split_lines(std::istream& input_stream) {
     return result;
 }
 
-void do_indent(ASTNode* root, std::vector<std::string>& lines);
+void do_indent(ASTNode* root, std::vector<std::string>& lines) {
+    IndentEngine indent_engine(root, &lines);
+    indent_engine.process();
+
+    cout << "============= UNINDENTED CODE ==============" << endl << endl;
+
+    for (std::string& line : lines) {
+        boost::trim_left(line);
+        cout << line << endl;
+    }
+
+    cout << endl << "============= INDENTED CODE ==============" << endl << endl;
+
+    for (unsigned i = 0; i < lines.size(); i++) {
+        cout << string(indent_engine.get_indent(i + 1), ' ')
+            << lines[i] << endl;
+    }
+
+    cout << endl << "==========================================" << endl;
+}
 
 void parse_input(string input,
                  string rule_name,
@@ -107,84 +127,6 @@ void parse_input(string input,
     else {
         printf("Unknown rule : %s\n", rule_name.c_str());
     }
-}
-
-struct IndentStatus {
-    int last_line = 0;
-    std::vector<short> lines_indent;
-    ASTNode* root;
-    std::vector<std::string>* lines;
-};
-
-ASTNode::VisitStatus compute_lines_indent (ASTNode* node, IndentStatus* status) {
-    int nstart = node->get_sloc_range().get_start().line;
-
-    if (status->last_line < nstart) {
-
-        for (int i = status->last_line + 1; i < nstart; i++) {
-            // We're getting the first non blank char, adding 1 for 1-based indexing,
-            // and adding 1 more to be past the end of the snap zone.
-            // TODO: This is sub-optimal:
-            // 1. The snap zone should probably end 1 char before to be practical.
-            // 2. Rather than finding the first token manually this way, we
-            //    should iterate on the list of tokens here, to avoid doing some
-            //    more processing
-            auto start_col = (*status->lines)[i - 1].find_first_not_of(" ") + 2;
-
-            // If start_col == 0, means that find_first_not_of returned -1, so
-            // the line is blank, start_col needs to be 1
-            start_col = start_col == 0 ? 1 : start_col;
-            auto lookup_pos = SourceLocation(i, start_col);
-
-            ASTNode* lookup_node = status->root->lookup(lookup_pos, /*snap=*/true);
-#if DEBUG_MODE
-            if (lookup_node) {
-                cout << "LOOKUPED NODE FOR LINE " << i << " : " << lookup_node->kind_name()
-                    << "[" << lookup_node->get_sloc_range(true).repr() << "]"
-                    << " lookup_pos " << lookup_pos.repr() << " LINE " << (*status->lines)[i - 1] << endl;
-            }
-#endif
-            status->lines_indent.push_back(lookup_node ? lookup_node->indent_level : 0);
-        }
-
-#if DEBUG_MODE
-        cout << "CURRENT NODE FOR LINE " << nstart << " : " << node->kind_name()
-            << "[" << node->get_sloc_range().repr() << "]"
-            << endl;
-#endif
-
-        status->last_line = nstart;
-        status->lines_indent.push_back(node->indent_level);
-    }
-
-    return ASTNode::VisitStatus::Into;
-}
-
-void do_indent(ASTNode* root, std::vector<std::string>& lines) {
-    root->compute_indent_level();
-    IndentStatus indent_status;
-    indent_status.root = root;
-    indent_status.lines = &lines;
-    ASTNode::Visitor<IndentStatus*> visitor = compute_lines_indent;
-    root->visit_all_children(visitor, &indent_status);
-
-    for (string& line: lines) {
-        boost::trim_left(line);
-    }
-
-    cout << "============= UNINDENTED CODE ==============" << endl << endl;
-
-    for (auto line: lines) {
-        cout << line << endl;
-    }
-
-    cout << endl << "============= INDENTED CODE ==============" << endl << endl;
-
-    for (size_t i = 0; i < indent_status.lines_indent.size(); i++) {
-        cout << string(indent_status.lines_indent [i], ' ') << lines[i] << endl;
-    }
-
-    cout << endl << "==========================================" << endl;
 }
 
 int main (int argc, char** argv) {

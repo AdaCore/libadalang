@@ -4,30 +4,8 @@
 void IndentEngine::process()
 {
     root_->compute_indent_level();
-    ASTNode::Visitor<IndentEngine*> visitor = visit_node;
-    root_->visit_all_children(visitor, this);
-}
 
-int IndentEngine::get_indent(unsigned line) const
-{
-    if (line < 1 || line > lines_indent_.size())
-        return 0;
-    else
-        return lines_indent_[line - 1];
-}
-
-ASTNode::VisitStatus IndentEngine::visit_node(ASTNode* node,
-                                              IndentEngine* engine) {
-    engine->process_node(node);
-    return ASTNode::VisitStatus::Into;
-}
-
-void IndentEngine::process_node(ASTNode* node) {
-    int nstart = node->get_sloc_range().get_start().line;
-
-    /* If we skipped lines since the last ASTnode we processed, compute their
-       indentation level.  */
-    for (int i = last_line() + 1; i < nstart; i++) {
+    for (unsigned i = 1; i <= lines_->size(); i++) {
         const std::string& line = (*lines_)[i - 1];
 
         /* Lookup the token that covers the first non-blank character on
@@ -65,17 +43,12 @@ void IndentEngine::process_node(ASTNode* node) {
         lines_indent_.push_back(lookup_node != nullptr
                                 ? lookup_node->indent_level : 0);
     }
+}
 
-    /* Now take care of the first line for this ASTNode if no one already
-       did.  */
-    if (last_line() < nstart) {
-#if DEBUG_MODE
-        cout << "CURRENT NODE FOR LINE " << nstart << " : "
-            << node->kind_name()
-            << "[" << node->get_sloc_range().repr() << "]"
-            << endl;
-#endif
-
-        lines_indent_.push_back(node->indent_level);
-    }
+int IndentEngine::get_indent(unsigned line) const
+{
+    if (line < 1 || line > lines_indent_.size())
+        return 0;
+    else
+        return lines_indent_[line - 1];
 }

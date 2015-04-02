@@ -1,0 +1,15 @@
+============= UNINDENTED CODE ==============
+
+procedure Foo is
+begin
+null;
+end;
+
+============= INDENTED CODE ==============
+
+procedure Foo is
+begin
+   null;
+end;
+
+==========================================

@@ -1,0 +1,13 @@
+============= UNINDENTED CODE ==============
+
+It := Get_Parent_Scope (
+Tree,
+It);
+
+============= INDENTED CODE ==============
+
+It := Get_Parent_Scope (
+                        Tree,
+                        It);
+
+==========================================

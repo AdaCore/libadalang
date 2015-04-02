@@ -238,7 +238,8 @@ class BaseDriver(TestDriver):
         failures = []
 
         # Check for the test output itself.
-        diff = fileutils.diff(self.expected_file, self.output_file)
+        diff = fileutils.diff(self.expected_file, self.output_file,
+                              ignore_white_chars=False)
         if diff:
             if rewrite:
                 new_baseline = self.read_file(self.output_file)

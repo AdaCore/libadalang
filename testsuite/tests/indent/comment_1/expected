@@ -1,0 +1,17 @@
+============= UNINDENTED CODE ==============
+
+procedure Test_03 is
+-- Comment
+begin
+null;
+end;
+
+============= INDENTED CODE ==============
+
+procedure Test_03 is
+   -- Comment
+begin
+   null;
+end;
+
+==========================================

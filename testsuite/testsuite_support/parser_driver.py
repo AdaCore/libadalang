@@ -13,6 +13,8 @@ from testsuite_support.base_driver import (
 class ParserDriver(BaseDriver):
     TIMEOUT = 300
 
+    ACTIONS = ('pretty-print', 'indent')
+
     #
     # Driver entry points
     #
@@ -24,6 +26,11 @@ class ParserDriver(BaseDriver):
         # Testcases are expected to provide two files...
         for filename in ('input', 'expected'):
             self.check_file(filename)
+
+        # What should we do for this test?
+        self.action = self.test_env.get('action', 'pretty-print')
+        if self.action not in self.ACTIONS:
+            raise SetupError('Invalid action: {}'.format(self.action))
 
     @catch_test_errors
     def run(self):
@@ -37,6 +44,10 @@ class ParserDriver(BaseDriver):
             parse_argv.extend([
                 '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])
             ])
+        if self.action != 'pretty-print':
+            parse_argv.append('--silent')
+        if self.action == 'indent':
+            parse_argv.append('--indent')
 
         self.run_and_check(parse_argv, for_debug=True, memcheck=True)
 

@@ -16,9 +16,22 @@ using namespace std;
 using boost::property_tree::ptree;
 using namespace std::chrono;
 
+/* Return the content of a string stream as a list of strings (newline
+   preserved).  */
+std::vector<std::string> split_lines(std::istream& input_stream) {
+    std::vector<std::string> result;
+    std::string line;
+    while (getline(input_stream, line))
+        result.push_back(line);
+    return result;
+}
+
+void do_indent(ASTNode* root, std::vector<std::string>& lines);
+
 void parse_input(string input,
                  string rule_name,
                  bool print,
+                 bool indent,
                  const vector<string> &lookups)
 {
 
@@ -72,6 +85,12 @@ void parse_input(string input,
                             lookup_res->validate();
                         }
                     }
+
+                    if (indent) {
+                        std::stringstream input_stream(input);
+                        auto lines = split_lines(input_stream);
+                        do_indent(res, lines);
+                    }
                 % else:
                     if (!lookups.empty())
                         printf("Cannot lookup non-AST nodes!\n");
@@ -118,23 +137,54 @@ ASTNode::VisitStatus compute_lines_indent (ASTNode* node, IndentStatus* status) 
             auto lookup_pos = SourceLocation(i, start_col);
 
             ASTNode* lookup_node = status->root->lookup(lookup_pos, /*snap=*/true);
+#if DEBUG_MODE
             if (lookup_node) {
                 cout << "LOOKUPED NODE FOR LINE " << i << " : " << lookup_node->kind_name()
                     << "[" << lookup_node->get_sloc_range(true).repr() << "]"
                     << " lookup_pos " << lookup_pos.repr() << " LINE " << (*status->lines)[i - 1] << endl;
             }
+#endif
             status->lines_indent.push_back(lookup_node ? lookup_node->indent_level : 0);
         }
 
+#if DEBUG_MODE
         cout << "CURRENT NODE FOR LINE " << nstart << " : " << node->kind_name()
             << "[" << node->get_sloc_range().repr() << "]"
             << endl;
+#endif
 
         status->last_line = nstart;
         status->lines_indent.push_back(node->indent_level);
     }
 
     return ASTNode::VisitStatus::Into;
+}
+
+void do_indent(ASTNode* root, std::vector<std::string>& lines) {
+    root->compute_indent_level();
+    IndentStatus indent_status;
+    indent_status.root = root;
+    indent_status.lines = &lines;
+    ASTNode::Visitor<IndentStatus*> visitor = compute_lines_indent;
+    root->visit_all_children(visitor, &indent_status);
+
+    for (string& line: lines) {
+        boost::trim_left(line);
+    }
+
+    cout << "============= UNINDENTED CODE ==============" << endl << endl;
+
+    for (auto line: lines) {
+        cout << line << endl;
+    }
+
+    cout << endl << "============= INDENTED CODE ==============" << endl << endl;
+
+    for (size_t i = 0; i < indent_status.lines_indent.size(); i++) {
+        cout << string(indent_status.lines_indent [i], ' ') << lines[i] << endl;
+    }
+
+    cout << endl << "==========================================" << endl;
 }
 
 int main (int argc, char** argv) {
@@ -209,12 +259,10 @@ int main (int argc, char** argv) {
             return 1;
         }
         if (is_filelist) {
-            ifstream fl(vm["filelist"].as<string>());
-            string input_file;
-            while (getline(fl, input_file)) {
-                input_file = trim(input_file);
-                file_list.push_back(input_file);
-            }
+            std::ifstream input_stream(vm["filelist"].as<string>());
+            auto lines = split_lines(input_stream);
+            for (std::string& line : lines)
+                file_list.push_back(trim(line));
         }
 
         if (is_files) {
@@ -242,36 +290,9 @@ int main (int argc, char** argv) {
             }
 
             if (indent) {
-                std::ifstream infile(input_file);
-                std::string line;
-                std::vector<std::string> lines;
-                while (std::getline(infile, line))
-                    lines.push_back(line);
-
-                unit->ast_root->compute_indent_level();
-                IndentStatus indent_status;
-                indent_status.root = unit->ast_root;
-                indent_status.lines = &lines;
-                ASTNode::Visitor<IndentStatus*> visitor = compute_lines_indent;
-                unit->ast_root->visit_all_children(visitor, &indent_status);
-
-                for (string& line: lines) {
-                    boost::trim_left(line);
-                }
-
-                cout << "============= UNINDENTED CODE ==============" << endl << endl;
-
-                for (auto line: lines) {
-                    cout << line << endl;
-                }
-
-                cout << endl << "============= INDENTED CODE ==============" << endl << endl;
-
-                for (size_t i = 0; i < indent_status.lines_indent.size(); i++) {
-                    cout << string(indent_status.lines_indent [i], ' ') << lines[i] << endl;
-                }
-
-                cout << endl << "==========================================" << endl;
+                std::ifstream input_stream(input_file);
+                auto input_lines = split_lines(input_stream);
+                do_indent(unit->ast_root, input_lines);
             }
 
             if (time) {
@@ -283,9 +304,8 @@ int main (int argc, char** argv) {
             cout << "removing file " << input_file << endl;
             context.remove(input_file);
         }
-    } else {
-        parse_input(input, rule_name, print, lookups);
-    }
+    } else
+        parse_input(input, rule_name, print, indent, lookups);
 
     print_diagnostics();
     return 0;

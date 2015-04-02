@@ -1,0 +1,19 @@
+============= UNINDENTED CODE ==============
+
+procedure Foo is
+begin
+if True then
+null;
+end if;
+end;
+
+============= INDENTED CODE ==============
+
+procedure Foo is
+begin
+   if True then
+      null;
+   end if;
+end;
+
+==========================================

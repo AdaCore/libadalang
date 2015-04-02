@@ -23,7 +23,7 @@ class ParserDriver(BaseDriver):
 
         # Testcases are expected to provide two files...
         for filename in ('input', 'expected'):
-            self.check_file(os.path.join(self.test_dir, filename))
+            self.check_file(filename)
 
     @catch_test_errors
     def run(self):

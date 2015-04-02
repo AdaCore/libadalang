@@ -24,8 +24,8 @@ class PythonDriver(BaseDriver):
             raise SetupError('Missing "input_sources" key in test.yaml')
         input_sources = self.test_env['input_sources']
 
-        self.check_file(os.path.join(self.test_dir, 'test.py'))
-        self.check_file_list(input_sources)
+        self.check_file('test.py')
+        self.check_file_list('"input_sources"', input_sources)
         self.check_file(self.expected_file)
 
     @catch_test_errors

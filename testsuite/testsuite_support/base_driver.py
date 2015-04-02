@@ -145,22 +145,26 @@ class BaseDriver(TestDriver):
 
         If the file does not exist test is aborted.
         """
-        if not os.path.isfile(filename):
+        if not os.path.isfile(os.path.join(self.test_dir, filename)):
             raise SetupError('Missing mandatory file: {}'.format(filename))
 
-    def check_file_list(self, file_list, can_be_empty=True):
-        """Raise a SetupError if `file_list` is not a list of strings
+    def check_file_list(self, what, file_list, can_be_empty=True):
+        """Raise a SetupError if `file_list` is not a list of existing files
 
         Also raise an error if it is an empty list while `can_be_empty` is
         False.
         """
+        # First check we have a list of strings
         if (not isinstance(file_list, list) or
                 (not can_be_empty and len(file_list) == 0) or
-                not all(isinstance(cu, basestring) for cu in file_list)):
+                not all(isinstance(fn, basestring) for fn in file_list)):
             empty_msg = 'non-empty '
             raise SetupError(
-                '"compile_units" must be a {}list of strings'.format(
-                    empty_msg))
+                '{} must be a {}list of strings'.format(what, empty_msg))
+
+        # Then check that these are existing files
+        for filename in file_list:
+            self.check_file(filename)
 
     def create_test_workspace(self):
         """

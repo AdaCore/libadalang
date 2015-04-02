@@ -41,8 +41,9 @@ class CAPIDriver(BaseDriver):
             raise SetupError('Missing "input_sources" key in test.yaml')
         input_sources = self.test_env['input_sources']
 
-        self.check_file_list(compile_units, can_be_empty=False)
-        self.check_file_list(input_sources)
+        self.check_file_list('"compile_units"', compile_units,
+                             can_be_empty=False)
+        self.check_file_list('"input_sources"', input_sources)
         self.check_file(self.expected_file)
 
         static_lib = self.locate_in_path(os.environ['LIBRARY_PATH'],

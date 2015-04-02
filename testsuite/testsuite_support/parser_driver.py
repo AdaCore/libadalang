@@ -6,7 +6,7 @@ from gnatpython.ex import Run, STDOUT
 import gnatpython.fileutils as fileutils
 
 from testsuite_support.base_driver import (
-    BaseDriver, catch_test_errors, TestError,
+    BaseDriver, catch_test_errors, SetupError,
 )
 
 
@@ -64,7 +64,7 @@ class ParserDriver(BaseDriver):
         try:
             return self.test_env['rule']
         except KeyError:
-            raise TestError(
+            raise SetupError(
                 'The rule to used for parsing is missing from test.yaml'
             )
 
@@ -83,7 +83,7 @@ class ParserDriver(BaseDriver):
                 or not isinstance(lookup.get('line'), int)
                 or not isinstance(lookup.get('column'), int)
             ):
-                raise TestError(
+                raise SetupError(
                     'Invalid lookup in test.yaml: {}'.format(lookup))
 
         return lookups

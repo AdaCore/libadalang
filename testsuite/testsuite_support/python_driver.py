@@ -5,7 +5,7 @@ from gnatpython import fileutils
 from gnatpython.ex import Run, STDOUT
 
 from testsuite_support.base_driver import (
-    BaseDriver, catch_test_errors, TestError,
+    BaseDriver, catch_test_errors, SetupError,
 )
 
 
@@ -21,7 +21,7 @@ class PythonDriver(BaseDriver):
         super(PythonDriver, self).tear_up()
 
         if 'input_sources' not in self.test_env:
-            raise TestError('Missing "input_sources" key in test.yaml')
+            raise SetupError('Missing "input_sources" key in test.yaml')
         input_sources = self.test_env['input_sources']
 
         self.check_file(os.path.join(self.test_dir, 'test.py'))

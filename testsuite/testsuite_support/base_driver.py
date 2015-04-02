@@ -9,8 +9,17 @@ from gnatpython.testsuite.driver import TestDriver
 from testsuite_support.valgrind import Valgrind
 
 
-class TestError(Exception):
+class SetupError(Exception):
+    """Exception to raise when the testcase is invalid.
+
+    Helper exception to work with catch_test_errors: see below.
     """
+    pass
+
+
+class TestError(Exception):
+    """Exception to raise when the testcase fails.
+
     Helper exception to work with catch_test_errors: see below.
     """
     pass
@@ -20,16 +29,19 @@ def catch_test_errors(func):
     """
     Helper decorator for driver entry points.
 
-    This returns a wrapper around func that catches TestError exceptions and
-    that turns them into PROBLEM test statuses. Using exceptions is convenient
-    to stop any method from any point: this simplifies the control flow.
+    This returns a wrapper around func that catches SetupError and TestError
+    exceptions and that turns them into the appropriate test status. Using
+    exceptions is convenient to stop any method from any point: this simplifies
+    the control flow.
     """
 
     def wrapper(self, *args, **kwargs):
         try:
             return func(self, *args, **kwargs)
+        except SetupError as exc:
+            self.set_setup_error(exc.message)
         except TestError as exc:
-            self.result.set_status('PROBLEM', exc.message)
+            self.set_failure(exc.message)
     return wrapper
 
 
@@ -51,10 +63,47 @@ class BaseDriver(TestDriver):
                          if self.global_env['options'].valgrind else None)
         self.valgrind_errors = []
 
+        # See if we expect a failure for this testcase
+        try:
+            comment = self.test_env['expect_failure']
+        except KeyError:
+            self.expect_failure = False
+            self.expect_failure_comment = None
+        else:
+            self.expect_failure = True
+            if not (comment is None or isinstance(comment, basestring)):
+                raise SetupError('Invalid "expect_failure" entry:'
+                                 ' expected a string but got {}'.format(
+                                     type(comment)))
+            self.expect_failure_comment = comment
+
     def read_file(self, filename):
         """Return the content of `filename`."""
         with open(filename, 'r') as f:
             return f.read()
+
+    def set_setup_error(self, message):
+        self.result.set_status('PROBLEM', message)
+
+    def set_failure(self, message):
+        if self.expect_failure:
+            self.result.set_status('XFAIL', '{}{}'.format(
+                message,
+                ' ({})'.format(self.expect_failure_comment)
+                if self.expect_failure_comment else ''
+            ))
+        else:
+            self.result.set_status('FAILED', message)
+
+    def set_passed(self):
+        if self.expect_failure:
+            msg = (
+                'Failure was expected: {}'.format(self.expect_failure_comment)
+                if self.expect_failure_comment else None
+            )
+            self.result.set_status('UOK', msg)
+        else:
+            self.result.set_status('PASSED')
 
     # Convenience path builders
 
@@ -97,10 +146,10 @@ class BaseDriver(TestDriver):
         If the file does not exist test is aborted.
         """
         if not os.path.isfile(filename):
-            raise TestError('Missing mandatory file: {}'.format(filename))
+            raise SetupError('Missing mandatory file: {}'.format(filename))
 
     def check_file_list(self, file_list, can_be_empty=True):
-        """Raise a TestError if `file_list` is not a list of strings
+        """Raise a SetupError if `file_list` is not a list of strings
 
         Also raise an error if it is an empty list while `can_be_empty` is
         False.
@@ -109,7 +158,7 @@ class BaseDriver(TestDriver):
                 (not can_be_empty and len(file_list) == 0) or
                 not all(isinstance(cu, basestring) for cu in file_list)):
             empty_msg = 'non-empty '
-            raise TestError(
+            raise SetupError(
                 '"compile_units" must be a {}list of strings'.format(
                     empty_msg))
 
@@ -206,6 +255,6 @@ class BaseDriver(TestDriver):
             failures.append('memory isuses detected')
 
         if failures:
-            self.result.set_status('FAILED', ' | '.join(failures))
+            self.set_failure(' | '.join(failures))
         else:
-            self.result.set_status('PASSED')
+            self.set_passed()

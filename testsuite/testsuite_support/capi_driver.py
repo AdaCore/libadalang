@@ -5,7 +5,7 @@ from gnatpython import fileutils
 from gnatpython.ex import Run, STDOUT
 
 from testsuite_support.base_driver import (
-    BaseDriver, catch_test_errors, TestError,
+    BaseDriver, catch_test_errors, SetupError,
 )
 
 
@@ -34,11 +34,11 @@ class CAPIDriver(BaseDriver):
         super(CAPIDriver, self).tear_up()
 
         if 'compile_units' not in self.test_env:
-            raise TestError('Missing "compile_units" key in test.yaml')
+            raise SetupError('Missing "compile_units" key in test.yaml')
         compile_units = self.test_env['compile_units']
 
         if 'input_sources' not in self.test_env:
-            raise TestError('Missing "input_sources" key in test.yaml')
+            raise SetupError('Missing "input_sources" key in test.yaml')
         input_sources = self.test_env['input_sources']
 
         self.check_file_list(compile_units, can_be_empty=False)
@@ -48,7 +48,7 @@ class CAPIDriver(BaseDriver):
         static_lib = self.locate_in_path(os.environ['LIBRARY_PATH'],
                                          'libadalang.a')
         if not static_lib:
-            raise TestError('Could not locate libadalang.a')
+            raise SetupError('Could not locate libadalang.a')
 
         self.gcc_argv = [
             self.global_env['options'].c_compiler,

@@ -27,7 +27,6 @@ class ${cls.name()}(${parent_cls.name()}):
         % elif is_long(primitive.field_type):
         return result.value
         % else:
-        == Purposedly wrong generated code ==
-        There's a type we don't know how to wrap in Python
+        <% raise Exception("Unhandled field type in the python binding: {}".format(primitive.field_type)) %>
         % endif
     % endfor

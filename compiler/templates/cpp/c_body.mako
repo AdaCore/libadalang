@@ -153,6 +153,11 @@ ${capi.get_name("node_decref")}(${node.tagged} node) {
     node_->dec_ref();
 }
 
+const char *
+${capi.get_name("token_text")} (${token.tagged} token) {
+    Token *token_ = unwrap<Token>(token);
+    return token_->text;
+}
 
 /*
  * Kind-specific AST node primitives

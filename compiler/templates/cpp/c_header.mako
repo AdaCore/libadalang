@@ -35,6 +35,10 @@ enum ${node_kind.simple} {
 % endfor
 };
 
+/* Data type for tokens.  Tokens always come from AST node and have the same
+   lifetime than the AST node they come from.  */
+typedef void* ${token.simple};
+
 
 /* Helper data structures for source location handling.  */
 
@@ -67,6 +71,10 @@ struct ${diagnostic.simple} {
 % for chunk in _self.c_astnode_field_types.values():
     ${chunk}
 %endfor
+
+/* Get the text of the given token.  The returned string has the same lifetime
+   than "token".  */
+const char *${capi.get_name("token_text")} (${token.tagged} token);
 
 
 /*

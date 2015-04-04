@@ -19,6 +19,10 @@ def is_tok(parser):
     return isinstance(parser, Tok)
 
 
+def is_token_type(compiled_type):
+    return issubclass(compiled_type, Token)
+
+
 def is_enum(compiled_type):
     return issubclass(compiled_type, EnumType)
 
@@ -58,15 +62,16 @@ def make_renderer(compile_ctx=None):
     renderer and so are all commonly used C API types.
     """
     template_args = {
-        'is_tok':           is_tok,
-        'is_row':           is_row,
-        'is_enum':          is_enum,
-        'is_long':          is_long,
-        'is_bool':          is_bool,
-        'is_class':         inspect.isclass,
-        'is_ast_node':      is_ast_node,
-        'is_sloc_range':    is_sloc_range,
-        'decl_type':        decl_type,
+        'is_token_type': is_token_type,
+        'is_tok': is_tok,
+        'is_row': is_row,
+        'is_enum': is_enum,
+        'is_long': is_long,
+        'is_bool': is_bool,
+        'is_class': inspect.isclass,
+        'is_ast_node': is_ast_node,
+        'is_sloc_range': is_sloc_range,
+        'decl_type': decl_type,
     }
     if compile_ctx:
         capi = compile_ctx.c_api_settings
@@ -75,6 +80,7 @@ def make_renderer(compile_ctx=None):
             'analysis_context': CAPIType(capi, 'analysis_context'),
             'analysis_unit':    CAPIType(capi, 'analysis_unit'),
             'node_kind':        CAPIType(capi, 'node_kind', 'enum'),
+            'token':            CAPIType(capi, 'token'),
             'node':             CAPIType(capi, 'node'),
             'sloc':             CAPIType(capi, 'source_location', 'struct'),
             'sloc_range':       SourceLocationRangeType.c_type(capi),
@@ -246,6 +252,14 @@ class Token(BasicType):
     is_ptr = False
     _name = "Token"
     _nullexpr = "no_token"
+
+    @classmethod
+    def c_type(cls, c_api_settings):
+        return CAPIType(c_api_settings, 'token')
+
+    @classmethod
+    def py_type(cls, python_api_settings):
+        return PythonAPIType(python_api_settings, 'token', False)
 
 
 class NoToken(Token):
@@ -482,11 +496,9 @@ class ASTNode(CompiledType):
         parent types are handled as part of parent types themselves, so there
         is no need to handle them here.
         """
-        # All fields are exported unless they hold a token.
         return [(field, field_type)
                 for field, field_type in zip(
-                    cls.get_fields(), cls.get_types(compile_ctx))
-                if not issubclass(field_type, Token)]
+                    cls.get_fields(), cls.get_types(compile_ctx))]
 
     @classmethod
     def add_to_context(cls, compile_ctx):
@@ -507,6 +519,7 @@ class ASTNode(CompiledType):
             # Generate field accessors (C public API) for this node kind
             primitives = []
             render = make_renderer(compile_ctx).render
+
             for field, field_type in cls.get_public_fields(compile_ctx):
                 accessor_basename = '{}_{}'.format(cls.name(), field.name)
                 accessor_fullname = compile_ctx.c_api_settings.get_name(

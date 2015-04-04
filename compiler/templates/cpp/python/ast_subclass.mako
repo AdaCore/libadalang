@@ -20,6 +20,8 @@ class ${cls.name()}(${parent_cls.name()}):
         return _wrap_astnode(result)
         % elif is_sloc_range(primitive.field_type):
         return _wrap_sloc_range(result)
+        % elif is_token_type(primitive.field_type):
+        return Token(result)
         % elif is_bool(primitive.field_type):
         return bool(result.value)
         % elif is_enum(primitive.field_type):

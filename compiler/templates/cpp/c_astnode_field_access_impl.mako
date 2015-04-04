@@ -1,5 +1,4 @@
 ## vim: filetype=makocpp
-
 int
 ${accessor_name}(${node.tagged} node,
                  ${field_type.c_type(capi).tagged} *value_p) {
@@ -14,6 +13,8 @@ ${accessor_name}(${node.tagged} node,
             *value_p = (${field_type.c_type(capi).tagged}) typed_node->${field.name};
         % elif is_ast_node(field_type):
             *value_p = typed_node->${field.name}->wrap();
+        % elif is_token_type(field_type):
+            *value_p = &typed_node->${field.name};
         % else:
             *value_p = typed_node->${field.name};
         % endif

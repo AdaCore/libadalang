@@ -16,11 +16,12 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_node with_decl, subp_body;
+    ada_node with_decl, subp_body, subp_name;
     ada_node tmp;
 
     int is_limited, is_private;
     enum ada_Overriding overriding;
+    ada_token tok;
 
     ctx = ada_create_analysis_context();
     if (ctx == NULL)
@@ -76,7 +77,23 @@ main(void)
         error("Got something else than a SubprogramBody");
     if (!ada_SubprogramBody_overriding(subp_body, &overriding))
         error("Could got get SubprogramBody.overriding");
-    printf ("WithDecl: overriding = %d\n", overriding);
+    printf ("SubprogramBody: overriding = %d\n", overriding);
+
+
+    if (!ada_SubprogramBody_subp_spec(subp_body, &tmp))
+      error("Could not get SubprogramBody.subp_spec");
+    if (ada_node_kind(tmp) != ada_SubprogramSpec)
+      error("SubprogramBody.subp_spec is not a SubprogramSpec");
+
+    if (!ada_SubprogramSpec_name(tmp, &tmp))
+      error("Could not get SubprogramBody.subp_spec.name");
+    if (ada_node_kind(tmp) != ada_Identifier)
+      error("SubprogramBody.subp_spec.name is not an Identifier");
+    subp_name = tmp;
+
+    if (!ada_Identifier_tok(subp_name, &tok))
+      error("Could not get Identifier.tok");
+    printf ("Identifier: tok = %s\n", ada_token_text(tok));
 
 
     ada_destroy_analysis_context(ctx);

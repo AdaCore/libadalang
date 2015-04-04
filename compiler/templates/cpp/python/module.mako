@@ -64,6 +64,16 @@ class AnalysisUnit(object):
         return self.DiagnosticsList(self)
 
 
+class Token(object):
+    # TODO: document this class and its methods
+
+    def __init__(self, c_value):
+        self.text = _token_text(c_value)
+
+    def __repr__(self):
+        return "<Token {}>".format(self.text)
+
+
 class Sloc(object):
     # TODO: document this class and its methods
 
@@ -181,18 +191,23 @@ _analysis_context = ctypes.c_void_p
 _analysis_unit = ctypes.c_void_p
 _node = ctypes.c_void_p
 _enum_node_kind = ctypes.c_uint
+_token = ctypes.c_void_p
+
 
 class _Sloc(ctypes.Structure):
     _fields_ = [("line", ctypes.c_uint32),
                 ("column", ctypes.c_uint16)]
 
+
 class _SlocRange(ctypes.Structure):
     _fields_ = [("start", _Sloc),
                 ("end", _Sloc)]
 
+
 class _Diagnostic(ctypes.Structure):
     _fields_ = [("sloc_range", _SlocRange),
                 ("message", ctypes.c_char_p)]
+
 
 # Analysis primitives
 _create_analysis_context = _import_func(
@@ -268,6 +283,11 @@ _node_incref = _import_func(
 _node_decref = _import_func(
     '${capi.get_name("node_decref")}',
     [_node], None
+)
+
+_token_text = _import_func(
+    '${capi.get_name("token_text")}',
+    [_token], ctypes.c_char_p
 )
 
 % for astnode in _self.astnode_types:

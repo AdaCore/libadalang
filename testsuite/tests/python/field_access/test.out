@@ -1,4 +1,5 @@
 WithDecl: is_limited = True
 WithDecl: is_private = False
 WithDecl: overriding = unspecified
+Identifier: tok = Foo
 Done.

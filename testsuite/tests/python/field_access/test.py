@@ -31,4 +31,9 @@ print 'WithDecl: is_private = {}'.format(with_decl.is_private)
 subp_body = unit.root.body.item
 assert subp_body.kind_name == 'SubprogramBody'
 print 'WithDecl: overriding = {}'.format(subp_body.overriding)
+
+subp_name = subp_body.subp_spec.name
+assert subp_name.kind_name == 'Identifier'
+print 'Identifier: tok = {}'.format(subp_name.tok.text)
+
 print "Done."

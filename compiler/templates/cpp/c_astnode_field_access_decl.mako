@@ -1,4 +1,4 @@
-## vim: filetype=cpp
+## vim: filetype=makocpp
 
 extern int
 ${accessor_name}(${node.tagged} node,

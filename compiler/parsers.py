@@ -216,8 +216,8 @@ class Parser(object):
         )
 
         render = make_renderer(compile_ctx).render
-        t_env.fn_profile = render('parser_fn_profile', t_env)
-        t_env.fn_code = render('parser_fn_code', t_env)
+        t_env.fn_profile = render('parsers/fn_profile', t_env)
+        t_env.fn_code = render('parsers/fn_code', t_env)
 
         compile_ctx.body.append(t_env.fn_code)
         compile_ctx.fns_decls.append(t_env.fn_profile)
@@ -263,7 +263,7 @@ class Parser(object):
             # the context corresponding to this call
             pos, res = gen_names("fncall_pos", "fncall_res")
             fncall_block = make_renderer(compile_ctx).render(
-                'parser_fncall',
+                'parsers/fn_call',
                 _self=self, pos_name=pos_name,
                 pos=pos, res=res
             )
@@ -323,7 +323,7 @@ class Tok(Parser):
         # the corresponding context
         pos, res = gen_names("tk_pos", "tk_res")
         code = make_renderer(compile_ctx).render(
-            'tok_code',
+            'parsers/tok_code',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=self.token_kind
         )
@@ -366,7 +366,7 @@ class TokClass(Parser):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         token_kind = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = make_renderer(compile_ctx).render(
-            'tok_code',
+            'parsers/tok_code',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=token_kind,
         )
@@ -468,7 +468,7 @@ class Or(Parser):
             typ=decl_type(self.get_type())
         )
 
-        code = make_renderer(compile_ctx).render('or_code', t_env)
+        code = make_renderer(compile_ctx).render('parsers/or_code', t_env)
 
         return ParserCodeContext(
             pos_var_name=t_env.pos,
@@ -580,11 +580,11 @@ class Row(Parser):
                 decls.append((subresult, parser.get_type()))
 
             bodies.append(make_renderer(compile_ctx).render(
-                'row_submatch', t_subenv)
+                'parsers/row_submatch', t_subenv)
             )
 
         code = make_renderer(compile_ctx).render(
-            'row_code', t_env, body='\n'.join(bodies)
+            'parsers/row_code', t_env, body='\n'.join(bodies)
         )
 
         return ParserCodeContext(
@@ -706,7 +706,7 @@ class List(Parser):
         return ParserCodeContext(
             pos_var_name=t_env.pos,
             res_var_name=t_env.res,
-            code=make_renderer(compile_ctx).render('list_code', t_env),
+            code=make_renderer(compile_ctx).render('parsers/list_code', t_env),
             var_defs=decls
         )
 
@@ -799,7 +799,7 @@ class Opt(Parser):
 
         return copy_with(
             parser_context,
-            code=make_renderer(compile_ctx).render('opt_code', t_env),
+            code=make_renderer(compile_ctx).render('parsers/opt_code', t_env),
             res_var_name=(t_env.bool_res if self._booleanize
                           else parser_context.res_var_name),
             var_defs=parser_context.var_defs + ([(t_env.bool_res, BoolType)]
@@ -1020,7 +1020,7 @@ class Transform(Parser):
                 (t_env.res, self.get_type()),
             ],
             code=make_renderer(compile_ctx).render(
-                'transform_code', t_env, pos_name=pos_name
+                'parsers/transform_code', t_env, pos_name=pos_name
             )
         )
 
@@ -1058,7 +1058,7 @@ class Null(Parser):
         if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx)
         res = gen_name("null_res")
-        code = make_renderer(compile_ctx).render('null_code',
+        code = make_renderer(compile_ctx).render('parsers/null_code',
                                                  _self=self, res=res)
 
         return ParserCodeContext(
@@ -1134,7 +1134,7 @@ class Enum(Parser):
         return copy_with(
             parser_context,
             res_var_name=env.res,
-            code=make_renderer(compile_ctx).render('enum_code', env),
+            code=make_renderer(compile_ctx).render('parsers/enum_code', env),
             var_defs=parser_context.var_defs + [(env.res, self.get_type())]
         )
 

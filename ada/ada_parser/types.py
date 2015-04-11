@@ -1,6 +1,6 @@
 from ada_parser import A
-from parsers import abstract, Opt, List, Or, Row, _, Null, \
-    EnumType, Enum, ASTNode, Field
+from parsers import Opt, List, Or, Row, Null, Enum
+from compiled_types import Field, abstract, ASTNode, EnumType
 
 
 class DiscriminantSpec(ASTNode):

@@ -1,5 +1,5 @@
-from parsers import abstract, Opt, List, Or, Row, _, TokClass, \
-    ASTNode, Field, NoToken, Null
+from parsers import Opt, List, Or, Row, _, TokClass, Null
+from compiled_types import NoToken, Field, abstract, ASTNode
 from ada_parser.exprs import LoopSpec
 from ada_parser import A
 from tokenizer import Lbl

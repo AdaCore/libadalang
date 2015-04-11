@@ -1,5 +1,5 @@
-from parsers import abstract, Opt, List, Or, Row, EnumType, Enum, Tok, \
-    TokClass, ASTNode, Field, Null
+from parsers import Opt, List, Or, Row, Enum, Tok, TokClass, Null
+from compiled_types import Field, abstract, EnumType, ASTNode
 from ada_parser import A
 from tokenizer import Id, CharLit, StringLit, NumLit
 

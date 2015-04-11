@@ -1,4 +1,4 @@
-from parsers import Token
+from compiled_types import Token
 
 
 class NumLit(Token):

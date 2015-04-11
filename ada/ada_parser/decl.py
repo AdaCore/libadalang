@@ -1,8 +1,6 @@
 from ada_parser import A
-from parsers import (
-    abstract, Field, ASTNode, Opt, List, Or, Row, _,
-    EnumType, Enum, indent_rel, Tok, indent_token
-)
+from parsers import Opt, List, Or, Row, _, Enum, Tok
+from compiled_types import Field, EnumType, abstract, ASTNode, indent_rel
 
 
 class WithDecl(ASTNode):

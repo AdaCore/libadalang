@@ -30,7 +30,7 @@ class TokenMap(object):
         self.names_to_str = {v: k for k, v in self.str_to_names.items()}
 
         token_defs_text = next(re.finditer(
-            r'token \{(.*)?\}', qx_grammar, re.DOTALL
+            r'token \{(.*)\}', qx_grammar, re.DOTALL
         )).group(1)
 
         # This dict maps the token internal names to their integer identifiers

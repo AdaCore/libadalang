@@ -408,8 +408,10 @@ class ASTNode(CompiledType):
                     field_type=field_type,
                     accessor_name=accessor_fullname,
                 )
-                accessor_decl = render('c_astnode_field_access_decl', t_env)
-                accessor_impl = render('c_astnode_field_access_impl', t_env)
+                accessor_decl = render(
+                    'c_api/astnode_field_access_decl', t_env)
+                accessor_impl = render(
+                    'c_api/astnode_field_access_impl', t_env)
 
                 primitives.append(FieldAccessor(
                     accessor_basename,
@@ -534,7 +536,7 @@ class EnumType(CompiledType):
                 render('enum_type_impl', compile_ctx=compile_ctx, cls=cls)
             )
             compile_ctx.c_astnode_field_types[cls] = render(
-                'enum_c_type_decl', compile_ctx=compile_ctx, cls=cls,
+                'c_api/enum_type_decl', compile_ctx=compile_ctx, cls=cls,
             )
             if compile_ctx.python_api_settings:
                 compile_ctx.py_astnode_field_types[cls] = render(

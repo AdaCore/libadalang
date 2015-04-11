@@ -311,17 +311,17 @@ class CompileCtx():
         write_cpp_file(
             path.join(include_path,
                       "{}.h".format(self.c_api_settings.lib_name)),
-            render("c_header")
+            render("c_api/header")
         )
         write_cpp_file(
             path.join(src_path,
                       "{}.cpp".format(self.c_api_settings.lib_name)),
-            render("c_body")
+            render("c_api/body")
         )
 
         write_cpp_file(
             path.join(src_path, "c_utils.hpp"),
-            render("c_utils")
+            render("c_api/utils")
         )
 
     def emit_python_api(self, python_path):

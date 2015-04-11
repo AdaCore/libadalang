@@ -7,23 +7,15 @@ from template_utils import TemplateEnvironment
 from compiled_types import CompiledType, BoolType, LongType, \
     Token, ASTNode, list_type, decl_type
 import compiled_types
-from utils import common_ancestor, copy_with, Colors
+from utils import common_ancestor, copy_with, Colors, type_check_instance
 import quex_tokens
-
-
-def is_row(parser):
-    return isinstance(parser, Row)
-
-
-def is_tok(parser):
-    return isinstance(parser, Tok)
 
 
 def make_renderer(compile_ctx=None):
     return compiled_types.make_renderer(compile_ctx).update({
-        'is_tok':           is_tok,
-        'is_row':           is_row,
-        'is_class':         inspect.isclass,
+        'is_tok':   type_check_instance(Tok),
+        'is_row':   type_check_instance(Row),
+        'is_class': inspect.isclass,
     })
 
 

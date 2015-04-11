@@ -23,8 +23,7 @@ class FieldAccessor(GeneratedFunction):
 
 
 class StructEq(object):
-    """
-    Mixin for structural equality.
+    """ Mixin for structural equality.
     """
     def __eq__(self, other):
         if type(other) is type(self):
@@ -123,3 +122,21 @@ def memoized(func):
         return result
 
     return wrapper
+
+
+def type_check(klass):
+    """Return a predicate that will return true if its parameter is a subclass
+    of `klass`
+    :param type klass: Class to check against
+    :rtype: (T) -> bool
+    """
+    return lambda t: issubclass(t, klass)
+
+
+def type_check_instance(klass):
+    """Return a predicate that will return true if its parameter is a subclass
+    of `klass`
+    :param type klass: Class to check against
+    :rtype: (T) -> bool
+    """
+    return lambda t: isinstance(t, klass)

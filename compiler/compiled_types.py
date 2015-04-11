@@ -1,8 +1,9 @@
 from itertools import count
+
 from c_api import CAPIType
 from common import get_type, null_constant
 from template_utils import TemplateEnvironment, common_renderer
-from utils import FieldAccessor, memoized
+from utils import FieldAccessor, memoized, type_check
 from python_api import PythonAPIType
 
 
@@ -311,7 +312,7 @@ class ASTNode(CompiledType):
         all_field_decls = zip(cls.get_types(compile_ctx), cls.get_fields())
         astnode_field_decls = [field
                                for (field_type, field) in all_field_decls
-                               if is_ast_node(field_type)]
+                               if issubclass(field_type, ASTNode)]
         cls_field_decls = zip(compile_ctx.ast_fields_types[cls], cls.fields)
 
         t_env = TemplateEnvironment(
@@ -570,32 +571,6 @@ class EnumType(CompiledType):
         ]
 
 
-def is_enum(compiled_type):
-    return issubclass(compiled_type, EnumType)
-
-
-def is_long(compiled_type):
-    return issubclass(compiled_type, LongType)
-
-
-def is_bool(compiled_type):
-    return issubclass(compiled_type, BoolType)
-
-
-def is_ast_node(compiled_type):
-    """Return whether `compiled_type` is an ASTNode in the generated code."""
-    return issubclass(compiled_type, ASTNode)
-
-
-def is_sloc_range(compiled_type):
-    """Return whether `compiled_type` is a sloc range in the generated code"""
-    return issubclass(compiled_type, SourceLocationRangeType)
-
-
-def is_token_type(compiled_type):
-    return issubclass(compiled_type, Token)
-
-
 def make_renderer(compile_ctx=None, base_renderer=None):
     """Create a template renderer with common helpers
 
@@ -606,12 +581,12 @@ def make_renderer(compile_ctx=None, base_renderer=None):
         base_renderer = common_renderer
 
     template_args = {
-        'is_enum':          is_enum,
-        'is_long':          is_long,
-        'is_bool':          is_bool,
-        'is_ast_node':      is_ast_node,
-        'is_sloc_range':    is_sloc_range,
-        'is_token_type':    is_token_type,
+        'is_enum':          type_check(EnumType),
+        'is_long':          type_check(LongType),
+        'is_bool':          type_check(BoolType),
+        'is_ast_node':      type_check(ASTNode),
+        'is_sloc_range':    type_check(SourceLocationRangeType),
+        'is_token_type':    type_check(Token),
         'decl_type':        decl_type,
     }
     if compile_ctx:

@@ -425,7 +425,7 @@ class ASTNode(CompiledType):
             # for the fields they define.
             if compile_ctx.python_api_settings:
                 compile_ctx.py_astnode_subclasses[cls] = render(
-                    'python/ast_subclass',
+                    'python_api/ast_subclass',
                     pyapi=compile_ctx.python_api_settings,
                     cls=cls,
                     parent_cls=list(cls.get_inheritance_chain())[-2],
@@ -538,7 +538,7 @@ class EnumType(CompiledType):
             )
             if compile_ctx.python_api_settings:
                 compile_ctx.py_astnode_field_types[cls] = render(
-                    'python/enum_type_decl', cls=cls,
+                    'python_api/enum_type_decl', cls=cls,
                     pyapi=compile_ctx.python_api_settings
                 )
 

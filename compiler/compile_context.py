@@ -341,7 +341,7 @@ class CompileCtx():
 
         with open(os.path.join(python_path, module_filename), "w") as f:
             f.write(self.render_template(
-                'python/module', _self=self,
+                'python_api/module', _self=self,
                 pyapi=self.python_api_settings,
                 astnode_subclass_decls=astnode_subclass_decls,
             ))

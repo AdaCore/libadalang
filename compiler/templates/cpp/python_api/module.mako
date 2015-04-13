@@ -107,6 +107,8 @@ class Diagnostic(object):
 class ASTNode(object):
     # TODO: document this class and its methods
 
+    _field_names = ()
+
     def __init__(self, c_value):
         self._c_value = c_value
         _node_incref(self._c_value)
@@ -138,9 +140,14 @@ class ASTNode(object):
         return _wrap_astnode(_node_parent(self._c_value))
 
     def __len__(self):
+        """Return the number of ASTNode children this node has"""
         return _node_child_count(self._c_value)
 
     def __getitem__(self, key):
+        """Return the Nth ASTNode child this node has
+
+        Raise an IndexError if "key" is out of range.
+        """
         if not isinstance(key, int):
             msg = 'ASTNode children are integer-indexed (got {})'.format(
                 type(key))
@@ -152,6 +159,15 @@ class ASTNode(object):
             raise IndexError('child index out of range')
         else:
             return _wrap_astnode(result)
+
+    def iter_fields(self):
+        """Iterate through all the fields this node contains
+
+        Return an iterator that yields (field_name, field_value) couples for
+        all fields in this node.
+        """
+        for field_name in self._field_names:
+            yield (field_name, getattr(self, field_name))
 
 
 class ASTList(ASTNode):

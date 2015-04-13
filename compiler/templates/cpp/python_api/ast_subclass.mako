@@ -4,6 +4,12 @@
 class ${cls.name()}(${parent_cls.name()}):
     # TODO: document this class and its methods
 
+    _field_names = ${parent_cls.name()}._field_names + (
+        % for primitive in primitives:
+        "${primitive.field.name}",
+        % endfor
+    )
+
     % if not primitives:
     pass
     % endif

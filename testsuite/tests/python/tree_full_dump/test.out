@@ -1,0 +1,27 @@
+<CompilationUnit>
+|prelude:
+|  <list>
+|body:
+|  <LibraryItem>
+|  |is_private: False
+|  |item:
+|  |  <SubprogramBody>
+|  |  |overriding: unspecified
+|  |  |subp_spec:
+|  |  |  <SubprogramSpec>
+|  |  |  |name:
+|  |  |  |  <Identifier>
+|  |  |  |  |tok: Token('Foo')
+|  |  |  |params: None
+|  |  |  |returns: None
+|  |  |aspects: None
+|  |  |decls: None
+|  |  |statements:
+|  |  |  <HandledStatements>
+|  |  |  |statements:
+|  |  |  |  <list>
+|  |  |  |exceptions: None
+|  |  |end_id:
+|  |  |  <Identifier>
+|  |  |  |tok: Token('Foo')
+Done

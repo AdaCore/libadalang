@@ -91,7 +91,7 @@ main(void)
       error("SubprogramBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
-    if (!ada_Identifier_tok(subp_name, &tok))
+    if (!ada_SingleTokNode_tok(subp_name, &tok))
       error("Could not get Identifier.tok");
     printf ("Identifier: tok = %s\n", ada_token_text(tok));
 

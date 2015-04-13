@@ -355,7 +355,7 @@ class ASTNode(CompiledType):
     @classmethod
     def get_types(cls, compile_ctx):
         """
-        Return the list of types for all the fields `cls` has, inclusing its
+        Return the list of types for all the fields `cls` has, including its
         parents'.
         """
         types = []
@@ -376,7 +376,7 @@ class ASTNode(CompiledType):
         """
         return [(field, field_type)
                 for field, field_type in zip(
-                cls.get_fields(), cls.get_types(compile_ctx))]
+                cls.fields, compile_ctx.ast_fields_types[cls])]
 
     @classmethod
     def add_to_context(cls, compile_ctx):

@@ -21,7 +21,7 @@ print_indent(int level)
 static void
 dump(ada_node node, int level)
 {
-    enum ada_node_kind kind;
+    ada_node_kind_enum kind;
     const char *kind_name;
     unsigned i, count;
 

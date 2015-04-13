@@ -1,5 +1,5 @@
 ## vim: filetype=makocpp
 
 extern int
-${accessor_name}(${node.tagged} node,
-                 ${field_type.c_type(capi).tagged} *value_p);
+${accessor_name}(${node_type} node,
+                 ${field_type.c_type(capi).name} *value_p);

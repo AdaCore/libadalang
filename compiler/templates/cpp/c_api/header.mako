@@ -10,19 +10,19 @@ extern "C" {
 #endif
 
 /* Context for all source analysis.  */
-typedef void* ${analysis_context.simple};
+typedef void* ${analysis_context_type};
 
 /* Context for the analysis of a single compilation unit.  References are
    ref-counted.  */
-typedef void* ${analysis_unit.simple};
+typedef void* ${analysis_unit_type};
 
 /* Data type for all AST nodes.  AST nodes are assembled to make up a tree.
    See the AST node primitives below to inspect such trees.  References are
    ref-counted.  */
-typedef void* ${node.simple};
+typedef void* ${node_type};
 
 /* Kind of AST nodes in parse trees.  */
-enum ${node_kind.simple} {
+typedef enum {
     /* TODO: do we switch to UPPER_CASE for labels?  */
     /* TODO: do we keep a single node kind for all lists or should we
        specialize them?  */
@@ -33,34 +33,34 @@ enum ${node_kind.simple} {
           = ${compile_ctx.node_kind_constants[astnode]},
     % endif
 % endfor
-};
+} ${node_kind_type};
 
 /* Data type for tokens.  Tokens always come from AST node and have the same
    lifetime than the AST node they come from.  */
-typedef void* ${token.simple};
+typedef void* ${token_type};
 
 
 /* Helper data structures for source location handling.  */
 
-struct ${sloc.simple} {
+typedef struct {
     uint32_t line;
     uint16_t column;
-};
+} ${sloc_type};
 
-struct ${sloc_range.simple} {
-    ${sloc.tagged} start;
-    ${sloc.tagged} end;
-};
+typedef struct {
+    ${sloc_type} start;
+    ${sloc_type} end;
+} ${sloc_range_type};
 
 
 /* Analysis unit diagnostics.  */
-struct ${diagnostic.simple} {
-    ${sloc_range.tagged} sloc_range;
+typedef struct {
+    ${sloc_range_type} sloc_range;
     /* Reference to the diagnostic message: it can become invalid (a dangling
        pointer) as soon as diagnostic are appended or removed from the
        corresponding analysis unit.  */
     const char *message;
-};
+} ${diagnostic_type};
 
 
 /*
@@ -74,7 +74,7 @@ struct ${diagnostic.simple} {
 
 /* Get the text of the given token.  The returned string has the same lifetime
    than "token".  */
-const char *${capi.get_name("token_text")} (${token.tagged} token);
+const char *${capi.get_name("token_text")} (${token_type} token);
 
 
 /*
@@ -83,52 +83,52 @@ const char *${capi.get_name("token_text")} (${token.tagged} token);
 
 /* Create and return an analysis context.  The caller is responsible to destroy
    it when done with it.  */
-extern ${analysis_context.tagged}
+extern ${analysis_context_type}
 ${capi.get_name("create_analysis_context")}(void);
 
 /* Destroy an analysis context.  Any analysis units it contains may survive if
    there are still references to it.  */
 extern void
 ${capi.get_name("destroy_analysis_context")}(
-        ${analysis_context.tagged} context);
+        ${analysis_context_type} context);
 
 /* Create an analysis unit out under this context from some source file.  At
    this point the returned analysis unit is owned only by the analysis
    context.  */
-extern ${analysis_unit.tagged}
+extern ${analysis_unit_type}
 ${capi.get_name("create_analysis_unit_from_file")}(
-        ${analysis_context.tagged} context,
+        ${analysis_context_type} context,
         const char *filename);
 
 /* Remove the corresponding analysis unit from this context.  Note that if
    someone still owns a reference to this unit, it is still available.  */
 extern void
-${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
+${capi.get_name("remove_analysis_unit")}(${analysis_context_type} context,
                                          const char *filename);
 
 /* Return the root AST node for this unit, or NULL if there is none.  */
-extern ${node.tagged}
-${capi.get_name("unit_root")}(${analysis_unit.tagged} unit);
+extern ${node_type}
+${capi.get_name("unit_root")}(${analysis_unit_type} unit);
 
 /* Return the number of diagnostics associated to this unit.  */
 extern unsigned
-${capi.get_name("unit_diagnostic_count")}(${analysis_unit.tagged} unit);
+${capi.get_name("unit_diagnostic_count")}(${analysis_unit_type} unit);
 
 /* Get the Nth diagnostic in this unit and store it into *DIAGNOSTIC_P.  Return
    zero on failure (when N is too big).  */
 extern int
-${capi.get_name("unit_diagnostic")}(${analysis_unit.tagged} unit,
+${capi.get_name("unit_diagnostic")}(${analysis_unit_type} unit,
                                     unsigned n,
-                                    ${diagnostic.tagged} *diagnostic_p);
+                                    ${diagnostic_type} *diagnostic_p);
 
 /* Increase the reference count to an analysis unit.  Return the reference for
    convenience.  */
-extern ${analysis_unit.tagged}
-${capi.get_name("unit_incref")}(${analysis_unit.tagged} unit);
+extern ${analysis_unit_type}
+${capi.get_name("unit_incref")}(${analysis_unit_type} unit);
 
 /* Decrease the reference count to an analysis unit.  */
 extern void
-${capi.get_name("unit_decref")}(${analysis_unit.tagged} unit);
+${capi.get_name("unit_decref")}(${analysis_unit_type} unit);
 
 
 /*
@@ -136,48 +136,48 @@ ${capi.get_name("unit_decref")}(${analysis_unit.tagged} unit);
  */
 
 /* Get the kind of an AST node.  */
-extern ${node_kind.tagged}
-${capi.get_name("node_kind")}(${node.tagged} node);
+extern ${node_kind_type}
+${capi.get_name("node_kind")}(${node_type} node);
 
 /* Helper for textual dump: return the name of a node kind.  */
 extern const char*
-${capi.get_name("kind_name")}(${node_kind.tagged} kind);
+${capi.get_name("kind_name")}(${node_kind_type} kind);
 
 /* Get the spanning source location range for an AST node.  */
 extern void
-${capi.get_name("node_sloc_range")}(${node.tagged} node,
-                                    ${sloc_range.tagged} *sloc_range);
+${capi.get_name("node_sloc_range")}(${node_type} node,
+                                    ${sloc_range_type} *sloc_range);
 
 /* Return the bottom-most AST node from NODE that contains SLOC, or NULL if
    there is none.  */
-extern ${node.tagged}
-${capi.get_name("lookup_in_node")}(${node.tagged} node,
-                                   const ${sloc.tagged} *sloc);
+extern ${node_type}
+${capi.get_name("lookup_in_node")}(${node_type} node,
+                                   const ${sloc_type} *sloc);
 
 /* Return the lexical parent of NODE, if any.  Return NULL for the root AST
    node or for AST nodes for which no one has a reference to the parent.  */
-extern ${node.tagged}
-${capi.get_name("node_parent")}(${node.tagged} node);
+extern ${node_type}
+${capi.get_name("node_parent")}(${node_type} node);
 
 /* Return the number of AST node in NODE's fields.  */
 extern unsigned
-${capi.get_name("node_child_count")}(${node.tagged} node);
+${capi.get_name("node_child_count")}(${node_type} node);
 
 /* Get the Nth child AST node in NODE's fields and store it into *CHILD_P.
    Return zero on failure (when N is too big).  */
 extern int
-${capi.get_name("node_child")}(${node.tagged} node,
+${capi.get_name("node_child")}(${node_type} node,
                                unsigned n,
-                               ${node.tagged}* child_p);
+                               ${node_type}* child_p);
 
 /* Increase the reference count to an AST node.  Return the reference for
    convenience.  */
-extern ${node.tagged}
-${capi.get_name("node_incref")}(${node.tagged} node);
+extern ${node_type}
+${capi.get_name("node_incref")}(${node_type} node);
 
 /* Decrease the reference count to an AST node.  */
 extern void
-${capi.get_name("node_decref")}(${node.tagged} node);
+${capi.get_name("node_decref")}(${node_type} node);
 
 
 /*
@@ -211,7 +211,7 @@ ${capi.get_name("node_decref")}(${node.tagged} node);
 
 /* Type for extension destructors.  The parameter are the "node" the extension
    was attached to and the "extension" itself.  */
-typedef void (*${capi.get_name("node_extension_destructor")})(${node.tagged} node,
+typedef void (*${capi.get_name("node_extension_destructor")})(${node_type} node,
                                                               void *extension);
 
 /* Register an extension and return its identifier.  Multiple calls with the
@@ -227,7 +227,7 @@ ${capi.get_name("register_extension")}(const char *name);
    Note that the pointer is not guaranteed to stay valid after further calls to
    this function.  */
 extern void **
-${capi.get_name("node_extension")}(${node.tagged} node,
+${capi.get_name("node_extension")}(${node_type} node,
                                    unsigned ext_id,
                                    ${capi.get_name("node_extension_destructor")} dtor);
 

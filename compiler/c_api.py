@@ -6,35 +6,25 @@ class CAPIType(object):
     C API generation helper: encapsulate the logic of C types formatting
     """
 
-    def __init__(self, c_api_settings, name, tag=None, external=False):
+    def __init__(self, c_api_settings, name, external=False):
         """Create a stub for a C API type
 
         c_api_settings: A c_api.CAPISettings instance.
 
-        name: The name for the type (without any tag).
-
-        tag: Tag for this type ("struct", "enum", ...) or None when the type is
-        a typedef.
+        name: The name for the type.
 
         external: Whether this type is already declared outside the C API. For
         instance: "int" is external, but "node" is not.
         """
         self.c_api_settings = c_api_settings
         self.external = external
-        # Make private these two in order to avoid accidental use of these
+        # Make private thefollowing in order to avoid accidental use of these
         # instead of the properties.
         self._name = name
-        self._tag = tag
 
     @property
-    def tagged(self):
-        """Return the wrapped name including any tag"""
-        return ('{} {}'.format(self._tag, self.simple)
-                if self._tag else self.simple)
-
-    @property
-    def simple(self):
-        """Return the wrapped name without any tag"""
+    def name(self):
+        """Return the C name for this type, properly wrapped if needed"""
         # All names we define as part of the C API must be wrapped so that they
         # don't conflict with "external" names. Keep "external" ones untouched
         # since we don't control them.

@@ -17,7 +17,7 @@ main(void)
     ada_analysis_unit unit;
     ada_node tree;
     unsigned n;
-    struct ada_diagnostic diag;
+    ada_diagnostic diag;
 
     ctx = ada_create_analysis_context();
     if (ctx == NULL)

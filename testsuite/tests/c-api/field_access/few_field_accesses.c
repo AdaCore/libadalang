@@ -20,7 +20,7 @@ main(void)
     ada_node tmp;
 
     int is_limited, is_private;
-    enum ada_Overriding overriding;
+    ada_Overriding overriding;
     ada_token tok;
 
     ctx = ada_create_analysis_context();

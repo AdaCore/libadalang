@@ -12,20 +12,20 @@
  * Analysis primitives
  */
 
-${analysis_context.tagged}
+${analysis_context_type}
 ${capi.get_name("create_analysis_context")}(void) {
     return (new AnalysisContext())->wrap();
 }
 
 void
 ${capi.get_name("destroy_analysis_context")}(
-        ${analysis_context.tagged} context) {
+        ${analysis_context_type} context) {
     delete unwrap<AnalysisContext>(context);
 }
 
-${analysis_unit.tagged}
+${analysis_unit_type}
 ${capi.get_name("create_analysis_unit_from_file")}(
-        ${analysis_context.tagged} context,
+        ${analysis_context_type} context,
         const char *filename) {
     AnalysisContext *context_ = unwrap<AnalysisContext>(context);
     AnalysisUnit *unit_ = context_->create_from_file(filename);
@@ -33,28 +33,28 @@ ${capi.get_name("create_analysis_unit_from_file")}(
 }
 
 void
-${capi.get_name("remove_analysis_unit")}(${analysis_context.tagged} context,
+${capi.get_name("remove_analysis_unit")}(${analysis_context_type} context,
                                          const char *filename) {
     AnalysisContext *context_ = unwrap<AnalysisContext>(context);
     context_->remove(filename);
 }
 
-${node.tagged}
-${capi.get_name("unit_root")}(${analysis_unit.tagged} unit) {
+${node_type}
+${capi.get_name("unit_root")}(${analysis_unit_type} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     return unit_->ast_root->wrap();
 }
 
 unsigned
-${capi.get_name("unit_diagnostic_count")}(${analysis_unit.tagged} unit) {
+${capi.get_name("unit_diagnostic_count")}(${analysis_unit_type} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     return unit_->diagnostics.size();
 }
 
 int
-${capi.get_name("unit_diagnostic")}(${analysis_unit.tagged} unit,
+${capi.get_name("unit_diagnostic")}(${analysis_unit_type} unit,
                                     unsigned n,
-                                    ${diagnostic.tagged} *diagnostic_p) {
+                                    ${diagnostic_type} *diagnostic_p) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     auto& diagnostics = unit_->diagnostics;
     if (n < diagnostics.size())
@@ -67,15 +67,15 @@ ${capi.get_name("unit_diagnostic")}(${analysis_unit.tagged} unit,
     return 0;
 }
 
-${analysis_unit.tagged}
-${capi.get_name("unit_incref")}(${analysis_unit.tagged} unit) {
+${analysis_unit_type}
+${capi.get_name("unit_incref")}(${analysis_unit_type} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     unit_->inc_ref();
     return unit;
 }
 
 void
-${capi.get_name("unit_decref")}(${analysis_unit.tagged} unit) {
+${capi.get_name("unit_decref")}(${analysis_unit_type} unit) {
     AnalysisUnit *unit_ = unwrap<AnalysisUnit>(unit);
     unit_->dec_ref();
 }
@@ -94,45 +94,45 @@ static const char* node_kind_names[] = {
 % endfor
 };
 
-${node_kind.tagged}
-${capi.get_name("node_kind")}(${node.tagged} node) {
+${node_kind_type}
+${capi.get_name("node_kind")}(${node_type} node) {
     return unwrap<ASTNode>(node)->kind();
 }
 
 const char*
 ${capi.get_name("kind_name")}(
-        ${node_kind.tagged} kind) {
+        ${node_kind_type} kind) {
     return node_kind_names[kind];
 }
 
 void
-${capi.get_name("node_sloc_range")}(${node.tagged} node,
-                                    ${sloc_range.tagged} *sloc_range) {
+${capi.get_name("node_sloc_range")}(${node_type} node,
+                                    ${sloc_range_type} *sloc_range) {
     *sloc_range = wrap(unwrap<ASTNode>(node)->get_sloc_range());
 }
 
-${node.tagged}
-${capi.get_name("lookup_in_node")}(${node.tagged} node,
-                                   const ${sloc.tagged} *sloc) {
+${node_type}
+${capi.get_name("lookup_in_node")}(${node_type} node,
+                                   const ${sloc_type} *sloc) {
     ASTNode *result = unwrap<ASTNode>(node)->lookup(unwrap (*sloc));
     return result->wrap();
 }
 
-${node.tagged}
-${capi.get_name("node_parent")}(${node.tagged} node) {
+${node_type}
+${capi.get_name("node_parent")}(${node_type} node) {
     ASTNode *result = unwrap<ASTNode>(node)->parent();
     return result->wrap();
 }
 
 unsigned
-${capi.get_name("node_child_count")}(${node.tagged} node) {
+${capi.get_name("node_child_count")}(${node_type} node) {
     return unwrap<ASTNode>(node)->get_child_count();
 }
 
 extern int
-${capi.get_name("node_child")}(${node.tagged} node,
+${capi.get_name("node_child")}(${node_type} node,
                                unsigned n,
-                               ${node.tagged}* child_p) {
+                               ${node_type}* child_p) {
     ASTNode *result;
     const bool success = unwrap<ASTNode>(node)->get_child(n, result);
     if (success)
@@ -140,21 +140,21 @@ ${capi.get_name("node_child")}(${node.tagged} node,
     return success;
 }
 
-${node.tagged}
-${capi.get_name("node_incref")}(${node.tagged} node) {
+${node_type}
+${capi.get_name("node_incref")}(${node_type} node) {
     ASTNode *node_ = unwrap<ASTNode>(node);
     node_->inc_ref();
     return node;
 }
 
 void
-${capi.get_name("node_decref")}(${node.tagged} node) {
+${capi.get_name("node_decref")}(${node_type} node) {
     ASTNode *node_ = unwrap<ASTNode>(node);
     node_->dec_ref();
 }
 
 const char *
-${capi.get_name("token_text")} (${token.tagged} token) {
+${capi.get_name("token_text")} (${token_type} token) {
     Token *token_ = unwrap<Token>(token);
     return token_->text;
 }
@@ -180,7 +180,7 @@ ${capi.get_name("register_extension")}(const char *name) {
 }
 
 void **
-${capi.get_name("node_extension")}(${node.tagged} node,
+${capi.get_name("node_extension")}(${node_type} node,
                                    unsigned ext_id,
                                    ${capi.get_name("node_extension_destructor")} dtor) {
     ASTNode *node_ = unwrap<ASTNode>(node);

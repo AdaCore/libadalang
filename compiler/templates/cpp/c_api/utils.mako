@@ -15,13 +15,13 @@ unwrap (void *object) {
 
 /* Cast a SourceLocation value into the corresponding type for use in the C
    API.  */
-${sloc.tagged}
+${sloc_type}
 wrap(const SourceLocation& sloc) {
     return {sloc.line, sloc.column};
 }
 
 /* Likewise SourceLocationRange.  */
-${sloc_range.tagged}
+${sloc_range_type}
 wrap(const SourceLocationRange& sloc_range) {
     return {
         wrap(sloc_range.get_start()),
@@ -31,13 +31,13 @@ wrap(const SourceLocationRange& sloc_range) {
 
 /* Cast a C API source location into SourceLocation.  */
 SourceLocation
-unwrap(const ${sloc.tagged}& sloc) {
+unwrap(const ${sloc_type}& sloc) {
     return SourceLocation(sloc.line, sloc.column);
 }
 
 /* Likewise for SourceLocationRange.  */
 SourceLocationRange
-unwrap(const ${sloc_range.tagged}& sloc_range) {
+unwrap(const ${sloc_range_type}& sloc_range) {
     return SourceLocationRange(unwrap(sloc_range.start),
                                unwrap(sloc_range.end));
 }

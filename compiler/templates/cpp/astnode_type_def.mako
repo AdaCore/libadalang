@@ -22,7 +22,7 @@ public:
 
     % if not cls.abstract:
         std::string kind_name();
-        ${node_kind.tagged} kind() {
+        ${node_kind_type} kind() {
             return ${capi.get_name(cls.name())};
         }
 

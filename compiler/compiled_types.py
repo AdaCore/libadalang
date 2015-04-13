@@ -99,7 +99,6 @@ class BasicType(CompiledType):
 
     @classmethod
     def c_type(cls, c_api_settings):
-        # Default implementation: tagged types should override this
         return CAPIType(c_api_settings, cls.name(), external=cls._external)
 
 
@@ -137,7 +136,7 @@ class SourceLocationRangeType(BasicType):
 
     @classmethod
     def c_type(cls, c_api_settings):
-        return CAPIType(c_api_settings, 'source_location_range', 'struct')
+        return CAPIType(c_api_settings, 'source_location_range')
 
     @classmethod
     def py_type(cls, python_api_settings):
@@ -550,7 +549,7 @@ class EnumType(CompiledType):
 
     @classmethod
     def c_type(cls, c_api_settings):
-        return CAPIType(c_api_settings, cls.name(), 'enum')
+        return CAPIType(c_api_settings, cls.name())
 
     @classmethod
     def py_type(cls, python_api_settings):
@@ -595,14 +594,14 @@ def make_renderer(compile_ctx=None, base_renderer=None):
         capi = compile_ctx.c_api_settings
         template_args.update({
             'capi':             capi,
-            'analysis_context': CAPIType(capi, 'analysis_context'),
-            'analysis_unit':    CAPIType(capi, 'analysis_unit'),
-            'node_kind':        CAPIType(capi, 'node_kind', 'enum'),
-            'node':             CAPIType(capi, 'node'),
-            'token':            CAPIType(capi, 'token'),
-            'sloc':             CAPIType(capi, 'source_location', 'struct'),
-            'sloc_range':       SourceLocationRangeType.c_type(capi),
-            'diagnostic':       CAPIType(capi, 'diagnostic', 'struct'),
+            'analysis_context_type': CAPIType(capi, 'analysis_context').name,
+            'analysis_unit_type':    CAPIType(capi, 'analysis_unit').name,
+            'node_kind_type':        CAPIType(capi, 'node_kind_enum').name,
+            'node_type':             CAPIType(capi, 'node').name,
+            'token_type':            CAPIType(capi, 'token').name,
+            'sloc_type':             CAPIType(capi, 'source_location').name,
+            'sloc_range_type':       SourceLocationRangeType.c_type(capi).name,
+            'diagnostic_type':       CAPIType(capi, 'diagnostic').name,
             })
     return base_renderer.update(template_args)
 

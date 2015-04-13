@@ -93,8 +93,8 @@ public:
     void remove(const std::string file_name);
 
     /* Get a C API value wrapping this unit.  */
-    ${analysis_context.tagged} wrap() {
-        return static_cast<${analysis_context.tagged}>(this);
+    ${analysis_context_type} wrap() {
+        return static_cast<${analysis_context_type}>(this);
     }
 
     /* This map owns a reference for each AnalysisUnit in it.  Note that users
@@ -120,8 +120,8 @@ public:
     void print_json();
 
     /* Get a C API value wrapping this context.  */
-    ${analysis_unit.tagged} wrap() {
-        return static_cast<${analysis_unit.tagged}>(this);
+    ${analysis_unit_type} wrap() {
+        return static_cast<${analysis_unit_type}>(this);
     }
 
     /* A back-link to the embedding context.  Beware that even though all units

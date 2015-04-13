@@ -38,7 +38,7 @@ public:
 
     /* Get a value that identifies the kind of this node.  Each concrete
        subclass must override this to provide the appropriate value.  */
-    virtual ${node_kind.tagged} kind() = 0;
+    virtual ${node_kind_type} kind() = 0;
 
     /* Get a string that identifies the kind of this node.  Each concrete
        subclass must override this to provide the appropriate value.  */
@@ -126,8 +126,8 @@ public:
     }
 
     /* Get a C API value wrapping this node.  */
-    ${node.tagged} wrap() {
-        return static_cast<${node.tagged}>(this);
+    ${node_type} wrap() {
+        return static_cast<${node_type}>(this);
     }
 
 public:
@@ -250,7 +250,7 @@ public:
     boost::property_tree::ptree get_property_tree();
     virtual bool is_empty_list();
 
-    virtual ${node_kind.tagged} kind() {
+    virtual ${node_kind_type} kind() {
         return ${capi.get_name("list")};
     }
 

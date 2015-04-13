@@ -25,7 +25,7 @@ class ${cls.name()}(${parent_cls.name()}):
         % elif is_bool(primitive.field_type):
         return bool(result.value)
         % elif is_enum(primitive.field_type):
-        return ${primitive.field_type.c_type(capi).simple}_to_str[result.value]
+        return ${primitive.field_type.c_type(capi).name}_to_str[result.value]
         % elif is_long(primitive.field_type):
         return result.value
         % else:

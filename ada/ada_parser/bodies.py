@@ -1,6 +1,6 @@
 from parsers import Opt, List, Or, Row, _, TokClass, Null
 from compiled_types import NoToken, Field, abstract, ASTNode
-from ada_parser.exprs import LoopSpec
+from ada_parser.exprs import LoopSpec, Expr
 from ada_parser import A
 from tokenizer import Lbl
 
@@ -349,9 +349,10 @@ A.add_rules(
         "end", "if"
     ) ^ IfStatement,
 
-    raise_statement=Row(
-        "raise", Opt(A.name), Opt("with", A.expression) >> 1
-    ) ^ RaiseStatement,
+    raise_statement=Or(
+        Row("raise", A.name, "with", A.expression) ^ RaiseStatement,
+        Row("raise", Null(Expr), Null(Expr)) ^ RaiseStatement,
+    ),
 
     delay_statement=Row(
         "delay", Opt("until").as_bool(), A.expression

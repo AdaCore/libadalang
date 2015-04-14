@@ -310,15 +310,9 @@ inline std::string get_repr (int el) { return el ? "True" : "False"; }
 
 boost::property_tree::ptree get_ptree (int el);
 
-template <typename T> void dec_ref (T& el) {
-    el.dec_ref();
-}
-
-template <typename T> void dec_ref (T*& el) {
-    if (el) {
+inline void dec_ref (ASTNode* el) {
+    if (el)
         el->dec_ref();
-        el = nullptr;
-    }
 }
 
 inline std::string get_repr (Token node) { return std::string(node.text); }

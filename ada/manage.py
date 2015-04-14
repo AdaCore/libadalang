@@ -151,7 +151,7 @@ def build(args, dirs):
                  '-j{}'.format(args.jobs),
                  'CC={}'.format(c_compiler),
                  'CXX={}'.format(cxx_compiler)]
-    make_argv.extend(getattr(args, 'make-options'))
+    make_argv.extend(getattr(args, 'make-options', []))
     print (
         Colors.HEADER
         + "Building the generated source code ..." + Colors.ENDC
@@ -228,13 +228,88 @@ def setenv(args, dirs):
     setup_environment(dirs, add_path)
 
 
+def perf_test(args, dirs):
+    """
+    Run the performance regression testsuite
+    """
+    from time import time
+
+    def file_lines(filename):
+        with open(filename) as f:
+            return len(list(f))
+
+    # Build libadalang in production mode inside of the perf testsuite
+    # directory
+    work_dir = os.path.abspath(args.work_dir)
+    args.build_dir = os.path.join(work_dir, 'build')
+    setattr(args, 'make-options', ["BUILD_MODE=release"])
+    fileutils.mkdir(args.build_dir)
+    make(args, dirs)
+
+    # Checkout the code bases that we will use for the perf testsuite
+    os.chdir(work_dir)
+    if not os.path.exists('gnat'):
+        subprocess.check_call(['svn', 'co',
+                               'svn+ssh://svn.us.adacore.com/Dev/trunk/gnat',
+                               '-r', '314163'])
+    if not os.path.exists('gps'):
+        subprocess.check_call(['git', 'clone',
+                               'ssh://review.eu.adacore.com:29418/gps'])
+    os.chdir('gps')
+    subprocess.check_call(['git', 'checkout',
+                           '00b73897a867514732d48ae1429faf97fb07ad7c'])
+    os.chdir('..')
+
+    # Make a list of every ada file
+
+    # Exclude some files that are contained here but that we do not parse
+    # correctly
+    excluded_patterns = ['@', 'a-numeri', 'rad-project']
+    ada_files = filter(
+        lambda f: all(map(lambda p: p not in f, excluded_patterns)),
+        fileutils.find(work_dir, '*.ads') + fileutils.find(work_dir, '*.adb')
+    )
+    file_list_name = 'ada_file_list'
+    with open(file_list_name, 'w') as file_list:
+        for f in ada_files:
+            file_list.write(f + '\n')
+
+    # Get a count of the total number of ada source lines
+    lines_count = sum(map(file_lines, ada_files))
+
+    print Colors.HEADER
+    print "================================="
+    print "= Performance testsuite results ="
+    print "================================="
+    print Colors.ENDC
+    elapsed_list = []
+    for _ in range(args.nb_runs):
+        # Execute parse on the file list and get the elapsed time
+        t = time()
+        subprocess.check_call(['build/bin/parse', '-s', '-F', file_list_name])
+        elapsed = time() - t
+        elapsed_list.append(elapsed)
+
+        # Print a very basic report
+        print "Parsed {0} lines of Ada code in {1:.2f} seconds".format(
+            lines_count, elapsed
+        )
+
+    print ""
+    print Colors.OKGREEN + "= Performance summary =" + Colors.ENDC
+    print "Mean time to parse {0} lines of code : {1:.2f} seconds".format(
+        lines_count, sum(elapsed_list) / float(len(elapsed_list))
+    )
+
+
 def do_help(args, dirs):
     """Print usage and exit"""
     args_parser.print_help()
 
 
 args_parser = argparse.ArgumentParser(
-    description='Generate native code for libadalang'
+    description='General manager to handle actions relative to'
+                ' building/testing libadalang'
 )
 subparsers = args_parser.add_subparsers()
 
@@ -260,11 +335,17 @@ args_parser.add_argument(
     help='Show verbose output'
 )
 
-# Help
+########
+# Help #
+########
+
 help_parser = subparsers.add_parser('help', help=do_help.__doc__)
 help_parser.set_defaults(func=do_help)
 
-# Generate
+############
+# Generate #
+############
+
 generate_parser = subparsers.add_parser(
     'generate', help=generate.__doc__
 )
@@ -274,7 +355,10 @@ generate_parser.add_argument(
 )
 generate_parser.set_defaults(func=generate)
 
-# Build
+#########
+# Build #
+#########
+
 build_parser = subparsers.add_parser(
     'build', help=build.__doc__
 )
@@ -289,7 +373,10 @@ build_parser.add_argument(
 )
 build_parser.set_defaults(func=build)
 
-# Make
+########
+# Make #
+########
+
 make_parser = subparsers.add_parser(
     'make', help=make.__doc__
 )
@@ -304,7 +391,10 @@ make_parser.add_argument(
 )
 make_parser.set_defaults(func=make)
 
-# Install
+###########
+# Install #
+###########
+
 install_parser = subparsers.add_parser(
     'install', help=install.__doc__
 )
@@ -314,7 +404,10 @@ install_parser.add_argument(
 )
 install_parser.set_defaults(func=install)
 
-# Test
+########
+# Test #
+########
+
 test_parser = subparsers.add_parser(
     'test', help=test.__doc__
 )
@@ -324,12 +417,41 @@ test_parser.add_argument(
 )
 test_parser.set_defaults(func=test)
 
-# Setenv
+#############
+# Perf Test #
+#############
+
+perf_test_parser = subparsers.add_parser(
+    'perf-test', help=perf_test.__doc__
+)
+perf_test_parser.add_argument(
+    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    help='Number of parallel jobs to spawn in parallel'
+         ' (default: your number of cpu)'
+)
+perf_test_parser.add_argument(
+    '--work-dir', '-w', default='performance_testsuite',
+    help='Directory into which the performance testsuite will be executed'
+)
+perf_test_parser.add_argument(
+    '--nb-runs', type=int, default=4,
+    help='Number of runs (default: 4)'
+)
+perf_test_parser.set_defaults(func=perf_test)
+
+
+##########
+# Setenv #
+##########
+
 setenv_parser = subparsers.add_parser(
     'setenv', help=setenv.__doc__
 )
 setenv_parser.set_defaults(func=setenv)
 
+########
+# Main #
+########
 
 if __name__ == '__main__':
     args = args_parser.parse_args()

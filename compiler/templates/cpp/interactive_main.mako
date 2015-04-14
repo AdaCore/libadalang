@@ -215,12 +215,10 @@ int main (int argc, char** argv) {
         for (auto input_file : file_list) {
             if (time) t1 = high_resolution_clock::now();
 
-            cout << "file name : " << input_file << endl;
-
             auto unit = context.create_from_file(input_file);
 
             if (!unit->diagnostics.empty()) {
-                cout << "Errors during parsing" << endl;
+                cout << "Errors while parsing " << input_file << endl;
                 for (auto diag : unit->diagnostics) {
                     cout << diag.get_pretty_message() << endl;
                 }
@@ -243,7 +241,6 @@ int main (int argc, char** argv) {
                 cout << "TIME : " << duration << "ms" << endl;
             }
 
-            cout << "removing file " << input_file << endl;
             context.remove(input_file);
         }
     } else

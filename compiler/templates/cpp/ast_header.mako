@@ -318,12 +318,8 @@ inline void dec_ref (ASTNode* el) {
 inline std::string get_repr (Token node) { return std::string(node.text); }
 boost::property_tree::ptree get_ptree (Token node);
 
-template <typename T> void
-ASTList<T>::validate() {
-   for (typename std::vector<T>::iterator it = vec.begin();
-        it != vec.end(); ++it)
-   {
-      ASTNode *node = (ASTNode*) *it;
+template <typename T> void ASTList<T>::validate() {
+   for (auto node : vec) {
       if (node) {
          assert(node->parent() == this && "wrong parent in list component");
          node->validate();
@@ -331,8 +327,7 @@ ASTList<T>::validate() {
    }
 }
 
-template <typename T> void
-ASTList<T>::print_node(int level) {
+template <typename T> void ASTList<T>::print_node(int level) {
    if (vec.empty())
       return;
 
@@ -343,8 +338,7 @@ ASTList<T>::print_node(int level) {
    }
 }
 
-template <typename T> bool
-ASTList<T>::is_empty_list() {
+template <typename T> bool ASTList<T>::is_empty_list() {
    return vec.empty();
 }
 

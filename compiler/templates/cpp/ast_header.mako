@@ -296,9 +296,6 @@ ASTList<T>::lookup_children(const SourceLocation &sloc, bool snap)
     return this;
 }
 
-template <typename T> inline void vec_free (std::vector<T>& vec) { for (auto el : vec) el.free(); }
-template <typename T> inline void vec_free (std::vector<T*>& vec) { for (auto el : vec) el->free(); }
-
 template <typename T> inline std::string get_repr (std::vector<T>& vec) {
     std::string res;
     for (auto el : vec) {

@@ -13,6 +13,7 @@ Contents:
    :maxdepth: 2
 
    introduction
+   testsuite
 
 Indices and tables
 ==================

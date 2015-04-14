@@ -237,7 +237,16 @@ protected:
 
 public:
     std::vector<T> vec;
-    std::string repr() { return get_repr(vec); };
+    std::string repr() {
+        std::string res;
+        for (auto el : vec) {
+            if (res != "") res.append(", ");
+            res.append(el->repr());
+        }
+        res.insert(0, "[");
+        res.append("]");
+        return res;
+    };
     ~ASTList() {
         #if DEBUG_MODE
         printf("DELETING VECTOR\n");
@@ -294,28 +303,6 @@ ASTList<T>::lookup_children(const SourceLocation &sloc, bool snap)
         }
     }
     return this;
-}
-
-template <typename T> inline std::string get_repr (std::vector<T>& vec) {
-    std::string res;
-    for (auto el : vec) {
-        if (res != "") res.append(", ");
-        res.append(el.repr());
-    }
-    res.insert(0, "[");
-    res.append("]");
-    return res;
-}
-
-template <typename T> inline std::string get_repr (std::vector<T*>& vec) {
-    std::string res;
-    for (auto el : vec) {
-        if (res != "") res.append(", ");
-        res.append(el->repr());
-    }
-    res.insert(0, "[");
-    res.append("]");
-    return res;
 }
 
 template <typename T> inline std::string get_repr (T node) { return node.repr(); }

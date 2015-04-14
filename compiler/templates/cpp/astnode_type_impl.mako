@@ -28,7 +28,7 @@ std::string ${cls.name()}::repr() {
             if (${f.name} != ${t.nullexpr()}) {
         % endif
 
-            result.append(get_repr(${f.name}));
+        result.append(get_repr(${f.name}));
 
         % if t.is_ptr:
             } else result.append("None");

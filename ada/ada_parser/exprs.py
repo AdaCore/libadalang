@@ -206,6 +206,11 @@ class AttributeRef(Expr):
     args = Field()
 
 
+class RaiseExpression(Expr):
+    exception_name = Field()
+    error_message = Field()
+
+
 A.add_rules(
     identifier=TokClass(Id, keep=True) ^ Identifier,
     char_literal=TokClass(CharLit, keep=True) ^ CharLiteral,
@@ -244,6 +249,12 @@ A.add_rules(
     case_expr_alt=Row(
         "when", A.choice_list, "=>", A.expression
     ) ^ CaseExprAlternative,
+
+
+    raise_expression=Or(
+        Row("raise", A.name, "with", A.expression) ^ RaiseExpression,
+        Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpression,
+    ),
 
     if_expression=Row(
         "if", A.expression, "then", A.expression,
@@ -318,6 +329,7 @@ A.add_rules(
     primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,
                A.conditional_expression,
+               A.raise_expression,
                Row("(", A.conditional_expression | A.expression, ")") >> 1,
                A.aggregate),
 

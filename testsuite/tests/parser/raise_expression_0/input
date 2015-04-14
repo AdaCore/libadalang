@@ -1,0 +1,1 @@
+A := raise NotImplementedError with "too bad"

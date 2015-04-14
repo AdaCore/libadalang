@@ -305,10 +305,9 @@ ASTList<T>::lookup_children(const SourceLocation &sloc, bool snap)
     return this;
 }
 
-template <typename T> inline std::string get_repr (T node) { return node.repr(); }
-template <typename T> inline std::string get_repr (T* node) { return node ? node->repr() : "None"; }
-
+inline std::string get_repr (ASTNode* node) { return node ? node->repr() : "None"; }
 inline std::string get_repr (int el) { return el ? "True" : "False"; }
+
 boost::property_tree::ptree get_ptree (int el);
 
 template <typename T> void dec_ref (T& el) {

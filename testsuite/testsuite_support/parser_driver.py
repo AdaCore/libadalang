@@ -25,6 +25,13 @@ class ParserDriver(BaseDriver):
 
         self.check_file('input')
 
+        try:
+            self.rule_name = self.test_env['rule']
+        except KeyError:
+            raise SetupError(
+                'The rule to used for parsing is missing from test.yaml'
+            )
+
         # What should we do for this test?
         self.action = self.test_env.get('action', 'pretty-print')
         if self.action not in self.ACTIONS:
@@ -33,12 +40,10 @@ class ParserDriver(BaseDriver):
     @catch_test_errors
     def run(self):
         opts = self.global_env['options']
-        rule_name = self.get_rule_name()
-        lookups = self.get_lookups()
         input_text = self.read_file(self.input_file)
 
-        parse_argv = ['parse', '-r', rule_name, '--input', input_text]
-        for lookup in lookups:
+        parse_argv = ['parse', '-r', self.rule_name, '--input', input_text]
+        for lookup in self.get_lookups():
             parse_argv.extend([
                 '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])
             ])
@@ -60,14 +65,6 @@ class ParserDriver(BaseDriver):
     #
     # Helpers
     #
-
-    def get_rule_name(self):
-        try:
-            return self.test_env['rule']
-        except KeyError:
-            raise SetupError(
-                'The rule to used for parsing is missing from test.yaml'
-            )
 
     def get_lookups(self):
         try:

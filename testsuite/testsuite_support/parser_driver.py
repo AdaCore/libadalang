@@ -23,9 +23,7 @@ class ParserDriver(BaseDriver):
     def tear_up(self):
         super(ParserDriver, self).tear_up()
 
-        # Testcases are expected to provide two files...
-        for filename in ('input', 'expected'):
-            self.check_file(filename)
+        self.check_file('input')
 
         # What should we do for this test?
         self.action = self.test_env.get('action', 'pretty-print')
@@ -58,14 +56,6 @@ class ParserDriver(BaseDriver):
     @property
     def input_file(self):
         return os.path.join(self.working_dir, 'input')
-
-    @property
-    def expected_file(self):
-        return os.path.join(self.working_dir, 'expected')
-
-    @property
-    def original_expected_file(self):
-        return os.path.join(self.test_dir, 'expected')
 
     #
     # Helpers

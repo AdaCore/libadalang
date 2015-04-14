@@ -63,6 +63,8 @@ class BaseDriver(TestDriver):
                          if self.global_env['options'].valgrind else None)
         self.valgrind_errors = []
 
+        self.check_file(self.expected_file)
+
         # See if we expect a failure for this testcase
         try:
             comment = self.test_env['expect_failure']

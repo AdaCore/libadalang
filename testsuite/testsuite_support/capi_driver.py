@@ -44,7 +44,6 @@ class CAPIDriver(BaseDriver):
         self.check_file_list('"compile_units"', compile_units,
                              can_be_empty=False)
         self.check_file_list('"input_sources"', input_sources)
-        self.check_file(self.expected_file)
 
         static_lib = self.locate_in_path(os.environ['LIBRARY_PATH'],
                                          'libadalang.a')

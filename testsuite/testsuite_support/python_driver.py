@@ -26,7 +26,6 @@ class PythonDriver(BaseDriver):
 
         self.check_file('test.py')
         self.check_file_list('"input_sources"', input_sources)
-        self.check_file(self.expected_file)
 
     @catch_test_errors
     def run(self):

@@ -16,7 +16,7 @@ class ${cls.name()}(${parent_cls.name()}):
 
     % for primitive in primitives:
     @property
-    def ${primitive.field.name}(self):
+    def f_${primitive.field.name}(self):
         result = ${primitive.field_type.py_type(pyapi).name_low}()
         assert _${primitive.name}(self._c_value, ctypes.byref(result))
 

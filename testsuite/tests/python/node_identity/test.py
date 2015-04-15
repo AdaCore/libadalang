@@ -37,7 +37,7 @@ assert node.foobar == 1, (
 # Now make sure we have a working equality operator
 root1 = unit.root
 root2 = unit.root
-body = unit.root.body
+body = unit.root.f_body
 assert root1 == root2
 assert root1 != body
 

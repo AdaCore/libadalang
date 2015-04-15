@@ -192,7 +192,7 @@ class ASTNode(object):
         all fields in this node.
         """
         for field_name in self._field_names:
-            yield (field_name, getattr(self, field_name))
+            yield (field_name, getattr(self, 'f_{}'.format(field_name)))
 
 
 class _ASTNodeContainer(object):

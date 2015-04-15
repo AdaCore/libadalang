@@ -57,7 +57,7 @@ template_cache = {}
 
 def mako_template(file_name):
     t_path = path.join(path.dirname(path.realpath(__file__)),
-                       "templates", LANGUAGE, file_name + ".mako")
+                       "templates", file_name + ".mako")
     t = template_cache.get(t_path, None)
 
     if not t:

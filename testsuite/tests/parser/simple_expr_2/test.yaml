@@ -1,2 +1,3 @@
 driver: parser
 rule: simple_expr
+expect_failure: GNAT.Command_Line does not handle arguments that start with "-"

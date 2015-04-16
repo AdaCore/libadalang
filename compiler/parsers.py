@@ -2,13 +2,15 @@ from copy import copy
 import inspect
 from itertools import chain
 
-from common import gen_name, gen_names, TOKEN_PREFIX
-from template_utils import TemplateEnvironment
+import compiled_types
 from compiled_types import CompiledType, BoolType, LongType, \
     Token, ASTNode, list_type, decl_type
-import compiled_types
-from utils import common_ancestor, copy_with, Colors, type_check_instance
+from common import gen_name, gen_names, TOKEN_PREFIX
+import names
 import quex_tokens
+from template_utils import TemplateEnvironment
+from utils import (Colors, common_ancestor, copy_with, GeneratedParser,
+                   type_check_instance)
 
 
 def make_renderer(compile_ctx=None):
@@ -81,7 +83,7 @@ class Grammar(object):
         """
         for name, rule in kwargs.items():
             self.rules[name] = rule
-            rule.set_name(name)
+            rule.set_name(names.Name.from_lower(name))
             rule.set_grammar(self)
             rule.is_root = True
 
@@ -96,10 +98,19 @@ class Parser(object):
     # noinspection PyMissingConstructor
     def __init__(self):
         self._mod = None
-        self.gen_fn_name = gen_name(self.__class__.__name__ + "_parse")
+        self.gen_fn_name = gen_name(self.base_name)
         self.grammar = None
         self.is_root = False
         self._name = ""
+
+    @property
+    def base_name(self):
+        """
+        Return a simple name (names.Name instance) for this parser.
+
+        The result is used as a base name for the generated function name.
+        """
+        return names.Name.from_camel(type(self).__name__ + "Parse")
 
     @property
     def name(self):
@@ -161,9 +172,8 @@ class Parser(object):
             if not c._name and not isinstance(c, Defer):
                 c.set_name(name)
 
-        self._name = name
-        self.gen_fn_name = gen_name("{0}_{1}_parse".format(
-            name, self.__class__.__name__.lower()))
+        self._name = name.lower
+        self.gen_fn_name = gen_name(name + self.base_name)
 
     def is_left_recursive(self):
         """Return whether this parser is left-recursive."""
@@ -216,11 +226,11 @@ class Parser(object):
         )
 
         render = make_renderer(compile_ctx).render
-        t_env.fn_profile = render('parsers/fn_profile', t_env)
-        t_env.fn_code = render('parsers/fn_code', t_env)
 
-        compile_ctx.body.append(t_env.fn_code)
-        compile_ctx.fns_decls.append(t_env.fn_profile)
+        compile_ctx.generated_parsers.append(GeneratedParser(
+            self.gen_fn_name,
+            render('parsers/fn_profile_ada', t_env),
+            render('parsers/fn_code_ada', t_env)))
 
     def get_type(self):
         """
@@ -263,7 +273,7 @@ class Parser(object):
             # the context corresponding to this call
             pos, res = gen_names("fncall_pos", "fncall_res")
             fncall_block = make_renderer(compile_ctx).render(
-                'parsers/fn_call',
+                'parsers/fn_call_ada',
                 _self=self, pos_name=pos_name,
                 pos=pos, res=res
             )
@@ -323,7 +333,7 @@ class Tok(Parser):
         # the corresponding context
         pos, res = gen_names("tk_pos", "tk_res")
         code = make_renderer(compile_ctx).render(
-            'parsers/tok_code',
+            'parsers/tok_code_ada',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=self.token_kind
         )
@@ -366,7 +376,7 @@ class TokClass(Parser):
         pos, res = gen_names("tk_class_pos", "tk_class_res")
         token_kind = TOKEN_PREFIX + self.tok_class.quex_token_name
         code = make_renderer(compile_ctx).render(
-            'parsers/tok_code',
+            'parsers/tok_code_ada',
             _self=self, pos_name=pos_name,
             pos=pos, res=res, token_kind=token_kind,
         )
@@ -468,7 +478,7 @@ class Or(Parser):
             typ=decl_type(self.get_type())
         )
 
-        code = make_renderer(compile_ctx).render('parsers/or_code', t_env)
+        code = make_renderer(compile_ctx).render('parsers/or_code_ada', t_env)
 
         return ParserCodeContext(
             pos_var_name=t_env.pos,
@@ -580,11 +590,11 @@ class Row(Parser):
                 decls.append((subresult, parser.get_type()))
 
             bodies.append(make_renderer(compile_ctx).render(
-                'parsers/row_submatch', t_subenv)
+                'parsers/row_submatch_ada', t_subenv)
             )
 
         code = make_renderer(compile_ctx).render(
-            'parsers/row_code', t_env, body='\n'.join(bodies)
+            'parsers/row_code_ada', t_env, body='\n'.join(bodies)
         )
 
         return ParserCodeContext(
@@ -675,7 +685,7 @@ class List(Parser):
     def generate_code(self, compile_ctx, pos_name="pos"):
         """:type compile_ctx: compile_context.CompileCtx"""
 
-        compile_ctx.generic_vectors.add(self.parser.get_type().name())
+        self.get_type().add_to_context(compile_ctx)
         cpos = gen_name("lst_cpos")
         parser_context = self.parser.gen_code_or_fncall(compile_ctx, cpos)
         sep_context = (
@@ -706,7 +716,8 @@ class List(Parser):
         return ParserCodeContext(
             pos_var_name=t_env.pos,
             res_var_name=t_env.res,
-            code=make_renderer(compile_ctx).render('parsers/list_code', t_env),
+            code=make_renderer(compile_ctx).render('parsers/list_code_ada',
+                                                   t_env),
             var_defs=decls
         )
 
@@ -799,7 +810,8 @@ class Opt(Parser):
 
         return copy_with(
             parser_context,
-            code=make_renderer(compile_ctx).render('parsers/opt_code', t_env),
+            code=make_renderer(compile_ctx).render('parsers/opt_code_ada',
+                                                   t_env),
             res_var_name=(t_env.bool_res if self._booleanize
                           else parser_context.res_var_name),
             var_defs=parser_context.var_defs + ([(t_env.bool_res, BoolType)]
@@ -994,7 +1006,6 @@ class Transform(Parser):
             self.parser.assign_wrapper(self)
 
         self.typ.add_to_context(compile_ctx)
-        compile_ctx.diag_types.append(self.typ)
 
         parser_context = self.parser.gen_code_or_fncall(compile_ctx, pos_name)
         ":type: ParserCodeContext"
@@ -1020,7 +1031,7 @@ class Transform(Parser):
                 (t_env.res, self.get_type()),
             ],
             code=make_renderer(compile_ctx).render(
-                'parsers/transform_code', t_env, pos_name=pos_name
+                'parsers/transform_code_ada', t_env, pos_name=pos_name
             )
         )
 
@@ -1058,7 +1069,7 @@ class Null(Parser):
         if isinstance(typ, ASTNode):
             self.get_type().add_to_context(compile_ctx)
         res = gen_name("null_res")
-        code = make_renderer(compile_ctx).render('parsers/null_code',
+        code = make_renderer(compile_ctx).render('parsers/null_code_ada',
                                                  _self=self, res=res)
 
         return ParserCodeContext(
@@ -1134,7 +1145,8 @@ class Enum(Parser):
         return copy_with(
             parser_context,
             res_var_name=env.res,
-            code=make_renderer(compile_ctx).render('parsers/enum_code', env),
+            code=make_renderer(compile_ctx).render('parsers/enum_code_ada',
+                                                   env),
             var_defs=parser_context.var_defs + [(env.res, self.get_type())]
         )
 

@@ -83,6 +83,7 @@ class Op(EnumType):
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",
                     "lte", "gt", "gte", "ellipsis"]
+    suffix = 'op'
 
 
 class IfExpr(Expr):
@@ -142,10 +143,12 @@ class QualifiedName(Expr):
 
 class Quantifier(EnumType):
     alternatives = ["all", "some"]
+    suffix = 'items'
 
 
 class IterType(EnumType):
     alternatives = ["in", "of"]
+    suffix = 'iter'
 
 
 @abstract

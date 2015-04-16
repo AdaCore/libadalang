@@ -39,6 +39,9 @@ class Name(object):
         assert default_formatting is not None
         return getattr(self, default_formatting)
 
+    def __add__(self, other):
+        return Name('{}_{}'.format(self.base_name, other.base_name))
+
     @classmethod
     def from_camel_with_underscores(cls, name):
         return cls(name)

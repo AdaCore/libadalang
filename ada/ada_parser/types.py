@@ -174,6 +174,7 @@ class ArrayTypeDef(TypeDef):
 
 class InterfaceKind(EnumType):
     alternatives = ["limited", "task", "protected", "synchronized"]
+    suffix = 'interface'
 
 
 class InterfaceTypeDef(TypeDef):

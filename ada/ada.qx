@@ -454,12 +454,16 @@ mode ONE_AND_ONLY
     {P_STRING}      => QUEX_TKN_STRING(Lexeme);
 
     '.' {
-        if (!(me->token->last_id >= QUEX_TKN_IDENTIFIER &&
-                me->token->last_id <= QUEX_TKN_ALL)) {
-            self_send1(QUEX_TKN_CHAR, Lexeme);
-        } else {
+        /* We just matched "[tick] [char] [tick]". If this is the first token
+           or if the previous one was either an identifier or "all", then we
+           know have a "tick" lexeme (used for attribute accesses in Ada).
+           Otherwise, it is just a character literal.  */
+        if (me->token->last_id == QUEX_TKN_IDENTIFIER
+                || me->token->last_id == QUEX_TKN_ALL) {
             self_send1(QUEX_TKN_TICK, Lexeme);
             QUEX_NAME(seek_backward)(&self, 2);
+        } else {
+            self_send1(QUEX_TKN_CHAR, Lexeme);
         }
 
         RETURN;

@@ -1,9 +1,25 @@
+# Python junk
 *.pyc
+__pycache__
+
+# Vim junk
 *.swp
 *.swo
 .*.swp
 .*.swo
-.idea/workspace.xml
-__pycache__
+
+# Build/test temporaries
+*.o
 build
 out
+performance_testsuite
+
+# GNAT/GPS junk
+auto.cgpr
+gnatinspect.db
+gnatinspect.db-*
+*-loc.xml
+*.ali
+
+# IDEA junk
+.idea/workspace.xml

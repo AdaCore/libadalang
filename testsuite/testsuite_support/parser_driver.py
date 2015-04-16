@@ -42,11 +42,11 @@ class ParserDriver(BaseDriver):
         opts = self.global_env['options']
         input_text = self.read_file(self.input_file)
 
-        parse_argv = ['parse', '-r', self.rule_name, '--input', input_text]
+        parse_argv = ['parse', '-r', self.rule_name, input_text]
         for lookup in self.get_lookups():
-            parse_argv.extend([
-                '--lookup', '{}:{}'.format(lookup['line'], lookup['column'])
-            ])
+            parse_argv.append(
+                '{}:{}'.format(lookup['line'], lookup['column'])
+            )
         if self.action != 'pretty-print':
             parse_argv.append('--silent')
         if self.action == 'indent':

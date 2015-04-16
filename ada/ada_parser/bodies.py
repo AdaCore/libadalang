@@ -312,7 +312,7 @@ A.add_rules(
     ) ^ CaseStatement,
 
     ext_return_statement=Row(
-        "return", A._object_decl,
+        "return", A.sub_object_decl,
         Opt("do", A.handled_statements, "end", "return") >> 1
     ) ^ ExtReturnStatement,
 

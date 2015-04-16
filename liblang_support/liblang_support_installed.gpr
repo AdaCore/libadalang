@@ -1,0 +1,29 @@
+with "gnatcoll";
+
+library project Liblang_Support is
+
+   for Languages use ("Ada");
+   for Library_Name use "liblang_support";
+   for Library_Kind use "dynamic";
+   for Library_Interface use
+     ("Liblang_Support",
+      "Liblang_Support.Ast",
+      "Liblang_Support.Ast.List",
+      "Liblang_Support.Diagnostics",
+      "Liblang_Support.Extensions",
+      "Liblang_Support.Indent",
+      "Liblang_Support.Packrat",
+      "Liblang_Support.Token_Data_Handler",
+      "Liblang_Support.Tokens");
+   for Library_Standalone use "standard";
+
+   for Source_Dirs use ("../../include/liblang_support");
+   for Library_Dir use "../";
+   for Library_ALI_Dir use "../liblang_support";
+   for Object_Dir use "../../obj/liblang_support";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatwae", "-gnatyg");
+   end Compiler;
+
+end Liblang_Support;

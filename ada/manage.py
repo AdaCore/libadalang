@@ -13,6 +13,7 @@ setenv()
 from gnatpython import fileutils
 from gnatpython.ex import which
 import sys
+from ada_api import AdaAPISettings
 from c_api import CAPISettings
 from compile_context import CompileCtx
 from python_api import PythonAPISettings
@@ -91,33 +92,10 @@ class Coverage(object):
         )
 
 
-def get_default_compiler():
-    """
-    Return either "clang" or "gcc" depending on what is available.
-    """
-    if which('clang') and which('clang++'):
-        return 'clang'
-    elif which('gcc') and which('g++'):
-        return 'gcc'
-    else:
-        raise RuntimeError('Could not find a C/C++ native toolchain')
-
-
-def get_compilers(name):
-    """
-    Return a couple (C compiler, C++ compiler) corresponding to "name".
-
-    Name can be either "gcc" or "clang".
-    """
-    return {
-        'clang': ('clang', 'clang++'),
-        'gcc':   ('gcc',   'g++'),
-    }[name]
-
-
 def generate(args, dirs):
     """Generate source code for libadalang."""
     lexer_file = dirs.source_dir('ada', 'ada.qx')
+    ada_api_settings = AdaAPISettings('Libadalang')
     c_api_settings = CAPISettings(
         'libadalang',
         symbol_prefix='ada',
@@ -125,6 +103,7 @@ def generate(args, dirs):
     python_api_settings = (PythonAPISettings('libadalang', c_api_settings)
                            if 'python' in args.bindings else None)
     context = CompileCtx('ada', lexer_file, 'compilation_unit',
+                         ada_api_settings,
                          c_api_settings,
                          python_api_settings,
                          verbose=args.verbose)
@@ -141,26 +120,75 @@ def generate(args, dirs):
 
     print Colors.HEADER + "Generating source for libadalang ..." + Colors.ENDC
     context.emit(file_root=dirs.build_dir())
+
+    def gnatpp(project_file):
+        try:
+            subprocess.check_call([
+                'gnatpp',
+                '-P{}'.format(project_file),
+                '-XLIBRARY_TYPE=relocatable',
+                '-rnb',
+            ], env=derived_env(dirs))
+        except subprocess.CalledProcessError as exc:
+            print >> sys.stderr, 'Pretty-printing failed: {}'.format(exc)
+            sys.exit(1)
+
+    if hasattr(args, 'pretty_print') and args.pretty_print:
+        print(
+            Colors.HEADER + "Pretty-printing sources for libadalang ..."
+            + Colors.ENDC
+        )
+        gnatpp(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'))
+        gnatpp(dirs.build_dir('src', 'parse.gpr'))
+
     print Colors.OKGREEN + "Generation complete !" + Colors.ENDC
+
+
+BUILD_MODES = {
+    'dev': ['-g', '-O0'],
+    # Debug information is useful even with optimization for profiling, for
+    # instance.
+    'prod': ['-g', '-Ofast', '-cargs:Ada', '-gnatp'],
+}
 
 
 def build(args, dirs):
     """Build generated source code."""
-    c_compiler, cxx_compiler = get_compilers(args.compiler)
-    make_argv = ['make', '-C', dirs.build_dir(),
-                 '-j{}'.format(args.jobs),
-                 'CC={}'.format(c_compiler),
-                 'CXX={}'.format(cxx_compiler)]
-    make_argv.extend(getattr(args, 'make-options', []))
+
+    cargs = []
+    if args.build_mode:
+        cargs.extend(BUILD_MODES[args.build_mode])
+
+    # Depending on where this is invoked, the "cargs" option may not be set
+    if hasattr(args, 'cargs'):
+        cargs.extend(args.cargs)
+
+    def gprbuild(project_file):
+        try:
+            subprocess.check_call([
+                'gprbuild', '-p', '-j{}'.format(args.jobs),
+                '-P{}'.format(project_file),
+                '-XLIBRARY_TYPE=relocatable',
+                # TODO: make it possible to get production builds (-g0 -O3 for
+                # instance).
+                '-cargs',
+            ] + cargs, env=derived_env(dirs))
+        except subprocess.CalledProcessError as exc:
+            print >> sys.stderr, 'Build failed: {}'.format(exc)
+            sys.exit(1)
+
     print (
         Colors.HEADER
         + "Building the generated source code ..." + Colors.ENDC
     )
-    try:
-        subprocess.check_call(make_argv)
-    except subprocess.CalledProcessError as exc:
-        print >> sys.stderr, 'Build failed: {}'.format(exc)
-        sys.exit(1)
+    gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'))
+
+    print (
+        Colors.HEADER
+        + "Building the interactive test main ..." + Colors.ENDC
+    )
+    gprbuild(dirs.build_dir('src', 'parse.gpr'))
+
     print Colors.OKGREEN + "Compilation complete !" + Colors.ENDC
 
 
@@ -186,7 +214,22 @@ def setup_environment(dirs, add_path):
     add_path('C_INCLUDE_PATH', dirs.build_dir('include'))
     add_path('LIBRARY_PATH', dirs.build_dir('lib'))
     add_path('LD_LIBRARY_PATH', dirs.build_dir('lib'))
+    add_path('GPR_PROJECT_PATH', dirs.build_dir('lib', 'gnat'))
     add_path('PYTHONPATH', dirs.build_dir('python'))
+
+
+def derived_env(dirs):
+    """
+    Return a copy of the environment after an update using setup_environment
+    """
+    env = dict(os.environ)
+
+    def add_path(name, path):
+        old = env.get(name, '')
+        env[name] = '{}:{}'.format(path, old) if old else path
+
+    setup_environment(dirs, add_path)
+    return env
 
 
 def test(args, dirs):
@@ -199,12 +242,7 @@ def test(args, dirs):
     """
 
     # Make builds available from testcases
-    env = dict(os.environ)
-
-    def add_path(name, path):
-        old = env.get(name, '')
-        env[name] = '{}:{}'.format(path, old) if old else path
-    setup_environment(dirs, add_path)
+    env = derived_env(dirs)
 
     try:
         subprocess.check_call([
@@ -242,7 +280,7 @@ def perf_test(args, dirs):
     # directory
     work_dir = os.path.abspath(args.work_dir)
     args.build_dir = os.path.join(work_dir, 'build')
-    setattr(args, 'make-options', ["BUILD_MODE=release"])
+    args.build_mode = 'prod'
     fileutils.mkdir(args.build_dir)
     make(args, dirs)
 
@@ -321,11 +359,6 @@ args_parser.add_argument(
     )
 )
 args_parser.add_argument(
-    '--compiler', '-c', choices=('clang', 'gcc'),
-    default=get_default_compiler(),
-    help='Select what native toolchain to use (Clang or GCC)'
-)
-args_parser.add_argument(
     '--bindings', '-b', nargs='+', choices=('python', ),
     default=['python'],
     help='Bindings to generate (by default: only Python)'
@@ -353,6 +386,10 @@ generate_parser.add_argument(
     '--coverage', '-C', action='store_true',
     help='Compute code coverage for the code generator'
 )
+generate_parser.add_argument(
+    '--pretty-print', '-p', action='store_true',
+    help='Pretty-print generated source code'
+)
 generate_parser.set_defaults(func=generate)
 
 #########
@@ -368,8 +405,12 @@ build_parser.add_argument(
          '(default: your number of cpu)'
 )
 build_parser.add_argument(
-    'make-options', nargs='*',
-    help='Options to pass directly to make'
+    '--build-mode', '-b', choices=list(BUILD_MODES),
+    help='Selects a preset for build options'
+)
+build_parser.add_argument(
+    '--cargs', nargs='*', default=[],
+    help='Options to pass as "-cargs" to GPRbuild'
 )
 build_parser.set_defaults(func=build)
 
@@ -386,8 +427,8 @@ make_parser.add_argument(
          ' (default: your number of cpu)'
 )
 make_parser.add_argument(
-    'make-options', nargs='*',
-    help='Options to pass directly to make'
+    '--build-mode', '-b', choices=list(BUILD_MODES),
+    help='Selects a preset for build options'
 )
 make_parser.set_defaults(func=make)
 

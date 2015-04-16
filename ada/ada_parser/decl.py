@@ -107,6 +107,7 @@ class PragmaArgument(ASTNode):
 
 class InOut(EnumType):
     alternatives = ["in", "out", "inout"]
+    suffix = 'way'
 
 
 @abstract
@@ -233,6 +234,7 @@ class FormalSubpDecl(ASTNode):
 
 class Overriding(EnumType):
     alternatives = ["overriding", "not_overriding", "unspecified"]
+    suffix = 'kind'
 
 
 class GenericSubprogramDecl(ASTNode):
@@ -325,13 +327,13 @@ A.add_rules(
     ),
 
     object_decl=Or(
-        A._object_decl,
+        A.sub_object_decl,
         A.task_decl,
         A.protected_decl,
         A.number_decl
     ),
 
-    _object_decl=Row(
+    sub_object_decl=Row(
         A.id_list,  ":",
         Opt("aliased").as_bool(),
         Opt("constant").as_bool(),

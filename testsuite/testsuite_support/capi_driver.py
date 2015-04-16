@@ -45,11 +45,6 @@ class CAPIDriver(BaseDriver):
                              can_be_empty=False)
         self.check_file_list('"input_sources"', input_sources)
 
-        static_lib = self.locate_in_path(os.environ['LIBRARY_PATH'],
-                                         'libadalang.a')
-        if not static_lib:
-            raise SetupError('Could not locate libadalang.a')
-
         self.gcc_argv = [
             self.global_env['options'].c_compiler,
             '-o', self.test_program, '-g',
@@ -58,15 +53,9 @@ class CAPIDriver(BaseDriver):
         ]
         self.gcc_argv.extend(compile_units)
 
-        # Link with the static library: the resulting program is easier to run
-        # out of the test environment.
-        self.gcc_argv.append(static_lib)
-
-        # Put stdc++ link option at the end of the link command line so that
-        # c++ symbols can be found by the libadalang library. Likewise for the
-        # math library (needed by some std::unordered_map instantiations).
-        self.gcc_argv.append('-lstdc++')
-        self.gcc_argv.append('-lm')
+        # Link with the dynamic library. Note that liblang_support is supposed
+        # to be pulled automatically by libadalang.
+        self.gcc_argv.append('-llibadalang')
 
     @catch_test_errors
     def run(self):

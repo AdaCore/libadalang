@@ -38,6 +38,9 @@ class TokenMap(object):
             a.group(1): int(a.group(2))
             for a in re.finditer(r'([\w_]+)\s*=\s*(\d+);', token_defs_text)
         }
+        # This one is a Quex builtin but we still need to know about it so that
+        # generate code can deal with it.
+        self.tokens['TERMINATION'] = 0
 
         # This is the prefix that quex appends to every token kind, added here
         # for ease of use in the templates

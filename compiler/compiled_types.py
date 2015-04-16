@@ -4,13 +4,12 @@ from c_api import CAPIType
 from common import get_type, null_constant, is_keyword
 import names
 from template_utils import TemplateEnvironment, common_renderer
-from utils import FieldAccessor, memoized, type_check
+from utils import FieldAccessor, TypeDeclaration, memoized, type_check
 from python_api import PythonAPIType
 
 
 def decl_type(ada_type):
-    res = ada_type.name()
-    return str(res).strip() + ("*" if ada_type.is_ptr else "")
+    return str(ada_type.name())
 
 
 class CompiledType(object):
@@ -45,7 +44,8 @@ class CompiledType(object):
     @classmethod
     def name(cls):
         """
-        Return a string to be used in code generation to reference this type.
+        Return a names.Name instance to be used in code generation to reference
+        this type.
 
         Must be overriden in subclasses.
         """
@@ -147,7 +147,7 @@ class SourceLocationRangeType(BasicType):
 class Token(BasicType):
     is_ptr = False
     _name = "Token"
-    _nullexpr = "no_token"
+    _nullexpr = "No_Token"
 
     @classmethod
     def c_type(cls, c_api_settings):
@@ -218,12 +218,6 @@ class Field(object):
 
     name = property(_get_name, _set_name)
 
-    @property
-    def code_name(self):
-        """Return a name for this field suitable for code generation"""
-        name = self.name.lower
-        return (name + '_') if is_keyword(name) else name
-
     def __repr__(self):
         return '<ASTNode {} Field({})>'.format(self._index, self._name)
 
@@ -279,18 +273,12 @@ class ASTNode(CompiledType):
     class' fields are the sum of all its subclass' fields plus its own.
 
     This base class defines utilities to emit native code for the AST node
-    types: type declaration, type definition and type usage (to declare
-    AST node variables).
+    types: type declaration and type usage (to declare AST node variables).
     """
 
     abstract = False
     fields = []
     __metaclass__ = AstNodeMetaclass
-
-    @classmethod
-    def create_type_declaration(cls):
-        """Return a forward type declaration for this AST node type."""
-        return make_renderer().render('astnode_type_decl', cls=cls)
 
     @classmethod
     def needs_refcount(cls):
@@ -331,15 +319,13 @@ class ASTNode(CompiledType):
             types=compile_ctx.ast_fields_types[cls],
             base_name=base_class.name()
         )
-        tdef = make_renderer(compile_ctx).render('astnode_type_def', t_env)
-        if cls.is_ptr:
-            compile_ctx.types_definitions.append(tdef)
-        else:
-            compile_ctx.val_types_definitions.append(tdef)
+        tdef = TypeDeclaration.render(
+            make_renderer(compile_ctx),
+            'astnode_type_def_ada', t_env, cls)
+        compile_ctx.types_declarations.append(tdef)
 
-        compile_ctx.body.append(make_renderer(compile_ctx).render(
-            'astnode_type_impl', t_env
-        ))
+        compile_ctx.primitives_bodies.append(
+            make_renderer(compile_ctx).render('astnode_type_impl_ada', t_env))
 
     @classmethod
     def get_inheritance_chain(cls):
@@ -398,8 +384,6 @@ class ASTNode(CompiledType):
                 base_class.add_to_context(compile_ctx)
 
             compile_ctx.types.add(cls)
-            compile_ctx.types_declarations.append(
-                cls.create_type_declaration())
             cls.create_type_definition(compile_ctx)
 
             # Generate field accessors (C public API) for this node kind
@@ -421,14 +405,17 @@ class ASTNode(CompiledType):
                     accessor_name=accessor_fullname,
                 )
                 accessor_decl = render(
-                    'c_api/astnode_field_access_decl', t_env)
+                    'c_api/astnode_field_access_decl_ada', t_env)
                 accessor_impl = render(
-                    'c_api/astnode_field_access_impl', t_env)
+                    'c_api/astnode_field_access_impl_ada', t_env)
+                accessor_c_decl = render(
+                    'c_api/astnode_field_access_decl_c', t_env)
 
                 primitives.append(FieldAccessor(
                     accessor_basename,
                     declaration=accessor_decl,
                     implementation=accessor_impl,
+                    c_declaration=accessor_c_decl,
                     field=field,
                     field_type=field_type,
                 ))
@@ -439,7 +426,7 @@ class ASTNode(CompiledType):
             # for the fields they define.
             if compile_ctx.python_api_settings:
                 compile_ctx.py_astnode_subclasses[cls] = render(
-                    'python_api/ast_subclass',
+                    'python_api/ast_subclass_py',
                     pyapi=compile_ctx.python_api_settings,
                     cls=cls,
                     parent_cls=list(cls.get_inheritance_chain())[-2],
@@ -452,12 +439,15 @@ class ASTNode(CompiledType):
         Return the name that will be used in code generation for this AST node
         type.
         """
-        return names.Name.from_camel(cls.__name__)
+        name = names.Name.from_camel(cls.__name__)
+        return (name + names.Name('Node') if is_keyword(str(name)) else name)
 
     @classmethod
     def repr_name(cls):
         """Return a name that will be used when serializing this AST node."""
-        return getattr(cls, "_repr_name", cls.name())
+        # This name is used by pretty printers-like code: we need the
+        # "original" node name here, not keyword-escaped ones.
+        return getattr(cls, "_repr_name", cls.__name__)
 
     @classmethod
     def nullexpr(cls):
@@ -488,18 +478,35 @@ def list_type(element_type):
     Return an ASTNode subclass that represent a list of `element_type`.
     """
 
-    # List types do not need generated code for their declaration since they
-    # are instantiations of a generic "ASTList" type, which inherits ASTNode
-    # (so they can be considered as ASTNode).
+    @classmethod
+    def name(cls):
+        return 'List_{}'.format(element_type.name())
+
+    @classmethod
+    def add_to_context(cls, compile_ctx):
+        if cls in compile_ctx.types:
+            return
+        compile_ctx.types.add(cls)
+        compile_ctx.list_types.add(element_type)
+
+        # Make sure the type this list contains is already declared
+        element_type.add_to_context(compile_ctx)
+
+        renderer = make_renderer(compile_ctx)
+        t_env = TemplateEnvironment(element_type=element_type)
+        compile_ctx.types_declarations.append(TypeDeclaration.render(
+            renderer, 'astlist_def_ada', t_env, cls
+        ))
+        compile_ctx.primitives_bodies.append(renderer.render(
+            'astlist_impl_ada', t_env
+        ))
 
     return type(
         '{}ListType'.format(element_type.name()), (ASTNode, ), {
-            'is_ptr':   True,
-            'name':     classmethod(
-                lambda cls: make_renderer().render(
-                    'list_type', el_type=element_type)
-            ),
-            'nullexpr': classmethod(lambda cls: null_constant()),
+            'is_ptr':         True,
+            'add_to_context': add_to_context,
+            'name':           name,
+            'nullexpr':       classmethod(lambda cls: null_constant()),
         }
     )
 
@@ -537,36 +544,44 @@ class EnumType(CompiledType):
         self.alt = alt
 
     @classmethod
-    def name(cls):
+    def base_name(cls):
+        """
+        Return a names.Name instance holding the unescaped name for this type
+        """
         return names.Name.from_camel(cls.__name__)
+
+    @classmethod
+    def name(cls):
+        return names.Name.from_camel('{}Type'.format(cls.__name__))
 
     @classmethod
     def add_to_context(cls, compile_ctx):
         if cls not in compile_ctx.types:
             render = make_renderer(compile_ctx).render
             compile_ctx.types.add(cls)
-            compile_ctx.types_declarations.append(
-                render('enum_type_decl', cls=cls)
-            )
-            compile_ctx.body.append(
-                render('enum_type_impl', compile_ctx=compile_ctx, cls=cls)
-            )
+            compile_ctx.enum_declarations.append(TypeDeclaration.render(
+                make_renderer(compile_ctx),
+                'enum_type_decl_ada', None, cls, cls=cls
+            ))
             compile_ctx.c_astnode_field_types[cls] = render(
-                'c_api/enum_type_decl', compile_ctx=compile_ctx, cls=cls,
+                'c_api/enum_type_decl_c', compile_ctx=compile_ctx, cls=cls,
+            )
+            compile_ctx.c_astnode_field_types_ada[cls] = render(
+                'c_api/enum_type_spec_ada', compile_ctx=compile_ctx, cls=cls,
             )
             if compile_ctx.python_api_settings:
                 compile_ctx.py_astnode_field_types[cls] = render(
-                    'python_api/enum_type_decl', cls=cls,
+                    'python_api/enum_type_decl_py', cls=cls,
                     pyapi=compile_ctx.python_api_settings
                 )
 
     @classmethod
     def nullexpr(cls):
-        return cls.name().camel + "::uninitialized"
+        return "Uninitialized"
 
     @classmethod
     def c_type(cls, c_api_settings):
-        return CAPIType(c_api_settings, cls.name().lower)
+        return CAPIType(c_api_settings, cls.base_name().lower)
 
     @classmethod
     def py_type(cls, python_api_settings):
@@ -574,12 +589,18 @@ class EnumType(CompiledType):
 
     @classmethod
     def get_enumerator(cls, alt):
-        result = names.Name(alt).lower
-        return ('{}_{}'.format(result, cls.suffix)
-                if is_keyword(result) else result)
+        """
+        Return a names.Name instance for alt's enumerator name
+
+        This is be used in code generation.
+        """
+        result = names.Name(alt)
+        return (result + names.Name.from_lower(cls.suffix)
+                if is_keyword(str(result)) else result)
 
     @property
     def enumerator(self):
+        """Return "get_enumerator" for this alternative"""
         return self.get_enumerator(self.alt)
 
     @classmethod
@@ -588,11 +609,11 @@ class EnumType(CompiledType):
         Return the sequence of names to use for alternatives in the language
         corresponding to "language_settings".
         """
-        type_name = cls.name()
+        type_name = cls.base_name()
         return [
             language_settings.get_enum_alternative(
                 type_name, names.Name.from_lower(alt),
-                cls.suffix
+                names.Name.from_lower(cls.suffix)
             )
             for alt in cls.alternatives
         ]
@@ -619,7 +640,8 @@ def make_renderer(compile_ctx=None, base_renderer=None):
     if compile_ctx:
         capi = compile_ctx.c_api_settings
         template_args.update({
-            'capi':             capi,
+            'ada_api': compile_ctx.ada_api_settings,
+            'capi': capi,
             'analysis_context_type': CAPIType(capi, 'analysis_context').name,
             'analysis_unit_type':    CAPIType(capi, 'analysis_unit').name,
             'node_kind_type':        CAPIType(capi, 'node_kind_enum').name,
@@ -639,7 +661,7 @@ class Indent(object):
     def __init__(self, kind, rel_pos=0, token_field_name=""):
         self.kind = kind
         self.rel_pos = rel_pos
-        self.token_field_name = token_field_name
+        self.token_field_name = names.Name.from_lower(token_field_name)
 
 
 def indent_rel(pos=0):

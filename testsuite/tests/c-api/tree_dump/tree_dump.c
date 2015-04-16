@@ -22,7 +22,7 @@ static void
 dump(ada_node node, int level)
 {
     ada_node_kind_enum kind;
-    const char *kind_name;
+    char *kind_name;
     unsigned i, count;
 
     if (node == NULL) {
@@ -35,6 +35,7 @@ dump(ada_node node, int level)
     kind_name = ada_kind_name(kind);
     print_indent(level);
     printf("<%s>\n", kind_name);
+    free(kind_name);
 
     count = ada_node_child_count(node);
     for (i = 0; i < count; ++i)

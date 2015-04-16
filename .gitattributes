@@ -1,3 +1,7 @@
+# TODO??? Remove this once the server accepts Ada2012...
+liblang_support/*.adb no-precommit-check
+liblang_support/*.ads no-precommit-check
+
 testsuite/tests/*/*/*.adb no-precommit-check
 testsuite/tests/*/*/*.ads no-precommit-check
 testsuite/tests/*/*/*.c no-precommit-check

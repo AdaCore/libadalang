@@ -1,19 +1,22 @@
 from collections import defaultdict
 from glob import glob
+from distutils.spawn import find_executable
+import itertools
+import names
 import os
+from os import path, environ
 import shutil
 import sys
 import subprocess
-from os import path, environ
-from distutils.spawn import find_executable
-import names
-from utils import Colors
+import tempfile
+
 import quex_tokens
+from utils import Colors
 
 
 def write_cpp_file(file_path, source):
     with open(file_path, "wb") as out_file:
-        if find_executable('clang-format'):
+        if find_executable("clang-format"):
             p = subprocess.Popen(["clang-format"], stdin=subprocess.PIPE,
                                  stdout=out_file)
             p.communicate(source)
@@ -22,10 +25,26 @@ def write_cpp_file(file_path, source):
             out_file.write(source)
 
 
+ada_spec = "spec"
+ada_body = "body"
+
+
+def write_ada_file(path, source_kind, qual_name, source):
+    assert source_kind in (ada_spec, ada_body)
+    file_name = "{}.{}".format("-".join(qual_name).lower(),
+                               "ads" if source_kind == ada_spec else "adb")
+    file_path = os.path.join(path, file_name)
+
+    # TODO: no tool is able to pretty-print a single Ada source file
+    with open(file_path, "wb") as out_file:
+            out_file.write(source)
+
+
 class CompileCtx():
     """State holder for native code emission"""
 
-    def __init__(self, lang_name, lexer_file, main_rule_name, c_api_settings,
+    def __init__(self, lang_name, lexer_file, main_rule_name,
+                 ada_api_settings, c_api_settings,
                  python_api_settings=None,
                  verbose=False):
         """Create a new context for code emission
@@ -37,6 +56,8 @@ class CompileCtx():
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
 
+        ada_api_settings: a ada_api.AdaAPISettings instance.
+
         c_api_settings: a c_api.CAPISettings instance.
 
         python_api_settings: If provided, it must be a
@@ -45,21 +66,19 @@ class CompileCtx():
 
         bindings: Language bindings to generate (Bindings instance).
         """
-        # TODO: lang_name is not actually used anywhere at the moment.
-        # TODO: A short description for all these fields would help!
-        self.body = []
-        self.types_declarations = []
-        self.types_definitions = []
-        self.val_types_definitions = []
-        self.fns_decls = []
-        self.fns = set()
-        self.generic_vectors = set()
-        self.types = set()
+        # TODO: lang_name is not actually used anywhere at the moment
+
+        self.lang_name = lang_name
         self.main_rule_name = main_rule_name
-        self.diag_types = []
-        self.test_bodies = []
-        self.test_names = []
+
+        self.ada_api_settings = ada_api_settings
+        self.c_api_settings = c_api_settings
+        self.verbose = verbose
+
+        # Mapping: rule name -> Parser instances.
+        # TODO: why do we need this? The grammar already has such a mapping.
         self.rules_to_fn_names = {}
+        # Grammar instance
         self.grammar = None
 
         self.lexer_file = lexer_file
@@ -67,11 +86,42 @@ class CompileCtx():
 
         self.python_api_settings = python_api_settings
 
+        # Set of names (names.Name instances) for all generated parser
+        # functions. This is used to avoid generating these multiple times.
+        self.fns = set()
+
+        # Set of CompiledType subclasses: all such subclasses must register
+        # themselves here when their add_to_context method is invoked. This
+        # field too is used to avoid multiple generation issues.
+        self.types = set()
+
         # List for all ASTnode subclasses (ASTNode excluded), sorted so that A
         # is before B when A is a parent class for B. This sorting is important
         # to output declarations in dependency order.
         # This is computed right after field types inference.
         self.astnode_types = None
+
+        # Set of all ASTNode subclasses (ASTNode included) for which we
+        # generate a corresponding list type.
+        self.list_types = set()
+
+        #
+        # Holders for the Ada generated code chunks
+        #
+
+        # List of TypeDeclaration instances for all enumeration types used in
+        # AST node fields and all ASTNode subclasses.
+        self.enum_declarations = []
+
+        # List of TypeDeclaration instances for all ASTNode subclasses
+        # (including ASTList instances).
+        self.types_declarations = []
+
+        # List of strings for all ASTNode subclasses primitives body
+        self.primitives_bodies = []
+
+        # List of GeneratedParser instances
+        self.generated_parsers = []
 
         #
         # Holders for the C external API generated code chunks
@@ -95,6 +145,9 @@ class CompileCtx():
         # AST node fields.
         self.c_astnode_field_types = {}
 
+        # Likewise but for Ada declarations
+        self.c_astnode_field_types_ada = {}
+
         #
         # Corresponding holders for the Python API
         #
@@ -106,10 +159,6 @@ class CompileCtx():
         # Mapping CompiledType -> string (Python declarations) for types used
         # in AST node fields.
         self.py_astnode_field_types = {}
-
-        self.lang_name = lang_name
-        self.c_api_settings = c_api_settings
-        self.verbose = verbose
 
         # Mapping: ASTNode -> list of CompiledType instances
         self.ast_fields_types = {}
@@ -165,7 +214,7 @@ class CompileCtx():
         # relatively stable order. This is really useful for debugging
         # purposes.
         keys = {
-            cls: '.'.join(cls.name().base_name
+            cls: ".".join(cls.name().base_name
                           for cls in cls.get_inheritance_chain())
             for cls in self.astnode_types
         }
@@ -177,29 +226,6 @@ class CompileCtx():
         # until needed.
         from parsers import make_renderer
         return make_renderer(self).render
-
-    def get_header(self):
-        return self.render_template(
-            'main_header', compile_ctx=self,
-            _self=self,
-            tdecls=self.types_declarations,
-            tdefs=self.types_definitions,
-            fndecls=self.fns_decls,
-        )
-
-    def get_source(self):
-        return self.render_template(
-            'main_body', compile_ctx=self,
-            _self=self,
-            token_map=quex_tokens.token_map,
-            bodies=self.body
-        )
-
-    def get_interactive_main(self):
-        return self.render_template(
-            'interactive_main', compile_ctx=self,
-            _self=self,
-        )
 
     def set_grammar(self, grammar):
         self.grammar = grammar
@@ -214,36 +240,49 @@ class CompileCtx():
         assert self.grammar, "Set grammar before calling emit"
         assert self.lexer_file, "Set lexer before calling emit"
 
-        src_path = path.join(file_root, "src")
+        lib_name_low = self.ada_api_settings.lib_name.lower()
+
         include_path = path.join(file_root, "include")
+        src_path = path.join(file_root, "include", lib_name_low)
+        lib_path = path.join(file_root, "lib")
 
         if not path.exists(file_root):
             os.mkdir(file_root)
 
         print Colors.OKBLUE + "File setup ..." + Colors.ENDC
 
-        for d in ["include", "obj", "src", "bin", "lib"]:
+        for d in ["include",
+                  "include/liblang_support",
+                  "include/{}".format(lib_name_low),
+                  "obj", "src", "bin",
+                  "lib", "lib/gnat"]:
             p = path.join(file_root, d)
             if not path.exists(p):
                 os.mkdir(p)
 
-        with open(path.join(file_root, "Makefile"), "w") as f:
+        # Create the project file for the generated library
+        main_project_file = os.path.join(
+            lib_path, "gnat",
+            "{}.gpr".format(self.ada_api_settings.lib_name.lower()),
+        )
+        with open(main_project_file, "w") as f:
             f.write(self.render_template(
-                "Makefile",
-                compile_ctx=self,
+                "project_file",
+                lib_name=self.ada_api_settings.lib_name,
+                quex_path=os.environ["QUEX_PATH"],
             ))
 
-        # These are internal headers, so they go to "src". Only external ones
-        # headers (for the public API) go to "include" (see below).
-        for f in glob("support/*.hpp"):
-            shutil.copy(f, src_path)
-
-        for f in glob("support/*.cpp"):
-            shutil.copy(f, src_path)
+        # Copy liblang_support sources files to the include prefix and create
+        # its own project file.
+        for f in itertools.chain(glob("liblang_support/*.adb"),
+                                 glob("liblang_support/*.ads")):
+            shutil.copy(f, path.join(include_path, "liblang_support"))
+        shutil.copy("liblang_support/liblang_support_installed.gpr",
+                    path.join(lib_path, "gnat", "liblang_support.gpr"))
 
         print Colors.OKBLUE + "Compiling the grammar ... " + Colors.ENDC
 
-        with names.camel:
+        with names.camel_with_underscores:
             for r_name, r in self.grammar.rules.items():
                 r.compute_fields_types(self)
 
@@ -257,27 +296,58 @@ class CompileCtx():
              for astnode in self.astnode_types
              if not astnode.abstract),
             # Compute kind constants for all ASTNode concrete subclasses.
-            # Start with 1: the constant 0 is reserved for all ASTList nodes.
-            start=1
+            # Start with 2: the constant 0 is reserved as an
+            # error/uninitialized code and the constant 1 is reserved for all
+            # ASTList nodes.
+            start=2
         ):
             self.node_kind_constants[astnode] = i
 
-        with names.camel:
-            write_cpp_file(path.join(src_path, "parse.cpp"),
-                           self.get_source())
+        print Colors.OKBLUE + "Generating sources ... " + Colors.ENDC
 
-            write_cpp_file(path.join(src_path, "parse.hpp"),
-                           self.get_header())
+        with names.camel_with_underscores:
+            for template_base_name, qual_name in [
+                # Generate the unit for all derived AST nodes
+                ("main", [self.ada_api_settings.lib_name]),
+                # Generate the unit for the lexer
+                ("lexer/lexer",
+                 [self.ada_api_settings.lib_name, "lexer"]),
+                # Generate the unit for all parsers
+                ("parsers/main",
+                 [self.ada_api_settings.lib_name, "parsers"]),
+            ]:
+                for kind_name, kind in [("spec", ada_spec),
+                                        ("body", ada_body)]:
+                    write_ada_file(
+                        src_path, kind, qual_name,
+                        self.render_template(
+                            "{}_{}_ada".format(template_base_name, kind_name),
+                            compile_ctx=self, _self=self,
+                            token_map=quex_tokens.token_map)
+                    )
 
-            write_cpp_file(
-                path.join(src_path, "parse_main.cpp"),
-                self.get_interactive_main()
-            )
+            write_ada_file(path.join(file_root, "src"), ada_body, ["parse"],
+                           self.render_template(
+                               "interactive_main_ada", compile_ctx=self,
+                               _self=self))
 
-            write_cpp_file(
-                path.join(src_path, "ast.hpp"),
-                self.render_template("ast_header", compile_ctx=self),
-            )
+        with names.lower:
+            # ... and the Quex C interface
+            write_cpp_file(path.join(src_path, "quex_interface.h"),
+                           self.render_template(
+                               "lexer/quex_interface_header_c",
+                               _self=self))
+            write_cpp_file(path.join(src_path, "quex_interface.c"),
+                           self.render_template(
+                               "lexer/quex_interface_body_c",
+                               _self=self))
+
+        imain_project_file = os.path.join(file_root, "src", "parse.gpr")
+        with open(imain_project_file, "w") as f:
+            f.write(self.render_template(
+                "parse_project_file",
+                lib_name=self.ada_api_settings.lib_name,
+            ))
 
         self.emit_c_api(src_path, include_path)
         if self.python_api_settings:
@@ -302,7 +372,7 @@ class CompileCtx():
                                "--single-mode-analyzer",
                                "--token-memory-management-by-user",
                                "--token-policy", "single"],
-                              cwd=path.join(file_root, "src"))
+                              cwd=src_path)
 
     def emit_c_api(self, src_path, include_path):
         """Generate header and binding body for the external C API"""
@@ -316,20 +386,16 @@ class CompileCtx():
             write_cpp_file(
                 path.join(include_path,
                           "{}.h".format(self.c_api_settings.lib_name)),
-                render("c_api/header")
+                render("c_api/header_c")
             )
 
-        with names.camel:
-            write_cpp_file(
-                path.join(src_path,
-                          "{}.cpp".format(self.c_api_settings.lib_name)),
-                render("c_api/body")
-            )
-
-            write_cpp_file(
-                path.join(src_path, "c_utils.hpp"),
-                render("c_api/utils")
-            )
+        with names.camel_with_underscores:
+            write_ada_file(src_path, ada_spec,
+                           [self.ada_api_settings.lib_name, "C"],
+                           render("c_api/spec_ada"))
+            write_ada_file(src_path, ada_body,
+                           [self.ada_api_settings.lib_name, "C"],
+                           render("c_api/body_ada"))
 
     def emit_python_api(self, python_path):
         """Generate the Python binding module"""
@@ -349,7 +415,8 @@ class CompileCtx():
         with names.camel:
             with open(os.path.join(python_path, module_filename), "w") as f:
                 f.write(self.render_template(
-                    'python_api/module', _self=self,
+                    "python_api/module_py", _self=self,
+                    c_api=self.c_api_settings,
                     pyapi=self.python_api_settings,
                     astnode_subclass_decls=astnode_subclass_decls,
                 ))

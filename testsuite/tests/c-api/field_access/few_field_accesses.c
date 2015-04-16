@@ -22,6 +22,7 @@ main(void)
     int is_limited, is_private;
     ada_overriding overriding;
     ada_token tok;
+    char *tok_text;
 
     ctx = ada_create_analysis_context();
     if (ctx == NULL)
@@ -62,8 +63,8 @@ main(void)
         error("Could got get WithDecl.is_limited");
     if (!ada_with_decl_is_private(with_decl, &is_private))
         error("Could got get WithDecl.is_private");
-    printf ("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
-    printf ("WithDecl: is_private = %s\n", is_private ? "true" : "false");
+    printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
+    printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");
 
 
     tmp = ada_unit_root(unit);
@@ -77,7 +78,7 @@ main(void)
         error("Got something else than a SubprogramBody");
     if (!ada_subprogram_body_overriding(subp_body, &overriding))
         error("Could got get SubprogramBody.overriding");
-    printf ("SubprogramBody: overriding = %d\n", overriding);
+    printf("SubprogramBody: overriding = %d\n", overriding);
 
 
     if (!ada_subprogram_body_subp_spec(subp_body, &tmp))
@@ -93,7 +94,9 @@ main(void)
 
     if (!ada_single_tok_node_tok(subp_name, &tok))
       error("Could not get Identifier.tok");
-    printf ("Identifier: tok = %s\n", ada_token_text(tok));
+    tok_text = ada_token_text(tok);
+    printf("Identifier: tok = %s\n", tok_text);
+    free(tok_text);
 
 
     ada_destroy_analysis_context(ctx);

@@ -42,6 +42,7 @@ main(void)
 	       diag.sloc_range.end.line,
 	       diag.sloc_range.end.column,
 	       diag.message);
+	free(diag.message);
       }
 
     ada_destroy_analysis_context(ctx);

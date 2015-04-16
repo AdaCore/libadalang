@@ -1,6 +1,9 @@
 from collections import defaultdict
+import itertools
 
-LANGUAGE = "cpp"
+import names
+
+LANGUAGE = "ada"
 
 TOKEN_PREFIX = "QUEX_TKN_"
 
@@ -38,6 +41,28 @@ keywords = {
         wchar_t while
         xor xor_eq
     """.split()),
+
+    "ada": set("""
+    abort abs abstract accept access aliased all and array at
+    begin body
+    case constant
+    declare delay delta digits do
+    else elsif end entry exception exit
+    for function
+    generic goto
+    if in interface is
+    limited loop
+    mod
+    new not null
+    of or others out overriding
+    package pragma private procedure protected
+    raise range record rem renames requeue
+    return reverse
+    select separate some subtype synchronized
+    tagged task terminate then type
+    until use
+    when while with xor
+    """.split()),
 }
 
 
@@ -53,12 +78,18 @@ def is_keyword(string):
     return string.lower() in keywords[LANGUAGE]
 
 
-__next_ids = defaultdict(int)
+__next_ids = defaultdict(lambda: itertools.count(0))
 
 
 def gen_name(var_name):
-    __next_ids[var_name] += 1
-    return "{0}_{1}".format(var_name, __next_ids[var_name])
+    # This function is mostly used to generate temporary variables in parsing
+    # functions. In these places it's more convenient to give lower case names
+    # as it melts fine with the rest of the Python code.
+    if isinstance(var_name, basestring):
+        var_name = names.Name.from_lower(var_name)
+
+    var_id = next(__next_ids[var_name.lower])
+    return var_name + names.Name(str(var_id))
 
 
 def gen_names(*var_names):
@@ -68,7 +99,7 @@ def gen_names(*var_names):
 
 basic_types = {
     "ada": {
-        long: "Long_Integer",
+        long: "Integer",
         bool: "Boolean"
     },
     "cpp": {

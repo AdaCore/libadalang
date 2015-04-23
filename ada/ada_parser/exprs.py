@@ -79,8 +79,8 @@ class AggregateMember(ASTNode):
 
 
 class Op(EnumType):
-    alternatives = ["_and", "_or", "or_else", "and_then", "_xor", "in",
-                    "not_in", "abs", "_not", "pow", "mult", "div", "mod",
+    alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
+                    "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",
                     "lte", "gt", "gte", "ellipsis"]
 
@@ -334,7 +334,7 @@ A.add_rules(
                A.aggregate),
 
     factor=Or(
-        Row(Or(Enum("abs", Op("abs")), Enum("not", Op("_not"))),
+        Row(Or(Enum("abs", Op("abs")), Enum("not", Op("not"))),
             A.primary) ^ UnOp,
 
         Row(A.primary, Enum("**", Op("pow")), A.primary) ^ BinOp,
@@ -374,9 +374,9 @@ A.add_rules(
     ),
 
     boolean_op=Or(
-        Enum("xor", Op("_xor")),
-        Enum(Row("and", "then"), Op("and_then")), Enum("and", Op("_and")),
-        Enum(Row("or", "else"), Op("or_else")), Enum("or", Op("_or")),
+        Enum("xor", Op("xor")),
+        Enum(Row("and", "then"), Op("and_then")), Enum("and", Op("and")),
+        Enum(Row("or", "else"), Op("or_else")), Enum("or", Op("or")),
     ),
 
     expression_list=Row("(", List(A.expression, sep=","), ")") ^ ExprList,

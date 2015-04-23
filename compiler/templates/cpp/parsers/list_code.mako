@@ -24,8 +24,8 @@ while (true) {
             ${res} = ${parser_context.res_var_name};
         else {
             auto new_res = ${_self.revtree_class.name()}_new();
-            new_res->${_self.revtree_class.fields[0].name} = ${res};
-            new_res->${_self.revtree_class.fields[1].name} = ${parser_context.res_var_name};
+            new_res->${_self.revtree_class.fields[0].code_name} = ${res};
+            new_res->${_self.revtree_class.fields[1].code_name} = ${parser_context.res_var_name};
             ${res}->inc_ref();
             ${parser_context.res_var_name}->inc_ref();
             ${res}->setParent(new_res);

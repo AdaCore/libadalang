@@ -1,3 +1,6 @@
+import names
+
+
 class PythonAPIType(object):
     """
     Python API generation helper: encapsulate the logic of Python types names
@@ -37,3 +40,11 @@ class PythonAPISettings(object):
     def __init__(self, module_name, c_api_settings):
         self.c_api_settings = c_api_settings
         self.module_name = module_name
+
+    def get_enum_alternative(self, type_name, alt_name, suffix):
+        """
+        Return a name that is suitable for code generation for the `alt_name`
+        alternative in the `type_name` enumeration type. `suffix` should be
+        used to post-process names that are invalid enumerators.
+        """
+        return alt_name.upper

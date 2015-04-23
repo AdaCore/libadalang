@@ -61,7 +61,7 @@ ProtectedBody[1:1-1:271]
 | | | | | | | | | | | tok: item
 | | | when_cond:
 | | | | UnOp[1:181-1:190]
-| | | | | op: _not
+| | | | | op: not
 | | | | | expr:
 | | | | | | Id[1:185-1:190]
 | | | | | | | tok: empty

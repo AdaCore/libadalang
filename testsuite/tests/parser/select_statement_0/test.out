@@ -3,7 +3,7 @@ SelectStatement[1:1-1:125]
 | | SelectWhenPart[1:8-1:59]
 | | | choices:
 | | | | UnOp[1:13-1:21]
-| | | | | op: _not
+| | | | | op: not
 | | | | | expr:
 | | | | | | Id[1:17-1:21]
 | | | | | | | tok: BUSY

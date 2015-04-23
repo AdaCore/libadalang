@@ -6,6 +6,7 @@ import sys
 import subprocess
 from os import path, environ
 from distutils.spawn import find_executable
+import names
 from utils import Colors
 import quex_tokens
 
@@ -164,7 +165,8 @@ class CompileCtx():
         # relatively stable order. This is really useful for debugging
         # purposes.
         keys = {
-            cls: '.'.join(cls.name() for cls in cls.get_inheritance_chain())
+            cls: '.'.join(cls.name().base_name
+                          for cls in cls.get_inheritance_chain())
             for cls in self.astnode_types
         }
         self.astnode_types.sort(key=lambda cls: keys[cls])
@@ -241,8 +243,9 @@ class CompileCtx():
 
         print Colors.OKBLUE + "Compiling the grammar ... " + Colors.ENDC
 
-        for r_name, r in self.grammar.rules.items():
-            r.compute_fields_types(self)
+        with names.camel:
+            for r_name, r in self.grammar.rules.items():
+                r.compute_fields_types(self)
 
         for r_name, r in self.grammar.rules.items():
             r.compile(self)
@@ -259,21 +262,22 @@ class CompileCtx():
         ):
             self.node_kind_constants[astnode] = i
 
-        write_cpp_file(path.join(src_path, "parse.cpp"),
-                       self.get_source())
+        with names.camel:
+            write_cpp_file(path.join(src_path, "parse.cpp"),
+                           self.get_source())
 
-        write_cpp_file(path.join(src_path, "parse.hpp"),
-                       self.get_header())
+            write_cpp_file(path.join(src_path, "parse.hpp"),
+                           self.get_header())
 
-        write_cpp_file(
-            path.join(src_path, "parse_main.cpp"),
-            self.get_interactive_main()
-        )
+            write_cpp_file(
+                path.join(src_path, "parse_main.cpp"),
+                self.get_interactive_main()
+            )
 
-        write_cpp_file(
-            path.join(src_path, "ast.hpp"),
-            self.render_template("ast_header", compile_ctx=self),
-        )
+            write_cpp_file(
+                path.join(src_path, "ast.hpp"),
+                self.render_template("ast_header", compile_ctx=self),
+            )
 
         self.emit_c_api(src_path, include_path)
         if self.python_api_settings:
@@ -308,21 +312,24 @@ class CompileCtx():
                 _self=self,
             )
 
-        write_cpp_file(
-            path.join(include_path,
-                      "{}.h".format(self.c_api_settings.lib_name)),
-            render("c_api/header")
-        )
-        write_cpp_file(
-            path.join(src_path,
-                      "{}.cpp".format(self.c_api_settings.lib_name)),
-            render("c_api/body")
-        )
+        with names.lower:
+            write_cpp_file(
+                path.join(include_path,
+                          "{}.h".format(self.c_api_settings.lib_name)),
+                render("c_api/header")
+            )
 
-        write_cpp_file(
-            path.join(src_path, "c_utils.hpp"),
-            render("c_api/utils")
-        )
+        with names.camel:
+            write_cpp_file(
+                path.join(src_path,
+                          "{}.cpp".format(self.c_api_settings.lib_name)),
+                render("c_api/body")
+            )
+
+            write_cpp_file(
+                path.join(src_path, "c_utils.hpp"),
+                render("c_api/utils")
+            )
 
     def emit_python_api(self, python_path):
         """Generate the Python binding module"""
@@ -339,9 +346,10 @@ class CompileCtx():
             else:
                 astnode_subclass_decls.append(decl)
 
-        with open(os.path.join(python_path, module_filename), "w") as f:
-            f.write(self.render_template(
-                'python_api/module', _self=self,
-                pyapi=self.python_api_settings,
-                astnode_subclass_decls=astnode_subclass_decls,
-            ))
+        with names.camel:
+            with open(os.path.join(python_path, module_filename), "w") as f:
+                f.write(self.render_template(
+                    'python_api/module', _self=self,
+                    pyapi=self.python_api_settings,
+                    astnode_subclass_decls=astnode_subclass_decls,
+                ))

@@ -6,7 +6,7 @@ class ${cls.name()}(${parent_cls.name()}):
 
     _field_names = ${parent_cls.name()}._field_names + (
         % for primitive in primitives:
-        "${primitive.field.name}",
+        "${primitive.field.name.lower}",
         % endfor
     )
 
@@ -16,9 +16,9 @@ class ${cls.name()}(${parent_cls.name()}):
 
     % for primitive in primitives:
     @property
-    def f_${primitive.field.name}(self):
+    def f_${primitive.field.name.lower}(self):
         result = ${primitive.field_type.py_type(pyapi).name_low}()
-        assert _${primitive.name}(self._c_value, ctypes.byref(result))
+        assert _${primitive.name.lower}(self._c_value, ctypes.byref(result))
 
         ## Depending on the type of the field, we need to convert the value to
         ## the most appropriate Python type.

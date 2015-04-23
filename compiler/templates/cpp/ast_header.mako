@@ -260,7 +260,7 @@ public:
     virtual bool is_empty_list();
 
     virtual ${node_kind_type} kind() {
-        return ${capi.get_name("list")};
+        return ${capi.get_name(Name("List"))};
     }
 
     virtual std::string kind_name() { return "ASTList"; }

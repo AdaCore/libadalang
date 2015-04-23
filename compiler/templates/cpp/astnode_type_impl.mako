@@ -1,13 +1,13 @@
 ## vim: filetype=makocpp
 
-long ${cls.name().lower()}_counter = 0;
+long ${cls.name().lower}_counter = 0;
 
 ${cls.name()}::~${cls.name()}() {
         /* In C++, the mother class' destructor is automatically called at the
            end of this function, so iterate only on own fields.  */
         % for t, f in cls_field_decls:
             % if t.is_ptr:
-                if (${f.name}) ${f.name}->dec_ref();
+                if (${f.code_name}) ${f.code_name}->dec_ref();
             % endif
         % endfor
 #if DEBUG_MODE
@@ -25,10 +25,10 @@ std::string ${cls.name()}::repr() {
         % endif
 
         % if t.is_ptr:
-            if (${f.name} != ${t.nullexpr()}) {
+            if (${f.code_name} != ${t.nullexpr()}) {
         % endif
 
-        result.append(get_repr(${f.name}));
+        result.append(get_repr(${f.code_name}));
 
         % if t.is_ptr:
             } else result.append("None");
@@ -42,13 +42,13 @@ std::string ${cls.name()}::repr() {
 ## Abstract nodes are never instanciated directly.
 % if cls.is_ptr and not cls.abstract:
     static inline ${cls.name()}* ${cls.name()}_new() {
-        ${cls.name().lower()}_counter++;
+        ${cls.name().lower}_counter++;
         return new ${cls.name()};
     }
 % endif
 
 % if not cls.is_ptr:
-    ${cls.name()} nil_${cls.name()};
+    ${cls.name()} nil_${cls.name().lower};
 % endif
 
 % if not cls.abstract:
@@ -57,14 +57,14 @@ std::string ${cls.name()}::repr() {
     void ${cls.name()}::compute_indent_level() {
         % for i, (field_type, field) in enumerate(all_field_decls):
             % if is_ast_node(field_type):
-                if (${field.name}) {
+                if (${field.code_name}) {
                     % if field.indent.kind == field.indent.KIND_REL_POS:
-                        ${field.name}->indent_level = this->indent_level + ${field.indent.rel_pos};
+                        ${field.code_name}->indent_level = this->indent_level + ${field.indent.rel_pos};
                     % elif field.indent.kind == field.indent.KIND_TOKEN_POS:
-                        ${field.name}->indent_level = this->${field.indent.token_field_name}.sloc_range.end_column - 1;
+                        ${field.code_name}->indent_level = this->${field.indent.token_field_name}.sloc_range.end_column - 1;
                     % endif
 
-                    ${field.name}->compute_indent_level();
+                    ${field.code_name}->compute_indent_level();
                 }
             % endif
         % endfor
@@ -83,7 +83,7 @@ std::string ${cls.name()}::repr() {
         switch (index) {
             % for i, field in enumerate(astnode_field_decls):
                 case ${i}:
-                    result = ${field.name};
+                    result = ${field.code_name};
                     return true;
             % endfor
             default:
@@ -102,8 +102,8 @@ std::string ${cls.name()}::repr() {
                 /* Note that we assume here that child nodes are ordered so
                    that the first one has a sloc range that is before the sloc
                    range of the second child node, etc.  */
-                if (${field.name} != ${field_type.nullexpr()}) {
-                    auto sub_lookup = ${field.name}->lookup_relative(sloc, snap);
+                if (${field.code_name} != ${field_type.nullexpr()}) {
+                    auto sub_lookup = ${field.code_name}->lookup_relative(sloc, snap);
                     switch (sub_lookup.first) {
                     case BEFORE:
                         /* If this is the first node, SLOC is before it, so we
@@ -130,10 +130,10 @@ std::string ${cls.name()}::repr() {
     void ${cls.name()}::validate() {
        % for t, f in all_field_decls:
          % if is_ast_node (t):
-              if (${f.name}) {
-                 assert(${f.name}->parent() == this &&
-                        "validate: wrong parent in ${cls.name()}::${f.name}");
-                 ${f.name}->validate();
+              if (${f.code_name}) {
+                 assert(${f.code_name}->parent() == this &&
+                        "validate: wrong parent in ${cls.name()}::${f.code_name}");
+                 ${f.code_name}->validate();
               }
          % endif
        % endfor
@@ -147,11 +147,11 @@ std::string ${cls.name()}::repr() {
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
            % if t.is_ptr:
-               if (${f.name} && !${f.name}->is_empty_list()) {
-                  result.add_child("${f.name}", ${f.name}->get_property_tree());
+               if (${f.code_name} && !${f.code_name}->is_empty_list()) {
+                  result.add_child("${f.code_name}", ${f.code_name}->get_property_tree());
                }
            % else:
-               result.add_child("${f.name}", get_ptree(${f.name}));
+               result.add_child("${f.code_name}", get_ptree(${f.code_name}));
            % endif
        % endfor
 
@@ -165,14 +165,14 @@ std::string ${cls.name()}::repr() {
 
        % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
            % if t.is_ptr:
-               if (${f.name} && !${f.name}->is_empty_list()) {
+               if (${f.code_name} && !${f.code_name}->is_empty_list()) {
                   print_tab(level+1);
-                  printf("${f.name}:\n");
-                  ${f.name}->print_node(level+2);
+                  printf("${f.code_name}:\n");
+                  ${f.code_name}->print_node(level+2);
                }
            % else:
                print_tab(level+1);
-               printf("${f.name}: %s\n", get_repr(${f.name}).c_str());
+               printf("${f.code_name}: %s\n", get_repr(${f.code_name}).c_str());
            % endif
        % endfor
     }

@@ -26,7 +26,7 @@ typedef enum {
     /* TODO: do we switch to UPPER_CASE for labels?  */
     /* TODO: do we keep a single node kind for all lists or should we
        specialize them?  */
-    ${capi.get_name("list")} = 0,
+    ${capi.get_name(Name("List"))} = 0,
 % for astnode in _self.astnode_types:
     % if not astnode.abstract:
         ${capi.get_name(astnode.name())}

@@ -337,7 +337,7 @@ _token_text = _import_func(
 
 % for astnode in _self.astnode_types:
     % for primitive in _self.c_astnode_primitives[astnode]:
-_${primitive.name} = _import_func(
+_${primitive.name.lower} = _import_func(
     '${capi.get_name(primitive.name)}',
     [_node,
      ctypes.POINTER(${primitive.field_type.py_type(pyapi).name_low})],

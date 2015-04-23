@@ -1,7 +1,8 @@
 from itertools import count
 
 from c_api import CAPIType
-from common import get_type, null_constant
+from common import get_type, null_constant, is_keyword
+import names
 from template_utils import TemplateEnvironment, common_renderer
 from utils import FieldAccessor, memoized, type_check
 from python_api import PythonAPIType
@@ -9,7 +10,7 @@ from python_api import PythonAPIType
 
 def decl_type(ada_type):
     res = ada_type.name()
-    return res.strip() + ("*" if ada_type.is_ptr else "")
+    return str(res).strip() + ("*" if ada_type.is_ptr else "")
 
 
 class CompiledType(object):
@@ -212,10 +213,16 @@ class Field(object):
         return self._name
 
     def _set_name(self, name):
-        assert isinstance(name, basestring)
+        assert isinstance(name, names.Name)
         self._name = name
 
     name = property(_get_name, _set_name)
+
+    @property
+    def code_name(self):
+        """Return a name for this field suitable for code generation"""
+        name = self.name.lower
+        return (name + '_') if is_keyword(name) else name
 
     def __repr__(self):
         return '<ASTNode {} Field({})>'.format(self._index, self._name)
@@ -231,17 +238,19 @@ class AstNodeMetaclass(type):
             "Multiple inheritance for AST nodes is not supported")
 
         fields = []
+        fields_names = []
 
         # Associate a name to all fields and collect them into `field`...
         for fld_name, fld_value in dct.items():
             if isinstance(fld_value, Field):
-                fld_value.name = fld_name
+                fld_value.name = names.Name.from_lower(fld_name)
                 fields.append(fld_value)
+                fields_names.append(fld_name)
 
         # ... and then remove them as class members: we want them to be
         # stored in a single class member: the "field" one, being a list.
-        for field in fields:
-            dct.pop(field.name)
+        for field, field_name in zip(fields, fields_names):
+            dct.pop(field_name)
 
         # Hack to recover the order of field declarations.  See the Field class
         # definition for more details.
@@ -397,9 +406,13 @@ class ASTNode(CompiledType):
             primitives = []
             render = make_renderer(compile_ctx).render
             for field, field_type in cls.get_public_fields(compile_ctx):
-                accessor_basename = '{}_{}'.format(cls.name(), field.name)
+                accessor_basename = names.Name(
+                    '{}_{}'.format(cls.name().base_name,
+                                   field.name.base_name)
+                )
                 accessor_fullname = compile_ctx.c_api_settings.get_name(
-                    accessor_basename)
+                    accessor_basename
+                )
 
                 t_env = TemplateEnvironment(
                     astnode=cls,
@@ -439,7 +452,7 @@ class ASTNode(CompiledType):
         Return the name that will be used in code generation for this AST node
         type.
         """
-        return cls.__name__
+        return names.Name.from_camel(cls.__name__)
 
     @classmethod
     def repr_name(cls):
@@ -507,6 +520,10 @@ class EnumType(CompiledType):
     is_ptr = False
     alternatives = []
 
+    # Suffix to use for the alternatives when they are invalid identifiers in
+    # some target language.
+    suffix = ''
+
     @classmethod
     def needs_refcount(cls):
         return False
@@ -521,7 +538,7 @@ class EnumType(CompiledType):
 
     @classmethod
     def name(cls):
-        return cls.__name__
+        return names.Name.from_camel(cls.__name__)
 
     @classmethod
     def add_to_context(cls, compile_ctx):
@@ -545,28 +562,37 @@ class EnumType(CompiledType):
 
     @classmethod
     def nullexpr(cls):
-        return cls.name() + "::uninitialized"
+        return cls.name().camel + "::uninitialized"
 
     @classmethod
     def c_type(cls, c_api_settings):
-        return CAPIType(c_api_settings, cls.name())
+        return CAPIType(c_api_settings, cls.name().lower)
 
     @classmethod
     def py_type(cls, python_api_settings):
         return PythonAPIType(python_api_settings, 'c_uint', True)
 
     @classmethod
-    def c_alternatives(cls, c_api_settings):
+    def get_enumerator(cls, alt):
+        result = names.Name(alt).lower
+        return ('{}_{}'.format(result, cls.suffix)
+                if is_keyword(result) else result)
+
+    @property
+    def enumerator(self):
+        return self.get_enumerator(self.alt)
+
+    @classmethod
+    def alternatives_for(cls, language_settings):
         """
-        Return the sequence of names to use for alternatives in the C API
+        Return the sequence of names to use for alternatives in the language
+        corresponding to "language_settings".
         """
-        # Before wrapping, names can have "_" suffixes or prefixes in order to
-        # avoid clashes with keywords (for instance: "or_" instead of "or").
-        # This is not needed anymore after wrapping (libfoobar_or is not a
-        # reserved keyword) so remove it to have pleasant names.
+        type_name = cls.name()
         return [
-            c_api_settings.get_name(
-                "{}_{}".format(cls.name(), alt.strip('_'))
+            language_settings.get_enum_alternative(
+                type_name, names.Name.from_lower(alt),
+                cls.suffix
             )
             for alt in cls.alternatives
         ]

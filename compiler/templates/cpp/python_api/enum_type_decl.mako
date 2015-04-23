@@ -1,8 +1,8 @@
 ## vim: filetype=python
 
 # Enumerators for ${cls.c_type(capi).name}
-% for c_alt, alt in zip(cls.c_alternatives(capi), cls.alternatives):
-${alt.upper()} = '${alt}'
+% for py_alt, alt in zip(cls.alternatives_for(pyapi), cls.alternatives):
+${py_alt} = '${alt}'
 % endfor
 ${cls.c_type(capi).name}_to_str = [
     UNINITIALIZED,

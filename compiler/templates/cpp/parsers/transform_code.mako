@@ -22,7 +22,7 @@ if (${parser_context.pos_var_name} != -1) {
     ${res}->token_end = (${parser_context.pos_var_name} == ${pos_name}) ? ${pos_name} : ${parser_context.pos_var_name} - 1;
 
     % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types(_compile_ctx)):
-        ${res}${"->" if _self.get_type().is_ptr else "."}${f.name} = ${arg};
+        ${res}${"->" if _self.get_type().is_ptr else "."}${f.code_name} = ${arg};
         % if is_ast_node (typ):
              if (${arg}) ${arg}->setParent(${res});
         % endif

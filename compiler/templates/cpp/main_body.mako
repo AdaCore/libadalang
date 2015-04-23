@@ -35,7 +35,7 @@ ${el}
 
 void print_diagnostics() {
 % for t in _self.diag_types:
-    // printf("Number of instantiations for ${t.name()}: %ld\n", ${t.name().lower()}_counter);
+    // printf("Number of instantiations for ${t.name()}: %ld\n", ${t.name().lower}_counter);
 % endfor
 }
 

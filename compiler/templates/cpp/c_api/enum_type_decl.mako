@@ -1,7 +1,9 @@
 ## vim: filetype=makocpp
 
 typedef enum {
-    ${capi.get_name("{}_{}".format(cls.name(), "uninitialized"))} = 0,
+    ${capi.get_enum_alternative(
+        cls.name(), Name("Uninitialized"), cls.suffix
+    )} = 0,
     ${", ".join("{} = {}".format(alt, i)
-                for i, alt in enumerate(cls.c_alternatives(capi), 1))}
+                for i, alt in enumerate(cls.alternatives_for(capi), 1))}
 } ${cls.c_type(capi).name};

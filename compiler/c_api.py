@@ -1,5 +1,7 @@
 import re
 
+import names
+
 
 class CAPIType(object):
     """
@@ -29,7 +31,7 @@ class CAPIType(object):
         # don't conflict with "external" names. Keep "external" ones untouched
         # since we don't control them.
         return (self._name if self.external else
-                self.c_api_settings.get_name(self._name))
+                self.c_api_settings.get_name(names.Name(self._name)))
 
 
 class CAPISettings(object):
@@ -67,6 +69,22 @@ class CAPISettings(object):
         return self.lib_name.upper().replace('-', '_')
 
     def get_name(self, name):
-        """Wrap `name` as a top-level scope symbol."""
-        return ('{}_{}'.format(self.symbol_prefix, name)
-                if self.symbol_prefix else name)
+        """
+        Wrap `name` as a top-level scope symbol.
+
+        :type name: Name|basestring
+        """
+        if isinstance(name, basestring):
+            name = names.Name(name)
+        return names.Name('{}_{}'.format(self.symbol_prefix, name.base_name)
+                          if self.symbol_prefix else name).lower
+
+    def get_enum_alternative(self, type_name, alt_name, suffix):
+        """
+        Return a name that is suitable for code generation for the `alt_name`
+        alternative in the `type_name` enumeration type. `suffix` should be
+        used to post-process names that are invalid enumerators.
+        """
+        return self.get_name(
+            names.Name('{}_{}'.format(type_name.base_name,
+                                      alt_name.base_name)))

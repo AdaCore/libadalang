@@ -9,13 +9,13 @@ protected:
 public:
 
     % for t, f in cls_field_decls:
-         ${decl_type(t)} ${f.name};
+         ${decl_type(t)} ${f.code_name};
     % endfor
 
     std::string repr();
 
     % if cls.fields:
-        ${cls.name()}() : ${", ".join("{0}({1})".format(f.name, t.nullexpr()) for t, f in all_field_decls)} {}
+        ${cls.name()}() : ${", ".join("{0}({1})".format(f.code_name, t.nullexpr()) for t, f in all_field_decls)} {}
     % endif
 
     ~${cls.name()}();
@@ -38,8 +38,8 @@ public:
     % endif
 };
 
-extern long ${cls.name().lower()}_counter;
+extern long ${cls.name().lower}_counter;
 
 % if not cls.is_ptr:
-extern ${cls.name()} nil_${cls.name()};
+extern ${cls.name()} nil_${cls.name().lower};
 % endif

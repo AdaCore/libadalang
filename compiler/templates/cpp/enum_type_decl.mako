@@ -6,7 +6,7 @@ enum class ${cls.name()} : char {
     ## is kind of consistent with other "absent" values such as the NULL pointer,
     ## etc.
     uninitialized = 0,
-    ${", ".join("{} = {}".format(alt, i)
+    ${", ".join("{} = {}".format(cls.get_enumerator(alt), i)
                 for i, alt in enumerate(cls.alternatives, 1))}
 };
 

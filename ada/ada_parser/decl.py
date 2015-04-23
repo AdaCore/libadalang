@@ -63,7 +63,7 @@ class ParameterProfile(ASTNode):
     is_aliased = Field(repr=False)
     mode = Field()
     type_expr = Field()
-    _default = Field()
+    default = Field()
 
 
 class AspectSpecification(ASTNode):

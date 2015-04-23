@@ -173,7 +173,7 @@ class ArrayTypeDef(TypeDef):
 
 
 class InterfaceKind(EnumType):
-    alternatives = ["limited", "task", "_protected", "synchronized"]
+    alternatives = ["limited", "task", "protected", "synchronized"]
 
 
 class InterfaceTypeDef(TypeDef):
@@ -276,7 +276,7 @@ A.add_rules(
         Opt(Or(
             Enum("limited", InterfaceKind("limited")),
             Enum("task", InterfaceKind("task")),
-            Enum("protected", InterfaceKind("_protected")),
+            Enum("protected", InterfaceKind("protected")),
             Enum("synchronized", InterfaceKind("synchronized")))),
         "interface",
         List(Row("and", A.static_name) >> 1, empty_valid=True)

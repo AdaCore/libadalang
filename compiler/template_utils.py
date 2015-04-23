@@ -1,5 +1,9 @@
 from os import path
+import sys
+
+import mako.exceptions
 from mako.template import Template
+
 from common import LANGUAGE, c_repr, get_type, null_constant
 
 
@@ -38,7 +42,13 @@ class Renderer(object):
                 env.items() + kwargs.items()))._render(template_name)
 
     def _render(self, template_name):
-        return mako_template(template_name).render(**self.env)
+        try:
+            return mako_template(template_name).render(**self.env)
+        except Exception:
+            sys.stderr.write('Mako exception:\n{}\n'.format(
+                mako.exceptions.text_error_template().render())
+            )
+            raise
 
 
 template_cache = {}

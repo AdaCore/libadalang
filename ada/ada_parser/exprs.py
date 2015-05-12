@@ -255,7 +255,7 @@ A.add_rules(
 
 
     raise_expression=Or(
-        Row("raise", A.name, "with", A.expression) ^ RaiseExpression,
+        Row("raise", A.name, Opt("with", A.expression) >> 1) ^ RaiseExpression,
         Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpression,
     ),
 

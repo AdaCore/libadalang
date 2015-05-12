@@ -350,7 +350,7 @@ A.add_rules(
     ) ^ IfStatement,
 
     raise_statement=Or(
-        Row("raise", A.name, "with", A.expression) ^ RaiseStatement,
+        Row("raise", A.name, Opt("with", A.expression) >> 1) ^ RaiseStatement,
         Row("raise", Null(Expr), Null(Expr)) ^ RaiseStatement,
     ),
 

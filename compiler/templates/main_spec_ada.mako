@@ -56,6 +56,8 @@ package ${_self.ada_api_settings.lib_name} is
     --  Create a new Analysis_Unit for "file_name", register it and return a
     --  new reference to it: the caller must decrease the ref count once done
     --  with it.
+    --
+    --  On file opening failure, raise a Name_Error exception.
 
    procedure Remove (Context   : Analysis_Context;
                      File_Name : String);

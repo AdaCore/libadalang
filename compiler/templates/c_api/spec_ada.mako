@@ -87,9 +87,11 @@ package ${_self.ada_api_settings.lib_name}.C is
            Convention    => C,
            External_name =>
               "${capi.get_name("create_analysis_unit_from_file")}";
-   --  Create an analysis unit out under this context from some source file.
-   --  At this point the returned analysis unit is owned only by the analysis
+   --  Create an analysis unit under this context from some source file. At
+   --  this point the returned analysis unit is owned only by the analysis
    --  context.
+   --
+   --  On file opening failure, return a null address.
 
    procedure ${capi.get_name("remove_analysis_unit")}
      (Context  : ${analysis_context_type};

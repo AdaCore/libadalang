@@ -90,9 +90,11 @@ extern void
 ${capi.get_name("destroy_analysis_context")}(
         ${analysis_context_type} context);
 
-/* Create an analysis unit out under this context from some source file.  At
+/* Create an analysis unit under this context from some source file.  At
    this point the returned analysis unit is owned only by the analysis
-   context.  */
+   context.
+
+   On file opening failure, return NULL.  */
 extern ${analysis_unit_type}
 ${capi.get_name("create_analysis_unit_from_file")}(
         ${analysis_context_type} context,

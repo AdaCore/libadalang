@@ -1,6 +1,7 @@
 ## vim: filetype=makoada
 
 with Ada.Containers;        use Ada.Containers;
+with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Unchecked_Conversion;
 
@@ -70,8 +71,15 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Filename : chars_ptr) return ${analysis_unit_type}
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
+      Unit : Analysis_Unit;
    begin
-      return Wrap (Create_From_File (Ctx, Value (Filename)));
+      begin
+         Unit := Create_From_File (Ctx, Value (Filename));
+      exception
+         when Name_Error =>
+            Unit := null;
+      end;
+      return Wrap (Unit);
    end ${capi.get_name("create_analysis_unit_from_file")};
 
    procedure ${capi.get_name("remove_analysis_unit")}

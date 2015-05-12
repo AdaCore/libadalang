@@ -13,11 +13,16 @@ package ${_self.ada_api_settings.lib_name}.Lexer is
 
    procedure Lex_From_Filename (Filename, Charset : String;
                                 TDH               : in out Token_Data_Handler);
+   --  Extract tokens out of Filename and store them into TDH. Raise a
+   --  Name_Error exception if the file could not be open.
 
    procedure Lex_From_Buffer (Buffer : String;
                               TDH    : in out Token_Data_Handler);
+   --  Likewise, but extract tokens from an in-memory buffer. This never raises
+   --  an exception.
 
    function Token_Text (Token_Id : Unsigned_16) return String;
+   --  Return a human-readable name for some token kind
 
    ## When generated code needs to deal with token kinds, it could use integer
    ## literals but this would not be convenient to read. Generate instead named

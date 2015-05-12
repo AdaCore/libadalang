@@ -18,10 +18,6 @@ struct token {
 typedef struct Lexer Lexer;
 
 Lexer*
-${capi.get_name("lexer_from_filename")}(const char* filename,
-                                        const char* char_encoding);
-
-Lexer*
 ${capi.get_name("lexer_from_buffer")}(const char *string, size_t length);
 
 void

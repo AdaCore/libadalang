@@ -48,12 +48,16 @@ package body ${_self.ada_api_settings.lib_name} is
    begin
       Initialize (Result.TDH, Context.Symbols);
       declare
-         Parser : Parser_Type :=
-            Create_From_File (File_Name, Result.TDH'Access);
+         Parser : Parser_Type;
       begin
+         Parser := Create_From_File (File_Name, Result.TDH'Access);
          Result.AST_Root := Parse (Parser);
          Result.Diagnostics := Parser.Diagnostics;
          Clean_All_Memos;
+      exception
+         when Name_Error =>
+            Dec_Ref (Result);
+            raise;
       end;
       return Result;
    end Create;

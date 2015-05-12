@@ -20,18 +20,6 @@ init_lexer(Lexer *lexer) {
 }
 
 Lexer*
-${capi.get_name("lexer_from_filename")}(const char* filename,
-                                        const char* char_encoding) {
-    Lexer* lexer = malloc(sizeof (Lexer));
-    QUEX_NAME(construct_file_name)(&lexer->quex_lexer, filename,
-                                   char_encoding, false);
-    lexer->text_buffer = NULL;
-    memset (&lexer->buffer_tk, 0, sizeof (quex_Token));
-    init_lexer(lexer);
-    return lexer;
-}
-
-Lexer*
 ${capi.get_name("lexer_from_buffer")}(const char *string, size_t length) {
     Lexer* lexer = malloc(sizeof (Lexer));
 

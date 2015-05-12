@@ -16,8 +16,10 @@ class AnalysisContext(object):
         super(AnalysisContext, self).__init__()
 
     def create_from_file(self, filename):
-        value = _create_analysis_unit_from_file(self._c_value, filename)
-        return AnalysisUnit(value)
+        c_value = _create_analysis_unit_from_file(self._c_value, filename)
+        if not c_value.value:
+            raise IOError('Could not open {}'.format(filename))
+        return AnalysisUnit(c_value)
 
     def remove(self, filename):
         _remove_analysis_unit(self._c_value, filename)

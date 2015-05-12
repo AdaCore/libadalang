@@ -1,5 +1,6 @@
 ## vim: filetype=makoada
 
+with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Unchecked_Conversion;
 
@@ -9,6 +10,7 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with System;
 
+with GNATCOLL.Mmap;    use GNATCOLL.Mmap;
 with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
 package body ${_self.ada_api_settings.lib_name}.Lexer is
@@ -24,12 +26,6 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
    type Token_Access is access all Token_Type;
 
    type Lexer_Type is new System.Address;
-
-   function Lexer_From_Filename (Filename, Charset : chars_ptr)
-                                 return Lexer_Type
-      with Import        => True,
-           Convention    => C,
-           External_Name => "${capi.get_name("lexer_from_filename")}";
 
    function Lexer_From_Buffer (Buffer : System.Address;
                                Length : Size_T)
@@ -102,16 +98,27 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
      (Filename, Charset : String;
       TDH               : in out Token_Data_Handler)
    is
-      Filename_Ptr : chars_ptr := New_String (Filename);
-      Charset_Ptr  : chars_ptr :=
-        (if Charset = "" then Null_Ptr else New_String (Charset));
+      pragma Unreferenced (Charset);
+      --  TODO??? we should handle charset handling at some point
 
-      Lexer    : Lexer_Type := Lexer_From_Filename (Filename_Ptr, Charset_Ptr);
+      --  The following call to Open_Read may fail with a Name_Error exception:
+      --  just let it propagate to the caller as there is no resource to
+      --  release yet here.
+
+      File        : Mapped_File := Open_Read (Filename);
+
+      Region      : Mapped_Region := Read (File);
+      Buffer      : constant System.Address := Data (Region).all'Address;
+      Buffer_Size : constant size_t := size_t (Last (Region));
+
+      Lexer       : Lexer_Type :=
+         Lexer_From_Buffer (Buffer, Buffer_Size);
+
    begin
       Process_All_Tokens (Lexer, TDH);
       Free_Lexer (Lexer);
-      Free (Filename_Ptr);
-      Free (Charset_Ptr);
+      Free (Region);
+      Close (File);
    end Lex_From_Filename;
 
    ---------------------

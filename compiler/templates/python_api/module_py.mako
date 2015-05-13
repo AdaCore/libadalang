@@ -1,7 +1,7 @@
 ## vim: filetype=python
 
-# TODO: handle Windows platforms (note that Cygwin is handled just like Linux)
 import ctypes
+import os
 
 
 class AnalysisContext(object):
@@ -224,7 +224,8 @@ ${chunk}
 # Low-level C binding
 #
 
-_c_lib = ctypes.cdll.LoadLibrary("lib${c_api.lib_name}.so")
+so_ext = 'so' if os.name == 'posix' else 'dll'
+_c_lib = ctypes.cdll.LoadLibrary("lib${c_api.lib_name}.{}".format(so_ext))
 
 
 def _import_func(name, argtypes, restype):

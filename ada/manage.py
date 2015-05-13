@@ -1,10 +1,13 @@
 #! /usr/bin/env python
 
 import argparse
+import glob
 import os.path
-import subprocess
 import multiprocessing
 import pipes
+import shutil
+import subprocess
+import sys
 
 # Set the environment
 from env import setenv
@@ -12,7 +15,6 @@ setenv()
 
 from gnatpython import fileutils
 from gnatpython.ex import which
-import sys
 from ada_api import AdaAPISettings
 from c_api import CAPISettings
 from compile_context import CompileCtx
@@ -90,6 +92,15 @@ class Coverage(object):
             directory=self.dirs.build_dir('coverage'),
             ignore_errors=True
         )
+
+
+def get_cpu_count():
+    # The following is not available on Windows: give up on default parallelism
+    # on this platform.
+    try:
+        return multiprocessing.cpu_count()
+    except NotImplementedError:
+        return 1
 
 
 def generate(args, dirs):
@@ -189,6 +200,13 @@ def build(args, dirs):
     )
     gprbuild(dirs.build_dir('src', 'parse.gpr'))
 
+    # On Windows, shared libraries (DLL) are looked up in the PATH, just like
+    # binaries (it's LD_LIBRARY_PATH on Unix). For this platform, don't bother
+    # and just copy these DLL next to binaries.
+    if os.name == 'nt':
+        for dll in glob.glob(dirs.build_dir('lib', '*.dll')):
+            shutil.copy(dll, dirs.build_dir('bin', os.path.basename(dll)))
+
     print Colors.OKGREEN + "Compilation complete !" + Colors.ENDC
 
 
@@ -226,7 +244,8 @@ def derived_env(dirs):
 
     def add_path(name, path):
         old = env.get(name, '')
-        env[name] = '{}:{}'.format(path, old) if old else path
+        env[name] = ('{}{}{}'.format(path, os.path.pathsep, old)
+                     if old else path)
 
     setup_environment(dirs, add_path)
     return env
@@ -246,6 +265,7 @@ def test(args, dirs):
 
     try:
         subprocess.check_call([
+            'python',
             dirs.source_dir('testsuite', 'testsuite.py'),
             '--enable-color', '--show-error-output',
         ] + getattr(args, 'testsuite-args'), env=env)
@@ -400,7 +420,7 @@ build_parser = subparsers.add_parser(
     'build', help=build.__doc__
 )
 build_parser.add_argument(
-    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    '--jobs', '-j', type=int, default=get_cpu_count(),
     help='Number of parallel jobs to spawn in parallel '
          '(default: your number of cpu)'
 )
@@ -422,7 +442,7 @@ make_parser = subparsers.add_parser(
     'make', help=make.__doc__
 )
 make_parser.add_argument(
-    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    '--jobs', '-j', type=int, default=get_cpu_count(),
     help='Number of parallel jobs to spawn in parallel'
          ' (default: your number of cpu)'
 )
@@ -466,7 +486,7 @@ perf_test_parser = subparsers.add_parser(
     'perf-test', help=perf_test.__doc__
 )
 perf_test_parser.add_argument(
-    '--jobs', '-j', type=int, default=multiprocessing.cpu_count(),
+    '--jobs', '-j', type=int, default=get_cpu_count(),
     help='Number of parallel jobs to spawn in parallel'
          ' (default: your number of cpu)'
 )

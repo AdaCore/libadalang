@@ -130,7 +130,6 @@ procedure Parse is
          begin
             Put_Line ("Lookup " & Image (Sloc) & ":");
             Lookup_Res.Print;
-            Lookup_Res.Validate;
          end;
       end loop;
 

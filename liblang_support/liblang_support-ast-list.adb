@@ -92,14 +92,16 @@ package body Liblang_Support.AST.List is
    --------------
 
    overriding
-   procedure Validate (Node : access List_Type) is
+   procedure Validate (Node   : access List_Type;
+                       Parent : AST_Node := null) is
    begin
+      if Node.Parent /= Parent then
+         raise Program_Error;
+      end if;
+
       for Child of Node.Vec loop
          if Child /= null then
-            if Child.Parent = null then
-               raise Program_Error;
-            end if;
-            Child.Validate;
+            Child.Validate (AST_Node (Node));
          end if;
       end loop;
    end Validate;

@@ -69,7 +69,9 @@ package Liblang_Support.AST is
 
    procedure Compute_Indent_Level (Node : access AST_Node_Type) is abstract;
 
-   procedure Validate (Node : access AST_Node_Type) is abstract;
+   procedure Validate (Node   : access AST_Node_Type;
+                       Parent : AST_Node := null) is abstract;
+   --  Perform consistency checks on Node. Check that Parent is Node's parent.
 
    procedure Print (Node  : access AST_Node_Type;
                     Level : Natural := 0) is abstract;

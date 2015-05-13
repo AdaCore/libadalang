@@ -35,7 +35,8 @@ package Liblang_Support.AST.List is
    procedure Compute_Indent_Level (Node : access List_Type);
 
    overriding
-   procedure Validate (Node : access List_Type);
+   procedure Validate (Node : access List_Type;
+                       Parent : AST_Node := null);
 
    overriding
    procedure Print (Node  : access List_Type;

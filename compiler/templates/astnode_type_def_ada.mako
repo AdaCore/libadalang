@@ -35,7 +35,8 @@
       procedure Print (Node  : access ${cls.name()}_Type;
                        Level : Natural := 0);
       overriding
-      procedure Validate (Node : access ${cls.name()}_Type);
+      procedure Validate (Node   : access ${cls.name()}_Type;
+                          Parent : AST_Node := null);
 
       overriding
       function Lookup_Children (Node : access ${cls.name()}_Type;

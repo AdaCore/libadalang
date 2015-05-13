@@ -172,20 +172,19 @@
    --------------
 
    overriding
-   procedure Validate (Node : access ${cls.name()}_Type) is
+   procedure Validate (Node   : access ${cls.name()}_Type;
+                       Parent : AST_Node := null)
+   is
       Nod : constant AST_Node := AST_Node (Node);
    begin
-      % if not any(is_ast_node(field_type) for field_type, _ in all_field_decls):
-         null;
-      % endif
+      if Node.Parent /= Parent then
+         raise Program_Error;
+      end if;
+
       % for t, f in all_field_decls:
          % if is_ast_node (t):
             if Node.F_${f.name} /= null then
-               if Node.F_${f.name}.Parent /= Nod then
-                  raise Program_Error
-                     with "validate: wrong parent in ${cls.name()}::${f.name}";
-               end if;
-               Node.F_${f.name}.Validate;
+               Node.F_${f.name}.Validate (AST_Node (Node));
             end if;
          % endif
       % endfor

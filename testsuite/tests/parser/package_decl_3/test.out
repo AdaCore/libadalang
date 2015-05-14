@@ -1,0 +1,4 @@
+PackageDecl[1:1-2:4]
+| name:
+| | Id[1:9-1:10]
+| | | tok: A

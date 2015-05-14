@@ -72,3 +72,6 @@ GenericPackageDecl[1:1-1:155]
 | | | | | | | | | | | | | tok: Element_T
 | | | | | is_null: False
 | | | | | is_abstract: False
+| | | end_id:
+| | | | Id[1:142-1:155]
+| | | | | tok: Generic_Stack

@@ -193,6 +193,7 @@ class PackageDecl(ASTNode):
     aspects = Field()
     decls = Field()
     private_decls = Field()
+    end_id = Field()
 
 
 class ExceptionDecl(ASTNode):
@@ -300,7 +301,7 @@ A.add_rules(
         "package", A.static_name, A.aspect_specification, "is",
         A.basic_decls,
         Opt("private", A.basic_decls) >> 1,
-        "end", _(A.static_name)
+        "end", Opt(A.static_name)
     ) ^ PackageDecl,
 
     basic_decl=Or(

@@ -57,3 +57,6 @@ PackageDecl[1:1-1:105]
 | | | default_expr:
 | | | | Null[1:94-1:98]
 | | | | | tok: null
+| end_id:
+| | Id[1:104-1:105]
+| | | tok: A

@@ -198,8 +198,7 @@ procedure Parse is
       Destroy (Context);
    end Parse_Input;
 
-   procedure Process_File (File_Name : String) is
-      Ctx  : Analysis_Context := Create;
+   procedure Process_File (File_Name : String; Ctx : in out Analysis_Context) is
       Unit : Analysis_Unit;
       Time_Before  : constant Time := Clock;
       Time_After   : Time;
@@ -223,7 +222,6 @@ procedure Parse is
            ("Time elapsed: " & Duration'Image (Time_After - Time_Before));
       end if;
 
-      Destroy (Ctx);
    end Process_File;
 
 begin
@@ -279,13 +277,15 @@ begin
    else
       declare
          F : File_Type;
+         Ctx : Analysis_Context := Create;
       begin
          Open (F, In_File, File_List.all);
          while not End_Of_File (F) loop
-            Process_File (Get_Line (F));
+            Process_File (Get_Line (F), Ctx);
          end loop;
          Close (F);
       end;
+      Destroy (Ctx);
    end if;
 
    GNAT.Strings.Free (Rule_Name);

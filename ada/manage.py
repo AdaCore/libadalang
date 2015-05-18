@@ -296,13 +296,15 @@ def perf_test(args, dirs):
         with open(filename) as f:
             return len(list(f))
 
-    # Build libadalang in production mode inside of the perf testsuite
-    # directory
     work_dir = os.path.abspath(args.work_dir)
-    args.build_dir = os.path.join(work_dir, 'build')
-    args.build_mode = 'prod'
-    fileutils.mkdir(args.build_dir)
-    make(args, dirs)
+
+    if not args.no_recompile:
+        # Build libadalang in production mode inside of the perf testsuite
+        # directory
+        args.build_dir = os.path.join(work_dir, 'build')
+        args.build_mode = 'prod'
+        fileutils.mkdir(args.build_dir)
+        make(args, dirs)
 
     # Checkout the code bases that we will use for the perf testsuite
     os.chdir(work_dir)
@@ -497,6 +499,10 @@ perf_test_parser.add_argument(
 perf_test_parser.add_argument(
     '--nb-runs', type=int, default=4,
     help='Number of runs (default: 4)'
+)
+perf_test_parser.add_argument(
+    '--no-recompile', action='store_true',
+    help='Do not recompile the library before running the perf testsuite'
 )
 perf_test_parser.set_defaults(func=perf_test)
 

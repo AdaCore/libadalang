@@ -229,7 +229,9 @@ so_ext = {
     'win32':  'dll',
     'darwin': 'dylib',
 }.get(sys.platform, 'so')
-_c_lib = ctypes.cdll.LoadLibrary("lib${c_api.lib_name}.{}".format(so_ext))
+_c_lib = ctypes.cdll.LoadLibrary(
+    "lib${c_api.shared_object_basename}.{}".format(so_ext)
+)
 
 
 def _import_func(name, argtypes, restype):

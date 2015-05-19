@@ -3,7 +3,7 @@ with "liblang_support";
 library project ${lib_name} is
 
    for Languages use ("Ada", "C");
-   for Library_Name use "${lib_name.lower()}";
+   for Library_Name use "${capi.shared_object_basename}";
    for Library_Kind use "dynamic";
    for Interfaces use
      ("libadalang.adb",

@@ -65,6 +65,20 @@ class CAPISettings(object):
     #
 
     @property
+    def shared_object_basename(self):
+        """
+        Return the basename to use for the shared object.
+
+        In order to get the fullname, format the following string:
+
+            lib{shared_object_basename}.{extension}
+
+        `extension` must be "so" on Linux, "dll" on Windows, etc.
+        """
+        basename = self.lib_name.lower()
+        return basename[3:] if basename.startswith('lib') else basename
+
+    @property
     def header_guard_id(self):
         return self.lib_name.upper().replace('-', '_')
 

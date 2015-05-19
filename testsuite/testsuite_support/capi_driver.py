@@ -55,7 +55,7 @@ class CAPIDriver(BaseDriver):
 
         # Link with the dynamic library. Note that liblang_support is supposed
         # to be pulled automatically by libadalang.
-        self.gcc_argv.append('-llibadalang')
+        self.gcc_argv.append('-ladalang')
 
     @catch_test_errors
     def run(self):

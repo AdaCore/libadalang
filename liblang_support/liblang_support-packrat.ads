@@ -15,13 +15,14 @@ package Liblang_Support.Packrat is
    type Memo_Type is private;
 
    procedure Clear (Memo : in out Memo_Type);
-   function Get (Memo : Memo_Type; Offset : Integer) return Memo_Entry
-     with Pre => Offset > 0;
+   function Get (Memo : Memo_Type; Offset : Integer) return Memo_Entry;
+   pragma Inline_Always (Get);
+
    procedure Set (Memo              : in out Memo_Type;
                   Is_Success        : Boolean;
                   Instance          : T;
-                  Offset, Final_Pos : Integer)
-     with Pre => Offset > 0;
+                  Offset, Final_Pos : Integer);
+   pragma Inline_Always (Set);
 
 private
 

@@ -15,8 +15,8 @@
 % else:
 
    package Lists_${decl_type(element_type)} is new Liblang_Support.AST.List
-     (Node_Type => ${decl_type(element_type)}_Type,
-      Node      => ${decl_type(element_type)});
+     (Node_Type   => ${decl_type(element_type)}_Type,
+      Node_Access => ${decl_type(element_type)});
 
    type List_${decl_type(element_type)}_Type is
       new Lists_${decl_type(element_type)}.List_Type with null record;

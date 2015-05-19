@@ -7,9 +7,7 @@ package body Liblang_Support.Token_Data_Handler is
    procedure Initialize (TDH     : out Token_Data_Handler;
                          Symbols : Symbol_Table_Access) is
    begin
-      TDH.Tokens.Clear;
       TDH.Symbols := Symbols;
-      TDH.String_Literals.Clear;
    end Initialize;
 
    ----------------
@@ -20,7 +18,7 @@ package body Liblang_Support.Token_Data_Handler is
                         S   : String) return String_Access is
       S_Access : constant String_Access := new String'(S);
    begin
-      TDH.String_Literals.Append (S_Access);
+      Append (TDH.String_Literals, S_Access);
       return S_Access;
    end Add_String;
 
@@ -30,12 +28,20 @@ package body Liblang_Support.Token_Data_Handler is
 
    procedure Free (TDH : in out Token_Data_Handler) is
    begin
-      TDH.Tokens.Clear;
+      Clear (TDH.Tokens);
       TDH.Symbols := null;
-      for Str_Lit of TDH.String_Literals loop
-         Free (Str_Lit);
+      --  Explicit iteration for perf
+      for J in 0 .. Last_Index (TDH.String_Literals) loop
+         declare
+            SL : String_Access := Get (TDH.String_Literals, J);
+         begin
+            Free (SL);
+         end;
       end loop;
-      TDH.String_Literals.Clear;
+
+      Clear (TDH.String_Literals);
+      Destroy (TDH.Tokens);
+      Destroy (TDH.String_Literals);
    end Free;
 
 end Liblang_Support.Token_Data_Handler;

@@ -2,6 +2,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package body Liblang_Support.AST.List is
 
+   use Node_Vectors;
+
    ----------
    -- Kind --
    ----------
@@ -33,12 +35,13 @@ package body Liblang_Support.AST.List is
       Result : Unbounded_String;
    begin
       Append (Result, '[');
-      for Child of Node.Vec loop
+      for El of Node.Vec loop
          if Length (Result) > 0 then
             Append (Result, ", ");
          end if;
-         Append (Result, Child.Image);
+         Append (Result, El.Image);
       end loop;
+
       Append (Result, ']');
       return To_String (Result);
    end Image;
@@ -52,7 +55,7 @@ package body Liblang_Support.AST.List is
                          return Natural
    is
    begin
-      return Natural (Node.Vec.Length);
+      return Length (Node.Vec);
    end Child_Count;
 
    ---------------
@@ -66,11 +69,11 @@ package body Liblang_Support.AST.List is
                         Result : out AST_Node)
    is
    begin
-      if Index >= Natural (Node.Vec.Length) then
+      if Index >= Length (Node.Vec) then
          Exists := False;
       else
          Exists := True;
-         Result := AST_Node (Node.Vec.Element (Index));
+         Result := AST_Node (Node_Vectors.Get (Node.Vec, Index));
       end if;
    end Get_Child;
 
@@ -93,7 +96,8 @@ package body Liblang_Support.AST.List is
 
    overriding
    procedure Validate (Node   : access List_Type;
-                       Parent : AST_Node := null) is
+                       Parent : AST_Node := null)
+   is
    begin
       if Node.Parent /= Parent then
          raise Program_Error;
@@ -114,7 +118,7 @@ package body Liblang_Support.AST.List is
    procedure Print (Node  : access List_Type;
                     Level : Natural := 0) is
    begin
-      if Node.Vec.Is_Empty then
+      if Length (Node.Vec) = 0 then
          return;
       end if;
 
@@ -132,9 +136,13 @@ package body Liblang_Support.AST.List is
    overriding
    function Lookup_Children (Node : access List_Type;
                              Sloc : Source_Location;
-                             Snap : Boolean := False) return AST_Node is
+                             Snap : Boolean := False) return AST_Node
+   is
+      Child : Node_Access;
    begin
-      for Child of Node.Vec loop
+      --  Explicit iteration for perf
+      for J in 0 .. Last_Index (Node.Vec) loop
+         Child := Get (Node.Vec, J);
          declare
             Position : Relative_Position;
             Result   : AST_Node;
@@ -154,11 +162,16 @@ package body Liblang_Support.AST.List is
    end Lookup_Children;
 
    overriding
-   procedure Free (Node : access List_Type) is
+   procedure Free (Node : access List_Type)
+   is
+      Child : Node_Access;
    begin
-      for Child of Node.Vec loop
+      --  Explicit iteration for perf
+      for J in 0 .. Last_Index (Node.Vec) loop
+         Child := Get (Node.Vec, J);
          Dec_Ref (AST_Node (Child));
       end loop;
+      Destroy (Node.Vec);
    end Free;
 
 end Liblang_Support.AST.List;

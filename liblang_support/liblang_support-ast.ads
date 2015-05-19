@@ -1,5 +1,3 @@
-with Ada.Containers.Vectors;
-
 with Interfaces; use Interfaces;
 with System;
 
@@ -7,6 +5,7 @@ with Liblang_Support.Extensions; use Liblang_Support.Extensions;
 with Liblang_Support.Tokens;     use Liblang_Support.Tokens;
 with Liblang_Support.Token_Data_Handler;
 use Liblang_Support.Token_Data_Handler;
+with Liblang_Support.Vectors;
 
 package Liblang_Support.AST is
 
@@ -30,9 +29,8 @@ package Liblang_Support.AST is
       Dtor      : Extension_Destructor;
    end record;
 
-   package Extension_Vectors is new Ada.Containers.Vectors
-     (Index_Type   => Natural,
-      Element_Type => Extension_Slot);
+   package Extension_Vectors is new Liblang_Support.Vectors
+     (Element_Type => Extension_Slot);
 
    type AST_Node_Type is abstract tagged record
       Ref_Count              : Natural  := 0;
@@ -43,7 +41,7 @@ package Liblang_Support.AST is
       Token_Data             : Token_Data_Handler_Access := null;
       Token_Start, Token_End : Natural  := 0;
 
-      Extensions : Extension_Vectors.Vector;
+      Extensions             : Extension_Vectors.Vector;
    end record;
 
    type Visit_Status is (Into, Over, Stop);

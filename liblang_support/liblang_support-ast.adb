@@ -50,21 +50,22 @@ package body Liblang_Support.AST is
    is
       Tokens : Token_Vectors.Vector renames Node.Token_Data.Tokens;
       Sloc_Start, Sloc_End : Source_Location;
+      use Token_Vectors;
    begin
       if Snap then
          declare
             Tok_Start : constant Natural :=
               Natural'Max (Node.Token_Start - 1, 0);
             Tok_End : constant Natural :=
-              Natural'Min (Node.Token_End + 1, Natural (Tokens.Length) - 1);
+              Natural'Min (Node.Token_End + 1, Last_Index (Tokens));
          begin
-            Sloc_Start := End_Sloc (Tokens (Tok_Start).Sloc_Range);
+            Sloc_Start := End_Sloc (Get (Tokens, Tok_Start).Sloc_Range);
             Sloc_End :=
-              Start_Sloc (Tokens (Tok_End).Sloc_Range);
+              Start_Sloc (Get (Tokens, Tok_End).Sloc_Range);
          end;
       else
-         Sloc_Start := Start_Sloc (Tokens (Node.Token_Start).Sloc_Range);
-         Sloc_End := End_Sloc (Tokens (Node.Token_End).Sloc_Range);
+         Sloc_Start := Start_Sloc (Get (Tokens, Node.Token_Start).Sloc_Range);
+         Sloc_End := End_Sloc (Get (Tokens, Node.Token_End).Sloc_Range);
       end if;
       return Make_Range (Sloc_Start, Sloc_End);
    end Sloc_Range;
@@ -128,7 +129,9 @@ package body Liblang_Support.AST is
    function Get_Extension
      (Node : AST_Node;
       ID   : Extension_ID;
-      Dtor : Extension_Destructor) return Extension_Access is
+      Dtor : Extension_Destructor) return Extension_Access
+   is
+      use Extension_Vectors;
    begin
       for Slot of Node.Extensions loop
          if Slot.ID = ID then
@@ -140,10 +143,10 @@ package body Liblang_Support.AST is
          New_Ext : constant Extension_Access :=
            new Extension_Type'(Extension_Type (System.Null_Address));
       begin
-         Node.Extensions.Append
-           ((ID        => ID,
-             Extension => New_Ext,
-             Dtor      => Dtor));
+         Append (Node.Extensions,
+                 Extension_Slot'(ID        => ID,
+                                 Extension => New_Ext,
+                                 Dtor      => Dtor));
          return New_Ext;
       end;
    end Get_Extension;
@@ -155,8 +158,12 @@ package body Liblang_Support.AST is
    procedure Free (Node : access AST_Node_Type) is
       procedure Free is new Ada.Unchecked_Deallocation
         (Extension_Type, Extension_Access);
+      use Extension_Vectors;
+      Slot : Extension_Slot;
    begin
-      for Slot of Node.Extensions loop
+      --  Explicit iteration for perf
+      for J in 0 .. Last_Index (Node.Extensions) loop
+         Slot := Get (Node.Extensions, J);
          Slot.Dtor (AST_Node (Node), Slot.Extension.all);
          Free (Slot.Extension);
       end loop;

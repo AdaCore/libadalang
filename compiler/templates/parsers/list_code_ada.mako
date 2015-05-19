@@ -49,7 +49,8 @@ loop
       if ${res} = ${_self.get_type().nullexpr()} then
          ${res} := new List_${decl_type(_self.parser.get_type())}_Type;
       end if;
-      ${res}.Vec.Append (${parser_context.res_var_name});
+      Lists_${decl_type(_self.parser.get_type())}.Node_Vectors.Append
+        (${res}.Vec, ${parser_context.res_var_name});
       % if is_ast_node (_self.parser.get_type()):
          if ${parser_context.res_var_name} /= null then
             ${parser_context.res_var_name}.Parent := AST_Node (${res});

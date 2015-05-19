@@ -15,6 +15,8 @@ with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
 package body ${_self.ada_api_settings.lib_name}.Lexer is
 
+   use Token_Vectors;
+
    type Token_Type is record
       Id                       : Unsigned_16;
       Text                     : chars_ptr;
@@ -82,8 +84,9 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
             Text := null;
          end if;
 
-         TDH.Tokens.Append
-           ((Id   => Token.Id,
+         Append
+           (TDH.Tokens,
+            (Id   => Token.Id,
              Text => Text,
              Sloc_Range => (Token.Start_Line,   Token.End_Line,
                             Token.Start_Column, Token.End_Column)));

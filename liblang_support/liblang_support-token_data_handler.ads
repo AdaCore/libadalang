@@ -1,18 +1,17 @@
-with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
 with Liblang_Support.Tokens; use Liblang_Support.Tokens;
+with Liblang_Support.Vectors;
 
 package Liblang_Support.Token_Data_Handler is
 
-   package Token_Vectors is new Ada.Containers.Vectors
-     (Index_Type   => Natural,
-      Element_Type => Token);
-   package String_Vectors is new Ada.Containers.Vectors
-     (Index_Type   => Natural,
-      Element_Type => String_Access);
+   package Token_Vectors is new Liblang_Support.Vectors
+     (Element_Type => Token);
+   package String_Vectors is new Liblang_Support.Vectors
+     (Element_Type => String_Access);
+   use Token_Vectors, String_Vectors;
 
    type Token_Data_Handler is record
       Tokens          : Token_Vectors.Vector;
@@ -30,7 +29,7 @@ package Liblang_Support.Token_Data_Handler is
 
    function Get_Token (TDH   : Token_Data_Handler;
                        Index : Natural) return Token is
-     (Token_Vectors.Element (TDH.Tokens, Index));
+     (Token_Vectors.Get (TDH.Tokens, Index));
 
    procedure Free (TDH : in out Token_Data_Handler);
 

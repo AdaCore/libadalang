@@ -1,15 +1,14 @@
-with Ada.Containers.Vectors;
+with Liblang_Support.Vectors;
 
 generic
    type Node_Type is abstract new AST_Node_Type with private;
-   type Node is access all Node_Type'Class;
+   type Node_Access is access all Node_Type'Class;
 package Liblang_Support.AST.List is
 
    List_Kind : constant AST_Node_Kind := 1;
 
-   package Node_Vectors is new Ada.Containers.Vectors
-     (Index_Type   => Natural,
-      Element_Type => Node);
+   package Node_Vectors is new Liblang_Support.Vectors
+     (Element_Type => Node_Access, Small_Vector_Capacity => 1);
 
    type List_Type is new AST_Node_Type with record
       Vec : Node_Vectors.Vector;

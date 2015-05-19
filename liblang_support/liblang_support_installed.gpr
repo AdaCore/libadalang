@@ -8,6 +8,7 @@ library project Liblang_Support is
    for Library_Interface use
      ("Liblang_Support",
       "Liblang_Support.Ast",
+      "Liblang_Support.Vectors",
       "Liblang_Support.Ast.List",
       "Liblang_Support.Diagnostics",
       "Liblang_Support.Extensions",

@@ -21,7 +21,8 @@ class Valgrind(object):
 
     def wrap_argv(self, argv):
         return ['valgrind', '--xml=yes',
-                '--xml-file={}'.format(self.report_file)] + argv
+                '--xml-file={}'.format(self.report_file),
+                '--leak-check=full'] + argv
 
     def parse_report(self):
         errors = []

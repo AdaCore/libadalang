@@ -98,6 +98,7 @@ package Liblang_Support.AST is
 
    procedure Inc_Ref (Node : AST_Node);
    procedure Dec_Ref (Node : in out AST_Node);
+   pragma Inline_Always (Dec_Ref);
 
    function Get_Extension
      (Node : AST_Node;

@@ -2,6 +2,7 @@
 
 import ctypes
 import os
+import sys
 
 
 class AnalysisContext(object):
@@ -224,7 +225,10 @@ ${chunk}
 # Low-level C binding
 #
 
-so_ext = 'so' if os.name == 'posix' else 'dll'
+so_ext = {
+    'win32':  'dll',
+    'darwin': 'dylib',
+}.get(sys.platform, 'so')
 _c_lib = ctypes.cdll.LoadLibrary("lib${c_api.lib_name}.{}".format(so_ext))
 
 

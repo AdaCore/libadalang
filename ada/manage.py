@@ -427,7 +427,7 @@ build_parser.add_argument(
          '(default: your number of cpu)'
 )
 build_parser.add_argument(
-    '--build-mode', '-b', choices=list(BUILD_MODES),
+    '--build-mode', '-b', choices=list(BUILD_MODES), default='dev',
     help='Selects a preset for build options'
 )
 build_parser.add_argument(
@@ -449,7 +449,7 @@ make_parser.add_argument(
          ' (default: your number of cpu)'
 )
 make_parser.add_argument(
-    '--build-mode', '-b', choices=list(BUILD_MODES),
+    '--build-mode', '-b', choices=list(BUILD_MODES), default='dev',
     help='Selects a preset for build options'
 )
 make_parser.set_defaults(func=make)

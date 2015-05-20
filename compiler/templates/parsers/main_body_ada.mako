@@ -35,10 +35,6 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
       % endif
    % endfor
 
-   Current_Pos : Integer := 0;
-   --  TODO??? We want to allow multiple parsers to run at the same time so
-   --  this should go into Parser_Type.
-
    ----------------------
    -- Create_From_File --
    ----------------------

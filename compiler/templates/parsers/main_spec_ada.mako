@@ -16,6 +16,7 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
    end record;
 
    type Parser_Type is record
+      Current_Pos : Integer := 0;
       Last_Fail   : Fail_Info;
       Diagnostics : Diagnostics_Vectors.Vector;
       TDH         : Token_Data_Handler_Access;

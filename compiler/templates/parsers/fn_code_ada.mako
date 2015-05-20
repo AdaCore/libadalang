@@ -22,11 +22,11 @@ is
 begin
 
    if M.State = Success then
-      Current_Pos := M.Final_Pos;
+      Parser.Current_Pos := M.Final_Pos;
       ${parser_context.res_var_name} := M.Instance;
       return ${parser_context.res_var_name};
    elsif M.State = Failure then
-      Current_Pos := -1;
+      Parser.Current_Pos := -1;
       return ${parser_context.res_var_name};
    end if;
 
@@ -107,7 +107,7 @@ begin
        <<No_Memo>>
    % endif
 
-   Current_Pos := ${parser_context.pos_var_name};
+   Parser.Current_Pos := ${parser_context.pos_var_name};
 
    return ${parser_context.res_var_name};
 end ${_self.gen_fn_name};

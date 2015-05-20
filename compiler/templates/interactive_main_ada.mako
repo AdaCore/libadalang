@@ -284,8 +284,8 @@ begin
             Process_File (Get_Line (F), Ctx);
          end loop;
          Close (F);
+         Destroy (Ctx);
       end;
-      Destroy (Ctx);
    end if;
 
    GNAT.Strings.Free (Rule_Name);

@@ -16,14 +16,21 @@ class AnalysisContext(object):
         _destroy_analysis_context(self._c_value)
         super(AnalysisContext, self).__init__()
 
-    def create_from_file(self, filename):
-        c_value = _create_analysis_unit_from_file(self._c_value, filename)
+    def get_from_file(self, filename, reparse=False):
+        c_value = _get_analysis_unit_from_file(self._c_value, filename,
+                                               reparse)
         if not c_value.value:
             raise IOError('Could not open {}'.format(filename))
         return AnalysisUnit(c_value)
 
+    def get_from_buffer(self, filename, buffer):
+        c_value = _get_analysis_unit_from_buffer(self._c_value, filename,
+                                                 buffer, len(buffer))
+        return AnalysisUnit(c_value)
+
     def remove(self, filename):
-        _remove_analysis_unit(self._c_value, filename)
+        if not _remove_analysis_unit(self._c_value, filename):
+            raise KeyError('No such unit: {}'.format(filename))
 
 
 class AnalysisUnit(object):
@@ -290,13 +297,18 @@ _destroy_analysis_context = _import_func(
     '${capi.get_name("destroy_analysis_context")}',
     [_analysis_context, ], None
 )
-_create_analysis_unit_from_file = _import_func(
-    '${capi.get_name("create_analysis_unit_from_file")}',
-    [_analysis_context, ctypes.c_char_p], _analysis_unit
+_get_analysis_unit_from_file = _import_func(
+    '${capi.get_name("get_analysis_unit_from_file")}',
+    [_analysis_context, ctypes.c_char_p, ctypes.c_int], _analysis_unit
+)
+_get_analysis_unit_from_buffer = _import_func(
+    '${capi.get_name("get_analysis_unit_from_buffer")}',
+    [_analysis_context, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_size_t],
+    _analysis_unit
 )
 _remove_analysis_unit = _import_func(
     '${capi.get_name("remove_analysis_unit")}',
-    [_analysis_context, ctypes.c_char_p], None
+    [_analysis_context, ctypes.c_char_p], ctypes.c_int
 )
 _unit_root = _import_func(
     '${capi.get_name("unit_root")}',

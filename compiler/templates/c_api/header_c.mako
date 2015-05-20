@@ -90,19 +90,42 @@ extern void
 ${capi.get_name("destroy_analysis_context")}(
         ${analysis_context_type} context);
 
-/* Create an analysis unit under this context from some source file.  At
-   this point the returned analysis unit is owned only by the analysis
-   context.
+/* Create a new analysis unit for Filename or return the existing one if
+   any. If Reparse is true and the analysis unit already exists, reparse it
+   from Filename.
 
-   On file opening failure, return NULL.  */
+   The result is owned by the context: the caller must increase its ref.
+   count in order to keep a reference to it.
+
+   On file opening failure, return a null address and in this case, if the
+   analysis unit did not exist yet, do not register it.  */
 extern ${analysis_unit_type}
-${capi.get_name("create_analysis_unit_from_file")}(
+${capi.get_name("get_analysis_unit_from_file")}(
         ${analysis_context_type} context,
-        const char *filename);
+        const char *filename,
+        int reparse);
+
+/* Create a new analysis unit for Filename or return the existing one if
+   any. Whether the analysis unit already exists or not, (re)parse it from
+   the source code in Buffer.
+
+   The result is owned by the context: the caller must increase its ref.
+   count in order to keep a reference to it.
+
+   On file opening failure, return a null address and in this case, if the
+   analysis unit did not exist yet, do not register it.  */
+extern ${analysis_unit_type}
+${capi.get_name("get_analysis_unit_from_buffer")}(
+        ${analysis_context_type} context,
+        const char *filename,
+        const char *buffer,
+        size_t buffer_size);
 
 /* Remove the corresponding analysis unit from this context.  Note that if
-   someone still owns a reference to this unit, it is still available.  */
-extern void
+   someone still owns a reference to this unit, it is still available.  Return
+   whether the removal was successful (i.e. whether the analysis unit
+   existed). */
+extern int
 ${capi.get_name("remove_analysis_unit")}(${analysis_context_type} context,
                                          const char *filename);
 

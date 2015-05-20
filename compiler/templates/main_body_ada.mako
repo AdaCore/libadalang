@@ -8,9 +8,6 @@ use ${_self.ada_api_settings.lib_name}.Parsers;
 
 package body ${_self.ada_api_settings.lib_name} is
 
-   function Create (Context   : Analysis_Context;
-                    File_Name : String) return Analysis_Unit;
-
    procedure Destroy (Unit : Analysis_Unit);
 
    procedure Free is new Ada.Unchecked_Deallocation
@@ -18,6 +15,20 @@ package body ${_self.ada_api_settings.lib_name} is
 
    procedure Free is new Ada.Unchecked_Deallocation
      (Analysis_Unit_Type, Analysis_Unit);
+
+   function Get_Unit
+     (Context    : Analysis_Context;
+      Filename   : String;
+      Reparse    : Boolean;
+      Get_Parser : access function (TDH : Token_Data_Handler_Access)
+                                    return Parser_Type)
+      return Analysis_Unit;
+   --  Helper for Get_From_File and Get_From_Buffer: do all the common work
+   --  using Get_Parser to either parse from a file or from a buffer. Return
+   --  the resulting analysis unit.
+   --
+   --  Get_Parser is allowed to raise a Name_Error exception if there reading a
+   --  file does not work: resources will be correctly released in this case.
 
    ------------
    -- Create --
@@ -30,51 +41,97 @@ package body ${_self.ada_api_settings.lib_name} is
          Symbols   => Allocate);
    end Create;
 
-   ------------
-   -- Create --
-   ------------
+   --------------
+   -- Get_Unit --
+   --------------
 
-   function Create (Context   : Analysis_Context;
-                    File_Name : String) return Analysis_Unit
+   function Get_Unit
+     (Context    : Analysis_Context;
+      Filename   : String;
+      Reparse    : Boolean;
+      Get_Parser : access function (TDH : Token_Data_Handler_Access)
+                                    return Parser_Type)
+      return Analysis_Unit
    is
-      Result : Analysis_Unit := new Analysis_Unit_Type'
-        (Context     => Context,
-         Ref_Count   => 1,
-         AST_Root    => null,
-         File_Name   => To_Unbounded_String (File_Name),
-         TDH         => <>,
-         Diagnostics => <>);
+      use Units_Maps;
+
+      Fname   : constant Unbounded_String := To_Unbounded_String (Filename);
+      Cur     : constant Cursor := Context.Units_Map.Find (Fname);
+      Created : constant Boolean := Cur = No_Element;
+      Unit    : Analysis_Unit;
 
    begin
-      Initialize (Result.TDH, Context.Symbols);
-      declare
-         Parser : Parser_Type;
-      begin
-         Parser := Create_From_File (File_Name, Result.TDH'Access);
-         Result.AST_Root := Parse (Parser);
-         Result.Diagnostics := Parser.Diagnostics;
-         Clean_All_Memos;
-      exception
-         when Name_Error =>
-            Dec_Ref (Result);
-            raise;
-      end;
-      return Result;
-   end Create;
+      --  Create the Analysis_Unit if needed
 
-   ----------------------
-   -- Create_From_File --
-   ----------------------
+      if Created then
+         Unit := new Analysis_Unit_Type'
+           (Context     => Context,
+            Ref_Count   => 1,
+            AST_Root    => null,
+            File_Name   => Fname,
+            TDH         => <>,
+            Diagnostics => <>);
+         Initialize (Unit.TDH, Context.Symbols);
+      else
+         Unit := Element (Cur);
+      end if;
 
-   function Create_From_File
-     (Context   : Analysis_Context;
-      File_Name : String) return Analysis_Unit
+      --  (Re)parse it if needed
+
+      if Created or else Reparse then
+         declare
+            Parser : Parser_Type;
+         begin
+            begin
+               Parser := Get_Parser (Unit.TDH'Access);
+            exception
+               when Name_Error =>
+                  if Created then
+                     Dec_Ref (Unit);
+                  end if;
+                  raise;
+            end;
+            Dec_Ref (Unit.AST_Root);
+            Unit.AST_Root := Parse (Parser);
+            Unit.Diagnostics := Parser.Diagnostics;
+            Clean_All_Memos;
+         end;
+      end if;
+
+      if Created then
+         Context.Units_Map.Insert (Fname, Unit);
+      end if;
+
+      return Unit;
+   end Get_Unit;
+
+   -------------------
+   -- Get_From_File --
+   -------------------
+
+   function Get_From_File (Context  : Analysis_Context;
+                           Filename : String;
+                           Reparse  : Boolean := False) return Analysis_Unit
    is
-      Result : constant Analysis_Unit := Create (Context, File_Name);
+      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
+      is (Create_From_File (Filename, TDH));
    begin
-      Context.Units_Map.Insert (To_Unbounded_String (File_Name), Result);
-      return Result;
-   end Create_From_File;
+      return Get_Unit (Context, Filename, Reparse, Get_Parser'Access);
+   end Get_From_File;
+
+   ---------------------
+   -- Get_From_Buffer --
+   ---------------------
+
+   function Get_From_Buffer (Context  : Analysis_Context;
+                             Filename : String;
+                             Buffer   : String) return Analysis_Unit
+   is
+      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
+      is (Create_From_Buffer (Buffer, TDH));
+   begin
+      return Get_Unit (Context, Filename, True, Get_Parser'Access);
+   end Get_From_Buffer;
 
    ------------
    -- Remove --
@@ -87,21 +144,22 @@ package body ${_self.ada_api_settings.lib_name} is
 
       Cur : Cursor := Context.Units_Map.Find (To_Unbounded_String (File_Name));
    begin
-      if Cur /= No_Element then
-
-         --  We remove the corresponding analysis unit from this context but
-         --  users could keep references on it, so make sure it can live
-         --  independently.
-
-         declare
-            Unit : constant Analysis_Unit := Element (Cur);
-         begin
-            Unit.Context := null;
-            Dec_Ref (Unit);
-         end;
-
-         Context.Units_Map.Delete (Cur);
+      if Cur = No_Element then
+         raise Constraint_Error with "No such analysis unit";
       end if;
+
+      --  We remove the corresponding analysis unit from this context but
+      --  users could keep references on it, so make sure it can live
+      --  independently.
+
+      declare
+         Unit : constant Analysis_Unit := Element (Cur);
+      begin
+         Unit.Context := null;
+         Dec_Ref (Unit);
+      end;
+
+      Context.Units_Map.Delete (Cur);
    end Remove;
 
    -------------

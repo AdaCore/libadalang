@@ -46,6 +46,8 @@ package body ${_self.ada_api_settings.lib_name}.C is
    function Convert is new Ada.Unchecked_Conversion
      (${capi.get_name("node_extension_destructor")},
       Extension_Destructor);
+   function Convert is new Ada.Unchecked_Conversion
+     (chars_ptr, System.Address);
 
    -------------------------
    -- Analysis primitives --
@@ -66,29 +68,52 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Destroy (C);
    end ${capi.get_name("destroy_analysis_context")};
 
-   function ${capi.get_name("create_analysis_unit_from_file")}
+   function ${capi.get_name("get_analysis_unit_from_file")}
      (Context  : ${analysis_context_type};
-      Filename : chars_ptr) return ${analysis_unit_type}
+      Filename : chars_ptr;
+      Reparse  : int) return ${analysis_unit_type}
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
       Unit : Analysis_Unit;
    begin
       begin
-         Unit := Create_From_File (Ctx, Value (Filename));
+         Unit := Get_From_File (Ctx, Value (Filename), Reparse /= 0);
       exception
          when Name_Error =>
             Unit := null;
       end;
       return Wrap (Unit);
-   end ${capi.get_name("create_analysis_unit_from_file")};
+   end ${capi.get_name("get_analysis_unit_from_file")};
 
-   procedure ${capi.get_name("remove_analysis_unit")}
+   function ${capi.get_name("get_analysis_unit_from_buffer")}
+     (Context     : ${analysis_context_type};
+      Filename    : chars_ptr;
+      Buffer      : chars_ptr;
+      Buffer_Size : size_t) return ${analysis_unit_type}
+   is
+      Ctx : constant Analysis_Context := Unwrap (Context);
+      Unit : Analysis_Unit;
+
+      Buffer_Str : String (1 .. Positive (Buffer_Size));
+      for Buffer_Str'Address use Convert (Buffer);
+   begin
+      Unit := Get_From_Buffer (Ctx, Value (Filename), Buffer_Str);
+      return Wrap (Unit);
+   end ${capi.get_name("get_analysis_unit_from_buffer")};
+
+   function ${capi.get_name("remove_analysis_unit")}
      (Context  : ${analysis_context_type};
-      Filename : chars_ptr)
+      Filename : chars_ptr) return int
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
    begin
-      Remove (Ctx, Value (Filename));
+      begin
+         Remove (Ctx, Value (Filename));
+      exception
+         when Constraint_Error =>
+            return 0;
+      end;
+      return 1;
    end ${capi.get_name("remove_analysis_unit")};
 
    function ${capi.get_name("unit_root")} (Unit : ${analysis_unit_type})

@@ -80,27 +80,53 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  Destroy an analysis context. Any analysis units it contains may survive
    --  if there are still references to it.
 
-   function ${capi.get_name("create_analysis_unit_from_file")}
+   function ${capi.get_name("get_analysis_unit_from_file")}
      (Context  : ${analysis_context_type};
-      Filename : chars_ptr) return ${analysis_unit_type}
+      Filename : chars_ptr;
+      Reparse  : int) return ${analysis_unit_type}
       with Export        => True,
            Convention    => C,
            External_name =>
-              "${capi.get_name("create_analysis_unit_from_file")}";
-   --  Create an analysis unit under this context from some source file. At
-   --  this point the returned analysis unit is owned only by the analysis
-   --  context.
+              "${capi.get_name("get_analysis_unit_from_file")}";
+   --  Create a new analysis unit for Filename or return the existing one if
+   --  any. If Reparse is true and the analysis unit already exists, reparse it
+   --  from Filename.
    --
-   --  On file opening failure, return a null address.
+   --  The result is owned by the context: the caller must increase its ref.
+   --  count in order to keep a reference to it.
+   --
+   --  On file opening failure, return a null address and in this case, if the
+   --  analysis unit did not exist yet, do not register it.
 
-   procedure ${capi.get_name("remove_analysis_unit")}
+   function ${capi.get_name("get_analysis_unit_from_buffer")}
+     (Context     : ${analysis_context_type};
+      Filename    : chars_ptr;
+      Buffer      : chars_ptr;
+      Buffer_Size : size_t) return ${analysis_unit_type}
+      with Export        => True,
+           Convention    => C,
+           External_name =>
+              "${capi.get_name("get_analysis_unit_from_buffer")}";
+   --  Create a new analysis unit for Filename or return the existing one if
+   --  any. Whether the analysis unit already exists or not, (re)parse it from
+   --  the source code in Buffer.
+   --
+   --  The result is owned by the context: the caller must increase its ref.
+   --  count in order to keep a reference to it.
+   --
+   --  On file opening failure, return a null address and in this case, if the
+   --  analysis unit did not exist yet, do not register it.
+
+   function ${capi.get_name("remove_analysis_unit")}
      (Context  : ${analysis_context_type};
-      Filename : chars_ptr)
+      Filename : chars_ptr) return int
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("remove_analysis_unit")}";
    --  Remove the corresponding analysis unit from this context. Note that if
    --  someone still owns a reference to this unit, it is still available.
+   --  Return whether the removal was successful (i.e. whether the analysis
+   --  unit existed).
 
    function ${capi.get_name("unit_root")} (Unit : ${analysis_unit_type})
                                            return ${node_type}

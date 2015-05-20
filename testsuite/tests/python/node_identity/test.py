@@ -9,7 +9,7 @@ import libadalang
 
 
 ctx = libadalang.AnalysisContext()
-unit = ctx.create_from_file('foo.adb')
+unit = ctx.get_from_file('foo.adb')
 
 # First check that user attributes on ASTNode are kept across wrappers.
 node = unit.root

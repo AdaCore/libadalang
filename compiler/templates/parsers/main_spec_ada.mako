@@ -26,7 +26,7 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
                               TDH      : Token_Data_Handler_Access)
                               return Parser_type;
 
-   function Create_From_Buffer (Buffer : String_Access;
+   function Create_From_Buffer (Buffer : String;
                                 TDH    : Token_Data_Handler_Access)
                                 return Parser_type;
 

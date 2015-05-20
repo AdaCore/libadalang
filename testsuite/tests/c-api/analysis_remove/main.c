@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "libadalang.h"
+
+
+const char *src_buffer = (
+  "limited with Ada.Text_IO;\n"
+  "\n"
+  "procedure Foo is\n"
+  "   function \"+\" (S : String) return String is (S);\n"
+  "begin\n"
+  "   Ada.Text_IO.Put_Line (+\"Hello, world!\");\n"
+  "end Foo;\n"
+);
+
+
+static void
+error(const char *msg)
+{
+    fputs(msg, stderr);
+    exit(1);
+}
+
+int
+main(void)
+{
+    ada_analysis_context ctx;
+    ada_analysis_unit unit;
+
+    ctx = ada_create_analysis_context();
+    if (ctx == NULL)
+        error("Could not create the analysis context");
+
+    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
+                                             src_buffer, strlen(src_buffer));
+    if (unit == NULL)
+        error("Could not create the analysis unit for foo.adb from a buffer");
+
+    if (!ada_remove_analysis_unit(ctx, "foo.adb"))
+        error("Could not remove the analysis unit for foo.adb");
+    if (ada_remove_analysis_unit(ctx, "foo.adb"))
+        error("Removing twice the analysis unit for foo.adb is supposed to"
+              " raise an error but it did not.");
+
+    ada_destroy_analysis_context(ctx);
+    puts("Done.");
+    return 0;
+}

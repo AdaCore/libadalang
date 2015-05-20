@@ -24,6 +24,10 @@ package Liblang_Support.Token_Data_Handler is
    procedure Initialize (TDH     : out Token_Data_Handler;
                          Symbols : Symbol_Table_Access);
 
+   procedure Reset (TDH : in out Token_Data_Handler);
+   --  Remove all tokens and string literals from TDH. As the ownership for
+   --  symbols is shared, symbols are preserved.
+
    function Add_String (TDH : in out Token_Data_Handler;
                         S   : String) return String_Access;
 

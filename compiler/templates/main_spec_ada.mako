@@ -50,20 +50,36 @@ package ${_self.ada_api_settings.lib_name} is
    function Create return Analysis_Context;
    --  Create a new Analysis_Context. When done with it, invoke Destroy on it.
 
-   function Create_From_File
-     (Context   : Analysis_Context;
-      File_Name : String) return Analysis_Unit;
-    --  Create a new Analysis_Unit for "file_name", register it and return a
-    --  new reference to it: the caller must decrease the ref count once done
-    --  with it.
-    --
-    --  On file opening failure, raise a Name_Error exception.
+   function Get_From_File (Context  : Analysis_Context;
+                           Filename : String;
+                           Reparse  : Boolean := False) return Analysis_Unit;
+   --  Create a new Analysis_Unit for Filename or return the existing one if
+   --  any. If Reparse is true and the analysis unit already exists, reparse it
+   --  from Filename.
+   --
+   --  The result is owned by the context: the caller must increase its ref.
+   --  count in order to keep a reference to it.
+   --
+   --  On file opening failure, raise a Name_Error exception and in this case,
+   --  if the analysis unit did not exist yet, do not register it.
+
+   function Get_From_Buffer (Context  : Analysis_Context;
+                             Filename : String;
+                             Buffer   : String) return Analysis_Unit;
+   --  Create a new Analysis_Unit for Filename or return the existing one if
+   --  any. Whether the analysis unit already exists or not, (re)parse it from
+   --  the source code in Buffer.
+   --
+   --  The result is owned by the context: the caller must increase its ref.
+   --  count in order to keep a reference to it.
 
    procedure Remove (Context   : Analysis_Context;
                      File_Name : String);
-   --  Remove the corresponding Analysis_Unit from this context.  If someone
+   --  Remove the corresponding Analysis_Unit from this context. If someone
    --  still owns a reference to it, it remains available but becomes
    --  context-less.
+   --
+   --  If there is no such Analysis_Unit, raise a Constraint_Error exception.
 
    procedure Destroy (Context : in out Analysis_Context);
    --  Invoke Remove on all the units Context contains and free Context

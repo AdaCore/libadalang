@@ -63,6 +63,11 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
         (Value (Token.Text, Token.Text_Length));
 
    begin
+      --  In the case we are reparsing an analysis unit, we want to get rid of
+      --  the tokens from the old one.
+
+      Reset (TDH);
+
       while Continue loop
          Continue := Next_Token (Lexer, Token'Unrestricted_Access) /= 0;
 

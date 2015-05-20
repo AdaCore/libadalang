@@ -1,0 +1,3 @@
+WithDecl: is_limited = true
+WithDecl: is_limited = false
+Done.

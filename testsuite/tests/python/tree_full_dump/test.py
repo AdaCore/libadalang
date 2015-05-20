@@ -18,6 +18,6 @@ def dump(node, indent=''):
             print '{}{}: {}'.format(indent, name, value)
 
 ctx = AnalysisContext()
-unit = ctx.create_from_file('foo.adb')
+unit = ctx.get_from_file('foo.adb')
 dump(unit.root)
 print 'Done'

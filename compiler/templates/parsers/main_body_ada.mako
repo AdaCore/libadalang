@@ -52,12 +52,12 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
    -- Create_From_Buffer --
    ------------------------
 
-   function Create_From_Buffer (Buffer : String_Access;
+   function Create_From_Buffer (Buffer : String;
                                 TDH    : Token_Data_Handler_Access)
                                 return Parser_type
    is
    begin
-      Lex_From_Buffer (Buffer.all, TDH.all);
+      Lex_From_Buffer (Buffer, TDH.all);
       return (TDH => TDH, others => <>);
    end Create_From_Buffer;
 

@@ -161,7 +161,7 @@ procedure Parse is
 
       Get_String (Input_Str, Input_Str_Ptr, Input_Str_Length);
       Parser := Create_From_Buffer
-        (Input_Str_Ptr (1 .. Input_Str_Length)'Unrestricted_Access,
+        (Input_Str_Ptr (1 .. Input_Str_Length),
          TDH'Unrestricted_Access);
 
       % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
@@ -203,7 +203,7 @@ procedure Parse is
       Time_Before  : constant Time := Clock;
       Time_After   : Time;
    begin
-      Unit := Create_From_File (Ctx, File_Name);
+      Unit := Get_From_File (Ctx, File_Name, True);
       Time_After := Clock;
 
       if not Unit.Diagnostics.Is_Empty then

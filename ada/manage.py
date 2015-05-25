@@ -3,7 +3,6 @@
 import argparse
 import glob
 import os.path
-import multiprocessing
 import pipes
 import shutil
 import subprocess
@@ -95,8 +94,14 @@ class Coverage(object):
 
 
 def get_cpu_count():
-    # The following is not available on Windows: give up on default parallelism
-    # on this platform.
+    # The "multiprocessing" module is not available on GNATpython's
+    # distribution for PPC AIX and the "cpu_count" is not available on Windows:
+    # give up on default parallelism on these platforms.
+    try:
+        import multiprocessing
+    except ImportError:
+        return 1
+
     try:
         return multiprocessing.cpu_count()
     except NotImplementedError:

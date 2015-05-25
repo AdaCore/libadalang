@@ -30,15 +30,18 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
                                 TDH    : Token_Data_Handler_Access)
                                 return Parser_type;
 
-   function Parse (Parser : in out Parser_Type) return AST_Node;
+   function Parse (Parser : in out Parser_Type) return AST_Node
+     with Inline_Always => True;
+
+   ## Generate user wrappers for all parsing rules
+   % for rule_name, parser in sorted(_self.rules_to_fn_names.items()):
+      function Parse_${parser._name} (Parser : in out Parser_Type)
+                                      return ${decl_type(parser.get_type())};
+   % endfor
 
    procedure Clean_All_Memos;
    --  TODO??? We want to allow multiple parsers to run at the same time so
    --  memos should be stored in Parser_Type. In the end, this should be turned
    --  into a Parser_Type finalizer.
-
-   % for parser in _self.generated_parsers:
-   ${parser.spec}
-   % endfor
 
 end ${_self.ada_api_settings.lib_name}.Parsers;

@@ -101,7 +101,7 @@ class Parser(object):
         self.gen_fn_name = gen_name(self.base_name)
         self.grammar = None
         self.is_root = False
-        self._name = ""
+        self._name = names.Name("")
 
     @property
     def base_name(self):
@@ -114,7 +114,7 @@ class Parser(object):
 
     @property
     def name(self):
-        return self._name
+        return self._name.lower
 
     def discard(self):
         return False
@@ -172,7 +172,7 @@ class Parser(object):
             if not c._name and not isinstance(c, Defer):
                 c.set_name(name)
 
-        self._name = name.lower
+        self._name = name
         self.gen_fn_name = gen_name(name + self.base_name)
 
     def is_left_recursive(self):

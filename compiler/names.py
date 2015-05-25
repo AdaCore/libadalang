@@ -14,6 +14,15 @@ class Name(object):
         """
         self.base_name = mixed_with_underscores
 
+    def __len__(self):
+        return len(self.base_name)
+
+    def __hash__(self):
+        return hash(self.base_name)
+
+    def __eq__(self, other):
+        return self.base_name == other.base_name
+
     @property
     def camel_with_underscores(self):
         """Format to mixed case with undercore (e.g. C_OOP_Extension)"""

@@ -35,6 +35,16 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
       % endif
    % endfor
 
+   % for parser in _self.generated_parsers:
+   ${parser.spec}
+   % endfor
+
+   function Process_Parsing_Error (Parser : in out Parser_Type) return Boolean;
+   --  Helper for the user parsing function, to be called after a low-level
+   --  parsing function. If the parsing failed (Parser.Current_Pos = -1),
+   --  append corresponding diagnostics to Parser.Diagnostics, do nothing
+   --  instead. Return whether the parsing failed in the first place.
+
    ----------------------
    -- Create_From_File --
    ----------------------
@@ -61,16 +71,14 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
       return (TDH => TDH, others => <>);
    end Create_From_Buffer;
 
-   -----------
-   -- Parse --
-   -----------
+   ---------------------------
+   -- Process_Parsing_Error --
+   ---------------------------
 
-   function Parse (Parser : in out Parser_Type) return AST_Node
+   function Process_Parsing_Error (Parser : in out Parser_Type) return Boolean
    is
-      Result : AST_Node := AST_Node
-        (${_self.rules_to_fn_names[_self.main_rule_name].gen_fn_name} (Parser, 0));
    begin
-      if Result = null then
+      if Parser.Current_Pos = -1 then
          declare
             Last_Token : Token renames
                Get_Token (Parser.TDH.all, Parser.Last_Fail.Pos);
@@ -84,13 +92,42 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
                   & """"));
          begin
             Parser.Diagnostics.Append (D);
+            return True;
          end;
-      else
-         Inc_Ref (Result);
       end if;
-      Clean_All_Memos;
-      return Result;
+      return False;
+   end Process_Parsing_Error;
+
+   -----------
+   -- Parse --
+   -----------
+
+   function Parse (Parser : in out Parser_Type) return AST_Node is
+   begin
+      return AST_Node
+        (Parse_${_self.rules_to_fn_names[_self.main_rule_name]._name}
+           (Parser));
    end Parse;
+
+   ## Generate user wrappers for all parsing rules
+   % for rule_name, parser in sorted(_self.rules_to_fn_names.items()):
+      function Parse_${parser._name} (Parser : in out Parser_Type)
+                                      return ${decl_type(parser.get_type())}
+      is
+         Result : ${decl_type(parser.get_type())} :=
+            ${parser.gen_fn_name} (Parser, 0);
+      begin
+         if not Process_Parsing_Error (Parser) then
+            % if is_ast_node(parser.get_type()):
+               Inc_Ref (Result);
+            % else:
+               null;
+            % endif
+         end if;
+         Clean_All_Memos;
+         return Result;
+      end Parse_${parser._name};
+   % endfor
 
    % for parser in _self.generated_parsers:
    ${parser.body}

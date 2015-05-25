@@ -106,8 +106,6 @@ procedure Parse is
 
    procedure Process_Node (Res : in out AST_Node) is
    begin
-      Inc_Ref (Res);
-
       Res.Validate;
       if not Silent then
          Res.Print;
@@ -168,7 +166,7 @@ procedure Parse is
          ${"if" if i == 0 else "elsif"} Rule_Name.all = ${c_repr(rule_name)} then
             declare
                Res : ${parser.get_type().name()} :=
-                  ${parser.gen_fn_name} (Parser, 0);
+                  Parse_${parser._name} (Parser);
             begin
                if not Parser.Diagnostics.Is_Empty then
                   Put_Line ("Parsing failed:");
@@ -184,7 +182,6 @@ procedure Parse is
                         Put_Line ("Cannot lookup non-AST nodes!");
                      end if;
                   % endif
-                  Clean_All_Memos;
                end if;
             end;
 

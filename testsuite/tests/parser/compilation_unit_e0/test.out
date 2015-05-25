@@ -1,2 +1,2 @@
 Parsing failed:
-TODO: Error message to be defined!
+Line 7, column 1: End of input expected, got "identifier"

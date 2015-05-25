@@ -1,1 +1,1 @@
-task type TT1 is new Server with entry Q(X: in Item); end TT1;
+task type TT1 is new Server with entry Q(X: in Item); end TT1

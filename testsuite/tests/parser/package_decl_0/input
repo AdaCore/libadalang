@@ -1,1 +1,1 @@
-package A is B : constant := 12; end A;
+package A is B : constant := 12; end A

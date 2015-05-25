@@ -30,13 +30,23 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
                                 TDH    : Token_Data_Handler_Access)
                                 return Parser_type;
 
-   function Parse (Parser : in out Parser_Type) return AST_Node
+   function Parse
+     (Parser         : in out Parser_Type;
+      Check_Complete : Boolean := True) return AST_Node
      with Inline_Always => True;
+   --  Do the actual parsing using the main parsing rule.  If Check_Complete,
+   --  consider the case when the parser could not consume all the input tokens
+   --  as an error.
 
    ## Generate user wrappers for all parsing rules
    % for rule_name, parser in sorted(_self.rules_to_fn_names.items()):
-      function Parse_${parser._name} (Parser : in out Parser_Type)
-                                      return ${decl_type(parser.get_type())};
+      function Parse_${parser._name}
+        (Parser         : in out Parser_Type;
+         Check_Complete : Boolean := True)
+         return ${decl_type(parser.get_type())};
+      --  Do the actual parsing using the ${rule_name} parsing rule.  If
+      --  Check_Complete, consider the case when the parser could not consume
+      --  all the input tokens as an error.
    % endfor
 
    procedure Clean_All_Memos;

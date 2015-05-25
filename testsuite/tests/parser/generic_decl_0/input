@@ -1,1 +1,1 @@
-generic package A is procedure Set; end A;
+generic package A is procedure Set; end A

@@ -1,1 +1,1 @@
-if A = B then 12 elsif A = C then 14 else 15 end if
+if A = B then 12 elsif A = C then 14 else 15

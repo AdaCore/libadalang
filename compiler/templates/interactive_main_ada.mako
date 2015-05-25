@@ -211,9 +211,8 @@ procedure Parse is
          for D of Unit.Diagnostics loop
             Put_Line (To_Pretty_String (D));
          end loop;
-      end if;
 
-      if not Silent then
+      elsif not Silent then
          Unit.AST_Root.Print;
       end if;
 

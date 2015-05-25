@@ -1,4 +1,4 @@
-CompilationUnit[1:1-1:47]
+CompilationUnit[1:1-1:48]
 | prelude:
 | | WithDecl[1:1-1:9]
 | | | is_limited: False

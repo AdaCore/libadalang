@@ -1,4 +1,4 @@
-CompilationUnit[1:1-1:54]
+CompilationUnit[1:1-1:55]
 | body:
 | | LibraryItem[1:1-1:54]
 | | | is_private: True

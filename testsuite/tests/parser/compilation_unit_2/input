@@ -1,1 +1,1 @@
-package A is new B (C)
+package A is new B (C);

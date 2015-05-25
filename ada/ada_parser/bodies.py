@@ -243,7 +243,8 @@ A.add_rules(
 
     compilation_unit=Row(
         List(Row(A.context_item, ";") >> 0, empty_valid=True),
-        Or(A.library_item, A.subunit, A.generic_instantiation,
+        Or(Row(Or(A.library_item, A.subunit, A.generic_instantiation),
+               ";") >> 0,
            Row(TokClass(NoToken), Null(ASTNode)) >> 1)
     ) ^ CompilationUnit,
 

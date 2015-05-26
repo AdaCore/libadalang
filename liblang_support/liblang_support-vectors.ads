@@ -33,10 +33,10 @@ package Liblang_Support.Vectors is
 
    type Vector is private
      with Iterable =>
-       (First => First,
-        Next => Next,
+       (First       => First_Index,
+        Next        => Next,
         Has_Element => Has_Element,
-        Element => Get);
+        Element     => Get);
 
    procedure Append (Self : in out Vector; Element : Element_Type);
    pragma Inline_Always (Append);
@@ -55,20 +55,34 @@ package Liblang_Support.Vectors is
    --  Remove every element in this vector.
    --  NOTICE: this function does not actually free the memory of the vector!
 
-   function Last_Element (Self : Vector) return Element_Type;
-   --  Return the last element in this vector
-
    function First_Element (Self : Vector) return Element_Type;
    --  Return the first element in this vector
+
+   function Last_Element (Self : Vector) return Element_Type;
+   --  Return the last element in this vector
 
    function Length (Self : Vector) return Natural;
    pragma Inline_Always (Length);
    --  Return the Length of the vector, ie. the number of elements it contains
 
+   function First_Index (Self : Vector) return Natural is (0);
+   pragma Inline_Always (First_Index);
+   --  Return the first index, only used for the Iterable aspect
+
    function Last_Index (Self : Vector) return Integer
    is (Length (Self) - 1);
    pragma Inline_Always (Last_Index);
    --  Return the index of the last element in this vector
+
+   function Next (Self : Vector; N : Natural) return Natural is (N + 1);
+   pragma Inline_Always (Next);
+   --  Given a vector and an index, return the next index. Only used for the
+   --  iterable aspect
+
+   function Has_Element (Self : Vector; N : Natural) return Boolean;
+   pragma Inline_Always (Has_Element);
+   --  Given a vector and an index, return True if the index is in the vector
+   --  range. Only used for the iterable aspect.
 
 private
 
@@ -83,19 +97,7 @@ private
    pragma Inline_Always (Reserve);
    --  Reserve Capacity elements
 
-   function First (Self : Vector) return Natural is (0);
-   pragma Inline_Always (First);
-   --  Return the first index, only used for the Iterable aspect
-
-   function Next (Self : Vector; N : Natural) return Natural is (N + 1);
-   pragma Inline_Always (Next);
-   --  Given a vector and an index, return the next index. Only used for the
-   --  iterable aspect
-
-   function Has_Element
-     (Self : Vector; N : Natural) return Boolean is (N < Self.Size);
-   pragma Inline_Always (Has_Element);
-   --  Given a vector and an index, return True if the index is in the vector
-   --  range.
+   function Has_Element (Self : Vector; N : Natural) return Boolean is
+     (N < Self.Size);
 
 end Liblang_Support.Vectors;

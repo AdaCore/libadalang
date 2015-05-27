@@ -106,6 +106,11 @@ procedure Parse is
 
    procedure Process_Node (Res : in out AST_Node) is
    begin
+      if Res = null then
+         Put_Line ("<null node>");
+         return;
+      end if;
+
       Res.Validate;
       if not Silent then
          Res.Print;
@@ -173,16 +178,18 @@ procedure Parse is
                   for D of Parser.Diagnostics loop
                      Put_Line (To_Pretty_String (D));
                   end loop;
-               else
-                  % if is_ast_node(parser.get_type()):
-                     Process_Node (AST_Node (Res));
-                  % else:
-                     Put_Line (${parser.get_type().name()}'Image (Res));
-                     if not Lookups.Is_Empty then
-                        Put_Line ("Cannot lookup non-AST nodes!");
-                     end if;
-                  % endif
                end if;
+
+               ## Error recovery may make the parser return something even on
+               ## error: print anyway.
+               % if is_ast_node(parser.get_type()):
+                  Process_Node (AST_Node (Res));
+               % else:
+                  Put_Line (${parser.get_type().name()}'Image (Res));
+                  if not Lookups.Is_Empty then
+                     Put_Line ("Cannot lookup non-AST nodes!");
+                  end if;
+               % endif
             end;
 
       % endfor

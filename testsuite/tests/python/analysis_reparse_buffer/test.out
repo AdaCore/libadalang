@@ -1,3 +1,7 @@
+1. Parsing using buffer 1
 WithDecl: is_limited = True
+2. Parsing using buffer 2
 WithDecl: is_limited = False
+3. Reparsing using buffer 1
+WithDecl: is_limited = True
 Done.

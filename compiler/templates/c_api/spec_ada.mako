@@ -115,7 +115,8 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  count in order to keep a reference to it.
    --
    --  On file opening failure, return a null address and in this case, if the
-   --  analysis unit did not exist yet, do not register it.
+   --  analysis unit did not exist yet, do not register it. In this case, if
+   --  the analysis unit was already existing, this preserves the AST.
 
    function ${capi.get_name("remove_analysis_unit")}
      (Context  : ${analysis_context_type};
@@ -165,6 +166,27 @@ package ${_self.ada_api_settings.lib_name}.C is
            Convention    => C,
            External_name => "${capi.get_name("unit_decref")}";
    --  Decrease the reference count to an analysis unit
+
+   function ${capi.get_name("unit_reparse_from_file")}
+     (Unit : ${analysis_unit_type})
+      return int
+      with Export        => True,
+           Convention    => C,
+           External_name => "${capi.get_name("unit_reparse_from_file")}";
+   --  Reparse an analysis unit from the associated file.
+   --
+   --  Return whether reparsing was successful (i.e. whether we could read the
+   --  source file). If there was an error, preserve the existing AST and
+   --  diagnostics.
+
+   procedure ${capi.get_name("unit_reparse_from_buffer")}
+     (Unit        : ${analysis_unit_type};
+      Buffer      : chars_ptr;
+      Buffer_Size : size_t)
+      with Export        => True,
+           Convention    => C,
+           External_name => "${capi.get_name("unit_reparse_from_buffer")}";
+   --  Reparse an analysis unit from a buffer
 
    procedure ${capi.get_name("free_str")} (Str : chars_ptr)
       with Export        => True,

@@ -169,6 +169,33 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Dec_Ref (U);
    end ${capi.get_name("unit_decref")};
 
+   function ${capi.get_name("unit_reparse_from_file")}
+     (Unit : ${analysis_unit_type})
+      return int
+   is
+      U : constant Analysis_Unit := Unwrap (Unit);
+   begin
+      begin
+         Reparse (U);
+      exception
+         when Name_Error =>
+            return 0;
+      end;
+      return 1;
+   end ${capi.get_name("unit_reparse_from_file")};
+
+   procedure ${capi.get_name("unit_reparse_from_buffer")}
+     (Unit        : ${analysis_unit_type};
+      Buffer      : chars_ptr;
+      Buffer_Size : size_t)
+   is
+      U : constant Analysis_Unit := Unwrap (Unit);
+      Buffer_Str : String (1 .. Positive (Buffer_Size));
+      for Buffer_Str'Address use Convert (Buffer);
+   begin
+      Reparse (U, Buffer_Str);
+   end ${capi.get_name("unit_reparse_from_buffer")};
+
    procedure ${capi.get_name("free_str")} (Str : chars_ptr) is
       S : chars_ptr := Str;
    begin

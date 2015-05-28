@@ -61,7 +61,8 @@ package ${_self.ada_api_settings.lib_name} is
    --  count in order to keep a reference to it.
    --
    --  On file opening failure, raise a Name_Error exception and in this case,
-   --  if the analysis unit did not exist yet, do not register it.
+   --  if the analysis unit did not exist yet, do not register it. In this
+   --  case, if the analysis unit was already existing, this preserves the AST.
 
    function Get_From_Buffer (Context  : Analysis_Context;
                              Filename : String;
@@ -86,6 +87,16 @@ package ${_self.ada_api_settings.lib_name} is
 
    procedure Inc_Ref (Unit : Analysis_Unit);
    procedure Dec_Ref (Unit : Analysis_Unit);
+
+   procedure Reparse (Unit : Analysis_Unit);
+   --  Reparse an analysis unit from the associated file.
+   --
+   --  On file opening failure, raise a Name_Error exception and in this case,
+   --  if the analysis unit did not exist yet, do not register it.  In this
+   --  case, preserve any existing AST and diagnostics.
+
+   procedure Reparse (Unit : Analysis_Unit; Buffer : String);
+   --  Reparse an analysis unit from a buffer
 
    procedure Print (Unit : Analysis_Unit);
    --  Debug helper: output the AST and eventual diagnostic for this unit on

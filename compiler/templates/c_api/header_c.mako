@@ -113,7 +113,8 @@ ${capi.get_name("get_analysis_unit_from_file")}(
    count in order to keep a reference to it.
 
    On file opening failure, return a null address and in this case, if the
-   analysis unit did not exist yet, do not register it.  */
+   analysis unit did not exist yet, do not register it.  In this case, if
+   the analysis unit was already existing, this preserves the AST.  */
 extern ${analysis_unit_type}
 ${capi.get_name("get_analysis_unit_from_buffer")}(
         ${analysis_context_type} context,
@@ -152,6 +153,20 @@ ${capi.get_name("unit_incref")}(${analysis_unit_type} unit);
 /* Decrease the reference count to an analysis unit.  */
 extern void
 ${capi.get_name("unit_decref")}(${analysis_unit_type} unit);
+
+/* Reparse an analysis unit from the associated file.
+
+   Return whether reparsing was successful (i.e. whether we could read the
+   source file).  If there was an error, preserve the existing AST and
+   diagnostics.  */
+extern int
+${capi.get_name("unit_reparse_from_file")}(${analysis_unit_type} unit);
+
+/* Reparse an analysis unit from a buffer.  */
+extern void
+${capi.get_name("unit_reparse_from_buffer")} (${analysis_unit_type} unit,
+                                              const char *buffer,
+                                              size_t buffer_size);
 
 /* Free "str".  This is a convenience function for bindings.  */
 extern void

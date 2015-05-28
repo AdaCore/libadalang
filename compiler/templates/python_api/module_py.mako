@@ -67,6 +67,13 @@ class AnalysisUnit(object):
         _unit_decref(self._c_value)
         super(AnalysisUnit, self).__init__()
 
+    def reparse(self, buffer=None):
+        if buffer is None:
+            if not _unit_reparse_from_file(self._c_value):
+                raise IOError('Could not reparse the unit from file')
+        else:
+            _unit_reparse_from_buffer(self._c_value, buffer, len(buffer))
+
     @property
     def root(self):
         return _wrap_astnode(_unit_root(self._c_value))
@@ -329,6 +336,14 @@ _unit_incref = _import_func(
 _unit_decref = _import_func(
     '${capi.get_name("unit_decref")}',
     [_analysis_unit], None
+)
+_unit_reparse_from_file = _import_func(
+    '${capi.get_name("unit_reparse_from_file")}',
+    [_analysis_unit], ctypes.c_int
+)
+_unit_reparse_from_buffer = _import_func(
+    '${capi.get_name("unit_reparse_from_buffer")}',
+    [_analysis_unit, ctypes.c_char_p, ctypes.c_size_t], None
 )
 
 _free_str = _import_func(

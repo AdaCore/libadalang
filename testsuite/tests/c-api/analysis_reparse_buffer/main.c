@@ -31,38 +31,55 @@ error(const char *msg)
     exit(1);
 }
 
+void check(ada_analysis_unit unit)
+{
+    ada_node prelude_list, with_decl;
+    int is_limited;
+
+    if (unit == NULL)
+        error("Could not create the analysis unit for foo.adb from a buffer");
+
+    if (!ada_compilation_unit_prelude(ada_unit_root(unit), &prelude_list)
+        || !ada_node_child(prelude_list, 0, &with_decl)
+        || !ada_with_decl_is_limited(with_decl, &is_limited))
+        error("Could not traverse the AST as expected");
+    printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
+}
+
 int
 main(void)
 {
-    int i;
-    const char *buffers[2];
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    buffers[0] = src_buffer_1;
-    buffers[1] = src_buffer_2;
+    const size_t src_buffer_1_length = strlen(src_buffer_1);
+    const size_t src_buffer_2_length = strlen(src_buffer_2);
 
     ctx = ada_create_analysis_context();
     if (ctx == NULL)
         error("Could not create the analysis context");
 
-    for (i = 0; i < 2; ++i)
-    {
-        ada_node prelude_list, with_decl;
-        int is_limited;
-        unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
-                                                 buffers[i],
-                                                 strlen(buffers[i]));
-        if (unit == NULL)
-            error("Could not create the analysis unit for foo.adb from a"
-                  " buffer");
+    /* Make sure the first parsing (with the "limited" keyword) works properly
+       and check is_limited.  */
+    puts("1. Parsing using buffer 1");
+    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
+                                             src_buffer_1,
+                                             src_buffer_1_length);
+    check(unit);
 
-        if (!ada_compilation_unit_prelude(ada_unit_root(unit), &prelude_list)
-            || !ada_node_child(prelude_list, 0, &with_decl)
-            || !ada_with_decl_is_limited(with_decl, &is_limited))
-            error("Could not traverse the AST as expected");
-        printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
-    }
+    /* Now make sure getting the unit with reparsing (without the "limited"
+       keyword) clears is_limited.  */
+    puts("2. Reparsing from context using buffer 2");
+    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
+                                             src_buffer_2,
+                                             src_buffer_2_length);
+    check(unit);
+
+    /* Finally make sure reparsing the unit (with the "limited" keyword) sets
+       is_limited.  */
+    puts("3. Reparsing from unit using buffer 1");
+    ada_unit_reparse_from_buffer(unit, src_buffer_1, src_buffer_1_length);
+    check(unit);
 
     ada_destroy_analysis_context(ctx);
     puts("Done.");

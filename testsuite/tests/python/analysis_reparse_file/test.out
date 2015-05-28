@@ -1,4 +1,13 @@
+1. Parsing source 1
 WithDecl: is_limited = True
+2. Parsing source 2 (reparse=false)
 WithDecl: is_limited = True
+3. Parsing with deleted file (reparse=true)
+WithDecl: is_limited = True
+4. Parsing source 2 (reparse=true)
 WithDecl: is_limited = False
+5. Reparsing source 1
+WithDecl: is_limited = True
+6. Reparsing with deleted file
+WithDecl: is_limited = True
 Done.

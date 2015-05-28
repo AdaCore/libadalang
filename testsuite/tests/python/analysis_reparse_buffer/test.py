@@ -1,6 +1,6 @@
 import libadalang
 
-src_buffer = """
+src_buffer_1 = """
 limited with Ada.Text_IO;
 
 procedure Foo is
@@ -10,15 +10,32 @@ begin
 end Foo;
 """
 
+src_buffer_2 = src_buffer_1.split(' ', 1)[1]
+
+
+def check(unit):
+    assert unit, 'Could not create the analysis unit for foo.adb from a buffer'
+    print 'WithDecl: is_limited = {}'.format(
+        unit.root.f_prelude[0].f_is_limited)
+
 ctx = libadalang.AnalysisContext()
 
-unit = ctx.get_from_buffer('foo.adb', src_buffer)
-assert unit, 'Could not create the analysis unit for foo.adb from a buffer'
-print 'WithDecl: is_limited = {}'.format(unit.root.f_prelude[0].f_is_limited)
+# Make sure the first parsing (with the "limited" keyword) works properly and
+# check is_limited.
+print '1. Parsing using buffer 1'
+unit = ctx.get_from_buffer('foo.adb', src_buffer_1)
+check(unit)
 
-# Reparse, but without the "limited" keyword.
-unit = ctx.get_from_buffer('foo.adb', src_buffer.split(' ', 1)[1])
-assert unit, 'Could not reparse the analysis unit for foo.adb from a buffer'
-print 'WithDecl: is_limited = {}'.format(unit.root.f_prelude[0].f_is_limited)
+# Now make sure getting the unit with reparsing (without the "limited" keyword)
+# clears is_limited.
+print '2. Parsing using buffer 2'
+unit = ctx.get_from_buffer('foo.adb', src_buffer_2)
+check(unit)
+
+# Finally make sure reparsing the unit (with the "limited" keyword) sets
+# is_limited.
+print '3. Reparsing using buffer 1'
+unit.reparse(src_buffer_1)
+check(unit)
 
 print 'Done.'

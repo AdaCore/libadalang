@@ -1,4 +1,13 @@
-First get_unit: is_limited = true
-Second get_unit (no reparse): is_limited = true
-Third get_unit (reparse): is_limited = false
+1. Parsing source 1
+WithDecl: is_limited = true
+2. Parsing source 2 (reparse=false)
+WithDecl: is_limited = true
+3. Parsing with deleted file (reparse=true)
+WithDecl: is_limited = true
+4. Parsing source 2 (reparse=true)
+WithDecl: is_limited = false
+5. Reparsing source 1
+WithDecl: is_limited = true
+6. Reparsing with deleted file
+WithDecl: is_limited = true
 Done.

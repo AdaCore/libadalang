@@ -16,6 +16,14 @@ package body ${_self.ada_api_settings.lib_name} is
    procedure Free is new Ada.Unchecked_Deallocation
      (Analysis_Unit_Type, Analysis_Unit);
 
+   procedure Do_Parsing
+     (Unit       : Analysis_Unit;
+      Get_Parser : access function (TDH : Token_Data_Handler_Access)
+                                    return Parser_Type);
+   --  Helper for Get_Unit and the public Reparse procedures: parse an analysis
+   --  unit using Get_Parser and replace Unit's AST_Root and the diagnostics
+   --  with the parsers's output.
+
    function Get_Unit
      (Context    : Analysis_Context;
       Filename   : String;
@@ -79,11 +87,9 @@ package body ${_self.ada_api_settings.lib_name} is
       --  (Re)parse it if needed
 
       if Created or else Reparse then
-         declare
-            Parser : Parser_Type;
          begin
             begin
-               Parser := Get_Parser (Unit.TDH'Access);
+               Do_Parsing (Unit, Get_Parser);
             exception
                when Name_Error =>
                   if Created then
@@ -91,10 +97,6 @@ package body ${_self.ada_api_settings.lib_name} is
                   end if;
                   raise;
             end;
-            Dec_Ref (Unit.AST_Root);
-            Unit.AST_Root := Parse (Parser);
-            Unit.Diagnostics := Parser.Diagnostics;
-            Clean_All_Memos;
          end;
       end if;
 
@@ -104,6 +106,23 @@ package body ${_self.ada_api_settings.lib_name} is
 
       return Unit;
    end Get_Unit;
+
+   ----------------
+   -- Do_Parsing --
+   ----------------
+
+   procedure Do_Parsing
+     (Unit       : Analysis_Unit;
+      Get_Parser : access function (TDH : Token_Data_Handler_Access)
+                                    return Parser_Type)
+   is
+      Parser : Parser_Type := Get_Parser (Unit.TDH'Access);
+   begin
+      Dec_Ref (Unit.AST_Root);
+      Unit.AST_Root := Parse (Parser);
+      Unit.Diagnostics := Parser.Diagnostics;
+      Clean_All_Memos;
+   end Do_Parsing;
 
    -------------------
    -- Get_From_File --
@@ -196,6 +215,28 @@ package body ${_self.ada_api_settings.lib_name} is
          Destroy (Unit);
       end if;
    end Dec_Ref;
+
+   -------------
+   -- Reparse --
+   -------------
+
+   procedure Reparse (Unit : Analysis_Unit) is
+      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
+      is (Create_From_File (To_String (Unit.File_Name), TDH));
+   begin
+      Do_parsing (Unit, Get_Parser'Access);
+   end Reparse;
+
+   -------------
+   -- Reparse --
+   -------------
+
+   procedure Reparse (Unit : Analysis_Unit; Buffer : String) is
+      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
+      is (Create_From_Buffer (Buffer, TDH));
+   begin
+      Do_parsing (Unit, Get_Parser'Access);
+   end Reparse;
 
    -------------
    -- Destroy --

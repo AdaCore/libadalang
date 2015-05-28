@@ -446,7 +446,15 @@ def _node_ext_dtor_py(c_node, c_pyobj):
     Callback for extension upon ASTNode destruction: free the reference for the
     Python container.
     """
-    c_pyobj = ctypes.py_object(c_pyobj)
+    # At this point, c_pyobj is a System.Address in Ada that have been decoded
+    # by ctypes.c_void_p as a "long" Python object. We used to try to convert
+    # it into a ctypes.py_object with:
+    #   ctypes.py_object(c_pyobj)
+    # but this was wrong: the result was a reference to the long object itself,
+    # not to the object whose address was stored in the long. And this led to
+    # random memory issues with the call to Py_DecRef... Actual casting is the
+    # way to go.
+    c_pyobj = ctypes.cast(c_pyobj, ctypes.py_object)
     ctypes.pythonapi.Py_DecRef(c_pyobj)
 
 

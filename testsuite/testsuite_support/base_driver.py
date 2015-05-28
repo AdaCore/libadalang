@@ -141,6 +141,10 @@ class BaseDriver(TestDriver):
     # Tear up helpers
     #
 
+    @property
+    def disable_shared(self):
+        return self.global_env['options'].disable_shared
+
     def check_file(self, filename):
         """
         Check file presence

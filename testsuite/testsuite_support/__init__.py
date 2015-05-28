@@ -26,6 +26,10 @@ class Testsuite(gnatpython.testsuite.Testsuite):
             '--cxx-compiler', default='g++',
             help='C++ compiler to use for test material'
         )
+        self.main.add_option(
+            '--disable-shared', action='store_true',
+            help='Disable the testing of shared libraries'
+        )
 
         #
         # Convenience options for developpers

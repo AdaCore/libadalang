@@ -20,6 +20,11 @@ class PythonDriver(BaseDriver):
     def tear_up(self):
         super(PythonDriver, self).tear_up()
 
+        if self.disable_shared:
+            self.result.set_status(
+                'DEAD',
+                'Cannot test the Python API without shared libraries')
+
         if 'input_sources' not in self.test_env:
             raise SetupError('Missing "input_sources" key in test.yaml')
         input_sources = self.test_env['input_sources']

@@ -45,22 +45,35 @@ class CAPIDriver(BaseDriver):
                              can_be_empty=False)
         self.check_file_list('"input_sources"', input_sources)
 
-        self.gcc_argv = [
-            self.global_env['options'].c_compiler,
-            '-o', self.test_program, '-g',
-            # Be as pedantic as possible, even for testcases.
-            '-Wall', '-W', '-Werror', '-pedantic',
-        ]
-        self.gcc_argv.extend(compile_units)
+        with open(os.path.join(self.working_dir, 'p.gpr'), 'w') as f:
+            f.write('''
+            with "libadalang";
 
-        # Link with the dynamic library. Note that liblang_support is supposed
-        # to be pulled automatically by libadalang.
-        self.gcc_argv.append('-ladalang')
+            project P is
+                for Languages use ("C");
+                for Source_Dirs use (".");
+                for Object_Dir use ".";
+                for Main use ("{main_source}");
+
+                package Builder is
+                    for Executable ("{main_source}") use "{exec_name}";
+                end Builder;
+
+                package Compiler is
+                    for Default_Switches ("C") use
+                      ("-Wall", "-W", "-Werror", "-pedantic");
+                end Compiler;
+            end P;
+            '''.format(main_source=compile_units[0],
+                       exec_name=self.test_program))
 
     @catch_test_errors
     def run(self):
         # Build the test program and then run it
-        self.run_and_check(self.gcc_argv)
+        argv = ['gprbuild', '-Pp']
+        if self.disable_shared:
+            argv.append('-XLIBRARY_TYPE=static')
+        self.run_and_check(argv)
         self.run_and_check([self.test_program], for_debug=True, memcheck=True)
 
     #

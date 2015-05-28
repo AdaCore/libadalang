@@ -179,12 +179,14 @@ def build(args, dirs):
     if hasattr(args, 'cargs'):
         cargs.extend(args.cargs)
 
-    def gprbuild(project_file):
+    def gprbuild(project_file, is_dynamic):
         try:
             subprocess.check_call([
                 'gprbuild', '-p', '-j{}'.format(args.jobs),
                 '-P{}'.format(project_file),
-                '-XLIBRARY_TYPE=relocatable',
+                '-XLIBRARY_TYPE={}'.format(
+                    'relocatable' if is_dynamic else 'static'
+                ),
                 # TODO: make it possible to get production builds (-g0 -O3 for
                 # instance).
                 '-cargs',
@@ -197,13 +199,19 @@ def build(args, dirs):
         Colors.HEADER
         + "Building the generated source code ..." + Colors.ENDC
     )
-    gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'))
+    if args.enable_static:
+        gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'), False)
+    if not args.disable_shared:
+        gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'), True)
 
     print (
         Colors.HEADER
         + "Building the interactive test main ..." + Colors.ENDC
     )
-    gprbuild(dirs.build_dir('src', 'parse.gpr'))
+    if args.enable_static:
+        gprbuild(dirs.build_dir('src', 'parse.gpr'), False)
+    if not args.disable_shared:
+        gprbuild(dirs.build_dir('src', 'parse.gpr'), True)
 
     # On Windows, shared libraries (DLL) are looked up in the PATH, just like
     # binaries (it's LD_LIBRARY_PATH on Unix). For this platform, don't bother
@@ -267,13 +275,17 @@ def test(args, dirs):
 
     # Make builds available from testcases
     env = derived_env(dirs)
+    argv = [
+        'python',
+        dirs.source_dir('testsuite', 'testsuite.py'),
+        '--enable-color', '--show-error-output',
+    ]
+    if args.disable_shared:
+        argv.append('--disable-shared')
+    argv.extend(getattr(args, 'testsuite-args'))
 
     try:
-        subprocess.check_call([
-            'python',
-            dirs.source_dir('testsuite', 'testsuite.py'),
-            '--enable-color', '--show-error-output',
-        ] + getattr(args, 'testsuite-args'), env=env)
+        subprocess.check_call(argv, env=env)
     except subprocess.CalledProcessError as exc:
         print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
         sys.exit(1)
@@ -384,6 +396,14 @@ args_parser.add_argument(
         'Directory to use for generated source code and binaries. By default,'
         ' use "build" in the current directory.'
     )
+)
+args_parser.add_argument(
+    '--enable-static', action='store_true',
+    help='Enabled the generation of static libraries'
+)
+args_parser.add_argument(
+    '--disable-shared', action='store_true',
+    help='Disable the generation (and testing) of shared libraries'
 )
 args_parser.add_argument(
     '--bindings', '-b', nargs='+', choices=('python', ),

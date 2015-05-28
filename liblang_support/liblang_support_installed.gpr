@@ -2,9 +2,13 @@ with "gnatcoll";
 
 library project Liblang_Support is
 
+   type Library_Kind_Type is ("static", "relocatable");
+   Library_Kind_Param : Library_Kind_Type :=
+     external ("LIBRARY_TYPE", "relocatable");
+
    for Languages use ("Ada");
    for Library_Name use "lang_support";
-   for Library_Kind use "dynamic";
+   for Library_Kind use Library_Kind_Param;
    for Library_Interface use
      ("Liblang_Support",
       "Liblang_Support.Ast",
@@ -16,12 +20,13 @@ library project Liblang_Support is
       "Liblang_Support.Packrat",
       "Liblang_Support.Token_Data_Handler",
       "Liblang_Support.Tokens");
-   for Library_Standalone use "standard";
 
    for Source_Dirs use ("../../include/liblang_support");
    for Library_Dir use "../";
-   for Library_ALI_Dir use "../liblang_support";
-   for Object_Dir use "../../obj/liblang_support";
+   for Library_ALI_Dir
+      use "../liblang_support/" & Library_Kind_Param;
+   for Object_Dir
+      use "../../obj/liblang_support/" & Library_Kind_Param;
 
    package Compiler is
       for Default_Switches ("Ada") use ("-gnatwae", "-gnatyg");

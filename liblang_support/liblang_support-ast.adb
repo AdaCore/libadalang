@@ -102,7 +102,9 @@ package body Liblang_Support.AST is
 
    procedure Inc_Ref (Node : AST_Node) is
    begin
-      Node.Ref_Count := Node.Ref_Count + 1;
+      if Node /= null then
+         Node.Ref_Count := Node.Ref_Count + 1;
+      end if;
    end Inc_Ref;
 
    -------------

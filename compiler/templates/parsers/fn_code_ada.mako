@@ -54,9 +54,7 @@ begin
       if ${parser_context.pos_var_name} > Mem_Pos then
          Mem_Pos := ${parser_context.pos_var_name};
          % if _self.needs_refcount():
-            if Mem_Res /= null then
-               Dec_Ref(Mem_Res);
-            end if;
+            Dec_Ref(Mem_Res);
          % endif
          Mem_Res := ${parser_context.res_var_name};
          % if _self.needs_refcount():
@@ -74,13 +72,10 @@ begin
 
       elsif Mem_Pos > Pos then
          % if _self.needs_refcount():
-            if ${parser_context.res_var_name} /= null then
+            --  The following is an inelegant way to free this node
 
-               --  The following is an inelegant way to free this node
-
-               Inc_Ref (${parser_context.res_var_name});
-               Dec_Ref (${parser_context.res_var_name});
-            end if;
+            Inc_Ref (${parser_context.res_var_name});
+            Dec_Ref (${parser_context.res_var_name});
          % endif
 
          % if _self.needs_refcount():
@@ -98,9 +93,7 @@ begin
         Pos,
         ${parser_context.pos_var_name});
    % if _self.needs_refcount():
-       if ${parser_context.res_var_name} /= null then
-          Inc_Ref (${parser_context.res_var_name});
-       end if;
+       Inc_Ref (${parser_context.res_var_name});
    % endif
 
    % if _self.is_left_recursive():

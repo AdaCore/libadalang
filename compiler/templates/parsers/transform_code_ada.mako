@@ -9,9 +9,7 @@ if ${parser_context.pos_var_name} /= -1 then
    ## Increment ref count of parsed result if needed (eg. if the transform is
    ## just a simple wrapper around another AST Node)
    % if is_ast_node (_self.parser.get_type()):
-      if ${parser_context.res_var_name} /= null then
-         Inc_Ref (${parser_context.res_var_name});
-      end if;
+      Inc_Ref (${parser_context.res_var_name});
    % endif
 
    ## Create the transform wrapper node

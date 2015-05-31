@@ -265,9 +265,7 @@
    begin
       % for t, f in cls_field_decls:
          % if t.is_ptr:
-            if Node.F_${f.name} /= null then
-               Dec_Ref (AST_Node (Node.F_${f.name}));
-            end if;
+            Dec_Ref (AST_Node (Node.F_${f.name}));
          % endif
       % endfor
 
@@ -278,10 +276,14 @@
 
    procedure Inc_Ref (Node : in out ${cls.name()}) is
    begin
-      Inc_Ref (AST_Node (Node));
+      if Node /= null then
+         Inc_Ref (AST_Node (Node));
+      end if;
    end Inc_Ref;
 
    procedure Dec_Ref (Node : in out ${cls.name()}) is
    begin
-      Dec_Ref (AST_Node (Node));
+      if Node /= null then
+         Dec_Ref (AST_Node (Node));
+      end if;
    end Dec_Ref;

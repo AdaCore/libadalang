@@ -10,9 +10,7 @@ if ${parser_context.pos_var_name} /= -1 then
 
    ## Increment the refcount of parsed element if applicable
    % if is_ast_node (parser.get_type()) and _self.components_need_inc_ref:
-      if ${parser_context.res_var_name} /= null then
-         Inc_Ref (${parser_context.res_var_name});
-      end if;
+      Inc_Ref (${parser_context.res_var_name});
    % endif
 
    ## Set current position to the out position of the parsed row element

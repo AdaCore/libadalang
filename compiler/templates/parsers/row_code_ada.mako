@@ -24,9 +24,7 @@ ${body}
    % for i in range(len(_self.parsers) - 1, 0, -1):
       <<${exit_label}_${i}>>
       % if is_ast_node(_self.parsers[i-1].get_type()):
-         if ${subresults[i-1]} /= null then
-            Dec_Ref (${subresults[i-1]});
-         end if;
+         Dec_Ref (${subresults[i-1]});
       % endif
    % endfor
 

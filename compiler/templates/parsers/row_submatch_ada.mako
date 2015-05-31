@@ -2,35 +2,34 @@
 
 --  Start row_submatch
 
+## Parse the element
 ${parser_context.code}
 
-% if not parser.discard():
-   ${subresult} := ${parser.get_type().nullexpr()};
-% endif
-
+## If the parsing was successful then
 if ${parser_context.pos_var_name} /= -1 then
-   % if parser.needs_refcount() and _self.components_need_inc_ref and not parser.discard():
-      % if parser.get_type().is_ptr:
-         if ${parser_context.res_var_name} /= null then
-            Inc_Ref (${parser_context.res_var_name});
-         end if;
-      % else:
+
+   ## Increment the refcount of parsed element if applicable
+   % if is_ast_node (parser.get_type()) and _self.components_need_inc_ref:
+      if ${parser_context.res_var_name} /= null then
          Inc_Ref (${parser_context.res_var_name});
-      % endif
+      end if;
    % endif
 
-   % if pos != parser_context.pos_var_name:
-      ${pos} := ${parser_context.pos_var_name};
-   % endif
+   ## Set current position to the out position of the parsed row element
+   ${pos} := ${parser_context.pos_var_name};
 
+   ## Store the result if it is not discarded
    % if not parser.discard():
       ${subresult} := ${parser_context.res_var_name};
    % endif
 
 else
+   ## If the parsing was unsuccessful, then set the position accordingly
    ${pos} := -1;
-   ${did_fail} := true;
-   goto ${exit_label}_${i};
+
+   ## And then go to the appropriate exit label (always exit label 0 if there
+   ## is no refcounting)
+   goto ${"{}_{}".format(exit_label, i if _self.components_need_inc_ref else 0)};
 
 end if;
 

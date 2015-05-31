@@ -2,6 +2,7 @@ from copy import copy
 import inspect
 from itertools import takewhile
 from os import path
+import types
 
 
 class GeneratedFunction(object):
@@ -161,7 +162,7 @@ def type_check(klass):
     :param type klass: Class to check against
     :rtype: (T) -> bool
     """
-    return lambda t: issubclass(t, klass)
+    return lambda t: t and issubclass(t, klass)
 
 
 def type_check_instance(klass):

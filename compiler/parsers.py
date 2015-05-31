@@ -561,10 +561,8 @@ class Row(Parser):
         t_env = TemplateEnvironment(pos_name=pos_name)
         t_env._self = self
 
-        t_env.pos, t_env.res, t_env.did_fail = gen_names(
-            "row_pos", "row_res", "row_did_fail"
-        )
-        decls = [(t_env.pos, LongType), (t_env.did_fail, BoolType)]
+        t_env.pos, t_env.res = gen_names("row_pos", "row_res")
+        decls = [(t_env.pos, LongType)]
 
         t_env.subresults = list(gen_names(*[
             "row_subres_{0}".format(i)

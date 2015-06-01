@@ -45,7 +45,7 @@ class CAPIDriver(BaseDriver):
                              can_be_empty=False)
         self.check_file_list('"input_sources"', input_sources)
 
-        with open(os.path.join(self.working_dir, 'p.gpr'), 'w') as f:
+        with open(self.working_dir('p.gpr'), 'w') as f:
             f.write('''
             with "libadalang";
 
@@ -87,4 +87,4 @@ class CAPIDriver(BaseDriver):
 
     @property
     def test_program(self):
-        return os.path.join(self.working_dir, self.test_env['test_name'])
+        return self.working_dir(self.test_env['test_name'])

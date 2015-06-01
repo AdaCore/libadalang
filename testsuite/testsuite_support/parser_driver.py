@@ -13,7 +13,7 @@ from testsuite_support.base_driver import (
 class ParserDriver(BaseDriver):
     TIMEOUT = 300
 
-    ACTIONS = ('pretty-print', 'indent')
+    ACTIONS = ('pretty-print', 'indent', 'pretty-print-file')
 
     #
     # Driver entry points
@@ -23,15 +23,6 @@ class ParserDriver(BaseDriver):
     def tear_up(self):
         super(ParserDriver, self).tear_up()
 
-        self.check_file('input')
-
-        try:
-            self.rule_name = self.test_env['rule']
-        except KeyError:
-            raise SetupError(
-                'The rule to used for parsing is missing from test.yaml'
-            )
-
         # What should we do for this test?
         self.action = self.test_env.get('action', 'pretty-print')
         if self.action not in self.ACTIONS:
@@ -40,27 +31,31 @@ class ParserDriver(BaseDriver):
     @catch_test_errors
     def run(self):
         opts = self.global_env['options']
-        input_text = self.read_file(self.input_file)
 
-        parse_argv = ['parse', '-r', self.rule_name, input_text]
+        parse_argv = ['parse']
+
+        self.check_file('input')
+        input_file = self.working_dir('input')
+
+        if self.action == 'pretty-print-file':
+            parse_argv += ['-f', input_file]
+        else:
+            rule_name = self.test_env.get('rule', None)
+            if not rule_name:
+                raise SetupError('Parsing rule is missing from test.yaml')
+            parse_argv += ['-r', rule_name, self.read_file(input_file)]
+
         for lookup in self.get_lookups():
             parse_argv.append(
                 '{}:{}'.format(lookup['line'], lookup['column'])
             )
-        if self.action != 'pretty-print':
+
+        if self.action not in ('pretty-print', 'pretty-print-file'):
             parse_argv.append('--silent')
         if self.action == 'indent':
             parse_argv.append('--indent')
 
         self.run_and_check(parse_argv, for_debug=True, memcheck=True)
-
-    #
-    # Convenience path builders
-    #
-
-    @property
-    def input_file(self):
-        return os.path.join(self.working_dir, 'input')
 
     #
     # Helpers

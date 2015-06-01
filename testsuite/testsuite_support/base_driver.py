@@ -59,7 +59,7 @@ class BaseDriver(TestDriver):
     def tear_up(self):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
-        self.valgrind = (Valgrind(self.working_dir)
+        self.valgrind = (Valgrind(self.working_dir())
                          if self.global_env['options'].valgrind else None)
         self.valgrind_errors = []
 
@@ -120,18 +120,21 @@ class BaseDriver(TestDriver):
     def test_dir(self):
         return self.test_env['test_dir']
 
-    @property
-    def working_dir(self):
+    def working_dir(self, *args):
+        """
+        Return the working dir, plus any path elements joined to it if passed
+        in *args
+        """
         return os.path.join(self.global_env['working_dir'],
-                            self.test_env['test_name'])
+                            self.test_env['test_name'], *args)
 
     @property
     def output_file(self):
-        return os.path.join(self.working_dir, 'actual.out')
+        return self.working_dir('actual.out')
 
     @property
     def expected_file(self):
-        return os.path.join(self.working_dir, 'test.out')
+        return self.working_dir('test.out')
 
     @property
     def original_expected_file(self):
@@ -179,7 +182,7 @@ class BaseDriver(TestDriver):
         This function copies the test sources into the working directory.
         """
 
-        fileutils.sync_tree(self.test_dir, self.working_dir)
+        fileutils.sync_tree(self.test_dir, self.working_dir())
 
     #
     # Run helpers
@@ -212,7 +215,7 @@ class BaseDriver(TestDriver):
             ))
             argv = [opts.debugger, '--args'] + argv
             print(' '.join(pipes.quote(arg) for arg in argv))
-            subprocess.check_call(argv, cwd=self.working_dir)
+            subprocess.check_call(argv, cwd=self.working_dir())
             raise TestError('Test was running from a debugger: no result')
             return
 
@@ -220,7 +223,7 @@ class BaseDriver(TestDriver):
         if memcheck and self.valgrind:
             argv = self.valgrind.wrap_argv(argv)
 
-        p = Run(argv, cwd=self.working_dir,
+        p = Run(argv, cwd=self.working_dir(),
                 timeout=self.TIMEOUT,
                 output=self.output_file,
                 error=STDOUT)

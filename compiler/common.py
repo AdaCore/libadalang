@@ -1,6 +1,5 @@
 from collections import defaultdict
 import itertools
-
 import names
 
 LANGUAGE = "ada"
@@ -9,6 +8,12 @@ TOKEN_PREFIX = "QUEX_TKN_"
 
 
 def get_token_kind(token_suffix):
+    """
+    Given a suffix `token_suffix`, returns the corresponding token kind,
+    which is equal to TOKEN_PREFIX + token_suffix
+    :param str|unicode token_suffix: The suffix identifiying the token kind
+    :return: The full token kind name
+    """
     return TOKEN_PREFIX + token_suffix
 
 languages_extensions = {
@@ -70,15 +75,33 @@ keywords = {
 }
 
 
-def c_repr(string):
-    return '"{0}"'.format(repr(string)[1:-1].replace('"', r'\"'))
+def string_repr(string):
+    """
+    Return a representation of string as a literal, usable in the generated
+    code
+    :param str string: The string to represent
+    :return: A string literal representation of string
+    """
+    return '"{0}"'.format(repr(string)[1:-1].replace('"', r'""'))
 
 
 def null_constant():
+    """
+    Return the applicable representation of the null constant given the
+    chosen global language
+
+    :return: The null constant
+    :rtype: str
+    """
     return null_constants[LANGUAGE]
 
 
 def is_keyword(string):
+    """
+    Returns wether `string` is a keyword given the chosen global language
+    :param str string: The string we want to test
+    :rtype:
+    """
     return string.lower() in keywords[LANGUAGE]
 
 
@@ -86,6 +109,13 @@ __next_ids = defaultdict(lambda: itertools.count(0))
 
 
 def gen_name(var_name):
+    """
+    Generates a unique name from var_name
+
+    :param str|names.Name var_name: The base name. If it is a string,
+    it needs to be a lower case with underscores string
+    :rtype: names.Name
+    """
     # This function is mostly used to generate temporary variables in parsing
     # functions. In these places it's more convenient to give lower case names
     # as it melts fine with the rest of the Python code.
@@ -97,6 +127,16 @@ def gen_name(var_name):
 
 
 def gen_names(*var_names):
+    """
+    Utility function around gen_name, meant to be used with unpacking. Will
+    generate a list of names given the list of base names `var_names`. Used
+    like::
+
+        name_a, name_b = gen_names("a", "b")
+
+    :param list[str] var_names: The list of base names
+    :rtype: list[str]
+    """
     for var_name in var_names:
         yield gen_name(var_name)
 
@@ -114,4 +154,10 @@ basic_types = {
 
 
 def get_type(typ):
+    """
+    Given a base python type, long or bool, will return the representation
+    of that type in the target global language
+    :param long|bool typ: The type to be represented
+    :rtype: str
+    """
     return basic_types[LANGUAGE][typ]

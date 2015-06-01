@@ -254,12 +254,14 @@ class Parser(object):
         relies on the subclasses-defined `generated_code` for "parsing code"
         generation.
 
+        :param CompileCtx compile_ctx: The compile context
+        :param str|names.Name pos_name: The name of the position variable
         :rtype: ParserCodeContext
         """
 
         if self.name and compile_ctx.verbose:
             print "Compiling rule : {0}".format(
-                Colors.HEADER + self.gen_fn_name + Colors.ENDC
+                Colors.HEADER + str(self.gen_fn_name) + Colors.ENDC
             )
 
         # Users must be able to run parsers that implement a named rule, so

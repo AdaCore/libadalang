@@ -4,7 +4,7 @@ import sys
 import mako.exceptions
 from mako.template import Template
 
-from common import LANGUAGE, c_repr, get_type, null_constant, is_keyword
+from common import LANGUAGE, string_repr, get_type, null_constant, is_keyword
 import names
 
 
@@ -68,7 +68,7 @@ def mako_template(file_name):
 
 
 common_renderer = Renderer({
-    'c_repr':           c_repr,
+    'string_repr':      string_repr,
     'get_type':         get_type,
     'null_constant':    null_constant,
     'Name':             names.Name,

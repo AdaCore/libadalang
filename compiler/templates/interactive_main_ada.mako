@@ -169,7 +169,7 @@ procedure Parse is
          TDH'Unrestricted_Access);
 
       % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
-         ${"if" if i == 0 else "elsif"} Rule_Name.all = ${c_repr(rule_name)} then
+         ${"if" if i == 0 else "elsif"} Rule_Name.all = ${string_repr(rule_name)} then
             declare
                Res : ${parser.get_type().name()} :=
                   Parse_${parser._name} (Parser);

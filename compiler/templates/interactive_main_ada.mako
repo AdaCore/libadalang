@@ -35,6 +35,7 @@ procedure Parse is
    Indent    : aliased Boolean;
    Rule_Name : aliased GNAT.Strings.String_Access :=
       new String'("compilation_unit");
+   File_Name : aliased GNAT.Strings.String_Access;
    File_List : aliased GNAT.Strings.String_Access;
 
    Input_Str : Unbounded_String;
@@ -244,6 +245,9 @@ begin
      (Config, Rule_Name'Access, "-r:", "--rule-name:",
       Help   => "Rule name to parse");
    Define_Switch
+     (Config, File_Name'Access, "-f:", "--file-name:",
+      Help   => "Parse file");
+   Define_Switch
      (Config, File_List'Access, "-F:", "--file-list:",
       Help   => ("Parse files listed in the provided filename with the regular"
                  & " analysis circuitry (useful for timing measurements)"));
@@ -254,7 +258,26 @@ begin
          return;
    end;
 
-   if File_List.all'Length = 0 then
+   if File_List.all'Length /= 0 then
+      declare
+         F : File_Type;
+         Ctx : Analysis_Context := Create;
+      begin
+         Open (F, In_File, File_List.all);
+         while not End_Of_File (F) loop
+            Process_File (Get_Line (F), Ctx);
+         end loop;
+         Close (F);
+         Destroy (Ctx);
+      end;
+   elsif File_Name.all'Length /= 0 then
+      declare
+         Ctx : Analysis_Context := Create;
+      begin
+         Process_File (File_Name.all, Ctx);
+         Destroy (Ctx);
+      end;
+   else
       Input_Str := +Get_Argument;
       loop
          declare
@@ -277,21 +300,10 @@ begin
          end if;
       end;
 
-   else
-      declare
-         F : File_Type;
-         Ctx : Analysis_Context := Create;
-      begin
-         Open (F, In_File, File_List.all);
-         while not End_Of_File (F) loop
-            Process_File (Get_Line (F), Ctx);
-         end loop;
-         Close (F);
-         Destroy (Ctx);
-      end;
    end if;
 
    GNAT.Strings.Free (Rule_Name);
    GNAT.Strings.Free (File_List);
+   GNAT.Strings.Free (File_Name);
    Free (Config);
 end Parse;

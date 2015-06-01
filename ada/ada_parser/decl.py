@@ -368,7 +368,7 @@ A.add_rules(
     ) ^ ProtectedDecl,
 
     task_decl=Row("task", A.identifier, A.aspect_specification,
-                  "is", A.task_def) ^ TaskDecl,
+                  Opt("is", A.task_def) >> 1) ^ TaskDecl,
 
     overriding_indicator=Or(
         Enum("overriding", Overriding("overriding")),

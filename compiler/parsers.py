@@ -5,7 +5,7 @@ from itertools import chain
 import compiled_types
 from compiled_types import CompiledType, BoolType, LongType, \
     Token, ASTNode, list_type, decl_type
-from common import gen_name, gen_names, TOKEN_PREFIX
+from common import gen_name, gen_names, get_token_kind
 import names
 import quex_tokens
 from template_utils import TemplateEnvironment
@@ -18,6 +18,7 @@ def make_renderer(compile_ctx=None):
         'is_tok':   type_check_instance(Tok),
         'is_row':   type_check_instance(Row),
         'is_class': inspect.isclass,
+        'get_token_kind': get_token_kind,
     })
 
 
@@ -321,7 +322,7 @@ class Tok(Parser):
         self.val = val
         self.keep = keep
         self.token_kind = (
-            TOKEN_PREFIX + quex_tokens.token_map.str_to_names[val]
+            get_token_kind(quex_tokens.token_map.str_to_names[val])
         )
 
     def get_type(self):
@@ -335,7 +336,7 @@ class Tok(Parser):
         code = make_renderer(compile_ctx).render(
             'parsers/tok_code_ada',
             _self=self, pos_name=pos_name,
-            pos=pos, res=res, token_kind=self.token_kind
+            pos=pos, res=res, token_kind=self.token_kind,
         )
 
         return ParserCodeContext(
@@ -374,7 +375,7 @@ class TokClass(Parser):
         # Generate the code to match the token of kind 'token_kind', and return
         # the corresponding context
         pos, res = gen_names("tk_class_pos", "tk_class_res")
-        token_kind = TOKEN_PREFIX + self.tok_class.quex_token_name
+        token_kind = get_token_kind(self.tok_class.quex_token_name)
         code = make_renderer(compile_ctx).render(
             'parsers/tok_code_ada',
             _self=self, pos_name=pos_name,

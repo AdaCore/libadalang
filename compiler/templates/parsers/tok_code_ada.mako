@@ -16,8 +16,14 @@ if ${res}.Id /= ${token_kind} then
         Parser.Last_Fail.Found_Token_Id := ${res}.Id;
     end if;
 else
-    ## Else increment the current position
+## We don't want to increment the position if we are matching the termination
+## token (eg. the last token in the token stream)
+% if token_kind == get_token_kind('TERMINATION'):
+    ${pos} := ${pos_name};
+## Else increment the current position
+% else:
     ${pos} := ${pos_name} + 1;
+% endif
 end if;
 
 --  End tok_code

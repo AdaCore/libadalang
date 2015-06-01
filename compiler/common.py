@@ -7,6 +7,10 @@ LANGUAGE = "ada"
 
 TOKEN_PREFIX = "QUEX_TKN_"
 
+
+def get_token_kind(token_suffix):
+    return TOKEN_PREFIX + token_suffix
+
 languages_extensions = {
     "ada": "adb",
     "cpp": "cpp",

@@ -1,0 +1,69 @@
+CompilationUnit[30:1-32:49]
+| bodies:
+| | LibraryItem[30:1-31:40]
+| | | is_private: False
+| | | item:
+| | | | SubprogramDecl[30:1-31:40]
+| | | | | is_overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[30:1-31:40]
+| | | | | | | name:
+| | | | | | | | Prefix[30:10-30:43]
+| | | | | | | | | prefix:
+| | | | | | | | | | Prefix[30:10-30:21]
+| | | | | | | | | | | prefix:
+| | | | | | | | | | | | Id[30:10-30:13]
+| | | | | | | | | | | | | tok: Ada
+| | | | | | | | | | | suffix:
+| | | | | | | | | | | | Id[30:14-30:21]
+| | | | | | | | | | | | | tok: Strings
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[30:22-30:43]
+| | | | | | | | | | | tok: Less_Case_Insensitive
+| | | | | | | params:
+| | | | | | | | SubprogramParams[31:3-31:25]
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[31:4-31:24]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[31:4-31:8]
+| | | | | | | | | | | | | tok: Left
+| | | | | | | | | | | | Id[31:10-31:15]
+| | | | | | | | | | | | | tok: Right
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[31:18-31:24]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[31:18-31:24]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[31:18-31:24]
+| | | | | | | | | | | | | | | | | tok: String
+| | | | | | | returns:
+| | | | | | | | TypeExpression[31:33-31:40]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[31:33-31:40]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[31:33-31:40]
+| | | | | | | | | | | | | tok: Boolean
+| | | | | is_null: False
+| | | | | is_abstract: False
+| | Pragma[32:1-32:48]
+| | | id:
+| | | | Id[32:8-32:12]
+| | | | | tok: Pure
+| | | args:
+| | | | PragmaArgument[32:14-32:47]
+| | | | | expr:
+| | | | | | Prefix[32:14-32:47]
+| | | | | | | prefix:
+| | | | | | | | Prefix[32:14-32:25]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[32:14-32:17]
+| | | | | | | | | | | tok: Ada
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[32:18-32:25]
+| | | | | | | | | | | tok: Strings
+| | | | | | | suffix:
+| | | | | | | | Id[32:26-32:47]
+| | | | | | | | | tok: Less_Case_Insensitive

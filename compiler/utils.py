@@ -1,7 +1,5 @@
 from copy import copy
-import inspect
 from itertools import takewhile
-from os import path
 import types
 
 
@@ -55,7 +53,8 @@ class GeneratedParser(object):
 
 
 class StructEq(object):
-    """ Mixin for structural equality.
+    """
+    Mixin for structural equality.
     """
     def __eq__(self, other):
         if type(other) is type(self):
@@ -73,6 +72,12 @@ class StructEq(object):
 
 
 def unescape(char):
+    """
+    Unescape char if it is escaped
+
+    :param str char: An eventually escaped character
+    :rtype: str
+    """
     if char[0] == "\\":
         return char[1:]
     return char
@@ -80,6 +85,8 @@ def unescape(char):
 
 def copy_with(obj, **kwargs):
     """
+    Copy an object, and add every key value association passed in kwargs to it
+
     :type obj: T
     :rtype: T
     """
@@ -91,26 +98,10 @@ def copy_with(obj, **kwargs):
     return c
 
 
-def make_tupled(fn):
-
-    def _call(tpl):
-        return fn(*tpl)
-
-    return _call
-
-
-def extract(lst, idx=0, alt=None):
-    if lst:
-        return lst[idx]
-    else:
-        return alt
-
-
-def isalambda(v):
-    return isinstance(v, type(lambda: None)) and v.__name__ == '<lambda>'
-
-
 class Colors:
+    """
+    Utility escape sequences to color output in terminal
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -120,15 +111,25 @@ class Colors:
 
 
 def printcol(msg, color):
+    """
+    Utility print function that will print `msg` in color `color`
+    :param basestring msg: The message to print
+    :param basestring color: The color escape sequence from the enum class
+        Colors which represents the color to use
+    :return: The color-escaped string, resetting the color to blank at the end
+    :rtype: basestring
+    """
     print "{0}{1}{2}".format(color, msg, Colors.ENDC)
 
 
-def file_path(f):
-    return path.dirname(path.abspath(f))
-
-
 def common_ancestor(*classes):
-    """Return the bottom-most common parent class for all `classes`."""
+    """
+    Return the bottom-most common parent class for all `classes`.
+
+    :param classes: The classes for which we are searching a common ancestor
+    :type classes: list[types.ClassType]
+    :rtype: types.ClassType
+    """
     rmro = lambda k: reversed(k.mro())
     result = list(takewhile(lambda a: len(set(a)) == 1,
                             zip(*map(rmro, classes))))[-1][0]
@@ -138,7 +139,6 @@ def common_ancestor(*classes):
 def memoized(func):
     """
     Decorator to memoize a function.
-
     This function must be passed only hashable arguments.
     """
     cache = {}
@@ -157,7 +157,8 @@ def memoized(func):
 
 
 def type_check(klass):
-    """Return a predicate that will return true if its parameter is a subclass
+    """
+    Return a predicate that will return true if its parameter is a subclass
     of `klass`
     :param type klass: Class to check against
     :rtype: (T) -> bool
@@ -166,7 +167,8 @@ def type_check(klass):
 
 
 def type_check_instance(klass):
-    """Return a predicate that will return true if its parameter is a subclass
+    """
+    Return a predicate that will return true if its parameter is a subclass
     of `klass`
     :param type klass: Class to check against
     :rtype: (T) -> bool

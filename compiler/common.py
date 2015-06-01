@@ -96,13 +96,16 @@ def null_constant():
     return null_constants[LANGUAGE]
 
 
-def is_keyword(string):
+def is_keyword(name):
     """
-    Returns wether `string` is a keyword given the chosen global language
-    :param str string: The string we want to test
-    :rtype:
+    Returns wether `name` is a keyword given the chosen global language
+
+    :param str|names.Name name: The name we want to test
+    :rtype: bool
     """
-    return string.lower() in keywords[LANGUAGE]
+    if isinstance(name, names.Name):
+        name = name.lower
+    return name.lower() in keywords[LANGUAGE]
 
 
 __next_ids = defaultdict(lambda: itertools.count(0))

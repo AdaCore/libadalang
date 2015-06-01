@@ -286,11 +286,12 @@ class CompileCtx():
             for r_name, r in self.grammar.rules.items():
                 r.compute_fields_types(self)
 
-        for r_name, r in self.grammar.rules.items():
-            r.compile(self)
-            self.rules_to_fn_names[r_name] = r
+            for r_name, r in self.grammar.rules.items():
+                r.compile(self)
+                self.rules_to_fn_names[r_name] = r
 
         self.compute_astnode_types()
+
         for i, astnode in enumerate(
             (astnode
              for astnode in self.astnode_types

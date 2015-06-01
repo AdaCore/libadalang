@@ -440,7 +440,7 @@ class ASTNode(CompiledType):
         type.
         """
         name = names.Name.from_camel(cls.__name__)
-        return (name + names.Name('Node') if is_keyword(str(name)) else name)
+        return (name + names.Name('Node') if is_keyword(name) else name)
 
     @classmethod
     def repr_name(cls):
@@ -596,7 +596,7 @@ class EnumType(CompiledType):
         """
         result = names.Name(alt)
         return (result + names.Name.from_lower(cls.suffix)
-                if is_keyword(str(result)) else result)
+                if is_keyword(result) else result)
 
     @property
     def enumerator(self):

@@ -189,8 +189,6 @@ def build(args, dirs):
                 ),
                 '-XLIBLANG_SUPPORT_EXTERNALLY_BUILT=false',
                 '-XLIBADALANG_EXTERNALLY_BUILT=false',
-                # TODO: make it possible to get production builds (-g0 -O3 for
-                # instance).
                 '-cargs',
             ] + cargs, env=derived_env(dirs))
         except subprocess.CalledProcessError as exc:

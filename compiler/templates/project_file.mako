@@ -6,6 +6,12 @@ library project ${lib_name} is
    Library_Kind_Param : Library_Kind_Type :=
      external ("LIBRARY_TYPE", "relocatable");
 
+   type Boolean is ("false", "true");
+   Is_Externally_Built : Boolean :=
+     external ("LIBADALANG_EXTERNALLY_BUILT", "true");
+
+   for Externally_Built use Is_Externally_Built;
+
    for Languages use ("Ada", "C");
    for Library_Name use "${capi.shared_object_basename}";
    for Library_Kind use Library_Kind_Param;

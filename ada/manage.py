@@ -187,6 +187,8 @@ def build(args, dirs):
                 '-XLIBRARY_TYPE={}'.format(
                     'relocatable' if is_dynamic else 'static'
                 ),
+                '-XLIBLANG_SUPPORT_EXTERNALLY_BUILT=false',
+                '-XLIBADALANG_EXTERNALLY_BUILT=false',
                 # TODO: make it possible to get production builds (-g0 -O3 for
                 # instance).
                 '-cargs',

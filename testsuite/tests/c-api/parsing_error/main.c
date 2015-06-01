@@ -15,7 +15,6 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
-    ada_node tree;
     unsigned n;
     ada_diagnostic diag;
 
@@ -27,10 +26,6 @@ main(void)
     if (unit == NULL)
         error("Creating an analysis unit from foo.adb (a source with syntax"
               " errors) did not work");
-
-    tree = ada_unit_root(unit);
-    if (tree != NULL)
-        error("Got a non-null node for a source with fatal syntax errors");
 
     for (n = 0; n < ada_unit_diagnostic_count(unit); ++n)
       {

@@ -1,27 +1,69 @@
 <CompilationUnit>
 |prelude:
 |  <list>
-|body:
-|  <LibraryItem>
-|  |is_private: False
-|  |item:
-|  |  <SubprogramBody>
-|  |  |overriding: unspecified
-|  |  |subp_spec:
-|  |  |  <SubprogramSpec>
-|  |  |  |name:
+|  |item 0:
+|  |  <WithDecl>
+|  |  |is_limited: False
+|  |  |is_private: False
+|  |  |packages:
+|  |  |  <list>
+|  |  |  |item 0:
+|  |  |  |  <Prefix>
+|  |  |  |  |prefix:
+|  |  |  |  |  <Identifier>
+|  |  |  |  |  |tok: Token('Ada')
+|  |  |  |  |suffix:
+|  |  |  |  |  <Identifier>
+|  |  |  |  |  |tok: Token('Text_IO')
+|bodies:
+|  <list>
+|  |item 0:
+|  |  <LibraryItem>
+|  |  |is_private: False
+|  |  |item:
+|  |  |  <SubprogramBody>
+|  |  |  |overriding: unspecified
+|  |  |  |subp_spec:
+|  |  |  |  <SubprogramSpec>
+|  |  |  |  |name:
+|  |  |  |  |  <Identifier>
+|  |  |  |  |  |tok: Token('Foo')
+|  |  |  |  |params: None
+|  |  |  |  |returns: None
+|  |  |  |aspects: None
+|  |  |  |decls: None
+|  |  |  |statements:
+|  |  |  |  <HandledStatements>
+|  |  |  |  |statements:
+|  |  |  |  |  <list>
+|  |  |  |  |  |item 0:
+|  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |tok: Token('Ada')
+|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |tok: Token('Text_IO')
+|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |tok: Token('Put_Line')
+|  |  |  |  |  |  |paren_tok: Token(None)
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  <StringLiteral>
+|  |  |  |  |  |  |  |  |  |  |tok: Token('"Hello, world!"')
+|  |  |  |  |exceptions: None
+|  |  |  |end_id:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token('Foo')
-|  |  |  |params: None
-|  |  |  |returns: None
-|  |  |aspects: None
-|  |  |decls: None
-|  |  |statements:
-|  |  |  <HandledStatements>
-|  |  |  |statements:
-|  |  |  |  <list>
-|  |  |  |exceptions: None
-|  |  |end_id:
-|  |  |  <Identifier>
-|  |  |  |tok: Token('Foo')
 Done

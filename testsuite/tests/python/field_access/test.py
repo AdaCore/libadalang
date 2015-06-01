@@ -28,7 +28,7 @@ print 'WithDecl: is_limited = {}'.format(with_decl.f_is_limited)
 print 'WithDecl: is_private = {}'.format(with_decl.f_is_private)
 
 
-subp_body = unit.root.f_body.f_item
+subp_body = unit.root.f_bodies[0].f_item
 assert subp_body.kind_name == 'SubprogramBody'
 print 'WithDecl: overriding = {}'.format(subp_body.f_overriding)
 

@@ -7,7 +7,7 @@ from tokenizer import Lbl
 
 class CompilationUnit(ASTNode):
     prelude = Field()
-    body = Field()
+    bodies = Field()
 
 
 class SubprogramBody(ASTNode):
@@ -243,9 +243,9 @@ A.add_rules(
 
     compilation_unit=Row(
         List(Row(A.context_item, ";") >> 0, empty_valid=True),
-        Or(Row(Or(A.library_item, A.subunit, A.generic_instantiation),
-               ";") >> 0,
-           Row(TokClass(NoToken), Null(ASTNode)) >> 1)
+        List(Row(A.library_item | A.subunit |
+                 A.generic_instantiation | A.pragma, ";") >> 0,
+             empty_valid=True),
     ) ^ CompilationUnit,
 
     entry_body=Row(

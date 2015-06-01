@@ -71,7 +71,9 @@ main(void)
     if (!ada_node_child(tmp, 1, &tmp))
         error("Could not get CompilationUnit[1]");
     if (!ada_node_child(tmp, 0, &tmp))
-        error("Could not get CompilationUnit[1] -> LibraryItem[0]");
+        error("Could not get CompilationUnit[1] -> Bodies[0]");
+    if (!ada_node_child(tmp, 0, &tmp))
+        error("Could not get CompilationUnit[1] -> Bodies[0] -> LibraryItem[0]");
     subp_body = tmp;
 
     if (ada_node_kind(subp_body) != ada_subprogram_body)

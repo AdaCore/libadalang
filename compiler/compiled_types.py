@@ -158,7 +158,7 @@ class Token(BasicType):
         return PythonAPIType(python_api_settings, 'token', False)
 
 
-class NoToken(Token):
+class TermToken(Token):
     quex_token_name = "TERMINATION"
 
 

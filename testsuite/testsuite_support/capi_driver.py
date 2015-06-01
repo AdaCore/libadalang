@@ -69,10 +69,15 @@ class CAPIDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        # Build the test program and then run it
+        # Build the test program and then run it. Whether we use static or
+        # shared libraries, make it explicit: some dependencies (such as
+        # GNATcoll) use shared ones by default while others such as gnat_util
+        # use static ones.
         argv = ['gprbuild', '-Pp']
         if self.disable_shared:
             argv.append('-XLIBRARY_TYPE=static')
+        else:
+            argv.append('-XLIBRARY_TYPE=relocatable')
         self.run_and_check(argv)
         self.run_and_check([self.test_program], for_debug=True, memcheck=True)
 

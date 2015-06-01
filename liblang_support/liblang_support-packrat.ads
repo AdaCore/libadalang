@@ -1,7 +1,7 @@
 generic
    type T is private;
    with procedure Dec_Ref (Instance : in out T) is null;
-   Memo_Size : Positive := 256;
+   Memo_Size : Positive := 16;
 package Liblang_Support.Packrat is
 
    type Memo_State is (No_Result, Failure, Success);

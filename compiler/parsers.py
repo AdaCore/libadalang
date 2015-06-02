@@ -10,7 +10,7 @@ import names
 import quex_tokens
 from template_utils import TemplateEnvironment
 from utils import (Colors, common_ancestor, copy_with, GeneratedParser,
-                   type_check_instance)
+                   printcol, type_check_instance)
 
 
 def make_renderer(compile_ctx=None):
@@ -260,9 +260,8 @@ class Parser(object):
         """
 
         if self.name and compile_ctx.verbose:
-            print "Compiling rule : {0}".format(
-                Colors.HEADER + str(self.gen_fn_name) + Colors.ENDC
-            )
+            printcol("Compiling rule : {0}".format(str(self.gen_fn_name)),
+                     Colors.HEADER)
 
         # Users must be able to run parsers that implement a named rule, so
         # generate dedicated functions for them.

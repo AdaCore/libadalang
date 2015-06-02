@@ -18,7 +18,7 @@ from ada_api import AdaAPISettings
 from c_api import CAPISettings
 from compile_context import CompileCtx
 from python_api import PythonAPISettings
-from utils import Colors
+from utils import Colors, printcol
 
 
 class Directories(object):
@@ -134,7 +134,7 @@ def generate(args, dirs):
 
     context.set_grammar(A)
 
-    print Colors.HEADER + "Generating source for libadalang ..." + Colors.ENDC
+    printcol("Generating source for libadalang ...", Colors.HEADER)
     context.emit(file_root=dirs.build_dir())
 
     def gnatpp(project_file):
@@ -150,14 +150,11 @@ def generate(args, dirs):
             sys.exit(1)
 
     if hasattr(args, 'pretty_print') and args.pretty_print:
-        print(
-            Colors.HEADER + "Pretty-printing sources for libadalang ..."
-            + Colors.ENDC
-        )
+        printcol("Pretty-printing sources for libadalang ...", Colors.HEADER)
         gnatpp(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'))
         gnatpp(dirs.build_dir('src', 'parse.gpr'))
 
-    print Colors.OKGREEN + "Generation complete !" + Colors.ENDC
+    printcol("Generation complete !", Colors.OKGREEN)
 
 
 BUILD_MODES = {
@@ -195,19 +192,13 @@ def build(args, dirs):
             print >> sys.stderr, 'Build failed: {}'.format(exc)
             sys.exit(1)
 
-    print (
-        Colors.HEADER
-        + "Building the generated source code ..." + Colors.ENDC
-    )
+    printcol("Building the generated source code ...", Colors.HEADER)
     if args.enable_static:
         gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'), False)
     if not args.disable_shared:
         gprbuild(dirs.build_dir('lib', 'gnat', 'libadalang.gpr'), True)
 
-    print (
-        Colors.HEADER
-        + "Building the interactive test main ..." + Colors.ENDC
-    )
+    printcol("Building the interactive test main ...", Colors.HEADER)
     if args.enable_static:
         gprbuild(dirs.build_dir('src', 'parse.gpr'), False)
     if not args.disable_shared:
@@ -220,7 +211,7 @@ def build(args, dirs):
         for dll in glob.glob(dirs.build_dir('lib', '*.dll')):
             shutil.copy(dll, dirs.build_dir('bin', os.path.basename(dll)))
 
-    print Colors.OKGREEN + "Compilation complete !" + Colors.ENDC
+    printcol("Compilation complete!", Colors.OKGREEN)
 
 
 def make(args, dirs):
@@ -354,11 +345,9 @@ def perf_test(args, dirs):
     # Get a count of the total number of ada source lines
     lines_count = sum(map(file_lines, ada_files))
 
-    print Colors.HEADER
-    print "================================="
-    print "= Performance testsuite results ="
-    print "================================="
-    print Colors.ENDC
+    printcol("=================================", Colors.HEADER)
+    printcol("= Performance testsuite results =", Colors.HEADER)
+    printcol("=================================", Colors.HEADER)
     elapsed_list = []
     for _ in range(args.nb_runs):
         # Execute parse on the file list and get the elapsed time
@@ -373,7 +362,7 @@ def perf_test(args, dirs):
         )
 
     print ""
-    print Colors.OKGREEN + "= Performance summary =" + Colors.ENDC
+    printcol("= Performance summary =", Colors.OKGREEN)
     print "Mean time to parse {0} lines of code : {1:.2f} seconds".format(
         lines_count, sum(elapsed_list) / float(len(elapsed_list))
     )

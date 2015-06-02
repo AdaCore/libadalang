@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 
 import quex_tokens
-from utils import Colors
+from utils import Colors, printcol
 
 
 def write_cpp_file(file_path, source):
@@ -249,7 +249,7 @@ class CompileCtx():
         if not path.exists(file_root):
             os.mkdir(file_root)
 
-        print Colors.OKBLUE + "File setup ..." + Colors.ENDC
+        printcol("File setup ...", Colors.OKBLUE)
 
         for d in ["include",
                   "include/liblang_support",
@@ -280,7 +280,7 @@ class CompileCtx():
         shutil.copy("liblang_support/liblang_support_installed.gpr",
                     path.join(lib_path, "gnat", "liblang_support.gpr"))
 
-        print Colors.OKBLUE + "Compiling the grammar ... " + Colors.ENDC
+        printcol("Compiling the grammar...", Colors.OKBLUE)
 
         with names.camel_with_underscores:
             for r_name, r in self.grammar.rules.items():
@@ -303,7 +303,7 @@ class CompileCtx():
         ):
             self.node_kind_constants[astnode] = i
 
-        print Colors.OKBLUE + "Generating sources ... " + Colors.ENDC
+        printcol("Generating sources... ", Colors.OKBLUE)
 
         with names.camel_with_underscores:
             for template_base_name, qual_name in [
@@ -356,10 +356,7 @@ class CompileCtx():
                 os.mkdir(python_path)
             self.emit_python_api(python_path)
 
-        print (
-            Colors.OKBLUE + "Compiling the quex lexer specification"
-            + Colors.ENDC
-        )
+        printcol("Compiling the quex lexer specification", Colors.OKBLUE)
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 

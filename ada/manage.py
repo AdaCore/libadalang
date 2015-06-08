@@ -238,6 +238,7 @@ def setup_environment(dirs, add_path):
     add_path('LD_LIBRARY_PATH', dirs.build_dir('lib'))
     add_path('GPR_PROJECT_PATH', dirs.build_dir('lib', 'gnat'))
     add_path('PYTHONPATH', dirs.build_dir('python'))
+    add_path('PYTHONPATH', dirs.source_dir('python_src'))
 
 
 def derived_env(dirs):

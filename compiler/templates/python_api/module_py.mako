@@ -128,41 +128,15 @@ class Diagnostic(object):
 class ASTNode(object):
     # TODO: document this class and its methods
 
-    # We want to let users store values as attributes for ASTNode instances.
-    # However keeping always the same ASTNode wrapper around C API values
-    # introduces reference counting issues. So we actually store the attributes
-    # in a dedicated object called the "container". Hence ASTNode instances
-    # need only two fields: the C API value itself and the corresponding
-    # container.
-    __slots__ = ('_c_value', '_container')
     _field_names = ()
 
     def __init__(self, c_value):
-        super(ASTNode, self).__setattr__('_c_value', c_value)
-        super(ASTNode, self).__setattr__('_container',
-                                         _astnode_get_container(c_value))
+        self._c_value = c_value
         _node_incref(self._c_value)
-
-    def __getattr__(self, name):
-        return getattr(self._container, name)
-
-    def __setattr__(self, name, value):
-        setattr(self._container, name, value)
 
     def __del__(self):
         _node_decref(self._c_value)
         super(ASTNode, self).__init__()
-
-    def __repr__(self):
-        return '<{} wrapper around {:#x}>'.format(
-            type(self).__name__,
-            self._c_value.value
-        )
-
-    def __eq__(self, other):
-        """Return whether "self" and "other" wrap the same ASTNode"""
-        return (isinstance(other, ASTNode) and
-                self._c_value.value == other._c_value.value)
 
     @property
     def kind_name(self):
@@ -174,7 +148,6 @@ class ASTNode(object):
         _node_sloc_range(self._c_value, ctypes.byref(result))
         return _wrap_sloc_range(result)
 
-    @property
     def lookup(self, sloc):
         c_sloc = _unwrap_sloc(sloc)
         c_node =_lookup_in_node(self._c_value,
@@ -214,10 +187,6 @@ class ASTNode(object):
         """
         for field_name in self._field_names:
             yield (field_name, getattr(self, 'f_{}'.format(field_name)))
-
-
-class _ASTNodeContainer(object):
-    pass
 
 
 class ASTList(ASTNode):
@@ -450,16 +419,21 @@ _kind_to_astnode_cls = {
     % endfor
 }
 
-# We use the extension mechanism to keep a single container per node for all
-# attributes attached to ASTNode instances. This way, users can store values in
-# wrappers and expect to find these attributes back when getting the same node
-# later.
+# We use the extension mechanism to keep a single wrapper ASTNode instance per
+# underlying AST node. This way, users can store attributes in wrappers and
+# expect to find these attributes back when getting the same node later.
+
+# TODO: this mechanism currently introduces reference loops between the ASTNode
+# and its wrapper. When a Python wraper is created for some ASTNode, both will
+# never be deallocated (i.e. we have memory leaks). This absolutely needs to be
+# fixed for real world use but in the meantime, let's keep this implementation
+# for prototyping.
 
 _node_extension_id = _register_extension("python_api_astnode_wrapper")
 def _node_ext_dtor_py(c_node, c_pyobj):
     """
     Callback for extension upon ASTNode destruction: free the reference for the
-    Python container.
+    Python wrapper.
     """
     # At this point, c_pyobj is a System.Address in Ada that have been decoded
     # by ctypes.c_void_p as a "long" Python object. We used to try to convert
@@ -472,16 +446,14 @@ def _node_ext_dtor_py(c_node, c_pyobj):
     c_pyobj = ctypes.cast(c_pyobj, ctypes.py_object)
     ctypes.pythonapi.Py_DecRef(c_pyobj)
 
-
 _node_ext_dtor_c = _node_extension_destructor(_node_ext_dtor_py)
 
+def _wrap_astnode(c_value):
+    if not c_value:
+        return None
 
-def _astnode_get_container(c_value):
-    """
-    Get or create if needed a container object for the "c_value" ASTNode
-    """
-    # First look if we already have a container for this node so that we only
-    # have one container per node.
+    # First, look if we already built a wrapper for this node so that we only
+    # have one wrapper per node.
     c_pyobj_p = _node_extension(c_value, _node_extension_id, _node_ext_dtor_c)
     c_pyobj_p = ctypes.cast(
         c_pyobj_p,
@@ -490,23 +462,15 @@ def _astnode_get_container(c_value):
     if c_pyobj_p.contents:
         return c_pyobj_p.contents.value
     else:
-        # Create a new container and store it in our extension.
-        py_obj = _ASTNodeContainer()
+        # Create a new wrapper for this node...
+        kind = _node_kind(c_value)
+        py_obj = _kind_to_astnode_cls[kind](c_value)
+
+        # .. and store it in our extension.
         c_pyobj_p[0] = ctypes.py_object(py_obj)
 
         # We want to increment its ref count so that the wrapper will be alive
         # as long as the extension references it.
         ctypes.pythonapi.Py_IncRef(ctypes.py_object(py_obj))
+
         return py_obj
-
-
-def _wrap_astnode(c_value):
-    """
-    Wrap an ASTNode from the C API with the appropriate ASTNode Python subclass
-    """
-    if not c_value:
-        return None
-    # Create a Python wrapper for this node with the appropriate ASTNode
-    # subclass.
-    kind = _node_kind(c_value)
-    return _kind_to_astnode_cls[kind](c_value)

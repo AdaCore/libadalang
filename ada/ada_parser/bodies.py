@@ -30,11 +30,6 @@ class ExceptionHandler(ASTNode):
     statements = Field()
 
 
-class StatementList(ASTNode):
-    statements = Field()
-    labels = Field()
-
-
 @abstract
 class Statement(ASTNode):
     pass

@@ -189,11 +189,15 @@ class ObjectDecl(ASTNode):
     # env_action = AddToEnv("vars", "ids")
 
 
+class PrivatePart(ASTNode):
+    decls = Field()
+
+
 class PackageDecl(ASTNode):
     name = Field()
     aspects = Field()
     decls = Field()
-    private_decls = Field()
+    private_part = Field()
     end_id = Field()
 
 
@@ -302,7 +306,7 @@ A.add_rules(
     package_decl=Row(
         "package", A.static_name, A.aspect_specification, "is",
         A.basic_decls,
-        Opt("private", A.basic_decls) >> 1,
+        Opt("private", A.basic_decls ^ PrivatePart) >> 1,
         "end", Opt(A.static_name)
     ) ^ PackageDecl,
 

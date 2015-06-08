@@ -354,7 +354,7 @@ A.add_rules(
     ) ^ TypeDiscriminant,
 
     enum_type_def=Row(
-        "(", List(Or(A.identifier, A.char_literal), sep=","), ")"
+        "(", List(Or(A.enum_identifier, A.char_literal), sep=","), ")"
     ) ^ EnumTypeDef,
 
     formal_discrete_type_def=Row(

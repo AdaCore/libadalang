@@ -117,6 +117,10 @@ class Identifier(SingleTokNode):
     _repr_name = "Id"
 
 
+class EnumIdentifier(Identifier):
+    _repr_name = "EnumId"
+
+
 class CharLiteral(SingleTokNode):
     _repr_name = "Chr"
 
@@ -216,6 +220,7 @@ class RaiseExpression(Expr):
 
 A.add_rules(
     identifier=TokClass(Id, keep=True) ^ Identifier,
+    enum_identifier=TokClass(Id, keep=True) ^ EnumIdentifier,
     char_literal=TokClass(CharLit, keep=True) ^ CharLiteral,
     string_literal=TokClass(StringLit, keep=True) ^ StringLiteral,
     num_literal=TokClass(NumLit, keep=True) ^ NumLiteral,

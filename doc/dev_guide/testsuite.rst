@@ -79,6 +79,19 @@ separator. For instance:
 Here you go!
 
 
+Python testcases
+================
+
+If fate leads you to troubleshoot Libadalang's Python API, you may prefer to
+use a debuggable Python interpreter.  Once you built one, say in
+``/usr/debug/``, you can run the testsuite using it with the ``--with-python``
+testsuite option:
+
+.. code-block:: shell
+
+    ada/manage.y test -- --with-python=/usr/debug/bin/python
+
+
 *****************
 Writing testcases
 *****************

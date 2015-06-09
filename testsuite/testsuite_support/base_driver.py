@@ -148,6 +148,10 @@ class BaseDriver(TestDriver):
     def disable_shared(self):
         return self.global_env['options'].disable_shared
 
+    @property
+    def python_interpreter(self):
+        return self.global_env['options'].with_python or 'python'
+
     def check_file(self, filename):
         """
         Check file presence

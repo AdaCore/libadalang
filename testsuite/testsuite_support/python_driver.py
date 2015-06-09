@@ -34,4 +34,5 @@ class PythonDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        self.run_and_check(['python', 'test.py'], for_debug=True)
+        self.run_and_check([self.python_interpreter, 'test.py'],
+                           for_debug=True)

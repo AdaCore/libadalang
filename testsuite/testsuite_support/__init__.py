@@ -30,6 +30,10 @@ class Testsuite(gnatpython.testsuite.Testsuite):
             '--disable-shared', action='store_true',
             help='Disable the testing of shared libraries'
         )
+        self.main.add_option(
+            '--with-python', default=None,
+            help='If provided, use as the Python interpreter in testcases'
+        )
 
         #
         # Convenience options for developpers

@@ -201,14 +201,9 @@ class CompileCtx():
 
     def compute_astnode_types(self):
         """Compute the "astnode_types" field"""
-        # We consider that ASTNode is not a subclass itself since it's a
-        # special case for code generation. TODO: Well, actually it would be
-        # cleaner to consider it, but it should be properly tagged as
-        # abstract...
         from parsers import ASTNode
         self.astnode_types = [astnode
-                              for astnode in self.ast_fields_types.keys()
-                              if astnode != ASTNode]
+                              for astnode in self.ast_fields_types.keys()]
         # Sort them in dependency order as required but also then in
         # alphabetical order so that generated declarations are kept in a
         # relatively stable order. This is really useful for debugging

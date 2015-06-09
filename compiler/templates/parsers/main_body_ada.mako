@@ -16,13 +16,6 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
       use ${enum_type.type.name()}_Memos;
    % endfor
 
-   package AST_Node_Memos is new Liblang_Support.Packrat (AST_Node, Dec_Ref);
-   use AST_Node_Memos;
-
-   package List_AST_Node_Memos is new Liblang_Support.Packrat
-     (List_AST_Node, Dec_Ref);
-   use List_AST_Node_Memos;
-
    % for cls in _self.astnode_types:
       package ${cls.name()}_Memos is new Liblang_Support.Packrat
         (${cls.name()}, Dec_Ref);

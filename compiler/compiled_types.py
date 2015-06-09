@@ -276,7 +276,6 @@ class ASTNode(CompiledType):
     types: type declaration and type usage (to declare AST node variables).
     """
 
-    abstract = False
     fields = []
     __metaclass__ = AstNodeMetaclass
 
@@ -467,6 +466,12 @@ class ASTNode(CompiledType):
     @classmethod
     def py_type(cls, python_api_settings):
         return PythonAPIType(python_api_settings, 'node', False)
+
+
+# We tag the ASTNode class as abstract here, because of the circular dependency
+# between the @abstract decorator and the ASTNode class, which is caused by the
+# assert statement that is inside the decorator
+ASTNode.abstract = True
 
 
 # We want structural equality on lists whose elements have the same types.

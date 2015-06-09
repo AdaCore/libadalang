@@ -1,11 +1,12 @@
 from parsers import Opt, List, Or, Row, Enum, Tok, TokClass, Null
-from compiled_types import Field, abstract, EnumType, ASTNode
+from compiled_types import Field, abstract, EnumType
 from ada_parser import A
 from tokenizer import Id, CharLit, StringLit, NumLit
+from . import AdaNode
 
 
 @abstract
-class Expr(ASTNode):
+class Expr(AdaNode):
     pass
 
 
@@ -45,16 +46,16 @@ class CallExpr(Expr):
     suffix = Field()
 
 
-class ExprList(ASTNode):
+class ExprList(AdaNode):
     exprs = Field()
 
 
-class ParamAssoc(ASTNode):
+class ParamAssoc(AdaNode):
     designator = Field()
     expr = Field()
 
 
-class ParamList(ASTNode):
+class ParamList(AdaNode):
     params = Field()
 
 
@@ -66,15 +67,15 @@ class DiamondExpr(Expr):
     pass
 
 
-class AggregateField(ASTNode):
+class AggregateField(AdaNode):
     pass
 
 
-class OthersDesignator(ASTNode):
+class OthersDesignator(AdaNode):
     pass
 
 
-class AggregateMember(ASTNode):
+class AggregateMember(AdaNode):
     choice_list = Field()
 
 
@@ -93,7 +94,7 @@ class IfExpr(Expr):
     else_expr = Field()
 
 
-class ElsifExprPart(ASTNode):
+class ElsifExprPart(AdaNode):
     cond_expr = Field()
     then_expr = Field()
 
@@ -156,7 +157,7 @@ class IterType(EnumType):
 
 
 @abstract
-class LoopSpec(ASTNode):
+class LoopSpec(AdaNode):
     pass
 
 
@@ -189,7 +190,7 @@ class QualExpr(Expr):
 
 
 @abstract
-class AbstractAggregateContent(ASTNode):
+class AbstractAggregateContent(AdaNode):
     pass
 
 
@@ -197,7 +198,7 @@ class AggregateContent(AbstractAggregateContent):
     fields = Field()
 
 
-class AggregateAssoc(ASTNode):
+class AggregateAssoc(AdaNode):
     designator = Field()
     expr = Field()
 

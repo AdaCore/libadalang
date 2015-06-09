@@ -1,16 +1,17 @@
 from parsers import Opt, List, Or, Row, _, TokClass, Null
-from compiled_types import Field, abstract, ASTNode
+from compiled_types import Field, abstract
 from ada_parser.exprs import LoopSpec, Expr
 from ada_parser import A
 from tokenizer import Lbl
+from . import AdaNode
 
 
-class CompilationUnit(ASTNode):
+class CompilationUnit(AdaNode):
     prelude = Field()
     bodies = Field()
 
 
-class SubprogramBody(ASTNode):
+class SubprogramBody(AdaNode):
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
@@ -19,19 +20,19 @@ class SubprogramBody(ASTNode):
     end_id = Field()
 
 
-class HandledStatements(ASTNode):
+class HandledStatements(AdaNode):
     statements = Field()
     exceptions = Field()
 
 
-class ExceptionHandler(ASTNode):
+class ExceptionHandler(AdaNode):
     exc_name = Field()
     catched_exceptions = Field()
     statements = Field()
 
 
 @abstract
-class Statement(ASTNode):
+class Statement(AdaNode):
     pass
 
 
@@ -88,7 +89,7 @@ class IfStatement(Statement):
     else_statements = Field(indent=3)
 
 
-class ElsifStatementPart(ASTNode):
+class ElsifStatementPart(AdaNode):
     expr = Field()
     statements = Field(indent=3)
 
@@ -113,7 +114,7 @@ class BlockStatement(Statement):
     statements = Field()
 
 
-class ExtReturnStatement(ASTNode):
+class ExtReturnStatement(AdaNode):
     object_decl = Field()
     statements = Field()
 
@@ -123,7 +124,7 @@ class CaseStatement(Statement):
     case_alts = Field()
 
 
-class CaseStatementAlternative(ASTNode):
+class CaseStatementAlternative(AdaNode):
     choices = Field()
     statements = Field()
 
@@ -150,28 +151,28 @@ class TerminateStatement(Statement):
     pass
 
 
-class PackageBody(ASTNode):
+class PackageBody(AdaNode):
     package_name = Field()
     aspects = Field()
     decls = Field(indent=3)
     statements = Field(indent=3)
 
 
-class TaskBody(ASTNode):
+class TaskBody(AdaNode):
     package_name = Field()
     aspects = Field()
     decls = Field()
     statements = Field()
 
 
-class ProtectedBody(ASTNode):
+class ProtectedBody(AdaNode):
     package_name = Field()
     aspects = Field()
     decls = Field()
     body_stub = Field()
 
 
-class EntryBody(ASTNode):
+class EntryBody(AdaNode):
     entry_name = Field()
     index_spec = Field()
     parameters = Field()
@@ -180,32 +181,32 @@ class EntryBody(ASTNode):
     statements = Field()
 
 
-class EntryIndexSpec(ASTNode):
+class EntryIndexSpec(AdaNode):
     id = Field()
     subtype = Field()
 
 
-class Subunit(ASTNode):
+class Subunit(AdaNode):
     name = Field()
     body = Field()
 
 
-class BodyStub(ASTNode):
+class BodyStub(AdaNode):
     aspects = Field()
 
 
-class SubprogramBodyStub(ASTNode):
+class SubprogramBodyStub(AdaNode):
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
 
 
-class PackageBodyStub(ASTNode):
+class PackageBodyStub(AdaNode):
     name = Field()
     aspects = Field()
 
 
-class LibraryItem(ASTNode):
+class LibraryItem(AdaNode):
     is_private = Field()
     item = Field()
 

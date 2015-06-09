@@ -1,16 +1,17 @@
 from ada_parser import A
 from parsers import Opt, List, Or, Row, _, Enum, Tok
-from compiled_types import Field, EnumType, abstract, ASTNode, indent_rel
+from compiled_types import Field, EnumType, abstract, indent_rel
+from . import AdaNode
 
 
-class WithDecl(ASTNode):
+class WithDecl(AdaNode):
     is_limited = Field()
     is_private = Field()
     packages = Field()
 
 
 @abstract
-class UseDecl(ASTNode):
+class UseDecl(AdaNode):
     pass
 
 
@@ -23,7 +24,7 @@ class UseTypDecl(UseDecl):
     types = Field()
 
 
-class TypeExpression(ASTNode):
+class TypeExpression(AdaNode):
     """
     This type will be used as a base for what represents a type expression
     in the Ada syntax tree.
@@ -33,7 +34,7 @@ class TypeExpression(ASTNode):
 
 
 @abstract
-class TypeExprVariant(ASTNode):
+class TypeExprVariant(AdaNode):
     pass
 
 
@@ -58,7 +59,7 @@ class TypeAccessExpression(AccessExpression):
     subtype_name = Field()
 
 
-class ParameterProfile(ASTNode):
+class ParameterProfile(AdaNode):
     ids = Field()
     is_aliased = Field(repr=False)
     mode = Field()
@@ -66,22 +67,22 @@ class ParameterProfile(ASTNode):
     default = Field()
 
 
-class AspectSpecification(ASTNode):
+class AspectSpecification(AdaNode):
     aspect_assocs = Field()
 
 
-class SubprogramParams(ASTNode):
+class SubprogramParams(AdaNode):
     open_par = Field(repr=False)
     params = Field(indent="open_par")
 
 
-class SubprogramSpec(ASTNode):
+class SubprogramSpec(AdaNode):
     name = Field()
     params = Field(indent=indent_rel(2))
     returns = Field()
 
 
-class SubprogramDecl(ASTNode):
+class SubprogramDecl(AdaNode):
     is_overriding = Field()
     subp_spec = Field()
     is_null = Field()
@@ -91,12 +92,12 @@ class SubprogramDecl(ASTNode):
     aspects = Field(repr=False)
 
 
-class Pragma(ASTNode):
+class Pragma(AdaNode):
     id = Field()
     args = Field()
 
 
-class PragmaArgument(ASTNode):
+class PragmaArgument(AdaNode):
     id = Field()
     expr = Field()
 
@@ -111,7 +112,7 @@ class InOut(EnumType):
 
 
 @abstract
-class AspectClause(ASTNode):
+class AspectClause(AdaNode):
     pass
 
 
@@ -125,7 +126,7 @@ class AttributeDefClause(AspectClause):
     expr = Field()
 
 
-class RecordRepComponent(ASTNode):
+class RecordRepComponent(AdaNode):
     id = Field()
     position = Field()
     range = Field()
@@ -142,7 +143,7 @@ class AtClause(AspectClause):
     expr = Field()
 
 
-class EntryDecl(ASTNode):
+class EntryDecl(AdaNode):
     overriding = Field()
     entry_id = Field()
     family_type = Field()
@@ -150,29 +151,29 @@ class EntryDecl(ASTNode):
     aspects = Field()
 
 
-class TaskDecl(ASTNode):
+class TaskDecl(AdaNode):
     task_name = Field()
     aspects = Field()
     definition = Field()
 
 
-class ProtectedDecl(ASTNode):
+class ProtectedDecl(AdaNode):
     protected_name = Field()
     aspects = Field()
     definition = Field()
 
 
-class AspectAssoc(ASTNode):
+class AspectAssoc(AdaNode):
     id = Field()
     expr = Field()
 
 
-class NumberDecl(ASTNode):
+class NumberDecl(AdaNode):
     ids = Field()
     expr = Field()
 
 
-class ObjectDecl(ASTNode):
+class ObjectDecl(AdaNode):
     ids = Field()
     aliased = Field()
     constant = Field()
@@ -189,11 +190,11 @@ class ObjectDecl(ASTNode):
     # env_action = AddToEnv("vars", "ids")
 
 
-class PrivatePart(ASTNode):
+class PrivatePart(AdaNode):
     decls = Field()
 
 
-class PackageDecl(ASTNode):
+class PackageDecl(AdaNode):
     name = Field()
     aspects = Field()
     decls = Field()
@@ -201,36 +202,36 @@ class PackageDecl(ASTNode):
     end_id = Field()
 
 
-class ExceptionDecl(ASTNode):
+class ExceptionDecl(AdaNode):
     ids = Field()
     renames = Field()
     aspects = Field()
 
 
-class GenericInstantiation(ASTNode):
+class GenericInstantiation(AdaNode):
     name = Field()
     generic_entity_name = Field()
     parameters = Field()
     aspects = Field()
 
 
-class RenamingClause(ASTNode):
+class RenamingClause(AdaNode):
     renamed_object = Field()
 
 
-class PackageRenamingDecl(ASTNode):
+class PackageRenamingDecl(AdaNode):
     name = Field()
     renames = Field()
     aspects = Field()
 
 
-class GenericRenamingDecl(ASTNode):
+class GenericRenamingDecl(AdaNode):
     name = Field()
     renames = Field()
     aspects = Field()
 
 
-class FormalSubpDecl(ASTNode):
+class FormalSubpDecl(AdaNode):
     subp_spec = Field()
     is_abstract = Field()
     default_value = Field()
@@ -241,12 +242,12 @@ class Overriding(EnumType):
     suffix = 'kind'
 
 
-class GenericSubprogramDecl(ASTNode):
+class GenericSubprogramDecl(AdaNode):
     formal_part = Field()
     subp_spec = Field()
 
 
-class GenericPackageDecl(ASTNode):
+class GenericPackageDecl(AdaNode):
     formal_part = Field()
     package_decl = Field()
 

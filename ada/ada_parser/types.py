@@ -1,20 +1,21 @@
 from ada_parser import A
 from parsers import Opt, List, Or, Row, Null, Enum
-from compiled_types import Field, abstract, ASTNode, EnumType
+from compiled_types import Field, abstract, EnumType
+from . import AdaNode
 
 
-class DiscriminantSpec(ASTNode):
+class DiscriminantSpec(AdaNode):
     ids = Field()
     type_expr = Field()
     default_expr = Field()
 
 
-class TypeDiscriminant(ASTNode):
+class TypeDiscriminant(AdaNode):
     discr_specs = Field()
 
 
 @abstract
-class TypeDef(ASTNode):
+class TypeDef(AdaNode):
     pass
 
 
@@ -22,33 +23,33 @@ class EnumTypeDef(TypeDef):
     enum_literals = Field()
 
 
-class DiscreteChoice(ASTNode):
+class DiscreteChoice(AdaNode):
     pass
 
 
-class Variant(ASTNode):
+class Variant(AdaNode):
     choice_list = Field()
     components = Field()
 
 
-class VariantPart(ASTNode):
+class VariantPart(AdaNode):
     discr_name = Field()
     variant = Field()
 
 
-class ComponentDecl(ASTNode):
+class ComponentDecl(AdaNode):
     ids = Field()
     component_def = Field()
     default_expr = Field()
     aspects = Field()
 
 
-class ComponentList(ASTNode):
+class ComponentList(AdaNode):
     components = Field()
     variant_part = Field()
 
 
-class RecordDef(ASTNode):
+class RecordDef(AdaNode):
     components = Field()
 
 
@@ -64,7 +65,7 @@ class RealTypeDef(TypeDef):
     pass
 
 
-class FullTypeDecl(ASTNode):
+class FullTypeDecl(AdaNode):
     type_id = Field()
     discriminants = Field()
     type_def = Field()
@@ -88,7 +89,7 @@ class DecimalFixedPointDef(RealTypeDef):
 
 
 @abstract
-class Constraint(ASTNode):
+class Constraint(AdaNode):
     pass
 
 
@@ -150,7 +151,7 @@ class ModIntTypeDef(TypeDef):
 
 
 @abstract
-class ArrayIndices(ASTNode):
+class ArrayIndices(AdaNode):
     pass
 
 
@@ -162,7 +163,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     list = Field()
 
 
-class ComponentDef(ASTNode):
+class ComponentDef(AdaNode):
     aliased = Field()
     type_expr = Field()
 
@@ -182,25 +183,25 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field()
 
 
-class SubtypeDecl(ASTNode):
+class SubtypeDecl(AdaNode):
     id = Field()
     type_expr = Field()
     aspects = Field()
 
 
-class TaskDef(ASTNode):
+class TaskDef(AdaNode):
     items = Field()
     private_items = Field()
     end_id = Field()
 
 
-class ProtectedDef(ASTNode):
+class ProtectedDef(AdaNode):
     public_ops = Field()
     private_components = Field()
     end_id = Field()
 
 
-class TaskTypeDecl(ASTNode):
+class TaskTypeDecl(AdaNode):
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
@@ -208,7 +209,7 @@ class TaskTypeDecl(ASTNode):
     definition = Field()
 
 
-class ProtectedTypeDecl(ASTNode):
+class ProtectedTypeDecl(AdaNode):
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
@@ -225,7 +226,7 @@ class FormalDiscreteTypeDef(TypeDef):
     pass
 
 
-class NullComponentDecl(ASTNode):
+class NullComponentDecl(AdaNode):
     pass
 
 

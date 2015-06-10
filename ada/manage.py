@@ -128,8 +128,10 @@ def generate(args, dirs):
     import ada_parser.types
     import ada_parser.exprs
     import ada_parser.bodies
-
     del ada_parser
+    # Import all the modules in which the grammar rules are defined, and then
+    # delete the module. This way we know that we only import them for side
+    # effects - the grammar is extended by every imported module.
 
     context.set_grammar(A)
 

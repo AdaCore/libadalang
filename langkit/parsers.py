@@ -1,3 +1,27 @@
+"""
+Langkit: parsers.py
+
+This file contains the base logic for the parser generator. It declares a base
+class, Parser, from which every parsing primitive derives.
+
+It contains both the public interface to the parsers (eg. the Rows, Opt, Or,
+etc.. classes), and the engine implementation that will actually emit the final
+code.
+
+The way the code is generated is by recursively visiting the parser structure
+and emitting the code corresponding to the declared parser. For example, for
+the following rule definition::
+
+    if_stmt=Row("if", G.expression, "then", G.statements, "endif")
+
+The row structure will be visited recursively, emitting the corresponding code.
+
+The parser generator generates separate functions for every rule that is
+declared. It means that in the case of the previous example, a rule will be
+declared for if_stmt, and for the `expression` and `statements` rule, that are
+not defined in the example, but relied on explicitly.
+"""
+
 from copy import copy
 import inspect
 from itertools import chain

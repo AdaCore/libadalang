@@ -1,3 +1,17 @@
+"""
+Langkit: compile_context.py
+
+This file contains the logic for the compilation context for langkit. This is
+the main hook into langkit, insofar as this is the gate through which an
+external language creator will actually trigger the code emission. For example,
+this is the way it is done for the ada language::
+
+    context = CompileCtx(...)
+    from ada_parser import A
+    ...
+    context.set_grammar(A)
+    context.emit(...)
+"""
 from collections import defaultdict
 from glob import glob
 from distutils.spawn import find_executable

@@ -69,8 +69,8 @@ class Coverage(object):
                 self.dirs.source_dir('ada'),
             ],
             omit=[
-                self.dirs.source_dir('compiler', 'build.py'),
-                self.dirs.source_dir('compiler', 'env.py'),
+                self.dirs.source_dir('langkit', 'build.py'),
+                self.dirs.source_dir('langkit', 'env.py'),
             ],
         )
 

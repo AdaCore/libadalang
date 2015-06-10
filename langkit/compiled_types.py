@@ -379,7 +379,7 @@ class ASTNode(CompiledType):
         """
         if cls not in compile_ctx.types and cls != ASTNode:
             base_class = cls.__bases__[0]
-            if issubclass(base_class, ASTNode) and base_class != ASTNode:
+            if issubclass(base_class, ASTNode):
                 base_class.add_to_context(compile_ctx)
 
             compile_ctx.types.add(cls)

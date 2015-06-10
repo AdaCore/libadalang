@@ -1,13 +1,13 @@
-with Liblang_Support.Vectors;
+with Langkit_Support.Vectors;
 
 generic
    type Node_Type is abstract new AST_Node_Type with private;
    type Node_Access is access all Node_Type'Class;
-package Liblang_Support.AST.List is
+package Langkit_Support.AST.List is
 
    List_Kind : constant AST_Node_Kind := 1;
 
-   package Node_Vectors is new Liblang_Support.Vectors
+   package Node_Vectors is new Langkit_Support.Vectors
      (Element_Type => Node_Access, Small_Vector_Capacity => 1);
 
    type List_Type is new AST_Node_Type with record
@@ -49,4 +49,4 @@ package Liblang_Support.AST.List is
    overriding
    procedure Free (Node : access List_Type);
 
-end Liblang_Support.AST.List;
+end Langkit_Support.AST.List;

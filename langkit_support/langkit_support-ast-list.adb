@@ -1,6 +1,6 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-package body Liblang_Support.AST.List is
+package body Langkit_Support.AST.List is
 
    use Node_Vectors;
 
@@ -174,4 +174,4 @@ package body Liblang_Support.AST.List is
       Destroy (Node.Vec);
    end Free;
 
-end Liblang_Support.AST.List;
+end Langkit_Support.AST.List;

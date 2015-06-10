@@ -2,7 +2,7 @@ generic
    type T is private;
    with procedure Dec_Ref (Instance : in out T) is null;
    Memo_Size : Positive := 16;
-package Liblang_Support.Packrat is
+package Langkit_Support.Packrat is
 
    type Memo_State is (No_Result, Failure, Success);
 
@@ -28,4 +28,4 @@ private
 
    type Memo_Type is array (0 .. Memo_Size - 1) of Memo_Entry;
 
-end Liblang_Support.Packrat;
+end Langkit_Support.Packrat;

@@ -17,7 +17,7 @@ with System;
 generic
    type Element_Type is private;
    Small_Vector_Capacity : Natural := 0;
-package Liblang_Support.Vectors is
+package Langkit_Support.Vectors is
 
    type Elements_Array is array (Natural) of Element_Type;
    type Elements_Array_Access is access all Elements_Array;
@@ -100,4 +100,4 @@ private
    function Has_Element (Self : Vector; N : Natural) return Boolean is
      (N < Self.Size);
 
-end Liblang_Support.Vectors;
+end Langkit_Support.Vectors;

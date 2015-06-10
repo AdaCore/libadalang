@@ -9,11 +9,11 @@ with Interfaces; use Interfaces;
 
 with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
-with Liblang_Support.AST;                use Liblang_Support.AST;
-with Liblang_Support.AST.List;
-with Liblang_Support.Diagnostics;        use Liblang_Support.Diagnostics;
-with Liblang_Support.Tokens;             use Liblang_Support.Tokens;
-with Liblang_Support.Token_Data_Handler; use Liblang_Support.Token_Data_Handler;
+with Langkit_Support.AST;                use Langkit_Support.AST;
+with Langkit_Support.AST.List;
+with Langkit_Support.Diagnostics;        use Langkit_Support.Diagnostics;
+with Langkit_Support.Tokens;             use Langkit_Support.Tokens;
+with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 
 package ${_self.ada_api_settings.lib_name} is
 

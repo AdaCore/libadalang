@@ -1,6 +1,6 @@
 with Ada.Unchecked_Deallocation;
 
-package body Liblang_Support.AST is
+package body Langkit_Support.AST is
 
    -----------
    -- Child --
@@ -189,4 +189,4 @@ package body Liblang_Support.AST is
                      else null);
    end Lookup_Relative;
 
-end Liblang_Support.AST;
+end Langkit_Support.AST;

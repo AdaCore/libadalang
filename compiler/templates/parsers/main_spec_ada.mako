@@ -4,8 +4,8 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces; use Interfaces;
 
-with Liblang_Support.Diagnostics; use Liblang_Support.Diagnostics;
-with Liblang_Support.Token_Data_Handler; use Liblang_Support.Token_Data_Handler;
+with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
+with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 
 package ${_self.ada_api_settings.lib_name}.Parsers is
 

@@ -2,14 +2,14 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
-with Liblang_Support.Tokens; use Liblang_Support.Tokens;
-with Liblang_Support.Vectors;
+with Langkit_Support.Tokens; use Langkit_Support.Tokens;
+with Langkit_Support.Vectors;
 
-package Liblang_Support.Token_Data_Handler is
+package Langkit_Support.Token_Data_Handler is
 
-   package Token_Vectors is new Liblang_Support.Vectors
+   package Token_Vectors is new Langkit_Support.Vectors
      (Element_Type => Token);
-   package String_Vectors is new Liblang_Support.Vectors
+   package String_Vectors is new Langkit_Support.Vectors
      (Element_Type => String_Access);
    use Token_Vectors, String_Vectors;
 
@@ -37,4 +37,4 @@ package Liblang_Support.Token_Data_Handler is
 
    procedure Free (TDH : in out Token_Data_Handler);
 
-end Liblang_Support.Token_Data_Handler;
+end Langkit_Support.Token_Data_Handler;

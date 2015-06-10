@@ -1,12 +1,13 @@
 with "gnatcoll";
 
-project Liblang_Support is
+project Langkit_Support is
 
    for Languages use ("Ada");
    for Source_Dirs use (".");
+   for Object_Dir use "obj";
 
    package Compiler is
       for Default_Switches ("Ada") use ("-gnatwae", "-gnatyg");
    end Compiler;
 
-end Liblang_Support;
+end Langkit_Support;

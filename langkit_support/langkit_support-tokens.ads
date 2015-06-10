@@ -4,7 +4,7 @@ with Ada.Strings.Unbounded;
 use type Ada.Strings.Unbounded.String_Access;
 with Interfaces; use Interfaces;
 
-package Liblang_Support.Tokens is
+package Langkit_Support.Tokens is
 
    type Relative_Position is (Before, Inside, After);
    --  Where some source location is with respect to another/a source location
@@ -76,4 +76,4 @@ package Liblang_Support.Tokens is
       then ""
       else T.Text.all);
 
-end Liblang_Support.Tokens;
+end Langkit_Support.Tokens;

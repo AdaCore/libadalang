@@ -5,9 +5,9 @@ with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Unchecked_Conversion;
 
-with Liblang_Support.AST;        use Liblang_Support.AST;
-with Liblang_Support.Extensions; use Liblang_Support.Extensions;
-with Liblang_Support.Tokens;     use Liblang_Support.Tokens;
+with Langkit_Support.AST;        use Langkit_Support.AST;
+with Langkit_Support.Extensions; use Langkit_Support.Extensions;
+with Langkit_Support.Tokens;     use Langkit_Support.Tokens;
 
 package body ${_self.ada_api_settings.lib_name}.C is
 
@@ -307,7 +307,7 @@ package body ${_self.ada_api_settings.lib_name}.C is
    function ${capi.get_name("token_text")} (Token : ${token_type})
                                             return chars_ptr
    is
-      T : Liblang_Support.Tokens.Token renames Unwrap (Token).all;
+      T : Langkit_Support.Tokens.Token renames Unwrap (Token).all;
    begin
       if T.Text = null then
          return Null_Ptr;

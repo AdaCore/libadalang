@@ -3,10 +3,10 @@ use System;
 with System.Memory; use System.Memory;
 
 -----------------------------
--- Liblang_Support.Vectors --
+-- Langkit_Support.Vectors --
 -----------------------------
 
-package body Liblang_Support.Vectors is
+package body Langkit_Support.Vectors is
 
    El_Size : constant size_t := Elements_Array'Component_Size / Storage_Unit;
 
@@ -115,4 +115,4 @@ package body Liblang_Support.Vectors is
 
    function Length (Self : Vector) return Natural is (Self.Size);
 
-end Liblang_Support.Vectors;
+end Langkit_Support.Vectors;

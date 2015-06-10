@@ -1,6 +1,6 @@
 with "gnatcoll";
 
-library project Liblang_Support is
+library project Langkit_Support is
 
    type Library_Kind_Type is ("static", "relocatable");
    Library_Kind_Param : Library_Kind_Type :=
@@ -16,26 +16,26 @@ library project Liblang_Support is
    for Library_Name use "lang_support";
    for Library_Kind use Library_Kind_Param;
    for Library_Interface use
-     ("Liblang_Support",
-      "Liblang_Support.Ast",
-      "Liblang_Support.Vectors",
-      "Liblang_Support.Ast.List",
-      "Liblang_Support.Diagnostics",
-      "Liblang_Support.Extensions",
-      "Liblang_Support.Indent",
-      "Liblang_Support.Packrat",
-      "Liblang_Support.Token_Data_Handler",
-      "Liblang_Support.Tokens");
+     ("Langkit_Support",
+      "Langkit_Support.Ast",
+      "Langkit_Support.Vectors",
+      "Langkit_Support.Ast.List",
+      "Langkit_Support.Diagnostics",
+      "Langkit_Support.Extensions",
+      "Langkit_Support.Indent",
+      "Langkit_Support.Packrat",
+      "Langkit_Support.Token_Data_Handler",
+      "Langkit_Support.Tokens");
 
-   for Source_Dirs use ("../../include/liblang_support");
+   for Source_Dirs use ("../../include/langkit_support");
    for Library_Dir use "../";
    for Library_ALI_Dir
-      use "../liblang_support/" & Library_Kind_Param;
+      use "../langkit_support/" & Library_Kind_Param;
    for Object_Dir
-      use "../../obj/liblang_support/" & Library_Kind_Param;
+      use "../../obj/langkit_support/" & Library_Kind_Param;
 
    package Compiler is
       for Default_Switches ("Ada") use ("-gnatwae", "-gnatyg");
    end Compiler;
 
-end Liblang_Support;
+end Langkit_Support;

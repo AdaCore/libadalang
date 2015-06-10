@@ -2,9 +2,9 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces; use Interfaces;
 
-with Liblang_Support.AST; use Liblang_Support.AST;
+with Langkit_Support.AST; use Langkit_Support.AST;
 
-package Liblang_Support.Indent is
+package Langkit_Support.Indent is
 
    type Indent_Engine is private;
 
@@ -31,4 +31,4 @@ private
       Lines_Indent : Column_Vectors.Vector;
    end record;
 
-end Liblang_Support.Indent;
+end Langkit_Support.Indent;

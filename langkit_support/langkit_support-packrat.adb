@@ -1,4 +1,4 @@
-package body Liblang_Support.Packrat is
+package body Langkit_Support.Packrat is
 
    -----------
    -- Clear --
@@ -49,4 +49,4 @@ package body Liblang_Support.Packrat is
             Final_Pos => Final_Pos);
    end Set;
 
-end Liblang_Support.Packrat;
+end Langkit_Support.Packrat;

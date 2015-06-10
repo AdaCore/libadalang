@@ -1,9 +1,9 @@
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-with Liblang_Support.Tokens; use Liblang_Support.Tokens;
+with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 
-package Liblang_Support.Diagnostics is
+package Langkit_Support.Diagnostics is
 
    type Diagnostic is record
       Sloc_Range : Source_Location_Range;
@@ -16,4 +16,4 @@ package Liblang_Support.Diagnostics is
      (Index_Type   => Natural,
       Element_Type => Diagnostic);
 
-end Liblang_Support.Diagnostics;
+end Langkit_Support.Diagnostics;

@@ -2,7 +2,7 @@ with Ada.Containers.Hashed_Maps;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
 
-package body Liblang_Support.Extensions is
+package body Langkit_Support.Extensions is
 
    package Extension_Maps is new Ada.Containers.Hashed_Maps
      (Key_Type        => Unbounded_String,
@@ -32,4 +32,4 @@ package body Liblang_Support.Extensions is
       end if;
    end Register_Extension;
 
-end Liblang_Support.Extensions;
+end Langkit_Support.Extensions;

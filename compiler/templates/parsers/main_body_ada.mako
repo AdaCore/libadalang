@@ -1,7 +1,7 @@
 ## vim: filetype=makoada
 
-with Liblang_Support.Diagnostics; use Liblang_Support.Diagnostics;
-with Liblang_Support.Packrat;
+with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
+with Langkit_Support.Packrat;
 
 with Libadalang.Lexer; use Libadalang.Lexer;
 
@@ -11,18 +11,18 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
    --  of node (including lists).
 
    % for enum_type in _self.enum_declarations:
-      package ${enum_type.type.name()}_Memos is new Liblang_Support.Packrat
+      package ${enum_type.type.name()}_Memos is new Langkit_Support.Packrat
         (${enum_type.type.name()});
       use ${enum_type.type.name()}_Memos;
    % endfor
 
    % for cls in _self.astnode_types:
-      package ${cls.name()}_Memos is new Liblang_Support.Packrat
+      package ${cls.name()}_Memos is new Langkit_Support.Packrat
         (${cls.name()}, Dec_Ref);
       use ${cls.name()}_Memos;
 
       % if cls in _self.list_types:
-         package List_${cls.name()}_Memos is new Liblang_Support.Packrat
+         package List_${cls.name()}_Memos is new Langkit_Support.Packrat
            (List_${cls.name()}, Dec_Ref);
          use List_${cls.name()}_Memos;
       % endif

@@ -1,6 +1,6 @@
 with Interfaces; use Interfaces;
 
-package body Liblang_Support.Diagnostics is
+package body Langkit_Support.Diagnostics is
 
    ----------------------
    -- To_Pretty_String --
@@ -14,4 +14,4 @@ package body Liblang_Support.Diagnostics is
               & ": " & To_String (D.Message));
    end To_Pretty_String;
 
-end Liblang_Support.Diagnostics;
+end Langkit_Support.Diagnostics;

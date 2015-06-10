@@ -14,7 +14,7 @@
 
 % else:
 
-   package Lists_${decl_type(element_type)} is new Liblang_Support.AST.List
+   package Lists_${decl_type(element_type)} is new Langkit_Support.AST.List
      (Node_Type   => ${decl_type(element_type)}_Type,
       Node_Access => ${decl_type(element_type)});
 

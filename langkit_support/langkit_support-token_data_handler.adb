@@ -1,4 +1,4 @@
-package body Liblang_Support.Token_Data_Handler is
+package body Langkit_Support.Token_Data_Handler is
 
    ----------------
    -- Initialize --
@@ -55,4 +55,4 @@ package body Liblang_Support.Token_Data_Handler is
       TDH.Symbols := null;
    end Free;
 
-end Liblang_Support.Token_Data_Handler;
+end Langkit_Support.Token_Data_Handler;

@@ -247,7 +247,7 @@ class CompileCtx():
         printcol("File setup ...", Colors.OKBLUE)
 
         for d in ["include",
-                  "include/liblang_support",
+                  "include/langkit_support",
                   "include/{}".format(lib_name_low),
                   "obj", "src", "bin",
                   "lib", "lib/gnat"]:
@@ -267,13 +267,13 @@ class CompileCtx():
                 quex_path=os.environ["QUEX_PATH"],
             ))
 
-        # Copy liblang_support sources files to the include prefix and create
+        # Copy langkit_support sources files to the include prefix and create
         # its own project file.
-        for f in itertools.chain(glob("liblang_support/*.adb"),
-                                 glob("liblang_support/*.ads")):
-            shutil.copy(f, path.join(include_path, "liblang_support"))
-        shutil.copy("liblang_support/liblang_support_installed.gpr",
-                    path.join(lib_path, "gnat", "liblang_support.gpr"))
+        for f in itertools.chain(glob("langkit_support/*.adb"),
+                                 glob("langkit_support/*.ads")):
+            shutil.copy(f, path.join(include_path, "langkit_support"))
+        shutil.copy("langkit_support/langkit_support_installed.gpr",
+                    path.join(lib_path, "gnat", "langkit_support.gpr"))
 
         printcol("Compiling the grammar...", Colors.OKBLUE)
 

@@ -1,6 +1,6 @@
-with Liblang_Support.Tokens; use Liblang_Support.Tokens;
+with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 
-package body Liblang_Support.Indent is
+package body Langkit_Support.Indent is
 
    function Find_Start_Column (Line : Unbounded_String) return Natural;
 
@@ -77,4 +77,4 @@ package body Liblang_Support.Indent is
       return 0;
    end Find_Start_Column;
 
-end Liblang_Support.Indent;
+end Langkit_Support.Indent;

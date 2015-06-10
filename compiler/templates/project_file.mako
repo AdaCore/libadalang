@@ -1,4 +1,4 @@
-with "liblang_support";
+with "langkit_support";
 
 library project ${lib_name} is
 

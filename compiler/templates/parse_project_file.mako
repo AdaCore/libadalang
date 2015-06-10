@@ -1,4 +1,4 @@
-with "liblang_support";
+with "langkit_support";
 with "${lib_name.lower()}";
 
 project Parse is

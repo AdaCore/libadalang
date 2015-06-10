@@ -7,7 +7,7 @@ with Ada.Strings.Unbounded.Hash;
 with Interfaces;           use Interfaces;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
-with Liblang_Support.Token_Data_Handler; use Liblang_Support.Token_Data_Handler;
+with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 
 package ${_self.ada_api_settings.lib_name}.Lexer is
 

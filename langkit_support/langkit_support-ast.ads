@@ -1,13 +1,13 @@
 with Interfaces; use Interfaces;
 with System;
 
-with Liblang_Support.Extensions; use Liblang_Support.Extensions;
-with Liblang_Support.Tokens;     use Liblang_Support.Tokens;
-with Liblang_Support.Token_Data_Handler;
-use Liblang_Support.Token_Data_Handler;
-with Liblang_Support.Vectors;
+with Langkit_Support.Extensions; use Langkit_Support.Extensions;
+with Langkit_Support.Tokens;     use Langkit_Support.Tokens;
+with Langkit_Support.Token_Data_Handler;
+use Langkit_Support.Token_Data_Handler;
+with Langkit_Support.Vectors;
 
-package Liblang_Support.AST is
+package Langkit_Support.AST is
 
    type AST_Node_Type is tagged;
    type AST_Node_Access is access all AST_Node_Type;
@@ -29,7 +29,7 @@ package Liblang_Support.AST is
       Dtor      : Extension_Destructor;
    end record;
 
-   package Extension_Vectors is new Liblang_Support.Vectors
+   package Extension_Vectors is new Langkit_Support.Vectors
      (Element_Type => Extension_Slot);
 
    type AST_Node_Type is abstract tagged record
@@ -112,4 +112,4 @@ package Liblang_Support.AST is
    function Is_Empty_List (Node : access AST_Node_Type) return Boolean is
      (False);
 
-end Liblang_Support.AST;
+end Langkit_Support.AST;

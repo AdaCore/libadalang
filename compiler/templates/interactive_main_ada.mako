@@ -12,11 +12,11 @@ with Interfaces; use Interfaces;
 with GNAT.Command_Line; use GNAT.Command_Line;
 with GNAT.Strings;
 
-with Liblang_Support.AST; use Liblang_Support.AST;
-with Liblang_Support.Diagnostics; use Liblang_Support.Diagnostics;
-with Liblang_Support.Indent; use Liblang_Support.Indent;
-with Liblang_Support.Token_Data_Handler; use Liblang_Support.Token_Data_Handler;
-with Liblang_Support.Tokens; use Liblang_Support.Tokens;
+with Langkit_Support.AST; use Langkit_Support.AST;
+with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
+with Langkit_Support.Indent; use Langkit_Support.Indent;
+with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
+with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 with ${_self.ada_api_settings.lib_name}; use ${_self.ada_api_settings.lib_name};
 with ${_self.ada_api_settings.lib_name}.Parsers;
 use ${_self.ada_api_settings.lib_name}.Parsers;
@@ -47,7 +47,7 @@ procedure Parse is
 
    procedure Split_Lines
      (Str   : Unbounded_String;
-      Lines : in out Liblang_Support.Indent.String_Vectors.Vector)
+      Lines : in out Langkit_Support.Indent.String_Vectors.Vector)
    is
       Old_Cursor, Cursor : Natural := 1;
    begin
@@ -86,11 +86,11 @@ procedure Parse is
       for Cur in Lines.Iterate loop
          declare
             Line_Index : constant Natural :=
-               Liblang_Support.Indent.String_Vectors.To_Index (Cur);
+               Langkit_Support.Indent.String_Vectors.To_Index (Cur);
             Line       : constant Unbounded_String :=
-               Liblang_Support.Indent.String_Vectors.Element (Cur);
+               Langkit_Support.Indent.String_Vectors.Element (Cur);
             Level : constant Natural :=
-               Natural (Liblang_Support.Indent.Indent (Engine, Line_Index));
+               Natural (Langkit_Support.Indent.Indent (Engine, Line_Index));
          begin
             Put ((1 .. Level => ' '));
             Put_Line (To_String (Line));
@@ -139,7 +139,7 @@ procedure Parse is
 
       if Indent then
          declare
-            Lines : Liblang_Support.Indent.String_Vectors.Vector;
+            Lines : Langkit_Support.Indent.String_Vectors.Vector;
          begin
             Split_Lines (Input_Str, Lines);
             Do_Indent (AST_Node (Res), Lines'Unrestricted_Access);

@@ -1,4 +1,4 @@
-package body Liblang_Support.Tokens is
+package body Langkit_Support.Tokens is
 
    -------------
    -- Compare --
@@ -36,4 +36,4 @@ package body Liblang_Support.Tokens is
                     else Inside));
    end Compare;
 
-end Liblang_Support.Tokens;
+end Langkit_Support.Tokens;

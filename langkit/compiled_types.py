@@ -4,9 +4,28 @@ from c_api import CAPIType
 from common import get_type, null_constant, is_keyword
 import names
 from template_utils import TemplateEnvironment, common_renderer
-from utils import FieldAccessor, memoized, type_check
+from utils import memoized, type_check
 from python_api import PythonAPIType
 from compile_context import get_context
+
+
+class GeneratedFunction(object):
+    """
+    Simple holder for functions' declaration/implementation generated code
+    """
+    def __init__(self, name, declaration=None, implementation=None):
+        self.name = name
+        self.declaration = declaration
+        self.implementation = implementation
+
+
+class FieldAccessor(GeneratedFunction):
+    """Generated function that expose field read access"""
+    def __init__(self, name, field, field_type, c_declaration, **kwargs):
+        super(FieldAccessor, self).__init__(name, **kwargs)
+        self.field = field
+        self.field_type = field_type
+        self.c_declaration = c_declaration
 
 
 def decl_type(ada_type):

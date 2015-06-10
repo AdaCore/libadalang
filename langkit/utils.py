@@ -1,33 +1,12 @@
+"""
+Langkit: utils.py
+
+This file contains general utility functions. It is basically the support
+library for langkit, aggregating general python utilities that we could not
+find in the standard library
+"""
 from copy import copy
 from itertools import takewhile
-
-
-class GeneratedFunction(object):
-    """
-    Simple holder for functions' declaration/implementation generated code
-    """
-    def __init__(self, name, declaration=None, implementation=None):
-        self.name = name
-        self.declaration = declaration
-        self.implementation = implementation
-
-
-class FieldAccessor(GeneratedFunction):
-    """Generated function that expose field read access"""
-    def __init__(self, name, field, field_type, c_declaration, **kwargs):
-        super(FieldAccessor, self).__init__(name, **kwargs)
-        self.field = field
-        self.field_type = field_type
-        self.c_declaration = c_declaration
-
-
-class GeneratedParser(object):
-    """Simple holder for generated parsers"""
-
-    def __init__(self, name, spec, body):
-        self.name = name
-        self.spec = spec
-        self.body = body
 
 
 class StructEq(object):

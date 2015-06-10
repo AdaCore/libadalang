@@ -9,9 +9,18 @@ from common import gen_name, gen_names, get_token_kind
 import names
 import quex_tokens
 from template_utils import TemplateEnvironment
-from utils import (Colors, common_ancestor, copy_with, GeneratedParser,
-                   printcol, type_check_instance)
+from utils import (Colors, common_ancestor, copy_with, printcol,
+                   type_check_instance)
 from compile_context import get_context
+
+
+class GeneratedParser(object):
+    """Simple holder for generated parsers"""
+
+    def __init__(self, name, spec, body):
+        self.name = name
+        self.spec = spec
+        self.body = body
 
 
 def render(*args, **kwargs):

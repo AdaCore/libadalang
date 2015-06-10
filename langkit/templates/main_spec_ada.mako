@@ -114,7 +114,7 @@ package ${_self.ada_api_settings.lib_name} is
    % for cls in _self.astnode_types:
       % if not cls.abstract:
          ${cls.name()}_Kind : constant AST_Node_Kind :=
-            ${compile_ctx.node_kind_constants[cls]};
+            ${ctx.node_kind_constants[cls]};
       % endif
    % endfor
 

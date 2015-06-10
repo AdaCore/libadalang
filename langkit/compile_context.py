@@ -13,6 +13,22 @@ import quex_tokens
 from utils import Colors, printcol
 
 
+compile_ctx = None
+
+
+def get_context():
+    """
+    Returns the current compilation context. Meant to be used by the rest of
+    LangKit, in any code that has been called as part of the CompileCtx.emit
+    primitive
+    """
+    assert compile_ctx is not None, (
+        "Get context has been called in a state in which the compile context"
+        " is not set"
+    )
+    return compile_ctx
+
+
 def write_cpp_file(file_path, source):
     with open(file_path, "wb") as out_file:
         if find_executable("clang-format"):
@@ -213,17 +229,27 @@ class CompileCtx():
         }
         self.astnode_types.sort(key=lambda cls: keys[cls])
 
-    @property
-    def render_template(self):
+    def render_template(self, *args, **kwargs):
         # Kludge: to avoid circular dependency issues, do not import parsers
         # until needed.
-        from parsers import make_renderer
-        return make_renderer(self).render
+        # TODO: If the render method was dynamically bound, like the compile
+        # context, rather than being explicitly redefined in every module, we
+        # could avoid this, maybe.
+        from parsers import render
+        return render(*args, **kwargs)
 
     def set_grammar(self, grammar):
         self.grammar = grammar
 
     def emit(self, file_root="."):
+        global compile_ctx
+        try:
+            compile_ctx = self
+            self._emit(file_root)
+        finally:
+            compile_ctx = None
+
+    def _emit(self, file_root):
         """
         Emit native code for all the rules in this grammar as a library:
         a library specification and the corresponding implementation.  Also
@@ -265,8 +291,8 @@ class CompileCtx():
                 quex_path=os.environ["QUEX_PATH"],
             ))
 
-        # Copy langkit_support sources files to the include prefix and create
-        # its own project file.
+        # Copy langkit_support sources files to the include prefix and
+        # create its own project file.
         for f in itertools.chain(glob("langkit_support/*.adb"),
                                  glob("langkit_support/*.ads")):
             shutil.copy(f, path.join(include_path, "langkit_support"))
@@ -277,10 +303,10 @@ class CompileCtx():
 
         with names.camel_with_underscores:
             for r_name, r in self.grammar.rules.items():
-                r.compute_fields_types(self)
+                r.compute_fields_types()
 
             for r_name, r in self.grammar.rules.items():
-                r.compile(self)
+                r.compile()
                 self.rules_to_fn_names[r_name] = r
 
         self.compute_astnode_types()
@@ -315,15 +341,17 @@ class CompileCtx():
                     write_ada_file(
                         src_path, kind, qual_name,
                         self.render_template(
-                            "{}_{}_ada".format(template_base_name, kind_name),
-                            compile_ctx=self, _self=self,
-                            token_map=quex_tokens.token_map)
+                            "{}_{}_ada".format(
+                                template_base_name, kind_name
+                            ),
+                            _self=self, token_map=quex_tokens.token_map
+                        )
                     )
 
-            write_ada_file(path.join(file_root, "src"), ada_body, ["parse"],
-                           self.render_template(
-                               "interactive_main_ada", compile_ctx=self,
-                               _self=self))
+            write_ada_file(
+                path.join(file_root, "src"), ada_body, ["parse"],
+                self.render_template("interactive_main_ada", _self=self)
+            )
 
         with names.lower:
             # ... and the Quex C interface
@@ -368,10 +396,7 @@ class CompileCtx():
     def emit_c_api(self, src_path, include_path):
         """Generate header and binding body for the external C API"""
         def render(template_name):
-            return self.render_template(
-                template_name, compile_ctx=self,
-                _self=self,
-            )
+            return self.render_template(template_name, _self=self)
 
         with names.lower:
             write_cpp_file(

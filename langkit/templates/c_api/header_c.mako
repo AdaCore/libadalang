@@ -29,7 +29,7 @@ typedef enum {
 % for astnode in _self.astnode_types:
     % if not astnode.abstract:
         ${capi.get_name(astnode.name())}
-          = ${compile_ctx.node_kind_constants[astnode]},
+          = ${ctx.node_kind_constants[astnode]},
     % endif
 % endfor
 } ${node_kind_type};

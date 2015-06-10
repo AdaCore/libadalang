@@ -21,27 +21,6 @@ class FieldAccessor(GeneratedFunction):
         self.c_declaration = c_declaration
 
 
-class TypeDeclaration(object):
-    """Simple holder for generated type declarations"""
-
-    def __init__(self, type, public_part, private_part):
-        self.type = type
-        self.public_part = public_part
-        self.private_part = private_part
-
-    @staticmethod
-    def render(renderer, template_name, t_env, type, **kwargs):
-        """
-        Helper to create a TypeDeclaration out of the instantiations of a
-        single template.
-        """
-        public_part = renderer.render(template_name, t_env, private_part=False,
-                                      **kwargs)
-        private_part = renderer.render(template_name, t_env, private_part=True,
-                                       **kwargs)
-        return TypeDeclaration(type, public_part, private_part)
-
-
 class GeneratedParser(object):
     """Simple holder for generated parsers"""
 

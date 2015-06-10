@@ -22,7 +22,7 @@ if ${parser_context.pos_var_name} /= -1 then
                         then ${pos_name}
                         else ${parser_context.pos_var_name} - 1);
 
-   % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types(_compile_ctx)):
+   % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types()):
       ## Set children fields into the created node
       ${res}.F_${f.name} := ${arg};
 

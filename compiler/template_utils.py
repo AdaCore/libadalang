@@ -4,7 +4,7 @@ import sys
 import mako.exceptions
 from mako.template import Template
 
-from common import LANGUAGE, string_repr, get_type, null_constant, is_keyword
+from common import string_repr, get_type, null_constant
 import names
 
 

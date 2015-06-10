@@ -1,6 +1,5 @@
 from copy import copy
 from itertools import takewhile
-import types
 
 
 class GeneratedFunction(object):

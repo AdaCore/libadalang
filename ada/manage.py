@@ -13,7 +13,6 @@ from env import setenv
 setenv()
 
 from gnatpython import fileutils
-from gnatpython.ex import which
 from ada_api import AdaAPISettings
 from c_api import CAPISettings
 from compile_context import CompileCtx

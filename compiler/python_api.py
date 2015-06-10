@@ -1,6 +1,3 @@
-import names
-
-
 class PythonAPIType(object):
     """
     Python API generation helper: encapsulate the logic of Python types names

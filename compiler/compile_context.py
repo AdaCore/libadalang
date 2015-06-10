@@ -8,7 +8,6 @@ from os import path, environ
 import shutil
 import sys
 import subprocess
-import tempfile
 
 import quex_tokens
 from utils import Colors, printcol
@@ -201,7 +200,6 @@ class CompileCtx():
 
     def compute_astnode_types(self):
         """Compute the "astnode_types" field"""
-        from parsers import ASTNode
         self.astnode_types = [astnode
                               for astnode in self.ast_fields_types.keys()]
         # Sort them in dependency order as required but also then in

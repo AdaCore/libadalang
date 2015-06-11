@@ -1,8 +1,4 @@
 import os.path
-import pipes
-
-from gnatpython import fileutils
-from gnatpython.ex import Run, STDOUT
 
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, SetupError,

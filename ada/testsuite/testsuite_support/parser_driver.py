@@ -1,10 +1,3 @@
-import os.path
-import pipes
-import subprocess
-
-from gnatpython.ex import Run, STDOUT
-import gnatpython.fileutils as fileutils
-
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, SetupError,
 )
@@ -30,8 +23,6 @@ class ParserDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        opts = self.global_env['options']
-
         parse_argv = ['parse']
 
         self.check_file('input')

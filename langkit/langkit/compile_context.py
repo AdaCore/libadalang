@@ -307,11 +307,14 @@ class CompileCtx():
 
         # Copy langkit_support sources files to the include prefix and
         # create its own project file.
-        for f in itertools.chain(glob("langkit_support/*.adb"),
-                                 glob("langkit_support/*.ads")):
-            shutil.copy(f, path.join(include_path, "langkit_support"))
-        shutil.copy("langkit_support/langkit_support_installed.gpr",
-                    path.join(lib_path, "gnat", "langkit_support.gpr"))
+        from os.path import dirname, abspath, join
+        lngk_support_dir = join(dirname(dirname(abspath(__file__))), "support")
+
+        for f in itertools.chain(glob(join(lngk_support_dir, "*.adb")),
+                                 glob(join(lngk_support_dir, "*.ads"))):
+            shutil.copy(f, join(include_path, "langkit_support"))
+        shutil.copy(join(lngk_support_dir, "langkit_support_installed.gpr"),
+                    join(lib_path, "gnat", "langkit_support.gpr"))
 
         printcol("Compiling the grammar...", Colors.OKBLUE)
 
@@ -392,7 +395,7 @@ class CompileCtx():
                 os.mkdir(python_path)
             self.emit_python_api(python_path)
 
-        printcol("Compiling the quex lexer specification", Colors.OKBLUE)
+        printcol("Compiling the quex lexer specificat oution", Colors.OKBLUE)
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 

@@ -1,7 +1,7 @@
-from parsers import Opt, List, Or, Row, _, TokClass, Null
-from compiled_types import Field, abstract
-from ada_parser.exprs import LoopSpec, Expr
-from ada_parser import A
+from langkit.parsers import Opt, List, Or, Row, _, TokClass, Null
+from langkit.compiled_types import Field, abstract
+from language.parser.exprs import LoopSpec, Expr
+from language.parser import A
 from tokenizer import Lbl
 from . import AdaNode
 

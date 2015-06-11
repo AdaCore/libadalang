@@ -1,6 +1,6 @@
-from ada_parser import A
-from parsers import Opt, List, Or, Row, _, Enum, Tok
-from compiled_types import Field, EnumType, abstract, indent_rel
+from language.parser import A
+from langkit.parsers import Opt, List, Or, Row, _, Enum, Tok
+from langkit.compiled_types import Field, EnumType, abstract, indent_rel
 from . import AdaNode
 
 

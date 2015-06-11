@@ -1,6 +1,6 @@
-from parsers import Opt, List, Or, Row, Enum, Tok, TokClass, Null
-from compiled_types import Field, abstract, EnumType
-from ada_parser import A
+from langkit.parsers import Opt, List, Or, Row, Enum, Tok, TokClass, Null
+from langkit.compiled_types import Field, abstract, EnumType
+from language.parser import A
 from tokenizer import Id, CharLit, StringLit, NumLit
 from . import AdaNode
 

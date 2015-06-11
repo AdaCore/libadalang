@@ -1,5 +1,5 @@
-from parsers import Grammar
-from compiled_types import abstract, ASTNode
+from langkit.parsers import Grammar
+from langkit.compiled_types import abstract, ASTNode
 
 ada_grammar = Grammar()
 A = ada_grammar

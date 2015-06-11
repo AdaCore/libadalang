@@ -13,7 +13,7 @@ library project Langkit_Support is
    for Externally_Built use Is_Externally_Built;
 
    for Languages use ("Ada");
-   for Library_Name use "lang_support";
+   for Library_Name use "langkit_support";
    for Library_Kind use Library_Kind_Param;
    for Library_Interface use
      ("Langkit_Support",

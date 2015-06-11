@@ -1,4 +1,4 @@
-from compiled_types import Token
+from langkit.compiled_types import Token
 
 
 class NumLit(Token):

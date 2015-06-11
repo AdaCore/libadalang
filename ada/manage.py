@@ -13,11 +13,12 @@ from env import setenv
 setenv()
 
 from gnatpython import fileutils
-from ada_api import AdaAPISettings
-from c_api import CAPISettings
-from compile_context import CompileCtx
-from python_api import PythonAPISettings
-from utils import Colors, printcol
+from langkit.ada_api import AdaAPISettings
+from langkit.c_api import CAPISettings
+from langkit.compile_context import CompileCtx
+from langkit.python_api import PythonAPISettings
+from langkit.utils import Colors, printcol
+import langkit
 
 
 class Directories(object):
@@ -27,9 +28,7 @@ class Directories(object):
 
     def __init__(self, args):
         self.args = args
-        self.root_dir = os.path.dirname(os.path.dirname(
-            os.path.abspath(__file__)
-        ))
+        self.root_dir = os.path.dirname(os.path.abspath(__file__))
 
     @property
     def root_source_dir(self):
@@ -52,6 +51,13 @@ class Directories(object):
     def install_dir(self, *args):
         return os.path.join(self.root_install_dir, *args)
 
+    def langkit_source_dir(self, *args):
+        """
+        Returns the base source directory for langkit. This would have to be
+        altered if the directory structure was to change
+        """
+        return os.path.dirname(os.path.abspath(langkit.__file__))
+
 
 class Coverage(object):
     """
@@ -69,8 +75,8 @@ class Coverage(object):
                 self.dirs.source_dir('ada'),
             ],
             omit=[
-                self.dirs.source_dir('langkit', 'build.py'),
-                self.dirs.source_dir('langkit', 'env.py'),
+                self.dirs.langkit_source_dir('langkit', 'build.py'),
+                self.dirs.langkit_source_dir('langkit', 'env.py'),
             ],
         )
 
@@ -109,7 +115,7 @@ def get_cpu_count():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    lexer_file = dirs.source_dir('ada', 'ada.qx')
+    lexer_file = dirs.source_dir('language', 'ada.qx')
     ada_api_settings = AdaAPISettings('Libadalang')
     c_api_settings = CAPISettings(
         'libadalang',
@@ -123,12 +129,12 @@ def generate(args, dirs):
                          python_api_settings,
                          verbose=args.verbose)
 
-    from ada_parser import A
-    import ada_parser.decl
-    import ada_parser.types
-    import ada_parser.exprs
-    import ada_parser.bodies
-    del ada_parser
+    from language.parser import A
+    import language.parser.decl
+    import language.parser.types
+    import language.parser.exprs
+    import language.parser.bodies
+    del language
     # Import all the modules in which the grammar rules are defined, and then
     # delete the module. This way we know that we only import them for side
     # effects - the grammar is extended by every imported module.

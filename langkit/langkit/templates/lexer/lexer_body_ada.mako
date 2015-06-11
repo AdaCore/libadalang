@@ -153,10 +153,10 @@ begin
 
       Entries : constant array (Natural range <>) of Entry_Type :=
         (
-       % for tok_name, _ in token_map.tokens.items():
-           (Id   => ${token_map.TOKEN_PREFIX + tok_name},
+       % for tok in get_context().lexer.tokens_class:
+           (Id   => ${get_context().lexer.token_name(tok)},
             Text => To_Unbounded_String
-              ("${token_map.names_to_str.get(tok_name, tok_name.lower())}"))
+              ("${tok.name}"))
            % if (not loop.last):
                ,
            % endif

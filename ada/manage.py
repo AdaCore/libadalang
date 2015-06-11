@@ -49,7 +49,8 @@ class Directories(object):
 
     def langkit_source_dir(self, *args):
         """
-        Build and return the path for ARGS under the root source directory for langkit.
+        Build and return the path for ARGS under the root source directory for
+        langkit.
         """
         langkit_python_dir = os.path.dirname(os.path.abspath(langkit.__file__))
         return os.path.join(os.path.dirname(langkit_python_dir), *args)
@@ -129,7 +130,6 @@ def get_cpu_count():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    lexer_file = dirs.ada_source_dir('language', 'ada.qx')
     ada_api_settings = AdaAPISettings('Libadalang')
     c_api_settings = CAPISettings(
         'libadalang',
@@ -137,7 +137,7 @@ def generate(args, dirs):
     )
     python_api_settings = (PythonAPISettings('libadalang', c_api_settings)
                            if 'python' in args.bindings else None)
-    context = CompileCtx('ada', lexer_file, 'compilation_unit',
+    context = CompileCtx('ada', 'compilation_unit',
                          ada_api_settings,
                          c_api_settings,
                          python_api_settings,
@@ -148,12 +148,14 @@ def generate(args, dirs):
     import language.parser.types
     import language.parser.exprs
     import language.parser.bodies
+    from language.parser.lexer import ada_lexer
     del language
     # Import all the modules in which the grammar rules are defined, and then
     # delete the module. This way we know that we only import them for side
     # effects - the grammar is extended by every imported module.
 
     context.set_grammar(A)
+    context.set_lexer(ada_lexer)
 
     printcol("Generating source for libadalang ...", Colors.HEADER)
     context.emit(file_root=dirs.build_dir())

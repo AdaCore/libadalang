@@ -1,8 +1,8 @@
-from langkit.parsers import Opt, List, Or, Row, Enum, Tok, TokClass, Null
+from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 from langkit.compiled_types import Field, abstract, EnumType
 from language.parser import A
-from tokenizer import Id, CharLit, StringLit, NumLit
 from . import AdaNode
+from language.parser.lexer import Token
 
 
 @abstract
@@ -220,12 +220,12 @@ class RaiseExpression(Expr):
 
 
 A.add_rules(
-    identifier=TokClass(Id, keep=True) ^ Identifier,
-    enum_identifier=TokClass(Id, keep=True) ^ EnumIdentifier,
-    char_literal=TokClass(CharLit, keep=True) ^ CharLiteral,
-    string_literal=TokClass(StringLit, keep=True) ^ StringLiteral,
-    num_literal=TokClass(NumLit, keep=True) ^ NumLiteral,
-    null_literal=Tok("null", keep=True) ^ NullLiteral,
+    identifier=Tok(Token.Identifier, keep=True) ^ Identifier,
+    enum_identifier=Tok(Token.Identifier, keep=True) ^ EnumIdentifier,
+    char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,
+    string_literal=Tok(Token.String, keep=True) ^ StringLiteral,
+    num_literal=Tok(Token.Number, keep=True) ^ NumLiteral,
+    null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
     allocator=Row(
         "new", Opt("(", A.name, ")")[1], A.type_expression | A.name

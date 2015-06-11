@@ -1,0 +1,435 @@
+from template_utils import common_renderer
+from common import TOKEN_PREFIX
+from enum import Enum
+
+
+class PredefTokens(Enum):
+    Termination = 0
+
+Term = PredefTokens.Termination
+
+
+class Matcher(object):
+    """
+    Base class for a matcher. A matcher specificies in which case a given
+    input will trigger a match.
+    """
+
+    def render(self, lexer):
+        """
+        Render method to be overloaded in subclasses
+
+        :param Lexer lexer: The instance of the lexer from which this render
+          function has been called.
+        :rtype: str
+        """
+        raise NotImplemented()
+
+
+class Action(object):
+    """
+    Base class for an action. An action specificies what to do with a given
+    match.
+    """
+    def render(self, lexer):
+        """
+        Render method to be overloaded in subclasses
+
+        :param Lexer lexer: The instance of the lexer from which this render
+          function has been called.
+        :rtype: str
+        """
+        raise NotImplemented()
+
+
+class TokenAction(Action):
+    """
+    Base class for an action that sends a token. You can get said token via the
+    .token property
+    """
+
+    def __init__(self, token_val):
+        self.token_val = token_val
+
+    @property
+    def token(self):
+        return self.token_val
+
+
+class Patterns(object):
+    """
+    This is just a wrapper class, instantiated so that we can setattr patterns
+    on it and the user can then type::
+
+        mylexer.patterns.my_pattern
+
+    To refer to a pattern
+    """
+    pass
+
+
+class Lexer(object):
+    """
+    This is the main lexer object, through which you will define your Lexer.
+    At initialization time, you will need to provide an enum class to it, that
+    will be used to identify the different kinds of tokens that your lexer can
+    generate. This is a simple example for a simple calculator's lexer::
+
+        from enum import Enum
+        class TokenKind(Enum):
+            Plus = 1
+            Minus = 2
+            Times = 3
+            Div = 4
+            Number = 5
+
+        l = Lexer(TokenKind)
+
+    You can add patterns to it, that are shortcuts to regex patterns, and that
+    can refer to each others, like so::
+
+        l.add_patterns(
+            ('digit', r"[0-9]"),
+            ('integer', r"({digit}(_?{digit})*)"),
+        )
+
+    Note that this is not necessary, just a convenient shortcut. After that
+    you'll be able to define the match rules for your lexer, via the
+    `add_rules` function::
+
+        l.add_rules((
+            (Literal("+"),       NoText(TokenKind.Plus))
+            (Literal("-"),       NoText(TokenKind.Minus))
+            (Literal("*"),       NoText(TokenKind.Times))
+            (Literal("/"),       NoText(TokenKind.Div))
+            (l.patterns.integer, WithText(TokenKind.Number))
+        ))
+
+    After that, your lexer is complete ! You can use it in your parser to
+    generate parse trees.
+    """
+
+    class PredefPattern(Matcher):
+        def __init__(self, name, pattern):
+            self.name = name
+            self.pattern = pattern
+
+        def render(self, lexer):
+            return "{{{}}}".format(self.name)
+
+    def __init__(self, tokens_class):
+        self.tokens_class = tokens_class
+        self.patterns = Patterns()
+        self.__patterns = []
+        self.rules = []
+        self.tokens_set = set.union(
+            {el.name.lower() for el in self.tokens_class},
+            {el.name.lower() for el in PredefTokens}
+        )
+        # This map will keep a mapping from literal matches to token kind
+        # values, so that you can find back those values if you have the
+        # literal that corresponds to it.
+        self.literals_map = {}
+
+        # TODO: Allow configuration of this prefix through __init__
+        self.prefix = TOKEN_PREFIX
+
+    def add_patterns(self, *patterns):
+        """
+        Add the list of named patterns to the lexer's internal patterns. A
+        named pattern is a pattern that you can refer to through the {}
+        notation in another pattern, or directly via the lexer instance::
+
+        l.add_patterns(
+            ('digit', r"[0-9]"),
+            ('integer', r"({digit}(_?{digit})*)"),
+        )
+
+        l.add_rules(
+            (l.patterns.integer, WithText(TokenKind.Number))
+            (Pattern("{integer}(\.{integer})?"), WithText(TokenKind.Number))
+        )
+
+        Please note that the order of addition matters if you want to refer to
+        patterns in other patterns
+
+        :param list[(str, str)] patterns: The list of patterns to add.
+        """
+        for k, v in patterns:
+            predef_pattern = Lexer.PredefPattern(k, v)
+            setattr(self.patterns, k.lower(), predef_pattern)
+            self.__patterns.append(predef_pattern)
+
+    def add_rules(self, *rules):
+        """
+        Add the list of rules to the lexer's internal list of rules. A rule is
+        either:
+          - A tuple of a Matcher and an Action to execute on this matcher. This
+            is the common case
+          - An instance of a class derived from `MatcherAssoc`. This is used to
+            implement custom matching behaviour, such as in the case of `Case`.
+
+        Please note that the order of addition matters. It will determine which
+        rules are tried first by the lexer, so you could in effect make some
+        rules 'dead' if you are not careful.
+
+        :param rules: The list of rules to add.
+        :type rules: list[(Matcher, Action)|RuleAssoc]
+        """
+
+        for matcher_assoc in rules:
+            if type(matcher_assoc) is tuple:
+                assert len(matcher_assoc) == 2
+                matcher, action = matcher_assoc
+                self.rules.append(RuleAssoc(matcher, action))
+            else:
+                assert isinstance(matcher_assoc, RuleAssoc)
+                self.rules.append(matcher_assoc)
+
+            m, a = self.rules[-1].matcher, self.rules[-1].action
+            if isinstance(m, Literal) and isinstance(a, TokenAction):
+                # Add a mapping from the literal representation of the token to
+                # itself, so that we can find tokens via their literal
+                # representation.
+                self.literals_map[m.to_match] = a.token
+
+    def emit(self, file_name):
+        """
+        Emit the .qx file corresponding to this lexer specification. This
+        function is not to be called by the client, and will be called by
+        langkit when needed.
+
+        :param str file_name: The full path to the file in which to write
+        """
+        with open(file_name, "w") as f:
+            f.write(common_renderer.render(
+                "lexer/quex_lexer_spec",
+                tokens_class=self.tokens_class,
+                patterns=self.__patterns,
+                rules=self.rules,
+                lexer=self
+            ))
+
+    def token_name(self, token):
+        """
+        Helper function to get a token's internal name from an instance of the
+        token enum class, or from it's string representation (case
+        insensitive).
+
+        :param Enum|str token: The instance of the token enum class
+        :rtype: str
+        """
+        if isinstance(token, (self.tokens_class, PredefTokens)):
+            name = token.name.upper()
+        else:
+            assert isinstance(token, str), (
+                "Bad type for {}, supposed to be str|{}".format(
+                    token, self.tokens_class
+                )
+            )
+            if token in self.tokens_set:
+                name = token.upper()
+            elif token in self.literals_map:
+                name = self.literals_map[token].name
+            else:
+                raise Exception(
+                    "{} token literal is not part of the valid tokens for "
+                    "this grammar".format(token)
+                )
+
+        return "{}{}".format(self.prefix, name.upper())
+
+
+class NoText(TokenAction):
+    """
+    Action. The action creates a new token with no text. The
+    corresponding text is then discarded.
+    """
+
+    def __init__(self, token_val):
+        super(NoText, self).__init__(token_val)
+
+    def render(self, lexer):
+        return "=> {};".format(lexer.token_name(self.token_val))
+
+
+class WithText(TokenAction):
+    """
+    Action. The action creates a new token with the text
+    corresponding to the match.
+    """
+    def __init__(self, token_val):
+        super(WithText, self).__init__(token_val)
+
+    def render(self, lexer):
+        return "=> {}(Lexeme);".format(
+            lexer.token_name(self.token_val)
+        )
+
+
+class Literal(Matcher):
+    """
+    Matcher. This matcher will match the string given in parameter,
+    literally. This means that characters which would be special in a
+    Pattern will be regular characters here::
+
+        Pattern("a+")   # Matches one or more a
+        Literal("a+")   # Matches "a" followed by "+"
+    """
+    def __init__(self, to_match):
+        self.to_match = to_match
+
+    def render(self, lexer):
+        return '"{}"'.format(self.to_match)
+
+
+class Pattern(Matcher):
+    """
+    Matcher. This will match a regular expression like pattern. Since the
+    lexer DSL uses Quex underneath, you can find more documentation about
+    the recognized regular expression language here:
+
+       `Quex pattern language
+       <http://quex.sourceforge.net/doc/html/usage/patterns/context-free.html>`_
+    """
+
+    def __init__(self, pattern):
+        self.pattern = pattern
+
+    def render(self, lexer):
+        return self.pattern
+
+
+class NoCase(Matcher):
+    """
+    Matcher. This is a shortcut for a case insensitive pattern, so that::
+
+        Pattern(r"\C{abcd}")
+
+    is equivalent to::
+
+        NoCase("abcd")
+    """
+
+    def __init__(self, to_match):
+        self.to_match = to_match
+
+    def render(self, lexer):
+        return '\C{{{}}}'.format(self.to_match)
+
+
+class Eof(Matcher):
+    """
+    Matcher. Matches the end of the file/input stream.
+    """
+    def __init__(self):
+        pass
+
+    def render(self, lexer):
+        return "<<EOF>>"
+
+
+class Failure(Matcher):
+    """
+    Matcher. Matches a case of failure in the lexer.
+    """
+    def __init__(self):
+        pass
+
+    def render(self, lexer):
+        return "on_failure"
+
+
+class Ignore(Action):
+    """
+    Action. Basically ignore the matched text.
+    """
+    def render(self, lexer):
+        return "{ }"
+
+
+class RuleAssoc(object):
+    """
+    Base class for a matcher -> action association. This class should not be
+    used directly, since you can provide a tuple to add_rules, that will be
+    expanded to a RuleAssoc.
+    """
+    def __init__(self, matcher, action):
+        self.matcher = matcher
+        self.action = action
+
+    def render(self, lexer):
+        return "{} {}".format(
+            self.matcher.render(lexer),
+            self.action.render(lexer)
+        )
+
+
+class Alt(object):
+    """
+    Holder class used to specify the alternatives to a Case rule. Can only
+    be used in this context.
+    """
+    def __init__(self, prev_token_cond=None, send=None, match_size=None):
+        self.prev_token_cond = prev_token_cond
+        self.send = send
+        self.match_size = match_size
+
+
+class Case(RuleAssoc):
+    """
+    Special rule association that enables dispatching the action depending
+    on the previously parsed token. The canonical example is the one for
+    which this class was added: In the Ada language, a tick character can be
+    used either as the start of a character literal, or as an attribute
+    expression.
+
+    One way to disambiguate is by looking at the previous token. An
+    attribute expression can only happen is the token to the left is an
+    identifier or the "all" keyword. In the rest of the cases, a tick will
+    correspond to a character literal, or be a lexing error.
+
+    We can express that with the case rule this way::
+
+        Case(Pattern("'.'"),
+             Alt(prev_token_cond=(Token.Identifier, Token.All),
+                 send=Token.Tick,
+                 match_size=1),
+             Alt(send=Token.Char, match_size=3)),
+
+    If the previous token is an Identifier or an All, then we send
+    Token.Tick, with a match size of 1. We need to specify that because if
+    the lexer arrived here, it matched one tick, any char, and another tick,
+    so it needs to rewind back to the first tick.
+
+    Else, then we matched a regular character literal. We send it.
+    """
+
+    class CaseAction(Action):
+        def __init__(self, max_match_len, *alts):
+            self.max_match_len = max_match_len
+            assert all(isinstance(a, Alt) for a in alts), (
+                "Invalid alternative to Case matcher"
+            )
+            assert alts[-1].prev_token_cond is None, (
+                "The last alternative to a case matcher "
+                "must have no prev token condition"
+            )
+            self.alts = alts[:-1]
+            self.last_alt = alts[-1]
+
+        def render(self, lexer):
+            return common_renderer.render(
+                "lexer/case_action",
+                alts=self.alts,
+                last_alt=self.last_alt,
+                max_match_len=self.max_match_len,
+                lexer=lexer
+            )
+
+    def __init__(self, matcher, *alts):
+        # TODO: Add check on the matcher to verify that it is constant length,
+        # eg. No +/* patterns. If possible. Might be hard to verify !
+        super(Case, self).__init__(
+            matcher, Case.CaseAction(len(matcher.pattern), *alts)
+        )

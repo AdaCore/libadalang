@@ -23,7 +23,6 @@ import shutil
 import sys
 import subprocess
 
-import quex_tokens
 from utils import Colors, printcol
 
 
@@ -72,15 +71,13 @@ def write_ada_file(path, source_kind, qual_name, source):
 class CompileCtx():
     """State holder for native code emission"""
 
-    def __init__(self, lang_name, lexer_file, main_rule_name,
+    def __init__(self, lang_name, main_rule_name,
                  ada_api_settings, c_api_settings,
                  python_api_settings=None,
                  verbose=False):
         """Create a new context for code emission
 
         lang_name: Name of the target language.
-
-        lexer_file: Filename for the Quex lexer specification.
 
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
@@ -110,8 +107,8 @@ class CompileCtx():
         # Grammar instance
         self.grammar = None
 
-        self.lexer_file = lexer_file
-        quex_tokens.init_token_map(lexer_file)
+        # Lexer instance
+        self.lexer = None
 
         self.python_api_settings = python_api_settings
 
@@ -255,6 +252,9 @@ class CompileCtx():
     def set_grammar(self, grammar):
         self.grammar = grammar
 
+    def set_lexer(self, lexer):
+        self.lexer = lexer
+
     def emit(self, file_root="."):
         global compile_ctx
         try:
@@ -271,7 +271,6 @@ class CompileCtx():
         testing purposes.
         """
         assert self.grammar, "Set grammar before calling emit"
-        assert self.lexer_file, "Set lexer before calling emit"
 
         lib_name_low = self.ada_api_settings.lib_name.lower()
 
@@ -361,7 +360,7 @@ class CompileCtx():
                             "{}_{}_ada".format(
                                 template_base_name, kind_name
                             ),
-                            _self=self, token_map=quex_tokens.token_map
+                            _self=self,
                         )
                     )
 
@@ -395,12 +394,15 @@ class CompileCtx():
                 os.mkdir(python_path)
             self.emit_python_api(python_path)
 
-        printcol("Compiling the quex lexer specificat oution", Colors.OKBLUE)
+        printcol("Compiling the quex lexer specification", Colors.OKBLUE)
+
+        quex_file = os.path.join(src_path, "{}.qx".format(self.lang_name))
+        self.lexer.emit(quex_file)
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
 
         subprocess.check_call([sys.executable, quex_py_file, "-i",
-                               self.lexer_file,
+                               quex_file,
                                "--engine", "quex_lexer",
                                "--token-id-offset",  "0x1000",
                                "--language", "C",

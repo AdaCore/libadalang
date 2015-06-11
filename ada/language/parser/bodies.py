@@ -1,8 +1,8 @@
-from langkit.parsers import Opt, List, Or, Row, _, TokClass, Null
+from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
 from langkit.compiled_types import Field, abstract
 from language.parser.exprs import LoopSpec, Expr
 from language.parser import A
-from tokenizer import Lbl
+from language.parser.lexer import Token
 from . import AdaNode
 
 
@@ -397,7 +397,7 @@ A.add_rules(
     statements=List(Or(Row(A.statement, Opt(";").error())[0],
                        A.label), empty_valid=True),
 
-    label=TokClass(Lbl) ^ Label,
+    label=Tok(Token.Label) ^ Label,
 
     statement=Or(A.compound_statement, A.simple_statement),
 

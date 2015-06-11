@@ -18,7 +18,7 @@ if ${res}.Id /= ${token_kind} then
 else
 ## We don't want to increment the position if we are matching the termination
 ## token (eg. the last token in the token stream)
-% if token_kind == get_token_kind('TERMINATION'):
+% if token_kind == get_context().lexer.token_name('termination'):
     ${pos} := ${pos_name};
 ## Else increment the current position
 % else:

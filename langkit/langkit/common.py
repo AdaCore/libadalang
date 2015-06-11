@@ -6,16 +6,6 @@ LANGUAGE = "ada"
 
 TOKEN_PREFIX = "QUEX_TKN_"
 
-
-def get_token_kind(token_suffix):
-    """
-    Given a suffix `token_suffix`, returns the corresponding token kind,
-    which is equal to TOKEN_PREFIX + token_suffix
-    :param str|unicode token_suffix: The suffix identifiying the token kind
-    :return: The full token kind name
-    """
-    return TOKEN_PREFIX + token_suffix
-
 languages_extensions = {
     "ada": "adb",
     "cpp": "cpp",

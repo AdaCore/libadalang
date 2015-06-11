@@ -259,16 +259,16 @@ A.add_rules(
     ),
 
     generic_formal_part=Row(
-        "generic", List(Row(A.generic_formal_decl | A.use_decl, ";") >> 0,
+        "generic", List(Row(A.generic_formal_decl | A.use_decl, ";")[0],
                         empty_valid=True)
-    ) >> 1,
+    )[1],
 
     generic_formal_decl=Or(
         A.pragma,
         A.object_decl,
         A.full_type_decl,
         A.formal_subp_decl,
-        Row("with", A.generic_instantiation) >> 1
+        Row("with", A.generic_instantiation)[1]
     ),
 
     formal_subp_decl=Row(
@@ -289,7 +289,7 @@ A.add_rules(
     generic_instantiation=Row(
         _(Or("package", "function", "procedure")), A.static_name, "is",
         "new", A.static_name,
-        Opt("(", A.call_suffix, ")") >> 1,
+        Opt("(", A.call_suffix, ")")[1],
         A.aspect_specification
     ) ^ GenericInstantiation,
 
@@ -298,7 +298,7 @@ A.add_rules(
         Opt(A.renaming_clause), A.aspect_specification
     ) ^ ExceptionDecl,
 
-    basic_decls=List(Row(A.basic_decl, ";") >> 0, empty_valid=True),
+    basic_decls=List(Row(A.basic_decl, ";")[0], empty_valid=True),
 
     package_renaming_decl=Row(
         "package", A.static_name, A.renaming_clause, A.aspect_specification
@@ -307,7 +307,7 @@ A.add_rules(
     package_decl=Row(
         "package", A.static_name, A.aspect_specification, "is",
         A.basic_decls,
-        Opt("private", A.basic_decls ^ PrivatePart) >> 1,
+        Opt("private", A.basic_decls ^ PrivatePart)[1],
         "end", Opt(A.static_name)
     ) ^ PackageDecl,
 
@@ -357,7 +357,7 @@ A.add_rules(
     ) ^ NumberDecl,
 
     aspect_assoc=Row(
-        A.name, Opt("=>", A.expression) >> 1
+        A.name, Opt("=>", A.expression)[1]
     ) ^ AspectAssoc,
 
     aspect_specification=Opt(
@@ -373,7 +373,7 @@ A.add_rules(
     ) ^ ProtectedDecl,
 
     task_decl=Row("task", A.identifier, A.aspect_specification,
-                  Opt("is", A.task_def) >> 1) ^ TaskDecl,
+                  Opt("is", A.task_def)[1]) ^ TaskDecl,
 
     overriding_indicator=Or(
         Enum("overriding", Overriding("overriding")),
@@ -385,7 +385,7 @@ A.add_rules(
         A.overriding_indicator,
         "entry",
         A.identifier,
-        Opt("(", A.type_ref, ")") >> 1,
+        Opt("(", A.type_ref, ")")[1],
         Opt(A.parameter_profiles),
         A.aspect_specification
     ) ^ EntryDecl,
@@ -401,8 +401,8 @@ A.add_rules(
         Row("for", A.static_name, "use", A.aggregate) ^ EnumRepClause,
 
         Row("for", A.static_name, "use", "record",
-            Opt("at", "mod", A.simple_expr) >> 2,
-            List(Row(A.rep_component_clause, ";") >> 0, empty_valid=True),
+            Opt("at", "mod", A.simple_expr)[2],
+            List(Row(A.rep_component_clause, ";")[0], empty_valid=True),
             "end", "record") ^ RecordRepClause,
 
         Row("for", A.direct_name, "use", "at", A.expression) ^ AtClause
@@ -414,10 +414,10 @@ A.add_rules(
         Opt("aliased").as_bool(),
         Opt(A.in_out),
         A.type_expression,
-        Opt(":=", A.expression) >> 1,
+        Opt(":=", A.expression)[1],
     ) ^ ParameterProfile,
 
-    parameter_profiles=Row("(", List(A.parameter_profile, sep=";"), ")") >> 1,
+    parameter_profiles=Row("(", List(A.parameter_profile, sep=";"), ")")[1],
 
     subprogram_spec=Row(
         _(Or("procedure", "function")),
@@ -427,7 +427,7 @@ A.add_rules(
                 List(A.parameter_profile, sep=";"),
                 Opt(")").error()) ^ SubprogramParams
         ),
-        Opt("return", A.type_expression) >> 1
+        Opt("return", A.type_expression)[1]
     ) ^ SubprogramSpec,
 
     test_spec=List(A.subprogram_spec, sep=";"),
@@ -437,7 +437,7 @@ A.add_rules(
         A.subprogram_spec,
         Opt("is", "null").as_bool(),
         Opt("is", "abstract").as_bool(),
-        Opt("is", A.expression) >> 1,
+        Opt("is", A.expression)[1],
         Opt(A.renaming_clause),
         A.aspect_specification,
     ) ^ SubprogramDecl,
@@ -492,9 +492,9 @@ A.add_rules(
     ###########
 
     pragma_arg=Row(
-        Opt(A.identifier, "=>") >> 0, A.expression
+        Opt(A.identifier, "=>")[0], A.expression
     ) ^ PragmaArgument,
 
     pragma=Row("pragma", A.identifier,
-               Opt("(", List(A.pragma_arg, ","), ")") >> 1) ^ Pragma,
+               Opt("(", List(A.pragma_arg, ","), ")")[1]) ^ Pragma,
 )

@@ -228,7 +228,7 @@ A.add_rules(
     null_literal=Tok("null", keep=True) ^ NullLiteral,
 
     allocator=Row(
-        "new", Opt("(", A.name, ")") >> 1, A.type_expression | A.name
+        "new", Opt("(", A.name, ")")[1], A.type_expression | A.name
     ) ^ Allocator,
 
     for_loop_parameter_spec=Row(
@@ -261,7 +261,7 @@ A.add_rules(
 
 
     raise_expression=Or(
-        Row("raise", A.name, Opt("with", A.expression) >> 1) ^ RaiseExpression,
+        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseExpression,
         Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpression,
     ),
 
@@ -269,7 +269,7 @@ A.add_rules(
         "if", A.expression, "then", A.expression,
         List(Row("elsif", A.expression,
                  "then", A.expression) ^ ElsifExprPart, empty_valid=True),
-        Opt("else", A.expression) >> 1,
+        Opt("else", A.expression)[1],
     ) ^ IfExpr,
 
     conditional_expression=Or(A.if_expression, A.case_expression,
@@ -286,30 +286,30 @@ A.add_rules(
     ),
 
     aggregate_assoc=Row(
-        Opt(A.aggregate_field, "=>") >> 0,
+        Opt(A.aggregate_field, "=>")[0],
         Or(A.diamond_expr, A.expression)
     ) ^ AggregateAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
     aggregate_content_null=Row(
         "null", "record", Null(AggregateContent)
-    ) >> 2,
+    )[2],
 
     positional_aggregate=List(A.expression, sep=","),
 
     aggregate=Row(
         "(",
         Row(
-            Opt(A.expression, "with") >> 0,
+            Opt(A.expression, "with")[0],
             Or(A.aggregate_content_null, A.aggregate_content)
         ) ^ Aggregate,
-        ")") >> 1,
+        ")")[1],
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal,
                    A.access_deref, A.attribute),
 
     param_assoc=Row(
         Opt(A.identifier | A.others_designator | A.string_literal,
-            "=>") >> 0,
+            "=>")[0],
         A.expression | A.diamond_expr
     ) ^ ParamAssoc,
 
@@ -323,9 +323,9 @@ A.add_rules(
         Row(A.name, Tok("(", keep=True), A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ Prefix,
         Row(A.name, "'", A.attribute,
-            Opt("(", A.call_suffix, ")") >> 1) ^ AttributeRef,
+            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
-            Or(Row("(", A.expression, ")") >> 1, A.aggregate)) ^ QualExpr,
+            Or(Row("(", A.expression, ")")[1], A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),
 
@@ -339,7 +339,7 @@ A.add_rules(
                A.name, A.allocator,
                A.conditional_expression,
                A.raise_expression,
-               Row("(", A.conditional_expression | A.expression, ")") >> 1,
+               Row("(", A.conditional_expression | A.expression, ")")[1],
                A.aggregate),
 
     factor=Or(

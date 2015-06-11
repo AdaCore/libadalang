@@ -238,9 +238,9 @@ A.add_rules(
     ) ^ LibraryItem,
 
     compilation_unit=Row(
-        List(Row(A.context_item, ";") >> 0, empty_valid=True),
+        List(Row(A.context_item, ";")[0], empty_valid=True),
         List(Row(A.library_item | A.subunit |
-                 A.generic_instantiation | A.pragma, ";") >> 0,
+                 A.generic_instantiation | A.pragma, ";")[0],
              empty_valid=True),
     ) ^ CompilationUnit,
 
@@ -251,21 +251,21 @@ A.add_rules(
         Opt(A.parameter_profiles),
         "when", A.expression,
         "is", A.basic_decls,
-        Opt("begin", A.handled_statements) >> 1,
+        Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ EntryBody,
 
     protected_body=Row(
         "protected", "body", A.static_name, A.aspect_specification,
         "is",
-        Opt(A.basic_decls, "end", Opt(A.static_name)) >> 0,
-        Opt((Row("separate", A.aspect_specification) >> 1) ^ BodyStub)
+        Opt(A.basic_decls, "end", Opt(A.static_name))[0],
+        Opt((Row("separate", A.aspect_specification)[1]) ^ BodyStub)
     ) ^ ProtectedBody,
 
     task_body=Row(
         "task", "body", A.static_name, A.aspect_specification,
         "is", A.basic_decls,
-        Opt("begin", A.handled_statements) >> 1,
+        Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ TaskBody,
 
@@ -277,7 +277,7 @@ A.add_rules(
     package_body=Row(
         "package", "body", A.static_name, A.aspect_specification,
         "is", A.basic_decls,
-        Opt("begin", A.handled_statements) >> 1,
+        Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ PackageBody,
 
@@ -286,18 +286,18 @@ A.add_rules(
     select_statement=Row(
         "select",
         List(
-            Row(Opt("when", A.expression, "=>") >> 1,
+            Row(Opt("when", A.expression, "=>")[1],
                 A.statements) ^ SelectWhenPart,
             sep="or"),
-        Opt("else", A.statements) >> 1,
-        Opt("then", "abort", A.statements) >> 2,
+        Opt("else", A.statements)[1],
+        Opt("then", "abort", A.statements)[2],
         "end", "select"
     ) ^ SelectStatement,
 
     accept_statement=Row(
-        "accept", A.identifier, Opt("(", A.expression, ")") >> 1,
+        "accept", A.identifier, Opt("(", A.expression, ")")[1],
         Opt(A.parameter_profiles),
-        Opt("do", A.handled_statements, "end", Opt(A.identifier)) >> 1
+        Opt("do", A.handled_statements, "end", Opt(A.identifier))[1]
     ) ^ AcceptStatement,
 
     case_alt=Row(
@@ -310,17 +310,17 @@ A.add_rules(
 
     ext_return_statement=Row(
         "return", A.sub_object_decl,
-        Opt("do", A.handled_statements, "end", "return") >> 1
+        Opt("do", A.handled_statements, "end", "return")[1]
     ) ^ ExtReturnStatement,
 
     block_statement=Row(
-        Opt(A.identifier, ":") >> 0,
-        Opt("declare", A.basic_decls) >> 1,
+        Opt(A.identifier, ":")[0],
+        Opt("declare", A.basic_decls)[1],
         "begin", A.handled_statements, "end", _(Opt(A.identifier))
     ) ^ BlockStatement,
 
     loop_statement=Row(
-        Opt(A.identifier, ":") >> 0,
+        Opt(A.identifier, ":")[0],
         Opt(A.iteration_scheme),
         "loop",
         A.statements,
@@ -328,7 +328,7 @@ A.add_rules(
     ) ^ LoopStatement,
 
     iteration_scheme=Or(
-        Row("for", A.for_loop_parameter_spec) >> 1,
+        Row("for", A.for_loop_parameter_spec)[1],
         Row("while", A.expression) ^ WhileLoopSpec
     ),
 
@@ -342,12 +342,12 @@ A.add_rules(
         List(Row("elsif", A.expression,
                  "then", A.statements) ^ ElsifStatementPart,
              empty_valid=True),
-        Opt("else", A.statements) >> 1,
+        Opt("else", A.statements)[1],
         "end", "if"
     ) ^ IfStatement,
 
     raise_statement=Or(
-        Row("raise", A.name, Opt("with", A.expression) >> 1) ^ RaiseStatement,
+        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseStatement,
         Row("raise", Null(Expr), Null(Expr)) ^ RaiseStatement,
     ),
 
@@ -385,16 +385,16 @@ A.add_rules(
     ) ^ SubprogramBody,
 
     handled_statements=Row(
-        A.statements, Opt("exception", List(A.exception_handler)) >> 1
+        A.statements, Opt("exception", List(A.exception_handler))[1]
     ) ^ HandledStatements,
 
     exception_handler=Row(
-        "when", Opt(A.identifier, ":") >> 0,
+        "when", Opt(A.identifier, ":")[0],
         List(A.name | A.others_designator, sep="|"), "=>",
         A.statements
     ) ^ ExceptionHandler,
 
-    statements=List(Or(Row(A.statement, Opt(";").error()) >> 0,
+    statements=List(Or(Row(A.statement, Opt(";").error())[0],
                        A.label), empty_valid=True),
 
     label=TokClass(Lbl) ^ Label,
@@ -414,7 +414,7 @@ A.add_rules(
     goto_statement=Row("goto", A.identifier) ^ GotoStatement,
 
     exit_statement=Row("exit", Opt(A.identifier),
-                       Opt("when", A.expression) >> 1) ^ ExitStatement,
+                       Opt("when", A.expression)[1]) ^ ExitStatement,
 
     return_statement=(
         Row("return", Opt(A.expression | A.raise_statement)) ^ ReturnStatement

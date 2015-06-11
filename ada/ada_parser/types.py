@@ -234,7 +234,7 @@ A.add_rules(
     protected_type_decl=Row(
         "protected", "type", A.identifier, Opt(A.type_discriminant),
         A.aspect_specification,
-        "is", Opt("new", List(A.static_name, sep="and"), "with") >> 1,
+        "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
         A.protected_def
     ) ^ ProtectedTypeDecl,
 
@@ -243,10 +243,11 @@ A.add_rules(
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=Row(
-        List(Row(A.protected_op, ";") >> 0, empty_valid=True),
-        Opt("private", List(Row(A.protected_el, ";") >> 0,
-                            empty_valid=True))
-        >> 1,
+        List(Row(A.protected_op, ";")[0], empty_valid=True),
+        Opt(
+            "private",
+            List(Row(A.protected_el, ";")[0], empty_valid=True)
+        )[1],
         "end",
         Opt(A.identifier)
     ) ^ ProtectedDef,
@@ -254,10 +255,10 @@ A.add_rules(
     task_item=Or(A.entry_decl, A.aspect_clause, A.pragma),
 
     task_def=Row(
-        List(Row(A.task_item, ";") >> 0, empty_valid=True),
+        List(Row(A.task_item, ";")[0], empty_valid=True),
         Opt(
-            "private", List(Row(A.task_item, ";") >> 0, empty_valid=True)
-        ) >> 1,
+            "private", List(Row(A.task_item, ";")[0], empty_valid=True)
+        )[1],
         "end",
         Opt(A.identifier)
     ) ^ TaskDef,
@@ -265,7 +266,7 @@ A.add_rules(
     task_type_decl=Row(
         "task", "type", A.identifier, Opt(A.type_discriminant),
         A.aspect_specification,
-        "is", Opt("new", List(A.static_name, sep="and"), "with") >> 1,
+        "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
         A.task_def
     ) ^ TaskTypeDecl,
 
@@ -281,14 +282,14 @@ A.add_rules(
             Enum("protected", InterfaceKind("protected")),
             Enum("synchronized", InterfaceKind("synchronized")))),
         "interface",
-        List(Row("and", A.static_name) >> 1, empty_valid=True)
+        List(Row("and", A.static_name)[1], empty_valid=True)
     ) ^ InterfaceTypeDef,
 
     array_type_def=Row(
         "array",
         "(",
         Or(
-            List(Row(A.type_name, "range", "<>") >> 0, sep=",")
+            List(Row(A.type_name, "range", "<>")[0], sep=",")
             ^ UnconstrainedArrayIndices,
 
             List(A.discrete_subtype_definition, sep=",")
@@ -310,8 +311,8 @@ A.add_rules(
         Opt("not", "null").as_bool(),
         A.type_expression,
         Opt(A.constraint),
-        List(Row("and", A.static_name) >> 1, empty_valid=True),
-        Opt("with", A.record_def) >> 1,
+        List(Row("and", A.static_name)[1], empty_valid=True),
+        Opt("with", A.record_def)[1],
         Opt("with", "private").as_bool()
     ) ^ DerivedTypeDef,
 
@@ -350,7 +351,7 @@ A.add_rules(
 
     type_discriminant=Row(
         "(",
-        Or(A.discr_spec_list, Row("<>", Null(A.discr_spec_list)) >> 1),
+        Or(A.discr_spec_list, Row("<>", Null(A.discr_spec_list))[1]),
         ")"
     ) ^ TypeDiscriminant,
 
@@ -367,7 +368,7 @@ A.add_rules(
         Row("null", Null(ComponentList), "record") ^ RecordDef
     ),
 
-    range_spec=Row("range", A.discrete_range | A.name | A.diamond_expr) >> 1,
+    range_spec=Row("range", A.discrete_range | A.name | A.diamond_expr)[1],
 
     real_type_def=Or(A.floating_point_def, A.decimal_fixed_point_def,
                      A.ordinary_fixed_point_def),
@@ -411,7 +412,7 @@ A.add_rules(
     full_type_decl=Row(
         "type", A.identifier, Opt(A.type_discriminant),
         Or(
-            Row("is", A.type_def) >> 1,
+            Row("is", A.type_def)[1],
 
             Row("is",
                 Opt("abstract").as_bool(), Opt("tagged").as_bool(),
@@ -438,7 +439,7 @@ A.add_rules(
         A.pragma
     ),
 
-    default_expr=Opt(":=", A.expression) >> 1,
+    default_expr=Opt(":=", A.expression)[1],
 
     component_decl=Row(
         List(A.identifier, sep=","), ":", A.component_def,
@@ -446,7 +447,7 @@ A.add_rules(
     ) ^ ComponentDecl,
 
     component_list=Row(
-        List(Row(A.component_item, ";") >> 0, empty_valid=True),
+        List(Row(A.component_item, ";")[0], empty_valid=True),
         Opt(A.variant_part)
     ) ^ ComponentList,
 )

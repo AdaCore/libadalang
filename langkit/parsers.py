@@ -604,7 +604,7 @@ class Row(Parser):
             var_defs=decls
         )
 
-    def __rshift__(self, index):
+    def __getitem__(self, index):
         """
         Return a parser that matches `self` and that discards everything except
         the `index`th field in the row.
@@ -818,8 +818,8 @@ class Opt(Parser):
                                                 if self._booleanize else [])
         )
 
-    def __rshift__(self, index):
-        """Same as Row.__rshift__:
+    def __getitem__(self, index):
+        """Same as Row.__getitem__:
         Return a parser that matches `self` and that discards everything except
         the `index`th field in the row.
 

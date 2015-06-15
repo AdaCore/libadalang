@@ -229,6 +229,8 @@ procedure Parse is
    end Process_File;
 
 begin
+   Initialize;
+
    Set_Usage
      (Config,
       Usage    => "[switches] [input] [lookups]");

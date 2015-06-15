@@ -55,6 +55,7 @@ main(void)
     const size_t src_buffer_1_length = strlen(src_buffer_1);
     const size_t src_buffer_2_length = strlen(src_buffer_2);
 
+    libadalang_initialize();
     ctx = ada_create_analysis_context();
     if (ctx == NULL)
         error("Could not create the analysis context");

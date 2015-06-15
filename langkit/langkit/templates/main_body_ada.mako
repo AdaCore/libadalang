@@ -267,4 +267,39 @@ package body ${_self.ada_api_settings.lib_name} is
    ${chunk}
    % endfor
 
+   ----------------
+   -- Initialize --
+   -----------------
+
+   procedure Initialize is
+
+      --  Invoke GNAT-specific initialization procedures manually (these
+      --  trigger package elaboration). This is needed because on some
+      --  platforms, such as AIX, there is no facility at link time to
+      --  introduce automatically called procedures.
+
+      --  Trigger the elaboration of all our dependencies that are standalone
+      --  libraries: libadalang and liblangkit_support. We also depend on
+      --  GNATcoll and on the GNAT runtime, but these are not standalone
+      --  libraries.
+
+      --  Note that on platforms that do have automatic initialization, calling
+      --  initialization more that once is supported and does not cause
+      --  trouble. You can hence write multi-platform code by explicitly
+      --  calling Initialize, and omit it if you'll run your code on modern
+      --  platforms only.
+
+      procedure Langkit_Support_Init
+        with Import        => True,
+             Convention    => C,
+             External_Name => "langkit_supportinit";
+      procedure Libadalang_Init
+        with Import        => True,
+             Convention    => C,
+             External_Name => "adalanginit";
+   begin
+      Langkit_Support_Init;
+      Libadalang_Init;
+   end Initialize;
+
 end ${_self.ada_api_settings.lib_name};

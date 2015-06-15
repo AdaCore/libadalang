@@ -264,6 +264,13 @@ class _Diagnostic(ctypes.Structure):
                 ("message", string_to_free)]
 
 
+_initialize = _import_func(
+    '${capi.lib_name}_initialize',
+    [], None
+)
+_initialize()
+
+
 # Analysis primitives
 _create_analysis_context = _import_func(
     '${capi.get_name("create_analysis_context")}',

@@ -9,6 +9,10 @@
 extern "C" {
 #endif
 
+/* Initialize the library. Must be called before anything else from this
+   library and from Langkit_Support.  */
+void ${capi.lib_name}_initialize(void);
+
 /* Context for all source analysis.  */
 typedef void* ${analysis_context_type};
 

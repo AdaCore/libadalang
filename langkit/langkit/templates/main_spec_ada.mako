@@ -17,6 +17,13 @@ with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 
 package ${_self.ada_api_settings.lib_name} is
 
+   procedure Initialize
+     with Export        => True,
+          Convention    => C,
+          External_Name => "libadalang_initialize";
+   --  Initialize the library. Must be called before anything else from this
+   --  library and from Langkit_Support.
+
    ----------------------
    -- Analysis context --
    ----------------------

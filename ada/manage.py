@@ -13,34 +13,30 @@ from env import setenv
 setenv()
 
 from gnatpython import fileutils
-from langkit.ada_api import AdaAPISettings
-from langkit.c_api import CAPISettings
-from langkit.compile_context import CompileCtx
-from langkit.python_api import PythonAPISettings
-from langkit.utils import Colors, printcol
+
+
 import langkit
 
+
+# The coverage computation must start before we import non-empty langkit
+# modules: that's why most langkit import statements are delayed until we have
+# instatiated Coverage, below.
 
 class Directories(object):
     """
     Helper class used to get various path in source/build/install trees.
     """
 
-    def __init__(self, args):
-        self.args = args
-        self.root_dir = os.path.dirname(os.path.abspath(__file__))
+    def __init__(self, build_dir=None, install_dir=None):
+        self.root_build_dir = None
+        self.root_install_dir = None
+        self.root_source_dir = os.path.dirname(os.path.abspath(__file__))
 
-    @property
-    def root_source_dir(self):
-        return self.root_dir
+    def set_build_dir(self, build_dir):
+        self.root_build_dir = os.path.abspath(build_dir)
 
-    @property
-    def root_build_dir(self):
-        return os.path.abspath(self.args.build_dir)
-
-    @property
-    def root_install_dir(self):
-        return os.path.abspath(getattr(self.args, 'install-dir'))
+    def set_install_dir(self, install_dir):
+        self.root_install_dir = os.path.abspath(install_dir)
 
     def ada_source_dir(self, *args):
         return os.path.join(self.root_source_dir, *args)
@@ -84,11 +80,10 @@ class Coverage(object):
         self.cov.exclude('raise NotImplementedError()')
         self.cov.exclude('assert False')
 
-    def __enter__(self):
+    def start(self):
         self.cov.start()
 
-    def __exit__(self, value, type, traceback):
-        del value, type, traceback
+    def stop(self):
         self.cov.stop()
 
     def generate_report(self):
@@ -96,6 +91,25 @@ class Coverage(object):
             directory=self.dirs.build_dir('coverage'),
             ignore_errors=True
         )
+
+
+dirs = Directories()
+try:
+    import coverage
+except Exception as exc:
+    coverage_available = False
+    covearge_exc = exc
+else:
+    coverage_available = True
+    cov = Coverage(dirs)
+    cov.start()
+
+
+from langkit.ada_api import AdaAPISettings
+from langkit.c_api import CAPISettings
+from langkit.compile_context import CompileCtx
+from langkit.python_api import PythonAPISettings
+from langkit.utils import Colors, printcol
 
 
 def get_cpu_count():
@@ -544,12 +558,19 @@ setenv_parser.set_defaults(func=setenv)
 
 if __name__ == '__main__':
     args = args_parser.parse_args()
-    dirs = Directories(args)
+    dirs.set_build_dir(args.build_dir)
+    install_dir = getattr(args, 'install-dir', None)
+    if install_dir:
+        dirs.set_install_dir(install_dir)
 
     if args.func == generate and args.coverage:
-        c = Coverage(dirs)
-        with c:
-            args.func(args, dirs)
-        c.generate_report()
+        if not coverage_available:
+            import traceback
+            print >> sys.stderr, 'Coverage not available:'
+            traceback.print_exc(coverage_exc)
+            sys.exit(1)
+        args.func(args, dirs)
+        cov.stop()
+        cov.generate_report()
     else:
         args.func(args, dirs)

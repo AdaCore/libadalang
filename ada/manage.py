@@ -42,7 +42,7 @@ class Directories(object):
     def root_install_dir(self):
         return os.path.abspath(getattr(self.args, 'install-dir'))
 
-    def source_dir(self, *args):
+    def ada_source_dir(self, *args):
         return os.path.join(self.root_source_dir, *args)
 
     def build_dir(self, *args):
@@ -53,10 +53,10 @@ class Directories(object):
 
     def langkit_source_dir(self, *args):
         """
-        Returns the base source directory for langkit. This would have to be
-        altered if the directory structure was to change
+        Build and return the path for ARGS under the root source directory for langkit.
         """
-        return os.path.dirname(os.path.abspath(langkit.__file__))
+        langkit_python_dir = os.path.dirname(os.path.abspath(langkit.__file__))
+        return os.path.join(os.path.dirname(langkit_python_dir), *args)
 
 
 class Coverage(object):
@@ -71,12 +71,12 @@ class Coverage(object):
         self.cov = coverage.coverage(
             branch=True,
             source=[
-                self.dirs.source_dir(),
-                self.dirs.source_dir('ada'),
+                self.dirs.langkit_source_dir(),
+                self.dirs.ada_source_dir(),
             ],
             omit=[
-                self.dirs.langkit_source_dir('langkit', 'build.py'),
-                self.dirs.langkit_source_dir('langkit', 'env.py'),
+                self.dirs.ada_source_dir('manage.py'),
+                self.dirs.ada_source_dir('env.py'),
             ],
         )
 
@@ -115,7 +115,7 @@ def get_cpu_count():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
-    lexer_file = dirs.source_dir('language', 'ada.qx')
+    lexer_file = dirs.ada_source_dir('language', 'ada.qx')
     ada_api_settings = AdaAPISettings('Libadalang')
     c_api_settings = CAPISettings(
         'libadalang',
@@ -245,7 +245,7 @@ def setup_environment(dirs, add_path):
     add_path('LD_LIBRARY_PATH', dirs.build_dir('lib'))
     add_path('GPR_PROJECT_PATH', dirs.build_dir('lib', 'gnat'))
     add_path('PYTHONPATH', dirs.build_dir('python'))
-    add_path('PYTHONPATH', dirs.source_dir('python_src'))
+    add_path('PYTHONPATH', dirs.ada_source_dir('python_src'))
 
 
 def derived_env(dirs):
@@ -276,7 +276,7 @@ def test(args, dirs):
     env = derived_env(dirs)
     argv = [
         'python',
-        dirs.source_dir('testsuite', 'testsuite.py'),
+        dirs.ada_source_dir('testsuite', 'testsuite.py'),
         '--enable-color', '--show-error-output',
     ]
     if args.disable_shared:

@@ -16,16 +16,16 @@ class Testsuite(gnatpython.testsuite.Testsuite):
     def add_options(self):
         self.main.add_option(
             '--valgrind', action='store_true',
-            help='Run tests within Valgrind to check memory issues.'
-        )
+            help='Run tests within Valgrind to check memory issues.')
         self.main.add_option(
             '--disable-shared', action='store_true',
-            help='Disable the testing of shared libraries'
-        )
+            help='Disable tests involving shared libraries.')
+        self.main.add_option(
+            '--disable-python', action='store_true',
+            help='Disable tests involving Python API.')
         self.main.add_option(
             '--with-python', default=None,
-            help='If provided, use as the Python interpreter in testcases'
-        )
+            help='If provided, use as the Python interpreter in testcases.')
 
         #
         # Convenience options for developpers

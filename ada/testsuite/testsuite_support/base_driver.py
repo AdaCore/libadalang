@@ -149,6 +149,10 @@ class BaseDriver(TestDriver):
         return self.global_env['options'].disable_shared
 
     @property
+    def disable_python(self):
+        return self.global_env['options'].disable_python
+
+    @property
     def python_interpreter(self):
         return self.global_env['options'].with_python or 'python'
 

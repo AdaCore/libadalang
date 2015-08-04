@@ -17,7 +17,10 @@ class PythonDriver(BaseDriver):
         if self.disable_shared:
             self.result.set_status(
                 'DEAD',
-                'Cannot test the Python API without shared libraries')
+                'Cannot test the Python API without shared libraries'
+            )
+        if self.disable_python:
+            self.result.set_status('DEAD', 'Python API testing disabled')
 
         if 'input_sources' not in self.test_env:
             raise SetupError('Missing "input_sources" key in test.yaml')

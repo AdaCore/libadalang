@@ -69,22 +69,30 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       Reset (TDH);
 
       while Continue loop
-         Continue := Next_Token (Lexer, Token'Unrestricted_Access) /= 0;
 
          --  Next_Token returns 0 for the last token, which will be our "null"
          --  token.
 
-         --  TODO??? This is specific to Ada and should be defined in the DSL
+         Continue := Next_Token (Lexer, Token'Unrestricted_Access) /= 0;
 
-         if Token.Id = QUEX_TKN_STRING then
+         ## Token id is part of the class of token types for which we want to
+         ## keep the text, but without internalization of the text.
+         if Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
+                                     for tok in get_context().lexer.with_text)}
+         then
             Text := Add_String (TDH, Bounded_Text);
-         elsif Token.Id in QUEX_TKN_IDENTIFIER | QUEX_TKN_LABEL | QUEX_TKN_CHAR
-                           | QUEX_TKN_NUMBER | QUEX_TKN_NULL
+
+         ## Token id is part of the class of token types for which we want to
+         ## internalize the text
+         elsif Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
+                                        for tok in get_context().lexer.with_symbol)}
          then
             --  TODO??? GNATCOLL.Symbol forces us to work with Symbol values.
             --  These are accesses to unconstrained arrays but we want to work
             --  with Ada.Strings.Unbounded.String_Access values...
             Text := Convert (Find (TDH.Symbols, Bounded_Text));
+
+         ## Else, don't keep the text at all
          else
             Text := null;
          end if;

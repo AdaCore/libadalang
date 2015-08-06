@@ -1,12 +1,6 @@
+from itertools import count
 from template_utils import common_renderer
 from common import TOKEN_PREFIX
-from enum import Enum
-
-
-class PredefTokens(Enum):
-    Termination = 0
-
-Term = PredefTokens.Termination
 
 
 class Matcher(object):
@@ -31,6 +25,7 @@ class Action(object):
     Base class for an action. An action specificies what to do with a given
     match.
     """
+
     def render(self, lexer):
         """
         Render method to be overloaded in subclasses
@@ -44,16 +39,133 @@ class Action(object):
 
 class TokenAction(Action):
     """
-    Base class for an action that sends a token. You can get said token via the
-    .token property
-    """
+    Abstract Base class for an action that sends a token. Subclasses of
+    TokenAction can *only* be used as the instantiation of a token kind, in the
+    declaration of a LexerToken subclass, as in::
 
-    def __init__(self, token_val):
-        self.token_val = token_val
+        class MyToken(LexerToken):
+            Identifier = WithText()
+            Keyword = NoText()
+    """
+    # This counter is used to preserve the order of TokenAction instantiations,
+    # which allows us to get the declaration order of token enum kinds
+    _counter = iter(count(0))
+
+    def __init__(self):
+        self._index = next(TokenAction._counter)
+        self.name = ""
+        self.lexer = None
+
+    def init_lexer(self, lexer):
+        pass
 
     @property
-    def token(self):
-        return self.token_val
+    def value(self):
+        return self._index
+
+
+class NoText(TokenAction):
+    """
+    TokenAction. The associated token kind will never have any text associated
+    to it::
+
+        class MyToken(LexerToken):
+            # Keyword tokens will never have text associated #with them
+            Keyword = NoText()
+    """
+
+    def __init__(self):
+        super(NoText, self).__init__()
+
+    def init_lexer(self, lexer):
+        lexer.without_text.add(self)
+
+    def render(self, lexer):
+        return "=> {};".format(lexer.token_name(self.name))
+
+
+class WithText(TokenAction):
+    """
+    TokenAction. The associated token kind will have the lexed text associated
+    to it. A new string will be allocated by the parser each time. Suited for
+    literals (numbers, strings, etc..)::
+
+        class MyToken(LexerToken):
+            # String tokens will keep the associated text when lexed
+            StringLiteral = WithText()
+    """
+
+    def __init__(self):
+        super(WithText, self).__init__()
+
+    def init_lexer(self, lexer):
+        lexer.with_text.add(self)
+
+    def render(self, lexer):
+        return "=> {}(Lexeme);".format(lexer.token_name(self.name))
+
+
+class WithSymbol(TokenAction):
+    """
+    TokenAction. When the associated token kind will be lexed, a token will be
+    created with the text corresponding to the match, but as an internalized
+    symbol, so that if you have two tokens with the same text, the text will be
+    shared amongst both::
+
+        class MyToken(LexerToken):
+            # Identifiers will keep an internalized version of the text
+            Identifier = WithSymbol()
+    """
+
+    def __init__(self):
+        super(WithSymbol, self).__init__()
+
+    def render(self, lexer):
+        return "=> {}(Lexeme);".format(lexer.token_name(self.name))
+
+    def init_lexer(self, lexer):
+        lexer.with_symbol.add(self)
+
+
+class LexerTokenMetaclass(type):
+    """
+    Internal metaclass for LexerToken. Used to:
+    - Associate names with corresponding token actions
+    - Allow iteration on the LexerToken class to get back a list of token
+      actions
+    """
+    def __new__(mcs, name, bases, dct):
+        assert len(bases) == 1, (
+            "Multiple inheritance for LexerToken subclasses is not supported"
+        )
+
+        fields = []
+        for fld_name, fld_value in dct.items():
+            if isinstance(fld_value, TokenAction):
+                fld_value.name = fld_name
+                fields.append(fld_value)
+
+        dct['fields'] = getattr(bases[0], 'fields', []) + fields
+        return type.__new__(mcs, name, bases, dct)
+
+    def __iter__(cls):
+        return (fld for fld in cls.fields)
+
+    def __len__(cls):
+        return len(cls.fields)
+
+
+class LexerToken(object):
+    """
+    Base class from which your token class must derive. Every member needs to
+    be an instanciation of a subclass of TokenAction, specifiying what is done
+    with the resulting token.
+    """
+    __metaclass__ = LexerTokenMetaclass
+
+    # Built-in termination token. Since it will always be the first token kind,
+    # its value will always be zero
+    Termination = NoText()
 
 
 class Patterns(object):
@@ -63,7 +175,7 @@ class Patterns(object):
 
         mylexer.patterns.my_pattern
 
-    To refer to a pattern
+    To refer to a pattern.
     """
     pass
 
@@ -119,13 +231,13 @@ class Lexer(object):
 
     def __init__(self, tokens_class):
         self.tokens_class = tokens_class
+        assert issubclass(tokens_class, LexerToken)
+
         self.patterns = Patterns()
         self.__patterns = []
         self.rules = []
-        self.tokens_set = set.union(
-            {el.name.lower() for el in self.tokens_class},
-            {el.name.lower() for el in PredefTokens}
-        )
+        self.tokens_set = {el.name.lower() for el in self.tokens_class}
+
         # This map will keep a mapping from literal matches to token kind
         # values, so that you can find back those values if you have the
         # literal that corresponds to it.
@@ -133,6 +245,13 @@ class Lexer(object):
 
         # TODO: Allow configuration of this prefix through __init__
         self.prefix = TOKEN_PREFIX
+
+        self.without_text = set()
+        self.with_text = set()
+        self.with_symbol = set()
+
+        for el in self.tokens_class:
+            el.init_lexer(self)
 
     def add_patterns(self, *patterns):
         """
@@ -181,17 +300,19 @@ class Lexer(object):
             if type(matcher_assoc) is tuple:
                 assert len(matcher_assoc) == 2
                 matcher, action = matcher_assoc
-                self.rules.append(RuleAssoc(matcher, action))
+                rule_assoc = RuleAssoc(matcher, action)
             else:
                 assert isinstance(matcher_assoc, RuleAssoc)
-                self.rules.append(matcher_assoc)
+                rule_assoc = matcher_assoc
+
+            self.rules.append(rule_assoc)
 
             m, a = self.rules[-1].matcher, self.rules[-1].action
-            if isinstance(m, Literal) and isinstance(a, TokenAction):
+            if isinstance(m, Literal):
                 # Add a mapping from the literal representation of the token to
                 # itself, so that we can find tokens via their literal
                 # representation.
-                self.literals_map[m.to_match] = a.token
+                self.literals_map[m.to_match] = a
 
     def emit(self, file_name):
         """
@@ -219,7 +340,7 @@ class Lexer(object):
         :param Enum|str token: The instance of the token enum class
         :rtype: str
         """
-        if isinstance(token, (self.tokens_class, PredefTokens)):
+        if isinstance(token, TokenAction):
             name = token.name.upper()
         else:
             assert isinstance(token, str), (
@@ -227,7 +348,7 @@ class Lexer(object):
                     token, self.tokens_class
                 )
             )
-            if token in self.tokens_set:
+            if token.lower() in self.tokens_set:
                 name = token.upper()
             elif token in self.literals_map:
                 name = self.literals_map[token].name
@@ -238,33 +359,6 @@ class Lexer(object):
                 )
 
         return "{}{}".format(self.prefix, name.upper())
-
-
-class NoText(TokenAction):
-    """
-    Action. The action creates a new token with no text. The
-    corresponding text is then discarded.
-    """
-
-    def __init__(self, token_val):
-        super(NoText, self).__init__(token_val)
-
-    def render(self, lexer):
-        return "=> {};".format(lexer.token_name(self.token_val))
-
-
-class WithText(TokenAction):
-    """
-    Action. The action creates a new token with the text
-    corresponding to the match.
-    """
-    def __init__(self, token_val):
-        super(WithText, self).__init__(token_val)
-
-    def render(self, lexer):
-        return "=> {}(Lexeme);".format(
-            lexer.token_name(self.token_val)
-        )
 
 
 class Literal(Matcher):
@@ -407,6 +501,7 @@ class Case(RuleAssoc):
 
     class CaseAction(Action):
         def __init__(self, max_match_len, *alts):
+            super(CaseAction, self).__init__()
             self.max_match_len = max_match_len
             assert all(isinstance(a, Alt) for a in alts), (
                 "Invalid alternative to Case matcher"

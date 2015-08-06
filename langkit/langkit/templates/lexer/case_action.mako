@@ -5,7 +5,10 @@
     case ${lexer.token_name(tok)}:
     % endfor
 
-    self_send1(${lexer.token_name(alt.send)}, Lexeme);
+    // In the case of the case association, regardless of the action used,
+    // we'll always send the lexeme. This lexeme will be discarded by the token
+    // processing later in the chain
+    self_send1(${lexer.token_name(alt.send.name)}, Lexeme);
     % if max_match_len - alt.match_size > 0:
         QUEX_NAME(seek_backward)(&self, ${max_match_len - alt.match_size});
     % endif
@@ -13,7 +16,7 @@
     % endfor
 
     default:
-    self_send1(${lexer.token_name(last_alt.send)}, Lexeme);
+    self_send1(${lexer.token_name(last_alt.send.name)}, Lexeme);
     % if max_match_len - last_alt.match_size > 0:
         QUEX_NAME(seek_backward)(&self, ${max_match_len - last_alt.match_size});
     % endif

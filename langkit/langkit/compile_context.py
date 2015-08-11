@@ -22,6 +22,9 @@ import shutil
 import sys
 import subprocess
 
+from ada_api import AdaAPISettings
+from c_api import CAPISettings
+from python_api import PythonAPISettings
 from utils import Colors, printcol
 
 
@@ -71,37 +74,60 @@ class CompileCtx():
     """State holder for native code emission"""
 
     def __init__(self, lang_name, main_rule_name, lexer, grammar,
-                 ada_api_settings, c_api_settings,
-                 python_api_settings=None,
+                 lib_name=None,
+                 c_symbol_prefix=None,
+                 enable_python_api=True,
                  verbose=False):
         """Create a new context for code emission
 
-        lang_name: Name of the target language.
+        :param str lang_name: string (mixed case and underscore: see
+        langkit.names.Name) for the Name of the target language.
 
-        main_rule_name: Name for the grammar rule that will be used as an entry
-        point when parsing units.
+        :param str main_rule_name: Name for the grammar rule that will be used
+        as an entry point when parsing units.
 
-        lexer: A langkit.lexer.Lexer instance for the target language.
+        :param lexer: A lexer for the target language.
+        :type lexer: langkit.lexer.Lexer
 
-        grammar: A langkit.parsers.Grammar instance for the target language.
+        :param grammar: A grammar for the target language.
+        :type grammar: langkit.parsers.Grammer
 
-        ada_api_settings: a ada_api.AdaAPISettings instance.
+        :param lib_name: If provided, must be a string (mixed case and
+        underscore: see langkit.names.Name), otherwise set to
+        "Lib<lang_name>lang". It is used for the filenames, package names, etc.
+        in the generated library.
+        :type lib_name: str or None
 
-        c_api_settings: a c_api.CAPISettings instance.
+        :param c_symbol_prefix: Valid C identifier used as a prefix for all
+        top-level declarations in the generated C API.  If not provided, set to
+        the name of the language in lower case.  Empty string stands for no
+        prefix.
+        :type c_symbol_prefix: str or None
 
-        python_api_settings: If provided, it must be a
-        python_api.PythonAPISettings instance. In this case, a Python binding
-        around the C API is generated.
+        :param bool enable_python_api: If True (which is the default),
+        generates a Python API for the generated library.
 
-        bindings: Language bindings to generate (Bindings instance).
+        :param bool verbose: If True (which is not the default), print various
+        debug messages on standard output.
         """
-        # TODO: lang_name is not actually used anywhere at the moment
-
-        self.lang_name = lang_name
+        self.lang_name = names.Name(lang_name)
         self.main_rule_name = main_rule_name
 
-        self.ada_api_settings = ada_api_settings
-        self.c_api_settings = c_api_settings
+        lib_name = (
+            names.Name('Lib{}lang'.format(
+                self.lang_name.camel_with_underscores
+            ))
+            if lib_name is None else
+            names.Name(lib_name)
+        )
+
+        self.ada_api_settings = AdaAPISettings(
+            lib_name.camel_with_underscores
+        )
+        self.c_api_settings = CAPISettings(lib_name.lower,
+                                           (self.lang_name.lower
+                                            if c_symbol_prefix is None else
+                                            c_symbol_prefix))
         self.verbose = verbose
 
         # Mapping: rule name -> Parser instances.
@@ -114,7 +140,10 @@ class CompileCtx():
         # Grammar instance
         self.grammar = grammar
 
-        self.python_api_settings = python_api_settings
+        self.python_api_settings = (
+            PythonAPISettings(lib_name.lower, self.c_api_settings)
+            if enable_python_api else None
+        )
 
         # Set of names (names.Name instances) for all generated parser
         # functions. This is used to avoid generating these multiple times.
@@ -394,7 +423,8 @@ class CompileCtx():
 
         printcol("Compiling the quex lexer specification", Colors.OKBLUE)
 
-        quex_file = os.path.join(src_path, "{}.qx".format(self.lang_name))
+        quex_file = os.path.join(src_path,
+                                 "{}.qx".format(self.lang_name.lower))
         self.lexer.emit(quex_file)
 
         quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")

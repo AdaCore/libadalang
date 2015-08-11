@@ -42,17 +42,18 @@ class CAPISettings(object):
 
     LIB_NAME_RE = re.compile('[a-zA-Z][a-zA-Z0-9_-]+')
 
-    def __init__(self, lib_name, symbol_prefix=None):
+    def __init__(self, lib_name, symbol_prefix=''):
         """
         Create C API generation settings
 
-        lib_name: Name of the generated library.  This will be used to build
-        the name of header files, library (static and shared object) files,
-        etc. It must be a valid C identifier with the exception that dashes
-        ("-") are allowed. Case matters (but you still choose it).
+        :param str lib_name: Name of the generated library.  This will be used
+        to build the name of header files, library (static and shared object)
+        files, etc. It must be a valid C identifier with the exception that
+        dashes ("-") are allowed. Case matters (but you still choose it).
 
-        symbol_prefix: Valid C identifier used as a prefix for all top-level
-        declarations in the generated C API. None if no prefix is needed.
+        :param str symbol_prefix: Valid C identifier used as a prefix for all
+        top-level declarations in the generated C API. Empty string (default)
+        if no prefix is needed.
         """
         if not self.LIB_NAME_RE.match(lib_name):
             raise ValueError('Invalid library name: {}'.format(lib_name))

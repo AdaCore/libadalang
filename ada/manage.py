@@ -130,6 +130,8 @@ def get_cpu_count():
 
 def generate(args, dirs):
     """Generate source code for libadalang."""
+    from language.parser import ada_lexer, ada_grammar
+
     ada_api_settings = AdaAPISettings('Libadalang')
     c_api_settings = CAPISettings(
         'libadalang',
@@ -142,19 +144,7 @@ def generate(args, dirs):
                          c_api_settings,
                          python_api_settings,
                          verbose=args.verbose)
-
-    from language.parser import A
-    import language.parser.decl
-    import language.parser.types
-    import language.parser.exprs
-    import language.parser.bodies
-    from language.parser.lexer import ada_lexer
-    del language
-    # Import all the modules in which the grammar rules are defined, and then
-    # delete the module. This way we know that we only import them for side
-    # effects - the grammar is extended by every imported module.
-
-    context.set_grammar(A)
+    context.set_grammar(ada_grammar)
     context.set_lexer(ada_lexer)
 
     printcol("Generating source for libadalang ...", Colors.HEADER)

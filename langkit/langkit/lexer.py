@@ -490,7 +490,7 @@ class Case(RuleAssoc):
 
     class CaseAction(Action):
         def __init__(self, max_match_len, *alts):
-            super(CaseAction, self).__init__()
+            super(Case.CaseAction, self).__init__()
             self.max_match_len = max_match_len
             assert all(isinstance(a, Alt) for a in alts), (
                 "Invalid alternative to Case matcher"

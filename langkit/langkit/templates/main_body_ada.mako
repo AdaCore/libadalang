@@ -3,8 +3,8 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
-with ${_self.ada_api_settings.lib_name}.Parsers;
-use ${_self.ada_api_settings.lib_name}.Parsers;
+with ${get_context().ada_api_settings.lib_name}.Parsers;
+use ${get_context().ada_api_settings.lib_name}.Parsers;
 
 package body ${_self.ada_api_settings.lib_name} is
 
@@ -296,7 +296,7 @@ package body ${_self.ada_api_settings.lib_name} is
       procedure Libadalang_Init
         with Import        => True,
              Convention    => C,
-             External_Name => "adalanginit";
+             External_Name => "${capi.shared_object_basename}init";
    begin
       Langkit_Support_Init;
       Libadalang_Init;

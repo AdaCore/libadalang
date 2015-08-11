@@ -3,7 +3,8 @@
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Packrat;
 
-with Libadalang.Lexer; use Libadalang.Lexer;
+with ${get_context().ada_api_settings.lib_name}.Lexer;
+use ${get_context().ada_api_settings.lib_name}.Lexer;
 
 package body ${_self.ada_api_settings.lib_name}.Parsers is
 

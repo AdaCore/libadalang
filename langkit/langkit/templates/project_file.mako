@@ -8,7 +8,7 @@ library project ${lib_name} is
 
    type Boolean is ("false", "true");
    Is_Externally_Built : Boolean :=
-     external ("LIBADALANG_EXTERNALLY_BUILT", "true");
+     external ("${lib_name.upper()}_EXTERNALLY_BUILT", "true");
 
    for Externally_Built use Is_Externally_Built;
 
@@ -16,14 +16,14 @@ library project ${lib_name} is
    for Library_Name use "${capi.shared_object_basename}";
    for Library_Kind use Library_Kind_Param;
    for Interfaces use
-     ("libadalang.adb",
-      "libadalang.ads",
-      "libadalang-c.adb",
-      "libadalang-c.ads",
-      "libadalang-lexer.adb",
-      "libadalang-lexer.ads",
-      "libadalang-parsers.adb",
-      "libadalang-parsers.ads",
+     ("${lib_name.lower()}.adb",
+      "${lib_name.lower()}.ads",
+      "${lib_name.lower()}-c.adb",
+      "${lib_name.lower()}-c.ads",
+      "${lib_name.lower()}-lexer.adb",
+      "${lib_name.lower()}-lexer.ads",
+      "${lib_name.lower()}-parsers.adb",
+      "${lib_name.lower()}-parsers.ads",
       "quex_interface.c",
       "quex_interface.h",
       "quex_lexer.c",

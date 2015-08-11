@@ -21,6 +21,9 @@ class AdaNode(ASTNode):
     pass
 
 
+# Import all the modules in which the grammar rules are defined, and then
+# delete the module. This way we know that we only import them for side
+# effects: the grammar is extended by every imported module.
 from language.parser import A
 import language.parser.decl
 import language.parser.types
@@ -28,8 +31,5 @@ import language.parser.exprs
 import language.parser.bodies
 from language.parser.lexer import ada_lexer
 del language
-# Import all the modules in which the grammar rules are defined, and then
-# delete the module. This way we know that we only import them for side
-# effects: the grammar is extended by every imported module.
 
 ada_grammar = A

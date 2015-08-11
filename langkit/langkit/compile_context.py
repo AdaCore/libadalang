@@ -6,10 +6,9 @@ the main hook into langkit, insofar as this is the gate through which an
 external language creator will actually trigger the code emission. For example,
 this is the way it is done for the ada language::
 
-    context = CompileCtx(...)
-    from ada_parser import A
+    from ada_parser import ada_lexer, ada_grammar
+    context = CompileCtx(... ada_lexer, ada_grammar...)
     ...
-    context.set_grammar(A)
     context.emit(...)
 """
 from collections import defaultdict
@@ -71,7 +70,7 @@ def write_ada_file(path, source_kind, qual_name, source):
 class CompileCtx():
     """State holder for native code emission"""
 
-    def __init__(self, lang_name, main_rule_name,
+    def __init__(self, lang_name, main_rule_name, lexer, grammar,
                  ada_api_settings, c_api_settings,
                  python_api_settings=None,
                  verbose=False):
@@ -81,6 +80,10 @@ class CompileCtx():
 
         main_rule_name: Name for the grammar rule that will be used as an entry
         point when parsing units.
+
+        lexer: A langkit.lexer.Lexer instance for the target language.
+
+        grammar: A langkit.parsers.Grammar instance for the target language.
 
         ada_api_settings: a ada_api.AdaAPISettings instance.
 
@@ -104,11 +107,12 @@ class CompileCtx():
         # Mapping: rule name -> Parser instances.
         # TODO: why do we need this? The grammar already has such a mapping.
         self.rules_to_fn_names = {}
-        # Grammar instance
-        self.grammar = None
 
         # Lexer instance
-        self.lexer = None
+        self.lexer = lexer
+
+        # Grammar instance
+        self.grammar = grammar
 
         self.python_api_settings = python_api_settings
 
@@ -248,12 +252,6 @@ class CompileCtx():
         # could avoid this, maybe.
         from parsers import render
         return render(*args, **kwargs)
-
-    def set_grammar(self, grammar):
-        self.grammar = grammar
-
-    def set_lexer(self, lexer):
-        self.lexer = lexer
 
     def emit(self, file_root="."):
         global compile_ctx

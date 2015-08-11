@@ -140,12 +140,11 @@ def generate(args, dirs):
     python_api_settings = (PythonAPISettings('libadalang', c_api_settings)
                            if 'python' in args.bindings else None)
     context = CompileCtx('ada', 'compilation_unit',
+                         ada_lexer, ada_grammar,
                          ada_api_settings,
                          c_api_settings,
                          python_api_settings,
                          verbose=args.verbose)
-    context.set_grammar(ada_grammar)
-    context.set_lexer(ada_lexer)
 
     printcol("Generating source for libadalang ...", Colors.HEADER)
     context.emit(file_root=dirs.build_dir())

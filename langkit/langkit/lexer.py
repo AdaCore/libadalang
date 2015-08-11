@@ -1,3 +1,4 @@
+from collections import defaultdict
 from itertools import count
 from template_utils import common_renderer
 from common import TOKEN_PREFIX
@@ -56,9 +57,6 @@ class TokenAction(Action):
         self.name = ""
         self.lexer = None
 
-    def init_lexer(self, lexer):
-        pass
-
     @property
     def value(self):
         return self._index
@@ -77,9 +75,6 @@ class NoText(TokenAction):
     def __init__(self):
         super(NoText, self).__init__()
 
-    def init_lexer(self, lexer):
-        lexer.without_text.add(self)
-
     def render(self, lexer):
         return "=> {};".format(lexer.token_name(self.name))
 
@@ -97,9 +92,6 @@ class WithText(TokenAction):
 
     def __init__(self):
         super(WithText, self).__init__()
-
-    def init_lexer(self, lexer):
-        lexer.with_text.add(self)
 
     def render(self, lexer):
         return "=> {}(Lexeme);".format(lexer.token_name(self.name))
@@ -122,9 +114,6 @@ class WithSymbol(TokenAction):
 
     def render(self, lexer):
         return "=> {}(Lexeme);".format(lexer.token_name(self.name))
-
-    def init_lexer(self, lexer):
-        lexer.with_symbol.add(self)
 
 
 class LexerTokenMetaclass(type):
@@ -246,12 +235,12 @@ class Lexer(object):
         # TODO: Allow configuration of this prefix through __init__
         self.prefix = TOKEN_PREFIX
 
-        self.without_text = set()
-        self.with_text = set()
-        self.with_symbol = set()
+        # Map from token actions class names to set of token actions with that
+        # class
+        self.token_actions = defaultdict(set)
 
         for el in self.tokens_class:
-            el.init_lexer(self)
+            self.token_actions[type(el).__name__].add(el)
 
     def add_patterns(self, *patterns):
         """

@@ -78,14 +78,14 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
          ## Token id is part of the class of token types for which we want to
          ## keep the text, but without internalization of the text.
          if Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
-                                     for tok in get_context().lexer.with_text)}
+                                     for tok in get_context().lexer.token_actions['WithText'])}
          then
             Text := Add_String (TDH, Bounded_Text);
 
          ## Token id is part of the class of token types for which we want to
          ## internalize the text
          elsif Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
-                                        for tok in get_context().lexer.with_symbol)}
+                                        for tok in get_context().lexer.token_actions['WithSymbol'])}
          then
             --  TODO??? GNATCOLL.Symbol forces us to work with Symbol values.
             --  These are accesses to unconstrained arrays but we want to work

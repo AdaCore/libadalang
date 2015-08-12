@@ -1,5 +1,5 @@
 ##################
-Testing libadalang
+Testing Libadalang
 ##################
 
 This section deals with how to run and write testcases for Libadalang.

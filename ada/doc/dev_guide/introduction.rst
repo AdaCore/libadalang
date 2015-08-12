@@ -3,7 +3,7 @@ Libadalang introduction and high level approach
 ***********************************************
 
 Welcome to you! If you are reading this document, you are either interrested
-into libadalang, or trying to contribute to it as a developer. This
+into Libadalang, or trying to contribute to it as a developer. This
 introduction will go over the high level goals of the project, as well as over
 the technical approach that has been chosen to achieve those goals. It is
 probably a good idea to read this first, since the approach is not
@@ -12,7 +12,7 @@ straightforward, and diving into the code head on might prove difficult.
 Need
 ####
 
-The need for libadalang arises from the conflation of different goals that we
+The need for Libadalang arises from the conflation of different goals that we
 have while designing Ada tooling at AdaCore. Here are those goals:
 
 * We need to make tooling that is Ada aware, both at the syntactic and the
@@ -30,16 +30,16 @@ have while designing Ada tooling at AdaCore. Here are those goals:
   allow him to deal with the semantic and syntactic structure of the code only.
 
 As a corollary to those primary needs, here are some other secondary goals for
-libadalang:
+Libadalang:
 
-* We want libadalang to be, as you may have guessed, a library that you can
+* We want Libadalang to be, as you may have guessed, a library that you can
   call from anywhere and is not tied to any particular tool
 
 * We want it to have a high level, stable, easy and fun to use API, that makes
   high level operations on trees easy, while having enough flexibility to
   express complex queries and refactorings.
 
-* We want libadalang to be fast, fast enough to deal effortlessly with
+* We want Libadalang to be fast, fast enough to deal effortlessly with
   multi-million of lines code bases, so that it can replace existing ad-hoc but
   fast solutions that are built into our IDEs for code navigation and
   completion.
@@ -48,7 +48,7 @@ Desired feature set
 ###################
 
 In this section we are going to brush quickly over the things that we want to
-be able to do with libadalang.
+be able to do with Libadalang.
 
 We are going to base our examples on this simple snippet of Ada code:
 

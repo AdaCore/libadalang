@@ -8,9 +8,7 @@ import sys
 from env import setenv
 setenv()
 
-from gnatpython import fileutils
-from langkit.libmanage import Directories, ManageScript, get_cpu_count
-
+from langkit.libmanage import ManageScript, get_cpu_count
 from langkit.utils import Colors, printcol
 
 
@@ -101,6 +99,39 @@ class Manage(ManageScript):
             print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
             sys.exit(1)
 
+    @staticmethod
+    def _mkdir(path):
+        """
+        Create a new directory at `path` if it does not exist
+
+        :param path: the path to the new directory
+        :type path: str
+        :raise: OSError | IOError
+        """
+
+        if os.path.isdir(path):
+            return
+        if os.path.exists(path):
+            raise IOError('{}: already exists'.format(path))
+        os.makedirs(path)
+
+    @staticmethod
+    def _find_ada_sources(work_dir):
+        """
+        Return the list of .adb and .ads files in `work_dir`
+
+        :param work_dir: the directory in which to search for ada sources
+        :type work_dir: str
+        :return: set[str]
+        """
+        ada_files = set()
+        for root, dirs, files in os.walk(work_dir):
+            for filename in files:
+                _, ext = os.path.splitext(filename)
+                if ext in ('.ads', '.adb'):
+                    ada_files.append(os.path.join(root, filename))
+        return ada_files
+
     def do_perf_test(self, args):
         """
         Run the performance regression testsuite
@@ -119,7 +150,7 @@ class Manage(ManageScript):
             args.build_dir = os.path.join(work_dir, 'build')
             self.dirs.set_build_dir(args.build_dir)
             args.build_mode = 'prod'
-            fileutils.mkdir(args.build_dir)
+            self._mkdir(args.build_dir)
             self.do_make(args)
 
         # Checkout the code bases that we will use for the perf testsuite
@@ -144,8 +175,7 @@ class Manage(ManageScript):
         excluded_patterns = ['@', 'a-numeri', 'rad-project']
         ada_files = filter(
             lambda f: all(map(lambda p: p not in f, excluded_patterns)),
-            fileutils.find(work_dir, '*.ads') +
-            fileutils.find(work_dir, '*.adb')
+            self._find_ada_sources(work_dir)
         )
         file_list_name = 'ada_file_list'
         with open(file_list_name, 'w') as file_list:

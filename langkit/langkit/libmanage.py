@@ -1,11 +1,10 @@
 import argparse
+import glob
 import os.path
 import pipes
 import shutil
 import subprocess
 import sys
-
-from gnatpython import fileutils
 
 from langkit.utils import Colors, printcol
 
@@ -266,10 +265,11 @@ class ManageScript(object):
         if parsed_args.func == self.do_generate and parsed_args.coverage:
             try:
                 import coverage
+                del coverage
             except Exception as exc:
                 import traceback
                 print >> sys.stderr, 'Coverage not available:'
-                traceback.print_exc(coverage_exc)
+                traceback.print_exc(exc)
                 sys.exit(1)
 
             cov = Coverage(self.dirs)
@@ -374,7 +374,11 @@ class ManageScript(object):
         del args
 
         for subdir in ('bin', 'include', 'lib', 'python'):
-            fileutils.sync_tree(
+            install_dir = self.dirs.install_dir(subdir)
+            if os.path.isdir(install_dir):
+                shutil.rmtree(install_dir)
+            assert not os.path.exists(install_dir)
+            shutil.copytree(
                 self.dirs.build_dir(subdir),
                 self.dirs.install_dir(subdir)
             )
@@ -388,7 +392,7 @@ class ManageScript(object):
             print('{name}={path}:${name}; export {name}'.format(
                 name=name, path=pipes.quote(path)
             ))
-        setup_environment(self.dirs, add_path)
+        self.setup_environment(self.dirs, add_path)
 
     def do_help(self, args):
         """Print usage and exit"""

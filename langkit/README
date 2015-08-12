@@ -15,7 +15,7 @@ Install
 -------
 
 There is no proper distribution for the langkit Python package, so just add the
-top-level langkit directory to your PYTHONPATH in order to use it.  Note that
+top-level langkit directory to your PYTHONPATH in order to use it. Note that
 this directory is self-contained, so you can copy it somewhere else.
 
 Testing
@@ -27,7 +27,15 @@ plan to add one at some point.
 Documentation
 -------------
 
-A Sphinx documentation is planned and should land soon!
+The developper and user's documentation for Langkit is in langkit/doc. You can
+consult it as a text files or you can build it. For instance, to generate HTML
+documents, run from the top directory:
+
+$ make -C langkit/doc html
+
+And then open the following file in your favorite browser:
+
+    langkit/doc/_build/html/index.html
 
 Bootstrapping a new language engine
 -----------------------------------

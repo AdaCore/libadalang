@@ -7,3 +7,4 @@ testsuite/tests/*/*/*.ads no-precommit-check
 testsuite/tests/*/*/*.c no-precommit-check
 
 ada/doc/conf.py no-precommit-check
+langkit/doc/conf.py no-precommit-check

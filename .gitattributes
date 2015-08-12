@@ -6,4 +6,4 @@ testsuite/tests/*/*/*.adb no-precommit-check
 testsuite/tests/*/*/*.ads no-precommit-check
 testsuite/tests/*/*/*.c no-precommit-check
 
-ada/doc/dev_guide/conf.py no-precommit-check
+ada/doc/conf.py no-precommit-check

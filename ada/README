@@ -79,12 +79,12 @@ $ python ada/manage.py test -- -g ada/testsuite/tests/parser/abort_statement_0
 Documentation
 -------------
 
-The developer's documentation for Libadalang is in ada/doc/dev_guide. You can
+The developer and user's documentation for Libadalang is in ada/doc. You can
 consult it as a text files or you can build it.  For instance, to generate HTML
 documents, run from the top directory:
 
-$ make -C ada/doc/dev_guide html
+$ make -C ada/doc html
 
 And then open the following file in your favorite browser:
 
-    ada/doc/dev_guide/_build/html/index.html
+    ada/doc/_build/html/index.html

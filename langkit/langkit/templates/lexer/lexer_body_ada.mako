@@ -75,27 +75,36 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
          Continue := Next_Token (Lexer, Token'Unrestricted_Access) /= 0;
 
-         ## Token id is part of the class of token types for which we want to
-         ## keep the text, but without internalization of the text.
-         if Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
-                                     for tok in get_context().lexer.token_actions['WithText'])}
-         then
-            Text := Add_String (TDH, Bounded_Text);
+         case Token.Id is
 
-         ## Token id is part of the class of token types for which we want to
-         ## internalize the text
-         elsif Token.Id in ${" | ".join(get_context().lexer.token_name(tok)
-                                        for tok in get_context().lexer.token_actions['WithSymbol'])}
-         then
-            --  TODO??? GNATCOLL.Symbol forces us to work with Symbol values.
-            --  These are accesses to unconstrained arrays but we want to work
-            --  with Ada.Strings.Unbounded.String_Access values...
-            Text := Convert (Find (TDH.Symbols, Bounded_Text));
+         % if get_context().lexer.token_actions['WithText']:
+            ## Token id is part of the class of token types for which we want to
+            ## keep the text, but without internalization of the text.
+            when ${" | ".join(
+               get_context().lexer.token_name(tok)
+               for tok in get_context().lexer.token_actions['WithText']
+            )} =>
+               Text := Add_String (TDH, Bounded_Text);
+         % endif
 
-         ## Else, don't keep the text at all
-         else
-            Text := null;
-         end if;
+         % if get_context().lexer.token_actions['WithSymbol']:
+            ## Token id is part of the class of token types for which we want to
+            ## internalize the text
+            when ${" | ".join(
+               get_context().lexer.token_name(tok)
+               for tok in get_context().lexer.token_actions['WithSymbol']
+            )} =>
+               --  TODO??? GNATCOLL.Symbol forces us to work with Symbol values.
+               --  These are accesses to unconstrained arrays but we want to work
+               --  with Ada.Strings.Unbounded.String_Access values...
+
+               Text := Convert (Find (TDH.Symbols, Bounded_Text));
+         % endif
+
+            ## Else, don't keep the text at all
+            when others =>
+               Text := null;
+         end case;
 
          Append
            (TDH.Tokens,

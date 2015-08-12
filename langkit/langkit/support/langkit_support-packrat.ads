@@ -15,14 +15,14 @@ package Langkit_Support.Packrat is
    type Memo_Type is private;
 
    procedure Clear (Memo : in out Memo_Type);
-   function Get (Memo : Memo_Type; Offset : Integer) return Memo_Entry;
-   pragma Inline_Always (Get);
+   function Get (Memo : Memo_Type; Offset : Integer) return Memo_Entry
+     with Inline_Always;
 
    procedure Set (Memo              : in out Memo_Type;
                   Is_Success        : Boolean;
                   Instance          : T;
-                  Offset, Final_Pos : Integer);
-   pragma Inline_Always (Set);
+                  Offset, Final_Pos : Integer)
+     with Inline_Always;
 
 private
 

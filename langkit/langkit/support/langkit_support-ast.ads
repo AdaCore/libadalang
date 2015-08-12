@@ -95,8 +95,8 @@ package Langkit_Support.AST is
                               Snap       : Boolean := False);
 
    procedure Inc_Ref (Node : AST_Node);
-   procedure Dec_Ref (Node : in out AST_Node);
-   pragma Inline_Always (Dec_Ref);
+   procedure Dec_Ref (Node : in out AST_Node)
+     with Inline_Always;
 
    function Get_Extension
      (Node : AST_Node;

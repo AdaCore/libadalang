@@ -38,20 +38,20 @@ package Langkit_Support.Vectors is
         Has_Element => Has_Element,
         Element     => Get);
 
-   procedure Append (Self : in out Vector; Element : Element_Type);
-   pragma Inline_Always (Append);
+   procedure Append (Self : in out Vector; Element : Element_Type)
+     with Inline_Always;
    --  Appends Element to Self
 
-   function Get (Self : Vector; Index : Natural) return Element_Type;
-   pragma Inline_Always (Get);
+   function Get (Self : Vector; Index : Natural) return Element_Type
+     with Inline_Always;
    --  Get the element at Index
 
-   procedure Destroy (Self : in out Vector);
-   pragma Inline_Always (Destroy);
+   procedure Destroy (Self : in out Vector)
+     with Inline_Always;
    --  Destroy this vector
 
-   procedure Clear (Self : in out Vector);
-   pragma Inline_Always (Clear);
+   procedure Clear (Self : in out Vector)
+     with Inline_Always;
    --  Remove every element in this vector.
    --  NOTICE: this function does not actually free the memory of the vector!
 
@@ -61,26 +61,26 @@ package Langkit_Support.Vectors is
    function Last_Element (Self : Vector) return Element_Type;
    --  Return the last element in this vector
 
-   function Length (Self : Vector) return Natural;
-   pragma Inline_Always (Length);
+   function Length (Self : Vector) return Natural
+     with Inline_Always;
    --  Return the Length of the vector, ie. the number of elements it contains
 
-   function First_Index (Self : Vector) return Natural is (0);
-   pragma Inline_Always (First_Index);
+   function First_Index (Self : Vector) return Natural is (0)
+     with Inline_Always;
    --  Return the first index, only used for the Iterable aspect
 
    function Last_Index (Self : Vector) return Integer
-   is (Length (Self) - 1);
-   pragma Inline_Always (Last_Index);
+   is (Length (Self) - 1)
+     with Inline_Always;
    --  Return the index of the last element in this vector
 
-   function Next (Self : Vector; N : Natural) return Natural is (N + 1);
-   pragma Inline_Always (Next);
+   function Next (Self : Vector; N : Natural) return Natural is (N + 1)
+     with Inline_Always;
    --  Given a vector and an index, return the next index. Only used for the
    --  iterable aspect
 
-   function Has_Element (Self : Vector; N : Natural) return Boolean;
-   pragma Inline_Always (Has_Element);
+   function Has_Element (Self : Vector; N : Natural) return Boolean
+     with Inline_Always;
    --  Given a vector and an index, return True if the index is in the vector
    --  range. Only used for the iterable aspect.
 
@@ -93,8 +93,8 @@ private
       SV       : Small_Array_Type;
    end record;
 
-   procedure Reserve (Self : in out Vector; Capacity : Positive);
-   pragma Inline_Always (Reserve);
+   procedure Reserve (Self : in out Vector; Capacity : Positive)
+     with Inline_Always;
    --  Reserve Capacity elements
 
    function Has_Element (Self : Vector; N : Natural) return Boolean is

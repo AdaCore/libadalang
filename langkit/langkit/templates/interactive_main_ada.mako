@@ -34,7 +34,7 @@ procedure Parse is
    Measure_Time : aliased Boolean;
    Indent    : aliased Boolean;
    Rule_Name : aliased GNAT.Strings.String_Access :=
-      new String'("compilation_unit");
+      new String'("${get_context().main_rule_name}");
    File_Name : aliased GNAT.Strings.String_Access;
    File_List : aliased GNAT.Strings.String_Access;
 

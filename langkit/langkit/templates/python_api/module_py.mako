@@ -40,6 +40,9 @@ class AnalysisUnit(object):
         def __init__(self, unit):
             self.unit = unit
 
+        def __repr__(self):
+            return 'DiagnosticsList({})'.format(repr(list(self)))
+
         def __len__(self):
             return _unit_diagnostic_count(self.unit._c_value)
 
@@ -105,6 +108,12 @@ class Sloc(object):
     def __nonzero__(self):
         return self.line or self.column
 
+    def __str__(self):
+        return '{}:{}'.format(self.line, self.column)
+
+    def __repr__(self):
+        return '<Sloc {} at {:#x}>'.format(self, id(self))
+
 
 class SlocRange(object):
     # TODO: document this class and its methods
@@ -116,6 +125,12 @@ class SlocRange(object):
     def __nonzero__(self):
         return self.start or self.end
 
+    def __str__(self):
+        return '{}-{}'.format(self.start, self.end)
+
+    def __repr__(self):
+        return '<SlocRange {} at {:#x}>'.format(self, id(self))
+
 
 class Diagnostic(object):
     # TODO: document this class and its methods
@@ -123,6 +138,12 @@ class Diagnostic(object):
     def __init__(self, sloc_range, message):
         self.sloc_range = sloc_range
         self.message = message
+
+    def __str__(self):
+        return '{}: {}'.format(self.sloc_range, self.message)
+
+    def __repr__(self):
+        return '<Diagnostic {} at {:#x}>'.format(repr(str(self)), id(self))
 
 
 class ASTNode(object):

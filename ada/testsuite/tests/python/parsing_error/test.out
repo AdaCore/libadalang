@@ -1,2 +1,13 @@
-Diagnostic: 1:1-1:5: End of input expected, got "Identifier"
+# Printing diagnostics list (repr)
+DiagnosticsList([<Diagnostic '1:1-1:5: End of input expected, got "Identifier"' at 0x...>])
+
+# Printing diagnostics list (str)
+DiagnosticsList([<Diagnostic '1:1-1:5: End of input expected, got "Identifier"' at 0x...>])
+
+# Printing each diagnostic individually (repr)
+<Diagnostic '1:1-1:5: End of input expected, got "Identifier"' at 0x...>
+
+# Printing each diagnostic individually (str)
+1:1-1:5: End of input expected, got "Identifier"
+
 Done.

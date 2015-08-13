@@ -334,7 +334,7 @@ class CompileCtx():
         # Copy langkit_support sources files to the include prefix and
         # create its own project file.
         from os.path import dirname, abspath, join
-        lngk_support_dir = join(dirname(dirname(abspath(__file__))), "support")
+        lngk_support_dir = join(dirname(abspath(__file__)), "support")
 
         for f in itertools.chain(glob(join(lngk_support_dir, "*.adb")),
                                  glob(join(lngk_support_dir, "*.ads"))):

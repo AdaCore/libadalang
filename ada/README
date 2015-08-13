@@ -8,7 +8,7 @@ To generate and build the library itself:
 
 - Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64
   Follow the installation guide in the quex README
-- The mako template system for Python (pip install mako)
+- The mako template system for Python (see REQUIREMENTS.dev)
 - Clang-format
 
 You will need GNATpython in order to run the testsuite.
@@ -17,14 +17,9 @@ To develop comfortably:
 
 - If you want interactive debugging when code is generated, install IPython
 - If you want to compute code coverage for the code generator, install
-  coverage.py (pip install coverage)
+  coverage.py (see REQUIREMENTS.dev)
 - If you want to check memory issues, the testsuite has an option to track them
   using Valgrind.
-
-To build the documentation:
-
-- Sphinx
-- Pygments
 
 Building
 --------

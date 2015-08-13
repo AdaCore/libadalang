@@ -8,13 +8,8 @@ To use Langkit:
 
 - Quex version 0.64.8 - http://sourceforge.net/projects/quex/files/HISTORY/0.64
   Follow the installation guide in the quex README
-- The mako template system for Python (pip install mako)
+- The mako template system for Python (see REQUIREMENTS.dev)
 - Clang-format
-
-To build the documentation:
-
-- Sphinx
-- Pygments
 
 Install
 -------

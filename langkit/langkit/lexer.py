@@ -156,6 +156,9 @@ class LexerToken(object):
     # its value will always be zero
     Termination = NoText()
 
+    # Built-in token to represent a lexing failure.
+    LexingFailure = NoText()
+
 
 class Patterns(object):
     """
@@ -242,6 +245,13 @@ class Lexer(object):
         for el in self.tokens_class:
             self.token_actions[type(el).__name__].add(el)
 
+        # These are automatic rules, useful for all lexers: handle end of input
+        # and invalid tokens.
+        self.add_rules(
+            (Eof(),     self.tokens_class.Termination),
+            (Failure(), self.tokens_class.LexingFailure),
+        )
+
     def add_patterns(self, *patterns):
         """
         Add the list of named patterns to the lexer's internal patterns. A
@@ -311,6 +321,7 @@ class Lexer(object):
 
         :param str file_name: The full path to the file in which to write
         """
+
         with open(file_name, "w") as f:
             f.write(common_renderer.render(
                 "lexer/quex_lexer_spec",

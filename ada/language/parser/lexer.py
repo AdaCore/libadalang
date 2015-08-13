@@ -1,6 +1,6 @@
 from langkit.lexer import (
-    Lexer, NoCase, Literal, Pattern, Eof, NoText, Ignore, WithText,
-    Case, Alt, Failure, LexerToken, WithSymbol
+    Lexer, NoCase, Literal, Pattern, NoText, Ignore, WithText, Case, Alt,
+    LexerToken, WithSymbol
 )
 
 
@@ -118,9 +118,6 @@ class Token(LexerToken):
     With = NoText()
     Number = WithText()
 
-    # Fail token
-    LexFail = NoText()
-
 ada_lexer = Lexer(Token)
 
 ada_lexer.add_patterns(
@@ -137,7 +134,6 @@ ada_lexer.add_patterns(
 )
 
 ada_lexer.add_rules(
-    (Eof(),                                     Token.Termination),
     (Pattern(r"[ \t\r\n]+"),                    Ignore()),
     (Pattern(r"--(.?)+"),                       Ignore()),
     (NoCase("abort"),                           Token.Abort),
@@ -254,6 +250,4 @@ ada_lexer.add_rules(
              send=Token.Tick,
              match_size=1),
          Alt(send=Token.Char, match_size=3)),
-
-    (Failure(),                                 Token.LexFail),
 )

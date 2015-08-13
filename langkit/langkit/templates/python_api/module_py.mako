@@ -209,6 +209,32 @@ class ASTNode(object):
         for field_name in self._field_names:
             yield (field_name, getattr(self, 'f_{}'.format(field_name)))
 
+    def dump(self, indent='', file=sys.stdout):
+        """Dump the sub-tree in a human-readable format on the given file.
+
+        :param str indent: Prefix printed on each line during the dump.
+        :param file file: File in which the dump must occur.
+        """
+
+        def print_node(name, value):
+            if isinstance(value, ASTNode):
+                print >> file, '{}{}:'.format(indent, name)
+                value.dump(indent + '  ', file)
+            elif isinstance(value, Token):
+                print >> file, '{}{}: Token({})'.format(indent, name,
+                                                        repr(value.text))
+            else:
+                print >> file, '{}{}: {}'.format(indent, name, value)
+
+        print >> file, '{}<{}>'.format(indent, self.kind_name)
+        indent = indent + '|'
+        if isinstance(self, ASTList):
+            for i, value in enumerate(self):
+                print_node("item {}".format(i), value)
+        else:
+            for name, value in self.iter_fields():
+                print_node(name, value)
+
 
 class ASTList(ASTNode):
     # TODO: document this class

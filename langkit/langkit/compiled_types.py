@@ -149,7 +149,7 @@ class BasicType(CompiledType):
 
     @classmethod
     def name(cls):
-        return cls._name
+        return names.Name(cls._name)
 
     @classmethod
     def nullexpr(cls):
@@ -560,7 +560,7 @@ def list_type(element_type):
 
     @classmethod
     def name(cls):
-        return 'List_{}'.format(element_type.name())
+        return names.Name('List') + element_type.name()
 
     @classmethod
     def add_to_context(cls):

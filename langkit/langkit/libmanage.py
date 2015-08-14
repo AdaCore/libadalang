@@ -373,7 +373,7 @@ class ManageScript(object):
         """Install programs and libraries."""
         del args
 
-        for subdir in ('bin', 'include', 'lib', 'python'):
+        for subdir in ('bin', 'include', 'lib', 'share', 'python'):
             install_dir = self.dirs.install_dir(subdir)
             if os.path.isdir(install_dir):
                 shutil.rmtree(install_dir)

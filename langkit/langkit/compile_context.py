@@ -304,6 +304,7 @@ class CompileCtx():
         include_path = path.join(file_root, "include")
         src_path = path.join(file_root, "include", lib_name_low)
         lib_path = path.join(file_root, "lib")
+        share_path = path.join(file_root, "share", lib_name_low)
 
         if not path.exists(file_root):
             os.mkdir(file_root)
@@ -313,6 +314,8 @@ class CompileCtx():
         for d in ["include",
                   "include/langkit_support",
                   "include/{}".format(lib_name_low),
+                  "share",
+                  "share/{}".format(lib_name_low),
                   "obj", "src", "bin",
                   "lib", "lib/gnat"]:
             p = path.join(file_root, d)
@@ -365,6 +368,9 @@ class CompileCtx():
             start=2
         ):
             self.node_kind_constants[astnode] = i
+
+        with open(os.path.join(share_path, 'ast-types.txt'), 'w') as f:
+            self.emit_ast_doc_txt(f)
 
         printcol("Generating sources... ", Colors.OKBLUE)
 
@@ -483,3 +489,42 @@ class CompileCtx():
                     pyapi=self.python_api_settings,
                     astnode_subclass_decls=astnode_subclass_decls,
                 ))
+
+    def emit_ast_doc_txt(self, file):
+        """Generate a synthetic text documentation about AST nodes and types
+
+        :param file file: Output file for the documentation
+        """
+        i = 0
+        for type_decl in self.enum_declarations:
+            i += 1
+            print >> file, 'enum {}: {}'.format(
+                type_decl.type.name().camel,
+                ' '.join(type_decl.type.alternatives)
+            )
+
+        if i > 0:
+            print >> file, ''
+
+        i = 0
+        for typ in self.astnode_types:
+            if i > 0:
+                print >> file, ''
+            i += 1
+
+            # If this is not ASTNode, get the parent class
+            bases = list(typ.get_inheritance_chain())
+            base = bases[-2] if len(bases) > 1 else None
+
+            print >> file, '{}node {}{}{}'.format(
+                'abstract ' if typ.abstract else '',
+                typ.name().camel,
+                '({})'.format(base.name().camel) if base else '',
+                ':' if typ.fields else ''
+            )
+
+            for field, field_type in zip(typ.fields,
+                                         self.ast_fields_types[typ]):
+                print >> file, '    field {}: {}'.format(
+                    field.name.lower, field_type.name().camel
+                )

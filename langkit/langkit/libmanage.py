@@ -392,7 +392,7 @@ class ManageScript(object):
             print('{name}={path}:${name}; export {name}'.format(
                 name=name, path=pipes.quote(path)
             ))
-        self.setup_environment(self.dirs, add_path)
+        self.setup_environment(add_path)
 
     def do_help(self, args):
         """Print usage and exit"""

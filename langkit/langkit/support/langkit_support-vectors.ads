@@ -62,6 +62,10 @@ package Langkit_Support.Vectors is
    function Last_Element (Self : Vector) return Element_Type;
    --  Return the last element in this vector
 
+   function Last_Element (Self : Vector) return Element_Access;
+   --  Return an access to the last element in this vector
+   --  NOTICE : Read Get_Access's documentation
+
    function Length (Self : Vector) return Natural
      with Inline_Always;
    --  Return the Length of the vector, ie. the number of elements it contains

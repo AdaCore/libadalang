@@ -118,8 +118,21 @@ package body Langkit_Support.Vectors is
    -- Last_Element --
    ------------------
 
+   function Last_Element (Self : Vector) return Element_Access
+   is
+   begin
+      return Get_Access (Self, Self.Size - 1);
+   end Last_Element;
+
+   ------------------
+   -- Last_Element --
+   ------------------
+
    function Last_Element (Self : Vector) return Element_Type
-   is (Get (Self, Self.Size - 1));
+   is
+   begin
+      return Get (Self, Self.Size - 1);
+   end Last_Element;
 
    -------------------
    -- First_Element --

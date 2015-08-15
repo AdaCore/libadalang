@@ -77,6 +77,25 @@ package body Langkit_Support.Vectors is
       end if;
    end Get;
 
+   ----------------
+   -- Get_Access --
+   ----------------
+
+   function Get_Access
+     (Self : Vector; Index : Natural) return Element_Access
+   is
+   begin
+      if Small_Vector_Capacity = 0 then
+         return Self.E (Index)'Unrestricted_Access;
+      else
+         if Self.Capacity = Small_Vector_Capacity then
+            return Self.SV (Index)'Unrestricted_Access;
+         else
+            return Self.E (Index)'Unrestricted_Access;
+         end if;
+      end if;
+   end Get_Access;
+
    -------------
    -- Destroy --
    -------------

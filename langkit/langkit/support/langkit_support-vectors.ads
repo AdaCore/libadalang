@@ -30,6 +30,8 @@ package Langkit_Support.Vectors is
         Has_Element => Has_Element,
         Element     => Get);
 
+   type Element_Access is not null access all Element_Type;
+
    procedure Append (Self : in out Vector; Element : Element_Type)
      with Inline_Always;
    --  Appends Element to Self
@@ -37,6 +39,13 @@ package Langkit_Support.Vectors is
    function Get (Self : Vector; Index : Natural) return Element_Type
      with Inline_Always;
    --  Get the element at Index
+
+   function Get_Access (Self : Vector; Index : Natural) return Element_Access
+     with Inline_Always;
+   --  Get an access to the element at Index
+   --  NOTICE: This access is unsafe, and might get invalidated if the Vector
+   --  is reallocated. Hence, its lifetime is considered to be as long as the
+   --  vector is not modified
 
    procedure Destroy (Self : in out Vector)
      with Inline_Always;

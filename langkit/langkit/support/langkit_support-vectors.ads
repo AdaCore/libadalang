@@ -1,6 +1,7 @@
 with Ada.Unchecked_Deallocation;
 with Ada.Unchecked_Conversion;
 with System;
+with Langkit_Support.Array_Utils;
 
 --  This package implements a very simple Vector type. It has the following
 --  attributes:
@@ -19,17 +20,8 @@ generic
    Small_Vector_Capacity : Natural := 0;
 package Langkit_Support.Vectors is
 
-   type Elements_Array is array (Natural) of Element_Type;
-   type Elements_Array_Access is access all Elements_Array;
-
-   function To_Pointer is
-     new Ada.Unchecked_Conversion (System.Address, Elements_Array_Access);
-
-   procedure Free is new Ada.Unchecked_Deallocation
-     (Elements_Array, Elements_Array_Access);
-
-   type Small_Array_Type
-   is array (0 .. Small_Vector_Capacity - 1) of Element_Type;
+   package Elements_Arrays is new Array_Utils (Element_Type);
+   subtype Elements_Array is Elements_Arrays.Array_Type;
 
    type Vector is private
      with Iterable =>
@@ -85,6 +77,18 @@ package Langkit_Support.Vectors is
    --  range. Only used for the iterable aspect.
 
 private
+
+   subtype Internal_Elements_Array is Elements_Arrays.Array_Type (Natural);
+   type Elements_Array_Access is access all Internal_Elements_Array;
+
+   function To_Pointer is
+     new Ada.Unchecked_Conversion (System.Address, Elements_Array_Access);
+
+   procedure Free is new Ada.Unchecked_Deallocation
+     (Internal_Elements_Array, Elements_Array_Access);
+
+   subtype Small_Array_Type
+     is Elements_Arrays.Array_Type (0 .. Small_Vector_Capacity - 1);
 
    type Vector is record
       E        : Elements_Array_Access := null;

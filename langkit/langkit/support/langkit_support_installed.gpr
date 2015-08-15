@@ -17,6 +17,7 @@ library project Langkit_Support is
    for Library_Kind use Library_Kind_Param;
    for Library_Interface use
      ("Langkit_Support",
+      "Langkit_Support.Array_Utils",
       "Langkit_Support.Ast",
       "Langkit_Support.Vectors",
       "Langkit_Support.Ast.List",

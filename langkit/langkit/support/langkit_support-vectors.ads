@@ -89,6 +89,14 @@ package Langkit_Support.Vectors is
    --  Given a vector and an index, return True if the index is in the vector
    --  range. Only used for the iterable aspect.
 
+   function To_Array
+     (Self : Vector) return Elements_Array;
+   --  Return a (shallow) copy of the current vector as an array
+
+   function Slice
+     (Self : Vector; First, Last : Natural) return Elements_Array;
+   --  Return a (shallow) copy of Self (First .. Last) as an array
+
 private
 
    subtype Internal_Elements_Array is Elements_Arrays.Array_Type (Natural);

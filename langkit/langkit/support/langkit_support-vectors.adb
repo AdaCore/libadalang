@@ -147,4 +147,38 @@ package body Langkit_Support.Vectors is
 
    function Length (Self : Vector) return Natural is (Self.Size);
 
+   -----------
+   -- Slice --
+   -----------
+
+   function Slice
+     (Self : Vector; First, Last : Natural) return Elements_Array
+   is
+   begin
+      if Small_Vector_Capacity = 0 then
+         return Self.E (First .. Last);
+      else
+         if Self.Capacity = Small_Vector_Capacity then
+            return Self.SV (First .. Last);
+         else
+            return Self.E (First .. Last);
+         end if;
+      end if;
+   end Slice;
+
+   --------------
+   -- To_Array --
+   --------------
+
+   function To_Array
+     (Self : Vector) return Elements_Array
+   is
+   begin
+      if Self.Size = 0 then
+         return Elements_Arrays.Empty_Array;
+      else
+         return Slice (Self, 0, Self.Size - 1);
+      end if;
+   end To_Array;
+
 end Langkit_Support.Vectors;

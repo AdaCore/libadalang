@@ -181,4 +181,20 @@ package body Langkit_Support.Vectors is
       end if;
    end To_Array;
 
+   -----------
+   -- Image --
+   -----------
+
+   function Image (Self : Vector) return String is
+      function Image (Self : Vector; I : Natural) return String
+      is
+        (if I < Length (Self) - 1 then Image (Get (Self, I))
+         & ", " & Image (Self, I + 1)
+         else Image (Get (Self, I)));
+   begin
+      return "[" & (if Self.Size > 0
+                    then Image (Self, 0)
+                    else "") & "]";
+   end Image;
+
 end Langkit_Support.Vectors;

@@ -97,6 +97,13 @@ package Langkit_Support.Vectors is
      (Self : Vector; First, Last : Natural) return Elements_Array;
    --  Return a (shallow) copy of Self (First .. Last) as an array
 
+   generic
+      with function Image (El : Element_Type) return String;
+   function Image (Self : Vector) return String;
+   --  Generic function, that, given a Image function on the element type,
+   --  returning the representation of an instance of Element_Type as a string,
+   --  will return a string representation of the vector
+
 private
 
    subtype Internal_Elements_Array is Elements_Arrays.Array_Type (Natural);

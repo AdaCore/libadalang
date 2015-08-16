@@ -72,9 +72,6 @@ class NoText(TokenAction):
             Keyword = NoText()
     """
 
-    def __init__(self):
-        super(NoText, self).__init__()
-
     def render(self, lexer):
         return "=> {};".format(lexer.token_name(self.name))
 
@@ -90,11 +87,21 @@ class WithText(TokenAction):
             StringLiteral = WithText()
     """
 
-    def __init__(self):
-        super(WithText, self).__init__()
-
     def render(self, lexer):
         return "=> {}(Lexeme);".format(lexer.token_name(self.name))
+
+
+class WithTrivia(WithText):
+    """
+    TokenAction. The associated token kind will have the lexed text associated
+    to it. A new string will be allocated by the parser each time. Suited for
+    literals (numbers, strings, etc..)::
+
+        class MyToken(LexerToken):
+            # String tokens will keep the associated text when lexed
+            StringLiteral = WithText()
+    """
+    pass
 
 
 class WithSymbol(TokenAction):
@@ -108,9 +115,6 @@ class WithSymbol(TokenAction):
             # Identifiers will keep an internalized version of the text
             Identifier = WithSymbol()
     """
-
-    def __init__(self):
-        super(WithSymbol, self).__init__()
 
     def render(self, lexer):
         return "=> {}(Lexeme);".format(lexer.token_name(self.name))

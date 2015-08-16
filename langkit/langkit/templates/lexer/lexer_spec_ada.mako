@@ -12,12 +12,14 @@ with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 package ${_self.ada_api_settings.lib_name}.Lexer is
 
    procedure Lex_From_Filename (Filename, Charset : String;
-                                TDH               : in out Token_Data_Handler);
+                                TDH               : in out Token_Data_Handler;
+                                With_Trivia       : Boolean);
    --  Extract tokens out of Filename and store them into TDH. Raise a
    --  Name_Error exception if the file could not be open.
 
-   procedure Lex_From_Buffer (Buffer : String;
-                              TDH    : in out Token_Data_Handler);
+   procedure Lex_From_Buffer (Buffer      : String;
+                              TDH         : in out Token_Data_Handler;
+                              With_Trivia : Boolean);
    --  Likewise, but extract tokens from an in-memory buffer. This never raises
    --  an exception.
 

@@ -15,7 +15,7 @@ with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
 package body ${_self.ada_api_settings.lib_name}.Lexer is
 
-   use Token_Vectors;
+   use Token_Vectors, Trivia_Vectors, Integer_Vectors;
 
    type Token_Type is record
       Id                       : Unsigned_16;
@@ -53,20 +53,47 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
    -- Process_All_Tokens --
    ------------------------
 
+   generic
+      With_Trivia : Boolean;
    procedure Process_All_Tokens (Lexer : Lexer_Type;
-                                 TDH   : in out Token_Data_Handler) is
-      Token    : aliased Token_Type;
-      Text     : String_Access;
-      Continue : Boolean := True;
+                                 TDH   : in out Token_Data_Handler);
+
+   procedure Process_All_Tokens (Lexer : Lexer_Type;
+                                 TDH   : in out Token_Data_Handler)
+   is
+
+      Token                 : aliased Token_Type;
+      Text                  : String_Access;
+      Continue              : Boolean := True;
+      Last_Token_Was_Trivia : Boolean := False;
 
       function Bounded_Text return String is
         (Value (Token.Text, Token.Text_Length));
 
+      procedure Prepare_For_Trivia
+        with Inline_Always;
+      --  Append an entry for the current token in the Tokens_To_Trivias
+      --  correspondence vector.
+
+      procedure Prepare_For_Trivia is
+      begin
+         if With_Trivia then
+            --  By default, the current token will have no trivia
+            Append (TDH.Tokens_To_Trivias, -1);
+
+            --  Reset Last_Token_Was_Trivia so that new trivia is added to the
+            --  current token
+            Last_Token_Was_Trivia := False;
+         end if;
+      end Prepare_For_Trivia;
    begin
       --  In the case we are reparsing an analysis unit, we want to get rid of
       --  the tokens from the old one.
 
       Reset (TDH);
+
+      --  The first entry in the Tokens_To_Trivias map is for leading trivias
+      Prepare_For_Trivia;
 
       while Continue loop
 
@@ -85,6 +112,9 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
                for tok in get_context().lexer.token_actions['WithText']
             )} =>
                Text := Add_String (TDH, Bounded_Text);
+
+               Prepare_For_Trivia;
+
          % endif
 
          % if get_context().lexer.token_actions['WithSymbol']:
@@ -99,11 +129,44 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
                --  with Ada.Strings.Unbounded.String_Access values...
 
                Text := Convert (Find (TDH.Symbols, Bounded_Text));
+
+               Prepare_For_Trivia;
+         % endif
+
+         % if get_context().lexer.token_actions['WithTrivia']:
+            when ${" | ".join(
+               get_context().lexer.token_name(tok)
+               for tok in get_context().lexer.token_actions['WithTrivia']
+            )} =>
+               if With_Trivia then
+                  Text := Add_String (TDH, Bounded_Text);
+
+                  if Last_Token_Was_Trivia then
+                     Last_Element (TDH.Trivias).all.Has_Next := True;
+                  else
+                     Last_Element (TDH.Tokens_To_Trivias).all := Length (TDH.Trivias);
+                  end if;
+
+                  Append
+                    (TDH.Trivias,
+                      (Has_Next => False,
+                       T        => (Id   => Token.Id,
+                                    Text => Text,
+                                    Sloc_Range =>
+                                      (Token.Start_Line,   Token.End_Line,
+                                       Token.Start_Column, Token.End_Column))));
+
+                  Last_Token_Was_Trivia := True;
+               end if;
+
+               goto Dont_Append;
          % endif
 
             ## Else, don't keep the text at all
             when others =>
                Text := null;
+               Prepare_For_Trivia;
+
          end case;
 
          Append
@@ -112,8 +175,14 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
              Text => Text,
              Sloc_Range => (Token.Start_Line,   Token.End_Line,
                             Token.Start_Column, Token.End_Column)));
+
+         <<Dont_Append>>
       end loop;
+
    end Process_All_Tokens;
+
+   procedure Process_All_Tokens_With_Trivia is new Process_All_Tokens (True);
+   procedure Process_All_Tokens_No_Trivia is new Process_All_Tokens (False);
 
    -----------------------
    -- Lex_From_Filename --
@@ -121,7 +190,8 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
    procedure Lex_From_Filename
      (Filename, Charset : String;
-      TDH               : in out Token_Data_Handler)
+      TDH               : in out Token_Data_Handler;
+      With_Trivia       : Boolean)
    is
       pragma Unreferenced (Charset);
       --  TODO??? we should handle charset handling at some point
@@ -140,7 +210,12 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
          Lexer_From_Buffer (Buffer, Buffer_Size);
 
    begin
-      Process_All_Tokens (Lexer, TDH);
+      if With_Trivia then
+         Process_All_Tokens_With_Trivia (Lexer, TDH);
+      else
+         Process_All_Tokens_No_Trivia (Lexer, TDH);
+      end if;
+
       Free_Lexer (Lexer);
       Free (Region);
       Close (File);
@@ -150,13 +225,19 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
    -- Lex_From_Buffer --
    ---------------------
 
-   procedure Lex_From_Buffer (Buffer : String;
-                              TDH    : in out Token_Data_Handler) is
+   procedure Lex_From_Buffer (Buffer      : String;
+                              TDH         : in out Token_Data_Handler;
+                              With_Trivia : Boolean)
+   is
       Buffer_Ptr : System.Address := Buffer'Address;
       Lexer      : Lexer_Type :=
          Lexer_From_Buffer (Buffer_Ptr, Buffer'Length);
    begin
-      Process_All_Tokens (Lexer, TDH);
+      if With_Trivia then
+         Process_All_Tokens_With_Trivia (Lexer, TDH);
+      else
+         Process_All_Tokens_No_Trivia (Lexer, TDH);
+      end if;
       Free_Lexer (Lexer);
    end Lex_From_Buffer;
 

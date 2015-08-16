@@ -248,4 +248,18 @@ package body Langkit_Support.AST is
       return Node /= null;
    end Present;
 
+   --------------
+   -- Children --
+   --------------
+
+   function Children (Node : AST_Node) return AST_Node_Arrays.Array_Type
+   is
+   begin
+      return A : AST_Node_Arrays.Array_Type (0 .. Child_Count (Node)) do
+         for I in 0 .. Child_Count (Node) loop
+            A (I) := Child (Node, I);
+         end loop;
+      end return;
+   end Children;
+
 end Langkit_Support.AST;

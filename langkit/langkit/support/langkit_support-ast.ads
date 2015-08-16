@@ -45,6 +45,10 @@ package Langkit_Support.AST is
    end record;
 
    type Traverse_Data is abstract tagged null record;
+
+   package AST_Node_Vectors is new Langkit_Support.Vectors (AST_Node);
+   package AST_Node_Arrays renames AST_Node_Vectors.Elements_Arrays;
+
    type Visit_Status is (Into, Over, Stop);
    type AST_Node_Kind is new Natural;
 
@@ -65,8 +69,15 @@ package Langkit_Support.AST is
                         Index  : Natural;
                         Exists : out Boolean;
                         Result : out AST_Node) is abstract;
+
    function Child (Node  : AST_Node;
                    Index : Natural) return AST_Node;
+
+   function Children (Node : AST_Node) return AST_Node_Arrays.Array_Type;
+   --  Return an array containing all the children of Node.
+   --  This is an alternative to the Child/Child_Count pair, useful if you want
+   --  the convenience of ada arrays, and you don't care about the small
+   --  performance hit of creating an array.
 
    procedure Traverse (Node : AST_Node;
                        Visit : access function (Node : AST_Node)

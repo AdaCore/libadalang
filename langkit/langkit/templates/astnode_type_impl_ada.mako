@@ -137,34 +137,23 @@
    procedure Print (Node  : access ${cls.name()}_Type;
                     Level : Natural := 0)
    is
-
-      procedure Print_Indent (Level : Natural) is
-      begin
-         for I in 1 .. Level loop
-            Put ("| ");
-         end loop;
-      end Print_Indent;
-
       Nod : constant AST_Node := AST_Node (Node);
-
    begin
-      Print_Indent (Level);
-      Put_Line (Kind_Name (Nod) & "[" & Image (Sloc_Range (Nod)) & "]");
+      Put_Line (Level, Kind_Name (Nod) & "[" & Image (Sloc_Range (Nod)) & "]");
 
       % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
          % if t.is_ptr:
             if Node.F_${f.name} /= null
                and then not Is_Empty_List (Node.F_${f.name})
             then
-               Print_Indent (Level + 1);
-               Put_Line ("${f.name.lower}:");
+               Put_Line (Level + 1, "${f.name.lower}:");
                Node.F_${f.name}.Print (Level + 2);
             end if;
          % else:
-            Print_Indent (Level + 1);
-            Put_Line ("${f.name.lower}: " & Image (Node.F_${f.name}));
+            Put_Line (Level + 1, "${f.name.lower}: " & Image (Node.F_${f.name}));
          % endif
       % endfor
+
    end Print;
 
    --------------

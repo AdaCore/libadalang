@@ -19,14 +19,15 @@ library project Langkit_Support is
      ("Langkit_Support",
       "Langkit_Support.Array_Utils",
       "Langkit_Support.Ast",
-      "Langkit_Support.Vectors",
       "Langkit_Support.Ast.List",
       "Langkit_Support.Diagnostics",
       "Langkit_Support.Extensions",
       "Langkit_Support.Indent",
       "Langkit_Support.Packrat",
+      "Langkit_Support.PP_Utils",
       "Langkit_Support.Token_Data_Handler",
-      "Langkit_Support.Tokens");
+      "Langkit_Support.Tokens",
+      "Langkit_Support.Vectors");
 
    for Source_Dirs use ("../../include/langkit_support");
    for Library_Dir use "../";

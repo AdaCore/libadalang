@@ -174,6 +174,8 @@ class CompileCtx():
 
         # List of TypeDeclaration instances for all ASTNode subclasses
         # (including ASTList instances).
+        self.incomplete_types_declarations = []
+        self.list_types_declarations = []
         self.types_declarations = []
 
         # List of strings for all ASTNode subclasses primitives body

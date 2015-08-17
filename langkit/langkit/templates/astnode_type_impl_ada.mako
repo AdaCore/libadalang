@@ -254,6 +254,16 @@
       return Nod;
    end Lookup_Children;
 
+   ## Body of attribute getters
+
+   % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+        function F_${f.name}
+          (Node : ${cls.name()}) return ${decl_type(t)}
+        is
+        begin
+           return ${decl_type(t)} (${cls.name()}_Type (Node.all).F_${f.name});
+        end F_${f.name};
+   % endfor
 % endif
 
    ----------

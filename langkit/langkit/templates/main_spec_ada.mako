@@ -137,6 +137,14 @@ package ${_self.ada_api_settings.lib_name} is
    -- ASTNode derived types --
    ---------------------------
 
+   % for decl in _self.incomplete_types_declarations:
+   ${decl.public_part}
+   % endfor
+
+   % for decl in _self.list_types_declarations:
+   ${decl.public_part}
+   % endfor
+
    % for decl in _self.types_declarations:
    ${decl.public_part}
    % endfor
@@ -144,6 +152,10 @@ package ${_self.ada_api_settings.lib_name} is
 private
 
    % for decl in _self.types_declarations:
+   ${decl.private_part}
+   % endfor
+
+   % for decl in _self.list_types_declarations:
    ${decl.private_part}
    % endfor
 

@@ -44,6 +44,7 @@ package Langkit_Support.AST is
       Extensions             : Extension_Vectors.Vector;
    end record;
 
+   type Traverse_Data is abstract tagged null record;
    type Visit_Status is (Into, Over, Stop);
    type AST_Node_Kind is new Natural;
 
@@ -51,6 +52,12 @@ package Langkit_Support.AST is
                   return AST_Node_Kind is abstract;
    function Kind_Name (Node : access AST_Node_Type) return String is abstract;
    function Image (Node : access AST_Node_Type) return String is abstract;
+
+   function No (Node : access AST_Node_Type'Class) return Boolean;
+   --  Determine if a given node is not present
+
+   function Present (Node : access AST_Node_Type'Class) return Boolean;
+   --  Determine if a given node is present
 
    function Child_Count (Node : access AST_Node_Type)
                          return Natural is abstract;
@@ -64,6 +71,14 @@ package Langkit_Support.AST is
    procedure Traverse (Node : AST_Node;
                        Visit : access function (Node : AST_Node)
                                                 return Visit_Status);
+   function Traverse
+     (Node  : AST_Node;
+      Data  : access Traverse_Data'Class;
+      Visit : access function (Node : AST_Node;
+                               Data : access Traverse_Data'Class)
+                     return Visit_Status)
+     return Visit_Status;
+   --  Tree traversal routine which facilitates processing trees in parallel
 
    procedure Compute_Indent_Level (Node : access AST_Node_Type) is abstract;
 

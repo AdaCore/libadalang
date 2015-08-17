@@ -396,7 +396,10 @@ class ASTNode(CompiledType):
             types=get_context().ast_fields_types[cls],
             base_name=base_class.name()
         )
+        tdef_incomp = TypeDeclaration.render(
+            'astnode_type_def_incomplete_ada', t_env, cls)
         tdef = TypeDeclaration.render('astnode_type_def_ada', t_env, cls)
+        get_context().incomplete_types_declarations.append(tdef_incomp)
         get_context().types_declarations.append(tdef)
 
         get_context().primitives_bodies.append(
@@ -573,7 +576,7 @@ def list_type(element_type):
         element_type.add_to_context()
 
         t_env = TemplateEnvironment(element_type=element_type)
-        get_context().types_declarations.append(TypeDeclaration.render(
+        get_context().list_types_declarations.append(TypeDeclaration.render(
             'astlist_def_ada', t_env, cls
         ))
         get_context().primitives_bodies.append(render(

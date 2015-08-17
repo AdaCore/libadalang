@@ -9,7 +9,6 @@
    type ${cls.name()}_Type is ${"abstract" if cls.abstract else "" }
       new ${base_name}_Type with private;
    type ${cls.name()}_Access is access all ${cls.name()}_Type;
-   type ${cls.name()} is access all ${cls.name()}_Type'Class;
 
    % if not cls.abstract:
 
@@ -43,6 +42,12 @@
                                 Sloc : Source_Location;
                                 Snap : Boolean := False) return AST_Node;
 
+      ## Attribute getters
+
+      % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+          function F_${f.name}
+            (Node : ${cls.name()}) return ${decl_type(t)};
+      % endfor
    % endif
 
    overriding

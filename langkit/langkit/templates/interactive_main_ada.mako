@@ -32,7 +32,7 @@ procedure Parse is
 
    Config    : Command_Line_Configuration;
    Silent    : aliased Boolean;
-   Measure_Time : aliased Boolean;
+   Measure_Time, Do_Print_Trivia : aliased Boolean;
    Indent    : aliased Boolean;
    Rule_Name : aliased GNAT.Strings.String_Access :=
       new String'("${get_context().main_rule_name}");
@@ -115,7 +115,11 @@ procedure Parse is
 
       Res.Validate;
       if not Silent then
-         Res.Print;
+         if Do_Print_Trivia then
+            PP_Trivia (Res);
+         else
+            Res.Print;
+         end if;
       end if;
 
       for Lookup_Str of Lookups loop
@@ -167,7 +171,9 @@ procedure Parse is
       Get_String (Input_Str, Input_Str_Ptr, Input_Str_Length);
       Parser := Create_From_Buffer
         (Input_Str_Ptr (1 .. Input_Str_Length),
-         TDH'Unrestricted_Access);
+         TDH'Unrestricted_Access,
+         --  Parse with trivia if we want to print it ultimately
+         With_Trivia => Do_Print_Trivia);
 
       % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
          ${"if" if i == 0 else "elsif"} Rule_Name.all = ${string_repr(rule_name)} then
@@ -209,7 +215,7 @@ procedure Parse is
       Time_Before  : constant Time := Clock;
       Time_After   : Time;
    begin
-      Unit := Get_From_File (Ctx, File_Name, True);
+      Unit := Get_From_File (Ctx, File_Name, True, With_Trivia => Do_Print_Trivia);
       Time_After := Clock;
 
       if not Unit.Diagnostics.Is_Empty then
@@ -219,7 +225,11 @@ procedure Parse is
          end loop;
 
       elsif not Silent then
-         Unit.AST_Root.Print;
+         if Do_Print_Trivia then
+            PP_Trivia (Unit);
+         else
+            Unit.AST_Root.Print;
+         end if;
       end if;
 
       if Measure_Time then
@@ -247,6 +257,9 @@ begin
    Define_Switch
      (Config, Rule_Name'Access, "-r:", "--rule-name:",
       Help   => "Rule name to parse");
+   Define_Switch
+     (Config, Do_Print_Trivia'Access, "-P", "--print-with-trivia",
+      Help   => "Print a simplified tree with trivia included");
    Define_Switch
      (Config, File_Name'Access, "-f:", "--file-name:",
       Help   => "Parse file");

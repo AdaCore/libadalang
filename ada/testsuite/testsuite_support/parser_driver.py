@@ -6,7 +6,8 @@ from testsuite_support.base_driver import (
 class ParserDriver(BaseDriver):
     TIMEOUT = 300
 
-    ACTIONS = ('pretty-print', 'indent', 'pretty-print-file')
+    ACTIONS = ('pretty-print', 'indent', 'pretty-print-file',
+               'pp-file-with-trivia')
 
     #
     # Driver entry points
@@ -30,6 +31,8 @@ class ParserDriver(BaseDriver):
 
         if self.action == 'pretty-print-file':
             parse_argv += ['-f', input_file]
+        elif self.action == 'pp-file-with-trivia':
+            parse_argv += ['-P', '-f', input_file]
         else:
             rule_name = self.test_env.get('rule', None)
             if not rule_name:
@@ -41,7 +44,8 @@ class ParserDriver(BaseDriver):
                 '{}:{}'.format(lookup['line'], lookup['column'])
             )
 
-        if self.action not in ('pretty-print', 'pretty-print-file'):
+        if self.action not in ('pretty-print', 'pretty-print-file',
+                               'pp-file-with-trivia'):
             parse_argv.append('--silent')
         if self.action == 'indent':
             parse_argv.append('--indent')

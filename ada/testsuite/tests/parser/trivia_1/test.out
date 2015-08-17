@@ -1,0 +1,26 @@
+-- foo
+CompilationUnit
+| ASTList
+| | LibraryItem
+| | | SubprogramBody
+| | | | SubprogramSpec
+| | | | | Id
+| | | | ASTList
+| | | | | ObjectDecl
+| | | | | | ASTList
+| | | | | | | Id
+| | | | | | -- Hinhin
+| | | | | | TypeExpression
+| | | | | | | TypeRef
+| | | | | | | | Id
+| | | | -- Huhu
+| | | | HandledStatements
+| | | | | ASTList
+| | | | | | NullStatement
+| | | | | | | Null
+| | | | | | -- Haha
+| | | | | | -- Hoho
+| | | | | | NullStatement
+| | | | | | | Null
+| | | | Id
+-- foo

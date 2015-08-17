@@ -262,4 +262,49 @@ package body Langkit_Support.AST is
       end return;
    end Children;
 
+   --------------------------
+   -- Children_With_Trivia --
+   --------------------------
+
+   function Children_With_Trivia
+     (Node : AST_Node) return Children_Arrays.Array_Type
+   is
+      Ret_Vec : Children_Vectors.Vector;
+      use Children_Vectors;
+
+      procedure Append_Trivias (First, Last : Natural);
+      --  Append all the trivias of tokens between indices First and Last to
+      --  the returned vector
+
+      procedure Append_Trivias (First, Last : Natural) is
+      begin
+         for I in First .. Last loop
+            for T of Get_Trivias (Node.Token_Data.all, I) loop
+               Append (Ret_Vec, Child_Record'(Kind => Trivia, Trivia => T));
+            end loop;
+         end loop;
+      end Append_Trivias;
+
+      function Not_Null (N : AST_Node) return Boolean is (N /= null);
+
+      N_Children : constant AST_Node_Arrays.Array_Type
+        := AST_Node_Arrays.Filter (Children (Node), Not_Null'Access);
+   begin
+      if N_Children'Length > 0
+        and then Node.Token_Start /= N_Children (0).Token_Start
+      then
+         Append_Trivias (Node.Token_Start, N_Children (0).Token_Start - 1);
+      end if;
+
+      for I in N_Children'Range loop
+         Append (Ret_Vec, Child_Record'(Child, N_Children (I)));
+         Append_Trivias (N_Children (I).Token_End,
+                         (if I = N_Children'Last
+                          then Node.Token_End - 1
+                          else N_Children (I + 1).Token_Start - 1));
+      end loop;
+
+      return To_Array (Ret_Vec);
+   end Children_With_Trivia;
+
 end Langkit_Support.AST;

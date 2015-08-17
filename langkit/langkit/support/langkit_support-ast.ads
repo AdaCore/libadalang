@@ -46,6 +46,21 @@ package Langkit_Support.AST is
 
    type Traverse_Data is abstract tagged null record;
 
+   type Child_Or_Trivia is (Child, Trivia);
+
+   type Child_Record (Kind : Child_Or_Trivia := Child) is record
+      case Kind is
+         when Child =>
+            Node : AST_Node;
+         when Trivia =>
+            Trivia : Token;
+      end case;
+   end record;
+
+   package Children_Vectors is
+     new Langkit_Support.Vectors (Child_Record);
+   package Children_Arrays renames Children_Vectors.Elements_Arrays;
+
    package AST_Node_Vectors is new Langkit_Support.Vectors (AST_Node);
    package AST_Node_Arrays renames AST_Node_Vectors.Elements_Arrays;
 
@@ -78,6 +93,14 @@ package Langkit_Support.AST is
    --  This is an alternative to the Child/Child_Count pair, useful if you want
    --  the convenience of ada arrays, and you don't care about the small
    --  performance hit of creating an array.
+
+   function Children_With_Trivia
+     (Node : AST_Node) return Children_Arrays.Array_Type;
+   --  Return the children of this node interleaved with Trivia token nodes, so
+   --  that:
+   --  - Every trivia contained between Node.Start_Token and Node.End_Token - 1
+   --    will be part of the returned array
+   --  - Nodes and trivias will be lexically ordered
 
    procedure Traverse (Node : AST_Node;
                        Visit : access function (Node : AST_Node)

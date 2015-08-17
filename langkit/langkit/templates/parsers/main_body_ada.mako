@@ -40,7 +40,7 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
    --  parsing function. Check_Complete has the same semantics as in Parse. If
    --  the parsing failed (Parser.Current_Pos = -1), append corresponding
    --  diagnostics to Parser.Diagnostics, do nothing instead. Return whether
-   --  the parsing failed in the first place.
+   --  the parsing failed completely (eg. produced no result at all) or not.
 
    ----------------------
    -- Create_From_File --
@@ -78,40 +78,55 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
      (Parser         : in out Parser_Type;
       Check_Complete : Boolean := True) return Boolean
    is
+
+      procedure Add_Last_Fail_Diagnostic is
+         Last_Token : Token renames
+            Get_Token (Parser.TDH.all, Parser.Last_Fail.Pos);
+         D : constant Diagnostic :=
+           (Sloc_Range => Last_Token.Sloc_Range,
+            Message    => To_Unbounded_String
+              ("Expected """
+               & Token_Text (Parser.Last_Fail.Expected_Token_Id)
+               & """, got """
+               & Token_Text (Parser.Last_Fail.Found_Token_Id)
+               & """"));
+      begin
+         Parser.Diagnostics.Append (D);
+      end Add_Last_Fail_Diagnostic;
+
    begin
+
       if Parser.Current_Pos = -1 then
-         declare
-            Last_Token : Token renames
-               Get_Token (Parser.TDH.all, Parser.Last_Fail.Pos);
-            D : constant Diagnostic :=
-              (Sloc_Range => Last_Token.Sloc_Range,
-               Message    => To_Unbounded_String
-                 ("Expected """
-                  & Token_Text (Parser.Last_Fail.Expected_Token_Id)
-                  & """, got """
-                  & Token_Text (Parser.Last_Fail.Found_Token_Id)
-                  & """"));
-         begin
-            Parser.Diagnostics.Append (D);
-            return True;
-         end;
+         Add_Last_Fail_Diagnostic;
+         return True;
       elsif Check_Complete
         and then (Parser.Current_Pos
                   /= Token_Vectors.Last_Index (Parser.TDH.Tokens))
       then
-         declare
-            First_Garbage_Token : Token renames
-              Get_Token (Parser.TDH.all, Parser.Current_Pos);
-            D : constant Diagnostic :=
-              (Sloc_Range => First_Garbage_Token.Sloc_Range,
-               Message    => To_Unbounded_String
-                 ("End of input expected, got """
-                  & Token_Text (First_Garbage_Token.Id)
-                  & """"));
-         begin
-            Parser.Diagnostics.Append (D);
-         end;
+         --  If the fail pos is the current position of the parser, it means
+         --  that the longest parse is the correct result, and that we have
+         --  some garbage afterwards
+         if Parser.Current_Pos = Parser.Last_Fail.Pos then
+            declare
+               First_Garbage_Token : Token renames
+                 Get_Token (Parser.TDH.all, Parser.Current_Pos);
+               D : constant Diagnostic :=
+                 (Sloc_Range => First_Garbage_Token.Sloc_Range,
+                  Message    => To_Unbounded_String
+                    ("End of input expected, got """
+                     & Token_Text (First_Garbage_Token.Id)
+                     & """"));
+            begin
+               Parser.Diagnostics.Append (D);
+            end;
+         --  Else, the last fail pos is further down the line, and we want to
+         --  have the diagnostic of what exactly failed.
+         else
+            pragma Assert (Parser.Current_Pos < Parser.Last_Fail.Pos);
+            Add_Last_Fail_Diagnostic;
+         end if;
       end if;
+
       return False;
    end Process_Parsing_Error;
 

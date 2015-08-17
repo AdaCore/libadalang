@@ -53,14 +53,16 @@ package ${_self.ada_api_settings.lib_name} is
       File_Name   : Unbounded_String;
       TDH         : aliased Token_Data_Handler;
       Diagnostics : Diagnostics_Vectors.Vector;
+      With_Trivia : Boolean;
    end record;
 
    function Create return Analysis_Context;
    --  Create a new Analysis_Context. When done with it, invoke Destroy on it.
 
-   function Get_From_File (Context  : Analysis_Context;
-                           Filename : String;
-                           Reparse  : Boolean := False) return Analysis_Unit;
+   function Get_From_File (Context     : Analysis_Context;
+                           Filename    : String;
+                           Reparse     : Boolean := False;
+                           With_Trivia : Boolean := False) return Analysis_Unit;
    --  Create a new Analysis_Unit for Filename or return the existing one if
    --  any. If Reparse is true and the analysis unit already exists, reparse it
    --  from Filename.
@@ -71,16 +73,23 @@ package ${_self.ada_api_settings.lib_name} is
    --  On file opening failure, raise a Name_Error exception and in this case,
    --  if the analysis unit did not exist yet, do not register it. In this
    --  case, if the analysis unit was already existing, this preserves the AST.
+   --
+   --  When With_Trivia is true, the parsed analysis unit will contain trivias.
+   --  Already existing analysis units are reparsed if needed.
 
-   function Get_From_Buffer (Context  : Analysis_Context;
-                             Filename : String;
-                             Buffer   : String) return Analysis_Unit;
+   function Get_From_Buffer (Context     : Analysis_Context;
+                             Filename    : String;
+                             Buffer      : String;
+                             With_Trivia : Boolean := False) return Analysis_Unit;
    --  Create a new Analysis_Unit for Filename or return the existing one if
    --  any. Whether the analysis unit already exists or not, (re)parse it from
    --  the source code in Buffer.
    --
    --  The result is owned by the context: the caller must increase its ref.
    --  count in order to keep a reference to it.
+   --
+   --  When With_Trivia is true, the parsed analysis unit will contain trivias.
+   --  Already existing analysis units are reparsed if needed.
 
    procedure Remove (Context   : Analysis_Context;
                      File_Name : String);

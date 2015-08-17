@@ -27,11 +27,12 @@ package body ${_self.ada_api_settings.lib_name} is
    --  with the parsers's output.
 
    function Get_Unit
-     (Context    : Analysis_Context;
-      Filename   : String;
-      Reparse    : Boolean;
-      Get_Parser : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type)
+     (Context     : Analysis_Context;
+      Filename    : String;
+      Reparse     : Boolean;
+      Get_Parser  : access function (TDH : Token_Data_Handler_Access)
+                                    return Parser_Type;
+      With_Trivia : Boolean)
       return Analysis_Unit;
    --  Helper for Get_From_File and Get_From_Buffer: do all the common work
    --  using Get_Parser to either parse from a file or from a buffer. Return
@@ -60,7 +61,8 @@ package body ${_self.ada_api_settings.lib_name} is
       Filename   : String;
       Reparse    : Boolean;
       Get_Parser : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type)
+                                    return Parser_Type;
+      With_Trivia : Boolean)
       return Analysis_Unit
    is
       use Units_Maps;
@@ -80,7 +82,8 @@ package body ${_self.ada_api_settings.lib_name} is
             AST_Root    => null,
             File_Name   => Fname,
             TDH         => <>,
-            Diagnostics => <>);
+            Diagnostics => <>,
+            With_Trivia => With_Trivia);
          Initialize (Unit.TDH, Context.Symbols);
       else
          Unit := Element (Cur);
@@ -88,7 +91,10 @@ package body ${_self.ada_api_settings.lib_name} is
 
       --  (Re)parse it if needed
 
-      if Created or else Reparse then
+      if Created
+         or else Reparse
+         or else (With_Trivia and then not Unit.With_Trivia)
+      then
          begin
             begin
                Do_Parsing (Unit, Get_Parser);
@@ -130,28 +136,31 @@ package body ${_self.ada_api_settings.lib_name} is
    -- Get_From_File --
    -------------------
 
-   function Get_From_File (Context  : Analysis_Context;
-                           Filename : String;
-                           Reparse  : Boolean := False) return Analysis_Unit
+   function Get_From_File (Context     : Analysis_Context;
+                           Filename    : String;
+                           Reparse     : Boolean := False;
+                           With_Trivia : Boolean := False) return Analysis_Unit
    is
       function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_File (Filename, TDH));
+      is (Create_From_File (Filename, TDH, With_Trivia));
    begin
-      return Get_Unit (Context, Filename, Reparse, Get_Parser'Access);
+      return Get_Unit
+        (Context, Filename, Reparse, Get_Parser'Access, With_Trivia);
    end Get_From_File;
 
    ---------------------
    -- Get_From_Buffer --
    ---------------------
 
-   function Get_From_Buffer (Context  : Analysis_Context;
-                             Filename : String;
-                             Buffer   : String) return Analysis_Unit
+   function Get_From_Buffer (Context     : Analysis_Context;
+                             Filename    : String;
+                             Buffer      : String;
+                             With_Trivia : Boolean := False) return Analysis_Unit
    is
       function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_Buffer (Buffer, TDH));
+      is (Create_From_Buffer (Buffer, TDH, With_Trivia));
    begin
-      return Get_Unit (Context, Filename, True, Get_Parser'Access);
+      return Get_Unit (Context, Filename, True, Get_Parser'Access, With_Trivia);
    end Get_From_Buffer;
 
    ------------

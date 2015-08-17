@@ -4,6 +4,7 @@ with Ada.Calendar;              use Ada.Calendar;
 with Ada.Containers.Vectors;
 with Ada.Strings;               use Ada.Strings;
 with Ada.Strings.Unbounded;     use Ada.Strings.Unbounded;
+pragma Warnings (Off, "internal");
 with Ada.Strings.Unbounded.Aux; use Ada.Strings.Unbounded.Aux;
 with Ada.Text_IO;               use Ada.Text_IO;
 

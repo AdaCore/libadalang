@@ -129,7 +129,7 @@ class Manage(ManageScript):
             for filename in files:
                 _, ext = os.path.splitext(filename)
                 if ext in ('.ads', '.adb'):
-                    ada_files.append(os.path.join(root, filename))
+                    ada_files.add(os.path.join(root, filename))
         return ada_files
 
     def do_perf_test(self, args):

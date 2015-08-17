@@ -110,6 +110,9 @@ package ${_self.ada_api_settings.lib_name} is
    --  Debug helper: output the AST and eventual diagnostic for this unit on
    --  standard output
 
+   procedure PP_Trivia (Unit : Analysis_Unit);
+   --  Debug helper: output a minimal AST with mixed trivias
+
    -----------------------
    -- Enumeration types --
    -----------------------

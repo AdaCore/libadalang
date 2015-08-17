@@ -1,4 +1,5 @@
 with Ada.Unchecked_Deallocation;
+with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
 
 package body Langkit_Support.AST is
 
@@ -306,5 +307,22 @@ package body Langkit_Support.AST is
 
       return To_Array (Ret_Vec);
    end Children_With_Trivia;
+
+   ---------------
+   -- PP_Trivia --
+   ---------------
+
+   procedure PP_Trivia (Node : AST_Node; Level : Integer := 0) is
+   begin
+      Put_Line (Level, Kind_Name (Node));
+      for C of Children_With_Trivia (Node) loop
+         case C.Kind is
+            when Trivia =>
+               Put_Line (Level + 1, C.Trivia.Text.all);
+            when Child =>
+               PP_Trivia (C.Node, Level + 1);
+         end case;
+      end loop;
+   end PP_Trivia;
 
 end Langkit_Support.AST;

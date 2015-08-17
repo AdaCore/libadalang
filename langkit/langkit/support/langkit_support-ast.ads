@@ -102,6 +102,8 @@ package Langkit_Support.AST is
    --    will be part of the returned array
    --  - Nodes and trivias will be lexically ordered
 
+   procedure PP_Trivia (Node : AST_Node; Level : Integer := 0);
+
    procedure Traverse (Node : AST_Node;
                        Visit : access function (Node : AST_Node)
                                                 return Visit_Status);

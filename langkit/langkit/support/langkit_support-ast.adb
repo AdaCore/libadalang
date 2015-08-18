@@ -21,66 +21,60 @@ package body Langkit_Support.AST is
    -- Traverse --
    --------------
 
-   procedure Traverse (Node : AST_Node;
-                       Visit : access function (Node : AST_Node)
-                       return Visit_Status)
+   function Traverse
+     (Node  : AST_Node;
+      Visit : access function (Node : AST_Node) return Visit_Status)
+     return Visit_Status
    is
-   begin
-      --  TODO??? shouldn't this rather visit Node?
+      Status : Visit_Status := Into;
 
-      for I in 1 .. Child_Count (Node) loop
-         declare
-            Cur_Child  : constant AST_Node := Child (Node, I - 1);
-            Status : constant Visit_Status := Visit (Cur_Child);
-         begin
-            if Status = Into then
-               Traverse (Cur_Child, Visit);
-            elsif Status = Stop then
-               return;
-            end if;
-         end;
-      end loop;
+   begin
+      if Node /= null then
+         Status := Visit (Node);
+
+         --  Skip processing the child nodes if the returned status is Over
+         --  or Stop. In the former case the previous call to Visit has taken
+         --  care of processing the needed childs, and in the latter case we
+         --  must immediately stop processing the tree.
+
+         if Status = Into then
+            for I in 1 .. Child_Count (Node) loop
+               declare
+                  Cur_Child : constant AST_Node := Child (Node, I - 1);
+
+               begin
+                  if Cur_Child /= null then
+                     Status := Traverse (Cur_Child, Visit);
+                     exit when Status /= Into;
+                  end if;
+               end;
+            end loop;
+         end if;
+      end if;
+
+      if Status = Stop then
+         return Stop;
+
+      --  At this stage the Over status has no sense and we just continue
+      --  processing the tree.
+
+      else
+         return Into;
+      end if;
    end Traverse;
 
    --------------
    -- Traverse --
    --------------
 
-   function Traverse
+   procedure Traverse
      (Node  : AST_Node;
-      Data  : access Traverse_Data'Class;
-      Visit : access function (Node : AST_Node;
-                               Data : access Traverse_Data'Class)
-                       return Visit_Status)
-     return Visit_Status
+      Visit : access function (Node : AST_Node) return Visit_Status)
    is
-      Status : Visit_Status;
-
+      Result_Status : Visit_Status;
+      pragma Unreferenced (Result_Status);
    begin
-      if No (Node) then
-         return Into;
-      end if;
-
-      Status := Visit (Node, Data);
-
-      if Status = Into then
-         for I in 1 .. Child_Count (Node) loop
-            declare
-               Cur_Child : constant AST_Node := Child (Node, I - 1);
-            begin
-               if Cur_Child /= null then
-                  Status := Traverse (Cur_Child, Data, Visit);
-                  exit when Status /= Into;
-               end if;
-            end;
-         end loop;
-      end if;
-
-      if Status = Stop then
-         return Stop;
-      else
-         return Into;
-      end if;
+      Result_Status := Traverse (Node, Visit);
    end Traverse;
 
    ----------------
@@ -230,24 +224,6 @@ package body Langkit_Support.AST is
                      then Node.Lookup_Children (Sloc, Snap)
                      else null);
    end Lookup_Relative;
-
-   --------
-   -- No --
-   --------
-
-   function No (Node : access AST_Node_Type'Class) return Boolean is
-   begin
-      return Node = null;
-   end No;
-
-   -------------
-   -- Present --
-   -------------
-
-   function Present (Node : access AST_Node_Type'Class) return Boolean is
-   begin
-      return Node /= null;
-   end Present;
 
    --------------
    -- Children --

@@ -172,11 +172,19 @@ class CompileCtx():
         # AST node fields and all ASTNode subclasses.
         self.enum_declarations = []
 
-        # List of TypeDeclaration instances for all ASTNode subclasses
-        # (including ASTList instances).
-        self.incomplete_types_declarations = []
-        self.list_types_declarations = []
+        # List of TypeDeclaration instances for all ASTNode derivations
+        # (excluding ASTList derivations). These contain the type full
+        # declarations.
         self.types_declarations = []
+
+        # List of TypeDeclaration instances for all ASTNode derivations. These
+        # only contain forward declarations so that full declarations have
+        # access to all declared types.
+        self.incomplete_types_declarations = []
+
+        # List of TypeDeclaration instances for all ASTList derivations. These
+        # don't need forward declarations.
+        self.list_types_declarations = []
 
         # List of strings for all ASTNode subclasses primitives body
         self.primitives_bodies = []

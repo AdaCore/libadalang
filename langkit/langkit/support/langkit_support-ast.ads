@@ -44,8 +44,6 @@ package Langkit_Support.AST is
       Extensions             : Extension_Vectors.Vector;
    end record;
 
-   type Traverse_Data is abstract tagged null record;
-
    type Child_Or_Trivia is (Child, Trivia);
 
    type Child_Record (Kind : Child_Or_Trivia := Child) is record
@@ -71,12 +69,6 @@ package Langkit_Support.AST is
                   return AST_Node_Kind is abstract;
    function Kind_Name (Node : access AST_Node_Type) return String is abstract;
    function Image (Node : access AST_Node_Type) return String is abstract;
-
-   function No (Node : access AST_Node_Type'Class) return Boolean;
-   --  Determine if a given node is not present
-
-   function Present (Node : access AST_Node_Type'Class) return Boolean;
-   --  Determine if a given node is present
 
    function Child_Count (Node : access AST_Node_Type)
                          return Natural is abstract;
@@ -104,17 +96,31 @@ package Langkit_Support.AST is
 
    procedure PP_Trivia (Node : AST_Node; Level : Integer := 0);
 
-   procedure Traverse (Node : AST_Node;
-                       Visit : access function (Node : AST_Node)
-                                                return Visit_Status);
    function Traverse
      (Node  : AST_Node;
-      Data  : access Traverse_Data'Class;
-      Visit : access function (Node : AST_Node;
-                               Data : access Traverse_Data'Class)
-                     return Visit_Status)
+      Visit : access function (Node : AST_Node) return Visit_Status)
      return Visit_Status;
-   --  Tree traversal routine which facilitates processing trees in parallel
+   --  Given the parent node for a subtree, traverse all syntactic nodes of
+   --  this tree, calling the given function on each node in pre order (ie.
+   --  top-down). The order of traversing subtrees follows the order of
+   --  declaration of the corresponding attributes in the grammar. The
+   --  traversal is controlled as follows by the result returned by Visit:
+   --
+   --     Into   The traversal continues normally with the syntactic
+   --            children of the node just processed.
+   --
+   --     Over   The children of the node just processed are skipped and
+   --            excluded from the traversal, but otherwise processing
+   --            continues elsewhere in the tree.
+   --
+   --     Stop   The entire traversal is immediately abandoned, and the
+   --            original call to Traverse returns Stop.
+
+   procedure Traverse
+     (Node  : AST_Node;
+      Visit : access function (Node : AST_Node) return Visit_Status);
+   --  This is the same as Traverse function except that no result is returned
+   --  i.e. the Traverse function is called and the result is simply discarded
 
    procedure Compute_Indent_Level (Node : access AST_Node_Type) is abstract;
 

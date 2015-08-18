@@ -8,7 +8,6 @@
 
    type ${cls.name()}_Type is ${"abstract" if cls.abstract else "" }
       new ${base_name}_Type with private;
-   type ${cls.name()}_Access is access all ${cls.name()}_Type;
 
    % if not cls.abstract:
 
@@ -44,7 +43,7 @@
 
       ## Attribute getters
 
-      % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+      % for t, f in all_field_decls:
           function F_${f.name}
             (Node : ${cls.name()}) return ${decl_type(t)};
       % endfor

@@ -15,9 +15,7 @@ from langkit.utils import Colors, printcol
 class Manage(ManageScript):
 
     def __init__(self):
-        super(Manage, self).__init__(
-            os.path.dirname(os.path.abspath(__file__))
-        )
+        super(Manage, self).__init__()
 
         ########
         # Test #

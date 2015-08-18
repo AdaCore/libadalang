@@ -5,6 +5,7 @@ import pipes
 import shutil
 import subprocess
 import sys
+import inspect
 
 from langkit.utils import Colors, printcol
 
@@ -108,8 +109,15 @@ class ManageScript(object):
         'prod': ['-g', '-Ofast', '-cargs:Ada', '-gnatp'],
     }
 
-    def __init__(self, lang_source_dir):
-        self.dirs = Directories(lang_source_dir=lang_source_dir)
+    def __init__(self):
+
+        self.dirs = Directories(
+            # It is assumed that manage.py is at the root of the language
+            # definition source directory.
+            lang_source_dir=os.path.dirname(
+                os.path.abspath(inspect.getfile(self.__class__))
+            )
+        )
 
         ########################
         # Main argument parser #

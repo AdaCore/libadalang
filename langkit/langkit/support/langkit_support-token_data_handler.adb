@@ -73,7 +73,9 @@ package body Langkit_Support.Token_Data_Handler is
       Index : Natural) return Token_Vectors.Elements_Arrays.Array_Type
    is
       First_Trivia_Index : constant Integer :=
-        Get (TDH.Tokens_To_Trivias, Index);
+        (if Length (TDH.Tokens_To_Trivias) = 0
+         then -1
+         else Get (TDH.Tokens_To_Trivias, Index));
       J : Natural;
 
       function Extract (T : Trivia_Node) return Token

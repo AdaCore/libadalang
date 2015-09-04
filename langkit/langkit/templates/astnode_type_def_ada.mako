@@ -1,5 +1,7 @@
 ## vim: filetype=makoada
 
+<%namespace name="exts" file="extensions.mako" />
+
 <% type_name = '{}_Type'.format(cls.name()) %>
 
 % if not private_part:
@@ -53,15 +55,20 @@
    % endfor
 
 % else:
-
+   <%
+      fields = cls.get_fields(include_inherited=False)
+      ext = ctx.ext("nodes", cls.name(), "components")
+   %>
    type ${type_name} is ${"abstract" if cls.abstract else ""}
       new ${base_name}_Type with
-   % if cls.get_fields(include_inherited=False):
+
+   % if fields or ext:
       record
-          % for f in cls.get_fields(include_inherited=False):
-               ${f.name} : aliased ${decl_type(f.type)}
-                  := ${f.type.nullexpr()};
-          % endfor
+       % for f in fields:
+            ${f.name} : aliased ${decl_type(f.type)}
+               := ${f.type.nullexpr()};
+       % endfor
+         ${exts.include_extension(ext)}
       end record;
    % else:
       null record;

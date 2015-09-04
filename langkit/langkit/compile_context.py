@@ -232,6 +232,9 @@ class CompileCtx():
 
         self.cache = None
 
+        # Internal field for extensions directory
+        self._extensions_dir = None
+
     def set_ast_fields_types(self, astnode, types):
         """
         Associate `types` (a list of CompiledType) to fields in `astnode` (an
@@ -559,3 +562,36 @@ class CompileCtx():
                 print >> file, '    field {}: {}{}'.format(
                     field.name.lower, field.type.name().camel, inherit_note
                 )
+
+    @property
+    def extensions_dir(self):
+        """
+        Returns the absolute path to the extension dir, if it exists on the
+        disk, or None
+        """
+        return self._extensions_dir
+
+    @extensions_dir.setter
+    def extensions_dir(self, ext_dir):
+        # only set the extensions dir if this directory exists
+        if os.path.isdir(ext_dir):
+            self._extensions_dir = os.path.abspath(ext_dir)
+
+    def ext(self, *args):
+        """
+        Return an extension file's absolute path, given strings/names
+        arguments, so that you can do:
+
+        >>> ext('a', 'b', 'c')
+        $lang_dir/extensions/a/b/c
+
+        :param [str|names.Name] args: The list of components to constitute the
+                                      extension's path
+
+        :rtype: str
+        """
+        from names import Name
+        args = [a.lower if isinstance(a, Name) else a for a in args]
+        if self.extensions_dir:
+            ret = os.path.join(self.extensions_dir, *args)
+            return ret if os.path.isfile(ret) else None

@@ -3,6 +3,7 @@ import sys
 
 import mako.exceptions
 from mako.template import Template
+from mako.lookup import TemplateLookup
 
 from common import string_repr, get_type, null_constant
 import names
@@ -56,12 +57,17 @@ template_cache = {}
 
 
 def mako_template(file_name):
-    t_path = path.join(path.dirname(path.realpath(__file__)),
-                       "templates", file_name + ".mako")
+    dir_path = path.join(path.dirname(path.realpath(__file__)), "templates")
+    t_path = path.join(dir_path, file_name + ".mako")
     t = template_cache.get(t_path, None)
 
     if not t:
-        t = Template(strict_undefined=True, filename=t_path)
+        t = Template(
+            strict_undefined=True, filename=t_path,
+            # We want to correctly resolve both absolute paths, and paths
+            # relative to the base template directory
+            lookup=TemplateLookup(directories=["/", dir_path])
+        )
         template_cache[t_path] = t
 
     return t

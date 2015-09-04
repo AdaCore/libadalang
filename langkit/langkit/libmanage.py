@@ -281,6 +281,10 @@ class ManageScript(object):
             cov = None
 
         self.context = self.create_context(parsed_args)
+
+        # Set the extensions dir on the compile context
+        self.context.extensions_dir = self.dirs.lang_source_dir("extensions")
+
         parsed_args.func(parsed_args)
 
         if cov is not None:

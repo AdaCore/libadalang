@@ -2,4 +2,4 @@
 
 extern int
 ${accessor_name}(${node_type} node,
-                 ${field_type.c_type(capi).name} *value_p);
+                 ${field.type.c_type(capi).name} *value_p);

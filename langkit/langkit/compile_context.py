@@ -158,7 +158,7 @@ class CompileCtx():
         # is before B when A is a parent class for B. This sorting is important
         # to output declarations in dependency order.
         # This is computed right after field types inference.
-        self.astnode_types = None
+        self.astnode_types = []
 
         # Set of all ASTNode subclasses (ASTNode included) for which we
         # generate a corresponding list type.
@@ -229,9 +229,6 @@ class CompileCtx():
         # in AST node fields.
         self.py_astnode_field_types = {}
 
-        # Mapping: ASTNode -> list of CompiledType instances
-        self.ast_fields_types = {}
-
     def set_ast_fields_types(self, astnode, types):
         """
         Associate `types` (a list of CompiledType) to fields in `astnode` (an
@@ -248,30 +245,34 @@ class CompileCtx():
         def is_subtype(base_type, subtype):
             return issubclass(subtype, base_type)
 
-        def are_subtypes(base_list, new_list):
-            return all(is_subtype(m, n) for m, n in zip(base_list, new_list))
+        def are_subtypes(fields, new_types):
+            return all(
+                is_subtype(f.type, n)
+                for f, n in zip(fields, new_types)
+            )
 
         # TODO: instead of expecting types to be *exactly* the same, perform
         # type unification (take the nearest common ancestor for all field
         # types).
-        assert (astnode not in self.ast_fields_types or
-                are_subtypes(self.ast_fields_types[astnode], types)), (
+        assert (not astnode.is_type_resolved or
+                are_subtypes(astnode.fields, types)), (
             "Already associated types for some fields are not consistent with"
             " current ones:\n- {}\n- {}".format(
-                self.ast_fields_types[astnode], types
+                [f.type for f in astnode.fields], types
             )
         )
 
         # Only assign types if astnode was not yet typed. In the case where it
         # was already typed, we checked above that the new types were
         # consistent with the already present ones
-        if astnode not in self.ast_fields_types:
-            self.ast_fields_types[astnode] = types
+        if not astnode.is_type_resolved:
+            astnode.is_type_resolved = True
+            self.astnode_types.append(astnode)
+            for field_type, field in zip(types, astnode.fields):
+                field.type = field_type
 
-    def compute_astnode_types(self):
-        """Compute the "astnode_types" field"""
-        self.astnode_types = [astnode
-                              for astnode in self.ast_fields_types.keys()]
+    def order_astnode_types(self):
+        """Sort the "astnode_types" field"""
         # Sort them in dependency order as required but also then in
         # alphabetical order so that generated declarations are kept in a
         # relatively stable order. This is really useful for debugging
@@ -365,7 +366,7 @@ class CompileCtx():
                 r.compile()
                 self.rules_to_fn_names[r_name] = r
 
-        self.compute_astnode_types()
+        self.order_astnode_types()
 
         for i, astnode in enumerate(
             (astnode
@@ -533,8 +534,7 @@ class CompileCtx():
                 ':' if typ.fields else ''
             )
 
-            for field, field_type in zip(typ.fields,
-                                         self.ast_fields_types[typ]):
+            for field in typ.fields:
                 print >> file, '    field {}: {}'.format(
-                    field.name.lower, field_type.name().camel
+                    field.name.lower, field.type.name().camel
                 )

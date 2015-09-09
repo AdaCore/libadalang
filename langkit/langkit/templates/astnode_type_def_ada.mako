@@ -43,9 +43,9 @@
 
       ## Attribute getters
 
-      % for t, f in all_field_decls:
-          function F_${f.name}
-            (Node : ${cls.name()}) return ${decl_type(t)};
+      % for field in cls.get_fields():
+          function F_${field.name}
+            (Node : ${cls.name()}) return ${decl_type(field.type)};
       % endfor
    % endif
 
@@ -62,11 +62,11 @@
 
    type ${cls.name()}_Type is ${"abstract" if cls.abstract else "" }
       new ${base_name}_Type with
-   % if cls_field_decls:
+   % if cls.fields:
       record
-          % for t, f in cls_field_decls:
-               F_${f.name} : aliased ${decl_type(t)}
-                  := ${t.nullexpr()};
+          % for f in cls.fields:
+               F_${f.name} : aliased ${decl_type(f.type)}
+                  := ${f.type.nullexpr()};
           % endfor
       end record;
    % else:

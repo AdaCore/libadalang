@@ -5,6 +5,15 @@
    --
 
 % if not cls.abstract:
+
+   <%
+   # Keep a list of ASTNode fields
+   astnode_fields = cls.get_fields(lambda f: is_ast_node(f.type))
+
+   # Keep a list of fields that are annotated with repr
+   repr_fields = cls.get_fields(lambda f: f.repr)
+   %>
+
    ----------
    -- Kind --
    ----------
@@ -38,22 +47,22 @@
       Append (Result, Image (Sloc_Range (AST_Node (Node))));
       Append (Result, "](");
 
-      % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
+      % for i, field in enumerate(repr_fields):
           % if i > 0:
               Append (Result, ", ");
           % endif
 
-          % if t.is_ptr:
-              if Node.F_${f.name} /= null then
+          % if field.type.is_ptr:
+              if Node.F_${field.name} /= null then
           % endif
 
-          % if is_ast_node(t):
-             Append (Result, Image (AST_Node (Node.F_${f.name})));
+          % if is_ast_node(field.type):
+             Append (Result, Image (AST_Node (Node.F_${field.name})));
           % else:
-             Append (Result, Image (Node.F_${f.name}));
+             Append (Result, Image (Node.F_${field.name}));
           % endif
 
-          % if t.is_ptr:
+          % if field.type.is_ptr:
               else
                  Append (Result, "None");
               end if;
@@ -71,7 +80,7 @@
    overriding
    function Child_Count (Node : access ${cls.name()}_Type) return Natural is
    begin
-      return ${len(astnode_field_decls)};
+      return ${len(astnode_fields)};
    end Child_Count;
 
    ---------------
@@ -85,13 +94,13 @@
                         Result : out AST_Node) is
       ## Some ASTnodes have no ASTNode child: avoid the "unused parameter"
       ## compilation warning for them.
-      % if not astnode_field_decls:
+      % if not astnode_fields:
           pragma Unreferenced (Node);
           pragma Unreferenced (Result);
       % endif
    begin
       case Index is
-          % for i, field in enumerate(astnode_field_decls):
+          % for i, field in enumerate(astnode_fields):
               when ${i} =>
                   Result := AST_Node (Node.F_${field.name});
                   Exists := True;
@@ -109,11 +118,11 @@
    overriding
    procedure Compute_Indent_Level (Node : access ${cls.name()}_Type) is
    begin
-      % if not any(is_ast_node(field_type) for field_type, _ in all_field_decls):
+      % if not astnode_fields:
          null;
       % endif
-      % for i, (field_type, field) in enumerate(all_field_decls):
-         % if is_ast_node(field_type):
+      % for i, field in enumerate(cls.get_fields()):
+         % if is_ast_node(field.type):
             if Node.F_${field.name} /= null then
                % if field.indent.kind == field.indent.KIND_REL_POS:
                   Node.F_${field.name}.Indent_Level :=
@@ -141,16 +150,16 @@
    begin
       Put_Line (Level, Kind_Name (Nod) & "[" & Image (Sloc_Range (Nod)) & "]");
 
-      % for i, (t, f) in enumerate(d for d in all_field_decls if d[1].repr):
-         % if t.is_ptr:
-            if Node.F_${f.name} /= null
-               and then not Is_Empty_List (Node.F_${f.name})
+      % for i, field in enumerate(repr_fields):
+         % if field.type.is_ptr:
+            if Node.F_${field.name} /= null
+               and then not Is_Empty_List (Node.F_${field.name})
             then
-               Put_Line (Level + 1, "${f.name.lower}:");
-               Node.F_${f.name}.Print (Level + 2);
+               Put_Line (Level + 1, "${field.name.lower}:");
+               Node.F_${field.name}.Print (Level + 2);
             end if;
          % else:
-            Put_Line (Level + 1, "${f.name.lower}: " & Image (Node.F_${f.name}));
+            Put_Line (Level + 1, "${field.name.lower}: " & Image (Node.F_${field.name}));
          % endif
       % endfor
 
@@ -170,12 +179,10 @@
          raise Program_Error;
       end if;
 
-      % for t, f in all_field_decls:
-         % if is_ast_node (t):
-            if Node.F_${f.name} /= null then
-               Node.F_${f.name}.Validate (AST_Node (Node));
-            end if;
-         % endif
+      % for field in astnode_fields:
+         if Node.F_${field.name} /= null then
+            Node.F_${field.name}.Validate (AST_Node (Node));
+         end if;
       % endfor
    end Validate;
 
@@ -197,7 +204,7 @@
       Pos   : Relative_Position;
       ## Some ASTnodes have no ASTNode child: avoid the "unused parameter"
       ## compilation warning for them.
-      % if not astnode_field_decls:
+      % if not astnode_fields:
           pragma Unreferenced (Child);
           pragma Unreferenced (Pos);
       % endif
@@ -206,35 +213,32 @@
       ## Look for a child node that contains Sloc (i.e. return the most
       ## precise result).
 
-      % for i, (field_type, field) in enumerate(all_field_decls):
-         % if is_ast_node(field_type):
+      % for i, field in enumerate(astnode_fields):
+         ## Note that we assume here that child nodes are ordered so
+         ## that the first one has a sloc range that is before the
+         ## sloc range of the second child node, etc.
 
-            ## Note that we assume here that child nodes are ordered so
-            ## that the first one has a sloc range that is before the
-            ## sloc range of the second child node, etc.
+         if Node.F_${field.name} /= null then
+            Lookup_Relative (AST_Node (Node.F_${field.name}), Sloc,
+                             Pos, Child,
+                             Snap);
+            case Pos is
+               when Before =>
+                   ## If this is the first node, Sloc is before it, so
+                   ## we can stop here.  Otherwise, Sloc is between the
+                   ## previous child node and the next one...  so we can
+                   ## stop here, too.
+                   return Nod;
 
-            if Node.F_${field.name} /= null then
-               Lookup_Relative (AST_Node (Node.F_${field.name}), Sloc,
-                                Pos, Child,
-                                Snap);
-               case Pos is
-                  when Before =>
-                      ## If this is the first node, Sloc is before it, so
-                      ## we can stop here.  Otherwise, Sloc is between the
-                      ## previous child node and the next one...  so we can
-                      ## stop here, too.
-                      return Nod;
+               when Inside =>
+                   return Child;
 
-                  when Inside =>
-                      return Child;
-
-                  when After =>
-                      ## Sloc is after the current child node, so see with
-                      ## the next one.
-                      null;
-               end case;
-            end if;
-         % endif
+               when After =>
+                   ## Sloc is after the current child node, so see with
+                   ## the next one.
+                   null;
+            end case;
+         end if;
       % endfor
 
       ## If we reach this point, we found no children that covers Sloc,
@@ -245,13 +249,13 @@
 
    ## Body of attribute getters
 
-   % for t, f in all_field_decls:
-        function F_${f.name}
-          (Node : ${cls.name()}) return ${decl_type(t)}
+   % for field in cls.get_fields():
+        function F_${field.name}
+          (Node : ${cls.name()}) return ${decl_type(field.type)}
         is
         begin
-           return Node.F_${f.name};
-        end F_${f.name};
+           return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).F_${field.name});
+        end F_${field.name};
    % endfor
 % endif
 
@@ -262,8 +266,8 @@
    overriding
    procedure Free (Node : access ${cls.name()}_Type) is
    begin
-      % for t, f in cls_field_decls:
-         % if t.is_ptr:
+      % for f in cls.fields:
+         % if f.type.is_ptr:
             Dec_Ref (AST_Node (Node.F_${f.name}));
          % endif
       % endfor

@@ -22,17 +22,17 @@ if ${parser_context.pos_var_name} /= -1 then
                         then ${pos_name}
                         else ${parser_context.pos_var_name} - 1);
 
-   % for f, arg, typ in zip(_self.typ.get_fields(), args, _self.get_type().get_types()):
+   % for field, arg in zip(_self.typ.get_fields(), args):
       ## Set children fields into the created node
-      ${res}.F_${f.name} :=
-         % if is_ast_node(typ):
-            ${decl_type(typ)} (${arg});
+      ${res}.F_${field.name} :=
+         % if is_ast_node(field.type):
+            ${decl_type(field.type)} (${arg});
          % else:
             ${arg};
          % endif
 
       ## Set the parent backlink if needed
-      % if is_ast_node(typ):
+      % if is_ast_node(field.type):
          if ${arg} /= null then
             ${arg}.Parent := AST_Node (${res});
          end if;

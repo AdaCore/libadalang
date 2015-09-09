@@ -265,6 +265,13 @@ class Field(object):
 
         self._index = next(self._counter)
 
+        self.type = None
+        """
+        Type of the field, set to a concrete CompiledType subclass after type
+        resolution.
+        :type: CompiledType
+        """
+
     def _get_name(self):
         assert self._name
         return self._name
@@ -309,6 +316,8 @@ class AstNodeMetaclass(type):
 
         # By default, ASTNode subtypes aren't abstract.
         dct['abstract'] = False
+
+        dct['is_type_resolved'] = False
 
         return type.__new__(mcs, name, bases, dct)
 
@@ -374,26 +383,8 @@ class ASTNode(CompiledType):
         """
         base_class = cls.__bases__[0]
 
-        # Some templates need all fields (inherited and not inherited) and some
-        # need only not inherited ones.
-        assert len(cls.get_types()) == len(cls.get_fields()), (
-            "{}: {} <-> {}".format(
-                cls,
-                cls.get_types(), cls.get_fields()
-            )
-        )
-        all_field_decls = zip(cls.get_types(), cls.get_fields())
-        astnode_field_decls = [field
-                               for (field_type, field) in all_field_decls
-                               if issubclass(field_type, ASTNode)]
-        cls_field_decls = zip(get_context().ast_fields_types[cls], cls.fields)
-
         t_env = TemplateEnvironment(
             cls=cls,
-            all_field_decls=all_field_decls,
-            astnode_field_decls=astnode_field_decls,
-            cls_field_decls=cls_field_decls,
-            types=get_context().ast_fields_types[cls],
             base_name=base_class.name()
         )
         tdef_incomp = TypeDeclaration.render(
@@ -415,25 +406,16 @@ class ASTNode(CompiledType):
                          if issubclass(base_class, ASTNode)])
 
     @classmethod
-    def get_fields(cls):
+    def get_fields(cls, predicate=None):
         """
         Return the list of all the fields `cls` has, including its parents'.
+        :param predicate: Predicate to filter fields if needed
+        :type predicate: None|(Field) -> bool
         """
         fields = []
         for base_class in cls.get_inheritance_chain():
             fields.extend(base_class.fields)
-        return fields
-
-    @classmethod
-    def get_types(cls):
-        """
-        Return the list of types for all the fields `cls` has, including its
-        parents'.
-        """
-        types = []
-        for base_class in cls.get_inheritance_chain():
-            types.extend(get_context().ast_fields_types[base_class])
-        return types
+        return filter(predicate or (lambda f: True), fields)
 
     @classmethod
     def get_public_fields(cls):
@@ -446,9 +428,7 @@ class ASTNode(CompiledType):
         parent types are handled as part of parent types themselves, so there
         is no need to handle them here.
         """
-        return [(field, field_type)
-                for field, field_type in zip(
-                cls.fields, get_context().ast_fields_types[cls])]
+        return [(field, field.type) for field in cls.fields]
 
     @classmethod
     def add_to_context(cls):

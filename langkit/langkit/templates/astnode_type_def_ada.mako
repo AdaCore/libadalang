@@ -40,14 +40,14 @@
       function Lookup_Children (Node : access ${cls.name()}_Type;
                                 Sloc : Source_Location;
                                 Snap : Boolean := False) return AST_Node;
-
-      ## Attribute getters
-
-      % for field in cls.get_fields():
-          function F_${field.name}
-            (Node : ${cls.name()}) return ${decl_type(field.type)};
-      % endfor
    % endif
+
+   ## Attribute getters
+
+   % for field in cls.get_fields(include_inherited=False):
+       function F_${field.name}
+         (Node : ${cls.name()}) return ${decl_type(field.type)};
+   % endfor
 
    overriding
    procedure Free (Node : access ${cls.name()}_Type);

@@ -4,15 +4,15 @@
    --  Primitives for ${cls.name()}
    --
 
+<%
+# Keep a list of ASTNode fields
+astnode_fields = cls.get_fields(lambda f: is_ast_node(f.type))
+
+# Keep a list of fields that are annotated with repr
+repr_fields = cls.get_fields(lambda f: f.repr)
+%>
+
 % if not cls.abstract:
-
-   <%
-   # Keep a list of ASTNode fields
-   astnode_fields = cls.get_fields(lambda f: is_ast_node(f.type))
-
-   # Keep a list of fields that are annotated with repr
-   repr_fields = cls.get_fields(lambda f: f.repr)
-   %>
 
    ----------
    -- Kind --
@@ -246,18 +246,18 @@
 
       return Nod;
    end Lookup_Children;
-
-   ## Body of attribute getters
-
-   % for field in cls.get_fields():
-        function F_${field.name}
-          (Node : ${cls.name()}) return ${decl_type(field.type)}
-        is
-        begin
-           return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).F_${field.name});
-        end F_${field.name};
-   % endfor
 % endif
+
+## Body of attribute getters
+
+% for field in cls.get_fields(include_inherited=False):
+   function F_${field.name}
+     (Node : ${cls.name()}) return ${decl_type(field.type)}
+   is
+   begin
+      return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).F_${field.name});
+   end F_${field.name};
+% endfor
 
    ----------
    -- Free --

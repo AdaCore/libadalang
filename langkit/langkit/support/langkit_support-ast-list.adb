@@ -77,19 +77,6 @@ package body Langkit_Support.AST.List is
       end if;
    end Get_Child;
 
-   --------------------------
-   -- Compute_Indent_Level --
-   --------------------------
-
-   overriding
-   procedure Compute_Indent_Level (Node : access List_Type) is
-   begin
-      for Child of Node.Vec loop
-         Child.Indent_Level := Node.Indent_Level;
-         Child.Compute_Indent_Level;
-      end loop;
-   end Compute_Indent_Level;
-
    --------------
    -- Validate --
    --------------

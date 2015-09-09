@@ -15,8 +15,8 @@ class SubprogramBody(AdaNode):
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
-    decls = Field(indent=3)
-    statements = Field(indent=3)
+    decls = Field()
+    statements = Field()
     end_id = Field()
 
 
@@ -84,14 +84,14 @@ class RaiseStatement(Statement):
 
 class IfStatement(Statement):
     condition = Field()
-    statements = Field(indent=3)
+    statements = Field()
     alternatives = Field()
-    else_statements = Field(indent=3)
+    else_statements = Field()
 
 
 class ElsifStatementPart(AdaNode):
     expr = Field()
-    statements = Field(indent=3)
+    statements = Field()
 
 
 class Label(Statement):
@@ -154,8 +154,8 @@ class TerminateStatement(Statement):
 class PackageBody(AdaNode):
     package_name = Field()
     aspects = Field()
-    decls = Field(indent=3)
-    statements = Field(indent=3)
+    decls = Field()
+    statements = Field()
 
 
 class TaskBody(AdaNode):

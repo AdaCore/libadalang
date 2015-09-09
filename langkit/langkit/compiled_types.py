@@ -230,40 +230,15 @@ class Field(object):
     # order (assuming it is the same as the Field instantiation order).
     _counter = iter(count(0))
 
-    def __init__(self, repr=True, indent=None):
+    def __init__(self, repr=True):
         """Create an AST node field.
 
         :param bool repr: If true, the field will be displayed when
         pretty-printing the embedding AST node.
-
-        :param indent: Property used for determining the indentation rules
-        for this field. The expected type is the `:class:Indent`, but there
-        are shorcuts for int and basestring that will be automatically
-        converted to an indent instance according to the following rules:
-          * str -> relative to ASTNode instance's own field name
-          * int -> relative offset (as before)
-          * others -> no shortcut
-
-        :type indent: int|basestring|Indent
         """
         self.repr = repr
         self._name = None
-
-        self.indent = None
-        ":type: Indent"
-
-        if indent is None:
-            self.indent = indent_rel()
-        elif isinstance(indent, int):
-            self.indent = indent_rel(indent)
-        elif isinstance(indent, basestring):
-            self.indent = indent_token(indent)
-        else:
-            assert isinstance(indent, Indent)
-            self.indent = indent
-
         self._index = next(self._counter)
-
         self.type = None
         """
         Type of the field, set to a concrete CompiledType subclass after type
@@ -670,21 +645,3 @@ class EnumType(CompiledType):
             )
             for alt in cls.alternatives
         ]
-
-
-class Indent(object):
-    KIND_REL_POS = 1
-    KIND_TOKEN_POS = 2
-
-    def __init__(self, kind, rel_pos=0, token_field_name=""):
-        self.kind = kind
-        self.rel_pos = rel_pos
-        self.token_field_name = names.Name.from_lower(token_field_name)
-
-
-def indent_rel(pos=0):
-    return Indent(Indent.KIND_REL_POS, rel_pos=pos)
-
-
-def indent_token(field_name=""):
-    return Indent(Indent.KIND_TOKEN_POS, token_field_name=field_name)

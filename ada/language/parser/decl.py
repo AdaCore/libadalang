@@ -1,6 +1,6 @@
 from language.parser import A
 from langkit.parsers import Opt, List, Or, Row, _, Enum, Tok
-from langkit.compiled_types import Field, EnumType, abstract, indent_rel
+from langkit.compiled_types import Field, EnumType, abstract
 from . import AdaNode
 
 
@@ -73,12 +73,12 @@ class AspectSpecification(AdaNode):
 
 class SubprogramParams(AdaNode):
     open_par = Field(repr=False)
-    params = Field(indent="open_par")
+    params = Field()
 
 
 class SubprogramSpec(AdaNode):
     name = Field()
-    params = Field(indent=indent_rel(2))
+    params = Field()
     returns = Field()
 
 

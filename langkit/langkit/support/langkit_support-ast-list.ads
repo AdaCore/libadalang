@@ -31,9 +31,6 @@ package Langkit_Support.AST.List is
                         Result : out AST_Node);
 
    overriding
-   procedure Compute_Indent_Level (Node : access List_Type);
-
-   overriding
    procedure Validate (Node : access List_Type;
                        Parent : AST_Node := null);
 

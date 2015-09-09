@@ -111,33 +111,6 @@ repr_fields = cls.get_fields(lambda f: f.repr)
       end case;
    end Get_Child;
 
-   --------------------------
-   -- Compute_Indent_Level --
-   --------------------------
-
-   overriding
-   procedure Compute_Indent_Level (Node : access ${cls.name()}_Type) is
-   begin
-      % if not astnode_fields:
-         null;
-      % endif
-      % for i, field in enumerate(cls.get_fields()):
-         % if is_ast_node(field.type):
-            if Node.F_${field.name} /= null then
-               % if field.indent.kind == field.indent.KIND_REL_POS:
-                  Node.F_${field.name}.Indent_Level :=
-                     Node.Indent_Level + ${field.indent.rel_pos};
-               % elif field.indent.kind == field.indent.KIND_TOKEN_POS:
-                  Node.F_${field.name}.Indent_Level :=
-                    Node.F_${field.indent.token_field_name}.Sloc_Range.End_Column - 1;
-               % endif
-
-               Compute_Indent_Level (Node.F_${field.name});
-            end if;
-         % endif
-      % endfor
-   end Compute_Indent_Level;
-
    -----------
    -- Print --
    -----------

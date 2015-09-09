@@ -28,8 +28,6 @@
                            Result : out AST_Node);
 
       overriding
-      procedure Compute_Indent_Level (Node : access ${cls.name()}_Type);
-      overriding
       procedure Print (Node  : access ${cls.name()}_Type;
                        Level : Natural := 0);
       overriding

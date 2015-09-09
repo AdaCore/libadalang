@@ -1,4 +1,3 @@
-with Interfaces; use Interfaces;
 with System;
 
 with Langkit_Support.Extensions; use Langkit_Support.Extensions;
@@ -35,12 +34,8 @@ package Langkit_Support.AST is
    type AST_Node_Type is abstract tagged record
       Ref_Count              : Natural  := 0;
       Parent                 : AST_Node := null;
-
-      Indent_Level           : Unsigned_16 := 0;
-
       Token_Data             : Token_Data_Handler_Access := null;
       Token_Start, Token_End : Natural  := 0;
-
       Extensions             : Extension_Vectors.Vector;
    end record;
 
@@ -121,8 +116,6 @@ package Langkit_Support.AST is
       Visit : access function (Node : AST_Node) return Visit_Status);
    --  This is the same as Traverse function except that no result is returned
    --  i.e. the Traverse function is called and the result is simply discarded
-
-   procedure Compute_Indent_Level (Node : access AST_Node_Type) is abstract;
 
    procedure Validate (Node   : access AST_Node_Type;
                        Parent : AST_Node := null) is abstract;

@@ -1,4 +1,0 @@
-driver: parser
-rule: compilation_unit
-action: indent
-expect_failure: Work in progress for O313-038

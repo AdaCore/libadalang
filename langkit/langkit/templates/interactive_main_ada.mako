@@ -15,7 +15,6 @@ with GNAT.Strings;
 
 with Langkit_Support.AST; use Langkit_Support.AST;
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
-with Langkit_Support.Indent; use Langkit_Support.Indent;
 with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 with ${_self.ada_api_settings.lib_name}; use ${_self.ada_api_settings.lib_name};
@@ -33,7 +32,6 @@ procedure Parse is
    Config    : Command_Line_Configuration;
    Silent    : aliased Boolean;
    Measure_Time, Do_Print_Trivia : aliased Boolean;
-   Indent    : aliased Boolean;
    Rule_Name : aliased GNAT.Strings.String_Access :=
       new String'("${get_context().main_rule_name}");
    File_Name : aliased GNAT.Strings.String_Access;
@@ -41,66 +39,6 @@ procedure Parse is
 
    Input_Str : Unbounded_String;
    Lookups : String_Vectors.Vector;
-
-   -----------------
-   -- Split_Lines --
-   -----------------
-
-   procedure Split_Lines
-     (Str   : Unbounded_String;
-      Lines : in out Langkit_Support.Indent.String_Vectors.Vector)
-   is
-      Old_Cursor, Cursor : Natural := 1;
-   begin
-      Lines.Clear;
-      loop
-         Cursor := Index (Str, (1 => ASCII.LF), Old_Cursor);
-         exit when Cursor = 0;
-         Lines.Append (Unbounded_Slice (Str, Old_Cursor, Cursor - 1));
-         Old_Cursor := Cursor + 1;
-      end loop;
-   end Split_Lines;
-
-   ---------------
-   -- Do_Indent --
-   ---------------
-
-   procedure Do_Indent (Root  : AST_Node;
-                        Lines : String_Vector_Access)
-   is
-      Engine : Indent_Engine := Create (Root, Lines);
-   begin
-      Process (Engine);
-
-      Put_Line ("============= UNINDENTED CODE ==============");
-      New_Line;
-
-      for Line of Lines.all loop
-         Trim (Line, Left);
-         Put_Line (To_String (Line));
-      end loop;
-      New_Line;
-
-      Put_Line ("============= INDENTED CODE ==============");
-      New_Line;
-
-      for Cur in Lines.Iterate loop
-         declare
-            Line_Index : constant Natural :=
-               Langkit_Support.Indent.String_Vectors.To_Index (Cur);
-            Line       : constant Unbounded_String :=
-               Langkit_Support.Indent.String_Vectors.Element (Cur);
-            Level : constant Natural :=
-               Natural (Langkit_Support.Indent.Indent (Engine, Line_Index));
-         begin
-            Put ((1 .. Level => ' '));
-            Put_Line (To_String (Line));
-         end;
-      end loop;
-      New_Line;
-
-      Put_Line ("==========================================");
-   end Do_Indent;
 
    ------------------
    -- Process_Node --
@@ -141,15 +79,6 @@ procedure Parse is
             Lookup_Res.Print;
          end;
       end loop;
-
-      if Indent then
-         declare
-            Lines : Langkit_Support.Indent.String_Vectors.Vector;
-         begin
-            Split_Lines (Input_Str, Lines);
-            Do_Indent (AST_Node (Res), Lines'Unrestricted_Access);
-         end;
-      end if;
 
       Dec_Ref (Res);
    end Process_Node;
@@ -251,9 +180,6 @@ begin
    Define_Switch
      (Config, Measure_Time'Access, "-t", "--time",
       Help   => "Time the execution of parsing");
-   Define_Switch
-     (Config, Indent'Access, "-i", "--indent",
-      Help   => "Print an indented representation of the input code");
    Define_Switch
      (Config, Rule_Name'Access, "-r:", "--rule-name:",
       Help   => "Rule name to parse");

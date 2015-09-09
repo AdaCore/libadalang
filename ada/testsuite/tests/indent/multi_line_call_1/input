@@ -1,3 +1,0 @@
- It := Get_Parent_Scope (
-Tree,
-It);

@@ -53,13 +53,13 @@ repr_fields = cls.get_fields(lambda f: f.repr)
           % endif
 
           % if field.type.is_ptr:
-              if Node.F_${field.name} /= null then
+              if Node.${field.name} /= null then
           % endif
 
           % if is_ast_node(field.type):
-             Append (Result, Image (AST_Node (Node.F_${field.name})));
+             Append (Result, Image (AST_Node (Node.${field.name})));
           % else:
-             Append (Result, Image (Node.F_${field.name}));
+             Append (Result, Image (Node.${field.name}));
           % endif
 
           % if field.type.is_ptr:
@@ -102,7 +102,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
       case Index is
           % for i, field in enumerate(astnode_fields):
               when ${i} =>
-                  Result := AST_Node (Node.F_${field.name});
+                  Result := AST_Node (Node.${field.name});
                   Exists := True;
           % endfor
           when others =>
@@ -125,14 +125,14 @@ repr_fields = cls.get_fields(lambda f: f.repr)
 
       % for i, field in enumerate(repr_fields):
          % if field.type.is_ptr:
-            if Node.F_${field.name} /= null
-               and then not Is_Empty_List (Node.F_${field.name})
+            if Node.${field.name} /= null
+               and then not Is_Empty_List (Node.${field.name})
             then
-               Put_Line (Level + 1, "${field.name.lower}:");
-               Node.F_${field.name}.Print (Level + 2);
+               Put_Line (Level + 1, "${field._name.lower}:");
+               Node.${field.name}.Print (Level + 2);
             end if;
          % else:
-            Put_Line (Level + 1, "${field.name.lower}: " & Image (Node.F_${field.name}));
+            Put_Line (Level + 1, "${field._name.lower}: " & Image (Node.${field.name}));
          % endif
       % endfor
 
@@ -153,8 +153,8 @@ repr_fields = cls.get_fields(lambda f: f.repr)
       end if;
 
       % for field in astnode_fields:
-         if Node.F_${field.name} /= null then
-            Node.F_${field.name}.Validate (AST_Node (Node));
+         if Node.${field.name} /= null then
+            Node.${field.name}.Validate (AST_Node (Node));
          end if;
       % endfor
    end Validate;
@@ -191,8 +191,8 @@ repr_fields = cls.get_fields(lambda f: f.repr)
          ## that the first one has a sloc range that is before the
          ## sloc range of the second child node, etc.
 
-         if Node.F_${field.name} /= null then
-            Lookup_Relative (AST_Node (Node.F_${field.name}), Sloc,
+         if Node.${field.name} /= null then
+            Lookup_Relative (AST_Node (Node.${field.name}), Sloc,
                              Pos, Child,
                              Snap);
             case Pos is
@@ -224,12 +224,12 @@ repr_fields = cls.get_fields(lambda f: f.repr)
 ## Body of attribute getters
 
 % for field in cls.get_fields(include_inherited=False):
-   function F_${field.name}
+   function ${field.name}
      (Node : ${cls.name()}) return ${decl_type(field.type)}
    is
    begin
-      return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).F_${field.name});
-   end F_${field.name};
+      return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).${field.name});
+   end ${field.name};
 % endfor
 
    ----------
@@ -241,7 +241,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    begin
       % for f in cls.get_fields(include_inherited=False):
          % if f.type.is_ptr:
-            Dec_Ref (AST_Node (Node.F_${f.name}));
+            Dec_Ref (AST_Node (Node.${f.name}));
          % endif
       % endfor
 

@@ -207,7 +207,7 @@ class ASTNode(object):
         all fields in this node.
         """
         for field_name in self._field_names:
-            yield (field_name, getattr(self, 'f_{}'.format(field_name)))
+            yield (field_name, getattr(self, '{}'.format(field_name)))
 
     def dump(self, indent='', file=sys.stdout):
         """Dump the sub-tree in a human-readable format on the given file.
@@ -233,7 +233,9 @@ class ASTNode(object):
                 print_node("item {}".format(i), value)
         else:
             for name, value in self.iter_fields():
-                print_node(name, value)
+                # Remove the f_ prefix to have the same behavior as the Ada
+                # dumper
+                print_node(name[2:], value)
 
 
 class ASTList(ASTNode):

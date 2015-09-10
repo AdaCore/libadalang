@@ -38,7 +38,7 @@ main(void)
     if (ada_node_kind (tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
     overriding = 100;
-    if (ada_subprogram_body_overriding(tmp, &overriding))
+    if (ada_subprogram_body_f_overriding(tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (overriding != 100)
       error("Getting CompilationUnit.overriding failed but nevertheless output"
@@ -60,9 +60,9 @@ main(void)
 
     if (ada_node_kind(with_decl) != ada_with_decl)
         error("Got something else than a WithDecl");
-    if (!ada_with_decl_is_limited(with_decl, &is_limited))
+    if (!ada_with_decl_f_is_limited(with_decl, &is_limited))
         error("Could got get WithDecl.is_limited");
-    if (!ada_with_decl_is_private(with_decl, &is_private))
+    if (!ada_with_decl_f_is_private(with_decl, &is_private))
         error("Could got get WithDecl.is_private");
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");
@@ -79,23 +79,23 @@ main(void)
 
     if (ada_node_kind(subp_body) != ada_subprogram_body)
         error("Got something else than a SubprogramBody");
-    if (!ada_subprogram_body_overriding(subp_body, &overriding))
+    if (!ada_subprogram_body_f_overriding(subp_body, &overriding))
         error("Could got get SubprogramBody.overriding");
     printf("SubprogramBody: overriding = %d\n", overriding);
 
 
-    if (!ada_subprogram_body_subp_spec(subp_body, &tmp))
+    if (!ada_subprogram_body_f_subp_spec(subp_body, &tmp))
       error("Could not get SubprogramBody.subp_spec");
     if (ada_node_kind(tmp) != ada_subprogram_spec)
       error("SubprogramBody.subp_spec is not a SubprogramSpec");
 
-    if (!ada_subprogram_spec_name(tmp, &tmp))
+    if (!ada_subprogram_spec_f_name(tmp, &tmp))
       error("Could not get SubprogramBody.subp_spec.name");
     if (ada_node_kind(tmp) != ada_identifier)
       error("SubprogramBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
-    if (!ada_single_tok_node_tok(subp_name, &tok))
+    if (!ada_single_tok_node_f_tok(subp_name, &tok))
       error("Could not get Identifier.tok");
     tok_text = ada_token_text(tok);
     printf("Identifier: tok = %s\n", tok_text);

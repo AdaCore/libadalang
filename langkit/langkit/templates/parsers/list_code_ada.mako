@@ -70,10 +70,10 @@ loop
             )
             %>
             ## Set left children of node to the previously accumulated result
-            New_Res.F_${field_0.name} := ${res};
+            New_Res.${field_0.name} := ${res};
 
             ## Set right children of node to just parsed result
-            New_Res.F_${field_1.name} :=
+            New_Res.${field_1.name} :=
                ${_self.get_type().name()} (${parser_context.res_var_name});
 
             ## Increment the ref count of both children

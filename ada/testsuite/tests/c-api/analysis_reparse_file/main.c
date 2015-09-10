@@ -48,9 +48,9 @@ void check(ada_analysis_unit unit)
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a file");
 
-    if (!ada_compilation_unit_prelude(ada_unit_root(unit), &prelude_list)
+    if (!ada_compilation_unit_f_prelude(ada_unit_root(unit), &prelude_list)
         || !ada_node_child(prelude_list, 0, &with_decl)
-        || !ada_with_decl_is_limited(with_decl, &is_limited))
+        || !ada_with_decl_f_is_limited(with_decl, &is_limited))
         error("Could not traverse the AST as expected");
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
 }

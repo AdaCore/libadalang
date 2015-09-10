@@ -43,7 +43,7 @@
    ## Attribute getters
 
    % for field in cls.get_fields(include_inherited=False):
-       function F_${field.name}
+       function ${field.name}
          (Node : ${cls.name()}) return ${decl_type(field.type)};
    % endfor
 
@@ -63,7 +63,7 @@
    % if cls.get_fields(include_inherited=False):
       record
           % for f in cls.get_fields(include_inherited=False):
-               F_${f.name} : aliased ${decl_type(f.type)}
+               ${f.name} : aliased ${decl_type(f.type)}
                   := ${f.type.nullexpr()};
           % endfor
       end record;

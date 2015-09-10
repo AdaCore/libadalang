@@ -266,7 +266,7 @@
    overriding
    procedure Free (Node : access ${cls.name()}_Type) is
    begin
-      % for f in cls.fields:
+      % for f in cls.get_fields(include_inherited=False):
          % if f.type.is_ptr:
             Dec_Ref (AST_Node (Node.F_${f.name}));
          % endif

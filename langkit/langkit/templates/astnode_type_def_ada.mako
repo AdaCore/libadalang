@@ -62,9 +62,9 @@
 
    type ${cls.name()}_Type is ${"abstract" if cls.abstract else "" }
       new ${base_name}_Type with
-   % if cls.fields:
+   % if cls.get_fields(include_inherited=False):
       record
-          % for f in cls.fields:
+          % for f in cls.get_fields(include_inherited=False):
                F_${f.name} : aliased ${decl_type(f.type)}
                   := ${f.type.nullexpr()};
           % endfor

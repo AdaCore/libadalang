@@ -21,10 +21,9 @@ class GeneratedFunction(object):
 
 class FieldAccessor(GeneratedFunction):
     """Generated function that expose field read access"""
-    def __init__(self, name, field, field_type, c_declaration, **kwargs):
+    def __init__(self, name, field, c_declaration, **kwargs):
         super(FieldAccessor, self).__init__(name, **kwargs)
         self.field = field
-        self.field_type = field_type
         self.c_declaration = c_declaration
 
 
@@ -312,7 +311,7 @@ class AstNodeMetaclass(type):
 
         # Hack to recover the order of field declarations.  See the Field class
         # definition for more details.
-        dct['fields'] = sorted(fields, key=lambda f: f._index)
+        dct['_fields'] = sorted(fields, key=lambda f: f._index)
 
         # By default, ASTNode subtypes aren't abstract.
         dct['abstract'] = False
@@ -363,7 +362,7 @@ class ASTNode(CompiledType):
     types: type declaration and type usage (to declare AST node variables).
     """
 
-    fields = []
+    _fields = []
     __metaclass__ = AstNodeMetaclass
 
     @classmethod
@@ -406,29 +405,24 @@ class ASTNode(CompiledType):
                          if issubclass(base_class, ASTNode)])
 
     @classmethod
-    def get_fields(cls, predicate=None):
+    def get_fields(cls, predicate=None, include_inherited=True):
         """
         Return the list of all the fields `cls` has, including its parents'.
+
         :param predicate: Predicate to filter fields if needed
         :type predicate: None|(Field) -> bool
+
+        :param bool include_inherited: If true, include inheritted fields in
+        the returned list. Return only fields that were part of the declaration
+        of this node otherwise.
         """
-        fields = []
-        for base_class in cls.get_inheritance_chain():
-            fields.extend(base_class.fields)
+        if include_inherited:
+            fields = []
+            for base_class in cls.get_inheritance_chain():
+                fields.extend(base_class._fields)
+        else:
+            fields = cls._fields
         return filter(predicate or (lambda f: True), fields)
-
-    @classmethod
-    def get_public_fields(cls):
-        """
-        Return a (field, field type) list for all the fields that are
-        readable through the public API for this node type (excluding fields
-        from parents types).
-
-        This is used in the context of accessors generation. Fields from
-        parent types are handled as part of parent types themselves, so there
-        is no need to handle them here.
-        """
-        return [(field, field.type) for field in cls.fields]
 
     @classmethod
     def add_to_context(cls):
@@ -446,7 +440,7 @@ class ASTNode(CompiledType):
 
             # Generate field accessors (C public API) for this node kind
             primitives = []
-            for field, field_type in cls.get_public_fields():
+            for field in cls.get_fields(include_inherited=False):
                 accessor_basename = names.Name(
                     '{}_{}'.format(cls.name().base_name,
                                    field.name.base_name)
@@ -458,7 +452,6 @@ class ASTNode(CompiledType):
                 t_env = TemplateEnvironment(
                     astnode=cls,
                     field=field,
-                    field_type=field_type,
                     accessor_name=accessor_fullname,
                 )
                 accessor_decl = render(
@@ -474,7 +467,6 @@ class ASTNode(CompiledType):
                     implementation=accessor_impl,
                     c_declaration=accessor_c_decl,
                     field=field,
-                    field_type=field_type,
                 ))
             get_context().c_astnode_primitives[cls] = primitives
 

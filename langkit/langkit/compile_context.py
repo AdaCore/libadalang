@@ -235,10 +235,12 @@ class CompileCtx():
         ASTNode sub-class). It is valid to perform this association multiple
         times as long as types are consistent.
         """
-        assert len(astnode.fields) == len(types), (
+        fields = astnode.get_fields(include_inherited=False)
+
+        assert len(fields) == len(types), (
             "{} has {} fields ({} types given). You probably have"
             " inconsistent grammar rules and type declarations".format(
-                astnode, len(astnode.fields), len(types)
+                astnode, len(fields), len(types)
             )
         )
 
@@ -255,10 +257,10 @@ class CompileCtx():
         # type unification (take the nearest common ancestor for all field
         # types).
         assert (not astnode.is_type_resolved or
-                are_subtypes(astnode.fields, types)), (
+                are_subtypes(fields, types)), (
             "Already associated types for some fields are not consistent with"
             " current ones:\n- {}\n- {}".format(
-                [f.type for f in astnode.fields], types
+                [f.type for f in fields], types
             )
         )
 
@@ -268,7 +270,7 @@ class CompileCtx():
         if not astnode.is_type_resolved:
             astnode.is_type_resolved = True
             self.astnode_types.append(astnode)
-            for field_type, field in zip(types, astnode.fields):
+            for field_type, field in zip(types, fields):
                 field.type = field_type
 
     def order_astnode_types(self):
@@ -526,15 +528,16 @@ class CompileCtx():
             # If this is not ASTNode, get the parent class
             bases = list(typ.get_inheritance_chain())
             base = bases[-2] if len(bases) > 1 else None
+            fields = list(typ.get_fields())
 
             print >> file, '{}node {}{}{}'.format(
                 'abstract ' if typ.abstract else '',
                 typ.name().camel,
                 '({})'.format(base.name().camel) if base else '',
-                ':' if typ.fields else ''
+                ':' if fields else ''
             )
 
-            for field in typ.fields:
+            for field in fields:
                 print >> file, '    field {}: {}'.format(
                     field.name.lower, field.type.name().camel
                 )

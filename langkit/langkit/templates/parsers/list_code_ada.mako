@@ -64,11 +64,16 @@ loop
             New_Res : ${_self.revtree_class.name()} :=
                new ${_self.revtree_class.name()}_Type;
          begin
+            <%
+            field_0, field_1 = list(
+               _self.revtree_class.get_fields(include_inherited=False)
+            )
+            %>
             ## Set left children of node to the previously accumulated result
-            New_Res.F_${_self.revtree_class.fields[0].name} := ${res};
+            New_Res.F_${field_0.name} := ${res};
 
             ## Set right children of node to just parsed result
-            New_Res.F_${_self.revtree_class.fields[1].name} :=
+            New_Res.F_${field_1.name} :=
                ${_self.get_type().name()} (${parser_context.res_var_name});
 
             ## Increment the ref count of both children

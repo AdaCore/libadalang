@@ -649,9 +649,9 @@ class List(Parser):
         assert len(self.revtree_class.get_fields()) == 2, (
             "For folding, revtree classes must have two fields"
         )
-        assert len(self.revtree_class.fields) == 2, (
-            "Inheritance is not supported for revtree classes"
-        )
+        assert len(
+            self.revtree_class.get_fields(include_inherited=True)
+        ) == 2, "Inheritance is not supported for revtree classes"
 
         get_context().set_ast_fields_types(
             self.revtree_class, [self.get_type()] * 2
@@ -962,10 +962,11 @@ class Transform(Parser):
         # Then dispatch these types to all the fields distributed amongst the
         # ASTNode hierarchy.
         for cls in self.typ.get_inheritance_chain():
+            cls_field_count = len(cls.get_fields(include_inherited=False))
             get_context().set_ast_fields_types(
-                cls, fields_types[:len(cls.fields)]
+                cls, fields_types[:cls_field_count]
             )
-            fields_types = fields_types[len(cls.fields):]
+            fields_types = fields_types[cls_field_count:]
 
         Parser.compute_fields_types(self)
 

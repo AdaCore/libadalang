@@ -20,8 +20,8 @@ if ${parser_context.pos_var_name} = -1 then
         ## succeeded
         Parser.Diagnostics.Append
           ((Get_Token (Parser.TDH.all, ${pos_name}).Sloc_Range,
-            To_Unbounded_String
-            ("Missing '${_self.parser.val if is_tok(_self.parser) else repr(_self.parser)}'")));
+            To_Unbounded_Wide_Wide_String (To_Text
+            ("Missing '${_self.parser.val if is_tok(_self.parser) else repr(_self.parser)}'"))));
     % endif
 
     ${parser_context.pos_var_name} := ${pos_name};

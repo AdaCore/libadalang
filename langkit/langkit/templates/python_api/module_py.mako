@@ -59,7 +59,6 @@ class AnalysisUnit(object):
                 raise IndexError('diagnostic index out of range')
             else:
                 result = _wrap_diagnostic(diag)
-                _free_str(diag.message)
                 return result
 
     def __init__(self, c_value):
@@ -91,8 +90,7 @@ class Token(object):
 
     def __init__(self, c_value):
         text = _token_text(c_value)
-        self.text = text.value
-        _free_str(text)
+        self.text = _decode_text(text)
 
     def __repr__(self):
         return "<Token {}>".format(self.text)
@@ -275,16 +273,6 @@ def _import_func(name, argtypes, restype):
     return func
 
 
-class string_to_free(ctypes.c_char_p):
-    """
-    Regular c_char_p instances automatically copy the input string on struct
-    field access/function return, which makes it impossible to free it
-    afterwards (we have no handle to the returned buffer).  Subclassing it
-    removes this automation.
-    """
-    pass
-
-
 class _analysis_context(ctypes.c_void_p):
     pass
 class _analysis_unit(ctypes.c_void_p):
@@ -294,6 +282,14 @@ class _node(ctypes.c_void_p):
 _enum_node_kind = ctypes.c_uint
 class _token(ctypes.c_void_p):
     pass
+
+class _text(ctypes.Structure):
+    # The chars field really is a uint32_t* but considering it as a char* here
+    # is more convenient for conversion in this binding layer. On the other
+    # side, we have to be careful about converting the length when retrieving
+    # the chars.
+    _fields_ = [("chars", ctypes.POINTER(ctypes.c_char)),
+                ("length", ctypes.c_size_t)]
 
 
 class _Sloc(ctypes.Structure):
@@ -308,7 +304,7 @@ class _SlocRange(ctypes.Structure):
 
 class _Diagnostic(ctypes.Structure):
     _fields_ = [("sloc_range", _SlocRange),
-                ("message", string_to_free)]
+                ("message", _text)]
 
 
 _initialize = _import_func(
@@ -369,11 +365,6 @@ _unit_reparse_from_buffer = _import_func(
     [_analysis_unit, ctypes.c_char_p, ctypes.c_size_t], None
 )
 
-_free_str = _import_func(
-    '${capi.get_name("free_str")}',
-    [string_to_free], None
-)
-
 # General AST node primitives
 _node_kind = _import_func(
     '${capi.get_name("node_kind")}',
@@ -381,7 +372,7 @@ _node_kind = _import_func(
 )
 _kind_name = _import_func(
     '${capi.get_name("kind_name")}',
-    [_enum_node_kind], string_to_free
+    [_enum_node_kind], _text
 )
 _node_sloc_range = _import_func(
     '${capi.get_name("node_sloc_range")}',
@@ -405,7 +396,7 @@ _node_child = _import_func(
 )
 _token_text = _import_func(
     '${capi.get_name("token_text")}',
-    [_token], string_to_free
+    [_token], _text
 )
 
 % for astnode in _self.astnode_types:
@@ -440,11 +431,25 @@ _node_extension = _import_func(
 # Layering helpers
 #
 
+
+def _decode_text(text):
+    if text.length > 0:
+        encoding = 'utf-32le' if sys.byteorder == 'little' else 'utf-32be'
+        # text.length tells how much UTF-32 chars there are in text.chars but
+        # text.chars is a char* so we have to fetch 4 times more bytes than
+        # characters.
+        return text.chars[:4 * text.length].decode(encoding)
+    else:
+        return None
+
+
 def _wrap_sloc(c_value):
     return Sloc(c_value.line, c_value.column)
 
+
 def _unwrap_sloc(sloc):
     return _Sloc(sloc.line, sloc.column)
+
 
 def _wrap_sloc_range(c_value):
     return SlocRange(_wrap_sloc(c_value.start),
@@ -452,7 +457,7 @@ def _wrap_sloc_range(c_value):
 
 def _wrap_diagnostic(c_value):
     return Diagnostic(_wrap_sloc_range(c_value.sloc_range),
-                      c_value.message.value)
+                      _decode_text(c_value.message))
 
 
 _kind_to_astnode_cls = {

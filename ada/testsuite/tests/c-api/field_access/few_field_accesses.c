@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "libadalang.h"
 
+#include "langkit_text.h"
+
 
 static void
 error(const char *msg)
@@ -22,7 +24,7 @@ main(void)
     int is_limited, is_private;
     ada_overriding overriding;
     ada_token tok;
-    char *tok_text;
+    ada_text tok_text;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context();
@@ -98,8 +100,9 @@ main(void)
     if (!ada_single_tok_node_f_tok(subp_name, &tok))
       error("Could not get Identifier.tok");
     tok_text = ada_token_text(tok);
-    printf("Identifier: tok = %s\n", tok_text);
-    free(tok_text);
+    printf("Identifier: tok = ");
+    fprint_text(stderr, tok_text, false);
+    putchar('\n');
 
 
     ada_destroy_analysis_context(ctx);

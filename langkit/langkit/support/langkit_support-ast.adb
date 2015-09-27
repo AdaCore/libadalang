@@ -1,6 +1,7 @@
 with Ada.Unchecked_Deallocation;
 
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
+with Langkit_Support.Text;     use Langkit_Support.Text;
 
 package body Langkit_Support.AST is
 
@@ -271,7 +272,7 @@ package body Langkit_Support.AST is
       for C of Children_With_Trivia (Node) loop
          case C.Kind is
             when Trivia =>
-               Put_Line (Level + 1, C.Trivia.Text.all);
+               Put_Line (Level + 1, Image (C.Trivia.Text.all));
             when Child =>
                PP_Trivia (C.Node, Level + 1);
          end case;

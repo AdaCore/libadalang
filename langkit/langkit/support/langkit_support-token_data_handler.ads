@@ -1,6 +1,5 @@
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
+with Langkit_Support.Text;    use Langkit_Support.Text;
 with Langkit_Support.Tokens;  use Langkit_Support.Tokens;
 with Langkit_Support.Vectors;
 
@@ -26,14 +25,14 @@ package Langkit_Support.Token_Data_Handler is
 
    package Token_Vectors is new Langkit_Support.Vectors
      (Element_Type => Token);
-   package String_Vectors is new Langkit_Support.Vectors
-     (Element_Type => String_Access);
+   package Text_Vectors is new Langkit_Support.Vectors
+     (Element_Type => Text_Access);
    package Trivia_Vectors is new Langkit_Support.Vectors
      (Element_Type => Trivia_Node);
    package Integer_Vectors is new Langkit_Support.Vectors
      (Element_Type => Integer);
 
-   use Token_Vectors, String_Vectors, Trivia_Vectors, Integer_Vectors;
+   use Token_Vectors, Text_Vectors, Trivia_Vectors, Integer_Vectors;
 
    type Token_Data_Handler is record
       Tokens            : Token_Vectors.Vector;
@@ -46,7 +45,7 @@ package Langkit_Support.Token_Data_Handler is
       --  This is the correspondence map between regular tokens and trivias
 
       Symbols           : Symbol_Table;
-      String_Literals   : String_Vectors.Vector;
+      String_Literals   : Text_Vectors.Vector;
    end record;
 
    type Token_Data_Handler_Access is access all Token_Data_Handler;
@@ -60,7 +59,7 @@ package Langkit_Support.Token_Data_Handler is
 
    function Add_String
      (TDH : in out Token_Data_Handler;
-      S   : String) return String_Access;
+      S   : Text_Type) return Text_Access;
 
    function Get_Token
      (TDH   : Token_Data_Handler;

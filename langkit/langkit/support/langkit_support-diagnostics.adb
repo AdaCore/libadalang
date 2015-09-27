@@ -1,5 +1,7 @@
 with Interfaces; use Interfaces;
 
+with Langkit_Support.Text;   use Langkit_Support.Text;
+
 package body Langkit_Support.Diagnostics is
 
    ----------------------
@@ -11,7 +13,7 @@ package body Langkit_Support.Diagnostics is
    begin
       return ("Line" & Unsigned_32'Image (Sloc.Line)
               & ", column" & Unsigned_16'Image (Sloc.Column)
-              & ": " & To_String (D.Message));
+              & ": " & Image (To_Wide_Wide_String (D.Message)));
    end To_Pretty_String;
 
 end Langkit_Support.Diagnostics;

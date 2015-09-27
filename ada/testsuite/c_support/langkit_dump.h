@@ -6,6 +6,7 @@
 
 #include "libadalang.h"
 
+#include "langkit_text.h"
 #include "utils.h"
 
 
@@ -21,7 +22,7 @@ static void
 dump(ada_node node, int level)
 {
     ada_node_kind_enum kind;
-    char *kind_name;
+    ada_text kind_name;
     unsigned i, count;
 
     if (node == NULL) {
@@ -33,8 +34,9 @@ dump(ada_node node, int level)
     kind = ada_node_kind(node);
     kind_name = ada_kind_name(kind);
     print_indent(level);
-    printf("<%s>\n", kind_name);
-    free(kind_name);
+    putchar('<');
+    fprint_text(stdout, kind_name, false);
+    puts(">");
 
     count = ada_node_child_count(node);
     for (i = 0; i < count; ++i)

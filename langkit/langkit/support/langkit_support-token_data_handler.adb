@@ -28,7 +28,7 @@ package body Langkit_Support.Token_Data_Handler is
       --  Explicit iteration for perf
       for J in 0 .. Last_Index (TDH.String_Literals) loop
          declare
-            SL : String_Access := Get (TDH.String_Literals, J);
+            SL : Text_Access := Get (TDH.String_Literals, J);
          begin
             Free (SL);
          end;
@@ -43,8 +43,8 @@ package body Langkit_Support.Token_Data_Handler is
    ----------------
 
    function Add_String (TDH : in out Token_Data_Handler;
-                        S   : String) return String_Access is
-      S_Access : constant String_Access := new String'(S);
+                        S   : Text_Type) return Text_Access is
+      S_Access : constant Text_Access := new Text_Type'(S);
    begin
       Append (TDH.String_Literals, S_Access);
       return S_Access;

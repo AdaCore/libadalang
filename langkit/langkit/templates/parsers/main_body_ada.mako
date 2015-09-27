@@ -1,7 +1,10 @@
 ## vim: filetype=makoada
 
+with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
+
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Packrat;
+with Langkit_Support.Text;    use Langkit_Support.Text;
 
 with ${get_context().ada_api_settings.lib_name}.Lexer;
 use ${get_context().ada_api_settings.lib_name}.Lexer;
@@ -83,12 +86,12 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
             Get_Token (Parser.TDH.all, Parser.Last_Fail.Pos);
          D : constant Diagnostic :=
            (Sloc_Range => Last_Token.Sloc_Range,
-            Message    => To_Unbounded_String
+            Message    => To_Unbounded_Wide_Wide_String (To_Text
               ("Expected """
                & Token_Text (Parser.Last_Fail.Expected_Token_Id)
                & """, got """
                & Token_Text (Parser.Last_Fail.Found_Token_Id)
-               & """"));
+               & """")));
       begin
          Parser.Diagnostics.Append (D);
       end Add_Last_Fail_Diagnostic;
@@ -110,10 +113,10 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
                  Get_Token (Parser.TDH.all, Parser.Current_Pos);
                D : constant Diagnostic :=
                  (Sloc_Range => First_Garbage_Token.Sloc_Range,
-                  Message    => To_Unbounded_String
+                  Message    => To_Unbounded_Wide_Wide_String (To_Text
                     ("End of input expected, got """
                      & Token_Text (First_Garbage_Token.Id)
-                     & """"));
+                     & """")));
             begin
                Parser.Diagnostics.Append (D);
             end;

@@ -29,6 +29,7 @@ library project Langkit_Support is
       "Langkit_Support.PP_Utils",
       "Langkit_Support.Symbols",
       "Langkit_Support.Token_Data_Handler",
+      "Langkit_Support.Text",
       "Langkit_Support.Tokens",
       "Langkit_Support.Vectors");
 

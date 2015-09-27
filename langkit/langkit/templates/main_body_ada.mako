@@ -5,6 +5,7 @@ with Ada.Unchecked_Deallocation;
 
 with Langkit_Support.Extensions;
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
+with Langkit_Support.Text;     use Langkit_Support.Text;
 
 with ${get_context().ada_api_settings.lib_name}.Parsers;
 use ${get_context().ada_api_settings.lib_name}.Parsers;
@@ -292,13 +293,13 @@ package body ${_self.ada_api_settings.lib_name} is
    procedure PP_Trivia (Unit : Analysis_Unit) is
    begin
       for Tok of Get_Leading_Trivias (Unit.TDH) loop
-         Put_Line (Tok.Text.all);
+         Put_Line (Image (Tok.Text.all));
       end loop;
 
       PP_Trivia (Unit.AST_Root);
 
       for Tok of Get_Trivias (Unit.TDH, Unit.AST_Root.Token_End) loop
-         Put_Line (Tok.Text.all);
+         Put_Line (Image (Tok.Text.all));
       end loop;
    end PP_Trivia;
 

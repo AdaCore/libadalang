@@ -15,6 +15,18 @@
 |  |  |  |  |suffix:
 |  |  |  |  |  <Identifier>
 |  |  |  |  |  |tok: Token(u'Text_IO')
+|  |item 1:
+|  |  <UsePkgDecl>
+|  |  |packages:
+|  |  |  <list>
+|  |  |  |item 0:
+|  |  |  |  <Prefix>
+|  |  |  |  |prefix:
+|  |  |  |  |  <Identifier>
+|  |  |  |  |  |tok: Token(u'Ada')
+|  |  |  |  |suffix:
+|  |  |  |  |  <Identifier>
+|  |  |  |  |  |tok: Token(u'Text_IO')
 |bodies:
 |  <list>
 |  |item 0:
@@ -27,7 +39,7 @@
 |  |  |  |  <SubprogramSpec>
 |  |  |  |  |name:
 |  |  |  |  |  <Identifier>
-|  |  |  |  |  |tok: Token(u'Foo')
+|  |  |  |  |  |tok: Token(u'Test')
 |  |  |  |  |params: None
 |  |  |  |  |returns: None
 |  |  |  |aspects: None
@@ -39,18 +51,8 @@
 |  |  |  |  |  |item 0:
 |  |  |  |  |  |  <CallExpr>
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  <Prefix>
-|  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  <Prefix>
-|  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
-|  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
-|  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
+|  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |tok: Token(u'Put_Line')
 |  |  |  |  |  |  |paren_tok: Token(None)
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  <ParamList>
@@ -61,9 +63,8 @@
 |  |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  |  <StringLiteral>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'"H\xe9llo w\xf6rld!"')
 |  |  |  |  |exceptions: None
 |  |  |  |end_id:
 |  |  |  |  <Identifier>
-|  |  |  |  |tok: Token(u'Foo')
-Done
+|  |  |  |  |tok: Token(u'Test')

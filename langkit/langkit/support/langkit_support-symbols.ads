@@ -1,13 +1,14 @@
 with Ada.Containers.Hashed_Sets;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNAT.String_Hash;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 --  Provide a symbol table for text (Text_Type) identifiers
 
 package Langkit_Support.Symbols is
 
-   type Symbol_Type is new String_Access;
+   type Symbol_Type is new Text_Access;
 
    type Symbol_Table is private;
    --  The actual symbol table type to use
@@ -18,7 +19,7 @@ package Langkit_Support.Symbols is
    function Create return Symbol_Table;
    --  Allocate a new symbol table and return it
 
-   function Find (ST : Symbol_Table; S : String) return Symbol_Type
+   function Find (ST : Symbol_Table; T : Text_Type) return Symbol_Type
      with Inline_Always;
    --  Look for an entry for the T text in the ST symbol table. Return an
    --  access that is guaranteed to be the same for all equal Text_Type.
@@ -30,8 +31,8 @@ package Langkit_Support.Symbols is
 private
 
    function Hash is new GNAT.String_Hash.Hash
-     (Char_Type => Character,
-      Key_Type  => String,
+     (Char_Type => Wide_Wide_Character,
+      Key_Type  => Text_Type,
       Hash_Type => Ada.Containers.Hash_Type);
 
    function Hash (T : Symbol_Type) return Ada.Containers.Hash_Type is

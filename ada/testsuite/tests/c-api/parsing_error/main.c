@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "libadalang.h"
 
+#include "langkit_text.h"
+
 
 static void
 error(const char *msg)
@@ -32,13 +34,13 @@ main(void)
       {
 	if (!ada_unit_diagnostic(unit, n, &diag))
 	  error("Could not retrieve a diagnostic");
-	printf("Diagnostic: %u:%u-%u:%u: %s\n",
+	printf("Diagnostic: %u:%u-%u:%u: ",
 	       diag.sloc_range.start.line,
 	       diag.sloc_range.start.column,
 	       diag.sloc_range.end.line,
-	       diag.sloc_range.end.column,
-	       diag.message);
-	free(diag.message);
+	       diag.sloc_range.end.column);
+	fprint_text(stdout, diag.message, false);
+	putchar('\n');
       }
 
     ada_destroy_analysis_context(ctx);

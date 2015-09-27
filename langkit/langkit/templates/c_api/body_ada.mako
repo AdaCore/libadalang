@@ -1,12 +1,18 @@
 ## vim: filetype=makoada
 
-with Ada.Containers;        use Ada.Containers;
-with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Containers;                  use Ada.Containers;
+with Ada.IO_Exceptions;               use Ada.IO_Exceptions;
+with Ada.Strings.Unbounded;           use Ada.Strings.Unbounded;
+with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
+pragma Warnings (Off, "is an internal GNAT unit");
+with Ada.Strings.Wide_Wide_Unbounded.Aux;
+use Ada.Strings.Wide_Wide_Unbounded.Aux;
+pragma Warnings (On, "is an internal GNAT unit");
 with Ada.Unchecked_Conversion;
 
 with Langkit_Support.AST;        use Langkit_Support.AST;
 with Langkit_Support.Extensions; use Langkit_Support.Extensions;
+with Langkit_Support.Text;       use Langkit_Support.Text;
 with Langkit_Support.Tokens;     use Langkit_Support.Tokens;
 
 package body ${_self.ada_api_settings.lib_name}.C is
@@ -22,6 +28,8 @@ package body ${_self.ada_api_settings.lib_name}.C is
    function Unwrap (S : ${sloc_range_type}) return Source_Location_Range is
      ((S.Start_S.Line, S.End_S.Line,
        S.Start_S.Column, S.End_S.Column));
+
+   function Wrap (S : Unbounded_Wide_Wide_String) return ${text_type};
 
    --  The following conversions are used only at the interface between Ada and
    --  C (i.e. as parameters and return types for C entry points) for access
@@ -158,7 +166,7 @@ package body ${_self.ada_api_settings.lib_name}.C is
             D_Out : ${diagnostic_type} renames Diagnostic_P.all;
          begin
             D_Out.Sloc_Range := Wrap (D_In.Sloc_Range);
-            D_Out.Message := New_String (To_String (D_In.Message));
+            D_Out.Message := Wrap (D_In.Message);
             return 1;
          end;
       else
@@ -209,22 +217,16 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Reparse (U, Buffer_Str);
    end ${capi.get_name("unit_reparse_from_buffer")};
 
-   procedure ${capi.get_name("free_str")} (Str : chars_ptr) is
-      S : chars_ptr := Str;
-   begin
-      Free (S);
-   end ${capi.get_name("free_str")};
-
 
    ---------------------------------
    -- General AST node primitives --
    ---------------------------------
 
-   Node_Kind_Names : constant array (Positive range <>) of Unbounded_String :=
-     (To_Unbounded_String ("list")
+   Node_Kind_Names : constant array (Positive range <>) of Text_Access :=
+     (new Text_Type'(To_Text ("list"))
       % for astnode in _self.astnode_types:
          % if not astnode.abstract:
-            , To_Unbounded_String ("${astnode.name().camel}")
+            , new Text_Type'(To_Text ("${astnode.name().camel}"))
          % endif
       % endfor
       );
@@ -238,11 +240,11 @@ package body ${_self.ada_api_settings.lib_name}.C is
    end ${capi.get_name("node_kind")};
 
    function ${capi.get_name("kind_name")} (Kind : ${node_kind_type})
-                                           return chars_ptr
+                                           return ${text_type}
    is
-      Name : Unbounded_String renames Node_Kind_Names (Natural (Kind));
+      Name : Text_Access renames Node_Kind_Names (Natural (Kind));
    begin
-      return New_String (To_String (Name));
+      return (Chars => Name.all'Address, Length => Name'Length);
    end ${capi.get_name("kind_name")};
 
    procedure ${capi.get_name("node_sloc_range")}
@@ -302,14 +304,13 @@ package body ${_self.ada_api_settings.lib_name}.C is
    end ${capi.get_name("node_child")};
 
    function ${capi.get_name("token_text")} (Token : ${token_type})
-                                            return chars_ptr
+                                            return ${text_type}
    is
       T : Langkit_Support.Tokens.Token renames Unwrap (Token).all;
    begin
-      if T.Text = null then
-         return Null_Ptr;
-      end if;
-      return New_String (T.Text.all);
+      return (if T.Text = null
+             then (Chars => System.Null_Address, Length => 0)
+             else (Chars => T.Text.all'Address, Length => T.Text'Length));
    end ${capi.get_name("token_text")};
 
 
@@ -347,5 +348,17 @@ package body ${_self.ada_api_settings.lib_name}.C is
    begin
       return Get_Extension (N, ID, D).all'Address;
    end ${capi.get_name("node_extension")};
+
+   ----------
+   -- Wrap --
+   ----------
+
+   function Wrap (S : Unbounded_Wide_Wide_String) return ${text_type} is
+      Chars  : Big_Wide_Wide_String_Access;
+      Length : Natural;
+   begin
+      Get_Wide_Wide_String (S, Chars, Length);
+      return (Chars.all'Address, size_t (Length));
+   end Wrap;
 
 end ${_self.ada_api_settings.lib_name}.C;

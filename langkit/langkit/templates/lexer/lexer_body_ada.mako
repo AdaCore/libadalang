@@ -1,7 +1,6 @@
 ## vim: filetype=makoada
 
 with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Unchecked_Conversion;
 
 with Interfaces;           use Interfaces;
@@ -12,13 +11,16 @@ with System;
 
 with GNATCOLL.Mmap;    use GNATCOLL.Mmap;
 
+with Langkit_Support.Symbols; use Langkit_Support.Symbols;
+with Langkit_Support.Text;    use Langkit_Support.Text;
+
 package body ${_self.ada_api_settings.lib_name}.Lexer is
 
    use Token_Vectors, Trivia_Vectors, Integer_Vectors;
 
    type Token_Type is record
       Id                       : Unsigned_16;
-      Text                     : chars_ptr;
+      Text                     : System.Address;
       Text_Length              : size_t;
       Start_Line, End_Line     : Unsigned_32;
       Start_Column, End_Column : Unsigned_16;
@@ -60,12 +62,13 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
    is
 
       Token                 : aliased Token_Type;
-      Text                  : String_Access;
+      Text                  : Text_Access;
       Continue              : Boolean := True;
       Last_Token_Was_Trivia : Boolean := False;
 
-      function Bounded_Text return String is
-        (Value (Token.Text, Token.Text_Length));
+      function Bounded_Text return Text_Type;
+      --  Return a copy of the text in Token.  Do not call this if the token
+      --  has no text associated.
 
       procedure Prepare_For_Trivia
         with Inline_Always;
@@ -83,6 +86,20 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
             Last_Token_Was_Trivia := False;
          end if;
       end Prepare_For_Trivia;
+
+      ------------------
+      -- Bounded_Text --
+      ------------------
+
+      function Bounded_Text return Text_Type
+      is
+         Length : constant Natural := Natural (Token.Text_Length);
+         Buffer : Text_Type (1 .. Length);
+         for Buffer'Address use Token.Text;
+      begin
+         return Buffer;
+      end Bounded_Text;
+
    begin
       --  In the case we are reparsing an analysis unit, we want to get rid of
       --  the tokens from the old one.
@@ -121,7 +138,7 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
                get_context().lexer.token_name(tok)
                for tok in get_context().lexer.token_actions['WithSymbol']
             )} =>
-               Text := String_Access (Find (TDH.Symbols, Bounded_Text));
+               Text := Text_Access (Find (TDH.Symbols, Bounded_Text));
 
                Prepare_For_Trivia;
          % endif

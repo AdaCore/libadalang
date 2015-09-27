@@ -18,12 +18,12 @@ package body Langkit_Support.Symbols is
    -- Find --
    ----------
 
-   function Find (ST : Symbol_Table; S : String) return Symbol_Type
+   function Find (ST : Symbol_Table; T : Text_Type) return Symbol_Type
    is
       use Sets;
 
-      S_Acc    : Symbol_Type := S'Unrestricted_Access;
-      Result   : Cursor := ST.Find (S_Acc);
+      T_Acc    : Symbol_Type := T'Unrestricted_Access;
+      Result   : Cursor := ST.Find (T_Acc);
       Inserted : Boolean;
    begin
       --  If we already have such a symbol, return the access we already
@@ -33,8 +33,8 @@ package body Langkit_Support.Symbols is
 
          --  Otherwise internalize it first
 
-         S_Acc := new String'(S);
-         ST.Insert (S_Acc, Result, Inserted);
+         T_Acc := new Text_Type'(T);
+         ST.Insert (T_Acc, Result, Inserted);
          pragma Assert (Inserted);
       end if;
 

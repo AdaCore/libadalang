@@ -4,6 +4,7 @@
 #include "libadalang.h"
 
 #include "langkit_dump.h"
+#include "langkit_text.h"
 
 
 int

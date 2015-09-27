@@ -33,16 +33,26 @@ package ${_self.ada_api_settings.lib_name}.C is
       Line   : Unsigned_32;
       Column : Unsigned_16;
    end record
-      with Convention => C;
+     with Convention => C;
 
    type ${sloc_range_type} is record
       Start_S, End_S : ${sloc_type};
    end record
-      with Convention => C;
+     with Convention => C;
+
+   type ${text_type} is record
+      Chars  : System.Address;
+      --  Address for the content of the string
+
+      Length : size_t;
+      --  Size of the string (in characters)
+   end record
+     with Convention => C;
+   --  String encoded in UTF-32 (native endianness)
 
    type ${diagnostic_type} is record
       Sloc_Range : ${sloc_range_type};
-      Message    : chars_ptr;
+      Message    : ${text_type};
       --  When the API returns a diagnostic, it is up to the caller to free the
       --  message string.
    end record
@@ -188,13 +198,6 @@ package ${_self.ada_api_settings.lib_name}.C is
            External_name => "${capi.get_name("unit_reparse_from_buffer")}";
    --  Reparse an analysis unit from a buffer
 
-   procedure ${capi.get_name("free_str")} (Str : chars_ptr)
-      with Export        => True,
-           Convention    => C,
-           External_name => "${capi.get_name("free_str")}";
-   --  Free "str".  This is a convenience function for bindings.
-
-
    ---------------------------------
    -- General AST node primitives --
    ---------------------------------
@@ -207,12 +210,12 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  Get the kind of an AST node
 
    function ${capi.get_name("kind_name")} (Kind : ${node_kind_type})
-                                           return chars_ptr
+                                           return ${text_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("kind_name")}";
    --  Helper for textual dump: return the name of a node kind. The returned
-   --  string is a copy and thus must be free'd by the caller.
+   --  string is internalized and thus must *not* be free'd by the caller.
 
    procedure ${capi.get_name("node_sloc_range")}
      (Node         : ${node_type};
@@ -257,12 +260,11 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  CHILD_P.all. Return zero on failure (when N is too big).
 
    function ${capi.get_name("token_text")} (Token : ${token_type})
-                                            return chars_ptr
+                                            return ${text_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("token_text")}";
-   --  Get the text of the given token. The caller is responsible to free the
-   --  returned string.
+   --  Get the text of the given token
 
 
    ---------------------------------------

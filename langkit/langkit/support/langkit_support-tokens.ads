@@ -1,8 +1,9 @@
 with Ada.Strings; use Ada.Strings;
 with Ada.Strings.Fixed;
-with Ada.Strings.Unbounded;
-use type Ada.Strings.Unbounded.String_Access;
+
 with Interfaces; use Interfaces;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 package Langkit_Support.Tokens is
 
@@ -23,8 +24,10 @@ package Langkit_Support.Tokens is
    type Token is record
       Id         : Unsigned_16;
 
-      Text       : Ada.Strings.Unbounded.String_Access;
-      --  Null for keywords and literals, valid access for identifiers
+      Text       : Text_Access;
+      --  Text as found in original source file or null depending on the token
+      --  kind (as decided in the lexer specification). For instance: null for
+      --  keywords but actual text for identiifers.
 
       Sloc_Range : Source_Location_Range;
    end record;
@@ -74,6 +77,6 @@ package Langkit_Support.Tokens is
    function Image (T : Token) return String is
      (if T.Text = null
       then ""
-      else T.Text.all);
+      else Image (T.Text.all));
 
 end Langkit_Support.Tokens;

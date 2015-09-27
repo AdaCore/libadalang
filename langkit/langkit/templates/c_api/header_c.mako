@@ -56,12 +56,19 @@ typedef struct {
 } ${sloc_range_type};
 
 
+/* String encoded in UTF-32 (native endianness).  */
+typedef struct {
+    /* Address for the content of the string.  */
+    uint32_t *chars;
+    /* Size of the string (in characters).  */
+    size_t length;
+} ${text_type};
+
+
 /* Analysis unit diagnostics.  */
 typedef struct {
     ${sloc_range_type} sloc_range;
-    /* Copy of the diagnostic message: once a diagnostic is retrieved through
-       the API, the corresponding message must be free'd.  */
-    char *message;
+    ${text_type} message;
 } ${diagnostic_type};
 
 
@@ -73,10 +80,6 @@ typedef struct {
 % for chunk in _self.c_astnode_field_types.values():
     ${chunk}
 % endfor
-
-/* Get the text of the given token.  The returned string is a copy and thus
-   must be free'd by the caller.  */
-char *${capi.get_name("token_text")} (${token_type} token);
 
 
 /*
@@ -187,7 +190,7 @@ ${capi.get_name("node_kind")}(${node_type} node);
 
 /* Helper for textual dump: return the name of a node kind.  The returned
    string is a copy and thus must be free'd by the caller.  */
-extern char*
+extern ${text_type}
 ${capi.get_name("kind_name")}(${node_kind_type} kind);
 
 /* Get the spanning source location range for an AST node.  */
@@ -216,6 +219,11 @@ extern int
 ${capi.get_name("node_child")}(${node_type} node,
                                unsigned n,
                                ${node_type}* child_p);
+
+/* Get the text of the given token.  */
+extern ${text_type}
+${capi.get_name("token_text")}(${token_type} token);
+
 
 /*
  * Kind-specific AST node primitives

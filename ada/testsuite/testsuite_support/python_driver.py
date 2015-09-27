@@ -1,3 +1,6 @@
+import os
+import os.path
+
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, SetupError,
 )
@@ -29,7 +32,25 @@ class PythonDriver(BaseDriver):
         self.check_file('test.py')
         self.check_file_list('"input_sources"', input_sources)
 
+        # Make the common Python modules available from the testcase script.
+        try:
+            pythonpath = os.environ['PYTHONPATH']
+        except KeyError:
+            pythonpath = self.support_dir
+        else:
+            pythonpath = '{}{}{}'.format(
+                self.support_dir, os.path.pathsep, pythonpath
+            )
+        os.environ['PYTHONPATH'] = pythonpath
+
     @catch_test_errors
     def run(self):
         self.run_and_check([self.python_interpreter, 'test.py'],
                            for_debug=True)
+
+    @property
+    def support_dir(self):
+        """
+        Return the absolute path to the directory for support Python modules.
+        """
+        return os.path.join(self.testsuite_dir, 'python_support')

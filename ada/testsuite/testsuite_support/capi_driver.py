@@ -57,11 +57,18 @@ class CAPIDriver(BaseDriver):
 
                 package Compiler is
                     for Default_Switches ("C") use
-                      ("-Wall", "-W", "-Werror", "-pedantic");
+                      ("-Wall", "-W", "-Werror", "-pedantic",
+
+                       "-Wno-error=unused-variable",
+                       --  Code and data are shared in headers, so we expect
+                       --  unused variables there.
+
+                       "-I{support_include_dir}");
                 end Compiler;
             end P;
             '''.format(main_source=compile_units[0],
-                       exec_name=self.test_program))
+                       exec_name=self.test_program,
+                       support_include_dir=self.support_include_dir))
 
     @catch_test_errors
     def run(self):
@@ -83,4 +90,14 @@ class CAPIDriver(BaseDriver):
 
     @property
     def test_program(self):
+        """Return the absolute path to the program to run for this testcase."""
         return self.working_dir(self.test_env['test_name'])
+
+    @property
+    def support_include_dir(self):
+        """
+        Return the absolute path to the directory for support C header files.
+
+        These header files are used to share common code among C testcases.
+        """
+        return os.path.join(self.testsuite_dir, 'c_support')

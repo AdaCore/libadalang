@@ -114,14 +114,15 @@ class BaseDriver(TestDriver):
     # Convenience path builders
 
     @property
-    def root_dir(self):
-        """
-        Return the absolute path to the repository root directory.
-        """
-        return os.path.join(os.path.abspath(self.test_dir), '..', '..')
+    def testsuite_dir(self):
+        """Return the absolute path to the testsuite root directory."""
+        result = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              '..')
+        return os.path.abspath(result)
 
     @property
     def test_dir(self):
+        """Return the path of the current testcase directory."""
         return self.test_env['test_dir']
 
     def working_dir(self, *args):

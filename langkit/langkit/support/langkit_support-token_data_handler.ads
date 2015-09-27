@@ -1,8 +1,7 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-with GNATCOLL.Symbols; use GNATCOLL.Symbols;
-
-with Langkit_Support.Tokens; use Langkit_Support.Tokens;
+with Langkit_Support.Symbols; use Langkit_Support.Symbols;
+with Langkit_Support.Tokens;  use Langkit_Support.Tokens;
 with Langkit_Support.Vectors;
 
 package Langkit_Support.Token_Data_Handler is
@@ -43,14 +42,14 @@ package Langkit_Support.Token_Data_Handler is
       Tokens_To_Trivias : Integer_Vectors.Vector;
       --  This is the correspondence map between regular tokens and trivias
 
-      Symbols           : Symbol_Table_Access;
+      Symbols           : Symbol_Table;
       String_Literals   : String_Vectors.Vector;
    end record;
 
    type Token_Data_Handler_Access is access all Token_Data_Handler;
 
    procedure Initialize (TDH     : out Token_Data_Handler;
-                         Symbols : Symbol_Table_Access);
+                         Symbols : Symbol_Table);
 
    procedure Reset (TDH : in out Token_Data_Handler);
    --  Remove all tokens and string literals from TDH. As the ownership for

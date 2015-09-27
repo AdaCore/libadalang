@@ -1,5 +1,3 @@
-with "gnatcoll";
-
 library project Langkit_Support is
 
    type Build_Mode_Type is ("dev", "prod");
@@ -27,6 +25,7 @@ library project Langkit_Support is
       "Langkit_Support.Extensions",
       "Langkit_Support.Packrat",
       "Langkit_Support.PP_Utils",
+      "Langkit_Support.Symbols",
       "Langkit_Support.Token_Data_Handler",
       "Langkit_Support.Tokens",
       "Langkit_Support.Vectors");

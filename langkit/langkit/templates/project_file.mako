@@ -1,3 +1,4 @@
+with "gnatcoll";
 with "langkit_support";
 
 library project ${lib_name} is

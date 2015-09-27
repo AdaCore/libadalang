@@ -11,7 +11,6 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 with System;
 
 with GNATCOLL.Mmap;    use GNATCOLL.Mmap;
-with GNATCOLL.Symbols; use GNATCOLL.Symbols;
 
 package body ${_self.ada_api_settings.lib_name}.Lexer is
 
@@ -46,8 +45,6 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       with Import        => True,
            Convention    => C,
            External_Name => "${capi.get_name("next_token")}";
-
-   function Convert is new Ada.Unchecked_Conversion (Symbol, String_Access);
 
    ------------------------
    -- Process_All_Tokens --
@@ -124,11 +121,7 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
                get_context().lexer.token_name(tok)
                for tok in get_context().lexer.token_actions['WithSymbol']
             )} =>
-               --  TODO??? GNATCOLL.Symbol forces us to work with Symbol values.
-               --  These are accesses to unconstrained arrays but we want to work
-               --  with Ada.Strings.Unbounded.String_Access values...
-
-               Text := Convert (Find (TDH.Symbols, Bounded_Text));
+               Text := String_Access (Find (TDH.Symbols, Bounded_Text));
 
                Prepare_For_Trivia;
          % endif

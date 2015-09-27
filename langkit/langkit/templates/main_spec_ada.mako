@@ -7,11 +7,10 @@ with Ada.Strings.Unbounded.Hash;
 
 with Interfaces; use Interfaces;
 
-with GNATCOLL.Symbols; use GNATCOLL.Symbols;
-
 with Langkit_Support.AST;                use Langkit_Support.AST;
 with Langkit_Support.AST.List;
 with Langkit_Support.Diagnostics;        use Langkit_Support.Diagnostics;
+with Langkit_Support.Symbols;            use Langkit_Support.Symbols;
 with Langkit_Support.Tokens;             use Langkit_Support.Tokens;
 with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 
@@ -43,7 +42,7 @@ package ${_self.ada_api_settings.lib_name} is
 
    type Analysis_Context_Type is record
       Units_Map : Units_Maps.Map;
-      Symbols   : Symbol_Table_Access;
+      Symbols   : Symbol_Table;
    end record;
 
    type Analysis_Unit_Type is record

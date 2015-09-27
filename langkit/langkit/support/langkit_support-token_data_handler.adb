@@ -10,7 +10,7 @@ package body Langkit_Support.Token_Data_Handler is
 
    procedure Initialize
      (TDH     : out Token_Data_Handler;
-      Symbols : Symbol_Table_Access) is
+      Symbols : Symbol_Table) is
    begin
       TDH := (Tokens            => <>,
               Symbols           => Symbols,
@@ -61,7 +61,7 @@ package body Langkit_Support.Token_Data_Handler is
       Destroy (TDH.String_Literals);
       Destroy (TDH.Trivias);
       Destroy (TDH.Tokens_To_Trivias);
-      TDH.Symbols := null;
+      TDH.Symbols := No_Symbol_Table;
    end Free;
 
    --------------------------

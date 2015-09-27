@@ -49,7 +49,7 @@ package body ${_self.ada_api_settings.lib_name} is
    begin
       return new Analysis_Context_Type'
         (Units_Map => <>,
-         Symbols   => Allocate);
+         Symbols   => Create);
    end Create;
 
    --------------
@@ -202,7 +202,7 @@ package body ${_self.ada_api_settings.lib_name} is
          Unit.Context := null;
          Dec_Ref (Unit);
       end loop;
-      Free (Context.Symbols);
+      Destroy (Context.Symbols);
       Free (Context);
    end Destroy;
 

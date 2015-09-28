@@ -2,6 +2,9 @@ with "gnatcoll";
 
 library project Langkit_Support is
 
+   type Build_Mode_Type is ("dev", "prod");
+   Build_Mode : Build_Mode_Type := external ("BUILD_MODE", "dev");
+
    type Library_Kind_Type is ("static", "relocatable");
    Library_Kind_Param : Library_Kind_Type :=
      external ("LIBRARY_TYPE", "relocatable");
@@ -36,8 +39,19 @@ library project Langkit_Support is
    for Object_Dir
       use "../../obj/langkit_support/" & Library_Kind_Param;
 
+   Common_Ada_Cargs := ("-gnatwae", "-gnatyg");
+
    package Compiler is
-      for Default_Switches ("Ada") use ("-gnatwae", "-gnatyg");
+      case Build_Mode is
+         when "dev" =>
+            for Default_Switches ("Ada") use Common_Ada_Cargs & ("-g", "-O0");
+
+         when "prod" =>
+            --  Debug information is useful even with optimization for
+            --  profiling, for instance.
+            for Default_Switches ("Ada") use Common_Ada_Cargs &
+              ("-g", "-Ofast", "-gnatp");
+      end case;
    end Compiler;
 
 end Langkit_Support;

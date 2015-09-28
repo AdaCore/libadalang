@@ -102,12 +102,7 @@ def get_cpu_count():
 
 class ManageScript(object):
 
-    BUILD_MODES = {
-        'dev': ['-g', '-O0'],
-        # Debug information is useful even with optimization for profiling, for
-        # instance.
-        'prod': ['-g', '-Ofast', '-cargs:Ada', '-gnatp'],
-    }
+    BUILD_MODES = ('dev', 'prod')
 
     def __init__(self):
 
@@ -321,10 +316,9 @@ class ManageScript(object):
     def do_build(self, args):
         """Build generated source code."""
 
-        cargs = []
-        if args.build_mode:
-            cargs.extend(self.BUILD_MODES[args.build_mode])
+        build_mode = args.build_mode if args.build_mode else 'dev'
 
+        cargs = []
         # Depending on where this is invoked, the "cargs" option may not be set
         if hasattr(args, 'cargs'):
             cargs.extend(args.cargs)
@@ -334,6 +328,7 @@ class ManageScript(object):
                 subprocess.check_call([
                     'gprbuild', '-p', '-j{}'.format(args.jobs),
                     '-P{}'.format(project_file),
+                    '-XBUILD_MODE={}'.format(build_mode),
                     '-XLIBRARY_TYPE={}'.format(
                         'relocatable' if is_dynamic else 'static'
                     ),

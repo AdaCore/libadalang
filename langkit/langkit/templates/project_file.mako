@@ -2,6 +2,9 @@ with "langkit_support";
 
 library project ${lib_name} is
 
+   type Build_Mode_Type is ("dev", "prod");
+   Build_Mode : Build_Mode_Type := external ("BUILD_MODE", "dev");
+
    type Library_Kind_Type is ("static", "relocatable");
    Library_Kind_Param : Library_Kind_Type :=
      external ("LIBRARY_TYPE", "relocatable");
@@ -39,11 +42,23 @@ library project ${lib_name} is
    for Object_Dir
       use "../../obj/${lib_name.lower()}/" & Library_Kind_Param;
 
+   Common_C_Cargs :=
+     ("-I${quex_path}",
+      "-DQUEX_OPTION_ASSERTS_DISABLED",
+      "-DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED");
+
    package Compiler is
-      for Default_Switches ("C") use
-        ("-I${quex_path}", "-Wno-deprecated-register",
-         "-DQUEX_OPTION_ASSERTS_DISABLED",
-         "-DQUEX_OPTION_ASSERTS_WARNING_MESSAGE_DISABLED");
+      case Build_Mode is
+         when "dev" =>
+            for Default_Switches ("Ada") use ("-g", "-O0");
+            for Default_Switches ("C") use Common_C_Cargs & ("-g", "-O0");
+
+         when "prod" =>
+            --  Debug information is useful even with optimization for
+            --  profiling, for instance.
+            for Default_Switches ("Ada") use ("-g", "-Ofast", "-gnatp");
+            for Default_Switches ("C") use Common_C_Cargs & ("-g", "-Ofast");
+      end case;
    end Compiler;
 
 end ${lib_name};

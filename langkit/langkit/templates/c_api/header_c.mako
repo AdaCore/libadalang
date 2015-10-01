@@ -217,16 +217,6 @@ ${capi.get_name("node_child")}(${node_type} node,
                                unsigned n,
                                ${node_type}* child_p);
 
-/* Increase the reference count to an AST node.  Return the reference for
-   convenience.  */
-extern ${node_type}
-${capi.get_name("node_incref")}(${node_type} node);
-
-/* Decrease the reference count to an AST node.  */
-extern void
-${capi.get_name("node_decref")}(${node_type} node);
-
-
 /*
  * Kind-specific AST node primitives
  */

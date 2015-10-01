@@ -19,12 +19,12 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
 
    % for cls in _self.astnode_types:
       package ${cls.name()}_Memos is new Langkit_Support.Packrat
-        (${cls.name()}, Dec_Ref);
+        (${cls.name()});
       use ${cls.name()}_Memos;
 
       % if cls in _self.list_types:
          package List_${cls.name()}_Memos is new Langkit_Support.Packrat
-           (List_${cls.name()}, Dec_Ref);
+           (List_${cls.name()});
          use List_${cls.name()}_Memos;
       % endif
    % endfor
@@ -33,14 +33,13 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
    ${parser.spec}
    % endfor
 
-   function Process_Parsing_Error
+   procedure Process_Parsing_Error
      (Parser         : in out Parser_Type;
-      Check_Complete : Boolean := True) return Boolean;
+      Check_Complete : Boolean := True);
    --  Helper for the user parsing function, to be called after a low-level
    --  parsing function. Check_Complete has the same semantics as in Parse. If
    --  the parsing failed (Parser.Current_Pos = -1), append corresponding
-   --  diagnostics to Parser.Diagnostics, do nothing instead. Return whether
-   --  the parsing failed completely (eg. produced no result at all) or not.
+   --  diagnostics to Parser.Diagnostics, do nothing instead.
 
    ----------------------
    -- Create_From_File --
@@ -74,9 +73,9 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
    -- Process_Parsing_Error --
    ---------------------------
 
-   function Process_Parsing_Error
+   procedure Process_Parsing_Error
      (Parser         : in out Parser_Type;
-      Check_Complete : Boolean := True) return Boolean
+      Check_Complete : Boolean := True)
    is
 
       procedure Add_Last_Fail_Diagnostic is
@@ -98,7 +97,6 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
 
       if Parser.Current_Pos = -1 then
          Add_Last_Fail_Diagnostic;
-         return True;
       elsif Check_Complete
         and then (Parser.Current_Pos
                   /= Token_Vectors.Last_Index (Parser.TDH.Tokens))
@@ -126,8 +124,6 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
             Add_Last_Fail_Diagnostic;
          end if;
       end if;
-
-      return False;
    end Process_Parsing_Error;
 
    -----------
@@ -154,13 +150,7 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
          Result : ${decl_type(parser.get_type())} :=
             ${parser.gen_fn_name} (Parser, 0);
       begin
-         if not Process_Parsing_Error (Parser, Check_Complete) then
-            % if is_ast_node(parser.get_type()):
-               Inc_Ref (Result);
-            % else:
-               null;
-            % endif
-         end if;
+         Process_Parsing_Error (Parser, Check_Complete);
          Clean_All_Memos;
          return Result;
       end Parse_${parser._name};

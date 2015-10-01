@@ -60,9 +60,11 @@ loop
       ## Else, fold the current and previous results into a new node
       else
          declare
+            <% tree_class = _self.revtree_class.name() %>
+
             ## Create the node which will contain current and previous results
-            New_Res : ${_self.revtree_class.name()} :=
-               new ${_self.revtree_class.name()}_Type;
+            New_Res : ${tree_class} := ${tree_class}
+              (${tree_class}_Alloc.Alloc (Parser.Mem_Pool));
          begin
             <%
             field_0, field_1 = list(
@@ -75,10 +77,6 @@ loop
             ## Set right children of node to just parsed result
             New_Res.${field_1.name} :=
                ${_self.get_type().name()} (${parser_context.res_var_name});
-
-            ## Increment the ref count of both children
-            Inc_Ref (${res});
-            Inc_Ref (${parser_context.res_var_name});
 
             ## Set the parent of both children to the created node
             ${res}.Parent := AST_Node (New_Res);
@@ -102,8 +100,14 @@ loop
 
       ## Related to ??? above, we create the list lazily only when the first
       ## result has been parsed
+      <% parser_type = decl_type(_self.parser.get_type()) %>
+
       if ${res} = ${_self.get_type().nullexpr()} then
-         ${res} := new List_${decl_type(_self.parser.get_type())}_Type;
+         ${res} := List_${parser_type}
+           (List_${parser_type}_Alloc.Alloc (Parser.Mem_Pool));
+
+         ${res}.Vec :=
+           Lists_${parser_type}.Node_Vectors.Create (Parser.Mem_Pool);
       end if;
 
       ## Append the parsed result to the list
@@ -115,7 +119,6 @@ loop
       % if is_ast_node (_self.parser.get_type()):
          if ${parser_context.res_var_name} /= null then
             ${parser_context.res_var_name}.Parent := AST_Node (${res});
-            Inc_Ref (${parser_context.res_var_name});
          end if;
       % endif
    % endif

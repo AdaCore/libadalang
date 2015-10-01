@@ -4,6 +4,8 @@ with Ada.Strings.Unbounded.Hash;
 
 package body Langkit_Support.Extensions is
 
+   Extensions_Registered : Boolean := False;
+
    package Extension_Maps is new Ada.Containers.Hashed_Maps
      (Key_Type        => Unbounded_String,
       Element_Type    => Extension_Id,
@@ -19,6 +21,9 @@ package body Langkit_Support.Extensions is
       Key : constant Unbounded_String := To_Unbounded_String (Name);
       Cur : constant Extension_Maps.Cursor := Extensions.Find (Key);
    begin
+
+      Extensions_Registered := True;
+
       if Cur = No_Element then
          declare
             Result : constant Extension_ID := Next_Extension_Id;
@@ -31,5 +36,7 @@ package body Langkit_Support.Extensions is
          return Element (Cur);
       end if;
    end Register_Extension;
+
+   function Has_Extensions return Boolean is (Extensions_Registered);
 
 end Langkit_Support.Extensions;

@@ -151,11 +151,6 @@ class Parser(object):
     def discard(self):
         return False
 
-    def needs_refcount(self):
-        if self.get_type():
-            return self.get_type().needs_refcount()
-        return False
-
     def __or__(self, other):
         """Return a new parser that matches this one or `other`."""
 

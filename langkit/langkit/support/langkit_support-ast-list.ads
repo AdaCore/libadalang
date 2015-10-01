@@ -1,4 +1,4 @@
-with Langkit_Support.Vectors;
+with Langkit_Support.Bump_Ptr.Vectors;
 
 generic
    type Node_Type is abstract new AST_Node_Type with private;
@@ -7,8 +7,8 @@ package Langkit_Support.AST.List is
 
    List_Kind : constant AST_Node_Kind := 1;
 
-   package Node_Vectors is new Langkit_Support.Vectors
-     (Element_Type => Node_Access, Small_Vector_Capacity => 1);
+   package Node_Vectors is new Langkit_Support.Bump_Ptr.Vectors
+     (Element_Type => Node_Access);
 
    type List_Type is new AST_Node_Type with record
       Vec : Node_Vectors.Vector;
@@ -43,7 +43,6 @@ package Langkit_Support.AST.List is
                              Sloc : Source_Location;
                              Snap : Boolean := False) return AST_Node;
 
-   overriding
-   procedure Free (Node : access List_Type);
+   overriding procedure Destroy (Node : access List_Type);
 
 end Langkit_Support.AST.List;

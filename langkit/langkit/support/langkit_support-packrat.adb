@@ -7,9 +7,6 @@ package body Langkit_Support.Packrat is
    procedure Clear (Memo : in out Memo_Type) is
    begin
       for E of Memo loop
-         if E.State = Success then
-            Dec_Ref (E.Instance);
-         end if;
          E.State := No_Result;
       end loop;
    end Clear;
@@ -39,10 +36,6 @@ package body Langkit_Support.Packrat is
    is
       E : Memo_Entry renames Memo (Offset mod Memo_Size);
    begin
-      if E.State = Success then
-         Dec_Ref (E.Instance);
-      end if;
-
       E := (State     => (if Is_Success then Success else Failure),
             Instance  => Instance,
             Offset    => Offset,

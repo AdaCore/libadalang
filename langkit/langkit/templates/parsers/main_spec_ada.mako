@@ -20,6 +20,7 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
       Last_Fail   : Fail_Info;
       Diagnostics : Diagnostics_Vectors.Vector;
       TDH         : Token_Data_Handler_Access;
+      Mem_Pool    : Bump_Ptr_Pool;
    end record;
 
    function Create_From_File

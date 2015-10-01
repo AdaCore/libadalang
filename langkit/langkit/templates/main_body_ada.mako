@@ -3,6 +3,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
+with Langkit_Support.Extensions;
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
 
 with ${get_context().ada_api_settings.lib_name}.Parsers;
@@ -77,13 +78,14 @@ package body ${_self.ada_api_settings.lib_name} is
 
       if Created then
          Unit := new Analysis_Unit_Type'
-           (Context     => Context,
-            Ref_Count   => 1,
-            AST_Root    => null,
-            File_Name   => Fname,
-            TDH         => <>,
-            Diagnostics => <>,
-            With_Trivia => With_Trivia);
+           (Context      => Context,
+            Ref_Count    => 1,
+            AST_Root     => null,
+            File_Name    => Fname,
+            TDH          => <>,
+            Diagnostics  => <>,
+            With_Trivia  => With_Trivia,
+            AST_Mem_Pool => No_Pool);
          Initialize (Unit.TDH, Context.Symbols);
       else
          Unit := Element (Cur);
@@ -96,15 +98,13 @@ package body ${_self.ada_api_settings.lib_name} is
          or else (With_Trivia and then not Unit.With_Trivia)
       then
          begin
-            begin
-               Do_Parsing (Unit, Get_Parser);
-            exception
-               when Name_Error =>
-                  if Created then
-                     Dec_Ref (Unit);
-                  end if;
-                  raise;
-            end;
+            Do_Parsing (Unit, Get_Parser);
+         exception
+            when Name_Error =>
+               if Created then
+                  Dec_Ref (Unit);
+               end if;
+               raise;
          end;
       end if;
 
@@ -126,7 +126,15 @@ package body ${_self.ada_api_settings.lib_name} is
    is
       Parser : Parser_Type := Get_Parser (Unit.TDH'Access);
    begin
-      Dec_Ref (Unit.AST_Root);
+      --  If we have an AST_Mem_Pool already, we are reparsing. We want to
+      --  destroy it to free all the allocated memory.
+      if Unit.AST_Mem_Pool /= No_Pool then
+         Free (Unit.AST_Mem_Pool);
+      end if;
+
+      Unit.AST_Mem_Pool := Create;
+      Parser.Mem_Pool := Unit.AST_Mem_Pool;
+
       Unit.AST_Root := Parse (Parser);
       Unit.Diagnostics := Parser.Diagnostics;
       Clean_All_Memos;
@@ -256,8 +264,11 @@ package body ${_self.ada_api_settings.lib_name} is
    procedure Destroy (Unit : Analysis_Unit) is
       Unit_Var : Analysis_Unit := Unit;
    begin
-      Dec_Ref (Unit.AST_Root);
+      if Unit.AST_Root /= null then
+         Destroy (Unit.AST_Root);
+      end if;
       Free (Unit.TDH);
+      Free (Unit.AST_Mem_Pool);
       Free (Unit_Var);
    end Destroy;
 

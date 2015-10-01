@@ -42,6 +42,9 @@ package body Langkit_Support.Bump_Ptr is
 
    procedure Free (Pool : in out Bump_Ptr_Pool) is
    begin
+      if Pool = No_Pool then
+         return;
+      end if;
 
       --  Free every page allocated
 

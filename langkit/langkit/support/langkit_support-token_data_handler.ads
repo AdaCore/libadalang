@@ -6,6 +6,9 @@ with Langkit_Support.Vectors;
 
 package Langkit_Support.Token_Data_Handler is
 
+   pragma Suppress (Container_Checks);
+   pragma Suppress (Tampering_Check);
+
    --------------
    --  Trivias --
    --------------

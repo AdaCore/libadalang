@@ -73,7 +73,7 @@ package body Langkit_Support.AST.List is
          Exists := False;
       else
          Exists := True;
-         Result := AST_Node (Node_Vectors.Get (Node.Vec, Index));
+         Result := AST_Node (Node_Vectors.Get_At_Index (Node.Vec, Index));
       end if;
    end Get_Child;
 
@@ -125,11 +125,8 @@ package body Langkit_Support.AST.List is
                              Sloc : Source_Location;
                              Snap : Boolean := False) return AST_Node
    is
-      Child : Node_Access;
    begin
-      --  Explicit iteration for perf
-      for J in 0 .. Last_Index (Node.Vec) loop
-         Child := Get (Node.Vec, J);
+      for Child of Node.Vec loop
          declare
             Position : Relative_Position;
             Result   : AST_Node;
@@ -148,17 +145,16 @@ package body Langkit_Support.AST.List is
       return AST_Node (Node);
    end Lookup_Children;
 
-   overriding
-   procedure Free (Node : access List_Type)
-   is
-      Child : Node_Access;
+   -------------
+   -- Destroy --
+   -------------
+
+   overriding procedure Destroy (Node : access List_Type) is
    begin
-      --  Explicit iteration for perf
-      for J in 0 .. Last_Index (Node.Vec) loop
-         Child := Get (Node.Vec, J);
-         Dec_Ref (AST_Node (Child));
+      Free_Extensions (Node);
+      for N of Node.Vec loop
+         Destroy (N);
       end loop;
-      Destroy (Node.Vec);
-   end Free;
+   end Destroy;
 
 end Langkit_Support.AST.List;

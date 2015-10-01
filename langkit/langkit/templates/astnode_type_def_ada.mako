@@ -40,6 +40,9 @@
       function Lookup_Children (Node : access ${type_name};
                                 Sloc : Source_Location;
                                 Snap : Boolean := False) return AST_Node;
+
+      overriding procedure Destroy
+        (Node : access ${cls.name()}_Type);
    % endif
 
    ## Attribute getters
@@ -48,15 +51,6 @@
        function ${field.name}
          (Node : ${cls.name()}) return ${decl_type(field.type)};
    % endfor
-
-   overriding
-   procedure Free (Node : access ${type_name});
-
-   procedure Inc_Ref (Node : in out ${cls.name()});
-   pragma Inline (Inc_Ref);
-
-   procedure Dec_Ref (Node : in out ${cls.name()});
-   pragma Inline (Dec_Ref);
 
 % else:
 
@@ -73,4 +67,8 @@
       null record;
    % endif
 
+   % if not cls.abstract:
+      package ${cls.name()}_Alloc is
+        new Tagged_Alloc (${cls.name()}_Type, ${cls.name()}_Access);
+   % endif
 % endif

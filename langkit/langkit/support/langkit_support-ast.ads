@@ -32,7 +32,6 @@ package Langkit_Support.AST is
      (Element_Type => Extension_Slot);
 
    type AST_Node_Type is abstract tagged record
-      Ref_Count              : Natural  := 0;
       Parent                 : AST_Node := null;
       Token_Data             : Token_Data_Handler_Access := null;
       Token_Start, Token_End : Natural  := 0;
@@ -144,10 +143,6 @@ package Langkit_Support.AST is
                               Node_Found : out AST_Node;
                               Snap       : Boolean := False);
 
-   procedure Inc_Ref (Node : AST_Node);
-   procedure Dec_Ref (Node : in out AST_Node)
-     with Inline_Always;
-
    function Get_Extension
      (Node : AST_Node;
       ID   : Extension_ID;
@@ -157,7 +152,10 @@ package Langkit_Support.AST is
    --  Note that the returned access is not guaranteed to stay valid after
    --  subsequent calls to Get_Extension.
 
-   procedure Free (Node : access AST_Node_Type);
+   procedure Free_Extensions (Node : access AST_Node_Type);
+
+   procedure Destroy
+     (Node : access AST_Node_Type) is abstract;
 
    function Is_Empty_List (Node : access AST_Node_Type) return Boolean is
      (False);

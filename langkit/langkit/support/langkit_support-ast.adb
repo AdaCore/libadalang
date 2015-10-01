@@ -1,4 +1,5 @@
 with Ada.Unchecked_Deallocation;
+
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
 
 package body Langkit_Support.AST is
@@ -132,34 +133,6 @@ package body Langkit_Support.AST is
       return Compare (Sloc_Range (Node, Snap), Sloc);
    end Compare;
 
-   -------------
-   -- Inc_Ref --
-   -------------
-
-   procedure Inc_Ref (Node : AST_Node) is
-   begin
-      if Node /= null then
-         Node.Ref_Count := Node.Ref_Count + 1;
-      end if;
-   end Inc_Ref;
-
-   -------------
-   -- Dec_Ref --
-   -------------
-
-   procedure Dec_Ref (Node : in out AST_Node) is
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (AST_Node_Type'Class, AST_Node);
-   begin
-      if Node /= null then
-         Node.Ref_Count := Node.Ref_Count - 1;
-         if Node.Ref_Count = 0 then
-            Free (Node);
-            Deallocate (Node);
-         end if;
-      end if;
-   end Dec_Ref;
-
    -------------------
    -- Get_Extension --
    -------------------
@@ -189,11 +162,11 @@ package body Langkit_Support.AST is
       end;
    end Get_Extension;
 
-   ----------
-   -- Free --
-   ----------
+   ---------------------
+   -- Free_Extensions --
+   ---------------------
 
-   procedure Free (Node : access AST_Node_Type) is
+   procedure Free_Extensions (Node : access AST_Node_Type) is
       procedure Free is new Ada.Unchecked_Deallocation
         (Extension_Type, Extension_Access);
       use Extension_Vectors;
@@ -205,7 +178,7 @@ package body Langkit_Support.AST is
          Slot.Dtor (AST_Node (Node), Slot.Extension.all);
          Free (Slot.Extension);
       end loop;
-   end Free;
+   end Free_Extensions;
 
    ---------------------
    -- Lookup_Relative --
@@ -281,7 +254,11 @@ package body Langkit_Support.AST is
                           else N_Children (I + 1).Token_Start - 1));
       end loop;
 
-      return To_Array (Ret_Vec);
+      return A : constant Children_Arrays.Array_Type := To_Array (Ret_Vec) do
+         --  Don't forget to free Ret_Vec, since its memory is not
+         --  automatically managed.
+         Destroy (Ret_Vec);
+      end return;
    end Children_With_Trivia;
 
    ---------------

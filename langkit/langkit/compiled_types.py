@@ -94,10 +94,6 @@ class CompiledType(object):
         pass
 
     @classmethod
-    def needs_refcount(cls):
-        raise NotImplementedError()
-
-    @classmethod
     def name(cls):
         """
         Return a names.Name instance to be used in code generation to reference
@@ -141,10 +137,6 @@ class BasicType(CompiledType):
     _name = None
     _nullexpr = None
     _external = False
-
-    @classmethod
-    def needs_refcount(cls):
-        return False
 
     @classmethod
     def name(cls):
@@ -341,10 +333,6 @@ class ASTNode(CompiledType):
     __metaclass__ = AstNodeMetaclass
 
     @classmethod
-    def needs_refcount(cls):
-        return True
-
-    @classmethod
     def create_type_definition(cls):
         """
         Emit a type definition for this AST node type in
@@ -526,9 +514,6 @@ def list_type(element_type):
         get_context().list_types_declarations.append(TypeDeclaration.render(
             'astlist_def_ada', t_env, cls
         ))
-        get_context().primitives_bodies.append(render(
-            'astlist_impl_ada', t_env
-        ))
 
     return type(
         '{}ListType'.format(element_type.name()), (ASTNode, ), {
@@ -559,10 +544,6 @@ class EnumType(CompiledType):
     # Suffix to use for the alternatives when they are invalid identifiers in
     # some target language.
     suffix = ''
-
-    @classmethod
-    def needs_refcount(cls):
-        return False
 
     # noinspection PyMissingConstructor
     def __init__(self, alt):

@@ -9,6 +9,7 @@ with Interfaces; use Interfaces;
 
 with Langkit_Support.AST;                use Langkit_Support.AST;
 with Langkit_Support.AST.List;
+with Langkit_Support.Bump_Ptr;           use Langkit_Support.Bump_Ptr;
 with Langkit_Support.Diagnostics;        use Langkit_Support.Diagnostics;
 with Langkit_Support.Symbols;            use Langkit_Support.Symbols;
 with Langkit_Support.Tokens;             use Langkit_Support.Tokens;
@@ -46,13 +47,17 @@ package ${_self.ada_api_settings.lib_name} is
    end record;
 
    type Analysis_Unit_Type is record
-      Context     : Analysis_Context;
-      Ref_Count   : Natural;
-      AST_Root    : AST_Node;
-      File_Name   : Unbounded_String;
-      TDH         : aliased Token_Data_Handler;
-      Diagnostics : Diagnostics_Vectors.Vector;
-      With_Trivia : Boolean;
+      Context         : Analysis_Context;
+      Ref_Count       : Natural;
+      AST_Root        : AST_Node;
+      File_Name       : Unbounded_String;
+      TDH             : aliased Token_Data_Handler;
+      Diagnostics     : Diagnostics_Vectors.Vector;
+      With_Trivia     : Boolean;
+
+      AST_Mem_Pool    : Bump_Ptr_Pool;
+      --  This memory pool shall only be used for AST parsing. Stored here
+      --  because it is more convenient, but one shall not allocate from it 
    end record;
 
    function Create return Analysis_Context;

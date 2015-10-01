@@ -256,20 +256,6 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  Get the Nth child AST node in NODE's fields and store it into
    --  CHILD_P.all. Return zero on failure (when N is too big).
 
-   function ${capi.get_name("node_incref")}
-     (Node : ${node_type}) return ${node_type}
-      with Export        => True,
-           Convention    => C,
-           External_name => "${capi.get_name("node_incref")}";
-   --  Increase the reference count to an AST node. Return the reference for
-   --  convenience.
-
-   procedure ${capi.get_name("node_decref")} (Node : ${node_type})
-      with Export        => True,
-           Convention    => C,
-           External_name => "${capi.get_name("node_decref")}";
-   --  Decrease the reference count to an AST node
-
    function ${capi.get_name("token_text")} (Token : ${token_type})
                                             return chars_ptr
       with Export        => True,

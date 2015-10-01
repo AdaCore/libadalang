@@ -4,4 +4,6 @@ package Langkit_Support.Extensions is
 
    function Register_Extension (Name : String) return Extension_ID;
 
+   function Has_Extensions return Boolean;
+
 end Langkit_Support.Extensions;

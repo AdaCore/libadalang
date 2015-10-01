@@ -33,6 +33,8 @@ package Langkit_Support.Bump_Ptr is
    --  This type is a handle to a subpool. You need to initialize it via a call
    --  to Create
 
+   No_Pool : constant Bump_Ptr_Pool;
+
    function Create return Bump_Ptr_Pool;
    --  Create a new pool
 
@@ -133,6 +135,8 @@ private
    end record;
 
    type Bump_Ptr_Pool is access all Bump_Ptr_Pool_Type;
+
+   No_Pool : constant Bump_Ptr_Pool := null;
 
    overriding procedure Allocate_From_Subpool
      (Pool                     : in out Ada_Bump_Ptr_Pool;

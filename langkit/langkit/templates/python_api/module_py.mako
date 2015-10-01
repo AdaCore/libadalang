@@ -153,10 +153,8 @@ class ASTNode(object):
 
     def __init__(self, c_value):
         self._c_value = c_value
-        _node_incref(self._c_value)
 
     def __del__(self):
-        _node_decref(self._c_value)
         super(ASTNode, self).__init__()
 
     @property
@@ -405,15 +403,6 @@ _node_child = _import_func(
     '${capi.get_name("node_child")}',
     [_node, ctypes.c_uint, ctypes.POINTER(_node)], ctypes.c_int
 )
-_node_incref = _import_func(
-    '${capi.get_name("node_incref")}',
-    [_node], _node
-)
-_node_decref = _import_func(
-    '${capi.get_name("node_decref")}',
-    [_node], None
-)
-
 _token_text = _import_func(
     '${capi.get_name("token_text")}',
     [_token], string_to_free

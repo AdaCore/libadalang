@@ -1,6 +1,5 @@
 generic
    type T is private;
-   with procedure Dec_Ref (Instance : in out T) is null;
    Memo_Size : Positive := 16;
 package Langkit_Support.Packrat is
 

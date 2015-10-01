@@ -53,34 +53,15 @@ begin
    % if _self.is_left_recursive():
       if ${parser_context.pos_var_name} > Mem_Pos then
          Mem_Pos := ${parser_context.pos_var_name};
-         % if _self.needs_refcount():
-            Dec_Ref(Mem_Res);
-         % endif
          Mem_Res := ${parser_context.res_var_name};
-         % if _self.needs_refcount():
-            Inc_Ref (Mem_Res);
-         % endif
          Set (${_self.gen_fn_name}_Memo,
               ${parser_context.pos_var_name} /= -1,
               ${parser_context.res_var_name},
               Pos,
               ${parser_context.pos_var_name});
-         % if _self.needs_refcount():
-            Inc_Ref (${parser_context.res_var_name});
-         % endif
          goto Try_Again;
 
       elsif Mem_Pos > Pos then
-         % if _self.needs_refcount():
-            --  The following is an inelegant way to free this node
-
-            Inc_Ref (${parser_context.res_var_name});
-            Dec_Ref (${parser_context.res_var_name});
-         % endif
-
-         % if _self.needs_refcount():
-            Dec_Ref (Mem_Res);
-         % endif
          ${parser_context.res_var_name} := Mem_Res;
          ${parser_context.pos_var_name} := Mem_Pos;
          goto No_Memo;
@@ -92,9 +73,6 @@ begin
         ${parser_context.res_var_name},
         Pos,
         ${parser_context.pos_var_name});
-   % if _self.needs_refcount():
-       Inc_Ref (${parser_context.res_var_name});
-   % endif
 
    % if _self.is_left_recursive():
        <<No_Memo>>

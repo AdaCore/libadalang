@@ -162,6 +162,22 @@ type_name = '{}_Type'.format(cls.name())
       % endfor
    end Validate;
 
+   overriding procedure Destroy
+     (Node : access ${cls.name()}_Type)
+   is
+   begin
+      ## When no extension is registered, we don't need to recurse on the tree
+      ## at all.
+      if Langkit_Support.Extensions.Has_Extensions then
+         Node.Free_Extensions;
+         % for i, field in enumerate(astnode_fields):
+            if Node.${field.name} /= null then
+               Destroy (Node.${field.name});
+            end if;
+         % endfor
+      end if;
+   end Destroy;
+
    ---------------------
    -- Lookup_Children --
    ---------------------
@@ -234,35 +250,3 @@ type_name = '{}_Type'.format(cls.name())
       return ${decl_type(field.type)} (${type_name} (Node.all).${field.name});
    end ${field.name};
 % endfor
-
-   ----------
-   -- Free --
-   ----------
-
-   overriding
-   procedure Free (Node : access ${type_name}) is
-   begin
-      % for f in cls.get_fields(include_inherited=False):
-         % if f.type.is_ptr:
-            Dec_Ref (AST_Node (Node.${f.name}));
-         % endif
-      % endfor
-
-      --  Let the base class destructor take care of inheritted fields
-
-      Free (${base_name}_Access (Node));
-   end Free;
-
-   procedure Inc_Ref (Node : in out ${cls.name()}) is
-   begin
-      if Node /= null then
-         Inc_Ref (AST_Node (Node));
-      end if;
-   end Inc_Ref;
-
-   procedure Dec_Ref (Node : in out ${cls.name()}) is
-   begin
-      if Node /= null then
-         Dec_Ref (AST_Node (Node));
-      end if;
-   end Dec_Ref;

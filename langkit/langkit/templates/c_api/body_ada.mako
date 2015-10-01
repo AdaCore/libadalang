@@ -301,22 +301,6 @@ package body ${_self.ada_api_settings.lib_name}.C is
       end if;
    end ${capi.get_name("node_child")};
 
-   function ${capi.get_name("node_incref")}
-     (Node : ${node_type}) return ${node_type}
-   is
-      N : constant AST_Node := Unwrap (Node);
-   begin
-      Inc_Ref (N);
-      return Node;
-   end ${capi.get_name("node_incref")};
-
-   procedure ${capi.get_name("node_decref")} (Node : ${node_type})
-   is
-      N : AST_Node := Unwrap (Node);
-   begin
-      Dec_Ref (N);
-   end ${capi.get_name("node_decref")};
-
    function ${capi.get_name("token_text")} (Token : ${token_type})
                                             return chars_ptr
    is

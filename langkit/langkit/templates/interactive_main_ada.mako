@@ -14,6 +14,7 @@ with GNAT.Command_Line; use GNAT.Command_Line;
 with GNAT.Strings;
 
 with Langkit_Support.AST; use Langkit_Support.AST;
+with Langkit_Support.Bump_Ptr; use Langkit_Support.Bump_Ptr;
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 with Langkit_Support.Tokens; use Langkit_Support.Tokens;
@@ -79,8 +80,6 @@ procedure Parse is
             Lookup_Res.Print;
          end;
       end loop;
-
-      Dec_Ref (Res);
    end Process_Node;
 
    -----------------
@@ -94,6 +93,7 @@ procedure Parse is
       Context : Analysis_Context := Create;
       TDH     : Token_Data_Handler;
       Parser  : Parser_Type;
+      Pool    : Bump_Ptr_Pool := Create;
    begin
       Initialize (TDH, Context.Symbols);
 
@@ -103,6 +103,7 @@ procedure Parse is
          TDH'Unrestricted_Access,
          --  Parse with trivia if we want to print it ultimately
          With_Trivia => Do_Print_Trivia);
+      Parser.Mem_Pool := Pool;
 
       % for i, (rule_name, parser) in enumerate(_self.rules_to_fn_names.items()):
          ${"if" if i == 0 else "elsif"} Rule_Name.all = ${string_repr(rule_name)} then
@@ -136,6 +137,7 @@ procedure Parse is
          end if;
 
       Free (TDH);
+      Free (Pool);
       Destroy (Context);
    end Parse_Input;
 

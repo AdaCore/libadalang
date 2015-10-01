@@ -51,7 +51,7 @@ library project ${lib_name} is
       case Build_Mode is
          when "dev" =>
             for Default_Switches ("Ada") use ("-g", "-O0");
-            for Default_Switches ("C") use Common_C_Cargs & ("-g", "-O0");
+            for Default_Switches ("C") use Common_C_Cargs & ("-g3", "-O0");
 
          when "prod" =>
             --  Debug information is useful even with optimization for

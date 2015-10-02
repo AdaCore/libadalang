@@ -30,7 +30,8 @@ package ${_self.ada_api_settings.lib_name}.Lexer is
    ## literals but this would not be convenient to read. Generate instead named
    ## constants for each token kind.
 
-   % for tok in get_context().lexer.tokens_class:
+   % for tok in sorted(get_context().lexer.tokens_class, \
+                       key=lambda tok: tok.value):
        ${get_context().lexer.token_name(tok)} : constant := ${tok.value};
    % endfor
 

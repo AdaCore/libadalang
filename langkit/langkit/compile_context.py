@@ -450,6 +450,11 @@ class CompileCtx():
                 os.mkdir(python_path)
             self.emit_python_api(python_path)
 
+        # Add any sources in $lang_path/extensions/support if it exists
+        if self.ext('support'):
+            for f in glob(join(self.ext('support'), "*.ad*")):
+                shutil.copy(f, src_path)
+
         printcol("Compiling the quex lexer specification", Colors.OKBLUE)
 
         quex_file = os.path.join(src_path,

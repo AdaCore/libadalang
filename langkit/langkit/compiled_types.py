@@ -248,8 +248,7 @@ class Field(object):
 
     def _get_name(self):
         assert self._name
-        from names import Name
-        return Name("F") + self._name
+        return names.Name("F") + self._name
 
     def _set_name(self, name):
         assert isinstance(name, names.Name)

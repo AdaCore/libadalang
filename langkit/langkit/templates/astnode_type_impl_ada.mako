@@ -10,6 +10,9 @@ astnode_fields = cls.get_fields(lambda f: is_ast_node(f.type))
 
 # Keep a list of fields that are annotated with repr
 repr_fields = cls.get_fields(lambda f: f.repr)
+
+# Shortcut for ${cls.name()}_Type
+type_name = '{}_Type'.format(cls.name())
 %>
 
 % if not cls.abstract:
@@ -19,7 +22,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    ----------
 
    overriding
-   function Kind (Node : access ${cls.name()}_Type) return AST_Node_Kind is
+   function Kind (Node : access ${type_name}) return AST_Node_Kind is
    begin
       return ${cls.name()}_Kind;
    end Kind;
@@ -29,7 +32,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    ---------------
 
    overriding
-   function Kind_Name (Node : access ${cls.name()}_Type) return String is
+   function Kind_Name (Node : access ${type_name}) return String is
    begin
       return "${cls.repr_name()}";
    end Kind_Name;
@@ -39,7 +42,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    -----------
 
    overriding
-   function Image (Node : access ${cls.name()}_Type) return String is
+   function Image (Node : access ${type_name}) return String is
       Result : Unbounded_String;
    begin
       Append (Result, Kind_Name (Node));
@@ -78,7 +81,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    -----------------
 
    overriding
-   function Child_Count (Node : access ${cls.name()}_Type) return Natural is
+   function Child_Count (Node : access ${type_name}) return Natural is
    begin
       return ${len(astnode_fields)};
    end Child_Count;
@@ -88,8 +91,8 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    ---------------
 
    overriding
-   procedure Get_Child (Node  : access ${cls.name()}_Type;
-                        Index : Natural;
+   procedure Get_Child (Node   : access ${type_name};
+                        Index  : Natural;
                         Exists : out Boolean;
                         Result : out AST_Node) is
       ## Some ASTnodes have no ASTNode child: avoid the "unused parameter"
@@ -116,7 +119,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    -----------
 
    overriding
-   procedure Print (Node  : access ${cls.name()}_Type;
+   procedure Print (Node  : access ${type_name};
                     Level : Natural := 0)
    is
       Nod : constant AST_Node := AST_Node (Node);
@@ -143,7 +146,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    --------------
 
    overriding
-   procedure Validate (Node   : access ${cls.name()}_Type;
+   procedure Validate (Node   : access ${type_name};
                        Parent : AST_Node := null)
    is
       Nod : constant AST_Node := AST_Node (Node);
@@ -164,7 +167,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    ---------------------
 
    overriding
-   function Lookup_Children (Node : access ${cls.name()}_Type;
+   function Lookup_Children (Node : access ${type_name};
                              Sloc : Source_Location;
                              Snap : Boolean := False) return AST_Node is
       ## For this implementation helper (i.e. internal primitive), we can
@@ -228,7 +231,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
      (Node : ${cls.name()}) return ${decl_type(field.type)}
    is
    begin
-      return ${decl_type(field.type)} (${cls.name()}_Type (Node.all).${field.name});
+      return ${decl_type(field.type)} (${type_name} (Node.all).${field.name});
    end ${field.name};
 % endfor
 
@@ -237,7 +240,7 @@ repr_fields = cls.get_fields(lambda f: f.repr)
    ----------
 
    overriding
-   procedure Free (Node : access ${cls.name()}_Type) is
+   procedure Free (Node : access ${type_name}) is
    begin
       % for f in cls.get_fields(include_inherited=False):
          % if f.type.is_ptr:

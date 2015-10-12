@@ -311,7 +311,7 @@ class ManageScript(object):
                                        '{}.gpr'.format(self.lib_name.lower())))
             gnatpp(self.dirs.build_dir('src', 'parse.gpr'))
 
-        printcol("Generation complete !", Colors.OKGREEN)
+        printcol("Generation complete!", Colors.OKGREEN)
 
     def do_build(self, args):
         """Build generated source code."""

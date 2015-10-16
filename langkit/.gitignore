@@ -1,4 +1,8 @@
+# Python generated files
 *.py[cod]
+
+# Development object directories
+langkit/support/obj
 
 # C extensions
 *.so

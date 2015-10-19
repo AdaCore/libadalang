@@ -232,6 +232,14 @@ class Field(object):
         self.repr = repr
         self._name = None
         self._index = next(self._counter)
+
+        self.ast_node = None
+        """
+        ASTNode subclass that declared this field. Initialized when creating
+        ASTNode subclasses.
+        :type: ASTNode
+        """
+
         self.type = None
         """
         Type of the field, set to a concrete CompiledType subclass after type
@@ -285,8 +293,13 @@ class AstNodeMetaclass(type):
         dct['abstract'] = False
 
         dct['is_type_resolved'] = False
+        cls = type.__new__(mcs, name, bases, dct)
 
-        return type.__new__(mcs, name, bases, dct)
+        # Associate each field to this ASTNode subclass.
+        for field in fields:
+            field.ast_node = cls
+
+        return cls
 
 
 def abstract(cls):

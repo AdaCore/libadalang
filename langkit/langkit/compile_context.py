@@ -539,6 +539,10 @@ class CompileCtx():
             )
 
             for field in fields:
-                print >> file, '    field {}: {}'.format(
-                    field.name.lower, field.type.name().camel
+                inherit_note = (
+                    '' if field.ast_node == typ else
+                    ' [inherited from {}]'.format(field.ast_node.name().camel)
+                )
+                print >> file, '    field {}: {}{}'.format(
+                    field.name.lower, field.type.name().camel, inherit_note
                 )

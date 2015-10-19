@@ -63,7 +63,7 @@ class CAPIDriver(BaseDriver):
                        --  Code and data are shared in headers, so we expect
                        --  unused variables there.
 
-                       "-I{support_include_dir}");
+                       "-I{support_include_dir}", "-g");
                 end Compiler;
             end P;
             '''.format(main_source=compile_units[0],

@@ -70,15 +70,22 @@ package body ${_self.ada_api_settings.lib_name}.C is
 
    pragma Warnings (Off, "possible aliasing problem for type");
 
+   function Value_Or_Empty (S : chars_ptr) return String
+   --  If S is null, return an empty string. Return Value (S) otherwise.
+   is (if S = Null_Ptr
+       then ""
+       else Value (S));
+
    -------------------------
    -- Analysis primitives --
    -------------------------
 
    function ${capi.get_name("create_analysis_context")}
+     (Charset : chars_ptr)
       return ${analysis_context_type}
    is
    begin
-      return Wrap (Create);
+      return Wrap (Create (Value (Charset)));
    end ${capi.get_name("create_analysis_context")};
 
    procedure ${capi.get_name("destroy_analysis_context")}
@@ -90,15 +97,19 @@ package body ${_self.ada_api_settings.lib_name}.C is
    end ${capi.get_name("destroy_analysis_context")};
 
    function ${capi.get_name("get_analysis_unit_from_file")}
-     (Context  : ${analysis_context_type};
-      Filename : chars_ptr;
-      Reparse  : int) return ${analysis_unit_type}
+     (Context           : ${analysis_context_type};
+      Filename, Charset : chars_ptr;
+      Reparse           : int) return ${analysis_unit_type}
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
       Unit : Analysis_Unit;
    begin
       begin
-         Unit := Get_From_File (Ctx, Value (Filename), Reparse /= 0);
+         Unit := Get_From_File
+           (Ctx,
+            Value (Filename),
+            Value_Or_Empty (Charset),
+            Reparse /= 0);
       exception
          when Name_Error =>
             Unit := null;
@@ -107,10 +118,10 @@ package body ${_self.ada_api_settings.lib_name}.C is
    end ${capi.get_name("get_analysis_unit_from_file")};
 
    function ${capi.get_name("get_analysis_unit_from_buffer")}
-     (Context     : ${analysis_context_type};
-      Filename    : chars_ptr;
-      Buffer      : chars_ptr;
-      Buffer_Size : size_t) return ${analysis_unit_type}
+     (Context           : ${analysis_context_type};
+      Filename, Charset : chars_ptr;
+      Buffer            : chars_ptr;
+      Buffer_Size       : size_t) return ${analysis_unit_type}
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
       Unit : Analysis_Unit;
@@ -118,7 +129,11 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Buffer_Str : String (1 .. Positive (Buffer_Size));
       for Buffer_Str'Address use Convert (Buffer);
    begin
-      Unit := Get_From_Buffer (Ctx, Value (Filename), Buffer_Str);
+      Unit := Get_From_Buffer
+        (Ctx,
+         Value (Filename),
+         Value_Or_Empty (Charset),
+         Buffer_Str);
       return Wrap (Unit);
    end ${capi.get_name("get_analysis_unit_from_buffer")};
 
@@ -191,13 +206,13 @@ package body ${_self.ada_api_settings.lib_name}.C is
    end ${capi.get_name("unit_decref")};
 
    function ${capi.get_name("unit_reparse_from_file")}
-     (Unit : ${analysis_unit_type})
+     (Unit : ${analysis_unit_type}; Charset : chars_ptr)
       return int
    is
       U : constant Analysis_Unit := Unwrap (Unit);
    begin
       begin
-         Reparse (U);
+         Reparse (U, Value_Or_Empty (Charset));
       exception
          when Name_Error =>
             return 0;
@@ -207,6 +222,7 @@ package body ${_self.ada_api_settings.lib_name}.C is
 
    procedure ${capi.get_name("unit_reparse_from_buffer")}
      (Unit        : ${analysis_unit_type};
+      Charset     : chars_ptr;
       Buffer      : chars_ptr;
       Buffer_Size : size_t)
    is
@@ -214,7 +230,7 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Buffer_Str : String (1 .. Positive (Buffer_Size));
       for Buffer_Str'Address use Convert (Buffer);
    begin
-      Reparse (U, Buffer_Str);
+      Reparse (U, Value_Or_Empty (Charset), Buffer_Str);
    end ${capi.get_name("unit_reparse_from_buffer")};
 
 

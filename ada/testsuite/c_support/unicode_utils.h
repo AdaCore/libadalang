@@ -1,27 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef UNICODE_UTILS_H
+#define UNICODE_UTILS_H
+
 #include "libadalang.h"
 
-#include "langkit_text.h"
 #include "utils.h"
 
 
-int
-main(void)
-{
-    ada_analysis_context ctx;
-    ada_analysis_unit unit;
+/* The following sources do not contain the same string literals so that
+   testcases can check the the reparsing actually worked.  */
+
+static const char *src_buffer_iso_8859_1 = (
+    "with Ada.Text_IO; use Ada.Text_IO;\n"
+    "\n"
+    "procedure Test is\n"
+    "begin\n"
+    "   Put_Line(\"H\xe9llo w\xf6rld!\");\n"
+    "end Test;\n"
+);
+
+
+static const char *src_buffer_utf_8 = (
+    "with Ada.Text_IO; use Ada.Text_IO;\n"
+    "\n"
+    "procedure Test is\n"
+    "begin\n"
+    "   Put_Line(\"H\xc3\xa8llo w\xc3\xb5rld!\");\n"
+    "end Test;\n"
+);
+
+/* Assming UNIT is one of the above source that is parsed successfuly, return
+   the text associated to the string literal in the Put_Line call.  Exit if
+   anything is unexpected (no AST, missing node, etc.).  */
+
+static ada_text
+get_string_literal(ada_analysis_unit unit) {
     ada_node node;
     ada_token tok;
-
-    libadalang_initialize();
-    ctx = ada_create_analysis_context();
-    if (ctx == NULL)
-        error("Could not create the analysis context\n");
-
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", 0);
-    if (unit == NULL)
-        error("Could not create the analysis unit from foo.adb");
 
     node = ada_unit_root(unit);
     if (node == NULL
@@ -62,11 +76,7 @@ main(void)
     if (!ada_single_tok_node_f_tok(node, &tok))
         error("Could not get token for the string literal");
 
-    printf("Here's the string literal we parsed:\n");
-    fprint_text(stdout, ada_token_text(tok), false);
-    putchar('\n');
-
-    ada_destroy_analysis_context(ctx);
-    puts("Done");
-    return 0;
+    return ada_token_text(tok);
 }
+
+#endif /* UNICODE_UTILS_H */

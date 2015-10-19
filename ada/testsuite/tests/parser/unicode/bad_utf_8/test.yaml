@@ -1,0 +1,8 @@
+driver: parser
+action: pretty-print-file
+charset: utf-8
+
+expect_failure:
+  >
+    Quex calls exit() on badly formatted input, we should
+    workaround this under O414-018

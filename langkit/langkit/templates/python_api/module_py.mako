@@ -8,23 +8,23 @@ import sys
 class AnalysisContext(object):
     # TODO: document this class and its methods
 
-    def __init__(self, c_value=None):
-        self._c_value = (_create_analysis_context()
-                         if c_value is None else c_value)
+    def __init__(self, charset):
+        self._c_value = _create_analysis_context(charset)
 
     def __del__(self):
         _destroy_analysis_context(self._c_value)
         super(AnalysisContext, self).__init__()
 
-    def get_from_file(self, filename, reparse=False):
+    def get_from_file(self, filename, charset=None, reparse=False):
         c_value = _get_analysis_unit_from_file(self._c_value, filename,
-                                               reparse)
+                                               charset or '', reparse)
         if not c_value.value:
             raise IOError('Could not open {}'.format(filename))
         return AnalysisUnit(c_value)
 
-    def get_from_buffer(self, filename, buffer):
+    def get_from_buffer(self, filename, buffer, charset=None):
         c_value = _get_analysis_unit_from_buffer(self._c_value, filename,
+                                                 charset or '',
                                                  buffer, len(buffer))
         return AnalysisUnit(c_value)
 
@@ -69,12 +69,13 @@ class AnalysisUnit(object):
         _unit_decref(self._c_value)
         super(AnalysisUnit, self).__init__()
 
-    def reparse(self, buffer=None):
+    def reparse(self, buffer=None, charset=None):
         if buffer is None:
-            if not _unit_reparse_from_file(self._c_value):
+            if not _unit_reparse_from_file(self._c_value, charset or ''):
                 raise IOError('Could not reparse the unit from file')
         else:
-            _unit_reparse_from_buffer(self._c_value, buffer, len(buffer))
+            _unit_reparse_from_buffer(self._c_value, charset or '',
+                                      buffer, len(buffer))
 
     @property
     def root(self):
@@ -317,7 +318,7 @@ _initialize()
 # Analysis primitives
 _create_analysis_context = _import_func(
     '${capi.get_name("create_analysis_context")}',
-    [], _analysis_context
+    [ctypes.c_char_p], _analysis_context
 )
 _destroy_analysis_context = _import_func(
     '${capi.get_name("destroy_analysis_context")}',
@@ -325,11 +326,19 @@ _destroy_analysis_context = _import_func(
 )
 _get_analysis_unit_from_file = _import_func(
     '${capi.get_name("get_analysis_unit_from_file")}',
-    [_analysis_context, ctypes.c_char_p, ctypes.c_int], _analysis_unit
+    [_analysis_context,  # context
+     ctypes.c_char_p,    # filename
+     ctypes.c_char_p,    # charset
+     ctypes.c_int],      # reparse
+    _analysis_unit
 )
 _get_analysis_unit_from_buffer = _import_func(
     '${capi.get_name("get_analysis_unit_from_buffer")}',
-    [_analysis_context, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_size_t],
+    [_analysis_context,  # context
+     ctypes.c_char_p,    # filename
+     ctypes.c_char_p,    # charset
+     ctypes.c_char_p,    # buffer
+     ctypes.c_size_t],   # buffer_size
     _analysis_unit
 )
 _remove_analysis_unit = _import_func(
@@ -358,11 +367,17 @@ _unit_decref = _import_func(
 )
 _unit_reparse_from_file = _import_func(
     '${capi.get_name("unit_reparse_from_file")}',
-    [_analysis_unit], ctypes.c_int
+    [_analysis_unit,    # context
+     ctypes.c_char_p],  # charset
+    ctypes.c_int
 )
 _unit_reparse_from_buffer = _import_func(
     '${capi.get_name("unit_reparse_from_buffer")}',
-    [_analysis_unit, ctypes.c_char_p, ctypes.c_size_t], None
+    [_analysis_unit,    # context
+     ctypes.c_char_p,   # charset
+     ctypes.c_char_p,   # buffer
+     ctypes.c_size_t],  # buffer_size
+    None
 )
 
 # General AST node primitives

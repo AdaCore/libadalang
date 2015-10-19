@@ -6,7 +6,7 @@ import libadalang
 ADDR_RE = re.compile(r'0x[0-9a-f]+')
 
 
-ctx = libadalang.AnalysisContext()
+ctx = libadalang.AnalysisContext('iso-8859-1')
 unit = ctx.get_from_file('foo.adb')
 
 

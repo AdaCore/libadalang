@@ -87,9 +87,13 @@ typedef struct {
  */
 
 /* Create and return an analysis context.  The caller is responsible to destroy
-   it when done with it.  */
+   it when done with it.
+
+   Charset will be used as a default charset to decode input sources in
+   analysis units. Be careful: passing an unsupported charset here is not
+   guaranteed to raise an error here.  */
 extern ${analysis_context_type}
-${capi.get_name("create_analysis_context")}(void);
+${capi.get_name("create_analysis_context")}(const char *charset);
 
 /* Destroy an analysis context.  Any analysis units it contains may survive if
    there are still references to it.  */
@@ -104,12 +108,17 @@ ${capi.get_name("destroy_analysis_context")}(
    The result is owned by the context: the caller must increase its ref.
    count in order to keep a reference to it.
 
+   Use Charset in order to decode the content of Filename. If Charset is empty
+   or NULL, then use the last charset used for this unit, or use the context's
+   default if creating this unit.
+
    On file opening failure, return a null address and in this case, if the
    analysis unit did not exist yet, do not register it.  */
 extern ${analysis_unit_type}
 ${capi.get_name("get_analysis_unit_from_file")}(
         ${analysis_context_type} context,
         const char *filename,
+        const char *charset,
         int reparse);
 
 /* Create a new analysis unit for Filename or return the existing one if
@@ -119,6 +128,10 @@ ${capi.get_name("get_analysis_unit_from_file")}(
    The result is owned by the context: the caller must increase its ref.
    count in order to keep a reference to it.
 
+   Use Charset in order to decode the content of Buffer. If Charset is empty or
+   NULL, then use the last charset used for this unit, or use the context's
+   default if creating this unit.
+
    On file opening failure, return a null address and in this case, if the
    analysis unit did not exist yet, do not register it.  In this case, if
    the analysis unit was already existing, this preserves the AST.  */
@@ -126,6 +139,7 @@ extern ${analysis_unit_type}
 ${capi.get_name("get_analysis_unit_from_buffer")}(
         ${analysis_context_type} context,
         const char *filename,
+        const char *charset,
         const char *buffer,
         size_t buffer_size);
 
@@ -163,15 +177,23 @@ ${capi.get_name("unit_decref")}(${analysis_unit_type} unit);
 
 /* Reparse an analysis unit from the associated file.
 
-   Return whether reparsing was successful (i.e. whether we could read the
-   source file).  If there was an error, preserve the existing AST and
-   diagnostics.  */
-extern int
-${capi.get_name("unit_reparse_from_file")}(${analysis_unit_type} unit);
+   Use Charset in order to decode the content of Filename. If the unit already
+   exists, Charset can be an empty string or NULL: parsing will use the last
+   provided charset.
 
-/* Reparse an analysis unit from a buffer.  */
+   Use Charset in order to decode the input. If Charset is empty or NULL, then
+   use the last charset used for this unit.  */
+extern int
+${capi.get_name("unit_reparse_from_file")}(${analysis_unit_type} unit,
+                                           const char *charset);
+
+/* Reparse an analysis unit from a buffer.
+
+   Use Charset in order to decode the content of Buffer. If Charset is
+   empty or NULL, then use the last charset used for this unit.  */
 extern void
 ${capi.get_name("unit_reparse_from_buffer")} (${analysis_unit_type} unit,
+                                              const char *charset,
                                               const char *buffer,
                                               size_t buffer_size);
 

@@ -62,7 +62,7 @@ main(void)
     ada_analysis_unit unit;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context();
+    ctx = ada_create_analysis_context("iso-8859-1");
     if (ctx == NULL)
         error("Could not create the analysis context");
 
@@ -70,7 +70,7 @@ main(void)
     write_source(src_buffer_1);
 
     puts("1. Parsing source 1");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     check(unit);
 
     /* Now work without the "limited" keyword:
@@ -81,20 +81,20 @@ main(void)
     write_source(src_buffer_2);
 
     puts("2. Parsing source 2 (reparse=false)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     check(unit);
 
     remove("foo.adb");
 
     puts("3. Parsing with deleted file (reparse=true)");
-    if (ada_get_analysis_unit_from_file(ctx, "foo.adb", 1) != NULL)
+    if (ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1) != NULL)
         error("Reparsing analysis unit from a deleted file returned non-null");
     check(unit);
 
     write_source(src_buffer_2);
 
     puts("4. Parsing source 2 (reparse=true)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", 1);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
     check(unit);
 
     write_source(src_buffer_1);
@@ -105,14 +105,14 @@ main(void)
            preserve the unit's tree. */
 
     puts("5. Reparsing source 1");
-    if (!ada_unit_reparse_from_file(unit))
+    if (!ada_unit_reparse_from_file(unit, NULL))
         error("Could not reparse foo.adb");
     check(unit);
 
     remove("foo.adb");
 
     puts("6. Reparsing with deleted file");
-    if (ada_unit_reparse_from_file(unit))
+    if (ada_unit_reparse_from_file(unit, NULL))
         error("Reparsing foo.adb was supposed to fail");
     check(unit);
 

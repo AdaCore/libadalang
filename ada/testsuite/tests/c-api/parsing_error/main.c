@@ -21,11 +21,11 @@ main(void)
     ada_diagnostic diag;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context();
+    ctx = ada_create_analysis_context("iso-8859-1");
     if (ctx == NULL)
         error("Could not create the analysis context");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     if (unit == NULL)
         error("Creating an analysis unit from foo.adb (a source with syntax"
               " errors) did not work");

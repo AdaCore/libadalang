@@ -18,9 +18,9 @@ package ${_self.ada_api_settings.lib_name}.Lexer is
    --  Extract tokens out of Filename and store them into TDH. Raise a
    --  Name_Error exception if the file could not be open.
 
-   procedure Lex_From_Buffer (Buffer      : String;
-                              TDH         : in out Token_Data_Handler;
-                              With_Trivia : Boolean);
+   procedure Lex_From_Buffer (Buffer, Charset : String;
+                              TDH             : in out Token_Data_Handler;
+                              With_Trivia     : Boolean);
    --  Likewise, but extract tokens from an in-memory buffer. This never raises
    --  an exception.
 
@@ -28,8 +28,8 @@ package ${_self.ada_api_settings.lib_name}.Lexer is
    --  Return a human-readable name for some token kind
 
    ## When generated code needs to deal with token kinds, it could use integer
-   ## literals but this would not be convenient to read. Generate instead named
-   ## constants for each token kind.
+   ## literals but this would not be convenient to read. Generate named
+   ## constants for each token kind instead.
 
    % for tok in sorted(get_context().lexer.tokens_class, \
                        key=lambda tok: tok.value):

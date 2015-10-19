@@ -1,6 +1,6 @@
 import libadalang
 
-ctx = libadalang.AnalysisContext()
+ctx = libadalang.AnalysisContext('iso-8859-1')
 try:
     unit = ctx.get_from_file('foo.adb')
 except IOError:

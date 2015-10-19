@@ -44,6 +44,9 @@ package ${_self.ada_api_settings.lib_name} is
    type Analysis_Context_Type is record
       Units_Map : Units_Maps.Map;
       Symbols   : Symbol_Table;
+
+      Charset   : Unbounded_String;
+      --  Default charset to use in analysis units
    end record;
 
    type Analysis_Unit_Type is record
@@ -51,6 +54,7 @@ package ${_self.ada_api_settings.lib_name} is
       Ref_Count       : Natural;
       AST_Root        : AST_Node;
       File_Name       : Unbounded_String;
+      Charset         : Unbounded_String;
       TDH             : aliased Token_Data_Handler;
       Diagnostics     : Diagnostics_Vectors.Vector;
       With_Trivia     : Boolean;
@@ -60,19 +64,35 @@ package ${_self.ada_api_settings.lib_name} is
       --  because it is more convenient, but one shall not allocate from it 
    end record;
 
-   function Create return Analysis_Context;
+   function Create (Charset : String) return Analysis_Context;
    --  Create a new Analysis_Context. When done with it, invoke Destroy on it.
+   --
+   --  Charset will be used as a default charset to decode input sources in
+   --  analysis units. Please see GNATCOLL.Iconv for a couple of supported
+   --  charsets.
+   --
+   --  TODO??? passing an unsupported charset here is not
+   --  guaranteed to raise an error right here, but this would be really
+   --  helpful for users.
 
-   function Get_From_File (Context     : Analysis_Context;
-                           Filename    : String;
-                           Reparse     : Boolean := False;
-                           With_Trivia : Boolean := False) return Analysis_Unit;
+   function Get_From_File
+     (Context     : Analysis_Context;
+      Filename    : String;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False)
+      return Analysis_Unit;
    --  Create a new Analysis_Unit for Filename or return the existing one if
    --  any. If Reparse is true and the analysis unit already exists, reparse it
    --  from Filename.
    --
    --  The result is owned by the context: the caller must increase its ref.
    --  count in order to keep a reference to it.
+   --
+   --  Use Charset in order to decode the content of Filename. If Charset is
+   --  empty then use the last charset used for this unit, or use the context's
+   --  default if creating this unit.
+   --  TODO??? What happens when the charset is not supported?
    --
    --  On file opening failure, raise a Name_Error exception and in this case,
    --  if the analysis unit did not exist yet, do not register it. In this
@@ -81,16 +101,23 @@ package ${_self.ada_api_settings.lib_name} is
    --  When With_Trivia is true, the parsed analysis unit will contain trivias.
    --  Already existing analysis units are reparsed if needed.
 
-   function Get_From_Buffer (Context     : Analysis_Context;
-                             Filename    : String;
-                             Buffer      : String;
-                             With_Trivia : Boolean := False) return Analysis_Unit;
+   function Get_From_Buffer
+     (Context     : Analysis_Context;
+      Filename    : String;
+      Charset     : String := "";
+      Buffer      : String;
+      With_Trivia : Boolean := False)
+      return Analysis_Unit;
    --  Create a new Analysis_Unit for Filename or return the existing one if
    --  any. Whether the analysis unit already exists or not, (re)parse it from
    --  the source code in Buffer.
    --
    --  The result is owned by the context: the caller must increase its ref.
    --  count in order to keep a reference to it.
+   --
+   --  Use Charset in order to decode the content of Filename. If Charset is
+   --  empty then use the last charset used for this unit, or use the context's
+   --  default if creating this unit.
    --
    --  When With_Trivia is true, the parsed analysis unit will contain trivias.
    --  Already existing analysis units are reparsed if needed.
@@ -109,15 +136,28 @@ package ${_self.ada_api_settings.lib_name} is
    procedure Inc_Ref (Unit : Analysis_Unit);
    procedure Dec_Ref (Unit : Analysis_Unit);
 
-   procedure Reparse (Unit : Analysis_Unit);
-   --  Reparse an analysis unit from the associated file.
+   procedure Reparse (Unit : Analysis_Unit; Charset : String := "");
+   --  Reparse an analysis unit from the associated file. If Charset is null,
+   --  use the last charset successfuly used for this unit, otherwise use it to
+   --  decode the input.
+   --
+   --  Use Charset in order to decode the content of Filename. If Charset is
+   --  empty then use the last charset used for this unit.
    --
    --  On file opening failure, raise a Name_Error exception and in this case,
    --  if the analysis unit did not exist yet, do not register it.  In this
    --  case, preserve any existing AST and diagnostics.
 
-   procedure Reparse (Unit : Analysis_Unit; Buffer : String);
-   --  Reparse an analysis unit from a buffer
+   procedure Reparse
+     (Unit    : Analysis_Unit;
+      Charset : String := "";
+      Buffer  : String);
+   --  Reparse an analysis unit from a buffer.  If Charset is null, use the
+   --  last charset successfuly used for this unit, otherwise ute it to decode
+   --  the input.
+   --
+   --  Use Charset in order to decode the content of Filename. If Charset is
+   --  empty then use the last charset used for this unit.
 
    procedure Print (Unit : Analysis_Unit);
    --  Debug helper: output the AST and eventual diagnostic for this unit on

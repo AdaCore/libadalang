@@ -20,21 +20,24 @@ package body ${_self.ada_api_settings.lib_name} is
    procedure Free is new Ada.Unchecked_Deallocation
      (Analysis_Unit_Type, Analysis_Unit);
 
+   procedure Update_Charset (Unit : Analysis_Unit; Charset : String);
+   --  If Charset is an empty string, do nothing. Otherwise, update
+   --  Unit.Charset field to Charset.
+
    procedure Do_Parsing
      (Unit       : Analysis_Unit;
-      Get_Parser : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type);
+      Get_Parser : access function (Unit : Analysis_Unit) return Parser_Type);
    --  Helper for Get_Unit and the public Reparse procedures: parse an analysis
    --  unit using Get_Parser and replace Unit's AST_Root and the diagnostics
    --  with the parsers's output.
 
    function Get_Unit
-     (Context     : Analysis_Context;
-      Filename    : String;
-      Reparse     : Boolean;
-      Get_Parser  : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type;
-      With_Trivia : Boolean)
+     (Context           : Analysis_Context;
+      Filename, Charset : String;
+      Reparse           : Boolean;
+      Get_Parser        : access function (Unit : Analysis_Unit)
+                                           return Parser_Type;
+      With_Trivia       : Boolean)
       return Analysis_Unit;
    --  Helper for Get_From_File and Get_From_Buffer: do all the common work
    --  using Get_Parser to either parse from a file or from a buffer. Return
@@ -43,15 +46,28 @@ package body ${_self.ada_api_settings.lib_name} is
    --  Get_Parser is allowed to raise a Name_Error exception if there reading a
    --  file does not work: resources will be correctly released in this case.
 
+   --------------------
+   -- Update_Charset --
+   --------------------
+
+   procedure Update_Charset (Unit : Analysis_Unit; Charset : String)
+   is
+   begin
+      if Charset'Length /= 0 then
+         Unit.Charset := To_Unbounded_String (Charset);
+      end if;
+   end Update_Charset;
+
    ------------
    -- Create --
    ------------
 
-   function Create return Analysis_Context is
+   function Create (Charset : String) return Analysis_Context is
    begin
       return new Analysis_Context_Type'
         (Units_Map => <>,
-         Symbols   => Create);
+         Symbols   => Create,
+         Charset   => To_Unbounded_String (Charset));
    end Create;
 
    --------------
@@ -59,11 +75,11 @@ package body ${_self.ada_api_settings.lib_name} is
    --------------
 
    function Get_Unit
-     (Context    : Analysis_Context;
-      Filename   : String;
-      Reparse    : Boolean;
-      Get_Parser : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type;
+     (Context           : Analysis_Context;
+      Filename, Charset : String;
+      Reparse           : Boolean;
+      Get_Parser        : access function (Unit : Analysis_Unit)
+                                           return Parser_Type;
       With_Trivia : Boolean)
       return Analysis_Unit
    is
@@ -74,7 +90,20 @@ package body ${_self.ada_api_settings.lib_name} is
       Created : constant Boolean := Cur = No_Element;
       Unit    : Analysis_Unit;
 
+      Actual_Charset : Unbounded_String;
+
    begin
+      --  Determine which encoding to use.  The parameter comes first, then the
+      --  unit-specific default, then the context-specific one.
+
+      if Charset'Length /= 0 then
+         Actual_Charset := To_Unbounded_String (Charset);
+      elsif not Created then
+         Actual_Charset := Element (Cur).Charset;
+      else
+         Actual_Charset := Context.Charset;
+      end if;
+
       --  Create the Analysis_Unit if needed
 
       if Created then
@@ -83,6 +112,7 @@ package body ${_self.ada_api_settings.lib_name} is
             Ref_Count    => 1,
             AST_Root     => null,
             File_Name    => Fname,
+            Charset     => <>,
             TDH          => <>,
             Diagnostics  => <>,
             With_Trivia  => With_Trivia,
@@ -91,6 +121,7 @@ package body ${_self.ada_api_settings.lib_name} is
       else
          Unit := Element (Cur);
       end if;
+      Unit.Charset := Actual_Charset;
 
       --  (Re)parse it if needed
 
@@ -122,10 +153,9 @@ package body ${_self.ada_api_settings.lib_name} is
 
    procedure Do_Parsing
      (Unit       : Analysis_Unit;
-      Get_Parser : access function (TDH : Token_Data_Handler_Access)
-                                    return Parser_Type)
+      Get_Parser : access function (Unit : Analysis_Unit) return Parser_Type)
    is
-      Parser : Parser_Type := Get_Parser (Unit.TDH'Access);
+      Parser : Parser_Type := Get_Parser (Unit);
    begin
       --  If we have an AST_Mem_Pool already, we are reparsing. We want to
       --  destroy it to free all the allocated memory.
@@ -145,31 +175,40 @@ package body ${_self.ada_api_settings.lib_name} is
    -- Get_From_File --
    -------------------
 
-   function Get_From_File (Context     : Analysis_Context;
-                           Filename    : String;
-                           Reparse     : Boolean := False;
-                           With_Trivia : Boolean := False) return Analysis_Unit
+   function Get_From_File
+     (Context     : Analysis_Context;
+      Filename    : String;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False)
+      return Analysis_Unit
    is
-      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_File (Filename, TDH, With_Trivia));
+      function Get_Parser (Unit : Analysis_Unit) return Parser_Type
+      is (Create_From_File (Filename, To_String (Unit.Charset),
+                            Unit.TDH'Access, With_Trivia));
    begin
       return Get_Unit
-        (Context, Filename, Reparse, Get_Parser'Access, With_Trivia);
+        (Context, Filename, Charset, Reparse, Get_Parser'Access, With_Trivia);
    end Get_From_File;
 
    ---------------------
    -- Get_From_Buffer --
    ---------------------
 
-   function Get_From_Buffer (Context     : Analysis_Context;
-                             Filename    : String;
-                             Buffer      : String;
-                             With_Trivia : Boolean := False) return Analysis_Unit
+   function Get_From_Buffer
+     (Context     : Analysis_Context;
+      Filename    : String;
+      Charset     : String := "";
+      Buffer      : String;
+      With_Trivia : Boolean := False)
+      return Analysis_Unit
    is
-      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_Buffer (Buffer, TDH, With_Trivia));
+      function Get_Parser (Unit : Analysis_Unit) return Parser_Type
+      is (Create_From_Buffer (Buffer, To_String (Unit.Charset),
+                              Unit.TDH'Access, With_Trivia));
    begin
-      return Get_Unit (Context, Filename, True, Get_Parser'Access, With_Trivia);
+      return Get_Unit (Context, Filename, Charset, True, Get_Parser'Access,
+                       With_Trivia);
    end Get_From_Buffer;
 
    ------------
@@ -240,10 +279,16 @@ package body ${_self.ada_api_settings.lib_name} is
    -- Reparse --
    -------------
 
-   procedure Reparse (Unit : Analysis_Unit) is
-      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_File (To_String (Unit.File_Name), TDH));
+   procedure Reparse
+     (Unit    : Analysis_Unit;
+      Charset : String := "")
+   is
+      function Get_Parser (Unit : Analysis_Unit) return Parser_Type
+      is (Create_From_File (To_String (Unit.File_Name),
+                            To_String (Unit.Charset),
+                            Unit.TDH'Access));
    begin
+      Update_Charset (Unit, Charset);
       Do_parsing (Unit, Get_Parser'Access);
    end Reparse;
 
@@ -251,11 +296,18 @@ package body ${_self.ada_api_settings.lib_name} is
    -- Reparse --
    -------------
 
-   procedure Reparse (Unit : Analysis_Unit; Buffer : String) is
-      function Get_Parser (TDH : Token_Data_Handler_Access) return Parser_Type
-      is (Create_From_Buffer (Buffer, TDH));
+   procedure Reparse
+     (Unit    : Analysis_Unit;
+      Charset : String := "";
+      Buffer  : String)
+   is
+      function Get_Parser (Unit : Analysis_Unit) return Parser_Type
+      is (Create_From_Buffer (Buffer, To_String (Unit.Charset),
+                              Unit.TDH'Access));
    begin
+      Update_Charset (Unit, Charset);
       Do_parsing (Unit, Get_Parser'Access);
+      Unit.Charset := To_Unbounded_String (Charset);
    end Reparse;
 
    -------------

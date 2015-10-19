@@ -18,7 +18,7 @@ def check(unit):
     print 'WithDecl: is_limited = {}'.format(
         unit.root.f_prelude[0].f_is_limited)
 
-ctx = libadalang.AnalysisContext()
+ctx = libadalang.AnalysisContext('iso-8859-1')
 
 # Make sure the first parsing (with the "limited" keyword) works properly and
 # check is_limited.

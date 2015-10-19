@@ -11,7 +11,7 @@ def dump(node, indent=0):
     for child in node:
         dump(child, indent + 1)
 
-ctx = AnalysisContext()
+ctx = AnalysisContext('iso-8859-1')
 unit = ctx.get_from_file('foo.adb')
 dump(unit.root)
 print 'Done'

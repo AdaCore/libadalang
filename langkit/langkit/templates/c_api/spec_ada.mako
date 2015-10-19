@@ -75,12 +75,17 @@ package ${_self.ada_api_settings.lib_name}.C is
    -------------------------
 
    function ${capi.get_name("create_analysis_context")}
+     (Charset : chars_ptr)
       return ${analysis_context_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("create_analysis_context")}";
    --  Create and return an analysis context. The caller is responsible to
    --  destroy it when done with it.
+   --
+   --  Charset will be used as a default charset to decode input sources in
+   --  analysis units. Be careful: passing an unsupported charset here is not
+   --  guaranteed to raise an error here.
 
    procedure ${capi.get_name("destroy_analysis_context")}
      (Context : ${analysis_context_type})
@@ -91,9 +96,10 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  if there are still references to it.
 
    function ${capi.get_name("get_analysis_unit_from_file")}
-     (Context  : ${analysis_context_type};
-      Filename : chars_ptr;
-      Reparse  : int) return ${analysis_unit_type}
+     (Context           : ${analysis_context_type};
+      Filename, Charset : chars_ptr;
+      Reparse           : int)
+      return ${analysis_unit_type}
       with Export        => True,
            Convention    => C,
            External_name =>
@@ -105,14 +111,19 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  The result is owned by the context: the caller must increase its ref.
    --  count in order to keep a reference to it.
    --
+   --  Use Charset in order to decode the content of Filename. If Charset is
+   --  empty or NULL, then use the last charset used for this unit, or use the
+   --  context's default if creating this unit.
+   --
    --  On file opening failure, return a null address and in this case, if the
    --  analysis unit did not exist yet, do not register it.
 
    function ${capi.get_name("get_analysis_unit_from_buffer")}
-     (Context     : ${analysis_context_type};
-      Filename    : chars_ptr;
-      Buffer      : chars_ptr;
-      Buffer_Size : size_t) return ${analysis_unit_type}
+     (Context           : ${analysis_context_type};
+      Filename, Charset : chars_ptr;
+      Buffer            : chars_ptr;
+      Buffer_Size       : size_t)
+      return ${analysis_unit_type}
       with Export        => True,
            Convention    => C,
            External_name =>
@@ -123,6 +134,10 @@ package ${_self.ada_api_settings.lib_name}.C is
    --
    --  The result is owned by the context: the caller must increase its ref.
    --  count in order to keep a reference to it.
+   --
+   --  Use Charset in order to decode the content of Buffer. If Charset is
+   --  empty or NULL, then use the last charset used for this unit, or use the
+   --  context's default if creating this unit.
    --
    --  On file opening failure, return a null address and in this case, if the
    --  analysis unit did not exist yet, do not register it. In this case, if
@@ -178,12 +193,15 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  Decrease the reference count to an analysis unit
 
    function ${capi.get_name("unit_reparse_from_file")}
-     (Unit : ${analysis_unit_type})
+     (Unit : ${analysis_unit_type}; Charset : chars_ptr)
       return int
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("unit_reparse_from_file")}";
    --  Reparse an analysis unit from the associated file.
+   --
+   --  Use Charset in order to decode the input. If Charset is empty or NULL,
+   --  then use the last charset used for this unit.
    --
    --  Return whether reparsing was successful (i.e. whether we could read the
    --  source file). If there was an error, preserve the existing AST and
@@ -191,12 +209,16 @@ package ${_self.ada_api_settings.lib_name}.C is
 
    procedure ${capi.get_name("unit_reparse_from_buffer")}
      (Unit        : ${analysis_unit_type};
+      Charset     : chars_ptr;
       Buffer      : chars_ptr;
       Buffer_Size : size_t)
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("unit_reparse_from_buffer")}";
    --  Reparse an analysis unit from a buffer
+   --
+   --  Use Charset in order to decode the content of Buffer. If Charset is
+   --  empty or NULL, then use the last charset used for this unit.
 
    ---------------------------------
    -- General AST node primitives --

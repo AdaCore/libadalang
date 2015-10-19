@@ -30,8 +30,9 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
    type Lexer_Type is new System.Address;
 
-   function Lexer_From_Buffer (Buffer : System.Address;
-                               Length : Size_T)
+   function Lexer_From_Buffer (Buffer  : System.Address;
+                               Charset : chars_ptr;
+                               Length  : Size_T)
                                return Lexer_Type
       with Import        => True,
            Convention    => C,
@@ -203,9 +204,6 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       TDH               : in out Token_Data_Handler;
       With_Trivia       : Boolean)
    is
-      pragma Unreferenced (Charset);
-      --  TODO??? we should handle charset handling at some point
-
       --  The following call to Open_Read may fail with a Name_Error exception:
       --  just let it propagate to the caller as there is no resource to
       --  release yet here.
@@ -216,10 +214,12 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       Buffer      : constant System.Address := Data (Region).all'Address;
       Buffer_Size : constant size_t := size_t (Last (Region));
 
+      Charset_Arg : chars_ptr := New_String (Charset);
       Lexer       : Lexer_Type :=
-         Lexer_From_Buffer (Buffer, Buffer_Size);
+         Lexer_From_Buffer (Buffer, Charset_Arg, Buffer_Size);
 
    begin
+      Free (Charset_Arg);
       if With_Trivia then
          Process_All_Tokens_With_Trivia (Lexer, TDH);
       else
@@ -235,14 +235,16 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
    -- Lex_From_Buffer --
    ---------------------
 
-   procedure Lex_From_Buffer (Buffer      : String;
-                              TDH         : in out Token_Data_Handler;
-                              With_Trivia : Boolean)
+   procedure Lex_From_Buffer (Buffer, Charset : String;
+                              TDH             : in out Token_Data_Handler;
+                              With_Trivia     : Boolean)
    is
-      Buffer_Ptr : System.Address := Buffer'Address;
-      Lexer      : Lexer_Type :=
-         Lexer_From_Buffer (Buffer_Ptr, Buffer'Length);
+      Buffer_Ptr  : System.Address := Buffer'Address;
+      Charset_Arg : chars_ptr := New_String (Charset);
+      Lexer       : Lexer_Type :=
+         Lexer_From_Buffer (Buffer_Ptr, Charset_Arg, Buffer'Length);
    begin
+      Free (Charset_Arg);
       if With_Trivia then
          Process_All_Tokens_With_Trivia (Lexer, TDH);
       else

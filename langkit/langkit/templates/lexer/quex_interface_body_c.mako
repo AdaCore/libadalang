@@ -31,19 +31,19 @@ fill_buffer(Lexer *lexer) {
 }
 
 Lexer*
-${capi.get_name("lexer_from_buffer")}(const char *string, size_t length) {
+${capi.get_name("lexer_from_buffer")}(const char *string, const char *charset,
+                                      size_t length) {
     Lexer* lexer = malloc(sizeof (Lexer));
 
     lexer->text_buffer_begin = (void *) string;
     lexer->text_buffer_end = (void*) string + length;
 
-    /* TODO: make it possible to use different input encodings.  */
     /* 4 * the size of the input should be enough to hold the entire decoded
        input in Quex's internal buffer.  In theory it should be possible with
        Quex to have smaller buffers but we found bugs for lexing at buffer's
        boundary.  TODO: report this to Quex.  */
     QUEX_NAME(construct_memory)(&lexer->quex_lexer,
-                                NULL, 4 * length, NULL, "iso-8859-1", false);
+                                NULL, 4 * length, NULL, charset, false);
     init_lexer(lexer);
     fill_buffer(lexer);
     return lexer;

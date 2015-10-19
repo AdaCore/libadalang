@@ -56,14 +56,14 @@ main(void)
     const size_t src_buffer_2_length = strlen(src_buffer_2);
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context();
+    ctx = ada_create_analysis_context("iso-8859-1");
     if (ctx == NULL)
         error("Could not create the analysis context");
 
     /* Make sure the first parsing (with the "limited" keyword) works properly
        and check is_limited.  */
     puts("1. Parsing using buffer 1");
-    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
+    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_1,
                                              src_buffer_1_length);
     check(unit);
@@ -71,7 +71,7 @@ main(void)
     /* Now make sure getting the unit with reparsing (without the "limited"
        keyword) clears is_limited.  */
     puts("2. Reparsing from context using buffer 2");
-    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb",
+    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_2,
                                              src_buffer_2_length);
     check(unit);
@@ -79,7 +79,8 @@ main(void)
     /* Finally make sure reparsing the unit (with the "limited" keyword) sets
        is_limited.  */
     puts("3. Reparsing from unit using buffer 1");
-    ada_unit_reparse_from_buffer(unit, src_buffer_1, src_buffer_1_length);
+    ada_unit_reparse_from_buffer(unit, NULL,
+                                 src_buffer_1, src_buffer_1_length);
     check(unit);
 
     ada_destroy_analysis_context(ctx);

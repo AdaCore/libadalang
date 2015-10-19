@@ -35,6 +35,8 @@ procedure Parse is
    Measure_Time, Do_Print_Trivia : aliased Boolean;
    Rule_Name : aliased GNAT.Strings.String_Access :=
       new String'("${get_context().main_rule_name}");
+   Charset   : aliased GNAT.Strings.String_Access :=
+      new String'("iso-8859-1");
    File_Name : aliased GNAT.Strings.String_Access;
    File_List : aliased GNAT.Strings.String_Access;
 
@@ -90,7 +92,7 @@ procedure Parse is
       Input_Str_Ptr    : Big_String_Access;
       Input_Str_Length : Natural;
 
-      Context : Analysis_Context := Create;
+      Context : Analysis_Context := Create (Charset.all);
       TDH     : Token_Data_Handler;
       Parser  : Parser_Type;
       Pool    : Bump_Ptr_Pool := Create;
@@ -99,7 +101,7 @@ procedure Parse is
 
       Get_String (Input_Str, Input_Str_Ptr, Input_Str_Length);
       Parser := Create_From_Buffer
-        (Input_Str_Ptr (1 .. Input_Str_Length),
+        (Input_Str_Ptr (1 .. Input_Str_Length), "",
          TDH'Unrestricted_Access,
          --  Parse with trivia if we want to print it ultimately
          With_Trivia => Do_Print_Trivia);
@@ -142,11 +144,12 @@ procedure Parse is
    end Parse_Input;
 
    procedure Process_File (File_Name : String; Ctx : in out Analysis_Context) is
-      Unit : Analysis_Unit;
+      Unit         : Analysis_Unit;
       Time_Before  : constant Time := Clock;
       Time_After   : Time;
    begin
-      Unit := Get_From_File (Ctx, File_Name, True, With_Trivia => Do_Print_Trivia);
+      Unit := Get_From_File (Ctx, File_Name, "", True,
+                             With_Trivia => Do_Print_Trivia);
       Time_After := Clock;
 
       if not Unit.Diagnostics.Is_Empty then
@@ -186,6 +189,9 @@ begin
      (Config, Rule_Name'Access, "-r:", "--rule-name:",
       Help   => "Rule name to parse");
    Define_Switch
+     (Config, Charset'Access, "-c:", "--charset:",
+      Help   => "Charset to use to decode the source code");
+   Define_Switch
      (Config, Do_Print_Trivia'Access, "-P", "--print-with-trivia",
       Help   => "Print a simplified tree with trivia included");
    Define_Switch
@@ -205,7 +211,7 @@ begin
    if File_List.all'Length /= 0 then
       declare
          F : File_Type;
-         Ctx : Analysis_Context := Create;
+         Ctx : Analysis_Context := Create (Charset.all);
       begin
          Open (F, In_File, File_List.all);
          while not End_Of_File (F) loop
@@ -214,13 +220,15 @@ begin
          Close (F);
          Destroy (Ctx);
       end;
+
    elsif File_Name.all'Length /= 0 then
       declare
-         Ctx : Analysis_Context := Create;
+         Ctx : Analysis_Context := Create (Charset.all);
       begin
          Process_File (File_Name.all, Ctx);
          Destroy (Ctx);
       end;
+
    else
       Input_Str := +Get_Argument;
       loop
@@ -247,6 +255,7 @@ begin
    end if;
 
    GNAT.Strings.Free (Rule_Name);
+   GNAT.Strings.Free (Charset);
    GNAT.Strings.Free (File_List);
    GNAT.Strings.Free (File_Name);
    Free (Config);

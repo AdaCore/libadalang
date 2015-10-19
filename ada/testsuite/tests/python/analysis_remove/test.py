@@ -10,7 +10,7 @@ begin
 end Foo;
 """
 
-ctx = libadalang.AnalysisContext()
+ctx = libadalang.AnalysisContext('iso-8859-1')
 unit = ctx.get_from_buffer('foo.adb', src_buffer)
 assert unit, 'Could not create the analysis unit for foo.adb from a buffer'
 

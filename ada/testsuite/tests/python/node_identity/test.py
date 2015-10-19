@@ -6,7 +6,7 @@ different wrappings.
 import libadalang
 
 
-ctx = libadalang.AnalysisContext()
+ctx = libadalang.AnalysisContext('iso-8859-1')
 unit = ctx.get_from_file('foo.adb')
 
 

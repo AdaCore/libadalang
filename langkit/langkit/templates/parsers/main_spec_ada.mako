@@ -24,14 +24,14 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
    end record;
 
    function Create_From_File
-     (Filename    : String;
-      TDH         : Token_Data_Handler_Access;
-      With_Trivia : Boolean := False) return Parser_type;
+     (Filename, Charset : String;
+      TDH               : Token_Data_Handler_Access;
+      With_Trivia       : Boolean := False) return Parser_type;
 
    function Create_From_Buffer
-     (Buffer      : String;
-      TDH         : Token_Data_Handler_Access;
-      With_Trivia : Boolean := False) return Parser_type;
+     (Buffer, Charset : String;
+      TDH             : Token_Data_Handler_Access;
+      With_Trivia     : Boolean := False) return Parser_type;
 
    function Parse
      (Parser         : in out Parser_Type;

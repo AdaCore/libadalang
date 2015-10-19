@@ -22,12 +22,21 @@ class ParserDriver(BaseDriver):
         if self.action not in self.ACTIONS:
             raise SetupError('Invalid action: {}'.format(self.action))
 
+        self.check_file('input')
+
     @catch_test_errors
     def run(self):
+        input_file = self.working_dir('input')
+
+        # Build the command line for the "parse" process we are going to run
         parse_argv = ['parse']
 
-        self.check_file('input')
-        input_file = self.working_dir('input')
+        try:
+            charset = self.test_env['charset']
+        except KeyError:
+            pass
+        else:
+            parse_argv += ['-c', charset]
 
         if self.action == 'pretty-print-file':
             parse_argv += ['-f', input_file]

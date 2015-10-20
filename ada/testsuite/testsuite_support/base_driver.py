@@ -72,6 +72,10 @@ class BaseDriver(TestDriver):
             self.expect_failure = False
             self.expect_failure_comment = None
         else:
+            # Because of wrapping in the YAML file, we can get multi-line
+            # strings, which is not valid for comments.
+            comment = comment.replace('\n', ' ').strip()
+
             self.expect_failure = True
             if not (comment is None or isinstance(comment, basestring)):
                 raise SetupError('Invalid "expect_failure" entry:'

@@ -450,7 +450,7 @@ class CompileCtx():
 
         subprocess.check_call([sys.executable, quex_py_file, "-i",
                                quex_file,
-                               "--engine", "quex_lexer",
+                               "-o", "quex_lexer",
                                "--buffer-element-size", "4",
                                "--token-id-offset",  "0x1000",
                                "--language", "C",

@@ -9,6 +9,7 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with System;
 
+with GNATCOLL.Iconv;
 with GNATCOLL.Mmap;    use GNATCOLL.Mmap;
 
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
@@ -30,8 +31,20 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
    type Lexer_Type is new System.Address;
 
+   procedure Decode_Buffer
+     (Buffer, Charset : String;
+      Decoded_Buffer  : out Text_Access;
+      Length          : out Natural);
+   --  Allocate a Text_Type buffer, set it to Decoded_Buffer, decode Buffer
+   --  into it using Charset and set Length to the number of decoded characters
+   --  in Decoded_Buffer. It is up to the caller to deallocate Decoded_Buffer
+   --  when done with it.
+   --
+   --  Quex quirk: this actually allocates more than the actual buffer to keep
+   --  Quex happy. The two first characters are set to null and there is an
+   --  extra null character at the end of the buffer.
+
    function Lexer_From_Buffer (Buffer  : System.Address;
-                               Charset : chars_ptr;
                                Length  : Size_T)
                                return Lexer_Type
       with Import        => True,
@@ -211,22 +224,13 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       File        : Mapped_File := Open_Read (Filename);
 
       Region      : Mapped_Region := Read (File);
-      Buffer      : constant System.Address := Data (Region).all'Address;
-      Buffer_Size : constant size_t := size_t (Last (Region));
+      Buffer_Addr : constant System.Address := Data (Region).all'Address;
 
-      Charset_Arg : chars_ptr := New_String (Charset);
-      Lexer       : Lexer_Type :=
-         Lexer_From_Buffer (Buffer, Charset_Arg, Buffer_Size);
+      Buffer      : String (1 .. Last (Region));
+      for Buffer'Address use Buffer_Addr;
 
    begin
-      Free (Charset_Arg);
-      if With_Trivia then
-         Process_All_Tokens_With_Trivia (Lexer, TDH);
-      else
-         Process_All_Tokens_No_Trivia (Lexer, TDH);
-      end if;
-
-      Free_Lexer (Lexer);
+      Lex_From_Buffer (Buffer, Charset, TDH, With_Trivia);
       Free (Region);
       Close (File);
    end Lex_From_Filename;
@@ -239,19 +243,116 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
                               TDH             : in out Token_Data_Handler;
                               With_Trivia     : Boolean)
    is
-      Buffer_Ptr  : System.Address := Buffer'Address;
-      Charset_Arg : chars_ptr := New_String (Charset);
-      Lexer       : Lexer_Type :=
-         Lexer_From_Buffer (Buffer_Ptr, Charset_Arg, Buffer'Length);
+      Decoded_Buffer : Text_Access;
+      Length         : Natural;
+      Lexer          : Lexer_Type;
    begin
-      Free (Charset_Arg);
+      Decode_Buffer (Buffer, Charset, Decoded_Buffer, Length);
+      Lexer := Lexer_From_Buffer (Decoded_Buffer.all'Address, size_t (Length));
       if With_Trivia then
          Process_All_Tokens_With_Trivia (Lexer, TDH);
       else
          Process_All_Tokens_No_Trivia (Lexer, TDH);
       end if;
       Free_Lexer (Lexer);
+      Free (Decoded_Buffer);
    end Lex_From_Buffer;
+
+   -------------------
+   -- Decode_Buffer --
+   -------------------
+
+   procedure Decode_Buffer
+     (Buffer, Charset : String;
+      Decoded_Buffer  : out Text_Access;
+      Length          : out Natural)
+   is
+      use GNATCOLL.Iconv;
+
+      --  In the worst case, we have one character per input byte, so the
+      --  following is supposed to be big enough.
+
+      Result : Text_Access := new Text_Type (1 .. Buffer'Length + 3);
+      State  : Iconv_T;
+      Status : Iconv_Result;
+
+      Input_Index, Output_Index : Positive;
+
+      First_Output_Index : constant Positive := 1 + 2 * 4;
+      --  Index of the first byte in Output at which Iconv must decode Buffer
+
+      Output : Byte_Sequence (1 .. 4 * Buffer'Size);
+      for Output'Address use Result.all'Address;
+      --  Iconv works on mere strings, so this is a kind of a view conversion.
+
+   begin
+      Decoded_Buffer := Result;
+
+      --  GNATCOLL.Iconv raises a Constraint_Error for empty strings: handle
+      --  them here.
+
+      if Buffer'Length = 0 then
+         Length := 0;
+         return;
+      end if;
+
+      --  Create the Iconv converter. We will notice unknown charsets here
+
+      declare
+         use System;
+
+         To_Code : constant String :=
+           (if Default_Bit_Order = Low_Order_First
+            then UTF32LE
+            else UTF32BE);
+      begin
+         State := Iconv_Open (To_Code, Charset);
+      exception
+         when Unsupported_Conversion =>
+            Free (Result);
+            raise Unknown_Charset;
+      end;
+
+      --  Perform the conversion itself
+
+      Input_Index := Buffer'First;
+      Output_Index := First_Output_Index;
+      Iconv (State,
+             Buffer, Input_Index,
+             Output (Output_Index .. Output'Last), Output_Index,
+             Status);
+
+      --  Raise an error if the input was invalid
+
+      case Status is
+         when Invalid_Multibyte_Sequence | Incomplete_Multibyte_Sequence =>
+            Free (Result);
+            raise Invalid_Input;
+
+         when Full_Buffer =>
+
+            --  This is not supposed to happen: we allocated Result to be big
+            --  enough in all cases.
+
+            raise Program_Error;
+
+         when Success =>
+            null;
+      end case;
+
+      --  Clear the bytes we left for Quex
+
+      declare
+         Nul : constant Wide_Wide_Character := Wide_Wide_Character'Val (0);
+      begin
+         Result (1) := Nul;
+         Result (2) := Nul;
+         Result (Buffer'Length + 3) := Nul;
+      end;
+
+      Iconv_Close (State);
+      Length := (Output_Index - First_Output_Index) / 4;
+   end Decode_Buffer;
 
 begin
 

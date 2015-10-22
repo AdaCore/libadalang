@@ -1,4 +1,5 @@
 with "gnatcoll";
+with "gnatcoll_iconv";
 with "langkit_support";
 
 library project ${lib_name} is

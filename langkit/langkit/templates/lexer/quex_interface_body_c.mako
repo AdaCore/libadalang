@@ -9,8 +9,7 @@
 
 struct Lexer {
       QUEX_TYPE_ANALYZER quex_lexer;
-      void *text_buffer_begin;
-      void *text_buffer_end;
+      void *buffer;
       quex_Token buffer_tk;
 };
 
@@ -20,32 +19,23 @@ init_lexer(Lexer *lexer) {
     memset (&lexer->buffer_tk, 0, sizeof (lexer->buffer_tk));
 }
 
-static void
-fill_buffer(Lexer *lexer) {
-    lexer->text_buffer_begin
-      = QUEX_NAME(buffer_fill_region_append_conversion_direct)(
-        &lexer->quex_lexer,
-        lexer->text_buffer_begin,
-        lexer->text_buffer_end
-    );
-}
-
 Lexer*
-${capi.get_name("lexer_from_buffer")}(const char *string, const char *charset,
-                                      size_t length) {
+${capi.get_name("lexer_from_buffer")}(uint32_t *buffer, size_t length) {
     Lexer* lexer = malloc(sizeof (Lexer));
+    /* Quex requires the following buffer layout:
 
-    lexer->text_buffer_begin = (void *) string;
-    lexer->text_buffer_end = (void*) string + length;
+         * characters 0 and 1: null;
+         * characters 2 to LENGTH + 1: the actual content to lex;
+         * character LENGHT + 2: null.
 
-    /* 4 * the size of the input should be enough to hold the entire decoded
-       input in Quex's internal buffer.  In theory it should be possible with
-       Quex to have smaller buffers but we found bugs for lexing at buffer's
-       boundary.  TODO: report this to Quex.  */
+       And address to pass must be one character past the address of the
+       buffer.  Remember that characters are 4 bytes long (this is handled
+       thanks to pointer arithmetic).  */
     QUEX_NAME(construct_memory)(&lexer->quex_lexer,
-                                NULL, 4 * length, NULL, charset, false);
+                                buffer + 1, 0,
+                                buffer + length + 2,
+                                NULL, false);
     init_lexer(lexer);
-    fill_buffer(lexer);
     return lexer;
 }
 

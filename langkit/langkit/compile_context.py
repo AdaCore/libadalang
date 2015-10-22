@@ -451,7 +451,7 @@ class CompileCtx():
         subprocess.check_call([sys.executable, quex_py_file, "-i",
                                quex_file,
                                "--engine", "quex_lexer",
-                               "--iconv", "--buffer-element-size", "4",
+                               "--buffer-element-size", "4",
                                "--token-id-offset",  "0x1000",
                                "--language", "C",
                                "--no-mode-transition-check",

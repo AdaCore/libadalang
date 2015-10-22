@@ -23,8 +23,7 @@ struct token {
 typedef struct Lexer Lexer;
 
 Lexer*
-${capi.get_name("lexer_from_buffer")}(const char *string, const char *charset,
-                                      size_t length);
+${capi.get_name("lexer_from_buffer")}(uint32_t *buffer, size_t length);
 
 void
 ${capi.get_name("free_lexer")}(Lexer* lexer);

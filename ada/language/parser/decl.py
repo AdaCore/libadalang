@@ -1,5 +1,5 @@
 from language.parser import A
-from langkit.parsers import Opt, List, Or, Row, _, Enum, Tok
+from langkit.parsers import Opt, List, Or, Row, _, Enum
 from langkit.compiled_types import Field, EnumType, abstract
 from . import AdaNode
 
@@ -72,7 +72,6 @@ class AspectSpecification(AdaNode):
 
 
 class SubprogramParams(AdaNode):
-    open_par = Field(repr=False)
     params = Field()
 
 
@@ -423,8 +422,7 @@ A.add_rules(
         _(Or("procedure", "function")),
         Opt(A.name),
         Opt(
-            Row(Tok("(", keep=True),
-                List(A.parameter_profile, sep=";"),
+            Row("(", List(A.parameter_profile, sep=";"),
                 Opt(")").error()) ^ SubprogramParams
         ),
         Opt("return", A.type_expression)[1]

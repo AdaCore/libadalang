@@ -1,7 +1,6 @@
 ## vim: filetype=makocpp
 
 #include <stdlib.h>
-#include <stdbool.h>
 
 #include "quex_interface.h"
 #include "quex_lexer.h"

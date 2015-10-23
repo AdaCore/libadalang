@@ -115,8 +115,9 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  empty or NULL, then use the last charset used for this unit, or use the
    --  context's default if creating this unit.
    --
-   --  On file opening failure, return a null address and in this case, if the
-   --  analysis unit did not exist yet, do not register it.
+   --  If any failure occurs, such as file opening, decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
 
    function ${capi.get_name("get_analysis_unit_from_buffer")}
      (Context           : ${analysis_context_type};
@@ -139,9 +140,9 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  empty or NULL, then use the last charset used for this unit, or use the
    --  context's default if creating this unit.
    --
-   --  On file opening failure, return a null address and in this case, if the
-   --  analysis unit did not exist yet, do not register it. In this case, if
-   --  the analysis unit was already existing, this preserves the AST.
+   --  If any failure occurs, such as decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
 
    function ${capi.get_name("remove_analysis_unit")}
      (Context  : ${analysis_context_type};
@@ -192,9 +193,8 @@ package ${_self.ada_api_settings.lib_name}.C is
            External_name => "${capi.get_name("unit_decref")}";
    --  Decrease the reference count to an analysis unit
 
-   function ${capi.get_name("unit_reparse_from_file")}
+   procedure ${capi.get_name("unit_reparse_from_file")}
      (Unit : ${analysis_unit_type}; Charset : chars_ptr)
-      return int
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("unit_reparse_from_file")}";
@@ -203,8 +203,8 @@ package ${_self.ada_api_settings.lib_name}.C is
    --  Use Charset in order to decode the input. If Charset is empty or NULL,
    --  then use the last charset used for this unit.
    --
-   --  Return whether reparsing was successful (i.e. whether we could read the
-   --  source file). If there was an error, preserve the existing AST and
+   --  If any failure occurs, such as file opening, decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
    --  diagnostics.
 
    procedure ${capi.get_name("unit_reparse_from_buffer")}
@@ -219,6 +219,10 @@ package ${_self.ada_api_settings.lib_name}.C is
    --
    --  Use Charset in order to decode the content of Buffer. If Charset is
    --  empty or NULL, then use the last charset used for this unit.
+   --
+   --  If any failure occurs, such as decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
 
    ---------------------------------
    -- General AST node primitives --

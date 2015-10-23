@@ -19,6 +19,14 @@ print_indent(int level)
 }
 
 static void
+print_sloc_range(ada_source_location_range *sr)
+{
+    printf("%d:%d-%d:%d",
+           sr->start.line, sr->start.column,
+           sr->end.line, sr->end.column);
+}
+
+static void
 dump(ada_node node, int level)
 {
     ada_node_kind_enum kind;
@@ -46,6 +54,27 @@ dump(ada_node node, int level)
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");
         dump(child, level + 1);
+    }
+}
+
+static void
+dump_diagnostics(ada_analysis_unit unit, const char *unit_name)
+{
+    unsigned i;
+
+    printf("Diagnostics for %s\n", unit_name);
+    for (i = 0; i < ada_unit_diagnostic_count(unit); ++i) {
+        ada_diagnostic d;
+
+        if (!ada_unit_diagnostic(unit, i, &d))
+            error("Error while getting a diagnostic");
+        printf("  ");
+        if (d.sloc_range.start.line != 0) {
+            print_sloc_range(&d.sloc_range);
+            printf(": ");
+        }
+        fprint_text(stdout, d.message, false);
+        putchar('\n');
     }
 }
 

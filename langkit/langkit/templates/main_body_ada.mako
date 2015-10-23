@@ -1,5 +1,7 @@
 ## vim: filetype=makoada
 
+with Ada.Exceptions;
+with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
@@ -7,6 +9,7 @@ with Langkit_Support.Extensions;
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
 with Langkit_Support.Text;     use Langkit_Support.Text;
 
+with ${get_context().ada_api_settings.lib_name}.Lexer;
 with ${get_context().ada_api_settings.lib_name}.Parsers;
 use ${get_context().ada_api_settings.lib_name}.Parsers;
 
@@ -42,9 +45,6 @@ package body ${_self.ada_api_settings.lib_name} is
    --  Helper for Get_From_File and Get_From_Buffer: do all the common work
    --  using Get_Parser to either parse from a file or from a buffer. Return
    --  the resulting analysis unit.
-   --
-   --  Get_Parser is allowed to raise a Name_Error exception if there reading a
-   --  file does not work: resources will be correctly released in this case.
 
    --------------------
    -- Update_Charset --
@@ -118,6 +118,7 @@ package body ${_self.ada_api_settings.lib_name} is
             With_Trivia  => With_Trivia,
             AST_Mem_Pool => No_Pool);
          Initialize (Unit.TDH, Context.Symbols);
+         Context.Units_Map.Insert (Fname, Unit);
       else
          Unit := Element (Cur);
       end if;
@@ -129,19 +130,7 @@ package body ${_self.ada_api_settings.lib_name} is
          or else Reparse
          or else (With_Trivia and then not Unit.With_Trivia)
       then
-         begin
-            Do_Parsing (Unit, Get_Parser);
-         exception
-            when Name_Error =>
-               if Created then
-                  Dec_Ref (Unit);
-               end if;
-               raise;
-         end;
-      end if;
-
-      if Created then
-         Context.Units_Map.Insert (Fname, Unit);
+         Do_Parsing (Unit, Get_Parser);
       end if;
 
       return Unit;
@@ -155,13 +144,66 @@ package body ${_self.ada_api_settings.lib_name} is
      (Unit       : Analysis_Unit;
       Get_Parser : access function (Unit : Analysis_Unit) return Parser_Type)
    is
-      Parser : Parser_Type := Get_Parser (Unit);
+
+      procedure Add_Diagnostic (Message : String);
+      --  Helper to add a sloc-less diagnostic to Unit
+
+      --------------------
+      -- Add_Diagnostic --
+      --------------------
+
+      procedure Add_Diagnostic (Message : String) is
+      begin
+         Unit.Diagnostics.Append
+           ((Sloc_Range => No_Source_Location_Range,
+             Message    => To_Unbounded_Wide_Wide_String (To_Text (Message))));
+      end Add_Diagnostic;
+
+      Parser : Parser_Type;
+
    begin
       --  If we have an AST_Mem_Pool already, we are reparsing. We want to
       --  destroy it to free all the allocated memory.
       if Unit.AST_Mem_Pool /= No_Pool then
          Free (Unit.AST_Mem_Pool);
       end if;
+      Unit.AST_Root := null;
+      Unit.Diagnostics.Clear;
+
+      --  Now create the parser. This is where lexing occurs, so this is where
+      --  we get most "setup" issues: missing input file, bad charset, etc.
+      --  If we have such an error, catch it, turn it into diagnostics and
+      --  abort parsing.
+
+      declare
+         use Ada.Exceptions;
+      begin
+         Parser := Get_Parser (Unit);
+      exception
+         when Exc : Name_Error =>
+            --  This happens when we cannot open the source file for lexing:
+            --  return an unit anyway with diagnostics indicating what happens.
+
+            Add_Diagnostic
+              ("Cannot open source file: " & Exception_Message (Exc));
+            return;
+
+         when Lexer.Unknown_Charset =>
+            Add_Diagnostic
+              ("Unknown charset """ & To_String (Unit.Charset) & """");
+            return;
+
+         when Lexer.Invalid_Input =>
+            --  TODO??? Tell where (as a source location) we failed to decode
+            --  the input.
+            Add_Diagnostic
+              ("Could not decode source as """ & To_String (Unit.Charset)
+               & """");
+            return;
+      end;
+
+      --  We have correctly setup a parser! Now let's parse and return what we
+      --  get.
 
       Unit.AST_Mem_Pool := Create;
       Parser.Mem_Pool := Unit.AST_Mem_Pool;

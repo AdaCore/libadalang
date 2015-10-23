@@ -60,6 +60,7 @@ class CAPIDriver(BaseDriver):
                       ("-Wall", "-W", "-Werror", "-pedantic",
 
                        "-Wno-error=unused-variable",
+                       "-Wno-error=unused-function",
                        --  Code and data are shared in headers, so we expect
                        --  unused variables there.
 

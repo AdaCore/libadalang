@@ -1,1 +1,2 @@
-WIP: display some lexing error message for the badly encoded input
+Errors while parsing input
+Could not decode source as "utf-8"

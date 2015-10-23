@@ -1,1 +1,3 @@
-WIP: display some lexing error message for the badly encoded input
+Diagnostics for foo.adb
+  Could not decode source as "utf-8"
+Done

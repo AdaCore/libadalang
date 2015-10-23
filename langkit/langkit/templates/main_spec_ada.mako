@@ -92,11 +92,10 @@ package ${_self.ada_api_settings.lib_name} is
    --  Use Charset in order to decode the content of Filename. If Charset is
    --  empty then use the last charset used for this unit, or use the context's
    --  default if creating this unit.
-   --  TODO??? What happens when the charset is not supported?
    --
-   --  On file opening failure, raise a Name_Error exception and in this case,
-   --  if the analysis unit did not exist yet, do not register it. In this
-   --  case, if the analysis unit was already existing, this preserves the AST.
+   --  If any failure occurs, such as file opening, decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
    --
    --  When With_Trivia is true, the parsed analysis unit will contain trivias.
    --  Already existing analysis units are reparsed if needed.
@@ -118,6 +117,10 @@ package ${_self.ada_api_settings.lib_name} is
    --  Use Charset in order to decode the content of Filename. If Charset is
    --  empty then use the last charset used for this unit, or use the context's
    --  default if creating this unit.
+   --
+   --  If any failure occurs, such as decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
    --
    --  When With_Trivia is true, the parsed analysis unit will contain trivias.
    --  Already existing analysis units are reparsed if needed.
@@ -144,9 +147,9 @@ package ${_self.ada_api_settings.lib_name} is
    --  Use Charset in order to decode the content of Filename. If Charset is
    --  empty then use the last charset used for this unit.
    --
-   --  On file opening failure, raise a Name_Error exception and in this case,
-   --  if the analysis unit did not exist yet, do not register it.  In this
-   --  case, preserve any existing AST and diagnostics.
+   --  If any failure occurs, such as file opening, decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
 
    procedure Reparse
      (Unit    : Analysis_Unit;
@@ -158,6 +161,10 @@ package ${_self.ada_api_settings.lib_name} is
    --
    --  Use Charset in order to decode the content of Filename. If Charset is
    --  empty then use the last charset used for this unit.
+   --
+   --  If any failure occurs, such as decoding, lexing or parsing
+   --  failure, return an Analysis_Unit anyway: errors are described as
+   --  diagnostics.
 
    procedure Print (Unit : Analysis_Unit);
    --  Debug helper: output the AST and eventual diagnostic for this unit on

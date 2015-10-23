@@ -113,7 +113,11 @@ ${capi.get_name("destroy_analysis_context")}(
    default if creating this unit.
 
    On file opening failure, return a null address and in this case, if the
-   analysis unit did not exist yet, do not register it.  */
+   analysis unit did not exist yet, do not register it.
+
+   If any failure occurs, such as file opening, decoding, lexing or parsing
+   failure, return an Analysis_Unit anyway: errors are described as
+   diagnostics.  */
 extern ${analysis_unit_type}
 ${capi.get_name("get_analysis_unit_from_file")}(
         ${analysis_context_type} context,
@@ -134,7 +138,11 @@ ${capi.get_name("get_analysis_unit_from_file")}(
 
    On file opening failure, return a null address and in this case, if the
    analysis unit did not exist yet, do not register it.  In this case, if
-   the analysis unit was already existing, this preserves the AST.  */
+   the analysis unit was already existing, this preserves the AST.
+
+   If any failure occurs, such as decoding, lexing or parsing
+   failure, return an Analysis_Unit anyway: errors are described as
+   diagnostics.  */
 extern ${analysis_unit_type}
 ${capi.get_name("get_analysis_unit_from_buffer")}(
         ${analysis_context_type} context,
@@ -177,20 +185,24 @@ ${capi.get_name("unit_decref")}(${analysis_unit_type} unit);
 
 /* Reparse an analysis unit from the associated file.
 
-   Use Charset in order to decode the content of Filename. If the unit already
-   exists, Charset can be an empty string or NULL: parsing will use the last
-   provided charset.
+   Use Charset in order to decode the input. If Charset is empty or NULL,
+   then use the last charset used for this unit.
 
-   Use Charset in order to decode the input. If Charset is empty or NULL, then
-   use the last charset used for this unit.  */
-extern int
+   If any failure occurs, such as file opening, decoding, lexing or parsing
+   failure, return an Analysis_Unit anyway: errors are described as
+   diagnostics.  */
+extern void
 ${capi.get_name("unit_reparse_from_file")}(${analysis_unit_type} unit,
                                            const char *charset);
 
 /* Reparse an analysis unit from a buffer.
 
    Use Charset in order to decode the content of Buffer. If Charset is
-   empty or NULL, then use the last charset used for this unit.  */
+   empty or NULL, then use the last charset used for this unit.
+
+   If any failure occurs, such as decoding, lexing or parsing
+   failure, return an Analysis_Unit anyway: errors are described as
+   diagnostics.  */
 extern void
 ${capi.get_name("unit_reparse_from_buffer")} (${analysis_unit_type} unit,
                                               const char *charset,

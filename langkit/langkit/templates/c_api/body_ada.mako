@@ -102,18 +102,12 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Reparse           : int) return ${analysis_unit_type}
    is
       Ctx : constant Analysis_Context := Unwrap (Context);
-      Unit : Analysis_Unit;
+      Unit : Analysis_Unit := Get_From_File
+        (Ctx,
+         Value (Filename),
+         Value_Or_Empty (Charset),
+         Reparse /= 0);
    begin
-      begin
-         Unit := Get_From_File
-           (Ctx,
-            Value (Filename),
-            Value_Or_Empty (Charset),
-            Reparse /= 0);
-      exception
-         when Name_Error =>
-            Unit := null;
-      end;
       return Wrap (Unit);
    end ${capi.get_name("get_analysis_unit_from_file")};
 
@@ -205,19 +199,12 @@ package body ${_self.ada_api_settings.lib_name}.C is
       Dec_Ref (U);
    end ${capi.get_name("unit_decref")};
 
-   function ${capi.get_name("unit_reparse_from_file")}
+   procedure ${capi.get_name("unit_reparse_from_file")}
      (Unit : ${analysis_unit_type}; Charset : chars_ptr)
-      return int
    is
       U : constant Analysis_Unit := Unwrap (Unit);
    begin
-      begin
-         Reparse (U, Value_Or_Empty (Charset));
-      exception
-         when Name_Error =>
-            return 0;
-      end;
-      return 1;
+      Reparse (U, Value_Or_Empty (Charset));
    end ${capi.get_name("unit_reparse_from_file")};
 
    procedure ${capi.get_name("unit_reparse_from_buffer")}

@@ -27,11 +27,23 @@ package ${_self.ada_api_settings.lib_name}.Parsers is
      (Filename, Charset : String;
       TDH               : Token_Data_Handler_Access;
       With_Trivia       : Boolean := False) return Parser_type;
+   --  Create a parser to parse the source in Filename, decoding it using
+   --  Charset. The resulting tokens (and trivia if With_Trivia) are stored
+   --  into TDH.
+   --
+   --  This can raise Lexer.Unknown_Charset or Lexer.Invalid_Input exceptions
+   --  if the lexer has trouble decoding the input.
 
    function Create_From_Buffer
      (Buffer, Charset : String;
       TDH             : Token_Data_Handler_Access;
       With_Trivia     : Boolean := False) return Parser_type;
+   --  Create a parser to parse the source in Buffer, decoding it using
+   --  Charset. The resulting tokens (and trivia if With_Trivia) are stored
+   --  into TDH.
+   --
+   --  This can raise Lexer.Unknown_Charset or Lexer.Invalid_Input exceptions
+   --  if the lexer has trouble decoding the input.
 
    function Parse
      (Parser         : in out Parser_Type;

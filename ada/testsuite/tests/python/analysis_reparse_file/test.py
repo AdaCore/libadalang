@@ -24,10 +24,15 @@ ctx = libadalang.AnalysisContext('iso-8859-1')
 
 
 def check(unit):
-    assert unit, 'Could not create the analysis unit for foo.adb from a e'
-    print 'WithDecl: is_limited = {}'.format(
-        unit.root.f_prelude[0].f_is_limited
-    )
+    assert unit, 'Could not create the analysis unit for foo.adb from a file'
+    if unit.diagnostics:
+        print 'Diagnostics for foo.adb:'
+        for diag in unit.diagnostics:
+            print '  {}'.format(diag)
+    else:
+        print 'WithDecl: is_limited = {}'.format(
+            unit.root.f_prelude[0].f_is_limited
+        )
 
 
 # First work with the "limited" keyword.
@@ -51,14 +56,8 @@ check(unit)
 os.remove('foo.adb')
 
 print '3. Parsing with deleted file (reparse=true)'
-try:
-    ctx.get_from_file('foo.adb', reparse=True)
-except IOError:
-    check(unit)
-else:
-    assert False, (
-        'Reparsing analysis unit from a deleted file returned something!'
-    )
+unit = ctx.get_from_file('foo.adb', reparse=True)
+check(unit)
 
 write_source(src_buffer_2)
 
@@ -68,8 +67,8 @@ check(unit)
 
 # Now restore the "limited" keyword in the soruce:
 #  5. reparsing the unit should work and set is_limited;
-#  6. reparsing the unit with a deleted file should raise an error but preserve
-#     the unit's tree.
+#  6. reparsing the unit with a deleted file should wipe the AST and emit the
+#     corresponding diagnostics.
 
 write_source(src_buffer_1)
 
@@ -80,11 +79,7 @@ check(unit)
 os.remove('foo.adb')
 
 print '6. Reparsing with deleted file'
-try:
-    unit.reparse()
-except IOError:
-    check(unit)
-else:
-    assert False, 'Reparding a deleted file is supposed to raise an exception'
+unit.reparse()
+check(unit)
 
 print 'Done.'

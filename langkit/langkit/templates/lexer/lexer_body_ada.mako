@@ -230,7 +230,14 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
       for Buffer'Address use Buffer_Addr;
 
    begin
-      Lex_From_Buffer (Buffer, Charset, TDH, With_Trivia);
+      begin
+         Lex_From_Buffer (Buffer, Charset, TDH, With_Trivia);
+      exception
+         when Unknown_Charset | Invalid_Input =>
+            Free (Region);
+            Close (File);
+            raise;
+      end;
       Free (Region);
       Close (File);
    end Lex_From_Filename;
@@ -326,7 +333,12 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
       case Status is
          when Invalid_Multibyte_Sequence | Incomplete_Multibyte_Sequence =>
+            --  TODO??? It may be more helpful to actually perform lexing on an
+            --  incomplete buffer. The user would get both a diagnostic for the
+            --  charset error and a best-effort list of tokens.
+
             Free (Result);
+            Iconv_Close (State);
             raise Invalid_Input;
 
          when Full_Buffer =>

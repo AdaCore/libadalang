@@ -3,6 +3,8 @@
 #include <string.h>
 #include "libadalang.h"
 
+#include "langkit_dump.h"
+
 
 const char *src_buffer_1 = (
   "limited with Ada.Text_IO;\n"
@@ -24,13 +26,6 @@ const char *src_buffer_2 = (
   "end Foo;\n"
 );
 
-static void
-error(const char *msg)
-{
-    fputs(msg, stderr);
-    exit(1);
-}
-
 void write_source(const char *src_buffer)
 {
     FILE *f;
@@ -42,17 +37,23 @@ void write_source(const char *src_buffer)
 
 void check(ada_analysis_unit unit)
 {
+    ada_node ast_root;
     ada_node prelude_list, with_decl;
     int is_limited;
 
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a file");
+    ast_root = ada_unit_root(unit);
 
-    if (!ada_compilation_unit_f_prelude(ada_unit_root(unit), &prelude_list)
-        || !ada_node_child(prelude_list, 0, &with_decl)
-        || !ada_with_decl_f_is_limited(with_decl, &is_limited))
-        error("Could not traverse the AST as expected");
-    printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
+    if (ast_root == NULL)
+        dump_diagnostics(unit, "foo.adb");
+    else {
+        if (!ada_compilation_unit_f_prelude(ast_root, &prelude_list)
+            || !ada_node_child(prelude_list, 0, &with_decl)
+            || !ada_with_decl_f_is_limited(with_decl, &is_limited))
+            error("Could not traverse the AST as expected");
+        printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
+    }
 }
 
 int
@@ -87,8 +88,7 @@ main(void)
     remove("foo.adb");
 
     puts("3. Parsing with deleted file (reparse=true)");
-    if (ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1) != NULL)
-        error("Reparsing analysis unit from a deleted file returned non-null");
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
     check(unit);
 
     write_source(src_buffer_2);
@@ -101,19 +101,17 @@ main(void)
 
     /* Now restore the "limited" keyword in the soruce:
         5. reparsing the unit should work and set is_limited;
-        6. reparsing the unit with a deleted file should raise an error but
-           preserve the unit's tree. */
+        6. reparsing the unit with a deleted file should wipe the AST and emit
+           the corresponding diagnostics.  preserve the unit's tree. */
 
     puts("5. Reparsing source 1");
-    if (!ada_unit_reparse_from_file(unit, NULL))
-        error("Could not reparse foo.adb");
+    ada_unit_reparse_from_file(unit, NULL);
     check(unit);
 
     remove("foo.adb");
 
     puts("6. Reparsing with deleted file");
-    if (ada_unit_reparse_from_file(unit, NULL))
-        error("Reparsing foo.adb was supposed to fail");
+    ada_unit_reparse_from_file(unit, NULL);
     check(unit);
 
     ada_destroy_analysis_context(ctx);

@@ -18,8 +18,6 @@ class AnalysisContext(object):
     def get_from_file(self, filename, charset=None, reparse=False):
         c_value = _get_analysis_unit_from_file(self._c_value, filename,
                                                charset or '', reparse)
-        if not c_value.value:
-            raise IOError('Could not open {}'.format(filename))
         return AnalysisUnit(c_value)
 
     def get_from_buffer(self, filename, buffer, charset=None):
@@ -71,8 +69,7 @@ class AnalysisUnit(object):
 
     def reparse(self, buffer=None, charset=None):
         if buffer is None:
-            if not _unit_reparse_from_file(self._c_value, charset or ''):
-                raise IOError('Could not reparse the unit from file')
+            _unit_reparse_from_file(self._c_value, charset or '')
         else:
             _unit_reparse_from_buffer(self._c_value, charset or '',
                                       buffer, len(buffer))
@@ -105,7 +102,7 @@ class Sloc(object):
         self.column = column
 
     def __nonzero__(self):
-        return self.line or self.column
+        return bool(self.line or self.column)
 
     def __str__(self):
         return '{}:{}'.format(self.line, self.column)
@@ -122,7 +119,7 @@ class SlocRange(object):
         self.end = end
 
     def __nonzero__(self):
-        return self.start or self.end
+        return bool(self.start or self.end)
 
     def __str__(self):
         return '{}-{}'.format(self.start, self.end)
@@ -139,7 +136,9 @@ class Diagnostic(object):
         self.message = message
 
     def __str__(self):
-        return '{}: {}'.format(self.sloc_range, self.message)
+        return ('{}: {}'.format(self.sloc_range, self.message)
+                if self.sloc_range else
+                self.message)
 
     def __repr__(self):
         return '<Diagnostic {} at {:#x}>'.format(repr(str(self)), id(self))

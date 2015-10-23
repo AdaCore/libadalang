@@ -26,7 +26,11 @@ class ParserDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        input_file = self.working_dir('input')
+        # Pass a relative filename to "parse" so that its output does not
+        # depend on the location of the working directory. This helps making
+        # the test output stable across runs.
+        input_file_rel = 'input'
+        input_file = self.working_dir(input_file_rel)
 
         # Build the command line for the "parse" process we are going to run
         parse_argv = ['parse']
@@ -39,9 +43,9 @@ class ParserDriver(BaseDriver):
             parse_argv += ['-c', charset]
 
         if self.action == 'pretty-print-file':
-            parse_argv += ['-f', input_file]
+            parse_argv += ['-f', input_file_rel]
         elif self.action == 'pp-file-with-trivia':
-            parse_argv += ['-P', '-f', input_file]
+            parse_argv += ['-P', '-f', input_file_rel]
         else:
             rule_name = self.test_env.get('rule', None)
             if not rule_name:

@@ -132,6 +132,7 @@ ada_lexer.add_patterns(
     ('decimal_literal', r"{integer}(\.?{integer})?{exponent}?"),
     ('base', r"{integer}"),
     ('based_integer', r"{extended_digit}(_?{extended_digit})*"),
+    ('identifier', r"\P{ID_Start}\P{ID_Continue}*"),
     ('based_literal',
      r"{base}#{based_integer}(\.{based_integer})?#{exponent}?"),
 )
@@ -242,9 +243,9 @@ ada_lexer.add_rules(
 
     (ada_lexer.patterns.based_literal,          Token.Number),
 
-    (Pattern(r"[_a-zA-Z][_a-zA-Z0-9]*"),        Token.Identifier),
+    (ada_lexer.patterns.identifier,        Token.Identifier),
 
-    (Pattern(r"<<([_a-zA-Z][_a-zA-Z0-9]*)?>>"), Token.Label),
+    (Pattern(r"<<({identifier})?>>"), Token.Label),
 
     (ada_lexer.patterns.p_string,               Token.String),
 

@@ -317,23 +317,21 @@ class Lexer(object):
                 # representation.
                 self.literals_map[m.to_match] = a
 
-    def emit(self, file_name):
+    def emit(self):
         """
-        Emit the .qx file corresponding to this lexer specification. This
-        function is not to be called by the client, and will be called by
-        langkit when needed.
+        Return the content of the .qx file corresponding to this lexer
+        specification. This function is not to be called by the client, and
+        will be called by langkit when needed.
 
-        :param str file_name: The full path to the file in which to write
+        :rtype: str
         """
-
-        with open(file_name, "w") as f:
-            f.write(common_renderer.render(
-                "lexer/quex_lexer_spec",
-                tokens_class=self.tokens_class,
-                patterns=self.__patterns,
-                rules=self.rules,
-                lexer=self
-            ))
+        return common_renderer.render(
+            "lexer/quex_lexer_spec",
+            tokens_class=self.tokens_class,
+            patterns=self.__patterns,
+            rules=self.rules,
+            lexer=self
+        )
 
     def token_name(self, token):
         """

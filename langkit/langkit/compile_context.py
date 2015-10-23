@@ -24,6 +24,7 @@ import subprocess
 
 from ada_api import AdaAPISettings
 from c_api import CAPISettings
+import caching
 from python_api import PythonAPISettings
 from utils import Colors, printcol
 
@@ -229,6 +230,8 @@ class CompileCtx():
         # in AST node fields.
         self.py_astnode_field_types = {}
 
+        self.cache = None
+
     def set_ast_fields_types(self, astnode, types):
         """
         Associate `types` (a list of CompiledType) to fields in `astnode` (an
@@ -334,6 +337,10 @@ class CompileCtx():
             p = path.join(file_root, d)
             if not path.exists(p):
                 os.mkdir(p)
+
+        self.cache = caching.Cache(
+            os.path.join(file_root, 'obj', 'langkit_cache')
+        )
 
         # Create the project file for the generated library
         main_project_file = os.path.join(
@@ -444,21 +451,25 @@ class CompileCtx():
 
         quex_file = os.path.join(src_path,
                                  "{}.qx".format(self.lang_name.lower))
-        self.lexer.emit(quex_file)
+        quex_spec = self.lexer.emit()
 
-        quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
+        # Generating the lexer C code with Quex is quite long: do it only when
+        # the Quex specification changed from last build.
+        if self.cache.is_stale('quex_specification', quex_spec):
+            quex_py_file = path.join(environ["QUEX_PATH"], "quex-exe.py")
+            subprocess.check_call([sys.executable, quex_py_file, "-i",
+                                   quex_file,
+                                   "-o", "quex_lexer",
+                                   "--buffer-element-size", "4",
+                                   "--token-id-offset",  "0x1000",
+                                   "--language", "C",
+                                   "--no-mode-transition-check",
+                                   "--single-mode-analyzer",
+                                   "--token-memory-management-by-user",
+                                   "--token-policy", "single"],
+                                  cwd=src_path)
 
-        subprocess.check_call([sys.executable, quex_py_file, "-i",
-                               quex_file,
-                               "-o", "quex_lexer",
-                               "--buffer-element-size", "4",
-                               "--token-id-offset",  "0x1000",
-                               "--language", "C",
-                               "--no-mode-transition-check",
-                               "--single-mode-analyzer",
-                               "--token-memory-management-by-user",
-                               "--token-policy", "single"],
-                              cwd=src_path)
+        self.cache.save()
 
     def emit_c_api(self, src_path, include_path):
         """Generate header and binding body for the external C API"""

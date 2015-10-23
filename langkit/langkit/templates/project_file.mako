@@ -55,6 +55,11 @@ library project ${lib_name} is
             for Default_Switches ("Ada") use ("-g", "-O0");
             for Default_Switches ("C") use Common_C_Cargs & ("-g3", "-O0");
 
+            for Switches ("quex_lexer.c") use Common_C_Cargs & ("-g0", "-O0");
+            --  This file is *huge* and the debugging information for it harms
+            --  Valgrind runs. We almost never have to debug this file so
+            --  this is acceptable.
+
          when "prod" =>
             --  Debug information is useful even with optimization for
             --  profiling, for instance.

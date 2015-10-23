@@ -209,10 +209,6 @@ ${capi.get_name("unit_reparse_from_buffer")} (${analysis_unit_type} unit,
                                               const char *buffer,
                                               size_t buffer_size);
 
-/* Free "str".  This is a convenience function for bindings.  */
-extern void
-${capi.get_name("free_str")}(char *str);
-
 
 /*
  * General AST node primitives

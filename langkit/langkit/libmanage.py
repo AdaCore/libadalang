@@ -326,7 +326,7 @@ class ManageScript(object):
         def gprbuild(project_file, is_dynamic):
             try:
                 subprocess.check_call([
-                    'gprbuild', '-p', '-j{}'.format(args.jobs),
+                    'gprbuild', '-m', '-p', '-j{}'.format(args.jobs),
                     '-P{}'.format(project_file),
                     '-XBUILD_MODE={}'.format(build_mode),
                     '-XLIBRARY_TYPE={}'.format(

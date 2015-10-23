@@ -254,6 +254,16 @@ ${capi.get_name("node_child")}(${node_type} node,
 extern ${text_type}
 ${capi.get_name("token_text")}(${token_type} token);
 
+/* Encode some text using the current locale.  The result is dynamically
+   allocated: it is up to the caller to free it when done with it.
+
+   This is a development helper to make it quick and easy to print token
+   and diagnostic text: it ignores errors (when the locale does not support
+   some characters).  Production code should use real conversion routines
+   such as libiconv's in order to deal with UTF-32 texts.  */
+extern char *
+${capi.get_name("text_to_locale_string")}(${text_type} text);
+
 
 /*
  * Kind-specific AST node primitives

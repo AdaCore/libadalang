@@ -47,7 +47,7 @@ package ${_self.ada_api_settings.lib_name}.C is
       Length : size_t;
       --  Size of the string (in characters)
    end record
-     with Convention => C;
+     with Convention => C_Pass_By_Copy;
    --  String encoded in UTF-32 (native endianness)
 
    type ${diagnostic_type} is record
@@ -291,6 +291,19 @@ package ${_self.ada_api_settings.lib_name}.C is
            Convention    => C,
            External_name => "${capi.get_name("token_text")}";
    --  Get the text of the given token
+
+   function ${capi.get_name("text_to_locale_string")}
+     (Text : ${text_type}) return System.Address
+      with Export        => True,
+           Convention    => C,
+           External_name => "${capi.get_name("text_to_locale_string")}";
+   --  Encode some text using the current locale.  The result is dynamically
+   --  allocated: it is up to the caller to free it when done with it.
+   --
+   --  This is a development helper to make it quick and easy to print token
+   --  and diagnostic text: it ignores errors (when the locale does not support
+   --  some characters).  Production code should use real conversion routines
+   --  such as libiconv's in order to deal with UTF-32 texts.
 
 
    ---------------------------------------

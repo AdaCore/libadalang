@@ -10,6 +10,10 @@ use Ada.Strings.Wide_Wide_Unbounded.Aux;
 pragma Warnings (On, "is an internal GNAT unit");
 with Ada.Unchecked_Conversion;
 
+with System.Memory;
+
+with GNATCOLL.Iconv;
+
 with Langkit_Support.AST;        use Langkit_Support.AST;
 with Langkit_Support.Extensions; use Langkit_Support.Extensions;
 with Langkit_Support.Text;       use Langkit_Support.Text;
@@ -315,6 +319,65 @@ package body ${_self.ada_api_settings.lib_name}.C is
              then (Chars => System.Null_Address, Length => 0)
              else (Chars => T.Text.all'Address, Length => T.Text'Length));
    end ${capi.get_name("token_text")};
+
+   function ${capi.get_name("text_to_locale_string")}
+     (Text : ${text_type}) return System.Address
+   is
+      use GNATCOLL.Iconv;
+
+      Input_Byte_Size : constant size_t := 4 * Text.Length;
+
+      Output_Byte_Size : constant size_t := Input_Byte_Size + 1;
+      --  Assuming no encoding will take more than 4 bytes per character, 4
+      --  times the size of the input text plus one null byte should be enough
+      --  to hold the result. This is a development helper anyway, so we don't
+      --  have performance concerns.
+
+      Result : constant System.Address := System.Memory.Alloc
+        (System.Memory.size_t (Output_Byte_Size));
+      --  Buffer we are going to return to the caller. We use
+      --  System.Memory.Alloc so that users can call C's "free" function in
+      --  order to free it.
+
+      Input : String (1 .. Natural (Input_Byte_Size));
+      for Input'Address use Text.Chars;
+
+      Output : String (1 .. Natural (Output_Byte_Size));
+      for Output'Address use Result;
+
+      State                     : Iconv_T;
+      Input_Index, Output_Index : Positive := 1;
+      Status                    : Iconv_Result;
+
+      From_Code : constant String :=
+        (if System."=" (System.Default_Bit_Order, System.Low_Order_First)
+         then UTF32LE
+         else UTF32BE);
+
+   begin
+      --  GNATCOLL.Iconv raises Constraint_Error exceptions for empty strings,
+      --  so handle them ourselves.
+
+      if Input_Byte_Size = 0 then
+         Output (1) := ASCII.NUL;
+      end if;
+
+      --  Encode to the locale. Don't bother with error checking...
+
+      Set_Locale;
+      State := Iconv_Open
+        (To_Code         => Locale,
+         From_Code       => From_Code,
+         Transliteration => True,
+         Ignore          => True);
+      Iconv (State, Input, Input_Index, Output, Output_Index, Status);
+      Iconv_Close (State);
+
+      --  Don't forget the trailing NULL character to keep C programs happy
+      Output (Output_Index) := ASCII.NUL;
+
+      return Result;
+   end ${capi.get_name("text_to_locale_string")};
 
 
    ---------------------------------------

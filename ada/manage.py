@@ -104,6 +104,10 @@ class Manage(ManageScript):
         except subprocess.CalledProcessError as exc:
             print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
             sys.exit(1)
+        except KeyboardInterrupt:
+            # At this point, the testsuite already made it explicit we stopped
+            # after a keyboard interrupt, so we just have to exit.
+            sys.exit(1)
 
     @staticmethod
     def _mkdir(path):

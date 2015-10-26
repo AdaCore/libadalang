@@ -1,0 +1,19 @@
+CompilationUnit[1:1-4:12]
+| bodies:
+| | LibraryItem[1:1-4:11]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[1:1-4:11]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[1:1-1:17]
+| | | | | | | name:
+| | | | | | | | Id[1:11-1:17]
+| | | | | | | | | tok: kikoo\u1800
+| | | | | statements:
+| | | | | | HandledStatements[3:4-3:9]
+| | | | | | | statements:
+| | | | | | | | NullStatement[3:4-3:8]
+| | | | | end_id:
+| | | | | | Id[4:5-4:11]
+| | | | | | | tok: kikoo\u1800

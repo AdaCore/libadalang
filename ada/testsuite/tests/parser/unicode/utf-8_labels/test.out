@@ -1,0 +1,35 @@
+CompilationUnit[1:1-6:10]
+| bodies:
+| | LibraryItem[1:1-6:9]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[1:1-6:9]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[1:1-1:15]
+| | | | | | | name:
+| | | | | | | | Id[1:11-1:15]
+| | | | | | | | | tok: Test
+| | | | | statements:
+| | | | | | HandledStatements[3:5-5:15]
+| | | | | | | statements:
+| | | | | | | | Label[3:5-3:13]
+| | | | | | | | | token: <<\u3000\u3002\u3000\u3001>>
+| | | | | | | | CallExpr[4:5-4:28]
+| | | | | | | | | name:
+| | | | | | | | | | Id[4:5-4:13]
+| | | | | | | | | | | tok: Put_Line
+| | | | | | | | | suffix:
+| | | | | | | | | | ParamList[4:14-4:27]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[4:14-4:27]
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | Str[4:14-4:27]
+| | | | | | | | | | | | | | | tok: "Hello world"
+| | | | | | | | GotoStatement[5:5-5:14]
+| | | | | | | | | label_name:
+| | | | | | | | | | Id[5:10-5:14]
+| | | | | | | | | | | tok: \u3000\u3002\u3000\u3001
+| | | | | end_id:
+| | | | | | Id[6:5-6:9]
+| | | | | | | tok: Test

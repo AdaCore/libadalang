@@ -64,7 +64,10 @@ library project ${lib_name} is
             --  Debug information is useful even with optimization for
             --  profiling, for instance.
             for Default_Switches ("Ada") use ("-g", "-Ofast", "-gnatp");
-            for Default_Switches ("C") use Common_C_Cargs & ("-g", "-Ofast");
+            for Default_Switches ("C") use Common_C_Cargs
+              & ("-Ofast",
+                 -- Deactivate because of memory usage, see OA26-005
+                 "-fno-ree");
       end case;
    end Compiler;
 

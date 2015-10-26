@@ -452,6 +452,8 @@ class CompileCtx():
         quex_file = os.path.join(src_path,
                                  "{}.qx".format(self.lang_name.lower))
         quex_spec = self.lexer.emit()
+        with open(quex_file, 'w') as f:
+            f.write(quex_spec)
 
         # Generating the lexer C code with Quex is quite long: do it only when
         # the Quex specification changed from last build.

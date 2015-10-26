@@ -1,11 +1,23 @@
-import gnatpython.testsuite
+import os
+
+with_gnatpython = False
+if not os.environ.get('WITHOUT_GNATPYTHON'):
+    try:
+        from gnatpython.testsuite import Testsuite as BaseTestsuite
+    except ImportError:
+        pass
+    else:
+        with_gnatpython = True
+if not with_gnatpython:
+    from testsuite_support.polyfill import BaseTestsuite
+
 
 import testsuite_support.capi_driver
 import testsuite_support.parser_driver
 import testsuite_support.python_driver
 
 
-class Testsuite(gnatpython.testsuite.Testsuite):
+class Testsuite(BaseTestsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
         'parser': testsuite_support.parser_driver.ParserDriver,

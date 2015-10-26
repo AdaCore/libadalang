@@ -25,6 +25,10 @@ class Manage(ManageScript):
             'test', help=self.do_test.__doc__
         )
         test_parser.add_argument(
+            '--without-gnatpython', '-G', action='store_true',
+            help='Do not use GNATpython in the testsuite'
+        )
+        test_parser.add_argument(
             'testsuite-args', nargs='*',
             help='Arguments to pass to testsuite.py.'
         )
@@ -82,6 +86,10 @@ class Manage(ManageScript):
 
         # Make builds available from testcases
         env = self.derived_env()
+
+        if args.without_gnatpython:
+            env['WITHOUT_GNATPYTHON'] = '1'
+
         argv = [
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),

@@ -1,10 +1,20 @@
+import os
 import os.path
 import pipes
 import subprocess
 
-from gnatpython.ex import Run, STDOUT
-from gnatpython import fileutils
-from gnatpython.testsuite.driver import TestDriver
+with_gnatpython = False
+if not os.environ.get('WITHOUT_GNATPYTHON'):
+    try:
+        from gnatpython.ex import Run, STDOUT
+        from gnatpython import fileutils
+        from gnatpython.testsuite.driver import TestDriver
+    except ImportError:
+        pass
+    else:
+        with_gnatpython = True
+if not with_gnatpython:
+    from testsuite_support.polyfill import fileutils, Run, STDOUT, TestDriver
 
 from testsuite_support.valgrind import Valgrind
 

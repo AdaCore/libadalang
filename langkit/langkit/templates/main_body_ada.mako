@@ -5,6 +5,8 @@ with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
+with GNATCOLL.Iconv;
+
 with Langkit_Support.Extensions;
 with Langkit_Support.PP_Utils; use Langkit_Support.PP_Utils;
 with Langkit_Support.Text;     use Langkit_Support.Text;
@@ -432,6 +434,9 @@ package body ${_self.ada_api_settings.lib_name} is
              Convention    => C,
              External_Name => "${capi.shared_object_basename}init";
    begin
+      if not GNATCOLL.Iconv.Has_Iconv then
+         raise Program_Error with "Libiconv is not available";
+      end if;
       Langkit_Support_Init;
       Libadalang_Init;
    end Initialize;

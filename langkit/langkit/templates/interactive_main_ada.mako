@@ -215,7 +215,12 @@ begin
       begin
          Open (F, In_File, File_List.all);
          while not End_Of_File (F) loop
-            Process_File (Get_Line (F), Ctx);
+            declare
+               Filename : String := Get_Line (F);
+            begin
+               Process_File (Filename, Ctx);
+               Remove (Ctx, Filename);
+            end;
          end loop;
          Close (F);
          Destroy (Ctx);

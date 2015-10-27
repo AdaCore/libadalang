@@ -469,11 +469,12 @@ class fileutils(object):
     def diff(a, b, ignore_white_chars=None):
         """Return a string representing the diff between files "a" and "b"."""
         with open(a, 'r') as f:
-            a_content = f.read()
+            a_content = f.read().split('\n')
         with open(b, 'r') as f:
-            b_content = f.read()
-        return '\n'.join(difflib.context_diff(a_content, b_content,
-                                              fromfile=a, tofile=b))
+            b_content = f.read().split('\n')
+        return '\n'.join(difflib.unified_diff(a_content, b_content,
+                                              fromfile=a, tofile=b,
+                                              lineterm=''))
 
 
 class Run(object):

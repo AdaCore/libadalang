@@ -324,11 +324,8 @@ class BaseTestsuite(object):
 
     def _iter_testcases(self):
         """Yield subdirectory paths for testcases."""
-        if self.args.testcases:
-            for root in self.args.testcases:
-                yield root
-        else:
-            for root, dirs, files in os.walk(self.test_dir):
+        for root_dir in self.args.testcases or [self.test_dir]:
+            for root, dirs, files in os.walk(root_dir):
                 if 'test.yaml' in files:
                     yield root
 

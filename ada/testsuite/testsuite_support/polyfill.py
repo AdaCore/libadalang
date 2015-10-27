@@ -75,16 +75,19 @@ class ReportWriter(object):
         'UOK':     'yellow',
     }
 
-    def __init__(self, report_dir, colors):
+    def __init__(self, report_dir, colors, show_error_output):
         """Create a ReportWriter.
 
         :param str report_dir: Path to the directory in which the report is to
             be written.
         :param Colors colors: Control for colored messaged in the standard
             output.
+        :param bool show_error_output: If true, display testcases error output
+            when they are failing.
         """
         self.report_dir = report_dir
         self.colors = colors
+        self.show_error_output = show_error_output
         self.summary_file = open(os.path.join(self.report_dir, 'results'), 'w')
         self.hits = collections.defaultdict(lambda: 0)
 
@@ -121,6 +124,15 @@ class ReportWriter(object):
             clr_reset=self.colors.reset,
             clr_st=self.get_color(status)
         )
+        # ... or more if told to do so.
+        if (self.show_error_output and
+                output.strip() and
+                status not in ('PASSED', 'OK', 'UOK', 'XFAIL')):
+            print '{clr.red}{output}{clr.reset}'.format(
+                clr=self.colors,
+                output=''.join('  {}\n'.format(line.rstrip())
+                               for line in output.rstrip().split('\n')),
+            )
 
         # Likewise in the report summary
         self.summary_file.write('{}:{}:{}\n'.format(
@@ -187,6 +199,7 @@ class BaseTestsuite(object):
         :param str root_dir: Path to the directory that hosts the testsuite.
         """
         self.colors = Colors()
+        self.report_writer = None
 
         # Determine important paths
         self.root_dir = root_dir
@@ -213,7 +226,7 @@ class BaseTestsuite(object):
         )
         self.arg_parser.add_argument(
             '--show-error-output', action='store_true',
-            help='Show diff for test failure (not implemented yet)'
+            help='Show diff for test failure'
         )
         self.arg_parser.add_argument(
             'testcases', nargs='*',
@@ -222,8 +235,6 @@ class BaseTestsuite(object):
         )
         self.add_options()
 
-        self.report_writer = ReportWriter(self.working_dir, self.colors)
-
     def testsuite_main(self, args=None):
         """Run the testsuite.
 
@@ -231,7 +242,11 @@ class BaseTestsuite(object):
         list. Otherwise, use sys.argv instead.
         """
         self.args = self.arg_parser.parse_args(args)
+
         self.global_env['options'] = self.args
+        self.report_writer = ReportWriter(
+            self.working_dir, self.colors, self.args.show_error_output
+        )
 
         if self.args.enable_color:
             self.colors.enable()

@@ -15,6 +15,9 @@
 import sys
 import os
 
+# We want langkit in the path for the doc generation
+sys.path.append(os.path.abspath('..'))
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -339,3 +342,6 @@ epub_exclude_files = ['search.html']
 # Include TODOs in the output. This should probably be set to False when
 # rendering public documentation.
 todo_include_todos = True
+
+# Generate documentation for __init__ methods
+autoclass_content = 'both'

@@ -14,6 +14,7 @@ Contents:
    introduction
    tutorial
    extension_points
+   api_documentation
 
 
 Indices and tables

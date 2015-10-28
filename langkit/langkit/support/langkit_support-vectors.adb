@@ -114,6 +114,26 @@ package body Langkit_Support.Vectors is
       Self.Size := 0;
    end Clear;
 
+   ---------
+   -- Pop --
+   ---------
+
+   function Pop (Self : in out Vector) return Element_Type is
+   begin
+      Self.Size := Self.Size - 1;
+      return Get (Self, Self.Size);
+   end Pop;
+
+   ---------
+   -- Pop --
+   ---------
+
+   procedure Pop (Self : in out Vector) is
+      Discard : Element_Type := Pop (Self);
+   begin
+      null;
+   end Pop;
+
    ------------------
    -- Last_Element --
    ------------------

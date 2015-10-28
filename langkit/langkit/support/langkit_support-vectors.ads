@@ -30,6 +30,8 @@ package Langkit_Support.Vectors is
         Has_Element => Has_Element,
         Element     => Get);
 
+   Empty_Vector : constant Vector;
+
    type Element_Access is not null access all Element_Type;
 
    procedure Append (Self : in out Vector; Element : Element_Type)
@@ -84,6 +86,14 @@ package Langkit_Support.Vectors is
    --  Given a vector and an index, return the next index. Only used for the
    --  iterable aspect
 
+   function Pop (Self : in out Vector) return Element_Type
+     with Pre => Length (Self) > 0;
+   --  Pop the last element from vector and return it
+
+   procedure Pop (Self : in out Vector)
+     with Pre => Length (Self) > 0;
+   --  Pop the last element from vector
+
    function Has_Element (Self : Vector; N : Natural) return Boolean
      with Inline_Always;
    --  Given a vector and an index, return True if the index is in the vector
@@ -124,6 +134,8 @@ private
       Capacity : Natural := Small_Vector_Capacity;
       SV       : Small_Array_Type;
    end record;
+
+   Empty_Vector : constant Vector := (E => null, Size => 0, others => <>);
 
    procedure Reserve (Self : in out Vector; Capacity : Positive)
      with Inline_Always;

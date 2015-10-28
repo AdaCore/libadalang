@@ -1,6 +1,7 @@
 from language.parser import A
 from langkit.parsers import Opt, List, Or, Row, Null, Enum
 from langkit.compiled_types import Field, abstract, EnumType
+from langkit.expressions import Property, Self
 from . import AdaNode
 
 
@@ -184,9 +185,13 @@ class InterfaceTypeDef(TypeDef):
 
 
 class SubtypeDecl(AdaNode):
+    # Fields
     id = Field()
     type_expr = Field()
     aspects = Field()
+
+    # Properties
+    name = Property(Self.id)
 
 
 class TaskDef(AdaNode):

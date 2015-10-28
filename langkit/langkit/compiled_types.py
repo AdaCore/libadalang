@@ -7,6 +7,8 @@ from template_utils import TemplateEnvironment, common_renderer
 from utils import memoized, type_check
 from python_api import PythonAPIType
 from compile_context import get_context
+from collections import OrderedDict
+from expressions import Property
 
 
 class GeneratedFunction(object):
@@ -270,24 +272,31 @@ class AstNodeMetaclass(type):
         assert len(bases) == 1, (
             "Multiple inheritance for AST nodes is not supported")
 
-        fields = []
-        fields_names = []
+        # Gather the fields in a dictionary
+        fields = OrderedDict(sorted(
+            ((f_n, f_v)
+             for f_n, f_v in dct.items() if isinstance(f_v, Field)),
+            # Recover the order of field declarations.  See the Field
+            # class definition for more details.
+            key=lambda (_, f): f._index
+        ))
 
-        # Associate a name to all fields and collect them into `field`...
-        for fld_name, fld_value in dct.items():
-            if isinstance(fld_value, Field):
-                fld_value.name = names.Name.from_lower(fld_name)
-                fields.append(fld_value)
-                fields_names.append(fld_name)
+        # Gather the properties in a dictionary
+        properties = OrderedDict(sorted(
+            [(f_n, f_v) for f_n, f_v in dct.items()
+             if isinstance(f_v, Property)],
+            key=lambda (n, v): n
+        ))
 
-        # ... and then remove them as class members: we want them to be
-        # stored in a single class member: the "field" one, being a list.
-        for field, field_name in zip(fields, fields_names):
+        for field_name, field in fields.items() + properties.items():
+            # Remove fields/props as class members: we want them to be
+            # stored in their own dicts
             dct.pop(field_name)
+            # Store the name of the field in the field
+            field.name = names.Name.from_lower(field_name)
 
-        # Hack to recover the order of field declarations.  See the Field class
-        # definition for more details.
-        dct['_fields'] = sorted(fields, key=lambda f: f._index)
+        dct['_fields'] = fields
+        dct['_properties'] = properties
 
         # By default, ASTNode subtypes aren't abstract.
         dct['abstract'] = False
@@ -296,7 +305,7 @@ class AstNodeMetaclass(type):
         cls = type.__new__(mcs, name, bases, dct)
 
         # Associate each field to this ASTNode subclass.
-        for field in fields:
+        for field in fields.values():
             field.ast_node = cls
 
         return cls
@@ -345,6 +354,11 @@ class ASTNode(CompiledType):
 
     _fields = []
     __metaclass__ = AstNodeMetaclass
+
+    @classmethod
+    def compute_properties(cls):
+        for p in cls._properties.values():
+            p.render(cls)
 
     @classmethod
     def create_type_definition(cls):
@@ -396,9 +410,9 @@ class ASTNode(CompiledType):
         if include_inherited:
             fields = []
             for base_class in cls.get_inheritance_chain():
-                fields.extend(base_class._fields)
+                fields.extend(base_class._fields.values())
         else:
-            fields = cls._fields
+            fields = cls._fields.values()
         return filter(predicate or (lambda f: True), fields)
 
     @classmethod
@@ -413,6 +427,7 @@ class ASTNode(CompiledType):
                 base_class.add_to_context()
 
             get_context().types.add(cls)
+            cls.compute_properties()
             cls.create_type_definition()
 
             # Generate field accessors (C public API) for this node kind

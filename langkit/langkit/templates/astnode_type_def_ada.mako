@@ -54,6 +54,10 @@
          (Node : ${cls.name()}) return ${decl_type(field.type)};
    % endfor
 
+   % for prop in cls._properties.values():
+   ${prop.prop_decl}
+   % endfor
+
 % else:
    <%
       fields = cls.get_fields(include_inherited=False)

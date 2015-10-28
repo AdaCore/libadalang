@@ -250,3 +250,7 @@ type_name = '{}_Type'.format(cls.name())
       return ${decl_type(field.type)} (${type_name} (Node.all).${field.name});
    end ${field.name};
 % endfor
+
+% for prop in cls._properties.values():
+${prop.prop_def}
+% endfor

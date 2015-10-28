@@ -67,6 +67,10 @@ class Colors:
     ENDC = '\033[0m'
 
 
+def col(msg, color):
+    return "{0}{1}{2}".format(color, msg, Colors.ENDC)
+
+
 def printcol(msg, color):
     """
     Utility print function that will print `msg` in color `color`
@@ -76,7 +80,7 @@ def printcol(msg, color):
     :return: The color-escaped string, resetting the color to blank at the end
     :rtype: basestring
     """
-    print "{0}{1}{2}".format(color, msg, Colors.ENDC)
+    print col(msg, color)
 
 
 def common_ancestor(*classes):

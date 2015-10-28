@@ -13,7 +13,7 @@ Contents:
 
    introduction
    tutorial
-
+   extension_points
 
 
 Indices and tables

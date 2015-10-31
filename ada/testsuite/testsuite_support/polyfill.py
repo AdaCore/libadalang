@@ -9,12 +9,15 @@ GNATpython itself (hence the "polyfill" name).
 import argparse
 import collections
 import difflib
+from itertools import imap
+from functools import partial
 import os.path
 import shutil
 import subprocess
 import sys
-
 import yaml
+
+from parallel_map import pmap
 
 
 class _Main(object):
@@ -228,6 +231,19 @@ class BaseTestsuite(object):
             '--show-error-output', action='store_true',
             help='Show diff for test failure'
         )
+
+        # Try to get a sane default for the cpu count.
+        try:
+            import multiprocessing
+            cpu_count = multiprocessing.cpu_count()
+        except Exception:
+            cpu_count = 1
+
+        self.arg_parser.add_argument(
+            '--jobs', '-j', type=int, default=cpu_count,
+            help='Number of parallel jobs to be used for testing'
+        )
+
         self.arg_parser.add_argument(
             'testcases', nargs='*',
             help='The list of testcases to run. Run everything is none is'
@@ -254,9 +270,14 @@ class BaseTestsuite(object):
             self.colors.disable()
 
         self.tear_up()
+
+        # We'll use regular map if there's only one job
+        map_fn = (imap if self.args.jobs == 1
+                  else partial(pmap, nb_threads=self.args.jobs))
+
         try:
-            for test_dir in self._iter_testcases():
-                self._run_testcase(test_dir)
+            for r in map_fn(self._run_testcase, self._iter_testcases()):
+                self.report_writer.write(*r)
         except KeyboardInterrupt:
             sys.stderr.write('{}Aborting after keyboard interrupt{}\n'.format(
                 self.colors.bold + self.colors.red,
@@ -320,7 +341,8 @@ class BaseTestsuite(object):
             output = testcase.result.actual_output
         else:
             output = None
-        self.report_writer.write(test_name, status, message, test_data, output)
+
+        return test_name, status, message, test_data, output
 
     def _iter_testcases(self):
         """Yield subdirectory paths for testcases."""

@@ -91,12 +91,8 @@ def get_cpu_count():
     # give up on default parallelism on these platforms.
     try:
         import multiprocessing
-    except ImportError:
-        return 1
-
-    try:
         return multiprocessing.cpu_count()
-    except NotImplementedError:
+    except (ImportError, NotImplementedError):
         return 1
 
 

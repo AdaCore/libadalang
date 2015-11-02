@@ -27,7 +27,7 @@ print_sloc_range(ada_source_location_range *sr)
 }
 
 static void
-dump(ada_node node, int level)
+dump(ada_base_node node, int level)
 {
     ada_node_kind_enum kind;
     ada_text kind_name;
@@ -49,7 +49,7 @@ dump(ada_node node, int level)
     count = ada_node_child_count(node);
     for (i = 0; i < count; ++i)
     {
-        ada_node child;
+        ada_base_node child;
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");

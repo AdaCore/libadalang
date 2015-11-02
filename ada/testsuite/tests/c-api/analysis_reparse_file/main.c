@@ -37,8 +37,8 @@ void write_source(const char *src_buffer)
 
 void check(ada_analysis_unit unit)
 {
-    ada_node ast_root;
-    ada_node prelude_list, with_decl;
+    ada_base_node ast_root;
+    ada_base_node prelude_list, with_decl;
     int is_limited;
 
     if (unit == NULL)

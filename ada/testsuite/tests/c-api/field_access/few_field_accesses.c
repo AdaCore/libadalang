@@ -18,8 +18,8 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_node with_decl, subp_body, subp_name;
-    ada_node tmp;
+    ada_base_node with_decl, subp_body, subp_name;
+    ada_base_node tmp;
 
     int is_limited, is_private;
     ada_overriding overriding;

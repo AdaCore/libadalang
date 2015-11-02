@@ -33,7 +33,7 @@ error(const char *msg)
 
 void check(ada_analysis_unit unit)
 {
-    ada_node prelude_list, with_decl;
+    ada_base_node prelude_list, with_decl;
     int is_limited;
 
     if (unit == NULL)

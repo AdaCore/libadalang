@@ -25,7 +25,13 @@ class Manage(ManageScript):
             'test', help=self.do_test.__doc__
         )
         test_parser.add_argument(
-            '--without-gnatpython', '-G', action='store_true',
+            '--with-gnatpython', '-g', action='store_true',
+            dest='with_gnatpython', default=True,
+            help='Try to use GNATpython in the testsuite'
+        )
+        test_parser.add_argument(
+            '--without-gnatpython', '-G', action='store_false',
+            dest='with_gnatpython',
             help='Do not use GNATpython in the testsuite'
         )
         test_parser.add_argument(
@@ -87,7 +93,7 @@ class Manage(ManageScript):
         # Make builds available from testcases
         env = self.derived_env()
 
-        if args.without_gnatpython:
+        if not args.with_gnatpython:
             env['WITHOUT_GNATPYTHON'] = '1'
 
         argv = [

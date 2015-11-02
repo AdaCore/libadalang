@@ -92,7 +92,7 @@ class ReportWriter(object):
         self.colors = colors
         self.show_error_output = show_error_output
         self.summary_file = open(os.path.join(self.report_dir, 'results'), 'w')
-        self.hits = collections.defaultdict(lambda: 0)
+        self.hits = collections.defaultdict(int)
 
     def get_color(self, status):
         """Return the color escape sequence corresponding to a status.
@@ -225,6 +225,7 @@ class BaseTestsuite(object):
         self.main = _Main(self.arg_parser.add_argument)
         self.arg_parser.add_argument(
             '--enable-color', action='store_true',
+            default=os.isatty(sys.stdout.fileno()),
             help='Enable colored console output'
         )
         self.arg_parser.add_argument(

@@ -69,7 +69,7 @@ class BaseDriver(TestDriver):
     def tear_up(self):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
-        self.valgrind = (Valgrind(self.working_dir())
+        self.valgrind = (Valgrind(self.testsuite_dir, self.working_dir())
                          if self.global_env['options'].valgrind else None)
         self.valgrind_errors = []
 

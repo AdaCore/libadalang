@@ -12,7 +12,8 @@ class Valgrind(object):
     Helper to wrap the logic of memory checking using Valgrind.
     """
 
-    def __init__(self, tmp_dir):
+    def __init__(self, testsuite_dir, tmp_dir):
+        self.testsuite_dir = testsuite_dir
         self.tmp_dir = tmp_dir
 
     @property
@@ -22,6 +23,9 @@ class Valgrind(object):
     def wrap_argv(self, argv):
         return ['valgrind', '--xml=yes',
                 '--xml-file={}'.format(self.report_file),
+                '--suppressions={}'.format(os.path.join(
+                    self.testsuite_dir, 'valgrind-suppressions.txt',
+                )),
                 '--leak-check=full'] + argv
 
     def parse_report(self):

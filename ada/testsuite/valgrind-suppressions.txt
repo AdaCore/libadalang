@@ -1,0 +1,12 @@
+# In the GNAT runtime, the secondary stack management system allocates chunks
+# with maximum alignment. As a result, code handles pointers inside the blocks
+# allocated by malloc, so we have these "possible leaks". These are really
+# false-positive leaks.
+{
+   ada_secondary_stack_allocation
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:__gnat_malloc
+   fun:system__secondary_stack__ss_allocate
+}

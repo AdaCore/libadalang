@@ -2,8 +2,8 @@
 
 """Setup configuration file for the Langkit framework."""
 
-import os
 from distutils.core import setup
+import os
 
 
 ROOT_DIR = os.path.dirname(__file__)

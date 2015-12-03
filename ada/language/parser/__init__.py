@@ -1,5 +1,5 @@
-from langkit.parsers import Grammar
 from langkit.compiled_types import abstract, ASTNode
+from langkit.parsers import Grammar
 
 ada_grammar = Grammar()
 A = ada_grammar
@@ -26,10 +26,12 @@ class AdaNode(ASTNode):
 # delete the module. This way we know that we only import them for side
 # effects: the grammar is extended by every imported module.
 from language.parser import A
-import language.parser.decl
-import language.parser.types
-import language.parser.exprs
+
 import language.parser.bodies
+import language.parser.decl
+import language.parser.exprs
+import language.parser.types
+
 from language.parser.lexer import ada_lexer
 del language
 

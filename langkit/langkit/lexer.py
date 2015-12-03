@@ -1,7 +1,8 @@
 from collections import defaultdict
 from itertools import count
-from template_utils import common_renderer
+
 from common import TOKEN_PREFIX
+from template_utils import common_renderer
 
 
 class Matcher(object):

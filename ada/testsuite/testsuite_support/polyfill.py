@@ -9,8 +9,8 @@ GNATpython itself (hence the "polyfill" name).
 import argparse
 import collections
 import difflib
-from itertools import imap
 from functools import partial
+from itertools import imap
 import os.path
 import shutil
 import subprocess

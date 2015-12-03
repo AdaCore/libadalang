@@ -1,8 +1,8 @@
-from language.parser import A
-from langkit.parsers import Opt, List, Or, Row, Null, Enum
 from langkit.compiled_types import Field, abstract, EnumType
 from langkit.expressions import Property, Self
-from . import AdaNode
+from langkit.parsers import Opt, List, Or, Row, Null, Enum
+
+from language.parser import A, AdaNode
 
 
 class DiscriminantSpec(AdaNode):

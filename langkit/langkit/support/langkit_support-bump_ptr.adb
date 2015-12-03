@@ -1,7 +1,7 @@
 with Ada.Unchecked_Conversion;
-with System.Memory; use System.Memory;
-with System; use System;
 with Ada.Unchecked_Deallocation;
+with System; use System;
+with System.Memory; use System.Memory;
 
 package body Langkit_Support.Bump_Ptr is
 

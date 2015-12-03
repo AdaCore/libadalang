@@ -1,6 +1,7 @@
-with Ada.Unchecked_Deallocation;
 with Ada.Unchecked_Conversion;
+with Ada.Unchecked_Deallocation;
 with System;
+
 with Langkit_Support.Array_Utils;
 
 --  This package implements a very simple Vector type. It has the following

@@ -1,7 +1,8 @@
 with System;
-with Langkit_Support.Vectors;
 with System.Storage_Elements; use System.Storage_Elements;
 with System.Storage_Pools.Subpools; use System.Storage_Pools.Subpools;
+
+with Langkit_Support.Vectors;
 
 --  This package provides a pool allocator that is based on the bump pointer
 --  allocation strategy. The principle is that each allocation just triggers an

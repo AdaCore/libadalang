@@ -2,8 +2,8 @@ from os import path
 import sys
 
 import mako.exceptions
-from mako.template import Template
 from mako.lookup import TemplateLookup
+from mako.template import Template
 
 from common import string_repr, get_type, null_constant
 import names

@@ -1,9 +1,9 @@
 with System;
 
 with Langkit_Support.Extensions; use Langkit_Support.Extensions;
-with Langkit_Support.Tokens;     use Langkit_Support.Tokens;
 with Langkit_Support.Token_Data_Handler;
 use Langkit_Support.Token_Data_Handler;
+with Langkit_Support.Tokens;     use Langkit_Support.Tokens;
 with Langkit_Support.Vectors;
 
 package Langkit_Support.AST is

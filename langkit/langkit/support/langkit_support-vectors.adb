@@ -1,5 +1,4 @@
-with System; use type System.Address;
-use System;
+with System;        use System;
 with System.Memory; use System.Memory;
 
 -----------------------------

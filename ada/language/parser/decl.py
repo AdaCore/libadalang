@@ -1,7 +1,7 @@
-from language.parser import A
-from langkit.parsers import Opt, List, Or, Row, _, Enum
 from langkit.compiled_types import Field, EnumType, abstract
-from . import AdaNode
+from langkit.parsers import Opt, List, Or, Row, _, Enum
+
+from language.parser import A, AdaNode
 
 
 class WithDecl(AdaNode):

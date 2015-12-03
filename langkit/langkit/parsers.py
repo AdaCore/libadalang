@@ -24,15 +24,16 @@ from copy import copy
 import inspect
 from itertools import chain
 
-import compiled_types
-from compiled_types import CompiledType, BoolType, LongType, \
-    Token, ASTNode, list_type, decl_type
 from common import gen_name, gen_names
+from compile_context import get_context
+import compiled_types
+from compiled_types import (
+    CompiledType, BoolType, LongType, Token, ASTNode, list_type, decl_type
+)
 import names
 from template_utils import TemplateEnvironment
 from utils import (Colors, common_ancestor, copy_with, printcol,
                    type_check_instance)
-from compile_context import get_context
 
 
 class GeneratedParser(object):

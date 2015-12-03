@@ -78,8 +78,8 @@ class Token(LexerToken):
 
 
 PARSER_TEMPLATE = '''\
-from langkit.parsers import Grammar, Row
 from langkit.compiled_types import ASTNode
+from langkit.parsers import Grammar, Row
 
 class ExampleNode(ASTNode):
     pass

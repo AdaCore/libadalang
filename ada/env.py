@@ -1,5 +1,5 @@
-import sys
 from os import path
+import sys
 
 
 def setenv():

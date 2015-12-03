@@ -12,8 +12,8 @@ notably to define properties on AST nodes.
 """
 
 from contextlib import contextmanager
-from utils import Colors, col
 import names
+from utils import Colors, col
 
 
 class Frozable(object):

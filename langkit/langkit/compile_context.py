@@ -10,15 +10,15 @@ this is the way it is done for the ada language::
     context.emit(...)
 """
 from collections import defaultdict
-from glob import glob
 from distutils.spawn import find_executable
+from glob import glob
 import itertools
 import names
 import os
 from os import path, environ
 import shutil
-import sys
 import subprocess
+import sys
 
 from ada_api import AdaAPISettings
 from c_api import CAPISettings

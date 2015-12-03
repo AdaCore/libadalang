@@ -1,11 +1,11 @@
 import argparse
 import glob
+import inspect
 import os.path
 import pipes
 import shutil
 import subprocess
 import sys
-import inspect
 
 from langkit.utils import Colors, printcol
 

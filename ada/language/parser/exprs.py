@@ -1,7 +1,7 @@
-from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 from langkit.compiled_types import Field, abstract, EnumType
-from language.parser import A
-from . import AdaNode
+from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
+
+from language.parser import A, AdaNode
 from language.parser.lexer import Token
 
 

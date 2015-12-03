@@ -6,8 +6,8 @@ import subprocess
 with_gnatpython = False
 if not os.environ.get('WITHOUT_GNATPYTHON'):
     try:
-        from gnatpython.ex import Run, STDOUT
         from gnatpython import fileutils
+        from gnatpython.ex import Run, STDOUT
         from gnatpython.testsuite.driver import TestDriver
     except ImportError:
         pass

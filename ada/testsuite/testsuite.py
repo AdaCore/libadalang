@@ -8,8 +8,9 @@ Usage::
 Run the Libadalang testsuite.
 """
 
-from testsuite_support import Testsuite
 import os
+
+from testsuite_support import Testsuite
 
 
 if __name__ == '__main__':

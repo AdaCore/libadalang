@@ -1,9 +1,9 @@
-from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
 from langkit.compiled_types import Field, abstract
+from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
+
+from language.parser import A, AdaNode
 from language.parser.exprs import LoopSpec, Expr
-from language.parser import A
 from language.parser.lexer import Token
-from . import AdaNode
 
 
 class CompilationUnit(AdaNode):

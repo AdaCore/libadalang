@@ -1,14 +1,14 @@
+from collections import OrderedDict
 from itertools import count
 
 from c_api import CAPIType
 from common import get_type, null_constant, is_keyword
+from compile_context import get_context
+from expressions import Property
 import names
+from python_api import PythonAPIType
 from template_utils import TemplateEnvironment, common_renderer
 from utils import memoized, type_check
-from python_api import PythonAPIType
-from compile_context import get_context
-from collections import OrderedDict
-from expressions import Property
 
 
 class GeneratedFunction(object):

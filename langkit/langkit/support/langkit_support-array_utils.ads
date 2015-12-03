@@ -27,27 +27,27 @@
 --  transformations (filters for example), and, thanks to Ada's secondary stack
 --  based arrays, can be much faster than the dynamic vector counterpart.
 --
---  For example, given the following imperative code:
+--  For example, given the following imperative code::
 --
---  Input  : Vector;
---  Output : Vector;
+--     Input  : Vector;
+--     Output : Vector;
 --
---  for El of Input loop
---     if Predicate (El) then
---        Output.Append (El);
---     end if;
---  end loop;
+--     for El of Input loop
+--        if Predicate (El) then
+--           Output.Append (El);
+--        end if;
+--     end loop;
 --
---  You could do the same thing in a functional way with this module, like so:
+--  You could do the same thing in a functional way with this module, like so::
 --
---  Input  : Array_Type;
---  Output : Array_Type := Filter (Input, Predicate'Access)
+--     Input  : Array_Type;
+--     Output : Array_Type := Filter (Input, Predicate'Access)
 --
 --  The module generally provides two ways to use a higher order primitive:
 --
 --  1. The first is by using the dynamic version of the primitive, that takes
 --     an access to the subprogram(s) it is going to need. For filter, it will
---     be the Filter primitive;
+--     be the Filter primitive.
 --
 --  2. The second is to use the generic version of the primitive, that will
 --     take the subprograms as generic parameters. Those versions end with the

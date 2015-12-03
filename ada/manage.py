@@ -118,7 +118,7 @@ class Manage(ManageScript):
     @staticmethod
     def _mkdir(path):
         """
-        Create a new directory at `path` if it does not exist
+        Create a new directory at `path` if it does not exist.
 
         :param path: the path to the new directory
         :type path: str
@@ -134,7 +134,7 @@ class Manage(ManageScript):
     @staticmethod
     def _find_ada_sources(work_dir):
         """
-        Return the list of .adb and .ads files in `work_dir`
+        Return the list of .adb and .ads files in `work_dir`.
 
         :param work_dir: the directory in which to search for ada sources
         :type work_dir: str
@@ -150,7 +150,7 @@ class Manage(ManageScript):
 
     def do_perf_test(self, args):
         """
-        Run the performance regression testsuite
+        Run the performance regression testsuite.
         """
         from time import time
 
@@ -162,7 +162,7 @@ class Manage(ManageScript):
 
         if not args.no_recompile:
             # Build libadalang in production mode inside of the perf testsuite
-            # directory
+            # directory.
             args.build_dir = os.path.join(work_dir, 'build')
             self.dirs.set_build_dir(args.build_dir)
             args.build_mode = 'prod'
@@ -187,7 +187,7 @@ class Manage(ManageScript):
         # Make a list of every ada file
 
         # Exclude some files that are contained here but that we do not parse
-        # correctly
+        # correctly.
         excluded_patterns = ['@', 'a-numeri', 'rad-project']
         ada_files = filter(
             lambda f: all(map(lambda p: p not in f, excluded_patterns)),

@@ -106,7 +106,7 @@ package body ${_self.ada_api_settings.lib_name}.Parsers is
       then
          --  If the fail pos is the current position of the parser, it means
          --  that the longest parse is the correct result, and that we have
-         --  some garbage afterwards
+         --  some garbage afterwards.
          if Parser.Current_Pos = Parser.Last_Fail.Pos then
             declare
                First_Garbage_Token : Token renames

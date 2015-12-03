@@ -21,6 +21,6 @@ package Langkit_Support.Extensions is
    --  always returns different IDs for different strings).
 
    function Has_Extensions return Boolean;
-   --  Return whether at least one extension was registered.
+   --  Return whether at least one extension was registered
 
 end Langkit_Support.Extensions;

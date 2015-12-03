@@ -85,8 +85,8 @@ package Langkit_Support.AST is
    --  Return the children of this node interleaved with Trivia token nodes, so
    --  that:
    --  - Every trivia contained between Node.Start_Token and Node.End_Token - 1
-   --    will be part of the returned array
-   --  - Nodes and trivias will be lexically ordered
+   --    will be part of the returned array;
+   --  - Nodes and trivias will be lexically ordered.
 
    procedure PP_Trivia (Node : AST_Node; Level : Integer := 0);
 
@@ -114,11 +114,11 @@ package Langkit_Support.AST is
      (Node  : AST_Node;
       Visit : access function (Node : AST_Node) return Visit_Status);
    --  This is the same as Traverse function except that no result is returned
-   --  i.e. the Traverse function is called and the result is simply discarded
+   --  i.e. the Traverse function is called and the result is simply discarded.
 
    procedure Validate (Node   : access AST_Node_Type;
                        Parent : AST_Node := null) is abstract;
-   --  Perform consistency checks on Node. Check that Parent is Node's parent.
+   --  Perform consistency checks on Node. Check that Parent is Node's parent
 
    procedure Print (Node  : access AST_Node_Type;
                     Level : Natural := 0) is abstract;

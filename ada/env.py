@@ -4,7 +4,7 @@ from os import path
 
 def setenv():
     """
-    Sets the python environment so that we have access to the code generator
+    Sets the python environment so that we have access to the code generator.
     """
     current_dir = path.dirname(path.abspath(__file__))
     # TODO: We actually extend the environment so that ada has access to

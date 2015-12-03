@@ -1,9 +1,7 @@
 """
-Langkit: utils.py
-
 This file contains general utility functions. It is basically the support
 library for langkit, aggregating general python utilities that we could not
-find in the standard library
+find in the standard library.
 """
 from copy import copy
 from itertools import takewhile
@@ -30,7 +28,7 @@ class StructEq(object):
 
 def unescape(char):
     """
-    Unescape char if it is escaped
+    Unescape char if it is escaped.
 
     :param str char: An eventually escaped character
     :rtype: str
@@ -42,7 +40,7 @@ def unescape(char):
 
 def copy_with(obj, **kwargs):
     """
-    Copy an object, and add every key value association passed in kwargs to it
+    Copy an object, and add every key value association passed in kwargs to it.
 
     :type obj: T
     :rtype: T
@@ -57,7 +55,7 @@ def copy_with(obj, **kwargs):
 
 class Colors:
     """
-    Utility escape sequences to color output in terminal
+    Utility escape sequences to color output in terminal.
     """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -73,11 +71,11 @@ def col(msg, color):
 
 def printcol(msg, color):
     """
-    Utility print function that will print `msg` in color `color`
-    :param basestring msg: The message to print
+    Utility print function that will print `msg` in color `color`.
+    :param basestring msg: The message to print.
     :param basestring color: The color escape sequence from the enum class
-        Colors which represents the color to use
-    :return: The color-escaped string, resetting the color to blank at the end
+        Colors which represents the color to use.
+    :return: The color-escaped string, resetting the color to blank at the end.
     :rtype: basestring
     """
     print col(msg, color)
@@ -87,7 +85,7 @@ def common_ancestor(*classes):
     """
     Return the bottom-most common parent class for all `classes`.
 
-    :param classes: The classes for which we are searching a common ancestor
+    :param classes: The classes for which we are searching a common ancestor.
     :type classes: list[types.ClassType]
     :rtype: types.ClassType
     """
@@ -120,8 +118,8 @@ def memoized(func):
 def type_check(klass):
     """
     Return a predicate that will return true if its parameter is a subclass
-    of `klass`
-    :param type klass: Class to check against
+    of `klass`.
+    :param type klass: Class to check against.
     :rtype: (T) -> bool
     """
     return lambda t: t and issubclass(t, klass)
@@ -130,8 +128,8 @@ def type_check(klass):
 def type_check_instance(klass):
     """
     Return a predicate that will return true if its parameter is a subclass
-    of `klass`
-    :param type klass: Class to check against
+    of `klass`.
+    :param type klass: Class to check against.
     :rtype: (T) -> bool
     """
     return lambda t: isinstance(t, klass)

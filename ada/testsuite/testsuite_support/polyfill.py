@@ -1,5 +1,5 @@
 """
-Provide in-place substitutes for our GNATpython-based testsuite
+Provide in-place substitutes for our GNATpython-based testsuite.
 
 This modules provides various items that are compatible with GNATpython in
 order to make it possible to run our GNATpython-based testsuite without
@@ -22,7 +22,7 @@ from parallel_map import pmap
 
 class _Main(object):
 
-    """Dummy class for the BaseTestsuite.main attribute"""
+    """Dummy class for the BaseTestsuite.main attribute."""
 
     def __init__(self, add_option):
         self.add_option = add_option
@@ -30,7 +30,7 @@ class _Main(object):
 
 class Colors(object):
 
-    """Console colors handling
+    """Console colors handling.
 
     This class simplifies the integration of console escape sequences in output
     strings. It also make it possible to transparently disable colored outputs.
@@ -55,19 +55,19 @@ class Colors(object):
         self.disable()
 
     def enable(self):
-        """Enable colored output"""
+        """Enable colored output."""
         for color, seq in self.basic_colors.iteritems():
             setattr(self, color, seq)
 
     def disable(self):
-        """Disable colored output"""
+        """Disable colored output."""
         for color, seq in self.basic_colors.iteritems():
             setattr(self, color, '')
 
 
 class ReportWriter(object):
 
-    """Write report to files and standard output"""
+    """Write report to files and standard output."""
 
     status_to_color = {
         'OK':      'green',
@@ -176,11 +176,8 @@ class BaseTestsuite(object):
     In order to create a testsuite:
 
       * subclass it;
-
-      * override the TEST_SUBDIR and DRIVERS class attributes.
-
+      * override the TEST_SUBDIR and DRIVERS class attributes;
       * override its hooks depending on your needs;
-
       * instantiate it and run the testsuite_main method.
     """
 
@@ -211,7 +208,7 @@ class BaseTestsuite(object):
         if not os.path.isdir(self.working_dir):
             os.mkdir(self.working_dir)
 
-        # This will be available to both subclasses and TestDriver instances.
+        # This will be available to both subclasses and TestDriver instances
         self.global_env = {
             'working_dir': self.working_dir,
             'options': None,  # testsuite_main will put parsed arguments there
@@ -233,7 +230,7 @@ class BaseTestsuite(object):
             help='Show diff for test failure'
         )
 
-        # Try to get a sane default for the cpu count.
+        # Try to get a sane default for the cpu count
         try:
             import multiprocessing
             cpu_count = multiprocessing.cpu_count()

@@ -138,7 +138,7 @@ class BaseDriver(TestDriver):
     def working_dir(self, *args):
         """
         Return the working dir, plus any path elements joined to it if passed
-        in *args
+        in *args.
         """
         return os.path.join(self.global_env['working_dir'],
                             self.test_env['test_name'], *args)
@@ -173,7 +173,7 @@ class BaseDriver(TestDriver):
 
     def check_file(self, filename):
         """
-        Check file presence
+        Check file presence.
 
         If the file does not exist test is aborted.
         """
@@ -181,7 +181,7 @@ class BaseDriver(TestDriver):
             raise SetupError('Missing mandatory file: {}'.format(filename))
 
     def check_file_list(self, what, file_list, can_be_empty=True):
-        """Raise a SetupError if `file_list` is not a list of existing files
+        """Raise a SetupError if `file_list` is not a list of existing files.
 
         Also raise an error if it is an empty list while `can_be_empty` is
         False.
@@ -213,7 +213,7 @@ class BaseDriver(TestDriver):
 
     def run_and_check(self, argv, for_debug=False, memcheck=False):
         """
-        Run a subprocess with `argv` and check it completes with status code 0
+        Run a subprocess with `argv` and check it completes with status code 0.
 
         If `for_debug` is True, then the program is run under GDB if asked to
         in the main testsuite driver. For GDB runs, the test is automatically
@@ -269,7 +269,7 @@ class BaseDriver(TestDriver):
         rewrite = self.global_env['options'].rewrite
         failures = []
 
-        # Check for the test output itself.
+        # Check for the test output itself
         diff = fileutils.diff(self.expected_file, self.output_file,
                               ignore_white_chars=False)
         if diff:
@@ -282,7 +282,7 @@ class BaseDriver(TestDriver):
                 ' (baseline updated)' if rewrite else ''
             ))
 
-        # Check memory issues if asked to.
+        # Check memory issues if asked to
         if self.valgrind_errors:
             self.result.actual_output += (
                 'Valgrind reported the following errors:\n{}'.format(

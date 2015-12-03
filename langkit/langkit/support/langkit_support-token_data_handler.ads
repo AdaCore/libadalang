@@ -21,7 +21,7 @@ package Langkit_Support.Token_Data_Handler is
       T        : Token;
       Has_Next : Boolean;
    end record;
-   --  This defines a node in a trivia linked list.
+   --  This defines a node in a trivia linked list
 
    package Token_Vectors is new Langkit_Support.Vectors
      (Element_Type => Token);
@@ -39,7 +39,7 @@ package Langkit_Support.Token_Data_Handler is
       Trivias           : Trivia_Vectors.Vector;
       --  Keep the trivias as a contiguous list of trivia nodes. This is
       --  basically a list of linked lists, where you can get the next
-      --  element by querying the next index
+      --  element by querying the next index.
 
       Tokens_To_Trivias : Integer_Vectors.Vector;
       --  This is the correspondence map between regular tokens and trivias

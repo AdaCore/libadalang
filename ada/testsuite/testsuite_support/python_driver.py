@@ -32,7 +32,7 @@ class PythonDriver(BaseDriver):
         self.check_file('test.py')
         self.check_file_list('"input_sources"', input_sources)
 
-        # Make the common Python modules available from the testcase script.
+        # Make the common Python modules available from the testcase script
         try:
             pythonpath = os.environ['PYTHONPATH']
         except KeyError:

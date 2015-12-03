@@ -12,7 +12,7 @@ class Matcher(object):
 
     def render(self, lexer):
         """
-        Render method to be overloaded in subclasses
+        Render method to be overloaded in subclasses.
 
         :param Lexer lexer: The instance of the lexer from which this render
           function has been called.
@@ -29,7 +29,7 @@ class Action(object):
 
     def render(self, lexer):
         """
-        Render method to be overloaded in subclasses
+        Render method to be overloaded in subclasses.
 
         :param Lexer lexer: The instance of the lexer from which this render
           function has been called.
@@ -49,7 +49,7 @@ class TokenAction(Action):
             Keyword = NoText()
     """
     # This counter is used to preserve the order of TokenAction instantiations,
-    # which allows us to get the declaration order of token enum kinds
+    # which allows us to get the declaration order of token enum kinds.
     _counter = iter(count(0))
 
     def __init__(self):
@@ -123,9 +123,9 @@ class WithSymbol(TokenAction):
 class LexerTokenMetaclass(type):
     """
     Internal metaclass for LexerToken. Used to:
-    - Associate names with corresponding token actions
+    - Associate names with corresponding token actions;
     - Allow iteration on the LexerToken class to get back a list of token
-      actions
+      actions.
     """
     def __new__(mcs, name, bases, dct):
         assert len(bases) == 1, (
@@ -157,10 +157,10 @@ class LexerToken(object):
     __metaclass__ = LexerTokenMetaclass
 
     # Built-in termination token. Since it will always be the first token kind,
-    # its value will always be zero
+    # its value will always be zero.
     Termination = NoText()
 
-    # Built-in token to represent a lexing failure.
+    # Built-in token to represent a lexing failure
     LexingFailure = NoText()
 
 
@@ -213,7 +213,7 @@ class Lexer(object):
             (l.patterns.integer, WithText(TokenKind.Number))
         ))
 
-    After that, your lexer is complete ! You can use it in your parser to
+    After that, your lexer is complete! You can use it in your parser to
     generate parse trees.
     """
 
@@ -243,7 +243,7 @@ class Lexer(object):
         self.prefix = TOKEN_PREFIX
 
         # Map from token actions class names to set of token actions with that
-        # class
+        # class.
         self.token_actions = defaultdict(set)
 
         for el in self.tokens_class:
@@ -262,18 +262,19 @@ class Lexer(object):
         named pattern is a pattern that you can refer to through the {}
         notation in another pattern, or directly via the lexer instance::
 
-        l.add_patterns(
-            ('digit', r"[0-9]"),
-            ('integer', r"({digit}(_?{digit})*)"),
-        )
+            l.add_patterns(
+                ('digit', r"[0-9]"),
+                ('integer', r"({digit}(_?{digit})*)"),
+            )
 
-        l.add_rules(
-            (l.patterns.integer, WithText(TokenKind.Number))
-            (Pattern("{integer}(\.{integer})?"), WithText(TokenKind.Number))
-        )
+            l.add_rules(
+                (l.patterns.integer, WithText(TokenKind.Number))
+                (Pattern("{integer}(\.{integer})?"),
+                 WithText(TokenKind.Number))
+            )
 
         Please note that the order of addition matters if you want to refer to
-        patterns in other patterns
+        patterns in other patterns.
 
         :param list[(str, str)] patterns: The list of patterns to add.
         """
@@ -287,7 +288,7 @@ class Lexer(object):
         Add the list of rules to the lexer's internal list of rules. A rule is
         either:
           - A tuple of a Matcher and an Action to execute on this matcher. This
-            is the common case
+            is the common case;
           - An instance of a class derived from `MatcherAssoc`. This is used to
             implement custom matching behaviour, such as in the case of `Case`.
 
@@ -339,7 +340,7 @@ class Lexer(object):
         token enum class, or from it's string representation (case
         insensitive).
 
-        :param Enum|str token: The instance of the token enum class
+        :param Enum|str token: The instance of the token enum class.
         :rtype: str
         """
         if isinstance(token, TokenAction):
@@ -383,10 +384,8 @@ class Pattern(Matcher):
     """
     Matcher. This will match a regular expression like pattern. Since the
     lexer DSL uses Quex underneath, you can find more documentation about
-    the recognized regular expression language here:
-
-       `Quex pattern language
-       <http://quex.sourceforge.net/doc/html/usage/patterns/context-free.html>`_
+    the recognized regular expression language here: `Quex pattern language
+       <http://quex.sourceforge.net/doc/html/usage/patterns/context-free.html>`_.
     """
 
     def __init__(self, pattern):
@@ -526,7 +525,7 @@ class Case(RuleAssoc):
 
     def __init__(self, matcher, *alts):
         # TODO: Add check on the matcher to verify that it is constant length,
-        # eg. No +/* patterns. If possible. Might be hard to verify !
+        # eg. No +/* patterns. If possible. Might be hard to verify!
         super(Case, self).__init__(
             matcher, Case.CaseAction(len(matcher.pattern), *alts)
         )

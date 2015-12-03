@@ -68,7 +68,7 @@ keywords = {
 def string_repr(string):
     """
     Return a representation of string as a literal, usable in the generated
-    code
+    code.
     :param str string: The string to represent
     :return: A string literal representation of string
     """
@@ -78,7 +78,7 @@ def string_repr(string):
 def null_constant():
     """
     Return the applicable representation of the null constant given the
-    chosen global language
+    chosen global language.
 
     :return: The null constant
     :rtype: str
@@ -88,7 +88,7 @@ def null_constant():
 
 def is_keyword(name):
     """
-    Returns wether `name` is a keyword given the chosen global language
+    Returns wether `name` is a keyword given the chosen global language.
 
     :param str|names.Name name: The name we want to test
     :rtype: bool
@@ -103,7 +103,7 @@ __next_ids = defaultdict(lambda: itertools.count(0))
 
 def gen_name(var_name):
     """
-    Generates a unique name from var_name
+    Generates a unique name from var_name.
 
     :param str|names.Name var_name: The base name. If it is a string,
     it needs to be a lower case with underscores string
@@ -149,7 +149,8 @@ basic_types = {
 def get_type(typ):
     """
     Given a base python type, long or bool, will return the representation
-    of that type in the target global language
+    of that type in the target global language.
+
     :param long|bool typ: The type to be represented
     :rtype: str
     """

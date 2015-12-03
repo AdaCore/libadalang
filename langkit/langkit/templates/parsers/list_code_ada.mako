@@ -3,11 +3,11 @@
 --  Start list_code
 
 ## If we accept empty lists, then we never want to return -1 as a position
-## ??? This is weird because:
+## TODO: This is weird because:
 ## 1. With those semantics, list(empty_valid=true) is equivalent to Opt(list),
-##    so it might be better to compile it as such
+##    so it might be better to compile it as such.
 ## 2. An empty list result should probably result in an empty list, not in a
-##    null result
+##    null result.
 % if _self.empty_valid:
     ${pos} := ${pos_name};
 % else:
@@ -29,27 +29,27 @@ loop
 
    ## The revtree option allows to parse a list as a tree of node so that
    ## for example the following rule, given a simple revtree class having
-   ## two fields:
+   ## two fields::
    ##
-   ## List(id, sep=".", revtree=Simple) -> A.B.C.D
+   ##    List(id, sep=".", revtree=Simple) -> A.B.C.D
    ##
-   ## will produce the tree
+   ## will produce the tree::
    ##
-   ## Simple(
-   ##    left  = Simple(
+   ##    Simple(
    ##       left  = Simple(
-   ##          left  = A
-   ##          right = B
+   ##          left  = Simple(
+   ##             left  = A
+   ##             right = B
+   ##          )
+   ##          right = C
    ##       )
-   ##       right = C
+   ##       right = D
    ##    )
-   ##    right = D
-   ## )
    ##
    ## Algorithmically, the process is simple: Everytime you parse a new
    ## result, you create a new node, and store the previous result as the
    ## left field and the new result as the right field. You then store this
-   ## node as the previous result
+   ## node as the previous result.
 
    % if _self.revtree_class:
 
@@ -95,11 +95,11 @@ loop
       end if;
 
    ## This corresponds to the regular case in which a list is parsed and
-   ## stored in a vector of nodes, in a flat fashion
+   ## stored in a vector of nodes, in a flat fashion.
    % else:
 
-      ## Related to ??? above, we create the list lazily only when the first
-      ## result has been parsed
+      ## Related to TODO above, we create the list lazily only when the first
+      ## result has been parsed.
       <% parser_type = decl_type(_self.parser.get_type()) %>
 
       if ${res} = ${_self.get_type().nullexpr()} then
@@ -115,7 +115,7 @@ loop
         (${res}.Vec, ${parser_context.res_var_name});
 
       ## If we are parsing nodes, then set the parent of parsed node to the
-      ## list, and increment its ref count
+      ## list, and increment its ref count.
       % if is_ast_node (_self.parser.get_type()):
          if ${parser_context.res_var_name} /= null then
             ${parser_context.res_var_name}.Parent := AST_Node (${res});
@@ -129,7 +129,7 @@ loop
       if ${sep_context.pos_var_name} /= -1 then
           ${cpos} := ${sep_context.pos_var_name};
       else
-         ## If we didn't successfully parse a separator, exit.
+         ## If we didn't successfully parse a separator, exit
          exit;
       end if;
    % endif

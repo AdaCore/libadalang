@@ -73,10 +73,10 @@ class ParserDriver(BaseDriver):
         try:
             lookups = self.test_env['lookups']
         except KeyError:
-            # Lookups are not required: we just test them if they are present.
+            # Lookups are not required: we just test them if they are present
             return []
 
-        # Check that lookups are sane.
+        # Check that lookups are sane
         for lookup in lookups:
             if (
                 not isinstance(lookup, dict)

@@ -1,6 +1,4 @@
 """
-Langkit: compile_context.py
-
 This file contains the logic for the compilation context for langkit. This is
 the main hook into langkit, insofar as this is the gate through which an
 external language creator will actually trigger the code emission. For example,
@@ -36,7 +34,7 @@ def get_context():
     """
     Returns the current compilation context. Meant to be used by the rest of
     LangKit, in any code that has been called as part of the CompileCtx.emit
-    primitive
+    primitive.
     """
     assert compile_ctx is not None, (
         "Get context has been called in a state in which the compile context"
@@ -72,14 +70,14 @@ def write_ada_file(path, source_kind, qual_name, source):
 
 
 class CompileCtx():
-    """State holder for native code emission"""
+    """State holder for native code emission."""
 
     def __init__(self, lang_name, main_rule_name, lexer, grammar,
                  lib_name=None,
                  c_symbol_prefix=None,
                  enable_python_api=True,
                  verbose=False):
-        """Create a new context for code emission
+        """Create a new context for code emission.
 
         :param str lang_name: string (mixed case and underscore: see
         langkit.names.Name) for the Name of the target language.
@@ -272,7 +270,7 @@ class CompileCtx():
 
         # Only assign types if astnode was not yet typed. In the case where it
         # was already typed, we checked above that the new types were
-        # consistent with the already present ones
+        # consistent with the already present ones.
         if not astnode.is_type_resolved:
             astnode.is_type_resolved = True
             self.astnode_types.append(astnode)
@@ -280,7 +278,7 @@ class CompileCtx():
                 field.type = field_type
 
     def order_astnode_types(self):
-        """Sort the "astnode_types" field"""
+        """Sort the "astnode_types" field."""
         # Sort them in dependency order as required but also then in
         # alphabetical order so that generated declarations are kept in a
         # relatively stable order. This is really useful for debugging
@@ -482,7 +480,7 @@ class CompileCtx():
         self.cache.save()
 
     def emit_c_api(self, src_path, include_path):
-        """Generate header and binding body for the external C API"""
+        """Generate header and binding body for the external C API."""
         def render(template_name):
             return self.render_template(template_name, _self=self)
 
@@ -502,7 +500,7 @@ class CompileCtx():
                            render("c_api/body_ada"))
 
     def emit_python_api(self, python_path):
-        """Generate the Python binding module"""
+        """Generate the Python binding module."""
         module_filename = "{}.py".format(self.python_api_settings.module_name)
 
         # Collect ASTNode subclass declarations preserving "astnode_types"'s
@@ -526,7 +524,7 @@ class CompileCtx():
                 ))
 
     def emit_ast_doc_txt(self, file):
-        """Generate a synthetic text documentation about AST nodes and types
+        """Generate a synthetic text documentation about AST nodes and types.
 
         :param file file: Output file for the documentation
         """
@@ -572,7 +570,7 @@ class CompileCtx():
     def extensions_dir(self):
         """
         Returns the absolute path to the extension dir, if it exists on the
-        disk, or None
+        disk, or None.
         """
         return self._extensions_dir
 
@@ -585,13 +583,13 @@ class CompileCtx():
     def ext(self, *args):
         """
         Return an extension file's absolute path, given strings/names
-        arguments, so that you can do:
+        arguments, so that you can do::
 
-        >>> ext('a', 'b', 'c')
-        $lang_dir/extensions/a/b/c
+            >>> ext('a', 'b', 'c')
+            $lang_dir/extensions/a/b/c
 
         :param [str|names.Name] args: The list of components to constitute the
-                                      extension's path
+                                      extension's path.
 
         :rtype: str
         """

@@ -6,7 +6,7 @@
 ${res} := Get_Token (Parser.TDH.all, ${pos_name});
 
 if ${res}.Id /= ${token_kind} then
-    ## If the result is not the one we expect, set pos to error.
+    ## If the result is not the one we expect, set pos to error
     ${pos} := -1;
 
     ## Document this failure so we can have a diagnostic at the end of parsing
@@ -17,7 +17,7 @@ if ${res}.Id /= ${token_kind} then
     end if;
 else
 ## We don't want to increment the position if we are matching the termination
-## token (eg. the last token in the token stream)
+## token (eg. the last token in the token stream).
 % if token_kind == get_context().lexer.token_name('termination'):
     ${pos} := ${pos_name};
 ## Else increment the current position

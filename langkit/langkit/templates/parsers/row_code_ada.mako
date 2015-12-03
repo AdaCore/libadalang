@@ -5,7 +5,7 @@
 ${pos} := ${pos_name};
 
 ## This is the main body of the row, which is the concatenation of the code for
-## each row part
+## each row part.
 ${body}
 
 <<${exit_label}_0>>

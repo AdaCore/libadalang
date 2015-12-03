@@ -260,7 +260,7 @@ class ManageScript(object):
         if install_dir:
             self.dirs.set_install_dir(install_dir)
 
-        # Compute code coverage in the code generator if asked to.
+        # Compute code coverage in the code generator if asked to
         if parsed_args.func == self.do_generate and parsed_args.coverage:
             try:
                 import coverage
@@ -398,7 +398,7 @@ class ManageScript(object):
         self.setup_environment(add_path)
 
     def do_help(self, args):
-        """Print usage and exit"""
+        """Print usage and exit."""
         self.args_parser.print_help()
 
     def setup_environment(self, add_path):

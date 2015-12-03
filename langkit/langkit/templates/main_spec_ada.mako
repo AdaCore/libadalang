@@ -61,7 +61,7 @@ package ${_self.ada_api_settings.lib_name} is
 
       AST_Mem_Pool    : Bump_Ptr_Pool;
       --  This memory pool shall only be used for AST parsing. Stored here
-      --  because it is more convenient, but one shall not allocate from it 
+      --  because it is more convenient, but one shall not allocate from it.
    end record;
 
    function Create (Charset : String) return Analysis_Context;
@@ -168,7 +168,7 @@ package ${_self.ada_api_settings.lib_name} is
 
    procedure Print (Unit : Analysis_Unit);
    --  Debug helper: output the AST and eventual diagnostic for this unit on
-   --  standard output
+   --  standard output.
 
    procedure PP_Trivia (Unit : Analysis_Unit);
    --  Debug helper: output a minimal AST with mixed trivias

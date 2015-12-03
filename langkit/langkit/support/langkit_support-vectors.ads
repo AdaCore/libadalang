@@ -9,11 +9,10 @@ with Langkit_Support.Array_Utils;
 --  - Very lightweight implementation, very few primitives.
 --  - Not controlled (manual memory management).
 --  - Ada 2012-like iteration via the Iterate aspect, so read-only access to
---    elements in for .. of loops
+--    elements in for .. of loops.
 --  - Uses realloc for resize, so faster, but won't be correct on every type.
---  - Not tagged, so no dot notation on primitives
---  - Small vector optimization: can store a number of the elements inline
---
+--  - Not tagged, so no dot notation on primitives.
+--  - Small vector optimization: can store a number of the elements inline.
 
 generic
    type Element_Type is private;
@@ -47,7 +46,7 @@ package Langkit_Support.Vectors is
    --  Get an access to the element at Index
    --  NOTICE: This access is unsafe, and might get invalidated if the Vector
    --  is reallocated. Hence, its lifetime is considered to be as long as the
-   --  vector is not modified
+   --  vector is not modified.
 
    procedure Destroy (Self : in out Vector)
      with Inline_Always;
@@ -66,7 +65,7 @@ package Langkit_Support.Vectors is
 
    function Last_Element (Self : Vector) return Element_Access;
    --  Return an access to the last element in this vector
-   --  NOTICE : Read Get_Access's documentation
+   --  NOTICE: Read Get_Access's documentation.
 
    function Length (Self : Vector) return Natural
      with Inline_Always;
@@ -84,7 +83,7 @@ package Langkit_Support.Vectors is
    function Next (Self : Vector; N : Natural) return Natural is (N + 1)
      with Inline_Always;
    --  Given a vector and an index, return the next index. Only used for the
-   --  iterable aspect
+   --  iterable aspect.
 
    function Pop (Self : in out Vector) return Element_Type
      with Pre => Length (Self) > 0;
@@ -112,7 +111,7 @@ package Langkit_Support.Vectors is
    function Image (Self : Vector) return String;
    --  Generic function, that, given a Image function on the element type,
    --  returning the representation of an instance of Element_Type as a string,
-   --  will return a string representation of the vector
+   --  will return a string representation of the vector.
 
 private
 

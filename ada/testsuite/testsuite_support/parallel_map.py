@@ -14,7 +14,7 @@ def pmap(fn, collection, nb_threads=4):
     - Order is not preserved by that algorithm, so it is not strictly a
       parallel map.
     - Items from collection are all consumed at once at the beginning to
-      simplify the algorithm
+      simplify the algorithm.
     """
 
     # Create an in queue and an out queue. The in queue will contain all the
@@ -50,6 +50,6 @@ def pmap(fn, collection, nb_threads=4):
                 yield out_queue.get()
             return
         # If the in queue still contains elements, just return the results as
-        # they come
+        # they come.
         else:
             yield out_queue.get()

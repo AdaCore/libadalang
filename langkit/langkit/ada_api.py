@@ -3,7 +3,7 @@ import names
 
 
 class AdaAPISettings(object):
-    """Convenient container for Ada API generation settings
+    """Convenient container for Ada API generation settings.
 
     The convention is to make instances for this class available to templates
     as `adaapi`.

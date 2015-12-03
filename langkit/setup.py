@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-"""Setup configuration file for the Langkit framework"""
+"""Setup configuration file for the Langkit framework."""
 
 import os
 from distutils.core import setup

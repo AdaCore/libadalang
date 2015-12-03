@@ -21,7 +21,7 @@ with System.Storage_Pools.Subpools; use System.Storage_Pools.Subpools;
 
 --  WARNING: This second mechanism is unsafe, and only works correctly for
 --  a subset of types, namely simple non controlled POD types, tagged or non
---  tagged, with no alignment constraints
+--  tagged, with no alignment constraints.
 
 package Langkit_Support.Bump_Ptr is
 
@@ -31,7 +31,7 @@ package Langkit_Support.Bump_Ptr is
 
    type Bump_Ptr_Pool is private;
    --  This type is a handle to a subpool. You need to initialize it via a call
-   --  to Create
+   --  to Create.
 
    No_Pool : constant Bump_Ptr_Pool;
 
@@ -63,7 +63,7 @@ package Langkit_Support.Bump_Ptr is
    --  BEWARE: This procedure will only work with *constrained* basic types
    --  or simple scalar types (no tagged/controlled/etc). If you need an all
    --  around allocation mechanism for bump pointer pools, use the subpools
-   --  mechanism !
+   --  mechanism!
 
    generic
       type Element_T is tagged private;
@@ -90,25 +90,25 @@ package Langkit_Support.Bump_Ptr is
    type Ada_Bump_Ptr_Pool is new Root_Storage_Pool_With_Subpools
    with null record;
    --  This type is meant to be used as a storage pool. See section 6.4 of the
-   --  Ada 2012 rationale for details. Here is a basic example of the use:
+   --  Ada 2012 rationale for details. Here is a basic example of the use::
    --
-   --  Root_Pool : Ada_Bump_Ptr_Pool;
-   --  type Int_Access is access all Integer;
-   --  for Int_Access'Storage_Pool use Root_Pool;
+   --     Root_Pool : Ada_Bump_Ptr_Pool;
+   --     type Int_Access is access all Integer;
+   --     for Int_Access'Storage_Pool use Root_Pool;
    --
-   --  Subpool   : Pool_Handle := Create_Subpool (Root_Pool);
+   --     Subpool   : Pool_Handle := Create_Subpool (Root_Pool);
    --
-   --  A : Int_Access := new (Subpool) Integer'(42);
+   --     A : Int_Access := new (Subpool) Integer'(42);
    --
    --  While the performance is still improved when compared to regular
    --  malloc/free, it is much slower than the ad-hoc mechanism, so
    --  coherent use cases might be:
    --
    --  - When you cannot use the ad-hoc mechanism because of the type of
-   --  objects you want to allocate
+   --    objects you want to allocate.
    --
    --  - When you don't care about the performance but still want the
-   --  simplified memory management that this kind of pools provide
+   --    simplified memory management that this kind of pools provide.
 
    overriding function Create_Subpool
      (Pool : in out Ada_Bump_Ptr_Pool)

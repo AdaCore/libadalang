@@ -1,13 +1,13 @@
 class Name(object):
     """
-    Code generation helpers to format names with various casing conventions
+    Code generation helpers to format names with various casing conventions.
     """
 
     def __init__(self, mixed_with_underscores):
         """
-        Create a name from a string with mixed case and underscores
+        Create a name from a string with mixed case and underscores.
 
-        For instance: C_OOP_Extension
+        For instance: C_OOP_Extension.
         """
         self.base_name = mixed_with_underscores
 
@@ -23,7 +23,7 @@ class Name(object):
     @property
     def camel_with_underscores(self):
         """
-        Format to mixed case with undercore (e.g. C_OOP_Extension)
+        Format to mixed case with undercore (e.g. C_OOP_Extension).
 
         :rtype: str
         """
@@ -32,7 +32,7 @@ class Name(object):
     @property
     def camel(self):
         """
-        Format to camel case (e.g. COOPExtension)
+        Format to camel case (e.g. COOPExtension).
 
         :rtype: str
         """
@@ -41,7 +41,7 @@ class Name(object):
     @property
     def lower(self):
         """
-        Format to lower case (e.g. c_oop_extension)
+        Format to lower case (e.g. c_oop_extension).
 
         :rtype: str
         """
@@ -50,21 +50,21 @@ class Name(object):
     @property
     def upper(self):
         """
-        Format to upper case (e.g. C_OOP_EXTENSION)
+        Format to upper case (e.g. C_OOP_EXTENSION).
 
         :rtype: str
         """
         return self.base_name.upper()
 
     def __str__(self):
-        """Format to default casing convention"""
+        """Format to default casing convention."""
         assert default_formatting is not None
         return getattr(self, default_formatting)
 
     def __add__(self, other):
         """
         Returns a name which is a concatenation of two names, so that
-        A_Name + Another_Name = A_Name_Another_Name
+        A_Name + Another_Name = A_Name_Another_Name.
 
         :param other: Name
         :rtype: Name
@@ -76,9 +76,9 @@ class Name(object):
         """
         Creates a name from a string, which is formatted according to the
         camel case with underscores convention, such as
-        "Camel_Case_With_Underscores"
+        "Camel_Case_With_Underscores".
 
-        :param str name: The string to create the name from
+        :param str name: The string to create the name from.
         :rtype: Name
         """
         return cls(name)
@@ -87,9 +87,9 @@ class Name(object):
     def from_camel(cls, name):
         """
         Creates a name from a string, which is formatted according to the
-        camel case convention, such as "CamelCaseName"
+        camel case convention, such as "CamelCaseName".
 
-        :param str name: The string to create the name from
+        :param str name: The string to create the name from.
         :rtype: Name
         """
         result = list(name)
@@ -108,9 +108,9 @@ class Name(object):
     def from_lower(cls, name):
         """
         Creates a name from a string, which is formatted according to the
-        lower case convention, such as "lower_case_name"
+        lower case convention, such as "lower_case_name".
 
-        :param str name: The string to create the name from
+        :param str name: The string to create the name from.
         :rtype: Name
         """
         return cls('_'.join(word.lower().capitalize()
@@ -120,9 +120,9 @@ class Name(object):
     def from_upper(cls, name):
         """
         Creates a name from a string, which is formatted according to the
-        lower case convention, such as "UPPER_CASE_NAME"
+        lower case convention, such as "UPPER_CASE_NAME".
 
-        :param str name: The string to create the name from
+        :param str name: The string to create the name from.
         :rtype: Name
         """
         return cls('_'.join(word.lower().capitalize()
@@ -133,20 +133,20 @@ default_formatting = None
 
 
 class Convention(object):
-    """Guard to set a default convention"""
+    """Guard to set a default convention."""
 
     def __init__(self, name):
         self.name = name
         self.old_name = None
 
     def __enter__(self):
-        """Set the current convention to self's convention"""
+        """Set the current convention to self's convention."""
         global default_formatting
         self.old_name = default_formatting
         default_formatting = self.name
 
     def __exit__(self, exc, exc_type, traceback):
-        """Sets the convention back to the old convention"""
+        """Sets the convention back to the old convention."""
         del exc, exc_type, traceback
         global default_formatting
         default_formatting = self.old_name

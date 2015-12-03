@@ -1,11 +1,11 @@
 class PythonAPIType(object):
     """
-    Python API generation helper: encapsulate the logic of Python types names
+    Python API generation helper: encapsulate the logic of Python types names.
     """
 
     def __init__(self, python_api_settings,
                  name_low, external_low):
-        """Create a stub for a Python type
+        """Create a stub for a Python type.
 
         python_api_settings: A python_api.PythonAPISettings instance.
 
@@ -23,14 +23,14 @@ class PythonAPIType(object):
     @property
     def name_low(self):
         """
-        Return the name to be used for the low-level Python API for this type
+        Return the name to be used for the low-level Python API for this type.
         """
         return ('ctypes.{}'.format(self._name_low)
                 if self._external_low else '_{}'.format(self._name_low))
 
 
 class PythonAPISettings(object):
-    """Container for Python API generation settings"""
+    """Container for Python API generation settings."""
 
     name = 'python'
 

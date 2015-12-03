@@ -35,7 +35,7 @@ def check(unit):
         )
 
 
-# First work with the "limited" keyword.
+# First work with the "limited" keyword
 write_source(src_buffer_1)
 
 print '1. Parsing source 1'

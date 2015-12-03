@@ -96,7 +96,7 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
             Append (TDH.Tokens_To_Trivias, -1);
 
             --  Reset Last_Token_Was_Trivia so that new trivia is added to the
-            --  current token
+            --  current token.
             Last_Token_Was_Trivia := False;
          end if;
       end Prepare_For_Trivia;
@@ -147,7 +147,7 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
          % if get_context().lexer.token_actions['WithSymbol']:
             ## Token id is part of the class of token types for which we want to
-            ## internalize the text
+            ## internalize the text.
             when ${" | ".join(
                get_context().lexer.token_name(tok)
                for tok in get_context().lexer.token_actions['WithSymbol']
@@ -290,7 +290,7 @@ package body ${_self.ada_api_settings.lib_name}.Lexer is
 
       Output : Byte_Sequence (1 .. 4 * Buffer'Size);
       for Output'Address use Result.all'Address;
-      --  Iconv works on mere strings, so this is a kind of a view conversion.
+      --  Iconv works on mere strings, so this is a kind of a view conversion
 
    begin
       Decoded_Buffer := Result;

@@ -14,7 +14,7 @@ class CAPIDriver(BaseDriver):
 
     @staticmethod
     def locate_in_path(path_list, filename):
-        """Look for `filename` under the directories in `path_list`
+        """Look for `filename` under the directories in `path_list`.
 
         Retrun the absolute path name of such a file if it is found, None
         otherwise. `path_list` must be a string in the same format as the

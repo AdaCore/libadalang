@@ -20,8 +20,8 @@ class Frozable(object):
     """
     Trait class that defines:
 
-    - A frozen read-only property, False by default
-    - A freeze method that sets the property to True
+    - A frozen read-only property, False by default;
+    - A freeze method that sets the property to True.
 
     The idea is that classes can then derive from this trait and define a
     special behavior for when the object is frozen. This is used by the
@@ -42,7 +42,7 @@ class Frozable(object):
     @property
     def frozen(self):
         """
-        Returns wether the object is frozen
+        Returns wether the object is frozen.
 
         :rtype: bool
         """
@@ -50,7 +50,7 @@ class Frozable(object):
 
     def freeze(self):
         """
-        Freeze the object and all its frozable components recursively
+        Freeze the object and all its frozable components recursively.
         """
         self._frozen = True
         for _, val in self.__dict__.items():
@@ -138,12 +138,12 @@ class AbstractExpression(object):
     AbstractExpression objects.
 
     You can then call construct on the root of the expression tree to get back
-    a resolved tree of ResolvedExpression objects
+    a resolved tree of ResolvedExpression objects.
     """
 
     def construct(self):
         """
-        Returns a resolved tree of resolved expressions
+        Returns a resolved tree of resolved expressions.
 
         :rtype: ResolvedExpression
         """
@@ -153,9 +153,9 @@ class AbstractExpression(object):
 class OrExpr(AbstractExpression):
     """
     Abstract expression that is the result of the evaluation of an or
-    expression
+    expression.
 
-    TODO: Not implemented yet !
+    TODO: Not implemented yet!
     """
     def __init__(self, left, right):
         self.left = left
@@ -165,9 +165,9 @@ class OrExpr(AbstractExpression):
 class AndExpr(AbstractExpression):
     """
     Abstract expression that is the result of the evaluation of an and
-    expression
+    expression.
 
-    TODO: Not implemented yet !
+    TODO: Not implemented yet!
     """
     def __init__(self, left, right):
         self.left = left
@@ -176,9 +176,9 @@ class AndExpr(AbstractExpression):
 
 class OpCall(AbstractExpression, FieldTrait, OrTrait, AndTrait):
     """
-    Abstract expression that is the result of a call expression evaluation
+    Abstract expression that is the result of a call expression evaluation.
 
-    TODO: Not implemented yet !
+    TODO: Not implemented yet!
     """
     def __init__(self, called, args, kwargs):
         self.called = called
@@ -192,14 +192,14 @@ class OpCall(AbstractExpression, FieldTrait, OrTrait, AndTrait):
 class FieldAccess(AbstractExpression, CallTrait, FieldTrait):
     """
     Abstract expression that is the result of a field access expression
-    evaluation
+    evaluation.
     """
 
     def __init__(self, receiver, field):
         """
         :param AbstractExpression receiver: Expression on which the field
-               access was done
-        :param str field: The name of the field that is accessed
+               access was done.
+        :param str field: The name of the field that is accessed.
         """
         self.receiver = receiver
         self.field = field
@@ -208,8 +208,8 @@ class FieldAccess(AbstractExpression, CallTrait, FieldTrait):
         """
         Constructs a resolved expression that is the result of:
 
-        - Resolving the receiver
-        - Getting its corresponding field
+        - Resolving the receiver;
+        - Getting its corresponding field.
 
         :rtype: FieldAccessExpr
         """
@@ -286,12 +286,12 @@ class ResolvedExpression(object):
     """
     Resolved expressions are expressions that can be readily rendered to code
     that will correspond to the initial expression, depending on the bound
-    lexical scope
+    lexical scope.
     """
 
     def render_expr(self):
         """
-        Renders the expression itself
+        Renders the expression itself.
 
         :rtype: basestring
         """
@@ -299,7 +299,7 @@ class ResolvedExpression(object):
 
     def render_pre(self):
         """
-        Renders initial statements that might be needed to the expression
+        Renders initial statements that might be needed to the expression.
 
         :rtype: basestring
         """
@@ -308,7 +308,7 @@ class ResolvedExpression(object):
     def render(self):
         """
         Render both the initial statements and the expression itself. This is
-        basically a wrapper that calls render_pre and render_expr in turn
+        basically a wrapper that calls render_pre and render_expr in turn.
 
         :rtype: basestring
         """
@@ -317,7 +317,7 @@ class ResolvedExpression(object):
     @property
     def type(self):
         """
-        Returns the type of the resolved expression
+        Returns the type of the resolved expression.
 
         :rtype: CompiledType
         """
@@ -349,7 +349,7 @@ class FieldAccessExpr(ResolvedExpression):
     def __init__(self, receiver_expr, property):
         """
         :param ResolvedExpression receiver_expr: The receiver of the field
-               access
+               access.
         :param Property|Field property: The accessed property or field.
         """
         self.receiver_expr = receiver_expr
@@ -371,7 +371,7 @@ class FieldAccessExpr(ResolvedExpression):
 
 class LocalVars(object):
     """
-    Represents the state of local variables in a property definition
+    Represents the state of local variables in a property definition.
     """
 
     def __init__(self):
@@ -379,7 +379,7 @@ class LocalVars(object):
 
     class LocalVar(object):
         """
-        Represents one local variable in a property definition
+        Represents one local variable in a property definition.
         """
         def __init__(self, name, type):
             self.name = name
@@ -391,9 +391,9 @@ class LocalVars(object):
     def __call__(self, name, type):
         """
         This getattr override allows you to declare local variables in
-        templates via the syntax:
+        templates via the syntax::
 
-        >>> var = vars('Index', 'Integer')
+            >>> var = vars('Index', 'Integer')
         """
         ret = LocalVars.LocalVar(self, name, type)
         assert name not in self.local_vars, (
@@ -405,9 +405,9 @@ class LocalVars(object):
     def __getattr__(self, name):
         """
         Returns existing instance of variable called name, so that you can use
-        existing variables via the syntax:
+        existing variables via the syntax::
 
-        >>> ivar = var.Index
+            >>> ivar = var.Index
         """
         return self.local_vars[name]
 
@@ -443,7 +443,7 @@ class Property(object):
     def get(cls):
         """
         Return the currently bound property. Used by the rendering context to
-        get the current property
+        get the current property.
         """
         return cls.__current_property__
 
@@ -451,7 +451,7 @@ class Property(object):
     def bind(self):
         """
         Bind the current property to self, so that it is accessible in the
-        expression templates
+        expression templates.
         """
         assert self.__current_property__ is None, (
             "You cannot nest calls to Property.bind context manager"
@@ -463,16 +463,16 @@ class Property(object):
     @property
     def type(self):
         """
-        Returns the type of the underlying expression after resolution
+        Returns the type of the underlying expression after resolution.
         """
         return self.constructed_expr.type
 
     def render(self, owner_type):
         """
-        Render the given property to generated code
+        Render the given property to generated code.
 
         :param CompiledType owner_type: The ast node subclass to which this
-                                        property is bound
+                                        property is bound.
         :rtype: basestring
         """
         with Self.bind(owner_type):
@@ -487,7 +487,7 @@ class Property(object):
     def name(self):
         """
         Return the name of the property, namely P_ + the name defined by the
-        user
+        user.
         :rtype: names.Name
         """
         assert self._name

@@ -13,7 +13,7 @@ from expressions import Property
 
 class GeneratedFunction(object):
     """
-    Simple holder for functions' declaration/implementation generated code
+    Simple holder for functions' declaration/implementation generated code.
     """
     def __init__(self, name, declaration=None, implementation=None):
         self.name = name
@@ -22,7 +22,7 @@ class GeneratedFunction(object):
 
 
 class FieldAccessor(GeneratedFunction):
-    """Generated function that expose field read access"""
+    """Generated function that expose field read access."""
     def __init__(self, name, field, c_declaration, **kwargs):
         super(FieldAccessor, self).__init__(name, **kwargs)
         self.field = field
@@ -34,7 +34,7 @@ def decl_type(ada_type):
 
 
 def make_renderer(base_renderer=None):
-    """Create a template renderer with common helpers"""
+    """Create a template renderer with common helpers."""
     if base_renderer is None:
         base_renderer = common_renderer
 
@@ -78,7 +78,7 @@ class CompiledType(object):
     However, subclasses are not intended to be instantiated.
     """
 
-    # Whether this type is handled through pointers only in the generated code.
+    # Whether this type is handled through pointers only in the generated code
     is_ptr = True
 
     def __init__(self):
@@ -117,7 +117,7 @@ class CompiledType(object):
 
     @classmethod
     def c_type(cls, c_api_settings):
-        """Return a CAPIType instance for this type
+        """Return a CAPIType instance for this type.
 
         Must be overriden in subclasses.
         """
@@ -125,7 +125,7 @@ class CompiledType(object):
 
     @classmethod
     def py_type(cls, python_api_settings):
-        """Return a PythonAPIType instance for this type
+        """Return a PythonAPIType instance for this type.
 
         Must be overriden in subclasses.
         """
@@ -290,7 +290,7 @@ class AstNodeMetaclass(type):
 
         for field_name, field in fields.items() + properties.items():
             # Remove fields/props as class members: we want them to be
-            # stored in their own dicts
+            # stored in their own dicts.
             dct.pop(field_name)
             # Store the name of the field in the field
             field.name = names.Name.from_lower(field_name)
@@ -298,13 +298,13 @@ class AstNodeMetaclass(type):
         dct['_fields'] = fields
         dct['_properties'] = properties
 
-        # By default, ASTNode subtypes aren't abstract.
+        # By default, ASTNode subtypes aren't abstract
         dct['abstract'] = False
 
         dct['is_type_resolved'] = False
         cls = type.__new__(mcs, name, bases, dct)
 
-        # Associate each field to this ASTNode subclass.
+        # Associate each field to this ASTNode subclass
         for field in fields.values():
             field.ast_node = cls
 
@@ -319,7 +319,7 @@ def abstract(cls):
 
 
 class TypeDeclaration(object):
-    """Simple holder for generated type declarations"""
+    """Simple holder for generated type declarations."""
 
     def __init__(self, type, public_part, private_part):
         self.type = type
@@ -366,7 +366,7 @@ class ASTNode(CompiledType):
         Emit a type definition for this AST node type in
         `context.types_definitions`, emit:
           - a class with all its fields and its methods;
-          - a forward declaration for this AST node type's "nil" singleton;
+          - a forward declaration for this AST node type's "nil" singleton.
 
         Also emit the implementation for the corresponding methods/singletons
         in `context.body`.
@@ -512,12 +512,12 @@ class ASTNode(CompiledType):
 
 # We tag the ASTNode class as abstract here, because of the circular dependency
 # between the @abstract decorator and the ASTNode class, which is caused by the
-# assert statement that is inside the decorator
+# assert statement that is inside the decorator.
 ASTNode.abstract = True
 
 
 # We want structural equality on lists whose elements have the same types.
-# Memoization is one way to make sure that, for each CompiledType subclass X:
+# Memoization is one way to make sure that, for each CompiledType subclass X::
 #    list_type(X) == list_type(X)
 @memoized
 def list_type(element_type):
@@ -585,7 +585,7 @@ class EnumType(CompiledType):
     @classmethod
     def base_name(cls):
         """
-        Return a names.Name instance holding the unescaped name for this type
+        Return a names.Name instance holding the unescaped name for this type.
         """
         return names.Name.from_camel(cls.__name__)
 
@@ -628,7 +628,7 @@ class EnumType(CompiledType):
     @classmethod
     def get_enumerator(cls, alt):
         """
-        Return a names.Name instance for alt's enumerator name
+        Return a names.Name instance for alt's enumerator name.
 
         This is be used in code generation.
         """
@@ -638,7 +638,7 @@ class EnumType(CompiledType):
 
     @property
     def enumerator(self):
-        """Return "get_enumerator" for this alternative"""
+        """Return "get_enumerator" for this alternative."""
         return self.get_enumerator(self.alt)
 
     @classmethod

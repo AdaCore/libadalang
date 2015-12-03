@@ -31,7 +31,7 @@ package Langkit_Support.Bump_Ptr.Vectors is
    type Element_Access is not null access all Element_Type;
 
    function Create (P : Bump_Ptr_Pool) return Vector;
-   --  Returns a newly created vector using P as it's pool storage.
+   --  Returns a newly created vector using P as it's pool storage
 
    procedure Append (Self : in out Vector; Element : Element_Type)
      with Inline_Always;
@@ -50,7 +50,7 @@ package Langkit_Support.Bump_Ptr.Vectors is
    function Get_Access (Self : Vector; C : Cursor) return Element_Access
      with Inline_Always;
    --  Get an access to the element at Index. The lifetime of the access is the
-   --  one of the vector
+   --  one of the vector.
 
    function Length (Self : Vector) return Natural
      with Inline_Always;
@@ -63,7 +63,7 @@ package Langkit_Support.Bump_Ptr.Vectors is
    function Next (Self : Vector; C : Cursor) return Cursor
      with Inline_Always;
    --  Given a vector and an index, return the next index. Only used for the
-   --  iterable aspect
+   --  iterable aspect.
 
    function Has_Element (Self : Vector; C : Cursor) return Boolean
      with Inline_Always;

@@ -62,7 +62,7 @@ package body Langkit_Support.Bump_Ptr.Vectors is
       end if;
 
       --  We filled the current chunk completely, create a new chunk and
-      --  initialize it, chain it with the previous chunk
+      --  initialize it, chain it with the previous chunk.
       if Self.Current_Chunk.Length = Self.Current_Chunk.Capacity then
          Old_Chunk := Self.Current_Chunk;
          Self.Current_Chunk := Alloc_Chunk (Self.Pool, Old_Chunk.Capacity * 2);
@@ -71,7 +71,7 @@ package body Langkit_Support.Bump_Ptr.Vectors is
       end if;
 
       --  At this stage we know the current chunk can contain element, insert
-      --  it
+      --  it.
       Self.Current_Chunk.Elements (Self.Current_Chunk.Length) := Element;
       Self.Current_Chunk.Length := Self.Current_Chunk.Length + 1;
       Self.Length := Self.Length + 1;

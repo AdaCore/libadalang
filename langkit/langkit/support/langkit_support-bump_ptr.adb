@@ -71,7 +71,7 @@ package body Langkit_Support.Bump_Ptr is
       --  If the required size is bigger than the page size, we'll allocate a
       --  special page the size of the required object. Basically we fall-back
       --  on regular alloc mechanism, but this ensures that we can handle all
-      --  allocations transparently via this allocator
+      --  allocations transparently via this allocator.
 
       if S > Page_Size then
          declare
@@ -88,7 +88,7 @@ package body Langkit_Support.Bump_Ptr is
       end if;
 
       --  When we don't have enough space to allocate the chunk, allocate a new
-      --  page
+      --  page.
 
       if Page_Size - Pool.Current_Offset < S then
          Pool.Current_Page := System.Memory.Alloc (Page_Size);
@@ -121,7 +121,7 @@ package body Langkit_Support.Bump_Ptr is
       begin
 
          --  This function just queries the proper size of the Element_T type,
-         --  and converts the return value to the proper access type
+         --  and converts the return value to the proper access type.
 
          return To_Pointer
            (Allocate
@@ -164,22 +164,22 @@ package body Langkit_Support.Bump_Ptr is
          --  logic in a generic. But this is impossible, because you cannot
          --  declare a representation clause on a type that is declared in
          --  the scope of a generic.
-         --   (╯°□°）╯︵ ┻━┻
+         --   (╯°□°）╯︵ ┻━┻.
 
          --  3. Ok, so you cannot encapsulate in a generic. Let's do a memory
          --  pool manually, like we'd do in C/C++. Problem is, you don't call
          --  the new operator to instantiate tagged objects, so your tagged
-         --  objects are gonna have no tag ! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻
+         --  objects are gonna have no tag! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻.
 
          --  3. No problem, let's hack around it by creating a temp variable of
          --  the type, and assigning to the newly allocated instance, so that
-         --  the tag is gonna be copied ! Except assignment doesn't copy tags
-         --  in Ada ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻
+         --  the tag is gonna be copied! Except assignment doesn't copy tags in
+         --  Ada ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻.
 
          --  Hence we are reduced to this dirty hack, where we'll create a temp
          --  object, get the tag, and copy it manually in the newly created
          --  object. This is dirty and completely implementation dependent.
-         --  So here be dragons
+         --  So here be dragons.
 
          --  Post-Scriptum: As it turns out, Ada 2012 memory subpools are
          --  designed for exactly that purpose. This code survives because

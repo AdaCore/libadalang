@@ -65,7 +65,7 @@ def mako_template(file_name):
         t = Template(
             strict_undefined=True, filename=t_path,
             # We want to correctly resolve both absolute paths, and paths
-            # relative to the base template directory
+            # relative to the base template directory.
             lookup=TemplateLookup(directories=["/", dir_path])
         )
         template_cache[t_path] = t

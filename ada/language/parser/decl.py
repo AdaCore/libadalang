@@ -182,11 +182,12 @@ class ObjectDecl(AdaNode):
     renaming_clause = Field()
     aspects = Field()
 
-    # properties = {
-    #     "type": ChildNodeProperty("type")
-    # }
-
-    # env_action = AddToEnv("vars", "ids")
+    # Incoming properties will read::
+    #     properties = {
+    #         "type": ChildNodeProperty("type")
+    #     }
+    #
+    #     env_action = AddToEnv("vars", "ids")
 
 
 class PrivatePart(AdaNode):

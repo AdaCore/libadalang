@@ -1,7 +1,9 @@
 #! /usr/bin/env python
 
 """
-Usage: testsuite.py [OPTIONS]
+Usage::
+
+    testsuite.py [OPTIONS]
 
 Run the Libadalang testsuite.
 """

@@ -5,11 +5,11 @@ import names
 
 class CAPIType(object):
     """
-    C API generation helper: encapsulate the logic of C types formatting
+    C API generation helper: encapsulate the logic of C types formatting.
     """
 
     def __init__(self, c_api_settings, name, external=False):
-        """Create a stub for a C API type
+        """Create a stub for a C API type.
 
         c_api_settings: A c_api.CAPISettings instance.
 
@@ -26,7 +26,7 @@ class CAPIType(object):
 
     @property
     def name(self):
-        """Return the C name for this type, properly wrapped if needed"""
+        """Return the C name for this type, properly wrapped if needed."""
         # All names we define as part of the C API must be wrapped so that they
         # don't conflict with "external" names. Keep "external" ones untouched
         # since we don't control them.
@@ -35,7 +35,7 @@ class CAPIType(object):
 
 
 class CAPISettings(object):
-    """Convenient container for C API generation settings
+    """Convenient container for C API generation settings.
 
     The convention is to make instances for this class available to templates
     as `capi`."""
@@ -44,7 +44,7 @@ class CAPISettings(object):
 
     def __init__(self, lib_name, symbol_prefix=''):
         """
-        Create C API generation settings
+        Create C API generation settings.
 
         :param str lib_name: Name of the generated library.  This will be used
         to build the name of header files, library (static and shared object)
@@ -70,7 +70,7 @@ class CAPISettings(object):
         """
         Return the basename to use for the shared object.
 
-        In order to get the fullname, format the following string:
+        In order to get the fullname, format the following string::
 
             lib{shared_object_basename}.{extension}
 

@@ -167,7 +167,7 @@ package ${_self.ada_api_settings.lib_name}.C is
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("unit_diagnostic_count")}";
-   --  Return the number of diagnostics associated to this unit.
+   --  Return the number of diagnostics associated to this unit
 
    function ${capi.get_name("unit_diagnostic")}
      (Unit         : ${analysis_unit_type};
@@ -215,7 +215,7 @@ package ${_self.ada_api_settings.lib_name}.C is
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name("unit_reparse_from_buffer")}";
-   --  Reparse an analysis unit from a buffer
+   --  Reparse an analysis unit from a buffer.
    --
    --  Use Charset in order to decode the content of Buffer. If Charset is
    --  empty or NULL, then use the last charset used for this unit.

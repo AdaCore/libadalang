@@ -225,7 +225,7 @@ package body Langkit_Support.AST is
 
       procedure Append_Trivias (First, Last : Natural);
       --  Append all the trivias of tokens between indices First and Last to
-      --  the returned vector
+      --  the returned vector.
 
       procedure Append_Trivias (First, Last : Natural) is
       begin

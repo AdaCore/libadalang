@@ -13,7 +13,7 @@ with Langkit_Support.Token_Data_Handler; use Langkit_Support.Token_Data_Handler;
 package ${_self.ada_api_settings.lib_name}.Lexer is
 
    Unknown_Charset : exception;
-   --  Raised by Lex_From_* functions when the input charset is not supported.
+   --  Raised by Lex_From_* functions when the input charset is not supported
 
    Invalid_Input : exception;
    --  Raised by Lex_From_* functions when the input contains an invalid byte

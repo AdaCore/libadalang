@@ -42,6 +42,10 @@ class PythonDriver(BaseDriver):
                 self.support_dir, os.path.pathsep, pythonpath
             )
         os.environ['PYTHONPATH'] = pythonpath
+        os.environ['LIBADALANG_ROOTDIR'] = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            '..', '..'
+        )
 
     @catch_test_errors
     def run(self):

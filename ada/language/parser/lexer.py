@@ -124,7 +124,8 @@ class Token(LexerToken):
 ada_lexer = Lexer(Token)
 
 ada_lexer.add_patterns(
-    ('p_string', r"\"(\"\"|[^\n\"])*\""),
+    ('bracket_char', r'(\[\"([0-9A-F][0-9A-F]){2,4}\"\])'),
+    ('p_string', r'\"(\"\"|{bracket_char}|[^\n\"])*\"'),
     ('digit', r"[0-9]"),
     ('extended_digit', r"[0-9a-zA-Z]"),
     ('integer', r"({digit}(_?{digit})*)"),
@@ -132,7 +133,8 @@ ada_lexer.add_patterns(
     ('decimal_literal', r"{integer}(\.?{integer})?{exponent}?"),
     ('base', r"{integer}"),
     ('based_integer', r"{extended_digit}(_?{extended_digit})*"),
-    ('identifier', r"\P{ID_Start}\P{ID_Continue}*"),
+    ('identifier', r"(\P{ID_Start}|{bracket_char})"
+                   r"(\P{ID_Continue}*|{bracket_char})*"),
     ('based_literal',
      r"{base}#{based_integer}(\.{based_integer})?#{exponent}?"),
 )

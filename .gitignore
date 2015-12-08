@@ -24,3 +24,6 @@ gnatinspect.db-*
 
 # IDEA junk
 .idea/workspace.xml
+
+# Ignore langkit repo
+langkit

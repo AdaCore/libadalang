@@ -1,6 +1,9 @@
 Libadalang
 ==========
 
+Libadalang is a project to build a high performance semantic engine for the Ada
+programming language.
+
 Dependencies
 ------------
 

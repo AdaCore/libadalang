@@ -7,7 +7,8 @@ from language.parser.lexer import Token
 
 
 class CompilationUnit(AdaNode):
-    prelude = Field()
+    """Root node for all Ada analysis units."""
+    prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     bodies = Field()
 
 

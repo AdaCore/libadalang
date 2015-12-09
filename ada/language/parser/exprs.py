@@ -80,6 +80,7 @@ class AggregateMember(AdaNode):
 
 
 class Op(EnumType):
+    """Operation in a binary expression."""
     alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",

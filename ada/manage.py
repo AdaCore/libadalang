@@ -26,7 +26,7 @@ class Manage(ManageScript):
         )
         test_parser.add_argument(
             '--with-gnatpython', '-g', action='store_true',
-            dest='with_gnatpython', default=True,
+            dest='with_gnatpython', default=False,
             help='Try to use GNATpython in the testsuite'
         )
         test_parser.add_argument(

@@ -120,7 +120,7 @@ class Manage(ManageScript):
         """
         Create a new directory at `path` if it does not exist.
 
-        :param path: the path to the new directory
+        :param path: the path to the new directory.
         :type path: str
         :raise: OSError | IOError
         """
@@ -136,7 +136,7 @@ class Manage(ManageScript):
         """
         Return the list of .adb and .ads files in `work_dir`.
 
-        :param work_dir: the directory in which to search for ada sources
+        :param work_dir: the directory in which to search for ada sources.
         :type work_dir: str
         :return: set[str]
         """

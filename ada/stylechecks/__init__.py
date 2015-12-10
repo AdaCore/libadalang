@@ -166,7 +166,7 @@ def check_text(report, filename, lang, first_line, text, is_comment):
 
             self.first_block = True
             self.lines_count = 0
-            self.list_line = None
+            self.last_line = None
             self.last_end = ''
 
             self.is_sphinx = False
@@ -178,8 +178,11 @@ def check_text(report, filename, lang, first_line, text, is_comment):
         def end_block(self, is_last):
             """To be called at the end of each hunk of text."""
 
-            if self.quote_indent is not None:
+            if (not self.last_line or
+                    not self.last_line.strip()
+                    or self.quote_indent is not None):
                 return
+
             if self.may_be_header:
                 if self.last_line.strip() or not is_last:
                     report.set_context(*self.header_context)
@@ -187,7 +190,7 @@ def check_text(report, filename, lang, first_line, text, is_comment):
                 else:
                     return
 
-            ends = ('.', '?', '!', ':', '...')
+            ends = ('.', '?', '!', ':', '...', '::')
 
             if is_comment:
                 if ((self.lines_count > 1 or not is_last) and
@@ -232,8 +235,11 @@ def check_text(report, filename, lang, first_line, text, is_comment):
                 continue
             s.is_prompt = False
 
-        if line.startswith(':'):
+        if line.startswith(':type') or line.startswith(':rtype:'):
+            s.end_block(False)
             s.is_sphinx = True
+        elif line.startswith(':param'):
+            s.end_block(False)
         elif has_prompt(line):
             s.is_prompt = True
             continue

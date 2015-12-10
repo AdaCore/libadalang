@@ -295,6 +295,49 @@ testcases = (
         This is the end of the docstring.
         """
     ''', []),
+    Testcase('docstring_multi_10.py', '''
+        """
+        Documenting some function.
+
+        :param arg: Argument.
+        :type arg: str
+        """
+    ''', []),
+    Testcase('docstring_multi_11.py', '''
+        """
+        Documenting some function.
+
+        :param arg: Argument1.
+        :type arg: str
+
+        :param arg: Argument2.
+        :type arg: int
+        """
+    ''', []),
+    Testcase('docstring_multi_12.py', '''
+        """
+        Documenting some function.
+
+        :param arg: Argument
+        :type arg: str
+        """
+    ''', [(3, 'Docstring sentences must end with periods')]),
+    Testcase('docstring_multi_13.py', '''
+        """
+        Documenting some function.
+
+        :param str arg: Long description for this argument which is supposed to
+            be a string.
+        """
+    ''', []),
+    Testcase('docstring_multi_14.py', '''
+        """
+        Documenting some function.
+
+        :param str arg: Long description for this argument which is supposed to
+            be a string
+        """
+    ''', [(4, 'Docstring sentences must end with periods')]),
 )
 
 

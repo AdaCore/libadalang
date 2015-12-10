@@ -413,8 +413,7 @@ A.add_rules(
                Enum(">", Op("gt")), Enum(">=", Op("gte"))),
             A.relation) ^ BinOp,
 
-        Row(A.simple_expr, A.rel_op, A.choice_list)
-        ^ MembershipExpr,
+        Row(A.simple_expr, A.rel_op, A.choice_list) ^ MembershipExpr,
 
         A.simple_expr
     ),

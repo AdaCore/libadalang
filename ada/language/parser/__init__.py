@@ -1,6 +1,8 @@
 from langkit.compiled_types import abstract, ASTNode
 from langkit.parsers import Grammar
 
+from language.parser.lexer import ada_lexer
+
 ada_grammar = Grammar()
 A = ada_grammar
 ada_grammar.main_rule_name = "compilation_unit"
@@ -22,17 +24,18 @@ class AdaNode(ASTNode):
     pass
 
 
-# Import all the modules in which the grammar rules are defined, and then
-# delete the module. This way we know that we only import them for side
-# effects: the grammar is extended by every imported module.
-from language.parser import A
+def eval_grammar():
+    # Import all the modules in which the grammar rules are defined, and then
+    # delete the module. This way we know that we only import them for side
+    # effects: the grammar is extended by every imported module.
+    from language.parser import A
 
-import language.parser.bodies
-import language.parser.decl
-import language.parser.exprs
-import language.parser.types
+    import language.parser.bodies
+    import language.parser.decl
+    import language.parser.exprs
+    import language.parser.types
 
-from language.parser.lexer import ada_lexer
-del language
+    del language
+    return A
 
-ada_grammar = A
+ada_grammar = eval_grammar()

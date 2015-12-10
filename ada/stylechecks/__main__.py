@@ -7,7 +7,7 @@ import sys
 ADA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 ROOT_DIR = os.path.join(ADA_DIR, '..')
 
-DIRS = ('ada', 'langkit')
+DIRS = ('ada', 'langkit', 'utils')
 EXCLUDES = ('tmp', 'doc', os.path.join('stylechecks', 'tests.py'))
 
 sys.path.append(ADA_DIR)

@@ -89,11 +89,11 @@ testcases = (
         import bar as zoo
     ''', [(2, 'Imported package "foo" must appear after "bar"')]),
 
-    Testcase('package_1.adb', '''
+    Testcase('package_4.adb', '''
         with Foo;
         with Bar; use Bar;
     ''', [(2, 'Imported package "Foo" must appear after "Bar"')]),
-    Testcase('package_1.adb', '''
+    Testcase('package_5.adb', '''
         with Foo;
         with ${blah};
         with Bar;

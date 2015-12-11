@@ -191,7 +191,7 @@ class SubtypeDecl(AdaNode):
     aspects = Field()
 
     # Properties
-    name = Property(Self.id)
+    name = Property(Self.id, doc='Name for the declared subtype')
 
 
 class TaskDef(AdaNode):

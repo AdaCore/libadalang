@@ -1,4 +1,4 @@
-from langkit.compiled_types import abstract, ASTNode
+from langkit.compiled_types import abstract, ASTNode, root_grammar_class
 from langkit.parsers import Grammar
 
 from language.parser.lexer import ada_lexer
@@ -9,6 +9,7 @@ ada_grammar.main_rule_name = "compilation_unit"
 
 
 @abstract
+@root_grammar_class
 class AdaNode(ASTNode):
     """
     Root node class for the Ada grammar. This is good and necessary for several

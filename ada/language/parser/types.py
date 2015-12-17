@@ -24,10 +24,6 @@ class EnumTypeDef(TypeDef):
     enum_literals = Field()
 
 
-class DiscreteChoice(AdaNode):
-    pass
-
-
 class Variant(AdaNode):
     choice_list = Field()
     components = Field()

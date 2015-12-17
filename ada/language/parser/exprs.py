@@ -32,14 +32,6 @@ class Aggregate(Expr):
     assocs = Field()
 
 
-class NameExpr(Expr):
-    expr_list = Field()
-
-
-class StaticNameExpr(Expr):
-    id_list = Field()
-
-
 class CallExpr(Expr):
     name = Field()
     paren_tok = Field(repr=False)
@@ -64,10 +56,6 @@ class AccessDeref(Expr):
 
 
 class DiamondExpr(Expr):
-    pass
-
-
-class AggregateField(AdaNode):
     pass
 
 
@@ -143,10 +131,6 @@ class Attribute(SingleTokNode):
     _repr_name = "Attr"
 
 
-class QualifiedName(Expr):
-    ids = Field()
-
-
 class Quantifier(EnumType):
     alternatives = ["all", "some"]
     suffix = 'items'
@@ -172,11 +156,6 @@ class ForLoopSpec(LoopSpec):
 class QuantifiedExpr(Expr):
     quantifier = Field()
     loop_spec = Field()
-    expr = Field()
-
-
-class QualifiedExpr(Expr):
-    subtype_mark = Field()
     expr = Field()
 
 

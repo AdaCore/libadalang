@@ -37,11 +37,6 @@ class Statement(AdaNode):
     pass
 
 
-class StatementWithLabels(Statement):
-    labels = Field()
-    statement = Field()
-
-
 class NullStatement(Statement):
     null_lit = Field(repr=False)
 

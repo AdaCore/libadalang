@@ -21,23 +21,21 @@ CompilationUnit[30:1-32:49]
 | | | | | | | | | | Id[30:22-30:43]
 | | | | | | | | | | | tok: Less_Case_Insensitive
 | | | | | | | params:
-| | | | | | | | SubprogramParams[31:3-31:25]
-| | | | | | | | | params:
-| | | | | | | | | | ParameterProfile[31:4-31:24]
-| | | | | | | | | | | ids:
-| | | | | | | | | | | | Id[31:4-31:8]
-| | | | | | | | | | | | | tok: Left
-| | | | | | | | | | | | Id[31:10-31:15]
-| | | | | | | | | | | | | tok: Right
-| | | | | | | | | | | mode: in
-| | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[31:18-31:24]
-| | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[31:18-31:24]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[31:18-31:24]
-| | | | | | | | | | | | | | | | | tok: String
+| | | | | | | | ParameterProfile[31:4-31:24]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[31:4-31:8]
+| | | | | | | | | | | tok: Left
+| | | | | | | | | | Id[31:10-31:15]
+| | | | | | | | | | | tok: Right
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[31:18-31:24]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[31:18-31:24]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[31:18-31:24]
+| | | | | | | | | | | | | | | tok: String
 | | | | | | | returns:
 | | | | | | | | TypeExpression[31:33-31:40]
 | | | | | | | | | null_exclusion: False

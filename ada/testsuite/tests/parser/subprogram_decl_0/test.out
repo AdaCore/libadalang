@@ -6,20 +6,18 @@ SubprogramDecl[1:1-1:49]
 | | | | Id[1:22-1:23]
 | | | | | tok: A
 | | | params:
-| | | | SubprogramParams[1:24-1:37]
-| | | | | params:
-| | | | | | ParameterProfile[1:25-1:36]
-| | | | | | | ids:
-| | | | | | | | Id[1:25-1:26]
-| | | | | | | | | tok: B
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:29-1:36]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:29-1:36]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:29-1:36]
-| | | | | | | | | | | | | tok: Integer
+| | | | ParameterProfile[1:25-1:36]
+| | | | | ids:
+| | | | | | Id[1:25-1:26]
+| | | | | | | tok: B
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:29-1:36]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:29-1:36]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:29-1:36]
+| | | | | | | | | | | tok: Integer
 | is_null: False
 | is_abstract: True

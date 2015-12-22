@@ -71,10 +71,6 @@ class AspectSpecification(AdaNode):
     aspect_assocs = Field()
 
 
-class SubprogramParams(AdaNode):
-    params = Field()
-
-
 class SubprogramSpec(AdaNode):
     name = Field()
     params = Field()
@@ -423,8 +419,11 @@ A.add_rules(
         _(Or("procedure", "function")),
         Opt(A.name),
         Opt(
-            Row("(", List(A.parameter_profile, sep=";"),
-                Opt(")").error()) ^ SubprogramParams
+            Row(
+                "(",
+                List(A.parameter_profile, sep=";"),
+                Opt(")").error()
+            )[1]
         ),
         Opt("return", A.type_expression)[1]
     ) ^ SubprogramSpec,

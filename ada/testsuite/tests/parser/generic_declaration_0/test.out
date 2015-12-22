@@ -15,20 +15,18 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | Id[1:46-1:50]
 | | | | | tok: Swap
 | | | params:
-| | | | SubprogramParams[1:51-1:76]
-| | | | | params:
-| | | | | | ParameterProfile[1:52-1:75]
-| | | | | | | ids:
-| | | | | | | | Id[1:52-1:53]
-| | | | | | | | | tok: X
-| | | | | | | | Id[1:55-1:56]
-| | | | | | | | | tok: Y
-| | | | | | | mode: inout
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:66-1:75]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:66-1:75]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:66-1:75]
-| | | | | | | | | | | | | tok: Element_T
+| | | | ParameterProfile[1:52-1:75]
+| | | | | ids:
+| | | | | | Id[1:52-1:53]
+| | | | | | | tok: X
+| | | | | | Id[1:55-1:56]
+| | | | | | | tok: Y
+| | | | | mode: inout
+| | | | | type_expr:
+| | | | | | TypeExpression[1:66-1:75]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:66-1:75]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:66-1:75]
+| | | | | | | | | | | tok: Element_T

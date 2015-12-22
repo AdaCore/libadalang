@@ -23,21 +23,19 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | Id[3:11-3:22]
 | | | | | | | | | tok: Hello_World
 | | | | | | | params:
-| | | | | | | | SubprogramParams[3:23-3:47]
-| | | | | | | | | params:
-| | | | | | | | | | ParameterProfile[3:24-3:46]
-| | | | | | | | | | | ids:
-| | | | | | | | | | | | Id[3:24-3:31]
-| | | | | | | | | | | | | tok: Console
-| | | | | | | | | | | mode: in
-| | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[3:34-3:46]
-| | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[3:34-3:46]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[3:34-3:46]
-| | | | | | | | | | | | | | | | | tok: Console_Type
+| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[3:24-3:31]
+| | | | | | | | | | | tok: Console
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[3:34-3:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | | | | | tok: Console_Type
 | | | | | decls:
 | | | | | | SubprogramBody[5:4-12:12]
 | | | | | | | overriding: unspecified
@@ -47,21 +45,19 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | Id[5:13-5:17]
 | | | | | | | | | | | tok: Fact
 | | | | | | | | | params:
-| | | | | | | | | | SubprogramParams[5:18-5:31]
-| | | | | | | | | | | params:
-| | | | | | | | | | | | ParameterProfile[5:19-5:30]
-| | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | Id[5:19-5:20]
-| | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | mode: in
-| | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | TypeExpression[5:23-5:30]
-| | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[5:23-5:30]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[5:23-5:30]
-| | | | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[5:19-5:20]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | | | | | tok: Integer
 | | | | | | | | | returns:
 | | | | | | | | | | TypeExpression[5:39-5:46]
 | | | | | | | | | | | null_exclusion: False
@@ -295,21 +291,19 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | Id[3:11-3:22]
 | | | | | | | | | tok: Hello_World
 | | | | | | | params:
-| | | | | | | | SubprogramParams[3:23-3:47]
-| | | | | | | | | params:
-| | | | | | | | | | ParameterProfile[3:24-3:46]
-| | | | | | | | | | | ids:
-| | | | | | | | | | | | Id[3:24-3:31]
-| | | | | | | | | | | | | tok: Console
-| | | | | | | | | | | mode: in
-| | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[3:34-3:46]
-| | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[3:34-3:46]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[3:34-3:46]
-| | | | | | | | | | | | | | | | | tok: Console_Type
+| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[3:24-3:31]
+| | | | | | | | | | | tok: Console
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[3:34-3:46]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | | | | | tok: Console_Type
 | | | | | decls:
 | | | | | | SubprogramBody[5:4-12:12]
 | | | | | | | overriding: unspecified
@@ -319,21 +313,19 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | Id[5:13-5:17]
 | | | | | | | | | | | tok: Fact
 | | | | | | | | | params:
-| | | | | | | | | | SubprogramParams[5:18-5:31]
-| | | | | | | | | | | params:
-| | | | | | | | | | | | ParameterProfile[5:19-5:30]
-| | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | Id[5:19-5:20]
-| | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | mode: in
-| | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | TypeExpression[5:23-5:30]
-| | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[5:23-5:30]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[5:23-5:30]
-| | | | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[5:19-5:20]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | | | | | tok: Integer
 | | | | | | | | | returns:
 | | | | | | | | | | TypeExpression[5:39-5:46]
 | | | | | | | | | | | null_exclusion: False
@@ -474,21 +466,19 @@ SubprogramBody[3:1-17:9]
 | | | | Id[3:11-3:22]
 | | | | | tok: Hello_World
 | | | params:
-| | | | SubprogramParams[3:23-3:47]
-| | | | | params:
-| | | | | | ParameterProfile[3:24-3:46]
-| | | | | | | ids:
-| | | | | | | | Id[3:24-3:31]
-| | | | | | | | | tok: Console
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[3:34-3:46]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[3:34-3:46]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[3:34-3:46]
-| | | | | | | | | | | | | tok: Console_Type
+| | | | ParameterProfile[3:24-3:46]
+| | | | | ids:
+| | | | | | Id[3:24-3:31]
+| | | | | | | tok: Console
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[3:34-3:46]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[3:34-3:46]
+| | | | | | | | | name:
+| | | | | | | | | | Id[3:34-3:46]
+| | | | | | | | | | | tok: Console_Type
 | decls:
 | | SubprogramBody[5:4-12:12]
 | | | overriding: unspecified
@@ -498,21 +488,19 @@ SubprogramBody[3:1-17:9]
 | | | | | | Id[5:13-5:17]
 | | | | | | | tok: Fact
 | | | | | params:
-| | | | | | SubprogramParams[5:18-5:31]
-| | | | | | | params:
-| | | | | | | | ParameterProfile[5:19-5:30]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[5:19-5:20]
-| | | | | | | | | | | tok: N
-| | | | | | | | | mode: in
-| | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[5:23-5:30]
-| | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[5:23-5:30]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[5:23-5:30]
-| | | | | | | | | | | | | | | tok: Integer
+| | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | ids:
+| | | | | | | | Id[5:19-5:20]
+| | | | | | | | | tok: N
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[5:23-5:30]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[5:23-5:30]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[5:23-5:30]
+| | | | | | | | | | | | | tok: Integer
 | | | | | returns:
 | | | | | | TypeExpression[5:39-5:46]
 | | | | | | | null_exclusion: False

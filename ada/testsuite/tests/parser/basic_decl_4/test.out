@@ -6,40 +6,38 @@ SubprogramDecl[1:1-1:64]
 | | | | Id[1:11-1:12]
 | | | | | tok: A
 | | | params:
-| | | | SubprogramParams[1:13-1:54]
-| | | | | params:
-| | | | | | ParameterProfile[1:14-1:25]
-| | | | | | | ids:
-| | | | | | | | Id[1:14-1:15]
-| | | | | | | | | tok: B
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:18-1:25]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:18-1:25]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:18-1:25]
-| | | | | | | | | | | | | tok: Integer
-| | | | | | ParameterProfile[1:27-1:53]
-| | | | | | | ids:
-| | | | | | | | Id[1:27-1:28]
-| | | | | | | | | tok: C
-| | | | | | | | Id[1:30-1:31]
-| | | | | | | | | tok: D
-| | | | | | | | Id[1:33-1:34]
-| | | | | | | | | tok: E
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:37-1:53]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeAccessExpression[1:37-1:53]
-| | | | | | | | | | | is_all: True
-| | | | | | | | | | | is_constant: False
-| | | | | | | | | | | subtype_name:
-| | | | | | | | | | | | Id[1:48-1:53]
-| | | | | | | | | | | | | tok: Pouet
+| | | | ParameterProfile[1:14-1:25]
+| | | | | ids:
+| | | | | | Id[1:14-1:15]
+| | | | | | | tok: B
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:18-1:25]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:18-1:25]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:18-1:25]
+| | | | | | | | | | | tok: Integer
+| | | | ParameterProfile[1:27-1:53]
+| | | | | ids:
+| | | | | | Id[1:27-1:28]
+| | | | | | | tok: C
+| | | | | | Id[1:30-1:31]
+| | | | | | | tok: D
+| | | | | | Id[1:33-1:34]
+| | | | | | | tok: E
+| | | | | mode: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:37-1:53]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeAccessExpression[1:37-1:53]
+| | | | | | | | | is_all: True
+| | | | | | | | | is_constant: False
+| | | | | | | | | subtype_name:
+| | | | | | | | | | Id[1:48-1:53]
+| | | | | | | | | | | tok: Pouet
 | is_null: False
 | is_abstract: False
 | renames:

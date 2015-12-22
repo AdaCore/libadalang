@@ -1,7 +1,9 @@
-from langkit.compiled_types import Field, EnumType, abstract
-from langkit.parsers import Opt, List, Or, Row, _, Enum
+from langkit.compiled_types import EnumType, Field, Struct, Token, abstract
+from langkit.expressions import New, Property, Self, Vars
+from langkit.parsers import Enum, List, Opt, Or, Row, _
 
 from language.parser import A, AdaNode
+from language.parser.exprs import Identifier
 
 
 class WithDecl(AdaNode):
@@ -71,10 +73,31 @@ class AspectSpecification(AdaNode):
     aspect_assocs = Field()
 
 
+class SingleParameter(Struct):
+    name = Field(type=Identifier)
+    type_expr = Field(type=TypeExpression)
+
+
 class SubprogramSpec(AdaNode):
     name = Field()
     params = Field()
     returns = Field()
+
+    typed_param_list = Property(
+        Self.params.mapcat(
+            var=Vars.profile,
+
+            expr=Vars.profile.ids.map(
+                var=Vars.id,
+
+                expr=New(SingleParameter,
+                         name=Vars.id,
+                         type_expr=Vars.profile.type_expr),
+            ),
+        ),
+        doc='Collection of couples (identifier, type expression) for all'
+            ' parameters'
+    )
 
 
 class SubprogramDecl(AdaNode):

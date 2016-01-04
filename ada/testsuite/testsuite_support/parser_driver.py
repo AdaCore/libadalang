@@ -7,7 +7,7 @@ class ParserDriver(BaseDriver):
     TIMEOUT = 300
 
     ACTIONS = ('pretty-print', 'indent', 'pretty-print-file',
-               'pp-file-with-trivia')
+               'pp-file-with-trivia', 'pp-file-with-lexical-envs')
 
     #
     # Driver entry points
@@ -46,6 +46,8 @@ class ParserDriver(BaseDriver):
             parse_argv += ['-f', input_file_rel]
         elif self.action == 'pp-file-with-trivia':
             parse_argv += ['-P', '-f', input_file_rel]
+        elif self.action == 'pp-file-with-lexical-envs':
+            parse_argv += ['-E', '-f', input_file_rel]
         else:
             rule_name = self.test_env.get('rule', None)
             if not rule_name:
@@ -58,7 +60,8 @@ class ParserDriver(BaseDriver):
             )
 
         if self.action not in ('pretty-print', 'pretty-print-file',
-                               'pp-file-with-trivia'):
+                               'pp-file-with-trivia',
+                               'pp-file-with-lexical-envs'):
             parse_argv.append('--silent')
         if self.action == 'indent':
             parse_argv.append('--indent')

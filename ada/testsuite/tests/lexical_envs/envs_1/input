@@ -1,0 +1,3 @@
+package Foo is
+   subtype Lol is Integer range 0 .. 10;
+end Foo;

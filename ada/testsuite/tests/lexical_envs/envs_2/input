@@ -1,0 +1,10 @@
+package body Foo is
+   procedure Bar is
+   begin
+      declare
+         subtype Lol is Integer range 0 .. 10;
+      begin
+         null;
+      end;
+   end Bar;
+end Foo;

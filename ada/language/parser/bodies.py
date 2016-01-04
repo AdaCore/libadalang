@@ -1,4 +1,5 @@
 from langkit.compiled_types import Field, abstract
+from langkit.envs import EnvSpec
 from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
 
 from language.parser import A, AdaNode
@@ -11,6 +12,8 @@ class CompilationUnit(AdaNode):
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     bodies = Field()
 
+    env_spec = EnvSpec(add_env=True)
+
 
 class SubprogramBody(AdaNode):
     overriding = Field()
@@ -19,6 +22,8 @@ class SubprogramBody(AdaNode):
     decls = Field()
     statements = Field()
     end_id = Field()
+
+    env_spec = EnvSpec(add_env=True)
 
 
 class HandledStatements(AdaNode):
@@ -109,6 +114,8 @@ class BlockStatement(Statement):
     decls = Field()
     statements = Field()
 
+    env_spec = EnvSpec(add_env=True)
+
 
 class ExtReturnStatement(AdaNode):
     object_decl = Field()
@@ -152,6 +159,8 @@ class PackageBody(AdaNode):
     aspects = Field()
     decls = Field()
     statements = Field()
+
+    env_spec = EnvSpec(add_env=True)
 
 
 class TaskBody(AdaNode):

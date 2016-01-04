@@ -1,4 +1,5 @@
 from langkit.compiled_types import Field, abstract, EnumType
+from langkit.envs import EnvSpec
 from langkit.expressions import Property, Self
 from langkit.parsers import Opt, List, Or, Row, Null, Enum
 
@@ -128,6 +129,8 @@ class DerivedTypeDef(TypeDef):
     record_extension = Field()
     has_private_part = Field()
 
+    env_spec = EnvSpec(add_env=True)
+
 
 class IncompleteTypeDef(TypeDef):
     is_tagged = Field()
@@ -188,6 +191,8 @@ class SubtypeDecl(AdaNode):
 
     # Properties
     name = Property(Self.id, doc='Name for the declared subtype')
+
+    env_spec = EnvSpec(add_to_env=(Self.name, Self))
 
 
 class TaskDef(AdaNode):

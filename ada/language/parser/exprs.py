@@ -1,4 +1,5 @@
 from langkit.compiled_types import Field, abstract, EnumType
+from langkit.expressions import Property, Self
 from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 
 from language.parser import A, AdaNode
@@ -101,6 +102,7 @@ class CaseExprAlternative(Expr):
 @abstract
 class SingleTokNode(Expr):
     tok = Field()
+    token = Property(Self.tok, private=True)
 
 
 class Identifier(SingleTokNode):

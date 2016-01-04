@@ -1,4 +1,5 @@
-from langkit.compiled_types import EnumType, Field, Struct, Token, abstract
+from langkit.compiled_types import EnumType, Field, Struct, abstract
+from langkit.envs import EnvSpec
 from langkit.expressions import New, Property, Self
 from langkit.parsers import Enum, List, Opt, Or, Row, _
 
@@ -105,6 +106,10 @@ class SubprogramDecl(AdaNode):
     renames = Field()
     aspects = Field(repr=False)
 
+    # TODO: Add SubprogramDecl to environment. Waiting on qualified name
+    # support.
+    env_spec = EnvSpec(add_env=True)
+
 
 class Pragma(AdaNode):
     id = Field()
@@ -208,6 +213,8 @@ class ObjectDecl(AdaNode):
 class PrivatePart(AdaNode):
     decls = Field()
 
+    env_spec = EnvSpec(add_env=True)
+
 
 class PackageDecl(AdaNode):
     name = Field()
@@ -215,6 +222,8 @@ class PackageDecl(AdaNode):
     decls = Field()
     private_part = Field()
     end_id = Field()
+
+    env_spec = EnvSpec(add_env=True)
 
 
 class ExceptionDecl(AdaNode):

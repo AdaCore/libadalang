@@ -266,7 +266,8 @@ class BaseDriver(TestDriver):
     #
 
     def analyze(self):
-        rewrite = self.global_env['options'].rewrite
+        rewrite = (self.global_env['options'].rewrite
+                   and not self.expect_failure)
         failures = []
 
         # Check for the test output itself

@@ -295,7 +295,7 @@ A.add_rules(
         "array",
         "(",
         Or(
-            List(Row(A.type_name, "range", "<>")[0], sep=",")
+            List(Row(A.static_name, "range", "<>")[0], sep=",")
             ^ UnconstrainedArrayIndices,
 
             List(A.discrete_subtype_definition, sep=",")

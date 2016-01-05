@@ -1,5 +1,6 @@
+from langkit import compiled_types
 from langkit.compiled_types import Field, abstract, EnumType
-from langkit.expressions import Property, Self
+from langkit.expressions import Property, Self, AbstractProperty
 from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 
 from language.parser import A, AdaNode
@@ -100,12 +101,28 @@ class CaseExprAlternative(Expr):
 
 
 @abstract
+class BaseName(Expr):
+    name = AbstractProperty(type=compiled_types.Token, private=True)
+
+
+class NamePrefix(BaseName):
+    prefix = Field()
+    suffix = Field()
+
+    name = Property(Self.suffix.name, private=True)
+
+
+@abstract
 class SingleTokNode(Expr):
     tok = Field()
     token = Property(Self.tok, private=True)
 
 
-class Identifier(SingleTokNode):
+class Identifier(BaseName):
+    tok = Field()
+    token = Property(Self.tok, private=True)
+    name = Property(Self.tok, private=True)
+
     _repr_name = "Id"
 
 
@@ -185,11 +202,6 @@ class AggregateAssoc(AdaNode):
     expr = Field()
 
 
-class Prefix(Expr):
-    prefix = Field()
-    suffix = Field()
-
-
 class AttributeRef(Expr):
     prefix = Field()
     attribute = Field()
@@ -199,6 +211,11 @@ class AttributeRef(Expr):
 class RaiseExpression(Expr):
     exception_name = Field()
     error_message = Field()
+
+
+class Prefix(Expr):
+    prefix = Field()
+    suffix = Field()
 
 
 A.add_rules(
@@ -313,9 +330,7 @@ A.add_rules(
 
     access_deref=Tok("all") ^ AccessDeref,
 
-    type_name=List(A.direct_name, sep=".", revtree=Prefix),
-
-    static_name=List(A.identifier, sep=".", revtree=Prefix),
+    static_name=List(A.identifier, sep=".", revtree=NamePrefix),
 
     primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,

@@ -8,7 +8,7 @@
 |  |  |packages:
 |  |  |  <list>
 |  |  |  |item 0:
-|  |  |  |  <Prefix>
+|  |  |  |  <NamePrefix>
 |  |  |  |  |prefix:
 |  |  |  |  |  <Identifier>
 |  |  |  |  |  |tok: Token(u'Ada')

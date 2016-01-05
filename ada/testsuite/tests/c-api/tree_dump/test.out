@@ -2,7 +2,7 @@
 | <list>
 | | <WithDecl>
 | | | <list>
-| | | | <Prefix>
+| | | | <NamePrefix>
 | | | | | <Identifier>
 | | | | | <Identifier>
 | <list>

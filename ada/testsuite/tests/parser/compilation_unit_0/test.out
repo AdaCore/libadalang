@@ -4,7 +4,7 @@ CompilationUnit[1:1-7:10]
 | | | is_limited: False
 | | | is_private: False
 | | | packages:
-| | | | Prefix[1:6-1:17]
+| | | | NamePrefix[1:6-1:17]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Ada
@@ -13,7 +13,7 @@ CompilationUnit[1:1-7:10]
 | | | | | | | tok: Text_IO
 | | UsePkgDecl[1:19-1:34]
 | | | packages:
-| | | | Prefix[1:23-1:34]
+| | | | NamePrefix[1:23-1:34]
 | | | | | prefix:
 | | | | | | Id[1:23-1:26]
 | | | | | | | tok: Ada

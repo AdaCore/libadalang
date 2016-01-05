@@ -1,5 +1,6 @@
 from langkit.compiled_types import Field, abstract
 from langkit.envs import EnvSpec
+from langkit.expressions import Property, Self
 from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
 
 from language.parser import A, AdaNode
@@ -159,6 +160,8 @@ class PackageBody(AdaNode):
     aspects = Field()
     decls = Field()
     statements = Field()
+
+    name = Property(Self.package_name.name, private=True)
 
     env_spec = EnvSpec(add_env=True)
 

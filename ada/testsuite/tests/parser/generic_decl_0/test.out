@@ -1,7 +1,7 @@
 GenericPackageDecl[1:1-1:42]
 | package_decl:
 | | PackageDecl[1:9-1:42]
-| | | name:
+| | | package_name:
 | | | | Id[1:17-1:18]
 | | | | | tok: A
 | | | decls:

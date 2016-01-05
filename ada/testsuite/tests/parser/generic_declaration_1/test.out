@@ -26,7 +26,7 @@ GenericPackageDecl[1:1-1:155]
 | | | | | limited: False
 | package_decl:
 | | PackageDecl[1:51-1:155]
-| | | name:
+| | | package_name:
 | | | | Id[1:59-1:72]
 | | | | | tok: Generic_Stack
 | | | decls:

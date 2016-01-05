@@ -4,7 +4,7 @@ CompilationUnit[1:1-1:55]
 | | | is_private: True
 | | | item:
 | | | | PackageDecl[1:9-1:54]
-| | | | | name:
+| | | | | package_name:
 | | | | | | Id[1:17-1:18]
 | | | | | | | tok: A
 | | | | | decls:

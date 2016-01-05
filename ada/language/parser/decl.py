@@ -217,13 +217,14 @@ class PrivatePart(AdaNode):
 
 
 class PackageDecl(AdaNode):
-    name = Field()
+    package_name = Field()
     aspects = Field()
     decls = Field()
     private_part = Field()
     end_id = Field()
 
-    env_spec = EnvSpec(add_env=True)
+    name = Property(Self.package_name.name, private=True)
+    env_spec = EnvSpec(add_env=True, add_to_env=(Self, Self))
 
 
 class ExceptionDecl(AdaNode):

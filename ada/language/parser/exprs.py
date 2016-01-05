@@ -115,12 +115,11 @@ class NamePrefix(BaseName):
 @abstract
 class SingleTokNode(Expr):
     tok = Field()
-    token = Property(Self.tok, private=True)
+    name = Property(Self.tok, private=True)
 
 
 class Identifier(BaseName):
     tok = Field()
-    token = Property(Self.tok, private=True)
     name = Property(Self.tok, private=True)
 
     _repr_name = "Id"

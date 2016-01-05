@@ -1,0 +1,46 @@
+Params: <empty>
+===============
+
+Params: (A : Integer)
+=====================
+A:
+<TypeExpression>
+|null_exclusion: False
+|type_expr_variant:
+|  <TypeRef>
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
+
+Params: (A, B : Integer; C : Boolean)
+=====================================
+A:
+<TypeExpression>
+|null_exclusion: False
+|type_expr_variant:
+|  <TypeRef>
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
+
+B:
+<TypeExpression>
+|null_exclusion: False
+|type_expr_variant:
+|  <TypeRef>
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
+
+C:
+<TypeExpression>
+|null_exclusion: False
+|type_expr_variant:
+|  <TypeRef>
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Boolean')
+|  |constraint: None

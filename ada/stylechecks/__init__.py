@@ -79,7 +79,7 @@ class Report(object):
 
     def output(self):
         """Write all diagnostics to the output file."""
-        for filename, lineno, message in sorted(self.records):
+        for filename, lineno, message in sorted(set(self.records)):
             line = '{}:{}: {}\n'.format(
                 colored(filename, RED),
                 colored(lineno, YELLOW),
@@ -313,6 +313,8 @@ def check_generic(report, filename, content, lang):
     for i, line in iter_lines(content):
         report.set_context(filename, i)
 
+        if len(line) > 80 and 'http://' not in line:
+            report.add('Too long line')
         comment_start = line.find(lang.comment_start)
 
         def get_comment_text():

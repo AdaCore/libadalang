@@ -25,6 +25,26 @@ Testcase = namedtuple('Testcase', 'filename content records')
 
 testcases = (
     #
+    # Line-wrapping testing
+    #
+
+    Testcase('line_wrap_1.py',
+             '''
+             {}
+             '''.format('a' * 80),
+             []),
+    Testcase('line_wrap_2.py',
+             '''
+             {}
+             '''.format('a' * 81),
+             [(1, 'Too long line')]),
+    Testcase('line_wrap_3.py',
+             '''
+             print("http://{}")
+             '''.format('a' * 81),
+             []),
+
+    #
     # Comment box testing
     #
 

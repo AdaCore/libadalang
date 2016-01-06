@@ -1,5 +1,5 @@
 from langkit.compiled_types import EnumType, Field, Struct, Token, abstract
-from langkit.expressions import New, Property, Self, Vars
+from langkit.expressions import New, Property, Self
 from langkit.parsers import Enum, List, Opt, Or, Row, _
 
 from language.parser import A, AdaNode
@@ -85,14 +85,10 @@ class SubprogramSpec(AdaNode):
 
     typed_param_list = Property(
         Self.params.mapcat(
-            var=Vars.profile,
-
-            expr=Vars.profile.ids.map(
-                var=Vars.id,
-
-                expr=New(SingleParameter,
-                         name=Vars.id,
-                         type_expr=Vars.profile.type_expr),
+            lambda profile: profile.ids.map(
+                lambda id: New(SingleParameter,
+                               name=id,
+                               type_expr=profile.type_expr),
             ),
         ),
         doc='Collection of couples (identifier, type expression) for all'

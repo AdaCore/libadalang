@@ -120,7 +120,16 @@ class SingleTokNode(Expr):
 
 class Identifier(BaseName):
     tok = Field()
+
     name = Property(Self.tok, private=True)
+
+    env_elements = Property(
+        Self.parent_env.get(Self.tok),
+        doc="""
+        Return elements matching this identifier in the lexical scope of
+        this node.
+        """
+    )
 
     _repr_name = "Id"
 

@@ -112,12 +112,6 @@ class NamePrefix(BaseName):
     name = Property(Self.suffix.name, private=True)
 
 
-@abstract
-class SingleTokNode(Expr):
-    tok = Field()
-    name = Property(Self.tok, private=True)
-
-
 class Identifier(BaseName):
     tok = Field()
 
@@ -136,6 +130,12 @@ class Identifier(BaseName):
 
 class EnumIdentifier(Identifier):
     _repr_name = "EnumId"
+
+
+@abstract
+class SingleTokNode(Expr):
+    tok = Field()
+    name = Property(Self.tok, private=True)
 
 
 class CharLiteral(SingleTokNode):

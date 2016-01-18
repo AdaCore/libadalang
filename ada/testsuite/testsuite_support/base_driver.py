@@ -69,8 +69,16 @@ class BaseDriver(TestDriver):
     def tear_up(self):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
-        self.valgrind = (Valgrind(self.testsuite_dir, self.working_dir())
-                         if self.global_env['options'].valgrind else None)
+
+        if self.global_env['options'].valgrind:
+            valgrind_supp = self.test_env.get('valgrind_suppressions', None)
+            if valgrind_supp:
+                valgrind_supp = os.path.join(self.test_dir, valgrind_supp)
+
+            self.valgrind = Valgrind(self.testsuite_dir, self.working_dir(),
+                                     valgrind_supp)
+        else:
+            self.valgrind = None
         self.valgrind_errors = []
 
         self.check_file(self.expected_file)

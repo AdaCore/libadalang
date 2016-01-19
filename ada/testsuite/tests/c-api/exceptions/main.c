@@ -7,10 +7,20 @@
 #include "langkit_text.h"
 
 
+/* On Windows, we need this in order to initialize the SEH mechanism.  This
+   is necessary to turn exceptions (in the Windows meaning: page fault, for
+   instance) into Ada exceptions (which this testcase needs). */
+extern void __gnat_initialize(void*);
+
+
 int
 main(void)
 {
+    int SEH[2];
     const ada_exception *exc;
+
+    /* Initialize the SEH context */
+    __gnat_initialize (&SEH);
 
     libadalang_initialize();
     ada_destroy_analysis_context(NULL);

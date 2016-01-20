@@ -1,6 +1,7 @@
 from langkit import compiled_types
 from langkit.compiled_types import Field, abstract, EnumType
-from langkit.expressions import Property, Self, AbstractProperty
+from langkit.envs import EnvSpec
+from langkit.expressions import Property, Self, AbstractProperty, Env
 from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 
 from language.parser import A, AdaNode
@@ -98,12 +99,40 @@ class CaseExprAlternative(Expr):
 
 @abstract
 class BaseName(Expr):
-    name = AbstractProperty(type=compiled_types.Token, private=True)
+    designated_env = AbstractProperty(
+        type=compiled_types.LexicalEnvType, private=True,
+        doc="""
+        Returns the lexical environment designated by this name.
+        """
+    )
+
+    scope = AbstractProperty(
+        type=compiled_types.LexicalEnvType, private=True,
+        doc="""
+        Returns the lexical environment that is the scope in which the
+        entity designated by this name is defined/used.
+        """
+    )
+
+    name = AbstractProperty(
+        type=compiled_types.Token, private=True,
+        doc="""
+        Returns the relative name of this instance. For example,
+        for a prefix A.B.C, this will return C.
+        """
+    )
 
 
 class NamePrefix(BaseName):
     prefix = Field()
     suffix = Field()
+
+    designated_env = Property(
+        Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env),
+        private=True
+    )
+
+    scope = Property(Self.prefix.designated_env, private=True)
 
     name = Property(Self.suffix.name, private=True)
 
@@ -111,10 +140,14 @@ class NamePrefix(BaseName):
 class Identifier(BaseName):
     tok = Field()
 
+    designated_env = Property(Env.get(Self.tok).at(0).parent_env, private=True)
+
+    scope = Property(Env, private=True)
+
     name = Property(Self.tok, private=True)
 
     env_elements = Property(
-        Self.parent_env.get(Self.tok),
+        Env.get(Self.tok),
         doc="""
         Return elements matching this identifier in the lexical scope of
         this node.

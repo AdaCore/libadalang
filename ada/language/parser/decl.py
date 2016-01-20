@@ -223,8 +223,18 @@ class PackageDecl(AdaNode):
     private_part = Field()
     end_id = Field()
 
+    scope = Property(
+        Self.package_name.scope, private=True,
+        doc="""
+        Helper property, that will return the scope of definition of this
+        package declaration.
+        """
+    )
+
     name = Property(Self.package_name.name, private=True)
-    env_spec = EnvSpec(add_env=True, add_to_env=(Self, Self))
+    env_spec = EnvSpec(
+        initial_env=Self.scope, add_env=True, add_to_env=(Self, Self)
+    )
 
 
 class ExceptionDecl(AdaNode):

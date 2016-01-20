@@ -36,5 +36,5 @@ CompilationUnit[1:1-3:9]
 | | | | | | | tok: Foo
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-3:9> - <LexEnv Id 1 Parent null (Foo: [<PackageDecl 1:1-3:8>])>
+<CompilationUnit 1:1-3:9> - <LexEnv Id 1 Parent <root> (Foo: [<PackageDecl 1:1-3:8>])>
 <PackageDecl 1:1-3:8> - <LexEnv Id 2 Parent 1 (Lol: [<SubtypeDecl 2:4-2:40>])>

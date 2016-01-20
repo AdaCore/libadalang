@@ -183,7 +183,7 @@ class BaseTestsuite(object):
 
     TEST_SUBDIR = None
     """
-    Name of the subdirectory that contains testcases. Must be overriden in
+    Name of the subdirectory that contains testcases. Must be overridden in
     subclasses.
     """
 

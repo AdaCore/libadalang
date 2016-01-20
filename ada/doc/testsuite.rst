@@ -69,7 +69,7 @@ about available options, just get some help:
     testsuite/testsuite.py --help
 
 As a final note, you can stick to ``ada/manage.py test`` command and still pass
-additionnal options to the testsuite: just prepend options with the ``--``
+additional options to the testsuite: just prepend options with the ``--``
 separator. For instance:
 
 .. code-block:: shell
@@ -89,7 +89,7 @@ testsuite option:
 
 .. code-block:: shell
 
-    ada/manage.y test -- --with-python=/usr/debug/bin/python
+    ada/manage.py test -- --with-python=/usr/debug/bin/python
 
 
 *****************
@@ -109,7 +109,7 @@ run a Python script and check its output so that you can easily test the Python
 API.
 
 So when you want to write a new test, think about what you want to test
-specifically and then chose the most appropriate driver to write your testcase.
+specifically and then choose the most appropriate driver to write your testcase.
 Note that at some point you may want to write your own test driver to write a
 lot of testcases that all do the same kind of things.
 
@@ -206,4 +206,4 @@ the driver. The output of this script will then be compared to the content of
 the ``test.out`` file.
 
 Just like for the C API driver, it is considered a good practice to print a
-``Done!`` line just before exitting the script.
+``Done!`` line just before exiting the script.

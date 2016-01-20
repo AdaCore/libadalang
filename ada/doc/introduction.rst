@@ -2,7 +2,7 @@
 Libadalang introduction and high level approach
 ***********************************************
 
-Welcome to you! If you are reading this document, you are either interrested
+Welcome to you! If you are reading this document, you are either interested
 into Libadalang, or trying to contribute to it as a developer. This
 introduction will go over the high level goals of the project, as well as over
 the technical approach that has been chosen to achieve those goals. It is
@@ -18,9 +18,9 @@ have while designing Ada tooling at AdaCore. Here are those goals:
 * We need to make tooling that is Ada aware, both at the syntactic and the
   semantic level
 
-* We need avoid repeating ourselves, that is to avoid duplicating the same code
-  in dozens of places in our codebase, so we want to have an unified approach
-  to this problem.
+* We need to avoid repeating ourselves, that is to avoid duplicating the same
+  code in dozens of places in our codebase, so we want to have a unified
+  approach to this problem.
 
 * We need in some cases (such as IDEs) to make tooling that can work with
   incorrect and/or evolving Ada code. This is perhaps the most important point,
@@ -40,7 +40,7 @@ Libadalang:
   express complex queries and refactorings.
 
 * We want Libadalang to be fast, fast enough to deal effortlessly with
-  multi-million of lines code bases, so that it can replace existing ad-hoc but
+  multi-million-line code bases, so that it can replace existing ad-hoc but
   fast solutions that are built into our IDEs for code navigation and
   completion.
 

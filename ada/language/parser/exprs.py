@@ -40,10 +40,6 @@ class CallExpr(Expr):
     suffix = Field()
 
 
-class ExprList(AdaNode):
-    exprs = Field()
-
-
 class ParamAssoc(AdaNode):
     designator = Field()
     expr = Field()
@@ -301,8 +297,6 @@ A.add_rules(
         "null", "record", Null(AggregateContent)
     )[2],
 
-    positional_aggregate=List(A.expression, sep=","),
-
     aggregate=Row(
         "(",
         Row(
@@ -392,8 +386,6 @@ A.add_rules(
         Enum(Row("and", "then"), Op("and_then")), Enum("and", Op("and")),
         Enum(Row("or", "else"), Op("or_else")), Enum("or", Op("or")),
     ),
-
-    expression_list=Row("(", List(A.expression, sep=","), ")") ^ ExprList,
 
     discrete_range=Row(A.expression,
                        Enum("..", Op("ellipsis")), A.expression) ^ BinOp,

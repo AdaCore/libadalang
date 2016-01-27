@@ -457,8 +457,6 @@ A.add_rules(
         Opt("return", A.type_expression)[1]
     ) ^ SubprogramSpec,
 
-    test_spec=List(A.subprogram_spec, sep=";"),
-
     subprogram_decl=Row(
         A.overriding_indicator,
         A.subprogram_spec,

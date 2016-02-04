@@ -1,0 +1,131 @@
+CompilationUnit[1:1-17:11]
+| bodies:
+| | LibraryItem[1:1-2:8]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[1:1-2:8]
+| | | | | package_name:
+| | | | | | Id[1:9-1:12]
+| | | | | | | tok: Foo
+| | | | | end_id:
+| | | | | | Id[2:5-2:8]
+| | | | | | | tok: Foo
+| | LibraryItem[4:1-5:12]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[4:1-5:12]
+| | | | | package_name:
+| | | | | | NamePrefix[4:9-4:16]
+| | | | | | | prefix:
+| | | | | | | | Id[4:9-4:12]
+| | | | | | | | | tok: Foo
+| | | | | | | suffix:
+| | | | | | | | Id[4:13-4:16]
+| | | | | | | | | tok: Bar
+| | | | | end_id:
+| | | | | | NamePrefix[5:5-5:12]
+| | | | | | | prefix:
+| | | | | | | | Id[5:5-5:8]
+| | | | | | | | | tok: Foo
+| | | | | | | suffix:
+| | | | | | | | Id[5:9-5:12]
+| | | | | | | | | tok: Bar
+| | LibraryItem[7:1-8:16]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[7:1-8:16]
+| | | | | package_name:
+| | | | | | NamePrefix[7:9-7:20]
+| | | | | | | prefix:
+| | | | | | | | NamePrefix[7:9-7:16]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[7:9-7:12]
+| | | | | | | | | | | tok: Foo
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[7:13-7:16]
+| | | | | | | | | | | tok: Bar
+| | | | | | | suffix:
+| | | | | | | | Id[7:17-7:20]
+| | | | | | | | | tok: Baz
+| | | | | end_id:
+| | | | | | NamePrefix[8:5-8:16]
+| | | | | | | prefix:
+| | | | | | | | NamePrefix[8:5-8:12]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[8:5-8:8]
+| | | | | | | | | | | tok: Foo
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[8:9-8:12]
+| | | | | | | | | | | tok: Bar
+| | | | | | | suffix:
+| | | | | | | | Id[8:13-8:16]
+| | | | | | | | | tok: Baz
+| | LibraryItem[10:1-11:6]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[10:1-11:6]
+| | | | | package_name:
+| | | | | | Id[10:9-10:10]
+| | | | | | | tok: A
+| | | | | end_id:
+| | | | | | Id[11:5-11:6]
+| | | | | | | tok: A
+| | LibraryItem[13:1-14:8]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[13:1-14:8]
+| | | | | package_name:
+| | | | | | NamePrefix[13:9-13:12]
+| | | | | | | prefix:
+| | | | | | | | Id[13:9-13:10]
+| | | | | | | | | tok: A
+| | | | | | | suffix:
+| | | | | | | | Id[13:11-13:12]
+| | | | | | | | | tok: B
+| | | | | end_id:
+| | | | | | NamePrefix[14:5-14:8]
+| | | | | | | prefix:
+| | | | | | | | Id[14:5-14:6]
+| | | | | | | | | tok: A
+| | | | | | | suffix:
+| | | | | | | | Id[14:7-14:8]
+| | | | | | | | | tok: B
+| | LibraryItem[16:1-17:10]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[16:1-17:10]
+| | | | | package_name:
+| | | | | | NamePrefix[16:9-16:14]
+| | | | | | | prefix:
+| | | | | | | | NamePrefix[16:9-16:12]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[16:9-16:10]
+| | | | | | | | | | | tok: A
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[16:11-16:12]
+| | | | | | | | | | | tok: B
+| | | | | | | suffix:
+| | | | | | | | Id[16:13-16:14]
+| | | | | | | | | tok: C
+| | | | | end_id:
+| | | | | | NamePrefix[17:5-17:10]
+| | | | | | | prefix:
+| | | | | | | | NamePrefix[17:5-17:8]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[17:5-17:6]
+| | | | | | | | | | | tok: A
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[17:7-17:8]
+| | | | | | | | | | | tok: B
+| | | | | | | suffix:
+| | | | | | | | Id[17:9-17:10]
+| | | | | | | | | tok: C
+
+==== Dumping lexical environments ====
+<CompilationUnit 1:1-17:11> - <LexEnv Id 1 Parent <root> (A: [<PackageDecl 10:1-11:6>] Foo: [<PackageDecl 1:1-2:8>])>
+<PackageDecl 1:1-2:8> - <LexEnv Id 2 Parent 1 (Bar: [<PackageDecl 4:1-5:12>])>
+<PackageDecl 4:1-5:12> - <LexEnv Id 3 Parent 2 (Baz: [<PackageDecl 7:1-8:16>])>
+<PackageDecl 7:1-8:16> - <LexEnv Id 4 Parent 3 ()>
+<PackageDecl 10:1-11:6> - <LexEnv Id 5 Parent 1 (B: [<PackageDecl 13:1-14:8>])>
+<PackageDecl 13:1-14:8> - <LexEnv Id 6 Parent 5 (C: [<PackageDecl 16:1-17:10>])>
+<PackageDecl 16:1-17:10> - <LexEnv Id 7 Parent 6 ()>

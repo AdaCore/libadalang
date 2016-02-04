@@ -1,9 +1,9 @@
-from langkit.compiled_types import EnumType, Field, Struct, abstract
+from langkit.compiled_types import EnumType, Field, Struct, abstract, NodeMacro
 from langkit.envs import EnvSpec
 from langkit.expressions import New, Property, Self
 from langkit.parsers import Enum, List, Opt, Or, Row, _
 
-from language.parser import A, AdaNode
+from language.parser import A, AdaNode, ChildUnit
 from language.parser.exprs import Identifier
 
 
@@ -202,13 +202,6 @@ class ObjectDecl(AdaNode):
     renaming_clause = Field()
     aspects = Field()
 
-    # Incoming properties will read::
-    #     properties = {
-    #         "type": ChildNodeProperty("type")
-    #     }
-    #
-    #     env_action = AddToEnv("vars", "ids")
-
 
 class PrivatePart(AdaNode):
     decls = Field()
@@ -217,24 +210,15 @@ class PrivatePart(AdaNode):
 
 
 class PackageDecl(AdaNode):
+    _macros = [ChildUnit]
+
     package_name = Field()
     aspects = Field()
     decls = Field()
     private_part = Field()
     end_id = Field()
 
-    scope = Property(
-        Self.package_name.scope, private=True,
-        doc="""
-        Helper property, that will return the scope of definition of this
-        package declaration.
-        """
-    )
-
-    name = Property(Self.package_name.name, private=True)
-    env_spec = EnvSpec(
-        initial_env=Self.scope, add_env=True, add_to_env=(Self, Self)
-    )
+    name = Property(Self.package_name, private=True)
 
 
 class ExceptionDecl(AdaNode):

@@ -1,4 +1,8 @@
-from langkit.compiled_types import abstract, ASTNode, root_grammar_class
+from langkit.compiled_types import (
+    abstract, ASTNode, root_grammar_class, NodeMacro
+)
+from langkit.envs import EnvSpec
+from langkit.expressions import Property, Self
 from langkit.parsers import Grammar
 
 from language.parser.lexer import ada_lexer
@@ -23,6 +27,19 @@ class AdaNode(ASTNode):
        ASTNode in the code templates.
     """
     pass
+
+
+class ChildUnit(NodeMacro):
+    scope = Property(
+        Self.package_name.scope, private=True,
+        doc="""
+        Helper property, that will return the scope of definition of this
+        child unit.
+        """
+    )
+    env_spec = EnvSpec(
+        initial_env=Self.scope, add_env=True, add_to_env=(Self.name, Self)
+    )
 
 
 def eval_grammar():

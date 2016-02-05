@@ -202,6 +202,8 @@ class ObjectDecl(AdaNode):
     renaming_clause = Field()
     aspects = Field()
 
+    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+
 
 class PrivatePart(AdaNode):
     decls = Field()

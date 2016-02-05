@@ -3,7 +3,7 @@ from langkit.envs import EnvSpec
 from langkit.expressions import Property, Self
 from langkit.parsers import Opt, List, Or, Row, Null, Enum
 
-from language.parser import A, AdaNode
+from language.parser import A, AdaNode, ChildUnit
 
 
 class DiscriminantSpec(AdaNode):
@@ -49,6 +49,7 @@ class ComponentList(AdaNode):
 
 class RecordDef(AdaNode):
     components = Field()
+    env_spec = EnvSpec(add_env=True)
 
 
 class RecordTypeDef(TypeDef):
@@ -68,6 +69,9 @@ class FullTypeDecl(AdaNode):
     discriminants = Field()
     type_def = Field()
     aspects = Field()
+
+    name = Property(Self.type_id)
+    env_spec = EnvSpec(add_to_env=(Self.name, Self))
 
 
 class FloatingPointDef(RealTypeDef):
@@ -128,8 +132,6 @@ class DerivedTypeDef(TypeDef):
     interfaces = Field()
     record_extension = Field()
     has_private_part = Field()
-
-    env_spec = EnvSpec(add_env=True)
 
 
 class IncompleteTypeDef(TypeDef):

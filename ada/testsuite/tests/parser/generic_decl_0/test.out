@@ -1,6 +1,6 @@
 GenericPackageDecl[1:1-1:42]
 | package_decl:
-| | PackageDecl[1:9-1:42]
+| | BasePackageDecl[1:9-1:42]
 | | | package_name:
 | | | | Id[1:17-1:18]
 | | | | | tok: A

@@ -205,13 +205,21 @@ class ObjectDecl(AdaNode):
 
 class PrivatePart(AdaNode):
     decls = Field()
-
     env_spec = EnvSpec(add_env=True)
 
 
-class PackageDecl(AdaNode):
-    _macros = [ChildUnit]
+class BasePackageDecl(AdaNode):
+    """
+    Package declarations. Concrete instances of this class
+    will be created in generic package declarations. Other non-generic
+    package declarations will be instances of PackageDecl.
 
+    The behavior is the same, the only difference is that BasePackageDecl
+    and PackageDecl have different behavior regarding lexical environments.
+    In the case of generic package declarations, we use BasePackageDecl
+    which has no env_spec, and the environment behavior is handled by the
+    GenericPackageDecl instance.
+    """
     package_name = Field()
     aspects = Field()
     decls = Field()
@@ -219,6 +227,13 @@ class PackageDecl(AdaNode):
     end_id = Field()
 
     name = Property(Self.package_name, private=True)
+
+
+class PackageDecl(BasePackageDecl):
+    """
+    Non-generic package declarations.
+    """
+    _macros = [ChildUnit]
 
 
 class ExceptionDecl(AdaNode):
@@ -267,17 +282,32 @@ class GenericSubprogramDecl(AdaNode):
 
 
 class GenericPackageDecl(AdaNode):
-    # TODO: Handle environments. A bit more complicated , because it will need
-    # to short circuit the regular env_spec for package_decl.
+    _macros = [ChildUnit]
 
     formal_part = Field()
-    package_decl = Field()
+    package_decl = Field(type=BasePackageDecl)
+    name = Property(Self.package_decl.name)
+
+
+def package_decl_factory():
+    """
+    Factory for creating a grammar rule that parses package declarations. Used
+    to be able to generate both PackageDecl and BasePackageDecl instances.
+
+    :rtype: Row
+    """
+    return Row(
+        "package", A.static_name, A.aspect_specification, "is",
+        A.basic_decls,
+        Opt("private", A.basic_decls ^ PrivatePart)[1],
+        "end", Opt(A.static_name)
+    )
 
 
 A.add_rules(
     generic_decl=Or(
         Row(A.generic_formal_part, A.subprogram_spec) ^ GenericSubprogramDecl,
-        Row(A.generic_formal_part, A.package_decl) ^ GenericPackageDecl
+        Row(A.generic_formal_part, A.base_package_decl) ^ GenericPackageDecl
     ),
 
     generic_formal_part=Row(
@@ -326,12 +356,8 @@ A.add_rules(
         "package", A.static_name, A.renaming_clause, A.aspect_specification
     ) ^ PackageRenamingDecl,
 
-    package_decl=Row(
-        "package", A.static_name, A.aspect_specification, "is",
-        A.basic_decls,
-        Opt("private", A.basic_decls ^ PrivatePart)[1],
-        "end", Opt(A.static_name)
-    ) ^ PackageDecl,
+    package_decl=package_decl_factory() ^ PackageDecl,
+    base_package_decl=package_decl_factory() ^ BasePackageDecl,
 
     basic_decl=Or(
         A.body,

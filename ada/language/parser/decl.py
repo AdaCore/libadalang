@@ -237,12 +237,18 @@ class PackageDecl(BasePackageDecl):
 
 
 class ExceptionDecl(AdaNode):
+    """
+    Exception declarations.
+    """
     ids = Field()
     renames = Field()
     aspects = Field()
 
 
 class GenericInstantiation(AdaNode):
+    """
+    Instantiations of generics.
+    """
     name = Field()
     generic_entity_name = Field()
     parameters = Field()
@@ -250,12 +256,15 @@ class GenericInstantiation(AdaNode):
 
 
 class RenamingClause(AdaNode):
+    """
+    Renaming clause, used everywhere renamings are valid.
+    """
     renamed_object = Field()
 
 
 class PackageRenamingDecl(AdaNode):
     name = Field()
-    renames = Field()
+    renames = Field(type=RenamingClause)
     aspects = Field()
 
 
@@ -266,6 +275,9 @@ class GenericRenamingDecl(AdaNode):
 
 
 class FormalSubpDecl(AdaNode):
+    """
+    Formal subprogram declarations, in generic declarations formal parts.
+    """
     subp_spec = Field()
     is_abstract = Field()
     default_value = Field()

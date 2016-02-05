@@ -1,6 +1,5 @@
 from langkit import compiled_types
 from langkit.compiled_types import Field, abstract, EnumType
-from langkit.envs import EnvSpec
 from langkit.expressions import Property, Self, AbstractProperty, Env
 from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 
@@ -137,13 +136,11 @@ class NamePrefix(BaseName):
     name = Property(Self.suffix.name, private=True)
 
 
-class Identifier(BaseName):
+class BaseId(BaseName):
     tok = Field()
 
     designated_env = Property(Env.get(Self.tok).at(0).parent_env, private=True)
-
     scope = Property(Env, private=True)
-
     name = Property(Self.tok, private=True)
 
     env_elements = Property(
@@ -154,7 +151,13 @@ class Identifier(BaseName):
         """
     )
 
+
+class Identifier(BaseId):
     _repr_name = "Id"
+
+
+class StringLiteral(BaseId):
+    _repr_name = "Str"
 
 
 class EnumIdentifier(Identifier):
@@ -169,10 +172,6 @@ class SingleTokNode(Expr):
 
 class CharLiteral(SingleTokNode):
     _repr_name = "Chr"
-
-
-class StringLiteral(SingleTokNode):
-    _repr_name = "Str"
 
 
 class NumLiteral(SingleTokNode):
@@ -365,7 +364,12 @@ A.add_rules(
 
     access_deref=Tok("all") ^ AccessDeref,
 
-    static_name=List(A.identifier, sep=".", revtree=NamePrefix),
+    static_name=List(
+        # We want to accept string literals here for the corner case of library
+        # child unit subprogram operators, such as:
+        # procedure Ada.Containers.Vector."=" is ...
+        A.identifier | A.string_literal, sep=".", revtree=NamePrefix
+    ),
 
     primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,

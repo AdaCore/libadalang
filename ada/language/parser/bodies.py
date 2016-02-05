@@ -3,7 +3,7 @@ from langkit.envs import EnvSpec
 from langkit.expressions import Property, Self
 from langkit.parsers import Opt, List, Or, Row, _, Tok, Null
 
-from language.parser import A, AdaNode
+from language.parser import A, AdaNode, ChildUnit
 from language.parser.exprs import LoopSpec, Expr
 from language.parser.lexer import Token
 
@@ -17,6 +17,8 @@ class CompilationUnit(AdaNode):
 
 
 class SubprogramBody(AdaNode):
+    _macros = [ChildUnit]
+
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
@@ -24,7 +26,7 @@ class SubprogramBody(AdaNode):
     statements = Field()
     end_id = Field()
 
-    env_spec = EnvSpec(add_env=True)
+    name = Property(Self.subp_spec.name)
 
 
 class HandledStatements(AdaNode):
@@ -156,14 +158,14 @@ class TerminateStatement(Statement):
 
 
 class PackageBody(AdaNode):
+    _macros = [ChildUnit]
+
     package_name = Field()
     aspects = Field()
     decls = Field()
     statements = Field()
 
-    name = Property(Self.package_name.name, private=True)
-
-    env_spec = EnvSpec(add_env=True)
+    name = Property(Self.package_name, private=True)
 
 
 class TaskBody(AdaNode):

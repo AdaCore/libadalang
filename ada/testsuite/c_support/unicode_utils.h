@@ -73,7 +73,7 @@ get_string_literal(ada_analysis_unit unit) {
         || ada_node_kind(node) != ada_string_literal)
         error("Got unexpected node for ada_param_assoc_f_expr [11]");
 
-    if (!ada_single_tok_node_f_tok(node, &tok))
+    if (!ada_base_id_f_tok(node, &tok))
         error("Could not get token for the string literal");
 
     return ada_token_text(tok);

@@ -1,4 +1,4 @@
-from langkit.compiled_types import EnumType, Field, Struct, abstract, NodeMacro
+from langkit.compiled_types import EnumType, Field, Struct, abstract
 from langkit.envs import EnvSpec
 from langkit.expressions import New, Property, Self
 from langkit.parsers import Enum, List, Opt, Or, Row, _
@@ -98,6 +98,8 @@ class SubprogramSpec(AdaNode):
 
 
 class SubprogramDecl(AdaNode):
+    _macros = [ChildUnit]
+
     is_overriding = Field()
     subp_spec = Field()
     is_null = Field()
@@ -106,9 +108,7 @@ class SubprogramDecl(AdaNode):
     renames = Field()
     aspects = Field(repr=False)
 
-    # TODO: Add SubprogramDecl to environment. Waiting on qualified name
-    # support.
-    env_spec = EnvSpec(add_env=True)
+    name = Property(Self.subp_spec.name)
 
 
 class Pragma(AdaNode):
@@ -267,6 +267,9 @@ class GenericSubprogramDecl(AdaNode):
 
 
 class GenericPackageDecl(AdaNode):
+    # TODO: Handle environments. A bit more complicated , because it will need
+    # to short circuit the regular env_spec for package_decl.
+
     formal_part = Field()
     package_decl = Field()
 
@@ -440,7 +443,7 @@ A.add_rules(
 
     subprogram_spec=Row(
         _(Or("procedure", "function")),
-        Opt(A.name),
+        Opt(A.static_name),
         Opt(
             Row(
                 "(",

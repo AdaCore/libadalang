@@ -30,8 +30,17 @@ class AdaNode(ASTNode):
 
 
 class ChildUnit(NodeMacro):
+    """
+    This macro will add the properties and the env specification necessary to
+    make a node implement the specification of a library child unit in Ada, so
+    that you can declare new childs to an unit outside of its own scope.
+
+    Requirements::
+        name: Property(type=BaseName)
+    """
+
     scope = Property(
-        Self.package_name.scope, private=True,
+        Self.name.scope, private=True,
         doc="""
         Helper property, that will return the scope of definition of this
         child unit.

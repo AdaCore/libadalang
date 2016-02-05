@@ -8,9 +8,9 @@ CompilationUnit[30:1-32:49]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[30:1-31:40]
 | | | | | | | name:
-| | | | | | | | Prefix[30:10-30:43]
+| | | | | | | | NamePrefix[30:10-30:43]
 | | | | | | | | | prefix:
-| | | | | | | | | | Prefix[30:10-30:21]
+| | | | | | | | | | NamePrefix[30:10-30:21]
 | | | | | | | | | | | prefix:
 | | | | | | | | | | | | Id[30:10-30:13]
 | | | | | | | | | | | | | tok: Ada

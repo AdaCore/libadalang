@@ -139,7 +139,9 @@ class NamePrefix(BaseName):
 class BaseId(BaseName):
     tok = Field()
 
-    designated_env = Property(Env.get(Self.tok).at(0).parent_env, private=True)
+    designated_env = Property(
+        Env.resolve_unique(Self.tok).parent_env, private=True
+    )
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
 

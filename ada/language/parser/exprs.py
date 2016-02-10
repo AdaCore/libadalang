@@ -140,7 +140,7 @@ class BaseId(BaseName):
     tok = Field()
 
     designated_env = Property(
-        Env.resolve_unique(Self.tok).parent_env, private=True
+        Env.resolve_unique(Self.tok).el.parent_env, private=True
     )
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)

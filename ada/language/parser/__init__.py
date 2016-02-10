@@ -1,5 +1,6 @@
 from langkit.compiled_types import (
-    abstract, ASTNode, root_grammar_class, NodeMacro
+    abstract, ASTNode, root_grammar_class, NodeMacro,
+    env_metadata, UserField, BoolType, Struct
 )
 from langkit.envs import EnvSpec
 from langkit.expressions import Property, Self
@@ -10,6 +11,18 @@ from language.parser.lexer import ada_lexer
 ada_grammar = Grammar()
 A = ada_grammar
 ada_grammar.main_rule_name = "compilation_unit"
+
+
+@env_metadata
+class Metadata(Struct):
+    dottable_subprogram = UserField(
+        BoolType, doc="Wether the stored element is a subprogram accessed "
+                      "through the dot notation"
+    )
+    implicit_deref = UserField(
+        BoolType, doc="Wether the stored element is accessed through an "
+                      "implicit dereference"
+    )
 
 
 @abstract

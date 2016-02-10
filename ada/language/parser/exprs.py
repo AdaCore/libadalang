@@ -32,6 +32,21 @@ class Expr(AdaNode):
         """
     )
 
+    env_elements = AbstractProperty(
+        type=compiled_types.EnvElement.array_type(), runtime_check=True,
+        doc="""
+        Returns the list of annotated elements in the lexical environment
+        that can statically be a match for expr before overloading analysis.
+        """
+    )
+
+    entities = Property(
+        Self.env_elements.map(lambda e: e.el), doc="""
+        Same as env_elements, but return bare AdaNode instances rather than
+        EnvElement instances.
+        """
+    )
+
 
 class UnOp(Expr):
     op = Field()
@@ -129,14 +144,7 @@ class BaseId(SingleTokNode):
     )
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
-
-    env_elements = Property(
-        Env.get(Self.tok),
-        doc="""
-        Return elements matching this identifier in the lexical scope of
-        this node.
-        """
-    )
+    env_elements = Property(Env.get(Self.tok))
 
 
 class Identifier(BaseId):
@@ -242,6 +250,10 @@ class Prefix(Expr):
     scope = Property(Self.prefix.designated_env, private=True)
 
     name = Property(Self.suffix.name, private=True)
+
+    env_elements = Property(
+        Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)
+    )
 
 
 A.add_rules(

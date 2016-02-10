@@ -78,7 +78,7 @@ class Manage(ManageScript):
                           main_rule_name='compilation_unit',
                           lexer=ada_lexer,
                           grammar=ada_grammar,
-                          verbose=args.verbose)
+                          verbosity=args.verbosity)
 
     def do_test(self, args):
         """

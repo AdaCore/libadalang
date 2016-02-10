@@ -9,7 +9,28 @@ from language.parser.lexer import Token
 
 @abstract
 class Expr(AdaNode):
-    pass
+    designated_env = AbstractProperty(
+        type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
+        doc="""
+        Returns the lexical environment designated by this name.
+        """
+    )
+
+    scope = AbstractProperty(
+        type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
+        doc="""
+        Returns the lexical environment that is the scope in which the
+        entity designated by this name is defined/used.
+        """
+    )
+
+    name = AbstractProperty(
+        type=compiled_types.Token, private=True, runtime_check=True,
+        doc="""
+        Returns the relative name of this instance. For example,
+        for a prefix A.B.C, this will return C.
+        """
+    )
 
 
 class UnOp(Expr):
@@ -97,48 +118,12 @@ class CaseExprAlternative(Expr):
 
 
 @abstract
-class BaseName(Expr):
-    designated_env = AbstractProperty(
-        type=compiled_types.LexicalEnvType, private=True,
-        doc="""
-        Returns the lexical environment designated by this name.
-        """
-    )
-
-    scope = AbstractProperty(
-        type=compiled_types.LexicalEnvType, private=True,
-        doc="""
-        Returns the lexical environment that is the scope in which the
-        entity designated by this name is defined/used.
-        """
-    )
-
-    name = AbstractProperty(
-        type=compiled_types.Token, private=True,
-        doc="""
-        Returns the relative name of this instance. For example,
-        for a prefix A.B.C, this will return C.
-        """
-    )
-
-
-class NamePrefix(BaseName):
-    prefix = Field()
-    suffix = Field()
-
-    designated_env = Property(
-        Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env),
-        private=True
-    )
-
-    scope = Property(Self.prefix.designated_env, private=True)
-
-    name = Property(Self.suffix.name, private=True)
-
-
-class BaseId(BaseName):
+class SingleTokNode(Expr):
     tok = Field()
+    name = Property(Self.tok, private=True)
 
+
+class BaseId(SingleTokNode):
     designated_env = Property(
         Env.resolve_unique(Self.tok).el.parent_env, private=True
     )
@@ -164,12 +149,6 @@ class StringLiteral(BaseId):
 
 class EnumIdentifier(Identifier):
     _repr_name = "EnumId"
-
-
-@abstract
-class SingleTokNode(Expr):
-    tok = Field()
-    name = Property(Self.tok, private=True)
 
 
 class CharLiteral(SingleTokNode):
@@ -254,6 +233,15 @@ class RaiseExpression(Expr):
 class Prefix(Expr):
     prefix = Field()
     suffix = Field()
+
+    designated_env = Property(
+        Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env),
+        private=True
+    )
+
+    scope = Property(Self.prefix.designated_env, private=True)
+
+    name = Property(Self.suffix.name, private=True)
 
 
 A.add_rules(
@@ -370,7 +358,7 @@ A.add_rules(
         # We want to accept string literals here for the corner case of library
         # child unit subprogram operators, such as:
         # procedure Ada.Containers.Vector."=" is ...
-        A.identifier | A.string_literal, sep=".", revtree=NamePrefix
+        A.identifier | A.string_literal, sep=".", revtree=Prefix
     ),
 
     primary=Or(A.num_literal, A.null_literal,

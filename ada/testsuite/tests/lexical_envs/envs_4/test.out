@@ -1,0 +1,76 @@
+CompilationUnit[1:1-13:9]
+| bodies:
+| | LibraryItem[1:1-2:8]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[1:1-2:8]
+| | | | | package_name:
+| | | | | | Id[1:9-1:12]
+| | | | | | | tok: Foo
+| | | | | end_id:
+| | | | | | Id[2:5-2:8]
+| | | | | | | tok: Foo
+| | LibraryItem[4:1-6:12]
+| | | is_private: False
+| | | item:
+| | | | GenericPackageDecl[4:1-6:12]
+| | | | | package_decl:
+| | | | | | BasePackageDecl[5:1-6:12]
+| | | | | | | package_name:
+| | | | | | | | Prefix[5:9-5:16]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[5:9-5:12]
+| | | | | | | | | | | tok: Foo
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[5:13-5:16]
+| | | | | | | | | | | tok: Bar
+| | | | | | | end_id:
+| | | | | | | | Prefix[6:5-6:12]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[6:5-6:8]
+| | | | | | | | | | | tok: Foo
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[6:9-6:12]
+| | | | | | | | | | | tok: Bar
+| | LibraryItem[8:1-9:6]
+| | | is_private: False
+| | | item:
+| | | | PackageDecl[8:1-9:6]
+| | | | | package_name:
+| | | | | | Id[8:9-8:10]
+| | | | | | | tok: A
+| | | | | end_id:
+| | | | | | Id[9:5-9:6]
+| | | | | | | tok: A
+| | LibraryItem[11:1-13:8]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[11:1-13:8]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[11:1-11:14]
+| | | | | | | name:
+| | | | | | | | Prefix[11:11-11:14]
+| | | | | | | | | prefix:
+| | | | | | | | | | Id[11:11-11:12]
+| | | | | | | | | | | tok: A
+| | | | | | | | | suffix:
+| | | | | | | | | | Id[11:13-11:14]
+| | | | | | | | | | | tok: B
+| | | | | statements:
+| | | | | | HandledStatements[13:1-13:4]
+| | | | | end_id:
+| | | | | | Prefix[13:5-13:8]
+| | | | | | | prefix:
+| | | | | | | | Id[13:5-13:6]
+| | | | | | | | | tok: A
+| | | | | | | suffix:
+| | | | | | | | Id[13:7-13:8]
+| | | | | | | | | tok: B
+
+==== Dumping lexical environments ====
+<CompilationUnit 1:1-13:9> - <LexEnv Id 1 Parent <root> (A: [<PackageDecl 8:1-9:6>] Foo: [<PackageDecl 1:1-2:8>])>
+<PackageDecl 1:1-2:8> - <LexEnv Id 2 Parent 1 (Bar: [<GenericPackageDecl 4:1-6:12>])>
+<GenericPackageDecl 4:1-6:12> - <LexEnv Id 3 Parent 2 ()>
+<PackageDecl 8:1-9:6> - <LexEnv Id 4 Parent 1 (B: [<SubprogramBody 11:1-13:8>])>
+<SubprogramBody 11:1-13:8> - <LexEnv Id 5 Parent 4 ()>

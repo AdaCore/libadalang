@@ -15,7 +15,7 @@ CompilationUnit[1:1-17:11]
 | | | item:
 | | | | PackageDecl[4:1-5:12]
 | | | | | package_name:
-| | | | | | NamePrefix[4:9-4:16]
+| | | | | | Prefix[4:9-4:16]
 | | | | | | | prefix:
 | | | | | | | | Id[4:9-4:12]
 | | | | | | | | | tok: Foo
@@ -23,7 +23,7 @@ CompilationUnit[1:1-17:11]
 | | | | | | | | Id[4:13-4:16]
 | | | | | | | | | tok: Bar
 | | | | | end_id:
-| | | | | | NamePrefix[5:5-5:12]
+| | | | | | Prefix[5:5-5:12]
 | | | | | | | prefix:
 | | | | | | | | Id[5:5-5:8]
 | | | | | | | | | tok: Foo
@@ -35,9 +35,9 @@ CompilationUnit[1:1-17:11]
 | | | item:
 | | | | PackageDecl[7:1-8:16]
 | | | | | package_name:
-| | | | | | NamePrefix[7:9-7:20]
+| | | | | | Prefix[7:9-7:20]
 | | | | | | | prefix:
-| | | | | | | | NamePrefix[7:9-7:16]
+| | | | | | | | Prefix[7:9-7:16]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[7:9-7:12]
 | | | | | | | | | | | tok: Foo
@@ -48,9 +48,9 @@ CompilationUnit[1:1-17:11]
 | | | | | | | | Id[7:17-7:20]
 | | | | | | | | | tok: Baz
 | | | | | end_id:
-| | | | | | NamePrefix[8:5-8:16]
+| | | | | | Prefix[8:5-8:16]
 | | | | | | | prefix:
-| | | | | | | | NamePrefix[8:5-8:12]
+| | | | | | | | Prefix[8:5-8:12]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[8:5-8:8]
 | | | | | | | | | | | tok: Foo
@@ -75,7 +75,7 @@ CompilationUnit[1:1-17:11]
 | | | item:
 | | | | PackageDecl[13:1-14:8]
 | | | | | package_name:
-| | | | | | NamePrefix[13:9-13:12]
+| | | | | | Prefix[13:9-13:12]
 | | | | | | | prefix:
 | | | | | | | | Id[13:9-13:10]
 | | | | | | | | | tok: A
@@ -83,7 +83,7 @@ CompilationUnit[1:1-17:11]
 | | | | | | | | Id[13:11-13:12]
 | | | | | | | | | tok: B
 | | | | | end_id:
-| | | | | | NamePrefix[14:5-14:8]
+| | | | | | Prefix[14:5-14:8]
 | | | | | | | prefix:
 | | | | | | | | Id[14:5-14:6]
 | | | | | | | | | tok: A
@@ -95,9 +95,9 @@ CompilationUnit[1:1-17:11]
 | | | item:
 | | | | PackageDecl[16:1-17:10]
 | | | | | package_name:
-| | | | | | NamePrefix[16:9-16:14]
+| | | | | | Prefix[16:9-16:14]
 | | | | | | | prefix:
-| | | | | | | | NamePrefix[16:9-16:12]
+| | | | | | | | Prefix[16:9-16:12]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[16:9-16:10]
 | | | | | | | | | | | tok: A
@@ -108,9 +108,9 @@ CompilationUnit[1:1-17:11]
 | | | | | | | | Id[16:13-16:14]
 | | | | | | | | | tok: C
 | | | | | end_id:
-| | | | | | NamePrefix[17:5-17:10]
+| | | | | | Prefix[17:5-17:10]
 | | | | | | | prefix:
-| | | | | | | | NamePrefix[17:5-17:8]
+| | | | | | | | Prefix[17:5-17:8]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[17:5-17:6]
 | | | | | | | | | | | tok: A

@@ -4,7 +4,7 @@ CompilationUnit[1:1-17:10]
 | | | is_limited: False
 | | | is_private: False
 | | | packages:
-| | | | NamePrefix[1:6-1:17]
+| | | | Prefix[1:6-1:17]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Ada
@@ -194,7 +194,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | NamePrefix[1:6-1:17]
+| | Prefix[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -207,7 +207,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | NamePrefix[1:6-1:17]
+| | Prefix[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -220,7 +220,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | NamePrefix[1:6-1:17]
+| | Prefix[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -233,7 +233,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | NamePrefix[1:6-1:17]
+| | Prefix[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -272,7 +272,7 @@ CompilationUnit[1:1-17:10]
 | | | is_limited: False
 | | | is_private: False
 | | | packages:
-| | | | NamePrefix[1:6-1:17]
+| | | | Prefix[1:6-1:17]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Ada

@@ -1,13 +1,13 @@
 UsePkgDecl[1:1-1:29]
 | packages:
-| | NamePrefix[1:5-1:16]
+| | Prefix[1:5-1:16]
 | | | prefix:
 | | | | Id[1:5-1:8]
 | | | | | tok: Ada
 | | | suffix:
 | | | | Id[1:9-1:16]
 | | | | | tok: Text_IO
-| | NamePrefix[1:18-1:29]
+| | Prefix[1:18-1:29]
 | | | prefix:
 | | | | Id[1:18-1:21]
 | | | | | tok: Ada

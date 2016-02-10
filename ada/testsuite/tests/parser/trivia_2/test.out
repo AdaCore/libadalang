@@ -13,12 +13,12 @@ CompilationUnit
 | | | | Id
 | | WithDecl
 | | | ASTList
-| | | | NamePrefix
+| | | | Prefix
 | | | | | Id
 | | | | | Id
 | | UsePkgDecl
 | | | ASTList
-| | | | NamePrefix
+| | | | Prefix
 | | | | | Id
 | | | | | Id
 | -----------------------------
@@ -27,7 +27,7 @@ CompilationUnit
 | ASTList
 | | LibraryItem
 | | | PackageBody
-| | | | NamePrefix
+| | | | Prefix
 | | | | | Id
 | | | | | Id
 | | | | ASTList

@@ -202,7 +202,7 @@ class BaseTestsuite(object):
         self.report_writer = None
 
         # Determine important paths
-        self.root_dir = root_dir
+        self.root_dir = os.path.abspath(root_dir)
         self.test_dir = os.path.join(self.root_dir, self.TEST_SUBDIR)
         self.working_dir = os.path.join(self.root_dir, 'tmp')
         if not os.path.isdir(self.working_dir):

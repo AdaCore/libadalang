@@ -5,6 +5,25 @@ from langkit.parsers import Opt, List, Or, Row, Enum, Tok, Null
 
 from language.parser import A, AdaNode
 from language.parser.lexer import Token
+from language.parser.types import SubtypeDecl, FullTypeDecl
+
+
+def is_package(e):
+    """
+    Property helper to determine if an entity is a package or not.
+
+    TODO: This current solution is not really viable, because:
+    1. Having to do local imports of AdaNode subclasses is tedious.
+    2. is_package could be useful in other files.
+
+    This probably hints towards a reorganization of the types definition.
+
+    :type e: AbstractExpression
+    :rtype: AbstractExpression
+    """
+    from language.parser.bodies import PackageBody
+    from language.parser.decl import PackageDecl
+    return e.is_a(PackageDecl, PackageBody)
 
 
 @abstract
@@ -41,9 +60,19 @@ class Expr(AdaNode):
     )
 
     entities = Property(
-        Self.env_elements.map(lambda e: e.el), doc="""
+        Self.env_elements.map(lambda e: e.el), type=AdaNode.array_type(),
+        doc="""
         Same as env_elements, but return bare AdaNode instances rather than
         EnvElement instances.
+        """
+    )
+
+    get_type = AbstractProperty(
+        type=AdaNode, runtime_check=True,
+        doc="""
+        Get the type pointed at by expr. Since in ada this can be resolved
+        locally without any non-local analysis, this doesn't use logic
+        equations.
         """
     )
 
@@ -145,6 +174,14 @@ class BaseId(SingleTokNode):
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
     env_elements = Property(Env.get(Self.tok))
+
+    # This implementation of get_type is more permissive than the "legal" one
+    # since it will skip entities that are eventually available first in the
+    # env, shadowing the actual type, if they are not types. It will allow
+    # to get working XRefs in simple shadowing cases.
+    get_type = Property(
+        Self.entities.filter(lambda e: e.is_a(SubtypeDecl, FullTypeDecl)).at(0)
+    )
 
 
 class Identifier(BaseId):
@@ -254,6 +291,15 @@ class Prefix(Expr):
     env_elements = Property(
         Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)
     )
+
+    # This implementation of get_type is more permissive than the "legal" one
+    # since it will skip entities that are eventually available first in the
+    # env if they are not packages.
+    get_type = Property(lambda self: (
+        self.prefix.entities.filter(is_package).at(0).parent_env.eval_in_env(
+            self.suffix.get_type
+        )
+    ))
 
 
 A.add_rules(

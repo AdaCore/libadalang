@@ -293,6 +293,7 @@ class Overriding(EnumType):
 class GenericSubprogramDecl(AdaNode):
     formal_part = Field()
     subp_spec = Field()
+    aspects = Field()
 
 
 class GenericPackageDecl(AdaNode):
@@ -320,7 +321,8 @@ def package_decl_factory():
 
 A.add_rules(
     generic_decl=Or(
-        Row(A.generic_formal_part, A.subprogram_spec) ^ GenericSubprogramDecl,
+        Row(A.generic_formal_part, A.subprogram_spec,
+            A.aspect_specification) ^ GenericSubprogramDecl,
         Row(A.generic_formal_part, A.base_package_decl) ^ GenericPackageDecl
     ),
 

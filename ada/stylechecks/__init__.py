@@ -108,7 +108,7 @@ class PackageChecker(object):
         self.reset()
 
     def add(self, name):
-        if self.last_package and self.last_package > name:
+        if self.last_package and self.last_package.lower() > name.lower():
             self.report.add(
                 'Imported package "{}" must appear after "{}"'.format(
                     colored(self.last_package, GREEN),

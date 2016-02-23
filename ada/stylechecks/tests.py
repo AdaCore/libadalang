@@ -118,6 +118,10 @@ testcases = (
         with ${blah};
         with Bar;
     ''', [(3, 'Imported package "Foo" must appear after "Bar"')]),
+    Testcase('package_6.adb', '''
+        with AB;
+        with Aa;
+    ''', [(2, 'Imported package "AB" must appear after "Aa"')]),
 
     #
     # Mako-specific testing

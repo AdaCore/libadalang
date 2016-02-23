@@ -2,6 +2,8 @@
 langkit/langkit/support/*.adb no-precommit-check
 langkit/langkit/support/*.ads no-precommit-check
 
+ada/asteval/*.adb no-precommit-check
+ada/asteval/*.ads no-precommit-check
 ada/testsuite/tests/*/*/*.adb no-precommit-check
 ada/testsuite/tests/*/*/*.ads no-precommit-check
 ada/testsuite/tests/*/*/*.c no-precommit-check

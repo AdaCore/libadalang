@@ -185,15 +185,12 @@
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
 Parents of CompilationUnit[1:1-14:9]:
-  - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[3:1-3:14]:
-  - SubprogramSpec[3:1-3:14]
   - SubprogramBody[3:1-14:8]
   - LibraryItem[3:1-14:8]
   - list[3:1-14:9]
   - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[4:4-4:46]:
-  - SubprogramSpec[4:4-4:46]
   - SubprogramBody[4:4-11:12]
   - list[4:4-11:13]
   - SubprogramBody[3:1-14:8]

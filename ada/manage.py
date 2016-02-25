@@ -91,7 +91,8 @@ class Manage(ManageScript):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
         from langkit.compile_context import CompileCtx
-        from language.parser import ada_lexer, ada_grammar
+        from language.lexer import ada_lexer
+        from language.grammar import ada_grammar
 
         return CompileCtx(lang_name='Ada',
                           main_rule_name='compilation_unit',

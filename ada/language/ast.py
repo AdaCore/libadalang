@@ -11,6 +11,7 @@ from langkit.expressions import AbstractProperty, Env, Not, is_simple_expr
 from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
+from langkit.expressions.boolean import If
 
 
 @env_metadata
@@ -746,7 +747,6 @@ class BaseId(SingleTokNode):
     )
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
-    env_elements = Property(Env.get(Self.tok))
 
     # This implementation of get_type is more permissive than the "legal" one
     # since it will skip entities that are eventually available first in the
@@ -776,6 +776,23 @@ class BaseId(SingleTokNode):
             A.B.C (12, 15);
               ^ has_callexpr = False
         """
+    )
+
+    env_elements = Property(
+        If(Self.has_callexpr,
+           # If self id is the main id in a callexpr, we'll let the
+           # filtering to the callexpr. Callexpr.env_elements will call this
+           # implementation and do its own filtering.
+           Env.get(Self.tok),
+
+           # If it is not the main id in a callexpr, then we want to filter
+           # the components that would only be valid with a callexpr.
+           Env.get(Self.tok).filter(
+               lambda e: e.el.cast(SubprogramSpec).then(lambda ss: (
+                   (e.MD.dottable_subprogram & ss.nb_min_params.equals(1))
+                   | ss.nb_min_params.equals(0)
+               ), default_val=True)
+           ))
     )
 
 

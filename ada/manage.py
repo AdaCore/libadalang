@@ -159,7 +159,7 @@ class Manage(ManageScript):
 
         :param work_dir: the directory in which to search for ada sources.
         :type work_dir: str
-        :return: set[str]
+        :rtype: set[str]
         """
         ada_files = set()
         for root, dirs, files in os.walk(work_dir):
@@ -269,7 +269,7 @@ class Manage(ManageScript):
             in Mako templates).
 
             :param ct.CompiledType cls: Type parameter.
-            :return: str
+            :rtype: str
             """
             name = cls.name().camel_with_underscores
             return dispatch_on_type(cls, [
@@ -289,7 +289,7 @@ class Manage(ManageScript):
             Make templates).
 
             :param ct.CompiledType cls: Type parameter.
-            :return: str
+            :rtype: str
             """
             name = cls.name().camel_with_underscores
             return dispatch_on_type(cls, [

@@ -72,5 +72,5 @@ CompilationUnit[1:1-13:9]
 <CompilationUnit 1:1-13:9> - <LexEnv Id 1 Parent <root> (A: [<PackageDecl 8:1-9:6>] Foo: [<PackageDecl 1:1-2:8>])>
 <PackageDecl 1:1-2:8> - <LexEnv Id 2 Parent 1 (Bar: [<GenericPackageDecl 4:1-6:12>])>
 <GenericPackageDecl 4:1-6:12> - <LexEnv Id 3 Parent 2 ()>
-<PackageDecl 8:1-9:6> - <LexEnv Id 4 Parent 1 (B: [<SubprogramBody 11:1-13:8>])>
+<PackageDecl 8:1-9:6> - <LexEnv Id 4 Parent 1 (B: [<SubprogramSpec 11:1-11:14>])>
 <SubprogramBody 11:1-13:8> - <LexEnv Id 5 Parent 4 ()>

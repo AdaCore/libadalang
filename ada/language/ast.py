@@ -2,12 +2,12 @@ from __future__ import absolute_import
 
 from langkit import compiled_types
 from langkit.compiled_types import (
-    ASTNode, BoolType, EnumType, Field, NodeMacro, Struct, UserField, abstract,
-    env_metadata, root_grammar_class, LongType
+    ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
+    env_metadata, root_grammar_class, LongType, create_macro
 )
 
 from langkit.envs import EnvSpec
-from langkit.expressions import AbstractProperty, Env
+from langkit.expressions import AbstractProperty, Env, Not, is_simple_expr
 from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
@@ -42,26 +42,39 @@ class AdaNode(ASTNode):
     pass
 
 
-class ChildUnit(NodeMacro):
+def child_unit(name_expr, env_val_expr=Self):
     """
-    This macro will add the properties and the env specification necessary to
-    make a node implement the specification of a library child unit in Ada, so
-    that you can declare new childs to an unit outside of its own scope.
+    This macro will add the properties and the env specification necessary
+    to make a node implement the specification of a library child unit in
+    Ada, so that you can declare new childs to an unit outside of its own
+    scope.
 
-    Requirements::
-        name: Property(type=BaseName)
+    :param AbstractExpression env_val_expr: The expression that will
+        retrieve the environment value for the decorated node.
+
+    :param AbstractExpression name_expr: The expression that will retrieve
+        the name value for the decorated node.
+
+    :rtype: NodeMacro
     """
 
-    scope = Property(
-        Self.name.scope, private=True,
-        doc="""
-        Helper property, that will return the scope of definition of this
-        child unit.
-        """
+    attribs = dict(
+        scope=Property(name_expr.scope, private=True, doc="""
+                       Helper property, that will return the scope of
+                       definition of this child unit.
+                       """),
+        env_spec=EnvSpec(
+            initial_env=Self.scope, add_env=True, add_to_env=(
+                (name_expr, env_val_expr) if is_simple_expr(name_expr)
+                else (Self.env_spec_name, env_val_expr)
+            )
+        )
     )
-    env_spec = EnvSpec(
-        initial_env=Self.scope, add_env=True, add_to_env=(Self.name, Self)
-    )
+    # Add a property if the name expr is not a simple expr
+    if is_simple_expr(name_expr):
+        attribs['env_spec_name'] = Property(name_expr, private=True),
+
+    return create_macro(attribs)
 
 
 class DiscriminantSpec(AdaNode):
@@ -364,7 +377,7 @@ class AspectSpecification(AdaNode):
 
 
 class SubprogramDecl(AdaNode):
-    _macros = [ChildUnit]
+    _macros = [child_unit(Self.name, Self.subp_spec)]
 
     is_overriding = Field()
     subp_spec = Field()
@@ -501,7 +514,7 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    _macros = [ChildUnit]
+    _macros = [child_unit(Self.name)]
 
 
 class ExceptionDecl(AdaNode):
@@ -563,7 +576,7 @@ class GenericSubprogramDecl(AdaNode):
 
 
 class GenericPackageDecl(AdaNode):
-    _macros = [ChildUnit]
+    _macros = [child_unit(Self.name)]
 
     formal_part = Field()
     package_decl = Field(type=BasePackageDecl)
@@ -932,7 +945,7 @@ class CompilationUnit(AdaNode):
 
 
 class SubprogramBody(AdaNode):
-    _macros = [ChildUnit]
+    _macros = [child_unit(Self.name, Self.subp_spec)]
 
     overriding = Field()
     subp_spec = Field()
@@ -1073,7 +1086,7 @@ class TerminateStatement(Statement):
 
 
 class PackageBody(AdaNode):
-    _macros = [ChildUnit]
+    _macros = [child_unit(Self.name)]
 
     package_name = Field()
     aspects = Field()

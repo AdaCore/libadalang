@@ -53,6 +53,6 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-10:9> - <LexEnv Id 1 Parent <root> (Foo: [<PackageBody 1:1-10:8>])>
-<PackageBody 1:1-10:8> - <LexEnv Id 2 Parent 1 (Bar: [<SubprogramBody 2:4-9:11>])>
+<PackageBody 1:1-10:8> - <LexEnv Id 2 Parent 1 (Bar: [<SubprogramSpec 2:4-2:17>])>
 <SubprogramBody 2:4-9:11> - <LexEnv Id 3 Parent 2 ()>
 <BlockStatement 4:7-8:10> - <LexEnv Id 4 Parent 3 (Lol: [<SubtypeDecl 5:10-5:46>])>

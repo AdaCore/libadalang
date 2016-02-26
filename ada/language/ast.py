@@ -795,7 +795,7 @@ class Attribute(SingleTokNode):
 
 class SingleParameter(Struct):
     name = Field(type=Identifier)
-    profile = Field(type=TypeExpression)
+    profile = Field(type=ParameterProfile)
 
 
 class SubprogramSpec(AdaNode):
@@ -806,7 +806,7 @@ class SubprogramSpec(AdaNode):
     typed_param_list = Property(
         Self.params.mapcat(
             lambda profile: profile.ids.map(lambda id: (
-                New(SingleParameter, name=id, profile=profile.type_expr)
+                New(SingleParameter, name=id, profile=profile)
             ))
         ),
         doc='Collection of couples (identifier, param profile) for all'

@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, NodeMacro, Struct, UserField, abstract,
-    env_metadata, root_grammar_class
+    env_metadata, root_grammar_class, LongType
 )
 
 from langkit.envs import EnvSpec
@@ -811,6 +811,24 @@ class SubprogramSpec(AdaNode):
         ),
         doc='Collection of couples (identifier, param profile) for all'
             ' parameters'
+    )
+
+    nb_min_params = Property(
+        Self.typed_param_list.filter(
+            lambda p: p.profile.default.is_null,
+        ).length,
+        type=LongType, doc="""
+        Return the minimum number of parameters this subprogram can be called
+        while still being a legal call.
+        """
+    )
+
+    nb_max_params = Property(
+        Self.typed_param_list.length, type=LongType,
+        doc="""
+        Return the maximum number of parameters this subprogram can be called
+        while still being a legal call.
+        """
     )
 
 

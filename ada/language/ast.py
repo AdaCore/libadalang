@@ -744,11 +744,12 @@ class BaseId(SingleTokNode):
     )
 
     has_callexpr = Property(
-        Self.parents.take_while(lambda p: (
+        Not(Self.parents.take_while(lambda p: (
             p.is_a(CallExpr)
             | p.parent.is_a(CallExpr)
             | p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
-        )),
+        )).empty),
+        type=BoolType,
         doc="""
         This property will return whether this BaseId is the main symbol
         qualifying the entity in a Call expression. For example::

@@ -1,0 +1,22 @@
+CompilationUnit[1:1-6:7]
+| bodies:
+| | LibraryItem[1:1-6:6]
+| | | is_private: False
+| | | item:
+| | | | PackageBody[1:1-6:6]
+| | | | | package_name:
+| | | | | | Id[1:14-1:15]
+| | | | | | | tok: S
+| | | | | decls:
+| | | | | | TaskTypeDecl[2:4-2:19]
+| | | | | | | task_type_name:
+| | | | | | | | Id[2:14-2:19]
+| | | | | | | | | tok: share
+| | | | | | TaskBodyStub[3:4-3:31]
+| | | | | | | name:
+| | | | | | | | Id[3:14-3:19]
+| | | | | | | | | tok: share
+| | | | | statements:
+| | | | | | HandledStatements[5:4-5:9]
+| | | | | | | statements:
+| | | | | | | | NullStatement[5:4-5:8]

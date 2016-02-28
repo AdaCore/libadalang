@@ -2,11 +2,11 @@ TaskTypeDecl[1:1-1:62]
 | task_type_name:
 | | Id[1:11-1:14]
 | | | tok: TT1
-| interfaces:
-| | Id[1:22-1:28]
-| | | tok: Server
 | definition:
-| | TaskDef[1:34-1:62]
+| | TaskDef[1:15-1:62]
+| | | interfaces:
+| | | | Id[1:22-1:28]
+| | | | | tok: Server
 | | | items:
 | | | | EntryDecl[1:34-1:53]
 | | | | | overriding: unspecified

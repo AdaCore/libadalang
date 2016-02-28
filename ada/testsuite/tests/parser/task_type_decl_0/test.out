@@ -3,7 +3,7 @@ TaskTypeDecl[1:1-1:144]
 | | Id[1:11-1:27]
 | | | tok: Buffer_Pool_Task
 | definition:
-| | TaskDef[1:31-1:144]
+| | TaskDef[1:28-1:144]
 | | | items:
 | | | | EntryDecl[1:31-1:75]
 | | | | | overriding: unspecified

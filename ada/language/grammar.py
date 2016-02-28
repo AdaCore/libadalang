@@ -50,6 +50,8 @@ A.add_rules(
     task_item=Or(A.entry_decl, A.aspect_clause, A.pragma),
 
     task_def=Row(
+        "is",
+        Opt("new", List(A.static_name, sep="and"), "with")[1],
         List(Row(A.task_item, ";")[0], empty_valid=True),
         Opt(
             "private", List(Row(A.task_item, ";")[0], empty_valid=True)
@@ -61,8 +63,7 @@ A.add_rules(
     task_type_decl=Row(
         "task", "type", A.identifier, Opt(A.type_discriminant),
         A.aspect_specification,
-        "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
-        A.task_def
+        Opt(A.task_def)
     ) ^ TaskTypeDecl,
 
     subtype_decl=Row(
@@ -192,7 +193,8 @@ A.add_rules(
 
     access_def=Row(
         Opt("not", "null").as_bool(),
-        A.access_expression
+        A.access_expression,
+        Opt(A.constraint),
     ) ^ AccessDef,
 
     type_def=Or(A.enum_type_def, A.record_type_def, A.real_type_def,
@@ -270,7 +272,7 @@ A.add_rules(
         A.subprogram_spec,
         _(Opt("is")),
         Opt("abstract").as_bool(),
-        Opt(Or(A.diamond_expr, A.static_name, A.null_literal))
+        Opt(Or(A.diamond_expr, A.name, A.null_literal))
     ) ^ FormalSubpDecl,
 
     renaming_clause=Row("renames", A.name) ^ RenamingClause,
@@ -363,7 +365,7 @@ A.add_rules(
     ) ^ ProtectedDecl,
 
     task_decl=Row("task", A.identifier, A.aspect_specification,
-                  Opt("is", A.task_def)[1]) ^ TaskDecl,
+                  Opt(A.task_def)) ^ TaskDecl,
 
     overriding_indicator=Or(
         Enum("overriding", Overriding("overriding")),
@@ -375,7 +377,8 @@ A.add_rules(
         A.overriding_indicator,
         "entry",
         A.identifier,
-        Opt("(", A.type_ref, ")")[1],
+        Opt("(",
+            A.constrained_type_ref | A.discrete_range | A.type_ref, ")")[1],
         Opt(A.parameter_profiles),
         A.aspect_specification
     ) ^ EntryDecl,
@@ -545,10 +548,16 @@ A.add_rules(
         "end", _(Opt(A.static_name))
     ) ^ TaskBody,
 
+    task_body_stub=Row(
+        "task", "body", A.static_name,
+        "is", "separate", A.aspect_specification
+    ) ^ TaskBodyStub,
+
     package_body_stub=Row(
         "package", "body", A.static_name,
         "is", "separate", A.aspect_specification
     ) ^ PackageBodyStub,
+
 
     package_body=Row(
         "package", "body", A.static_name, A.aspect_specification,
@@ -632,13 +641,14 @@ A.add_rules(
     ) ^ DelayStatement,
 
     abort_statement=Row(
-        "abort", List(A.static_name, sep=",")
+        "abort", List(A.name, sep=",")
     ) ^ AbortStatement,
 
     body=Or(A.subprogram_body, A.package_body, A.task_body,
             A.protected_body, A.entry_body),
 
-    body_stub=Or(A.subprogram_body_stub, A.package_body_stub),
+    body_stub=Or(A.subprogram_body_stub, A.package_body_stub,
+                 A.task_body_stub),
 
     subprogram_body_stub=Row(
         A.overriding_indicator,
@@ -687,7 +697,7 @@ A.add_rules(
 
     assignment_statement=Row(A.name, ":=", A.expression) ^ AssignStatement,
 
-    goto_statement=Row("goto", A.identifier) ^ GotoStatement,
+    goto_statement=Row("goto", A.static_name) ^ GotoStatement,
 
     exit_statement=Row("exit", Opt(A.identifier),
                        Opt("when", A.expression)[1]) ^ ExitStatement,
@@ -792,6 +802,7 @@ A.add_rules(
     ) ^ ParamAssoc,
 
     call_suffix=Or(
+        A.constrained_type_ref,
         A.discrete_range,
         List(A.param_assoc, sep=",")
         ^ ParamList
@@ -813,7 +824,8 @@ A.add_rules(
         # We want to accept string literals here for the corner case of library
         # child unit subprogram operators, such as:
         # procedure Ada.Containers.Vector."=" is ...
-        A.identifier | A.string_literal, sep=".", revtree=Prefix
+        A.identifier | A.string_literal | A.char_literal,
+        sep=".", revtree=Prefix
     ),
 
     primary=Or(A.num_literal, A.null_literal,
@@ -872,11 +884,10 @@ A.add_rules(
     discrete_range=Row(A.expression,
                        Enum("..", Op("ellipsis")), A.expression) ^ BinOp,
 
-    range_expression=Or(
-        A.discrete_range
+    choice=Or(
+        A.constrained_type_ref, A.discrete_range, A.expression,
+        A.others_designator
     ),
-
-    choice=Or(A.range_expression, A.expression, A.others_designator),
 
     choice_list=List(A.choice, sep="|"),
 

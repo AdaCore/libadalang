@@ -126,6 +126,7 @@ ada_lexer = Lexer(Token)
 ada_lexer.add_patterns(
     ('bracket_char', r'(\[\"([0-9A-F][0-9A-F]){2,4}\"\])'),
     ('p_string', r'\"(\"\"|{bracket_char}|[^\n\"])*\"'),
+    ('p_percent_string', r'%(%%|{bracket_char}|[^\n%])*%'),
     ('digit', r"[0-9]"),
     ('extended_digit', r"[0-9a-zA-Z]"),
     ('integer', r"({digit}(_?{digit})*)"),
@@ -136,7 +137,8 @@ ada_lexer.add_patterns(
     ('identifier', r"(\P{ID_Start}|{bracket_char})"
                    r"(\P{ID_Continue}*|{bracket_char})*"),
     ('based_literal',
-     r"{base}#{based_integer}(\.{based_integer})?#{exponent}?"),
+     r"{base}[#:]{based_integer}(\.{based_integer})?[#:]{exponent}?"),
+    ('ws', r"[ ]*"),
 )
 
 ada_lexer.add_rules(
@@ -245,11 +247,12 @@ ada_lexer.add_rules(
 
     (ada_lexer.patterns.based_literal,          Token.Number),
 
-    (ada_lexer.patterns.identifier,        Token.Identifier),
+    (ada_lexer.patterns.identifier,             Token.Identifier),
 
-    (Pattern(r"<<({identifier})?>>"), Token.Label),
+    (Pattern(r"<<{ws}({identifier})?{ws}>>"),   Token.Label),
 
     (ada_lexer.patterns.p_string,               Token.String),
+    (ada_lexer.patterns.p_percent_string,       Token.String),
 
     Case(Pattern("'.'"),
          Alt(prev_token_cond=(Token.Identifier, Token.All),

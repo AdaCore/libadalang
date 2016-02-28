@@ -1,8 +1,0 @@
-BinOp[1:1-1:9]
-| left:
-| | Num[1:1-1:3]
-| | | tok: 12
-| op: ellipsis
-| right:
-| | Num[1:7-1:9]
-| | | tok: 15

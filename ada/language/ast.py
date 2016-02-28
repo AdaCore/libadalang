@@ -304,6 +304,7 @@ class SubtypeDecl(TypeDecl):
 
 
 class TaskDef(AdaNode):
+    interfaces = Field()
     items = Field()
     private_items = Field()
     end_id = Field()
@@ -319,7 +320,6 @@ class TaskTypeDecl(AdaNode):
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
-    interfaces = Field()
     definition = Field()
 
 
@@ -334,6 +334,7 @@ class ProtectedTypeDecl(AdaNode):
 class AccessDef(TypeDef):
     not_null = Field()
     access_expr = Field()
+    constraint = Field()
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -921,7 +922,7 @@ class EnumIdentifier(Identifier):
     _repr_name = "EnumId"
 
 
-class CharLiteral(SingleTokNode):
+class CharLiteral(BaseId):
     _repr_name = "Chr"
 
 
@@ -1369,6 +1370,11 @@ class SubprogramBodyStub(AdaNode):
 
 
 class PackageBodyStub(AdaNode):
+    name = Field()
+    aspects = Field()
+
+
+class TaskBodyStub(AdaNode):
     name = Field()
     aspects = Field()
 

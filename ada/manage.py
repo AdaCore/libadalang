@@ -73,19 +73,17 @@ class Manage(ManageScript):
         )
         perf_test_parser.set_defaults(func=self.do_perf_test)
 
-        #################
-        # Build ASTEval #
-        #################
+        # Additions to inherited subcommands
 
-        self.build_asteval_parser = ba_parser = self.subparsers.add_parser(
-            'build-asteval', help=self.do_build_asteval.__doc__
-        )
-        ba_parser.add_argument(
-            '--jobs', '-j', type=int, default=get_cpu_count(),
-            help='Number of parallel jobs to spawn in parallel '
-                 '(default: your number of cpu)'
-        )
-        ba_parser.set_defaults(func=self.do_build_asteval)
+        for subparser in (self.generate_parser,
+                          self.build_parser,
+                          self.make_parser):
+            subparser.add_argument(
+                '--no-asteval', action='store_true',
+                help='Disable generation/build of the ASTEval subprogram.'
+                     ' This can be handy to reduce build time during'
+                     ' development.'
+            )
 
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
@@ -245,9 +243,9 @@ class Manage(ManageScript):
             lines_count, sum(elapsed_list) / float(len(elapsed_list))
         )
 
-    def do_build_asteval(self, args):
+    def do_generate_asteval(self, args):
         """
-        Generate sources for the ASTEval program and build it.
+        Generate sources for the ASTEval test program.
         """
         printcol("Compiling grammar...", Colors.HEADER)
         self.context.compile()
@@ -323,9 +321,24 @@ class Manage(ManageScript):
                                       field_for_type=field_for_type,
                                       eval_types=eval_types))
 
+        printcol("ASTEval generation complete!", Colors.HEADER)
+
+    def do_build_asteval(self, args):
+        """
+        Build the ASTEval program.
+        """
         printcol("Building ASTEval...", Colors.HEADER)
         self.gprbuild(args, self.dirs.build_dir('src', 'asteval.gpr'), False)
         printcol("ASTEval build complete!", Colors.HEADER)
+
+    def do_generate(self, args):
+        """
+        Generate the Libadalang and Langkit libraries. Also generate the
+        ASTEval test program.
+        """
+        super(Manage, self).do_generate(args)
+        if not args.no_asteval:
+            self.do_generate_asteval(args)
 
     def do_build(self, args):
         """
@@ -333,7 +346,8 @@ class Manage(ManageScript):
         build the ASTEval test program.
         """
         super(Manage, self).do_build(args)
-        self.do_build_asteval(args)
+        if not args.no_asteval:
+            self.do_build_asteval(args)
 
 
 if __name__ == '__main__':

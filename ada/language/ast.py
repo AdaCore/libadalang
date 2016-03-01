@@ -419,6 +419,7 @@ class ParameterProfile(AdaNode):
     mode = Field()
     type_expr = Field()
     default = Field()
+    is_mandatory = Property(Self.default.is_null)
 
 
 class AspectSpecification(AdaNode):
@@ -972,9 +973,7 @@ class SubprogramSpec(AdaNode):
     )
 
     nb_min_params = Property(
-        Self.typed_param_list.filter(
-            lambda p: p.profile.default.is_null,
-        ).length,
+        Self.typed_param_list.filter(lambda p: p.profile.is_mandatory).length,
         type=LongType, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.

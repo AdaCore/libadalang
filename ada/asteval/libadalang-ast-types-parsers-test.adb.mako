@@ -40,12 +40,13 @@ package body Libadalang.AST.Types.Parsers.Test is
          when ${enum_for_type(cls)} => "${cls.name()} array",
       % endfor
 
-      when Ada_Node_Value     => "AST node",
-      when Token_Value        => "token",
-      when Lexical_Env_Value  => "lexical environment",
-      when Find_Builtin_Value => ".Find builtin method",
+      when Ada_Node_Value          => "AST node",
+      when Ada_Node_Iterator_Value => "AST node iterator",
+      when Token_Value             => "token",
+      when Lexical_Env_Value       => "lexical environment",
+      when Find_Builtin_Value      => ".Find builtin method",
       when Symbol_Value       => "symbol",
-      when Error_Value        => raise Program_Error);
+      when Error_Value             => raise Program_Error);
 
    ----------------------
    -- Parse_Expression --
@@ -286,6 +287,37 @@ package body Libadalang.AST.Types.Parsers.Test is
                   return (Kind => Ada_Node_Value, Node => Result);
                end;
 
+            --  If it's an AST node iterator, try to fetch the Nth yielded node
+
+            when Ada_Node_Iterator_Value =>
+               declare
+                  It       : Ada_Node_Iterators.Iterator'Class renames
+                     Name.Node_Iter.all;
+                  Index    : constant Integer := Get_Single_Index (Params);
+                  Result   : Ada_Node;
+                  Has_Next : Boolean := True;
+               begin
+                  if Index < 0 then
+                     Raise_Error
+                       (Params,
+                        "Invalid iterator element index: "
+                        & Integer'Image (Index));
+                  end if;
+
+                  for I in 0 .. Index loop
+                     It.Next (Has_Next, Result);
+                     if not Has_Next then
+                        Raise_Error
+                          (Params,
+                           "Iterator stopped after yielding"
+                           & Integer'Image (I) & " elements, the"
+                           & Integer'Image (Index) & "th one was expected");
+                     end if;
+                  end loop;
+
+                  return (Kind => Ada_Node_Value, Node => Result);
+               end;
+
             when Find_Builtin_Value =>
                return Eval_Find (Ada_Node (Expr), Name.Find_Root, Params);
 
@@ -360,10 +392,10 @@ package body Libadalang.AST.Types.Parsers.Test is
             end if;
          end;
 
-         --  TODO??? Implement this once the find primitive is implemented in
-         --  Libadalang.
-         Raise_Error (Expr, ".Find method not implemented yet");
-         return Error;
+         return (Kind      => Ada_Node_Iterator_Value,
+                 Node_Iter => new Find_Iterator'
+                   (Find (Root,
+                          new Ada_Node_Kind_Filter'(Kind => Expected_Kind))));
       end Eval_Find;
 
       ---------------------

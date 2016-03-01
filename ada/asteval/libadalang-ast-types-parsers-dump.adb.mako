@@ -92,6 +92,8 @@ package body Libadalang.AST.Types.Parsers.Dump is
          else
             V.Node.Print;
          end if;
+      when Ada_Node_Iterator_Value =>
+         Put_Line ("<AST node iterator>");
       when Token_Value =>
          Put_Line (Image (V.Tok));
       when Lexical_Env_Value =>

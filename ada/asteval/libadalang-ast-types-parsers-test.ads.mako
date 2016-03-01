@@ -61,6 +61,9 @@ package Libadalang.AST.Types.Parsers.Test is
       Ada_Node_Value,
       --  Value for generic AST nodes
 
+      Ada_Node_Iterator_Value,
+      --  Value for iterators that yield AST nodes
+
       Token_Value,
       --  Value for tokens
 
@@ -79,6 +82,11 @@ package Libadalang.AST.Types.Parsers.Test is
    --  Discriminants for the Eval_Result record: each value designates a
    --  specific kind of value (AST node, Token, array, ...).
 
+   ## TODO: multiple fields in the following record (arrays, iterators) are
+   ## dynamically allocated: we should handle deallocation at the proper time.
+   ## Turning it into a limited contolled record is one interesting option
+   ## since we cannot duplicate iterators, for instance.
+
    type Eval_Result (Kind : Eval_Result_Kind) is record
       case Kind is
       when Boolean_Value  => Bool : Boolean;
@@ -89,11 +97,13 @@ package Libadalang.AST.Types.Parsers.Test is
             ${field_for_type(cls)} : ${cls.name()};
       % endfor
 
-      when Ada_Node_Value     => Node        : Ada_Node;
-      when Token_Value        => Tok         : Token;
-      when Lexical_Env_Value  => Lexical_Env : AST_Envs.Lexical_Env;
+      when Ada_Node_Value          => Node        : Ada_Node;
+      when Ada_Node_Iterator_Value =>
+         Node_Iter   : Ada_Node_Iterators.Iterator_Access;
+      when Token_Value             => Tok         : Token;
+      when Lexical_Env_Value       => Lexical_Env : AST_Envs.Lexical_Env;
 
-      when Find_Builtin_Value => Find_Root   : Ada_Node;
+      when Find_Builtin_Value      => Find_Root   : Ada_Node;
 
       when Symbol_Value =>       Symbol      : Symbol_Type;
       when Error_Value =>

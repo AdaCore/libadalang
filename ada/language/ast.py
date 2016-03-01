@@ -739,6 +739,7 @@ class CaseExprAlternative(Expr):
 class SingleTokNode(Expr):
     tok = Field()
     name = Property(Self.tok, private=True)
+    sym = Property(Self.tok.symbol, private=True)
 
 
 class BaseId(SingleTokNode):

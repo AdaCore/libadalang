@@ -70,6 +70,9 @@ package Libadalang.AST.Types.Parsers.Test is
       Find_Builtin_Value,
       --  Value for the .Find builtin method
 
+      Symbol_Value,
+      --  Value for symbols
+
       Error_Value
       --  Value resulting from an error during evaluation
      );
@@ -92,6 +95,7 @@ package Libadalang.AST.Types.Parsers.Test is
 
       when Find_Builtin_Value => Find_Root   : Ada_Node;
 
+      when Symbol_Value =>       Symbol      : Symbol_Type;
       when Error_Value =>
          Sub_Expr : Ada_Node;
          --  Smallest subexpression whose evaluation triggered an error

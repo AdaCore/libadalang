@@ -44,6 +44,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       when Token_Value        => "token",
       when Lexical_Env_Value  => "lexical environment",
       when Find_Builtin_Value => ".Find builtin method",
+      when Symbol_Value       => "symbol",
       when Error_Value        => raise Program_Error);
 
    ----------------------

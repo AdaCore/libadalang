@@ -2,6 +2,7 @@
 
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Wide_Wide_Text_IO;
 
 package body Libadalang.AST.Types.Parsers.Dump is
 
@@ -103,6 +104,9 @@ package body Libadalang.AST.Types.Parsers.Dump is
       when Find_Builtin_Value =>
          Put_Line
            (".Find builtin method, bound to " & Short_Image (V.Find_Root));
+
+      when Symbol_Value =>
+         Ada.Wide_Wide_Text_IO.Put_Line (V.Symbol.all);
 
       when Error_Value =>
          raise Program_Error;

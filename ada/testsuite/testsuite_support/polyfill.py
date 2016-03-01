@@ -129,6 +129,7 @@ class ReportWriter(object):
         )
         # ... or more if told to do so.
         if (self.show_error_output and
+                output and
                 output.strip() and
                 status not in ('PASSED', 'OK', 'UOK', 'XFAIL')):
             print '{clr.red}{output}{clr.reset}'.format(

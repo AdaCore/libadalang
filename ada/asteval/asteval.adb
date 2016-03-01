@@ -37,7 +37,7 @@ procedure ASTEval is
       New_Line;
       Put_Line ("Example:");
       Put_Line
-        ("  " & Command_Name & " foo.adb ""Root.Find (Identifier).F_Name""");
+        ("  " & Command_Name & " foo.adb ""Root.Find (Identifier).P_Name""");
    end Print_Usage;
 
    ---------------------

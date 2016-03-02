@@ -741,6 +741,17 @@ class SingleTokNode(Expr):
     name = Property(Self.tok, private=True)
     sym = Property(Self.tok.symbol, private=True)
 
+    matches = Property(
+        type=BoolType,
+        doc="""
+        Return whether this token and the "other" one are the same.
+
+        This is only defined for two nodes that wrap symbols.
+        """,
+        expr=lambda other=(lambda: SingleTokNode):
+            Self.name.symbol.equals(other.name.symbol)
+    )
+
 
 class BaseId(SingleTokNode):
     designated_env = Property(

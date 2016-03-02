@@ -1,0 +1,11 @@
+== Root.Find (Identifier) (0).P_Name ==
+Foo
+
+== Root.Find (Identifier) (1).P_Name ==
+I
+
+== Root.Find (Identifier) (0).P_Matches (Root.Find(Identifier) (0)) ==
+True
+
+== Root.Find (Identifier) (0).P_Matches (Root.Find(Identifier) (1)) ==
+False

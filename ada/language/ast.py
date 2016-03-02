@@ -874,6 +874,34 @@ class SubprogramSpec(AdaNode):
         """
     )
 
+    match_param_assoc = Property(
+        type=BoolType,
+        doc="""
+        Return whether some parameter association matches an argument in this
+        subprogram specification. Note that this matching disregards types: it
+        only considers arity and designators (named parameters).
+        """,
+        expr=lambda pa=ParamAssoc: (
+            # Parameter associations can match only if there is at least one
+            # formal in this spec.
+            (Self.nb_max_params > 0)
+
+            & (
+                # Then, all associations with no designator match, as we don't
+                # consider types.
+                Not(pa.designator.is_null)
+
+                # The ones with a designator match iff the designator is an
+                # identifier whose name is present in the list of formals.
+                | pa.designator.cast(Identifier).then(
+                    lambda id: Self.typed_param_list.any(
+                        lambda p: p.name.matches(id)
+                    )
+                )
+            )
+        )
+    )
+
 
 class Quantifier(EnumType):
     alternatives = ["all", "some"]

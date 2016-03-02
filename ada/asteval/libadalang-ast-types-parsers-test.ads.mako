@@ -1,7 +1,9 @@
 ## vim: ft=makoada
 
+with Ada.Finalization;
 with Ada.Strings.Unbounded;           use Ada.Strings.Unbounded;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
+with Ada.Unchecked_Deallocation;
 
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
 with Langkit_Support.Token_Data_Handler;
@@ -79,15 +81,15 @@ package Libadalang.AST.Types.Parsers.Test is
       Error_Value
       --  Value resulting from an error during evaluation
      );
-   --  Discriminants for the Eval_Result record: each value designates a
-   --  specific kind of value (AST node, Token, array, ...).
+   --  Discriminants for Eval_Result_Record: each value designates a specific
+   --  kind of value (AST node, Token, array, ...).
 
-   ## TODO: multiple fields in the following record (arrays, iterators) are
-   ## dynamically allocated: we should handle deallocation at the proper time.
-   ## Turning it into a limited contolled record is one interesting option
-   ## since we cannot duplicate iterators, for instance.
+   type Eval_Result_Record (Kind : Eval_Result_Kind) is limited record
+      Ref_Count : Natural;
+      --  Eval_Result is supposed to be dynamically allocated and shared by
+      --  reference. This is a count of the number of references to a
+      --  particular value so that we know when to deallocate it.
 
-   type Eval_Result (Kind : Eval_Result_Kind) is record
       case Kind is
       when Boolean_Value  => Bool : Boolean;
       when Integer_Value  => Int  : Integer;
@@ -114,7 +116,24 @@ package Libadalang.AST.Types.Parsers.Test is
          --  Message describing the error that occured
       end case;
    end record;
-   --  Result of the evaluation of a DSL expression
+   --  Data structure for the result of the evaluation of a DSL expression
+
+   type Eval_Result_Access is access Eval_Result_Record;
+
+   procedure Destroy (Value : in out Eval_Result_Access);
+   --  Deallocate all resources associated to Value
+
+   type Eval_Result is new Ada.Finalization.Controlled with record
+      Value : Eval_Result_Access;
+   end record;
+   --  Reference to the result of the evaluation of a DSL expression. Thanks to
+   --  the fact that this is controlled, reference counting is automatic and
+   --  thus resources are automatically deallocated when nobody has references
+   --  to it anymore.
+   --
+   --  Evaluation returns only reference so that the values are shared: in the
+   --  general case, it is not possible to duplicate a value (for instance
+   --  because of iterators).
 
    function Eval (E : Expression; Root : Ada_Node) return Eval_Result;
    --  Try to evaluate the E expression on the analysis unit whose root AST
@@ -122,6 +141,11 @@ package Libadalang.AST.Types.Parsers.Test is
    --
    --  Note that this function is not supposed to raise an exception: if an
    --  error occurs, a Error_Value Eval_Result object is returned.
+
+   overriding
+   procedure Adjust (V : in out Eval_Result);
+   overriding
+   procedure Finalize (V : in out Eval_Result);
 
 private
 

@@ -48,6 +48,20 @@ package body Libadalang.AST.Types.Parsers.Test is
       when Symbol_Value       => "symbol",
       when Error_Value             => raise Program_Error);
 
+   function Create (V : Eval_Result_Access) return Eval_Result;
+   --  Initialize the refcount for V and return a reference to it
+
+   ------------
+   -- Create --
+   ------------
+
+   function Create (V : Eval_Result_Access) return Eval_Result is
+   begin
+      V.Ref_Count := 1;
+      return (Ada.Finalization.Controlled with
+              Value => V);
+   end Create;
+
    ----------------------
    -- Parse_Expression --
    ----------------------
@@ -100,7 +114,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       Evaluation_Error : exception;
       --  Internal exception: see Raise_Error
 
-      Error : Eval_Result (Error_Value);
+      Error : Eval_Result_Record (Error_Value);
       --  Internal error holder: see Raise_Error
 
       procedure Raise_Error
@@ -159,8 +173,10 @@ package body Libadalang.AST.Types.Parsers.Test is
                Text : constant Text_Type :=
                   Num_Literal (Expr).F_Tok.Text.all;
             begin
-               return (Kind => Integer_Value,
-                       Int  => Integer'Value (Image (Text)));
+               return Create (new Eval_Result_Record'
+                 (Kind      => Integer_Value,
+                  Ref_Count => <>,
+                  Int       => Integer'Value (Image (Text))));
             end;
          when Prefix_Kind =>
             return Eval_Prefix (Prefix (Expr));
@@ -214,11 +230,12 @@ package body Libadalang.AST.Types.Parsers.Test is
             declare
                Index : constant Eval_Result := Eval (Index_Expr);
             begin
-               if Index.Kind /= Integer_Value then
+               if Index.Value.Kind /= Integer_Value then
                   Raise_Error (Index_Expr,
-                               "Invalid index: " & Kind_Name (Index.Kind));
+                               "Invalid index: "
+                               & Kind_Name (Index.Value.Kind));
                end if;
-               return Index.Int;
+               return Index.Value.Int;
             end;
          end Get_Single_Index;
 
@@ -239,7 +256,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  What this expression really do depend on the kind of the name
          --  (aka. "prefix"): it can be either a call or an array subscript.
 
-         case Name.Kind is
+         case Name.Value.Kind is
 
             --  If it's an array, try to fetch the Nth element
 
@@ -248,7 +265,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   declare
                      Index  : Integer := Get_Single_Index (Params);
                      A      : ${cls.api_name()} renames
-                                 Name.${field_for_type(cls)}.Items;
+                                 Name.Value.${field_for_type(cls)}.Items;
                   begin
                      if Index not in A'Range then
                         Raise_Error
@@ -259,10 +276,11 @@ package body Libadalang.AST.Types.Parsers.Test is
                            & Integer'Image (A'First) & " .. "
                            & Integer'Image (A'Last));
                      end if;
-                     return (Kind =>
-                                ${enum_for_type(cls.element_type())},
-                             ${field_for_type(cls.element_type())} =>
-                                A (Index));
+                     return Create (new Eval_Result_Record'
+                       (Kind      => ${enum_for_type(cls.element_type())},
+                        Ref_Count => <>,
+                        ${field_for_type(cls.element_type())} =>
+                           A (Index)));
                   end;
             % endfor
 
@@ -274,7 +292,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Result : Ada_Node;
                   Exists : Boolean;
                begin
-                  Name.Node.Get_Child (Index, Exists, Result);
+                  Name.Value.Node.Get_Child (Index, Exists, Result);
                   if not Exists then
                      Raise_Error
                        (Expr,
@@ -282,9 +300,12 @@ package body Libadalang.AST.Types.Parsers.Test is
                         & Integer'Image (Index)
                         & " not in "
                         & Integer'Image (0) & " .. "
-                        & Integer'Image (Child_Count (Name.Node) - 1));
+                        & Integer'Image (Child_Count (Name.Value.Node) - 1));
                   end if;
-                  return (Kind => Ada_Node_Value, Node => Result);
+                  return Create (new Eval_Result_Record'
+                    (Kind      => Ada_Node_Value,
+                     Ref_Count => <>,
+                     Node      => Result));
                end;
 
             --  If it's an AST node iterator, try to fetch the Nth yielded node
@@ -292,7 +313,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             when Ada_Node_Iterator_Value =>
                declare
                   It       : Ada_Node_Iterators.Iterator'Class renames
-                     Name.Node_Iter.all;
+                     Name.Value.Node_Iter.all;
                   Index    : constant Integer := Get_Single_Index (Params);
                   Result   : Ada_Node;
                   Has_Next : Boolean := True;
@@ -315,15 +336,19 @@ package body Libadalang.AST.Types.Parsers.Test is
                      end if;
                   end loop;
 
-                  return (Kind => Ada_Node_Value, Node => Result);
+                  return Create (new Eval_Result_Record'
+                    (Kind      => Ada_Node_Value,
+                     Ref_Count => <>,
+                     Node      => Result));
                end;
 
             when Find_Builtin_Value =>
-               return Eval_Find (Ada_Node (Expr), Name.Find_Root, Params);
+               return Eval_Find
+                 (Ada_Node (Expr), Name.Value.Find_Root, Params);
 
             when others =>
                Raise_Error
-                 (Expr, "Cannot subscript a " & Kind_Name (Name.Kind));
+                 (Expr, "Cannot subscript a " & Kind_Name (Name.Value.Kind));
          end case;
       end Eval_Call;
 
@@ -392,10 +417,12 @@ package body Libadalang.AST.Types.Parsers.Test is
             end if;
          end;
 
-         return (Kind      => Ada_Node_Iterator_Value,
-                 Node_Iter => new Find_Iterator'
-                   (Find (Root,
-                          new Ada_Node_Kind_Filter'(Kind => Expected_Kind))));
+         return Create (new Eval_Result_Record'
+           (Kind      => Ada_Node_Iterator_Value,
+            Ref_Count => <>,
+            Node_Iter => new Find_Iterator'
+              (Find (Root,
+                     new Ada_Node_Kind_Filter'(Kind => Expected_Kind)))));
       end Eval_Find;
 
       ---------------------
@@ -410,7 +437,8 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  node.
 
          if Ident_Cmp = "root" then
-            return (Kind => Ada_Node_Value, Node => Root);
+            return Create (new Eval_Result_Record'
+              (Kind => Ada_Node_Value, Ref_Count => <>, Node => Root));
 
          else
             Raise_Error
@@ -446,7 +474,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             --  Now, field access (validation) completely depends of the prefix
             --  used in the expression.
 
-            case Pref.Kind is
+            case Pref.Value.Kind is
 
             --  If the prefix is a structure, then we know directly the set of
             --  valid fields.
@@ -461,17 +489,21 @@ package body Libadalang.AST.Types.Parsers.Test is
                      raise Program_Error;
                   % for f in fields:
                      <%
-                        field_access = 'Pref.{}.{}'.format(
+                        field_access = 'Pref.Value.{}.{}'.format(
                            field_for_type(cls), f.name
                         )
                      %>
                      elsif Ident_Cmp = "${f.name.lower}" then
                      % if is_ast_node(f.type):
-                        return (Kind => Ada_Node_Value,
-                                Node => Ada_Node (${field_access}));
+                        return Create (new Eval_Result_Record'
+                          (Kind      => Ada_Node_Value,
+                           Ref_Count => <>,
+                           Node      => Ada_Node (${field_access})));
                      % else:
-                        return (Kind => ${enum_for_type(f.type)},
-                                ${field_for_type(f.type)} => ${field_access});
+                        return Create (new Eval_Result_Record'
+                          (Kind      => ${enum_for_type(f.type)},
+                           Ref_count => <>,
+                           ${field_for_type(f.type)} => ${field_access}));
                      % endif
                   % endfor
                   else
@@ -496,11 +528,13 @@ package body Libadalang.AST.Types.Parsers.Test is
                --  to perform AST node lookup.
 
                if Ident_Cmp = "find" then
-                  return (Kind      => Find_Builtin_Value,
-                          Find_Root => Pref.Node);
+                  return Create (new Eval_Result_Record'
+                    (Kind      => Find_Builtin_Value,
+                     Ref_Count => <>,
+                     Find_Root => Pref.Value.Node));
                end if;
 
-               case Kind (Pref.Node) is
+               case Kind (Pref.Value.Node) is
                when List_Kind =>
                   Raise_Error (Expr, "Lists have no field");
 
@@ -510,24 +544,27 @@ package body Libadalang.AST.Types.Parsers.Test is
                                      include_inherited=True) %>
                      when ${cls.name()}_Kind =>
                         if Ident_Cmp = "" then
-                           --  This should not happen, this is just a handy case
-                           --  for code generation.
+                           --  This should not happen, this is just a handy
+                           --  case for code generation.
                            raise Program_Error;
                         % for f in fields:
                            <%
-                              field_access = '{} (Pref.Node).{}'.format(
+                              field_access = '{} (Pref.Value.Node).{}'.format(
                                  cls.name(), f.name
                               )
                            %>
                            elsif Ident_Cmp = "${f.name.lower}" then
                            % if is_ast_node(f.type):
-                              return (Kind => Ada_Node_Value,
-                                      Node => Ada_Node (${field_access}));
+                              return Create (new Eval_Result_Record'
+                                (Kind      => Ada_Node_Value,
+                                 Ref_Count => <>,
+                                 Node      => Ada_Node (${field_access})));
                            % else:
-                              return (Kind =>
-                                         ${enum_for_type(f.type)},
-                                      ${field_for_type(f.type)} =>
-                                         ${field_access});
+                              return Create (new Eval_Result_Record'
+                                (Kind      => ${enum_for_type(f.type)},
+                                 Ref_Count => <>,
+                                 ${field_for_type(f.type)} =>
+                                    ${field_access}));
                            % endif
                         % endfor
                         else
@@ -553,7 +590,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                raise Program_Error;
 
             when others =>
-               Raise_Error (Expr, Kind_Name (Pref.Kind) & " have no field");
+               Raise_Error
+                 (Expr, Kind_Name (Pref.Value.Kind) & " have no field");
             end case;
          end;
       end Eval_Prefix;
@@ -576,7 +614,66 @@ package body Libadalang.AST.Types.Parsers.Test is
       return Eval (E.Root);
    exception
       when Evaluation_Error =>
-         return Error;
+         return Create (new Eval_Result_Record'
+           (Kind      => Error_Value,
+            Ref_Count => <>,
+            Sub_Expr  => Error.Sub_Expr,
+            Message   => Error.Message));
    end Eval;
+
+   -------------
+   -- Destroy --
+   -------------
+
+   procedure Destroy (Value : in out Eval_Result_Access) is
+      procedure Free is new Ada.Unchecked_Deallocation
+        (Eval_Result_Record, Eval_Result_Access);
+   begin
+      case Value.Kind is
+         % for cls in ctx.sorted_types(ctx.array_types):
+            when ${enum_for_type(cls)} =>
+               Destroy (Value.${field_for_type(cls)});
+         % endfor
+
+         when Ada_Node_Iterator_Value =>
+            Ada_Node_Iterators.Destroy (Value.Node_Iter);
+
+         when others => null;
+      end case;
+      Free (Value);
+   end Destroy;
+
+   ------------
+   -- Adjust --
+   ------------
+
+   overriding
+   procedure Adjust (V : in out Eval_Result) is
+   begin
+      if V.Value /= null then
+         V.Value.Ref_Count := V.Value.Ref_Count + 1;
+      end if;
+   end Adjust;
+
+   --------------
+   -- Finalize --
+   --------------
+
+   overriding
+   procedure Finalize (V : in out Eval_Result) is
+   begin
+      if V.Value = null then
+         return;
+      end if;
+
+      declare
+         Ref_Count : Natural renames V.Value.Ref_Count;
+      begin
+         Ref_Count := Ref_Count - 1;
+         if Ref_Count = 0 then
+            Destroy (V.Value);
+         end if;
+      end;
+   end Finalize;
 
 end Libadalang.AST.Types.Parsers.Test;

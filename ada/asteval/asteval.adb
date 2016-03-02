@@ -105,15 +105,16 @@ begin
 
             if Expr /= No_Expression then
                declare
-                  Value : constant Eval_Result :=
+                  Value_Ref : constant Eval_Result :=
                      Eval (Expr, Libadalang.Analysis.Root (Unit));
+                  Value     : Eval_Result_Record renames Value_Ref.Value.all;
                begin
                   if Value.Kind = Error_Value then
                      Put_Line ("error: " & To_String (Value.Message));
                      Put_Quoted_Code (Argument (I),
                                       Sloc_Range (Value.Sub_Expr));
                   else
-                     Put_Line (Value);
+                     Put_Line (Value_Ref);
                   end if;
                end;
             end if;

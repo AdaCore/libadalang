@@ -72,8 +72,10 @@ package body Libadalang.AST.Types.Parsers.Dump is
    -- Put_Line --
    --------------
 
-   procedure Put_Line (V : Eval_Result) is
+   procedure Put_Line (Value : Eval_Result) is
       use type AST_Envs.Lexical_Env;
+
+      V : Eval_Result_Record renames Value.Value.all;
    begin
       case V.Kind is
       when Boolean_Value =>

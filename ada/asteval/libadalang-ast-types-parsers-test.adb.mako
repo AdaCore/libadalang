@@ -452,7 +452,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
       function Eval_Prefix (Expr : Prefix) return Eval_Result is
          Pref  : constant Eval_Result := Eval (Expr.F_Prefix);
-         Ident : Unbounded_Wide_Wide_String;
+         Ident : Symbol_Type;
       begin
          --  The only prefix form we handle here is X.Y where X is any valid
          --  expression and Y is a static name.
@@ -462,14 +462,14 @@ package body Libadalang.AST.Types.Parsers.Test is
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (Identifier expected)");
          end if;
-         Ident := +Identifier (Expr.F_Suffix).F_Tok.Text.all;
+         Ident := Get_Symbol (Identifier (Expr.F_Suffix).F_Tok);
 
          declare
             --  We want to be case insensitive, so keep Ident_Cmp to perform
             --  lower case string comparisons.
 
             Ident_Cmp : constant Wide_Wide_String :=
-               To_Lower (Identifier (Expr.F_Suffix).F_Tok.Text.all);
+               To_Lower (Ident.all);
          begin
             --  Now, field access (validation) completely depends of the prefix
             --  used in the expression.
@@ -509,7 +509,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   else
                      Raise_Error
                        (Expr.F_Suffix,
-                        "${cls.name()} has no " & Image (+Ident)
+                        "${cls.name()} has no " & Image (Ident.all)
                         & " field; valid ones are:"
                         % for f in fields:
                            & " ${f.name}"
@@ -570,7 +570,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                         else
                            Raise_Error
                              (Expr.F_Suffix,
-                              "${cls.name()} has no " & Image (+Ident)
+                              "${cls.name()} has no " & Image (Ident.all)
                               & " field; valid ones are:"
                               % for f in fields:
                                  & " ${f.name}"

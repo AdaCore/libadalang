@@ -72,6 +72,10 @@ package Libadalang.AST.Types.Parsers.Test is
       Lexical_Env_Value,
       --  Value for lexical environments
 
+      Field_Access_Value,
+      --  Value for fields that still have to be called (i.e. properties which
+      --  take explicit arguments).
+
       Find_Builtin_Value,
       --  Value for the .Find builtin method
 
@@ -104,6 +108,9 @@ package Libadalang.AST.Types.Parsers.Test is
          Node_Iter   : Ada_Node_Iterators.Iterator_Access;
       when Token_Value             => Tok         : Token;
       when Lexical_Env_Value       => Lexical_Env : AST_Envs.Lexical_Env;
+      when Field_Access_Value      =>
+        Field_Node  : Ada_Node;
+        Field_Name  : Symbol_Type;
 
       when Find_Builtin_Value      => Find_Root   : Ada_Node;
 

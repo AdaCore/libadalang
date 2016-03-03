@@ -4,6 +4,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Wide_Wide_Text_IO;
 
+with Langkit_Support.Text; use Langkit_Support.Text;
+
 package body Libadalang.AST.Types.Parsers.Dump is
 
    ## Declarations for all Image functions
@@ -104,6 +106,10 @@ package body Libadalang.AST.Types.Parsers.Dump is
          else
             Dump_One_Lexical_Env (V.Lexical_Env);
          end if;
+      when Field_Access_Value =>
+         Put_Line
+           ("<access to " & Kind_Name (V.Field_Node) & '.'
+            & Image (V.Field_Name) & ", lacking arguments>");
 
       when Find_Builtin_Value =>
          Put_Line

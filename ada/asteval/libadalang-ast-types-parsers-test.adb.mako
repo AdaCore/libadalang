@@ -160,6 +160,60 @@ package body Libadalang.AST.Types.Parsers.Test is
       function Eval_Prefix (Expr : Prefix) return Eval_Result;
       --  Return a prefix (X.Y) expression evaluation or invoke Raise_Error
 
+      function Eval_Node_Kind
+        (Expr : access Ada_Node_Type'Class)
+         return Ada_Node_Type_Kind;
+      --  Assuming Expr is an expression that only contains a name, try to turn
+      --  it into an AST node kind. If there is no such kind of if Expr is
+      --  anything else, invoke Raise_Error.
+
+      --  The following functions evaluate a field access for the field
+      --  "Field_Cmp" (lower case name of the field) in the Prefix AST node. In
+      --  the context of the Expr expression evaluation.
+      --
+      --  Two cases: either 1) Param_Value is empty, then it's a mere field
+      --  access (no additional arguments), either 2) it is not empty, then
+      --  it's a method evaluation with explicit arguments.
+      --
+      --  In the case of 1), If the field does not exist, Raise_Error is
+      --  invoked. If the field really takes no argument, then the evaluation
+      --  goes until completion. Otherwise, it returns a Field_Access_Value
+      --  Eval_Result to defer evaluation until a call expression provides
+      --  arguments.
+      --
+      --  In the case of 2), receiving a field that does not exist or that
+      --  takes no argument is a bug (a Program_Error is raised). Otherwise the
+      --  evaluation is done as usual.
+
+      % for cls in ctx.astnode_types:
+         % if not cls.abstract:
+            function Eval_${cls.name()}_Field_Access
+              (Expr         : access Ada_Node_Type'Class;
+               Prefix_Node  : ${cls.name()};
+               Field        : Symbol_Type;
+               Field_Cmp    : Wide_Wide_String;
+               Param_Values : Eval_Result_Array)
+               return Eval_Result;
+         % endif
+      % endfor
+
+      function Eval_Node_Field_Access
+        (Expr         : access Ada_Node_Type'Class;
+         Prefix_Node  : Ada_Node;
+         Field        : Symbol_Type;
+         Field_Cmp    : Wide_Wide_String;
+         Param_Values : Eval_Result_Array)
+         return Eval_Result;
+      --  Likewise, but take any kind of node as the Prefix. Depending on the
+      --  concrete node kind, it dispatches to one of the above.
+
+      procedure Check_In_Array_Bound
+        (Expr        : access Ada_Node_Type'Class;
+         Index       : Natural;
+         First, Last : Natural);
+      --  Check that Index is in First .. Last. If it's not, invoke Raise_Error
+      --  with Expr as the context expression.
+
       ----------
       -- Eval --
       ----------
@@ -303,15 +357,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                      A      : ${cls.api_name()} renames
                                  Name.Value.${field_for_type(cls)}.Items;
                   begin
-                     if Index not in A'Range then
-                        Raise_Error
-                          (Expr,
-                           "Out of bounds index: "
-                           & Integer'Image (Index)
-                           & " not in "
-                           & Integer'Image (A'First) & " .. "
-                           & Integer'Image (A'Last));
-                     end if;
+                     Check_In_Array_Bound (Expr, Index, A'First, A'Last);
                      return Create (new Eval_Result_Record'
                        (Kind      => ${enum_for_type(cls.element_type())},
                         Ref_Count => <>,
@@ -379,122 +425,12 @@ package body Libadalang.AST.Types.Parsers.Test is
                end;
 
             when Field_Access_Value =>
-               declare
-                  --  We want to be case insensitive, so keep Ident_Cmp to
-                  --  perform lower case string comparisons.
-
-                  Node         : Ada_Node renames Name.Value.Field_Node;
-                  Ident_Cmp    : constant Wide_Wide_String :=
-                     To_Lower (Name.Value.Field_Name.all);
-                  Param_Values : constant Eval_Result_Array :=
-                     Eval_Params (Params);
-               begin
-                  case Kind (Node) is
-                  when List_Kind =>
-                     --  Lists have no field, so we are not supposed to have a
-                     --  list in a Filed_Access_Value in the first place.
-
-                     raise Program_Error;
-
-                  % for cls in ctx.astnode_types:
-                     % if not cls.abstract:
-                        ## Evaluation is supposed to yield always valid
-                        ## Field_Access_Value: fields must exist and they must
-                        ## accept explicit arguments.
-                        <% fields = cls.get_abstract_fields(
-                               predicate=lambda f: f.explicit_arguments,
-                               include_inherited=True) %>
-
-                        when ${cls.name()}_Kind =>
-                           if Ident_Cmp = "" then
-                              ## This should not happen, this is just a handy
-                              ## case for code generation.
-                              raise Program_Error;
-                           % for f in fields:
-                              <% args = f.explicit_arguments %>
-                              elsif Ident_Cmp = "${f.name.lower}" then
-                                 ## Make sure there are exactly the number of
-                                 ## arguments expected and that these have the
-                                 ## expected types.
-                                 if Param_Values'Length /= ${len(args)} then
-                                    Raise_Error
-                                      (Params,
-                                       "Invalid number of arguments:"
-                                       & " ${len(args)} expected but got "
-                                       & Natural'Image (Param_Values'Length));
-                                 end if;
-
-                                 declare
-                                    % for n, t, _ in args:
-                                       ${n} : ${t.name()};
-                                    % endfor
-                                 begin
-                                 % for i, (n, t, _) in enumerate(args):
-
-                                    if Param_Values (${i}).Value.Kind /=
-                                       ${enum_for_type(t)}
-                                    % if is_ast_node(t):
-                                       or else
-                                         (Param_Values (${i}).Value.Node
-                                            /= null
-                                          and then not
-                                            (Param_Values (${i}).Value.Node.all
-                                             in ${t.name()}_Type'Class))
-                                    % endif
-                                    then
-                                       Raise_Error
-                                         (Params.F_Params.Child (${i}),
-                                          "Expected ${t.name()} but got " &
-                                          Kind_Name (Param_Values
-                                            (${i}).Value.Kind));
-                                    else
-                                       ${n} := ${t.name()}
-                                         (Param_Values (${i}).Value
-                                          .${field_for_type(t)});
-                                    end if;
-                                 % endfor
-
-                                 ## Fine, arguments are fine, now let's just
-                                 ## evaluate the field itself.
-
-                                 <%
-                                    field_access = '{} (Node).{} ({})'.format(
-                                       cls.name(), f.name,
-                                       ', '.join(
-                                          '{} => {}'.format(n, n)
-                                          for n, t, _ in args
-                                       )
-                                    )
-                                 %>
-
-                                 % if is_ast_node(f.type):
-                                    return Create (new Eval_Result_Record'
-                                      (Kind      => Ada_Node_Value,
-                                       Ref_Count => <>,
-                                       Node      => Ada_Node (${field_access})));
-                                 % else:
-                                    return Create (new Eval_Result_Record'
-                                      (Kind      => ${enum_for_type(f.type)},
-                                       Ref_Count => <>,
-                                       ${field_for_type(f.type)} =>
-                                          ${field_access}));
-                                 % endif
-
-                                 end;
-                           % endfor
-                           else
-                              raise Program_Error;
-                           end if;
-                     % endif
-                  % endfor
-
-                  when others =>
-                     --  We handle all concrete node types, so this should not
-                     --  happen.
-                     raise Program_Error;
-
-                  end case;
-               end;
+               return Eval_Node_Field_Access
+                 (Expr,
+                  Name.Value.Field_Node,
+                  Name.Value.Field_Name,
+                  To_Lower (Name.Value.Field_Name.all),
+                  Eval_Params (Params));
 
             when Find_Builtin_Value =>
                return Eval_Find
@@ -543,33 +479,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
          --  Now, try to get an AST node kind out of this expression
 
-         Param_Expr := Ada_Node (Param_Assoc (Param_Expr).F_Expr);
-         if Kind (Param_Expr) /= Identifier_Kind then
-            Raise_Error
-              (Param_Expr,
-               "Invalid argument: identifier expected but got "
-               & Kind_Name (Param_Expr) & " instead");
-         end if;
-
-         declare
-            Ident     : constant Wide_Wide_String :=
-               Identifier (Param_Expr).F_Tok.Text.all;
-            Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident);
-         begin
-            if Ident_Cmp = "" then
-               ## This should not happen, this is just a handy case
-               ## for code generation.
-               raise Program_Error;
-            % for cls in ctx.astnode_types:
-               % if not cls.abstract:
-                  elsif Ident_Cmp = "${cls.name().lower}" then
-                     Expected_Kind := ${cls.name()}_Kind;
-               % endif
-            % endfor
-            else
-               Raise_Error (Param_Expr, "Invalid node kind: " & Image (Ident));
-            end if;
-         end;
+         Expected_Kind := Eval_Node_Kind (Param_Assoc (Param_Expr).F_Expr);
 
          return Create (new Eval_Result_Record'
            (Kind      => Ada_Node_Iterator_Value,
@@ -686,65 +596,14 @@ package body Libadalang.AST.Types.Parsers.Test is
                     (Kind      => Find_Builtin_Value,
                      Ref_Count => <>,
                      Find_Root => Pref.Value.Node));
+               else
+                  return Eval_Node_Field_Access
+                    (Expr,
+                     Pref.Value.Node,
+                     Ident,
+                     Ident_Cmp,
+                     (1 .. 0 => <>));
                end if;
-
-               case Kind (Pref.Value.Node) is
-               when List_Kind =>
-                  Raise_Error (Expr, "Lists have no field");
-
-               % for cls in ctx.astnode_types:
-                  % if not cls.abstract:
-                     <% fields = cls.get_abstract_fields(
-                                     include_inherited=True) %>
-                     when ${cls.name()}_Kind =>
-                        if Ident_Cmp = "" then
-                           ## This should not happen, this is just a handy
-                           ## case for code generation.
-                           raise Program_Error;
-                        % for f in fields:
-                           <%
-                              field_access = '{} (Pref.Value.Node).{}'.format(
-                                 cls.name(), f.name
-                              )
-                           %>
-                           elsif Ident_Cmp = "${f.name.lower}" then
-                           % if f.explicit_arguments:
-                              return Create (new Eval_Result_Record'
-                                (Kind       => Field_Access_Value,
-                                 Ref_Count  => <>,
-                                 Field_Node => Pref.Value.Node,
-                                 Field_Name => Ident));
-                           % elif is_ast_node(f.type):
-                              return Create (new Eval_Result_Record'
-                                (Kind      => Ada_Node_Value,
-                                 Ref_Count => <>,
-                                 Node      => Ada_Node (${field_access})));
-                           % else:
-                              return Create (new Eval_Result_Record'
-                                (Kind      => ${enum_for_type(f.type)},
-                                 Ref_Count => <>,
-                                 ${field_for_type(f.type)} =>
-                                    ${field_access}));
-                           % endif
-                        % endfor
-                        else
-                           Raise_Error
-                             (Expr.F_Suffix,
-                              "${cls.name()} has no " & Image (Ident.all)
-                              & " field; valid ones are:"
-                              % for f in fields:
-                                 & " ${f.name}"
-                              % endfor
-                              );
-                        end if;
-                  % endif
-               % endfor
-
-               when others =>
-                  --  We handle all concrete node types, so this should not
-                  --  happen.
-                  raise Program_Error;
-               end case;
 
             when Error_Value =>
                raise Program_Error;
@@ -755,6 +614,234 @@ package body Libadalang.AST.Types.Parsers.Test is
             end case;
          end;
       end Eval_Prefix;
+
+      --------------------
+      -- Eval_Node_Kind --
+      --------------------
+
+      function Eval_Node_Kind
+        (Expr : access Ada_Node_Type'Class)
+         return Ada_Node_Type_Kind
+      is
+      begin
+         if Kind (Expr) /= Identifier_Kind then
+            Raise_Error
+              (Expr,
+               "Invalid argument: identifier expected but got "
+               & Kind_Name (Expr) & " instead");
+         end if;
+
+         declare
+            Ident     : constant Symbol_Type :=
+               Get_Symbol (Identifier (Expr).F_Tok);
+            Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident.all);
+         begin
+            if Ident_Cmp = "" then
+               ## This should not happen, this is just a handy case
+               ## for code generation.
+               raise Program_Error;
+            % for cls in ctx.astnode_types:
+               % if not cls.abstract:
+                  elsif Ident_Cmp = "${cls.name().lower}" then
+                     return ${cls.name()}_Kind;
+               % endif
+            % endfor
+            else
+               Raise_Error (Expr, "Invalid node kind: " & Image (Ident.all));
+            end if;
+         end;
+      end Eval_Node_Kind;
+
+      % for cls in ctx.astnode_types:
+         % if not cls.abstract:
+
+      function Eval_${cls.name()}_Field_Access
+        (Expr         : access Ada_Node_Type'Class;
+         Prefix_Node  : ${cls.name()};
+         Field        : Symbol_Type;
+         Field_Cmp    : Wide_Wide_String;
+         Param_Values : Eval_Result_Array)
+         return Eval_Result
+      is
+         Params : Param_List;
+      begin
+         <% fields = cls.get_abstract_fields(
+                         include_inherited=True) %>
+         if Field_Cmp = "" then
+            ## This should not happen, this is just a handy
+            ## case for code generation.
+            raise Program_Error;
+
+         % for f in cls.get_abstract_fields(include_inherited=True):
+         elsif Field_Cmp = "${f.name.lower}" then
+
+            <%
+               args = f.explicit_arguments
+               result_kind = enum_for_type(f.type)
+               result_field = field_for_type(f.type)
+               field_access_base = 'Prefix_Node.{}'.format(f.name)
+
+               def field_access():
+                  return ('Ada_Node ({})'.format(field_access_base)
+                          if is_ast_node(f.type) else
+                          field_access_base)
+            %>
+
+            if Param_Values'Length = 0 then
+               % if f.explicit_arguments:
+                  --  This field expects arguments that we don't have here:
+                  --  defer the evaluation.
+
+                  return Create (new Eval_Result_Record'
+                    (Kind       => Field_Access_Value,
+                     Ref_Count  => <>,
+                     Field_Node => Ada_Node (Prefix_Node),
+                     Field_Name => Field));
+
+               % else:
+                  return Create (new Eval_Result_Record'
+                    (Kind            => ${result_kind},
+                     Ref_Count       => <>,
+                     ${result_field} => ${field_access()}));
+               % endif
+            end if;
+
+            ## If we reach this point, we have explicit arguments: either the
+            ## field really accepts arguments, either we have a bug somewhere,
+            ## since fields with no explicit arguments should never yield
+            ## Field_Access_Value Eval_Result.
+            Params := Param_List (Call_Expr (Expr).F_Suffix);
+
+            % if args:
+               ## Make sure there are exactly the number of arguments expected
+               if Param_Values'Length /= ${len(args)} then
+                  Raise_Error
+                    (Params,
+                     "Invalid number of arguments: ${len(args)} expected but"
+                     & " got " & Natural'Image (Param_Values'Length));
+               end if;
+
+               declare
+                  % for n, t, _ in args:
+                     ${n} : ${t.name()};
+                  % endfor
+               begin
+                  ## ... and make sure they have the expected types
+               % for i, (n, t, _) in enumerate(args):
+
+                  ## If this is anything else than an AST node, checking the
+                  ## Eval_Result_Kind is enough. Otherwise, we also must check
+                  ## the tag.
+                  if Param_Values (${i}).Value.Kind /= ${enum_for_type(t)}
+                  % if is_ast_node(t):
+                        or else
+                     (Param_Values (${i}).Value.Node /= null
+                         and then
+                      not (Param_Values (${i}).Value.Node.all
+                           in ${t.name()}_Type'Class))
+                  % endif
+                  then
+                     Raise_Error
+                       (Params.F_Params.Child (${i}),
+                        "Expected ${t.name()} but got "
+                        & Kind_Name (Param_Values (${i}).Value.Kind));
+                  else
+                     ${n} := ${t.name()}
+                       (Param_Values (${i}).Value.${field_for_type(t)});
+                  end if;
+               % endfor
+
+                  ## Fine, arguments are fine, now let's just evaluate the
+                  ## field itself.
+                  <%
+                     field_access_base = '{} (Prefix_Node).{} ({})'.format(
+                        cls.name(), f.name,
+                        ', '.join(
+                           '{} => {}'.format(n, n)
+                           for n, t, _ in args
+                        )
+                     )
+                  %>
+                  return Create (new Eval_Result_Record'
+                    (Kind            => ${result_kind},
+                     Ref_Count       => <>,
+                     ${result_field} => ${field_access()}));
+               end;
+
+            % else:
+               raise Program_Error;
+            %endif
+         % endfor
+
+         else
+            ## Since the only way to get this error is to evaluate a Prefix
+            ## expression, the conversion below should never raise an error.
+            Raise_Error
+              (Prefix_Type (Expr.all).F_Suffix,
+               "${cls.name()} has no " & Image (Field.all)
+               & " field; valid ones are:"
+               % for f in fields:
+                  & " ${f.name}"
+               % endfor
+               );
+         end if;
+      end Eval_${cls.name()}_Field_Access;
+
+         % endif
+      % endfor
+
+      ----------------------------
+      -- Eval_Node_Field_Access --
+      ----------------------------
+
+      function Eval_Node_Field_Access
+        (Expr         : access Ada_Node_Type'Class;
+         Prefix_Node  : Ada_Node;
+         Field        : Symbol_Type;
+         Field_Cmp    : Wide_Wide_String;
+         Param_Values : Eval_Result_Array)
+         return Eval_Result
+      is
+      begin
+         case Kind (Prefix_Node) is
+         when List_Kind =>
+            Raise_Error (Expr, "Lists have no field");
+
+         % for cls in ctx.astnode_types:
+            % if not cls.abstract:
+         when ${cls.name()}_Kind =>
+            return Eval_${cls.name()}_Field_Access
+              (Expr, ${cls.name()} (Prefix_Node),
+               Field, Field_Cmp, Param_Values);
+            % endif
+         % endfor
+
+         when others =>
+            --  We handle all concrete node types, so this should not happen
+            raise Program_Error;
+         end case;
+      end Eval_Node_Field_Access;
+
+      --------------------------
+      -- Check_In_Array_Bound --
+      --------------------------
+
+      procedure Check_In_Array_Bound
+        (Expr        : access Ada_Node_Type'Class;
+         Index       : Natural;
+         First, Last : Natural)
+      is
+      begin
+         if Index not in First .. Last then
+            Raise_Error
+              (Expr,
+               "Out of bounds index: "
+               & Integer'Image (Index)
+               & " not in "
+               & Integer'Image (First) & " .. "
+               & Integer'Image (Last));
+         end if;
+      end Check_In_Array_Bound;
 
       -----------------
       -- Raise_Error --

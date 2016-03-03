@@ -403,8 +403,8 @@ package body Libadalang.AST.Types.Parsers.Test is
             Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident);
          begin
             if Ident_Cmp = "" then
-               --  This should not happen, this is just a handy case
-               --  for code generation.
+               ## This should not happen, this is just a handy case
+               ## for code generation.
                raise Program_Error;
             % for cls in ctx.astnode_types:
                % if not cls.abstract:
@@ -484,8 +484,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                   <% fields = cls.get_abstract_fields(
                                   include_inherited=True) %>
                   if Ident_Cmp = "" then
-                     --  This should not happen, this is just a handy case
-                     --  for code generation.
+                     ## This should not happen, this is just a handy case
+                     ## for code generation.
                      raise Program_Error;
                   % for f in fields:
                      <%
@@ -544,8 +544,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                                      include_inherited=True) %>
                      when ${cls.name()}_Kind =>
                         if Ident_Cmp = "" then
-                           --  This should not happen, this is just a handy
-                           --  case for code generation.
+                           ## This should not happen, this is just a handy
+                           ## case for code generation.
                            raise Program_Error;
                         % for f in fields:
                            <%

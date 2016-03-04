@@ -1,0 +1,9 @@
+This should be Foo:
+  <Identifier>
+  |tok: Token(u'Foo')
+This should be I:
+  <Identifier>
+  |tok: Token(u'I')
+Foo.p_matches(Foo) = True
+Foo.p_matches(I) = False
+Done.

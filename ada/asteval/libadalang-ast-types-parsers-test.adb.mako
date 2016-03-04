@@ -723,7 +723,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
                declare
                   % for n, t, _ in args:
-                     ${n} : ${t.name()};
+                     Arg_${n} : ${t.name()};
                   % endfor
                begin
                   ## ... and make sure they have the expected types
@@ -746,7 +746,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                         "Expected ${t.name()} but got "
                         & Kind_Name (Param_Values (${i}).Value.Kind));
                   else
-                     ${n} := ${t.name()}
+                     Arg_${n} := ${t.name()}
                        (Param_Values (${i}).Value.${field_for_type(t)});
                   end if;
                % endfor
@@ -757,7 +757,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                      field_access_base = '{} (Prefix_Node).{} ({})'.format(
                         cls.name(), f.name,
                         ', '.join(
-                           '{} => {}'.format(n, n)
+                           '{} => Arg_{}'.format(n, n)
                            for n, t, _ in args
                         )
                      )

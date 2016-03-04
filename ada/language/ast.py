@@ -7,7 +7,9 @@ from langkit.compiled_types import (
 )
 
 from langkit.envs import EnvSpec
-from langkit.expressions import AbstractProperty, Env, Not, is_simple_expr
+from langkit.expressions import (
+    AbstractProperty, And, Env, Let, Not, is_simple_expr
+)
 from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
@@ -841,6 +843,21 @@ class SingleParameter(Struct):
     profile = Field(type=ParameterProfile)
 
 
+class ParamMatch(Struct):
+    """
+    Helper data structure to implement SubprogramSpec/ParamAssocList matching.
+
+    Each value relates to one ParamAssoc.
+    """
+    has_matched = Field(type=BoolType, doc="""
+        Whether the matched ParamAssoc a ParameterProfile.
+    """)
+    is_formal_opt = Field(type=BoolType, doc="""
+        Whether the matched ParameterProfile has a default value (and is thus
+        optional).
+    """)
+
+
 class SubprogramSpec(AdaNode):
     name = Field()
     params = Field()
@@ -872,6 +889,47 @@ class SubprogramSpec(AdaNode):
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
         """
+    )
+
+    match_param_list = Property(
+        type=ParamMatch.array_type(),
+        doc="""
+        For each ParamAssoc in a ParamList, return whether we could find a
+        matching formal in this SubprogramSpec and whether this formal is
+        optional (i.e. has a default value).
+        """,
+        expr=lambda params=ParamList: Let(
+            lambda
+            typed_params=Self.typed_param_list,
+            no_match=New(ParamMatch,
+                         has_matched=False,
+                         is_formal_opt=False):
+
+            params.params.map(lambda i, pa: If(
+                pa.designator.is_null,
+
+                # Positional parameter case: if this parameter has no
+                # name association, make sure we have enough formals.
+                typed_params.at(i).then(lambda single_param: New(
+                    ParamMatch,
+                    has_matched=True,
+                    is_formal_opt=Not(single_param.profile.default.is_null)
+                ), no_match),
+
+                # Named parameter case: make sure the designator is
+                # actualy a name and that there is a corresponding
+                # formal.
+                pa.designator.cast(Identifier).then(lambda id: (
+                    typed_params.find(lambda p: p.name.matches(id)).then(
+                        lambda p: New(
+                            ParamMatch,
+                            has_matched=True,
+                            is_formal_opt=Not(p.profile.default.is_null)
+                        ), no_match
+                    )
+                ), no_match)
+            ))
+        )
     )
 
     match_param_assoc = Property(

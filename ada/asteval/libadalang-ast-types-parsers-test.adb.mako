@@ -596,6 +596,13 @@ package body Libadalang.AST.Types.Parsers.Test is
                     (Kind      => Find_Builtin_Value,
                      Ref_Count => <>,
                      Find_Root => Pref.Value.Node));
+
+               elsif Ident_Cmp = "parent" then
+                  return Create (new Eval_Result_Record'
+                    (Kind      => Ada_Node_Value,
+                     Ref_Count => <>,
+                     Node      => Pref.Value.Node.Parent));
+
                else
                   return Eval_Node_Field_Access
                     (Expr,
@@ -665,14 +672,19 @@ package body Libadalang.AST.Types.Parsers.Test is
       is
          Params : Param_List;
       begin
-         <% fields = cls.get_abstract_fields(
-                         include_inherited=True) %>
+         ## Do not handle "parent" fields are they are common to all nodes.
+         ## They are handled directly in Eval_Prefix.
+         <%
+            fields = [f
+                      for f in cls.get_abstract_fields(include_inherited=True)
+                      if f.name.lower != 'parent']
+         %>
          if Field_Cmp = "" then
             ## This should not happen, this is just a handy
             ## case for code generation.
             raise Program_Error;
 
-         % for f in cls.get_abstract_fields(include_inherited=True):
+         % for f in fields:
          elsif Field_Cmp = "${f.name.lower}" then
 
             <%

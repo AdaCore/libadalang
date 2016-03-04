@@ -54,6 +54,20 @@ package body Libadalang.AST.Types.Parsers.Test is
    function Create (V : Eval_Result_Access) return Eval_Result;
    --  Initialize the refcount for V and return a reference to it
 
+   type Identifier_Filter is new Ada_Node_Predicate_Type with record
+      Name : Unbounded_Wide_Wide_String;
+   end record;
+   --  Predicate that returns whether a node is an identifier and has some
+   --  specific associated text.
+
+   function Evaluate
+     (P : access Identifier_Filter;
+      N : Ada_Node)
+      return Boolean
+   is
+     (Kind (N) = Identifier_Kind
+      and then Identifier (N).F_Tok.Text.all = +P.Name);
+
    ------------
    -- Create --
    ------------
@@ -452,41 +466,67 @@ package body Libadalang.AST.Types.Parsers.Test is
          Params : Param_List)
          return Eval_Result
       is
-         Param_Expr    : Ada_Node;
-         Exists        : Boolean;
-         Expected_Kind : Ada_Node_Type_Kind := 0;
+         Expected_Arg : constant String :=
+           ("the name of the kind for searched nodes or a string to look for a"
+            & " SingleTokNode");
+
+         Param_Assoc_Node : Ada_Node;
+         Param_Expr       : Libadalang.AST.Types.Expr;
+         Exists           : Boolean;
+         Filter           : Ada_Node_Predicate;
       begin
          --  Invoke Raise_Error if we have more or less that 1 parameter in
          --  Params.
 
          if Child_Count (Params) /= 1 then
-            Raise_Error (Params, "Exactly one argument is expected: the name"
-                                 & " of the kind for searched nodes");
+            Raise_Error (Params, "Exactly one argument is expected: "
+                                 & Expected_Arg);
          end if;
 
-         Params.F_Params.Get_Child (0, Exists, Param_Expr);
+         Params.F_Params.Get_Child (0, Exists, Param_Assoc_Node);
          pragma Assert (Exists);
 
          --  Likewise if the kind of the parameter is unexpected or if
          --  it's not a simple form (i.e. X => Y instead of Y).
 
-         if Kind (Param_Expr) /= Param_Assoc_Kind then
+         if Kind (Param_Assoc_Node) /= Param_Assoc_Kind then
             Raise_Error (Params,
-                         "Invalid argument: " & Kind_Name (Param_Expr));
-         elsif Param_Assoc (Param_Expr).F_Designator /= null then
+                         "Invalid argument: " & Kind_Name (Param_Assoc_Node));
+         elsif Param_Assoc (Param_Assoc_Node).F_Designator /= null then
             Raise_Error (Params, "No designator allowed for .Find methods");
          end if;
+         Param_Expr := Param_Assoc (Param_Assoc_Node).F_Expr;
 
-         --  Now, try to get an AST node kind out of this expression
+         --  Now, yield a filter predicate depending on the type of this
+         --  argument.
 
-         Expected_Kind := Eval_Node_Kind (Param_Assoc (Param_Expr).F_Expr);
+         case Kind (Param_Expr) is
+            when Identifier_Kind =>
+               Filter := new Ada_Node_Kind_Filter'
+                 (Kind => Eval_Node_Kind (Param_Expr));
+
+            when String_Literal_Kind =>
+               declare
+                  Str : Text_Type renames
+                     String_Literal (Param_Expr).F_Tok.Text.all;
+               begin
+                  --  Assume that the first and last characters are quotes and
+                  --  strip them.
+
+                  Filter := new Identifier_Filter'
+                    (Name => +Str (Str'First + 1 .. Str'Last - 1));
+               end;
+
+            when others =>
+               Raise_Error
+                 (Expr, "Invalid Find argument: got " & Kind_Name (Param_Expr)
+                        & " but expected " & Expected_Arg);
+         end case;
 
          return Create (new Eval_Result_Record'
            (Kind      => Ada_Node_Iterator_Value,
             Ref_Count => <>,
-            Node_Iter => new Find_Iterator'
-              (Find (Root,
-                     new Ada_Node_Kind_Filter'(Kind => Expected_Kind)))));
+            Node_Iter => new Find_Iterator'(Find (Root, Filter))));
       end Eval_Find;
 
       ---------------------

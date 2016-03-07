@@ -21,7 +21,7 @@ main(void)
     ada_base_node with_decl, subp_body, subp_name;
     ada_base_node tmp;
 
-    int is_limited, is_private;
+    ada_bool is_limited, is_private;
     ada_overriding overriding;
     ada_token tok;
     ada_text tok_text;

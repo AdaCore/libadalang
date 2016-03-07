@@ -34,7 +34,7 @@ error(const char *msg)
 void check(ada_analysis_unit unit)
 {
     ada_base_node prelude_list, with_decl;
-    int is_limited;
+    ada_bool is_limited;
 
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a buffer");

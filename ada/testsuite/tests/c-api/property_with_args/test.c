@@ -22,7 +22,7 @@ dump_identifier(ada_base_node id)
 }
 
 static const char *
-bool_image(int b)
+bool_image(ada_bool b)
 {
   return b ? "True" : "False";
 }
@@ -35,7 +35,7 @@ main(void)
 
     ada_base_node foo, i;
     ada_base_node tmp;
-    int boolean;
+    ada_bool boolean;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context("iso-8859-1");

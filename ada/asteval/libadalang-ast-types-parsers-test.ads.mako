@@ -157,10 +157,8 @@ package Libadalang.AST.Types.Parsers.Test is
 private
 
    type Expression_Type is record
-      TDH     : Token_Data_Handler;
-      Symbols : Symbol_Table := Create;
-      Pool    : Bump_Ptr_Pool := Create;
-      Root    : Ada_Node;
+      Ctx  : Analysis_Context;
+      Unit : Analysis_Unit;
    end record;
 
    type Expression is access Expression_Type;

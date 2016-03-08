@@ -7,6 +7,8 @@ with Ada.Wide_Wide_Characters.Handling; use Ada.Wide_Wide_Characters.Handling;
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Text;        use Langkit_Support.Text;
 
+with Libadalang.Analysis; use Libadalang.Analysis;
+
 package body Libadalang.AST.Types.Parsers.Test is
 
    function "+" (S : String) return Unbounded_String
@@ -85,16 +87,17 @@ package body Libadalang.AST.Types.Parsers.Test is
 
    function Parse_Expression (Buffer : String) return Expression is
       Expr   : Expression := new Expression_Type;
-      Parser : Parser_Type;
    begin
-      Initialize (Expr.TDH, Expr.Symbols);
-      Parser := Create_From_Buffer (Buffer, "", Expr.TDH'Unrestricted_Access);
-      Parser.Mem_Pool := Expr.Pool;
+      Expr.Ctx := Create;
+      Expr.Unit := Get_From_Buffer
+        (Context  => Expr.Ctx,
+         Filename => "<input>",
+         Buffer   => Buffer,
+         Rule     => Expression_Rule);
 
-      Expr.Root := Ada_Node (Parse_Expression (Parser));
-      if not Parser.Diagnostics.Is_Empty then
+      if Has_Diagnostics (Expr.Unit) then
          Put_Line ("Parsing failed:");
-         for D of Parser.Diagnostics loop
+         for D of Diagnostics (Expr.Unit) loop
             Put_Line (To_Pretty_String (D));
          end loop;
          Destroy (Expr);
@@ -111,8 +114,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       procedure Free is new Ada.Unchecked_Deallocation
         (Expression_Type, Expression);
    begin
-      Free (E.TDH);
-      Destroy (E.Symbols);
+      Destroy (E.Ctx);
       Free (E);
    end Destroy;
 
@@ -910,7 +912,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       end Raise_Error;
 
    begin
-      return Eval (E.Root);
+      return Eval (Libadalang.Analysis.Root (E.Unit));
    exception
       when Evaluation_Error =>
          return Create (new Eval_Result_Record'

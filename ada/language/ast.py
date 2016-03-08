@@ -932,6 +932,23 @@ class SubprogramSpec(AdaNode):
         )
     )
 
+    is_matching_param_list = Property(
+        type=BoolType,
+        doc="""
+        Return whether a ParamList is a match for this SubprogramSpec, i.e.
+        whether the argument count (and designators, if any) match.
+        """,
+        expr=lambda params=ParamList: Let(
+            lambda match_list=Self.match_param_list(params): And(
+                match_list.all(lambda m: m.has_matched),
+                match_list.filter(
+                    lambda m: Not(m.is_formal_opt)
+                ).length.equals(Self.nb_min_params),
+                params.params.length <= Self.nb_max_params
+            )
+        )
+    )
+
     match_param_assoc = Property(
         type=BoolType,
         doc="""

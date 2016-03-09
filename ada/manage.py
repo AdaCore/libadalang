@@ -77,7 +77,8 @@ class Manage(ManageScript):
 
         for subparser in (self.generate_parser,
                           self.build_parser,
-                          self.make_parser):
+                          self.make_parser,
+                          self.perf_test_parser):
             subparser.add_argument(
                 '--no-asteval', action='store_true',
                 help='Disable generation/build of the ASTEval subprogram.'

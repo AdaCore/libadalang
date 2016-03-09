@@ -98,7 +98,7 @@ begin
          end if;
          Put_Line ("== " & Argument (I) & " ==");
          declare
-            Expr : constant Expression := Parse_Expression (Argument (I));
+            Expr : Expression := Parse_Expression (Argument (I));
          begin
             --  If Parse_Expression had a parsing error, diagnostics are
             --  already supposed to be output, so there's nothing left to do.
@@ -118,6 +118,7 @@ begin
                   end if;
                end;
             end if;
+            Destroy (Expr);
          end;
       end loop;
    end if;

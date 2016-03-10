@@ -19,11 +19,11 @@ from langkit.expressions.boolean import If
 @env_metadata
 class Metadata(Struct):
     dottable_subprogram = UserField(
-        BoolType, doc="Wether the stored element is a subprogram accessed "
+        BoolType, doc="Whether the stored element is a subprogram accessed "
                       "through the dot notation"
     )
     implicit_deref = UserField(
-        BoolType, doc="Wether the stored element is accessed through an "
+        BoolType, doc="Whether the stored element is accessed through an "
                       "implicit dereference"
     )
 

@@ -757,7 +757,7 @@ class SingleTokNode(Expr):
 
 class BaseId(SingleTokNode):
     designated_env = Property(
-        Env.resolve_unique(Self.tok).el.parent_env, private=True
+        Env.resolve_unique(Self.tok).el.node_env, private=True
     )
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
@@ -1062,7 +1062,7 @@ class Prefix(Expr):
     # since it will skip entities that are eventually available first in the
     # env if they are not packages.
     get_type = Property(lambda self: (
-        self.prefix.entities.filter(is_package).at(0).parent_env.eval_in_env(
+        self.prefix.entities.filter(is_package).at(0).children_env.eval_in_env(
             self.suffix.get_type
         )
     ))

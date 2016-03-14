@@ -138,14 +138,18 @@ class RealTypeDef(TypeDef):
     pass
 
 
-class FullTypeDecl(AdaNode):
+@abstract
+class TypeDecl(AdaNode):
     type_id = Field()
-    discriminants = Field()
-    type_def = Field()
-    aspects = Field()
 
     name = Property(Self.type_id)
     env_spec = EnvSpec(add_to_env=(Self.name, Self))
+
+
+class FullTypeDecl(TypeDecl):
+    discriminants = Field()
+    type_def = Field()
+    aspects = Field()
 
 
 class FloatingPointDef(RealTypeDef):
@@ -259,16 +263,9 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field()
 
 
-class SubtypeDecl(AdaNode):
-    # Fields
-    id = Field()
+class SubtypeDecl(TypeDecl):
     type_expr = Field()
     aspects = Field()
-
-    # Properties
-    name = Property(Self.id, doc='Name for the declared subtype')
-
-    env_spec = EnvSpec(add_to_env=(Self.name, Self))
 
 
 class TaskDef(AdaNode):

@@ -1,5 +1,5 @@
 SubtypeDecl[1:1-1:25]
-| id:
+| type_id:
 | | Id[1:9-1:10]
 | | | tok: A
 | type_expr:

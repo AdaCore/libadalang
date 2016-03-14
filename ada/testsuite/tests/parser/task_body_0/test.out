@@ -11,7 +11,7 @@ TaskBody[1:1-1:572]
 | | | | Num[1:59-1:62]
 | | | | | tok: 100
 | | SubtypeDecl[1:64-1:109]
-| | | id:
+| | | type_id:
 | | | | Id[1:72-1:79]
 | | | | | tok: Q_Range
 | | | type_expr:

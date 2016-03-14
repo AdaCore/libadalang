@@ -807,8 +807,10 @@ class BaseId(SingleTokNode):
         If(
             pc.is_null,
 
-            # If it is not the main id in a CallExpr, then we want to filter
-            # the components that would only be valid with a CallExpr.
+            # If it is not the main id in a CallExpr: either the name
+            # designates something else than a subprogram, either it designates
+            # a subprogram that accepts no explicit argument. So filter out
+            # other subprograms.
             items.filter(
                 lambda e: e.el.cast(SubprogramSpec).then(
                     lambda ss: (
@@ -819,10 +821,17 @@ class BaseId(SingleTokNode):
                 )
             ),
 
-            # If self id is the main id in a CallExpr, we'll let the
-            # filtering to the callexpr. CallExpr.env_elements will call this
-            # implementation and do its own filtering.
-            items
+            # This identifier is the name for a called subprogram. So only keep
+            # subprograms for which the actuals match.
+            # TODO: handle array subscripts.
+            pc.suffix.cast(ParamList).then(lambda params: (
+                items.filter(lambda e: (
+                    e.el.cast(SubprogramSpec).then(lambda subp_spec: (
+                        subp_spec.is_matching_param_list(params)
+                    ))
+                ))),
+                default_val=items
+            )
         )
     ))
 

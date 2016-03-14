@@ -8,7 +8,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Env, Let, Not, is_simple_expr
+    AbstractProperty, And, Env, Let, Not, No, is_simple_expr
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -770,44 +770,61 @@ class BaseId(SingleTokNode):
         Self.entities.filter(lambda e: e.is_a(SubtypeDecl, FullTypeDecl)).at(0)
     )
 
-    has_callexpr = Property(
-        Not(Self.parents.take_while(lambda p: (
+    parent_callexpr = Property(
+        Self.parents.take_while(lambda p: (
             p.is_a(CallExpr)
-            | p.parent.is_a(CallExpr)
-            | p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
-        )).empty),
-        type=BoolType,
+            | (p.is_a(Prefix, BaseId)
+               & (p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
+                  | p.parent.cast(CallExpr).then(lambda pfx:
+                                                 pfx.name.equals(p)))))).find(
+            lambda p: p.is_a(CallExpr)
+        ).cast(CallExpr),
+        type=CallExpr,
         doc="""
-        This property will return whether this BaseId is the main symbol
-        qualifying the entity in a Call expression. For example::
+        If this BaseId is the main symbol qualifying the prefix in a call
+        expression, this returns the corresponding CallExpr node. Return null
+        otherwise. For example::
 
             C (12, 15);
-            ^ has_callexpr = True
+            ^ parent_callexpr = <CallExpr>
 
             A.B.C (12, 15);
-                ^ has_callexpr = True
+                ^ parent_callexpr = <CallExpr>
 
             A.B.C (12, 15);
-              ^ has_callexpr = False
+              ^ parent_callexpr = null
+
+            C (12, 15);
+               ^ parent_callexpr = null
         """
     )
 
-    env_elements = Property(
-        If(Self.has_callexpr,
-           # If self id is the main id in a callexpr, we'll let the
-           # filtering to the callexpr. Callexpr.env_elements will call this
-           # implementation and do its own filtering.
-           Env.get(Self.tok),
+    env_elements = Property(Let(
+        lambda
+        items=Env.get(Self.tok),
+        pc=Self.parent_callexpr:
 
-           # If it is not the main id in a callexpr, then we want to filter
-           # the components that would only be valid with a callexpr.
-           Env.get(Self.tok).filter(
-               lambda e: e.el.cast(SubprogramSpec).then(lambda ss: (
-                   (e.MD.dottable_subprogram & ss.nb_min_params.equals(1))
-                   | ss.nb_min_params.equals(0)
-               ), default_val=True)
-           ))
-    )
+        If(
+            pc.is_null,
+
+            # If it is not the main id in a CallExpr, then we want to filter
+            # the components that would only be valid with a CallExpr.
+            items.filter(
+                lambda e: e.el.cast(SubprogramSpec).then(
+                    lambda ss: (
+                        (e.MD.dottable_subprogram & ss.nb_min_params.equals(1))
+                        | ss.nb_min_params.equals(0)
+                    ),
+                    default_val=True
+                )
+            ),
+
+            # If self id is the main id in a CallExpr, we'll let the
+            # filtering to the callexpr. CallExpr.env_elements will call this
+            # implementation and do its own filtering.
+            items
+        )
+    ))
 
 
 class Identifier(BaseId):

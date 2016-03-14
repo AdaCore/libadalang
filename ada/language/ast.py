@@ -643,12 +643,13 @@ class Expr(AdaNode):
         """
     )
 
-    get_type = AbstractProperty(
+    designated_type = AbstractProperty(
         type=AdaNode, runtime_check=True,
         doc="""
-        Get the type pointed at by expr. Since in ada this can be resolved
-        locally without any non-local analysis, this doesn't use logic
-        equations.
+        Assuming this expression designates a type, return this type.
+
+        Since in Ada this can be resolved locally without any non-local
+        analysis, this doesn't use logic equations.
         """
     )
 
@@ -762,11 +763,11 @@ class BaseId(SingleTokNode):
     scope = Property(Env, private=True)
     name = Property(Self.tok, private=True)
 
-    # This implementation of get_type is more permissive than the "legal" one
-    # since it will skip entities that are eventually available first in the
-    # env, shadowing the actual type, if they are not types. It will allow
-    # to get working XRefs in simple shadowing cases.
-    get_type = Property(
+    # This implementation of designated_type is more permissive than the
+    # "legal" one since it will skip entities that are eventually available
+    # first in the env, shadowing the actual type, if they are not types. It
+    # will allow to get working XRefs in simple shadowing cases.
+    designated_type = Property(
         Self.entities.filter(lambda e: e.is_a(SubtypeDecl, FullTypeDecl)).at(0)
     )
 
@@ -1084,12 +1085,12 @@ class Prefix(Expr):
         Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)
     )
 
-    # This implementation of get_type is more permissive than the "legal" one
-    # since it will skip entities that are eventually available first in the
-    # env if they are not packages.
-    get_type = Property(lambda self: (
+    # This implementation of designated_type is more permissive than the
+    # "legal" one since it will skip entities that are eventually available
+    # first in the env if they are not packages.
+    designated_type = Property(lambda self: (
         self.prefix.entities.filter(is_package).at(0).children_env.eval_in_env(
-            self.suffix.get_type
+            self.suffix.designated_type
         )
     ))
 

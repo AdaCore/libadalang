@@ -889,17 +889,21 @@ class BaseId(SingleTokNode):
                 )
             ),
 
-            # This identifier is the name for a called subprogram. So only keep
-            # subprograms for which the actuals match.
-            # TODO: handle array subscripts.
+            # This identifier is the name for a called subprogram or an array.
+            # So only keep:
+            # * subprograms for which the actuals match;
+            # * arrays for which the number of dimensions match.
             pc.suffix.cast(ParamList).then(lambda params: (
-                items.filter(lambda e: (
-                    e.el.cast(SubprogramSpec).then(lambda subp_spec: (
-                        subp_spec.is_matching_param_list(params)
-                    ))
-                ))),
-                default_val=items
-            )
+                items.filter(lambda e: e.el.match(
+                    lambda ss=SubprogramSpec: (
+                        ss.is_matching_param_list(params)
+                    ),
+                    lambda o=ObjectDecl: (
+                        o.array_ndims.equals(params.params.length)
+                    ),
+                    lambda _: True
+                ))
+            ), default_val=items)
         )
     ))
 

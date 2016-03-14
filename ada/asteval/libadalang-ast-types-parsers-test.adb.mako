@@ -378,7 +378,13 @@ package body Libadalang.AST.Types.Parsers.Test is
                        (Kind      => ${enum_for_type(cls.element_type())},
                         Ref_Count => <>,
                         ${field_for_type(cls.element_type())} =>
-                           A (Index)));
+                           <% value = 'A (Index)' %>
+                           % if is_ast_node(cls.element_type()):
+                              Ada_Node (${value})
+                           % else:
+                              ${value}
+                           % endif
+                           ));
                   end;
             % endfor
 

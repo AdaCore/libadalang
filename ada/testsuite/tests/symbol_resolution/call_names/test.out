@@ -1,0 +1,31 @@
+== Local ==
+  Proc:
+    Foo.Pack.Proc
+  Proc (1):
+    Foo.Proc (I : Integer)
+    Foo.Pack.Proc (I : Integer)
+    Foo.Pack.Proc (S : String)
+  Proc (S => "foo"):
+    Foo.Pack.Proc (S : String)
+  Foo.Pack.Proc (I => 1):
+    Foo.Proc (I : Integer)
+    Foo.Pack.Proc (I : Integer)
+== Global ==
+  Proc (1, 2):
+    Foo.Proc (I, J : Integer)
+  Foo.Proc (1):
+    Foo.Proc (I : Integer)
+    Foo.Pack.Proc (I : Integer)
+    Foo.Pack.Proc (S : String)
+== None ==
+  Proc (1, 2, 3):
+    <none>
+  Foo.Pack.Proc (1):
+    Foo.Proc (I : Integer)
+    Foo.Pack.Proc (I : Integer)
+    Foo.Pack.Proc (S : String)
+== No_Local ==
+  Proc:
+    <none>
+  Proc (S => "foo"):
+    <none>

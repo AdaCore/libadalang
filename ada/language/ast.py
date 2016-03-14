@@ -641,7 +641,7 @@ class Expr(AdaNode):
     )
 
     designated_type = AbstractProperty(
-        type=AdaNode, runtime_check=True,
+        type=TypeDecl, runtime_check=True,
         doc="""
         Assuming this expression designates a type, return this type.
 
@@ -765,7 +765,9 @@ class BaseId(SingleTokNode):
     # first in the env, shadowing the actual type, if they are not types. It
     # will allow to get working XRefs in simple shadowing cases.
     designated_type = Property(
-        Self.entities.filter(lambda e: e.is_a(SubtypeDecl, FullTypeDecl)).at(0)
+        Self.entities.map(lambda e: e.cast(TypeDecl)).filter(lambda e: (
+            Not(e.is_null)
+        )).at(0)
     )
 
     parent_callexpr = Property(

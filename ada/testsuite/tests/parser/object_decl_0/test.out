@@ -7,7 +7,7 @@ ObjectDecl[1:1-1:48]
 | aliased: False
 | constant: False
 | inout: in
-| type:
+| type_expr:
 | | TypeExpression[1:8-1:40]
 | | | null_exclusion: True
 | | | type_expr_variant:

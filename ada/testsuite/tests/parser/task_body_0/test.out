@@ -40,7 +40,7 @@ TaskBody[1:1-1:572]
 | | | aliased: False
 | | | constant: False
 | | | inout: in
-| | | type:
+| | | type_expr:
 | | | | TypeExpression[1:120-1:145]
 | | | | | null_exclusion: False
 | | | | | type_expr_variant:
@@ -71,7 +71,7 @@ TaskBody[1:1-1:572]
 | | | aliased: False
 | | | constant: False
 | | | inout: in
-| | | type:
+| | | type_expr:
 | | | | TypeExpression[1:165-1:172]
 | | | | | null_exclusion: False
 | | | | | type_expr_variant:
@@ -89,7 +89,7 @@ TaskBody[1:1-1:572]
 | | | aliased: False
 | | | constant: False
 | | | inout: in
-| | | type:
+| | | type_expr:
 | | | | ArrayTypeDef[1:186-1:209]
 | | | | | indices:
 | | | | | | ConstrainedArrayIndices[1:193-1:200]

@@ -7,7 +7,7 @@
 |aliased: False
 |constant: False
 |inout: in
-|type:
+|type_expr:
 |  <TypeExpression>
 |  |null_exclusion: False
 |  |type_expr_variant:

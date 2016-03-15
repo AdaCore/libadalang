@@ -39,7 +39,7 @@ CompilationUnit[1:1-7:10]
 | | | | | | | aliased: False
 | | | | | | | constant: False
 | | | | | | | inout: in
-| | | | | | | type:
+| | | | | | | type_expr:
 | | | | | | | | TypeExpression[4:8-4:15]
 | | | | | | | | | null_exclusion: False
 | | | | | | | | | type_expr_variant:

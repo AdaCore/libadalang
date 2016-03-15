@@ -7,7 +7,7 @@ GenericPackageDecl[1:1-1:155]
 | | | aliased: False
 | | | constant: False
 | | | inout: in
-| | | type:
+| | | type_expr:
 | | | | TypeExpression[1:14-1:22]
 | | | | | null_exclusion: False
 | | | | | type_expr_variant:

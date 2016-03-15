@@ -32,7 +32,7 @@ CompilationUnit[1:1-7:9]
 | | | | | | | aliased: False
 | | | | | | | constant: True
 | | | | | | | inout: in
-| | | | | | | type:
+| | | | | | | type_expr:
 | | | | | | | | TypeExpression[4:33-4:39]
 | | | | | | | | | null_exclusion: False
 | | | | | | | | | type_expr_variant:

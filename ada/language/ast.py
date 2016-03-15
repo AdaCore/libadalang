@@ -476,7 +476,7 @@ class ObjectDecl(AdaNode):
     aliased = Field()
     constant = Field()
     inout = Field()
-    type = Field()
+    type_expr = Field()
     default_expr = Field()
     renaming_clause = Field()
     aspects = Field()

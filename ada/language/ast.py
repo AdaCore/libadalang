@@ -8,7 +8,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Env, Let, Not, No, is_simple_expr
+    AbstractProperty, And, Env, Let, Literal, Not, No, is_simple_expr
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -92,7 +92,13 @@ class TypeDiscriminant(AdaNode):
 
 @abstract
 class TypeDef(AdaNode):
-    pass
+    array_ndims = Property(
+        Literal(0),
+        doc="""
+        If this designates an array type, return its number of dimensions.
+        Return 0 otherwise.
+        """
+    )
 
 
 class EnumTypeDef(TypeDef):
@@ -145,11 +151,21 @@ class TypeDecl(AdaNode):
     name = Property(Self.type_id)
     env_spec = EnvSpec(add_to_env=(Self.name, Self))
 
+    array_ndims = AbstractProperty(
+        type=LongType,
+        doc="""
+        If this designates an array type, return its number of dimensions.
+        Return 0 otherwise.
+        """
+    )
+
 
 class FullTypeDecl(TypeDecl):
     discriminants = Field()
     type_def = Field()
     aspects = Field()
+
+    array_ndims = Property(Self.type_def.array_ndims)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -211,15 +227,23 @@ class DerivedTypeDef(TypeDef):
     record_extension = Field()
     has_private_part = Field()
 
+    array_ndims = Property(Self.name.array_ndims)
+
 
 class IncompleteTypeDef(TypeDef):
     is_tagged = Field()
+
+    # TODO: what should we return for array_ndims? Do we need to find the full
+    # view?
 
 
 class PrivateTypeDef(TypeDef):
     abstract = Field()
     tagged = Field()
     limited = Field()
+
+    # TODO: what should we return for array_ndims? Do we need to find the full
+    # view?
 
 
 class SignedIntTypeDef(TypeDef):
@@ -232,15 +256,22 @@ class ModIntTypeDef(TypeDef):
 
 @abstract
 class ArrayIndices(AdaNode):
-    pass
+    ndims = AbstractProperty(
+        type=LongType,
+        doc="""Number of dimensions described in this node."""
+    )
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
     list = Field()
 
+    ndims = Property(Self.list.length)
+
 
 class ConstrainedArrayIndices(ArrayIndices):
     list = Field()
+
+    ndims = Property(Self.list.length)
 
 
 class ComponentDef(AdaNode):
@@ -251,6 +282,8 @@ class ComponentDef(AdaNode):
 class ArrayTypeDef(TypeDef):
     indices = Field()
     stored_component = Field()
+
+    array_ndims = Property(Self.indices.ndims)
 
 
 class InterfaceKind(EnumType):
@@ -266,6 +299,8 @@ class InterfaceTypeDef(TypeDef):
 class SubtypeDecl(TypeDecl):
     type_expr = Field()
     aspects = Field()
+
+    array_ndims = Property(Self.type_expr.array_ndims)
 
 
 class TaskDef(AdaNode):
@@ -337,20 +372,34 @@ class TypeExpression(AdaNode):
     null_exclusion = Field()
     type_expr_variant = Field()
 
+    array_ndims = Property(Self.type_expr_variant.array_ndims)
+
 
 @abstract
 class TypeExprVariant(AdaNode):
-    pass
+    array_ndims = AbstractProperty(
+        type=LongType,
+        doc="""
+        If this designates an array type, return its number of dimensions.
+        Return 0 otherwise.
+        """
+    )
 
 
 class TypeRef(TypeExprVariant):
     name = Field()
     constraint = Field()
 
+    array_ndims = Property(Self.name.designated_type.then(
+        # "designated_type" may return no node for incorrect code
+        lambda t: t.array_ndims,
+        default_val=Literal(0)
+    ))
+
 
 @abstract
 class AccessExpression(TypeExprVariant):
-    pass
+    array_ndims = Property(Literal(0))
 
 
 class SubprogramAccessExpression(AccessExpression):
@@ -482,6 +531,21 @@ class ObjectDecl(AdaNode):
     aspects = Field()
 
     env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+
+    is_array = Property(Self.array_ndims > 0)
+    array_ndims = Property(
+        # The grammar says that the "type" field can be only a TypeExpression
+        # or an ArrayTypeDef, so we have a bug somewhere if we get anything
+        # else.
+        Self.type_expr.cast(ArrayTypeDef).then(
+            lambda array_type: array_type.array_ndims,
+            default_val=(
+                Self.type_expr.cast_or_raise(TypeExpression).array_ndims
+            )
+        ),
+        type=LongType,
+        doc="""Return whether this is an array type."""
+    )
 
 
 class PrivatePart(AdaNode):
@@ -677,6 +741,10 @@ class CallExpr(Expr):
     name = Field()
     paren_tok = Field(repr=False)
     suffix = Field()
+
+    # CallExpr can appear in type expressions: they are used to create implicit
+    # subtypes for discriminated records or arrays.
+    designated_type = Property(Self.name.designated_type)
 
 
 class ParamAssoc(AdaNode):

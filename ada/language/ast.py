@@ -1159,9 +1159,9 @@ class Prefix(Expr):
     # This implementation of designated_type is more permissive than the
     # "legal" one since it will skip entities that are eventually available
     # first in the env if they are not packages.
-    designated_type = Property(lambda self: (
-        self.prefix.entities.filter(is_package).at(0).children_env.eval_in_env(
-            self.suffix.designated_type
+    designated_type = Property(lambda: (
+        Self.prefix.entities.filter(is_package).at(0).children_env.eval_in_env(
+            Self.suffix.designated_type
         )
     ))
 

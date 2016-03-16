@@ -1,0 +1,26 @@
+O_T1 : T1
+    is_array = False
+O_T2 : T2
+    is_array = False
+O_T3 : T3
+    is_array = False
+O_T4 : T4
+    is_array = True
+O_T5 : T5
+    is_array = False
+O_A1 : array (Boolean) of Integer
+    is_array = True
+O_A2 : T4 (1 .. 9)
+    is_array = True
+O_S1 : S1
+    is_array = False
+O_S2 : S2
+    is_array = False
+O_S3 : S3
+    is_array = False
+O_S4 : S4
+    is_array = True
+O_S5 : S5
+    is_array = True
+O_No_Type : No_Type
+    is_array = False

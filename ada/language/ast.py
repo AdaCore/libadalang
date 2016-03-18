@@ -1038,11 +1038,11 @@ class SubprogramSpec(AdaNode):
         """,
         expr=lambda params=ParamList: Let(
             lambda match_list=Self.match_param_list(params): And(
+                params.params.length <= Self.nb_max_params,
                 match_list.all(lambda m: m.has_matched),
                 match_list.filter(
                     lambda m: Not(m.is_formal_opt)
                 ).length.equals(Self.nb_min_params),
-                params.params.length <= Self.nb_max_params
             )
         )
     )

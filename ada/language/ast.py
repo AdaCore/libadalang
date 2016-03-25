@@ -8,7 +8,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Env, Let, Literal, Not, No, is_simple_expr
+    AbstractProperty, And, Env, Let, Literal, Not, is_simple_expr
 )
 from langkit.expressions import New
 from langkit.expressions import Property

@@ -122,10 +122,21 @@ CompilationUnit[1:1-17:11]
 | | | | | | | | | tok: C
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-17:11> - <LexEnv Id 1 Parent <root> (A: [<PackageDecl 10:1-11:6>] Foo: [<PackageDecl 1:1-2:8>])>
-<PackageDecl 1:1-2:8> - <LexEnv Id 2 Parent 1 (Bar: [<PackageDecl 4:1-5:12>])>
-<PackageDecl 4:1-5:12> - <LexEnv Id 3 Parent 2 (Baz: [<PackageDecl 7:1-8:16>])>
-<PackageDecl 7:1-8:16> - <LexEnv Id 4 Parent 3 ()>
-<PackageDecl 10:1-11:6> - <LexEnv Id 5 Parent 1 (B: [<PackageDecl 13:1-14:8>])>
-<PackageDecl 13:1-14:8> - <LexEnv Id 6 Parent 5 (C: [<PackageDecl 16:1-17:10>])>
-<PackageDecl 16:1-17:10> - <LexEnv Id 7 Parent 6 ()>
+<CompilationUnit 1:1-17:11> - <LexEnv (Id 1, Parent <root>), {
+    A: [<PackageDecl 10:1-11:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<PackageDecl 1:1-2:8> - <LexEnv (Id 2, Parent 1), {
+    Bar: [<PackageDecl 4:1-5:12>]
+}>
+<PackageDecl 4:1-5:12> - <LexEnv (Id 3, Parent 2), {
+    Baz: [<PackageDecl 7:1-8:16>]
+}>
+<PackageDecl 7:1-8:16> - <LexEnv (Id 4, Parent 3), empty>
+<PackageDecl 10:1-11:6> - <LexEnv (Id 5, Parent 1), {
+    B: [<PackageDecl 13:1-14:8>]
+}>
+<PackageDecl 13:1-14:8> - <LexEnv (Id 6, Parent 5), {
+    C: [<PackageDecl 16:1-17:10>]
+}>
+<PackageDecl 16:1-17:10> - <LexEnv (Id 7, Parent 6), empty>

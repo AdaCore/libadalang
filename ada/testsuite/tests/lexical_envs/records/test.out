@@ -129,7 +129,20 @@ CompilationUnit[1:1-11:9]
 | | | | | | | tok: Foo
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-11:9> - <LexEnv Id 1 Parent <root> (Foo: [<PackageDecl 1:1-11:8>])>
-<PackageDecl 1:1-11:8> - <LexEnv Id 2 Parent 1 (R1_Type: [<FullTypeDecl 2:4-5:14>] R2_Type: [<FullTypeDecl 7:4-10:14>])>
-<FullTypeDecl 2:4-5:14> - <LexEnv Id 3 Parent 2 (A: [<ComponentDecl 3:7-3:21>] B: [<ComponentDecl 3:7-3:21>] C: [<ComponentDecl 4:7-4:21>])>
-<FullTypeDecl 7:4-10:14> - <LexEnv Id 4 Parent 2 (I: [<ComponentDecl 8:7-8:18>] N: [<DiscriminantSpec 7:18-7:29>] S: [<ComponentDecl 9:7-9:26>])>
+<CompilationUnit 1:1-11:9> - <LexEnv (Id 1, Parent <root>), {
+    Foo: [<PackageDecl 1:1-11:8>]
+}>
+<PackageDecl 1:1-11:8> - <LexEnv (Id 2, Parent 1), {
+    R1_Type: [<FullTypeDecl 2:4-5:14>]
+    R2_Type: [<FullTypeDecl 7:4-10:14>]
+}>
+<FullTypeDecl 2:4-5:14> - <LexEnv (Id 3, Parent 2), {
+    A: [<ComponentDecl 3:7-3:21>]
+    B: [<ComponentDecl 3:7-3:21>]
+    C: [<ComponentDecl 4:7-4:21>]
+}>
+<FullTypeDecl 7:4-10:14> - <LexEnv (Id 4, Parent 2), {
+    I: [<ComponentDecl 8:7-8:18>]
+    N: [<DiscriminantSpec 7:18-7:29>]
+    S: [<ComponentDecl 9:7-9:26>]
+}>

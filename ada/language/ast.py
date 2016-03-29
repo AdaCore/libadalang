@@ -85,6 +85,8 @@ class DiscriminantSpec(AdaNode):
     type_expr = Field()
     default_expr = Field()
 
+    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+
 
 class TypeDiscriminant(AdaNode):
     discr_specs = Field()
@@ -121,6 +123,8 @@ class ComponentDecl(AdaNode):
     default_expr = Field()
     aspects = Field()
 
+    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+
 
 class ComponentList(AdaNode):
     components = Field()
@@ -129,7 +133,6 @@ class ComponentList(AdaNode):
 
 class RecordDef(AdaNode):
     components = Field()
-    env_spec = EnvSpec(add_env=True)
 
 
 class RecordTypeDef(TypeDef):
@@ -149,7 +152,8 @@ class TypeDecl(AdaNode):
     type_id = Field()
 
     name = Property(Self.type_id)
-    env_spec = EnvSpec(add_to_env=(Self.name, Self))
+    env_spec = EnvSpec(add_to_env=(Self.name, Self),
+                       add_env=True)
 
     array_ndims = AbstractProperty(
         type=LongType,

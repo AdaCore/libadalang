@@ -426,6 +426,8 @@ class ParameterProfile(AdaNode):
     default = Field()
     is_mandatory = Property(Self.default.is_null)
 
+    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+
 
 class AspectSpecification(AdaNode):
     aspect_assocs = Field()

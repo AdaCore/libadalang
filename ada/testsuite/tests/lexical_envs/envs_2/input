@@ -1,5 +1,5 @@
 package body Foo is
-   procedure Bar is
+   procedure Bar (I, J : Integer) is
    begin
       declare
          subtype Lol is Integer range 0 .. 10;

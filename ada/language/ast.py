@@ -80,6 +80,21 @@ def child_unit(name_expr, env_val_expr=Self):
     return create_macro(attribs)
 
 
+@abstract
+class BasicDecl(AdaNode):
+    pass
+
+
+@abstract
+class Body(BasicDecl):
+    pass
+
+
+@abstract
+class BodyStub(Body):
+    pass
+
+
 class DiscriminantSpec(AdaNode):
     ids = Field()
     type_expr = Field()
@@ -148,7 +163,7 @@ class RealTypeDef(TypeDef):
 
 
 @abstract
-class TypeDecl(AdaNode):
+class TypeDecl(BasicDecl):
     type_id = Field()
 
     name = Property(Self.type_id)
@@ -320,14 +335,14 @@ class ProtectedDef(AdaNode):
     end_id = Field()
 
 
-class TaskTypeDecl(AdaNode):
+class TaskTypeDecl(BasicDecl):
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
     definition = Field()
 
 
-class ProtectedTypeDecl(AdaNode):
+class ProtectedTypeDecl(BasicDecl):
     task_type_name = Field()
     discrs = Field()
     aspects = Field()
@@ -506,13 +521,13 @@ class EntryDecl(AdaNode):
     aspects = Field()
 
 
-class TaskDecl(AdaNode):
+class TaskDecl(BasicDecl):
     task_name = Field()
     aspects = Field()
     definition = Field()
 
 
-class ProtectedDecl(AdaNode):
+class ProtectedDecl(BasicDecl):
     protected_name = Field()
     aspects = Field()
     definition = Field()
@@ -523,12 +538,12 @@ class AspectAssoc(AdaNode):
     expr = Field()
 
 
-class NumberDecl(AdaNode):
+class NumberDecl(BasicDecl):
     ids = Field()
     expr = Field()
 
 
-class ObjectDecl(AdaNode):
+class ObjectDecl(BasicDecl):
     ids = Field()
     aliased = Field()
     constant = Field()
@@ -561,7 +576,7 @@ class PrivatePart(AdaNode):
     env_spec = EnvSpec(add_env=True)
 
 
-class BasePackageDecl(AdaNode):
+class BasePackageDecl(BasicDecl):
     """
     Package declarations. Concrete instances of this class
     will be created in generic package declarations. Other non-generic
@@ -589,7 +604,7 @@ class PackageDecl(BasePackageDecl):
     _macros = [child_unit(Self.name)]
 
 
-class ExceptionDecl(AdaNode):
+class ExceptionDecl(BasicDecl):
     """
     Exception declarations.
     """
@@ -598,7 +613,7 @@ class ExceptionDecl(AdaNode):
     aspects = Field()
 
 
-class GenericInstantiation(AdaNode):
+class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
     """
@@ -615,19 +630,19 @@ class RenamingClause(AdaNode):
     renamed_object = Field()
 
 
-class PackageRenamingDecl(AdaNode):
+class PackageRenamingDecl(BasicDecl):
     name = Field()
     renames = Field(type=RenamingClause)
     aspects = Field()
 
 
-class GenericRenamingDecl(AdaNode):
+class GenericRenamingDecl(BasicDecl):
     name = Field()
     renames = Field()
     aspects = Field()
 
 
-class FormalSubpDecl(AdaNode):
+class FormalSubpDecl(BasicDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
@@ -641,13 +656,13 @@ class Overriding(EnumType):
     suffix = 'kind'
 
 
-class GenericSubprogramDecl(AdaNode):
+class GenericSubprogramDecl(BasicDecl):
     formal_part = Field()
     subp_spec = Field()
     aspects = Field()
 
 
-class GenericPackageDecl(AdaNode):
+class GenericPackageDecl(BasicDecl):
     _macros = [child_unit(Self.name)]
 
     formal_part = Field()
@@ -1180,7 +1195,7 @@ class CompilationUnit(AdaNode):
     env_spec = EnvSpec(add_env=True)
 
 
-class SubprogramBody(AdaNode):
+class SubprogramBody(Body):
     _macros = [child_unit(Self.name, Self.subp_spec)]
 
     overriding = Field()
@@ -1321,7 +1336,7 @@ class TerminateStatement(Statement):
     pass
 
 
-class PackageBody(AdaNode):
+class PackageBody(Body):
     _macros = [child_unit(Self.name)]
 
     package_name = Field()
@@ -1332,21 +1347,21 @@ class PackageBody(AdaNode):
     name = Property(Self.package_name, private=True)
 
 
-class TaskBody(AdaNode):
+class TaskBody(Body):
     package_name = Field()
     aspects = Field()
     decls = Field()
     statements = Field()
 
 
-class ProtectedBody(AdaNode):
+class ProtectedBody(Body):
     package_name = Field()
     aspects = Field()
     decls = Field()
     body_stub = Field()
 
 
-class EntryBody(AdaNode):
+class EntryBody(Body):
     entry_name = Field()
     index_spec = Field()
     parameters = Field()
@@ -1365,22 +1380,22 @@ class Subunit(AdaNode):
     body = Field()
 
 
-class BodyStub(AdaNode):
+class ProtectedBodyStub(AdaNode):
     aspects = Field()
 
 
-class SubprogramBodyStub(AdaNode):
+class SubprogramBodyStub(BodyStub):
     overriding = Field()
     subp_spec = Field()
     aspects = Field()
 
 
-class PackageBodyStub(AdaNode):
+class PackageBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 
 
-class TaskBodyStub(AdaNode):
+class TaskBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 

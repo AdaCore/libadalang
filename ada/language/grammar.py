@@ -538,7 +538,7 @@ A.add_rules(
         "protected", "body", A.static_name, A.aspect_specification,
         "is",
         Opt(A.basic_decls, "end", Opt(A.static_name))[0],
-        Opt((Row("separate", A.aspect_specification)[1]) ^ BodyStub)
+        Opt((Row("separate", A.aspect_specification)[1]) ^ ProtectedBodyStub)
     ) ^ ProtectedBody,
 
     task_body=Row(

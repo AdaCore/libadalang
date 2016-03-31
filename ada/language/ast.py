@@ -836,10 +836,9 @@ class SingleTokNode(Expr):
         type=BoolType,
         doc="""
         Return whether this token and the "other" one are the same.
-
         This is only defined for two nodes that wrap symbols.
         """,
-        expr=lambda other=(lambda: SingleTokNode):
+        expr=lambda other=T.SingleTokNode:
             Self.name.symbol.equals(other.name.symbol)
     )
 

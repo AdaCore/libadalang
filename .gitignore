@@ -13,7 +13,6 @@ __pycache__
 build
 out
 performance_testsuite
-ada/testsuite/tmp
 
 # GNAT/GPS junk
 auto.cgpr

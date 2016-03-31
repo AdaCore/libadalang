@@ -343,7 +343,7 @@ class TaskTypeDecl(BasicDecl):
 
 
 class ProtectedTypeDecl(BasicDecl):
-    task_type_name = Field()
+    protected_type_name = Field()
     discrs = Field()
     aspects = Field()
     interfaces = Field()

@@ -3,7 +3,8 @@ from __future__ import absolute_import
 from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
-    env_metadata, root_grammar_class, LongType, create_macro
+    env_metadata, root_grammar_class, LongType, create_macro,
+    TypeRepo
 )
 
 from langkit.envs import EnvSpec
@@ -14,6 +15,9 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
+
+
+T = TypeRepo()
 
 
 @env_metadata
@@ -82,7 +86,7 @@ def child_unit(name_expr, env_val_expr=Self):
 
 @abstract
 class BasicDecl(AdaNode):
-    pass
+    defining_names = AbstractProperty(type=T.Name.array_type())
 
 
 @abstract
@@ -177,6 +181,8 @@ class TypeDecl(BasicDecl):
         Return 0 otherwise.
         """
     )
+
+    defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
 
 class FullTypeDecl(TypeDecl):
@@ -341,6 +347,8 @@ class TaskTypeDecl(BasicDecl):
     aspects = Field()
     definition = Field()
 
+    defining_names = Property(Self.task_type_name.cast(T.Name).singleton)
+
 
 class ProtectedTypeDecl(BasicDecl):
     protected_type_name = Field()
@@ -348,6 +356,8 @@ class ProtectedTypeDecl(BasicDecl):
     aspects = Field()
     interfaces = Field()
     definition = Field()
+
+    defining_names = Property(Self.protected_type_name.cast(T.Name).singleton)
 
 
 class AccessDef(TypeDef):
@@ -526,11 +536,15 @@ class TaskDecl(BasicDecl):
     aspects = Field()
     definition = Field()
 
+    defining_names = Property(Self.task_name.cast(T.Name).singleton)
+
 
 class ProtectedDecl(BasicDecl):
     protected_name = Field()
     aspects = Field()
     definition = Field()
+
+    defining_names = Property(Self.protected_name.cast(T.Name).singleton)
 
 
 class AspectAssoc(AdaNode):
@@ -541,6 +555,8 @@ class AspectAssoc(AdaNode):
 class NumberDecl(BasicDecl):
     ids = Field()
     expr = Field()
+
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class ObjectDecl(BasicDecl):
@@ -569,6 +585,7 @@ class ObjectDecl(BasicDecl):
         type=LongType,
         doc="""Return whether this is an array type."""
     )
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class PrivatePart(AdaNode):
@@ -595,6 +612,7 @@ class BasePackageDecl(BasicDecl):
     end_id = Field()
 
     name = Property(Self.package_name, private=True)
+    defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
 class PackageDecl(BasePackageDecl):
@@ -611,6 +629,7 @@ class ExceptionDecl(BasicDecl):
     ids = Field()
     renames = Field()
     aspects = Field()
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class GenericInstantiation(BasicDecl):
@@ -621,6 +640,8 @@ class GenericInstantiation(BasicDecl):
     generic_entity_name = Field()
     parameters = Field()
     aspects = Field()
+
+    defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
 class RenamingClause(AdaNode):
@@ -635,11 +656,15 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field()
 
+    defining_names = Property(Self.name.cast(T.Name).singleton)
+
 
 class GenericRenamingDecl(BasicDecl):
     name = Field()
     renames = Field()
     aspects = Field()
+
+    defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
 class FormalSubpDecl(BasicDecl):
@@ -649,6 +674,8 @@ class FormalSubpDecl(BasicDecl):
     subp_spec = Field()
     is_abstract = Field()
     default_value = Field()
+
+    defining_names = Property(Self.subp_spec.name.cast(T.Name).singleton)
 
 
 class Overriding(EnumType):
@@ -661,6 +688,8 @@ class GenericSubprogramDecl(BasicDecl):
     subp_spec = Field()
     aspects = Field()
 
+    defining_names = Property(Self.subp_spec.name.cast(T.Name).singleton)
+
 
 class GenericPackageDecl(BasicDecl):
     _macros = [child_unit(Self.name)]
@@ -668,6 +697,8 @@ class GenericPackageDecl(BasicDecl):
     formal_part = Field()
     package_decl = Field(type=BasePackageDecl)
     name = Property(Self.package_decl.name)
+
+    defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
 def is_package(e):
@@ -1211,6 +1242,8 @@ class SubprogramBody(Body):
 
     name = Property(Self.subp_spec.name)
 
+    defining_names = Property(Self.name.cast(Name).singleton)
+
 
 class HandledStatements(AdaNode):
     statements = Field()
@@ -1349,6 +1382,7 @@ class PackageBody(Body):
     statements = Field()
 
     name = Property(Self.package_name, private=True)
+    defining_names = Property(Self.name.cast(Name).singleton)
 
 
 class TaskBody(Body):
@@ -1357,12 +1391,16 @@ class TaskBody(Body):
     decls = Field()
     statements = Field()
 
+    defining_names = Property(Self.package_name.cast(Name).singleton)
+
 
 class ProtectedBody(Body):
     package_name = Field()
     aspects = Field()
     decls = Field()
     body_stub = Field()
+
+    defining_names = Property(Self.package_name.cast(Name).singleton)
 
 
 class EntryBody(Body):
@@ -1372,6 +1410,8 @@ class EntryBody(Body):
     when_cond = Field()
     decls = Field()
     statements = Field()
+
+    defining_names = Property(Self.entry_name.cast(Name).singleton)
 
 
 class EntryIndexSpec(AdaNode):
@@ -1393,15 +1433,21 @@ class SubprogramBodyStub(BodyStub):
     subp_spec = Field()
     aspects = Field()
 
+    defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
+
 
 class PackageBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 
+    defining_names = Property(Self.name.cast(Name).singleton)
+
 
 class TaskBodyStub(BodyStub):
     name = Field()
     aspects = Field()
+
+    defining_names = Property(Self.name.cast(Name).singleton)
 
 
 class LibraryItem(AdaNode):

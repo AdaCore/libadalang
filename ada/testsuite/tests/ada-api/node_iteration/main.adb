@@ -14,7 +14,7 @@ procedure Main is
       F_Item (Library_Item (F_Bodies (CU).Child (0)));
    S_Spec : constant Subprogram_Spec := F_Subp_Spec (Subprogram_Body (LI));
 
-   S_Name : constant Expr := F_Name (S_Spec);
+   S_Name : constant Libadalang.AST.Types.Name := F_Name (S_Spec);
    Params : constant List_Parameter_Profile := F_Params (S_Spec);
 
    ---------------

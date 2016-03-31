@@ -827,7 +827,12 @@ class CaseExprAlternative(Expr):
 
 
 @abstract
-class SingleTokNode(Expr):
+class Name(Expr):
+    pass
+
+
+@abstract
+class SingleTokNode(Name):
     tok = Field()
     name = Property(Self.tok, private=True)
     sym = Property(Self.tok.symbol, private=True)
@@ -1159,7 +1164,7 @@ class RaiseExpression(Expr):
     error_message = Field()
 
 
-class Prefix(Expr):
+class Prefix(Name):
     prefix = Field()
     suffix = Field()
 

@@ -9,6 +9,12 @@
     <inspection_tool class="PyClassHasNoInitInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PyDecoratorInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="PyMethodMayBeStaticInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyMethodOverridingInspection" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="libadalang" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="PyMethodParametersInspection" enabled="true" level="WEAK WARNING" enabled_by_default="false">
+      <scope name="libadalang" level="WEAK WARNING" enabled="true" />
+    </inspection_tool>
     <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ignoredErrors">
         <list>
@@ -32,7 +38,14 @@
       </option>
     </inspection_tool>
     <inspection_tool class="PyShadowingNamesInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
-    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="libadalang" level="WARNING" enabled="true">
+        <option name="ignoredIdentifiers">
+          <list>
+            <option value="argparse.Namespace.*" />
+          </list>
+        </option>
+      </scope>
       <option name="ignoredIdentifiers">
         <list>
           <option value="quex_tokens.token_map" />

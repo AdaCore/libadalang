@@ -9,7 +9,8 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Env, Let, Literal, Not, is_simple_expr
+    AbstractProperty, And, Env, Let, Literal, Not, is_simple_expr,
+    langkit_property, Var
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -868,15 +869,14 @@ class SingleTokNode(Name):
     name = Property(Self.tok, private=True)
     sym = Property(Self.tok.symbol, private=True)
 
-    matches = Property(
-        type=BoolType,
-        doc="""
+    @langkit_property(return_type=BoolType)
+    def matches(other=T.SingleTokNode):
+        """
         Return whether this token and the "other" one are the same.
         This is only defined for two nodes that wrap symbols.
-        """,
-        expr=lambda other=T.SingleTokNode:
-            Self.name.symbol.equals(other.name.symbol)
-    )
+
+        """
+        return Self.name.symbol.equals(other.name.symbol)
 
 
 class BaseId(SingleTokNode):
@@ -896,17 +896,9 @@ class BaseId(SingleTokNode):
         )).at(0)
     )
 
-    parent_callexpr = Property(
-        Self.parents.take_while(lambda p: (
-            p.is_a(CallExpr)
-            | (p.is_a(Prefix, BaseId)
-               & (p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
-                  | p.parent.cast(CallExpr).then(lambda pfx:
-                                                 pfx.name.equals(p)))))).find(
-            lambda p: p.is_a(CallExpr)
-        ).cast(CallExpr),
-        type=CallExpr,
-        doc="""
+    @langkit_property(return_type=CallExpr)
+    def parent_callexpr():
+        """
         If this BaseId is the main symbol qualifying the prefix in a call
         expression, this returns the corresponding CallExpr node. Return null
         otherwise. For example::
@@ -923,14 +915,21 @@ class BaseId(SingleTokNode):
             C (12, 15);
                ^ parent_callexpr = null
         """
-    )
+        return Self.parents.take_while(lambda p: (
+            p.is_a(CallExpr)
+            | (p.is_a(Prefix, BaseId)
+               & (p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
+                  | p.parent.cast(CallExpr).then(lambda pfx:
+                                                 pfx.name.equals(p)))))).find(
+            lambda p: p.is_a(CallExpr)
+        ).cast(CallExpr)
 
-    env_elements = Property(Let(
-        lambda
-        items=Env.get(Self.tok),
-        pc=Self.parent_callexpr:
+    @langkit_property()
+    def env_elements():
+        items = Var(Env.get(Self.tok))
+        pc = Var(Self.parent_callexpr)
 
-        If(
+        return If(
             pc.is_null,
 
             # If it is not the main id in a CallExpr: either the name
@@ -963,7 +962,6 @@ class BaseId(SingleTokNode):
                 ))
             ), default_val=items)
         )
-    ))
 
 
 class Identifier(BaseId):
@@ -1045,91 +1043,79 @@ class SubprogramSpec(AdaNode):
         """
     )
 
-    match_param_list = Property(
-        type=ParamMatch.array_type(),
-        doc="""
+    @langkit_property(return_type=ParamMatch.array_type())
+    def match_param_list(params=ParamList):
+        """
         For each ParamAssoc in a ParamList, return whether we could find a
         matching formal in this SubprogramSpec and whether this formal is
         optional (i.e. has a default value).
-        """,
-        expr=lambda params=ParamList: Let(
-            lambda
-            typed_params=Self.typed_param_list,
-            no_match=New(ParamMatch,
-                         has_matched=False,
-                         is_formal_opt=False):
+        """
+        typed_params = Var(Self.typed_param_list)
+        no_match = Var(New(ParamMatch, has_matched=False, is_formal_opt=False))
 
-            params.params.map(lambda i, pa: If(
-                pa.designator.is_null,
+        return params.params.map(lambda i, pa: If(
+            pa.designator.is_null,
 
-                # Positional parameter case: if this parameter has no
-                # name association, make sure we have enough formals.
-                typed_params.at(i).then(lambda single_param: New(
-                    ParamMatch,
-                    has_matched=True,
-                    is_formal_opt=Not(single_param.profile.default.is_null)
-                ), no_match),
+            # Positional parameter case: if this parameter has no
+            # name association, make sure we have enough formals.
+            typed_params.at(i).then(lambda single_param: New(
+                ParamMatch,
+                has_matched=True,
+                is_formal_opt=Not(single_param.profile.default.is_null)
+            ), no_match),
 
-                # Named parameter case: make sure the designator is
-                # actualy a name and that there is a corresponding
-                # formal.
-                pa.designator.cast(Identifier).then(lambda id: (
-                    typed_params.find(lambda p: p.name.matches(id)).then(
-                        lambda p: New(
-                            ParamMatch,
-                            has_matched=True,
-                            is_formal_opt=Not(p.profile.default.is_null)
-                        ), no_match
-                    )
-                ), no_match)
-            ))
-        )
-    )
+            # Named parameter case: make sure the designator is
+            # actualy a name and that there is a corresponding
+            # formal.
+            pa.designator.cast(Identifier).then(lambda id: (
+                typed_params.find(lambda p: p.name.matches(id)).then(
+                    lambda p: New(
+                        ParamMatch,
+                        has_matched=True,
+                        is_formal_opt=Not(p.profile.default.is_null)
+                    ), no_match
+                )
+            ), no_match)
+        ))
 
-    is_matching_param_list = Property(
-        type=BoolType,
-        doc="""
+    @langkit_property(return_type=BoolType)
+    def is_matching_param_list(params=ParamList):
+        """
         Return whether a ParamList is a match for this SubprogramSpec, i.e.
         whether the argument count (and designators, if any) match.
-        """,
-        expr=lambda params=ParamList: Let(
-            lambda match_list=Self.match_param_list(params): And(
-                params.params.length <= Self.nb_max_params,
-                match_list.all(lambda m: m.has_matched),
-                match_list.filter(
-                    lambda m: Not(m.is_formal_opt)
-                ).length.equals(Self.nb_min_params),
-            )
-        )
-    )
+        """
+        match_list = Var(Self.match_param_list(params))
 
-    match_param_assoc = Property(
-        type=BoolType,
-        doc="""
+        return And(
+            params.params.length <= Self.nb_max_params,
+            match_list.all(lambda m: m.has_matched),
+            match_list.filter(lambda m: Not(m.is_formal_opt)).length.equals(
+                Self.nb_min_params
+            ),
+        )
+
+    @langkit_property(return_type=BoolType)
+    def match_param_assoc(pa=ParamAssoc):
+        """
         Return whether some parameter association matches an argument in this
         subprogram specification. Note that this matching disregards types: it
         only considers arity and designators (named parameters).
-        """,
-        expr=lambda pa=ParamAssoc: (
-            # Parameter associations can match only if there is at least one
-            # formal in this spec.
-            (Self.nb_max_params > 0)
+        """
+        # Parameter associations can match only if there is at least one
+        # formal in this spec.
+        return (Self.nb_max_params > 0) & (
+            # Then, all associations with no designator match, as we don't
+            # consider types.
+            Not(pa.designator.is_null)
 
-            & (
-                # Then, all associations with no designator match, as we don't
-                # consider types.
-                Not(pa.designator.is_null)
-
-                # The ones with a designator match iff the designator is an
-                # identifier whose name is present in the list of formals.
-                | pa.designator.cast(Identifier).then(
-                    lambda id: Self.typed_param_list.any(
-                        lambda p: p.name.matches(id)
-                    )
+            # The ones with a designator match iff the designator is an
+            # identifier whose name is present in the list of formals.
+            | pa.designator.cast(Identifier).then(
+                lambda id: Self.typed_param_list.any(
+                    lambda p: p.name.matches(id)
                 )
             )
         )
-    )
 
 
 class Quantifier(EnumType):

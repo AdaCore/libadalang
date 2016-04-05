@@ -868,7 +868,7 @@ class Name(Expr):
 @abstract
 class SingleTokNode(Name):
     tok = Field()
-    name = Property(Self.tok, private=True)
+    name = Property(Self.tok)
     sym = Property(Self.tok.symbol, private=True)
 
     @langkit_property(return_type=BoolType)
@@ -882,11 +882,9 @@ class SingleTokNode(Name):
 
 
 class BaseId(SingleTokNode):
-    designated_env = Property(
-        Env.resolve_unique(Self.tok).el.node_env, private=True
-    )
-    scope = Property(Env, private=True)
-    name = Property(Self.tok, private=True)
+    designated_env = Property(Env.resolve_unique(Self.tok).el.node_env)
+    scope = Property(Env)
+    name = Property(Self.tok)
 
     # This implementation of designated_type is more permissive than the
     # "legal" one since it will skip entities that are eventually available
@@ -1188,13 +1186,12 @@ class Prefix(Name):
     suffix = Field()
 
     designated_env = Property(
-        Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env),
-        private=True
+        Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env)
     )
 
-    scope = Property(Self.prefix.designated_env, private=True)
+    scope = Property(Self.prefix.designated_env)
 
-    name = Property(Self.suffix.name, private=True)
+    name = Property(Self.suffix.name)
 
     env_elements = Property(
         Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)

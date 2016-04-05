@@ -114,8 +114,10 @@ package body Libadalang.AST.Types.Parsers.Test is
       procedure Free is new Ada.Unchecked_Deallocation
         (Expression_Type, Expression);
    begin
-      Destroy (E.Ctx);
-      Free (E);
+      if E /= null then
+         Destroy (E.Ctx);
+         Free (E);
+      end if;
    end Destroy;
 
    ----------

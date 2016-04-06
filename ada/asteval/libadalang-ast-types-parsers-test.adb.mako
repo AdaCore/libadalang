@@ -62,13 +62,20 @@ package body Libadalang.AST.Types.Parsers.Test is
    --  Predicate that returns whether a node is an identifier and has some
    --  specific associated text.
 
+   function Token_Text
+     (Node  : access Ada_Node_Type'Class;
+      Index : Token_Index)
+      return Text_Type
+   is
+     (Get (Node, Index).Text.all);
+
    function Evaluate
      (P : access Identifier_Filter;
       N : Ada_Node)
       return Boolean
    is
      (Kind (N) = Identifier_Kind
-      and then Identifier (N).F_Tok.Text.all = +P.Name);
+      and then Token_Text (N, Identifier (N).F_Tok) = +P.Name);
 
    ------------
    -- Create --
@@ -246,7 +253,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          when Num_Literal_Kind =>
             declare
                Text : constant Text_Type :=
-                  Num_Literal (Expr).F_Tok.Text.all;
+                  Token_Text (Expr, Num_Literal (Expr).F_Tok);
             begin
                return Create (new Eval_Result_Record'
                  (Kind      => Integer_Value,
@@ -518,7 +525,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             when String_Literal_Kind =>
                declare
                   Str : Text_Type renames
-                     String_Literal (Param_Expr).F_Tok.Text.all;
+                     Token_Text (Expr, String_Literal (Param_Expr).F_Tok);
                begin
                   --  Assume that the first and last characters are quotes and
                   --  strip them.
@@ -544,7 +551,8 @@ package body Libadalang.AST.Types.Parsers.Test is
       ---------------------
 
       function Eval_Identifier (Expr : Identifier) return Eval_Result is
-         Ident     : constant Wide_Wide_String := Expr.F_Tok.Text.all;
+         Ident     : constant Wide_Wide_String :=
+            Token_Text (Expr, Expr.F_Tok);
          Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident);
       begin
          --  The only identifier available so far is the analysis unit root
@@ -576,7 +584,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (Identifier expected)");
          end if;
-         Ident := Get_Symbol (Identifier (Expr.F_Suffix).F_Tok);
+         Ident := Get_Symbol (Get (Expr, Identifier (Expr.F_Suffix).F_Tok));
 
          declare
             --  We want to be case insensitive, so keep Ident_Cmp to perform
@@ -613,6 +621,12 @@ package body Libadalang.AST.Types.Parsers.Test is
                           (Kind      => Ada_Node_Value,
                            Ref_Count => <>,
                            Node      => Ada_Node (${field_access})));
+                     % elif is_token_type(f.type):
+                        return Create (new Eval_Result_Record'
+                          (Kind      => ${enum_for_type(f.type)},
+                           Ref_count => <>,
+                           Unit      => Root.Unit,
+                           Index     => ${field_access});
                      % else:
                         return Create (new Eval_Result_Record'
                           (Kind      => ${enum_for_type(f.type)},
@@ -690,7 +704,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
          declare
             Ident     : constant Symbol_Type :=
-               Get_Symbol (Identifier (Expr).F_Tok);
+               Get_Symbol (Get (Expr, Identifier (Expr).F_Tok));
             Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident.all);
          begin
             if Ident_Cmp = "" then
@@ -744,9 +758,10 @@ package body Libadalang.AST.Types.Parsers.Test is
                field_access_base = 'Prefix_Node.{}'.format(f.name)
 
                def field_access():
-                  return ('Ada_Node ({})'.format(field_access_base)
-                          if is_ast_node(f.type) else
-                          field_access_base)
+                   if is_ast_node(f.type):
+                       return 'Ada_Node ({})'.format(field_access_base)
+                   else:
+                       return field_access_base
             %>
 
             if Param_Values'Length = 0 then
@@ -764,6 +779,9 @@ package body Libadalang.AST.Types.Parsers.Test is
                   return Create (new Eval_Result_Record'
                     (Kind            => ${result_kind},
                      Ref_Count       => <>,
+                     % if is_token_type(f.type):
+                        Unit => Root.Unit,
+                     % endif
                      ${result_field} => ${field_access()}));
                % endif
             end if;

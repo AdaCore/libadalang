@@ -88,6 +88,7 @@ def child_unit(name_expr, env_val_expr=Self):
 @abstract
 class BasicDecl(AdaNode):
     defining_names = AbstractProperty(type=T.Name.array_type())
+    defining_name = Property(Self.defining_names.at(0))
 
 
 @abstract

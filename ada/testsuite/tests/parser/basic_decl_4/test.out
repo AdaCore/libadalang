@@ -1,4 +1,4 @@
-SubprogramDecl[1:1-1:64]
+RenamingSubprogramDecl[1:1-1:64]
 | is_overriding: unspecified
 | subp_spec:
 | | SubprogramSpec[1:1-1:54]
@@ -38,8 +38,6 @@ SubprogramDecl[1:1-1:64]
 | | | | | | | | | subtype_name:
 | | | | | | | | | | Id[1:48-1:53]
 | | | | | | | | | | | tok: Pouet
-| is_null: False
-| is_abstract: False
 | renames:
 | | RenamingClause[1:55-1:64]
 | | | renamed_object:

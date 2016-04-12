@@ -52,5 +52,3 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:107-1:123]
 | | | | | | | | | | | tok: Buffer_Line_Type
-| is_null: False
-| is_abstract: False

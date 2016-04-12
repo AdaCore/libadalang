@@ -24,8 +24,6 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | | | tok: Element_T
-| | | is_null: False
-| | | is_abstract: False
 | | SubprogramDecl[1:57-1:86]
 | | | is_overriding: unspecified
 | | | subp_spec:
@@ -41,8 +39,6 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:77-1:86]
 | | | | | | | | | | | tok: Element_T
-| | | is_null: False
-| | | is_abstract: False
 | end_id:
 | | Id[1:92-1:105]
 | | | tok: Generic_Stack

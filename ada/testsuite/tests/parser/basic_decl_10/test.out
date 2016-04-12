@@ -32,5 +32,3 @@ SubprogramDecl[1:1-1:54]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:46-1:53]
 | | | | | | | | | | | tok: Natural
-| is_null: False
-| is_abstract: False

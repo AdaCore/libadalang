@@ -1,4 +1,4 @@
-SubprogramDecl[1:1-1:49]
+AbstractSubprogramDecl[1:1-1:49]
 | is_overriding: overriding
 | subp_spec:
 | | SubprogramSpec[1:12-1:37]
@@ -19,5 +19,3 @@ SubprogramDecl[1:1-1:49]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:29-1:36]
 | | | | | | | | | | | tok: Integer
-| is_null: False
-| is_abstract: True

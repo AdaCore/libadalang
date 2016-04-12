@@ -460,19 +460,36 @@ class AspectSpecification(AdaNode):
     aspect_assocs = Field()
 
 
-class SubprogramDecl(BasicDecl):
+class BasicSubprogramDecl(BasicDecl):
     _macros = [child_unit(Self.name, Self.subp_spec)]
 
     is_overriding = Field()
     subp_spec = Field()
-    is_null = Field()
-    is_abstract = Field()
-    expression = Field()
-    renames = Field()
-    aspects = Field(repr=False)
 
     name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
+
+
+class SubprogramDecl(BasicSubprogramDecl):
+    aspects = Field(repr=False)
+
+
+class NullSubprogramDecl(BasicSubprogramDecl):
+    aspects = Field(repr=False)
+
+
+class AbstractSubprogramDecl(BasicSubprogramDecl):
+    aspects = Field(repr=False)
+
+
+class ExpressionFunction(BasicSubprogramDecl):
+    expression = Field()
+    aspects = Field(repr=False)
+
+
+class RenamingSubprogramDecl(BasicSubprogramDecl):
+    renames = Field()
+    aspects = Field(repr=False)
 
 
 class Pragma(AdaNode):

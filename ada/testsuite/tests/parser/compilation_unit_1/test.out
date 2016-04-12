@@ -23,8 +23,6 @@ CompilationUnit[1:1-1:55]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:40-1:47]
 | | | | | | | | | | | | | | | tok: Boolean
-| | | | | | | is_null: False
-| | | | | | | is_abstract: False
 | | | | | end_id:
 | | | | | | Id[1:53-1:54]
 | | | | | | | tok: A

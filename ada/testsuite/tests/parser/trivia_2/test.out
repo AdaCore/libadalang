@@ -572,7 +572,7 @@ CompilationUnit
 | | | | | -------------------
 | | | | | -- First_Element --
 | | | | | -------------------
-| | | | | SubprogramDecl
+| | | | | ExpressionFunction
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
@@ -596,7 +596,7 @@ CompilationUnit
 | | | | | ------------
 | | | | | -- Length --
 | | | | | ------------
-| | | | | SubprogramDecl
+| | | | | ExpressionFunction
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
@@ -739,7 +739,7 @@ CompilationUnit
 | | | | | | | | TypeRef
 | | | | | | | | | Id
 | | | | | | ASTList
-| | | | | | | SubprogramDecl
+| | | | | | | ExpressionFunction
 | | | | | | | | SubprogramSpec
 | | | | | | | | | Id
 | | | | | | | | | ASTList

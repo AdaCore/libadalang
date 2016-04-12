@@ -1,4 +1,4 @@
-SubprogramDecl[1:1-1:64]
+ExpressionFunction[1:1-1:64]
 | is_overriding: unspecified
 | subp_spec:
 | | SubprogramSpec[1:1-1:40]
@@ -27,8 +27,6 @@ SubprogramDecl[1:1-1:64]
 | | | | | | | name:
 | | | | | | | | Id[1:33-1:40]
 | | | | | | | | | tok: Integer
-| is_null: False
-| is_abstract: False
 | expression:
 | | IfExpr[1:45-1:63]
 | | | cond_expr:

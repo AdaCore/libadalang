@@ -26,8 +26,6 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:34-1:41]
 | | | | | | | | | | | | | tok: Integer
-| | | is_null: False
-| | | is_abstract: False
 | | NumberDecl[1:44-1:62]
 | | | ids:
 | | | | Id[1:44-1:45]

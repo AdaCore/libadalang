@@ -44,8 +44,6 @@ CompilationUnit[30:1-32:49]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[31:33-31:40]
 | | | | | | | | | | | | | tok: Boolean
-| | | | | is_null: False
-| | | | | is_abstract: False
 | | Pragma[32:1-32:48]
 | | | id:
 | | | | Id[32:8-32:12]

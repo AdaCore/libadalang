@@ -25,6 +25,22 @@ def package_decl_factory():
     )
 
 
+def subprogram_decl(variant_part, dest_class):
+    """
+    Factory for subprogram declarations grammar rules.
+
+    :param Parser variant_part: The parser for the variant part of the
+        subprogram declaration.
+    :param dest_class: The destination AdaNode subclass to use for the result.
+    :rtype: Transform
+    """
+    return Row(
+        A.overriding_indicator,
+        A.subprogram_spec,
+        variant_part,
+        A.aspect_specification,
+    ) ^ dest_class
+
 A.add_rules(
     protected_type_decl=Row(
         "protected", "type", A.identifier, Opt(A.type_discriminant),
@@ -309,11 +325,11 @@ A.add_rules(
         A.full_type_decl,
         A.task_type_decl,
         A.protected_type_decl,
+        A.generic_instantiation,
         A.subprogram_decl,
         A.subtype_decl,
         A.object_decl,
         A.package_decl,
-        A.generic_instantiation,
         A.aspect_clause,
         A.use_decl,
         A.exception_decl,
@@ -425,15 +441,16 @@ A.add_rules(
         Opt("return", A.type_expression)[1]
     ) ^ SubprogramSpec,
 
-    subprogram_decl=Row(
-        A.overriding_indicator,
-        A.subprogram_spec,
-        Opt("is", "null").as_bool(),
-        Opt("is", "abstract").as_bool(),
-        Opt("is", A.expression)[1],
-        Opt(A.renaming_clause),
-        A.aspect_specification,
-    ) ^ SubprogramDecl,
+    subprogram_decl=Or(
+        subprogram_decl(_(Row("is", "null")), NullSubprogramDecl),
+        subprogram_decl(_(Row("is", "abstract")), AbstractSubprogramDecl),
+        subprogram_decl(
+            Row("is", Or(Row("(", A.expression, ")")[1], A.aggregate))[1],
+            ExpressionFunction
+        ),
+        subprogram_decl(A.renaming_clause, RenamingSubprogramDecl),
+        subprogram_decl(None, SubprogramDecl)
+    ),
 
     type_access_expression=Row(
         "access", Opt("all").as_bool(), Opt("constant").as_bool(), A.name
@@ -501,8 +518,10 @@ A.add_rules(
     ),
 
     library_unit_decl=Or(
-        A.subprogram_decl, A.generic_decl, A.package_decl,
-        A.generic_instantiation
+        A.generic_decl,
+        A.package_decl,
+        A.generic_instantiation,
+        A.subprogram_decl,
     ),
 
     library_unit_renaming_decl=Or(
@@ -512,7 +531,8 @@ A.add_rules(
 
     library_item=Row(
         Opt("private").as_bool(),
-        Or(A.library_unit_body, A.library_unit_decl,
+        Or(A.library_unit_body,
+           A.library_unit_decl,
            A.library_unit_renaming_decl)
     ) ^ LibraryItem,
 

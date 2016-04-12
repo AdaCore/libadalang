@@ -10,7 +10,7 @@ procedure Main is
    Ctx    : Analysis_Context := Create;
    Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    CU     : constant Compilation_Unit := Compilation_Unit (Root (Unit));
-   LI     : constant Ada_Node :=
+   LI     : constant Basic_Decl :=
       F_Item (Library_Item (F_Bodies (CU).Child (0)));
    S_Spec : constant Subprogram_Spec := F_Subp_Spec (Subprogram_Body (LI));
 

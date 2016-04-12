@@ -459,7 +459,7 @@ class AspectSpecification(AdaNode):
     aspect_assocs = Field()
 
 
-class SubprogramDecl(AdaNode):
+class SubprogramDecl(BasicDecl):
     _macros = [child_unit(Self.name, Self.subp_spec)]
 
     is_overriding = Field()
@@ -471,6 +471,7 @@ class SubprogramDecl(AdaNode):
     aspects = Field(repr=False)
 
     name = Property(Self.subp_spec.name)
+    defining_names = Property(Self.subp_spec.name.singleton)
 
 
 class Pragma(AdaNode):

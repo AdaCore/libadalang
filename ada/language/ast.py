@@ -882,7 +882,7 @@ class SingleTokNode(Name):
 
 
 class BaseId(SingleTokNode):
-    designated_env = Property(Env.resolve_unique(Self.tok).el.node_env)
+    designated_env = Property(Env.resolve_unique(Self.tok).el.children_env)
     scope = Property(Env)
     name = Property(Self.tok)
 

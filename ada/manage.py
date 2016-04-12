@@ -19,6 +19,8 @@ from langkit.utils import Colors, dispatch_on_type, printcol
 
 class Manage(ManageScript):
 
+    ENABLE_WARNINGS_DEFAULT = True
+
     def __init__(self):
         super(Manage, self).__init__()
 

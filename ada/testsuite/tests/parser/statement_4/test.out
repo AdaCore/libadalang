@@ -21,14 +21,16 @@ BlockStatement[1:1-1:46]
 | statements:
 | | HandledStatements[1:34-1:42]
 | | | statements:
-| | | | CallExpr[1:34-1:41]
-| | | | | name:
-| | | | | | Id[1:34-1:37]
-| | | | | | | tok: Foo
-| | | | | suffix:
-| | | | | | ParamList[1:39-1:40]
-| | | | | | | params:
-| | | | | | | | ParamAssoc[1:39-1:40]
-| | | | | | | | | expr:
-| | | | | | | | | | Id[1:39-1:40]
-| | | | | | | | | | | tok: A
+| | | | CallStatement[1:34-1:41]
+| | | | | call:
+| | | | | | CallExpr[1:34-1:41]
+| | | | | | | name:
+| | | | | | | | Id[1:34-1:37]
+| | | | | | | | | tok: Foo
+| | | | | | | suffix:
+| | | | | | | | ParamList[1:39-1:40]
+| | | | | | | | | params:
+| | | | | | | | | | ParamAssoc[1:39-1:40]
+| | | | | | | | | | | expr:
+| | | | | | | | | | | | Id[1:39-1:40]
+| | | | | | | | | | | | | tok: A

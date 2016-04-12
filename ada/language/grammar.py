@@ -687,10 +687,12 @@ A.add_rules(
 
     statement=Or(A.compound_statement, A.simple_statement),
 
+    call_statement=Row(A.name) ^ CallStatement,
+
     simple_statement=Or(A.null_statement, A.assignment_statement,
                         A.goto_statement, A.exit_statement,
                         A.return_statement, A.requeue_statement,
-                        A.name, A.abort_statement, A.delay_statement,
+                        A.call_statement, A.abort_statement, A.delay_statement,
                         A.raise_statement, A.terminate_statement, A.pragma),
 
     null_statement=A.null_literal ^ NullStatement,

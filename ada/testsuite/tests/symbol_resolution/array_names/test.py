@@ -17,20 +17,20 @@ unit = ctx.get_from_file('foo.adb')
 unit.populate_lexical_env()
 
 
-def strip_to_id(stmt):
+def strip_to_id(call_stmt):
     """
     Strip all layers in "stmt" to get the Identifier for which we want to
     resolve entities.
     """
-    while not isinstance(stmt, lal.Identifier):
-        if isinstance(stmt, lal.CallExpr):
-            stmt = stmt.f_name
-        elif isinstance(stmt, lal.Prefix):
-            stmt = stmt.f_suffix
+    expr = call_stmt.f_call
+    while not isinstance(expr, lal.Identifier):
+        if isinstance(expr, lal.CallExpr):
+            expr = expr.f_name
+        elif isinstance(expr, lal.Prefix):
+            expr = expr.f_suffix
         else:
-            assert False, 'Unexpected node: {}'.format(stmt)
-    return stmt
-
+            assert False, 'Unexpected node: {}'.format(expr)
+    return expr
 
 # Each statement is a call expression whose name is used for the symbol
 # resolution test.

@@ -8,5 +8,7 @@ ExceptionHandler[1:1-1:34]
 | | | | Id[1:12-1:24]
 | | | | | tok: Abort_Signal
 | statements:
-| | Id[1:28-1:33]
-| | | tok: Prout
+| | CallStatement[1:28-1:33]
+| | | call:
+| | | | Id[1:28-1:33]
+| | | | | tok: Prout

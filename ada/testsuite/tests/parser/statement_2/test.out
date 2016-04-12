@@ -1,4 +1,6 @@
 LoopStatement[1:1-1:21]
 | statements:
-| | Id[1:6-1:11]
-| | | tok: World
+| | CallStatement[1:6-1:11]
+| | | call:
+| | | | Id[1:6-1:11]
+| | | | | tok: World

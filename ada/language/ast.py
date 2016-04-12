@@ -1247,6 +1247,10 @@ class Statement(AdaNode):
     pass
 
 
+class CallStatement(Statement):
+    call = Field()
+
+
 class NullStatement(Statement):
     null_lit = Field(repr=False)
 

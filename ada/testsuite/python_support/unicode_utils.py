@@ -21,11 +21,11 @@ end Test;
 
 def get_string_literal(unit):
     """
-    Assming UNIT is one of the above source that is parsed successfuly, return
+    Assuming UNIT is one of the above source that is parsed successfuly, return
     the text associated to the string literal in the Put_Line call.
     """
     node = unit.root
     subp = node.f_bodies[0].f_item
     call = subp.f_statements.f_statements[0]
-    str_lit = call.f_suffix.f_params[0].f_expr
+    str_lit = call.f_call.f_suffix.f_params[0].f_expr
     return str_lit.f_tok.text

@@ -16,17 +16,18 @@
 | | | | <null node>
 | | | | <HandledStatements>
 | | | | | <list>
-| | | | | | <CallExpr>
-| | | | | | | <Prefix>
+| | | | | | <CallStatement>
+| | | | | | | <CallExpr>
 | | | | | | | | <Prefix>
+| | | | | | | | | <Prefix>
+| | | | | | | | | | <Identifier>
+| | | | | | | | | | <Identifier>
 | | | | | | | | | <Identifier>
-| | | | | | | | | <Identifier>
-| | | | | | | | <Identifier>
-| | | | | | | <ParamList>
-| | | | | | | | <list>
-| | | | | | | | | <ParamAssoc>
-| | | | | | | | | | <null node>
-| | | | | | | | | | <StringLiteral>
+| | | | | | | | <ParamList>
+| | | | | | | | | <list>
+| | | | | | | | | | <ParamAssoc>
+| | | | | | | | | | | <null node>
+| | | | | | | | | | | <StringLiteral>
 | | | | | <null node>
 | | | | <Identifier>
 Done

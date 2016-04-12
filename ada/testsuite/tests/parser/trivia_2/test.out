@@ -242,20 +242,21 @@ CompilationUnit
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | CallExpr
-| | | | | | | | | | | Id
-| | | | | | | | | | | ParamList
-| | | | | | | | | | | | ASTList
-| | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | BinOp
+| | | | | | | | | | CallStatement
+| | | | | | | | | | | CallExpr
+| | | | | | | | | | | | Id
+| | | | | | | | | | | | ParamList
+| | | | | | | | | | | | | ASTList
+| | | | | | | | | | | | | | ParamAssoc
+| | | | | | | | | | | | | | | Id
+| | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | Id
+| | | | | | | | | | | | | | | | BinOp
+| | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | | Id
+| | | | | | | | | | | | | | | | | | Id
+| | | | | | | | | | | | | | | | | Num
 | | | | | | | | | | | | | | | | Num
-| | | | | | | | | | | | | | | Num
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
@@ -473,14 +474,15 @@ CompilationUnit
 | | | | | | | | | | | Id
 | | | | | | HandledStatements
 | | | | | | | ASTList
-| | | | | | | | CallExpr
-| | | | | | | | | Id
-| | | | | | | | | ParamList
-| | | | | | | | | | ASTList
-| | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | Id
-| | | | | | | | | | | | | Id
+| | | | | | | | CallStatement
+| | | | | | | | | CallExpr
+| | | | | | | | | | Id
+| | | | | | | | | | ParamList
+| | | | | | | | | | | ASTList
+| | | | | | | | | | | | ParamAssoc
+| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | Id
+| | | | | | | | | | | | | | Id
 | | | | | | Id
 | | | | | -----------
 | | | | | -- Clear --

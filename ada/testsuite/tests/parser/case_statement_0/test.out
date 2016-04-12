@@ -8,15 +8,19 @@ CaseStatement[1:1-1:127]
 | | | | Num[1:16-1:17]
 | | | | | tok: 1
 | | | statements:
-| | | | Id[1:21-1:33]
-| | | | | tok: Walk_The_Dog
+| | | | CallStatement[1:21-1:33]
+| | | | | call:
+| | | | | | Id[1:21-1:33]
+| | | | | | | tok: Walk_The_Dog
 | | CaseStatementAlternative[1:35-1:57]
 | | | choices:
 | | | | Num[1:40-1:41]
 | | | | | tok: 5
 | | | statements:
-| | | | Id[1:45-1:56]
-| | | | | tok: Launch_Nuke
+| | | | CallStatement[1:45-1:56]
+| | | | | call:
+| | | | | | Id[1:45-1:56]
+| | | | | | | tok: Launch_Nuke
 | | CaseStatementAlternative[1:58-1:88]
 | | | choices:
 | | | | Num[1:63-1:64]
@@ -24,11 +28,15 @@ CaseStatement[1:1-1:127]
 | | | | Num[1:67-1:69]
 | | | | | tok: 10
 | | | statements:
-| | | | Id[1:73-1:87]
-| | | | | tok: Sell_All_Stock
+| | | | CallStatement[1:73-1:87]
+| | | | | call:
+| | | | | | Id[1:73-1:87]
+| | | | | | | tok: Sell_All_Stock
 | | CaseStatementAlternative[1:89-1:118]
 | | | choices:
 | | | | OthersDesignator[1:94-1:100]
 | | | statements:
-| | | | Id[1:104-1:117]
-| | | | | tok: Self_Destruct
+| | | | CallStatement[1:104-1:117]
+| | | | | call:
+| | | | | | Id[1:104-1:117]
+| | | | | | | tok: Self_Destruct

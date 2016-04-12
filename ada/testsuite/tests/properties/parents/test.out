@@ -137,49 +137,51 @@
 |  |  |  |  |statements:
 |  |  |  |  |  <list>
 |  |  |  |  |  |item 0:
-|  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |tok: Token(u'Put_Line')
-|  |  |  |  |  |  |paren_tok: Token(None)
-|  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  <AttributeRef>
-|  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
-|  |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |paren_tok: Token(None)
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
+|  |  |  |  |  |  <CallStatement>
+|  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
+|  |  |  |  |  |  |  |paren_tok: Token(None)
+|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  <AttributeRef>
+|  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
+|  |  |  |  |  |  |  |  |  |  |  |args:
+|  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |paren_tok: Token(None)
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
 |  |  |  |  |exceptions: None
 |  |  |  |end_id:
 |  |  |  |  <Identifier>

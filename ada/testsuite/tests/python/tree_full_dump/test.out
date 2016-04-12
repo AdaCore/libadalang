@@ -37,31 +37,33 @@
 |  |  |  |  |statements:
 |  |  |  |  |  <list>
 |  |  |  |  |  |item 0:
-|  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  <Prefix>
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  <CallStatement>
+|  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  <Prefix>
 |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
+|  |  |  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
+|  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
 |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
+|  |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
+|  |  |  |  |  |  |  |paren_tok: Token(None)
 |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
-|  |  |  |  |  |  |paren_tok: Token(None)
-|  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  <StringLiteral>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
+|  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  <StringLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |  |exceptions: None
 |  |  |  |end_id:
 |  |  |  |  <Identifier>

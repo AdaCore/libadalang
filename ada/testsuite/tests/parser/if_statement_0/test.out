@@ -9,25 +9,29 @@ IfStatement[1:1-1:86]
 | | | | Num[1:19-1:23]
 | | | | | tok: 40.0
 | statements:
-| | CallExpr[1:29-1:45]
-| | | name:
-| | | | Id[1:29-1:37]
-| | | | | tok: Put_Line
-| | | suffix:
-| | | | ParamList[1:39-1:44]
-| | | | | params:
-| | | | | | ParamAssoc[1:39-1:44]
-| | | | | | | expr:
-| | | | | | | | Str[1:39-1:44]
-| | | | | | | | | tok: "Wow"
-| | CallExpr[1:47-1:78]
-| | | name:
-| | | | Id[1:47-1:55]
-| | | | | tok: Put_Line
-| | | suffix:
-| | | | ParamList[1:57-1:77]
-| | | | | params:
-| | | | | | ParamAssoc[1:57-1:77]
-| | | | | | | expr:
-| | | | | | | | Str[1:57-1:77]
-| | | | | | | | | tok: "It's extremely hot"
+| | CallStatement[1:29-1:45]
+| | | call:
+| | | | CallExpr[1:29-1:45]
+| | | | | name:
+| | | | | | Id[1:29-1:37]
+| | | | | | | tok: Put_Line
+| | | | | suffix:
+| | | | | | ParamList[1:39-1:44]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:39-1:44]
+| | | | | | | | | expr:
+| | | | | | | | | | Str[1:39-1:44]
+| | | | | | | | | | | tok: "Wow"
+| | CallStatement[1:47-1:78]
+| | | call:
+| | | | CallExpr[1:47-1:78]
+| | | | | name:
+| | | | | | Id[1:47-1:55]
+| | | | | | | tok: Put_Line
+| | | | | suffix:
+| | | | | | ParamList[1:57-1:77]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:57-1:77]
+| | | | | | | | | expr:
+| | | | | | | | | | Str[1:57-1:77]
+| | | | | | | | | | | tok: "It's extremely hot"

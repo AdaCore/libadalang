@@ -128,16 +128,33 @@ class ReportWriter(object):
             clr_reset=self.colors.reset,
             clr_st=self.get_color(status)
         )
+
         # ... or more if told to do so.
         if (self.show_error_output and
                 output and
                 output.strip() and
                 status not in ('PASSED', 'OK', 'UOK', 'XFAIL')):
-            print '{clr.red}{output}{clr.reset}'.format(
-                clr=self.colors,
-                output=''.join('  {}\n'.format(line.rstrip())
-                               for line in output.rstrip().split('\n')),
-            )
+
+            lines = output.rstrip().splitlines()
+
+            # Do better highlighting if the output is a diff.
+            if lines[0].startswith("---") and lines[1].startswith("+++"):
+                for line in lines:
+                    if line.startswith("-"):
+                        col = self.colors.red
+                    elif line.startswith("+"):
+                        col = self.colors.cyan
+                    else:
+                        col = self.colors.gray
+
+                    print '  {col}{line}{reset}'.format(
+                        col=col, reset=self.colors.reset, line=line.rstrip()
+                    )
+            else:
+                print '{clr.red}{output}{clr.reset}'.format(
+                    clr=self.colors,
+                    output=''.join('  {}\n'.format(l.rstrip()) for l in lines),
+                )
 
         # Likewise in the report summary
         self.summary_file.write('{}:{}:{}\n'.format(

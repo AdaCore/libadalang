@@ -223,12 +223,12 @@ class BaseTestsuite(object):
         # Determine important paths
         self.root_dir = os.path.abspath(root_dir)
         self.test_dir = os.path.join(self.root_dir, self.TEST_SUBDIR)
-        self.working_dir = tempfile.mkdtemp(prefix='polyfill-')
+        self.working_dir = None  # Determined later
 
         # This will be available to both subclasses and TestDriver instances
         self.global_env = {
-            'working_dir': self.working_dir,
             'options': None,  # testsuite_main will put parsed arguments there
+            'working_dir': None,
         }
 
         # Create an argument parser, define built-in options and then let
@@ -249,6 +249,11 @@ class BaseTestsuite(object):
         self.arg_parser.add_argument(
             '--show-error-output', action='store_true',
             help='Show diff for test failure'
+        )
+        self.arg_parser.add_argument(
+            '--temp-dir',
+            help='Temporary directory to use for running testcases (default:'
+                 ' random directory in the system tmp folder)'
         )
 
         # Try to get a sane default for the cpu count
@@ -277,6 +282,14 @@ class BaseTestsuite(object):
         list. Otherwise, use sys.argv instead.
         """
         self.args = self.arg_parser.parse_args(args)
+
+        if self.args.temp_dir:
+            self.working_dir = os.path.abspath(self.args.temp_dir)
+            if not os.path.exists(self.working_dir):
+                os.mkdir(self.working_dir)
+        else:
+            self.working_dir = tempfile.mkdtemp(prefix='polyfill-')
+        self.global_env['working_dir'] = self.working_dir
 
         self.global_env['options'] = self.args
         self.report_writer = ReportWriter(

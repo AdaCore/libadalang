@@ -41,6 +41,23 @@ def subprogram_decl(variant_part, dest_class):
         A.aspect_specification,
     ) ^ dest_class
 
+
+def generic_instantiation(keyword, dest_class):
+    """
+    Factory for generic instantiations grammar rules.
+
+    :param str keyword: The variant keyword that will initiate the generic
+        instantiation rule.
+    :param dest_class: The destination AdaNode subclass to use for the result.
+    :rtype: Transform
+    """
+    return Row(
+        keyword, A.static_name, "is",
+        "new", A.static_name,
+        Opt("(", A.call_suffix, ")")[1],
+        A.aspect_specification
+    ) ^ dest_class
+
 A.add_rules(
     protected_type_decl=Row(
         "protected", "type", A.identifier, Opt(A.type_discriminant),
@@ -298,12 +315,11 @@ A.add_rules(
         "renames", A.static_name, A.aspect_specification
     ) ^ GenericRenamingDecl,
 
-    generic_instantiation=Row(
-        _(Or("package", "function", "procedure")), A.static_name, "is",
-        "new", A.static_name,
-        Opt("(", A.call_suffix, ")")[1],
-        A.aspect_specification
-    ) ^ GenericInstantiation,
+    generic_instantiation=Or(
+        generic_instantiation("package", GenericPackageInstantiation),
+        generic_instantiation("procedure", GenericProcedureInstantiation),
+        generic_instantiation("function", GenericFunctionInstantiation),
+    ),
 
     exception_decl=Row(
         A.id_list, ":", "exception",

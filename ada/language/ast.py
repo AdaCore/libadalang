@@ -652,6 +652,7 @@ class ExceptionDecl(BasicDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
+@abstract
 class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
@@ -660,8 +661,19 @@ class GenericInstantiation(BasicDecl):
     generic_entity_name = Field()
     parameters = Field()
     aspects = Field()
-
     defining_names = Property(Self.name.cast(T.Name).singleton)
+
+
+class GenericProcedureInstantiation(GenericInstantiation):
+    pass
+
+
+class GenericFunctionInstantiation(GenericInstantiation):
+    pass
+
+
+class GenericPackageInstantiation(GenericInstantiation):
+    pass
 
 
 class RenamingClause(AdaNode):

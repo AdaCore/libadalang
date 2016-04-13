@@ -3,7 +3,7 @@ CompilationUnit[1:1-1:24]
 | | LibraryItem[1:1-1:23]
 | | | is_private: False
 | | | item:
-| | | | GenericInstantiation[1:1-1:23]
+| | | | GenericPackageInstantiation[1:1-1:23]
 | | | | | name:
 | | | | | | Id[1:9-1:10]
 | | | | | | | tok: A

@@ -16,7 +16,7 @@ CompilationUnit[1:1-1:44]
 | | LibraryItem[1:21-1:43]
 | | | is_private: False
 | | | item:
-| | | | GenericInstantiation[1:21-1:43]
+| | | | GenericPackageInstantiation[1:21-1:43]
 | | | | | name:
 | | | | | | Id[1:29-1:30]
 | | | | | | | tok: A

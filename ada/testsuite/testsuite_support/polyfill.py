@@ -137,7 +137,7 @@ class ReportWriter(object):
 
             lines = output.rstrip().splitlines()
 
-            # Do better highlighting if the output is a diff.
+            # Do better highlighting if the output is a diff
             if lines[0].startswith("---") and lines[1].startswith("+++"):
                 for line in lines:
                     if line.startswith("-"):

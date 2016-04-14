@@ -100,7 +100,8 @@ package body Libadalang.AST.Types.Parsers.Dump is
          Put_Line ("<AST node iterator>");
       when Token_Value =>
          declare
-            T : constant Token := Get_Token (V.Unit.Token_Data.all, V.Index);
+            T : constant Token_Type :=
+               Get_Token (V.Unit.Token_Data.all, V.Index);
          begin
             Put_Line (Image (T));
          end;

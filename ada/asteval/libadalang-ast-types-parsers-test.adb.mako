@@ -50,7 +50,9 @@ package body Libadalang.AST.Types.Parsers.Test is
       when Lexical_Env_Value       => "lexical environment",
       when Field_Access_Value      => "access to field requiring arguments",
       when Find_Builtin_Value      => ".Find builtin method",
-      when Symbol_Value       => "symbol",
+      when Symbol_Value            => "symbol",
+      when Logic_Var_Value         => "logic variable",
+      when Equation_Value          => "logic equation",
       when Error_Value             => raise Program_Error);
 
    function Create (V : Eval_Result_Access) return Eval_Result;
@@ -760,6 +762,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                def field_access():
                    if is_ast_node(f.type):
                        return 'Ada_Node ({})'.format(field_access_base)
+                   elif f.type.is_storage_value:
+                       return field_access_base + "'Unrestricted_Access"
                    else:
                        return field_access_base
             %>

@@ -280,6 +280,8 @@ class Manage(ManageScript):
                 (ct.ArrayType, lambda _: 'Array_{}_Value'),
                 (ct.LexicalEnvType, lambda _: 'Lexical_Env_Value'),
                 (ct.Symbol, lambda _: 'Symbol_Value'),
+                (ct.LogicVarType, lambda _: 'Logic_Var_Value'),
+                (ct.EquationType, lambda _: 'Equation_Value'),
             ], exception_msg='Unhandled type: {}'.format(cls)).format(name)
 
         def field_for_type(cls):
@@ -301,6 +303,8 @@ class Manage(ManageScript):
                 (ct.ArrayType, lambda _: 'Array_{}'),
                 (ct.LexicalEnvType, lambda _: 'Lexical_Env'),
                 (ct.Symbol, lambda _: 'Symbol'),
+                (ct.LogicVarType, lambda _: 'Var'),
+                (ct.EquationType, lambda _: 'Equation'),
             ], exception_msg='Unhandled type: {}'.format(cls)).format(name)
 
         ctx = self.context

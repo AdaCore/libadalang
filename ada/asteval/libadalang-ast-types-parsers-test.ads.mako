@@ -82,6 +82,10 @@ package Libadalang.AST.Types.Parsers.Test is
       Symbol_Value,
       --  Value for symbols
 
+      Logic_Var_Value,
+
+      Equation_Value,
+
       Error_Value
       --  Value resulting from an error during evaluation
      );
@@ -116,7 +120,9 @@ package Libadalang.AST.Types.Parsers.Test is
 
       when Find_Builtin_Value      => Find_Root   : Ada_Node;
 
-      when Symbol_Value =>       Symbol      : Symbol_Type;
+      when Symbol_Value            => Symbol      : Symbol_Type;
+      when Logic_Var_Value         => Var         : Logic_Var;
+      when Equation_Value          => Equation    : Logic_Equation;
       when Error_Value =>
          Sub_Expr : Ada_Node;
          --  Smallest subexpression whose evaluation triggered an error

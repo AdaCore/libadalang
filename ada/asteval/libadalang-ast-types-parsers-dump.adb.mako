@@ -123,6 +123,12 @@ package body Libadalang.AST.Types.Parsers.Dump is
       when Symbol_Value =>
          Ada.Wide_Wide_Text_IO.Put_Line (V.Symbol.all);
 
+      when Logic_Var_Value =>
+         Put_Line ("<logic variable>");
+
+      when Equation_Value =>
+         Put_Line ("<logic equation>");
+
       when Error_Value =>
          raise Program_Error;
       end case;

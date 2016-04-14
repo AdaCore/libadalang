@@ -12,7 +12,7 @@ setenv()
 
 from langkit.compile_context import global_context
 import langkit.compiled_types as ct
-from langkit.libmanage import ManageScript, get_cpu_count
+from langkit.libmanage import ManageScript
 import langkit.names as names
 from langkit.utils import Colors, dispatch_on_type, printcol
 
@@ -53,12 +53,7 @@ class Manage(ManageScript):
             'perf-test', help=self.do_perf_test.__doc__
         )
         perf_test_parser.add_argument(
-            '--jobs', '-j', type=int, default=get_cpu_count(),
-            help='Number of parallel jobs to spawn in parallel'
-                 ' (default: your number of cpu)'
-        )
-        perf_test_parser.add_argument(
-            '--work-dir', '-w', default='performance_testsuite',
+            '--work-dir', default='performance_testsuite',
             help='Directory into which the performance testsuite will be'
                  ' executed'
         )
@@ -72,6 +67,8 @@ class Manage(ManageScript):
                  ' testsuite'
         )
         perf_test_parser.set_defaults(func=self.do_perf_test)
+        self.add_generate_args(perf_test_parser)
+        self.add_build_args(perf_test_parser)
 
         # Additions to inherited subcommands
 

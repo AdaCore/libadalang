@@ -9,8 +9,8 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, EmptyEnv, Env, Let, Literal, Not, is_simple_expr,
-    langkit_property, Var
+    AbstractProperty, And, Or, EmptyEnv, Env, Literal, Not, langkit_property,
+    Var
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -969,7 +969,7 @@ class SingleTokNode(Name):
         This is only defined for two nodes that wrap symbols.
 
         """
-        return Self.name.symbol.equals(other.name.symbol)
+        return Self.name.symbol == other.name.symbol
 
 
 class BaseId(SingleTokNode):
@@ -1014,14 +1014,14 @@ class BaseId(SingleTokNode):
             C (12, 15);
                ^ parent_callexpr = null
         """
-        return Self.parents.take_while(lambda p: (
-            p.is_a(CallExpr)
-            | (p.is_a(Prefix, BaseId)
-               & (p.parent.cast(Prefix).then(lambda pfx: pfx.suffix.equals(p))
-                  | p.parent.cast(CallExpr).then(lambda pfx:
-                                                 pfx.name.equals(p)))))).find(
-            lambda p: p.is_a(CallExpr)
-        ).cast(CallExpr)
+        return Self.parents.take_while(lambda p: Or(
+            p.is_a(CallExpr),
+            p.is_a(Prefix, BaseId) & p.parent.match(
+                lambda pfx=Prefix: pfx.suffix == p,
+                lambda ce=CallExpr: ce.name == p,
+                lambda _: False
+            )
+        )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
     @langkit_property()
     def env_elements():
@@ -1038,8 +1038,8 @@ class BaseId(SingleTokNode):
             items.filter(
                 lambda e: e.el.cast(SubprogramSpec).then(
                     lambda ss: (
-                        (e.MD.dottable_subprogram & ss.nb_min_params.equals(1))
-                        | ss.nb_min_params.equals(0)
+                        (e.MD.dottable_subprogram & (ss.nb_min_params == 1))
+                        | (ss.nb_min_params == 0)
                     ),
                     default_val=True
                 )
@@ -1055,7 +1055,7 @@ class BaseId(SingleTokNode):
                         ss.is_matching_param_list(params)
                     ),
                     lambda o=ObjectDecl: (
-                        o.array_ndims.equals(params.params.length)
+                        o.array_ndims == params.params.length
                     ),
                     lambda _: True
                 ))
@@ -1188,9 +1188,9 @@ class SubprogramSpec(AdaNode):
         return And(
             params.params.length <= Self.nb_max_params,
             match_list.all(lambda m: m.has_matched),
-            match_list.filter(lambda m: Not(m.is_formal_opt)).length.equals(
-                Self.nb_min_params
-            ),
+            match_list.filter(
+                lambda m: Not(m.is_formal_opt)
+            ).length == Self.nb_min_params,
         )
 
     @langkit_property(return_type=BoolType)

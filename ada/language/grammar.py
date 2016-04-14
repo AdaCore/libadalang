@@ -1,9 +1,11 @@
 from __future__ import absolute_import
 
-from langkit.parsers import Grammar, Row, Enum, _, Null, Tok, Opt, List, Or
-
 from language.ast import *
 from language.lexer import Token
+
+# This import is after the language.ast import, because we want to be sure
+# no class from langkit.expressions are shadowing the parser combinators.
+from langkit.parsers import Grammar, Row, Enum, _, Null, Tok, Opt, List, Or
 
 ada_grammar = Grammar()
 A = ada_grammar

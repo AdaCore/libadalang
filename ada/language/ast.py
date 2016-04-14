@@ -3,8 +3,8 @@ from __future__ import absolute_import
 from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
-    env_metadata, root_grammar_class, LongType, create_macro,
-    TypeRepo
+    env_metadata, root_grammar_class, LongType, create_macro, TypeRepo,
+    LogicVarType
 )
 
 from langkit.envs import EnvSpec
@@ -16,7 +16,7 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
-
+from langkit.expressions.logic import Domain
 
 T = TypeRepo()
 
@@ -58,7 +58,16 @@ class AdaNode(ASTNode):
        polluting every LanguageKit node, and without bringing back the root
        ASTNode in the code templates.
     """
-    pass
+
+    ref_var = UserField(LogicVarType, is_private=True)
+    type_var = UserField(LogicVarType, is_private=True)
+    """
+    Those two fields represents the result of the xref equations solving.
+
+    TODO: They're probably not needed on every AdaNode, but are put here for
+    the time being for convenience. We'll need to hoist them up the type chain
+    at some point.
+    """
 
 
 def child_unit(name_expr, scope_expr, env_val_expr=Self):
@@ -1061,6 +1070,15 @@ class BaseId(SingleTokNode):
                 ))
             ), default_val=items)
         )
+
+    # TODO: For the moment this is just binding the reference variable. We also
+    # want to bind the type variable to the corresponding entities's types, and
+    # bind them together two by two.
+    xref_equation = Property(
+        Domain(Self.ref_var, Self.entities),
+        doc="TODO: Add doc when this property will have a base property",
+        private=True
+    )
 
 
 class Identifier(BaseId):

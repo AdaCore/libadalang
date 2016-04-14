@@ -21,6 +21,17 @@ from langkit.expressions.boolean import If
 T = TypeRepo()
 
 
+def symbol_list(base_id_list):
+    """
+    Turn a list of BaseId into the corresponding array of symbols.
+
+    :param AbstractExpression base_id_list: ASTList for the BaseId nodes to
+        process.
+    :rtype: AbstractExpression
+    """
+    return base_id_list.map(lambda base_id: base_id.tok.symbol)
+
+
 @env_metadata
 class Metadata(Struct):
     dottable_subprogram = UserField(
@@ -50,37 +61,35 @@ class AdaNode(ASTNode):
     pass
 
 
-def child_unit(name_expr, env_val_expr=Self):
+def child_unit(name_expr, scope_expr, env_val_expr=Self):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
     Ada, so that you can declare new childs to an unit outside of its own
     scope.
 
+    :param AbstractExpression name_expr: The expression that will retrieve
+        the name symbol for the decorated node.
+
+    :param AbstractExpression scope_expr: The expression that will retrieve the
+        scope node for the decorated node.
+
     :param AbstractExpression env_val_expr: The expression that will
         retrieve the environment value for the decorated node.
-
-    :param AbstractExpression name_expr: The expression that will retrieve
-        the name value for the decorated node.
 
     :rtype: NodeMacro
     """
 
     attribs = dict(
-        scope=Property(name_expr.scope, private=True, doc="""
+        scope=Property(scope_expr, private=True, doc="""
                        Helper property, that will return the scope of
                        definition of this child unit.
                        """),
         env_spec=EnvSpec(
-            initial_env=Self.scope, add_env=True, add_to_env=(
-                (name_expr, env_val_expr) if is_simple_expr(name_expr)
-                else (Self.env_spec_name, env_val_expr)
-            )
+            initial_env=Self.scope, add_env=True,
+            add_to_env=(name_expr, env_val_expr)
         )
     )
-    # Add a property if the name expr is not a simple expr
-    if is_simple_expr(name_expr):
-        attribs['env_spec_name'] = Property(name_expr, private=True),
 
     return create_macro(attribs)
 
@@ -106,7 +115,7 @@ class DiscriminantSpec(AdaNode):
     type_expr = Field()
     default_expr = Field()
 
-    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
 
 class TypeDiscriminant(AdaNode):
@@ -144,7 +153,7 @@ class ComponentDecl(AdaNode):
     default_expr = Field()
     aspects = Field()
 
-    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
 
 class ComponentList(AdaNode):
@@ -173,7 +182,7 @@ class TypeDecl(BasicDecl):
     type_id = Field()
 
     name = Property(Self.type_id)
-    env_spec = EnvSpec(add_to_env=(Self.name, Self),
+    env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self),
                        add_env=True)
 
     array_ndims = AbstractProperty(
@@ -453,7 +462,7 @@ class ParameterProfile(AdaNode):
     default = Field()
     is_mandatory = Property(Self.default.is_null)
 
-    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
 
 class AspectSpecification(AdaNode):
@@ -461,7 +470,9 @@ class AspectSpecification(AdaNode):
 
 
 class BasicSubprogramDecl(BasicDecl):
-    _macros = [child_unit(Self.name, Self.subp_spec)]
+    _macros = [child_unit(Self.subp_spec.name.name.symbol,
+                          Self.subp_spec.name.scope,
+                          Self.subp_spec)]
 
     is_overriding = Field()
     subp_spec = Field()
@@ -589,7 +600,7 @@ class ObjectDecl(BasicDecl):
     renaming_clause = Field()
     aspects = Field()
 
-    env_spec = EnvSpec(add_to_env=(Self.ids, Self))
+    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
     is_array = Property(Self.array_ndims > 0)
     array_ndims = Property(
@@ -639,7 +650,8 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    _macros = [child_unit(Self.name)]
+    _macros = [child_unit(Self.package_name.name.symbol,
+                          Self.package_name.scope)]
 
 
 class ExceptionDecl(BasicDecl):
@@ -724,13 +736,15 @@ class GenericSubprogramDecl(BasicDecl):
 
 
 class GenericPackageDecl(BasicDecl):
-    _macros = [child_unit(Self.name)]
+    _macros = [child_unit(Self.package_name.name.symbol,
+                          Self.package_name.scope)]
 
     formal_part = Field()
     package_decl = Field(type=BasePackageDecl)
-    name = Property(Self.package_decl.name)
 
-    defining_names = Property(Self.name.cast(T.Name).singleton)
+    package_name = Property(Self.package_decl.package_name)
+
+    defining_names = Property(Self.package_name.cast(T.Name).singleton)
 
 
 def is_package(e):
@@ -897,8 +911,8 @@ class Name(Expr):
 @abstract
 class SingleTokNode(Name):
     tok = Field()
+
     name = Property(Self.tok)
-    sym = Property(Self.tok.symbol, private=True)
 
     @langkit_property(return_type=BoolType)
     def matches(other=T.SingleTokNode):
@@ -1245,7 +1259,9 @@ class CompilationUnit(AdaNode):
 
 
 class SubprogramBody(Body):
-    _macros = [child_unit(Self.name, Self.subp_spec)]
+    _macros = [child_unit(Self.subp_spec.name.name.symbol,
+                          Self.subp_spec.name.scope,
+                          Self.subp_spec)]
 
     overriding = Field()
     subp_spec = Field()
@@ -1254,9 +1270,7 @@ class SubprogramBody(Body):
     statements = Field()
     end_id = Field()
 
-    name = Property(Self.subp_spec.name)
-
-    defining_names = Property(Self.name.cast(Name).singleton)
+    defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
 
 
 class HandledStatements(AdaNode):
@@ -1392,15 +1406,15 @@ class TerminateStatement(Statement):
 
 
 class PackageBody(Body):
-    _macros = [child_unit(Self.name)]
+    _macros = [child_unit(Self.package_name.name.symbol,
+                          Self.package_name.scope)]
 
     package_name = Field()
     aspects = Field()
     decls = Field()
     statements = Field()
 
-    name = Property(Self.package_name, private=True)
-    defining_names = Property(Self.name.cast(Name).singleton)
+    defining_names = Property(Self.package_name.cast(Name).singleton)
 
 
 class TaskBody(Body):

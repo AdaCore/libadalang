@@ -1,14 +1,15 @@
 #! /usr/bin/env python
 
 import os
-import os.path
+from os.path import join
 import sys
 
-ADA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-ROOT_DIR = os.path.join(ADA_DIR, '..')
+ADA_DIR = join(os.path.dirname(os.path.abspath(__file__)), '..')
+ROOT_DIR = join(ADA_DIR, '..')
 
 DIRS = ('ada', 'langkit', 'utils')
-EXCLUDES = ('tmp', 'doc', os.path.join('stylechecks', 'tests.py'))
+EXCLUDES = ('tmp', 'doc', join('stylechecks', 'tests.py'),
+            join('langkit', 'adalog', 'obj'))
 
 sys.path.append(ADA_DIR)
 

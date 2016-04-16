@@ -1,9 +1,9 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
 with Langkit_Support.Text;   use Langkit_Support.Text;
-with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 with Langkit_Support.Token_Data_Handler;
 use Langkit_Support.Token_Data_Handler;
+with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.AST;       use Libadalang.AST;

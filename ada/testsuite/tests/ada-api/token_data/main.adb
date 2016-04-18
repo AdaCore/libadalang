@@ -28,7 +28,9 @@ begin
       Tok_Id : constant Token_Index := F_Tok (Id);
       Tok    : constant Token_Type := Get_Token (Unit, Tok_Id);
    begin
-      Put_Line ("Token_Text for the foo identifier: " & Image (Tok.Text.all));
+      Put_Line ("Token data for the ""foo"" identifier:");
+      Put_Line ("Text: " & Image (Tok.Text.all));
+      Put_Line ("Sloc range: " & Image (Tok.Sloc_Range));
    end;
 
    Destroy (Ctx);

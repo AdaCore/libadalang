@@ -162,6 +162,17 @@ class ComponentDecl(AdaNode):
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
+    @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
+    def defining_env():
+        """
+        See BasicDecl.defining_env.
+        """
+
+        return Self.component_def.type_expr.cast(T.TypeExpression).then(
+            lambda te: te.defining_env,
+            default_val=EmptyEnv
+        )
+
 
 class ComponentList(AdaNode):
     components = Field()
@@ -954,10 +965,11 @@ class SingleTokNode(Name):
 
 
 class BaseId(SingleTokNode):
-    @langkit_property()
-    def designated_env():
-        decl = Env.resolve_unique(Self.tok).el.cast(BasicDecl)
-        return decl.then(lambda d: d.defining_env, default_val=EmptyEnv)
+    designated_env = Property(Env.resolve_unique(Self.tok).el.match(
+        lambda decl=BasicDecl: decl.defining_env,
+        lambda decl=ComponentDecl: decl.defining_env,
+        lambda others: EmptyEnv
+    ))
 
     scope = Property(Env)
     name = Property(Self.tok)

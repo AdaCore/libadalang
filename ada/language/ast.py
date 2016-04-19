@@ -868,6 +868,9 @@ class CallExpr(Expr):
     paren_tok = Field(repr=False)
     suffix = Field()
 
+    designated_env = Property(EmptyEnv)
+    env_elements = Property(Self.name.env_elements)
+
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
     designated_type = Property(Self.name.designated_type)

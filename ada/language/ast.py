@@ -9,7 +9,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Env, Let, Literal, Not, is_simple_expr,
+    AbstractProperty, And, EmptyEnv, Env, Let, Literal, Not, is_simple_expr,
     langkit_property, Var
 )
 from langkit.expressions import New
@@ -98,6 +98,13 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
 class BasicDecl(AdaNode):
     defining_names = AbstractProperty(type=T.Name.array_type())
     defining_name = Property(Self.defining_names.at(0))
+    defining_env = Property(
+        EmptyEnv, private=True,
+        doc="""
+        Return a lexical environment that contains entities that are accessible
+        as suffixes when Self is a prefix.
+        """
+    )
 
 
 @abstract
@@ -202,6 +209,7 @@ class FullTypeDecl(TypeDecl):
     aspects = Field()
 
     array_ndims = Property(Self.type_def.array_ndims)
+    defining_env = Property(Self.children_env)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -337,6 +345,7 @@ class SubtypeDecl(TypeDecl):
     aspects = Field()
 
     array_ndims = Property(Self.type_expr.array_ndims)
+    defining_env = Property(Self.type_expr.defining_env)
 
 
 class TaskDef(AdaNode):
@@ -414,6 +423,10 @@ class TypeExpression(AdaNode):
     type_expr_variant = Field()
 
     array_ndims = Property(Self.type_expr_variant.array_ndims)
+    defining_env = Property(
+        Self.type_expr_variant.defining_env, private=True,
+        doc='Helper for BaseDecl.defining_env'
+    )
 
 
 @abstract
@@ -424,6 +437,10 @@ class TypeExprVariant(AdaNode):
         If this designates an array type, return its number of dimensions.
         Return 0 otherwise.
         """
+    )
+    defining_env = Property(
+        EmptyEnv, private=True,
+        doc='Helper for BaseDecl.defining_env'
     )
 
 
@@ -436,11 +453,13 @@ class TypeRef(TypeExprVariant):
         lambda t: t.array_ndims,
         default_val=Literal(0)
     ))
+    defining_env = Property(Self.name.designated_type.defining_env)
 
 
 @abstract
 class AccessExpression(TypeExprVariant):
     array_ndims = Property(Literal(0))
+    # TODO? Should we handle defining_env here for implicit dereferencing?
 
 
 class SubprogramAccessExpression(AccessExpression):
@@ -617,6 +636,12 @@ class ObjectDecl(BasicDecl):
         doc="""Return whether this is an array type."""
     )
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
+    defining_env = Property(
+        Self.type_expr.cast(TypeExpression).then(
+            lambda te: te.defining_env,
+            default_val=EmptyEnv
+        )
+    )
 
 
 class PrivatePart(AdaNode):
@@ -644,6 +669,7 @@ class BasePackageDecl(BasicDecl):
 
     name = Property(Self.package_name, private=True)
     defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_env = Property(Self.children_env)
 
 
 class PackageDecl(BasePackageDecl):
@@ -925,7 +951,11 @@ class SingleTokNode(Name):
 
 
 class BaseId(SingleTokNode):
-    designated_env = Property(Env.resolve_unique(Self.tok).el.children_env)
+    @langkit_property()
+    def designated_env():
+        decl = Env.resolve_unique(Self.tok).el.cast(BasicDecl)
+        return decl.then(lambda d: d.defining_env, default_val=EmptyEnv)
+
     scope = Property(Env)
     name = Property(Self.tok)
 
@@ -1159,6 +1189,15 @@ class SubprogramSpec(AdaNode):
                 )
             )
         )
+
+    @langkit_property(private=True)
+    def defining_env():
+        """
+        Helper for BasicDecl.defining_env.
+        """
+        return If(Self.returns.is_null,
+                  EmptyEnv,
+                  Self.returns.defining_env)
 
 
 class Quantifier(EnumType):
@@ -1415,6 +1454,7 @@ class PackageBody(Body):
     statements = Field()
 
     defining_names = Property(Self.package_name.cast(Name).singleton)
+    defining_env = Property(Self.children_env)
 
 
 class TaskBody(Body):

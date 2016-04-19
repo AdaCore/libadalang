@@ -3,9 +3,9 @@ R1_1.A resolves to:
 R1_1.D resolves to:
     <none>
 R1_2.A resolves to:
-    <none>
+    A, B : Integer
 R1_3 (1).A resolves to:
-    <none>
+    A, B : Integer
 R2_1.N resolves to:
     N : Natural
 R2_1.S (1) resolves to:

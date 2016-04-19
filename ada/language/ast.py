@@ -509,6 +509,8 @@ class BasicSubprogramDecl(BasicDecl):
 
     name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
+    # Note that we don't have to override the defining_env property here since
+    # what we put in lexical environment is their SubprogramSpec child.
 
 
 class SubprogramDecl(BasicSubprogramDecl):
@@ -879,7 +881,13 @@ class CallExpr(Expr):
     paren_tok = Field(repr=False)
     suffix = Field()
 
-    designated_env = Property(EmptyEnv)
+    designated_env = Property(
+        Self.name.entities().at(0).match(
+            lambda ss=T.SubprogramSpec: ss.defining_env,
+            lambda others: EmptyEnv,
+        )
+    )
+
     env_elements = Property(Self.name.env_elements)
 
     # CallExpr can appear in type expressions: they are used to create implicit
@@ -968,6 +976,9 @@ class BaseId(SingleTokNode):
     designated_env = Property(Env.resolve_unique(Self.tok).el.match(
         lambda decl=BasicDecl: decl.defining_env,
         lambda decl=ComponentDecl: decl.defining_env,
+        lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
+                                       ss.defining_env,
+                                       EmptyEnv),
         lambda others: EmptyEnv
     ))
 
@@ -1205,7 +1216,7 @@ class SubprogramSpec(AdaNode):
             )
         )
 
-    @langkit_property(private=True)
+    @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
     def defining_env():
         """
         Helper for BasicDecl.defining_env.
@@ -1325,6 +1336,8 @@ class SubprogramBody(Body):
     end_id = Field()
 
     defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
+    # Note that we don't have to override the defining_env property here since
+    # what we put in lexical environment is their SubprogramSpec child.
 
 
 class HandledStatements(AdaNode):
@@ -1521,6 +1534,8 @@ class SubprogramBodyStub(BodyStub):
     aspects = Field()
 
     defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
+    # Note that we don't have to override the defining_env property here since
+    # what we put in lexical environment is their SubprogramSpec child.
 
 
 class PackageBodyStub(BodyStub):

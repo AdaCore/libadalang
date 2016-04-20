@@ -966,7 +966,17 @@ class CaseExprAlternative(Expr):
 
 @abstract
 class Name(Expr):
-    pass
+
+    env_for_scope = AbstractProperty(
+        private=True, runtime_check=True,
+        type=compiled_types.LexicalEnvType,
+        doc="""
+        Lexical environment this identifier represents. This is similar to
+        designated_env although it handles only cases for child units and it is
+        used only during the environment population pass so it does not return
+        orphan environments.
+        """
+    )
 
 
 @abstract
@@ -986,6 +996,13 @@ class SingleTokNode(Name):
 
 
 class BaseId(SingleTokNode):
+
+    env_for_scope = Property(Env.resolve_unique(Self.tok).el.match(
+        lambda decl=T.PackageDecl: decl.children_env,
+        lambda body=T.PackageBody: body.children_env,
+        lambda others:             EmptyEnv  # TODO
+    ))
+
     designated_env = Property(Env.resolve_unique(Self.tok).el.match(
         lambda decl=BasicDecl: decl.defining_env,
         lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
@@ -1311,7 +1328,16 @@ class Prefix(Name):
         Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env)
     )
 
-    scope = Property(Self.prefix.designated_env)
+    env_for_scope = Property(Self.suffix.cast(BaseId).then(
+        lambda sfx: Self.scope.eval_in_env(sfx.env_for_scope),
+        default_val=EmptyEnv  # TODO
+    ))
+
+    scope = Property(Self.prefix.match(
+        lambda pfx=T.Prefix:   pfx.env_for_scope,
+        lambda base_id=BaseId: base_id.env_for_scope,
+        lambda others:         EmptyEnv  # TODO
+    ))
 
     name = Property(Self.suffix.name)
 

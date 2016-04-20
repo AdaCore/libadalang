@@ -470,12 +470,19 @@ class TypeRef(TypeExprVariant):
     name = Field()
     constraint = Field()
 
-    array_ndims = Property(Self.name.designated_type.then(
+    # The name for this type has to be evaluated in the context of the TypeRef
+    # node itself: we don't want to use whatever lexical environment the caller
+    # is using.
+    designated_type = Property(
+        Self.node_env.eval_in_env(Self.name.designated_type)
+    )
+
+    array_ndims = Property(Self.designated_type.then(
         # "designated_type" may return no node for incorrect code
         lambda t: t.array_ndims,
         default_val=Literal(0)
     ))
-    defining_env = Property(Self.name.designated_type.defining_env)
+    defining_env = Property(Self.designated_type.defining_env)
 
 
 @abstract

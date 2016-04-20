@@ -231,7 +231,7 @@ class FullTypeDecl(TypeDecl):
     aspects = Field()
 
     array_ndims = Property(Self.type_def.array_ndims)
-    defining_env = Property(Self.children_env)
+    defining_env = Property(Self.children_env.orphan)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -702,7 +702,7 @@ class BasePackageDecl(BasicDecl):
 
     name = Property(Self.package_name, private=True)
     defining_names = Property(Self.name.cast(T.Name).singleton)
-    defining_env = Property(Self.children_env)
+    defining_env = Property(Self.children_env.orphan)
 
 
 class PackageDecl(BasePackageDecl):
@@ -1007,7 +1007,7 @@ class BaseId(SingleTokNode):
     env_for_scope = Property(Env.resolve_unique(Self.tok).el.match(
         lambda decl=T.PackageDecl: decl.children_env,
         lambda body=T.PackageBody: body.children_env,
-        lambda others:             EmptyEnv  # TODO
+        lambda others:             EmptyEnv
     ))
 
     designated_env = Property(Env.resolve_unique(Self.tok).el.match(
@@ -1337,13 +1337,13 @@ class Prefix(Name):
 
     env_for_scope = Property(Self.suffix.cast(BaseId).then(
         lambda sfx: Self.scope.eval_in_env(sfx.env_for_scope),
-        default_val=EmptyEnv  # TODO
+        default_val=EmptyEnv
     ))
 
     scope = Property(Self.prefix.match(
         lambda pfx=T.Prefix:   pfx.env_for_scope,
         lambda base_id=BaseId: base_id.env_for_scope,
-        lambda others:         EmptyEnv  # TODO
+        lambda others:         EmptyEnv
     ))
 
     name = Property(Self.suffix.name)
@@ -1529,7 +1529,7 @@ class PackageBody(Body):
     statements = Field()
 
     defining_names = Property(Self.package_name.cast(Name).singleton)
-    defining_env = Property(Self.children_env)
+    defining_env = Property(Self.children_env.orphan)
 
 
 class TaskBody(Body):

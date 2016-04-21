@@ -829,6 +829,9 @@ class Expr(AdaNode):
         type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
         doc="""
         Returns the lexical environment designated by this name.
+
+        If this name involves overloading, this will return a combination of
+        the various candidate lexical environments.
         """
     )
 
@@ -902,10 +905,10 @@ class CallExpr(Expr):
     suffix = Field()
 
     designated_env = Property(
-        Self.name.entities().at(0).match(
+        Self.name.entities().map(lambda e: e.match(
             lambda ss=T.SubprogramSpec: ss.defining_env,
             lambda others: EmptyEnv,
-        )
+        )).env_group
     )
 
     env_elements = Property(Self.name.env_elements)
@@ -1010,13 +1013,17 @@ class BaseId(SingleTokNode):
         lambda others:             EmptyEnv
     ))
 
-    designated_env = Property(Env.resolve_unique(Self.tok).el.match(
-        lambda decl=BasicDecl: decl.defining_env,
-        lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
-                                       ss.defining_env,
-                                       EmptyEnv),
-        lambda others: EmptyEnv
-    ))
+    designated_env = Property(
+        Env.get(Self.tok).map(lambda item: (
+            item.el.match(
+                lambda decl=BasicDecl: decl.defining_env,
+                lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
+                                               ss.defining_env,
+                                               EmptyEnv),
+                lambda others: EmptyEnv
+            )
+        )).env_group
+    )
 
     scope = Property(Env)
     name = Property(Self.tok)

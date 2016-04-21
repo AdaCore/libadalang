@@ -15,6 +15,16 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | name:
 | | | | | | | | | | Id[3:14-3:21]
 | | | | | | | | | | | tok: Has_Pre
+| | | | | | | aspects:
+| | | | | | | | AspectSpecification[3:22-3:38]
+| | | | | | | | | aspect_assocs:
+| | | | | | | | | | AspectAssoc[3:27-3:38]
+| | | | | | | | | | | id:
+| | | | | | | | | | | | Id[3:27-3:30]
+| | | | | | | | | | | | | tok: Pre
+| | | | | | | | | | | expr:
+| | | | | | | | | | | | Id[3:34-3:38]
+| | | | | | | | | | | | | tok: True
 | | | | | | GenericSubprogramDecl[5:4-6:40]
 | | | | | | | subp_spec:
 | | | | | | | | SubprogramSpec[6:4-6:22]
@@ -38,6 +48,13 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | name:
 | | | | | | | | | | Id[8:14-8:25]
 | | | | | | | | | | | tok: No_Contract
+| | | | | | | aspects:
+| | | | | | | | AspectSpecification[8:26-8:37]
+| | | | | | | | | aspect_assocs:
+| | | | | | | | | | AspectAssoc[8:31-8:37]
+| | | | | | | | | | | id:
+| | | | | | | | | | | | Id[8:31-8:37]
+| | | | | | | | | | | | | tok: Inline
 | | | | | end_id:
 | | | | | | Id[10:5-10:6]
 | | | | | | | tok: P

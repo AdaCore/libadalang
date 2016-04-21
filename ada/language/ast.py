@@ -525,25 +525,25 @@ class BasicSubprogramDecl(BasicDecl):
 
 
 class SubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(repr=False)
+    aspects = Field()
 
 
 class NullSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(repr=False)
+    aspects = Field()
 
 
 class AbstractSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(repr=False)
+    aspects = Field()
 
 
 class ExpressionFunction(BasicSubprogramDecl):
     expression = Field()
-    aspects = Field(repr=False)
+    aspects = Field()
 
 
 class RenamingSubprogramDecl(BasicSubprogramDecl):
     renames = Field()
-    aspects = Field(repr=False)
+    aspects = Field()
 
 
 class Pragma(AdaNode):

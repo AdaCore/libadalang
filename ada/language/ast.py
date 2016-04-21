@@ -597,12 +597,14 @@ class AtClause(AspectClause):
     expr = Field()
 
 
-class EntryDecl(AdaNode):
+class EntryDecl(BasicDecl):
     overriding = Field()
     entry_id = Field()
     family_type = Field()
     params = Field()
     aspects = Field()
+
+    defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
 class TaskDecl(BasicDecl):

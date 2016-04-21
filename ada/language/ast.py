@@ -163,7 +163,7 @@ class VariantPart(AdaNode):
     variant = Field()
 
 
-class ComponentDecl(AdaNode):
+class ComponentDecl(BasicDecl):
     ids = Field()
     component_def = Field()
     default_expr = Field()
@@ -181,6 +181,8 @@ class ComponentDecl(AdaNode):
             lambda te: te.defining_env,
             default_val=EmptyEnv
         )
+
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class ComponentList(AdaNode):
@@ -984,7 +986,6 @@ class SingleTokNode(Name):
 class BaseId(SingleTokNode):
     designated_env = Property(Env.resolve_unique(Self.tok).el.match(
         lambda decl=BasicDecl: decl.defining_env,
-        lambda decl=ComponentDecl: decl.defining_env,
         lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
                                        ss.defining_env,
                                        EmptyEnv),

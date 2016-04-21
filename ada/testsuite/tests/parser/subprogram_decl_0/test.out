@@ -10,6 +10,7 @@ AbstractSubprogramDecl[1:1-1:49]
 | | | | | ids:
 | | | | | | Id[1:25-1:26]
 | | | | | | | tok: B
+| | | | | is_aliased: False
 | | | | | mode: in
 | | | | | type_expr:
 | | | | | | TypeExpression[1:29-1:36]

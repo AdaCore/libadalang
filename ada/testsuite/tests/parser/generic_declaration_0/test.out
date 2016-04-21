@@ -21,6 +21,7 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | | | tok: X
 | | | | | | Id[1:55-1:56]
 | | | | | | | tok: Y
+| | | | | is_aliased: False
 | | | | | mode: inout
 | | | | | type_expr:
 | | | | | | TypeExpression[1:66-1:75]

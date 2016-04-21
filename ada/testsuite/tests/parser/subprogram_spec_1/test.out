@@ -11,6 +11,7 @@ SubprogramSpec[1:1-1:65]
 | | | | | tok: C
 | | | | Id[1:19-1:20]
 | | | | | tok: D
+| | | is_aliased: False
 | | | mode: in
 | | | type_expr:
 | | | | TypeExpression[1:23-1:29]
@@ -24,6 +25,7 @@ SubprogramSpec[1:1-1:65]
 | | | ids:
 | | | | Id[1:31-1:32]
 | | | | | tok: E
+| | | is_aliased: False
 | | | mode: in
 | | | type_expr:
 | | | | TypeExpression[1:35-1:49]

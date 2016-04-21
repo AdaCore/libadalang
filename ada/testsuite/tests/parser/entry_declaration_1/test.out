@@ -17,6 +17,7 @@ EntryDecl[1:1-1:36]
 | | | ids:
 | | | | Id[1:17-1:18]
 | | | | | tok: B
+| | | is_aliased: False
 | | | mode: inout
 | | | type_expr:
 | | | | TypeExpression[1:28-1:35]

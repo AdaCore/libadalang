@@ -11,6 +11,7 @@ SelectStatement[1:1-1:154]
 | | | | | | | ids:
 | | | | | | | | Id[1:24-1:31]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:37-1:41]
@@ -41,6 +42,7 @@ SelectStatement[1:1-1:154]
 | | | | | | | ids:
 | | | | | | | | Id[1:92-1:99]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: out
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:106-1:110]

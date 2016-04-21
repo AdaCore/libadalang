@@ -15,6 +15,7 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | ids:
 | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:69-1:73]
@@ -34,6 +35,7 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | ids:
 | | | | | | | | Id[1:90-1:97]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: out
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:104-1:108]

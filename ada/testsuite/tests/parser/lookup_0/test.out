@@ -27,6 +27,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
+| | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
 | | | | | | | | | | TypeExpression[3:34-3:46]
@@ -49,6 +50,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | ids:
 | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | is_aliased: False
 | | | | | | | | | | | mode: in
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | TypeExpression[5:23-5:30]
@@ -299,6 +301,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
+| | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
 | | | | | | | | | | TypeExpression[3:34-3:46]
@@ -321,6 +324,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | ids:
 | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | tok: N
+| | | | | | | | | | | is_aliased: False
 | | | | | | | | | | | mode: in
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | TypeExpression[5:23-5:30]
@@ -478,6 +482,7 @@ SubprogramBody[3:1-17:9]
 | | | | | ids:
 | | | | | | Id[3:24-3:31]
 | | | | | | | tok: Console
+| | | | | is_aliased: False
 | | | | | mode: in
 | | | | | type_expr:
 | | | | | | TypeExpression[3:34-3:46]
@@ -500,6 +505,7 @@ SubprogramBody[3:1-17:9]
 | | | | | | | ids:
 | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | tok: N
+| | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[5:23-5:30]

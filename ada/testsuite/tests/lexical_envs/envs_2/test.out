@@ -22,6 +22,7 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | tok: I
 | | | | | | | | | | | | Id[2:22-2:23]
 | | | | | | | | | | | | | tok: J
+| | | | | | | | | | | is_aliased: False
 | | | | | | | | | | | mode: in
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | TypeExpression[2:26-2:33]

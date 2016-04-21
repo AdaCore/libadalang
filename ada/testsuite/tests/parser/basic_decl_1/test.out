@@ -18,6 +18,7 @@ TaskTypeDecl[1:1-1:62]
 | | | | | | | ids:
 | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | tok: X
+| | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:48-1:52]

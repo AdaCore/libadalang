@@ -10,6 +10,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | ids:
 | | | | | | Id[1:27-1:33]
 | | | | | | | tok: Buffer
+| | | | | is_aliased: False
 | | | | | mode: in
 | | | | | type_expr:
 | | | | | | TypeExpression[1:36-1:69]
@@ -30,6 +31,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | ids:
 | | | | | | Id[1:71-1:76]
 | | | | | | | tok: Start
+| | | | | is_aliased: False
 | | | | | mode: in
 | | | | | type_expr:
 | | | | | | TypeExpression[1:80-1:96]
@@ -43,6 +45,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | ids:
 | | | | | | Id[1:98-1:104]
 | | | | | | | tok: Number
+| | | | | is_aliased: False
 | | | | | mode: in
 | | | | | type_expr:
 | | | | | | TypeExpression[1:107-1:123]

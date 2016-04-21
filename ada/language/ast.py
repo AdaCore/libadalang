@@ -497,7 +497,7 @@ class TypeAccessExpression(AccessExpression):
 
 class ParameterProfile(AdaNode):
     ids = Field()
-    is_aliased = Field(repr=False)
+    is_aliased = Field()
     mode = Field()
     type_expr = Field()
     default = Field()

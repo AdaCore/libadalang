@@ -20,6 +20,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | ids:
 | | | | | | | | Id[1:57-1:64]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:70-1:74]
@@ -44,6 +45,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | ids:
 | | | | | | | | Id[1:103-1:110]
 | | | | | | | | | tok: An_Item
+| | | | | | | is_aliased: False
 | | | | | | | mode: out
 | | | | | | | type_expr:
 | | | | | | | | TypeExpression[1:117-1:121]

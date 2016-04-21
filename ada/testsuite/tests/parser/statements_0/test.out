@@ -7,6 +7,7 @@ AcceptStatement[1:1-1:64]
 | | | ids:
 | | | | Id[1:15-1:22]
 | | | | | tok: An_Item
+| | | is_aliased: False
 | | | mode: in
 | | | type_expr:
 | | | | TypeExpression[1:28-1:32]
@@ -41,6 +42,7 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:94-1:101]
 | | | | | | | | | | | tok: An_Item
+| | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
 | | | | | | | | | | TypeExpression[1:107-1:111]
@@ -71,6 +73,7 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:162-1:169]
 | | | | | | | | | | | tok: An_Item
+| | | | | | | | | is_aliased: False
 | | | | | | | | | mode: out
 | | | | | | | | | type_expr:
 | | | | | | | | | | TypeExpression[1:176-1:180]

@@ -892,7 +892,6 @@ class Aggregate(Expr):
 
 class CallExpr(Expr):
     name = Field()
-    paren_tok = Field(repr=False)
     suffix = Field()
 
     designated_env = Property(

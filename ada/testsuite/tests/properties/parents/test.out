@@ -103,7 +103,6 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |paren_tok: Token(None)
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
@@ -143,7 +142,6 @@
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
-|  |  |  |  |  |  |  |paren_tok: Token(None)
 |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |params:
@@ -171,7 +169,6 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |paren_tok: Token(None)
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:

@@ -18,6 +18,9 @@ package body Libadalang.AST.Types.Parsers.Dump is
       function Image (A : ${cls.name()}) return String;
    % endfor
 
+   function Image (Env : Lexical_Env) return String is
+     ("<lexical environment>");
+
    ## And now their implementations
 
    % for cls in ctx.sorted_types(ctx.struct_types):

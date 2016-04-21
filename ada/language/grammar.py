@@ -307,7 +307,8 @@ A.add_rules(
         A.subprogram_spec,
         _(Opt("is")),
         Opt("abstract").as_bool(),
-        Opt(Or(A.diamond_expr, A.name, A.null_literal))
+        Opt(Or(A.diamond_expr, A.name, A.null_literal)),
+        A.aspect_specification
     ) ^ FormalSubpDecl,
 
     renaming_clause=Row("renames", A.name) ^ RenamingClause,

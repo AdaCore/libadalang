@@ -770,6 +770,7 @@ class FormalSubpDecl(BasicDecl):
     subp_spec = Field()
     is_abstract = Field()
     default_value = Field()
+    aspects = Field()
 
     defining_names = Property(Self.subp_spec.name.cast(T.Name).singleton)
 

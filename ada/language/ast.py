@@ -1513,7 +1513,6 @@ class ProtectedBody(Body):
     package_name = Field()
     aspects = Field()
     decls = Field()
-    body_stub = Field()
 
     defining_names = Property(Self.package_name.cast(Name).singleton)
 
@@ -1539,8 +1538,11 @@ class Subunit(AdaNode):
     body = Field()
 
 
-class ProtectedBodyStub(AdaNode):
+class ProtectedBodyStub(BodyStub):
+    name = Field()
     aspects = Field()
+
+    defining_names = Property(Self.name.cast(Name).singleton)
 
 
 class SubprogramBodyStub(BodyStub):

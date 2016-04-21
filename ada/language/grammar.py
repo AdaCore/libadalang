@@ -575,10 +575,14 @@ A.add_rules(
 
     protected_body=Row(
         "protected", "body", A.static_name, A.aspect_specification,
-        "is",
-        Opt(A.basic_decls, "end", Opt(A.static_name))[0],
-        Opt((Row("separate", A.aspect_specification)[1]) ^ ProtectedBodyStub)
+        "is", A.basic_decls,
+        "end", _(Opt(A.static_name))
     ) ^ ProtectedBody,
+
+    protected_body_stub=Row(
+        "protected", "body", A.static_name, "is", "separate",
+        A.aspect_specification
+    ) ^ ProtectedBodyStub,
 
     task_body=Row(
         "task", "body", A.static_name, A.aspect_specification,
@@ -687,7 +691,7 @@ A.add_rules(
             A.protected_body, A.entry_body),
 
     body_stub=Or(A.subprogram_body_stub, A.package_body_stub,
-                 A.task_body_stub),
+                 A.task_body_stub, A.protected_body_stub),
 
     subprogram_body_stub=Row(
         A.overriding_indicator,

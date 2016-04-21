@@ -1048,15 +1048,12 @@ class BaseId(SingleTokNode):
             # designates something else than a subprogram, either it designates
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
-            items.filter(
-                lambda e: e.el.cast(SubprogramSpec).then(
-                    lambda ss: (
-                        (e.MD.dottable_subprogram & (ss.nb_min_params == 1))
-                        | (ss.nb_min_params == 0)
-                    ),
-                    default_val=True
-                )
-            ),
+            items.filter(lambda e: e.el.cast(SubprogramSpec).then(
+                lambda ss: (
+                    (e.MD.dottable_subprogram & (ss.nb_min_params == 1))
+                    | (ss.nb_min_params == 0)
+                ), default_val=True
+            )),
 
             # This identifier is the name for a called subprogram or an array.
             # So only keep:
@@ -1064,12 +1061,8 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(ParamList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
-                    lambda ss=SubprogramSpec: (
-                        ss.is_matching_param_list(params)
-                    ),
-                    lambda o=ObjectDecl: (
-                        o.array_ndims == params.params.length
-                    ),
+                    lambda s=SubprogramSpec: s.is_matching_param_list(params),
+                    lambda o=ObjectDecl: o.array_ndims == params.params.length,
                     lambda _: True
                 ))
             ), default_val=items)

@@ -83,8 +83,10 @@ package Libadalang.AST.Types.Parsers.Test is
       --  Value for symbols
 
       Logic_Var_Value,
+      --  Logic variable from Adalog
 
       Equation_Value,
+      --  Logic equation from Adalog
 
       Error_Value
       --  Value resulting from an error during evaluation

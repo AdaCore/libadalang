@@ -1335,6 +1335,8 @@ class AttributeRef(Expr):
     attribute = Field()
     args = Field()
 
+    designated_type = Property(Self.prefix.designated_type)
+
 
 class RaiseExpression(Expr):
     exception_name = Field()

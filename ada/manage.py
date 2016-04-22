@@ -125,7 +125,7 @@ class Manage(ManageScript):
         argv.extend(getattr(args, 'testsuite-args'))
 
         try:
-            subprocess.check_call(argv, env=env)
+            self.check_call(args, 'Testsuite', argv, env=env)
         except subprocess.CalledProcessError as exc:
             print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
             sys.exit(1)

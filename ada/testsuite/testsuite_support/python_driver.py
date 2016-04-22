@@ -13,10 +13,12 @@ class PythonDriver(BaseDriver):
     # Driver entry poins
     #
 
-    @catch_test_errors
-    def tear_up(self):
-        super(PythonDriver, self).tear_up()
+    def __init__(self, *args, **kwargs):
+        super(PythonDriver, self).__init__(*args, **kwargs)
+        self.py_file = None
+        self.py_args = []
 
+    def tear_up_helper(self):
         if self.disable_shared:
             self.result.set_status(
                 'DEAD',
@@ -27,10 +29,13 @@ class PythonDriver(BaseDriver):
 
         if 'input_sources' not in self.test_env:
             raise SetupError('Missing "input_sources" key in test.yaml')
-        input_sources = self.test_env['input_sources']
+        self.input_sources = self.test_env['input_sources']
 
-        self.check_file('test.py')
-        self.check_file_list('"input_sources"', input_sources)
+        if not self.py_file:
+            self.py_file = 'test.py'
+            self.check_file(self.py_file)
+
+        self.check_file_list('"input_sources"', self.input_sources)
 
         # Make the common Python modules available from the testcase script
         try:
@@ -48,9 +53,16 @@ class PythonDriver(BaseDriver):
         )
 
     @catch_test_errors
+    def tear_up(self):
+        super(PythonDriver, self).tear_up()
+        self.tear_up_helper()
+
+    @catch_test_errors
     def run(self):
-        self.run_and_check([self.python_interpreter, 'test.py'],
-                           for_debug=True)
+        self.run_and_check(
+            [self.python_interpreter, self.py_file] + self.py_args,
+            for_debug=True
+        )
 
     @property
     def support_dir(self):

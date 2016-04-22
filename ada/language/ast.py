@@ -9,8 +9,8 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Or, EmptyEnv, Env, Literal, Not, langkit_property,
-    Var
+    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, Not,
+    langkit_property, Var
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -231,7 +231,14 @@ class FullTypeDecl(TypeDecl):
     aspects = Field()
 
     array_ndims = Property(Self.type_def.array_ndims)
-    defining_env = Property(Self.children_env.orphan)
+
+    @langkit_property()
+    def defining_env():
+        result = Self.children_env.orphan
+        return Self.type_def.cast(DerivedTypeDef).then(
+            lambda td: EnvGroup(result, td.name.defining_env),
+            default_val=result
+        )
 
 
 class FloatingPointDef(RealTypeDef):

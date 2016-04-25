@@ -17,6 +17,7 @@ import testsuite_support.asteval_driver
 import testsuite_support.capi_driver
 import testsuite_support.parser_driver
 import testsuite_support.python_driver
+import testsuite_support.symbol_resolution_driver
 
 
 class Testsuite(BaseTestsuite):
@@ -27,6 +28,8 @@ class Testsuite(BaseTestsuite):
         'ada-api': testsuite_support.adaapi_driver.CAPIDriver,
         'c-api': testsuite_support.capi_driver.CAPIDriver,
         'python': testsuite_support.python_driver.PythonDriver,
+        'symbol_resolution':
+            testsuite_support.symbol_resolution_driver.SymbolResolutionDriver,
     }
 
     def add_options(self):

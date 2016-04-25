@@ -6,5 +6,5 @@ package Foo is
 
    type T2 is new Integer;
 
-   I : Bar.T2;
+   pragma Test (Bar.T2);
 end Foo;

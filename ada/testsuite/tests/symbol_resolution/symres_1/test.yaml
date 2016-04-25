@@ -1,2 +1,4 @@
-driver: python
-input_sources: []
+description:
+    Test the resolution of a name to the corresponding object declaration.
+driver: symbol_resolution
+input_sources: [lol.adb]

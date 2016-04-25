@@ -1,3 +1,5 @@
+pragma Config (Display_Slocs => True);
+
 package body Foo is
 
    procedure Proc (I : Integer);
@@ -10,29 +12,33 @@ package body Foo is
 
       procedure Local is
       begin
-         Proc;
-         Proc (1);
-         Proc (S => "foo");
-         Foo.Pack.Proc (I => 1);
+         pragma Section ("Local");
+         pragma Test (Proc);
+         pragma Test (Proc (1));
+         pragma Test (Proc (S => "foo"));
+         pragma Test (Foo.Pack.Proc (I => 1));
       end Local;
 
       procedure Global is
       begin
-         Proc (1, 2);
-         Foo.Proc (1);
+         pragma Section ("Global");
+         pragma Test (Proc (1, 2));
+         pragma Test (Foo.Proc (1));
       end Global;
 
       procedure None is
       begin
-         Proc (1, 2, 3);
-         Foo.Pack.Proc (1);
+         pragma Section ("None");
+         pragma Test (Proc (1, 2, 3));
+         pragma Test (Foo.Pack.Proc (1));
       end Bar;
    end Pack;
 
    procedure No_Local is
    begin
-      Proc;
-      Proc (S => "foo");
+      pragma Section ("No_Local");
+      pragma Test (Proc);
+      pragma Test (Proc (S => "foo"));
    end No_Local;
 
 end Foo;

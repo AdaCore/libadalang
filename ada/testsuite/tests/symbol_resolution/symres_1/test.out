@@ -1,22 +1,7 @@
-<ObjectDecl>
-|ids:
-|  <list>
-|  |item 0:
-|  |  <Identifier>
-|  |  |tok: Token(u'Fu')
-|aliased: False
-|constant: False
-|inout: in
-|type_expr:
-|  <TypeExpression>
-|  |null_exclusion: False
-|  |type_expr_variant:
-|  |  <TypeRef>
-|  |  |name:
-|  |  |  <Identifier>
-|  |  |  |tok: Token(u'Integer')
-|  |  |constraint: None
-|default_expr: None
-|renaming_clause: None
-|aspects: None
+Analyzing lol.adb
+#################
+
+Koin.Fu resolves to:
+    Fu : Integer
+
 Done.

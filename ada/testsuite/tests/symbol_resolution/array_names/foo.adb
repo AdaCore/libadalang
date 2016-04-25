@@ -21,19 +21,19 @@ procedure Foo is
    O_No_Type : No_Type;
 
 begin
-   OU1 (1);
-   OU1 (1 .. 8);
-   OU1 (1, True);
-   OU2 (1);
-   OU2 (1, True);
+   pragma Test (OU1 (1));
+   pragma Test (OU1 (1 .. 8));
+   pragma Test (OU1 (1, True));
+   pragma Test (OU2 (1));
+   pragma Test (OU2 (1, True));
 
-   OC1 (1);
-   OC1 (1, True);
-   OC2 (1);
-   OC2 (1, True);
+   pragma Test (OC1 (1));
+   pragma Test (OC1 (1, True));
+   pragma Test (OC2 (1));
+   pragma Test (OC2 (1, True));
 
-   OSU (1);
-   OSU (1, True);
-   OSC (1);
-   OSC (1, True);
+   pragma Test (OSU (1));
+   pragma Test (OSU (1, True));
+   pragma Test (OSC (1));
+   pragma Test (OSC (1, True));
 end Foo;

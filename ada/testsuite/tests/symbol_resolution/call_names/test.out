@@ -1,31 +1,43 @@
-== Local ==
-  Proc:
-    Foo.Pack.Proc
-  Proc (1):
-    Foo.Proc (I : Integer)
-    Foo.Pack.Proc (I : Integer)
-    Foo.Pack.Proc (S : String)
-  Proc (S => "foo"):
-    Foo.Pack.Proc (S : String)
-  Foo.Pack.Proc (I => 1):
-    Foo.Proc (I : Integer)
-    Foo.Pack.Proc (I : Integer)
-== Global ==
-  Proc (1, 2):
-    Foo.Proc (I, J : Integer)
-  Foo.Proc (1):
-    Foo.Proc (I : Integer)
-    Foo.Pack.Proc (I : Integer)
-    Foo.Pack.Proc (S : String)
-== None ==
-  Proc (1, 2, 3):
+Analyzing foo.adb
+#################
+
+Local
+-----
+
+Proc resolves to:
+    procedure Proc at 9:7
+Proc (1) resolves to:
+    procedure Proc (I : Integer) at 5:4
+    procedure Proc (I : Integer) at 10:7
+    procedure Proc (S : String) at 11:7
+Proc (S => "foo") resolves to:
+    procedure Proc (S : String) at 11:7
+Foo.Pack.Proc (I => 1) resolves to:
+    procedure Proc (I : Integer) at 10:7
+
+Global
+------
+
+Proc (1, 2) resolves to:
+    procedure Proc (I, J : Integer) at 6:4
+Foo.Proc (1) resolves to:
+    procedure Proc (I : Integer) at 5:4
+
+None
+----
+
+Proc (1, 2, 3) resolves to:
     <none>
-  Foo.Pack.Proc (1):
-    Foo.Proc (I : Integer)
-    Foo.Pack.Proc (I : Integer)
-    Foo.Pack.Proc (S : String)
-== No_Local ==
-  Proc:
+Foo.Pack.Proc (1) resolves to:
+    procedure Proc (I : Integer) at 10:7
+    procedure Proc (S : String) at 11:7
+
+No_Local
+--------
+
+Proc resolves to:
     <none>
-  Proc (S => "foo"):
+Proc (S => "foo") resolves to:
     <none>
+
+Done.

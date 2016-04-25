@@ -1,3 +1,6 @@
+Analyzing foo.ads
+#################
+
 R.K resolves to:
     K : Kind_Type
 R.I resolves to:
@@ -8,3 +11,5 @@ R.B resolves to:
     B : Boolean
 R.Z resolves to:
     <none>
+
+Done.

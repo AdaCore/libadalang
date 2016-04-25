@@ -1,3 +1,7 @@
-Symbol resolution for Bar.T2:
-<none>
+Analyzing foo.adb
+#################
+
+Bar.T2 resolves to:
+    <none>
+
 Done.

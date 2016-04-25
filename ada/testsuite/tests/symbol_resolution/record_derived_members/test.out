@@ -1,3 +1,6 @@
+Analyzing foo.ads
+#################
+
 R2.A resolves to:
     A, B : Integer
 R2.Z resolves to:
@@ -17,3 +20,5 @@ R5.Z resolves to:
 
 R5_Class.D resolves to:
     D : Integer
+
+Done.

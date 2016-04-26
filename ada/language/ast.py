@@ -1018,8 +1018,8 @@ class BaseId(SingleTokNode):
     ))
 
     designated_env = Property(
-        Env.get(Self.tok).map(lambda item: (
-            item.el.match(
+        Self.entities.map(lambda el: (
+            el.match(
                 lambda decl=BasicDecl: decl.defining_env,
                 lambda others:         EmptyEnv
             )

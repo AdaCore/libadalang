@@ -4,6 +4,12 @@ C (X, 1)
 C (X, 1)
    ^ parent_callexpr = None
 
+A.B (1)
+^ parent_callexpr = None
+
+A.B (1)
+  ^ parent_callexpr = A.B (1)
+
 A.B.C (X, 1)
 ^ parent_callexpr = None
 

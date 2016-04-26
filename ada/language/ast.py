@@ -912,7 +912,7 @@ class CallExpr(Expr):
     suffix = Field()
 
     designated_env = Property(
-        Self.name.entities().map(lambda e: e.match(
+        Self.entities().map(lambda e: e.match(
             lambda ss=T.SubprogramSpec: ss.defining_env,
             lambda others: EmptyEnv,
         )).env_group

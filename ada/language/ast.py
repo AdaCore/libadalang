@@ -391,8 +391,8 @@ class TaskDef(AdaNode):
 
 
 class ProtectedDef(AdaNode):
-    public_ops = Field()
-    private_components = Field()
+    public_part = Field()
+    private_part = Field()
     end_id = Field()
 
 

@@ -4,47 +4,49 @@ ProtectedTypeDecl[1:1-1:136]
 | | | tok: Protected_Buffer_Type
 | definition:
 | | ProtectedDef[1:41-1:136]
-| | | public_ops:
-| | | | EntryDecl[1:41-1:74]
-| | | | | overriding: unspecified
-| | | | | entry_id:
-| | | | | | Id[1:47-1:53]
-| | | | | | | tok: Insert
-| | | | | params:
-| | | | | | ParameterProfile[1:55-1:73]
-| | | | | | | ids:
-| | | | | | | | Id[1:55-1:62]
-| | | | | | | | | tok: An_Item
-| | | | | | | is_aliased: False
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:69-1:73]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:69-1:73]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | tok: Item
-| | | | EntryDecl[1:76-1:109]
-| | | | | overriding: unspecified
-| | | | | entry_id:
-| | | | | | Id[1:82-1:88]
-| | | | | | | tok: Remove
-| | | | | params:
-| | | | | | ParameterProfile[1:90-1:108]
-| | | | | | | ids:
-| | | | | | | | Id[1:90-1:97]
-| | | | | | | | | tok: An_Item
-| | | | | | | is_aliased: False
-| | | | | | | mode: out
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:104-1:108]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:104-1:108]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:104-1:108]
-| | | | | | | | | | | | | tok: Item
+| | | public_part:
+| | | | PublicPart[1:41-1:110]
+| | | | | decls:
+| | | | | | EntryDecl[1:41-1:74]
+| | | | | | | overriding: unspecified
+| | | | | | | entry_id:
+| | | | | | | | Id[1:47-1:53]
+| | | | | | | | | tok: Insert
+| | | | | | | params:
+| | | | | | | | ParameterProfile[1:55-1:73]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:55-1:62]
+| | | | | | | | | | | tok: An_Item
+| | | | | | | | | is_aliased: False
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:69-1:73]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | | | | | tok: Item
+| | | | | | EntryDecl[1:76-1:109]
+| | | | | | | overriding: unspecified
+| | | | | | | entry_id:
+| | | | | | | | Id[1:82-1:88]
+| | | | | | | | | tok: Remove
+| | | | | | | params:
+| | | | | | | | ParameterProfile[1:90-1:108]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:90-1:97]
+| | | | | | | | | | | tok: An_Item
+| | | | | | | | | is_aliased: False
+| | | | | | | | | mode: out
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:104-1:108]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:104-1:108]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:104-1:108]
+| | | | | | | | | | | | | | | tok: Item
 | | | end_id:
 | | | | Id[1:115-1:136]
 | | | | | tok: Protected_Buffer_Type

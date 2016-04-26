@@ -73,10 +73,10 @@ A.add_rules(
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=Row(
-        List(Row(A.protected_op, ";")[0], empty_valid=True),
+        List(Row(A.protected_op, ";")[0], empty_valid=True) ^ PublicPart,
         Opt(
             "private",
-            List(Row(A.protected_el, ";")[0], empty_valid=True)
+            List(Row(A.protected_el, ";")[0], empty_valid=True) ^ PrivatePart
         )[1],
         "end",
         Opt(A.identifier)

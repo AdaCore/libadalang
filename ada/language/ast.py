@@ -180,16 +180,11 @@ class ComponentDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
-    @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
-    def defining_env():
-        """
-        See BasicDecl.defining_env.
-        """
-
-        return Self.component_def.type_expr.cast(T.TypeExpression).then(
-            lambda te: te.defining_env,
-            default_val=EmptyEnv
-        )
+    defining_env = Property(
+        Self.component_def.type_expr.defining_env,
+        private=True,
+        doc="See BasicDecl.defining_env"
+    )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
@@ -715,7 +710,7 @@ class BasePackageDecl(BasicDecl):
     end_id = Field()
 
     name = Property(Self.package_name, private=True)
-    defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_names = Property(Self.name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
 
@@ -746,7 +741,7 @@ class GenericInstantiation(BasicDecl):
     generic_entity_name = Field()
     parameters = Field()
     aspects = Field()
-    defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class GenericProcedureInstantiation(GenericInstantiation):
@@ -773,7 +768,7 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field()
 
-    defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class GenericRenamingDecl(BasicDecl):
@@ -781,7 +776,7 @@ class GenericRenamingDecl(BasicDecl):
     renames = Field()
     aspects = Field()
 
-    defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class FormalSubpDecl(BasicDecl):
@@ -793,7 +788,7 @@ class FormalSubpDecl(BasicDecl):
     default_value = Field()
     aspects = Field()
 
-    defining_names = Property(Self.subp_spec.name.cast(T.Name).singleton)
+    defining_names = Property(Self.subp_spec.name.singleton)
 
 
 class Overriding(EnumType):
@@ -806,7 +801,7 @@ class GenericSubprogramDecl(BasicDecl):
     subp_spec = Field()
     aspects = Field()
 
-    defining_names = Property(Self.subp_spec.name.cast(T.Name).singleton)
+    defining_names = Property(Self.subp_spec.name.singleton)
 
 
 class GenericPackageDecl(BasicDecl):
@@ -818,7 +813,7 @@ class GenericPackageDecl(BasicDecl):
 
     package_name = Property(Self.package_decl.package_name)
 
-    defining_names = Property(Self.package_name.cast(T.Name).singleton)
+    defining_names = Property(Self.package_name.singleton)
 
 
 def is_package(e):
@@ -1414,7 +1409,7 @@ class SubprogramBody(Body):
     statements = Field()
     end_id = Field()
 
-    defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
+    defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
 
@@ -1559,7 +1554,7 @@ class PackageBody(Body):
     decls = Field()
     statements = Field()
 
-    defining_names = Property(Self.package_name.cast(Name).singleton)
+    defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
 
@@ -1569,7 +1564,7 @@ class TaskBody(Body):
     decls = Field()
     statements = Field()
 
-    defining_names = Property(Self.package_name.cast(Name).singleton)
+    defining_names = Property(Self.package_name.singleton)
 
 
 class ProtectedBody(Body):
@@ -1577,7 +1572,7 @@ class ProtectedBody(Body):
     aspects = Field()
     decls = Field()
 
-    defining_names = Property(Self.package_name.cast(Name).singleton)
+    defining_names = Property(Self.package_name.singleton)
 
 
 class EntryBody(Body):
@@ -1605,7 +1600,7 @@ class ProtectedBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 
-    defining_names = Property(Self.name.cast(Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class SubprogramBodyStub(BodyStub):
@@ -1613,7 +1608,7 @@ class SubprogramBodyStub(BodyStub):
     subp_spec = Field()
     aspects = Field()
 
-    defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
+    defining_names = Property(Self.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
     # what we put in lexical environment is their SubprogramSpec child.
 
@@ -1622,14 +1617,14 @@ class PackageBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 
-    defining_names = Property(Self.name.cast(Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class TaskBodyStub(BodyStub):
     name = Field()
     aspects = Field()
 
-    defining_names = Property(Self.name.cast(Name).singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class LibraryItem(AdaNode):

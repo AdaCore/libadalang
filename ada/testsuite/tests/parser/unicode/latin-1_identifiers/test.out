@@ -10,6 +10,8 @@ CompilationUnit[1:1-4:15]
 | | | | | | | name:
 | | | | | | | | Id[1:11-1:20]
 | | | | | | | | | tok: Kikoolol\xe9
+| | | | | decls:
+| | | | | | DeclarativePart[2:1-2:6]
 | | | | | statements:
 | | | | | | HandledStatements[3:4-3:9]
 | | | | | | | statements:

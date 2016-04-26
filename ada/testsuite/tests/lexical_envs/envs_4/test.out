@@ -63,6 +63,8 @@ CompilationUnit[1:1-13:9]
 | | | | | | | | | suffix:
 | | | | | | | | | | Id[11:13-11:14]
 | | | | | | | | | | | tok: B
+| | | | | decls:
+| | | | | | DeclarativePart[12:1-12:6]
 | | | | | statements:
 | | | | | | HandledStatements[13:1-13:4]
 | | | | | end_id:

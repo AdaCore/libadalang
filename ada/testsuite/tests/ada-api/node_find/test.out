@@ -27,6 +27,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <TypeExpression 1:61-1:68>
   <TypeRef 1:61-1:68>
   <Id 1:61-1:68>
+  <DeclarativePart 2:1-2:6>
   <HandledStatements 3:4-3:21>
   <ASTList 3:4-3:21>
   <ReturnStatement 3:4-3:20>

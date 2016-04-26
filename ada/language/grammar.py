@@ -569,14 +569,14 @@ A.add_rules(
                 A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
         Opt(A.parameter_profiles),
         "when", A.expression,
-        "is", A.basic_decls,
+        "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ EntryBody,
 
     protected_body=Row(
         "protected", "body", A.static_name, A.aspect_specification,
-        "is", A.basic_decls,
+        "is", A.basic_decls ^ DeclarativePart,
         "end", _(Opt(A.static_name))
     ) ^ ProtectedBody,
 
@@ -587,7 +587,7 @@ A.add_rules(
 
     task_body=Row(
         "task", "body", A.static_name, A.aspect_specification,
-        "is", A.basic_decls,
+        "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ TaskBody,
@@ -605,7 +605,7 @@ A.add_rules(
 
     package_body=Row(
         "package", "body", A.static_name, A.aspect_specification,
-        "is", A.basic_decls,
+        "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_statements)[1],
         "end", _(Opt(A.static_name))
     ) ^ PackageBody,
@@ -707,7 +707,7 @@ A.add_rules(
         A.subprogram_spec,
         A.aspect_specification,
         "is",
-        A.basic_decls,
+        A.basic_decls ^ DeclarativePart,
         "begin",
         A.handled_statements,
         "end",

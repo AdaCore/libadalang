@@ -695,6 +695,10 @@ class PublicPart(AdaNode):
     decls = Field()
 
 
+class DeclarativePart(AdaNode):
+    decls = Field()
+
+
 class BasePackageDecl(BasicDecl):
     """
     Package declarations. Concrete instances of this class

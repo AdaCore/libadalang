@@ -3,84 +3,90 @@ ProtectedBody[1:1-1:271]
 | | Id[1:16-1:37]
 | | | tok: protected_buffer_type
 | decls:
-| | EntryBody[1:41-1:140]
-| | | entry_name:
-| | | | Id[1:47-1:53]
-| | | | | tok: insert
-| | | parameters:
-| | | | ParameterProfile[1:55-1:73]
-| | | | | ids:
-| | | | | | Id[1:55-1:62]
-| | | | | | | tok: an_item
-| | | | | is_aliased: False
-| | | | | mode: in
-| | | | | type_expr:
-| | | | | | TypeExpression[1:69-1:73]
-| | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:69-1:73]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | tok: item
-| | | when_cond:
-| | | | Id[1:80-1:85]
-| | | | | tok: empty
-| | | statements:
-| | | | HandledStatements[1:95-1:129]
-| | | | | statements:
-| | | | | | AssignStatement[1:95-1:112]
-| | | | | | | dest:
-| | | | | | | | Id[1:95-1:101]
-| | | | | | | | | tok: buffer
-| | | | | | | expr:
-| | | | | | | | Id[1:105-1:112]
+| | DeclarativePart[1:41-1:245]
+| | | decls:
+| | | | EntryBody[1:41-1:140]
+| | | | | entry_name:
+| | | | | | Id[1:47-1:53]
+| | | | | | | tok: insert
+| | | | | parameters:
+| | | | | | ParameterProfile[1:55-1:73]
+| | | | | | | ids:
+| | | | | | | | Id[1:55-1:62]
 | | | | | | | | | tok: an_item
-| | | | | | AssignStatement[1:114-1:128]
-| | | | | | | dest:
-| | | | | | | | Id[1:114-1:119]
-| | | | | | | | | tok: empty
-| | | | | | | expr:
-| | | | | | | | Id[1:123-1:128]
-| | | | | | | | | tok: false
-| | EntryBody[1:142-1:244]
-| | | entry_name:
-| | | | Id[1:148-1:154]
-| | | | | tok: remove
-| | | parameters:
-| | | | ParameterProfile[1:156-1:174]
-| | | | | ids:
-| | | | | | Id[1:156-1:163]
-| | | | | | | tok: an_item
-| | | | | is_aliased: False
-| | | | | mode: out
-| | | | | type_expr:
-| | | | | | TypeExpression[1:170-1:174]
-| | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:170-1:174]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:170-1:174]
-| | | | | | | | | | | tok: item
-| | | when_cond:
-| | | | UnOp[1:181-1:190]
-| | | | | op: not
-| | | | | expr:
-| | | | | | Id[1:185-1:190]
+| | | | | | | is_aliased: False
+| | | | | | | mode: in
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:69-1:73]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | | | tok: item
+| | | | | when_cond:
+| | | | | | Id[1:80-1:85]
 | | | | | | | tok: empty
-| | | statements:
-| | | | HandledStatements[1:200-1:233]
+| | | | | decls:
+| | | | | | DeclarativePart[1:89-1:94]
 | | | | | statements:
-| | | | | | AssignStatement[1:200-1:217]
-| | | | | | | dest:
-| | | | | | | | Id[1:200-1:207]
+| | | | | | HandledStatements[1:95-1:129]
+| | | | | | | statements:
+| | | | | | | | AssignStatement[1:95-1:112]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:95-1:101]
+| | | | | | | | | | | tok: buffer
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:105-1:112]
+| | | | | | | | | | | tok: an_item
+| | | | | | | | AssignStatement[1:114-1:128]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:114-1:119]
+| | | | | | | | | | | tok: empty
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:123-1:128]
+| | | | | | | | | | | tok: false
+| | | | EntryBody[1:142-1:244]
+| | | | | entry_name:
+| | | | | | Id[1:148-1:154]
+| | | | | | | tok: remove
+| | | | | parameters:
+| | | | | | ParameterProfile[1:156-1:174]
+| | | | | | | ids:
+| | | | | | | | Id[1:156-1:163]
 | | | | | | | | | tok: an_item
+| | | | | | | is_aliased: False
+| | | | | | | mode: out
+| | | | | | | type_expr:
+| | | | | | | | TypeExpression[1:170-1:174]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | type_expr_variant:
+| | | | | | | | | | TypeRef[1:170-1:174]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:170-1:174]
+| | | | | | | | | | | | | tok: item
+| | | | | when_cond:
+| | | | | | UnOp[1:181-1:190]
+| | | | | | | op: not
 | | | | | | | expr:
-| | | | | | | | Id[1:211-1:217]
-| | | | | | | | | tok: buffer
-| | | | | | AssignStatement[1:219-1:232]
-| | | | | | | dest:
-| | | | | | | | Id[1:219-1:224]
+| | | | | | | | Id[1:185-1:190]
 | | | | | | | | | tok: empty
-| | | | | | | expr:
-| | | | | | | | Id[1:228-1:232]
-| | | | | | | | | tok: true
+| | | | | decls:
+| | | | | | DeclarativePart[1:194-1:199]
+| | | | | statements:
+| | | | | | HandledStatements[1:200-1:233]
+| | | | | | | statements:
+| | | | | | | | AssignStatement[1:200-1:217]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:200-1:207]
+| | | | | | | | | | | tok: an_item
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:211-1:217]
+| | | | | | | | | | | tok: buffer
+| | | | | | | | AssignStatement[1:219-1:232]
+| | | | | | | | | dest:
+| | | | | | | | | | Id[1:219-1:224]
+| | | | | | | | | | | tok: empty
+| | | | | | | | | expr:
+| | | | | | | | | | Id[1:228-1:232]
+| | | | | | | | | | | tok: true

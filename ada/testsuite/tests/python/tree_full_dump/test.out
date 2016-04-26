@@ -31,7 +31,9 @@
 |  |  |  |  |params: None
 |  |  |  |  |returns: None
 |  |  |  |aspects: None
-|  |  |  |decls: None
+|  |  |  |decls:
+|  |  |  |  <DeclarativePart>
+|  |  |  |  |decls: None
 |  |  |  |statements:
 |  |  |  |  <HandledStatements>
 |  |  |  |  |statements:

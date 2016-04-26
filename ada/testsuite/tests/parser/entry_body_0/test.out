@@ -20,6 +20,8 @@ EntryBody[1:1-1:100]
 | when_cond:
 | | Id[1:40-1:45]
 | | | tok: empty
+| decls:
+| | DeclarativePart[1:49-1:54]
 | statements:
 | | HandledStatements[1:55-1:89]
 | | | statements:

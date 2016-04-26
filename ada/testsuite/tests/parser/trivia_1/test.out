@@ -5,14 +5,15 @@ CompilationUnit
 | | | SubprogramBody
 | | | | SubprogramSpec
 | | | | | Id
-| | | | ASTList
-| | | | | ObjectDecl
-| | | | | | ASTList
-| | | | | | | Id
-| | | | | | -- Hinhin
-| | | | | | TypeExpression
-| | | | | | | TypeRef
+| | | | DeclarativePart
+| | | | | ASTList
+| | | | | | ObjectDecl
+| | | | | | | ASTList
 | | | | | | | | Id
+| | | | | | | -- Hinhin
+| | | | | | | TypeExpression
+| | | | | | | | TypeRef
+| | | | | | | | | Id
 | | | | -- Huhu
 | | | | HandledStatements
 | | | | | ASTList

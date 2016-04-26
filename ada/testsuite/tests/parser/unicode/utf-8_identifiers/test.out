@@ -10,6 +10,8 @@ CompilationUnit[1:1-4:12]
 | | | | | | | name:
 | | | | | | | | Id[1:11-1:17]
 | | | | | | | | | tok: kikoo\u1800
+| | | | | decls:
+| | | | | | DeclarativePart[2:1-2:6]
 | | | | | statements:
 | | | | | | HandledStatements[3:4-3:9]
 | | | | | | | statements:

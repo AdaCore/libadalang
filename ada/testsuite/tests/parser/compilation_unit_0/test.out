@@ -32,33 +32,35 @@ CompilationUnit[1:1-7:10]
 | | | | | | | | Id[3:11-3:15]
 | | | | | | | | | tok: Test
 | | | | | decls:
-| | | | | | ObjectDecl[4:4-4:26]
-| | | | | | | ids:
-| | | | | | | | Id[4:4-4:5]
-| | | | | | | | | tok: A
-| | | | | | | aliased: False
-| | | | | | | constant: False
-| | | | | | | inout: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[4:8-4:15]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[4:8-4:15]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[4:8-4:15]
-| | | | | | | | | | | | | tok: Integer
-| | | | | | | default_expr:
-| | | | | | | | BinOp[4:19-4:26]
-| | | | | | | | | left:
-| | | | | | | | | | UnOp[4:19-4:22]
+| | | | | | DeclarativePart[4:4-4:27]
+| | | | | | | decls:
+| | | | | | | | ObjectDecl[4:4-4:26]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[4:4-4:5]
+| | | | | | | | | | | tok: A
+| | | | | | | | | aliased: False
+| | | | | | | | | constant: False
+| | | | | | | | | inout: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[4:8-4:15]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[4:8-4:15]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[4:8-4:15]
+| | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | default_expr:
+| | | | | | | | | | BinOp[4:19-4:26]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | UnOp[4:19-4:22]
+| | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | Num[4:21-4:22]
+| | | | | | | | | | | | | | | tok: 1
 | | | | | | | | | | | op: minus
-| | | | | | | | | | | expr:
-| | | | | | | | | | | | Num[4:21-4:22]
-| | | | | | | | | | | | | tok: 1
-| | | | | | | | | op: minus
-| | | | | | | | | right:
-| | | | | | | | | | Num[4:25-4:26]
-| | | | | | | | | | | tok: 2
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Num[4:25-4:26]
+| | | | | | | | | | | | | tok: 2
 | | | | | statements:
 | | | | | | HandledStatements[6:4-6:16]
 | | | | | | | statements:

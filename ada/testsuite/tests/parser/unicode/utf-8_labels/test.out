@@ -10,6 +10,8 @@ CompilationUnit[1:1-6:10]
 | | | | | | | name:
 | | | | | | | | Id[1:11-1:15]
 | | | | | | | | | tok: Test
+| | | | | decls:
+| | | | | | DeclarativePart[2:1-2:6]
 | | | | | statements:
 | | | | | | HandledStatements[3:5-5:15]
 | | | | | | | statements:

@@ -11,17 +11,19 @@ CompilationUnit[1:1-6:10]
 | | | | | | | | Id[1:11-1:15]
 | | | | | | | | | tok: Main
 | | | | | decls:
-| | | | | | FullTypeDecl[2:4-2:10]
-| | | | | | | type_id:
-| | | | | | | | Id[2:9-2:10]
-| | | | | | | | | tok: A
-| | | | | | | type_def:
-| | | | | | | | IncompleteTypeDef[2:10-2:11]
-| | | | | | | | | is_tagged: False
-| | | | | | TaskDecl[3:4-3:14]
-| | | | | | | task_name:
-| | | | | | | | Id[3:9-3:14]
-| | | | | | | | | tok: Pouet
+| | | | | | DeclarativePart[2:4-3:15]
+| | | | | | | decls:
+| | | | | | | | FullTypeDecl[2:4-2:10]
+| | | | | | | | | type_id:
+| | | | | | | | | | Id[2:9-2:10]
+| | | | | | | | | | | tok: A
+| | | | | | | | | type_def:
+| | | | | | | | | | IncompleteTypeDef[2:10-2:11]
+| | | | | | | | | | | is_tagged: False
+| | | | | | | | TaskDecl[3:4-3:14]
+| | | | | | | | | task_name:
+| | | | | | | | | | Id[3:9-3:14]
+| | | | | | | | | | | tok: Pouet
 | | | | | statements:
 | | | | | | HandledStatements[5:4-5:9]
 | | | | | | | statements:

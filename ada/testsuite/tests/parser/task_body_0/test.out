@@ -3,115 +3,117 @@ TaskBody[1:1-1:572]
 | | Id[1:11-1:34]
 | | | tok: Cyclic_Buffer_Task_Type
 | decls:
-| | NumberDecl[1:38-1:62]
-| | | ids:
-| | | | Id[1:38-1:44]
-| | | | | tok: Q_Size
-| | | expr:
-| | | | Num[1:59-1:62]
-| | | | | tok: 100
-| | SubtypeDecl[1:64-1:109]
-| | | type_id:
-| | | | Id[1:72-1:79]
-| | | | | tok: Q_Range
-| | | type_expr:
-| | | | TypeExpression[1:83-1:109]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:83-1:109]
-| | | | | | | name:
-| | | | | | | | Id[1:83-1:91]
-| | | | | | | | | tok: Positive
-| | | | | | | constraint:
-| | | | | | | | RangeConstraint[1:92-1:109]
-| | | | | | | | | range:
-| | | | | | | | | | BinOp[1:98-1:109]
-| | | | | | | | | | | left:
-| | | | | | | | | | | | Num[1:98-1:99]
-| | | | | | | | | | | | | tok: 1
-| | | | | | | | | | | op: ellipsis
-| | | | | | | | | | | right:
-| | | | | | | | | | | | Id[1:103-1:109]
-| | | | | | | | | | | | | tok: Q_Size
-| | ObjectDecl[1:111-1:150]
-| | | ids:
-| | | | Id[1:111-1:117]
-| | | | | tok: Length
-| | | aliased: False
-| | | constant: False
-| | | inout: in
-| | | type_expr:
-| | | | TypeExpression[1:120-1:145]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:120-1:145]
-| | | | | | | name:
-| | | | | | | | Id[1:120-1:127]
-| | | | | | | | | tok: Natural
-| | | | | | | constraint:
-| | | | | | | | RangeConstraint[1:128-1:145]
-| | | | | | | | | range:
-| | | | | | | | | | BinOp[1:134-1:145]
-| | | | | | | | | | | left:
-| | | | | | | | | | | | Num[1:134-1:135]
-| | | | | | | | | | | | | tok: 0
-| | | | | | | | | | | op: ellipsis
-| | | | | | | | | | | right:
-| | | | | | | | | | | | Id[1:139-1:145]
-| | | | | | | | | | | | | tok: Q_Size
-| | | default_expr:
-| | | | Num[1:149-1:150]
-| | | | | tok: 0
-| | ObjectDecl[1:152-1:177]
-| | | ids:
-| | | | Id[1:152-1:156]
-| | | | | tok: Head
-| | | | Id[1:158-1:162]
-| | | | | tok: Tail
-| | | aliased: False
-| | | constant: False
-| | | inout: in
-| | | type_expr:
-| | | | TypeExpression[1:165-1:172]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:165-1:172]
-| | | | | | | name:
-| | | | | | | | Id[1:165-1:172]
-| | | | | | | | | tok: Q_Range
-| | | default_expr:
-| | | | Num[1:176-1:177]
-| | | | | tok: 1
-| | ObjectDecl[1:179-1:209]
-| | | ids:
-| | | | Id[1:179-1:183]
-| | | | | tok: Data
-| | | aliased: False
-| | | constant: False
-| | | inout: in
-| | | type_expr:
-| | | | ArrayTypeDef[1:186-1:209]
-| | | | | indices:
-| | | | | | ConstrainedArrayIndices[1:193-1:200]
-| | | | | | | list:
-| | | | | | | | TypeExpression[1:193-1:200]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:193-1:200]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:193-1:200]
-| | | | | | | | | | | | | tok: Q_Range
-| | | | | stored_component:
-| | | | | | ComponentDef[1:205-1:209]
-| | | | | | | aliased: False
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:205-1:209]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:205-1:209]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:205-1:209]
-| | | | | | | | | | | | | tok: Item
+| | DeclarativePart[1:38-1:210]
+| | | decls:
+| | | | NumberDecl[1:38-1:62]
+| | | | | ids:
+| | | | | | Id[1:38-1:44]
+| | | | | | | tok: Q_Size
+| | | | | expr:
+| | | | | | Num[1:59-1:62]
+| | | | | | | tok: 100
+| | | | SubtypeDecl[1:64-1:109]
+| | | | | type_id:
+| | | | | | Id[1:72-1:79]
+| | | | | | | tok: Q_Range
+| | | | | type_expr:
+| | | | | | TypeExpression[1:83-1:109]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:83-1:109]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:83-1:91]
+| | | | | | | | | | | tok: Positive
+| | | | | | | | | constraint:
+| | | | | | | | | | RangeConstraint[1:92-1:109]
+| | | | | | | | | | | range:
+| | | | | | | | | | | | BinOp[1:98-1:109]
+| | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | Num[1:98-1:99]
+| | | | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | Id[1:103-1:109]
+| | | | | | | | | | | | | | | tok: Q_Size
+| | | | ObjectDecl[1:111-1:150]
+| | | | | ids:
+| | | | | | Id[1:111-1:117]
+| | | | | | | tok: Length
+| | | | | aliased: False
+| | | | | constant: False
+| | | | | inout: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:120-1:145]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:120-1:145]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:120-1:127]
+| | | | | | | | | | | tok: Natural
+| | | | | | | | | constraint:
+| | | | | | | | | | RangeConstraint[1:128-1:145]
+| | | | | | | | | | | range:
+| | | | | | | | | | | | BinOp[1:134-1:145]
+| | | | | | | | | | | | | left:
+| | | | | | | | | | | | | | Num[1:134-1:135]
+| | | | | | | | | | | | | | | tok: 0
+| | | | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | | | right:
+| | | | | | | | | | | | | | Id[1:139-1:145]
+| | | | | | | | | | | | | | | tok: Q_Size
+| | | | | default_expr:
+| | | | | | Num[1:149-1:150]
+| | | | | | | tok: 0
+| | | | ObjectDecl[1:152-1:177]
+| | | | | ids:
+| | | | | | Id[1:152-1:156]
+| | | | | | | tok: Head
+| | | | | | Id[1:158-1:162]
+| | | | | | | tok: Tail
+| | | | | aliased: False
+| | | | | constant: False
+| | | | | inout: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:165-1:172]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeRef[1:165-1:172]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:165-1:172]
+| | | | | | | | | | | tok: Q_Range
+| | | | | default_expr:
+| | | | | | Num[1:176-1:177]
+| | | | | | | tok: 1
+| | | | ObjectDecl[1:179-1:209]
+| | | | | ids:
+| | | | | | Id[1:179-1:183]
+| | | | | | | tok: Data
+| | | | | aliased: False
+| | | | | constant: False
+| | | | | inout: in
+| | | | | type_expr:
+| | | | | | ArrayTypeDef[1:186-1:209]
+| | | | | | | indices:
+| | | | | | | | ConstrainedArrayIndices[1:193-1:200]
+| | | | | | | | | list:
+| | | | | | | | | | TypeExpression[1:193-1:200]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:193-1:200]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:193-1:200]
+| | | | | | | | | | | | | | | tok: Q_Range
+| | | | | | | stored_component:
+| | | | | | | | ComponentDef[1:205-1:209]
+| | | | | | | | | aliased: False
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:205-1:209]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:205-1:209]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:205-1:209]
+| | | | | | | | | | | | | | | tok: Item
 | statements:
 | | HandledStatements[1:217-1:544]
 | | | statements:

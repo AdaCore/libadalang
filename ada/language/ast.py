@@ -9,7 +9,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Let, Literal, No, Not,
+    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
     langkit_property, Var
 )
 from langkit.expressions import New
@@ -1082,19 +1082,14 @@ class BaseId(SingleTokNode):
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
             items.filter(lambda e: e.el.match(
-                lambda decl=BasicDecl: Let(
-                    lambda subp_spec=decl.match(
-                        lambda subp=BasicSubprogramDecl: subp.subp_spec,
-                        lambda subp=SubprogramBody:      subp.subp_spec,
-                        lambda others: No(SubprogramSpec),
-                    ): (
-                        subp_spec.then(lambda ss: (
-                            (e.MD.dottable_subprogram
-                                & (ss.nb_min_params == 1))
-                            | (ss.nb_min_params == 0)
-                        ), default_val=True)
-                    )
-                ),
+                lambda decl=BasicDecl: decl.match(
+                    lambda subp=BasicSubprogramDecl: subp.subp_spec,
+                    lambda subp=SubprogramBody:      subp.subp_spec,
+                    lambda others:                   No(SubprogramSpec),
+                ).then(lambda ss: (
+                    (e.MD.dottable_subprogram & (ss.nb_min_params == 1))
+                    | (ss.nb_min_params == 0)
+                ), default_val=True),
                 lambda others: True,
             )),
 

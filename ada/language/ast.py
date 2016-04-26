@@ -115,6 +115,15 @@ class BasicDecl(AdaNode):
         """
     )
 
+    array_ndims = Property(
+        Literal(0),
+        doc="""
+        If this designates an entity with an array-like interface, return its
+        number of dimensions. Return 0 otherwise.
+        """
+    )
+    is_array = Property(Self.array_ndims > 0)
+
 
 @abstract
 class Body(BasicDecl):
@@ -213,14 +222,6 @@ class TypeDecl(BasicDecl):
     name = Property(Self.type_id)
     env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self),
                        add_env=True)
-
-    array_ndims = AbstractProperty(
-        type=LongType,
-        doc="""
-        If this designates an array type, return its number of dimensions.
-        Return 0 otherwise.
-        """
-    )
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
@@ -661,7 +662,6 @@ class ObjectDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
-    is_array = Property(Self.array_ndims > 0)
     array_ndims = Property(
         # The grammar says that the "type" field can be only a TypeExpression
         # or an ArrayTypeDef, so we have a bug somewhere if we get anything
@@ -672,8 +672,6 @@ class ObjectDecl(BasicDecl):
                 Self.type_expr.cast_or_raise(TypeExpression).array_ndims
             )
         ),
-        type=LongType,
-        doc="""Return whether this is an array type."""
     )
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     defining_env = Property(

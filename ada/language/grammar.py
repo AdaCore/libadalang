@@ -87,9 +87,10 @@ A.add_rules(
     task_def=Row(
         "is",
         Opt("new", List(A.static_name, sep="and"), "with")[1],
-        List(Row(A.task_item, ";")[0], empty_valid=True),
+        List(Row(A.task_item, ";")[0], empty_valid=True) ^ PublicPart,
         Opt(
-            "private", List(Row(A.task_item, ";")[0], empty_valid=True)
+            "private",
+            List(Row(A.task_item, ";")[0], empty_valid=True) ^ PrivatePart
         )[1],
         "end",
         Opt(A.identifier)

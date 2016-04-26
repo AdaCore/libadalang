@@ -385,8 +385,8 @@ class SubtypeDecl(TypeDecl):
 
 class TaskDef(AdaNode):
     interfaces = Field()
-    items = Field()
-    private_items = Field()
+    public_part = Field()
+    private_part = Field()
     end_id = Field()
 
 
@@ -689,6 +689,10 @@ class ObjectDecl(BasicDecl):
 class PrivatePart(AdaNode):
     decls = Field()
     env_spec = EnvSpec(add_env=True)
+
+
+class PublicPart(AdaNode):
+    decls = Field()
 
 
 class BasePackageDecl(BasicDecl):

@@ -180,6 +180,9 @@ class Manage(ManageScript):
         work_dir = os.path.abspath(args.work_dir)
 
         if not args.no_recompile:
+            # We don't need asteval for the perf testsuite
+            args.no_asteval = True
+
             # Build libadalang in production mode inside of the perf testsuite
             # directory.
             args.build_dir = os.path.join(work_dir, 'build')
@@ -189,7 +192,12 @@ class Manage(ManageScript):
             self.do_make(args)
 
         # Checkout the code bases that we will use for the perf testsuite
-        os.chdir(work_dir)
+        source_dir = os.path.join(work_dir, "source")
+        try:
+            os.mkdir(source_dir)
+        except OSError:
+            pass
+        os.chdir(source_dir)
         if not os.path.exists('gnat'):
             subprocess.check_call([
                 'svn', 'co',
@@ -210,7 +218,7 @@ class Manage(ManageScript):
         excluded_patterns = ['@', 'a-numeri', 'rad-project']
         ada_files = filter(
             lambda f: all(map(lambda p: p not in f, excluded_patterns)),
-            self._find_ada_sources(work_dir)
+            self._find_ada_sources(source_dir)
         )
         file_list_name = 'ada_file_list'
         with open(file_list_name, 'w') as file_list:
@@ -227,7 +235,7 @@ class Manage(ManageScript):
         for _ in range(args.nb_runs):
             # Execute parse on the file list and get the elapsed time
             t = time()
-            subprocess.check_call(['build/bin/parse', '-s', '-F',
+            subprocess.check_call(['../build/bin/parse', '-s', '-F',
                                    file_list_name])
             elapsed = time() - t
             elapsed_list.append(elapsed)

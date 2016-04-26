@@ -7,22 +7,24 @@ CompilationUnit[1:1-1:55]
 | | | | | package_name:
 | | | | | | Id[1:17-1:18]
 | | | | | | | tok: A
-| | | | | decls:
-| | | | | | SubprogramDecl[1:22-1:47]
-| | | | | | | is_overriding: unspecified
-| | | | | | | subp_spec:
-| | | | | | | | SubprogramSpec[1:22-1:47]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:31-1:32]
-| | | | | | | | | | | tok: B
-| | | | | | | | | returns:
-| | | | | | | | | | TypeExpression[1:40-1:47]
-| | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:40-1:47]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:40-1:47]
-| | | | | | | | | | | | | | | tok: Boolean
+| | | | | public_part:
+| | | | | | PublicPart[1:22-1:48]
+| | | | | | | decls:
+| | | | | | | | SubprogramDecl[1:22-1:47]
+| | | | | | | | | is_overriding: unspecified
+| | | | | | | | | subp_spec:
+| | | | | | | | | | SubprogramSpec[1:22-1:47]
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:31-1:32]
+| | | | | | | | | | | | | tok: B
+| | | | | | | | | | | returns:
+| | | | | | | | | | | | TypeExpression[1:40-1:47]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:40-1:47]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:40-1:47]
+| | | | | | | | | | | | | | | | | tok: Boolean
 | | | | | end_id:
 | | | | | | Id[1:53-1:54]
 | | | | | | | tok: A

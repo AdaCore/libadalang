@@ -4,14 +4,16 @@ GenericPackageDecl[1:1-1:42]
 | | | package_name:
 | | | | Id[1:17-1:18]
 | | | | | tok: A
-| | | decls:
-| | | | SubprogramDecl[1:22-1:35]
-| | | | | is_overriding: unspecified
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:22-1:35]
-| | | | | | | name:
-| | | | | | | | Id[1:32-1:35]
-| | | | | | | | | tok: Set
+| | | public_part:
+| | | | PublicPart[1:22-1:36]
+| | | | | decls:
+| | | | | | SubprogramDecl[1:22-1:35]
+| | | | | | | is_overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[1:22-1:35]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:32-1:35]
+| | | | | | | | | | | tok: Set
 | | | end_id:
 | | | | Id[1:41-1:42]
 | | | | | tok: A

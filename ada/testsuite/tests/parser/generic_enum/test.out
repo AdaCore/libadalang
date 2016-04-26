@@ -88,14 +88,16 @@ CompilationUnit[1:1-24:10]
 | | | | | | | | | package_name:
 | | | | | | | | | | Id[8:12-8:13]
 | | | | | | | | | | | tok: P
-| | | | | | | | | decls:
-| | | | | | | | | | SubprogramDecl[9:7-9:20]
-| | | | | | | | | | | is_overriding: unspecified
-| | | | | | | | | | | subp_spec:
-| | | | | | | | | | | | SubprogramSpec[9:7-9:20]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[9:17-9:20]
-| | | | | | | | | | | | | | | tok: Foo
+| | | | | | | | | public_part:
+| | | | | | | | | | PublicPart[9:7-9:21]
+| | | | | | | | | | | decls:
+| | | | | | | | | | | | SubprogramDecl[9:7-9:20]
+| | | | | | | | | | | | | is_overriding: unspecified
+| | | | | | | | | | | | | subp_spec:
+| | | | | | | | | | | | | | SubprogramSpec[9:7-9:20]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[9:17-9:20]
+| | | | | | | | | | | | | | | | | tok: Foo
 | | | | | | | | | end_id:
 | | | | | | | | | | Id[10:8-10:9]
 | | | | | | | | | | | tok: P

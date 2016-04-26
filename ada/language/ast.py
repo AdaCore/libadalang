@@ -709,7 +709,7 @@ class BasePackageDecl(BasicDecl):
     """
     package_name = Field()
     aspects = Field()
-    decls = Field()
+    public_part = Field()
     private_part = Field()
     end_id = Field()
 

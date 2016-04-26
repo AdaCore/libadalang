@@ -29,44 +29,46 @@ GenericPackageDecl[1:1-1:155]
 | | | package_name:
 | | | | Id[1:59-1:72]
 | | | | | tok: Generic_Stack
-| | | decls:
-| | | | SubprogramDecl[1:76-1:105]
-| | | | | is_overriding: unspecified
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:76-1:105]
-| | | | | | | name:
-| | | | | | | | Id[1:86-1:90]
-| | | | | | | | | tok: Push
-| | | | | | | params:
-| | | | | | | | ParameterProfile[1:92-1:104]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:92-1:93]
-| | | | | | | | | | | tok: E
-| | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
-| | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:95-1:104]
+| | | public_part:
+| | | | PublicPart[1:76-1:137]
+| | | | | decls:
+| | | | | | SubprogramDecl[1:76-1:105]
+| | | | | | | is_overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[1:76-1:105]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:86-1:90]
+| | | | | | | | | | | tok: Push
+| | | | | | | | | params:
+| | | | | | | | | | ParameterProfile[1:92-1:104]
+| | | | | | | | | | | ids:
+| | | | | | | | | | | | Id[1:92-1:93]
+| | | | | | | | | | | | | tok: E
+| | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | mode: in
+| | | | | | | | | | | type_expr:
+| | | | | | | | | | | | TypeExpression[1:95-1:104]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[1:95-1:104]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:95-1:104]
+| | | | | | | | | | | | | | | | | tok: Element_T
+| | | | | | SubprogramDecl[1:107-1:136]
+| | | | | | | is_overriding: unspecified
+| | | | | | | subp_spec:
+| | | | | | | | SubprogramSpec[1:107-1:136]
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:116-1:119]
+| | | | | | | | | | | tok: Pop
+| | | | | | | | | returns:
+| | | | | | | | | | TypeExpression[1:127-1:136]
 | | | | | | | | | | | null_exclusion: False
 | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:95-1:104]
+| | | | | | | | | | | | TypeRef[1:127-1:136]
 | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:95-1:104]
+| | | | | | | | | | | | | | Id[1:127-1:136]
 | | | | | | | | | | | | | | | tok: Element_T
-| | | | SubprogramDecl[1:107-1:136]
-| | | | | is_overriding: unspecified
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:107-1:136]
-| | | | | | | name:
-| | | | | | | | Id[1:116-1:119]
-| | | | | | | | | tok: Pop
-| | | | | | | returns:
-| | | | | | | | TypeExpression[1:127-1:136]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:127-1:136]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:127-1:136]
-| | | | | | | | | | | | | tok: Element_T
 | | | end_id:
 | | | | Id[1:142-1:155]
 | | | | | tok: Generic_Stack

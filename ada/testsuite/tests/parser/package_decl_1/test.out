@@ -2,58 +2,60 @@ PackageDecl[1:1-1:105]
 | package_name:
 | | Id[1:9-1:10]
 | | | tok: A
-| decls:
-| | SubprogramDecl[1:14-1:42]
-| | | is_overriding: unspecified
-| | | subp_spec:
-| | | | SubprogramSpec[1:14-1:42]
-| | | | | name:
-| | | | | | Id[1:24-1:25]
-| | | | | | | tok: B
-| | | | | params:
-| | | | | | ParameterProfile[1:27-1:41]
-| | | | | | | ids:
-| | | | | | | | Id[1:27-1:28]
-| | | | | | | | | tok: C
-| | | | | | | | Id[1:30-1:31]
-| | | | | | | | | tok: D
-| | | | | | | is_aliased: False
-| | | | | | | mode: in
-| | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:34-1:41]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:34-1:41]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:34-1:41]
-| | | | | | | | | | | | | tok: Integer
-| | NumberDecl[1:44-1:62]
-| | | ids:
-| | | | Id[1:44-1:45]
-| | | | | tok: C
-| | | expr:
-| | | | Num[1:60-1:62]
-| | | | | tok: 15
-| | ObjectDecl[1:64-1:98]
-| | | ids:
-| | | | Id[1:64-1:65]
-| | | | | tok: D
-| | | aliased: False
-| | | constant: False
-| | | inout: in
-| | | type_expr:
-| | | | TypeExpression[1:68-1:90]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeAccessExpression[1:68-1:90]
-| | | | | | | is_all: False
-| | | | | | | is_constant: True
-| | | | | | | subtype_name:
-| | | | | | | | Id[1:84-1:90]
-| | | | | | | | | tok: Double
-| | | default_expr:
-| | | | Null[1:94-1:98]
-| | | | | tok: null
+| public_part:
+| | PublicPart[1:14-1:99]
+| | | decls:
+| | | | SubprogramDecl[1:14-1:42]
+| | | | | is_overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[1:14-1:42]
+| | | | | | | name:
+| | | | | | | | Id[1:24-1:25]
+| | | | | | | | | tok: B
+| | | | | | | params:
+| | | | | | | | ParameterProfile[1:27-1:41]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:27-1:28]
+| | | | | | | | | | | tok: C
+| | | | | | | | | | Id[1:30-1:31]
+| | | | | | | | | | | tok: D
+| | | | | | | | | is_aliased: False
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:34-1:41]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:34-1:41]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:34-1:41]
+| | | | | | | | | | | | | | | tok: Integer
+| | | | NumberDecl[1:44-1:62]
+| | | | | ids:
+| | | | | | Id[1:44-1:45]
+| | | | | | | tok: C
+| | | | | expr:
+| | | | | | Num[1:60-1:62]
+| | | | | | | tok: 15
+| | | | ObjectDecl[1:64-1:98]
+| | | | | ids:
+| | | | | | Id[1:64-1:65]
+| | | | | | | tok: D
+| | | | | aliased: False
+| | | | | constant: False
+| | | | | inout: in
+| | | | | type_expr:
+| | | | | | TypeExpression[1:68-1:90]
+| | | | | | | null_exclusion: False
+| | | | | | | type_expr_variant:
+| | | | | | | | TypeAccessExpression[1:68-1:90]
+| | | | | | | | | is_all: False
+| | | | | | | | | is_constant: True
+| | | | | | | | | subtype_name:
+| | | | | | | | | | Id[1:84-1:90]
+| | | | | | | | | | | tok: Double
+| | | | | default_expr:
+| | | | | | Null[1:94-1:98]
+| | | | | | | tok: null
 | end_id:
 | | Id[1:104-1:105]
 | | | tok: A

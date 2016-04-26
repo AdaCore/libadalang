@@ -21,7 +21,7 @@ def package_decl_factory():
     """
     return Row(
         "package", A.static_name, A.aspect_specification, "is",
-        A.basic_decls,
+        A.basic_decls ^ PublicPart,
         Opt("private", A.basic_decls ^ PrivatePart)[1],
         "end", Opt(A.static_name)
     )

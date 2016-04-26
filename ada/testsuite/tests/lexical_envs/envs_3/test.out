@@ -7,6 +7,8 @@ CompilationUnit[1:1-17:11]
 | | | | | package_name:
 | | | | | | Id[1:9-1:12]
 | | | | | | | tok: Foo
+| | | | | public_part:
+| | | | | | PublicPart[2:1-2:4]
 | | | | | end_id:
 | | | | | | Id[2:5-2:8]
 | | | | | | | tok: Foo
@@ -22,6 +24,8 @@ CompilationUnit[1:1-17:11]
 | | | | | | | suffix:
 | | | | | | | | Id[4:13-4:16]
 | | | | | | | | | tok: Bar
+| | | | | public_part:
+| | | | | | PublicPart[5:1-5:4]
 | | | | | end_id:
 | | | | | | Prefix[5:5-5:12]
 | | | | | | | prefix:
@@ -47,6 +51,8 @@ CompilationUnit[1:1-17:11]
 | | | | | | | suffix:
 | | | | | | | | Id[7:17-7:20]
 | | | | | | | | | tok: Baz
+| | | | | public_part:
+| | | | | | PublicPart[8:1-8:4]
 | | | | | end_id:
 | | | | | | Prefix[8:5-8:16]
 | | | | | | | prefix:
@@ -67,6 +73,8 @@ CompilationUnit[1:1-17:11]
 | | | | | package_name:
 | | | | | | Id[10:9-10:10]
 | | | | | | | tok: A
+| | | | | public_part:
+| | | | | | PublicPart[11:1-11:4]
 | | | | | end_id:
 | | | | | | Id[11:5-11:6]
 | | | | | | | tok: A
@@ -82,6 +90,8 @@ CompilationUnit[1:1-17:11]
 | | | | | | | suffix:
 | | | | | | | | Id[13:11-13:12]
 | | | | | | | | | tok: B
+| | | | | public_part:
+| | | | | | PublicPart[14:1-14:4]
 | | | | | end_id:
 | | | | | | Prefix[14:5-14:8]
 | | | | | | | prefix:
@@ -107,6 +117,8 @@ CompilationUnit[1:1-17:11]
 | | | | | | | suffix:
 | | | | | | | | Id[16:13-16:14]
 | | | | | | | | | tok: C
+| | | | | public_part:
+| | | | | | PublicPart[17:1-17:4]
 | | | | | end_id:
 | | | | | | Prefix[17:5-17:10]
 | | | | | | | prefix:

@@ -2,14 +2,16 @@ PackageDecl[1:1-1:39]
 | package_name:
 | | Id[1:9-1:10]
 | | | tok: A
-| decls:
-| | NumberDecl[1:14-1:32]
-| | | ids:
-| | | | Id[1:14-1:15]
-| | | | | tok: B
-| | | expr:
-| | | | Num[1:30-1:32]
-| | | | | tok: 12
+| public_part:
+| | PublicPart[1:14-1:33]
+| | | decls:
+| | | | NumberDecl[1:14-1:32]
+| | | | | ids:
+| | | | | | Id[1:14-1:15]
+| | | | | | | tok: B
+| | | | | expr:
+| | | | | | Num[1:30-1:32]
+| | | | | | | tok: 12
 | end_id:
 | | Id[1:38-1:39]
 | | | tok: A

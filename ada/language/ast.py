@@ -984,9 +984,8 @@ class CaseExprAlternative(Expr):
 @abstract
 class Name(Expr):
 
-    env_for_scope = AbstractProperty(
-        private=True, runtime_check=True,
-        type=compiled_types.LexicalEnvType,
+    env_for_scope = Property(
+        EmptyEnv,
         doc="""
         Lexical environment this identifier represents. This is similar to
         designated_env although it handles only cases for child units and it is
@@ -1357,9 +1356,8 @@ class Prefix(Name):
     ))
 
     scope = Property(Self.prefix.match(
-        lambda pfx=T.Prefix:   pfx.env_for_scope,
-        lambda base_id=BaseId: base_id.env_for_scope,
-        lambda others:         EmptyEnv
+        lambda name=T.Name: name.env_for_scope,
+        lambda others:      EmptyEnv
     ))
 
     name = Property(Self.suffix.name)

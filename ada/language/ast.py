@@ -193,6 +193,8 @@ class ComponentDecl(BasicDecl):
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
+    array_ndims = Property(Self.component_def.type_expr.array_ndims)
+
 
 class ComponentList(AdaNode):
     components = Field()

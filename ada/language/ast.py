@@ -237,10 +237,18 @@ class FullTypeDecl(TypeDecl):
 
     @langkit_property()
     def defining_env():
+        # The environments that types define are always independent of the
+        # environment in which the type is defined, hence the orphan
+        # environment.
         result = Self.children_env.env_orphan
-        return Self.type_def.cast(DerivedTypeDef).then(
-            lambda td: EnvGroup(result, td.name.defining_env),
-            default_val=result
+
+        return Self.type_def.match(
+            # If this type derives from another one, it inherits the latter's
+            # environment, so the following will return a copy of result whose
+            # parent environment is the inheritted one.
+            lambda td=DerivedTypeDef: EnvGroup(result, td.name.defining_env),
+
+            lambda _:                 result,
         )
 
 

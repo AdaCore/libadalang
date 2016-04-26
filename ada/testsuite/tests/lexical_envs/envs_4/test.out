@@ -78,6 +78,6 @@ CompilationUnit[1:1-13:9]
 }>
 <GenericPackageDecl 4:1-6:12> - <LexEnv (Id 3, Parent 2), empty>
 <PackageDecl 8:1-9:6> - <LexEnv (Id 4, Parent 1), {
-    B: [<SubprogramSpec 11:1-11:14>]
+    B: [<SubprogramBody 11:1-13:8>]
 }>
 <SubprogramBody 11:1-13:8> - <LexEnv (Id 5, Parent 4), empty>

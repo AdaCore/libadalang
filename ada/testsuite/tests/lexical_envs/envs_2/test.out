@@ -73,7 +73,7 @@ CompilationUnit[1:1-10:9]
     Foo: [<PackageBody 1:1-10:8>]
 }>
 <PackageBody 1:1-10:8> - <LexEnv (Id 2, Parent 1), {
-    Bar: [<SubprogramSpec 2:4-2:34>]
+    Bar: [<SubprogramBody 2:4-9:11>]
 }>
 <SubprogramBody 2:4-9:11> - <LexEnv (Id 3, Parent 2), {
     I: [<ParameterProfile 2:19-2:33>]

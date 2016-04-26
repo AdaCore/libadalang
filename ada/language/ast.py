@@ -9,7 +9,7 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec
 from langkit.expressions import (
-    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, Not,
+    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Let, Literal, No, Not,
     langkit_property, Var
 )
 from langkit.expressions import New
@@ -528,15 +528,14 @@ class AspectSpecification(AdaNode):
 class BasicSubprogramDecl(BasicDecl):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
-                          Self.subp_spec)]
+                          Self)]
 
     is_overriding = Field()
     subp_spec = Field()
 
     name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
-    # Note that we don't have to override the defining_env property here since
-    # what we put in lexical environment is their SubprogramSpec child.
+    defining_env = Property(Self.subp_spec.defining_env)
 
 
 class SubprogramDecl(BasicSubprogramDecl):
@@ -911,8 +910,9 @@ class CallExpr(Expr):
 
     designated_env = Property(
         Self.entities().map(lambda e: e.match(
-            lambda ss=T.SubprogramSpec: ss.defining_env,
-            lambda others: EmptyEnv,
+            lambda subp=BasicSubprogramDecl: subp.defining_env,
+            lambda subp=SubprogramBody:      subp.defining_env,
+            lambda others:                   EmptyEnv,
         )).env_group
     )
 
@@ -1021,10 +1021,7 @@ class BaseId(SingleTokNode):
         Env.get(Self.tok).map(lambda item: (
             item.el.match(
                 lambda decl=BasicDecl: decl.defining_env,
-                lambda ss=T.SubprogramSpec: If(ss.nb_min_params.equals(0),
-                                               ss.defining_env,
-                                               EmptyEnv),
-                lambda others: EmptyEnv
+                lambda others:         EmptyEnv
             )
         )).env_group
     )
@@ -1082,11 +1079,21 @@ class BaseId(SingleTokNode):
             # designates something else than a subprogram, either it designates
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
-            items.filter(lambda e: e.el.cast(SubprogramSpec).then(
-                lambda ss: (
-                    (e.MD.dottable_subprogram & (ss.nb_min_params == 1))
-                    | (ss.nb_min_params == 0)
-                ), default_val=True
+            items.filter(lambda e: e.el.match(
+                lambda decl=BasicDecl: Let(
+                    lambda subp_spec=decl.match(
+                        lambda subp=BasicSubprogramDecl: subp.subp_spec,
+                        lambda subp=SubprogramBody:      subp.subp_spec,
+                        lambda others: No(SubprogramSpec),
+                    ): (
+                        subp_spec.then(lambda ss: (
+                            (e.MD.dottable_subprogram
+                                & (ss.nb_min_params == 1))
+                            | (ss.nb_min_params == 0)
+                        ), default_val=True)
+                    )
+                ),
+                lambda others: True,
             )),
 
             # This identifier is the name for a called subprogram or an array.
@@ -1095,7 +1102,10 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(ParamList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
-                    lambda s=SubprogramSpec: s.is_matching_param_list(params),
+                    lambda subp=BasicSubprogramDecl:
+                        subp.subp_spec.is_matching_param_list(params),
+                    lambda subp=SubprogramBody:
+                        subp.subp_spec.is_matching_param_list(params),
                     lambda o=ObjectDecl: o.array_ndims == params.params.length,
                     lambda _: True
                 ))
@@ -1385,7 +1395,7 @@ class CompilationUnit(AdaNode):
 class SubprogramBody(Body):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
-                          Self.subp_spec)]
+                          Self)]
 
     overriding = Field()
     subp_spec = Field()
@@ -1395,8 +1405,7 @@ class SubprogramBody(Body):
     end_id = Field()
 
     defining_names = Property(Self.subp_spec.name.cast(Name).singleton)
-    # Note that we don't have to override the defining_env property here since
-    # what we put in lexical environment is their SubprogramSpec child.
+    defining_env = Property(Self.subp_spec.defining_env)
 
 
 class HandledStatements(AdaNode):

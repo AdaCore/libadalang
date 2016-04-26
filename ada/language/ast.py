@@ -234,7 +234,7 @@ class FullTypeDecl(TypeDecl):
 
     @langkit_property()
     def defining_env():
-        result = Self.children_env.orphan
+        result = Self.children_env.env_orphan
         return Self.type_def.cast(DerivedTypeDef).then(
             lambda td: EnvGroup(result, td.name.defining_env),
             default_val=result
@@ -709,7 +709,7 @@ class BasePackageDecl(BasicDecl):
 
     name = Property(Self.package_name, private=True)
     defining_names = Property(Self.name.cast(T.Name).singleton)
-    defining_env = Property(Self.children_env.orphan)
+    defining_env = Property(Self.children_env.env_orphan)
 
 
 class PackageDecl(BasePackageDecl):
@@ -1545,7 +1545,7 @@ class PackageBody(Body):
     statements = Field()
 
     defining_names = Property(Self.package_name.cast(Name).singleton)
-    defining_env = Property(Self.children_env.orphan)
+    defining_env = Property(Self.children_env.env_orphan)
 
 
 class TaskBody(Body):

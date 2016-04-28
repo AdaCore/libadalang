@@ -86,8 +86,8 @@ class Token(LexerToken):
     Label = WithSymbol()
 
     # Punctuation
-    Par_close = NoText()
-    Par_open = NoText()
+    ParClose = NoText()
+    ParOpen = NoText()
     Semicolon = NoText()
     Colon = NoText()
     Comma = NoText()
@@ -218,8 +218,8 @@ ada_lexer.add_rules(
     (NoCase("requeue"),                         Token.Requeue),
     (NoCase("xor"),                             Token.Xor),
 
-    (Literal("("),                              Token.Par_open),
-    (Literal(")"),                              Token.Par_close),
+    (Literal("("),                              Token.ParOpen),
+    (Literal(")"),                              Token.ParClose),
     (Literal(";"),                              Token.Semicolon),
     (Literal(":"),                              Token.Colon),
     (Literal(","),                              Token.Comma),

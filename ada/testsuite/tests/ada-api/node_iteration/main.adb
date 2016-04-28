@@ -1,6 +1,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
-with Langkit_Support.Tokens; use Langkit_Support.Tokens;
+with Langkit_Support.Token_Data_Handler;
+use Langkit_Support.Token_Data_Handler;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.AST;       use Libadalang.AST;
@@ -27,7 +28,7 @@ procedure Main is
       pragma Assert (F_Ids (P).Child_Count = 1);
       Id := Single_Tok_Node (F_Ids (P).Child (0));
       Put (' ');
-      Put (Image (Get (Id, F_Tok (Id))));
+      Put (Image (Token (Id, F_Tok (Id))));
    end Put_Param;
 
    ---------------

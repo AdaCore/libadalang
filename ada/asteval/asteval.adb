@@ -8,8 +8,8 @@ with Interfaces;
 use type Interfaces.Unsigned_16;
 
 with Langkit_Support.Diagnostics;       use Langkit_Support.Diagnostics;
+with Langkit_Support.Slocs;             use Langkit_Support.Slocs;
 with Langkit_Support.Text;              use Langkit_Support.Text;
-with Langkit_Support.Tokens;            use Langkit_Support.Tokens;
 with Libadalang.Analysis;               use Libadalang.Analysis;
 with Libadalang.AST;                    use Libadalang.AST;
 with Libadalang.AST.Types.Parsers.Dump; use Libadalang.AST.Types.Parsers.Dump;

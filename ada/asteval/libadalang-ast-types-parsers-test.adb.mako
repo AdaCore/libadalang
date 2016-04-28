@@ -69,7 +69,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       Index : Token_Index)
       return Text_Type
    is
-     (Get (Node, Index).Text.all);
+     (Data (Token (Node, Index)).Text.all);
 
    function Evaluate
      (P : access Identifier_Filter;
@@ -586,7 +586,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (Identifier expected)");
          end if;
-         Ident := Get_Symbol (Get (Expr, Identifier (Expr.F_Suffix).F_Tok));
+         Ident := Get_Symbol (Token (Expr, Identifier (Expr.F_Suffix).F_Tok));
 
          declare
             --  We want to be case insensitive, so keep Ident_Cmp to perform
@@ -706,7 +706,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
          declare
             Ident     : constant Symbol_Type :=
-               Get_Symbol (Get (Expr, Identifier (Expr).F_Tok));
+               Get_Symbol (Token (Expr, Identifier (Expr).F_Tok));
             Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident.all);
          begin
             if Ident_Cmp = "" then

@@ -1,13 +1,14 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
-with Langkit_Support.Text;   use Langkit_Support.Text;
+with Langkit_Support.Slocs; use Langkit_Support.Slocs;
+with Langkit_Support.Text;  use Langkit_Support.Text;
 with Langkit_Support.Token_Data_Handler;
 use Langkit_Support.Token_Data_Handler;
-with Langkit_Support.Tokens; use Langkit_Support.Tokens;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.AST;       use Libadalang.AST;
 with Libadalang.AST.Types; use Libadalang.AST.Types;
+with Libadalang.Lexer;     use Libadalang.Lexer;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;
@@ -26,7 +27,7 @@ begin
    declare
       Id     : constant Single_Tok_Node := Single_Tok_Node (N);
       Tok_Id : constant Token_Index := F_Tok (Id);
-      Tok    : constant Token_Type := Get_Token (Unit, Tok_Id);
+      Tok    : constant Token_Data_Type := Data (Token (Id, Tok_Id));
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
       Put_Line ("Text: " & Image (Tok.Text.all));

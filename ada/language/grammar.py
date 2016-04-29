@@ -8,9 +8,8 @@ from language.lexer import Token
 # no class from langkit.expressions are shadowing the parser combinators.
 from langkit.parsers import Grammar, Row, Enum, _, Null, Tok, Opt, List, Or
 
-ada_grammar = Grammar()
+ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
-ada_grammar.main_rule_name = "compilation"
 
 
 def package_decl_factory():

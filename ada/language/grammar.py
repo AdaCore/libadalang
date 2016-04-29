@@ -558,16 +558,28 @@ A.add_rules(
 
     compilation_unit=Row(
         List(Row(A.context_item, ";")[0], empty_valid=True),
-        Row(A.subunit | A.pragma | A.library_item,
-            ";")[0],
+
+        Row(A.subunit | A.library_item, ";")[0],
+
+        # Eventual pragmas attached to the body
         List(Row(A.pragma, ";")[0], empty_valid=True)
     ) ^ CompilationUnit,
 
-    # This is the main rule. The root node will then be either a
-    # CompilationUnit node, either a list of CompilationUnit nodes
+    # This is the main rule. The root node will then be either:
+    # * A CompilationUnit node.
+    # * A list of CompilationUnit nodes.
+    # * A list of pragmas.
     compilation=Or(
+        # Special case for No_Body files and gnat.adc
+        Row(List(Row(A.pragma, ";")[0], empty_valid=False),
+            Tok(LexerToken.Termination))[0],
+
+        # One compilation unit case
         Row(A.compilation_unit, Tok(LexerToken.Termination))[0],
-        List(A.compilation_unit, empty_valid=False)
+
+        # Several compilation units case
+        Row(List(A.compilation_unit, empty_valid=True),
+            Tok(LexerToken.Termination))[0],
     ),
 
     entry_body=Row(

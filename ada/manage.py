@@ -304,7 +304,7 @@ class Manage(ManageScript):
                 (ct.BoolType, lambda _: 'Bool'),
                 (ct.LongType, lambda _: 'Int'),
                 (ct.ASTNode, lambda _: 'Node'),
-                (ct.Token, lambda _: 'Index'),
+                (ct.Token, lambda _: 'Token'),
                 (ct.EnumType, lambda _: 'Enum_{}'),
                 (ct.Struct, lambda _: 'Struct_{}'),
                 (ct.ArrayType, lambda _: 'Array_{}'),

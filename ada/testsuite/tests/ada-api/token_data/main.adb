@@ -25,13 +25,13 @@ begin
    end if;
 
    declare
-      Id     : constant Single_Tok_Node := Single_Tok_Node (N);
-      Tok_Id : constant Token_Index := F_Tok (Id);
-      Tok    : constant Token_Data_Type := Data (Token (Id, Tok_Id));
+      Id       : constant Single_Tok_Node := Single_Tok_Node (N);
+      Tok      : constant Token_Type := F_Tok (Id);
+      Tok_Data : constant Token_Data_Type := Data (Tok);
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
-      Put_Line ("Text: " & Image (Tok.Text.all));
-      Put_Line ("Sloc range: " & Image (Tok.Sloc_Range));
+      Put_Line ("Text: " & Image (Tok_Data.Text.all));
+      Put_Line ("Sloc range: " & Image (Tok_Data.Sloc_Range));
    end;
 
    Destroy (Ctx);

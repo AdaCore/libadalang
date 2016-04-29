@@ -112,9 +112,7 @@ package Libadalang.AST.Types.Parsers.Test is
       when Ada_Node_Value          => Node        : Ada_Node;
       when Ada_Node_Iterator_Value =>
          Node_Iter   : Ada_Node_Iterators.Iterator_Access;
-      when Token_Value             =>
-        Unit  : Analysis_Unit_Interface;
-        Index : Token_Index;
+      when Token_Value             => Token       : Token_Type;
       when Lexical_Env_Value       => Lexical_Env : AST_Envs.Lexical_Env;
       when Field_Access_Value      =>
         Field_Node  : Ada_Node;

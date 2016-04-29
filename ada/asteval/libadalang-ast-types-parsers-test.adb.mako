@@ -64,12 +64,8 @@ package body Libadalang.AST.Types.Parsers.Test is
    --  Predicate that returns whether a node is an identifier and has some
    --  specific associated text.
 
-   function Token_Text
-     (Node  : access Ada_Node_Type'Class;
-      Index : Token_Index)
-      return Text_Type
-   is
-     (Data (Token (Node, Index)).Text.all);
+   function Token_Text (Token : Token_Type) return Text_Type is
+     (Data (Token).Text.all);
 
    function Evaluate
      (P : access Identifier_Filter;
@@ -77,7 +73,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       return Boolean
    is
      (Kind (N) = Identifier_Kind
-      and then Token_Text (N, Identifier (N).F_Tok) = +P.Name);
+      and then Token_Text (F_Tok (Single_Tok_Node (N))) = +P.Name);
 
    ------------
    -- Create --
@@ -255,7 +251,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          when Num_Literal_Kind =>
             declare
                Text : constant Text_Type :=
-                  Token_Text (Expr, Num_Literal (Expr).F_Tok);
+                  Token_Text (F_Tok (Single_Tok_Node (Expr)));
             begin
                return Create (new Eval_Result_Record'
                  (Kind      => Integer_Value,
@@ -527,7 +523,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             when String_Literal_Kind =>
                declare
                   Str : Text_Type renames
-                     Token_Text (Expr, String_Literal (Param_Expr).F_Tok);
+                     Token_Text (F_Tok (Single_Tok_Node (Param_Expr)));
                begin
                   --  Assume that the first and last characters are quotes and
                   --  strip them.
@@ -554,7 +550,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
       function Eval_Identifier (Expr : Identifier) return Eval_Result is
          Ident     : constant Wide_Wide_String :=
-            Token_Text (Expr, Expr.F_Tok);
+            Token_Text (F_Tok (Single_Tok_Node (Expr)));
          Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident);
       begin
          --  The only identifier available so far is the analysis unit root
@@ -586,7 +582,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (Identifier expected)");
          end if;
-         Ident := Get_Symbol (Token (Expr, Identifier (Expr.F_Suffix).F_Tok));
+         Ident := Get_Symbol (F_Tok (Single_Tok_Node (Expr.F_Suffix)));
 
          declare
             --  We want to be case insensitive, so keep Ident_Cmp to perform
@@ -706,7 +702,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
          declare
             Ident     : constant Symbol_Type :=
-               Get_Symbol (Token (Expr, Identifier (Expr).F_Tok));
+               Get_Symbol (F_Tok (Single_Tok_Node (Expr)));
             Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident.all);
          begin
             if Ident_Cmp = "" then
@@ -762,10 +758,13 @@ package body Libadalang.AST.Types.Parsers.Test is
                def field_access():
                    if is_ast_node(f.type):
                        return 'Ada_Node ({})'.format(field_access_base)
-                   elif f.type.is_storage_value:
-                       return field_access_base + "'Unrestricted_Access"
-                   else:
+                   elif f.is_property:
                        return field_access_base
+                   else:
+                       return f.type.extract_from_storage_expr(
+                           'Prefix_Node',
+                           field_access_base
+                       )
             %>
 
             if Param_Values'Length = 0 then
@@ -783,9 +782,6 @@ package body Libadalang.AST.Types.Parsers.Test is
                   return Create (new Eval_Result_Record'
                     (Kind            => ${result_kind},
                      Ref_Count       => <>,
-                     % if is_token_type(f.type):
-                        Unit => Root.Unit,
-                     % endif
                      ${result_field} => ${field_access()}));
                % endif
             end if;

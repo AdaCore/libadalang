@@ -102,12 +102,7 @@ package body Libadalang.AST.Types.Parsers.Dump is
       when Ada_Node_Iterator_Value =>
          Put_Line ("<AST node iterator>");
       when Token_Value =>
-         declare
-            T : constant Token_Raw_Data_Type :=
-               Get_Token (V.Unit.Token_Data.all, V.Index);
-         begin
-            Put_Line (Image (T));
-         end;
+         Put_Line (Image (V.Token));
       when Lexical_Env_Value =>
          if V.Lexical_Env = null then
             Put_Line ("<null lexical environment>");

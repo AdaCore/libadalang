@@ -48,7 +48,7 @@ main(void)
 
 
     with_decl = tmp;
-    if (ada_node_child(tmp, 2, &tmp))
+    if (ada_node_child(tmp, 3, &tmp))
         error("ada_node_child returned a child that does not exist");
     if (tmp != with_decl)
         error("ada_node_child failed but nevertheless output something");
@@ -74,9 +74,7 @@ main(void)
     if (!ada_node_child(tmp, 1, &tmp))
         error("Could not get CompilationUnit[1]");
     if (!ada_node_child(tmp, 0, &tmp))
-        error("Could not get CompilationUnit[1] -> Bodies[0]");
-    if (!ada_node_child(tmp, 0, &tmp))
-        error("Could not get CompilationUnit[1] -> Bodies[0] -> LibraryItem[0]");
+        error("Could not get CompilationUnit[1] -> LibraryItem[0]");
     subp_body = tmp;
 
     if (ada_node_kind(subp_body) != ada_subprogram_body)

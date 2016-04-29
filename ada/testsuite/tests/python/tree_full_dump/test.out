@@ -15,58 +15,57 @@
 |  |  |  |  |suffix:
 |  |  |  |  |  <Identifier>
 |  |  |  |  |  |tok: Token(u'Text_IO')
-|bodies:
-|  <list>
-|  |item 0:
-|  |  <LibraryItem>
-|  |  |is_private: False
-|  |  |item:
-|  |  |  <SubprogramBody>
-|  |  |  |overriding: unspecified
-|  |  |  |subp_spec:
-|  |  |  |  <SubprogramSpec>
-|  |  |  |  |name:
-|  |  |  |  |  <Identifier>
-|  |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |  |params: None
-|  |  |  |  |returns: None
-|  |  |  |aspects: None
-|  |  |  |decls:
-|  |  |  |  <DeclarativePart>
-|  |  |  |  |decls: None
-|  |  |  |statements:
-|  |  |  |  <HandledStatements>
-|  |  |  |  |statements:
-|  |  |  |  |  <list>
-|  |  |  |  |  |item 0:
-|  |  |  |  |  |  <CallStatement>
-|  |  |  |  |  |  |call:
-|  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  <Prefix>
-|  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  <Prefix>
-|  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
-|  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
-|  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
-|  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  <StringLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
-|  |  |  |  |exceptions: None
-|  |  |  |end_id:
+|body:
+|  <LibraryItem>
+|  |is_private: False
+|  |item:
+|  |  <SubprogramBody>
+|  |  |overriding: unspecified
+|  |  |subp_spec:
+|  |  |  <SubprogramSpec>
+|  |  |  |name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
+|  |  |  |params: None
+|  |  |  |returns: None
+|  |  |aspects: None
+|  |  |decls:
+|  |  |  <DeclarativePart>
+|  |  |  |decls: None
+|  |  |statements:
+|  |  |  <HandledStatements>
+|  |  |  |statements:
+|  |  |  |  <list>
+|  |  |  |  |item 0:
+|  |  |  |  |  <CallStatement>
+|  |  |  |  |  |call:
+|  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
+|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
+|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  <StringLiteral>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
+|  |  |  |exceptions: None
+|  |  |end_id:
+|  |  |  <Identifier>
+|  |  |  |tok: Token(u'Foo')
+|pragmas: None
 Done

@@ -42,10 +42,8 @@ main(void)
     node = ada_unit_root(unit);
     if (node == NULL)
         error("Could not get analysis unit root node");
-    if (!ada_compilation_unit_f_bodies(node, &node))
+    if (!ada_compilation_unit_f_body(node, &node))
         error("Could not get CompilationUnit.f_bodies");
-    if (!ada_node_child(node, 0, &node))
-        error("Could not get CompilationUnit.f_bodies[0]");
     if (!ada_library_item_f_item(node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item");
     if (!ada_subprogram_body_f_subp_spec(node, &node))

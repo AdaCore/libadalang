@@ -1,5 +1,5 @@
 CompilationUnit[1:1-10:9]
-| bodies:
+| body:
 | | LibraryItem[1:1-10:8]
 | | | is_private: False
 | | | item:
@@ -73,17 +73,20 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | tok: Bar
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-10:9> - <LexEnv (Id 1, Parent <root>), {
+<CompilationUnit 1:1-10:9> - <LexEnv (Id <root>, Parent null), {
     Foo: [<PackageBody 1:1-10:8>]
 }>
-<PackageBody 1:1-10:8> - <LexEnv (Id 2, Parent 1), {
+<LibraryItem 1:1-10:8> - <LexEnv (Id <root>, Parent null), {
+    Foo: [<PackageBody 1:1-10:8>]
+}>
+<PackageBody 1:1-10:8> - <LexEnv (Id 1, Parent <root>), {
     Bar: [<SubprogramBody 2:4-9:11>]
 }>
-<SubprogramBody 2:4-9:11> - <LexEnv (Id 3, Parent 2), {
+<SubprogramBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
     I: [<ParameterProfile 2:19-2:33>]
     J: [<ParameterProfile 2:19-2:33>]
 }>
-<BlockStatement 4:7-8:10> - <LexEnv (Id 4, Parent 3), {
+<BlockStatement 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
     Lol: [<SubtypeDecl 5:10-5:46>]
 }>
-<SubtypeDecl 5:10-5:46> - <LexEnv (Id 5, Parent 4), empty>
+<SubtypeDecl 5:10-5:46> - <LexEnv (Id 4, Parent 3), empty>

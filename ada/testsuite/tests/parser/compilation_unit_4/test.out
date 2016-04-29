@@ -12,7 +12,7 @@ CompilationUnit[1:1-1:48]
 | | | packages:
 | | | | Id[1:16-1:19]
 | | | | | tok: Bar
-| bodies:
+| body:
 | | LibraryItem[1:21-1:47]
 | | | is_private: False
 | | | item:

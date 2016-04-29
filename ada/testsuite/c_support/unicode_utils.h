@@ -41,12 +41,9 @@ get_string_literal(ada_analysis_unit unit) {
     if (node == NULL
         || ada_node_kind(node) != ada_compilation_unit)
         error("Got unexpected node for ada_unit_root [1]");
-    if (!ada_compilation_unit_f_bodies(node, &node)
-        || ada_node_kind(node) != ada_list)
-        error("Got unexpected node for ada_compilation_unit_f_bodies [2]");
-    if (!ada_node_child(node, 0, &node)
+    if (!ada_compilation_unit_f_body(node, &node)
         || ada_node_kind(node) != ada_library_item)
-        error("Got unexpected node for ada_node_child [3]");
+        error("Got unexpected node for ada_compilation_unit_f_body [2]");
     if (!ada_library_item_f_item(node, &node)
         || ada_node_kind(node) != ada_subprogram_body)
         error("Got unexpected node for ada_library_item_f_item [4]");

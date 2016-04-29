@@ -1392,9 +1392,8 @@ class Prefix(Name):
 class CompilationUnit(AdaNode):
     """Root node for all Ada analysis units."""
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
-    bodies = Field()
-
-    env_spec = EnvSpec(add_env=True)
+    body = Field()
+    pragmas = Field()
 
 
 class SubprogramBody(Body):

@@ -1,5 +1,5 @@
 CompilationUnit[1:1-10:7]
-| bodies:
+| body:
 | | LibraryItem[1:1-10:6]
 | | | is_private: False
 | | | item:

@@ -1,5 +1,5 @@
-CompilationUnit[1:1-13:9]
-| bodies:
+CompilationUnit[1:1-2:9]
+| body:
 | | LibraryItem[1:1-2:8]
 | | | is_private: False
 | | | item:
@@ -12,6 +12,8 @@ CompilationUnit[1:1-13:9]
 | | | | | end_id:
 | | | | | | Id[2:5-2:8]
 | | | | | | | tok: Foo
+CompilationUnit[4:1-6:13]
+| body:
 | | LibraryItem[4:1-6:12]
 | | | is_private: False
 | | | item:
@@ -36,6 +38,8 @@ CompilationUnit[1:1-13:9]
 | | | | | | | | | suffix:
 | | | | | | | | | | Id[6:9-6:12]
 | | | | | | | | | | | tok: Bar
+CompilationUnit[8:1-9:7]
+| body:
 | | LibraryItem[8:1-9:6]
 | | | is_private: False
 | | | item:
@@ -48,6 +52,8 @@ CompilationUnit[1:1-13:9]
 | | | | | end_id:
 | | | | | | Id[9:5-9:6]
 | | | | | | | tok: A
+CompilationUnit[11:1-13:9]
+| body:
 | | LibraryItem[11:1-13:8]
 | | | is_private: False
 | | | item:
@@ -77,15 +83,47 @@ CompilationUnit[1:1-13:9]
 | | | | | | | | | tok: B
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-13:9> - <LexEnv (Id 1, Parent <root>), {
+<ASTList 1:1-13:9> - <LexEnv (Id <root>, Parent null), {
     A: [<PackageDecl 8:1-9:6>]
     Foo: [<PackageDecl 1:1-2:8>]
 }>
-<PackageDecl 1:1-2:8> - <LexEnv (Id 2, Parent 1), {
+<CompilationUnit 1:1-2:9> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<LibraryItem 1:1-2:8> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<PackageDecl 1:1-2:8> - <LexEnv (Id 1, Parent <root>), {
     Bar: [<GenericPackageDecl 4:1-6:12>]
 }>
-<GenericPackageDecl 4:1-6:12> - <LexEnv (Id 3, Parent 2), empty>
-<PackageDecl 8:1-9:6> - <LexEnv (Id 4, Parent 1), {
+<CompilationUnit 4:1-6:13> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<LibraryItem 4:1-6:12> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<GenericPackageDecl 4:1-6:12> - <LexEnv (Id 2, Parent 1), empty>
+<CompilationUnit 8:1-9:7> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<LibraryItem 8:1-9:6> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<PackageDecl 8:1-9:6> - <LexEnv (Id 3, Parent <root>), {
     B: [<SubprogramBody 11:1-13:8>]
 }>
-<SubprogramBody 11:1-13:8> - <LexEnv (Id 5, Parent 4), empty>
+<CompilationUnit 11:1-13:9> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<LibraryItem 11:1-13:8> - <LexEnv (Id <root>, Parent null), {
+    A: [<PackageDecl 8:1-9:6>]
+    Foo: [<PackageDecl 1:1-2:8>]
+}>
+<SubprogramBody 11:1-13:8> - <LexEnv (Id 4, Parent 3), empty>

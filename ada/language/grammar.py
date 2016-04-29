@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from langkit.lexer import LexerToken
 from language.ast import *
 from language.lexer import Token
 
@@ -9,7 +10,7 @@ from langkit.parsers import Grammar, Row, Enum, _, Null, Tok, Opt, List, Or
 
 ada_grammar = Grammar()
 A = ada_grammar
-ada_grammar.main_rule_name = "compilation_unit"
+ada_grammar.main_rule_name = "compilation"
 
 
 def package_decl_factory():
@@ -551,17 +552,24 @@ A.add_rules(
 
     library_item=Row(
         Opt("private").as_bool(),
-        Or(A.library_unit_body,
-           A.library_unit_decl,
-           A.library_unit_renaming_decl)
+        A.library_unit_body
+        | A.library_unit_decl
+        | A.library_unit_renaming_decl
     ) ^ LibraryItem,
 
     compilation_unit=Row(
         List(Row(A.context_item, ";")[0], empty_valid=True),
-        List(Row(A.library_item | A.subunit |
-                 A.generic_instantiation | A.pragma, ";")[0],
-             empty_valid=True),
+        Row(A.subunit | A.pragma | A.library_item,
+            ";")[0],
+        List(Row(A.pragma, ";")[0], empty_valid=True)
     ) ^ CompilationUnit,
+
+    # This is the main rule. The root node will then be either a
+    # CompilationUnit node, either a list of CompilationUnit nodes
+    compilation=Or(
+        Row(A.compilation_unit, Tok(LexerToken.Termination))[0],
+        List(A.compilation_unit, empty_valid=False)
+    ),
 
     entry_body=Row(
         "entry", A.identifier,

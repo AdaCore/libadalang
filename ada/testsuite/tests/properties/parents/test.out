@@ -15,185 +15,183 @@
 |  |  |  |  |suffix:
 |  |  |  |  |  <Identifier>
 |  |  |  |  |  |tok: Token(u'Text_IO')
-|bodies:
-|  <list>
-|  |item 0:
-|  |  <LibraryItem>
-|  |  |is_private: False
-|  |  |item:
-|  |  |  <SubprogramBody>
-|  |  |  |overriding: unspecified
-|  |  |  |subp_spec:
-|  |  |  |  <SubprogramSpec>
-|  |  |  |  |name:
-|  |  |  |  |  <Identifier>
-|  |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |  |params: None
-|  |  |  |  |returns: None
-|  |  |  |aspects: None
+|body:
+|  <LibraryItem>
+|  |is_private: False
+|  |item:
+|  |  <SubprogramBody>
+|  |  |overriding: unspecified
+|  |  |subp_spec:
+|  |  |  <SubprogramSpec>
+|  |  |  |name:
+|  |  |  |  <Identifier>
+|  |  |  |  |tok: Token(u'Foo')
+|  |  |  |params: None
+|  |  |  |returns: None
+|  |  |aspects: None
+|  |  |decls:
+|  |  |  <DeclarativePart>
 |  |  |  |decls:
-|  |  |  |  <DeclarativePart>
-|  |  |  |  |decls:
-|  |  |  |  |  <list>
-|  |  |  |  |  |item 0:
-|  |  |  |  |  |  <SubprogramBody>
-|  |  |  |  |  |  |overriding: unspecified
-|  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  <SubprogramSpec>
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  <list>
+|  |  |  |  |item 0:
+|  |  |  |  |  <SubprogramBody>
+|  |  |  |  |  |overriding: unspecified
+|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  <SubprogramSpec>
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  <ParameterProfile>
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |is_aliased: False
+|  |  |  |  |  |  |  |  |mode: in
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  <TypeExpression>
+|  |  |  |  |  |  |  |  |  |null_exclusion: False
+|  |  |  |  |  |  |  |  |  |type_expr_variant:
+|  |  |  |  |  |  |  |  |  |  <TypeRef>
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |  |constraint: None
+|  |  |  |  |  |  |  |  |default: None
+|  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  <TypeExpression>
+|  |  |  |  |  |  |  |null_exclusion: False
+|  |  |  |  |  |  |  |type_expr_variant:
+|  |  |  |  |  |  |  |  <TypeRef>
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |constraint: None
+|  |  |  |  |  |aspects: None
+|  |  |  |  |  |decls:
+|  |  |  |  |  |  <DeclarativePart>
+|  |  |  |  |  |  |decls: None
+|  |  |  |  |  |statements:
+|  |  |  |  |  |  <HandledStatements>
+|  |  |  |  |  |  |statements:
+|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  <IfStatement>
+|  |  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |  |  <BinOp>
+|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |  |op: gt
+|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
+|  |  |  |  |  |  |  |  |statements:
+|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  <ReturnStatement>
+|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |  <BinOp>
+|  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |  |  |  |op: mult
+|  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <BinOp>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op: minus
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
+|  |  |  |  |  |  |  |  |alternatives: None
+|  |  |  |  |  |  |  |  |else_statements:
+|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  <ReturnStatement>
+|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
+|  |  |  |  |  |  |exceptions: None
+|  |  |  |  |  |end_id:
+|  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |statements:
+|  |  |  <HandledStatements>
+|  |  |  |statements:
+|  |  |  |  <list>
+|  |  |  |  |item 0:
+|  |  |  |  |  <CallStatement>
+|  |  |  |  |  |call:
+|  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |tok: Token(u'Put_Line')
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <ParameterProfile>
-|  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  <AttributeRef>
+|  |  |  |  |  |  |  |  |  |  |prefix:
 |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |is_aliased: False
-|  |  |  |  |  |  |  |  |  |mode: in
-|  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  <TypeExpression>
-|  |  |  |  |  |  |  |  |  |  |null_exclusion: False
-|  |  |  |  |  |  |  |  |  |  |type_expr_variant:
-|  |  |  |  |  |  |  |  |  |  |  <TypeRef>
-|  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |  |constraint: None
-|  |  |  |  |  |  |  |  |  |default: None
-|  |  |  |  |  |  |  |returns:
-|  |  |  |  |  |  |  |  <TypeExpression>
-|  |  |  |  |  |  |  |  |null_exclusion: False
-|  |  |  |  |  |  |  |  |type_expr_variant:
-|  |  |  |  |  |  |  |  |  <TypeRef>
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |constraint: None
-|  |  |  |  |  |  |aspects: None
-|  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  <DeclarativePart>
-|  |  |  |  |  |  |  |decls: None
-|  |  |  |  |  |  |statements:
-|  |  |  |  |  |  |  <HandledStatements>
-|  |  |  |  |  |  |  |statements:
-|  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <IfStatement>
-|  |  |  |  |  |  |  |  |  |condition:
-|  |  |  |  |  |  |  |  |  |  <BinOp>
-|  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |  |attribute:
 |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |op: gt
-|  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
-|  |  |  |  |  |  |  |  |  |statements:
-|  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  <ReturnStatement>
-|  |  |  |  |  |  |  |  |  |  |  |return_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  <BinOp>
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |  |  |op: mult
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <BinOp>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op: minus
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
+|  |  |  |  |  |  |  |  |  |  |args:
+|  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
-|  |  |  |  |  |  |  |  |  |alternatives: None
-|  |  |  |  |  |  |  |  |  |else_statements:
-|  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  <ReturnStatement>
-|  |  |  |  |  |  |  |  |  |  |  |return_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
-|  |  |  |  |  |  |  |exceptions: None
-|  |  |  |  |  |  |end_id:
-|  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |statements:
-|  |  |  |  <HandledStatements>
-|  |  |  |  |statements:
-|  |  |  |  |  <list>
-|  |  |  |  |  |item 0:
-|  |  |  |  |  |  <CallStatement>
-|  |  |  |  |  |  |call:
-|  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
-|  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  <AttributeRef>
-|  |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
-|  |  |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
-|  |  |  |  |exceptions: None
-|  |  |  |end_id:
-|  |  |  |  <Identifier>
-|  |  |  |  |tok: Token(u'Foo')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
+|  |  |  |exceptions: None
+|  |  |end_id:
+|  |  |  <Identifier>
+|  |  |  |tok: Token(u'Foo')
+|pragmas: None
 Parents of CompilationUnit[1:1-14:9]:
   - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[3:1-3:14]:
   - SubprogramSpec[3:1-3:14]
   - SubprogramBody[3:1-14:8]
   - LibraryItem[3:1-14:8]
-  - list[3:1-14:9]
   - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[4:4-4:46]:
   - SubprogramSpec[4:4-4:46]
@@ -202,5 +200,4 @@ Parents of SubprogramSpec[4:4-4:46]:
   - DeclarativePart[4:4-11:13]
   - SubprogramBody[3:1-14:8]
   - LibraryItem[3:1-14:8]
-  - list[3:1-14:9]
   - CompilationUnit[1:1-14:9]

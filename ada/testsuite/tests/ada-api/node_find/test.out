@@ -1,6 +1,5 @@
 This is the list of all nodes in foo.adb, in prefix depth-first order:
   <CompilationUnit 1:1-4:9>
-  <ASTList 1:1-4:9>
   <LibraryItem 1:1-4:8>
   <SubprogramBody 1:1-4:8>
   <SubprogramSpec 1:1-1:68>

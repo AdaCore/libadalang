@@ -93,7 +93,7 @@ class Manage(ManageScript):
         from language.grammar import ada_grammar
 
         return CompileCtx(lang_name='Ada',
-                          main_rule_name='compilation_unit',
+                          main_rule_name='compilation',
                           lexer=ada_lexer,
                           grammar=ada_grammar,
                           default_charset='iso-8859-1',

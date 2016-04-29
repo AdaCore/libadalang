@@ -27,7 +27,6 @@ main(void)
 
     ada_base_node node;
     ada_token tok;
-    ada_text tok_text;
     ada_source_location_range sloc_range;
 
     libadalang_initialize();
@@ -56,17 +55,15 @@ main(void)
               ".f_name.f_tok");
 
     puts("Token data for the \"foo\" identifier:");
-    tok_text = ada_token_text(tok);
-    ada_token_sloc_range(tok, &sloc_range);
     printf("Text: ");
-    fprint_text(stdout, tok_text, false);
+    fprint_text(stdout, tok.text, false);
     printf("\n");
 
     printf("Sloc range: %u:%u-%u:%u\n",
-       (unsigned) sloc_range.start.line,
-       (unsigned) sloc_range.start.column,
-       (unsigned) sloc_range.end.line,
-       (unsigned) sloc_range.end.column);
+       (unsigned) tok.sloc_range.start.line,
+       (unsigned) tok.sloc_range.start.column,
+       (unsigned) tok.sloc_range.end.line,
+       (unsigned) tok.sloc_range.end.column);
 
     ada_destroy_analysis_context (ctx);
 

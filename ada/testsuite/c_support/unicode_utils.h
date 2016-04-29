@@ -76,7 +76,7 @@ get_string_literal(ada_analysis_unit unit) {
     if (!ada_single_tok_node_f_tok(node, &tok))
         error("Could not get token for the string literal");
 
-    return ada_token_text(tok);
+    return tok.text;
 }
 
 #endif /* UNICODE_UTILS_H */

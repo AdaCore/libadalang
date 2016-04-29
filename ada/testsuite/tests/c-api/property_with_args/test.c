@@ -17,7 +17,7 @@ dump_identifier(ada_base_node id)
 
     if (!ada_single_tok_node_f_tok(id, &name))
       error("Could not the the name of an Identifier");
-    fprint_text(stdout, ada_token_text(name), 0);
+    fprint_text(stdout, name.text, 0);
     printf("\n");
 }
 

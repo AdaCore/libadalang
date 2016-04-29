@@ -24,7 +24,6 @@ main(void)
     ada_bool is_limited, is_private;
     ada_overriding overriding;
     ada_token tok;
-    ada_text tok_text;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context("iso-8859-1");
@@ -97,9 +96,8 @@ main(void)
 
     if (!ada_single_tok_node_f_tok(subp_name, &tok))
       error("Could not get Identifier.tok");
-    tok_text = ada_token_text(tok);
     printf("Identifier: tok = ");
-    fprint_text(stderr, tok_text, false);
+    fprint_text(stderr, tok.text, false);
     putchar('\n');
 
 

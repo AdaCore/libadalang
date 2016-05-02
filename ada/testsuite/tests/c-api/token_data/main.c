@@ -27,7 +27,7 @@ main(void)
 
     ada_base_node node;
     ada_token tok;
-    ada_source_location_range sloc_range;
+    char *tk_name;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context(NULL);
@@ -55,6 +55,9 @@ main(void)
               ".f_name.f_tok");
 
     puts("Token data for the \"foo\" identifier:");
+    tk_name = ada_token_kind_name(tok.kind);
+    printf("Kind: %s\n", tk_name);
+    free(tk_name);
     printf("Text: ");
     fprint_text(stdout, tok.text, false);
     printf("\n");

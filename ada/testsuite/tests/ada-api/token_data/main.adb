@@ -30,6 +30,7 @@ begin
       Tok_Data : constant Token_Data_Type := Data (Tok);
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
+      Put_Line ("Kind: " & Token_Kind_Name (Tok_Data.Kind));
       Put_Line ("Text: " & Image (Tok_Data.Text.all));
       Put_Line ("Sloc range: " & Image (Tok_Data.Sloc_Range));
    end;

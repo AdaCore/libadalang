@@ -253,7 +253,8 @@ class BaseTestsuite(object):
         self.arg_parser.add_argument(
             '--temp-dir',
             help='Temporary directory to use for running testcases (default:'
-                 ' random directory in the system tmp folder)'
+                 ' random directory in the system tmp folder). Specifying one'
+                 ' automatically enables the --disable-cleanup option.'
         )
 
         # Try to get a sane default for the cpu count
@@ -282,6 +283,8 @@ class BaseTestsuite(object):
         list. Otherwise, use sys.argv instead.
         """
         self.args = self.arg_parser.parse_args(args)
+        if self.args.temp_dir:
+            self.args.disable_cleanup = True
 
         if self.args.temp_dir:
             self.working_dir = os.path.abspath(self.args.temp_dir)

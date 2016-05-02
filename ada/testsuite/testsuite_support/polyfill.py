@@ -543,12 +543,14 @@ class Run(object):
 
     """Run a subprocess."""
 
-    def __init__(self, argv, cwd=None, timeout=None, output=None, error=None):
+    def __init__(self, argv, cwd=None, timeout=None, output=None, error=None,
+                 env=None):
         # "timeout" is not implemented, error is ignored
         p = subprocess.Popen(
             argv, cwd=cwd,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
+            env=env
         )
         stdout, _ = p.communicate()
         with open(output, 'w') as f:

@@ -20,7 +20,7 @@ main(void)
         error("Could not create the analysis context\n");
 
     /* This file does not exist, so we should get diagnostics.  */
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, false);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
 
     /* Print diagnostics, converting them using text_to_locale_string.  */
     puts("Diagnostics for foo.adb");

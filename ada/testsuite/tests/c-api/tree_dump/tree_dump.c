@@ -18,7 +18,7 @@ main(void)
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 

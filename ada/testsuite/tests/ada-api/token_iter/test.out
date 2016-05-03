@@ -1,0 +1,121 @@
+Tokens for no_trivia.adb (no trivia):
+  Procedure
+  Identifier "No_Trivia"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "No_Trivia"
+  Semicolon
+  Termination
+
+Tokens for empty.adb (no trivia):
+  Termination
+
+Tokens for no_trivia.adb (with trivia):
+  Procedure
+  Identifier "No_Trivia"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "No_Trivia"
+  Semicolon
+  Termination
+
+Tokens for empty.adb (with trivia):
+  Termination
+
+Tokens for one_leading_comment.adb (with trivia):
+  Comment "--  This is the only leading comment"
+  Procedure
+  Identifier "One_Leading_Comment"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "One_Leading_Comment"
+  Semicolon
+  Termination
+
+Tokens for two_leading_comments.adb (with trivia):
+  Comment "--  This is the first leading comment."
+  Comment "--  And this is the second one."
+  Procedure
+  Identifier "Two_Leading_Comments"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "Two_Leading_Comments"
+  Semicolon
+  Termination
+
+Tokens for one_middle_comment.adb (with trivia):
+  Procedure
+  Identifier "One_Middle_Comment"
+  Is
+  Comment "--  This is the only middle comment"
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "One_Middle_Comment"
+  Semicolon
+  Termination
+
+Tokens for two_middle_comments.adb (with trivia):
+  Procedure
+  Identifier "Two_Middle_Comments"
+  Is
+  Comment "--  This is one middle comment."
+  Comment "--  And this is the second one."
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "Two_Middle_Comments"
+  Semicolon
+  Termination
+
+Tokens for one_trailing_comment.adb (with trivia):
+  Procedure
+  Identifier "One_Trailing_Comment"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "One_Trailing_Comment"
+  Semicolon
+  Comment "--  This is the only trailing comment"
+  Termination
+
+Tokens for two_trailing_comments.adb (with trivia):
+  Procedure
+  Identifier "Two_Trailing_Comments"
+  Is
+  Begin
+  Null "null"
+  Semicolon
+  End
+  Identifier "Two_Trailing_Comments"
+  Semicolon
+  Comment "--  This is the first trailing comment."
+  Comment "--  And this is the second one."
+  Termination
+
+Tokens for only_one_comment.adb (with trivia):
+  Comment "--  This source file contains only one comment"
+  Termination
+
+Tokens for only_two_comments.adb (with trivia):
+  Comment "--  This source file contains only two comments."
+  Comment "--  Here is the second line."
+  Termination
+
+Done.

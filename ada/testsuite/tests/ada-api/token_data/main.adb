@@ -2,8 +2,6 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
-with Langkit_Support.Token_Data_Handler;
-use Langkit_Support.Token_Data_Handler;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.AST;       use Libadalang.AST;

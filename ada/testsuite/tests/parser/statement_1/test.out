@@ -11,7 +11,7 @@ LoopStatement[1:1-1:36]
 | | | | | | | tok: A
 | | | | | op: gt
 | | | | | right:
-| | | | | | Num[1:14-1:16]
+| | | | | | Int[1:14-1:16]
 | | | | | | | tok: 12
 | statements:
 | | NullStatement[1:22-1:26]

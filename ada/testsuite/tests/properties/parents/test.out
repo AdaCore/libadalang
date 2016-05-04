@@ -88,7 +88,7 @@
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
 |  |  |  |  |  |  |  |  |  |op: gt
 |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
 |  |  |  |  |  |  |  |  |statements:
 |  |  |  |  |  |  |  |  |  <list>
@@ -119,7 +119,7 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op: minus
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |  |  |alternatives: None
 |  |  |  |  |  |  |  |  |else_statements:
@@ -127,7 +127,7 @@
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStatement>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
-|  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |exceptions: None
 |  |  |  |  |  |end_id:
@@ -179,7 +179,7 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <NumLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
 |  |  |  |exceptions: None
 |  |  |end_id:

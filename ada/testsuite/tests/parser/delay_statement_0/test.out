@@ -1,5 +1,5 @@
 DelayStatement[1:1-1:15]
 | until: True
 | expr:
-| | Num[1:13-1:15]
+| | Int[1:13-1:15]
 | | | tok: 12

@@ -8,7 +8,7 @@ LoopStatement[1:1-1:33]
 | | | | | | | tok: A
 | | | | | op: gt
 | | | | | right:
-| | | | | | Num[1:11-1:13]
+| | | | | | Int[1:11-1:13]
 | | | | | | | tok: 12
 | statements:
 | | NullStatement[1:19-1:23]

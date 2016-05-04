@@ -31,11 +31,11 @@ ExpressionFunction[1:1-1:64]
 | expression:
 | | IfExpr[1:45-1:63]
 | | | cond_expr:
-| | | | Num[1:48-1:49]
+| | | | Int[1:48-1:49]
 | | | | | tok: 1
 | | | then_expr:
-| | | | Num[1:55-1:56]
+| | | | Int[1:55-1:56]
 | | | | | tok: 2
 | | | else_expr:
-| | | | Num[1:62-1:63]
+| | | | Int[1:62-1:63]
 | | | | | tok: 3

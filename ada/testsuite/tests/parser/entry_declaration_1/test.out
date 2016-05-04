@@ -6,11 +6,11 @@ EntryDecl[1:1-1:36]
 | family_type:
 | | BinOp[1:10-1:14]
 | | | left:
-| | | | Num[1:10-1:11]
+| | | | Int[1:10-1:11]
 | | | | | tok: 1
 | | | op: ellipsis
 | | | right:
-| | | | Num[1:13-1:14]
+| | | | Int[1:13-1:14]
 | | | | | tok: 3
 | params:
 | | ParameterProfile[1:17-1:35]

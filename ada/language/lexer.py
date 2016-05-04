@@ -116,7 +116,8 @@ class Token(LexerToken):
     Char = WithSymbol()
 
     With = NoText()
-    Number = WithText()
+    Decimal = WithText()
+    Integer = WithText()
 
     # Trivia
     Comment = WithTrivia()
@@ -127,18 +128,27 @@ ada_lexer.add_patterns(
     ('bracket_char', r'(\[\"([0-9A-F][0-9A-F]){2,4}\"\])'),
     ('p_string', r'\"(\"\"|{bracket_char}|[^\n\"])*\"'),
     ('p_percent_string', r'%(%%|{bracket_char}|[^\n%])*%'),
+
     ('digit', r"[0-9]"),
     ('extended_digit', r"[0-9a-zA-Z]"),
     ('integer', r"({digit}(_?{digit})*)"),
     ('exponent', r"([eE](\+?|-){integer})"),
+
     ('decimal_literal', r"{integer}(\.?{integer})?{exponent}?"),
+    ('integer_literal', r"{integer}{exponent}?"),
+
     ('base', r"{integer}"),
     ('based_integer', r"{extended_digit}(_?{extended_digit})*"),
+
+    ('based_decimal_literal',
+     r"{base}[#:]{based_integer}(\.{based_integer})?[#:]{exponent}?"),
+
+    ('based_integer_literal',
+     r"{base}[#:]{based_integer}[#:]{exponent}?"),
+
+    ('ws', r"[ ]*"),
     ('identifier', r"(\P{ID_Start}|{bracket_char})"
                    r"(\P{ID_Continue}*|{bracket_char})*"),
-    ('based_literal',
-     r"{base}[#:]{based_integer}(\.{based_integer})?[#:]{exponent}?"),
-    ('ws', r"[ ]*"),
 )
 
 ada_lexer.add_rules(
@@ -243,9 +253,10 @@ ada_lexer.add_rules(
     (Literal("'"),                              Token.Tick),
     (Literal("|"),                              Token.Pipe),
 
-    (ada_lexer.patterns.decimal_literal,        Token.Number),
-
-    (ada_lexer.patterns.based_literal,          Token.Number),
+    (ada_lexer.patterns.integer_literal,        Token.Integer),
+    (ada_lexer.patterns.decimal_literal,        Token.Decimal),
+    (ada_lexer.patterns.based_integer_literal,  Token.Integer),
+    (ada_lexer.patterns.based_decimal_literal,  Token.Decimal),
 
     (ada_lexer.patterns.identifier,             Token.Identifier),
 

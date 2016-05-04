@@ -4,9 +4,9 @@ MembershipExpr[1:1-1:18]
 | | | tok: A
 | op: in
 | membership_exprs:
-| | Num[1:6-1:8]
+| | Int[1:6-1:8]
 | | | tok: 12
-| | Num[1:11-1:13]
+| | Int[1:11-1:13]
 | | | tok: 16
-| | Num[1:16-1:18]
+| | Int[1:16-1:18]
 | | | tok: 87

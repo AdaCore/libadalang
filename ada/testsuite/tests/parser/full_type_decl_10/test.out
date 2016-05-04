@@ -19,6 +19,6 @@ FullTypeDecl[1:1-1:26]
 | | | | | | | constraint:
 | | | | | | | | DeltaConstraint[1:17-1:26]
 | | | | | | | | | digits:
-| | | | | | | | | | Num[1:23-1:26]
+| | | | | | | | | | Dec[1:23-1:26]
 | | | | | | | | | | | tok: 1.0
 | | | has_private_part: False

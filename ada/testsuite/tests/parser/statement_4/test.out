@@ -16,7 +16,7 @@ BlockStatement[1:1-1:46]
 | | | | | | | | Id[1:13-1:20]
 | | | | | | | | | tok: Integer
 | | | default_expr:
-| | | | Num[1:24-1:26]
+| | | | Int[1:24-1:26]
 | | | | | tok: 12
 | statements:
 | | HandledStatements[1:34-1:42]

@@ -5,7 +5,7 @@ CaseStatement[1:1-1:127]
 | case_alts:
 | | CaseStatementAlternative[1:11-1:34]
 | | | choices:
-| | | | Num[1:16-1:17]
+| | | | Int[1:16-1:17]
 | | | | | tok: 1
 | | | statements:
 | | | | CallStatement[1:21-1:33]
@@ -14,7 +14,7 @@ CaseStatement[1:1-1:127]
 | | | | | | | tok: Walk_The_Dog
 | | CaseStatementAlternative[1:35-1:57]
 | | | choices:
-| | | | Num[1:40-1:41]
+| | | | Int[1:40-1:41]
 | | | | | tok: 5
 | | | statements:
 | | | | CallStatement[1:45-1:56]
@@ -23,9 +23,9 @@ CaseStatement[1:1-1:127]
 | | | | | | | tok: Launch_Nuke
 | | CaseStatementAlternative[1:58-1:88]
 | | | choices:
-| | | | Num[1:63-1:64]
+| | | | Int[1:63-1:64]
 | | | | | tok: 8
-| | | | Num[1:67-1:69]
+| | | | Int[1:67-1:69]
 | | | | | tok: 10
 | | | statements:
 | | | | CallStatement[1:73-1:87]

@@ -5,5 +5,5 @@ FullTypeDecl[1:1-1:17]
 | type_def:
 | | ModIntTypeDef[1:11-1:17]
 | | | expr:
-| | | | Num[1:15-1:17]
+| | | | Int[1:15-1:17]
 | | | | | tok: 12

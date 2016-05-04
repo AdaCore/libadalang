@@ -1,8 +1,8 @@
 Variant[1:1-1:29]
 | choice_list:
-| | Num[1:6-1:8]
+| | Int[1:6-1:8]
 | | | tok: 12
-| | Num[1:11-1:13]
+| | Int[1:11-1:13]
 | | | tok: 15
 | components:
 | | ComponentList[1:17-1:29]

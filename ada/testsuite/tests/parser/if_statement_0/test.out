@@ -6,7 +6,7 @@ IfStatement[1:1-1:86]
 | | | | | tok: Temperature
 | | | op: gte
 | | | right:
-| | | | Num[1:19-1:23]
+| | | | Dec[1:19-1:23]
 | | | | | tok: 40.0
 | statements:
 | | CallStatement[1:29-1:45]

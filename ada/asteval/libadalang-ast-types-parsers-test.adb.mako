@@ -248,7 +248,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             return Eval_Call (Call_Expr (Expr));
          when Identifier_Kind =>
             return Eval_Identifier (Identifier (Expr));
-         when Num_Literal_Kind =>
+         when Int_Literal_Kind =>
             declare
                Text : constant Text_Type :=
                   Token_Text (F_Tok (Single_Tok_Node (Expr)));

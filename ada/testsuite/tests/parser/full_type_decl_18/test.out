@@ -9,11 +9,11 @@ FullTypeDecl[1:1-1:40]
 | | | | | list:
 | | | | | | BinOp[1:20-1:28]
 | | | | | | | left:
-| | | | | | | | Num[1:20-1:22]
+| | | | | | | | Int[1:20-1:22]
 | | | | | | | | | tok: 12
 | | | | | | | op: ellipsis
 | | | | | | | right:
-| | | | | | | | Num[1:26-1:28]
+| | | | | | | | Int[1:26-1:28]
 | | | | | | | | | tok: 15
 | | | stored_component:
 | | | | ComponentDef[1:33-1:40]

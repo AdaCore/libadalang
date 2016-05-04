@@ -1164,6 +1164,14 @@ class NumLiteral(SingleTokNode):
     _repr_name = "Num"
 
 
+class DecLiteral(NumLiteral):
+    _repr_name = "Dec"
+
+
+class IntLiteral(NumLiteral):
+    _repr_name = "Int"
+
+
 class NullLiteral(SingleTokNode):
     _repr_name = "Null"
 

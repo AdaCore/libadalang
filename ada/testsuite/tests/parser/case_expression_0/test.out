@@ -5,15 +5,15 @@ CaseExpr[1:1-1:39]
 | cases:
 | | CaseExprAlternative[1:11-1:24]
 | | | choices:
-| | | | Num[1:16-1:18]
+| | | | Int[1:16-1:18]
 | | | | | tok: 12
 | | | expr:
-| | | | Num[1:22-1:24]
+| | | | Int[1:22-1:24]
 | | | | | tok: 15
 | | CaseExprAlternative[1:26-1:39]
 | | | choices:
-| | | | Num[1:31-1:33]
+| | | | Int[1:31-1:33]
 | | | | | tok: 14
 | | | expr:
-| | | | Num[1:37-1:39]
+| | | | Int[1:37-1:39]
 | | | | | tok: 16

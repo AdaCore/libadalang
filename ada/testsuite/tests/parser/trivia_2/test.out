@@ -82,7 +82,7 @@ CompilationUnit
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
@@ -110,12 +110,12 @@ CompilationUnit
 | | | | | | | | | | | | | ForLoopSpec
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | | | BinOp
 | | | | | | | | | | | | | | | | Prefix
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | | | CallExpr
@@ -257,12 +257,12 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | Prefix
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | Num
-| | | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | | | Int
+| | | | | | | | | | | | | | | | Int
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | AssignStatement
 | | | | | | | | | | | CallExpr
@@ -321,7 +321,7 @@ CompilationUnit
 | | | | | | | | | | Prefix
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | Id
 | | | | | ---------
 | | | | | -- Get --
@@ -351,7 +351,7 @@ CompilationUnit
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | CallExpr
@@ -418,7 +418,7 @@ CompilationUnit
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | AttributeRef
@@ -509,7 +509,7 @@ CompilationUnit
 | | | | | | | | | Prefix
 | | | | | | | | | | Id
 | | | | | | | | | | Id
-| | | | | | | | | Num
+| | | | | | | | | Int
 | | | | | | Id
 | | | | | ------------------
 | | | | | -- Last_Element --
@@ -542,7 +542,7 @@ CompilationUnit
 | | | | | | | | | | | | | | Prefix
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | Int
 | | | | | | Id
 | | | | | ------------------
 | | | | | -- Last_Element --
@@ -575,7 +575,7 @@ CompilationUnit
 | | | | | | | | | | | | | | Prefix
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | Int
 | | | | | | Id
 | | | | | -------------------
 | | | | | -- First_Element --
@@ -600,7 +600,7 @@ CompilationUnit
 | | | | | | | | | ParamAssoc
 | | | | | | | | | | Id
 | | | | | | | | | ParamAssoc
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | ------------
 | | | | | -- Length --
 | | | | | ------------
@@ -649,7 +649,7 @@ CompilationUnit
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | CallExpr
@@ -709,7 +709,7 @@ CompilationUnit
 | | | | | | | | | | Prefix
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
-| | | | | | | | | | Num
+| | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | Prefix
@@ -724,13 +724,13 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | BinOp
 | | | | | | | | | | | | | | | | Prefix
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | | Int
 | | | | | | Id
 | | | | | ----------
 | | | | | -- Repr --
@@ -779,7 +779,7 @@ CompilationUnit
 | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | Num
+| | | | | | | | | | | | Int
 | | | | | | | | | | BinOp
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
@@ -805,7 +805,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | BinOp
 | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | | | Int
 | | | | | | | | | | CallExpr
 | | | | | | | | | | | Id
 | | | | | | | | | | | ParamList
@@ -832,6 +832,6 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | | Num
+| | | | | | | | | | | | | | | Int
 | | | | | | | | | | | Str
 | | | | | | Id

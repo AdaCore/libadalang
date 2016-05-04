@@ -16,5 +16,5 @@ AspectSpecification[1:1-1:25]
 | | | | | | | tok: A
 | | | | | op: lt
 | | | | | right:
-| | | | | | Num[1:23-1:25]
+| | | | | | Int[1:23-1:25]
 | | | | | | | tok: 12

@@ -779,7 +779,11 @@ A.add_rules(
     enum_identifier=Tok(Token.Identifier, keep=True) ^ EnumIdentifier,
     char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,
     string_literal=Tok(Token.String, keep=True) ^ StringLiteral,
-    num_literal=Tok(Token.Number, keep=True) ^ NumLiteral,
+
+    dec_literal=Tok(Token.Decimal, keep=True) ^ DecLiteral,
+    int_literal=Tok(Token.Integer, keep=True) ^ IntLiteral,
+    num_literal=A.dec_literal | A.int_literal,
+
     null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
     allocator=Row(

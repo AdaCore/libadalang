@@ -8,5 +8,5 @@ AttributeDefClause[1:1-1:22]
 | | | | Id[1:11-1:15]
 | | | | | tok: Size
 | expr:
-| | Num[1:20-1:22]
+| | Int[1:20-1:22]
 | | | tok: 16

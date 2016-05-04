@@ -1095,9 +1095,10 @@ class BaseId(SingleTokNode):
                     lambda subp=SubprogramBody:      subp.subp_spec,
                     lambda others:                   No(SubprogramSpec),
                 ).then(
-                    lambda ss: (
-                        e.MD.dottable_subprogram & (ss.nb_min_params == 1)
-                    ) | (ss.nb_min_params == 0), default_val=True
+                    lambda ss: Or(
+                        e.MD.dottable_subprogram & (ss.nb_min_params == 1),
+                        ss.nb_min_params == 0
+                    ), default_val=True
                 )
             ),
 

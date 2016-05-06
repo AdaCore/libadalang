@@ -40,7 +40,7 @@ begin
       --  does not access non-local variables, so all should be fine.
 
       It : Ada_Node_Iterators.Iterator'Class :=
-        Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Identifier_Kind));
+        Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
    begin
       Put_Line
         ("Alright, now here's the list of all identifier nodes:");

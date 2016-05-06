@@ -72,7 +72,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       N : Ada_Node)
       return Boolean
    is
-     (Kind (N) = Identifier_Kind
+     (Kind (N) = Ada_Identifier
       and then Token_Text (F_Tok (Single_Tok_Node (N))) = +P.Name);
 
    ------------
@@ -244,11 +244,11 @@ package body Libadalang.AST.Types.Parsers.Test is
       function Eval (Expr : access Ada_Node_Type'Class) return Eval_Result is
       begin
          case Kind (Expr) is
-         when Call_Expr_Kind =>
+         when Ada_Call_Expr =>
             return Eval_Call (Call_Expr (Expr));
-         when Identifier_Kind =>
+         when Ada_Identifier =>
             return Eval_Identifier (Identifier (Expr));
-         when Int_Literal_Kind =>
+         when Ada_Int_Literal =>
             declare
                Text : constant Text_Type :=
                   Token_Text (F_Tok (Single_Tok_Node (Expr)));
@@ -258,7 +258,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Ref_Count => <>,
                   Int       => Integer'Value (Image (Text))));
             end;
-         when Prefix_Kind =>
+         when Ada_Prefix =>
             return Eval_Prefix (Prefix (Expr));
          when others =>
             Raise_Error (Expr, "Unhandled expression: " & Kind_Name (Expr));
@@ -302,7 +302,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             --  Likewise if the kind of the parameter is unexpected or if
             --  it's not a simple form (i.e. X => Y instead of Y).
 
-            if Kind (Index_Expr) /= Param_Assoc_Kind then
+            if Kind (Index_Expr) /= Ada_Param_Assoc then
                Raise_Error (Params,
                             "Invalid index: " & Kind_Name (Index_Expr));
             elsif Param_Assoc (Index_Expr).F_Designator /= null then
@@ -339,7 +339,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Params.F_Params.Get_Child (I, Exists, Assoc);
                   pragma Assert (Exists);
 
-                  if Kind (Assoc) /= Param_Assoc_Kind then
+                  if Kind (Assoc) /= Ada_Param_Assoc then
                      Raise_Error
                        (Assoc, "Invalid parameter: " & Kind_Name (Assoc));
                   elsif Param_Assoc (Assoc).F_Designator /= null then
@@ -358,7 +358,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  This is more like a sanity check: for Call_Expr nodes, we don't
          --  expect anything else than a Param_List suffix.
 
-         if Kind (Expr.F_Suffix) /= Param_List_Kind then
+         if Kind (Expr.F_Suffix) /= Ada_Param_List then
             Raise_Error (Expr,
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (ParamList expected)");
@@ -504,7 +504,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  Likewise if the kind of the parameter is unexpected or if
          --  it's not a simple form (i.e. X => Y instead of Y).
 
-         if Kind (Param_Assoc_Node) /= Param_Assoc_Kind then
+         if Kind (Param_Assoc_Node) /= Ada_Param_Assoc then
             Raise_Error (Params,
                          "Invalid argument: " & Kind_Name (Param_Assoc_Node));
          elsif Param_Assoc (Param_Assoc_Node).F_Designator /= null then
@@ -516,11 +516,11 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  argument.
 
          case Kind (Param_Expr) is
-            when Identifier_Kind =>
+            when Ada_Identifier =>
                Filter := new Ada_Node_Kind_Filter'
                  (Kind => Eval_Node_Kind (Param_Expr));
 
-            when String_Literal_Kind =>
+            when Ada_String_Literal =>
                declare
                   Str : Text_Type renames
                      Token_Text (F_Tok (Single_Tok_Node (Param_Expr)));
@@ -577,7 +577,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          --  The only prefix form we handle here is X.Y where X is any valid
          --  expression and Y is a static name.
 
-         if Kind (Expr.F_Suffix) /= Identifier_Kind then
+         if Kind (Expr.F_Suffix) /= Ada_Identifier then
             Raise_Error (Expr,
                          "Invalid " & Kind_Name (Expr.F_Suffix)
                          & " suffix (Identifier expected)");
@@ -693,7 +693,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          return Ada_Node_Type_Kind
       is
       begin
-         if Kind (Expr) /= Identifier_Kind then
+         if Kind (Expr) /= Ada_Identifier then
             Raise_Error
               (Expr,
                "Invalid argument: identifier expected but got "
@@ -712,7 +712,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             % for cls in ctx.astnode_types:
                % if not cls.abstract:
                   elsif Ident_Cmp = "${cls.name().lower}" then
-                     return ${cls.name()}_Kind;
+                     return ${cls.ada_kind_name()};
                % endif
             % endfor
             else
@@ -884,12 +884,12 @@ package body Libadalang.AST.Types.Parsers.Test is
       is
       begin
          case Kind (Prefix_Node) is
-         when List_Kind =>
+         when Ada_List =>
             Raise_Error (Expr, "Lists have no field");
 
          % for cls in ctx.astnode_types:
             % if not cls.abstract:
-         when ${cls.name()}_Kind =>
+         when ${cls.ada_kind_name()} =>
             return Eval_${cls.name()}_Field_Access
               (Expr, ${cls.name()} (Prefix_Node),
                Field, Field_Cmp, Param_Values);

@@ -13,7 +13,7 @@ procedure Main is
    Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
 
    It          : Ada_Node_Iterators.Iterator'Class :=
-     Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Identifier_Kind));
+     Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
    Has_Element : Boolean;
    N           : Ada_Node;
 begin

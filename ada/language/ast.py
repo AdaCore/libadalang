@@ -175,6 +175,9 @@ class TypeDef(AdaNode):
         """
     )
 
+    is_real_type = Property(False, doc="Whether type is a real type or not.")
+    is_int_type = Property(False, doc="Whether type is an integer type or not")
+
 
 class EnumTypeDef(TypeDef):
     enum_literals = Field()
@@ -227,7 +230,7 @@ class RecordTypeDef(TypeDef):
 
 @abstract
 class RealTypeDef(TypeDef):
-    pass
+    is_real_type = Property(True)
 
 
 @abstract
@@ -266,6 +269,9 @@ class FullTypeDecl(TypeDecl):
 
             lambda _:                 result,
         )
+
+    is_real_type = Property(Self.type_def.is_real_type)
+    is_int_type = Property(Self.type_def.is_int_type)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -348,10 +354,12 @@ class PrivateTypeDef(TypeDef):
 
 class SignedIntTypeDef(TypeDef):
     range = Field()
+    is_int_type = Property(True)
 
 
 class ModIntTypeDef(TypeDef):
     expr = Field()
+    is_int_type = Property(True)
 
 
 @abstract

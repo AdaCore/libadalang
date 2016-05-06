@@ -10,7 +10,7 @@ from langkit.compiled_types import (
 from langkit.envs import EnvSpec
 from langkit.expressions import (
     AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
-    langkit_property, Var
+    langkit_property, Var, Bind
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -122,7 +122,25 @@ class BasicDecl(AdaNode):
         number of dimensions. Return 0 otherwise.
         """
     )
+
     is_array = Property(Self.array_ndims > 0)
+
+    expr_type = AbstractProperty(
+        type=T.TypeDecl,
+        runtime_check=True,
+        doc="""
+        Return the type that this basic declaration has when it is used in an
+        expression context. For example this basic declaration::
+
+            A : Integer := 12;
+
+        Will have the type Integer, and this declaration::
+
+            function B return Float;
+
+        Will have the type Float.
+        """
+    )
 
 
 @abstract
@@ -1118,11 +1136,9 @@ class BaseId(SingleTokNode):
             ), default_val=items)
         )
 
-    # TODO: For the moment this is just binding the reference variable. We also
-    # want to bind the type variable to the corresponding entities's types, and
-    # bind them together two by two.
     xref_equation = Property(
-        Domain(Self.ref_var, Self.entities),
+        Domain(Self.ref_var, Self.entities)
+        & Bind(Self.ref_var, Self.type_var, BasicDecl.fields.expr_type),
         doc="TODO: Add doc when this property will have a base property",
         private=True
     )

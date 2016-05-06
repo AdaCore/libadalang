@@ -6,8 +6,6 @@ with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Unchecked_Deallocation;
 
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
-with Langkit_Support.Token_Data_Handler;
-use Langkit_Support.Token_Data_Handler;
 
 --  The purpose of this package is to provide parsing and evaluation facilities
 --  for a tiny DSL used to explore a Libadalang analysis unit.

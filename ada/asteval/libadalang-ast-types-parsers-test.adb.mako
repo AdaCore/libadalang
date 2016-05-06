@@ -185,7 +185,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
       function Eval_Node_Kind
         (Expr : access Ada_Node_Type'Class)
-         return Ada_Node_Type_Kind;
+         return Ada_Node_Kind_Type;
       --  Assuming Expr is an expression that only contains a name, try to turn
       --  it into an AST node kind. If there is no such kind of if Expr is
       --  anything else, invoke Raise_Error.
@@ -690,7 +690,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
       function Eval_Node_Kind
         (Expr : access Ada_Node_Type'Class)
-         return Ada_Node_Type_Kind
+         return Ada_Node_Kind_Type
       is
       begin
          if Kind (Expr) /= Ada_Identifier then

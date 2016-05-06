@@ -16,7 +16,7 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
-from langkit.expressions.logic import Domain
+from langkit.expressions.logic import Domain, Predicate
 
 T = TypeRepo()
 
@@ -1181,9 +1181,17 @@ class NumLiteral(SingleTokNode):
 class DecLiteral(NumLiteral):
     _repr_name = "Dec"
 
+    xref_equation = Property(
+        Predicate(Self.type_var, TypeDecl.fields.is_real_type)
+    )
+
 
 class IntLiteral(NumLiteral):
     _repr_name = "Int"
+
+    xref_equation = Property(
+        Predicate(Self.type_var, TypeDecl.fields.is_int_type)
+    )
 
 
 class NullLiteral(SingleTokNode):

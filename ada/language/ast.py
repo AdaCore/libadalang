@@ -4,7 +4,7 @@ from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
     env_metadata, root_grammar_class, LongType, create_macro, TypeRepo,
-    LogicVarType
+    LogicVarType, EquationType
 )
 
 from langkit.envs import EnvSpec
@@ -915,6 +915,19 @@ class Expr(AdaNode):
         """
     )
 
+    xref_equation = AbstractProperty(
+        type=EquationType, runtime_check=True,
+        doc="""
+        This is the base property for constructing equations that, when solved,
+        will resolve symbols and types for every sub expression of the
+        expression you call it on. Note that if you call than on any
+        expression, in some context it might lack full information and return
+        multiple solutions. If you want completely precise resolution, you must
+        call that on the outermost node that supports xref_equation.
+        """,
+        private=True
+    )
+
 
 class UnOp(Expr):
     op = Field()
@@ -1141,9 +1154,7 @@ class BaseId(SingleTokNode):
 
     xref_equation = Property(
         Domain(Self.ref_var, Self.entities)
-        & Bind(Self.ref_var, Self.type_var, BasicDecl.fields.expr_type),
-        doc="TODO: Add doc when this property will have a base property",
-        private=True
+        & Bind(Self.ref_var, Self.type_var, BasicDecl.fields.expr_type)
     )
 
 
@@ -1453,7 +1464,18 @@ class ExceptionHandler(AdaNode):
 
 @abstract
 class Statement(AdaNode):
-    pass
+
+    xref_equation = AbstractProperty(
+        type=EquationType, runtime_check=True, private=True,
+        doc="""
+        This is the base property for constructing equations that, when solved,
+        will resolve symbols and types for every sub expression of the
+        statement you call it on. Statement is always the outermost node that
+        supports xref_equation (but not the only type that can be the outermost
+        node), so if you call it on a statement and then resolve the equation,
+        if the code is correct Ada, you should get only one correct solution.
+        """
+    )
 
 
 class CallStatement(Statement):

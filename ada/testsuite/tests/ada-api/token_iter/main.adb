@@ -19,13 +19,22 @@ procedure Main is
    procedure Process (Filename : String; With_Trivia : Boolean) is
       Unit  : constant Analysis_Unit :=
          Get_From_File (Ctx, Filename, With_Trivia => With_Trivia);
-      Token : Token_Type := First_Token (Unit);
+      Token      : Token_Type := First_Token (Unit);
+      Prev_Token : Token_Type := No_Token;
    begin
       Put ("Tokens for " & Filename & " ");
       Put (if With_Trivia then "(with trivia)" else "(no trivia)");
       Put_Line (":");
 
       while Token /= No_Token loop
+         declare
+            PT : constant Token_Type := Previous (Token);
+         begin
+            if Prev_Token /= PT then
+               raise Program_Error;
+            end if;
+         end;
+
          declare
             TD : constant Token_Data_Type := Data (Token);
          begin
@@ -35,6 +44,7 @@ procedure Main is
             end if;
             New_Line;
          end;
+         Prev_Token := Token;
          Token := Next (Token);
       end loop;
       New_Line;

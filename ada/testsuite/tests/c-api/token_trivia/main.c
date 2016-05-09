@@ -3,10 +3,11 @@
 #include "libadalang.h"
 
 #include "langkit_text.h"
+#include "utils.h"
 
 
 static void
-error(const char *msg)
+handle_exception(const char *msg)
 {
     const ada_exception *exc = ada_get_last_exception();
 
@@ -24,28 +25,38 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
-    ada_token tok;
+    ada_token tok, prev_tok;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context(NULL);
     if (ctx == NULL)
-        error("Could not create the analysis context");
+        handle_exception("Could not create the analysis context");
 
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 1);
     if (unit == NULL)
-        error("Could not create the analysis unit from foo.adb");
+        handle_exception("Could not create the analysis unit from foo.adb");
 
+    prev_tok.token_data = NULL;
+    prev_tok.token_index = -1;
+    prev_tok.trivia_index = -1;
     for (ada_unit_first_token(unit, &tok);
          tok.token_data != NULL;
          ada_token_next(&tok, &tok))
     {
         char *kind_name = ada_token_kind_name(tok.kind);
+        ada_token pt;
+
+        ada_token_previous(&tok, &pt);
+        if (!token_eq_p(&prev_tok, &pt))
+            error("ada_token_previous returned an inconsistent token");
+
         printf("%s", kind_name);
         if (tok.text.length > 0) {
             printf(" ");
             fprint_text(stdout, tok.text, true);
         }
         printf("\n");
+        prev_tok = tok;
     }
 
     ada_destroy_analysis_context (ctx);

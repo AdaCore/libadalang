@@ -51,6 +51,7 @@ main(void)
             error("ada_token_previous returned an inconsistent token");
 
         printf("%s", kind_name);
+	free (kind_name);
         if (tok.text.length > 0) {
             printf(" ");
             fprint_text(stdout, tok.text, true);

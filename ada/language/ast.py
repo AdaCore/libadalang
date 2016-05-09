@@ -929,7 +929,7 @@ class Expr(AdaNode):
         doc="""
         This is the base property for constructing equations that, when solved,
         will resolve symbols and types for every sub expression of the
-        expression you call it on. Note that if you call than on any
+        expression you call it on. Note that if you call that on any
         expression, in some context it might lack full information and return
         multiple solutions. If you want completely precise resolution, you must
         call that on the outermost node that supports xref_equation.

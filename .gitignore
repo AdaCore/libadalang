@@ -27,3 +27,9 @@ gnatinspect.db-*
 
 # Ignore langkit repo
 langkit
+
+# Also ignore a couple of symbolic links
+lg
+lk
+lksp
+lktp

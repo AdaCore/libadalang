@@ -87,7 +87,7 @@ class Manage(ManageScript):
 
     @property
     def main_programs(self):
-        return super(Manage, self).main_programs | {'asteval'}
+        return super(Manage, self).main_programs | {'asteval', 'symres'}
 
     def do_test(self, args):
         """
@@ -335,6 +335,10 @@ class Manage(ManageScript):
         """
         super(Manage, self).do_generate(args)
         self.do_generate_asteval(args)
+        shutil.copy(
+            self.dirs.lang_source_dir('testsuite', 'ada', 'symres.adb'),
+            self.dirs.build_dir('src', 'symres.adb')
+        )
 
 
 if __name__ == '__main__':

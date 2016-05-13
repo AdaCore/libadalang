@@ -1065,6 +1065,7 @@ class SingleTokNode(Name):
         return Self.name.symbol == other.name.symbol
 
 
+@abstract
 class BaseId(SingleTokNode):
 
     env_for_scope = Property(Env.resolve_unique(Self.tok).el.match(

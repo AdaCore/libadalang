@@ -545,7 +545,7 @@ class Run(object):
 
     def __init__(self, argv, cwd=None, timeout=None, output=None, error=None,
                  env=None):
-        # "timeout" is not implemented, error is ignored
+        # "timeout" is not implemented, "error" is ignored
         p = subprocess.Popen(
             argv, cwd=cwd,
             stdout=subprocess.PIPE,
@@ -553,9 +553,21 @@ class Run(object):
             env=env
         )
         stdout, _ = p.communicate()
-        with open(output, 'w') as f:
-            f.write(stdout)
+        if output == PIPE:
+            self.out = stdout
+        else:
+            with open(output, 'w') as f:
+                f.write(stdout)
         self.status = p.returncode
 
 
-STDOUT = None
+class RunOutput(object):
+    def __init__(self, value):
+        self.value = value
+
+    def __repr__(self):
+        return '<RunOutput {}>'.format(self.value)
+
+
+STDOUT = RunOutput('STDOUT')
+PIPE = RunOutput('PIPE')

@@ -1602,7 +1602,7 @@ class SelectStatement(Statement):
     abort_statements = Field()
 
 
-class SelectWhenPart(Statement):
+class SelectWhenPart(AdaNode):
     choices = Field()
     statements = Field()
 

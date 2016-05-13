@@ -959,7 +959,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       case Value.Kind is
          % for cls in ctx.sorted_types(ctx.array_types):
             when ${enum_for_type(cls)} =>
-               Destroy (Value.${field_for_type(cls)});
+               Dec_Ref (Value.${field_for_type(cls)});
          % endfor
 
          when Ada_Node_Iterator_Value =>

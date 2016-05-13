@@ -210,7 +210,7 @@ procedure Symres is
                   if Entities.N = 0 then
                      Put_Line ("    <none>");
                   end if;
-                  Destroy (Entities);
+                  Dec_Ref (Entities);
                end;
             end if;
          end loop;

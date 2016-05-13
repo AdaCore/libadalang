@@ -72,19 +72,6 @@ class Manage(ManageScript):
         self.add_generate_args(perf_test_parser)
         self.add_build_args(perf_test_parser)
 
-        # Additions to inherited subcommands
-
-        for subparser in (self.generate_parser,
-                          self.build_parser,
-                          self.make_parser,
-                          self.perf_test_parser):
-            subparser.add_argument(
-                '--no-asteval', action='store_true',
-                help='Disable generation/build of the ASTEval subprogram.'
-                     ' This can be handy to reduce build time during'
-                     ' development.'
-            )
-
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
@@ -97,6 +84,10 @@ class Manage(ManageScript):
                           grammar=ada_grammar,
                           default_charset='iso-8859-1',
                           verbosity=args.verbosity)
+
+    @property
+    def main_programs(self):
+        return super(Manage, self).main_programs | {'asteval'}
 
     def do_test(self, args):
         """
@@ -179,8 +170,8 @@ class Manage(ManageScript):
         work_dir = os.path.abspath(args.work_dir)
 
         if not args.no_recompile:
-            # We don't need asteval for the perf testsuite
-            args.no_asteval = True
+            # The perf testsuite only needs the "parse" main program
+            args.disable_mains = self.main_programs - {'parse'}
 
             # Build libadalang in production mode inside of the perf testsuite
             # directory.
@@ -261,8 +252,7 @@ class Manage(ManageScript):
 
         # Copy Ada sources to the build tree
         src_dir = self.dirs.lang_source_dir('asteval')
-        for filename in ([os.path.join(src_dir, 'asteval.gpr')] +
-                         glob.glob(os.path.join(src_dir, '*.ad?'))):
+        for filename in glob.glob(os.path.join(src_dir, '*.ad?')):
             shutil.copyfile(
                 filename,
                 self.dirs.build_dir('src', os.path.basename(filename))
@@ -338,31 +328,13 @@ class Manage(ManageScript):
 
         printcol("ASTEval generation complete!", Colors.HEADER)
 
-    def do_build_asteval(self, args):
-        """
-        Build the ASTEval program.
-        """
-        printcol("Building ASTEval...", Colors.HEADER)
-        self.gprbuild(args, self.dirs.build_dir('src', 'asteval.gpr'), False)
-        printcol("ASTEval build complete!", Colors.HEADER)
-
     def do_generate(self, args):
         """
         Generate the Libadalang and Langkit libraries. Also generate the
         ASTEval test program.
         """
         super(Manage, self).do_generate(args)
-        if not args.no_asteval:
-            self.do_generate_asteval(args)
-
-    def do_build(self, args):
-        """
-        Build the Libadalang and Langkit generated libraries. Also generate and
-        build the ASTEval test program.
-        """
-        super(Manage, self).do_build(args)
-        if not args.no_asteval:
-            self.do_build_asteval(args)
+        self.do_generate_asteval(args)
 
 
 if __name__ == '__main__':

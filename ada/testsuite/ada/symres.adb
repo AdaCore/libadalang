@@ -130,7 +130,6 @@ procedure Symres is
            (Root (Unit),
             new Ada_Node_Kind_Filter'(Ada_Node_Predicate_Type with
                                       Kind => Ada_Pragma_Node));
-         Has_Node    : Boolean;
          Node        : Ada_Node;
 
          P_Node      : Pragma_Node;
@@ -138,9 +137,7 @@ procedure Symres is
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.
-         loop
-            Next (It, Has_Node, Node);
-            exit when not Has_Node;
+         while Next (It, Node) loop
 
             P_Node := Pragma_Node (Node);
             Pragma_Name := Data (P_Node.F_Id.F_Tok).Text;

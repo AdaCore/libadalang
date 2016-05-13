@@ -14,11 +14,9 @@ procedure Main is
 
    It          : Ada_Node_Iterators.Iterator'Class :=
      Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
-   Has_Element : Boolean;
    N           : Ada_Node;
 begin
-   Next (It, Has_Element, N);
-   if not Has_Element then
+   if not Next (It, N) then
       raise Program_Error;
    end if;
 

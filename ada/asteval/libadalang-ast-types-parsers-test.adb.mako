@@ -437,7 +437,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   end if;
 
                   for I in 0 .. Index loop
-                     It.Next (Has_Next, Result);
+                     Has_Next := It.Next (Result);
                      if not Has_Next then
                         Raise_Error
                           (Params,

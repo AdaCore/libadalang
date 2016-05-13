@@ -1,4 +1,4 @@
-ExtReturnStatement[1:1-1:41]
+ExtendedReturnStatement[1:1-1:41]
 | object_decl:
 | | ObjectDecl[1:8-1:19]
 | | | ids:

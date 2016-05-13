@@ -1574,7 +1574,7 @@ class BlockStatement(Statement):
     env_spec = EnvSpec(add_env=True)
 
 
-class ExtReturnStatement(AdaNode):
+class ExtendedReturnStatement(Statement):
     object_decl = Field()
     statements = Field()
 

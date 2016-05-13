@@ -659,7 +659,7 @@ A.add_rules(
     ext_return_statement=Row(
         "return", A.sub_object_decl,
         Opt("do", A.handled_statements, "end", "return")[1]
-    ) ^ ExtReturnStatement,
+    ) ^ ExtendedReturnStatement,
 
     block_statement=Row(
         Opt(A.identifier, ":")[0],

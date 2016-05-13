@@ -1508,6 +1508,11 @@ class AssignStatement(Statement):
     dest = Field()
     expr = Field()
 
+    xref_equation = Property(
+        Self.dest.xref_equation & Self.expr.xref_equation
+        & (Self.expr.type_var == Self.dest.type_var)
+    )
+
 
 class GotoStatement(Statement):
     label_name = Field()

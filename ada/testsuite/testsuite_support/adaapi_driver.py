@@ -60,7 +60,7 @@ class CAPIDriver(BaseDriver):
             argv.append('-XLIBRARY_TYPE=static')
         else:
             argv.append('-XLIBRARY_TYPE=relocatable')
-        self.run_and_check(argv)
+        self.run_and_check(argv, append_output=False)
         self.run_and_check([self.test_program], for_debug=True, memcheck=True)
 
     #

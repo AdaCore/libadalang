@@ -7,14 +7,16 @@ with_gnatpython = False
 if not os.environ.get('WITHOUT_GNATPYTHON'):
     try:
         from gnatpython import fileutils
-        from gnatpython.ex import Run, STDOUT
+        from gnatpython.ex import PIPE, Run, STDOUT
         from gnatpython.testsuite.driver import TestDriver
     except ImportError:
         pass
     else:
         with_gnatpython = True
 if not with_gnatpython:
-    from testsuite_support.polyfill import fileutils, Run, STDOUT, TestDriver
+    from testsuite_support.polyfill import (
+        fileutils, PIPE, Run, STDOUT, TestDriver
+    )
 
 from testsuite_support.valgrind import Valgrind
 
@@ -219,7 +221,8 @@ class BaseDriver(TestDriver):
     # Run helpers
     #
 
-    def run_and_check(self, argv, for_debug=False, memcheck=False):
+    def run_and_check(self, argv, for_debug=False, memcheck=False,
+                      append_output=True):
         """
         Run a subprocess with `argv` and check it completes with status code 0.
 
@@ -256,8 +259,12 @@ class BaseDriver(TestDriver):
 
         p = Run(argv, cwd=self.working_dir(),
                 timeout=self.TIMEOUT,
-                output=self.output_file,
+                output=PIPE,
                 error=STDOUT)
+
+        if append_output:
+            with open(self.output_file, 'a') as f:
+                f.write(p.out)
 
         if p.status != 0:
             self.result.actual_output += (
@@ -268,6 +275,8 @@ class BaseDriver(TestDriver):
 
         if memcheck and self.valgrind:
             self.valgrind_errors.extend(self.valgrind.parse_report())
+
+        return p.out
 
     #
     # Analysis helpers

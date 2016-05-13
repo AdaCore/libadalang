@@ -26,9 +26,7 @@ class SymbolResolutionDriver(PythonDriver):
         )
         ada_output = self.run_and_check(
             ['symres'] + self.input_sources,
-            # TODO: enable memcheck once proper memory management in properties
-            # is implemented.
-            for_debug=True, memcheck=False, append_output=False,
+            for_debug=True, memcheck=True, append_output=False,
         )
 
         diff = '\n'.join(difflib.unified_diff(py_output.splitlines(),

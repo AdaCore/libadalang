@@ -510,6 +510,11 @@ class TypeExpression(AdaNode):
         doc='Helper for BaseDecl.defining_env'
     )
 
+    designated_type = Property(
+        Self.type_expr_variant.designated_type,
+        doc="Shortcut to get at the designated type of the type expression"
+    )
+
 
 @abstract
 class TypeExprVariant(AdaNode):

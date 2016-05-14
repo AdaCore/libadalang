@@ -746,6 +746,11 @@ class ObjectDecl(BasicDecl):
         )
     )
 
+    expr_type = Property(
+        # TODO: Handle anonymous arrays definitions
+        Self.type_expr.cast_or_raise(TypeExpression).designated_type
+    )
+
 
 class PrivatePart(AdaNode):
     decls = Field()

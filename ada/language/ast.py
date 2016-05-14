@@ -530,6 +530,12 @@ class TypeExprVariant(AdaNode):
         doc='Helper for BaseDecl.defining_env'
     )
 
+    designated_type = AbstractProperty(
+        type=TypeDecl, runtime_check=True, doc="""
+        Return the type designated by this type expression.
+        """
+    )
+
 
 class TypeRef(TypeExprVariant):
     name = Field()
@@ -554,6 +560,9 @@ class TypeRef(TypeExprVariant):
 class AccessExpression(TypeExprVariant):
     array_ndims = Property(Literal(0))
     # TODO? Should we handle defining_env here for implicit dereferencing?
+
+    # TODO: Implement designated_type (which will need resolution of anonymous
+    # access types first)
 
 
 class SubprogramAccessExpression(AccessExpression):

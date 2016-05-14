@@ -553,6 +553,7 @@ class TypeRef(TypeExprVariant):
         lambda t: t.array_ndims,
         default_val=Literal(0)
     ))
+
     defining_env = Property(Self.designated_type.defining_env)
 
 
@@ -738,7 +739,9 @@ class ObjectDecl(BasicDecl):
             )
         ),
     )
+
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
+
     defining_env = Property(
         Self.type_expr.cast(TypeExpression).then(
             lambda te: te.defining_env,

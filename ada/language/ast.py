@@ -69,6 +69,23 @@ class AdaNode(ASTNode):
     at some point.
     """
 
+    type_val = Property(
+        Self.type_var.get_value,
+        doc="""
+        This will return the value of the type of this node after symbol
+        resolution. NOTE: For this to be bound, resolve_symbols needs to be
+        called on the appropriate parent node first.
+        """
+    )
+    ref_val = Property(
+        Self.ref_var.get_value,
+        doc="""
+        This will return the node this nodes references after symbol
+        resolution. NOTE: For this to be bound, resolve_symbols needs to be
+        called on the appropriate parent node first.
+        """
+    )
+
 
 def child_unit(name_expr, scope_expr, env_val_expr=Self):
     """

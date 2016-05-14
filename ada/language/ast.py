@@ -1495,6 +1495,15 @@ class Statement(AdaNode):
         """
     )
 
+    resolve_symbols = Property(
+        Self.xref_equation.solve,
+        doc="""
+        This will resolve symbols for this statement. If the operation is
+        successful, then type_var and ref_var will be bound on appropriate
+        subnodes of the statement.
+        """
+    )
+
 
 class CallStatement(Statement):
     call = Field()

@@ -169,15 +169,15 @@ class BodyStub(Body):
 
 
 class DiscriminantSpec(AdaNode):
-    ids = Field()
-    type_expr = Field()
-    default_expr = Field()
+    ids = Field(type=T.Identifier.list_type())
+    type_expr = Field(type=T.TypeExpression)
+    default_expr = Field(type=T.Expr)
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
 
 class TypeDiscriminant(AdaNode):
-    discr_specs = Field()
+    discr_specs = Field(type=T.DiscriminantSpec.list_type())
 
 
 @abstract
@@ -196,24 +196,24 @@ class TypeDef(AdaNode):
 
 
 class EnumTypeDef(TypeDef):
-    enum_literals = Field()
+    enum_literals = Field(type=T.BaseId.list_type())
 
 
 class Variant(AdaNode):
-    choice_list = Field()
-    components = Field()
+    choice_list = Field(type=T.AdaNode.list_type())
+    components = Field(type=T.ComponentList)
 
 
 class VariantPart(AdaNode):
-    discr_name = Field()
-    variant = Field()
+    discr_name = Field(type=T.Identifier)
+    variant = Field(type=T.Variant.list_type())
 
 
 class ComponentDecl(BasicDecl):
-    ids = Field()
-    component_def = Field()
-    default_expr = Field()
-    aspects = Field()
+    ids = Field(type=T.Identifier.list_type())
+    component_def = Field(type=T.ComponentDef)
+    default_expr = Field(type=T.Expr)
+    aspects = Field(type=T.AspectSpecification)
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
@@ -229,19 +229,19 @@ class ComponentDecl(BasicDecl):
 
 
 class ComponentList(AdaNode):
-    components = Field()
-    variant_part = Field()
+    components = Field(type=T.AdaNode.list_type())
+    variant_part = Field(type=T.VariantPart)
 
 
 class RecordDef(AdaNode):
-    components = Field()
+    components = Field(type=T.ComponentList)
 
 
 class RecordTypeDef(TypeDef):
-    abstract = Field()
-    tagged = Field()
-    limited = Field()
-    record_def = Field()
+    abstract = Field(type=T.BoolType)
+    tagged = Field(type=T.BoolType)
+    limited = Field(type=T.BoolType)
+    record_def = Field(type=T.RecordDef)
 
 
 @abstract
@@ -251,7 +251,7 @@ class RealTypeDef(TypeDef):
 
 @abstract
 class TypeDecl(BasicDecl):
-    type_id = Field()
+    type_id = Field(type=T.Identifier)
 
     name = Property(Self.type_id)
     env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self),
@@ -264,9 +264,9 @@ class TypeDecl(BasicDecl):
 
 
 class FullTypeDecl(TypeDecl):
-    discriminants = Field()
-    type_def = Field()
-    aspects = Field()
+    discriminants = Field(type=T.TypeDiscriminant)
+    type_def = Field(type=T.TypeDef)
+    aspects = Field(type=T.AspectSpecification)
 
     array_ndims = Property(Self.type_def.array_ndims)
 
@@ -291,19 +291,19 @@ class FullTypeDecl(TypeDecl):
 
 
 class FloatingPointDef(RealTypeDef):
-    num_digits = Field()
-    range = Field()
+    num_digits = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
-    delta = Field()
-    range = Field()
+    delta = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 class DecimalFixedPointDef(RealTypeDef):
-    delta = Field()
-    digits = Field()
-    range = Field()
+    delta = Field(type=T.Expr)
+    digits = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 @abstract
@@ -312,69 +312,69 @@ class Constraint(AdaNode):
 
 
 class RangeConstraint(Constraint):
-    range = Field()
+    range = Field(type=T.Expr)
 
 
 class DigitsConstraint(Constraint):
-    digits = Field()
-    range = Field()
+    digits = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 class DeltaConstraint(Constraint):
-    digits = Field()
-    range = Field()
+    digits = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 class IndexConstraint(Constraint):
-    constraints = Field()
+    constraints = Field(type=T.AdaNode.list_type())
 
 
 class DiscriminantConstraint(Constraint):
-    constraints = Field()
+    constraints = Field(type=T.DiscriminantAssociation.list_type())
 
 
 class DiscriminantAssociation(Constraint):
-    ids = Field()
-    expr = Field()
+    ids = Field(type=T.Identifier.list_type())
+    expr = Field(type=T.Expr)
 
 
 class DerivedTypeDef(TypeDef):
-    abstract = Field()
-    limited = Field()
-    synchronized = Field()
-    null_exclusion = Field()
-    name = Field()
-    constraint = Field()
-    interfaces = Field()
-    record_extension = Field()
-    has_private_part = Field()
+    abstract = Field(type=T.BoolType)
+    limited = Field(type=T.BoolType)
+    synchronized = Field(type=T.BoolType)
+    null_exclusion = Field(type=T.BoolType)
+    name = Field(type=T.TypeExpression)
+    constraint = Field(type=T.Constraint)
+    interfaces = Field(type=T.Name.list_type())
+    record_extension = Field(type=T.RecordDef)
+    has_private_part = Field(type=T.BoolType)
 
     array_ndims = Property(Self.name.array_ndims)
 
 
 class IncompleteTypeDef(TypeDef):
-    is_tagged = Field()
+    is_tagged = Field(type=T.BoolType)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
 
 
 class PrivateTypeDef(TypeDef):
-    abstract = Field()
-    tagged = Field()
-    limited = Field()
+    abstract = Field(type=T.BoolType)
+    tagged = Field(type=T.BoolType)
+    limited = Field(type=T.BoolType)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
 
 
 class SignedIntTypeDef(TypeDef):
-    range = Field()
+    range = Field(type=T.Expr)
     is_int_type = Property(True)
 
 
 class ModIntTypeDef(TypeDef):
-    expr = Field()
+    expr = Field(type=T.Expr)
     is_int_type = Property(True)
 
 
@@ -387,25 +387,25 @@ class ArrayIndices(AdaNode):
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    list = Field()
+    list = Field(type=T.Name.list_type())
 
     ndims = Property(Self.list.length)
 
 
 class ConstrainedArrayIndices(ArrayIndices):
-    list = Field()
+    list = Field(type=T.AdaNode.list_type())
 
     ndims = Property(Self.list.length)
 
 
 class ComponentDef(AdaNode):
-    aliased = Field()
-    type_expr = Field()
+    aliased = Field(type=T.BoolType)
+    type_expr = Field(type=T.TypeExpression)
 
 
 class ArrayTypeDef(TypeDef):
-    indices = Field()
-    stored_component = Field()
+    indices = Field(type=T.ArrayIndices)
+    stored_component = Field(type=T.ComponentDef)
 
     array_ndims = Property(Self.indices.ndims)
 
@@ -416,54 +416,54 @@ class InterfaceKind(EnumType):
 
 
 class InterfaceTypeDef(TypeDef):
-    interface_kind = Field()
-    interfaces = Field()
+    interface_kind = Field(type=T.InterfaceKind)
+    interfaces = Field(type=T.Name.list_type())
 
 
 class SubtypeDecl(TypeDecl):
-    type_expr = Field()
-    aspects = Field()
+    type_expr = Field(type=T.TypeExpression)
+    aspects = Field(type=T.AspectSpecification)
 
     array_ndims = Property(Self.type_expr.array_ndims)
     defining_env = Property(Self.type_expr.defining_env)
 
 
 class TaskDef(AdaNode):
-    interfaces = Field()
-    public_part = Field()
-    private_part = Field()
-    end_id = Field()
+    interfaces = Field(type=T.Name.list_type())
+    public_part = Field(type=T.PublicPart)
+    private_part = Field(type=T.PrivatePart)
+    end_id = Field(type=T.Identifier)
 
 
 class ProtectedDef(AdaNode):
-    public_part = Field()
-    private_part = Field()
-    end_id = Field()
+    public_part = Field(type=T.PublicPart)
+    private_part = Field(type=T.PrivatePart)
+    end_id = Field(type=T.Identifier)
 
 
 class TaskTypeDecl(BasicDecl):
-    task_type_name = Field()
-    discrs = Field()
-    aspects = Field()
-    definition = Field()
+    task_type_name = Field(type=T.Identifier)
+    discrs = Field(type=T.TypeDiscriminant)
+    aspects = Field(type=T.AspectSpecification)
+    definition = Field(type=T.TaskDef)
 
     defining_names = Property(Self.task_type_name.cast(T.Name).singleton)
 
 
 class ProtectedTypeDecl(BasicDecl):
-    protected_type_name = Field()
-    discrs = Field()
-    aspects = Field()
-    interfaces = Field()
-    definition = Field()
+    protected_type_name = Field(type=T.Identifier)
+    discrs = Field(type=T.TypeDiscriminant)
+    aspects = Field(type=T.AspectSpecification)
+    interfaces = Field(type=T.Name.list_type())
+    definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_type_name.cast(T.Name).singleton)
 
 
 class AccessDef(TypeDef):
-    not_null = Field()
-    access_expr = Field()
-    constraint = Field()
+    not_null = Field(type=T.BoolType)
+    access_expr = Field(type=T.AccessExpression)
+    constraint = Field(type=T.Constraint)
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -475,9 +475,9 @@ class NullComponentDecl(AdaNode):
 
 
 class WithDecl(AdaNode):
-    is_limited = Field()
-    is_private = Field()
-    packages = Field()
+    is_limited = Field(type=T.BoolType)
+    is_private = Field(type=T.BoolType)
+    packages = Field(type=T.Name.list_type())
 
 
 @abstract
@@ -486,12 +486,12 @@ class UseDecl(AdaNode):
 
 
 class UsePkgDecl(UseDecl):
-    packages = Field()
+    packages = Field(type=T.Name.list_type())
 
 
 class UseTypDecl(UseDecl):
-    all = Field()
-    types = Field()
+    all = Field(type=T.BoolType)
+    types = Field(type=T.Expr.list_type())
 
 
 class TypeExpression(AdaNode):
@@ -499,8 +499,8 @@ class TypeExpression(AdaNode):
     This type will be used as a base for what represents a type expression
     in the Ada syntax tree.
     """
-    null_exclusion = Field()
-    type_expr_variant = Field()
+    null_exclusion = Field(type=T.BoolType)
+    type_expr_variant = Field(type=T.TypeExprVariant)
 
     array_ndims = Property(Self.type_expr_variant.array_ndims)
     defining_env = Property(
@@ -536,8 +536,8 @@ class TypeExprVariant(AdaNode):
 
 
 class TypeRef(TypeExprVariant):
-    name = Field()
-    constraint = Field()
+    name = Field(type=T.Expr)
+    constraint = Field(type=T.Constraint)
 
     # The name for this type has to be evaluated in the context of the TypeRef
     # node itself: we don't want to use whatever lexical environment the caller
@@ -566,28 +566,28 @@ class AccessExpression(TypeExprVariant):
 
 class SubprogramAccessExpression(AccessExpression):
     is_protected = Field(repr=False)
-    subp_spec = Field()
+    subp_spec = Field(type=T.SubprogramSpec)
 
 
 class TypeAccessExpression(AccessExpression):
-    is_all = Field()
-    is_constant = Field()
-    subtype_name = Field()
+    is_all = Field(type=T.BoolType)
+    is_constant = Field(type=T.BoolType)
+    subtype_name = Field(type=T.Expr)
 
 
 class ParameterProfile(AdaNode):
-    ids = Field()
-    is_aliased = Field()
-    mode = Field()
-    type_expr = Field()
-    default = Field()
+    ids = Field(type=T.Identifier.list_type())
+    is_aliased = Field(type=T.BoolType)
+    mode = Field(type=T.InOut)
+    type_expr = Field(type=T.TypeExpression)
+    default = Field(type=T.Expr)
     is_mandatory = Property(Self.default.is_null)
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
 
 class AspectSpecification(AdaNode):
-    aspect_assocs = Field()
+    aspect_assocs = Field(type=T.AspectAssoc.list_type())
 
 
 class BasicSubprogramDecl(BasicDecl):
@@ -595,8 +595,8 @@ class BasicSubprogramDecl(BasicDecl):
                           Self.subp_spec.name.scope,
                           Self)]
 
-    is_overriding = Field()
-    subp_spec = Field()
+    is_overriding = Field(type=T.Overriding)
+    subp_spec = Field(type=T.SubprogramSpec)
 
     name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
@@ -604,35 +604,35 @@ class BasicSubprogramDecl(BasicDecl):
 
 
 class SubprogramDecl(BasicSubprogramDecl):
-    aspects = Field()
+    aspects = Field(type=T.AspectSpecification)
 
 
 class NullSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field()
+    aspects = Field(type=T.AspectSpecification)
 
 
 class AbstractSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field()
+    aspects = Field(type=T.AspectSpecification)
 
 
 class ExpressionFunction(BasicSubprogramDecl):
-    expression = Field()
-    aspects = Field()
+    expression = Field(type=T.Expr)
+    aspects = Field(type=T.AspectSpecification)
 
 
 class RenamingSubprogramDecl(BasicSubprogramDecl):
-    renames = Field()
-    aspects = Field()
+    renames = Field(type=T.RenamingClause)
+    aspects = Field(type=T.AspectSpecification)
 
 
 class Pragma(AdaNode):
-    id = Field()
-    args = Field()
+    id = Field(type=T.Identifier)
+    args = Field(type=T.PragmaArgument.list_type())
 
 
 class PragmaArgument(AdaNode):
-    id = Field()
-    expr = Field()
+    id = Field(type=T.Identifier)
+    expr = Field(type=T.Expr)
 
 
 ######################
@@ -650,79 +650,79 @@ class AspectClause(AdaNode):
 
 
 class EnumRepClause(AspectClause):
-    type_name = Field()
-    aggregate = Field()
+    type_name = Field(type=T.Name)
+    aggregate = Field(type=T.Aggregate)
 
 
 class AttributeDefClause(AspectClause):
-    attribute_expr = Field()
-    expr = Field()
+    attribute_expr = Field(type=T.Expr)
+    expr = Field(type=T.Expr)
 
 
 class RecordRepComponent(AdaNode):
-    id = Field()
-    position = Field()
-    range = Field()
+    id = Field(type=T.Identifier)
+    position = Field(type=T.Expr)
+    range = Field(type=T.Expr)
 
 
 class RecordRepClause(AspectClause):
-    component_name = Field()
-    at_expr = Field()
-    components = Field()
+    component_name = Field(type=T.Name)
+    at_expr = Field(type=T.Expr)
+    components = Field(type=T.RecordRepComponent.list_type())
 
 
 class AtClause(AspectClause):
-    name = Field()
-    expr = Field()
+    name = Field(type=T.Expr)
+    expr = Field(type=T.Expr)
 
 
 class EntryDecl(BasicDecl):
-    overriding = Field()
-    entry_id = Field()
-    family_type = Field()
-    params = Field()
-    aspects = Field()
+    overriding = Field(type=T.Overriding)
+    entry_id = Field(type=T.Identifier)
+    family_type = Field(type=T.AdaNode)
+    params = Field(type=T.ParameterProfile.list_type())
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
 class TaskDecl(BasicDecl):
-    task_name = Field()
-    aspects = Field()
-    definition = Field()
+    task_name = Field(type=T.Identifier)
+    aspects = Field(type=T.AspectSpecification)
+    definition = Field(type=T.TaskDef)
 
     defining_names = Property(Self.task_name.cast(T.Name).singleton)
 
 
 class ProtectedDecl(BasicDecl):
-    protected_name = Field()
-    aspects = Field()
-    definition = Field()
+    protected_name = Field(type=T.Identifier)
+    aspects = Field(type=T.AspectSpecification)
+    definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_name.cast(T.Name).singleton)
 
 
 class AspectAssoc(AdaNode):
-    id = Field()
-    expr = Field()
+    id = Field(type=T.Expr)
+    expr = Field(type=T.Expr)
 
 
 class NumberDecl(BasicDecl):
-    ids = Field()
-    expr = Field()
+    ids = Field(type=T.Identifier.list_type())
+    expr = Field(type=T.Expr)
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class ObjectDecl(BasicDecl):
-    ids = Field()
-    aliased = Field()
-    constant = Field()
-    inout = Field()
-    type_expr = Field()
-    default_expr = Field()
-    renaming_clause = Field()
-    aspects = Field()
+    ids = Field(type=T.Identifier.list_type())
+    aliased = Field(type=T.BoolType)
+    constant = Field(type=T.BoolType)
+    inout = Field(type=T.InOut)
+    type_expr = Field(type=T.AdaNode)
+    default_expr = Field(type=T.Expr)
+    renaming_clause = Field(type=T.RenamingClause)
+    aspects = Field(type=T.AspectSpecification)
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 
@@ -754,16 +754,16 @@ class ObjectDecl(BasicDecl):
 
 
 class PrivatePart(AdaNode):
-    decls = Field()
+    decls = Field(type=T.AdaNode.list_type())
     env_spec = EnvSpec(add_env=True)
 
 
 class PublicPart(AdaNode):
-    decls = Field()
+    decls = Field(type=T.AdaNode.list_type())
 
 
 class DeclarativePart(AdaNode):
-    decls = Field()
+    decls = Field(type=T.AdaNode.list_type())
 
 
 class BasePackageDecl(BasicDecl):
@@ -778,11 +778,11 @@ class BasePackageDecl(BasicDecl):
     which has no env_spec, and the environment behavior is handled by the
     GenericPackageDecl instance.
     """
-    package_name = Field()
-    aspects = Field()
-    public_part = Field()
-    private_part = Field()
-    end_id = Field()
+    package_name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
+    public_part = Field(type=T.PublicPart)
+    private_part = Field(type=T.PrivatePart)
+    end_id = Field(type=T.Name)
 
     name = Property(Self.package_name, private=True)
     defining_names = Property(Self.name.singleton)
@@ -801,9 +801,9 @@ class ExceptionDecl(BasicDecl):
     """
     Exception declarations.
     """
-    ids = Field()
-    renames = Field()
-    aspects = Field()
+    ids = Field(type=T.Identifier.list_type())
+    renames = Field(type=T.RenamingClause)
+    aspects = Field(type=T.AspectSpecification)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
@@ -812,10 +812,10 @@ class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
     """
-    name = Field()
-    generic_entity_name = Field()
-    parameters = Field()
-    aspects = Field()
+    name = Field(type=T.Name)
+    generic_entity_name = Field(type=T.Name)
+    parameters = Field(type=T.AdaNode)
+    aspects = Field(type=T.AspectSpecification)
     defining_names = Property(Self.name.singleton)
 
 
@@ -835,21 +835,21 @@ class RenamingClause(AdaNode):
     """
     Renaming clause, used everywhere renamings are valid.
     """
-    renamed_object = Field()
+    renamed_object = Field(type=T.Expr)
 
 
 class PackageRenamingDecl(BasicDecl):
-    name = Field()
+    name = Field(type=T.Name)
     renames = Field(type=RenamingClause)
-    aspects = Field()
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.name.singleton)
 
 
 class GenericRenamingDecl(BasicDecl):
-    name = Field()
-    renames = Field()
-    aspects = Field()
+    name = Field(type=T.Name)
+    renames = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.name.singleton)
 
@@ -858,10 +858,10 @@ class FormalSubpDecl(BasicDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
-    subp_spec = Field()
-    is_abstract = Field()
-    default_value = Field()
-    aspects = Field()
+    subp_spec = Field(type=T.SubprogramSpec)
+    is_abstract = Field(type=T.BoolType)
+    default_value = Field(type=T.Expr)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.subp_spec.name.singleton)
 
@@ -872,9 +872,9 @@ class Overriding(EnumType):
 
 
 class GenericSubprogramDecl(BasicDecl):
-    formal_part = Field()
-    subp_spec = Field()
-    aspects = Field()
+    formal_part = Field(type=T.AdaNode.list_type())
+    subp_spec = Field(type=T.SubprogramSpec)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.subp_spec.name.singleton)
 
@@ -883,7 +883,7 @@ class GenericPackageDecl(BasicDecl):
     _macros = [child_unit(Self.package_name.name.symbol,
                           Self.package_name.scope)]
 
-    formal_part = Field()
+    formal_part = Field(type=T.AdaNode.list_type())
     package_decl = Field(type=BasePackageDecl)
 
     package_name = Property(Self.package_decl.package_name)
@@ -976,30 +976,30 @@ class Expr(AdaNode):
 
 
 class UnOp(Expr):
-    op = Field()
-    expr = Field()
+    op = Field(type=T.Op)
+    expr = Field(type=T.Expr)
 
 
 class BinOp(Expr):
-    left = Field()
-    op = Field()
-    right = Field()
+    left = Field(type=T.Expr)
+    op = Field(type=T.Op)
+    right = Field(type=T.Expr)
 
 
 class MembershipExpr(Expr):
-    expr = Field()
-    op = Field()
-    membership_exprs = Field()
+    expr = Field(type=T.Expr)
+    op = Field(type=T.Op)
+    membership_exprs = Field(type=T.AdaNode.list_type())
 
 
 class Aggregate(Expr):
-    ancestor_expr = Field()
-    assocs = Field()
+    ancestor_expr = Field(type=T.Expr)
+    assocs = Field(type=T.AggregateContent)
 
 
 class CallExpr(Expr):
-    name = Field()
-    suffix = Field()
+    name = Field(type=T.Expr)
+    suffix = Field(type=T.AdaNode)
 
     designated_env = Property(
         Self.entities().map(lambda e: e.match(
@@ -1017,12 +1017,12 @@ class CallExpr(Expr):
 
 
 class ParamAssoc(AdaNode):
-    designator = Field()
-    expr = Field()
+    designator = Field(type=T.AdaNode)
+    expr = Field(type=T.Expr)
 
 
 class ParamList(AdaNode):
-    params = Field()
+    params = Field(type=T.ParamAssoc.list_type())
 
 
 class AccessDeref(Expr):
@@ -1038,7 +1038,7 @@ class OthersDesignator(AdaNode):
 
 
 class AggregateMember(AdaNode):
-    choice_list = Field()
+    choice_list = Field(type=T.AdaNode.list_type())
 
 
 class Op(EnumType):
@@ -1051,25 +1051,25 @@ class Op(EnumType):
 
 
 class IfExpr(Expr):
-    cond_expr = Field()
-    then_expr = Field()
-    elsif_list = Field()
-    else_expr = Field()
+    cond_expr = Field(type=T.Expr)
+    then_expr = Field(type=T.Expr)
+    elsif_list = Field(type=T.ElsifExprPart.list_type())
+    else_expr = Field(type=T.Expr)
 
 
 class ElsifExprPart(AdaNode):
-    cond_expr = Field()
-    then_expr = Field()
+    cond_expr = Field(type=T.Expr)
+    then_expr = Field(type=T.Expr)
 
 
 class CaseExpr(Expr):
-    expr = Field()
-    cases = Field()
+    expr = Field(type=T.Expr)
+    cases = Field(type=T.CaseExprAlternative.list_type())
 
 
 class CaseExprAlternative(Expr):
-    choices = Field()
-    expr = Field()
+    choices = Field(type=T.AdaNode.list_type())
+    expr = Field(type=T.Expr)
 
 
 @abstract
@@ -1088,7 +1088,7 @@ class Name(Expr):
 
 @abstract
 class SingleTokNode(Name):
-    tok = Field()
+    tok = Field(type=T.Token)
 
     name = Property(Self.tok)
 
@@ -1270,9 +1270,9 @@ class ParamMatch(Struct):
 
 
 class SubprogramSpec(AdaNode):
-    name = Field()
-    params = Field()
-    returns = Field()
+    name = Field(type=T.Name)
+    params = Field(type=T.ParameterProfile.list_type())
+    returns = Field(type=T.TypeExpression)
 
     typed_param_list = Property(
         Self.params.mapcat(
@@ -1400,26 +1400,26 @@ class LoopSpec(AdaNode):
 
 
 class ForLoopSpec(LoopSpec):
-    id = Field()
-    loop_type = Field()
-    is_reverse = Field()
-    iter_expr = Field()
+    id = Field(type=T.Identifier)
+    loop_type = Field(type=T.IterType)
+    is_reverse = Field(type=T.BoolType)
+    iter_expr = Field(type=T.AdaNode)
 
 
 class QuantifiedExpr(Expr):
-    quantifier = Field()
-    loop_spec = Field()
-    expr = Field()
+    quantifier = Field(type=T.Quantifier)
+    loop_spec = Field(type=T.ForLoopSpec)
+    expr = Field(type=T.Expr)
 
 
 class Allocator(Expr):
-    subpool = Field()
-    expr = Field()
+    subpool = Field(type=T.Expr)
+    expr = Field(type=T.AdaNode)
 
 
 class QualExpr(Expr):
-    prefix = Field()
-    suffix = Field()
+    prefix = Field(type=T.Expr)
+    suffix = Field(type=T.Expr)
 
 
 @abstract
@@ -1428,30 +1428,30 @@ class AbstractAggregateContent(AdaNode):
 
 
 class AggregateContent(AbstractAggregateContent):
-    fields = Field()
+    fields = Field(type=T.AggregateAssoc.list_type())
 
 
 class AggregateAssoc(AdaNode):
-    designator = Field()
-    expr = Field()
+    designator = Field(type=T.AdaNode)
+    expr = Field(type=T.Expr)
 
 
 class AttributeRef(Expr):
-    prefix = Field()
-    attribute = Field()
-    args = Field()
+    prefix = Field(type=T.Expr)
+    attribute = Field(type=T.SingleTokNode)
+    args = Field(type=T.AdaNode)
 
     designated_type = Property(Self.prefix.designated_type)
 
 
 class RaiseExpression(Expr):
-    exception_name = Field()
-    error_message = Field()
+    exception_name = Field(type=T.Expr)
+    error_message = Field(type=T.Expr)
 
 
 class Prefix(Name):
-    prefix = Field()
-    suffix = Field()
+    prefix = Field(type=T.Expr)
+    suffix = Field(type=T.Expr)
 
     designated_env = Property(
         Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env)
@@ -1486,8 +1486,8 @@ class Prefix(Name):
 class CompilationUnit(AdaNode):
     """Root node for all Ada analysis units."""
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
-    body = Field()
-    pragmas = Field()
+    body = Field(type=T.AdaNode)
+    pragmas = Field(type=T.Pragma.list_type())
 
 
 class SubprogramBody(Body):
@@ -1495,26 +1495,26 @@ class SubprogramBody(Body):
                           Self.subp_spec.name.scope,
                           Self)]
 
-    overriding = Field()
-    subp_spec = Field()
-    aspects = Field()
-    decls = Field()
-    statements = Field()
-    end_id = Field()
+    overriding = Field(type=T.Overriding)
+    subp_spec = Field(type=T.SubprogramSpec)
+    aspects = Field(type=T.AspectSpecification)
+    decls = Field(type=T.DeclarativePart)
+    statements = Field(type=T.HandledStatements)
+    end_id = Field(type=T.Expr)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
 
 class HandledStatements(AdaNode):
-    statements = Field()
-    exceptions = Field()
+    statements = Field(type=T.AdaNode.list_type())
+    exceptions = Field(type=T.ExceptionHandler.list_type())
 
 
 class ExceptionHandler(AdaNode):
-    exc_name = Field()
-    catched_exceptions = Field()
-    statements = Field()
+    exc_name = Field(type=T.Identifier)
+    catched_exceptions = Field(type=T.AdaNode.list_type())
+    statements = Field(type=T.AdaNode.list_type())
 
 
 @abstract
@@ -1543,7 +1543,7 @@ class Statement(AdaNode):
 
 
 class CallStatement(Statement):
-    call = Field()
+    call = Field(type=T.Expr)
 
 
 class NullStatement(Statement):
@@ -1551,8 +1551,8 @@ class NullStatement(Statement):
 
 
 class AssignStatement(Statement):
-    dest = Field()
-    expr = Field()
+    dest = Field(type=T.Expr)
+    expr = Field(type=T.Expr)
 
     xref_equation = Property(
         Self.dest.xref_equation & Self.expr.xref_equation
@@ -1561,102 +1561,102 @@ class AssignStatement(Statement):
 
 
 class GotoStatement(Statement):
-    label_name = Field()
+    label_name = Field(type=T.Name)
 
 
 class ExitStatement(Statement):
-    loop_name = Field()
-    condition = Field()
+    loop_name = Field(type=T.Identifier)
+    condition = Field(type=T.Expr)
 
 
 class ReturnStatement(Statement):
-    return_expr = Field()
+    return_expr = Field(type=T.AdaNode)
 
 
 class RequeueStatement(Statement):
-    call_name = Field()
-    with_abort = Field()
+    call_name = Field(type=T.Expr)
+    with_abort = Field(type=T.BoolType)
 
 
 class AbortStatement(Statement):
-    names = Field()
+    names = Field(type=T.Expr.list_type())
 
 
 class DelayStatement(Statement):
-    until = Field()
-    expr = Field()
+    until = Field(type=T.BoolType)
+    expr = Field(type=T.Expr)
 
 
 class RaiseStatement(Statement):
-    exception_name = Field()
-    error_message = Field()
+    exception_name = Field(type=T.Expr)
+    error_message = Field(type=T.Expr)
 
 
 class IfStatement(Statement):
-    condition = Field()
-    statements = Field()
-    alternatives = Field()
-    else_statements = Field()
+    condition = Field(type=T.Expr)
+    statements = Field(type=T.AdaNode.list_type())
+    alternatives = Field(type=T.ElsifStatementPart.list_type())
+    else_statements = Field(type=T.AdaNode.list_type())
 
 
 class ElsifStatementPart(AdaNode):
-    expr = Field()
-    statements = Field()
+    expr = Field(type=T.Expr)
+    statements = Field(type=T.AdaNode.list_type())
 
 
 class Label(Statement):
-    token = Field()
+    token = Field(type=T.Token)
 
 
 class WhileLoopSpec(LoopSpec):
-    expr = Field()
+    expr = Field(type=T.Expr)
 
 
 class LoopStatement(Statement):
-    name = Field()
-    spec = Field()
-    statements = Field()
+    name = Field(type=T.Identifier)
+    spec = Field(type=T.LoopSpec)
+    statements = Field(type=T.AdaNode.list_type())
 
 
 class BlockStatement(Statement):
-    name = Field()
-    decls = Field()
-    statements = Field()
+    name = Field(type=T.Identifier)
+    decls = Field(type=T.AdaNode.list_type())
+    statements = Field(type=T.HandledStatements)
 
     env_spec = EnvSpec(add_env=True)
 
 
 class ExtendedReturnStatement(Statement):
-    object_decl = Field()
-    statements = Field()
+    object_decl = Field(type=T.ObjectDecl)
+    statements = Field(type=T.HandledStatements)
 
 
 class CaseStatement(Statement):
-    case_expr = Field()
-    case_alts = Field()
+    case_expr = Field(type=T.Expr)
+    case_alts = Field(type=T.CaseStatementAlternative.list_type())
 
 
 class CaseStatementAlternative(AdaNode):
-    choices = Field()
-    statements = Field()
+    choices = Field(type=T.AdaNode.list_type())
+    statements = Field(type=T.AdaNode.list_type())
 
 
 class AcceptStatement(Statement):
-    name = Field()
-    entry_index_expr = Field()
-    parameters = Field()
-    statements = Field()
+    name = Field(type=T.Identifier)
+    entry_index_expr = Field(type=T.Expr)
+    parameters = Field(type=T.ParameterProfile.list_type())
+    statements = Field(type=T.HandledStatements)
 
 
 class SelectStatement(Statement):
-    guards = Field()
-    else_statements = Field()
-    abort_statements = Field()
+    guards = Field(type=T.SelectWhenPart.list_type())
+    else_statements = Field(type=T.AdaNode.list_type())
+    abort_statements = Field(type=T.AdaNode.list_type())
 
 
 class SelectWhenPart(AdaNode):
-    choices = Field()
-    statements = Field()
+    choices = Field(type=T.Expr)
+    statements = Field(type=T.AdaNode.list_type())
 
 
 class TerminateStatement(Statement):
@@ -1667,64 +1667,64 @@ class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
                           Self.package_name.scope)]
 
-    package_name = Field()
-    aspects = Field()
-    decls = Field()
-    statements = Field()
+    package_name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
+    decls = Field(type=T.DeclarativePart)
+    statements = Field(type=T.HandledStatements)
 
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
 
 class TaskBody(Body):
-    package_name = Field()
-    aspects = Field()
-    decls = Field()
-    statements = Field()
+    package_name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
+    decls = Field(type=T.DeclarativePart)
+    statements = Field(type=T.HandledStatements)
 
     defining_names = Property(Self.package_name.singleton)
 
 
 class ProtectedBody(Body):
-    package_name = Field()
-    aspects = Field()
-    decls = Field()
+    package_name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
+    decls = Field(type=T.DeclarativePart)
 
     defining_names = Property(Self.package_name.singleton)
 
 
 class EntryBody(Body):
-    entry_name = Field()
-    index_spec = Field()
-    parameters = Field()
-    when_cond = Field()
-    decls = Field()
-    statements = Field()
+    entry_name = Field(type=T.Identifier)
+    index_spec = Field(type=T.EntryIndexSpec)
+    parameters = Field(type=T.ParameterProfile.list_type())
+    when_cond = Field(type=T.Expr)
+    decls = Field(type=T.DeclarativePart)
+    statements = Field(type=T.HandledStatements)
 
     defining_names = Property(Self.entry_name.cast(Name).singleton)
 
 
 class EntryIndexSpec(AdaNode):
-    id = Field()
-    subtype = Field()
+    id = Field(type=T.Identifier)
+    subtype = Field(type=T.AdaNode)
 
 
 class Subunit(AdaNode):
-    name = Field()
-    body = Field()
+    name = Field(type=T.Name)
+    body = Field(type=T.Body)
 
 
 class ProtectedBodyStub(BodyStub):
-    name = Field()
-    aspects = Field()
+    name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.name.singleton)
 
 
 class SubprogramBodyStub(BodyStub):
-    overriding = Field()
-    subp_spec = Field()
-    aspects = Field()
+    overriding = Field(type=T.Overriding)
+    subp_spec = Field(type=T.SubprogramSpec)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
@@ -1732,19 +1732,19 @@ class SubprogramBodyStub(BodyStub):
 
 
 class PackageBodyStub(BodyStub):
-    name = Field()
-    aspects = Field()
+    name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.name.singleton)
 
 
 class TaskBodyStub(BodyStub):
-    name = Field()
-    aspects = Field()
+    name = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpecification)
 
     defining_names = Property(Self.name.singleton)
 
 
 class LibraryItem(AdaNode):
-    is_private = Field()
-    item = Field()
+    is_private = Field(type=T.BoolType)
+    item = Field(type=T.BasicDecl)

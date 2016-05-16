@@ -68,7 +68,7 @@ for src_file in sys.argv[1:]:
                 else:
                     raise ValueError('Invalid configuration: {}'.format(name))
 
-        if pragma_name == 'Section':
+        elif pragma_name == 'Section':
             # Print headlines
             assert len(p.f_args) == 1
             arg = p.f_args[0].f_expr

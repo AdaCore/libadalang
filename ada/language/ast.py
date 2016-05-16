@@ -4,7 +4,7 @@ from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
     env_metadata, root_grammar_class, LongType, create_macro, TypeRepo,
-    LogicVarType, EquationType
+    LogicVarType, EquationType, T
 )
 
 from langkit.envs import EnvSpec
@@ -17,8 +17,6 @@ from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
 from langkit.expressions.logic import Domain, Predicate
-
-T = TypeRepo()
 
 
 def symbol_list(base_id_list):

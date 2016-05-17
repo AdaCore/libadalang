@@ -561,7 +561,7 @@ class AccessExpression(TypeExprVariant):
     # TODO? Should we handle defining_env here for implicit dereferencing?
 
     # TODO: Implement designated_type (which will need resolution of anonymous
-    # access types first)
+    # access types first).
 
 
 class SubprogramAccessExpression(AccessExpression):

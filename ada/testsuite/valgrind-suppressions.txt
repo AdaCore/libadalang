@@ -10,3 +10,13 @@
    fun:__gnat_malloc
    fun:system__secondary_stack__ss_allocate
 }
+
+# GCC's 4.9 RTL expander for 64-bit platfroms does not handle passing small
+# structures in registers. This is fixed in GCC 6, so while we still support
+# GCC 4.9 we need the following:
+{
+    ada_small_structs_passing
+    Memcheck:Addr8
+    fun:libadalang__ast__types__param_match_arrayIP
+    fun:libadalang__ast__types__create__4
+}

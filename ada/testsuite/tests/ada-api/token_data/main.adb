@@ -11,15 +11,9 @@ with Libadalang.Lexer;     use Libadalang.Lexer;
 procedure Main is
    Ctx    : Analysis_Context := Create;
    Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
-
-   It          : Ada_Node_Iterators.Iterator'Class :=
-     Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
-   N           : Ada_Node;
+   N      : constant Ada_Node := Root (Unit).Find
+     (new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
 begin
-   if not Next (It, N) then
-      raise Program_Error;
-   end if;
-
    declare
       Id       : constant Single_Tok_Node := Single_Tok_Node (N);
       Tok      : constant Token_Type := F_Tok (Id);

@@ -1,5 +1,5 @@
 TaskBody[1:1-1:572]
-| package_name:
+| name:
 | | Id[1:11-1:34]
 | | | tok: Cyclic_Buffer_Task_Type
 | decls:

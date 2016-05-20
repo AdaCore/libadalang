@@ -1677,20 +1677,20 @@ class PackageBody(Body):
 
 
 class TaskBody(Body):
-    package_name = Field(type=T.Name)
+    name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
     statements = Field(type=T.HandledStatements)
 
-    defining_names = Property(Self.package_name.singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class ProtectedBody(Body):
-    package_name = Field(type=T.Name)
+    name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
 
-    defining_names = Property(Self.package_name.singleton)
+    defining_names = Property(Self.name.singleton)
 
 
 class EntryBody(Body):

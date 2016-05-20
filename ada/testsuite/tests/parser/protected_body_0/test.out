@@ -1,5 +1,5 @@
 ProtectedBody[1:1-1:271]
-| package_name:
+| name:
 | | Id[1:16-1:37]
 | | | tok: protected_buffer_type
 | decls:

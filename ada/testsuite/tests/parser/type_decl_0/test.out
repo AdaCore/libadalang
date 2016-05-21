@@ -1,5 +1,5 @@
 Parsing failed:
-Line 18, column 11: End of input expected, got "Semicolon"
+18:11: End of input expected, got "Semicolon"
 FullTypeDecl[1:1-18:11]
 | type_id:
 | | Id[1:6-1:10]

@@ -552,8 +552,8 @@ A.add_rules(
     library_item=Row(
         Opt("private").as_bool(),
         A.library_unit_body
-        | A.library_unit_decl
         | A.library_unit_renaming_decl
+        | A.library_unit_decl
     ) ^ LibraryItem,
 
     compilation_unit=Row(

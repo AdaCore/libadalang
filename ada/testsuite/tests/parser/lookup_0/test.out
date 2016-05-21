@@ -4,7 +4,7 @@ CompilationUnit[1:1-17:10]
 | | | is_limited: False
 | | | is_private: False
 | | | packages:
-| | | | Prefix[1:6-1:17]
+| | | | DottedName[1:6-1:17]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Ada
@@ -126,9 +126,9 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[15:4-15:42]
 | | | | | | | | | | | name:
-| | | | | | | | | | | | Prefix[15:4-15:24]
+| | | | | | | | | | | | DottedName[15:4-15:24]
 | | | | | | | | | | | | | prefix:
-| | | | | | | | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | | | | | | DottedName[15:4-15:15]
 | | | | | | | | | | | | | | | prefix:
 | | | | | | | | | | | | | | | | Id[15:4-15:7]
 | | | | | | | | | | | | | | | | | tok: Ada
@@ -149,9 +149,9 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[16:4-16:67]
 | | | | | | | | | | | name:
-| | | | | | | | | | | | Prefix[16:4-16:24]
+| | | | | | | | | | | | DottedName[16:4-16:24]
 | | | | | | | | | | | | | prefix:
-| | | | | | | | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | | | | | | DottedName[16:4-16:15]
 | | | | | | | | | | | | | | | prefix:
 | | | | | | | | | | | | | | | | Id[16:4-16:7]
 | | | | | | | | | | | | | | | | | tok: Ada
@@ -204,7 +204,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | Prefix[1:6-1:17]
+| | DottedName[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -217,7 +217,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | Prefix[1:6-1:17]
+| | DottedName[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -230,7 +230,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | Prefix[1:6-1:17]
+| | DottedName[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -243,7 +243,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | Prefix[1:6-1:17]
+| | DottedName[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada
@@ -282,7 +282,7 @@ CompilationUnit[1:1-17:10]
 | | | is_limited: False
 | | | is_private: False
 | | | packages:
-| | | | Prefix[1:6-1:17]
+| | | | DottedName[1:6-1:17]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Ada
@@ -404,9 +404,9 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[15:4-15:42]
 | | | | | | | | | | | name:
-| | | | | | | | | | | | Prefix[15:4-15:24]
+| | | | | | | | | | | | DottedName[15:4-15:24]
 | | | | | | | | | | | | | prefix:
-| | | | | | | | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | | | | | | DottedName[15:4-15:15]
 | | | | | | | | | | | | | | | prefix:
 | | | | | | | | | | | | | | | | Id[15:4-15:7]
 | | | | | | | | | | | | | | | | | tok: Ada
@@ -427,9 +427,9 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[16:4-16:67]
 | | | | | | | | | | | name:
-| | | | | | | | | | | | Prefix[16:4-16:24]
+| | | | | | | | | | | | DottedName[16:4-16:24]
 | | | | | | | | | | | | | prefix:
-| | | | | | | | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | | | | | | DottedName[16:4-16:15]
 | | | | | | | | | | | | | | | prefix:
 | | | | | | | | | | | | | | | | Id[16:4-16:7]
 | | | | | | | | | | | | | | | | | tok: Ada
@@ -589,9 +589,9 @@ SubprogramBody[3:1-17:9]
 | | | | | call:
 | | | | | | CallExpr[15:4-15:42]
 | | | | | | | name:
-| | | | | | | | Prefix[15:4-15:24]
+| | | | | | | | DottedName[15:4-15:24]
 | | | | | | | | | prefix:
-| | | | | | | | | | Prefix[15:4-15:15]
+| | | | | | | | | | DottedName[15:4-15:15]
 | | | | | | | | | | | prefix:
 | | | | | | | | | | | | Id[15:4-15:7]
 | | | | | | | | | | | | | tok: Ada
@@ -612,9 +612,9 @@ SubprogramBody[3:1-17:9]
 | | | | | call:
 | | | | | | CallExpr[16:4-16:67]
 | | | | | | | name:
-| | | | | | | | Prefix[16:4-16:24]
+| | | | | | | | DottedName[16:4-16:24]
 | | | | | | | | | prefix:
-| | | | | | | | | | Prefix[16:4-16:15]
+| | | | | | | | | | DottedName[16:4-16:15]
 | | | | | | | | | | | prefix:
 | | | | | | | | | | | | Id[16:4-16:7]
 | | | | | | | | | | | | | tok: Ada

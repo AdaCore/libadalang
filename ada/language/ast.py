@@ -1151,8 +1151,8 @@ class BaseId(SingleTokNode):
         """
         return Self.parents.take_while(lambda p: Or(
             p.is_a(CallExpr),
-            p.is_a(Prefix, BaseId) & p.parent.match(
-                lambda pfx=Prefix: pfx.suffix == p,
+            p.is_a(DottedName, BaseId) & p.parent.match(
+                lambda pfx=DottedName: pfx.suffix == p,
                 lambda ce=CallExpr: ce.name == p,
                 lambda _: False
             )
@@ -1449,7 +1449,7 @@ class RaiseExpression(Expr):
     error_message = Field(type=T.Expr)
 
 
-class Prefix(Name):
+class DottedName(Name):
     prefix = Field(type=T.Expr)
     suffix = Field(type=T.Expr)
 

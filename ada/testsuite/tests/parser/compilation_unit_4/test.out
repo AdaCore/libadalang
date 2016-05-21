@@ -18,9 +18,9 @@ CompilationUnit[1:1-1:48]
 | | | item:
 | | | | GenericPackageInstantiation[1:21-1:47]
 | | | | | name:
-| | | | | | Prefix[1:29-1:34]
+| | | | | | DottedName[1:29-1:34]
 | | | | | | | prefix:
-| | | | | | | | Prefix[1:29-1:32]
+| | | | | | | | DottedName[1:29-1:32]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[1:29-1:30]
 | | | | | | | | | | | tok: A

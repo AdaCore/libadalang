@@ -879,7 +879,7 @@ A.add_rules(
 
     name=Or(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
-        Row(A.name, ".", A.direct_name) ^ Prefix,
+        Row(A.name, ".", A.direct_name) ^ DottedName,
         Row(A.name, "'", A.attribute,
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
@@ -894,7 +894,7 @@ A.add_rules(
         # child unit subprogram operators, such as:
         # procedure Ada.Containers.Vector."=" is ...
         A.identifier | A.string_literal | A.char_literal,
-        sep=".", revtree=Prefix
+        sep=".", revtree=DottedName
     ),
 
     primary=Or(A.num_literal, A.null_literal,

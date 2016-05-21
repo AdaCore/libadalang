@@ -2,7 +2,7 @@ WithDecl[1:1-1:17]
 | is_limited: False
 | is_private: False
 | packages:
-| | Prefix[1:6-1:17]
+| | DottedName[1:6-1:17]
 | | | prefix:
 | | | | Id[1:6-1:9]
 | | | | | tok: Ada

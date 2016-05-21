@@ -180,8 +180,8 @@ package body Libadalang.AST.Types.Parsers.Test is
       function Eval_Identifier (Expr : Identifier) return Eval_Result;
       --  Return a mere identifier expression evaluation or invoke Raise_Error
 
-      function Eval_Prefix (Expr : Prefix) return Eval_Result;
-      --  Return a prefix (X.Y) expression evaluation or invoke Raise_Error
+      function Eval_Dotted_Name (Expr : Dotted_Name) return Eval_Result;
+      --  Return a dotted name (X.Y) expression evaluation or invoke Raise_Error
 
       function Eval_Node_Kind
         (Expr : access Ada_Node_Type'Class)
@@ -258,8 +258,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Ref_Count => <>,
                   Int       => Integer'Value (Image (Text))));
             end;
-         when Ada_Prefix =>
-            return Eval_Prefix (Prefix (Expr));
+         when Ada_Dotted_Name =>
+            return Eval_Dotted_Name (Dotted_Name (Expr));
          when others =>
             Raise_Error (Expr, "Unhandled expression: " & Kind_Name (Expr));
          end case;
@@ -566,16 +566,16 @@ package body Libadalang.AST.Types.Parsers.Test is
          end if;
       end Eval_Identifier;
 
-      -----------------
-      -- Eval_Prefix --
-      -----------------
+      ----------------------
+      -- Eval_Dotted_Name --
+      ----------------------
 
-      function Eval_Prefix (Expr : Prefix) return Eval_Result is
+      function Eval_Dotted_Name (Expr : Dotted_Name) return Eval_Result is
          Pref  : constant Eval_Result := Eval (Expr.F_Prefix);
          Ident : Symbol_Type;
       begin
-         --  The only prefix form we handle here is X.Y where X is any valid
-         --  expression and Y is a static name.
+         --  The only dotted name  form we handle here is X.Y where X is any
+         --  valid expression and Y is a static name.
 
          if Kind (Expr.F_Suffix) /= Ada_Identifier then
             Raise_Error (Expr,
@@ -682,7 +682,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                  (Expr, Kind_Name (Pref.Value.Kind) & " have no field");
             end case;
          end;
-      end Eval_Prefix;
+      end Eval_Dotted_Name;
 
       --------------------
       -- Eval_Node_Kind --
@@ -735,7 +735,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          Params : Param_List;
       begin
          ## Do not handle "parent" fields are they are common to all nodes.
-         ## They are handled directly in Eval_Prefix.
+         ## They are handled directly in Eval_Dotted_Name.
          <%
             fields = [f
                       for f in cls.get_abstract_fields(include_inherited=True)
@@ -857,7 +857,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             ## Since the only way to get this error is to evaluate a Prefix
             ## expression, the conversion below should never raise an error.
             Raise_Error
-              (Prefix_Type (Expr.all).F_Suffix,
+              (Dotted_Name_Type (Expr.all).F_Suffix,
                "${cls.name()} has no " & Image (Field.all)
                & " field; valid ones are:"
                % for f in fields:

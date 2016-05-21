@@ -10,7 +10,7 @@ SubprogramSpec[1:1-1:37]
 | | | | | name:
 | | | | | | CallExpr[1:19-1:37]
 | | | | | | | name:
-| | | | | | | | Prefix[1:19-1:26]
+| | | | | | | | DottedName[1:19-1:26]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[1:19-1:22]
 | | | | | | | | | | | tok: Pkg

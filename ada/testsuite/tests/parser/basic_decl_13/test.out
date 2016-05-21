@@ -16,9 +16,9 @@ ObjectDecl[1:1-1:94]
 | renaming_clause:
 | | RenamingClause[1:49-1:94]
 | | | renamed_object:
-| | | | Prefix[1:57-1:94]
+| | | | DottedName[1:57-1:94]
 | | | | | prefix:
-| | | | | | Prefix[1:57-1:90]
+| | | | | | DottedName[1:57-1:90]
 | | | | | | | prefix:
 | | | | | | | | Id[1:57-1:63]
 | | | | | | | | | tok: Buffer

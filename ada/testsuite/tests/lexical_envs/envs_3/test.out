@@ -19,7 +19,7 @@ CompilationUnit[4:1-5:13]
 | | | item:
 | | | | PackageDecl[4:1-5:12]
 | | | | | package_name:
-| | | | | | Prefix[4:9-4:16]
+| | | | | | DottedName[4:9-4:16]
 | | | | | | | prefix:
 | | | | | | | | Id[4:9-4:12]
 | | | | | | | | | tok: Foo
@@ -29,7 +29,7 @@ CompilationUnit[4:1-5:13]
 | | | | | public_part:
 | | | | | | PublicPart[5:1-5:4]
 | | | | | end_id:
-| | | | | | Prefix[5:5-5:12]
+| | | | | | DottedName[5:5-5:12]
 | | | | | | | prefix:
 | | | | | | | | Id[5:5-5:8]
 | | | | | | | | | tok: Foo
@@ -43,9 +43,9 @@ CompilationUnit[7:1-8:17]
 | | | item:
 | | | | PackageDecl[7:1-8:16]
 | | | | | package_name:
-| | | | | | Prefix[7:9-7:20]
+| | | | | | DottedName[7:9-7:20]
 | | | | | | | prefix:
-| | | | | | | | Prefix[7:9-7:16]
+| | | | | | | | DottedName[7:9-7:16]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[7:9-7:12]
 | | | | | | | | | | | tok: Foo
@@ -58,9 +58,9 @@ CompilationUnit[7:1-8:17]
 | | | | | public_part:
 | | | | | | PublicPart[8:1-8:4]
 | | | | | end_id:
-| | | | | | Prefix[8:5-8:16]
+| | | | | | DottedName[8:5-8:16]
 | | | | | | | prefix:
-| | | | | | | | Prefix[8:5-8:12]
+| | | | | | | | DottedName[8:5-8:12]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[8:5-8:8]
 | | | | | | | | | | | tok: Foo
@@ -91,7 +91,7 @@ CompilationUnit[13:1-14:9]
 | | | item:
 | | | | PackageDecl[13:1-14:8]
 | | | | | package_name:
-| | | | | | Prefix[13:9-13:12]
+| | | | | | DottedName[13:9-13:12]
 | | | | | | | prefix:
 | | | | | | | | Id[13:9-13:10]
 | | | | | | | | | tok: A
@@ -101,7 +101,7 @@ CompilationUnit[13:1-14:9]
 | | | | | public_part:
 | | | | | | PublicPart[14:1-14:4]
 | | | | | end_id:
-| | | | | | Prefix[14:5-14:8]
+| | | | | | DottedName[14:5-14:8]
 | | | | | | | prefix:
 | | | | | | | | Id[14:5-14:6]
 | | | | | | | | | tok: A
@@ -115,9 +115,9 @@ CompilationUnit[16:1-17:11]
 | | | item:
 | | | | PackageDecl[16:1-17:10]
 | | | | | package_name:
-| | | | | | Prefix[16:9-16:14]
+| | | | | | DottedName[16:9-16:14]
 | | | | | | | prefix:
-| | | | | | | | Prefix[16:9-16:12]
+| | | | | | | | DottedName[16:9-16:12]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[16:9-16:10]
 | | | | | | | | | | | tok: A
@@ -130,9 +130,9 @@ CompilationUnit[16:1-17:11]
 | | | | | public_part:
 | | | | | | PublicPart[17:1-17:4]
 | | | | | end_id:
-| | | | | | Prefix[17:5-17:10]
+| | | | | | DottedName[17:5-17:10]
 | | | | | | | prefix:
-| | | | | | | | Prefix[17:5-17:8]
+| | | | | | | | DottedName[17:5-17:8]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[17:5-17:6]
 | | | | | | | | | | | tok: A

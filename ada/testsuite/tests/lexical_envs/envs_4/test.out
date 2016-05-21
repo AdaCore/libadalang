@@ -21,7 +21,7 @@ CompilationUnit[4:1-6:13]
 | | | | | package_decl:
 | | | | | | BasePackageDecl[5:1-6:12]
 | | | | | | | package_name:
-| | | | | | | | Prefix[5:9-5:16]
+| | | | | | | | DottedName[5:9-5:16]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[5:9-5:12]
 | | | | | | | | | | | tok: Foo
@@ -31,7 +31,7 @@ CompilationUnit[4:1-6:13]
 | | | | | | | public_part:
 | | | | | | | | PublicPart[6:1-6:4]
 | | | | | | | end_id:
-| | | | | | | | Prefix[6:5-6:12]
+| | | | | | | | DottedName[6:5-6:12]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[6:5-6:8]
 | | | | | | | | | | | tok: Foo
@@ -62,7 +62,7 @@ CompilationUnit[11:1-13:9]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[11:1-11:14]
 | | | | | | | name:
-| | | | | | | | Prefix[11:11-11:14]
+| | | | | | | | DottedName[11:11-11:14]
 | | | | | | | | | prefix:
 | | | | | | | | | | Id[11:11-11:12]
 | | | | | | | | | | | tok: A
@@ -74,7 +74,7 @@ CompilationUnit[11:1-13:9]
 | | | | | statements:
 | | | | | | HandledStatements[13:1-13:4]
 | | | | | end_id:
-| | | | | | Prefix[13:5-13:8]
+| | | | | | DottedName[13:5-13:8]
 | | | | | | | prefix:
 | | | | | | | | Id[13:5-13:6]
 | | | | | | | | | tok: A

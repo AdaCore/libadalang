@@ -8,7 +8,7 @@
 |  |  |packages:
 |  |  |  <list>
 |  |  |  |item 0:
-|  |  |  |  <Prefix>
+|  |  |  |  <DottedName>
 |  |  |  |  |prefix:
 |  |  |  |  |  <Identifier>
 |  |  |  |  |  |tok: Token(u'Ada')
@@ -41,9 +41,9 @@
 |  |  |  |  |  |call:
 |  |  |  |  |  |  <CallExpr>
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  <DottedName>
 |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  <Prefix>
+|  |  |  |  |  |  |  |  <DottedName>
 |  |  |  |  |  |  |  |  |prefix:
 |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')

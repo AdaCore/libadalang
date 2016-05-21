@@ -1,9 +1,9 @@
 UseTypDecl[1:1-1:35]
 | all: True
 | types:
-| | Prefix[1:14-1:35]
+| | DottedName[1:14-1:35]
 | | | prefix:
-| | | | Prefix[1:14-1:28]
+| | | | DottedName[1:14-1:28]
 | | | | | prefix:
 | | | | | | Id[1:14-1:17]
 | | | | | | | tok: Ada

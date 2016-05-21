@@ -5,7 +5,7 @@ CompilationUnit
 | | | | Id
 | | UseTypDecl
 | | | ASTList
-| | | | Prefix
+| | | | DottedName
 | | | | | Id
 | | | | | Id
 | | UsePkgDecl
@@ -13,12 +13,12 @@ CompilationUnit
 | | | | Id
 | | WithDecl
 | | | ASTList
-| | | | Prefix
+| | | | DottedName
 | | | | | Id
 | | | | | Id
 | | UsePkgDecl
 | | | ASTList
-| | | | Prefix
+| | | | DottedName
 | | | | | Id
 | | | | | Id
 | -----------------------------
@@ -26,7 +26,7 @@ CompilationUnit
 | -----------------------------
 | LibraryItem
 | | PackageBody
-| | | Prefix
+| | | DottedName
 | | | | Id
 | | | | Id
 | | | DeclarativePart
@@ -86,13 +86,13 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | CallExpr
@@ -112,15 +112,15 @@ CompilationUnit
 | | | | | | | | | | | | | | BinOp
 | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | AccessDeref
@@ -129,7 +129,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | ParamList
@@ -138,7 +138,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | CallExpr
@@ -152,8 +152,8 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | AccessDeref
@@ -163,13 +163,13 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Null
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | CallExpr
@@ -183,8 +183,8 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | AccessDeref
@@ -193,7 +193,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | CallExpr
@@ -208,7 +208,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | AssignStatement
-| | | | | | | | | Prefix
+| | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
 | | | | | | | | | Id
@@ -237,10 +237,10 @@ CompilationUnit
 | | | | | | | ASTList
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
-| | | | | | | | | | Prefix
+| | | | | | | | | | DottedName
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
-| | | | | | | | | | Prefix
+| | | | | | | | | | DottedName
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | ASTList
@@ -254,7 +254,7 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | BinOp
 | | | | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Int
@@ -266,59 +266,59 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | AssignStatement
 | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
-| | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | AssignStatement
-| | | | | | | | | Prefix
+| | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
 | | | | | | | | | BinOp
-| | | | | | | | | | Prefix
+| | | | | | | | | | DottedName
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | | Int
@@ -355,7 +355,7 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamList
@@ -365,14 +365,14 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamList
@@ -382,7 +382,7 @@ CompilationUnit
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamList
@@ -423,7 +423,7 @@ CompilationUnit
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | ParamList
@@ -434,7 +434,7 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
@@ -442,7 +442,7 @@ CompilationUnit
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | ParamList
@@ -454,7 +454,7 @@ CompilationUnit
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | ParamList
@@ -485,7 +485,7 @@ CompilationUnit
 | | | | | | | | | | ParamList
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | ParamAssoc
-| | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
 | | | | | | Id
@@ -506,7 +506,7 @@ CompilationUnit
 | | | | | | HandledStatements
 | | | | | | | ASTList
 | | | | | | | | AssignStatement
-| | | | | | | | | Prefix
+| | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
 | | | | | | | | | Int
@@ -539,7 +539,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Int
@@ -572,7 +572,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Int
@@ -617,7 +617,7 @@ CompilationUnit
 | | | | | | | TypeExpression
 | | | | | | | | TypeRef
 | | | | | | | | | Id
-| | | | | | Prefix
+| | | | | | DottedName
 | | | | | | | Id
 | | | | | | | Id
 | | | | | -----------
@@ -653,7 +653,7 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | BinOp
@@ -662,14 +662,14 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | IfStatement
 | | | | | | | | | | | BinOp
-| | | | | | | | | | | | Prefix
+| | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | BinOp
@@ -678,7 +678,7 @@ CompilationUnit
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | ReturnStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | BinOp
@@ -706,13 +706,13 @@ CompilationUnit
 | | | | | | | ASTList
 | | | | | | | | IfStatement
 | | | | | | | | | BinOp
-| | | | | | | | | | Prefix
+| | | | | | | | | | DottedName
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
 | | | | | | | | | | ReturnStatement
-| | | | | | | | | | | Prefix
+| | | | | | | | | | | DottedName
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
@@ -727,7 +727,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | BinOp
-| | | | | | | | | | | | | | | | Prefix
+| | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Int

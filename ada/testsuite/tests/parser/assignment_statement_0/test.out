@@ -1,8 +1,8 @@
 AssignStatement[1:1-1:12]
 | dest:
-| | Prefix[1:1-1:6]
+| | DottedName[1:1-1:6]
 | | | prefix:
-| | | | Prefix[1:1-1:4]
+| | | | DottedName[1:1-1:4]
 | | | | | prefix:
 | | | | | | Id[1:1-1:2]
 | | | | | | | tok: A

@@ -1,8 +1,8 @@
 CallExpr[1:1-1:27]
 | name:
-| | Prefix[1:1-1:13]
+| | DottedName[1:1-1:13]
 | | | prefix:
-| | | | Prefix[1:1-1:6]
+| | | | DottedName[1:1-1:6]
 | | | | | prefix:
 | | | | | | Id[1:1-1:2]
 | | | | | | | tok: A

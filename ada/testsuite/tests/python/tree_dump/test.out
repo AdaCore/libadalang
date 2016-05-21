@@ -2,7 +2,7 @@
 | <list>
 | | <WithDecl>
 | | | <list>
-| | | | <Prefix>
+| | | | <DottedName>
 | | | | | <Identifier>
 | | | | | <Identifier>
 | <LibraryItem>
@@ -18,8 +18,8 @@
 | | | | <list>
 | | | | | <CallStatement>
 | | | | | | <CallExpr>
-| | | | | | | <Prefix>
-| | | | | | | | <Prefix>
+| | | | | | | <DottedName>
+| | | | | | | | <DottedName>
 | | | | | | | | | <Identifier>
 | | | | | | | | | <Identifier>
 | | | | | | | | <Identifier>

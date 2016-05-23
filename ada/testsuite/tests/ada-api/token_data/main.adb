@@ -11,7 +11,7 @@ with Libadalang.Lexer;     use Libadalang.Lexer;
 procedure Main is
    Ctx    : Analysis_Context := Create;
    Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
-   N      : constant Ada_Node := Root (Unit).Find
+   N      : constant Ada_Node := Root (Unit).Find_First
      (new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
 begin
    declare

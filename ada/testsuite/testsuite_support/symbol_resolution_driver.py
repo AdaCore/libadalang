@@ -16,6 +16,7 @@ class SymbolResolutionDriver(PythonDriver):
                                     'symbol_resolution_driver.py')
         self.tear_up_helper()
         self.py_args = self.input_sources
+        self.run_python_only = self.test_env.get('run_python_only', False)
 
     @catch_test_errors
     def run(self):
@@ -24,6 +25,9 @@ class SymbolResolutionDriver(PythonDriver):
             [self.python_interpreter, self.py_file] + self.py_args,
             for_debug=True
         )
+        if self.run_python_only:
+            return
+
         ada_output = self.run_and_check(
             ['symres'] + self.input_sources,
             for_debug=True, memcheck=True, append_output=False,

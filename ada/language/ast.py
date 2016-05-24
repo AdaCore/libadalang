@@ -1555,8 +1555,18 @@ class AssignStatement(Statement):
     expr = Field(type=T.Expr)
 
     xref_equation = Property(
-        Self.dest.xref_equation & Self.expr.xref_equation
+        # In some cases, only the destination will provide a potential
+        # set of types, such as in the statement::
+        #
+        #     X := 12;
+        #
+        # So we want to first evaluate the destination equation, so that the
+        # type of the refs can "flow" from the destination to the expression.
+        Self.dest.xref_equation
         & (Self.expr.type_var == Self.dest.type_var)
+        & Self.expr.xref_equation
+        # TODO: Equations shouldn't be position sensitive like that. Needs a
+        #  fix in Adalog, or in the equation for numbers.
     )
 
 

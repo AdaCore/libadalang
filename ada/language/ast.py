@@ -602,6 +602,13 @@ class BasicSubprogramDecl(BasicDecl):
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
+    expr_type = Property(
+        Self.subp_spec.returns.designated_type, doc="""
+        The expr type of a subprogram declaration is the return type of the
+        subprogram if the subprogram is a function.
+        """
+    )
+
 
 class SubprogramDecl(BasicSubprogramDecl):
     aspects = Field(type=T.AspectSpecification)

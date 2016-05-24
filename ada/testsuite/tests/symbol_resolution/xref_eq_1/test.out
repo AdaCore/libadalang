@@ -1,0 +1,10 @@
+Analyzing test1.adb
+###################
+
+Expr: <Identifier "A" 6:4-6:5>, references <ObjectDecl "[u'A']" 3:4-3:11>, type is <FullTypeDecl "[u'Int']" 2:4-2:29>
+Expr: <Identifier "B" 6:9-6:10>, references <ObjectDecl "[u'B']" 4:4-4:11>, type is <FullTypeDecl "[u'Int']" 2:4-2:29>
+
+Expr: <Identifier "A" 9:4-9:5>, references <ObjectDecl "[u'A']" 3:4-3:11>, type is <FullTypeDecl "[u'Int']" 2:4-2:29>
+Expr: <IntLiteral 9:9-9:11>, references None, type is <FullTypeDecl "[u'Int']" 2:4-2:29>
+
+Done.

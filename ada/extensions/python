@@ -55,6 +55,29 @@ def full_name(n):
         raise Exception("Wrong type for name: {}".format(type(n)))
 
 
+def previous_sibling(node):
+    """
+    Return the node previous to node in node's parent's list of children.
+    """
+    last_item = None
+    for sibling in node.parent:
+        if sibling == node:
+            return last_item
+        last_item = sibling
+
+
+def next_sibling(node):
+    """
+    Return the node next to node in node's parent's list of children.
+    """
+    return_next = False
+    for sibling in node.parent:
+        if return_next:
+            return sibling
+        if sibling == node:
+            return_next = True
+
+
 def basic_decl_repr(self):
     """
     Better repr for basic declarations.
@@ -74,3 +97,5 @@ SingleTokNode.text = single_tok_node_text
 DottedName.full_name = full_name
 Identifier.full_name = full_name
 BasicDecl.__repr__ = basic_decl_repr
+AdaNode.previous_sibling = previous_sibling
+AdaNode.next_sibling = next_sibling

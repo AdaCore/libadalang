@@ -72,6 +72,9 @@ class Manage(ManageScript):
         self.add_generate_args(perf_test_parser)
         self.add_build_args(perf_test_parser)
 
+        # Add asteval template directory to the list of template dirs
+        self.template_dirs = [self.dirs.lang_source_dir('asteval')]
+
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
@@ -321,7 +324,7 @@ class Manage(ManageScript):
                 src_file_basename = os.path.basename(src_file)
                 with open(self.dirs.build_dir('src', src_file_basename),
                           'w') as f:
-                    f.write(ct.render(src_file,
+                    f.write(ct.render(src_file_basename,
                                       enum_for_type=enum_for_type,
                                       field_for_type=field_for_type,
                                       eval_types=eval_types))

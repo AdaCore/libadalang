@@ -86,7 +86,12 @@ class Manage(ManageScript):
                           lexer=ada_lexer,
                           grammar=ada_grammar,
                           default_charset='iso-8859-1',
-                          verbosity=args.verbosity)
+                          verbosity=args.verbosity,
+                          # Add asteval template directory to the list of
+                          # template dirs.
+                          template_lookup_extra_dirs=[
+                              self.dirs.lang_source_dir('asteval')
+                          ])
 
     @property
     def main_programs(self):

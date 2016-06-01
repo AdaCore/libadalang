@@ -8,15 +8,6 @@ def token_match(self, other):
     return self == other or self.text == other
 
 
-def sloc_range_repr(self):
-    """
-    Better repr for sloc ranges.
-    """
-    return "<SlocRange {}:{}-{}:{}>".format(
-        self.start.line, self.start.column, self.end.line, self.end.column
-    )
-
-
 def ada_node_repr(self):
     """
     Better repr for base ada nodes.
@@ -90,7 +81,6 @@ def basic_decl_repr(self):
 
 
 AdaNode.__repr__ = ada_node_repr
-SlocRange.__repr__ = sloc_range_repr
 Token.match = token_match
 Identifier.__repr__ = identifier_repr
 SingleTokNode.text = single_tok_node_text

@@ -97,7 +97,7 @@ for src_file in sys.argv[1:]:
 
         elif pragma_name == 'Test_Statement':
             assert not p.f_args
-            statement = p.previous_sibling()
+            statement = p.previous_sibling
             assert isinstance(statement, lal.Statement)
 
             # Perform symbol resolution on the preceding statement, using the

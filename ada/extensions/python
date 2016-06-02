@@ -39,20 +39,8 @@ def full_name(n):
         raise Exception("Wrong type for name: {}".format(type(n)))
 
 
-def basic_decl_repr(self):
-    """
-    Better repr for basic declarations.
-    """
-    return '<{} "{}" {}>'.format(
-        self.__class__.__name__,
-        [i.f_tok.text for i in self.p_defining_names],
-        self.sloc_range
-    )
-
-
 Token.match = token_match
 Identifier.__repr__ = identifier_repr
 SingleTokNode.text = single_tok_node_text
 DottedName.full_name = full_name
 Identifier.full_name = full_name
-BasicDecl.__repr__ = basic_decl_repr

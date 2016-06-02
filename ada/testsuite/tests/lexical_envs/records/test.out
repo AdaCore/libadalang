@@ -132,22 +132,22 @@ CompilationUnit[1:1-11:9]
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-11:9> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageDecl 1:1-11:8>]
+    Foo: [<PackageDecl ["Foo"] 1:1-11:8>]
 }>
 <LibraryItem 1:1-11:8> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageDecl 1:1-11:8>]
+    Foo: [<PackageDecl ["Foo"] 1:1-11:8>]
 }>
 <PackageDecl 1:1-11:8> - <LexEnv (Id 1, Parent <root>), {
-    R1_Type: [<FullTypeDecl 2:4-5:14>]
-    R2_Type: [<FullTypeDecl 7:4-10:14>]
+    R1_Type: [<FullTypeDecl ["R1_Type"] 2:4-5:14>]
+    R2_Type: [<FullTypeDecl ["R2_Type"] 7:4-10:14>]
 }>
 <FullTypeDecl 2:4-5:14> - <LexEnv (Id 2, Parent 1), {
-    A: [<ComponentDecl 3:7-3:21>]
-    B: [<ComponentDecl 3:7-3:21>]
-    C: [<ComponentDecl 4:7-4:21>]
+    A: [<ComponentDecl ["A", "B"] 3:7-3:21>]
+    B: [<ComponentDecl ["A", "B"] 3:7-3:21>]
+    C: [<ComponentDecl ["C"] 4:7-4:21>]
 }>
 <FullTypeDecl 7:4-10:14> - <LexEnv (Id 3, Parent 1), {
-    I: [<ComponentDecl 8:7-8:18>]
+    I: [<ComponentDecl ["I"] 8:7-8:18>]
     N: [<DiscriminantSpec 7:18-7:29>]
-    S: [<ComponentDecl 9:7-9:26>]
+    S: [<ComponentDecl ["S"] 9:7-9:26>]
 }>

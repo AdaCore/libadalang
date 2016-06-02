@@ -39,12 +39,12 @@ CompilationUnit[1:1-3:9]
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-3:9> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageDecl 1:1-3:8>]
+    Foo: [<PackageDecl ["Foo"] 1:1-3:8>]
 }>
 <LibraryItem 1:1-3:8> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageDecl 1:1-3:8>]
+    Foo: [<PackageDecl ["Foo"] 1:1-3:8>]
 }>
 <PackageDecl 1:1-3:8> - <LexEnv (Id 1, Parent <root>), {
-    Lol: [<SubtypeDecl 2:4-2:40>]
+    Lol: [<SubtypeDecl ["Lol"] 2:4-2:40>]
 }>
 <SubtypeDecl 2:4-2:40> - <LexEnv (Id 2, Parent 1), empty>

@@ -1,4 +1,5 @@
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Characters.Conversions; use Ada.Characters.Conversions;
+with Ada.Text_IO;                use Ada.Text_IO;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.AST;       use Libadalang.AST;
@@ -14,7 +15,7 @@ procedure Main is
 
    procedure Proc (N : Ada_Node) is
    begin
-      Put_Line ("  " & Short_Image (N));
+      Put_Line ("  " & To_String (Short_Image (N)));
    end Proc;
 
 begin

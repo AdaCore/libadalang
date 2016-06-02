@@ -8,15 +8,6 @@ def token_match(self, other):
     return self == other or self.text == other
 
 
-def identifier_repr(self):
-    """
-    Better repr for identifiers.
-    """
-    return '<{} "{}" {}>'.format(
-        self.__class__.__name__, self.f_tok.text, self.sloc_range
-    )
-
-
 @property
 def single_tok_node_text(self):
     """
@@ -40,7 +31,6 @@ def full_name(n):
 
 
 Token.match = token_match
-Identifier.__repr__ = identifier_repr
 SingleTokNode.text = single_tok_node_text
 DottedName.full_name = full_name
 Identifier.full_name = full_name

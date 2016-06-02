@@ -1,0 +1,7 @@
+overriding function Short_Image (Node : access Base_Id_Type) return Wide_Wide_String is
+   Self : access ${root_node_value_type}'Class := Node;
+begin
+   return "<" & To_Wide_Wide_String (Kind_Name (Self))
+          & " """ & Get_Symbol (F_Tok (Node)).all & """ "
+          & To_Wide_Wide_String (Image (Sloc_Range (Node))) & ">";
+end Short_Image;

@@ -3,49 +3,49 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <LibraryItem 1:1-4:8>
   <SubprogramBody ["Sum"] 1:1-4:8>
   <SubprogramSpec 1:1-1:68>
-  <Id 1:10-1:13>
+  <Id "Sum" 1:10-1:13>
   <ASTList 1:15-1:52>
   <ParameterProfile 1:15-1:26>
   <ASTList 1:15-1:16>
-  <Id 1:15-1:16>
+  <Id "A" 1:15-1:16>
   <TypeExpression 1:19-1:26>
   <TypeRef 1:19-1:26>
-  <Id 1:19-1:26>
+  <Id "Integer" 1:19-1:26>
   <ParameterProfile 1:28-1:39>
   <ASTList 1:28-1:29>
-  <Id 1:28-1:29>
+  <Id "B" 1:28-1:29>
   <TypeExpression 1:32-1:39>
   <TypeRef 1:32-1:39>
-  <Id 1:32-1:39>
+  <Id "Integer" 1:32-1:39>
   <ParameterProfile 1:41-1:52>
   <ASTList 1:41-1:42>
-  <Id 1:41-1:42>
+  <Id "C" 1:41-1:42>
   <TypeExpression 1:45-1:52>
   <TypeRef 1:45-1:52>
-  <Id 1:45-1:52>
+  <Id "Integer" 1:45-1:52>
   <TypeExpression 1:61-1:68>
   <TypeRef 1:61-1:68>
-  <Id 1:61-1:68>
+  <Id "Integer" 1:61-1:68>
   <DeclarativePart 2:1-2:6>
   <HandledStatements 3:4-3:21>
   <ASTList 3:4-3:21>
   <ReturnStatement 3:4-3:20>
   <BinOp 3:11-3:20>
-  <Id 3:11-3:12>
+  <Id "A" 3:11-3:12>
   <BinOp 3:15-3:20>
-  <Id 3:15-3:16>
-  <Id 3:19-3:20>
+  <Id "B" 3:15-3:16>
+  <Id "C" 3:19-3:20>
 Note that we also can iterate on null nodes:
 Alright, now here's the list of all identifier nodes:
-  <Id 1:10-1:13>
-  <Id 1:15-1:16>
-  <Id 1:19-1:26>
-  <Id 1:28-1:29>
-  <Id 1:32-1:39>
-  <Id 1:41-1:42>
-  <Id 1:45-1:52>
-  <Id 1:61-1:68>
-  <Id 3:11-3:12>
-  <Id 3:15-3:16>
-  <Id 3:19-3:20>
+  <Id "Sum" 1:10-1:13>
+  <Id "A" 1:15-1:16>
+  <Id "Integer" 1:19-1:26>
+  <Id "B" 1:28-1:29>
+  <Id "Integer" 1:32-1:39>
+  <Id "C" 1:41-1:42>
+  <Id "Integer" 1:45-1:52>
+  <Id "Integer" 1:61-1:68>
+  <Id "A" 3:11-3:12>
+  <Id "B" 3:15-3:16>
+  <Id "C" 3:19-3:20>
 Done.

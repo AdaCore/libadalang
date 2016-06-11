@@ -3,6 +3,7 @@ with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Wide_Wide_Text_IO;
 
 with Interfaces; use Interfaces;
 
@@ -16,6 +17,8 @@ with Libadalang.AST.Types;  use Libadalang.AST.Types;
 procedure Symres is
 
    Ctx : Analysis_Context := Create;
+
+   package WT renames Ada.Wide_Wide_Text_IO;
 
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
@@ -108,6 +111,11 @@ procedure Symres is
 
       function Source_Slice (Node : access Ada_Node_Type'Class) return String
       is (Source_Slice (Lines, Node.Sloc_Range));
+
+      function Safe_Image
+        (Node : access Ada_Node_Type'Class) return Wide_Wide_String
+      is
+        (if Node = null then "None" else Node.Short_Image);
 
    begin
       Get_Source_Lines (Filename, Lines);
@@ -211,6 +219,31 @@ procedure Symres is
                      Put_Line ("    <none>");
                   end if;
                   Dec_Ref (Entities);
+               end;
+            elsif Pragma_Name.all = "Test_Statement" then
+               pragma Assert (P_Node.F_Args = null);
+               declare
+                  St   : Statement := Statement (P_Node.Previous_Sibling);
+                  It   : Traverse_Iterator;
+                  Node : Ada_Node;
+               begin
+                  if St.P_Resolve_Symbols then
+                     It := St.Traverse;
+                     while It.Next (Node) loop
+                        case Kind (Node) is
+                           when Ada_Expr =>
+                              WT.Put_Line
+                                ("Expr: " & Safe_Image (Expr (Node))
+                                 & ", references "
+                                 & Safe_Image (Expr (Node).P_Ref_Val)
+                                 & ", type is "
+                                 & Safe_Image (Expr (Node).P_Type_Val));
+                           when others => null;
+                        end case;
+                     end loop;
+                  else
+                     Put_Line ("Resolution failed for statement");
+                  end if;
                end;
             end if;
          end loop;

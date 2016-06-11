@@ -35,6 +35,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <BinOp 3:15-3:20>
   <Id "B" 3:15-3:16>
   <Id "C" 3:19-3:20>
+  <Id "Sum" 4:5-4:8>
 Note that we also can iterate on null nodes:
 Alright, now here's the list of all identifier nodes:
   <Id "Sum" 1:10-1:13>
@@ -48,4 +49,5 @@ Alright, now here's the list of all identifier nodes:
   <Id "A" 3:11-3:12>
   <Id "B" 3:15-3:16>
   <Id "C" 3:19-3:20>
+  <Id "Sum" 4:5-4:8>
 Done.

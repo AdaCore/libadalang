@@ -269,7 +269,7 @@ class BaseDriver(TestDriver):
         if p.status != 0:
             self.result.actual_output += (
                 '{} returned status code {}\n'.format(program, p.status))
-            self.result.actual_output += self.read_file(self.output_file)
+            self.result.actual_output += p.out
             raise TestError(
                 '{} returned status code {}'.format(program, p.status))
 

@@ -1,15 +1,22 @@
-overriding function Short_Image (Node : access Basic_Decl_Type) return Wide_Wide_String is
+--  vim: ft=ada
+
+overriding function Short_Image
+  (Node : access Basic_Decl_Type)
+   return Wide_Wide_String
+is
    Self : access Basic_Decl_Type'Class := Node;
    Ret : Unbounded_Wide_Wide_String;
 
    function Name_Image (Node : access Expr_Type'Class) return Wide_Wide_String;
    --  Print a Dotted Name
 
-   function Name_Image (Node : access Expr_Type'Class) return Wide_Wide_String is
+   function Name_Image (Node : access Expr_Type'Class) return Wide_Wide_String
+   is
       D : Dotted_Name;
    begin
       if Node.all in Single_Tok_Node_Type'Class then
-         return Get_Symbol (F_Tok (Single_Tok_Node_Type (Node.all)'Access)).all;
+         return Get_Symbol
+           (F_Tok (Single_Tok_Node_Type (Node.all)'Access)).all;
       elsif Node.all in Dotted_Name_Type'Class then
          D := Dotted_Name_Type (Node.all)'Access;
          return Name_Image (D.F_Prefix) & "." & Name_Image (D.F_Suffix);

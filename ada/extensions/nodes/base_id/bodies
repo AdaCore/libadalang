@@ -1,4 +1,9 @@
-overriding function Short_Image (Node : access Base_Id_Type) return Wide_Wide_String is
+--  vim: ft=ada
+
+overriding function Short_Image
+  (Node : access Base_Id_Type)
+   return Wide_Wide_String
+is
    Self : access ${root_node_value_type}'Class := Node;
 begin
    return "<" & To_Wide_Wide_String (Kind_Name (Self))

@@ -1,12 +1,10 @@
 --  vim: ft=ada
 
-overriding function Short_Image
-  (Node : access Base_Id_Type)
-   return Wide_Wide_String
+overriding function Short_Image (Node : access Base_Id_Type) return Text_Type
 is
    Self : access ${root_node_value_type}'Class := Node;
 begin
-   return "<" & To_Wide_Wide_String (Kind_Name (Self))
+   return "<" & To_Text (Kind_Name (Self))
           & " """ & Get_Symbol (F_Tok (Node)).all & """ "
-          & To_Wide_Wide_String (Image (Sloc_Range (Node))) & ">";
+          & To_Text (Image (Sloc_Range (Node))) & ">";
 end Short_Image;

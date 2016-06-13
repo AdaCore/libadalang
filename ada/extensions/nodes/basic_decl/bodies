@@ -2,15 +2,15 @@
 
 overriding function Short_Image
   (Node : access Basic_Decl_Type)
-   return Wide_Wide_String
+   return Text_Type
 is
    Self : access Basic_Decl_Type'Class := Node;
    Ret : Unbounded_Wide_Wide_String;
 
-   function Name_Image (Node : access Expr_Type'Class) return Wide_Wide_String;
+   function Name_Image (Node : access Expr_Type'Class) return Text_Type;
    --  Print a Dotted Name
 
-   function Name_Image (Node : access Expr_Type'Class) return Wide_Wide_String
+   function Name_Image (Node : access Expr_Type'Class) return Text_Type
    is
       D : Dotted_Name;
    begin
@@ -27,7 +27,7 @@ is
 
    Children : Name_Array := Self.P_Defining_Names;
 begin
-   Append (Ret, "<" & To_Wide_Wide_String (Kind_Name (Self)) & " [");
+   Append (Ret, "<" & To_Text (Kind_Name (Self)) & " [");
 
    for I in Children'Range loop
       Append (Ret, """");
@@ -38,6 +38,6 @@ begin
       end if;
    end loop;
 
-   Append (Ret, "] " & To_Wide_Wide_String (Image (Sloc_Range (Node))) & ">");
+   Append (Ret, "] " & To_Text (Image (Sloc_Range (Node))) & ">");
    return To_Wide_Wide_String (Ret);
 end Short_Image;

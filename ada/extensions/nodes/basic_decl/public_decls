@@ -2,6 +2,6 @@
 
 overriding function Short_Image
   (Node : access Basic_Decl_Type)
-   return Wide_Wide_String;
+   return Text_Type;
 --  Custom version of Short_Image for basic declarations, that will print the
 --  names of the entities it declares.

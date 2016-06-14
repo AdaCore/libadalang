@@ -222,29 +222,25 @@ procedure Symres is
                end;
             elsif Pragma_Name.all = "Test_Statement" then
                pragma Assert (P_Node.F_Args = null);
+
                declare
                   St   : Statement := Statement (P_Node.Previous_Sibling);
-                  It   : Traverse_Iterator;
-                  Node : Ada_Node;
+
+                  function Is_Expr (N : Ada_Node) return Boolean
+                  is (N.all in Expr_Type'Class);
                begin
                   if St.P_Resolve_Symbols then
-                     It := St.Traverse;
-                     while It.Next (Node) loop
-                        case Kind (Node) is
-                           when Ada_Expr =>
-                              WT.Put_Line
-                                ("Expr: " & Safe_Image (Expr (Node))
-                                 & ", references "
-                                 & Safe_Image (Expr (Node).P_Ref_Val)
-                                 & ", type is "
-                                 & Safe_Image (Expr (Node).P_Type_Val));
-                           when others => null;
-                        end case;
+                     for Node of St.Find (Is_Expr'Access) loop
+                        WT.Put_Line
+                          ("Expr: " & Safe_Image (Node) & ", references "
+                           & Safe_Image (Expr (Node).P_Ref_Val) & ", type is "
+                           & Safe_Image (Expr (Node).P_Type_Val));
                      end loop;
                   else
                      Put_Line ("Resolution failed for statement");
                   end if;
                end;
+
             end if;
          end loop;
       end;

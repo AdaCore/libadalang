@@ -1,0 +1,6 @@
+Lookup 0:0: None
+Lookup 1:1: <WithDecl 1:1-1:25>
+Lookup 5:80: <SubprogramBody ["Foo"] 3:1-7:8>
+Lookup 6:16: <Id "Put_Line" 6:16-6:24>
+Lookup 8:12: None
+Done.

@@ -1,6 +1,6 @@
 ## vim: ft=makoada
 
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 with Ada.Wide_Wide_Characters.Handling; use Ada.Wide_Wide_Characters.Handling;
 

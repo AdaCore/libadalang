@@ -1,9 +1,7 @@
 ## vim: ft=makoada
 
-with Ada.Characters.Conversions; use Ada.Characters.Conversions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
-with Ada.Wide_Wide_Text_IO;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
@@ -118,10 +116,10 @@ package body Libadalang.AST.Types.Parsers.Dump is
       when Find_Builtin_Value =>
          Put_Line
            (".Find builtin method, bound to "
-            & To_String (Short_Image (V.Find_Root)));
+            & Image (Short_Image (V.Find_Root)));
 
       when Symbol_Value =>
-         Ada.Wide_Wide_Text_IO.Put_Line (V.Symbol.all);
+         Put_Line (Image (V.Symbol.all));
 
       when Logic_Var_Value =>
          Put_Line ("<logic variable>");

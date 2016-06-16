@@ -1,0 +1,34 @@
+<CompilationUnit 1:1-6:9>
+| <ASTList 1:1-1:18>
+| | <WithDecl 1:1-1:17>
+| | | <ASTList 1:6-1:17>
+| | | | <DottedName 1:6-1:17>
+| | | | | <Id "Ada" 1:6-1:9>
+| | | | | <Id "Text_IO" 1:10-1:17>
+| <LibraryItem 3:1-6:8>
+| | <SubprogramBody ["Foo"] 3:1-6:8>
+| | | <SubprogramSpec 3:1-3:14>
+| | | | <Id "Foo" 3:11-3:14>
+| | | | <null node>
+| | | | <null node>
+| | | <null node>
+| | | <DeclarativePart 4:1-4:6>
+| | | | <null node>
+| | | <HandledStatements 5:4-5:43>
+| | | | <ASTList 5:4-5:43>
+| | | | | <CallStatement 5:4-5:42>
+| | | | | | <CallExpr 5:4-5:42>
+| | | | | | | <DottedName 5:4-5:24>
+| | | | | | | | <DottedName 5:4-5:15>
+| | | | | | | | | <Id "Ada" 5:4-5:7>
+| | | | | | | | | <Id "Text_IO" 5:8-5:15>
+| | | | | | | | <Id "Put_Line" 5:16-5:24>
+| | | | | | | <ParamList 5:26-5:41>
+| | | | | | | | <ASTList 5:26-5:41>
+| | | | | | | | | <ParamAssoc 5:26-5:41>
+| | | | | | | | | | <null node>
+| | | | | | | | | | <Str ""Hello, world!"" 5:26-5:41>
+| | | | <null node>
+| | | <Id "Foo" 6:5-6:8>
+| <null node>
+Done

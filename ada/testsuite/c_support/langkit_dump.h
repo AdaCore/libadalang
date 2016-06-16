@@ -58,6 +58,35 @@ dump(ada_base_node node, int level)
 }
 
 static void
+dump_short_image(ada_base_node node, int level)
+{
+    ada_text img;
+    unsigned i, count;
+
+    if (node == NULL) {
+        print_indent(level);
+        printf("<null node>\n");
+        return;
+    }
+
+    img = ada_node_short_image(node);
+    print_indent(level);
+    fprint_text(stdout, img, false);
+    printf("\n");
+    ada_destroy_text(&img);
+
+    count = ada_node_child_count(node);
+    for (i = 0; i < count; ++i)
+    {
+        ada_base_node child;
+
+        if (ada_node_child(node, i, &child) == 0)
+            error("Error while getting a child");
+        dump_short_image(child, level + 1);
+    }
+}
+
+static void
 dump_diagnostics(ada_analysis_unit unit, const char *unit_name)
 {
     unsigned i;

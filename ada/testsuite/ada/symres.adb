@@ -230,7 +230,7 @@ procedure Symres is
                   is (N.all in Expr_Type'Class);
                begin
                   if St.P_Resolve_Symbols then
-                     for Node of St.Find (Is_Expr'Access) loop
+                     for Node of St.Find (Is_Expr'Access).Consume loop
                         WT.Put_Line
                           ("Expr: " & Safe_Image (Node) & ", references "
                            & Safe_Image (Expr (Node).P_Ref_Val) & ", type is "

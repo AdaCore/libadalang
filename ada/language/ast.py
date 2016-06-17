@@ -148,16 +148,22 @@ class BasicDecl(AdaNode):
         type=T.TypeDecl,
         runtime_check=True,
         doc="""
-        Return the type that this basic declaration has when it is used in an
-        expression context. For example this basic declaration::
+        Return the type declaration corresponding to this basic declaration
+        has when it is used in an expression context. For example, for this
+        basic declaration::
 
-            A : Integer := 12;
+            type Int is range 0 .. 100;
 
-        Will have the type Integer, and this declaration::
+            A : Int := 12;
 
-            function B return Float;
+        the declaration of the Int type will be returned. For this
+        declaration::
 
-        Will have the type Float.
+            type F is delta 0.01 digits 10;
+
+            function B return F;
+
+        expr_type will return the declaration of the type F.
         """
     )
 

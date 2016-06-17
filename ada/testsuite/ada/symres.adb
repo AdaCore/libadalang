@@ -1,7 +1,7 @@
 with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
-with Ada.Containers.Vectors;
 with Ada.Containers.Hashed_Maps;
+with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Text_IO;           use Ada.Text_IO;

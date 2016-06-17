@@ -21,17 +21,33 @@ def decode_boolean_literal(node):
         raise ValueError('Invalid boolean literal: {}'.format(node.f_tok.text))
 
 
+# Associate a list of source lines for each source visited files. Used to
+# display source excerpts.
+lines_map = {}
+
+
+def get_lines(src_file):
+    try:
+        return lines_map[src_file]
+    except KeyError:
+        pass
+
+    with open(src_file) as f:
+        lines_map[src_file] = f.readlines()
+    return lines_map[src_file]
+
+
+def src_slice(node):
+    lines = get_lines(node.unit.filename)
+    return source.src_slice(lines, node.sloc_range)
+
+
 ctx = lal.AnalysisContext()
 for src_file in sys.argv[1:]:
     print_title('#', 'Analyzing {}'.format(src_file))
 
     # Configuration for this file
     display_slocs = False
-
-    # Read the source to display exceprts
-    with open(src_file) as f:
-        src_lines = f.readlines()
-    src_slice = lambda node: source.src_slice(src_lines, node.sloc_range)
 
     # Now analyze the source file
     unit = ctx.get_from_file(src_file)

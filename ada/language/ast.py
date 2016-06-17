@@ -479,6 +479,8 @@ class WithDecl(AdaNode):
     is_private = Field(type=T.BoolType)
     packages = Field(type=T.Name.list_type())
 
+    env_spec = EnvSpec(env_hook_arg=Self.packages)
+
 
 @abstract
 class UseDecl(AdaNode):

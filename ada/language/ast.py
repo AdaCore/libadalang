@@ -1238,7 +1238,8 @@ class BaseId(SingleTokNode):
 
     xref_equation = Property(
         Domain(Self.ref_var, Self.entities)
-        & Bind(Self.ref_var, Self.type_var, BasicDecl.fields.expr_type)
+        & Bind(Self.ref_var, Self.type_var,
+               BasicDecl.fields.canonical_expr_type)
     )
 
 

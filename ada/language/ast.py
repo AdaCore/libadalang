@@ -1052,6 +1052,10 @@ class CallExpr(Expr):
     # subtypes for discriminated records or arrays.
     designated_type = Property(Self.name.designated_type)
 
+    xref_equation = Property(
+        Self.name.xref_equation
+    )
+
 
 class ParamAssoc(AdaNode):
     designator = Field(type=T.AdaNode)

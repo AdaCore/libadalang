@@ -1,0 +1,7 @@
+Analyzing foo.ads
+#################
+
+Bar.R.A resolves to:
+    A : Integer
+
+Done.

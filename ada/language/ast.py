@@ -167,6 +167,14 @@ class BasicDecl(AdaNode):
         """
     )
 
+    @langkit_property(return_type=T.TypeDecl)
+    def canonical_expr_type():
+        """
+        Same as expr_type, but will instead return the canonical type
+        declaration.
+        """
+        return Self.expr_type.canonical_type
+
 
 @abstract
 class Body(BasicDecl):
@@ -271,6 +279,14 @@ class TypeDecl(BasicDecl):
 
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_int_type = Property(False, doc="Whether type is an integer type or not")
+
+    @langkit_property(return_type=T.TypeDecl)
+    def canonical_type():
+        """
+        Return the canonical type declaration for this type declaration. For
+        subtypes, it will return the base type declaration.
+        """
+        return Self
 
 
 class FullTypeDecl(TypeDecl):
@@ -436,6 +452,8 @@ class SubtypeDecl(TypeDecl):
 
     array_ndims = Property(Self.type_expr.array_ndims)
     defining_env = Property(Self.type_expr.defining_env)
+
+    canonical_type = Property(Self.type_expr.designated_type.canonical_type)
 
 
 class TaskDef(AdaNode):

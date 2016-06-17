@@ -1,8 +1,11 @@
 with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Vectors;
+with Ada.Containers.Hashed_Maps;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded.Hash;
 with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Unchecked_Deallocation;
 with Ada.Wide_Wide_Text_IO;
 
 with Interfaces; use Interfaces;
@@ -22,6 +25,19 @@ procedure Symres is
 
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
+   --  List of strings. Used to represent the lines in a source file.
+
+   type String_Vector_Access is access String_Vectors.Vector;
+   procedure Destroy is new Ada.Unchecked_Deallocation
+     (String_Vectors.Vector, String_Vector_Access);
+
+   package Strings_Maps is new Ada.Containers.Hashed_Maps
+     (Key_Type        => Unbounded_String,
+      Element_Type    => String_Vector_Access,
+      Hash            => Ada.Strings.Unbounded.Hash,
+      Equivalent_Keys => "=");
+   Lines_Map : Strings_Maps.Map;
+   --  Associate a list of source lines for each source visited files
 
    function "<" (Left, Right : Ada_Node) return Boolean is
      (Left.Sloc_Range.Start_Line < Right.Sloc_Range.Start_Line);
@@ -32,9 +48,7 @@ procedure Symres is
       "<"          => "<");
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean;
-   procedure Get_Source_Lines
-     (Filename : String;
-      Lines    : out String_Vectors.Vector);
+   function Get_Source_Lines (Filename : String) return String_Vector_Access;
    function Source_Slice
      (Lines      : String_Vectors.Vector;
       Sloc_Range : Source_Location_Range)
@@ -61,18 +75,30 @@ procedure Symres is
    -- Get_Source_Lines --
    ----------------------
 
-   procedure Get_Source_Lines
-     (Filename : String;
-      Lines    : out String_Vectors.Vector)
+   function Get_Source_Lines (Filename : String) return String_Vector_Access
    is
+      Fname : Unbounded_String := To_Unbounded_String (Filename);
+      Cur   : Strings_Maps.Cursor;
       File  : File_Type;
+      Lines : String_Vector_Access;
    begin
-      Lines := String_Vectors.Empty_Vector;
+      --  Look for an already available array of lines for this file
+      Cur := Lines_Map.Find (Fname);
+      if Strings_Maps.Has_Element (Cur) then
+         return Strings_Maps.Element (Cur);
+      end if;
+
+      --  There is none, so create one and remember it
+      Lines := new String_Vectors.Vector;
+      Lines_Map.Insert (Fname, Lines);
+
       Open (File, In_File, Filename);
       while not End_Of_File (File) loop
          Lines.Append (To_Unbounded_String (Get_Line (File)));
       end loop;
       Close (File);
+
+      return Lines;
    end Get_Source_Lines;
 
    ------------------
@@ -107,19 +133,28 @@ procedure Symres is
    ------------------
 
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
-      Lines : String_Vectors.Vector;
 
-      function Source_Slice (Node : access Ada_Node_Type'Class) return String
-      is (Source_Slice (Lines, Node.Sloc_Range));
+      function Source_Slice (Node : access Ada_Node_Type'Class) return String;
 
       function Safe_Image
         (Node : access Ada_Node_Type'Class) return Wide_Wide_String
       is
         (if Node = null then "None" else Node.Short_Image);
 
-   begin
-      Get_Source_Lines (Filename, Lines);
+      ------------------
+      -- Source_Slice --
+      ------------------
 
+      function Source_Slice (Node : access Ada_Node_Type'Class) return String
+      is
+         Unit  : constant Analysis_Unit := Get_Unit (Node);
+         Lines : constant String_Vector_Access :=
+            Get_Source_Lines (Get_Filename (Unit));
+      begin
+         return Source_Slice (Lines.all, Node.Sloc_Range);
+      end Source_Slice;
+
+   begin
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop
             Put_Line ("error: " & Filename & ":"
@@ -256,6 +291,10 @@ begin
          Process_File (Unit, Filename);
          Remove (Ctx, Filename);
       end;
+   end loop;
+
+   for Lines of Lines_Map loop
+      Destroy (Lines);
    end loop;
 
    Destroy (Ctx);

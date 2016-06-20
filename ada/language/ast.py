@@ -1582,14 +1582,16 @@ class Statement(AdaNode):
         """
         return No(EquationType)
 
-    resolve_symbols = Property(
-        Self.xref_equation.solve,
-        doc="""
+    @langkit_property(return_type=BoolType)
+    def resolve_symbols():
+        """
         This will resolve symbols for this statement. If the operation is
         successful, then type_var and ref_var will be bound on appropriate
         subnodes of the statement.
         """
-    )
+        # TODO: Not using then because bug in refcounting
+        xref_eq = Var(Self.xref_equation)
+        return If(Not(xref_eq.is_null), xref_eq.solve, False)
 
 
 @abstract

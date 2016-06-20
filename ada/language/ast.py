@@ -16,7 +16,7 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
-from langkit.expressions.logic import Domain, Predicate
+from langkit.expressions.logic import Domain, Predicate, LogicAnd
 
 
 def symbol_list(base_id_list):
@@ -1054,6 +1054,13 @@ class CallExpr(Expr):
 
     xref_equation = Property(
         Self.name.xref_equation
+        # TODO: For the moment we presume that a CallExpr in an expression
+        # context necessarily has a ParamList as a suffix, but this is not
+        # always true (for example, entry families calls). Handle the
+        # remaining cases.
+        & LogicAnd(Self.suffix.cast(T.ParamList).params.map(
+            lambda pa: pa.expr.xref_equation
+        ))
     )
 
 

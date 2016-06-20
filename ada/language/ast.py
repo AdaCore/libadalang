@@ -85,7 +85,7 @@ class AdaNode(ASTNode):
     )
 
 
-def child_unit(name_expr, scope_expr, env_val_expr=Self):
+def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -101,6 +101,9 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
     :param AbstractExpression env_val_expr: The expression that will
         retrieve the environment value for the decorated node.
 
+    :param bool is_body: Whether this unit is a body. If it is, the environment
+        hook will try to make the corresponding spec's environment its parent.
+
     :rtype: NodeMacro
     """
 
@@ -111,7 +114,8 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
                        """),
         env_spec=EnvSpec(
             initial_env=Self.scope, add_env=True,
-            add_to_env=(name_expr, env_val_expr)
+            add_to_env=(name_expr, env_val_expr),
+            env_hook_arg=(Self if is_body else None),
         )
     )
 
@@ -1502,7 +1506,8 @@ class CompilationUnit(AdaNode):
 class SubprogramBody(Body):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
-                          Self)]
+                          Self,
+                          is_body=True)]
 
     overriding = Field(type=T.Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
@@ -1684,7 +1689,8 @@ class TerminateStatement(Statement):
 
 class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+                          Self.package_name.scope,
+                          is_body=True)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpecification)

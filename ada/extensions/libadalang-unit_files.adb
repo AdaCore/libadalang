@@ -26,6 +26,17 @@ package body Libadalang.Unit_Files is
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : List_Name);
    --  Helper for the environment hook to handle WithDecl nodes
 
+   procedure Handle_Unit_Body
+     (Ctx         : Analysis_Context;
+      Node        : Body_Node;
+      Initial_Env : in out Lexical_Env);
+   --  Helper for the environment hook to handle unit body nodes
+
+   function Get_Main_Env (Unit : Analysis_Unit) return Lexical_Env;
+   --  Return the main lexical environment for some analysis unit. For a
+   --  library-level package declaration for instance, this is the environment
+   --  of the package itself.
+
    --------------
    -- Env_Hook --
    --------------
@@ -35,11 +46,12 @@ package body Libadalang.Unit_Files is
       Node        : Ada_Node;
       Initial_Env : in out Lexical_Env)
    is
-      pragma Unreferenced (Initial_Env);
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
       if Node.all in With_Decl_Type'Class then
          Handle_With_Decl (Ctx, With_Decl (Node).F_Packages);
+      elsif Node.all in Body_Node_Type'Class then
+         Handle_Unit_Body (Ctx, Body_Node (Node), Initial_Env);
       end if;
    end Env_Hook;
 
@@ -64,6 +76,77 @@ package body Libadalang.Unit_Files is
          end;
       end loop;
    end Handle_With_Decl;
+
+   ----------------------
+   -- Handle_Unit_Body --
+   ----------------------
+
+   procedure Handle_Unit_Body
+     (Ctx         : Analysis_Context;
+      Node        : Body_Node;
+      Initial_Env : in out Lexical_Env)
+   is
+      Names     : Name_Array_Access;
+   begin
+      --  If this unit is not a body we are interested in, there is no spec to
+      --  process.
+      if Node.all not in Subprogram_Body_Type'Class
+         and then Node.all not in Package_Body_Type'Class
+      then
+         return;
+      end if;
+
+      --  Make sure this unit has only one name
+      Names := Node.P_Defining_Names;
+      if Names.N /= 1 then
+         Dec_Ref (Names);
+         raise Property_Error with "unit cannot have multiple names";
+      end if;
+
+      declare
+         Name : constant String :=
+           Get_Unit_File_Name (Names.Items (1)) & ".ads";
+
+         --  TODO??? Maybe we should just return when the file does not exist:
+         --  after all it is legal.
+         Unit : Analysis_Unit := Get_From_File (Ctx, Name);
+      begin
+         Dec_Ref (Names);
+         if Root (Unit) /= null then
+            Populate_Lexical_Env (Unit);
+            Initial_Env := Get_Main_Env (Unit);
+         end if;
+      exception
+         when Property_Error =>
+            Dec_Ref (Names);
+            raise;
+      end;
+   end Handle_Unit_Body;
+
+   ------------------
+   -- Get_Main_Env --
+   ------------------
+
+   function Get_Main_Env (Unit : Analysis_Unit) return Lexical_Env is
+      N : constant Ada_Node := Root (Unit);
+      C : Compilation_Unit;
+      B : Basic_Decl;
+   begin
+      if N = null or else N.all not in Compilation_Unit_Type'Class then
+         return AST_Envs.Empty_Env;
+      end if;
+
+      C := Compilation_Unit (N);
+      if C.F_Body = null or else C.F_Body.all not in Library_Item_Type'Class
+      then
+         return AST_Envs.Empty_Env;
+      end if;
+
+      B := Library_Item (C.F_Body).F_Item;
+      return (if B = null
+              then AST_Envs.Empty_Env
+              else B.Children_Env);
+   end Get_Main_Env;
 
    -------------------
    -- Get_Unit_Name --

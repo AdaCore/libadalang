@@ -30,7 +30,12 @@ package body Libadalang.Unit_Files is
    -- Env_Hook --
    --------------
 
-   procedure Env_Hook (Unit : Analysis_Unit; Node : Ada_Node) is
+   procedure Env_Hook
+     (Unit        : Analysis_Unit;
+      Node        : Ada_Node;
+      Initial_Env : in out Lexical_Env)
+   is
+      pragma Unreferenced (Initial_Env);
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
       if Node.all in With_Decl_Type'Class then

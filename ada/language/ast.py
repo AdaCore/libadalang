@@ -1570,9 +1570,9 @@ class ExceptionHandler(AdaNode):
 @abstract
 class Statement(AdaNode):
 
-    xref_equation = AbstractProperty(
-        type=EquationType, runtime_check=True, private=True,
-        doc="""
+    @langkit_property(private=True, return_type=EquationType)
+    def xref_equation():
+        """
         This is the base property for constructing equations that, when solved,
         will resolve symbols and types for every sub expression of the
         statement you call it on. Statement is always the outermost node that
@@ -1580,7 +1580,7 @@ class Statement(AdaNode):
         node), so if you call it on a statement and then resolve the equation,
         if the code is correct Ada, you should get only one correct solution.
         """
-    )
+        return No(EquationType)
 
     resolve_symbols = Property(
         Self.xref_equation.solve,

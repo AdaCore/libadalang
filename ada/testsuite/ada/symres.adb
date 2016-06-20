@@ -19,7 +19,9 @@ with Libadalang.AST.Types;  use Libadalang.AST.Types;
 
 procedure Symres is
 
-   Ctx : Analysis_Context := Create;
+   Ctx   : Analysis_Context := Create;
+
+   Quiet : Boolean := False;
 
    package WT renames Ada.Wide_Wide_Text_IO;
 
@@ -284,12 +286,17 @@ procedure Symres is
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
       declare
-         Filename : constant String := Ada.Command_Line.Argument (I);
-         Unit     : Analysis_Unit := Get_From_File (Ctx, Filename);
+         Arg  : constant String := Ada.Command_Line.Argument (I);
+         Unit : Analysis_Unit;
       begin
-         Put_Title ('#', "Analyzing " & Filename);
-         Process_File (Unit, Filename);
-         Remove (Ctx, Filename);
+         if Arg in "--quiet" | "-q" then
+            Quiet := True;
+         else
+            Unit := Get_From_File (Ctx, Arg);
+            Put_Title ('#', "Analyzing " & Arg);
+            Process_File (Unit, Arg);
+            Remove (Ctx, Arg);
+         end if;
       end;
    end loop;
 

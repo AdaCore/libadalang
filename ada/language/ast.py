@@ -1519,6 +1519,32 @@ class SubprogramSpec(AdaNode):
             )
         )
 
+    # noinspection PyTypeChecker
+    @langkit_property(return_type=SingleParameter)
+    def matching_formal(pa=ParamAssoc, index=LongType):
+        """
+        Return whether some parameter association matches an argument in this
+        subprogram specification. Note that this matching disregards types: it
+        only considers arity and designators (named parameters).
+        """
+
+        param_list = Var(Self.typed_param_list)
+
+        # Parameter associations can match only if there is at least one
+        # formal in this spec.
+        return If(
+            Self.nb_max_params > index,
+            # Then, all associations with no designator match, as we don't
+            # consider types.
+            If(pa.designator.is_null,
+               param_list.at(index),
+               param_list.find(
+                   lambda param: param.name.matches(
+                       pa.designator.cast(Identifier)
+                   ))),
+            No(SingleParameter)
+        )
+
     @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
     def defining_env():
         """

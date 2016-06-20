@@ -6,7 +6,6 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
-with Ada.Wide_Wide_Text_IO;
 
 with Interfaces; use Interfaces;
 
@@ -22,8 +21,6 @@ procedure Symres is
    Ctx   : Analysis_Context := Create;
 
    Quiet : Boolean := False;
-
-   package WT renames Ada.Wide_Wide_Text_IO;
 
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
@@ -139,9 +136,9 @@ procedure Symres is
       function Source_Slice (Node : access Ada_Node_Type'Class) return String;
 
       function Safe_Image
-        (Node : access Ada_Node_Type'Class) return Wide_Wide_String
+        (Node : access Ada_Node_Type'Class) return String
       is
-        (if Node = null then "None" else Node.Short_Image);
+        (if Node = null then "None" else Image (Node.Short_Image));
 
       ------------------
       -- Source_Slice --
@@ -268,16 +265,20 @@ procedure Symres is
                begin
                   if St.P_Resolve_Symbols then
                      for Node of St.Find (Is_Expr'Access).Consume loop
-                        WT.Put_Line
-                          ("Expr: " & Safe_Image (Node) & ", references "
-                           & Safe_Image (Expr (Node).P_Ref_Val) & ", type is "
-                           & Safe_Image (Expr (Node).P_Type_Val));
+                        declare
+                           P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
+                           P_Type : Ada_Node := Expr (Node).P_Type_Val;
+                        begin
+                           Put_Line
+                             ("Expr: " & Safe_Image (Node) & ", references "
+                              & Safe_Image (P_Ref) & ", type is "
+                              & Safe_Image (P_Type));
+                        end;
                      end loop;
                   else
                      Put_Line ("Resolution failed for statement");
                   end if;
                end;
-
             end if;
          end loop;
       end;

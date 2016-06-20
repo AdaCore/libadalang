@@ -145,10 +145,12 @@ procedure Symres is
                P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
                P_Type : Ada_Node := Expr (Node).P_Type_Val;
             begin
-               Put_Line
-                 ("Expr: " & Safe_Image (Node) & ", references "
-                  & Safe_Image (P_Ref) & ", type is "
-                  & Safe_Image (P_Type));
+               if not Quiet then
+                  Put_Line
+                    ("Expr: " & Safe_Image (Node) & ", references "
+                     & Safe_Image (P_Ref) & ", type is "
+                     & Safe_Image (P_Type));
+               end if;
             end;
          end loop;
       else
@@ -286,6 +288,18 @@ procedure Symres is
             elsif Pragma_Name.all = "Test_Statement" then
                pragma Assert (P_Node.F_Args = null);
                Resolve_Statement (Statement (P_Node.Previous_Sibling));
+            elsif Pragma_Name.all = "Test_Block" then
+               pragma Assert (P_Node.F_Args = null);
+               declare
+                  Block : Block_Statement :=
+                    Block_Statement (P_Node.Previous_Sibling);
+                  function Is_Statement (N : Ada_Node) return Boolean
+                  is (N.all in Simple_Statement_Type'Class);
+               begin
+                  for Node of Block.Find (Is_Statement'Access).Consume loop
+                     Resolve_Statement (Statement (Node));
+                  end loop;
+               end;
             end if;
          end loop;
       end;

@@ -1592,15 +1592,25 @@ class Statement(AdaNode):
     )
 
 
-class CallStatement(Statement):
+@abstract
+class SimpleStatement(Statement):
+    pass
+
+
+@abstract
+class CompositeStatement(Statement):
+    pass
+
+
+class CallStatement(SimpleStatement):
     call = Field(type=T.Expr)
 
 
-class NullStatement(Statement):
+class NullStatement(SimpleStatement):
     null_lit = Field(repr=False)
 
 
-class AssignStatement(Statement):
+class AssignStatement(SimpleStatement):
     dest = Field(type=T.Expr)
     expr = Field(type=T.Expr)
 
@@ -1620,39 +1630,39 @@ class AssignStatement(Statement):
     )
 
 
-class GotoStatement(Statement):
+class GotoStatement(SimpleStatement):
     label_name = Field(type=T.Name)
 
 
-class ExitStatement(Statement):
+class ExitStatement(SimpleStatement):
     loop_name = Field(type=T.Identifier)
     condition = Field(type=T.Expr)
 
 
-class ReturnStatement(Statement):
+class ReturnStatement(SimpleStatement):
     return_expr = Field(type=T.AdaNode)
 
 
-class RequeueStatement(Statement):
+class RequeueStatement(SimpleStatement):
     call_name = Field(type=T.Expr)
     with_abort = Field(type=T.BoolType)
 
 
-class AbortStatement(Statement):
+class AbortStatement(SimpleStatement):
     names = Field(type=T.Expr.list_type())
 
 
-class DelayStatement(Statement):
+class DelayStatement(SimpleStatement):
     until = Field(type=T.BoolType)
     expr = Field(type=T.Expr)
 
 
-class RaiseStatement(Statement):
+class RaiseStatement(SimpleStatement):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)
 
 
-class IfStatement(Statement):
+class IfStatement(CompositeStatement):
     condition = Field(type=T.Expr)
     statements = Field(type=T.AdaNode.list_type())
     alternatives = Field(type=T.ElsifStatementPart.list_type())
@@ -1664,7 +1674,7 @@ class ElsifStatementPart(AdaNode):
     statements = Field(type=T.AdaNode.list_type())
 
 
-class Label(Statement):
+class Label(SimpleStatement):
     token = Field(type=T.Token)
 
 
@@ -1672,13 +1682,13 @@ class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
 
-class LoopStatement(Statement):
+class LoopStatement(CompositeStatement):
     name = Field(type=T.Identifier)
     spec = Field(type=T.LoopSpec)
     statements = Field(type=T.AdaNode.list_type())
 
 
-class BlockStatement(Statement):
+class BlockStatement(CompositeStatement):
     name = Field(type=T.Identifier)
     decls = Field(type=T.AdaNode.list_type())
     statements = Field(type=T.HandledStatements)
@@ -1686,12 +1696,12 @@ class BlockStatement(Statement):
     env_spec = EnvSpec(add_env=True)
 
 
-class ExtendedReturnStatement(Statement):
+class ExtendedReturnStatement(CompositeStatement):
     object_decl = Field(type=T.ObjectDecl)
     statements = Field(type=T.HandledStatements)
 
 
-class CaseStatement(Statement):
+class CaseStatement(CompositeStatement):
     case_expr = Field(type=T.Expr)
     case_alts = Field(type=T.CaseStatementAlternative.list_type())
 
@@ -1701,14 +1711,14 @@ class CaseStatementAlternative(AdaNode):
     statements = Field(type=T.AdaNode.list_type())
 
 
-class AcceptStatement(Statement):
+class AcceptStatement(CompositeStatement):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
     parameters = Field(type=T.ParameterProfile.list_type())
     statements = Field(type=T.HandledStatements)
 
 
-class SelectStatement(Statement):
+class SelectStatement(CompositeStatement):
     guards = Field(type=T.SelectWhenPart.list_type())
     else_statements = Field(type=T.AdaNode.list_type())
     abort_statements = Field(type=T.AdaNode.list_type())
@@ -1719,7 +1729,7 @@ class SelectWhenPart(AdaNode):
     statements = Field(type=T.AdaNode.list_type())
 
 
-class TerminateStatement(Statement):
+class TerminateStatement(SimpleStatement):
     pass
 
 

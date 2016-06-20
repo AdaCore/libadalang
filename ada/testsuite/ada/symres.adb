@@ -4,7 +4,7 @@ with Ada.Containers.Hashed_Maps;
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
-with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
@@ -55,6 +55,30 @@ procedure Symres is
    procedure Put_Title (C : Character; S : String);
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
 
+   --------------
+   -- New_Line --
+   --------------
+
+   procedure New_Line is begin
+      if not Quiet then Ada.Text_IO.New_Line; end if;
+   end New_Line;
+
+   --------------
+   -- Put_Line --
+   --------------
+
+   procedure Put_Line (S : String) is begin
+      if not Quiet then Ada.Text_IO.Put_Line (S); end if;
+   end Put_Line;
+
+   ---------
+   -- Put --
+   ---------
+
+   procedure Put (S : String) is begin
+      if not Quiet then Ada.Text_IO.Put (S); end if;
+   end Put;
+
    ----------------------------
    -- Decode_Boolean_Literal --
    ----------------------------
@@ -78,6 +102,7 @@ procedure Symres is
    is
       Fname : Unbounded_String := To_Unbounded_String (Filename);
       Cur   : Strings_Maps.Cursor;
+      use Ada.Text_IO;
       File  : File_Type;
       Lines : String_Vector_Access;
    begin

@@ -127,6 +127,35 @@ procedure Symres is
       New_Line;
    end Put_Title;
 
+   -----------------------
+   -- Resolve_Statement --
+   -----------------------
+
+   procedure Resolve_Statement (St : Statement) is
+      function Safe_Image
+        (Node : access Ada_Node_Type'Class) return String
+      is (if Node = null then "None" else Image (Node.Short_Image));
+
+      function Is_Expr (N : Ada_Node) return Boolean
+      is (N.all in Expr_Type'Class);
+   begin
+      if St.P_Resolve_Symbols then
+         for Node of St.Find (Is_Expr'Access).Consume loop
+            declare
+               P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
+               P_Type : Ada_Node := Expr (Node).P_Type_Val;
+            begin
+               Put_Line
+                 ("Expr: " & Safe_Image (Node) & ", references "
+                  & Safe_Image (P_Ref) & ", type is "
+                  & Safe_Image (P_Type));
+            end;
+         end loop;
+      else
+         Put_Line ("Resolution failed for statement");
+      end if;
+   end Resolve_Statement;
+
    ------------------
    -- Process_File --
    ------------------
@@ -256,29 +285,7 @@ procedure Symres is
                end;
             elsif Pragma_Name.all = "Test_Statement" then
                pragma Assert (P_Node.F_Args = null);
-
-               declare
-                  St   : Statement := Statement (P_Node.Previous_Sibling);
-
-                  function Is_Expr (N : Ada_Node) return Boolean
-                  is (N.all in Expr_Type'Class);
-               begin
-                  if St.P_Resolve_Symbols then
-                     for Node of St.Find (Is_Expr'Access).Consume loop
-                        declare
-                           P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
-                           P_Type : Ada_Node := Expr (Node).P_Type_Val;
-                        begin
-                           Put_Line
-                             ("Expr: " & Safe_Image (Node) & ", references "
-                              & Safe_Image (P_Ref) & ", type is "
-                              & Safe_Image (P_Type));
-                        end;
-                     end loop;
-                  else
-                     Put_Line ("Resolution failed for statement");
-                  end if;
-               end;
+               Resolve_Statement (Statement (P_Node.Previous_Sibling));
             end if;
          end loop;
       end;

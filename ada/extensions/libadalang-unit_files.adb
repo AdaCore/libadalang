@@ -20,6 +20,12 @@ package body Libadalang.Unit_Files is
    --  TODO??? Right now, this handles only pure ASCII unit names as it's not
    --  clear how we should handle Unicode characters for file names.
 
+   function Get_Unit_File_Name (N : Name) return String is
+     (Get_Unit_File_Name (Get_Unit_Name (N)));
+
+   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : List_Name);
+   --  Helper for the environment hook to handle WithDecl nodes
+
    --------------
    -- Env_Hook --
    --------------
@@ -27,11 +33,21 @@ package body Libadalang.Unit_Files is
    procedure Env_Hook (Unit : Analysis_Unit; Node : Ada_Node) is
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
-      pragma Assert (Node.all in List_Name_Type'Class);
-      for N of List_Name (Node).all loop
+      if Node.all in With_Decl_Type'Class then
+         Handle_With_Decl (Ctx, With_Decl (Node).F_Packages);
+      end if;
+   end Env_Hook;
+
+   ----------------------
+   -- Handle_With_Decl --
+   ----------------------
+
+   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : List_Name) is
+   begin
+      for N of Names.all loop
          declare
             Unit_File_Name : constant String :=
-               Get_Unit_File_Name (Get_Unit_Name (Name (N))) & ".ads";
+               Get_Unit_File_Name (Name (N)) & ".ads";
             Unit           : constant Analysis_Unit :=
                Get_From_File (Ctx, Unit_File_Name);
          begin
@@ -42,7 +58,7 @@ package body Libadalang.Unit_Files is
             end if;
          end;
       end loop;
-   end Env_Hook;
+   end Handle_With_Decl;
 
    -------------------
    -- Get_Unit_Name --

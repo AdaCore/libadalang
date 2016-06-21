@@ -1233,11 +1233,7 @@ class BaseId(SingleTokNode):
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
             items.filter(
-                lambda e: e.el.match(
-                    lambda subp=BasicSubprogramDecl: subp.subp_spec,
-                    lambda subp=SubprogramBody:      subp.subp_spec,
-                    lambda others:                   No(SubprogramSpec),
-                ).then(
+                lambda e: e.el.cast_or_raise(BasicDecl).subp_spec.then(
                     lambda ss: Or(
                         e.MD.dottable_subprogram & (ss.nb_min_params == 1),
                         ss.nb_min_params == 0

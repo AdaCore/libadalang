@@ -175,6 +175,18 @@ class BasicDecl(AdaNode):
         """
         return Self.expr_type.canonical_type
 
+    @langkit_property(return_type=T.SubprogramSpec)
+    def subp_spec():
+        """
+        If node is a Subprogram, returns the specification of this subprogram.
+        TODO: Enhance when we have interfaces.
+        """
+        return Self.match(
+            lambda subp=BasicSubprogramDecl: subp.subp_spec,
+            lambda subp=SubprogramBody:      subp.subp_spec,
+            lambda others:                   No(SubprogramSpec),
+        )
+
 
 @abstract
 class Body(BasicDecl):

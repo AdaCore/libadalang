@@ -1077,6 +1077,9 @@ class CallExpr(Expr):
         ))
     )
 
+    params = Property(Self.suffix.cast(T.ParamList).params)
+
+
 
 class ParamAssoc(AdaNode):
     designator = Field(type=T.AdaNode)

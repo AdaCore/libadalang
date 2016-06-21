@@ -148,6 +148,6 @@ CompilationUnit[1:1-11:9]
 }>
 <FullTypeDecl 7:4-10:14> - <LexEnv (Id 3, Parent 1), {
     I: [<ComponentDecl ["I"] 8:7-8:18>]
-    N: [<DiscriminantSpec 7:18-7:29>]
+    N: [<DiscriminantSpec ["N"] 7:18-7:29>]
     S: [<ComponentDecl ["S"] 9:7-9:26>]
 }>

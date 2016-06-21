@@ -198,12 +198,14 @@ class BodyStub(Body):
     pass
 
 
-class DiscriminantSpec(AdaNode):
+class DiscriminantSpec(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
+
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class TypeDiscriminant(AdaNode):

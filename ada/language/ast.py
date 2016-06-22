@@ -16,7 +16,7 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
-from langkit.expressions.logic import Domain, Predicate, LogicAnd
+from langkit.expressions.logic import Domain, Predicate, LogicAnd, LogicOr
 
 
 def symbol_list(base_id_list):
@@ -1067,19 +1067,51 @@ class CallExpr(Expr):
     # subtypes for discriminated records or arrays.
     designated_type = Property(Self.name.designated_type)
 
-    xref_equation = Property(
-        Self.name.xref_equation
-        # TODO: For the moment we presume that a CallExpr in an expression
-        # context necessarily has a ParamList as a suffix, but this is not
-        # always true (for example, entry families calls). Handle the
-        # remaining cases.
-        & LogicAnd(Self.suffix.cast(T.ParamList).params.map(
-            lambda pa: pa.expr.xref_equation
-        ))
-    )
+    params = Property(Self.suffix.cast(T.ParamList))
 
-    params = Property(Self.suffix.cast(T.ParamList).params)
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        # List of every applicable subprogram
+        subps = Var(Self.entities
+                    .map(lambda e: e.cast(BasicDecl))
+                    .filter(lambda e: e.is_subp))
 
+        return (
+            Self.name.xref_equation
+            # TODO: For the moment we presume that a CallExpr in an expression
+            # context necessarily has a ParamList as a suffix, but this is not
+            # always true (for example, entry families calls). Handle the
+            # remaining cases.
+            & LogicAnd(Self.params.params.map(lambda pa:
+                                              pa.expr.xref_equation))
+
+            # For each potential subprogram match, we want to express the
+            # following constraints:
+            & LogicOr(subps.map(
+
+                # The type of the expression is the expr_type of the subprogram
+                lambda s: (Self.type_var == s.expr_type)
+
+                # The called entity is the subprogram
+                & (Self.name.ref_var == s)
+
+                # For each parameter, the type of the expression matches the
+                # expected type for this subprogram.
+                & LogicAnd(s.subp_spec.match_param_list(Self.params).map(
+                    lambda pm: pm.param_assoc.expr.type_var
+                    == pm.single_param.profile.type_expr.designated_type
+                ))
+            ))
+
+            # Bind the callexpr's ref_var to the id's ref var.
+            # TODO: Not sure yet we want to propagate ref_vars everywhere, or
+            # just keep them in identifiers. Maybe we want a property
+            # "references" that just returns the info.
+            # Pros:
+            # * Less memory use because we can put ref_var in BaseId.
+            # * Less complicated equations code and runtime.
+            & (Self.ref_var == Self.name.ref_var)
+        )
 
 
 class ParamAssoc(AdaNode):

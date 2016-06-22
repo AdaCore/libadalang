@@ -1380,7 +1380,6 @@ class SubprogramSpec(AdaNode):
         optional (i.e. has a default value).
         """
         typed_params = Var(Self.typed_param_list)
-        no_match = Var(New(ParamMatch, has_matched=False, is_formal_opt=False))
 
         return params.params.map(lambda i, pa: If(
             pa.designator.is_null,
@@ -1391,7 +1390,7 @@ class SubprogramSpec(AdaNode):
                 ParamMatch,
                 has_matched=True,
                 is_formal_opt=Not(single_param.profile.default.is_null)
-            ), no_match),
+            )),
 
             # Named parameter case: make sure the designator is
             # actualy a name and that there is a corresponding
@@ -1402,9 +1401,9 @@ class SubprogramSpec(AdaNode):
                         ParamMatch,
                         has_matched=True,
                         is_formal_opt=Not(single_param.profile.default.is_null)
-                    ), no_match
+                    )
                 )
-            ), no_match)
+            ))
         ))
 
     @langkit_property(return_type=BoolType)

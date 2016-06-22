@@ -1388,10 +1388,10 @@ class SubprogramSpec(AdaNode):
             # formal.
             pa.designator.cast(Identifier).then(lambda id: (
                 typed_params.find(lambda p: p.name.matches(id)).then(
-                    lambda p: New(
+                    lambda single_param: New(
                         ParamMatch,
                         has_matched=True,
-                        is_formal_opt=Not(p.profile.default.is_null)
+                        is_formal_opt=Not(single_param.profile.default.is_null)
                     ), no_match
                 )
             ), no_match)

@@ -1085,6 +1085,14 @@ class ParamAssoc(AdaNode):
     designator = Field(type=T.AdaNode)
     expr = Field(type=T.Expr)
 
+    @langkit_property(return_type=T.ParamMatch, private=True)
+    def matches(param=T.SingleParameter):
+        return New(ParamMatch,
+                   has_matched=True,
+                   is_formal_opt=Not(param.profile.default.is_null),
+                   single_param=param,
+                   param_assoc=Self)
+
 
 class ParamList(AdaNode):
     params = Field(type=T.ParamAssoc.list_type())
@@ -1329,6 +1337,8 @@ class ParamMatch(Struct):
         Whether the matched ParameterProfile has a default value (and is thus
         optional).
     """)
+    param_assoc = Field(type=T.ParamAssoc)
+    single_param = Field(type=SingleParameter)
 
 
 class SubprogramSpec(AdaNode):

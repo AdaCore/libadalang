@@ -143,6 +143,7 @@ class BasicDecl(AdaNode):
     )
 
     is_array = Property(Self.array_ndims > 0)
+    is_subp = Property(Self.is_a(T.BasicSubprogramDecl, T.SubprogramBody))
 
     expr_type = AbstractProperty(
         type=T.TypeDecl,

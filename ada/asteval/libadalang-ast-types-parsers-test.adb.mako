@@ -296,7 +296,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                Raise_Error (Params, "Exactly one index is expected");
             end if;
 
-            Params.F_Params.Get_Child (0, Exists, Index_Expr);
+            Params.F_Params.Get_Child (1, Exists, Index_Expr);
             pragma Assert (Exists);
 
             --  Likewise if the kind of the parameter is unexpected or if
@@ -329,7 +329,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          -----------------
 
          function Eval_Params (Params : Param_List) return Eval_Result_Array is
-            Result : Eval_Result_Array (0 .. Params.F_Params.Child_Count - 1);
+            Result : Eval_Result_Array (1 .. Params.F_Params.Child_Count);
          begin
             for I in Result'Range loop
                declare
@@ -410,8 +410,8 @@ package body Libadalang.AST.Types.Parsers.Test is
                         "Out of bounds index: "
                         & Integer'Image (Index)
                         & " not in "
-                        & Integer'Image (0) & " .. "
-                        & Integer'Image (Child_Count (Name.Value.Node) - 1));
+                        & Integer'Image (1) & " .. "
+                        & Integer'Image (Child_Count (Name.Value.Node)));
                   end if;
                   return Create (new Eval_Result_Record'
                     (Kind      => Ada_Node_Value,
@@ -498,7 +498,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                                  & Expected_Arg);
          end if;
 
-         Params.F_Params.Get_Child (0, Exists, Param_Assoc_Node);
+         Params.F_Params.Get_Child (1, Exists, Param_Assoc_Node);
          pragma Assert (Exists);
 
          --  Likewise if the kind of the parameter is unexpected or if
@@ -807,7 +807,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   % endfor
                begin
                   ## ... and make sure they have the expected types
-               % for i, (n, t, _) in enumerate(args):
+               % for i, (n, t, _) in enumerate(args, 1):
 
                   ## If this is anything else than an AST node, checking the
                   ## Eval_Result_Kind is enough. Otherwise, we also must check

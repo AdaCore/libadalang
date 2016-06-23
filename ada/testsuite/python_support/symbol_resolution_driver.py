@@ -42,6 +42,22 @@ def src_slice(node):
     return source.src_slice(lines, node.sloc_range)
 
 
+def resolve_statement(statement):
+    assert isinstance(statement, lal.Statement)
+
+    # Perform symbol resolution on the preceding statement, using the
+    # p_resolve_symbols property.
+    if statement.p_resolve_symbols:
+        # If it worked, print the reference value and the type value of
+        # every sub expression in the statement.
+        for expr in statement.findall(lal.Expr):
+            print "Expr: {}, references {}, type is {}".format(
+                expr, expr.p_ref_val, expr.p_type_val
+            )
+    else:
+        print "Resolution failed for statement {}".format(statement)
+
+
 ctx = lal.AnalysisContext()
 for src_file in sys.argv[1:]:
     print_title('#', 'Analyzing {}'.format(src_file))
@@ -113,20 +129,12 @@ for src_file in sys.argv[1:]:
 
         elif pragma_name == 'Test_Statement':
             assert not p.f_args
-            statement = p.previous_sibling
-            assert isinstance(statement, lal.Statement)
+            resolve_statement(p.previous_sibling)
 
-            # Perform symbol resolution on the preceding statement, using the
-            # p_resolve_symbols property.
-            if statement.p_resolve_symbols:
-                # If it worked, print the reference value and the type value of
-                # every sub expression in the statement.
-                for expr in statement.findall(lal.Expr):
-                    print "Expr: {}, references {}, type is {}".format(
-                        expr, expr.p_ref_val, expr.p_type_val
-                    )
-            else:
-                print "Resolution failed for statement {}".format(statement)
+        elif pragma_name == 'Test_Block':
+            assert not p.f_args
+            for statement in p.previous_sibling.findall(lal.SimpleStatement):
+                resolve_statement(statement)
 
 
 print('')

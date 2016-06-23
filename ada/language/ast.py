@@ -1387,22 +1387,14 @@ class SubprogramSpec(AdaNode):
 
             # Positional parameter case: if this parameter has no
             # name association, make sure we have enough formals.
-            typed_params.at(i).then(lambda single_param: New(
-                ParamMatch,
-                has_matched=True,
-                is_formal_opt=Not(single_param.profile.default.is_null)
-            )),
+            typed_params.at(i).then(lambda sp: pa.matches(sp)),
 
             # Named parameter case: make sure the designator is
             # actualy a name and that there is a corresponding
             # formal.
             pa.designator.cast(Identifier).then(lambda id: (
                 typed_params.find(lambda p: p.name.matches(id)).then(
-                    lambda single_param: New(
-                        ParamMatch,
-                        has_matched=True,
-                        is_formal_opt=Not(single_param.profile.default.is_null)
-                    )
+                    lambda sp: pa.matches(sp)
                 )
             ))
         ))

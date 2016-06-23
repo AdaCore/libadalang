@@ -1,0 +1,9 @@
+Analyzing test1.adb
+###################
+
+Expr: <Id "I" 13:4-13:5>, references <ObjectDecl ["I"] 11:4-11:18>, type is <FullTypeDecl ["My_Integer"] 2:4-2:38>
+Expr: <CallExpr 13:9-13:14>, references <SubprogramDecl ["B"] 8:4-8:49>, type is <FullTypeDecl ["My_Integer"] 2:4-2:38>
+Expr: <Id "B" 13:9-13:10>, references <SubprogramDecl ["B"] 8:4-8:49>, type is <FullTypeDecl ["My_Integer"] 2:4-2:38>
+Expr: <Id "A" 13:12-13:13>, references <SubprogramDecl ["A"] 5:4-5:32>, type is <FullTypeDecl ["My_Integer"] 2:4-2:38>
+
+Done.

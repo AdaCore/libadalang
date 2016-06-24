@@ -91,24 +91,24 @@ package body Libadalang.AST.Types.Parsers.Test is
    ----------------------
 
    function Parse_Expression (Buffer : String) return Expression is
-      Expr   : Expression := new Expression_Type;
+      Exp   : Expression := new Expression_Type;
    begin
-      Expr.Ctx := Create;
-      Expr.Unit := Get_From_Buffer
-        (Context  => Expr.Ctx,
+      Exp.Ctx := Create;
+      Exp.Unit := Get_From_Buffer
+        (Context  => Exp.Ctx,
          Filename => "<input>",
          Buffer   => Buffer,
          Rule     => Expression_Rule);
 
-      if Has_Diagnostics (Expr.Unit) then
+      if Has_Diagnostics (Exp.Unit) then
          Put_Line ("Parsing failed:");
-         for D of Diagnostics (Expr.Unit) loop
+         for D of Diagnostics (Exp.Unit) loop
             Put_Line (To_Pretty_String (D));
          end loop;
-         Destroy (Expr);
+         Destroy (Exp);
       end if;
 
-      return Expr;
+      return Exp;
    end Parse_Expression;
 
    -------------
@@ -144,7 +144,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       --  Internal error holder: see Raise_Error
 
       procedure Raise_Error
-        (Expr    : access Ada_Node_Type'Class;
+        (Exp     : access Ada_Node_Type'Class;
          Message : String)
          with No_Return => True;
       --  When one of the Eval* functions below notifies an error in the input
@@ -159,40 +159,40 @@ package body Libadalang.AST.Types.Parsers.Test is
       --  caught in the top-level Eval function. This Eval function discards
       --  processing and just returns the Error variable.
 
-      function Eval (Expr : access Ada_Node_Type'Class) return Eval_Result;
+      function Eval (Exp : access Ada_Node_Type'Class) return Eval_Result;
       --  Evaluation entry point for arbitrary sub-expressions, return the
       --  corresponding result or invoke Raise_Error.
 
-      function Eval_Call (Expr : Call_Expr) return Eval_Result;
+      function Eval_Call (Exp : Call_Expr) return Eval_Result;
       --  Return a call expression evaluation (method invocation or array
       --  subscript) or invoke Raise_Error.
 
       function Eval_Find
-        (Expr   : Ada_Node;
+        (Exp    : Ada_Node;
          Root   : Ada_Node;
          Params : Param_List)
          return Eval_Result;
-      --  Given a Expr sub-expression which is a Find method invocation, the
+      --  Given a Exp sub-expression which is a Find method invocation, the
       --  Root node used as the root for the AST node lookup and Params, the
       --  Param_List associated to this Find method call, return the evaluation
       --  of the Find method or invoke Raise_Error.
 
-      function Eval_Identifier (Expr : Identifier) return Eval_Result;
+      function Eval_Identifier (Exp : Identifier) return Eval_Result;
       --  Return a mere identifier expression evaluation or invoke Raise_Error
 
-      function Eval_Dotted_Name (Expr : Dotted_Name) return Eval_Result;
+      function Eval_Dotted_Name (Exp : Dotted_Name) return Eval_Result;
       --  Return a dotted name (X.Y) expression evaluation or invoke Raise_Error
 
       function Eval_Node_Kind
-        (Expr : access Ada_Node_Type'Class)
+        (Exp : access Ada_Node_Type'Class)
          return Ada_Node_Kind_Type;
-      --  Assuming Expr is an expression that only contains a name, try to turn
-      --  it into an AST node kind. If there is no such kind of if Expr is
+      --  Assuming Exp is an expression that only contains a name, try to turn
+      --  it into an AST node kind. If there is no such kind of if Exp is
       --  anything else, invoke Raise_Error.
 
       --  The following functions evaluate a field access for the field
       --  "Field_Cmp" (lower case name of the field) in the Prefix AST node. In
-      --  the context of the Expr expression evaluation.
+      --  the context of the Exp expression evaluation.
       --
       --  Two cases: either 1) Param_Value is empty, then it's a mere field
       --  access (no additional arguments), either 2) it is not empty, then
@@ -211,7 +211,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       % for cls in ctx.astnode_types:
          % if not cls.abstract:
             function Eval_${cls.name()}_Field_Access
-              (Expr         : access Ada_Node_Type'Class;
+              (Exp          : access Ada_Node_Type'Class;
                Prefix_Node  : ${cls.name()};
                Field        : Symbol_Type;
                Field_Cmp    : Wide_Wide_String;
@@ -221,7 +221,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       % endfor
 
       function Eval_Node_Field_Access
-        (Expr         : access Ada_Node_Type'Class;
+        (Exp          : access Ada_Node_Type'Class;
          Prefix_Node  : Ada_Node;
          Field        : Symbol_Type;
          Field_Cmp    : Wide_Wide_String;
@@ -231,27 +231,27 @@ package body Libadalang.AST.Types.Parsers.Test is
       --  concrete node kind, it dispatches to one of the above.
 
       procedure Check_In_Array_Bound
-        (Expr        : access Ada_Node_Type'Class;
+        (Exp         : access Ada_Node_Type'Class;
          Index       : Natural;
          First, Last : Natural);
       --  Check that Index is in First .. Last. If it's not, invoke Raise_Error
-      --  with Expr as the context expression.
+      --  with Exp as the context expression.
 
       ----------
       -- Eval --
       ----------
 
-      function Eval (Expr : access Ada_Node_Type'Class) return Eval_Result is
+      function Eval (Exp : access Ada_Node_Type'Class) return Eval_Result is
       begin
-         case Kind (Expr) is
+         case Kind (Exp) is
          when Ada_Call_Expr =>
-            return Eval_Call (Call_Expr (Expr));
+            return Eval_Call (Call_Expr (Exp));
          when Ada_Identifier =>
-            return Eval_Identifier (Identifier (Expr));
+            return Eval_Identifier (Identifier (Exp));
          when Ada_Int_Literal =>
             declare
                Text : constant Text_Type :=
-                  Token_Text (F_Tok (Single_Tok_Node (Expr)));
+                  Token_Text (F_Tok (Single_Tok_Node (Exp)));
             begin
                return Create (new Eval_Result_Record'
                  (Kind      => Integer_Value,
@@ -259,9 +259,9 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Int       => Integer'Value (Image (Text))));
             end;
          when Ada_Dotted_Name =>
-            return Eval_Dotted_Name (Dotted_Name (Expr));
+            return Eval_Dotted_Name (Dotted_Name (Exp));
          when others =>
-            Raise_Error (Expr, "Unhandled expression: " & Kind_Name (Expr));
+            Raise_Error (Exp, "Unhandled expression: " & Kind_Name (Exp));
          end case;
       end Eval;
 
@@ -269,7 +269,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       -- Eval_Call --
       ---------------
 
-      function Eval_Call (Expr : Call_Expr) return Eval_Result is
+      function Eval_Call (Exp : Call_Expr) return Eval_Result is
 
          function Get_Single_Index (Params : Param_List) return Integer;
          --  If Params is anything else than a list of exactly one integer
@@ -352,19 +352,19 @@ package body Libadalang.AST.Types.Parsers.Test is
             return Result;
          end Eval_Params;
 
-         Name   : constant Eval_Result := Eval (Expr.F_Name);
+         Name   : constant Eval_Result := Eval (Exp.F_Name);
          Params : Param_List;
       begin
          --  This is more like a sanity check: for Call_Expr nodes, we don't
          --  expect anything else than a Param_List suffix.
 
-         if Kind (Expr.F_Suffix) /= Ada_Param_List then
-            Raise_Error (Expr,
-                         "Invalid " & Kind_Name (Expr.F_Suffix)
+         if Kind (Exp.F_Suffix) /= Ada_Param_List then
+            Raise_Error (Exp,
+                         "Invalid " & Kind_Name (Exp.F_Suffix)
                          & " suffix (ParamList expected)");
          end if;
 
-         Params := Param_List (Expr.F_Suffix);
+         Params := Param_List (Exp.F_Suffix);
 
          --  What this expression really do depend on the kind of the name
          --  (aka. "prefix"): it can be either a call or an array subscript.
@@ -380,7 +380,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                      A      : ${cls.api_name()} renames
                                  Name.Value.${field_for_type(cls)}.Items;
                   begin
-                     Check_In_Array_Bound (Expr, Index, A'First, A'Last);
+                     Check_In_Array_Bound (Exp, Index, A'First, A'Last);
                      return Create (new Eval_Result_Record'
                        (Kind      => ${enum_for_type(cls.element_type())},
                         Ref_Count => <>,
@@ -406,7 +406,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   Name.Value.Node.Get_Child (Index, Exists, Result);
                   if not Exists then
                      Raise_Error
-                       (Expr,
+                       (Exp,
                         "Out of bounds index: "
                         & Integer'Image (Index)
                         & " not in "
@@ -455,7 +455,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
             when Field_Access_Value =>
                return Eval_Node_Field_Access
-                 (Expr,
+                 (Exp,
                   Name.Value.Field_Node,
                   Name.Value.Field_Name,
                   To_Lower (Name.Value.Field_Name.all),
@@ -463,11 +463,11 @@ package body Libadalang.AST.Types.Parsers.Test is
 
             when Find_Builtin_Value =>
                return Eval_Find
-                 (Ada_Node (Expr), Name.Value.Find_Root, Params);
+                 (Ada_Node (Exp), Name.Value.Find_Root, Params);
 
             when others =>
                Raise_Error
-                 (Expr, "Cannot subscript a " & Kind_Name (Name.Value.Kind));
+                 (Exp, "Cannot subscript a " & Kind_Name (Name.Value.Kind));
          end case;
       end Eval_Call;
 
@@ -476,7 +476,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       ---------------
 
       function Eval_Find
-        (Expr   : Ada_Node;
+        (Exp   : Ada_Node;
          Root   : Ada_Node;
          Params : Param_List)
          return Eval_Result
@@ -534,7 +534,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
             when others =>
                Raise_Error
-                 (Expr, "Invalid Find argument: got " & Kind_Name (Param_Expr)
+                 (Exp, "Invalid Find argument: got " & Kind_Name (Param_Expr)
                         & " but expected " & Expected_Arg);
          end case;
 
@@ -548,9 +548,9 @@ package body Libadalang.AST.Types.Parsers.Test is
       -- Eval_Identifier --
       ---------------------
 
-      function Eval_Identifier (Expr : Identifier) return Eval_Result is
+      function Eval_Identifier (Exp : Identifier) return Eval_Result is
          Ident     : constant Wide_Wide_String :=
-            Token_Text (F_Tok (Single_Tok_Node (Expr)));
+            Token_Text (F_Tok (Single_Tok_Node (Exp)));
          Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident);
       begin
          --  The only identifier available so far is the analysis unit root
@@ -562,7 +562,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
          else
             Raise_Error
-              (Expr, "Undefined identifier: " & Image (Ident));
+              (Exp, "Undefined identifier: " & Image (Ident));
          end if;
       end Eval_Identifier;
 
@@ -570,19 +570,19 @@ package body Libadalang.AST.Types.Parsers.Test is
       -- Eval_Dotted_Name --
       ----------------------
 
-      function Eval_Dotted_Name (Expr : Dotted_Name) return Eval_Result is
-         Pref  : constant Eval_Result := Eval (Expr.F_Prefix);
+      function Eval_Dotted_Name (Exp : Dotted_Name) return Eval_Result is
+         Pref  : constant Eval_Result := Eval (Exp.F_Prefix);
          Ident : Symbol_Type;
       begin
          --  The only dotted name  form we handle here is X.Y where X is any
          --  valid expression and Y is a static name.
 
-         if Kind (Expr.F_Suffix) /= Ada_Identifier then
-            Raise_Error (Expr,
-                         "Invalid " & Kind_Name (Expr.F_Suffix)
+         if Kind (Exp.F_Suffix) /= Ada_Identifier then
+            Raise_Error (Exp,
+                         "Invalid " & Kind_Name (Exp.F_Suffix)
                          & " suffix (Identifier expected)");
          end if;
-         Ident := Get_Symbol (F_Tok (Single_Tok_Node (Expr.F_Suffix)));
+         Ident := Get_Symbol (F_Tok (Single_Tok_Node (Exp.F_Suffix)));
 
          declare
             --  We want to be case insensitive, so keep Ident_Cmp to perform
@@ -634,7 +634,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                   % endfor
                   else
                      Raise_Error
-                       (Expr.F_Suffix,
+                       (Exp.F_Suffix,
                         "${cls.name()} has no " & Image (Ident.all)
                         & " field; valid ones are:"
                         % for f in fields:
@@ -667,7 +667,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
                else
                   return Eval_Node_Field_Access
-                    (Expr,
+                    (Exp,
                      Pref.Value.Node,
                      Ident,
                      Ident_Cmp,
@@ -679,7 +679,7 @@ package body Libadalang.AST.Types.Parsers.Test is
 
             when others =>
                Raise_Error
-                 (Expr, Kind_Name (Pref.Value.Kind) & " have no field");
+                 (Exp, Kind_Name (Pref.Value.Kind) & " have no field");
             end case;
          end;
       end Eval_Dotted_Name;
@@ -689,20 +689,20 @@ package body Libadalang.AST.Types.Parsers.Test is
       --------------------
 
       function Eval_Node_Kind
-        (Expr : access Ada_Node_Type'Class)
+        (Exp : access Ada_Node_Type'Class)
          return Ada_Node_Kind_Type
       is
       begin
-         if Kind (Expr) /= Ada_Identifier then
+         if Kind (Exp) /= Ada_Identifier then
             Raise_Error
-              (Expr,
+              (Exp,
                "Invalid argument: identifier expected but got "
-               & Kind_Name (Expr) & " instead");
+               & Kind_Name (Exp) & " instead");
          end if;
 
          declare
             Ident     : constant Symbol_Type :=
-               Get_Symbol (F_Tok (Single_Tok_Node (Expr)));
+               Get_Symbol (F_Tok (Single_Tok_Node (Exp)));
             Ident_Cmp : constant Wide_Wide_String := To_Lower (Ident.all);
          begin
             if Ident_Cmp = "" then
@@ -716,7 +716,7 @@ package body Libadalang.AST.Types.Parsers.Test is
                % endif
             % endfor
             else
-               Raise_Error (Expr, "Invalid node kind: " & Image (Ident.all));
+               Raise_Error (Exp, "Invalid node kind: " & Image (Ident.all));
             end if;
          end;
       end Eval_Node_Kind;
@@ -725,7 +725,7 @@ package body Libadalang.AST.Types.Parsers.Test is
          % if not cls.abstract:
 
       function Eval_${cls.name()}_Field_Access
-        (Expr         : access Ada_Node_Type'Class;
+        (Exp          : access Ada_Node_Type'Class;
          Prefix_Node  : ${cls.name()};
          Field        : Symbol_Type;
          Field_Cmp    : Wide_Wide_String;
@@ -790,7 +790,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             ## field really accepts arguments, either we have a bug somewhere,
             ## since fields with no explicit arguments should never yield
             ## Field_Access_Value Eval_Result.
-            Params := Param_List (Call_Expr (Expr).F_Suffix);
+            Params := Param_List (Call_Expr (Exp).F_Suffix);
 
             % if args:
                ## Make sure there are exactly the number of arguments expected
@@ -857,7 +857,7 @@ package body Libadalang.AST.Types.Parsers.Test is
             ## Since the only way to get this error is to evaluate a Prefix
             ## expression, the conversion below should never raise an error.
             Raise_Error
-              (Dotted_Name_Type (Expr.all).F_Suffix,
+              (Dotted_Name_Type (Exp.all).F_Suffix,
                "${cls.name()} has no " & Image (Field.all)
                & " field; valid ones are:"
                % for f in fields:
@@ -875,7 +875,7 @@ package body Libadalang.AST.Types.Parsers.Test is
       ----------------------------
 
       function Eval_Node_Field_Access
-        (Expr         : access Ada_Node_Type'Class;
+        (Exp          : access Ada_Node_Type'Class;
          Prefix_Node  : Ada_Node;
          Field        : Symbol_Type;
          Field_Cmp    : Wide_Wide_String;
@@ -885,13 +885,13 @@ package body Libadalang.AST.Types.Parsers.Test is
       begin
          case Kind (Prefix_Node) is
          when Ada_List =>
-            Raise_Error (Expr, "Lists have no field");
+            Raise_Error (Exp, "Lists have no field");
 
          % for cls in ctx.astnode_types:
             % if not cls.abstract:
          when ${cls.ada_kind_name()} =>
             return Eval_${cls.name()}_Field_Access
-              (Expr, ${cls.name()} (Prefix_Node),
+              (Exp, ${cls.name()} (Prefix_Node),
                Field, Field_Cmp, Param_Values);
             % endif
          % endfor
@@ -907,14 +907,14 @@ package body Libadalang.AST.Types.Parsers.Test is
       --------------------------
 
       procedure Check_In_Array_Bound
-        (Expr        : access Ada_Node_Type'Class;
+        (Exp         : access Ada_Node_Type'Class;
          Index       : Natural;
          First, Last : Natural)
       is
       begin
          if Index not in First .. Last then
             Raise_Error
-              (Expr,
+              (Exp,
                "Out of bounds index: "
                & Integer'Image (Index)
                & " not in "
@@ -928,11 +928,11 @@ package body Libadalang.AST.Types.Parsers.Test is
       -----------------
 
       procedure Raise_Error
-        (Expr    : access Ada_Node_Type'Class;
+        (Exp     : access Ada_Node_Type'Class;
          Message : String)
       is
       begin
-         Error.Sub_Expr := Ada_Node (Expr);
+         Error.Sub_Expr := Ada_Node (Exp);
          Error.Message := +Message;
          raise Evaluation_Error;
       end Raise_Error;

@@ -16,7 +16,9 @@ from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
 from langkit.expressions.boolean import If
-from langkit.expressions.logic import Domain, Predicate, LogicAnd, LogicOr
+from langkit.expressions.logic import (
+    Domain, Predicate, LogicAnd, LogicOr, LogicTrue
+)
 
 
 def symbol_list(base_id_list):
@@ -187,6 +189,32 @@ class BasicDecl(AdaNode):
             lambda subp=SubprogramBody:      subp.subp_spec,
             lambda others:                   No(SubprogramSpec),
         )
+
+    @langkit_property(return_type=EquationType, private=True)
+    def constrain_prefix(prefix=T.Expr):
+        """
+        This method is used when self is a candidate suffix in a dotted
+        expression, to express the potential constraint that the suffix could
+        express on the prefix.
+
+        For example, given this code::
+
+            1 type P is record
+            2     A, B : Integer;
+            3 end record;
+            4
+            5 P_Inst : P;
+            7
+            8 P_Inst.A;
+              ^^^^^^^^
+
+        A references the A ComponentDecl at line 2, and the constraint that we
+        want to express on the prefix (P_Inst), is that it needs to be of type
+        P.
+        """
+        # Default implementation returns logic true => does not add any
+        # constraint to the xref equation.
+        return LogicTrue()
 
 
 @abstract

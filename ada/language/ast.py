@@ -289,6 +289,10 @@ class ComponentDecl(BasicDecl):
 
     expr_type = Property(Self.component_def.type_expr.designated_type)
 
+    @langkit_property(return_type=EquationType, private=True)
+    def constrain_prefix(prefix=T.Expr):
+        return prefix.type_var == Self.container_type
+
     @langkit_property(return_type=T.TypeDecl)
     def container_type():
         """

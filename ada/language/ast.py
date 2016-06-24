@@ -257,8 +257,14 @@ class ComponentDecl(BasicDecl):
     )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
-
     array_ndims = Property(Self.component_def.type_expr.array_ndims)
+
+    @langkit_property(return_type=T.TypeDecl)
+    def container_type():
+        """
+        Return the defining container type for this component declaration.
+        """
+        return Self.parents.find(lambda p: p.is_a(TypeDecl)).cast(TypeDecl)
 
 
 class ComponentList(AdaNode):

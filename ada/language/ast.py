@@ -1614,6 +1614,17 @@ class DottedName(Name):
         )
     ))
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        return (
+            Self.prefix.xref_equation
+            & Self.prefix.designated_env.eval_in_env(Self.suffix.xref_equation)
+            & LogicOr(Self.entities.map(lambda e: (
+                (Self.suffix.ref_var == e)
+                & e.cast(BasicDecl).constrain_prefix(Self.prefix)
+            )))
+        )
+
 
 class CompilationUnit(AdaNode):
     """Root node for all Ada analysis units."""

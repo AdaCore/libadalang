@@ -259,6 +259,8 @@ class ComponentDecl(BasicDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     array_ndims = Property(Self.component_def.type_expr.array_ndims)
 
+    expr_type = Property(Self.component_def.type_expr.designated_type)
+
     @langkit_property(return_type=T.TypeDecl)
     def container_type():
         """

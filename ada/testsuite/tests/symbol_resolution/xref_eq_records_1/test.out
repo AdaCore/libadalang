@@ -1,0 +1,9 @@
+Analyzing test_record.adb
+#########################
+
+Expr: <Id "E" 15:7-15:8>, references <ObjectDecl ["E"] 12:7-12:19>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <DottedName 15:12-15:15>, references None, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "G" 15:12-15:13>, references <ObjectDecl ["G"] 13:7-13:20>, type is <FullTypeDecl ["My_Record"] 6:4-9:14>
+Expr: <Id "F" 15:14-15:15>, references <ComponentDecl ["F"] 8:7-8:22>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+
+Done.

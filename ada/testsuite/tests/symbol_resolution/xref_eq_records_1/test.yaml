@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_records_1
+driver: symbol_resolution
+input_sources: [test_record.adb]

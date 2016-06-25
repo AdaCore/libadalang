@@ -1,0 +1,19 @@
+Analyzing test.adb
+##################
+
+Expr: <Id "C" 24:10-24:11>, references <ObjectDecl ["C", "D", "E"] 12:7-12:25>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <CallExpr 24:15-24:27>, references <SubprogramDecl ["Bar"] 17:7-17:65>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "Bar" 24:15-24:18>, references <SubprogramDecl ["Bar"] 17:7-17:65>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "Baz" 24:20-24:23>, references <SubprogramDecl ["Baz"] 20:7-20:35>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "G" 24:25-24:26>, references <ObjectDecl ["G"] 14:7-14:20>, type is <FullTypeDecl ["My_Record"] 6:4-9:14>
+Expr: <Id "D" 25:10-25:11>, references <ObjectDecl ["C", "D", "E"] 12:7-12:25>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <CallExpr 25:15-25:29>, references <SubprogramDecl ["Bar"] 16:7-16:62>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "Bar" 25:15-25:18>, references <SubprogramDecl ["Bar"] 16:7-16:62>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "Baz" 25:20-25:23>, references <SubprogramDecl ["Baz"] 19:7-19:33>, type is <FullTypeDecl ["My_Int"] 3:4-3:38>
+Expr: <Id "Baz" 25:25-25:28>, references <SubprogramDecl ["Baz"] 20:7-20:35>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "E" 26:10-26:11>, references <ObjectDecl ["C", "D", "E"] 12:7-12:25>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <DottedName 26:15-26:18>, references None, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+Expr: <Id "G" 26:15-26:16>, references <ObjectDecl ["G"] 14:7-14:20>, type is <FullTypeDecl ["My_Record"] 6:4-9:14>
+Expr: <Id "F" 26:17-26:18>, references <ComponentDecl ["F"] 8:7-8:22>, type is <FullTypeDecl ["My_Float"] 4:4-4:30>
+
+Done.

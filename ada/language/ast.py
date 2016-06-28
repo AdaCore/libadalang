@@ -1559,12 +1559,13 @@ class QualExpr(Expr):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        typ = Self.prefix.designated_type
+        typ = Self.prefix.designated_type.canonical_type
 
         return (
             Self.suffix.xref_equation
             & (Self.prefix.ref_var == typ)
             & (Self.prefix.type_var == typ)
+            & (Self.suffix.type_var == typ)
             & (Self.type_var == typ)
         )
 

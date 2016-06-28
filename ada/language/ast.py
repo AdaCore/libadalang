@@ -176,7 +176,7 @@ class BasicDecl(AdaNode):
         Same as expr_type, but will instead return the canonical type
         declaration.
         """
-        return Self.expr_type.canonical_type
+        return Self.expr_type.then(lambda t: t.canonical_type)
 
     @langkit_property(return_type=T.SubprogramSpec)
     def subp_spec():
@@ -688,7 +688,7 @@ class BasicSubprogramDecl(BasicDecl):
     defining_env = Property(Self.subp_spec.defining_env)
 
     expr_type = Property(
-        Self.subp_spec.returns.designated_type, doc="""
+        Self.subp_spec.returns.then(lambda r: r.designated_type), doc="""
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """

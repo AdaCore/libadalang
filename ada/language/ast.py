@@ -1716,6 +1716,13 @@ class CompositeStatement(Statement):
 class CallStatement(SimpleStatement):
     call = Field(type=T.Expr)
 
+    xref_equation = Property(
+        Self.call.xref_equation
+
+        # Call statements can have no return value
+        & (Self.call.type_var == No(AdaNode))
+    )
+
 
 class NullStatement(SimpleStatement):
     null_lit = Field(repr=False)

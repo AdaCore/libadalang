@@ -1557,6 +1557,17 @@ class QualExpr(Expr):
     prefix = Field(type=T.Expr)
     suffix = Field(type=T.Expr)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        typ = Self.prefix.designated_type
+
+        return (
+            Self.suffix.xref_equation
+            & (Self.prefix.ref_var == typ)
+            & (Self.prefix.type_var == typ)
+            & (Self.type_var == typ)
+        )
+
 
 @abstract
 class AbstractAggregateContent(AdaNode):

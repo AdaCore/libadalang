@@ -1,0 +1,15 @@
+Analyzing test.adb
+##################
+
+Expr: <CallExpr 8:4-8:10>, references <SubprogramDecl ["A"] 3:4-3:25>, type is None
+Expr: <Id "A" 8:4-8:5>, references <SubprogramDecl ["A"] 3:4-3:25>, type is None
+Expr: <Int 8:7-8:9>, references None, type is <FullTypeDecl ["Int"] 2:4-2:30>
+
+Expr: <Id "B" 11:4-11:5>, references <ObjectDecl ["B"] 6:4-6:11>, type is <FullTypeDecl ["Int"] 2:4-2:30>
+Expr: <CallExpr 11:9-11:15>, references <SubprogramDecl ["C"] 4:4-4:35>, type is <FullTypeDecl ["Int"] 2:4-2:30>
+Expr: <Id "C" 11:9-11:10>, references <SubprogramDecl ["C"] 4:4-4:35>, type is <FullTypeDecl ["Int"] 2:4-2:30>
+Expr: <Int 11:12-11:14>, references None, type is <FullTypeDecl ["Int"] 2:4-2:30>
+
+Resolution failed for statement <CallStatement 14:4-14:10>
+
+Done.

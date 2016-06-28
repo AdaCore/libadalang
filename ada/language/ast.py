@@ -438,6 +438,9 @@ class DerivedTypeDef(TypeDef):
         """
     )
 
+    is_real_type = Property(Self.base_type.is_real_type)
+    is_int_type = Property(Self.base_type.is_int_type)
+
 
 class IncompleteTypeDef(TypeDef):
     is_tagged = Field(type=T.BoolType)

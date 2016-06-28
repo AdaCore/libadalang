@@ -179,7 +179,7 @@ procedure Symres is
             end;
          end loop;
       else
-         Put_Line ("Resolution failed for statement");
+         Put_Line ("Resolution failed for statement " & Safe_Image (St));
       end if;
    end Resolve_Statement;
 

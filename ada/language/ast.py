@@ -432,6 +432,12 @@ class DerivedTypeDef(TypeDef):
 
     array_ndims = Property(Self.name.array_ndims)
 
+    base_type = Property(
+        Self.name.designated_type, doc="""
+        Return the base type entity for this derived type definition.
+        """
+    )
+
 
 class IncompleteTypeDef(TypeDef):
     is_tagged = Field(type=T.BoolType)

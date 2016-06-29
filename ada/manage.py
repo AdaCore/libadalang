@@ -82,21 +82,18 @@ class Manage(ManageScript):
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
 
-        result = CompileCtx(lang_name='Ada',
-                            lexer=ada_lexer,
-                            grammar=ada_grammar,
-                            default_charset='iso-8859-1',
-                            verbosity=args.verbosity,
-                            # Add asteval template directory to the list of
-                            # template dirs.
-                            template_lookup_extra_dirs=[
-                                self.dirs.lang_source_dir('asteval')
-                            ])
-
-        # Install a hook to handle cross-analysis unit symbol resolution
-        result.bind_env_hook('Libadalang.Unit_Files', 'Env_Hook')
-
-        return result
+        return CompileCtx(lang_name='Ada',
+                          lexer=ada_lexer,
+                          grammar=ada_grammar,
+                          default_charset='iso-8859-1',
+                          verbosity=args.verbosity,
+                          # Add asteval template directory to the list of
+                          # template dirs.
+                          template_lookup_extra_dirs=[
+                              self.dirs.lang_source_dir('asteval')
+                          ],
+                          env_hook_subprogram=('Libadalang.Unit_Files',
+                                               'Env_Hook'))
 
     @property
     def main_programs(self):

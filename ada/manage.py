@@ -93,12 +93,6 @@ class Manage(ManageScript):
                                 self.dirs.lang_source_dir('asteval')
                             ])
 
-        # Add several source files to the generated library
-        for filename in ['libadalang-unit_files.ads',
-                         'libadalang-unit_files.adb']:
-            result.add_source_file(self.dirs.lang_source_dir('extensions',
-                                                             filename))
-
         # Install a hook to handle cross-analysis unit symbol resolution
         result.bind_env_hook('Libadalang.Unit_Files', 'Env_Hook')
 

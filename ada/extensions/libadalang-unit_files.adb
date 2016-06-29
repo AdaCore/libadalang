@@ -182,6 +182,7 @@ package body Libadalang.Unit_Files is
       Result : String (1 .. Name'Length);
       I      : Positive := 1;
    begin
+      --  Make Name lower case and replace dots with dashes. Only allow ASCII.
       for C of Name loop
          declare
             CN : constant Unsigned_32 := Wide_Wide_Character'Pos (C);

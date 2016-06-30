@@ -773,7 +773,7 @@ class RecordRepClause(AspectClause):
 
 
 class AtClause(AspectClause):
-    name = Field(type=T.Expr)
+    name = Field(type=T.SingleTokNode)
     expr = Field(type=T.Expr)
 
 
@@ -1181,7 +1181,7 @@ class ParamList(AdaNode):
 
 
 class AccessDeref(Expr):
-    pass
+    prefix = Field(type=T.Expr)
 
 
 class DiamondExpr(Expr):
@@ -1634,7 +1634,9 @@ class RaiseExpression(Expr):
 
 class DottedName(Name):
     prefix = Field(type=T.Expr)
-    suffix = Field(type=T.Expr)
+    suffix = Field(type=T.Name)
+    # TODO: When removing this annotation, the type inferencer will generate
+    # an error.
 
     designated_env = Property(
         Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env)

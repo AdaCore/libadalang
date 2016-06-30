@@ -862,7 +862,7 @@ A.add_rules(
         ")")[1],
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal,
-                   A.access_deref, A.attribute),
+                   A.attribute),
 
     param_assoc=Row(
         Opt(A.identifier | A.others_designator | A.string_literal,
@@ -880,14 +880,13 @@ A.add_rules(
     name=Or(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ DottedName,
+        Row(A.name, ".", "all") ^ AccessDeref,
         Row(A.name, "'", A.attribute,
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
             Or(Row("(", A.expression, ")")[1], A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),
-
-    access_deref=Tok("all") ^ AccessDeref,
 
     static_name=List(
         # We want to accept string literals here for the corner case of library

@@ -119,11 +119,10 @@ CompilationUnit
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | ParamAssoc
@@ -152,11 +151,10 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
@@ -183,11 +181,10 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
@@ -266,11 +263,10 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | AssignStatement
 | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | DottedName
+| | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | ParamAssoc
@@ -301,11 +297,10 @@ CompilationUnit
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStatement
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | DottedName
+| | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | ParamAssoc

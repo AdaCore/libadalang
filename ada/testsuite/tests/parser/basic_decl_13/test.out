@@ -16,7 +16,7 @@ ObjectDecl[1:1-1:94]
 | renaming_clause:
 | | RenamingClause[1:49-1:94]
 | | | renamed_object:
-| | | | DottedName[1:57-1:94]
+| | | | AccessDeref[1:57-1:94]
 | | | | | prefix:
 | | | | | | DottedName[1:57-1:90]
 | | | | | | | prefix:
@@ -25,5 +25,3 @@ ObjectDecl[1:1-1:94]
 | | | | | | | suffix:
 | | | | | | | | Id[1:64-1:90]
 | | | | | | | | | tok: Editable_Line_Info_Columns
-| | | | | suffix:
-| | | | | | AccessDeref[1:91-1:94]

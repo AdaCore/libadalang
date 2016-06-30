@@ -1381,7 +1381,7 @@ class DecLiteral(NumLiteral):
     _repr_name = "Dec"
 
     xref_equation = Property(
-        Predicate(Self.type_var, TypeDecl.fields.is_real_type)
+        Predicate(TypeDecl.fields.is_real_type, Self.type_var)
     )
 
 
@@ -1389,7 +1389,7 @@ class IntLiteral(NumLiteral):
     _repr_name = "Int"
 
     xref_equation = Property(
-        Predicate(Self.type_var, TypeDecl.fields.is_int_type)
+        Predicate(TypeDecl.fields.is_int_type, Self.type_var)
     )
 
 

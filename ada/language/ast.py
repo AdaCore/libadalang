@@ -1203,6 +1203,12 @@ class ParamList(AdaNode):
 class AccessDeref(Expr):
     prefix = Field(type=T.Expr)
 
+    designated_env = Property(
+        Self.prefix.designated_env
+        # Since we have implicit dereference in Ada, everything is directly
+        # accessible through the prefix, so we just use the prefix's env.
+    )
+
     env_elements = Property(Self.prefix.env_elements.filter(
         # Env elements for access derefs need to be of an access type
         lambda e: e.el.cast(BasicDecl).then(

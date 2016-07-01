@@ -573,6 +573,8 @@ class AccessDef(TypeDef):
     is_access_type = Property(True)
     accessed_type = Property(Self.access_expr.accessed_type)
 
+    defining_env = Property(Self.accessed_type.defining_env)
+
 
 class FormalDiscreteTypeDef(TypeDef):
     pass

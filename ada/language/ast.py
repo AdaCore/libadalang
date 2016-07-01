@@ -1601,9 +1601,7 @@ class SubprogramSpec(AdaNode):
         """
         Helper for BasicDecl.defining_env.
         """
-        return If(Self.returns.is_null,
-                  EmptyEnv,
-                  Self.returns.defining_env)
+        return If(Self.returns.is_null, EmptyEnv, Self.returns.defining_env)
 
 
 class Quantifier(EnumType):

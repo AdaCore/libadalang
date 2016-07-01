@@ -1821,10 +1821,10 @@ class AssignStatement(SimpleStatement):
 
     xref_equation = Property(
         Self.dest.xref_equation
-        & (Self.expr.type_var == Self.dest.type_var)
         # TODO: Handle more complex cases than pure type equality,
         # eg. tagged types, accesses.
         & Self.expr.xref_equation
+        & (Self.expr.type_var == Self.dest.type_var)
     )
 
 

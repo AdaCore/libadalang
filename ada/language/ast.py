@@ -259,6 +259,8 @@ class TypeDef(AdaNode):
 
     accessed_type = Property(No(T.TypeDecl))
 
+    defining_env = Property(EmptyEnv)
+
 
 class EnumTypeDef(TypeDef):
     enum_literals = Field(type=T.BaseId.list_type())
@@ -320,6 +322,12 @@ class RecordTypeDef(TypeDef):
     limited = Field(type=T.BoolType)
     record_def = Field(type=T.RecordDef)
 
+    defining_env = Property(
+        # We don't want to be able to access env elements in parents,
+        # so we orphan the env.
+        Self.children_env.env_orphan
+    )
+
 
 @abstract
 class RealTypeDef(TypeDef):
@@ -360,26 +368,11 @@ class FullTypeDecl(TypeDecl):
 
     array_ndims = Property(Self.type_def.array_ndims)
 
-    @langkit_property()
-    def defining_env():
-        # The environments that types define are always independent of the
-        # environment in which the type is defined, hence the orphan
-        # environment.
-        result = Self.children_env.env_orphan
-
-        return Self.type_def.match(
-            # If this type derives from another one, it inherits the latter's
-            # environment, so the following will return a copy of result whose
-            # parent environment is the inheritted one.
-            lambda td=DerivedTypeDef: EnvGroup(result, td.name.defining_env),
-
-            lambda _:                 result,
-        )
-
     is_real_type = Property(Self.type_def.is_real_type)
     is_int_type = Property(Self.type_def.is_int_type)
     is_access_type = Property(Self.type_def.is_access_type)
     accessed_type = Property(Self.type_def.accessed_type)
+    defining_env = Property(Self.type_def.defining_env)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -453,6 +446,13 @@ class DerivedTypeDef(TypeDef):
     is_int_type = Property(Self.base_type.is_int_type)
     is_access_type = Property(Self.base_type.is_access_type)
     accessed_type = Property(Self.base_type.accessed_type)
+
+    defining_env = Property(EnvGroup(
+        Self.children_env.env_orphan,
+
+        # Add environments from parent type defs
+        Self.name.designated_type.canonical_type.defining_env
+    ))
 
 
 class IncompleteTypeDef(TypeDef):

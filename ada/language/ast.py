@@ -254,6 +254,10 @@ class TypeDef(AdaNode):
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_int_type = Property(False,
                            doc="Whether type is an integer type or not.")
+    is_access_type = Property(False,
+                              doc="Whether type is an access type or not.")
+
+    accessed_type = Property(No(T.TypeDecl))
 
 
 class EnumTypeDef(TypeDef):
@@ -335,6 +339,11 @@ class TypeDecl(BasicDecl):
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_int_type = Property(False, doc="Whether type is an integer type or not")
 
+    is_access_type = Property(False,
+                              doc="Whether type is an access type or not")
+
+    accessed_type = Property(No(T.TypeDecl))
+
     @langkit_property(return_type=T.TypeDecl)
     def canonical_type():
         """
@@ -369,6 +378,8 @@ class FullTypeDecl(TypeDecl):
 
     is_real_type = Property(Self.type_def.is_real_type)
     is_int_type = Property(Self.type_def.is_int_type)
+    is_access_type = Property(Self.type_def.is_access_type)
+    accessed_type = Property(Self.type_def.accessed_type)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -440,6 +451,8 @@ class DerivedTypeDef(TypeDef):
 
     is_real_type = Property(Self.base_type.is_real_type)
     is_int_type = Property(Self.base_type.is_int_type)
+    is_access_type = Property(Self.base_type.is_access_type)
+    accessed_type = Property(Self.base_type.accessed_type)
 
 
 class IncompleteTypeDef(TypeDef):
@@ -557,6 +570,9 @@ class AccessDef(TypeDef):
     access_expr = Field(type=T.AccessExpression)
     constraint = Field(type=T.Constraint)
 
+    is_access_type = Property(True)
+    accessed_type = Property(Self.access_expr.accessed_type)
+
 
 class FormalDiscreteTypeDef(TypeDef):
     pass
@@ -657,16 +673,20 @@ class AccessExpression(TypeExprVariant):
     # TODO: Implement designated_type (which will need resolution of anonymous
     # access types first).
 
+    accessed_type = Property(No(TypeDecl))
+
 
 class SubprogramAccessExpression(AccessExpression):
     is_protected = Field(repr=False)
     subp_spec = Field(type=T.SubprogramSpec)
+    accessed_type = Property(No(TypeDecl))
 
 
 class TypeAccessExpression(AccessExpression):
     is_all = Field(type=T.BoolType)
     is_constant = Field(type=T.BoolType)
     subtype_name = Field(type=T.Expr)
+    accessed_type = Property(Self.subtype_name.designated_type)
 
 
 class ParameterProfile(AdaNode):

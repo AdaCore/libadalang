@@ -164,6 +164,7 @@ procedure Symres is
       function Is_Expr (N : Ada_Node) return Boolean
       is (N.all in Expr_Type'Class);
    begin
+      St.Assign_Names_To_Logic_Vars;
       if St.P_Resolve_Symbols then
          for Node of St.Find (Is_Expr'Access).Consume loop
             declare

@@ -1203,6 +1203,31 @@ class ParamList(AdaNode):
 class AccessDeref(Expr):
     prefix = Field(type=T.Expr)
 
+    env_elements = Property(Self.prefix.env_elements.filter(
+        # Env elements for access derefs need to be of an access type
+        lambda e: e.el.cast(BasicDecl).then(
+            lambda bd: bd.canonical_expr_type.is_access_type()
+        )
+    ))
+
+    xref_equation = Property(
+        Self.prefix.xref_equation
+        # Evaluate the prefix equation
+
+        & Domain(Self.ref_var, Self.entities)
+        # Restrict the domain of the reference to entities that are of an
+        # access type.
+
+        & (Self.ref_var == Self.prefix.ref_var)
+        # Propagate this constraint upward to the prefix expression
+
+        & Bind(Self.prefix.type_var,
+               Self.type_var,
+               TypeDecl.fields.accessed_type)
+        # We don't need to check if the type is an access type, since we
+        # already constrained the domain above.
+    )
+
 
 class DiamondExpr(Expr):
     pass

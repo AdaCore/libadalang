@@ -1735,6 +1735,7 @@ class DottedName(Name):
         & LogicOr(Self.entities.map(lambda e: (
             (Self.suffix.ref_var == e)
             & e.cast(BasicDecl).constrain_prefix(Self.prefix)
+            & (Self.type_var == Self.suffix.type_var)
         )))
     )
 

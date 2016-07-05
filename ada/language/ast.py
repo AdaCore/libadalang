@@ -297,7 +297,14 @@ class ComponentDecl(BasicDecl):
 
     @langkit_property(return_type=EquationType, private=True)
     def constrain_prefix(prefix=T.Expr):
-        return prefix.type_var == Self.container_type
+        return (
+            # Simple type equivalence
+            (prefix.type_var == Self.container_type)
+
+            # Access dereference
+            | Predicate(TypeDecl.fields.matching_access_type,
+                        prefix.type_var, Self.container_type)
+        )
 
     @langkit_property(return_type=T.TypeDecl)
     def container_type():
@@ -351,6 +358,10 @@ class TypeDecl(BasicDecl):
                               doc="Whether type is an access type or not")
 
     accessed_type = Property(No(T.TypeDecl))
+
+    @langkit_property(return_type=BoolType)
+    def matching_access_type(other_type=T.TypeDecl):
+        return (Self.canonical_type.accessed_type == other_type.canonical_type)
 
     @langkit_property(return_type=T.TypeDecl)
     def canonical_type():

@@ -554,6 +554,8 @@ class SubtypeDecl(TypeDecl):
 
     canonical_type = Property(Self.type_expr.designated_type.canonical_type)
 
+    accessed_type = Property(Self.canonical_type.accessed_type)
+
 
 class TaskDef(AdaNode):
     interfaces = Field(type=T.Name.list_type())

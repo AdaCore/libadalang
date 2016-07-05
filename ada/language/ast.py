@@ -372,7 +372,18 @@ class FullTypeDecl(TypeDecl):
     is_int_type = Property(Self.type_def.is_int_type)
     is_access_type = Property(Self.type_def.is_access_type)
     accessed_type = Property(Self.type_def.accessed_type)
-    defining_env = Property(Self.type_def.defining_env)
+
+    defining_env = Property(
+        # Evaluating in type env, because the defining environment of a type
+        # is always its own.
+        Self.children_env.eval_in_env(Self.type_def.defining_env)
+
+        # TODO: The fact that the env should not be inherited from the called
+        # property might be common enough to warrant a specific construct, such
+        # as a kw parameter to Property: inherit_caller_env=False - or even
+        # make it the default, and only inherit the env when explicitly
+        # specified.
+    )
 
 
 class FloatingPointDef(RealTypeDef):

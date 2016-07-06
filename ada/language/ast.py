@@ -1239,8 +1239,20 @@ class CallExpr(Expr):
                 # For each parameter, the type of the expression matches the
                 # expected type for this subprogram.
                 & LogicAnd(s.subp_spec.match_param_list(Self.params).map(
-                    lambda pm: pm.param_assoc.expr.type_var
-                    == pm.single_param.profile.type_expr.designated_type
+                    lambda pm: (
+                        # The type of each actual matches the type of the
+                        # formal.
+                        pm.param_assoc.expr.type_var
+                        == pm.single_param.profile.type_expr.designated_type
+
+                    ) & (If(
+                        # Bind actuals designators to parameters if there are
+                        # designators.
+                        pm.param_assoc.designator.is_null,
+                        LogicTrue(),
+                        pm.param_assoc.designator.ref_var
+                        == pm.single_param.profile
+                    ))
                 ))
             ))
 

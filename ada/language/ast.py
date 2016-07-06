@@ -258,6 +258,7 @@ class TypeDef(AdaNode):
                               doc="Whether type is an access type or not.")
 
     accessed_type = Property(No(T.TypeDecl))
+    is_tagged_type = Property(False, doc="Whether type is tagged or not")
 
     defining_env = Property(EmptyEnv)
 
@@ -335,6 +336,8 @@ class RecordTypeDef(TypeDef):
         Self.children_env.env_orphan
     )
 
+    is_tagged_type = Property(Self.tagged)
+
 
 @abstract
 class RealTypeDef(TypeDef):
@@ -358,6 +361,7 @@ class TypeDecl(BasicDecl):
                               doc="Whether type is an access type or not")
 
     accessed_type = Property(No(T.TypeDecl))
+    is_tagged_type = Property(False, doc="Whether type is tagged or not")
 
     @langkit_property(return_type=BoolType)
     def matching_access_type(other_type=T.TypeDecl):
@@ -383,6 +387,7 @@ class FullTypeDecl(TypeDecl):
     is_int_type = Property(Self.type_def.is_int_type)
     is_access_type = Property(Self.type_def.is_access_type)
     accessed_type = Property(Self.type_def.accessed_type)
+    is_tagged_type = Property(Self.type_def.is_tagged_type)
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
@@ -468,6 +473,7 @@ class DerivedTypeDef(TypeDef):
     is_int_type = Property(Self.base_type.is_int_type)
     is_access_type = Property(Self.base_type.is_access_type)
     accessed_type = Property(Self.base_type.accessed_type)
+    is_tagged_type = Property(True)
 
     defining_env = Property(EnvGroup(
         Self.children_env.env_orphan,
@@ -480,6 +486,7 @@ class DerivedTypeDef(TypeDef):
 class IncompleteTypeDef(TypeDef):
     is_tagged = Field(type=T.BoolType)
 
+    is_tagged_type = Property(Self.is_tagged)
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
 

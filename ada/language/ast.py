@@ -1247,14 +1247,14 @@ class CallExpr(Expr):
                         pm.param_assoc.expr.type_var
                         == pm.single_param.profile.type_expr.designated_type
 
-                    ) & (If(
+                    ) & If(
                         # Bind actuals designators to parameters if there are
                         # designators.
                         pm.param_assoc.designator.is_null,
                         LogicTrue(),
                         pm.param_assoc.designator.ref_var
                         == pm.single_param.profile
-                    ))
+                    )
                 ))
             ))
 
@@ -1489,8 +1489,10 @@ class BaseId(SingleTokNode):
 
     xref_equation = Property(
         Domain(Self.ref_var, Self.entities)
-        & Bind(Self.ref_var, Self.type_var,
-               BasicDecl.fields.canonical_expr_type)
+        & Bind(
+            Self.ref_var, Self.type_var,
+            BasicDecl.fields.canonical_expr_type
+        )
     )
 
 

@@ -1,0 +1,12 @@
+Analyzing enum_types.adb
+########################
+
+Expr: <Id "P" 8:4-8:5>, references <ObjectDecl ["P"] 5:4-5:9>, type is <EnumTypeDecl ["A"] 2:4-2:30>
+Expr: <Id "Enum_1" 8:9-8:15>, references <EnumLiteralDecl ["Enum_1"] 2:15-2:21>, type is <EnumTypeDecl ["A"] 2:4-2:30>
+
+Expr: <Id "Q" 11:4-11:5>, references <ObjectDecl ["Q"] 6:4-6:9>, type is <EnumTypeDecl ["B"] 3:4-3:38>
+Expr: <Id "Enum_1" 11:9-11:15>, references <EnumLiteralDecl ["Enum_1"] 3:15-3:21>, type is <EnumTypeDecl ["B"] 3:4-3:38>
+
+Resolution failed for statement <AssignStatement 14:4-14:15>
+
+Done.

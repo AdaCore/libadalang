@@ -1,13 +1,17 @@
-FullTypeDecl[1:1-1:26]
+EnumTypeDecl[1:1-1:26]
 | type_id:
 | | Id[1:6-1:7]
 | | | tok: A
-| type_def:
-| | EnumTypeDef[1:11-1:26]
-| | | enum_literals:
+| enum_literals:
+| | EnumLiteralDecl[1:12-1:15]
+| | | enum_identifier:
 | | | | Chr[1:12-1:15]
 | | | | | tok: 'B'
+| | EnumLiteralDecl[1:17-1:20]
+| | | enum_identifier:
 | | | | Chr[1:17-1:20]
 | | | | | tok: 'C'
+| | EnumLiteralDecl[1:22-1:25]
+| | | enum_identifier:
 | | | | Chr[1:22-1:25]
 | | | | | tok: 'D'

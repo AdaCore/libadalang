@@ -268,10 +268,6 @@ class TypeDef(AdaNode):
     defining_env = Property(EmptyEnv)
 
 
-class EnumTypeDef(TypeDef):
-    enum_literals = Field(type=T.BaseId.list_type())
-
-
 class Variant(AdaNode):
     choice_list = Field(type=T.AdaNode.list_type())
     components = Field(type=T.ComponentList)
@@ -441,6 +437,10 @@ class FullTypeDecl(TypeDecl):
         # make it the default, and only inherit the env when explicitly
         # specified.
     )
+
+class EnumTypeDecl(TypeDecl):
+    enum_literals = Field(type=T.EnumLiteralDecl.list_type())
+    aspects = Field(type=T.AspectSpecification)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -1500,8 +1500,14 @@ class StringLiteral(BaseId):
     _repr_name = "Str"
 
 
-class EnumIdentifier(Identifier):
-    _repr_name = "EnumId"
+class EnumLiteralDecl(BasicDecl):
+    enum_identifier = Field(type=T.BaseId)
+
+    @langkit_property(return_type=T.TypeDecl)
+    def canonical_expr_type():
+        return Self.parents.find(lambda p: p.is_a(TypeDecl)).cast(TypeDecl)
+
+    defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
 
 class CharLiteral(BaseId):

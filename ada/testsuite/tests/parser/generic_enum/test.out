@@ -34,18 +34,22 @@ CompilationUnit[1:1-24:10]
 | | | | | decls:
 | | | | | | DeclarativePart[4:4-20:26]
 | | | | | | | decls:
-| | | | | | | | FullTypeDecl[4:4-4:28]
+| | | | | | | | EnumTypeDecl[4:4-4:28]
 | | | | | | | | | type_id:
 | | | | | | | | | | Id[4:9-4:13]
 | | | | | | | | | | | tok: Enum
-| | | | | | | | | type_def:
-| | | | | | | | | | EnumTypeDef[4:17-4:28]
-| | | | | | | | | | | enum_literals:
-| | | | | | | | | | | | EnumId[4:18-4:19]
+| | | | | | | | | enum_literals:
+| | | | | | | | | | EnumLiteralDecl[4:18-4:19]
+| | | | | | | | | | | enum_identifier:
+| | | | | | | | | | | | Id[4:18-4:19]
 | | | | | | | | | | | | | tok: A
+| | | | | | | | | | EnumLiteralDecl[4:21-4:24]
+| | | | | | | | | | | enum_identifier:
 | | | | | | | | | | | | Chr[4:21-4:24]
 | | | | | | | | | | | | | tok: 'B'
-| | | | | | | | | | | | EnumId[4:26-4:27]
+| | | | | | | | | | EnumLiteralDecl[4:26-4:27]
+| | | | | | | | | | | enum_identifier:
+| | | | | | | | | | | | Id[4:26-4:27]
 | | | | | | | | | | | | | tok: C
 | | | | | | | | GenericPackageDecl[5:4-10:9]
 | | | | | | | | | formal_part:

@@ -187,9 +187,7 @@ A.add_rules(
         ")"
     ) ^ TypeDiscriminant,
 
-    enum_type_def=Row(
-        "(", List(Or(A.enum_identifier, A.char_literal), sep=","), ")"
-    ) ^ EnumTypeDef,
+    enum_literal_decl=(A.identifier | A.char_literal) ^ EnumLiteralDecl,
 
     formal_discrete_type_def=Row(
         "(", "<>", ")"
@@ -233,7 +231,7 @@ A.add_rules(
         Opt(A.constraint),
     ) ^ AccessDef,
 
-    type_def=Or(A.enum_type_def, A.record_type_def, A.real_type_def,
+    type_def=Or(A.record_type_def, A.real_type_def,
                 A.derived_type_def, A.signed_int_type_def,
                 A.mod_int_type_def, A.array_type_def, A.interface_type_def,
                 A.access_def, A.formal_discrete_type_def),
@@ -242,19 +240,26 @@ A.add_rules(
         "when", A.choice_list, "=>", A.component_list
     ) ^ Variant,
 
-    full_type_decl=Row(
-        "type", A.identifier, Opt(A.type_discriminant),
-        Or(
-            Row("is", A.type_def)[1],
+    full_type_decl=Or(
+        Row(
+            "type", A.identifier, "is",
+            "(", List(A.enum_literal_decl, sep=","), ")",
+            A.aspect_specification
+        ) ^ EnumTypeDecl,
+        Row(
+            "type", A.identifier, Opt(A.type_discriminant),
+            Or(
+                Row("is", A.type_def)[1],
 
-            Row("is",
-                Opt("abstract").as_bool(), Opt("tagged").as_bool(),
-                Opt("limited").as_bool(), "private") ^ PrivateTypeDef,
+                Row("is",
+                    Opt("abstract").as_bool(), Opt("tagged").as_bool(),
+                    Opt("limited").as_bool(), "private") ^ PrivateTypeDef,
 
-            Row(Opt("is", "tagged").as_bool()) ^ IncompleteTypeDef,
-        ),
-        A.aspect_specification
-    ) ^ FullTypeDecl,
+                Row(Opt("is", "tagged").as_bool()) ^ IncompleteTypeDef,
+            ),
+            A.aspect_specification
+        ) ^ FullTypeDecl
+    ),
 
     variant_part=Row(
         "case", A.identifier, "is",
@@ -776,7 +781,6 @@ A.add_rules(
     ) ^ RequeueStatement,
 
     identifier=Tok(Token.Identifier, keep=True) ^ Identifier,
-    enum_identifier=Tok(Token.Identifier, keep=True) ^ EnumIdentifier,
     char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,
     string_literal=Tok(Token.String, keep=True) ^ StringLiteral,
 

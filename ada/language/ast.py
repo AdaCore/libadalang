@@ -259,6 +259,11 @@ class TypeDef(AdaNode):
 
     accessed_type = Property(No(T.TypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
+    base_type = Property(
+        No(T.TypeDecl), doc="""
+        Return the base type entity for this derived type definition.
+        """
+    )
 
     defining_env = Property(EmptyEnv)
 
@@ -362,6 +367,12 @@ class TypeDecl(BasicDecl):
 
     accessed_type = Property(No(T.TypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
+    base_type = Property(
+        No(T.TypeDecl), doc="""
+        Return the base type entity for this derived type declaration.
+        """
+    )
+
 
     @langkit_property(return_type=BoolType)
     def matching_access_type(other_type=T.TypeDecl):
@@ -388,6 +399,7 @@ class FullTypeDecl(TypeDecl):
     is_access_type = Property(Self.type_def.is_access_type)
     accessed_type = Property(Self.type_def.accessed_type)
     is_tagged_type = Property(Self.type_def.is_tagged_type)
+    base_type = Property(Self.type_def.base_type)
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
@@ -463,11 +475,7 @@ class DerivedTypeDef(TypeDef):
 
     array_ndims = Property(Self.name.array_ndims)
 
-    base_type = Property(
-        Self.name.designated_type, doc="""
-        Return the base type entity for this derived type definition.
-        """
-    )
+    base_type = Property(Self.name.designated_type)
 
     is_real_type = Property(Self.base_type.is_real_type)
     is_int_type = Property(Self.base_type.is_int_type)

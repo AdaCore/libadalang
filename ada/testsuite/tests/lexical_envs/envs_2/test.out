@@ -89,4 +89,3 @@ CompilationUnit[1:1-10:9]
 <BlockStatement 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
     Lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
 }>
-<SubtypeDecl 5:10-5:46> - <LexEnv (Id 4, Parent 3), empty>

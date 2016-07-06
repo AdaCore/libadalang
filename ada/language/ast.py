@@ -350,8 +350,7 @@ class TypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     name = Property(Self.type_id)
-    env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self),
-                       add_env=True)
+    env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self))
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
@@ -437,6 +436,9 @@ class FullTypeDecl(TypeDecl):
         # make it the default, and only inherit the env when explicitly
         # specified.
     )
+
+    env_spec = EnvSpec(add_env=True)
+
 
 class EnumTypeDecl(TypeDecl):
     enum_literals = Field(type=T.EnumLiteralDecl.list_type())

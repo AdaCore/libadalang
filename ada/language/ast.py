@@ -759,13 +759,15 @@ class TypeAccessExpression(AccessExpression):
     accessed_type = Property(Self.subtype_name.designated_type)
 
 
-class ParameterProfile(AdaNode):
+class ParameterProfile(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
     is_aliased = Field(type=T.BoolType)
     mode = Field(type=T.InOut)
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
+
     is_mandatory = Property(Self.default.is_null)
+    defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
     env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
 

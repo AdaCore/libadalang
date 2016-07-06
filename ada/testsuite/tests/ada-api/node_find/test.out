@@ -5,19 +5,19 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <SubprogramSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
   <ASTList 1:15-1:52>
-  <ParameterProfile 1:15-1:26>
+  <ParameterProfile ["A"] 1:15-1:26>
   <ASTList 1:15-1:16>
   <Id "A" 1:15-1:16>
   <TypeExpression 1:19-1:26>
   <TypeRef 1:19-1:26>
   <Id "Integer" 1:19-1:26>
-  <ParameterProfile 1:28-1:39>
+  <ParameterProfile ["B"] 1:28-1:39>
   <ASTList 1:28-1:29>
   <Id "B" 1:28-1:29>
   <TypeExpression 1:32-1:39>
   <TypeRef 1:32-1:39>
   <Id "Integer" 1:32-1:39>
-  <ParameterProfile 1:41-1:52>
+  <ParameterProfile ["C"] 1:41-1:52>
   <ASTList 1:41-1:42>
   <Id "C" 1:41-1:42>
   <TypeExpression 1:45-1:52>

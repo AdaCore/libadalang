@@ -83,8 +83,8 @@ CompilationUnit[1:1-10:9]
     Bar: [<SubprogramBody ["Bar"] 2:4-9:11>]
 }>
 <SubprogramBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
-    I: [<ParameterProfile 2:19-2:33>]
-    J: [<ParameterProfile 2:19-2:33>]
+    I: [<ParameterProfile ["I", "J"] 2:19-2:33>]
+    J: [<ParameterProfile ["I", "J"] 2:19-2:33>]
 }>
 <BlockStatement 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
     Lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]

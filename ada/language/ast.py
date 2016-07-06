@@ -308,7 +308,7 @@ class ComponentDecl(BasicDecl):
             (prefix.type_var == Self.container_type)
 
             # Access dereference
-            | Predicate(TypeDecl.fields.matching_access_type,
+            | Predicate(TypeDecl.fields.matching_prefix_type,
                         prefix.type_var, Self.container_type)
         )
 
@@ -385,8 +385,27 @@ class TypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType)
-    def matching_access_type(other_type=T.TypeDecl):
-        return (Self.canonical_type.accessed_type == other_type.canonical_type)
+    def matching_prefix_type(container_type=T.TypeDecl):
+        """
+        Given a dotted expression A.B, where container_type is the container
+        type for B, and Self is a potential type for A, returns whether Self is
+        a valid type for A in the dotted expression.
+        """
+        return (
+            # Simple access type case
+            (Self.canonical_type.accessed_type
+             == container_type.canonical_type)
+
+            # Derived type case
+            | Self.canonical_type.is_derived_type(
+                container_type.canonical_type
+            )
+
+            # Access to derived type case
+            | Self.canonical_type.accessed_type.then(
+                lambda a: a.is_derived_type(container_type.canonical_type)
+            )
+        )
 
     @langkit_property(return_type=T.TypeDecl)
     def canonical_type():

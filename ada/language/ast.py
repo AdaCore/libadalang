@@ -1511,6 +1511,8 @@ class EnumLiteralDecl(BasicDecl):
 
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
+    env_spec = EnvSpec(add_to_env=(Self.enum_identifier.tok.symbol, Self))
+
 
 class CharLiteral(BaseId):
     _repr_name = "Chr"

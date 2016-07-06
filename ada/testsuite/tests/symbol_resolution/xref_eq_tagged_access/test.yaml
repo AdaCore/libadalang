@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_tagged_access
+driver: symbol_resolution
+input_sources: [test_accesses_tagged.adb]

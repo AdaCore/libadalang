@@ -1,0 +1,36 @@
+Analyzing test_accesses_tagged.adb
+##################################
+
+Expr: <DottedName 22:4-22:7>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Id "J" 22:4-22:5>, references <ObjectDecl ["J"] 20:4-20:17>, type is <FullTypeDecl ["Rec_Child"] 8:4-10:14>
+Expr: <Id "D" 22:6-22:7>, references <ComponentDecl ["D", "E"] 9:7-9:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 22:11-22:13>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Expr: <DottedName 25:4-25:7>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Id "J" 25:4-25:5>, references <ObjectDecl ["J"] 20:4-20:17>, type is <FullTypeDecl ["Rec_Child"] 8:4-10:14>
+Expr: <Id "B" 25:6-25:7>, references <ComponentDecl ["B", "C"] 5:7-5:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 25:11-25:13>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Expr: <DottedName 28:4-28:11>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <AccessDeref 28:4-28:9>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child"] 8:4-10:14>
+Expr: <Id "I" 28:4-28:5>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child_Access"] 16:4-16:49>
+Expr: <Id "D" 28:10-28:11>, references <ComponentDecl ["D", "E"] 9:7-9:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 28:15-28:17>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Expr: <DottedName 31:4-31:11>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <AccessDeref 31:4-31:9>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child"] 8:4-10:14>
+Expr: <Id "I" 31:4-31:5>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child_Access"] 16:4-16:49>
+Expr: <Id "B" 31:10-31:11>, references <ComponentDecl ["B", "C"] 5:7-5:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 31:15-31:17>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Expr: <DottedName 34:4-34:7>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Id "I" 34:4-34:5>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child_Access"] 16:4-16:49>
+Expr: <Id "D" 34:6-34:7>, references <ComponentDecl ["D", "E"] 9:7-9:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 34:11-34:13>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Expr: <DottedName 37:4-37:7>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Id "I" 37:4-37:5>, references <ObjectDecl ["I"] 18:4-18:24>, type is <FullTypeDecl ["Rec_Child_Access"] 16:4-16:49>
+Expr: <Id "B" 37:6-37:7>, references <ComponentDecl ["B", "C"] 5:7-5:21>, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+Expr: <Int 37:11-37:13>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:34>
+
+Done.

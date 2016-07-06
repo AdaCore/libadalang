@@ -373,6 +373,16 @@ class TypeDecl(BasicDecl):
         """
     )
 
+    @langkit_property(return_type=BoolType)
+    def is_derived_type(other_type=T.TypeDecl):
+        """
+        Whether Self is derived from other_type.
+        """
+        return Or(
+            Self.base_type == other_type,
+            Self.base_type.then(lambda base_type:
+                                base_type.is_derived_type(other_type))
+        )
 
     @langkit_property(return_type=BoolType)
     def matching_access_type(other_type=T.TypeDecl):

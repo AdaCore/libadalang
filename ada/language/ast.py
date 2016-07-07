@@ -955,17 +955,17 @@ class ObjectDecl(BasicDecl):
     )
 
 
-class PrivatePart(AdaNode):
+class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list_type())
+
+
+
+class PrivatePart(DeclarativePart):
     env_spec = EnvSpec(add_env=True)
 
 
-class PublicPart(AdaNode):
-    decls = Field(type=T.AdaNode.list_type())
-
-
-class DeclarativePart(AdaNode):
-    decls = Field(type=T.AdaNode.list_type())
+class PublicPart(DeclarativePart):
+    pass
 
 
 class BasePackageDecl(BasicDecl):

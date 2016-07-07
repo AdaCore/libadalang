@@ -15,6 +15,7 @@ from langkit.expressions import (
 from langkit.expressions import New
 from langkit.expressions import Property
 from langkit.expressions import Self
+from langkit.expressions.base import EmptyArray
 from langkit.expressions.boolean import If
 from langkit.expressions.logic import (
     Domain, Predicate, LogicAnd, LogicOr, LogicTrue
@@ -430,6 +431,21 @@ class TypeDecl(BasicDecl):
                 lambda tae: tae.accessed_type == Self
             )
         )
+
+    primitives = Property(
+        Self.declarative_scope.primitives(Self), doc="""
+        Return all primitives for Self. Note that this will only return a
+        correct result if the source is a correct Ada file. TODO: Not complete.
+        Needs to look at private part.
+        """
+    )
+
+    tagged_primitives = Property(
+        If(Self.is_tagged_type, Self.primitives, EmptyArray(BasicDecl)), doc="""
+        Helper. Returns primitives for type if type is tagged, empty array
+        otherwise.
+        """
+    )
 
 
 class FullTypeDecl(TypeDecl):

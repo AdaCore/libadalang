@@ -1,12 +1,2 @@
-driver: asteval
-input_source: foo.adb
-expressions:
-   # The first identifier is supposed to be "Foo" and the second one "I"
-   - Root.Find (Identifier) (0).P_Name
-   - Root.Find (Identifier) (1).P_Name
-
-   # One identifier always matches itself...
-   - Root.Find (Identifier) (0).P_Matches (Root.Find(Identifier) (0))
-
-   # ... and it does not match some different identifier.
-   - Root.Find (Identifier) (0).P_Matches (Root.Find(Identifier) (1))
+driver: python
+input_sources: [foo.adb]

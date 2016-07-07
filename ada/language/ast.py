@@ -749,10 +749,11 @@ class AccessExpression(TypeExprVariant):
     array_ndims = Property(Literal(0))
     # TODO? Should we handle defining_env here for implicit dereferencing?
 
+    accessed_type = Property(No(TypeDecl))
+
     # TODO: Implement designated_type (which will need resolution of anonymous
     # access types first).
-
-    accessed_type = Property(No(TypeDecl))
+    designated_type = Property(No(TypeDecl))
 
 
 class SubprogramAccessExpression(AccessExpression):

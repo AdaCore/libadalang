@@ -973,6 +973,19 @@ class ObjectDecl(BasicDecl):
 class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list_type())
 
+    @langkit_property(return_type=BasicDecl.array_type())
+    def primitives(t=TypeDecl):
+        """
+        Return all potential primitive operations for t in the scope of Self.
+        """
+        return Self.decls.filtermap(
+            filter_expr=lambda decl: decl.match(
+                lambda s=BasicSubprogramDecl: t.is_primitive(s.subp_spec),
+                lambda s=SubprogramBody: t.is_primitive(s.subp_spec),
+                lambda others: False,
+            ),
+            expr=lambda decl: decl.cast_or_raise(BasicDecl)
+        )
 
 
 class PrivatePart(DeclarativePart):

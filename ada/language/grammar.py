@@ -892,12 +892,9 @@ A.add_rules(
         A.direct_name,
     ),
 
-    static_name=List(
-        # We want to accept string literals here for the corner case of library
-        # child unit subprogram operators, such as:
-        # procedure Ada.Containers.Vector."=" is ...
-        A.identifier | A.string_literal | A.char_literal,
-        sep=".", revtree=DottedName
+    static_name=Or(
+        Row(A.static_name, ".", A.direct_name) ^ DottedName,
+        A.direct_name
     ),
 
     primary=Or(A.num_literal, A.null_literal,

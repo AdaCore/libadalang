@@ -1786,9 +1786,7 @@ class RaiseExpression(Expr):
 
 class DottedName(Name):
     prefix = Field(type=T.Expr)
-    suffix = Field(type=T.Name)
-    # TODO: When removing this annotation, the type inferencer will generate
-    # an error.
+    suffix = Field(type=T.SingleTokNode)
 
     designated_env = Property(
         Self.prefix.designated_env.eval_in_env(Self.suffix.designated_env)

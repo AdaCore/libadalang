@@ -1852,6 +1852,15 @@ class DottedName(Name):
         Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)
     )
 
+    potential_primitive_calls = Property(Self.prefix.entities.mapcat(
+        lambda e: e.cast(BasicDecl).expr_type.tagged_primitives.filter(
+            lambda p: p.defining_name.cast_or_raise(SingleTokNode).matches(
+                Self.suffix
+            )
+        )),
+        doc="Return all potential primitive calls Self can correspond to."
+    )
+
     # This implementation of designated_type is more permissive than the
     # "legal" one since it will skip entities that are eventually available
     # first in the env if they are not packages.

@@ -216,6 +216,13 @@ class BasicDecl(AdaNode):
         # constraint to the xref equation.
         return LogicTrue()
 
+    declarative_scope = Property(
+        Self.parents.find(
+            lambda p: p.is_a(T.DeclarativePart)
+        ).cast(T.DeclarativePart),
+        doc="Return the scope of definition of this basic declaration."
+    )
+
 
 @abstract
 class Body(BasicDecl):

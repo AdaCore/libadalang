@@ -13,7 +13,6 @@ if not with_gnatpython:
 
 
 import testsuite_support.adaapi_driver
-import testsuite_support.asteval_driver
 import testsuite_support.capi_driver
 import testsuite_support.parser_driver
 import testsuite_support.python_driver
@@ -24,7 +23,6 @@ class Testsuite(BaseTestsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
         'parser': testsuite_support.parser_driver.ParserDriver,
-        'asteval': testsuite_support.asteval_driver.ASTEvalDriver,
         'ada-api': testsuite_support.adaapi_driver.CAPIDriver,
         'c-api': testsuite_support.capi_driver.CAPIDriver,
         'python': testsuite_support.python_driver.PythonDriver,

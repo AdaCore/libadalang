@@ -72,9 +72,6 @@ class Manage(ManageScript):
         self.add_generate_args(perf_test_parser)
         self.add_build_args(perf_test_parser)
 
-        # Add asteval template directory to the list of template dirs
-        self.template_dirs = [self.dirs.lang_source_dir('asteval')]
-
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
@@ -87,17 +84,12 @@ class Manage(ManageScript):
                           grammar=ada_grammar,
                           default_charset='iso-8859-1',
                           verbosity=args.verbosity,
-                          # Add asteval template directory to the list of
-                          # template dirs.
-                          template_lookup_extra_dirs=[
-                              self.dirs.lang_source_dir('asteval')
-                          ],
                           env_hook_subprogram=('Libadalang.Unit_Files',
                                                'Env_Hook'))
 
     @property
     def main_programs(self):
-        return super(Manage, self).main_programs | {'asteval', 'symres'}
+        return super(Manage, self).main_programs | {'symres'}
 
     def do_test(self, args):
         """
@@ -251,100 +243,12 @@ class Manage(ManageScript):
             lines_count, sum(elapsed_list) / float(len(elapsed_list))
         )
 
-    def do_generate_asteval(self, args):
-        """
-        Generate sources for the ASTEval test program.
-        """
-        printcol("Compiling grammar...", Colors.HEADER)
-        self.context.compile()
-
-        printcol("Generating ASTEval source files...", Colors.HEADER)
-
-        # Copy Ada sources to the build tree
-        src_dir = self.dirs.lang_source_dir('asteval')
-        for filename in glob.glob(os.path.join(src_dir, '*.ad?')):
-            shutil.copyfile(
-                filename,
-                self.dirs.build_dir('src', os.path.basename(filename))
-            )
-
-        def enum_for_type(cls):
-            """
-            Return the enumerator name corresponding to `cls` (see Value_Kind
-            in Mako templates).
-
-            :param ct.CompiledType cls: Type parameter.
-            :rtype: str
-            """
-            name = cls.name().camel_with_underscores
-            return dispatch_on_type(cls, [
-                (ct.BoolType, lambda _: 'Boolean_Value'),
-                (ct.LongType, lambda _: 'Integer_Value'),
-                (ct.ASTNode, lambda _: 'Ada_Node_Value'),
-                (ct.Token, lambda _: 'Token_Value'),
-                (ct.EnumType, lambda _: 'Enum_{}_Value'),
-                (ct.Struct, lambda _: 'Struct_{}_Value'),
-                (ct.ArrayType, lambda _: 'Array_{}_Value'),
-                (ct.LexicalEnvType, lambda _: 'Lexical_Env_Value'),
-                (ct.Symbol, lambda _: 'Symbol_Value'),
-                (ct.LogicVarType, lambda _: 'Logic_Var_Value'),
-                (ct.EquationType, lambda _: 'Equation_Value'),
-            ], exception=TypeError('Unhandled type: {}'.format(cls))
-            ).format(name)
-
-        def field_for_type(cls):
-            """
-            Return the field name corresponding to `cls` (see Value_Type in
-            Make templates).
-
-            :param ct.CompiledType cls: Type parameter.
-            :rtype: str
-            """
-            name = cls.name().camel_with_underscores
-            return dispatch_on_type(cls, [
-                (ct.BoolType, lambda _: 'Bool'),
-                (ct.LongType, lambda _: 'Int'),
-                (ct.ASTNode, lambda _: 'Node'),
-                (ct.Token, lambda _: 'Token'),
-                (ct.EnumType, lambda _: 'Enum_{}'),
-                (ct.Struct, lambda _: 'Struct_{}'),
-                (ct.ArrayType, lambda _: 'Array_{}'),
-                (ct.LexicalEnvType, lambda _: 'Lexical_Env'),
-                (ct.Symbol, lambda _: 'Symbol'),
-                (ct.LogicVarType, lambda _: 'Var'),
-                (ct.EquationType, lambda _: 'Equation'),
-            ], exception=TypeError('Unhandled type: {}'.format(cls))
-            ).format(name)
-
-        ctx = self.context
-
-        # List of all types the expression DSL is able to deal with at
-        # evaluation time.
-        eval_types = (ctx.sorted_types(ctx.enum_types) +
-                      ctx.sorted_types(ctx.struct_types) +
-                      ctx.sorted_types(ctx.array_types))
-
-        # Generate sources from Mako templates
-        with global_context(self.context), names.camel_with_underscores:
-            for tmpl in glob.glob(os.path.join(src_dir, '*.mako')):
-                src_file, _ = os.path.splitext(tmpl)
-                src_file_basename = os.path.basename(src_file)
-                with open(self.dirs.build_dir('src', src_file_basename),
-                          'w') as f:
-                    f.write(ct.render(src_file_basename,
-                                      enum_for_type=enum_for_type,
-                                      field_for_type=field_for_type,
-                                      eval_types=eval_types))
-
-        printcol("ASTEval generation complete!", Colors.HEADER)
-
     def do_generate(self, args):
         """
         Generate the Libadalang and Langkit libraries. Also generate the
-        ASTEval test program.
+        Symres test program.
         """
         super(Manage, self).do_generate(args)
-        self.do_generate_asteval(args)
         shutil.copy(
             self.dirs.lang_source_dir('testsuite', 'ada', 'symres.adb'),
             self.dirs.build_dir('src', 'symres.adb')

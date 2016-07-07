@@ -417,6 +417,20 @@ class TypeDecl(BasicDecl):
         """
         return Self
 
+    @langkit_property(return_type=BoolType)
+    def is_primitive(spec=T.SubprogramSpec):
+        """
+        Whether the passed SubprogramSpec corresponds to a primitive of the
+        type Self represents.
+        """
+        t_expr = Var(spec.params.at(0).type_expr)
+        return (
+            (t_expr.designated_type == Self)
+            | t_expr.type_expr_variant.cast(TypeAccessExpression).then(
+                lambda tae: tae.accessed_type == Self
+            )
+        )
+
 
 class FullTypeDecl(TypeDecl):
     discriminants = Field(type=T.TypeDiscriminant)

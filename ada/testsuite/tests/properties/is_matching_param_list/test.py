@@ -42,5 +42,5 @@ for obj_decl in unit.root.finditer(libadalang.ObjectDecl):
     print '  ({}) {} => {}'.format(
         src_slice(obj_decl.f_ids),
         src_slice(call_expr),
-        subp_spec.p_is_matching_param_list(call_expr.f_suffix),
+        subp_spec.p_is_matching_param_list(call_expr.f_suffix, False),
     )

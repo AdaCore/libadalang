@@ -1529,9 +1529,13 @@ class BaseId(SingleTokNode):
             pc.suffix.cast(ParamList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
                     lambda subp=BasicSubprogramDecl:
-                        subp.subp_spec.is_matching_param_list(params),
+                        subp.subp_spec.is_matching_param_list(
+                            params, e.MD.dottable_subprogram
+                        ),
                     lambda subp=SubprogramBody:
-                        subp.subp_spec.is_matching_param_list(params),
+                        subp.subp_spec.is_matching_param_list(
+                            params, e.MD.dottable_subprogram
+                        ),
                     lambda o=ObjectDecl: o.array_ndims == params.params.length,
                     lambda _: True
                 ))
@@ -1681,19 +1685,23 @@ class SubprogramSpec(AdaNode):
         ))
 
     @langkit_property(return_type=BoolType)
-    def is_matching_param_list(params=ParamList):
+    def is_matching_param_list(params=ParamList, is_dottable_subp=BoolType):
         """
         Return whether a ParamList is a match for this SubprogramSpec, i.e.
         whether the argument count (and designators, if any) match.
         """
         match_list = Var(Self.match_param_list(params))
+        nb_max_params = If(is_dottable_subp, Self.nb_max_params - 1,
+                           Self.nb_max_params)
+        nb_min_params = If(is_dottable_subp, Self.nb_min_params - 1,
+                           Self.nb_min_params)
 
         return And(
-            params.params.length <= Self.nb_max_params,
+            params.params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
                 lambda m: Not(m.is_formal_opt)
-            ).length == Self.nb_min_params,
+            ).length == nb_min_params,
         )
 
     @langkit_property(return_type=BoolType)

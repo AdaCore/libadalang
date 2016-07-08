@@ -7,7 +7,7 @@ from langkit.compiled_types import (
     EquationType, T
 )
 
-from langkit.envs import EnvSpec
+from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
     langkit_property, Var, Bind
@@ -117,7 +117,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
                        """),
         env_spec=EnvSpec(
             initial_env=Self.scope, add_env=True,
-            add_to_env=(name_expr, env_val_expr),
+            add_to_env=add_to_env(name_expr, env_val_expr),
             env_hook_arg=(Self if is_body else None),
         )
     )
@@ -240,7 +240,7 @@ class DiscriminantSpec(BasicDecl):
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
 
-    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
@@ -292,7 +292,7 @@ class ComponentDecl(BasicDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpecification)
 
-    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
     defining_env = Property(
         Self.component_def.type_expr.defining_env,
@@ -358,7 +358,7 @@ class TypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     name = Property(Self.type_id)
-    env_spec = EnvSpec(add_to_env=(Self.type_id.name.symbol, Self))
+    env_spec = EnvSpec(add_to_env=add_to_env(Self.type_id.name.symbol, Self))
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
@@ -809,7 +809,7 @@ class ParameterProfile(BasicDecl):
     is_mandatory = Property(Self.default.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
-    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
 
 class AspectSpecification(AdaNode):
@@ -957,7 +957,7 @@ class ObjectDecl(BasicDecl):
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpecification)
 
-    env_spec = EnvSpec(add_to_env=(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
     array_ndims = Property(
         # The grammar says that the "type" field can be only a TypeExpression
@@ -1564,7 +1564,9 @@ class EnumLiteralDecl(BasicDecl):
 
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
-    env_spec = EnvSpec(add_to_env=(Self.enum_identifier.tok.symbol, Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.enum_identifier.tok.symbol, Self)
+    )
 
 
 class CharLiteral(BaseId):

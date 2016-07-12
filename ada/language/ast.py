@@ -376,6 +376,10 @@ class TypeDecl(BasicDecl):
         """
     )
 
+    # A TypeDecl in an expression context corresponds to a type conversion, so
+    # its type is itself.
+    expr_type = Property(Self)
+
     @langkit_property(return_type=BoolType)
     def is_derived_type(other_type=T.TypeDecl):
         """

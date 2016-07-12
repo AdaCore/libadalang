@@ -1500,15 +1500,7 @@ class BaseId(SingleTokNode):
     scope = Property(Env)
     name = Property(Self.tok)
 
-    # This implementation of designated_type is more permissive than the
-    # "legal" one since it will skip entities that are eventually available
-    # first in the env, shadowing the actual type, if they are not types. It
-    # will allow to get working XRefs in simple shadowing cases.
-    designated_type = Property(
-        Env.get(Self.tok).map(lambda e: e.el.cast(TypeDecl)).filter(lambda e: (
-            Not(e.is_null)
-        )).at(0)
-    )
+    designated_type = Property(Env.get(Self.tok).at(0).el.cast(TypeDecl))
 
     @langkit_property(return_type=CallExpr)
     def parent_callexpr():
@@ -1948,11 +1940,8 @@ class DottedName(Name):
         doc="Return all potential primitive calls Self can correspond to."
     )
 
-    # This implementation of designated_type is more permissive than the
-    # "legal" one since it will skip entities that are eventually available
-    # first in the env if they are not packages.
     designated_type = Property(lambda: (
-        Self.prefix.entities.filter(is_package).at(0).children_env.eval_in_env(
+        Self.prefix.entities.at(0).children_env.eval_in_env(
             Self.suffix.designated_type
         )
     ))

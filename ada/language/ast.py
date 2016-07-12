@@ -10,7 +10,7 @@ from langkit.compiled_types import (
 from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
-    langkit_property, Var, Bind
+    langkit_property, Var, Bind, Let
 )
 from langkit.expressions import New
 from langkit.expressions import Property
@@ -722,6 +722,7 @@ class TypeExpression(AdaNode):
     type_expr_variant = Field(type=T.TypeExprVariant)
 
     array_ndims = Property(Self.type_expr_variant.array_ndims)
+
     defining_env = Property(
         Self.type_expr_variant.defining_env, private=True,
         doc='Helper for BaseDecl.defining_env'
@@ -1301,9 +1302,8 @@ class CallExpr(Expr):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         # List of every applicable subprogram
-        subps = Var(Self.entities
-                    .map(lambda e: e.cast(BasicDecl))
-                    .filter(lambda e: e.is_subp))
+        subps = Var(Self.env_elements
+                    .filter(lambda e: e.el.cast(BasicDecl).is_subp))
 
         return (
             Self.name.xref_equation
@@ -1316,17 +1316,19 @@ class CallExpr(Expr):
 
             # For each potential subprogram match, we want to express the
             # following constraints:
-            & LogicOr(subps.map(
+            & LogicOr(subps.map(lambda e: Let(lambda s=e.el.cast(BasicDecl): (
 
                 # The type of the expression is the expr_type of the subprogram
-                lambda s: (Self.type_var == s.expr_type)
+                (Self.type_var == s.expr_type)
 
                 # The called entity is the subprogram
                 & (Self.name.ref_var == s)
 
                 # For each parameter, the type of the expression matches the
                 # expected type for this subprogram.
-                & LogicAnd(s.subp_spec.match_param_list(Self.params).map(
+                & LogicAnd(s.subp_spec.match_param_list(
+                    Self.params, e.MD.dottable_subprogram
+                ).map(
                     lambda pm: (
                         # The type of each actual matches the type of the
                         # formal.
@@ -1342,7 +1344,7 @@ class CallExpr(Expr):
                         == pm.single_param.profile
                     )
                 ))
-            ))
+            ))))
 
             # Bind the callexpr's ref_var to the id's ref var.
             # TODO: Not sure yet we want to propagate ref_vars everywhere, or
@@ -1694,7 +1696,7 @@ class SubprogramSpec(AdaNode):
     )
 
     @langkit_property(return_type=ParamMatch.array_type())
-    def match_param_list(params=ParamList):
+    def match_param_list(params=ParamList, is_dottable_subp=BoolType):
         """
         For each ParamAssoc in a ParamList, return whether we could find a
         matching formal in this SubprogramSpec and whether this formal is
@@ -1705,9 +1707,10 @@ class SubprogramSpec(AdaNode):
         return params.params.map(lambda i, pa: If(
             pa.designator.is_null,
 
-            # Positional parameter case: if this parameter has no
-            # name association, make sure we have enough formals.
-            typed_params.at(i).then(lambda sp: pa.matches(sp)),
+            Let(lambda idx=If(is_dottable_subp, i + 1, i):
+                # Positional parameter case: if this parameter has no
+                # name association, make sure we have enough formals.
+                typed_params.at(idx).then(lambda sp: pa.matches(sp))),
 
             # Named parameter case: make sure the designator is
             # actualy a name and that there is a corresponding
@@ -1725,7 +1728,7 @@ class SubprogramSpec(AdaNode):
         Return whether a ParamList is a match for this SubprogramSpec, i.e.
         whether the argument count (and designators, if any) match.
         """
-        match_list = Var(Self.match_param_list(params))
+        match_list = Var(Self.match_param_list(params, is_dottable_subp))
         nb_max_params = If(is_dottable_subp, Self.nb_max_params - 1,
                            Self.nb_max_params)
         nb_min_params = If(is_dottable_subp, Self.nb_min_params - 1,

@@ -1775,6 +1775,45 @@ class SubprogramSpec(AdaNode):
         """
         return If(Self.returns.is_null, EmptyEnv, Self.returns.defining_env)
 
+    @langkit_property(return_type=TypeDecl)
+    def potential_dottable_type():
+        """
+        If self meets the criterias for being a subprogram callable via the dot
+        notation, return the type of dottable elements.
+        """
+        return Self.params.at(0).type_expr.then(lambda te: te.element_type)
+
+    @langkit_property(return_type=T.BasicDecl.array_type())
+    def dottable_subprogram():
+        """
+        Used for environments. Returns either an empty array, or an array
+        containg the subprogram declaration for this spec, if self meets the
+        criterias for being a dottable subprogram.
+        """
+        bd = Var(Self.parent.cast_or_raise(BasicDecl))
+        return If(
+            And(
+                Self.nb_max_params > 0,
+                Self.potential_dottable_type.then(lambda t: And(
+                    # Dot notation only works on tagged types
+                    t.is_tagged_type,
+
+                    Or(
+                        # Needs to be declared in the same scope as the type
+                        t.declarative_scope == bd.declarative_scope,
+
+                        # Or in the private part corresponding to the type's
+                        # public part. TODO: This is invalid because it will
+                        # make private subprograms visible from the outside.
+                        t.declarative_scope == bd.declarative_scope.parent
+                        .cast(PackageDecl).then(lambda pd: pd.public_part)
+                    )
+                ))
+            ),
+            bd.singleton,
+            EmptyArray(T.BasicDecl)
+        )
+
 
 class Quantifier(EnumType):
     alternatives = ["all", "some"]

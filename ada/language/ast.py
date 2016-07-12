@@ -1503,7 +1503,7 @@ class BaseId(SingleTokNode):
     # first in the env, shadowing the actual type, if they are not types. It
     # will allow to get working XRefs in simple shadowing cases.
     designated_type = Property(
-        Self.entities.map(lambda e: e.cast(TypeDecl)).filter(lambda e: (
+        Env.get(Self.tok).map(lambda e: e.el.cast(TypeDecl)).filter(lambda e: (
             Not(e.is_null)
         )).at(0)
     )

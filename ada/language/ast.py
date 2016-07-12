@@ -1305,6 +1305,32 @@ class CallExpr(Expr):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
+        dt = Self.name.designated_type
+        return If(
+            Not(dt.is_null),
+            Self.type_conv_xref_equation,
+            Self.subp_xref_equation
+        )
+
+    @langkit_property(return_type=EquationType, private=True)
+    def type_conv_xref_equation():
+        """
+        Helper for xref_equation, handles construction of the equation in type
+        conversion cases.
+        """
+        return And(
+            Self.params.params.at(0).expr.xref_equation,
+            Self.name.xref_equation,
+            Self.type_var == Self.name.type_var,
+            Self.ref_var == Self.name.ref_var
+        )
+
+    @langkit_property(return_type=EquationType, private=True)
+    def subp_xref_equation():
+        """
+        Helper for xref_equation, handles construction of the equation in
+        subprogram call cases.
+        """
         # List of every applicable subprogram
         subps = Var(Self.env_elements
                     .filter(lambda e: e.el.cast(BasicDecl).is_subp))
@@ -1575,13 +1601,18 @@ class BaseId(SingleTokNode):
             ), default_val=items)
         )
 
-    xref_equation = Property(
-        Domain(Self.ref_var, Self.entities)
-        & Bind(
-            Self.ref_var, Self.type_var,
-            BasicDecl.fields.canonical_expr_type
+    @langkit_property()
+    def xref_equation():
+        dt = Self.designated_type
+        return If(
+            Not(dt.is_null),
+            (Self.ref_var == dt) & (Self.type_var == dt),
+            Domain(Self.ref_var, Self.entities)
+            & Bind(
+                Self.ref_var, Self.type_var,
+                BasicDecl.fields.canonical_expr_type
+            )
         )
-    )
 
 
 class Identifier(BaseId):
@@ -1950,15 +1981,22 @@ class DottedName(Name):
         )
     ))
 
-    xref_equation = Property(
-        Self.prefix.xref_equation
-        & Self.prefix.designated_env.eval_in_env(Self.suffix.xref_equation)
-        & LogicOr(Self.entities.map(lambda e: (
-            (Self.suffix.ref_var == e)
-            & e.cast(BasicDecl).constrain_prefix(Self.prefix)
-            & (Self.type_var == Self.suffix.type_var)
-        )))
-    )
+    @langkit_property()
+    def xref_equation():
+        dt = Self.designated_type
+        base = Var(
+            Self.prefix.xref_equation
+            & Self.prefix.designated_env.eval_in_env(Self.suffix.xref_equation)
+        )
+        return If(
+            Not(dt.is_null),
+            base,
+            base & LogicOr(Self.entities.map(lambda e: (
+                (Self.suffix.ref_var == e)
+                & e.cast(BasicDecl).constrain_prefix(Self.prefix)
+                & (Self.type_var == Self.suffix.type_var)
+            )))
+        )
 
 
 class CompilationUnit(AdaNode):

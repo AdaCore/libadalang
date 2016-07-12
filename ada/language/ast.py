@@ -732,6 +732,21 @@ class TypeExpression(AdaNode):
         doc="Shortcut to get at the designated type of the type expression"
     )
 
+    accessed_type = Property(
+        Self.type_expr_variant.cast(T.TypeAccessExpression).then(
+            lambda tae: tae.accessed_type
+        )
+    )
+
+    @langkit_property(return_type=TypeDecl)
+    def element_type():
+        """
+        If self is an anonymous access, return the accessed type. Otherwise,
+        return the designated type.
+        """
+        d = Self.designated_type
+        return If(d.is_null, Self.accessed_type, d)
+
 
 @abstract
 class TypeExprVariant(AdaNode):

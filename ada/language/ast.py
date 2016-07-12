@@ -832,10 +832,6 @@ class AspectSpecification(AdaNode):
 
 
 class BasicSubprogramDecl(BasicDecl):
-    _macros = [child_unit(Self.subp_spec.name.name.symbol,
-                          Self.subp_spec.name.scope,
-                          Self)]
-
     is_overriding = Field(type=T.Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
 
@@ -848,6 +844,30 @@ class BasicSubprogramDecl(BasicDecl):
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """
+    )
+
+    env_spec = EnvSpec(
+        initial_env=Self.subp_spec.name.scope,
+        add_to_env=[
+            # First regular add to env action, adding to the subp's scope
+            add_to_env(Self.subp_spec.name.name.symbol, Self),
+
+            # Second custom action, adding to the type's environment if the
+            # type is tagged and self is a primitive of it.
+            add_to_env(
+                key=Self.subp_spec.name.name.symbol,
+                val=Self.subp_spec.dottable_subprogram,
+                dest_env=Self.subp_spec.potential_dottable_type.then(
+                    lambda t: t.children_env
+                ),
+                # We pass custom metadata, marking the entity as a dottable
+                # subprogram.
+                metadata=New(Metadata, dottable_subprogram=True,
+                             implicit_deref=False),
+                is_post=True
+            ),
+        ],
+        add_env=True
     )
 
 

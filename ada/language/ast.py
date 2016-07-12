@@ -1571,8 +1571,8 @@ class BaseId(SingleTokNode):
                         subp.subp_spec.is_matching_param_list(
                             params, e.MD.dottable_subprogram
                         ),
-                    lambda o=ObjectDecl: o.array_ndims == params.params.length,
-                    lambda _: True
+                    lambda o=BasicDecl: o.array_ndims == params.params.length,
+                    lambda _: False
                 ))
             ), default_val=items)
         )

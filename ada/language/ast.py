@@ -171,6 +171,14 @@ class BasicDecl(AdaNode):
         """
     )
 
+    array_def = Property(
+        Self.expr_type.array_def,
+        doc="""
+        Return the ArrayTypeDef instance corresponding to this basic
+        declaration.
+        """
+    )
+
     @langkit_property(return_type=T.TypeDecl)
     def canonical_expr_type():
         """
@@ -375,6 +383,7 @@ class TypeDecl(BasicDecl):
         Return the base type entity for this derived type declaration.
         """
     )
+    array_def = Property(No(T.ArrayTypeDef))
 
     # A TypeDecl in an expression context corresponds to a type conversion, so
     # its type is itself.
@@ -465,6 +474,8 @@ class FullTypeDecl(TypeDecl):
     accessed_type = Property(Self.type_def.accessed_type)
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Self.type_def.base_type)
+
+    array_def = Property(Self.type_def.cast(T.ArrayTypeDef))
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
@@ -1014,6 +1025,14 @@ class ObjectDecl(BasicDecl):
                 Self.type_expr.cast_or_raise(TypeExpression).array_ndims
             )
         ),
+    )
+
+    array_def = Property(
+        Self.type_expr.match(
+            lambda atd=ArrayTypeDef: atd,
+            lambda te=TypeExpression: te.designated_type.array_def,
+            lambda _: No(ArrayTypeDef)
+        )
     )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))

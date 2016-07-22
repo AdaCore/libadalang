@@ -1866,6 +1866,18 @@ class SubprogramSpec(AdaNode):
             EmptyArray(T.BasicDecl)
         )
 
+    @langkit_property(return_type=BoolType, private=True)
+    def parameterless(md=Metadata):
+        """
+        Utility function. Given a subprogram spec and its associated metadata,
+        determine if it can be called without parameters (and hence without a
+        callexpr).
+        """
+        return Or(
+            md.dottable_subprogram & (Self.nb_min_params == 1),
+            Self.nb_min_params == 0
+        )
+
 
 class Quantifier(EnumType):
     alternatives = ["all", "some"]

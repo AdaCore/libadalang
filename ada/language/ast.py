@@ -619,6 +619,11 @@ class ArrayTypeDef(TypeDef):
     indices = Field(type=T.ArrayIndices)
     stored_component = Field(type=T.ComponentDef)
 
+    component_type = Property(
+        Self.stored_component.type_expr.designated_type.canonical_type,
+        doc="Returns the type stored as a component in the array"
+    )
+
     array_ndims = Property(Self.indices.ndims)
 
 

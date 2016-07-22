@@ -1628,6 +1628,20 @@ class BaseId(SingleTokNode):
         items = Var(Env.get(Self.tok))
         pc = Var(Self.parent_callexpr)
 
+        def matching_subp(params, subp, env_el):
+            # Either the subprogram has is matching the CallExpr's parameters
+            return subp.subp_spec.is_matching_param_list(
+                params, env_el.MD.dottable_subprogram
+                # Or the subprogram is parameterless, and the returned
+                # component matches the callexpr.
+                # TODO: For the moment this is specialized for arrays, but we
+                # need to handle the case when the return value is an access to
+                # subprogram.
+            ) | subp.expr_type.then(lambda et: (
+                (et.array_ndims == params.params.length)
+                & subp.subp_spec.parameterless(env_el.MD)
+            ))
+
         return If(
             pc.is_null,
 
@@ -1648,13 +1662,11 @@ class BaseId(SingleTokNode):
             pc.suffix.cast(ParamList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
                     lambda subp=BasicSubprogramDecl:
-                        subp.subp_spec.is_matching_param_list(
-                            params, e.MD.dottable_subprogram
-                        ),
+                        matching_subp(params, subp, e),
+
                     lambda subp=SubprogramBody:
-                        subp.subp_spec.is_matching_param_list(
-                            params, e.MD.dottable_subprogram
-                        ),
+                        matching_subp(params, subp, e),
+
                     # Type conversion case
                     lambda t=TypeDecl: params.params.length == 1,
 

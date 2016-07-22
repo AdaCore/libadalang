@@ -608,17 +608,53 @@ class ArrayIndices(AdaNode):
         doc="""Number of dimensions described in this node."""
     )
 
+    @langkit_property(private=True, return_type=EquationType)
+    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+        """
+        Add a constraint on an expression passed as the index of an array
+        access expression.
+
+        For example::
+
+            type A is array (Integer range 1 .. 10) of Integer;
+
+            A_Inst : A;
+
+            A_Inst (2);
+            --      ^ Will add constraint on lit that it needs to be of type
+            --      Integer.
+        """
+        return LogicTrue()
+
 
 class UnconstrainedArrayIndices(ArrayIndices):
     types = Field(type=T.Name.list_type())
     ndims = Property(Self.types.length)
 
+    @langkit_property(return_type=EquationType)
+    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+        return (
+            index_expr.type_var ==
+            Self.types.at(dim).designated_type.canonical_type
+        )
 
 
 class ConstrainedArrayIndices(ArrayIndices):
     list = Field(type=T.AdaNode.list_type())
 
     ndims = Property(Self.list.length)
+
+    @langkit_property(return_type=EquationType)
+    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+        return Self.list.at(dim).match(
+            lambda te=TypeExpression:
+            index_expr.type_var == te.designated_type.canonical_type,
+
+            # TODO: We need to parse Standard to express the fact that when
+            # we've got an anonymous range in the array index definition,
+            # the index needs to be of type Standard.Integer.
+            lambda _: LogicTrue()
+        )
 
 
 class ComponentDef(AdaNode):

@@ -1395,8 +1395,7 @@ class CallExpr(Expr):
         subprogram call cases.
         """
         # List of every applicable subprogram
-        subps = Var(Self.env_elements
-                    .filter(lambda e: e.el.cast(BasicDecl).is_subp))
+        subps = Var(Self.env_elements)
 
         return (
             Self.name.xref_equation
@@ -1411,32 +1410,47 @@ class CallExpr(Expr):
             # following constraints:
             & LogicOr(subps.map(lambda e: Let(lambda s=e.el.cast(BasicDecl): (
 
-                # The type of the expression is the expr_type of the subprogram
-                (Self.type_var == s.expr_type)
-
                 # The called entity is the subprogram
-                & (Self.name.ref_var == s)
+                (Self.name.ref_var == s)
 
-                # For each parameter, the type of the expression matches the
-                # expected type for this subprogram.
-                & LogicAnd(s.subp_spec.match_param_list(
-                    Self.params, e.MD.dottable_subprogram
-                ).map(
-                    lambda pm: (
-                        # The type of each actual matches the type of the
-                        # formal.
-                        pm.param_assoc.expr.type_var
-                        == pm.single_param.profile.type_expr.designated_type
+                & If(
+                    # Test if the entity is a parameterless subprogram call,
+                    # or something else (a component/local variable/etc),
+                    # that would make this callexpr an array access.
+                    s.subp_spec.then(lambda ss: ss.parameterless(e.MD),
+                                     default_val=False),
 
-                    ) & If(
-                        # Bind actuals designators to parameters if there are
-                        # designators.
-                        pm.param_assoc.designator.is_null,
-                        LogicTrue(),
-                        pm.param_assoc.designator.ref_var
-                        == pm.single_param.profile
-                    )
-                ))
+                    # Array access case
+                    Let(lambda indices=s.array_def.indices: LogicAnd(
+                        Self.params.params.map(lambda i, pa: (
+                            indices.constrain_index_expr(pa.expr, i)
+                        ))
+                    )) & (Self.type_var == s.array_def.component_type),
+
+                    # The type of the expression is the expr_type of the
+                    # subprogram.
+                    (Self.type_var == s.expr_type)
+                    # For each parameter, the type of the expression matches
+                    # the expected type for this subprogram.
+                    & LogicAnd(s.subp_spec.match_param_list(
+                        Self.params, e.MD.dottable_subprogram
+                    ).map(
+                        lambda pm: (
+                            # The type of each actual matches the type of the
+                            # formal.
+                            pm.param_assoc.expr.type_var == pm.single_param
+                            .profile.type_expr.designated_type
+
+                        ) & If(
+                            # Bind actuals designators to parameters if there
+                            # are designators.
+                            pm.param_assoc.designator.is_null,
+                            LogicTrue(),
+                            pm.param_assoc.designator.ref_var
+                            == pm.single_param.profile
+                        )
+                    ))
+                )
             ))))
 
             # Bind the callexpr's ref_var to the id's ref var.

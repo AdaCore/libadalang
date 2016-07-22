@@ -1637,10 +1637,7 @@ class BaseId(SingleTokNode):
             # other subprograms.
             items.filter(
                 lambda e: e.el.cast_or_raise(BasicDecl).subp_spec.then(
-                    lambda ss: Or(
-                        e.MD.dottable_subprogram & (ss.nb_min_params == 1),
-                        ss.nb_min_params == 0
-                    ), default_val=True
+                    lambda ss: ss.parameterless(e.MD), default_val=True
                 )
             ),
 

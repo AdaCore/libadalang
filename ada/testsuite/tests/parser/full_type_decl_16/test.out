@@ -6,7 +6,7 @@ FullTypeDecl[1:1-1:48]
 | | ArrayTypeDef[1:13-1:48]
 | | | indices:
 | | | | UnconstrainedArrayIndices[1:20-1:36]
-| | | | | list:
+| | | | | types:
 | | | | | | Id[1:20-1:27]
 | | | | | | | tok: Integer
 | | | stored_component:

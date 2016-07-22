@@ -599,9 +599,9 @@ class ArrayIndices(AdaNode):
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    list = Field(type=T.Name.list_type())
+    types = Field(type=T.Name.list_type())
+    ndims = Property(Self.types.length)
 
-    ndims = Property(Self.list.length)
 
 
 class ConstrainedArrayIndices(ArrayIndices):

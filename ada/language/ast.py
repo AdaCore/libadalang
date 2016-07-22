@@ -1606,12 +1606,14 @@ class BaseId(SingleTokNode):
         dt = Self.designated_type
         return If(
             Not(dt.is_null),
+
+            # Type conversion case
             (Self.ref_var == dt) & (Self.type_var == dt),
+
+            # Other cases
             Domain(Self.ref_var, Self.entities)
-            & Bind(
-                Self.ref_var, Self.type_var,
-                BasicDecl.fields.canonical_expr_type
-            )
+            & Bind(Self.ref_var, Self.type_var,
+                   BasicDecl.fields.canonical_expr_type)
         )
 
 

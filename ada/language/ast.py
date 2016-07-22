@@ -1368,8 +1368,11 @@ class CallExpr(Expr):
         dt = Self.name.designated_type
         return If(
             Not(dt.is_null),
+
+            # Type conversion case
             Self.type_conv_xref_equation,
-            Self.subp_xref_equation
+
+            Self.general_xref_equation
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -1386,7 +1389,7 @@ class CallExpr(Expr):
         )
 
     @langkit_property(return_type=EquationType, private=True)
-    def subp_xref_equation():
+    def general_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.

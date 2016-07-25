@@ -1,0 +1,9 @@
+Analyzing test_array_fn.adb
+###########################
+
+Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 6:4-6:15>, type is <FullTypeDecl ["Integer"] 2:4-2:35>
+Expr: <CallExpr 8:9-8:14>, references <ExpressionFunction ["F"] 4:4-4:41>, type is <FullTypeDecl ["Integer"] 2:4-2:35>
+Expr: <Id "F" 8:9-8:10>, references <ExpressionFunction ["F"] 4:4-4:41>, type is <FullTypeDecl ["T"] 3:4-3:54>
+Expr: <Int 8:12-8:13>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:35>
+
+Done.

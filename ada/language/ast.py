@@ -777,7 +777,21 @@ class TypeExpression(AdaNode):
     null_exclusion = Field(type=T.BoolType)
     type_expr_variant = Field(type=T.TypeExprVariant)
 
-    array_ndims = Property(Self.type_expr_variant.array_ndims)
+    array_def = Property(
+        Self.type_expr_variant.match(
+            lambda aa=T.AnonymousArray: aa.array_def,
+            lambda _: Self.designated_type.then(lambda dt: dt.array_def)
+        )
+    )
+
+    array_ndims = Property(
+        Self.type_expr_variant.match(
+            lambda aa=T.AnonymousArray: aa.array_def.array_ndims,
+            lambda _: Self.designated_type.then(
+                lambda dt: dt.array_ndims, default_val=0
+            )
+        )
+    )
 
     defining_env = Property(
         Self.type_expr_variant.defining_env, private=True,
@@ -807,13 +821,6 @@ class TypeExpression(AdaNode):
 
 @abstract
 class TypeExprVariant(AdaNode):
-    array_ndims = AbstractProperty(
-        type=LongType,
-        doc="""
-        If this designates an array type, return its number of dimensions.
-        Return 0 otherwise.
-        """
-    )
     defining_env = Property(
         EmptyEnv, private=True,
         doc='Helper for BaseDecl.defining_env'
@@ -824,6 +831,10 @@ class TypeExprVariant(AdaNode):
         Return the type designated by this type expression.
         """
     )
+
+
+class AnonymousArray(TypeExprVariant):
+    array_def = Field(type=T.ArrayTypeDef)
 
 
 class TypeRef(TypeExprVariant):
@@ -837,18 +848,11 @@ class TypeRef(TypeExprVariant):
         Self.node_env.eval_in_env(Self.name.designated_type)
     )
 
-    array_ndims = Property(Self.designated_type.then(
-        # "designated_type" may return no node for incorrect code
-        lambda t: t.array_ndims,
-        default_val=Literal(0)
-    ))
-
     defining_env = Property(Self.designated_type.defining_env)
 
 
 @abstract
 class AccessExpression(TypeExprVariant):
-    array_ndims = Property(Literal(0))
     # TODO? Should we handle defining_env here for implicit dereferencing?
 
     accessed_type = Property(No(TypeDecl))
@@ -1044,45 +1048,23 @@ class ObjectDecl(BasicDecl):
     aliased = Field(type=T.BoolType)
     constant = Field(type=T.BoolType)
     inout = Field(type=T.InOut)
-    type_expr = Field(type=T.AdaNode)
+    type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpecification)
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
-    array_ndims = Property(
-        # The grammar says that the "type" field can be only a TypeExpression
-        # or an ArrayTypeDef, so we have a bug somewhere if we get anything
-        # else.
-        Self.type_expr.cast(ArrayTypeDef).then(
-            lambda array_type: array_type.array_ndims,
-            default_val=(
-                Self.type_expr.cast_or_raise(TypeExpression).array_ndims
-            )
-        ),
-    )
-
-    array_def = Property(
-        Self.type_expr.match(
-            lambda atd=ArrayTypeDef: atd,
-            lambda te=TypeExpression: te.designated_type.array_def,
-            lambda _: No(ArrayTypeDef)
-        )
-    )
+    array_ndims = Property(Self.type_expr.array_ndims)
+    array_def = Property(Self.type_expr.array_def)
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
-    defining_env = Property(
-        Self.type_expr.cast(TypeExpression).then(
-            lambda te: te.defining_env,
-            default_val=EmptyEnv
-        )
-    )
+    defining_env = Property(Self.type_expr.defining_env)
 
     expr_type = Property(
         # TODO: Handle anonymous arrays definitions
-        Self.type_expr.cast_or_raise(TypeExpression).designated_type
+        Self.type_expr.designated_type
     )
 
 

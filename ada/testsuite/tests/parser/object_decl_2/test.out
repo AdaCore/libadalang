@@ -6,26 +6,31 @@ ObjectDecl[1:1-1:50]
 | constant: True
 | inout: in
 | type_expr:
-| | ArrayTypeDef[1:24-1:50]
-| | | indices:
-| | | | ConstrainedArrayIndices[1:31-1:38]
-| | | | | list:
-| | | | | | BinOp[1:31-1:38]
-| | | | | | | left:
-| | | | | | | | Int[1:31-1:32]
-| | | | | | | | | tok: 1
-| | | | | | | op: ellipsis
-| | | | | | | right:
-| | | | | | | | Int[1:36-1:38]
-| | | | | | | | | tok: 12
-| | | stored_component:
-| | | | ComponentDef[1:43-1:50]
-| | | | | aliased: False
-| | | | | type_expr:
-| | | | | | TypeExpression[1:43-1:50]
-| | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:43-1:50]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:43-1:50]
-| | | | | | | | | | | tok: Integer
+| | TypeExpression[1:24-1:50]
+| | | null_exclusion: False
+| | | type_expr_variant:
+| | | | AnonymousArray[1:24-1:50]
+| | | | | array_def:
+| | | | | | ArrayTypeDef[1:24-1:50]
+| | | | | | | indices:
+| | | | | | | | ConstrainedArrayIndices[1:31-1:38]
+| | | | | | | | | list:
+| | | | | | | | | | BinOp[1:31-1:38]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Int[1:31-1:32]
+| | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Int[1:36-1:38]
+| | | | | | | | | | | | | tok: 12
+| | | | | | | stored_component:
+| | | | | | | | ComponentDef[1:43-1:50]
+| | | | | | | | | aliased: False
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:43-1:50]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:43-1:50]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:43-1:50]
+| | | | | | | | | | | | | | | tok: Integer

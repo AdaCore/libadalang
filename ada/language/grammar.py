@@ -376,7 +376,7 @@ A.add_rules(
         Opt("aliased").as_bool(),
         Opt("constant").as_bool(),
         Opt(A.in_out),
-        A.type_expression | A.array_type_def,
+        A.type_expression,
         A.default_expr,
         Opt(A.renaming_clause),
         A.aspect_specification
@@ -510,9 +510,16 @@ A.add_rules(
         A.name, A.constraint
     ) ^ TypeRef,
 
+    anonymous_array=Row(
+        A.array_type_def
+    ) ^ AnonymousArray,
+
     type_expression=Row(
         Opt("not", "null").as_bool(),
-        Or(A.access_expression, A.type_ref),
+        # NOTE: Anonymous arrays are accepted where type expressions are
+        # accepted. This means that you can define a function that returns an
+        # anonymous array and it will be parsed correctly.
+        Or(A.access_expression, A.type_ref, A.anonymous_array),
     ) ^ TypeExpression,
 
     in_out=Or(

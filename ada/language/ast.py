@@ -1241,12 +1241,6 @@ def is_package(e):
     """
     Property helper to determine if an entity is a package or not.
 
-    TODO: This current solution is not really viable, because:
-    1. Having to do local imports of AdaNode subclasses is tedious.
-    2. is_package could be useful in other files.
-
-    This probably hints towards a reorganization of the types definition.
-
     :type e: AbstractExpression
     :rtype: AbstractExpression
     """

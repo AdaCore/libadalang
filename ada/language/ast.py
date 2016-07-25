@@ -1439,6 +1439,16 @@ class CallExpr(Expr):
             & (Self.ref_var == Self.name.ref_var)
         )
 
+    @langkit_property(return_type=BoolType, private=True)
+    def check_type(type_designator=AdaNode):
+        plen = Var(Self.suffix.cast_or_raise(ParamList).params.length)
+        # TODO: Interface for type designator would be of course 100* better
+        return type_designator.match(
+            lambda te=TypeExpression: te.array_ndims,
+            lambda td=TypeDecl: td.array_ndims,
+            lambda _: -1
+        ) == plen
+
 
 class ParamAssoc(AdaNode):
     designator = Field(type=T.AdaNode)
@@ -1660,7 +1670,11 @@ class BaseId(SingleTokNode):
                     # Type conversion case
                     lambda t=TypeDecl: params.params.length == 1,
 
-                    lambda o=BasicDecl: o.array_ndims == params.params.length,
+                    # In the case of ObjectDecls/BasicDecls in general, verify
+                    # that the callexpr is valid for the given type designator.
+                    lambda o=ObjectDecl: pc.check_type(o.type_expr),
+                    lambda b=BasicDecl: pc.check_type(b.expr_type),
+
                     lambda _: False
                 ))
             ), default_val=items)

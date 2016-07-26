@@ -1457,15 +1457,75 @@ class CallExpr(Expr):
             & (Self.ref_var == Self.name.ref_var)
         )
 
-    @langkit_property(return_type=BoolType, private=True)
-    def check_type(type_designator=AdaNode):
-        plen = Var(Self.suffix.cast_or_raise(ParamList).params.length)
+    @langkit_property(return_type=BoolType)
+    def check_type_self(type_designator=AdaNode):
+        """
+        Internal helper for check_type. Implements the logic for the current
+        node only. TODO: Waiting on interfaces.
+        """
         # TODO: Interface for type designator would be of course 100* better
         return type_designator.match(
             lambda te=TypeExpression: te.array_ndims,
             lambda td=TypeDecl: td.array_ndims,
             lambda _: -1
-        ) == plen
+        ) == Self.suffix.cast_or_raise(ParamList).params.length
+
+    @langkit_property(return_type=AdaNode)
+    def type_component(type_designator=AdaNode):
+        """
+        Helper to return the type component of a Node that can be either a
+        TypeDecl or a TypeExpression. TODO: Waiting on interfaces.
+        """
+        return type_designator.match(
+            lambda te=TypeExpression: te.component_type,
+            lambda td=TypeDecl: td.component_type,
+            lambda _: No(AdaNode)
+        )
+
+    @langkit_property(return_type=BoolType)
+    def check_type_internal(type_designator=AdaNode):
+        """
+        Internal helper for check_type. Will call check_type_self on Self and
+        all parent CallExprs.
+        """
+        return And(
+            Self.check_type_self(type_designator),
+            Self.parent.cast(T.CallExpr).then(
+                lambda ce: ce.check_type_internal(
+                    Self.type_component(type_designator)
+                ), default_val=True
+            )
+        )
+
+    @langkit_property(return_type=BoolType)
+    def check_type(type_designator=AdaNode):
+        """
+        Verifies that this callexpr is valid for the type designated by
+        type_designator. type_designator is either a TypeDecl or a
+        TypeExpression. TODO: Waiting on interfaces.
+        """
+        # Algorithm: We're:
+        # 1. Taking the innermost call expression
+        # 2. Recursing down call expression and component types up to self,
+        # checking for each level that the call expression corresponds.
+        return Self.innermost_callexpr.check_type_internal(type_designator)
+
+    @langkit_property(return_type=T.CallExpr)
+    def innermost_callexpr():
+        """
+        Helper property. Will return the innermost call expression following
+        the name chain. For, example, given::
+            A (B) (C) (D)
+            ^-----------^ Self
+            ^-------^     Self.name
+            ^---^         Self.name.name
+
+        Self.innermost_callexpr will return the node corresponding to
+        Self.name.name.
+        """
+        return Self.name.cast(T.CallExpr).then(
+            lambda ce: ce.innermost_callexpr(), default_val=Self
+        )
 
 
 class ParamAssoc(AdaNode):

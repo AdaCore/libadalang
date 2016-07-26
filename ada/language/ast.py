@@ -385,6 +385,17 @@ class TypeDecl(BasicDecl):
     )
     array_def = Property(No(T.ArrayTypeDef))
 
+    component_type = Property(
+        Self.array_def.then(lambda atd: atd.component_type),
+        doc="""
+        Return the component type of the type, if applicable. The
+        component type is the type you'll get if you call an instance of the
+        Self type. So it can either be:
+        1. The component type for an array
+        2. The return type for an access to function
+        """
+    )
+
     # A TypeDecl in an expression context corresponds to a type conversion, so
     # its type is itself.
     expr_type = Property(Self)

@@ -800,6 +800,17 @@ class TypeExpression(AdaNode):
         )
     ))
 
+    component_type = Property(Self.type_expr_variant.match(
+        lambda aa=T.AnonymousArray: aa.array_def.component_type,
+        lambda _: Self.designated_type.then(
+            lambda dt: dt.component_type,
+        )
+    ), doc="""
+        Return the component_type of the type expression, if applicable. See
+        TypeDecl for more details.
+        """
+    )
+
     defining_env = Property(
         Self.type_expr_variant.defining_env, private=True,
         doc='Helper for BaseDecl.defining_env'

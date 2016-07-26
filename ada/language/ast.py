@@ -788,12 +788,10 @@ class TypeExpression(AdaNode):
     null_exclusion = Field(type=T.BoolType)
     type_expr_variant = Field(type=T.TypeExprVariant)
 
-    array_def = Property(
-        Self.type_expr_variant.match(
-            lambda aa=T.AnonymousArray: aa.array_def,
-            lambda _: Self.designated_type.then(lambda dt: dt.array_def)
-        )
-    )
+    array_def = Property(Self.type_expr_variant.match(
+        lambda aa=T.AnonymousArray: aa.array_def,
+        lambda _: Self.designated_type.then(lambda dt: dt.array_def)
+    ))
 
     array_ndims = Property(
         Self.type_expr_variant.match(

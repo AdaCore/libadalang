@@ -793,14 +793,12 @@ class TypeExpression(AdaNode):
         lambda _: Self.designated_type.then(lambda dt: dt.array_def)
     ))
 
-    array_ndims = Property(
-        Self.type_expr_variant.match(
-            lambda aa=T.AnonymousArray: aa.array_def.array_ndims,
-            lambda _: Self.designated_type.then(
-                lambda dt: dt.array_ndims, default_val=0
-            )
+    array_ndims = Property(Self.type_expr_variant.match(
+        lambda aa=T.AnonymousArray: aa.array_def.array_ndims,
+        lambda _: Self.designated_type.then(
+            lambda dt: dt.array_ndims, default_val=0
         )
-    )
+    ))
 
     defining_env = Property(
         Self.type_expr_variant.defining_env, private=True,

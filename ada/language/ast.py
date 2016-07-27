@@ -1490,7 +1490,8 @@ class CallExpr(Expr):
 
         return Let(lambda indices=atd.indices: LogicAnd(
             Self.params.params.map(lambda i, pa: (
-                indices.constrain_index_expr(pa.expr, i)
+                pa.expr.xref_equation
+                & indices.constrain_index_expr(pa.expr, i)
             ))
         )) & (Self.type_var == atd.component_type)
 

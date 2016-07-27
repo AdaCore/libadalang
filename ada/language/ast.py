@@ -1855,6 +1855,10 @@ class Identifier(BaseId):
 class StringLiteral(BaseId):
     _repr_name = "Str"
 
+    xref_equation = Property(
+        Predicate(TypeDecl.fields.is_str_type, Self.type_var)
+    )
+
 
 class EnumLiteralDecl(BasicDecl):
     enum_identifier = Field(type=T.BaseId)

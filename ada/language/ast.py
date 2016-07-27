@@ -290,6 +290,7 @@ class TypeDef(AdaNode):
                            doc="Whether type is an integer type or not.")
     is_access_type = Property(False,
                               doc="Whether type is an access type or not.")
+    is_char_type = Property(False)
 
     accessed_type = Property(No(T.TypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
@@ -393,6 +394,9 @@ class TypeDecl(BasicDecl):
 
     is_access_type = Property(False,
                               doc="Whether type is an access type or not")
+
+    is_char_type = Property(False,
+                            doc="Whether type is a character type or not")
 
     accessed_type = Property(No(T.TypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
@@ -525,6 +529,10 @@ class EnumTypeDecl(TypeDecl):
     enum_literals = Field(type=T.EnumLiteralDecl.list_type())
     aspects = Field(type=T.AspectSpecification)
 
+    is_char_type = Property(Self.enum_literals.any(
+        lambda lit: lit.enum_identifier.is_a(T.CharLiteral)
+    ))
+
 
 class FloatingPointDef(RealTypeDef):
     num_digits = Field(type=T.Expr)
@@ -592,6 +600,7 @@ class DerivedTypeDef(TypeDef):
     is_real_type = Property(Self.base_type.is_real_type)
     is_int_type = Property(Self.base_type.is_int_type)
     is_access_type = Property(Self.base_type.is_access_type)
+    is_char_type = Property(Self.base_type.is_char_type)
     accessed_type = Property(Self.base_type.accessed_type)
     is_tagged_type = Property(True)
 

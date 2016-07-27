@@ -1877,6 +1877,10 @@ class EnumLiteralDecl(BasicDecl):
 class CharLiteral(BaseId):
     _repr_name = "Chr"
 
+    xref_equation = Property(
+        Predicate(TypeDecl.fields.is_char_type, Self.type_var)
+    )
+
 
 class NumLiteral(SingleTokNode):
     _repr_name = "Num"

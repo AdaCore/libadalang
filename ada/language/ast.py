@@ -148,9 +148,9 @@ class BasicDecl(AdaNode):
     is_array = Property(Self.array_ndims > 0)
     is_subp = Property(Self.is_a(T.BasicSubprogramDecl, T.SubprogramBody))
 
-    expr_type = AbstractProperty(
+    expr_type = Property(
+        Self.type_expression.then(lambda te: te.designated_type),
         type=T.TypeDecl,
-        runtime_check=True,
         doc="""
         Return the type declaration corresponding to this basic declaration
         has when it is used in an expression context. For example, for this
@@ -168,6 +168,15 @@ class BasicDecl(AdaNode):
             function B return F;
 
         expr_type will return the declaration of the type F.
+        """
+    )
+
+    type_expression = AbstractProperty(
+        type=T.TypeExpression,
+        runtime_check=True,
+        doc="""
+        Return the type expression for this BasicDecl if applicable, a null
+        otherwise.
         """
     )
 
@@ -311,7 +320,7 @@ class ComponentDecl(BasicDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     array_ndims = Property(Self.component_def.type_expr.array_ndims)
 
-    expr_type = Property(Self.component_def.type_expr.designated_type)
+    type_expression = Property(Self.component_def.type_expr)
 
     @langkit_property(return_type=EquationType, private=True)
     def constrain_prefix(prefix=T.Expr):
@@ -918,8 +927,8 @@ class BasicSubprogramDecl(BasicDecl):
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
-    expr_type = Property(
-        Self.subp_spec.returns.then(lambda r: r.designated_type), doc="""
+    type_expression = Property(
+        Self.subp_spec.returns, doc="""
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """
@@ -1080,10 +1089,7 @@ class ObjectDecl(BasicDecl):
 
     defining_env = Property(Self.type_expr.defining_env)
 
-    expr_type = Property(
-        # TODO: Handle anonymous arrays definitions
-        Self.type_expr.designated_type
-    )
+    type_expression = Property(Self.type_expr)
 
 
 class DeclarativePart(AdaNode):

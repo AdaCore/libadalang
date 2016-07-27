@@ -180,6 +180,15 @@ class BasicDecl(AdaNode):
         """
     )
 
+    type_designator = Property(Let(lambda te=Self.type_expression: If(
+        Not(te.is_null), te.cast(AdaNode), Self.expr_type.cast(AdaNode),
+    )), doc="""
+        Return the type designator for this BasicDecl. This will either be a
+        TypeExpression instance, if applicable to this BasicDecl, or a
+        TypeDecl.
+        """
+    )
+
     array_def = Property(
         Self.expr_type.array_def,
         doc="""

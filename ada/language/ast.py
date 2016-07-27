@@ -1374,14 +1374,15 @@ class CallExpr(Expr):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        dt = Self.name.designated_type
         return If(
-            Not(dt.is_null),
+            Not(Self.name.designated_type.is_null),
 
             # Type conversion case
             Self.type_conv_xref_equation,
 
-            Self.general_xref_equation
+            # General case. We'll call general_xref_equation on the innermost
+            # call expression, to handle nested call expression cases.
+            Self.innermost_callexpr.general_xref_equation
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -1427,14 +1428,9 @@ class CallExpr(Expr):
                     # or something else (a component/local variable/etc),
                     # that would make this callexpr an array access.
                     s.subp_spec.then(lambda ss: ss.parameterless(e.MD),
-                                     default_val=False),
+                                     default_val=True),
 
-                    # Array access case
-                    Let(lambda indices=s.array_def.indices: LogicAnd(
-                        Self.params.params.map(lambda i, pa: (
-                            indices.constrain_index_expr(pa.expr, i)
-                        ))
-                    )) & (Self.type_var == s.array_def.component_type),
+                    Self.equation_for_type(s.type_designator),
 
                     # The type of the expression is the expr_type of the
                     # subprogram.
@@ -1460,6 +1456,14 @@ class CallExpr(Expr):
                         )
                     ))
                 )
+                # For every callexpr between self and the furthest callexpr
+                # that is an ancestor of Self via the name chain, we'll
+                # construct the crossref equation.
+                & Self.parent_nested_callexpr.then(
+                    lambda pce: pce.parent_callexprs_equation(
+                        Self.type_component(s.type_designator)
+                    ), default_val=LogicTrue()
+                )
             ))))
 
             # Bind the callexpr's ref_var to the id's ref var.
@@ -1471,6 +1475,24 @@ class CallExpr(Expr):
             # * Less complicated equations code and runtime.
             & (Self.ref_var == Self.name.ref_var)
         )
+
+    @langkit_property(return_type=EquationType, private=True)
+    def equation_for_type(type_designator=AdaNode):
+        """
+        Construct an equation verifying if Self is conformant to the type
+        designator passed in parameter.
+        """
+        atd = Var(type_designator.match(
+            lambda te=TypeExpression: te.array_def,
+            lambda td=TypeDecl: td.array_def,
+            lambda _: No(ArrayTypeDef)
+        ))
+
+        return Let(lambda indices=atd.indices: LogicAnd(
+            Self.params.params.map(lambda i, pa: (
+                indices.constrain_index_expr(pa.expr, i)
+            ))
+        )) & (Self.type_var == atd.component_type)
 
     @langkit_property(return_type=BoolType)
     def check_type_self(type_designator=AdaNode):
@@ -1542,6 +1564,30 @@ class CallExpr(Expr):
         """
         return Self.name.cast(T.CallExpr).then(
             lambda ce: ce.innermost_callexpr(), default_val=Self
+        )
+
+    @langkit_property(return_type=T.CallExpr)
+    def parent_nested_callexpr():
+        """
+        Will return the parent callexpr iff Self is the name of the parent
+        callexpr.
+        """
+        return Self.parent.cast(T.CallExpr).then(
+            lambda ce: If(ce.name == Self, ce, No(CallExpr))
+        )
+
+    @langkit_property(return_type=EquationType, private=True)
+    def parent_callexprs_equation(designator_type=AdaNode):
+        """
+        Construct the xref equation for the chain of parent nested callexprs.
+        """
+        return (
+            Self.equation_for_type(designator_type)
+            & Self.parent_nested_callexpr.then(
+                lambda pce: pce.parent_callexprs_equation(
+                    Self.type_component(designator_type)
+                ), default_val=LogicTrue()
+            )
         )
 
 

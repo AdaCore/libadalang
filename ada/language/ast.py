@@ -1717,13 +1717,10 @@ class BaseId(SingleTokNode):
             return subp.subp_spec.is_matching_param_list(
                 params, env_el.MD.dottable_subprogram
                 # Or the subprogram is parameterless, and the returned
-                # component matches the callexpr.
-                # TODO: For the moment this is specialized for arrays, but we
-                # need to handle the case when the return value is an access to
-                # subprogram.
+                # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
-                (et.array_ndims == params.params.length)
-                & subp.subp_spec.parameterless(env_el.MD)
+                subp.subp_spec.parameterless(env_el.MD)
+                & pc.check_type(et)
             ))
 
         return If(

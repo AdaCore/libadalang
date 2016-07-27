@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_chr_literal
+driver: symbol_resolution
+input_sources: [testchrlit.adb]

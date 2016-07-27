@@ -1,0 +1,9 @@
+Analyzing testchrlit.adb
+########################
+
+Expr: <Id "C" 6:4-6:5>, references <ObjectDecl ["C"] 4:4-4:12>, type is <EnumTypeDecl ["Char"] 2:4-2:32>
+Expr: <Chr "'a'" 6:9-6:12>, references None, type is <EnumTypeDecl ["Char"] 2:4-2:32>
+
+Resolution failed for statement <AssignStatement 9:4-9:11>
+
+Done.

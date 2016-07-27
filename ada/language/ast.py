@@ -1479,6 +1479,8 @@ class CallExpr(Expr):
         node only. TODO: Waiting on interfaces.
         """
         # TODO: Interface for type designator would be of course 100* better
+        # TODO 2: For the moment this is specialized for arrays, but we need to
+        # handle the case when the return value is an access to subprogram.
         return type_designator.match(
             lambda te=TypeExpression: te.array_ndims,
             lambda td=TypeDecl: td.array_ndims,

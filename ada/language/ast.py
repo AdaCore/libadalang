@@ -365,7 +365,13 @@ class VariantPart(AdaNode):
 
 @abstract
 class AbstractFormalParamDecl(BasicDecl):
-    pass
+    """
+    Represent an abstract formal parameter declaration. This is used both
+    for records components and for subprogram parameters.
+    """
+    identifiers = AbstractProperty(type=T.Identifier.list_type())
+    type_expression = AbstractProperty(type=T.TypeExpression)
+    is_mandatory = Property(False)
 
 
 class ComponentDecl(AbstractFormalParamDecl):
@@ -376,6 +382,7 @@ class ComponentDecl(AbstractFormalParamDecl):
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
+    identifiers = Property(Self.ids)
     defining_env = Property(
         Self.component_def.type_expr.defining_env,
         private=True,
@@ -408,12 +415,39 @@ class ComponentDecl(AbstractFormalParamDecl):
 
 @abstract
 class AbstractFormalParamHolder(AdaNode):
-    pass
+    """
+    Represents the abstract holder of a list of formal parameters. This is
+    used both for subprogram specifications and for records, so that we can
+    share the matching and unpacking logic.
+    """
+
+    abstract_formal_params = AbstractProperty(
+        type=AbstractFormalParamDecl.array_type(),
+        doc="Return the list of abstract formal parameters for this holder."
+    )
+
+    unpacked_formal_params = Property(
+        Self.abstract_formal_params.mapcat(
+            lambda profile: profile.identifiers.map(lambda id: (
+                New(SingleParameter, name=id, profile=profile)
+            ))
+        ),
+        doc='Couples (identifier, param profile) for all parameters'
+    )
 
 
 class ComponentList(AbstractFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
     variant_part = Field(type=T.VariantPart)
+
+    abstract_formal_params = Property(
+        # TODO: Incomplete definition. We need to:
+        # 1. Handle variant parts.
+        # 2. Concatenate parent components.
+        Self.components.filter(lambda p: p.is_a(AbstractFormalParamDecl)).map(
+            lambda p: p.cast(AbstractFormalParamDecl)
+        )
+    )
 
 
 class RecordDef(AdaNode):
@@ -991,10 +1025,13 @@ class ParameterProfile(AbstractFormalParamDecl):
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
 
+    identifiers = Property(Self.ids)
     is_mandatory = Property(Self.default.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
+
+    type_expression = Property(Self.type_expr)
 
 
 class AspectSpecification(AdaNode):
@@ -1506,7 +1543,7 @@ class CallExpr(Expr):
                             # The type of each actual matches the type of the
                             # formal.
                             pm.param_assoc.expr.type_var == pm.single_param
-                            .profile.type_expr.designated_type
+                            .profile.type_expression.designated_type
 
                         ) & If(
                             # Bind actuals designators to parameters if there
@@ -1662,7 +1699,6 @@ class ParamAssoc(AdaNode):
     def matches(param=T.SingleParameter):
         return New(ParamMatch,
                    has_matched=True,
-                   is_formal_opt=Not(param.profile.default.is_null),
                    single_param=param,
                    param_assoc=Self)
 
@@ -1961,7 +1997,7 @@ class Attribute(SingleTokNode):
 
 class SingleParameter(Struct):
     name = Field(type=Identifier)
-    profile = Field(type=ParameterProfile)
+    profile = Field(type=AbstractFormalParamDecl)
 
 
 class ParamMatch(Struct):
@@ -1973,10 +2009,6 @@ class ParamMatch(Struct):
     has_matched = Field(type=BoolType, doc="""
         Whether the matched ParamAssoc a ParameterProfile.
     """)
-    is_formal_opt = Field(type=BoolType, doc="""
-        Whether the matched ParameterProfile has a default value (and is thus
-        optional).
-    """)
     param_assoc = Field(type=T.ParamAssoc)
     single_param = Field(type=SingleParameter)
 
@@ -1986,18 +2018,14 @@ class SubprogramSpec(AbstractFormalParamHolder):
     params = Field(type=T.ParameterProfile.list_type())
     returns = Field(type=T.TypeExpression)
 
-    typed_param_list = Property(
-        Self.params.mapcat(
-            lambda profile: profile.ids.map(lambda id: (
-                New(SingleParameter, name=id, profile=profile)
-            ))
-        ),
-        doc='Collection of couples (identifier, param profile) for all'
-            ' parameters'
+    abstract_formal_params = Property(
+        Self.params.map(lambda p: p.cast(AbstractFormalParamDecl))
     )
 
     nb_min_params = Property(
-        Self.typed_param_list.filter(lambda p: p.profile.is_mandatory).length,
+        Self.unpacked_formal_params.filter(
+            lambda p: p.profile.is_mandatory
+        ).length,
         type=LongType, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.
@@ -2005,7 +2033,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
     )
 
     nb_max_params = Property(
-        Self.typed_param_list.length, type=LongType,
+        Self.unpacked_formal_params.length, type=LongType,
         doc="""
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
@@ -2019,7 +2047,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
         matching formal in this SubprogramSpec and whether this formal is
         optional (i.e. has a default value).
         """
-        typed_params = Var(Self.typed_param_list)
+        typed_params = Var(Self.unpacked_formal_params)
 
         return params.params.map(lambda i, pa: If(
             pa.designator.is_null,
@@ -2055,7 +2083,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
             params.params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
-                lambda m: Not(m.is_formal_opt)
+                lambda m: m.single_param.profile.is_mandatory
             ).length == nb_min_params,
         )
 

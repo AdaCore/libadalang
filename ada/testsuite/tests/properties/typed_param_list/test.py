@@ -25,7 +25,7 @@ for i, params in enumerate([
 
     unit = ctx.get_from_buffer('foo.adb', source_template.format(params))
     subp_spec = unit.root.f_body.f_item.f_subp_spec
-    for i, (name, type_expr) in enumerate(subp_spec.p_typed_param_list):
+    for i, (name, type_expr) in enumerate(subp_spec.p_unpacked_formal_params):
         assert isinstance(name, libadalang.Identifier)
 
         if i > 0:

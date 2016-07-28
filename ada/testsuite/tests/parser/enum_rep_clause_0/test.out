@@ -5,9 +5,9 @@ AttributeDefClause[1:1-1:36]
 | expr:
 | | Aggregate[1:12-1:35]
 | | | assocs:
-| | | | AggregateContent[1:12-1:35]
-| | | | | fields:
-| | | | | | AggregateAssoc[1:12-1:18]
+| | | | ParamList[1:12-1:35]
+| | | | | params:
+| | | | | | ParamAssoc[1:12-1:18]
 | | | | | | | designator:
 | | | | | | | | AggregateMember[1:12-1:13]
 | | | | | | | | | choice_list:
@@ -16,7 +16,7 @@ AttributeDefClause[1:1-1:36]
 | | | | | | | expr:
 | | | | | | | | Int[1:17-1:18]
 | | | | | | | | | tok: 1
-| | | | | | AggregateAssoc[1:20-1:26]
+| | | | | | ParamAssoc[1:20-1:26]
 | | | | | | | designator:
 | | | | | | | | AggregateMember[1:20-1:21]
 | | | | | | | | | choice_list:
@@ -25,7 +25,7 @@ AttributeDefClause[1:1-1:36]
 | | | | | | | expr:
 | | | | | | | | Int[1:25-1:26]
 | | | | | | | | | tok: 5
-| | | | | | AggregateAssoc[1:28-1:35]
+| | | | | | ParamAssoc[1:28-1:35]
 | | | | | | | designator:
 | | | | | | | | AggregateMember[1:28-1:29]
 | | | | | | | | | choice_list:

@@ -1,8 +1,8 @@
 Aggregate[1:2-1:18]
 | assocs:
-| | AggregateContent[1:2-1:18]
-| | | fields:
-| | | | AggregateAssoc[1:2-1:9]
+| | ParamList[1:2-1:18]
+| | | params:
+| | | | ParamAssoc[1:2-1:9]
 | | | | | designator:
 | | | | | | AggregateMember[1:2-1:3]
 | | | | | | | choice_list:
@@ -11,7 +11,7 @@ Aggregate[1:2-1:18]
 | | | | | expr:
 | | | | | | Int[1:7-1:9]
 | | | | | | | tok: 12
-| | | | AggregateAssoc[1:11-1:18]
+| | | | ParamAssoc[1:11-1:18]
 | | | | | designator:
 | | | | | | AggregateMember[1:11-1:12]
 | | | | | | | choice_list:

@@ -858,10 +858,10 @@ A.add_rules(
     aggregate_assoc=Row(
         Opt(A.aggregate_field, "=>")[0],
         Or(A.diamond_expr, A.expression)
-    ) ^ AggregateAssoc,
-    aggregate_content=List(A.aggregate_assoc, sep=",") ^ AggregateContent,
+    ) ^ ParamAssoc,
+    aggregate_content=List(A.aggregate_assoc, sep=",") ^ ParamList,
     aggregate_content_null=Row(
-        "null", "record", Null(AggregateContent)
+        "null", "record", Null(ParamList)
     )[2],
 
     aggregate=Row(

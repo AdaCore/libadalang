@@ -1399,7 +1399,7 @@ class MembershipExpr(Expr):
 
 class Aggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
-    assocs = Field(type=T.AggregateContent)
+    assocs = Field(type=T.ParamList)
 
     xref_stop_resolution = Property(True)
 
@@ -2205,20 +2205,6 @@ class QualExpr(Expr):
             & (Self.suffix.type_var == typ)
             & (Self.type_var == typ)
         )
-
-
-@abstract
-class AbstractAggregateContent(AdaNode):
-    pass
-
-
-class AggregateContent(AbstractAggregateContent):
-    fields = Field(type=T.AggregateAssoc.list_type())
-
-
-class AggregateAssoc(AdaNode):
-    designator = Field(type=T.AdaNode)
-    expr = Field(type=T.Expr)
 
 
 class AttributeRef(Expr):

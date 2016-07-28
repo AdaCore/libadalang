@@ -15,9 +15,9 @@ CallStatement[1:1-1:30]
 | | | | | | | expr:
 | | | | | | | | Aggregate[1:20-1:28]
 | | | | | | | | | assocs:
-| | | | | | | | | | AggregateContent[1:20-1:28]
-| | | | | | | | | | | fields:
-| | | | | | | | | | | | AggregateAssoc[1:20-1:28]
+| | | | | | | | | | ParamList[1:20-1:28]
+| | | | | | | | | | | params:
+| | | | | | | | | | | | ParamAssoc[1:20-1:28]
 | | | | | | | | | | | | | designator:
 | | | | | | | | | | | | | | AggregateMember[1:20-1:21]
 | | | | | | | | | | | | | | | choice_list:

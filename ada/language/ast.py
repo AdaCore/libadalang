@@ -87,6 +87,56 @@ class AdaNode(ASTNode):
         """
     )
 
+    xref_equation = AbstractProperty(
+        type=EquationType, runtime_check=True,
+        doc="""
+        This is the base property for constructing equations that, when solved,
+        will resolve symbols and types for every sub expression of the
+        expression you call it on. Note that if you call that on any
+        expression, in some context it might lack full information and return
+        multiple solutions. If you want completely precise resolution, you must
+        call that on the outermost node that supports xref_equation.
+        """,
+        private=True
+    )
+
+    xref_stop_resolution = Property(False, private=True)
+
+    sub_equation = Property(
+        If(Self.xref_stop_resolution, LogicTrue(), Self.xref_equation),
+        private=True,
+        doc="""
+        Wrapper for xref_equation, meant to be used inside of xref_equation
+        when you want to get the sub equation of a sub expression. It is
+        used to change the behavior when xref_equation is called from
+        another xref_equation call, or from the top level, so that we can do
+        resolution in several steps.
+        """
+    )
+
+    @langkit_property(return_type=BoolType, private=True)
+    def resolve_symbols_internal(initial=BoolType):
+        """
+        Internal helper for resolve_symbols, implementing the recursive logic.
+        """
+        i = Var(If(initial | Self.xref_stop_resolution,
+                   Self.xref_equation.then(lambda x: x.solve),
+                   True))
+
+        j = Self.children.all(lambda c: c.then(
+            lambda c: c.resolve_symbols_internal(False), default_val=True
+        ))
+        return i & j
+
+    @langkit_property(return_type=BoolType)
+    def resolve_symbols():
+        """
+        This will resolve symbols for this node. If the operation is
+        successful, then type_var and ref_var will be bound on appropriate
+        subnodes of the statement.
+        """
+        return Self.resolve_symbols_internal(True)
+
 
 def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
     """
@@ -1329,19 +1379,6 @@ class Expr(AdaNode):
         """
     )
 
-    xref_equation = AbstractProperty(
-        type=EquationType, runtime_check=True,
-        doc="""
-        This is the base property for constructing equations that, when solved,
-        will resolve symbols and types for every sub expression of the
-        expression you call it on. Note that if you call that on any
-        expression, in some context it might lack full information and return
-        multiple solutions. If you want completely precise resolution, you must
-        call that on the outermost node that supports xref_equation.
-        """,
-        private=True
-    )
-
 
 class UnOp(Expr):
     op = Field(type=T.Op)
@@ -1363,6 +1400,7 @@ class MembershipExpr(Expr):
 class Aggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
     assocs = Field(type=T.AggregateContent)
+
 
 
 class CallExpr(Expr):
@@ -1405,8 +1443,8 @@ class CallExpr(Expr):
         conversion cases.
         """
         return And(
-            Self.params.params.at(0).expr.xref_equation,
-            Self.name.xref_equation,
+            Self.params.params.at(0).expr.sub_equation,
+            Self.name.sub_equation,
             Self.type_var == Self.name.type_var,
             Self.ref_var == Self.name.ref_var
         )
@@ -1421,13 +1459,13 @@ class CallExpr(Expr):
         subps = Var(Self.env_elements)
 
         return (
-            Self.name.xref_equation
+            Self.name.sub_equation
             # TODO: For the moment we presume that a CallExpr in an expression
             # context necessarily has a ParamList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
             & LogicAnd(Self.params.params.map(lambda pa:
-                                              pa.expr.xref_equation))
+                                              pa.expr.sub_equation))
 
             # For each potential subprogram match, we want to express the
             # following constraints:
@@ -1503,7 +1541,7 @@ class CallExpr(Expr):
 
         return Let(lambda indices=atd.indices: LogicAnd(
             Self.params.params.map(lambda i, pa: (
-                pa.expr.xref_equation
+                pa.expr.sub_equation
                 & indices.constrain_index_expr(pa.expr, i)
             ))
         )) & (Self.type_var == atd.component_type)
@@ -1639,7 +1677,7 @@ class AccessDeref(Expr):
     ))
 
     xref_equation = Property(
-        Self.prefix.xref_equation
+        Self.prefix.sub_equation
         # Evaluate the prefix equation
 
         & Domain(Self.ref_var, Self.entities)
@@ -2160,7 +2198,7 @@ class QualExpr(Expr):
         typ = Self.prefix.designated_type.canonical_type
 
         return (
-            Self.suffix.xref_equation
+            Self.suffix.sub_equation
             & (Self.prefix.ref_var == typ)
             & (Self.prefix.type_var == typ)
             & (Self.suffix.type_var == typ)
@@ -2238,8 +2276,8 @@ class DottedName(Name):
     def xref_equation():
         dt = Self.designated_type
         base = Var(
-            Self.prefix.xref_equation
-            & Self.prefix.designated_env.eval_in_env(Self.suffix.xref_equation)
+            Self.prefix.sub_equation
+            & Self.prefix.designated_env.eval_in_env(Self.suffix.sub_equation)
         )
         return If(
             Not(dt.is_null),
@@ -2302,17 +2340,6 @@ class Statement(AdaNode):
         """
         return No(EquationType)
 
-    @langkit_property(return_type=BoolType)
-    def resolve_symbols():
-        """
-        This will resolve symbols for this statement. If the operation is
-        successful, then type_var and ref_var will be bound on appropriate
-        subnodes of the statement.
-        """
-        # TODO: Not using then because bug in refcounting
-        xref_eq = Var(Self.xref_equation)
-        return If(Not(xref_eq.is_null), xref_eq.solve, False)
-
 
 @abstract
 class SimpleStatement(Statement):
@@ -2328,7 +2355,7 @@ class CallStatement(SimpleStatement):
     call = Field(type=T.Expr)
 
     xref_equation = Property(
-        Self.call.xref_equation
+        Self.call.sub_equation
 
         # Call statements can have no return value
         & (Self.call.type_var == No(AdaNode))
@@ -2344,10 +2371,10 @@ class AssignStatement(SimpleStatement):
     expr = Field(type=T.Expr)
 
     xref_equation = Property(
-        Self.dest.xref_equation
+        Self.dest.sub_equation
         # TODO: Handle more complex cases than pure type equality,
         # eg. tagged types, accesses.
-        & Self.expr.xref_equation
+        & Self.expr.sub_equation
         & (Self.expr.type_var == Self.dest.type_var)
     )
 

@@ -406,7 +406,12 @@ class ComponentDecl(AbstractFormalParamDecl):
         return Self.parents.find(lambda p: p.is_a(TypeDecl)).cast(TypeDecl)
 
 
-class ComponentList(AdaNode):
+@abstract
+class AbstractFormalParamHolder(AdaNode):
+    pass
+
+
+class ComponentList(AbstractFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
     variant_part = Field(type=T.VariantPart)
 
@@ -1976,7 +1981,7 @@ class ParamMatch(Struct):
     single_param = Field(type=SingleParameter)
 
 
-class SubprogramSpec(AdaNode):
+class SubprogramSpec(AbstractFormalParamHolder):
     name = Field(type=T.Name)
     params = Field(type=T.ParameterProfile.list_type())
     returns = Field(type=T.TypeExpression)

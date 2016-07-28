@@ -1401,6 +1401,7 @@ class Aggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
     assocs = Field(type=T.AggregateContent)
 
+    xref_stop_resolution = Property(True)
 
 
 class CallExpr(Expr):

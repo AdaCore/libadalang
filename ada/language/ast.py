@@ -363,7 +363,12 @@ class VariantPart(AdaNode):
     variant = Field(type=T.Variant.list_type())
 
 
-class ComponentDecl(BasicDecl):
+@abstract
+class AbstractFormalParamDecl(BasicDecl):
+    pass
+
+
+class ComponentDecl(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     component_def = Field(type=T.ComponentDef)
     default_expr = Field(type=T.Expr)
@@ -974,7 +979,7 @@ class TypeAccessExpression(AccessExpression):
     accessed_type = Property(Self.subtype_name.designated_type)
 
 
-class ParameterProfile(BasicDecl):
+class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     is_aliased = Field(type=T.BoolType)
     mode = Field(type=T.InOut)

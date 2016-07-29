@@ -1,0 +1,16 @@
+Analyzing simple_aggregate.adb
+##############################
+
+Expr: <Id "R" 11:4-11:5>, references <ObjectDecl ["R"] 7:4-7:11>, type is <FullTypeDecl ["Rec"] 3:4-5:14>
+Expr: <Aggregate 11:10-11:14>, references None, type is <FullTypeDecl ["Rec"] 3:4-5:14>
+Expr: <Int 11:10-11:11>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:33>
+Expr: <Int 11:13-11:14>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:33>
+
+Resolution failed for statement <AssignStatement 14:4-14:17>
+
+Expr: <Id "R" 17:4-17:5>, references <ObjectDecl ["R"] 7:4-7:11>, type is <FullTypeDecl ["Rec"] 3:4-5:14>
+Expr: <Aggregate 17:10-17:16>, references None, type is <FullTypeDecl ["Rec"] 3:4-5:14>
+Expr: <Int 17:10-17:11>, references None, type is <FullTypeDecl ["Integer"] 2:4-2:33>
+Expr: <Id "Foo" 17:13-17:16>, references <SubprogramDecl ["Foo"] 8:4-8:31>, type is <FullTypeDecl ["Integer"] 2:4-2:33>
+
+Done.

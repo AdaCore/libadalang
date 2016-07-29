@@ -467,14 +467,30 @@ class ComponentList(AbstractFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
     variant_part = Field(type=T.VariantPart)
 
-    abstract_formal_params = Property(
+    type_def = Property(Self.parent.parent.cast(T.TypeDef))
+
+    parent_component_list = Property(
+        Self.type_def.cast(T.DerivedTypeDef).then(
+            lambda dtd: dtd.base_type.record_def.components
+        )
+    )
+
+    @langkit_property()
+    def abstract_formal_params():
         # TODO: Incomplete definition. We need to:
         # 1. Handle variant parts.
         # 2. Concatenate parent components.
-        Self.components.filter(lambda p: p.is_a(AbstractFormalParamDecl)).map(
-            lambda p: p.cast(AbstractFormalParamDecl)
+        pcl = Var(Self.parent_component_list)
+        self_comps = Var(Self.components.filtermap(
+            filter_expr=lambda p: p.is_a(AbstractFormalParamDecl),
+            expr=lambda p: p.cast(AbstractFormalParamDecl)
+        ))
+
+        return If(
+            pcl.is_null,
+            self_comps,
+            pcl.abstract_formal_params.concat(self_comps)
         )
-    )
 
 
 class RecordDef(AdaNode):

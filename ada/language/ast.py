@@ -435,6 +435,33 @@ class AbstractFormalParamHolder(AdaNode):
         doc='Couples (identifier, param profile) for all parameters'
     )
 
+    @langkit_property(return_type=T.ParamMatch.array_type())
+    def match_param_list(params=T.ParamList, is_dottable_subp=BoolType):
+        """
+        For each ParamAssoc in a ParamList, return whether we could find a
+        matching formal in Self, and whether this formal is optional (i.e. has
+        a default value).
+        """
+        typed_params = Var(Self.unpacked_formal_params)
+
+        return params.params.map(lambda i, pa: If(
+            pa.designator.is_null,
+
+            Let(lambda idx=If(is_dottable_subp, i + 1, i):
+                # Positional parameter case: if this parameter has no
+                # name association, make sure we have enough formals.
+                typed_params.at(idx).then(lambda sp: pa.matches(sp))),
+
+            # Named parameter case: make sure the designator is
+            # actualy a name and that there is a corresponding
+            # formal.
+            pa.designator.cast(Identifier).then(lambda id: (
+                typed_params.find(lambda p: p.name.matches(id)).then(
+                    lambda sp: pa.matches(sp)
+                )
+            ))
+        ))
+
 
 class ComponentList(AbstractFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
@@ -2039,33 +2066,6 @@ class SubprogramSpec(AbstractFormalParamHolder):
         while still being a legal call.
         """
     )
-
-    @langkit_property(return_type=ParamMatch.array_type())
-    def match_param_list(params=ParamList, is_dottable_subp=BoolType):
-        """
-        For each ParamAssoc in a ParamList, return whether we could find a
-        matching formal in this SubprogramSpec and whether this formal is
-        optional (i.e. has a default value).
-        """
-        typed_params = Var(Self.unpacked_formal_params)
-
-        return params.params.map(lambda i, pa: If(
-            pa.designator.is_null,
-
-            Let(lambda idx=If(is_dottable_subp, i + 1, i):
-                # Positional parameter case: if this parameter has no
-                # name association, make sure we have enough formals.
-                typed_params.at(idx).then(lambda sp: pa.matches(sp))),
-
-            # Named parameter case: make sure the designator is
-            # actualy a name and that there is a corresponding
-            # formal.
-            pa.designator.cast(Identifier).then(lambda id: (
-                typed_params.find(lambda p: p.name.matches(id)).then(
-                    lambda sp: pa.matches(sp)
-                )
-            ))
-        ))
 
     @langkit_property(return_type=BoolType)
     def is_matching_param_list(params=ParamList, is_dottable_subp=BoolType):

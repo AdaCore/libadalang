@@ -531,6 +531,7 @@ class TypeDecl(BasicDecl):
         """
     )
     array_def = Property(No(T.ArrayTypeDef))
+    record_def = Property(No(T.RecordDef))
 
     component_type = Property(
         Self.array_def.then(lambda atd: atd.component_type),
@@ -648,6 +649,14 @@ class FullTypeDecl(TypeDecl):
     )
 
     env_spec = EnvSpec(add_env=True)
+
+    record_def = Property(
+        Self.type_def.match(
+            lambda r=T.RecordTypeDef: r.record_def,
+            lambda d=T.DerivedTypeDef: d.record_extension,
+            lambda _: No(T.RecordDef)
+        )
+    )
 
 
 class EnumTypeDecl(TypeDecl):

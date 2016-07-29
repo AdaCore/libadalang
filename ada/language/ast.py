@@ -1486,6 +1486,16 @@ class Aggregate(Expr):
 
     xref_stop_resolution = Property(True)
 
+    xref_equation = Property(LogicAnd(
+        Self.type_val.cast(TypeDecl).record_def.components
+        .match_param_list(Self.assocs, False).map(
+            lambda pm:
+            (pm.param_assoc.expr.type_var
+             == pm.single_param.profile.type_expression.designated_type)
+            & pm.param_assoc.expr.sub_equation
+        )
+    ))
+
 
 class CallExpr(Expr):
     name = Field(type=T.Expr)

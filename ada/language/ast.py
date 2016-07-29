@@ -1508,20 +1508,30 @@ class Aggregate(Expr):
 
     xref_stop_resolution = Property(True)
 
-    xref_equation = Property(LogicAnd(
-        Self.type_val.cast(TypeDecl).record_def.components
-        .match_param_list(Self.assocs, False).map(
-            lambda pm:
-            (pm.actual.assoc.expr.type_var
-             == pm.formal.profile.type_expression.designated_type)
-            & pm.actual.assoc.expr.sub_equation
-            & If(
-                pm.actual.name.is_null,
-                LogicTrue(),
-                pm.actual.name.ref_var == pm.formal.profile
+    @langkit_property()
+    def xref_equation():
+        td = Var(Self.type_val.cast(TypeDecl))
+        atd = Var(td.array_def)
+        return LogicAnd(If(
+            atd.is_null,
+
+            # First case, aggregate for a record
+            td.record_def.components.match_param_list(Self.assocs, False).map(
+                lambda pm:
+                (pm.actual.assoc.expr.type_var
+                 == pm.formal.profile.type_expression.designated_type)
+                & pm.actual.assoc.expr.sub_equation
+                & If(pm.actual.name.is_null,
+                     LogicTrue(),
+                     pm.actual.name.ref_var == pm.formal.profile)
+            ),
+
+            # Second case, aggregate for an array
+            Self.assocs.params.map(
+                lambda assoc: assoc.expr.sub_equation
+                              & (assoc.expr.type_var == atd.component_type)
             )
-        )
-    ))
+        ))
 
 
 class CallExpr(Expr):

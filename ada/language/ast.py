@@ -429,7 +429,7 @@ class AbstractFormalParamHolder(AdaNode):
     unpacked_formal_params = Property(
         Self.abstract_formal_params.mapcat(
             lambda profile: profile.identifiers.map(lambda id: (
-                New(SingleParameter, name=id, profile=profile)
+                New(SingleFormal, name=id, profile=profile)
             ))
         ),
         doc='Couples (identifier, param profile) for all parameters'
@@ -442,7 +442,7 @@ class AbstractFormalParamHolder(AdaNode):
         matching formal in Self, and whether this formal is optional (i.e. has
         a default value).
         """
-        typed_params = Var(Self.unpacked_formal_params)
+        unpacked_formals = Var(Self.unpacked_formal_params)
 
         return params.params.map(lambda i, pa: If(
             pa.designator.is_null,
@@ -450,13 +450,13 @@ class AbstractFormalParamHolder(AdaNode):
             Let(lambda idx=If(is_dottable_subp, i + 1, i):
                 # Positional parameter case: if this parameter has no
                 # name association, make sure we have enough formals.
-                typed_params.at(idx).then(lambda sp: pa.matches(sp))),
+                unpacked_formals.at(idx).then(lambda sp: pa.matches(sp))),
 
             # Named parameter case: make sure the designator is
             # actualy a name and that there is a corresponding
             # formal.
             pa.designator.cast(Identifier).then(lambda id: (
-                typed_params.find(lambda p: p.name.matches(id)).then(
+                unpacked_formals.find(lambda p: p.name.matches(id)).then(
                     lambda sp: pa.matches(sp)
                 )
             ))
@@ -2057,7 +2057,7 @@ class Attribute(SingleTokNode):
     _repr_name = "Attr"
 
 
-class SingleParameter(Struct):
+class SingleFormal(Struct):
     name = Field(type=Identifier)
     profile = Field(type=AbstractFormalParamDecl)
 
@@ -2072,7 +2072,7 @@ class ParamMatch(Struct):
         Whether the matched ParamAssoc a ParameterProfile.
     """)
     param_assoc = Field(type=T.ParamAssoc)
-    single_param = Field(type=SingleParameter)
+    single_param = Field(type=SingleFormal)
 
 
 class SubprogramSpec(AbstractFormalParamHolder):

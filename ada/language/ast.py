@@ -1507,7 +1507,7 @@ class Aggregate(Expr):
         .match_param_list(Self.assocs, False).map(
             lambda pm:
             (pm.param_assoc.expr.type_var
-             == pm.single_param.profile.type_expression.designated_type)
+             == pm.formal.profile.type_expression.designated_type)
             & pm.param_assoc.expr.sub_equation
         )
     ))
@@ -1604,7 +1604,7 @@ class CallExpr(Expr):
                         lambda pm: (
                             # The type of each actual matches the type of the
                             # formal.
-                            pm.param_assoc.expr.type_var == pm.single_param
+                            pm.param_assoc.expr.type_var == pm.formal
                             .profile.type_expression.designated_type
 
                         ) & If(
@@ -1613,7 +1613,7 @@ class CallExpr(Expr):
                             pm.param_assoc.designator.is_null,
                             LogicTrue(),
                             pm.param_assoc.designator.ref_var
-                            == pm.single_param.profile
+                            == pm.formal.profile
                         )
                     ))
                 )
@@ -1758,10 +1758,10 @@ class ParamAssoc(AdaNode):
     expr = Field(type=T.Expr)
 
     @langkit_property(return_type=T.ParamMatch, private=True)
-    def matches(param=T.SingleParameter):
+    def matches(param=T.SingleFormal):
         return New(ParamMatch,
                    has_matched=True,
-                   single_param=param,
+                   formal=param,
                    param_assoc=Self)
 
 
@@ -2072,7 +2072,7 @@ class ParamMatch(Struct):
         Whether the matched ParamAssoc a ParameterProfile.
     """)
     param_assoc = Field(type=T.ParamAssoc)
-    single_param = Field(type=SingleFormal)
+    formal = Field(type=SingleFormal)
 
 
 class SubprogramSpec(AbstractFormalParamHolder):
@@ -2118,7 +2118,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
             params.params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
-                lambda m: m.single_param.profile.is_mandatory
+                lambda m: m.formal.profile.is_mandatory
             ).length == nb_min_params,
         )
 

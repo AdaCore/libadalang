@@ -442,22 +442,28 @@ class AbstractFormalParamHolder(AdaNode):
         matching formal in Self, and whether this formal is optional (i.e. has
         a default value).
         """
+        def matches(formal, actual):
+            return New(ParamMatch,
+                       has_matched=True,
+                       formal=formal,
+                       actual=actual)
+
         unpacked_formals = Var(Self.unpacked_formal_params)
 
-        return params.params.map(lambda i, pa: If(
-            pa.designator.is_null,
+        return params.unpacked_params.map(lambda i, a: If(
+            a.name.is_null,
 
             Let(lambda idx=If(is_dottable_subp, i + 1, i):
                 # Positional parameter case: if this parameter has no
                 # name association, make sure we have enough formals.
-                unpacked_formals.at(idx).then(lambda sp: pa.matches(sp))),
+                unpacked_formals.at(idx).then(lambda sp: matches(sp, a))),
 
             # Named parameter case: make sure the designator is
             # actualy a name and that there is a corresponding
             # formal.
-            pa.designator.cast(Identifier).then(lambda id: (
+            a.name.then(lambda id: (
                 unpacked_formals.find(lambda p: p.name.matches(id)).then(
-                    lambda sp: pa.matches(sp)
+                    lambda sp: matches(sp, a)
                 )
             ))
         ))
@@ -1506,9 +1512,14 @@ class Aggregate(Expr):
         Self.type_val.cast(TypeDecl).record_def.components
         .match_param_list(Self.assocs, False).map(
             lambda pm:
-            (pm.param_assoc.expr.type_var
+            (pm.actual.assoc.expr.type_var
              == pm.formal.profile.type_expression.designated_type)
-            & pm.param_assoc.expr.sub_equation
+            & pm.actual.assoc.expr.sub_equation
+            & If(
+                pm.actual.name.is_null,
+                LogicTrue(),
+                pm.actual.name.ref_var == pm.formal.profile
+            )
         )
     ))
 
@@ -1604,15 +1615,15 @@ class CallExpr(Expr):
                         lambda pm: (
                             # The type of each actual matches the type of the
                             # formal.
-                            pm.param_assoc.expr.type_var == pm.formal
+                            pm.actual.assoc.expr.type_var == pm.formal
                             .profile.type_expression.designated_type
 
                         ) & If(
                             # Bind actuals designators to parameters if there
                             # are designators.
-                            pm.param_assoc.designator.is_null,
+                            pm.actual.name.is_null,
                             LogicTrue(),
-                            pm.param_assoc.designator.ref_var
+                            pm.actual.name.ref_var
                             == pm.formal.profile
                         )
                     ))
@@ -1757,16 +1768,33 @@ class ParamAssoc(AdaNode):
     designator = Field(type=T.AdaNode)
     expr = Field(type=T.Expr)
 
-    @langkit_property(return_type=T.ParamMatch, private=True)
-    def matches(param=T.SingleFormal):
-        return New(ParamMatch,
-                   has_matched=True,
-                   formal=param,
-                   param_assoc=Self)
-
 
 class ParamList(AdaNode):
     params = Field(type=T.ParamAssoc.list_type())
+
+    @langkit_property()
+    def unpacked_params():
+        """
+        Given the list of ParamAssoc, that can in certain case designate
+        several actual parameters at once, create an unpacked list of
+        SingleActual instances.
+        """
+        return Self.params.mapcat(
+            lambda pa: pa.designator.then(lambda des: des.match(
+                lambda i=Identifier:
+                    New(SingleActual, name=i, assoc=pa).singleton,
+                lambda ag=AggregateMember:
+                    ag.choice_list.filtermap(
+                        filter_expr=lambda n: n.is_a(T.Identifier),
+                        expr=lambda i:
+                        New(SingleActual, name=i.cast(T.Identifier),
+                            assoc=pa)
+                    ),
+                lambda _:
+                New(SingleActual, name=No(Identifier), assoc=pa).singleton
+            ), default_val=New(SingleActual,
+                               name=No(T.Identifier), assoc=pa).singleton)
+        )
 
 
 class AccessDeref(Expr):
@@ -2062,6 +2090,11 @@ class SingleFormal(Struct):
     profile = Field(type=AbstractFormalParamDecl)
 
 
+class SingleActual(Struct):
+    name = Field(type=Identifier)
+    assoc = Field(type=T.ParamAssoc)
+
+
 class ParamMatch(Struct):
     """
     Helper data structure to implement SubprogramSpec/ParamAssocList matching.
@@ -2071,7 +2104,7 @@ class ParamMatch(Struct):
     has_matched = Field(type=BoolType, doc="""
         Whether the matched ParamAssoc a ParameterProfile.
     """)
-    param_assoc = Field(type=T.ParamAssoc)
+    actual = Field(type=SingleActual)
     formal = Field(type=SingleFormal)
 
 

@@ -96,12 +96,7 @@ package body Libadalang.Unit_Files is
          return;
       end if;
 
-      --  Make sure this unit has only one name
       Names := Node.P_Defining_Names;
-      if Names.N /= 1 then
-         Dec_Ref (Names);
-         raise Property_Error with "unit cannot have multiple names";
-      end if;
 
       declare
          Name : constant String :=

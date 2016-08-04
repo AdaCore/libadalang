@@ -4,19 +4,15 @@ from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
     env_metadata, root_grammar_class, LongType, create_macro, LogicVarType,
-    EquationType, T
+    EquationType, T, LexicalEnvType, EnvElement
 )
 
 from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
-    langkit_property, Var, Bind, Let
+    langkit_property, Var, Bind, Let, New, Property, Self, EmptyArray, If,
+    AbstractKind
 )
-from langkit.expressions import New
-from langkit.expressions import Property
-from langkit.expressions import Self
-from langkit.expressions.base import EmptyArray
-from langkit.expressions.boolean import If
 from langkit.expressions.logic import (
     Domain, Predicate, LogicAnd, LogicOr, LogicTrue
 )
@@ -1458,13 +1454,17 @@ class Expr(AdaNode):
         """
     )
 
-    env_elements = AbstractProperty(
-        type=compiled_types.EnvElement.array_type(), runtime_check=True,
-        doc="""
+    env_elements = Property(Self.env_elements_impl(Env))
+
+    @langkit_property(private=True,
+                      return_type=EnvElement.array_type(),
+                      kind=AbstractKind.abstract_runtime_check)
+    def env_elements_impl(origin_env=LexicalEnvType):
+        """
         Returns the list of annotated elements in the lexical environment
         that can statically be a match for expr before overloading analysis.
         """
-    )
+        pass
 
     entities = Property(
         Self.env_elements.map(lambda e: e.el), type=AdaNode.array_type(),
@@ -1546,7 +1546,9 @@ class CallExpr(Expr):
         )).env_group
     )
 
-    env_elements = Property(Self.name.env_elements)
+    @langkit_property()
+    def env_elements_impl(origin_env=LexicalEnvType):
+        return Self.name.env_elements_impl(origin_env)
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
@@ -1816,12 +1818,14 @@ class AccessDeref(Expr):
         # accessible through the prefix, so we just use the prefix's env.
     )
 
-    env_elements = Property(Self.prefix.env_elements.filter(
-        # Env elements for access derefs need to be of an access type
-        lambda e: e.el.cast(BasicDecl).then(
-            lambda bd: bd.canonical_expr_type.is_access_type()
+    @langkit_property()
+    def env_elements_impl(origin_env=LexicalEnvType):
+        return Self.prefix.env_elements_impl(origin_env).filter(
+            # Env elements for access derefs need to be of an access type
+            lambda e: e.el.cast(BasicDecl).then(
+                lambda bd: bd.canonical_expr_type.is_access_type()
+            )
         )
-    ))
 
     xref_equation = Property(
         Self.prefix.sub_equation
@@ -1964,7 +1968,7 @@ class BaseId(SingleTokNode):
         )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
     @langkit_property()
-    def env_elements():
+    def env_elements_impl(origin_env=LexicalEnvType):
         items = Var(Env.get(Self.tok))
         pc = Var(Self.parent_callexpr)
 
@@ -2330,9 +2334,11 @@ class DottedName(Name):
 
     name = Property(Self.suffix.name)
 
-    env_elements = Property(
-        Self.prefix.designated_env.eval_in_env(Self.suffix.env_elements)
-    )
+    @langkit_property()
+    def env_elements_impl(origin_env=LexicalEnvType):
+        return Self.prefix.designated_env.eval_in_env(
+            Self.suffix.env_elements_impl(origin_env)
+        )
 
     potential_primitive_calls = Property(Self.prefix.entities.mapcat(
         lambda e: e.cast(BasicDecl).expr_type.tagged_primitives.filter(

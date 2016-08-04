@@ -72,6 +72,7 @@ package body Libadalang.Unit_Files is
             --  errors?
             if Root (Unit) /= null then
                Populate_Lexical_Env (Unit);
+               Reference_Unit (From => Get_Unit (Names), Referenced => Unit);
             end if;
          end;
       end loop;
@@ -110,6 +111,7 @@ package body Libadalang.Unit_Files is
          if Root (Unit) /= null then
             Populate_Lexical_Env (Unit);
             Initial_Env := Get_Main_Env (Unit);
+            Reference_Unit (From => Get_Unit (Node), Referenced => Unit);
          end if;
       exception
          when Property_Error =>

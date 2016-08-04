@@ -1428,15 +1428,17 @@ def is_package(e):
 
 @abstract
 class Expr(AdaNode):
-    designated_env = AbstractProperty(
-        type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
-        doc="""
+
+    @langkit_property(kind=AbstractKind.abstract_runtime_check,
+                      return_type=compiled_types.LexicalEnvType)
+    def designated_env():
+        """
         Returns the lexical environment designated by this name.
 
         If this name involves overloading, this will return a combination of
         the various candidate lexical environments.
         """
-    )
+        pass
 
     scope = AbstractProperty(
         type=compiled_types.LexicalEnvType, private=True, runtime_check=True,

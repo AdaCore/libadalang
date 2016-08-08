@@ -1431,6 +1431,17 @@ def is_package(e):
     return Not(e.is_null) & e.is_a(PackageDecl, PackageBody)
 
 
+def is_library_package(e):
+    """
+    Property helper to determine if an entity is a library level package or
+    not.
+
+    :type e: AbstractExpression
+    :rtype: AbstractExpression
+    """
+    return Not(e.is_null) & is_package(e) & e.parent.is_a(LibraryItem)
+
+
 @abstract
 class Expr(AdaNode):
 
@@ -1944,13 +1955,21 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
-        # Filter entities for which:
-        # - Current env node is a package.
-        # - Entity is not a package.
-        # - Current env is not visible from origin_env.
-        return Self.entities.map(lambda el: el.cast(BasicDecl).then(
-            lambda decl: decl.defining_env
-        )).env_group
+        return Self.designated_env_impl(origin_env, False)
+
+    @langkit_property(private=True)
+    def designated_env_impl(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
+        """
+        Decoupled implementation for designated_env, specifically used by
+        DottedName when the parent is a library level package.
+        """
+        ents = Var(Self.env_elements_baseid(origin_env, is_parent_pkg))
+
+        return Let(lambda el=ents.at(0).el: If(
+            is_package(el),
+            el.cast(BasicDecl).defining_env,
+            ents.map(lambda e: e.el.cast(BasicDecl).defining_env).env_group
+        ))
 
     scope = Property(Env)
     name = Property(Self.tok)
@@ -1987,6 +2006,14 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def env_elements_impl(origin_env=LexicalEnvType):
+        return Self.env_elements_baseid(origin_env, False)
+
+    @langkit_property(private=True)
+    def env_elements_baseid(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
+        """
+        Decoupled implementation for env_elements_impl, specifically used by
+        designated_env when the parent is a library level package.
+        """
         items = Var(Env.get(Self.tok))
         pc = Var(Self.parent_callexpr)
 
@@ -2008,11 +2035,21 @@ class BaseId(SingleTokNode):
             # designates something else than a subprogram, either it designates
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
-            items.filter(
-                lambda e: e.el.cast_or_raise(BasicDecl).subp_spec.then(
-                    lambda ss: ss.parameterless(e.MD), default_val=True
+            items.filter(lambda e: (
+                # If we're at the visibilty checking point (parent is a package
+                # and self is not), we want to check whether the requester has
+                # visibility over the element.
+                If(is_parent_pkg & Not(is_library_package(e.el)),
+                   Env.is_visible_from(origin_env),
+                   True)
+
+                & e.el.cast_or_raise(BasicDecl).subp_spec.then(
+                    # If there is a subp_spec, check that it corresponds to
+                    # a parameterless subprogram.
+                    lambda ss: ss.parameterless(e.MD),
+                    default_val=True
                 )
-            ),
+            )),
 
             # This identifier is the name for a called subprogram or an array.
             # So only keep:
@@ -2338,9 +2375,12 @@ class DottedName(Name):
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
-        return Self.prefix.designated_env(origin_env).eval_in_env(
+        pfx_env = Var(Self.prefix.designated_env(origin_env))
+        return pfx_env.eval_in_env(If(
+            is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
+            Self.suffix.cast(BaseId).designated_env_impl(origin_env, True),
             Self.suffix.designated_env(origin_env)
-        )
+        ))
 
     env_for_scope = Property(Self.suffix.cast(BaseId).then(
         lambda sfx: Self.scope.eval_in_env(sfx.env_for_scope),
@@ -2356,9 +2396,13 @@ class DottedName(Name):
 
     @langkit_property()
     def env_elements_impl(origin_env=LexicalEnvType):
-        return Self.prefix.designated_env(origin_env).eval_in_env(
+        pfx_env = Var(Self.prefix.designated_env(origin_env))
+
+        return pfx_env.eval_in_env(If(
+            is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
+            Self.suffix.cast(BaseId).env_elements_baseid(origin_env, True),
             Self.suffix.env_elements_impl(origin_env)
-        )
+        ))
 
     potential_primitive_calls = Property(Self.prefix.entities.mapcat(
         lambda e: e.cast(BasicDecl).expr_type.tagged_primitives.filter(

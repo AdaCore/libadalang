@@ -1428,7 +1428,7 @@ def is_package(e):
     :type e: AbstractExpression
     :rtype: AbstractExpression
     """
-    return e.is_a(PackageDecl, PackageBody)
+    return Not(e.is_null) & e.is_a(PackageDecl, PackageBody)
 
 
 @abstract

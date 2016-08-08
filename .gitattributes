@@ -18,3 +18,5 @@ ada/testsuite/c_support/* no-precommit-check
 
 ada/doc/conf.py no-precommit-check
 langkit/doc/conf.py no-precommit-check
+
+*.py no-precommit-check

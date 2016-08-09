@@ -165,6 +165,8 @@ class Manage(ManageScript):
         """
         from time import time
 
+        self.set_context(args)
+
         def file_lines(filename):
             with open(filename) as f:
                 return len(list(f))

@@ -14,7 +14,7 @@ from langkit.expressions import (
     AbstractKind
 )
 from langkit.expressions.logic import (
-    Domain, Predicate, LogicAnd, LogicOr, LogicTrue
+    Predicate, LogicAnd, LogicOr, LogicTrue
 )
 
 
@@ -1856,7 +1856,7 @@ class AccessDeref(Expr):
             Self.prefix.sub_equation(origin_env)
             # Evaluate the prefix equation
 
-            & Domain(Self.ref_var, Self.entities)
+            & Self.ref_var.domain(Self.entities)
             # Restrict the domain of the reference to entities that are of an
             # access type.
 
@@ -2086,7 +2086,7 @@ class BaseId(SingleTokNode):
             (Self.ref_var == dt) & (Self.type_var == dt),
 
             # Other cases
-            Domain(Self.ref_var, Self.entities)
+            Self.ref_var.domain(Self.entities)
             & Bind(Self.ref_var, Self.type_var,
                    BasicDecl.fields.canonical_expr_type)
         )

@@ -1,0 +1,9 @@
+Analyzing test_object_decl.adb
+##############################
+
+Expr: <Id "A" 6:7-6:8>, references None, type is None
+Expr: <Id "Int" 6:11-6:14>, references None, type is None
+Expr: <Int 6:18-6:21>, references None, type is <FullTypeDecl ["Int"] 2:4-2:30>
+Resolution failed for node <NullStatement 8:7-8:11>
+
+Done.

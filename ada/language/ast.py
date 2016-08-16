@@ -125,6 +125,12 @@ class AdaNode(ASTNode):
         ))
         return i & j
 
+    xref_entry_point = Property(False, doc="""
+        Designates entities that are entry point for the xref solving
+        infrastructure. If this returns true, then xref_equation can be
+        called on it.
+    """)
+
     @langkit_property(return_type=BoolType)
     def resolve_symbols():
         """
@@ -2481,7 +2487,7 @@ class Statement(AdaNode):
 
 @abstract
 class SimpleStatement(Statement):
-    pass
+    xref_entry_point = Property(True)
 
 
 @abstract

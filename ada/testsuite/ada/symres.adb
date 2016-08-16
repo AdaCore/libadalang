@@ -152,11 +152,11 @@ procedure Symres is
       New_Line;
    end Put_Title;
 
-   -----------------------
-   -- Resolve_Statement --
-   -----------------------
+   ------------------
+   -- Resolve_Node --
+   ------------------
 
-   procedure Resolve_Statement (St : Statement) is
+   procedure Resolve_Node (N : Ada_Node) is
       function Safe_Image
         (Node : access Ada_Node_Type'Class) return String
       is (if Node = null then "None" else Image (Node.Short_Image));
@@ -164,9 +164,9 @@ procedure Symres is
       function Is_Expr (N : Ada_Node) return Boolean
       is (N.all in Expr_Type'Class);
    begin
-      St.Assign_Names_To_Logic_Vars;
-      if St.P_Resolve_Symbols then
-         for Node of St.Find (Is_Expr'Access).Consume loop
+      N.Assign_Names_To_Logic_Vars;
+      if N.P_Resolve_Symbols then
+         for Node of N.Find (Is_Expr'Access).Consume loop
             declare
                P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
                P_Type : Ada_Node := Expr (Node).P_Type_Val;
@@ -180,9 +180,9 @@ procedure Symres is
             end;
          end loop;
       else
-         Put_Line ("Resolution failed for statement " & Safe_Image (St));
+         Put_Line ("Resolution failed for node " & Safe_Image (N));
       end if;
-   end Resolve_Statement;
+   end Resolve_Node;
 
    ------------------
    -- Process_File --
@@ -313,17 +313,19 @@ procedure Symres is
                end;
             elsif Pragma_Name.all = "Test_Statement" then
                pragma Assert (P_Node.F_Args = null);
-               Resolve_Statement (Statement (P_Node.Previous_Sibling));
+               Resolve_Node (P_Node.Previous_Sibling);
             elsif Pragma_Name.all = "Test_Block" then
                pragma Assert (P_Node.F_Args = null);
                declare
                   Block : Block_Statement :=
                     Block_Statement (P_Node.Previous_Sibling);
-                  function Is_Statement (N : Ada_Node) return Boolean
-                  is (N.all in Simple_Statement_Type'Class);
+                  function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
+                  is (N.P_Xref_Entry_Point);
                begin
-                  for Node of Block.Find (Is_Statement'Access).Consume loop
-                     Resolve_Statement (Statement (Node));
+                  for Node
+                    of Block.Find (Is_Xref_Entry_Point'Access).Consume
+                  loop
+                     Resolve_Node (Node);
                   end loop;
                end;
             end if;

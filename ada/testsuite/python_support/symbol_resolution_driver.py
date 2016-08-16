@@ -43,7 +43,7 @@ def src_slice(node):
 
 
 def resolve_statement(statement):
-    assert isinstance(statement, lal.Statement)
+    assert statement.p_xref_entry_point
 
     # Perform symbol resolution on the preceding statement, using the
     # p_resolve_symbols property.
@@ -55,7 +55,7 @@ def resolve_statement(statement):
                 expr, expr.p_ref_val, expr.p_type_val
             )
     else:
-        print "Resolution failed for statement {}".format(statement)
+        print "Resolution failed for node {}".format(statement)
 
 
 ctx = lal.AnalysisContext()
@@ -133,7 +133,9 @@ for src_file in sys.argv[1:]:
 
         elif pragma_name == 'Test_Block':
             assert not p.f_args
-            for statement in p.previous_sibling.findall(lal.SimpleStatement):
+            for statement in p.previous_sibling.findall(
+                lambda n: n.p_xref_entry_point
+            ):
                 resolve_statement(statement)
 
 

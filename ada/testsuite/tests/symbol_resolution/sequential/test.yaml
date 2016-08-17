@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: sequential
+driver: symbol_resolution
+input_sources: [sequential_visibility.adb]

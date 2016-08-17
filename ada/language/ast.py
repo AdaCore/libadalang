@@ -2032,7 +2032,7 @@ class BaseId(SingleTokNode):
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
         """
-        items = Var(Env.get(Self.tok))
+        items = Var(Env.get_sequential(Self.tok))
         pc = Var(Self.parent_callexpr)
 
         def matching_subp(params, subp, env_el):

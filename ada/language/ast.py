@@ -1992,7 +1992,17 @@ class BaseId(SingleTokNode):
     scope = Property(Env)
     name = Property(Self.tok)
 
-    designated_type = Property(Env.get(Self.tok).at(0).el.cast(TypeDecl))
+    designated_type = Property(
+        # We don't use get_sequential here because declaring two types with
+        # the same name in the same scope is an error in Ada, except in the
+        # case of incomplete types forward declarations, and in that case
+        # we want the complete view anyway.
+        # TODO: For correct semantics and xref, we still want to implement
+        # correct support, so that references to the incomplete type don't
+        # reference the complete type. This is low priority but still needs
+        # to be done.
+        Env.get(Self.tok).at(0).el.cast(TypeDecl)
+    )
 
     @langkit_property(return_type=CallExpr)
     def parent_callexpr():

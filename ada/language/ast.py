@@ -966,6 +966,10 @@ class UseDecl(AdaNode):
 class UsePkgDecl(UseDecl):
     packages = Field(type=T.Name.list_type())
 
+    env_spec = EnvSpec(
+        ref_envs=Self.packages.map(lambda package: package.designated_env(Env))
+    )
+
 
 class UseTypDecl(UseDecl):
     all = Field(type=T.BoolType)

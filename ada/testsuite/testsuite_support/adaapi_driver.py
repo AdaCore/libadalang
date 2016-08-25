@@ -43,7 +43,7 @@ class CAPIDriver(BaseDriver):
 
                 package Compiler is
                     for Default_Switches ("Ada") use
-                       Libadalang.Compiler'Default_Switches ("Ada");
+                      ("-g", "-O0", "-gnata", "-gnatwa");
                 end Compiler;
             end P;
             '''.format(main_source=main,

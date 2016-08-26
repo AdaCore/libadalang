@@ -100,6 +100,7 @@ class Manage(ManageScript):
         directory, it enables colored output and it displays test outputs on
         error.
         """
+        self.set_context(args)
 
         # Make builds available from testcases
         env = self.derived_env()

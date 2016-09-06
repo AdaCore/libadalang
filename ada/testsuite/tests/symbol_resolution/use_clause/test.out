@@ -1,0 +1,7 @@
+Analyzing testuse.adb
+#####################
+
+Expr: <Id "C" 16:4-16:5>, references <ObjectDecl ["C"] 14:4-14:13>, type is <FullTypeDecl ["Float"] 3:4-3:44>
+Expr: <Id "Foo" 16:9-16:12>, references <ExpressionFunction ["Foo"] 9:7-9:42>, type is <FullTypeDecl ["Float"] 3:4-3:44>
+
+Done.

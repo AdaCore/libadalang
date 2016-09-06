@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: use_clause
+driver: symbol_resolution
+input_sources: [testuse.adb]

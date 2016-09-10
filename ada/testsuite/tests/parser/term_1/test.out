@@ -1,11 +1,11 @@
 BinOp[1:1-1:19]
 | left:
-| | Int[1:1-1:3]
-| | | tok: 12
-| op: mult
-| right:
-| | BinOp[1:6-1:19]
+| | BinOp[1:1-1:14]
 | | | left:
+| | | | Int[1:1-1:3]
+| | | | | tok: 12
+| | | op: mult
+| | | right:
 | | | | BinOp[1:6-1:14]
 | | | | | left:
 | | | | | | Int[1:6-1:8]
@@ -14,7 +14,7 @@ BinOp[1:1-1:19]
 | | | | | right:
 | | | | | | Int[1:12-1:14]
 | | | | | | | tok: 12
-| | | op: div
-| | | right:
-| | | | Int[1:17-1:19]
-| | | | | tok: 15
+| op: div
+| right:
+| | Int[1:17-1:19]
+| | | tok: 15

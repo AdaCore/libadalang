@@ -921,10 +921,10 @@ A.add_rules(
     ),
 
     term=Or(
-        Row(A.factor, Or(Enum("*", Op("mult")),
-                         Enum("/", Op("div")),
-                         Enum("mod", Op("mod")),
-                         Enum("rem", Op("rem"))), A.term) ^ BinOp,
+        Row(A.term, Or(Enum("*", Op("mult")),
+                       Enum("/", Op("div")),
+                       Enum("mod", Op("mod")),
+                       Enum("rem", Op("rem"))), A.factor) ^ BinOp,
         A.factor
     ),
 
@@ -936,19 +936,11 @@ A.add_rules(
     ),
 
     simple_expr=Or(
-        Row(A.unop_term, Or(Enum("+", Op("plus")),
-                            Enum("-", Op("minus")),
-                            Enum("&", Op("bin_and"))),
-            A.simple_expr_2) ^ BinOp,
+        Row(A.simple_expr, Or(Enum("+", Op("plus")),
+                              Enum("-", Op("minus")),
+                              Enum("&", Op("bin_and"))),
+            A.term) ^ BinOp,
         A.unop_term
-    ),
-
-    simple_expr_2=Or(
-        Row(A.term, Or(Enum("+", Op("plus")),
-                       Enum("-", Op("minus")),
-                       Enum("&", Op("bin_and"))),
-            A.simple_expr_2) ^ BinOp,
-        A.term
     ),
 
     boolean_op=Or(

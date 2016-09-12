@@ -22,9 +22,9 @@ def full_name(n):
     Return a nicely pretty printed name for any expr that is only formed of
     DottedName and Identifier instances.
     """
-    if isinstance(n, lal.DottedName):
+    if isinstance(n, DottedName):
         return "{}.{}".format(n.f_prefix.full_name, n.f_suffix.full_name)
-    elif isinstance(n, lal.Identifier):
+    elif isinstance(n, Identifier):
         return n.text
     else:
         raise Exception("Wrong type for name: {}".format(type(n)))

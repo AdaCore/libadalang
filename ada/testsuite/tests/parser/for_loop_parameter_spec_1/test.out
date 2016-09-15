@@ -1,0 +1,17 @@
+ForLoopSpec[1:1-1:19]
+| id:
+| | Id[1:1-1:2]
+| | | tok: A
+| id_type:
+| | TypeExpression[1:5-1:12]
+| | | null_exclusion: False
+| | | type_expr_variant:
+| | | | TypeRef[1:5-1:12]
+| | | | | name:
+| | | | | | Id[1:5-1:12]
+| | | | | | | tok: Integer
+| loop_type: of
+| is_reverse: False
+| iter_expr:
+| | Id[1:16-1:19]
+| | | tok: Foo

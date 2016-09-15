@@ -1,11 +1,18 @@
-***********************************************
-Libadalang introduction and high level approach
-***********************************************
+************
+Introduction
+************
 
-Welcome to you! If you are reading this document, you are either interested
-into Libadalang, or trying to contribute to it as a developer. This
-introduction will help you get familiar with the project, tell you how to get
-started.
+Libadalang is a library for parsing and semantic analysis of Ada code. It is
+meant as a building block for integration into other tools (IDE,
+static-analyzers, etc..)
+
+The aim of libadalang is to provide complete syntactic analysis with error
+recovery, producing a precise Abstract Syntax Tree, and to provide name
+resolution and precise cross-references on the resulting trees.
+
+It is not (at the moment) to provide full legality checks for the Ada language.
+If you want such a functionality, you'll need to use a full Ada compiler, such
+as GNAT.
 
 Need
 ####
@@ -29,9 +36,6 @@ have while designing Ada tooling at AdaCore. Here are those goals:
 
 Enter Libadalang
 ################
-
-Libadalang is an Ada library allowing syntactic and semantic analysis of Ada
-code.
 
 We are going to base our examples on this simple snippet of Ada code:
 

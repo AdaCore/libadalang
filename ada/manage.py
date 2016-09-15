@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-import glob
 import os.path
 import shutil
 import subprocess
@@ -10,11 +9,8 @@ import sys
 from env import setenv
 setenv()
 
-from langkit.compile_context import global_context
-import langkit.compiled_types as ct
 from langkit.libmanage import ManageScript
-import langkit.names as names
-from langkit.utils import Colors, dispatch_on_type, printcol
+from langkit.utils import Colors, printcol
 
 
 class Manage(ManageScript):

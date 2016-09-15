@@ -4,10 +4,8 @@ Libadalang introduction and high level approach
 
 Welcome to you! If you are reading this document, you are either interested
 into Libadalang, or trying to contribute to it as a developer. This
-introduction will go over the high level goals of the project, as well as over
-the technical approach that has been chosen to achieve those goals. It is
-probably a good idea to read this first, since the approach is not
-straightforward, and diving into the code head on might prove difficult.
+introduction will help you get familiar with the project, tell you how to get
+started.
 
 Need
 ####
@@ -23,32 +21,17 @@ have while designing Ada tooling at AdaCore. Here are those goals:
   approach to this problem.
 
 * We need in some cases (such as IDEs) to make tooling that can work with
-  incorrect and/or evolving Ada code. This is perhaps the most important point,
-  because our front-end and other tools based on it are not designed in such
-  a way that would make this use case easy. In effect, what we need is
-  a semantic interface that would abstract this problem from the client, and
-  allow him to deal with the semantic and syntactic structure of the code only.
+  incorrect and/or evolving Ada code.
 
-As a corollary to those primary needs, here are some other secondary goals for
-Libadalang:
+* We need a tool that can work incrementally, eg. doesn't have to start from
+  scratch if you change a variable name in the dependency of a file you want to
+  analyze.
 
-* We want Libadalang to be, as you may have guessed, a library that you can
-  call from anywhere and is not tied to any particular tool
+Enter Libadalang
+################
 
-* We want it to have a high level, stable, easy and fun to use API, that makes
-  high level operations on trees easy, while having enough flexibility to
-  express complex queries and refactorings.
-
-* We want Libadalang to be fast, fast enough to deal effortlessly with
-  multi-million-line code bases, so that it can replace existing ad-hoc but
-  fast solutions that are built into our IDEs for code navigation and
-  completion.
-
-Desired feature set
-###################
-
-In this section we are going to brush quickly over the things that we want to
-be able to do with Libadalang.
+Libadalang is an Ada library allowing syntactic and semantic analysis of Ada
+code.
 
 We are going to base our examples on this simple snippet of Ada code:
 
@@ -64,23 +47,85 @@ We are going to base our examples on this simple snippet of Ada code:
         end loop;
     end Test;
 
-Please note that the syntax of the API is absolutely not final! The examples
-below will be updated once the API begins to exist.
+In the following examples, we will show how to accomplish the same thing with
+Libadalang, with the Ada API, and with the Python API.
 
-Exploring the abstract syntax tree
-**********************************
+The Ada API is great for integration in existing Ada programs, and for
+situations where you need some speed and static safety guaranties.
 
-The first thing we want to be able to do on this code is to explore the
-resulting AST in a straightforward way:
+The Python API is great for rapid prototyping of programs using Libadalang. We
+greatly encourage even Ada die-hard to try out the Python API for exploring the
+API, and the tree structures and available accessors. They map directly to the
+Ada API, so the knowledge is shared.
 
-::
+Parsing a file
+**************
 
-    for_loop = ast.statements.first()
-    if_st = for_loop.statements.first()
-    return_st = if_st.statements.first()
-    return_expr = return_st.expr()
+Let's say we did put the content of the above Ada snippet in the test.adb file.
+Here is how you can parse the resulting file with Libadalang.
 
-This is straightforward, we really just want to access to the tree structure,
-with maybe a few shortcuts to be able to explore the tree directly.
+.. code-block:: ada
 
-TODO: complete this part
+    with Ada.Text_IO;          use Ada.Text_IO;
+    with Libadalang.Analysis;  use Libadalang.Analysis;
+
+    procedure Main is
+       Ctx       : Analysis_Context := Create;
+       Unit      : Analysis_Unit := Get_From_File (Ctx, "test.adb");
+    begin
+       Print (Unit);
+       Destroy (Ctx);
+       Put_Line ("Done.");
+    end Main;
+
+This snippet will create an analysis context, which usually corresponds to the
+context of your whole analysis - be it just one file, a whole project, or
+several projects - and parse our Ada file and return the resulting AnalysisUnit
+instance. Calling the ``Print`` function on the instance will dump the
+resulting tree.
+
+.. code::
+
+    CompilationUnit[1:2-5:11]
+    | body:
+    | | LibraryItem[1:2-5:10]
+    | | | is_private: False
+    | | | item:
+    | | | | SubprogramBody[1:2-5:10]
+    | | | | | overriding: unspecified
+    | | | | | subp_spec:
+    | | | | | | SubprogramSpec[1:2-1:35]
+    | | | | | | | name:
+    | | | | | | | | Id[1:12-1:16]
+    | | | | | | | | | tok: Test
+    | | | | | | | params:
+    ... continued
+
+Exploring the tree
+******************
+
+The first thing you can do with this is explore the syntax tree through simple
+accessors.
+
+
+.. code-block:: ada
+
+    with Ada.Text_IO;          use Ada.Text_IO;
+    with Libadalang.Analysis;  use Libadalang.Analysis;
+    with Libadalang.AST;       use Libadalang.AST;
+    with Libadalang.AST.Types; use Libadalang.AST.Types;
+
+    procedure Main is
+       Ctx       : Analysis_Context := Create;
+       Unit      : Analysis_Unit    := Get_From_File (Ctx, "test.adb");
+       CU        : Compilation_Unit := Compilation_Unit (Root (Unit));
+       Bod       : Library_Item     := Library_Item (F_Body (CU));
+       Subp      : Subprogram_Body  := Subprogram_Body (F_Item (Bod));
+    begin
+       Subp.Print;
+       Destroy (Ctx);
+    end Main;
+
+This code will access the ``SubprogramBody`` of the Test subprogram that
+constitutes the main element of our file. But as you can see, even if it is
+precise, this is not a very practical way of exploring the tree.

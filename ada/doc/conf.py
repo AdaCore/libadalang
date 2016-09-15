@@ -335,3 +335,21 @@ epub_exclude_files = ['search.html']
 
 # If false, no index is generated.
 #epub_use_index = True
+
+def setup(app):
+    """
+    This hook will be automatically executed when building the documentation.
+    It will generate the source code for libadalang, so that it is available
+    for API doc generation.
+    """
+    import subprocess
+    from os import path
+    import sys
+    file_path = path.dirname(path.abspath(__file__))
+    subprocess.check_call(
+        ["python", "ada/manage.py", "generate", "--no-compile-quex"],
+        cwd=path.join(file_path, "..", "..")
+    )
+    sys.path.append(
+        path.abspath(path.join(file_path, "..", "..", "build", "python"))
+    )

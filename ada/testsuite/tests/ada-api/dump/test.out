@@ -1,0 +1,88 @@
+CompilationUnit[1:2-5:11]
+| body:
+| | LibraryItem[1:2-5:10]
+| | | is_private: False
+| | | item:
+| | | | SubprogramBody[1:2-5:10]
+| | | | | overriding: unspecified
+| | | | | subp_spec:
+| | | | | | SubprogramSpec[1:2-1:35]
+| | | | | | | name:
+| | | | | | | | Id[1:12-1:16]
+| | | | | | | | | tok: Test
+| | | | | | | params:
+| | | | | | | | ParameterProfile[1:18-1:25]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:18-1:19]
+| | | | | | | | | | | tok: A
+| | | | | | | | | is_aliased: False
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:22-1:25]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:22-1:25]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:22-1:25]
+| | | | | | | | | | | | | | | tok: Foo
+| | | | | | | | ParameterProfile[1:27-1:34]
+| | | | | | | | | ids:
+| | | | | | | | | | Id[1:27-1:28]
+| | | | | | | | | | | tok: B
+| | | | | | | | | is_aliased: False
+| | | | | | | | | mode: in
+| | | | | | | | | type_expr:
+| | | | | | | | | | TypeExpression[1:31-1:34]
+| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | TypeRef[1:31-1:34]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:31-1:34]
+| | | | | | | | | | | | | | | tok: Bar
+| | | | | decls:
+| | | | | | DeclarativePart[1:39-1:44]
+| | | | | statements:
+| | | | | | HandledStatements[2:6-4:15]
+| | | | | | | statements:
+| | | | | | | | LoopStatement[2:6-4:14]
+| | | | | | | | | spec:
+| | | | | | | | | | ForLoopSpec[2:10-2:28]
+| | | | | | | | | | | id:
+| | | | | | | | | | | | Id[2:10-2:12]
+| | | | | | | | | | | | | tok: El
+| | | | | | | | | | | id_type:
+| | | | | | | | | | | | TypeExpression[2:15-2:23]
+| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | TypeRef[2:15-2:23]
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[2:15-2:23]
+| | | | | | | | | | | | | | | | | tok: Foo_Elem
+| | | | | | | | | | | loop_type: of
+| | | | | | | | | | | is_reverse: False
+| | | | | | | | | | | iter_expr:
+| | | | | | | | | | | | Id[2:27-2:28]
+| | | | | | | | | | | | | tok: A
+| | | | | | | | | statements:
+| | | | | | | | | | CallStatement[3:9-3:23]
+| | | | | | | | | | | call:
+| | | | | | | | | | | | CallExpr[3:9-3:23]
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | DottedName[3:9-3:18]
+| | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | Id[3:9-3:10]
+| | | | | | | | | | | | | | | | | tok: B
+| | | | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | | | Id[3:11-3:18]
+| | | | | | | | | | | | | | | | | tok: RealBar
+| | | | | | | | | | | | | suffix:
+| | | | | | | | | | | | | | ParamList[3:20-3:22]
+| | | | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | | | ParamAssoc[3:20-3:22]
+| | | | | | | | | | | | | | | | | expr:
+| | | | | | | | | | | | | | | | | | Id[3:20-3:22]
+| | | | | | | | | | | | | | | | | | | tok: El
+| | | | | end_id:
+| | | | | | Id[5:6-5:10]
+| | | | | | | tok: Test
+Done.

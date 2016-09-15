@@ -803,6 +803,7 @@ A.add_rules(
 
     for_loop_parameter_spec=Row(
         A.identifier,
+        Opt(":", A.type_expression)[1],
         Or(Enum("in", IterType("in")), Enum("of", IterType("of"))),
         Opt("reverse").as_bool(),
         A.constrained_type_ref | A.discrete_range | A.expression

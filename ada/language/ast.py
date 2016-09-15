@@ -2355,6 +2355,7 @@ class LoopSpec(AdaNode):
 
 class ForLoopSpec(LoopSpec):
     id = Field(type=T.Identifier)
+    id_type = Field(type=T.TypeExpression)
     loop_type = Field(type=T.IterType)
     is_reverse = Field(type=T.BoolType)
     iter_expr = Field(type=T.AdaNode)

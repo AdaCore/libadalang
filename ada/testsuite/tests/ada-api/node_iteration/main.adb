@@ -25,7 +25,7 @@ procedure Main is
       pragma Assert (F_Ids (P).Child_Count = 1);
       Id := Single_Tok_Node (F_Ids (P).Child (1));
       Put (' ');
-      Put (Image (F_Tok (Id)));
+      Put (Text (F_Tok (Id)));
    end Put_Param;
 
    ---------------

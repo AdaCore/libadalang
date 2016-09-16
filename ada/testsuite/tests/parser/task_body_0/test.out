@@ -95,30 +95,32 @@ TaskBody[1:1-1:572]
 | | | | | | TypeExpression[1:186-1:209]
 | | | | | | | null_exclusion: False
 | | | | | | | type_expr_variant:
-| | | | | | | | AnonymousArray[1:186-1:209]
-| | | | | | | | | array_def:
-| | | | | | | | | | ArrayTypeDef[1:186-1:209]
-| | | | | | | | | | | indices:
-| | | | | | | | | | | | ConstrainedArrayIndices[1:193-1:200]
-| | | | | | | | | | | | | list:
-| | | | | | | | | | | | | | TypeExpression[1:193-1:200]
-| | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[1:193-1:200]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[1:193-1:200]
-| | | | | | | | | | | | | | | | | | | tok: Q_Range
-| | | | | | | | | | | stored_component:
-| | | | | | | | | | | | ComponentDef[1:205-1:209]
-| | | | | | | | | | | | | aliased: False
-| | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | TypeExpression[1:205-1:209]
-| | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[1:205-1:209]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[1:205-1:209]
-| | | | | | | | | | | | | | | | | | | tok: Item
+| | | | | | | | AnonymousType[1:186-1:209]
+| | | | | | | | | type_decl:
+| | | | | | | | | | AnonymousTypeDecl[1:186-1:209]
+| | | | | | | | | | | type_def:
+| | | | | | | | | | | | ArrayTypeDef[1:186-1:209]
+| | | | | | | | | | | | | indices:
+| | | | | | | | | | | | | | ConstrainedArrayIndices[1:193-1:200]
+| | | | | | | | | | | | | | | list:
+| | | | | | | | | | | | | | | | TypeExpression[1:193-1:200]
+| | | | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | | | | | TypeRef[1:193-1:200]
+| | | | | | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | | | | | Id[1:193-1:200]
+| | | | | | | | | | | | | | | | | | | | | tok: Q_Range
+| | | | | | | | | | | | | stored_component:
+| | | | | | | | | | | | | | ComponentDef[1:205-1:209]
+| | | | | | | | | | | | | | | aliased: False
+| | | | | | | | | | | | | | | type_expr:
+| | | | | | | | | | | | | | | | TypeExpression[1:205-1:209]
+| | | | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | | | | | TypeRef[1:205-1:209]
+| | | | | | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | | | | | Id[1:205-1:209]
+| | | | | | | | | | | | | | | | | | | | | tok: Item
 | statements:
 | | HandledStatements[1:217-1:544]
 | | | statements:

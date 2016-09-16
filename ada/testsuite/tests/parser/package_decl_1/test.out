@@ -47,12 +47,17 @@ PackageDecl[1:1-1:105]
 | | | | | | TypeExpression[1:68-1:90]
 | | | | | | | null_exclusion: False
 | | | | | | | type_expr_variant:
-| | | | | | | | TypeAccessExpression[1:68-1:90]
-| | | | | | | | | is_all: False
-| | | | | | | | | is_constant: True
-| | | | | | | | | subtype_name:
-| | | | | | | | | | Id[1:84-1:90]
-| | | | | | | | | | | tok: Double
+| | | | | | | | AnonymousType[1:68-1:90]
+| | | | | | | | | type_decl:
+| | | | | | | | | | AnonymousTypeDecl[1:68-1:90]
+| | | | | | | | | | | type_def:
+| | | | | | | | | | | | TypeAccessDef[1:68-1:90]
+| | | | | | | | | | | | | not_null: False
+| | | | | | | | | | | | | is_all: False
+| | | | | | | | | | | | | is_constant: True
+| | | | | | | | | | | | | subtype_name:
+| | | | | | | | | | | | | | Id[1:84-1:90]
+| | | | | | | | | | | | | | | tok: Double
 | | | | | default_expr:
 | | | | | | Null[1:94-1:98]
 | | | | | | | tok: null

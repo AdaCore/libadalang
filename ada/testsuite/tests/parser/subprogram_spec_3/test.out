@@ -13,24 +13,29 @@ SubprogramSpec[1:1-1:69]
 | | | | TypeExpression[1:25-1:55]
 | | | | | null_exclusion: False
 | | | | | type_expr_variant:
-| | | | | | SubprogramAccessExpression[1:25-1:55]
-| | | | | | | subp_spec:
-| | | | | | | | SubprogramSpec[1:32-1:55]
-| | | | | | | | | params:
-| | | | | | | | | | ParameterProfile[1:43-1:54]
-| | | | | | | | | | | ids:
-| | | | | | | | | | | | Id[1:43-1:44]
-| | | | | | | | | | | | | tok: A
-| | | | | | | | | | | is_aliased: False
-| | | | | | | | | | | mode: in
-| | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[1:47-1:54]
-| | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[1:47-1:54]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[1:47-1:54]
-| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | AnonymousType[1:25-1:55]
+| | | | | | | type_decl:
+| | | | | | | | AnonymousTypeDecl[1:25-1:55]
+| | | | | | | | | type_def:
+| | | | | | | | | | SubprogramAccessDef[1:25-1:55]
+| | | | | | | | | | | not_null: False
+| | | | | | | | | | | subp_spec:
+| | | | | | | | | | | | SubprogramSpec[1:32-1:55]
+| | | | | | | | | | | | | params:
+| | | | | | | | | | | | | | ParameterProfile[1:43-1:54]
+| | | | | | | | | | | | | | | ids:
+| | | | | | | | | | | | | | | | Id[1:43-1:44]
+| | | | | | | | | | | | | | | | | tok: A
+| | | | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | | | mode: in
+| | | | | | | | | | | | | | | type_expr:
+| | | | | | | | | | | | | | | | TypeExpression[1:47-1:54]
+| | | | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | | | type_expr_variant:
+| | | | | | | | | | | | | | | | | | TypeRef[1:47-1:54]
+| | | | | | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | | | | | Id[1:47-1:54]
+| | | | | | | | | | | | | | | | | | | | | tok: Integer
 | | ParameterProfile[1:57-1:68]
 | | | ids:
 | | | | Id[1:57-1:58]

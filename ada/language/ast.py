@@ -630,9 +630,7 @@ class TypeDecl(BasicDecl):
         t_expr = Var(spec.params.at(0).type_expr)
         return (
             (t_expr.designated_type == Self)
-            | t_expr.type_expr_variant.cast(TypeAccessExpression).then(
-                lambda tae: tae.accessed_type == Self
-            )
+            | (t_expr.is_anonymous_access & (t_expr.accessed_type == Self))
         )
 
     primitives = Property(
@@ -688,6 +686,12 @@ class FullTypeDecl(TypeDecl):
             lambda _: No(T.RecordDef)
         )
     )
+
+
+class AnonymousTypeDecl(FullTypeDecl):
+    # We don't want to add anonymous type declarations to the lexical
+    # environments, so we reset the env spec.
+    env_spec = EnvSpec(call_parents=False)
 
 
 class EnumTypeDecl(TypeDecl):
@@ -931,15 +935,27 @@ class ProtectedTypeDecl(BasicDecl):
     defining_names = Property(Self.protected_type_name.cast(T.Name).singleton)
 
 
+@abstract
 class AccessDef(TypeDef):
     not_null = Field(type=T.BoolType)
-    access_expr = Field(type=T.AccessExpression)
-    constraint = Field(type=T.Constraint)
 
     is_access_type = Property(True)
-    accessed_type = Property(Self.access_expr.accessed_type)
+    accessed_type = Property(No(TypeDecl))
 
     defining_env = Property(Self.accessed_type.defining_env)
+
+
+class SubprogramAccessDef(AccessDef):
+    is_protected = Field(repr=False)
+    subp_spec = Field(type=T.SubprogramSpec)
+
+
+class TypeAccessDef(AccessDef):
+    is_all = Field(type=T.BoolType)
+    is_constant = Field(type=T.BoolType)
+    subtype_name = Field(type=T.Expr)
+    accessed_type = Property(Self.subtype_name.designated_type)
+    constraint = Field(type=T.Constraint)
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -984,43 +1000,15 @@ class TypeExpression(AdaNode):
     null_exclusion = Field(type=T.BoolType)
     type_expr_variant = Field(type=T.TypeExprVariant)
 
-    array_def = Property(Self.type_expr_variant.match(
-        lambda aa=T.AnonymousArray: aa.array_def,
-        lambda _: Self.designated_type.then(lambda dt: dt.array_def)
-    ))
-
-    array_ndims = Property(Self.type_expr_variant.match(
-        lambda aa=T.AnonymousArray: aa.array_def.array_ndims,
-        lambda _: Self.designated_type.then(
-            lambda dt: dt.array_ndims, default_val=0
-        )
-    ))
-
-    component_type = Property(Self.type_expr_variant.match(
-        lambda aa=T.AnonymousArray: aa.array_def.component_type,
-        lambda _: Self.designated_type.then(
-            lambda dt: dt.component_type,
-        )
-    ), doc="""
-        Return the component_type of the type expression, if applicable. See
-        TypeDecl for more details.
-        """
-    )
-
-    defining_env = Property(
-        Self.type_expr_variant.defining_env, private=True,
-        doc='Helper for BaseDecl.defining_env'
-    )
+    array_def = Property(Self.designated_type.array_def)
+    array_ndims = Property(Self.designated_type.array_ndims)
+    component_type = Property(Self.designated_type.component_type)
+    defining_env = Property(Self.designated_type.defining_env, private=True)
+    accessed_type = Property(Self.designated_type.accessed_type)
 
     designated_type = Property(
         Self.type_expr_variant.designated_type,
         doc="Shortcut to get at the designated type of the type expression"
-    )
-
-    accessed_type = Property(
-        Self.type_expr_variant.cast(T.TypeAccessExpression).then(
-            lambda tae: tae.accessed_type
-        )
     )
 
     @langkit_property(return_type=TypeDecl)
@@ -1032,14 +1020,17 @@ class TypeExpression(AdaNode):
         d = Self.designated_type
         return If(d.is_null, Self.accessed_type, d)
 
+    is_anonymous_access = Property(
+        Self.type_expr_variant.cast(T.AnonymousType).then(
+            lambda at: at.type_decl.type_def.cast(T.AccessDef).then(
+                lambda ad: True
+            )
+        ), type=BoolType
+    )
+
 
 @abstract
 class TypeExprVariant(AdaNode):
-    defining_env = Property(
-        EmptyEnv, private=True,
-        doc='Helper for BaseDecl.defining_env'
-    )
-
     designated_type = AbstractProperty(
         type=TypeDecl, runtime_check=True, doc="""
         Return the type designated by this type expression.
@@ -1047,8 +1038,9 @@ class TypeExprVariant(AdaNode):
     )
 
 
-class AnonymousArray(TypeExprVariant):
-    array_def = Field(type=T.ArrayTypeDef)
+class AnonymousType(TypeExprVariant):
+    type_decl = Field(type=T.AnonymousTypeDecl)
+    designated_type = Property(Self.type_decl)
 
 
 class TypeRef(TypeExprVariant):
@@ -1061,32 +1053,6 @@ class TypeRef(TypeExprVariant):
     designated_type = Property(
         Self.node_env.eval_in_env(Self.name.designated_type)
     )
-
-    defining_env = Property(Self.designated_type.defining_env)
-
-
-@abstract
-class AccessExpression(TypeExprVariant):
-    # TODO? Should we handle defining_env here for implicit dereferencing?
-
-    accessed_type = Property(No(TypeDecl))
-
-    # TODO: Implement designated_type (which will need resolution of anonymous
-    # access types first).
-    designated_type = Property(No(TypeDecl))
-
-
-class SubprogramAccessExpression(AccessExpression):
-    is_protected = Field(repr=False)
-    subp_spec = Field(type=T.SubprogramSpec)
-    accessed_type = Property(No(TypeDecl))
-
-
-class TypeAccessExpression(AccessExpression):
-    is_all = Field(type=T.BoolType)
-    is_constant = Field(type=T.BoolType)
-    subtype_name = Field(type=T.Expr)
-    accessed_type = Property(Self.subtype_name.designated_type)
 
 
 class ParameterProfile(AbstractFormalParamDecl):

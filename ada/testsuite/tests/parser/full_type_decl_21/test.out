@@ -3,12 +3,10 @@ FullTypeDecl[1:1-1:23]
 | | Id[1:6-1:7]
 | | | tok: A
 | type_def:
-| | AccessDef[1:11-1:23]
+| | TypeAccessDef[1:11-1:23]
 | | | not_null: False
-| | | access_expr:
-| | | | TypeAccessExpression[1:11-1:23]
-| | | | | is_all: True
-| | | | | is_constant: False
-| | | | | subtype_name:
-| | | | | | Id[1:22-1:23]
-| | | | | | | tok: B
+| | | is_all: True
+| | | is_constant: False
+| | | subtype_name:
+| | | | Id[1:22-1:23]
+| | | | | tok: B

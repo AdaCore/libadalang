@@ -11,12 +11,17 @@ ObjectDecl[1:1-1:48]
 | | TypeExpression[1:8-1:40]
 | | | null_exclusion: True
 | | | type_expr_variant:
-| | | | TypeAccessExpression[1:17-1:40]
-| | | | | is_all: False
-| | | | | is_constant: True
-| | | | | subtype_name:
-| | | | | | Id[1:33-1:40]
-| | | | | | | tok: Integer
+| | | | AnonymousType[1:17-1:40]
+| | | | | type_decl:
+| | | | | | AnonymousTypeDecl[1:17-1:40]
+| | | | | | | type_def:
+| | | | | | | | TypeAccessDef[1:17-1:40]
+| | | | | | | | | not_null: False
+| | | | | | | | | is_all: False
+| | | | | | | | | is_constant: True
+| | | | | | | | | subtype_name:
+| | | | | | | | | | Id[1:33-1:40]
+| | | | | | | | | | | tok: Integer
 | default_expr:
 | | Null[1:44-1:48]
 | | | tok: null

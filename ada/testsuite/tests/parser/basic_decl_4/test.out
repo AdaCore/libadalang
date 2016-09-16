@@ -34,12 +34,17 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | | TypeExpression[1:37-1:53]
 | | | | | | | null_exclusion: False
 | | | | | | | type_expr_variant:
-| | | | | | | | TypeAccessExpression[1:37-1:53]
-| | | | | | | | | is_all: True
-| | | | | | | | | is_constant: False
-| | | | | | | | | subtype_name:
-| | | | | | | | | | Id[1:48-1:53]
-| | | | | | | | | | | tok: Pouet
+| | | | | | | | AnonymousType[1:37-1:53]
+| | | | | | | | | type_decl:
+| | | | | | | | | | AnonymousTypeDecl[1:37-1:53]
+| | | | | | | | | | | type_def:
+| | | | | | | | | | | | TypeAccessDef[1:37-1:53]
+| | | | | | | | | | | | | not_null: False
+| | | | | | | | | | | | | is_all: True
+| | | | | | | | | | | | | is_constant: False
+| | | | | | | | | | | | | subtype_name:
+| | | | | | | | | | | | | | Id[1:48-1:53]
+| | | | | | | | | | | | | | | tok: Pouet
 | renames:
 | | RenamingClause[1:55-1:64]
 | | | renamed_object:

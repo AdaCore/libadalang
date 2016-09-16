@@ -225,11 +225,17 @@ A.add_rules(
         A.record_def
     ) ^ RecordTypeDef,
 
-    access_def=Row(
-        Opt("not", "null").as_bool(),
-        A.access_expression,
-        Opt(A.constraint),
-    ) ^ AccessDef,
+    access_def=Or(
+        Row(
+            Opt("not", "null").as_bool(),
+            "access", Opt("protected").as_bool(), A.subprogram_spec
+        ) ^ SubprogramAccessDef,
+        Row(
+            Opt("not", "null").as_bool(),
+            "access", Opt("all").as_bool(), Opt("constant").as_bool(), A.name,
+            Opt(A.constraint),
+        ) ^ TypeAccessDef
+    ),
 
     type_def=Or(A.record_type_def, A.real_type_def,
                 A.derived_type_def, A.signed_int_type_def,
@@ -239,6 +245,12 @@ A.add_rules(
     variant=Row(
         "when", A.choice_list, "=>", A.component_list
     ) ^ Variant,
+
+    anonymous_type_decl=Row(
+        Null(A.identifier), Null(A.type_discriminant),
+        Or(A.array_type_def, A.access_def),
+        A.aspect_specification
+    ) ^ AnonymousTypeDecl,
 
     full_type_decl=Or(
         Row(
@@ -477,10 +489,6 @@ A.add_rules(
         subprogram_decl(None, SubprogramDecl)
     ),
 
-    type_access_expression=Row(
-        "access", Opt("all").as_bool(), Opt("constant").as_bool(), A.name
-    ) ^ TypeAccessExpression,
-
     with_decl=Row(
         Opt("limited").as_bool(), Opt("private").as_bool(),
         "with", List(A.static_name, sep=",")
@@ -495,13 +503,6 @@ A.add_rules(
     use_type_decl=Row("use", Opt("all").as_bool(), "type",
                       List(A.name, sep=",")) ^ UseTypDecl,
 
-    subprogram_access_expression=Row(
-        "access", Opt("protected").as_bool(), A.subprogram_spec
-    ) ^ SubprogramAccessExpression,
-
-    access_expression=Or(A.subprogram_access_expression,
-                         A.type_access_expression),
-
     type_ref=Row(
         A.name, Opt(A.constraint)
     ) ^ TypeRef,
@@ -510,17 +511,15 @@ A.add_rules(
         A.name, A.constraint
     ) ^ TypeRef,
 
-    anonymous_array=Row(
-        A.array_type_def
-    ) ^ AnonymousArray,
-
     type_expression=Row(
         Opt("not", "null").as_bool(),
         # NOTE: Anonymous arrays are accepted where type expressions are
         # accepted. This means that you can define a function that returns an
         # anonymous array and it will be parsed correctly.
-        Or(A.access_expression, A.type_ref, A.anonymous_array),
+        Or(A.anonymous_type, A.type_ref),
     ) ^ TypeExpression,
+
+    anonymous_type=Row(A.anonymous_type_decl) ^ AnonymousType,
 
     in_out=Or(
         Enum(Row("in", "out"), InOut("inout")),

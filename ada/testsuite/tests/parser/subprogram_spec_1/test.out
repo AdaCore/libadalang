@@ -31,12 +31,17 @@ SubprogramSpec[1:1-1:65]
 | | | | TypeExpression[1:35-1:49]
 | | | | | null_exclusion: False
 | | | | | type_expr_variant:
-| | | | | | TypeAccessExpression[1:35-1:49]
-| | | | | | | is_all: False
-| | | | | | | is_constant: False
-| | | | | | | subtype_name:
-| | | | | | | | Id[1:42-1:49]
-| | | | | | | | | tok: Integer
+| | | | | | AnonymousType[1:35-1:49]
+| | | | | | | type_decl:
+| | | | | | | | AnonymousTypeDecl[1:35-1:49]
+| | | | | | | | | type_def:
+| | | | | | | | | | TypeAccessDef[1:35-1:49]
+| | | | | | | | | | | not_null: False
+| | | | | | | | | | | is_all: False
+| | | | | | | | | | | is_constant: False
+| | | | | | | | | | | subtype_name:
+| | | | | | | | | | | | Id[1:42-1:49]
+| | | | | | | | | | | | | tok: Integer
 | returns:
 | | TypeExpression[1:58-1:65]
 | | | null_exclusion: False

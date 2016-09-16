@@ -16,17 +16,22 @@ SubprogramDecl[1:1-1:124]
 | | | | | | TypeExpression[1:36-1:69]
 | | | | | | | null_exclusion: False
 | | | | | | | type_expr_variant:
-| | | | | | | | TypeAccessExpression[1:36-1:69]
-| | | | | | | | | is_all: False
-| | | | | | | | | is_constant: False
-| | | | | | | | | subtype_name:
-| | | | | | | | | | AttributeRef[1:43-1:69]
-| | | | | | | | | | | prefix:
-| | | | | | | | | | | | Id[1:43-1:63]
-| | | | | | | | | | | | | tok: Source_Buffer_Record
-| | | | | | | | | | | attribute:
-| | | | | | | | | | | | Id[1:64-1:69]
-| | | | | | | | | | | | | tok: Class
+| | | | | | | | AnonymousType[1:36-1:69]
+| | | | | | | | | type_decl:
+| | | | | | | | | | AnonymousTypeDecl[1:36-1:69]
+| | | | | | | | | | | type_def:
+| | | | | | | | | | | | TypeAccessDef[1:36-1:69]
+| | | | | | | | | | | | | not_null: False
+| | | | | | | | | | | | | is_all: False
+| | | | | | | | | | | | | is_constant: False
+| | | | | | | | | | | | | subtype_name:
+| | | | | | | | | | | | | | AttributeRef[1:43-1:69]
+| | | | | | | | | | | | | | | prefix:
+| | | | | | | | | | | | | | | | Id[1:43-1:63]
+| | | | | | | | | | | | | | | | | tok: Source_Buffer_Record
+| | | | | | | | | | | | | | | attribute:
+| | | | | | | | | | | | | | | | Id[1:64-1:69]
+| | | | | | | | | | | | | | | | | tok: Class
 | | | | ParameterProfile[1:71-1:96]
 | | | | | ids:
 | | | | | | Id[1:71-1:76]

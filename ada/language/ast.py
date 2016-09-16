@@ -756,13 +756,13 @@ class DerivedTypeDef(TypeDef):
     limited = Field(type=T.BoolType)
     synchronized = Field(type=T.BoolType)
     null_exclusion = Field(type=T.BoolType)
-    name = Field(type=T.TypeExpression)
+    name = Field(type=T.Expr)
     constraint = Field(type=T.Constraint)
     interfaces = Field(type=T.Name.list_type())
     record_extension = Field(type=T.RecordDef)
     has_private_part = Field(type=T.BoolType)
 
-    array_ndims = Property(Self.name.array_ndims)
+    array_ndims = Property(Self.name.designated_type.array_ndims)
 
     base_type = Property(Self.name.designated_type)
 

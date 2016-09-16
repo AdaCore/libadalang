@@ -9,13 +9,8 @@ FullTypeDecl[1:1-1:57]
 | | | synchronized: False
 | | | null_exclusion: False
 | | | name:
-| | | | TypeExpression[1:17-1:18]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:17-1:18]
-| | | | | | | name:
-| | | | | | | | Id[1:17-1:18]
-| | | | | | | | | tok: A
+| | | | Id[1:17-1:18]
+| | | | | tok: A
 | | | record_extension:
 | | | | RecordDef[1:24-1:57]
 | | | | | components:

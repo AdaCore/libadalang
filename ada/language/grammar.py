@@ -141,7 +141,7 @@ A.add_rules(
         Opt("synchronized").as_bool(),
         "new",
         Opt("not", "null").as_bool(),
-        A.type_expression,
+        A.name,
         Opt(A.constraint),
         List(Row("and", A.static_name)[1], empty_valid=True),
         Opt("with", A.record_def)[1],

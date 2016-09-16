@@ -9,25 +9,20 @@ FullTypeDecl[1:1-1:78]
 | | | synchronized: False
 | | | null_exclusion: False
 | | | name:
-| | | | TypeExpression[1:15-1:42]
-| | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:15-1:42]
-| | | | | | | name:
-| | | | | | | | Id[1:15-1:16]
-| | | | | | | | | tok: A
-| | | | | | | constraint:
-| | | | | | | | DiscriminantConstraint[1:17-1:42]
-| | | | | | | | | constraints:
-| | | | | | | | | | DiscriminantAssociation[1:18-1:41]
-| | | | | | | | | | | ids:
-| | | | | | | | | | | | Id[1:18-1:25]
-| | | | | | | | | | | | | tok: Discr_1
-| | | | | | | | | | | | Id[1:28-1:35]
-| | | | | | | | | | | | | tok: Discr_2
-| | | | | | | | | | | expr:
-| | | | | | | | | | | | Int[1:39-1:41]
-| | | | | | | | | | | | | tok: 12
+| | | | Id[1:15-1:16]
+| | | | | tok: A
+| | | constraint:
+| | | | DiscriminantConstraint[1:17-1:42]
+| | | | | constraints:
+| | | | | | DiscriminantAssociation[1:18-1:41]
+| | | | | | | ids:
+| | | | | | | | Id[1:18-1:25]
+| | | | | | | | | tok: Discr_1
+| | | | | | | | Id[1:28-1:35]
+| | | | | | | | | tok: Discr_2
+| | | | | | | expr:
+| | | | | | | | Int[1:39-1:41]
+| | | | | | | | | tok: 12
 | | | record_extension:
 | | | | RecordDef[1:48-1:78]
 | | | | | components:

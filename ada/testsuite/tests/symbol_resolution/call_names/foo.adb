@@ -2,6 +2,9 @@ pragma Config (Display_Slocs => True);
 
 package body Foo is
 
+   type Integer is range 1 .. 100;
+   type String is array (Positive range <>) of Character;
+
    procedure Proc (I : Integer);
    procedure Proc (I, J : Integer);
 

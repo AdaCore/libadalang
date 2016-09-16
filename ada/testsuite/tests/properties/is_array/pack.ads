@@ -1,5 +1,9 @@
 package Pack is
 
+   type Integer is range 1 .. 100;
+   type Natural is new Integer;
+   type Boolean is (True, False);
+
    type T1;
    type T2 is private;
    type T3 is new Integer;
@@ -26,6 +30,4 @@ package Pack is
    O_S3 : S3;
    O_S4 : S4;
    O_S5 : S5;
-
-   O_No_Type : No_Type;
 end Pack;

@@ -2,6 +2,7 @@ package Foo is
    type Char is ('a', 'b', 'c');
 
    type String is array (Positive range <>) of Char;
+   type Integer is range 1 .. 100;
 
    type R1_Type is record
       A, B : Integer;

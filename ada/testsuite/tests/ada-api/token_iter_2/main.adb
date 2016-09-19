@@ -22,4 +22,6 @@ begin
    for Tok of BO.Token_Range loop
       Put_Line (Image (Tok));
    end loop;
+
+   Destroy (Ctx);
 end Main;

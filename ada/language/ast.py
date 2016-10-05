@@ -854,8 +854,8 @@ class ConstrainedArrayIndices(ArrayIndices):
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return Self.list.at(dim).match(
-            lambda te=TypeExpression:
-            index_expr.type_var == te.designated_type.canonical_type,
+            lambda n=T.TypeRef:
+            index_expr.type_var == n.designated_type.canonical_type,
 
             # TODO: We need to parse Standard to express the fact that when
             # we've got an anonymous range in the array index definition,
@@ -2667,7 +2667,7 @@ class EntryBody(Body):
 
 class EntryIndexSpec(AdaNode):
     id = Field(type=T.Identifier)
-    subtype = Field(type=T.AdaNode)
+    subtype = Field(type=T.Expr)
 
 
 class Subunit(AdaNode):

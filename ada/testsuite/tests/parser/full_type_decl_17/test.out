@@ -7,24 +7,21 @@ FullTypeDecl[1:1-1:50]
 | | | indices:
 | | | | ConstrainedArrayIndices[1:20-1:38]
 | | | | | list:
-| | | | | | TypeExpression[1:20-1:38]
-| | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:20-1:38]
+| | | | | | TypeRef[1:20-1:38]
+| | | | | | | name:
+| | | | | | | | CallExpr[1:20-1:38]
 | | | | | | | | | name:
-| | | | | | | | | | CallExpr[1:20-1:38]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:20-1:27]
-| | | | | | | | | | | | | tok: Integer
-| | | | | | | | | | | suffix:
-| | | | | | | | | | | | BinOp[1:29-1:37]
-| | | | | | | | | | | | | left:
-| | | | | | | | | | | | | | Int[1:29-1:31]
-| | | | | | | | | | | | | | | tok: 12
-| | | | | | | | | | | | | op: ellipsis
-| | | | | | | | | | | | | right:
-| | | | | | | | | | | | | | Int[1:35-1:37]
-| | | | | | | | | | | | | | | tok: 15
+| | | | | | | | | | Id[1:20-1:27]
+| | | | | | | | | | | tok: Integer
+| | | | | | | | | suffix:
+| | | | | | | | | | BinOp[1:29-1:37]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Int[1:29-1:31]
+| | | | | | | | | | | | | tok: 12
+| | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Int[1:35-1:37]
+| | | | | | | | | | | | | tok: 15
 | | | stored_component:
 | | | | ComponentDef[1:43-1:50]
 | | | | | aliased: False

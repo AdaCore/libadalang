@@ -130,7 +130,7 @@ A.add_rules(
         ")", "of", A.component_def
     ) ^ ArrayTypeDef,
 
-    discrete_subtype_definition=A.discrete_range | A.type_expression,
+    discrete_subtype_definition=A.discrete_range | A.type_ref,
 
     signed_int_type_def=Row(A.range_spec) ^ SignedIntTypeDef,
     mod_int_type_def=Row("mod", A.sexpr_or_diamond) ^ ModIntTypeDef,

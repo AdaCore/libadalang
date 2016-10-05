@@ -797,7 +797,7 @@ A.add_rules(
     null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
     allocator=Row(
-        "new", Opt("(", A.name, ")")[1], A.type_expression
+        "new", Opt("(", A.name, ")")[1], A.type_ref
     ) ^ Allocator,
 
     for_loop_parameter_spec=Row(

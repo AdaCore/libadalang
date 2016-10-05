@@ -1,14 +1,11 @@
 Allocator[1:1-1:17]
-| expr:
-| | TypeExpression[1:5-1:17]
-| | | null_exclusion: False
-| | | type_expr_variant:
-| | | | TypeRef[1:5-1:17]
-| | | | | name:
-| | | | | | QualExpr[1:5-1:17]
-| | | | | | | prefix:
-| | | | | | | | Id[1:5-1:12]
-| | | | | | | | | tok: Integer
-| | | | | | | suffix:
-| | | | | | | | Int[1:14-1:16]
-| | | | | | | | | tok: 12
+| type:
+| | TypeRef[1:5-1:17]
+| | | name:
+| | | | QualExpr[1:5-1:17]
+| | | | | prefix:
+| | | | | | Id[1:5-1:12]
+| | | | | | | tok: Integer
+| | | | | suffix:
+| | | | | | Int[1:14-1:16]
+| | | | | | | tok: 12

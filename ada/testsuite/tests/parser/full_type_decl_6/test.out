@@ -7,10 +7,12 @@ FullTypeDecl[1:1-1:57]
 | | | abstract: False
 | | | limited: False
 | | | synchronized: False
-| | | null_exclusion: False
-| | | name:
-| | | | Id[1:17-1:18]
-| | | | | tok: A
+| | | subtype_indication:
+| | | | SubtypeIndication[1:17-1:18]
+| | | | | null_exclusion: False
+| | | | | name:
+| | | | | | Id[1:17-1:18]
+| | | | | | | tok: A
 | | | record_extension:
 | | | | RecordDef[1:24-1:57]
 | | | | | components:

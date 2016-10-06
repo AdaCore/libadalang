@@ -755,16 +755,14 @@ class DerivedTypeDef(TypeDef):
     abstract = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
     synchronized = Field(type=T.BoolType)
-    null_exclusion = Field(type=T.BoolType)
-    name = Field(type=T.Expr)
-    constraint = Field(type=T.Constraint)
+    subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
     record_extension = Field(type=T.RecordDef)
     has_private_part = Field(type=T.BoolType)
 
-    array_ndims = Property(Self.name.designated_type.array_ndims)
+    array_ndims = Property(Self.base_type.array_ndims)
 
-    base_type = Property(Self.name.designated_type)
+    base_type = Property(Self.subtype_indication.designated_type)
 
     is_real_type = Property(Self.base_type.is_real_type)
     is_int_type = Property(Self.base_type.is_int_type)
@@ -777,7 +775,7 @@ class DerivedTypeDef(TypeDef):
         Self.children_env.env_orphan,
 
         # Add environments from parent type defs
-        Self.name.designated_type.canonical_type.defining_env
+        Self.base_type.canonical_type.defining_env
     ))
 
 

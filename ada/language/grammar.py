@@ -140,9 +140,7 @@ A.add_rules(
         Opt("limited").as_bool(),
         Opt("synchronized").as_bool(),
         "new",
-        Opt("not", "null").as_bool(),
-        A.name,
-        Opt(A.constraint),
+        A.subtype_indication,
         List(Row("and", A.static_name)[1], empty_valid=True),
         Opt("with", A.record_def)[1],
         Opt("with", "private").as_bool()

@@ -6,13 +6,11 @@ ObjectDecl[1:1-1:94]
 | constant: False
 | inout: in
 | type_expr:
-| | TypeExpression[1:18-1:48]
+| | SubtypeIndication[1:18-1:48]
 | | | null_exclusion: False
-| | | type_expr_variant:
-| | | | TypeRef[1:18-1:48]
-| | | | | name:
-| | | | | | Id[1:18-1:48]
-| | | | | | | tok: Line_Info_Display_Array_Access
+| | | name:
+| | | | Id[1:18-1:48]
+| | | | | tok: Line_Info_Display_Array_Access
 | renaming_clause:
 | | RenamingClause[1:49-1:94]
 | | | renamed_object:

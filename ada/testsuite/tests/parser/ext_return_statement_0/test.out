@@ -8,13 +8,11 @@ ExtendedReturnStatement[1:1-1:41]
 | | | constant: False
 | | | inout: in
 | | | type_expr:
-| | | | TypeExpression[1:12-1:19]
+| | | | SubtypeIndication[1:12-1:19]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:12-1:19]
-| | | | | | | name:
-| | | | | | | | Id[1:12-1:19]
-| | | | | | | | | tok: Integer
+| | | | | name:
+| | | | | | Id[1:12-1:19]
+| | | | | | | tok: Integer
 | statements:
 | | HandledStatements[1:23-1:30]
 | | | statements:

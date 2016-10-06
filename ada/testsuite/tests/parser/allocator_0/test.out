@@ -3,7 +3,8 @@ Allocator[1:1-1:24]
 | | Id[1:6-1:10]
 | | | tok: Pool
 | type:
-| | TypeRef[1:12-1:24]
+| | SubtypeIndication[1:12-1:24]
+| | | null_exclusion: False
 | | | name:
 | | | | QualExpr[1:12-1:24]
 | | | | | prefix:

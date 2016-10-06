@@ -13,14 +13,12 @@ A:
 |is_aliased: False
 |mode: in
 |type_expr:
-|  <TypeExpression>
+|  <SubtypeIndication>
 |  |null_exclusion: False
-|  |type_expr_variant:
-|  |  <TypeRef>
-|  |  |name:
-|  |  |  <Identifier>
-|  |  |  |tok: Token(u'Integer')
-|  |  |constraint: None
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
 |default: None
 
 Params: (A, B : Integer; C : Boolean)
@@ -38,14 +36,12 @@ A:
 |is_aliased: False
 |mode: in
 |type_expr:
-|  <TypeExpression>
+|  <SubtypeIndication>
 |  |null_exclusion: False
-|  |type_expr_variant:
-|  |  <TypeRef>
-|  |  |name:
-|  |  |  <Identifier>
-|  |  |  |tok: Token(u'Integer')
-|  |  |constraint: None
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
 |default: None
 
 B:
@@ -61,14 +57,12 @@ B:
 |is_aliased: False
 |mode: in
 |type_expr:
-|  <TypeExpression>
+|  <SubtypeIndication>
 |  |null_exclusion: False
-|  |type_expr_variant:
-|  |  <TypeRef>
-|  |  |name:
-|  |  |  <Identifier>
-|  |  |  |tok: Token(u'Integer')
-|  |  |constraint: None
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Integer')
+|  |constraint: None
 |default: None
 
 C:
@@ -81,12 +75,10 @@ C:
 |is_aliased: False
 |mode: in
 |type_expr:
-|  <TypeExpression>
+|  <SubtypeIndication>
 |  |null_exclusion: False
-|  |type_expr_variant:
-|  |  <TypeRef>
-|  |  |name:
-|  |  |  <Identifier>
-|  |  |  |tok: Token(u'Boolean')
-|  |  |constraint: None
+|  |name:
+|  |  <Identifier>
+|  |  |tok: Token(u'Boolean')
+|  |constraint: None
 |default: None

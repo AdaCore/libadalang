@@ -20,13 +20,11 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:69-1:73]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | | | tok: Item
 | | | | | | EntryDecl[1:76-1:109]
 | | | | | | | overriding: unspecified
 | | | | | | | entry_id:
@@ -40,13 +38,11 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: out
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:104-1:108]
+| | | | | | | | | | SubtypeIndication[1:104-1:108]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:104-1:108]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:104-1:108]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:104-1:108]
+| | | | | | | | | | | | | tok: Item
 | | | private_part:
 | | | | PrivatePart[1:119-1:159]
 | | | | | decls:
@@ -58,13 +54,11 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | ComponentDef[1:128-1:132]
 | | | | | | | | | aliased: False
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:128-1:132]
+| | | | | | | | | | SubtypeIndication[1:128-1:132]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:128-1:132]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:128-1:132]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:128-1:132]
+| | | | | | | | | | | | | tok: Item
 | | | | | | ComponentDecl[1:134-1:158]
 | | | | | | | ids:
 | | | | | | | | Id[1:134-1:139]
@@ -73,13 +67,11 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | ComponentDef[1:143-1:150]
 | | | | | | | | | aliased: False
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:143-1:150]
+| | | | | | | | | | SubtypeIndication[1:143-1:150]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:143-1:150]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:143-1:150]
-| | | | | | | | | | | | | | | tok: Boolean
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:143-1:150]
+| | | | | | | | | | | | | tok: Boolean
 | | | | | | | default_expr:
 | | | | | | | | Id[1:154-1:158]
 | | | | | | | | | tok: True

@@ -12,13 +12,11 @@ FullTypeDecl[1:1-1:80]
 | | | | | | Id[1:18-1:25]
 | | | | | | | tok: Discr_2
 | | | | | type_expr:
-| | | | | | TypeExpression[1:28-1:35]
+| | | | | | SubtypeIndication[1:28-1:35]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:28-1:35]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:28-1:35]
-| | | | | | | | | | | tok: Integer
+| | | | | | | name:
+| | | | | | | | Id[1:28-1:35]
+| | | | | | | | | tok: Integer
 | type_def:
 | | RecordTypeDef[1:40-1:80]
 | | | abstract: False
@@ -39,10 +37,8 @@ FullTypeDecl[1:1-1:80]
 | | | | | | | | | | ComponentDef[1:61-1:68]
 | | | | | | | | | | | aliased: False
 | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[1:61-1:68]
+| | | | | | | | | | | | SubtypeIndication[1:61-1:68]
 | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[1:61-1:68]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[1:61-1:68]
-| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:61-1:68]
+| | | | | | | | | | | | | | | tok: Integer

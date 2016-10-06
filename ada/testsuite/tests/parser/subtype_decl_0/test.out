@@ -2,22 +2,20 @@ SubtypeDecl[1:1-1:25]
 | type_id:
 | | Id[1:9-1:10]
 | | | tok: A
-| type_expr:
-| | TypeExpression[1:14-1:25]
+| subtype:
+| | SubtypeIndication[1:14-1:25]
 | | | null_exclusion: False
-| | | type_expr_variant:
-| | | | TypeRef[1:14-1:25]
+| | | name:
+| | | | CallExpr[1:14-1:25]
 | | | | | name:
-| | | | | | CallExpr[1:14-1:25]
-| | | | | | | name:
-| | | | | | | | Id[1:14-1:15]
-| | | | | | | | | tok: B
-| | | | | | | suffix:
-| | | | | | | | BinOp[1:17-1:24]
-| | | | | | | | | left:
-| | | | | | | | | | Int[1:17-1:18]
-| | | | | | | | | | | tok: 1
-| | | | | | | | | op: ellipsis
-| | | | | | | | | right:
-| | | | | | | | | | Int[1:22-1:24]
-| | | | | | | | | | | tok: 12
+| | | | | | Id[1:14-1:15]
+| | | | | | | tok: B
+| | | | | suffix:
+| | | | | | BinOp[1:17-1:24]
+| | | | | | | left:
+| | | | | | | | Int[1:17-1:18]
+| | | | | | | | | tok: 1
+| | | | | | | op: ellipsis
+| | | | | | | right:
+| | | | | | | | Int[1:22-1:24]
+| | | | | | | | | tok: 12

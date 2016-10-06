@@ -10,9 +10,8 @@ CompilationUnit
 | | | | | | ASTList
 | | | | | | | Id
 | | | | | | -- Hinhin
-| | | | | | TypeExpression
-| | | | | | | TypeRef
-| | | | | | | | Id
+| | | | | | SubtypeIndication
+| | | | | | | Id
 | | | -- Huhu
 | | | HandledStatements
 | | | | ASTList

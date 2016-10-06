@@ -8,13 +8,11 @@ BlockStatement[1:1-1:46]
 | | | constant: False
 | | | inout: in
 | | | type_expr:
-| | | | TypeExpression[1:13-1:20]
+| | | | SubtypeIndication[1:13-1:20]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:13-1:20]
-| | | | | | | name:
-| | | | | | | | Id[1:13-1:20]
-| | | | | | | | | tok: Integer
+| | | | | name:
+| | | | | | Id[1:13-1:20]
+| | | | | | | tok: Integer
 | | | default_expr:
 | | | | Int[1:24-1:26]
 | | | | | tok: 12

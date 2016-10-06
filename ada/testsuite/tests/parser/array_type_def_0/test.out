@@ -14,10 +14,8 @@ ArrayTypeDef[1:1-1:24]
 | | ComponentDef[1:19-1:24]
 | | | aliased: False
 | | | type_expr:
-| | | | TypeExpression[1:19-1:24]
+| | | | SubtypeIndication[1:19-1:24]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:19-1:24]
-| | | | | | | name:
-| | | | | | | | Id[1:19-1:24]
-| | | | | | | | | tok: Pouet
+| | | | | name:
+| | | | | | Id[1:19-1:24]
+| | | | | | | tok: Pouet

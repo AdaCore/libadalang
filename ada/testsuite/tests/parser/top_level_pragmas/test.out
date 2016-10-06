@@ -30,21 +30,17 @@ CompilationUnit[30:1-32:49]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[31:18-31:24]
+| | | | | | | | | | SubtypeIndication[31:18-31:24]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[31:18-31:24]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[31:18-31:24]
-| | | | | | | | | | | | | | | tok: String
-| | | | | | | returns:
-| | | | | | | | TypeExpression[31:33-31:40]
-| | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[31:33-31:40]
 | | | | | | | | | | | name:
-| | | | | | | | | | | | Id[31:33-31:40]
-| | | | | | | | | | | | | tok: Boolean
+| | | | | | | | | | | | Id[31:18-31:24]
+| | | | | | | | | | | | | tok: String
+| | | | | | | returns:
+| | | | | | | | SubtypeIndication[31:33-31:40]
+| | | | | | | | | null_exclusion: False
+| | | | | | | | | name:
+| | | | | | | | | | Id[31:33-31:40]
+| | | | | | | | | | | tok: Boolean
 | pragmas:
 | | Pragma[32:1-32:48]
 | | | id:

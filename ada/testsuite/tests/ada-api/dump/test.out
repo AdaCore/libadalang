@@ -18,13 +18,11 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:22-1:25]
+| | | | | | | | | | SubtypeIndication[1:22-1:25]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:22-1:25]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:22-1:25]
-| | | | | | | | | | | | | | | tok: Foo
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:22-1:25]
+| | | | | | | | | | | | | tok: Foo
 | | | | | | | | ParameterProfile[1:27-1:34]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:27-1:28]
@@ -32,13 +30,11 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:31-1:34]
+| | | | | | | | | | SubtypeIndication[1:31-1:34]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:31-1:34]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:31-1:34]
-| | | | | | | | | | | | | | | tok: Bar
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:31-1:34]
+| | | | | | | | | | | | | tok: Bar
 | | | | | decls:
 | | | | | | DeclarativePart[1:39-1:44]
 | | | | | statements:
@@ -51,13 +47,11 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | | | | Id[2:10-2:12]
 | | | | | | | | | | | | | tok: El
 | | | | | | | | | | | id_type:
-| | | | | | | | | | | | TypeExpression[2:15-2:23]
+| | | | | | | | | | | | SubtypeIndication[2:15-2:23]
 | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[2:15-2:23]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[2:15-2:23]
-| | | | | | | | | | | | | | | | | tok: Foo_Elem
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[2:15-2:23]
+| | | | | | | | | | | | | | | tok: Foo_Elem
 | | | | | | | | | | | loop_type: of
 | | | | | | | | | | | is_reverse: False
 | | | | | | | | | | | iter_expr:

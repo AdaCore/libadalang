@@ -8,23 +8,19 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <ParameterProfile ["A"] 1:15-1:26>
   <ASTList 1:15-1:16>
   <Id "A" 1:15-1:16>
-  <TypeExpression 1:19-1:26>
-  <TypeRef 1:19-1:26>
+  <SubtypeIndication 1:19-1:26>
   <Id "Integer" 1:19-1:26>
   <ParameterProfile ["B"] 1:28-1:39>
   <ASTList 1:28-1:29>
   <Id "B" 1:28-1:29>
-  <TypeExpression 1:32-1:39>
-  <TypeRef 1:32-1:39>
+  <SubtypeIndication 1:32-1:39>
   <Id "Integer" 1:32-1:39>
   <ParameterProfile ["C"] 1:41-1:52>
   <ASTList 1:41-1:42>
   <Id "C" 1:41-1:42>
-  <TypeExpression 1:45-1:52>
-  <TypeRef 1:45-1:52>
+  <SubtypeIndication 1:45-1:52>
   <Id "Integer" 1:45-1:52>
-  <TypeExpression 1:61-1:68>
-  <TypeRef 1:61-1:68>
+  <SubtypeIndication 1:61-1:68>
   <Id "Integer" 1:61-1:68>
   <DeclarativePart 2:1-2:6>
   <HandledStatements 3:4-3:21>

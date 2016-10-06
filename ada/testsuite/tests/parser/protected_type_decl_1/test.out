@@ -20,13 +20,11 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:69-1:73]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | | | tok: Item
 | | | | | | EntryDecl[1:76-1:109]
 | | | | | | | overriding: unspecified
 | | | | | | | entry_id:
@@ -40,13 +38,11 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: out
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:104-1:108]
+| | | | | | | | | | SubtypeIndication[1:104-1:108]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:104-1:108]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:104-1:108]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:104-1:108]
+| | | | | | | | | | | | | tok: Item
 | | | end_id:
 | | | | Id[1:115-1:136]
 | | | | | tok: Protected_Buffer_Type

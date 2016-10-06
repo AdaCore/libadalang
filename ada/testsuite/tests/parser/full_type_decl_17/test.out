@@ -7,7 +7,8 @@ FullTypeDecl[1:1-1:50]
 | | | indices:
 | | | | ConstrainedArrayIndices[1:20-1:38]
 | | | | | list:
-| | | | | | TypeRef[1:20-1:38]
+| | | | | | SubtypeIndication[1:20-1:38]
+| | | | | | | null_exclusion: False
 | | | | | | | name:
 | | | | | | | | CallExpr[1:20-1:38]
 | | | | | | | | | name:
@@ -26,10 +27,8 @@ FullTypeDecl[1:1-1:50]
 | | | | ComponentDef[1:43-1:50]
 | | | | | aliased: False
 | | | | | type_expr:
-| | | | | | TypeExpression[1:43-1:50]
+| | | | | | SubtypeIndication[1:43-1:50]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:43-1:50]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:43-1:50]
-| | | | | | | | | | | tok: Integer
+| | | | | | | name:
+| | | | | | | | Id[1:43-1:50]
+| | | | | | | | | tok: Integer

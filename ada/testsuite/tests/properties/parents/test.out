@@ -53,24 +53,20 @@
 |  |  |  |  |  |  |  |  |is_aliased: False
 |  |  |  |  |  |  |  |  |mode: in
 |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  <TypeExpression>
+|  |  |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |  |  |null_exclusion: False
-|  |  |  |  |  |  |  |  |  |type_expr_variant:
-|  |  |  |  |  |  |  |  |  |  <TypeRef>
-|  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |constraint: None
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |constraint: None
 |  |  |  |  |  |  |  |  |default: None
 |  |  |  |  |  |  |returns:
-|  |  |  |  |  |  |  <TypeExpression>
+|  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |null_exclusion: False
-|  |  |  |  |  |  |  |type_expr_variant:
-|  |  |  |  |  |  |  |  <TypeRef>
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |constraint: None
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |constraint: None
 |  |  |  |  |  |aspects: None
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  <DeclarativePart>

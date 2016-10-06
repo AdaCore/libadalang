@@ -5,22 +5,18 @@ TypeDiscriminant[1:1-1:26]
 | | | | Id[1:2-1:3]
 | | | | | tok: A
 | | | type_expr:
-| | | | TypeExpression[1:6-1:13]
+| | | | SubtypeIndication[1:6-1:13]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:6-1:13]
-| | | | | | | name:
-| | | | | | | | Id[1:6-1:13]
-| | | | | | | | | tok: Integer
+| | | | | name:
+| | | | | | Id[1:6-1:13]
+| | | | | | | tok: Integer
 | | DiscriminantSpec[1:15-1:25]
 | | | ids:
 | | | | Id[1:15-1:16]
 | | | | | tok: B
 | | | type_expr:
-| | | | TypeExpression[1:19-1:25]
+| | | | SubtypeIndication[1:19-1:25]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:19-1:25]
-| | | | | | | name:
-| | | | | | | | Id[1:19-1:25]
-| | | | | | | | | tok: String
+| | | | | name:
+| | | | | | Id[1:19-1:25]
+| | | | | | | tok: String

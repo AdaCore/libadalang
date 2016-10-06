@@ -17,13 +17,11 @@ ProtectedBody[1:1-1:271]
 | | | | | | | is_aliased: False
 | | | | | | | mode: in
 | | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:69-1:73]
+| | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:69-1:73]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | tok: item
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:69-1:73]
+| | | | | | | | | | | tok: item
 | | | | | when_cond:
 | | | | | | Id[1:80-1:85]
 | | | | | | | tok: empty
@@ -58,13 +56,11 @@ ProtectedBody[1:1-1:271]
 | | | | | | | is_aliased: False
 | | | | | | | mode: out
 | | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:170-1:174]
+| | | | | | | | SubtypeIndication[1:170-1:174]
 | | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:170-1:174]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:170-1:174]
-| | | | | | | | | | | | | tok: item
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:170-1:174]
+| | | | | | | | | | | tok: item
 | | | | | when_cond:
 | | | | | | UnOp[1:181-1:190]
 | | | | | | | op: not

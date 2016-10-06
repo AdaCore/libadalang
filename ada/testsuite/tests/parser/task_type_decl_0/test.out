@@ -13,7 +13,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | Id[1:37-1:43]
 | | | | | | | | | tok: Insert
 | | | | | | | family_type:
-| | | | | | | | TypeRef[1:45-1:54]
+| | | | | | | | SubtypeIndication[1:45-1:54]
+| | | | | | | | | null_exclusion: False
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | tok: Buffer_Id
@@ -25,20 +26,19 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:70-1:74]
+| | | | | | | | | | SubtypeIndication[1:70-1:74]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:70-1:74]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:70-1:74]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:70-1:74]
+| | | | | | | | | | | | | tok: Item
 | | | | | | EntryDecl[1:77-1:122]
 | | | | | | | overriding: unspecified
 | | | | | | | entry_id:
 | | | | | | | | Id[1:83-1:89]
 | | | | | | | | | tok: Remove
 | | | | | | | family_type:
-| | | | | | | | TypeRef[1:91-1:100]
+| | | | | | | | SubtypeIndication[1:91-1:100]
+| | | | | | | | | null_exclusion: False
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:91-1:100]
 | | | | | | | | | | | tok: Buffer_Id
@@ -50,13 +50,11 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | is_aliased: False
 | | | | | | | | | mode: out
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[1:117-1:121]
+| | | | | | | | | | SubtypeIndication[1:117-1:121]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[1:117-1:121]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:117-1:121]
-| | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[1:117-1:121]
+| | | | | | | | | | | | | tok: Item
 | | | end_id:
 | | | | Id[1:128-1:144]
 | | | | | tok: Buffer_Pool_Task

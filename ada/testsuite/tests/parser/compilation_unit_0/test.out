@@ -42,13 +42,11 @@ CompilationUnit[1:1-7:10]
 | | | | | | | | | constant: False
 | | | | | | | | | inout: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[4:8-4:15]
+| | | | | | | | | | SubtypeIndication[4:8-4:15]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[4:8-4:15]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[4:8-4:15]
-| | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[4:8-4:15]
+| | | | | | | | | | | | | tok: Integer
 | | | | | | | | | default_expr:
 | | | | | | | | | | BinOp[4:19-4:26]
 | | | | | | | | | | | left:

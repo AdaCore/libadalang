@@ -10,13 +10,11 @@ FullTypeDecl[1:1-1:117]
 | | | | | | Id[1:11-1:16]
 | | | | | | | tok: Discr
 | | | | | type_expr:
-| | | | | | TypeExpression[1:19-1:26]
+| | | | | | SubtypeIndication[1:19-1:26]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:19-1:26]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:19-1:26]
-| | | | | | | | | | | tok: Integer
+| | | | | | | name:
+| | | | | | | | Id[1:19-1:26]
+| | | | | | | | | tok: Integer
 | type_def:
 | | RecordTypeDef[1:31-1:117]
 | | | abstract: False
@@ -37,13 +35,11 @@ FullTypeDecl[1:1-1:117]
 | | | | | | | | | | ComponentDef[1:45-1:52]
 | | | | | | | | | | | aliased: False
 | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[1:45-1:52]
+| | | | | | | | | | | | SubtypeIndication[1:45-1:52]
 | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[1:45-1:52]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[1:45-1:52]
-| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:45-1:52]
+| | | | | | | | | | | | | | | tok: Integer
 | | | | | | | variant_part:
 | | | | | | | | VariantPart[1:54-1:106]
 | | | | | | | | | discr_name:
@@ -67,10 +63,8 @@ FullTypeDecl[1:1-1:117]
 | | | | | | | | | | | | | | | | ComponentDef[1:88-1:95]
 | | | | | | | | | | | | | | | | | aliased: False
 | | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | TypeExpression[1:88-1:95]
+| | | | | | | | | | | | | | | | | | SubtypeIndication[1:88-1:95]
 | | | | | | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | | | | | TypeRef[1:88-1:95]
-| | | | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | | | Id[1:88-1:95]
-| | | | | | | | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | | | | | Id[1:88-1:95]
+| | | | | | | | | | | | | | | | | | | | | tok: Integer

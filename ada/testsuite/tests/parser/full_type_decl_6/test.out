@@ -26,11 +26,9 @@ FullTypeDecl[1:1-1:57]
 | | | | | | | | | | ComponentDef[1:38-1:45]
 | | | | | | | | | | | aliased: False
 | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | TypeExpression[1:38-1:45]
+| | | | | | | | | | | | SubtypeIndication[1:38-1:45]
 | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | TypeRef[1:38-1:45]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[1:38-1:45]
-| | | | | | | | | | | | | | | | | tok: Integer
+| | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | Id[1:38-1:45]
+| | | | | | | | | | | | | | | tok: Integer
 | | | has_private_part: False

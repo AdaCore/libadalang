@@ -35,13 +35,11 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | constant: True
 | | | | | | | | | inout: in
 | | | | | | | | | type_expr:
-| | | | | | | | | | TypeExpression[4:33-4:39]
+| | | | | | | | | | SubtypeIndication[4:33-4:39]
 | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | TypeRef[4:33-4:39]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[4:33-4:39]
-| | | | | | | | | | | | | | | tok: String
+| | | | | | | | | | | name:
+| | | | | | | | | | | | Id[4:33-4:39]
+| | | | | | | | | | | | | tok: String
 | | | | | | | | | default_expr:
 | | | | | | | | | | Str[4:43-4:55]
 | | | | | | | | | | | tok: "["0003C0"]"

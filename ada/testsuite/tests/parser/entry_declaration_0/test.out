@@ -4,7 +4,8 @@ EntryDecl[1:1-1:45]
 | | Id[1:7-1:13]
 | | | tok: Insert
 | family_type:
-| | TypeRef[1:15-1:24]
+| | SubtypeIndication[1:15-1:24]
+| | | null_exclusion: False
 | | | name:
 | | | | Id[1:15-1:24]
 | | | | | tok: Buffer_Id
@@ -16,10 +17,8 @@ EntryDecl[1:1-1:45]
 | | | is_aliased: False
 | | | mode: in
 | | | type_expr:
-| | | | TypeExpression[1:40-1:44]
+| | | | SubtypeIndication[1:40-1:44]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:40-1:44]
-| | | | | | | name:
-| | | | | | | | Id[1:40-1:44]
-| | | | | | | | | tok: Item
+| | | | | name:
+| | | | | | Id[1:40-1:44]
+| | | | | | | tok: Item

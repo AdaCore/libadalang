@@ -10,18 +10,14 @@ SubprogramSpec[1:1-1:39]
 | | | is_aliased: False
 | | | mode: in
 | | | type_expr:
-| | | | TypeExpression[1:17-1:23]
+| | | | SubtypeIndication[1:17-1:23]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:17-1:23]
-| | | | | | | name:
-| | | | | | | | Id[1:17-1:23]
-| | | | | | | | | tok: String
-| returns:
-| | TypeExpression[1:32-1:39]
-| | | null_exclusion: False
-| | | type_expr_variant:
-| | | | TypeRef[1:32-1:39]
 | | | | | name:
-| | | | | | Id[1:32-1:39]
-| | | | | | | tok: Integer
+| | | | | | Id[1:17-1:23]
+| | | | | | | tok: String
+| returns:
+| | SubtypeIndication[1:32-1:39]
+| | | null_exclusion: False
+| | | name:
+| | | | Id[1:32-1:39]
+| | | | | tok: Integer

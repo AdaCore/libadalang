@@ -16,25 +16,23 @@ TaskBody[1:1-1:572]
 | | | | | type_id:
 | | | | | | Id[1:72-1:79]
 | | | | | | | tok: Q_Range
-| | | | | type_expr:
-| | | | | | TypeExpression[1:83-1:109]
+| | | | | subtype:
+| | | | | | SubtypeIndication[1:83-1:109]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:83-1:109]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:83-1:91]
-| | | | | | | | | | | tok: Positive
-| | | | | | | | | constraint:
-| | | | | | | | | | RangeConstraint[1:92-1:109]
-| | | | | | | | | | | range:
-| | | | | | | | | | | | BinOp[1:98-1:109]
-| | | | | | | | | | | | | left:
-| | | | | | | | | | | | | | Int[1:98-1:99]
-| | | | | | | | | | | | | | | tok: 1
-| | | | | | | | | | | | | op: ellipsis
-| | | | | | | | | | | | | right:
-| | | | | | | | | | | | | | Id[1:103-1:109]
-| | | | | | | | | | | | | | | tok: Q_Size
+| | | | | | | name:
+| | | | | | | | Id[1:83-1:91]
+| | | | | | | | | tok: Positive
+| | | | | | | constraint:
+| | | | | | | | RangeConstraint[1:92-1:109]
+| | | | | | | | | range:
+| | | | | | | | | | BinOp[1:98-1:109]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Int[1:98-1:99]
+| | | | | | | | | | | | | tok: 1
+| | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Id[1:103-1:109]
+| | | | | | | | | | | | | tok: Q_Size
 | | | | ObjectDecl[1:111-1:150]
 | | | | | ids:
 | | | | | | Id[1:111-1:117]
@@ -43,24 +41,22 @@ TaskBody[1:1-1:572]
 | | | | | constant: False
 | | | | | inout: in
 | | | | | type_expr:
-| | | | | | TypeExpression[1:120-1:145]
+| | | | | | SubtypeIndication[1:120-1:145]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:120-1:145]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:120-1:127]
-| | | | | | | | | | | tok: Natural
-| | | | | | | | | constraint:
-| | | | | | | | | | RangeConstraint[1:128-1:145]
-| | | | | | | | | | | range:
-| | | | | | | | | | | | BinOp[1:134-1:145]
-| | | | | | | | | | | | | left:
-| | | | | | | | | | | | | | Int[1:134-1:135]
-| | | | | | | | | | | | | | | tok: 0
-| | | | | | | | | | | | | op: ellipsis
-| | | | | | | | | | | | | right:
-| | | | | | | | | | | | | | Id[1:139-1:145]
-| | | | | | | | | | | | | | | tok: Q_Size
+| | | | | | | name:
+| | | | | | | | Id[1:120-1:127]
+| | | | | | | | | tok: Natural
+| | | | | | | constraint:
+| | | | | | | | RangeConstraint[1:128-1:145]
+| | | | | | | | | range:
+| | | | | | | | | | BinOp[1:134-1:145]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Int[1:134-1:135]
+| | | | | | | | | | | | | tok: 0
+| | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Id[1:139-1:145]
+| | | | | | | | | | | | | tok: Q_Size
 | | | | | default_expr:
 | | | | | | Int[1:149-1:150]
 | | | | | | | tok: 0
@@ -74,13 +70,11 @@ TaskBody[1:1-1:572]
 | | | | | constant: False
 | | | | | inout: in
 | | | | | type_expr:
-| | | | | | TypeExpression[1:165-1:172]
+| | | | | | SubtypeIndication[1:165-1:172]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:165-1:172]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:165-1:172]
-| | | | | | | | | | | tok: Q_Range
+| | | | | | | name:
+| | | | | | | | Id[1:165-1:172]
+| | | | | | | | | tok: Q_Range
 | | | | | default_expr:
 | | | | | | Int[1:176-1:177]
 | | | | | | | tok: 1
@@ -92,32 +86,28 @@ TaskBody[1:1-1:572]
 | | | | | constant: False
 | | | | | inout: in
 | | | | | type_expr:
-| | | | | | TypeExpression[1:186-1:209]
-| | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | AnonymousType[1:186-1:209]
-| | | | | | | | | type_decl:
-| | | | | | | | | | AnonymousTypeDecl[1:186-1:209]
-| | | | | | | | | | | type_def:
-| | | | | | | | | | | | ArrayTypeDef[1:186-1:209]
-| | | | | | | | | | | | | indices:
-| | | | | | | | | | | | | | ConstrainedArrayIndices[1:193-1:200]
-| | | | | | | | | | | | | | | list:
-| | | | | | | | | | | | | | | | TypeRef[1:193-1:200]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[1:193-1:200]
-| | | | | | | | | | | | | | | | | | | tok: Q_Range
-| | | | | | | | | | | | | stored_component:
-| | | | | | | | | | | | | | ComponentDef[1:205-1:209]
-| | | | | | | | | | | | | | | aliased: False
-| | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | TypeExpression[1:205-1:209]
-| | | | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | | | TypeRef[1:205-1:209]
-| | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | Id[1:205-1:209]
-| | | | | | | | | | | | | | | | | | | | | tok: Item
+| | | | | | AnonymousType[1:186-1:209]
+| | | | | | | type_decl:
+| | | | | | | | AnonymousTypeDecl[1:186-1:209]
+| | | | | | | | | type_def:
+| | | | | | | | | | ArrayTypeDef[1:186-1:209]
+| | | | | | | | | | | indices:
+| | | | | | | | | | | | ConstrainedArrayIndices[1:193-1:200]
+| | | | | | | | | | | | | list:
+| | | | | | | | | | | | | | SubtypeIndication[1:193-1:200]
+| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:193-1:200]
+| | | | | | | | | | | | | | | | | tok: Q_Range
+| | | | | | | | | | | stored_component:
+| | | | | | | | | | | | ComponentDef[1:205-1:209]
+| | | | | | | | | | | | | aliased: False
+| | | | | | | | | | | | | type_expr:
+| | | | | | | | | | | | | | SubtypeIndication[1:205-1:209]
+| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:205-1:209]
+| | | | | | | | | | | | | | | | | tok: Item
 | statements:
 | | HandledStatements[1:217-1:544]
 | | | statements:
@@ -148,13 +138,11 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | is_aliased: False
 | | | | | | | | | | | | | mode: in
 | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | TypeExpression[1:282-1:286]
+| | | | | | | | | | | | | | SubtypeIndication[1:282-1:286]
 | | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[1:282-1:286]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[1:282-1:286]
-| | | | | | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:282-1:286]
+| | | | | | | | | | | | | | | | | tok: Item
 | | | | | | | | | | | statements:
 | | | | | | | | | | | | HandledStatements[1:291-1:313]
 | | | | | | | | | | | | | statements:
@@ -229,13 +217,11 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | is_aliased: False
 | | | | | | | | | | | | | mode: out
 | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | TypeExpression[1:428-1:432]
+| | | | | | | | | | | | | | SubtypeIndication[1:428-1:432]
 | | | | | | | | | | | | | | | null_exclusion: False
-| | | | | | | | | | | | | | | type_expr_variant:
-| | | | | | | | | | | | | | | | TypeRef[1:428-1:432]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[1:428-1:432]
-| | | | | | | | | | | | | | | | | | | tok: Item
+| | | | | | | | | | | | | | | name:
+| | | | | | | | | | | | | | | | Id[1:428-1:432]
+| | | | | | | | | | | | | | | | | tok: Item
 | | | | | | | | | | | statements:
 | | | | | | | | | | | | HandledStatements[1:437-1:459]
 | | | | | | | | | | | | | statements:

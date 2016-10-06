@@ -13,10 +13,8 @@ FullTypeDecl[1:1-1:48]
 | | | | ComponentDef[1:41-1:48]
 | | | | | aliased: False
 | | | | | type_expr:
-| | | | | | TypeExpression[1:41-1:48]
+| | | | | | SubtypeIndication[1:41-1:48]
 | | | | | | | null_exclusion: False
-| | | | | | | type_expr_variant:
-| | | | | | | | TypeRef[1:41-1:48]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:41-1:48]
-| | | | | | | | | | | tok: Integer
+| | | | | | | name:
+| | | | | | | | Id[1:41-1:48]
+| | | | | | | | | tok: Integer

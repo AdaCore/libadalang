@@ -10,13 +10,11 @@ AcceptStatement[1:1-1:67]
 | | | is_aliased: False
 | | | mode: in
 | | | type_expr:
-| | | | TypeExpression[1:30-1:34]
+| | | | SubtypeIndication[1:30-1:34]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:30-1:34]
-| | | | | | | name:
-| | | | | | | | Id[1:30-1:34]
-| | | | | | | | | tok: Item
+| | | | | name:
+| | | | | | Id[1:30-1:34]
+| | | | | | | tok: Item
 | statements:
 | | HandledStatements[1:39-1:56]
 | | | statements:

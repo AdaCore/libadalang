@@ -103,7 +103,7 @@ A.add_rules(
     ) ^ TaskTypeDecl,
 
     subtype_decl=Row(
-        "subtype", A.identifier, "is", A.type_expression,
+        "subtype", A.identifier, "is", A.subtype_indication,
         A.aspect_specification
     ) ^ SubtypeDecl,
 
@@ -130,7 +130,7 @@ A.add_rules(
         ")", "of", A.component_def
     ) ^ ArrayTypeDef,
 
-    discrete_subtype_definition=A.discrete_range | A.type_ref,
+    discrete_subtype_definition=A.discrete_range | A.subtype_indication,
 
     signed_int_type_def=Row(A.range_spec) ^ SignedIntTypeDef,
     mod_int_type_def=Row("mod", A.sexpr_or_diamond) ^ ModIntTypeDef,
@@ -431,7 +431,8 @@ A.add_rules(
         "entry",
         A.identifier,
         Opt("(",
-            A.constrained_type_ref | A.discrete_range | A.type_ref, ")")[1],
+            A.constrained_subtype_indication | A.discrete_range
+            | A.subtype_indication, ")")[1],
         Opt(A.parameter_profiles),
         A.aspect_specification
     ) ^ EntryDecl,
@@ -503,21 +504,20 @@ A.add_rules(
     use_type_decl=Row("use", Opt("all").as_bool(), "type",
                       List(A.name, sep=",")) ^ UseTypDecl,
 
-    type_ref=Row(
-        A.name, Opt(A.constraint)
-    ) ^ TypeRef,
+    subtype_indication=Row(
+        Opt("not", "null").as_bool(), A.name, Opt(A.constraint)
+    ) ^ SubtypeIndication,
 
-    constrained_type_ref=Row(
-        A.name, A.constraint
-    ) ^ TypeRef,
+    constrained_subtype_indication=Row(
+        Opt("not", "null").as_bool(), A.name, A.constraint
+    ) ^ SubtypeIndication,
 
-    type_expression=Row(
-        Opt("not", "null").as_bool(),
+    type_expression=Or(
         # NOTE: Anonymous arrays are accepted where type expressions are
         # accepted. This means that you can define a function that returns an
         # anonymous array and it will be parsed correctly.
-        Or(A.anonymous_type, A.type_ref),
-    ) ^ TypeExpression,
+        A.anonymous_type, A.subtype_indication,
+    ),
 
     anonymous_type=Row(A.anonymous_type_decl) ^ AnonymousType,
 
@@ -797,15 +797,15 @@ A.add_rules(
     null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
     allocator=Row(
-        "new", Opt("(", A.name, ")")[1], A.type_ref
+        "new", Opt("(", A.name, ")")[1], A.subtype_indication
     ) ^ Allocator,
 
     for_loop_parameter_spec=Row(
         A.identifier,
-        Opt(":", A.type_expression)[1],
+        Opt(":", A.subtype_indication)[1],
         Or(Enum("in", IterType("in")), Enum("of", IterType("of"))),
         Opt("reverse").as_bool(),
-        A.constrained_type_ref | A.discrete_range | A.expression
+        A.constrained_subtype_indication | A.discrete_range | A.expression
     ) ^ ForLoopSpec,
 
     quantified_expression=Row(
@@ -882,7 +882,7 @@ A.add_rules(
     ) ^ ParamAssoc,
 
     call_suffix=Or(
-        A.constrained_type_ref,
+        A.constrained_subtype_indication,
         A.discrete_range,
         List(A.param_assoc, sep=",")
         ^ ParamList
@@ -953,7 +953,7 @@ A.add_rules(
                        Enum("..", Op("ellipsis")), A.expression) ^ BinOp,
 
     choice=Or(
-        A.constrained_type_ref, A.discrete_range, A.expression,
+        A.constrained_subtype_indication, A.discrete_range, A.expression,
         A.others_designator
     ),
 

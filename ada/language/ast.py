@@ -854,7 +854,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return Self.list.at(dim).match(
-            lambda n=T.TypeRef:
+            lambda n=T.SubtypeIndication:
             index_expr.type_var == n.designated_type.canonical_type,
 
             # TODO: We need to parse Standard to express the fact that when
@@ -892,13 +892,13 @@ class InterfaceTypeDef(TypeDef):
 
 
 class SubtypeDecl(TypeDecl):
-    type_expr = Field(type=T.TypeExpression)
+    subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpecification)
 
-    array_ndims = Property(Self.type_expr.array_ndims)
-    defining_env = Property(Self.type_expr.defining_env)
+    array_ndims = Property(Self.subtype.array_ndims)
+    defining_env = Property(Self.subtype.defining_env)
 
-    canonical_type = Property(Self.type_expr.designated_type.canonical_type)
+    canonical_type = Property(Self.subtype.designated_type.canonical_type)
 
     accessed_type = Property(Self.canonical_type.accessed_type)
 
@@ -992,13 +992,12 @@ class UseTypDecl(UseDecl):
     types = Field(type=T.Expr.list_type())
 
 
+@abstract
 class TypeExpression(AdaNode):
     """
     This type will be used as a base for what represents a type expression
     in the Ada syntax tree.
     """
-    null_exclusion = Field(type=T.BoolType)
-    type_expr_variant = Field(type=T.TypeExprVariant)
 
     array_def = Property(Self.designated_type.array_def)
     array_ndims = Property(Self.designated_type.array_ndims)
@@ -1006,10 +1005,13 @@ class TypeExpression(AdaNode):
     defining_env = Property(Self.designated_type.defining_env, private=True)
     accessed_type = Property(Self.designated_type.accessed_type)
 
-    designated_type = Property(
-        Self.type_expr_variant.designated_type,
-        doc="Shortcut to get at the designated type of the type expression"
+    designated_type = AbstractProperty(
+        type=TypeDecl, runtime_check=True, doc="""
+        Return the type designated by this type expression.
+        """
     )
+
+    is_anonymous_access = Property(False)
 
     @langkit_property(return_type=TypeDecl)
     def element_type():
@@ -1020,36 +1022,23 @@ class TypeExpression(AdaNode):
         d = Self.designated_type
         return If(d.is_null, Self.accessed_type, d)
 
-    is_anonymous_access = Property(
-        Self.type_expr_variant.cast(T.AnonymousType).then(
-            lambda at: at.type_decl.type_def.cast(T.AccessDef).then(
-                lambda ad: True
-            )
-        ), type=BoolType
-    )
 
-
-@abstract
-class TypeExprVariant(AdaNode):
-    designated_type = AbstractProperty(
-        type=TypeDecl, runtime_check=True, doc="""
-        Return the type designated by this type expression.
-        """
-    )
-
-
-class AnonymousType(TypeExprVariant):
+class AnonymousType(TypeExpression):
     type_decl = Field(type=T.AnonymousTypeDecl)
     designated_type = Property(Self.type_decl)
+    is_anonymous_access = Property(
+        Self.type_decl.type_def.cast(T.AccessDef).then(lambda ad: True)
+    )
 
 
-class TypeRef(TypeExprVariant):
+class SubtypeIndication(TypeExpression):
+    null_exclusion = Field(type=T.BoolType)
     name = Field(type=T.Expr)
     constraint = Field(type=T.Constraint)
 
-    # The name for this type has to be evaluated in the context of the TypeRef
-    # node itself: we don't want to use whatever lexical environment the caller
-    # is using.
+    # The name for this type has to be evaluated in the context of the
+    # SubtypeIndication node itself: we don't want to use whatever lexical
+    # environment the caller is using.
     designated_type = Property(
         Self.node_env.eval_in_env(Self.name.designated_type)
     )
@@ -2321,7 +2310,7 @@ class LoopSpec(AdaNode):
 
 class ForLoopSpec(LoopSpec):
     id = Field(type=T.Identifier)
-    id_type = Field(type=T.TypeExpression)
+    id_type = Field(type=T.SubtypeIndication)
     loop_type = Field(type=T.IterType)
     is_reverse = Field(type=T.BoolType)
     iter_expr = Field(type=T.AdaNode)
@@ -2335,7 +2324,7 @@ class QuantifiedExpr(Expr):
 
 class Allocator(Expr):
     subpool = Field(type=T.Expr)
-    type = Field(type=T.TypeRef)
+    type = Field(type=T.SubtypeIndication)
 
 
 class QualExpr(Expr):

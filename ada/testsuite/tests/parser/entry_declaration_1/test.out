@@ -20,10 +20,8 @@ EntryDecl[1:1-1:36]
 | | | is_aliased: False
 | | | mode: inout
 | | | type_expr:
-| | | | TypeExpression[1:28-1:35]
+| | | | SubtypeIndication[1:28-1:35]
 | | | | | null_exclusion: False
-| | | | | type_expr_variant:
-| | | | | | TypeRef[1:28-1:35]
-| | | | | | | name:
-| | | | | | | | Id[1:28-1:35]
-| | | | | | | | | tok: BOOLEAN
+| | | | | name:
+| | | | | | Id[1:28-1:35]
+| | | | | | | tok: BOOLEAN

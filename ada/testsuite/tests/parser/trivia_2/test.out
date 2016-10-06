@@ -34,9 +34,8 @@ CompilationUnit
 | | | | | ObjectDecl
 | | | | | | ASTList
 | | | | | | | Id
-| | | | | | TypeExpression
-| | | | | | | TypeRef
-| | | | | | | | Id
+| | | | | | SubtypeIndication
+| | | | | | | Id
 | | | | | | BinOp
 | | | | | | | AttributeRef
 | | | | | | | | Id
@@ -52,23 +51,20 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | | ASTList
 | | | | | | | | ObjectDecl
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | | BinOp
 | | | | | | | | | | CallExpr
 | | | | | | | | | | | Id
@@ -220,15 +216,13 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -328,18 +322,15 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -395,18 +386,15 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -468,9 +456,8 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -494,9 +481,8 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -516,12 +502,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -549,12 +533,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -582,12 +564,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | CallExpr
 | | | | | | | Id
 | | | | | | | ParamList
@@ -606,12 +586,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DottedName
 | | | | | | | Id
 | | | | | | | Id
@@ -625,19 +603,16 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -690,12 +665,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStatements
 | | | | | | | ASTList
@@ -737,12 +710,10 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | TypeExpression
-| | | | | | | | | | TypeRef
-| | | | | | | | | | | Id
-| | | | | | | TypeExpression
-| | | | | | | | TypeRef
-| | | | | | | | | Id
+| | | | | | | | | SubtypeIndication
+| | | | | | | | | | Id
+| | | | | | | SubtypeIndication
+| | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | | ASTList
 | | | | | | | | ExpressionFunction
@@ -752,18 +723,15 @@ CompilationUnit
 | | | | | | | | | | | ParameterProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | | TypeExpression
-| | | | | | | | | | | | | TypeRef
-| | | | | | | | | | | | | | Id
+| | | | | | | | | | | | SubtypeIndication
+| | | | | | | | | | | | | Id
 | | | | | | | | | | | ParameterProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | | TypeExpression
-| | | | | | | | | | | | | TypeRef
-| | | | | | | | | | | | | | Id
-| | | | | | | | | | TypeExpression
-| | | | | | | | | | | TypeRef
-| | | | | | | | | | | | Id
+| | | | | | | | | | | | SubtypeIndication
+| | | | | | | | | | | | | Id
+| | | | | | | | | | SubtypeIndication
+| | | | | | | | | | | Id
 | | | | | | | | | IfExpr
 | | | | | | | | | | BinOp
 | | | | | | | | | | | Id

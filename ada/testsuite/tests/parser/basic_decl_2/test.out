@@ -8,13 +8,11 @@ ObjectDecl[1:1-1:29]
 | constant: False
 | inout: in
 | type_expr:
-| | TypeExpression[1:8-1:15]
+| | SubtypeIndication[1:8-1:15]
 | | | null_exclusion: False
-| | | type_expr_variant:
-| | | | TypeRef[1:8-1:15]
-| | | | | name:
-| | | | | | Id[1:8-1:15]
-| | | | | | | tok: Integer
+| | | name:
+| | | | Id[1:8-1:15]
+| | | | | tok: Integer
 | renaming_clause:
 | | RenamingClause[1:16-1:29]
 | | | renamed_object:

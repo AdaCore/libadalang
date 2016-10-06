@@ -15,10 +15,8 @@ Variant[1:1-1:29]
 | | | | | | ComponentDef[1:21-1:28]
 | | | | | | | aliased: False
 | | | | | | | type_expr:
-| | | | | | | | TypeExpression[1:21-1:28]
+| | | | | | | | SubtypeIndication[1:21-1:28]
 | | | | | | | | | null_exclusion: False
-| | | | | | | | | type_expr_variant:
-| | | | | | | | | | TypeRef[1:21-1:28]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:21-1:28]
-| | | | | | | | | | | | | tok: Integer
+| | | | | | | | | name:
+| | | | | | | | | | Id[1:21-1:28]
+| | | | | | | | | | | tok: Integer

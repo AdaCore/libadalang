@@ -7,6 +7,88 @@ libadalang, in chronologic order. It is useful if you're using a recent version
 of libadalang, and you want to be aware of potential breaking API changes or
 new features.
 
+DerivedTypeDef new field subtype_indication
+-------------------------------------------
+
+Changed on 2016-10-06
+
+DerivedTypeDef gains a new ``subtype_indication`` field, of type
+``SubtypeIndication``. It replaces the three fields that corresponded to
+the subtype indication before: ``null_exclusion``, ``name`` and
+``constraint``.
+
+Refactor type expressions, part 2
+---------------------------------
+
+Changed on 2016-10-06
+
+* Remove the nested type expression variant, hoisting its components
+  into the type expression.
+
+* Rename ``TypeRef`` into ``SubtypeIndication``, to follow RM vocabulary
+  more closely
+
+* Rename ``type_expr`` field into ``subtype`` in ``SubtypeDecl``
+
+* Rename the ``*_type_ref`` grammar rules into ``*_subtype_indication``
+
+* Put the not null field into subtype indications, and remove it
+  from type expression, because it was redundant for anonymous access
+  definitions.
+
+Allocator uses type_ref
+-----------------------
+
+Changed on 2016-10-05
+
+The ``Allocator`` node now stores a ``TypeRef`` for its type rather than a
+``TypeExpression``, because TypeExpression was too general.
+
+The ``allocator`` grammar rule is altered in consequence.
+
+The field storing the type in the ``Allocator`` node is also renamed from
+``expr`` to ``type``.
+
+discrete_subtype_def uses type_ref
+----------------------------------
+
+Changed on 2016-10-05
+
+The `discrete_subtype_def` grammar rule is now::
+
+    discrete_subtype_definition= discrete_range | type_ref
+
+It used ``type_expression`` instead of ``type_ref`` before, which was
+too general.
+
+Remove redundant name in allocator grammar
+------------------------------------------
+
+Changed on 2016-09-16
+
+The grammar rule for allocator becomes::
+
+    allocator = "new" ["(" name ")"] type_expression
+
+Which has the effect of changing the type of the ``Allocator.expr``
+field to ``TypeExpression``
+
+Refactor grammar for anonymous types
+------------------------------------
+
+Changed on 2016-09-16
+
+Anonymous types declarations are now full type declarations without an
+associated name. This will simplify type resolution.
+
+New ``FullTypeDecl`` derived type, ``AnonymousTypeDecl``, that will be
+used for every anonymous type declaration.
+
+``AccessDef`` is now abstract, and ``SubprogramAccessDef`` and
+``TypeAccessDef`` derive from it.
+
+The ``AccessExpression`` hierarchy disappears completely.
+
 Token_Type.Image returns more complete image
 --------------------------------------------
 

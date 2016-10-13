@@ -37,6 +37,14 @@ source env/bin/activate
 pip install -r REQUIREMENTS.dev
 ~~~
 
+- Setup Langkit. If you use a virtualenv, get it on
+  [Github](https://github.com/AdaCore/langkit/) and run:
+
+        $ python langkit/setup.py install
+
+    Otherwise, either add the `langkit` directory to your `PYTHONPATH` or just
+    move it in the root directory of this repository.
+
 To develop comfortably:
 
 - If you want interactive debugging when code is generated, install IPython

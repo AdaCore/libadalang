@@ -1478,6 +1478,10 @@ class Expr(AdaNode):
     )
 
 
+class ParenExpr(Expr):
+    expr = Field(type=T.Expr)
+
+
 class UnOp(Expr):
     op = Field(type=T.Op)
     expr = Field(type=T.Expr)

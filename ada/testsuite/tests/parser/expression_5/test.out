@@ -4,32 +4,36 @@ BinOp[1:1-1:53]
 | | | tok: 12
 | op: plus
 | right:
-| | IfExpr[1:7-1:52]
-| | | cond_expr:
-| | | | QuantifiedExpr[1:11-1:35]
-| | | | | quantifier: all
-| | | | | loop_spec:
-| | | | | | ForLoopSpec[1:19-1:25]
-| | | | | | | id:
-| | | | | | | | Id[1:19-1:20]
-| | | | | | | | | tok: A
-| | | | | | | loop_type: in
-| | | | | | | is_reverse: False
-| | | | | | | iter_expr:
-| | | | | | | | Id[1:24-1:25]
-| | | | | | | | | tok: B
-| | | | | expr:
-| | | | | | BinOp[1:29-1:35]
-| | | | | | | left:
-| | | | | | | | Id[1:29-1:30]
-| | | | | | | | | tok: A
-| | | | | | | op: eq
-| | | | | | | right:
-| | | | | | | | Int[1:33-1:35]
-| | | | | | | | | tok: 12
-| | | then_expr:
-| | | | Int[1:42-1:44]
-| | | | | tok: 15
-| | | else_expr:
-| | | | Int[1:50-1:52]
-| | | | | tok: 16
+| | ParenExpr[1:6-1:53]
+| | | expr:
+| | | | IfExpr[1:7-1:52]
+| | | | | cond_expr:
+| | | | | | ParenExpr[1:10-1:36]
+| | | | | | | expr:
+| | | | | | | | QuantifiedExpr[1:11-1:35]
+| | | | | | | | | quantifier: all
+| | | | | | | | | loop_spec:
+| | | | | | | | | | ForLoopSpec[1:19-1:25]
+| | | | | | | | | | | id:
+| | | | | | | | | | | | Id[1:19-1:20]
+| | | | | | | | | | | | | tok: A
+| | | | | | | | | | | loop_type: in
+| | | | | | | | | | | is_reverse: False
+| | | | | | | | | | | iter_expr:
+| | | | | | | | | | | | Id[1:24-1:25]
+| | | | | | | | | | | | | tok: B
+| | | | | | | | | expr:
+| | | | | | | | | | BinOp[1:29-1:35]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Id[1:29-1:30]
+| | | | | | | | | | | | | tok: A
+| | | | | | | | | | | op: eq
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Int[1:33-1:35]
+| | | | | | | | | | | | | tok: 12
+| | | | | then_expr:
+| | | | | | Int[1:42-1:44]
+| | | | | | | tok: 15
+| | | | | else_expr:
+| | | | | | Int[1:50-1:52]
+| | | | | | | tok: 16

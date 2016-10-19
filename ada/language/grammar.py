@@ -906,8 +906,10 @@ A.add_rules(
                A.name, A.allocator,
                A.conditional_expression,
                A.raise_expression,
-               Row("(", A.conditional_expression | A.expression, ")")[1],
+               A.paren_expr,
                A.aggregate),
+
+    paren_expr=Row("(", A.expression, ")") ^ ParenExpr,
 
     factor=Or(
         Row(Or(Enum("abs", Op("abs")), Enum("not", Op("not"))),
@@ -978,4 +980,5 @@ A.add_rules(
         Row(A.relation, A.boolean_op, A.expression) ^ BinOp,
         A.relation
     ),
+
 )

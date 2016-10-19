@@ -7,6 +7,43 @@ libadalang, in chronologic order. It is useful if you're using a recent version
 of libadalang, and you want to be aware of potential breaking API changes or
 new features.
 
+Add Paren_Expr
+--------------
+
+Changed on 2016-10-19
+
+Now parenthesized operations will be explicitly translated into
+``Paren_Expr`` nodes, so that the following code snippet::
+
+    B + (C / (D + 12))
+
+Will produce the following tree::
+
+    BinOp[1:1-1:19]
+    | left:
+    | | Id[1:1-1:2]
+    | | | tok: B
+    | op: plus
+    | right:
+    | | ParenExpr[1:5-1:19]
+    | | | expr:
+    | | | | BinOp[1:6-1:18]
+    | | | | | left:
+    | | | | | | Id[1:6-1:7]
+    | | | | | | | tok: C
+    | | | | | op: div
+    | | | | | right:
+    | | | | | | ParenExpr[1:10-1:18]
+    | | | | | | | expr:
+    | | | | | | | | BinOp[1:11-1:17]
+    | | | | | | | | | left:
+    | | | | | | | | | | Id[1:11-1:12]
+    | | | | | | | | | | | tok: D
+    | | | | | | | | | op: plus
+    | | | | | | | | | right:
+    | | | | | | | | | | Int[1:15-1:17]
+    | | | | | | | | | | | tok: 12
+
 DerivedTypeDef new field subtype_indication
 -------------------------------------------
 

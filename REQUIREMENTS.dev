@@ -7,4 +7,4 @@ enum34==1.1.2
 psutil==3.4.2
 sphinx-rtd-theme==0.1.9
 funcy==1.7.1
--e git://github.com/AdaCore/langkit/#egg=langkit
+-e git+https://github.com/AdaCore/langkit.git#egg=langkit

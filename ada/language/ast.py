@@ -1136,6 +1136,7 @@ class Overriding(T.EnumNode):
     suffix = 'kind'
 
 
+@abstract
 class BasicSubprogramDecl(BasicDecl):
     is_overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)

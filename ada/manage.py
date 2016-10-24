@@ -56,6 +56,13 @@ class Manage(ManageScript):
                  ' executed'
         )
         perf_test_parser.add_argument(
+            '--build-dir', default='build',
+            help=(
+                'Directory under work-dir to use for generated source code and'
+                'binaries. By default, use "$work-dir/build" .'
+            )
+        )
+        perf_test_parser.add_argument(
             '--nb-runs', type=int, default=4,
             help='Number of runs (default: 4)'
         )
@@ -199,7 +206,7 @@ class Manage(ManageScript):
 
             # Build libadalang in production mode inside of the perf testsuite
             # directory.
-            args.build_dir = os.path.join(work_dir, 'build')
+            args.build_dir = os.path.join(work_dir, args.build_dir)
             self.dirs.set_build_dir(args.build_dir)
             args.build_mode = 'prod'
             self._mkdir(args.build_dir)

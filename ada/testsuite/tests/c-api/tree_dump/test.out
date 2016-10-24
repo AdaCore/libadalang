@@ -9,11 +9,11 @@
 | | <SubprogramBody>
 | | | <SubprogramSpec>
 | | | | <Identifier>
-| | | | <null node>
+| | | | <list>
 | | | | <null node>
 | | | <null node>
 | | | <DeclarativePart>
-| | | | <null node>
+| | | | <list>
 | | | <HandledStatements>
 | | | | <list>
 | | | | | <CallStatement>
@@ -28,7 +28,7 @@
 | | | | | | | | | <ParamAssoc>
 | | | | | | | | | | <null node>
 | | | | | | | | | | <StringLiteral>
-| | | | <null node>
+| | | | <list>
 | | | <Identifier>
-| <null node>
+| <list>
 Done

@@ -254,8 +254,13 @@ Id[1:6-1:9]
 | tok: Ada
 
 Lookup 1:9:
-Id[1:6-1:9]
-| tok: Ada
+DottedName[1:6-1:17]
+| prefix:
+| | Id[1:6-1:9]
+| | | tok: Ada
+| suffix:
+| | Id[1:10-1:17]
+| | | tok: Text_IO
 
 Lookup 1:10:
 Id[1:10-1:17]
@@ -266,8 +271,17 @@ Id[1:10-1:17]
 | tok: Text_IO
 
 Lookup 1:17:
-Id[1:10-1:17]
-| tok: Text_IO
+WithDecl[1:1-1:17]
+| is_limited: False
+| is_private: False
+| packages:
+| | DottedName[1:6-1:17]
+| | | prefix:
+| | | | Id[1:6-1:9]
+| | | | | tok: Ada
+| | | suffix:
+| | | | Id[1:10-1:17]
+| | | | | tok: Text_IO
 
 Lookup 2:1:
 CompilationUnit[1:1-17:10]

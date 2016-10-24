@@ -26,7 +26,8 @@
 |  |  |  |name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |params: None
+|  |  |  |params:
+|  |  |  |  <list>
 |  |  |  |returns: None
 |  |  |aspects: None
 |  |  |decls:
@@ -70,7 +71,8 @@
 |  |  |  |  |  |aspects: None
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  <DeclarativePart>
-|  |  |  |  |  |  |decls: None
+|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  <list>
 |  |  |  |  |  |statements:
 |  |  |  |  |  |  <HandledStatements>
 |  |  |  |  |  |  |statements:
@@ -117,7 +119,8 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
-|  |  |  |  |  |  |  |  |alternatives: None
+|  |  |  |  |  |  |  |  |alternatives:
+|  |  |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |  |else_statements:
 |  |  |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |  |  |item 0:
@@ -125,7 +128,8 @@
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
-|  |  |  |  |  |  |exceptions: None
+|  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  <list>
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |tok: Token(u'Fact')
@@ -177,11 +181,13 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
-|  |  |  |exceptions: None
+|  |  |  |exceptions:
+|  |  |  |  <list>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')
-|pragmas: None
+|pragmas:
+|  <list>
 Parents of CompilationUnit[1:1-14:9]:
   - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[3:1-3:14]:

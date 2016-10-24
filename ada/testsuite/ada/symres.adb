@@ -312,10 +312,10 @@ procedure Symres is
                   Dec_Ref (Entities);
                end;
             elsif Pragma_Name.all = "Test_Statement" then
-               pragma Assert (P_Node.F_Args = null);
+               pragma Assert (P_Node.F_Args.Child_Count = 0);
                Resolve_Node (P_Node.Previous_Sibling);
             elsif Pragma_Name.all = "Test_Block" then
-               pragma Assert (P_Node.F_Args = null);
+               pragma Assert (P_Node.F_Args.Child_Count = 0);
                declare
                   Block : Block_Statement :=
                     Block_Statement (P_Node.Previous_Sibling);

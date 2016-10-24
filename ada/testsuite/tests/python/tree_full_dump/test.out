@@ -26,12 +26,14 @@
 |  |  |  |name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |params: None
+|  |  |  |params:
+|  |  |  |  <list>
 |  |  |  |returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>
-|  |  |  |decls: None
+|  |  |  |decls:
+|  |  |  |  <list>
 |  |  |statements:
 |  |  |  <HandledStatements>
 |  |  |  |statements:
@@ -63,9 +65,11 @@
 |  |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  |  <StringLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
-|  |  |  |exceptions: None
+|  |  |  |exceptions:
+|  |  |  |  <list>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')
-|pragmas: None
+|pragmas:
+|  <list>
 Done

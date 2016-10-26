@@ -7,6 +7,57 @@ libadalang, in chronologic order. It is useful if you're using a recent version
 of libadalang, and you want to be aware of potential breaking API changes or
 new features.
 
+Enums are now AST nodes.
+------------------------
+
+Changed on 2016-10-26
+
+Every field that was an enum is now a subclass of Ada_Node. The
+transformation follows the following pattern:
+
+.. code-block:: ada
+
+   type Overriding_Type is
+     (Uninitialized, Overriding_Kind, Not_Overriding, Unspecified)
+
+   -- Becomes
+
+   --  Base enum type is expressed as an abstract node
+   type Overriding_Node_Type is abstract new Ada_Node_Type with private;
+
+   --  Every enum value has its own derived type, that will be
+   --  instantiated by the parser
+   type Overriding_Not_Overriding_Type is new Overriding_Node_Type with private;
+   type Overriding_Overriding_Type is new Overriding_Node_Type with private;
+   type Overriding_Unspecified_Type is new Overriding_Node_Type with private;
+
+The resulting API is more verbose, but enum fields can now be treated as
+regular nodes, eg. you can find them, query parent and slocs on them,
+etc..
+
+All empty lists are now non-null
+--------------------------------
+
+Changed on 2016-10-25
+
+Every AST List is now non null. Their Slocs are not yet completely
+sound, but should be anchored to the point where the parsing happened.
+
+Public Is_Empty_List primitive
+------------------------------
+
+Changed on 2016-10-25
+
+A new primitive on the root node that will allow you to check if any
+node is an empty list, for convenience.
+
+.. code-block:: ada
+
+    -- Whether Node is an empty list or not
+    if Node = null or else Node.Is_Empty_List then
+        ...
+    end if;
+
 Add Paren_Expr
 --------------
 

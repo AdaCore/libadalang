@@ -48,6 +48,7 @@ commits = [map(str.strip, t) for t in re.findall(
 
 with open("changelog.rst", "w") as f:
     f.write(HEADER)
+    commits = sorted(commits, key=lambda k: k[1], reverse=True)
     for title, date, blob in commits:
         f.write(title)
         f.write("\n" + "-" * len(title) + "\n\n")

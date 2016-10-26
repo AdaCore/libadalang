@@ -6,7 +6,8 @@ BlockStatement[1:1-1:46]
 | | | | | tok: A
 | | | aliased: False
 | | | constant: False
-| | | inout: in
+| | | inout:
+| | | | InOutDefault[1:13-1:20]
 | | | type_expr:
 | | | | SubtypeIndication[1:13-1:20]
 | | | | | null_exclusion: False

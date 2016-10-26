@@ -8,7 +8,8 @@ ProtectedDecl[1:1-1:121]
 | | | | PublicPart[1:31-1:100]
 | | | | | decls:
 | | | | | | EntryDecl[1:31-1:64]
-| | | | | | | overriding: unspecified
+| | | | | | | overriding:
+| | | | | | | | OverridingUnspecified[1:31-1:36]
 | | | | | | | entry_id:
 | | | | | | | | Id[1:37-1:43]
 | | | | | | | | | tok: Insert
@@ -18,7 +19,8 @@ ProtectedDecl[1:1-1:121]
 | | | | | | | | | | Id[1:45-1:52]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutIn[1:55-1:57]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:59-1:63]
 | | | | | | | | | | | null_exclusion: False
@@ -26,7 +28,8 @@ ProtectedDecl[1:1-1:121]
 | | | | | | | | | | | | Id[1:59-1:63]
 | | | | | | | | | | | | | tok: Item
 | | | | | | EntryDecl[1:66-1:99]
-| | | | | | | overriding: unspecified
+| | | | | | | overriding:
+| | | | | | | | OverridingUnspecified[1:66-1:71]
 | | | | | | | entry_id:
 | | | | | | | | Id[1:72-1:78]
 | | | | | | | | | tok: Remove
@@ -36,7 +39,8 @@ ProtectedDecl[1:1-1:121]
 | | | | | | | | | | Id[1:80-1:87]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: out
+| | | | | | | | | mode:
+| | | | | | | | | | InOutOut[1:90-1:93]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:94-1:98]
 | | | | | | | | | | | null_exclusion: False

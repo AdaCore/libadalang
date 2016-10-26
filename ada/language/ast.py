@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from langkit import compiled_types
 from langkit.compiled_types import (
-    ASTNode, BoolType, EnumType, Field, Struct, UserField, abstract,
+    ASTNode, BoolType, Field, Struct, UserField, abstract,
     env_metadata, root_grammar_class, LongType, create_macro, LogicVarType,
     EquationType, T, LexicalEnvType, EnvElement
 )
@@ -879,13 +879,12 @@ class ArrayTypeDef(TypeDef):
     array_ndims = Property(Self.indices.ndims)
 
 
-class InterfaceKind(EnumType):
+class InterfaceKind(T.EnumNode):
     alternatives = ["limited", "task", "protected", "synchronized"]
-    suffix = 'interface'
 
 
 class InterfaceTypeDef(TypeDef):
-    interface_kind = Field(type=T.InterfaceKind)
+    interface_kind = Field(type=InterfaceKind)
     interfaces = Field(type=T.Name.list_type())
 
 
@@ -1042,10 +1041,15 @@ class SubtypeIndication(TypeExpression):
     )
 
 
+class InOut(T.EnumNode):
+    alternatives = ["in", "out", "in_out", "default"]
+    suffix = 'mode'
+
+
 class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     is_aliased = Field(type=T.BoolType)
-    mode = Field(type=T.InOut)
+    mode = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
 
@@ -1062,8 +1066,13 @@ class AspectSpecification(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list_type())
 
 
+class Overriding(T.EnumNode):
+    alternatives = ["overriding", "not_overriding", "unspecified"]
+    suffix = 'kind'
+
+
 class BasicSubprogramDecl(BasicDecl):
-    is_overriding = Field(type=T.Overriding)
+    is_overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
 
     name = Property(Self.subp_spec.name)
@@ -1138,10 +1147,6 @@ class PragmaArgument(AdaNode):
 # GRAMMAR DEFINITION #
 ######################
 
-class InOut(EnumType):
-    alternatives = ["in", "out", "inout"]
-    suffix = 'way'
-
 
 @abstract
 class AspectClause(AdaNode):
@@ -1176,7 +1181,7 @@ class AtClause(AspectClause):
 
 
 class EntryDecl(BasicDecl):
-    overriding = Field(type=T.Overriding)
+    overriding = Field(type=Overriding)
     entry_id = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
     params = Field(type=T.ParameterProfile.list_type())
@@ -1217,7 +1222,7 @@ class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
     aliased = Field(type=T.BoolType)
     constant = Field(type=T.BoolType)
-    inout = Field(type=T.InOut)
+    inout = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)
@@ -1371,11 +1376,6 @@ class FormalSubpDecl(BasicDecl):
     defining_names = Property(Self.subp_spec.name.singleton)
 
 
-class Overriding(EnumType):
-    alternatives = ["overriding", "not_overriding", "unspecified"]
-    suffix = 'kind'
-
-
 class GenericSubprogramDecl(BasicDecl):
     formal_part = Field(type=T.AdaNode.list_type())
     subp_spec = Field(type=T.SubprogramSpec)
@@ -1482,20 +1482,29 @@ class ParenExpr(Expr):
     expr = Field(type=T.Expr)
 
 
+class Op(T.EnumNode):
+    """Operation in a binary expression."""
+    alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
+                    "not_in", "abs", "not", "pow", "mult", "div", "mod",
+                    "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",
+                    "lte", "gt", "gte", "ellipsis"]
+    suffix = 'op'
+
+
 class UnOp(Expr):
-    op = Field(type=T.Op)
+    op = Field(type=Op)
     expr = Field(type=T.Expr)
 
 
 class BinOp(Expr):
     left = Field(type=T.Expr)
-    op = Field(type=T.Op)
+    op = Field(type=Op)
     right = Field(type=T.Expr)
 
 
 class MembershipExpr(Expr):
     expr = Field(type=T.Expr)
-    op = Field(type=T.Op)
+    op = Field(type=Op)
     membership_exprs = Field(type=T.AdaNode.list_type())
 
 
@@ -1860,15 +1869,6 @@ class OthersDesignator(AdaNode):
 
 class AggregateMember(AdaNode):
     choice_list = Field(type=T.AdaNode.list_type())
-
-
-class Op(EnumType):
-    """Operation in a binary expression."""
-    alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
-                    "not_in", "abs", "not", "pow", "mult", "div", "mod",
-                    "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",
-                    "lte", "gt", "gte", "ellipsis"]
-    suffix = 'op'
 
 
 class IfExpr(Expr):
@@ -2295,12 +2295,12 @@ class SubprogramSpec(AbstractFormalParamHolder):
         )
 
 
-class Quantifier(EnumType):
+class Quantifier(T.EnumNode):
     alternatives = ["all", "some"]
     suffix = 'items'
 
 
-class IterType(EnumType):
+class IterType(T.EnumNode):
     alternatives = ["in", "of"]
     suffix = 'iter'
 
@@ -2313,13 +2313,13 @@ class LoopSpec(AdaNode):
 class ForLoopSpec(LoopSpec):
     id = Field(type=T.Identifier)
     id_type = Field(type=T.SubtypeIndication)
-    loop_type = Field(type=T.IterType)
+    loop_type = Field(type=IterType)
     is_reverse = Field(type=T.BoolType)
     iter_expr = Field(type=T.AdaNode)
 
 
 class QuantifiedExpr(Expr):
-    quantifier = Field(type=T.Quantifier)
+    quantifier = Field(type=Quantifier)
     loop_spec = Field(type=T.ForLoopSpec)
     expr = Field(type=T.Expr)
 
@@ -2442,7 +2442,7 @@ class SubprogramBody(Body):
                           Self,
                           is_body=True)]
 
-    overriding = Field(type=T.Overriding)
+    overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
@@ -2674,7 +2674,7 @@ class ProtectedBodyStub(BodyStub):
 
 
 class SubprogramBodyStub(BodyStub):
-    overriding = Field(type=T.Overriding)
+    overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
     aspects = Field(type=T.AspectSpecification)
 

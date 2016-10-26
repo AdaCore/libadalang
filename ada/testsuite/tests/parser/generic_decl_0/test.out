@@ -8,7 +8,8 @@ GenericPackageDecl[1:1-1:42]
 | | | | PublicPart[1:22-1:36]
 | | | | | decls:
 | | | | | | SubprogramDecl[1:22-1:35]
-| | | | | | | is_overriding: unspecified
+| | | | | | | is_overriding:
+| | | | | | | | OverridingUnspecified[1:22-1:31]
 | | | | | | | subp_spec:
 | | | | | | | | SubprogramSpec[1:22-1:35]
 | | | | | | | | | name:

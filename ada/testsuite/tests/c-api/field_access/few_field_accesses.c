@@ -22,7 +22,7 @@ main(void)
     ada_base_node tmp;
 
     ada_bool is_limited, is_private;
-    ada_overriding overriding;
+    ada_base_node overriding;
     ada_token tok;
 
     libadalang_initialize();
@@ -38,10 +38,10 @@ main(void)
     tmp = ada_unit_root(unit);
     if (ada_node_kind (tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
-    overriding = 100;
+    overriding = NULL;
     if (ada_subprogram_body_f_overriding(tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
-    if (overriding != 100)
+    if (overriding != NULL)
       error("Getting CompilationUnit.overriding failed but nevertheless output"
             " something");
 
@@ -79,8 +79,12 @@ main(void)
     if (ada_node_kind(subp_body) != ada_subprogram_body)
         error("Got something else than a SubprogramBody");
     if (!ada_subprogram_body_f_overriding(subp_body, &overriding))
-        error("Could got get SubprogramBody.overriding");
-    printf("SubprogramBody: overriding = %d\n", overriding);
+        error("Could not get SubprogramBody.overriding");
+
+    const ada_text kind = ada_kind_name(ada_node_kind(overriding));
+    printf("SubprogramBody: overriding = ");
+    fprint_text(stdout, kind, 0);
+    printf("\n");
 
 
     if (!ada_subprogram_body_f_subp_spec(subp_body, &tmp))

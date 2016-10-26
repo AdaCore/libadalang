@@ -8,7 +8,8 @@ SubprogramSpec[1:1-1:39]
 | | | | Id[1:13-1:14]
 | | | | | tok: B
 | | | is_aliased: False
-| | | mode: in
+| | | mode:
+| | | | InOutDefault[1:17-1:23]
 | | | type_expr:
 | | | | SubtypeIndication[1:17-1:23]
 | | | | | null_exclusion: False

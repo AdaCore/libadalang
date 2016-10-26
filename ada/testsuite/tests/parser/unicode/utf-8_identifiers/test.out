@@ -4,7 +4,8 @@ CompilationUnit[1:1-4:12]
 | | | is_private: False
 | | | item:
 | | | | SubprogramBody[1:1-4:11]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[1:1-1:10]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:1-1:17]
 | | | | | | | name:

@@ -6,7 +6,8 @@ ExtendedReturnStatement[1:1-1:41]
 | | | | | tok: A
 | | | aliased: False
 | | | constant: False
-| | | inout: in
+| | | inout:
+| | | | InOutDefault[1:12-1:19]
 | | | type_expr:
 | | | | SubtypeIndication[1:12-1:19]
 | | | | | null_exclusion: False

@@ -11,7 +11,8 @@ A:
 |  |  <Identifier>
 |  |  |tok: Token(u'A')
 |is_aliased: False
-|mode: in
+|mode:
+|  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |null_exclusion: False
@@ -34,7 +35,8 @@ A:
 |  |  <Identifier>
 |  |  |tok: Token(u'B')
 |is_aliased: False
-|mode: in
+|mode:
+|  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |null_exclusion: False
@@ -55,7 +57,8 @@ B:
 |  |  <Identifier>
 |  |  |tok: Token(u'B')
 |is_aliased: False
-|mode: in
+|mode:
+|  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |null_exclusion: False
@@ -73,7 +76,8 @@ C:
 |  |  <Identifier>
 |  |  |tok: Token(u'C')
 |is_aliased: False
-|mode: in
+|mode:
+|  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |null_exclusion: False

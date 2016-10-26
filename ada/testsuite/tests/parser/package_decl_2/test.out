@@ -6,7 +6,8 @@ PackageDecl[1:1-1:105]
 | | PublicPart[1:26-1:87]
 | | | decls:
 | | | | SubprogramDecl[1:26-1:55]
-| | | | | is_overriding: unspecified
+| | | | | is_overriding:
+| | | | | | OverridingUnspecified[1:26-1:35]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:26-1:55]
 | | | | | | | name:
@@ -18,7 +19,8 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | | | tok: E
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutDefault[1:45-1:54]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:45-1:54]
 | | | | | | | | | | | null_exclusion: False
@@ -26,7 +28,8 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | | | tok: Element_T
 | | | | SubprogramDecl[1:57-1:86]
-| | | | | is_overriding: unspecified
+| | | | | is_overriding:
+| | | | | | OverridingUnspecified[1:57-1:65]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:57-1:86]
 | | | | | | | name:

@@ -4,4 +4,5 @@ FullTypeDecl[1:1-1:33]
 | | | tok: Printable
 | type_def:
 | | InterfaceTypeDef[1:19-1:33]
-| | | interface_kind: task
+| | | interface_kind:
+| | | | InterfaceKindTask[1:19-1:23]

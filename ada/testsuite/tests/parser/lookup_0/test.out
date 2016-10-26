@@ -16,7 +16,8 @@ CompilationUnit[1:1-17:10]
 | | | is_private: False
 | | | item:
 | | | | SubprogramBody[3:1-17:9]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[3:1-3:10]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[3:1-3:47]
 | | | | | | | name:
@@ -28,7 +29,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | | | | | null_exclusion: False
@@ -39,7 +41,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | DeclarativePart[5:4-12:13]
 | | | | | | | decls:
 | | | | | | | | SubprogramBody[5:4-12:12]
-| | | | | | | | | overriding: unspecified
+| | | | | | | | | overriding:
+| | | | | | | | | | OverridingUnspecified[5:4-5:12]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[5:4-5:46]
 | | | | | | | | | | | name:
@@ -51,7 +54,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
 | | | | | | | | | | | | | is_aliased: False
-| | | | | | | | | | | | | mode: in
+| | | | | | | | | | | | | mode:
+| | | | | | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | | | | | null_exclusion: False
@@ -75,7 +79,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | Id[7:10-7:11]
 | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | op: lte
+| | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | OpLte[7:12-7:14]
 | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | Int[7:15-7:16]
 | | | | | | | | | | | | | | | | | tok: 1
@@ -91,7 +96,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | Id[10:17-10:18]
 | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | | | op: mult
+| | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | OpMult[10:19-10:20]
 | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | CallExpr[10:21-10:33]
 | | | | | | | | | | | | | | | | | | | name:
@@ -106,7 +112,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
 | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | | | | | | | | | OpMinus[10:29-10:30]
 | | | | | | | | | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | | | | | | | | | Int[10:31-10:32]
 | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: 1
@@ -164,7 +171,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | Str[16:26-16:39]
 | | | | | | | | | | | | | | | | | | | tok: "Fact (6) = "
-| | | | | | | | | | | | | | | | | op: bin_and
+| | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | OpBinAnd[16:40-16:41]
 | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | AttributeRef[16:42-16:66]
 | | | | | | | | | | | | | | | | | | | prefix:
@@ -302,7 +310,8 @@ CompilationUnit[1:1-17:10]
 | | | is_private: False
 | | | item:
 | | | | SubprogramBody[3:1-17:9]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[3:1-3:10]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[3:1-3:47]
 | | | | | | | name:
@@ -314,7 +323,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | | | | | null_exclusion: False
@@ -325,7 +335,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | DeclarativePart[5:4-12:13]
 | | | | | | | decls:
 | | | | | | | | SubprogramBody[5:4-12:12]
-| | | | | | | | | overriding: unspecified
+| | | | | | | | | overriding:
+| | | | | | | | | | OverridingUnspecified[5:4-5:12]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[5:4-5:46]
 | | | | | | | | | | | name:
@@ -337,7 +348,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
 | | | | | | | | | | | | | is_aliased: False
-| | | | | | | | | | | | | mode: in
+| | | | | | | | | | | | | mode:
+| | | | | | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | | | | | null_exclusion: False
@@ -361,7 +373,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | Id[7:10-7:11]
 | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | op: lte
+| | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | OpLte[7:12-7:14]
 | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | Int[7:15-7:16]
 | | | | | | | | | | | | | | | | | tok: 1
@@ -377,7 +390,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | Id[10:17-10:18]
 | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | | | op: mult
+| | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | OpMult[10:19-10:20]
 | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | CallExpr[10:21-10:33]
 | | | | | | | | | | | | | | | | | | | name:
@@ -392,7 +406,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
 | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | | | | | | | | | OpMinus[10:29-10:30]
 | | | | | | | | | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | | | | | | | | | Int[10:31-10:32]
 | | | | | | | | | | | | | | | | | | | | | | | | | | | tok: 1
@@ -450,7 +465,8 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | Str[16:26-16:39]
 | | | | | | | | | | | | | | | | | | | tok: "Fact (6) = "
-| | | | | | | | | | | | | | | | | op: bin_and
+| | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | OpBinAnd[16:40-16:41]
 | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | AttributeRef[16:42-16:66]
 | | | | | | | | | | | | | | | | | | | prefix:
@@ -481,7 +497,8 @@ CompilationUnit[1:1-17:10]
 
 Lookup 4:1:
 SubprogramBody[3:1-17:9]
-| overriding: unspecified
+| overriding:
+| | OverridingUnspecified[3:1-3:10]
 | subp_spec:
 | | SubprogramSpec[3:1-3:47]
 | | | name:
@@ -493,7 +510,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | Id[3:24-3:31]
 | | | | | | | tok: Console
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[3:34-3:46]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | null_exclusion: False
@@ -504,7 +522,8 @@ SubprogramBody[3:1-17:9]
 | | DeclarativePart[5:4-12:13]
 | | | decls:
 | | | | SubprogramBody[5:4-12:12]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[5:4-5:12]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[5:4-5:46]
 | | | | | | | name:
@@ -516,7 +535,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | tok: N
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | null_exclusion: False
@@ -540,7 +560,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | | | left:
 | | | | | | | | | | | | Id[7:10-7:11]
 | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | op: lte
+| | | | | | | | | | | op:
+| | | | | | | | | | | | OpLte[7:12-7:14]
 | | | | | | | | | | | right:
 | | | | | | | | | | | | Int[7:15-7:16]
 | | | | | | | | | | | | | tok: 1
@@ -556,7 +577,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | Id[10:17-10:18]
 | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | op: mult
+| | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | OpMult[10:19-10:20]
 | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | CallExpr[10:21-10:33]
 | | | | | | | | | | | | | | | name:
@@ -571,7 +593,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | | | | | Id[10:27-10:28]
 | | | | | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | | | | | | | | | op: minus
+| | | | | | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | | | | | OpMinus[10:29-10:30]
 | | | | | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | | | | | Int[10:31-10:32]
 | | | | | | | | | | | | | | | | | | | | | | | tok: 1
@@ -629,7 +652,8 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | Str[16:26-16:39]
 | | | | | | | | | | | | | | | tok: "Fact (6) = "
-| | | | | | | | | | | | | op: bin_and
+| | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | OpBinAnd[16:40-16:41]
 | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | AttributeRef[16:42-16:66]
 | | | | | | | | | | | | | | | prefix:
@@ -658,27 +682,31 @@ SubprogramBody[3:1-17:9]
 | | Id[17:5-17:9]
 | | | tok: Fact
 
-Lookup 10:19:
-BinOp[10:17-10:33]
-| left:
-| | Id[10:17-10:18]
-| | | tok: N
-| op: mult
-| right:
-| | CallExpr[10:21-10:33]
-| | | name:
-| | | | Id[10:21-10:25]
-| | | | | tok: Fact
-| | | suffix:
-| | | | ParamList[10:27-10:32]
-| | | | | params:
-| | | | | | ParamAssoc[10:27-10:32]
-| | | | | | | expr:
-| | | | | | | | BinOp[10:27-10:32]
-| | | | | | | | | left:
-| | | | | | | | | | Id[10:27-10:28]
-| | | | | | | | | | | tok: N
-| | | | | | | | | op: minus
-| | | | | | | | | right:
-| | | | | | | | | | Int[10:31-10:32]
-| | | | | | | | | | | tok: 1
+Lookup 10:10:
+ReturnStatement[10:10-10:33]
+| return_expr:
+| | BinOp[10:17-10:33]
+| | | left:
+| | | | Id[10:17-10:18]
+| | | | | tok: N
+| | | op:
+| | | | OpMult[10:19-10:20]
+| | | right:
+| | | | CallExpr[10:21-10:33]
+| | | | | name:
+| | | | | | Id[10:21-10:25]
+| | | | | | | tok: Fact
+| | | | | suffix:
+| | | | | | ParamList[10:27-10:32]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[10:27-10:32]
+| | | | | | | | | expr:
+| | | | | | | | | | BinOp[10:27-10:32]
+| | | | | | | | | | | left:
+| | | | | | | | | | | | Id[10:27-10:28]
+| | | | | | | | | | | | | tok: N
+| | | | | | | | | | | op:
+| | | | | | | | | | | | OpMinus[10:29-10:30]
+| | | | | | | | | | | right:
+| | | | | | | | | | | | Int[10:31-10:32]
+| | | | | | | | | | | | | tok: 1

@@ -1,5 +1,6 @@
 UnOp[1:1-1:7]
-| op: abs
+| op:
+| | OpAbs[1:1-1:4]
 | expr:
 | | Int[1:5-1:7]
 | | | tok: 12

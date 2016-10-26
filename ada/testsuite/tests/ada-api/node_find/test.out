@@ -3,22 +3,26 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <ASTList 1:1-1:1>
   <LibraryItem 1:1-4:8>
   <SubprogramBody ["Sum"] 1:1-4:8>
+  <OverridingUnspecified 1:1-1:9>
   <SubprogramSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
   <ASTList 1:15-1:52>
   <ParameterProfile ["A"] 1:15-1:26>
   <ASTList 1:15-1:16>
   <Id "A" 1:15-1:16>
+  <InOutDefault 1:19-1:26>
   <SubtypeIndication 1:19-1:26>
   <Id "Integer" 1:19-1:26>
   <ParameterProfile ["B"] 1:28-1:39>
   <ASTList 1:28-1:29>
   <Id "B" 1:28-1:29>
+  <InOutDefault 1:32-1:39>
   <SubtypeIndication 1:32-1:39>
   <Id "Integer" 1:32-1:39>
   <ParameterProfile ["C"] 1:41-1:52>
   <ASTList 1:41-1:42>
   <Id "C" 1:41-1:42>
+  <InOutDefault 1:45-1:52>
   <SubtypeIndication 1:45-1:52>
   <Id "Integer" 1:45-1:52>
   <SubtypeIndication 1:61-1:68>
@@ -31,7 +35,9 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <BinOp 3:11-3:20>
   <BinOp 3:11-3:16>
   <Id "A" 3:11-3:12>
+  <OpPlus 3:13-3:14>
   <Id "B" 3:15-3:16>
+  <OpPlus 3:17-3:18>
   <Id "C" 3:19-3:20>
   <ASTList 3:20-3:20>
   <Id "Sum" 4:5-4:8>

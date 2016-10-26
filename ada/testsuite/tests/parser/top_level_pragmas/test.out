@@ -4,7 +4,8 @@ CompilationUnit[30:1-32:49]
 | | | is_private: False
 | | | item:
 | | | | SubprogramDecl[30:1-31:40]
-| | | | | is_overriding: unspecified
+| | | | | is_overriding:
+| | | | | | OverridingUnspecified[30:1-30:9]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[30:1-31:40]
 | | | | | | | name:
@@ -28,7 +29,8 @@ CompilationUnit[30:1-32:49]
 | | | | | | | | | | Id[31:10-31:15]
 | | | | | | | | | | | tok: Right
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutDefault[31:18-31:24]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[31:18-31:24]
 | | | | | | | | | | | null_exclusion: False

@@ -58,7 +58,8 @@ CompilationUnit[11:1-13:9]
 | | | is_private: False
 | | | item:
 | | | | SubprogramBody[11:1-13:8]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[11:1-11:10]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[11:1-11:14]
 | | | | | | | name:

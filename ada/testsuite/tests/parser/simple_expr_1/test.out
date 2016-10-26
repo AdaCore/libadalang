@@ -4,11 +4,13 @@ BinOp[1:1-1:14]
 | | | left:
 | | | | Int[1:1-1:3]
 | | | | | tok: 12
-| | | op: pow
+| | | op:
+| | | | OpPow[1:4-1:6]
 | | | right:
 | | | | Int[1:7-1:8]
 | | | | | tok: 4
-| op: mod
+| op:
+| | OpMod[1:9-1:12]
 | right:
 | | Int[1:13-1:14]
 | | | tok: 2

@@ -4,7 +4,8 @@ ObjectDecl[1:1-1:50]
 | | | tok: Arr
 | aliased: True
 | constant: True
-| inout: in
+| inout:
+| | InOutDefault[1:24-1:29]
 | type_expr:
 | | AnonymousType[1:24-1:50]
 | | | type_decl:
@@ -18,7 +19,8 @@ ObjectDecl[1:1-1:50]
 | | | | | | | | | | | left:
 | | | | | | | | | | | | Int[1:31-1:32]
 | | | | | | | | | | | | | tok: 1
-| | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | op:
+| | | | | | | | | | | | OpEllipsis[1:33-1:35]
 | | | | | | | | | | | right:
 | | | | | | | | | | | | Int[1:36-1:38]
 | | | | | | | | | | | | | tok: 12

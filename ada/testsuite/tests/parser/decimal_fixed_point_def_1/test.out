@@ -10,7 +10,8 @@ DecimalFixedPointDef[1:1-1:54]
 | | | left:
 | | | | Id[1:43-1:46]
 | | | | | tok: Low
-| | | op: ellipsis
+| | | op:
+| | | | OpEllipsis[1:47-1:49]
 | | | right:
 | | | | Id[1:50-1:54]
 | | | | | tok: High

@@ -4,7 +4,8 @@ ObjectDecl[1:1-1:94]
 | | | tok: Columns_Config
 | aliased: False
 | constant: False
-| inout: in
+| inout:
+| | InOutDefault[1:18-1:48]
 | type_expr:
 | | SubtypeIndication[1:18-1:48]
 | | | null_exclusion: False

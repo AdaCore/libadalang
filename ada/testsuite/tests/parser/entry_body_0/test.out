@@ -8,7 +8,8 @@ EntryBody[1:1-1:100]
 | | | | Id[1:15-1:22]
 | | | | | tok: an_item
 | | | is_aliased: False
-| | | mode: in
+| | | mode:
+| | | | InOutIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:29-1:33]
 | | | | | null_exclusion: False

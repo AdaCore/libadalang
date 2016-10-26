@@ -4,7 +4,8 @@ LoopStatement[1:1-1:51]
 | | | id:
 | | | | Id[1:5-1:6]
 | | | | | tok: A
-| | | loop_type: in
+| | | loop_type:
+| | | | IterTypeIn[1:7-1:9]
 | | | is_reverse: False
 | | | iter_expr:
 | | | | SubtypeIndication[1:10-1:31]
@@ -19,7 +20,8 @@ LoopStatement[1:1-1:51]
 | | | | | | | | | left:
 | | | | | | | | | | Int[1:24-1:25]
 | | | | | | | | | | | tok: 1
-| | | | | | | | | op: ellipsis
+| | | | | | | | | op:
+| | | | | | | | | | OpEllipsis[1:26-1:28]
 | | | | | | | | | right:
 | | | | | | | | | | Int[1:29-1:31]
 | | | | | | | | | | | tok: 16

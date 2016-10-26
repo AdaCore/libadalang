@@ -4,7 +4,8 @@ IfStatement[1:1-1:86]
 | | | left:
 | | | | Id[1:4-1:15]
 | | | | | tok: Temperature
-| | | op: gte
+| | | op:
+| | | | OpGte[1:16-1:18]
 | | | right:
 | | | | Dec[1:19-1:23]
 | | | | | tok: 40.0

@@ -8,7 +8,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | PublicPart[1:31-1:123]
 | | | | | decls:
 | | | | | | EntryDecl[1:31-1:75]
-| | | | | | | overriding: unspecified
+| | | | | | | overriding:
+| | | | | | | | OverridingUnspecified[1:31-1:36]
 | | | | | | | entry_id:
 | | | | | | | | Id[1:37-1:43]
 | | | | | | | | | tok: Insert
@@ -24,7 +25,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:57-1:64]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutIn[1:67-1:69]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:70-1:74]
 | | | | | | | | | | | null_exclusion: False
@@ -32,7 +34,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | | | Id[1:70-1:74]
 | | | | | | | | | | | | | tok: Item
 | | | | | | EntryDecl[1:77-1:122]
-| | | | | | | overriding: unspecified
+| | | | | | | overriding:
+| | | | | | | | OverridingUnspecified[1:77-1:82]
 | | | | | | | entry_id:
 | | | | | | | | Id[1:83-1:89]
 | | | | | | | | | tok: Remove
@@ -48,7 +51,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:103-1:110]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: out
+| | | | | | | | | mode:
+| | | | | | | | | | InOutOut[1:113-1:116]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:117-1:121]
 | | | | | | | | | | | null_exclusion: False

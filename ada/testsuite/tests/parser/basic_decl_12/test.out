@@ -1,5 +1,6 @@
 SubprogramDecl[1:1-1:124]
-| is_overriding: unspecified
+| is_overriding:
+| | OverridingUnspecified[1:1-1:10]
 | subp_spec:
 | | SubprogramSpec[1:1-1:124]
 | | | name:
@@ -11,7 +12,8 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:27-1:33]
 | | | | | | | tok: Buffer
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:36-1:42]
 | | | | | type_expr:
 | | | | | | AnonymousType[1:36-1:69]
 | | | | | | | type_decl:
@@ -34,7 +36,8 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:71-1:76]
 | | | | | | | tok: Start
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:80-1:96]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:80-1:96]
 | | | | | | | null_exclusion: False
@@ -46,7 +49,8 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:98-1:104]
 | | | | | | | tok: Number
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:107-1:123]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:107-1:123]
 | | | | | | | null_exclusion: False

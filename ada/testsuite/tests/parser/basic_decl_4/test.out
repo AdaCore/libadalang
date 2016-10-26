@@ -1,5 +1,6 @@
 RenamingSubprogramDecl[1:1-1:64]
-| is_overriding: unspecified
+| is_overriding:
+| | OverridingUnspecified[1:1-1:10]
 | subp_spec:
 | | SubprogramSpec[1:1-1:54]
 | | | name:
@@ -11,7 +12,8 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | | Id[1:14-1:15]
 | | | | | | | tok: B
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:18-1:25]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:18-1:25]
 | | | | | | | null_exclusion: False
@@ -27,7 +29,8 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | | Id[1:33-1:34]
 | | | | | | | tok: E
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:37-1:43]
 | | | | | type_expr:
 | | | | | | AnonymousType[1:37-1:53]
 | | | | | | | type_decl:

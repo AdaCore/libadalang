@@ -8,7 +8,8 @@ ForLoopSpec[1:1-1:19]
 | | | name:
 | | | | Id[1:5-1:12]
 | | | | | tok: Integer
-| loop_type: of
+| loop_type:
+| | IterTypeOf[1:13-1:15]
 | is_reverse: False
 | iter_expr:
 | | Id[1:16-1:19]

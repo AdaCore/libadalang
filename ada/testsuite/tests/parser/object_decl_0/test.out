@@ -6,7 +6,8 @@ ObjectDecl[1:1-1:48]
 | | | tok: B
 | aliased: False
 | constant: False
-| inout: in
+| inout:
+| | InOutDefault[1:8-1:11]
 | type_expr:
 | | AnonymousType[1:8-1:40]
 | | | type_decl:

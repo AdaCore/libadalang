@@ -13,4 +13,4 @@ lookups:
   - {line: 1, column: 17}
   - {line: 2, column: 1}
   - {line: 4, column: 1}
-  - {line: 10, column: 19}
+  - {line: 10, column: 10}

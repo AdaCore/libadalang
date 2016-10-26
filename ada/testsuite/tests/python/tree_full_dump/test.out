@@ -20,7 +20,8 @@
 |  |is_private: False
 |  |item:
 |  |  <SubprogramBody>
-|  |  |overriding: unspecified
+|  |  |overriding:
+|  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubprogramSpec>
 |  |  |  |name:

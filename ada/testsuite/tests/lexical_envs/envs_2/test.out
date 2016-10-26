@@ -11,7 +11,8 @@ CompilationUnit[1:1-10:9]
 | | | | | | DeclarativePart[2:4-9:12]
 | | | | | | | decls:
 | | | | | | | | SubprogramBody[2:4-9:11]
-| | | | | | | | | overriding: unspecified
+| | | | | | | | | overriding:
+| | | | | | | | | | OverridingUnspecified[2:4-2:13]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[2:4-2:34]
 | | | | | | | | | | | name:
@@ -25,7 +26,8 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | Id[2:22-2:23]
 | | | | | | | | | | | | | | | tok: J
 | | | | | | | | | | | | | is_aliased: False
-| | | | | | | | | | | | | mode: in
+| | | | | | | | | | | | | mode:
+| | | | | | | | | | | | | | InOutDefault[2:26-2:33]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[2:26-2:33]
 | | | | | | | | | | | | | | | null_exclusion: False
@@ -56,7 +58,8 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | | | | | | | left:
 | | | | | | | | | | | | | | | | | | | | | | Int[5:39-5:40]
 | | | | | | | | | | | | | | | | | | | | | | | tok: 0
-| | | | | | | | | | | | | | | | | | | | | op: ellipsis
+| | | | | | | | | | | | | | | | | | | | | op:
+| | | | | | | | | | | | | | | | | | | | | | OpEllipsis[5:41-5:43]
 | | | | | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | | | | | Int[5:44-5:46]
 | | | | | | | | | | | | | | | | | | | | | | | tok: 10

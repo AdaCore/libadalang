@@ -4,7 +4,8 @@ CompilationUnit[1:1-7:9]
 | | | is_private: False
 | | | item:
 | | | | SubprogramBody[1:1-7:8]
-| | | | | overriding: unspecified
+| | | | | overriding:
+| | | | | | OverridingUnspecified[1:1-1:10]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:1-1:14]
 | | | | | | | name:
@@ -33,7 +34,8 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | | | tok: ["000003C0"]_Name
 | | | | | | | | | aliased: False
 | | | | | | | | | constant: True
-| | | | | | | | | inout: in
+| | | | | | | | | inout:
+| | | | | | | | | | InOutDefault[4:33-4:39]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:33-4:39]
 | | | | | | | | | | | null_exclusion: False

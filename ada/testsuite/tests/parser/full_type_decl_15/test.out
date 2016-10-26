@@ -9,7 +9,8 @@ FullTypeDecl[1:1-1:24]
 | | | | | left:
 | | | | | | Int[1:17-1:18]
 | | | | | | | tok: 1
-| | | | | op: ellipsis
+| | | | | op:
+| | | | | | OpEllipsis[1:19-1:21]
 | | | | | right:
 | | | | | | Int[1:22-1:24]
 | | | | | | | tok: 12

@@ -2,7 +2,8 @@ BinOp[1:1-1:68]
 | left:
 | | Int[1:1-1:2]
 | | | tok: 7
-| op: plus
+| op:
+| | OpPlus[1:3-1:4]
 | right:
 | | BinOp[1:5-1:68]
 | | | left:
@@ -18,7 +19,8 @@ BinOp[1:1-1:68]
 | | | | | | | else_expr:
 | | | | | | | | Int[1:23-1:24]
 | | | | | | | | | tok: 5
-| | | op: div
+| | | op:
+| | | | OpDiv[1:26-1:27]
 | | | right:
 | | | | ParenExpr[1:28-1:68]
 | | | | | expr:

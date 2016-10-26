@@ -4,7 +4,8 @@ FullTypeDecl[1:1-1:51]
 | | | tok: A
 | type_def:
 | | InterfaceTypeDef[1:11-1:51]
-| | | interface_kind: synchronized
+| | | interface_kind:
+| | | | InterfaceKindSynchronized[1:11-1:23]
 | | | interfaces:
 | | | | Id[1:38-1:42]
 | | | | | tok: Ilol

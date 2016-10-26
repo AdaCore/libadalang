@@ -11,7 +11,8 @@ TaskTypeDecl[1:1-1:62]
 | | | | PublicPart[1:34-1:54]
 | | | | | decls:
 | | | | | | EntryDecl[1:34-1:53]
-| | | | | | | overriding: unspecified
+| | | | | | | overriding:
+| | | | | | | | OverridingUnspecified[1:34-1:39]
 | | | | | | | entry_id:
 | | | | | | | | Id[1:40-1:41]
 | | | | | | | | | tok: Q
@@ -21,7 +22,8 @@ TaskTypeDecl[1:1-1:62]
 | | | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | | | tok: X
 | | | | | | | | | is_aliased: False
-| | | | | | | | | mode: in
+| | | | | | | | | mode:
+| | | | | | | | | | InOutIn[1:45-1:47]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:48-1:52]
 | | | | | | | | | | | null_exclusion: False

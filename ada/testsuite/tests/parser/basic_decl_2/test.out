@@ -6,7 +6,8 @@ ObjectDecl[1:1-1:29]
 | | | tok: B
 | aliased: False
 | constant: False
-| inout: in
+| inout:
+| | InOutDefault[1:8-1:15]
 | type_expr:
 | | SubtypeIndication[1:8-1:15]
 | | | null_exclusion: False

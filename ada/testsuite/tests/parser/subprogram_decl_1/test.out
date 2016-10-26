@@ -1,5 +1,6 @@
 ExpressionFunction[1:1-1:75]
-| is_overriding: overriding
+| is_overriding:
+| | OverridingOverriding[1:1-1:11]
 | subp_spec:
 | | SubprogramSpec[1:12-1:64]
 | | | name:
@@ -11,7 +12,8 @@ ExpressionFunction[1:1-1:75]
 | | | | | | Id[1:24-1:25]
 | | | | | | | tok: B
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:28-1:35]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:28-1:35]
 | | | | | | | null_exclusion: False
@@ -23,7 +25,8 @@ ExpressionFunction[1:1-1:75]
 | | | | | | Id[1:37-1:38]
 | | | | | | | tok: C
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:41-1:48]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:41-1:48]
 | | | | | | | null_exclusion: False
@@ -41,7 +44,8 @@ ExpressionFunction[1:1-1:75]
 | | | left:
 | | | | Id[1:69-1:70]
 | | | | | tok: B
-| | | op: div
+| | | op:
+| | | | OpDiv[1:71-1:72]
 | | | right:
 | | | | Id[1:73-1:74]
 | | | | | tok: C

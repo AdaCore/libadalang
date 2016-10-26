@@ -1,5 +1,5 @@
 WithDecl: is_limited = true
 WithDecl: is_private = false
-SubprogramBody: overriding = 3
+SubprogramBody: overriding = OverridingUnspecified
 Identifier: tok = Foo
 Done.

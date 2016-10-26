@@ -20,7 +20,8 @@
 |  |is_private: False
 |  |item:
 |  |  <SubprogramBody>
-|  |  |overriding: unspecified
+|  |  |overriding:
+|  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubprogramSpec>
 |  |  |  |name:
@@ -36,7 +37,8 @@
 |  |  |  |  <list>
 |  |  |  |  |item 0:
 |  |  |  |  |  <SubprogramBody>
-|  |  |  |  |  |overriding: unspecified
+|  |  |  |  |  |overriding:
+|  |  |  |  |  |  <OverridingUnspecified>
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  <SubprogramSpec>
 |  |  |  |  |  |  |name:
@@ -52,7 +54,8 @@
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
 |  |  |  |  |  |  |  |  |is_aliased: False
-|  |  |  |  |  |  |  |  |mode: in
+|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  <InOutDefault>
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |  |  |null_exclusion: False
@@ -84,7 +87,8 @@
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |op: gt
+|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  <OpGt>
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
@@ -97,7 +101,8 @@
 |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |  |op: mult
+|  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  <OpMult>
 |  |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
@@ -115,7 +120,8 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op: minus
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <OpMinus>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')

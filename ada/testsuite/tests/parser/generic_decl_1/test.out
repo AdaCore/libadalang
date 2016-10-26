@@ -11,7 +11,8 @@ CompilationUnit[1:1-10:7]
 | | | | | | PublicPart[3:4-8:38]
 | | | | | | | decls:
 | | | | | | | | SubprogramDecl[3:4-3:38]
-| | | | | | | | | is_overriding: unspecified
+| | | | | | | | | is_overriding:
+| | | | | | | | | | OverridingUnspecified[3:4-3:13]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[3:4-3:21]
 | | | | | | | | | | | name:
@@ -44,7 +45,8 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | | | | | | Id[6:36-6:40]
 | | | | | | | | | | | | | | | tok: True
 | | | | | | | | SubprogramDecl[8:4-8:37]
-| | | | | | | | | is_overriding: unspecified
+| | | | | | | | | is_overriding:
+| | | | | | | | | | OverridingUnspecified[8:4-8:13]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[8:4-8:25]
 | | | | | | | | | | | name:

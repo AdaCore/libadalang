@@ -1,5 +1,6 @@
 EntryDecl[1:1-1:36]
-| overriding: unspecified
+| overriding:
+| | OverridingUnspecified[1:1-1:6]
 | entry_id:
 | | Id[1:7-1:8]
 | | | tok: E
@@ -8,7 +9,8 @@ EntryDecl[1:1-1:36]
 | | | left:
 | | | | Int[1:10-1:11]
 | | | | | tok: 1
-| | | op: ellipsis
+| | | op:
+| | | | OpEllipsis[1:11-1:13]
 | | | right:
 | | | | Int[1:13-1:14]
 | | | | | tok: 3
@@ -18,7 +20,8 @@ EntryDecl[1:1-1:36]
 | | | | Id[1:17-1:18]
 | | | | | tok: B
 | | | is_aliased: False
-| | | mode: inout
+| | | mode:
+| | | | InOutInOut[1:21-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:28-1:35]
 | | | | | null_exclusion: False

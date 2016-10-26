@@ -4,4 +4,3 @@ FullTypeDecl[1:1-1:20]
 | | | tok: A
 | type_def:
 | | InterfaceTypeDef[1:11-1:20]
-| | | interface_kind: uninitialized

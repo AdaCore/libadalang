@@ -109,10 +109,10 @@ A.add_rules(
 
     interface_type_def=Row(
         Opt(Or(
-            Enum("limited", InterfaceKind("limited")),
-            Enum("task", InterfaceKind("task")),
-            Enum("protected", InterfaceKind("protected")),
-            Enum("synchronized", InterfaceKind("synchronized")))),
+            Row("limited") ^ InterfaceKind.alt_limited,
+            Row("task") ^ InterfaceKind.alt_task,
+            Row("protected") ^ InterfaceKind.alt_protected,
+            Row("synchronized") ^ InterfaceKind.alt_synchronized)),
         "interface",
         List(Row("and", A.static_name)[1], empty_valid=True)
     ) ^ InterfaceTypeDef,
@@ -419,9 +419,9 @@ A.add_rules(
                   Opt(A.task_def)) ^ TaskDecl,
 
     overriding_indicator=Or(
-        Enum("overriding", Overriding("overriding")),
-        Enum(Row("not", "overriding"), Overriding("not_overriding")),
-        Enum(None, Overriding("unspecified"))
+        Row("overriding") ^ Overriding.alt_overriding,
+        Row("not", "overriding") ^ Overriding.alt_not_overriding,
+        Row() ^ Overriding.alt_unspecified
     ),
 
     entry_decl=Row(
@@ -520,10 +520,10 @@ A.add_rules(
     anonymous_type=Row(A.anonymous_type_decl) ^ AnonymousType,
 
     in_out=Or(
-        Enum(Row("in", "out"), InOut("inout")),
-        Enum("in", InOut("in")),
-        Enum("out", InOut("out")),
-        Enum(None, InOut("in"))
+        Row("in", "out") ^ InOut.alt_in_out,
+        Row("in") ^ InOut.alt_in,
+        Row("out") ^ InOut.alt_out,
+        Row() ^ InOut.alt_default
     ),
 
     ###########
@@ -801,14 +801,15 @@ A.add_rules(
     for_loop_parameter_spec=Row(
         A.identifier,
         Opt(":", A.subtype_indication)[1],
-        Or(Enum("in", IterType("in")), Enum("of", IterType("of"))),
+        Or(Row("in") ^ IterType.alt_in,
+           Row("of") ^ IterType.alt_of),
         Opt("reverse").as_bool(),
         A.constrained_subtype_indication | A.discrete_range | A.expression
     ) ^ ForLoopSpec,
 
     quantified_expression=Row(
-        "for", Or(Enum("all", Quantifier("all")),
-                  Enum("some", Quantifier("some"))),
+        "for", Or(Row("all") ^ Quantifier.alt_all,
+                  Row("some") ^ Quantifier.alt_some),
         A.for_loop_parameter_spec, "=>",
         A.expression | A.discrete_range
     ) ^ QuantifiedExpr,
@@ -912,45 +913,48 @@ A.add_rules(
     paren_expr=Row("(", A.expression, ")") ^ ParenExpr,
 
     factor=Or(
-        Row(Or(Enum("abs", Op("abs")), Enum("not", Op("not"))),
+        Row(Or(Row("abs") ^ Op.alt_abs,
+               Row("not") ^ Op.alt_not),
             A.primary) ^ UnOp,
 
-        Row(A.primary, Enum("**", Op("pow")), A.primary) ^ BinOp,
+        Row(A.primary, Row("**") ^ Op.alt_pow, A.primary) ^ BinOp,
 
         A.primary
     ),
 
     term=Or(
-        Row(A.term, Or(Enum("*", Op("mult")),
-                       Enum("/", Op("div")),
-                       Enum("mod", Op("mod")),
-                       Enum("rem", Op("rem"))), A.factor) ^ BinOp,
+        Row(A.term, Or(Row("*") ^ Op.alt_mult,
+                       Row("/") ^ Op.alt_div,
+                       Row("mod") ^ Op.alt_mod,
+                       Row("rem") ^ Op.alt_rem), A.factor) ^ BinOp,
         A.factor
     ),
 
     unop_term=Or(
-        Row(Or(Enum("+", Op("plus")),
-               Enum("-", Op("minus"))),
+        Row(Or(Row("+") ^ Op.alt_plus,
+               Row("-") ^ Op.alt_minus),
             A.term) ^ UnOp,
         A.term
     ),
 
     simple_expr=Or(
-        Row(A.simple_expr, Or(Enum("+", Op("plus")),
-                              Enum("-", Op("minus")),
-                              Enum("&", Op("bin_and"))),
+        Row(A.simple_expr, Or(Row("+") ^ Op.alt_plus,
+                              Row("-") ^ Op.alt_minus,
+                              Row("&") ^ Op.alt_bin_and),
             A.term) ^ BinOp,
         A.unop_term
     ),
 
     boolean_op=Or(
-        Enum("xor", Op("xor")),
-        Enum(Row("and", "then"), Op("and_then")), Enum("and", Op("and")),
-        Enum(Row("or", "else"), Op("or_else")), Enum("or", Op("or")),
+        Row("xor") ^ Op.alt_xor,
+        Row("and", "then") ^ Op.alt_and_then,
+        Row("and") ^ Op.alt_and,
+        Row("or", "else") ^ Op.alt_or_else,
+        Row("or") ^ Op.alt_or,
     ),
 
     discrete_range=Row(A.expression,
-                       Enum("..", Op("ellipsis")), A.expression) ^ BinOp,
+                       Row("..") ^ Op.alt_ellipsis, A.expression) ^ BinOp,
 
     choice=Or(
         A.constrained_subtype_indication, A.discrete_range, A.expression,
@@ -960,15 +964,18 @@ A.add_rules(
     choice_list=List(A.choice, sep="|"),
 
     rel_op=Or(
-        Enum(Row("not", "in"), Op("not_in")),
-        Enum("in", Op("in")),
+        Row("not", "in") ^ Op.alt_not_in,
+        Row("in") ^ Op.alt_in,
     ),
 
     relation=Or(
         Row(A.simple_expr,
-            Or(Enum("=", Op("eq")), Enum("/=", Op("neq")),
-               Enum("<", Op("lt")), Enum("<=", Op("lte")),
-               Enum(">", Op("gt")), Enum(">=", Op("gte"))),
+            Or(Row("=") ^ Op.alt_eq,
+               Row("/=") ^ Op.alt_neq,
+               Row("<") ^ Op.alt_lt,
+               Row("<=") ^ Op.alt_lte,
+               Row(">") ^ Op.alt_gt,
+               Row(">=") ^ Op.alt_gte),
             A.relation) ^ BinOp,
 
         Row(A.simple_expr, A.rel_op, A.choice_list) ^ MembershipExpr,

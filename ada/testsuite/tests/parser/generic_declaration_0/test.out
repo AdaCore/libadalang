@@ -22,7 +22,8 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | | Id[1:55-1:56]
 | | | | | | | tok: Y
 | | | | | is_aliased: False
-| | | | | mode: inout
+| | | | | mode:
+| | | | | | InOutInOut[1:59-1:65]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:66-1:75]
 | | | | | | | null_exclusion: False

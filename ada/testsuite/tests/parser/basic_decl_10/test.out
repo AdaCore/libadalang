@@ -1,5 +1,6 @@
 SubprogramDecl[1:1-1:54]
-| is_overriding: not_overriding
+| is_overriding:
+| | OverridingNotOverriding[1:1-1:15]
 | subp_spec:
 | | SubprogramSpec[1:16-1:54]
 | | | name:
@@ -11,7 +12,8 @@ SubprogramDecl[1:1-1:54]
 | | | | | | Id[1:29-1:30]
 | | | | | | | tok: B
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:33-1:40]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:33-1:40]
 | | | | | | | null_exclusion: False
@@ -23,7 +25,8 @@ SubprogramDecl[1:1-1:54]
 | | | | | | Id[1:42-1:43]
 | | | | | | | tok: C
 | | | | | is_aliased: False
-| | | | | mode: in
+| | | | | mode:
+| | | | | | InOutDefault[1:46-1:53]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:46-1:53]
 | | | | | | | null_exclusion: False

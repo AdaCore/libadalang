@@ -8,7 +8,8 @@ SubprogramSpec[1:1-1:69]
 | | | | Id[1:14-1:15]
 | | | | | tok: A
 | | | is_aliased: False
-| | | mode: inout
+| | | mode:
+| | | | InOutInOut[1:18-1:24]
 | | | type_expr:
 | | | | AnonymousType[1:25-1:55]
 | | | | | type_decl:
@@ -24,7 +25,8 @@ SubprogramSpec[1:1-1:69]
 | | | | | | | | | | | | | | Id[1:43-1:44]
 | | | | | | | | | | | | | | | tok: A
 | | | | | | | | | | | | | is_aliased: False
-| | | | | | | | | | | | | mode: in
+| | | | | | | | | | | | | mode:
+| | | | | | | | | | | | | | InOutDefault[1:47-1:54]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:47-1:54]
 | | | | | | | | | | | | | | | null_exclusion: False
@@ -36,7 +38,8 @@ SubprogramSpec[1:1-1:69]
 | | | | Id[1:57-1:58]
 | | | | | tok: B
 | | | is_aliased: False
-| | | mode: in
+| | | mode:
+| | | | InOutDefault[1:61-1:68]
 | | | type_expr:
 | | | | SubtypeIndication[1:61-1:68]
 | | | | | null_exclusion: False

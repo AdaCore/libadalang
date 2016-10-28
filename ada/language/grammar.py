@@ -227,7 +227,7 @@ A.add_rules(
         Row(
             Opt("not", "null").as_bool(NotNullQUalifier),
             "access",
-            Opt("protected").as_bool(),
+            Opt("protected").as_bool(ProtectedQualifier),
             A.subprogram_spec
         ) ^ SubprogramAccessDef,
         Row(

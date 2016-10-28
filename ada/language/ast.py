@@ -564,6 +564,10 @@ class SynchronizedQualifier(T.EnumNode):
     qualifier = True
 
 
+class ProtectedQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -995,7 +999,7 @@ class AccessDef(TypeDef):
 
 
 class SubprogramAccessDef(AccessDef):
-    is_protected = Field(repr=False)
+    has_protected = Field(type=ProtectedQualifier, repr=False)
     subp_spec = Field(type=T.SubprogramSpec)
 
 

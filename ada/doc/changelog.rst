@@ -7,6 +7,28 @@ libadalang, in chronologic order. It is useful if you're using a recent version
 of libadalang, and you want to be aware of potential breaking API changes or
 new features.
 
+Convert every boolean field to qualifier nodes
+----------------------------------------------
+
+Changed on 2016-10-28
+
+A new notion of Qualifier node was introduced in langkit. It is meant to
+store a boolean result, but in a regular AST node, and with the added
+information that a node contains.
+
+Those qualifier nodes can be converted to booleans easily via the
+As_Bool property. Here is an example using the python API::
+
+    >>> u = ctx.get_from_file("foo.adb")
+    >>> print u.root.find(PrivateQualifier).p_as_bool
+    False
+
+You can also get the sloc they would be at in the source if they were
+present::
+
+    >>> print u.root.find(PrivateQualifier).sloc_range.start
+    <Sloc 2:1 at 0x7fc3916ed7d0>
+
 Enums are now AST nodes.
 ------------------------
 
@@ -27,9 +49,12 @@ transformation follows the following pattern:
 
    --  Every enum value has its own derived type, that will be
    --  instantiated by the parser
-   type Overriding_Not_Overriding_Type is new Overriding_Node_Type with private;
-   type Overriding_Overriding_Type is new Overriding_Node_Type with private;
-   type Overriding_Unspecified_Type is new Overriding_Node_Type with private;
+   type Overriding_Not_Overriding_Type is new Overriding_Node_Type
+   with private;
+   type Overriding_Overriding_Type is new Overriding_Node_Type
+   with private;
+   type Overriding_Unspecified_Type is new Overriding_Node_Type
+   with private;
 
 The resulting API is more verbose, but enum fields can now be treated as
 regular nodes, eg. you can find them, query parent and slocs on them,

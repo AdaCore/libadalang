@@ -25,7 +25,7 @@ else:
 with_decl = unit.root.f_prelude[0]
 assert with_decl.kind_name == 'WithDecl'
 print 'WithDecl: has_limited = {}'.format(with_decl.f_has_limited)
-print 'WithDecl: is_private = {}'.format(with_decl.f_is_private)
+print 'WithDecl: has_private = {}'.format(with_decl.f_has_private)
 
 
 subp_body = unit.root.f_body.f_item

@@ -18,7 +18,7 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_node with_decl, subp_body, subp_name, has_limited;
+    ada_base_node with_decl, subp_body, subp_name, has_limited, has_private;
     ada_base_node tmp;
 
     ada_bool is_limited, is_private;
@@ -63,10 +63,11 @@ main(void)
         error("Got something else than a WithDecl");
     if (!ada_with_decl_f_has_limited(with_decl, &has_limited))
         error("Could got get WithDecl.is_limited");
-    if (!ada_with_decl_f_is_private(with_decl, &is_private))
-        error("Could got get WithDecl.is_private");
+    if (!ada_with_decl_f_has_private(with_decl, &has_private))
+        error("Could got get WithDecl.has_private");
 
     ada_limited_qualifier_p_as_bool (has_limited, &is_limited);
+    ada_private_qualifier_p_as_bool (has_private, &is_private);
 
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");
@@ -75,8 +76,8 @@ main(void)
     tmp = ada_unit_root(unit);
     if (!ada_node_child(tmp, 1, &tmp))
         error("Could not get CompilationUnit[1]");
-    if (!ada_node_child(tmp, 0, &tmp))
-        error("Could not get CompilationUnit[1] -> LibraryItem[0]");
+    if (!ada_node_child(tmp, 1, &tmp))
+        error("Could not get CompilationUnit[1] -> LibraryItem[1]");
     subp_body = tmp;
 
     if (ada_node_kind(subp_body) != ada_subprogram_body)

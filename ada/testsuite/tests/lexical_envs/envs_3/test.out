@@ -1,7 +1,8 @@
 CompilationUnit[1:1-2:9]
 | body:
 | | LibraryItem[1:1-2:8]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[1:1-1:1]
 | | | item:
 | | | | PackageDecl[1:1-2:8]
 | | | | | package_name:
@@ -15,7 +16,8 @@ CompilationUnit[1:1-2:9]
 CompilationUnit[4:1-5:13]
 | body:
 | | LibraryItem[4:1-5:12]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[4:1-4:1]
 | | | item:
 | | | | PackageDecl[4:1-5:12]
 | | | | | package_name:
@@ -39,7 +41,8 @@ CompilationUnit[4:1-5:13]
 CompilationUnit[7:1-8:17]
 | body:
 | | LibraryItem[7:1-8:16]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[7:1-7:1]
 | | | item:
 | | | | PackageDecl[7:1-8:16]
 | | | | | package_name:
@@ -73,7 +76,8 @@ CompilationUnit[7:1-8:17]
 CompilationUnit[10:1-11:7]
 | body:
 | | LibraryItem[10:1-11:6]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[10:1-10:1]
 | | | item:
 | | | | PackageDecl[10:1-11:6]
 | | | | | package_name:
@@ -87,7 +91,8 @@ CompilationUnit[10:1-11:7]
 CompilationUnit[13:1-14:9]
 | body:
 | | LibraryItem[13:1-14:8]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[13:1-13:1]
 | | | item:
 | | | | PackageDecl[13:1-14:8]
 | | | | | package_name:
@@ -111,7 +116,8 @@ CompilationUnit[13:1-14:9]
 CompilationUnit[16:1-17:11]
 | body:
 | | LibraryItem[16:1-17:10]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[16:1-16:1]
 | | | item:
 | | | | PackageDecl[16:1-17:10]
 | | | | | package_name:

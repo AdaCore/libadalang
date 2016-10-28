@@ -2,11 +2,13 @@
 | <list>
 | | <WithDecl>
 | | | <LimitedQualifierAbsent>
+| | | <PrivateQualifierAbsent>
 | | | <list>
 | | | | <DottedName>
 | | | | | <Identifier>
 | | | | | <Identifier>
 | <LibraryItem>
+| | <PrivateQualifierAbsent>
 | | <SubprogramBody>
 | | | <OverridingUnspecified>
 | | | <SubprogramSpec>

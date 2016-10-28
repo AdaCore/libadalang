@@ -1,7 +1,8 @@
 WithDecl[1:1-1:17]
 | has_limited:
 | | LimitedQualifierAbsent[1:1-1:1]
-| is_private: False
+| has_private:
+| | PrivateQualifierAbsent[1:1-1:1]
 | packages:
 | | DottedName[1:6-1:17]
 | | | prefix:

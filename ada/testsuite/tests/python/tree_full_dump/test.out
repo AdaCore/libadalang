@@ -5,7 +5,8 @@
 |  |  <WithDecl>
 |  |  |has_limited:
 |  |  |  <LimitedQualifierAbsent>
-|  |  |is_private: False
+|  |  |has_private:
+|  |  |  <PrivateQualifierAbsent>
 |  |  |packages:
 |  |  |  <list>
 |  |  |  |item 0:
@@ -18,7 +19,8 @@
 |  |  |  |  |  |tok: Token(u'Text_IO')
 |body:
 |  <LibraryItem>
-|  |is_private: False
+|  |has_private:
+|  |  <PrivateQualifierAbsent>
 |  |item:
 |  |  <SubprogramBody>
 |  |  |overriding:

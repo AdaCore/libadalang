@@ -1,7 +1,8 @@
 CompilationUnit[1:1-6:7]
 | body:
 | | LibraryItem[1:1-6:6]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[1:1-1:1]
 | | | item:
 | | | | PackageBody[1:1-6:6]
 | | | | | package_name:

@@ -524,6 +524,10 @@ class LimitedQualifier(T.EnumNode):
     qualifier = True
 
 
+class PrivateQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -977,7 +981,7 @@ class NullComponentDecl(AdaNode):
 
 class WithDecl(AdaNode):
     has_limited = Field(type=LimitedQualifier)
-    is_private = Field(type=T.BoolType)
+    has_private = Field(type=PrivateQualifier)
     packages = Field(type=T.Name.list_type())
 
     env_spec = EnvSpec(env_hook_arg=Self)
@@ -2710,5 +2714,5 @@ class TaskBodyStub(BodyStub):
 
 
 class LibraryItem(AdaNode):
-    is_private = Field(type=T.BoolType)
+    has_private = Field(type=PrivateQualifier)
     item = Field(type=T.BasicDecl)

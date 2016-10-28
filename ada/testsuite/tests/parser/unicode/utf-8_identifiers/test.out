@@ -1,7 +1,8 @@
 CompilationUnit[1:1-4:12]
 | body:
 | | LibraryItem[1:1-4:11]
-| | | is_private: False
+| | | has_private:
+| | | | PrivateQualifierAbsent[1:1-1:1]
 | | | item:
 | | | | SubprogramBody[1:1-4:11]
 | | | | | overriding:

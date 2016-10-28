@@ -494,7 +494,7 @@ A.add_rules(
 
     with_decl=Row(
         Opt("limited").as_bool(LimitedQualifier),
-        Opt("private").as_bool(),
+        Opt("private").as_bool(PrivateQualifier),
         "with", List(A.static_name, sep=",")
     ) ^ WithDecl,
 
@@ -564,7 +564,7 @@ A.add_rules(
     ),
 
     library_item=Row(
-        Opt("private").as_bool(),
+        Opt("private").as_bool(PrivateQualifier),
         A.library_unit_body
         | A.library_unit_renaming_decl
         | A.library_unit_decl

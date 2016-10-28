@@ -18,8 +18,9 @@ FullTypeDecl[1:1-1:64]
 | type_def:
 | | RecordTypeDef[1:31-1:64]
 | | | abstract: False
-| | | tagged: False
 | | | limited: False
+| | | has_tagged:
+| | | | TaggedQualifierAbsent[1:31-1:31]
 | | | record_def:
 | | | | RecordDef[1:31-1:64]
 | | | | | components:

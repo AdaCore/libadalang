@@ -5,8 +5,9 @@ FullTypeDecl[1:1-1:46]
 | type_def:
 | | RecordTypeDef[1:13-1:46]
 | | | abstract: False
-| | | tagged: False
 | | | limited: False
+| | | has_tagged:
+| | | | TaggedQualifierAbsent[1:13-1:13]
 | | | record_def:
 | | | | RecordDef[1:13-1:46]
 | | | | | components:

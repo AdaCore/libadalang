@@ -4,4 +4,5 @@ FullTypeDecl[1:1-1:17]
 | | | tok: A
 | type_def:
 | | IncompleteTypeDef[1:8-1:17]
-| | | is_tagged: True
+| | | has_tagged:
+| | | | TaggedQualifierPresent[1:8-1:8]

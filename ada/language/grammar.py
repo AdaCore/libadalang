@@ -218,8 +218,8 @@ A.add_rules(
 
     record_type_def=Row(
         Opt("abstract").as_bool(),
-        Opt("tagged").as_bool(),
         Opt("limited").as_bool(),
+        Opt("tagged").as_bool(TaggedQualifier),
         A.record_def
     ) ^ RecordTypeDef,
 
@@ -263,11 +263,13 @@ A.add_rules(
 
                 Row("is",
                     Opt("abstract").as_bool(),
-                    Opt("tagged").as_bool(),
                     Opt("limited").as_bool(),
+                    Opt("tagged").as_bool(TaggedQualifier),
                     "private") ^ PrivateTypeDef,
 
-                Row(Opt("is", "tagged").as_bool()) ^ IncompleteTypeDef,
+                Row(
+                    Opt("is", "tagged").as_bool(TaggedQualifier)
+                ) ^ IncompleteTypeDef,
             ),
             A.aspect_specification
         ) ^ FullTypeDecl

@@ -17,8 +17,9 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[2:20-5:14]
 | | | | | | | | | | | abstract: False
-| | | | | | | | | | | tagged: False
 | | | | | | | | | | | limited: False
+| | | | | | | | | | | has_tagged:
+| | | | | | | | | | | | TaggedQualifierAbsent[2:20-2:20]
 | | | | | | | | | | | record_def:
 | | | | | | | | | | | | RecordDef[2:20-5:14]
 | | | | | | | | | | | | | components:
@@ -72,8 +73,9 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[7:34-10:14]
 | | | | | | | | | | | abstract: False
-| | | | | | | | | | | tagged: False
 | | | | | | | | | | | limited: False
+| | | | | | | | | | | has_tagged:
+| | | | | | | | | | | | TaggedQualifierAbsent[7:34-7:34]
 | | | | | | | | | | | record_def:
 | | | | | | | | | | | | RecordDef[7:34-10:14]
 | | | | | | | | | | | | | components:

@@ -512,10 +512,14 @@ class RecordDef(AdaNode):
     components = Field(type=T.ComponentList)
 
 
+class TaggedQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     abstract = Field(type=T.BoolType)
-    tagged = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
+    has_tagged = Field(type=TaggedQualifier)
     record_def = Field(type=T.RecordDef)
 
     defining_env = Property(
@@ -524,7 +528,7 @@ class RecordTypeDef(TypeDef):
         Self.children_env.env_orphan
     )
 
-    is_tagged_type = Property(Self.tagged)
+    is_tagged_type = Property(Self.has_tagged.as_bool)
 
 
 @abstract
@@ -780,17 +784,17 @@ class DerivedTypeDef(TypeDef):
 
 
 class IncompleteTypeDef(TypeDef):
-    is_tagged = Field(type=T.BoolType)
+    has_tagged = Field(type=TaggedQualifier)
 
-    is_tagged_type = Property(Self.is_tagged)
+    is_tagged_type = Property(Self.has_tagged.as_bool)
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
 
 
 class PrivateTypeDef(TypeDef):
     abstract = Field(type=T.BoolType)
-    tagged = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
+    has_tagged = Field(type=TaggedQualifier)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?

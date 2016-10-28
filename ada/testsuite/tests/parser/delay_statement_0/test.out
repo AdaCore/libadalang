@@ -1,5 +1,6 @@
 DelayStatement[1:1-1:15]
-| until: True
+| has_until:
+| | UntilQualifierPresent[1:7-1:7]
 | expr:
 | | Int[1:13-1:15]
 | | | tok: 12

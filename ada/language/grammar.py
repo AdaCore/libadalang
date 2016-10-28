@@ -728,7 +728,7 @@ A.add_rules(
 
     delay_statement=Row(
         "delay",
-        Opt("until").as_bool(),
+        Opt("until").as_bool(UntilQualifier),
         A.expression
     ) ^ DelayStatement,
 

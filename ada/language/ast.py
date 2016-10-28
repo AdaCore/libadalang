@@ -556,6 +556,10 @@ class WithPrivateQualifier(T.EnumNode):
     qualifier = True
 
 
+class UntilQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -2578,7 +2582,7 @@ class AbortStatement(SimpleStatement):
 
 
 class DelayStatement(SimpleStatement):
-    until = Field(type=T.BoolType)
+    has_until = Field(type=UntilQualifier)
     expr = Field(type=T.Expr)
 
 

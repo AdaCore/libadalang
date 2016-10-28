@@ -16,8 +16,9 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | tok: R1_Type
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[2:20-5:14]
-| | | | | | | | | | | abstract: False
 | | | | | | | | | | | limited: False
+| | | | | | | | | | | has_abstract:
+| | | | | | | | | | | | AbstractQualifierAbsent[2:20-2:20]
 | | | | | | | | | | | has_tagged:
 | | | | | | | | | | | | TaggedQualifierAbsent[2:20-2:20]
 | | | | | | | | | | | record_def:
@@ -72,8 +73,9 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | tok: Natural
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[7:34-10:14]
-| | | | | | | | | | | abstract: False
 | | | | | | | | | | | limited: False
+| | | | | | | | | | | has_abstract:
+| | | | | | | | | | | | AbstractQualifierAbsent[7:34-7:34]
 | | | | | | | | | | | has_tagged:
 | | | | | | | | | | | | TaggedQualifierAbsent[7:34-7:34]
 | | | | | | | | | | | record_def:

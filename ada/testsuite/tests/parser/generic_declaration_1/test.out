@@ -20,8 +20,9 @@ GenericPackageDecl[1:1-1:155]
 | | | | | tok: Element_T
 | | | type_def:
 | | | | PrivateTypeDef[1:39-1:49]
-| | | | | abstract: False
 | | | | | limited: False
+| | | | | has_abstract:
+| | | | | | AbstractQualifierAbsent[1:42-1:42]
 | | | | | has_tagged:
 | | | | | | TaggedQualifierAbsent[1:42-1:42]
 | package_decl:

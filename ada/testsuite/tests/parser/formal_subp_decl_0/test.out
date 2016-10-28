@@ -26,6 +26,7 @@ FormalSubpDecl[1:1-1:70]
 | | | | | name:
 | | | | | | Id[1:46-1:55]
 | | | | | | | tok: Element_T
-| is_abstract: True
+| has_abstract:
+| | AbstractQualifierPresent[1:59-1:59]
 | default_value:
 | | DiamondExpr[1:68-1:70]

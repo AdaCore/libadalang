@@ -17,8 +17,9 @@ FullTypeDecl[1:1-1:117]
 | | | | | | | | | tok: Integer
 | type_def:
 | | RecordTypeDef[1:31-1:117]
-| | | abstract: False
 | | | limited: False
+| | | has_abstract:
+| | | | AbstractQualifierAbsent[1:31-1:31]
 | | | has_tagged:
 | | | | TaggedQualifierAbsent[1:31-1:31]
 | | | record_def:

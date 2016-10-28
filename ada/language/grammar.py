@@ -136,8 +136,8 @@ A.add_rules(
     mod_int_type_def=Row("mod", A.sexpr_or_diamond) ^ ModIntTypeDef,
 
     derived_type_def=Row(
-        Opt("abstract").as_bool(),
         Opt("limited").as_bool(),
+        Opt("abstract").as_bool(AbstractQualifier),
         Opt("synchronized").as_bool(),
         "new",
         A.subtype_indication,
@@ -217,8 +217,8 @@ A.add_rules(
     ) ^ FloatingPointDef,
 
     record_type_def=Row(
-        Opt("abstract").as_bool(),
         Opt("limited").as_bool(),
+        Opt("abstract").as_bool(AbstractQualifier),
         Opt("tagged").as_bool(TaggedQualifier),
         A.record_def
     ) ^ RecordTypeDef,
@@ -262,8 +262,8 @@ A.add_rules(
                 Row("is", A.type_def)[1],
 
                 Row("is",
-                    Opt("abstract").as_bool(),
                     Opt("limited").as_bool(),
+                    Opt("abstract").as_bool(AbstractQualifier),
                     Opt("tagged").as_bool(TaggedQualifier),
                     "private") ^ PrivateTypeDef,
 
@@ -326,7 +326,7 @@ A.add_rules(
         "with",
         A.subprogram_spec,
         _(Opt("is")),
-        Opt("abstract").as_bool(),
+        Opt("abstract").as_bool(AbstractQualifier),
         Opt(Or(A.diamond_expr, A.name, A.null_literal)),
         A.aspect_specification
     ) ^ FormalSubpDecl,

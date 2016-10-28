@@ -516,9 +516,13 @@ class TaggedQualifier(T.EnumNode):
     qualifier = True
 
 
+class AbstractQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
-    abstract = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
+    has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
     record_def = Field(type=T.RecordDef)
 
@@ -756,8 +760,8 @@ class DiscriminantAssociation(Constraint):
 
 
 class DerivedTypeDef(TypeDef):
-    abstract = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
+    has_abstract = Field(type=AbstractQualifier)
     synchronized = Field(type=T.BoolType)
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
@@ -792,8 +796,8 @@ class IncompleteTypeDef(TypeDef):
 
 
 class PrivateTypeDef(TypeDef):
-    abstract = Field(type=T.BoolType)
     limited = Field(type=T.BoolType)
+    has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
@@ -1373,7 +1377,7 @@ class FormalSubpDecl(BasicDecl):
     Formal subprogram declarations, in generic declarations formal parts.
     """
     subp_spec = Field(type=T.SubprogramSpec)
-    is_abstract = Field(type=T.BoolType)
+    has_abstract = Field(type=AbstractQualifier)
     default_value = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpecification)
 

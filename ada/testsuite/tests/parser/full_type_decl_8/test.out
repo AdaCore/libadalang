@@ -4,8 +4,9 @@ FullTypeDecl[1:1-1:78]
 | | | tok: B
 | type_def:
 | | DerivedTypeDef[1:11-1:78]
-| | | abstract: False
 | | | limited: False
+| | | has_abstract:
+| | | | AbstractQualifierAbsent[1:11-1:11]
 | | | synchronized: False
 | | | subtype_indication:
 | | | | SubtypeIndication[1:15-1:42]

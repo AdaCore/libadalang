@@ -552,6 +552,10 @@ class ReverseQualifier(T.EnumNode):
     qualifier = True
 
 
+class WithPrivateQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -798,7 +802,7 @@ class DerivedTypeDef(TypeDef):
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
     record_extension = Field(type=T.RecordDef)
-    has_private_part = Field(type=T.BoolType)
+    has_with_private = Field(type=WithPrivateQualifier)
 
     array_ndims = Property(Self.base_type.array_ndims)
 

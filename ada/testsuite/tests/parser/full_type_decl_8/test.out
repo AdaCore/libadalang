@@ -48,4 +48,5 @@ FullTypeDecl[1:1-1:78]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:59-1:66]
 | | | | | | | | | | | | | | | tok: Integer
-| | | has_private_part: False
+| | | has_with_private:
+| | | | WithPrivateQualifierAbsent[2:1-2:1]

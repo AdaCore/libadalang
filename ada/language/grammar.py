@@ -143,7 +143,7 @@ A.add_rules(
         A.subtype_indication,
         List(Row("and", A.static_name)[1], empty_valid=True),
         Opt("with", A.record_def)[1],
-        Opt("with", "private").as_bool()
+        Opt("with", "private").as_bool(WithPrivateQualifier)
     ) ^ DerivedTypeDef,
 
     discriminant_association=Row(

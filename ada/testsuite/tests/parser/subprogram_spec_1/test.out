@@ -38,7 +38,8 @@ SubprogramSpec[1:1-1:65]
 | | | | | | | | TypeAccessDef[1:35-1:49]
 | | | | | | | | | has_not_null:
 | | | | | | | | | | NotNullQUalifierAbsent[1:35-1:35]
-| | | | | | | | | is_all: False
+| | | | | | | | | has_all:
+| | | | | | | | | | AllQualifierAbsent[1:42-1:42]
 | | | | | | | | | has_constant:
 | | | | | | | | | | ConstantQualifierAbsent[1:42-1:42]
 | | | | | | | | | subtype_name:

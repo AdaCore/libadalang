@@ -1,5 +1,6 @@
 UseTypDecl[1:1-1:35]
-| all: True
+| has_all:
+| | AllQualifierPresent[1:5-1:5]
 | types:
 | | DottedName[1:14-1:35]
 | | | prefix:

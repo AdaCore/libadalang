@@ -231,7 +231,7 @@ A.add_rules(
         Row(
             Opt("not", "null").as_bool(NotNullQUalifier),
             "access",
-            Opt("all").as_bool(),
+            Opt("all").as_bool(AllQualifier),
             Opt("constant").as_bool(ConstantQualifier),
             A.name,
             Opt(A.constraint),
@@ -509,8 +509,12 @@ A.add_rules(
 
     use_package_decl=Row("use", List(A.static_name, sep=",")) ^ UsePkgDecl,
 
-    use_type_decl=Row("use", Opt("all").as_bool(), "type",
-                      List(A.name, sep=",")) ^ UseTypDecl,
+    use_type_decl=Row(
+        "use",
+        Opt("all").as_bool(AllQualifier),
+        "type",
+        List(A.name, sep=",")
+    ) ^ UseTypDecl,
 
     subtype_indication=Row(
         Opt("not", "null").as_bool(NotNullQUalifier),

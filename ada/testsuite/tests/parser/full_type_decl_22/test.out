@@ -6,7 +6,8 @@ FullTypeDecl[1:1-1:30]
 | | TypeAccessDef[1:13-1:30]
 | | | has_not_null:
 | | | | NotNullQUalifierPresent[1:13-1:13]
-| | | is_all: False
+| | | has_all:
+| | | | AllQualifierAbsent[1:29-1:29]
 | | | has_constant:
 | | | | ConstantQualifierAbsent[1:29-1:29]
 | | | subtype_name:

@@ -56,7 +56,8 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | TypeAccessDef[1:68-1:90]
 | | | | | | | | | | | has_not_null:
 | | | | | | | | | | | | NotNullQUalifierAbsent[1:68-1:68]
-| | | | | | | | | | | is_all: False
+| | | | | | | | | | | has_all:
+| | | | | | | | | | | | AllQualifierAbsent[1:75-1:75]
 | | | | | | | | | | | has_constant:
 | | | | | | | | | | | | ConstantQualifierPresent[1:75-1:75]
 | | | | | | | | | | | subtype_name:

@@ -18,7 +18,8 @@ ObjectDecl[1:1-1:48]
 | | | | | | TypeAccessDef[1:8-1:40]
 | | | | | | | has_not_null:
 | | | | | | | | NotNullQUalifierPresent[1:8-1:8]
-| | | | | | | is_all: False
+| | | | | | | has_all:
+| | | | | | | | AllQualifierAbsent[1:24-1:24]
 | | | | | | | has_constant:
 | | | | | | | | ConstantQualifierPresent[1:24-1:24]
 | | | | | | | subtype_name:

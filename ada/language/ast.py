@@ -540,6 +540,10 @@ class ConstantQualifier(T.EnumNode):
     qualifier = True
 
 
+class AllQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -976,7 +980,7 @@ class SubprogramAccessDef(AccessDef):
 
 
 class TypeAccessDef(AccessDef):
-    is_all = Field(type=T.BoolType)
+    has_all = Field(type=AllQualifier)
     has_constant = Field(type=ConstantQualifier)
     subtype_name = Field(type=T.Expr)
     accessed_type = Property(Self.subtype_name.designated_type)
@@ -1013,7 +1017,7 @@ class UsePkgDecl(UseDecl):
 
 
 class UseTypDecl(UseDecl):
-    all = Field(type=T.BoolType)
+    has_all = Field(type=AllQualifier)
     types = Field(type=T.Expr.list_type())
 
 

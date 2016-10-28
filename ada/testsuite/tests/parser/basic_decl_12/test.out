@@ -23,7 +23,8 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | | | | TypeAccessDef[1:36-1:69]
 | | | | | | | | | | | has_not_null:
 | | | | | | | | | | | | NotNullQUalifierAbsent[1:36-1:36]
-| | | | | | | | | | | is_all: False
+| | | | | | | | | | | has_all:
+| | | | | | | | | | | | AllQualifierAbsent[1:43-1:43]
 | | | | | | | | | | | has_constant:
 | | | | | | | | | | | | ConstantQualifierAbsent[1:43-1:43]
 | | | | | | | | | | | subtype_name:

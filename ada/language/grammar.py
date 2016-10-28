@@ -262,8 +262,10 @@ A.add_rules(
                 Row("is", A.type_def)[1],
 
                 Row("is",
-                    Opt("abstract").as_bool(), Opt("tagged").as_bool(),
-                    Opt("limited").as_bool(), "private") ^ PrivateTypeDef,
+                    Opt("abstract").as_bool(),
+                    Opt("tagged").as_bool(),
+                    Opt("limited").as_bool(),
+                    "private") ^ PrivateTypeDef,
 
                 Row(Opt("is", "tagged").as_bool()) ^ IncompleteTypeDef,
             ),

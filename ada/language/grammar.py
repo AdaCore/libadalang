@@ -282,7 +282,9 @@ A.add_rules(
     ) ^ VariantPart,
 
     component_def=Row(
-        Opt("aliased").as_bool(), A.type_expression) ^ ComponentDef,
+        Opt("aliased").as_bool(AliasedQualifier),
+        A.type_expression
+    ) ^ ComponentDef,
 
     component_item=Or(
         Row("null") ^ NullComponentDecl,
@@ -387,7 +389,7 @@ A.add_rules(
 
     sub_object_decl=Row(
         A.id_list,  ":",
-        Opt("aliased").as_bool(),
+        Opt("aliased").as_bool(AliasedQualifier),
         Opt("constant").as_bool(),
         Opt(A.in_out),
         A.type_expression,
@@ -460,7 +462,7 @@ A.add_rules(
     parameter_profile=Row(
         List(A.identifier, sep=","),
         ":",
-        Opt("aliased").as_bool(),
+        Opt("aliased").as_bool(AliasedQualifier),
         Opt(A.in_out),
         A.type_expression,
         Opt(":=", A.expression)[1],

@@ -528,6 +528,10 @@ class PrivateQualifier(T.EnumNode):
     qualifier = True
 
 
+class AliasedQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -879,7 +883,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
 
 class ComponentDef(AdaNode):
-    aliased = Field(type=T.BoolType)
+    has_aliased = Field(type=AliasedQualifier)
     type_expr = Field(type=T.TypeExpression)
 
 
@@ -1064,7 +1068,7 @@ class InOut(T.EnumNode):
 
 class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
-    is_aliased = Field(type=T.BoolType)
+    has_aliased = Field(type=AliasedQualifier)
     mode = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
@@ -1236,7 +1240,7 @@ class NumberDecl(BasicDecl):
 
 class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
-    aliased = Field(type=T.BoolType)
+    has_aliased = Field(type=AliasedQualifier)
     constant = Field(type=T.BoolType)
     inout = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)

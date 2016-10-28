@@ -560,6 +560,10 @@ class UntilQualifier(T.EnumNode):
     qualifier = True
 
 
+class SynchronizedQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -802,7 +806,7 @@ class DiscriminantAssociation(Constraint):
 class DerivedTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_limited = Field(type=LimitedQualifier)
-    synchronized = Field(type=T.BoolType)
+    has_synchronized = Field(type=SynchronizedQualifier)
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
     record_extension = Field(type=T.RecordDef)

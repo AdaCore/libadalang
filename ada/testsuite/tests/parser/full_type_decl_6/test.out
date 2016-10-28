@@ -8,7 +8,8 @@ FullTypeDecl[1:1-1:57]
 | | | | AbstractQualifierAbsent[1:13-1:13]
 | | | has_limited:
 | | | | LimitedQualifierAbsent[1:13-1:13]
-| | | synchronized: False
+| | | has_synchronized:
+| | | | SynchronizedQualifierAbsent[1:13-1:13]
 | | | subtype_indication:
 | | | | SubtypeIndication[1:17-1:18]
 | | | | | has_not_null:

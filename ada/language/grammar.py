@@ -138,7 +138,7 @@ A.add_rules(
     derived_type_def=Row(
         Opt("abstract").as_bool(AbstractQualifier),
         Opt("limited").as_bool(LimitedQualifier),
-        Opt("synchronized").as_bool(),
+        Opt("synchronized").as_bool(SynchronizedQualifier),
         "new",
         A.subtype_indication,
         List(Row("and", A.static_name)[1], empty_valid=True),

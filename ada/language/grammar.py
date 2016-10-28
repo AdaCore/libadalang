@@ -493,7 +493,8 @@ A.add_rules(
     ),
 
     with_decl=Row(
-        Opt("limited").as_bool(), Opt("private").as_bool(),
+        Opt("limited").as_bool(),
+        Opt("private").as_bool(),
         "with", List(A.static_name, sep=",")
     ) ^ WithDecl,
 

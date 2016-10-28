@@ -226,7 +226,9 @@ A.add_rules(
     access_def=Or(
         Row(
             Opt("not", "null").as_bool(NotNullQUalifier),
-            "access", Opt("protected").as_bool(), A.subprogram_spec
+            "access",
+            Opt("protected").as_bool(),
+            A.subprogram_spec
         ) ^ SubprogramAccessDef,
         Row(
             Opt("not", "null").as_bool(NotNullQUalifier),
@@ -725,7 +727,9 @@ A.add_rules(
     ),
 
     delay_statement=Row(
-        "delay", Opt("until").as_bool(), A.expression
+        "delay",
+        Opt("until").as_bool(),
+        A.expression
     ) ^ DelayStatement,
 
     abort_statement=Row(

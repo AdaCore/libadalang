@@ -4,7 +4,8 @@ SubprogramSpec[1:1-1:37]
 | | | tok: A
 | returns:
 | | SubtypeIndication[1:19-1:37]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:19-1:19]
 | | | name:
 | | | | CallExpr[1:19-1:37]
 | | | | | name:

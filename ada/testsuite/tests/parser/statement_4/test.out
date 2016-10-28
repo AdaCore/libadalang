@@ -4,13 +4,16 @@ BlockStatement[1:1-1:46]
 | | | ids:
 | | | | Id[1:9-1:10]
 | | | | | tok: A
-| | | aliased: False
-| | | constant: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:13-1:13]
+| | | has_constant:
+| | | | ConstantQualifierAbsent[1:13-1:13]
 | | | inout:
 | | | | InOutDefault[1:13-1:20]
 | | | type_expr:
 | | | | SubtypeIndication[1:13-1:20]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:13-1:13]
 | | | | | name:
 | | | | | | Id[1:13-1:20]
 | | | | | | | tok: Integer

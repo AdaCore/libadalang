@@ -15,7 +15,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | tok: Insert
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:45-1:54]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:45-1:45]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | tok: Buffer_Id
@@ -24,12 +25,14 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:57-1:64]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:67-1:67]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:67-1:69]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:70-1:74]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:70-1:70]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:70-1:74]
 | | | | | | | | | | | | | tok: Item
@@ -41,7 +44,8 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | tok: Remove
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:91-1:100]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:91-1:91]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:91-1:100]
 | | | | | | | | | | | tok: Buffer_Id
@@ -50,12 +54,14 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:103-1:110]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:113-1:113]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:113-1:116]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:117-1:121]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:117-1:117]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:117-1:121]
 | | | | | | | | | | | | | tok: Item

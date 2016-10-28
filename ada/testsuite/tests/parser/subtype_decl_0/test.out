@@ -4,7 +4,8 @@ SubtypeDecl[1:1-1:25]
 | | | tok: A
 | subtype:
 | | SubtypeIndication[1:14-1:25]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:14-1:14]
 | | | name:
 | | | | CallExpr[1:14-1:25]
 | | | | | name:

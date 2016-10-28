@@ -11,7 +11,8 @@ FullTypeDecl[1:1-1:78]
 | | | synchronized: False
 | | | subtype_indication:
 | | | | SubtypeIndication[1:15-1:42]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:15-1:15]
 | | | | | name:
 | | | | | | Id[1:15-1:16]
 | | | | | | | tok: A
@@ -38,10 +39,12 @@ FullTypeDecl[1:1-1:78]
 | | | | | | | | | | | tok: D
 | | | | | | | | | component_def:
 | | | | | | | | | | ComponentDef[1:59-1:66]
-| | | | | | | | | | | aliased: False
+| | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | AliasedQualifierAbsent[1:59-1:59]
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | SubtypeIndication[1:59-1:66]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:59-1:59]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:59-1:66]
 | | | | | | | | | | | | | | | tok: Integer

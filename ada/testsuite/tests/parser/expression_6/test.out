@@ -1,7 +1,8 @@
 Allocator[1:1-1:17]
 | type:
 | | SubtypeIndication[1:5-1:17]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:5-1:5]
 | | | name:
 | | | | QualExpr[1:5-1:17]
 | | | | | prefix:

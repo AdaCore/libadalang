@@ -31,12 +31,14 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[3:34-3:34]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[3:34-3:34]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[3:34-3:46]
 | | | | | | | | | | | | | tok: Console_Type
@@ -56,18 +58,21 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[5:23-5:23]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[5:23-5:23]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[5:23-5:30]
 | | | | | | | | | | | | | | | | | tok: Integer
 | | | | | | | | | | | returns:
 | | | | | | | | | | | | SubtypeIndication[5:39-5:46]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[5:39-5:39]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[5:39-5:46]
 | | | | | | | | | | | | | | | tok: Integer
@@ -338,12 +343,14 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[3:34-3:34]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[3:34-3:34]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[3:34-3:46]
 | | | | | | | | | | | | | tok: Console_Type
@@ -363,18 +370,21 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[5:23-5:23]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[5:23-5:23]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[5:23-5:30]
 | | | | | | | | | | | | | | | | | tok: Integer
 | | | | | | | | | | | returns:
 | | | | | | | | | | | | SubtypeIndication[5:39-5:46]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[5:39-5:39]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[5:39-5:46]
 | | | | | | | | | | | | | | | tok: Integer
@@ -525,12 +535,14 @@ SubprogramBody[3:1-17:9]
 | | | | | ids:
 | | | | | | Id[3:24-3:31]
 | | | | | | | tok: Console
-| | | | | is_aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[3:34-3:34]
 | | | | | mode:
 | | | | | | InOutDefault[3:34-3:46]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[3:34-3:46]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[3:34-3:34]
 | | | | | | | name:
 | | | | | | | | Id[3:34-3:46]
 | | | | | | | | | tok: Console_Type
@@ -550,18 +562,21 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | tok: N
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[5:23-5:23]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[5:23-5:30]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[5:23-5:30]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[5:23-5:23]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[5:23-5:30]
 | | | | | | | | | | | | | tok: Integer
 | | | | | | | returns:
 | | | | | | | | SubtypeIndication[5:39-5:46]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[5:39-5:39]
 | | | | | | | | | name:
 | | | | | | | | | | Id[5:39-5:46]
 | | | | | | | | | | | tok: Integer

@@ -13,7 +13,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | tok: disc
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:19-1:20]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:19-1:19]
 | | | | | | | name:
 | | | | | | | | Id[1:19-1:20]
 | | | | | | | | | tok: t
@@ -43,7 +44,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | | | Id[3:9-3:11]
 | | | | | | | | | | | | | tok: sn
 | | | | | | | | | | | | SubtypeIndication[4:9-4:24]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[4:9-4:9]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[4:9-4:11]
 | | | | | | | | | | | | | | | tok: s1
@@ -60,7 +62,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | | | | | | | | | Int[4:23-4:24]
 | | | | | | | | | | | | | | | | | | | tok: 0
 | | | | | | | | | | | | SubtypeIndication[5:9-5:34]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[5:9-5:9]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[5:9-5:11]
 | | | | | | | | | | | | | | | tok: s2
@@ -106,7 +109,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | Variant[7:4-15:32]
 | | | | | | | | | | | choice_list:
 | | | | | | | | | | | | SubtypeIndication[7:10-7:26]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[7:10-7:10]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[7:10-7:12]
 | | | | | | | | | | | | | | | tok: s1
@@ -123,7 +127,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | | | | | | | | | Id[7:24-7:26]
 | | | | | | | | | | | | | | | | | | | tok: c5
 | | | | | | | | | | | | SubtypeIndication[8:6-8:31]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[8:6-8:6]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[8:6-8:8]
 | | | | | | | | | | | | | | | tok: s1
@@ -179,7 +184,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | | | Id[10:6-10:8]
 | | | | | | | | | | | | | tok: sn
 | | | | | | | | | | | | SubtypeIndication[11:6-11:26]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[11:6-11:6]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[11:6-11:8]
 | | | | | | | | | | | | | | | tok: s1
@@ -216,7 +222,8 @@ FullTypeDecl[1:1-18:11]
 | | | | | | | | | | | | Int[14:6-14:7]
 | | | | | | | | | | | | | tok: 9
 | | | | | | | | | | | | SubtypeIndication[15:6-15:23]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[15:6-15:6]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[15:6-15:9]
 | | | | | | | | | | | | | | | tok: s10

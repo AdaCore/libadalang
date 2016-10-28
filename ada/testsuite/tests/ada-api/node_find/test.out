@@ -11,22 +11,29 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <ParameterProfile ["A"] 1:15-1:26>
   <ASTList 1:15-1:16>
   <Id "A" 1:15-1:16>
+  <AliasedQualifierAbsent 1:19-1:19>
   <InOutDefault 1:19-1:26>
   <SubtypeIndication 1:19-1:26>
+  <NotNullQUalifierAbsent 1:19-1:19>
   <Id "Integer" 1:19-1:26>
   <ParameterProfile ["B"] 1:28-1:39>
   <ASTList 1:28-1:29>
   <Id "B" 1:28-1:29>
+  <AliasedQualifierAbsent 1:32-1:32>
   <InOutDefault 1:32-1:39>
   <SubtypeIndication 1:32-1:39>
+  <NotNullQUalifierAbsent 1:32-1:32>
   <Id "Integer" 1:32-1:39>
   <ParameterProfile ["C"] 1:41-1:52>
   <ASTList 1:41-1:42>
   <Id "C" 1:41-1:42>
+  <AliasedQualifierAbsent 1:45-1:45>
   <InOutDefault 1:45-1:52>
   <SubtypeIndication 1:45-1:52>
+  <NotNullQUalifierAbsent 1:45-1:45>
   <Id "Integer" 1:45-1:52>
   <SubtypeIndication 1:61-1:68>
+  <NotNullQUalifierAbsent 1:61-1:61>
   <Id "Integer" 1:61-1:68>
   <DeclarativePart 2:1-2:6>
   <ASTList 2:1-2:1>

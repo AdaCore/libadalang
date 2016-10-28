@@ -4,13 +4,16 @@ GenericPackageDecl[1:1-1:155]
 | | | ids:
 | | | | Id[1:9-1:12]
 | | | | | tok: Max
-| | | aliased: False
-| | | constant: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:14-1:14]
+| | | has_constant:
+| | | | ConstantQualifierAbsent[1:14-1:14]
 | | | inout:
 | | | | InOutDefault[1:14-1:22]
 | | | type_expr:
 | | | | SubtypeIndication[1:14-1:22]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:14-1:14]
 | | | | | name:
 | | | | | | Id[1:14-1:22]
 | | | | | | | tok: Positive
@@ -47,12 +50,14 @@ GenericPackageDecl[1:1-1:155]
 | | | | | | | | | | | ids:
 | | | | | | | | | | | | Id[1:92-1:93]
 | | | | | | | | | | | | | tok: E
-| | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | AliasedQualifierAbsent[1:95-1:95]
 | | | | | | | | | | | mode:
 | | | | | | | | | | | | InOutDefault[1:95-1:104]
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | SubtypeIndication[1:95-1:104]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:95-1:95]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:95-1:104]
 | | | | | | | | | | | | | | | tok: Element_T
@@ -66,7 +71,8 @@ GenericPackageDecl[1:1-1:155]
 | | | | | | | | | | | tok: Pop
 | | | | | | | | | returns:
 | | | | | | | | | | SubtypeIndication[1:127-1:136]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:127-1:127]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:127-1:136]
 | | | | | | | | | | | | | tok: Element_T

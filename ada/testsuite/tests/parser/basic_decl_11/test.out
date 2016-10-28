@@ -11,18 +11,21 @@ ExpressionFunction[1:1-1:64]
 | | | | | ids:
 | | | | | | Id[1:13-1:14]
 | | | | | | | tok: B
-| | | | | is_aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:17-1:17]
 | | | | | mode:
 | | | | | | InOutDefault[1:17-1:24]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:17-1:24]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:17-1:17]
 | | | | | | | name:
 | | | | | | | | Id[1:17-1:24]
 | | | | | | | | | tok: Integer
 | | | returns:
 | | | | SubtypeIndication[1:33-1:40]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:33-1:33]
 | | | | | name:
 | | | | | | Id[1:33-1:40]
 | | | | | | | tok: Integer

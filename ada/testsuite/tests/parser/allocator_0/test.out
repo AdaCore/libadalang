@@ -4,7 +4,8 @@ Allocator[1:1-1:24]
 | | | tok: Pool
 | type:
 | | SubtypeIndication[1:12-1:24]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:12-1:12]
 | | | name:
 | | | | QualExpr[1:12-1:24]
 | | | | | prefix:

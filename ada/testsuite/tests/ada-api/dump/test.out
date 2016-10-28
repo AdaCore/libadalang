@@ -17,12 +17,14 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:18-1:19]
 | | | | | | | | | | | tok: A
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:22-1:22]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[1:22-1:25]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:22-1:25]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:22-1:22]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:22-1:25]
 | | | | | | | | | | | | | tok: Foo
@@ -30,12 +32,14 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:27-1:28]
 | | | | | | | | | | | tok: B
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:31-1:31]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[1:31-1:34]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:31-1:34]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:31-1:31]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:31-1:34]
 | | | | | | | | | | | | | tok: Bar
@@ -52,7 +56,8 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | | | | | tok: El
 | | | | | | | | | | | id_type:
 | | | | | | | | | | | | SubtypeIndication[2:15-2:23]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[2:15-2:15]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[2:15-2:23]
 | | | | | | | | | | | | | | | tok: Foo_Elem

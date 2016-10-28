@@ -2,13 +2,16 @@ ObjectDecl[1:1-1:94]
 | ids:
 | | Id[1:1-1:15]
 | | | tok: Columns_Config
-| aliased: False
-| constant: False
+| has_aliased:
+| | AliasedQualifierAbsent[1:18-1:18]
+| has_constant:
+| | ConstantQualifierAbsent[1:18-1:18]
 | inout:
 | | InOutDefault[1:18-1:48]
 | type_expr:
 | | SubtypeIndication[1:18-1:48]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:18-1:18]
 | | | name:
 | | | | Id[1:18-1:48]
 | | | | | tok: Line_Info_Display_Array_Access

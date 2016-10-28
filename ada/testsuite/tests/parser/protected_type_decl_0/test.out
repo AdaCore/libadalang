@@ -18,12 +18,14 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:65-1:65]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:65-1:67]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:69-1:73]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:69-1:69]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:69-1:73]
 | | | | | | | | | | | | | tok: Item
@@ -38,12 +40,14 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:90-1:97]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:100-1:100]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:100-1:103]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:104-1:108]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:104-1:104]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:104-1:108]
 | | | | | | | | | | | | | tok: Item
@@ -56,10 +60,12 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | tok: Buffer
 | | | | | | | component_def:
 | | | | | | | | ComponentDef[1:128-1:132]
-| | | | | | | | | aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:128-1:128]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:128-1:132]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:128-1:128]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:128-1:132]
 | | | | | | | | | | | | | tok: Item
@@ -69,10 +75,12 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | | tok: Empty
 | | | | | | | component_def:
 | | | | | | | | ComponentDef[1:143-1:150]
-| | | | | | | | | aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:143-1:143]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:143-1:150]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:143-1:143]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:143-1:150]
 | | | | | | | | | | | | | tok: Boolean

@@ -11,12 +11,14 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | ids:
 | | | | | | Id[1:14-1:15]
 | | | | | | | tok: B
-| | | | | is_aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:18-1:18]
 | | | | | mode:
 | | | | | | InOutDefault[1:18-1:25]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:18-1:25]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:18-1:18]
 | | | | | | | name:
 | | | | | | | | Id[1:18-1:25]
 | | | | | | | | | tok: Integer
@@ -28,7 +30,8 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | | | tok: D
 | | | | | | Id[1:33-1:34]
 | | | | | | | tok: E
-| | | | | is_aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:37-1:37]
 | | | | | mode:
 | | | | | | InOutDefault[1:37-1:43]
 | | | | | type_expr:
@@ -37,9 +40,11 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | | | | AnonymousTypeDecl[1:37-1:53]
 | | | | | | | | | type_def:
 | | | | | | | | | | TypeAccessDef[1:37-1:53]
-| | | | | | | | | | | not_null: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:37-1:37]
 | | | | | | | | | | | is_all: True
-| | | | | | | | | | | is_constant: False
+| | | | | | | | | | | has_constant:
+| | | | | | | | | | | | ConstantQualifierAbsent[1:48-1:48]
 | | | | | | | | | | | subtype_name:
 | | | | | | | | | | | | Id[1:48-1:53]
 | | | | | | | | | | | | | tok: Pouet

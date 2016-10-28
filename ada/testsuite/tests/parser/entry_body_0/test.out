@@ -7,12 +7,14 @@ EntryBody[1:1-1:100]
 | | | ids:
 | | | | Id[1:15-1:22]
 | | | | | tok: an_item
-| | | is_aliased: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:25-1:25]
 | | | mode:
 | | | | InOutIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:29-1:33]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:29-1:29]
 | | | | | name:
 | | | | | | Id[1:29-1:33]
 | | | | | | | tok: item

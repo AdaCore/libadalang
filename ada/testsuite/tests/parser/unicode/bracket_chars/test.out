@@ -33,13 +33,16 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[4:4-4:21]
 | | | | | | | | | | | tok: ["000003C0"]_Name
-| | | | | | | | | aliased: False
-| | | | | | | | | constant: True
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[4:24-4:24]
+| | | | | | | | | has_constant:
+| | | | | | | | | | ConstantQualifierPresent[4:24-4:24]
 | | | | | | | | | inout:
 | | | | | | | | | | InOutDefault[4:33-4:39]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:33-4:39]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[4:33-4:33]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[4:33-4:39]
 | | | | | | | | | | | | | tok: String

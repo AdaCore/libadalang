@@ -11,7 +11,8 @@ FullTypeDecl[1:1-1:26]
 | | | synchronized: False
 | | | subtype_indication:
 | | | | SubtypeIndication[1:15-1:26]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:15-1:15]
 | | | | | name:
 | | | | | | Id[1:15-1:16]
 | | | | | | | tok: A

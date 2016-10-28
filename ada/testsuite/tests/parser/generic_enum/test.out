@@ -65,7 +65,8 @@ CompilationUnit[1:1-24:10]
 | | | | | | | | | | | | | | | tok: J
 | | | | | | | | | | | | | returns:
 | | | | | | | | | | | | | | SubtypeIndication[6:30-6:34]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[6:30-6:30]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[6:30-6:34]
 | | | | | | | | | | | | | | | | | tok: Enum
@@ -82,7 +83,8 @@ CompilationUnit[1:1-24:10]
 | | | | | | | | | | | | | | | tok: I
 | | | | | | | | | | | | | returns:
 | | | | | | | | | | | | | | SubtypeIndication[7:30-7:34]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[7:30-7:30]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[7:30-7:34]
 | | | | | | | | | | | | | | | | | tok: ENum

@@ -18,7 +18,8 @@ TaskBody[1:1-1:572]
 | | | | | | | tok: Q_Range
 | | | | | subtype:
 | | | | | | SubtypeIndication[1:83-1:109]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:83-1:83]
 | | | | | | | name:
 | | | | | | | | Id[1:83-1:91]
 | | | | | | | | | tok: Positive
@@ -38,13 +39,16 @@ TaskBody[1:1-1:572]
 | | | | | ids:
 | | | | | | Id[1:111-1:117]
 | | | | | | | tok: Length
-| | | | | aliased: False
-| | | | | constant: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:120-1:120]
+| | | | | has_constant:
+| | | | | | ConstantQualifierAbsent[1:120-1:120]
 | | | | | inout:
 | | | | | | InOutDefault[1:120-1:127]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:120-1:145]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:120-1:120]
 | | | | | | | name:
 | | | | | | | | Id[1:120-1:127]
 | | | | | | | | | tok: Natural
@@ -69,13 +73,16 @@ TaskBody[1:1-1:572]
 | | | | | | | tok: Head
 | | | | | | Id[1:158-1:162]
 | | | | | | | tok: Tail
-| | | | | aliased: False
-| | | | | constant: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:165-1:165]
+| | | | | has_constant:
+| | | | | | ConstantQualifierAbsent[1:165-1:165]
 | | | | | inout:
 | | | | | | InOutDefault[1:165-1:172]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:165-1:172]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:165-1:165]
 | | | | | | | name:
 | | | | | | | | Id[1:165-1:172]
 | | | | | | | | | tok: Q_Range
@@ -86,8 +93,10 @@ TaskBody[1:1-1:572]
 | | | | | ids:
 | | | | | | Id[1:179-1:183]
 | | | | | | | tok: Data
-| | | | | aliased: False
-| | | | | constant: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:186-1:186]
+| | | | | has_constant:
+| | | | | | ConstantQualifierAbsent[1:186-1:186]
 | | | | | inout:
 | | | | | | InOutDefault[1:186-1:191]
 | | | | | type_expr:
@@ -100,16 +109,19 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | ConstrainedArrayIndices[1:193-1:200]
 | | | | | | | | | | | | | list:
 | | | | | | | | | | | | | | SubtypeIndication[1:193-1:200]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[1:193-1:193]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:193-1:200]
 | | | | | | | | | | | | | | | | | tok: Q_Range
 | | | | | | | | | | | stored_component:
 | | | | | | | | | | | | ComponentDef[1:205-1:209]
-| | | | | | | | | | | | | aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[1:205-1:205]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:205-1:209]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[1:205-1:205]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:205-1:209]
 | | | | | | | | | | | | | | | | | tok: Item
@@ -141,12 +153,14 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[1:268-1:275]
 | | | | | | | | | | | | | | | tok: An_Item
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[1:278-1:278]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutIn[1:278-1:280]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:282-1:286]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[1:282-1:282]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:282-1:286]
 | | | | | | | | | | | | | | | | | tok: Item
@@ -225,12 +239,14 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[1:414-1:421]
 | | | | | | | | | | | | | | | tok: An_Item
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[1:424-1:424]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutOut[1:424-1:427]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:428-1:432]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[1:428-1:428]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:428-1:432]
 | | | | | | | | | | | | | | | | | tok: Item

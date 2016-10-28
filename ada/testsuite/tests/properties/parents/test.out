@@ -56,12 +56,14 @@
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |is_aliased: False
+|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  <AliasedQualifierAbsent>
 |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  <InOutDefault>
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  <SubtypeIndication>
-|  |  |  |  |  |  |  |  |  |null_exclusion: False
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  <NotNullQUalifierAbsent>
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
@@ -69,7 +71,8 @@
 |  |  |  |  |  |  |  |  |default: None
 |  |  |  |  |  |  |returns:
 |  |  |  |  |  |  |  <SubtypeIndication>
-|  |  |  |  |  |  |  |null_exclusion: False
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  <NotNullQUalifierAbsent>
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |tok: Token(u'Integer')

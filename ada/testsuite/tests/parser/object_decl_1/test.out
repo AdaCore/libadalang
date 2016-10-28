@@ -4,8 +4,10 @@ ObjectDecl[1:1-1:64]
 | | | tok: A
 | | Id[1:4-1:5]
 | | | tok: B
-| aliased: False
-| constant: False
+| has_aliased:
+| | AliasedQualifierAbsent[1:8-1:8]
+| has_constant:
+| | ConstantQualifierAbsent[1:8-1:8]
 | inout:
 | | InOutDefault[1:8-1:11]
 | type_expr:
@@ -14,9 +16,11 @@ ObjectDecl[1:1-1:64]
 | | | | AnonymousTypeDecl[1:8-1:40]
 | | | | | type_def:
 | | | | | | TypeAccessDef[1:8-1:40]
-| | | | | | | not_null: True
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierPresent[1:8-1:8]
 | | | | | | | is_all: False
-| | | | | | | is_constant: True
+| | | | | | | has_constant:
+| | | | | | | | ConstantQualifierPresent[1:24-1:24]
 | | | | | | | subtype_name:
 | | | | | | | | Id[1:33-1:40]
 | | | | | | | | | tok: Integer

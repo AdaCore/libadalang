@@ -7,7 +7,8 @@ SubprogramSpec[1:1-1:69]
 | | | ids:
 | | | | Id[1:14-1:15]
 | | | | | tok: A
-| | | is_aliased: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:18-1:18]
 | | | mode:
 | | | | InOutInOut[1:18-1:24]
 | | | type_expr:
@@ -16,7 +17,8 @@ SubprogramSpec[1:1-1:69]
 | | | | | | AnonymousTypeDecl[1:25-1:55]
 | | | | | | | type_def:
 | | | | | | | | SubprogramAccessDef[1:25-1:55]
-| | | | | | | | | not_null: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:25-1:25]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[1:32-1:55]
 | | | | | | | | | | | params:
@@ -24,12 +26,14 @@ SubprogramSpec[1:1-1:69]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[1:43-1:44]
 | | | | | | | | | | | | | | | tok: A
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[1:47-1:47]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutDefault[1:47-1:54]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:47-1:54]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[1:47-1:47]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:47-1:54]
 | | | | | | | | | | | | | | | | | tok: Integer
@@ -37,12 +41,14 @@ SubprogramSpec[1:1-1:69]
 | | | ids:
 | | | | Id[1:57-1:58]
 | | | | | tok: B
-| | | is_aliased: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:61-1:61]
 | | | mode:
 | | | | InOutDefault[1:61-1:68]
 | | | type_expr:
 | | | | SubtypeIndication[1:61-1:68]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:61-1:61]
 | | | | | name:
 | | | | | | Id[1:61-1:68]
 | | | | | | | tok: Integer

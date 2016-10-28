@@ -21,7 +21,8 @@ CompilationUnit[1:1-1:55]
 | | | | | | | | | | | | | tok: B
 | | | | | | | | | | | returns:
 | | | | | | | | | | | | SubtypeIndication[1:40-1:47]
-| | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:40-1:40]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:40-1:47]
 | | | | | | | | | | | | | | | tok: Boolean

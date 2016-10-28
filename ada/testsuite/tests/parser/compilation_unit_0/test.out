@@ -42,13 +42,16 @@ CompilationUnit[1:1-7:10]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[4:4-4:5]
 | | | | | | | | | | | tok: A
-| | | | | | | | | aliased: False
-| | | | | | | | | constant: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[4:8-4:8]
+| | | | | | | | | has_constant:
+| | | | | | | | | | ConstantQualifierAbsent[4:8-4:8]
 | | | | | | | | | inout:
 | | | | | | | | | | InOutDefault[4:8-4:15]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:8-4:15]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[4:8-4:8]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[4:8-4:15]
 | | | | | | | | | | | | | tok: Integer

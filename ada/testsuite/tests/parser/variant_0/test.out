@@ -13,10 +13,12 @@ Variant[1:1-1:29]
 | | | | | | | tok: C
 | | | | | component_def:
 | | | | | | ComponentDef[1:21-1:28]
-| | | | | | | aliased: False
+| | | | | | | has_aliased:
+| | | | | | | | AliasedQualifierAbsent[1:21-1:21]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:21-1:28]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:21-1:21]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:21-1:28]
 | | | | | | | | | | | tok: Integer

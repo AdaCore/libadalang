@@ -4,7 +4,8 @@ ForLoopSpec[1:1-1:19]
 | | | tok: A
 | id_type:
 | | SubtypeIndication[1:5-1:12]
-| | | null_exclusion: False
+| | | has_not_null:
+| | | | NotNullQUalifierAbsent[1:5-1:5]
 | | | name:
 | | | | Id[1:5-1:12]
 | | | | | tok: Integer

@@ -225,12 +225,15 @@ A.add_rules(
 
     access_def=Or(
         Row(
-            Opt("not", "null").as_bool(),
+            Opt("not", "null").as_bool(NotNullQUalifier),
             "access", Opt("protected").as_bool(), A.subprogram_spec
         ) ^ SubprogramAccessDef,
         Row(
-            Opt("not", "null").as_bool(),
-            "access", Opt("all").as_bool(), Opt("constant").as_bool(), A.name,
+            Opt("not", "null").as_bool(NotNullQUalifier),
+            "access",
+            Opt("all").as_bool(),
+            Opt("constant").as_bool(ConstantQualifier),
+            A.name,
             Opt(A.constraint),
         ) ^ TypeAccessDef
     ),
@@ -390,7 +393,7 @@ A.add_rules(
     sub_object_decl=Row(
         A.id_list,  ":",
         Opt("aliased").as_bool(AliasedQualifier),
-        Opt("constant").as_bool(),
+        Opt("constant").as_bool(ConstantQualifier),
         Opt(A.in_out),
         A.type_expression,
         A.default_expr,
@@ -510,11 +513,13 @@ A.add_rules(
                       List(A.name, sep=",")) ^ UseTypDecl,
 
     subtype_indication=Row(
-        Opt("not", "null").as_bool(), A.name, Opt(A.constraint)
+        Opt("not", "null").as_bool(NotNullQUalifier),
+        A.name, Opt(A.constraint)
     ) ^ SubtypeIndication,
 
     constrained_subtype_indication=Row(
-        Opt("not", "null").as_bool(), A.name, A.constraint
+        Opt("not", "null").as_bool(NotNullQUalifier),
+        A.name, A.constraint
     ) ^ SubtypeIndication,
 
     type_expression=Or(

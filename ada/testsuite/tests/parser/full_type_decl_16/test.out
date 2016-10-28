@@ -11,10 +11,12 @@ FullTypeDecl[1:1-1:48]
 | | | | | | | tok: Integer
 | | | stored_component:
 | | | | ComponentDef[1:41-1:48]
-| | | | | aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:41-1:41]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:41-1:48]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:41-1:41]
 | | | | | | | name:
 | | | | | | | | Id[1:41-1:48]
 | | | | | | | | | tok: Integer

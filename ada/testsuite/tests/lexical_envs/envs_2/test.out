@@ -26,12 +26,14 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | tok: I
 | | | | | | | | | | | | | | Id[2:22-2:23]
 | | | | | | | | | | | | | | | tok: J
-| | | | | | | | | | | | | is_aliased: False
+| | | | | | | | | | | | | has_aliased:
+| | | | | | | | | | | | | | AliasedQualifierAbsent[2:26-2:26]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutDefault[2:26-2:33]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[2:26-2:33]
-| | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[2:26-2:26]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[2:26-2:33]
 | | | | | | | | | | | | | | | | | tok: Integer
@@ -48,7 +50,8 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | | | tok: Lol
 | | | | | | | | | | | | | | | subtype:
 | | | | | | | | | | | | | | | | SubtypeIndication[5:25-5:46]
-| | | | | | | | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[5:25-5:25]
 | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | Id[5:25-5:32]
 | | | | | | | | | | | | | | | | | | | tok: Integer

@@ -18,12 +18,14 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | | | tok: E
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:45-1:45]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutDefault[1:45-1:54]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:45-1:54]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:45-1:45]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | | | tok: Element_T
@@ -37,7 +39,8 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | tok: Pop
 | | | | | | | returns:
 | | | | | | | | SubtypeIndication[1:77-1:86]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:77-1:77]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:77-1:86]
 | | | | | | | | | | | tok: Element_T

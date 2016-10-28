@@ -15,7 +15,8 @@ TaskDecl[1:1-1:139]
 | | | | | | | | | tok: Insert
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:40-1:49]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:40-1:40]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:40-1:49]
 | | | | | | | | | | | tok: Buffer_Id
@@ -24,12 +25,14 @@ TaskDecl[1:1-1:139]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:52-1:59]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:62-1:62]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:62-1:64]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:65-1:69]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:65-1:65]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:65-1:69]
 | | | | | | | | | | | | | tok: Item
@@ -41,7 +44,8 @@ TaskDecl[1:1-1:139]
 | | | | | | | | | tok: Remove
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:86-1:95]
-| | | | | | | | | null_exclusion: False
+| | | | | | | | | has_not_null:
+| | | | | | | | | | NotNullQUalifierAbsent[1:86-1:86]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:86-1:95]
 | | | | | | | | | | | tok: Buffer_Id
@@ -50,12 +54,14 @@ TaskDecl[1:1-1:139]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:98-1:105]
 | | | | | | | | | | | tok: An_Item
-| | | | | | | | | is_aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:108-1:108]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:108-1:111]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:112-1:116]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:112-1:112]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:112-1:116]
 | | | | | | | | | | | | | tok: Item

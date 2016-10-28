@@ -2,8 +2,10 @@ ObjectDecl[1:1-1:50]
 | ids:
 | | Id[1:1-1:4]
 | | | tok: Arr
-| aliased: True
-| constant: True
+| has_aliased:
+| | AliasedQualifierPresent[1:7-1:7]
+| has_constant:
+| | ConstantQualifierPresent[1:15-1:15]
 | inout:
 | | InOutDefault[1:24-1:29]
 | type_expr:
@@ -26,10 +28,12 @@ ObjectDecl[1:1-1:50]
 | | | | | | | | | | | | | tok: 12
 | | | | | | | stored_component:
 | | | | | | | | ComponentDef[1:43-1:50]
-| | | | | | | | | aliased: False
+| | | | | | | | | has_aliased:
+| | | | | | | | | | AliasedQualifierAbsent[1:43-1:43]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:43-1:50]
-| | | | | | | | | | | null_exclusion: False
+| | | | | | | | | | | has_not_null:
+| | | | | | | | | | | | NotNullQUalifierAbsent[1:43-1:43]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:43-1:50]
 | | | | | | | | | | | | | tok: Integer

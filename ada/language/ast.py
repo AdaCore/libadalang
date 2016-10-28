@@ -532,6 +532,14 @@ class AliasedQualifier(T.EnumNode):
     qualifier = True
 
 
+class NotNullQUalifier(T.EnumNode):
+    qualifier = True
+
+
+class ConstantQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -954,7 +962,7 @@ class ProtectedTypeDecl(BasicDecl):
 
 @abstract
 class AccessDef(TypeDef):
-    not_null = Field(type=T.BoolType)
+    has_not_null = Field(type=NotNullQUalifier)
 
     is_access_type = Property(True)
     accessed_type = Property(No(TypeDecl))
@@ -969,7 +977,7 @@ class SubprogramAccessDef(AccessDef):
 
 class TypeAccessDef(AccessDef):
     is_all = Field(type=T.BoolType)
-    is_constant = Field(type=T.BoolType)
+    has_constant = Field(type=ConstantQualifier)
     subtype_name = Field(type=T.Expr)
     accessed_type = Property(Self.subtype_name.designated_type)
     constraint = Field(type=T.Constraint)
@@ -1049,7 +1057,7 @@ class AnonymousType(TypeExpression):
 
 
 class SubtypeIndication(TypeExpression):
-    null_exclusion = Field(type=T.BoolType)
+    has_not_null = Field(type=NotNullQUalifier)
     name = Field(type=T.Expr)
     constraint = Field(type=T.Constraint)
 
@@ -1241,7 +1249,7 @@ class NumberDecl(BasicDecl):
 class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=AliasedQualifier)
-    constant = Field(type=T.BoolType)
+    has_constant = Field(type=ConstantQualifier)
     inout = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)

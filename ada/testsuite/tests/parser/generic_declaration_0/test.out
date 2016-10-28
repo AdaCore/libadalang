@@ -24,12 +24,14 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | | | tok: X
 | | | | | | Id[1:55-1:56]
 | | | | | | | tok: Y
-| | | | | is_aliased: False
+| | | | | has_aliased:
+| | | | | | AliasedQualifierAbsent[1:59-1:59]
 | | | | | mode:
 | | | | | | InOutInOut[1:59-1:65]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:66-1:75]
-| | | | | | | null_exclusion: False
+| | | | | | | has_not_null:
+| | | | | | | | NotNullQUalifierAbsent[1:66-1:66]
 | | | | | | | name:
 | | | | | | | | Id[1:66-1:75]
 | | | | | | | | | tok: Element_T

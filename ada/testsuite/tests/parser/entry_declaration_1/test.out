@@ -19,12 +19,14 @@ EntryDecl[1:1-1:36]
 | | | ids:
 | | | | Id[1:17-1:18]
 | | | | | tok: B
-| | | is_aliased: False
+| | | has_aliased:
+| | | | AliasedQualifierAbsent[1:21-1:21]
 | | | mode:
 | | | | InOutInOut[1:21-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:28-1:35]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:28-1:28]
 | | | | | name:
 | | | | | | Id[1:28-1:35]
 | | | | | | | tok: BOOLEAN

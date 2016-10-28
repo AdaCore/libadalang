@@ -6,7 +6,8 @@ TypeDiscriminant[1:1-1:26]
 | | | | | tok: A
 | | | type_expr:
 | | | | SubtypeIndication[1:6-1:13]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:6-1:6]
 | | | | | name:
 | | | | | | Id[1:6-1:13]
 | | | | | | | tok: Integer
@@ -16,7 +17,8 @@ TypeDiscriminant[1:1-1:26]
 | | | | | tok: B
 | | | type_expr:
 | | | | SubtypeIndication[1:19-1:25]
-| | | | | null_exclusion: False
+| | | | | has_not_null:
+| | | | | | NotNullQUalifierAbsent[1:19-1:19]
 | | | | | name:
 | | | | | | Id[1:19-1:25]
 | | | | | | | tok: String

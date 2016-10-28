@@ -10,12 +10,14 @@ A:
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'A')
-|is_aliased: False
+|has_aliased:
+|  <AliasedQualifierAbsent>
 |mode:
 |  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
-|  |null_exclusion: False
+|  |has_not_null:
+|  |  <NotNullQUalifierAbsent>
 |  |name:
 |  |  <Identifier>
 |  |  |tok: Token(u'Integer')
@@ -34,12 +36,14 @@ A:
 |  |item 1:
 |  |  <Identifier>
 |  |  |tok: Token(u'B')
-|is_aliased: False
+|has_aliased:
+|  <AliasedQualifierAbsent>
 |mode:
 |  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
-|  |null_exclusion: False
+|  |has_not_null:
+|  |  <NotNullQUalifierAbsent>
 |  |name:
 |  |  <Identifier>
 |  |  |tok: Token(u'Integer')
@@ -56,12 +60,14 @@ B:
 |  |item 1:
 |  |  <Identifier>
 |  |  |tok: Token(u'B')
-|is_aliased: False
+|has_aliased:
+|  <AliasedQualifierAbsent>
 |mode:
 |  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
-|  |null_exclusion: False
+|  |has_not_null:
+|  |  <NotNullQUalifierAbsent>
 |  |name:
 |  |  <Identifier>
 |  |  |tok: Token(u'Integer')
@@ -75,12 +81,14 @@ C:
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'C')
-|is_aliased: False
+|has_aliased:
+|  <AliasedQualifierAbsent>
 |mode:
 |  <InOutDefault>
 |type_expr:
 |  <SubtypeIndication>
-|  |null_exclusion: False
+|  |has_not_null:
+|  |  <NotNullQUalifierAbsent>
 |  |name:
 |  |  <Identifier>
 |  |  |tok: Token(u'Boolean')

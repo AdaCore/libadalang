@@ -11,7 +11,8 @@ ForLoopSpec[1:1-1:19]
 | | | | | tok: Integer
 | loop_type:
 | | IterTypeOf[1:13-1:15]
-| is_reverse: False
+| has_reverse:
+| | ReverseQualifierAbsent[1:16-1:16]
 | iter_expr:
 | | Id[1:16-1:19]
 | | | tok: Foo

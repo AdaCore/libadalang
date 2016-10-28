@@ -548,6 +548,10 @@ class AbortQualifier(T.EnumNode):
     qualifier = True
 
 
+class ReverseQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -2350,7 +2354,7 @@ class ForLoopSpec(LoopSpec):
     id = Field(type=T.Identifier)
     id_type = Field(type=T.SubtypeIndication)
     loop_type = Field(type=IterType)
-    is_reverse = Field(type=T.BoolType)
+    has_reverse = Field(type=ReverseQualifier)
     iter_expr = Field(type=T.AdaNode)
 
 

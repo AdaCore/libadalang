@@ -820,7 +820,7 @@ A.add_rules(
         Opt(":", A.subtype_indication)[1],
         Or(Row("in") ^ IterType.alt_in,
            Row("of") ^ IterType.alt_of),
-        Opt("reverse").as_bool(),
+        Opt("reverse").as_bool(ReverseQualifier),
         A.constrained_subtype_indication | A.discrete_range | A.expression
     ) ^ ForLoopSpec,
 

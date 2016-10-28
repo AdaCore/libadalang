@@ -21,7 +21,8 @@ BinOp[1:1-1:53]
 | | | | | | | | | | | | | tok: A
 | | | | | | | | | | | loop_type:
 | | | | | | | | | | | | IterTypeIn[1:21-1:23]
-| | | | | | | | | | | is_reverse: False
+| | | | | | | | | | | has_reverse:
+| | | | | | | | | | | | ReverseQualifierAbsent[1:24-1:24]
 | | | | | | | | | | | iter_expr:
 | | | | | | | | | | | | Id[1:24-1:25]
 | | | | | | | | | | | | | tok: B

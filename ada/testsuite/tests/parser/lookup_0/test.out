@@ -1,7 +1,8 @@
 CompilationUnit[1:1-17:10]
 | prelude:
 | | WithDecl[1:1-1:17]
-| | | is_limited: False
+| | | has_limited:
+| | | | LimitedQualifierAbsent[1:1-1:1]
 | | | is_private: False
 | | | packages:
 | | | | DottedName[1:6-1:17]
@@ -203,7 +204,8 @@ CompilationUnit[1:1-17:10]
 
 Lookup 1:1:
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]
@@ -216,7 +218,8 @@ WithDecl[1:1-1:17]
 
 Lookup 1:2:
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]
@@ -229,7 +232,8 @@ WithDecl[1:1-1:17]
 
 Lookup 1:4:
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]
@@ -242,7 +246,8 @@ WithDecl[1:1-1:17]
 
 Lookup 1:5:
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]
@@ -280,7 +285,8 @@ Id[1:10-1:17]
 
 Lookup 1:17:
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]
@@ -295,7 +301,8 @@ Lookup 2:1:
 CompilationUnit[1:1-17:10]
 | prelude:
 | | WithDecl[1:1-1:17]
-| | | is_limited: False
+| | | has_limited:
+| | | | LimitedQualifierAbsent[1:1-1:1]
 | | | is_private: False
 | | | packages:
 | | | | DottedName[1:6-1:17]

@@ -18,7 +18,7 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_node with_decl, subp_body, subp_name;
+    ada_base_node with_decl, subp_body, subp_name, has_limited;
     ada_base_node tmp;
 
     ada_bool is_limited, is_private;
@@ -61,10 +61,13 @@ main(void)
 
     if (ada_node_kind(with_decl) != ada_with_decl)
         error("Got something else than a WithDecl");
-    if (!ada_with_decl_f_is_limited(with_decl, &is_limited))
+    if (!ada_with_decl_f_has_limited(with_decl, &has_limited))
         error("Could got get WithDecl.is_limited");
     if (!ada_with_decl_f_is_private(with_decl, &is_private))
         error("Could got get WithDecl.is_private");
+
+    ada_limited_qualifier_p_as_bool (has_limited, &is_limited);
+
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");
 

@@ -1,9 +1,10 @@
 RecordTypeDef[1:1-1:34]
-| limited: False
 | has_abstract:
 | | AbstractQualifierAbsent[1:1-1:1]
 | has_tagged:
 | | TaggedQualifierAbsent[1:1-1:1]
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | record_def:
 | | RecordDef[1:1-1:34]
 | | | components:

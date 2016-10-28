@@ -19,11 +19,12 @@ FullTypeDecl[1:1-1:80]
 | | | | | | | | | tok: Integer
 | type_def:
 | | RecordTypeDef[1:40-1:80]
-| | | limited: False
 | | | has_abstract:
 | | | | AbstractQualifierAbsent[1:40-1:40]
 | | | has_tagged:
 | | | | TaggedQualifierPresent[1:40-1:40]
+| | | has_limited:
+| | | | LimitedQualifierAbsent[1:47-1:47]
 | | | record_def:
 | | | | RecordDef[1:47-1:80]
 | | | | | components:

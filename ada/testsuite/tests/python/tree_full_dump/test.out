@@ -3,7 +3,8 @@
 |  <list>
 |  |item 0:
 |  |  <WithDecl>
-|  |  |is_limited: False
+|  |  |has_limited:
+|  |  |  <LimitedQualifierAbsent>
 |  |  |is_private: False
 |  |  |packages:
 |  |  |  <list>

@@ -1,5 +1,6 @@
 WithDecl[1:1-1:17]
-| is_limited: False
+| has_limited:
+| | LimitedQualifierAbsent[1:1-1:1]
 | is_private: False
 | packages:
 | | DottedName[1:6-1:17]

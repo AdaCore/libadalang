@@ -6,11 +6,12 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | tok: Element_T
 | | | type_def:
 | | | | PrivateTypeDef[1:24-1:34]
-| | | | | limited: False
 | | | | | has_abstract:
 | | | | | | AbstractQualifierAbsent[1:27-1:27]
 | | | | | has_tagged:
 | | | | | | TaggedQualifierAbsent[1:27-1:27]
+| | | | | has_limited:
+| | | | | | LimitedQualifierAbsent[1:27-1:27]
 | subp_spec:
 | | SubprogramSpec[1:36-1:76]
 | | | name:

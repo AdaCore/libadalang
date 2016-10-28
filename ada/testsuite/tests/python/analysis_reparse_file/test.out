@@ -1,14 +1,14 @@
 1. Parsing source 1
-WithDecl: is_limited = True
+WithDecl: has_limited = <LimitedQualifierPresent 2:1-2:1>
 2. Parsing source 2 (reparse=false)
-WithDecl: is_limited = True
+WithDecl: has_limited = <LimitedQualifierPresent 2:1-2:1>
 3. Parsing with deleted file (reparse=true)
 Diagnostics for foo.adb:
   Cannot open source file: Cannot open foo.adb
 4. Parsing source 2 (reparse=true)
-WithDecl: is_limited = False
+WithDecl: has_limited = <LimitedQualifierAbsent 1:1-1:1>
 5. Reparsing source 1
-WithDecl: is_limited = True
+WithDecl: has_limited = <LimitedQualifierPresent 2:1-2:1>
 6. Reparsing with deleted file
 Diagnostics for foo.adb:
   Cannot open source file: Cannot open foo.adb

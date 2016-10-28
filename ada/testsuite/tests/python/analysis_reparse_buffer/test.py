@@ -15,8 +15,8 @@ src_buffer_2 = src_buffer_1.split(' ', 1)[1]
 
 def check(unit):
     assert unit, 'Could not create the analysis unit for foo.adb from a buffer'
-    print 'WithDecl: is_limited = {}'.format(
-        unit.root.f_prelude[0].f_is_limited)
+    print 'WithDecl: has_limited = {}'.format(
+        unit.root.f_prelude[0].f_has_limited)
 
 ctx = libadalang.AnalysisContext('iso-8859-1')
 

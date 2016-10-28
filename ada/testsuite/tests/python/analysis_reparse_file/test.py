@@ -30,8 +30,8 @@ def check(unit):
         for diag in unit.diagnostics:
             print '  {}'.format(diag)
     else:
-        print 'WithDecl: is_limited = {}'.format(
-            unit.root.f_prelude[0].f_is_limited
+        print 'WithDecl: has_limited = {}'.format(
+            unit.root.f_prelude[0].f_has_limited
         )
 
 

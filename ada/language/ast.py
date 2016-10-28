@@ -520,10 +520,14 @@ class AbstractQualifier(T.EnumNode):
     qualifier = True
 
 
+class LimitedQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
-    limited = Field(type=T.BoolType)
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
+    has_limited = Field(type=LimitedQualifier)
     record_def = Field(type=T.RecordDef)
 
     defining_env = Property(
@@ -760,8 +764,8 @@ class DiscriminantAssociation(Constraint):
 
 
 class DerivedTypeDef(TypeDef):
-    limited = Field(type=T.BoolType)
     has_abstract = Field(type=AbstractQualifier)
+    has_limited = Field(type=LimitedQualifier)
     synchronized = Field(type=T.BoolType)
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
@@ -796,9 +800,9 @@ class IncompleteTypeDef(TypeDef):
 
 
 class PrivateTypeDef(TypeDef):
-    limited = Field(type=T.BoolType)
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
+    has_limited = Field(type=LimitedQualifier)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
@@ -972,7 +976,7 @@ class NullComponentDecl(AdaNode):
 
 
 class WithDecl(AdaNode):
-    is_limited = Field(type=T.BoolType)
+    has_limited = Field(type=LimitedQualifier)
     is_private = Field(type=T.BoolType)
     packages = Field(type=T.Name.list_type())
 

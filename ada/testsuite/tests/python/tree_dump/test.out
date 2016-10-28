@@ -1,6 +1,7 @@
 <CompilationUnit>
 | <list>
 | | <WithDecl>
+| | | <LimitedQualifierAbsent>
 | | | <list>
 | | | | <DottedName>
 | | | | | <Identifier>

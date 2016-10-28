@@ -4,11 +4,12 @@ FullTypeDecl[1:1-1:46]
 | | | tok: Rec
 | type_def:
 | | RecordTypeDef[1:13-1:46]
-| | | limited: False
 | | | has_abstract:
 | | | | AbstractQualifierAbsent[1:13-1:13]
 | | | has_tagged:
 | | | | TaggedQualifierAbsent[1:13-1:13]
+| | | has_limited:
+| | | | LimitedQualifierAbsent[1:13-1:13]
 | | | record_def:
 | | | | RecordDef[1:13-1:46]
 | | | | | components:

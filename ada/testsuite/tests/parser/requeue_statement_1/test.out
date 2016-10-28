@@ -2,4 +2,5 @@ RequeueStatement[1:1-1:12]
 | call_name:
 | | Id[1:9-1:12]
 | | | tok: Lol
-| with_abort: False
+| has_abort:
+| | AbortQualifierAbsent[1:12-1:12]

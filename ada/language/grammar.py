@@ -797,7 +797,8 @@ A.add_rules(
     ),
 
     requeue_statement=Row(
-        "requeue", A.expression, Opt("with", "abort").as_bool()
+        "requeue", A.expression,
+        Opt("with", "abort").as_bool(AbortQualifier)
     ) ^ RequeueStatement,
 
     identifier=Tok(Token.Identifier, keep=True) ^ Identifier,

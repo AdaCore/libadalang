@@ -544,6 +544,10 @@ class AllQualifier(T.EnumNode):
     qualifier = True
 
 
+class AbortQualifier(T.EnumNode):
+    qualifier = True
+
+
 class RecordTypeDef(TypeDef):
     has_abstract = Field(type=AbstractQualifier)
     has_tagged = Field(type=TaggedQualifier)
@@ -2558,7 +2562,7 @@ class ReturnStatement(SimpleStatement):
 
 class RequeueStatement(SimpleStatement):
     call_name = Field(type=T.Expr)
-    with_abort = Field(type=T.BoolType)
+    has_abort = Field(type=AbortQualifier)
 
 
 class AbortStatement(SimpleStatement):

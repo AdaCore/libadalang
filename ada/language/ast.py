@@ -330,8 +330,17 @@ class DiscriminantSpec(BasicDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
-class TypeDiscriminant(AdaNode):
+@abstract
+class DiscriminantPart(AdaNode):
+    pass
+
+
+class KnownDiscriminantPart(DiscriminantPart):
     discr_specs = Field(type=T.DiscriminantSpec.list_type())
+
+
+class UnknownDiscriminantPart(DiscriminantPart):
+    pass
 
 
 @abstract
@@ -706,7 +715,7 @@ class TypeDecl(BasicDecl):
 
 
 class FullTypeDecl(TypeDecl):
-    discriminants = Field(type=T.TypeDiscriminant)
+    discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpecification)
 
@@ -971,7 +980,7 @@ class ProtectedDef(AdaNode):
 
 class TaskTypeDecl(BasicDecl):
     task_type_name = Field(type=T.Identifier)
-    discrs = Field(type=T.TypeDiscriminant)
+    discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpecification)
     definition = Field(type=T.TaskDef)
 
@@ -980,7 +989,7 @@ class TaskTypeDecl(BasicDecl):
 
 class ProtectedTypeDecl(BasicDecl):
     protected_type_name = Field(type=T.Identifier)
-    discrs = Field(type=T.TypeDiscriminant)
+    discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpecification)
     interfaces = Field(type=T.Name.list_type())
     definition = Field(type=T.ProtectedDef)

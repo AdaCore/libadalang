@@ -65,7 +65,7 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | Id[7:9-7:16]
 | | | | | | | | | | | tok: R2_Type
 | | | | | | | | | discriminants:
-| | | | | | | | | | TypeDiscriminant[7:17-7:30]
+| | | | | | | | | | KnownDiscriminantPart[7:17-7:30]
 | | | | | | | | | | | discr_specs:
 | | | | | | | | | | | | DiscriminantSpec[7:18-7:29]
 | | | | | | | | | | | | | ids:

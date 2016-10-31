@@ -1,4 +1,4 @@
-TypeDiscriminant[1:1-1:26]
+KnownDiscriminantPart[1:1-1:26]
 | discr_specs:
 | | DiscriminantSpec[1:2-1:13]
 | | | ids:

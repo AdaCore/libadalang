@@ -3,7 +3,7 @@ FullTypeDecl[1:1-1:80]
 | | Id[1:6-1:7]
 | | | tok: A
 | discriminants:
-| | TypeDiscriminant[1:8-1:36]
+| | KnownDiscriminantPart[1:8-1:36]
 | | | discr_specs:
 | | | | DiscriminantSpec[1:9-1:35]
 | | | | | ids:

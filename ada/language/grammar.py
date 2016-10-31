@@ -62,7 +62,7 @@ def generic_instantiation(keyword, dest_class):
 
 A.add_rules(
     protected_type_decl=Row(
-        "protected", "type", A.identifier, Opt(A.type_discriminant),
+        "protected", "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_specification,
         "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
         A.protected_def
@@ -97,7 +97,7 @@ A.add_rules(
     ) ^ TaskDef,
 
     task_type_decl=Row(
-        "task", "type", A.identifier, Opt(A.type_discriminant),
+        "task", "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_specification,
         Opt(A.task_def)
     ) ^ TaskTypeDecl,
@@ -179,11 +179,10 @@ A.add_rules(
 
     discr_spec_list=List(A.discriminant_spec, sep=";"),
 
-    type_discriminant=Row(
-        "(",
-        Or(A.discr_spec_list, Row("<>", Null(A.discr_spec_list))[1]),
-        ")"
-    ) ^ TypeDiscriminant,
+    discriminant_part=Or(
+        Row("(", A.discr_spec_list, ")") ^ KnownDiscriminantPart,
+        Row("(", "<>", ")") ^ UnknownDiscriminantPart,
+    ),
 
     enum_literal_decl=(A.identifier | A.char_literal) ^ EnumLiteralDecl,
 
@@ -250,7 +249,7 @@ A.add_rules(
     ) ^ Variant,
 
     anonymous_type_decl=Row(
-        Null(A.identifier), Null(A.type_discriminant),
+        Null(A.identifier), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
         A.aspect_specification
     ) ^ AnonymousTypeDecl,
@@ -262,7 +261,7 @@ A.add_rules(
             A.aspect_specification
         ) ^ EnumTypeDecl,
         Row(
-            "type", A.identifier, Opt(A.type_discriminant),
+            "type", A.identifier, Opt(A.discriminant_part),
             Or(
                 Row("is", A.type_def)[1],
 

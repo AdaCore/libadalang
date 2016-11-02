@@ -2,7 +2,7 @@ CompilationUnit[1:1-6:10]
 | body:
 | | LibraryItem[1:1-6:9]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | SubprogramBody[1:1-6:9]
 | | | | | overriding:
@@ -22,7 +22,7 @@ CompilationUnit[1:1-6:10]
 | | | | | | | | | type_def:
 | | | | | | | | | | IncompleteTypeDef[2:10-2:11]
 | | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedQualifierAbsent[2:10-2:10]
+| | | | | | | | | | | | TaggedAbsent[2:10-2:10]
 | | | | | | | | TaskDecl[3:4-3:14]
 | | | | | | | | | task_name:
 | | | | | | | | | | Id[3:9-3:14]

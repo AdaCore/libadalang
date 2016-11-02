@@ -2,7 +2,7 @@ CompilationUnit[1:1-11:9]
 | body:
 | | LibraryItem[1:1-11:8]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | PackageDecl[1:1-11:8]
 | | | | | package_name:
@@ -18,11 +18,11 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[2:20-5:14]
 | | | | | | | | | | | has_abstract:
-| | | | | | | | | | | | AbstractQualifierAbsent[2:20-2:20]
+| | | | | | | | | | | | AbstractAbsent[2:20-2:20]
 | | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedQualifierAbsent[2:20-2:20]
+| | | | | | | | | | | | TaggedAbsent[2:20-2:20]
 | | | | | | | | | | | has_limited:
-| | | | | | | | | | | | LimitedQualifierAbsent[2:20-2:20]
+| | | | | | | | | | | | LimitedAbsent[2:20-2:20]
 | | | | | | | | | | | record_def:
 | | | | | | | | | | | | RecordDef[2:20-5:14]
 | | | | | | | | | | | | | components:
@@ -37,11 +37,11 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | component_def:
 | | | | | | | | | | | | | | | | | | ComponentDef[3:14-3:21]
 | | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedQualifierAbsent[3:14-3:14]
+| | | | | | | | | | | | | | | | | | | | AliasedAbsent[3:14-3:14]
 | | | | | | | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | | | | | | | SubtypeIndication[3:14-3:21]
 | | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[3:14-3:14]
+| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[3:14-3:14]
 | | | | | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | | | | | Id[3:14-3:21]
 | | | | | | | | | | | | | | | | | | | | | | | tok: Integer
@@ -52,11 +52,11 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | component_def:
 | | | | | | | | | | | | | | | | | | ComponentDef[4:14-4:21]
 | | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedQualifierAbsent[4:14-4:14]
+| | | | | | | | | | | | | | | | | | | | AliasedAbsent[4:14-4:14]
 | | | | | | | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | | | | | | | SubtypeIndication[4:14-4:21]
 | | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[4:14-4:14]
+| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[4:14-4:14]
 | | | | | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | | | | | Id[4:14-4:21]
 | | | | | | | | | | | | | | | | | | | | | | | tok: Natural
@@ -74,18 +74,18 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[7:22-7:29]
 | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[7:22-7:22]
+| | | | | | | | | | | | | | | | NotNullAbsent[7:22-7:22]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[7:22-7:29]
 | | | | | | | | | | | | | | | | | tok: Natural
 | | | | | | | | | type_def:
 | | | | | | | | | | RecordTypeDef[7:34-10:14]
 | | | | | | | | | | | has_abstract:
-| | | | | | | | | | | | AbstractQualifierAbsent[7:34-7:34]
+| | | | | | | | | | | | AbstractAbsent[7:34-7:34]
 | | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedQualifierAbsent[7:34-7:34]
+| | | | | | | | | | | | TaggedAbsent[7:34-7:34]
 | | | | | | | | | | | has_limited:
-| | | | | | | | | | | | LimitedQualifierAbsent[7:34-7:34]
+| | | | | | | | | | | | LimitedAbsent[7:34-7:34]
 | | | | | | | | | | | record_def:
 | | | | | | | | | | | | RecordDef[7:34-10:14]
 | | | | | | | | | | | | | components:
@@ -98,11 +98,11 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | component_def:
 | | | | | | | | | | | | | | | | | | ComponentDef[8:11-8:18]
 | | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedQualifierAbsent[8:11-8:11]
+| | | | | | | | | | | | | | | | | | | | AliasedAbsent[8:11-8:11]
 | | | | | | | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | | | | | | | SubtypeIndication[8:11-8:18]
 | | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[8:11-8:11]
+| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[8:11-8:11]
 | | | | | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | | | | | Id[8:11-8:18]
 | | | | | | | | | | | | | | | | | | | | | | | tok: Integer
@@ -113,11 +113,11 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | component_def:
 | | | | | | | | | | | | | | | | | | ComponentDef[9:11-9:26]
 | | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedQualifierAbsent[9:11-9:11]
+| | | | | | | | | | | | | | | | | | | | AliasedAbsent[9:11-9:11]
 | | | | | | | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | | | | | | | SubtypeIndication[9:11-9:26]
 | | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[9:11-9:11]
+| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[9:11-9:11]
 | | | | | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | | | | | CallExpr[9:11-9:26]
 | | | | | | | | | | | | | | | | | | | | | | | name:

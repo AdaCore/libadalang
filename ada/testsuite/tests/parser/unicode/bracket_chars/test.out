@@ -2,7 +2,7 @@ CompilationUnit[1:1-7:9]
 | body:
 | | LibraryItem[1:1-7:8]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | SubprogramBody[1:1-7:8]
 | | | | | overriding:
@@ -34,15 +34,15 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | | Id[4:4-4:21]
 | | | | | | | | | | | tok: ["000003C0"]_Name
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[4:24-4:24]
+| | | | | | | | | | AliasedAbsent[4:24-4:24]
 | | | | | | | | | has_constant:
-| | | | | | | | | | ConstantQualifierPresent[4:24-4:24]
+| | | | | | | | | | ConstantPresent[4:24-4:24]
 | | | | | | | | | inout:
 | | | | | | | | | | InOutDefault[4:33-4:39]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:33-4:39]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[4:33-4:33]
+| | | | | | | | | | | | NotNullAbsent[4:33-4:33]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[4:33-4:39]
 | | | | | | | | | | | | | tok: String

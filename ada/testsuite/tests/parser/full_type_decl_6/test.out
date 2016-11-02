@@ -5,15 +5,15 @@ FullTypeDecl[1:1-1:57]
 | type_def:
 | | DerivedTypeDef[1:13-1:57]
 | | | has_abstract:
-| | | | AbstractQualifierAbsent[1:13-1:13]
+| | | | AbstractAbsent[1:13-1:13]
 | | | has_limited:
-| | | | LimitedQualifierAbsent[1:13-1:13]
+| | | | LimitedAbsent[1:13-1:13]
 | | | has_synchronized:
-| | | | SynchronizedQualifierAbsent[1:13-1:13]
+| | | | SynchronizedAbsent[1:13-1:13]
 | | | subtype_indication:
 | | | | SubtypeIndication[1:17-1:18]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:17-1:17]
+| | | | | | NotNullAbsent[1:17-1:17]
 | | | | | name:
 | | | | | | Id[1:17-1:18]
 | | | | | | | tok: A
@@ -31,13 +31,13 @@ FullTypeDecl[1:1-1:57]
 | | | | | | | | | component_def:
 | | | | | | | | | | ComponentDef[1:38-1:45]
 | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | AliasedQualifierAbsent[1:38-1:38]
+| | | | | | | | | | | | AliasedAbsent[1:38-1:38]
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | SubtypeIndication[1:38-1:45]
 | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:38-1:38]
+| | | | | | | | | | | | | | NotNullAbsent[1:38-1:38]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:38-1:45]
 | | | | | | | | | | | | | | | tok: Integer
 | | | has_with_private:
-| | | | WithPrivateQualifierAbsent[2:1-2:1]
+| | | | WithPrivateAbsent[2:1-2:1]

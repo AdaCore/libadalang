@@ -4,9 +4,9 @@
 |  |item 0:
 |  |  <WithDecl>
 |  |  |has_limited:
-|  |  |  <LimitedQualifierAbsent>
+|  |  |  <LimitedAbsent>
 |  |  |has_private:
-|  |  |  <PrivateQualifierAbsent>
+|  |  |  <PrivateAbsent>
 |  |  |packages:
 |  |  |  <list>
 |  |  |  |item 0:
@@ -20,7 +20,7 @@
 |body:
 |  <LibraryItem>
 |  |has_private:
-|  |  <PrivateQualifierAbsent>
+|  |  <PrivateAbsent>
 |  |item:
 |  |  <SubprogramBody>
 |  |  |overriding:

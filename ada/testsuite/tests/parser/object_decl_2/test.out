@@ -3,9 +3,9 @@ ObjectDecl[1:1-1:50]
 | | Id[1:1-1:4]
 | | | tok: Arr
 | has_aliased:
-| | AliasedQualifierPresent[1:7-1:7]
+| | AliasedPresent[1:7-1:7]
 | has_constant:
-| | ConstantQualifierPresent[1:15-1:15]
+| | ConstantPresent[1:15-1:15]
 | inout:
 | | InOutDefault[1:24-1:29]
 | type_expr:
@@ -29,11 +29,11 @@ ObjectDecl[1:1-1:50]
 | | | | | | | stored_component:
 | | | | | | | | ComponentDef[1:43-1:50]
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:43-1:43]
+| | | | | | | | | | AliasedAbsent[1:43-1:43]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:43-1:50]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:43-1:43]
+| | | | | | | | | | | | NotNullAbsent[1:43-1:43]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:43-1:50]
 | | | | | | | | | | | | | tok: Integer

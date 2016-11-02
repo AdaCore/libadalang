@@ -5,15 +5,15 @@ ObjectDecl[1:1-1:29]
 | | Id[1:4-1:5]
 | | | tok: B
 | has_aliased:
-| | AliasedQualifierAbsent[1:8-1:8]
+| | AliasedAbsent[1:8-1:8]
 | has_constant:
-| | ConstantQualifierAbsent[1:8-1:8]
+| | ConstantAbsent[1:8-1:8]
 | inout:
 | | InOutDefault[1:8-1:15]
 | type_expr:
 | | SubtypeIndication[1:8-1:15]
 | | | has_not_null:
-| | | | NotNullQUalifierAbsent[1:8-1:8]
+| | | | NotNullAbsent[1:8-1:8]
 | | | name:
 | | | | Id[1:8-1:15]
 | | | | | tok: Integer

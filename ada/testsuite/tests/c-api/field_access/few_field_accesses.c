@@ -66,8 +66,8 @@ main(void)
     if (!ada_with_decl_f_has_private(with_decl, &has_private))
         error("Could got get WithDecl.has_private");
 
-    ada_limited_qualifier_p_as_bool (has_limited, &is_limited);
-    ada_private_qualifier_p_as_bool (has_private, &is_private);
+    ada_limited_node_p_as_bool (has_limited, &is_limited);
+    ada_private_node_p_as_bool (has_private, &is_private);
 
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");

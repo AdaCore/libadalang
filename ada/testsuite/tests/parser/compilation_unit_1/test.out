@@ -2,7 +2,7 @@ CompilationUnit[1:1-1:55]
 | body:
 | | LibraryItem[1:1-1:54]
 | | | has_private:
-| | | | PrivateQualifierPresent[1:1-1:1]
+| | | | PrivatePresent[1:1-1:1]
 | | | item:
 | | | | PackageDecl[1:9-1:54]
 | | | | | package_name:
@@ -22,7 +22,7 @@ CompilationUnit[1:1-1:55]
 | | | | | | | | | | | returns:
 | | | | | | | | | | | | SubtypeIndication[1:40-1:47]
 | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:40-1:40]
+| | | | | | | | | | | | | | NotNullAbsent[1:40-1:40]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:40-1:47]
 | | | | | | | | | | | | | | | tok: Boolean

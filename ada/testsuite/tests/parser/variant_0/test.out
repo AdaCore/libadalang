@@ -14,11 +14,11 @@ Variant[1:1-1:29]
 | | | | | component_def:
 | | | | | | ComponentDef[1:21-1:28]
 | | | | | | | has_aliased:
-| | | | | | | | AliasedQualifierAbsent[1:21-1:21]
+| | | | | | | | AliasedAbsent[1:21-1:21]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:21-1:28]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:21-1:21]
+| | | | | | | | | | NotNullAbsent[1:21-1:21]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:21-1:28]
 | | | | | | | | | | | tok: Integer

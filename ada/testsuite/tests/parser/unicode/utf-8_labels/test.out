@@ -2,7 +2,7 @@ CompilationUnit[1:1-6:10]
 | body:
 | | LibraryItem[1:1-6:9]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | SubprogramBody[1:1-6:9]
 | | | | | overriding:

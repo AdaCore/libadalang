@@ -5,14 +5,14 @@ ForLoopSpec[1:1-1:19]
 | id_type:
 | | SubtypeIndication[1:5-1:12]
 | | | has_not_null:
-| | | | NotNullQUalifierAbsent[1:5-1:5]
+| | | | NotNullAbsent[1:5-1:5]
 | | | name:
 | | | | Id[1:5-1:12]
 | | | | | tok: Integer
 | loop_type:
 | | IterTypeOf[1:13-1:15]
 | has_reverse:
-| | ReverseQualifierAbsent[1:16-1:16]
+| | ReverseAbsent[1:16-1:16]
 | iter_expr:
 | | Id[1:16-1:19]
 | | | tok: Foo

@@ -7,11 +7,11 @@ LoopStatement[1:1-1:51]
 | | | loop_type:
 | | | | IterTypeIn[1:7-1:9]
 | | | has_reverse:
-| | | | ReverseQualifierAbsent[1:10-1:10]
+| | | | ReverseAbsent[1:10-1:10]
 | | | iter_expr:
 | | | | SubtypeIndication[1:10-1:31]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:10-1:10]
+| | | | | | NotNullAbsent[1:10-1:10]
 | | | | | name:
 | | | | | | Id[1:10-1:17]
 | | | | | | | tok: Integer

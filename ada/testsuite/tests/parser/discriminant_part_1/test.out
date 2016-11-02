@@ -7,7 +7,7 @@ KnownDiscriminantPart[1:1-1:26]
 | | | type_expr:
 | | | | SubtypeIndication[1:6-1:13]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:6-1:6]
+| | | | | | NotNullAbsent[1:6-1:6]
 | | | | | name:
 | | | | | | Id[1:6-1:13]
 | | | | | | | tok: Integer
@@ -18,7 +18,7 @@ KnownDiscriminantPart[1:1-1:26]
 | | | type_expr:
 | | | | SubtypeIndication[1:19-1:25]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:19-1:19]
+| | | | | | NotNullAbsent[1:19-1:19]
 | | | | | name:
 | | | | | | Id[1:19-1:25]
 | | | | | | | tok: String

@@ -136,14 +136,14 @@ A.add_rules(
     mod_int_type_def=Row("mod", A.sexpr_or_diamond) ^ ModIntTypeDef,
 
     derived_type_def=Row(
-        Opt("abstract").as_bool(AbstractQualifier),
-        Opt("limited").as_bool(LimitedQualifier),
-        Opt("synchronized").as_bool(SynchronizedQualifier),
+        Opt("abstract").as_bool(Abstract),
+        Opt("limited").as_bool(Limited),
+        Opt("synchronized").as_bool(Synchronized),
         "new",
         A.subtype_indication,
         List(Row("and", A.static_name)[1], empty_valid=True),
         Opt("with", A.record_def)[1],
-        Opt("with", "private").as_bool(WithPrivateQualifier)
+        Opt("with", "private").as_bool(WithPrivate)
     ) ^ DerivedTypeDef,
 
     discriminant_association=Row(
@@ -216,24 +216,24 @@ A.add_rules(
     ) ^ FloatingPointDef,
 
     record_type_def=Row(
-        Opt("abstract").as_bool(AbstractQualifier),
-        Opt("tagged").as_bool(TaggedQualifier),
-        Opt("limited").as_bool(LimitedQualifier),
+        Opt("abstract").as_bool(Abstract),
+        Opt("tagged").as_bool(Tagged),
+        Opt("limited").as_bool(Limited),
         A.record_def
     ) ^ RecordTypeDef,
 
     access_def=Or(
         Row(
-            Opt("not", "null").as_bool(NotNullQUalifier),
+            Opt("not", "null").as_bool(NotNull),
             "access",
-            Opt("protected").as_bool(ProtectedQualifier),
+            Opt("protected").as_bool(Protected),
             A.subprogram_spec
         ) ^ SubprogramAccessDef,
         Row(
-            Opt("not", "null").as_bool(NotNullQUalifier),
+            Opt("not", "null").as_bool(NotNull),
             "access",
-            Opt("all").as_bool(AllQualifier),
-            Opt("constant").as_bool(ConstantQualifier),
+            Opt("all").as_bool(All),
+            Opt("constant").as_bool(Constant),
             A.name,
             Opt(A.constraint),
         ) ^ TypeAccessDef
@@ -266,13 +266,13 @@ A.add_rules(
                 Row("is", A.type_def)[1],
 
                 Row("is",
-                    Opt("abstract").as_bool(AbstractQualifier),
-                    Opt("tagged").as_bool(TaggedQualifier),
-                    Opt("limited").as_bool(LimitedQualifier),
+                    Opt("abstract").as_bool(Abstract),
+                    Opt("tagged").as_bool(Tagged),
+                    Opt("limited").as_bool(Limited),
                     "private") ^ PrivateTypeDef,
 
                 Row(
-                    Opt("is", "tagged").as_bool(TaggedQualifier)
+                    Opt("is", "tagged").as_bool(Tagged)
                 ) ^ IncompleteTypeDef,
             ),
             A.aspect_specification
@@ -286,7 +286,7 @@ A.add_rules(
     ) ^ VariantPart,
 
     component_def=Row(
-        Opt("aliased").as_bool(AliasedQualifier),
+        Opt("aliased").as_bool(Aliased),
         A.type_expression
     ) ^ ComponentDef,
 
@@ -332,7 +332,7 @@ A.add_rules(
         "with",
         A.subprogram_spec,
         _(Opt("is")),
-        Opt("abstract").as_bool(AbstractQualifier),
+        Opt("abstract").as_bool(Abstract),
         Opt(Or(A.diamond_expr, A.name, A.null_literal)),
         A.aspect_specification
     ) ^ FormalSubpDecl,
@@ -393,8 +393,8 @@ A.add_rules(
 
     sub_object_decl=Row(
         A.id_list,  ":",
-        Opt("aliased").as_bool(AliasedQualifier),
-        Opt("constant").as_bool(ConstantQualifier),
+        Opt("aliased").as_bool(Aliased),
+        Opt("constant").as_bool(Constant),
         Opt(A.in_out),
         A.type_expression,
         A.default_expr,
@@ -466,7 +466,7 @@ A.add_rules(
     parameter_profile=Row(
         List(A.identifier, sep=","),
         ":",
-        Opt("aliased").as_bool(AliasedQualifier),
+        Opt("aliased").as_bool(Aliased),
         Opt(A.in_out),
         A.type_expression,
         Opt(":=", A.expression)[1],
@@ -499,8 +499,8 @@ A.add_rules(
     ),
 
     with_decl=Row(
-        Opt("limited").as_bool(LimitedQualifier),
-        Opt("private").as_bool(PrivateQualifier),
+        Opt("limited").as_bool(Limited),
+        Opt("private").as_bool(Private),
         "with", List(A.static_name, sep=",")
     ) ^ WithDecl,
 
@@ -512,18 +512,18 @@ A.add_rules(
 
     use_type_decl=Row(
         "use",
-        Opt("all").as_bool(AllQualifier),
+        Opt("all").as_bool(All),
         "type",
         List(A.name, sep=",")
     ) ^ UseTypDecl,
 
     subtype_indication=Row(
-        Opt("not", "null").as_bool(NotNullQUalifier),
+        Opt("not", "null").as_bool(NotNull),
         A.name, Opt(A.constraint)
     ) ^ SubtypeIndication,
 
     constrained_subtype_indication=Row(
-        Opt("not", "null").as_bool(NotNullQUalifier),
+        Opt("not", "null").as_bool(NotNull),
         A.name, A.constraint
     ) ^ SubtypeIndication,
 
@@ -576,7 +576,7 @@ A.add_rules(
     ),
 
     library_item=Row(
-        Opt("private").as_bool(PrivateQualifier),
+        Opt("private").as_bool(Private),
         A.library_unit_body
         | A.library_unit_renaming_decl
         | A.library_unit_decl
@@ -727,7 +727,7 @@ A.add_rules(
 
     delay_statement=Row(
         "delay",
-        Opt("until").as_bool(UntilQualifier),
+        Opt("until").as_bool(Until),
         A.expression
     ) ^ DelayStatement,
 
@@ -801,7 +801,7 @@ A.add_rules(
 
     requeue_statement=Row(
         "requeue", A.expression,
-        Opt("with", "abort").as_bool(AbortQualifier)
+        Opt("with", "abort").as_bool(Abort)
     ) ^ RequeueStatement,
 
     identifier=Tok(Token.Identifier, keep=True) ^ Identifier,
@@ -823,7 +823,7 @@ A.add_rules(
         Opt(":", A.subtype_indication)[1],
         Or(Row("in") ^ IterType.alt_in,
            Row("of") ^ IterType.alt_of),
-        Opt("reverse").as_bool(ReverseQualifier),
+        Opt("reverse").as_bool(Reverse),
         A.constrained_subtype_indication | A.discrete_range | A.expression
     ) ^ ForLoopSpec,
 

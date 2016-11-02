@@ -2,9 +2,9 @@ CompilationUnit[1:1-7:10]
 | prelude:
 | | WithDecl[1:1-1:17]
 | | | has_limited:
-| | | | LimitedQualifierAbsent[1:1-1:1]
+| | | | LimitedAbsent[1:1-1:1]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | packages:
 | | | | DottedName[1:6-1:17]
 | | | | | prefix:
@@ -25,7 +25,7 @@ CompilationUnit[1:1-7:10]
 | body:
 | | LibraryItem[3:1-7:9]
 | | | has_private:
-| | | | PrivateQualifierAbsent[3:1-3:1]
+| | | | PrivateAbsent[3:1-3:1]
 | | | item:
 | | | | SubprogramBody[3:1-7:9]
 | | | | | overriding:
@@ -43,15 +43,15 @@ CompilationUnit[1:1-7:10]
 | | | | | | | | | | Id[4:4-4:5]
 | | | | | | | | | | | tok: A
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[4:8-4:8]
+| | | | | | | | | | AliasedAbsent[4:8-4:8]
 | | | | | | | | | has_constant:
-| | | | | | | | | | ConstantQualifierAbsent[4:8-4:8]
+| | | | | | | | | | ConstantAbsent[4:8-4:8]
 | | | | | | | | | inout:
 | | | | | | | | | | InOutDefault[4:8-4:15]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:8-4:15]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[4:8-4:8]
+| | | | | | | | | | | | NotNullAbsent[4:8-4:8]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[4:8-4:15]
 | | | | | | | | | | | | | tok: Integer

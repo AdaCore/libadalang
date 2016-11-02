@@ -12,18 +12,18 @@ FullTypeDecl[1:1-1:64]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:19-1:26]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:19-1:19]
+| | | | | | | | NotNullAbsent[1:19-1:19]
 | | | | | | | name:
 | | | | | | | | Id[1:19-1:26]
 | | | | | | | | | tok: Integer
 | type_def:
 | | RecordTypeDef[1:31-1:64]
 | | | has_abstract:
-| | | | AbstractQualifierAbsent[1:31-1:31]
+| | | | AbstractAbsent[1:31-1:31]
 | | | has_tagged:
-| | | | TaggedQualifierAbsent[1:31-1:31]
+| | | | TaggedAbsent[1:31-1:31]
 | | | has_limited:
-| | | | LimitedQualifierAbsent[1:31-1:31]
+| | | | LimitedAbsent[1:31-1:31]
 | | | record_def:
 | | | | RecordDef[1:31-1:64]
 | | | | | components:
@@ -38,11 +38,11 @@ FullTypeDecl[1:1-1:64]
 | | | | | | | | | component_def:
 | | | | | | | | | | ComponentDef[1:45-1:52]
 | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | AliasedQualifierAbsent[1:45-1:45]
+| | | | | | | | | | | | AliasedAbsent[1:45-1:45]
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | SubtypeIndication[1:45-1:52]
 | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullQUalifierAbsent[1:45-1:45]
+| | | | | | | | | | | | | | NotNullAbsent[1:45-1:45]
 | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | Id[1:45-1:52]
 | | | | | | | | | | | | | | | tok: Integer

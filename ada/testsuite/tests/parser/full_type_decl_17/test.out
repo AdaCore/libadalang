@@ -9,7 +9,7 @@ FullTypeDecl[1:1-1:50]
 | | | | | list:
 | | | | | | SubtypeIndication[1:20-1:38]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:20-1:20]
+| | | | | | | | NotNullAbsent[1:20-1:20]
 | | | | | | | name:
 | | | | | | | | CallExpr[1:20-1:38]
 | | | | | | | | | name:
@@ -28,11 +28,11 @@ FullTypeDecl[1:1-1:50]
 | | | stored_component:
 | | | | ComponentDef[1:43-1:50]
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:43-1:43]
+| | | | | | AliasedAbsent[1:43-1:43]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:43-1:50]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:43-1:43]
+| | | | | | | | NotNullAbsent[1:43-1:43]
 | | | | | | | name:
 | | | | | | | | Id[1:43-1:50]
 | | | | | | | | | tok: Integer

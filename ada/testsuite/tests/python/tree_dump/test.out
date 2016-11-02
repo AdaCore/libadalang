@@ -1,14 +1,14 @@
 <CompilationUnit>
 | <list>
 | | <WithDecl>
-| | | <LimitedQualifierAbsent>
-| | | <PrivateQualifierAbsent>
+| | | <LimitedAbsent>
+| | | <PrivateAbsent>
 | | | <list>
 | | | | <DottedName>
 | | | | | <Identifier>
 | | | | | <Identifier>
 | <LibraryItem>
-| | <PrivateQualifierAbsent>
+| | <PrivateAbsent>
 | | <SubprogramBody>
 | | | <OverridingUnspecified>
 | | | <SubprogramSpec>

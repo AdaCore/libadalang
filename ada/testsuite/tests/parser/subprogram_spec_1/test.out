@@ -12,13 +12,13 @@ SubprogramSpec[1:1-1:65]
 | | | | Id[1:19-1:20]
 | | | | | tok: D
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:23-1:23]
+| | | | AliasedAbsent[1:23-1:23]
 | | | mode:
 | | | | InOutDefault[1:23-1:29]
 | | | type_expr:
 | | | | SubtypeIndication[1:23-1:29]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:23-1:23]
+| | | | | | NotNullAbsent[1:23-1:23]
 | | | | | name:
 | | | | | | Id[1:23-1:29]
 | | | | | | | tok: String
@@ -27,7 +27,7 @@ SubprogramSpec[1:1-1:65]
 | | | | Id[1:31-1:32]
 | | | | | tok: E
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:35-1:35]
+| | | | AliasedAbsent[1:35-1:35]
 | | | mode:
 | | | | InOutDefault[1:35-1:41]
 | | | type_expr:
@@ -37,18 +37,18 @@ SubprogramSpec[1:1-1:65]
 | | | | | | | type_def:
 | | | | | | | | TypeAccessDef[1:35-1:49]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:35-1:35]
+| | | | | | | | | | NotNullAbsent[1:35-1:35]
 | | | | | | | | | has_all:
-| | | | | | | | | | AllQualifierAbsent[1:42-1:42]
+| | | | | | | | | | AllAbsent[1:42-1:42]
 | | | | | | | | | has_constant:
-| | | | | | | | | | ConstantQualifierAbsent[1:42-1:42]
+| | | | | | | | | | ConstantAbsent[1:42-1:42]
 | | | | | | | | | subtype_name:
 | | | | | | | | | | Id[1:42-1:49]
 | | | | | | | | | | | tok: Integer
 | returns:
 | | SubtypeIndication[1:58-1:65]
 | | | has_not_null:
-| | | | NotNullQUalifierAbsent[1:58-1:58]
+| | | | NotNullAbsent[1:58-1:58]
 | | | name:
 | | | | Id[1:58-1:65]
 | | | | | tok: Integer

@@ -8,13 +8,13 @@ AcceptStatement[1:1-1:64]
 | | | | Id[1:15-1:22]
 | | | | | tok: An_Item
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:25-1:25]
+| | | | AliasedAbsent[1:25-1:25]
 | | | mode:
 | | | | InOutIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:28-1:32]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:28-1:28]
+| | | | | | NotNullAbsent[1:28-1:28]
 | | | | | name:
 | | | | | | Id[1:28-1:32]
 | | | | | | | tok: Item
@@ -44,13 +44,13 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | | Id[1:94-1:101]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:104-1:104]
+| | | | | | | | | | AliasedAbsent[1:104-1:104]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:104-1:106]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:107-1:111]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:107-1:107]
+| | | | | | | | | | | | NotNullAbsent[1:107-1:107]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:107-1:111]
 | | | | | | | | | | | | | tok: Item
@@ -76,13 +76,13 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | | Id[1:162-1:169]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:172-1:172]
+| | | | | | | | | | AliasedAbsent[1:172-1:172]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:172-1:175]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:176-1:180]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:176-1:176]
+| | | | | | | | | | | | NotNullAbsent[1:176-1:176]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:176-1:180]
 | | | | | | | | | | | | | tok: Item

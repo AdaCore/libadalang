@@ -8,13 +8,13 @@ EntryBody[1:1-1:100]
 | | | | Id[1:15-1:22]
 | | | | | tok: an_item
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:25-1:25]
+| | | | AliasedAbsent[1:25-1:25]
 | | | mode:
 | | | | InOutIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:29-1:33]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:29-1:29]
+| | | | | | NotNullAbsent[1:29-1:29]
 | | | | | name:
 | | | | | | Id[1:29-1:33]
 | | | | | | | tok: item

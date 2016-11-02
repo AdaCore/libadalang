@@ -1,6 +1,6 @@
 DelayStatement[1:1-1:16]
 | has_until:
-| | UntilQualifierPresent[1:7-1:7]
+| | UntilPresent[1:7-1:7]
 | expr:
 | | Id[1:13-1:16]
 | | | tok: Del

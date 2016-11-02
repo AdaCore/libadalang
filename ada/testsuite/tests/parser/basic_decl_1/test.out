@@ -22,13 +22,13 @@ TaskTypeDecl[1:1-1:62]
 | | | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | | | tok: X
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:45-1:45]
+| | | | | | | | | | AliasedAbsent[1:45-1:45]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:45-1:47]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:48-1:52]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:48-1:48]
+| | | | | | | | | | | | NotNullAbsent[1:48-1:48]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:48-1:52]
 | | | | | | | | | | | | | tok: Item

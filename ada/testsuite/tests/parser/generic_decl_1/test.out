@@ -2,7 +2,7 @@ CompilationUnit[1:1-10:7]
 | body:
 | | LibraryItem[1:1-10:6]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | PackageDecl[1:1-10:6]
 | | | | | package_name:

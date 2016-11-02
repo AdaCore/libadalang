@@ -2,7 +2,7 @@ CompilationUnit[1:1-2:9]
 | body:
 | | LibraryItem[1:1-2:8]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | PackageDecl[1:1-2:8]
 | | | | | package_name:
@@ -17,7 +17,7 @@ CompilationUnit[4:1-6:13]
 | body:
 | | LibraryItem[4:1-6:12]
 | | | has_private:
-| | | | PrivateQualifierAbsent[4:1-4:1]
+| | | | PrivateAbsent[4:1-4:1]
 | | | item:
 | | | | GenericPackageDecl[4:1-6:12]
 | | | | | package_decl:
@@ -44,7 +44,7 @@ CompilationUnit[8:1-9:7]
 | body:
 | | LibraryItem[8:1-9:6]
 | | | has_private:
-| | | | PrivateQualifierAbsent[8:1-8:1]
+| | | | PrivateAbsent[8:1-8:1]
 | | | item:
 | | | | PackageDecl[8:1-9:6]
 | | | | | package_name:
@@ -59,7 +59,7 @@ CompilationUnit[11:1-13:9]
 | body:
 | | LibraryItem[11:1-13:8]
 | | | has_private:
-| | | | PrivateQualifierAbsent[11:1-11:1]
+| | | | PrivateAbsent[11:1-11:1]
 | | | item:
 | | | | SubprogramBody[11:1-13:8]
 | | | | | overriding:

@@ -521,66 +521,66 @@ class RecordDef(AdaNode):
     components = Field(type=T.ComponentList)
 
 
-class TaggedQualifier(T.EnumNode):
+class Tagged(T.EnumNode):
     qualifier = True
 
 
-class AbstractQualifier(T.EnumNode):
+class Abstract(T.EnumNode):
     qualifier = True
 
 
-class LimitedQualifier(T.EnumNode):
+class Limited(T.EnumNode):
     qualifier = True
 
 
-class PrivateQualifier(T.EnumNode):
+class Private(T.EnumNode):
     qualifier = True
 
 
-class AliasedQualifier(T.EnumNode):
+class Aliased(T.EnumNode):
     qualifier = True
 
 
-class NotNullQUalifier(T.EnumNode):
+class NotNull(T.EnumNode):
     qualifier = True
 
 
-class ConstantQualifier(T.EnumNode):
+class Constant(T.EnumNode):
     qualifier = True
 
 
-class AllQualifier(T.EnumNode):
+class All(T.EnumNode):
     qualifier = True
 
 
-class AbortQualifier(T.EnumNode):
+class Abort(T.EnumNode):
     qualifier = True
 
 
-class ReverseQualifier(T.EnumNode):
+class Reverse(T.EnumNode):
     qualifier = True
 
 
-class WithPrivateQualifier(T.EnumNode):
+class WithPrivate(T.EnumNode):
     qualifier = True
 
 
-class UntilQualifier(T.EnumNode):
+class Until(T.EnumNode):
     qualifier = True
 
 
-class SynchronizedQualifier(T.EnumNode):
+class Synchronized(T.EnumNode):
     qualifier = True
 
 
-class ProtectedQualifier(T.EnumNode):
+class Protected(T.EnumNode):
     qualifier = True
 
 
 class RecordTypeDef(TypeDef):
-    has_abstract = Field(type=AbstractQualifier)
-    has_tagged = Field(type=TaggedQualifier)
-    has_limited = Field(type=LimitedQualifier)
+    has_abstract = Field(type=Abstract)
+    has_tagged = Field(type=Tagged)
+    has_limited = Field(type=Limited)
     record_def = Field(type=T.RecordDef)
 
     defining_env = Property(
@@ -817,13 +817,13 @@ class DiscriminantAssociation(Constraint):
 
 
 class DerivedTypeDef(TypeDef):
-    has_abstract = Field(type=AbstractQualifier)
-    has_limited = Field(type=LimitedQualifier)
-    has_synchronized = Field(type=SynchronizedQualifier)
+    has_abstract = Field(type=Abstract)
+    has_limited = Field(type=Limited)
+    has_synchronized = Field(type=Synchronized)
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
     record_extension = Field(type=T.RecordDef)
-    has_with_private = Field(type=WithPrivateQualifier)
+    has_with_private = Field(type=WithPrivate)
 
     array_ndims = Property(Self.base_type.array_ndims)
 
@@ -845,7 +845,7 @@ class DerivedTypeDef(TypeDef):
 
 
 class IncompleteTypeDef(TypeDef):
-    has_tagged = Field(type=TaggedQualifier)
+    has_tagged = Field(type=Tagged)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
     # TODO: what should we return for array_ndims? Do we need to find the full
@@ -853,9 +853,9 @@ class IncompleteTypeDef(TypeDef):
 
 
 class PrivateTypeDef(TypeDef):
-    has_abstract = Field(type=AbstractQualifier)
-    has_tagged = Field(type=TaggedQualifier)
-    has_limited = Field(type=LimitedQualifier)
+    has_abstract = Field(type=Abstract)
+    has_tagged = Field(type=Tagged)
+    has_limited = Field(type=Limited)
 
     # TODO: what should we return for array_ndims? Do we need to find the full
     # view?
@@ -928,7 +928,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
 
 class ComponentDef(AdaNode):
-    has_aliased = Field(type=AliasedQualifier)
+    has_aliased = Field(type=Aliased)
     type_expr = Field(type=T.TypeExpression)
 
 
@@ -999,7 +999,7 @@ class ProtectedTypeDecl(BasicDecl):
 
 @abstract
 class AccessDef(TypeDef):
-    has_not_null = Field(type=NotNullQUalifier)
+    has_not_null = Field(type=NotNull)
 
     is_access_type = Property(True)
     accessed_type = Property(No(TypeDecl))
@@ -1008,13 +1008,13 @@ class AccessDef(TypeDef):
 
 
 class SubprogramAccessDef(AccessDef):
-    has_protected = Field(type=ProtectedQualifier, repr=False)
+    has_protected = Field(type=Protected, repr=False)
     subp_spec = Field(type=T.SubprogramSpec)
 
 
 class TypeAccessDef(AccessDef):
-    has_all = Field(type=AllQualifier)
-    has_constant = Field(type=ConstantQualifier)
+    has_all = Field(type=All)
+    has_constant = Field(type=Constant)
     subtype_name = Field(type=T.Expr)
     accessed_type = Property(Self.subtype_name.designated_type)
     constraint = Field(type=T.Constraint)
@@ -1029,8 +1029,8 @@ class NullComponentDecl(AdaNode):
 
 
 class WithDecl(AdaNode):
-    has_limited = Field(type=LimitedQualifier)
-    has_private = Field(type=PrivateQualifier)
+    has_limited = Field(type=Limited)
+    has_private = Field(type=Private)
     packages = Field(type=T.Name.list_type())
 
     env_spec = EnvSpec(env_hook_arg=Self)
@@ -1050,7 +1050,7 @@ class UsePkgDecl(UseDecl):
 
 
 class UseTypDecl(UseDecl):
-    has_all = Field(type=AllQualifier)
+    has_all = Field(type=All)
     types = Field(type=T.Expr.list_type())
 
 
@@ -1094,7 +1094,7 @@ class AnonymousType(TypeExpression):
 
 
 class SubtypeIndication(TypeExpression):
-    has_not_null = Field(type=NotNullQUalifier)
+    has_not_null = Field(type=NotNull)
     name = Field(type=T.Expr)
     constraint = Field(type=T.Constraint)
 
@@ -1113,7 +1113,7 @@ class InOut(T.EnumNode):
 
 class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
-    has_aliased = Field(type=AliasedQualifier)
+    has_aliased = Field(type=Aliased)
     mode = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
@@ -1286,8 +1286,8 @@ class NumberDecl(BasicDecl):
 
 class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
-    has_aliased = Field(type=AliasedQualifier)
-    has_constant = Field(type=ConstantQualifier)
+    has_aliased = Field(type=Aliased)
+    has_constant = Field(type=Constant)
     inout = Field(type=InOut)
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
@@ -1435,7 +1435,7 @@ class FormalSubpDecl(BasicDecl):
     Formal subprogram declarations, in generic declarations formal parts.
     """
     subp_spec = Field(type=T.SubprogramSpec)
-    has_abstract = Field(type=AbstractQualifier)
+    has_abstract = Field(type=Abstract)
     default_value = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpecification)
 
@@ -2380,7 +2380,7 @@ class ForLoopSpec(LoopSpec):
     id = Field(type=T.Identifier)
     id_type = Field(type=T.SubtypeIndication)
     loop_type = Field(type=IterType)
-    has_reverse = Field(type=ReverseQualifier)
+    has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
 
@@ -2592,7 +2592,7 @@ class ReturnStatement(SimpleStatement):
 
 class RequeueStatement(SimpleStatement):
     call_name = Field(type=T.Expr)
-    has_abort = Field(type=AbortQualifier)
+    has_abort = Field(type=Abort)
 
 
 class AbortStatement(SimpleStatement):
@@ -2600,7 +2600,7 @@ class AbortStatement(SimpleStatement):
 
 
 class DelayStatement(SimpleStatement):
-    has_until = Field(type=UntilQualifier)
+    has_until = Field(type=Until)
     expr = Field(type=T.Expr)
 
 
@@ -2764,5 +2764,5 @@ class TaskBodyStub(BodyStub):
 
 
 class LibraryItem(AdaNode):
-    has_private = Field(type=PrivateQualifier)
+    has_private = Field(type=Private)
     item = Field(type=T.BasicDecl)

@@ -16,7 +16,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:45-1:54]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:45-1:45]
+| | | | | | | | | | NotNullAbsent[1:45-1:45]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | tok: Buffer_Id
@@ -26,13 +26,13 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:57-1:64]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:67-1:67]
+| | | | | | | | | | AliasedAbsent[1:67-1:67]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:67-1:69]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:70-1:74]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:70-1:70]
+| | | | | | | | | | | | NotNullAbsent[1:70-1:70]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:70-1:74]
 | | | | | | | | | | | | | tok: Item
@@ -45,7 +45,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | family_type:
 | | | | | | | | SubtypeIndication[1:91-1:100]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:91-1:91]
+| | | | | | | | | | NotNullAbsent[1:91-1:91]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:91-1:100]
 | | | | | | | | | | | tok: Buffer_Id
@@ -55,13 +55,13 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:103-1:110]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:113-1:113]
+| | | | | | | | | | AliasedAbsent[1:113-1:113]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:113-1:116]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:117-1:121]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:117-1:117]
+| | | | | | | | | | | | NotNullAbsent[1:117-1:117]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:117-1:121]
 | | | | | | | | | | | | | tok: Item

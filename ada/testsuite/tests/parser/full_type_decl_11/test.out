@@ -5,4 +5,4 @@ FullTypeDecl[1:1-1:7]
 | type_def:
 | | IncompleteTypeDef[1:7-1:7]
 | | | has_tagged:
-| | | | TaggedQualifierAbsent[1:7-1:7]
+| | | | TaggedAbsent[1:7-1:7]

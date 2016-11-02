@@ -4,9 +4,9 @@
 |  |item 0:
 |  |  <WithDecl>
 |  |  |has_limited:
-|  |  |  <LimitedQualifierAbsent>
+|  |  |  <LimitedAbsent>
 |  |  |has_private:
-|  |  |  <PrivateQualifierAbsent>
+|  |  |  <PrivateAbsent>
 |  |  |packages:
 |  |  |  <list>
 |  |  |  |item 0:
@@ -20,7 +20,7 @@
 |body:
 |  <LibraryItem>
 |  |has_private:
-|  |  <PrivateQualifierAbsent>
+|  |  <PrivateAbsent>
 |  |item:
 |  |  <SubprogramBody>
 |  |  |overriding:
@@ -57,13 +57,13 @@
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
 |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  <AliasedQualifierAbsent>
+|  |  |  |  |  |  |  |  |  <AliasedAbsent>
 |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  <InOutDefault>
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  <NotNullQUalifierAbsent>
+|  |  |  |  |  |  |  |  |  |  <NotNullAbsent>
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
@@ -72,7 +72,7 @@
 |  |  |  |  |  |  |returns:
 |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  <NotNullQUalifierAbsent>
+|  |  |  |  |  |  |  |  <NotNullAbsent>
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |tok: Token(u'Integer')

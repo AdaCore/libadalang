@@ -2,7 +2,7 @@ CompilationUnit[1:1-1:24]
 | body:
 | | LibraryItem[1:1-1:23]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | GenericPackageInstantiation[1:1-1:23]
 | | | | | name:

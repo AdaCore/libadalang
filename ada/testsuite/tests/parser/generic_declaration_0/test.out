@@ -7,11 +7,11 @@ GenericSubprogramDecl[1:1-1:76]
 | | | type_def:
 | | | | PrivateTypeDef[1:24-1:34]
 | | | | | has_abstract:
-| | | | | | AbstractQualifierAbsent[1:27-1:27]
+| | | | | | AbstractAbsent[1:27-1:27]
 | | | | | has_tagged:
-| | | | | | TaggedQualifierAbsent[1:27-1:27]
+| | | | | | TaggedAbsent[1:27-1:27]
 | | | | | has_limited:
-| | | | | | LimitedQualifierAbsent[1:27-1:27]
+| | | | | | LimitedAbsent[1:27-1:27]
 | subp_spec:
 | | SubprogramSpec[1:36-1:76]
 | | | name:
@@ -25,13 +25,13 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | | Id[1:55-1:56]
 | | | | | | | tok: Y
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:59-1:59]
+| | | | | | AliasedAbsent[1:59-1:59]
 | | | | | mode:
 | | | | | | InOutInOut[1:59-1:65]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:66-1:75]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:66-1:66]
+| | | | | | | | NotNullAbsent[1:66-1:66]
 | | | | | | | name:
 | | | | | | | | Id[1:66-1:75]
 | | | | | | | | | tok: Element_T

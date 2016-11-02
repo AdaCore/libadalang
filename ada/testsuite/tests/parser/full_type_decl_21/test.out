@@ -5,11 +5,11 @@ FullTypeDecl[1:1-1:23]
 | type_def:
 | | TypeAccessDef[1:11-1:23]
 | | | has_not_null:
-| | | | NotNullQUalifierAbsent[1:11-1:11]
+| | | | NotNullAbsent[1:11-1:11]
 | | | has_all:
-| | | | AllQualifierPresent[1:18-1:18]
+| | | | AllPresent[1:18-1:18]
 | | | has_constant:
-| | | | ConstantQualifierAbsent[1:22-1:22]
+| | | | ConstantAbsent[1:22-1:22]
 | | | subtype_name:
 | | | | Id[1:22-1:23]
 | | | | | tok: B

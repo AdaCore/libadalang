@@ -15,13 +15,13 @@ ProtectedBody[1:1-1:271]
 | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | tok: an_item
 | | | | | | | has_aliased:
-| | | | | | | | AliasedQualifierAbsent[1:65-1:65]
+| | | | | | | | AliasedAbsent[1:65-1:65]
 | | | | | | | mode:
 | | | | | | | | InOutIn[1:65-1:67]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:69-1:69]
+| | | | | | | | | | NotNullAbsent[1:69-1:69]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:69-1:73]
 | | | | | | | | | | | tok: item
@@ -57,13 +57,13 @@ ProtectedBody[1:1-1:271]
 | | | | | | | | Id[1:156-1:163]
 | | | | | | | | | tok: an_item
 | | | | | | | has_aliased:
-| | | | | | | | AliasedQualifierAbsent[1:166-1:166]
+| | | | | | | | AliasedAbsent[1:166-1:166]
 | | | | | | | mode:
 | | | | | | | | InOutOut[1:166-1:169]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:170-1:174]
 | | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullQUalifierAbsent[1:170-1:170]
+| | | | | | | | | | NotNullAbsent[1:170-1:170]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:170-1:174]
 | | | | | | | | | | | tok: item

@@ -12,7 +12,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:27-1:33]
 | | | | | | | tok: Buffer
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:36-1:36]
+| | | | | | AliasedAbsent[1:36-1:36]
 | | | | | mode:
 | | | | | | InOutDefault[1:36-1:42]
 | | | | | type_expr:
@@ -22,11 +22,11 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | | | type_def:
 | | | | | | | | | | TypeAccessDef[1:36-1:69]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:36-1:36]
+| | | | | | | | | | | | NotNullAbsent[1:36-1:36]
 | | | | | | | | | | | has_all:
-| | | | | | | | | | | | AllQualifierAbsent[1:43-1:43]
+| | | | | | | | | | | | AllAbsent[1:43-1:43]
 | | | | | | | | | | | has_constant:
-| | | | | | | | | | | | ConstantQualifierAbsent[1:43-1:43]
+| | | | | | | | | | | | ConstantAbsent[1:43-1:43]
 | | | | | | | | | | | subtype_name:
 | | | | | | | | | | | | AttributeRef[1:43-1:69]
 | | | | | | | | | | | | | prefix:
@@ -40,13 +40,13 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:71-1:76]
 | | | | | | | tok: Start
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:80-1:80]
+| | | | | | AliasedAbsent[1:80-1:80]
 | | | | | mode:
 | | | | | | InOutDefault[1:80-1:96]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:80-1:96]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:80-1:80]
+| | | | | | | | NotNullAbsent[1:80-1:80]
 | | | | | | | name:
 | | | | | | | | Id[1:80-1:96]
 | | | | | | | | | tok: Buffer_Line_Type
@@ -55,13 +55,13 @@ SubprogramDecl[1:1-1:124]
 | | | | | | Id[1:98-1:104]
 | | | | | | | tok: Number
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:107-1:107]
+| | | | | | AliasedAbsent[1:107-1:107]
 | | | | | mode:
 | | | | | | InOutDefault[1:107-1:123]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:107-1:123]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:107-1:107]
+| | | | | | | | NotNullAbsent[1:107-1:107]
 | | | | | | | name:
 | | | | | | | | Id[1:107-1:123]
 | | | | | | | | | tok: Buffer_Line_Type

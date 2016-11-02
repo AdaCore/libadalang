@@ -12,13 +12,13 @@ SubprogramDecl[1:1-1:54]
 | | | | | | Id[1:29-1:30]
 | | | | | | | tok: B
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:33-1:33]
+| | | | | | AliasedAbsent[1:33-1:33]
 | | | | | mode:
 | | | | | | InOutDefault[1:33-1:40]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:33-1:40]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:33-1:33]
+| | | | | | | | NotNullAbsent[1:33-1:33]
 | | | | | | | name:
 | | | | | | | | Id[1:33-1:40]
 | | | | | | | | | tok: Integer
@@ -27,13 +27,13 @@ SubprogramDecl[1:1-1:54]
 | | | | | | Id[1:42-1:43]
 | | | | | | | tok: C
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:46-1:46]
+| | | | | | AliasedAbsent[1:46-1:46]
 | | | | | mode:
 | | | | | | InOutDefault[1:46-1:53]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:46-1:53]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:46-1:46]
+| | | | | | | | NotNullAbsent[1:46-1:46]
 | | | | | | | name:
 | | | | | | | | Id[1:46-1:53]
 | | | | | | | | | tok: Natural

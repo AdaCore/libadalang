@@ -5,15 +5,15 @@ ExtendedReturnStatement[1:1-1:41]
 | | | | Id[1:8-1:9]
 | | | | | tok: A
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:12-1:12]
+| | | | AliasedAbsent[1:12-1:12]
 | | | has_constant:
-| | | | ConstantQualifierAbsent[1:12-1:12]
+| | | | ConstantAbsent[1:12-1:12]
 | | | inout:
 | | | | InOutDefault[1:12-1:19]
 | | | type_expr:
 | | | | SubtypeIndication[1:12-1:19]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:12-1:12]
+| | | | | | NotNullAbsent[1:12-1:12]
 | | | | | name:
 | | | | | | Id[1:12-1:19]
 | | | | | | | tok: Integer

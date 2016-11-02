@@ -5,4 +5,4 @@ FullTypeDecl[1:1-1:17]
 | type_def:
 | | IncompleteTypeDef[1:8-1:17]
 | | | has_tagged:
-| | | | TaggedQualifierPresent[1:8-1:8]
+| | | | TaggedPresent[1:8-1:8]

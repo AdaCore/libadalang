@@ -2,7 +2,7 @@ CompilationUnit[1:1-10:9]
 | body:
 | | LibraryItem[1:1-10:8]
 | | | has_private:
-| | | | PrivateQualifierAbsent[1:1-1:1]
+| | | | PrivateAbsent[1:1-1:1]
 | | | item:
 | | | | PackageBody[1:1-10:8]
 | | | | | package_name:
@@ -27,13 +27,13 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | Id[2:22-2:23]
 | | | | | | | | | | | | | | | tok: J
 | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | AliasedQualifierAbsent[2:26-2:26]
+| | | | | | | | | | | | | | AliasedAbsent[2:26-2:26]
 | | | | | | | | | | | | | mode:
 | | | | | | | | | | | | | | InOutDefault[2:26-2:33]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[2:26-2:33]
 | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | NotNullQUalifierAbsent[2:26-2:26]
+| | | | | | | | | | | | | | | | NotNullAbsent[2:26-2:26]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[2:26-2:33]
 | | | | | | | | | | | | | | | | | tok: Integer
@@ -51,7 +51,7 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | subtype:
 | | | | | | | | | | | | | | | | SubtypeIndication[5:25-5:46]
 | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | NotNullQUalifierAbsent[5:25-5:25]
+| | | | | | | | | | | | | | | | | | NotNullAbsent[5:25-5:25]
 | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | Id[5:25-5:32]
 | | | | | | | | | | | | | | | | | | | tok: Integer

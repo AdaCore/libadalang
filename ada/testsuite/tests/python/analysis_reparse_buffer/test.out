@@ -1,7 +1,7 @@
 1. Parsing using buffer 1
-WithDecl: has_limited = <LimitedQualifierPresent 2:1-2:1>
+WithDecl: has_limited = <LimitedPresent 2:1-2:1>
 2. Parsing using buffer 2
-WithDecl: has_limited = <LimitedQualifierAbsent 1:1-1:1>
+WithDecl: has_limited = <LimitedAbsent 1:1-1:1>
 3. Reparsing using buffer 1
-WithDecl: has_limited = <LimitedQualifierPresent 2:1-2:1>
+WithDecl: has_limited = <LimitedPresent 2:1-2:1>
 Done.

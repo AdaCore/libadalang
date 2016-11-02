@@ -45,7 +45,7 @@ void check(ada_analysis_unit unit)
         error("Could not traverse the AST as expected");
 
     ada_bool is_limited;
-    ada_limited_qualifier_p_as_bool (has_limited, &is_limited);
+    ada_limited_node_p_as_bool (has_limited, &is_limited);
     printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
 }
 

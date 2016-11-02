@@ -5,7 +5,7 @@ Allocator[1:1-1:24]
 | type:
 | | SubtypeIndication[1:12-1:24]
 | | | has_not_null:
-| | | | NotNullQUalifierAbsent[1:12-1:12]
+| | | | NotNullAbsent[1:12-1:12]
 | | | name:
 | | | | QualExpr[1:12-1:24]
 | | | | | prefix:

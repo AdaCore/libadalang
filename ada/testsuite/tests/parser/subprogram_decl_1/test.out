@@ -12,13 +12,13 @@ ExpressionFunction[1:1-1:75]
 | | | | | | Id[1:24-1:25]
 | | | | | | | tok: B
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:28-1:28]
+| | | | | | AliasedAbsent[1:28-1:28]
 | | | | | mode:
 | | | | | | InOutDefault[1:28-1:35]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:28-1:35]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:28-1:28]
+| | | | | | | | NotNullAbsent[1:28-1:28]
 | | | | | | | name:
 | | | | | | | | Id[1:28-1:35]
 | | | | | | | | | tok: Integer
@@ -27,20 +27,20 @@ ExpressionFunction[1:1-1:75]
 | | | | | | Id[1:37-1:38]
 | | | | | | | tok: C
 | | | | | has_aliased:
-| | | | | | AliasedQualifierAbsent[1:41-1:41]
+| | | | | | AliasedAbsent[1:41-1:41]
 | | | | | mode:
 | | | | | | InOutDefault[1:41-1:48]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:41-1:48]
 | | | | | | | has_not_null:
-| | | | | | | | NotNullQUalifierAbsent[1:41-1:41]
+| | | | | | | | NotNullAbsent[1:41-1:41]
 | | | | | | | name:
 | | | | | | | | Id[1:41-1:48]
 | | | | | | | | | tok: Integer
 | | | returns:
 | | | | SubtypeIndication[1:57-1:64]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:57-1:57]
+| | | | | | NotNullAbsent[1:57-1:57]
 | | | | | name:
 | | | | | | Id[1:57-1:64]
 | | | | | | | tok: Integer

@@ -19,13 +19,13 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:65-1:65]
+| | | | | | | | | | AliasedAbsent[1:65-1:65]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutIn[1:65-1:67]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:69-1:69]
+| | | | | | | | | | | | NotNullAbsent[1:69-1:69]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:69-1:73]
 | | | | | | | | | | | | | tok: Item
@@ -41,13 +41,13 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | | Id[1:90-1:97]
 | | | | | | | | | | | tok: An_Item
 | | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedQualifierAbsent[1:100-1:100]
+| | | | | | | | | | AliasedAbsent[1:100-1:100]
 | | | | | | | | | mode:
 | | | | | | | | | | InOutOut[1:100-1:103]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:104-1:108]
 | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullQUalifierAbsent[1:104-1:104]
+| | | | | | | | | | | | NotNullAbsent[1:104-1:104]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:104-1:108]
 | | | | | | | | | | | | | tok: Item

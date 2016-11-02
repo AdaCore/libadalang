@@ -14,11 +14,11 @@ ArrayTypeDef[1:1-1:24]
 | stored_component:
 | | ComponentDef[1:19-1:24]
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:19-1:19]
+| | | | AliasedAbsent[1:19-1:19]
 | | | type_expr:
 | | | | SubtypeIndication[1:19-1:24]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:19-1:19]
+| | | | | | NotNullAbsent[1:19-1:19]
 | | | | | name:
 | | | | | | Id[1:19-1:24]
 | | | | | | | tok: Pouet

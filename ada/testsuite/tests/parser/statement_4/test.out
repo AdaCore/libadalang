@@ -5,15 +5,15 @@ BlockStatement[1:1-1:46]
 | | | | Id[1:9-1:10]
 | | | | | tok: A
 | | | has_aliased:
-| | | | AliasedQualifierAbsent[1:13-1:13]
+| | | | AliasedAbsent[1:13-1:13]
 | | | has_constant:
-| | | | ConstantQualifierAbsent[1:13-1:13]
+| | | | ConstantAbsent[1:13-1:13]
 | | | inout:
 | | | | InOutDefault[1:13-1:20]
 | | | type_expr:
 | | | | SubtypeIndication[1:13-1:20]
 | | | | | has_not_null:
-| | | | | | NotNullQUalifierAbsent[1:13-1:13]
+| | | | | | NotNullAbsent[1:13-1:13]
 | | | | | name:
 | | | | | | Id[1:13-1:20]
 | | | | | | | tok: Integer

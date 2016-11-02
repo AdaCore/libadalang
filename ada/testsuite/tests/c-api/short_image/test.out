@@ -1,14 +1,14 @@
 <CompilationUnit 1:1-6:9>
 | <ASTList 1:1-1:18>
 | | <WithDecl 1:1-1:17>
-| | | <LimitedQualifierAbsent 1:1-1:1>
-| | | <PrivateQualifierAbsent 1:1-1:1>
+| | | <LimitedAbsent 1:1-1:1>
+| | | <PrivateAbsent 1:1-1:1>
 | | | <ASTList 1:6-1:17>
 | | | | <DottedName 1:6-1:17>
 | | | | | <Id "Ada" 1:6-1:9>
 | | | | | <Id "Text_IO" 1:10-1:17>
 | <LibraryItem 3:1-6:8>
-| | <PrivateQualifierAbsent 3:1-3:1>
+| | <PrivateAbsent 3:1-3:1>
 | | <SubprogramBody ["Foo"] 3:1-6:8>
 | | | <OverridingUnspecified 3:1-3:10>
 | | | <SubprogramSpec 3:1-3:14>

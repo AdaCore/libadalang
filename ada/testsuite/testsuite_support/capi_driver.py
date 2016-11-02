@@ -77,7 +77,7 @@ class CAPIDriver(BaseDriver):
         # shared libraries, make it explicit: some dependencies (such as
         # GNATcoll) use shared ones by default while others such as gnat_util
         # use static ones.
-        argv = ['gprbuild', '-Pp']
+        argv = ['gprbuild', '-Pp', '-m']
         if self.disable_shared:
             argv.append('-XLIBRARY_TYPE=static')
         else:

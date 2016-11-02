@@ -10,7 +10,7 @@ SubprogramSpec[1:1-1:69]
 | | | has_aliased:
 | | | | AliasedAbsent[1:18-1:18]
 | | | mode:
-| | | | InOutInOut[1:18-1:24]
+| | | | ModeInOut[1:18-1:24]
 | | | type_expr:
 | | | | AnonymousType[1:25-1:55]
 | | | | | type_decl:
@@ -29,7 +29,7 @@ SubprogramSpec[1:1-1:69]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[1:47-1:47]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutDefault[1:47-1:54]
+| | | | | | | | | | | | | | ModeDefault[1:47-1:54]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:47-1:54]
 | | | | | | | | | | | | | | | has_not_null:
@@ -44,7 +44,7 @@ SubprogramSpec[1:1-1:69]
 | | | has_aliased:
 | | | | AliasedAbsent[1:61-1:61]
 | | | mode:
-| | | | InOutDefault[1:61-1:68]
+| | | | ModeDefault[1:61-1:68]
 | | | type_expr:
 | | | | SubtypeIndication[1:61-1:68]
 | | | | | has_not_null:

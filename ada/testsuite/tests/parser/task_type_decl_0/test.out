@@ -28,7 +28,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:67-1:67]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutIn[1:67-1:69]
+| | | | | | | | | | ModeIn[1:67-1:69]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:70-1:74]
 | | | | | | | | | | | has_not_null:
@@ -57,7 +57,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:113-1:113]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutOut[1:113-1:116]
+| | | | | | | | | | ModeOut[1:113-1:116]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:117-1:121]
 | | | | | | | | | | | has_not_null:

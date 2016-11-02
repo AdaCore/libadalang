@@ -21,7 +21,7 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:65-1:65]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutIn[1:65-1:67]
+| | | | | | | | | | ModeIn[1:65-1:67]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | | | has_not_null:
@@ -43,7 +43,7 @@ ProtectedTypeDecl[1:1-1:136]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:100-1:100]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutOut[1:100-1:103]
+| | | | | | | | | | ModeOut[1:100-1:103]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:104-1:108]
 | | | | | | | | | | | has_not_null:

@@ -29,7 +29,7 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[2:26-2:26]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutDefault[2:26-2:33]
+| | | | | | | | | | | | | | ModeDefault[2:26-2:33]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[2:26-2:33]
 | | | | | | | | | | | | | | | has_not_null:

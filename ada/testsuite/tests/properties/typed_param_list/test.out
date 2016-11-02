@@ -13,7 +13,7 @@ A:
 |has_aliased:
 |  <AliasedAbsent>
 |mode:
-|  <InOutDefault>
+|  <ModeDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |has_not_null:
@@ -39,7 +39,7 @@ A:
 |has_aliased:
 |  <AliasedAbsent>
 |mode:
-|  <InOutDefault>
+|  <ModeDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |has_not_null:
@@ -63,7 +63,7 @@ B:
 |has_aliased:
 |  <AliasedAbsent>
 |mode:
-|  <InOutDefault>
+|  <ModeDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |has_not_null:
@@ -84,7 +84,7 @@ C:
 |has_aliased:
 |  <AliasedAbsent>
 |mode:
-|  <InOutDefault>
+|  <ModeDefault>
 |type_expr:
 |  <SubtypeIndication>
 |  |has_not_null:

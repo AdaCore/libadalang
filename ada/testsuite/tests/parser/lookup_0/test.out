@@ -34,7 +34,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[3:34-3:34]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[3:34-3:46]
+| | | | | | | | | | ModeDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | | | | | has_not_null:
@@ -61,7 +61,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[5:23-5:23]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutDefault[5:23-5:30]
+| | | | | | | | | | | | | | ModeDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | | | | | has_not_null:
@@ -344,7 +344,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[3:34-3:34]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[3:34-3:46]
+| | | | | | | | | | ModeDefault[3:34-3:46]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | | | | | has_not_null:
@@ -371,7 +371,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[5:23-5:23]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutDefault[5:23-5:30]
+| | | | | | | | | | | | | | ModeDefault[5:23-5:30]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | | | | | has_not_null:
@@ -534,7 +534,7 @@ SubprogramBody[3:1-17:9]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[3:34-3:34]
 | | | | | mode:
-| | | | | | InOutDefault[3:34-3:46]
+| | | | | | ModeDefault[3:34-3:46]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[3:34-3:46]
 | | | | | | | has_not_null:
@@ -561,7 +561,7 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[5:23-5:23]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[5:23-5:30]
+| | | | | | | | | | ModeDefault[5:23-5:30]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[5:23-5:30]
 | | | | | | | | | | | has_not_null:

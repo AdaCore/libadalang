@@ -11,7 +11,7 @@ CompilationUnit
 | | | | | | ASTList
 | | | | | | | Id
 | | | | | | -- Hinhin
-| | | | | | InOutDefault
+| | | | | | ModeDefault
 | | | | | | SubtypeIndication
 | | | | | | | Id
 | | | -- Huhu

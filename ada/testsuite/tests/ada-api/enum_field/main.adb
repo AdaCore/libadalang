@@ -24,7 +24,7 @@ begin
          Name_Text : constant Text_Type := Data (Name).Text.all;
       begin
          Put_Line
-           (Image (Name_Text) & " is a: " & Ada_In_Out'Image (PP.F_Mode));
+           (Image (Name_Text) & " is a: " & Ada_Mode'Image (PP.F_Mode));
       end;
    end loop;
    Destroy (Ctx);

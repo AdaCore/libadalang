@@ -44,7 +44,7 @@ TaskBody[1:1-1:572]
 | | | | | has_constant:
 | | | | | | ConstantAbsent[1:120-1:120]
 | | | | | inout:
-| | | | | | InOutDefault[1:120-1:127]
+| | | | | | ModeDefault[1:120-1:127]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:120-1:145]
 | | | | | | | has_not_null:
@@ -78,7 +78,7 @@ TaskBody[1:1-1:572]
 | | | | | has_constant:
 | | | | | | ConstantAbsent[1:165-1:165]
 | | | | | inout:
-| | | | | | InOutDefault[1:165-1:172]
+| | | | | | ModeDefault[1:165-1:172]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:165-1:172]
 | | | | | | | has_not_null:
@@ -98,7 +98,7 @@ TaskBody[1:1-1:572]
 | | | | | has_constant:
 | | | | | | ConstantAbsent[1:186-1:186]
 | | | | | inout:
-| | | | | | InOutDefault[1:186-1:191]
+| | | | | | ModeDefault[1:186-1:191]
 | | | | | type_expr:
 | | | | | | AnonymousType[1:186-1:209]
 | | | | | | | type_decl:
@@ -156,7 +156,7 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[1:278-1:278]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutIn[1:278-1:280]
+| | | | | | | | | | | | | | ModeIn[1:278-1:280]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:282-1:286]
 | | | | | | | | | | | | | | | has_not_null:
@@ -242,7 +242,7 @@ TaskBody[1:1-1:572]
 | | | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | | | AliasedAbsent[1:424-1:424]
 | | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | InOutOut[1:424-1:427]
+| | | | | | | | | | | | | | ModeOut[1:424-1:427]
 | | | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | | | SubtypeIndication[1:428-1:432]
 | | | | | | | | | | | | | | | has_not_null:

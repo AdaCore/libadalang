@@ -14,7 +14,7 @@ SelectStatement[1:1-1:154]
 | | | | | | | has_aliased:
 | | | | | | | | AliasedAbsent[1:34-1:34]
 | | | | | | | mode:
-| | | | | | | | InOutIn[1:34-1:36]
+| | | | | | | | ModeIn[1:34-1:36]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:37-1:41]
 | | | | | | | | | has_not_null:
@@ -46,7 +46,7 @@ SelectStatement[1:1-1:154]
 | | | | | | | has_aliased:
 | | | | | | | | AliasedAbsent[1:102-1:102]
 | | | | | | | mode:
-| | | | | | | | InOutOut[1:102-1:105]
+| | | | | | | | ModeOut[1:102-1:105]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:106-1:110]
 | | | | | | | | | has_not_null:

@@ -14,7 +14,7 @@ SubprogramDecl[1:1-1:54]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:33-1:33]
 | | | | | mode:
-| | | | | | InOutDefault[1:33-1:40]
+| | | | | | ModeDefault[1:33-1:40]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:33-1:40]
 | | | | | | | has_not_null:
@@ -29,7 +29,7 @@ SubprogramDecl[1:1-1:54]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:46-1:46]
 | | | | | mode:
-| | | | | | InOutDefault[1:46-1:53]
+| | | | | | ModeDefault[1:46-1:53]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:46-1:53]
 | | | | | | | has_not_null:

@@ -59,7 +59,7 @@
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  <AliasedAbsent>
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  <InOutDefault>
+|  |  |  |  |  |  |  |  |  <ModeDefault>
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |  |  |has_not_null:

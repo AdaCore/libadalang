@@ -24,7 +24,7 @@ TaskTypeDecl[1:1-1:62]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:45-1:45]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutIn[1:45-1:47]
+| | | | | | | | | | ModeIn[1:45-1:47]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:48-1:52]
 | | | | | | | | | | | has_not_null:

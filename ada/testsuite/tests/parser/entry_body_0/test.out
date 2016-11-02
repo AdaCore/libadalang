@@ -10,7 +10,7 @@ EntryBody[1:1-1:100]
 | | | has_aliased:
 | | | | AliasedAbsent[1:25-1:25]
 | | | mode:
-| | | | InOutIn[1:25-1:27]
+| | | | ModeIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:29-1:33]
 | | | | | has_not_null:

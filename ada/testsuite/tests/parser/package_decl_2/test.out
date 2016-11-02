@@ -21,7 +21,7 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:45-1:45]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[1:45-1:54]
+| | | | | | | | | | ModeDefault[1:45-1:54]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:45-1:54]
 | | | | | | | | | | | has_not_null:

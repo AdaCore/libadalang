@@ -34,7 +34,7 @@ CompilationUnit
 | | | | | ObjectDecl
 | | | | | | ASTList
 | | | | | | | Id
-| | | | | | InOutDefault
+| | | | | | ModeDefault
 | | | | | | SubtypeIndication
 | | | | | | | Id
 | | | | | | BinOp
@@ -53,13 +53,13 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutInOut
+| | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
@@ -67,7 +67,7 @@ CompilationUnit
 | | | | | | | | ObjectDecl
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | | BinOp
@@ -227,13 +227,13 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutInOut
+| | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
@@ -343,13 +343,13 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -412,13 +412,13 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -484,7 +484,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutInOut
+| | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
@@ -511,7 +511,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutInOut
+| | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
@@ -534,7 +534,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -568,7 +568,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -602,7 +602,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -626,7 +626,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -645,14 +645,14 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -715,7 +715,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -764,7 +764,7 @@ CompilationUnit
 | | | | | | | | ParameterProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
-| | | | | | | | | InOutDefault
+| | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | SubtypeIndication
@@ -779,13 +779,13 @@ CompilationUnit
 | | | | | | | | | | | ParameterProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | | InOutDefault
+| | | | | | | | | | | | ModeDefault
 | | | | | | | | | | | | SubtypeIndication
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | ParameterProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | | InOutDefault
+| | | | | | | | | | | | ModeDefault
 | | | | | | | | | | | | SubtypeIndication
 | | | | | | | | | | | | | Id
 | | | | | | | | | | SubtypeIndication

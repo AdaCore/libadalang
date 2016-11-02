@@ -14,7 +14,7 @@ ExpressionFunction[1:1-1:64]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:17-1:17]
 | | | | | mode:
-| | | | | | InOutDefault[1:17-1:24]
+| | | | | | ModeDefault[1:17-1:24]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:17-1:24]
 | | | | | | | has_not_null:

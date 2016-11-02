@@ -7,7 +7,7 @@ ObjectDecl[1:1-1:50]
 | has_constant:
 | | ConstantPresent[1:15-1:15]
 | inout:
-| | InOutDefault[1:24-1:29]
+| | ModeDefault[1:24-1:29]
 | type_expr:
 | | AnonymousType[1:24-1:50]
 | | | type_decl:

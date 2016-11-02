@@ -19,7 +19,7 @@ EntryDecl[1:1-1:45]
 | | | has_aliased:
 | | | | AliasedAbsent[1:37-1:37]
 | | | mode:
-| | | | InOutIn[1:37-1:39]
+| | | | ModeIn[1:37-1:39]
 | | | type_expr:
 | | | | SubtypeIndication[1:40-1:44]
 | | | | | has_not_null:

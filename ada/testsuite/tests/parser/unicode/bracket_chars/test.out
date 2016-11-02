@@ -38,7 +38,7 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | has_constant:
 | | | | | | | | | | ConstantPresent[4:24-4:24]
 | | | | | | | | | inout:
-| | | | | | | | | | InOutDefault[4:33-4:39]
+| | | | | | | | | | ModeDefault[4:33-4:39]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[4:33-4:39]
 | | | | | | | | | | | has_not_null:

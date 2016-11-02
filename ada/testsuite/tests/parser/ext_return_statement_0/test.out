@@ -9,7 +9,7 @@ ExtendedReturnStatement[1:1-1:41]
 | | | has_constant:
 | | | | ConstantAbsent[1:12-1:12]
 | | | inout:
-| | | | InOutDefault[1:12-1:19]
+| | | | ModeDefault[1:12-1:19]
 | | | type_expr:
 | | | | SubtypeIndication[1:12-1:19]
 | | | | | has_not_null:

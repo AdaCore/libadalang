@@ -27,7 +27,7 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:59-1:59]
 | | | | | mode:
-| | | | | | InOutInOut[1:59-1:65]
+| | | | | | ModeInOut[1:59-1:65]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:66-1:75]
 | | | | | | | has_not_null:

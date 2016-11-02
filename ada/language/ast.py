@@ -1106,7 +1106,7 @@ class SubtypeIndication(TypeExpression):
     )
 
 
-class InOut(T.EnumNode):
+class Mode(T.EnumNode):
     alternatives = ["in", "out", "in_out", "default"]
     suffix = 'mode'
 
@@ -1114,7 +1114,7 @@ class InOut(T.EnumNode):
 class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
-    mode = Field(type=InOut)
+    mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpression)
     default = Field(type=T.Expr)
 
@@ -1288,7 +1288,7 @@ class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)
-    inout = Field(type=InOut)
+    inout = Field(type=Mode)
     type_expr = Field(type=T.TypeExpression)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)

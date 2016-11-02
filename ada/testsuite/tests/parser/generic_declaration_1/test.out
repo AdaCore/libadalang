@@ -9,7 +9,7 @@ GenericPackageDecl[1:1-1:155]
 | | | has_constant:
 | | | | ConstantAbsent[1:14-1:14]
 | | | inout:
-| | | | InOutDefault[1:14-1:22]
+| | | | ModeDefault[1:14-1:22]
 | | | type_expr:
 | | | | SubtypeIndication[1:14-1:22]
 | | | | | has_not_null:
@@ -53,7 +53,7 @@ GenericPackageDecl[1:1-1:155]
 | | | | | | | | | | | has_aliased:
 | | | | | | | | | | | | AliasedAbsent[1:95-1:95]
 | | | | | | | | | | | mode:
-| | | | | | | | | | | | InOutDefault[1:95-1:104]
+| | | | | | | | | | | | ModeDefault[1:95-1:104]
 | | | | | | | | | | | type_expr:
 | | | | | | | | | | | | SubtypeIndication[1:95-1:104]
 | | | | | | | | | | | | | has_not_null:

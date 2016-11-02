@@ -14,7 +14,7 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:18-1:18]
 | | | | | mode:
-| | | | | | InOutDefault[1:18-1:25]
+| | | | | | ModeDefault[1:18-1:25]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:18-1:25]
 | | | | | | | has_not_null:
@@ -33,7 +33,7 @@ RenamingSubprogramDecl[1:1-1:64]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:37-1:37]
 | | | | | mode:
-| | | | | | InOutDefault[1:37-1:43]
+| | | | | | ModeDefault[1:37-1:43]
 | | | | | type_expr:
 | | | | | | AnonymousType[1:37-1:53]
 | | | | | | | type_decl:

@@ -20,7 +20,7 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:22-1:22]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[1:22-1:25]
+| | | | | | | | | | ModeDefault[1:22-1:25]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:22-1:25]
 | | | | | | | | | | | has_not_null:
@@ -35,7 +35,7 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:31-1:31]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutDefault[1:31-1:34]
+| | | | | | | | | | ModeDefault[1:31-1:34]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:31-1:34]
 | | | | | | | | | | | has_not_null:

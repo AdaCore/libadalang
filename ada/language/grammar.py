@@ -395,7 +395,7 @@ A.add_rules(
         A.id_list,  ":",
         Opt("aliased").as_bool(Aliased),
         Opt("constant").as_bool(Constant),
-        Opt(A.in_out),
+        Opt(A.mode),
         A.type_expression,
         A.default_expr,
         Opt(A.renaming_clause),
@@ -467,7 +467,7 @@ A.add_rules(
         List(A.identifier, sep=","),
         ":",
         Opt("aliased").as_bool(Aliased),
-        Opt(A.in_out),
+        Opt(A.mode),
         A.type_expression,
         Opt(":=", A.expression)[1],
     ) ^ ParameterProfile,
@@ -536,11 +536,11 @@ A.add_rules(
 
     anonymous_type=Row(A.anonymous_type_decl) ^ AnonymousType,
 
-    in_out=Or(
-        Row("in", "out") ^ InOut.alt_in_out,
-        Row("in") ^ InOut.alt_in,
-        Row("out") ^ InOut.alt_out,
-        Row() ^ InOut.alt_default
+    mode=Or(
+        Row("in", "out") ^ Mode.alt_in_out,
+        Row("in") ^ Mode.alt_in,
+        Row("out") ^ Mode.alt_out,
+        Row() ^ Mode.alt_default
     ),
 
     ###########

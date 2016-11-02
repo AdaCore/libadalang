@@ -10,7 +10,7 @@ AcceptStatement[1:1-1:64]
 | | | has_aliased:
 | | | | AliasedAbsent[1:25-1:25]
 | | | mode:
-| | | | InOutIn[1:25-1:27]
+| | | | ModeIn[1:25-1:27]
 | | | type_expr:
 | | | | SubtypeIndication[1:28-1:32]
 | | | | | has_not_null:
@@ -46,7 +46,7 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:104-1:104]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutIn[1:104-1:106]
+| | | | | | | | | | ModeIn[1:104-1:106]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:107-1:111]
 | | | | | | | | | | | has_not_null:
@@ -78,7 +78,7 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | has_aliased:
 | | | | | | | | | | AliasedAbsent[1:172-1:172]
 | | | | | | | | | mode:
-| | | | | | | | | | InOutOut[1:172-1:175]
+| | | | | | | | | | ModeOut[1:172-1:175]
 | | | | | | | | | type_expr:
 | | | | | | | | | | SubtypeIndication[1:176-1:180]
 | | | | | | | | | | | has_not_null:

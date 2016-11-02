@@ -14,7 +14,7 @@ FormalSubpDecl[1:1-1:70]
 | | | | | has_aliased:
 | | | | | | AliasedAbsent[1:28-1:28]
 | | | | | mode:
-| | | | | | InOutDefault[1:28-1:37]
+| | | | | | ModeDefault[1:28-1:37]
 | | | | | type_expr:
 | | | | | | SubtypeIndication[1:28-1:37]
 | | | | | | | has_not_null:

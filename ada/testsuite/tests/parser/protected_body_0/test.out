@@ -17,7 +17,7 @@ ProtectedBody[1:1-1:271]
 | | | | | | | has_aliased:
 | | | | | | | | AliasedAbsent[1:65-1:65]
 | | | | | | | mode:
-| | | | | | | | InOutIn[1:65-1:67]
+| | | | | | | | ModeIn[1:65-1:67]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:69-1:73]
 | | | | | | | | | has_not_null:
@@ -59,7 +59,7 @@ ProtectedBody[1:1-1:271]
 | | | | | | | has_aliased:
 | | | | | | | | AliasedAbsent[1:166-1:166]
 | | | | | | | mode:
-| | | | | | | | InOutOut[1:166-1:169]
+| | | | | | | | ModeOut[1:166-1:169]
 | | | | | | | type_expr:
 | | | | | | | | SubtypeIndication[1:170-1:174]
 | | | | | | | | | has_not_null:

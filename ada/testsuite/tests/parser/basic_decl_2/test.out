@@ -9,7 +9,7 @@ ObjectDecl[1:1-1:29]
 | has_constant:
 | | ConstantAbsent[1:8-1:8]
 | inout:
-| | InOutDefault[1:8-1:15]
+| | ModeDefault[1:8-1:15]
 | type_expr:
 | | SubtypeIndication[1:8-1:15]
 | | | has_not_null:

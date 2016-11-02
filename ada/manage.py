@@ -257,8 +257,8 @@ class Manage(ManageScript):
         for _ in range(args.nb_runs):
             # Execute parse on the file list and get the elapsed time
             t = time()
-            subprocess.check_call(['../build/bin/parse', '-s', '-F',
-                                   file_list_name])
+            subprocess.check_call(['../{}/bin/parse'.format(args.build_dir),
+                                   '-s', '-F', file_list_name])
             elapsed = time() - t
             elapsed_list.append(elapsed)
 

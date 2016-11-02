@@ -1242,7 +1242,7 @@ class RecordRepClause(AspectClause):
 
 
 class AtClause(AspectClause):
-    name = Field(type=T.SingleTokNode)
+    name = Field(type=T.BaseId)
     expr = Field(type=T.Expr)
 
 
@@ -2205,10 +2205,6 @@ class NullLiteral(SingleTokNode):
     _repr_name = "Null"
 
 
-class Attribute(SingleTokNode):
-    _repr_name = "Attr"
-
-
 class SingleFormal(Struct):
     name = Field(type=Identifier)
     profile = Field(type=AbstractFormalParamDecl)
@@ -2414,7 +2410,7 @@ class QualExpr(Expr):
 
 class AttributeRef(Expr):
     prefix = Field(type=T.Expr)
-    attribute = Field(type=T.SingleTokNode)
+    attribute = Field(type=T.Token)
     args = Field(type=T.AdaNode)
 
     designated_type = Property(Self.prefix.designated_type)
@@ -2427,18 +2423,18 @@ class RaiseExpression(Expr):
 
 class DottedName(Name):
     prefix = Field(type=T.Expr)
-    suffix = Field(type=T.SingleTokNode)
+    suffix = Field(type=T.BaseId)
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
         pfx_env = Var(Self.prefix.designated_env(origin_env))
         return pfx_env.eval_in_env(If(
             is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
-            Self.suffix.cast(BaseId).designated_env_impl(origin_env, True),
+            Self.suffix.designated_env_impl(origin_env, True),
             Self.suffix.designated_env(origin_env)
         ))
 
-    env_for_scope = Property(Self.suffix.cast(BaseId).then(
+    env_for_scope = Property(Self.suffix.then(
         lambda sfx: Self.scope.eval_in_env(sfx.env_for_scope),
         default_val=EmptyEnv
     ))
@@ -2456,7 +2452,7 @@ class DottedName(Name):
 
         return pfx_env.eval_in_env(If(
             is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
-            Self.suffix.cast(BaseId).env_elements_baseid(origin_env, True),
+            Self.suffix.env_elements_baseid(origin_env, True),
             Self.suffix.env_elements_impl(origin_env)
         ))
 

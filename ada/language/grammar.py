@@ -834,11 +834,6 @@ A.add_rules(
         A.expression | A.discrete_range
     ) ^ QuantifiedExpr,
 
-    attribute=Or(
-        Or("access", "delta", "digits", "mod", "range") ^ Attribute,
-        A.identifier
-    ),
-
     case_expression=Row(
         "case", A.expression, "is",
         List(A.case_expr_alt, sep=",")
@@ -891,8 +886,7 @@ A.add_rules(
         ) ^ Aggregate,
         ")")[1],
 
-    direct_name=Or(A.identifier, A.string_literal, A.char_literal,
-                   A.attribute),
+    direct_name=Or(A.identifier, A.string_literal, A.char_literal),
 
     param_assoc=Row(
         Opt(A.identifier | A.others_designator | A.string_literal,
@@ -911,7 +905,7 @@ A.add_rules(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ DottedName,
         Row(A.name, ".", "all") ^ AccessDeref,
-        Row(A.name, "'", A.attribute,
+        Row(A.name, "'", Tok(Token.Identifier, keep=True),
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
             Or(Row("(", A.expression, ")")[1], A.aggregate)) ^ QualExpr,

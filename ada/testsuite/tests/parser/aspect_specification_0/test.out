@@ -6,9 +6,7 @@ AspectSpecification[1:1-1:25]
 | | | | | prefix:
 | | | | | | Id[1:6-1:9]
 | | | | | | | tok: Pre
-| | | | | attribute:
-| | | | | | Id[1:10-1:15]
-| | | | | | | tok: Class
+| | | | | attribute: Class
 | | | expr:
 | | | | BinOp[1:19-1:25]
 | | | | | left:

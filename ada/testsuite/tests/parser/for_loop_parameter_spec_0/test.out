@@ -13,9 +13,7 @@ ForLoopSpec[1:1-1:21]
 | | | | | prefix:
 | | | | | | Id[1:6-1:7]
 | | | | | | | tok: B
-| | | | | attribute:
-| | | | | | Id[1:8-1:13]
-| | | | | | | tok: First
+| | | | | attribute: First
 | | | op:
 | | | | OpEllipsis[1:14-1:16]
 | | | right:

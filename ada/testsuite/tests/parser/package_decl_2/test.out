@@ -6,7 +6,7 @@ PackageDecl[1:1-1:105]
 | | PublicPart[1:26-1:87]
 | | | decls:
 | | | | SubprogramDecl[1:26-1:55]
-| | | | | is_overriding:
+| | | | | overriding:
 | | | | | | OverridingUnspecified[1:26-1:35]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:26-1:55]
@@ -30,7 +30,7 @@ PackageDecl[1:1-1:105]
 | | | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | | | tok: Element_T
 | | | | SubprogramDecl[1:57-1:86]
-| | | | | is_overriding:
+| | | | | overriding:
 | | | | | | OverridingUnspecified[1:57-1:65]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:57-1:86]

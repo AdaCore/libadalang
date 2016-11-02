@@ -1,5 +1,5 @@
 AbstractSubprogramDecl[1:1-1:49]
-| is_overriding:
+| overriding:
 | | OverridingOverriding[1:1-1:11]
 | subp_spec:
 | | SubprogramSpec[1:12-1:37]

@@ -1138,7 +1138,7 @@ class Overriding(T.EnumNode):
 
 @abstract
 class BasicSubprogramDecl(BasicDecl):
-    is_overriding = Field(type=Overriding)
+    overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
 
     name = Property(Self.subp_spec.name)

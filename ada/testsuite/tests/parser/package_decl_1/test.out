@@ -6,7 +6,7 @@ PackageDecl[1:1-1:105]
 | | PublicPart[1:14-1:99]
 | | | decls:
 | | | | SubprogramDecl[1:14-1:42]
-| | | | | is_overriding:
+| | | | | overriding:
 | | | | | | OverridingUnspecified[1:14-1:23]
 | | | | | subp_spec:
 | | | | | | SubprogramSpec[1:14-1:42]

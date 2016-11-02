@@ -1,5 +1,5 @@
 SubprogramDecl[1:1-1:54]
-| is_overriding:
+| overriding:
 | | OverridingNotOverriding[1:1-1:15]
 | subp_spec:
 | | SubprogramSpec[1:16-1:54]

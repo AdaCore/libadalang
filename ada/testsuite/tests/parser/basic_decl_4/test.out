@@ -1,5 +1,5 @@
 RenamingSubprogramDecl[1:1-1:64]
-| is_overriding:
+| overriding:
 | | OverridingUnspecified[1:1-1:10]
 | subp_spec:
 | | SubprogramSpec[1:1-1:54]

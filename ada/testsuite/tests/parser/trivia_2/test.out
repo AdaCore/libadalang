@@ -824,9 +824,9 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | OpBinAnd
+| | | | | | | | | | | | OpConcat
 | | | | | | | | | | | | Str
-| | | | | | | | | | | OpBinAnd
+| | | | | | | | | | | OpConcat
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamList
@@ -857,7 +857,7 @@ CompilationUnit
 | | | | | | | | | BinOp
 | | | | | | | | | | BinOp
 | | | | | | | | | | | Str
-| | | | | | | | | | | OpBinAnd
+| | | | | | | | | | | OpConcat
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamList
@@ -866,6 +866,6 @@ CompilationUnit
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | Int
-| | | | | | | | | | OpBinAnd
+| | | | | | | | | | OpConcat
 | | | | | | | | | | Str
 | | | | | | Id

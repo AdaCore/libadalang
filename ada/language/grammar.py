@@ -960,7 +960,7 @@ A.add_rules(
     simple_expr=Or(
         Row(A.simple_expr, Or(Row("+") ^ Op.alt_plus,
                               Row("-") ^ Op.alt_minus,
-                              Row("&") ^ Op.alt_bin_and),
+                              Row("&") ^ Op.alt_concat),
             A.term) ^ BinOp,
         A.unop_term
     ),

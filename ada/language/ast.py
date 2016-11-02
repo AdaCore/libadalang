@@ -1552,7 +1552,7 @@ class Op(T.EnumNode):
     """Operation in a binary expression."""
     alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
-                    "rem", "plus", "minus", "bin_and", "eq", "neq", "lt",
+                    "rem", "plus", "minus", "concat", "eq", "neq", "lt",
                     "lte", "gt", "gte", "ellipsis"]
     suffix = 'op'
 

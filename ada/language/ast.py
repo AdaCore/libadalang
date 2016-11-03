@@ -416,7 +416,7 @@ class ComponentDecl(AbstractFormalParamDecl):
     def constrain_prefix(prefix=T.Expr):
         return (
             # Simple type equivalence
-            (prefix.type_var == Self.container_type)
+            Bind(prefix.type_var, Self.container_type)
 
             # Access dereference
             | Predicate(AbstractTypeDecl.fields.matching_prefix_type,
@@ -914,8 +914,8 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
-        return (
-            index_expr.type_var ==
+        return Bind(
+            index_expr.type_var,
             Self.types.at(dim).designated_type.canonical_type
         )
 
@@ -929,7 +929,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return Self.list.at(dim).match(
             lambda n=T.SubtypeIndication:
-            index_expr.type_var == n.designated_type.canonical_type,
+            Bind(index_expr.type_var, n.designated_type.canonical_type),
 
             # TODO: We need to parse Standard to express the fact that when
             # we've got an anonymous range in the array index definition,
@@ -1328,7 +1328,7 @@ class ObjectDecl(BasicDecl):
         return (
             Self.default_expr.then(lambda de: de.xref_equation(origin_env),
                                    default_val=LogicTrue())
-            & (Self.default_expr.type_var == Self.canonical_expr_type)
+            & Bind(Self.default_expr.type_var, Self.canonical_expr_type)
         )
 
     xref_entry_point = Property(True)
@@ -1619,14 +1619,14 @@ class Aggregate(Expr):
                 & pm.actual.assoc.expr.sub_equation(origin_env)
                 & If(pm.actual.name.is_null,
                      LogicTrue(),
-                     pm.actual.name.ref_var == pm.formal.spec)
+                     Bind(pm.actual.name.ref_var, pm.formal.spec))
             ),
 
             # Second case, aggregate for an array
             Self.assocs.map(
                 lambda assoc:
                 assoc.expr.sub_equation(origin_env)
-                & (assoc.expr.type_var == atd.component_type)
+                & Bind(assoc.expr.type_var, atd.component_type)
             )
         ))
 
@@ -1681,8 +1681,8 @@ class CallExpr(Expr):
         return And(
             Self.params.at(0).expr.sub_equation(origin_env),
             Self.name.sub_equation(origin_env),
-            Self.type_var == Self.name.type_var,
-            Self.ref_var == Self.name.ref_var
+            Bind(Self.type_var, Self.name.type_var),
+            Bind(Self.ref_var, Self.name.ref_var)
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -1709,7 +1709,7 @@ class CallExpr(Expr):
             & LogicOr(subps.map(lambda e: Let(lambda s=e.el.cast(BasicDecl): (
 
                 # The called entity is the subprogram
-                (Self.name.ref_var == s)
+                Bind(Self.name.ref_var, s)
 
                 & If(
                     # Test if the entity is a parameterless subprogram call,
@@ -1722,7 +1722,7 @@ class CallExpr(Expr):
 
                     # The type of the expression is the expr_type of the
                     # subprogram.
-                    (Self.type_var == s.expr_type)
+                    Bind(Self.type_var, s.expr_type)
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
                     & LogicAnd(s.subp_spec.match_param_list(
@@ -1731,16 +1731,15 @@ class CallExpr(Expr):
                         lambda pm: (
                             # The type of each actual matches the type of the
                             # formal.
-                            pm.actual.assoc.expr.type_var == pm.formal
-                            .spec.type_expression.designated_type
-
+                            Bind(pm.actual.assoc.expr.type_var,
+                                 pm.formal.spec.type_expression
+                                 .designated_type)
                         ) & If(
                             # Bind actuals designators to parameters if there
                             # are designators.
                             pm.actual.name.is_null,
                             LogicTrue(),
-                            pm.actual.name.ref_var
-                            == pm.formal.spec
+                            Bind(pm.actual.name.ref_var, pm.formal.spec)
                         )
                     ))
                 )
@@ -1762,7 +1761,7 @@ class CallExpr(Expr):
             # Pros:
             # * Less memory use because we can put ref_var in BaseId.
             # * Less complicated equations code and runtime.
-            & (Self.ref_var == Self.name.ref_var)
+            & Bind(Self.ref_var, Self.name.ref_var)
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -1782,7 +1781,7 @@ class CallExpr(Expr):
                 pa.expr.sub_equation(origin_env)
                 & indices.constrain_index_expr(pa.expr, i)
             ))
-        )) & (Self.type_var == atd.component_type)
+        )) & Bind(Self.type_var, atd.component_type)
 
     @langkit_property(return_type=BoolType)
     def check_type_self(type_designator=AdaNode):
@@ -1946,7 +1945,7 @@ class ExplicitDeref(Expr):
             # Restrict the domain of the reference to entities that are of an
             # access type.
 
-            & (Self.ref_var == Self.prefix.ref_var)
+            & Bind(Self.ref_var, Self.prefix.ref_var)
             # Propagate this constraint upward to the prefix expression
 
             & Bind(Self.prefix.type_var,
@@ -2170,7 +2169,7 @@ class BaseId(SingleTokNode):
             Not(dt.is_null),
 
             # Type conversion case
-            (Self.ref_var == dt) & (Self.type_var == dt),
+            Bind(Self.ref_var, dt) & Bind(Self.type_var, dt),
 
             # Other cases
             Self.ref_var.domain(Self.entities)
@@ -2436,10 +2435,10 @@ class QualExpr(Expr):
 
         return (
             Self.suffix.sub_equation(origin_env)
-            & (Self.prefix.ref_var == typ)
-            & (Self.prefix.type_var == typ)
-            & (Self.suffix.type_var == typ)
-            & (Self.type_var == typ)
+            & Bind(Self.prefix.ref_var, typ)
+            & Bind(Self.prefix.type_var, typ)
+            & Bind(Self.suffix.type_var, typ)
+            & Bind(Self.type_var, typ)
         )
 
 
@@ -2519,9 +2518,9 @@ class DottedName(Name):
             Not(dt.is_null),
             base,
             base & LogicOr(Self.entities.map(lambda e: (
-                (Self.suffix.ref_var == e)
+                Bind(Self.suffix.ref_var, e)
                 & e.cast(BasicDecl).constrain_prefix(Self.prefix)
-                & (Self.type_var == Self.suffix.type_var)
+                & Bind(Self.type_var, Self.suffix.type_var)
             )))
         )
 
@@ -2588,7 +2587,7 @@ class CallStmt(SimpleStmt):
             Self.call.sub_equation(origin_env)
 
             # Call statements can have no return value
-            & (Self.call.type_var == No(AdaNode))
+            & Bind(Self.call.type_var, No(AdaNode))
         )
 
 
@@ -2607,7 +2606,7 @@ class AssignStmt(SimpleStmt):
             # TODO: Handle more complex cases than pure type equality,
             # eg. tagged types, accesses.
             & Self.expr.sub_equation(origin_env)
-            & (Self.expr.type_var == Self.dest.type_var)
+            & Bind(Self.expr.type_var, Self.dest.type_var)
         )
 
 

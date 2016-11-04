@@ -12,13 +12,13 @@ procedure Main is
    Ctx    : Analysis_Context := Create;
    Unit   : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
    P      : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
-     (Kind => Ada_Param_Profile);
+     (Kind => Ada_Param_Spec);
    Params : constant Ada_Node_Vectors.Elements_Array :=
       Root (Unit).Find (P).Consume;
 begin
    for P of Params loop
       declare
-         PP        : constant Param_Profile := Param_Profile (P);
+         PP        : constant Param_Spec := Param_Spec (P);
          Name      : constant Token_Type :=
             Identifier (PP.F_Ids.Child (1)).F_Tok;
          Name_Text : constant Text_Type := Data (Name).Text.all;

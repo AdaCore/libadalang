@@ -20,7 +20,7 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | Id[2:14-2:17]
 | | | | | | | | | | | | | tok: Bar
 | | | | | | | | | | | params:
-| | | | | | | | | | | | ParamProfile[2:19-2:33]
+| | | | | | | | | | | | ParamSpec[2:19-2:33]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[2:19-2:20]
 | | | | | | | | | | | | | | | tok: I
@@ -86,8 +86,8 @@ CompilationUnit[1:1-10:9]
     Bar: [<SubprogramBody ["Bar"] 2:4-9:11>]
 }>
 <SubprogramBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
-    I: [<ParamProfile ["I", "J"] 2:19-2:33>]
-    J: [<ParamProfile ["I", "J"] 2:19-2:33>]
+    I: [<ParamSpec ["I", "J"] 2:19-2:33>]
+    J: [<ParamSpec ["I", "J"] 2:19-2:33>]
 }>
 <BlockStmt 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
     Lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]

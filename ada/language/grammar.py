@@ -441,7 +441,7 @@ A.add_rules(
         Opt("(",
             A.constrained_subtype_indication | A.discrete_range
             | A.subtype_indication, ")")[1],
-        Opt(A.param_profiles),
+        Opt(A.param_specs),
         A.aspect_spec
     ) ^ EntryDecl,
 
@@ -463,16 +463,16 @@ A.add_rules(
         Row("for", A.direct_name, "use", "at", A.expr) ^ AtClause
     ),
 
-    param_profile=Row(
+    param_spec=Row(
         List(A.identifier, sep=","),
         ":",
         Opt("aliased").as_bool(Aliased),
         Opt(A.mode),
         A.type_expr,
         Opt(":=", A.expr)[1],
-    ) ^ ParamProfile,
+    ) ^ ParamSpec,
 
-    param_profiles=Row("(", List(A.param_profile, sep=";"), ")")[1],
+    param_specs=Row("(", List(A.param_spec, sep=";"), ")")[1],
 
     subprogram_spec=Row(
         _(Or("procedure", "function")),
@@ -480,7 +480,7 @@ A.add_rules(
         Opt(
             Row(
                 "(",
-                List(A.param_profile, sep=";"),
+                List(A.param_spec, sep=";"),
                 Opt(")").error()
             )[1]
         ),
@@ -612,7 +612,7 @@ A.add_rules(
         "entry", A.identifier,
         Opt(Row("(", "for", A.identifier, "in",
                 A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
-        Opt(A.param_profiles),
+        Opt(A.param_specs),
         "when", A.expr,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
@@ -670,7 +670,7 @@ A.add_rules(
 
     accept_stmt=Row(
         "accept", A.identifier, Opt("(", A.expr, ")")[1],
-        Opt(A.param_profiles),
+        Opt(A.param_specs),
         Opt("do", A.handled_stmts, "end", Opt(A.identifier))[1]
     ) ^ AcceptStmt,
 

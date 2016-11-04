@@ -5,7 +5,7 @@ FormalSubpDecl[1:1-1:70]
 | | | | Id[1:15-1:20]
 | | | | | tok: Pouet
 | | | params:
-| | | | ParamProfile[1:22-1:37]
+| | | | ParamSpec[1:22-1:37]
 | | | | | ids:
 | | | | | | Id[1:22-1:23]
 | | | | | | | tok: X

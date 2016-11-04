@@ -49,6 +49,6 @@ for obj_decl in unit.root.finditer(libadalang.ObjectDecl):
         print '    {}: has_matched={}, is_formal_opt={}'.format(
             src_slice(param_assoc).rjust(8),
             param_match.f_has_matched,
-            bool(param_match.f_formal.f_profile and
-                 not(param_match.f_formal.f_profile.p_is_mandatory))
+            bool(param_match.f_formal.f_spec and
+                 not(param_match.f_formal.f_spec.p_is_mandatory))
         )

@@ -8,7 +8,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <SubprogramSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
   <ASTList 1:15-1:52>
-  <ParamProfile ["A"] 1:15-1:26>
+  <ParamSpec ["A"] 1:15-1:26>
   <ASTList 1:15-1:16>
   <Id "A" 1:15-1:16>
   <AliasedAbsent 1:19-1:19>
@@ -16,7 +16,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <SubtypeIndication 1:19-1:26>
   <NotNullAbsent 1:19-1:19>
   <Id "Integer" 1:19-1:26>
-  <ParamProfile ["B"] 1:28-1:39>
+  <ParamSpec ["B"] 1:28-1:39>
   <ASTList 1:28-1:29>
   <Id "B" 1:28-1:29>
   <AliasedAbsent 1:32-1:32>
@@ -24,7 +24,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <SubtypeIndication 1:32-1:39>
   <NotNullAbsent 1:32-1:32>
   <Id "Integer" 1:32-1:39>
-  <ParamProfile ["C"] 1:41-1:52>
+  <ParamSpec ["C"] 1:41-1:52>
   <ASTList 1:41-1:42>
   <Id "C" 1:41-1:42>
   <AliasedAbsent 1:45-1:45>

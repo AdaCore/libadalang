@@ -3,7 +3,7 @@ AcceptStmt[1:1-1:64]
 | | Id[1:8-1:13]
 | | | tok: Store
 | params:
-| | ParamProfile[1:15-1:32]
+| | ParamSpec[1:15-1:32]
 | | | ids:
 | | | | Id[1:15-1:22]
 | | | | | tok: An_Item
@@ -39,7 +39,7 @@ LoopStmt[1:66-1:234]
 | | | | | | | | Id[1:87-1:92]
 | | | | | | | | | tok: Store
 | | | | | | | params:
-| | | | | | | | ParamProfile[1:94-1:111]
+| | | | | | | | ParamSpec[1:94-1:111]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:94-1:101]
 | | | | | | | | | | | tok: An_Item
@@ -71,7 +71,7 @@ LoopStmt[1:66-1:234]
 | | | | | | | | Id[1:155-1:160]
 | | | | | | | | | tok: Fetch
 | | | | | | | params:
-| | | | | | | | ParamProfile[1:162-1:180]
+| | | | | | | | ParamSpec[1:162-1:180]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:162-1:169]
 | | | | | | | | | | | tok: An_Item

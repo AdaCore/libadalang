@@ -14,7 +14,7 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | Id[1:47-1:53]
 | | | | | | | | | tok: Insert
 | | | | | | | params:
-| | | | | | | | ParamProfile[1:55-1:73]
+| | | | | | | | ParamSpec[1:55-1:73]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | | | tok: An_Item
@@ -36,7 +36,7 @@ ProtectedTypeDecl[1:1-1:185]
 | | | | | | | | Id[1:82-1:88]
 | | | | | | | | | tok: Remove
 | | | | | | | params:
-| | | | | | | | ParamProfile[1:90-1:108]
+| | | | | | | | ParamSpec[1:90-1:108]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:90-1:97]
 | | | | | | | | | | | tok: An_Item

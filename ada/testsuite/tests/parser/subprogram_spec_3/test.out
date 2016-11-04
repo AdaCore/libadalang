@@ -3,7 +3,7 @@ SubprogramSpec[1:1-1:69]
 | | Id[1:11-1:12]
 | | | tok: I
 | params:
-| | ParamProfile[1:14-1:55]
+| | ParamSpec[1:14-1:55]
 | | | ids:
 | | | | Id[1:14-1:15]
 | | | | | tok: A
@@ -22,7 +22,7 @@ SubprogramSpec[1:1-1:69]
 | | | | | | | | | subp_spec:
 | | | | | | | | | | SubprogramSpec[1:32-1:55]
 | | | | | | | | | | | params:
-| | | | | | | | | | | | ParamProfile[1:43-1:54]
+| | | | | | | | | | | | ParamSpec[1:43-1:54]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[1:43-1:44]
 | | | | | | | | | | | | | | | tok: A
@@ -37,7 +37,7 @@ SubprogramSpec[1:1-1:69]
 | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | Id[1:47-1:54]
 | | | | | | | | | | | | | | | | | tok: Integer
-| | ParamProfile[1:57-1:68]
+| | ParamSpec[1:57-1:68]
 | | | ids:
 | | | | Id[1:57-1:58]
 | | | | | tok: B

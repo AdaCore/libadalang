@@ -446,11 +446,11 @@ class AbstractFormalParamHolder(AdaNode):
 
     unpacked_formal_params = Property(
         Self.abstract_formal_params.mapcat(
-            lambda profile: profile.identifiers.map(lambda id: (
-                New(SingleFormal, name=id, profile=profile)
+            lambda spec: spec.identifiers.map(lambda id: (
+                New(SingleFormal, name=id, spec=spec)
             ))
         ),
-        doc='Couples (identifier, param profile) for all parameters'
+        doc='Couples (identifier, param spec) for all parameters'
     )
 
     @langkit_property(return_type=T.ParamMatch.array_type())
@@ -1111,7 +1111,7 @@ class Mode(T.EnumNode):
     suffix = 'mode'
 
 
-class ParamProfile(AbstractFormalParamDecl):
+class ParamSpec(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
@@ -1250,7 +1250,7 @@ class EntryDecl(BasicDecl):
     overriding = Field(type=Overriding)
     entry_id = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
-    params = Field(type=T.ParamProfile.list_type())
+    params = Field(type=T.ParamSpec.list_type())
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
@@ -1597,11 +1597,11 @@ class Aggregate(Expr):
             td.record_def.components.match_param_list(Self.assocs, False).map(
                 lambda pm:
                 (pm.actual.assoc.expr.type_var
-                 == pm.formal.profile.type_expression.designated_type)
+                 == pm.formal.spec.type_expression.designated_type)
                 & pm.actual.assoc.expr.sub_equation(origin_env)
                 & If(pm.actual.name.is_null,
                      LogicTrue(),
-                     pm.actual.name.ref_var == pm.formal.profile)
+                     pm.actual.name.ref_var == pm.formal.spec)
             ),
 
             # Second case, aggregate for an array
@@ -1714,7 +1714,7 @@ class CallExpr(Expr):
                             # The type of each actual matches the type of the
                             # formal.
                             pm.actual.assoc.expr.type_var == pm.formal
-                            .profile.type_expression.designated_type
+                            .spec.type_expression.designated_type
 
                         ) & If(
                             # Bind actuals designators to parameters if there
@@ -1722,7 +1722,7 @@ class CallExpr(Expr):
                             pm.actual.name.is_null,
                             LogicTrue(),
                             pm.actual.name.ref_var
-                            == pm.formal.profile
+                            == pm.formal.spec
                         )
                     ))
                 )
@@ -2222,7 +2222,7 @@ class NullLiteral(SingleTokNode):
 
 class SingleFormal(Struct):
     name = Field(type=Identifier)
-    profile = Field(type=AbstractFormalParamDecl)
+    spec = Field(type=AbstractFormalParamDecl)
 
 
 class SingleActual(Struct):
@@ -2237,7 +2237,7 @@ class ParamMatch(Struct):
     Each value relates to one ParamAssoc.
     """
     has_matched = Field(type=BoolType, doc="""
-        Whether the matched ParamAssoc a ParamProfile.
+        Whether the matched ParamAssoc a ParamSpec.
     """)
     actual = Field(type=SingleActual)
     formal = Field(type=SingleFormal)
@@ -2245,7 +2245,7 @@ class ParamMatch(Struct):
 
 class SubprogramSpec(AbstractFormalParamHolder):
     name = Field(type=T.Name)
-    params = Field(type=T.ParamProfile.list_type())
+    params = Field(type=T.ParamSpec.list_type())
     returns = Field(type=T.TypeExpr)
 
     abstract_formal_params = Property(
@@ -2254,7 +2254,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
 
     nb_min_params = Property(
         Self.unpacked_formal_params.filter(
-            lambda p: p.profile.is_mandatory
+            lambda p: p.spec.is_mandatory
         ).length,
         type=LongType, doc="""
         Return the minimum number of parameters this subprogram can be called
@@ -2286,7 +2286,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
             params.params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
-                lambda m: m.formal.profile.is_mandatory
+                lambda m: m.formal.spec.is_mandatory
             ).length == nb_min_params,
         )
 
@@ -2675,7 +2675,7 @@ class CaseStmtAlternative(AdaNode):
 class AcceptStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
-    params = Field(type=T.ParamProfile.list_type())
+    params = Field(type=T.ParamSpec.list_type())
     stmts = Field(type=T.HandledStmts)
 
 
@@ -2728,7 +2728,7 @@ class ProtectedBody(Body):
 class EntryBody(Body):
     entry_name = Field(type=T.Identifier)
     index_spec = Field(type=T.EntryIndexSpec)
-    params = Field(type=T.ParamProfile.list_type())
+    params = Field(type=T.ParamSpec.list_type())
     when_cond = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)

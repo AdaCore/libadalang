@@ -3,7 +3,7 @@ EntryBody[1:1-1:100]
 | | Id[1:7-1:13]
 | | | tok: insert
 | params:
-| | ParamProfile[1:15-1:33]
+| | ParamSpec[1:15-1:33]
 | | | ids:
 | | | | Id[1:15-1:22]
 | | | | | tok: an_item

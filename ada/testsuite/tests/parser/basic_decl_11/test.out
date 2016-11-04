@@ -7,7 +7,7 @@ ExprFunction[1:1-1:64]
 | | | | Id[1:10-1:11]
 | | | | | tok: A
 | | | params:
-| | | | ParamProfile[1:13-1:24]
+| | | | ParamSpec[1:13-1:24]
 | | | | | ids:
 | | | | | | Id[1:13-1:14]
 | | | | | | | tok: B

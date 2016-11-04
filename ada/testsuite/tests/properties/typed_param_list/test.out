@@ -4,7 +4,7 @@ Params: <empty>
 Params: (A : Integer)
 =====================
 A:
-<ParamProfile>
+<ParamSpec>
 |ids:
 |  <list>
 |  |item 0:
@@ -27,7 +27,7 @@ A:
 Params: (A, B : Integer; C : Boolean)
 =====================================
 A:
-<ParamProfile>
+<ParamSpec>
 |ids:
 |  <list>
 |  |item 0:
@@ -51,7 +51,7 @@ A:
 |default: None
 
 B:
-<ParamProfile>
+<ParamSpec>
 |ids:
 |  <list>
 |  |item 0:
@@ -75,7 +75,7 @@ B:
 |default: None
 
 C:
-<ParamProfile>
+<ParamSpec>
 |ids:
 |  <list>
 |  |item 0:

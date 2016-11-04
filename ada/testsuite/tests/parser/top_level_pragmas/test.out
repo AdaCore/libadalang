@@ -23,7 +23,7 @@ CompilationUnit[30:1-32:49]
 | | | | | | | | | | Id[30:22-30:43]
 | | | | | | | | | | | tok: Less_Case_Insensitive
 | | | | | | | params:
-| | | | | | | | ParamProfile[31:4-31:24]
+| | | | | | | | ParamSpec[31:4-31:24]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[31:4-31:8]
 | | | | | | | | | | | tok: Left

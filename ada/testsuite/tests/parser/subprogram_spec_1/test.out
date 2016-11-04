@@ -3,7 +3,7 @@ SubprogramSpec[1:1-1:65]
 | | Id[1:10-1:11]
 | | | tok: A
 | params:
-| | ParamProfile[1:13-1:29]
+| | ParamSpec[1:13-1:29]
 | | | ids:
 | | | | Id[1:13-1:14]
 | | | | | tok: B
@@ -22,7 +22,7 @@ SubprogramSpec[1:1-1:65]
 | | | | | name:
 | | | | | | Id[1:23-1:29]
 | | | | | | | tok: String
-| | ParamProfile[1:31-1:49]
+| | ParamSpec[1:31-1:49]
 | | | ids:
 | | | | Id[1:31-1:32]
 | | | | | tok: E

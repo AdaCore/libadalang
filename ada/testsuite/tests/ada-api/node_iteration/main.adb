@@ -12,14 +12,14 @@ procedure Main is
    S_Spec : constant Subprogram_Spec := F_Subp_Spec (Subprogram_Body (LI));
 
    S_Name : constant Libadalang.AST.Types.Name := F_Name (S_Spec);
-   Params : constant List_Param_Profile := F_Params (S_Spec);
+   Params : constant List_Param_Spec := F_Params (S_Spec);
 
    ---------------
    -- Put_Param --
    ---------------
 
    procedure Put_Param (N : Ada_Node) is
-      P  : constant Param_Profile := Param_Profile (N);
+      P  : constant Param_Spec := Param_Spec (N);
       Id : Single_Tok_Node;
    begin
       pragma Assert (F_Ids (P).Child_Count = 1);

@@ -18,7 +18,7 @@ GenericSubprogramDecl[1:1-1:76]
 | | | | Id[1:46-1:50]
 | | | | | tok: Swap
 | | | params:
-| | | | ParamProfile[1:52-1:75]
+| | | | ParamSpec[1:52-1:75]
 | | | | | ids:
 | | | | | | Id[1:52-1:53]
 | | | | | | | tok: X

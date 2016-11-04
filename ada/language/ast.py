@@ -2720,7 +2720,7 @@ class EntryBody(Body):
 
 class EntryIndexSpec(AdaNode):
     id = Field(type=T.Identifier)
-    subtype = Field(type=T.Expr)
+    subtype = Field(type=T.AdaNode)
 
 
 class Subunit(AdaNode):

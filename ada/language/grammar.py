@@ -147,7 +147,7 @@ A.add_rules(
     ) ^ DerivedTypeDef,
 
     discriminant_association=Row(
-        List(A.identifier, sep="|"), "=>", A.expression
+        List(A.identifier, sep="|"), "=>", A.expr
     ) ^ DiscriminantAssociation,
 
     discriminant_constraint=Row(
@@ -173,7 +173,7 @@ A.add_rules(
                   A.discriminant_constraint),
 
     discriminant_spec=Row(
-        List(A.identifier, sep=","), ":", A.type_expression,
+        List(A.identifier, sep=","), ":", A.type_expr,
         A.default_expr
     ) ^ DiscriminantSpec,
 
@@ -287,7 +287,7 @@ A.add_rules(
 
     component_def=Row(
         Opt("aliased").as_bool(Aliased),
-        A.type_expression
+        A.type_expr
     ) ^ ComponentDef,
 
     component_item=Or(
@@ -297,7 +297,7 @@ A.add_rules(
         A.pragma
     ),
 
-    default_expr=Opt(":=", A.expression)[1],
+    default_expr=Opt(":=", A.expr)[1],
 
     component_decl=Row(
         List(A.identifier, sep=","), ":", A.component_def,
@@ -396,7 +396,7 @@ A.add_rules(
         Opt("aliased").as_bool(Aliased),
         Opt("constant").as_bool(Constant),
         Opt(A.mode),
-        A.type_expression,
+        A.type_expr,
         A.default_expr,
         Opt(A.renaming_clause),
         A.aspect_specification
@@ -410,7 +410,7 @@ A.add_rules(
     ) ^ NumberDecl,
 
     aspect_assoc=Row(
-        A.name, Opt("=>", A.expression)[1]
+        A.name, Opt("=>", A.expr)[1]
     ) ^ AspectAssoc,
 
     aspect_specification=Opt(
@@ -451,7 +451,7 @@ A.add_rules(
     ) ^ RecordRepComponent,
 
     aspect_clause=Or(
-        Row("for", A.name, "use", A.expression) ^ AttributeDefClause,
+        Row("for", A.name, "use", A.expr) ^ AttributeDefClause,
 
         Row("for", A.static_name, "use", A.aggregate) ^ EnumRepClause,
 
@@ -460,7 +460,7 @@ A.add_rules(
             List(Row(A.rep_component_clause, ";")[0], empty_valid=True),
             "end", "record") ^ RecordRepClause,
 
-        Row("for", A.direct_name, "use", "at", A.expression) ^ AtClause
+        Row("for", A.direct_name, "use", "at", A.expr) ^ AtClause
     ),
 
     parameter_profile=Row(
@@ -468,8 +468,8 @@ A.add_rules(
         ":",
         Opt("aliased").as_bool(Aliased),
         Opt(A.mode),
-        A.type_expression,
-        Opt(":=", A.expression)[1],
+        A.type_expr,
+        Opt(":=", A.expr)[1],
     ) ^ ParameterProfile,
 
     parameter_profiles=Row("(", List(A.parameter_profile, sep=";"), ")")[1],
@@ -484,15 +484,15 @@ A.add_rules(
                 Opt(")").error()
             )[1]
         ),
-        Opt("return", A.type_expression)[1]
+        Opt("return", A.type_expr)[1]
     ) ^ SubprogramSpec,
 
     subprogram_decl=Or(
         subprogram_decl(_(Row("is", "null")), NullSubprogramDecl),
         subprogram_decl(_(Row("is", "abstract")), AbstractSubprogramDecl),
         subprogram_decl(
-            Row("is", Or(Row("(", A.expression, ")")[1], A.aggregate))[1],
-            ExpressionFunction
+            Row("is", Or(Row("(", A.expr, ")")[1], A.aggregate))[1],
+            ExprFunction
         ),
         subprogram_decl(A.renaming_clause, RenamingSubprogramDecl),
         subprogram_decl(None, SubprogramDecl)
@@ -527,7 +527,7 @@ A.add_rules(
         A.name, A.constraint
     ) ^ SubtypeIndication,
 
-    type_expression=Or(
+    type_expr=Or(
         # NOTE: Anonymous arrays are accepted where type expressions are
         # accepted. This means that you can define a function that returns an
         # anonymous array and it will be parsed correctly.
@@ -548,7 +548,7 @@ A.add_rules(
     ###########
 
     pragma_arg=Row(
-        Opt(A.identifier, "=>")[0], A.expression
+        Opt(A.identifier, "=>")[0], A.expr
     ) ^ PragmaArgument,
 
     pragma=Row("pragma", A.identifier,
@@ -613,7 +613,7 @@ A.add_rules(
         Opt(Row("(", "for", A.identifier, "in",
                 A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
         Opt(A.parameter_profiles),
-        "when", A.expression,
+        "when", A.expr,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
@@ -660,7 +660,7 @@ A.add_rules(
     select_stmt=Row(
         "select",
         List(
-            Row(Opt("when", A.expression, "=>")[1],
+            Row(Opt("when", A.expr, "=>")[1],
                 A.stmts) ^ SelectWhenPart,
             sep="or"),
         Opt("else", A.stmts)[1],
@@ -669,7 +669,7 @@ A.add_rules(
     ) ^ SelectStmt,
 
     accept_stmt=Row(
-        "accept", A.identifier, Opt("(", A.expression, ")")[1],
+        "accept", A.identifier, Opt("(", A.expr, ")")[1],
         Opt(A.parameter_profiles),
         Opt("do", A.handled_stmts, "end", Opt(A.identifier))[1]
     ) ^ AcceptStmt,
@@ -679,7 +679,7 @@ A.add_rules(
     ) ^ CaseStmtAlternative,
 
     case_stmt=Row(
-        "case", A.expression, "is", List(A.case_alt), "end", "case"
+        "case", A.expr, "is", List(A.case_alt), "end", "case"
     ) ^ CaseStmt,
 
     ext_return_stmt=Row(
@@ -703,7 +703,7 @@ A.add_rules(
 
     iteration_scheme=Or(
         Row("for", A.for_loop_parameter_spec)[1],
-        Row("while", A.expression) ^ WhileLoopSpec
+        Row("while", A.expr) ^ WhileLoopSpec
     ),
 
     compound_stmt=Or(A.if_stmt, A.block_stmt,
@@ -712,8 +712,8 @@ A.add_rules(
                      A.select_stmt),
 
     if_stmt=Row(
-        "if", A.expression, "then", A.stmts,
-        List(Row("elsif", A.expression,
+        "if", A.expr, "then", A.stmts,
+        List(Row("elsif", A.expr,
                  "then", A.stmts) ^ ElsifStmtPart,
              empty_valid=True),
         Opt("else", A.stmts)[1],
@@ -721,14 +721,14 @@ A.add_rules(
     ) ^ IfStmt,
 
     raise_stmt=Or(
-        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseStmt,
+        Row("raise", A.name, Opt("with", A.expr)[1]) ^ RaiseStmt,
         Row("raise", Null(Expr), Null(Expr)) ^ RaiseStmt,
     ),
 
     delay_stmt=Row(
         "delay",
         Opt("until").as_bool(Until),
-        A.expression
+        A.expr
     ) ^ DelayStmt,
 
     abort_stmt=Row(
@@ -788,19 +788,19 @@ A.add_rules(
 
     null_stmt=A.null_literal ^ NullStmt,
 
-    assignment_stmt=Row(A.name, ":=", A.expression) ^ AssignStmt,
+    assignment_stmt=Row(A.name, ":=", A.expr) ^ AssignStmt,
 
     goto_stmt=Row("goto", A.static_name) ^ GotoStmt,
 
     exit_stmt=Row("exit", Opt(A.identifier),
-                       Opt("when", A.expression)[1]) ^ ExitStmt,
+                       Opt("when", A.expr)[1]) ^ ExitStmt,
 
     return_stmt=(
-        Row("return", Opt(A.expression | A.raise_stmt)) ^ ReturnStmt
+        Row("return", Opt(A.expr | A.raise_stmt)) ^ ReturnStmt
     ),
 
     requeue_stmt=Row(
-        "requeue", A.expression,
+        "requeue", A.expr,
         Opt("with", "abort").as_bool(Abort)
     ) ^ RequeueStmt,
 
@@ -824,40 +824,40 @@ A.add_rules(
         Or(Row("in") ^ IterType.alt_in,
            Row("of") ^ IterType.alt_of),
         Opt("reverse").as_bool(Reverse),
-        A.constrained_subtype_indication | A.discrete_range | A.expression
+        A.constrained_subtype_indication | A.discrete_range | A.expr
     ) ^ ForLoopSpec,
 
-    quantified_expression=Row(
+    quantified_expr=Row(
         "for", Or(Row("all") ^ Quantifier.alt_all,
                   Row("some") ^ Quantifier.alt_some),
         A.for_loop_parameter_spec, "=>",
-        A.expression | A.discrete_range
+        A.expr | A.discrete_range
     ) ^ QuantifiedExpr,
 
-    case_expression=Row(
-        "case", A.expression, "is",
+    case_expr=Row(
+        "case", A.expr, "is",
         List(A.case_expr_alt, sep=",")
     ) ^ CaseExpr,
 
     case_expr_alt=Row(
-        "when", A.choice_list, "=>", A.expression
+        "when", A.choice_list, "=>", A.expr
     ) ^ CaseExprAlternative,
 
 
-    raise_expression=Or(
-        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseExpression,
-        Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpression,
+    raise_expr=Or(
+        Row("raise", A.name, Opt("with", A.expr)[1]) ^ RaiseExpr,
+        Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpr,
     ),
 
-    if_expression=Row(
-        "if", A.expression, "then", A.expression,
-        List(Row("elsif", A.expression,
-                 "then", A.expression) ^ ElsifExprPart, empty_valid=True),
-        Opt("else", A.expression)[1],
+    if_expr=Row(
+        "if", A.expr, "then", A.expr,
+        List(Row("elsif", A.expr,
+                 "then", A.expr) ^ ElsifExprPart, empty_valid=True),
+        Opt("else", A.expr)[1],
     ) ^ IfExpr,
 
-    conditional_expression=Or(A.if_expression, A.case_expression,
-                              A.quantified_expression),
+    conditional_expr=Or(A.if_expr, A.case_expr,
+                        A.quantified_expr),
 
     diamond_expr=Tok("<>") ^ DiamondExpr,
 
@@ -865,13 +865,13 @@ A.add_rules(
 
     aggregate_field=Or(
         A.choice_list ^ AggregateMember,
-        A.expression,
+        A.expr,
         A.others_designator,
     ),
 
     aggregate_assoc=Row(
         Opt(A.aggregate_field, "=>")[0],
-        Or(A.diamond_expr, A.expression)
+        Or(A.diamond_expr, A.expr)
     ) ^ ParamAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ ParamList,
     aggregate_content_null=Row(
@@ -881,7 +881,7 @@ A.add_rules(
     aggregate=Row(
         "(",
         Row(
-            Opt(A.expression, "with")[0],
+            Opt(A.expr, "with")[0],
             Or(A.aggregate_content_null, A.aggregate_content)
         ) ^ Aggregate,
         ")")[1],
@@ -891,7 +891,7 @@ A.add_rules(
     param_assoc=Row(
         Opt(A.identifier | A.others_designator | A.string_literal,
             "=>")[0],
-        A.expression | A.diamond_expr
+        A.expr | A.diamond_expr
     ) ^ ParamAssoc,
 
     call_suffix=Or(
@@ -908,7 +908,7 @@ A.add_rules(
         Row(A.name, "'", Tok(Token.Identifier, keep=True),
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
-            Or(Row("(", A.expression, ")")[1], A.aggregate)) ^ QualExpr,
+            Or(Row("(", A.expr, ")")[1], A.aggregate)) ^ QualExpr,
         A.direct_name,
     ),
 
@@ -919,12 +919,12 @@ A.add_rules(
 
     primary=Or(A.num_literal, A.null_literal,
                A.name, A.allocator,
-               A.conditional_expression,
-               A.raise_expression,
+               A.conditional_expr,
+               A.raise_expr,
                A.paren_expr,
                A.aggregate),
 
-    paren_expr=Row("(", A.expression, ")") ^ ParenExpr,
+    paren_expr=Row("(", A.expr, ")") ^ ParenExpr,
 
     factor=Or(
         Row(Or(Row("abs") ^ Op.alt_abs,
@@ -967,11 +967,11 @@ A.add_rules(
         Row("or") ^ Op.alt_or,
     ),
 
-    discrete_range=Row(A.expression,
-                       Row("..") ^ Op.alt_ellipsis, A.expression) ^ BinOp,
+    discrete_range=Row(A.expr,
+                       Row("..") ^ Op.alt_ellipsis, A.expr) ^ BinOp,
 
     choice=Or(
-        A.constrained_subtype_indication, A.discrete_range, A.expression,
+        A.constrained_subtype_indication, A.discrete_range, A.expr,
         A.others_designator
     ),
 
@@ -997,8 +997,8 @@ A.add_rules(
         A.simple_expr
     ),
 
-    expression=Or(
-        Row(A.relation, A.boolean_op, A.expression) ^ BinOp,
+    expr=Or(
+        Row(A.relation, A.boolean_op, A.expr) ^ BinOp,
         A.relation
     ),
 

@@ -231,7 +231,7 @@ class BasicDecl(AdaNode):
     )
 
     type_expression = AbstractProperty(
-        type=T.TypeExpression,
+        type=T.TypeExpr,
         runtime_check=True,
         doc="""
         Return the type expression for this BasicDecl if applicable, a null
@@ -243,7 +243,7 @@ class BasicDecl(AdaNode):
         Not(te.is_null), te.cast(AdaNode), Self.expr_type.cast(AdaNode),
     )), doc="""
         Return the type designator for this BasicDecl. This will either be a
-        TypeExpression instance, if applicable to this BasicDecl, or a
+        TypeExpr instance, if applicable to this BasicDecl, or a
         TypeDecl.
         """
     )
@@ -322,7 +322,7 @@ class BodyStub(Body):
 
 class DiscriminantSpec(BasicDecl):
     ids = Field(type=T.Identifier.list_type())
-    type_expr = Field(type=T.TypeExpression)
+    type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
@@ -388,7 +388,7 @@ class AbstractFormalParamDecl(BasicDecl):
     for records components and for subprogram parameters.
     """
     identifiers = AbstractProperty(type=T.Identifier.list_type())
-    type_expression = AbstractProperty(type=T.TypeExpression)
+    type_expression = AbstractProperty(type=T.TypeExpr)
     is_mandatory = Property(False)
 
 
@@ -929,7 +929,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
 class ComponentDef(AdaNode):
     has_aliased = Field(type=Aliased)
-    type_expr = Field(type=T.TypeExpression)
+    type_expr = Field(type=T.TypeExpr)
 
 
 class ArrayTypeDef(TypeDef):
@@ -1055,7 +1055,7 @@ class UseTypDecl(UseDecl):
 
 
 @abstract
-class TypeExpression(AdaNode):
+class TypeExpr(AdaNode):
     """
     This type will be used as a base for what represents a type expression
     in the Ada syntax tree.
@@ -1085,7 +1085,7 @@ class TypeExpression(AdaNode):
         return If(d.is_null, Self.accessed_type, d)
 
 
-class AnonymousType(TypeExpression):
+class AnonymousType(TypeExpr):
     type_decl = Field(type=T.AnonymousTypeDecl)
     designated_type = Property(Self.type_decl)
     is_anonymous_access = Property(
@@ -1093,7 +1093,7 @@ class AnonymousType(TypeExpression):
     )
 
 
-class SubtypeIndication(TypeExpression):
+class SubtypeIndication(TypeExpr):
     has_not_null = Field(type=NotNull)
     name = Field(type=T.Expr)
     constraint = Field(type=T.Constraint)
@@ -1115,7 +1115,7 @@ class ParameterProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
-    type_expr = Field(type=T.TypeExpression)
+    type_expr = Field(type=T.TypeExpr)
     default = Field(type=T.Expr)
 
     identifiers = Property(Self.ids)
@@ -1189,8 +1189,8 @@ class AbstractSubprogramDecl(BasicSubprogramDecl):
     aspects = Field(type=T.AspectSpecification)
 
 
-class ExpressionFunction(BasicSubprogramDecl):
-    expression = Field(type=T.Expr)
+class ExprFunction(BasicSubprogramDecl):
+    expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpecification)
 
 
@@ -1289,7 +1289,7 @@ class ObjectDecl(BasicDecl):
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)
     inout = Field(type=Mode)
-    type_expr = Field(type=T.TypeExpression)
+    type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpecification)
@@ -1742,7 +1742,7 @@ class CallExpr(Expr):
         designator passed in parameter.
         """
         atd = Var(type_designator.match(
-            lambda te=TypeExpression: te.array_def,
+            lambda te=TypeExpr: te.array_def,
             lambda td=TypeDecl: td.array_def,
             lambda _: No(ArrayTypeDef)
         ))
@@ -1764,7 +1764,7 @@ class CallExpr(Expr):
         # TODO 2: For the moment this is specialized for arrays, but we need to
         # handle the case when the return value is an access to subprogram.
         return type_designator.match(
-            lambda te=TypeExpression: te.array_ndims,
+            lambda te=TypeExpr: te.array_ndims,
             lambda td=TypeDecl: td.array_ndims,
             lambda _: -1
         ) == Self.suffix.cast_or_raise(ParamList).params.length
@@ -1773,10 +1773,10 @@ class CallExpr(Expr):
     def type_component(type_designator=AdaNode):
         """
         Helper to return the type component of a Node that can be either a
-        TypeDecl or a TypeExpression. TODO: Waiting on interfaces.
+        TypeDecl or a TypeExpr. TODO: Waiting on interfaces.
         """
         return type_designator.match(
-            lambda te=TypeExpression: te.component_type,
+            lambda te=TypeExpr: te.component_type,
             lambda td=TypeDecl: td.component_type,
             lambda _: No(AdaNode)
         )
@@ -1801,7 +1801,7 @@ class CallExpr(Expr):
         """
         Verifies that this callexpr is valid for the type designated by
         type_designator. type_designator is either a TypeDecl or a
-        TypeExpression. TODO: Waiting on interfaces.
+        TypeExpr. TODO: Waiting on interfaces.
         """
         # Algorithm: We're:
         # 1. Taking the innermost call expression
@@ -2231,7 +2231,7 @@ class ParamMatch(Struct):
 class SubprogramSpec(AbstractFormalParamHolder):
     name = Field(type=T.Name)
     params = Field(type=T.ParameterProfile.list_type())
-    returns = Field(type=T.TypeExpression)
+    returns = Field(type=T.TypeExpr)
 
     abstract_formal_params = Property(
         Self.params.map(lambda p: p.cast(AbstractFormalParamDecl))
@@ -2416,7 +2416,7 @@ class AttributeRef(Expr):
     designated_type = Property(Self.prefix.designated_type)
 
 
-class RaiseExpression(Expr):
+class RaiseExpr(Expr):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)
 

@@ -3,7 +3,7 @@ AssignStmt[1:1-1:46]
 | | Id[1:1-1:2]
 | | | tok: A
 | expr:
-| | RaiseExpression[1:6-1:46]
+| | RaiseExpr[1:6-1:46]
 | | | exception_name:
 | | | | Id[1:12-1:31]
 | | | | | tok: NotImplementedError

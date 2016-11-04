@@ -594,7 +594,7 @@ CompilationUnit
 | | | | | -------------------
 | | | | | -- First_Element --
 | | | | | -------------------
-| | | | | ExpressionFunction
+| | | | | ExprFunction
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
@@ -618,7 +618,7 @@ CompilationUnit
 | | | | | ------------
 | | | | | -- Length --
 | | | | | ------------
-| | | | | ExpressionFunction
+| | | | | ExprFunction
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
@@ -771,7 +771,7 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | | ASTList
-| | | | | | | | ExpressionFunction
+| | | | | | | | ExprFunction
 | | | | | | | | | OverridingUnspecified
 | | | | | | | | | SubprogramSpec
 | | | | | | | | | | Id

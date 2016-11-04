@@ -1,4 +1,4 @@
-ExpressionFunction[1:1-1:64]
+ExprFunction[1:1-1:64]
 | overriding:
 | | OverridingUnspecified[1:1-1:9]
 | subp_spec:
@@ -29,7 +29,7 @@ ExpressionFunction[1:1-1:64]
 | | | | | name:
 | | | | | | Id[1:33-1:40]
 | | | | | | | tok: Integer
-| expression:
+| expr:
 | | IfExpr[1:45-1:63]
 | | | cond_expr:
 | | | | Int[1:48-1:49]

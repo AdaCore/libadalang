@@ -1,2 +1,2 @@
 driver: parser
-rule: if_expression
+rule: if_expr

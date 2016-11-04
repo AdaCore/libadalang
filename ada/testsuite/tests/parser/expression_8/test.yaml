@@ -1,2 +1,2 @@
 driver: parser
-rule: expression
+rule: expr

@@ -22,8 +22,8 @@ Expr: <Int 23:16-23:17>, references None, type is <FullTypeDecl ["Integer"] 4:4-
 
 Expr: <Id "B" 26:4-26:5>, references <ObjectDecl ["B"] 14:4-14:15>, type is <FullTypeDecl ["Integer"] 4:4-4:36>
 Expr: <CallExpr 26:9-26:22>, references None, type is <FullTypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 26:9-26:18>, references <ExpressionFunction ["Pouet"] 10:4-10:48>, type is <FullTypeDecl ["Int_Array"] 5:4-5:62>
-Expr: <Id "Pouet" 26:9-26:14>, references <ExpressionFunction ["Pouet"] 10:4-10:48>, type is <FullTypeDecl ["Int_Array_Array"] 6:4-6:70>
+Expr: <CallExpr 26:9-26:18>, references <ExprFunction ["Pouet"] 10:4-10:48>, type is <FullTypeDecl ["Int_Array"] 5:4-5:62>
+Expr: <Id "Pouet" 26:9-26:14>, references <ExprFunction ["Pouet"] 10:4-10:48>, type is <FullTypeDecl ["Int_Array_Array"] 6:4-6:70>
 Expr: <Int 26:16-26:17>, references None, type is <FullTypeDecl ["Integer"] 4:4-4:36>
 Expr: <Int 26:20-26:21>, references None, type is <FullTypeDecl ["Integer"] 4:4-4:36>
 

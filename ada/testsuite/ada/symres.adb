@@ -257,7 +257,8 @@ procedure Symres is
                --  Handle testcase configuration pragmas for this file
                for Arg of P_Node.F_Args.all loop
                   declare
-                     A     : constant Pragma_Argument := Pragma_Argument (Arg);
+                     A     : constant Pragma_Argument_Assoc :=
+                        Pragma_Argument_Assoc (Arg);
 
                      pragma Assert (A.F_Id.all in Identifier_Type'Class);
                      Name  : constant Text_Type :=

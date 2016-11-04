@@ -1201,10 +1201,10 @@ class RenamingSubprogramDecl(BasicSubprogramDecl):
 
 class Pragma(AdaNode):
     id = Field(type=T.Identifier)
-    args = Field(type=T.PragmaArgument.list_type())
+    args = Field(type=T.PragmaArgumentAssoc.list_type())
 
 
-class PragmaArgument(AdaNode):
+class PragmaArgumentAssoc(AdaNode):
     id = Field(type=T.Identifier)
     expr = Field(type=T.Expr)
 

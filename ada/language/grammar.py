@@ -547,12 +547,12 @@ A.add_rules(
     # Pragmas #
     ###########
 
-    pragma_arg=Row(
+    pragma_argument=Row(
         Opt(A.identifier, "=>")[0], A.expr
-    ) ^ PragmaArgument,
+    ) ^ PragmaArgumentAssoc,
 
     pragma=Row("pragma", A.identifier,
-               Opt("(", List(A.pragma_arg, ","), ")")[1]) ^ Pragma,
+               Opt("(", List(A.pragma_argument, ","), ")")[1]) ^ Pragma,
 
     subunit=Row(
         "separate", "(", A.static_name, ")",

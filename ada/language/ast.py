@@ -2196,6 +2196,7 @@ class CharLiteral(BaseId):
         return Predicate(TypeDecl.fields.is_char_type, Self.type_var)
 
 
+@abstract
 class NumLiteral(SingleTokNode):
     _repr_name = "Num"
 

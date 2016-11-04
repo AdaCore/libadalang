@@ -316,7 +316,7 @@ A.add_rules(
     ),
 
     generic_formal_part=Row(
-        "generic", List(Row(A.generic_formal_decl | A.use_decl, ";")[0],
+        "generic", List(Row(A.generic_formal_decl | A.use_clause, ";")[0],
                         empty_valid=True)
     )[1],
 
@@ -376,7 +376,7 @@ A.add_rules(
         A.object_decl,
         A.package_decl,
         A.aspect_clause,
-        A.use_decl,
+        A.use_clause,
         A.exception_decl,
         A.package_renaming_decl,
         A.generic_renaming_decl,
@@ -498,24 +498,25 @@ A.add_rules(
         subprogram_decl(None, SubprogramDecl)
     ),
 
-    with_decl=Row(
+    with_clause=Row(
         Opt("limited").as_bool(Limited),
         Opt("private").as_bool(Private),
         "with", List(A.static_name, sep=",")
-    ) ^ WithDecl,
+    ) ^ WithClause,
 
-    context_item=Or(A.with_decl, A.use_decl, A.pragma),
+    context_item=Or(A.with_clause, A.use_clause, A.pragma),
 
-    use_decl=Or(A.use_package_decl, A.use_type_decl),
+    use_clause=Or(A.use_package_clause, A.use_type_clause),
 
-    use_package_decl=Row("use", List(A.static_name, sep=",")) ^ UsePkgDecl,
+    use_package_clause=Row("use",
+                           List(A.static_name, sep=",")) ^ UsePackageClause,
 
-    use_type_decl=Row(
+    use_type_clause=Row(
         "use",
         Opt("all").as_bool(All),
         "type",
         List(A.name, sep=",")
-    ) ^ UseTypDecl,
+    ) ^ UseTypeClause,
 
     subtype_indication=Row(
         Opt("not", "null").as_bool(NotNull),

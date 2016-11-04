@@ -48,8 +48,8 @@ package body Libadalang.Unit_Files is
    is
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
-      if Node.all in With_Decl_Type'Class then
-         Handle_With_Decl (Ctx, With_Decl (Node).F_Packages);
+      if Node.all in With_Clause_Type'Class then
+         Handle_With_Decl (Ctx, With_Clause (Node).F_Packages);
       elsif Node.all in Body_Node_Type'Class then
          Handle_Unit_Body (Ctx, Body_Node (Node), Initial_Env);
       end if;

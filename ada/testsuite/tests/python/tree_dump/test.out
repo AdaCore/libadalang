@@ -1,6 +1,6 @@
 <CompilationUnit>
 | <list>
-| | <WithDecl>
+| | <WithClause>
 | | | <LimitedAbsent>
 | | | <PrivateAbsent>
 | | | <list>

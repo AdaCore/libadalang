@@ -18,7 +18,7 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_node with_decl, subp_body, subp_name, has_limited, has_private;
+    ada_base_node with_clause, subp_body, subp_name, has_limited, has_private;
     ada_base_node tmp;
 
     ada_bool is_limited, is_private;
@@ -46,31 +46,31 @@ main(void)
             " something");
 
 
-    with_decl = tmp;
+    with_clause = tmp;
     if (ada_node_child(tmp, 3, &tmp))
         error("ada_node_child returned a child that does not exist");
-    if (tmp != with_decl)
+    if (tmp != with_clause)
         error("ada_node_child failed but nevertheless output something");
-    tmp = with_decl;
+    tmp = with_clause;
 
     if (!ada_node_child(tmp, 0, &tmp))
         error("Could not get CompilationUnit[0]");
     if (!ada_node_child(tmp, 0, &tmp))
         error("Could not get CompilationUnit[0] -> list[0]");
-    with_decl = tmp;
+    with_clause = tmp;
 
-    if (ada_node_kind(with_decl) != ada_with_decl)
-        error("Got something else than a WithDecl");
-    if (!ada_with_decl_f_has_limited(with_decl, &has_limited))
-        error("Could got get WithDecl.is_limited");
-    if (!ada_with_decl_f_has_private(with_decl, &has_private))
-        error("Could got get WithDecl.has_private");
+    if (ada_node_kind(with_clause) != ada_with_clause)
+        error("Got something else than a WithClause");
+    if (!ada_with_clause_f_has_limited(with_clause, &has_limited))
+        error("Could got get WithClause.is_limited");
+    if (!ada_with_clause_f_has_private(with_clause, &has_private))
+        error("Could got get WithClause.has_private");
 
     ada_limited_node_p_as_bool (has_limited, &is_limited);
     ada_private_node_p_as_bool (has_private, &is_private);
 
-    printf("WithDecl: is_limited = %s\n", is_limited ? "true" : "false");
-    printf("WithDecl: is_private = %s\n", is_private ? "true" : "false");
+    printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
+    printf("WithClause: is_private = %s\n", is_private ? "true" : "false");
 
 
     tmp = ada_unit_root(unit);

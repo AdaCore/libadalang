@@ -2,7 +2,7 @@ Parsing failed:
 7:1: End of input expected, got "Identifier"
 CompilationUnit[1:1-6:10]
 | prelude:
-| | WithDecl[1:1-1:17]
+| | WithClause[1:1-1:17]
 | | | has_limited:
 | | | | LimitedAbsent[1:1-1:1]
 | | | has_private:
@@ -15,7 +15,7 @@ CompilationUnit[1:1-6:10]
 | | | | | suffix:
 | | | | | | Id[1:10-1:17]
 | | | | | | | tok: Text_IO
-| | UsePkgDecl[1:19-1:34]
+| | UsePackageClause[1:19-1:34]
 | | | packages:
 | | | | DottedName[1:23-1:34]
 | | | | | prefix:

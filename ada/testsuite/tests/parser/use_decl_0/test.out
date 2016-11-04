@@ -1,4 +1,4 @@
-UsePkgDecl[1:1-1:29]
+UsePackageClause[1:1-1:29]
 | packages:
 | | DottedName[1:5-1:16]
 | | | prefix:

@@ -1028,7 +1028,7 @@ class NullComponentDecl(AdaNode):
     pass
 
 
-class WithDecl(AdaNode):
+class WithClause(AdaNode):
     has_limited = Field(type=Limited)
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list_type())
@@ -1037,11 +1037,11 @@ class WithDecl(AdaNode):
 
 
 @abstract
-class UseDecl(AdaNode):
+class UseClause(AdaNode):
     pass
 
 
-class UsePkgDecl(UseDecl):
+class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list_type())
 
     env_spec = EnvSpec(
@@ -1049,7 +1049,7 @@ class UsePkgDecl(UseDecl):
     )
 
 
-class UseTypDecl(UseDecl):
+class UseTypeClause(UseClause):
     has_all = Field(type=All)
     types = Field(type=T.Expr.list_type())
 

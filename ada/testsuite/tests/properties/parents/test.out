@@ -2,7 +2,7 @@
 |prelude:
 |  <list>
 |  |item 0:
-|  |  <WithDecl>
+|  |  <WithClause>
 |  |  |has_limited:
 |  |  |  <LimitedAbsent>
 |  |  |has_private:

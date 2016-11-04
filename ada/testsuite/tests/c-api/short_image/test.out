@@ -1,6 +1,6 @@
 <CompilationUnit 1:1-6:9>
 | <ASTList 1:1-1:18>
-| | <WithDecl 1:1-1:17>
+| | <WithClause 1:1-1:17>
 | | | <LimitedAbsent 1:1-1:1>
 | | | <PrivateAbsent 1:1-1:1>
 | | | <ASTList 1:6-1:17>

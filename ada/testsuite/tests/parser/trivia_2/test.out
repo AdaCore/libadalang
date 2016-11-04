@@ -1,22 +1,22 @@
 CompilationUnit
 | ASTList
-| | WithDecl
+| | WithClause
 | | | ASTList
 | | | | Id
-| | UseTypDecl
+| | UseTypeClause
 | | | ASTList
 | | | | DottedName
 | | | | | Id
 | | | | | Id
-| | UsePkgDecl
+| | UsePackageClause
 | | | ASTList
 | | | | Id
-| | WithDecl
+| | WithClause
 | | | ASTList
 | | | | DottedName
 | | | | | Id
 | | | | | Id
-| | UsePkgDecl
+| | UsePackageClause
 | | | ASTList
 | | | | DottedName
 | | | | | Id

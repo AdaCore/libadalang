@@ -41,4 +41,4 @@ SelectStmt[1:1-1:125]
 | | | | | | | | | | | tok: FALSE
 | | SelectWhenPart[1:104-1:114]
 | | | stmts:
-| | | | TerminateStmt[1:104-1:113]
+| | | | TerminateAlternative[1:104-1:113]

@@ -655,7 +655,7 @@ A.add_rules(
         "end", _(Opt(A.static_name))
     ) ^ PackageBody,
 
-    terminate_stmt=Row("terminate") ^ TerminateStmt,
+    terminate_alternative=Row("terminate") ^ TerminateAlternative,
 
     select_stmt=Row(
         "select",
@@ -784,7 +784,7 @@ A.add_rules(
                    A.goto_stmt, A.exit_stmt,
                    A.return_stmt, A.requeue_stmt,
                    A.call_stmt, A.abort_stmt, A.delay_stmt,
-                   A.raise_stmt, A.terminate_stmt, A.pragma),
+                   A.raise_stmt, A.terminate_alternative, A.pragma),
 
     null_stmt=A.null_literal ^ NullStmt,
 

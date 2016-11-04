@@ -2690,7 +2690,7 @@ class SelectWhenPart(AdaNode):
     stmts = Field(type=T.AdaNode.list_type())
 
 
-class TerminateStmt(SimpleStmt):
+class TerminateAlternative(SimpleStmt):
     pass
 
 

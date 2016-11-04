@@ -1,2 +1,2 @@
 driver: parser
-rule: full_type_decl
+rule: type_decl

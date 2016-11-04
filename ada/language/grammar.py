@@ -254,7 +254,7 @@ A.add_rules(
         A.aspect_spec
     ) ^ AnonymousTypeDecl,
 
-    full_type_decl=Or(
+    type_decl=Or(
         Row(
             "type", A.identifier, "is",
             "(", List(A.enum_literal_decl, sep=","), ")",
@@ -276,7 +276,7 @@ A.add_rules(
                 ) ^ IncompleteTypeDef,
             ),
             A.aspect_spec
-        ) ^ FullTypeDecl
+        ) ^ TypeDecl
     ),
 
     variant_part=Row(
@@ -323,7 +323,7 @@ A.add_rules(
     generic_formal_decl=Or(
         A.pragma,
         A.object_decl,
-        A.full_type_decl,
+        A.type_decl,
         A.formal_subp_decl,
         Row("with", A.generic_instantiation)[1]
     ),
@@ -367,7 +367,7 @@ A.add_rules(
     basic_decl=Or(
         A.body,
         A.body_stub,
-        A.full_type_decl,
+        A.type_decl,
         A.task_type_decl,
         A.protected_type_decl,
         A.generic_instantiation,

@@ -1,7 +1,7 @@
 Analyzing test1.adb
 ###################
 
-Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 4:4-4:11>, type is <FullTypeDecl ["Int"] 2:4-2:29>
-Expr: <Id "B" 8:9-8:10>, references <SubprogramDecl ["B"] 6:4-6:25>, type is <FullTypeDecl ["Int"] 2:4-2:29>
+Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 4:4-4:11>, type is <TypeDecl ["Int"] 2:4-2:29>
+Expr: <Id "B" 8:9-8:10>, references <SubprogramDecl ["B"] 6:4-6:25>, type is <TypeDecl ["Int"] 2:4-2:29>
 
 Done.

@@ -11,7 +11,7 @@ CompilationUnit[1:1-11:9]
 | | | | | public_part:
 | | | | | | PublicPart[2:4-10:15]
 | | | | | | | decls:
-| | | | | | | | FullTypeDecl[2:4-5:14]
+| | | | | | | | TypeDecl[2:4-5:14]
 | | | | | | | | | type_id:
 | | | | | | | | | | Id[2:9-2:16]
 | | | | | | | | | | | tok: R1_Type
@@ -60,7 +60,7 @@ CompilationUnit[1:1-11:9]
 | | | | | | | | | | | | | | | | | | | | | name:
 | | | | | | | | | | | | | | | | | | | | | | Id[4:14-4:21]
 | | | | | | | | | | | | | | | | | | | | | | | tok: Natural
-| | | | | | | | FullTypeDecl[7:4-10:14]
+| | | | | | | | TypeDecl[7:4-10:14]
 | | | | | | | | | type_id:
 | | | | | | | | | | Id[7:9-7:16]
 | | | | | | | | | | | tok: R2_Type
@@ -145,15 +145,15 @@ CompilationUnit[1:1-11:9]
     Foo: [<PackageDecl ["Foo"] 1:1-11:8>]
 }>
 <PackageDecl 1:1-11:8> - <LexEnv (Id 1, Parent <root>), {
-    R1_Type: [<FullTypeDecl ["R1_Type"] 2:4-5:14>]
-    R2_Type: [<FullTypeDecl ["R2_Type"] 7:4-10:14>]
+    R1_Type: [<TypeDecl ["R1_Type"] 2:4-5:14>]
+    R2_Type: [<TypeDecl ["R2_Type"] 7:4-10:14>]
 }>
-<FullTypeDecl 2:4-5:14> - <LexEnv (Id 2, Parent 1), {
+<TypeDecl 2:4-5:14> - <LexEnv (Id 2, Parent 1), {
     A: [<ComponentDecl ["A", "B"] 3:7-3:21>]
     B: [<ComponentDecl ["A", "B"] 3:7-3:21>]
     C: [<ComponentDecl ["C"] 4:7-4:21>]
 }>
-<FullTypeDecl 7:4-10:14> - <LexEnv (Id 3, Parent 1), {
+<TypeDecl 7:4-10:14> - <LexEnv (Id 3, Parent 1), {
     I: [<ComponentDecl ["I"] 8:7-8:18>]
     N: [<DiscriminantSpec ["N"] 7:18-7:29>]
     S: [<ComponentDecl ["S"] 9:7-9:26>]

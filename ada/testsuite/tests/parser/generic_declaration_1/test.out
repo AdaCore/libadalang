@@ -17,7 +17,7 @@ GenericPackageDecl[1:1-1:155]
 | | | | | name:
 | | | | | | Id[1:14-1:22]
 | | | | | | | tok: Positive
-| | FullTypeDecl[1:24-1:49]
+| | TypeDecl[1:24-1:49]
 | | | type_id:
 | | | | Id[1:29-1:38]
 | | | | | tok: Element_T

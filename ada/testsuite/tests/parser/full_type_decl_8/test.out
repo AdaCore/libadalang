@@ -1,4 +1,4 @@
-FullTypeDecl[1:1-1:78]
+TypeDecl[1:1-1:78]
 | type_id:
 | | Id[1:6-1:7]
 | | | tok: B

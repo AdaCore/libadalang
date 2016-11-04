@@ -1,6 +1,6 @@
 GenericSubprogramDecl[1:1-1:76]
 | formal_part:
-| | FullTypeDecl[1:9-1:34]
+| | TypeDecl[1:9-1:34]
 | | | type_id:
 | | | | Id[1:14-1:23]
 | | | | | tok: Element_T

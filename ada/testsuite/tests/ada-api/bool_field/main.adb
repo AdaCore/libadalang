@@ -12,13 +12,13 @@ procedure Main is
    Ctx       : Analysis_Context := Create;
    Unit      : constant Analysis_Unit := Get_From_File (Ctx, "pkg.ads");
    P         : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
-     (Kind => Ada_Full_Type_Decl);
+     (Kind => Ada_Type_Decl);
    Type_Defs : constant Ada_Node_Vectors.Elements_Array :=
       Root (Unit).Find (P).Consume;
 begin
    for T of Type_Defs loop
       declare
-         TD  : constant Full_Type_Decl := Full_Type_Decl (T);
+         TD  : constant Type_Decl := Type_Decl (T);
          RTD : constant Record_Type_Def := Record_Type_Def (TD.F_Type_Def);
 
          Name      : constant Token_Type := TD.F_Type_ID.F_Tok;

@@ -1,4 +1,4 @@
-FullTypeDecl[1:1-1:68]
+TypeDecl[1:1-1:68]
 | type_id:
 | | Id[1:6-1:11]
 | | | tok: Pouet

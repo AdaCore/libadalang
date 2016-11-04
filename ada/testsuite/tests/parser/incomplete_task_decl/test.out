@@ -15,7 +15,7 @@ CompilationUnit[1:1-6:10]
 | | | | | decls:
 | | | | | | DeclarativePart[2:4-3:15]
 | | | | | | | decls:
-| | | | | | | | FullTypeDecl[2:4-2:10]
+| | | | | | | | TypeDecl[2:4-2:10]
 | | | | | | | | | type_id:
 | | | | | | | | | | Id[2:9-2:10]
 | | | | | | | | | | | tok: A

@@ -716,7 +716,7 @@ class AbstractTypeDecl(BasicDecl):
     )
 
 
-class FullTypeDecl(AbstractTypeDecl):
+class TypeDecl(AbstractTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
@@ -755,7 +755,7 @@ class FullTypeDecl(AbstractTypeDecl):
     )
 
 
-class AnonymousTypeDecl(FullTypeDecl):
+class AnonymousTypeDecl(TypeDecl):
     # We don't want to add anonymous type declarations to the lexical
     # environments, so we reset the env spec.
     env_spec = EnvSpec(call_parents=False)

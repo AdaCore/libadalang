@@ -1,19 +1,19 @@
 Analyzing derived_aggregate.adb
 ###############################
 
-Expr: <Id "R" 20:4-20:5>, references <ObjectDecl ["R"] 16:4-16:13>, type is <FullTypeDecl ["Rec_2"] 11:4-14:14>
-Expr: <Aggregate 20:10-20:61>, references None, type is <FullTypeDecl ["Rec_2"] 11:4-14:14>
+Expr: <Id "R" 20:4-20:5>, references <ObjectDecl ["R"] 16:4-16:13>, type is <TypeDecl ["Rec_2"] 11:4-14:14>
+Expr: <Aggregate 20:10-20:61>, references None, type is <TypeDecl ["Rec_2"] 11:4-14:14>
 Expr: <Id "A" 20:10-20:11>, references <ComponentDecl ["A", "B"] 8:7-8:19>, type is None
-Expr: <Real 20:15-20:18>, references None, type is <FullTypeDecl ["Float"] 4:4-4:38>
+Expr: <Real 20:15-20:18>, references None, type is <TypeDecl ["Float"] 4:4-4:38>
 Expr: <Id "B" 20:20-20:21>, references <ComponentDecl ["A", "B"] 8:7-8:19>, type is None
-Expr: <Real 20:25-20:28>, references None, type is <FullTypeDecl ["Float"] 4:4-4:38>
+Expr: <Real 20:25-20:28>, references None, type is <TypeDecl ["Float"] 4:4-4:38>
 Expr: <Id "C" 20:30-20:31>, references <ComponentDecl ["C", "D"] 12:7-12:21>, type is None
-Expr: <Int 20:35-20:36>, references None, type is <FullTypeDecl ["Integer"] 5:4-5:33>
+Expr: <Int 20:35-20:36>, references None, type is <TypeDecl ["Integer"] 5:4-5:33>
 Expr: <Id "D" 20:38-20:39>, references <ComponentDecl ["C", "D"] 12:7-12:21>, type is None
-Expr: <Int 20:43-20:44>, references None, type is <FullTypeDecl ["Integer"] 5:4-5:33>
+Expr: <Int 20:43-20:44>, references None, type is <TypeDecl ["Integer"] 5:4-5:33>
 Expr: <Id "R" 20:46-20:47>, references <ComponentDecl ["R"] 13:7-13:14>, type is None
-Expr: <Aggregate 20:52-20:60>, references None, type is <FullTypeDecl ["Rec"] 7:4-9:14>
-Expr: <Real 20:52-20:55>, references None, type is <FullTypeDecl ["Float"] 4:4-4:38>
-Expr: <Id "Foo" 20:57-20:60>, references <ExprFunction ["Foo"] 18:4-18:38>, type is <FullTypeDecl ["Float"] 4:4-4:38>
+Expr: <Aggregate 20:52-20:60>, references None, type is <TypeDecl ["Rec"] 7:4-9:14>
+Expr: <Real 20:52-20:55>, references None, type is <TypeDecl ["Float"] 4:4-4:38>
+Expr: <Id "Foo" 20:57-20:60>, references <ExprFunction ["Foo"] 18:4-18:38>, type is <TypeDecl ["Float"] 4:4-4:38>
 
 Done.

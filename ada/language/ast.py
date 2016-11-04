@@ -1901,7 +1901,7 @@ class ParamList(AdaNode):
         )
 
 
-class AccessDeref(Expr):
+class ExplicitDeref(Expr):
     prefix = Field(type=T.Expr)
 
     @langkit_property()

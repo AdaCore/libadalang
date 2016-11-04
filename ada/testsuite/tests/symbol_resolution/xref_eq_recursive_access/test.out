@@ -3,7 +3,7 @@ Analyzing test_access.adb
 
 Expr: <DottedName 15:4-15:26>, references None, type is <FullTypeDecl ["Int"] 2:4-2:37>
 Expr: <DottedName 15:4-15:24>, references None, type is <FullTypeDecl ["Linked_List"] 5:4-5:53>
-Expr: <AccessDeref 15:4-15:19>, references <ComponentDecl ["Next"] 9:7-9:25>, type is <FullTypeDecl ["Linked_List_Record"] 7:4-10:14>
+Expr: <ExplicitDeref 15:4-15:19>, references <ComponentDecl ["Next"] 9:7-9:25>, type is <FullTypeDecl ["Linked_List_Record"] 7:4-10:14>
 Expr: <DottedName 15:4-15:15>, references <ComponentDecl ["Next"] 9:7-9:25>, type is <FullTypeDecl ["Linked_List"] 5:4-5:53>
 Expr: <DottedName 15:4-15:10>, references None, type is <FullTypeDecl ["Linked_List"] 5:4-5:53>
 Expr: <Id "R" 15:4-15:5>, references <ObjectDecl ["R"] 12:4-12:26>, type is <FullTypeDecl ["Linked_List_Record"] 7:4-10:14>

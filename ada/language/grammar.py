@@ -904,7 +904,7 @@ A.add_rules(
     name=Or(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ DottedName,
-        Row(A.name, ".", "all") ^ AccessDeref,
+        Row(A.name, ".", "all") ^ ExplicitDeref,
         Row(A.name, "'", Tok(Token.Identifier, keep=True),
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",

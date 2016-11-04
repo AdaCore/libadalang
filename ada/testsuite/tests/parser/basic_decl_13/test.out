@@ -18,7 +18,7 @@ ObjectDecl[1:1-1:94]
 | renaming_clause:
 | | RenamingClause[1:49-1:94]
 | | | renamed_object:
-| | | | AccessDeref[1:57-1:94]
+| | | | ExplicitDeref[1:57-1:94]
 | | | | | prefix:
 | | | | | | DottedName[1:57-1:90]
 | | | | | | | prefix:

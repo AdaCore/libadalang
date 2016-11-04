@@ -126,7 +126,7 @@ CompilationUnit
 | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | | | AccessDeref
+| | | | | | | | | | | | | | | | ExplicitDeref
 | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
@@ -158,7 +158,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | AccessDeref
+| | | | | | | | | | | | | | | | | | | | | | ExplicitDeref
 | | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
@@ -188,7 +188,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | AttributeRef
-| | | | | | | | | | | | | | | | | | | | | | AccessDeref
+| | | | | | | | | | | | | | | | | | | | | | ExplicitDeref
 | | | | | | | | | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | | | | | | | Id
@@ -275,7 +275,7 @@ CompilationUnit
 | | | | | | | | | ASTList
 | | | | | | | | | | AssignStmt
 | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | AccessDeref
+| | | | | | | | | | | | ExplicitDeref
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
@@ -310,7 +310,7 @@ CompilationUnit
 | | | | | | | | | | | ASTList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | CallExpr
-| | | | | | | | | | | | | | AccessDeref
+| | | | | | | | | | | | | | ExplicitDeref
 | | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | Id

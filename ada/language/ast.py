@@ -2542,7 +2542,7 @@ class HandledStmts(AdaNode):
 
 class ExceptionHandler(AdaNode):
     exc_name = Field(type=T.Identifier)
-    catched_exceptions = Field(type=T.AdaNode.list_type())
+    handled_exceptions = Field(type=T.AdaNode.list_type())
     stmts = Field(type=T.AdaNode.list_type())
 
 

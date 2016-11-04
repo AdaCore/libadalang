@@ -6,8 +6,8 @@ SelectStmt[1:1-1:154]
 | | | | | name:
 | | | | | | Id[1:17-1:22]
 | | | | | | | tok: Store
-| | | | | parameters:
-| | | | | | ParameterProfile[1:24-1:41]
+| | | | | params:
+| | | | | | ParamProfile[1:24-1:41]
 | | | | | | | ids:
 | | | | | | | | Id[1:24-1:31]
 | | | | | | | | | tok: An_Item
@@ -38,8 +38,8 @@ SelectStmt[1:1-1:154]
 | | | | | name:
 | | | | | | Id[1:85-1:90]
 | | | | | | | tok: Fetch
-| | | | | parameters:
-| | | | | | ParameterProfile[1:92-1:110]
+| | | | | params:
+| | | | | | ParamProfile[1:92-1:110]
 | | | | | | | ids:
 | | | | | | | | Id[1:92-1:99]
 | | | | | | | | | tok: An_Item

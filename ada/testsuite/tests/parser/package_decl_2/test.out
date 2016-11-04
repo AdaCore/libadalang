@@ -14,7 +14,7 @@ PackageDecl[1:1-1:105]
 | | | | | | | | Id[1:36-1:40]
 | | | | | | | | | tok: Push
 | | | | | | | params:
-| | | | | | | | ParameterProfile[1:42-1:54]
+| | | | | | | | ParamProfile[1:42-1:54]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:42-1:43]
 | | | | | | | | | | | tok: E

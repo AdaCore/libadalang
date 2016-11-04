@@ -27,7 +27,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | Id[3:11-3:22]
 | | | | | | | | | tok: Hello_World
 | | | | | | | params:
-| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | ParamProfile[3:24-3:46]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
@@ -54,7 +54,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | Id[5:13-5:17]
 | | | | | | | | | | | | | tok: Fact
 | | | | | | | | | | | params:
-| | | | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | | ParamProfile[5:19-5:30]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
@@ -337,7 +337,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | Id[3:11-3:22]
 | | | | | | | | | tok: Hello_World
 | | | | | | | params:
-| | | | | | | | ParameterProfile[3:24-3:46]
+| | | | | | | | ParamProfile[3:24-3:46]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[3:24-3:31]
 | | | | | | | | | | | tok: Console
@@ -364,7 +364,7 @@ CompilationUnit[1:1-17:10]
 | | | | | | | | | | | | Id[5:13-5:17]
 | | | | | | | | | | | | | tok: Fact
 | | | | | | | | | | | params:
-| | | | | | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | | | | | ParamProfile[5:19-5:30]
 | | | | | | | | | | | | | ids:
 | | | | | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | | | | | tok: N
@@ -527,7 +527,7 @@ SubprogramBody[3:1-17:9]
 | | | | Id[3:11-3:22]
 | | | | | tok: Hello_World
 | | | params:
-| | | | ParameterProfile[3:24-3:46]
+| | | | ParamProfile[3:24-3:46]
 | | | | | ids:
 | | | | | | Id[3:24-3:31]
 | | | | | | | tok: Console
@@ -554,7 +554,7 @@ SubprogramBody[3:1-17:9]
 | | | | | | | | Id[5:13-5:17]
 | | | | | | | | | tok: Fact
 | | | | | | | params:
-| | | | | | | | ParameterProfile[5:19-5:30]
+| | | | | | | | ParamProfile[5:19-5:30]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[5:19-5:20]
 | | | | | | | | | | | tok: N

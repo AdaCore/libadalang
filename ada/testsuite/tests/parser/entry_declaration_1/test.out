@@ -15,7 +15,7 @@ EntryDecl[1:1-1:36]
 | | | | Int[1:13-1:14]
 | | | | | tok: 3
 | params:
-| | ParameterProfile[1:17-1:35]
+| | ParamProfile[1:17-1:35]
 | | | ids:
 | | | | Id[1:17-1:18]
 | | | | | tok: B

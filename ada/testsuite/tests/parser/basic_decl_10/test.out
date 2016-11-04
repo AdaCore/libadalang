@@ -7,7 +7,7 @@ SubprogramDecl[1:1-1:54]
 | | | | Id[1:26-1:27]
 | | | | | tok: A
 | | | params:
-| | | | ParameterProfile[1:29-1:40]
+| | | | ParamProfile[1:29-1:40]
 | | | | | ids:
 | | | | | | Id[1:29-1:30]
 | | | | | | | tok: B
@@ -22,7 +22,7 @@ SubprogramDecl[1:1-1:54]
 | | | | | | | name:
 | | | | | | | | Id[1:33-1:40]
 | | | | | | | | | tok: Integer
-| | | | ParameterProfile[1:42-1:53]
+| | | | ParamProfile[1:42-1:53]
 | | | | | ids:
 | | | | | | Id[1:42-1:43]
 | | | | | | | tok: C

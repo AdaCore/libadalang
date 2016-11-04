@@ -441,7 +441,7 @@ A.add_rules(
         Opt("(",
             A.constrained_subtype_indication | A.discrete_range
             | A.subtype_indication, ")")[1],
-        Opt(A.parameter_profiles),
+        Opt(A.param_profiles),
         A.aspect_spec
     ) ^ EntryDecl,
 
@@ -463,16 +463,16 @@ A.add_rules(
         Row("for", A.direct_name, "use", "at", A.expr) ^ AtClause
     ),
 
-    parameter_profile=Row(
+    param_profile=Row(
         List(A.identifier, sep=","),
         ":",
         Opt("aliased").as_bool(Aliased),
         Opt(A.mode),
         A.type_expr,
         Opt(":=", A.expr)[1],
-    ) ^ ParameterProfile,
+    ) ^ ParamProfile,
 
-    parameter_profiles=Row("(", List(A.parameter_profile, sep=";"), ")")[1],
+    param_profiles=Row("(", List(A.param_profile, sep=";"), ")")[1],
 
     subprogram_spec=Row(
         _(Or("procedure", "function")),
@@ -480,7 +480,7 @@ A.add_rules(
         Opt(
             Row(
                 "(",
-                List(A.parameter_profile, sep=";"),
+                List(A.param_profile, sep=";"),
                 Opt(")").error()
             )[1]
         ),
@@ -612,7 +612,7 @@ A.add_rules(
         "entry", A.identifier,
         Opt(Row("(", "for", A.identifier, "in",
                 A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
-        Opt(A.parameter_profiles),
+        Opt(A.param_profiles),
         "when", A.expr,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
@@ -670,7 +670,7 @@ A.add_rules(
 
     accept_stmt=Row(
         "accept", A.identifier, Opt("(", A.expr, ")")[1],
-        Opt(A.parameter_profiles),
+        Opt(A.param_profiles),
         Opt("do", A.handled_stmts, "end", Opt(A.identifier))[1]
     ) ^ AcceptStmt,
 
@@ -702,7 +702,7 @@ A.add_rules(
     ) ^ LoopStmt,
 
     iteration_scheme=Or(
-        Row("for", A.for_loop_parameter_spec)[1],
+        Row("for", A.for_loop_param_spec)[1],
         Row("while", A.expr) ^ WhileLoopSpec
     ),
 
@@ -818,7 +818,7 @@ A.add_rules(
         "new", Opt("(", A.name, ")")[1], A.subtype_indication
     ) ^ Allocator,
 
-    for_loop_parameter_spec=Row(
+    for_loop_param_spec=Row(
         A.identifier,
         Opt(":", A.subtype_indication)[1],
         Or(Row("in") ^ IterType.alt_in,
@@ -830,7 +830,7 @@ A.add_rules(
     quantified_expr=Row(
         "for", Or(Row("all") ^ Quantifier.alt_all,
                   Row("some") ^ Quantifier.alt_some),
-        A.for_loop_parameter_spec, "=>",
+        A.for_loop_param_spec, "=>",
         A.expr | A.discrete_range
     ) ^ QuantifiedExpr,
 

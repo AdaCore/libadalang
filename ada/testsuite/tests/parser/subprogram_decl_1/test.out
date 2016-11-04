@@ -7,7 +7,7 @@ ExprFunction[1:1-1:75]
 | | | | Id[1:21-1:22]
 | | | | | tok: A
 | | | params:
-| | | | ParameterProfile[1:24-1:35]
+| | | | ParamProfile[1:24-1:35]
 | | | | | ids:
 | | | | | | Id[1:24-1:25]
 | | | | | | | tok: B
@@ -22,7 +22,7 @@ ExprFunction[1:1-1:75]
 | | | | | | | name:
 | | | | | | | | Id[1:28-1:35]
 | | | | | | | | | tok: Integer
-| | | | ParameterProfile[1:37-1:48]
+| | | | ParamProfile[1:37-1:48]
 | | | | | ids:
 | | | | | | Id[1:37-1:38]
 | | | | | | | tok: C

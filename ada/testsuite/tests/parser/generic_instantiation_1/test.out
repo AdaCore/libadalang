@@ -15,7 +15,7 @@ GenericPackageInstantiation[1:1-1:99]
 | | | suffix:
 | | | | Id[1:43-1:50]
 | | | | | tok: Vectors
-| parameters:
+| params:
 | | ParamList[1:52-1:98]
 | | | params:
 | | | | ParamAssoc[1:52-1:73]

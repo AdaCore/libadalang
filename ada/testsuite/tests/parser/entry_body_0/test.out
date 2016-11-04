@@ -2,8 +2,8 @@ EntryBody[1:1-1:100]
 | entry_name:
 | | Id[1:7-1:13]
 | | | tok: insert
-| parameters:
-| | ParameterProfile[1:15-1:33]
+| params:
+| | ParamProfile[1:15-1:33]
 | | | ids:
 | | | | Id[1:15-1:22]
 | | | | | tok: an_item

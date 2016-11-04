@@ -13,7 +13,7 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | Id[1:12-1:16]
 | | | | | | | | | tok: Test
 | | | | | | | params:
-| | | | | | | | ParameterProfile[1:18-1:25]
+| | | | | | | | ParamProfile[1:18-1:25]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:18-1:19]
 | | | | | | | | | | | tok: A
@@ -28,7 +28,7 @@ CompilationUnit[1:2-5:11]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:22-1:25]
 | | | | | | | | | | | | | tok: Foo
-| | | | | | | | ParameterProfile[1:27-1:34]
+| | | | | | | | ParamProfile[1:27-1:34]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:27-1:28]
 | | | | | | | | | | | tok: B

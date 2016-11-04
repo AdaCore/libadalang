@@ -50,13 +50,13 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -224,13 +224,13 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -340,13 +340,13 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -409,13 +409,13 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -481,7 +481,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
@@ -508,7 +508,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
@@ -531,7 +531,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -565,7 +565,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -599,7 +599,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -623,7 +623,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -642,13 +642,13 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | | Id
@@ -712,7 +712,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -761,7 +761,7 @@ CompilationUnit
 | | | | | | SubprogramSpec
 | | | | | | | Id
 | | | | | | | ASTList
-| | | | | | | | ParameterProfile
+| | | | | | | | ParamProfile
 | | | | | | | | | ASTList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -776,13 +776,13 @@ CompilationUnit
 | | | | | | | | | SubprogramSpec
 | | | | | | | | | | Id
 | | | | | | | | | | ASTList
-| | | | | | | | | | | ParameterProfile
+| | | | | | | | | | | ParamProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ModeDefault
 | | | | | | | | | | | | SubtypeIndication
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | ParameterProfile
+| | | | | | | | | | | ParamProfile
 | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ModeDefault

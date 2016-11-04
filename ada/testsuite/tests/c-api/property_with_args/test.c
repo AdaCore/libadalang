@@ -70,7 +70,7 @@ main(void)
     if (!ada_node_child(tmp, 0, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubprogramSpec -> Params[0]");
-    if (!ada_parameter_profile_f_ids(tmp, &tmp))
+    if (!ada_param_profile_f_ids(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubprogramSpec -> Params[0] -> Ids");
     if (!ada_node_child(tmp, 0, &i))

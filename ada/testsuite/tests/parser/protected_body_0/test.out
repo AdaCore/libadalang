@@ -9,8 +9,8 @@ ProtectedBody[1:1-1:271]
 | | | | | entry_name:
 | | | | | | Id[1:47-1:53]
 | | | | | | | tok: insert
-| | | | | parameters:
-| | | | | | ParameterProfile[1:55-1:73]
+| | | | | params:
+| | | | | | ParamProfile[1:55-1:73]
 | | | | | | | ids:
 | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | tok: an_item
@@ -51,8 +51,8 @@ ProtectedBody[1:1-1:271]
 | | | | | entry_name:
 | | | | | | Id[1:148-1:154]
 | | | | | | | tok: remove
-| | | | | parameters:
-| | | | | | ParameterProfile[1:156-1:174]
+| | | | | params:
+| | | | | | ParamProfile[1:156-1:174]
 | | | | | | | ids:
 | | | | | | | | Id[1:156-1:163]
 | | | | | | | | | tok: an_item

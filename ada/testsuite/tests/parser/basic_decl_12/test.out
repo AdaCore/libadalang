@@ -7,7 +7,7 @@ SubprogramDecl[1:1-1:124]
 | | | | Id[1:11-1:25]
 | | | | | tok: Lines_Add_Hook
 | | | params:
-| | | | ParameterProfile[1:27-1:69]
+| | | | ParamProfile[1:27-1:69]
 | | | | | ids:
 | | | | | | Id[1:27-1:33]
 | | | | | | | tok: Buffer
@@ -33,7 +33,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | | | | | | | | Id[1:43-1:63]
 | | | | | | | | | | | | | | | tok: Source_Buffer_Record
 | | | | | | | | | | | | | attribute: Class
-| | | | ParameterProfile[1:71-1:96]
+| | | | ParamProfile[1:71-1:96]
 | | | | | ids:
 | | | | | | Id[1:71-1:76]
 | | | | | | | tok: Start
@@ -48,7 +48,7 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | name:
 | | | | | | | | Id[1:80-1:96]
 | | | | | | | | | tok: Buffer_Line_Type
-| | | | ParameterProfile[1:98-1:123]
+| | | | ParamProfile[1:98-1:123]
 | | | | | ids:
 | | | | | | Id[1:98-1:104]
 | | | | | | | tok: Number

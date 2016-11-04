@@ -11,7 +11,7 @@ CompilationUnit[1:1-1:24]
 | | | | | generic_entity_name:
 | | | | | | Id[1:18-1:19]
 | | | | | | | tok: B
-| | | | | parameters:
+| | | | | params:
 | | | | | | ParamList[1:21-1:22]
 | | | | | | | params:
 | | | | | | | | ParamAssoc[1:21-1:22]

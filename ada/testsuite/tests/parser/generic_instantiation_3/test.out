@@ -5,7 +5,7 @@ GenericPackageInstantiation[1:1-1:42]
 | generic_entity_name:
 | | Id[1:18-1:19]
 | | | tok: Q
-| parameters:
+| params:
 | | ParamList[1:21-1:41]
 | | | params:
 | | | | ParamAssoc[1:21-1:27]

@@ -1111,7 +1111,7 @@ class Mode(T.EnumNode):
     suffix = 'mode'
 
 
-class ParameterProfile(AbstractFormalParamDecl):
+class ParamProfile(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
@@ -1250,7 +1250,7 @@ class EntryDecl(BasicDecl):
     overriding = Field(type=Overriding)
     entry_id = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
-    params = Field(type=T.ParameterProfile.list_type())
+    params = Field(type=T.ParamProfile.list_type())
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
@@ -1390,7 +1390,7 @@ class GenericInstantiation(BasicDecl):
     """
     name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
-    parameters = Field(type=T.AdaNode)
+    params = Field(type=T.AdaNode)
     aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.name.singleton)
 
@@ -1697,7 +1697,7 @@ class CallExpr(Expr):
                     # Test if the entity is a parameterless subprogram call,
                     # or something else (a component/local variable/etc),
                     # that would make this callexpr an array access.
-                    s.subp_spec.then(lambda ss: ss.parameterless(e.MD),
+                    s.subp_spec.then(lambda ss: ss.paramless(e.MD),
                                      default_val=True),
 
                     Self.equation_for_type(origin_env, s.type_designator),
@@ -2094,7 +2094,7 @@ class BaseId(SingleTokNode):
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
-                subp.subp_spec.parameterless(env_el.MD)
+                subp.subp_spec.paramless(env_el.MD)
                 & pc.check_type(et)
             ))
 
@@ -2116,7 +2116,7 @@ class BaseId(SingleTokNode):
                 & e.el.cast_or_raise(BasicDecl).subp_spec.then(
                     # If there is a subp_spec, check that it corresponds to
                     # a parameterless subprogram.
-                    lambda ss: ss.parameterless(e.MD),
+                    lambda ss: ss.paramless(e.MD),
                     default_val=True
                 )
             )),
@@ -2237,7 +2237,7 @@ class ParamMatch(Struct):
     Each value relates to one ParamAssoc.
     """
     has_matched = Field(type=BoolType, doc="""
-        Whether the matched ParamAssoc a ParameterProfile.
+        Whether the matched ParamAssoc a ParamProfile.
     """)
     actual = Field(type=SingleActual)
     formal = Field(type=SingleFormal)
@@ -2245,7 +2245,7 @@ class ParamMatch(Struct):
 
 class SubprogramSpec(AbstractFormalParamHolder):
     name = Field(type=T.Name)
-    params = Field(type=T.ParameterProfile.list_type())
+    params = Field(type=T.ParamProfile.list_type())
     returns = Field(type=T.TypeExpr)
 
     abstract_formal_params = Property(
@@ -2360,7 +2360,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
         )
 
     @langkit_property(return_type=BoolType, private=True)
-    def parameterless(md=Metadata):
+    def paramless(md=Metadata):
         """
         Utility function. Given a subprogram spec and its associated metadata,
         determine if it can be called without parameters (and hence without a
@@ -2675,7 +2675,7 @@ class CaseStmtAlternative(AdaNode):
 class AcceptStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
-    parameters = Field(type=T.ParameterProfile.list_type())
+    params = Field(type=T.ParamProfile.list_type())
     stmts = Field(type=T.HandledStmts)
 
 
@@ -2728,7 +2728,7 @@ class ProtectedBody(Body):
 class EntryBody(Body):
     entry_name = Field(type=T.Identifier)
     index_spec = Field(type=T.EntryIndexSpec)
-    parameters = Field(type=T.ParameterProfile.list_type())
+    params = Field(type=T.ParamProfile.list_type())
     when_cond = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)

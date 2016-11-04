@@ -21,7 +21,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:45-1:54]
 | | | | | | | | | | | tok: Buffer_Id
 | | | | | | | params:
-| | | | | | | | ParameterProfile[1:57-1:74]
+| | | | | | | | ParamProfile[1:57-1:74]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:57-1:64]
 | | | | | | | | | | | tok: An_Item
@@ -50,7 +50,7 @@ TaskTypeDecl[1:1-1:144]
 | | | | | | | | | | Id[1:91-1:100]
 | | | | | | | | | | | tok: Buffer_Id
 | | | | | | | params:
-| | | | | | | | ParameterProfile[1:103-1:121]
+| | | | | | | | ParamProfile[1:103-1:121]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:103-1:110]
 | | | | | | | | | | | tok: An_Item

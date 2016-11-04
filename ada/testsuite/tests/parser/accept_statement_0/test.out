@@ -2,8 +2,8 @@ AcceptStmt[1:1-1:67]
 | name:
 | | Id[1:8-1:14]
 | | | tok: Insert
-| parameters:
-| | ParameterProfile[1:16-1:34]
+| params:
+| | ParamProfile[1:16-1:34]
 | | | ids:
 | | | | Id[1:16-1:23]
 | | | | | tok: An_Item

@@ -1229,7 +1229,7 @@ class AttributeDefClause(AspectClause):
     expr = Field(type=T.Expr)
 
 
-class RecordRepComponent(AdaNode):
+class ComponentClause(AdaNode):
     id = Field(type=T.Identifier)
     position = Field(type=T.Expr)
     range = Field(type=T.Expr)
@@ -1238,7 +1238,7 @@ class RecordRepComponent(AdaNode):
 class RecordRepClause(AspectClause):
     component_name = Field(type=T.Name)
     at_expr = Field(type=T.Expr)
-    components = Field(type=T.RecordRepComponent.list_type())
+    components = Field(type=T.ComponentClause.list_type())
 
 
 class AtClause(AspectClause):

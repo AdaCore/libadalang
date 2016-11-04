@@ -446,9 +446,9 @@ A.add_rules(
     ) ^ EntryDecl,
 
 
-    rep_component_clause=Row(
+    component_clause=Row(
         A.identifier, "at", A.simple_expr, A.range_spec
-    ) ^ RecordRepComponent,
+    ) ^ ComponentClause,
 
     aspect_clause=Or(
         Row("for", A.name, "use", A.expr) ^ AttributeDefClause,
@@ -457,7 +457,7 @@ A.add_rules(
 
         Row("for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr)[2],
-            List(Row(A.rep_component_clause, ";")[0], empty_valid=True),
+            List(Row(A.component_clause, ";")[0], empty_valid=True),
             "end", "record") ^ RecordRepClause,
 
         Row("for", A.direct_name, "use", "at", A.expr) ^ AtClause

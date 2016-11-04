@@ -3,7 +3,7 @@ RecordRepClause[1:1-1:189]
 | | Id[1:5-1:7]
 | | | tok: X2
 | components:
-| | RecordRepComponent[1:21-1:43]
+| | ComponentClause[1:21-1:43]
 | | | id:
 | | | | Id[1:21-1:23]
 | | | | | tok: L1
@@ -20,7 +20,7 @@ RecordRepClause[1:1-1:189]
 | | | | | right:
 | | | | | | Int[1:42-1:43]
 | | | | | | | tok: 0
-| | RecordRepComponent[1:47-1:70]
+| | ComponentClause[1:47-1:70]
 | | | id:
 | | | | Id[1:47-1:49]
 | | | | | tok: L2
@@ -37,7 +37,7 @@ RecordRepClause[1:1-1:189]
 | | | | | right:
 | | | | | | Int[1:68-1:70]
 | | | | | | | tok: 64
-| | RecordRepComponent[1:74-1:97]
+| | ComponentClause[1:74-1:97]
 | | | id:
 | | | | Id[1:74-1:76]
 | | | | | tok: L3
@@ -54,7 +54,7 @@ RecordRepClause[1:1-1:189]
 | | | | | right:
 | | | | | | Int[1:95-1:97]
 | | | | | | | tok: 31
-| | RecordRepComponent[1:101-1:123]
+| | ComponentClause[1:101-1:123]
 | | | id:
 | | | | Id[1:101-1:103]
 | | | | | tok: L4
@@ -71,7 +71,7 @@ RecordRepClause[1:1-1:189]
 | | | | | right:
 | | | | | | Int[1:122-1:123]
 | | | | | | | tok: 0
-| | RecordRepComponent[1:127-1:150]
+| | ComponentClause[1:127-1:150]
 | | | id:
 | | | | Id[1:127-1:129]
 | | | | | tok: L5
@@ -88,7 +88,7 @@ RecordRepClause[1:1-1:189]
 | | | | | right:
 | | | | | | Int[1:148-1:150]
 | | | | | | | tok: 13
-| | RecordRepComponent[1:154-1:177]
+| | ComponentClause[1:154-1:177]
 | | | id:
 | | | | Id[1:154-1:156]
 | | | | | tok: L6

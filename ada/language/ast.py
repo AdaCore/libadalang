@@ -2430,7 +2430,7 @@ class QualExpr(Expr):
 
 class AttributeRef(Expr):
     prefix = Field(type=T.Expr)
-    attribute = Field(type=T.Token)
+    attribute = Field(type=T.Identifier)
     args = Field(type=T.AdaNode)
 
     designated_type = Property(Self.prefix.designated_type)

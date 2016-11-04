@@ -4,7 +4,9 @@ ExceptionHandler[1:1-1:34]
 | | | prefix:
 | | | | Id[1:6-1:11]
 | | | | | tok: Pouet
-| | | attribute: Abort_Signal
+| | | attribute:
+| | | | Id[1:12-1:24]
+| | | | | tok: Abort_Signal
 | stmts:
 | | CallStmt[1:28-1:33]
 | | | call:

@@ -10,7 +10,9 @@ Allocator[1:1-1:21]
 | | | | | | | prefix:
 | | | | | | | | Id[1:5-1:6]
 | | | | | | | | | tok: A
-| | | | | | | attribute: Class
+| | | | | | | attribute:
+| | | | | | | | Id[1:7-1:12]
+| | | | | | | | | tok: Class
 | | | | | suffix:
 | | | | | | Aggregate[1:14-1:20]
 | | | | | | | assocs:

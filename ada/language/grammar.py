@@ -906,7 +906,7 @@ A.add_rules(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ DottedName,
         Row(A.name, ".", "all") ^ ExplicitDeref,
-        Row(A.name, "'", Tok(Token.Identifier, keep=True),
+        Row(A.name, "'", A.identifier,
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         Row(A.name, "'",
             Or(Row("(", A.expr, ")")[1], A.aggregate)) ^ QualExpr,

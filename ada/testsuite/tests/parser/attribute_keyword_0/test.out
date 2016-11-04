@@ -2,4 +2,6 @@ AttributeRef[1:1-1:18]
 | prefix:
 | | Id[1:1-1:11]
 | | | tok: identifier
-| attribute: access
+| attribute:
+| | Id[1:12-1:18]
+| | | tok: access

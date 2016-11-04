@@ -4,7 +4,9 @@ AttributeDefClause[1:1-1:22]
 | | | prefix:
 | | | | Id[1:5-1:10]
 | | | | | tok: Small
-| | | attribute: Size
+| | | attribute:
+| | | | Id[1:11-1:15]
+| | | | | tok: Size
 | expr:
 | | Int[1:20-1:22]
 | | | tok: 16

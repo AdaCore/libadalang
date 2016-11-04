@@ -168,7 +168,9 @@
 |  |  |  |  |  |  |  |  |  |  |prefix:
 |  |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |attribute: Token(u'Image')
+|  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
 |  |  |  |  |  |  |  |  |  |  |args:
 |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |params:

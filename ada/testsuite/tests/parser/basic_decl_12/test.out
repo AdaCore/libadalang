@@ -32,7 +32,9 @@ SubprogramDecl[1:1-1:124]
 | | | | | | | | | | | | | prefix:
 | | | | | | | | | | | | | | Id[1:43-1:63]
 | | | | | | | | | | | | | | | tok: Source_Buffer_Record
-| | | | | | | | | | | | | attribute: Class
+| | | | | | | | | | | | | attribute:
+| | | | | | | | | | | | | | Id[1:64-1:69]
+| | | | | | | | | | | | | | | tok: Class
 | | | | ParamSpec[1:71-1:96]
 | | | | | ids:
 | | | | | | Id[1:71-1:76]

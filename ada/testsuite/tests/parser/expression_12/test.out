@@ -6,8 +6,12 @@ AttributeRef[1:1-1:22]
 | | | | | prefix:
 | | | | | | Id[1:1-1:2]
 | | | | | | | tok: A
-| | | | | attribute: C
+| | | | | attribute:
+| | | | | | Id[1:5-1:6]
+| | | | | | | tok: C
 | | | suffix:
 | | | | Chr[1:10-1:13]
 | | | | | tok: 'D'
-| attribute: Pointer
+| attribute:
+| | Id[1:15-1:22]
+| | | tok: Pointer

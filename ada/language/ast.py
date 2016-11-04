@@ -1007,7 +1007,7 @@ class AccessDef(TypeDef):
     defining_env = Property(Self.accessed_type.defining_env)
 
 
-class SubprogramAccessDef(AccessDef):
+class AccessToSubprogramDef(AccessDef):
     has_protected = Field(type=Protected, repr=False)
     subp_spec = Field(type=T.SubprogramSpec)
 

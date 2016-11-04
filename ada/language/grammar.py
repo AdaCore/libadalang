@@ -228,7 +228,7 @@ A.add_rules(
             "access",
             Opt("protected").as_bool(Protected),
             A.subprogram_spec
-        ) ^ SubprogramAccessDef,
+        ) ^ AccessToSubprogramDef,
         Row(
             Opt("not", "null").as_bool(NotNull),
             "access",

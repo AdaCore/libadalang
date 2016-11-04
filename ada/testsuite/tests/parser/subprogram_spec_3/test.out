@@ -16,7 +16,7 @@ SubprogramSpec[1:1-1:69]
 | | | | | type_decl:
 | | | | | | AnonymousTypeDecl[1:25-1:55]
 | | | | | | | type_def:
-| | | | | | | | SubprogramAccessDef[1:25-1:55]
+| | | | | | | | AccessToSubprogramDef[1:25-1:55]
 | | | | | | | | | has_not_null:
 | | | | | | | | | | NotNullAbsent[1:25-1:25]
 | | | | | | | | | subp_spec:

@@ -1614,6 +1614,12 @@ class Aggregate(Expr):
 
 
 class CallExpr(Expr):
+    """
+    Represent a syntactic call expression.
+
+    At the semantic level, this can be either a subprogram call, an array
+    subcomponent access expression, an array slice or a type conversion.
+    """
     name = Field(type=T.Expr)
     suffix = Field(type=T.AdaNode)
 

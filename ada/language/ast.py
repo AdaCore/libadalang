@@ -2200,8 +2200,8 @@ class NumLiteral(SingleTokNode):
     _repr_name = "Num"
 
 
-class DecLiteral(NumLiteral):
-    _repr_name = "Dec"
+class RealLiteral(NumLiteral):
+    _repr_name = "Real"
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):

@@ -809,7 +809,7 @@ A.add_rules(
     char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,
     string_literal=Tok(Token.String, keep=True) ^ StringLiteral,
 
-    dec_literal=Tok(Token.Decimal, keep=True) ^ DecLiteral,
+    dec_literal=Tok(Token.Decimal, keep=True) ^ RealLiteral,
     int_literal=Tok(Token.Integer, keep=True) ^ IntLiteral,
     num_literal=A.dec_literal | A.int_literal,
 

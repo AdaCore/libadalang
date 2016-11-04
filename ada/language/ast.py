@@ -2557,6 +2557,9 @@ class CompositeStmt(Stmt):
 
 
 class CallStmt(SimpleStmt):
+    """
+    Statement for entry or procedure calls.
+    """
     call = Field(type=T.Expr)
 
     @langkit_property()

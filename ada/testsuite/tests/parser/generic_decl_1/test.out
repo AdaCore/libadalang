@@ -20,7 +20,7 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | | | | Id[3:14-3:21]
 | | | | | | | | | | | | | tok: Has_Pre
 | | | | | | | | | aspects:
-| | | | | | | | | | AspectSpecification[3:22-3:38]
+| | | | | | | | | | AspectSpec[3:22-3:38]
 | | | | | | | | | | | aspect_assocs:
 | | | | | | | | | | | | AspectAssoc[3:27-3:38]
 | | | | | | | | | | | | | id:
@@ -36,7 +36,7 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | | | | Id[6:14-6:22]
 | | | | | | | | | | | | | tok: Has_Post
 | | | | | | | | | aspects:
-| | | | | | | | | | AspectSpecification[6:23-6:40]
+| | | | | | | | | | AspectSpec[6:23-6:40]
 | | | | | | | | | | | aspect_assocs:
 | | | | | | | | | | | | AspectAssoc[6:28-6:40]
 | | | | | | | | | | | | | id:
@@ -54,7 +54,7 @@ CompilationUnit[1:1-10:7]
 | | | | | | | | | | | | Id[8:14-8:25]
 | | | | | | | | | | | | | tok: No_Contract
 | | | | | | | | | aspects:
-| | | | | | | | | | AspectSpecification[8:26-8:37]
+| | | | | | | | | | AspectSpec[8:26-8:37]
 | | | | | | | | | | | aspect_assocs:
 | | | | | | | | | | | | AspectAssoc[8:31-8:37]
 | | | | | | | | | | | | | id:

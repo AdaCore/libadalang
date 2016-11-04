@@ -396,7 +396,7 @@ class ComponentDecl(AbstractFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     component_def = Field(type=T.ComponentDef)
     default_expr = Field(type=T.Expr)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
@@ -717,7 +717,7 @@ class TypeDecl(BasicDecl):
 class FullTypeDecl(TypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     array_ndims = Property(Self.type_def.array_ndims)
 
@@ -761,7 +761,7 @@ class AnonymousTypeDecl(FullTypeDecl):
 
 class EnumTypeDecl(TypeDecl):
     enum_literals = Field(type=T.EnumLiteralDecl.list_type())
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     is_char_type = Property(Self.enum_literals.any(
         lambda lit: lit.enum_identifier.is_a(T.CharLiteral)
@@ -955,7 +955,7 @@ class InterfaceTypeDef(TypeDef):
 
 class SubtypeDecl(TypeDecl):
     subtype = Field(type=T.SubtypeIndication)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     array_ndims = Property(Self.subtype.array_ndims)
     defining_env = Property(Self.subtype.defining_env)
@@ -981,7 +981,7 @@ class ProtectedDef(AdaNode):
 class TaskTypeDecl(BasicDecl):
     task_type_name = Field(type=T.Identifier)
     discrs = Field(type=T.DiscriminantPart)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)
 
     defining_names = Property(Self.task_type_name.cast(T.Name).singleton)
@@ -990,7 +990,7 @@ class TaskTypeDecl(BasicDecl):
 class ProtectedTypeDecl(BasicDecl):
     protected_type_name = Field(type=T.Identifier)
     discrs = Field(type=T.DiscriminantPart)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     interfaces = Field(type=T.Name.list_type())
     definition = Field(type=T.ProtectedDef)
 
@@ -1127,7 +1127,7 @@ class ParameterProfile(AbstractFormalParamDecl):
     type_expression = Property(Self.type_expr)
 
 
-class AspectSpecification(AdaNode):
+class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list_type())
 
 
@@ -1178,25 +1178,25 @@ class BasicSubprogramDecl(BasicDecl):
 
 
 class SubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
 
 class NullSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
 
 class AbstractSubprogramDecl(BasicSubprogramDecl):
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
 
 class ExprFunction(BasicSubprogramDecl):
     expr = Field(type=T.Expr)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
 
 class RenamingSubprogramDecl(BasicSubprogramDecl):
     renames = Field(type=T.RenamingClause)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
 
 class Pragma(AdaNode):
@@ -1251,14 +1251,14 @@ class EntryDecl(BasicDecl):
     entry_id = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
     params = Field(type=T.ParameterProfile.list_type())
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
 class TaskDecl(BasicDecl):
     task_name = Field(type=T.Identifier)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)
 
     defining_names = Property(Self.task_name.cast(T.Name).singleton)
@@ -1266,7 +1266,7 @@ class TaskDecl(BasicDecl):
 
 class ProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_name.cast(T.Name).singleton)
@@ -1292,7 +1292,7 @@ class ObjectDecl(BasicDecl):
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
@@ -1355,7 +1355,7 @@ class BasePackageDecl(BasicDecl):
     GenericPackageDecl instance.
     """
     package_name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
     end_id = Field(type=T.Name)
@@ -1379,7 +1379,7 @@ class ExceptionDecl(BasicDecl):
     """
     ids = Field(type=T.Identifier.list_type())
     renames = Field(type=T.RenamingClause)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
@@ -1391,7 +1391,7 @@ class GenericInstantiation(BasicDecl):
     name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
     parameters = Field(type=T.AdaNode)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.name.singleton)
 
 
@@ -1417,7 +1417,7 @@ class RenamingClause(AdaNode):
 class PackageRenamingDecl(BasicDecl):
     name = Field(type=T.Name)
     renames = Field(type=RenamingClause)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
 
@@ -1425,7 +1425,7 @@ class PackageRenamingDecl(BasicDecl):
 class GenericRenamingDecl(BasicDecl):
     name = Field(type=T.Name)
     renames = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
 
@@ -1437,7 +1437,7 @@ class FormalSubpDecl(BasicDecl):
     subp_spec = Field(type=T.SubprogramSpec)
     has_abstract = Field(type=Abstract)
     default_value = Field(type=T.Expr)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
 
@@ -1445,7 +1445,7 @@ class FormalSubpDecl(BasicDecl):
 class GenericSubprogramDecl(BasicDecl):
     formal_part = Field(type=T.AdaNode.list_type())
     subp_spec = Field(type=T.SubprogramSpec)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
 
@@ -2506,7 +2506,7 @@ class SubprogramBody(Body):
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_id = Field(type=T.Expr)
@@ -2682,7 +2682,7 @@ class PackageBody(Body):
                           is_body=True)]
 
     package_name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 
@@ -2692,7 +2692,7 @@ class PackageBody(Body):
 
 class TaskBody(Body):
     name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 
@@ -2701,7 +2701,7 @@ class TaskBody(Body):
 
 class ProtectedBody(Body):
     name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
 
     defining_names = Property(Self.name.singleton)
@@ -2730,7 +2730,7 @@ class Subunit(AdaNode):
 
 class ProtectedBodyStub(BodyStub):
     name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
 
@@ -2738,7 +2738,7 @@ class ProtectedBodyStub(BodyStub):
 class SubprogramBodyStub(BodyStub):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubprogramSpec)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
@@ -2747,14 +2747,14 @@ class SubprogramBodyStub(BodyStub):
 
 class PackageBodyStub(BodyStub):
     name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
 
 
 class TaskBodyStub(BodyStub):
     name = Field(type=T.Name)
-    aspects = Field(type=T.AspectSpecification)
+    aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
 

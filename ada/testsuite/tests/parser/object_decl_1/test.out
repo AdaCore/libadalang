@@ -29,7 +29,7 @@ ObjectDecl[1:1-1:64]
 | | Null[1:44-1:48]
 | | | tok: null
 | aspects:
-| | AspectSpecification[1:49-1:64]
+| | AspectSpec[1:49-1:64]
 | | | aspect_assocs:
 | | | | AspectAssoc[1:54-1:64]
 | | | | | id:

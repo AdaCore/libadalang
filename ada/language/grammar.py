@@ -20,7 +20,7 @@ def package_decl_factory():
     :rtype: Row
     """
     return Row(
-        "package", A.static_name, A.aspect_specification, "is",
+        "package", A.static_name, A.aspect_spec, "is",
         A.basic_decls ^ PublicPart,
         Opt("private", A.basic_decls ^ PrivatePart)[1],
         "end", Opt(A.static_name)
@@ -40,7 +40,7 @@ def subprogram_decl(variant_part, dest_class):
         A.overriding_indicator,
         A.subprogram_spec,
         variant_part,
-        A.aspect_specification,
+        A.aspect_spec,
     ) ^ dest_class
 
 
@@ -57,13 +57,13 @@ def generic_instantiation(keyword, dest_class):
         keyword, A.static_name, "is",
         "new", A.static_name,
         Opt("(", A.call_suffix, ")")[1],
-        A.aspect_specification
+        A.aspect_spec
     ) ^ dest_class
 
 A.add_rules(
     protected_type_decl=Row(
         "protected", "type", A.identifier, Opt(A.discriminant_part),
-        A.aspect_specification,
+        A.aspect_spec,
         "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
         A.protected_def
     ) ^ ProtectedTypeDecl,
@@ -98,13 +98,13 @@ A.add_rules(
 
     task_type_decl=Row(
         "task", "type", A.identifier, Opt(A.discriminant_part),
-        A.aspect_specification,
+        A.aspect_spec,
         Opt(A.task_def)
     ) ^ TaskTypeDecl,
 
     subtype_decl=Row(
         "subtype", A.identifier, "is", A.subtype_indication,
-        A.aspect_specification
+        A.aspect_spec
     ) ^ SubtypeDecl,
 
     interface_type_def=Row(
@@ -251,14 +251,14 @@ A.add_rules(
     anonymous_type_decl=Row(
         Null(A.identifier), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
-        A.aspect_specification
+        A.aspect_spec
     ) ^ AnonymousTypeDecl,
 
     full_type_decl=Or(
         Row(
             "type", A.identifier, "is",
             "(", List(A.enum_literal_decl, sep=","), ")",
-            A.aspect_specification
+            A.aspect_spec
         ) ^ EnumTypeDecl,
         Row(
             "type", A.identifier, Opt(A.discriminant_part),
@@ -275,7 +275,7 @@ A.add_rules(
                     Opt("is", "tagged").as_bool(Tagged)
                 ) ^ IncompleteTypeDef,
             ),
-            A.aspect_specification
+            A.aspect_spec
         ) ^ FullTypeDecl
     ),
 
@@ -301,7 +301,7 @@ A.add_rules(
 
     component_decl=Row(
         List(A.identifier, sep=","), ":", A.component_def,
-        A.default_expr, A.aspect_specification
+        A.default_expr, A.aspect_spec
     ) ^ ComponentDecl,
 
     component_list=Row(
@@ -311,7 +311,7 @@ A.add_rules(
 
     generic_decl=Or(
         Row(A.generic_formal_part, A.subprogram_spec,
-            A.aspect_specification) ^ GenericSubprogramDecl,
+            A.aspect_spec) ^ GenericSubprogramDecl,
         Row(A.generic_formal_part, A.base_package_decl) ^ GenericPackageDecl
     ),
 
@@ -334,14 +334,14 @@ A.add_rules(
         _(Opt("is")),
         Opt("abstract").as_bool(Abstract),
         Opt(Or(A.diamond_expr, A.name, A.null_literal)),
-        A.aspect_specification
+        A.aspect_spec
     ) ^ FormalSubpDecl,
 
     renaming_clause=Row("renames", A.name) ^ RenamingClause,
 
     generic_renaming_decl=Row(
         "generic", _(Or("package", "function", "procedure")), A.static_name,
-        "renames", A.static_name, A.aspect_specification
+        "renames", A.static_name, A.aspect_spec
     ) ^ GenericRenamingDecl,
 
     generic_instantiation=Or(
@@ -352,13 +352,13 @@ A.add_rules(
 
     exception_decl=Row(
         A.id_list, ":", "exception",
-        Opt(A.renaming_clause), A.aspect_specification
+        Opt(A.renaming_clause), A.aspect_spec
     ) ^ ExceptionDecl,
 
     basic_decls=List(Row(A.basic_decl, ";")[0], empty_valid=True),
 
     package_renaming_decl=Row(
-        "package", A.static_name, A.renaming_clause, A.aspect_specification
+        "package", A.static_name, A.renaming_clause, A.aspect_spec
     ) ^ PackageRenamingDecl,
 
     package_decl=package_decl_factory() ^ PackageDecl,
@@ -399,7 +399,7 @@ A.add_rules(
         A.type_expr,
         A.default_expr,
         Opt(A.renaming_clause),
-        A.aspect_specification
+        A.aspect_spec
     ) ^ ObjectDecl,
 
     id_list=List(A.identifier, sep=","),
@@ -413,19 +413,19 @@ A.add_rules(
         A.name, Opt("=>", A.expr)[1]
     ) ^ AspectAssoc,
 
-    aspect_specification=Opt(
+    aspect_spec=Opt(
         Row(
             "with",
             List(A.aspect_assoc, sep=",")
-        ) ^ AspectSpecification
+        ) ^ AspectSpec
     ),
 
     protected_decl=Row(
-        "protected", A.identifier, A.aspect_specification,
+        "protected", A.identifier, A.aspect_spec,
         "is", A.protected_def
     ) ^ ProtectedDecl,
 
-    task_decl=Row("task", A.identifier, A.aspect_specification,
+    task_decl=Row("task", A.identifier, A.aspect_spec,
                   Opt(A.task_def)) ^ TaskDecl,
 
     overriding_indicator=Or(
@@ -442,7 +442,7 @@ A.add_rules(
             A.constrained_subtype_indication | A.discrete_range
             | A.subtype_indication, ")")[1],
         Opt(A.parameter_profiles),
-        A.aspect_specification
+        A.aspect_spec
     ) ^ EntryDecl,
 
 
@@ -620,18 +620,18 @@ A.add_rules(
     ) ^ EntryBody,
 
     protected_body=Row(
-        "protected", "body", A.static_name, A.aspect_specification,
+        "protected", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         "end", _(Opt(A.static_name))
     ) ^ ProtectedBody,
 
     protected_body_stub=Row(
         "protected", "body", A.static_name, "is", "separate",
-        A.aspect_specification
+        A.aspect_spec
     ) ^ ProtectedBodyStub,
 
     task_body=Row(
-        "task", "body", A.static_name, A.aspect_specification,
+        "task", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
@@ -639,17 +639,17 @@ A.add_rules(
 
     task_body_stub=Row(
         "task", "body", A.static_name,
-        "is", "separate", A.aspect_specification
+        "is", "separate", A.aspect_spec
     ) ^ TaskBodyStub,
 
     package_body_stub=Row(
         "package", "body", A.static_name,
-        "is", "separate", A.aspect_specification
+        "is", "separate", A.aspect_spec
     ) ^ PackageBodyStub,
 
 
     package_body=Row(
-        "package", "body", A.static_name, A.aspect_specification,
+        "package", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
@@ -746,13 +746,13 @@ A.add_rules(
         A.subprogram_spec,
         "is",
         "separate",
-        A.aspect_specification
+        A.aspect_spec
     ) ^ SubprogramBodyStub,
 
     subprogram_body=Row(
         A.overriding_indicator,
         A.subprogram_spec,
-        A.aspect_specification,
+        A.aspect_spec,
         "is",
         A.basic_decls ^ DeclarativePart,
         "begin",

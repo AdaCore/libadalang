@@ -1,4 +1,4 @@
-AspectSpecification[1:1-1:25]
+AspectSpec[1:1-1:25]
 | aspect_assocs:
 | | AspectAssoc[1:6-1:25]
 | | | id:

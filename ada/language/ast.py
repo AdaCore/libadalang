@@ -1866,6 +1866,9 @@ class CallExpr(Expr):
 
 
 class ParamAssoc(AdaNode):
+    """
+    Assocation (X => Y) used for aggregates and parameter associations.
+    """
     designator = Field(type=T.AdaNode)
     expr = Field(type=T.Expr)
 

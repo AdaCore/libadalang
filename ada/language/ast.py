@@ -1569,6 +1569,12 @@ class BinOp(Expr):
 
 
 class MembershipExpr(Expr):
+    """
+    Represent a membership test (in/not in operators).
+
+    Note that we don't consider them as binary operators since multiple
+    expressions on the right hand side are allowed.
+    """
     expr = Field(type=T.Expr)
     op = Field(type=Op)
     membership_exprs = Field(type=T.AdaNode.list_type())

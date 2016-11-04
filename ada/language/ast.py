@@ -1194,7 +1194,7 @@ class ExprFunction(BasicSubprogramDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class RenamingSubprogramDecl(BasicSubprogramDecl):
+class SubprogramRenamingDecl(BasicSubprogramDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 

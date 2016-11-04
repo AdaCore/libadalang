@@ -494,7 +494,7 @@ A.add_rules(
             Row("is", Or(Row("(", A.expr, ")")[1], A.aggregate))[1],
             ExprFunction
         ),
-        subprogram_decl(A.renaming_clause, RenamingSubprogramDecl),
+        subprogram_decl(A.renaming_clause, SubprogramRenamingDecl),
         subprogram_decl(None, SubprogramDecl)
     ),
 

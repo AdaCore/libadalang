@@ -1,4 +1,4 @@
-LoopStatement[1:1-1:51]
+LoopStmt[1:1-1:51]
 | spec:
 | | ForLoopSpec[1:5-1:31]
 | | | id:
@@ -27,5 +27,5 @@ LoopStatement[1:1-1:51]
 | | | | | | | | | right:
 | | | | | | | | | | Int[1:29-1:31]
 | | | | | | | | | | | tok: 16
-| statements:
-| | NullStatement[1:37-1:41]
+| stmts:
+| | NullStmt[1:37-1:41]

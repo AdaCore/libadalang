@@ -39,10 +39,10 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | | | tok: Integer
 | | | | | | | | | decls:
 | | | | | | | | | | DeclarativePart[3:4-3:9]
-| | | | | | | | | statements:
-| | | | | | | | | | HandledStatements[4:7-8:11]
-| | | | | | | | | | | statements:
-| | | | | | | | | | | | BlockStatement[4:7-8:10]
+| | | | | | | | | stmts:
+| | | | | | | | | | HandledStmts[4:7-8:11]
+| | | | | | | | | | | stmts:
+| | | | | | | | | | | | BlockStmt[4:7-8:10]
 | | | | | | | | | | | | | decls:
 | | | | | | | | | | | | | | SubtypeDecl[5:10-5:46]
 | | | | | | | | | | | | | | | type_id:
@@ -67,10 +67,10 @@ CompilationUnit[1:1-10:9]
 | | | | | | | | | | | | | | | | | | | | | right:
 | | | | | | | | | | | | | | | | | | | | | | Int[5:44-5:46]
 | | | | | | | | | | | | | | | | | | | | | | | tok: 10
-| | | | | | | | | | | | | statements:
-| | | | | | | | | | | | | | HandledStatements[7:10-7:15]
-| | | | | | | | | | | | | | | statements:
-| | | | | | | | | | | | | | | | NullStatement[7:10-7:14]
+| | | | | | | | | | | | | stmts:
+| | | | | | | | | | | | | | HandledStmts[7:10-7:15]
+| | | | | | | | | | | | | | | stmts:
+| | | | | | | | | | | | | | | | NullStmt[7:10-7:14]
 | | | | | | | | | end_id:
 | | | | | | | | | | Id[9:8-9:11]
 | | | | | | | | | | | tok: Bar
@@ -89,6 +89,6 @@ CompilationUnit[1:1-10:9]
     I: [<ParameterProfile ["I", "J"] 2:19-2:33>]
     J: [<ParameterProfile ["I", "J"] 2:19-2:33>]
 }>
-<BlockStatement 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
+<BlockStmt 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
     Lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
 }>

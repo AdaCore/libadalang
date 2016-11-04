@@ -1,6 +1,6 @@
-LoopStatement[1:1-1:30]
-| statements:
-| | CallStatement[1:6-1:20]
+LoopStmt[1:1-1:30]
+| stmts:
+| | CallStmt[1:6-1:20]
 | | | call:
 | | | | CallExpr[1:6-1:20]
 | | | | | name:

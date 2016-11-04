@@ -1,4 +1,4 @@
-ExtendedReturnStatement[1:1-1:41]
+ExtendedReturnStmt[1:1-1:41]
 | object_decl:
 | | ObjectDecl[1:8-1:19]
 | | | ids:
@@ -17,10 +17,10 @@ ExtendedReturnStatement[1:1-1:41]
 | | | | | name:
 | | | | | | Id[1:12-1:19]
 | | | | | | | tok: Integer
-| statements:
-| | HandledStatements[1:23-1:30]
-| | | statements:
-| | | | AssignStatement[1:23-1:29]
+| stmts:
+| | HandledStmts[1:23-1:30]
+| | | stmts:
+| | | | AssignStmt[1:23-1:29]
 | | | | | dest:
 | | | | | | Id[1:23-1:24]
 | | | | | | | tok: A

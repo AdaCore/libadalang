@@ -1,2 +1,2 @@
 driver: parser
-rule: accept_statement
+rule: accept_stmt

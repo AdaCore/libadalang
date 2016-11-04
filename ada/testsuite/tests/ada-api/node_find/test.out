@@ -37,9 +37,9 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <Id "Integer" 1:61-1:68>
   <DeclarativePart 2:1-2:6>
   <ASTList 2:1-2:1>
-  <HandledStatements 3:4-3:21>
+  <HandledStmts 3:4-3:21>
   <ASTList 3:4-3:21>
-  <ReturnStatement 3:4-3:20>
+  <ReturnStmt 3:4-3:20>
   <BinOp 3:11-3:20>
   <BinOp 3:11-3:16>
   <Id "A" 3:11-3:12>

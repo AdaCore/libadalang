@@ -1,4 +1,4 @@
-AbortStatement[1:1-1:15]
+AbortStmt[1:1-1:15]
 | names:
 | | Id[1:7-1:10]
 | | | tok: Lol

@@ -47,19 +47,19 @@ get_string_literal(ada_analysis_unit unit) {
     if (!ada_library_item_f_item(node, &node)
         || ada_node_kind(node) != ada_subprogram_body)
         error("Got unexpected node for ada_library_item_f_item [4]");
-    if (!ada_subprogram_body_f_statements(node, &node)
-        || ada_node_kind(node) != ada_handled_statements)
-        error("Got unexpected node for ada_subprogram_body_f_statements [5]");
-    if (!ada_handled_statements_f_statements(node, &node)
+    if (!ada_subprogram_body_f_stmts(node, &node)
+        || ada_node_kind(node) != ada_handled_stmts)
+        error("Got unexpected node for ada_subprogram_body_f_stmts [5]");
+    if (!ada_handled_stmts_f_stmts(node, &node)
         || ada_node_kind(node) != ada_list)
         error("Got unexpected node for"
-              " ada_handled_statements_f_statements [6]");
+              " ada_handled_stmts_f_stmts [6]");
     if (!ada_node_child(node, 0, &node)
-        || ada_node_kind(node) != ada_call_statement)
+        || ada_node_kind(node) != ada_call_stmt)
         error("Got unexpected node for ada_node_child [7]");
-    if (!ada_call_statement_f_call(node, &node)
+    if (!ada_call_stmt_f_call(node, &node)
         || ada_node_kind(node) != ada_call_expr)
-        error("Got unexpected node for ada_call_statement_f_call [8]");
+        error("Got unexpected node for ada_call_stmt_f_call [8]");
     if (!ada_call_expr_f_suffix(node, &node)
         || ada_node_kind(node) != ada_param_list)
         error("Got unexpected node for ada_call_expr_f_suffix [9]");

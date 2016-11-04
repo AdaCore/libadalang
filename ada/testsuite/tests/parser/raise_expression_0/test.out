@@ -1,4 +1,4 @@
-AssignStatement[1:1-1:46]
+AssignStmt[1:1-1:46]
 | dest:
 | | Id[1:1-1:2]
 | | | tok: A

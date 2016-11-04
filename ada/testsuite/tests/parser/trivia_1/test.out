@@ -15,13 +15,13 @@ CompilationUnit
 | | | | | | SubtypeIndication
 | | | | | | | Id
 | | | -- Huhu
-| | | HandledStatements
+| | | HandledStmts
 | | | | ASTList
-| | | | | NullStatement
+| | | | | NullStmt
 | | | | | | Null
 | | | | | -- Haha
 | | | | | -- Hoho
-| | | | | NullStatement
+| | | | | NullStmt
 | | | | | | Null
 | | | Id
 -- foo

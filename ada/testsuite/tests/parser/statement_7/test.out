@@ -1,4 +1,4 @@
-CallStatement[1:1-1:30]
+CallStmt[1:1-1:30]
 | call:
 | | CallExpr[1:1-1:30]
 | | | name:

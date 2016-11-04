@@ -1,2 +1,2 @@
 driver: parser
-rule: if_statement
+rule: if_stmt

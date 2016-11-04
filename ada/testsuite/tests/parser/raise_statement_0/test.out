@@ -1,4 +1,4 @@
-RaiseStatement[1:1-1:41]
+RaiseStmt[1:1-1:41]
 | exception_name:
 | | Id[1:7-1:26]
 | | | tok: NotImplementedError

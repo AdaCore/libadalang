@@ -1,4 +1,4 @@
-AcceptStatement[1:1-1:64]
+AcceptStmt[1:1-1:64]
 | name:
 | | Id[1:8-1:13]
 | | | tok: Store
@@ -18,23 +18,23 @@ AcceptStatement[1:1-1:64]
 | | | | | name:
 | | | | | | Id[1:28-1:32]
 | | | | | | | tok: Item
-| statements:
-| | HandledStatements[1:37-1:54]
-| | | statements:
-| | | | AssignStatement[1:37-1:53]
+| stmts:
+| | HandledStmts[1:37-1:54]
+| | | stmts:
+| | | | AssignStmt[1:37-1:53]
 | | | | | dest:
 | | | | | | Id[1:37-1:42]
 | | | | | | | tok: Datum
 | | | | | expr:
 | | | | | | Id[1:46-1:53]
 | | | | | | | tok: An_Item
-LoopStatement[1:66-1:234]
-| statements:
-| | SelectStatement[1:71-1:224]
+LoopStmt[1:66-1:234]
+| stmts:
+| | SelectStmt[1:71-1:224]
 | | | guards:
 | | | | SelectWhenPart[1:80-1:144]
-| | | | | statements:
-| | | | | | AcceptStatement[1:80-1:143]
+| | | | | stmts:
+| | | | | | AcceptStmt[1:80-1:143]
 | | | | | | | name:
 | | | | | | | | Id[1:87-1:92]
 | | | | | | | | | tok: Store
@@ -54,10 +54,10 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:107-1:111]
 | | | | | | | | | | | | | tok: Item
-| | | | | | | statements:
-| | | | | | | | HandledStatements[1:116-1:133]
-| | | | | | | | | statements:
-| | | | | | | | | | AssignStatement[1:116-1:132]
+| | | | | | | stmts:
+| | | | | | | | HandledStmts[1:116-1:133]
+| | | | | | | | | stmts:
+| | | | | | | | | | AssignStmt[1:116-1:132]
 | | | | | | | | | | | dest:
 | | | | | | | | | | | | Id[1:116-1:121]
 | | | | | | | | | | | | | tok: Datum
@@ -65,8 +65,8 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | | | | Id[1:125-1:132]
 | | | | | | | | | | | | | tok: An_Item
 | | | | SelectWhenPart[1:148-1:213]
-| | | | | statements:
-| | | | | | AcceptStatement[1:148-1:212]
+| | | | | stmts:
+| | | | | | AcceptStmt[1:148-1:212]
 | | | | | | | name:
 | | | | | | | | Id[1:155-1:160]
 | | | | | | | | | tok: Fetch
@@ -86,10 +86,10 @@ LoopStatement[1:66-1:234]
 | | | | | | | | | | | name:
 | | | | | | | | | | | | Id[1:176-1:180]
 | | | | | | | | | | | | | tok: Item
-| | | | | | | statements:
-| | | | | | | | HandledStatements[1:185-1:202]
-| | | | | | | | | statements:
-| | | | | | | | | | AssignStatement[1:185-1:201]
+| | | | | | | stmts:
+| | | | | | | | HandledStmts[1:185-1:202]
+| | | | | | | | | stmts:
+| | | | | | | | | | AssignStmt[1:185-1:201]
 | | | | | | | | | | | dest:
 | | | | | | | | | | | | Id[1:185-1:192]
 | | | | | | | | | | | | | tok: An_Item

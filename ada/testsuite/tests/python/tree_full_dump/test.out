@@ -38,12 +38,12 @@
 |  |  |  <DeclarativePart>
 |  |  |  |decls:
 |  |  |  |  <list>
-|  |  |statements:
-|  |  |  <HandledStatements>
-|  |  |  |statements:
+|  |  |stmts:
+|  |  |  <HandledStmts>
+|  |  |  |stmts:
 |  |  |  |  <list>
 |  |  |  |  |item 0:
-|  |  |  |  |  <CallStatement>
+|  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:
 |  |  |  |  |  |  <CallExpr>
 |  |  |  |  |  |  |name:

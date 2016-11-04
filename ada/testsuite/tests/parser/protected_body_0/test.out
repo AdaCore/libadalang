@@ -30,17 +30,17 @@ ProtectedBody[1:1-1:271]
 | | | | | | | tok: empty
 | | | | | decls:
 | | | | | | DeclarativePart[1:89-1:94]
-| | | | | statements:
-| | | | | | HandledStatements[1:95-1:129]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:95-1:112]
+| | | | | stmts:
+| | | | | | HandledStmts[1:95-1:129]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:95-1:112]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:95-1:101]
 | | | | | | | | | | | tok: buffer
 | | | | | | | | | expr:
 | | | | | | | | | | Id[1:105-1:112]
 | | | | | | | | | | | tok: an_item
-| | | | | | | | AssignStatement[1:114-1:128]
+| | | | | | | | AssignStmt[1:114-1:128]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:114-1:119]
 | | | | | | | | | | | tok: empty
@@ -76,17 +76,17 @@ ProtectedBody[1:1-1:271]
 | | | | | | | | | tok: empty
 | | | | | decls:
 | | | | | | DeclarativePart[1:194-1:199]
-| | | | | statements:
-| | | | | | HandledStatements[1:200-1:233]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:200-1:217]
+| | | | | stmts:
+| | | | | | HandledStmts[1:200-1:233]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:200-1:217]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:200-1:207]
 | | | | | | | | | | | tok: an_item
 | | | | | | | | | expr:
 | | | | | | | | | | Id[1:211-1:217]
 | | | | | | | | | | | tok: buffer
-| | | | | | | | AssignStatement[1:219-1:232]
+| | | | | | | | AssignStmt[1:219-1:232]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:219-1:224]
 | | | | | | | | | | | tok: empty

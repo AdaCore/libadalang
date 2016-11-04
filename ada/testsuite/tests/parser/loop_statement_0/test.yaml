@@ -1,2 +1,2 @@
 driver: parser
-rule: loop_statement
+rule: loop_stmt

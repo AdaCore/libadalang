@@ -79,15 +79,15 @@ CompilationUnit
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | OpMult
 | | | | | | | | | | Id
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpGt
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -95,7 +95,7 @@ CompilationUnit
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
@@ -110,7 +110,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | | LoopStatement
+| | | | | | | | | | | | LoopStmt
 | | | | | | | | | | | | | ForLoopSpec
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | IterTypeIn
@@ -124,7 +124,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | OpMinus
 | | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | ASTList
-| | | | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | | | DottedName
@@ -143,7 +143,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
@@ -165,7 +165,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -173,7 +173,7 @@ CompilationUnit
 | | | | | | | | | | | | OpNeq
 | | | | | | | | | | | | Null
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
@@ -195,7 +195,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
@@ -210,7 +210,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | ASTList
 | | | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | AssignStatement
+| | | | | | | | AssignStmt
 | | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
@@ -237,9 +237,9 @@ CompilationUnit
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | DottedName
 | | | | | | | | | | | Id
@@ -249,7 +249,7 @@ CompilationUnit
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | CallStatement
+| | | | | | | | | | CallStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamList
@@ -267,13 +267,13 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | Int
 | | | | | | | | | | | | | | | | OpPlus
 | | | | | | | | | | | | | | | | Int
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | AssignStatement
+| | | | | | | | | | AssignStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | DottedName
@@ -287,7 +287,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -295,7 +295,7 @@ CompilationUnit
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
@@ -308,7 +308,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | AssignStatement
+| | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | AccessDeref
 | | | | | | | | | | | | | | | DottedName
@@ -321,7 +321,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
-| | | | | | | | AssignStatement
+| | | | | | | | AssignStmt
 | | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
@@ -355,15 +355,15 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | ReturnStatement
+| | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -373,7 +373,7 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -381,7 +381,7 @@ CompilationUnit
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
@@ -391,7 +391,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
@@ -424,15 +424,15 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | ReturnStatement
+| | | | | | | | | | ReturnStmt
 | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | DottedName
@@ -443,7 +443,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -451,7 +451,7 @@ CompilationUnit
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | | DottedName
@@ -462,7 +462,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | | DottedName
@@ -488,9 +488,9 @@ CompilationUnit
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | CallStatement
+| | | | | | | | CallStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
 | | | | | | | | | | ParamList
@@ -515,9 +515,9 @@ CompilationUnit
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | AssignStatement
+| | | | | | | | AssignStmt
 | | | | | | | | | DottedName
 | | | | | | | | | | Id
 | | | | | | | | | | Id
@@ -540,9 +540,9 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | ReturnStatement
+| | | | | | | | ReturnStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
 | | | | | | | | | | ParamList
@@ -574,9 +574,9 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | ReturnStatement
+| | | | | | | | ReturnStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
 | | | | | | | | | | ParamList
@@ -658,15 +658,15 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | ReturnStatement
+| | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -676,7 +676,7 @@ CompilationUnit
 | | | | | | | | | | | | | OpEllipsis
 | | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | IfStatement
+| | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | Id
@@ -684,7 +684,7 @@ CompilationUnit
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
@@ -694,7 +694,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | OpEllipsis
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | ASTList
-| | | | | | | | | | | | ReturnStatement
+| | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | | Id
@@ -721,9 +721,9 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | IfStatement
+| | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | DottedName
 | | | | | | | | | | | Id
@@ -731,12 +731,12 @@ CompilationUnit
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
 | | | | | | | | | ASTList
-| | | | | | | | | | ReturnStatement
+| | | | | | | | | | ReturnStmt
 | | | | | | | | | | | DottedName
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
 | | | | | | | | | ASTList
-| | | | | | | | | | ReturnStatement
+| | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | ParamList
@@ -845,9 +845,9 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | Id
-| | | | | | HandledStatements
+| | | | | | HandledStmts
 | | | | | | | ASTList
-| | | | | | | | ReturnStatement
+| | | | | | | | ReturnStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | BinOp
 | | | | | | | | | | | Str

@@ -1,2 +1,2 @@
 driver: parser
-rule: assignment_statement
+rule: assignment_stmt

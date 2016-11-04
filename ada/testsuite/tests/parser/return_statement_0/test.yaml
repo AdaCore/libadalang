@@ -1,2 +1,2 @@
 driver: parser
-rule: return_statement
+rule: return_stmt

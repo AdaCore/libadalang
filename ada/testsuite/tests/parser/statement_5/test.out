@@ -1,11 +1,11 @@
-AcceptStatement[1:1-1:34]
+AcceptStmt[1:1-1:34]
 | name:
 | | Id[1:8-1:13]
 | | | tok: SEIZE
-| statements:
-| | HandledStatements[1:17-1:30]
-| | | statements:
-| | | | AssignStatement[1:17-1:29]
+| stmts:
+| | HandledStmts[1:17-1:30]
+| | | stmts:
+| | | | AssignStmt[1:17-1:29]
 | | | | | dest:
 | | | | | | Id[1:17-1:21]
 | | | | | | | tok: BUSY

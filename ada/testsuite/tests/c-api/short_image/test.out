@@ -18,9 +18,9 @@
 | | | <null node>
 | | | <DeclarativePart 4:1-4:6>
 | | | | <ASTList 4:1-4:1>
-| | | <HandledStatements 5:4-5:43>
+| | | <HandledStmts 5:4-5:43>
 | | | | <ASTList 5:4-5:43>
-| | | | | <CallStatement 5:4-5:42>
+| | | | | <CallStmt 5:4-5:42>
 | | | | | | <CallExpr 5:4-5:42>
 | | | | | | | <DottedName 5:4-5:24>
 | | | | | | | | <DottedName 5:4-5:15>

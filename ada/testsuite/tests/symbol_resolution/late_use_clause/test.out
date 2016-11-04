@@ -2,6 +2,6 @@ Analyzing testuse.adb
 #####################
 
 Resolution failed for node <ObjectDecl ["C"] 14:7-14:23>
-Resolution failed for node <NullStatement 17:7-17:11>
+Resolution failed for node <NullStmt 17:7-17:11>
 
 Done.

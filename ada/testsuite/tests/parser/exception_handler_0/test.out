@@ -5,8 +5,8 @@ ExceptionHandler[1:1-1:34]
 | | | | Id[1:6-1:11]
 | | | | | tok: Pouet
 | | | attribute: Abort_Signal
-| statements:
-| | CallStatement[1:28-1:33]
+| stmts:
+| | CallStmt[1:28-1:33]
 | | | call:
 | | | | Id[1:28-1:33]
 | | | | | tok: Prout

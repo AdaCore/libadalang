@@ -29,6 +29,6 @@ Expr: <Dec 25:27-25:30>, references None, type is <FullTypeDecl ["Float"] 4:4-4:
 Expr: <Id "A" 25:32-25:33>, references <ComponentDecl ["A", "B"] 8:7-8:19>, type is None
 Expr: <Dec 25:36-25:39>, references None, type is <FullTypeDecl ["Float"] 4:4-4:38>
 
-Resolution failed for node <AssignStatement 28:4-28:25>
+Resolution failed for node <AssignStmt 28:4-28:25>
 
 Done.

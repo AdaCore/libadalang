@@ -1,4 +1,4 @@
-IfStatement[1:1-1:86]
+IfStmt[1:1-1:86]
 | condition:
 | | BinOp[1:4-1:23]
 | | | left:
@@ -9,8 +9,8 @@ IfStatement[1:1-1:86]
 | | | right:
 | | | | Dec[1:19-1:23]
 | | | | | tok: 40.0
-| statements:
-| | CallStatement[1:29-1:45]
+| stmts:
+| | CallStmt[1:29-1:45]
 | | | call:
 | | | | CallExpr[1:29-1:45]
 | | | | | name:
@@ -23,7 +23,7 @@ IfStatement[1:1-1:86]
 | | | | | | | | | expr:
 | | | | | | | | | | Str[1:39-1:44]
 | | | | | | | | | | | tok: "Wow"
-| | CallStatement[1:47-1:78]
+| | CallStmt[1:47-1:78]
 | | | call:
 | | | | CallExpr[1:47-1:78]
 | | | | | name:

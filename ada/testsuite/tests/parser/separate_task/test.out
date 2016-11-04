@@ -19,7 +19,7 @@ CompilationUnit[1:1-6:7]
 | | | | | | | | | name:
 | | | | | | | | | | Id[3:14-3:19]
 | | | | | | | | | | | tok: share
-| | | | | statements:
-| | | | | | HandledStatements[5:4-5:9]
-| | | | | | | statements:
-| | | | | | | | NullStatement[5:4-5:8]
+| | | | | stmts:
+| | | | | | HandledStmts[5:4-5:9]
+| | | | | | | stmts:
+| | | | | | | | NullStmt[5:4-5:8]

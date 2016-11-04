@@ -82,12 +82,12 @@
 |  |  |  |  |  |  <DeclarativePart>
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |statements:
-|  |  |  |  |  |  <HandledStatements>
-|  |  |  |  |  |  |statements:
+|  |  |  |  |  |stmts:
+|  |  |  |  |  |  <HandledStmts>
+|  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  <IfStatement>
+|  |  |  |  |  |  |  |  <IfStmt>
 |  |  |  |  |  |  |  |  |condition:
 |  |  |  |  |  |  |  |  |  <BinOp>
 |  |  |  |  |  |  |  |  |  |left:
@@ -98,10 +98,10 @@
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
-|  |  |  |  |  |  |  |  |statements:
+|  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  <ReturnStatement>
+|  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  <BinOp>
 |  |  |  |  |  |  |  |  |  |  |  |left:
@@ -133,10 +133,10 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |  |  |alternatives:
 |  |  |  |  |  |  |  |  |  <list>
-|  |  |  |  |  |  |  |  |else_statements:
+|  |  |  |  |  |  |  |  |else_stmts:
 |  |  |  |  |  |  |  |  |  <list>
 |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  <ReturnStatement>
+|  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
@@ -145,12 +145,12 @@
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |statements:
-|  |  |  <HandledStatements>
-|  |  |  |statements:
+|  |  |stmts:
+|  |  |  <HandledStmts>
+|  |  |  |stmts:
 |  |  |  |  <list>
 |  |  |  |  |item 0:
-|  |  |  |  |  <CallStatement>
+|  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:
 |  |  |  |  |  |  <CallExpr>
 |  |  |  |  |  |  |name:

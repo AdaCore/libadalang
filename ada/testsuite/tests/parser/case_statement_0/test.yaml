@@ -1,2 +1,2 @@
 driver: parser
-rule: case_statement
+rule: case_stmt

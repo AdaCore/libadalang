@@ -2508,40 +2508,40 @@ class SubprogramBody(Body):
     subp_spec = Field(type=T.SubprogramSpec)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
     end_id = Field(type=T.Expr)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
 
-class HandledStatements(AdaNode):
-    statements = Field(type=T.AdaNode.list_type())
+class HandledStmts(AdaNode):
+    stmts = Field(type=T.AdaNode.list_type())
     exceptions = Field(type=T.ExceptionHandler.list_type())
 
 
 class ExceptionHandler(AdaNode):
     exc_name = Field(type=T.Identifier)
     catched_exceptions = Field(type=T.AdaNode.list_type())
-    statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
 
 
 @abstract
-class Statement(AdaNode):
+class Stmt(AdaNode):
     pass
 
 
 @abstract
-class SimpleStatement(Statement):
+class SimpleStmt(Stmt):
     xref_entry_point = Property(True)
 
 
 @abstract
-class CompositeStatement(Statement):
+class CompositeStmt(Stmt):
     pass
 
 
-class CallStatement(SimpleStatement):
+class CallStmt(SimpleStmt):
     call = Field(type=T.Expr)
 
     @langkit_property()
@@ -2554,11 +2554,11 @@ class CallStatement(SimpleStatement):
         )
 
 
-class NullStatement(SimpleStatement):
+class NullStmt(SimpleStmt):
     null_lit = Field(repr=False)
 
 
-class AssignStatement(SimpleStatement):
+class AssignStmt(SimpleStmt):
     dest = Field(type=T.Expr)
     expr = Field(type=T.Expr)
 
@@ -2573,51 +2573,51 @@ class AssignStatement(SimpleStatement):
         )
 
 
-class GotoStatement(SimpleStatement):
+class GotoStmt(SimpleStmt):
     label_name = Field(type=T.Name)
 
 
-class ExitStatement(SimpleStatement):
+class ExitStmt(SimpleStmt):
     loop_name = Field(type=T.Identifier)
     condition = Field(type=T.Expr)
 
 
-class ReturnStatement(SimpleStatement):
+class ReturnStmt(SimpleStmt):
     return_expr = Field(type=T.AdaNode)
 
 
-class RequeueStatement(SimpleStatement):
+class RequeueStmt(SimpleStmt):
     call_name = Field(type=T.Expr)
     has_abort = Field(type=Abort)
 
 
-class AbortStatement(SimpleStatement):
+class AbortStmt(SimpleStmt):
     names = Field(type=T.Expr.list_type())
 
 
-class DelayStatement(SimpleStatement):
+class DelayStmt(SimpleStmt):
     has_until = Field(type=Until)
     expr = Field(type=T.Expr)
 
 
-class RaiseStatement(SimpleStatement):
+class RaiseStmt(SimpleStmt):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)
 
 
-class IfStatement(CompositeStatement):
+class IfStmt(CompositeStmt):
     condition = Field(type=T.Expr)
-    statements = Field(type=T.AdaNode.list_type())
-    alternatives = Field(type=T.ElsifStatementPart.list_type())
-    else_statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
+    alternatives = Field(type=T.ElsifStmtPart.list_type())
+    else_stmts = Field(type=T.AdaNode.list_type())
 
 
-class ElsifStatementPart(AdaNode):
+class ElsifStmtPart(AdaNode):
     expr = Field(type=T.Expr)
-    statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
 
 
-class Label(SimpleStatement):
+class Label(SimpleStmt):
     token = Field(type=T.Token)
 
 
@@ -2625,54 +2625,54 @@ class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
 
-class LoopStatement(CompositeStatement):
+class LoopStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     spec = Field(type=T.LoopSpec)
-    statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
 
 
-class BlockStatement(CompositeStatement):
+class BlockStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     decls = Field(type=T.AdaNode.list_type())
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
     env_spec = EnvSpec(add_env=True)
 
 
-class ExtendedReturnStatement(CompositeStatement):
+class ExtendedReturnStmt(CompositeStmt):
     object_decl = Field(type=T.ObjectDecl)
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
 
-class CaseStatement(CompositeStatement):
+class CaseStmt(CompositeStmt):
     case_expr = Field(type=T.Expr)
-    case_alts = Field(type=T.CaseStatementAlternative.list_type())
+    case_alts = Field(type=T.CaseStmtAlternative.list_type())
 
 
-class CaseStatementAlternative(AdaNode):
+class CaseStmtAlternative(AdaNode):
     choices = Field(type=T.AdaNode.list_type())
-    statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
 
 
-class AcceptStatement(CompositeStatement):
+class AcceptStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
     parameters = Field(type=T.ParameterProfile.list_type())
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
 
-class SelectStatement(CompositeStatement):
+class SelectStmt(CompositeStmt):
     guards = Field(type=T.SelectWhenPart.list_type())
-    else_statements = Field(type=T.AdaNode.list_type())
-    abort_statements = Field(type=T.AdaNode.list_type())
+    else_stmts = Field(type=T.AdaNode.list_type())
+    abort_stmts = Field(type=T.AdaNode.list_type())
 
 
 class SelectWhenPart(AdaNode):
     choices = Field(type=T.Expr)
-    statements = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list_type())
 
 
-class TerminateStatement(SimpleStatement):
+class TerminateStmt(SimpleStmt):
     pass
 
 
@@ -2684,7 +2684,7 @@ class PackageBody(Body):
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
@@ -2694,7 +2694,7 @@ class TaskBody(Body):
     name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpecification)
     decls = Field(type=T.DeclarativePart)
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
     defining_names = Property(Self.name.singleton)
 
@@ -2713,7 +2713,7 @@ class EntryBody(Body):
     parameters = Field(type=T.ParameterProfile.list_type())
     when_cond = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
-    statements = Field(type=T.HandledStatements)
+    stmts = Field(type=T.HandledStmts)
 
     defining_names = Property(Self.entry_name.cast(Name).singleton)
 

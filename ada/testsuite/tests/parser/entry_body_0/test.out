@@ -23,17 +23,17 @@ EntryBody[1:1-1:100]
 | | | tok: empty
 | decls:
 | | DeclarativePart[1:49-1:54]
-| statements:
-| | HandledStatements[1:55-1:89]
-| | | statements:
-| | | | AssignStatement[1:55-1:72]
+| stmts:
+| | HandledStmts[1:55-1:89]
+| | | stmts:
+| | | | AssignStmt[1:55-1:72]
 | | | | | dest:
 | | | | | | Id[1:55-1:61]
 | | | | | | | tok: buffer
 | | | | | expr:
 | | | | | | Id[1:65-1:72]
 | | | | | | | tok: an_item
-| | | | AssignStatement[1:74-1:88]
+| | | | AssignStmt[1:74-1:88]
 | | | | | dest:
 | | | | | | Id[1:74-1:79]
 | | | | | | | tok: empty

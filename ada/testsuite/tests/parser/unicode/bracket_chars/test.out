@@ -49,10 +49,10 @@ CompilationUnit[1:1-7:9]
 | | | | | | | | | default_expr:
 | | | | | | | | | | Str[4:43-4:55]
 | | | | | | | | | | | tok: "["0003C0"]"
-| | | | | statements:
-| | | | | | HandledStatements[6:4-6:9]
-| | | | | | | statements:
-| | | | | | | | NullStatement[6:4-6:8]
+| | | | | stmts:
+| | | | | | HandledStmts[6:4-6:9]
+| | | | | | | stmts:
+| | | | | | | | NullStmt[6:4-6:8]
 | | | | | end_id:
 | | | | | | Id[7:5-7:8]
 | | | | | | | tok: Foo

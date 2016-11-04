@@ -15,7 +15,7 @@ ctx = lal.AnalysisContext()
 unit = ctx.get_from_file('foo.adb')
 
 
-calls = unit.root.find(lal.HandledStatements).f_statements
+calls = unit.root.find(lal.HandledStmts).f_stmts
 simple_call, prefix_call, complex_prefix_call, nested_call = calls
 
 for i, (call, name) in enumerate((

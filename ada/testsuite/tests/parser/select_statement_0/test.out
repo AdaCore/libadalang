@@ -1,4 +1,4 @@
-SelectStatement[1:1-1:125]
+SelectStmt[1:1-1:125]
 | guards:
 | | SelectWhenPart[1:8-1:59]
 | | | choices:
@@ -8,15 +8,15 @@ SelectStatement[1:1-1:125]
 | | | | | expr:
 | | | | | | Id[1:17-1:21]
 | | | | | | | tok: BUSY
-| | | statements:
-| | | | AcceptStatement[1:25-1:58]
+| | | stmts:
+| | | | AcceptStmt[1:25-1:58]
 | | | | | name:
 | | | | | | Id[1:32-1:37]
 | | | | | | | tok: SEIZE
-| | | | | statements:
-| | | | | | HandledStatements[1:41-1:54]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:41-1:53]
+| | | | | stmts:
+| | | | | | HandledStmts[1:41-1:54]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:41-1:53]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:41-1:45]
 | | | | | | | | | | | tok: BUSY
@@ -24,15 +24,15 @@ SelectStatement[1:1-1:125]
 | | | | | | | | | | Id[1:49-1:53]
 | | | | | | | | | | | tok: TRUE
 | | SelectWhenPart[1:63-1:100]
-| | | statements:
-| | | | AcceptStatement[1:63-1:99]
+| | | stmts:
+| | | | AcceptStmt[1:63-1:99]
 | | | | | name:
 | | | | | | Id[1:70-1:77]
 | | | | | | | tok: RELEASE
-| | | | | statements:
-| | | | | | HandledStatements[1:81-1:95]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:81-1:94]
+| | | | | stmts:
+| | | | | | HandledStmts[1:81-1:95]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:81-1:94]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:81-1:85]
 | | | | | | | | | | | tok: BUSY
@@ -40,5 +40,5 @@ SelectStatement[1:1-1:125]
 | | | | | | | | | | Id[1:89-1:94]
 | | | | | | | | | | | tok: FALSE
 | | SelectWhenPart[1:104-1:114]
-| | | statements:
-| | | | TerminateStatement[1:104-1:113]
+| | | stmts:
+| | | | TerminateStmt[1:104-1:113]

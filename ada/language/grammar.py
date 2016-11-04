@@ -615,7 +615,7 @@ A.add_rules(
         Opt(A.parameter_profiles),
         "when", A.expression,
         "is", A.basic_decls ^ DeclarativePart,
-        Opt("begin", A.handled_statements)[1],
+        Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
     ) ^ EntryBody,
 
@@ -633,7 +633,7 @@ A.add_rules(
     task_body=Row(
         "task", "body", A.static_name, A.aspect_specification,
         "is", A.basic_decls ^ DeclarativePart,
-        Opt("begin", A.handled_statements)[1],
+        Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
     ) ^ TaskBody,
 
@@ -651,89 +651,89 @@ A.add_rules(
     package_body=Row(
         "package", "body", A.static_name, A.aspect_specification,
         "is", A.basic_decls ^ DeclarativePart,
-        Opt("begin", A.handled_statements)[1],
+        Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
     ) ^ PackageBody,
 
-    terminate_statement=Row("terminate") ^ TerminateStatement,
+    terminate_stmt=Row("terminate") ^ TerminateStmt,
 
-    select_statement=Row(
+    select_stmt=Row(
         "select",
         List(
             Row(Opt("when", A.expression, "=>")[1],
-                A.statements) ^ SelectWhenPart,
+                A.stmts) ^ SelectWhenPart,
             sep="or"),
-        Opt("else", A.statements)[1],
-        Opt("then", "abort", A.statements)[2],
+        Opt("else", A.stmts)[1],
+        Opt("then", "abort", A.stmts)[2],
         "end", "select"
-    ) ^ SelectStatement,
+    ) ^ SelectStmt,
 
-    accept_statement=Row(
+    accept_stmt=Row(
         "accept", A.identifier, Opt("(", A.expression, ")")[1],
         Opt(A.parameter_profiles),
-        Opt("do", A.handled_statements, "end", Opt(A.identifier))[1]
-    ) ^ AcceptStatement,
+        Opt("do", A.handled_stmts, "end", Opt(A.identifier))[1]
+    ) ^ AcceptStmt,
 
     case_alt=Row(
-        "when", A.choice_list, "=>", A.statements
-    ) ^ CaseStatementAlternative,
+        "when", A.choice_list, "=>", A.stmts
+    ) ^ CaseStmtAlternative,
 
-    case_statement=Row(
+    case_stmt=Row(
         "case", A.expression, "is", List(A.case_alt), "end", "case"
-    ) ^ CaseStatement,
+    ) ^ CaseStmt,
 
-    ext_return_statement=Row(
+    ext_return_stmt=Row(
         "return", A.sub_object_decl,
-        Opt("do", A.handled_statements, "end", "return")[1]
-    ) ^ ExtendedReturnStatement,
+        Opt("do", A.handled_stmts, "end", "return")[1]
+    ) ^ ExtendedReturnStmt,
 
-    block_statement=Row(
+    block_stmt=Row(
         Opt(A.identifier, ":")[0],
         Opt("declare", A.basic_decls)[1],
-        "begin", A.handled_statements, "end", _(Opt(A.identifier))
-    ) ^ BlockStatement,
+        "begin", A.handled_stmts, "end", _(Opt(A.identifier))
+    ) ^ BlockStmt,
 
-    loop_statement=Row(
+    loop_stmt=Row(
         Opt(A.identifier, ":")[0],
         Opt(A.iteration_scheme),
         "loop",
-        A.statements,
+        A.stmts,
         "end", "loop", _(Opt(A.identifier))
-    ) ^ LoopStatement,
+    ) ^ LoopStmt,
 
     iteration_scheme=Or(
         Row("for", A.for_loop_parameter_spec)[1],
         Row("while", A.expression) ^ WhileLoopSpec
     ),
 
-    compound_statement=Or(A.if_statement, A.block_statement,
-                          A.loop_statement, A.ext_return_statement,
-                          A.case_statement, A.accept_statement,
-                          A.select_statement),
+    compound_stmt=Or(A.if_stmt, A.block_stmt,
+                     A.loop_stmt, A.ext_return_stmt,
+                     A.case_stmt, A.accept_stmt,
+                     A.select_stmt),
 
-    if_statement=Row(
-        "if", A.expression, "then", A.statements,
+    if_stmt=Row(
+        "if", A.expression, "then", A.stmts,
         List(Row("elsif", A.expression,
-                 "then", A.statements) ^ ElsifStatementPart,
+                 "then", A.stmts) ^ ElsifStmtPart,
              empty_valid=True),
-        Opt("else", A.statements)[1],
+        Opt("else", A.stmts)[1],
         "end", "if"
-    ) ^ IfStatement,
+    ) ^ IfStmt,
 
-    raise_statement=Or(
-        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseStatement,
-        Row("raise", Null(Expr), Null(Expr)) ^ RaiseStatement,
+    raise_stmt=Or(
+        Row("raise", A.name, Opt("with", A.expression)[1]) ^ RaiseStmt,
+        Row("raise", Null(Expr), Null(Expr)) ^ RaiseStmt,
     ),
 
-    delay_statement=Row(
+    delay_stmt=Row(
         "delay",
         Opt("until").as_bool(Until),
         A.expression
-    ) ^ DelayStatement,
+    ) ^ DelayStmt,
 
-    abort_statement=Row(
+    abort_stmt=Row(
         "abort", List(A.name, sep=",")
-    ) ^ AbortStatement,
+    ) ^ AbortStmt,
 
     body=Or(A.subprogram_body, A.package_body, A.task_body,
             A.protected_body, A.entry_body),
@@ -756,53 +756,53 @@ A.add_rules(
         "is",
         A.basic_decls ^ DeclarativePart,
         "begin",
-        A.handled_statements,
+        A.handled_stmts,
         "end",
         Opt(A.name)
     ) ^ SubprogramBody,
 
-    handled_statements=Row(
-        A.statements, Opt("exception", List(A.exception_handler))[1]
-    ) ^ HandledStatements,
+    handled_stmts=Row(
+        A.stmts, Opt("exception", List(A.exception_handler))[1]
+    ) ^ HandledStmts,
 
     exception_handler=Row(
         "when", Opt(A.identifier, ":")[0],
         List(A.name | A.others_designator, sep="|"), "=>",
-        A.statements
+        A.stmts
     ) ^ ExceptionHandler,
 
-    statements=List(Or(Row(A.statement, Opt(";").error())[0],
-                       A.label), empty_valid=True),
+    stmts=List(Or(Row(A.stmt, Opt(";").error())[0],
+                  A.label), empty_valid=True),
 
     label=Tok(Token.Label) ^ Label,
 
-    statement=Or(A.compound_statement, A.simple_statement),
+    stmt=Or(A.compound_stmt, A.simple_stmt),
 
-    call_statement=Row(A.name) ^ CallStatement,
+    call_stmt=Row(A.name) ^ CallStmt,
 
-    simple_statement=Or(A.null_statement, A.assignment_statement,
-                        A.goto_statement, A.exit_statement,
-                        A.return_statement, A.requeue_statement,
-                        A.call_statement, A.abort_statement, A.delay_statement,
-                        A.raise_statement, A.terminate_statement, A.pragma),
+    simple_stmt=Or(A.null_stmt, A.assignment_stmt,
+                   A.goto_stmt, A.exit_stmt,
+                   A.return_stmt, A.requeue_stmt,
+                   A.call_stmt, A.abort_stmt, A.delay_stmt,
+                   A.raise_stmt, A.terminate_stmt, A.pragma),
 
-    null_statement=A.null_literal ^ NullStatement,
+    null_stmt=A.null_literal ^ NullStmt,
 
-    assignment_statement=Row(A.name, ":=", A.expression) ^ AssignStatement,
+    assignment_stmt=Row(A.name, ":=", A.expression) ^ AssignStmt,
 
-    goto_statement=Row("goto", A.static_name) ^ GotoStatement,
+    goto_stmt=Row("goto", A.static_name) ^ GotoStmt,
 
-    exit_statement=Row("exit", Opt(A.identifier),
-                       Opt("when", A.expression)[1]) ^ ExitStatement,
+    exit_stmt=Row("exit", Opt(A.identifier),
+                       Opt("when", A.expression)[1]) ^ ExitStmt,
 
-    return_statement=(
-        Row("return", Opt(A.expression | A.raise_statement)) ^ ReturnStatement
+    return_stmt=(
+        Row("return", Opt(A.expression | A.raise_stmt)) ^ ReturnStmt
     ),
 
-    requeue_statement=Row(
+    requeue_stmt=Row(
         "requeue", A.expression,
         Opt("with", "abort").as_bool(Abort)
-    ) ^ RequeueStatement,
+    ) ^ RequeueStmt,
 
     identifier=Tok(Token.Identifier, keep=True) ^ Identifier,
     char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,

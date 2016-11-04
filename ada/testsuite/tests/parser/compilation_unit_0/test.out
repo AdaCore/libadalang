@@ -69,10 +69,10 @@ CompilationUnit[1:1-7:10]
 | | | | | | | | | | | right:
 | | | | | | | | | | | | Int[4:25-4:26]
 | | | | | | | | | | | | | tok: 2
-| | | | | statements:
-| | | | | | HandledStatements[6:4-6:16]
-| | | | | | | statements:
-| | | | | | | | CallStatement[6:4-6:15]
+| | | | | stmts:
+| | | | | | HandledStmts[6:4-6:16]
+| | | | | | | stmts:
+| | | | | | | | CallStmt[6:4-6:15]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[6:4-6:15]
 | | | | | | | | | | | name:

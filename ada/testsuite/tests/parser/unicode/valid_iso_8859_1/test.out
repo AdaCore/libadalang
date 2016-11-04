@@ -37,10 +37,10 @@ CompilationUnit[1:1-6:10]
 | | | | | | | | | tok: Test
 | | | | | decls:
 | | | | | | DeclarativePart[4:1-4:6]
-| | | | | statements:
-| | | | | | HandledStatements[5:4-5:30]
-| | | | | | | statements:
-| | | | | | | | CallStatement[5:4-5:29]
+| | | | | stmts:
+| | | | | | HandledStmts[5:4-5:30]
+| | | | | | | stmts:
+| | | | | | | | CallStmt[5:4-5:29]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[5:4-5:29]
 | | | | | | | | | | | name:

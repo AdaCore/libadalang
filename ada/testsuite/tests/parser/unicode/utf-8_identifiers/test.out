@@ -14,10 +14,10 @@ CompilationUnit[1:1-4:12]
 | | | | | | | | | tok: kikoo\u1800
 | | | | | decls:
 | | | | | | DeclarativePart[2:1-2:6]
-| | | | | statements:
-| | | | | | HandledStatements[3:4-3:9]
-| | | | | | | statements:
-| | | | | | | | NullStatement[3:4-3:8]
+| | | | | stmts:
+| | | | | | HandledStmts[3:4-3:9]
+| | | | | | | stmts:
+| | | | | | | | NullStmt[3:4-3:8]
 | | | | | end_id:
 | | | | | | Id[4:5-4:11]
 | | | | | | | tok: kikoo\u1800

@@ -27,6 +27,6 @@ Expr: <Id "Pouet" 26:9-26:14>, references <ExpressionFunction ["Pouet"] 10:4-10:
 Expr: <Int 26:16-26:17>, references None, type is <FullTypeDecl ["Integer"] 4:4-4:36>
 Expr: <Int 26:20-26:21>, references None, type is <FullTypeDecl ["Integer"] 4:4-4:36>
 
-Resolution failed for node <AssignStatement 29:4-29:24>
+Resolution failed for node <AssignStmt 29:4-29:24>
 
 Done.

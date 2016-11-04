@@ -10,6 +10,6 @@ Expr: <CallExpr 11:9-11:15>, references <SubprogramDecl ["C"] 4:4-4:35>, type is
 Expr: <Id "C" 11:9-11:10>, references <SubprogramDecl ["C"] 4:4-4:35>, type is <FullTypeDecl ["Int"] 2:4-2:30>
 Expr: <Int 11:12-11:14>, references None, type is <FullTypeDecl ["Int"] 2:4-2:30>
 
-Resolution failed for node <CallStatement 14:4-14:10>
+Resolution failed for node <CallStmt 14:4-14:10>
 
 Done.

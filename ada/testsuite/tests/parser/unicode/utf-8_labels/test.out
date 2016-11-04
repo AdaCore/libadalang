@@ -14,12 +14,12 @@ CompilationUnit[1:1-6:10]
 | | | | | | | | | tok: Test
 | | | | | decls:
 | | | | | | DeclarativePart[2:1-2:6]
-| | | | | statements:
-| | | | | | HandledStatements[3:5-5:15]
-| | | | | | | statements:
+| | | | | stmts:
+| | | | | | HandledStmts[3:5-5:15]
+| | | | | | | stmts:
 | | | | | | | | Label[3:5-3:13]
 | | | | | | | | | token: <<\u3000\u3002\u3000\u3001>>
-| | | | | | | | CallStatement[4:5-4:28]
+| | | | | | | | CallStmt[4:5-4:28]
 | | | | | | | | | call:
 | | | | | | | | | | CallExpr[4:5-4:28]
 | | | | | | | | | | | name:
@@ -32,7 +32,7 @@ CompilationUnit[1:1-6:10]
 | | | | | | | | | | | | | | | expr:
 | | | | | | | | | | | | | | | | Str[4:14-4:27]
 | | | | | | | | | | | | | | | | | tok: "Hello world"
-| | | | | | | | GotoStatement[5:5-5:14]
+| | | | | | | | GotoStmt[5:5-5:14]
 | | | | | | | | | label_name:
 | | | | | | | | | | Id[5:10-5:14]
 | | | | | | | | | | | tok: \u3000\u3002\u3000\u3001

@@ -1,2 +1,2 @@
 driver: parser
-rule: ext_return_statement
+rule: ext_return_stmt

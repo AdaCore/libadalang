@@ -1,4 +1,4 @@
-ReturnStatement[1:1-1:26]
+ReturnStmt[1:1-1:26]
 | return_expr:
 | | CallExpr[1:8-1:26]
 | | | name:

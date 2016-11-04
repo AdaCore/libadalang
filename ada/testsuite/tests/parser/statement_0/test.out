@@ -1,4 +1,4 @@
-LoopStatement[1:1-1:33]
+LoopStmt[1:1-1:33]
 | spec:
 | | WhileLoopSpec[1:1-1:13]
 | | | expr:
@@ -11,5 +11,5 @@ LoopStatement[1:1-1:33]
 | | | | | right:
 | | | | | | Int[1:11-1:13]
 | | | | | | | tok: 12
-| statements:
-| | NullStatement[1:19-1:23]
+| stmts:
+| | NullStmt[1:19-1:23]

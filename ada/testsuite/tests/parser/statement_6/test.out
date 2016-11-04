@@ -1,8 +1,8 @@
-SelectStatement[1:1-1:154]
+SelectStmt[1:1-1:154]
 | guards:
 | | SelectWhenPart[1:10-1:74]
-| | | statements:
-| | | | AcceptStatement[1:10-1:73]
+| | | stmts:
+| | | | AcceptStmt[1:10-1:73]
 | | | | | name:
 | | | | | | Id[1:17-1:22]
 | | | | | | | tok: Store
@@ -22,10 +22,10 @@ SelectStatement[1:1-1:154]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:37-1:41]
 | | | | | | | | | | | tok: Item
-| | | | | statements:
-| | | | | | HandledStatements[1:46-1:63]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:46-1:62]
+| | | | | stmts:
+| | | | | | HandledStmts[1:46-1:63]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:46-1:62]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:46-1:51]
 | | | | | | | | | | | tok: Datum
@@ -33,8 +33,8 @@ SelectStatement[1:1-1:154]
 | | | | | | | | | | Id[1:55-1:62]
 | | | | | | | | | | | tok: An_Item
 | | SelectWhenPart[1:78-1:143]
-| | | statements:
-| | | | AcceptStatement[1:78-1:142]
+| | | stmts:
+| | | | AcceptStmt[1:78-1:142]
 | | | | | name:
 | | | | | | Id[1:85-1:90]
 | | | | | | | tok: Fetch
@@ -54,10 +54,10 @@ SelectStatement[1:1-1:154]
 | | | | | | | | | name:
 | | | | | | | | | | Id[1:106-1:110]
 | | | | | | | | | | | tok: Item
-| | | | | statements:
-| | | | | | HandledStatements[1:115-1:132]
-| | | | | | | statements:
-| | | | | | | | AssignStatement[1:115-1:131]
+| | | | | stmts:
+| | | | | | HandledStmts[1:115-1:132]
+| | | | | | | stmts:
+| | | | | | | | AssignStmt[1:115-1:131]
 | | | | | | | | | dest:
 | | | | | | | | | | Id[1:115-1:122]
 | | | | | | | | | | | tok: An_Item

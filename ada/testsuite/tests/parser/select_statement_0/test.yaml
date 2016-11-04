@@ -1,2 +1,2 @@
 driver: parser
-rule: select_statement
+rule: select_stmt

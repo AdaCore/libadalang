@@ -1,2 +1,2 @@
 driver: parser
-rule: delay_statement
+rule: delay_stmt

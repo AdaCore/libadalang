@@ -18,9 +18,9 @@
 | | | <null node>
 | | | <DeclarativePart>
 | | | | <list>
-| | | <HandledStatements>
+| | | <HandledStmts>
 | | | | <list>
-| | | | | <CallStatement>
+| | | | | <CallStmt>
 | | | | | | <CallExpr>
 | | | | | | | <DottedName>
 | | | | | | | | <DottedName>

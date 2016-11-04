@@ -133,7 +133,7 @@ A.add_rules(
     discrete_subtype_definition=A.discrete_range | A.subtype_indication,
 
     signed_int_type_def=Row(A.range_spec) ^ SignedIntTypeDef,
-    mod_int_type_def=Row("mod", A.sexpr_or_diamond) ^ ModIntTypeDef,
+    mod_int_type_def=Row("mod", A.sexpr_or_box) ^ ModIntTypeDef,
 
     derived_type_def=Row(
         Opt("abstract").as_bool(Abstract),
@@ -195,24 +195,24 @@ A.add_rules(
         Row("null", Null(ComponentList), "record") ^ RecordDef
     ),
 
-    range_spec=Row("range", A.discrete_range | A.name | A.diamond_expr)[1],
+    range_spec=Row("range", A.discrete_range | A.name | A.box_expr)[1],
 
     real_type_def=Or(A.floating_point_def, A.decimal_fixed_point_def,
                      A.ordinary_fixed_point_def),
 
-    sexpr_or_diamond=A.simple_expr | A.diamond_expr,
+    sexpr_or_box=A.simple_expr | A.box_expr,
 
     ordinary_fixed_point_def=Row(
-        "delta", A.sexpr_or_diamond, Opt(A.range_spec),
+        "delta", A.sexpr_or_box, Opt(A.range_spec),
     ) ^ OrdinaryFixedPointDef,
 
     decimal_fixed_point_def=Row(
-        "delta", A.sexpr_or_diamond, "digits",
-        A.sexpr_or_diamond, Opt(A.range_spec)
+        "delta", A.sexpr_or_box, "digits",
+        A.sexpr_or_box, Opt(A.range_spec)
     ) ^ DecimalFixedPointDef,
 
     floating_point_def=Row(
-        "digits", A.sexpr_or_diamond, Opt(A.range_spec)
+        "digits", A.sexpr_or_box, Opt(A.range_spec)
     ) ^ FloatingPointDef,
 
     record_type_def=Row(
@@ -333,7 +333,7 @@ A.add_rules(
         A.subprogram_spec,
         _(Opt("is")),
         Opt("abstract").as_bool(Abstract),
-        Opt(Or(A.diamond_expr, A.name, A.null_literal)),
+        Opt(Or(A.box_expr, A.name, A.null_literal)),
         A.aspect_spec
     ) ^ FormalSubpDecl,
 
@@ -859,7 +859,7 @@ A.add_rules(
     conditional_expr=Or(A.if_expr, A.case_expr,
                         A.quantified_expr),
 
-    diamond_expr=Tok("<>") ^ DiamondExpr,
+    box_expr=Tok("<>") ^ BoxExpr,
 
     others_designator=Tok("others") ^ OthersDesignator,
 
@@ -871,7 +871,7 @@ A.add_rules(
 
     aggregate_assoc=Row(
         Opt(A.aggregate_field, "=>")[0],
-        Or(A.diamond_expr, A.expr)
+        Or(A.box_expr, A.expr)
     ) ^ ParamAssoc,
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ ParamList,
     aggregate_content_null=Row(
@@ -891,7 +891,7 @@ A.add_rules(
     param_assoc=Row(
         Opt(A.identifier | A.others_designator | A.string_literal,
             "=>")[0],
-        A.expr | A.diamond_expr
+        A.expr | A.box_expr,
     ) ^ ParamAssoc,
 
     call_suffix=Or(

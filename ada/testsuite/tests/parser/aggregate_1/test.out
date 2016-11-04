@@ -35,4 +35,4 @@ Aggregate[1:2-1:41]
 | | | | | | | choice_list:
 | | | | | | | | OthersDesignator[1:29-1:35]
 | | | | | expr:
-| | | | | | DiamondExpr[1:39-1:41]
+| | | | | | BoxExpr[1:39-1:41]

@@ -5,4 +5,4 @@ FullTypeDecl[1:1-1:17]
 | type_def:
 | | ModIntTypeDef[1:11-1:17]
 | | | expr:
-| | | | DiamondExpr[1:15-1:17]
+| | | | BoxExpr[1:15-1:17]

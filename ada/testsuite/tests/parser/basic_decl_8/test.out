@@ -5,4 +5,4 @@ FullTypeDecl[1:1-1:19]
 | type_def:
 | | OrdinaryFixedPointDef[1:11-1:19]
 | | | delta:
-| | | | DiamondExpr[1:17-1:19]
+| | | | BoxExpr[1:17-1:19]

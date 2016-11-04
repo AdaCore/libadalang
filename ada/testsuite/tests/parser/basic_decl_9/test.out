@@ -5,6 +5,6 @@ FullTypeDecl[1:1-1:29]
 | type_def:
 | | DecimalFixedPointDef[1:11-1:29]
 | | | delta:
-| | | | DiamondExpr[1:17-1:19]
+| | | | BoxExpr[1:17-1:19]
 | | | digits:
-| | | | DiamondExpr[1:27-1:29]
+| | | | BoxExpr[1:27-1:29]

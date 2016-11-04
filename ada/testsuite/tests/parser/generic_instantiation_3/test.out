@@ -19,4 +19,4 @@ GenericPackageInstantiation[1:1-1:42]
 | | | | | designator:
 | | | | | | OthersDesignator[1:29-1:35]
 | | | | | expr:
-| | | | | | DiamondExpr[1:39-1:41]
+| | | | | | BoxExpr[1:39-1:41]

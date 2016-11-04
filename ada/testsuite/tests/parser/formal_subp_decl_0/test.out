@@ -32,4 +32,4 @@ FormalSubpDecl[1:1-1:70]
 | has_abstract:
 | | AbstractPresent[1:59-1:59]
 | default_value:
-| | DiamondExpr[1:68-1:70]
+| | BoxExpr[1:68-1:70]

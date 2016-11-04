@@ -10,4 +10,4 @@ GenericPackageInstantiation[1:1-1:24]
 | | | params:
 | | | | ParamAssoc[1:21-1:23]
 | | | | | expr:
-| | | | | | DiamondExpr[1:21-1:23]
+| | | | | | BoxExpr[1:21-1:23]

@@ -1940,7 +1940,7 @@ class ExplicitDeref(Expr):
         )
 
 
-class DiamondExpr(Expr):
+class BoxExpr(Expr):
     pass
 
 

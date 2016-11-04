@@ -1,4 +1,4 @@
-TaskDecl[1:1-1:139]
+SingleTaskDecl[1:1-1:139]
 | task_name:
 | | Id[1:6-1:22]
 | | | tok: Buffer_Pool_Task

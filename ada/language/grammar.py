@@ -386,7 +386,7 @@ A.add_rules(
 
     object_decl=Or(
         A.sub_object_decl,
-        A.task_decl,
+        A.single_task_decl,
         A.protected_decl,
         A.number_decl
     ),
@@ -425,8 +425,8 @@ A.add_rules(
         "is", A.protected_def
     ) ^ SingleProtectedDecl,
 
-    task_decl=Row("task", A.identifier, A.aspect_spec,
-                  Opt(A.task_def)) ^ TaskDecl,
+    single_task_decl=Row("task", A.identifier, A.aspect_spec,
+                         Opt(A.task_def)) ^ SingleTaskDecl,
 
     overriding_indicator=Or(
         Row("overriding") ^ Overriding.alt_overriding,

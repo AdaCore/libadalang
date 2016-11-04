@@ -1,2 +1,2 @@
 driver: parser
-rule: task_decl
+rule: single_task_decl

@@ -1256,7 +1256,7 @@ class EntryDecl(BasicDecl):
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
-class TaskDecl(BasicDecl):
+class SingleTaskDecl(BasicDecl):
     task_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)

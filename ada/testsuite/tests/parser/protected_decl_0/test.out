@@ -1,4 +1,4 @@
-ProtectedDecl[1:1-1:121]
+SingleProtectedDecl[1:1-1:121]
 | protected_name:
 | | Id[1:11-1:27]
 | | | tok: Protected_Buffer

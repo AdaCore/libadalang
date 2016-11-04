@@ -1264,7 +1264,7 @@ class TaskDecl(BasicDecl):
     defining_names = Property(Self.task_name.cast(T.Name).singleton)
 
 
-class ProtectedDecl(BasicDecl):
+class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.ProtectedDef)

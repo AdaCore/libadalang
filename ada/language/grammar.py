@@ -423,7 +423,7 @@ A.add_rules(
     protected_decl=Row(
         "protected", A.identifier, A.aspect_spec,
         "is", A.protected_def
-    ) ^ ProtectedDecl,
+    ) ^ SingleProtectedDecl,
 
     task_decl=Row("task", A.identifier, A.aspect_spec,
                   Opt(A.task_def)) ^ TaskDecl,

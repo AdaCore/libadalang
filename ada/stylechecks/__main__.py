@@ -9,7 +9,8 @@ ROOT_DIR = join(ADA_DIR, '..')
 
 DIRS = ('ada', 'langkit', 'utils')
 EXCLUDES = ('tmp', 'doc', join('stylechecks', 'tests.py'),
-            join('langkit', 'adalog', 'obj'))
+            join('langkit', 'adalog', 'obj'),
+            join('ada', 'testsuite', 'acats'))
 
 sys.path.append(ADA_DIR)
 

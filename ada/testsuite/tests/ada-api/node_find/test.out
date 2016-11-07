@@ -1,15 +1,15 @@
 This is the list of all nodes in foo.adb, in prefix depth-first order:
   <CompilationUnit 1:1-4:9>
-  <ASTList 1:1-1:1>
+  <AdaNodeListType 1:1-1:1>
   <LibraryItem 1:1-4:8>
   <PrivateAbsent 1:1-1:1>
   <SubprogramBody ["Sum"] 1:1-4:8>
   <OverridingUnspecified 1:1-1:9>
   <SubprogramSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
-  <ASTList 1:15-1:52>
+  <ParamSpecListType 1:15-1:52>
   <ParamSpec ["A"] 1:15-1:26>
-  <ASTList 1:15-1:16>
+  <IdentifierListType 1:15-1:16>
   <Id "A" 1:15-1:16>
   <AliasedAbsent 1:19-1:19>
   <ModeDefault 1:19-1:26>
@@ -17,7 +17,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <NotNullAbsent 1:19-1:19>
   <Id "Integer" 1:19-1:26>
   <ParamSpec ["B"] 1:28-1:39>
-  <ASTList 1:28-1:29>
+  <IdentifierListType 1:28-1:29>
   <Id "B" 1:28-1:29>
   <AliasedAbsent 1:32-1:32>
   <ModeDefault 1:32-1:39>
@@ -25,7 +25,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <NotNullAbsent 1:32-1:32>
   <Id "Integer" 1:32-1:39>
   <ParamSpec ["C"] 1:41-1:52>
-  <ASTList 1:41-1:42>
+  <IdentifierListType 1:41-1:42>
   <Id "C" 1:41-1:42>
   <AliasedAbsent 1:45-1:45>
   <ModeDefault 1:45-1:52>
@@ -36,9 +36,9 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <NotNullAbsent 1:61-1:61>
   <Id "Integer" 1:61-1:68>
   <DeclarativePart 2:1-2:6>
-  <ASTList 2:1-2:1>
+  <AdaNodeListType 2:1-2:1>
   <HandledStmts 3:4-3:21>
-  <ASTList 3:4-3:21>
+  <AdaNodeListType 3:4-3:21>
   <ReturnStmt 3:4-3:20>
   <BinOp 3:11-3:20>
   <BinOp 3:11-3:16>
@@ -47,9 +47,9 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <Id "B" 3:15-3:16>
   <OpPlus 3:17-3:18>
   <Id "C" 3:19-3:20>
-  <ASTList 3:20-3:20>
+  <ExceptionHandlerListType 3:20-3:20>
   <Id "Sum" 4:5-4:8>
-  <ASTList 5:1-5:1>
+  <PragmaNodeListType 5:1-5:1>
 Note that we also can iterate on null nodes:
 Alright, now here's the list of all identifier nodes:
   <Id "Sum" 1:10-1:13>

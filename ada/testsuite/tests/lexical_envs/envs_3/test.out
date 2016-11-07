@@ -150,7 +150,7 @@ CompilationUnit[16:1-17:11]
 | | | | | | | | | tok: C
 
 ==== Dumping lexical environments ====
-<ASTList 1:1-17:11> - <LexEnv (Id <root>, Parent null), {
+<CompilationUnitListType 1:1-17:11> - <LexEnv (Id <root>, Parent null), {
     A: [<PackageDecl ["A"] 10:1-11:6>]
     Foo: [<PackageDecl ["Foo"] 1:1-2:8>]
 }>

@@ -6,9 +6,9 @@ CompilationUnit
 | | | SubprogramSpec
 | | | | Id
 | | | DeclarativePart
-| | | | ASTList
+| | | | AdaNodeListType
 | | | | | ObjectDecl
-| | | | | | ASTList
+| | | | | | IdentifierListType
 | | | | | | | Id
 | | | | | | -- Hinhin
 | | | | | | ModeDefault
@@ -16,7 +16,7 @@ CompilationUnit
 | | | | | | | Id
 | | | -- Huhu
 | | | HandledStmts
-| | | | ASTList
+| | | | AdaNodeListType
 | | | | | NullStmt
 | | | | | | Null
 | | | | | -- Haha

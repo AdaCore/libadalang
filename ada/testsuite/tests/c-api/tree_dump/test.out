@@ -1,9 +1,9 @@
 <CompilationUnit>
-| <list>
+| <ListAdaNode>
 | | <WithClause>
 | | | <LimitedAbsent>
 | | | <PrivateAbsent>
-| | | <list>
+| | | <ListName>
 | | | | <DottedName>
 | | | | | <Identifier>
 | | | | | <Identifier>
@@ -13,13 +13,13 @@
 | | | <OverridingUnspecified>
 | | | <SubprogramSpec>
 | | | | <Identifier>
-| | | | <list>
+| | | | <ListParamSpec>
 | | | | <null node>
 | | | <null node>
 | | | <DeclarativePart>
-| | | | <list>
+| | | | <ListAdaNode>
 | | | <HandledStmts>
-| | | | <list>
+| | | | <ListAdaNode>
 | | | | | <CallStmt>
 | | | | | | <CallExpr>
 | | | | | | | <DottedName>
@@ -28,11 +28,11 @@
 | | | | | | | | | <Identifier>
 | | | | | | | | <Identifier>
 | | | | | | | <ParamList>
-| | | | | | | | <list>
+| | | | | | | | <ListParamAssoc>
 | | | | | | | | | <ParamAssoc>
 | | | | | | | | | | <null node>
 | | | | | | | | | | <StringLiteral>
-| | | | <list>
+| | | | <ListExceptionHandler>
 | | | <Identifier>
-| <list>
+| <ListPragmaNode>
 Done

@@ -519,8 +519,17 @@ class ComponentList(AbstractFormalParamHolder):
         )
 
 
-class RecordDef(AdaNode):
+@abstract
+class BaseRecordDef(AdaNode):
     components = Field(type=T.ComponentList)
+
+
+class RecordDef(BaseRecordDef):
+    pass
+
+
+class NullRecordDef(BaseRecordDef):
+    pass
 
 
 class Tagged(T.EnumNode):
@@ -583,7 +592,7 @@ class RecordTypeDef(TypeDef):
     has_abstract = Field(type=Abstract)
     has_tagged = Field(type=Tagged)
     has_limited = Field(type=Limited)
-    record_def = Field(type=T.RecordDef)
+    record_def = Field(type=T.BaseRecordDef)
 
     defining_env = Property(
         # We don't want to be able to access env elements in parents,
@@ -629,7 +638,7 @@ class AbstractTypeDecl(BasicDecl):
         """
     )
     array_def = Property(No(T.ArrayTypeDef))
-    record_def = Property(No(T.RecordDef))
+    record_def = Property(No(T.BaseRecordDef))
 
     component_type = Property(
         Self.array_def.then(lambda atd: atd.component_type),
@@ -750,7 +759,7 @@ class TypeDecl(AbstractTypeDecl):
         Self.type_def.match(
             lambda r=T.RecordTypeDef: r.record_def,
             lambda d=T.DerivedTypeDef: d.record_extension,
-            lambda _: No(T.RecordDef)
+            lambda _: No(T.BaseRecordDef)
         )
     )
 
@@ -824,7 +833,7 @@ class DerivedTypeDef(TypeDef):
     has_synchronized = Field(type=Synchronized)
     subtype_indication = Field(type=T.SubtypeIndication)
     interfaces = Field(type=T.Name.list_type())
-    record_extension = Field(type=T.RecordDef)
+    record_extension = Field(type=T.BaseRecordDef)
     has_with_private = Field(type=WithPrivate)
 
     array_ndims = Property(Self.base_type.array_ndims)

@@ -192,7 +192,7 @@ A.add_rules(
 
     record_def=Or(
         Row("record", A.component_list, "end", "record") ^ RecordDef,
-        Row("null", Null(ComponentList), "record") ^ RecordDef
+        Row("null", "record", Null(ComponentList)) ^ NullRecordDef
     ),
 
     range_spec=Row("range", A.discrete_range | A.name | A.box_expr)[1],

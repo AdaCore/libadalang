@@ -146,12 +146,13 @@ A.add_rules(
         Opt("with", "private").as_bool(WithPrivate)
     ) ^ DerivedTypeDef,
 
-    discriminant_association=Row(
-        List(A.identifier, sep="|"), "=>", A.expr
-    ) ^ DiscriminantAssociation,
+    discriminant_assoc=Row(
+        Opt(List(A.identifier, sep="|"), "=>")[0],
+        A.expr
+    ) ^ DiscriminantAssoc,
 
     discriminant_constraint=Row(
-        "(", List(A.discriminant_association, sep=","), ")"
+        "(", List(A.discriminant_assoc, sep=","), ")"
     ) ^ DiscriminantConstraint,
 
     index_constraint=Row(

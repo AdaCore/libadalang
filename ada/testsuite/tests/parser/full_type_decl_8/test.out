@@ -20,7 +20,7 @@ TypeDecl[1:1-1:78]
 | | | | | constraint:
 | | | | | | DiscriminantConstraint[1:17-1:42]
 | | | | | | | constraints:
-| | | | | | | | DiscriminantAssociation[1:18-1:41]
+| | | | | | | | DiscriminantAssoc[1:18-1:41]
 | | | | | | | | | ids:
 | | | | | | | | | | Id[1:18-1:25]
 | | | | | | | | | | | tok: Discr_1

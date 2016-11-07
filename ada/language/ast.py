@@ -819,10 +819,10 @@ class IndexConstraint(Constraint):
 
 
 class DiscriminantConstraint(Constraint):
-    constraints = Field(type=T.DiscriminantAssociation.list_type())
+    constraints = Field(type=T.DiscriminantAssoc.list_type())
 
 
-class DiscriminantAssociation(Constraint):
+class DiscriminantAssoc(Constraint):
     ids = Field(type=T.Identifier.list_type())
     expr = Field(type=T.Expr)
 

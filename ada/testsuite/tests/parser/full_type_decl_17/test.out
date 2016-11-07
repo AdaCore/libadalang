@@ -11,11 +11,11 @@ TypeDecl[1:1-1:50]
 | | | | | | | has_not_null:
 | | | | | | | | NotNullAbsent[1:20-1:20]
 | | | | | | | name:
-| | | | | | | | CallExpr[1:20-1:38]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:20-1:27]
-| | | | | | | | | | | tok: Integer
-| | | | | | | | | suffix:
+| | | | | | | | Id[1:20-1:27]
+| | | | | | | | | tok: Integer
+| | | | | | | constraint:
+| | | | | | | | IndexConstraint[1:28-1:38]
+| | | | | | | | | constraints:
 | | | | | | | | | | BinOp[1:29-1:37]
 | | | | | | | | | | | left:
 | | | | | | | | | | | | Int[1:29-1:31]

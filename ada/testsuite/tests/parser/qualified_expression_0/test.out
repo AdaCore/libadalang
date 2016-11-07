@@ -3,5 +3,11 @@ QualExpr[1:1-1:13]
 | | Id[1:1-1:8]
 | | | tok: Integer
 | suffix:
-| | Int[1:10-1:12]
-| | | tok: 12
+| | Aggregate[1:10-1:12]
+| | | assocs:
+| | | | ParamList[1:10-1:12]
+| | | | | params:
+| | | | | | ParamAssoc[1:10-1:12]
+| | | | | | | expr:
+| | | | | | | | Int[1:10-1:12]
+| | | | | | | | | tok: 12

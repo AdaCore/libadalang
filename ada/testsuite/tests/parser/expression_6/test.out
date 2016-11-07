@@ -1,13 +1,15 @@
 Allocator[1:1-1:17]
-| type:
-| | SubtypeIndication[1:5-1:17]
-| | | has_not_null:
-| | | | NotNullAbsent[1:5-1:5]
-| | | name:
-| | | | QualExpr[1:5-1:17]
-| | | | | prefix:
-| | | | | | Id[1:5-1:12]
-| | | | | | | tok: Integer
-| | | | | suffix:
-| | | | | | Int[1:14-1:16]
-| | | | | | | tok: 12
+| type_or_expr:
+| | QualExpr[1:5-1:17]
+| | | prefix:
+| | | | Id[1:5-1:12]
+| | | | | tok: Integer
+| | | suffix:
+| | | | Aggregate[1:14-1:16]
+| | | | | assocs:
+| | | | | | ParamList[1:14-1:16]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:14-1:16]
+| | | | | | | | | expr:
+| | | | | | | | | | Int[1:14-1:16]
+| | | | | | | | | | | tok: 12

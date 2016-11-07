@@ -10,8 +10,14 @@ AttributeRef[1:1-1:22]
 | | | | | | Id[1:5-1:6]
 | | | | | | | tok: C
 | | | suffix:
-| | | | Chr[1:10-1:13]
-| | | | | tok: 'D'
+| | | | Aggregate[1:10-1:13]
+| | | | | assocs:
+| | | | | | ParamList[1:10-1:13]
+| | | | | | | params:
+| | | | | | | | ParamAssoc[1:10-1:13]
+| | | | | | | | | expr:
+| | | | | | | | | | Chr[1:10-1:13]
+| | | | | | | | | | | tok: 'D'
 | attribute:
 | | Id[1:15-1:22]
 | | | tok: Pointer

@@ -2417,7 +2417,7 @@ class QuantifiedExpr(Expr):
 
 class Allocator(Expr):
     subpool = Field(type=T.Expr)
-    type = Field(type=T.SubtypeIndication)
+    type_or_expr = Field(type=T.AdaNode)
 
 
 class QualExpr(Expr):

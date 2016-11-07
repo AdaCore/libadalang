@@ -7,16 +7,16 @@ SubprogramSpec[1:1-1:37]
 | | | has_not_null:
 | | | | NotNullAbsent[1:19-1:19]
 | | | name:
-| | | | CallExpr[1:19-1:37]
-| | | | | name:
-| | | | | | DottedName[1:19-1:26]
-| | | | | | | prefix:
-| | | | | | | | Id[1:19-1:22]
-| | | | | | | | | tok: Pkg
-| | | | | | | suffix:
-| | | | | | | | Id[1:23-1:26]
-| | | | | | | | | tok: Arr
+| | | | DottedName[1:19-1:26]
+| | | | | prefix:
+| | | | | | Id[1:19-1:22]
+| | | | | | | tok: Pkg
 | | | | | suffix:
+| | | | | | Id[1:23-1:26]
+| | | | | | | tok: Arr
+| | | constraint:
+| | | | IndexConstraint[1:27-1:37]
+| | | | | constraints:
 | | | | | | BinOp[1:28-1:36]
 | | | | | | | left:
 | | | | | | | | Int[1:28-1:30]

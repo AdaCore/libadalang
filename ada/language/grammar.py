@@ -235,7 +235,7 @@ A.add_rules(
             "access",
             Opt("all").as_bool(All),
             Opt("constant").as_bool(Constant),
-            A.name,
+            A.subtype_name,
             Opt(A.constraint),
         ) ^ TypeAccessDef
     ),
@@ -521,12 +521,34 @@ A.add_rules(
 
     subtype_indication=Row(
         Opt("not", "null").as_bool(NotNull),
-        A.name, Opt(A.constraint)
+        A.subtype_name, Opt(A.constraint)
+    ) ^ SubtypeIndication,
+
+    # Rule used to disambiguate in some situations where a
+    # discrete_subtype_indication is supposed to be accepted, but using the
+    # general subtype_indication rule will not do:
+    #
+    # 1. for loop specs where you can do::
+    #
+    #     for A in Integer range 1 .. 12 loop
+    #     end loop;
+    #
+    # 2. slices where you can do::
+    #
+    #     A (Integer range 1 .. 12)
+    #
+    # In those cases, using even the constrained_subtype_indication rule
+    # will parse expressions as subtype indications sometimes, and even
+    # cause parsing errors.
+
+    discrete_subtype_indication=Row(
+        Opt("not", "null").as_bool(NotNull),
+        A.subtype_name, A.range_constraint
     ) ^ SubtypeIndication,
 
     constrained_subtype_indication=Row(
         Opt("not", "null").as_bool(NotNull),
-        A.name, A.constraint
+        A.subtype_name, A.constraint
     ) ^ SubtypeIndication,
 
     type_expr=Or(
@@ -817,7 +839,9 @@ A.add_rules(
     null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
     allocator=Row(
-        "new", Opt("(", A.name, ")")[1], A.subtype_indication
+        "new", Opt("(", A.name, ")")[1],
+        A.qualified_name | A.subtype_indication
+
     ) ^ Allocator,
 
     for_loop_param_spec=Row(
@@ -826,7 +850,7 @@ A.add_rules(
         Or(Row("in") ^ IterType.alt_in,
            Row("of") ^ IterType.alt_of),
         Opt("reverse").as_bool(Reverse),
-        A.constrained_subtype_indication | A.discrete_range | A.expr
+        A.discrete_range | A.discrete_subtype_indication | A.name
     ) ^ ForLoopSpec,
 
     quantified_expr=Row(
@@ -868,13 +892,13 @@ A.add_rules(
     aggregate_field=Or(
         A.choice_list ^ AggregateMember,
         A.expr,
-        A.others_designator,
     ),
 
     aggregate_assoc=Row(
         Opt(A.aggregate_field, "=>")[0],
         Or(A.box_expr, A.expr)
     ) ^ ParamAssoc,
+
     aggregate_content=List(A.aggregate_assoc, sep=",") ^ ParamList,
     aggregate_content_null=Row(
         "null", "record", Null(ParamList)
@@ -897,20 +921,66 @@ A.add_rules(
     ) ^ ParamAssoc,
 
     call_suffix=Or(
-        A.constrained_subtype_indication,
-        A.discrete_range,
-        List(A.param_assoc, sep=",")
-        ^ ParamList
+        A.discrete_subtype_indication,            # Slice via discrete subtype
+        A.discrete_range,                         # Regular slice
+        List(A.param_assoc, sep=",") ^ ParamList  # Regular parameter list
+    ),
+
+    # TODO: Those two rules exist only to be able to specifically parse
+    # qualified expressions in the context of allocators, because using the
+    # more general "name" rule will create an ambiguity::
+    #
+    #     new A (B);  --  Is this a call expression or a subtype indication ?
+    #
+    # We cannot just put the subtype_indication rule first because it will
+    # generate correct parses for qualified expressions, and the underlying
+    # allocator rule will fail::
+    #
+    #    new A'(12);
+    #    --  ^ This is a valid type indication
+    #
+    # It would be nice to find a better way to handle this.
+    #
+    # - One way would be to allow left recursion across several rules, so that
+    # we can have a unique rule for qualified_name.
+    #
+    # - One other way would be to allow "longest_parse" behavior for Or
+    # parsers, so that we can use A.subtype_indication | A.name in allocator.
+
+    qualified_name=Row(
+        A.qual_name_internal, "'", Or(A.aggregate, Row("(", A.expr, ")")[1])
+    ) ^ QualExpr,
+
+    qual_name_internal=Or(
+        Row(A.qual_name_internal, ".", A.direct_name) ^ DottedName,
+        # Attributes
+        Row(A.qual_name_internal, "'", A.identifier,
+            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
+        A.direct_name
     ),
 
     name=Or(
         Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
         Row(A.name, ".", A.direct_name) ^ DottedName,
         Row(A.name, ".", "all") ^ ExplicitDeref,
+
+        # Attributes
         Row(A.name, "'", A.identifier,
             Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
+
         Row(A.name, "'",
-            Or(Row("(", A.expr, ")")[1], A.aggregate)) ^ QualExpr,
+            Or(A.aggregate, Row("(", A.expr, ")")[1])) ^ QualExpr,
+
+        A.direct_name,
+    ),
+
+    # This rule is separate from name, and doesn't accept CallExprs, because
+    # since the langkit parsing engine is eager, accepting CallExprs will
+    # always eat the type constraints.
+    subtype_name=Or(
+        Row(A.subtype_name, ".", A.direct_name) ^ DottedName,
+        Row(A.subtype_name, "'", A.identifier,
+            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
         A.direct_name,
     ),
 
@@ -973,7 +1043,9 @@ A.add_rules(
                        Row("..") ^ Op.alt_ellipsis, A.expr) ^ BinOp,
 
     choice=Or(
-        A.constrained_subtype_indication, A.discrete_range, A.expr,
+        A.discrete_range,
+        A.constrained_subtype_indication,
+        A.expr,
         A.others_designator
     ),
 

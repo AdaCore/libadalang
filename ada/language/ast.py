@@ -1068,8 +1068,11 @@ class UseTypeClause(UseClause):
 @abstract
 class TypeExpr(AdaNode):
     """
-    This type will be used as a base for what represents a type expression
-    in the Ada syntax tree.
+    A type expression is an abstract node that embodies the concept of a
+    reference to a type.
+
+    Since Ada has both subtype_indications and anonymous (inline) type
+    declarations, a type expression contains one or the other.
     """
 
     array_def = Property(Self.designated_type.array_def)
@@ -1097,7 +1100,11 @@ class TypeExpr(AdaNode):
 
 
 class AnonymousType(TypeExpr):
+    """
+    Container for inline anonymous array and access types declarations.
+    """
     type_decl = Field(type=T.AnonymousTypeDecl)
+
     designated_type = Property(Self.type_decl)
     is_anonymous_access = Property(
         Self.type_decl.type_def.cast(T.AccessDef).then(lambda ad: True)

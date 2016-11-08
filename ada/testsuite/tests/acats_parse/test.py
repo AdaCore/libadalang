@@ -12,8 +12,8 @@ acats_dir = os.environ.get(
 
 if not os.path.isdir(acats_dir):
     print ("FAIL: You need to either put the acats repo in"
-           "ada/testsuite/acats, or specify its path on your system via the"
-           "ACATS_PATH env variable")
+           " ada/testsuite/acats, or specify its path on your system via the"
+           " ACATS_PATH env variable.")
 else:
     c = lal.AnalysisContext()
 

@@ -1,6 +1,6 @@
 <CompilationUnit>
 |prelude:
-|  <list>
+|  <ListAdaNode>
 |  |item 0:
 |  |  <WithClause>
 |  |  |has_limited:
@@ -8,7 +8,7 @@
 |  |  |has_private:
 |  |  |  <PrivateAbsent>
 |  |  |packages:
-|  |  |  <list>
+|  |  |  <ListName>
 |  |  |  |item 0:
 |  |  |  |  <DottedName>
 |  |  |  |  |prefix:
@@ -31,13 +31,13 @@
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
 |  |  |  |params:
-|  |  |  |  <list>
+|  |  |  |  <ListParamSpec>
 |  |  |  |returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>
 |  |  |  |decls:
-|  |  |  |  <list>
+|  |  |  |  <ListAdaNode>
 |  |  |  |  |item 0:
 |  |  |  |  |  <SubprogramBody>
 |  |  |  |  |  |overriding:
@@ -48,11 +48,11 @@
 |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |tok: Token(u'Fact')
 |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  <ListParamSpec>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <ParamSpec>
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  <ListIdentifier>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
@@ -81,11 +81,11 @@
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  <DeclarativePart>
 |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  <ListAdaNode>
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  <HandledStmts>
 |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  <ListAdaNode>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <IfStmt>
 |  |  |  |  |  |  |  |  |condition:
@@ -99,7 +99,7 @@
 |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
 |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  <ListAdaNode>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
@@ -117,7 +117,7 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
@@ -132,23 +132,23 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |  |  |alternatives:
-|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  <ListElsifStmtPart>
 |  |  |  |  |  |  |  |  |else_stmts:
-|  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  <ListAdaNode>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  <ListExceptionHandler>
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |tok: Token(u'Fact')
 |  |  |stmts:
 |  |  |  <HandledStmts>
 |  |  |  |stmts:
-|  |  |  |  <list>
+|  |  |  |  <ListAdaNode>
 |  |  |  |  |item 0:
 |  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:
@@ -159,7 +159,7 @@
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  <ListParamAssoc>
 |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |designator: None
@@ -174,7 +174,7 @@
 |  |  |  |  |  |  |  |  |  |  |args:
 |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
@@ -186,7 +186,7 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
@@ -194,12 +194,12 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
 |  |  |  |exceptions:
-|  |  |  |  <list>
+|  |  |  |  <ListExceptionHandler>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')
 |pragmas:
-|  <list>
+|  <ListPragmaNode>
 Parents of CompilationUnit[1:1-14:9]:
   - CompilationUnit[1:1-14:9]
 Parents of SubprogramSpec[3:1-3:14]:
@@ -210,7 +210,7 @@ Parents of SubprogramSpec[3:1-3:14]:
 Parents of SubprogramSpec[4:4-4:46]:
   - SubprogramSpec[4:4-4:46]
   - SubprogramBody[4:4-11:12]
-  - list[4:4-11:13]
+  - ListAdaNode[4:4-11:13]
   - DeclarativePart[4:4-11:13]
   - SubprogramBody[3:1-14:8]
   - LibraryItem[3:1-14:8]

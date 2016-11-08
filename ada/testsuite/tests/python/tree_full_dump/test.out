@@ -1,6 +1,6 @@
 <CompilationUnit>
 |prelude:
-|  <list>
+|  <ListAdaNode>
 |  |item 0:
 |  |  <WithClause>
 |  |  |has_limited:
@@ -8,7 +8,7 @@
 |  |  |has_private:
 |  |  |  <PrivateAbsent>
 |  |  |packages:
-|  |  |  <list>
+|  |  |  <ListName>
 |  |  |  |item 0:
 |  |  |  |  <DottedName>
 |  |  |  |  |prefix:
@@ -31,17 +31,17 @@
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
 |  |  |  |params:
-|  |  |  |  <list>
+|  |  |  |  <ListParamSpec>
 |  |  |  |returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>
 |  |  |  |decls:
-|  |  |  |  <list>
+|  |  |  |  <ListAdaNode>
 |  |  |stmts:
 |  |  |  <HandledStmts>
 |  |  |  |stmts:
-|  |  |  |  <list>
+|  |  |  |  <ListAdaNode>
 |  |  |  |  |item 0:
 |  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:
@@ -62,7 +62,7 @@
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  <ParamList>
 |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <list>
+|  |  |  |  |  |  |  |  <ListParamAssoc>
 |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |  |designator: None
@@ -70,10 +70,10 @@
 |  |  |  |  |  |  |  |  |  |  <StringLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:
-|  |  |  |  <list>
+|  |  |  |  <ListExceptionHandler>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')
 |pragmas:
-|  <list>
+|  <ListPragmaNode>
 Done

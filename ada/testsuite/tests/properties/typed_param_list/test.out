@@ -6,7 +6,7 @@ Params: (A : Integer)
 A:
 <ParamSpec>
 |ids:
-|  <list>
+|  <ListIdentifier>
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'A')
@@ -29,7 +29,7 @@ Params: (A, B : Integer; C : Boolean)
 A:
 <ParamSpec>
 |ids:
-|  <list>
+|  <ListIdentifier>
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'A')
@@ -53,7 +53,7 @@ A:
 B:
 <ParamSpec>
 |ids:
-|  <list>
+|  <ListIdentifier>
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'A')
@@ -77,7 +77,7 @@ B:
 C:
 <ParamSpec>
 |ids:
-|  <list>
+|  <ListIdentifier>
 |  |item 0:
 |  |  <Identifier>
 |  |  |tok: Token(u'C')

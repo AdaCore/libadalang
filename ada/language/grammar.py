@@ -775,7 +775,7 @@ A.add_rules(
     stmts=List(Or(Row(A.stmt, Opt(";").error())[0],
                   A.label), empty_valid=True),
 
-    label=Tok(Token.Label) ^ Label,
+    label=Tok(Token.Label, keep=True) ^ Label,
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 

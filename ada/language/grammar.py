@@ -1043,13 +1043,13 @@ A.add_rules(
         Row("or") ^ Op.alt_or,
     ),
 
-    discrete_range=Row(A.expr,
-                       Row("..") ^ Op.alt_ellipsis, A.expr) ^ BinOp,
+    discrete_range=Row(A.simple_expr,
+                       Row("..") ^ Op.alt_ellipsis, A.simple_expr) ^ BinOp,
 
     choice=Or(
         A.discrete_range,
         A.constrained_subtype_indication,
-        A.expr,
+        A.simple_expr,
         A.others_designator
     ),
 
@@ -1061,22 +1061,22 @@ A.add_rules(
     ),
 
     relation=Or(
-        Row(A.simple_expr,
+        Row(A.relation,
             Or(Row("=") ^ Op.alt_eq,
                Row("/=") ^ Op.alt_neq,
                Row("<") ^ Op.alt_lt,
                Row("<=") ^ Op.alt_lte,
                Row(">") ^ Op.alt_gt,
                Row(">=") ^ Op.alt_gte),
-            A.relation) ^ BinOp,
+            A.simple_expr) ^ BinOp,
 
-        Row(A.simple_expr, A.rel_op, A.choice_list) ^ MembershipExpr,
+        Row(A.relation, A.rel_op, A.choice_list) ^ MembershipExpr,
 
         A.simple_expr
     ),
 
     expr=Or(
-        Row(A.relation, A.boolean_op, A.expr) ^ BinOp,
+        Row(A.expr, A.boolean_op, A.relation) ^ BinOp,
         A.relation
     ),
 

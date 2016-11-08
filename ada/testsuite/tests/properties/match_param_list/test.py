@@ -43,7 +43,7 @@ for obj_decl in unit.root.finditer(libadalang.ObjectDecl):
     print '  {}:'.format(src_slice(obj_decl.f_ids))
 
     for param_assoc, param_match in zip(
-        call_expr.f_suffix.f_params,
+        call_expr.f_suffix,
         subp_spec.p_match_param_list(call_expr.f_suffix, False)
     ):
         print '    {}: has_matched={}, is_formal_opt={}'.format(

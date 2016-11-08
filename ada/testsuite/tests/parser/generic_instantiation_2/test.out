@@ -6,8 +6,6 @@ GenericPackageInstantiation[1:1-1:24]
 | | Id[1:18-1:19]
 | | | tok: Q
 | params:
-| | ParamList[1:21-1:23]
-| | | params:
-| | | | ParamAssoc[1:21-1:23]
-| | | | | expr:
-| | | | | | BoxExpr[1:21-1:23]
+| | ParamAssoc[1:21-1:23]
+| | | expr:
+| | | | BoxExpr[1:21-1:23]

@@ -28,10 +28,9 @@
 | | | | | | | | | <Identifier>
 | | | | | | | | <Identifier>
 | | | | | | | <ParamList>
-| | | | | | | | <ListParamAssoc>
-| | | | | | | | | <ParamAssoc>
-| | | | | | | | | | <null node>
-| | | | | | | | | | <StringLiteral>
+| | | | | | | | <ParamAssoc>
+| | | | | | | | | <null node>
+| | | | | | | | | <StringLiteral>
 | | | | <ListExceptionHandler>
 | | | <Identifier>
 | <ListPragmaNode>

@@ -5,9 +5,7 @@ CallExpr[1:1-1:10]
 | | | | Id[1:1-1:2]
 | | | | | tok: A
 | suffix:
-| | ParamList[1:8-1:9]
-| | | params:
-| | | | ParamAssoc[1:8-1:9]
-| | | | | expr:
-| | | | | | Id[1:8-1:9]
-| | | | | | | tok: B
+| | ParamAssoc[1:8-1:9]
+| | | expr:
+| | | | Id[1:8-1:9]
+| | | | | tok: B

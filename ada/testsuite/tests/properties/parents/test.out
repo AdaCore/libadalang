@@ -116,21 +116,19 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <BinOp>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <OpMinus>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <BinOp>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <OpMinus>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |  |  |alternatives:
 |  |  |  |  |  |  |  |  |  <ListElsifStmtPart>
 |  |  |  |  |  |  |  |  |else_stmts:
@@ -158,41 +156,35 @@
 |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <ListParamAssoc>
-|  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  <AttributeRef>
-|  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
-|  |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ListParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
+|  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  <AttributeRef>
+|  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Image')
+|  |  |  |  |  |  |  |  |  |args:
+|  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Fact')
+|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
 |  |  |  |exceptions:
 |  |  |  |  <ListExceptionHandler>
 |  |  |end_id:

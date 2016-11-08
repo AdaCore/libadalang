@@ -16,13 +16,11 @@ GenericPackageInstantiation[1:1-1:69]
 | | | | Id[1:43-1:50]
 | | | | | tok: Vectors
 | params:
-| | ParamList[1:52-1:68]
-| | | params:
-| | | | ParamAssoc[1:52-1:59]
-| | | | | expr:
-| | | | | | Id[1:52-1:59]
-| | | | | | | tok: Natural
-| | | | ParamAssoc[1:61-1:68]
-| | | | | expr:
-| | | | | | Id[1:61-1:68]
-| | | | | | | tok: Integer
+| | ParamAssoc[1:52-1:59]
+| | | expr:
+| | | | Id[1:52-1:59]
+| | | | | tok: Natural
+| | ParamAssoc[1:61-1:68]
+| | | expr:
+| | | | Id[1:61-1:68]
+| | | | | tok: Integer

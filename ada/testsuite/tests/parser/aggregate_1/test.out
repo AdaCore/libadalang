@@ -1,38 +1,36 @@
 Aggregate[1:2-1:41]
 | assocs:
-| | ParamList[1:2-1:41]
-| | | params:
-| | | | ParamAssoc[1:2-1:9]
-| | | | | designator:
-| | | | | | AggregateMember[1:2-1:3]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:2-1:3]
-| | | | | | | | | tok: A
-| | | | | expr:
-| | | | | | Int[1:7-1:9]
-| | | | | | | tok: 12
-| | | | ParamAssoc[1:11-1:18]
-| | | | | designator:
-| | | | | | AggregateMember[1:11-1:12]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:11-1:12]
-| | | | | | | | | tok: B
-| | | | | expr:
-| | | | | | Int[1:16-1:18]
-| | | | | | | tok: 15
-| | | | ParamAssoc[1:20-1:27]
-| | | | | designator:
-| | | | | | AggregateMember[1:20-1:21]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:20-1:21]
-| | | | | | | | | tok: C
-| | | | | expr:
-| | | | | | Int[1:25-1:27]
-| | | | | | | tok: 89
-| | | | ParamAssoc[1:29-1:41]
-| | | | | designator:
-| | | | | | AggregateMember[1:29-1:35]
-| | | | | | | choice_list:
-| | | | | | | | OthersDesignator[1:29-1:35]
-| | | | | expr:
-| | | | | | BoxExpr[1:39-1:41]
+| | ParamAssoc[1:2-1:9]
+| | | designator:
+| | | | AggregateMember[1:2-1:3]
+| | | | | choice_list:
+| | | | | | Id[1:2-1:3]
+| | | | | | | tok: A
+| | | expr:
+| | | | Int[1:7-1:9]
+| | | | | tok: 12
+| | ParamAssoc[1:11-1:18]
+| | | designator:
+| | | | AggregateMember[1:11-1:12]
+| | | | | choice_list:
+| | | | | | Id[1:11-1:12]
+| | | | | | | tok: B
+| | | expr:
+| | | | Int[1:16-1:18]
+| | | | | tok: 15
+| | ParamAssoc[1:20-1:27]
+| | | designator:
+| | | | AggregateMember[1:20-1:21]
+| | | | | choice_list:
+| | | | | | Id[1:20-1:21]
+| | | | | | | tok: C
+| | | expr:
+| | | | Int[1:25-1:27]
+| | | | | tok: 89
+| | ParamAssoc[1:29-1:41]
+| | | designator:
+| | | | AggregateMember[1:29-1:35]
+| | | | | choice_list:
+| | | | | | OthersDesignator[1:29-1:35]
+| | | expr:
+| | | | BoxExpr[1:39-1:41]

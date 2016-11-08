@@ -63,15 +63,12 @@ get_string_literal(ada_analysis_unit unit) {
     if (!ada_call_expr_f_suffix(node, &node)
         || ada_node_kind(node) != ada_param_list)
         error("Got unexpected node for ada_call_expr_f_suffix [9]");
-    if (!ada_param_list_f_params(node, &node)
-        || ada_node_kind(node) != ada_list_param_assoc)
-        error("Got unexpected node for ada_param_list_f_params [10]");
     if (!ada_node_child(node, 0, &node)
         || ada_node_kind(node) != ada_param_assoc)
-        error("Got unexpected node for ada_node_child [11]");
+        error("Got unexpected node for ada_node_child [10]");
     if (!ada_param_assoc_f_expr(node, &node)
         || ada_node_kind(node) != ada_string_literal)
-        error("Got unexpected node for ada_param_assoc_f_expr [12]");
+        error("Got unexpected node for ada_param_assoc_f_expr [11]");
 
     if (!ada_single_tok_node_f_tok(node, &tok))
         error("Could not get token for the string literal");

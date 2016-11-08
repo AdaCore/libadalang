@@ -61,14 +61,12 @@
 |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  <ParamList>
-|  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  <ListParamAssoc>
-|  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  <ParamAssoc>
-|  |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  <StringLiteral>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
+|  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  |  |designator: None
+|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  <StringLiteral>
+|  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:
 |  |  |  |  <ListExceptionHandler>
 |  |  |end_id:

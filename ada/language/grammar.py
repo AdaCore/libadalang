@@ -898,8 +898,7 @@ A.add_rules(
         Opt(A.aggregate_field, "=>")[0],
         Or(A.box_expr, A.expr)
     ) ^ ParamAssoc,
-
-    aggregate_content=List(A.aggregate_assoc, sep=",") ^ ParamList,
+    aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=ParamList),
     aggregate_content_null=Row(
         "null", "record", Null(ParamList)
     )[2],
@@ -921,9 +920,14 @@ A.add_rules(
     ) ^ ParamAssoc,
 
     call_suffix=Or(
-        A.discrete_subtype_indication,            # Slice via discrete subtype
-        A.discrete_range,                         # Regular slice
-        List(A.param_assoc, sep=",") ^ ParamList  # Regular parameter list
+        # Slice via discrete subtype
+        A.discrete_subtype_indication,
+
+        # Regular slice
+        A.discrete_range,
+
+        # Regular parameter list
+        List(A.param_assoc, sep=",", list_cls=ParamList)
     ),
 
     # TODO: Those two rules exist only to be able to specifically parse

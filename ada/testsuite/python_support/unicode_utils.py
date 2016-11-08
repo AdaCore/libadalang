@@ -27,5 +27,5 @@ def get_string_literal(unit):
     node = unit.root
     subp = node.f_body.f_item
     call = subp.f_stmts.f_stmts[0]
-    str_lit = call.f_call.f_suffix.f_params[0].f_expr
+    str_lit = call.f_call.f_suffix[0].f_expr
     return str_lit.f_tok.text

@@ -1623,7 +1623,7 @@ class Aggregate(Expr):
             ),
 
             # Second case, aggregate for an array
-            Self.assocs.params.map(
+            Self.assocs.map(
                 lambda assoc:
                 assoc.expr.sub_equation(origin_env)
                 & (assoc.expr.type_var == atd.component_type)
@@ -1679,7 +1679,7 @@ class CallExpr(Expr):
         conversion cases.
         """
         return And(
-            Self.params.params.at(0).expr.sub_equation(origin_env),
+            Self.params.at(0).expr.sub_equation(origin_env),
             Self.name.sub_equation(origin_env),
             Self.type_var == Self.name.type_var,
             Self.ref_var == Self.name.ref_var
@@ -1700,7 +1700,7 @@ class CallExpr(Expr):
             # context necessarily has a ParamList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            & LogicAnd(Self.params.params.map(
+            & LogicAnd(Self.params.map(
                 lambda pa: pa.expr.sub_equation(origin_env)
             ))
 
@@ -1778,7 +1778,7 @@ class CallExpr(Expr):
         ))
 
         return Let(lambda indices=atd.indices: LogicAnd(
-            Self.params.params.map(lambda i, pa: (
+            Self.params.map(lambda i, pa: (
                 pa.expr.sub_equation(origin_env)
                 & indices.constrain_index_expr(pa.expr, i)
             ))
@@ -1797,7 +1797,7 @@ class CallExpr(Expr):
             lambda te=TypeExpr: te.array_ndims,
             lambda td=AbstractTypeDecl: td.array_ndims,
             lambda _: -1
-        ) == Self.suffix.cast_or_raise(ParamList).params.length
+        ) == Self.suffix.cast_or_raise(ParamList).length
 
     @langkit_property(return_type=AdaNode)
     def type_component(type_designator=AdaNode):
@@ -1891,8 +1891,7 @@ class ParamAssoc(AdaNode):
     expr = Field(type=T.Expr)
 
 
-class ParamList(AdaNode):
-    params = Field(type=T.ParamAssoc.list_type())
+class ParamList(ParamAssoc.list_type()):
 
     @langkit_property()
     def unpacked_params():
@@ -1901,7 +1900,7 @@ class ParamList(AdaNode):
         several actual parameters at once, create an unpacked list of
         SingleActual instances.
         """
-        return Self.params.mapcat(
+        return Self.mapcat(
             lambda pa: pa.designator.then(lambda des: des.match(
                 lambda i=Identifier:
                     New(SingleActual, name=i, assoc=pa).singleton,
@@ -2152,7 +2151,7 @@ class BaseId(SingleTokNode):
                         matching_subp(params, subp, e),
 
                     # Type conversion case
-                    lambda t=AbstractTypeDecl: params.params.length == 1,
+                    lambda t=AbstractTypeDecl: params.length == 1,
 
                     # In the case of ObjectDecls/BasicDecls in general, verify
                     # that the callexpr is valid for the given type designator.
@@ -2304,7 +2303,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
                            Self.nb_min_params)
 
         return And(
-            params.params.length <= nb_max_params,
+            params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
                 lambda m: m.formal.spec.is_mandatory

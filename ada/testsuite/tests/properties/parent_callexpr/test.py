@@ -20,7 +20,7 @@ simple_call, prefix_call, complex_prefix_call, nested_call = calls
 
 for i, (call, name) in enumerate((
     (simple_call, simple_call.f_call.f_name),
-    (simple_call, simple_call.f_call.f_suffix.f_params[0].f_expr),
+    (simple_call, simple_call.f_call.f_suffix[0].f_expr),
 
     (prefix_call, prefix_call.f_call.f_name.f_prefix),
     (prefix_call, prefix_call.f_call.f_name.f_suffix),
@@ -30,7 +30,7 @@ for i, (call, name) in enumerate((
     (complex_prefix_call, complex_prefix_call.f_call.f_name.f_suffix),
 
     (nested_call, nested_call.f_call.f_name.f_name),
-    (nested_call, nested_call.f_call.f_name.f_suffix.f_params[0].f_expr),
+    (nested_call, nested_call.f_call.f_name.f_suffix[0].f_expr),
 )):
     if i > 0:
         print('')

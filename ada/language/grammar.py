@@ -22,12 +22,12 @@ def package_decl_factory():
     return Row(
         "package", A.static_name, A.aspect_spec, "is",
         A.basic_decls ^ PublicPart,
-        Opt("private", A.basic_decls ^ PrivatePart)[1],
+        Opt("private", PrivatePart(A.basic_decls))[1],
         "end", Opt(A.static_name)
     )
 
 
-def subprogram_decl(variant_part, dest_class):
+def subprogram_decl(dest_class, *variant_part):
     """
     Factory for subprogram declarations grammar rules.
 
@@ -36,12 +36,12 @@ def subprogram_decl(variant_part, dest_class):
     :param dest_class: The destination AdaNode subclass to use for the result.
     :rtype: Transform
     """
-    return Row(
+    variant_part += (A.aspect_spec,)
+    return dest_class(
         A.overriding_indicator,
         A.subprogram_spec,
-        variant_part,
-        A.aspect_spec,
-    ) ^ dest_class
+        *variant_part
+    )
 
 
 def generic_instantiation(keyword, dest_class):
@@ -53,71 +53,67 @@ def generic_instantiation(keyword, dest_class):
     :param dest_class: The destination AdaNode subclass to use for the result.
     :rtype: Transform
     """
-    return Row(
+    return dest_class(
         keyword, A.static_name, "is",
         "new", A.static_name,
         Opt("(", A.call_suffix, ")")[1],
         A.aspect_spec
-    ) ^ dest_class
+    )
 
 A.add_rules(
-    protected_type_decl=Row(
+    protected_type_decl=ProtectedTypeDecl(
         "protected", "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", List(A.static_name, sep="and"), "with")[1],
         A.protected_def
-    ) ^ ProtectedTypeDecl,
+    ),
 
     protected_op=Or(A.subprogram_decl, A.entry_decl, A.aspect_clause,
                     A.pragma),
     protected_el=Or(A.protected_op, A.component_decl),
 
-    protected_def=Row(
-        List(Row(A.protected_op, ";")[0], empty_valid=True) ^ PublicPart,
-        Opt(
-            "private",
-            List(Row(A.protected_el, ";")[0], empty_valid=True) ^ PrivatePart
-        )[1],
+    protected_def=ProtectedDef(
+        PublicPart(List(Row(A.protected_op, ";")[0], empty_valid=True)),
+        Opt("private",
+            PrivatePart(List(Row(A.protected_el, ";")[0],
+                             empty_valid=True)))[1],
         "end",
         Opt(A.identifier)
-    ) ^ ProtectedDef,
+    ),
 
     task_item=Or(A.entry_decl, A.aspect_clause, A.pragma),
 
-    task_def=Row(
+    task_def=TaskDef(
         "is",
         Opt("new", List(A.static_name, sep="and"), "with")[1],
-        List(Row(A.task_item, ";")[0], empty_valid=True) ^ PublicPart,
-        Opt(
-            "private",
-            List(Row(A.task_item, ";")[0], empty_valid=True) ^ PrivatePart
-        )[1],
+        PublicPart(List(Row(A.task_item, ";")[0], empty_valid=True)),
+        Opt("private",
+            PrivatePart(List(Row(A.task_item, ";")[0], empty_valid=True)))[1],
         "end",
         Opt(A.identifier)
-    ) ^ TaskDef,
+    ),
 
-    task_type_decl=Row(
+    task_type_decl=TaskTypeDecl(
         "task", "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         Opt(A.task_def)
-    ) ^ TaskTypeDecl,
+    ),
 
-    subtype_decl=Row(
+    subtype_decl=SubtypeDecl(
         "subtype", A.identifier, "is", A.subtype_indication,
         A.aspect_spec
-    ) ^ SubtypeDecl,
+    ),
 
-    interface_type_def=Row(
-        Opt(Or(
-            Row("limited") ^ InterfaceKind.alt_limited,
-            Row("task") ^ InterfaceKind.alt_task,
-            Row("protected") ^ InterfaceKind.alt_protected,
-            Row("synchronized") ^ InterfaceKind.alt_synchronized)),
+    interface_type_def=InterfaceTypeDef(
+        Opt(Or(InterfaceKind.alt_limited("limited"),
+               InterfaceKind.alt_task("task"),
+               InterfaceKind.alt_protected("protected"),
+               InterfaceKind.alt_synchronized("synchronized"))),
         "interface",
         List(Row("and", A.static_name)[1], empty_valid=True)
-    ) ^ InterfaceTypeDef,
+    ),
 
-    array_type_def=Row(
+    array_type_def=ArrayTypeDef(
         "array",
         "(",
         Or(
@@ -128,14 +124,14 @@ A.add_rules(
             ^ ConstrainedArrayIndices
         ),
         ")", "of", A.component_def
-    ) ^ ArrayTypeDef,
+    ),
 
     discrete_subtype_definition=A.discrete_range | A.subtype_indication,
 
-    signed_int_type_def=Row(A.range_spec) ^ SignedIntTypeDef,
-    mod_int_type_def=Row("mod", A.sexpr_or_box) ^ ModIntTypeDef,
+    signed_int_type_def=SignedIntTypeDef(A.range_spec),
+    mod_int_type_def=ModIntTypeDef("mod", A.sexpr_or_box),
 
-    derived_type_def=Row(
+    derived_type_def=DerivedTypeDef(
         Opt("abstract").as_bool(Abstract),
         Opt("limited").as_bool(Limited),
         Opt("synchronized").as_bool(Synchronized),
@@ -144,45 +140,45 @@ A.add_rules(
         List(Row("and", A.static_name)[1], empty_valid=True),
         Opt("with", A.record_def)[1],
         Opt("with", "private").as_bool(WithPrivate)
-    ) ^ DerivedTypeDef,
+    ),
 
-    discriminant_assoc=Row(
+    discriminant_assoc=DiscriminantAssoc(
         Opt(List(A.identifier, sep="|"), "=>")[0],
         A.expr
-    ) ^ DiscriminantAssoc,
+    ),
 
-    discriminant_constraint=Row(
+    discriminant_constraint=DiscriminantConstraint(
         "(", List(A.discriminant_assoc, sep=","), ")"
-    ) ^ DiscriminantConstraint,
+    ),
 
-    index_constraint=Row(
+    index_constraint=IndexConstraint(
         "(", List(A.discrete_subtype_definition, sep=","), ")"
-    ) ^ IndexConstraint,
+    ),
 
-    digits_constraint=Row(
+    digits_constraint=DigitsConstraint(
         "digits", A.simple_expr, Opt(A.range_spec)
-    ) ^ DigitsConstraint,
+    ),
 
-    delta_constraint=Row(
+    delta_constraint=DeltaConstraint(
         "delta", A.simple_expr, Opt(A.range_spec)
-    ) ^ DeltaConstraint,
+    ),
 
-    range_constraint=Row(A.range_spec) ^ RangeConstraint,
+    range_constraint=RangeConstraint(A.range_spec),
 
     constraint=Or(A.digits_constraint, A.delta_constraint,
                   A.range_constraint, A.index_constraint,
                   A.discriminant_constraint),
 
-    discriminant_spec=Row(
+    discriminant_spec=DiscriminantSpec(
         List(A.identifier, sep=","), ":", A.type_expr,
         A.default_expr
-    ) ^ DiscriminantSpec,
+    ),
 
     discr_spec_list=List(A.discriminant_spec, sep=";"),
 
     discriminant_part=Or(
-        Row("(", A.discr_spec_list, ")") ^ KnownDiscriminantPart,
-        Row("(", "<>", ")") ^ UnknownDiscriminantPart,
+        KnownDiscriminantPart("(", A.discr_spec_list, ")"),
+        UnknownDiscriminantPart("(", "<>", ")"),
     ),
 
     enum_literal_decl=(A.identifier | A.char_literal) ^ EnumLiteralDecl,
@@ -192,8 +188,8 @@ A.add_rules(
     ) ^ FormalDiscreteTypeDef,
 
     record_def=Or(
-        Row("record", A.component_list, "end", "record") ^ RecordDef,
-        Row("null", "record", Null(ComponentList)) ^ NullRecordDef
+        RecordDef("record", A.component_list, "end", "record"),
+        NullRecordDef("null", "record", Null(ComponentList)),
     ),
 
     range_spec=Row("range", A.discrete_range | A.name | A.box_expr)[1],
@@ -203,41 +199,41 @@ A.add_rules(
 
     sexpr_or_box=A.simple_expr | A.box_expr,
 
-    ordinary_fixed_point_def=Row(
+    ordinary_fixed_point_def=OrdinaryFixedPointDef(
         "delta", A.sexpr_or_box, Opt(A.range_spec),
-    ) ^ OrdinaryFixedPointDef,
+    ),
 
-    decimal_fixed_point_def=Row(
+    decimal_fixed_point_def=DecimalFixedPointDef(
         "delta", A.sexpr_or_box, "digits",
         A.sexpr_or_box, Opt(A.range_spec)
-    ) ^ DecimalFixedPointDef,
+    ),
 
-    floating_point_def=Row(
+    floating_point_def=FloatingPointDef(
         "digits", A.sexpr_or_box, Opt(A.range_spec)
-    ) ^ FloatingPointDef,
+    ),
 
-    record_type_def=Row(
+    record_type_def=RecordTypeDef(
         Opt("abstract").as_bool(Abstract),
         Opt("tagged").as_bool(Tagged),
         Opt("limited").as_bool(Limited),
         A.record_def
-    ) ^ RecordTypeDef,
+    ),
 
     access_def=Or(
-        Row(
+        AccessToSubprogramDef(
             Opt("not", "null").as_bool(NotNull),
             "access",
             Opt("protected").as_bool(Protected),
             A.subprogram_spec
-        ) ^ AccessToSubprogramDef,
-        Row(
+        ),
+        TypeAccessDef(
             Opt("not", "null").as_bool(NotNull),
             "access",
             Opt("all").as_bool(All),
             Opt("constant").as_bool(Constant),
             A.subtype_name,
             Opt(A.constraint),
-        ) ^ TypeAccessDef
+        )
     ),
 
     type_def=Or(A.record_type_def, A.real_type_def,
@@ -245,54 +241,56 @@ A.add_rules(
                 A.mod_int_type_def, A.array_type_def, A.interface_type_def,
                 A.access_def, A.formal_discrete_type_def),
 
-    variant=Row(
+    variant=Variant(
         "when", A.choice_list, "=>", A.component_list
-    ) ^ Variant,
+    ),
 
-    anonymous_type_decl=Row(
+    anonymous_type_decl=AnonymousTypeDecl(
         Null(A.identifier), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
         A.aspect_spec
-    ) ^ AnonymousTypeDecl,
+    ),
 
     type_decl=Or(
-        Row(
+        EnumTypeDecl(
             "type", A.identifier, "is",
             "(", List(A.enum_literal_decl, sep=","), ")",
             A.aspect_spec
-        ) ^ EnumTypeDecl,
-        Row(
+        ),
+        TypeDecl(
             "type", A.identifier, Opt(A.discriminant_part),
             Or(
                 Row("is", A.type_def)[1],
 
-                Row("is",
+                PrivateTypeDef(
+                    "is",
                     Opt("abstract").as_bool(Abstract),
                     Opt("tagged").as_bool(Tagged),
                     Opt("limited").as_bool(Limited),
-                    "private") ^ PrivateTypeDef,
+                    "private"
+                ),
 
-                Row(
+                IncompleteTypeDef(
                     Opt("is", "tagged").as_bool(Tagged)
-                ) ^ IncompleteTypeDef,
+                ),
             ),
             A.aspect_spec
-        ) ^ TypeDecl
+        )
     ),
 
-    variant_part=Row(
+    variant_part=VariantPart(
         "case", A.identifier, "is",
         List(A.variant),
         "end", "case", ";"
-    ) ^ VariantPart,
+    ),
 
-    component_def=Row(
+    component_def=ComponentDef(
         Opt("aliased").as_bool(Aliased),
         A.type_expr
-    ) ^ ComponentDef,
+    ),
 
     component_item=Or(
-        Row("null") ^ NullComponentDecl,
+        NullComponentDecl("null"),
         A.component_decl,
         A.aspect_clause,
         A.pragma
@@ -300,20 +298,21 @@ A.add_rules(
 
     default_expr=Opt(":=", A.expr)[1],
 
-    component_decl=Row(
+    component_decl=ComponentDecl(
         List(A.identifier, sep=","), ":", A.component_def,
         A.default_expr, A.aspect_spec
-    ) ^ ComponentDecl,
+    ),
 
-    component_list=Row(
+    component_list=ComponentList(
         List(Row(A.component_item, ";")[0], empty_valid=True),
         Opt(A.variant_part)
-    ) ^ ComponentList,
+    ),
 
     generic_decl=Or(
-        Row(A.generic_formal_part, A.subprogram_spec,
-            A.aspect_spec) ^ GenericSubprogramDecl,
-        Row(A.generic_formal_part, A.base_package_decl) ^ GenericPackageDecl
+        GenericSubprogramDecl(
+            A.generic_formal_part, A.subprogram_spec, A.aspect_spec
+        ),
+        GenericPackageDecl(A.generic_formal_part, A.base_package_decl)
     ),
 
     generic_formal_part=Row(
@@ -329,21 +328,21 @@ A.add_rules(
         Row("with", A.generic_instantiation)[1]
     ),
 
-    formal_subp_decl=Row(
+    formal_subp_decl=FormalSubpDecl(
         "with",
         A.subprogram_spec,
         _(Opt("is")),
         Opt("abstract").as_bool(Abstract),
         Opt(Or(A.box_expr, A.name, A.null_literal)),
         A.aspect_spec
-    ) ^ FormalSubpDecl,
+    ),
 
-    renaming_clause=Row("renames", A.name) ^ RenamingClause,
+    renaming_clause=RenamingClause("renames", A.name),
 
-    generic_renaming_decl=Row(
+    generic_renaming_decl=GenericRenamingDecl(
         "generic", _(Or("package", "function", "procedure")), A.static_name,
         "renames", A.static_name, A.aspect_spec
-    ) ^ GenericRenamingDecl,
+    ),
 
     generic_instantiation=Or(
         generic_instantiation("package", GenericPackageInstantiation),
@@ -351,16 +350,16 @@ A.add_rules(
         generic_instantiation("function", GenericFunctionInstantiation),
     ),
 
-    exception_decl=Row(
+    exception_decl=ExceptionDecl(
         A.id_list, ":", "exception",
         Opt(A.renaming_clause), A.aspect_spec
-    ) ^ ExceptionDecl,
+    ),
 
     basic_decls=List(Row(A.basic_decl, ";")[0], empty_valid=True),
 
-    package_renaming_decl=Row(
+    package_renaming_decl=PackageRenamingDecl(
         "package", A.static_name, A.renaming_clause, A.aspect_spec
-    ) ^ PackageRenamingDecl,
+    ),
 
     package_decl=package_decl_factory() ^ PackageDecl,
     base_package_decl=package_decl_factory() ^ BasePackageDecl,
@@ -392,7 +391,7 @@ A.add_rules(
         A.number_decl
     ),
 
-    sub_object_decl=Row(
+    sub_object_decl=ObjectDecl(
         A.id_list,  ":",
         Opt("aliased").as_bool(Aliased),
         Opt("constant").as_bool(Constant),
@@ -401,41 +400,40 @@ A.add_rules(
         A.default_expr,
         Opt(A.renaming_clause),
         A.aspect_spec
-    ) ^ ObjectDecl,
+    ),
 
     id_list=List(A.identifier, sep=","),
 
-    number_decl=Row(
+    number_decl=NumberDecl(
         A.id_list, ":", "constant", ":=",
         A.simple_expr
-    ) ^ NumberDecl,
-
-    aspect_assoc=Row(
-        A.name, Opt("=>", A.expr)[1]
-    ) ^ AspectAssoc,
-
-    aspect_spec=Opt(
-        Row(
-            "with",
-            List(A.aspect_assoc, sep=",")
-        ) ^ AspectSpec
     ),
 
-    protected_decl=Row(
+    aspect_assoc=AspectAssoc(
+        A.name, Opt("=>", A.expr)[1]
+    ),
+
+    aspect_spec=Opt(AspectSpec(
+        "with",
+        List(A.aspect_assoc, sep=",")
+    )),
+
+    protected_decl=SingleProtectedDecl(
         "protected", A.identifier, A.aspect_spec,
         "is", A.protected_def
-    ) ^ SingleProtectedDecl,
-
-    single_task_decl=Row("task", A.identifier, A.aspect_spec,
-                         Opt(A.task_def)) ^ SingleTaskDecl,
-
-    overriding_indicator=Or(
-        Row("overriding") ^ Overriding.alt_overriding,
-        Row("not", "overriding") ^ Overriding.alt_not_overriding,
-        Row() ^ Overriding.alt_unspecified
     ),
 
-    entry_decl=Row(
+    single_task_decl=SingleTaskDecl(
+        "task", A.identifier, A.aspect_spec, Opt(A.task_def)
+    ),
+
+    overriding_indicator=Or(
+        Overriding.alt_overriding("overriding"),
+        Overriding.alt_not_overriding("not", "overriding"),
+        Overriding.alt_unspecified()
+    ),
+
+    entry_decl=EntryDecl(
         A.overriding_indicator,
         "entry",
         A.identifier,
@@ -444,85 +442,81 @@ A.add_rules(
             | A.subtype_indication, ")")[1],
         Opt(A.param_specs),
         A.aspect_spec
-    ) ^ EntryDecl,
-
-
-    component_clause=Row(
-        A.identifier, "at", A.simple_expr, A.range_spec
-    ) ^ ComponentClause,
-
-    aspect_clause=Or(
-        Row("for", A.name, "use", A.expr) ^ AttributeDefClause,
-
-        Row("for", A.static_name, "use", A.aggregate) ^ EnumRepClause,
-
-        Row("for", A.static_name, "use", "record",
-            Opt("at", "mod", A.simple_expr)[2],
-            List(Row(A.component_clause, ";")[0], empty_valid=True),
-            "end", "record") ^ RecordRepClause,
-
-        Row("for", A.direct_name, "use", "at", A.expr) ^ AtClause
     ),
 
-    param_spec=Row(
+
+    component_clause=ComponentClause(
+        A.identifier, "at", A.simple_expr, A.range_spec
+    ),
+
+    aspect_clause=Or(
+        AttributeDefClause("for", A.name, "use", A.expr),
+        EnumRepClause("for", A.static_name, "use", A.aggregate),
+        RecordRepClause(
+            "for", A.static_name, "use", "record",
+            Opt("at", "mod", A.simple_expr)[2],
+            List(Row(A.component_clause, ";")[0], empty_valid=True),
+            "end", "record"
+        ),
+        AtClause("for", A.direct_name, "use", "at", A.expr)
+    ),
+
+    param_spec=ParamSpec(
         List(A.identifier, sep=","),
         ":",
         Opt("aliased").as_bool(Aliased),
         Opt(A.mode),
         A.type_expr,
         Opt(":=", A.expr)[1],
-    ) ^ ParamSpec,
+    ),
 
     param_specs=Row("(", List(A.param_spec, sep=";"), ")")[1],
 
-    subprogram_spec=Row(
+    subprogram_spec=SubprogramSpec(
         _(Or("procedure", "function")),
         Opt(A.static_name),
         Opt(
-            Row(
-                "(",
+            Row("(",
                 List(A.param_spec, sep=";"),
-                Opt(")").error()
-            )[1]
+                Opt(")").error())[1]
         ),
         Opt("return", A.type_expr)[1]
-    ) ^ SubprogramSpec,
-
-    subprogram_decl=Or(
-        subprogram_decl(_(Row("is", "null")), NullSubprogramDecl),
-        subprogram_decl(_(Row("is", "abstract")), AbstractSubprogramDecl),
-        subprogram_decl(
-            Row("is", Or(Row("(", A.expr, ")")[1], A.aggregate))[1],
-            ExprFunction
-        ),
-        subprogram_decl(A.renaming_clause, SubprogramRenamingDecl),
-        subprogram_decl(None, SubprogramDecl)
     ),
 
-    with_clause=Row(
+    subprogram_decl=Or(
+        subprogram_decl(NullSubprogramDecl, "is", "null"),
+        subprogram_decl(AbstractSubprogramDecl, "is", "abstract"),
+        subprogram_decl(
+            ExprFunction,
+            "is", Or(Row("(", A.expr, ")")[1], A.aggregate),
+        ),
+        subprogram_decl(SubprogramRenamingDecl, A.renaming_clause),
+        subprogram_decl(SubprogramDecl)
+    ),
+
+    with_clause=WithClause(
         Opt("limited").as_bool(Limited),
         Opt("private").as_bool(Private),
         "with", List(A.static_name, sep=",")
-    ) ^ WithClause,
+    ),
 
     context_item=Or(A.with_clause, A.use_clause, A.pragma),
 
     use_clause=Or(A.use_package_clause, A.use_type_clause),
 
-    use_package_clause=Row("use",
-                           List(A.static_name, sep=",")) ^ UsePackageClause,
+    use_package_clause=UsePackageClause("use", List(A.static_name, sep=",")),
 
-    use_type_clause=Row(
+    use_type_clause=UseTypeClause(
         "use",
         Opt("all").as_bool(All),
         "type",
         List(A.name, sep=",")
-    ) ^ UseTypeClause,
+    ),
 
-    subtype_indication=Row(
+    subtype_indication=SubtypeIndication(
         Opt("not", "null").as_bool(NotNull),
         A.subtype_name, Opt(A.constraint)
-    ) ^ SubtypeIndication,
+    ),
 
     # Rule used to disambiguate in some situations where a
     # discrete_subtype_indication is supposed to be accepted, but using the
@@ -541,15 +535,15 @@ A.add_rules(
     # will parse expressions as subtype indications sometimes, and even
     # cause parsing errors.
 
-    discrete_subtype_indication=Row(
+    discrete_subtype_indication=SubtypeIndication(
         Opt("not", "null").as_bool(NotNull),
         A.subtype_name, A.range_constraint
-    ) ^ SubtypeIndication,
+    ),
 
-    constrained_subtype_indication=Row(
+    constrained_subtype_indication=SubtypeIndication(
         Opt("not", "null").as_bool(NotNull),
         A.subtype_name, A.constraint
-    ) ^ SubtypeIndication,
+    ),
 
     type_expr=Or(
         # NOTE: Anonymous arrays are accepted where type expressions are
@@ -558,30 +552,30 @@ A.add_rules(
         A.anonymous_type, A.subtype_indication,
     ),
 
-    anonymous_type=Row(A.anonymous_type_decl) ^ AnonymousType,
+    anonymous_type=AnonymousType(A.anonymous_type_decl),
 
     mode=Or(
-        Row("in", "out") ^ Mode.alt_in_out,
-        Row("in") ^ Mode.alt_in,
-        Row("out") ^ Mode.alt_out,
-        Row() ^ Mode.alt_default
+        Mode.alt_in_out("in", "out"),
+        Mode.alt_in("in"),
+        Mode.alt_out("out"),
+        Mode.alt_default()
     ),
 
     ###########
     # Pragmas #
     ###########
 
-    pragma_argument=Row(
+    pragma_argument=PragmaArgumentAssoc(
         Opt(A.identifier, "=>")[0], A.expr
-    ) ^ PragmaArgumentAssoc,
+    ),
 
-    pragma=Row("pragma", A.identifier,
-               Opt("(", List(A.pragma_argument, ","), ")")[1]) ^ Pragma,
+    pragma=Pragma("pragma", A.identifier,
+                  Opt("(", List(A.pragma_argument, ","), ")")[1]),
 
-    subunit=Row(
+    subunit=Subunit(
         "separate", "(", A.static_name, ")",
         Or(A.subprogram_body, A.package_body, A.task_body, A.protected_body)
-    ) ^ Subunit,
+    ),
 
     library_unit_body=Or(
         A.subprogram_body, A.package_body
@@ -599,21 +593,21 @@ A.add_rules(
         A.generic_renaming_decl,
     ),
 
-    library_item=Row(
+    library_item=LibraryItem(
         Opt("private").as_bool(Private),
         A.library_unit_body
         | A.library_unit_renaming_decl
         | A.library_unit_decl
-    ) ^ LibraryItem,
+    ),
 
-    compilation_unit=Row(
+    compilation_unit=CompilationUnit(
         List(Row(A.context_item, ";")[0], empty_valid=True),
 
-        Row(A.subunit | A.library_item, ";")[0],
+        A.subunit | A.library_item, ";",
 
         # Eventual pragmas attached to the body
         List(Row(A.pragma, ";")[0], empty_valid=True)
-    ) ^ CompilationUnit,
+    ),
 
     # This is the main rule. The root node will then be either:
     # * A CompilationUnit node.
@@ -632,102 +626,99 @@ A.add_rules(
             Tok(LexerToken.Termination))[0],
     ),
 
-    entry_body=Row(
+    entry_body=EntryBody(
         "entry", A.identifier,
-        Opt(Row("(", "for", A.identifier, "in",
-                A.discrete_subtype_definition, ")") ^ EntryIndexSpec),
+        Opt(EntryIndexSpec("(", "for", A.identifier, "in",
+                           A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
         "when", A.expr,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
-    ) ^ EntryBody,
+    ),
 
-    protected_body=Row(
+    protected_body=ProtectedBody(
         "protected", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         "end", _(Opt(A.static_name))
-    ) ^ ProtectedBody,
+    ),
 
-    protected_body_stub=Row(
+    protected_body_stub=ProtectedBodyStub(
         "protected", "body", A.static_name, "is", "separate",
         A.aspect_spec
-    ) ^ ProtectedBodyStub,
+    ),
 
-    task_body=Row(
+    task_body=TaskBody(
         "task", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
-    ) ^ TaskBody,
+    ),
 
-    task_body_stub=Row(
+    task_body_stub=TaskBodyStub(
         "task", "body", A.static_name,
         "is", "separate", A.aspect_spec
-    ) ^ TaskBodyStub,
+    ),
 
-    package_body_stub=Row(
+    package_body_stub=PackageBodyStub(
         "package", "body", A.static_name,
         "is", "separate", A.aspect_spec
-    ) ^ PackageBodyStub,
+    ),
 
 
-    package_body=Row(
+    package_body=PackageBody(
         "package", "body", A.static_name, A.aspect_spec,
         "is", A.basic_decls ^ DeclarativePart,
         Opt("begin", A.handled_stmts)[1],
         "end", _(Opt(A.static_name))
-    ) ^ PackageBody,
+    ),
 
-    terminate_alternative=Row("terminate") ^ TerminateAlternative,
+    terminate_alternative=TerminateAlternative("terminate"),
 
-    select_stmt=Row(
+    select_stmt=SelectStmt(
         "select",
-        List(
-            Row(Opt("when", A.expr, "=>")[1],
-                A.stmts) ^ SelectWhenPart,
-            sep="or"),
+        List(SelectWhenPart(Opt("when", A.expr, "=>")[1], A.stmts), sep="or"),
         Opt("else", A.stmts)[1],
         Opt("then", "abort", A.stmts)[2],
         "end", "select"
-    ) ^ SelectStmt,
+    ),
 
-    accept_stmt=Row(
+    accept_stmt=AcceptStmt(
         "accept", A.identifier, Opt("(", A.expr, ")")[1],
         Opt(A.param_specs),
         Opt("do", A.handled_stmts, "end", Opt(A.identifier))[1]
-    ) ^ AcceptStmt,
+    ),
 
-    case_alt=Row(
+    case_alt=CaseStmtAlternative(
         "when", A.choice_list, "=>", A.stmts
-    ) ^ CaseStmtAlternative,
+    ),
 
-    case_stmt=Row(
+    case_stmt=CaseStmt(
         "case", A.expr, "is", List(A.case_alt), "end", "case"
-    ) ^ CaseStmt,
+    ),
 
-    ext_return_stmt=Row(
+    ext_return_stmt=ExtendedReturnStmt(
         "return", A.sub_object_decl,
         Opt("do", A.handled_stmts, "end", "return")[1]
-    ) ^ ExtendedReturnStmt,
+    ),
 
-    block_stmt=Row(
+    block_stmt=BlockStmt(
         Opt(A.identifier, ":")[0],
         Opt("declare", A.basic_decls)[1],
         "begin", A.handled_stmts, "end", _(Opt(A.identifier))
-    ) ^ BlockStmt,
+    ),
 
-    loop_stmt=Row(
+    loop_stmt=LoopStmt(
         Opt(A.identifier, ":")[0],
         Opt(A.iteration_scheme),
         "loop",
         A.stmts,
         "end", "loop", _(Opt(A.identifier))
-    ) ^ LoopStmt,
+    ),
 
     iteration_scheme=Or(
         Row("for", A.for_loop_param_spec)[1],
-        Row("while", A.expr) ^ WhileLoopSpec
+        WhileLoopSpec("while", A.expr)
     ),
 
     compound_stmt=Or(A.if_stmt, A.block_stmt,
@@ -735,29 +726,23 @@ A.add_rules(
                      A.case_stmt, A.accept_stmt,
                      A.select_stmt),
 
-    if_stmt=Row(
+    if_stmt=IfStmt(
         "if", A.expr, "then", A.stmts,
         List(Row("elsif", A.expr,
                  "then", A.stmts) ^ ElsifStmtPart,
              empty_valid=True),
         Opt("else", A.stmts)[1],
         "end", "if"
-    ) ^ IfStmt,
-
-    raise_stmt=Or(
-        Row("raise", A.name, Opt("with", A.expr)[1]) ^ RaiseStmt,
-        Row("raise", Null(Expr), Null(Expr)) ^ RaiseStmt,
     ),
 
-    delay_stmt=Row(
-        "delay",
-        Opt("until").as_bool(Until),
-        A.expr
-    ) ^ DelayStmt,
+    raise_stmt=Or(
+        RaiseStmt("raise", A.name, Opt("with", A.expr)[1]),
+        RaiseStmt("raise", Null(Expr), Null(Expr)),
+    ),
 
-    abort_stmt=Row(
-        "abort", List(A.name, sep=",")
-    ) ^ AbortStmt,
+    delay_stmt=DelayStmt("delay", Opt("until").as_bool(Until), A.expr),
+
+    abort_stmt=AbortStmt("abort", List(A.name, sep=",")),
 
     body=Or(A.subprogram_body, A.package_body, A.task_body,
             A.protected_body, A.entry_body),
@@ -765,15 +750,15 @@ A.add_rules(
     body_stub=Or(A.subprogram_body_stub, A.package_body_stub,
                  A.task_body_stub, A.protected_body_stub),
 
-    subprogram_body_stub=Row(
+    subprogram_body_stub=SubprogramBodyStub(
         A.overriding_indicator,
         A.subprogram_spec,
         "is",
         "separate",
         A.aspect_spec
-    ) ^ SubprogramBodyStub,
+    ),
 
-    subprogram_body=Row(
+    subprogram_body=SubprogramBody(
         A.overriding_indicator,
         A.subprogram_spec,
         A.aspect_spec,
@@ -783,17 +768,17 @@ A.add_rules(
         A.handled_stmts,
         "end",
         Opt(A.name)
-    ) ^ SubprogramBody,
+    ),
 
-    handled_stmts=Row(
+    handled_stmts=HandledStmts(
         A.stmts, Opt("exception", List(A.exception_handler))[1]
-    ) ^ HandledStmts,
+    ),
 
-    exception_handler=Row(
+    exception_handler=ExceptionHandler(
         "when", Opt(A.identifier, ":")[0],
         List(A.name | A.others_designator, sep="|"), "=>",
         A.stmts
-    ) ^ ExceptionHandler,
+    ),
 
     stmts=List(Or(Row(A.stmt, Opt(";").error())[0],
                   A.label), empty_valid=True),
@@ -802,7 +787,7 @@ A.add_rules(
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
-    call_stmt=Row(A.name) ^ CallStmt,
+    call_stmt=CallStmt(A.name),
 
     simple_stmt=Or(A.null_stmt, A.assignment_stmt,
                    A.goto_stmt, A.exit_stmt,
@@ -812,21 +797,19 @@ A.add_rules(
 
     null_stmt=A.null_literal ^ NullStmt,
 
-    assignment_stmt=Row(A.name, ":=", A.expr) ^ AssignStmt,
+    assignment_stmt=AssignStmt(A.name, ":=", A.expr),
 
-    goto_stmt=Row("goto", A.static_name) ^ GotoStmt,
+    goto_stmt=GotoStmt("goto", A.static_name),
 
-    exit_stmt=Row("exit", Opt(A.identifier),
-                       Opt("when", A.expr)[1]) ^ ExitStmt,
+    exit_stmt=ExitStmt("exit", Opt(A.identifier),
+                       Opt("when", A.expr)[1]),
 
-    return_stmt=(
-        Row("return", Opt(A.expr | A.raise_stmt)) ^ ReturnStmt
-    ),
+    return_stmt=ReturnStmt("return", Opt(A.expr | A.raise_stmt)),
 
-    requeue_stmt=Row(
+    requeue_stmt=RequeueStmt(
         "requeue", A.expr,
         Opt("with", "abort").as_bool(Abort)
-    ) ^ RequeueStmt,
+    ),
 
     identifier=Tok(Token.Identifier, keep=True) ^ Identifier,
     char_literal=Tok(Token.Char, keep=True) ^ CharLiteral,
@@ -838,49 +821,46 @@ A.add_rules(
 
     null_literal=Tok(Token.Null, keep=True) ^ NullLiteral,
 
-    allocator=Row(
+    allocator=Allocator(
         "new", Opt("(", A.name, ")")[1],
         A.qualified_name | A.subtype_indication
+    ),
 
-    ) ^ Allocator,
-
-    for_loop_param_spec=Row(
+    for_loop_param_spec=ForLoopSpec(
         A.identifier,
         Opt(":", A.subtype_indication)[1],
-        Or(Row("in") ^ IterType.alt_in,
-           Row("of") ^ IterType.alt_of),
+        IterType.alt_in("in") | IterType.alt_of("of"),
         Opt("reverse").as_bool(Reverse),
         A.discrete_range | A.discrete_subtype_indication | A.name
-    ) ^ ForLoopSpec,
+    ),
 
-    quantified_expr=Row(
-        "for", Or(Row("all") ^ Quantifier.alt_all,
-                  Row("some") ^ Quantifier.alt_some),
+    quantified_expr=QuantifiedExpr(
+        "for",
+        Quantifier.alt_all("all") | Quantifier.alt_some("some"),
         A.for_loop_param_spec, "=>",
         A.expr | A.discrete_range
-    ) ^ QuantifiedExpr,
+    ),
 
-    case_expr=Row(
+    case_expr=CaseExpr(
         "case", A.expr, "is",
         List(A.case_expr_alt, sep=",")
-    ) ^ CaseExpr,
+    ),
 
-    case_expr_alt=Row(
+    case_expr_alt=CaseExprAlternative(
         "when", A.choice_list, "=>", A.expr
-    ) ^ CaseExprAlternative,
+    ),
 
 
     raise_expr=Or(
-        Row("raise", A.name, Opt("with", A.expr)[1]) ^ RaiseExpr,
-        Row("raise", Null(Expr), Null(Expr)) ^ RaiseExpr,
+        RaiseExpr("raise", A.name, Opt("with", A.expr)[1]),
+        RaiseExpr("raise", Null(Expr), Null(Expr)),
     ),
 
-    if_expr=Row(
+    if_expr=IfExpr(
         "if", A.expr, "then", A.expr,
-        List(Row("elsif", A.expr,
-                 "then", A.expr) ^ ElsifExprPart, empty_valid=True),
+        List(ElsifExprPart("elsif", A.expr, "then", A.expr), empty_valid=True),
         Opt("else", A.expr)[1],
-    ) ^ IfExpr,
+    ),
 
     conditional_expr=Or(A.if_expr, A.case_expr,
                         A.quantified_expr),
@@ -894,30 +874,30 @@ A.add_rules(
         A.expr,
     ),
 
-    aggregate_assoc=Row(
+    aggregate_assoc=ParamAssoc(
         Opt(A.aggregate_field, "=>")[0],
         Or(A.box_expr, A.expr)
-    ) ^ ParamAssoc,
+    ),
+
     aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=ParamList),
-    aggregate_content_null=Row(
-        "null", "record", Null(ParamList)
-    )[2],
+    aggregate_content_null=Row("null", "record", Null(ParamList))[2],
 
     aggregate=Row(
         "(",
-        Row(
+        Aggregate(
             Opt(A.expr, "with")[0],
             Or(A.aggregate_content_null, A.aggregate_content)
-        ) ^ Aggregate,
-        ")")[1],
+        ),
+        ")"
+    )[1],
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal),
 
-    param_assoc=Row(
+    param_assoc=ParamAssoc(
         Opt(A.identifier | A.others_designator | A.string_literal,
             "=>")[0],
         A.expr | A.box_expr,
-    ) ^ ParamAssoc,
+    ),
 
     call_suffix=Or(
         # Slice via discrete subtype
@@ -951,29 +931,30 @@ A.add_rules(
     # - One other way would be to allow "longest_parse" behavior for Or
     # parsers, so that we can use A.subtype_indication | A.name in allocator.
 
-    qualified_name=Row(
+    qualified_name=QualExpr(
         A.qual_name_internal, "'", Or(A.aggregate, Row("(", A.expr, ")")[1])
-    ) ^ QualExpr,
+    ),
 
     qual_name_internal=Or(
-        Row(A.qual_name_internal, ".", A.direct_name) ^ DottedName,
+        DottedName(A.qual_name_internal, ".", A.direct_name),
         # Attributes
-        Row(A.qual_name_internal, "'", A.identifier,
-            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
+        AttributeRef(
+            A.qual_name_internal, "'", A.identifier,
+            Opt("(", A.call_suffix, ")")[1]
+        ),
         A.direct_name
     ),
 
     name=Or(
-        Row(A.name, "(", A.call_suffix, ")") ^ CallExpr,
-        Row(A.name, ".", A.direct_name) ^ DottedName,
-        Row(A.name, ".", "all") ^ ExplicitDeref,
+        CallExpr(A.name, "(", A.call_suffix, ")"),
+        DottedName(A.name, ".", A.direct_name),
+        ExplicitDeref(A.name, ".", "all"),
 
         # Attributes
-        Row(A.name, "'", A.identifier,
-            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
+        AttributeRef(A.name, "'", A.identifier,
+                     Opt("(", A.call_suffix, ")")[1]),
 
-        Row(A.name, "'",
-            Or(A.aggregate, Row("(", A.expr, ")")[1])) ^ QualExpr,
+        QualExpr(A.name, "'", Or(A.aggregate, Row("(", A.expr, ")")[1])),
 
         A.direct_name,
     ),
@@ -982,14 +963,14 @@ A.add_rules(
     # since the langkit parsing engine is eager, accepting CallExprs will
     # always eat the type constraints.
     subtype_name=Or(
-        Row(A.subtype_name, ".", A.direct_name) ^ DottedName,
-        Row(A.subtype_name, "'", A.identifier,
-            Opt("(", A.call_suffix, ")")[1]) ^ AttributeRef,
+        DottedName(A.subtype_name, ".", A.direct_name),
+        AttributeRef(A.subtype_name, "'", A.identifier,
+                     Opt("(", A.call_suffix, ")")[1]),
         A.direct_name,
     ),
 
     static_name=Or(
-        Row(A.static_name, ".", A.direct_name) ^ DottedName,
+        DottedName(A.static_name, ".", A.direct_name),
         A.direct_name
     ),
 
@@ -1000,51 +981,45 @@ A.add_rules(
                A.paren_expr,
                A.aggregate),
 
-    paren_expr=Row("(", A.expr, ")") ^ ParenExpr,
+    paren_expr=ParenExpr("(", A.expr, ")"),
 
     factor=Or(
-        Row(Or(Row("abs") ^ Op.alt_abs,
-               Row("not") ^ Op.alt_not),
-            A.primary) ^ UnOp,
-
-        Row(A.primary, Row("**") ^ Op.alt_pow, A.primary) ^ BinOp,
-
+        UnOp(Op.alt_abs("abs") | Op.alt_not("not"), A.primary),
+        BinOp(A.primary, Op.alt_pow("**"), A.primary),
         A.primary
     ),
 
     term=Or(
-        Row(A.term, Or(Row("*") ^ Op.alt_mult,
-                       Row("/") ^ Op.alt_div,
-                       Row("mod") ^ Op.alt_mod,
-                       Row("rem") ^ Op.alt_rem), A.factor) ^ BinOp,
+        BinOp(A.term, Or(Op.alt_mult("*"),
+                         Op.alt_div("/"),
+                         Op.alt_mod("mod"),
+                         Op.alt_rem("rem")), A.factor),
         A.factor
     ),
 
     unop_term=Or(
-        Row(Or(Row("+") ^ Op.alt_plus,
-               Row("-") ^ Op.alt_minus),
-            A.term) ^ UnOp,
+        UnOp(Op.alt_plus("+") | Op.alt_minus("-"), A.term),
         A.term
     ),
 
     simple_expr=Or(
-        Row(A.simple_expr, Or(Row("+") ^ Op.alt_plus,
-                              Row("-") ^ Op.alt_minus,
-                              Row("&") ^ Op.alt_concat),
-            A.term) ^ BinOp,
+        BinOp(
+            A.simple_expr,
+            Or(Op.alt_plus("+"), Op.alt_minus("-"), Op.alt_concat("&")),
+            A.term
+        ),
         A.unop_term
     ),
 
     boolean_op=Or(
-        Row("xor") ^ Op.alt_xor,
-        Row("and", "then") ^ Op.alt_and_then,
-        Row("and") ^ Op.alt_and,
-        Row("or", "else") ^ Op.alt_or_else,
-        Row("or") ^ Op.alt_or,
+        Op.alt_xor("xor"),
+        Op.alt_and_then("and", "then"),
+        Op.alt_and("and"),
+        Op.alt_or_else("or", "else"),
+        Op.alt_or("or"),
     ),
 
-    discrete_range=Row(A.simple_expr,
-                       Row("..") ^ Op.alt_ellipsis, A.simple_expr) ^ BinOp,
+    discrete_range=BinOp(A.simple_expr, Op.alt_ellipsis(".."), A.simple_expr),
 
     choice=Or(
         A.discrete_range,
@@ -1056,27 +1031,26 @@ A.add_rules(
     choice_list=List(A.choice, sep="|"),
 
     rel_op=Or(
-        Row("not", "in") ^ Op.alt_not_in,
-        Row("in") ^ Op.alt_in,
+        Op.alt_not_in("not", "in"),
+        Op.alt_in("in"),
     ),
 
     relation=Or(
-        Row(A.relation,
-            Or(Row("=") ^ Op.alt_eq,
-               Row("/=") ^ Op.alt_neq,
-               Row("<") ^ Op.alt_lt,
-               Row("<=") ^ Op.alt_lte,
-               Row(">") ^ Op.alt_gt,
-               Row(">=") ^ Op.alt_gte),
-            A.simple_expr) ^ BinOp,
+        BinOp(
+            A.relation,
+            Or(Op.alt_eq("="), Op.alt_neq("/="),
+               Op.alt_lt("<"), Op.alt_lte("<="),
+               Op.alt_gt(">"), Op.alt_gte(">=")),
+            A.simple_expr
+        ),
 
-        Row(A.relation, A.rel_op, A.choice_list) ^ MembershipExpr,
+        MembershipExpr(A.relation, A.rel_op, A.choice_list),
 
         A.simple_expr
     ),
 
     expr=Or(
-        Row(A.expr, A.boolean_op, A.relation) ^ BinOp,
+        BinOp(A.expr, A.boolean_op, A.relation),
         A.relation
     ),
 

@@ -1,16 +1,17 @@
 UseTypeClause[1:1-1:35]
-| has_all:
-| | AllPresent[1:5-1:5]
-| types:
-| | DottedName[1:14-1:35]
-| | | prefix:
-| | | | DottedName[1:14-1:28]
-| | | | | prefix:
-| | | | | | Id[1:14-1:17]
-| | | | | | | tok: Ada
-| | | | | suffix:
-| | | | | | Id[1:18-1:28]
-| | | | | | | tok: Containers
-| | | suffix:
-| | | | Id[1:29-1:35]
-| | | | | tok: Vector
+|has_all:
+|  AllPresent[1:5-1:5]
+|types:
+|  ExprList[1:14-1:35]
+|  |  DottedName[1:14-1:35]
+|  |  |prefix:
+|  |  |  DottedName[1:14-1:28]
+|  |  |  |prefix:
+|  |  |  |  Id[1:14-1:17]
+|  |  |  |  |tok: Ada
+|  |  |  |suffix:
+|  |  |  |  Id[1:18-1:28]
+|  |  |  |  |tok: Containers
+|  |  |suffix:
+|  |  |  Id[1:29-1:35]
+|  |  |  |tok: Vector

@@ -1,38 +1,43 @@
 TypeDecl[1:1-1:50]
-| type_id:
-| | Id[1:6-1:9]
-| | | tok: Arr
-| type_def:
-| | ArrayTypeDef[1:13-1:50]
-| | | indices:
-| | | | ConstrainedArrayIndices[1:20-1:38]
-| | | | | list:
-| | | | | | SubtypeIndication[1:20-1:38]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:20-1:20]
-| | | | | | | name:
-| | | | | | | | Id[1:20-1:27]
-| | | | | | | | | tok: Integer
-| | | | | | | constraint:
-| | | | | | | | IndexConstraint[1:28-1:38]
-| | | | | | | | | constraints:
-| | | | | | | | | | BinOp[1:29-1:37]
-| | | | | | | | | | | left:
-| | | | | | | | | | | | Int[1:29-1:31]
-| | | | | | | | | | | | | tok: 12
-| | | | | | | | | | | op:
-| | | | | | | | | | | | OpEllipsis[1:32-1:34]
-| | | | | | | | | | | right:
-| | | | | | | | | | | | Int[1:35-1:37]
-| | | | | | | | | | | | | tok: 15
-| | | stored_component:
-| | | | ComponentDef[1:43-1:50]
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:43-1:43]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:43-1:50]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:43-1:43]
-| | | | | | | name:
-| | | | | | | | Id[1:43-1:50]
-| | | | | | | | | tok: Integer
+|type_id:
+|  Id[1:6-1:9]
+|  |tok: Arr
+|discriminants: <null>
+|type_def:
+|  ArrayTypeDef[1:13-1:50]
+|  |indices:
+|  |  ConstrainedArrayIndices[1:20-1:38]
+|  |  |list:
+|  |  |  AdaNodeList[1:20-1:38]
+|  |  |  |  SubtypeIndication[1:20-1:38]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:20-1:20]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:20-1:27]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint:
+|  |  |  |  |  IndexConstraint[1:28-1:38]
+|  |  |  |  |  |constraints:
+|  |  |  |  |  |  AdaNodeList[1:29-1:37]
+|  |  |  |  |  |  |  BinOp[1:29-1:37]
+|  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  Int[1:29-1:31]
+|  |  |  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  OpEllipsis[1:32-1:34]
+|  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  Int[1:35-1:37]
+|  |  |  |  |  |  |  |  |tok: 15
+|  |stored_component:
+|  |  ComponentDef[1:43-1:50]
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:43-1:43]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:43-1:50]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:43-1:43]
+|  |  |  |name:
+|  |  |  |  Id[1:43-1:50]
+|  |  |  |  |tok: Integer
+|  |  |  |constraint: <null>
+|aspects: <null>

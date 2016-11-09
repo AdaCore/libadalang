@@ -1,22 +1,24 @@
 TypeDecl[1:1-1:68]
-| type_id:
-| | Id[1:6-1:11]
-| | | tok: Pouet
-| type_def:
-| | DecimalFixedPointDef[1:15-1:68]
-| | | delta:
-| | | | Id[1:21-1:32]
-| | | | | tok: Delta_Value
-| | | digits:
-| | | | Id[1:40-1:50]
-| | | | | tok: Num_Digits
-| | | range:
-| | | | BinOp[1:57-1:68]
-| | | | | left:
-| | | | | | Id[1:57-1:60]
-| | | | | | | tok: Low
-| | | | | op:
-| | | | | | OpEllipsis[1:61-1:63]
-| | | | | right:
-| | | | | | Id[1:64-1:68]
-| | | | | | | tok: High
+|type_id:
+|  Id[1:6-1:11]
+|  |tok: Pouet
+|discriminants: <null>
+|type_def:
+|  DecimalFixedPointDef[1:15-1:68]
+|  |delta:
+|  |  Id[1:21-1:32]
+|  |  |tok: Delta_Value
+|  |digits:
+|  |  Id[1:40-1:50]
+|  |  |tok: Num_Digits
+|  |range:
+|  |  BinOp[1:57-1:68]
+|  |  |left:
+|  |  |  Id[1:57-1:60]
+|  |  |  |tok: Low
+|  |  |op:
+|  |  |  OpEllipsis[1:61-1:63]
+|  |  |right:
+|  |  |  Id[1:64-1:68]
+|  |  |  |tok: High
+|aspects: <null>

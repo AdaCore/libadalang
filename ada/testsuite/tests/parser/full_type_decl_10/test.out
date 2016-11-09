@@ -1,26 +1,32 @@
 TypeDecl[1:1-1:26]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: B
-| type_def:
-| | DerivedTypeDef[1:11-1:26]
-| | | has_abstract:
-| | | | AbstractAbsent[1:11-1:11]
-| | | has_limited:
-| | | | LimitedAbsent[1:11-1:11]
-| | | has_synchronized:
-| | | | SynchronizedAbsent[1:11-1:11]
-| | | subtype_indication:
-| | | | SubtypeIndication[1:15-1:26]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:15-1:15]
-| | | | | name:
-| | | | | | Id[1:15-1:16]
-| | | | | | | tok: A
-| | | | | constraint:
-| | | | | | DeltaConstraint[1:17-1:26]
-| | | | | | | digits:
-| | | | | | | | Real[1:23-1:26]
-| | | | | | | | | tok: 1.0
-| | | has_with_private:
-| | | | WithPrivateAbsent[1:26-1:26]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: B
+|discriminants: <null>
+|type_def:
+|  DerivedTypeDef[1:11-1:26]
+|  |has_abstract:
+|  |  AbstractAbsent[1:11-1:11]
+|  |has_limited:
+|  |  LimitedAbsent[1:11-1:11]
+|  |has_synchronized:
+|  |  SynchronizedAbsent[1:11-1:11]
+|  |subtype_indication:
+|  |  SubtypeIndication[1:15-1:26]
+|  |  |has_not_null:
+|  |  |  NotNullAbsent[1:15-1:15]
+|  |  |name:
+|  |  |  Id[1:15-1:16]
+|  |  |  |tok: A
+|  |  |constraint:
+|  |  |  DeltaConstraint[1:17-1:26]
+|  |  |  |digits:
+|  |  |  |  Real[1:23-1:26]
+|  |  |  |  |tok: 1.0
+|  |  |  |range: <null>
+|  |interfaces:
+|  |  NameList[1:26-1:26]: <empty list>
+|  |record_extension: <null>
+|  |has_with_private:
+|  |  WithPrivateAbsent[1:26-1:26]
+|aspects: <null>

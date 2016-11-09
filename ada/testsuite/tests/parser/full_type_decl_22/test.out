@@ -1,15 +1,18 @@
 TypeDecl[1:1-1:30]
-| type_id:
-| | Id[1:6-1:9]
-| | | tok: Ref
-| type_def:
-| | TypeAccessDef[1:13-1:30]
-| | | has_not_null:
-| | | | NotNullPresent[1:13-1:13]
-| | | has_all:
-| | | | AllAbsent[1:29-1:29]
-| | | has_constant:
-| | | | ConstantAbsent[1:29-1:29]
-| | | subtype_name:
-| | | | Id[1:29-1:30]
-| | | | | tok: A
+|type_id:
+|  Id[1:6-1:9]
+|  |tok: Ref
+|discriminants: <null>
+|type_def:
+|  TypeAccessDef[1:13-1:30]
+|  |has_not_null:
+|  |  NotNullPresent[1:13-1:13]
+|  |has_all:
+|  |  AllAbsent[1:29-1:29]
+|  |has_constant:
+|  |  ConstantAbsent[1:29-1:29]
+|  |subtype_name:
+|  |  Id[1:29-1:30]
+|  |  |tok: A
+|  |constraint: <null>
+|aspects: <null>

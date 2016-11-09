@@ -1,141 +1,175 @@
 CompilationUnit[1:1-11:9]
-| body:
-| | LibraryItem[1:1-11:8]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | PackageDecl[1:1-11:8]
-| | | | | package_name:
-| | | | | | Id[1:9-1:12]
-| | | | | | | tok: Foo
-| | | | | public_part:
-| | | | | | PublicPart[2:4-10:15]
-| | | | | | | decls:
-| | | | | | | | TypeDecl[2:4-5:14]
-| | | | | | | | | type_id:
-| | | | | | | | | | Id[2:9-2:16]
-| | | | | | | | | | | tok: R1_Type
-| | | | | | | | | type_def:
-| | | | | | | | | | RecordTypeDef[2:20-5:14]
-| | | | | | | | | | | has_abstract:
-| | | | | | | | | | | | AbstractAbsent[2:20-2:20]
-| | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedAbsent[2:20-2:20]
-| | | | | | | | | | | has_limited:
-| | | | | | | | | | | | LimitedAbsent[2:20-2:20]
-| | | | | | | | | | | record_def:
-| | | | | | | | | | | | RecordDef[2:20-5:14]
-| | | | | | | | | | | | | components:
-| | | | | | | | | | | | | | ComponentList[3:7-4:22]
-| | | | | | | | | | | | | | | components:
-| | | | | | | | | | | | | | | | ComponentDecl[3:7-3:21]
-| | | | | | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | | | | | Id[3:7-3:8]
-| | | | | | | | | | | | | | | | | | | tok: A
-| | | | | | | | | | | | | | | | | | Id[3:10-3:11]
-| | | | | | | | | | | | | | | | | | | tok: B
-| | | | | | | | | | | | | | | | | component_def:
-| | | | | | | | | | | | | | | | | | ComponentDef[3:14-3:21]
-| | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedAbsent[3:14-3:14]
-| | | | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | | | SubtypeIndication[3:14-3:21]
-| | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[3:14-3:14]
-| | | | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | | | Id[3:14-3:21]
-| | | | | | | | | | | | | | | | | | | | | | | tok: Integer
-| | | | | | | | | | | | | | | | ComponentDecl[4:7-4:21]
-| | | | | | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | | | | | Id[4:7-4:8]
-| | | | | | | | | | | | | | | | | | | tok: C
-| | | | | | | | | | | | | | | | | component_def:
-| | | | | | | | | | | | | | | | | | ComponentDef[4:14-4:21]
-| | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedAbsent[4:14-4:14]
-| | | | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | | | SubtypeIndication[4:14-4:21]
-| | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[4:14-4:14]
-| | | | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | | | Id[4:14-4:21]
-| | | | | | | | | | | | | | | | | | | | | | | tok: Natural
-| | | | | | | | TypeDecl[7:4-10:14]
-| | | | | | | | | type_id:
-| | | | | | | | | | Id[7:9-7:16]
-| | | | | | | | | | | tok: R2_Type
-| | | | | | | | | discriminants:
-| | | | | | | | | | KnownDiscriminantPart[7:17-7:30]
-| | | | | | | | | | | discr_specs:
-| | | | | | | | | | | | DiscriminantSpec[7:18-7:29]
-| | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | Id[7:18-7:19]
-| | | | | | | | | | | | | | | tok: N
-| | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | SubtypeIndication[7:22-7:29]
-| | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | NotNullAbsent[7:22-7:22]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[7:22-7:29]
-| | | | | | | | | | | | | | | | | tok: Natural
-| | | | | | | | | type_def:
-| | | | | | | | | | RecordTypeDef[7:34-10:14]
-| | | | | | | | | | | has_abstract:
-| | | | | | | | | | | | AbstractAbsent[7:34-7:34]
-| | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedAbsent[7:34-7:34]
-| | | | | | | | | | | has_limited:
-| | | | | | | | | | | | LimitedAbsent[7:34-7:34]
-| | | | | | | | | | | record_def:
-| | | | | | | | | | | | RecordDef[7:34-10:14]
-| | | | | | | | | | | | | components:
-| | | | | | | | | | | | | | ComponentList[8:7-9:27]
-| | | | | | | | | | | | | | | components:
-| | | | | | | | | | | | | | | | ComponentDecl[8:7-8:18]
-| | | | | | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | | | | | Id[8:7-8:8]
-| | | | | | | | | | | | | | | | | | | tok: I
-| | | | | | | | | | | | | | | | | component_def:
-| | | | | | | | | | | | | | | | | | ComponentDef[8:11-8:18]
-| | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedAbsent[8:11-8:11]
-| | | | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | | | SubtypeIndication[8:11-8:18]
-| | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[8:11-8:11]
-| | | | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | | | Id[8:11-8:18]
-| | | | | | | | | | | | | | | | | | | | | | | tok: Integer
-| | | | | | | | | | | | | | | | ComponentDecl[9:7-9:26]
-| | | | | | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | | | | | Id[9:7-9:8]
-| | | | | | | | | | | | | | | | | | | tok: S
-| | | | | | | | | | | | | | | | | component_def:
-| | | | | | | | | | | | | | | | | | ComponentDef[9:11-9:26]
-| | | | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | | | AliasedAbsent[9:11-9:11]
-| | | | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | | | SubtypeIndication[9:11-9:26]
-| | | | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | | | NotNullAbsent[9:11-9:11]
-| | | | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | | | Id[9:11-9:17]
-| | | | | | | | | | | | | | | | | | | | | | | tok: String
-| | | | | | | | | | | | | | | | | | | | | constraint:
-| | | | | | | | | | | | | | | | | | | | | | IndexConstraint[9:18-9:26]
-| | | | | | | | | | | | | | | | | | | | | | | constraints:
-| | | | | | | | | | | | | | | | | | | | | | | | BinOp[9:19-9:25]
-| | | | | | | | | | | | | | | | | | | | | | | | | left:
-| | | | | | | | | | | | | | | | | | | | | | | | | | Int[9:19-9:20]
-| | | | | | | | | | | | | | | | | | | | | | | | | | | tok: 1
-| | | | | | | | | | | | | | | | | | | | | | | | | op:
-| | | | | | | | | | | | | | | | | | | | | | | | | | OpEllipsis[9:21-9:23]
-| | | | | | | | | | | | | | | | | | | | | | | | | right:
-| | | | | | | | | | | | | | | | | | | | | | | | | | Id[9:24-9:25]
-| | | | | | | | | | | | | | | | | | | | | | | | | | | tok: N
-| | | | | end_id:
-| | | | | | Id[11:5-11:8]
-| | | | | | | tok: Foo
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-11:8]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  PackageDecl[1:1-11:8]
+|  |  |package_name:
+|  |  |  Id[1:9-1:12]
+|  |  |  |tok: Foo
+|  |  |aspects: <null>
+|  |  |public_part:
+|  |  |  PublicPart[2:4-10:15]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-10:15]
+|  |  |  |  |  TypeDecl[2:4-5:14]
+|  |  |  |  |  |type_id:
+|  |  |  |  |  |  Id[2:9-2:16]
+|  |  |  |  |  |  |tok: R1_Type
+|  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |type_def:
+|  |  |  |  |  |  RecordTypeDef[2:20-5:14]
+|  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |  AbstractAbsent[2:20-2:20]
+|  |  |  |  |  |  |has_tagged:
+|  |  |  |  |  |  |  TaggedAbsent[2:20-2:20]
+|  |  |  |  |  |  |has_limited:
+|  |  |  |  |  |  |  LimitedAbsent[2:20-2:20]
+|  |  |  |  |  |  |record_def:
+|  |  |  |  |  |  |  RecordDef[2:20-5:14]
+|  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  ComponentList[3:7-4:22]
+|  |  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  |  AdaNodeList[3:7-4:22]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[3:7-3:21]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:11]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  |  |  |  Id[3:10-3:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |  ComponentDef[3:14-3:21]
+|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:14-3:21]
+|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:14-3:21]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[4:7-4:21]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[4:7-4:8]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[4:7-4:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |  ComponentDef[4:14-4:21]
+|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[4:14-4:21]
+|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[4:14-4:21]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Natural
+|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |variant_part: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  TypeDecl[7:4-10:14]
+|  |  |  |  |  |type_id:
+|  |  |  |  |  |  Id[7:9-7:16]
+|  |  |  |  |  |  |tok: R2_Type
+|  |  |  |  |  |discriminants:
+|  |  |  |  |  |  KnownDiscriminantPart[7:17-7:30]
+|  |  |  |  |  |  |discr_specs:
+|  |  |  |  |  |  |  DiscriminantSpecList[7:18-7:29]
+|  |  |  |  |  |  |  |  DiscriminantSpec[7:18-7:29]
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  IdentifierList[7:18-7:19]
+|  |  |  |  |  |  |  |  |  |  Id[7:18-7:19]
+|  |  |  |  |  |  |  |  |  |  |tok: N
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  SubtypeIndication[7:22-7:29]
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:22-7:22]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[7:22-7:29]
+|  |  |  |  |  |  |  |  |  |  |tok: Natural
+|  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |type_def:
+|  |  |  |  |  |  RecordTypeDef[7:34-10:14]
+|  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |  AbstractAbsent[7:34-7:34]
+|  |  |  |  |  |  |has_tagged:
+|  |  |  |  |  |  |  TaggedAbsent[7:34-7:34]
+|  |  |  |  |  |  |has_limited:
+|  |  |  |  |  |  |  LimitedAbsent[7:34-7:34]
+|  |  |  |  |  |  |record_def:
+|  |  |  |  |  |  |  RecordDef[7:34-10:14]
+|  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  ComponentList[8:7-9:27]
+|  |  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  |  AdaNodeList[8:7-9:27]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[8:7-8:18]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[8:7-8:8]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[8:7-8:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |  ComponentDef[8:11-8:18]
+|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[8:11-8:18]
+|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[8:11-8:18]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[9:7-9:26]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[9:7-9:8]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[9:7-9:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: S
+|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |  ComponentDef[9:11-9:26]
+|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[9:11-9:26]
+|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:11-9:17]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: String
+|  |  |  |  |  |  |  |  |  |  |  |  |constraint:
+|  |  |  |  |  |  |  |  |  |  |  |  |  IndexConstraint[9:18-9:26]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |constraints:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[9:19-9:20]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis[9:21-9:23]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:24-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: N
+|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |variant_part: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |private_part: <null>
+|  |  |end_id:
+|  |  |  Id[11:5-11:8]
+|  |  |  |tok: Foo
+|pragmas:
+|  PragmaNodeList[12:1-12:1]: <empty list>
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-11:9> - <LexEnv (Id <root>, Parent null), {

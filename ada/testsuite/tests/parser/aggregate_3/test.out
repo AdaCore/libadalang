@@ -1,4 +1,6 @@
 Aggregate[1:2-1:20]
-| ancestor_expr:
-| | Id[1:2-1:3]
-| | | tok: c
+|ancestor_expr:
+|  Id[1:2-1:3]
+|  |tok: c
+|assocs:
+|  ParamAssocList[1:14-1:14]: <empty list>

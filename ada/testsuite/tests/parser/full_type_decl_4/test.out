@@ -1,78 +1,96 @@
 TypeDecl[1:1-1:117]
-| type_id:
-| | Id[1:6-1:9]
-| | | tok: Rec
-| discriminants:
-| | KnownDiscriminantPart[1:10-1:27]
-| | | discr_specs:
-| | | | DiscriminantSpec[1:11-1:26]
-| | | | | ids:
-| | | | | | Id[1:11-1:16]
-| | | | | | | tok: Discr
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:19-1:26]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:19-1:19]
-| | | | | | | name:
-| | | | | | | | Id[1:19-1:26]
-| | | | | | | | | tok: Integer
-| type_def:
-| | RecordTypeDef[1:31-1:117]
-| | | has_abstract:
-| | | | AbstractAbsent[1:31-1:31]
-| | | has_tagged:
-| | | | TaggedAbsent[1:31-1:31]
-| | | has_limited:
-| | | | LimitedAbsent[1:31-1:31]
-| | | record_def:
-| | | | RecordDef[1:31-1:117]
-| | | | | components:
-| | | | | | ComponentList[1:38-1:106]
-| | | | | | | components:
-| | | | | | | | ComponentDecl[1:38-1:52]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:38-1:39]
-| | | | | | | | | | | tok: A
-| | | | | | | | | | Id[1:41-1:42]
-| | | | | | | | | | | tok: B
-| | | | | | | | | component_def:
-| | | | | | | | | | ComponentDef[1:45-1:52]
-| | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | AliasedAbsent[1:45-1:45]
-| | | | | | | | | | | type_expr:
-| | | | | | | | | | | | SubtypeIndication[1:45-1:52]
-| | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullAbsent[1:45-1:45]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:45-1:52]
-| | | | | | | | | | | | | | | tok: Integer
-| | | | | | | variant_part:
-| | | | | | | | VariantPart[1:54-1:106]
-| | | | | | | | | discr_name:
-| | | | | | | | | | Id[1:59-1:64]
-| | | | | | | | | | | tok: Discr
-| | | | | | | | | variant:
-| | | | | | | | | | Variant[1:68-1:96]
-| | | | | | | | | | | choice_list:
-| | | | | | | | | | | | Int[1:73-1:75]
-| | | | | | | | | | | | | tok: 12
-| | | | | | | | | | | | Int[1:78-1:80]
-| | | | | | | | | | | | | tok: 15
-| | | | | | | | | | | components:
-| | | | | | | | | | | | ComponentList[1:84-1:96]
-| | | | | | | | | | | | | components:
-| | | | | | | | | | | | | | ComponentDecl[1:84-1:95]
-| | | | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | | | Id[1:84-1:85]
-| | | | | | | | | | | | | | | | | tok: C
-| | | | | | | | | | | | | | | component_def:
-| | | | | | | | | | | | | | | | ComponentDef[1:88-1:95]
-| | | | | | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | | | | | AliasedAbsent[1:88-1:88]
-| | | | | | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | | | | | SubtypeIndication[1:88-1:95]
-| | | | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | | | NotNullAbsent[1:88-1:88]
-| | | | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | | | Id[1:88-1:95]
-| | | | | | | | | | | | | | | | | | | | | tok: Integer
+|type_id:
+|  Id[1:6-1:9]
+|  |tok: Rec
+|discriminants:
+|  KnownDiscriminantPart[1:10-1:27]
+|  |discr_specs:
+|  |  DiscriminantSpecList[1:11-1:26]
+|  |  |  DiscriminantSpec[1:11-1:26]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:11-1:16]
+|  |  |  |  |  Id[1:11-1:16]
+|  |  |  |  |  |tok: Discr
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:19-1:26]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:19-1:19]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:19-1:26]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
+|  |  |  |default_expr: <null>
+|type_def:
+|  RecordTypeDef[1:31-1:117]
+|  |has_abstract:
+|  |  AbstractAbsent[1:31-1:31]
+|  |has_tagged:
+|  |  TaggedAbsent[1:31-1:31]
+|  |has_limited:
+|  |  LimitedAbsent[1:31-1:31]
+|  |record_def:
+|  |  RecordDef[1:31-1:117]
+|  |  |components:
+|  |  |  ComponentList[1:38-1:106]
+|  |  |  |components:
+|  |  |  |  AdaNodeList[1:38-1:53]
+|  |  |  |  |  ComponentDecl[1:38-1:52]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[1:38-1:42]
+|  |  |  |  |  |  |  Id[1:38-1:39]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  Id[1:41-1:42]
+|  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |component_def:
+|  |  |  |  |  |  ComponentDef[1:45-1:52]
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[1:45-1:52]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:45-1:52]
+|  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |  |variant_part:
+|  |  |  |  VariantPart[1:54-1:106]
+|  |  |  |  |discr_name:
+|  |  |  |  |  Id[1:59-1:64]
+|  |  |  |  |  |tok: Discr
+|  |  |  |  |variant:
+|  |  |  |  |  VariantList[1:68-1:96]
+|  |  |  |  |  |  Variant[1:68-1:96]
+|  |  |  |  |  |  |choice_list:
+|  |  |  |  |  |  |  AdaNodeList[1:73-1:80]
+|  |  |  |  |  |  |  |  Int[1:73-1:75]
+|  |  |  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  |  |  Int[1:78-1:80]
+|  |  |  |  |  |  |  |  |tok: 15
+|  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  ComponentList[1:84-1:96]
+|  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  AdaNodeList[1:84-1:96]
+|  |  |  |  |  |  |  |  |  ComponentDecl[1:84-1:95]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[1:84-1:85]
+|  |  |  |  |  |  |  |  |  |  |  Id[1:84-1:85]
+|  |  |  |  |  |  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  ComponentDef[1:88-1:95]
+|  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:88-1:88]
+|  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:88-1:95]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:88-1:88]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:88-1:95]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |variant_part: <null>
+|aspects: <null>

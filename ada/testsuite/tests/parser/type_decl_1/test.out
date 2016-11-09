@@ -1,16 +1,19 @@
 Parsing failed:
 1:22: End of input expected, got "Semicolon"
 TypeDecl[1:1-1:22]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: A
-| type_def:
-| | RecordTypeDef[1:11-1:22]
-| | | has_abstract:
-| | | | AbstractAbsent[1:11-1:11]
-| | | has_tagged:
-| | | | TaggedAbsent[1:11-1:11]
-| | | has_limited:
-| | | | LimitedAbsent[1:11-1:11]
-| | | record_def:
-| | | | NullRecordDef[1:11-1:22]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: A
+|discriminants: <null>
+|type_def:
+|  RecordTypeDef[1:11-1:22]
+|  |has_abstract:
+|  |  AbstractAbsent[1:11-1:11]
+|  |has_tagged:
+|  |  TaggedAbsent[1:11-1:11]
+|  |has_limited:
+|  |  LimitedAbsent[1:11-1:11]
+|  |record_def:
+|  |  NullRecordDef[1:11-1:22]
+|  |  |components: <null>
+|aspects: <null>

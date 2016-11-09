@@ -1,11 +1,14 @@
 QualExpr[1:1-1:13]
-| prefix:
-| | Id[1:1-1:8]
-| | | tok: Integer
-| suffix:
-| | Aggregate[1:10-1:12]
-| | | assocs:
-| | | | ParamAssoc[1:10-1:12]
-| | | | | expr:
-| | | | | | Int[1:10-1:12]
-| | | | | | | tok: 12
+|prefix:
+|  Id[1:1-1:8]
+|  |tok: Integer
+|suffix:
+|  Aggregate[1:10-1:12]
+|  |ancestor_expr: <null>
+|  |assocs:
+|  |  ParamAssocList[1:10-1:12]
+|  |  |  ParamAssoc[1:10-1:12]
+|  |  |  |designator: <null>
+|  |  |  |expr:
+|  |  |  |  Int[1:10-1:12]
+|  |  |  |  |tok: 12

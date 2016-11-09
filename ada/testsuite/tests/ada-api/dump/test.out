@@ -1,91 +1,114 @@
 CompilationUnit[1:2-5:11]
-| body:
-| | LibraryItem[1:2-5:10]
-| | | has_private:
-| | | | PrivateAbsent[1:2-1:2]
-| | | item:
-| | | | SubprogramBody[1:2-5:10]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[1:2-1:11]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:2-1:35]
-| | | | | | | name:
-| | | | | | | | Id[1:12-1:16]
-| | | | | | | | | tok: Test
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:18-1:25]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:18-1:19]
-| | | | | | | | | | | tok: A
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:22-1:22]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeDefault[1:22-1:25]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:22-1:25]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:22-1:22]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:22-1:25]
-| | | | | | | | | | | | | tok: Foo
-| | | | | | | | ParamSpec[1:27-1:34]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:27-1:28]
-| | | | | | | | | | | tok: B
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:31-1:31]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeDefault[1:31-1:34]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:31-1:34]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:31-1:31]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:31-1:34]
-| | | | | | | | | | | | | tok: Bar
-| | | | | decls:
-| | | | | | DeclarativePart[1:39-1:44]
-| | | | | stmts:
-| | | | | | HandledStmts[2:6-4:15]
-| | | | | | | stmts:
-| | | | | | | | LoopStmt[2:6-4:14]
-| | | | | | | | | spec:
-| | | | | | | | | | ForLoopSpec[2:10-2:28]
-| | | | | | | | | | | id:
-| | | | | | | | | | | | Id[2:10-2:12]
-| | | | | | | | | | | | | tok: El
-| | | | | | | | | | | id_type:
-| | | | | | | | | | | | SubtypeIndication[2:15-2:23]
-| | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullAbsent[2:15-2:15]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[2:15-2:23]
-| | | | | | | | | | | | | | | tok: Foo_Elem
-| | | | | | | | | | | loop_type:
-| | | | | | | | | | | | IterTypeOf[2:24-2:26]
-| | | | | | | | | | | has_reverse:
-| | | | | | | | | | | | ReverseAbsent[2:27-2:27]
-| | | | | | | | | | | iter_expr:
-| | | | | | | | | | | | Id[2:27-2:28]
-| | | | | | | | | | | | | tok: A
-| | | | | | | | | stmts:
-| | | | | | | | | | CallStmt[3:9-3:23]
-| | | | | | | | | | | call:
-| | | | | | | | | | | | CallExpr[3:9-3:23]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | DottedName[3:9-3:18]
-| | | | | | | | | | | | | | | prefix:
-| | | | | | | | | | | | | | | | Id[3:9-3:10]
-| | | | | | | | | | | | | | | | | tok: B
-| | | | | | | | | | | | | | | suffix:
-| | | | | | | | | | | | | | | | Id[3:11-3:18]
-| | | | | | | | | | | | | | | | | tok: RealBar
-| | | | | | | | | | | | | suffix:
-| | | | | | | | | | | | | | ParamAssoc[3:20-3:22]
-| | | | | | | | | | | | | | | expr:
-| | | | | | | | | | | | | | | | Id[3:20-3:22]
-| | | | | | | | | | | | | | | | | tok: El
-| | | | | end_id:
-| | | | | | Id[5:6-5:10]
-| | | | | | | tok: Test
+|prelude:
+|  AdaNodeList[1:2-1:2]: <empty list>
+|body:
+|  LibraryItem[1:2-5:10]
+|  |has_private:
+|  |  PrivateAbsent[1:2-1:2]
+|  |item:
+|  |  SubprogramBody[1:2-5:10]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:2-1:11]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[1:2-1:35]
+|  |  |  |name:
+|  |  |  |  Id[1:12-1:16]
+|  |  |  |  |tok: Test
+|  |  |  |params:
+|  |  |  |  ParamSpecList[1:18-1:34]
+|  |  |  |  |  ParamSpec[1:18-1:25]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[1:18-1:19]
+|  |  |  |  |  |  |  Id[1:18-1:19]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:22-1:22]
+|  |  |  |  |  |mode:
+|  |  |  |  |  |  ModeDefault[1:22-1:25]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:22-1:25]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:22-1:22]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:22-1:25]
+|  |  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default: <null>
+|  |  |  |  |  ParamSpec[1:27-1:34]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[1:27-1:28]
+|  |  |  |  |  |  |  Id[1:27-1:28]
+|  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:31-1:31]
+|  |  |  |  |  |mode:
+|  |  |  |  |  |  ModeDefault[1:31-1:34]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:31-1:34]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:31-1:31]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:31-1:34]
+|  |  |  |  |  |  |  |tok: Bar
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default: <null>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[1:39-1:44]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[1:39-1:39]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[2:6-4:15]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[2:6-4:15]
+|  |  |  |  |  LoopStmt[2:6-4:14]
+|  |  |  |  |  |name: <null>
+|  |  |  |  |  |spec:
+|  |  |  |  |  |  ForLoopSpec[2:10-2:28]
+|  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  Id[2:10-2:12]
+|  |  |  |  |  |  |  |tok: El
+|  |  |  |  |  |  |id_type:
+|  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[2:15-2:15]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[2:15-2:23]
+|  |  |  |  |  |  |  |  |tok: Foo_Elem
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |loop_type:
+|  |  |  |  |  |  |  IterTypeOf[2:24-2:26]
+|  |  |  |  |  |  |has_reverse:
+|  |  |  |  |  |  |  ReverseAbsent[2:27-2:27]
+|  |  |  |  |  |  |iter_expr:
+|  |  |  |  |  |  |  Id[2:27-2:28]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |stmts:
+|  |  |  |  |  |  AdaNodeList[3:9-3:24]
+|  |  |  |  |  |  |  CallStmt[3:9-3:23]
+|  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |  CallExpr[3:9-3:23]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  DottedName[3:9-3:18]
+|  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  Id[3:9-3:10]
+|  |  |  |  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]
+|  |  |  |  |  |  |  |  |  |  |tok: RealBar
+|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  ParamAssocList[3:20-3:22]
+|  |  |  |  |  |  |  |  |  |  ParamAssoc[3:20-3:22]
+|  |  |  |  |  |  |  |  |  |  |designator: <null>
+|  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  Id[3:20-3:22]
+|  |  |  |  |  |  |  |  |  |  |  |tok: El
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[4:14-4:14]: <empty list>
+|  |  |end_id:
+|  |  |  Id[5:6-5:10]
+|  |  |  |tok: Test
+|pragmas:
+|  PragmaNodeList[6:1-6:1]: <empty list>
 Done.

@@ -1,79 +1,103 @@
 CompilationUnit[1:1-10:9]
-| body:
-| | LibraryItem[1:1-10:8]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | PackageBody[1:1-10:8]
-| | | | | package_name:
-| | | | | | Id[1:14-1:17]
-| | | | | | | tok: Foo
-| | | | | decls:
-| | | | | | DeclarativePart[2:4-9:12]
-| | | | | | | decls:
-| | | | | | | | SubprogramBody[2:4-9:11]
-| | | | | | | | | overriding:
-| | | | | | | | | | OverridingUnspecified[2:4-2:13]
-| | | | | | | | | subp_spec:
-| | | | | | | | | | SubprogramSpec[2:4-2:34]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[2:14-2:17]
-| | | | | | | | | | | | | tok: Bar
-| | | | | | | | | | | params:
-| | | | | | | | | | | | ParamSpec[2:19-2:33]
-| | | | | | | | | | | | | ids:
-| | | | | | | | | | | | | | Id[2:19-2:20]
-| | | | | | | | | | | | | | | tok: I
-| | | | | | | | | | | | | | Id[2:22-2:23]
-| | | | | | | | | | | | | | | tok: J
-| | | | | | | | | | | | | has_aliased:
-| | | | | | | | | | | | | | AliasedAbsent[2:26-2:26]
-| | | | | | | | | | | | | mode:
-| | | | | | | | | | | | | | ModeDefault[2:26-2:33]
-| | | | | | | | | | | | | type_expr:
-| | | | | | | | | | | | | | SubtypeIndication[2:26-2:33]
-| | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | NotNullAbsent[2:26-2:26]
-| | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | Id[2:26-2:33]
-| | | | | | | | | | | | | | | | | tok: Integer
-| | | | | | | | | decls:
-| | | | | | | | | | DeclarativePart[3:4-3:9]
-| | | | | | | | | stmts:
-| | | | | | | | | | HandledStmts[4:7-8:11]
-| | | | | | | | | | | stmts:
-| | | | | | | | | | | | BlockStmt[4:7-8:10]
-| | | | | | | | | | | | | decls:
-| | | | | | | | | | | | | | SubtypeDecl[5:10-5:46]
-| | | | | | | | | | | | | | | type_id:
-| | | | | | | | | | | | | | | | Id[5:18-5:21]
-| | | | | | | | | | | | | | | | | tok: Lol
-| | | | | | | | | | | | | | | subtype:
-| | | | | | | | | | | | | | | | SubtypeIndication[5:25-5:46]
-| | | | | | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | | | | | NotNullAbsent[5:25-5:25]
-| | | | | | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | | | | | Id[5:25-5:32]
-| | | | | | | | | | | | | | | | | | | tok: Integer
-| | | | | | | | | | | | | | | | | constraint:
-| | | | | | | | | | | | | | | | | | RangeConstraint[5:33-5:46]
-| | | | | | | | | | | | | | | | | | | range:
-| | | | | | | | | | | | | | | | | | | | BinOp[5:39-5:46]
-| | | | | | | | | | | | | | | | | | | | | left:
-| | | | | | | | | | | | | | | | | | | | | | Int[5:39-5:40]
-| | | | | | | | | | | | | | | | | | | | | | | tok: 0
-| | | | | | | | | | | | | | | | | | | | | op:
-| | | | | | | | | | | | | | | | | | | | | | OpEllipsis[5:41-5:43]
-| | | | | | | | | | | | | | | | | | | | | right:
-| | | | | | | | | | | | | | | | | | | | | | Int[5:44-5:46]
-| | | | | | | | | | | | | | | | | | | | | | | tok: 10
-| | | | | | | | | | | | | stmts:
-| | | | | | | | | | | | | | HandledStmts[7:10-7:15]
-| | | | | | | | | | | | | | | stmts:
-| | | | | | | | | | | | | | | | NullStmt[7:10-7:14]
-| | | | | | | | | end_id:
-| | | | | | | | | | Id[9:8-9:11]
-| | | | | | | | | | | tok: Bar
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-10:8]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  PackageBody[1:1-10:8]
+|  |  |package_name:
+|  |  |  Id[1:14-1:17]
+|  |  |  |tok: Foo
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:4-9:12]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-9:12]
+|  |  |  |  |  SubprogramBody[2:4-9:11]
+|  |  |  |  |  |overriding:
+|  |  |  |  |  |  OverridingUnspecified[2:4-2:13]
+|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  SubprogramSpec[2:4-2:34]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:14-2:17]
+|  |  |  |  |  |  |  |tok: Bar
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  ParamSpecList[2:19-2:33]
+|  |  |  |  |  |  |  |  ParamSpec[2:19-2:33]
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  IdentifierList[2:19-2:23]
+|  |  |  |  |  |  |  |  |  |  Id[2:19-2:20]
+|  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  Id[2:22-2:23]
+|  |  |  |  |  |  |  |  |  |  |tok: J
+|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  AliasedAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:33]
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  SubtypeIndication[2:26-2:33]
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]
+|  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |returns: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |decls:
+|  |  |  |  |  |  DeclarativePart[3:4-3:9]
+|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  AdaNodeList[3:4-3:4]: <empty list>
+|  |  |  |  |  |stmts:
+|  |  |  |  |  |  HandledStmts[4:7-8:11]
+|  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  AdaNodeList[4:7-8:11]
+|  |  |  |  |  |  |  |  BlockStmt[4:7-8:10]
+|  |  |  |  |  |  |  |  |name: <null>
+|  |  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  |  AdaNodeList[5:10-5:47]
+|  |  |  |  |  |  |  |  |  |  SubtypeDecl[5:10-5:46]
+|  |  |  |  |  |  |  |  |  |  |type_id:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:18-5:21]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Lol
+|  |  |  |  |  |  |  |  |  |  |subtype:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:25-5:46]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:25-5:25]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[5:25-5:32]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |constraint:
+|  |  |  |  |  |  |  |  |  |  |  |  RangeConstraint[5:33-5:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[5:39-5:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[5:39-5:40]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 0
+|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis[5:41-5:43]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[5:44-5:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 10
+|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  HandledStmts[7:10-7:15]
+|  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |  AdaNodeList[7:10-7:15]
+|  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:14]
+|  |  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  |  ExceptionHandlerList[7:14-7:14]: <empty list>
+|  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  ExceptionHandlerList[8:10-8:10]: <empty list>
+|  |  |  |  |  |end_id:
+|  |  |  |  |  |  Id[9:8-9:11]
+|  |  |  |  |  |  |tok: Bar
+|  |  |stmts: <null>
+|pragmas:
+|  PragmaNodeList[11:1-11:1]: <empty list>
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-10:9> - <LexEnv (Id <root>, Parent null), {

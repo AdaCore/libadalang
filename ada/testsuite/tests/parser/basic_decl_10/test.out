@@ -1,39 +1,48 @@
 SubprogramDecl[1:1-1:54]
-| overriding:
-| | OverridingNotOverriding[1:1-1:15]
-| subp_spec:
-| | SubprogramSpec[1:16-1:54]
-| | | name:
-| | | | Id[1:26-1:27]
-| | | | | tok: A
-| | | params:
-| | | | ParamSpec[1:29-1:40]
-| | | | | ids:
-| | | | | | Id[1:29-1:30]
-| | | | | | | tok: B
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:33-1:33]
-| | | | | mode:
-| | | | | | ModeDefault[1:33-1:40]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:33-1:40]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:33-1:33]
-| | | | | | | name:
-| | | | | | | | Id[1:33-1:40]
-| | | | | | | | | tok: Integer
-| | | | ParamSpec[1:42-1:53]
-| | | | | ids:
-| | | | | | Id[1:42-1:43]
-| | | | | | | tok: C
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:46-1:46]
-| | | | | mode:
-| | | | | | ModeDefault[1:46-1:53]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:46-1:53]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:46-1:46]
-| | | | | | | name:
-| | | | | | | | Id[1:46-1:53]
-| | | | | | | | | tok: Natural
+|overriding:
+|  OverridingNotOverriding[1:1-1:15]
+|subp_spec:
+|  SubprogramSpec[1:16-1:54]
+|  |name:
+|  |  Id[1:26-1:27]
+|  |  |tok: A
+|  |params:
+|  |  ParamSpecList[1:29-1:53]
+|  |  |  ParamSpec[1:29-1:40]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:29-1:30]
+|  |  |  |  |  Id[1:29-1:30]
+|  |  |  |  |  |tok: B
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:33-1:33]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:33-1:40]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:33-1:40]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:33-1:33]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:33-1:40]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |  |  ParamSpec[1:42-1:53]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:42-1:43]
+|  |  |  |  |  Id[1:42-1:43]
+|  |  |  |  |  |tok: C
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:46-1:46]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:46-1:53]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:46-1:53]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:46-1:46]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:46-1:53]
+|  |  |  |  |  |tok: Natural
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |returns: <null>
+|aspects: <null>

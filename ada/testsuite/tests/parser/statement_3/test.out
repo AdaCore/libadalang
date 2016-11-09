@@ -1,21 +1,28 @@
 LoopStmt[1:1-1:30]
-| stmts:
-| | CallStmt[1:6-1:20]
-| | | call:
-| | | | CallExpr[1:6-1:20]
-| | | | | name:
-| | | | | | Id[1:6-1:11]
-| | | | | | | tok: World
-| | | | | suffix:
-| | | | | | ParamAssoc[1:12-1:13]
-| | | | | | | expr:
-| | | | | | | | Id[1:12-1:13]
-| | | | | | | | | tok: A
-| | | | | | ParamAssoc[1:15-1:16]
-| | | | | | | expr:
-| | | | | | | | Id[1:15-1:16]
-| | | | | | | | | tok: B
-| | | | | | ParamAssoc[1:18-1:19]
-| | | | | | | expr:
-| | | | | | | | Id[1:18-1:19]
-| | | | | | | | | tok: C
+|name: <null>
+|spec: <null>
+|stmts:
+|  AdaNodeList[1:6-1:21]
+|  |  CallStmt[1:6-1:20]
+|  |  |call:
+|  |  |  CallExpr[1:6-1:20]
+|  |  |  |name:
+|  |  |  |  Id[1:6-1:11]
+|  |  |  |  |tok: World
+|  |  |  |suffix:
+|  |  |  |  ParamAssocList[1:12-1:19]
+|  |  |  |  |  ParamAssoc[1:12-1:13]
+|  |  |  |  |  |designator: <null>
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  Id[1:12-1:13]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  ParamAssoc[1:15-1:16]
+|  |  |  |  |  |designator: <null>
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  Id[1:15-1:16]
+|  |  |  |  |  |  |tok: B
+|  |  |  |  |  ParamAssoc[1:18-1:19]
+|  |  |  |  |  |designator: <null>
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  Id[1:18-1:19]
+|  |  |  |  |  |  |tok: C

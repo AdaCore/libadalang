@@ -1,29 +1,37 @@
 ExtendedReturnStmt[1:1-1:41]
-| object_decl:
-| | ObjectDecl[1:8-1:19]
-| | | ids:
-| | | | Id[1:8-1:9]
-| | | | | tok: A
-| | | has_aliased:
-| | | | AliasedAbsent[1:12-1:12]
-| | | has_constant:
-| | | | ConstantAbsent[1:12-1:12]
-| | | inout:
-| | | | ModeDefault[1:12-1:19]
-| | | type_expr:
-| | | | SubtypeIndication[1:12-1:19]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:12-1:12]
-| | | | | name:
-| | | | | | Id[1:12-1:19]
-| | | | | | | tok: Integer
-| stmts:
-| | HandledStmts[1:23-1:30]
-| | | stmts:
-| | | | AssignStmt[1:23-1:29]
-| | | | | dest:
-| | | | | | Id[1:23-1:24]
-| | | | | | | tok: A
-| | | | | expr:
-| | | | | | Int[1:28-1:29]
-| | | | | | | tok: 3
+|object_decl:
+|  ObjectDecl[1:8-1:19]
+|  |ids:
+|  |  IdentifierList[1:8-1:9]
+|  |  |  Id[1:8-1:9]
+|  |  |  |tok: A
+|  |has_aliased:
+|  |  AliasedAbsent[1:12-1:12]
+|  |has_constant:
+|  |  ConstantAbsent[1:12-1:12]
+|  |inout:
+|  |  ModeDefault[1:12-1:19]
+|  |type_expr:
+|  |  SubtypeIndication[1:12-1:19]
+|  |  |has_not_null:
+|  |  |  NotNullAbsent[1:12-1:12]
+|  |  |name:
+|  |  |  Id[1:12-1:19]
+|  |  |  |tok: Integer
+|  |  |constraint: <null>
+|  |default_expr: <null>
+|  |renaming_clause: <null>
+|  |aspects: <null>
+|stmts:
+|  HandledStmts[1:23-1:30]
+|  |stmts:
+|  |  AdaNodeList[1:23-1:30]
+|  |  |  AssignStmt[1:23-1:29]
+|  |  |  |dest:
+|  |  |  |  Id[1:23-1:24]
+|  |  |  |  |tok: A
+|  |  |  |expr:
+|  |  |  |  Int[1:28-1:29]
+|  |  |  |  |tok: 3
+|  |exceptions:
+|  |  ExceptionHandlerList[1:29-1:29]: <empty list>

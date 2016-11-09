@@ -1,34 +1,39 @@
 AttributeDefClause[1:1-1:36]
-| attribute_expr:
-| | Id[1:5-1:6]
-| | | tok: r
-| expr:
-| | Aggregate[1:12-1:35]
-| | | assocs:
-| | | | ParamAssoc[1:12-1:18]
-| | | | | designator:
-| | | | | | AggregateMember[1:12-1:13]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:12-1:13]
-| | | | | | | | | tok: A
-| | | | | expr:
-| | | | | | Int[1:17-1:18]
-| | | | | | | tok: 1
-| | | | ParamAssoc[1:20-1:26]
-| | | | | designator:
-| | | | | | AggregateMember[1:20-1:21]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:20-1:21]
-| | | | | | | | | tok: B
-| | | | | expr:
-| | | | | | Int[1:25-1:26]
-| | | | | | | tok: 5
-| | | | ParamAssoc[1:28-1:35]
-| | | | | designator:
-| | | | | | AggregateMember[1:28-1:29]
-| | | | | | | choice_list:
-| | | | | | | | Id[1:28-1:29]
-| | | | | | | | | tok: C
-| | | | | expr:
-| | | | | | Int[1:33-1:35]
-| | | | | | | tok: 10
+|attribute_expr:
+|  Id[1:5-1:6]
+|  |tok: r
+|expr:
+|  Aggregate[1:12-1:35]
+|  |ancestor_expr: <null>
+|  |assocs:
+|  |  ParamAssocList[1:12-1:35]
+|  |  |  ParamAssoc[1:12-1:18]
+|  |  |  |designator:
+|  |  |  |  AggregateMember[1:12-1:13]
+|  |  |  |  |choice_list:
+|  |  |  |  |  AdaNodeList[1:12-1:13]
+|  |  |  |  |  |  Id[1:12-1:13]
+|  |  |  |  |  |  |tok: A
+|  |  |  |expr:
+|  |  |  |  Int[1:17-1:18]
+|  |  |  |  |tok: 1
+|  |  |  ParamAssoc[1:20-1:26]
+|  |  |  |designator:
+|  |  |  |  AggregateMember[1:20-1:21]
+|  |  |  |  |choice_list:
+|  |  |  |  |  AdaNodeList[1:20-1:21]
+|  |  |  |  |  |  Id[1:20-1:21]
+|  |  |  |  |  |  |tok: B
+|  |  |  |expr:
+|  |  |  |  Int[1:25-1:26]
+|  |  |  |  |tok: 5
+|  |  |  ParamAssoc[1:28-1:35]
+|  |  |  |designator:
+|  |  |  |  AggregateMember[1:28-1:29]
+|  |  |  |  |choice_list:
+|  |  |  |  |  AdaNodeList[1:28-1:29]
+|  |  |  |  |  |  Id[1:28-1:29]
+|  |  |  |  |  |  |tok: C
+|  |  |  |expr:
+|  |  |  |  Int[1:33-1:35]
+|  |  |  |  |tok: 10

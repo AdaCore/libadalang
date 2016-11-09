@@ -1,36 +1,52 @@
 CompilationUnit[1:1-6:10]
-| body:
-| | LibraryItem[1:1-6:9]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | SubprogramBody[1:1-6:9]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[1:1-1:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:1-1:15]
-| | | | | | | name:
-| | | | | | | | Id[1:11-1:15]
-| | | | | | | | | tok: Main
-| | | | | decls:
-| | | | | | DeclarativePart[2:4-3:15]
-| | | | | | | decls:
-| | | | | | | | TypeDecl[2:4-2:10]
-| | | | | | | | | type_id:
-| | | | | | | | | | Id[2:9-2:10]
-| | | | | | | | | | | tok: A
-| | | | | | | | | type_def:
-| | | | | | | | | | IncompleteTypeDef[2:10-2:11]
-| | | | | | | | | | | has_tagged:
-| | | | | | | | | | | | TaggedAbsent[2:10-2:10]
-| | | | | | | | SingleTaskDecl[3:4-3:14]
-| | | | | | | | | task_name:
-| | | | | | | | | | Id[3:9-3:14]
-| | | | | | | | | | | tok: Pouet
-| | | | | stmts:
-| | | | | | HandledStmts[5:4-5:9]
-| | | | | | | stmts:
-| | | | | | | | NullStmt[5:4-5:8]
-| | | | | end_id:
-| | | | | | Id[6:5-6:9]
-| | | | | | | tok: Main
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-6:9]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubprogramBody[1:1-6:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:10]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[1:1-1:15]
+|  |  |  |name:
+|  |  |  |  Id[1:11-1:15]
+|  |  |  |  |tok: Main
+|  |  |  |params:
+|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:4-3:15]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-3:15]
+|  |  |  |  |  TypeDecl[2:4-2:10]
+|  |  |  |  |  |type_id:
+|  |  |  |  |  |  Id[2:9-2:10]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |type_def:
+|  |  |  |  |  |  IncompleteTypeDef[2:10-2:11]
+|  |  |  |  |  |  |has_tagged:
+|  |  |  |  |  |  |  TaggedAbsent[2:10-2:10]
+|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  SingleTaskDecl[3:4-3:14]
+|  |  |  |  |  |task_name:
+|  |  |  |  |  |  Id[3:9-3:14]
+|  |  |  |  |  |  |tok: Pouet
+|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |definition: <null>
+|  |  |stmts:
+|  |  |  HandledStmts[5:4-5:9]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[5:4-5:9]
+|  |  |  |  |  NullStmt[5:4-5:8]
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[5:8-5:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[6:5-6:9]
+|  |  |  |tok: Main
+|pragmas:
+|  PragmaNodeList[7:1-7:1]: <empty list>

@@ -1,9 +1,9 @@
 BinOp[1:1-1:8]
-| left:
-| | Int[1:1-1:3]
-| | | tok: 12
-| op:
-| | OpGte[1:4-1:6]
-| right:
-| | Int[1:7-1:8]
-| | | tok: 5
+|left:
+|  Int[1:1-1:3]
+|  |tok: 12
+|op:
+|  OpGte[1:4-1:6]
+|right:
+|  Int[1:7-1:8]
+|  |tok: 5

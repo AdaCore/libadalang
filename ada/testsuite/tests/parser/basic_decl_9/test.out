@@ -1,10 +1,13 @@
 TypeDecl[1:1-1:29]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: T
-| type_def:
-| | DecimalFixedPointDef[1:11-1:29]
-| | | delta:
-| | | | BoxExpr[1:17-1:19]
-| | | digits:
-| | | | BoxExpr[1:27-1:29]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: T
+|discriminants: <null>
+|type_def:
+|  DecimalFixedPointDef[1:11-1:29]
+|  |delta:
+|  |  BoxExpr[1:17-1:19]
+|  |digits:
+|  |  BoxExpr[1:27-1:29]
+|  |range: <null>
+|aspects: <null>

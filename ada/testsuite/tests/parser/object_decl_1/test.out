@@ -1,40 +1,47 @@
 ObjectDecl[1:1-1:64]
-| ids:
-| | Id[1:1-1:2]
-| | | tok: A
-| | Id[1:4-1:5]
-| | | tok: B
-| has_aliased:
-| | AliasedAbsent[1:8-1:8]
-| has_constant:
-| | ConstantAbsent[1:8-1:8]
-| inout:
-| | ModeDefault[1:8-1:11]
-| type_expr:
-| | AnonymousType[1:8-1:40]
-| | | type_decl:
-| | | | AnonymousTypeDecl[1:8-1:40]
-| | | | | type_def:
-| | | | | | TypeAccessDef[1:8-1:40]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullPresent[1:8-1:8]
-| | | | | | | has_all:
-| | | | | | | | AllAbsent[1:24-1:24]
-| | | | | | | has_constant:
-| | | | | | | | ConstantPresent[1:24-1:24]
-| | | | | | | subtype_name:
-| | | | | | | | Id[1:33-1:40]
-| | | | | | | | | tok: Integer
-| default_expr:
-| | Null[1:44-1:48]
-| | | tok: null
-| aspects:
-| | AspectSpec[1:49-1:64]
-| | | aspect_assocs:
-| | | | AspectAssoc[1:54-1:64]
-| | | | | id:
-| | | | | | Id[1:54-1:57]
-| | | | | | | tok: Foo
-| | | | | expr:
-| | | | | | Id[1:61-1:64]
-| | | | | | | tok: Bar
+|ids:
+|  IdentifierList[1:1-1:5]
+|  |  Id[1:1-1:2]
+|  |  |tok: A
+|  |  Id[1:4-1:5]
+|  |  |tok: B
+|has_aliased:
+|  AliasedAbsent[1:8-1:8]
+|has_constant:
+|  ConstantAbsent[1:8-1:8]
+|inout:
+|  ModeDefault[1:8-1:11]
+|type_expr:
+|  AnonymousType[1:8-1:40]
+|  |type_decl:
+|  |  AnonymousTypeDecl[1:8-1:40]
+|  |  |type_id: <null>
+|  |  |discriminants: <null>
+|  |  |type_def:
+|  |  |  TypeAccessDef[1:8-1:40]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullPresent[1:8-1:8]
+|  |  |  |has_all:
+|  |  |  |  AllAbsent[1:24-1:24]
+|  |  |  |has_constant:
+|  |  |  |  ConstantPresent[1:24-1:24]
+|  |  |  |subtype_name:
+|  |  |  |  Id[1:33-1:40]
+|  |  |  |  |tok: Integer
+|  |  |  |constraint: <null>
+|  |  |aspects: <null>
+|default_expr:
+|  Null[1:44-1:48]
+|  |tok: null
+|renaming_clause: <null>
+|aspects:
+|  AspectSpec[1:49-1:64]
+|  |aspect_assocs:
+|  |  AspectAssocList[1:54-1:64]
+|  |  |  AspectAssoc[1:54-1:64]
+|  |  |  |id:
+|  |  |  |  Id[1:54-1:57]
+|  |  |  |  |tok: Foo
+|  |  |  |expr:
+|  |  |  |  Id[1:61-1:64]
+|  |  |  |  |tok: Bar

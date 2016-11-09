@@ -1,56 +1,74 @@
 ProtectedTypeDecl[1:1-1:136]
-| protected_type_name:
-| | Id[1:16-1:37]
-| | | tok: Protected_Buffer_Type
-| definition:
-| | ProtectedDef[1:41-1:136]
-| | | public_part:
-| | | | PublicPart[1:41-1:110]
-| | | | | decls:
-| | | | | | EntryDecl[1:41-1:74]
-| | | | | | | overriding:
-| | | | | | | | OverridingUnspecified[1:41-1:46]
-| | | | | | | entry_id:
-| | | | | | | | Id[1:47-1:53]
-| | | | | | | | | tok: Insert
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:55-1:73]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:55-1:62]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:65-1:65]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeIn[1:65-1:67]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:69-1:73]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:69-1:69]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | tok: Item
-| | | | | | EntryDecl[1:76-1:109]
-| | | | | | | overriding:
-| | | | | | | | OverridingUnspecified[1:76-1:81]
-| | | | | | | entry_id:
-| | | | | | | | Id[1:82-1:88]
-| | | | | | | | | tok: Remove
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:90-1:108]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:90-1:97]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:100-1:100]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeOut[1:100-1:103]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:104-1:108]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:104-1:104]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:104-1:108]
-| | | | | | | | | | | | | tok: Item
-| | | end_id:
-| | | | Id[1:115-1:136]
-| | | | | tok: Protected_Buffer_Type
+|protected_type_name:
+|  Id[1:16-1:37]
+|  |tok: Protected_Buffer_Type
+|discrs: <null>
+|aspects: <null>
+|interfaces:
+|  NameList[1:38-1:38]: <empty list>
+|definition:
+|  ProtectedDef[1:41-1:136]
+|  |public_part:
+|  |  PublicPart[1:41-1:110]
+|  |  |decls:
+|  |  |  AdaNodeList[1:41-1:110]
+|  |  |  |  EntryDecl[1:41-1:74]
+|  |  |  |  |overriding:
+|  |  |  |  |  OverridingUnspecified[1:41-1:46]
+|  |  |  |  |entry_id:
+|  |  |  |  |  Id[1:47-1:53]
+|  |  |  |  |  |tok: Insert
+|  |  |  |  |family_type: <null>
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[1:55-1:73]
+|  |  |  |  |  |  ParamSpec[1:55-1:73]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[1:55-1:62]
+|  |  |  |  |  |  |  |  Id[1:55-1:62]
+|  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeIn[1:65-1:67]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:69-1:73]
+|  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
+|  |  |  |  |aspects: <null>
+|  |  |  |  EntryDecl[1:76-1:109]
+|  |  |  |  |overriding:
+|  |  |  |  |  OverridingUnspecified[1:76-1:81]
+|  |  |  |  |entry_id:
+|  |  |  |  |  Id[1:82-1:88]
+|  |  |  |  |  |tok: Remove
+|  |  |  |  |family_type: <null>
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[1:90-1:108]
+|  |  |  |  |  |  ParamSpec[1:90-1:108]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[1:90-1:97]
+|  |  |  |  |  |  |  |  Id[1:90-1:97]
+|  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeOut[1:100-1:103]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:104-1:108]
+|  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
+|  |  |  |  |aspects: <null>
+|  |private_part: <null>
+|  |end_id:
+|  |  Id[1:115-1:136]
+|  |  |tok: Protected_Buffer_Type

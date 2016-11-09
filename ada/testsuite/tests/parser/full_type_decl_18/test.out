@@ -1,29 +1,33 @@
 TypeDecl[1:1-1:40]
-| type_id:
-| | Id[1:6-1:9]
-| | | tok: Arr
-| type_def:
-| | ArrayTypeDef[1:13-1:40]
-| | | indices:
-| | | | ConstrainedArrayIndices[1:20-1:28]
-| | | | | list:
-| | | | | | BinOp[1:20-1:28]
-| | | | | | | left:
-| | | | | | | | Int[1:20-1:22]
-| | | | | | | | | tok: 12
-| | | | | | | op:
-| | | | | | | | OpEllipsis[1:23-1:25]
-| | | | | | | right:
-| | | | | | | | Int[1:26-1:28]
-| | | | | | | | | tok: 15
-| | | stored_component:
-| | | | ComponentDef[1:33-1:40]
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:33-1:33]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:33-1:40]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:33-1:33]
-| | | | | | | name:
-| | | | | | | | Id[1:33-1:40]
-| | | | | | | | | tok: Integer
+|type_id:
+|  Id[1:6-1:9]
+|  |tok: Arr
+|discriminants: <null>
+|type_def:
+|  ArrayTypeDef[1:13-1:40]
+|  |indices:
+|  |  ConstrainedArrayIndices[1:20-1:28]
+|  |  |list:
+|  |  |  AdaNodeList[1:20-1:28]
+|  |  |  |  BinOp[1:20-1:28]
+|  |  |  |  |left:
+|  |  |  |  |  Int[1:20-1:22]
+|  |  |  |  |  |tok: 12
+|  |  |  |  |op:
+|  |  |  |  |  OpEllipsis[1:23-1:25]
+|  |  |  |  |right:
+|  |  |  |  |  Int[1:26-1:28]
+|  |  |  |  |  |tok: 15
+|  |stored_component:
+|  |  ComponentDef[1:33-1:40]
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:33-1:33]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:33-1:40]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:33-1:33]
+|  |  |  |name:
+|  |  |  |  Id[1:33-1:40]
+|  |  |  |  |tok: Integer
+|  |  |  |constraint: <null>
+|aspects: <null>

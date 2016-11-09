@@ -1,31 +1,34 @@
 LoopStmt[1:1-1:51]
-| spec:
-| | ForLoopSpec[1:5-1:31]
-| | | id:
-| | | | Id[1:5-1:6]
-| | | | | tok: A
-| | | loop_type:
-| | | | IterTypeIn[1:7-1:9]
-| | | has_reverse:
-| | | | ReverseAbsent[1:10-1:10]
-| | | iter_expr:
-| | | | SubtypeIndication[1:10-1:31]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:10-1:10]
-| | | | | name:
-| | | | | | Id[1:10-1:17]
-| | | | | | | tok: Integer
-| | | | | constraint:
-| | | | | | RangeConstraint[1:18-1:31]
-| | | | | | | range:
-| | | | | | | | BinOp[1:24-1:31]
-| | | | | | | | | left:
-| | | | | | | | | | Int[1:24-1:25]
-| | | | | | | | | | | tok: 1
-| | | | | | | | | op:
-| | | | | | | | | | OpEllipsis[1:26-1:28]
-| | | | | | | | | right:
-| | | | | | | | | | Int[1:29-1:31]
-| | | | | | | | | | | tok: 16
-| stmts:
-| | NullStmt[1:37-1:41]
+|name: <null>
+|spec:
+|  ForLoopSpec[1:5-1:31]
+|  |id:
+|  |  Id[1:5-1:6]
+|  |  |tok: A
+|  |id_type: <null>
+|  |loop_type:
+|  |  IterTypeIn[1:7-1:9]
+|  |has_reverse:
+|  |  ReverseAbsent[1:10-1:10]
+|  |iter_expr:
+|  |  SubtypeIndication[1:10-1:31]
+|  |  |has_not_null:
+|  |  |  NotNullAbsent[1:10-1:10]
+|  |  |name:
+|  |  |  Id[1:10-1:17]
+|  |  |  |tok: Integer
+|  |  |constraint:
+|  |  |  RangeConstraint[1:18-1:31]
+|  |  |  |range:
+|  |  |  |  BinOp[1:24-1:31]
+|  |  |  |  |left:
+|  |  |  |  |  Int[1:24-1:25]
+|  |  |  |  |  |tok: 1
+|  |  |  |  |op:
+|  |  |  |  |  OpEllipsis[1:26-1:28]
+|  |  |  |  |right:
+|  |  |  |  |  Int[1:29-1:31]
+|  |  |  |  |  |tok: 16
+|stmts:
+|  AdaNodeList[1:37-1:42]
+|  |  NullStmt[1:37-1:41]

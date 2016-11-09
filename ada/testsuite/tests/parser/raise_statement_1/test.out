@@ -1,1 +1,3 @@
 RaiseStmt[1:1-1:6]
+|exception_name: <null>
+|error_message: <null>

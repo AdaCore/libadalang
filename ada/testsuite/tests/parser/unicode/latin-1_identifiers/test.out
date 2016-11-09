@@ -1,23 +1,36 @@
 CompilationUnit[1:1-4:15]
-| body:
-| | LibraryItem[1:1-4:14]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | SubprogramBody[1:1-4:14]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[1:1-1:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:1-1:20]
-| | | | | | | name:
-| | | | | | | | Id[1:11-1:20]
-| | | | | | | | | tok: Kikoolol\xe9
-| | | | | decls:
-| | | | | | DeclarativePart[2:1-2:6]
-| | | | | stmts:
-| | | | | | HandledStmts[3:4-3:9]
-| | | | | | | stmts:
-| | | | | | | | NullStmt[3:4-3:8]
-| | | | | end_id:
-| | | | | | Id[4:5-4:14]
-| | | | | | | tok: Kikoolol\xe9
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-4:14]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubprogramBody[1:1-4:14]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:10]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[1:1-1:20]
+|  |  |  |name:
+|  |  |  |  Id[1:11-1:20]
+|  |  |  |  |tok: Kikoolol\xe9
+|  |  |  |params:
+|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:1-2:6]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[3:4-3:9]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[3:4-3:9]
+|  |  |  |  |  NullStmt[3:4-3:8]
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[3:8-3:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[4:5-4:14]
+|  |  |  |tok: Kikoolol\xe9
+|pragmas:
+|  PragmaNodeList[5:1-5:1]: <empty list>

@@ -1,29 +1,35 @@
 RecordTypeDef[1:1-1:34]
-| has_abstract:
-| | AbstractAbsent[1:1-1:1]
-| has_tagged:
-| | TaggedAbsent[1:1-1:1]
-| has_limited:
-| | LimitedAbsent[1:1-1:1]
-| record_def:
-| | RecordDef[1:1-1:34]
-| | | components:
-| | | | ComponentList[1:8-1:23]
-| | | | | components:
-| | | | | | ComponentDecl[1:8-1:22]
-| | | | | | | ids:
-| | | | | | | | Id[1:8-1:9]
-| | | | | | | | | tok: A
-| | | | | | | | Id[1:11-1:12]
-| | | | | | | | | tok: B
-| | | | | | | component_def:
-| | | | | | | | ComponentDef[1:15-1:22]
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:15-1:15]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:15-1:22]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:15-1:15]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:15-1:22]
-| | | | | | | | | | | | | tok: Integer
+|has_abstract:
+|  AbstractAbsent[1:1-1:1]
+|has_tagged:
+|  TaggedAbsent[1:1-1:1]
+|has_limited:
+|  LimitedAbsent[1:1-1:1]
+|record_def:
+|  RecordDef[1:1-1:34]
+|  |components:
+|  |  ComponentList[1:8-1:23]
+|  |  |components:
+|  |  |  AdaNodeList[1:8-1:23]
+|  |  |  |  ComponentDecl[1:8-1:22]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:8-1:12]
+|  |  |  |  |  |  Id[1:8-1:9]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  Id[1:11-1:12]
+|  |  |  |  |  |  |tok: B
+|  |  |  |  |component_def:
+|  |  |  |  |  ComponentDef[1:15-1:22]
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:15-1:15]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:15-1:22]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:15-1:15]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:15-1:22]
+|  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |default_expr: <null>
+|  |  |  |  |aspects: <null>
+|  |  |variant_part: <null>

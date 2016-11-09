@@ -1,6 +1,9 @@
 LoopStmt[1:1-1:21]
-| stmts:
-| | CallStmt[1:6-1:11]
-| | | call:
-| | | | Id[1:6-1:11]
-| | | | | tok: World
+|name: <null>
+|spec: <null>
+|stmts:
+|  AdaNodeList[1:6-1:12]
+|  |  CallStmt[1:6-1:11]
+|  |  |call:
+|  |  |  Id[1:6-1:11]
+|  |  |  |tok: World

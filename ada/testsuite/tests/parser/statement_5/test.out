@@ -1,14 +1,20 @@
 AcceptStmt[1:1-1:34]
-| name:
-| | Id[1:8-1:13]
-| | | tok: SEIZE
-| stmts:
-| | HandledStmts[1:17-1:30]
-| | | stmts:
-| | | | AssignStmt[1:17-1:29]
-| | | | | dest:
-| | | | | | Id[1:17-1:21]
-| | | | | | | tok: BUSY
-| | | | | expr:
-| | | | | | Id[1:25-1:29]
-| | | | | | | tok: TRUE
+|name:
+|  Id[1:8-1:13]
+|  |tok: SEIZE
+|entry_index_expr: <null>
+|params:
+|  ParamSpecList[1:8-1:8]: <empty list>
+|stmts:
+|  HandledStmts[1:17-1:30]
+|  |stmts:
+|  |  AdaNodeList[1:17-1:30]
+|  |  |  AssignStmt[1:17-1:29]
+|  |  |  |dest:
+|  |  |  |  Id[1:17-1:21]
+|  |  |  |  |tok: BUSY
+|  |  |  |expr:
+|  |  |  |  Id[1:25-1:29]
+|  |  |  |  |tok: TRUE
+|  |exceptions:
+|  |  ExceptionHandlerList[1:29-1:29]: <empty list>

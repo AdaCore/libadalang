@@ -1,6 +1,6 @@
 DelayStmt[1:1-1:10]
-| has_until:
-| | UntilAbsent[1:7-1:7]
-| expr:
-| | Id[1:7-1:10]
-| | | tok: Del
+|has_until:
+|  UntilAbsent[1:7-1:7]
+|expr:
+|  Id[1:7-1:10]
+|  |tok: Del

@@ -1,22 +1,26 @@
 TypeDecl[1:1-1:48]
-| type_id:
-| | Id[1:6-1:9]
-| | | tok: Arr
-| type_def:
-| | ArrayTypeDef[1:13-1:48]
-| | | indices:
-| | | | UnconstrainedArrayIndices[1:20-1:36]
-| | | | | types:
-| | | | | | Id[1:20-1:27]
-| | | | | | | tok: Integer
-| | | stored_component:
-| | | | ComponentDef[1:41-1:48]
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:41-1:41]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:41-1:48]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:41-1:41]
-| | | | | | | name:
-| | | | | | | | Id[1:41-1:48]
-| | | | | | | | | tok: Integer
+|type_id:
+|  Id[1:6-1:9]
+|  |tok: Arr
+|discriminants: <null>
+|type_def:
+|  ArrayTypeDef[1:13-1:48]
+|  |indices:
+|  |  UnconstrainedArrayIndices[1:20-1:36]
+|  |  |types:
+|  |  |  NameList[1:20-1:36]
+|  |  |  |  Id[1:20-1:27]
+|  |  |  |  |tok: Integer
+|  |stored_component:
+|  |  ComponentDef[1:41-1:48]
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:41-1:41]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:41-1:48]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:41-1:41]
+|  |  |  |name:
+|  |  |  |  Id[1:41-1:48]
+|  |  |  |  |tok: Integer
+|  |  |  |constraint: <null>
+|aspects: <null>

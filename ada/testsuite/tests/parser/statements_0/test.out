@@ -1,98 +1,135 @@
-AcceptStmt[1:1-1:64]
-| name:
-| | Id[1:8-1:13]
-| | | tok: Store
-| params:
-| | ParamSpec[1:15-1:32]
-| | | ids:
-| | | | Id[1:15-1:22]
-| | | | | tok: An_Item
-| | | has_aliased:
-| | | | AliasedAbsent[1:25-1:25]
-| | | mode:
-| | | | ModeIn[1:25-1:27]
-| | | type_expr:
-| | | | SubtypeIndication[1:28-1:32]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:28-1:28]
-| | | | | name:
-| | | | | | Id[1:28-1:32]
-| | | | | | | tok: Item
-| stmts:
-| | HandledStmts[1:37-1:54]
-| | | stmts:
-| | | | AssignStmt[1:37-1:53]
-| | | | | dest:
-| | | | | | Id[1:37-1:42]
-| | | | | | | tok: Datum
-| | | | | expr:
-| | | | | | Id[1:46-1:53]
-| | | | | | | tok: An_Item
-LoopStmt[1:66-1:234]
-| stmts:
-| | SelectStmt[1:71-1:224]
-| | | guards:
-| | | | SelectWhenPart[1:80-1:144]
-| | | | | stmts:
-| | | | | | AcceptStmt[1:80-1:143]
-| | | | | | | name:
-| | | | | | | | Id[1:87-1:92]
-| | | | | | | | | tok: Store
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:94-1:111]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:94-1:101]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:104-1:104]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeIn[1:104-1:106]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:107-1:111]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:107-1:107]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:107-1:111]
-| | | | | | | | | | | | | tok: Item
-| | | | | | | stmts:
-| | | | | | | | HandledStmts[1:116-1:133]
-| | | | | | | | | stmts:
-| | | | | | | | | | AssignStmt[1:116-1:132]
-| | | | | | | | | | | dest:
-| | | | | | | | | | | | Id[1:116-1:121]
-| | | | | | | | | | | | | tok: Datum
-| | | | | | | | | | | expr:
-| | | | | | | | | | | | Id[1:125-1:132]
-| | | | | | | | | | | | | tok: An_Item
-| | | | SelectWhenPart[1:148-1:213]
-| | | | | stmts:
-| | | | | | AcceptStmt[1:148-1:212]
-| | | | | | | name:
-| | | | | | | | Id[1:155-1:160]
-| | | | | | | | | tok: Fetch
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:162-1:180]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:162-1:169]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:172-1:172]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeOut[1:172-1:175]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:176-1:180]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:176-1:176]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:176-1:180]
-| | | | | | | | | | | | | tok: Item
-| | | | | | | stmts:
-| | | | | | | | HandledStmts[1:185-1:202]
-| | | | | | | | | stmts:
-| | | | | | | | | | AssignStmt[1:185-1:201]
-| | | | | | | | | | | dest:
-| | | | | | | | | | | | Id[1:185-1:192]
-| | | | | | | | | | | | | tok: An_Item
-| | | | | | | | | | | expr:
-| | | | | | | | | | | | Id[1:196-1:201]
-| | | | | | | | | | | | | tok: Datum
+AdaNodeList[1:1-1:235]
+|  AcceptStmt[1:1-1:64]
+|  |name:
+|  |  Id[1:8-1:13]
+|  |  |tok: Store
+|  |entry_index_expr: <null>
+|  |params:
+|  |  ParamSpecList[1:15-1:32]
+|  |  |  ParamSpec[1:15-1:32]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:15-1:22]
+|  |  |  |  |  Id[1:15-1:22]
+|  |  |  |  |  |tok: An_Item
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:25-1:25]
+|  |  |  |mode:
+|  |  |  |  ModeIn[1:25-1:27]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:28-1:32]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:28-1:32]
+|  |  |  |  |  |tok: Item
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |stmts:
+|  |  HandledStmts[1:37-1:54]
+|  |  |stmts:
+|  |  |  AdaNodeList[1:37-1:54]
+|  |  |  |  AssignStmt[1:37-1:53]
+|  |  |  |  |dest:
+|  |  |  |  |  Id[1:37-1:42]
+|  |  |  |  |  |tok: Datum
+|  |  |  |  |expr:
+|  |  |  |  |  Id[1:46-1:53]
+|  |  |  |  |  |tok: An_Item
+|  |  |exceptions:
+|  |  |  ExceptionHandlerList[1:53-1:53]: <empty list>
+|  LoopStmt[1:66-1:234]
+|  |name: <null>
+|  |spec: <null>
+|  |stmts:
+|  |  AdaNodeList[1:71-1:225]
+|  |  |  SelectStmt[1:71-1:224]
+|  |  |  |guards:
+|  |  |  |  SelectWhenPartList[1:80-1:213]
+|  |  |  |  |  SelectWhenPart[1:80-1:144]
+|  |  |  |  |  |choices: <null>
+|  |  |  |  |  |stmts:
+|  |  |  |  |  |  AdaNodeList[1:80-1:144]
+|  |  |  |  |  |  |  AcceptStmt[1:80-1:143]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:87-1:92]
+|  |  |  |  |  |  |  |  |tok: Store
+|  |  |  |  |  |  |  |entry_index_expr: <null>
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[1:94-1:111]
+|  |  |  |  |  |  |  |  |  ParamSpec[1:94-1:111]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeIn[1:104-1:106]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:107-1:111]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:107-1:107]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:107-1:111]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  HandledStmts[1:116-1:133]
+|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  AdaNodeList[1:116-1:133]
+|  |  |  |  |  |  |  |  |  |  AssignStmt[1:116-1:132]
+|  |  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:116-1:121]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Datum
+|  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:125-1:132]
+|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:132-1:132]: <empty list>
+|  |  |  |  |  SelectWhenPart[1:148-1:213]
+|  |  |  |  |  |choices: <null>
+|  |  |  |  |  |stmts:
+|  |  |  |  |  |  AdaNodeList[1:148-1:213]
+|  |  |  |  |  |  |  AcceptStmt[1:148-1:212]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:155-1:160]
+|  |  |  |  |  |  |  |  |tok: Fetch
+|  |  |  |  |  |  |  |entry_index_expr: <null>
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[1:162-1:180]
+|  |  |  |  |  |  |  |  |  ParamSpec[1:162-1:180]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:172-1:172]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeOut[1:172-1:175]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:176-1:180]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:176-1:176]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:176-1:180]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  HandledStmts[1:185-1:202]
+|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  AdaNodeList[1:185-1:202]
+|  |  |  |  |  |  |  |  |  |  AssignStmt[1:185-1:201]
+|  |  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:185-1:192]
+|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:196-1:201]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Datum
+|  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:201-1:201]: <empty list>
+|  |  |  |else_stmts:
+|  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
+|  |  |  |abort_stmts:
+|  |  |  |  AdaNodeList[1:212-1:212]: <empty list>

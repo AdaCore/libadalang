@@ -1,7 +1,7 @@
 RaiseStmt[1:1-1:41]
-| exception_name:
-| | Id[1:7-1:26]
-| | | tok: NotImplementedError
-| error_message:
-| | Str[1:32-1:41]
-| | | tok: "too bad"
+|exception_name:
+|  Id[1:7-1:26]
+|  |tok: NotImplementedError
+|error_message:
+|  Str[1:32-1:41]
+|  |tok: "too bad"

@@ -1,88 +1,107 @@
 CompilationUnit[1:1-7:10]
-| prelude:
-| | WithClause[1:1-1:17]
-| | | has_limited:
-| | | | LimitedAbsent[1:1-1:1]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | packages:
-| | | | DottedName[1:6-1:17]
-| | | | | prefix:
-| | | | | | Id[1:6-1:9]
-| | | | | | | tok: Ada
-| | | | | suffix:
-| | | | | | Id[1:10-1:17]
-| | | | | | | tok: Text_IO
-| | UsePackageClause[1:19-1:34]
-| | | packages:
-| | | | DottedName[1:23-1:34]
-| | | | | prefix:
-| | | | | | Id[1:23-1:26]
-| | | | | | | tok: Ada
-| | | | | suffix:
-| | | | | | Id[1:27-1:34]
-| | | | | | | tok: Text_IO
-| body:
-| | LibraryItem[3:1-7:9]
-| | | has_private:
-| | | | PrivateAbsent[3:1-3:1]
-| | | item:
-| | | | SubprogramBody[3:1-7:9]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[3:1-3:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[3:1-3:15]
-| | | | | | | name:
-| | | | | | | | Id[3:11-3:15]
-| | | | | | | | | tok: Test
-| | | | | decls:
-| | | | | | DeclarativePart[4:4-4:27]
-| | | | | | | decls:
-| | | | | | | | ObjectDecl[4:4-4:26]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[4:4-4:5]
-| | | | | | | | | | | tok: A
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[4:8-4:8]
-| | | | | | | | | has_constant:
-| | | | | | | | | | ConstantAbsent[4:8-4:8]
-| | | | | | | | | inout:
-| | | | | | | | | | ModeDefault[4:8-4:15]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[4:8-4:15]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[4:8-4:8]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[4:8-4:15]
-| | | | | | | | | | | | | tok: Integer
-| | | | | | | | | default_expr:
-| | | | | | | | | | BinOp[4:19-4:26]
-| | | | | | | | | | | left:
-| | | | | | | | | | | | UnOp[4:19-4:22]
-| | | | | | | | | | | | | op:
-| | | | | | | | | | | | | | OpMinus[4:19-4:20]
-| | | | | | | | | | | | | expr:
-| | | | | | | | | | | | | | Int[4:21-4:22]
-| | | | | | | | | | | | | | | tok: 1
-| | | | | | | | | | | op:
-| | | | | | | | | | | | OpMinus[4:23-4:24]
-| | | | | | | | | | | right:
-| | | | | | | | | | | | Int[4:25-4:26]
-| | | | | | | | | | | | | tok: 2
-| | | | | stmts:
-| | | | | | HandledStmts[6:4-6:16]
-| | | | | | | stmts:
-| | | | | | | | CallStmt[6:4-6:15]
-| | | | | | | | | call:
-| | | | | | | | | | CallExpr[6:4-6:15]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[6:4-6:12]
-| | | | | | | | | | | | | tok: Put_Line
-| | | | | | | | | | | suffix:
-| | | | | | | | | | | | ParamAssoc[6:13-6:14]
-| | | | | | | | | | | | | expr:
-| | | | | | | | | | | | | | Id[6:13-6:14]
-| | | | | | | | | | | | | | | tok: A
-| | | | | end_id:
-| | | | | | Id[7:5-7:9]
-| | | | | | | tok: Test
+|prelude:
+|  AdaNodeList[1:1-1:35]
+|  |  WithClause[1:1-1:17]
+|  |  |has_limited:
+|  |  |  LimitedAbsent[1:1-1:1]
+|  |  |has_private:
+|  |  |  PrivateAbsent[1:1-1:1]
+|  |  |packages:
+|  |  |  NameList[1:6-1:17]
+|  |  |  |  DottedName[1:6-1:17]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[1:6-1:9]
+|  |  |  |  |  |tok: Ada
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[1:10-1:17]
+|  |  |  |  |  |tok: Text_IO
+|  |  UsePackageClause[1:19-1:34]
+|  |  |packages:
+|  |  |  NameList[1:23-1:34]
+|  |  |  |  DottedName[1:23-1:34]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[1:23-1:26]
+|  |  |  |  |  |tok: Ada
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[1:27-1:34]
+|  |  |  |  |  |tok: Text_IO
+|body:
+|  LibraryItem[3:1-7:9]
+|  |has_private:
+|  |  PrivateAbsent[3:1-3:1]
+|  |item:
+|  |  SubprogramBody[3:1-7:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[3:1-3:10]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[3:1-3:15]
+|  |  |  |name:
+|  |  |  |  Id[3:11-3:15]
+|  |  |  |  |tok: Test
+|  |  |  |params:
+|  |  |  |  ParamSpecList[3:11-3:11]: <empty list>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[4:4-4:27]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[4:4-4:27]
+|  |  |  |  |  ObjectDecl[4:4-4:26]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[4:4-4:5]
+|  |  |  |  |  |  |  Id[4:4-4:5]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[4:8-4:8]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantAbsent[4:8-4:8]
+|  |  |  |  |  |inout:
+|  |  |  |  |  |  ModeDefault[4:8-4:15]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[4:8-4:15]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[4:8-4:8]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[4:8-4:15]
+|  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default_expr:
+|  |  |  |  |  |  BinOp[4:19-4:26]
+|  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  UnOp[4:19-4:22]
+|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  OpMinus[4:19-4:20]
+|  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  Int[4:21-4:22]
+|  |  |  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  OpMinus[4:23-4:24]
+|  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  Int[4:25-4:26]
+|  |  |  |  |  |  |  |tok: 2
+|  |  |  |  |  |renaming_clause: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |stmts:
+|  |  |  HandledStmts[6:4-6:16]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[6:4-6:16]
+|  |  |  |  |  CallStmt[6:4-6:15]
+|  |  |  |  |  |call:
+|  |  |  |  |  |  CallExpr[6:4-6:15]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[6:4-6:12]
+|  |  |  |  |  |  |  |tok: Put_Line
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  ParamAssocList[6:13-6:14]
+|  |  |  |  |  |  |  |  ParamAssoc[6:13-6:14]
+|  |  |  |  |  |  |  |  |designator: <null>
+|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  Id[6:13-6:14]
+|  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[6:15-6:15]: <empty list>
+|  |  |end_id:
+|  |  |  Id[7:5-7:9]
+|  |  |  |tok: Test
+|pragmas:
+|  PragmaNodeList[7:10-7:10]: <empty list>

@@ -1,21 +1,26 @@
 AttributeRef[1:1-1:22]
-| prefix:
-| | QualExpr[1:1-1:14]
-| | | prefix:
-| | | | AttributeRef[1:1-1:6]
-| | | | | prefix:
-| | | | | | Id[1:1-1:2]
-| | | | | | | tok: A
-| | | | | attribute:
-| | | | | | Id[1:5-1:6]
-| | | | | | | tok: C
-| | | suffix:
-| | | | Aggregate[1:10-1:13]
-| | | | | assocs:
-| | | | | | ParamAssoc[1:10-1:13]
-| | | | | | | expr:
-| | | | | | | | Chr[1:10-1:13]
-| | | | | | | | | tok: 'D'
-| attribute:
-| | Id[1:15-1:22]
-| | | tok: Pointer
+|prefix:
+|  QualExpr[1:1-1:14]
+|  |prefix:
+|  |  AttributeRef[1:1-1:6]
+|  |  |prefix:
+|  |  |  Id[1:1-1:2]
+|  |  |  |tok: A
+|  |  |attribute:
+|  |  |  Id[1:5-1:6]
+|  |  |  |tok: C
+|  |  |args: <null>
+|  |suffix:
+|  |  Aggregate[1:10-1:13]
+|  |  |ancestor_expr: <null>
+|  |  |assocs:
+|  |  |  ParamAssocList[1:10-1:13]
+|  |  |  |  ParamAssoc[1:10-1:13]
+|  |  |  |  |designator: <null>
+|  |  |  |  |expr:
+|  |  |  |  |  Chr[1:10-1:13]
+|  |  |  |  |  |tok: 'D'
+|attribute:
+|  Id[1:15-1:22]
+|  |tok: Pointer
+|args: <null>

@@ -1,4 +1,7 @@
-Pragma[1:1-1:15]
-| id:
-| | Id[1:8-1:15]
-| | | tok: No_Body
+PragmaNodeList[1:1-1:16]
+|  Pragma[1:1-1:15]
+|  |id:
+|  |  Id[1:8-1:15]
+|  |  |tok: No_Body
+|  |args:
+|  |  PragmaArgumentAssocList[1:8-1:8]: <empty list>

@@ -1,37 +1,46 @@
 GenericSubprogramDecl[1:1-1:76]
-| formal_part:
-| | TypeDecl[1:9-1:34]
-| | | type_id:
-| | | | Id[1:14-1:23]
-| | | | | tok: Element_T
-| | | type_def:
-| | | | PrivateTypeDef[1:24-1:34]
-| | | | | has_abstract:
-| | | | | | AbstractAbsent[1:27-1:27]
-| | | | | has_tagged:
-| | | | | | TaggedAbsent[1:27-1:27]
-| | | | | has_limited:
-| | | | | | LimitedAbsent[1:27-1:27]
-| subp_spec:
-| | SubprogramSpec[1:36-1:76]
-| | | name:
-| | | | Id[1:46-1:50]
-| | | | | tok: Swap
-| | | params:
-| | | | ParamSpec[1:52-1:75]
-| | | | | ids:
-| | | | | | Id[1:52-1:53]
-| | | | | | | tok: X
-| | | | | | Id[1:55-1:56]
-| | | | | | | tok: Y
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:59-1:59]
-| | | | | mode:
-| | | | | | ModeInOut[1:59-1:65]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:66-1:75]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:66-1:66]
-| | | | | | | name:
-| | | | | | | | Id[1:66-1:75]
-| | | | | | | | | tok: Element_T
+|formal_part:
+|  AdaNodeList[1:9-1:35]
+|  |  TypeDecl[1:9-1:34]
+|  |  |type_id:
+|  |  |  Id[1:14-1:23]
+|  |  |  |tok: Element_T
+|  |  |discriminants: <null>
+|  |  |type_def:
+|  |  |  PrivateTypeDef[1:24-1:34]
+|  |  |  |has_abstract:
+|  |  |  |  AbstractAbsent[1:27-1:27]
+|  |  |  |has_tagged:
+|  |  |  |  TaggedAbsent[1:27-1:27]
+|  |  |  |has_limited:
+|  |  |  |  LimitedAbsent[1:27-1:27]
+|  |  |aspects: <null>
+|subp_spec:
+|  SubprogramSpec[1:36-1:76]
+|  |name:
+|  |  Id[1:46-1:50]
+|  |  |tok: Swap
+|  |params:
+|  |  ParamSpecList[1:52-1:75]
+|  |  |  ParamSpec[1:52-1:75]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:52-1:56]
+|  |  |  |  |  Id[1:52-1:53]
+|  |  |  |  |  |tok: X
+|  |  |  |  |  Id[1:55-1:56]
+|  |  |  |  |  |tok: Y
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:59-1:59]
+|  |  |  |mode:
+|  |  |  |  ModeInOut[1:59-1:65]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:66-1:75]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:66-1:66]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:66-1:75]
+|  |  |  |  |  |tok: Element_T
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |returns: <null>
+|aspects: <null>

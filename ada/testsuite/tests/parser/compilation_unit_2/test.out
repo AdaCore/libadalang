@@ -1,18 +1,25 @@
 CompilationUnit[1:1-1:24]
-| body:
-| | LibraryItem[1:1-1:23]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | GenericPackageInstantiation[1:1-1:23]
-| | | | | name:
-| | | | | | Id[1:9-1:10]
-| | | | | | | tok: A
-| | | | | generic_entity_name:
-| | | | | | Id[1:18-1:19]
-| | | | | | | tok: B
-| | | | | params:
-| | | | | | ParamAssoc[1:21-1:22]
-| | | | | | | expr:
-| | | | | | | | Id[1:21-1:22]
-| | | | | | | | | tok: C
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-1:23]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  GenericPackageInstantiation[1:1-1:23]
+|  |  |name:
+|  |  |  Id[1:9-1:10]
+|  |  |  |tok: A
+|  |  |generic_entity_name:
+|  |  |  Id[1:18-1:19]
+|  |  |  |tok: B
+|  |  |params:
+|  |  |  ParamAssocList[1:21-1:22]
+|  |  |  |  ParamAssoc[1:21-1:22]
+|  |  |  |  |designator: <null>
+|  |  |  |  |expr:
+|  |  |  |  |  Id[1:21-1:22]
+|  |  |  |  |  |tok: C
+|  |  |aspects: <null>
+|pragmas:
+|  PragmaNodeList[2:1-2:1]: <empty list>

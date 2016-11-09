@@ -1,35 +1,41 @@
 FormalSubpDecl[1:1-1:70]
-| subp_spec:
-| | SubprogramSpec[1:6-1:55]
-| | | name:
-| | | | Id[1:15-1:20]
-| | | | | tok: Pouet
-| | | params:
-| | | | ParamSpec[1:22-1:37]
-| | | | | ids:
-| | | | | | Id[1:22-1:23]
-| | | | | | | tok: X
-| | | | | | Id[1:25-1:26]
-| | | | | | | tok: Y
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:28-1:28]
-| | | | | mode:
-| | | | | | ModeDefault[1:28-1:37]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:28-1:37]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:28-1:28]
-| | | | | | | name:
-| | | | | | | | Id[1:28-1:37]
-| | | | | | | | | tok: Element_T
-| | | returns:
-| | | | SubtypeIndication[1:46-1:55]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:46-1:46]
-| | | | | name:
-| | | | | | Id[1:46-1:55]
-| | | | | | | tok: Element_T
-| has_abstract:
-| | AbstractPresent[1:59-1:59]
-| default_value:
-| | BoxExpr[1:68-1:70]
+|subp_spec:
+|  SubprogramSpec[1:6-1:55]
+|  |name:
+|  |  Id[1:15-1:20]
+|  |  |tok: Pouet
+|  |params:
+|  |  ParamSpecList[1:22-1:37]
+|  |  |  ParamSpec[1:22-1:37]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:22-1:26]
+|  |  |  |  |  Id[1:22-1:23]
+|  |  |  |  |  |tok: X
+|  |  |  |  |  Id[1:25-1:26]
+|  |  |  |  |  |tok: Y
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:28-1:28]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:28-1:37]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:28-1:37]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:28-1:37]
+|  |  |  |  |  |tok: Element_T
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |returns:
+|  |  SubtypeIndication[1:46-1:55]
+|  |  |has_not_null:
+|  |  |  NotNullAbsent[1:46-1:46]
+|  |  |name:
+|  |  |  Id[1:46-1:55]
+|  |  |  |tok: Element_T
+|  |  |constraint: <null>
+|has_abstract:
+|  AbstractPresent[1:59-1:59]
+|default_value:
+|  BoxExpr[1:68-1:70]
+|aspects: <null>

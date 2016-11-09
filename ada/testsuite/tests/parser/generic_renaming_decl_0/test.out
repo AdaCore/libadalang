@@ -1,7 +1,8 @@
 GenericRenamingDecl[1:1-1:30]
-| name:
-| | Id[1:19-1:20]
-| | | tok: A
-| renames:
-| | Id[1:29-1:30]
-| | | tok: B
+|name:
+|  Id[1:19-1:20]
+|  |tok: A
+|renames:
+|  Id[1:29-1:30]
+|  |tok: B
+|aspects: <null>

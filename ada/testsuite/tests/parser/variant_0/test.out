@@ -1,24 +1,31 @@
 Variant[1:1-1:29]
-| choice_list:
-| | Int[1:6-1:8]
-| | | tok: 12
-| | Int[1:11-1:13]
-| | | tok: 15
-| components:
-| | ComponentList[1:17-1:29]
-| | | components:
-| | | | ComponentDecl[1:17-1:28]
-| | | | | ids:
-| | | | | | Id[1:17-1:18]
-| | | | | | | tok: C
-| | | | | component_def:
-| | | | | | ComponentDef[1:21-1:28]
-| | | | | | | has_aliased:
-| | | | | | | | AliasedAbsent[1:21-1:21]
-| | | | | | | type_expr:
-| | | | | | | | SubtypeIndication[1:21-1:28]
-| | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullAbsent[1:21-1:21]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:21-1:28]
-| | | | | | | | | | | tok: Integer
+|choice_list:
+|  AdaNodeList[1:6-1:13]
+|  |  Int[1:6-1:8]
+|  |  |tok: 12
+|  |  Int[1:11-1:13]
+|  |  |tok: 15
+|components:
+|  ComponentList[1:17-1:29]
+|  |components:
+|  |  AdaNodeList[1:17-1:29]
+|  |  |  ComponentDecl[1:17-1:28]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:17-1:18]
+|  |  |  |  |  Id[1:17-1:18]
+|  |  |  |  |  |tok: C
+|  |  |  |component_def:
+|  |  |  |  ComponentDef[1:21-1:28]
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:21-1:21]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:21-1:28]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:21-1:21]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:21-1:28]
+|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |constraint: <null>
+|  |  |  |default_expr: <null>
+|  |  |  |aspects: <null>
+|  |variant_part: <null>

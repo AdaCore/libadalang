@@ -1,8 +1,10 @@
 TypeDecl[1:1-1:7]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: A
-| type_def:
-| | IncompleteTypeDef[1:7-1:7]
-| | | has_tagged:
-| | | | TaggedAbsent[1:7-1:7]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: A
+|discriminants: <null>
+|type_def:
+|  IncompleteTypeDef[1:7-1:7]
+|  |has_tagged:
+|  |  TaggedAbsent[1:7-1:7]
+|aspects: <null>

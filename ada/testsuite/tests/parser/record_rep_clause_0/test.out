@@ -1,107 +1,109 @@
 RecordRepClause[1:1-1:189]
-| component_name:
-| | Id[1:5-1:7]
-| | | tok: X2
-| components:
-| | ComponentClause[1:21-1:43]
-| | | id:
-| | | | Id[1:21-1:23]
-| | | | | tok: L1
-| | | position:
-| | | | Int[1:28-1:29]
-| | | | | tok: 0
-| | | range:
-| | | | BinOp[1:37-1:43]
-| | | | | left:
-| | | | | | Int[1:37-1:38]
-| | | | | | | tok: 0
-| | | | | op:
-| | | | | | OpEllipsis[1:39-1:41]
-| | | | | right:
-| | | | | | Int[1:42-1:43]
-| | | | | | | tok: 0
-| | ComponentClause[1:47-1:70]
-| | | id:
-| | | | Id[1:47-1:49]
-| | | | | tok: L2
-| | | position:
-| | | | Int[1:54-1:55]
-| | | | | tok: 0
-| | | range:
-| | | | BinOp[1:63-1:70]
-| | | | | left:
-| | | | | | Int[1:63-1:64]
-| | | | | | | tok: 1
-| | | | | op:
-| | | | | | OpEllipsis[1:65-1:67]
-| | | | | right:
-| | | | | | Int[1:68-1:70]
-| | | | | | | tok: 64
-| | ComponentClause[1:74-1:97]
-| | | id:
-| | | | Id[1:74-1:76]
-| | | | | tok: L3
-| | | position:
-| | | | Int[1:80-1:82]
-| | | | | tok: 12
-| | | range:
-| | | | BinOp[1:90-1:97]
-| | | | | left:
-| | | | | | Int[1:90-1:91]
-| | | | | | | tok: 0
-| | | | | op:
-| | | | | | OpEllipsis[1:92-1:94]
-| | | | | right:
-| | | | | | Int[1:95-1:97]
-| | | | | | | tok: 31
-| | ComponentClause[1:101-1:123]
-| | | id:
-| | | | Id[1:101-1:103]
-| | | | | tok: L4
-| | | position:
-| | | | Int[1:107-1:109]
-| | | | | tok: 16
-| | | range:
-| | | | BinOp[1:117-1:123]
-| | | | | left:
-| | | | | | Int[1:117-1:118]
-| | | | | | | tok: 0
-| | | | | op:
-| | | | | | OpEllipsis[1:119-1:121]
-| | | | | right:
-| | | | | | Int[1:122-1:123]
-| | | | | | | tok: 0
-| | ComponentClause[1:127-1:150]
-| | | id:
-| | | | Id[1:127-1:129]
-| | | | | tok: L5
-| | | position:
-| | | | Int[1:133-1:135]
-| | | | | tok: 16
-| | | range:
-| | | | BinOp[1:143-1:150]
-| | | | | left:
-| | | | | | Int[1:143-1:144]
-| | | | | | | tok: 1
-| | | | | op:
-| | | | | | OpEllipsis[1:145-1:147]
-| | | | | right:
-| | | | | | Int[1:148-1:150]
-| | | | | | | tok: 13
-| | ComponentClause[1:154-1:177]
-| | | id:
-| | | | Id[1:154-1:156]
-| | | | | tok: L6
-| | | position:
-| | | | Int[1:160-1:162]
-| | | | | tok: 18
-| | | range:
-| | | | BinOp[1:170-1:177]
-| | | | | left:
-| | | | | | Int[1:170-1:171]
-| | | | | | | tok: 0
-| | | | | op:
-| | | | | | OpEllipsis[1:172-1:174]
-| | | | | right:
-| | | | | | Int[1:175-1:177]
-| | | | | | | tok: 71
+|component_name:
+|  Id[1:5-1:7]
+|  |tok: X2
+|at_expr: <null>
+|components:
+|  ComponentClauseList[1:21-1:178]
+|  |  ComponentClause[1:21-1:43]
+|  |  |id:
+|  |  |  Id[1:21-1:23]
+|  |  |  |tok: L1
+|  |  |position:
+|  |  |  Int[1:28-1:29]
+|  |  |  |tok: 0
+|  |  |range:
+|  |  |  BinOp[1:37-1:43]
+|  |  |  |left:
+|  |  |  |  Int[1:37-1:38]
+|  |  |  |  |tok: 0
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:39-1:41]
+|  |  |  |right:
+|  |  |  |  Int[1:42-1:43]
+|  |  |  |  |tok: 0
+|  |  ComponentClause[1:47-1:70]
+|  |  |id:
+|  |  |  Id[1:47-1:49]
+|  |  |  |tok: L2
+|  |  |position:
+|  |  |  Int[1:54-1:55]
+|  |  |  |tok: 0
+|  |  |range:
+|  |  |  BinOp[1:63-1:70]
+|  |  |  |left:
+|  |  |  |  Int[1:63-1:64]
+|  |  |  |  |tok: 1
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:65-1:67]
+|  |  |  |right:
+|  |  |  |  Int[1:68-1:70]
+|  |  |  |  |tok: 64
+|  |  ComponentClause[1:74-1:97]
+|  |  |id:
+|  |  |  Id[1:74-1:76]
+|  |  |  |tok: L3
+|  |  |position:
+|  |  |  Int[1:80-1:82]
+|  |  |  |tok: 12
+|  |  |range:
+|  |  |  BinOp[1:90-1:97]
+|  |  |  |left:
+|  |  |  |  Int[1:90-1:91]
+|  |  |  |  |tok: 0
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:92-1:94]
+|  |  |  |right:
+|  |  |  |  Int[1:95-1:97]
+|  |  |  |  |tok: 31
+|  |  ComponentClause[1:101-1:123]
+|  |  |id:
+|  |  |  Id[1:101-1:103]
+|  |  |  |tok: L4
+|  |  |position:
+|  |  |  Int[1:107-1:109]
+|  |  |  |tok: 16
+|  |  |range:
+|  |  |  BinOp[1:117-1:123]
+|  |  |  |left:
+|  |  |  |  Int[1:117-1:118]
+|  |  |  |  |tok: 0
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:119-1:121]
+|  |  |  |right:
+|  |  |  |  Int[1:122-1:123]
+|  |  |  |  |tok: 0
+|  |  ComponentClause[1:127-1:150]
+|  |  |id:
+|  |  |  Id[1:127-1:129]
+|  |  |  |tok: L5
+|  |  |position:
+|  |  |  Int[1:133-1:135]
+|  |  |  |tok: 16
+|  |  |range:
+|  |  |  BinOp[1:143-1:150]
+|  |  |  |left:
+|  |  |  |  Int[1:143-1:144]
+|  |  |  |  |tok: 1
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:145-1:147]
+|  |  |  |right:
+|  |  |  |  Int[1:148-1:150]
+|  |  |  |  |tok: 13
+|  |  ComponentClause[1:154-1:177]
+|  |  |id:
+|  |  |  Id[1:154-1:156]
+|  |  |  |tok: L6
+|  |  |position:
+|  |  |  Int[1:160-1:162]
+|  |  |  |tok: 18
+|  |  |range:
+|  |  |  BinOp[1:170-1:177]
+|  |  |  |left:
+|  |  |  |  Int[1:170-1:171]
+|  |  |  |  |tok: 0
+|  |  |  |op:
+|  |  |  |  OpEllipsis[1:172-1:174]
+|  |  |  |right:
+|  |  |  |  Int[1:175-1:177]
+|  |  |  |  |tok: 71

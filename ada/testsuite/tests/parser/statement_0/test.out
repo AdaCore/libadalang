@@ -1,15 +1,17 @@
 LoopStmt[1:1-1:33]
-| spec:
-| | WhileLoopSpec[1:1-1:13]
-| | | expr:
-| | | | BinOp[1:7-1:13]
-| | | | | left:
-| | | | | | Id[1:7-1:8]
-| | | | | | | tok: A
-| | | | | op:
-| | | | | | OpGt[1:9-1:10]
-| | | | | right:
-| | | | | | Int[1:11-1:13]
-| | | | | | | tok: 12
-| stmts:
-| | NullStmt[1:19-1:23]
+|name: <null>
+|spec:
+|  WhileLoopSpec[1:1-1:13]
+|  |expr:
+|  |  BinOp[1:7-1:13]
+|  |  |left:
+|  |  |  Id[1:7-1:8]
+|  |  |  |tok: A
+|  |  |op:
+|  |  |  OpGt[1:9-1:10]
+|  |  |right:
+|  |  |  Int[1:11-1:13]
+|  |  |  |tok: 12
+|stmts:
+|  AdaNodeList[1:19-1:24]
+|  |  NullStmt[1:19-1:23]

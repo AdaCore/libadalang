@@ -1,18 +1,20 @@
 LoopStmt[1:1-1:34]
-| name:
-| | Id[1:1-1:2]
-| | | tok: A
-| spec:
-| | ForLoopSpec[1:8-1:14]
-| | | id:
-| | | | Id[1:8-1:9]
-| | | | | tok: A
-| | | loop_type:
-| | | | IterTypeIn[1:10-1:12]
-| | | has_reverse:
-| | | | ReverseAbsent[1:13-1:13]
-| | | iter_expr:
-| | | | Id[1:13-1:14]
-| | | | | tok: B
-| stmts:
-| | NullStmt[1:20-1:24]
+|name:
+|  Id[1:1-1:2]
+|  |tok: A
+|spec:
+|  ForLoopSpec[1:8-1:14]
+|  |id:
+|  |  Id[1:8-1:9]
+|  |  |tok: A
+|  |id_type: <null>
+|  |loop_type:
+|  |  IterTypeIn[1:10-1:12]
+|  |has_reverse:
+|  |  ReverseAbsent[1:13-1:13]
+|  |iter_expr:
+|  |  Id[1:13-1:14]
+|  |  |tok: B
+|stmts:
+|  AdaNodeList[1:20-1:25]
+|  |  NullStmt[1:20-1:24]

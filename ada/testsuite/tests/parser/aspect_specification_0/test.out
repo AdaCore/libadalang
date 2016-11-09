@@ -1,21 +1,23 @@
 AspectSpec[1:1-1:25]
-| aspect_assocs:
-| | AspectAssoc[1:6-1:25]
-| | | id:
-| | | | AttributeRef[1:6-1:15]
-| | | | | prefix:
-| | | | | | Id[1:6-1:9]
-| | | | | | | tok: Pre
-| | | | | attribute:
-| | | | | | Id[1:10-1:15]
-| | | | | | | tok: Class
-| | | expr:
-| | | | BinOp[1:19-1:25]
-| | | | | left:
-| | | | | | Id[1:19-1:20]
-| | | | | | | tok: A
-| | | | | op:
-| | | | | | OpLt[1:21-1:22]
-| | | | | right:
-| | | | | | Int[1:23-1:25]
-| | | | | | | tok: 12
+|aspect_assocs:
+|  AspectAssocList[1:6-1:25]
+|  |  AspectAssoc[1:6-1:25]
+|  |  |id:
+|  |  |  AttributeRef[1:6-1:15]
+|  |  |  |prefix:
+|  |  |  |  Id[1:6-1:9]
+|  |  |  |  |tok: Pre
+|  |  |  |attribute:
+|  |  |  |  Id[1:10-1:15]
+|  |  |  |  |tok: Class
+|  |  |  |args: <null>
+|  |  |expr:
+|  |  |  BinOp[1:19-1:25]
+|  |  |  |left:
+|  |  |  |  Id[1:19-1:20]
+|  |  |  |  |tok: A
+|  |  |  |op:
+|  |  |  |  OpLt[1:21-1:22]
+|  |  |  |right:
+|  |  |  |  Int[1:23-1:25]
+|  |  |  |  |tok: 12

@@ -1,20 +1,29 @@
 GenericPackageDecl[1:1-1:42]
-| package_decl:
-| | BasePackageDecl[1:9-1:42]
-| | | package_name:
-| | | | Id[1:17-1:18]
-| | | | | tok: A
-| | | public_part:
-| | | | PublicPart[1:22-1:36]
-| | | | | decls:
-| | | | | | SubprogramDecl[1:22-1:35]
-| | | | | | | overriding:
-| | | | | | | | OverridingUnspecified[1:22-1:31]
-| | | | | | | subp_spec:
-| | | | | | | | SubprogramSpec[1:22-1:35]
-| | | | | | | | | name:
-| | | | | | | | | | Id[1:32-1:35]
-| | | | | | | | | | | tok: Set
-| | | end_id:
-| | | | Id[1:41-1:42]
-| | | | | tok: A
+|formal_part:
+|  AdaNodeList[1:9-1:9]: <empty list>
+|package_decl:
+|  BasePackageDecl[1:9-1:42]
+|  |package_name:
+|  |  Id[1:17-1:18]
+|  |  |tok: A
+|  |aspects: <null>
+|  |public_part:
+|  |  PublicPart[1:22-1:36]
+|  |  |decls:
+|  |  |  AdaNodeList[1:22-1:36]
+|  |  |  |  SubprogramDecl[1:22-1:35]
+|  |  |  |  |overriding:
+|  |  |  |  |  OverridingUnspecified[1:22-1:31]
+|  |  |  |  |subp_spec:
+|  |  |  |  |  SubprogramSpec[1:22-1:35]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:32-1:35]
+|  |  |  |  |  |  |tok: Set
+|  |  |  |  |  |params:
+|  |  |  |  |  |  ParamSpecList[1:32-1:32]: <empty list>
+|  |  |  |  |  |returns: <null>
+|  |  |  |  |aspects: <null>
+|  |private_part: <null>
+|  |end_id:
+|  |  Id[1:41-1:42]
+|  |  |tok: A

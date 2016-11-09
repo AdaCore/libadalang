@@ -1,14 +1,14 @@
 FloatingPointDef[1:1-1:30]
-| num_digits:
-| | Id[1:8-1:12]
-| | | tok: Digs
-| range:
-| | BinOp[1:19-1:30]
-| | | left:
-| | | | Id[1:19-1:22]
-| | | | | tok: Low
-| | | op:
-| | | | OpEllipsis[1:23-1:25]
-| | | right:
-| | | | Id[1:26-1:30]
-| | | | | tok: High
+|num_digits:
+|  Id[1:8-1:12]
+|  |tok: Digs
+|range:
+|  BinOp[1:19-1:30]
+|  |left:
+|  |  Id[1:19-1:22]
+|  |  |tok: Low
+|  |op:
+|  |  OpEllipsis[1:23-1:25]
+|  |right:
+|  |  Id[1:26-1:30]
+|  |  |tok: High

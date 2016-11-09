@@ -1,36 +1,47 @@
 BlockStmt[1:1-1:46]
-| decls:
-| | ObjectDecl[1:9-1:26]
-| | | ids:
-| | | | Id[1:9-1:10]
-| | | | | tok: A
-| | | has_aliased:
-| | | | AliasedAbsent[1:13-1:13]
-| | | has_constant:
-| | | | ConstantAbsent[1:13-1:13]
-| | | inout:
-| | | | ModeDefault[1:13-1:20]
-| | | type_expr:
-| | | | SubtypeIndication[1:13-1:20]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:13-1:13]
-| | | | | name:
-| | | | | | Id[1:13-1:20]
-| | | | | | | tok: Integer
-| | | default_expr:
-| | | | Int[1:24-1:26]
-| | | | | tok: 12
-| stmts:
-| | HandledStmts[1:34-1:42]
-| | | stmts:
-| | | | CallStmt[1:34-1:41]
-| | | | | call:
-| | | | | | CallExpr[1:34-1:41]
-| | | | | | | name:
-| | | | | | | | Id[1:34-1:37]
-| | | | | | | | | tok: Foo
-| | | | | | | suffix:
-| | | | | | | | ParamAssoc[1:39-1:40]
-| | | | | | | | | expr:
-| | | | | | | | | | Id[1:39-1:40]
-| | | | | | | | | | | tok: A
+|name: <null>
+|decls:
+|  AdaNodeList[1:9-1:27]
+|  |  ObjectDecl[1:9-1:26]
+|  |  |ids:
+|  |  |  IdentifierList[1:9-1:10]
+|  |  |  |  Id[1:9-1:10]
+|  |  |  |  |tok: A
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:13-1:13]
+|  |  |has_constant:
+|  |  |  ConstantAbsent[1:13-1:13]
+|  |  |inout:
+|  |  |  ModeDefault[1:13-1:20]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:13-1:20]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:13-1:13]
+|  |  |  |name:
+|  |  |  |  Id[1:13-1:20]
+|  |  |  |  |tok: Integer
+|  |  |  |constraint: <null>
+|  |  |default_expr:
+|  |  |  Int[1:24-1:26]
+|  |  |  |tok: 12
+|  |  |renaming_clause: <null>
+|  |  |aspects: <null>
+|stmts:
+|  HandledStmts[1:34-1:42]
+|  |stmts:
+|  |  AdaNodeList[1:34-1:42]
+|  |  |  CallStmt[1:34-1:41]
+|  |  |  |call:
+|  |  |  |  CallExpr[1:34-1:41]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:34-1:37]
+|  |  |  |  |  |tok: Foo
+|  |  |  |  |suffix:
+|  |  |  |  |  ParamAssocList[1:39-1:40]
+|  |  |  |  |  |  ParamAssoc[1:39-1:40]
+|  |  |  |  |  |  |designator: <null>
+|  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  Id[1:39-1:40]
+|  |  |  |  |  |  |  |tok: A
+|  |exceptions:
+|  |  ExceptionHandlerList[1:41-1:41]: <empty list>

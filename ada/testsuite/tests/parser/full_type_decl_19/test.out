@@ -1,13 +1,16 @@
 TypeDecl[1:1-1:51]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: A
-| type_def:
-| | InterfaceTypeDef[1:11-1:51]
-| | | interface_kind:
-| | | | InterfaceKindSynchronized[1:11-1:23]
-| | | interfaces:
-| | | | Id[1:38-1:42]
-| | | | | tok: Ilol
-| | | | Id[1:47-1:51]
-| | | | | tok: Imdr
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: A
+|discriminants: <null>
+|type_def:
+|  InterfaceTypeDef[1:11-1:51]
+|  |interface_kind:
+|  |  InterfaceKindSynchronized[1:11-1:23]
+|  |interfaces:
+|  |  NameList[1:34-1:51]
+|  |  |  Id[1:38-1:42]
+|  |  |  |tok: Ilol
+|  |  |  Id[1:47-1:51]
+|  |  |  |tok: Imdr
+|aspects: <null>

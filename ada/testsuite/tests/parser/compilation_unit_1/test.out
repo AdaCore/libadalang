@@ -1,31 +1,42 @@
 CompilationUnit[1:1-1:55]
-| body:
-| | LibraryItem[1:1-1:54]
-| | | has_private:
-| | | | PrivatePresent[1:1-1:1]
-| | | item:
-| | | | PackageDecl[1:9-1:54]
-| | | | | package_name:
-| | | | | | Id[1:17-1:18]
-| | | | | | | tok: A
-| | | | | public_part:
-| | | | | | PublicPart[1:22-1:48]
-| | | | | | | decls:
-| | | | | | | | SubprogramDecl[1:22-1:47]
-| | | | | | | | | overriding:
-| | | | | | | | | | OverridingUnspecified[1:22-1:30]
-| | | | | | | | | subp_spec:
-| | | | | | | | | | SubprogramSpec[1:22-1:47]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:31-1:32]
-| | | | | | | | | | | | | tok: B
-| | | | | | | | | | | returns:
-| | | | | | | | | | | | SubtypeIndication[1:40-1:47]
-| | | | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | | | NotNullAbsent[1:40-1:40]
-| | | | | | | | | | | | | name:
-| | | | | | | | | | | | | | Id[1:40-1:47]
-| | | | | | | | | | | | | | | tok: Boolean
-| | | | | end_id:
-| | | | | | Id[1:53-1:54]
-| | | | | | | tok: A
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-1:54]
+|  |has_private:
+|  |  PrivatePresent[1:1-1:1]
+|  |item:
+|  |  PackageDecl[1:9-1:54]
+|  |  |package_name:
+|  |  |  Id[1:17-1:18]
+|  |  |  |tok: A
+|  |  |aspects: <null>
+|  |  |public_part:
+|  |  |  PublicPart[1:22-1:48]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[1:22-1:48]
+|  |  |  |  |  SubprogramDecl[1:22-1:47]
+|  |  |  |  |  |overriding:
+|  |  |  |  |  |  OverridingUnspecified[1:22-1:30]
+|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  SubprogramSpec[1:22-1:47]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:31-1:32]
+|  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  ParamSpecList[1:31-1:31]: <empty list>
+|  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  SubtypeIndication[1:40-1:47]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:40-1:47]
+|  |  |  |  |  |  |  |  |tok: Boolean
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |private_part: <null>
+|  |  |end_id:
+|  |  |  Id[1:53-1:54]
+|  |  |  |tok: A
+|pragmas:
+|  PragmaNodeList[2:1-2:1]: <empty list>

@@ -1,32 +1,33 @@
 IfExpr[1:1-1:45]
-| cond_expr:
-| | BinOp[1:4-1:9]
-| | | left:
-| | | | Id[1:4-1:5]
-| | | | | tok: A
-| | | op:
-| | | | OpEq[1:6-1:7]
-| | | right:
-| | | | Id[1:8-1:9]
-| | | | | tok: B
-| then_expr:
-| | Int[1:15-1:17]
-| | | tok: 12
-| elsif_list:
-| | ElsifExprPart[1:18-1:37]
-| | | cond_expr:
-| | | | BinOp[1:24-1:29]
-| | | | | left:
-| | | | | | Id[1:24-1:25]
-| | | | | | | tok: A
-| | | | | op:
-| | | | | | OpEq[1:26-1:27]
-| | | | | right:
-| | | | | | Id[1:28-1:29]
-| | | | | | | tok: C
-| | | then_expr:
-| | | | Int[1:35-1:37]
-| | | | | tok: 14
-| else_expr:
-| | Int[1:43-1:45]
-| | | tok: 15
+|cond_expr:
+|  BinOp[1:4-1:9]
+|  |left:
+|  |  Id[1:4-1:5]
+|  |  |tok: A
+|  |op:
+|  |  OpEq[1:6-1:7]
+|  |right:
+|  |  Id[1:8-1:9]
+|  |  |tok: B
+|then_expr:
+|  Int[1:15-1:17]
+|  |tok: 12
+|elsif_list:
+|  ElsifExprPartList[1:18-1:37]
+|  |  ElsifExprPart[1:18-1:37]
+|  |  |cond_expr:
+|  |  |  BinOp[1:24-1:29]
+|  |  |  |left:
+|  |  |  |  Id[1:24-1:25]
+|  |  |  |  |tok: A
+|  |  |  |op:
+|  |  |  |  OpEq[1:26-1:27]
+|  |  |  |right:
+|  |  |  |  Id[1:28-1:29]
+|  |  |  |  |tok: C
+|  |  |then_expr:
+|  |  |  Int[1:35-1:37]
+|  |  |  |tok: 14
+|else_expr:
+|  Int[1:43-1:45]
+|  |tok: 15

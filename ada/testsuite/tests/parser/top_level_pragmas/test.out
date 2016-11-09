@@ -1,69 +1,80 @@
 CompilationUnit[30:1-32:49]
-| body:
-| | LibraryItem[30:1-31:40]
-| | | has_private:
-| | | | PrivateAbsent[30:1-30:1]
-| | | item:
-| | | | SubprogramDecl[30:1-31:40]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[30:1-30:9]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[30:1-31:40]
-| | | | | | | name:
-| | | | | | | | DottedName[30:10-30:43]
-| | | | | | | | | prefix:
-| | | | | | | | | | DottedName[30:10-30:21]
-| | | | | | | | | | | prefix:
-| | | | | | | | | | | | Id[30:10-30:13]
-| | | | | | | | | | | | | tok: Ada
-| | | | | | | | | | | suffix:
-| | | | | | | | | | | | Id[30:14-30:21]
-| | | | | | | | | | | | | tok: Strings
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[30:22-30:43]
-| | | | | | | | | | | tok: Less_Case_Insensitive
-| | | | | | | params:
-| | | | | | | | ParamSpec[31:4-31:24]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[31:4-31:8]
-| | | | | | | | | | | tok: Left
-| | | | | | | | | | Id[31:10-31:15]
-| | | | | | | | | | | tok: Right
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[31:18-31:18]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeDefault[31:18-31:24]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[31:18-31:24]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[31:18-31:18]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[31:18-31:24]
-| | | | | | | | | | | | | tok: String
-| | | | | | | returns:
-| | | | | | | | SubtypeIndication[31:33-31:40]
-| | | | | | | | | has_not_null:
-| | | | | | | | | | NotNullAbsent[31:33-31:33]
-| | | | | | | | | name:
-| | | | | | | | | | Id[31:33-31:40]
-| | | | | | | | | | | tok: Boolean
-| pragmas:
-| | Pragma[32:1-32:48]
-| | | id:
-| | | | Id[32:8-32:12]
-| | | | | tok: Pure
-| | | args:
-| | | | PragmaArgumentAssoc[32:14-32:47]
-| | | | | expr:
-| | | | | | DottedName[32:14-32:47]
-| | | | | | | prefix:
-| | | | | | | | DottedName[32:14-32:25]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[32:14-32:17]
-| | | | | | | | | | | tok: Ada
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[32:18-32:25]
-| | | | | | | | | | | tok: Strings
-| | | | | | | suffix:
-| | | | | | | | Id[32:26-32:47]
-| | | | | | | | | tok: Less_Case_Insensitive
+|prelude:
+|  AdaNodeList[30:1-30:1]: <empty list>
+|body:
+|  LibraryItem[30:1-31:40]
+|  |has_private:
+|  |  PrivateAbsent[30:1-30:1]
+|  |item:
+|  |  SubprogramDecl[30:1-31:40]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[30:1-30:9]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[30:1-31:40]
+|  |  |  |name:
+|  |  |  |  DottedName[30:10-30:43]
+|  |  |  |  |prefix:
+|  |  |  |  |  DottedName[30:10-30:21]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[30:10-30:13]
+|  |  |  |  |  |  |tok: Ada
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[30:14-30:21]
+|  |  |  |  |  |  |tok: Strings
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[30:22-30:43]
+|  |  |  |  |  |tok: Less_Case_Insensitive
+|  |  |  |params:
+|  |  |  |  ParamSpecList[31:4-31:24]
+|  |  |  |  |  ParamSpec[31:4-31:24]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[31:4-31:15]
+|  |  |  |  |  |  |  Id[31:4-31:8]
+|  |  |  |  |  |  |  |tok: Left
+|  |  |  |  |  |  |  Id[31:10-31:15]
+|  |  |  |  |  |  |  |tok: Right
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[31:18-31:18]
+|  |  |  |  |  |mode:
+|  |  |  |  |  |  ModeDefault[31:18-31:24]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[31:18-31:24]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[31:18-31:18]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[31:18-31:24]
+|  |  |  |  |  |  |  |tok: String
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default: <null>
+|  |  |  |returns:
+|  |  |  |  SubtypeIndication[31:33-31:40]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[31:33-31:33]
+|  |  |  |  |name:
+|  |  |  |  |  Id[31:33-31:40]
+|  |  |  |  |  |tok: Boolean
+|  |  |  |  |constraint: <null>
+|  |  |aspects: <null>
+|pragmas:
+|  PragmaNodeList[32:1-32:49]
+|  |  Pragma[32:1-32:48]
+|  |  |id:
+|  |  |  Id[32:8-32:12]
+|  |  |  |tok: Pure
+|  |  |args:
+|  |  |  PragmaArgumentAssocList[32:14-32:47]
+|  |  |  |  PragmaArgumentAssoc[32:14-32:47]
+|  |  |  |  |id: <null>
+|  |  |  |  |expr:
+|  |  |  |  |  DottedName[32:14-32:47]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  DottedName[32:14-32:25]
+|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  Id[32:14-32:17]
+|  |  |  |  |  |  |  |tok: Ada
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  Id[32:18-32:25]
+|  |  |  |  |  |  |  |tok: Strings
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[32:26-32:47]
+|  |  |  |  |  |  |tok: Less_Case_Insensitive

@@ -1,91 +1,132 @@
-CompilationUnit[1:1-2:9]
-| body:
-| | LibraryItem[1:1-2:8]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | PackageDecl[1:1-2:8]
-| | | | | package_name:
-| | | | | | Id[1:9-1:12]
-| | | | | | | tok: Foo
-| | | | | public_part:
-| | | | | | PublicPart[2:1-2:4]
-| | | | | end_id:
-| | | | | | Id[2:5-2:8]
-| | | | | | | tok: Foo
-CompilationUnit[4:1-6:13]
-| body:
-| | LibraryItem[4:1-6:12]
-| | | has_private:
-| | | | PrivateAbsent[4:1-4:1]
-| | | item:
-| | | | GenericPackageDecl[4:1-6:12]
-| | | | | package_decl:
-| | | | | | BasePackageDecl[5:1-6:12]
-| | | | | | | package_name:
-| | | | | | | | DottedName[5:9-5:16]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[5:9-5:12]
-| | | | | | | | | | | tok: Foo
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[5:13-5:16]
-| | | | | | | | | | | tok: Bar
-| | | | | | | public_part:
-| | | | | | | | PublicPart[6:1-6:4]
-| | | | | | | end_id:
-| | | | | | | | DottedName[6:5-6:12]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[6:5-6:8]
-| | | | | | | | | | | tok: Foo
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[6:9-6:12]
-| | | | | | | | | | | tok: Bar
-CompilationUnit[8:1-9:7]
-| body:
-| | LibraryItem[8:1-9:6]
-| | | has_private:
-| | | | PrivateAbsent[8:1-8:1]
-| | | item:
-| | | | PackageDecl[8:1-9:6]
-| | | | | package_name:
-| | | | | | Id[8:9-8:10]
-| | | | | | | tok: A
-| | | | | public_part:
-| | | | | | PublicPart[9:1-9:4]
-| | | | | end_id:
-| | | | | | Id[9:5-9:6]
-| | | | | | | tok: A
-CompilationUnit[11:1-13:9]
-| body:
-| | LibraryItem[11:1-13:8]
-| | | has_private:
-| | | | PrivateAbsent[11:1-11:1]
-| | | item:
-| | | | SubprogramBody[11:1-13:8]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[11:1-11:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[11:1-11:14]
-| | | | | | | name:
-| | | | | | | | DottedName[11:11-11:14]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[11:11-11:12]
-| | | | | | | | | | | tok: A
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[11:13-11:14]
-| | | | | | | | | | | tok: B
-| | | | | decls:
-| | | | | | DeclarativePart[12:1-12:6]
-| | | | | stmts:
-| | | | | | HandledStmts[13:1-13:4]
-| | | | | end_id:
-| | | | | | DottedName[13:5-13:8]
-| | | | | | | prefix:
-| | | | | | | | Id[13:5-13:6]
-| | | | | | | | | tok: A
-| | | | | | | suffix:
-| | | | | | | | Id[13:7-13:8]
-| | | | | | | | | tok: B
+CompilationUnitList[1:1-13:9]
+|  CompilationUnit[1:1-2:9]
+|  |prelude:
+|  |  AdaNodeList[1:1-1:1]: <empty list>
+|  |body:
+|  |  LibraryItem[1:1-2:8]
+|  |  |has_private:
+|  |  |  PrivateAbsent[1:1-1:1]
+|  |  |item:
+|  |  |  PackageDecl[1:1-2:8]
+|  |  |  |package_name:
+|  |  |  |  Id[1:9-1:12]
+|  |  |  |  |tok: Foo
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[2:1-2:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  Id[2:5-2:8]
+|  |  |  |  |tok: Foo
+|  |pragmas:
+|  |  PragmaNodeList[4:1-4:1]: <empty list>
+|  CompilationUnit[4:1-6:13]
+|  |prelude:
+|  |  AdaNodeList[4:1-4:1]: <empty list>
+|  |body:
+|  |  LibraryItem[4:1-6:12]
+|  |  |has_private:
+|  |  |  PrivateAbsent[4:1-4:1]
+|  |  |item:
+|  |  |  GenericPackageDecl[4:1-6:12]
+|  |  |  |formal_part:
+|  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
+|  |  |  |package_decl:
+|  |  |  |  BasePackageDecl[5:1-6:12]
+|  |  |  |  |package_name:
+|  |  |  |  |  DottedName[5:9-5:16]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[5:9-5:12]
+|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[5:13-5:16]
+|  |  |  |  |  |  |tok: Bar
+|  |  |  |  |aspects: <null>
+|  |  |  |  |public_part:
+|  |  |  |  |  PublicPart[6:1-6:4]
+|  |  |  |  |  |decls:
+|  |  |  |  |  |  AdaNodeList[6:1-6:1]: <empty list>
+|  |  |  |  |private_part: <null>
+|  |  |  |  |end_id:
+|  |  |  |  |  DottedName[6:5-6:12]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[6:5-6:8]
+|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[6:9-6:12]
+|  |  |  |  |  |  |tok: Bar
+|  |pragmas:
+|  |  PragmaNodeList[8:1-8:1]: <empty list>
+|  CompilationUnit[8:1-9:7]
+|  |prelude:
+|  |  AdaNodeList[8:1-8:1]: <empty list>
+|  |body:
+|  |  LibraryItem[8:1-9:6]
+|  |  |has_private:
+|  |  |  PrivateAbsent[8:1-8:1]
+|  |  |item:
+|  |  |  PackageDecl[8:1-9:6]
+|  |  |  |package_name:
+|  |  |  |  Id[8:9-8:10]
+|  |  |  |  |tok: A
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[9:1-9:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[9:1-9:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  Id[9:5-9:6]
+|  |  |  |  |tok: A
+|  |pragmas:
+|  |  PragmaNodeList[11:1-11:1]: <empty list>
+|  CompilationUnit[11:1-13:9]
+|  |prelude:
+|  |  AdaNodeList[11:1-11:1]: <empty list>
+|  |body:
+|  |  LibraryItem[11:1-13:8]
+|  |  |has_private:
+|  |  |  PrivateAbsent[11:1-11:1]
+|  |  |item:
+|  |  |  SubprogramBody[11:1-13:8]
+|  |  |  |overriding:
+|  |  |  |  OverridingUnspecified[11:1-11:10]
+|  |  |  |subp_spec:
+|  |  |  |  SubprogramSpec[11:1-11:14]
+|  |  |  |  |name:
+|  |  |  |  |  DottedName[11:11-11:14]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[11:11-11:12]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[11:13-11:14]
+|  |  |  |  |  |  |tok: B
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[11:13-11:13]: <empty list>
+|  |  |  |  |returns: <null>
+|  |  |  |aspects: <null>
+|  |  |  |decls:
+|  |  |  |  DeclarativePart[12:1-12:6]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[12:1-12:1]: <empty list>
+|  |  |  |stmts:
+|  |  |  |  HandledStmts[13:1-13:4]
+|  |  |  |  |stmts:
+|  |  |  |  |  AdaNodeList[13:1-13:1]: <empty list>
+|  |  |  |  |exceptions:
+|  |  |  |  |  ExceptionHandlerList[12:1-12:1]: <empty list>
+|  |  |  |end_id:
+|  |  |  |  DottedName[13:5-13:8]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[13:5-13:6]
+|  |  |  |  |  |tok: A
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[13:7-13:8]
+|  |  |  |  |  |tok: B
+|  |pragmas:
+|  |  PragmaNodeList[14:1-14:1]: <empty list>
 
 ==== Dumping lexical environments ====
 <CompilationUnitList 1:1-13:9> - <LexEnv (Id <root>, Parent null), {

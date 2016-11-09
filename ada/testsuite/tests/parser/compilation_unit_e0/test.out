@@ -1,48 +1,62 @@
 Parsing failed:
 7:1: End of input expected, got "Identifier"
 CompilationUnit[1:1-6:10]
-| prelude:
-| | WithClause[1:1-1:17]
-| | | has_limited:
-| | | | LimitedAbsent[1:1-1:1]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | packages:
-| | | | DottedName[1:6-1:17]
-| | | | | prefix:
-| | | | | | Id[1:6-1:9]
-| | | | | | | tok: Ada
-| | | | | suffix:
-| | | | | | Id[1:10-1:17]
-| | | | | | | tok: Text_IO
-| | UsePackageClause[1:19-1:34]
-| | | packages:
-| | | | DottedName[1:23-1:34]
-| | | | | prefix:
-| | | | | | Id[1:23-1:26]
-| | | | | | | tok: Ada
-| | | | | suffix:
-| | | | | | Id[1:27-1:34]
-| | | | | | | tok: Text_IO
-| body:
-| | LibraryItem[3:1-6:9]
-| | | has_private:
-| | | | PrivateAbsent[3:1-3:1]
-| | | item:
-| | | | SubprogramBody[3:1-6:9]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[3:1-3:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[3:1-3:15]
-| | | | | | | name:
-| | | | | | | | Id[3:11-3:15]
-| | | | | | | | | tok: Test
-| | | | | decls:
-| | | | | | DeclarativePart[4:1-4:6]
-| | | | | stmts:
-| | | | | | HandledStmts[5:4-5:9]
-| | | | | | | stmts:
-| | | | | | | | NullStmt[5:4-5:8]
-| | | | | end_id:
-| | | | | | Id[6:5-6:9]
-| | | | | | | tok: Test
+|prelude:
+|  AdaNodeList[1:1-1:35]
+|  |  WithClause[1:1-1:17]
+|  |  |has_limited:
+|  |  |  LimitedAbsent[1:1-1:1]
+|  |  |has_private:
+|  |  |  PrivateAbsent[1:1-1:1]
+|  |  |packages:
+|  |  |  NameList[1:6-1:17]
+|  |  |  |  DottedName[1:6-1:17]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[1:6-1:9]
+|  |  |  |  |  |tok: Ada
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[1:10-1:17]
+|  |  |  |  |  |tok: Text_IO
+|  |  UsePackageClause[1:19-1:34]
+|  |  |packages:
+|  |  |  NameList[1:23-1:34]
+|  |  |  |  DottedName[1:23-1:34]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[1:23-1:26]
+|  |  |  |  |  |tok: Ada
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[1:27-1:34]
+|  |  |  |  |  |tok: Text_IO
+|body:
+|  LibraryItem[3:1-6:9]
+|  |has_private:
+|  |  PrivateAbsent[3:1-3:1]
+|  |item:
+|  |  SubprogramBody[3:1-6:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[3:1-3:10]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[3:1-3:15]
+|  |  |  |name:
+|  |  |  |  Id[3:11-3:15]
+|  |  |  |  |tok: Test
+|  |  |  |params:
+|  |  |  |  ParamSpecList[3:11-3:11]: <empty list>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[4:1-4:6]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[4:1-4:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[5:4-5:9]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[5:4-5:9]
+|  |  |  |  |  NullStmt[5:4-5:8]
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[5:8-5:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[6:5-6:9]
+|  |  |  |tok: Test
+|pragmas:
+|  PragmaNodeList[7:1-7:1]: <empty list>

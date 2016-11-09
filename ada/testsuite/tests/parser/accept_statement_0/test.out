@@ -1,30 +1,38 @@
 AcceptStmt[1:1-1:67]
-| name:
-| | Id[1:8-1:14]
-| | | tok: Insert
-| params:
-| | ParamSpec[1:16-1:34]
-| | | ids:
-| | | | Id[1:16-1:23]
-| | | | | tok: An_Item
-| | | has_aliased:
-| | | | AliasedAbsent[1:26-1:26]
-| | | mode:
-| | | | ModeIn[1:26-1:28]
-| | | type_expr:
-| | | | SubtypeIndication[1:30-1:34]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:30-1:30]
-| | | | | name:
-| | | | | | Id[1:30-1:34]
-| | | | | | | tok: Item
-| stmts:
-| | HandledStmts[1:39-1:56]
-| | | stmts:
-| | | | AssignStmt[1:39-1:55]
-| | | | | dest:
-| | | | | | Id[1:39-1:44]
-| | | | | | | tok: Datum
-| | | | | expr:
-| | | | | | Id[1:48-1:55]
-| | | | | | | tok: An_Item
+|name:
+|  Id[1:8-1:14]
+|  |tok: Insert
+|entry_index_expr: <null>
+|params:
+|  ParamSpecList[1:16-1:34]
+|  |  ParamSpec[1:16-1:34]
+|  |  |ids:
+|  |  |  IdentifierList[1:16-1:23]
+|  |  |  |  Id[1:16-1:23]
+|  |  |  |  |tok: An_Item
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:26-1:26]
+|  |  |mode:
+|  |  |  ModeIn[1:26-1:28]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:30-1:34]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:30-1:30]
+|  |  |  |name:
+|  |  |  |  Id[1:30-1:34]
+|  |  |  |  |tok: Item
+|  |  |  |constraint: <null>
+|  |  |default: <null>
+|stmts:
+|  HandledStmts[1:39-1:56]
+|  |stmts:
+|  |  AdaNodeList[1:39-1:56]
+|  |  |  AssignStmt[1:39-1:55]
+|  |  |  |dest:
+|  |  |  |  Id[1:39-1:44]
+|  |  |  |  |tok: Datum
+|  |  |  |expr:
+|  |  |  |  Id[1:48-1:55]
+|  |  |  |  |tok: An_Item
+|  |exceptions:
+|  |  ExceptionHandlerList[1:55-1:55]: <empty list>

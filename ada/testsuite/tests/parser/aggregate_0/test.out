@@ -1,20 +1,24 @@
 Aggregate[1:2-1:18]
-| assocs:
-| | ParamAssoc[1:2-1:9]
-| | | designator:
-| | | | AggregateMember[1:2-1:3]
-| | | | | choice_list:
-| | | | | | Id[1:2-1:3]
-| | | | | | | tok: A
-| | | expr:
-| | | | Int[1:7-1:9]
-| | | | | tok: 12
-| | ParamAssoc[1:11-1:18]
-| | | designator:
-| | | | AggregateMember[1:11-1:12]
-| | | | | choice_list:
-| | | | | | Id[1:11-1:12]
-| | | | | | | tok: B
-| | | expr:
-| | | | Int[1:16-1:18]
-| | | | | tok: 15
+|ancestor_expr: <null>
+|assocs:
+|  ParamAssocList[1:2-1:18]
+|  |  ParamAssoc[1:2-1:9]
+|  |  |designator:
+|  |  |  AggregateMember[1:2-1:3]
+|  |  |  |choice_list:
+|  |  |  |  AdaNodeList[1:2-1:3]
+|  |  |  |  |  Id[1:2-1:3]
+|  |  |  |  |  |tok: A
+|  |  |expr:
+|  |  |  Int[1:7-1:9]
+|  |  |  |tok: 12
+|  |  ParamAssoc[1:11-1:18]
+|  |  |designator:
+|  |  |  AggregateMember[1:11-1:12]
+|  |  |  |choice_list:
+|  |  |  |  AdaNodeList[1:11-1:12]
+|  |  |  |  |  Id[1:11-1:12]
+|  |  |  |  |  |tok: B
+|  |  |expr:
+|  |  |  Int[1:16-1:18]
+|  |  |  |tok: 15

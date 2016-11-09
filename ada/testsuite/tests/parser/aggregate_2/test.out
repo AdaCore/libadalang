@@ -1,23 +1,26 @@
 Aggregate[1:2-1:23]
-| ancestor_expr:
-| | Id[1:2-1:3]
-| | | tok: A
-| assocs:
-| | ParamAssoc[1:9-1:15]
-| | | designator:
-| | | | AggregateMember[1:9-1:10]
-| | | | | choice_list:
-| | | | | | Id[1:9-1:10]
-| | | | | | | tok: B
-| | | expr:
-| | | | Id[1:14-1:15]
-| | | | | tok: C
-| | ParamAssoc[1:17-1:23]
-| | | designator:
-| | | | AggregateMember[1:17-1:18]
-| | | | | choice_list:
-| | | | | | Id[1:17-1:18]
-| | | | | | | tok: D
-| | | expr:
-| | | | Id[1:22-1:23]
-| | | | | tok: E
+|ancestor_expr:
+|  Id[1:2-1:3]
+|  |tok: A
+|assocs:
+|  ParamAssocList[1:9-1:23]
+|  |  ParamAssoc[1:9-1:15]
+|  |  |designator:
+|  |  |  AggregateMember[1:9-1:10]
+|  |  |  |choice_list:
+|  |  |  |  AdaNodeList[1:9-1:10]
+|  |  |  |  |  Id[1:9-1:10]
+|  |  |  |  |  |tok: B
+|  |  |expr:
+|  |  |  Id[1:14-1:15]
+|  |  |  |tok: C
+|  |  ParamAssoc[1:17-1:23]
+|  |  |designator:
+|  |  |  AggregateMember[1:17-1:18]
+|  |  |  |choice_list:
+|  |  |  |  AdaNodeList[1:17-1:18]
+|  |  |  |  |  Id[1:17-1:18]
+|  |  |  |  |  |tok: D
+|  |  |expr:
+|  |  |  Id[1:22-1:23]
+|  |  |  |tok: E

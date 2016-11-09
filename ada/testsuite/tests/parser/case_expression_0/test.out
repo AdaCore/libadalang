@@ -1,19 +1,22 @@
 CaseExpr[1:1-1:39]
-| expr:
-| | Id[1:6-1:7]
-| | | tok: A
-| cases:
-| | CaseExprAlternative[1:11-1:24]
-| | | choices:
-| | | | Int[1:16-1:18]
-| | | | | tok: 12
-| | | expr:
-| | | | Int[1:22-1:24]
-| | | | | tok: 15
-| | CaseExprAlternative[1:26-1:39]
-| | | choices:
-| | | | Int[1:31-1:33]
-| | | | | tok: 14
-| | | expr:
-| | | | Int[1:37-1:39]
-| | | | | tok: 16
+|expr:
+|  Id[1:6-1:7]
+|  |tok: A
+|cases:
+|  CaseExprAlternativeList[1:11-1:39]
+|  |  CaseExprAlternative[1:11-1:24]
+|  |  |choices:
+|  |  |  AdaNodeList[1:16-1:18]
+|  |  |  |  Int[1:16-1:18]
+|  |  |  |  |tok: 12
+|  |  |expr:
+|  |  |  Int[1:22-1:24]
+|  |  |  |tok: 15
+|  |  CaseExprAlternative[1:26-1:39]
+|  |  |choices:
+|  |  |  AdaNodeList[1:31-1:33]
+|  |  |  |  Int[1:31-1:33]
+|  |  |  |  |tok: 14
+|  |  |expr:
+|  |  |  Int[1:37-1:39]
+|  |  |  |tok: 16

@@ -1,24 +1,30 @@
 AbstractSubprogramDecl[1:1-1:49]
-| overriding:
-| | OverridingOverriding[1:1-1:11]
-| subp_spec:
-| | SubprogramSpec[1:12-1:37]
-| | | name:
-| | | | Id[1:22-1:23]
-| | | | | tok: A
-| | | params:
-| | | | ParamSpec[1:25-1:36]
-| | | | | ids:
-| | | | | | Id[1:25-1:26]
-| | | | | | | tok: B
-| | | | | has_aliased:
-| | | | | | AliasedAbsent[1:29-1:29]
-| | | | | mode:
-| | | | | | ModeDefault[1:29-1:36]
-| | | | | type_expr:
-| | | | | | SubtypeIndication[1:29-1:36]
-| | | | | | | has_not_null:
-| | | | | | | | NotNullAbsent[1:29-1:29]
-| | | | | | | name:
-| | | | | | | | Id[1:29-1:36]
-| | | | | | | | | tok: Integer
+|overriding:
+|  OverridingOverriding[1:1-1:11]
+|subp_spec:
+|  SubprogramSpec[1:12-1:37]
+|  |name:
+|  |  Id[1:22-1:23]
+|  |  |tok: A
+|  |params:
+|  |  ParamSpecList[1:25-1:36]
+|  |  |  ParamSpec[1:25-1:36]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:25-1:26]
+|  |  |  |  |  Id[1:25-1:26]
+|  |  |  |  |  |tok: B
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:29-1:29]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:29-1:36]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:29-1:36]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:29-1:29]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:29-1:36]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
+|  |returns: <null>
+|aspects: <null>

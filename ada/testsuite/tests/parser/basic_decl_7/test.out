@@ -1,8 +1,10 @@
 TypeDecl[1:1-1:17]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: T
-| type_def:
-| | ModIntTypeDef[1:11-1:17]
-| | | expr:
-| | | | BoxExpr[1:15-1:17]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: T
+|discriminants: <null>
+|type_def:
+|  ModIntTypeDef[1:11-1:17]
+|  |expr:
+|  |  BoxExpr[1:15-1:17]
+|aspects: <null>

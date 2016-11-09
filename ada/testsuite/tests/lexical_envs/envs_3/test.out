@@ -1,153 +1,202 @@
-CompilationUnit[1:1-2:9]
-| body:
-| | LibraryItem[1:1-2:8]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | PackageDecl[1:1-2:8]
-| | | | | package_name:
-| | | | | | Id[1:9-1:12]
-| | | | | | | tok: Foo
-| | | | | public_part:
-| | | | | | PublicPart[2:1-2:4]
-| | | | | end_id:
-| | | | | | Id[2:5-2:8]
-| | | | | | | tok: Foo
-CompilationUnit[4:1-5:13]
-| body:
-| | LibraryItem[4:1-5:12]
-| | | has_private:
-| | | | PrivateAbsent[4:1-4:1]
-| | | item:
-| | | | PackageDecl[4:1-5:12]
-| | | | | package_name:
-| | | | | | DottedName[4:9-4:16]
-| | | | | | | prefix:
-| | | | | | | | Id[4:9-4:12]
-| | | | | | | | | tok: Foo
-| | | | | | | suffix:
-| | | | | | | | Id[4:13-4:16]
-| | | | | | | | | tok: Bar
-| | | | | public_part:
-| | | | | | PublicPart[5:1-5:4]
-| | | | | end_id:
-| | | | | | DottedName[5:5-5:12]
-| | | | | | | prefix:
-| | | | | | | | Id[5:5-5:8]
-| | | | | | | | | tok: Foo
-| | | | | | | suffix:
-| | | | | | | | Id[5:9-5:12]
-| | | | | | | | | tok: Bar
-CompilationUnit[7:1-8:17]
-| body:
-| | LibraryItem[7:1-8:16]
-| | | has_private:
-| | | | PrivateAbsent[7:1-7:1]
-| | | item:
-| | | | PackageDecl[7:1-8:16]
-| | | | | package_name:
-| | | | | | DottedName[7:9-7:20]
-| | | | | | | prefix:
-| | | | | | | | DottedName[7:9-7:16]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[7:9-7:12]
-| | | | | | | | | | | tok: Foo
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[7:13-7:16]
-| | | | | | | | | | | tok: Bar
-| | | | | | | suffix:
-| | | | | | | | Id[7:17-7:20]
-| | | | | | | | | tok: Baz
-| | | | | public_part:
-| | | | | | PublicPart[8:1-8:4]
-| | | | | end_id:
-| | | | | | DottedName[8:5-8:16]
-| | | | | | | prefix:
-| | | | | | | | DottedName[8:5-8:12]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[8:5-8:8]
-| | | | | | | | | | | tok: Foo
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[8:9-8:12]
-| | | | | | | | | | | tok: Bar
-| | | | | | | suffix:
-| | | | | | | | Id[8:13-8:16]
-| | | | | | | | | tok: Baz
-CompilationUnit[10:1-11:7]
-| body:
-| | LibraryItem[10:1-11:6]
-| | | has_private:
-| | | | PrivateAbsent[10:1-10:1]
-| | | item:
-| | | | PackageDecl[10:1-11:6]
-| | | | | package_name:
-| | | | | | Id[10:9-10:10]
-| | | | | | | tok: A
-| | | | | public_part:
-| | | | | | PublicPart[11:1-11:4]
-| | | | | end_id:
-| | | | | | Id[11:5-11:6]
-| | | | | | | tok: A
-CompilationUnit[13:1-14:9]
-| body:
-| | LibraryItem[13:1-14:8]
-| | | has_private:
-| | | | PrivateAbsent[13:1-13:1]
-| | | item:
-| | | | PackageDecl[13:1-14:8]
-| | | | | package_name:
-| | | | | | DottedName[13:9-13:12]
-| | | | | | | prefix:
-| | | | | | | | Id[13:9-13:10]
-| | | | | | | | | tok: A
-| | | | | | | suffix:
-| | | | | | | | Id[13:11-13:12]
-| | | | | | | | | tok: B
-| | | | | public_part:
-| | | | | | PublicPart[14:1-14:4]
-| | | | | end_id:
-| | | | | | DottedName[14:5-14:8]
-| | | | | | | prefix:
-| | | | | | | | Id[14:5-14:6]
-| | | | | | | | | tok: A
-| | | | | | | suffix:
-| | | | | | | | Id[14:7-14:8]
-| | | | | | | | | tok: B
-CompilationUnit[16:1-17:11]
-| body:
-| | LibraryItem[16:1-17:10]
-| | | has_private:
-| | | | PrivateAbsent[16:1-16:1]
-| | | item:
-| | | | PackageDecl[16:1-17:10]
-| | | | | package_name:
-| | | | | | DottedName[16:9-16:14]
-| | | | | | | prefix:
-| | | | | | | | DottedName[16:9-16:12]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[16:9-16:10]
-| | | | | | | | | | | tok: A
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[16:11-16:12]
-| | | | | | | | | | | tok: B
-| | | | | | | suffix:
-| | | | | | | | Id[16:13-16:14]
-| | | | | | | | | tok: C
-| | | | | public_part:
-| | | | | | PublicPart[17:1-17:4]
-| | | | | end_id:
-| | | | | | DottedName[17:5-17:10]
-| | | | | | | prefix:
-| | | | | | | | DottedName[17:5-17:8]
-| | | | | | | | | prefix:
-| | | | | | | | | | Id[17:5-17:6]
-| | | | | | | | | | | tok: A
-| | | | | | | | | suffix:
-| | | | | | | | | | Id[17:7-17:8]
-| | | | | | | | | | | tok: B
-| | | | | | | suffix:
-| | | | | | | | Id[17:9-17:10]
-| | | | | | | | | tok: C
+CompilationUnitList[1:1-17:11]
+|  CompilationUnit[1:1-2:9]
+|  |prelude:
+|  |  AdaNodeList[1:1-1:1]: <empty list>
+|  |body:
+|  |  LibraryItem[1:1-2:8]
+|  |  |has_private:
+|  |  |  PrivateAbsent[1:1-1:1]
+|  |  |item:
+|  |  |  PackageDecl[1:1-2:8]
+|  |  |  |package_name:
+|  |  |  |  Id[1:9-1:12]
+|  |  |  |  |tok: Foo
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[2:1-2:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  Id[2:5-2:8]
+|  |  |  |  |tok: Foo
+|  |pragmas:
+|  |  PragmaNodeList[4:1-4:1]: <empty list>
+|  CompilationUnit[4:1-5:13]
+|  |prelude:
+|  |  AdaNodeList[4:1-4:1]: <empty list>
+|  |body:
+|  |  LibraryItem[4:1-5:12]
+|  |  |has_private:
+|  |  |  PrivateAbsent[4:1-4:1]
+|  |  |item:
+|  |  |  PackageDecl[4:1-5:12]
+|  |  |  |package_name:
+|  |  |  |  DottedName[4:9-4:16]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[4:9-4:12]
+|  |  |  |  |  |tok: Foo
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[4:13-4:16]
+|  |  |  |  |  |tok: Bar
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[5:1-5:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  DottedName[5:5-5:12]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[5:5-5:8]
+|  |  |  |  |  |tok: Foo
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[5:9-5:12]
+|  |  |  |  |  |tok: Bar
+|  |pragmas:
+|  |  PragmaNodeList[7:1-7:1]: <empty list>
+|  CompilationUnit[7:1-8:17]
+|  |prelude:
+|  |  AdaNodeList[7:1-7:1]: <empty list>
+|  |body:
+|  |  LibraryItem[7:1-8:16]
+|  |  |has_private:
+|  |  |  PrivateAbsent[7:1-7:1]
+|  |  |item:
+|  |  |  PackageDecl[7:1-8:16]
+|  |  |  |package_name:
+|  |  |  |  DottedName[7:9-7:20]
+|  |  |  |  |prefix:
+|  |  |  |  |  DottedName[7:9-7:16]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[7:9-7:12]
+|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[7:13-7:16]
+|  |  |  |  |  |  |tok: Bar
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[7:17-7:20]
+|  |  |  |  |  |tok: Baz
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[8:1-8:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[8:1-8:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  DottedName[8:5-8:16]
+|  |  |  |  |prefix:
+|  |  |  |  |  DottedName[8:5-8:12]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[8:5-8:8]
+|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[8:9-8:12]
+|  |  |  |  |  |  |tok: Bar
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[8:13-8:16]
+|  |  |  |  |  |tok: Baz
+|  |pragmas:
+|  |  PragmaNodeList[10:1-10:1]: <empty list>
+|  CompilationUnit[10:1-11:7]
+|  |prelude:
+|  |  AdaNodeList[10:1-10:1]: <empty list>
+|  |body:
+|  |  LibraryItem[10:1-11:6]
+|  |  |has_private:
+|  |  |  PrivateAbsent[10:1-10:1]
+|  |  |item:
+|  |  |  PackageDecl[10:1-11:6]
+|  |  |  |package_name:
+|  |  |  |  Id[10:9-10:10]
+|  |  |  |  |tok: A
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[11:1-11:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[11:1-11:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  Id[11:5-11:6]
+|  |  |  |  |tok: A
+|  |pragmas:
+|  |  PragmaNodeList[13:1-13:1]: <empty list>
+|  CompilationUnit[13:1-14:9]
+|  |prelude:
+|  |  AdaNodeList[13:1-13:1]: <empty list>
+|  |body:
+|  |  LibraryItem[13:1-14:8]
+|  |  |has_private:
+|  |  |  PrivateAbsent[13:1-13:1]
+|  |  |item:
+|  |  |  PackageDecl[13:1-14:8]
+|  |  |  |package_name:
+|  |  |  |  DottedName[13:9-13:12]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[13:9-13:10]
+|  |  |  |  |  |tok: A
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[13:11-13:12]
+|  |  |  |  |  |tok: B
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[14:1-14:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[14:1-14:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  DottedName[14:5-14:8]
+|  |  |  |  |prefix:
+|  |  |  |  |  Id[14:5-14:6]
+|  |  |  |  |  |tok: A
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[14:7-14:8]
+|  |  |  |  |  |tok: B
+|  |pragmas:
+|  |  PragmaNodeList[16:1-16:1]: <empty list>
+|  CompilationUnit[16:1-17:11]
+|  |prelude:
+|  |  AdaNodeList[16:1-16:1]: <empty list>
+|  |body:
+|  |  LibraryItem[16:1-17:10]
+|  |  |has_private:
+|  |  |  PrivateAbsent[16:1-16:1]
+|  |  |item:
+|  |  |  PackageDecl[16:1-17:10]
+|  |  |  |package_name:
+|  |  |  |  DottedName[16:9-16:14]
+|  |  |  |  |prefix:
+|  |  |  |  |  DottedName[16:9-16:12]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[16:9-16:10]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[16:11-16:12]
+|  |  |  |  |  |  |tok: B
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[16:13-16:14]
+|  |  |  |  |  |tok: C
+|  |  |  |aspects: <null>
+|  |  |  |public_part:
+|  |  |  |  PublicPart[17:1-17:4]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[17:1-17:1]: <empty list>
+|  |  |  |private_part: <null>
+|  |  |  |end_id:
+|  |  |  |  DottedName[17:5-17:10]
+|  |  |  |  |prefix:
+|  |  |  |  |  DottedName[17:5-17:8]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[17:5-17:6]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[17:7-17:8]
+|  |  |  |  |  |  |tok: B
+|  |  |  |  |suffix:
+|  |  |  |  |  Id[17:9-17:10]
+|  |  |  |  |  |tok: C
+|  |pragmas:
+|  |  PragmaNodeList[18:1-18:1]: <empty list>
 
 ==== Dumping lexical environments ====
 <CompilationUnitList 1:1-17:11> - <LexEnv (Id <root>, Parent null), {

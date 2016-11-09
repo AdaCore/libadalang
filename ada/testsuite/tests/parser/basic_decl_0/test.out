@@ -1,8 +1,12 @@
 TypeDecl[1:1-1:33]
-| type_id:
-| | Id[1:6-1:15]
-| | | tok: Printable
-| type_def:
-| | InterfaceTypeDef[1:19-1:33]
-| | | interface_kind:
-| | | | InterfaceKindTask[1:19-1:23]
+|type_id:
+|  Id[1:6-1:15]
+|  |tok: Printable
+|discriminants: <null>
+|type_def:
+|  InterfaceTypeDef[1:19-1:33]
+|  |interface_kind:
+|  |  InterfaceKindTask[1:19-1:23]
+|  |interfaces:
+|  |  NameList[1:33-1:33]: <empty list>
+|aspects: <null>

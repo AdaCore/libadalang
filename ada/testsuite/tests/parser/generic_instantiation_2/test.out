@@ -1,11 +1,14 @@
 GenericPackageInstantiation[1:1-1:24]
-| name:
-| | Id[1:9-1:10]
-| | | tok: P
-| generic_entity_name:
-| | Id[1:18-1:19]
-| | | tok: Q
-| params:
-| | ParamAssoc[1:21-1:23]
-| | | expr:
-| | | | BoxExpr[1:21-1:23]
+|name:
+|  Id[1:9-1:10]
+|  |tok: P
+|generic_entity_name:
+|  Id[1:18-1:19]
+|  |tok: Q
+|params:
+|  ParamAssocList[1:21-1:23]
+|  |  ParamAssoc[1:21-1:23]
+|  |  |designator: <null>
+|  |  |expr:
+|  |  |  BoxExpr[1:21-1:23]
+|aspects: <null>

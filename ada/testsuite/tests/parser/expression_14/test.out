@@ -1,6 +1,9 @@
 QualExpr[1:1-1:24]
-| prefix:
-| | Id[1:1-1:10]
-| | | tok: User_Data
-| suffix:
-| | Aggregate[1:12-1:23]
+|prefix:
+|  Id[1:1-1:10]
+|  |tok: User_Data
+|suffix:
+|  Aggregate[1:12-1:23]
+|  |ancestor_expr: <null>
+|  |assocs:
+|  |  ParamAssocList[1:17-1:17]: <empty list>

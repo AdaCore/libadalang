@@ -1,7 +1,8 @@
 DecimalFixedPointDef[1:1-1:29]
-| delta:
-| | Id[1:7-1:11]
-| | | tok: Delt
-| digits:
-| | Id[1:19-1:29]
-| | | tok: Num_Digits
+|delta:
+|  Id[1:7-1:11]
+|  |tok: Delt
+|digits:
+|  Id[1:19-1:29]
+|  |tok: Num_Digits
+|range: <null>

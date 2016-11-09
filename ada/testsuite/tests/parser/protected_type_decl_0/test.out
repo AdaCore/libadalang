@@ -1,92 +1,117 @@
 ProtectedTypeDecl[1:1-1:185]
-| protected_type_name:
-| | Id[1:16-1:37]
-| | | tok: Protected_Buffer_Type
-| definition:
-| | ProtectedDef[1:41-1:185]
-| | | public_part:
-| | | | PublicPart[1:41-1:110]
-| | | | | decls:
-| | | | | | EntryDecl[1:41-1:74]
-| | | | | | | overriding:
-| | | | | | | | OverridingUnspecified[1:41-1:46]
-| | | | | | | entry_id:
-| | | | | | | | Id[1:47-1:53]
-| | | | | | | | | tok: Insert
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:55-1:73]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:55-1:62]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:65-1:65]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeIn[1:65-1:67]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:69-1:73]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:69-1:69]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:69-1:73]
-| | | | | | | | | | | | | tok: Item
-| | | | | | EntryDecl[1:76-1:109]
-| | | | | | | overriding:
-| | | | | | | | OverridingUnspecified[1:76-1:81]
-| | | | | | | entry_id:
-| | | | | | | | Id[1:82-1:88]
-| | | | | | | | | tok: Remove
-| | | | | | | params:
-| | | | | | | | ParamSpec[1:90-1:108]
-| | | | | | | | | ids:
-| | | | | | | | | | Id[1:90-1:97]
-| | | | | | | | | | | tok: An_Item
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:100-1:100]
-| | | | | | | | | mode:
-| | | | | | | | | | ModeOut[1:100-1:103]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:104-1:108]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:104-1:104]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:104-1:108]
-| | | | | | | | | | | | | tok: Item
-| | | private_part:
-| | | | PrivatePart[1:119-1:159]
-| | | | | decls:
-| | | | | | ComponentDecl[1:119-1:132]
-| | | | | | | ids:
-| | | | | | | | Id[1:119-1:125]
-| | | | | | | | | tok: Buffer
-| | | | | | | component_def:
-| | | | | | | | ComponentDef[1:128-1:132]
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:128-1:128]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:128-1:132]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:128-1:128]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:128-1:132]
-| | | | | | | | | | | | | tok: Item
-| | | | | | ComponentDecl[1:134-1:158]
-| | | | | | | ids:
-| | | | | | | | Id[1:134-1:139]
-| | | | | | | | | tok: Empty
-| | | | | | | component_def:
-| | | | | | | | ComponentDef[1:143-1:150]
-| | | | | | | | | has_aliased:
-| | | | | | | | | | AliasedAbsent[1:143-1:143]
-| | | | | | | | | type_expr:
-| | | | | | | | | | SubtypeIndication[1:143-1:150]
-| | | | | | | | | | | has_not_null:
-| | | | | | | | | | | | NotNullAbsent[1:143-1:143]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[1:143-1:150]
-| | | | | | | | | | | | | tok: Boolean
-| | | | | | | default_expr:
-| | | | | | | | Id[1:154-1:158]
-| | | | | | | | | tok: True
-| | | end_id:
-| | | | Id[1:164-1:185]
-| | | | | tok: Protected_Buffer_Type
+|protected_type_name:
+|  Id[1:16-1:37]
+|  |tok: Protected_Buffer_Type
+|discrs: <null>
+|aspects: <null>
+|interfaces:
+|  NameList[1:38-1:38]: <empty list>
+|definition:
+|  ProtectedDef[1:41-1:185]
+|  |public_part:
+|  |  PublicPart[1:41-1:110]
+|  |  |decls:
+|  |  |  AdaNodeList[1:41-1:110]
+|  |  |  |  EntryDecl[1:41-1:74]
+|  |  |  |  |overriding:
+|  |  |  |  |  OverridingUnspecified[1:41-1:46]
+|  |  |  |  |entry_id:
+|  |  |  |  |  Id[1:47-1:53]
+|  |  |  |  |  |tok: Insert
+|  |  |  |  |family_type: <null>
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[1:55-1:73]
+|  |  |  |  |  |  ParamSpec[1:55-1:73]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[1:55-1:62]
+|  |  |  |  |  |  |  |  Id[1:55-1:62]
+|  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeIn[1:65-1:67]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:69-1:73]
+|  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
+|  |  |  |  |aspects: <null>
+|  |  |  |  EntryDecl[1:76-1:109]
+|  |  |  |  |overriding:
+|  |  |  |  |  OverridingUnspecified[1:76-1:81]
+|  |  |  |  |entry_id:
+|  |  |  |  |  Id[1:82-1:88]
+|  |  |  |  |  |tok: Remove
+|  |  |  |  |family_type: <null>
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[1:90-1:108]
+|  |  |  |  |  |  ParamSpec[1:90-1:108]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[1:90-1:97]
+|  |  |  |  |  |  |  |  Id[1:90-1:97]
+|  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeOut[1:100-1:103]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:104-1:108]
+|  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
+|  |  |  |  |aspects: <null>
+|  |private_part:
+|  |  PrivatePart[1:119-1:159]
+|  |  |decls:
+|  |  |  AdaNodeList[1:119-1:159]
+|  |  |  |  ComponentDecl[1:119-1:132]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:119-1:125]
+|  |  |  |  |  |  Id[1:119-1:125]
+|  |  |  |  |  |  |tok: Buffer
+|  |  |  |  |component_def:
+|  |  |  |  |  ComponentDef[1:128-1:132]
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:128-1:128]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:128-1:132]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:128-1:128]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:128-1:132]
+|  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |default_expr: <null>
+|  |  |  |  |aspects: <null>
+|  |  |  |  ComponentDecl[1:134-1:158]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:134-1:139]
+|  |  |  |  |  |  Id[1:134-1:139]
+|  |  |  |  |  |  |tok: Empty
+|  |  |  |  |component_def:
+|  |  |  |  |  ComponentDef[1:143-1:150]
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:143-1:143]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:143-1:150]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:143-1:143]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:143-1:150]
+|  |  |  |  |  |  |  |tok: Boolean
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |default_expr:
+|  |  |  |  |  Id[1:154-1:158]
+|  |  |  |  |  |tok: True
+|  |  |  |  |aspects: <null>
+|  |end_id:
+|  |  Id[1:164-1:185]
+|  |  |tok: Protected_Buffer_Type

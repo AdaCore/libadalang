@@ -1,27 +1,27 @@
 -- foo
 CompilationUnit
-| LibraryItem
-| | SubprogramBody
-| | | OverridingUnspecified
-| | | SubprogramSpec
-| | | | Id
-| | | DeclarativePart
-| | | | AdaNodeList
-| | | | | ObjectDecl
-| | | | | | IdentifierList
-| | | | | | | Id
-| | | | | | -- Hinhin
-| | | | | | ModeDefault
-| | | | | | SubtypeIndication
-| | | | | | | Id
-| | | -- Huhu
-| | | HandledStmts
-| | | | AdaNodeList
-| | | | | NullStmt
-| | | | | | Null
-| | | | | -- Haha
-| | | | | -- Hoho
-| | | | | NullStmt
-| | | | | | Null
-| | | Id
+|  LibraryItem
+|  |  SubprogramBody
+|  |  |  OverridingUnspecified
+|  |  |  SubprogramSpec
+|  |  |  |  Id
+|  |  |  DeclarativePart
+|  |  |  |  AdaNodeList
+|  |  |  |  |  ObjectDecl
+|  |  |  |  |  |  IdentifierList
+|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  -- Hinhin
+|  |  |  |  |  |  ModeDefault
+|  |  |  |  |  |  SubtypeIndication
+|  |  |  |  |  |  |  Id
+|  |  |  -- Huhu
+|  |  |  HandledStmts
+|  |  |  |  AdaNodeList
+|  |  |  |  |  NullStmt
+|  |  |  |  |  |  Null
+|  |  |  |  |  -- Haha
+|  |  |  |  |  -- Hoho
+|  |  |  |  |  NullStmt
+|  |  |  |  |  |  Null
+|  |  |  Id
 -- foo

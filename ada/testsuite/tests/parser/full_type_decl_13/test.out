@@ -1,12 +1,14 @@
 TypeDecl[1:1-1:34]
-| type_id:
-| | Id[1:6-1:7]
-| | | tok: A
-| type_def:
-| | PrivateTypeDef[1:8-1:34]
-| | | has_abstract:
-| | | | AbstractPresent[1:11-1:11]
-| | | has_tagged:
-| | | | TaggedPresent[1:20-1:20]
-| | | has_limited:
-| | | | LimitedAbsent[1:27-1:27]
+|type_id:
+|  Id[1:6-1:7]
+|  |tok: A
+|discriminants: <null>
+|type_def:
+|  PrivateTypeDef[1:8-1:34]
+|  |has_abstract:
+|  |  AbstractPresent[1:11-1:11]
+|  |has_tagged:
+|  |  TaggedPresent[1:20-1:20]
+|  |has_limited:
+|  |  LimitedAbsent[1:27-1:27]
+|aspects: <null>

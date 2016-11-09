@@ -1,39 +1,54 @@
 CompilationUnit[1:1-6:10]
-| body:
-| | LibraryItem[1:1-6:9]
-| | | has_private:
-| | | | PrivateAbsent[1:1-1:1]
-| | | item:
-| | | | SubprogramBody[1:1-6:9]
-| | | | | overriding:
-| | | | | | OverridingUnspecified[1:1-1:10]
-| | | | | subp_spec:
-| | | | | | SubprogramSpec[1:1-1:15]
-| | | | | | | name:
-| | | | | | | | Id[1:11-1:15]
-| | | | | | | | | tok: Test
-| | | | | decls:
-| | | | | | DeclarativePart[2:1-2:6]
-| | | | | stmts:
-| | | | | | HandledStmts[3:5-5:15]
-| | | | | | | stmts:
-| | | | | | | | Label[3:5-3:13]
-| | | | | | | | | token: <<\u3000\u3002\u3000\u3001>>
-| | | | | | | | CallStmt[4:5-4:28]
-| | | | | | | | | call:
-| | | | | | | | | | CallExpr[4:5-4:28]
-| | | | | | | | | | | name:
-| | | | | | | | | | | | Id[4:5-4:13]
-| | | | | | | | | | | | | tok: Put_Line
-| | | | | | | | | | | suffix:
-| | | | | | | | | | | | ParamAssoc[4:14-4:27]
-| | | | | | | | | | | | | expr:
-| | | | | | | | | | | | | | Str[4:14-4:27]
-| | | | | | | | | | | | | | | tok: "Hello world"
-| | | | | | | | GotoStmt[5:5-5:14]
-| | | | | | | | | label_name:
-| | | | | | | | | | Id[5:10-5:14]
-| | | | | | | | | | | tok: \u3000\u3002\u3000\u3001
-| | | | | end_id:
-| | | | | | Id[6:5-6:9]
-| | | | | | | tok: Test
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-6:9]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubprogramBody[1:1-6:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:10]
+|  |  |subp_spec:
+|  |  |  SubprogramSpec[1:1-1:15]
+|  |  |  |name:
+|  |  |  |  Id[1:11-1:15]
+|  |  |  |  |tok: Test
+|  |  |  |params:
+|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:1-2:6]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[3:5-5:15]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[3:5-5:15]
+|  |  |  |  |  Label[3:5-3:13]
+|  |  |  |  |  |token: <<\u3000\u3002\u3000\u3001>>
+|  |  |  |  |  CallStmt[4:5-4:28]
+|  |  |  |  |  |call:
+|  |  |  |  |  |  CallExpr[4:5-4:28]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[4:5-4:13]
+|  |  |  |  |  |  |  |tok: Put_Line
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  ParamAssocList[4:14-4:27]
+|  |  |  |  |  |  |  |  ParamAssoc[4:14-4:27]
+|  |  |  |  |  |  |  |  |designator: <null>
+|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  Str[4:14-4:27]
+|  |  |  |  |  |  |  |  |  |tok: "Hello world"
+|  |  |  |  |  GotoStmt[5:5-5:14]
+|  |  |  |  |  |label_name:
+|  |  |  |  |  |  Id[5:10-5:14]
+|  |  |  |  |  |  |tok: \u3000\u3002\u3000\u3001
+|  |  |  |exceptions:
+|  |  |  |  ExceptionHandlerList[5:14-5:14]: <empty list>
+|  |  |end_id:
+|  |  |  Id[6:5-6:9]
+|  |  |  |tok: Test
+|pragmas:
+|  PragmaNodeList[7:1-7:1]: <empty list>

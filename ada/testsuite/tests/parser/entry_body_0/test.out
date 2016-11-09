@@ -1,42 +1,52 @@
 EntryBody[1:1-1:100]
-| entry_name:
-| | Id[1:7-1:13]
-| | | tok: insert
-| params:
-| | ParamSpec[1:15-1:33]
-| | | ids:
-| | | | Id[1:15-1:22]
-| | | | | tok: an_item
-| | | has_aliased:
-| | | | AliasedAbsent[1:25-1:25]
-| | | mode:
-| | | | ModeIn[1:25-1:27]
-| | | type_expr:
-| | | | SubtypeIndication[1:29-1:33]
-| | | | | has_not_null:
-| | | | | | NotNullAbsent[1:29-1:29]
-| | | | | name:
-| | | | | | Id[1:29-1:33]
-| | | | | | | tok: item
-| when_cond:
-| | Id[1:40-1:45]
-| | | tok: empty
-| decls:
-| | DeclarativePart[1:49-1:54]
-| stmts:
-| | HandledStmts[1:55-1:89]
-| | | stmts:
-| | | | AssignStmt[1:55-1:72]
-| | | | | dest:
-| | | | | | Id[1:55-1:61]
-| | | | | | | tok: buffer
-| | | | | expr:
-| | | | | | Id[1:65-1:72]
-| | | | | | | tok: an_item
-| | | | AssignStmt[1:74-1:88]
-| | | | | dest:
-| | | | | | Id[1:74-1:79]
-| | | | | | | tok: empty
-| | | | | expr:
-| | | | | | Id[1:83-1:88]
-| | | | | | | tok: false
+|entry_name:
+|  Id[1:7-1:13]
+|  |tok: insert
+|index_spec: <null>
+|params:
+|  ParamSpecList[1:15-1:33]
+|  |  ParamSpec[1:15-1:33]
+|  |  |ids:
+|  |  |  IdentifierList[1:15-1:22]
+|  |  |  |  Id[1:15-1:22]
+|  |  |  |  |tok: an_item
+|  |  |has_aliased:
+|  |  |  AliasedAbsent[1:25-1:25]
+|  |  |mode:
+|  |  |  ModeIn[1:25-1:27]
+|  |  |type_expr:
+|  |  |  SubtypeIndication[1:29-1:33]
+|  |  |  |has_not_null:
+|  |  |  |  NotNullAbsent[1:29-1:29]
+|  |  |  |name:
+|  |  |  |  Id[1:29-1:33]
+|  |  |  |  |tok: item
+|  |  |  |constraint: <null>
+|  |  |default: <null>
+|when_cond:
+|  Id[1:40-1:45]
+|  |tok: empty
+|decls:
+|  DeclarativePart[1:49-1:54]
+|  |decls:
+|  |  AdaNodeList[1:49-1:49]: <empty list>
+|stmts:
+|  HandledStmts[1:55-1:89]
+|  |stmts:
+|  |  AdaNodeList[1:55-1:89]
+|  |  |  AssignStmt[1:55-1:72]
+|  |  |  |dest:
+|  |  |  |  Id[1:55-1:61]
+|  |  |  |  |tok: buffer
+|  |  |  |expr:
+|  |  |  |  Id[1:65-1:72]
+|  |  |  |  |tok: an_item
+|  |  |  AssignStmt[1:74-1:88]
+|  |  |  |dest:
+|  |  |  |  Id[1:74-1:79]
+|  |  |  |  |tok: empty
+|  |  |  |expr:
+|  |  |  |  Id[1:83-1:88]
+|  |  |  |  |tok: false
+|  |exceptions:
+|  |  ExceptionHandlerList[1:88-1:88]: <empty list>

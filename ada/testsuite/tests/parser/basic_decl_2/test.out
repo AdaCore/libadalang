@@ -1,34 +1,38 @@
 ObjectDecl[1:1-1:29]
-| ids:
-| | Id[1:1-1:2]
-| | | tok: A
-| | Id[1:4-1:5]
-| | | tok: B
-| has_aliased:
-| | AliasedAbsent[1:8-1:8]
-| has_constant:
-| | ConstantAbsent[1:8-1:8]
-| inout:
-| | ModeDefault[1:8-1:15]
-| type_expr:
-| | SubtypeIndication[1:8-1:15]
-| | | has_not_null:
-| | | | NotNullAbsent[1:8-1:8]
-| | | name:
-| | | | Id[1:8-1:15]
-| | | | | tok: Integer
-| renaming_clause:
-| | RenamingClause[1:16-1:29]
-| | | renamed_object:
-| | | | DottedName[1:24-1:29]
-| | | | | prefix:
-| | | | | | DottedName[1:24-1:27]
-| | | | | | | prefix:
-| | | | | | | | Id[1:24-1:25]
-| | | | | | | | | tok: C
-| | | | | | | suffix:
-| | | | | | | | Id[1:26-1:27]
-| | | | | | | | | tok: D
-| | | | | suffix:
-| | | | | | Id[1:28-1:29]
-| | | | | | | tok: E
+|ids:
+|  IdentifierList[1:1-1:5]
+|  |  Id[1:1-1:2]
+|  |  |tok: A
+|  |  Id[1:4-1:5]
+|  |  |tok: B
+|has_aliased:
+|  AliasedAbsent[1:8-1:8]
+|has_constant:
+|  ConstantAbsent[1:8-1:8]
+|inout:
+|  ModeDefault[1:8-1:15]
+|type_expr:
+|  SubtypeIndication[1:8-1:15]
+|  |has_not_null:
+|  |  NotNullAbsent[1:8-1:8]
+|  |name:
+|  |  Id[1:8-1:15]
+|  |  |tok: Integer
+|  |constraint: <null>
+|default_expr: <null>
+|renaming_clause:
+|  RenamingClause[1:16-1:29]
+|  |renamed_object:
+|  |  DottedName[1:24-1:29]
+|  |  |prefix:
+|  |  |  DottedName[1:24-1:27]
+|  |  |  |prefix:
+|  |  |  |  Id[1:24-1:25]
+|  |  |  |  |tok: C
+|  |  |  |suffix:
+|  |  |  |  Id[1:26-1:27]
+|  |  |  |  |tok: D
+|  |  |suffix:
+|  |  |  Id[1:28-1:29]
+|  |  |  |tok: E
+|aspects: <null>

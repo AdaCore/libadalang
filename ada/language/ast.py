@@ -2,9 +2,9 @@ from __future__ import absolute_import
 
 from langkit import compiled_types
 from langkit.compiled_types import (
-    ASTNode, BoolType, Field, Struct, UserField, abstract,
-    env_metadata, root_grammar_class, LongType, create_macro, LogicVarType,
-    EquationType, T, LexicalEnvType, EnvElement
+    ASTNode, BoolType, EnvElement, EquationType, Field, LexicalEnvType,
+    LogicVarType, LongType, Struct, T, UserField, abstract, create_macro,
+    env_metadata, root_grammar_class
 )
 
 from langkit.envs import EnvSpec, add_to_env

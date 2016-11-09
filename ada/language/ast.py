@@ -40,9 +40,8 @@ class Metadata(Struct):
                       "implicit dereference"
     )
 
-
 @abstract
-@root_grammar_class
+@root_grammar_class(generic_list_type='AdaList')
 class AdaNode(ASTNode):
     """
     Root node class for the Ada grammar. This is good and necessary for several

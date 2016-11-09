@@ -88,7 +88,7 @@ CompilationUnit[11:1-13:9]
 | | | | | | | | | tok: B
 
 ==== Dumping lexical environments ====
-<CompilationUnitListType 1:1-13:9> - <LexEnv (Id <root>, Parent null), {
+<CompilationUnitList 1:1-13:9> - <LexEnv (Id <root>, Parent null), {
     A: [<PackageDecl ["A"] 8:1-9:6>]
     Foo: [<PackageDecl ["Foo"] 1:1-2:8>]
 }>

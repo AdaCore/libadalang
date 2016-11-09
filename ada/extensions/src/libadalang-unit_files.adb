@@ -23,7 +23,7 @@ package body Libadalang.Unit_Files is
    function Get_Unit_File_Name (N : Name) return String is
      (Get_Unit_File_Name (Get_Unit_Name (N)));
 
-   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : List_Name);
+   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List);
    --  Helper for the environment hook to handle WithDecl nodes
 
    procedure Handle_Unit_Body
@@ -59,7 +59,7 @@ package body Libadalang.Unit_Files is
    -- Handle_With_Decl --
    ----------------------
 
-   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : List_Name) is
+   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
    begin
       for N of Names.all loop
          declare

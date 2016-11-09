@@ -51,7 +51,7 @@ get_string_literal(ada_analysis_unit unit) {
         || ada_node_kind(node) != ada_handled_stmts)
         error("Got unexpected node for ada_subprogram_body_f_stmts [5]");
     if (!ada_handled_stmts_f_stmts(node, &node)
-        || ada_node_kind(node) != ada_list_ada_node)
+        || ada_node_kind(node) != ada_ada_node_list)
         error("Got unexpected node for"
               " ada_handled_stmts_f_stmts [6]");
     if (!ada_node_child(node, 0, &node)

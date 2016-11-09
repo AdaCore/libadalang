@@ -1,23 +1,23 @@
 CompilationUnit
-| AdaNodeListType
+| AdaNodeList
 | | WithClause
-| | | NameListType
+| | | NameList
 | | | | Id
 | | UseTypeClause
-| | | ExprListType
+| | | ExprList
 | | | | DottedName
 | | | | | Id
 | | | | | Id
 | | UsePackageClause
-| | | NameListType
+| | | NameList
 | | | | Id
 | | WithClause
-| | | NameListType
+| | | NameList
 | | | | DottedName
 | | | | | Id
 | | | | | Id
 | | UsePackageClause
-| | | NameListType
+| | | NameList
 | | | | DottedName
 | | | | | Id
 | | | | | Id
@@ -30,9 +30,9 @@ CompilationUnit
 | | | | Id
 | | | | Id
 | | | DeclarativePart
-| | | | AdaNodeListType
+| | | | AdaNodeList
 | | | | | ObjectDecl
-| | | | | | IdentifierListType
+| | | | | | IdentifierList
 | | | | | | | Id
 | | | | | | ModeDefault
 | | | | | | SubtypeIndication
@@ -50,23 +50,23 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | ObjectDecl
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -80,13 +80,13 @@ CompilationUnit
 | | | | | | | | | | OpMult
 | | | | | | | | | | Id
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpGt
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -94,7 +94,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
@@ -121,7 +121,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | OpMinus
 | | | | | | | | | | | | | | | | Int
-| | | | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | | | ExplicitDeref
@@ -138,7 +138,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
@@ -159,7 +159,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -167,7 +167,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpNeq
 | | | | | | | | | | | | Null
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
@@ -188,7 +188,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | DottedName
 | | | | | | | | | | | | | | Id
@@ -215,22 +215,22 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | DottedName
@@ -240,7 +240,7 @@ CompilationUnit
 | | | | | | | | | | DottedName
 | | | | | | | | | | | Id
 | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | CallStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
@@ -263,7 +263,7 @@ CompilationUnit
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | AssignStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | ExplicitDeref
@@ -276,7 +276,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -284,7 +284,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
@@ -296,7 +296,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | AssignStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | ExplicitDeref
@@ -327,15 +327,15 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -344,13 +344,13 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | DottedName
@@ -359,7 +359,7 @@ CompilationUnit
 | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -367,7 +367,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
@@ -376,7 +376,7 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamList
 | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
@@ -393,15 +393,15 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -410,13 +410,13 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | CallExpr
@@ -427,7 +427,7 @@ CompilationUnit
 | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -435,7 +435,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
@@ -446,7 +446,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | AttributeRef
 | | | | | | | | | | | | | | CallExpr
@@ -465,16 +465,16 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | CallStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
@@ -491,16 +491,16 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeInOut
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | AssignStmt
 | | | | | | | | | DottedName
 | | | | | | | | | | Id
@@ -514,9 +514,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -525,7 +525,7 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | ReturnStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
@@ -547,9 +547,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -558,7 +558,7 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | ReturnStmt
 | | | | | | | | | CallExpr
 | | | | | | | | | | Id
@@ -580,9 +580,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -603,9 +603,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -622,15 +622,15 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
 | | | | | | | | | | Id
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
@@ -640,13 +640,13 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | DottedName
@@ -656,7 +656,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | OpEllipsis
 | | | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | IfStmt
 | | | | | | | | | | | BinOp
 | | | | | | | | | | | | DottedName
@@ -664,7 +664,7 @@ CompilationUnit
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | OpEq
 | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
@@ -674,7 +674,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | Id
 | | | | | | | | | | | | | | | OpEllipsis
 | | | | | | | | | | | | | | | Id
-| | | | | | | | | | | AdaNodeListType
+| | | | | | | | | | | AdaNodeList
 | | | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | | | DottedName
@@ -692,9 +692,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -703,7 +703,7 @@ CompilationUnit
 | | | | | | | | Id
 | | | | | | DeclarativePart
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | IfStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | DottedName
@@ -711,12 +711,12 @@ CompilationUnit
 | | | | | | | | | | | Id
 | | | | | | | | | | OpEq
 | | | | | | | | | | Int
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | DottedName
 | | | | | | | | | | | | Id
 | | | | | | | | | | | | Id
-| | | | | | | | | AdaNodeListType
+| | | | | | | | | AdaNodeList
 | | | | | | | | | | ReturnStmt
 | | | | | | | | | | | CallExpr
 | | | | | | | | | | | | Id
@@ -740,9 +740,9 @@ CompilationUnit
 | | | | | | OverridingUnspecified
 | | | | | | SubprogramSpec
 | | | | | | | Id
-| | | | | | | ParamSpecListType
+| | | | | | | ParamSpecList
 | | | | | | | | ParamSpec
-| | | | | | | | | IdentifierListType
+| | | | | | | | | IdentifierList
 | | | | | | | | | | Id
 | | | | | | | | | ModeDefault
 | | | | | | | | | SubtypeIndication
@@ -750,20 +750,20 @@ CompilationUnit
 | | | | | | | SubtypeIndication
 | | | | | | | | Id
 | | | | | | DeclarativePart
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | ExprFunction
 | | | | | | | | | OverridingUnspecified
 | | | | | | | | | SubprogramSpec
 | | | | | | | | | | Id
-| | | | | | | | | | ParamSpecListType
+| | | | | | | | | | ParamSpecList
 | | | | | | | | | | | ParamSpec
-| | | | | | | | | | | | IdentifierListType
+| | | | | | | | | | | | IdentifierList
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ModeDefault
 | | | | | | | | | | | | SubtypeIndication
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | ParamSpec
-| | | | | | | | | | | | IdentifierListType
+| | | | | | | | | | | | IdentifierList
 | | | | | | | | | | | | | Id
 | | | | | | | | | | | | ModeDefault
 | | | | | | | | | | | | SubtypeIndication
@@ -820,7 +820,7 @@ CompilationUnit
 | | | | | | | | | | | | | | | ParamAssoc
 | | | | | | | | | | | | | | | | Id
 | | | | | | HandledStmts
-| | | | | | | AdaNodeListType
+| | | | | | | AdaNodeList
 | | | | | | | | ReturnStmt
 | | | | | | | | | BinOp
 | | | | | | | | | | BinOp

@@ -12,7 +12,7 @@ procedure Main is
    S_Spec : constant Subprogram_Spec := F_Subp_Spec (Subprogram_Body (LI));
 
    S_Name : constant Libadalang.AST.Types.Name := F_Name (S_Spec);
-   Params : constant List_Param_Spec := F_Params (S_Spec);
+   Params : constant Param_Spec_List := F_Params (S_Spec);
 
    ---------------
    -- Put_Param --

@@ -1,9 +1,9 @@
 <CompilationUnit>
-| <ListAdaNode>
+| <AdaNodeList>
 | | <WithClause>
 | | | <LimitedAbsent>
 | | | <PrivateAbsent>
-| | | <ListName>
+| | | <NameList>
 | | | | <DottedName>
 | | | | | <Identifier>
 | | | | | <Identifier>
@@ -13,13 +13,13 @@
 | | | <OverridingUnspecified>
 | | | <SubprogramSpec>
 | | | | <Identifier>
-| | | | <ListParamSpec>
+| | | | <ParamSpecList>
 | | | | <null node>
 | | | <null node>
 | | | <DeclarativePart>
-| | | | <ListAdaNode>
+| | | | <AdaNodeList>
 | | | <HandledStmts>
-| | | | <ListAdaNode>
+| | | | <AdaNodeList>
 | | | | | <CallStmt>
 | | | | | | <CallExpr>
 | | | | | | | <DottedName>
@@ -31,7 +31,7 @@
 | | | | | | | | <ParamAssoc>
 | | | | | | | | | <null node>
 | | | | | | | | | <StringLiteral>
-| | | | <ListExceptionHandler>
+| | | | <ExceptionHandlerList>
 | | | <Identifier>
-| <ListPragmaNode>
+| <PragmaNodeList>
 Done

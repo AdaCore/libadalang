@@ -1,6 +1,6 @@
 <CompilationUnit>
 |prelude:
-|  <ListAdaNode>
+|  <AdaNodeList>
 |  |item 0:
 |  |  <WithClause>
 |  |  |has_limited:
@@ -8,7 +8,7 @@
 |  |  |has_private:
 |  |  |  <PrivateAbsent>
 |  |  |packages:
-|  |  |  <ListName>
+|  |  |  <NameList>
 |  |  |  |item 0:
 |  |  |  |  <DottedName>
 |  |  |  |  |prefix:
@@ -31,17 +31,17 @@
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
 |  |  |  |params:
-|  |  |  |  <ListParamSpec>
+|  |  |  |  <ParamSpecList>
 |  |  |  |returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>
 |  |  |  |decls:
-|  |  |  |  <ListAdaNode>
+|  |  |  |  <AdaNodeList>
 |  |  |stmts:
 |  |  |  <HandledStmts>
 |  |  |  |stmts:
-|  |  |  |  <ListAdaNode>
+|  |  |  |  <AdaNodeList>
 |  |  |  |  |item 0:
 |  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:
@@ -68,10 +68,10 @@
 |  |  |  |  |  |  |  |  |  <StringLiteral>
 |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:
-|  |  |  |  <ListExceptionHandler>
+|  |  |  |  <ExceptionHandlerList>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')
 |pragmas:
-|  <ListPragmaNode>
+|  <PragmaNodeList>
 Done

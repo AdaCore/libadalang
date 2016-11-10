@@ -1587,7 +1587,12 @@ class ParenExpr(Expr):
 
 
 class Op(T.EnumNode):
-    """Operation in a binary expression."""
+    """
+    Operation in a binary expression.
+
+    Note that the ARM does not consider "double_dot" ("..") as a binary
+    operator, but we process it this way here anyway to keep things simple.
+    """
     alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",

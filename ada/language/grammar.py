@@ -988,7 +988,9 @@ A.add_rules(
         Op.alt_or("or"),
     ),
 
-    discrete_range=BinOp(A.simple_expr, Op.alt_ellipsis(".."), A.simple_expr),
+    discrete_range=BinOp(A.simple_expr,
+                         Op.alt_double_dot(".."),
+                         A.simple_expr),
 
     choice=Or(
         A.discrete_range,

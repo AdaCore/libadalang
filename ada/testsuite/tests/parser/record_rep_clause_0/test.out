@@ -18,7 +18,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:37-1:38]
 |  |  |  |  |tok: 0
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:39-1:41]
+|  |  |  |  OpDoubleDot[1:39-1:41]
 |  |  |  |right:
 |  |  |  |  Int[1:42-1:43]
 |  |  |  |  |tok: 0
@@ -35,7 +35,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:63-1:64]
 |  |  |  |  |tok: 1
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:65-1:67]
+|  |  |  |  OpDoubleDot[1:65-1:67]
 |  |  |  |right:
 |  |  |  |  Int[1:68-1:70]
 |  |  |  |  |tok: 64
@@ -52,7 +52,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:90-1:91]
 |  |  |  |  |tok: 0
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:92-1:94]
+|  |  |  |  OpDoubleDot[1:92-1:94]
 |  |  |  |right:
 |  |  |  |  Int[1:95-1:97]
 |  |  |  |  |tok: 31
@@ -69,7 +69,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:117-1:118]
 |  |  |  |  |tok: 0
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:119-1:121]
+|  |  |  |  OpDoubleDot[1:119-1:121]
 |  |  |  |right:
 |  |  |  |  Int[1:122-1:123]
 |  |  |  |  |tok: 0
@@ -86,7 +86,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:143-1:144]
 |  |  |  |  |tok: 1
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:145-1:147]
+|  |  |  |  OpDoubleDot[1:145-1:147]
 |  |  |  |right:
 |  |  |  |  Int[1:148-1:150]
 |  |  |  |  |tok: 13
@@ -103,7 +103,7 @@ RecordRepClause[1:1-1:189]
 |  |  |  |  Int[1:170-1:171]
 |  |  |  |  |tok: 0
 |  |  |  |op:
-|  |  |  |  OpEllipsis[1:172-1:174]
+|  |  |  |  OpDoubleDot[1:172-1:174]
 |  |  |  |right:
 |  |  |  |  Int[1:175-1:177]
 |  |  |  |  |tok: 71

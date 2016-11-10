@@ -114,7 +114,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  IterTypeIn
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -654,7 +654,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis
+|  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
@@ -672,7 +672,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  |  |  ReturnStmt
@@ -682,7 +682,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEllipsis
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  Id
 |  |  |  |  |  --------------

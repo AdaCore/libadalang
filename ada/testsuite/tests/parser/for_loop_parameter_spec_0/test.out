@@ -19,7 +19,7 @@ ForLoopSpec[1:1-1:21]
 |  |  |  |tok: First
 |  |  |args: <null>
 |  |op:
-|  |  OpEllipsis[1:14-1:16]
+|  |  OpDoubleDot[1:14-1:16]
 |  |right:
 |  |  Id[1:17-1:21]
 |  |  |tok: Last

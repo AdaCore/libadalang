@@ -1570,7 +1570,7 @@ class Op(T.EnumNode):
     alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",
-                    "lte", "gt", "gte", "ellipsis"]
+                    "lte", "gt", "gte", "double_dot"]
     suffix = 'op'
 
 

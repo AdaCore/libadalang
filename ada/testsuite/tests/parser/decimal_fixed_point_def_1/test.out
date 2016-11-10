@@ -11,7 +11,7 @@ DecimalFixedPointDef[1:1-1:54]
 |  |  Id[1:43-1:46]
 |  |  |tok: Low
 |  |op:
-|  |  OpEllipsis[1:47-1:49]
+|  |  OpDoubleDot[1:47-1:49]
 |  |right:
 |  |  Id[1:50-1:54]
 |  |  |tok: High

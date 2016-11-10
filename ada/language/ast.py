@@ -208,7 +208,7 @@ class BasicDecl(AdaNode):
 
     expr_type = Property(
         Self.type_expression.then(lambda te: te.designated_type),
-        type=T.AbstractTypeDecl,
+        type=T.BaseTypeDecl,
         doc="""
         Return the type declaration corresponding to this basic declaration
         has when it is used in an expression context. For example, for this
@@ -243,7 +243,7 @@ class BasicDecl(AdaNode):
     )), doc="""
         Return the type designator for this BasicDecl. This will either be a
         TypeExpr instance, if applicable to this BasicDecl, or a
-        AbstractTypeDecl.
+        BaseTypeDecl.
         """
     )
 
@@ -255,7 +255,7 @@ class BasicDecl(AdaNode):
         """
     )
 
-    @langkit_property(return_type=T.AbstractTypeDecl)
+    @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_expr_type():
         """
         Same as expr_type, but will instead return the canonical type
@@ -359,10 +359,10 @@ class TypeDef(AdaNode):
                               doc="Whether type is an access type or not.")
     is_char_type = Property(False)
 
-    accessed_type = Property(No(T.AbstractTypeDecl))
+    accessed_type = Property(No(T.BaseTypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
     base_type = Property(
-        No(T.AbstractTypeDecl), doc="""
+        No(T.BaseTypeDecl), doc="""
         Return the base type entity for this derived type definition.
         """
     )
@@ -381,17 +381,17 @@ class VariantPart(AdaNode):
 
 
 @abstract
-class AbstractFormalParamDecl(BasicDecl):
+class BaseFormalParamDecl(BasicDecl):
     """
-    Represent an abstract formal parameter declaration. This is used both
-    for records components and for subprogram parameters.
+    Base class for formal parameter declarations. This is used both for records
+    components and for subprogram parameters.
     """
     identifiers = AbstractProperty(type=T.Identifier.list_type())
     type_expression = AbstractProperty(type=T.TypeExpr)
     is_mandatory = Property(False)
 
 
-class ComponentDecl(AbstractFormalParamDecl):
+class ComponentDecl(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     component_def = Field(type=T.ComponentDef)
     default_expr = Field(type=T.Expr)
@@ -418,30 +418,30 @@ class ComponentDecl(AbstractFormalParamDecl):
             Bind(prefix.type_var, Self.container_type)
 
             # Access dereference
-            | Predicate(AbstractTypeDecl.fields.matching_prefix_type,
+            | Predicate(BaseTypeDecl.fields.matching_prefix_type,
                         prefix.type_var, Self.container_type)
         )
 
-    @langkit_property(return_type=T.AbstractTypeDecl)
+    @langkit_property(return_type=T.BaseTypeDecl)
     def container_type():
         """
         Return the defining container type for this component declaration.
         """
         return Self.parents.find(
-            lambda p: p.is_a(AbstractTypeDecl)
-        ).cast(AbstractTypeDecl)
+            lambda p: p.is_a(BaseTypeDecl)
+        ).cast(BaseTypeDecl)
 
 
 @abstract
-class AbstractFormalParamHolder(AdaNode):
+class BaseFormalParamHolder(AdaNode):
     """
-    Represents the abstract holder of a list of formal parameters. This is
-    used both for subprogram specifications and for records, so that we can
-    share the matching and unpacking logic.
+    Base class for lists of formal parameters. This is used both for subprogram
+    specifications and for records, so that we can share the matching and
+    unpacking logic.
     """
 
     abstract_formal_params = AbstractProperty(
-        type=AbstractFormalParamDecl.array_type(),
+        type=BaseFormalParamDecl.array_type(),
         doc="Return the list of abstract formal parameters for this holder."
     )
 
@@ -488,7 +488,7 @@ class AbstractFormalParamHolder(AdaNode):
         ))
 
 
-class ComponentList(AbstractFormalParamHolder):
+class ComponentList(BaseFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
     variant_part = Field(type=T.VariantPart)
 
@@ -507,8 +507,8 @@ class ComponentList(AbstractFormalParamHolder):
         # 2. Concatenate parent components.
         pcl = Var(Self.parent_component_list)
         self_comps = Var(Self.components.filtermap(
-            filter_expr=lambda p: p.is_a(AbstractFormalParamDecl),
-            expr=lambda p: p.cast(AbstractFormalParamDecl)
+            filter_expr=lambda p: p.is_a(BaseFormalParamDecl),
+            expr=lambda p: p.cast(BaseFormalParamDecl)
         ))
 
         return If(
@@ -608,7 +608,7 @@ class RealTypeDef(TypeDef):
 
 
 @abstract
-class AbstractTypeDecl(BasicDecl):
+class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     name = Property(Self.type_id)
@@ -629,10 +629,10 @@ class AbstractTypeDecl(BasicDecl):
         Self.is_array & Self.component_type.then(lambda ct: ct.is_char_type)
     )
 
-    accessed_type = Property(No(T.AbstractTypeDecl))
+    accessed_type = Property(No(T.BaseTypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
     base_type = Property(
-        No(T.AbstractTypeDecl), doc="""
+        No(T.BaseTypeDecl), doc="""
         Return the base type entity for this derived type declaration.
         """
     )
@@ -650,12 +650,12 @@ class AbstractTypeDecl(BasicDecl):
         """
     )
 
-    # A AbstractTypeDecl in an expression context corresponds to a type
-    # conversion, so its type is itself.
+    # A BaseTypeDecl in an expression context corresponds to a type conversion,
+    # so its type is itself.
     expr_type = Property(Self)
 
     @langkit_property(return_type=BoolType)
-    def is_derived_type(other_type=T.AbstractTypeDecl):
+    def is_derived_type(other_type=T.BaseTypeDecl):
         """
         Whether Self is derived from other_type.
         """
@@ -666,7 +666,7 @@ class AbstractTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType)
-    def matching_prefix_type(container_type=T.AbstractTypeDecl):
+    def matching_prefix_type(container_type=T.BaseTypeDecl):
         """
         Given a dotted expression A.B, where container_type is the container
         type for B, and Self is a potential type for A, returns whether Self is
@@ -688,7 +688,7 @@ class AbstractTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(return_type=T.AbstractTypeDecl)
+    @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_type():
         """
         Return the canonical type declaration for this type declaration. For
@@ -724,7 +724,7 @@ class AbstractTypeDecl(BasicDecl):
     )
 
 
-class TypeDecl(AbstractTypeDecl):
+class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
@@ -769,7 +769,7 @@ class AnonymousTypeDecl(TypeDecl):
     env_spec = EnvSpec(call_parents=False)
 
 
-class EnumTypeDecl(AbstractTypeDecl):
+class EnumTypeDecl(BaseTypeDecl):
     enum_literals = Field(type=T.EnumLiteralDecl.list_type())
     aspects = Field(type=T.AspectSpec)
 
@@ -963,7 +963,7 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field(type=T.Name.list_type())
 
 
-class SubtypeDecl(AbstractTypeDecl):
+class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
 
@@ -1012,7 +1012,7 @@ class AccessDef(TypeDef):
     has_not_null = Field(type=NotNull)
 
     is_access_type = Property(True)
-    accessed_type = Property(No(AbstractTypeDecl))
+    accessed_type = Property(No(BaseTypeDecl))
 
     defining_env = Property(Self.accessed_type.defining_env)
 
@@ -1081,14 +1081,14 @@ class TypeExpr(AdaNode):
     accessed_type = Property(Self.designated_type.accessed_type)
 
     designated_type = AbstractProperty(
-        type=AbstractTypeDecl, runtime_check=True, doc="""
+        type=BaseTypeDecl, runtime_check=True, doc="""
         Return the type designated by this type expression.
         """
     )
 
     is_anonymous_access = Property(False)
 
-    @langkit_property(return_type=AbstractTypeDecl)
+    @langkit_property(return_type=BaseTypeDecl)
     def element_type():
         """
         If self is an anonymous access, return the accessed type. Otherwise,
@@ -1128,7 +1128,7 @@ class Mode(T.EnumNode):
     suffix = 'mode'
 
 
-class ParamSpec(AbstractFormalParamDecl):
+class ParamSpec(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
@@ -1337,7 +1337,7 @@ class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list_type())
 
     @langkit_property(return_type=BasicDecl.array_type())
-    def primitives(t=AbstractTypeDecl):
+    def primitives(t=BaseTypeDecl):
         """
         Return all potential primitive operations for t in the scope of Self.
         """
@@ -1551,7 +1551,7 @@ class Expr(AdaNode):
     )
 
     designated_type = AbstractProperty(
-        type=AbstractTypeDecl, runtime_check=True,
+        type=BaseTypeDecl, runtime_check=True,
         doc="""
         Assuming this expression designates a type, return this type.
 
@@ -1605,7 +1605,7 @@ class Aggregate(Expr):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        td = Var(Self.type_val.cast(AbstractTypeDecl))
+        td = Var(Self.type_val.cast(BaseTypeDecl))
         atd = Var(td.array_def)
         return LogicAnd(If(
             atd.is_null,
@@ -1771,7 +1771,7 @@ class CallExpr(Expr):
         """
         atd = Var(type_designator.match(
             lambda te=TypeExpr: te.array_def,
-            lambda td=AbstractTypeDecl: td.array_def,
+            lambda td=BaseTypeDecl: td.array_def,
             lambda _: No(ArrayTypeDef)
         ))
 
@@ -1793,7 +1793,7 @@ class CallExpr(Expr):
         # handle the case when the return value is an access to subprogram.
         return type_designator.match(
             lambda te=TypeExpr: te.array_ndims,
-            lambda td=AbstractTypeDecl: td.array_ndims,
+            lambda td=BaseTypeDecl: td.array_ndims,
             lambda _: -1
         ) == Self.suffix.cast_or_raise(ParamList).length
 
@@ -1801,11 +1801,11 @@ class CallExpr(Expr):
     def type_component(type_designator=AdaNode):
         """
         Helper to return the type component of a Node that can be either a
-        AbstractTypeDecl or a TypeExpr. TODO: Waiting on interfaces.
+        BaseTypeDecl or a TypeExpr. TODO: Waiting on interfaces.
         """
         return type_designator.match(
             lambda te=TypeExpr: te.component_type,
-            lambda td=AbstractTypeDecl: td.component_type,
+            lambda td=BaseTypeDecl: td.component_type,
             lambda _: No(AdaNode)
         )
 
@@ -1828,7 +1828,7 @@ class CallExpr(Expr):
     def check_type(type_designator=AdaNode):
         """
         Verifies that this callexpr is valid for the type designated by
-        type_designator. type_designator is either a AbstractTypeDecl or a
+        type_designator. type_designator is either a BaseTypeDecl or a
         TypeExpr. TODO: Waiting on interfaces.
         """
         # Algorithm: We're:
@@ -1950,7 +1950,7 @@ class ExplicitDeref(Expr):
 
             & Bind(Self.prefix.type_var,
                    Self.type_var,
-                   AbstractTypeDecl.fields.accessed_type)
+                   BaseTypeDecl.fields.accessed_type)
             # We don't need to check if the type is an access type, since we
             # already constrained the domain above.
         )
@@ -2059,7 +2059,7 @@ class BaseId(SingleTokNode):
         # correct support, so that references to the incomplete type don't
         # reference the complete type. This is low priority but still needs
         # to be done.
-        Env.get(Self.tok).at(0).el.cast(AbstractTypeDecl)
+        Env.get(Self.tok).at(0).el.cast(BaseTypeDecl)
     )
 
     @langkit_property(return_type=CallExpr)
@@ -2150,7 +2150,7 @@ class BaseId(SingleTokNode):
                         matching_subp(params, subp, e),
 
                     # Type conversion case
-                    lambda t=AbstractTypeDecl: params.length == 1,
+                    lambda t=BaseTypeDecl: params.length == 1,
 
                     # In the case of ObjectDecls/BasicDecls in general, verify
                     # that the callexpr is valid for the given type designator.
@@ -2187,17 +2187,17 @@ class StringLiteral(BaseId):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        return Predicate(AbstractTypeDecl.fields.is_str_type, Self.type_var)
+        return Predicate(BaseTypeDecl.fields.is_str_type, Self.type_var)
 
 
 class EnumLiteralDecl(BasicDecl):
     enum_identifier = Field(type=T.BaseId)
 
-    @langkit_property(return_type=T.AbstractTypeDecl)
+    @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_expr_type():
         return Self.parents.find(
-            lambda p: p.is_a(AbstractTypeDecl)
-        ).cast(AbstractTypeDecl)
+            lambda p: p.is_a(BaseTypeDecl)
+        ).cast(BaseTypeDecl)
 
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
@@ -2211,7 +2211,7 @@ class CharLiteral(BaseId):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        return Predicate(AbstractTypeDecl.fields.is_char_type, Self.type_var)
+        return Predicate(BaseTypeDecl.fields.is_char_type, Self.type_var)
 
 
 @abstract
@@ -2224,7 +2224,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        return Predicate(AbstractTypeDecl.fields.is_real_type, Self.type_var)
+        return Predicate(BaseTypeDecl.fields.is_real_type, Self.type_var)
 
 
 class IntLiteral(NumLiteral):
@@ -2232,7 +2232,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        return Predicate(AbstractTypeDecl.fields.is_int_type, Self.type_var)
+        return Predicate(BaseTypeDecl.fields.is_int_type, Self.type_var)
 
 
 class NullLiteral(SingleTokNode):
@@ -2241,7 +2241,7 @@ class NullLiteral(SingleTokNode):
 
 class SingleFormal(Struct):
     name = Field(type=Identifier)
-    spec = Field(type=AbstractFormalParamDecl)
+    spec = Field(type=BaseFormalParamDecl)
 
 
 class SingleActual(Struct):
@@ -2262,13 +2262,13 @@ class ParamMatch(Struct):
     formal = Field(type=SingleFormal)
 
 
-class SubprogramSpec(AbstractFormalParamHolder):
+class SubprogramSpec(BaseFormalParamHolder):
     name = Field(type=T.Name)
     params = Field(type=T.ParamSpec.list_type())
     returns = Field(type=T.TypeExpr)
 
     abstract_formal_params = Property(
-        Self.params.map(lambda p: p.cast(AbstractFormalParamDecl))
+        Self.params.map(lambda p: p.cast(BaseFormalParamDecl))
     )
 
     nb_min_params = Property(
@@ -2339,7 +2339,7 @@ class SubprogramSpec(AbstractFormalParamHolder):
         """
         return If(Self.returns.is_null, EmptyEnv, Self.returns.defining_env)
 
-    @langkit_property(return_type=AbstractTypeDecl)
+    @langkit_property(return_type=BaseTypeDecl)
     def potential_dottable_type():
         """
         If self meets the criterias for being a subprogram callable via the dot

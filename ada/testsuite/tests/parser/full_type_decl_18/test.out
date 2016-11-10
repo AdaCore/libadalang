@@ -18,7 +18,7 @@ TypeDecl[1:1-1:40]
 |  |  |  |  |right:
 |  |  |  |  |  Int[1:26-1:28]
 |  |  |  |  |  |tok: 15
-|  |stored_component:
+|  |component_type:
 |  |  ComponentDef[1:33-1:40]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:33-1:33]

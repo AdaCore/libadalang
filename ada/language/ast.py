@@ -626,7 +626,7 @@ class BaseTypeDecl(BasicDecl):
                             doc="Whether type is a character type or not")
 
     is_str_type = Property(
-        Self.is_array & Self.component_type.then(lambda ct: ct.is_char_type)
+        Self.is_array & Self.comp_type.then(lambda ct: ct.is_char_type)
     )
 
     accessed_type = Property(No(T.BaseTypeDecl))
@@ -639,8 +639,8 @@ class BaseTypeDecl(BasicDecl):
     array_def = Property(No(T.ArrayTypeDef))
     record_def = Property(No(T.BaseRecordDef))
 
-    component_type = Property(
-        Self.array_def.then(lambda atd: atd.component_type),
+    comp_type = Property(
+        Self.array_def.then(lambda atd: atd.comp_type),
         doc="""
         Return the component type of the type, if applicable. The
         component type is the type you'll get if you call an instance of the
@@ -944,10 +944,10 @@ class ComponentDef(AdaNode):
 
 class ArrayTypeDef(TypeDef):
     indices = Field(type=T.ArrayIndices)
-    stored_component = Field(type=T.ComponentDef)
+    component_type = Field(type=T.ComponentDef)
 
-    component_type = Property(
-        Self.stored_component.type_expr.designated_type.canonical_type,
+    comp_type = Property(
+        Self.component_type.type_expr.designated_type.canonical_type,
         doc="Returns the type stored as a component in the array"
     )
 
@@ -1076,7 +1076,7 @@ class TypeExpr(AdaNode):
 
     array_def = Property(Self.designated_type.array_def)
     array_ndims = Property(Self.designated_type.array_ndims)
-    component_type = Property(Self.designated_type.component_type)
+    comp_type = Property(Self.designated_type.comp_type)
     defining_env = Property(Self.designated_type.defining_env, private=True)
     accessed_type = Property(Self.designated_type.accessed_type)
 
@@ -1625,7 +1625,7 @@ class Aggregate(Expr):
             Self.assocs.map(
                 lambda assoc:
                 assoc.expr.sub_equation(origin_env)
-                & Bind(assoc.expr.type_var, atd.component_type)
+                & Bind(assoc.expr.type_var, atd.comp_type)
             )
         ))
 
@@ -1780,7 +1780,7 @@ class CallExpr(Expr):
                 pa.expr.sub_equation(origin_env)
                 & indices.constrain_index_expr(pa.expr, i)
             ))
-        )) & Bind(Self.type_var, atd.component_type)
+        )) & Bind(Self.type_var, atd.comp_type)
 
     @langkit_property(return_type=BoolType)
     def check_type_self(type_designator=AdaNode):
@@ -1804,8 +1804,8 @@ class CallExpr(Expr):
         BaseTypeDecl or a TypeExpr. TODO: Waiting on interfaces.
         """
         return type_designator.match(
-            lambda te=TypeExpr: te.component_type,
-            lambda td=BaseTypeDecl: td.component_type,
+            lambda te=TypeExpr: te.comp_type,
+            lambda td=BaseTypeDecl: td.comp_type,
             lambda _: No(AdaNode)
         )
 

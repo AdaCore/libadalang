@@ -130,7 +130,7 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  |  |  |  |  Id[1:193-1:200]
 |  |  |  |  |  |  |  |  |  |  |tok: Q_Range
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |stored_component:
+|  |  |  |  |  |  |component_type:
 |  |  |  |  |  |  |  ComponentDef[1:205-1:209]
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:205-1:205]

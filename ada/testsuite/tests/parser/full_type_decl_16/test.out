@@ -11,7 +11,7 @@ TypeDecl[1:1-1:48]
 |  |  |  NameList[1:20-1:36]
 |  |  |  |  Id[1:20-1:27]
 |  |  |  |  |tok: Integer
-|  |stored_component:
+|  |component_type:
 |  |  ComponentDef[1:41-1:48]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:41-1:41]

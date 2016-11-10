@@ -1,4 +1,6 @@
-GenericRenamingDecl[1:1-1:30]
+GenericSubpRenamingDecl[1:1-1:30]
+|kind:
+|  SubpKindProcedure[1:9-1:18]
 |name:
 |  Id[1:19-1:20]
 |  |tok: A

@@ -1439,7 +1439,28 @@ class PackageRenamingDecl(BasicDecl):
     defining_names = Property(Self.name.singleton)
 
 
+@abstract
 class GenericRenamingDecl(BasicDecl):
+    """
+    Base node for all generic renaming declarations.
+    """
+    pass
+
+
+class GenericPackageRenamingDecl(GenericRenamingDecl):
+    name = Field(type=T.Name)
+    renames = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpec)
+
+    defining_names = Property(Self.name.singleton)
+
+
+class SubpKind(T.EnumNode):
+    alternatives = ["procedure", "function"]
+
+
+class GenericSubpRenamingDecl(GenericRenamingDecl):
+    kind = Field(type=T.SubpKind)
     name = Field(type=T.Name)
     renames = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

@@ -44,6 +44,21 @@ def subp_decl(dest_class, *variant_part):
     )
 
 
+def generic_renaming_decl(keyword, dest_class):
+    """
+    Factory for generic package/subprogram declarations grammar rules.
+
+    :param str|Parser: Parser for the varying part of the renaming declaration.
+        Typically: "package", or a parser that produces a SubpKind.
+    :param ASTNode dest class: AST node that the result must produce.
+    :rtype: Transform
+    """
+    return dest_class(
+        "generic", keyword, A.static_name, "renames", A.static_name,
+        A.aspect_spec
+    )
+
+
 def generic_instantiation(keyword, dest_class):
     """
     Factory for generic instantiations grammar rules.
@@ -336,9 +351,12 @@ A.add_rules(
 
     renaming_clause=RenamingClause("renames", A.name),
 
-    generic_renaming_decl=GenericRenamingDecl(
-        "generic", _(Or("package", "function", "procedure")), A.static_name,
-        "renames", A.static_name, A.aspect_spec
+    generic_renaming_decl=Or(
+        generic_renaming_decl("package", GenericPackageRenamingDecl),
+        generic_renaming_decl(SubpKind.alt_procedure("procedure"),
+                              GenericSubpRenamingDecl),
+        generic_renaming_decl(SubpKind.alt_function("function"),
+                              GenericSubpRenamingDecl),
     ),
 
     generic_instantiation=Or(

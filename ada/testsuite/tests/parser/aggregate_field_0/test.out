@@ -1,4 +1,4 @@
-AggregateMember[1:1-1:16]
+ComponentAssoc[1:1-1:16]
 |choice_list:
 |  AdaNodeList[1:1-1:16]
 |  |  BinOp[1:1-1:7]

@@ -1903,7 +1903,7 @@ class ParamList(ParamAssoc.list_type()):
             lambda pa: pa.designator.then(lambda des: des.match(
                 lambda i=Identifier:
                     New(SingleActual, name=i, assoc=pa).singleton,
-                lambda ag=AggregateMember:
+                lambda ag=ComponentAssoc:
                     ag.choice_list.filtermap(
                         filter_expr=lambda n: n.is_a(T.Identifier),
                         expr=lambda i:
@@ -1964,7 +1964,7 @@ class OthersDesignator(AdaNode):
     pass
 
 
-class AggregateMember(AdaNode):
+class ComponentAssoc(AdaNode):
     choice_list = Field(type=T.AdaNode.list_type())
 
 

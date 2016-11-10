@@ -846,7 +846,7 @@ A.add_rules(
     others_designator=OthersDesignator(Tok("others")),
 
     aggregate_field=Or(
-        AggregateMember(A.choice_list),
+        ComponentAssoc(A.choice_list),
         A.expr,
     ),
 

@@ -4,7 +4,7 @@ Aggregate[1:2-1:18]
 |  ParamAssocList[1:2-1:18]
 |  |  ParamAssoc[1:2-1:9]
 |  |  |designator:
-|  |  |  AggregateMember[1:2-1:3]
+|  |  |  ComponentAssoc[1:2-1:3]
 |  |  |  |choice_list:
 |  |  |  |  AdaNodeList[1:2-1:3]
 |  |  |  |  |  Id[1:2-1:3]
@@ -14,7 +14,7 @@ Aggregate[1:2-1:18]
 |  |  |  |tok: 12
 |  |  ParamAssoc[1:11-1:18]
 |  |  |designator:
-|  |  |  AggregateMember[1:11-1:12]
+|  |  |  ComponentAssoc[1:11-1:12]
 |  |  |  |choice_list:
 |  |  |  |  AdaNodeList[1:11-1:12]
 |  |  |  |  |  Id[1:11-1:12]

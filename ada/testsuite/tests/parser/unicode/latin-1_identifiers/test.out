@@ -6,11 +6,11 @@ CompilationUnit[1:1-4:15]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubprogramBody[1:1-4:14]
+|  |  SubpBody[1:1-4:14]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:10]
 |  |  |subp_spec:
-|  |  |  SubprogramSpec[1:1-1:20]
+|  |  |  SubpSpec[1:1-1:20]
 |  |  |  |name:
 |  |  |  |  Id[1:11-1:20]
 |  |  |  |  |tok: Kikoolol\xe9

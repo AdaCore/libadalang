@@ -30,11 +30,11 @@ CompilationUnit[1:1-24:10]
 |  |has_private:
 |  |  PrivateAbsent[3:1-3:1]
 |  |item:
-|  |  SubprogramBody[3:1-24:9]
+|  |  SubpBody[3:1-24:9]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[3:1-3:10]
 |  |  |subp_spec:
-|  |  |  SubprogramSpec[3:1-3:15]
+|  |  |  SubpSpec[3:1-3:15]
 |  |  |  |name:
 |  |  |  |  Id[3:11-3:15]
 |  |  |  |  |tok: What
@@ -70,7 +70,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  AdaNodeList[6:7-7:42]
 |  |  |  |  |  |  |  FormalSubpDecl[6:7-6:39]
 |  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  SubprogramSpec[6:12-6:34]
+|  |  |  |  |  |  |  |  SubpSpec[6:12-6:34]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[6:21-6:22]
 |  |  |  |  |  |  |  |  |  |tok: J
@@ -92,7 +92,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  FormalSubpDecl[7:7-7:41]
 |  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  SubprogramSpec[7:12-7:34]
+|  |  |  |  |  |  |  |  SubpSpec[7:12-7:34]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[7:21-7:22]
 |  |  |  |  |  |  |  |  |  |tok: I
@@ -122,11 +122,11 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  PublicPart[9:7-9:21]
 |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  AdaNodeList[9:7-9:21]
-|  |  |  |  |  |  |  |  |  SubprogramDecl[9:7-9:20]
+|  |  |  |  |  |  |  |  |  SubpDecl[9:7-9:20]
 |  |  |  |  |  |  |  |  |  |overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[9:7-9:16]
 |  |  |  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  |  |  SubprogramSpec[9:7-9:20]
+|  |  |  |  |  |  |  |  |  |  SubpSpec[9:7-9:20]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Foo
@@ -147,11 +147,11 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  DeclarativePart[13:7-17:15]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[13:7-17:15]
-|  |  |  |  |  |  |  |  SubprogramBody[13:7-17:14]
+|  |  |  |  |  |  |  |  SubpBody[13:7-17:14]
 |  |  |  |  |  |  |  |  |overriding:
 |  |  |  |  |  |  |  |  |  OverridingUnspecified[13:7-13:16]
 |  |  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  |  SubprogramSpec[13:7-13:20]
+|  |  |  |  |  |  |  |  |  SubpSpec[13:7-13:20]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]
 |  |  |  |  |  |  |  |  |  |  |tok: Foo

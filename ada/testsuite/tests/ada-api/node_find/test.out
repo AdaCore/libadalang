@@ -3,9 +3,9 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <AdaNodeList 1:1-1:1>
   <LibraryItem 1:1-4:8>
   <PrivateAbsent 1:1-1:1>
-  <SubprogramBody ["Sum"] 1:1-4:8>
+  <SubpBody ["Sum"] 1:1-4:8>
   <OverridingUnspecified 1:1-1:9>
-  <SubprogramSpec 1:1-1:68>
+  <SubpSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
   <ParamSpecList 1:15-1:52>
   <ParamSpec ["A"] 1:15-1:26>

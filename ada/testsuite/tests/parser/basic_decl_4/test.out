@@ -1,8 +1,8 @@
-SubprogramRenamingDecl[1:1-1:64]
+SubpRenamingDecl[1:1-1:64]
 |overriding:
 |  OverridingUnspecified[1:1-1:10]
 |subp_spec:
-|  SubprogramSpec[1:1-1:54]
+|  SubpSpec[1:1-1:54]
 |  |name:
 |  |  Id[1:11-1:12]
 |  |  |tok: A

@@ -9,7 +9,7 @@ procedure Main is
    Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    CU     : constant Compilation_Unit := Compilation_Unit (Root (Unit));
    LI     : constant Basic_Decl := F_Item (Library_Item (F_Body (CU)));
-   S_Spec : constant Subprogram_Spec := F_Subp_Spec (Subprogram_Body (LI));
+   S_Spec : constant Subp_Spec := F_Subp_Spec (Subp_Body (LI));
 
    S_Name : constant Libadalang.AST.Types.Name := F_Name (S_Spec);
    Params : constant Param_Spec_List := F_Params (S_Spec);

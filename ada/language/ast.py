@@ -31,7 +31,7 @@ def symbol_list(base_id_list):
 
 @env_metadata
 class Metadata(Struct):
-    dottable_subprogram = UserField(
+    dottable_subp = UserField(
         BoolType, doc="Whether the stored element is a subprogram accessed "
                       "through the dot notation"
     )
@@ -204,7 +204,7 @@ class BasicDecl(AdaNode):
     )
 
     is_array = Property(Self.array_ndims > 0)
-    is_subp = Property(Self.is_a(T.BasicSubprogramDecl, T.SubprogramBody))
+    is_subp = Property(Self.is_a(T.BasicSubpDecl, T.SubpBody))
 
     expr_type = Property(
         Self.type_expression.then(lambda te: te.designated_type),
@@ -263,16 +263,16 @@ class BasicDecl(AdaNode):
         """
         return Self.expr_type.then(lambda t: t.canonical_type)
 
-    @langkit_property(return_type=T.SubprogramSpec)
+    @langkit_property(return_type=T.SubpSpec)
     def subp_spec():
         """
-        If node is a Subprogram, returns the specification of this subprogram.
+        If node is a Subp, returns the specification of this subprogram.
         TODO: Enhance when we have interfaces.
         """
         return Self.match(
-            lambda subp=BasicSubprogramDecl: subp.subp_spec,
-            lambda subp=SubprogramBody:      subp.subp_spec,
-            lambda others:                   No(SubprogramSpec),
+            lambda subp=BasicSubpDecl: subp.subp_spec,
+            lambda subp=SubpBody:      subp.subp_spec,
+            lambda others:             No(SubpSpec),
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -697,10 +697,10 @@ class BaseTypeDecl(BasicDecl):
         return Self
 
     @langkit_property(return_type=BoolType)
-    def is_primitive(spec=T.SubprogramSpec):
+    def is_primitive(spec=T.SubpSpec):
         """
-        Whether the passed SubprogramSpec corresponds to a primitive of the
-        type Self represents.
+        Whether the passed SubpSpec corresponds to a primitive of the type Self
+        represents.
         """
         t_expr = Var(spec.params.at(0).type_expr)
         return (
@@ -1017,9 +1017,9 @@ class AccessDef(TypeDef):
     defining_env = Property(Self.accessed_type.defining_env)
 
 
-class AccessToSubprogramDef(AccessDef):
+class AccessToSubpDef(AccessDef):
     has_protected = Field(type=Protected, repr=False)
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
 
 
 class TypeAccessDef(AccessDef):
@@ -1154,9 +1154,9 @@ class Overriding(T.EnumNode):
 
 
 @abstract
-class BasicSubprogramDecl(BasicDecl):
+class BasicSubpDecl(BasicDecl):
     overriding = Field(type=Overriding)
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
 
     name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
@@ -1179,13 +1179,13 @@ class BasicSubprogramDecl(BasicDecl):
             # type is tagged and self is a primitive of it.
             add_to_env(
                 key=Self.subp_spec.name.name.symbol,
-                val=Self.subp_spec.dottable_subprogram,
+                val=Self.subp_spec.dottable_subp,
                 dest_env=Self.subp_spec.potential_dottable_type.then(
                     lambda t: t.children_env
                 ),
                 # We pass custom metadata, marking the entity as a dottable
                 # subprogram.
-                metadata=New(Metadata, dottable_subprogram=True,
+                metadata=New(Metadata, dottable_subp=True,
                              implicit_deref=False),
                 is_post=True
             ),
@@ -1194,24 +1194,24 @@ class BasicSubprogramDecl(BasicDecl):
     )
 
 
-class SubprogramDecl(BasicSubprogramDecl):
+class SubpDecl(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class NullSubprogramDecl(BasicSubprogramDecl):
+class NullSubpDecl(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class AbstractSubprogramDecl(BasicSubprogramDecl):
+class AbstractSubpDecl(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class ExprFunction(BasicSubprogramDecl):
+class ExprFunction(BasicSubpDecl):
     expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
 
-class SubprogramRenamingDecl(BasicSubprogramDecl):
+class SubpRenamingDecl(BasicSubpDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
@@ -1343,8 +1343,8 @@ class DeclarativePart(AdaNode):
         """
         return Self.decls.filtermap(
             filter_expr=lambda decl: decl.match(
-                lambda s=BasicSubprogramDecl: t.is_primitive(s.subp_spec),
-                lambda s=SubprogramBody: t.is_primitive(s.subp_spec),
+                lambda s=BasicSubpDecl: t.is_primitive(s.subp_spec),
+                lambda s=SubpBody: t.is_primitive(s.subp_spec),
                 lambda others: False,
             ),
             expr=lambda decl: decl.cast_or_raise(BasicDecl)
@@ -1451,7 +1451,7 @@ class FormalSubpDecl(BasicDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
     has_abstract = Field(type=Abstract)
     default_value = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
@@ -1459,9 +1459,9 @@ class FormalSubpDecl(BasicDecl):
     defining_names = Property(Self.subp_spec.name.singleton)
 
 
-class GenericSubprogramDecl(BasicDecl):
+class GenericSubpDecl(BasicDecl):
     formal_part = Field(type=T.AdaNode.list_type())
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
@@ -1643,9 +1643,9 @@ class CallExpr(Expr):
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
         return Self.entities().map(lambda e: e.match(
-            lambda subp=BasicSubprogramDecl: subp.defining_env,
-            lambda subp=SubprogramBody:      subp.defining_env,
-            lambda others:                   EmptyEnv,
+            lambda subp=BasicSubpDecl: subp.defining_env,
+            lambda subp=SubpBody:      subp.defining_env,
+            lambda others:             EmptyEnv,
         )).env_group
 
     @langkit_property()
@@ -1725,7 +1725,7 @@ class CallExpr(Expr):
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
                     & LogicAnd(s.subp_spec.match_param_list(
-                        Self.params, e.MD.dottable_subprogram
+                        Self.params, e.MD.dottable_subp
                     ).map(
                         lambda pm: (
                             # The type of each actual matches the type of the
@@ -2106,7 +2106,7 @@ class BaseId(SingleTokNode):
         def matching_subp(params, subp, env_el):
             # Either the subprogram has is matching the CallExpr's parameters
             return subp.subp_spec.is_matching_param_list(
-                params, env_el.MD.dottable_subprogram
+                params, env_el.MD.dottable_subp
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
@@ -2143,10 +2143,10 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(ParamList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
-                    lambda subp=BasicSubprogramDecl:
+                    lambda subp=BasicSubpDecl:
                         matching_subp(params, subp, e),
 
-                    lambda subp=SubprogramBody:
+                    lambda subp=SubpBody:
                         matching_subp(params, subp, e),
 
                     # Type conversion case
@@ -2251,7 +2251,7 @@ class SingleActual(Struct):
 
 class ParamMatch(Struct):
     """
-    Helper data structure to implement SubprogramSpec/ParamAssocList matching.
+    Helper data structure to implement SubpSpec/ParamAssocList matching.
 
     Each value relates to one ParamAssoc.
     """
@@ -2262,7 +2262,7 @@ class ParamMatch(Struct):
     formal = Field(type=SingleFormal)
 
 
-class SubprogramSpec(BaseFormalParamHolder):
+class SubpSpec(BaseFormalParamHolder):
     name = Field(type=T.Name)
     params = Field(type=T.ParamSpec.list_type())
     returns = Field(type=T.TypeExpr)
@@ -2292,7 +2292,7 @@ class SubprogramSpec(BaseFormalParamHolder):
     @langkit_property(return_type=BoolType)
     def is_matching_param_list(params=ParamList, is_dottable_subp=BoolType):
         """
-        Return whether a ParamList is a match for this SubprogramSpec, i.e.
+        Return whether a ParamList is a match for this SubpSpec, i.e.
         whether the argument count (and designators, if any) match.
         """
         match_list = Var(Self.match_param_list(params, is_dottable_subp))
@@ -2348,7 +2348,7 @@ class SubprogramSpec(BaseFormalParamHolder):
         return Self.params.at(0).type_expr.then(lambda te: te.element_type)
 
     @langkit_property(return_type=T.BasicDecl.array_type())
-    def dottable_subprogram():
+    def dottable_subp():
         """
         Used for environments. Returns either an empty array, or an array
         containg the subprogram declaration for this spec, if self meets the
@@ -2386,7 +2386,7 @@ class SubprogramSpec(BaseFormalParamHolder):
         callexpr).
         """
         return Or(
-            md.dottable_subprogram & (Self.nb_min_params == 1),
+            md.dottable_subp & (Self.nb_min_params == 1),
             Self.nb_min_params == 0
         )
 
@@ -2532,14 +2532,14 @@ class CompilationUnit(AdaNode):
     pragmas = Field(type=T.Pragma.list_type())
 
 
-class SubprogramBody(Body):
+class SubpBody(Body):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
                           Self,
                           is_body=True)]
 
     overriding = Field(type=Overriding)
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
@@ -2772,14 +2772,14 @@ class ProtectedBodyStub(BodyStub):
     defining_names = Property(Self.name.singleton)
 
 
-class SubprogramBodyStub(BodyStub):
+class SubpBodyStub(BodyStub):
     overriding = Field(type=Overriding)
-    subp_spec = Field(type=T.SubprogramSpec)
+    subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
-    # what we put in lexical environment is their SubprogramSpec child.
+    # what we put in lexical environment is their SubpSpec child.
 
 
 class PackageBodyStub(BodyStub):

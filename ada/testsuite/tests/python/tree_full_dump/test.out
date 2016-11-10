@@ -22,11 +22,11 @@
 |  |has_private:
 |  |  <PrivateAbsent>
 |  |item:
-|  |  <SubprogramBody>
+|  |  <SubpBody>
 |  |  |overriding:
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
-|  |  |  <SubprogramSpec>
+|  |  |  <SubpSpec>
 |  |  |  |name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')

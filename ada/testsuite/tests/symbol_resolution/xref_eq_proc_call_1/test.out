@@ -1,8 +1,8 @@
 Analyzing test.adb
 ##################
 
-Expr: <CallExpr 7:4-7:9>, references <SubprogramDecl ["A"] 3:4-3:25>, type is None
-Expr: <Id "A" 7:4-7:5>, references <SubprogramDecl ["A"] 3:4-3:25>, type is None
+Expr: <CallExpr 7:4-7:9>, references <SubpDecl ["A"] 3:4-3:25>, type is None
+Expr: <Id "A" 7:4-7:5>, references <SubpDecl ["A"] 3:4-3:25>, type is None
 Expr: <Id "B" 7:7-7:8>, references <ObjectDecl ["B"] 5:4-5:11>, type is <TypeDecl ["Int"] 2:4-2:30>
 
 Done.

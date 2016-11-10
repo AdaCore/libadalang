@@ -46,9 +46,9 @@ CompilationUnit
 |  |  |  |  |  -------------
 |  |  |  |  |  -- Reserve --
 |  |  |  |  |  -------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -211,9 +211,9 @@ CompilationUnit
 |  |  |  |  |  ------------
 |  |  |  |  |  -- Append --
 |  |  |  |  |  ------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -323,9 +323,9 @@ CompilationUnit
 |  |  |  |  |  ---------
 |  |  |  |  |  -- Get --
 |  |  |  |  |  ---------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -389,9 +389,9 @@ CompilationUnit
 |  |  |  |  |  ----------------
 |  |  |  |  |  -- Get_Access --
 |  |  |  |  |  ----------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -461,9 +461,9 @@ CompilationUnit
 |  |  |  |  |  -------------
 |  |  |  |  |  -- Destroy --
 |  |  |  |  |  -------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -487,9 +487,9 @@ CompilationUnit
 |  |  |  |  |  -----------
 |  |  |  |  |  -- Clear --
 |  |  |  |  |  -----------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -510,9 +510,9 @@ CompilationUnit
 |  |  |  |  |  ------------------
 |  |  |  |  |  -- Last_Element --
 |  |  |  |  |  ------------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -543,9 +543,9 @@ CompilationUnit
 |  |  |  |  |  ------------------
 |  |  |  |  |  -- Last_Element --
 |  |  |  |  |  ------------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -578,7 +578,7 @@ CompilationUnit
 |  |  |  |  |  -------------------
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -601,7 +601,7 @@ CompilationUnit
 |  |  |  |  |  ------------
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -618,9 +618,9 @@ CompilationUnit
 |  |  |  |  |  -----------
 |  |  |  |  |  -- Slice --
 |  |  |  |  |  -----------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -688,9 +688,9 @@ CompilationUnit
 |  |  |  |  |  --------------
 |  |  |  |  |  -- To_Array --
 |  |  |  |  |  --------------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -736,9 +736,9 @@ CompilationUnit
 |  |  |  |  |  ----------
 |  |  |  |  |  -- Repr --
 |  |  |  |  |  ----------
-|  |  |  |  |  SubprogramBody
+|  |  |  |  |  SubpBody
 |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  ParamSpec
@@ -753,7 +753,7 @@ CompilationUnit
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  |  |  |  OverridingUnspecified
-|  |  |  |  |  |  |  |  |  SubprogramSpec
+|  |  |  |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  |  |  ParamSpec

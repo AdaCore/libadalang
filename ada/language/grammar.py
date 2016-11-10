@@ -27,7 +27,7 @@ def package_decl_factory(dest_class):
     )
 
 
-def subprogram_decl(dest_class, *variant_part):
+def subp_decl(dest_class, *variant_part):
     """
     Factory for subprogram declarations grammar rules.
 
@@ -39,7 +39,7 @@ def subprogram_decl(dest_class, *variant_part):
     variant_part += (A.aspect_spec,)
     return dest_class(
         A.overriding_indicator,
-        A.subprogram_spec,
+        A.subp_spec,
         *variant_part
     )
 
@@ -68,7 +68,7 @@ A.add_rules(
         A.protected_def
     ),
 
-    protected_op=Or(A.subprogram_decl, A.entry_decl, A.aspect_clause,
+    protected_op=Or(A.subp_decl, A.entry_decl, A.aspect_clause,
                     A.pragma),
     protected_el=Or(A.protected_op, A.component_decl),
 
@@ -216,11 +216,11 @@ A.add_rules(
     ),
 
     access_def=Or(
-        AccessToSubprogramDef(
+        AccessToSubpDef(
             NotNull("not", "null"),
             "access",
             Protected("protected"),
-            A.subprogram_spec
+            A.subp_spec
         ),
         TypeAccessDef(
             NotNull("not", "null"),
@@ -303,8 +303,8 @@ A.add_rules(
     ),
 
     generic_decl=Or(
-        GenericSubprogramDecl(
-            A.generic_formal_part, A.subprogram_spec, A.aspect_spec
+        GenericSubpDecl(
+            A.generic_formal_part, A.subp_spec, A.aspect_spec
         ),
         GenericPackageDecl(A.generic_formal_part, A.base_package_decl)
     ),
@@ -324,7 +324,7 @@ A.add_rules(
 
     formal_subp_decl=FormalSubpDecl(
         "with",
-        A.subprogram_spec,
+        A.subp_spec,
 
         # TODO: Refactor that kludge
         _(Opt("is")),
@@ -368,7 +368,7 @@ A.add_rules(
         A.task_type_decl,
         A.protected_type_decl,
         A.generic_instantiation,
-        A.subprogram_decl,
+        A.subp_decl,
         A.subtype_decl,
         A.object_decl,
         A.package_decl,
@@ -465,21 +465,21 @@ A.add_rules(
 
     param_specs=Pick("(", List(A.param_spec, sep=";"), ")"),
 
-    subprogram_spec=SubprogramSpec(
+    subp_spec=SubpSpec(
         _(Or("procedure", "function")),
         Opt(A.static_name),
         Opt(Pick("(", List(A.param_spec, sep=";"), Opt(")").error())),
         Opt("return", A.type_expr)
     ),
 
-    subprogram_decl=Or(
-        subprogram_decl(NullSubprogramDecl, "is", "null"),
-        subprogram_decl(AbstractSubprogramDecl, "is", "abstract"),
-        subprogram_decl(
+    subp_decl=Or(
+        subp_decl(NullSubpDecl, "is", "null"),
+        subp_decl(AbstractSubpDecl, "is", "abstract"),
+        subp_decl(
             ExprFunction, "is", Or(Pick("(", A.expr, ")"), A.aggregate),
         ),
-        subprogram_decl(SubprogramRenamingDecl, A.renaming_clause),
-        subprogram_decl(SubprogramDecl)
+        subp_decl(SubpRenamingDecl, A.renaming_clause),
+        subp_decl(SubpDecl)
     ),
 
     with_clause=WithClause(
@@ -555,16 +555,16 @@ A.add_rules(
 
     subunit=Subunit(
         "separate", "(", A.static_name, ")",
-        Or(A.subprogram_body, A.package_body, A.task_body, A.protected_body)
+        Or(A.subp_body, A.package_body, A.task_body, A.protected_body)
     ),
 
-    library_unit_body=Or(A.subprogram_body, A.package_body),
+    library_unit_body=Or(A.subp_body, A.package_body),
 
     library_unit_decl=Or(
         A.generic_decl,
         A.package_decl,
         A.generic_instantiation,
-        A.subprogram_decl,
+        A.subp_decl,
     ),
 
     library_unit_renaming_decl=Or(
@@ -724,23 +724,23 @@ A.add_rules(
 
     abort_stmt=AbortStmt("abort", List(A.name, sep=",")),
 
-    body=Or(A.subprogram_body, A.package_body, A.task_body,
+    body=Or(A.subp_body, A.package_body, A.task_body,
             A.protected_body, A.entry_body),
 
-    body_stub=Or(A.subprogram_body_stub, A.package_body_stub,
+    body_stub=Or(A.subp_body_stub, A.package_body_stub,
                  A.task_body_stub, A.protected_body_stub),
 
-    subprogram_body_stub=SubprogramBodyStub(
+    subp_body_stub=SubpBodyStub(
         A.overriding_indicator,
-        A.subprogram_spec,
+        A.subp_spec,
         "is",
         "separate",
         A.aspect_spec
     ),
 
-    subprogram_body=SubprogramBody(
+    subp_body=SubpBody(
         A.overriding_indicator,
-        A.subprogram_spec,
+        A.subp_spec,
         A.aspect_spec,
         "is",
         A.decl_part,

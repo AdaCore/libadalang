@@ -39,7 +39,7 @@ main(void)
     if (ada_node_kind (tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
     overriding = NULL;
-    if (ada_subprogram_body_f_overriding(tmp, &overriding))
+    if (ada_subp_body_f_overriding(tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (overriding != NULL)
       error("Getting CompilationUnit.overriding failed but nevertheless output"
@@ -80,26 +80,26 @@ main(void)
         error("Could not get CompilationUnit[1] -> LibraryItem[1]");
     subp_body = tmp;
 
-    if (ada_node_kind(subp_body) != ada_subprogram_body)
-        error("Got something else than a SubprogramBody");
-    if (!ada_subprogram_body_f_overriding(subp_body, &overriding))
-        error("Could not get SubprogramBody.overriding");
+    if (ada_node_kind(subp_body) != ada_subp_body)
+        error("Got something else than a SubpBody");
+    if (!ada_subp_body_f_overriding(subp_body, &overriding))
+        error("Could not get SubpBody.overriding");
 
     const ada_text kind = ada_kind_name(ada_node_kind(overriding));
-    printf("SubprogramBody: overriding = ");
+    printf("SubpBody: overriding = ");
     fprint_text(stdout, kind, 0);
     printf("\n");
 
 
-    if (!ada_subprogram_body_f_subp_spec(subp_body, &tmp))
-      error("Could not get SubprogramBody.subp_spec");
-    if (ada_node_kind(tmp) != ada_subprogram_spec)
-      error("SubprogramBody.subp_spec is not a SubprogramSpec");
+    if (!ada_subp_body_f_subp_spec(subp_body, &tmp))
+      error("Could not get SubpBody.subp_spec");
+    if (ada_node_kind(tmp) != ada_subp_spec)
+      error("SubpBody.subp_spec is not a SubpSpec");
 
-    if (!ada_subprogram_spec_f_name(tmp, &tmp))
-      error("Could not get SubprogramBody.subp_spec.name");
+    if (!ada_subp_spec_f_name(tmp, &tmp))
+      error("Could not get SubpBody.subp_spec.name");
     if (ada_node_kind(tmp) != ada_identifier)
-      error("SubprogramBody.subp_spec.name is not an Identifier");
+      error("SubpBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
     if (!ada_single_tok_node_f_tok(subp_name, &tok))

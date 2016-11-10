@@ -15,11 +15,11 @@ CompilationUnit[1:1-10:9]
 |  |  |  DeclarativePart[2:4-9:12]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-9:12]
-|  |  |  |  |  SubprogramBody[2:4-9:11]
+|  |  |  |  |  SubpBody[2:4-9:11]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[2:4-2:13]
 |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  SubprogramSpec[2:4-2:34]
+|  |  |  |  |  |  SubpSpec[2:4-2:34]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[2:14-2:17]
 |  |  |  |  |  |  |  |tok: Bar
@@ -107,9 +107,9 @@ CompilationUnit[1:1-10:9]
     Foo: [<PackageBody ["Foo"] 1:1-10:8>]
 }>
 <PackageBody 1:1-10:8> - <LexEnv (Id 1, Parent <root>), {
-    Bar: [<SubprogramBody ["Bar"] 2:4-9:11>]
+    Bar: [<SubpBody ["Bar"] 2:4-9:11>]
 }>
-<SubprogramBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
+<SubpBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
     I: [<ParamSpec ["I", "J"] 2:19-2:33>]
     J: [<ParamSpec ["I", "J"] 2:19-2:33>]
 }>

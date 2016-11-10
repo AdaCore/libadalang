@@ -91,7 +91,7 @@ package body Libadalang.Unit_Files is
    begin
       --  If this unit is not a body we are interested in, there is no spec to
       --  process.
-      if Node.all not in Subprogram_Body_Type'Class
+      if Node.all not in Subp_Body_Type'Class
          and then Node.all not in Package_Body_Type'Class
       then
          return;

@@ -9,9 +9,9 @@
 | | | | | <Identifier>
 | <LibraryItem>
 | | <PrivateAbsent>
-| | <SubprogramBody>
+| | <SubpBody>
 | | | <OverridingUnspecified>
-| | | <SubprogramSpec>
+| | | <SubpSpec>
 | | | | <Identifier>
 | | | | <ParamSpecList>
 | | | | <null node>

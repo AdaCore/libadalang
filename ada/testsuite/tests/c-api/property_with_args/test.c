@@ -56,26 +56,26 @@ main(void)
         error("Could not get CompilationUnit -> Body");
     if (!ada_library_item_f_item(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item");
-    if (!ada_subprogram_body_f_subp_spec(tmp, &tmp))
+    if (!ada_subp_body_f_subp_spec(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec");
+	      " SubpSpec");
 
-    if (!ada_subprogram_spec_f_name(tmp, &foo))
+    if (!ada_subp_spec_f_name(tmp, &foo))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec -> Name");
+	      " SubpSpec -> Name");
 
-    if (!ada_subprogram_spec_f_params(tmp, &tmp))
+    if (!ada_subp_spec_f_params(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec -> Params");
+	      " SubpSpec -> Params");
     if (!ada_node_child(tmp, 0, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec -> Params[0]");
+	      " SubpSpec -> Params[0]");
     if (!ada_param_spec_f_ids(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec -> Params[0] -> Ids");
+	      " SubpSpec -> Params[0] -> Ids");
     if (!ada_node_child(tmp, 0, &i))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubprogramSpec -> Params[0] -> Ids[0]");
+	      " SubpSpec -> Params[0] -> Ids[0]");
 
     printf("This should be Foo:\n");
     dump_identifier(foo);

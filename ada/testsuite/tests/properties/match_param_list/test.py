@@ -28,7 +28,7 @@ for obj_decl in unit.root.finditer(libadalang.ObjectDecl):
     call_expr = obj_decl.f_default_expr
     if last_subp is None or not last_subp.p_matches(call_expr.f_name):
         subp_spec = unit.root.find(lambda n: (
-            isinstance(n, libadalang.SubprogramSpec) and
+            isinstance(n, libadalang.SubpSpec) and
             n.f_name.p_matches(call_expr.f_name)
         ))
 

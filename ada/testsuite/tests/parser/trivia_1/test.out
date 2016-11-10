@@ -1,9 +1,9 @@
 -- foo
 CompilationUnit
 |  LibraryItem
-|  |  SubprogramBody
+|  |  SubpBody
 |  |  |  OverridingUnspecified
-|  |  |  SubprogramSpec
+|  |  |  SubpSpec
 |  |  |  |  Id
 |  |  |  DeclarativePart
 |  |  |  |  AdaNodeList

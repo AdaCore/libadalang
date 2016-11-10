@@ -1,8 +1,8 @@
-SubprogramDecl[1:1-1:54]
+SubpDecl[1:1-1:54]
 |overriding:
 |  OverridingNotOverriding[1:1-1:15]
 |subp_spec:
-|  SubprogramSpec[1:16-1:54]
+|  SubpSpec[1:16-1:54]
 |  |name:
 |  |  Id[1:26-1:27]
 |  |  |tok: A

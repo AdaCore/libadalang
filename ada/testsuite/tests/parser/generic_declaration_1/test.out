@@ -47,11 +47,11 @@ GenericPackageDecl[1:1-1:155]
 |  |  PublicPart[1:76-1:137]
 |  |  |decls:
 |  |  |  AdaNodeList[1:76-1:137]
-|  |  |  |  SubprogramDecl[1:76-1:105]
+|  |  |  |  SubpDecl[1:76-1:105]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:76-1:85]
 |  |  |  |  |subp_spec:
-|  |  |  |  |  SubprogramSpec[1:76-1:105]
+|  |  |  |  |  SubpSpec[1:76-1:105]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:86-1:90]
 |  |  |  |  |  |  |tok: Push
@@ -77,11 +77,11 @@ GenericPackageDecl[1:1-1:155]
 |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |returns: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  SubprogramDecl[1:107-1:136]
+|  |  |  |  SubpDecl[1:107-1:136]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:107-1:115]
 |  |  |  |  |subp_spec:
-|  |  |  |  |  SubprogramSpec[1:107-1:136]
+|  |  |  |  |  SubpSpec[1:107-1:136]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:116-1:119]
 |  |  |  |  |  |  |tok: Pop

@@ -6,11 +6,11 @@ CompilationUnit[1:1-4:12]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubprogramBody[1:1-4:11]
+|  |  SubpBody[1:1-4:11]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:10]
 |  |  |subp_spec:
-|  |  |  SubprogramSpec[1:1-1:17]
+|  |  |  SubpSpec[1:1-1:17]
 |  |  |  |name:
 |  |  |  |  Id[1:11-1:17]
 |  |  |  |  |tok: kikoo\u1800

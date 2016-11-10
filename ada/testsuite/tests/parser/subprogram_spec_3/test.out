@@ -1,4 +1,4 @@
-SubprogramSpec[1:1-1:69]
+SubpSpec[1:1-1:69]
 |name:
 |  Id[1:11-1:12]
 |  |tok: I
@@ -20,11 +20,11 @@ SubprogramSpec[1:1-1:69]
 |  |  |  |  |type_id: <null>
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
-|  |  |  |  |  AccessToSubprogramDef[1:25-1:55]
+|  |  |  |  |  AccessToSubpDef[1:25-1:55]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
 |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  SubprogramSpec[1:32-1:55]
+|  |  |  |  |  |  SubpSpec[1:32-1:55]
 |  |  |  |  |  |  |name: <null>
 |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  ParamSpecList[1:43-1:54]

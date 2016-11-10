@@ -13,7 +13,7 @@ unit = ctx.get_from_file('foo.adb')
 unit.root.dump()
 
 nodes = [unit.root] + list(
-    unit.root.findall(lambda n: isinstance(n, libadalang.SubprogramSpec))
+    unit.root.findall(lambda n: isinstance(n, libadalang.SubpSpec))
 )
 for node in nodes:
     print('Parents of {}:'.format(short_repr(node)))

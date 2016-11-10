@@ -2,7 +2,7 @@ ExprFunction[1:1-1:64]
 |overriding:
 |  OverridingUnspecified[1:1-1:9]
 |subp_spec:
-|  SubprogramSpec[1:1-1:40]
+|  SubpSpec[1:1-1:40]
 |  |name:
 |  |  Id[1:10-1:11]
 |  |  |tok: A

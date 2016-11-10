@@ -7,11 +7,11 @@ PackageDecl[1:1-1:105]
 |  PublicPart[1:26-1:87]
 |  |decls:
 |  |  AdaNodeList[1:26-1:87]
-|  |  |  SubprogramDecl[1:26-1:55]
+|  |  |  SubpDecl[1:26-1:55]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[1:26-1:35]
 |  |  |  |subp_spec:
-|  |  |  |  SubprogramSpec[1:26-1:55]
+|  |  |  |  SubpSpec[1:26-1:55]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:36-1:40]
 |  |  |  |  |  |tok: Push
@@ -37,11 +37,11 @@ PackageDecl[1:1-1:105]
 |  |  |  |  |  |  |default: <null>
 |  |  |  |  |returns: <null>
 |  |  |  |aspects: <null>
-|  |  |  SubprogramDecl[1:57-1:86]
+|  |  |  SubpDecl[1:57-1:86]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[1:57-1:65]
 |  |  |  |subp_spec:
-|  |  |  |  SubprogramSpec[1:57-1:86]
+|  |  |  |  SubpSpec[1:57-1:86]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:66-1:69]
 |  |  |  |  |  |tok: Pop

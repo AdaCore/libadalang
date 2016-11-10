@@ -1,5 +1,5 @@
 WithClause: is_limited = true
 WithClause: is_private = false
-SubprogramBody: overriding = OverridingUnspecified
+SubpBody: overriding = OverridingUnspecified
 Identifier: tok = Foo
 Done.

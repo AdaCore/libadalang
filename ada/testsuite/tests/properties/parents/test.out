@@ -22,11 +22,11 @@
 |  |has_private:
 |  |  <PrivateAbsent>
 |  |item:
-|  |  <SubprogramBody>
+|  |  <SubpBody>
 |  |  |overriding:
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
-|  |  |  <SubprogramSpec>
+|  |  |  <SubpSpec>
 |  |  |  |name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
@@ -39,11 +39,11 @@
 |  |  |  |decls:
 |  |  |  |  <AdaNodeList>
 |  |  |  |  |item 0:
-|  |  |  |  |  <SubprogramBody>
+|  |  |  |  |  <SubpBody>
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  <OverridingUnspecified>
 |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  <SubprogramSpec>
+|  |  |  |  |  |  <SubpSpec>
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |tok: Token(u'Fact')
@@ -194,16 +194,16 @@
 |  <PragmaNodeList>
 Parents of CompilationUnit[1:1-14:9]:
   - CompilationUnit[1:1-14:9]
-Parents of SubprogramSpec[3:1-3:14]:
-  - SubprogramSpec[3:1-3:14]
-  - SubprogramBody[3:1-14:8]
+Parents of SubpSpec[3:1-3:14]:
+  - SubpSpec[3:1-3:14]
+  - SubpBody[3:1-14:8]
   - LibraryItem[3:1-14:8]
   - CompilationUnit[1:1-14:9]
-Parents of SubprogramSpec[4:4-4:46]:
-  - SubprogramSpec[4:4-4:46]
-  - SubprogramBody[4:4-11:12]
+Parents of SubpSpec[4:4-4:46]:
+  - SubpSpec[4:4-4:46]
+  - SubpBody[4:4-11:12]
   - AdaNodeList[4:4-11:13]
   - DeclarativePart[4:4-11:13]
-  - SubprogramBody[3:1-14:8]
+  - SubpBody[3:1-14:8]
   - LibraryItem[3:1-14:8]
   - CompilationUnit[1:1-14:9]

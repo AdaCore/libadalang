@@ -1,8 +1,8 @@
 Analyzing proc_call_named.adb
 #############################
 
-Expr: <CallExpr 7:4-7:26>, references <SubprogramDecl ["Kikol"] 5:4-5:69>, type is None
-Expr: <Id "Kikol" 7:4-7:9>, references <SubprogramDecl ["Kikol"] 5:4-5:69>, type is None
+Expr: <CallExpr 7:4-7:26>, references <SubpDecl ["Kikol"] 5:4-5:69>, type is None
+Expr: <Id "Kikol" 7:4-7:9>, references <SubpDecl ["Kikol"] 5:4-5:69>, type is None
 Expr: <Id "A" 7:11-7:12>, references <ParamSpec ["A"] 5:21-5:31>, type is None
 Expr: <Id "E" 7:16-7:17>, references <ObjectDecl ["E"] 4:4-4:14>, type is <TypeDecl ["My_Int"] 2:4-2:32>
 Expr: <Id "D" 7:19-7:20>, references <ParamSpec ["D"] 5:58-5:68>, type is None

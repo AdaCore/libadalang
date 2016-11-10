@@ -1,2 +1,2 @@
 driver: parser
-rule: subprogram_decl
+rule: subp_decl

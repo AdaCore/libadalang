@@ -7,11 +7,11 @@ PackageDecl[1:1-1:105]
 |  PublicPart[1:14-1:99]
 |  |decls:
 |  |  AdaNodeList[1:14-1:99]
-|  |  |  SubprogramDecl[1:14-1:42]
+|  |  |  SubpDecl[1:14-1:42]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[1:14-1:23]
 |  |  |  |subp_spec:
-|  |  |  |  SubprogramSpec[1:14-1:42]
+|  |  |  |  SubpSpec[1:14-1:42]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:24-1:25]
 |  |  |  |  |  |tok: B

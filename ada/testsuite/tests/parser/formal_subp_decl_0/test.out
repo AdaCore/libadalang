@@ -1,6 +1,6 @@
 FormalSubpDecl[1:1-1:70]
 |subp_spec:
-|  SubprogramSpec[1:6-1:55]
+|  SubpSpec[1:6-1:55]
 |  |name:
 |  |  Id[1:15-1:20]
 |  |  |tok: Pouet

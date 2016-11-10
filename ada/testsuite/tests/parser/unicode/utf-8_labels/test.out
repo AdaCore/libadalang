@@ -6,11 +6,11 @@ CompilationUnit[1:1-6:10]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubprogramBody[1:1-6:9]
+|  |  SubpBody[1:1-6:9]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:10]
 |  |  |subp_spec:
-|  |  |  SubprogramSpec[1:1-1:15]
+|  |  |  SubpSpec[1:1-1:15]
 |  |  |  |name:
 |  |  |  |  Id[1:11-1:15]
 |  |  |  |  |tok: Test

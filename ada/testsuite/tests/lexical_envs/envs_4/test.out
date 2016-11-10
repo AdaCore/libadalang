@@ -90,11 +90,11 @@ CompilationUnitList[1:1-13:9]
 |  |  |has_private:
 |  |  |  PrivateAbsent[11:1-11:1]
 |  |  |item:
-|  |  |  SubprogramBody[11:1-13:8]
+|  |  |  SubpBody[11:1-13:8]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[11:1-11:10]
 |  |  |  |subp_spec:
-|  |  |  |  SubprogramSpec[11:1-11:14]
+|  |  |  |  SubpSpec[11:1-11:14]
 |  |  |  |  |name:
 |  |  |  |  |  DottedName[11:11-11:14]
 |  |  |  |  |  |prefix:
@@ -162,7 +162,7 @@ CompilationUnitList[1:1-13:9]
     Foo: [<PackageDecl ["Foo"] 1:1-2:8>]
 }>
 <PackageDecl 8:1-9:6> - <LexEnv (Id 3, Parent <root>), {
-    B: [<SubprogramBody ["A.B"] 11:1-13:8>]
+    B: [<SubpBody ["A.B"] 11:1-13:8>]
 }>
 <CompilationUnit 11:1-13:9> - <LexEnv (Id <root>, Parent null), {
     A: [<PackageDecl ["A"] 8:1-9:6>]
@@ -172,4 +172,4 @@ CompilationUnitList[1:1-13:9]
     A: [<PackageDecl ["A"] 8:1-9:6>]
     Foo: [<PackageDecl ["Foo"] 1:1-2:8>]
 }>
-<SubprogramBody 11:1-13:8> - <LexEnv (Id 4, Parent 3), empty>
+<SubpBody 11:1-13:8> - <LexEnv (Id 4, Parent 3), empty>

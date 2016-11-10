@@ -1,0 +1,8 @@
+GenericPackageRenamingDecl[1:1-1:28]
+|name:
+|  Id[1:17-1:18]
+|  |tok: A
+|renames:
+|  Id[1:27-1:28]
+|  |tok: B
+|aspects: <null>

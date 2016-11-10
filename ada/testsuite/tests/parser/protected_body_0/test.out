@@ -32,7 +32,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  |  |  |tok: item
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default: <null>
-|  |  |  |when_cond:
+|  |  |  |barrier:
 |  |  |  |  Id[1:80-1:85]
 |  |  |  |  |tok: empty
 |  |  |  |decls:
@@ -84,7 +84,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  |  |  |tok: item
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default: <null>
-|  |  |  |when_cond:
+|  |  |  |barrier:
 |  |  |  |  UnOp[1:181-1:190]
 |  |  |  |  |op:
 |  |  |  |  |  OpNot[1:181-1:184]

@@ -2748,7 +2748,7 @@ class EntryBody(Body):
     entry_name = Field(type=T.Identifier)
     index_spec = Field(type=T.EntryIndexSpec)
     params = Field(type=T.ParamSpec.list_type())
-    when_cond = Field(type=T.Expr)
+    barrier = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 

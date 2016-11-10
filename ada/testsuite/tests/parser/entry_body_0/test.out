@@ -23,7 +23,7 @@ EntryBody[1:1-1:100]
 |  |  |  |  |tok: item
 |  |  |  |constraint: <null>
 |  |  |default: <null>
-|when_cond:
+|barrier:
 |  Id[1:40-1:45]
 |  |tok: empty
 |decls:

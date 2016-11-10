@@ -1,31 +1,33 @@
 BlockStmt[1:1-1:46]
 |name: <null>
 |decls:
-|  AdaNodeList[1:9-1:27]
-|  |  ObjectDecl[1:9-1:26]
-|  |  |ids:
-|  |  |  IdentifierList[1:9-1:10]
-|  |  |  |  Id[1:9-1:10]
-|  |  |  |  |tok: A
-|  |  |has_aliased:
-|  |  |  AliasedAbsent[1:13-1:13]
-|  |  |has_constant:
-|  |  |  ConstantAbsent[1:13-1:13]
-|  |  |inout:
-|  |  |  ModeDefault[1:13-1:20]
-|  |  |type_expr:
-|  |  |  SubtypeIndication[1:13-1:20]
-|  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:13-1:13]
-|  |  |  |name:
-|  |  |  |  Id[1:13-1:20]
-|  |  |  |  |tok: Integer
-|  |  |  |constraint: <null>
-|  |  |default_expr:
-|  |  |  Int[1:24-1:26]
-|  |  |  |tok: 12
-|  |  |renaming_clause: <null>
-|  |  |aspects: <null>
+|  DeclarativePart[1:9-1:27]
+|  |decls:
+|  |  AdaNodeList[1:9-1:27]
+|  |  |  ObjectDecl[1:9-1:26]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:9-1:10]
+|  |  |  |  |  Id[1:9-1:10]
+|  |  |  |  |  |tok: A
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:13-1:13]
+|  |  |  |has_constant:
+|  |  |  |  ConstantAbsent[1:13-1:13]
+|  |  |  |inout:
+|  |  |  |  ModeDefault[1:13-1:20]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:13-1:20]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:13-1:13]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:13-1:20]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
+|  |  |  |default_expr:
+|  |  |  |  Int[1:24-1:26]
+|  |  |  |  |tok: 12
+|  |  |  |renaming_clause: <null>
+|  |  |  |aspects: <null>
 |stmts:
 |  HandledStmts[1:34-1:42]
 |  |stmts:

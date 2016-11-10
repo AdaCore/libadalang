@@ -2670,7 +2670,7 @@ class LoopStmt(CompositeStmt):
 
 class BlockStmt(CompositeStmt):
     name = Field(type=T.Identifier)
-    decls = Field(type=T.AdaNode.list_type())
+    decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 
     env_spec = EnvSpec(add_env=True)

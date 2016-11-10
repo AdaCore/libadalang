@@ -685,7 +685,7 @@ A.add_rules(
 
     block_stmt=BlockStmt(
         Opt(A.identifier, ":"),
-        Opt("declare", A.basic_decls),
+        Opt("declare", DeclarativePart(A.basic_decls)),
         "begin", A.handled_stmts, "end", _(Opt(A.identifier))
     ),
 

@@ -4,16 +4,10 @@ from os import path
 
 import libadalang as lal
 
-acats_dir = os.environ.get(
-    'ACATS_PATH',
-    path.abspath(path.join(path.dirname(path.realpath(__file__)),
-                           '..', '..', 'acats'))
-)
+acats_dir = path.join(os.environ['LIBADALANG_ROOTDIR'], 'testsuite', 'acats')
 
 if not os.path.isdir(acats_dir):
-    print ("FAIL: You need to either put the acats repo in"
-           " ada/testsuite/acats, or specify its path on your system via the"
-           " ACATS_PATH env variable.")
+    print "FAIL: You need to put the acats repo in ada/testsuite/acats"
 else:
     c = lal.AnalysisContext()
 

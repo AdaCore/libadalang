@@ -16,7 +16,7 @@ SubpDecl[1:1-1:54]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:33-1:33]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:33-1:40]
+|  |  |  |  ModeDefault[1:33-1:33]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:33-1:40]
 |  |  |  |  |has_not_null:
@@ -34,7 +34,7 @@ SubpDecl[1:1-1:54]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:46-1:46]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:46-1:53]
+|  |  |  |  ModeDefault[1:46-1:46]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:46-1:53]
 |  |  |  |  |has_not_null:

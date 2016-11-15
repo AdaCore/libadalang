@@ -13,7 +13,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |tok: Foo
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[2:1-2:4]
+|  |  |  |  PublicPart[2:1-2:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -45,7 +45,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |  |  |tok: Bar
 |  |  |  |  |aspects: <null>
 |  |  |  |  |public_part:
-|  |  |  |  |  PublicPart[6:1-6:4]
+|  |  |  |  |  PublicPart[6:1-6:1]
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  AdaNodeList[6:1-6:1]: <empty list>
 |  |  |  |  |private_part: <null>
@@ -73,7 +73,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |tok: A
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[9:1-9:4]
+|  |  |  |  PublicPart[9:1-9:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[9:1-9:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -92,7 +92,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |item:
 |  |  |  SubpBody[11:1-13:8]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[11:1-11:10]
+|  |  |  |  OverridingUnspecified[11:1-11:1]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[11:1-11:14]
 |  |  |  |  |name:
@@ -108,11 +108,11 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[12:1-12:6]
+|  |  |  |  DeclarativePart[12:1-12:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[12:1-12:1]: <empty list>
 |  |  |  |stmts:
-|  |  |  |  HandledStmts[13:1-13:4]
+|  |  |  |  HandledStmts[13:1-13:1]
 |  |  |  |  |stmts:
 |  |  |  |  |  AdaNodeList[13:1-13:1]: <empty list>
 |  |  |  |  |exceptions:

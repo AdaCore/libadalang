@@ -8,7 +8,7 @@ CompilationUnit[1:1-6:10]
 |  |item:
 |  |  SubpBody[1:1-6:9]
 |  |  |overriding:
-|  |  |  OverridingUnspecified[1:1-1:10]
+|  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[1:1-1:15]
 |  |  |  |name:
@@ -28,7 +28,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |tok: A
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
-|  |  |  |  |  |  IncompleteTypeDef[2:10-2:11]
+|  |  |  |  |  |  IncompleteTypeDef[2:10-2:10]
 |  |  |  |  |  |  |has_tagged:
 |  |  |  |  |  |  |  TaggedAbsent[2:10-2:10]
 |  |  |  |  |  |aspects: <null>

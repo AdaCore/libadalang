@@ -9,7 +9,7 @@ PackageDecl[1:1-1:105]
 |  |  AdaNodeList[1:26-1:87]
 |  |  |  SubpDecl[1:26-1:55]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[1:26-1:35]
+|  |  |  |  OverridingUnspecified[1:26-1:26]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:26-1:55]
 |  |  |  |  |name:
@@ -25,7 +25,7 @@ PackageDecl[1:1-1:105]
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
 |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[1:45-1:54]
+|  |  |  |  |  |  |  ModeDefault[1:45-1:45]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
 |  |  |  |  |  |  |  |has_not_null:
@@ -39,7 +39,7 @@ PackageDecl[1:1-1:105]
 |  |  |  |aspects: <null>
 |  |  |  SubpDecl[1:57-1:86]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[1:57-1:65]
+|  |  |  |  OverridingUnspecified[1:57-1:57]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:57-1:86]
 |  |  |  |  |name:

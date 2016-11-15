@@ -13,7 +13,7 @@ GenericPackageDecl[1:1-1:42]
 |  |  |  AdaNodeList[1:22-1:36]
 |  |  |  |  SubpDecl[1:22-1:35]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:22-1:31]
+|  |  |  |  |  OverridingUnspecified[1:22-1:22]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[1:22-1:35]
 |  |  |  |  |  |name:

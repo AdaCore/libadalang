@@ -14,7 +14,7 @@ ProtectedTypeDecl[1:1-1:136]
 |  |  |  AdaNodeList[1:41-1:110]
 |  |  |  |  EntryDecl[1:41-1:74]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:41-1:46]
+|  |  |  |  |  OverridingUnspecified[1:41-1:41]
 |  |  |  |  |entry_id:
 |  |  |  |  |  Id[1:47-1:53]
 |  |  |  |  |  |tok: Insert
@@ -42,7 +42,7 @@ ProtectedTypeDecl[1:1-1:136]
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:109]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:76-1:81]
+|  |  |  |  |  OverridingUnspecified[1:76-1:76]
 |  |  |  |  |entry_id:
 |  |  |  |  |  Id[1:82-1:88]
 |  |  |  |  |  |tok: Remove

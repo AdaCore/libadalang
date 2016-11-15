@@ -16,7 +16,7 @@ TaskTypeDecl[1:1-1:62]
 |  |  |  AdaNodeList[1:34-1:54]
 |  |  |  |  EntryDecl[1:34-1:53]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:34-1:39]
+|  |  |  |  |  OverridingUnspecified[1:34-1:34]
 |  |  |  |  |entry_id:
 |  |  |  |  |  Id[1:40-1:41]
 |  |  |  |  |  |tok: Q

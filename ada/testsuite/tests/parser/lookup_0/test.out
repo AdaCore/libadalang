@@ -22,7 +22,7 @@ CompilationUnit[1:1-17:10]
 |  |item:
 |  |  SubpBody[3:1-17:9]
 |  |  |overriding:
-|  |  |  OverridingUnspecified[3:1-3:10]
+|  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
 |  |  |  |name:
@@ -38,7 +38,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[3:34-3:34]
 |  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[3:34-3:46]
+|  |  |  |  |  |  ModeDefault[3:34-3:34]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
 |  |  |  |  |  |  |has_not_null:
@@ -56,7 +56,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  AdaNodeList[5:4-12:13]
 |  |  |  |  |  SubpBody[5:4-12:12]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[5:4-5:12]
+|  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
 |  |  |  |  |  |  |name:
@@ -72,7 +72,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:30]
+|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
 |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -92,7 +92,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
-|  |  |  |  |  |  DeclarativePart[6:4-6:9]
+|  |  |  |  |  |  DeclarativePart[6:4-6:4]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
 |  |  |  |  |  |stmts:
@@ -369,7 +369,7 @@ CompilationUnit[1:1-17:10]
 |  |item:
 |  |  SubpBody[3:1-17:9]
 |  |  |overriding:
-|  |  |  OverridingUnspecified[3:1-3:10]
+|  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
 |  |  |  |name:
@@ -385,7 +385,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[3:34-3:34]
 |  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[3:34-3:46]
+|  |  |  |  |  |  ModeDefault[3:34-3:34]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
 |  |  |  |  |  |  |has_not_null:
@@ -403,7 +403,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  AdaNodeList[5:4-12:13]
 |  |  |  |  |  SubpBody[5:4-12:12]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[5:4-5:12]
+|  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
 |  |  |  |  |  |  |name:
@@ -419,7 +419,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:30]
+|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
 |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -439,7 +439,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
-|  |  |  |  |  |  DeclarativePart[6:4-6:9]
+|  |  |  |  |  |  DeclarativePart[6:4-6:4]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
 |  |  |  |  |  |stmts:
@@ -588,7 +588,7 @@ CompilationUnit[1:1-17:10]
 Lookup 4:1:
 SubpBody[3:1-17:9]
 |overriding:
-|  OverridingUnspecified[3:1-3:10]
+|  OverridingUnspecified[3:1-3:1]
 |subp_spec:
 |  SubpSpec[3:1-3:47]
 |  |name:
@@ -604,7 +604,7 @@ SubpBody[3:1-17:9]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[3:34-3:34]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[3:34-3:46]
+|  |  |  |  ModeDefault[3:34-3:34]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[3:34-3:46]
 |  |  |  |  |has_not_null:
@@ -622,7 +622,7 @@ SubpBody[3:1-17:9]
 |  |  AdaNodeList[5:4-12:13]
 |  |  |  SubpBody[5:4-12:12]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[5:4-5:12]
+|  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[5:4-5:46]
 |  |  |  |  |name:
@@ -638,7 +638,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
 |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[5:23-5:30]
+|  |  |  |  |  |  |  ModeDefault[5:23-5:23]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
 |  |  |  |  |  |  |  |has_not_null:
@@ -658,7 +658,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |constraint: <null>
 |  |  |  |aspects: <null>
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[6:4-6:9]
+|  |  |  |  DeclarativePart[6:4-6:4]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
 |  |  |  |stmts:

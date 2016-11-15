@@ -10,7 +10,7 @@ ObjectDecl[1:1-1:48]
 |has_constant:
 |  ConstantAbsent[1:8-1:8]
 |inout:
-|  ModeDefault[1:8-1:11]
+|  ModeDefault[1:8-1:8]
 |type_expr:
 |  AnonymousType[1:8-1:40]
 |  |type_decl:

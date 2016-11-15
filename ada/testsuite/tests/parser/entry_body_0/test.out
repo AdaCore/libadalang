@@ -27,7 +27,7 @@ EntryBody[1:1-1:100]
 |  Id[1:40-1:45]
 |  |tok: empty
 |decls:
-|  DeclarativePart[1:49-1:54]
+|  DeclarativePart[1:49-1:49]
 |  |decls:
 |  |  AdaNodeList[1:49-1:49]: <empty list>
 |stmts:

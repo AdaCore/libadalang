@@ -49,7 +49,7 @@ TaskBody[1:1-1:572]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[1:120-1:120]
 |  |  |  |inout:
-|  |  |  |  ModeDefault[1:120-1:127]
+|  |  |  |  ModeDefault[1:120-1:120]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:120-1:145]
 |  |  |  |  |has_not_null:
@@ -86,7 +86,7 @@ TaskBody[1:1-1:572]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[1:165-1:165]
 |  |  |  |inout:
-|  |  |  |  ModeDefault[1:165-1:172]
+|  |  |  |  ModeDefault[1:165-1:165]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:165-1:172]
 |  |  |  |  |has_not_null:
@@ -110,7 +110,7 @@ TaskBody[1:1-1:572]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[1:186-1:186]
 |  |  |  |inout:
-|  |  |  |  ModeDefault[1:186-1:191]
+|  |  |  |  ModeDefault[1:186-1:186]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[1:186-1:209]
 |  |  |  |  |type_decl:

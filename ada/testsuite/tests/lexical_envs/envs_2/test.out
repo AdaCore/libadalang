@@ -17,7 +17,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  AdaNodeList[2:4-9:12]
 |  |  |  |  |  SubpBody[2:4-9:11]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[2:4-2:13]
+|  |  |  |  |  |  OverridingUnspecified[2:4-2:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[2:4-2:34]
 |  |  |  |  |  |  |name:
@@ -35,7 +35,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[2:26-2:26]
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:33]
+|  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:26]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[2:26-2:33]
 |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -48,7 +48,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |returns: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
-|  |  |  |  |  |  DeclarativePart[3:4-3:9]
+|  |  |  |  |  |  DeclarativePart[3:4-3:4]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[3:4-3:4]: <empty list>
 |  |  |  |  |  |stmts:

@@ -11,7 +11,7 @@ GenericPackageDecl[1:1-1:155]
 |  |  |has_constant:
 |  |  |  ConstantAbsent[1:14-1:14]
 |  |  |inout:
-|  |  |  ModeDefault[1:14-1:22]
+|  |  |  ModeDefault[1:14-1:14]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:14-1:22]
 |  |  |  |has_not_null:
@@ -49,7 +49,7 @@ GenericPackageDecl[1:1-1:155]
 |  |  |  AdaNodeList[1:76-1:137]
 |  |  |  |  SubpDecl[1:76-1:105]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:76-1:85]
+|  |  |  |  |  OverridingUnspecified[1:76-1:76]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[1:76-1:105]
 |  |  |  |  |  |name:
@@ -65,7 +65,7 @@ GenericPackageDecl[1:1-1:155]
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:95-1:95]
 |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeDefault[1:95-1:104]
+|  |  |  |  |  |  |  |  ModeDefault[1:95-1:95]
 |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:95-1:104]
 |  |  |  |  |  |  |  |  |has_not_null:
@@ -79,7 +79,7 @@ GenericPackageDecl[1:1-1:155]
 |  |  |  |  |aspects: <null>
 |  |  |  |  SubpDecl[1:107-1:136]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:107-1:115]
+|  |  |  |  |  OverridingUnspecified[1:107-1:107]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[1:107-1:136]
 |  |  |  |  |  |name:

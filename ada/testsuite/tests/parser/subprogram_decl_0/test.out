@@ -16,7 +16,7 @@ AbstractSubpDecl[1:1-1:49]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:29-1:29]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:29-1:36]
+|  |  |  |  ModeDefault[1:29-1:29]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:29-1:36]
 |  |  |  |  |has_not_null:

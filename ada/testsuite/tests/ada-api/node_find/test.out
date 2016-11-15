@@ -4,7 +4,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <LibraryItem 1:1-4:8>
   <PrivateAbsent 1:1-1:1>
   <SubpBody ["Sum"] 1:1-4:8>
-  <OverridingUnspecified 1:1-1:9>
+  <OverridingUnspecified 1:1-1:1>
   <SubpSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
   <ParamSpecList 1:15-1:52>
@@ -12,7 +12,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <IdentifierList 1:15-1:16>
   <Id "A" 1:15-1:16>
   <AliasedAbsent 1:19-1:19>
-  <ModeDefault 1:19-1:26>
+  <ModeDefault 1:19-1:19>
   <SubtypeIndication 1:19-1:26>
   <NotNullAbsent 1:19-1:19>
   <Id "Integer" 1:19-1:26>
@@ -20,7 +20,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <IdentifierList 1:28-1:29>
   <Id "B" 1:28-1:29>
   <AliasedAbsent 1:32-1:32>
-  <ModeDefault 1:32-1:39>
+  <ModeDefault 1:32-1:32>
   <SubtypeIndication 1:32-1:39>
   <NotNullAbsent 1:32-1:32>
   <Id "Integer" 1:32-1:39>
@@ -28,14 +28,14 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <IdentifierList 1:41-1:42>
   <Id "C" 1:41-1:42>
   <AliasedAbsent 1:45-1:45>
-  <ModeDefault 1:45-1:52>
+  <ModeDefault 1:45-1:45>
   <SubtypeIndication 1:45-1:52>
   <NotNullAbsent 1:45-1:45>
   <Id "Integer" 1:45-1:52>
   <SubtypeIndication 1:61-1:68>
   <NotNullAbsent 1:61-1:61>
   <Id "Integer" 1:61-1:68>
-  <DeclarativePart 2:1-2:6>
+  <DeclarativePart 2:1-2:1>
   <AdaNodeList 2:1-2:1>
   <HandledStmts 3:4-3:21>
   <AdaNodeList 3:4-3:21>

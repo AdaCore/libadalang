@@ -2,7 +2,6 @@
 CompilationUnit
 |  LibraryItem
 |  |  SubpBody
-|  |  |  OverridingUnspecified
 |  |  |  SubpSpec
 |  |  |  |  Id
 |  |  |  DeclarativePart
@@ -11,7 +10,6 @@ CompilationUnit
 |  |  |  |  |  |  IdentifierList
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  -- Hinhin
-|  |  |  |  |  |  ModeDefault
 |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  Id
 |  |  |  -- Huhu

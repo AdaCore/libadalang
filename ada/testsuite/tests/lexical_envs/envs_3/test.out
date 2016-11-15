@@ -13,7 +13,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |tok: Foo
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[2:1-2:4]
+|  |  |  |  PublicPart[2:1-2:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -41,7 +41,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  |tok: Bar
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[5:1-5:4]
+|  |  |  |  PublicPart[5:1-5:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -79,7 +79,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  |tok: Baz
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[8:1-8:4]
+|  |  |  |  PublicPart[8:1-8:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[8:1-8:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -112,7 +112,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |tok: A
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[11:1-11:4]
+|  |  |  |  PublicPart[11:1-11:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[11:1-11:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -140,7 +140,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  |tok: B
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[14:1-14:4]
+|  |  |  |  PublicPart[14:1-14:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[14:1-14:1]: <empty list>
 |  |  |  |private_part: <null>
@@ -178,7 +178,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  |tok: C
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
-|  |  |  |  PublicPart[17:1-17:4]
+|  |  |  |  PublicPart[17:1-17:1]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[17:1-17:1]: <empty list>
 |  |  |  |private_part: <null>

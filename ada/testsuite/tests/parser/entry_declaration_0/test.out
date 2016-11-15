@@ -1,6 +1,6 @@
 EntryDecl[1:1-1:45]
 |overriding:
-|  OverridingUnspecified[1:1-1:6]
+|  OverridingUnspecified[1:1-1:1]
 |entry_id:
 |  Id[1:7-1:13]
 |  |tok: Insert

@@ -16,7 +16,7 @@ ExprFunction[1:1-1:75]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:28-1:28]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:28-1:35]
+|  |  |  |  ModeDefault[1:28-1:28]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:28-1:35]
 |  |  |  |  |has_not_null:
@@ -34,7 +34,7 @@ ExprFunction[1:1-1:75]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:41-1:41]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:41-1:48]
+|  |  |  |  ModeDefault[1:41-1:41]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:41-1:48]
 |  |  |  |  |has_not_null:

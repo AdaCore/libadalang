@@ -1,6 +1,6 @@
 SubpRenamingDecl[1:1-1:64]
 |overriding:
-|  OverridingUnspecified[1:1-1:10]
+|  OverridingUnspecified[1:1-1:1]
 |subp_spec:
 |  SubpSpec[1:1-1:54]
 |  |name:
@@ -16,7 +16,7 @@ SubpRenamingDecl[1:1-1:64]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:18-1:18]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:18-1:25]
+|  |  |  |  ModeDefault[1:18-1:18]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:18-1:25]
 |  |  |  |  |has_not_null:
@@ -38,7 +38,7 @@ SubpRenamingDecl[1:1-1:64]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:37-1:37]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:37-1:43]
+|  |  |  |  ModeDefault[1:37-1:37]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[1:37-1:53]
 |  |  |  |  |type_decl:

@@ -8,7 +8,7 @@ CompilationUnit[1:1-6:10]
 |  |item:
 |  |  SubpBody[1:1-6:9]
 |  |  |overriding:
-|  |  |  OverridingUnspecified[1:1-1:10]
+|  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[1:1-1:15]
 |  |  |  |name:
@@ -19,7 +19,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:1-2:6]
+|  |  |  DeclarativePart[2:1-2:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |stmts:

@@ -36,7 +36,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  Id[1:80-1:85]
 |  |  |  |  |tok: empty
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[1:89-1:94]
+|  |  |  |  DeclarativePart[1:89-1:89]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[1:89-1:89]: <empty list>
 |  |  |  |stmts:
@@ -92,7 +92,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  Id[1:185-1:190]
 |  |  |  |  |  |tok: empty
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[1:194-1:199]
+|  |  |  |  DeclarativePart[1:194-1:194]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[1:194-1:194]: <empty list>
 |  |  |  |stmts:

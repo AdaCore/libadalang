@@ -4,7 +4,7 @@ PackageDecl[1:1-2:4]
 |  |tok: A
 |aspects: <null>
 |public_part:
-|  PublicPart[2:1-2:4]
+|  PublicPart[2:1-2:1]
 |  |decls:
 |  |  AdaNodeList[2:1-2:1]: <empty list>
 |private_part: <null>

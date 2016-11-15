@@ -1,6 +1,6 @@
 SubpDecl[1:1-1:124]
 |overriding:
-|  OverridingUnspecified[1:1-1:10]
+|  OverridingUnspecified[1:1-1:1]
 |subp_spec:
 |  SubpSpec[1:1-1:124]
 |  |name:
@@ -16,7 +16,7 @@ SubpDecl[1:1-1:124]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:36-1:36]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:36-1:42]
+|  |  |  |  ModeDefault[1:36-1:36]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[1:36-1:69]
 |  |  |  |  |type_decl:
@@ -51,7 +51,7 @@ SubpDecl[1:1-1:124]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:80-1:80]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:80-1:96]
+|  |  |  |  ModeDefault[1:80-1:80]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:80-1:96]
 |  |  |  |  |has_not_null:
@@ -69,7 +69,7 @@ SubpDecl[1:1-1:124]
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:107-1:107]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:107-1:123]
+|  |  |  |  ModeDefault[1:107-1:107]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:107-1:123]
 |  |  |  |  |has_not_null:

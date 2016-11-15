@@ -17,7 +17,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  AdaNodeList[3:4-8:38]
 |  |  |  |  |  SubpDecl[3:4-3:38]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[3:4-3:13]
+|  |  |  |  |  |  OverridingUnspecified[3:4-3:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[3:4-3:21]
 |  |  |  |  |  |  |name:
@@ -61,7 +61,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |  |tok: True
 |  |  |  |  |  SubpDecl[8:4-8:37]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[8:4-8:13]
+|  |  |  |  |  |  OverridingUnspecified[8:4-8:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[8:4-8:25]
 |  |  |  |  |  |  |name:

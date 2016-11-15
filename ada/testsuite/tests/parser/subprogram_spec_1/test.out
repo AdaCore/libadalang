@@ -16,7 +16,7 @@ SubpSpec[1:1-1:65]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:23-1:23]
 |  |  |mode:
-|  |  |  ModeDefault[1:23-1:29]
+|  |  |  ModeDefault[1:23-1:23]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:23-1:29]
 |  |  |  |has_not_null:
@@ -34,7 +34,7 @@ SubpSpec[1:1-1:65]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:35-1:35]
 |  |  |mode:
-|  |  |  ModeDefault[1:35-1:41]
+|  |  |  ModeDefault[1:35-1:35]
 |  |  |type_expr:
 |  |  |  AnonymousType[1:35-1:49]
 |  |  |  |type_decl:

@@ -36,7 +36,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[1:47-1:54]
+|  |  |  |  |  |  |  |  |  ModeDefault[1:47-1:47]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:47-1:54]
 |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -57,7 +57,7 @@ SubpSpec[1:1-1:69]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:61-1:61]
 |  |  |mode:
-|  |  |  ModeDefault[1:61-1:68]
+|  |  |  ModeDefault[1:61-1:61]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:61-1:68]
 |  |  |  |has_not_null:

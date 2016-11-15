@@ -271,7 +271,7 @@ class BaseTestsuite(object):
 
         self.arg_parser.add_argument(
             'testcases', nargs='*',
-            help='The list of testcases to run. Run everything is none is'
+            help='The list of testcases to run. Run everything if none is'
                  ' given.'
         )
         self.add_options()

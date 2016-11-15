@@ -1,0 +1,50 @@
+ObjectDecl[1:1-1:6]
+|ids:
+|  IdentifierList[1:1-1:2]
+|  |  Id[1:1-1:2]
+|  |  |tok: A
+|has_aliased:
+|  AliasedAbsent[1:5-1:5]
+|has_constant:
+|  ConstantAbsent[1:5-1:5]
+|inout:
+|  ModeDefault[1:5-1:5]
+|type_expr:
+|  SubtypeIndication[1:5-1:6]
+|  |has_not_null:
+|  |  NotNullAbsent[1:5-1:5]
+|  |name:
+|  |  Id[1:5-1:6]
+|  |  |tok: B
+|  |constraint: <null>
+|default_expr: <null>
+|renaming_clause: <null>
+|aspects: <null>
+
+Lookup 1:4:
+ObjectDecl[1:1-1:6]
+|ids:
+|  IdentifierList[1:1-1:2]
+|  |  Id[1:1-1:2]
+|  |  |tok: A
+|has_aliased:
+|  AliasedAbsent[1:5-1:5]
+|has_constant:
+|  ConstantAbsent[1:5-1:5]
+|inout:
+|  ModeDefault[1:5-1:5]
+|type_expr:
+|  SubtypeIndication[1:5-1:6]
+|  |has_not_null:
+|  |  NotNullAbsent[1:5-1:5]
+|  |name:
+|  |  Id[1:5-1:6]
+|  |  |tok: B
+|  |constraint: <null>
+|default_expr: <null>
+|renaming_clause: <null>
+|aspects: <null>
+
+Lookup 1:5:
+Id[1:5-1:6]
+|tok: B

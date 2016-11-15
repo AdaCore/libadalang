@@ -270,9 +270,10 @@ class BaseTestsuite(object):
         )
 
         self.arg_parser.add_argument(
-            'testcases', nargs='*',
-            help='The list of testcases to run. Run everything if none is'
-                 ' given.'
+            'patterns', nargs='*',
+            help='A list of string patterns that will be used to find test cases to'
+                 ' run. If the path of a test matches any of the patterns, then'
+                 ' it is ran. If empty, run all tests'
         )
         self.add_options()
 
@@ -386,10 +387,12 @@ class BaseTestsuite(object):
 
     def _iter_testcases(self):
         """Yield subdirectory paths for testcases."""
-        for root_dir in self.args.testcases or [self.test_dir]:
-            for root, dirs, files in os.walk(root_dir):
-                if 'test.yaml' in files:
-                    yield root
+        patterns = self.args.patterns
+        for root, dirs, files in os.walk(self.test_dir):
+            testcase = os.path.relpath(root, self.test_dir)
+            matches = (not patterns) or any(p in testcase for p in patterns)
+            if matches and 'test.yaml' in files:
+                yield root
 
     # User hooks
 

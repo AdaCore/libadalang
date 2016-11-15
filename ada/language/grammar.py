@@ -59,7 +59,7 @@ def generic_renaming_decl(keyword, dest_class):
     )
 
 
-def generic_instantiation(keyword, dest_class):
+def generic_instantiation(*leading_rules):
     """
     Factory for generic instantiations grammar rules.
 
@@ -68,8 +68,8 @@ def generic_instantiation(keyword, dest_class):
     :param dest_class: The destination AdaNode subclass to use for the result.
     :rtype: Transform
     """
-    return dest_class(
-        keyword, A.static_name, "is",
+    return tuple(leading_rules) + (
+        A.static_name, "is",
         "new", A.static_name,
         Opt("(", A.call_suffix, ")"),
         A.aspect_spec
@@ -360,9 +360,10 @@ A.add_rules(
     ),
 
     generic_instantiation=Or(
-        generic_instantiation("package", GenericPackageInstantiation),
-        generic_instantiation("procedure", GenericProcedureInstantiation),
-        generic_instantiation("function", GenericFunctionInstantiation),
+        GenericPackageInstantiation(*generic_instantiation("package")),
+        GenericSubpInstantiation(*generic_instantiation(
+            A.overriding_indicator, _(Or("procedure", "function"))
+        )),
     ),
 
     exception_decl=ExceptionDecl(

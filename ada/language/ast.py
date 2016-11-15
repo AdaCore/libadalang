@@ -40,6 +40,7 @@ class Metadata(Struct):
                       "implicit dereference"
     )
 
+
 @abstract
 @root_grammar_class(generic_list_type='AdaList')
 class AdaNode(ASTNode):
@@ -1405,23 +1406,26 @@ class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
     """
+    pass
+
+
+class GenericSubpInstantiation(GenericInstantiation):
+    overriding = Field(type=Overriding)
     name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
     params = Field(type=T.AdaNode)
     aspects = Field(type=T.AspectSpec)
+
     defining_names = Property(Self.name.singleton)
 
 
-class GenericProcedureInstantiation(GenericInstantiation):
-    pass
-
-
-class GenericFunctionInstantiation(GenericInstantiation):
-    pass
-
-
 class GenericPackageInstantiation(GenericInstantiation):
-    pass
+    name = Field(type=T.Name)
+    generic_entity_name = Field(type=T.Name)
+    params = Field(type=T.AdaNode)
+    aspects = Field(type=T.AspectSpec)
+
+    defining_names = Property(Self.name.singleton)
 
 
 class RenamingClause(AdaNode):

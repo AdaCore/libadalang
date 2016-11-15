@@ -1,0 +1,34 @@
+Aggregate[1:2-1:26]
+|ancestor_expr: <null>
+|assocs:
+|  ParamAssocList[1:2-1:26]
+|  |  ParamAssoc[1:2-1:26]
+|  |  |designator:
+|  |  |  ComponentAssoc[1:2-1:19]
+|  |  |  |choice_list:
+|  |  |  |  AdaNodeList[1:2-1:19]
+|  |  |  |  |  AttributeRef[1:2-1:19]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  DottedName[1:2-1:12]
+|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  CallExpr[1:2-1:8]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:2-1:4]
+|  |  |  |  |  |  |  |  |tok: RA
+|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  ParamAssocList[1:6-1:7]
+|  |  |  |  |  |  |  |  |  ParamAssoc[1:6-1:7]
+|  |  |  |  |  |  |  |  |  |designator: <null>
+|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  Int[1:6-1:7]
+|  |  |  |  |  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  Id[1:9-1:12]
+|  |  |  |  |  |  |  |tok: Str
+|  |  |  |  |  |attribute:
+|  |  |  |  |  |  Id[1:14-1:19]
+|  |  |  |  |  |  |tok: Range
+|  |  |  |  |  |args: <null>
+|  |  |expr:
+|  |  |  Chr[1:23-1:26]
+|  |  |  |tok: ' '

@@ -689,15 +689,23 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType)
+    def matching_access_type(expected_type=T.BaseTypeDecl):
+        """
+        Whether self is a matching access type for expected_type.
+        """
+        actual_type = Var(Self)
+        return expected_type.match(
+            lambda atd=T.AnonymousTypeDecl:
+            atd.access_def_matches(actual_type),
+            lambda _: False
+        )
+
+    @langkit_property(return_type=BoolType)
     def matching_call_type(expected_type=T.BaseTypeDecl):
         actual_type = Var(Self)
         return Or(
             actual_type == expected_type,
-            expected_type.match(
-                lambda atd=T.AnonymousTypeDecl:
-                    atd.access_def_matches(actual_type),
-                lambda _: False
-            )
+            actual_type.matching_access_type(expected_type)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl)
@@ -2662,10 +2670,11 @@ class AssignStmt(SimpleStmt):
     def xref_equation(origin_env=LexicalEnvType):
         return (
             Self.dest.sub_equation(origin_env)
-            # TODO: Handle more complex cases than pure type equality,
-            # eg. tagged types, accesses.
             & Self.expr.sub_equation(origin_env)
-            & Bind(Self.expr.type_var, Self.dest.type_var)
+            & Bind(Self.expr.type_var, Self.dest.type_var,
+                   # TODO: For the moment we use the same function as for
+                   # calls, but we'll separate as soon as the rules diverge.
+                   eq_prop=BaseTypeDecl.fields.matching_call_type)
         )
 
 

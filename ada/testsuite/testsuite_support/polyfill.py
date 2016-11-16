@@ -271,9 +271,9 @@ class BaseTestsuite(object):
 
         self.arg_parser.add_argument(
             'patterns', nargs='*',
-            help='A list of string patterns that will be used to find test cases to'
-                 ' run. If the path of a test matches any of the patterns, then'
-                 ' it is ran. If empty, run all tests'
+            help='A list of string patterns that will be used to find'
+                 ' testcases cases to run. If the path of a test matches any'
+                 ' of the patterns, then it is ran. If empty, run all tests.'
         )
         self.add_options()
 

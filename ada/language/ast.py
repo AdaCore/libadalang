@@ -1774,9 +1774,11 @@ class CallExpr(Expr):
                         lambda pm: (
                             # The type of each actual matches the type of the
                             # formal.
-                            Bind(pm.actual.assoc.expr.type_var,
-                                 pm.formal.spec.type_expression
-                                 .designated_type)
+                            Bind(
+                                pm.actual.assoc.expr.type_var,
+                                pm.formal.spec.type_expression.designated_type,
+                                eq_prop=BaseTypeDecl.fields.matching_call_type
+                            )
                         ) & If(
                             # Bind actuals designators to parameters if there
                             # are designators.

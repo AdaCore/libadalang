@@ -688,6 +688,18 @@ class BaseTypeDecl(BasicDecl):
             ),
         )
 
+    @langkit_property(return_type=BoolType)
+    def matching_call_type(expected_type=T.BaseTypeDecl):
+        actual_type = Var(Self)
+        return Or(
+            actual_type == expected_type,
+            expected_type.match(
+                lambda atd=T.AnonymousTypeDecl:
+                    atd.access_def_matches(actual_type),
+                lambda _: False
+            )
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_type():
         """
@@ -1657,8 +1669,8 @@ class Aggregate(Expr):
             # First case, aggregate for a record
             td.record_def.components.match_param_list(Self.assocs, False).map(
                 lambda pm:
-                (pm.actual.assoc.expr.type_var
-                 == pm.formal.spec.type_expression.designated_type)
+                Bind(pm.actual.assoc.expr.type_var,
+                     pm.formal.spec.type_expression.designated_type)
                 & pm.actual.assoc.expr.sub_equation(origin_env)
                 & If(pm.actual.name.is_null,
                      LogicTrue(),
@@ -1766,6 +1778,7 @@ class CallExpr(Expr):
                     # The type of the expression is the expr_type of the
                     # subprogram.
                     Bind(Self.type_var, s.expr_type)
+
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
                     & LogicAnd(s.subp_spec.match_param_list(

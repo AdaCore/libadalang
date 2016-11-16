@@ -549,16 +549,22 @@ class Run(object):
     def __init__(self, argv, cwd=None, timeout=None, output=None, error=None,
                  env=None):
         # "timeout" is not implemented, "error" is ignored
+
+        if output == STDOUT:
+            stdout = None
+        else:
+            stdout = subprocess.PIPE
+
         p = subprocess.Popen(
             argv, cwd=cwd,
-            stdout=subprocess.PIPE,
+            stdout=stdout,
             stderr=subprocess.STDOUT,
             env=env
         )
         stdout, _ = p.communicate()
         if output == PIPE:
             self.out = stdout
-        else:
+        elif output:
             with open(output, 'w') as f:
                 f.write(stdout)
         self.status = p.returncode

@@ -29,6 +29,7 @@ gnatinspect.db-*
 langkit
 
 # Also ignore a couple of symbolic links
+extsrc
 lg
 lk
 lksp

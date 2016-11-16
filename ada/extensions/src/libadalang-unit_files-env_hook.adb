@@ -7,7 +7,7 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.AST.Types; use Libadalang.AST.Types;
 
-package body Libadalang.Unit_Files is
+package body Libadalang.Unit_Files.Env_Hook is
 
    function Get_Unit_Name (N : Name) return Text_Type;
    --  Return a Name as a string. For instance: "Foo.Bar". Raise a
@@ -199,4 +199,4 @@ package body Libadalang.Unit_Files is
       return Result;
    end Get_Unit_File_Name;
 
-end Libadalang.Unit_Files;
+end Libadalang.Unit_Files.Env_Hook;

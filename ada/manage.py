@@ -91,13 +91,14 @@ class Manage(ManageScript):
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
 
-        return CompileCtx(lang_name='Ada',
-                          lexer=ada_lexer,
-                          grammar=ada_grammar,
-                          default_charset='iso-8859-1',
-                          verbosity=args.verbosity,
-                          env_hook_subprogram=('Libadalang.Unit_Files',
-                                               'Env_Hook'))
+        return CompileCtx(
+            lang_name='Ada',
+            lexer=ada_lexer,
+            grammar=ada_grammar,
+            default_charset='iso-8859-1',
+            verbosity=args.verbosity,
+            env_hook_subprogram=('Libadalang.Unit_Files.Env_Hook', 'Env_Hook'),
+        )
 
     @property
     def main_programs(self):

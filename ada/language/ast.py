@@ -764,6 +764,21 @@ class TypeDecl(BaseTypeDecl):
 
 
 class AnonymousTypeDecl(TypeDecl):
+
+    @langkit_property(return_type=BoolType)
+    def access_def_matches(other=BaseTypeDecl):
+        """
+        Returns whether:
+        1. Self and other are both access types.
+        2. Their access def matches structurally.
+        """
+
+        # If the anonymous type is an access type definition, then verify if
+        #  the accessed type corresponds to other's accessed type.
+        return Self.type_def.cast(AccessDef).then(
+            lambda accessd: accessd.accessed_type == other.accessed_type,
+        )
+
     # We don't want to add anonymous type declarations to the lexical
     # environments, so we reset the env spec.
     env_spec = EnvSpec(call_parents=False)

@@ -98,6 +98,8 @@ class Manage(ManageScript):
             default_charset='iso-8859-1',
             verbosity=args.verbosity,
             env_hook_subprogram=('Libadalang.Unit_Files.Env_Hook', 'Env_Hook'),
+            default_unit_file_provider=('Libadalang.Unit_Files.Default',
+                                        'Default_Unit_File_Provider')
         )
 
     @property

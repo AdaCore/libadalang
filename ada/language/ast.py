@@ -416,11 +416,8 @@ class ComponentDecl(BaseFormalParamDecl):
     def constrain_prefix(prefix=T.Expr):
         return (
             # Simple type equivalence
-            Bind(prefix.type_var, Self.container_type)
-
-            # Access dereference
-            | Predicate(BaseTypeDecl.fields.matching_prefix_type,
-                        prefix.type_var, Self.container_type)
+            Bind(prefix.type_var, Self.container_type,
+                 eq_prop=BaseTypeDecl.fields.matching_prefix_type)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl)
@@ -673,20 +670,22 @@ class BaseTypeDecl(BasicDecl):
         type for B, and Self is a potential type for A, returns whether Self is
         a valid type for A in the dotted expression.
         """
-        return (
+        return Or(
+            (Self.canonical_type == container_type.canonical_type),
+
             # Simple access type case
             (Self.canonical_type.accessed_type
-             == container_type.canonical_type)
+             == container_type.canonical_type),
 
             # Derived type case
-            | Self.canonical_type.is_derived_type(
+            Self.canonical_type.is_derived_type(
                 container_type.canonical_type
-            )
+            ),
 
             # Access to derived type case
-            | Self.canonical_type.accessed_type.then(
+            Self.canonical_type.accessed_type.then(
                 lambda a: a.is_derived_type(container_type.canonical_type)
-            )
+            ),
         )
 
     @langkit_property(return_type=T.BaseTypeDecl)

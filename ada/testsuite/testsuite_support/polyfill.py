@@ -389,10 +389,11 @@ class BaseTestsuite(object):
         """Yield subdirectory paths for testcases."""
         patterns = self.args.patterns
         for root, dirs, files in os.walk(self.test_dir):
-            testcase = os.path.relpath(root, self.test_dir)
-            matches = (not patterns) or any(p in testcase for p in patterns)
-            if matches and 'test.yaml' in files:
-                yield root
+            if 'test.yaml' in files:
+                testcase = os.path.abspath(os.path.join(self.test_dir, root))
+                matches = (not patterns) or any(p in testcase for p in patterns)
+                if matches and 'test.yaml' in files:
+                    yield root
 
     # User hooks
 

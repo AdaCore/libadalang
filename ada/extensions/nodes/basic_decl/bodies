@@ -14,6 +14,10 @@ is
    is
       D : Dotted_Name;
    begin
+      if Node = null then
+         return "None";
+      end if;
+
       if Node.all in Single_Tok_Node_Type'Class then
          return Get_Symbol
            (F_Tok (Single_Tok_Node_Type (Node.all)'Access)).all;

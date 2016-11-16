@@ -46,8 +46,8 @@ pip install -r REQUIREMENTS.dev
 
         $ python langkit/setup.py install
 
-    Otherwise, either add the `langkit` directory to your `PYTHONPATH` or just
-    move it in the root directory of this repository.
+   Otherwise, either add the `langkit` directory to your `PYTHONPATH` or just
+   move it in the root directory of this repository.
 
 To develop comfortably:
 

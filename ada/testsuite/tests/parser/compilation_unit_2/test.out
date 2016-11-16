@@ -14,7 +14,7 @@ CompilationUnit[1:1-1:24]
 |  |  |  Id[1:18-1:19]
 |  |  |  |tok: B
 |  |  |params:
-|  |  |  ParamAssocList[1:21-1:22]
+|  |  |  ParamList[1:21-1:22]
 |  |  |  |  ParamAssoc[1:21-1:22]
 |  |  |  |  |designator: <null>
 |  |  |  |  |expr:

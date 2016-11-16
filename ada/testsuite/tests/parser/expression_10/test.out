@@ -15,7 +15,7 @@ Allocator[1:1-1:21]
 |  |  Aggregate[1:14-1:20]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
-|  |  |  ParamAssocList[1:14-1:20]
+|  |  |  ParamList[1:14-1:20]
 |  |  |  |  ParamAssoc[1:14-1:16]
 |  |  |  |  |designator: <null>
 |  |  |  |  |expr:

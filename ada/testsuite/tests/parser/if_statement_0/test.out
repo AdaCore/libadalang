@@ -18,7 +18,7 @@ IfStmt[1:1-1:86]
 |  |  |  |  Id[1:29-1:37]
 |  |  |  |  |tok: Put_Line
 |  |  |  |suffix:
-|  |  |  |  ParamAssocList[1:39-1:44]
+|  |  |  |  ParamList[1:39-1:44]
 |  |  |  |  |  ParamAssoc[1:39-1:44]
 |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |expr:
@@ -31,7 +31,7 @@ IfStmt[1:1-1:86]
 |  |  |  |  Id[1:47-1:55]
 |  |  |  |  |tok: Put_Line
 |  |  |  |suffix:
-|  |  |  |  ParamAssocList[1:57-1:77]
+|  |  |  |  ParamList[1:57-1:77]
 |  |  |  |  |  ParamAssoc[1:57-1:77]
 |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |expr:

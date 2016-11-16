@@ -39,7 +39,7 @@ BlockStmt[1:1-1:46]
 |  |  |  |  |  Id[1:34-1:37]
 |  |  |  |  |  |tok: Foo
 |  |  |  |  |suffix:
-|  |  |  |  |  ParamAssocList[1:39-1:40]
+|  |  |  |  |  ParamList[1:39-1:40]
 |  |  |  |  |  |  ParamAssoc[1:39-1:40]
 |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |expr:

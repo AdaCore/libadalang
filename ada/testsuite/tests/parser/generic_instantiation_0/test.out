@@ -16,7 +16,7 @@ GenericPackageInstantiation[1:1-1:69]
 |  |  Id[1:43-1:50]
 |  |  |tok: Vectors
 |params:
-|  ParamAssocList[1:52-1:68]
+|  ParamList[1:52-1:68]
 |  |  ParamAssoc[1:52-1:59]
 |  |  |designator: <null>
 |  |  |expr:

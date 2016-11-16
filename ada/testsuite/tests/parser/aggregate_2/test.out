@@ -3,7 +3,7 @@ Aggregate[1:2-1:23]
 |  Id[1:2-1:3]
 |  |tok: A
 |assocs:
-|  ParamAssocList[1:9-1:23]
+|  ParamList[1:9-1:23]
 |  |  ParamAssoc[1:9-1:15]
 |  |  |designator:
 |  |  |  ComponentAssoc[1:9-1:10]

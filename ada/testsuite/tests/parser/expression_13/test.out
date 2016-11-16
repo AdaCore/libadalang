@@ -14,7 +14,7 @@ AttributeRef[1:1-1:22]
 |  |  Aggregate[1:10-1:13]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
-|  |  |  ParamAssocList[1:10-1:13]
+|  |  |  ParamList[1:10-1:13]
 |  |  |  |  ParamAssoc[1:10-1:13]
 |  |  |  |  |designator: <null>
 |  |  |  |  |expr:

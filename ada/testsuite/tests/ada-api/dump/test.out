@@ -98,7 +98,7 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]
 |  |  |  |  |  |  |  |  |  |  |tok: RealBar
 |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  ParamAssocList[3:20-3:22]
+|  |  |  |  |  |  |  |  |  ParamList[3:20-3:22]
 |  |  |  |  |  |  |  |  |  |  ParamAssoc[3:20-3:22]
 |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |expr:

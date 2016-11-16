@@ -1,7 +1,7 @@
 Aggregate[1:2-1:18]
 |ancestor_expr: <null>
 |assocs:
-|  ParamAssocList[1:2-1:18]
+|  ParamList[1:2-1:18]
 |  |  ParamAssoc[1:2-1:9]
 |  |  |designator:
 |  |  |  ComponentAssoc[1:2-1:3]

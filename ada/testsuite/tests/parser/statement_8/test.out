@@ -5,7 +5,7 @@ CallStmt[1:1-1:30]
 |  |  Id[1:1-1:9]
 |  |  |tok: Set_Text
 |  |suffix:
-|  |  ParamAssocList[1:11-1:29]
+|  |  ParamList[1:11-1:29]
 |  |  |  ParamAssoc[1:11-1:17]
 |  |  |  |designator: <null>
 |  |  |  |expr:
@@ -17,7 +17,7 @@ CallStmt[1:1-1:30]
 |  |  |  |  Aggregate[1:20-1:28]
 |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |assocs:
-|  |  |  |  |  ParamAssocList[1:20-1:28]
+|  |  |  |  |  ParamList[1:20-1:28]
 |  |  |  |  |  |  ParamAssoc[1:20-1:28]
 |  |  |  |  |  |  |designator:
 |  |  |  |  |  |  |  ComponentAssoc[1:20-1:21]

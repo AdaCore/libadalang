@@ -10,7 +10,7 @@ CallExpr[1:1-1:27]
 |  |  Id[1:7-1:13]
 |  |  |tok: fooify
 |suffix:
-|  ParamAssocList[1:15-1:26]
+|  ParamList[1:15-1:26]
 |  |  ParamAssoc[1:15-1:26]
 |  |  |designator: <null>
 |  |  |expr:

@@ -6,7 +6,7 @@ GenericPackageInstantiation[1:1-1:42]
 |  Id[1:18-1:19]
 |  |tok: Q
 |params:
-|  ParamAssocList[1:21-1:41]
+|  ParamList[1:21-1:41]
 |  |  ParamAssoc[1:21-1:27]
 |  |  |designator:
 |  |  |  Id[1:21-1:22]

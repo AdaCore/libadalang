@@ -6,7 +6,7 @@ AttributeDefClause[1:1-1:36]
 |  Aggregate[1:12-1:35]
 |  |ancestor_expr: <null>
 |  |assocs:
-|  |  ParamAssocList[1:12-1:35]
+|  |  ParamList[1:12-1:35]
 |  |  |  ParamAssoc[1:12-1:18]
 |  |  |  |designator:
 |  |  |  |  ComponentAssoc[1:12-1:13]

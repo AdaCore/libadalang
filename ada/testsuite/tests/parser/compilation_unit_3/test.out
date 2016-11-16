@@ -32,7 +32,7 @@ CompilationUnit[1:1-1:44]
 |  |  |  Id[1:38-1:39]
 |  |  |  |tok: B
 |  |  |params:
-|  |  |  ParamAssocList[1:41-1:42]
+|  |  |  ParamList[1:41-1:42]
 |  |  |  |  ParamAssoc[1:41-1:42]
 |  |  |  |  |designator: <null>
 |  |  |  |  |expr:

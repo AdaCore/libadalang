@@ -5,7 +5,7 @@ ReturnStmt[1:1-1:26]
 |  |  Id[1:8-1:11]
 |  |  |tok: Lol
 |  |suffix:
-|  |  ParamAssocList[1:13-1:25]
+|  |  ParamList[1:13-1:25]
 |  |  |  ParamAssoc[1:13-1:16]
 |  |  |  |designator: <null>
 |  |  |  |expr:

@@ -92,7 +92,7 @@ CompilationUnit[1:1-7:10]
 |  |  |  |  |  |  |  Id[6:4-6:12]
 |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[6:13-6:14]
+|  |  |  |  |  |  |  ParamList[6:13-6:14]
 |  |  |  |  |  |  |  |  ParamAssoc[6:13-6:14]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:

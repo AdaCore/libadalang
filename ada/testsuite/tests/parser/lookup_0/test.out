@@ -134,7 +134,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssocList[10:27-10:32]
+|  |  |  |  |  |  |  |  |  |  |  |  |  ParamList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -173,7 +173,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  Id[15:16-15:24]
 |  |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[15:26-15:41]
+|  |  |  |  |  |  |  ParamList[15:26-15:41]
 |  |  |  |  |  |  |  |  ParamAssoc[15:26-15:41]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:
@@ -196,7 +196,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  Id[16:16-16:24]
 |  |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[16:26-16:66]
+|  |  |  |  |  |  |  ParamList[16:26-16:66]
 |  |  |  |  |  |  |  |  ParamAssoc[16:26-16:66]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:
@@ -215,7 +215,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  Id[16:50-16:55]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Image
 |  |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  |  ParamAssocList[16:57-16:65]
+|  |  |  |  |  |  |  |  |  |  |  ParamList[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -224,7 +224,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:57-16:61]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssocList[16:63-16:64]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamList[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -481,7 +481,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssocList[10:27-10:32]
+|  |  |  |  |  |  |  |  |  |  |  |  |  ParamList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -520,7 +520,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  Id[15:16-15:24]
 |  |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[15:26-15:41]
+|  |  |  |  |  |  |  ParamList[15:26-15:41]
 |  |  |  |  |  |  |  |  ParamAssoc[15:26-15:41]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:
@@ -543,7 +543,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  Id[16:16-16:24]
 |  |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[16:26-16:66]
+|  |  |  |  |  |  |  ParamList[16:26-16:66]
 |  |  |  |  |  |  |  |  ParamAssoc[16:26-16:66]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:
@@ -562,7 +562,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  Id[16:50-16:55]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Image
 |  |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  |  ParamAssocList[16:57-16:65]
+|  |  |  |  |  |  |  |  |  |  |  ParamList[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -571,7 +571,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:57-16:61]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssocList[16:63-16:64]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamList[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -700,7 +700,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  ParamAssocList[10:27-10:32]
+|  |  |  |  |  |  |  |  |  |  |  ParamList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -739,7 +739,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  Id[15:16-15:24]
 |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |suffix:
-|  |  |  |  |  ParamAssocList[15:26-15:41]
+|  |  |  |  |  ParamList[15:26-15:41]
 |  |  |  |  |  |  ParamAssoc[15:26-15:41]
 |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |expr:
@@ -762,7 +762,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  Id[16:16-16:24]
 |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |suffix:
-|  |  |  |  |  ParamAssocList[16:26-16:66]
+|  |  |  |  |  ParamList[16:26-16:66]
 |  |  |  |  |  |  ParamAssoc[16:26-16:66]
 |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |expr:
@@ -781,7 +781,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |  Id[16:50-16:55]
 |  |  |  |  |  |  |  |  |  |tok: Image
 |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  ParamAssocList[16:57-16:65]
+|  |  |  |  |  |  |  |  |  ParamList[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |expr:
@@ -790,7 +790,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[16:57-16:61]
 |  |  |  |  |  |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  ParamAssocList[16:63-16:64]
+|  |  |  |  |  |  |  |  |  |  |  |  ParamList[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |expr:
@@ -817,7 +817,7 @@ ReturnStmt[10:10-10:33]
 |  |  |  Id[10:21-10:25]
 |  |  |  |tok: Fact
 |  |  |suffix:
-|  |  |  ParamAssocList[10:27-10:32]
+|  |  |  ParamList[10:27-10:32]
 |  |  |  |  ParamAssoc[10:27-10:32]
 |  |  |  |  |designator: <null>
 |  |  |  |  |expr:

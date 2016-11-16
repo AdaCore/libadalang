@@ -57,7 +57,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |  Id[5:4-5:12]
 |  |  |  |  |  |  |  |tok: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  ParamAssocList[5:14-5:28]
+|  |  |  |  |  |  |  ParamList[5:14-5:28]
 |  |  |  |  |  |  |  |  ParamAssoc[5:14-5:28]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |expr:

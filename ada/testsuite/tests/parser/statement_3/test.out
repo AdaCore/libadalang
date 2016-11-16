@@ -10,7 +10,7 @@ LoopStmt[1:1-1:30]
 |  |  |  |  Id[1:6-1:11]
 |  |  |  |  |tok: World
 |  |  |  |suffix:
-|  |  |  |  ParamAssocList[1:12-1:19]
+|  |  |  |  ParamList[1:12-1:19]
 |  |  |  |  |  ParamAssoc[1:12-1:13]
 |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |expr:

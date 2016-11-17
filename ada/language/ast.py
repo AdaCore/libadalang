@@ -708,6 +708,13 @@ class BaseTypeDecl(BasicDecl):
             actual_type.matching_access_type(expected_type)
         )
 
+    @langkit_property(return_type=BoolType)
+    def matching_allocator_type(allocated_type=T.BaseTypeDecl):
+        return And(
+            Self.is_access_type,
+            allocated_type.matching_type(Self.accessed_type)
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_type():
         """
@@ -1156,6 +1163,12 @@ class SubtypeIndication(TypeExpr):
     designated_type = Property(
         Self.node_env.eval_in_env(Self.name.designated_type)
     )
+
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        # Called by allocator.xref_equation, since the suffix can be either a
+        # qual expr or a subtype indication.
+        return LogicTrue()
 
 
 class Mode(T.EnumNode):
@@ -2490,6 +2503,22 @@ class QuantifiedExpr(Expr):
 class Allocator(Expr):
     subpool = Field(type=T.Expr)
     type_or_expr = Field(type=T.AdaNode)
+
+    @langkit_property()
+    def get_allocated_type():
+        return Self.type_or_expr.match(
+            lambda t=SubtypeIndication: t.designated_type,
+            lambda q=QualExpr: q.designated_type,
+            lambda _: No(BaseTypeDecl)
+        )
+
+    @langkit_property(return_type=EquationType)
+    def xref_equation(origin_env=LexicalEnvType):
+        return (
+            Self.type_or_expr.sub_equation(origin_env)
+            & Predicate(BaseTypeDecl.fields.matching_allocator_type,
+                        Self.type_var, Self.get_allocated_type)
+        )
 
 
 class QualExpr(Expr):

@@ -23,7 +23,7 @@ gnatinspect.db-*
 *.ali
 
 # IDEA junk
-.idea/workspace.xml
+.idea
 
 # Ignore langkit repo
 langkit

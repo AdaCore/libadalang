@@ -15,7 +15,7 @@ main(void)
     unsigned i;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context("iso-8859-1");
+    ctx = ada_create_analysis_context("iso-8859-1", NULL);
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 

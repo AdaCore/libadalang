@@ -28,7 +28,7 @@ main(void)
     ada_token tok, prev_tok;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL);
+    ctx = ada_create_analysis_context(NULL, NULL);
     if (ctx == NULL)
         handle_exception("Could not create the analysis context");
 

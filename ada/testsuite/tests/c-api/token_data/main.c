@@ -30,7 +30,7 @@ main(void)
     char *tk_name;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL);
+    ctx = ada_create_analysis_context(NULL, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context");
 

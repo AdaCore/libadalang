@@ -1,4 +1,5 @@
 procedure Test is
+   type Integer is range 1 .. 1000;
    type Int_Access is access all Integer;
 
    procedure Foo (A : access Integer) is null;

@@ -701,7 +701,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType)
-    def matching_call_type(expected_type=T.BaseTypeDecl):
+    def matching_type(expected_type=T.BaseTypeDecl):
         actual_type = Var(Self)
         return Or(
             actual_type == expected_type,
@@ -1798,7 +1798,7 @@ class CallExpr(Expr):
                             Bind(
                                 pm.actual.assoc.expr.type_var,
                                 pm.formal.spec.type_expression.designated_type,
-                                eq_prop=BaseTypeDecl.fields.matching_call_type
+                                eq_prop=BaseTypeDecl.fields.matching_type
                             )
                         ) & If(
                             # Bind actuals designators to parameters if there
@@ -2672,9 +2672,7 @@ class AssignStmt(SimpleStmt):
             Self.dest.sub_equation(origin_env)
             & Self.expr.sub_equation(origin_env)
             & Bind(Self.expr.type_var, Self.dest.type_var,
-                   # TODO: For the moment we use the same function as for
-                   # calls, but we'll separate as soon as the rules diverge.
-                   eq_prop=BaseTypeDecl.fields.matching_call_type)
+                   eq_prop=BaseTypeDecl.fields.matching_type)
         )
 
 

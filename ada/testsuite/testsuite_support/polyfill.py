@@ -391,7 +391,7 @@ class BaseTestsuite(object):
         for root, dirs, files in os.walk(self.test_dir):
             testcase = os.path.relpath(
                 root, os.path.join(self.root_dir, "..", "..")
-            )
+            ) + os.path.sep
             matches = (not patterns) or any(p in testcase for p in patterns)
             if matches and 'test.yaml' in files:
                 yield root

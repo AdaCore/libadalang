@@ -2508,6 +2508,8 @@ class QualExpr(Expr):
             & Bind(Self.type_var, typ)
         )
 
+    designated_type = Property(Self.prefix.designated_type)
+
 
 class AttributeRef(Expr):
     prefix = Field(type=T.Expr)

@@ -8,7 +8,7 @@ T_Inst.Baz resolves to:
 T_Inst.Baz (12) resolves to:
     procedure Baz (Self : T'Class; Pouet : Int) is null
 
-Expr: <DottedName 26:4-26:14>, references None, type is None
+Expr: <DottedName 26:4-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:42>, type is None
 Expr: <Id "T_Inst" 26:4-26:10>, references <ObjectDecl ["T_Inst"] 17:4-17:14>, type is <TypeDecl ["T"] 5:4-7:14>
 Expr: <Id "Baz" 26:11-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:42>, type is None
 

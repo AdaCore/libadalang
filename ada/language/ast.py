@@ -56,18 +56,8 @@ class AdaNode(ASTNode):
        ASTNode in the code templates.
     """
 
-    ref_var = UserField(LogicVarType, is_private=True)
-    type_var = UserField(LogicVarType, is_private=True)
-    """
-    Those two fields represents the result of the xref equations solving.
-
-    TODO: They're probably not needed on every AdaNode, but are put here for
-    the time being for convenience. We'll need to hoist them up the type chain
-    at some point.
-    """
-
     type_val = Property(
-        Self.type_var.get_value,
+        No(T.AdaNode),
         doc="""
         This will return the value of the type of this node after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -75,7 +65,7 @@ class AdaNode(ASTNode):
         """
     )
     ref_val = Property(
-        Self.ref_var.get_value,
+        No(T.AdaNode),
         doc="""
         This will return the node this nodes references after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -1575,6 +1565,9 @@ def is_library_package(e):
 @abstract
 class Expr(AdaNode):
 
+    type_var = UserField(LogicVarType, is_private=True)
+    type_val = Property(Self.type_var.get_value)
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check, private=True,
                       return_type=LexicalEnvType)
     def designated_env(origin_env=LexicalEnvType):
@@ -1719,6 +1712,22 @@ class Name(Expr):
         """
     )
 
+    @langkit_property(kind=AbstractKind.abstract_runtime_check, private=True,
+                      return_type=LogicVarType)
+    def ref_var():
+        """
+        This property proxies the logic variable that points to the entity that
+        this name refers to. For example, for a simple dotted name::
+
+            A.B
+
+        The dotted name's ref var is the one of the SingleTokNode B.
+        """
+        pass
+
+    ref_val = Property(Self.ref_var.get_value)
+
+
 class CallExpr(Name):
     """
     Represent a syntactic call expression.
@@ -1728,6 +1737,8 @@ class CallExpr(Name):
     """
     name = Field(type=T.Name)
     suffix = Field(type=T.AdaNode)
+
+    ref_var = Property(Self.name.ref_var)
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
@@ -2011,6 +2022,7 @@ class ParamList(ParamAssoc.list_type()):
 
 class ExplicitDeref(Name):
     prefix = Field(type=T.Name)
+    ref_var = Property(Self.prefix.ref_var)
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
@@ -2085,8 +2097,15 @@ class CaseExprAlternative(Expr):
 @abstract
 class SingleTokNode(Name):
     tok = Field(type=T.Token)
-
     name = Property(Self.tok)
+
+    r_ref_var = UserField(LogicVarType, is_private=True)
+    """
+    This field is the logic variable for this node. It is not used directly,
+    instead being retrieved via the ref_var property
+    """
+
+    ref_var = Property(Self.r_ref_var)
 
     @langkit_property(return_type=BoolType)
     def matches(other=T.SingleTokNode):
@@ -2523,6 +2542,8 @@ class QualExpr(Name):
     prefix = Field(type=T.Name)
     suffix = Field(type=T.Expr)
 
+    ref_var = Property(Self.prefix.ref_var)
+
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):
         typ = Self.prefix.designated_type.canonical_type
@@ -2543,6 +2564,8 @@ class AttributeRef(Name):
     attribute = Field(type=T.Identifier)
     args = Field(type=T.AdaNode)
 
+    ref_var = Property(Self.prefix.ref_var)
+
     designated_type = Property(Self.prefix.designated_type)
 
 
@@ -2554,6 +2577,7 @@ class RaiseExpr(Expr):
 class DottedName(Name):
     prefix = Field(type=T.Expr)
     suffix = Field(type=T.BaseId)
+    ref_var = Property(Self.suffix.ref_var)
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):

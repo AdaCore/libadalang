@@ -12,7 +12,7 @@ Expr: <Id "Bar" 25:15-25:18>, references <SubpDecl ["Bar"] 16:7-16:62>, type is 
 Expr: <Id "Baz" 25:20-25:23>, references <SubpDecl ["Baz"] 19:7-19:33>, type is <TypeDecl ["My_Int"] 3:4-3:38>
 Expr: <Id "Baz" 25:25-25:28>, references <SubpDecl ["Baz"] 20:7-20:35>, type is <TypeDecl ["My_Float"] 4:4-4:30>
 Expr: <Id "E" 26:10-26:11>, references <ObjectDecl ["C", "D", "E"] 12:7-12:25>, type is <TypeDecl ["My_Float"] 4:4-4:30>
-Expr: <DottedName 26:15-26:18>, references None, type is <TypeDecl ["My_Float"] 4:4-4:30>
+Expr: <DottedName 26:15-26:18>, references <ComponentDecl ["F"] 8:7-8:22>, type is <TypeDecl ["My_Float"] 4:4-4:30>
 Expr: <Id "G" 26:15-26:16>, references <ObjectDecl ["G"] 14:7-14:20>, type is <TypeDecl ["My_Record"] 6:4-9:14>
 Expr: <Id "F" 26:17-26:18>, references <ComponentDecl ["F"] 8:7-8:22>, type is <TypeDecl ["My_Float"] 4:4-4:30>
 

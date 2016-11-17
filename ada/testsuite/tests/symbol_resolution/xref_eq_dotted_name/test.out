@@ -2,15 +2,15 @@ Analyzing subp_record.adb
 #########################
 
 Expr: <Id "Pouet" 25:4-25:9>, references <ObjectDecl ["Pouet"] 23:4-23:19>, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <DottedName 25:13-25:20>, references None, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <DottedName 25:13-25:18>, references None, type is <TypeDecl ["Rec_1"] 8:4-10:14>
+Expr: <DottedName 25:13-25:20>, references <ComponentDecl ["C"] 9:7-9:18>, type is <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <DottedName 25:13-25:18>, references <ComponentDecl ["B"] 13:7-13:16>, type is <TypeDecl ["Rec_1"] 8:4-10:14>
 Expr: <Id "Foo" 25:13-25:16>, references <ExprFunction ["Foo"] 20:4-20:49>, type is <TypeDecl ["Rec_A"] 12:4-14:14>
 Expr: <Id "B" 25:17-25:18>, references <ComponentDecl ["B"] 13:7-13:16>, type is <TypeDecl ["Rec_1"] 8:4-10:14>
 Expr: <Id "C" 25:19-25:20>, references <ComponentDecl ["C"] 9:7-9:18>, type is <TypeDecl ["Integer"] 2:4-2:36>
 
 Expr: <Id "Pouet" 28:4-28:9>, references <ObjectDecl ["Pouet"] 23:4-23:19>, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <DottedName 28:13-28:20>, references None, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <DottedName 28:13-28:18>, references None, type is <TypeDecl ["Rec_2"] 4:4-6:14>
+Expr: <DottedName 28:13-28:20>, references <ComponentDecl ["D"] 5:7-5:18>, type is <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <DottedName 28:13-28:18>, references <ComponentDecl ["B"] 17:7-17:16>, type is <TypeDecl ["Rec_2"] 4:4-6:14>
 Expr: <Id "Foo" 28:13-28:16>, references <ExprFunction ["Foo"] 21:4-21:49>, type is <TypeDecl ["Rec_B"] 16:4-18:14>
 Expr: <Id "B" 28:17-28:18>, references <ComponentDecl ["B"] 17:7-17:16>, type is <TypeDecl ["Rec_2"] 4:4-6:14>
 Expr: <Id "D" 28:19-28:20>, references <ComponentDecl ["D"] 5:7-5:18>, type is <TypeDecl ["Integer"] 2:4-2:36>

@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: allocator_1
+driver: symbol_resolution
+input_sources: [pouet.adb]

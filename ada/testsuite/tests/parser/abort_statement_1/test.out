@@ -1,6 +1,6 @@
 AbortStmt[1:1-1:19]
 |names:
-|  ExprList[1:7-1:19]
+|  NameList[1:7-1:19]
 |  |  CallExpr[1:7-1:19]
 |  |  |name:
 |  |  |  Id[1:7-1:15]

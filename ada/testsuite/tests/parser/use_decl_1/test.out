@@ -2,7 +2,7 @@ UseTypeClause[1:1-1:35]
 |has_all:
 |  AllPresent[1:5-1:5]
 |types:
-|  ExprList[1:14-1:35]
+|  NameList[1:14-1:35]
 |  |  DottedName[1:14-1:35]
 |  |  |prefix:
 |  |  |  DottedName[1:14-1:28]

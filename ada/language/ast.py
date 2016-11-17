@@ -1103,7 +1103,7 @@ class UsePackageClause(UseClause):
 
 class UseTypeClause(UseClause):
     has_all = Field(type=All)
-    types = Field(type=T.Expr.list_type())
+    types = Field(type=T.Name.list_type())
 
 
 @abstract
@@ -1707,14 +1707,26 @@ class Aggregate(Expr):
         ))
 
 
-class CallExpr(Expr):
+@abstract
+class Name(Expr):
+    env_for_scope = Property(
+        EmptyEnv,
+        doc="""
+        Lexical environment this identifier represents. This is similar to
+        designated_env although it handles only cases for child units and it is
+        used only during the environment population pass so it does not return
+        orphan environments.
+        """
+    )
+
+class CallExpr(Name):
     """
     Represent a syntactic call expression.
 
     At the semantic level, this can be either a subprogram call, an array
     subcomponent access expression, an array slice or a type conversion.
     """
-    name = Field(type=T.Expr)
+    name = Field(type=T.Name)
     suffix = Field(type=T.AdaNode)
 
     @langkit_property()
@@ -1997,8 +2009,8 @@ class ParamList(ParamAssoc.list_type()):
         )
 
 
-class ExplicitDeref(Expr):
-    prefix = Field(type=T.Expr)
+class ExplicitDeref(Name):
+    prefix = Field(type=T.Name)
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
@@ -2068,20 +2080,6 @@ class CaseExpr(Expr):
 class CaseExprAlternative(Expr):
     choices = Field(type=T.AdaNode.list_type())
     expr = Field(type=T.Expr)
-
-
-@abstract
-class Name(Expr):
-
-    env_for_scope = Property(
-        EmptyEnv,
-        doc="""
-        Lexical environment this identifier represents. This is similar to
-        designated_env although it handles only cases for child units and it is
-        used only during the environment population pass so it does not return
-        orphan environments.
-        """
-    )
 
 
 @abstract
@@ -2521,8 +2519,8 @@ class Allocator(Expr):
         )
 
 
-class QualExpr(Expr):
-    prefix = Field(type=T.Expr)
+class QualExpr(Name):
+    prefix = Field(type=T.Name)
     suffix = Field(type=T.Expr)
 
     @langkit_property(return_type=EquationType)
@@ -2540,8 +2538,8 @@ class QualExpr(Expr):
     designated_type = Property(Self.prefix.designated_type)
 
 
-class AttributeRef(Expr):
-    prefix = Field(type=T.Expr)
+class AttributeRef(Name):
+    prefix = Field(type=T.Name)
     attribute = Field(type=T.Identifier)
     args = Field(type=T.AdaNode)
 
@@ -2726,7 +2724,7 @@ class RequeueStmt(SimpleStmt):
 
 
 class AbortStmt(SimpleStmt):
-    names = Field(type=T.Expr.list_type())
+    names = Field(type=T.Name.list_type())
 
 
 class DelayStmt(SimpleStmt):

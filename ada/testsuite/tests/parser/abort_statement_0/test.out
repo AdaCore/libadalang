@@ -1,6 +1,6 @@
 AbortStmt[1:1-1:15]
 |names:
-|  ExprList[1:7-1:15]
+|  NameList[1:7-1:15]
 |  |  Id[1:7-1:10]
 |  |  |tok: Lol
 |  |  Id[1:12-1:15]

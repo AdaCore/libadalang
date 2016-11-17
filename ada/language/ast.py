@@ -803,7 +803,9 @@ class AnonymousTypeDecl(TypeDecl):
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
         return Self.type_def.cast(AccessDef).then(
-            lambda accessd: accessd.accessed_type == other.accessed_type,
+            lambda accessd: accessd.accessed_type.matching_type(
+                other.accessed_type
+            ),
         )
 
     # We don't want to add anonymous type declarations to the lexical

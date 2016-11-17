@@ -500,9 +500,7 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property()
     def abstract_formal_params():
-        # TODO: Incomplete definition. We need to:
-        # 1. Handle variant parts.
-        # 2. Concatenate parent components.
+        # TODO: Incomplete definition. We need to handle variant parts.
         pcl = Var(Self.parent_component_list)
         self_comps = Var(Self.components.filtermap(
             filter_expr=lambda p: p.is_a(BaseFormalParamDecl),

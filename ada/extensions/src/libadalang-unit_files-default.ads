@@ -1,4 +1,7 @@
-with Libadalang.AST; use Libadalang.AST;
+with Langkit_Support.Text; use Langkit_Support.Text;
+
+with Libadalang.AST;       use Libadalang.AST;
+with Libadalang.AST.Types; use Libadalang.AST.Types;
 
 package Libadalang.Unit_Files.Default is
 
@@ -11,6 +14,17 @@ package Libadalang.Unit_Files.Default is
       return String;
 
    Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;
+
+   function Get_Unit_Name (N : Name) return Text_Type;
+   --  Return an unit Name as a string. For instance: "Foo.Bar". Raise a
+   --  Property_Error if N is not a valid unit name.
+
+   function Get_Unit_Name (N : Name) return String;
+   --  Return an unit Name as a string. For instance: "Foo.Bar". Raise a
+   --  Property_Error if N is not a valid unit name or if it contains
+   --  characters that are outside the following subset::
+   --
+   --     '-' | '_' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z'
 
 private
 

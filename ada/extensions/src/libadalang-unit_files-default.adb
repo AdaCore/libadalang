@@ -9,17 +9,6 @@ with Libadalang.AST.Types; use Libadalang.AST.Types;
 
 package body Libadalang.Unit_Files.Default is
 
-   function Get_Unit_Name (N : Name) return Text_Type;
-   --  Return a Name as a string. For instance: "Foo.Bar". Raise a
-   --  Property_Error if N is not a valid unit name.
-
-   function Get_Unit_File_Name (Name : Text_Type) return String;
-   --  Return the file name corresponding to a unit name. Raise a
-   --  Property_Error if N is not a valid unit name.
-   --
-   --  TODO??? Right now, this handles only pure ASCII unit names as it's not
-   --  clear how we should handle Unicode characters for file names.
-
    --------------
    -- Get_File --
    --------------
@@ -32,7 +21,7 @@ package body Libadalang.Unit_Files.Default is
       pragma Unreferenced (Provider);
    begin
       if Node.all in Name_Type'Class then
-         return Get_Unit_File_Name (Get_Unit_Name (Name (Node))) & ".ads";
+         return Get_Unit_Name (Name (Node)) & ".ads";
       end if;
 
       raise Property_Error with "invalid AST node for unit name";
@@ -64,32 +53,50 @@ package body Libadalang.Unit_Files.Default is
       raise Property_Error with "invalid AST node for unit name";
    end Get_Unit_Name;
 
-   ------------------------
-   -- Get_Unit_File_Name --
-   ------------------------
+   Underscore : constant := Character'Pos ('_');
+   Zero       : constant := Character'Pos ('0');
+   Nine       : constant := Character'Pos ('9');
+   Lower_A    : constant := Character'Pos ('a');
+   Upper_A    : constant := Character'Pos ('A');
+   Lower_Z    : constant := Character'Pos ('z');
+   Upper_Z    : constant := Character'Pos ('Z');
 
-   function Get_Unit_File_Name (Name : Text_Type) return String is
-      Result : String (1 .. Name'Length);
-      I      : Positive := 1;
+   -------------------
+   -- Get_Unit_Name --
+   -------------------
+
+   function Get_Unit_Name (N : Name) return String is
+      Text_Result : constant Text_Type := Get_Unit_Name (N);
+      Result      : String (1 .. Text_Result'Length);
+      I           : Positive := 1;
    begin
       --  Make Name lower case and replace dots with dashes. Only allow ASCII.
-      for C of Name loop
+
+      for C of Text_Type'(Get_Unit_Name (N)) loop
          declare
             CN : constant Unsigned_32 := Wide_Wide_Character'Pos (C);
          begin
             if C = '.' then
                Result (I) := '-';
-            elsif CN in 16#20# .. 16#7f# then
+            elsif CN in Underscore
+                      | Zero .. Nine
+                      | Upper_A .. Upper_Z
+                      | Lower_A .. Lower_Z
+            then
                Result (I) := Ada.Strings.Maps.Value
                  (Ada.Strings.Maps.Constants.Lower_Case_Map,
                   Character'Val (CN));
             else
-               raise Property_Error with "unhandled unit name";
+               raise Property_Error with
+                 ("unhandled unit name: character "
+                  & Image (T => (1 => C), With_Quotes => True)
+                  & " not supported");
             end if;
          end;
          I := I + 1;
       end loop;
+
       return Result;
-   end Get_Unit_File_Name;
+   end Get_Unit_Name;
 
 end Libadalang.Unit_Files.Default;

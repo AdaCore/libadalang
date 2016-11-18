@@ -1857,12 +1857,6 @@ class CallExpr(Name):
             ))))
 
             # Bind the callexpr's ref_var to the id's ref var.
-            # TODO: Not sure yet we want to propagate ref_vars everywhere, or
-            # just keep them in identifiers. Maybe we want a property
-            # "references" that just returns the info.
-            # Pros:
-            # * Less memory use because we can put ref_var in BaseId.
-            # * Less complicated equations code and runtime.
             & Bind(Self.ref_var, Self.name.ref_var)
         )
 

@@ -2460,6 +2460,23 @@ class SubpSpec(BaseFormalParamHolder):
                         # Or in the private part corresponding to the type's
                         # public part. TODO: This is invalid because it will
                         # make private subprograms visible from the outside.
+                        # Fix:
+                        #
+                        # 1. Add a property that synthetizes a full view node
+                        # for a tagged type when there isn't one in the source.
+                        #
+                        # 2. Add this synthetized full view to the private
+                        # part of the package where the tagged type is defined,
+                        # if there is one, as part of the tagged type
+                        # definition's env spec.
+                        #
+                        # 3. When computing the private part, if there is a
+                        # real in-source full view for the tagged type,
+                        # replace the synthetic one.
+                        #
+                        # 4. Then we can just add the private dottable
+                        # subprograms to the private full view.
+
                         t.declarative_scope == bd.declarative_scope.parent
                         .cast(PackageDecl).then(lambda pd: pd.public_part)
                     )

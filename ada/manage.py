@@ -202,6 +202,7 @@ class Manage(ManageScript):
                 return len(list(f))
 
         work_dir = os.path.abspath(args.work_dir)
+        args.build_dir = os.path.join(work_dir, args.build_dir)
 
         if not args.no_recompile:
             # The perf testsuite only needs the "parse" main program
@@ -209,7 +210,6 @@ class Manage(ManageScript):
 
             # Build libadalang in production mode inside of the perf testsuite
             # directory.
-            args.build_dir = os.path.join(work_dir, args.build_dir)
             self.dirs.set_build_dir(args.build_dir)
             args.build_mode = 'prod'
             self._mkdir(args.build_dir)
@@ -257,11 +257,12 @@ class Manage(ManageScript):
         printcol("= Performance testsuite results =", Colors.HEADER)
         printcol("=================================", Colors.HEADER)
         elapsed_list = []
+        parse_args = ['{}/bin/parse'.format(args.build_dir), '-s', '-F',
+                      file_list_name]
         for _ in range(args.nb_runs):
             # Execute parse on the file list and get the elapsed time
             t = time()
-            subprocess.check_call(['../{}/bin/parse'.format(args.build_dir),
-                                   '-s', '-F', file_list_name])
+            subprocess.check_call(parse_args)
             elapsed = time() - t
             elapsed_list.append(elapsed)
 

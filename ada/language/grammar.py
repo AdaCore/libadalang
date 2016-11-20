@@ -339,6 +339,7 @@ A.add_rules(
 
     formal_subp_decl=FormalSubpDecl(
         "with",
+        Overriding.alt_unspecified(),
         A.subp_spec,
 
         # TODO: Refactor that kludge

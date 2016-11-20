@@ -1509,11 +1509,10 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     defining_names = Property(Self.name.singleton)
 
 
-class FormalSubpDecl(BasicDecl):
+class FormalSubpDecl(BasicSubpDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
-    subp_spec = Field(type=T.SubpSpec)
     has_abstract = Field(type=Abstract)
     default_value = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)

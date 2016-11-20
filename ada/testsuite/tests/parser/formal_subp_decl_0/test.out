@@ -1,4 +1,6 @@
 FormalSubpDecl[1:1-1:70]
+|overriding:
+|  OverridingUnspecified[1:6-1:6]
 |subp_spec:
 |  SubpSpec[1:6-1:55]
 |  |name:

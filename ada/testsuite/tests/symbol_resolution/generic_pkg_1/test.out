@@ -1,0 +1,7 @@
+Analyzing p.adb
+###############
+
+Expr: <Id "New_T" 5:7-5:12>, references <ObjectDecl ["New_T"] 3:7-3:16>, type is <TypeDecl ["T"] 2:4-2:21>
+Expr: <Id "Self" 5:16-5:20>, references <ParamSpec ["Self"] 2:19-2:27>, type is <TypeDecl ["T"] 2:4-2:21>
+
+Done.

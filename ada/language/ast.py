@@ -1449,6 +1449,7 @@ class GenericInstantiation(BasicDecl):
 
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
+    kind = Field(type=T.SubpKind)
     name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
     params = Field(type=T.AdaNode)

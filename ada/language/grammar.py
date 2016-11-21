@@ -370,7 +370,11 @@ A.add_rules(
     generic_instantiation=Or(
         GenericPackageInstantiation(*generic_instantiation("package")),
         GenericSubpInstantiation(*generic_instantiation(
-            A.overriding_indicator, _(Or("procedure", "function"))
+            A.overriding_indicator,
+            Or(
+                SubpKind.alt_procedure("procedure"),
+                SubpKind.alt_function("function")
+            )
         )),
     ),
 

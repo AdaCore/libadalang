@@ -1,6 +1,8 @@
 GenericSubpInstantiation[1:1-1:39]
 |overriding:
 |  OverridingOverriding[1:1-1:11]
+|kind:
+|  SubpKindFunction[1:12-1:20]
 |name:
 |  Id[1:21-1:22]
 |  |tok: F

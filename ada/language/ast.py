@@ -1855,7 +1855,7 @@ class CallExpr(Name):
                 )
             ))))
 
-            # Bind the callexpr's ref_var to the id's ref var.
+            # Bind the callexpr's ref_var to the id's ref var
             & Bind(Self.ref_var, Self.name.ref_var)
         )
 

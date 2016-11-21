@@ -79,7 +79,7 @@ class ReportWriter(object):
         'UOK':     'yellow',
     }
 
-    def __init__(self, report_dir, colors, show_error_output):
+    def __init__(self, report_dir, colors, show_error_output, pretty_out):
         """Create a ReportWriter.
 
         :param str report_dir: Path to the directory in which the report is to
@@ -88,12 +88,16 @@ class ReportWriter(object):
             output.
         :param bool show_error_output: If true, display testcases error output
             when they are failing.
+        :param bool pretty_out: If true, prettify output for command line
+            usage. For the moment it will just conflate all passing tests and
+            show the failing ones.
         """
         self.report_dir = report_dir
         self.colors = colors
         self.show_error_output = show_error_output
         self.summary_file = open(os.path.join(self.report_dir, 'results'), 'w')
         self.hits = collections.defaultdict(int)
+        self.pretty_out = pretty_out
 
     def get_color(self, status):
         """Return the color escape sequence corresponding to a status.
@@ -121,19 +125,31 @@ class ReportWriter(object):
         fmt_string = ('{clr_st}{st: <8}{clr_reset} {name}: {msg}'
                       if message else
                       '{clr_st}{st: <8}{clr_reset} {name}')
-        print fmt_string.format(
+
+        if self.pretty_out:
+            sys.stdout.write("\r\033[K\r")
+
+        sys.stdout.write(fmt_string.format(
             st=status,
             name=name,
             msg=message,
             clr_reset=self.colors.reset,
             clr_st=self.get_color(status)
-        )
+        ))
+
+        if not self.pretty_out:
+            print ""
+
+        sys.stdout.flush()
 
         # ... or more if told to do so.
         if (self.show_error_output and
                 output and
                 output.strip() and
                 status not in ('PASSED', 'OK', 'UOK', 'XFAIL')):
+
+            if self.pretty_out:
+                print ""  # Skip a line
 
             lines = output.rstrip().splitlines()
 
@@ -174,6 +190,7 @@ class ReportWriter(object):
 
     def print_hits(self):
         """Display statistics for statuses on the standard output."""
+        sys.stdout.write("\r\033[K")
         print 'Summary:'
         for status in sorted(self.hits):
             print '  {}{}{}: {}'.format(
@@ -257,6 +274,11 @@ class BaseTestsuite(object):
                  ' automatically enables the --disable-cleanup option.'
         )
 
+        self.arg_parser.add_argument(
+            '--pretty-out', '-p', action='store_true',
+            help="Prettify output for command line usage"
+        )
+
         # Try to get a sane default for the cpu count
         try:
             import multiprocessing
@@ -297,7 +319,8 @@ class BaseTestsuite(object):
 
         self.global_env['options'] = self.args
         self.report_writer = ReportWriter(
-            self.working_dir, self.colors, self.args.show_error_output
+            self.working_dir, self.colors, self.args.show_error_output,
+            self.args.pretty_out
         )
 
         if self.args.enable_color:

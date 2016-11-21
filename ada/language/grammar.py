@@ -95,6 +95,13 @@ A.add_rules(
         Opt(A.identifier)
     ),
 
+    protected_decl=SingleProtectedDecl(
+        "protected", A.identifier, A.aspect_spec,
+        "is",
+        Opt("new", List(A.static_name, sep="and"), "with"),
+        A.protected_def
+    ),
+
     task_item=Or(A.entry_decl, A.aspect_clause, A.pragma),
 
     task_def=TaskDef(
@@ -429,11 +436,6 @@ A.add_rules(
     aspect_assoc=AspectAssoc(A.name, Opt("=>", A.expr)),
 
     aspect_spec=Opt(AspectSpec("with", List(A.aspect_assoc, sep=","))),
-
-    protected_decl=SingleProtectedDecl(
-        "protected", A.identifier, A.aspect_spec,
-        "is", A.protected_def
-    ),
 
     single_task_decl=SingleTaskDecl(
         "task", A.identifier, A.aspect_spec, Opt(A.task_def)

@@ -1322,6 +1322,7 @@ class SingleTaskDecl(BasicDecl):
 class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
+    interfaces = Field(type=T.Name.list_type())
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_name.cast(T.Name).singleton)

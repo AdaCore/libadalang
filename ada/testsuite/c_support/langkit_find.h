@@ -20,6 +20,8 @@ find_node(ada_base_node root, ada_node_kind_enum kind)
         if (!ada_node_child (root, i, &child))
             error("Error while getting a child");
 
+        if (child == NULL)
+            continue;
         child = find_node(child, kind);
         if (child != NULL)
             return child;

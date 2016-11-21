@@ -6,9 +6,10 @@ QualExpr[1:1-1:13]
 |  Aggregate[1:10-1:12]
 |  |ancestor_expr: <null>
 |  |assocs:
-|  |  ParamList[1:10-1:12]
-|  |  |  ParamAssoc[1:10-1:12]
-|  |  |  |designator: <null>
-|  |  |  |expr:
+|  |  AssocList[1:10-1:12]
+|  |  |  AggregateAssoc[1:10-1:12]
+|  |  |  |designators:
+|  |  |  |  AdaNodeList[1:9-1:9]: <empty list>
+|  |  |  |r_expr:
 |  |  |  |  Int[1:10-1:12]
 |  |  |  |  |tok: 12

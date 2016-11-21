@@ -6,4 +6,4 @@ QualExpr[1:1-1:24]
 |  Aggregate[1:12-1:23]
 |  |ancestor_expr: <null>
 |  |assocs:
-|  |  ParamList[1:17-1:17]: <empty list>
+|  |  AssocList[1:17-1:17]: <empty list>

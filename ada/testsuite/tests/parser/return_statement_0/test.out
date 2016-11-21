@@ -5,15 +5,15 @@ ReturnStmt[1:1-1:26]
 |  |  Id[1:8-1:11]
 |  |  |tok: Lol
 |  |suffix:
-|  |  ParamList[1:13-1:25]
+|  |  AssocList[1:13-1:25]
 |  |  |  ParamAssoc[1:13-1:16]
 |  |  |  |designator: <null>
-|  |  |  |expr:
+|  |  |  |r_expr:
 |  |  |  |  Id[1:13-1:16]
 |  |  |  |  |tok: Wat
 |  |  |  ParamAssoc[1:18-1:25]
 |  |  |  |designator: <null>
-|  |  |  |expr:
+|  |  |  |r_expr:
 |  |  |  |  BinOp[1:18-1:25]
 |  |  |  |  |left:
 |  |  |  |  |  Int[1:18-1:20]

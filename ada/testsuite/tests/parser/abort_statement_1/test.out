@@ -6,9 +6,9 @@ AbortStmt[1:1-1:19]
 |  |  |  Id[1:7-1:15]
 |  |  |  |tok: TT_Array
 |  |  |suffix:
-|  |  |  ParamList[1:17-1:18]
+|  |  |  AssocList[1:17-1:18]
 |  |  |  |  ParamAssoc[1:17-1:18]
 |  |  |  |  |designator: <null>
-|  |  |  |  |expr:
+|  |  |  |  |r_expr:
 |  |  |  |  |  Int[1:17-1:18]
 |  |  |  |  |  |tok: 2

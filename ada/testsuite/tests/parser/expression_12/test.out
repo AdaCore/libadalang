@@ -14,10 +14,11 @@ AttributeRef[1:1-1:22]
 |  |  Aggregate[1:10-1:13]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
-|  |  |  ParamList[1:10-1:13]
-|  |  |  |  ParamAssoc[1:10-1:13]
-|  |  |  |  |designator: <null>
-|  |  |  |  |expr:
+|  |  |  AssocList[1:10-1:13]
+|  |  |  |  AggregateAssoc[1:10-1:13]
+|  |  |  |  |designators:
+|  |  |  |  |  AdaNodeList[1:9-1:9]: <empty list>
+|  |  |  |  |r_expr:
 |  |  |  |  |  Chr[1:10-1:13]
 |  |  |  |  |  |tok: 'D'
 |attribute:

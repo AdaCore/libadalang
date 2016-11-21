@@ -14,10 +14,10 @@ CompilationUnit[1:1-1:24]
 |  |  |  Id[1:18-1:19]
 |  |  |  |tok: B
 |  |  |params:
-|  |  |  ParamList[1:21-1:22]
+|  |  |  AssocList[1:21-1:22]
 |  |  |  |  ParamAssoc[1:21-1:22]
 |  |  |  |  |designator: <null>
-|  |  |  |  |expr:
+|  |  |  |  |r_expr:
 |  |  |  |  |  Id[1:21-1:22]
 |  |  |  |  |  |tok: C
 |  |  |aspects: <null>

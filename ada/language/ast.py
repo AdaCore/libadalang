@@ -443,9 +443,9 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     @langkit_property(return_type=T.ParamMatch.array_type())
-    def match_param_list(params=T.ParamList, is_dottable_subp=BoolType):
+    def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
         """
-        For each ParamAssoc in a ParamList, return whether we could find a
+        For each ParamAssoc in a AssocList, return whether we could find a
         matching formal in Self, and whether this formal is optional (i.e. has
         a default value).
         """
@@ -1668,7 +1668,7 @@ class MembershipExpr(Expr):
 
 class Aggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
-    assocs = Field(type=T.ParamList)
+    assocs = Field(type=T.AssocList)
 
     xref_stop_resolution = Property(True)
 
@@ -1755,7 +1755,7 @@ class CallExpr(Name):
     # subtypes for discriminated records or arrays.
     designated_type = Property(Self.name.designated_type)
 
-    params = Property(Self.suffix.cast(T.ParamList))
+    params = Property(Self.suffix.cast(T.AssocList))
 
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):
@@ -1795,7 +1795,7 @@ class CallExpr(Name):
         return (
             Self.name.sub_equation(origin_env)
             # TODO: For the moment we presume that a CallExpr in an expression
-            # context necessarily has a ParamList as a suffix, but this is not
+            # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
             & LogicAnd(Self.params.map(
@@ -1891,7 +1891,7 @@ class CallExpr(Name):
             lambda te=TypeExpr: te.array_ndims,
             lambda td=BaseTypeDecl: td.array_ndims,
             lambda _: -1
-        ) == Self.suffix.cast_or_raise(ParamList).length
+        ) == Self.suffix.cast_or_raise(AssocList).length
 
     @langkit_property(return_type=AdaNode)
     def type_component(type_designator=AdaNode):
@@ -1977,16 +1977,37 @@ class CallExpr(Name):
         )
 
 
+@abstract
 @has_abstract_list
-class ParamAssoc(AdaNode):
+class BasicAssoc(AdaNode):
+    expr = AbstractProperty(type=T.Expr)
+    names = AbstractProperty(type=T.AdaNode.array_type())
+
+
+class ParamAssoc(BasicAssoc):
     """
     Assocation (X => Y) used for aggregates and parameter associations.
     """
     designator = Field(type=T.AdaNode)
-    expr = Field(type=T.Expr)
+    r_expr = Field(type=T.Expr)
+
+    expr = Property(Self.r_expr)
+    names = Property(If(Self.designator.is_null,
+                        EmptyArray(AdaNode), Self.designator.singleton))
 
 
-class ParamList(ParamAssoc.list_type()):
+class AggregateAssoc(BasicAssoc):
+    """
+    Assocation (X => Y) used for aggregates and parameter associations.
+    """
+    designators = Field(type=T.AdaNode.list_type())
+    r_expr = Field(type=T.Expr)
+
+    expr = Property(Self.r_expr)
+    names = Property(Self.designators.map(lambda d: d))
+
+
+class AssocList(BasicAssoc.list_type()):
 
     @langkit_property()
     def unpacked_params():
@@ -1995,22 +2016,15 @@ class ParamList(ParamAssoc.list_type()):
         several actual parameters at once, create an unpacked list of
         SingleActual instances.
         """
-        return Self.mapcat(
-            lambda pa: pa.designator.then(lambda des: des.match(
-                lambda i=Identifier:
-                    New(SingleActual, name=i, assoc=pa).singleton,
-                lambda ag=ComponentAssoc:
-                    ag.choice_list.filtermap(
-                        filter_expr=lambda n: n.is_a(T.Identifier),
-                        expr=lambda i:
-                        New(SingleActual, name=i.cast(T.Identifier),
-                            assoc=pa)
-                    ),
-                lambda _:
-                New(SingleActual, name=No(Identifier), assoc=pa).singleton
-            ), default_val=New(SingleActual,
-                               name=No(T.Identifier), assoc=pa).singleton)
-        )
+        return Self.mapcat(lambda pa: Let(lambda names=pa.names: If(
+            names.length == 0,
+            New(SingleActual, name=No(Identifier), assoc=pa).singleton,
+            names.filtermap(
+                filter_expr=lambda n: n.is_a(T.BaseId),
+                expr=lambda i:
+                New(SingleActual, name=i.cast(T.BaseId), assoc=pa)
+            )
+        )))
 
 
 class ExplicitDeref(Name):
@@ -2059,10 +2073,6 @@ class BoxExpr(Expr):
 
 class OthersDesignator(AdaNode):
     pass
-
-
-class ComponentAssoc(AdaNode):
-    choice_list = Field(type=T.AdaNode.list_type())
 
 
 class IfExpr(Expr):
@@ -2231,7 +2241,7 @@ class BaseId(SingleTokNode):
             # So only keep:
             # * subprograms for which the actuals match;
             # * arrays for which the number of dimensions match.
-            pc.suffix.cast(ParamList).then(lambda params: (
+            pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
                     lambda subp=BasicSubpDecl:
                         matching_subp(params, subp, e),
@@ -2335,8 +2345,8 @@ class SingleFormal(Struct):
 
 
 class SingleActual(Struct):
-    name = Field(type=Identifier)
-    assoc = Field(type=T.ParamAssoc)
+    name = Field(type=BaseId)
+    assoc = Field(type=T.BasicAssoc)
 
 
 class ParamMatch(Struct):
@@ -2380,9 +2390,9 @@ class SubpSpec(BaseFormalParamHolder):
     )
 
     @langkit_property(return_type=BoolType)
-    def is_matching_param_list(params=ParamList, is_dottable_subp=BoolType):
+    def is_matching_param_list(params=AssocList, is_dottable_subp=BoolType):
         """
-        Return whether a ParamList is a match for this SubpSpec, i.e.
+        Return whether a AssocList is a match for this SubpSpec, i.e.
         whether the argument count (and designators, if any) match.
         """
         match_list = Var(Self.match_param_list(params, is_dottable_subp))

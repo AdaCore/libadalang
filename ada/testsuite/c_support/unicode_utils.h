@@ -61,12 +61,12 @@ get_string_literal(ada_analysis_unit unit) {
         || ada_node_kind(node) != ada_call_expr)
         error("Got unexpected node for ada_call_stmt_f_call [8]");
     if (!ada_call_expr_f_suffix(node, &node)
-        || ada_node_kind(node) != ada_param_list)
+        || ada_node_kind(node) != ada_assoc_list)
         error("Got unexpected node for ada_call_expr_f_suffix [9]");
     if (!ada_node_child(node, 0, &node)
         || ada_node_kind(node) != ada_param_assoc)
         error("Got unexpected node for ada_node_child [10]");
-    if (!ada_param_assoc_f_expr(node, &node)
+    if (!ada_basic_assoc_p_expr(node, &node)
         || ada_node_kind(node) != ada_string_literal)
         error("Got unexpected node for ada_param_assoc_f_expr [11]");
 

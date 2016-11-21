@@ -9,9 +9,10 @@ Allocator[1:1-1:17]
 |  |  Aggregate[1:14-1:16]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
-|  |  |  ParamList[1:14-1:16]
-|  |  |  |  ParamAssoc[1:14-1:16]
-|  |  |  |  |designator: <null>
-|  |  |  |  |expr:
+|  |  |  AssocList[1:14-1:16]
+|  |  |  |  AggregateAssoc[1:14-1:16]
+|  |  |  |  |designators:
+|  |  |  |  |  AdaNodeList[1:13-1:13]: <empty list>
+|  |  |  |  |r_expr:
 |  |  |  |  |  Int[1:14-1:16]
 |  |  |  |  |  |tok: 12

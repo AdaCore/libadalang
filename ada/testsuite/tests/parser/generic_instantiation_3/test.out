@@ -6,17 +6,17 @@ GenericPackageInstantiation[1:1-1:42]
 |  Id[1:18-1:19]
 |  |tok: Q
 |params:
-|  ParamList[1:21-1:41]
+|  AssocList[1:21-1:41]
 |  |  ParamAssoc[1:21-1:27]
 |  |  |designator:
 |  |  |  Id[1:21-1:22]
 |  |  |  |tok: A
-|  |  |expr:
+|  |  |r_expr:
 |  |  |  Id[1:26-1:27]
 |  |  |  |tok: B
 |  |  ParamAssoc[1:29-1:41]
 |  |  |designator:
 |  |  |  OthersDesignator[1:29-1:35]
-|  |  |expr:
+|  |  |r_expr:
 |  |  |  BoxExpr[1:39-1:41]
 |aspects: <null>

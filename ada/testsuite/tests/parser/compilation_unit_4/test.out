@@ -42,10 +42,10 @@ CompilationUnit[1:1-1:48]
 |  |  |  Id[1:42-1:43]
 |  |  |  |tok: B
 |  |  |params:
-|  |  |  ParamList[1:45-1:46]
+|  |  |  AssocList[1:45-1:46]
 |  |  |  |  ParamAssoc[1:45-1:46]
 |  |  |  |  |designator: <null>
-|  |  |  |  |expr:
+|  |  |  |  |r_expr:
 |  |  |  |  |  Id[1:45-1:46]
 |  |  |  |  |  |tok: C
 |  |  |aspects: <null>

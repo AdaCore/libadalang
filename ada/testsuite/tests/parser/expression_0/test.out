@@ -5,19 +5,19 @@ BinOp[1:1-1:26]
 |  |  Id[1:1-1:2]
 |  |  |tok: a
 |  |suffix:
-|  |  ParamList[1:4-1:20]
+|  |  AssocList[1:4-1:20]
 |  |  |  ParamAssoc[1:4-1:11]
 |  |  |  |designator:
 |  |  |  |  Id[1:4-1:5]
 |  |  |  |  |tok: b
-|  |  |  |expr:
+|  |  |  |r_expr:
 |  |  |  |  Int[1:9-1:11]
 |  |  |  |  |tok: 12
 |  |  |  ParamAssoc[1:13-1:20]
 |  |  |  |designator:
 |  |  |  |  Id[1:13-1:14]
 |  |  |  |  |tok: c
-|  |  |  |expr:
+|  |  |  |r_expr:
 |  |  |  |  Int[1:18-1:20]
 |  |  |  |  |tok: 15
 |op:

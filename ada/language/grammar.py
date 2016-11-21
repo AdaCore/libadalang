@@ -865,18 +865,13 @@ A.add_rules(
 
     others_designator=OthersDesignator(Tok("others")),
 
-    aggregate_field=Or(
-        ComponentAssoc(A.choice_list),
-        A.expr,
-    ),
-
-    aggregate_assoc=ParamAssoc(
-        Opt(A.aggregate_field, "=>"),
+    aggregate_assoc=AggregateAssoc(
+        Opt(A.choice_list, "=>"),
         Or(A.box_expr, A.expr)
     ),
 
-    aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=ParamList),
-    aggregate_content_null=Pick("null", "record", Null(ParamList)),
+    aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+    aggregate_content_null=Pick("null", "record", Null(AssocList)),
 
     aggregate=Pick("(", Aggregate(
         Opt(A.expr, "with"), A.aggregate_content_null | A.aggregate_content
@@ -897,7 +892,7 @@ A.add_rules(
         A.discrete_range,
 
         # Regular parameter list
-        List(A.param_assoc, sep=",", list_cls=ParamList)
+        List(A.param_assoc, sep=",", list_cls=AssocList)
     ),
 
     # TODO: Those two rules exist only to be able to specifically parse

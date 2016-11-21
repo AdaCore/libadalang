@@ -27,7 +27,7 @@
 | | | | | | | | | <Identifier>
 | | | | | | | | | <Identifier>
 | | | | | | | | <Identifier>
-| | | | | | | <ParamList>
+| | | | | | | <AssocList>
 | | | | | | | | <ParamAssoc>
 | | | | | | | | | <null node>
 | | | | | | | | | <StringLiteral>

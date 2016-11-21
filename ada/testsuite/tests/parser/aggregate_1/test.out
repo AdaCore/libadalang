@@ -1,42 +1,34 @@
 Aggregate[1:2-1:41]
 |ancestor_expr: <null>
 |assocs:
-|  ParamList[1:2-1:41]
-|  |  ParamAssoc[1:2-1:9]
-|  |  |designator:
-|  |  |  ComponentAssoc[1:2-1:3]
-|  |  |  |choice_list:
-|  |  |  |  AdaNodeList[1:2-1:3]
-|  |  |  |  |  Id[1:2-1:3]
-|  |  |  |  |  |tok: A
-|  |  |expr:
+|  AssocList[1:2-1:41]
+|  |  AggregateAssoc[1:2-1:9]
+|  |  |designators:
+|  |  |  AdaNodeList[1:2-1:3]
+|  |  |  |  Id[1:2-1:3]
+|  |  |  |  |tok: A
+|  |  |r_expr:
 |  |  |  Int[1:7-1:9]
 |  |  |  |tok: 12
-|  |  ParamAssoc[1:11-1:18]
-|  |  |designator:
-|  |  |  ComponentAssoc[1:11-1:12]
-|  |  |  |choice_list:
-|  |  |  |  AdaNodeList[1:11-1:12]
-|  |  |  |  |  Id[1:11-1:12]
-|  |  |  |  |  |tok: B
-|  |  |expr:
+|  |  AggregateAssoc[1:11-1:18]
+|  |  |designators:
+|  |  |  AdaNodeList[1:11-1:12]
+|  |  |  |  Id[1:11-1:12]
+|  |  |  |  |tok: B
+|  |  |r_expr:
 |  |  |  Int[1:16-1:18]
 |  |  |  |tok: 15
-|  |  ParamAssoc[1:20-1:27]
-|  |  |designator:
-|  |  |  ComponentAssoc[1:20-1:21]
-|  |  |  |choice_list:
-|  |  |  |  AdaNodeList[1:20-1:21]
-|  |  |  |  |  Id[1:20-1:21]
-|  |  |  |  |  |tok: C
-|  |  |expr:
+|  |  AggregateAssoc[1:20-1:27]
+|  |  |designators:
+|  |  |  AdaNodeList[1:20-1:21]
+|  |  |  |  Id[1:20-1:21]
+|  |  |  |  |tok: C
+|  |  |r_expr:
 |  |  |  Int[1:25-1:27]
 |  |  |  |tok: 89
-|  |  ParamAssoc[1:29-1:41]
-|  |  |designator:
-|  |  |  ComponentAssoc[1:29-1:35]
-|  |  |  |choice_list:
-|  |  |  |  AdaNodeList[1:29-1:35]
-|  |  |  |  |  OthersDesignator[1:29-1:35]
-|  |  |expr:
+|  |  AggregateAssoc[1:29-1:41]
+|  |  |designators:
+|  |  |  AdaNodeList[1:29-1:35]
+|  |  |  |  OthersDesignator[1:29-1:35]
+|  |  |r_expr:
 |  |  |  BoxExpr[1:39-1:41]

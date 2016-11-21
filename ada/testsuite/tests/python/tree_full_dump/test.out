@@ -60,11 +60,11 @@
 |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  <ParamList>
+|  |  |  |  |  |  |  <AssocList>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <ParamAssoc>
 |  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  <StringLiteral>
 |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:

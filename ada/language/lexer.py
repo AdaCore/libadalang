@@ -117,6 +117,7 @@ class Token(LexerToken):
 
     # Trivia
     Comment = WithTrivia()
+    PrepLine = WithTrivia()
 
 ada_lexer = Lexer(Token)
 
@@ -151,6 +152,7 @@ rules = [
     # Blanks and trivia
     (Pattern(r"[ \t\r\n]+"),                    Ignore()),
     (Pattern(r"--(.?)+"),                       Token.Comment),
+    (Pattern(r"#(.?)+"),                        Token.PrepLine),
 ]
 
 # Keywords. If a tick appeared right before, this is actually an attribute

@@ -450,8 +450,12 @@ A.add_rules(
     ),
 
     overriding_indicator=Or(
-        Overriding.alt_overriding("overriding"),
-        Overriding.alt_not_overriding("not", "overriding"),
+        Overriding.alt_overriding(
+            Tok(Token.Identifier, match_text="overriding")
+        ),
+        Overriding.alt_not_overriding(
+            "not", Tok(Token.Identifier, match_text="overriding")
+        ),
         Overriding.alt_unspecified()
     ),
 

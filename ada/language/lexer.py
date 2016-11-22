@@ -38,7 +38,6 @@ class Token(LexerToken):
     Out = NoText()
     Array = NoText()
     Function = NoText()
-    Overriding = NoText()
     At = NoText()
     Tagged = NoText()
     Generic = NoText()
@@ -188,7 +187,6 @@ for kw_text, kw_token in [
     ("out",          Token.Out),
     ("array",        Token.Array),
     ("function",     Token.Function),
-    ("overriding",   Token.Overriding),
     ("at",           Token.At),
     ("tagged",       Token.Tagged),
     ("generic",      Token.Generic),

@@ -262,6 +262,7 @@ rules += [
     (Literal("/"),                              Token.Divide),
     (Literal("'"),                              Token.Tick),
     (Literal("|"),                              Token.Pipe),
+    (Literal("!"),                              Token.Pipe),
 
     # Literals
     (ada_lexer.patterns.integer_literal,        Token.Integer),

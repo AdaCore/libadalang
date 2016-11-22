@@ -275,6 +275,8 @@ rules += [
     (ada_lexer.patterns.identifier,             Token.Identifier),
     (Pattern(r"<<{ws}({identifier})?{ws}>>"),   Token.Label),
 
+    (Pattern("'{bracket_char}'"),               Token.Char),
+
     # Attribute vs character literal quirk
     Case(Pattern("'.'"),
          Alt(prev_token_cond=(Token.Identifier, Token.All),

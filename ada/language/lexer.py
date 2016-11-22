@@ -144,7 +144,7 @@ ada_lexer.add_patterns(
      r"{base}[#:]{based_integer}[#:]{exponent}?"),
 
     ('ws', r"[ ]*"),
-    ('identifier', r"(\P{ID_Start}|{bracket_char})"
+    ('identifier', r"\$?(\P{ID_Start}|{bracket_char})"
                    r"(\P{ID_Continue}*|{bracket_char})*"),
 )
 

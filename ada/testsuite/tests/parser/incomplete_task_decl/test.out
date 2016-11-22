@@ -44,7 +44,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  AdaNodeList[5:4-5:9]
 |  |  |  |  |  NullStmt[5:4-5:8]
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[5:8-5:8]: <empty list>
+|  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:
 |  |  |  Id[6:5-6:9]
 |  |  |  |tok: Main

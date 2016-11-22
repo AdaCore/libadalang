@@ -785,7 +785,8 @@ A.add_rules(
     ),
 
     handled_stmts=HandledStmts(
-        A.stmts, Opt("exception", List(A.exception_handler))
+        A.stmts,
+        Opt("exception", List(A.exception_handler | Pick(A.pragma, ";")))
     ),
 
     exception_handler=ExceptionHandler(

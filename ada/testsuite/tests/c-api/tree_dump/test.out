@@ -31,7 +31,7 @@
 | | | | | | | | <ParamAssoc>
 | | | | | | | | | <null node>
 | | | | | | | | | <StringLiteral>
-| | | | <ExceptionHandlerList>
+| | | | <AdaNodeList>
 | | | <Identifier>
 | <PragmaNodeList>
 Done

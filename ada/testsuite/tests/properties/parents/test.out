@@ -139,7 +139,7 @@
 |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'1')
 |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  <ExceptionHandlerList>
+|  |  |  |  |  |  |  <AdaNodeList>
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |tok: Token(u'Fact')
@@ -186,7 +186,7 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'6')
 |  |  |  |exceptions:
-|  |  |  |  <ExceptionHandlerList>
+|  |  |  |  <AdaNodeList>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')

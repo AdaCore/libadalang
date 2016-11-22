@@ -28,7 +28,7 @@ CompilationUnit[1:1-4:15]
 |  |  |  |  AdaNodeList[3:4-3:9]
 |  |  |  |  |  NullStmt[3:4-3:8]
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[3:8-3:8]: <empty list>
+|  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
 |  |  |end_id:
 |  |  |  Id[4:5-4:14]
 |  |  |  |tok: Kikoolol\xe9

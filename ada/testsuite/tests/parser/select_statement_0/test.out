@@ -30,7 +30,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |  |  |  |  Id[1:49-1:53]
 |  |  |  |  |  |  |  |  |tok: TRUE
 |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  ExceptionHandlerList[1:53-1:53]: <empty list>
+|  |  |  |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  |  SelectWhenPart[1:63-1:100]
 |  |  |choices: <null>
 |  |  |stmts:
@@ -54,7 +54,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |  |  |  |  Id[1:89-1:94]
 |  |  |  |  |  |  |  |  |tok: FALSE
 |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  ExceptionHandlerList[1:94-1:94]: <empty list>
+|  |  |  |  |  |  AdaNodeList[1:94-1:94]: <empty list>
 |  |  SelectWhenPart[1:104-1:114]
 |  |  |choices: <null>
 |  |  |stmts:

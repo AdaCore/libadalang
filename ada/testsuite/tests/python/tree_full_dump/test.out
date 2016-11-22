@@ -68,7 +68,7 @@
 |  |  |  |  |  |  |  |  |  <StringLiteral>
 |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:
-|  |  |  |  <ExceptionHandlerList>
+|  |  |  |  <AdaNodeList>
 |  |  |end_id:
 |  |  |  <Identifier>
 |  |  |  |tok: Token(u'Foo')

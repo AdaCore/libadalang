@@ -210,7 +210,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Img
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  |  |  |  ExceptionHandlerList[16:26-16:26]: <empty list>
+|  |  |  |  |  |  |  |  |  |  AdaNodeList[16:26-16:26]: <empty list>
 |  |  |  |  |  |  |  |  |end_id:
 |  |  |  |  |  |  |  |  |  Id[17:11-17:14]
 |  |  |  |  |  |  |  |  |  |tok: Foo
@@ -238,7 +238,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  Id[23:9-23:12]
 |  |  |  |  |  |  |  |tok: Foo
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[23:12-23:12]: <empty list>
+|  |  |  |  AdaNodeList[23:12-23:12]: <empty list>
 |  |  |end_id:
 |  |  |  Id[24:5-24:9]
 |  |  |  |tok: What

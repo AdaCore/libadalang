@@ -2693,7 +2693,7 @@ class SubpBody(Body):
 
 class HandledStmts(AdaNode):
     stmts = Field(type=T.AdaNode.list_type())
-    exceptions = Field(type=T.ExceptionHandler.list_type())
+    exceptions = Field(type=T.AdaNode.list_type())
 
 
 class ExceptionHandler(AdaNode):

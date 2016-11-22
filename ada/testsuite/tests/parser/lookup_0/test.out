@@ -148,7 +148,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  ExceptionHandlerList[11:13-11:13]: <empty list>
+|  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  Id[12:8-12:12]
 |  |  |  |  |  |  |tok: Fact
@@ -231,7 +231,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 6
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[16:67-16:67]: <empty list>
+|  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
 |  |  |end_id:
 |  |  |  Id[17:5-17:9]
 |  |  |  |tok: Fact
@@ -495,7 +495,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  ExceptionHandlerList[11:13-11:13]: <empty list>
+|  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |  |  |  |end_id:
 |  |  |  |  |  |  Id[12:8-12:12]
 |  |  |  |  |  |  |tok: Fact
@@ -578,7 +578,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 6
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[16:67-16:67]: <empty list>
+|  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
 |  |  |end_id:
 |  |  |  Id[17:5-17:9]
 |  |  |  |tok: Fact
@@ -714,7 +714,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |exceptions:
-|  |  |  |  |  ExceptionHandlerList[11:13-11:13]: <empty list>
+|  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |  |end_id:
 |  |  |  |  Id[12:8-12:12]
 |  |  |  |  |tok: Fact
@@ -797,7 +797,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 6
 |  |exceptions:
-|  |  ExceptionHandlerList[16:67-16:67]: <empty list>
+|  |  AdaNodeList[16:67-16:67]: <empty list>
 |end_id:
 |  Id[17:5-17:9]
 |  |tok: Fact

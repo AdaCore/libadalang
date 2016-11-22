@@ -217,7 +217,7 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:305-1:312]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
 |  |  |  |  |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:312-1:312]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  AdaNodeList[1:312-1:312]: <empty list>
 |  |  |  |  |  |  |  |  |  AssignStmt[1:326-1:353]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[1:326-1:330]
@@ -312,7 +312,7 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:453-1:457]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Head
 |  |  |  |  |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:458-1:458]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  AdaNodeList[1:458-1:458]: <empty list>
 |  |  |  |  |  |  |  |  |  AssignStmt[1:472-1:499]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[1:472-1:476]
@@ -353,4 +353,4 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |abort_stmts:
 |  |  |  |  |  |  AdaNodeList[1:521-1:521]: <empty list>
 |  |exceptions:
-|  |  ExceptionHandlerList[1:543-1:543]: <empty list>
+|  |  AdaNodeList[1:543-1:543]: <empty list>

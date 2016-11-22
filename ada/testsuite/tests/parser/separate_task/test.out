@@ -33,6 +33,6 @@ CompilationUnit[1:1-6:7]
 |  |  |  |  AdaNodeList[5:4-5:9]
 |  |  |  |  |  NullStmt[5:4-5:8]
 |  |  |  |exceptions:
-|  |  |  |  ExceptionHandlerList[5:8-5:8]: <empty list>
+|  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

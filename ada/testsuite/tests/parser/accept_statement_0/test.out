@@ -35,4 +35,4 @@ AcceptStmt[1:1-1:67]
 |  |  |  |  Id[1:48-1:55]
 |  |  |  |  |tok: An_Item
 |  |exceptions:
-|  |  ExceptionHandlerList[1:55-1:55]: <empty list>
+|  |  AdaNodeList[1:55-1:55]: <empty list>

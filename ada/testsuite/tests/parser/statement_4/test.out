@@ -46,4 +46,4 @@ BlockStmt[1:1-1:46]
 |  |  |  |  |  |  |  Id[1:39-1:40]
 |  |  |  |  |  |  |  |tok: A
 |  |exceptions:
-|  |  ExceptionHandlerList[1:41-1:41]: <empty list>
+|  |  AdaNodeList[1:41-1:41]: <empty list>

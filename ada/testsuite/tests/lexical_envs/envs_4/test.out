@@ -116,7 +116,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |stmts:
 |  |  |  |  |  AdaNodeList[13:1-13:1]: <empty list>
 |  |  |  |  |exceptions:
-|  |  |  |  |  ExceptionHandlerList[12:1-12:1]: <empty list>
+|  |  |  |  |  AdaNodeList[12:1-12:1]: <empty list>
 |  |  |  |end_id:
 |  |  |  |  DottedName[13:5-13:8]
 |  |  |  |  |prefix:

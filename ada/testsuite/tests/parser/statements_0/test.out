@@ -36,7 +36,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  Id[1:46-1:53]
 |  |  |  |  |  |tok: An_Item
 |  |  |exceptions:
-|  |  |  ExceptionHandlerList[1:53-1:53]: <empty list>
+|  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  LoopStmt[1:66-1:234]
 |  |name: <null>
 |  |spec: <null>
@@ -86,7 +86,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  Id[1:125-1:132]
 |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
 |  |  |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:132-1:132]: <empty list>
+|  |  |  |  |  |  |  |  |  AdaNodeList[1:132-1:132]: <empty list>
 |  |  |  |  |  SelectWhenPart[1:148-1:213]
 |  |  |  |  |  |choices: <null>
 |  |  |  |  |  |stmts:
@@ -128,7 +128,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  Id[1:196-1:201]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Datum
 |  |  |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  |  |  ExceptionHandlerList[1:201-1:201]: <empty list>
+|  |  |  |  |  |  |  |  |  AdaNodeList[1:201-1:201]: <empty list>
 |  |  |  |else_stmts:
 |  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
 |  |  |  |abort_stmts:

@@ -58,7 +58,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  |  |  Id[1:123-1:128]
 |  |  |  |  |  |  |  |tok: false
 |  |  |  |  |exceptions:
-|  |  |  |  |  ExceptionHandlerList[1:128-1:128]: <empty list>
+|  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
 |  |  |  EntryBody[1:142-1:244]
 |  |  |  |entry_name:
 |  |  |  |  Id[1:148-1:154]
@@ -114,4 +114,4 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  |  |  Id[1:228-1:232]
 |  |  |  |  |  |  |  |tok: true
 |  |  |  |  |exceptions:
-|  |  |  |  |  ExceptionHandlerList[1:232-1:232]: <empty list>
+|  |  |  |  |  AdaNodeList[1:232-1:232]: <empty list>

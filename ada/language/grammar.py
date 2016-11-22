@@ -481,7 +481,7 @@ A.add_rules(
         EnumRepClause("for", A.static_name, "use", A.aggregate),
         RecordRepClause(
             "for", A.static_name, "use", "record",
-            Opt("at", "mod", A.simple_expr),
+            Opt("at", "mod", A.simple_expr, ";"),
             List(A.component_clause, ";", empty_valid=True),
             "end", "record"
         ),

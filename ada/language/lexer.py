@@ -59,7 +59,6 @@ class Token(LexerToken):
     In = NoText()
     Protected = NoText()
     Constant = NoText()
-    Interface = NoText()
     Is = NoText()
     Raise = NoText()
     Use = NoText()
@@ -211,7 +210,6 @@ for kw_text, kw_token in [
     ("in",           Token.In),
     ("protected",    Token.Protected),
     ("constant",     Token.Constant),
-    ("interface",    Token.Interface),
     ("is",           Token.Is),
     ("raise",        Token.Raise),
     ("use",          Token.Use),

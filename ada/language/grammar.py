@@ -129,7 +129,7 @@ A.add_rules(
                InterfaceKind.alt_task("task"),
                InterfaceKind.alt_protected("protected"),
                InterfaceKind.alt_synchronized("synchronized"))),
-        "interface",
+        Tok(Token.Identifier, match_text="interface"),
         List("and", A.static_name, empty_valid=True)
     ),
 

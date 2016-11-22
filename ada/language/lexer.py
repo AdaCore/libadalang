@@ -55,7 +55,6 @@ class Token(LexerToken):
     Type = NoText()
     Case = NoText()
     In = NoText()
-    Protected = NoText()
     Constant = NoText()
     Is = NoText()
     Raise = NoText()
@@ -204,7 +203,6 @@ for kw_text, kw_token in [
     ("type",         Token.Type),
     ("case",         Token.Case),
     ("in",           Token.In),
-    ("protected",    Token.Protected),
     ("constant",     Token.Constant),
     ("is",           Token.Is),
     ("raise",        Token.Raise),

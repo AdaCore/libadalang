@@ -77,7 +77,8 @@ def generic_instantiation(*leading_rules):
 
 A.add_rules(
     protected_type_decl=ProtectedTypeDecl(
-        "protected", "type", A.identifier, Opt(A.discriminant_part),
+        Tok(Token.Identifier, match_text="protected"),
+        "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", List(A.static_name, sep="and"), "with"),
         A.protected_def
@@ -96,7 +97,8 @@ A.add_rules(
     ),
 
     protected_decl=SingleProtectedDecl(
-        "protected", A.identifier, A.aspect_spec,
+        Tok(Token.Identifier, match_text="protected"),
+        A.identifier, A.aspect_spec,
         "is",
         Opt("new", List(A.static_name, sep="and"), "with"),
         A.protected_def
@@ -127,7 +129,9 @@ A.add_rules(
     interface_type_def=InterfaceTypeDef(
         Opt(Or(InterfaceKind.alt_limited("limited"),
                InterfaceKind.alt_task("task"),
-               InterfaceKind.alt_protected("protected"),
+               InterfaceKind.alt_protected(
+                   Tok(Token.Identifier, match_text="protected"),
+               ),
                InterfaceKind.alt_synchronized(Tok(Token.Identifier,
                                                   match_text="synchronized"))
                )),
@@ -245,7 +249,9 @@ A.add_rules(
         AccessToSubpDef(
             NotNull("not", "null"),
             "access",
-            Protected("protected"),
+            Protected(
+                Tok(Token.Identifier, match_text="protected"),
+            ),
             A.subp_spec
         ),
         TypeAccessDef(
@@ -653,13 +659,15 @@ A.add_rules(
     ),
 
     protected_body=ProtectedBody(
-        "protected", "body", A.static_name, A.aspect_spec,
+        Tok(Token.Identifier, match_text="protected"),
+        "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         "end", _(Opt(A.static_name))
     ),
 
     protected_body_stub=ProtectedBodyStub(
-        "protected", "body", A.static_name, "is", "separate",
+        Tok(Token.Identifier, match_text="protected"),
+        "body", A.static_name, "is", "separate",
         A.aspect_spec
     ),
 

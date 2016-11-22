@@ -36,7 +36,6 @@ class Token(LexerToken):
     And = NoText()
     For = NoText()
     Out = NoText()
-    Synchronized = NoText()
     Array = NoText()
     Function = NoText()
     Overriding = NoText()
@@ -187,7 +186,6 @@ for kw_text, kw_token in [
     ("and",          Token.And),
     ("for",          Token.For),
     ("out",          Token.Out),
-    ("synchronized", Token.Synchronized),
     ("array",        Token.Array),
     ("function",     Token.Function),
     ("overriding",   Token.Overriding),

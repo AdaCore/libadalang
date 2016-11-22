@@ -128,7 +128,9 @@ A.add_rules(
         Opt(Or(InterfaceKind.alt_limited("limited"),
                InterfaceKind.alt_task("task"),
                InterfaceKind.alt_protected("protected"),
-               InterfaceKind.alt_synchronized("synchronized"))),
+               InterfaceKind.alt_synchronized(Tok(Token.Identifier,
+                                                  match_text="synchronized"))
+               )),
         Tok(Token.Identifier, match_text="interface"),
         List("and", A.static_name, empty_valid=True)
     ),
@@ -154,7 +156,9 @@ A.add_rules(
     derived_type_def=DerivedTypeDef(
         Abstract("abstract"),
         Limited("limited"),
-        Synchronized("synchronized"),
+        Synchronized(
+            Tok(Token.Identifier, match_text="synchronized")
+        ),
         "new",
         A.subtype_indication,
         List("and", A.static_name, empty_valid=True),

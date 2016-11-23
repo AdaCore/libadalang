@@ -42,6 +42,20 @@ package body Libadalang.Unit_Files.Default is
       raise Property_Error with "invalid AST node for unit name";
    end Get_File;
 
+   --------------
+   -- Get_File --
+   --------------
+
+   overriding function Get_File
+     (Provider : Default_Unit_File_Provider_Type;
+      Name     : Text_Type)
+      return String
+   is
+      pragma Unreferenced (Provider);
+   begin
+      return Spec_File_Name (Unit_String_Name (Name));
+   end Get_File;
+
    --------------------
    -- Unit_Text_Name --
    --------------------

@@ -13,6 +13,11 @@ package Libadalang.Unit_Files.Default is
       Node     : Ada_Node)
       return String;
 
+   overriding function Get_File
+     (Provider : Default_Unit_File_Provider_Type;
+      Name     : Text_Type)
+      return String;
+
    Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;
 
    function Unit_Text_Name (N : Name) return Text_Type;

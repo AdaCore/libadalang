@@ -42,8 +42,9 @@ package body Libadalang.Unit_Files.Env_Hook is
    begin
       for N of Names.all loop
          declare
-            Unit_File_Name : constant String :=
-               Unit_File_Provider (Ctx).Get_File (N);
+            UFP : constant Unit_File_Provider_Access_Cst :=
+               Unit_File_Provider (Ctx);
+            Unit_File_Name : constant String := UFP.Get_File (N);
             Unit           : constant Analysis_Unit :=
                Get_From_File (Ctx, Unit_File_Name);
          begin

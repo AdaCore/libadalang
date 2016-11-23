@@ -3,11 +3,21 @@ with Ada.Strings.Maps.Constants;
 
 with Interfaces; use Interfaces;
 
+with GNATCOLL.Projects;
+with GNATCOLL.VFS; use GNATCOLL.VFS;
+
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.AST.Types; use Libadalang.AST.Types;
 
 package body Libadalang.Unit_Files.Default is
+
+   function File_From_Unit
+     (Name : String;
+      Kind : GNATCOLL.Projects.Unit_Parts)
+      return String
+   is (+GNATCOLL.Projects.File_From_Unit
+         (GNATCOLL.Projects.No_Project, Name, Kind, "ada"));
 
    --------------
    -- Get_File --
@@ -21,17 +31,22 @@ package body Libadalang.Unit_Files.Default is
       pragma Unreferenced (Provider);
    begin
       if Node.all in Name_Type'Class then
-         return Get_Unit_Name (Name (Node)) & ".ads";
+         declare
+            Str_Name  : constant String :=
+               Unit_String_Name (Libadalang.AST.Types.Name (Node));
+         begin
+            return Spec_File_Name (Str_Name);
+         end;
       end if;
 
       raise Property_Error with "invalid AST node for unit name";
    end Get_File;
 
-   -------------------
-   -- Get_Unit_Name --
-   -------------------
+   --------------------
+   -- Unit_Text_Name --
+   --------------------
 
-   function Get_Unit_Name (N : Name) return Text_Type is
+   function Unit_Text_Name (N : Name) return Text_Type is
    begin
       if N.all in Identifier_Type'Class then
          return Data (Identifier (N).F_Tok).Text.all;
@@ -43,16 +58,17 @@ package body Libadalang.Unit_Files.Default is
             if DN.F_Prefix.all in Name_Type'Class
                and then DN.F_Suffix.all in Identifier_Type'Class
             then
-               return (Get_Unit_Name (Name (DN.F_Prefix))
+               return (Unit_Text_Name (Name (DN.F_Prefix))
                        & "."
-                       & Get_Unit_Name (Name (DN.F_Suffix)));
+                       & Unit_Text_Name (Name (DN.F_Suffix)));
             end if;
          end;
       end if;
 
       raise Property_Error with "invalid AST node for unit name";
-   end Get_Unit_Name;
+   end Unit_Text_Name;
 
+   Dot        : constant := Character'Pos ('.');
    Underscore : constant := Character'Pos ('_');
    Zero       : constant := Character'Pos ('0');
    Nine       : constant := Character'Pos ('9');
@@ -61,27 +77,25 @@ package body Libadalang.Unit_Files.Default is
    Lower_Z    : constant := Character'Pos ('z');
    Upper_Z    : constant := Character'Pos ('Z');
 
-   -------------------
-   -- Get_Unit_Name --
-   -------------------
+   ----------------------
+   -- Unit_String_Name --
+   ----------------------
 
-   function Get_Unit_Name (N : Name) return String is
-      Text_Result : constant Text_Type := Get_Unit_Name (N);
-      Result      : String (1 .. Text_Result'Length);
-      I           : Positive := 1;
+   function Unit_String_Name (Name : Text_Type) return String is
+      Result      : String (Name'Range);
    begin
       --  Make Name lower case and replace dots with dashes. Only allow ASCII.
 
-      for C of Text_Type'(Get_Unit_Name (N)) loop
+      for I in Name'Range loop
          declare
+            C  : constant Wide_Wide_Character := Name (I);
             CN : constant Unsigned_32 := Wide_Wide_Character'Pos (C);
          begin
-            if C = '.' then
-               Result (I) := '-';
-            elsif CN in Underscore
-                      | Zero .. Nine
-                      | Upper_A .. Upper_Z
-                      | Lower_A .. Lower_Z
+            if CN in Dot
+                   | Underscore
+                   | Zero .. Nine
+                   | Upper_A .. Upper_Z
+                   | Lower_A .. Lower_Z
             then
                Result (I) := Ada.Strings.Maps.Value
                  (Ada.Strings.Maps.Constants.Lower_Case_Map,
@@ -93,10 +107,23 @@ package body Libadalang.Unit_Files.Default is
                   & " not supported");
             end if;
          end;
-         I := I + 1;
       end loop;
 
       return Result;
-   end Get_Unit_Name;
+   end Unit_String_Name;
+
+   --------------------
+   -- Spec_File_Name --
+   --------------------
+
+   function Spec_File_Name (Name : String) return String is
+     (File_From_Unit (Name, GNATCOLL.Projects.Unit_Spec));
+
+   --------------------
+   -- Body_File_Name --
+   --------------------
+
+   function Body_File_Name (Name : String) return String is
+     (File_From_Unit (Name, GNATCOLL.Projects.Unit_Body));
 
 end Libadalang.Unit_Files.Default;

@@ -945,7 +945,7 @@ A.add_rules(
 
     qual_name_internal=Or(
         DottedName(A.qual_name_internal, ".", A.direct_name),
-        # Attributes
+        # Attributes, needed because of 'Class: A'Class'(...)
         AttributeRef(
             A.qual_name_internal, "'", A.identifier,
             Opt("(", A.call_suffix, ")")

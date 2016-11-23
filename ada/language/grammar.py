@@ -958,12 +958,31 @@ A.add_rules(
         DottedName(A.name, ".", A.direct_name),
         ExplicitDeref(A.name, ".", "all"),
 
-        # Attributes
+        # Special case for 'Update
+        AttributeRef(
+            A.name, "'",
+            Identifier(Tok(Token.Identifier, match_text="Update", keep=True)),
+            A.update_attr_aggregate
+        ),
+
+        # General Attributes
         AttributeRef(A.name, "'", A.identifier, Opt("(", A.call_suffix, ")")),
 
         QualExpr(A.name, "'", Or(A.aggregate, Pick("(", A.expr, ")"))),
 
         A.direct_name,
+    ),
+
+    update_attr_aggregate=Or(
+        A.aggregate,
+        Pick("(", Aggregate(Null(Expr), A.update_attr_content), ")")
+    ),
+
+    update_attr_content=List(A.multidim_array_assoc, sep=",",
+                             list_cls=AssocList),
+
+    multidim_array_assoc=AggregateAssoc(
+        List(A.aggregate, sep="|", list_cls=AdaNode.list_type()), "=>", A.expr,
     ),
 
     # This rule is separate from name, and doesn't accept CallExprs, because

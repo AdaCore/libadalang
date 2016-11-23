@@ -3,10 +3,19 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.AST;       use Libadalang.AST;
 with Libadalang.AST.Types; use Libadalang.AST.Types;
 
+--  This package provides an Unit_File_Provider implementation that is the
+--  default one for Analysis_Context.
+
 package Libadalang.Unit_Files.Default is
 
    type Default_Unit_File_Provider_Type is new Unit_File_Provider_Interface
       with private;
+   --  Default implementation for the Unit_File_Provider mechanism. It assumes
+   --  that all source files are in the current directory and that they follow
+   --  the GNAT convention for file names.
+   --  See <http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn
+   --       /the_gnat_compilation_model.html#file-naming-rules> for more
+   --  details.
 
    overriding function Get_File
      (Provider : Default_Unit_File_Provider_Type;
@@ -19,6 +28,8 @@ package Libadalang.Unit_Files.Default is
       return String;
 
    Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;
+   --  Singleton for Default_Unit_File_Provider_Type. Used as the default
+   --  parameter for Libadalang.Analysis.Create.
 
    function Unit_Text_Name (N : Name) return Text_Type;
    --  Turn the name of an unit represented as a Name node into a textual name.

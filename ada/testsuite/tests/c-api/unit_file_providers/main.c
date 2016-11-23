@@ -8,27 +8,44 @@
 #include "langkit_text.h"
 
 struct my_unit_file_provider {
-  int some_field;
+    int some_field;
 };
 
 void ufp_destroy(void *data) {
-  struct my_unit_file_provider *ufp_data
-    = (struct my_unit_file_provider *) data;
-  printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
+    struct my_unit_file_provider *ufp_data
+      = (struct my_unit_file_provider *) data;
+    printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
 }
 
-char *ufp_get_file(void *data, ada_base_node node) {
-  struct my_unit_file_provider *ufp_data
-    = (struct my_unit_file_provider *) data;
+char *ufp_get_file_from_node(
+    void *data,
+    ada_base_node node,
+    ada_unit_kind kind)
+{
+    struct my_unit_file_provider *ufp_data
+      = (struct my_unit_file_provider *) data;
 
-  char result_str[] = "strange_bar.ads";
-  char *result = malloc(sizeof(result_str));
-  strcpy(result, result_str);
+    char result_str[] = "strange_bar.ads";
+    char *result = malloc(sizeof(result_str));
+    strcpy(result, result_str);
 
-  printf("Calling ufp_get_file (some_field=%d) on:\n", ufp_data->some_field);
-  dump_short_image(node, 0);
+    printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
+           ufp_data->some_field, kind);
+    dump_short_image(node, 0);
 
-  return result;
+    return result;
+}
+
+char *ufp_get_file_from_name(
+    void *data,
+    ada_text name,
+    ada_unit_kind kind)
+{
+    (void) data;
+    (void) name;
+    (void) kind;
+    printf("Calling ufp_get_file_from_name: unsupported!\n");
+    exit(1);
 }
 
 int
@@ -40,7 +57,8 @@ main(void)
     ada_unit_file_provider ufp
       = ada_create_unit_file_provider((void *) &ufp_data,
                                       ufp_destroy,
-                                      ufp_get_file);
+                                      ufp_get_file_from_node,
+                                      ufp_get_file_from_name);
 
     ada_base_node pragma, args, assoc, expr;
     ada_ada_node_array entities;

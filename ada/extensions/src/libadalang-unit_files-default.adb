@@ -8,16 +8,20 @@ with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.AST.Types; use Libadalang.AST.Types;
+with Libadalang.AST.Types;           use Libadalang.AST.Types;
+with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
 
    function File_From_Unit
      (Name : String;
-      Kind : GNATCOLL.Projects.Unit_Parts)
+      Kind : Unit_Kind)
       return String
    is (+GNATCOLL.Projects.File_From_Unit
-         (GNATCOLL.Projects.No_Project, Name, Kind, "ada"));
+         (GNATCOLL.Projects.No_Project,
+          Name,
+          Libadalang.Unit_Files.Projects.Convert (Kind),
+          "ada"));
 
    --------------
    -- Get_File --
@@ -25,7 +29,8 @@ package body Libadalang.Unit_Files.Default is
 
    overriding function Get_File
      (Provider : Default_Unit_File_Provider_Type;
-      Node     : Ada_Node)
+      Node     : Ada_Node;
+      Kind     : Unit_Kind)
       return String
    is
       pragma Unreferenced (Provider);
@@ -35,7 +40,7 @@ package body Libadalang.Unit_Files.Default is
             Str_Name  : constant String :=
                Unit_String_Name (Libadalang.AST.Types.Name (Node));
          begin
-            return Spec_File_Name (Str_Name);
+            return File_From_Unit (Str_Name, Kind);
          end;
       end if;
 
@@ -48,12 +53,13 @@ package body Libadalang.Unit_Files.Default is
 
    overriding function Get_File
      (Provider : Default_Unit_File_Provider_Type;
-      Name     : Text_Type)
+      Name     : Text_Type;
+      Kind     : Unit_Kind)
       return String
    is
       pragma Unreferenced (Provider);
    begin
-      return Spec_File_Name (Unit_String_Name (Name));
+      return File_From_Unit (Unit_String_Name (Name), Kind);
    end Get_File;
 
    --------------------
@@ -131,13 +137,13 @@ package body Libadalang.Unit_Files.Default is
    --------------------
 
    function Spec_File_Name (Name : String) return String is
-     (File_From_Unit (Name, GNATCOLL.Projects.Unit_Spec));
+     (File_From_Unit (Name, Unit_Specification));
 
    --------------------
    -- Body_File_Name --
    --------------------
 
    function Body_File_Name (Name : String) return String is
-     (File_From_Unit (Name, GNATCOLL.Projects.Unit_Body));
+     (File_From_Unit (Name, Unit_Body));
 
 end Libadalang.Unit_Files.Default;

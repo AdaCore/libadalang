@@ -44,7 +44,8 @@ package body Libadalang.Unit_Files.Env_Hook is
          declare
             UFP : constant Unit_File_Provider_Access_Cst :=
                Unit_File_Provider (Ctx);
-            Unit_File_Name : constant String := UFP.Get_File (N);
+            Unit_File_Name : constant String :=
+               UFP.Get_File (N, Unit_Specification);
             Unit           : constant Analysis_Unit :=
                Get_From_File (Ctx, Unit_File_Name);
          begin
@@ -80,8 +81,10 @@ package body Libadalang.Unit_Files.Env_Hook is
       Names := Node.P_Defining_Names;
 
       declare
-         Name : constant String :=
-            Unit_File_Provider (Ctx).Get_File (Ada_Node (Names.Items (1)));
+         UFP : constant Unit_File_Provider_Access_Cst :=
+            Unit_File_Provider (Ctx);
+         N    : constant Ada_Node := Ada_Node (Names.Items (1));
+         Name : constant String := UFP.Get_File (N, Unit_Specification);
 
          --  TODO??? Maybe we should just return when the file does not exist:
          --  after all it is legal.

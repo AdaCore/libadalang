@@ -19,12 +19,14 @@ package Libadalang.Unit_Files.Default is
 
    overriding function Get_File
      (Provider : Default_Unit_File_Provider_Type;
-      Node     : Ada_Node)
+      Node     : Ada_Node;
+      Kind     : Unit_Kind)
       return String;
 
    overriding function Get_File
      (Provider : Default_Unit_File_Provider_Type;
-      Name     : Text_Type)
+      Name     : Text_Type;
+      Kind     : Unit_Kind)
       return String;
 
    Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;

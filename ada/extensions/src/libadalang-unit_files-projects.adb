@@ -7,7 +7,8 @@ package body Libadalang.Unit_Files.Projects is
 
    function Get_File
      (Provider : Project_Unit_File_Provider_Type'Class;
-      Name     : String)
+      Name     : String;
+      Kind     : Unit_Kind)
       return String;
    --  Helper for Get_File primitives
 
@@ -17,13 +18,14 @@ package body Libadalang.Unit_Files.Projects is
 
    function Get_File
      (Provider : Project_Unit_File_Provider_Type'Class;
-      Name     : String)
+      Name     : String;
+      Kind     : Unit_Kind)
       return String
    is
       File : constant Filesystem_String := File_From_Unit
         (Project   => Root_Project (Provider.Project.all),
          Unit_Name => Name,
-         Part      => Unit_Spec,
+         Part      => Convert (Kind),
          Language  => "Ada");
    begin
       if File'Length /= 0 then
@@ -44,7 +46,8 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
-      Node     : Ada_Node)
+      Node     : Ada_Node;
+      Kind     : Unit_Kind)
       return String
    is
    begin
@@ -58,7 +61,7 @@ package body Libadalang.Unit_Files.Projects is
          Str_Name  : constant String :=
             Libadalang.Unit_Files.Default.Unit_String_Name (Name);
       begin
-         return Get_File (Provider, Str_Name);
+         return Get_File (Provider, Str_Name, Kind);
       end;
    end Get_File;
 
@@ -68,13 +71,14 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
-      Name     : Text_Type)
+      Name     : Text_Type;
+      Kind     : Unit_Kind)
       return String
    is
       Str_Name : constant String :=
          Libadalang.Unit_Files.Default.Unit_String_Name (Name);
    begin
-      return Get_File (Provider, Str_Name);
+      return Get_File (Provider, Str_Name, Kind);
    end Get_File;
 
 end Libadalang.Unit_Files.Projects;

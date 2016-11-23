@@ -19,13 +19,20 @@ package Libadalang.Unit_Files.Projects is
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
-      Node     : Ada_Node)
+      Node     : Ada_Node;
+      Kind     : Unit_Kind)
       return String;
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
-      Name     : Text_Type)
+      Name     : Text_Type;
+      Kind     : Unit_Kind)
       return String;
+
+   function Convert (Kind : Unit_Kind) return GNATCOLL.Projects.Unit_Parts is
+     (case Kind is
+      when Unit_Specification => GNATCOLL.Projects.Unit_Spec,
+      when Unit_Body          => GNATCOLL.Projects.Unit_Body);
 
 private
 

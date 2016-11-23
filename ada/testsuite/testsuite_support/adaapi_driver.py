@@ -27,11 +27,11 @@ class CAPIDriver(BaseDriver):
         self.check_file(main)
         self.check_file_list('"input_sources"', input_sources)
 
-        with open(self.working_dir('p.gpr'), 'w') as f:
+        with open(self.working_dir('gen.gpr'), 'w') as f:
             f.write('''
             with "libadalang";
 
-            project P is
+            project Gen is
                 for Languages use ("Ada");
                 for Source_Dirs use (".");
                 for Object_Dir use ".";
@@ -45,7 +45,7 @@ class CAPIDriver(BaseDriver):
                     for Default_Switches ("Ada") use
                       ("-g", "-O0", "-gnata", "-gnatwa");
                 end Compiler;
-            end P;
+            end Gen;
             '''.format(main_source=main,
                        exec_name=self.test_program))
 
@@ -55,7 +55,7 @@ class CAPIDriver(BaseDriver):
         # shared libraries, make it explicit: some dependencies (such as
         # GNATcoll) use shared ones by default while others such as gnat_util
         # use static ones.
-        argv = ['gprbuild', '-Pp', '-m']
+        argv = ['gprbuild', '-Pgen', '-m']
         if self.disable_shared:
             argv.append('-XLIBRARY_TYPE=static')
         else:

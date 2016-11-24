@@ -1,0 +1,7 @@
+Trying to get unit: "\x0a"
+   ... got a null unit
+Trying to get unit: "unknown_unit"
+   ... got an analysis unit:
+Diagnostics for ???
+  Cannot open unknown_unit.ads
+Done.

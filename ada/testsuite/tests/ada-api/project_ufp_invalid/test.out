@@ -1,0 +1,9 @@
+Trying to get unit: "\x0a"
+   ... got an exception:
+   LIBADALANG.ANALYSIS.INVALID_UNIT_NAME_ERROR
+   Invalid unit name: "\x0a" (UNIT_SPECIFICATION)
+Trying to get unit: "unknown_unit"
+   ... got an exception:
+   LIBADALANG.ANALYSIS.INVALID_UNIT_NAME_ERROR
+   Invalid unit name: "unknown_unit" (UNIT_SPECIFICATION)
+Done.

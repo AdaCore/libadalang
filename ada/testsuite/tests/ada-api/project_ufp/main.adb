@@ -8,6 +8,7 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.Analysis;            use Libadalang.Analysis;
 with Libadalang.AST;                 use Libadalang.AST;
 with Libadalang.AST.Types;           use Libadalang.AST.Types;
+with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 procedure Main is
@@ -30,16 +31,10 @@ procedure Main is
    Ctx    : Analysis_Context :=
       Create (Unit_File_Provider => UFP'Unrestricted_Access);
 
-   File   : constant String := "src2/p2.ada_specification";
-   Unit   : Analysis_Unit := Get_From_File (Ctx, File);
+   Unit   : Analysis_Unit := Get_From_Provider (Ctx, "p2", Unit_Specification);
    Root   : constant Ada_Node := Libadalang.Analysis.Root (Unit);
 
 begin
-   if Root = null then
-      Put_Line ("Could not parse " & File);
-      return;
-   end if;
-
    Populate_Lexical_Env (Unit);
 
    declare

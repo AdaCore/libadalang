@@ -81,4 +81,32 @@ package body Libadalang.Unit_Files.Projects is
       return Get_File (Provider, Str_Name, Kind);
    end Get_File;
 
+   ----------------
+   -- Initialize --
+   ----------------
+
+   overriding procedure Initialize
+     (Provider : in out Project_Unit_File_Provider_Type)
+   is
+   begin
+      Provider.Project := null;
+      Provider.Is_Project_Owner := False;
+   end Initialize;
+
+   --------------
+   -- Finalize --
+   --------------
+
+   overriding procedure Finalize
+     (Provider : in out Project_Unit_File_Provider_Type)
+   is
+   begin
+      if Provider.Is_Project_Owner then
+         Unload (Provider.Project.all);
+         Free (Provider.Project);
+      end if;
+      Provider.Project := null;
+      Provider.Is_Project_Owner := False;
+   end Finalize;
+
 end Libadalang.Unit_Files.Projects;

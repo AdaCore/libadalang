@@ -26,10 +26,11 @@ procedure Main is
       return Result;
    end Load_Project;
 
-   Prj    : Project_Tree_Access := Load_Project ("p.gpr");
-   UFP    : Project_Unit_File_Provider_Type := Create (Prj);
+   UFP    : Unit_File_Provider_Access :=
+      new Project_Unit_File_Provider_Type'
+        (Create (Load_Project ("p.gpr"), True));
    Ctx    : Analysis_Context :=
-      Create (Unit_File_Provider => UFP'Unrestricted_Access);
+      Create (Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
 
    Unit   : Analysis_Unit := Get_From_Provider (Ctx, "p2", Unit_Specification);
    Root   : constant Ada_Node := Libadalang.Analysis.Root (Unit);
@@ -51,6 +52,6 @@ begin
    end;
 
    Destroy (Ctx);
-   Free (Prj);
+   Destroy (UFP);
    Put_Line ("Done.");
 end Main;

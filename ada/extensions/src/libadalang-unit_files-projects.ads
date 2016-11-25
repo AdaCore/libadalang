@@ -1,3 +1,5 @@
+with Ada.Finalization;
+
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 
 with Libadalang.AST; use Libadalang.AST;
@@ -7,15 +9,21 @@ with Libadalang.AST; use Libadalang.AST;
 
 package Libadalang.Unit_Files.Projects is
 
-   type Project_Unit_File_Provider_Type is new Unit_File_Provider_Interface
+   type Project_Unit_File_Provider_Type is limited
+      new Unit_File_Provider_Interface
       with private;
-   --  Unit_File_PRovider implementation that relies on a project file
+   type Project_Unit_File_Provider_Access is
+      access Project_Unit_File_Provider_Type;
+   --  Unit_File_Provider implementation that relies on a project file
 
    function Create
-     (Project : Project_Tree_Access)
+     (Project          : Project_Tree_Access;
+      Is_Project_Owner : Boolean)
       return Project_Unit_File_Provider_Type;
-   --  Create an unit file provider using Project. The project pointed by
-   --  Project must outlive the returned unit file provider.
+   --  Create an unit file provider using Project. If Is_Project_Owner is true,
+   --  the result owns Project, thus the caller must not deallocate it itself.
+   --  Otherwise, the project pointed by Project must outlive the returned unit
+   --  file provider.
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
@@ -36,14 +44,25 @@ package Libadalang.Unit_Files.Projects is
 
 private
 
-   type Project_Unit_File_Provider_Type is new Unit_File_Provider_Interface
+   type Project_Unit_File_Provider_Type is limited
+      new Ada.Finalization.Limited_Controlled
+      and Unit_File_Provider_Interface
    with record
-      Project : Project_Tree_Access;
+      Project          : Project_Tree_Access;
+      Is_Project_Owner : Boolean;
    end record;
 
+   overriding procedure Initialize
+     (Provider : in out Project_Unit_File_Provider_Type);
+   overriding procedure Finalize
+     (Provider : in out Project_Unit_File_Provider_Type);
+
    function Create
-     (Project : Project_Tree_Access)
+     (Project          : Project_Tree_Access;
+      Is_Project_Owner : Boolean)
       return Project_Unit_File_Provider_Type
-   is ((Project => Project));
+   is ((Ada.Finalization.Limited_Controlled with
+        Project          => Project,
+        Is_Project_Owner => Is_Project_Owner));
 
 end Libadalang.Unit_Files.Projects;

@@ -1,0 +1,11 @@
+## vim: filetype=makopython
+
+class _project_scenario_variable(ctypes.Structure):
+    _fields_ = [('name', ctypes.c_char_p),
+                ('value', ctypes.c_char_p)]
+
+_create_project_unit_file_provider = _import_func(
+    '${capi.get_name("create_project_unit_file_provider")}',
+    [ctypes.c_char_p, ctypes.POINTER(_project_scenario_variable)],
+    _unit_file_provider
+)

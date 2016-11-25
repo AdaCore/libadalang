@@ -1,0 +1,2 @@
+libadalang_docs = {
+}

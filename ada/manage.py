@@ -90,6 +90,7 @@ class Manage(ManageScript):
         from langkit.compile_context import CompileCtx
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
+        from language.documentation import libadalang_docs
 
         return CompileCtx(
             lang_name='Ada',
@@ -99,7 +100,8 @@ class Manage(ManageScript):
             verbosity=args.verbosity,
             env_hook_subprogram=('Libadalang.Unit_Files.Env_Hook', 'Env_Hook'),
             default_unit_file_provider=('Libadalang.Unit_Files.Default',
-                                        'Default_Unit_File_Provider')
+                                        'Default_Unit_File_Provider'),
+            documentations=libadalang_docs,
         )
 
     @property

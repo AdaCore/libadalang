@@ -1,0 +1,63 @@
+## vim: filetype=makoada
+
+   <%
+      scn_var_type = capi.get_name('project_scenario_variable')
+      scn_var_ptr = capi.get_name('project_scenario_variable_ptr')
+      scn_var_array = capi.get_name('project_scenario_variable_array')
+   %>
+
+   function Scenario_Vars_Count
+     (Scenario_Vars : System.Address)
+      return Natural;
+   --  Return the number of scenario variables in the Scenario_Vars C-style
+   --  array. This counts the number of entries before the first NULL entry.
+
+   -------------------------
+   -- Scenario_Vars_Count --
+   -------------------------
+
+   function Scenario_Vars_Count
+     (Scenario_Vars : System.Address)
+      return Natural
+   is
+      Result : Natural := 1;
+      SV     : ${scn_var_array} (Positive)
+         with Import => True,
+              Address => Scenario_Vars;
+   begin
+      loop
+         exit when SV (Result).Name = Null_Ptr;
+         Result := Result + 1;
+      end loop;
+      return Result - 1;
+   end Scenario_Vars_Count;
+
+   function ${capi.get_name('create_project_unit_file_provider')}
+     (Project_File  : chars_ptr;
+      Scenario_Vars : System.Address)
+      return ${unit_file_provider_type}
+   is
+      PF      : constant String := Value (Project_File);
+
+      Project : Project_Tree_Access := new Project_Tree;
+      Env     : Project_Environment_Access;
+
+      Result  : Unit_File_Provider_Access :=
+         new Project_Unit_File_Provider_Type'(Create (Project, True));
+   begin
+      Initialize (Env);
+      if Scenario_Vars /= System.Null_Address then
+         declare
+            Vars : ${scn_var_array} (1 .. Scenario_Vars_Count (Scenario_Vars))
+               with Import  => True,
+                    Address => Scenario_Vars;
+         begin
+            for V of Vars loop
+               Change_Environment (Env.all, Value (V.Name), Value (V.Value));
+            end loop;
+         end;
+      end if;
+
+      Load (Project.all, Create (+PF), Env);
+      return Wrap (Result);
+   end;

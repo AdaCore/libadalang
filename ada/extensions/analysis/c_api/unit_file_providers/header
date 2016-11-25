@@ -1,0 +1,14 @@
+## vim: filetype=makocpp
+
+<% scn_var_type = capi.get_name('project_scenario_variable') %>
+
+typedef struct {
+   char *name;
+   char *value;
+} ${scn_var_type};
+
+extern ${unit_file_provider_type}
+${capi.get_name('create_project_unit_file_provider')}(
+   char *project_file,
+   ${scn_var_type} *scenario_vars
+);

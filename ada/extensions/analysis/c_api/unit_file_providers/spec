@@ -11,6 +11,7 @@
    end record
       with Convention => C_Pass_By_Copy;
    type ${scn_var_ptr} is access ${scn_var_type};
+   ${ada_doc('libadalang.project_scenario_variable', 3)}
 
    type ${scn_var_array} is array (Positive range <>) of ${scn_var_type}
       with Convention => C;
@@ -23,3 +24,4 @@
            Convention    => C,
            External_name =>
                "${capi.get_name('create_project_unit_file_provider')}";
+   ${ada_doc('libadalang.create_project_unit_file_provider', 3)}

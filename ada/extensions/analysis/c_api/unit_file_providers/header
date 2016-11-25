@@ -2,11 +2,13 @@
 
 <% scn_var_type = capi.get_name('project_scenario_variable') %>
 
+${c_doc('libadalang.project_scenario_variable')}
 typedef struct {
    char *name;
    char *value;
 } ${scn_var_type};
 
+${c_doc('libadalang.create_project_unit_file_provider')}
 extern ${unit_file_provider_type}
 ${capi.get_name('create_project_unit_file_provider')}(
    char *project_file,

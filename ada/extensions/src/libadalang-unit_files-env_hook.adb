@@ -18,6 +18,12 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List);
    --  Helper for the environment hook to handle WithDecl nodes
 
+   procedure Handle_Unit_Decl
+     (Ctx         : Analysis_Context;
+      Node        : Basic_Decl;
+      Initial_Env : in out Lexical_Env);
+   --  Helper for the environment hook to handle library-level unit decl nodes
+
    procedure Handle_Unit_Body
      (Ctx         : Analysis_Context;
       Node        : Body_Node;
@@ -41,6 +47,8 @@ package body Libadalang.Unit_Files.Env_Hook is
       elsif Node.Parent.all in Library_Item_Type'Class then
          if Node.all in Body_Node_Type'Class then
             Handle_Unit_Body (Ctx, Body_Node (Node), Initial_Env);
+         elsif Node.all in Basic_Decl_Type'Class then
+            Handle_Unit_Decl (Ctx, Basic_Decl (Node), Initial_Env);
          end if;
       end if;
    end Env_Hook;
@@ -80,6 +88,39 @@ package body Libadalang.Unit_Files.Env_Hook is
          Handle_Name (Ctx, N, Dummy);
       end loop;
    end Handle_With_Decl;
+
+   ----------------------
+   -- Handle_Unit_Decl --
+   ----------------------
+
+   procedure Handle_Unit_Decl
+     (Ctx         : Analysis_Context;
+      Node        : Basic_Decl;
+      Initial_Env : in out Lexical_Env)
+   is
+      Names     : Name_Array_Access;
+   begin
+      --  If this not a library-level subprogram/package decl, there is no spec
+      --  to process.
+      if Node.all not in Package_Decl_Type'Class
+         and then Node.all not in Basic_Subp_Decl_Type'Class
+      then
+         return;
+      end if;
+
+      Names := Node.P_Defining_Names;
+      pragma Assert (Names.N = 1);
+
+      declare
+         N : constant Ada_Node := Ada_Node (Names.Items (1));
+      begin
+         Dec_Ref (Names);
+         if N.all in Dotted_Name_Type'Class then
+            Handle_Name
+              (Ctx, Ada_Node (Dotted_Name (N).F_Prefix), Initial_Env);
+         end if;
+      end;
+   end Handle_Unit_Decl;
 
    ----------------------
    -- Handle_Unit_Body --

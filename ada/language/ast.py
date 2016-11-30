@@ -1228,9 +1228,13 @@ class BasicSubpDecl(BasicDecl):
                 metadata=New(Metadata, dottable_subp=True,
                              implicit_deref=False),
                 is_post=True
-            ),
+            )
         ],
-        add_env=True
+        add_env=True,
+
+        # Call the env hook so that library-level subprograms have their
+        # parent unit (if any) environment.
+        env_hook_arg=Self,
     )
 
 
@@ -1428,7 +1432,8 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+                          Self.package_name.scope,
+                          enable_env_hook=True)]
 
 
 class ExceptionDecl(BasicDecl):

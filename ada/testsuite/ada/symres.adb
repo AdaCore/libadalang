@@ -346,7 +346,6 @@ begin
             Unit := Get_From_File (Ctx, Arg);
             Put_Title ('#', "Analyzing " & Arg);
             Process_File (Unit, Arg);
-            Remove (Ctx, Arg);
          end if;
       end;
    end loop;

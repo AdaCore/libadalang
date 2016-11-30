@@ -58,6 +58,12 @@
          end;
       end if;
 
-      Load (Project.all, Create (+PF), Env);
+      begin
+         Load (Project.all, Create (+PF), Env);
+      exception
+         when Invalid_Project =>
+            Free (Env);
+            return ${unit_file_provider_type} (System.Null_Address);
+      end;
       return Wrap (Result);
    end;

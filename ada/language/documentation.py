@@ -20,5 +20,16 @@ libadalang_docs = {
             When done with it, the result must be free'd with
             ${capi.get_name('destroy_unit_file_provider')}.
         % endif
+
+        If the requested project is invalid (error while opening the file,
+        error while analysing its syntax, ...),
+        % if lang == 'python':
+            this raises an InvalidProjectError.
+        % else:
+            this returns ${null}.
+        % endif
+    """,
+    'libadalang.invalid_project_error': """
+        Raised when an error occurs while loading a project file.
     """,
 }

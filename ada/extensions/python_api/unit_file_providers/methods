@@ -14,7 +14,13 @@
         else:
             scn_vars_array = None
 
-        return cls(_create_project_unit_file_provider(
+        c_value = _create_project_unit_file_provider(
             project_file,
             scn_vars_array
-        ))
+        )
+        if c_value:
+            return cls(c_value)
+        else:
+            raise InvalidProjectError(
+                'Cannot open project {}'.format(project_file)
+            )

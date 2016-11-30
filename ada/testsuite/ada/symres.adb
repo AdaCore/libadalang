@@ -224,6 +224,7 @@ procedure Symres is
          --  Configuration for this unit
          Display_Slocs : Boolean := False;
 
+         Empty     : Boolean := True;
          Last_Line : Natural := 0;
          It        : Find_Iterator := Find
            (Root (Unit),
@@ -289,6 +290,7 @@ procedure Symres is
                   Put_Title
                     ('-', Image (Text (Text'First + 1 .. Text'Last - 1)));
                end;
+               Empty := True;
 
             elsif Pragma_Name.all = "Test" then
                --  Perform symbol resolution
@@ -312,9 +314,13 @@ procedure Symres is
                   end if;
                   Dec_Ref (Entities);
                end;
+               Empty := False;
+
             elsif Pragma_Name.all = "Test_Statement" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                Resolve_Node (P_Node.Previous_Sibling);
+               Empty := False;
+
             elsif Pragma_Name.all = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                declare
@@ -329,8 +335,12 @@ procedure Symres is
                      Resolve_Node (Node);
                   end loop;
                end;
+               Empty := False;
             end if;
          end loop;
+         if not Empty then
+            New_Line;
+         end if;
       end;
    end Process_File;
 
@@ -355,6 +365,5 @@ begin
    end loop;
 
    Destroy (Ctx);
-   New_Line;
    Put_Line ("Done.");
 end Symres;

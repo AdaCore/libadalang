@@ -51,11 +51,11 @@ def resolve_statement(statement):
         # If it worked, print the reference value and the type value of
         # every sub expression in the statement.
         for expr in statement.findall(lal.Expr):
-            print "Expr: {}, references {}, type is {}".format(
+            print("Expr: {}, references {}, type is {}".format(
                 expr, expr.p_ref_val, expr.p_type_val
-            )
+            ))
     else:
-        print "Resolution failed for node {}".format(statement)
+        print("Resolution failed for node {}".format(statement))
 
 
 ctx = lal.AnalysisContext()
@@ -73,6 +73,7 @@ for src_file in sys.argv[1:]:
         sys.exit(0)
     unit.populate_lexical_env()
 
+    empty = True
     last_line = None
 
     # Print what entities are found for expressions X in all the "pragma Test
@@ -85,7 +86,7 @@ for src_file in sys.argv[1:]:
         if pragma_name != 'Config':
             if (last_line is not None and
                     p.sloc_range.start.line - last_line > 1):
-                print ''
+                print('')
             last_line = p.sloc_range.start.line
 
         if pragma_name == 'Config':
@@ -106,6 +107,7 @@ for src_file in sys.argv[1:]:
             arg = p.f_args[0].f_expr
             assert isinstance(arg, lal.StringLiteral)
             print_title('-', arg.f_tok.text[1:-1])
+            empty = False
 
         elif pragma_name == 'Test':
             # Perform symbol resolution
@@ -126,10 +128,12 @@ for src_file in sys.argv[1:]:
                 ))
             if not entities:
                 print('    <none>')
+            empty = False
 
         elif pragma_name == 'Test_Statement':
             assert not p.f_args
             resolve_statement(p.previous_sibling)
+            empty = False
 
         elif pragma_name == 'Test_Block':
             assert not p.f_args
@@ -137,7 +141,10 @@ for src_file in sys.argv[1:]:
                 lambda n: n.p_xref_entry_point
             ):
                 resolve_statement(statement)
+            empty = False
+
+    if not empty:
+        print('')
 
 
-print('')
 print('Done.')

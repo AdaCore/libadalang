@@ -137,7 +137,8 @@ class AdaNode(ASTNode):
         return Self.children_env.is_visible_from(other.children_env)
 
 
-def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
+def child_unit(name_expr, scope_expr, env_val_expr=Self,
+               enable_env_hook=False):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -153,8 +154,9 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
     :param AbstractExpression env_val_expr: The expression that will
         retrieve the environment value for the decorated node.
 
-    :param bool is_body: Whether this unit is a body. If it is, the environment
-        hook will try to make the corresponding spec's environment its parent.
+    :param bool enable_env_hook: Whether to call the environment hook, to fetch
+        a non-default parent environment. This is used to get the spec
+        environment for a body, or the parent unit environment for a child one.
 
     :rtype: NodeMacro
     """
@@ -167,7 +169,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self, is_body=False):
         env_spec=EnvSpec(
             initial_env=Self.scope, add_env=True,
             add_to_env=add_to_env(name_expr, env_val_expr),
-            env_hook_arg=(Self if is_body else None),
+            env_hook_arg=(Self if enable_env_hook else None),
         )
     )
 
@@ -2678,7 +2680,7 @@ class SubpBody(Body):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
                           Self,
-                          is_body=True)]
+                          enable_env_hook=True)]
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
@@ -2857,7 +2859,7 @@ class TerminateAlternative(SimpleStmt):
 class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
                           Self.package_name.scope,
-                          is_body=True)]
+                          enable_env_hook=True)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

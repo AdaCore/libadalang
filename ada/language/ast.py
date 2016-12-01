@@ -73,7 +73,8 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def xref_equation(origin_env=LexicalEnvType):
         """
         This is the base property for constructing equations that, when solved,
@@ -90,7 +91,8 @@ class AdaNode(ASTNode):
 
     xref_stop_resolution = Property(False, private=True)
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def sub_equation(origin_env=LexicalEnvType):
         """
         Wrapper for xref_equation, meant to be used inside of xref_equation
@@ -103,7 +105,8 @@ class AdaNode(ASTNode):
                   LogicTrue(),
                   Self.xref_equation(origin_env))
 
-    @langkit_property(return_type=BoolType, private=True)
+    @langkit_property(return_type=BoolType, private=True,
+                      has_implicit_env=True)
     def resolve_symbols_internal(initial=BoolType):
         """
         Internal helper for resolve_symbols, implementing the recursive logic.
@@ -130,7 +133,7 @@ class AdaNode(ASTNode):
         successful, then type_var and ref_var will be bound on appropriate
         subnodes of the statement.
         """
-        return Self.resolve_symbols_internal(True)
+        return Self.node_env.eval_in_env(Self.resolve_symbols_internal(True))
 
     @langkit_property(return_type=BoolType)
     def is_visible_from(other=T.AdaNode):
@@ -162,7 +165,8 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self,
     """
 
     attribs = dict(
-        scope=Property(scope_expr, private=True, doc="""
+        scope=Property(scope_expr, private=True, has_implicit_env=True,
+                       doc="""
                        Helper property, that will return the scope of
                        definition of this child unit.
                        """),
@@ -444,7 +448,8 @@ class BaseFormalParamHolder(AdaNode):
         doc='Couples (identifier, param spec) for all parameters'
     )
 
-    @langkit_property(return_type=T.ParamMatch.array_type())
+    @langkit_property(return_type=T.ParamMatch.array_type(),
+                      has_implicit_env=True)
     def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
         """
         For each ParamAssoc in a AssocList, return whether we could find a
@@ -1117,7 +1122,8 @@ class TypeExpr(AdaNode):
     accessed_type = Property(Self.designated_type.accessed_type)
 
     designated_type = AbstractProperty(
-        type=BaseTypeDecl, runtime_check=True, doc="""
+        type=BaseTypeDecl, runtime_check=True, has_implicit_env=False,
+        doc="""
         Return the type designated by this type expression.
         """
     )
@@ -1155,7 +1161,7 @@ class SubtypeIndication(TypeExpr):
     # SubtypeIndication node itself: we don't want to use whatever lexical
     # environment the caller is using.
     designated_type = Property(
-        Self.node_env.eval_in_env(Self.name.designated_type)
+        Self.node_env.eval_in_env(Self.name.designated_type_impl)
     )
 
     @langkit_property()
@@ -1578,7 +1584,7 @@ class Expr(AdaNode):
     type_val = Property(Self.type_var.get_value)
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check, private=True,
-                      return_type=LexicalEnvType)
+                      return_type=LexicalEnvType, has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
         """
         Returns the lexical environment designated by this name.
@@ -1590,6 +1596,7 @@ class Expr(AdaNode):
 
     scope = AbstractProperty(
         type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
+        has_implicit_env=True,
         doc="""
         Returns the lexical environment that is the scope in which the
         entity designated by this name is defined/used.
@@ -1598,17 +1605,19 @@ class Expr(AdaNode):
 
     name = AbstractProperty(
         type=compiled_types.Token, private=True, runtime_check=True,
+        has_implicit_env=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix A.B.C, this will return C.
         """
     )
 
-    env_elements = Property(Self.env_elements_impl(Env))
+    env_elements = Property(Self.env_elements_impl(Env), has_implicit_env=True)
 
     @langkit_property(private=True,
                       return_type=EnvElement.array_type(),
-                      kind=AbstractKind.abstract_runtime_check)
+                      kind=AbstractKind.abstract_runtime_check,
+                      has_implicit_env=True)
     def env_elements_impl(origin_env=LexicalEnvType):
         """
         Returns the list of annotated elements in the lexical environment
@@ -1618,6 +1627,7 @@ class Expr(AdaNode):
 
     entities = Property(
         Self.env_elements.map(lambda e: e.el), type=AdaNode.array_type(),
+        has_implicit_env=True,
         doc="""
         Same as env_elements, but return bare AdaNode instances rather than
         EnvElement instances.
@@ -1702,7 +1712,7 @@ class Aggregate(Expr):
 @abstract
 class Name(Expr):
     env_for_scope = Property(
-        EmptyEnv,
+        EmptyEnv, has_implicit_env=True,
         doc="""
         Lexical environment this identifier represents. This is similar to
         designated_env although it handles only cases for child units and it is
@@ -1748,7 +1758,7 @@ class CallExpr(Name):
 
     ref_var = Property(Self.name.ref_var)
 
-    @langkit_property()
+    @langkit_property(has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
         return Self.entities().map(lambda e: e.match(
             lambda subp=BasicSubpDecl: subp.defining_env,
@@ -1779,7 +1789,8 @@ class CallExpr(Name):
             Self.innermost_callexpr.general_xref_equation(origin_env)
         )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def type_conv_xref_equation(origin_env=LexicalEnvType):
         """
         Helper for xref_equation, handles construction of the equation in type
@@ -1792,7 +1803,8 @@ class CallExpr(Name):
             Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def general_xref_equation(origin_env=LexicalEnvType):
         """
         Helper for xref_equation, handles construction of the equation in
@@ -1868,7 +1880,8 @@ class CallExpr(Name):
             & Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def equation_for_type(origin_env=LexicalEnvType, type_designator=AdaNode):
         """
         Construct an equation verifying if Self is conformant to the type
@@ -1969,7 +1982,8 @@ class CallExpr(Name):
             lambda ce: If(ce.name == Self, ce, No(CallExpr))
         )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, private=True,
+                      has_implicit_env=True)
     def parent_callexprs_equation(origin_env=LexicalEnvType,
                                   designator_type=AdaNode):
         """
@@ -2119,7 +2133,7 @@ class SingleTokNode(Name):
 
     ref_var = Property(Self.r_ref_var)
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=BoolType, has_implicit_env=True)
     def matches(other=T.SingleTokNode):
         """
         Return whether this token and the "other" one are the same.
@@ -2398,7 +2412,7 @@ class SubpSpec(BaseFormalParamHolder):
         """
     )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=BoolType, has_implicit_env=True)
     def is_matching_param_list(params=AssocList, is_dottable_subp=BoolType):
         """
         Return whether a AssocList is a match for this SubpSpec, i.e.
@@ -2418,7 +2432,7 @@ class SubpSpec(BaseFormalParamHolder):
             ).length == nb_min_params,
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=BoolType, has_implicit_env=True)
     def match_param_assoc(pa=ParamAssoc):
         """
         Return whether some parameter association matches an argument in this
@@ -2575,7 +2589,7 @@ class QualExpr(Name):
 
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):
-        typ = Self.prefix.designated_type.canonical_type
+        typ = Self.prefix.designated_type_impl.canonical_type
 
         return (
             Self.suffix.sub_equation(origin_env)
@@ -2585,6 +2599,12 @@ class QualExpr(Name):
             & Bind(Self.type_var, typ)
         )
 
+    # TODO: once we manage to  turn prefix into a subtype indication, remove
+    # this property and update Allocator.get_allocated type to do:
+    # q.prefix.designated_type.
+    designated_type = Property(
+        Self.node_env.eval_in_env(Self.designated_type_impl),
+    )
     designated_type_impl = Property(Self.prefix.designated_type_impl)
 
 
@@ -2645,6 +2665,7 @@ class DottedName(Name):
                 Self.suffix
             )
         )),
+        has_implicit_env=True,
         doc="Return all potential primitive calls Self can correspond to."
     )
 

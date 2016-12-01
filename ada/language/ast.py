@@ -1274,11 +1274,6 @@ class PragmaArgumentAssoc(AdaNode):
     expr = Field(type=T.Expr)
 
 
-######################
-# GRAMMAR DEFINITION #
-######################
-
-
 @abstract
 class AspectClause(AdaNode):
     pass

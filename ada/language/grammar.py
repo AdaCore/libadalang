@@ -143,7 +143,7 @@ A.add_rules(
         "array",
         "(",
         Or(
-            UnconstrainedArrayIndices(List(A.static_name, "range", "<>",
+            UnconstrainedArrayIndices(List(A.subtype_indication, "range", "<>",
                                            sep=",")),
 
             ConstrainedArrayIndices(List(A.discrete_subtype_definition,

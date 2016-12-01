@@ -943,7 +943,7 @@ class ArrayIndices(AdaNode):
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    types = Field(type=T.Name.list_type())
+    types = Field(type=T.SubtypeIndication.list_type())
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=EquationType)

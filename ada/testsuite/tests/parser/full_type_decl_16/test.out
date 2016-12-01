@@ -6,11 +6,19 @@ TypeDecl[1:1-1:48]
 |type_def:
 |  ArrayTypeDef[1:13-1:48]
 |  |indices:
-|  |  UnconstrainedArrayIndices[1:20-1:36]
-|  |  |types:
-|  |  |  NameList[1:20-1:36]
-|  |  |  |  Id[1:20-1:27]
-|  |  |  |  |tok: Integer
+|  |  ConstrainedArrayIndices[1:20-1:36]
+|  |  |list:
+|  |  |  AdaNodeList[1:20-1:36]
+|  |  |  |  SubtypeIndication[1:20-1:36]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:20-1:20]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:20-1:27]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint:
+|  |  |  |  |  RangeConstraint[1:28-1:36]
+|  |  |  |  |  |range:
+|  |  |  |  |  |  BoxExpr[1:34-1:36]
 |  |component_type:
 |  |  ComponentDef[1:41-1:48]
 |  |  |has_aliased:

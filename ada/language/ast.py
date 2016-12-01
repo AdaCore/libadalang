@@ -1227,6 +1227,10 @@ class BasicSubpDecl(BasicDecl):
                 # subprogram.
                 metadata=New(Metadata, dottable_subp=True,
                              implicit_deref=False),
+
+                # potential_dottable_type will need the SubtypeIndication
+                # instance to have an associated environment, so we need to do
+                # this after environments have been populated for the children.
                 is_post=True
             )
         ],

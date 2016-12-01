@@ -494,6 +494,7 @@ class ComponentList(BaseFormalParamHolder):
     def abstract_formal_params():
         # TODO: Incomplete definition. We need to handle variant parts.
         pcl = Var(Self.parent_component_list)
+
         self_comps = Var(Self.components.filtermap(
             filter_expr=lambda p: p.is_a(BaseFormalParamDecl),
             expr=lambda p: p.cast(BaseFormalParamDecl)
@@ -1059,7 +1060,7 @@ class AccessToSubpDef(AccessDef):
 class TypeAccessDef(AccessDef):
     has_all = Field(type=All)
     has_constant = Field(type=Constant)
-    subtype_name = Field(type=T.Expr)
+    subtype_name = Field(type=T.Name)
     accessed_type = Property(Self.subtype_name.designated_type)
     constraint = Field(type=T.Constraint)
 
@@ -1146,7 +1147,7 @@ class AnonymousType(TypeExpr):
 
 class SubtypeIndication(TypeExpr):
     has_not_null = Field(type=NotNull)
-    name = Field(type=T.Expr)
+    name = Field(type=T.Name)
     constraint = Field(type=T.Constraint)
 
     # The name for this type has to be evaluated in the context of the
@@ -1622,16 +1623,6 @@ class Expr(AdaNode):
         """
     )
 
-    designated_type = AbstractProperty(
-        type=BaseTypeDecl, runtime_check=True,
-        doc="""
-        Assuming this expression designates a type, return this type.
-
-        Since in Ada this can be resolved locally without any non-local
-        analysis, this doesn't use logic equations.
-        """
-    )
-
 
 class ParenExpr(Expr):
     expr = Field(type=T.Expr)
@@ -1734,6 +1725,15 @@ class Name(Expr):
 
     ref_val = Property(Self.ref_var.get_value)
 
+    designated_type = AbstractProperty(
+        type=BaseTypeDecl, runtime_check=True,
+        doc="""
+        Assuming this name designates a type, return this type.
+
+        Since in Ada this can be resolved locally without any non-local
+        analysis, this doesn't use logic equations.
+        """
+    )
 
 class CallExpr(Name):
     """

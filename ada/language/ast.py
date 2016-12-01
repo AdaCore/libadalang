@@ -1726,8 +1726,8 @@ class Name(Expr):
 
     ref_val = Property(Self.ref_var.get_value)
 
-    designated_type = AbstractProperty(
-        type=BaseTypeDecl, runtime_check=True,
+    designated_type_impl = AbstractProperty(
+        type=BaseTypeDecl, runtime_check=True, has_implicit_env=True,
         doc="""
         Assuming this name designates a type, return this type.
 
@@ -1762,14 +1762,14 @@ class CallExpr(Name):
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
-    designated_type = Property(Self.name.designated_type)
+    designated_type_impl = Property(Self.name.designated_type_impl)
 
     params = Property(Self.suffix.cast(T.AssocList))
 
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):
         return If(
-            Not(Self.name.designated_type.is_null),
+            Not(Self.name.designated_type_impl.is_null),
 
             # Type conversion case
             Self.type_conv_xref_equation(origin_env),
@@ -2159,7 +2159,7 @@ class BaseId(SingleTokNode):
     scope = Property(Env)
     name = Property(Self.tok)
 
-    designated_type = Property(
+    designated_type_impl = Property(
         # We don't use get_sequential here because declaring two types with
         # the same name in the same scope is an error in Ada, except in the
         # case of incomplete types forward declarations, and in that case
@@ -2273,7 +2273,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        dt = Self.designated_type
+        dt = Self.designated_type_impl
         return If(
             Not(dt.is_null),
 
@@ -2585,7 +2585,7 @@ class QualExpr(Name):
             & Bind(Self.type_var, typ)
         )
 
-    designated_type = Property(Self.prefix.designated_type)
+    designated_type_impl = Property(Self.prefix.designated_type_impl)
 
 
 class AttributeRef(Name):
@@ -2595,7 +2595,7 @@ class AttributeRef(Name):
 
     ref_var = Property(Self.prefix.ref_var)
 
-    designated_type = Property(Self.prefix.designated_type)
+    designated_type_impl = Property(Self.prefix.designated_type_impl)
 
 
 class RaiseExpr(Expr):
@@ -2648,15 +2648,15 @@ class DottedName(Name):
         doc="Return all potential primitive calls Self can correspond to."
     )
 
-    designated_type = Property(lambda: (
+    designated_type_impl = Property(lambda: (
         Self.prefix.entities.at(0).children_env.eval_in_env(
-            Self.suffix.designated_type
+            Self.suffix.designated_type_impl
         )
     ))
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        dt = Self.designated_type
+        dt = Self.designated_type_impl
         base = Var(
             Self.prefix.sub_equation(origin_env)
             & Self.prefix.designated_env(origin_env).eval_in_env(

@@ -53,9 +53,14 @@ SubpRenamingDecl[1:1-1:64]
 |  |  |  |  |  |  |  AllPresent[1:44-1:44]
 |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  ConstantAbsent[1:48-1:48]
-|  |  |  |  |  |  |subtype_name:
-|  |  |  |  |  |  |  Id[1:48-1:53]
-|  |  |  |  |  |  |  |tok: Pouet
+|  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |  SubtypeIndication[1:48-1:53]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:48-1:48]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:48-1:53]
+|  |  |  |  |  |  |  |  |tok: Pouet
+|  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default: <null>

@@ -259,7 +259,7 @@ A.add_rules(
             "access",
             All("all"),
             Constant("constant"),
-            A.subtype_name,
+            A.subtype_indication,
             Opt(A.constraint),
         )
     ),

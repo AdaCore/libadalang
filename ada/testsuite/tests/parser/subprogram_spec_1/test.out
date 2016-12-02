@@ -49,9 +49,14 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  AllAbsent[1:42-1:42]
 |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  ConstantAbsent[1:42-1:42]
-|  |  |  |  |  |subtype_name:
-|  |  |  |  |  |  Id[1:42-1:49]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  SubtypeIndication[1:42-1:49]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:42-1:42]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:42-1:49]
+|  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |aspects: <null>
 |  |  |default: <null>

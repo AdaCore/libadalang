@@ -1060,9 +1060,10 @@ class AccessToSubpDef(AccessDef):
 class TypeAccessDef(AccessDef):
     has_all = Field(type=All)
     has_constant = Field(type=Constant)
-    subtype_name = Field(type=T.Name)
-    accessed_type = Property(Self.subtype_name.designated_type)
+    subtype_indication = Field(type=T.SubtypeIndication)
     constraint = Field(type=T.Constraint)
+
+    accessed_type = Property(Self.subtype_indication.designated_type)
 
 
 class FormalDiscreteTypeDef(TypeDef):

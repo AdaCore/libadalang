@@ -72,9 +72,14 @@ PackageDecl[1:1-1:105]
 |  |  |  |  |  |  |  AllAbsent[1:75-1:75]
 |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  ConstantPresent[1:75-1:75]
-|  |  |  |  |  |  |subtype_name:
-|  |  |  |  |  |  |  Id[1:84-1:90]
-|  |  |  |  |  |  |  |tok: Double
+|  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |  SubtypeIndication[1:84-1:90]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:84-1:84]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:84-1:90]
+|  |  |  |  |  |  |  |  |tok: Double
+|  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default_expr:

@@ -25,9 +25,14 @@ ObjectDecl[1:1-1:48]
 |  |  |  |  AllAbsent[1:24-1:24]
 |  |  |  |has_constant:
 |  |  |  |  ConstantPresent[1:24-1:24]
-|  |  |  |subtype_name:
-|  |  |  |  Id[1:33-1:40]
-|  |  |  |  |tok: Integer
+|  |  |  |subtype_indication:
+|  |  |  |  SubtypeIndication[1:33-1:40]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:33-1:33]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:33-1:40]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
 |  |  |  |constraint: <null>
 |  |  |aspects: <null>
 |default_expr:

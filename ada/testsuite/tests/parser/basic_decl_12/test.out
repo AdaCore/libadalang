@@ -31,15 +31,20 @@ SubpDecl[1:1-1:124]
 |  |  |  |  |  |  |  AllAbsent[1:43-1:43]
 |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  ConstantAbsent[1:43-1:43]
-|  |  |  |  |  |  |subtype_name:
-|  |  |  |  |  |  |  AttributeRef[1:43-1:69]
-|  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  Id[1:43-1:63]
-|  |  |  |  |  |  |  |  |tok: Source_Buffer_Record
-|  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  Id[1:64-1:69]
-|  |  |  |  |  |  |  |  |tok: Class
-|  |  |  |  |  |  |  |args: <null>
+|  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |  SubtypeIndication[1:43-1:69]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  AttributeRef[1:43-1:69]
+|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  Id[1:43-1:63]
+|  |  |  |  |  |  |  |  |  |tok: Source_Buffer_Record
+|  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  Id[1:64-1:69]
+|  |  |  |  |  |  |  |  |  |tok: Class
+|  |  |  |  |  |  |  |  |args: <null>
+|  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default: <null>

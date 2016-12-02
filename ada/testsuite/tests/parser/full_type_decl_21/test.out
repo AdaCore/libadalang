@@ -11,8 +11,13 @@ TypeDecl[1:1-1:23]
 |  |  AllPresent[1:18-1:18]
 |  |has_constant:
 |  |  ConstantAbsent[1:22-1:22]
-|  |subtype_name:
-|  |  Id[1:22-1:23]
-|  |  |tok: B
+|  |subtype_indication:
+|  |  SubtypeIndication[1:22-1:23]
+|  |  |has_not_null:
+|  |  |  NotNullAbsent[1:22-1:22]
+|  |  |name:
+|  |  |  Id[1:22-1:23]
+|  |  |  |tok: B
+|  |  |constraint: <null>
 |  |constraint: <null>
 |aspects: <null>

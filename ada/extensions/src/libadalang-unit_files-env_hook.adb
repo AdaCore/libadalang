@@ -76,6 +76,8 @@ package body Libadalang.Unit_Files.Env_Hook is
       --  to process.
       if Node.all not in Package_Decl_Type'Class
          and then Node.all not in Basic_Subp_Decl_Type'Class
+         and then Node.all not in Generic_Package_Decl_Type'Class
+         and then Node.all not in Generic_Subp_Decl_Type'Class
       then
          return;
       end if;

@@ -1531,6 +1531,10 @@ class FormalSubpDecl(BasicSubpDecl):
 
 
 class GenericSubpDecl(BasicDecl):
+    _macros = [child_unit(Self.subp_spec.name.name.symbol,
+                          Self.subp_spec.name.scope,
+                          Self)]
+
     formal_part = Field(type=T.AdaNode.list_type())
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)

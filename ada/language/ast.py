@@ -140,8 +140,7 @@ class AdaNode(ASTNode):
         return Self.children_env.is_visible_from(other.children_env)
 
 
-def child_unit(name_expr, scope_expr, env_val_expr=Self,
-               enable_env_hook=False):
+def child_unit(name_expr, scope_expr, env_val_expr=Self):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -157,10 +156,6 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self,
     :param AbstractExpression env_val_expr: The expression that will
         retrieve the environment value for the decorated node.
 
-    :param bool enable_env_hook: Whether to call the environment hook, to fetch
-        a non-default parent environment. This is used to get the spec
-        environment for a body, or the parent unit environment for a child one.
-
     :rtype: NodeMacro
     """
 
@@ -173,7 +168,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self,
         env_spec=EnvSpec(
             initial_env=Self.scope, add_env=True,
             add_to_env=add_to_env(name_expr, env_val_expr),
-            env_hook_arg=(Self if enable_env_hook else None),
+            env_hook_arg=Self,
         )
     )
 
@@ -1439,8 +1434,7 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope,
-                          enable_env_hook=True)]
+                          Self.package_name.scope)]
 
 
 class ExceptionDecl(BasicDecl):
@@ -2705,8 +2699,7 @@ class CompilationUnit(AdaNode):
 class SubpBody(Body):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.scope,
-                          Self,
-                          enable_env_hook=True)]
+                          Self)]
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
@@ -2884,8 +2877,7 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope,
-                          enable_env_hook=True)]
+                          Self.package_name.scope)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

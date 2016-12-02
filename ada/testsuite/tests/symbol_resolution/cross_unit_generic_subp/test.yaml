@@ -1,0 +1,3 @@
+driver: symbol_resolution
+input_sources: [foo-subp.adb]
+expect_failure: Pending resolution of PC02-031

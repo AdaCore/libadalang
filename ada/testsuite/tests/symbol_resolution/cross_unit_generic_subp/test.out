@@ -1,0 +1,9 @@
+Analyzing foo-subp.adb
+######################
+
+I resolves to:
+    I : Integer := 0
+Foo.I resolves to:
+    I : Integer := 0
+
+Done.

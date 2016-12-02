@@ -1,0 +1,2 @@
+driver: symbol_resolution
+input_sources: [foo-pkg.ads]

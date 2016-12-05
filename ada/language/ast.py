@@ -2148,13 +2148,12 @@ class BaseId(SingleTokNode):
     def env_for_scope():
         elt = Var(Env.get(Self.tok).at(0))
         return If(
-            elt.is_null,
-            EmptyEnv,
-            elt.el.match(
-                lambda decl=T.PackageDecl: decl.children_env,
-                lambda body=T.PackageBody: body.children_env,
-                lambda others:             EmptyEnv
-            )
+            Not(elt.is_null) & elt.el.is_a(
+                T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
+                T.GenericSubpDecl
+            ),
+            elt.el.children_env,
+            EmptyEnv
         )
 
     @langkit_property()

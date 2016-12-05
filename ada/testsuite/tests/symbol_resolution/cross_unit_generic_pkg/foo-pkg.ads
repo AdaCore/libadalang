@@ -4,4 +4,4 @@ package Foo.Bar is
    V : T;
    pragma Test (I);
    pragma Test (Foo.I);
-end Bar;
+end Foo.Bar;

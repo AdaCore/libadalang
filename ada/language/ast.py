@@ -151,7 +151,9 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
         the name symbol for the decorated node.
 
     :param AbstractExpression scope_expr: The expression that will retrieve the
-        scope node for the decorated node.
+        scope node for the decorated node. If the scope node is not found, it
+        should return EmptyEnv: in this case, the actual scope will become the
+        root environment.
 
     :param AbstractExpression env_val_expr: The expression that will
         retrieve the environment value for the decorated node.
@@ -160,11 +162,14 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
     """
 
     attribs = dict(
-        scope=Property(scope_expr, private=True, has_implicit_env=True,
-                       doc="""
-                       Helper property, that will return the scope of
-                       definition of this child unit.
-                       """),
+        scope=Property(
+            Let(lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)),
+            private=True, has_implicit_env=True,
+            doc="""
+            Helper property, that will return the scope of definition of this
+            child unit.
+            """
+        ),
         env_spec=EnvSpec(
             initial_env=Self.scope, add_env=True,
             add_to_env=add_to_env(name_expr, env_val_expr),
@@ -2707,9 +2712,14 @@ class CompilationUnit(AdaNode):
 
 
 class SubpBody(Body):
-    _macros = [child_unit(Self.subp_spec.name.name.symbol,
-                          Self.subp_spec.name.scope,
-                          Self)]
+    _macros = [child_unit(
+        Self.subp_spec.name.name.symbol,
+        Let(lambda scope=Self.subp_spec.name.env_for_scope:
+            If(scope == EmptyEnv,
+               Self.subp_spec.name.scope,
+               scope)),
+        Self
+    )]
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
@@ -2887,7 +2897,7 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+                          Self.package_name.env_for_scope)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

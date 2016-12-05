@@ -2144,11 +2144,18 @@ class SingleTokNode(Name):
 @abstract
 class BaseId(SingleTokNode):
 
-    env_for_scope = Property(Env.resolve_unique(Self.tok).el.match(
-        lambda decl=T.PackageDecl: decl.children_env,
-        lambda body=T.PackageBody: body.children_env,
-        lambda others:             EmptyEnv
-    ))
+    @langkit_property()
+    def env_for_scope():
+        elt = Var(Env.get(Self.tok).at(0))
+        return If(
+            elt.is_null,
+            EmptyEnv,
+            elt.el.match(
+                lambda decl=T.PackageDecl: decl.children_env,
+                lambda body=T.PackageBody: body.children_env,
+                lambda others:             EmptyEnv
+            )
+        )
 
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):

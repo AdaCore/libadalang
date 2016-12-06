@@ -112,7 +112,7 @@ class AdaNode(ASTNode):
         Internal helper for resolve_symbols, implementing the recursive logic.
         """
         i = Var(If(initial | Self.xref_stop_resolution,
-                   Self.xref_equation(Env).then(lambda x: x.solve),
+                   Self.xref_equation(Env)._.solve,
                    True))
 
         j = Self.children.all(lambda c: c.then(

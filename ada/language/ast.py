@@ -1745,6 +1745,7 @@ class Name(Expr):
         """
     )
 
+
 class CallExpr(Name):
     """
     Represent a syntactic call expression.

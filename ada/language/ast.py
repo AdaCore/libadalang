@@ -490,9 +490,7 @@ class ComponentList(BaseFormalParamHolder):
     type_def = Property(Self.parent.parent.cast(T.TypeDef))
 
     parent_component_list = Property(
-        Self.type_def.cast(T.DerivedTypeDef).then(
-            lambda dtd: dtd.base_type.record_def.components
-        )
+        Self.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.components
     )
 
     @langkit_property()

@@ -2477,7 +2477,7 @@ class SubpSpec(BaseFormalParamHolder):
         If self meets the criterias for being a subprogram callable via the dot
         notation, return the type of dottable elements.
         """
-        return Self.params.at(0).type_expr.then(lambda te: te.element_type)
+        return Self.params._.at(0)._.type_expr._.element_type
 
     @langkit_property(return_type=T.BasicDecl.array_type())
     def dottable_subp():

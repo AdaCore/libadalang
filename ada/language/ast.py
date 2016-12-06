@@ -630,7 +630,7 @@ class BaseTypeDecl(BasicDecl):
     record_def = Property(No(T.BaseRecordDef))
 
     comp_type = Property(
-        Self.array_def.then(lambda atd: atd.comp_type),
+        Self.array_def._.comp_type,
         doc="""
         Return the component type of the type, if applicable. The
         component type is the type you'll get if you call an instance of the
@@ -651,8 +651,7 @@ class BaseTypeDecl(BasicDecl):
         """
         return Or(
             Self.base_type == other_type,
-            Self.base_type.then(lambda base_type:
-                                base_type.is_derived_type(other_type))
+            Self.base_type._.is_derived_type(other_type)
         )
 
     @langkit_property(return_type=BoolType)
@@ -662,22 +661,18 @@ class BaseTypeDecl(BasicDecl):
         type for B, and Self is a potential type for A, returns whether Self is
         a valid type for A in the dotted expression.
         """
+        cont_type = Var(container_type.canonical_type)
         return Or(
-            (Self.canonical_type == container_type.canonical_type),
+            (Self.canonical_type == cont_type),
 
             # Simple access type case
-            (Self.canonical_type.accessed_type
-             == container_type.canonical_type),
+            (Self.canonical_type.accessed_type == cont_type),
 
             # Derived type case
-            Self.canonical_type.is_derived_type(
-                container_type.canonical_type
-            ),
+            Self.canonical_type.is_derived_type(cont_type),
 
             # Access to derived type case
-            Self.canonical_type.accessed_type.then(
-                lambda a: a.is_derived_type(container_type.canonical_type)
-            ),
+            Self.canonical_type.accessed_type._.is_derived_type(cont_type),
         )
 
     @langkit_property(return_type=BoolType)
@@ -794,10 +789,8 @@ class AnonymousTypeDecl(TypeDecl):
 
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
-        return Self.type_def.cast(AccessDef).then(
-            lambda accessd: accessd.accessed_type.matching_type(
+        return Self.type_def.cast(AccessDef)._.accessed_type.matching_type(
                 other.accessed_type
-            ),
         )
 
     # We don't want to add anonymous type declarations to the lexical

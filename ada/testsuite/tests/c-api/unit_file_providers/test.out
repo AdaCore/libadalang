@@ -6,8 +6,6 @@ Calling ufp_get_file_from_node (some_field=42, kind=0) on:
 <Id "Bar" 2:6-2:9>
 Calling ufp_get_file_from_node (some_field=42, kind=0) on:
 <Id "Foo" 4:11-4:14>
-Calling ufp_get_file_from_node (some_field=42, kind=0) on:
-<Id "Foo" 4:11-4:14>
 <DottedName 7:17-7:22> resolves to:
   <ObjectDecl ["I"] 2:4-2:20>
 Calling ufp_destroy (some_field=42)

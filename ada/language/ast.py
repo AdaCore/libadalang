@@ -617,9 +617,7 @@ class BaseTypeDecl(BasicDecl):
     is_char_type = Property(False,
                             doc="Whether type is a character type or not")
 
-    is_str_type = Property(
-        Self.is_array & Self.comp_type.then(lambda ct: ct.is_char_type)
-    )
+    is_str_type = Property(Self.is_array & Self.comp_type._.is_char_type)
 
     accessed_type = Property(No(T.BaseTypeDecl))
     is_tagged_type = Property(False, doc="Whether type is tagged or not")

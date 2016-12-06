@@ -1217,9 +1217,7 @@ class BasicSubpDecl(BasicDecl):
             add_to_env(
                 key=Self.subp_spec.name.name.symbol,
                 val=Self.subp_spec.dottable_subp,
-                dest_env=Self.subp_spec.potential_dottable_type.then(
-                    lambda t: t.children_env
-                ),
+                dest_env=Self.subp_spec.potential_dottable_type._.children_env,
                 # We pass custom metadata, marking the entity as a dottable
                 # subprogram.
                 metadata=New(Metadata, dottable_subp=True,
@@ -2057,9 +2055,7 @@ class ExplicitDeref(Name):
     def env_elements_impl(origin_env=LexicalEnvType):
         return Self.prefix.env_elements_impl(origin_env).filter(
             # Env elements for access derefs need to be of an access type
-            lambda e: e.el.cast(BasicDecl).then(
-                lambda bd: bd.canonical_expr_type.is_access_type()
-            )
+            lambda e: e.el.cast(BasicDecl)._.canonical_expr_type.is_access_type
         )
 
     @langkit_property()

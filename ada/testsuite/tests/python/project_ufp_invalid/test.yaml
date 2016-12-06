@@ -1,2 +1,3 @@
 driver: python
 input_sources: [p.gpr]
+expect_failure: PA05-041

@@ -258,7 +258,7 @@ class BasicDecl(AdaNode):
         Same as expr_type, but will instead return the canonical type
         declaration.
         """
-        return Self.expr_type.then(lambda t: t.canonical_type)
+        return Self.expr_type._.canonical_type
 
     @langkit_property(return_type=T.SubpSpec)
     def subp_spec():

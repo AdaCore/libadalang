@@ -204,7 +204,7 @@ class BasicDecl(AdaNode):
     is_subp = Property(Self.is_a(T.BasicSubpDecl, T.SubpBody))
 
     expr_type = Property(
-        Self.type_expression.then(lambda te: te.designated_type),
+        Self.type_expression._.designated_type,
         type=T.BaseTypeDecl,
         doc="""
         Return the type declaration corresponding to this basic declaration

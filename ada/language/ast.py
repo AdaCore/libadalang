@@ -162,7 +162,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
     """
 
     attribs = dict(
-        scope=Property(
+        parent_scope=Property(
             Let(lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)),
             private=True, has_implicit_env=True,
             doc="""
@@ -171,7 +171,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
             """
         ),
         env_spec=EnvSpec(
-            initial_env=Self.scope, add_env=True,
+            initial_env=Self.parent_scope, add_env=True,
             add_to_env=add_to_env(name_expr, env_val_expr),
             env_hook_arg=Self,
         )
@@ -1207,7 +1207,7 @@ class BasicSubpDecl(BasicDecl):
     )
 
     env_spec = EnvSpec(
-        initial_env=Self.subp_spec.name.scope,
+        initial_env=Self.subp_spec.name.parent_scope,
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
             add_to_env(Self.subp_spec.name.name.symbol, Self),
@@ -1426,7 +1426,7 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+                          Self.package_name.parent_scope)]
 
 
 class ExceptionDecl(BasicDecl):
@@ -1524,7 +1524,7 @@ class FormalSubpDecl(BasicSubpDecl):
 
 class GenericSubpDecl(BasicDecl):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
-                          Self.subp_spec.name.scope,
+                          Self.subp_spec.name.parent_scope,
                           Self)]
 
     formal_part = Field(type=T.AdaNode.list_type())
@@ -1536,7 +1536,7 @@ class GenericSubpDecl(BasicDecl):
 
 class GenericPackageDecl(BasicDecl):
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+                          Self.package_name.parent_scope)]
 
     formal_part = Field(type=T.AdaNode.list_type())
     package_decl = Field(type=BasePackageDecl)
@@ -1584,7 +1584,7 @@ class Expr(AdaNode):
         """
         pass
 
-    scope = AbstractProperty(
+    parent_scope = AbstractProperty(
         type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
         has_implicit_env=True,
         doc="""
@@ -2165,7 +2165,7 @@ class BaseId(SingleTokNode):
             ents.map(lambda e: e.el.cast(BasicDecl).defining_env).env_group
         ))
 
-    scope = Property(Env)
+    parent_scope = Property(Env)
     name = Property(Self.tok)
 
     designated_type_impl = Property(
@@ -2633,11 +2633,11 @@ class DottedName(Name):
         ))
 
     env_for_scope = Property(Self.suffix.then(
-        lambda sfx: Self.scope.eval_in_env(sfx.env_for_scope),
+        lambda sfx: Self.parent_scope.eval_in_env(sfx.env_for_scope),
         default_val=EmptyEnv
     ))
 
-    scope = Property(Self.prefix.match(
+    parent_scope = Property(Self.prefix.match(
         lambda name=T.Name: name.env_for_scope,
         lambda others:      EmptyEnv
     ))
@@ -2702,7 +2702,7 @@ class SubpBody(Body):
         Self.subp_spec.name.name.symbol,
         Let(lambda scope=Self.subp_spec.name.env_for_scope:
             If(scope == EmptyEnv,
-               Self.subp_spec.name.scope,
+               Self.subp_spec.name.parent_scope,
                scope)),
         Self
     )]

@@ -1701,7 +1701,7 @@ class Aggregate(Expr):
 
 @abstract
 class Name(Expr):
-    env_for_scope = Property(
+    scope = Property(
         EmptyEnv, has_implicit_env=True,
         doc="""
         Lexical environment this identifier represents. This is similar to
@@ -2136,7 +2136,7 @@ class SingleTokNode(Name):
 class BaseId(SingleTokNode):
 
     @langkit_property()
-    def env_for_scope():
+    def scope():
         elt = Var(Env.get(Self.tok).at(0))
         return If(
             Not(elt.is_null) & elt.el.is_a(
@@ -2632,13 +2632,13 @@ class DottedName(Name):
             Self.suffix.designated_env(origin_env)
         ))
 
-    env_for_scope = Property(Self.suffix.then(
-        lambda sfx: Self.parent_scope.eval_in_env(sfx.env_for_scope),
+    scope = Property(Self.suffix.then(
+        lambda sfx: Self.parent_scope.eval_in_env(sfx.scope),
         default_val=EmptyEnv
     ))
 
     parent_scope = Property(Self.prefix.match(
-        lambda name=T.Name: name.env_for_scope,
+        lambda name=T.Name: name.scope,
         lambda others:      EmptyEnv
     ))
 
@@ -2700,7 +2700,7 @@ class CompilationUnit(AdaNode):
 class SubpBody(Body):
     _macros = [child_unit(
         Self.subp_spec.name.name.symbol,
-        Let(lambda scope=Self.subp_spec.name.env_for_scope:
+        Let(lambda scope=Self.subp_spec.name.scope:
             If(scope == EmptyEnv,
                Self.subp_spec.name.parent_scope,
                scope)),
@@ -2883,7 +2883,7 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.env_for_scope)]
+                          Self.package_name.scope)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

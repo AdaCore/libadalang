@@ -140,7 +140,7 @@ class AdaNode(ASTNode):
         return Self.children_env.is_visible_from(other.children_env)
 
 
-def child_unit(name_expr, scope_expr, env_val_expr=Self):
+def child_unit(name_expr, scope_expr):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -154,9 +154,6 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
         scope node for the decorated node. If the scope node is not found, it
         should return EmptyEnv: in this case, the actual scope will become the
         root environment.
-
-    :param AbstractExpression env_val_expr: The expression that will
-        retrieve the environment value for the decorated node.
 
     :rtype: NodeMacro
     """
@@ -172,7 +169,7 @@ def child_unit(name_expr, scope_expr, env_val_expr=Self):
         ),
         env_spec=EnvSpec(
             initial_env=Self.parent_scope, add_env=True,
-            add_to_env=add_to_env(name_expr, env_val_expr),
+            add_to_env=add_to_env(name_expr, Self),
             env_hook_arg=Self,
         )
     )
@@ -1524,8 +1521,7 @@ class FormalSubpDecl(BasicSubpDecl):
 
 class GenericSubpDecl(BasicDecl):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
-                          Self.subp_spec.name.parent_scope,
-                          Self)]
+                          Self.subp_spec.name.parent_scope)]
 
     formal_part = Field(type=T.AdaNode.list_type())
     subp_spec = Field(type=T.SubpSpec)
@@ -2703,8 +2699,7 @@ class SubpBody(Body):
         Let(lambda scope=Self.subp_spec.name.scope:
             If(scope == EmptyEnv,
                Self.subp_spec.name.parent_scope,
-               scope)),
-        Self
+               scope))
     )]
 
     overriding = Field(type=Overriding)

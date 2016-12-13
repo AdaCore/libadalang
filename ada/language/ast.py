@@ -2212,7 +2212,7 @@ class BaseId(SingleTokNode):
     def env_elements_impl(origin_env=LexicalEnvType):
         return Self.env_elements_baseid(origin_env, False)
 
-    @langkit_property(private=True, memoized=True)
+    @langkit_property(private=True)
     def env_elements_baseid(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by

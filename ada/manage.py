@@ -87,7 +87,7 @@ class Manage(ManageScript):
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
-        from langkit.compile_context import CompileCtx
+        from langkit.compile_context import CompileCtx, LibraryEntity
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
         from language.documentation import libadalang_docs
@@ -98,9 +98,14 @@ class Manage(ManageScript):
             grammar=ada_grammar,
             default_charset='iso-8859-1',
             verbosity=args.verbosity,
-            env_hook_subprogram=('Libadalang.Unit_Files.Env_Hook', 'Env_Hook'),
-            default_unit_file_provider=('Libadalang.Unit_Files.Default',
-                                        'Default_Unit_File_Provider'),
+            env_hook_subprogram=LibraryEntity(
+                'Libadalang.Unit_Files.Env_Hook',
+                'Env_Hook'
+            ),
+            default_unit_file_provider=LibraryEntity(
+                'Libadalang.Unit_Files.Default',
+                'Default_Unit_File_Provider'
+            ),
             documentations=libadalang_docs,
         )
 

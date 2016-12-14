@@ -2147,7 +2147,7 @@ class BaseId(SingleTokNode):
     def designated_env(origin_env=LexicalEnvType):
         return Self.designated_env_impl(origin_env, False)
 
-    @langkit_property(private=True)
+    @langkit_property(private=True, has_implicit_env=True)
     def designated_env_impl(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
         """
         Decoupled implementation for designated_env, specifically used by
@@ -2204,11 +2204,11 @@ class BaseId(SingleTokNode):
             )
         )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
-    @langkit_property()
+    @langkit_property(has_implicit_env=True)
     def env_elements_impl(origin_env=LexicalEnvType):
         return Self.env_elements_baseid(origin_env, False)
 
-    @langkit_property(private=True)
+    @langkit_property(private=True, has_implicit_env=True)
     def env_elements_baseid(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by

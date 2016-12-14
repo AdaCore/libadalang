@@ -42,8 +42,7 @@
       Project : Project_Tree_Access := new Project_Tree;
       Env     : Project_Environment_Access;
 
-      Result  : Unit_File_Provider_Access :=
-         new Project_Unit_File_Provider_Type'(Create (Project, True));
+      Result  : Unit_File_Provider_Access;
    begin
       Initialize (Env);
       if Scenario_Vars /= System.Null_Address then
@@ -63,7 +62,10 @@
       exception
          when Invalid_Project =>
             Free (Env);
+            Free (Project);
             return ${unit_file_provider_type} (System.Null_Address);
       end;
+
+      Result := new Project_Unit_File_Provider_Type'(Create (Project, True));
       return Wrap (Result);
    end;

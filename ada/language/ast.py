@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from langkit import compiled_types
 from langkit.compiled_types import (
-    ASTNode, BoolType, EnvElement, EquationType, Field, LexicalEnvType,
+    ASTNode, BoolType, EquationType, Field, LexicalEnvType,
     LogicVarType, LongType, Struct, T, UserField, abstract, create_macro,
     env_metadata, has_abstract_list, root_grammar_class
 )
@@ -1601,7 +1601,7 @@ class Expr(AdaNode):
     env_elements = Property(Self.env_elements_impl(Env), has_implicit_env=True)
 
     @langkit_property(private=True,
-                      return_type=EnvElement.array_type(),
+                      return_type=T.root_node.env_element().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       has_implicit_env=True)
     def env_elements_impl(origin_env=LexicalEnvType):

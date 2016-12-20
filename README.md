@@ -17,6 +17,9 @@ IDEs. Its goals encompass, but are not limited to:
 It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
 basis, and is at the time of writing the main project developped using it.
 
+Come and discuss with us on our [public HipChat
+room](https://www.hipchat.com/gmMO8liEG)!
+
 Setup
 -----
 

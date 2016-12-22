@@ -1,5 +1,3 @@
-with Libadalang.AST.Types; use Libadalang.AST.Types;
-
 package body Libadalang.Unit_Files.Env_Hook is
 
    procedure Handle_Name (Ctx : Analysis_Context; Name : Ada_Node);

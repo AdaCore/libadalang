@@ -3,10 +3,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 
-with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.AST;       use Libadalang.AST;
-with Libadalang.AST.Types; use Libadalang.AST.Types;
-with Libadalang.Lexer;     use Libadalang.Lexer;
+with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Lexer;    use Libadalang.Lexer;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;

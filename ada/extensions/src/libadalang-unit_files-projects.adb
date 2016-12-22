@@ -1,6 +1,5 @@
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
-with Libadalang.AST.Types; use Libadalang.AST.Types;
 with Libadalang.Unit_Files.Default;
 
 package body Libadalang.Unit_Files.Projects is
@@ -56,8 +55,8 @@ package body Libadalang.Unit_Files.Projects is
       end if;
 
       declare
-         Name      : constant Libadalang.AST.Types.Name :=
-            Libadalang.AST.Types.Name (Node);
+         Name      : constant Libadalang.Analysis.Name :=
+            Libadalang.Analysis.Name (Node);
          Str_Name  : constant String :=
             Libadalang.Unit_Files.Default.Unit_String_Name (Name);
       begin

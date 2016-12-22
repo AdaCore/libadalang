@@ -1,5 +1,4 @@
-with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.AST;       use Libadalang.AST;
+with Libadalang.Analysis; use Libadalang.Analysis;
 
 --  This package exposes primitives to determine for one unit name what are the
 --  name of the source files that is supposed to hold it.

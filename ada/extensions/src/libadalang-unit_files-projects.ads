@@ -2,7 +2,9 @@ with Ada.Finalization;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 
-with Libadalang.AST; use Libadalang.AST;
+with Langkit_Support.Text; use Langkit_Support.Text;
+
+with Libadalang.Analysis; use Libadalang.Analysis;
 
 --  This package provides an Unit_File_Provider implemetation that relies on a
 --  project file.

@@ -8,7 +8,6 @@ with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.AST.Types;           use Libadalang.AST.Types;
 with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
@@ -38,7 +37,7 @@ package body Libadalang.Unit_Files.Default is
       if Node.all in Name_Type'Class then
          declare
             Str_Name  : constant String :=
-               Unit_String_Name (Libadalang.AST.Types.Name (Node));
+               Unit_String_Name (Libadalang.Analysis.Name (Node));
          begin
             return File_From_Unit (Str_Name, Kind);
          end;

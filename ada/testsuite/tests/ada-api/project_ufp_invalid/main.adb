@@ -8,8 +8,6 @@ with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;            use Libadalang.Analysis;
-with Libadalang.AST;                 use Libadalang.AST;
-with Libadalang.AST.Types;           use Libadalang.AST.Types;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 

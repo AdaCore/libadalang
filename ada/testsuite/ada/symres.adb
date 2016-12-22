@@ -13,8 +13,6 @@ with Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 with Libadalang.Analysis;   use Libadalang.Analysis;
-with Libadalang.AST;        use Libadalang.AST;
-with Libadalang.AST.Types;  use Libadalang.AST.Types;
 
 procedure Symres is
 

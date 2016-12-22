@@ -1,9 +1,7 @@
 with Ada.Characters.Conversions; use Ada.Characters.Conversions;
 with Ada.Text_IO;                use Ada.Text_IO;
 
-with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.AST;       use Libadalang.AST;
-with Libadalang.AST.Types; use Libadalang.AST.Types;
+with Libadalang.Analysis; use Libadalang.Analysis;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;

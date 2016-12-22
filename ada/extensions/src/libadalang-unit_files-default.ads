@@ -1,7 +1,6 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.AST;       use Libadalang.AST;
-with Libadalang.AST.Types; use Libadalang.AST.Types;
+with Libadalang.Analysis; use Libadalang.Analysis;
 
 --  This package provides an Unit_File_Provider implementation that is the
 --  default one for Analysis_Context.

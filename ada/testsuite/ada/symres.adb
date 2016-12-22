@@ -256,7 +256,7 @@ procedure Symres is
 
             if Pragma_Name.all = "Config" then
                --  Handle testcase configuration pragmas for this file
-               for Arg of P_Node.F_Args.all loop
+               for Arg of P_Node.F_Args.Children loop
                   declare
                      A     : constant Pragma_Argument_Assoc :=
                         Pragma_Argument_Assoc (Arg);

@@ -60,7 +60,7 @@ package body Libadalang.Unit_Files.Env_Hook is
 
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
    begin
-      for N of Names.all loop
+      for N of Names.Children loop
          Handle_Name (Ctx, N);
       end loop;
    end Handle_With_Decl;

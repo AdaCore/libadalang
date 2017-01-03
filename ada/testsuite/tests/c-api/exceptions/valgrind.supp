@@ -2,7 +2,7 @@
    destroy_null_analysis_context
    Memcheck:Addr4
    ...
-   fun:libadalang__analysis__destroy
+   fun:libadalang__analysis__destroy__2
    fun:ada_destroy_analysis_context
    fun:main
 }

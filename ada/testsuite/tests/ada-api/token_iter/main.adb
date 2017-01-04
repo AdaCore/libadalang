@@ -4,7 +4,7 @@ with Ada.Text_IO;           use Ada.Text_IO;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
-with Libadalang.Lexer;    use Libadalang.Lexer;
+with Libadalang.Lexer;
 
 procedure Main is
    Ctx : Analysis_Context := Create;
@@ -37,7 +37,7 @@ procedure Main is
          declare
             TD : constant Token_Data_Type := Data (Token);
          begin
-            Put ("  " & Token_Kind_Name (TD.Kind));
+            Put ("  " & Libadalang.Lexer.Token_Kind_Name (TD.Kind));
             if TD.Text /= null then
                Put (" " & Image (TD.Text.all, With_Quotes => True));
             end if;

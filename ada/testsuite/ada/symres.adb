@@ -231,7 +231,7 @@ procedure Symres is
          Node        : Ada_Node;
 
          P_Node      : Pragma_Node;
-         Pragma_Name : Text_Access;
+         Pragma_Name : Text_Cst_Access;
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.

@@ -68,7 +68,7 @@ package body Libadalang.Unit_Files.Default is
    function Unit_Text_Name (N : Name) return Text_Type is
    begin
       if N.all in Identifier_Type'Class then
-         return Data (Identifier (N).F_Tok).Text.all;
+         return Text (Identifier (N).F_Tok);
 
       elsif N.all in Dotted_Name_Type'Class then
          declare

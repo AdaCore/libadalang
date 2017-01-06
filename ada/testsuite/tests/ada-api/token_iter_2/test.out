@@ -1,6 +1,6 @@
 Tokens for node <BinOp 3:11-3:20>:
 <Token Kind=Identifier Text="A">
-<Token Kind=Plus Text=None>
+<Token Kind=Plus Text="+">
 <Token Kind=Identifier Text="B">
-<Token Kind=Plus Text=None>
+<Token Kind=Plus Text="+">
 <Token Kind=Identifier Text="C">

@@ -5,6 +5,6 @@ is
    Self : access ${root_node_value_type}'Class := Node;
 begin
    return "<" & To_Text (Kind_Name (Self))
-          & " """ & Get_Symbol (F_Tok (Node)).all & """ "
+          & " """ & Text (F_Tok (Node)) & """ "
           & To_Text (Image (Sloc_Range (Node))) & ">";
 end Short_Image;

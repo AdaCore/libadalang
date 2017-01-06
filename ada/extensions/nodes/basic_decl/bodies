@@ -19,8 +19,8 @@ is
       end if;
 
       if Node.all in Single_Tok_Node_Type'Class then
-         return Get_Symbol
-           (F_Tok (Single_Tok_Node_Type (Node.all)'Access)).all;
+         return Text
+           (F_Tok (Single_Tok_Node_Type (Node.all)'Access));
       elsif Node.all in Dotted_Name_Type'Class then
          D := Dotted_Name_Type (Node.all)'Access;
          return Name_Image (D.F_Prefix) & "." & Name_Image (D.F_Suffix);

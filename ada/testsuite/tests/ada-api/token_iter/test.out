@@ -1,121 +1,121 @@
 Tokens for no_trivia.adb (no trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "No_Trivia"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "No_Trivia"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for empty.adb (no trivia):
-  Termination
+  Termination ""
 
 Tokens for no_trivia.adb (with trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "No_Trivia"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "No_Trivia"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for empty.adb (with trivia):
-  Termination
+  Termination ""
 
 Tokens for one_leading_comment.adb (with trivia):
   Comment "--  This is the only leading comment"
-  Procedure
+  Procedure "procedure"
   Identifier "One_Leading_Comment"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "One_Leading_Comment"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for two_leading_comments.adb (with trivia):
   Comment "--  This is the first leading comment."
   Comment "--  And this is the second one."
-  Procedure
+  Procedure "procedure"
   Identifier "Two_Leading_Comments"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "Two_Leading_Comments"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for one_middle_comment.adb (with trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "One_Middle_Comment"
-  Is
+  Is "is"
   Comment "--  This is the only middle comment"
-  Begin
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "One_Middle_Comment"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for two_middle_comments.adb (with trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "Two_Middle_Comments"
-  Is
+  Is "is"
   Comment "--  This is one middle comment."
   Comment "--  And this is the second one."
-  Begin
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "Two_Middle_Comments"
-  Semicolon
-  Termination
+  Semicolon ";"
+  Termination ""
 
 Tokens for one_trailing_comment.adb (with trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "One_Trailing_Comment"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "One_Trailing_Comment"
-  Semicolon
+  Semicolon ";"
   Comment "--  This is the only trailing comment"
-  Termination
+  Termination ""
 
 Tokens for two_trailing_comments.adb (with trivia):
-  Procedure
+  Procedure "procedure"
   Identifier "Two_Trailing_Comments"
-  Is
-  Begin
+  Is "is"
+  Begin "begin"
   Null "null"
-  Semicolon
-  End
+  Semicolon ";"
+  End "end"
   Identifier "Two_Trailing_Comments"
-  Semicolon
+  Semicolon ";"
   Comment "--  This is the first trailing comment."
   Comment "--  And this is the second one."
-  Termination
+  Termination ""
 
 Tokens for only_one_comment.adb (with trivia):
   Comment "--  This source file contains only one comment"
-  Termination
+  Termination ""
 
 Tokens for only_two_comments.adb (with trivia):
   Comment "--  This source file contains only two comments."
   Comment "--  Here is the second line."
-  Termination
+  Termination ""
 
 Done.

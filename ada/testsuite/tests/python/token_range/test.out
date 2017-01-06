@@ -1,4 +1,4 @@
 AST root start and end tokens:
-<Token Procedure>
-<Token Semicolon>
+<Token Procedure u'procedure'>
+<Token Semicolon u';'>
 Done.

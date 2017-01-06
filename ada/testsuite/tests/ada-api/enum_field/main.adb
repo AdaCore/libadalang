@@ -19,7 +19,7 @@ begin
          PP        : constant Param_Spec := Param_Spec (P);
          Name      : constant Token_Type :=
             Identifier (PP.F_Ids.Child (1)).F_Tok;
-         Name_Text : constant Text_Type := Data (Name).Text.all;
+         Name_Text : constant Text_Type := Text (Name);
       begin
          Put_Line
            (Image (Name_Text) & " is a: " & Ada_Mode'Image (PP.F_Mode));

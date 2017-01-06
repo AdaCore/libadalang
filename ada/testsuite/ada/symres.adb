@@ -36,6 +36,10 @@ procedure Symres is
    Lines_Map : Strings_Maps.Map;
    --  Associate a list of source lines for each source visited files
 
+   function "+" (S : String) return Unbounded_String
+      renames To_Unbounded_String;
+   function "+" (S : Unbounded_String) return String renames To_String;
+
    function "<" (Left, Right : Ada_Node) return Boolean is
      (Left.Sloc_Range.Start_Line < Right.Sloc_Range.Start_Line);
    procedure Sort is new Ada.Containers.Generic_Array_Sort
@@ -231,18 +235,18 @@ procedure Symres is
          Node        : Ada_Node;
 
          P_Node      : Pragma_Node;
-         Pragma_Name : Text_Cst_Access;
+         Pragma_Name : Unbounded_String;
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.
          while Next (It, Node) loop
 
             P_Node := Pragma_Node (Node);
-            Pragma_Name := Data (P_Node.F_Id.F_Tok).Text;
+            Pragma_Name := +Text (P_Node.F_Id.F_Tok);
 
             --  If this pragma and the previous ones are not on adjacent lines,
             --  do not make them adjacent in the output.
-            if Pragma_Name.all /= "Config" then
+            if +Pragma_Name /= "Config" then
                if Last_Line /= 0
                      and then
                   Natural (Node.Sloc_Range.Start_Line) - Last_Line > 1
@@ -252,7 +256,7 @@ procedure Symres is
                Last_Line := Natural (Node.Sloc_Range.End_Line);
             end if;
 
-            if Pragma_Name.all = "Config" then
+            if +Pragma_Name = "Config" then
                --  Handle testcase configuration pragmas for this file
                for Arg of P_Node.F_Args.Children loop
                   declare
@@ -260,12 +264,11 @@ procedure Symres is
                         Pragma_Argument_Assoc (Arg);
 
                      pragma Assert (A.F_Id.all in Identifier_Type'Class);
-                     Name  : constant Text_Type :=
-                        Data (A.F_Id.F_Tok).Text.all;
+                     Name  : constant Text_Type := Text (A.F_Id.F_Tok);
 
                      pragma Assert (A.F_Expr.all in Identifier_Type'Class);
                      Value : constant Text_Type :=
-                        Data (Identifier (A.F_Expr).F_Tok).Text.all;
+                        Text (Identifier (A.F_Expr).F_Tok);
                   begin
                      if Name = "Display_Slocs" then
                         Display_Slocs := Decode_Boolean_Literal (Value);
@@ -276,21 +279,22 @@ procedure Symres is
                   end;
                end loop;
 
-            elsif Pragma_Name.all = "Section" then
+            elsif +Pragma_Name = "Section" then
                --  Print headlines
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg : constant Expr := P_Node.F_Args.Item (1).F_Expr;
                   pragma Assert (Arg.all in String_Literal_Type'Class);
+
                   Tok : constant Token_Type := String_Literal (Arg).F_Tok;
-                  Text : constant Text_Type := Data (Tok).Text.all;
+                  T   : constant Text_Type := Text (Tok);
                begin
                   Put_Title
-                    ('-', Image (Text (Text'First + 1 .. Text'Last - 1)));
+                    ('-', Image (T (T'First + 1 .. T'Last - 1)));
                end;
                Empty := True;
 
-            elsif Pragma_Name.all = "Test" then
+            elsif +Pragma_Name = "Test" then
                --  Perform symbol resolution
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
@@ -314,12 +318,12 @@ procedure Symres is
                end;
                Empty := False;
 
-            elsif Pragma_Name.all = "Test_Statement" then
+            elsif +Pragma_Name = "Test_Statement" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                Resolve_Node (P_Node.Previous_Sibling);
                Empty := False;
 
-            elsif Pragma_Name.all = "Test_Block" then
+            elsif +Pragma_Name = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                declare
                   Block : Block_Stmt :=

@@ -8,7 +8,7 @@ with Libadalang.Lexer;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;
-   Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
+   Unit   : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    N      : constant Ada_Node := Root (Unit).Find_First
      (new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
 begin
@@ -19,7 +19,7 @@ begin
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
       Put_Line ("Kind: " & Libadalang.Lexer.Token_Kind_Name (Tok_Data.Kind));
-      Put_Line ("Text: " & Image (Tok_Data.Text.all));
+      Put_Line ("Text: " & Text (Tok));
       Put_Line ("Sloc range: " & Image (Tok_Data.Sloc_Range));
    end;
 

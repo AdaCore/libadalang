@@ -20,7 +20,7 @@ begin
          RTD : constant Record_Type_Def := Record_Type_Def (TD.F_Type_Def);
 
          Name      : constant Token_Type := TD.F_Type_ID.F_Tok;
-         Name_Text : constant Text_Type := Data (Name).Text.all;
+         Name_Text : constant Text_Type := Text (Name);
       begin
          Put_Line
            (Image (Name_Text) & " is abstract: "

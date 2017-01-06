@@ -1,0 +1,29 @@
+First and last tokens for test.adb:
+  * <Token Procedure u'procedure'>
+  * <Token Termination>
+
+Whole source buffer for test.adb:
+u'procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test;\n'
+
+Empty range for the following bounds:
+  * <Token Semicolon u';'>
+  * <Token Identifier u'Test'>
+u''
+
+Source excerpts for all Basic_Decl in test.adb:
+  * <SubpBody ["Test"] 1:2-7:10>
+    u'procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test'
+
+  * <ParamSpec ["A"] 1:18-1:25>
+    u'A : Foo'
+
+  * <ParamSpec ["B"] 1:27-1:34>
+    u'B : Bar'
+
+  * <ObjectDecl ["C"] 2:5-2:16>
+    u'C : Integer'
+
+Trying to get a source slice for two nodes in different units...
+... got the expected ValueError!
+
+Done.

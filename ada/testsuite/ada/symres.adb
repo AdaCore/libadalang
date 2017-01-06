@@ -16,25 +16,12 @@ with Libadalang.Analysis;   use Libadalang.Analysis;
 
 procedure Symres is
 
+   function Text (N : access Ada_Node_Type'Class) return String
+   is (Image (N.Text));
+
    Ctx   : Analysis_Context := Create;
 
    Quiet : Boolean := False;
-
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
-   --  List of strings. Used to represent the lines in a source file.
-
-   type String_Vector_Access is access String_Vectors.Vector;
-   procedure Destroy is new Ada.Unchecked_Deallocation
-     (String_Vectors.Vector, String_Vector_Access);
-
-   package Strings_Maps is new Ada.Containers.Hashed_Maps
-     (Key_Type        => Unbounded_String,
-      Element_Type    => String_Vector_Access,
-      Hash            => Ada.Strings.Unbounded.Hash,
-      Equivalent_Keys => "=");
-   Lines_Map : Strings_Maps.Map;
-   --  Associate a list of source lines for each source visited files
 
    function "+" (S : String) return Unbounded_String
       renames To_Unbounded_String;
@@ -49,11 +36,6 @@ procedure Symres is
       "<"          => "<");
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean;
-   function Get_Source_Lines (Filename : String) return String_Vector_Access;
-   function Source_Slice
-     (Lines      : String_Vectors.Vector;
-      Sloc_Range : Source_Location_Range)
-      return String;
    procedure Put_Title (C : Character; S : String);
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
 
@@ -95,53 +77,6 @@ procedure Symres is
          raise Program_Error with "Invalid boolean value: " & Image (T, True);
       end if;
    end Decode_Boolean_Literal;
-
-   ----------------------
-   -- Get_Source_Lines --
-   ----------------------
-
-   function Get_Source_Lines (Filename : String) return String_Vector_Access
-   is
-      Fname : Unbounded_String := To_Unbounded_String (Filename);
-      Cur   : Strings_Maps.Cursor;
-      use Ada.Text_IO;
-      File  : File_Type;
-      Lines : String_Vector_Access;
-   begin
-      --  Look for an already available array of lines for this file
-      Cur := Lines_Map.Find (Fname);
-      if Strings_Maps.Has_Element (Cur) then
-         return Strings_Maps.Element (Cur);
-      end if;
-
-      --  There is none, so create one and remember it
-      Lines := new String_Vectors.Vector;
-      Lines_Map.Insert (Fname, Lines);
-
-      Open (File, In_File, Filename);
-      while not End_Of_File (File) loop
-         Lines.Append (To_Unbounded_String (Get_Line (File)));
-      end loop;
-      Close (File);
-
-      return Lines;
-   end Get_Source_Lines;
-
-   ------------------
-   -- Source_Slice --
-   ------------------
-
-   function Source_Slice
-     (Lines      : String_Vectors.Vector;
-      Sloc_Range : Source_Location_Range)
-      return String
-   is
-      pragma Assert (Sloc_Range.Start_Line = Sloc_Range.End_Line);
-   begin
-      return Slice (Lines.Element (Positive (Sloc_Range.Start_Line)),
-                    Natural (Sloc_Range.Start_Column),
-                    Natural (Sloc_Range.End_Column) - 1);
-   end Source_Slice;
 
    ---------------
    -- Put_Title --
@@ -192,25 +127,10 @@ procedure Symres is
 
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
 
-      function Source_Slice (Node : access Ada_Node_Type'Class) return String;
-
       function Safe_Image
         (Node : access Ada_Node_Type'Class) return String
       is
         (if Node = null then "None" else Image (Node.Short_Image));
-
-      ------------------
-      -- Source_Slice --
-      ------------------
-
-      function Source_Slice (Node : access Ada_Node_Type'Class) return String
-      is
-         Unit  : constant Analysis_Unit := Get_Unit (Node);
-         Lines : constant String_Vector_Access :=
-            Get_Source_Lines (Get_Filename (Unit));
-      begin
-         return Source_Slice (Lines.all, Node.Sloc_Range);
-      end Source_Slice;
 
    begin
       if Has_Diagnostics (Unit) then
@@ -301,10 +221,10 @@ procedure Symres is
                   Arg      : constant Expr := P_Node.F_Args.Item (1).F_Expr;
                   Entities : Ada_Node_Array_Access := Arg.P_Entities;
                begin
-                  Put_Line (Source_Slice (Arg) & " resolves to:");
+                  Put_Line (Text (Arg) & " resolves to:");
                   Sort (Entities.Items);
                   for E of Entities.Items loop
-                     Put ("    " & Source_Slice (E));
+                     Put ("    " & Text (E));
                      if Display_Slocs then
                         Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
                      else
@@ -360,10 +280,6 @@ begin
             Process_File (Unit, Arg);
          end if;
       end;
-   end loop;
-
-   for Lines of Lines_Map loop
-      Destroy (Lines);
    end loop;
 
    Destroy (Ctx);

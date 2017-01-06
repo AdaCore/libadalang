@@ -105,8 +105,8 @@ procedure Symres is
       if N.P_Resolve_Symbols then
          for Node of N.Find (Is_Expr'Access).Consume loop
             declare
-               P_Ref  : Ada_Node := Expr (Node).P_Ref_Val;
-               P_Type : Ada_Node := Expr (Node).P_Type_Val;
+               P_Ref  : Ada_Node := Expr (Node).P_Ref_Val.El;
+               P_Type : Ada_Node := Expr (Node).P_Type_Val.El;
             begin
                if not Quiet then
                   Put_Line

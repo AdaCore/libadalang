@@ -29,7 +29,7 @@ def resolve_statement(statement):
         # every sub expression in the statement.
         for expr in statement.findall(lal.Expr):
             print("Expr: {}, references {}, type is {}".format(
-                expr, expr.p_ref_val, expr.p_type_val
+                expr, expr.p_ref_val.el, expr.p_type_val.el
             ))
     else:
         print("Resolution failed for node {}".format(statement))

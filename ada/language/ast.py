@@ -57,7 +57,7 @@ class AdaNode(ASTNode):
     """
 
     type_val = Property(
-        No(T.AdaNode),
+        No(T.AdaNode.env_element()),
         doc="""
         This will return the value of the type of this node after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -65,7 +65,7 @@ class AdaNode(ASTNode):
         """
     )
     ref_val = Property(
-        No(T.AdaNode),
+        No(T.AdaNode.env_element()),
         doc="""
         This will return the node this nodes references after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -1670,7 +1670,7 @@ class Aggregate(Expr):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        td = Var(Self.type_val.cast(BaseTypeDecl))
+        td = Var(Self.type_val.el.cast(BaseTypeDecl))
         atd = Var(td.array_def)
         return LogicAnd(If(
             atd.is_null,

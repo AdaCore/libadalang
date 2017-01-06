@@ -27,6 +27,16 @@ print_sloc_range(ada_source_location_range *sr)
 }
 
 static void
+print_token(ada_token *token)
+{
+    char *kind = ada_token_kind_name(token->kind);
+    printf("<Token Kind=%s Text=\"", kind);
+    fprint_text(stdout, token->text, false);
+    printf("\">");
+    free(kind);
+}
+
+static void
 dump(ada_base_node node, int level)
 {
     ada_node_kind_enum kind;

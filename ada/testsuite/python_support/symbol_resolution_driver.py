@@ -2,8 +2,6 @@ import sys
 
 import libadalang as lal
 
-import source
-
 
 def print_title(char, title):
     print(title)
@@ -19,27 +17,6 @@ def decode_boolean_literal(node):
         return False
     else:
         raise ValueError('Invalid boolean literal: {}'.format(node.f_tok.text))
-
-
-# Associate a list of source lines for each source visited files. Used to
-# display source excerpts.
-lines_map = {}
-
-
-def get_lines(src_file):
-    try:
-        return lines_map[src_file]
-    except KeyError:
-        pass
-
-    with open(src_file) as f:
-        lines_map[src_file] = f.readlines()
-    return lines_map[src_file]
-
-
-def src_slice(node):
-    lines = get_lines(node.unit.filename)
-    return source.src_slice(lines, node.sloc_range)
 
 
 def resolve_statement(statement):
@@ -114,7 +91,7 @@ for src_file in sys.argv[1:]:
             assert len(p.f_args) == 1
 
             expr = p.f_args[0].f_expr
-            print('{} resolves to:'.format(src_slice(expr)))
+            print('{} resolves to:'.format(expr.text))
 
             entities = expr.p_entities
 
@@ -122,7 +99,7 @@ for src_file in sys.argv[1:]:
             # guaranteed to be stable.
             for e in sorted(entities, key=lambda n: n.sloc_range.start.line):
                 print('    {}{}'.format(
-                    src_slice(e),
+                    e.text,
                     ' at {}'.format(e.sloc_range.start)
                     if display_slocs else ''
                 ))

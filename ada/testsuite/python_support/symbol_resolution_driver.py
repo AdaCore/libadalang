@@ -3,6 +3,27 @@ import sys
 import libadalang as lal
 
 
+def unicode_image(ustr):
+    result = ''
+    for c in ustr:
+        o = ord(c)
+        if 0x20 <= o <= 0x7f:
+            pass
+        elif o < 0xff:
+            c = '\\x{:02x}'.format(o)
+        elif o < 0xffff:
+            c = '\\u{:04x}'.format(o)
+        else:
+            c = '\\u{:08x}'.format(o)
+        result += c
+    return result
+
+def escape_ascii(string):
+    if isinstance(string, unicode):
+        return unicode_image(string)
+    else:
+        return string
+
 def print_title(char, title):
     print(title)
     print(char * len(title))
@@ -16,7 +37,9 @@ def decode_boolean_literal(node):
     elif node.f_tok.text == 'False':
         return False
     else:
-        raise ValueError('Invalid boolean literal: {}'.format(node.f_tok.text))
+        raise ValueError('Invalid boolean literal: {}'.format(
+            escape_ascii(node.f_tok.text)
+        ))
 
 
 def resolve_statement(statement):
@@ -60,38 +83,40 @@ for src_file in sys.argv[1:]:
 
         # If this pragma and the previous ones are not on adjacent lines, do
         # not make them adjacent in the output.
-        if pragma_name != 'Config':
+        if pragma_name != u'Config':
             if (last_line is not None and
                     p.sloc_range.start.line - last_line > 1):
                 print('')
             last_line = p.sloc_range.start.line
 
-        if pragma_name == 'Config':
+        if pragma_name == u'Config':
             # Handle testcase configuration pragmas for this file
             for arg in p.f_args:
                 assert isinstance(arg.f_id, lal.Identifier)
                 assert isinstance(arg.f_expr, lal.Identifier)
                 name = arg.f_id.f_tok.text
                 value = arg.f_expr
-                if name == 'Display_Slocs':
+                if name == u'Display_Slocs':
                     display_slocs = decode_boolean_literal(value)
                 else:
-                    raise ValueError('Invalid configuration: {}'.format(name))
+                    raise ValueError('Invalid configuration: {}'.format(
+                        escape_ascii(name)
+                    ))
 
-        elif pragma_name == 'Section':
+        elif pragma_name == u'Section':
             # Print headlines
             assert len(p.f_args) == 1
             arg = p.f_args[0].f_expr
             assert isinstance(arg, lal.StringLiteral)
-            print_title('-', arg.f_tok.text[1:-1])
+            print_title('-', escape_ascii(arg.f_tok.text[1:-1]))
             empty = False
 
-        elif pragma_name == 'Test':
+        elif pragma_name == u'Test':
             # Perform symbol resolution
             assert len(p.f_args) == 1
 
             expr = p.f_args[0].f_expr
-            print('{} resolves to:'.format(expr.text))
+            print('{} resolves to:'.format(escape_ascii(expr.text)))
 
             entities = expr.p_entities
 
@@ -99,7 +124,7 @@ for src_file in sys.argv[1:]:
             # guaranteed to be stable.
             for e in sorted(entities, key=lambda n: n.sloc_range.start.line):
                 print('    {}{}'.format(
-                    e.text,
+                    escape_ascii(e.text),
                     ' at {}'.format(e.sloc_range.start)
                     if display_slocs else ''
                 ))
@@ -107,12 +132,12 @@ for src_file in sys.argv[1:]:
                 print('    <none>')
             empty = False
 
-        elif pragma_name == 'Test_Statement':
+        elif pragma_name == u'Test_Statement':
             assert not p.f_args
             resolve_statement(p.previous_sibling)
             empty = False
 
-        elif pragma_name == 'Test_Block':
+        elif pragma_name == u'Test_Block':
             assert not p.f_args
             for statement in p.previous_sibling.findall(
                 lambda n: n.p_xref_entry_point

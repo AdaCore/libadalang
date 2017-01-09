@@ -103,18 +103,18 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-10:9> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageBody ["Foo"] 1:1-10:8>]
+    foo: [<PackageBody ["Foo"] 1:1-10:8>]
 }>
 <LibraryItem 1:1-10:8> - <LexEnv (Id <root>, Parent null), {
-    Foo: [<PackageBody ["Foo"] 1:1-10:8>]
+    foo: [<PackageBody ["Foo"] 1:1-10:8>]
 }>
 <PackageBody 1:1-10:8> - <LexEnv (Id 1, Parent <root>), {
-    Bar: [<SubpBody ["Bar"] 2:4-9:11>]
+    bar: [<SubpBody ["Bar"] 2:4-9:11>]
 }>
 <SubpBody 2:4-9:11> - <LexEnv (Id 2, Parent 1), {
-    I: [<ParamSpec ["I", "J"] 2:19-2:33>]
-    J: [<ParamSpec ["I", "J"] 2:19-2:33>]
+    i: [<ParamSpec ["I", "J"] 2:19-2:33>]
+    j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 }>
 <BlockStmt 4:7-8:10> - <LexEnv (Id 3, Parent 2), {
-    Lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
+    lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
 }>

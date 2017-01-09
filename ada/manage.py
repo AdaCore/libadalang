@@ -56,13 +56,6 @@ class Manage(ManageScript):
                  ' executed'
         )
         perf_test_parser.add_argument(
-            '--build-dir', default='build',
-            help=(
-                'Directory under work-dir to use for generated source code and'
-                'binaries. By default, use "$work-dir/build" .'
-            )
-        )
-        perf_test_parser.add_argument(
             '--nb-runs', type=int, default=4,
             help='Number of runs (default: 4)'
         )
@@ -106,6 +99,8 @@ class Manage(ManageScript):
                 'Libadalang.Unit_Files.Default',
                 'Default_Unit_File_Provider'
             ),
+            symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
+                                               'Canonicalize'),
             documentations=libadalang_docs,
         )
 

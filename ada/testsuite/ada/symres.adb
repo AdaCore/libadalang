@@ -19,7 +19,40 @@ procedure Symres is
    function Text (N : access Ada_Node_Type'Class) return String
    is (Image (N.Text));
 
-   Ctx   : Analysis_Context := Create;
+   -----------------
+   -- Has_Charset --
+   -----------------
+
+   function Has_Charset return Boolean is
+   begin
+      if Ada.Command_Line.Argument_Count = 0 then
+         return False;
+      end if;
+
+      declare
+         A : constant String := Ada.Command_Line.Argument (1);
+      begin
+         return A'Length > 2 and then A (A'First .. A'First + 1) = "--";
+      end;
+   end Has_Charset;
+
+   -------------
+   -- Charset --
+   -------------
+
+   function Charset return String is
+   begin
+      if Has_Charset then
+         declare
+            A : constant String := Ada.Command_Line.Argument (1);
+         begin
+            return A (A'First + 2 .. A'Last);
+         end;
+      end if;
+      return "";
+   end Charset;
+
+   Ctx   : Analysis_Context := Create (Charset => Charset);
 
    Quiet : Boolean := False;
 
@@ -267,7 +300,8 @@ procedure Symres is
    end Process_File;
 
 begin
-   for I in 1 .. Ada.Command_Line.Argument_Count loop
+   for I in (if Has_Charset then 2 else 1) .. Ada.Command_Line.Argument_Count
+   loop
       declare
          Arg  : constant String := Ada.Command_Line.Argument (I);
          Unit : Analysis_Unit;

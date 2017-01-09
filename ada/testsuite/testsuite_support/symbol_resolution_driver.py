@@ -16,19 +16,24 @@ class SymbolResolutionDriver(PythonDriver):
                                     'symbol_resolution_driver.py')
         self.tear_up_helper()
         self.run_python_only = self.test_env.get('run_python_only', False)
+        self.charset = self.test_env.get('charset', None)
 
     @catch_test_errors
     def run(self):
+        args = list(self.input_sources)
+        if self.charset:
+            args.insert(0, '--{}'.format(self.charset))
+
         # Run both the Python and the Ada drivers for symbol resolution
         py_output = self.run_and_check(
-            [self.python_interpreter, self.py_file] + self.input_sources,
+            [self.python_interpreter, self.py_file] + args,
             for_debug=True
         )
         if self.run_python_only:
             return
 
         ada_output = self.run_and_check(
-            ['symres'] + self.input_sources,
+            ['symres'] + args,
             for_debug=True, memcheck=True, append_output=False,
         )
 

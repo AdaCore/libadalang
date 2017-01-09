@@ -58,8 +58,14 @@ def resolve_statement(statement):
         print("Resolution failed for node {}".format(statement))
 
 
-ctx = lal.AnalysisContext()
-for src_file in sys.argv[1:]:
+input_sources = sys.argv[1:]
+charset = (input_sources.pop(0)[2:]
+           if input_sources and input_sources[0].startswith('--')
+           else None)
+
+
+ctx = lal.AnalysisContext(charset)
+for src_file in input_sources:
     print_title('#', 'Analyzing {}'.format(src_file))
 
     # Configuration for this file

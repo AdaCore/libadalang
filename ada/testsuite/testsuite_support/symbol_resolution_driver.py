@@ -15,14 +15,13 @@ class SymbolResolutionDriver(PythonDriver):
         self.py_file = os.path.join(self.support_dir,
                                     'symbol_resolution_driver.py')
         self.tear_up_helper()
-        self.py_args = self.input_sources
         self.run_python_only = self.test_env.get('run_python_only', False)
 
     @catch_test_errors
     def run(self):
         # Run both the Python and the Ada drivers for symbol resolution
         py_output = self.run_and_check(
-            [self.python_interpreter, self.py_file] + self.py_args,
+            [self.python_interpreter, self.py_file] + self.input_sources,
             for_debug=True
         )
         if self.run_python_only:

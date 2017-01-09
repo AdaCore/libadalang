@@ -13,7 +13,7 @@ CompilationUnit[1:1-4:12]
 |  |  |  SubpSpec[1:1-1:17]
 |  |  |  |name:
 |  |  |  |  Id[1:11-1:17]
-|  |  |  |  |tok: kikoo\u1800
+|  |  |  |  |tok: kikoo\u1820
 |  |  |  |params:
 |  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
 |  |  |  |returns: <null>
@@ -31,6 +31,6 @@ CompilationUnit[1:1-4:12]
 |  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
 |  |  |end_id:
 |  |  |  Id[4:5-4:11]
-|  |  |  |tok: kikoo\u1800
+|  |  |  |tok: kikoo\u1820
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

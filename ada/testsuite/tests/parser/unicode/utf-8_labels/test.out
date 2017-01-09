@@ -27,7 +27,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |stmts:
 |  |  |  |  AdaNodeList[3:5-5:15]
 |  |  |  |  |  Label[3:5-3:13]
-|  |  |  |  |  |token: <<\u3000\u3002\u3000\u3001>>
+|  |  |  |  |  |token: <<\u308c\u306a\u304c\u3089>>
 |  |  |  |  |  CallStmt[4:5-4:28]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[4:5-4:28]
@@ -44,7 +44,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  GotoStmt[5:5-5:14]
 |  |  |  |  |  |label_name:
 |  |  |  |  |  |  Id[5:10-5:14]
-|  |  |  |  |  |  |tok: \u3000\u3002\u3000\u3001
+|  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:14-5:14]: <empty list>
 |  |  |end_id:

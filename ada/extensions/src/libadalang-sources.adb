@@ -54,6 +54,9 @@ package body Libadalang.Sources is
       --  Decode bracket encodings
 
       while I <= Name'Last loop
+
+         --  First, try to decode a brackets encoded char, if any
+
          Result_Last := Result_Last + 1;
          declare
             C : constant Wide_Wide_Character := Name (I);
@@ -78,16 +81,35 @@ package body Libadalang.Sources is
                Result (Result_Last) := C;
             end if;
          end;
+
+         --  Now, perform case folding. Optimization: don't do costly wide wide
+         --  To_Lower for ASCII: this is the most common case by far and we can
+         --  handle it very quicly here with several range checks.
+
+         declare
+            subtype WWC is Wide_Wide_Character;
+
+            First_ASCII : constant WWC :=
+               WWC'Val (Character'Pos (ASCII.NUL));
+            Last_ASCII  : constant WWC :=
+               WWC'Val (Character'Pos (ASCII.DEL));
+            subtype WWC_ASCII is WWC range First_ASCII .. Last_ASCII;
+
+            C : WWC renames Result (Result_Last);
+         begin
+            if C in 'A' .. 'Z' then
+               C := WWC'Val (WWC'Pos (C) - WWC'Pos ('A') + WWC'Pos ('a'));
+            elsif C in WWC_ASCII'Range then
+               null;
+            else
+               C := Ada.Wide_Wide_Characters.Handling.To_Lower (C);
+            end if;
+         end;
+
          I := I + 1;
       end loop;
 
-      --  Perform case folding: always convert to lower case
-
-      declare
-         Result_Slice : Text_Type renames Result (Result'First .. Result_Last);
-      begin
-         return Ada.Wide_Wide_Characters.Handling.To_Lower (Result_Slice);
-      end;
+      return Result (Result'First .. Result_Last);
    end Canonicalize;
 
 end Libadalang.Sources;

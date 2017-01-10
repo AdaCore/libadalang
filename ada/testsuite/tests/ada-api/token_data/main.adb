@@ -18,9 +18,9 @@ begin
       Tok_Data : constant Token_Data_Type := Data (Tok);
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
-      Put_Line ("Kind: " & Libadalang.Lexer.Token_Kind_Name (Tok_Data.Kind));
+      Put_Line ("Kind: " & Libadalang.Lexer.Token_Kind_Name (Kind (Tok_Data)));
       Put_Line ("Text: " & Text (Tok));
-      Put_Line ("Sloc range: " & Image (Tok_Data.Sloc_Range));
+      Put_Line ("Sloc range: " & Image (Sloc_Range (Tok_Data)));
    end;
 
    Destroy (Ctx);

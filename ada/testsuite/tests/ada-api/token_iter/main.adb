@@ -37,7 +37,7 @@ procedure Main is
          declare
             TD : constant Token_Data_Type := Data (Token);
          begin
-            Put ("  " & Libadalang.Lexer.Token_Kind_Name (TD.Kind));
+            Put ("  " & Libadalang.Lexer.Token_Kind_Name (Kind (TD)));
             Put (" " & Image (Text (Token), With_Quotes => True));
             New_Line;
          end;

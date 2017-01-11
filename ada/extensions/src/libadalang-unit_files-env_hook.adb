@@ -1,9 +1,5 @@
 package body Libadalang.Unit_Files.Env_Hook is
 
-   procedure Handle_Name (Ctx : Analysis_Context; Name : Ada_Node);
-   --  Helper for the evironment hook. Fetch the unit for the spec file that
-   --  Name designates and populate its lexical environment.
-
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List);
    --  Helper for the environment hook to handle WithDecl nodes
 
@@ -12,6 +8,9 @@ package body Libadalang.Unit_Files.Env_Hook is
 
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node);
    --  Helper for the environment hook to handle library-level unit body nodes
+
+   procedure Ignore (Unit : Analysis_Unit) is null;
+   --  Helper to discard analysis units from Fetch_Unit
 
    --------------
    -- Env_Hook --
@@ -32,26 +31,6 @@ package body Libadalang.Unit_Files.Env_Hook is
       end if;
    end Env_Hook;
 
-   -----------------
-   -- Handle_Name --
-   -----------------
-
-   procedure Handle_Name (Ctx : Analysis_Context; Name : Ada_Node)
-   is
-      UFP      : constant Unit_File_Provider_Access_Cst :=
-         Unit_File_Provider (Ctx);
-      Name_Str : constant String := UFP.Get_File (Name, Unit_Specification);
-
-      --  TODO??? Find a proper way to handle file not found, parsing error,
-      --  etc.
-      Unit : Analysis_Unit := Get_From_File (Ctx, Name_Str);
-   begin
-      if Root (Unit) /= null then
-         Populate_Lexical_Env (Unit);
-         Reference_Unit (From => Get_Unit (Name), Referenced => Unit);
-      end if;
-   end Handle_Name;
-
    ----------------------
    -- Handle_With_Decl --
    ----------------------
@@ -59,7 +38,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
    begin
       for N of Names.Children loop
-         Handle_Name (Ctx, N);
+         Ignore (Fetch_Unit (Ctx, N, Unit_Specification));
       end loop;
    end Handle_With_Decl;
 
@@ -88,7 +67,10 @@ package body Libadalang.Unit_Files.Env_Hook is
       begin
          Dec_Ref (Names);
          if N.all in Dotted_Name_Type'Class then
-            Handle_Name (Ctx, Ada_Node (Dotted_Name (N).F_Prefix));
+            Ignore (Fetch_Unit
+              (Ctx,
+               Ada_Node (Dotted_Name (N).F_Prefix),
+               Unit_Specification));
          end if;
       end;
    end Handle_Unit_Decl;
@@ -115,7 +97,7 @@ package body Libadalang.Unit_Files.Env_Hook is
          N : constant Ada_Node := Ada_Node (Names.Items (1));
       begin
          Dec_Ref (Names);
-         Handle_Name (Ctx, N);
+         Ignore (Fetch_Unit (Ctx, N, Unit_Specification));
       end;
    end Handle_Unit_Body;
 

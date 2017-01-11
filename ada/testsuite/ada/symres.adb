@@ -14,6 +14,8 @@ with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 with Libadalang.Analysis;   use Libadalang.Analysis;
 
+with Put_Title;
+
 procedure Symres is
 
    function Text (N : access Ada_Node_Type'Class) return String
@@ -69,7 +71,6 @@ procedure Symres is
       "<"          => "<");
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean;
-   procedure Put_Title (C : Character; S : String);
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
 
    --------------
@@ -110,17 +111,6 @@ procedure Symres is
          raise Program_Error with "Invalid boolean value: " & Image (T, True);
       end if;
    end Decode_Boolean_Literal;
-
-   ---------------
-   -- Put_Title --
-   ---------------
-
-   procedure Put_Title (C : Character; S : String) is
-   begin
-      Put_Line (S);
-      Put_Line ((1 .. S'Length => C));
-      New_Line;
-   end Put_Title;
 
    ------------------
    -- Resolve_Node --

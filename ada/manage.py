@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import glob
 import os.path
 import shutil
 import subprocess
@@ -281,14 +282,18 @@ class Manage(ManageScript):
 
     def do_generate(self, args):
         """
-        Generate the Libadalang and Langkit libraries. Also generate the
-        Symres test program.
+        Generate the Libadalang and Langkit libraries. Also copy sources for
+        testsuite programs (symres, ...).
         """
         super(Manage, self).do_generate(args)
-        shutil.copy(
-            self.dirs.lang_source_dir('testsuite', 'ada', 'symres.adb'),
-            self.dirs.build_dir('src', 'symres.adb')
-        )
+
+        for src_file in glob.glob(
+            self.dirs.lang_source_dir('testsuite', 'ada', '*.ad*')
+        ):
+            shutil.copy(
+                src_file,
+                self.dirs.build_dir('src', os.path.basename(src_file))
+            )
 
 
 if __name__ == '__main__':

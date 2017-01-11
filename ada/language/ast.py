@@ -1748,10 +1748,10 @@ class CallExpr(Name):
 
     @langkit_property(has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
-        return Self.entities().map(lambda e: e.match(
-            lambda subp=BasicSubpDecl: subp.defining_env,
-            lambda subp=SubpBody:      subp.defining_env,
-            lambda others:             EmptyEnv,
+        return Self.env_elements().map(lambda e: e.match(
+            lambda subp=BasicSubpDecl.env_element(): subp.defining_env,
+            lambda subp=SubpBody.env_element():      subp.defining_env,
+            lambda others:                           EmptyEnv,
         )).env_group
 
     @langkit_property()
@@ -1813,10 +1813,10 @@ class CallExpr(Name):
 
             # For each potential subprogram match, we want to express the
             # following constraints:
-            & LogicOr(subps.map(lambda e: Let(lambda s=e.el.cast(BasicDecl): (
+            & LogicOr(subps.map(lambda e: Let(lambda s=e.cast(BasicDecl.env_element()): (
 
                 # The called entity is the subprogram
-                Bind(Self.name.ref_var, s)
+                Bind(Self.name.ref_var, e)
 
                 & If(
                     # Test if the entity is a parameterless subprogram call,
@@ -2061,7 +2061,7 @@ class ExplicitDeref(Name):
             Self.prefix.sub_equation(origin_env)
             # Evaluate the prefix equation
 
-            & Self.ref_var.domain(Self.entities)
+            & Self.ref_var.domain(Self.env_elements)
             # Restrict the domain of the reference to entities that are of an
             # access type.
 
@@ -2287,7 +2287,7 @@ class BaseId(SingleTokNode):
             Bind(Self.ref_var, dt) & Bind(Self.type_var, dt),
 
             # Other cases
-            Self.ref_var.domain(Self.entities)
+            Self.ref_var.domain(Self.env_elements)
             & Bind(Self.ref_var, Self.type_var,
                    BasicDecl.fields.canonical_expr_type)
         )
@@ -2651,8 +2651,8 @@ class DottedName(Name):
             Self.suffix.env_elements_impl(origin_env)
         ))
 
-    potential_primitive_calls = Property(Self.prefix.entities.mapcat(
-        lambda e: e.cast(BasicDecl).expr_type.tagged_primitives.filter(
+    potential_primitive_calls = Property(Self.prefix.env_elements.mapcat(
+        lambda e: e.cast(BasicDecl.env_element()).expr_type.tagged_primitives.filter(
             lambda p: p.defining_name.cast_or_raise(SingleTokNode).matches(
                 Self.suffix
             )
@@ -2662,7 +2662,7 @@ class DottedName(Name):
     )
 
     designated_type_impl = Property(lambda: (
-        Self.prefix.entities.at(0).children_env.eval_in_env(
+        Self.prefix.env_elements.at(0).children_env.eval_in_env(
             Self.suffix.designated_type_impl
         )
     ))
@@ -2679,9 +2679,9 @@ class DottedName(Name):
         return If(
             Not(dt.is_null),
             base,
-            base & LogicOr(Self.entities.map(lambda e: (
+            base & LogicOr(Self.env_elements.map(lambda e: (
                 Bind(Self.suffix.ref_var, e)
-                & e.cast(BasicDecl).constrain_prefix(Self.prefix)
+                & e.cast(BasicDecl.env_element()).constrain_prefix(Self.prefix)
                 & Bind(Self.type_var, Self.suffix.type_var)
             )))
         )

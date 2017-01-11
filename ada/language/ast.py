@@ -9,9 +9,9 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
-    AbstractProperty, And, Or, EmptyEnv, Env, EnvGroup, Literal, No, Not,
-    langkit_property, Var, Bind, Let, New, Property, Self, EmptyArray, If,
-    AbstractKind
+    AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
+    EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
+    langkit_property
 )
 from langkit.expressions.logic import (
     Predicate, LogicAnd, LogicOr, LogicTrue

@@ -13,6 +13,9 @@ from langkit.expressions import (
     EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
     langkit_property
 )
+from langkit.expressions.analysis_units import (
+    AnalysisUnitKind, AnalysisUnitType
+)
 from langkit.expressions.logic import (
     Predicate, LogicAnd, LogicOr, LogicTrue
 )
@@ -1732,6 +1735,14 @@ class Name(Expr):
         analysis, this doesn't use logic equations.
         """
     )
+
+    @langkit_property(return_type=AnalysisUnitType, external=True)
+    def referenced_unit(kind=AnalysisUnitKind):
+        """
+        Return the analysis unit for the given "kind" corresponding to this
+        Name. Return null if this is an illegal unit name.
+        """
+        pass
 
 
 class CallExpr(Name):

@@ -1612,7 +1612,8 @@ class Expr(AdaNode):
         pass
 
     entities = Property(
-        Self.env_elements.map(lambda e: e.el), type=AdaNode.array_type(),
+        Self.env_elements.map(lambda e: e.el),
+        type=T.root_node.array_type(),
         has_implicit_env=True,
         doc="""
         Same as env_elements, but return bare AdaNode instances rather than

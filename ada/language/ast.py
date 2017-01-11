@@ -1640,7 +1640,6 @@ class Expr(AdaNode):
 
     name = AbstractProperty(
         type=compiled_types.Token, private=True, runtime_check=True,
-        has_implicit_env=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix A.B.C, this will return C.

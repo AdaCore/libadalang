@@ -14,7 +14,7 @@ from langkit.expressions import (
     langkit_property
 )
 from langkit.expressions.analysis_units import (
-    AnalysisUnitKind, AnalysisUnitType
+    AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
 )
 from langkit.expressions.logic import (
     Predicate, LogicAnd, LogicOr, LogicTrue
@@ -1420,6 +1420,44 @@ class BasePackageDecl(BasicDecl):
     defining_names = Property(Self.name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
+    @langkit_property(return_type=T.PackageBody)
+    def body_part():
+        """
+        Return the PackageBody corresponding to this node, or null if there is
+        none.
+        """
+        return If(
+            Self.parent.is_a(T.LibraryItem),
+
+            # If Self is a library-level package, then just fetch the root
+            # package in the body unit.
+            Self.package_name.referenced_unit(UnitBody).root
+                .cast_or_raise(T.CompilationUnit).body
+                .cast_or_raise(T.LibraryItem).item
+                .cast(T.PackageBody),
+
+            # Otherwise, assume the parent is a package decl, get its body and
+            # then inspect its children to find the result.
+            # Note that only library-level packages can have a name that is not
+            # an identifier.
+            Let(lambda pkg_name=Self.package_name.cast(BaseId).then(
+                    lambda ident: ident.name.symbol
+                ):
+                # Self.parent should be a list, the next parent should be a
+                # PublicPart and the next one should finally be the parent
+                # package.
+                Self.parent.parent.parent.cast(T.BasePackageDecl)
+                    .body_part.decls.decls.children.filter(
+                        lambda n: n.cast(T.PackageBody).then(
+                            lambda pkg: pkg.package_name.cast(BaseId).then(
+                                lambda ident:
+                                    ident.name.symbol.equals(pkg_name)
+                            )
+                        )
+                    ).at(0).cast_or_raise(T.PackageBody),
+            )
+        )
+
 
 class PackageDecl(BasePackageDecl):
     """
@@ -1543,6 +1581,14 @@ class GenericPackageDecl(BasicDecl):
     package_name = Property(Self.package_decl.package_name)
 
     defining_names = Property(Self.package_name.singleton)
+
+    @langkit_property()
+    def body_part():
+        """
+        Return the PackageBody corresponding to this node, or null if there is
+        none.
+        """
+        return Self.package_decl.body_part
 
 
 def is_package(e):
@@ -2901,6 +2947,16 @@ class PackageBody(Body):
 
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
+
+    @langkit_property()
+    def spec_part():
+        """
+        Return the PackageDecl corresponding to this node, or null if there is
+        none.
+        """
+        return Self.parent.node_env.eval_in_env(
+            Self.package_name.entities.at(0)
+        )
 
 
 class TaskBody(Body):

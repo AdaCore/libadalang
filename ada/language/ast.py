@@ -57,7 +57,7 @@ class AdaNode(ASTNode):
     """
 
     type_val = Property(
-        No(T.AdaNode.env_element()),
+        No(T.AdaNode.env_el()),
         doc="""
         This will return the value of the type of this node after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -65,7 +65,7 @@ class AdaNode(ASTNode):
         """
     )
     ref_val = Property(
-        No(T.AdaNode.env_element()),
+        No(T.AdaNode.env_el()),
         doc="""
         This will return the node this nodes references after symbol
         resolution. NOTE: For this to be bound, resolve_symbols needs to be
@@ -1601,7 +1601,7 @@ class Expr(AdaNode):
     env_elements = Property(Self.env_elements_impl(Env), has_implicit_env=True)
 
     @langkit_property(private=True,
-                      return_type=T.root_node.env_element().array_type(),
+                      return_type=T.root_node.env_el().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       has_implicit_env=True)
     def env_elements_impl(origin_env=LexicalEnvType):
@@ -1749,8 +1749,8 @@ class CallExpr(Name):
     @langkit_property(has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
         return Self.env_elements().map(lambda e: e.match(
-            lambda subp=BasicSubpDecl.env_element(): subp.defining_env,
-            lambda subp=SubpBody.env_element():      subp.defining_env,
+            lambda subp=BasicSubpDecl.env_el(): subp.defining_env,
+            lambda subp=SubpBody.env_el():      subp.defining_env,
             lambda others:                           EmptyEnv,
         )).env_group
 
@@ -1813,7 +1813,9 @@ class CallExpr(Name):
 
             # For each potential subprogram match, we want to express the
             # following constraints:
-            & LogicOr(subps.map(lambda e: Let(lambda s=e.cast(BasicDecl.env_element()): (
+            & LogicOr(subps.map(lambda e: Let(lambda s=e.cast(
+                BasicDecl.env_el()
+            ): (
 
                 # The called entity is the subprogram
                 Bind(Self.name.ref_var, e)
@@ -2652,7 +2654,7 @@ class DottedName(Name):
         ))
 
     potential_primitive_calls = Property(Self.prefix.env_elements.mapcat(
-        lambda e: e.cast(BasicDecl.env_element()).expr_type.tagged_primitives.filter(
+        lambda e: e.cast(BasicDecl.env_el()).expr_type.tagged_primitives.filter(
             lambda p: p.defining_name.cast_or_raise(SingleTokNode).matches(
                 Self.suffix
             )
@@ -2681,7 +2683,7 @@ class DottedName(Name):
             base,
             base & LogicOr(Self.env_elements.map(lambda e: (
                 Bind(Self.suffix.ref_var, e)
-                & e.cast(BasicDecl.env_element()).constrain_prefix(Self.prefix)
+                & e.cast(BasicDecl.env_el()).constrain_prefix(Self.prefix)
                 & Bind(Self.type_var, Self.suffix.type_var)
             )))
         )

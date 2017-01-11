@@ -22,9 +22,9 @@ import testsuite_support.symbol_resolution_driver
 class Testsuite(BaseTestsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
-        'parser': testsuite_support.parser_driver.ParserDriver,
         'ada-api': testsuite_support.adaapi_driver.CAPIDriver,
         'c-api': testsuite_support.capi_driver.CAPIDriver,
+        'parser': testsuite_support.parser_driver.ParserDriver,
         'python': testsuite_support.python_driver.PythonDriver,
         'symbol_resolution':
             testsuite_support.symbol_resolution_driver.SymbolResolutionDriver,

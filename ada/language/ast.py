@@ -142,6 +142,24 @@ class AdaNode(ASTNode):
     def is_visible_from(other=T.AdaNode):
         return Self.children_env.is_visible_from(other.children_env)
 
+    body_unit = Property(
+        # TODO: handle units with multiple packages
+        Self.unit.root
+            .cast_or_raise(T.CompilationUnit).body
+            .cast_or_raise(T.LibraryItem).item
+            .match(
+            lambda pkg_spec=T.BasePackageDecl:
+                pkg_spec.package_name.referenced_unit(UnitBody),
+            lambda pkg_body=T.PackageBody:
+                pkg_body.unit,
+            lambda others: No(AnalysisUnitType),
+        ),
+        doc="""
+        If this unit has a body, fetch and return it.
+        """,
+        private=True
+    )
+
 
 def child_unit(name_expr, scope_expr):
     """

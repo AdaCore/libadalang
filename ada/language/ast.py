@@ -2281,8 +2281,11 @@ class BaseId(SingleTokNode):
         """
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
+
+        :param is_parent_pkg: Whether the origin of the env request is a
+            package or not.
         """
-        items = Var(Env.get_sequential(Self.tok))
+        items = Var(Env.get_sequential(Self.tok, recursive=Not(is_parent_pkg)))
         pc = Var(Self.parent_callexpr)
 
         def matching_subp(params, subp, env_el):

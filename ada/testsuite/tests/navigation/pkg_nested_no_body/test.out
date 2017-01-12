@@ -1,0 +1,13 @@
+foo.ads
+#######
+
+Body of <PackageDecl ["Foo"] 1:1-11:8> is <PackageBody ["Foo"] 1:1-9:8> [foo.adb]
+Body of <PackageDecl ["Bar"] 5:4-7:11> is <PackageBody ["Bar"] 3:4-7:11> [foo.adb]
+
+foo.adb
+#######
+
+Spec of <PackageBody ["Foo"] 1:1-9:8> is <PackageDecl ["Foo"] 1:1-11:8> [foo.ads]
+Spec of <PackageBody ["Bar"] 3:4-7:11> is <PackageDecl ["Bar"] 5:4-7:11> [foo.ads]
+
+Done.

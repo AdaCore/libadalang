@@ -1,0 +1,3 @@
+driver: navigation
+input_sources: [foo.ads]
+kinds: [Ada_Package_Decl]

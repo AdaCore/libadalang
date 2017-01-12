@@ -79,9 +79,10 @@ procedure Navigate is
    begin
       if LAL.Has_Diagnostics (Unit) then
          for D of LAL.Diagnostics (Unit) loop
-            Put_Line ("error: " & Filename & ":"
+            Put_Line ("error: " & Filename & ": "
                       & Langkit_Support.Diagnostics.To_Pretty_String (D));
          end loop;
+         New_Line;
          return;
       end if;
       LAL.Populate_Lexical_Env (Unit);

@@ -2776,7 +2776,7 @@ class CompilationUnit(AdaNode):
 
 class SubpBody(Body):
     _macros = [child_unit(
-        Self.subp_spec.name.name.symbol,
+        '__body',
         Let(lambda scope=Self.subp_spec.name.scope:
             If(scope == EmptyEnv,
                Self.subp_spec.name.parent_scope,
@@ -2958,8 +2958,7 @@ class TerminateAlternative(SimpleStmt):
 
 
 class PackageBody(Body):
-    _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.scope)]
+    _macros = [child_unit('__body', Self.package_name.scope)]
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

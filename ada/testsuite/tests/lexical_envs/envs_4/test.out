@@ -162,7 +162,7 @@ CompilationUnitList[1:1-13:9]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
 }>
 <PackageDecl 8:1-9:6> - <LexEnv (Id 3, Parent <root>), {
-    b: [<SubpBody ["A.B"] 11:1-13:8>]
+    __body: [<SubpBody ["A.B"] 11:1-13:8>]
 }>
 <CompilationUnit 11:1-13:9> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]

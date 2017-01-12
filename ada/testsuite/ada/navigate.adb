@@ -107,7 +107,7 @@ procedure Navigate is
                         LAL.Base_Package_Decl (Node).P_Body_Part);
                   when LAL.Ada_Package_Body =>
                      Print_Navigation
-                       ("Spec", Node, LAL.Package_Body (Node).P_Spec_Part);
+                       ("Decl", Node, LAL.Package_Body (Node).P_Decl_Part);
 
                   when others =>
                      Processed_Something := False;

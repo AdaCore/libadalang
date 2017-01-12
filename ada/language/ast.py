@@ -2959,7 +2959,7 @@ class PackageBody(Body):
     defining_env = Property(Self.children_env.env_orphan)
 
     @langkit_property()
-    def spec_part():
+    def decl_part():
         """
         Return the PackageDecl corresponding to this node.
         """

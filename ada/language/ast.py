@@ -1423,8 +1423,7 @@ class BasePackageDecl(BasicDecl):
     @langkit_property(return_type=T.PackageBody)
     def body_part():
         """
-        Return the PackageBody corresponding to this node, or null if there is
-        none.
+        Return the PackageBody corresponding to this node.
         """
         return If(
             Self.parent.is_a(T.LibraryItem),
@@ -1436,25 +1435,25 @@ class BasePackageDecl(BasicDecl):
                 .cast_or_raise(T.LibraryItem).item
                 .cast(T.PackageBody),
 
-            # Otherwise, assume the parent is a package decl, get its body and
-            # then inspect its children to find the result.
+            # Otherwise, assume for now the parent is a package decl, get its
+            # body and then inspect its children to find the result. TODO:
+            # handle other kind of parents: declarative parts, subprogram
+            # bodies, etc.
+            #
             # Note that only library-level packages can have a name that is not
             # an identifier.
-            Let(lambda pkg_name=Self.package_name.cast(BaseId).then(
-                    lambda ident: ident.name.symbol
-                ):
+            Let(lambda pkg_name=Self.package_name.cast_or_raise(BaseId)
+                                .name.symbol:
                 # Self.parent should be a list, the next parent should be a
                 # PublicPart and the next one should finally be the parent
                 # package.
                 Self.parent.parent.parent.cast(T.BasePackageDecl)
-                    .body_part.decls.decls.children.filter(
+                    .body_part.decls.decls.children.find(
                         lambda n: n.cast(T.PackageBody).then(
-                            lambda pkg: pkg.package_name.cast(BaseId).then(
-                                lambda ident:
-                                    ident.name.symbol.equals(pkg_name)
-                            )
+                            lambda pkg: pkg.package_name.cast_or_raise(BaseId)
+                                        .name.symbol.equals(pkg_name)
                         )
-                    ).at(0).cast_or_raise(T.PackageBody),
+                    ).cast_or_raise(T.PackageBody),
             )
         )
 
@@ -2950,8 +2949,7 @@ class PackageBody(Body):
     @langkit_property()
     def spec_part():
         """
-        Return the PackageDecl corresponding to this node, or null if there is
-        none.
+        Return the PackageDecl corresponding to this node.
         """
         return Self.parent.node_env.eval_in_env(
             Self.package_name.entities.at(0)

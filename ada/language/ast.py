@@ -1430,10 +1430,12 @@ class BasePackageDecl(BasicDecl):
 
             # If Self is a library-level package, then just fetch the root
             # package in the body unit.
-            Self.package_name.referenced_unit(UnitBody).root
-                .cast_or_raise(T.CompilationUnit).body
-                .cast_or_raise(T.LibraryItem).item
-                .cast(T.PackageBody),
+            Self.package_name.referenced_unit(UnitBody).root.then(
+                lambda root: root
+                             .cast_or_raise(T.CompilationUnit).body
+                             .cast_or_raise(T.LibraryItem).item
+                             .cast(T.PackageBody)
+            ),
 
             # Otherwise, assume for now the parent is a package decl, get its
             # body and then inspect its children to find the result. TODO:
@@ -1447,11 +1449,14 @@ class BasePackageDecl(BasicDecl):
                 # Self.parent should be a list, the next parent should be a
                 # PublicPart and the next one should finally be the parent
                 # package.
-                Self.parent.parent.parent.cast(T.BasePackageDecl)
-                    .body_part.decls.decls.children.find(
-                        lambda n: n.cast(T.PackageBody).then(
-                            lambda pkg: pkg.package_name.cast_or_raise(BaseId)
-                                        .name.symbol.equals(pkg_name)
+                Self.parent.parent.parent.cast(T.BasePackageDecl).body_part
+                    .then(lambda body_part:
+                        body_part.decls.decls.children.find(
+                            lambda n: n.cast(T.PackageBody).then(
+                                lambda pkg:
+                                    pkg.package_name.cast_or_raise(BaseId)
+                                    .name.symbol.equals(pkg_name)
+                            )
                         )
                     ).cast_or_raise(T.PackageBody),
             )

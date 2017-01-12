@@ -3,4 +3,4 @@ description:
     the filtering of subprogram specifications depending on the arguments
     provided to the CallExpr.
 driver: symbol_resolution
-input_sources: [foo.adb]
+input_sources: [foo.ads]

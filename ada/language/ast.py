@@ -1443,41 +1443,28 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        return If(
-            Self.parent.is_a(T.LibraryItem),
+        # Fetch the unit body to make sure the body (if it exists) is present
+        # in the environment.
+        return Let(lambda body_unit=Self.body_unit:
+            If(Self.parent.is_a(T.LibraryItem),
 
             # If Self is a library-level package, then just fetch the root
             # package in the body unit.
-            Self.package_name.referenced_unit(UnitBody).root.then(
+            body_unit.root.then(
                 lambda root: root
                              .cast_or_raise(T.CompilationUnit).body
                              .cast_or_raise(T.LibraryItem).item
                              .cast(T.PackageBody)
             ),
 
-            # Otherwise, assume for now the parent is a package decl, get its
-            # body and then inspect its children to find the result. TODO:
-            # handle other kind of parents: declarative parts, subprogram
-            # bodies, etc.
-            #
-            # Note that only library-level packages can have a name that is not
-            # an identifier.
+            # Self is a nested package: the name of such packages must be an
+            # identifier. Now, just use the __body link.
             Let(lambda pkg_name=Self.package_name.cast_or_raise(BaseId)
                                 .name.symbol:
-                # Self.parent should be a list, the next parent should be a
-                # PublicPart and the next one should finally be the parent
-                # package.
-                Self.parent.parent.parent.cast(T.BasePackageDecl).body_part
-                    .then(lambda body_part:
-                        body_part.decls.decls.children.find(
-                            lambda n: n.cast(T.PackageBody).then(
-                                lambda pkg:
-                                    pkg.package_name.cast_or_raise(BaseId)
-                                    .name.symbol.equals(pkg_name)
-                            )
-                        )
-                    ).cast_or_raise(T.PackageBody),
-            )
+                Self.children_env.get('__body', recursive=False).at(0).then(
+                    lambda elt: elt.el.cast_or_raise(T.PackageBody)
+                )
+            ))
         )
 
 

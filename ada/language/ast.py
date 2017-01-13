@@ -606,7 +606,8 @@ class RecordTypeDef(TypeDef):
     defining_env = Property(
         # We don't want to be able to access env elements in parents,
         # so we orphan the env.
-        Self.children_env.env_orphan
+        Self.children_env.env_orphan,
+        type=LexicalEnvType
     )
 
     is_tagged_type = Property(Self.has_tagged.as_bool)

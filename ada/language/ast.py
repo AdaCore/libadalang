@@ -1130,7 +1130,7 @@ class TypeExpr(AdaNode):
     accessed_type = Property(Self.designated_type.accessed_type)
 
     designated_type = AbstractProperty(
-        type=BaseTypeDecl, runtime_check=True, has_implicit_env=False,
+        type=BaseTypeDecl, runtime_check=True,
         doc="""
         Return the type designated by this type expression.
         """

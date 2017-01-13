@@ -1446,26 +1446,22 @@ class BasePackageDecl(BasicDecl):
         """
         # Fetch the unit body to make sure the body (if it exists) is present
         # in the environment.
-        return Let(lambda body_unit=Self.body_unit:
-            If(Self.parent.is_a(T.LibraryItem),
+        return If(
+            Self.parent.is_a(T.LibraryItem),
 
             # If Self is a library-level package, then just fetch the root
             # package in the body unit.
-            body_unit.root.then(
-                lambda root: root
-                             .cast_or_raise(T.CompilationUnit).body
-                             .cast_or_raise(T.LibraryItem).item
-                             .cast(T.PackageBody)
+            Self.body_unit.root.then(
+                lambda root: root.cast_or_raise(T.CompilationUnit).body
+                                 .cast_or_raise(T.LibraryItem).item
+                                 .cast(T.PackageBody)
             ),
 
             # Self is a nested package: the name of such packages must be an
             # identifier. Now, just use the __body link.
-            Let(lambda pkg_name=Self.package_name.cast_or_raise(BaseId)
-                                .name.symbol:
-                Self.children_env.get('__body', recursive=False).at(0).then(
-                    lambda elt: elt.el.cast_or_raise(T.PackageBody)
-                )
-            ))
+            Self.children_env.get('__body', recursive=False).at(0).then(
+                lambda elt: elt.el.cast_or_raise(T.PackageBody)
+            )
         )
 
 

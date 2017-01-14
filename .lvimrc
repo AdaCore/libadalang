@@ -1,0 +1,68 @@
+" This script is meant to be used in combination with the vim-localvimrc
+" plug-in, see https://github.com/embear/vim-localvimrc
+" It will run stylechecks on relevant files on file save in vim, and show the
+" results in the command window.
+" The code is inspired from the vim-flake8 plug-in:
+" https://github.com/nvie/vim-flake8
+
+if g:localvimrc_sourced_once
+  finish
+endif
+
+let s:local_path = expand('<sfile>:p:h')
+
+
+function Stylechecks()
+    let s:cmd=s:local_path . '/langkit/langkit/stylechecks/__init__.py'
+
+    if !executable(s:cmd)
+        echoerr "File " . s:cmd . " not found."
+        return
+    endif
+
+    set lazyredraw   " delay redrawing
+    cclose           " close any existing cwindows
+
+    " store old grep settings (to restore later)
+    let l:old_gfm=&grepformat
+    let l:old_gp=&grepprg
+
+    " write any changes before continuing
+    if &readonly == 0
+        update
+    endif
+
+    " perform the grep itself
+    let &grepformat="%f:%l:%c: %m\,%f:%l: %m"
+    let &grepprg=s:cmd
+    silent! grep! %
+
+    " restore grep settings
+    let &grepformat=l:old_gfm
+    let &grepprg=l:old_gp
+
+    " open cwindow
+    let has_results=getqflist() != []
+    if has_results
+        execute 'belowright copen'
+        setlocal wrap
+        nnoremap <buffer> <silent> c :cclose<CR>
+        nnoremap <buffer> <silent> q :cclose<CR>
+    endif
+
+    set nolazyredraw
+    redraw!
+
+    if has_results == 0
+        " Show OK status
+        hi Green ctermfg=green
+        echohl Green
+        echon "Style checks OK"
+        echohl
+    endif
+endfunction
+
+autocmd BufWritePost *.py call Stylechecks()
+autocmd BufWritePost *.adb call Stylechecks()
+autocmd BufWritePost *.ads call Stylechecks()
+autocmd BufWritePost *.mako call Stylechecks()

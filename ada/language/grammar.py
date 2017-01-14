@@ -127,14 +127,15 @@ A.add_rules(
     ),
 
     interface_type_def=InterfaceTypeDef(
-        Opt(Or(InterfaceKind.alt_limited("limited"),
-               InterfaceKind.alt_task("task"),
-               InterfaceKind.alt_protected(
-                   Tok(Token.Identifier, match_text="protected"),
-               ),
-               InterfaceKind.alt_synchronized(Tok(Token.Identifier,
-                                                  match_text="synchronized"))
-               )),
+        Opt(Or(
+            InterfaceKind.alt_limited("limited"),
+            InterfaceKind.alt_task("task"),
+            InterfaceKind.alt_protected(
+                Tok(Token.Identifier, match_text="protected"),
+            ),
+            InterfaceKind.alt_synchronized(Tok(Token.Identifier,
+                                           match_text="synchronized"))
+        )),
         Tok(Token.Identifier, match_text="interface"),
         List("and", A.static_name, empty_valid=True)
     ),

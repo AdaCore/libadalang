@@ -148,12 +148,12 @@ class AdaNode(ASTNode):
             .cast_or_raise(T.CompilationUnit).body
             .cast_or_raise(T.LibraryItem).item
             .match(
-            lambda pkg_spec=T.BasePackageDecl:
-                pkg_spec.package_name.referenced_unit(UnitBody),
-            lambda pkg_body=T.PackageBody:
-                pkg_body.unit,
-            lambda others: No(AnalysisUnitType),
-        ),
+                lambda pkg_spec=T.BasePackageDecl:
+                    pkg_spec.package_name.referenced_unit(UnitBody),
+                lambda pkg_body=T.PackageBody:
+                    pkg_body.unit,
+                lambda others: No(AnalysisUnitType),
+            ),
         doc="""
         If this unit has a body, fetch and return it.
         """,
@@ -809,7 +809,7 @@ class AnonymousTypeDecl(TypeDecl):
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
         return Self.type_def.cast(AccessDef)._.accessed_type.matching_type(
-                other.accessed_type
+            other.accessed_type
         )
 
     # We don't want to add anonymous type declarations to the lexical
@@ -2719,7 +2719,8 @@ class DottedName(Name):
         ))
 
     potential_primitive_calls = Property(Self.prefix.env_elements.mapcat(
-        lambda e: e.cast(BasicDecl.env_el()).expr_type.tagged_primitives.filter(
+        lambda e: e.cast(BasicDecl.env_el()).expr_type
+                                            .tagged_primitives.filter(
             lambda p: p.defining_name.cast_or_raise(SingleTokNode).matches(
                 Self.suffix
             )

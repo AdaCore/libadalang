@@ -4,7 +4,7 @@ import os
 from os.path import join
 import sys
 
-ADA_DIR = join(os.path.dirname(os.path.abspath(__file__)), '..')
+ADA_DIR = join(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = join(ADA_DIR, '..')
 
 DIRS = ('ada', 'langkit', 'utils')
@@ -12,9 +12,9 @@ EXCLUDES = ('tmp', 'doc', join('stylechecks', 'tests.py'),
             join('langkit', 'adalog', 'obj'),
             join('ada', 'testsuite', 'acats'))
 
-sys.path.append(ADA_DIR)
+sys.path.append(join(ROOT_DIR, "langkit"))
 
-from stylechecks import Report, check_file, traverse
+from langkit.stylechecks import Report, check_file, traverse
 
 
 def main(args):

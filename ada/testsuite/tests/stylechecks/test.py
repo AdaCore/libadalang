@@ -2,6 +2,8 @@ import os
 import sys
 
 
-sys.path.append(os.environ['LIBADALANG_ROOTDIR'])
-import stylechecks.__main__
-stylechecks.__main__.main([])
+sys.path.append(os.path.join(
+    os.environ['LIBADALANG_ROOTDIR']
+))
+import lal_stylechecks
+lal_stylechecks.main([])

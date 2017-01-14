@@ -69,20 +69,24 @@ class Report(object):
         self.filename = filename
         self.lineno = lineno
 
-    def add(self, message):
+    def add(self, message, filename=None, line=None, col=None):
         """Add a diagnostic record."""
+        line = line or self.lineno
+        col = col or 0
+        filename = filename or self.filename
         if not self.enable_colors:
             message = strip_colors(message)
         self.records.append((
-            self.filename, self.lineno, message
+            filename, line, col, message
         ))
 
     def output(self):
         """Write all diagnostics to the output file."""
-        for filename, lineno, message in sorted(set(self.records)):
-            line = '{}:{}: {}\n'.format(
+        for filename, lineno, colno, message in sorted(set(self.records)):
+            line = '{}:{}:{} {}\n'.format(
                 colored(filename, RED),
                 colored(lineno, YELLOW),
+                "{}:".format(colored(colno, YELLOW)) if colno else "",
                 message
             )
             if not self.enable_colors:

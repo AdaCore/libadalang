@@ -390,6 +390,25 @@ class PythonLang(LanguageChecker):
     from_import_re = re.compile('^from (?P<name>[a-zA-Z0-9_.]+) import.*')
 
     def check(self, report, filename, content, parse):
+        self.custom_check(report, filename, content, parse)
+        self.pep8_check(report, filename, content, parse)
+
+    def pep8_check(self, report, filename, content, parse):
+        import pep8
+
+        class CustomReport(pep8.BaseReport):
+            def error(self, line_number, offset, text, check):
+                report.add(text, filename, line_number, offset)
+
+        sg = pep8.StyleGuide(
+            quiet=True,
+            ignore=["W503", "E121", "E123", "E126", "E226", "E24",
+                    "E704", "E402"]
+        )
+        sg.init_report(CustomReport)
+        sg.check_files([filename])
+
+    def custom_check(self, report, filename, content, parse):
         pcheck = PackageChecker(report)
         for i, line in iter_lines(content):
             report.set_context(filename, i)
@@ -433,12 +452,11 @@ class MakoLang(LanguageChecker):
         first_line = content.split('\n', 1)[0]
         lang = None
         if 'makoada' in first_line:
-            lang = ada_lang
+            ada_lang.check(report, filename, content, parse=False)
+            check_generic(report, filename, content, ada_lang)
         elif 'makopython' in first_line:
-            lang = python_lang
-        if lang:  # pragma: no cover
-            lang.check(report, filename, content, parse=False)
-            check_generic(report, filename, content, lang)
+            python_lang.custom_check(report, filename, content, parse=False)
+            check_generic(report, filename, content, python_lang)
 
 
 ada_lang = AdaLang()

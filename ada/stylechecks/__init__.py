@@ -149,7 +149,6 @@ def check_text(report, filename, lang, first_line, text, is_comment):
             report.add('First and last lines are not identical in comment box')
 
         # Each line must start and end with language comment start
-        char = list(chars)[0]
         for i, line in enumerate(lines[1:-1], 1):
             report.set_context(filename, first_line + i)
             if (not line.endswith(' ' + lang.comment_start) or
@@ -295,10 +294,6 @@ def check_generic(report, filename, content, lang):
 
         Reset "comment_block" afterwards.
         """
-        comment_indent = max(
-            indent_level(line)
-            for line in comment_block
-        )
         check_text(report, filename, lang,
                    comment_first_line,
                    '\n'.join(comment_block),
@@ -450,7 +445,6 @@ class MakoLang(LanguageChecker):
 
     def check(self, report, filename, content, parse):
         first_line = content.split('\n', 1)[0]
-        lang = None
         if 'makoada' in first_line:
             ada_lang.check(report, filename, content, parse=False)
             check_generic(report, filename, content, ada_lang)

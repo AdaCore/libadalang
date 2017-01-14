@@ -8,7 +8,10 @@ import source
 
 with open('foo.adb') as f:
     src_lines = f.readlines()
-src_slice = lambda node: source.src_slice(src_lines, node.sloc_range)
+
+
+def src_slice(node):
+    return source.src_slice(src_lines, node.sloc_range)
 
 
 ctx = lal.AnalysisContext()

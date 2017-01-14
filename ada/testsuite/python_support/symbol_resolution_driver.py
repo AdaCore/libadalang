@@ -18,11 +18,13 @@ def unicode_image(ustr):
         result += c
     return result
 
+
 def escape_ascii(string):
     if isinstance(string, unicode):
         return unicode_image(string)
     else:
         return string
+
 
 def print_title(char, title):
     print(title)

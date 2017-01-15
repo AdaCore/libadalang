@@ -14,19 +14,15 @@ EXCLUDES = ('tmp', 'doc', join('stylechecks', 'tests.py'),
 
 sys.path.append(join(ROOT_DIR, "langkit"))
 
-from langkit.stylechecks import Report, check_file, traverse
+import langkit.stylechecks
 
 
-def main(args):
-    os.chdir(ROOT_DIR)
-    report = Report(enable_colors=os.isatty(sys.stdout.fileno()))
-    if args:
-        check_file(report, args[0])
+def main():
+    if sys.argv[1:]:
+        langkit.stylechecks.main(sys.argv[1], None, None)
     else:
-        for root in DIRS:
-            traverse(report, root, EXCLUDES)
-    report.output()
-
+        os.chdir(ROOT_DIR)
+        langkit.stylechecks.main(None, DIRS, EXCLUDES)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

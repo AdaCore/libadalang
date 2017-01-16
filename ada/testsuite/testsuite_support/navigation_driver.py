@@ -1,4 +1,6 @@
-from testsuite_support.base_driver import BaseDriver, catch_test_errors
+from testsuite_support.base_driver import (
+    BaseDriver, catch_test_errors, SetupError
+)
 
 
 class NavigationDriver(BaseDriver):
@@ -27,8 +29,6 @@ class NavigationDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        args = list(self.input_sources)
-
         self.run_and_check(
             ['navigate', ','.join(self.kinds)] + self.input_sources,
             for_debug=True, memcheck=True,

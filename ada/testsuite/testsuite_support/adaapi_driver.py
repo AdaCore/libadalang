@@ -1,5 +1,3 @@
-import os.path
-
 from testsuite_support.base_driver import (
     BaseDriver, catch_test_errors, SetupError,
 )

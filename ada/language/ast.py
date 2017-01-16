@@ -14,7 +14,7 @@ from langkit.expressions import (
     langkit_property
 )
 from langkit.expressions.analysis_units import (
-    AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
+    AnalysisUnitKind, AnalysisUnitType, UnitBody
 )
 from langkit.expressions.logic import (
     Predicate, LogicAnd, LogicOr, LogicTrue

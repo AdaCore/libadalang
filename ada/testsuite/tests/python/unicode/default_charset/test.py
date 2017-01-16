@@ -1,6 +1,6 @@
 import libadalang
 
-from unicode_utils import *
+from unicode_utils import src_buffer_iso_8859_1, get_string_literal
 
 
 ctx = libadalang.AnalysisContext()

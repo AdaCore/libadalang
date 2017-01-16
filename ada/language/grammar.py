@@ -964,7 +964,7 @@ A.add_rules(
         # Special case for 'Update
         AttributeRef(
             A.name, "'",
-            Identifier(Tok(Token.Identifier, match_text="Update", keep=True)),
+            Identifier(Tok(Token.Identifier, match_text="update", keep=True)),
             A.update_attr_aggregate
         ),
 

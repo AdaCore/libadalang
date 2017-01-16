@@ -2,6 +2,7 @@ import os
 import os.path
 import pipes
 import subprocess
+import sys
 
 # pyflakes off
 with_gnatpython = False
@@ -181,7 +182,24 @@ class BaseDriver(TestDriver):
 
     @property
     def python_interpreter(self):
-        return self.global_env['options'].with_python or 'python'
+        choices = {
+            'default': self.global_env['options'].with_python or 'python',
+            'self':    sys.executable,
+        }
+
+        key = self.test_env.get('python_interpreter', 'default')
+        if not isinstance(key, str):
+            raise SetupError(
+                'Invalid "python_interpreter" key in test.yaml: it must'
+                ' contain a string, got a {} instead'.format(
+                    type(key).__name__))
+        try:
+            return choices[key]
+        except KeyError:
+            raise SetupError(
+                'Invalid "python_interpreter" key in test.yaml: got {}, while'
+                ' expecting one of: {}'.format(
+                    repr(key), ', '.join(repr(k) for k in choices)))
 
     def check_file(self, filename):
         """

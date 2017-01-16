@@ -3,6 +3,7 @@ import os.path
 import pipes
 import subprocess
 
+# pyflakes off
 with_gnatpython = False
 if not os.environ.get('WITHOUT_GNATPYTHON'):
     try:
@@ -17,6 +18,7 @@ if not with_gnatpython:
     from testsuite_support.polyfill import (
         fileutils, PIPE, Run, STDOUT, TestDriver
     )
+# pyflakes on
 
 from testsuite_support.valgrind import Valgrind
 

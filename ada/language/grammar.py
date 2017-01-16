@@ -1,3 +1,5 @@
+# pyflakes off
+
 from __future__ import absolute_import
 
 from langkit.lexer import LexerToken

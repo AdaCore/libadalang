@@ -1,5 +1,6 @@
 import os
 
+# pyflakes off
 with_gnatpython = False
 if not os.environ.get('WITHOUT_GNATPYTHON'):
     try:
@@ -10,6 +11,7 @@ if not os.environ.get('WITHOUT_GNATPYTHON'):
         with_gnatpython = True
 if not with_gnatpython:
     from testsuite_support.polyfill import BaseTestsuite
+# pyflakes on
 
 
 import testsuite_support.adaapi_driver

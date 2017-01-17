@@ -20,6 +20,7 @@ package Libadalang.Unit_Files.Projects is
 
    function Create
      (Project          : Project_Tree_Access;
+      Env              : Project_Environment_Access;
       Is_Project_Owner : Boolean)
       return Project_Unit_File_Provider_Type;
    --  Create an unit file provider using Project. If Is_Project_Owner is true,
@@ -51,6 +52,7 @@ private
       and Unit_File_Provider_Interface
    with record
       Project          : Project_Tree_Access;
+      Env              : Project_Environment_Access;
       Is_Project_Owner : Boolean;
    end record;
 
@@ -61,10 +63,12 @@ private
 
    function Create
      (Project          : Project_Tree_Access;
+      Env              : Project_Environment_Access;
       Is_Project_Owner : Boolean)
       return Project_Unit_File_Provider_Type
    is ((Ada.Finalization.Limited_Controlled with
         Project          => Project,
+        Env              => Env,
         Is_Project_Owner => Is_Project_Owner));
 
 end Libadalang.Unit_Files.Projects;

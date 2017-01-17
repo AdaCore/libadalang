@@ -89,6 +89,7 @@ package body Libadalang.Unit_Files.Projects is
    is
    begin
       Provider.Project := null;
+      Provider.Env := null;
       Provider.Is_Project_Owner := False;
    end Initialize;
 
@@ -103,8 +104,10 @@ package body Libadalang.Unit_Files.Projects is
       if Provider.Is_Project_Owner then
          Unload (Provider.Project.all);
          Free (Provider.Project);
+         Free (Provider.Env);
       end if;
       Provider.Project := null;
+      Provider.Env := null;
       Provider.Is_Project_Owner := False;
    end Finalize;
 

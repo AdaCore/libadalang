@@ -11,27 +11,28 @@ with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 procedure Main is
 
-   function Load_Project (File : String) return Project_Tree_Access;
+   function Load_Project (File : String) return Unit_File_Provider_Access;
 
    ------------------
    -- Load_Project --
    ------------------
 
-   function Load_Project (File : String) return Project_Tree_Access is
-      Result : constant Project_Tree_Access := new Project_Tree;
+   function Load_Project (File : String) return Unit_File_Provider_Access is
+      Env     : Project_Environment_Access;
+      Project : constant Project_Tree_Access := new Project_Tree;
    begin
-      Load (Result.all, Create (+File));
-      return Result;
+      Initialize (Env);
+      Load (Project.all, Create (+File), Env);
+      return new Project_Unit_File_Provider_Type'(Create (Project, Env, True));
    end Load_Project;
 
-   UFP    : Unit_File_Provider_Access :=
-      new Project_Unit_File_Provider_Type'
-        (Create (Load_Project ("p.gpr"), True));
-   Ctx    : Analysis_Context :=
+   UFP : Unit_File_Provider_Access := Load_Project ("p.gpr");
+   Ctx : Analysis_Context :=
       Create (Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
 
-   Unit   : Analysis_Unit := Get_From_Provider (Ctx, "p2", Unit_Specification);
-   Root   : constant Ada_Node := Libadalang.Analysis.Root (Unit);
+   Unit : constant Analysis_Unit :=
+      Get_From_Provider (Ctx, "p2", Unit_Specification);
+   Root : constant Ada_Node := Libadalang.Analysis.Root (Unit);
 
 begin
    Populate_Lexical_Env (Unit);

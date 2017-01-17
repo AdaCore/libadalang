@@ -13,7 +13,7 @@ with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 procedure Main is
 
-   function Load_Project (File : String) return Project_Tree_Access;
+   function Load_Project (File : String) return Unit_File_Provider_Access;
 
    function "+" (S : Wide_Wide_String) return Unbounded_Wide_Wide_String
       renames To_Unbounded_Wide_Wide_String;
@@ -24,16 +24,16 @@ procedure Main is
    -- Load_Project --
    ------------------
 
-   function Load_Project (File : String) return Project_Tree_Access is
-      Result : constant Project_Tree_Access := new Project_Tree;
+   function Load_Project (File : String) return Unit_File_Provider_Access is
+      Env     : Project_Environment_Access;
+      Project : constant Project_Tree_Access := new Project_Tree;
    begin
-      Load (Result.all, Create (+File));
-      return Result;
+      Initialize (Env);
+      Load (Project.all, Create (+File), Env);
+      return new Project_Unit_File_Provider_Type'(Create (Project, Env, True));
    end Load_Project;
 
-   UFP    : Unit_File_Provider_Access :=
-      new Project_Unit_File_Provider_Type'
-        (Create (Load_Project ("p.gpr"), True));
+   UFP : Unit_File_Provider_Access := Load_Project ("p.gpr");
    Ctx  : Analysis_Context :=
       Create (Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
    Unit : Analysis_Unit;

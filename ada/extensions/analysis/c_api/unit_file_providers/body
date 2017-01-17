@@ -66,6 +66,7 @@
             return ${unit_file_provider_type} (System.Null_Address);
       end;
 
-      Result := new Project_Unit_File_Provider_Type'(Create (Project, True));
+      Result :=
+         new Project_Unit_File_Provider_Type'(Create (Project, Env, True));
       return Wrap (Result);
    end;

@@ -11,7 +11,7 @@ from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
     EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
-    langkit_property
+    ignore, langkit_property
 )
 from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody
@@ -90,6 +90,7 @@ class AdaNode(ASTNode):
         # TODO: Maybe this should eventually be an AbstractProperty, but during
         # the development of the xref engine, it is practical to have the
         # default implementation return null, so that we can fail gracefully.
+        ignore(origin_env)
         return No(EquationType)
 
     xref_stop_resolution = Property(False, private=True)
@@ -152,7 +153,7 @@ class AdaNode(ASTNode):
                     pkg_spec.package_name.referenced_unit(UnitBody),
                 lambda pkg_body=T.PackageBody:
                     pkg_body.unit,
-                lambda others: No(AnalysisUnitType),
+                lambda _: No(AnalysisUnitType),
             ),
         doc="""
         If this unit has a body, fetch and return it.
@@ -287,7 +288,7 @@ class BasicDecl(AdaNode):
         return Self.match(
             lambda subp=BasicSubpDecl: subp.subp_spec,
             lambda subp=SubpBody:      subp.subp_spec,
-            lambda others:             No(SubpSpec),
+            lambda _:                  No(SubpSpec),
         )
 
     @langkit_property(return_type=EquationType, private=True)
@@ -314,6 +315,7 @@ class BasicDecl(AdaNode):
         """
         # Default implementation returns logic true => does not add any
         # constraint to the xref equation.
+        ignore(prefix)
         return LogicTrue()
 
     declarative_scope = Property(
@@ -952,6 +954,7 @@ class ArrayIndices(AdaNode):
             --      ^ Will add constraint on lit that it needs to be of type
             --      Integer.
         """
+        ignore(index_expr, dim)
         return LogicTrue()
 
 
@@ -1156,7 +1159,7 @@ class AnonymousType(TypeExpr):
 
     designated_type = Property(Self.type_decl)
     is_anonymous_access = Property(
-        Self.type_decl.type_def.cast(T.AccessDef).then(lambda ad: True)
+        Self.type_decl.type_def.cast(T.AccessDef).then(lambda _: True)
     )
 
 
@@ -1176,6 +1179,7 @@ class SubtypeIndication(TypeExpr):
     def xref_equation(origin_env=LexicalEnvType):
         # Called by allocator.xref_equation, since the suffix can be either a
         # qual expr or a subtype indication.
+        ignore(origin_env)
         return LogicTrue()
 
 
@@ -1403,7 +1407,7 @@ class DeclarativePart(AdaNode):
             filter_expr=lambda decl: decl.match(
                 lambda s=BasicSubpDecl: t.is_primitive(s.subp_spec),
                 lambda s=SubpBody: t.is_primitive(s.subp_spec),
-                lambda others: False,
+                lambda _: False,
             ),
             expr=lambda decl: decl.cast_or_raise(BasicDecl)
         )
@@ -1810,10 +1814,11 @@ class CallExpr(Name):
 
     @langkit_property(has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
+        ignore(origin_env)
         return Self.env_elements().map(lambda e: e.match(
             lambda subp=BasicSubpDecl.env_el(): subp.defining_env,
             lambda subp=SubpBody.env_el():      subp.defining_env,
-            lambda others:                           EmptyEnv,
+            lambda _:                           EmptyEnv,
         )).env_group
 
     @langkit_property()
@@ -2332,7 +2337,7 @@ class BaseId(SingleTokNode):
                         matching_subp(params, subp, e),
 
                     # Type conversion case
-                    lambda t=BaseTypeDecl: params.length == 1,
+                    lambda _=BaseTypeDecl: params.length == 1,
 
                     # In the case of ObjectDecls/BasicDecls in general, verify
                     # that the callexpr is valid for the given type designator.
@@ -2346,6 +2351,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
         dt = Self.designated_type_impl
         return If(
             Not(dt.is_null),
@@ -2369,6 +2375,7 @@ class StringLiteral(BaseId):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
         return Predicate(BaseTypeDecl.fields.is_str_type, Self.type_var)
 
 
@@ -2393,6 +2400,7 @@ class CharLiteral(BaseId):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
         return Predicate(BaseTypeDecl.fields.is_char_type, Self.type_var)
 
 
@@ -2406,6 +2414,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
         return Predicate(BaseTypeDecl.fields.is_real_type, Self.type_var)
 
 
@@ -2414,6 +2423,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
         return Predicate(BaseTypeDecl.fields.is_int_type, Self.type_var)
 
 
@@ -2703,7 +2713,7 @@ class DottedName(Name):
 
     parent_scope = Property(Self.prefix.match(
         lambda name=T.Name: name.scope,
-        lambda others:      EmptyEnv
+        lambda _:           EmptyEnv
     ))
 
     name = Property(Self.suffix.name)

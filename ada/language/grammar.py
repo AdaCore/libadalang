@@ -2,9 +2,8 @@
 
 from __future__ import absolute_import
 
-from langkit.lexer import LexerToken
 from language.ast import *
-from language.lexer import Token
+from language.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
@@ -79,7 +78,7 @@ def generic_instantiation(*leading_rules):
 
 A.add_rules(
     protected_type_decl=ProtectedTypeDecl(
-        Tok(Token.Identifier, match_text="protected"),
+        L.Identifier(match_text="protected"),
         "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", List(A.static_name, sep="and"), "with"),
@@ -99,7 +98,7 @@ A.add_rules(
     ),
 
     protected_decl=SingleProtectedDecl(
-        Tok(Token.Identifier, match_text="protected"),
+        L.Identifier(match_text="protected"),
         A.identifier, A.aspect_spec,
         "is",
         Opt("new", List(A.static_name, sep="and"), "with"),
@@ -133,12 +132,12 @@ A.add_rules(
             InterfaceKind.alt_limited("limited"),
             InterfaceKind.alt_task("task"),
             InterfaceKind.alt_protected(
-                Tok(Token.Identifier, match_text="protected"),
+                L.Identifier(match_text="protected"),
             ),
-            InterfaceKind.alt_synchronized(Tok(Token.Identifier,
+            InterfaceKind.alt_synchronized(Tok(L.Identifier,
                                            match_text="synchronized"))
         )),
-        Tok(Token.Identifier, match_text="interface"),
+        L.Identifier(match_text="interface"),
         List("and", A.static_name, empty_valid=True)
     ),
 
@@ -164,7 +163,7 @@ A.add_rules(
         Abstract("abstract"),
         Limited("limited"),
         Synchronized(
-            Tok(Token.Identifier, match_text="synchronized")
+            L.Identifier(match_text="synchronized")
         ),
         "new",
         A.subtype_indication,
@@ -253,7 +252,7 @@ A.add_rules(
             NotNull("not", "null"),
             "access",
             Protected(
-                Tok(Token.Identifier, match_text="protected"),
+                L.Identifier(match_text="protected"),
             ),
             A.subp_spec
         ),
@@ -460,10 +459,10 @@ A.add_rules(
 
     overriding_indicator=Or(
         Overriding.alt_overriding(
-            Tok(Token.Identifier, match_text="overriding")
+            L.Identifier(match_text="overriding")
         ),
         Overriding.alt_not_overriding(
-            "not", Tok(Token.Identifier, match_text="overriding")
+            "not", L.Identifier(match_text="overriding")
         ),
         Overriding.alt_unspecified()
     ),
@@ -638,14 +637,14 @@ A.add_rules(
     compilation=Or(
         # Special case for No_Body files and gnat.adc
         Pick(List(A.pragma, ";", empty_valid=False),
-             Tok(LexerToken.Termination)),
+             L.Termination()),
 
         # One compilation unit case
-        Pick(A.compilation_unit, Tok(LexerToken.Termination)),
+        Pick(A.compilation_unit, L.Termination()),
 
         # Several compilation units case
         Pick(List(A.compilation_unit, empty_valid=True),
-             Tok(LexerToken.Termination)),
+             L.Termination()),
     ),
 
     decl_part=DeclarativePart(A.basic_decls),
@@ -662,14 +661,14 @@ A.add_rules(
     ),
 
     protected_body=ProtectedBody(
-        Tok(Token.Identifier, match_text="protected"),
+        L.Identifier(match_text="protected"),
         "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         "end", _(Opt(A.static_name))
     ),
 
     protected_body_stub=ProtectedBodyStub(
-        Tok(Token.Identifier, match_text="protected"),
+        L.Identifier(match_text="protected"),
         "body", A.static_name, "is", "separate",
         A.aspect_spec
     ),
@@ -809,7 +808,7 @@ A.add_rules(
     stmts=List(Or(Pick(A.stmt, Opt(";").error()),
                   A.label), empty_valid=True),
 
-    label=Label(Tok(Token.Label, keep=True)),
+    label=Label(L.Label(keep=True)),
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
@@ -833,15 +832,15 @@ A.add_rules(
 
     requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort")),
 
-    identifier=Identifier(Tok(Token.Identifier, keep=True)),
-    char_literal=CharLiteral(Tok(Token.Char, keep=True)),
-    string_literal=StringLiteral(Tok(Token.String, keep=True)),
+    identifier=Identifier(L.Identifier(keep=True)),
+    char_literal=CharLiteral(L.Char(keep=True)),
+    string_literal=StringLiteral(L.String(keep=True)),
 
-    dec_literal=RealLiteral(Tok(Token.Decimal, keep=True)),
-    int_literal=IntLiteral(Tok(Token.Integer, keep=True)),
+    dec_literal=RealLiteral(L.Decimal(keep=True)),
+    int_literal=IntLiteral(L.Integer(keep=True)),
     num_literal=A.dec_literal | A.int_literal,
 
-    null_literal=NullLiteral(Tok(Token.Null, keep=True)),
+    null_literal=NullLiteral(L.Null(keep=True)),
 
     allocator=Allocator(
         "new", Opt("(", A.name, ")"),
@@ -964,7 +963,7 @@ A.add_rules(
         # Special case for 'Update
         AttributeRef(
             A.name, "'",
-            Identifier(Tok(Token.Identifier, match_text="update", keep=True)),
+            Identifier(L.Identifier(match_text="update", keep=True)),
             A.update_attr_aggregate
         ),
 

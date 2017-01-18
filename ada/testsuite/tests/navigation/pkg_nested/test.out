@@ -10,4 +10,9 @@ foo.adb
 Decl of <PackageBody ["Foo"] 1:1-9:8> is <PackageDecl ["Foo"] 1:1-11:8> [foo.ads]
 Decl of <PackageBody ["Bar"] 3:4-7:11> is <PackageDecl ["Bar"] 5:4-7:11> [foo.ads]
 
+foo_child_only.ads
+##################
+
+Body of <PackageDecl ["Bar"] 11:4-13:11> is <PackageBody ["Bar"] 3:4-7:11> [foo_child_only.adb]
+
 Done.

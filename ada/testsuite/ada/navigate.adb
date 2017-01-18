@@ -24,8 +24,10 @@ procedure Navigate is
    Enabled_Kinds : array (LAL.Ada_Node_Kind_type) of Boolean :=
      (others => False);
 
+   function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean;
+
    function Node_Filter (N : LAL.Ada_Node) return Boolean
-   is (Enabled_Kinds (N.Kind));
+   is (Enabled_Kinds (N.Kind) and then not Is_Navigation_Disabled (N));
 
    procedure Stop_With_Error
      (Message    : String;
@@ -185,6 +187,58 @@ procedure Navigate is
          end if;
       end loop;
    end Decode_Kinds;
+
+   ----------------------------
+   -- Is_Navigation_Disabled --
+   ----------------------------
+
+   function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean is
+
+      function Lowercase_Name (Id : LAL.Identifier) return String is
+        (To_Lower (Langkit_Support.Text.Image (LAL.Text (Id.F_Tok))));
+
+      function Has_Disable_Navigation
+        (Aspects : LAL.Aspect_Spec) return Boolean;
+
+      ----------------------------
+      -- Has_Disable_Navigation --
+      ----------------------------
+
+      function Has_Disable_Navigation
+        (Aspects : LAL.Aspect_Spec) return Boolean
+      is
+         use type LAL.Ada_Node_Kind_Type;
+         use type LAL.Aspect_Spec;
+      begin
+         if Aspects = null then
+            return False;
+         end if;
+         for Child of Aspects.F_Aspect_Assocs.Children loop
+            declare
+               Assoc : constant LAL.Aspect_Assoc := LAL.Aspect_Assoc (Child);
+            begin
+               if Assoc.F_Id.Kind = LAL.Ada_Identifier then
+                  declare
+                     Id : constant LAL.Identifier :=
+                        LAL.Identifier (Assoc.F_Id);
+                  begin
+                     return Lowercase_Name (Id) = "disable_navigation";
+                  end;
+               end if;
+            end;
+         end loop;
+         return False;
+      end Has_Disable_Navigation;
+
+   begin
+      case N.Kind is
+         when LAL.Ada_Base_Package_Decl | LAL.Ada_Package_Decl =>
+            return Has_Disable_Navigation
+               (LAL.Base_Package_Decl (N).F_Aspects);
+         when others =>
+            return False;
+      end case;
+   end Is_Navigation_Disabled;
 
 begin
    if CMD.Argument_Count < 2 then

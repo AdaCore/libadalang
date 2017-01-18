@@ -181,16 +181,11 @@ def child_unit(name_expr, scope_expr):
     """
 
     attribs = dict(
-        parent_scope=Property(
-            Let(lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)),
-            private=True, has_implicit_env=True,
-            doc="""
-            Helper property, that will return the scope of definition of this
-            child unit.
-            """
-        ),
         env_spec=EnvSpec(
-            initial_env=Self.parent_scope, add_env=True,
+            initial_env=Let(
+                lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
+            ),
+            add_env=True,
             add_to_env=add_to_env(name_expr, Self),
             env_hook_arg=Self,
         )

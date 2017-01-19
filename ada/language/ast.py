@@ -2771,10 +2771,12 @@ class CompilationUnit(AdaNode):
 class SubpBody(Body):
     _macros = [child_unit(
         '__body',
-        Let(lambda scope=Self.subp_spec.name.scope:
-            If(scope == EmptyEnv,
-               Self.subp_spec.name.parent_scope,
-               scope))
+        If(Self.parent.is_a(T.LibraryItem),
+           Let(lambda scope=Self.subp_spec.name.scope:
+               If(scope == EmptyEnv,
+                  Self.subp_spec.name.parent_scope,
+                  scope)),
+           Self.parent.children_env)
     )]
 
     overriding = Field(type=Overriding)

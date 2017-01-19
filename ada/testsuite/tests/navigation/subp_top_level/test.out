@@ -1,0 +1,11 @@
+foo.ads
+#######
+
+Body of <SubpDecl ["Foo"] 3:1-3:24> is <SubpBody ["Foo"] 1:1-7:8> [foo.adb]
+
+foo.adb
+#######
+
+Decl of <SubpBody ["Foo"] 1:1-7:8> is <SubpDecl ["Foo"] 3:1-3:24> [foo.ads]
+
+Done.

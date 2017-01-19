@@ -32,6 +32,45 @@ def symbol_list(base_id_list):
     return base_id_list.map(lambda base_id: base_id.tok.symbol)
 
 
+def is_library_item(e):
+    """
+    Property helper to determine if an entity is the root entity for its unit.
+    """
+    return e.parent.then(lambda p: p.is_a(LibraryItem))
+
+
+def get_library_item(unit):
+    """
+    Property helper to get the library unit corresponding to "unit".
+    """
+    return unit.root.then(
+        lambda root:
+            root.cast_or_raise(T.CompilationUnit).body
+                .cast_or_raise(T.LibraryItem).item
+    )
+
+
+def is_package(e):
+    """
+    Property helper to determine if an entity is a package or not.
+
+    :type e: AbstractExpression
+    :rtype: AbstractExpression
+    """
+    return Not(e.is_null) & e.is_a(PackageDecl, PackageBody)
+
+
+def is_library_package(e):
+    """
+    Property helper to determine if an entity is a library level package or
+    not.
+
+    :type e: AbstractExpression
+    :rtype: AbstractExpression
+    """
+    return Not(e.is_null) & is_package(e) & is_library_item(e)
+
+
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
@@ -145,16 +184,13 @@ class AdaNode(ASTNode):
 
     body_unit = Property(
         # TODO: handle units with multiple packages
-        Self.unit.root
-            .cast_or_raise(T.CompilationUnit).body
-            .cast_or_raise(T.LibraryItem).item
-            .match(
-                lambda pkg_spec=T.BasePackageDecl:
-                    pkg_spec.package_name.referenced_unit(UnitBody),
-                lambda pkg_body=T.PackageBody:
-                    pkg_body.unit,
-                lambda _: No(AnalysisUnitType),
-            ),
+        get_library_item(Self.unit).match(
+            lambda pkg_spec=T.BasePackageDecl:
+                pkg_spec.package_name.referenced_unit(UnitBody),
+            lambda pkg_body=T.PackageBody:
+                pkg_body.unit,
+            lambda _: No(AnalysisUnitType),
+        ),
         doc="""
         If this unit has a body, fetch and return it.
         """,
@@ -1447,15 +1483,11 @@ class BasePackageDecl(BasicDecl):
         # (if it exists) is present in the environment.
         return Let(
             lambda body_unit=Self.body_unit:
-                If(Self.parent.is_a(T.LibraryItem),
+                If(is_library_item(Self),
 
                    # If Self is a library-level package, then just fetch the
                    # root package in the body unit.
-                   body_unit.root.then(
-                       lambda root:
-                           root.cast_or_raise(T.CompilationUnit).body
-                               .cast_or_raise(T.LibraryItem).item
-                               .cast(T.PackageBody)),
+                   get_library_item(body_unit).cast(T.PackageBody),
 
                    # Self is a nested package: the name of such packages must
                    # be an identifier. Now, just use the __body link.
@@ -1595,27 +1627,6 @@ class GenericPackageDecl(BasicDecl):
         none.
         """
         return Self.package_decl.body_part
-
-
-def is_package(e):
-    """
-    Property helper to determine if an entity is a package or not.
-
-    :type e: AbstractExpression
-    :rtype: AbstractExpression
-    """
-    return Not(e.is_null) & e.is_a(PackageDecl, PackageBody)
-
-
-def is_library_package(e):
-    """
-    Property helper to determine if an entity is a library level package or
-    not.
-
-    :type e: AbstractExpression
-    :rtype: AbstractExpression
-    """
-    return Not(e.is_null) & is_package(e) & e.parent.is_a(LibraryItem)
 
 
 @abstract
@@ -2771,7 +2782,7 @@ class CompilationUnit(AdaNode):
 class SubpBody(Body):
     _macros = [child_unit(
         '__body',
-        If(Self.parent.is_a(T.LibraryItem),
+        If(is_library_item(Self),
            Let(lambda scope=Self.subp_spec.name.scope:
                If(scope == EmptyEnv,
                   Self.subp_spec.name.parent_scope,

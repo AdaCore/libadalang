@@ -14,7 +14,7 @@ from langkit.expressions import (
     ignore, langkit_property
 )
 from langkit.expressions.analysis_units import (
-    AnalysisUnitKind, AnalysisUnitType, UnitBody
+    AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
 )
 from langkit.expressions.logic import (
     Predicate, LogicAnd, LogicOr, LogicTrue
@@ -189,10 +189,33 @@ class AdaNode(ASTNode):
                 pkg_spec.package_name.referenced_unit(UnitBody),
             lambda pkg_body=T.PackageBody:
                 pkg_body.unit,
+            lambda subp_decl=T.SubpDecl:
+                subp_decl.subp_spec.name.referenced_unit(UnitBody),
+            lambda subp_body=T.SubpBody:
+                subp_body.unit,
             lambda _: No(AnalysisUnitType),
         ),
         doc="""
         If this unit has a body, fetch and return it.
+        """,
+        private=True
+    )
+
+    spec_unit = Property(
+        # TODO: handle units with multiple packages
+        get_library_item(Self.unit).match(
+            lambda pkg_spec=T.BasePackageDecl:
+                pkg_spec.unit,
+            lambda pkg_body=T.PackageBody:
+                pkg_body.package_name.referenced_unit(UnitSpecification),
+            lambda subp_decl=T.SubpDecl:
+                subp_decl.unit,
+            lambda subp_body=T.SubpBody:
+                subp_body.subp_spec.name.referenced_unit(UnitSpecification),
+            lambda _: No(AnalysisUnitType),
+        ),
+        doc="""
+        If this unit has a spec, fetch and return it.
         """,
         private=True
     )
@@ -1293,6 +1316,15 @@ class BasicSubpDecl(BasicDecl):
 
 class SubpDecl(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
+
+    body_part = Property(
+        If(is_library_item(Self),
+           get_library_item(Self.body_unit).cast_or_raise(T.SubpBody),
+           No(T.AdaNode)),
+        doc="""
+        Return the SubpBody corresponding to this node.
+        """
+    )
 
 
 class NullSubpDecl(BasicSubpDecl):
@@ -2799,6 +2831,15 @@ class SubpBody(Body):
 
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
+
+    decl_part = Property(
+        If(is_library_item(Self),
+           get_library_item(Self.spec_unit).cast_or_raise(T.SubpDecl),
+           No(T.AdaNode)),
+        doc="""
+        Return the SubpBody corresponding to this node.
+        """
+    )
 
 
 class HandledStmts(AdaNode):

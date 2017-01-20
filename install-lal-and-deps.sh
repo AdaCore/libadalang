@@ -24,7 +24,7 @@ export PATH="$INSTALL_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$PATH"
 
 # Build LibGPR and install it in $INSTALL_DIR
-git clone https://github.com/AdaCore/gprbuild.git -o gpl-2016
+git clone https://github.com/AdaCore/gprbuild.git -b gpl-2016
 cd gprbuild
 make BUILD=debug prefix="$INSTALL_DIR" libgpr.build
 make BUILD=debug prefix="$INSTALL_DIR" libgpr.install

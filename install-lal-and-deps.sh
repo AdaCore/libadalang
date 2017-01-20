@@ -23,18 +23,11 @@ INSTALL_DIR=/path/to/install
 export PATH="$INSTALL_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$PATH"
 
-# Build LibGPR and install it in $INSTALL_DIR
-git clone https://github.com/AdaCore/gprbuild.git -b gpl-2016
-cd gprbuild
-make BUILD=debug prefix="$INSTALL_DIR" libgpr.build
-make BUILD=debug prefix="$INSTALL_DIR" libgpr.install
-cd ..
-
 # Build GNATCOLL and install it in $INSTALL_DIR
-git clone https://github.com/AdaCore/gnatcoll.git -b gpl-2016
-cd gnatcoll
-# Workaround a release glitch...
-git cherry-pick 8f847c2ff0bc94b5cf257ada563d7ea0ad14c984
+wget -O gnatcoll-gpl-2016-src.tar.gz \
+    http://mirrors.cdn.adacore.com/art/5739942ac7a447658d00e1e7
+tar xf gnatcoll-gpl-2016-src.tar.gz
+cd gnatcoll-gpl-2016-src
 ./configure --prefix="$INSTALL_DIR" \
     --enable-build=Debug --enable-shared --enable-projects
 make PROCESSORS=0

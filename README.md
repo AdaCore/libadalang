@@ -20,6 +20,7 @@ basis, and is at the time of writing the main project developped using it.
 Come and discuss with us on our [public HipChat
 room](https://www.hipchat.com/gmMO8liEG)!
 
+
 Setup
 -----
 
@@ -60,6 +61,7 @@ To develop comfortably:
 - If you want to check memory issues, the testsuite has an option to track them
   using Valgrind.
 
+
 Building
 --------
 
@@ -85,12 +87,14 @@ Also, while developing libadalang you might be happy to use the
 command, that will wrap the two previous commands in one, generating the code
 and building it in one step
 
+
 Install
 -------
 
 Once you built libadalang, you can install the library in any place you want:
 
     $ python ada/manage.py install $INSTALL_DIR
+
 
 Testing
 -------
@@ -114,6 +118,7 @@ pass other arguments to `testsuite.py`. For instance, if you want to run under a
 debugger only the `factor_0` test case, execute:
 
     $ python ada/manage.py test -- -g ada/testsuite/tests/parser/factor_0
+
 
 Documentation
 -------------

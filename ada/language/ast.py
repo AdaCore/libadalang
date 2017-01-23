@@ -2833,6 +2833,8 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list_type())
 
+    env_spec = EnvSpec(env_hook_arg=Self)
+
 
 class SubpBody(Body):
     _macros = [child_unit(

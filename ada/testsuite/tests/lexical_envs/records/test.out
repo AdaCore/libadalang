@@ -174,9 +174,11 @@ CompilationUnit[1:1-11:9]
 ==== Dumping lexical environments ====
 <CompilationUnit 1:1-11:9> - <LexEnv (Id <root>, Parent null), {
     foo: [<PackageDecl ["Foo"] 1:1-11:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <LibraryItem 1:1-11:8> - <LexEnv (Id <root>, Parent null), {
     foo: [<PackageDecl ["Foo"] 1:1-11:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <PackageDecl 1:1-11:8> - <LexEnv (Id 1, Parent <root>), {
     r1_type: [<TypeDecl ["R1_Type"] 2:4-5:14>]

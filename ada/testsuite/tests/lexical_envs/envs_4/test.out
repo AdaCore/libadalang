@@ -134,14 +134,17 @@ CompilationUnitList[1:1-13:9]
 <CompilationUnitList 1:1-13:9> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <CompilationUnit 1:1-2:9> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <LibraryItem 1:1-2:8> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <PackageDecl 1:1-2:8> - <LexEnv (Id 1, Parent <root>), {
     bar: [<GenericPackageDecl ["Foo.Bar"] 4:1-6:12>]
@@ -149,19 +152,23 @@ CompilationUnitList[1:1-13:9]
 <CompilationUnit 4:1-6:13> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <LibraryItem 4:1-6:12> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <GenericPackageDecl 4:1-6:12> - <LexEnv (Id 2, Parent 1), empty>
 <CompilationUnit 8:1-9:7> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <LibraryItem 8:1-9:6> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <PackageDecl 8:1-9:6> - <LexEnv (Id 3, Parent <root>), {
     __body: [<SubpBody ["A.B"] 11:1-13:8>]
@@ -169,9 +176,11 @@ CompilationUnitList[1:1-13:9]
 <CompilationUnit 11:1-13:9> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <LibraryItem 11:1-13:8> - <LexEnv (Id <root>, Parent null), {
     a: [<PackageDecl ["A"] 8:1-9:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
 <SubpBody 11:1-13:8> - <LexEnv (Id 4, Parent 3), empty>

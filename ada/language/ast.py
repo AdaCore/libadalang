@@ -457,7 +457,7 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
     """
-    identifiers = AbstractProperty(type=T.Identifier.list_type())
+    identifiers = AbstractProperty(type=T.BaseId.array_type())
     is_mandatory = Property(False)
 
 
@@ -469,7 +469,7 @@ class ComponentDecl(BaseFormalParamDecl):
 
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
-    identifiers = Property(Self.ids)
+    identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     defining_env = Property(
         Self.component_def.type_expr.defining_env,
         private=True,
@@ -1248,7 +1248,7 @@ class ParamSpec(BaseFormalParamDecl):
     type_expr = Field(type=T.TypeExpr)
     default = Field(type=T.Expr)
 
-    identifiers = Property(Self.ids)
+    identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     is_mandatory = Property(Self.default.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
@@ -2475,7 +2475,7 @@ class NullLiteral(SingleTokNode):
 
 
 class SingleFormal(Struct):
-    name = Field(type=Identifier)
+    name = Field(type=BaseId)
     spec = Field(type=BaseFormalParamDecl)
 
 

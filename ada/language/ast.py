@@ -2352,9 +2352,9 @@ class BaseId(SingleTokNode):
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
             items.filter(lambda e: (
-                # If we're at the visibilty checking point (parent is a package
-                # and self is not), we want to check whether the requester has
-                # visibility over the element.
+                # If we're at the visibility checking point (parent is a
+                # package and self is not), we want to check whether the
+                # requester has visibility over the element.
                 If(is_parent_pkg & Not(is_library_package(e.el)),
                    Env.is_visible_from(origin_env),
                    True)

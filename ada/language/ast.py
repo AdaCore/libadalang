@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EquationType, Field, LexicalEnvType,
-    LogicVarType, LongType, Struct, T, UserField, abstract, create_macro,
+    LogicVarType, LongType, Struct, T, UserField, abstract,
     env_metadata, has_abstract_list, root_grammar_class
 )
 
@@ -236,21 +236,17 @@ def child_unit(name_expr, scope_expr):
         should return EmptyEnv: in this case, the actual scope will become the
         root environment.
 
-    :rtype: NodeMacro
+    :rtype: EnvSpec
     """
 
-    attribs = dict(
-        env_spec=EnvSpec(
-            initial_env=Let(
-                lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
-            ),
-            add_env=True,
-            add_to_env=add_to_env(name_expr, Self),
-            env_hook_arg=Self,
-        )
+    return EnvSpec(
+        initial_env=Let(
+            lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
+        ),
+        add_env=True,
+        add_to_env=add_to_env(name_expr, Self),
+        env_hook_arg=Self,
     )
-
-    return create_macro(attribs)
 
 
 @abstract
@@ -1532,8 +1528,8 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.parent_scope)]
+    env_spec = child_unit(Self.package_name.name.symbol,
+                          Self.package_name.parent_scope)
 
 
 class ExceptionDecl(BasicDecl):
@@ -1649,8 +1645,8 @@ class GenericFormal(BaseFormalParamDecl):
 
 
 class GenericSubpDecl(BasicDecl):
-    _macros = [child_unit(Self.subp_spec.name.name.symbol,
-                          Self.subp_spec.name.parent_scope)]
+    env_spec = child_unit(Self.subp_spec.name.name.symbol,
+                          Self.subp_spec.name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
     subp_spec = Field(type=T.SubpSpec)
@@ -1660,8 +1656,8 @@ class GenericSubpDecl(BasicDecl):
 
 
 class GenericPackageDecl(BasicDecl):
-    _macros = [child_unit(Self.package_name.name.symbol,
-                          Self.package_name.parent_scope)]
+    env_spec = child_unit(Self.package_name.name.symbol,
+                          Self.package_name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
     package_decl = Field(type=BasePackageDecl)
@@ -2837,7 +2833,7 @@ class CompilationUnit(AdaNode):
 
 
 class SubpBody(Body):
-    _macros = [child_unit(
+    env_spec = child_unit(
         '__body',
         If(is_library_item(Self),
            Let(lambda scope=Self.subp_spec.name.scope:
@@ -2845,7 +2841,7 @@ class SubpBody(Body):
                   Self.subp_spec.name.parent_scope,
                   scope)),
            Self.parent.children_env)
-    )]
+    )
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
@@ -3031,7 +3027,7 @@ class TerminateAlternative(SimpleStmt):
 
 
 class PackageBody(Body):
-    _macros = [child_unit('__body', Self.package_name.scope)]
+    env_spec = child_unit('__body', Self.package_name.scope)
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)

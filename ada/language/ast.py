@@ -458,7 +458,6 @@ class BaseFormalParamDecl(BasicDecl):
     components and for subprogram parameters.
     """
     identifiers = AbstractProperty(type=T.Identifier.list_type())
-    type_expression = AbstractProperty(type=T.TypeExpr)
     is_mandatory = Property(False)
 
 

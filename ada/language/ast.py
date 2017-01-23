@@ -1629,11 +1629,30 @@ class FormalSubpDecl(BasicSubpDecl):
     defining_names = Property(Self.subp_spec.name.singleton)
 
 
+class GenericFormalPart(BaseFormalParamHolder):
+    decls = Field()
+
+    abstract_formal_params = Property(
+        Self.decls.filtermap(
+            filter_expr=lambda p: p.is_a(GenericFormal),
+            expr=lambda p: p.cast(BaseFormalParamDecl)
+        )
+    )
+
+
+class GenericFormal(BaseFormalParamDecl):
+    decl = Field(T.BasicDecl)
+    identifiers = Property(
+        Self.decl.defining_names.map(lambda p: p.cast_or_raise(T.BaseId))
+    )
+    defining_names = Property(Self.decl.defining_names)
+
+
 class GenericSubpDecl(BasicDecl):
     _macros = [child_unit(Self.subp_spec.name.name.symbol,
                           Self.subp_spec.name.parent_scope)]
 
-    formal_part = Field(type=T.AdaNode.list_type())
+    formal_part = Field(type=T.GenericFormalPart)
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
@@ -1644,7 +1663,7 @@ class GenericPackageDecl(BasicDecl):
     _macros = [child_unit(Self.package_name.name.symbol,
                           Self.package_name.parent_scope)]
 
-    formal_part = Field(type=T.AdaNode.list_type())
+    formal_part = Field(type=T.GenericFormalPart)
     package_decl = Field(type=BasePackageDecl)
 
     package_name = Property(Self.package_decl.package_name)

@@ -32,7 +32,9 @@ CompilationUnitList[1:1-13:9]
 |  |  |item:
 |  |  |  GenericPackageDecl[4:1-6:12]
 |  |  |  |formal_part:
-|  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
+|  |  |  |  GenericFormalPart[4:1-4:8]
+|  |  |  |  |decls:
+|  |  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
 |  |  |  |package_decl:
 |  |  |  |  BasePackageDecl[5:1-6:12]
 |  |  |  |  |package_name:

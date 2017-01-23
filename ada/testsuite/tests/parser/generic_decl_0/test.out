@@ -1,6 +1,8 @@
 GenericPackageDecl[1:1-1:42]
 |formal_part:
-|  AdaNodeList[1:9-1:9]: <empty list>
+|  GenericFormalPart[1:1-1:8]
+|  |decls:
+|  |  AdaNodeList[1:9-1:9]: <empty list>
 |package_decl:
 |  BasePackageDecl[1:9-1:42]
 |  |package_name:

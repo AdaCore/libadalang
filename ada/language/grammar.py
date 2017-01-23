@@ -343,17 +343,17 @@ A.add_rules(
         GenericPackageDecl(A.generic_formal_part, A.base_package_decl)
     ),
 
-    generic_formal_part=Pick(
+    generic_formal_part=GenericFormalPart(
         "generic",
         List(A.generic_formal_decl | A.use_clause, ";", empty_valid=True)
     ),
 
     generic_formal_decl=Or(
         A.pragma,
-        A.object_decl,
-        A.type_decl,
-        A.formal_subp_decl,
-        Pick("with", A.generic_instantiation)
+        GenericFormal(A.object_decl),
+        GenericFormal(A.type_decl),
+        GenericFormal(A.formal_subp_decl),
+        GenericFormal("with", A.generic_instantiation)
     ),
 
     formal_subp_decl=FormalSubpDecl(

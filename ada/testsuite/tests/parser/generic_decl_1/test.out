@@ -39,7 +39,9 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |  |tok: True
 |  |  |  |  |  GenericSubpDecl[5:4-6:40]
 |  |  |  |  |  |formal_part:
-|  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
+|  |  |  |  |  |  GenericFormalPart[5:4-5:11]
+|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[6:4-6:22]
 |  |  |  |  |  |  |name:

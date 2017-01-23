@@ -67,55 +67,61 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:9]
 |  |  |  |  |  |formal_part:
-|  |  |  |  |  |  AdaNodeList[6:7-7:42]
-|  |  |  |  |  |  |  FormalSubpDecl[6:7-6:39]
-|  |  |  |  |  |  |  |overriding:
-|  |  |  |  |  |  |  |  OverridingUnspecified[6:12-6:12]
-|  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  SubpSpec[6:12-6:34]
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[6:21-6:22]
-|  |  |  |  |  |  |  |  |  |tok: J
-|  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  ParamSpecList[6:21-6:21]: <empty list>
-|  |  |  |  |  |  |  |  |returns:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:30-6:30]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]
-|  |  |  |  |  |  |  |  |  |  |tok: Enum
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  |  AbstractAbsent[6:38-6:38]
-|  |  |  |  |  |  |  |default_value:
-|  |  |  |  |  |  |  |  Id[6:38-6:39]
-|  |  |  |  |  |  |  |  |tok: A
-|  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  FormalSubpDecl[7:7-7:41]
-|  |  |  |  |  |  |  |overriding:
-|  |  |  |  |  |  |  |  OverridingUnspecified[7:12-7:12]
-|  |  |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  |  |  SubpSpec[7:12-7:34]
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[7:21-7:22]
-|  |  |  |  |  |  |  |  |  |tok: I
-|  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  ParamSpecList[7:21-7:21]: <empty list>
-|  |  |  |  |  |  |  |  |returns:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:30-7:30]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]
-|  |  |  |  |  |  |  |  |  |  |tok: ENum
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  |  AbstractAbsent[7:38-7:38]
-|  |  |  |  |  |  |  |default_value:
-|  |  |  |  |  |  |  |  Chr[7:38-7:41]
-|  |  |  |  |  |  |  |  |tok: 'B'
-|  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  GenericFormalPart[5:4-7:42]
+|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  AdaNodeList[6:7-7:42]
+|  |  |  |  |  |  |  |  GenericFormal[6:7-6:39]
+|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |  FormalSubpDecl[6:7-6:39]
+|  |  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |  |  OverridingUnspecified[6:12-6:12]
+|  |  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |  |  SubpSpec[6:12-6:34]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]
+|  |  |  |  |  |  |  |  |  |  |  |tok: J
+|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[6:21-6:21]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:30-6:30]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Enum
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |  |  |  |  AbstractAbsent[6:38-6:38]
+|  |  |  |  |  |  |  |  |  |default_value:
+|  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]
+|  |  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  GenericFormal[7:7-7:41]
+|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |  FormalSubpDecl[7:7-7:41]
+|  |  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |  |  OverridingUnspecified[7:12-7:12]
+|  |  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |  |  SubpSpec[7:12-7:34]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]
+|  |  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[7:21-7:21]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:30-7:30]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: ENum
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |  |  |  |  AbstractAbsent[7:38-7:38]
+|  |  |  |  |  |  |  |  |  |default_value:
+|  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]
+|  |  |  |  |  |  |  |  |  |  |tok: 'B'
+|  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |package_decl:
 |  |  |  |  |  |  BasePackageDecl[8:4-10:9]
 |  |  |  |  |  |  |package_name:

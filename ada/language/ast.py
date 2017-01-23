@@ -1838,6 +1838,19 @@ class Name(Expr):
         """
         pass
 
+    @langkit_property()
+    def matches(n=T.Name):
+        return Self.match(
+            lambda id=Identifier:
+                n.cast(Identifier).then(lambda other_id:
+                    id.tok.symbol.equals(other_id.tok.symbol)
+                ),
+            lambda _=StringLiteral:
+                # TODO: once we can compare the text of tokens, implement this
+                False,
+            lambda _: False
+        )
+
 
 class CallExpr(Name):
     """
@@ -2226,15 +2239,6 @@ class SingleTokNode(Name):
     """
 
     ref_var = Property(Self.r_ref_var)
-
-    @langkit_property(return_type=BoolType, has_implicit_env=True)
-    def matches(other=T.SingleTokNode):
-        """
-        Return whether this token and the "other" one are the same.
-        This is only defined for two nodes that wrap symbols.
-
-        """
-        return Self.name.symbol == other.name.symbol
 
 
 @abstract

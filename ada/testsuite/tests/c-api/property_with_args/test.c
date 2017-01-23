@@ -83,11 +83,11 @@ main(void)
     printf("This should be I:\n");
     dump_identifier(i);
 
-    if (!ada_single_tok_node_p_matches(foo, foo, &boolean))
+    if (!ada_name_p_matches(foo, foo, &boolean))
       error ("Call to Foo.p_matches(Foo) failed");
     printf("Foo.p_matches(Foo) = %s\n", bool_image (boolean));
 
-    if (!ada_single_tok_node_p_matches(foo, i, &boolean))
+    if (!ada_name_p_matches(foo, i, &boolean))
       error ("Call to Foo.p_matches(I) failed");
     printf("Foo.p_matches(I) = %s\n", bool_image (boolean));
 

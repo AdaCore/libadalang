@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: return_stmt
+driver: symbol_resolution
+input_sources: [return_stmt.adb]

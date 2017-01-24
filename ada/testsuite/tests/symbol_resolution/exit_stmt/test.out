@@ -1,0 +1,16 @@
+Analyzing exit_stmt.adb
+#######################
+
+Correct case
+------------
+
+
+Expr: <Id "Foo" 9:17-9:20>, references <SubpDecl ["Foo"] 2:4-2:31>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+
+Incorrect case
+--------------
+
+
+Resolution failed for node <ExitStmt 13:7-13:20>
+
+Done.

@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: exit_stmt
+driver: symbol_resolution
+input_sources: [exit_stmt.adb]

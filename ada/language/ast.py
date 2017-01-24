@@ -3024,6 +3024,13 @@ class ExitStmt(SimpleStmt):
     loop_name = Field(type=T.Identifier)
     condition = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return (
+            Self.condition.sub_equation(origin_env)
+            & Bind(Self.condition.type_var, Self.bool_type)
+        )
+
 
 class ReturnStmt(SimpleStmt):
     return_expr = Field(type=T.AdaNode)

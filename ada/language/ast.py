@@ -2296,6 +2296,33 @@ class CaseExpr(Expr):
     expr = Field(type=T.Expr)
     cases = Field(type=T.CaseExprAlternative.list_type())
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        # We solve Self.expr separately because it is not dependent on the rest
+        # of the semres.
+        a = Var(Self.expr.resolve_symbols)
+        ignore(a)
+
+        return LogicAnd(Self.cases.map(lambda alt: (
+            LogicAnd(alt.choices.map(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr:
+                Bind(e.type_var, Self.expr.type_val)
+                & e.sub_equation(origin_env),
+
+                # TODO: Bind other cases: SubtypeIndication and Range
+                lambda _: LogicTrue()
+            )))
+
+            # Equations for the dependent expressions
+            & alt.expr.sub_equation(origin_env)
+
+            # The type of self is the type of each expr. Also, the type of
+            # every expr is bound together by the conjunction of this bind for
+            # every branch.
+            & Bind(Self.type_var, alt.expr.type_var)
+        )))
+
 
 class CaseExprAlternative(Expr):
     choices = Field(type=T.AdaNode.list_type())

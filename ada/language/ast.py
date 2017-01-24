@@ -2851,7 +2851,13 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list_type())
 
-    env_spec = EnvSpec(env_hook_arg=Self)
+    env_spec = EnvSpec(
+        env_hook_arg=Self,
+        ref_envs=Self.node_env.get('standard').at(0).then(
+            lambda std: std.children_env.singleton,
+            default_val=EmptyArray(LexicalEnvType)
+        )
+    )
 
 
 class SubpBody(Body):

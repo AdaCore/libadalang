@@ -3033,7 +3033,7 @@ class ExitStmt(SimpleStmt):
 
 
 class ReturnStmt(SimpleStmt):
-    return_expr = Field(type=T.AdaNode)
+    return_expr = Field(type=T.Expr)
 
 
 class RequeueStmt(SimpleStmt):

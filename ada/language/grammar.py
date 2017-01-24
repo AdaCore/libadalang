@@ -828,7 +828,7 @@ A.add_rules(
 
     exit_stmt=ExitStmt("exit", Opt(A.identifier), Opt("when", A.expr)),
 
-    return_stmt=ReturnStmt("return", Opt(A.expr | A.raise_stmt)),
+    return_stmt=ReturnStmt("return", Opt(A.expr)),
 
     requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort")),
 

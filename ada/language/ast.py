@@ -220,6 +220,13 @@ class AdaNode(ASTNode):
         private=True
     )
 
+    std = Property(
+        Self.unit.root.node_env.get('standard').at(0).el,
+        private=True,
+        doc="""
+        Retrieves the standard unit. Used to access standard types.
+        """
+    )
 
 def child_unit(name_expr, scope_expr):
     """

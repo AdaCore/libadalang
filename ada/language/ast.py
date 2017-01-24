@@ -3035,6 +3035,21 @@ class ExitStmt(SimpleStmt):
 class ReturnStmt(SimpleStmt):
     return_expr = Field(type=T.Expr)
 
+    subp = Property(
+        Self.parents.find(lambda p: p.is_a(SubpBody)).cast(SubpBody),
+        doc="Returns the subprogram this return statement belongs to"
+    )
+
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return (
+            Self.return_expr.sub_equation(origin_env)
+            & Bind(
+                Self.return_expr.type_var,
+                Self.subp.subp_spec.returns.designated_type.canonical_type
+            )
+        )
+
 
 class RequeueStmt(SimpleStmt):
     call_name = Field(type=T.Expr)

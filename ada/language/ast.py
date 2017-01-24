@@ -2248,6 +2248,44 @@ class IfExpr(Expr):
     elsif_list = Field(type=T.ElsifExprPart.list_type())
     else_expr = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return (
+            # Construct sub equations for common sub exprs
+            Self.cond_expr.sub_equation(origin_env)
+            & Self.then_expr.sub_equation(origin_env)
+
+            & If(
+                Not(Self.else_expr.is_null),
+                # If there is an else, then construct sub equation
+                Self.else_expr.sub_equation(origin_env)
+                # And bind the then expr's and the else expr's types
+                & Bind(Self.then_expr.type_var, Self.else_expr.type_var),
+
+                # If no else, then the then_expression has type bool
+                Bind(Self.then_expr.type_var, Self.bool_type)
+            ) & If(
+                # TODO: Apparently, an empty LogicAnd should resolve to
+                # LogicTrue (Several occurences of this pattern).
+                Self.elsif_list.length == 0,
+                LogicTrue(),
+
+                LogicAnd(Self.elsif_list.map(lambda elsif: (
+                    # Build the sub equations for cond and then exprs
+                    elsif.cond_expr.sub_equation(origin_env)
+                    & elsif.then_expr.sub_equation(origin_env)
+
+                    # The condition is boolean
+                    & Bind(elsif.cond_expr.type_var, Self.bool_type)
+
+                    # The elsif branch then expr has the same type as Self's
+                    # then_expr.
+                    & Bind(Self.then_expr.type_var, elsif.then_expr.type_var)
+                )))
+            ) & Bind(Self.cond_expr.type_var, Self.bool_type)
+            & Bind(Self.then_expr.type_var, Self.type_var)
+        )
+
 
 class ElsifExprPart(AdaNode):
     cond_expr = Field(type=T.Expr)

@@ -228,6 +228,14 @@ class AdaNode(ASTNode):
         """
     )
 
+    bool_type = Property(
+        Self.std.children_env.get('boolean').at(0).el,
+        doc="""
+        Return the type declaration corresponding to Standard.Boolean.
+        """
+    )
+
+
 def child_unit(name_expr, scope_expr):
     """
     This macro will add the properties and the env specification necessary

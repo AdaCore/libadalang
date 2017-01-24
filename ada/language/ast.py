@@ -2951,7 +2951,7 @@ class SubpBody(Body):
            get_library_item(Self.spec_unit).cast_or_raise(T.SubpDecl),
            No(T.AdaNode)),
         doc="""
-        Return the SubpBody corresponding to this node.
+        Return the SubpDecl corresponding to this node.
         """
     )
 

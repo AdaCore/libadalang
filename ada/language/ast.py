@@ -1842,7 +1842,8 @@ class Name(Expr):
     def matches(n=T.Name):
         return Self.match(
             lambda id=Identifier:
-                n.cast(Identifier).then(lambda other_id:
+                n.cast(Identifier).then(
+                    lambda other_id:
                     id.tok.symbol.equals(other_id.tok.symbol)
                 ),
             lambda _=StringLiteral:

@@ -1708,10 +1708,7 @@ class GenericFormalPart(BaseFormalParamHolder):
     decls = Field()
 
     abstract_formal_params = Property(
-        Self.decls.filtermap(
-            filter_expr=lambda p: p.is_a(GenericFormal),
-            expr=lambda p: p.cast(BaseFormalParamDecl)
-        )
+        Self.decls.keep(BaseFormalParamDecl)
     )
 
 

@@ -3153,13 +3153,13 @@ class PackageBody(Body):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
-    @langkit_property()
+    @langkit_property(return_type=T.BasePackageDecl)
     def decl_part():
         """
-        Return the PackageDecl corresponding to this node.
+        Return the BasePackageDecl corresponding to this node.
         """
         return Self.parent.node_env.eval_in_env(
-            Self.package_name.entities.at(0)
+            Self.package_name.entities.at(0).cast(T.BasePackageDecl)
         )
 
 

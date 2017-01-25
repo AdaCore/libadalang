@@ -2762,8 +2762,7 @@ class SubpSpec(BaseFormalParamHolder):
                Self.returns.is_null,
                And(Not(other.returns.is_null),
                    canonical_type_or_null(other.returns)
-                   == canonical_type_or_null(Self.returns)),
-            ),
+                   == canonical_type_or_null(Self.returns))),
 
             # Check that there is the same number of formals and that each
             # formal matches.

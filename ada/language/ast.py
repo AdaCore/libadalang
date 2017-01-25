@@ -645,10 +645,7 @@ class ComponentList(BaseFormalParamHolder):
         # TODO: Incomplete definition. We need to handle variant parts.
         pcl = Var(Self.parent_component_list)
 
-        self_comps = Var(Self.components.filtermap(
-            filter_expr=lambda p: p.is_a(BaseFormalParamDecl),
-            expr=lambda p: p.cast(BaseFormalParamDecl)
-        ))
+        self_comps = Var(Self.components.keep(BaseFormalParamDecl))
 
         return If(
             pcl.is_null,

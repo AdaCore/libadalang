@@ -2752,22 +2752,29 @@ class SubpSpec(BaseFormalParamHolder):
         Note that the comparison for types isn't just a name comparison: it
         compares the canonical subtype.
         """
-        return Let(
-            lambda
-            name_matches=Self.name.matches(other.name),
-            return_matches=If(
-                # TODO: simplify this code when SubpSpec provides a kind to
-                # distinguish functions and procedures.
-                other.returns.is_null,
-                Self.returns.is_null,
-                And(Not(other.returns.is_null),
-                    canonical_type_or_null(other.returns)
-                    == canonical_type_or_null(Self.returns)),
+        return And(
+            # Check that the names are the same
+            Self.name.matches(other.name),
+
+            # Check that the return type is the same. Caveat: it's not because
+            # we could not find the canonical type that it is null!
+            #
+            # TODO: simplify this code when SubpSpec provides a kind to
+            # distinguish functions and procedures.
+            If(other.returns.is_null,
+               Self.returns.is_null,
+               And(Not(other.returns.is_null),
+                   canonical_type_or_null(other.returns)
+                   == canonical_type_or_null(Self.returns)),
             ),
-            params_match=Let(
+
+            # Check that there is the same number of formals and that each
+            # formal matches.
+            Let(
                 lambda
                 self_params=Self.unpacked_formal_params,
                 other_params=other.unpacked_formal_params:
+
                 And(self_params.length == other_params.length,
                     self_params.all(
                         lambda i, p:
@@ -2777,8 +2784,7 @@ class SubpSpec(BaseFormalParamHolder):
                                 other_params.at(i)
                                 .spec.type_expression)
                             )
-                    ))):
-            And(name_matches, return_matches, params_match)
+                    )))
         )
 
     @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)

@@ -1877,15 +1877,23 @@ class Name(Expr):
 
     @langkit_property()
     def matches(n=T.Name):
+        """
+        Return whether two names match each other.
+
+        This compares the symbol for Identifiers and the text of StringLiteral
+        nodes. We consider that there is no match for all other node kinds.
+        """
         return Self.match(
             lambda id=Identifier:
                 n.cast(Identifier).then(
                     lambda other_id:
                     id.tok.symbol.equals(other_id.tok.symbol)
                 ),
-            lambda _=StringLiteral:
-                # TODO: once we can compare the text of tokens, implement this
-                False,
+            lambda sl=StringLiteral:
+                n.cast(StringLiteral).then(
+                    lambda other_sl:
+                    sl.tok.text_equals(other_sl.tok)
+                ),
             lambda _: False
         )
 

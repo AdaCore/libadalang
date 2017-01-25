@@ -123,8 +123,12 @@ def decl_scope_decls(d):
             pkg_decl.public_part.decls.as_array,
         lambda pkg_body=T.PackageBody:
             Let(lambda decl=pkg_body.decl_part:
-                decl.public_part.decls.as_array.concat(
-                    decl.private_part.decls.as_array)),
+                Let(lambda public_decls=decl.public_part.decls.as_array:
+                    decl.private_part.then(
+                        lambda private_part:
+                            public_decls.concat(private_part.decls.as_array),
+                        default_val=public_decls
+                    ))),
         lambda subp_body=T.SubpBody:
             subp_body.decls.decls.as_array,
         lambda block_stmt=T.BlockStmt:

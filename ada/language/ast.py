@@ -71,6 +71,68 @@ def is_library_package(e):
     return Not(e.is_null) & is_package(e) & is_library_item(e)
 
 
+def decl_enclosing_scope(d):
+    """
+    Property helper to return the enclosing scope for the "d" declaration.
+
+    This returns the closest parent that is a package (decl and body), a
+    subprogram body or a block statement. Return null if there is no such
+    parent.
+    """
+    return d.parent.parents.filter(
+        lambda p: Or(
+            is_package(p),
+            p.is_a(SubpBody, BlockStmt)
+        )
+    ).at(0)
+
+
+def canonical_type_or_null(type_expr):
+    """
+    If "type_expr" is null, return null, otherwise return its canonical type
+    declaration.
+    """
+    return type_expr._.designated_type.canonical_type
+
+
+def body_scope_decls(d):
+    """
+    Property helper to return a list of declarations for the body corresponding
+    to scope for the given "d" declaration.
+    """
+    return decl_enclosing_scope(d).match(
+        lambda pkg_decl=T.BasePackageDecl:
+            pkg_decl.body_part.decls.decls.as_array,
+        lambda pkg_body=T.PackageBody:
+            pkg_body.decls.decls.as_array,
+        lambda subp_body=T.SubpBody:
+            subp_body.decls.decls.as_array,
+        lambda block_stmt=T.BlockStmt:
+            block_stmt.decls.decls.as_array,
+        lambda _: EmptyArray(T.AdaNode),
+    )
+
+
+def decl_scope_decls(d):
+    """
+    Property helper to return a list of declarations for the body corresponding
+    to scope for the given "d" declaration.
+    """
+    return decl_enclosing_scope(d).match(
+        lambda pkg_decl=T.BasePackageDecl:
+            pkg_decl.public_part.decls.as_array,
+        lambda pkg_body=T.PackageBody:
+            Let(lambda decl=pkg_body.decl_part:
+                decl.public_part.decls.as_array.concat(
+                    decl.private_part.decls.as_array)),
+        lambda subp_body=T.SubpBody:
+            subp_body.decls.decls.as_array,
+        lambda block_stmt=T.BlockStmt:
+            block_stmt.decls.decls.as_array,
+        lambda _: EmptyArray(T.AdaNode),
+    )
+
+
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
@@ -1330,8 +1392,12 @@ class SubpDecl(BasicSubpDecl):
 
     body_part = Property(
         If(is_library_item(Self),
+
            get_library_item(Self.body_unit).cast_or_raise(T.SubpBody),
-           No(T.AdaNode)),
+
+           body_scope_decls(Self).keep(T.SubpBody).filter(
+               lambda subp_body:
+               subp_body.subp_spec.match_signature(Self.subp_spec)).at(0)),
         doc="""
         Return the SubpBody corresponding to this node.
         """
@@ -2678,6 +2744,43 @@ class SubpSpec(BaseFormalParamHolder):
             )
         )
 
+    @langkit_property(return_type=BoolType)
+    def match_signature(other=T.SubpSpec):
+        """
+        Return whether SubpSpec's signature matches Self's.
+
+        Note that the comparison for types isn't just a name comparison: it
+        compares the canonical subtype.
+        """
+        return Let(
+            lambda
+            name_matches=Self.name.matches(other.name),
+            return_matches=If(
+                # TODO: simplify this code when SubpSpec provides a kind to
+                # distinguish functions and procedures.
+                other.returns.is_null,
+                Self.returns.is_null,
+                And(Not(other.returns.is_null),
+                    canonical_type_or_null(other.returns)
+                    == canonical_type_or_null(Self.returns)),
+            ),
+            params_match=Let(
+                lambda
+                self_params=Self.unpacked_formal_params,
+                other_params=other.unpacked_formal_params:
+                And(self_params.length == other_params.length,
+                    self_params.all(
+                        lambda i, p:
+                        And(p.name.matches(other_params.at(i).name),
+                            canonical_type_or_null(p.spec.type_expression)
+                            == canonical_type_or_null(
+                                other_params.at(i)
+                                .spec.type_expression)
+                            )
+                    ))):
+            And(name_matches, return_matches, params_match)
+        )
+
     @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
     def defining_env():
         """
@@ -2957,8 +3060,12 @@ class SubpBody(Body):
 
     decl_part = Property(
         If(is_library_item(Self),
+
            get_library_item(Self.spec_unit).cast_or_raise(T.SubpDecl),
-           No(T.AdaNode)),
+
+           decl_scope_decls(Self).keep(T.SubpDecl).filter(
+               lambda subp_decl:
+               subp_decl.subp_spec.match_signature(Self.subp_spec)).at(0)),
         doc="""
         Return the SubpDecl corresponding to this node.
         """

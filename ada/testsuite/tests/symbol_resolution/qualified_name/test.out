@@ -1,0 +1,14 @@
+Analyzing b.adb
+###############
+
+Expr: <Id "I" 6:4-6:5>, references <ObjectDecl ["I", "I2"] 4:4-4:19>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <DottedName 6:9-6:14>, references <ExprFunction ["Foo"] 2:4-2:39>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "A" 6:9-6:10>, references <PackageDecl ["A"] 1:1-5:6>, type is None
+Expr: <Id "Foo" 6:11-6:14>, references <ExprFunction ["Foo"] 2:4-2:39>, type is <TypeDecl ["Integer"] 4:3-4:53>
+
+Expr: <Id "I2" 9:4-9:6>, references <ObjectDecl ["I", "I2"] 4:4-4:19>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <DottedName 9:10-9:16>, references <ObjectDecl ["Foo2"] 4:4-4:24>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "A" 9:10-9:11>, references <PackageDecl ["A"] 1:1-5:6>, type is None
+Expr: <Id "Foo2" 9:12-9:16>, references <ObjectDecl ["Foo2"] 4:4-4:24>, type is <TypeDecl ["Integer"] 4:3-4:53>
+
+Done.

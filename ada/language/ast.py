@@ -372,9 +372,9 @@ class BasicDecl(AdaNode):
         """
     )
 
-    type_expression = AbstractProperty(
+    type_expression = Property(
+        No(T.TypeExpr),
         type=T.TypeExpr,
-        runtime_check=True,
         doc="""
         Return the type expression for this BasicDecl if applicable, a null
         otherwise.

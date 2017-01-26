@@ -2953,7 +2953,7 @@ class RaiseExpr(Expr):
 
 
 class DottedName(Name):
-    prefix = Field(type=T.Expr)
+    prefix = Field(type=T.Name)
     suffix = Field(type=T.BaseId)
     ref_var = Property(Self.suffix.ref_var)
 
@@ -2971,10 +2971,7 @@ class DottedName(Name):
         default_val=EmptyEnv
     ))
 
-    parent_scope = Property(Self.prefix.match(
-        lambda name=T.Name: name.scope,
-        lambda _:           EmptyEnv
-    ))
+    parent_scope = Property(Self.prefix.scope)
 
     name = Property(Self.suffix.name)
 

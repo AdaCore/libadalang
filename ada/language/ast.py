@@ -11,7 +11,7 @@ from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
     EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
-    ignore, langkit_property
+    ignore, langkit_property, SymbolLiteral as Sym
 )
 from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
@@ -1896,6 +1896,18 @@ class Aggregate(Expr):
 
 @abstract
 class Name(Expr):
+
+    label_get = AbstractProperty(
+        type=T.root_node.env_el(), runtime_check=True, private=True,
+        doc="""
+        This property implements symbol resolution for labels, along with
+        label_xref.
+        """
+    )
+    label_xref = AbstractProperty(
+        type=EquationType, runtime_check=True, private=True
+    )
+
     scope = Property(
         EmptyEnv, has_implicit_env=True,
         doc="""
@@ -2418,6 +2430,12 @@ class SingleTokNode(Name):
 
 @abstract
 class BaseId(SingleTokNode):
+
+    label_get = Property(
+        Self.node_env.get(Sym("<<") + Self.tok.symbol + Sym(">>")).at(0)
+    )
+
+    label_xref = Property(Bind(Self.ref_var, Self.label_get))
 
     @langkit_property()
     def scope():
@@ -2957,6 +2975,17 @@ class DottedName(Name):
     suffix = Field(type=T.BaseId)
     ref_var = Property(Self.suffix.ref_var)
 
+    label_get = Property(
+        Self.prefix.label_get.children_env.get(
+            Sym("<<") + Self.suffix.tok.symbol + Sym(">>")
+        ).at(0)
+    )
+
+    label_xref = Property(
+        Bind(Self.ref_var, Self.label_get)
+        & Self.prefix.label_xref
+    )
+
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
         pfx_env = Var(Self.prefix.designated_env(origin_env))
@@ -3139,6 +3168,11 @@ class AssignStmt(SimpleStmt):
 
 class GotoStmt(SimpleStmt):
     label_name = Field(type=T.Name)
+
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
+        return Self.label_name.label_xref
 
 
 class ExitStmt(SimpleStmt):

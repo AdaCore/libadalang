@@ -3226,6 +3226,13 @@ class NamedLoopStmt(BaseLoopStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
 
+    env_spec = EnvSpec(
+        add_env=True, add_to_env=add_to_env(
+            Sym("<<") + Self.name.tok.symbol + Sym(">>"),
+            Self
+        )
+    )
+
 
 class LoopStmt(BaseLoopStmt):
     spec = Field(type=T.LoopSpec)

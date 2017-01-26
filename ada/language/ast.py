@@ -3120,6 +3120,11 @@ class CallStmt(SimpleStmt):
 class NullStmt(SimpleStmt):
     null_lit = Field(repr=False)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
+        return LogicTrue()
+
 
 class AssignStmt(SimpleStmt):
     dest = Field(type=T.Expr)

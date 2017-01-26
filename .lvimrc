@@ -10,15 +10,20 @@ if g:localvimrc_sourced_once
 endif
 
 let s:local_path = expand('<sfile>:p:h')
+let s:cmd=s:local_path . '/langkit/langkit/stylechecks/__init__.py'
+let s:lalcmd=s:local_path . '/ada/manage.py --verbosity=none -P generate --no-compile-quex'
+
+function Lalcheck()
+    hi Red ctermfg=red
+    echohl Red
+    echon "Running checks"
+    echohl
+    call Stylechecks(s:lalcmd, 0)
+endfunction
 
 
-function Stylechecks()
-    let s:cmd=s:local_path . '/langkit/langkit/stylechecks/__init__.py'
-
-    if !executable(s:cmd)
-        echoerr "File " . s:cmd . " not found."
-        return
-    endif
+function Stylechecks(cmd, file_specific)
+    hi Green ctermfg=green
 
     set lazyredraw   " delay redrawing
     cclose           " close any existing cwindows
@@ -34,8 +39,12 @@ function Stylechecks()
 
     " perform the grep itself
     let &grepformat="%f:%l:%c: %m\,%f:%l: %m"
-    let &grepprg=s:cmd
-    silent! grep! %
+    let &grepprg=a:cmd
+    if a:file_specific
+        silent! grep! %
+    else
+        silent! grep!
+    endif
 
     " restore grep settings
     let &grepformat=l:old_gfm
@@ -55,14 +64,15 @@ function Stylechecks()
 
     if has_results == 0
         " Show OK status
-        hi Green ctermfg=green
         echohl Green
         echon "Style checks OK"
         echohl
     endif
 endfunction
 
-autocmd BufWritePost *.py call Stylechecks()
-autocmd BufWritePost *.adb call Stylechecks()
-autocmd BufWritePost *.ads call Stylechecks()
-autocmd BufWritePost *.mako call Stylechecks()
+autocmd BufWritePost *.py call Stylechecks(s:cmd, 1)
+autocmd BufWritePost *.adb call Stylechecks(s:cmd, 1)
+autocmd BufWritePost *.ads call Stylechecks(s:cmd, 1)
+autocmd BufWritePost *.mako call Stylechecks(s:cmd, 1)
+
+map <F3> :call Lalcheck()<CR>

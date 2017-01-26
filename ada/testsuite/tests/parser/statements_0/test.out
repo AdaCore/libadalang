@@ -38,7 +38,6 @@ AdaNodeList[1:1-1:235]
 |  |  |exceptions:
 |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  LoopStmt[1:66-1:234]
-|  |name: <null>
 |  |spec: <null>
 |  |stmts:
 |  |  AdaNodeList[1:71-1:225]

@@ -151,7 +151,6 @@ TaskBody[1:1-1:572]
 |  |stmts:
 |  |  AdaNodeList[1:217-1:544]
 |  |  |  LoopStmt[1:217-1:543]
-|  |  |  |name: <null>
 |  |  |  |spec: <null>
 |  |  |  |stmts:
 |  |  |  |  AdaNodeList[1:222-1:534]

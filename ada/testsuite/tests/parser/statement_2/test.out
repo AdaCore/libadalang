@@ -1,5 +1,4 @@
 LoopStmt[1:1-1:21]
-|name: <null>
 |spec: <null>
 |stmts:
 |  AdaNodeList[1:6-1:12]

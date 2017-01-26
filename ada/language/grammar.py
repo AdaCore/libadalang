@@ -733,12 +733,18 @@ A.add_rules(
         "begin", A.handled_stmts, "end", _(Opt(A.identifier))
     ),
 
-    loop_stmt=LoopStmt(
-        Opt(A.identifier, ":"),
-        Opt(A.iteration_scheme),
-        "loop",
-        A.stmts,
-        "end", "loop", _(Opt(A.identifier))
+    loop_stmt=Or(
+        LoopStmt(
+            Opt(A.iteration_scheme),
+            "loop", A.stmts,
+            "end", "loop", _(Opt(A.identifier))
+        ),
+        NamedLoopStmt(
+            A.identifier, ":",
+            Opt(A.iteration_scheme),
+            "loop", A.stmts,
+            "end", "loop", _(Opt(A.identifier))
+        ),
     ),
 
     iteration_scheme=Or(

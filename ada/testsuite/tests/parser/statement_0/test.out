@@ -1,5 +1,4 @@
 LoopStmt[1:1-1:33]
-|name: <null>
 |spec:
 |  WhileLoopSpec[1:1-1:13]
 |  |expr:

@@ -1,4 +1,4 @@
-LoopStmt[1:1-1:36]
+NamedLoopStmt[1:1-1:36]
 |name:
 |  Id[1:1-1:2]
 |  |tok: A

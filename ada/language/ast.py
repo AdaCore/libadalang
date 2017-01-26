@@ -3214,8 +3214,18 @@ class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
 
-class LoopStmt(CompositeStmt):
+@abstract
+class BaseLoopStmt(CompositeStmt):
+    pass
+
+
+class NamedLoopStmt(BaseLoopStmt):
     name = Field(type=T.Identifier)
+    spec = Field(type=T.LoopSpec)
+    stmts = Field(type=T.AdaNode.list_type())
+
+
+class LoopStmt(BaseLoopStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
 

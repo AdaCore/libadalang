@@ -3209,6 +3209,8 @@ class ElsifStmtPart(AdaNode):
 class Label(SimpleStmt):
     token = Field(type=T.Token)
 
+    env_spec = EnvSpec(add_to_env=add_to_env(Self.token.symbol, Self))
+
 
 class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)

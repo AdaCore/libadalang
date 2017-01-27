@@ -1,0 +1,12 @@
+Analyzing testloop.adb
+######################
+
+Expr: <Id "C" 6:15-6:16>, references <Label 5:10-5:15>, type is None
+
+Expr: <DottedName 9:15-9:20>, references <Label 5:10-5:15>, type is None
+Expr: <DottedName 9:15-9:18>, references <NamedLoopStmt 4:7-11:17>, type is None
+Expr: <Id "A" 9:15-9:16>, references <NamedLoopStmt 3:4-12:14>, type is None
+Expr: <Id "B" 9:17-9:18>, references <NamedLoopStmt 4:7-11:17>, type is None
+Expr: <Id "C" 9:19-9:20>, references <Label 5:10-5:15>, type is None
+
+Done.

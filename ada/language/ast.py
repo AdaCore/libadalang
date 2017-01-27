@@ -411,7 +411,7 @@ class BasicDecl(AdaNode):
         return Self.expr_type._.canonical_type
 
     @langkit_property(return_type=T.SubpSpec)
-    def subp_spec():
+    def subp_spec_or_null():
         """
         If node is a Subp, returns the specification of this subprogram.
         TODO: Enhance when we have interfaces.
@@ -753,7 +753,9 @@ class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     name = Property(Self.type_id)
-    env_spec = EnvSpec(add_to_env=add_to_env(Self.type_id.name.symbol, Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.type_id.relative_name.symbol, Self)
+    )
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
@@ -1361,12 +1363,12 @@ class BasicSubpDecl(BasicDecl):
         initial_env=Self.subp_spec.name.parent_scope,
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
-            add_to_env(Self.subp_spec.name.name.symbol, Self),
+            add_to_env(Self.subp_spec.name.relative_name.symbol, Self),
 
             # Second custom action, adding to the type's environment if the
             # type is tagged and self is a primitive of it.
             add_to_env(
-                key=Self.subp_spec.name.name.symbol,
+                key=Self.subp_spec.name.relative_name.symbol,
                 val=Self.subp_spec.dottable_subp,
                 dest_env=Self.subp_spec.potential_dottable_type._.children_env,
                 # We pass custom metadata, marking the entity as a dottable
@@ -1611,7 +1613,7 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    env_spec = child_unit(Self.package_name.name.symbol,
+    env_spec = child_unit(Self.package_name.relative_name.symbol,
                           Self.package_name.parent_scope)
 
 
@@ -1725,7 +1727,7 @@ class GenericFormal(BaseFormalParamDecl):
 
 
 class GenericSubpDecl(BasicDecl):
-    env_spec = child_unit(Self.subp_spec.name.name.symbol,
+    env_spec = child_unit(Self.subp_spec.name.relative_name.symbol,
                           Self.subp_spec.name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
@@ -1736,7 +1738,7 @@ class GenericSubpDecl(BasicDecl):
 
 
 class GenericPackageDecl(BasicDecl):
-    env_spec = child_unit(Self.package_name.name.symbol,
+    env_spec = child_unit(Self.package_name.relative_name.symbol,
                           Self.package_name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
@@ -1781,7 +1783,7 @@ class Expr(AdaNode):
         """
     )
 
-    name = AbstractProperty(
+    relative_name = AbstractProperty(
         type=compiled_types.Token, private=True, runtime_check=True,
         doc="""
         Returns the relative name of this instance. For example,
@@ -2065,8 +2067,8 @@ class CallExpr(Name):
                     # Test if the entity is a parameterless subprogram call,
                     # or something else (a component/local variable/etc),
                     # that would make this callexpr an array access.
-                    s.subp_spec.then(lambda ss: ss.paramless(e.MD),
-                                     default_val=True),
+                    s.subp_spec_or_null.then(lambda ss: ss.paramless(e.MD),
+                                             default_val=True),
 
                     Self.equation_for_type(origin_env, s.type_designator),
 
@@ -2076,7 +2078,7 @@ class CallExpr(Name):
 
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
-                    & LogicAnd(s.subp_spec.match_param_list(
+                    & LogicAnd(s.subp_spec_or_null.match_param_list(
                         Self.params, e.MD.dottable_subp
                     ).map(
                         lambda pm: (
@@ -2417,7 +2419,7 @@ class CaseExprAlternative(Expr):
 @abstract
 class SingleTokNode(Name):
     tok = Field(type=T.Token)
-    name = Property(Self.tok)
+    relative_name = Property(Self.tok)
 
     r_ref_var = UserField(LogicVarType, is_private=True)
     """
@@ -2468,7 +2470,7 @@ class BaseId(SingleTokNode):
         ))
 
     parent_scope = Property(Env)
-    name = Property(Self.tok)
+    relative_name = Property(Self.tok)
 
     designated_type_impl = Property(
         # We don't use get_sequential here because declaring two types with
@@ -2552,7 +2554,7 @@ class BaseId(SingleTokNode):
                    Env.is_visible_from(origin_env),
                    True)
 
-                & e.el.cast_or_raise(BasicDecl).subp_spec.then(
+                & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(
                     # If there is a subp_spec, check that it corresponds to
                     # a parameterless subprogram.
                     lambda ss: ss.paramless(e.MD),
@@ -3002,7 +3004,7 @@ class DottedName(Name):
 
     parent_scope = Property(Self.prefix.scope)
 
-    name = Property(Self.suffix.name)
+    relative_name = Property(Self.suffix.relative_name)
 
     @langkit_property()
     def env_elements_impl(origin_env=LexicalEnvType):

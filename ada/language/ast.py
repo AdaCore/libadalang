@@ -3275,7 +3275,11 @@ class BlockStmt(CompositeStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 
-    env_spec = EnvSpec(add_env=True)
+    env_spec = EnvSpec(add_env=True, add_to_env=add_to_env(
+        Self.name.then(
+            lambda i: Sym("<<") + i.tok.symbol + Sym(">>")
+        ).to_array, Self
+    ))
 
 
 class ExtendedReturnStmt(CompositeStmt):

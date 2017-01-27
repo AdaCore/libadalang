@@ -4,7 +4,7 @@ from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EquationType, Field, LexicalEnvType,
     LogicVarType, LongType, Struct, T, UserField, abstract,
-    env_metadata, has_abstract_list, root_grammar_class
+    env_metadata, has_abstract_list, root_grammar_class, Symbol
 )
 
 from langkit.envs import EnvSpec, add_to_env
@@ -294,12 +294,13 @@ class AdaNode(ASTNode):
         """
     )
 
-    bool_type = Property(
-        Self.std.children_env.get('boolean').at(0).el,
-        doc="""
-        Return the type declaration corresponding to Standard.Boolean.
-        """
+    std_entity = Property(
+        lambda sym=Symbol: Self.std.children_env.get(sym).at(0).el,
+        doc="Return an entity from the standard package with name `sym`",
+        private=True
     )
+
+    bool_type = Property(Self.std_entity('boolean'), private=True)
 
 
 def child_unit(name_expr, scope_expr):

@@ -3233,6 +3233,17 @@ class IfStmt(CompositeStmt):
     alternatives = Field(type=T.ElsifStmtPart.list_type())
     else_stmts = Field(type=T.AdaNode.list_type())
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return (
+            Self.condition.sub_equation(origin_env)
+            & Bind(Self.condition.type_var, Self.bool_type)
+            & LogicAnd(Self.alternatives.map(
+                lambda elsif: elsif.expr.sub_equation(origin_env)
+                & Bind(elsif.expr.type_var, Self.bool_type)
+            ))
+        )
+
 
 class ElsifStmtPart(AdaNode):
     expr = Field(type=T.Expr)

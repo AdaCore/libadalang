@@ -1,29 +1,53 @@
 #! /usr/bin/env python
 
+"""
+This script will detect comparison and arithmetic operations that have operands
+which are syntactically identical in the input Ada sources.
+"""
+
 import argparse
 
 import libadalang as lal
 
-parser = argparse.ArgumentParser(
-    description='Detect comparison and arithmetic operands which are'
-                ' syntactically identical in the input Ada sources.')
-parser.add_argument('files', help='The files to analyze',
-                    type=str, nargs='+', metavar='F')
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    'files', help='A file to analyze', type=str, nargs='+', metavar='file'
+)
+
 
 def same_tokens(left, right):
-    if len(left) != len(right):
-        return False
-    for le, ri in zip(left, right):
-        if le.kind != ri.kind or le.text != ri.text:
-            return False
-    return True
+    """
+    Returns whether left and right contain tokens that are structurally
+    equivalent with regards to kind and contained text.
+
+    :rtype: bool
+    """
+    return len(left) == len(right) and all(
+        le.kind == ri.kind and le.text == ri.text
+        for le, ri in zip(left, right)
+    )
+
 
 def has_same_operands(binop):
+    """
+    Checks whether binop has the same operands syntactically.
+
+    :type binop: lal.BinOp
+    :rtype: bool
+    """
     return same_tokens(list(binop.f_left.tokens), list(binop.f_right.tokens))
 
+
 def interesting_oper(op):
+    """
+    Predicate that returns whether op is an operator that is interesting in the
+    context of this script.
+
+    :rtype: bool
+    """
     return not isinstance(op, (lal.OpMult, lal.OpPlus, lal.OpDoubleDot,
                                lal.OpPow, lal.OpConcat))
+
 
 def main(args):
     c = lal.AnalysisContext('utf-8')
@@ -41,6 +65,7 @@ def main(args):
         except Exception, e:
             print 'Analyzing {} failed with exception: {}: {}'.format(
                 f, type(e).__name__, e)
+
 
 if __name__ == '__main__':
     main(parser.parse_args())

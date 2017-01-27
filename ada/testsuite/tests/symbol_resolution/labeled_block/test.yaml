@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: labeled_block
+driver: symbol_resolution
+input_sources: [testblock.adb]

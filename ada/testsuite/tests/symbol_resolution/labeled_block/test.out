@@ -1,0 +1,8 @@
+Analyzing testblock.adb
+#######################
+
+Expr: <DottedName 8:12-8:17>, references <Label 7:7-7:12>, type is None
+Expr: <Id "Foo" 8:12-8:15>, references <BlockStmt 3:4-10:11>, type is None
+Expr: <Id "B" 8:16-8:17>, references <Label 7:7-7:12>, type is None
+
+Done.

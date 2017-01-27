@@ -3222,6 +3222,12 @@ class DelayStmt(SimpleStmt):
     has_until = Field(type=Until)
     expr = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.expr.sub_equation(origin_env) & Bind(
+            Self.expr.type_var, Self.std_entity('duration')
+        )
+
 
 class RaiseStmt(SimpleStmt):
     exception_name = Field(type=T.Expr)

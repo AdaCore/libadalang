@@ -9,7 +9,7 @@ with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
 
-with Adalog.Debug;
+with Langkit_Support.Adalog.Debug;
 with Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
@@ -111,7 +111,7 @@ procedure Symres is
       function Is_Expr (N : Ada_Node) return Boolean
       is (N.all in Expr_Type'Class);
    begin
-      if Adalog.Debug.Debug then
+      if Langkit_Support.Adalog.Debug.Debug then
          N.Assign_Names_To_Logic_Vars;
       end if;
       if N.P_Resolve_Symbols then

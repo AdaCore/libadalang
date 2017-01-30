@@ -1,4 +1,19 @@
+With_Trivia => False
+Unit has 10 tokens and 0 trivias
+Unit start and end tokens:
+  <Token Procedure u'procedure'>
+  <Token Termination>
 AST root start and end tokens:
-<Token Procedure u'procedure'>
-<Token Semicolon u';'>
+  <Token Procedure u'procedure'>
+  <Token Semicolon u';'>
+
+With_Trivia => True
+Unit has 10 tokens and 1 trivias
+Unit start and end tokens:
+  <Token Comment u'--  Example'>
+  <Token Termination>
+AST root start and end tokens:
+  <Token Procedure u'procedure'>
+  <Token Semicolon u';'>
+
 Done.

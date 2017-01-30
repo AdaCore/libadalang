@@ -1627,6 +1627,10 @@ class ExceptionDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.ids.map(lambda e: e.tok.symbol), Self)
+    )
+
 
 @abstract
 class GenericInstantiation(BasicDecl):

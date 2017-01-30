@@ -71,7 +71,8 @@ procedure Symres is
       Array_Type   => Ada_Node_Array,
       "<"          => "<");
 
-   function Decode_Boolean_Literal (T : Text_Type) return Boolean;
+   function Decode_Boolean_Literal (T : Text_Type) return Boolean is
+     (Boolean'Wide_Wide_Value (T));
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
 
    --------------
@@ -97,21 +98,6 @@ procedure Symres is
    procedure Put (S : String) is begin
       if not Quiet then Ada.Text_IO.Put (S); end if;
    end Put;
-
-   ----------------------------
-   -- Decode_Boolean_Literal --
-   ----------------------------
-
-   function Decode_Boolean_Literal (T : Text_Type) return Boolean is
-   begin
-      if T = "True" then
-         return True;
-      elsif T = "False" then
-         return False;
-      else
-         raise Program_Error with "Invalid boolean value: " & Image (T, True);
-      end if;
-   end Decode_Boolean_Literal;
 
    ------------------
    -- Resolve_Node --

@@ -11,7 +11,7 @@ endif
 
 let s:local_path = expand('<sfile>:p:h')
 let s:cmd=s:local_path . '/langkit/langkit/stylechecks/__init__.py'
-let s:lalcmd=s:local_path . '/ada/manage.py --verbosity=none -P generate --no-compile-quex'
+let s:lalcmd=s:local_path . '/ada/manage.py --verbosity=none -P generate --check-only'
 
 function Lalcheck()
     hi Red ctermfg=red

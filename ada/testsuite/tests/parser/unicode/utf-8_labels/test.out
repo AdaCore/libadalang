@@ -27,7 +27,11 @@ CompilationUnit[1:1-6:10]
 |  |  |  |stmts:
 |  |  |  |  AdaNodeList[3:5-5:15]
 |  |  |  |  |  Label[3:5-3:13]
-|  |  |  |  |  |token: <<\u308c\u306a\u304c\u3089>>
+|  |  |  |  |  |decl:
+|  |  |  |  |  |  LabelDecl[3:7-3:11]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[3:7-3:11]
+|  |  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089
 |  |  |  |  |  CallStmt[4:5-4:28]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[4:5-4:28]

@@ -727,24 +727,24 @@ A.add_rules(
         Opt("do", A.handled_stmts, "end", "return")
     ),
 
-    block_stmt=BlockStmt(
-        Opt(A.identifier, ":"),
+    iblock_stmt=BlockStmt(
         Opt("declare", DeclarativePart(A.basic_decls)),
         "begin", A.handled_stmts, "end", _(Opt(A.identifier))
     ),
 
+    block_stmt=Or(
+        A.iblock_stmt,
+        NamedStmt(NamedStmtDecl(A.identifier), ":", A.iblock_stmt),
+    ),
+
+    iloop_stmt=LoopStmt(
+        Opt(A.iteration_scheme),
+        "loop", A.stmts, "end", "loop", _(Opt(A.identifier))
+    ),
+
     loop_stmt=Or(
-        LoopStmt(
-            Opt(A.iteration_scheme),
-            "loop", A.stmts,
-            "end", "loop", _(Opt(A.identifier))
-        ),
-        NamedLoopStmt(
-            A.identifier, ":",
-            Opt(A.iteration_scheme),
-            "loop", A.stmts,
-            "end", "loop", _(Opt(A.identifier))
-        ),
+        A.iloop_stmt,
+        NamedStmt(NamedStmtDecl(A.identifier), ":", A.iloop_stmt),
     ),
 
     iteration_scheme=Or(
@@ -814,7 +814,7 @@ A.add_rules(
     stmts=List(Or(Pick(A.stmt, Opt(";").error()),
                   A.label), empty_valid=True),
 
-    label=Label(L.Label(keep=True)),
+    label=Label("<<", LabelDecl(A.identifier), ">>"),
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 

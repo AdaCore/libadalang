@@ -11,7 +11,7 @@ from langkit.envs import EnvSpec, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
     EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
-    ignore, langkit_property, SymbolLiteral as Sym
+    ignore, langkit_property
 )
 from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
@@ -1900,17 +1900,6 @@ class Aggregate(Expr):
 @abstract
 class Name(Expr):
 
-    label_get = AbstractProperty(
-        type=T.root_node.env_el(), runtime_check=True, private=True,
-        doc="""
-        This property implements symbol resolution for labels, along with
-        label_xref.
-        """
-    )
-    label_xref = AbstractProperty(
-        type=EquationType, runtime_check=True, private=True
-    )
-
     scope = Property(
         EmptyEnv, has_implicit_env=True,
         doc="""
@@ -2433,12 +2422,6 @@ class SingleTokNode(Name):
 
 @abstract
 class BaseId(SingleTokNode):
-
-    label_get = Property(
-        Self.node_env.get(Sym("<<") + Self.tok.symbol + Sym(">>")).at(0)
-    )
-
-    label_xref = Property(Bind(Self.ref_var, Self.label_get))
 
     @langkit_property()
     def scope():
@@ -2978,17 +2961,6 @@ class DottedName(Name):
     suffix = Field(type=T.BaseId)
     ref_var = Property(Self.suffix.ref_var)
 
-    label_get = Property(
-        Self.prefix.label_get.children_env.get(
-            Sym("<<") + Self.suffix.tok.symbol + Sym(">>")
-        ).at(0)
-    )
-
-    label_xref = Property(
-        Bind(Self.ref_var, Self.label_get)
-        & Self.prefix.label_xref
-    )
-
     @langkit_property()
     def designated_env(origin_env=LexicalEnvType):
         pfx_env = Var(Self.prefix.designated_env(origin_env))
@@ -3174,8 +3146,7 @@ class GotoStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
-        return Self.label_name.label_xref
+        return Self.label_name.sub_equation(origin_env)
 
 
 class ExitStmt(SimpleStmt):
@@ -3257,49 +3228,54 @@ class ElsifStmtPart(AdaNode):
     stmts = Field(type=T.AdaNode.list_type())
 
 
-class Label(SimpleStmt):
-    token = Field(type=T.Token)
+class LabelDecl(BasicDecl):
+    name = Field(type=T.Identifier)
+    env_spec = EnvSpec(add_to_env=add_to_env(Self.name.tok.symbol, Self))
+    defining_names = Property(Self.name.cast(T.Name).singleton)
 
-    env_spec = EnvSpec(add_to_env=add_to_env(Self.token.symbol, Self))
+
+class Label(SimpleStmt):
+    decl = Field(type=T.LabelDecl)
 
 
 class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
 
-@abstract
-class BaseLoopStmt(CompositeStmt):
-    pass
-
-
-class NamedLoopStmt(BaseLoopStmt):
+class NamedStmtDecl(BasicDecl):
+    """
+    BasicDecl that is always the declaration inside a named statement.
+    """
     name = Field(type=T.Identifier)
-    spec = Field(type=T.LoopSpec)
-    stmts = Field(type=T.AdaNode.list_type())
+    defining_names = Property(Self.name.cast(T.Name).singleton)
+    defining_env = Property(Self.parent.cast(T.NamedStmt).stmt.children_env)
+
+
+class NamedStmt(CompositeStmt):
+    """
+    Wrapper class, used for composite statements that can be named (declare
+    blocks, loops). This allows to both have a BasicDecl for the named entity
+    declared, and a CompositeStmt for the statement hierarchy.
+    """
+    decl = Field(type=T.NamedStmtDecl)
+    stmt = Field(type=T.CompositeStmt)
 
     env_spec = EnvSpec(
-        add_env=True, add_to_env=add_to_env(
-            Sym("<<") + Self.name.tok.symbol + Sym(">>"),
-            Self
-        )
+        add_env=True,
+        add_to_env=add_to_env(Self.decl.name.tok.symbol, Self.decl)
     )
 
 
-class LoopStmt(BaseLoopStmt):
+class LoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
 
 
 class BlockStmt(CompositeStmt):
-    name = Field(type=T.Identifier)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
 
-    env_spec = EnvSpec(add_env=True, add_to_env=add_to_env(
-        Self.name.then(
-            lambda i: Sym("<<") + i.tok.symbol + Sym(">>")
-        ).to_array, Self
-    ))
+    env_spec = EnvSpec(add_env=True)
 
 
 class ExtendedReturnStmt(CompositeStmt):

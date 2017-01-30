@@ -56,7 +56,6 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  AdaNodeList[4:7-8:11]
 |  |  |  |  |  |  |  |  BlockStmt[4:7-8:10]
-|  |  |  |  |  |  |  |  |name: <null>
 |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |decls:

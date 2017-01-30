@@ -78,9 +78,6 @@ class Token(LexerToken):
     Requeue = WithText()
     Xor = WithText()
 
-    # Label
-    Label = WithSymbol()
-
     # Punctuation
     ParClose = WithText()
     ParOpen = WithText()
@@ -106,6 +103,8 @@ class Token(LexerToken):
     Tick = WithText()
     Pipe = WithText()
     Assign = WithText()
+    LabelStart = WithText()
+    LabelEnd = WithText()
 
     # String and char literals
     String = WithText()
@@ -263,6 +262,8 @@ rules += [
     (Literal("'"),                              Token.Tick),
     (Literal("|"),                              Token.Pipe),
     (Literal("!"),                              Token.Pipe),
+    (Literal("<<"),                             Token.LabelStart),
+    (Literal(">>"),                             Token.LabelEnd),
 
     # Literals
     (ada_lexer.patterns.integer_literal,        Token.Integer),
@@ -275,7 +276,6 @@ rules += [
 
     # Identifiers
     (ada_lexer.patterns.identifier,             Token.Identifier),
-    (Pattern(r"<<{ws}({identifier})?{ws}>>"),   Token.Label),
 
     (Pattern("'{bracket_char}'"),               Token.Char),
 

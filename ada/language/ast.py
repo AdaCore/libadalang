@@ -3234,6 +3234,10 @@ class RaiseStmt(SimpleStmt):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.exception_name.sub_equation(origin_env)
+
 
 class IfStmt(CompositeStmt):
     condition = Field(type=T.Expr)

@@ -3177,7 +3177,7 @@ class SubpBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_id = Field(type=T.Expr)
+    end_id = Field(type=T.Name)
 
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)

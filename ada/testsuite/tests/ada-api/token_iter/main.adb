@@ -7,6 +7,9 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Lexer;
 
 procedure Main is
+
+   subtype Token_Index is Libadalang.Lexer.Token_Data_Handlers.Token_Index;
+
    Ctx : Analysis_Context := Create;
 
    procedure Process (Filename : String; With_Trivia : Boolean);
@@ -37,9 +40,11 @@ procedure Main is
          declare
             TD : constant Token_Data_Type := Data (Token);
          begin
-            Put ("  " & Libadalang.Lexer.Token_Kind_Name (Kind (TD)));
-            Put (" " & Image (Text (Token), With_Quotes => True));
-            New_Line;
+            Put_Line
+              ("  [" & (if Is_Trivia (TD) then "trivia" else "token ")
+               & Token_Index'Image (Index (TD)) & "] "
+               & Libadalang.Lexer.Token_Kind_Name (Kind (TD))
+               & " " & Image (Text (Token), With_Quotes => True));
          end;
          Prev_Token := Token;
          Token := Next (Token);

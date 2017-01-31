@@ -106,7 +106,8 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  LoopStmt
 |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopSpec
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopVarDecl
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  IterTypeIn
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int

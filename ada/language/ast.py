@@ -2883,9 +2883,15 @@ class LoopSpec(AdaNode):
     pass
 
 
-class ForLoopSpec(LoopSpec):
+class ForLoopVarDecl(BasicDecl):
     id = Field(type=T.Identifier)
     id_type = Field(type=T.SubtypeIndication)
+
+    defining_names = Property(Self.id.cast(T.Name).singleton)
+
+
+class ForLoopSpec(LoopSpec):
+    var_decl = Field(type=T.ForLoopVarDecl)
     loop_type = Field(type=IterType)
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)

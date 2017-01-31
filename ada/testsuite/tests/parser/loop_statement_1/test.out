@@ -1,10 +1,12 @@
 LoopStmt[1:1-1:51]
 |spec:
 |  ForLoopSpec[1:5-1:31]
-|  |id:
-|  |  Id[1:5-1:6]
-|  |  |tok: A
-|  |id_type: <null>
+|  |var_decl:
+|  |  ForLoopVarDecl[1:5-1:6]
+|  |  |id:
+|  |  |  Id[1:5-1:6]
+|  |  |  |tok: A
+|  |  |id_type: <null>
 |  |loop_type:
 |  |  IterTypeIn[1:7-1:9]
 |  |has_reverse:

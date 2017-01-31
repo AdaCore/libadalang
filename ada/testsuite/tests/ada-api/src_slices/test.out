@@ -23,6 +23,9 @@ Source excerpts for all Basic_Decl in test.adb:
   * <ObjectDecl ["C"] 2:5-2:16>
     C : Integer
 
+  * <ForLoopVarDecl ["El"] 4:9-4:22>
+    El : Foo_Elem
+
 Trying to get a source slice for two nodes in different units...
 ... got the expected Constraint_Error!
 

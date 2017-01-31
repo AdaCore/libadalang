@@ -65,17 +65,19 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  LoopStmt[2:6-4:14]
 |  |  |  |  |  |spec:
 |  |  |  |  |  |  ForLoopSpec[2:10-2:28]
-|  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  Id[2:10-2:12]
-|  |  |  |  |  |  |  |tok: El
-|  |  |  |  |  |  |id_type:
-|  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
-|  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[2:15-2:15]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[2:15-2:23]
-|  |  |  |  |  |  |  |  |tok: Foo_Elem
-|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |var_decl:
+|  |  |  |  |  |  |  ForLoopVarDecl[2:10-2:23]
+|  |  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  |  Id[2:10-2:12]
+|  |  |  |  |  |  |  |  |tok: El
+|  |  |  |  |  |  |  |id_type:
+|  |  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[2:15-2:15]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[2:15-2:23]
+|  |  |  |  |  |  |  |  |  |tok: Foo_Elem
+|  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |loop_type:
 |  |  |  |  |  |  |  IterTypeOf[2:24-2:26]
 |  |  |  |  |  |  |has_reverse:

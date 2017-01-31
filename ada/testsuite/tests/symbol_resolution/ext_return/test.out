@@ -1,0 +1,13 @@
+Analyzing testextreturn.adb
+###########################
+
+Expr: <Id "A" 5:10-5:11>, references <ObjectDecl ["A"] 4:14-4:25>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Int 5:15-5:17>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
+
+Expr: <Id "A" 4:14-4:15>, references None, type is None
+Expr: <Id "Integer" 4:18-4:25>, references None, type is None
+Expr: <Id "A" 5:10-5:11>, references <ObjectDecl ["A"] 4:14-4:25>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Int 5:15-5:17>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "Test_Statement" 6:17-6:31>, references None, type is None
+
+Done.

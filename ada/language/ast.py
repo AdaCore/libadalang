@@ -2914,6 +2914,10 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_names = Property(Self.id.cast(T.Name).singleton)
 
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.id.tok.symbol, Self)
+    )
+
 
 class ForLoopSpec(LoopSpec):
     var_decl = Field(type=T.ForLoopVarDecl)

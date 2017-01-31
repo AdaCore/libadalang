@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: for_loop_3
+driver: symbol_resolution
+input_sources: [testloop.adb]

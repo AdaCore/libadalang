@@ -3365,6 +3365,12 @@ class Label(SimpleStmt):
 class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.expr.sub_equation(origin_env) & (
+            Bind(Self.expr.type_var, Self.bool_type)
+        )
+
 
 class NamedStmtDecl(BasicDecl):
     """

@@ -1,0 +1,106 @@
+Tokens for no_trivia.adb (no trivia):
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'No_Trivia'
+  [token  2] Is u'is'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'No_Trivia'
+  [token  8] Semicolon u';'
+  [token  9] Termination None
+
+Tokens for empty.adb (no trivia):
+  [token  0] Termination None
+
+Tokens for one_leading_comment.adb (with trivia):
+  [trivia 0] Comment u'--  This is the only leading comment'
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'One_Leading_Comment'
+  [token  2] Is u'is'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'One_Leading_Comment'
+  [token  8] Semicolon u';'
+  [token  9] Termination None
+
+Tokens for two_leading_comments.adb (with trivia):
+  [trivia 0] Comment u'--  This is the first leading comment.'
+  [trivia 1] Comment u'--  And this is the second one.'
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'Two_Leading_Comments'
+  [token  2] Is u'is'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'Two_Leading_Comments'
+  [token  8] Semicolon u';'
+  [token  9] Termination None
+
+Tokens for one_middle_comment.adb (with trivia):
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'One_Middle_Comment'
+  [token  2] Is u'is'
+  [trivia 0] Comment u'--  This is the only middle comment'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'One_Middle_Comment'
+  [token  8] Semicolon u';'
+  [token  9] Termination None
+
+Tokens for two_middle_comments.adb (with trivia):
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'Two_Middle_Comments'
+  [token  2] Is u'is'
+  [trivia 0] Comment u'--  This is one middle comment.'
+  [trivia 1] Comment u'--  And this is the second one.'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'Two_Middle_Comments'
+  [token  8] Semicolon u';'
+  [token  9] Termination None
+
+Tokens for one_trailing_comment.adb (with trivia):
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'One_Trailing_Comment'
+  [token  2] Is u'is'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'One_Trailing_Comment'
+  [token  8] Semicolon u';'
+  [trivia 0] Comment u'--  This is the only trailing comment'
+  [token  9] Termination None
+
+Tokens for two_trailing_comments.adb (with trivia):
+  [token  0] Procedure u'procedure'
+  [token  1] Identifier u'Two_Trailing_Comments'
+  [token  2] Is u'is'
+  [token  3] Begin u'begin'
+  [token  4] Null u'null'
+  [token  5] Semicolon u';'
+  [token  6] End u'end'
+  [token  7] Identifier u'Two_Trailing_Comments'
+  [token  8] Semicolon u';'
+  [trivia 0] Comment u'--  This is the first trailing comment.'
+  [trivia 1] Comment u'--  And this is the second one.'
+  [token  9] Termination None
+
+Tokens for only_one_comment.adb (with trivia):
+  [trivia 0] Comment u'--  This source file contains only one comment'
+  [token  0] Termination None
+
+Tokens for only_two_comments.adb (with trivia):
+  [trivia 0] Comment u'--  This source file contains only two comments.'
+  [trivia 1] Comment u'--  Here is the second line.'
+  [token  0] Termination None
+
+Done.

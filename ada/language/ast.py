@@ -806,6 +806,17 @@ class BaseTypeDecl(BasicDecl):
             Self.base_type._.is_derived_type(other_type)
         )
 
+    is_iterable_type = Property(
+        # TODO: Only works with array types at the moment, need to implement
+        # on:
+        # Spark iterable types (Iterable aspect).
+        # Ada 2012 iterable types.
+        Self.is_array,
+        doc="""
+        Whether Self is a type that is iterable in a for .. of loop
+        """
+    )
+
     @langkit_property(return_type=BoolType)
     def matching_prefix_type(container_type=T.BaseTypeDecl):
         """

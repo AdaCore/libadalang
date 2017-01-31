@@ -2902,6 +2902,11 @@ class IterType(T.EnumNode):
 class LoopSpec(AdaNode):
     pass
 
+    @langkit_property(return_type=EquationType,
+                      kind=AbstractKind.abstract_runtime_check)
+    def xref_equation(origin_env=LexicalEnvType):
+        pass
+
 
 class ForLoopVarDecl(BasicDecl):
     id = Field(type=T.Identifier)
@@ -3303,6 +3308,10 @@ class NamedStmt(CompositeStmt):
 class LoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
+
+    @langkit_property(return_type=EquationType)
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.spec.xref_equation(origin_env)
 
 
 class BlockStmt(CompositeStmt):

@@ -2942,6 +2942,70 @@ class ForLoopSpec(LoopSpec):
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation(origin_env=LexicalEnvType):
+        int = Var(Self.std_entity('integer'))
+
+        return Self.loop_type.match(
+
+            # This is a for .. in
+            lambda _=IterType.alt_in:
+
+            # Let's handle the different possibilities
+            Self.iter_expr.match(
+                # Anonymous range case: for I in 1 .. 100
+                # In that case, the type of everything is Standard.Integer.
+                lambda binop=T.BinOp:
+                Bind(binop.type_var, int) &
+                Bind(binop.left.type_var, int) &
+                Bind(binop.right.type_var, int) &
+                Bind(Self.var_decl.id.type_var, int),
+
+                # Subtype indication case: the induction variable is of the
+                # type.
+                lambda t=T.SubtypeIndication:
+                Bind(Self.var_decl.id.type_var,
+                     t.designated_type.canonical_type),
+
+                # Name case: Either the name is a subtype indication, or an
+                # attribute on a subtype indication, in which case the logic is
+                # the same as above, either it's an expression that yields an
+                # iterator.
+                lambda t=T.Name: t.name_designated_type.then(
+                    lambda typ:
+                    Bind(Self.var_decl.id.type_var, typ.canonical_type),
+                    # TODO: Handle the iterator case
+                    default_val=LogicTrue()
+                ),
+
+                lambda _: LogicTrue()  # should never happen
+            ),
+
+            # This is a for .. of
+            lambda _=IterType.alt_of:
+            # Equation for the expression
+            Self.iter_expr.sub_equation(origin_env)
+
+            # Then we want the type of the induction variable to be the
+            # component type of the type of the expression.
+            & Bind(Self.iter_expr.cast(T.Expr).type_var,
+                   Self.var_decl.id.type_var,
+                   BaseTypeDecl.fields.comp_type)
+
+            # If there is a type annotation, then the type of var should be
+            # conformant.
+            & If(Self.var_decl.id_type.is_null,
+                 LogicTrue(),
+                 Bind(Self.var_decl.id.type_var,
+                      Self.var_decl.id_type
+                      .designated_type.canonical_type))
+
+            # Finally, we want the type of the expression to be an iterable
+            # type.
+            & Predicate(BaseTypeDecl.fields.is_iterable_type,
+                        Self.iter_expr.cast(T.Expr).type_var)
+        )
+
 
 class QuantifiedExpr(Expr):
     quantifier = Field(type=Quantifier)

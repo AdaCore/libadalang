@@ -1939,6 +1939,15 @@ class Name(Expr):
         """
     )
 
+    name_designated_type = Property(
+        Self.node_env.eval_in_env(Self.designated_type_impl),
+        doc="""
+        Like SubtypeIndication.designated_type, but on names, since because of
+        Ada's ambiguous grammar, some subtype indications will be parsed as
+        names.
+        """
+    )
+
     @langkit_property(return_type=AnalysisUnitType, external=True)
     def referenced_unit(kind=AnalysisUnitKind):
         """

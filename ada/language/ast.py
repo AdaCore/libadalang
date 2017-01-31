@@ -2914,6 +2914,23 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_names = Property(Self.id.cast(T.Name).singleton)
 
+    expr_type = Property(If(
+        Self.id_type.is_null,
+
+        # The type of a for loop variable does not need to be annotated, it can
+        # eventually be infered, which necessitates name resolution on the loop
+        # specification. Run resolution if necessary.
+        Let(lambda p=If(
+            Self.id.type_val.el.is_null,
+            Self.parent.parent.cast(T.LoopStmt).resolve_symbols,
+            True
+        ): If(p, Self.id.type_val.el.cast_or_raise(BaseTypeDecl),
+              No(BaseTypeDecl))),
+
+        # If there is a type annotation, just return it
+        Self.id_type.designated_type.canonical_type
+    ))
+
     env_spec = EnvSpec(
         add_to_env=add_to_env(Self.id.tok.symbol, Self)
     )

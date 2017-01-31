@@ -3209,12 +3209,12 @@ class ExceptionHandler(AdaNode):
 
 @abstract
 class Stmt(AdaNode):
-    pass
+    xref_entry_point = Property(True)
 
 
 @abstract
 class SimpleStmt(Stmt):
-    xref_entry_point = Property(True)
+    pass
 
 
 @abstract

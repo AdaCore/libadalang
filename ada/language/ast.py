@@ -3416,6 +3416,13 @@ class ExtendedReturnStmt(CompositeStmt):
     object_decl = Field(type=T.ObjectDecl)
     stmts = Field(type=T.HandledStmts)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation(origin_env=LexicalEnvType):
+        ignore(origin_env)
+        return LogicTrue()
+
+    env_spec = EnvSpec(add_env=True)
+
 
 class CaseStmt(CompositeStmt):
     case_expr = Field(type=T.Expr)

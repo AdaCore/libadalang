@@ -2,7 +2,7 @@ LoopStmt[1:1-1:33]
 |spec:
 |  WhileLoopSpec[1:1-1:13]
 |  |expr:
-|  |  BinOp[1:7-1:13]
+|  |  Relation[1:7-1:13]
 |  |  |left:
 |  |  |  Id[1:7-1:8]
 |  |  |  |tok: A

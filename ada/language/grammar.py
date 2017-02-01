@@ -1071,7 +1071,7 @@ A.add_rules(
     ),
 
     relation=Or(
-        BinOp(
+        Relation(
             A.relation,
             Or(Op.alt_eq("="), Op.alt_neq("/="),
                Op.alt_lt("<"), Op.alt_lte("<="),

@@ -78,13 +78,13 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  OpGt
 |  |  |  |  |  |  |  |  |  |  Int
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -158,7 +158,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -226,7 +226,7 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  Id
@@ -253,7 +253,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  OpEq
 |  |  |  |  |  |  |  |  |  |  Int
@@ -272,7 +272,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -336,7 +336,7 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  OpEq
 |  |  |  |  |  |  |  |  |  |  Int
@@ -351,7 +351,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -398,7 +398,7 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  OpEq
 |  |  |  |  |  |  |  |  |  |  Int
@@ -415,7 +415,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -610,7 +610,7 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  OpEq
 |  |  |  |  |  |  |  |  |  |  Int
@@ -626,7 +626,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
@@ -670,7 +670,7 @@ CompilationUnit
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  IfStmt
-|  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  Id
@@ -731,7 +731,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  IfExpr
-|  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  Relation
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  OpLt
 |  |  |  |  |  |  |  |  |  |  |  BinOp

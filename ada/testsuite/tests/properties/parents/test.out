@@ -89,7 +89,7 @@
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <IfStmt>
 |  |  |  |  |  |  |  |  |condition:
-|  |  |  |  |  |  |  |  |  <BinOp>
+|  |  |  |  |  |  |  |  |  <Relation>
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')

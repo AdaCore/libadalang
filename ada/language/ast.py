@@ -1863,6 +1863,9 @@ class BinOp(Expr):
     op = Field(type=Op)
     right = Field(type=T.Expr)
 
+class Relation(BinOp):
+    pass
+
 
 class MembershipExpr(Expr):
     """

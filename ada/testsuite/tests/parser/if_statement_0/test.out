@@ -1,6 +1,6 @@
 IfStmt[1:1-1:86]
 |condition:
-|  BinOp[1:4-1:23]
+|  Relation[1:4-1:23]
 |  |left:
 |  |  Id[1:4-1:15]
 |  |  |tok: Temperature

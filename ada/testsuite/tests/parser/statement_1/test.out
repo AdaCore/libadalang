@@ -9,7 +9,7 @@ NamedStmt[1:1-1:36]
 |  |spec:
 |  |  WhileLoopSpec[1:4-1:16]
 |  |  |expr:
-|  |  |  BinOp[1:10-1:16]
+|  |  |  Relation[1:10-1:16]
 |  |  |  |left:
 |  |  |  |  Id[1:10-1:11]
 |  |  |  |  |tok: A

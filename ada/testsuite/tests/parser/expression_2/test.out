@@ -14,7 +14,7 @@ CallExpr[1:1-1:27]
 |  |  ParamAssoc[1:15-1:26]
 |  |  |designator: <null>
 |  |  |r_expr:
-|  |  |  BinOp[1:15-1:26]
+|  |  |  Relation[1:15-1:26]
 |  |  |  |left:
 |  |  |  |  BinOp[1:15-1:22]
 |  |  |  |  |left:

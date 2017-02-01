@@ -1,3 +1,3 @@
-Same operand <BinOp 16:7-16:22> for <BinOp 7:7-17:24> in foo.adb
+Same operand <Relation 16:7-16:22> for <BinOp 7:7-17:24> in foo.adb
 Same operand <ParenExpr 21:16-21:45> for <BinOp 20:6-22:65> in foo.adb
-Same operand <BinOp 26:50-26:69> for <BinOp 25:12-26:69> in foo.adb
+Same operand <Relation 26:50-26:69> for <BinOp 25:12-26:69> in foo.adb

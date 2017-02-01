@@ -6,12 +6,12 @@ programming language. It is meant to provide a basis to write Ada tooling,
 including tools working on potentially changing and incorrect code, such as
 IDEs. Its goals encompass, but are not limited to:
 
-- Full support for parsing the Ada 2012 syntax, plus SPARK extensions.
-- Error tolerant parsing: the parser must be able to recover from simple errors
+* Full support for parsing the Ada 2012 syntax, plus SPARK extensions.
+* Error tolerant parsing: the parser must be able to recover from simple errors
   and provide a 'best-guess' tree.
-- Full symbol resolution respecting Ada 2012 - and prior Ada versions -
+* Full symbol resolution respecting Ada 2012 - and prior Ada versions -
   semantics.
-- Bindings to a variety of languages, including Ada, C, Python and Java, so
+* Bindings to a variety of languages, including Ada, C, Python and Java, so
   that tools can be written from various ecosystems.
 
 It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
@@ -37,16 +37,16 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
-- Install the GNAT tools and compiler. You can find the GPL version of them on
+* Install the GNAT tools and compiler. You can find the GPL version of them on
   <http://libre.adacore.com>
-- Build and install the GNATcoll library. You can find its source release on
+* Build and install the GNATcoll library. You can find its source release on
   <http://libre.adacore.com> or directly on GitHub:
   <https://github.com/AdaCore/gnatcoll> (just make sure you checkout the
   `gpl-2016` branch).
-- Install Quex version 0.65.4 -
+* Install Quex version 0.65.4 -
   <http://downloads.sourceforge.net/project/quex/DOWNLOAD/quex-0.65.4.tar.gz>
   Follow the installation guide in the Quex `README`
-- Install every Python dependency. We recommend creating a virtualenv and
+* Install every Python dependency. We recommend creating a virtualenv and
   installing them inside of it, this way:
 
 ~~~
@@ -55,7 +55,7 @@ source env/bin/activate
 pip install -r REQUIREMENTS.dev
 ~~~
 
-- Setup Langkit. If you use a virtualenv, get it on
+* Setup Langkit. If you use a virtualenv, get it on
   [Github](https://github.com/AdaCore/langkit/) and run:
 
         $ python langkit/setup.py install
@@ -65,10 +65,10 @@ pip install -r REQUIREMENTS.dev
 
 To develop comfortably:
 
-- If you want interactive debugging when code is generated, install IPython
-- If you want to compute code coverage for the code generator, install
+* If you want interactive debugging when code is generated, install IPython
+* If you want to compute code coverage for the code generator, install
   coverage.py (see `REQUIREMENTS.dev`)
-- If you want to check memory issues, the testsuite has an option to track them
+* If you want to check memory issues, the testsuite has an option to track them
   using Valgrind.
 
 

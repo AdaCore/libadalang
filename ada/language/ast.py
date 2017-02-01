@@ -1883,6 +1883,8 @@ class Op(T.EnumNode):
         """
     )
 
+    ref_var = UserField(type=LogicVarType, is_private=True)
+
 
 class UnOp(Expr):
     op = Field(type=Op)

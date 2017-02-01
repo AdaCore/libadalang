@@ -872,33 +872,6 @@ class BaseTypeDecl(BasicDecl):
         """
         return Self
 
-    @langkit_property(return_type=BoolType)
-    def is_primitive(spec=T.SubpSpec):
-        """
-        Whether the passed SubpSpec corresponds to a primitive of the type Self
-        represents.
-        """
-        t_expr = Var(spec.params.at(0).type_expr)
-        return (
-            (t_expr.designated_type == Self)
-            | (t_expr.is_anonymous_access & (t_expr.accessed_type == Self))
-        )
-
-    primitives = Property(
-        Self.declarative_scope.primitives(Self), doc="""
-        Return all primitives for Self. Note that this will only return a
-        correct result if the source is a correct Ada file. TODO: Not complete.
-        Needs to look at private part.
-        """
-    )
-
-    tagged_primitives = Property(
-        If(Self.is_tagged_type, Self.primitives, EmptyArray(BasicDecl)), doc="""
-        Helper. Returns primitives for type if type is tagged, empty array
-        otherwise.
-        """
-    )
-
     classwide_type = Property(If(
         Self.is_tagged_type,
         New(T.ClasswideTypeDecl, type_id=Self.type_id),
@@ -1569,20 +1542,6 @@ class ObjectDecl(BasicDecl):
 
 class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list_type())
-
-    @langkit_property(return_type=BasicDecl.array_type())
-    def primitives(t=BaseTypeDecl):
-        """
-        Return all potential primitive operations for t in the scope of Self.
-        """
-        return Self.decls.filtermap(
-            filter_expr=lambda decl: decl.match(
-                lambda s=BasicSubpDecl: t.is_primitive(s.subp_spec),
-                lambda s=SubpBody: t.is_primitive(s.subp_spec),
-                lambda _: False,
-            ),
-            expr=lambda decl: decl.cast_or_raise(BasicDecl)
-        )
 
 
 class PrivatePart(DeclarativePart):
@@ -3188,17 +3147,6 @@ class DottedName(Name):
             Self.suffix.env_elements_baseid(origin_env, True),
             Self.suffix.env_elements_impl(origin_env)
         ))
-
-    potential_primitive_calls = Property(Self.prefix.env_elements.mapcat(
-        lambda e: e.cast(BasicDecl.env_el()).expr_type
-                                            .tagged_primitives.filter(
-            lambda p: p.defining_name.cast_or_raise(SingleTokNode).matches(
-                Self.suffix
-            )
-        )),
-        has_implicit_env=True,
-        doc="Return all potential primitive calls Self can correspond to."
-    )
 
     designated_type_impl = Property(lambda: (
         Self.prefix.env_elements.at(0).children_env.eval_in_env(

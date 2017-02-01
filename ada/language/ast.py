@@ -804,7 +804,7 @@ class BaseTypeDecl(BasicDecl):
         Whether Self is derived from other_type.
         """
         return Or(
-            Self.base_type == other_type,
+            Self == other_type,
             Self.base_type._.is_derived_type(other_type)
         )
 
@@ -828,11 +828,6 @@ class BaseTypeDecl(BasicDecl):
         """
         cont_type = Var(container_type.canonical_type)
         return Or(
-            (Self.canonical_type == cont_type),
-
-            # Simple access type case
-            (Self.canonical_type.accessed_type == cont_type),
-
             # Derived type case
             Self.canonical_type.is_derived_type(cont_type),
 

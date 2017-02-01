@@ -1904,31 +1904,23 @@ class BinOp(Expr):
         return (
             Self.left.sub_equation(origin_env)
             & Self.right.sub_equation(origin_env)
-        ) & (If(
-            subps.length == 0,
+        ) & (LogicOr(subps.map(lambda subp: Let(
+            lambda ps=subp.subp_spec.unpacked_formal_params:
 
-            LogicTrue(),
+            # The subprogram's first argument must match Self's left
+            # operand.
+            Bind(Self.left.type_var, ps.at(0).spec.type)
 
-            # We did find corresponding subprograms. In that case, try to match
-            # one of them to the constraints:
-            LogicOr(subps.map(lambda subp: Let(
-                lambda ps=subp.subp_spec.unpacked_formal_params:
+            # The subprogram's second argument must match Self's right
+            # operand.
+            & Bind(Self.right.type_var, ps.at(1).spec.type)
 
-                # The subprogram's first argument must match Self's left
-                # operand.
-                Bind(Self.left.type_var, ps.at(0).spec.type)
+            # The subprogram's return type is the type of Self
+            & Bind(Self.type_var, subp.subp_spec.returns.designated_type)
 
-                # The subprogram's second argument must match Self's right
-                # operand.
-                & Bind(Self.right.type_var, ps.at(1).spec.type)
-
-                # The subprogram's return type is the type of Self
-                & Bind(Self.type_var, subp.subp_spec.returns.designated_type)
-
-                # The operator references the subprogram
-                & Bind(Self.op.ref_var, subp)
-            )))
-        ) | Self.no_overload_equation())
+            # The operator references the subprogram
+            & Bind(Self.op.ref_var, subp)
+        ))) | Self.no_overload_equation())
 
     no_overload_equation = Property(
         Bind(Self.type_var, Self.left.type_var)

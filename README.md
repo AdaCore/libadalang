@@ -13,6 +13,7 @@ IDEs. Its goals encompass, but are not limited to:
   semantics.
 * Bindings to a variety of languages, including Ada, C, Python and Java, so
   that tools can be written from various ecosystems.
+- Incremental processing of source files.
 
 It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
 basis, and is at the time of writing the main project developped using it.

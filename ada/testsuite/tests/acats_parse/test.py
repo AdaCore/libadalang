@@ -2,10 +2,11 @@ from glob import glob
 import os
 
 import libadalang as lal
+from utils import LAL_ROOTDIR
 
-acats_dir = os.path.join(os.environ['LIBADALANG_ROOTDIR'],
-                         'testsuite',
-                         'acats')
+
+acats_dir = os.path.join(LAL_ROOTDIR, 'ada', 'testsuite', 'acats')
+
 
 if not os.path.isdir(acats_dir):
     print "FAIL: You need to put the acats repo in ada/testsuite/acats"

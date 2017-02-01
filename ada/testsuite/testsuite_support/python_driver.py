@@ -49,7 +49,7 @@ class PythonDriver(BaseDriver):
         os.environ['PYTHONPATH'] = pythonpath
         os.environ['LIBADALANG_ROOTDIR'] = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
-            '..', '..'
+            '..', '..', '..'
         )
 
     @catch_test_errors

@@ -1852,6 +1852,35 @@ class Op(T.EnumNode):
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",
                     "lte", "gt", "gte", "double_dot"]
 
+    subprograms = Property(
+        lambda: Self.node_env.get(Self.match(
+            lambda _=Op.alt_and: '"and"',
+            lambda _=Op.alt_or: '"or"',
+            lambda _=Op.alt_xor: '"xor"',
+            lambda _=Op.alt_abs: '"abs"',
+            lambda _=Op.alt_not: '"not"',
+            lambda _=Op.alt_pow: '"**"',
+            lambda _=Op.alt_mult: '"*"',
+            lambda _=Op.alt_div: '"/"',
+            lambda _=Op.alt_mod: '"mod"',
+            lambda _=Op.alt_rem: '"rem"',
+            lambda _=Op.alt_plus: '"+"',
+            lambda _=Op.alt_minus: '"-"',
+            lambda _=Op.alt_concat: '"&"',
+            lambda _=Op.alt_eq: '"="',
+            lambda _=Op.alt_neq: '"/="',
+            lambda _=Op.alt_lt: '"<"',
+            lambda _=Op.alt_lte: '"<="',
+            lambda _=Op.alt_gt: '">"',
+            lambda _=Op.alt_gte: '">="',
+            lambda _: '<<>>',
+        )).keep(T.BasicSubpDecl.env_el()),
+        doc="""
+        Return the subprograms corresponding to this operator accessible in the
+        lexical environment.
+        """
+    )
+
 
 class UnOp(Expr):
     op = Field(type=Op)

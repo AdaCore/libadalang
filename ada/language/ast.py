@@ -539,6 +539,8 @@ class BaseFormalParamDecl(BasicDecl):
     type_expression = AbstractProperty(type=T.TypeExpr, runtime_check=True)
     is_mandatory = Property(False)
 
+    type = Property(Self.type_expression.designated_type.canonical_type)
+
 
 class ComponentDecl(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list_type())

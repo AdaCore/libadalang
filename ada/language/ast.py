@@ -1904,12 +1904,10 @@ class BinOp(Expr):
         return (
             Self.left.sub_equation(origin_env)
             & Self.right.sub_equation(origin_env)
-        ) & If(
+        ) & (If(
             subps.length == 0,
 
-            # We didn't find any corresponding subprogram. Construct xref via
-            # no_overload_equation.
-            Self.no_overload_equation(),
+            LogicTrue(),
 
             # We did find corresponding subprograms. In that case, try to match
             # one of them to the constraints:
@@ -1930,7 +1928,7 @@ class BinOp(Expr):
                 # The operator references the subprogram
                 & Bind(Self.op.ref_var, subp)
             )))
-        )
+        ) | Self.no_overload_equation())
 
     no_overload_equation = Property(
         LogicTrue(), private=True, doc="""

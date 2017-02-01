@@ -882,6 +882,11 @@ class BaseTypeDecl(BasicDecl):
 
 
 class ClasswideTypeDecl(BaseTypeDecl):
+    """
+    Synthetic node (not parsed, generated from a property call). Refers to the
+    classwide type for a given tagged type. The aim is that those be mostly
+    equivalent to their non-classwide type, except for some resolution rules.
+    """
     # We don't want to add the classwide type to the environment
     env_spec = EnvSpec(call_parents=False)
 

@@ -1898,6 +1898,13 @@ class BinOp(Expr):
 
     ref_val = Property(Self.op.ref_var.get_value)
 
+    no_overload_equation = Property(
+        LogicTrue(), private=True, doc="""
+        When no subprogram is found for this node's operator, use this property
+        to construct the xref equation for this node.
+        """
+    )
+
 class Relation(BinOp):
     pass
 

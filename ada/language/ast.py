@@ -878,6 +878,8 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl)
     ), memoized=True)
 
+    is_classwide = Property(False)
+
 
 class ClasswideTypeDecl(BaseTypeDecl):
     # We don't want to add the classwide type to the environment

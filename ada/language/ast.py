@@ -1941,7 +1941,10 @@ class BinOp(Expr):
 
 
 class Relation(BinOp):
-    pass
+    no_overload_equation = Property(
+        Bind(Self.left.type_var, Self.right.type_var)
+        & Bind(Self.type_var, Self.bool_type)
+    )
 
 
 class MembershipExpr(Expr):

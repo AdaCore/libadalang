@@ -1,0 +1,15 @@
+with "gnatcoll_iconv";
+with "libadalang";
+
+project Highlight is
+
+   for Languages use ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Main use ("highlight.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-g", "-O0", "-gnatwae", "-gnatyg");
+   end Compiler;
+
+end Highlight;

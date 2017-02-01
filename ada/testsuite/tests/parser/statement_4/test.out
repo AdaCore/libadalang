@@ -46,3 +46,4 @@ BlockStmt[1:1-1:46]
 |  |  |  |  |  |  |  |tok: A
 |  |exceptions:
 |  |  AdaNodeList[1:41-1:41]: <empty list>
+|end_id: <null>

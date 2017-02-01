@@ -3472,6 +3472,7 @@ class LoopStmt(CompositeStmt):
 class BlockStmt(CompositeStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
+    end_id = Field(type=T.Identifier)
 
     env_spec = EnvSpec(add_env=True)
 

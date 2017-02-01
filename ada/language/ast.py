@@ -17,7 +17,7 @@ from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
 )
 from langkit.expressions.logic import (
-    Predicate, LogicAnd, LogicOr, LogicTrue
+    Predicate, LogicTrue
 )
 
 
@@ -1904,7 +1904,7 @@ class BinOp(Expr):
         return (
             Self.left.sub_equation(origin_env)
             & Self.right.sub_equation(origin_env)
-        ) & (LogicOr(subps.map(lambda subp: Let(
+        ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_spec.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
@@ -1920,7 +1920,7 @@ class BinOp(Expr):
 
             # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
-        ))) | Self.no_overload_equation())
+        )) | Self.no_overload_equation())
 
     no_overload_equation = Property(
         Bind(Self.type_var, Self.left.type_var)
@@ -1961,11 +1961,13 @@ class Aggregate(Expr):
     def xref_equation(origin_env=LexicalEnvType):
         td = Var(Self.type_val.el.cast(BaseTypeDecl))
         atd = Var(td.array_def)
-        return LogicAnd(If(
+        return If(
             atd.is_null,
 
             # First case, aggregate for a record
-            td.record_def.components.match_param_list(Self.assocs, False).map(
+            td.record_def.components.match_param_list(
+                Self.assocs, False
+            ).logic_all(
                 lambda pm:
                 Bind(pm.actual.assoc.expr.type_var,
                      pm.formal.spec.type_expression.designated_type)
@@ -1976,12 +1978,12 @@ class Aggregate(Expr):
             ),
 
             # Second case, aggregate for an array
-            Self.assocs.map(
+            Self.assocs.logic_all(
                 lambda assoc:
                 assoc.expr.sub_equation(origin_env)
                 & Bind(assoc.expr.type_var, atd.comp_type)
             )
-        ))
+        )
 
 
 @abstract
@@ -2136,15 +2138,14 @@ class CallExpr(Name):
             # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            & LogicAnd(Self.params.map(
+            & Self.params.logic_all(
                 lambda pa: pa.expr.sub_equation(origin_env)
-            ))
+            )
 
             # For each potential subprogram match, we want to express the
             # following constraints:
-            & LogicOr(subps.map(lambda e: Let(lambda s=e.cast(
-                BasicDecl.env_el()
-            ): (
+            & subps.logic_any(lambda e: Let(
+                lambda s=e.cast(BasicDecl.env_el()):
 
                 # The called entity is the subprogram
                 Bind(Self.name.ref_var, e)
@@ -2164,9 +2165,9 @@ class CallExpr(Name):
 
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
-                    & LogicAnd(s.subp_spec_or_null.match_param_list(
+                    & s.subp_spec_or_null.match_param_list(
                         Self.params, e.MD.dottable_subp
-                    ).map(
+                    ).logic_all(
                         lambda pm: (
                             # The type of each actual matches the type of the
                             # formal.
@@ -2182,7 +2183,7 @@ class CallExpr(Name):
                             LogicTrue(),
                             Bind(pm.actual.name.ref_var, pm.formal.spec)
                         )
-                    ))
+                    )
                 )
                 # For every callexpr between self and the furthest callexpr
                 # that is an ancestor of Self via the name chain, we'll
@@ -2193,7 +2194,7 @@ class CallExpr(Name):
                         Self.type_component(s.type_designator)
                     ), default_val=LogicTrue()
                 )
-            ))))
+            ))
 
             # Bind the callexpr's ref_var to the id's ref var
             & Bind(Self.ref_var, Self.name.ref_var)
@@ -2212,11 +2213,10 @@ class CallExpr(Name):
             lambda _: No(ArrayTypeDef)
         ))
 
-        return Let(lambda indices=atd.indices: LogicAnd(
-            Self.params.map(lambda i, pa: (
-                pa.expr.sub_equation(origin_env)
-                & indices.constrain_index_expr(pa.expr, i)
-            ))
+        return Let(lambda indices=atd.indices: Self.params.logic_all(
+            lambda i, pa:
+            pa.expr.sub_equation(origin_env)
+            & indices.constrain_index_expr(pa.expr, i)
         )) & Bind(Self.type_var, atd.comp_type)
 
     @langkit_property(return_type=BoolType)
@@ -2437,25 +2437,18 @@ class IfExpr(Expr):
 
                 # If no else, then the then_expression has type bool
                 Bind(Self.then_expr.type_var, Self.bool_type)
-            ) & If(
-                # TODO: Apparently, an empty LogicAnd should resolve to
-                # LogicTrue (Several occurences of this pattern).
-                Self.elsif_list.length == 0,
-                LogicTrue(),
+            ) & Self.elsif_list.logic_all(lambda elsif: (
+                # Build the sub equations for cond and then exprs
+                elsif.cond_expr.sub_equation(origin_env)
+                & elsif.then_expr.sub_equation(origin_env)
 
-                LogicAnd(Self.elsif_list.map(lambda elsif: (
-                    # Build the sub equations for cond and then exprs
-                    elsif.cond_expr.sub_equation(origin_env)
-                    & elsif.then_expr.sub_equation(origin_env)
+                # The condition is boolean
+                & Bind(elsif.cond_expr.type_var, Self.bool_type)
 
-                    # The condition is boolean
-                    & Bind(elsif.cond_expr.type_var, Self.bool_type)
-
-                    # The elsif branch then expr has the same type as Self's
-                    # then_expr.
-                    & Bind(Self.then_expr.type_var, elsif.then_expr.type_var)
-                )))
-            ) & Bind(Self.cond_expr.type_var, Self.bool_type)
+                # The elsif branch then expr has the same type as Self's
+                # then_expr.
+                & Bind(Self.then_expr.type_var, elsif.then_expr.type_var)
+            )) & Bind(Self.cond_expr.type_var, Self.bool_type)
             & Bind(Self.then_expr.type_var, Self.type_var)
         )
 
@@ -2476,8 +2469,8 @@ class CaseExpr(Expr):
         a = Var(Self.expr.resolve_symbols)
         ignore(a)
 
-        return LogicAnd(Self.cases.map(lambda alt: (
-            LogicAnd(alt.choices.map(lambda c: c.match(
+        return Self.cases.logic_all(lambda alt: (
+            alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
                 Bind(e.type_var, Self.expr.type_val)
@@ -2485,7 +2478,7 @@ class CaseExpr(Expr):
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()
-            )))
+            ))
 
             # Equations for the dependent expressions
             & alt.expr.sub_equation(origin_env)
@@ -2494,7 +2487,7 @@ class CaseExpr(Expr):
             # every expr is bound together by the conjunction of this bind for
             # every branch.
             & Bind(Self.type_var, alt.expr.type_var)
-        )))
+        ))
 
 
 class CaseExprAlternative(Expr):
@@ -3208,11 +3201,11 @@ class DottedName(Name):
         return If(
             Not(dt.is_null),
             base,
-            base & LogicOr(Self.env_elements.map(lambda e: (
+            base & Self.env_elements.logic_any(lambda e: (
                 Bind(Self.suffix.ref_var, e)
                 & e.cast(BasicDecl.env_el()).constrain_prefix(Self.prefix)
                 & Bind(Self.type_var, Self.suffix.type_var)
-            )))
+            ))
         )
 
 
@@ -3410,10 +3403,10 @@ class IfStmt(CompositeStmt):
         return (
             Self.condition.sub_equation(origin_env)
             & Bind(Self.condition.type_var, Self.bool_type)
-            & LogicAnd(Self.alternatives.map(
+            & Self.alternatives.logic_all(
                 lambda elsif: elsif.expr.sub_equation(origin_env)
                 & Bind(elsif.expr.type_var, Self.bool_type)
-            ))
+            )
         )
 
 

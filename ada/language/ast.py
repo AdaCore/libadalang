@@ -898,6 +898,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     base_type = Property(Self.typedecl.base_type)
     record_def = Property(Self.typedecl.record_def)
     classwide_type = Property(Self)
+    is_iterable_type = Property(Self.typedecl.is_iterable_type)
+    defining_env = Property(Self.typedecl.defining_env)
 
 
 class TypeDecl(BaseTypeDecl):

@@ -20,3 +20,14 @@
     fun:libadalang__ast__types__param_match_arrayIP
     fun:libadalang__ast__types__create__4
 }
+
+# We have a leak in libc on several machines. We won't fix glibc, so just
+# ignore these leaks.
+{
+    libc_nss_parsing
+    Memcheck:Leak
+    match-leak-kinds: definite
+    fun:malloc
+    fun:nss_parse_service_list
+    fun:__nss_database_lookup
+}

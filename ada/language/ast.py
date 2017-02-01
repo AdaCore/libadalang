@@ -1931,7 +1931,9 @@ class BinOp(Expr):
         ) | Self.no_overload_equation())
 
     no_overload_equation = Property(
-        LogicTrue(), private=True, doc="""
+        Bind(Self.type_var, Self.left.type_var)
+        & Bind(Self.type_var, Self.right.type_var),
+        private=True, doc="""
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """

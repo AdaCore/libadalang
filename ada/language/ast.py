@@ -1327,7 +1327,6 @@ class SubtypeIndication(TypeExpr):
 
 class Mode(T.EnumNode):
     alternatives = ["in", "out", "in_out", "default"]
-    suffix = 'mode'
 
 
 class ParamSpec(BaseFormalParamDecl):
@@ -1352,7 +1351,6 @@ class AspectSpec(AdaNode):
 
 class Overriding(T.EnumNode):
     alternatives = ["overriding", "not_overriding", "unspecified"]
-    suffix = 'kind'
 
 
 @abstract
@@ -1853,7 +1851,6 @@ class Op(T.EnumNode):
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",
                     "lte", "gt", "gte", "double_dot"]
-    suffix = 'op'
 
 
 class UnOp(Expr):
@@ -2890,12 +2887,10 @@ class SubpSpec(BaseFormalParamHolder):
 
 class Quantifier(T.EnumNode):
     alternatives = ["all", "some"]
-    suffix = 'items'
 
 
 class IterType(T.EnumNode):
     alternatives = ["in", "of"]
-    suffix = 'iter'
 
 
 @abstract

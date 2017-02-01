@@ -36,13 +36,13 @@ class Testsuite(BaseTestsuite):
 
     def add_options(self):
         self.main.add_option(
-            '--valgrind', action='store_true',
+            '--valgrind', action='store_true', default=False,
             help='Run tests within Valgrind to check memory issues.')
         self.main.add_option(
-            '--disable-shared', action='store_true',
+            '--disable-shared', action='store_true', default=False,
             help='Disable tests involving shared libraries.')
         self.main.add_option(
-            '--disable-python', action='store_true',
+            '--disable-python', action='store_true', default=False,
             help='Disable tests involving Python API.')
         self.main.add_option(
             '--with-python', default=None,

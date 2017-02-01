@@ -1898,12 +1898,47 @@ class BinOp(Expr):
 
     ref_val = Property(Self.op.ref_var.get_value)
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        subps = Var(Self.op.subprograms)
+        return (
+            Self.left.sub_equation(origin_env)
+            & Self.right.sub_equation(origin_env)
+        ) & If(
+            subps.length == 0,
+
+            # We didn't find any corresponding subprogram. Construct xref via
+            # no_overload_equation.
+            Self.no_overload_equation(),
+
+            # We did find corresponding subprograms. In that case, try to match
+            # one of them to the constraints:
+            LogicOr(subps.map(lambda subp: Let(
+                lambda ps=subp.subp_spec.unpacked_formal_params:
+
+                # The subprogram's first argument must match Self's left
+                # operand.
+                Bind(Self.left.type_var, ps.at(0).spec.type)
+
+                # The subprogram's second argument must match Self's right
+                # operand.
+                & Bind(Self.right.type_var, ps.at(1).spec.type)
+
+                # The subprogram's return type is the type of Self
+                & Bind(Self.type_var, subp.subp_spec.returns.designated_type)
+
+                # The operator references the subprogram
+                & Bind(Self.op.ref_var, subp)
+            )))
+        )
+
     no_overload_equation = Property(
         LogicTrue(), private=True, doc="""
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """
     )
+
 
 class Relation(BinOp):
     pass

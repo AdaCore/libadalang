@@ -805,6 +805,8 @@ class BaseTypeDecl(BasicDecl):
         """
         return Or(
             Self == other_type,
+            (Not(Self.classwide_type.is_null)
+             & (Self.classwide_type == other_type.classwide_type)),
             Self.base_type._.is_derived_type(other_type)
         )
 
@@ -896,6 +898,26 @@ class BaseTypeDecl(BasicDecl):
         otherwise.
         """
     )
+
+    classwide_type = Property(If(
+        Self.is_tagged_type,
+        New(T.ClasswideTypeDecl, type_id=Self.type_id),
+        No(T.ClasswideTypeDecl)
+    ), memoized=True)
+
+
+class ClasswideTypeDecl(BaseTypeDecl):
+    # We don't want to add the classwide type to the environment
+    env_spec = EnvSpec(call_parents=False)
+
+    typedecl = Property(Self.parent.cast(BaseTypeDecl))
+
+    is_classwide = Property(True)
+
+    is_tagged_type = Property(True)
+    base_type = Property(Self.typedecl.base_type)
+    record_def = Property(Self.typedecl.record_def)
+    classwide_type = Property(Self)
 
 
 class TypeDecl(BaseTypeDecl):

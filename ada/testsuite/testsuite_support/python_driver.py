@@ -51,6 +51,7 @@ class PythonDriver(BaseDriver):
             os.path.dirname(os.path.abspath(__file__)),
             '..', '..', '..'
         )
+        os.environ['LIBADALANG_DISABLE_SHARED'] = str(int(self.disable_shared))
 
     @catch_test_errors
     def tear_up(self):

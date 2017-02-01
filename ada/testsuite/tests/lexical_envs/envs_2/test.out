@@ -98,6 +98,9 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  Id[9:8-9:11]
 |  |  |  |  |  |  |tok: Bar
 |  |  |stmts: <null>
+|  |  |end_id:
+|  |  |  Id[10:5-10:8]
+|  |  |  |tok: Foo
 |pragmas:
 |  PragmaNodeList[11:1-11:1]: <empty list>
 

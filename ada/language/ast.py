@@ -3528,6 +3528,7 @@ class PackageBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
+    end_id = Field(type=T.Name)
 
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)

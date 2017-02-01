@@ -695,7 +695,7 @@ A.add_rules(
         "package", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        "end", _(Opt(A.static_name))
+        "end", Opt(A.static_name)
     ),
 
     terminate_alternative=TerminateAlternative("terminate"),

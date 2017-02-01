@@ -796,3 +796,6 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  OpConcat
 |  |  |  |  |  |  |  |  |  |  Str
 |  |  |  |  |  |  Id
+|  |  |  DottedName
+|  |  |  |  Id
+|  |  |  |  Id

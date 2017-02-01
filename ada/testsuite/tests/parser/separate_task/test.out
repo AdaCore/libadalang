@@ -34,5 +34,8 @@ CompilationUnit[1:1-6:7]
 |  |  |  |  |  NullStmt[5:4-5:8]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[6:5-6:6]
+|  |  |  |tok: S
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

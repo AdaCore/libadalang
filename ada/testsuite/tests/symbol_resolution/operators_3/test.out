@@ -1,0 +1,19 @@
+Analyzing testop.adb
+####################
+
+Expr: <BinOp 14:7-14:47>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <BinOp 14:7-14:25>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <Relation 14:7-14:12>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <Id "A" 14:7-14:8>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "B" 14:11-14:12>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "Foo" 14:22-14:25>, references <ObjectDecl ["Foo"] 12:4-12:17>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <ParenExpr 14:34-14:47>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <Relation 14:35-14:46>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <ParenExpr 14:35-14:42>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <BinOp 14:36-14:41>, references <ExprFunction [""+""] 5:4-5:56>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "A" 14:36-14:37>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "B" 14:40-14:41>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "C" 14:45-14:46>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Null 15:7-15:11>, references None, type is None
+
+Done.

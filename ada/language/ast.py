@@ -1896,6 +1896,8 @@ class BinOp(Expr):
     op = Field(type=Op)
     right = Field(type=T.Expr)
 
+    ref_val = Property(Self.op.ref_var.get_value)
+
 class Relation(BinOp):
     pass
 

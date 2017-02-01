@@ -8,8 +8,8 @@ IDEs. Its goals encompass, but are not limited to:
 
 * Full support for parsing the Ada 2012 syntax, plus SPARK extensions.
 * Error tolerant parsing: the parser must be able to recover from simple errors
-  and provide a 'best-guess' tree.
-* Full symbol resolution respecting Ada 2012 - and prior Ada versions -
+  and provide a "best-guess" tree.
+* Full symbol resolution respecting Ada 2012 – and prior Ada versions –
   semantics.
 * Bindings to a variety of languages, including Ada, C, Python and Java, so
   that tools can be written from various ecosystems.
@@ -37,8 +37,8 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
-* Install the GNAT tools and compiler. You can find the GPL version of them on
-  <http://libre.adacore.com>
+* Install the GNAT tools and compiler. You can find the GPL version of them
+  on <http://libre.adacore.com>
 * Build and install the GNATcoll library. You can find its source release on
   <http://libre.adacore.com> or directly on GitHub:
   <https://github.com/AdaCore/gnatcoll> (just make sure you checkout the
@@ -49,11 +49,9 @@ following steps:
 * Install every Python dependency. We recommend creating a virtualenv and
   installing them inside of it, this way:
 
-~~~
-virtualenv env
-source env/bin/activate
-pip install -r REQUIREMENTS.dev
-~~~
+        $ virtualenv env
+        $ source env/bin/activate
+        $ pip install -r REQUIREMENTS.dev
 
 * Setup Langkit. If you use a virtualenv, get it on
   [Github](https://github.com/AdaCore/langkit/) and run:
@@ -75,7 +73,7 @@ To develop comfortably:
 Building
 --------
 
-First, let's generate code for libadalang itself. In the top-level directory,
+First, let's generate code for Libadalang itself. In the top-level directory,
 run:
 
     $ python ada/manage.py generate
@@ -90,7 +88,7 @@ Then, let's build it:
 If you satisfied all the above dependencies and if you did set `QUEX_PATH` and
 the quex executable as said in quex's `README`, it should build fine.
 
-Also, while developing libadalang you might be happy to use the
+Also, while developing Libadalang you might be happy to use the
 
     $ python ada/manage.py make
 
@@ -101,7 +99,7 @@ and building it in one step
 Install
 -------
 
-Once you built libadalang, you can install the library in any place you want:
+Once you built Libadalang, you can install the library in any place you want:
 
     $ python ada/manage.py install $INSTALL_DIR
 
@@ -118,8 +116,8 @@ run:
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a `-h` flag.
 
-Because adding `build/bin` to the PATH is not very convenient, `ada/manage.py`
-provides a shortcut to run the testsuite:
+Because adding `build/bin` to the `PATH` is not very convenient,
+`ada/manage.py` provides a shortcut to run the testsuite:
 
     $ python ada/manage.py test
 

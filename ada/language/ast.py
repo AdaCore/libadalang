@@ -3114,7 +3114,11 @@ class AttributeRef(Name):
 
     ref_var = Property(Self.prefix.ref_var)
 
-    designated_type_impl = Property(Self.prefix.designated_type_impl)
+    designated_type_impl = Property(
+        If(Self.attribute.tok.symbol == 'class',
+           Self.prefix.designated_type_impl.classwide_type,
+           Self.prefix.designated_type_impl)
+    )
 
 
 class RaiseExpr(Expr):

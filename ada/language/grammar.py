@@ -739,7 +739,7 @@ A.add_rules(
 
     iloop_stmt=LoopStmt(
         Opt(A.iteration_scheme),
-        "loop", A.stmts, "end", "loop", _(Opt(A.identifier))
+        "loop", A.stmts, "end", "loop", Opt(A.identifier)
     ),
 
     loop_stmt=Or(

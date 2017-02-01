@@ -24,3 +24,4 @@ NamedStmt[1:1-1:34]
 |  |stmts:
 |  |  AdaNodeList[1:20-1:25]
 |  |  |  NullStmt[1:20-1:24]
+|  |end_id: <null>

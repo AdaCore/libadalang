@@ -33,3 +33,4 @@ LoopStmt[1:1-1:51]
 |stmts:
 |  AdaNodeList[1:37-1:42]
 |  |  NullStmt[1:37-1:41]
+|end_id: <null>

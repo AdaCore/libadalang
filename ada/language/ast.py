@@ -3462,6 +3462,7 @@ class NamedStmt(CompositeStmt):
 class LoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
+    end_id = Field(type=T.Identifier)
 
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):

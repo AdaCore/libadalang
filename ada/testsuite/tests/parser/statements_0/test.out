@@ -132,3 +132,4 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
 |  |  |  |abort_stmts:
 |  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
+|  |end_id: <null>

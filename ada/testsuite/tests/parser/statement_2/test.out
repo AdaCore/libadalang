@@ -6,3 +6,4 @@ LoopStmt[1:1-1:21]
 |  |  |call:
 |  |  |  Id[1:6-1:11]
 |  |  |  |tok: World
+|end_id: <null>

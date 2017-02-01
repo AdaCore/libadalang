@@ -25,3 +25,4 @@ LoopStmt[1:1-1:30]
 |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  Id[1:18-1:19]
 |  |  |  |  |  |  |tok: C
+|end_id: <null>

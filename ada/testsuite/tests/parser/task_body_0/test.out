@@ -351,5 +351,6 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  AdaNodeList[1:521-1:521]: <empty list>
 |  |  |  |  |  |abort_stmts:
 |  |  |  |  |  |  AdaNodeList[1:521-1:521]: <empty list>
+|  |  |  |end_id: <null>
 |  |exceptions:
 |  |  AdaNodeList[1:543-1:543]: <empty list>

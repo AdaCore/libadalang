@@ -1,0 +1,74 @@
+<html><head>
+<meta http-equiv="Content-Type" content="charset=utf-8" />
+<title>example.adb</title>
+<style type="text/css">
+body { background-color: #080808; }
+pre.code_highlight { background-color: #080808; }
+pre.code_highlight span.TEXT { color: #f8f8f2; }
+pre.code_highlight span.COMMENT { color: #75715e; }
+pre.code_highlight span.KEYWORD { color: #ff5f87; font-weight: bold; }
+pre.code_highlight span.PUNCTUATION { color: #f8f8f2; }
+pre.code_highlight span.OPERATOR { color: #ff5f87; }
+pre.code_highlight span.PREPROCESSOR_DIRECTIVE { color: #d7ffd7; }
+pre.code_highlight span.INTEGER_LITERAL { color: #af5fff; }
+pre.code_highlight span.STRING_LITERAL { color: #e6db74; }
+pre.code_highlight span.CHARACTER_LITERAL { color: #e6db74; }
+pre.code_highlight span.IDENTIFIER { color: #f8f8f2; }
+pre.code_highlight span.LABEL_NAME { color: #fffa0f; }
+pre.code_highlight span.BLOCK_NAME { color: #8ae234; }
+pre.code_highlight span.TYPE_NAME { color: #66d9ef; }
+pre.code_highlight span.ATTRIBUTE_NAME { color: #e8466d; }
+</style></head><body>
+<pre class="code_highlight"><span class="KEYWORD">with</span> <span class="IDENTIFIER">Ada</span><span class="PUNCTUATION">.</span><span class="IDENTIFIER">Text_IO</span><span class="PUNCTUATION">;</span> <span class="KEYWORD">use</span> <span class="IDENTIFIER">Ada</span><span class="PUNCTUATION">.</span><span class="IDENTIFIER">Text_IO</span><span class="PUNCTUATION">;</span>
+<span class="KEYWORD">use</span> <span class="KEYWORD">all</span> <span class="KEYWORD">type</span> <span class="TYPE_NAME">Ada</span><span class="TYPE_NAME">.</span><span class="TYPE_NAME">Text_IO</span><span class="TYPE_NAME">.</span><span class="TYPE_NAME">File_Type</span><span class="PUNCTUATION">;</span>
+
+<span class="KEYWORD">procedure</span> <span class="BLOCK_NAME">Example</span> <span class="KEYWORD">is</span>
+
+   <span class="KEYWORD">subtype</span> <span class="BLOCK_NAME">Nat</span> <span class="KEYWORD">is</span> <span class="IDENTIFIER">Integer</span> <span class="KEYWORD">range</span> <span class="INTEGER_LITERAL">0</span> <span class="PUNCTUATION">..</span> <span class="IDENTIFIER">Integer</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Last</span><span class="PUNCTUATION">;</span>
+
+   <span class="KEYWORD">type</span> <span class="BLOCK_NAME">Rec</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">N</span> <span class="PUNCTUATION">:</span> <span class="TYPE_NAME">Natural</span><span class="PUNCTUATION">)</span> <span class="KEYWORD">is</span> <span class="KEYWORD">record</span>
+      <span class="IDENTIFIER">S</span> <span class="PUNCTUATION">:</span> <span class="TYPE_NAME">String</span> <span class="PUNCTUATION">(</span><span class="INTEGER_LITERAL">1</span> <span class="PUNCTUATION">..</span> <span class="IDENTIFIER">N</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+   <span class="KEYWORD">end</span> <span class="KEYWORD">record</span><span class="PUNCTUATION">;</span>
+
+   <span class="KEYWORD">generic</span>
+      <span class="KEYWORD">with</span> <span class="KEYWORD">procedure</span> <span class="BLOCK_NAME">Put_Line</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">S</span> <span class="PUNCTUATION">:</span> <span class="TYPE_NAME">String</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+   <span class="KEYWORD">package</span> <span class="BLOCK_NAME">Things</span> <span class="KEYWORD">is</span>
+      <span class="KEYWORD">procedure</span> <span class="BLOCK_NAME">Process</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">S</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">access</span> <span class="TYPE_NAME">Wide_String</span><span class="PUNCTUATION">)</span>
+        <span class="KEYWORD">with</span> <span class="IDENTIFIER">Pre</span> <span class="OPERATOR">=&gt;</span> <span class="IDENTIFIER">S</span> <span class="OPERATOR">/=</span> <span class="KEYWORD">null</span> <span class="KEYWORD">and</span> <span class="KEYWORD">then</span> <span class="IDENTIFIER">S</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Length</span> <span class="OPERATOR">&gt;</span> <span class="INTEGER_LITERAL">0</span><span class="PUNCTUATION">;</span>
+   <span class="KEYWORD">end</span> <span class="BLOCK_NAME">Things</span><span class="PUNCTUATION">;</span>
+
+   <span class="KEYWORD">package</span> <span class="KEYWORD">body</span> <span class="BLOCK_NAME">Things</span> <span class="KEYWORD">is</span>
+
+      <span class="COMMENT">-------------</span>
+      <span class="COMMENT">-- Process --</span>
+      <span class="COMMENT">-------------</span>
+
+      <span class="KEYWORD">procedure</span> <span class="BLOCK_NAME">Process</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">S</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">access</span> <span class="TYPE_NAME">Wide_String</span><span class="PUNCTUATION">)</span> <span class="KEYWORD">is</span>
+      <span class="KEYWORD">begin</span>
+         <span class="BLOCK_NAME">Print_Loop</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">for</span> <span class="IDENTIFIER">C</span> <span class="KEYWORD">of</span> <span class="IDENTIFIER">S</span><span class="PUNCTUATION">.</span><span class="KEYWORD">all</span> <span class="KEYWORD">loop</span>
+            <span class="BLOCK_NAME">Print_Block</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">declare</span>
+               <span class="IDENTIFIER">C_Pos</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">constant</span> <span class="TYPE_NAME">Integer</span> <span class="OPERATOR">:=</span> <span class="IDENTIFIER">Wide_Character</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Pos</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">C</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+            <span class="KEYWORD">begin</span>
+               <span class="KEYWORD">if</span> <span class="IDENTIFIER">C_Pos</span> <span class="OPERATOR">&lt;</span> <span class="IDENTIFIER">Character</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Pos</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">Character</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Last</span><span class="PUNCTUATION">)</span> <span class="KEYWORD">then</span>
+                  <span class="KEYWORD">declare</span>
+                     <span class="IDENTIFIER">CS</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">constant</span> <span class="TYPE_NAME">String</span> <span class="OPERATOR">:=</span> <span class="PUNCTUATION">(</span><span class="INTEGER_LITERAL">1</span> <span class="OPERATOR">=&gt;</span> <span class="IDENTIFIER">Character</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Val</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">C_Pos</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+                  <span class="KEYWORD">begin</span>
+                     <span class="IDENTIFIER">Put_Line</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">CS</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+                  <span class="KEYWORD">end</span><span class="PUNCTUATION">;</span>
+               <span class="KEYWORD">end</span> <span class="KEYWORD">if</span><span class="PUNCTUATION">;</span>
+            <span class="KEYWORD">end</span> <span class="BLOCK_NAME">Print_Block</span><span class="PUNCTUATION">;</span>
+         <span class="KEYWORD">end</span> <span class="KEYWORD">loop</span> <span class="BLOCK_NAME">Print_Loop</span><span class="PUNCTUATION">;</span>
+      <span class="KEYWORD">end</span> <span class="BLOCK_NAME">Process</span><span class="PUNCTUATION">;</span>
+
+   <span class="KEYWORD">end</span> <span class="BLOCK_NAME">Things</span><span class="PUNCTUATION">;</span>
+
+   <span class="KEYWORD">package</span> <span class="BLOCK_NAME">Text_IO_Things</span> <span class="KEYWORD">is</span> <span class="KEYWORD">new</span> <span class="IDENTIFIER">Things</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">Put_Line</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+
+   <span class="IDENTIFIER">A</span>          <span class="PUNCTUATION">:</span> <span class="TYPE_NAME">Integer</span> <span class="OPERATOR">:=</span> <span class="INTEGER_LITERAL">0</span><span class="PUNCTUATION">;</span>
+   <span class="IDENTIFIER">[&quot;03C0&quot;]</span>   <span class="PUNCTUATION">:</span> <span class="TYPE_NAME">Standard</span><span class="TYPE_NAME">.</span><span class="TYPE_NAME">Integer</span> <span class="OPERATOR">:=</span> <span class="INTEGER_LITERAL">0</span><span class="PUNCTUATION">;</span>
+   <span class="IDENTIFIER">S</span>          <span class="PUNCTUATION">:</span> <span class="KEYWORD">aliased</span> <span class="TYPE_NAME">Wide_String</span> <span class="OPERATOR">:=</span> <span class="STRING_LITERAL">&quot;Hello, [&quot;03C0&quot;] world!&quot;</span><span class="PUNCTUATION">;</span>
+   <span class="IDENTIFIER">Hex_Digits</span> <span class="PUNCTUATION">:</span> <span class="KEYWORD">array</span> <span class="PUNCTUATION">(</span><span class="INTEGER_LITERAL">0</span> <span class="PUNCTUATION">..</span> <span class="INTEGER_LITERAL">15</span><span class="PUNCTUATION">)</span> <span class="KEYWORD">of</span> <span class="TYPE_NAME">Character</span> <span class="OPERATOR">:=</span> <span class="STRING_LITERAL">&quot;012456789abcdef&quot;</span><span class="PUNCTUATION">;</span>
+<span class="KEYWORD">begin</span>
+   <span class="IDENTIFIER">Text_IO_Things</span><span class="PUNCTUATION">.</span><span class="IDENTIFIER">Process</span> <span class="PUNCTUATION">(</span><span class="IDENTIFIER">S</span><span class="ATTRIBUTE_NAME">'</span><span class="ATTRIBUTE_NAME">Access</span><span class="PUNCTUATION">)</span><span class="PUNCTUATION">;</span>
+<span class="KEYWORD">end</span><span class="PUNCTUATION">;</span>
+<span class="TEXT"></span></pre></body></html>

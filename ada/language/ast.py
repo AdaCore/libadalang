@@ -1547,7 +1547,9 @@ class ObjectDecl(BasicDecl):
         return (
             Self.default_expr.then(lambda de: de.xref_equation(origin_env),
                                    default_val=LogicTrue())
-            & Bind(Self.default_expr.type_var, Self.canonical_expr_type)
+            & Bind(Self.default_expr.type_var,
+                   Self.canonical_expr_type,
+                   eq_prop=BaseTypeDecl.fields.matching_type)
         )
 
     xref_entry_point = Property(True)

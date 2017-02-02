@@ -21,7 +21,7 @@ def gprbuild(project_file):
     This passes all the command-line arguments that are required to build a
     project that depends on Libadalang.
     """
-    argv = ['gprbuild', '-P', project_file, '-q', '-p']
+    argv = ['gprbuild', '-P', project_file, '-q', '-p', '-m']
     argv.append('-XLIBRARY_TYPE={}'.format(
         'static' if LAL_DISABLE_SHARED else 'relocatable'
     ))

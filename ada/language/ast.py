@@ -137,6 +137,22 @@ def decl_scope_decls(d):
     )
 
 
+def subp_body_from_spec(decl, subp_spec):
+    """
+    Property helper. Return the SubpBody node corresponding to "decl", which is
+    a (Generic)SubpDecl node that contains "subp_spec".
+    """
+    return If(
+        is_library_item(decl),
+
+        get_library_item(decl.body_unit).cast_or_raise(T.SubpBody),
+
+        body_scope_decls(decl).keep(T.SubpBody).filter(
+            lambda subp_body:
+            subp_body.subp_spec.match_signature(subp_spec)).at(0)
+    )
+
+
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
@@ -257,6 +273,8 @@ class AdaNode(ASTNode):
                 pkg_body.unit,
             lambda subp_decl=T.SubpDecl:
                 subp_decl.subp_spec.name.referenced_unit(UnitBody),
+            lambda gen_subp_decl=T.GenericSubpDecl:
+                gen_subp_decl.subp_spec.name.referenced_unit(UnitBody),
             lambda subp_body=T.SubpBody:
                 subp_body.unit,
             lambda _: No(AnalysisUnitType),
@@ -1409,13 +1427,7 @@ class SubpDecl(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     body_part = Property(
-        If(is_library_item(Self),
-
-           get_library_item(Self.body_unit).cast_or_raise(T.SubpBody),
-
-           body_scope_decls(Self).keep(T.SubpBody).filter(
-               lambda subp_body:
-               subp_body.subp_spec.match_signature(Self.subp_spec)).at(0)),
+        subp_body_from_spec(Self, Self.subp_spec),
         doc="""
         Return the SubpBody corresponding to this node.
         """
@@ -1742,6 +1754,13 @@ class GenericSubpDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
+
+    body_part = Property(
+        subp_body_from_spec(Self, Self.subp_spec),
+        doc="""
+        Return the SubpBody corresponding to this node.
+        """
+    )
 
 
 class GenericPackageDecl(BasicDecl):
@@ -3232,11 +3251,23 @@ class SubpBody(Body):
     decl_part = Property(
         If(is_library_item(Self),
 
-           get_library_item(Self.spec_unit).cast_or_raise(T.SubpDecl),
+           get_library_item(Self.spec_unit).match(
+               lambda subp_decl=T.SubpDecl: subp_decl,
+               lambda gen_subp_decl=T.GenericSubpDecl: gen_subp_decl,
+               lambda _: No(T.AdaNode)
+           ),
 
-           decl_scope_decls(Self).keep(T.SubpDecl).filter(
-               lambda subp_decl:
-               subp_decl.subp_spec.match_signature(Self.subp_spec)).at(0)),
+           decl_scope_decls(Self).filter(lambda decl:
+               Let(lambda
+                   spec=decl.match(
+                       lambda subp_decl=T.SubpDecl: subp_decl.subp_spec,
+                       lambda gen_subp_decl=T.GenericSubpDecl:
+                           gen_subp_decl.subp_spec,
+                       lambda _: No(T.SubpSpec)
+                   ):
+
+                   spec._.match_signature(Self.subp_spec))
+           ).at(0)),
         doc="""
         Return the SubpDecl corresponding to this node.
         """

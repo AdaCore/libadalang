@@ -9,7 +9,7 @@ IDEs. Its goals encompass, but are not limited to:
 * Full support for parsing the Ada 2012 syntax, plus SPARK extensions.
 * Error tolerant parsing: the parser must be able to recover from simple errors
   and provide a "best-guess" tree.
-* Error tolerant semantic analysis: It must be possible to create a tool that
+* Error tolerant semantic analysis: it must be possible to create a tool that
   works only on syntax, and completely ignores semantic issues.
 * Full symbol resolution respecting Ada 2012 – and prior Ada versions –
   semantics.
@@ -27,13 +27,13 @@ room](https://www.hipchat.com/gQfbVZ9qL)!
 Status of the project
 ---------------------
 
-Libadalang is still pre-alpha software ! None of its APIs are stable, the shape
+Libadalang is still pre-alpha software! None of its APIs are stable, the shape
 of the abstract syntax tree is not yet stable, and most of its features are
 either not stable or not fully implemented.
 
 Libadalang currently:
 
-* Is able to parse 100% of Ada 2012 syntax, and present a well formed tree for
+* Is able to parse 100% of Ada 2012 syntax, and presents a well formed tree for
   it.
 
 * Is able to recover some syntax errors, but is still currently behind GNAT in
@@ -49,6 +49,7 @@ Libadalang currently:
   enough.
 
 For those reasons, Libadalang is only suited today for mostly syntactic tools.
+
 
 Libadalang and ASIS
 -------------------
@@ -68,11 +69,11 @@ instead of ASIS:
 2. Syntax only tools will derive a lot of advantages on being based on
    Libadalang:
 
-   - Libadalang will be completely tolerant to semantic errors. For example, a
+   * Libadalang will be completely tolerant to semantic errors. For example, a
      pretty-printer based on Libadalang will work whether your code is
      semantically correct or not, as long as it is syntactically correct.
 
-   - Provided you only need syntax, Libadalang will be much faster than ASIS
+   * Provided you only need syntax, Libadalang will be much faster than ASIS'
      main implementation (AdaCore's ASIS), because ASIS always does complete
      analysis of the input Ada code.
 
@@ -84,13 +85,14 @@ instead of ASIS:
 4. Libadalang has bindings to C and Python, and its design makes it easy to
    bind to new languages.
 
-5. Libadalang is suitable to write tools that works on code that is evolving
+5. Libadalang is suitable to write tools that work on code that is evolving
    dynamically. It can process code and changes to code incrementally. Thus, it
    is suitable as an engine for an IDE, unlike AdaCore's ASIS implementation.
 
 6. Libadalang is not tied to a particular compiler version. This combined with
    its staged and error tolerant design means that you can use it to detect
    bugs in Ada compilers/tools.
+
 
 Quick guide to use Libadalang
 -----------------------------

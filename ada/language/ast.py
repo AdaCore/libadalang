@@ -2046,8 +2046,8 @@ class Name(Expr):
         """
         Return whether two names match each other.
 
-        This compares the symbol for Identifiers and the text of StringLiteral
-        nodes. We consider that there is no match for all other node kinds.
+        This compares the symbol for Identifier and StringLiteral nodes. We
+        consider that there is no match for all other node kinds.
         """
         return Self.match(
             lambda id=Identifier:
@@ -2058,7 +2058,7 @@ class Name(Expr):
             lambda sl=StringLiteral:
                 n.cast(StringLiteral).then(
                     lambda other_sl:
-                    sl.tok.text_equals(other_sl.tok)
+                    sl.tok.symbol.equals(other_sl.tok.symbol)
                 ),
             lambda _: False
         )

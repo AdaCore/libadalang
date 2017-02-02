@@ -877,12 +877,21 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=BoolType)
     def matching_type(expected_type=T.BaseTypeDecl):
+    @langkit_property(return_type=BoolType)
+    def matching_assign_type(expected_type=T.BaseTypeDecl):
         actual_type = Var(Self)
         return Or(
+            Self.matching_type(expected_type),
             And(
                 expected_type.is_classwide,
                 actual_type.is_derived_type(expected_type)
-            ),
+            )
+        )
+
+    @langkit_property(return_type=BoolType)
+    def matching_type(expected_type=T.BaseTypeDecl):
+        actual_type = Var(Self)
+        return Or(
             actual_type == expected_type,
             actual_type.matching_access_type(expected_type)
         )
@@ -1569,7 +1578,7 @@ class ObjectDecl(BasicDecl):
                                    default_val=LogicTrue())
             & Bind(Self.default_expr.type_var,
                    Self.canonical_expr_type,
-                   eq_prop=BaseTypeDecl.fields.matching_type)
+                   eq_prop=BaseTypeDecl.fields.matching_assign_type)
         )
 
     xref_entry_point = Property(True)
@@ -3345,7 +3354,7 @@ class AssignStmt(SimpleStmt):
             Self.dest.sub_equation(origin_env)
             & Self.expr.sub_equation(origin_env)
             & Bind(Self.expr.type_var, Self.dest.type_var,
-                   eq_prop=BaseTypeDecl.fields.matching_type)
+                   eq_prop=BaseTypeDecl.fields.matching_assign_type)
         )
 
 

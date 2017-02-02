@@ -120,6 +120,11 @@ procedure Navigate is
                      Print_Navigation
                        ("Decl", Node, LAL.Subp_Body (Node).P_Decl_Part);
 
+                  when LAL.Ada_Generic_Subp_Decl =>
+                     Print_Navigation
+                       ("Body", Node,
+                        LAL.Generic_Subp_Decl (Node).P_Body_Part);
+
                   when others =>
                      Processed_Something := False;
 

@@ -1,0 +1,7 @@
+driver: navigation
+input_sources: [foo.ads, foo.adb]
+kinds:
+  - Ada_Generic_Package_Decl
+  - Ada_Base_Package_Decl
+  - Ada_Package_Decl
+  - Ada_Package_Body

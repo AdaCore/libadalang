@@ -1,3 +1,4 @@
+import argparse
 import sys
 
 import libadalang as lal
@@ -59,11 +60,15 @@ def resolve_statement(statement):
     else:
         print("Resolution failed for node {}".format(statement))
 
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    'files', help='Files to analyze', type=str, nargs='+', metavar='files'
+)
+parser.add_argument('--charset', type=str, default="")
+args = parser.parse_args()
 
-input_sources = sys.argv[1:]
-charset = (input_sources.pop(0)[2:]
-           if input_sources and input_sources[0].startswith('--')
-           else None)
+input_sources = args.files
+charset = args.charset
 
 
 ctx = lal.AnalysisContext(charset)

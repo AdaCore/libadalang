@@ -22,7 +22,7 @@ class SymbolResolutionDriver(PythonDriver):
     def run(self):
         args = list(self.input_sources)
         if self.charset:
-            args.insert(0, '--{}'.format(self.charset))
+            args.insert(0, '--charset={}'.format(self.charset))
 
         # Run both the Python and the Ada drivers for symbol resolution
         py_output = self.run_and_check(

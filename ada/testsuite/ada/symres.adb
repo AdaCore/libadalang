@@ -9,7 +9,7 @@ with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
 
-with Langkit_Support.Adalog.Debug;
+with Langkit_Support.Adalog.Debug; use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
@@ -22,40 +22,16 @@ procedure Symres is
    function Text (N : access Ada_Node_Type'Class) return String
    is (Image (N.Text));
 
-   -----------------
-   -- Has_Charset --
-   -----------------
+   Charset : Unbounded_String := To_Unbounded_String ("");
+   Ctx     : Analysis_Context := No_Analysis_Context;
 
-   function Has_Charset return Boolean is
+   function Context return Analysis_Context is
    begin
-      if Ada.Command_Line.Argument_Count = 0 then
-         return False;
+      if Ctx = No_Analysis_Context then
+         Ctx := Create (Charset => To_String (Charset));
       end if;
-
-      declare
-         A : constant String := Ada.Command_Line.Argument (1);
-      begin
-         return A'Length > 2 and then A (A'First .. A'First + 1) = "--";
-      end;
-   end Has_Charset;
-
-   -------------
-   -- Charset --
-   -------------
-
-   function Charset return String is
-   begin
-      if Has_Charset then
-         declare
-            A : constant String := Ada.Command_Line.Argument (1);
-         begin
-            return A (A'First + 2 .. A'Last);
-         end;
-      end if;
-      return "";
-   end Charset;
-
-   Ctx   : Analysis_Context := Create (Charset => Charset);
+      return Ctx;
+   end Context;
 
    Quiet : Boolean := False;
 
@@ -279,7 +255,7 @@ procedure Symres is
    end Process_File;
 
 begin
-   for I in (if Has_Charset then 2 else 1) .. Ada.Command_Line.Argument_Count
+   for I in 1 .. Ada.Command_Line.Argument_Count
    loop
       declare
          Arg  : constant String := Ada.Command_Line.Argument (I);
@@ -287,8 +263,16 @@ begin
       begin
          if Arg in "--quiet" | "-q" then
             Quiet := True;
+         elsif Arg in "--trace" | "-T" then
+            Set_Debug_State (Trace);
+         elsif Arg in "--debug" | "-D" then
+            Set_Debug_State (Step);
+         elsif Arg (1 .. Positive'Min (Arg'Last, 10)) = "--charset=" then
+            Charset := To_Unbounded_String (Arg (11 .. Arg'Last));
+         elsif Arg (1 .. Positive'Min(Arg'Last, 2)) = "--" then
+            Put_Line ("Unrecognized argument: " & Arg);
          else
-            Unit := Get_From_File (Ctx, Arg);
+            Unit := Get_From_File (Context, Arg);
             Put_Title ('#', "Analyzing " & Arg);
             Process_File (Unit, Arg);
          end if;

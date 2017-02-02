@@ -111,6 +111,11 @@ procedure Navigate is
                      Print_Navigation
                        ("Decl", Node, LAL.Package_Body (Node).P_Decl_Part);
 
+                  when LAL.Ada_Generic_Package_Decl =>
+                     Print_Navigation
+                       ("Body", Node,
+                        LAL.Generic_Package_Decl (Node).P_Body_Part);
+
                   --  Subprograms
 
                   when LAL.Ada_Subp_Decl =>

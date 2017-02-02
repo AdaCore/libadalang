@@ -1,0 +1,16 @@
+foo.ads
+#######
+
+Body of <PackageDecl ["Foo"] 1:1-3:8> is <PackageBody ["Foo"] 1:1-38:8> [foo.adb]
+
+foo.adb
+#######
+
+Decl of <PackageBody ["Foo"] 1:1-38:8> is <PackageDecl ["Foo"] 1:1-3:8> [foo.ads]
+<PackageDecl ["Pkg_No_Body"] 4:7-6:22> has no body
+Body of <PackageDecl ["Pkg_Body"] 8:7-10:19> is <PackageBody ["Pkg_Body"] 12:7-17:19> [foo.adb]
+Decl of <PackageBody ["Pkg_Body"] 12:7-17:19> is <PackageDecl ["Pkg_Body"] 8:7-10:19> [foo.adb]
+Body of <PackageDecl ["Nested_Pkg"] 22:10-24:24> is <PackageBody ["Nested_Pkg"] 26:10-31:24> [foo.adb]
+Decl of <PackageBody ["Nested_Pkg"] 26:10-31:24> is <PackageDecl ["Nested_Pkg"] 22:10-24:24> [foo.adb]
+
+Done.

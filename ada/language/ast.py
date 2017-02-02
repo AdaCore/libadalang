@@ -876,7 +876,21 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType)
-    def matching_type(expected_type=T.BaseTypeDecl):
+    def matching_formal_type(formal_type=T.BaseTypeDecl):
+        actual_type = Var(Self)
+        return Or(
+            And(
+                formal_type.is_classwide,
+                actual_type.is_derived_type(formal_type)
+            ),
+            And(
+                actual_type.is_classwide,
+                actual_type.is_derived_type(formal_type)
+            ),
+            actual_type == formal_type,
+            actual_type.matching_access_type(formal_type)
+        )
+
     @langkit_property(return_type=BoolType)
     def matching_assign_type(expected_type=T.BaseTypeDecl):
         actual_type = Var(Self)
@@ -2201,7 +2215,8 @@ class CallExpr(Name):
                             Bind(
                                 pm.actual.assoc.expr.type_var,
                                 pm.formal.spec.type_expression.designated_type,
-                                eq_prop=BaseTypeDecl.fields.matching_type
+                                eq_prop=BaseTypeDecl.fields
+                                                    .matching_formal_type
                             )
                         ) & If(
                             # Bind actuals designators to parameters if there

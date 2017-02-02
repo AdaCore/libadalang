@@ -3,11 +3,13 @@ foo.ads
 
 Body of <SubpDecl [""+""] 2:4-2:56> is <SubpBody [""+""] 3:4-6:11> [foo.adb]
 Body of <SubpDecl [""-""] 3:4-3:56> is <SubpBody [""-""] 8:4-11:11> [foo.adb]
+Body of <SubpDecl [""and""] 4:4-4:58> is <SubpBody [""AND""] 13:4-16:13> [foo.adb]
 
 foo.adb
 #######
 
 Decl of <SubpBody [""+""] 3:4-6:11> is <SubpDecl [""+""] 2:4-2:56> [foo.ads]
 Decl of <SubpBody [""-""] 8:4-11:11> is <SubpDecl [""-""] 3:4-3:56> [foo.ads]
+Decl of <SubpBody [""AND""] 13:4-16:13> is <SubpDecl [""and""] 4:4-4:58> [foo.ads]
 
 Done.

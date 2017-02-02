@@ -326,7 +326,7 @@ class AdaNode(ASTNode):
         private=True
     )
 
-    bool_type = Property(Self.std_entity('boolean'), private=True)
+    bool_type = Property(Self.std_entity('Boolean'), private=True)
 
 
 def child_unit(name_expr, scope_expr):
@@ -3150,7 +3150,7 @@ class AttributeRef(Name):
     ref_var = Property(Self.prefix.ref_var)
 
     designated_type_impl = Property(
-        If(Self.attribute.tok.symbol == 'class',
+        If(Self.attribute.tok.symbol == 'Class',
            Self.prefix.designated_type_impl.classwide_type,
            Self.prefix.designated_type_impl)
     )
@@ -3228,7 +3228,7 @@ class CompilationUnit(AdaNode):
 
     env_spec = EnvSpec(
         env_hook_arg=Self,
-        ref_envs=Self.node_env.get('standard').at(0).then(
+        ref_envs=Self.node_env.get('Standard').at(0).then(
             lambda std: std.children_env.singleton,
             default_val=EmptyArray(LexicalEnvType)
         )
@@ -3404,7 +3404,7 @@ class DelayStmt(SimpleStmt):
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
         return Self.expr.sub_equation(origin_env) & Bind(
-            Self.expr.type_var, Self.std_entity('duration')
+            Self.expr.type_var, Self.std_entity('Duration')
         )
 
 

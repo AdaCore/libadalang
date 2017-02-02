@@ -36,7 +36,12 @@ def is_library_item(e):
     """
     Property helper to determine if an entity is the root entity for its unit.
     """
-    return e.parent.then(lambda p: p.is_a(LibraryItem))
+    return e.parent.then(lambda p: p.match(
+        lambda _=T.LibraryItem: True,
+        lambda gen_pkg_decl=T.GenericPackageDecl:
+            gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
+        lambda _: False,
+    ))
 
 
 def get_library_item(unit):
@@ -269,6 +274,9 @@ class AdaNode(ASTNode):
         get_library_item(Self.unit).match(
             lambda pkg_spec=T.BasePackageDecl:
                 pkg_spec.package_name.referenced_unit(UnitBody),
+            lambda gen_pkg_decl=T.GenericPackageDecl:
+                gen_pkg_decl.package_decl.package_name
+                .referenced_unit(UnitBody),
             lambda pkg_body=T.PackageBody:
                 pkg_body.unit,
             lambda subp_decl=T.SubpDecl:
@@ -3249,25 +3257,27 @@ class SubpBody(Body):
     defining_env = Property(Self.subp_spec.defining_env)
 
     decl_part = Property(
-        If(is_library_item(Self),
+        If(
+            is_library_item(Self),
 
-           get_library_item(Self.spec_unit).match(
-               lambda subp_decl=T.SubpDecl: subp_decl,
-               lambda gen_subp_decl=T.GenericSubpDecl: gen_subp_decl,
-               lambda _: No(T.AdaNode)
-           ),
+            get_library_item(Self.spec_unit).match(
+                lambda subp_decl=T.SubpDecl: subp_decl,
+                lambda gen_subp_decl=T.GenericSubpDecl: gen_subp_decl,
+                lambda _: No(T.AdaNode)
+            ),
 
-           decl_scope_decls(Self).filter(lambda decl:
-               Let(lambda
-                   spec=decl.match(
-                       lambda subp_decl=T.SubpDecl: subp_decl.subp_spec,
-                       lambda gen_subp_decl=T.GenericSubpDecl:
-                           gen_subp_decl.subp_spec,
-                       lambda _: No(T.SubpSpec)
-                   ):
+            decl_scope_decls(Self).filter(
+                lambda decl:
+                Let(lambda
+                    spec=decl.match(
+                        lambda subp_decl=T.SubpDecl: subp_decl.subp_spec,
+                        lambda gen_subp_decl=T.GenericSubpDecl:
+                            gen_subp_decl.subp_spec,
+                        lambda _: No(T.SubpSpec)
+                    ):
 
-                   spec._.match_signature(Self.subp_spec))
-           ).at(0)),
+                    spec._.match_signature(Self.subp_spec))
+            ).at(0)),
         doc="""
         Return the SubpDecl corresponding to this node.
         """
@@ -3552,9 +3562,17 @@ class PackageBody(Body):
     def decl_part():
         """
         Return the BasePackageDecl corresponding to this node.
+
+        If the case of generic package declarations, this returns the
+        "package_decl" field instead of the GenericPackageDecl itself.
         """
         return Self.parent.node_env.eval_in_env(
-            Self.package_name.entities.at(0).cast(T.BasePackageDecl)
+            Self.package_name.entities.at(0).match(
+                lambda pkg_decl=T.PackageDecl: pkg_decl,
+                lambda gen_pkg_decl=T.GenericPackageDecl:
+                    gen_pkg_decl.package_decl,
+                lambda _: No(T.BasePackageDecl)
+            )
         )
 
 

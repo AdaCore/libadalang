@@ -853,6 +853,10 @@ class BaseTypeDecl(BasicDecl):
     def matching_type(expected_type=T.BaseTypeDecl):
         actual_type = Var(Self)
         return Or(
+            And(
+                expected_type.is_classwide,
+                actual_type.is_derived_type(expected_type)
+            ),
             actual_type == expected_type,
             actual_type.matching_access_type(expected_type)
         )

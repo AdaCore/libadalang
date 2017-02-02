@@ -9,11 +9,13 @@ IDEs. Its goals encompass, but are not limited to:
 * Full support for parsing the Ada 2012 syntax, plus SPARK extensions.
 * Error tolerant parsing: the parser must be able to recover from simple errors
   and provide a "best-guess" tree.
+* Error tolerant semantic analysis: It must be possible to create a tool that
+  works only on syntax, and completely ignores semantic issues.
 * Full symbol resolution respecting Ada 2012 – and prior Ada versions –
   semantics.
 * Bindings to a variety of languages, including Ada, C, Python and Java, so
   that tools can be written from various ecosystems.
-- Incremental processing of source files.
+* Incremental processing of source files.
 
 It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
 basis, and is at the time of writing the main project developped using it.
@@ -21,6 +23,74 @@ basis, and is at the time of writing the main project developped using it.
 Come and discuss with us on our [public HipChat
 room](https://www.hipchat.com/gQfbVZ9qL)!
 
+
+Status of the project
+---------------------
+
+Libadalang is still pre-alpha software ! None of its APIs are stable, the shape
+of the abstract syntax tree is not yet stable, and most of its features are
+either not stable or not fully implemented.
+
+Libadalang currently:
+
+* Is able to parse 100% of Ada 2012 syntax, and present a well formed tree for
+  it.
+
+* Is able to recover some syntax errors, but is still currently behind GNAT in
+  that regard.
+
+* Provides some name resolution/navigation. Name resolution is the item on
+  which most work is focused as of now. A sizable part of the language is
+  handled, but it is not yet complete.
+
+* Is able to handle some very simple incremental processing. Reparsing a source
+  A and querying xref on a source B that depends on A is theoretically
+  supported, and works in some cases, but the infrastructure is not yet general
+  enough.
+
+For those reasons, Libadalang is only suited today for mostly syntactic tools.
+
+Libadalang and ASIS
+-------------------
+
+ASIS is widely used for static analysis of Ada code, and is an ISO standard. It
+is still the go-to tool if you want to create a tool that analyses Ada code.
+Also, as explained above, Libadalang is not mature yet, and cannot replace ASIS
+in tools that require semantic analysis.
+
+However, there are a few reasons you might eventually choose to use Libadalang
+instead of ASIS:
+
+1. The ASIS standard has not yet been updated to the 2012 version of Ada. More
+   generally, the advantages derived from ASIS being a standard also means that
+   it will evolve very slowly.
+
+2. Syntax only tools will derive a lot of advantages on being based on
+   Libadalang:
+
+   - Libadalang will be completely tolerant to semantic errors. For example, a
+     pretty-printer based on Libadalang will work whether your code is
+     semantically correct or not, as long as it is syntactically correct.
+
+   - Provided you only need syntax, Libadalang will be much faster than ASIS
+     main implementation (AdaCore's ASIS), because ASIS always does complete
+     analysis of the input Ada code.
+
+3. The design of Libadalang's semantic analysis is lazy. It will only process
+   semantic information on-demand, for specific portions of the code. It means
+   that you can get up-to-date information for a correct portion of the code
+   even if the file contains semantic errors.
+
+4. Libadalang has bindings to C and Python, and its design makes it easy to
+   bind to new languages.
+
+5. Libadalang is suitable to write tools that works on code that is evolving
+   dynamically. It can process code and changes to code incrementally. Thus, it
+   is suitable as an engine for an IDE, unlike AdaCore's ASIS implementation.
+
+6. Libadalang is not tied to a particular compiler version. This combined with
+   its staged and error tolerant design means that you can use it to detect
+   bugs in Ada compilers/tools.
 
 Quick guide to use Libadalang
 -----------------------------

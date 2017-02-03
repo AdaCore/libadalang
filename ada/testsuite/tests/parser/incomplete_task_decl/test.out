@@ -33,11 +33,14 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |  TaggedAbsent[2:10-2:10]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:14]
-|  |  |  |  |  |task_name:
-|  |  |  |  |  |  Id[3:9-3:14]
-|  |  |  |  |  |  |tok: Pouet
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |definition: <null>
+|  |  |  |  |  |task_type:
+|  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
+|  |  |  |  |  |  |type_id:
+|  |  |  |  |  |  |  Id[3:9-3:14]
+|  |  |  |  |  |  |  |tok: Pouet
+|  |  |  |  |  |  |discrs: <null>
+|  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |definition: <null>
 |  |  |stmts:
 |  |  |  HandledStmts[5:4-5:9]
 |  |  |  |stmts:

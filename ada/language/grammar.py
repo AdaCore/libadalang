@@ -454,7 +454,11 @@ A.add_rules(
     aspect_spec=Opt(AspectSpec("with", List(A.aspect_assoc, sep=","))),
 
     single_task_decl=SingleTaskDecl(
-        "task", A.identifier, A.aspect_spec, Opt(A.task_def)
+        "task",
+        SingleTaskTypeDecl(
+            A.identifier, Null(A.discriminant_part),
+            A.aspect_spec, Opt(A.task_def)
+        )
     ),
 
     overriding_indicator=Or(

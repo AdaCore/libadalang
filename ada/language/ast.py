@@ -1244,6 +1244,10 @@ class TaskTypeDecl(BaseTypeDecl):
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
 
+class SingleTaskTypeDecl(TaskTypeDecl):
+    pass
+
+
 class ProtectedTypeDecl(BasicDecl):
     protected_type_name = Field(type=T.Identifier)
     discrs = Field(type=T.DiscriminantPart)
@@ -1536,11 +1540,8 @@ class EntryDecl(BasicDecl):
 
 
 class SingleTaskDecl(BasicDecl):
-    task_name = Field(type=T.Identifier)
-    aspects = Field(type=T.AspectSpec)
-    definition = Field(type=T.TaskDef)
-
-    defining_names = Property(Self.task_name.cast(T.Name).singleton)
+    task_type = Field(type=T.SingleTaskTypeDecl)
+    defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
 
 
 class SingleProtectedDecl(BasicDecl):

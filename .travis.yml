@@ -1,0 +1,66 @@
+language: python
+python:
+    "2.7"
+
+env:
+  global:
+    - TOOLS_DIR=$HOME/build_tools
+    - GNAT_TAR_PATH=$TOOLS_DIR/gnat-gpl-2016-x86_64-linux-bin.tar.gz
+    - GNATCOLL_TAR_PATH=$TOOLS_DIR/gnatcoll-gpl-2016-src.tar.gz
+    - GNAT_PATH=$TOOLS_DIR/gnat-gpl-2016-x86_64-linux-bin
+    - GNATCOLL_PATH=$TOOLS_DIR/gnatcoll-gpl-2016-src
+    - QUEX_ZIP_PATH=$TOOLS_DIR/quex-0.65.4.zip
+    - QUEX_PATH=$TOOLS_DIR/quex-0.65.4
+
+os:
+  - linux
+
+cache:
+  directories:
+  - $HOME/build_tools
+
+install:
+  # Get GNAT
+  - test -f  $GNAT_TAR_PATH || (mkdir -p $TOOLS_DIR && wget http://mirrors.cdn.adacore.com/art/5739cefdc7a447658e0b016b -O $GNAT_TAR_PATH)
+
+  # Get QUEX
+  - test -f $QUEX_ZIP_PATH || (wget -O $QUEX_ZIP_PATH "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet" )
+
+  # Get GNATCOLL
+  - test -f $GNATCOLL_TAR_PATH || (wget -O $GNATCOLL_TAR_PATH http://mirrors.cdn.adacore.com/art/5739942ac7a447658d00e1e7)
+
+  # Extract QUEX, GNAT and GNATCOLL
+  - tar -xf $GNAT_TAR_PATH -C $TOOLS_DIR
+  - unzip -o $QUEX_ZIP_PATH -d $TOOLS_DIR
+  - tar xf $GNATCOLL_TAR_PATH -C $TOOLS_DIR
+
+  # Get Langkit
+  - test -f langkit || (git clone https://github.com/AdaCore/langkit)
+  - (cd langkit && git pull --rebase origin master)
+
+  # Install requirements
+  - pip install -r langkit/REQUIREMENTS.dev
+
+  # Log content
+  - ls $HOME/build_tools
+  - ls $GNAT_PATH
+  - ls $GNAT_PATH/bin
+  - ls $QUEX_PATH
+
+  # Build GNATCOLL
+  - pwd
+  - export PATH=$GNAT_PATH/bin:$PATH
+  - cd $GNATCOLL_PATH
+  - which gcc
+  - ./configure --prefix="$GNAT_PATH" --enable-build=Debug --enable-shared --enable-projects
+  - make PROCESSORS=0
+  - make install
+  - cd -
+
+
+script:
+  - export PATH=$GNAT_PATH/bin:$PATH
+  - gprbuild --version
+  - ada/manage.py --help
+  - ada/manage.py make
+  - ada/manage.py test

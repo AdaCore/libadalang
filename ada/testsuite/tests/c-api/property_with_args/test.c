@@ -60,11 +60,11 @@ main(void)
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubpSpec");
 
-    if (!ada_subp_spec_f_name(tmp, &foo))
+    if (!ada_subp_spec_f_subp_name(tmp, &foo))
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubpSpec -> Name");
 
-    if (!ada_subp_spec_f_params(tmp, &tmp))
+    if (!ada_subp_spec_f_subp_params(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubpSpec -> Params");
     if (!ada_node_child(tmp, 0, &tmp))

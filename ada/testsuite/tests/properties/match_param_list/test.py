@@ -29,14 +29,14 @@ for obj_decl in unit.root.finditer(libadalang.ObjectDecl):
     if last_subp is None or not last_subp.p_matches(call_expr.f_name):
         subp_spec = unit.root.find(lambda n: (
             isinstance(n, libadalang.SubpSpec) and
-            n.f_name.p_matches(call_expr.f_name)
+            n.p_name.p_matches(call_expr.f_name)
         ))
 
         if last_subp is not None:
             print ''
 
         print '-- {}'.format(src_slice(subp_spec))
-        last_subp = subp_spec.f_name
+        last_subp = subp_spec.p_name
 
     # Then, show the result of the match for each parameter association in this
     # call.

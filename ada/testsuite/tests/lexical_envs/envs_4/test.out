@@ -97,7 +97,7 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  OverridingUnspecified[11:1-11:1]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[11:1-11:14]
-|  |  |  |  |name:
+|  |  |  |  |subp_name:
 |  |  |  |  |  DottedName[11:11-11:14]
 |  |  |  |  |  |prefix:
 |  |  |  |  |  |  Id[11:11-11:12]
@@ -105,9 +105,9 @@ CompilationUnitList[1:1-13:9]
 |  |  |  |  |  |suffix:
 |  |  |  |  |  |  Id[11:13-11:14]
 |  |  |  |  |  |  |tok: B
-|  |  |  |  |params:
+|  |  |  |  |subp_params:
 |  |  |  |  |  ParamSpecList[11:13-11:13]: <empty list>
-|  |  |  |  |returns: <null>
+|  |  |  |  |subp_returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  |decls:
 |  |  |  |  DeclarativePart[12:1-12:1]

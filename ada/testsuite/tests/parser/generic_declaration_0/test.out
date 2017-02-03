@@ -21,10 +21,10 @@ GenericSubpDecl[1:1-1:76]
 |  |  |  |  |aspects: <null>
 |subp_spec:
 |  SubpSpec[1:36-1:76]
-|  |name:
+|  |subp_name:
 |  |  Id[1:46-1:50]
 |  |  |tok: Swap
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:52-1:75]
 |  |  |  ParamSpec[1:52-1:75]
 |  |  |  |ids:
@@ -46,5 +46,5 @@ GenericSubpDecl[1:1-1:76]
 |  |  |  |  |  |tok: Element_T
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns: <null>
+|  |subp_returns: <null>
 |aspects: <null>

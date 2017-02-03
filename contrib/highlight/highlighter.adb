@@ -254,10 +254,10 @@ package body Highlighter is
                declare
                   Subp_Spec : constant LAL.Subp_Spec := LAL.Subp_Spec (Node);
                   Params    : constant LAL.Param_Spec_List :=
-                    Subp_Spec.F_Params;
+                    Subp_Spec.F_Subp_Params;
                begin
-                  Highlight_Block_Name (Subp_Spec.F_Name, Highlights);
-                  Highlight_Type_Expr (Subp_Spec.F_Returns, Highlights);
+                  Highlight_Block_Name (Subp_Spec.F_Subp_Name, Highlights);
+                  Highlight_Type_Expr (Subp_Spec.F_Subp_Returns, Highlights);
                   for I in 1 .. Params.Child_Count loop
                      Highlight_Type_Expr
                        (LAL.Param_Spec (Params.Child (I)).F_Type_Expr,

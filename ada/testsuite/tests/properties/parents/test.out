@@ -27,12 +27,12 @@
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubpSpec>
-|  |  |  |name:
+|  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |params:
+|  |  |  |subp_params:
 |  |  |  |  <ParamSpecList>
-|  |  |  |returns: None
+|  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>
@@ -44,10 +44,10 @@
 |  |  |  |  |  |  <OverridingUnspecified>
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  <SubpSpec>
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |tok: Token(u'Fact')
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  <ParamSpecList>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <ParamSpec>
@@ -69,7 +69,7 @@
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
 |  |  |  |  |  |  |  |  |  |constraint: None
 |  |  |  |  |  |  |  |  |default: None
-|  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  <NotNullAbsent>

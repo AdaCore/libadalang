@@ -18,12 +18,12 @@ GenericPackageDecl[1:1-1:42]
 |  |  |  |  |  OverridingUnspecified[1:22-1:22]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[1:22-1:35]
-|  |  |  |  |  |name:
+|  |  |  |  |  |subp_name:
 |  |  |  |  |  |  Id[1:32-1:35]
 |  |  |  |  |  |  |tok: Set
-|  |  |  |  |  |params:
+|  |  |  |  |  |subp_params:
 |  |  |  |  |  |  ParamSpecList[1:32-1:32]: <empty list>
-|  |  |  |  |  |returns: <null>
+|  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_id:

@@ -3,10 +3,10 @@ ExprFunction[1:1-1:75]
 |  OverridingOverriding[1:1-1:11]
 |subp_spec:
 |  SubpSpec[1:12-1:64]
-|  |name:
+|  |subp_name:
 |  |  Id[1:21-1:22]
 |  |  |tok: A
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:24-1:48]
 |  |  |  ParamSpec[1:24-1:35]
 |  |  |  |ids:
@@ -44,7 +44,7 @@ ExprFunction[1:1-1:75]
 |  |  |  |  |  |tok: Integer
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns:
+|  |subp_returns:
 |  |  SubtypeIndication[1:57-1:64]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:57-1:57]

@@ -27,12 +27,12 @@
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubpSpec>
-|  |  |  |name:
+|  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |params:
+|  |  |  |subp_params:
 |  |  |  |  <ParamSpecList>
-|  |  |  |returns: None
+|  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:
 |  |  |  <DeclarativePart>

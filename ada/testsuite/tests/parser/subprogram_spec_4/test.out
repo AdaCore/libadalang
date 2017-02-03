@@ -1,10 +1,10 @@
 SubpSpec[1:1-1:37]
-|name:
+|subp_name:
 |  Id[1:10-1:11]
 |  |tok: A
-|params:
+|subp_params:
 |  ParamSpecList[1:10-1:10]: <empty list>
-|returns:
+|subp_returns:
 |  SubtypeIndication[1:19-1:37]
 |  |has_not_null:
 |  |  NotNullAbsent[1:19-1:19]

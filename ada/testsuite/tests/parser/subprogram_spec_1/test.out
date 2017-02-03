@@ -1,8 +1,8 @@
 SubpSpec[1:1-1:65]
-|name:
+|subp_name:
 |  Id[1:10-1:11]
 |  |tok: A
-|params:
+|subp_params:
 |  ParamSpecList[1:13-1:49]
 |  |  ParamSpec[1:13-1:29]
 |  |  |ids:
@@ -60,7 +60,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |aspects: <null>
 |  |  |default: <null>
-|returns:
+|subp_returns:
 |  SubtypeIndication[1:58-1:65]
 |  |has_not_null:
 |  |  NotNullAbsent[1:58-1:58]

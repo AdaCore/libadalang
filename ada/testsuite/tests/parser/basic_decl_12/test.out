@@ -3,10 +3,10 @@ SubpDecl[1:1-1:124]
 |  OverridingUnspecified[1:1-1:1]
 |subp_spec:
 |  SubpSpec[1:1-1:124]
-|  |name:
+|  |subp_name:
 |  |  Id[1:11-1:25]
 |  |  |tok: Lines_Add_Hook
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:27-1:123]
 |  |  |  ParamSpec[1:27-1:69]
 |  |  |  |ids:
@@ -84,5 +84,5 @@ SubpDecl[1:1-1:124]
 |  |  |  |  |  |tok: Buffer_Line_Type
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns: <null>
+|  |subp_returns: <null>
 |aspects: <null>

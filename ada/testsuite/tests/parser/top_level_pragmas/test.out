@@ -11,7 +11,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  OverridingUnspecified[30:1-30:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[30:1-31:40]
-|  |  |  |name:
+|  |  |  |subp_name:
 |  |  |  |  DottedName[30:10-30:43]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[30:10-30:21]
@@ -24,7 +24,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |suffix:
 |  |  |  |  |  Id[30:22-30:43]
 |  |  |  |  |  |tok: Less_Case_Insensitive
-|  |  |  |params:
+|  |  |  |subp_params:
 |  |  |  |  ParamSpecList[31:4-31:24]
 |  |  |  |  |  ParamSpec[31:4-31:24]
 |  |  |  |  |  |ids:
@@ -46,7 +46,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |  |  |tok: String
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default: <null>
-|  |  |  |returns:
+|  |  |  |subp_returns:
 |  |  |  |  SubtypeIndication[31:33-31:40]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[31:33-31:33]

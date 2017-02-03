@@ -35,12 +35,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:15]
-|  |  |  |name:
+|  |  |  |subp_name:
 |  |  |  |  Id[3:11-3:15]
 |  |  |  |  |tok: What
-|  |  |  |params:
+|  |  |  |subp_params:
 |  |  |  |  ParamSpecList[3:11-3:11]: <empty list>
-|  |  |  |returns: <null>
+|  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
 |  |  |  DeclarativePart[4:4-20:26]
@@ -77,12 +77,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[6:12-6:12]
 |  |  |  |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[6:12-6:34]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]
 |  |  |  |  |  |  |  |  |  |  |  |tok: J
-|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[6:21-6:21]: <empty list>
-|  |  |  |  |  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:30-6:30]
@@ -103,12 +103,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[7:12-7:12]
 |  |  |  |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[7:12-7:34]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]
 |  |  |  |  |  |  |  |  |  |  |  |tok: I
-|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[7:21-7:21]: <empty list>
-|  |  |  |  |  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:30-7:30]
@@ -137,12 +137,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[9:7-9:7]
 |  |  |  |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[9:7-9:20]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[9:17-9:17]: <empty list>
-|  |  |  |  |  |  |  |  |  |  |returns: <null>
+|  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |private_part: <null>
 |  |  |  |  |  |  |end_id:
@@ -162,12 +162,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  OverridingUnspecified[13:7-13:7]
 |  |  |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  |  |  SubpSpec[13:7-13:20]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]
 |  |  |  |  |  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  |  |  |  ParamSpecList[13:17-13:17]: <empty list>
-|  |  |  |  |  |  |  |  |  |returns: <null>
+|  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[14:7-14:7]

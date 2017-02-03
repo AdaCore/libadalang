@@ -1,8 +1,8 @@
 SubpSpec[1:1-1:69]
-|name:
+|subp_name:
 |  Id[1:11-1:12]
 |  |tok: I
-|params:
+|subp_params:
 |  ParamSpecList[1:14-1:68]
 |  |  ParamSpec[1:14-1:55]
 |  |  |ids:
@@ -25,8 +25,8 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[1:32-1:55]
-|  |  |  |  |  |  |name: <null>
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |subp_name: <null>
+|  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  ParamSpecList[1:43-1:54]
 |  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
 |  |  |  |  |  |  |  |  |ids:
@@ -46,7 +46,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |tok: Integer
 |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |default: <null>
-|  |  |  |  |  |  |returns: <null>
+|  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |  |default: <null>
 |  |  ParamSpec[1:57-1:68]
@@ -67,4 +67,4 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |tok: Integer
 |  |  |  |constraint: <null>
 |  |  |default: <null>
-|returns: <null>
+|subp_returns: <null>

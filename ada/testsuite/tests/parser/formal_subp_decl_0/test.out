@@ -3,10 +3,10 @@ FormalSubpDecl[1:1-1:70]
 |  OverridingUnspecified[1:6-1:6]
 |subp_spec:
 |  SubpSpec[1:6-1:55]
-|  |name:
+|  |subp_name:
 |  |  Id[1:15-1:20]
 |  |  |tok: Pouet
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:22-1:37]
 |  |  |  ParamSpec[1:22-1:37]
 |  |  |  |ids:
@@ -28,7 +28,7 @@ FormalSubpDecl[1:1-1:70]
 |  |  |  |  |  |tok: Element_T
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns:
+|  |subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:46-1:46]

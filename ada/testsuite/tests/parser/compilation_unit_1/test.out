@@ -20,12 +20,12 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |  OverridingUnspecified[1:22-1:22]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[1:22-1:47]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[1:31-1:32]
 |  |  |  |  |  |  |  |tok: B
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  ParamSpecList[1:31-1:31]: <empty list>
-|  |  |  |  |  |  |returns:
+|  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[1:40-1:47]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:40-1:40]

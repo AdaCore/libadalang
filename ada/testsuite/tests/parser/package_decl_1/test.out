@@ -12,10 +12,10 @@ PackageDecl[1:1-1:105]
 |  |  |  |  OverridingUnspecified[1:14-1:14]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:14-1:42]
-|  |  |  |  |name:
+|  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:24-1:25]
 |  |  |  |  |  |tok: B
-|  |  |  |  |params:
+|  |  |  |  |subp_params:
 |  |  |  |  |  ParamSpecList[1:27-1:41]
 |  |  |  |  |  |  ParamSpec[1:27-1:41]
 |  |  |  |  |  |  |ids:
@@ -37,7 +37,7 @@ PackageDecl[1:1-1:105]
 |  |  |  |  |  |  |  |  |tok: Integer
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
-|  |  |  |  |returns: <null>
+|  |  |  |  |subp_returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  NumberDecl[1:44-1:62]
 |  |  |  |ids:

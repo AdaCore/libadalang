@@ -12,10 +12,10 @@ PackageDecl[1:1-1:105]
 |  |  |  |  OverridingUnspecified[1:26-1:26]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:26-1:55]
-|  |  |  |  |name:
+|  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:36-1:40]
 |  |  |  |  |  |tok: Push
-|  |  |  |  |params:
+|  |  |  |  |subp_params:
 |  |  |  |  |  ParamSpecList[1:42-1:54]
 |  |  |  |  |  |  ParamSpec[1:42-1:54]
 |  |  |  |  |  |  |ids:
@@ -35,19 +35,19 @@ PackageDecl[1:1-1:105]
 |  |  |  |  |  |  |  |  |tok: Element_T
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
-|  |  |  |  |returns: <null>
+|  |  |  |  |subp_returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  SubpDecl[1:57-1:86]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[1:57-1:57]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:57-1:86]
-|  |  |  |  |name:
+|  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:66-1:69]
 |  |  |  |  |  |tok: Pop
-|  |  |  |  |params:
+|  |  |  |  |subp_params:
 |  |  |  |  |  ParamSpecList[1:66-1:66]: <empty list>
-|  |  |  |  |returns:
+|  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[1:77-1:86]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:77-1:77]

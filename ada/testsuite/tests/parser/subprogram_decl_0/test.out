@@ -3,10 +3,10 @@ AbstractSubpDecl[1:1-1:49]
 |  OverridingOverriding[1:1-1:11]
 |subp_spec:
 |  SubpSpec[1:12-1:37]
-|  |name:
+|  |subp_name:
 |  |  Id[1:22-1:23]
 |  |  |tok: A
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:25-1:36]
 |  |  |  ParamSpec[1:25-1:36]
 |  |  |  |ids:
@@ -26,5 +26,5 @@ AbstractSubpDecl[1:1-1:49]
 |  |  |  |  |  |tok: Integer
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns: <null>
+|  |subp_returns: <null>
 |aspects: <null>

@@ -47,7 +47,7 @@ main(void)
         error("Could not get CompilationUnit.f_bodies[0].f_item");
     if (!ada_subp_body_f_subp_spec(node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec");
-    if (!ada_subp_spec_f_name(node, &node))
+    if (!ada_subp_spec_f_subp_name(node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name");
     if (!ada_single_tok_node_f_tok(node, &tok))

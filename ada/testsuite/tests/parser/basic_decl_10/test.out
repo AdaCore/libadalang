@@ -3,10 +3,10 @@ SubpDecl[1:1-1:54]
 |  OverridingNotOverriding[1:1-1:15]
 |subp_spec:
 |  SubpSpec[1:16-1:54]
-|  |name:
+|  |subp_name:
 |  |  Id[1:26-1:27]
 |  |  |tok: A
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:29-1:53]
 |  |  |  ParamSpec[1:29-1:40]
 |  |  |  |ids:
@@ -44,5 +44,5 @@ SubpDecl[1:1-1:54]
 |  |  |  |  |  |tok: Natural
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
-|  |returns: <null>
+|  |subp_returns: <null>
 |aspects: <null>

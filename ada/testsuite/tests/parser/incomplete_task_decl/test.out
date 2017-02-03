@@ -11,12 +11,12 @@ CompilationUnit[1:1-6:10]
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[1:1-1:15]
-|  |  |  |name:
+|  |  |  |subp_name:
 |  |  |  |  Id[1:11-1:15]
 |  |  |  |  |tok: Main
-|  |  |  |params:
+|  |  |  |subp_params:
 |  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
-|  |  |  |returns: <null>
+|  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
 |  |  |  DeclarativePart[2:4-3:15]

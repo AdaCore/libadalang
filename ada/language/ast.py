@@ -2827,10 +2827,11 @@ class ParamMatch(Struct):
     formal = Field(type=SingleFormal)
 
 
-class SubpSpec(BaseFormalParamHolder):
-    name = Field(type=T.Name)
-    params = Field(type=T.ParamSpec.list_type())
-    returns = Field(type=T.TypeExpr)
+@abstract
+class BaseSubpSpec(BaseFormalParamHolder):
+    name = AbstractProperty(type=T.Name)
+    params = AbstractProperty(type=T.ParamSpec.list_type())
+    returns = AbstractProperty(type=T.TypeExpr)
 
     abstract_formal_params = Property(
         Self.params.map(lambda p: p.cast(BaseFormalParamDecl))
@@ -3013,6 +3014,16 @@ class SubpSpec(BaseFormalParamHolder):
             md.dottable_subp & (Self.nb_min_params == 1),
             Self.nb_min_params == 0
         )
+
+
+class SubpSpec(BaseSubpSpec):
+    subp_name = Field(type=T.Name)
+    subp_params = Field(type=T.ParamSpec.list_type())
+    subp_returns = Field(type=T.TypeExpr)
+
+    name = Property(Self.subp_name)
+    params = Property(Self.subp_params)
+    returns = Property(Self.subp_returns)
 
 
 class Quantifier(T.EnumNode):

@@ -96,7 +96,7 @@ main(void)
     if (ada_node_kind(tmp) != ada_subp_spec)
       error("SubpBody.subp_spec is not a SubpSpec");
 
-    if (!ada_subp_spec_f_name(tmp, &tmp))
+    if (!ada_subp_spec_f_subp_name(tmp, &tmp))
       error("Could not get SubpBody.subp_spec.name");
     if (ada_node_kind(tmp) != ada_identifier)
       error("SubpBody.subp_spec.name is not an Identifier");

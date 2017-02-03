@@ -3,10 +3,10 @@ SubpRenamingDecl[1:1-1:64]
 |  OverridingUnspecified[1:1-1:1]
 |subp_spec:
 |  SubpSpec[1:1-1:54]
-|  |name:
+|  |subp_name:
 |  |  Id[1:11-1:12]
 |  |  |tok: A
-|  |params:
+|  |subp_params:
 |  |  ParamSpecList[1:14-1:53]
 |  |  |  ParamSpec[1:14-1:25]
 |  |  |  |ids:
@@ -64,7 +64,7 @@ SubpRenamingDecl[1:1-1:64]
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default: <null>
-|  |returns: <null>
+|  |subp_returns: <null>
 |renames:
 |  RenamingClause[1:55-1:64]
 |  |renamed_object:

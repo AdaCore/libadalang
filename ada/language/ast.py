@@ -1240,6 +1240,7 @@ class TaskTypeDecl(BaseTypeDecl):
     discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)
+    is_task_type = Property(True)
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 

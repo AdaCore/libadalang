@@ -788,6 +788,7 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
+    is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_int_type = Property(False, doc="Whether type is an integer type or not")
 

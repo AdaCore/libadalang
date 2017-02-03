@@ -1,5 +1,5 @@
 TaskTypeDecl[1:1-1:144]
-|task_type_name:
+|type_id:
 |  Id[1:11-1:27]
 |  |tok: Buffer_Pool_Task
 |discrs: <null>

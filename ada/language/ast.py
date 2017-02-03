@@ -1236,13 +1236,12 @@ class ProtectedDef(AdaNode):
     end_id = Field(type=T.Identifier)
 
 
-class TaskTypeDecl(BasicDecl):
-    task_type_name = Field(type=T.Identifier)
+class TaskTypeDecl(BaseTypeDecl):
     discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)
 
-    defining_names = Property(Self.task_type_name.cast(T.Name).singleton)
+    defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
 
 class ProtectedTypeDecl(BasicDecl):

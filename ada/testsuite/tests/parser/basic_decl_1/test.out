@@ -1,5 +1,5 @@
 TaskTypeDecl[1:1-1:62]
-|task_type_name:
+|type_id:
 |  Id[1:11-1:14]
 |  |tok: TT1
 |discrs: <null>

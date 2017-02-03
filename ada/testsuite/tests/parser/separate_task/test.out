@@ -16,7 +16,7 @@ CompilationUnit[1:1-6:7]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:32]
 |  |  |  |  |  TaskTypeDecl[2:4-2:19]
-|  |  |  |  |  |task_type_name:
+|  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[2:14-2:19]
 |  |  |  |  |  |  |tok: share
 |  |  |  |  |  |discrs: <null>

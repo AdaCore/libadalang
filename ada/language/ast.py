@@ -1560,6 +1560,9 @@ class SingleTaskDecl(BasicDecl):
         add_to_env=add_to_env(Self.task_type.type_id.tok.symbol, Self)
     )
 
+    expr_type = Property(Self.task_type)
+
+
 class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)

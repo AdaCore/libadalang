@@ -3440,6 +3440,15 @@ class RequeueStmt(SimpleStmt):
 class AbortStmt(SimpleStmt):
     names = Field(type=T.Name.list_type())
 
+    @langkit_property()
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.names.logic_all(
+            lambda name:
+            name.sub_equation(origin_env)
+            & Predicate(BaseTypeDecl.fields.is_task_type,
+                        name.type_var)
+        )
+
 
 class DelayStmt(SimpleStmt):
     has_until = Field(type=Until)

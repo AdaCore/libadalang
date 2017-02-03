@@ -1542,16 +1542,6 @@ class AtClause(AspectClause):
     expr = Field(type=T.Expr)
 
 
-class EntryDecl(BasicDecl):
-    overriding = Field(type=Overriding)
-    entry_id = Field(type=T.Identifier)
-    family_type = Field(type=T.AdaNode)
-    params = Field(type=T.ParamSpec.list_type())
-    aspects = Field(type=T.AspectSpec)
-
-    defining_names = Property(Self.entry_id.cast(T.Name).singleton)
-
-
 class SingleTaskDecl(BasicDecl):
     task_type = Field(type=T.SingleTaskTypeDecl)
     defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
@@ -3024,6 +3014,16 @@ class SubpSpec(BaseSubpSpec):
     name = Property(Self.subp_name)
     params = Property(Self.subp_params)
     returns = Property(Self.subp_returns)
+
+
+class EntryDecl(BasicDecl):
+    overriding = Field(type=Overriding)
+    entry_id = Field(type=T.Identifier)
+    family_type = Field(type=T.AdaNode)
+    params = Field(type=T.ParamSpec.list_type())
+    aspects = Field(type=T.AspectSpec)
+
+    defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
 class Quantifier(T.EnumNode):

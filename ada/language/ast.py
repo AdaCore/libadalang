@@ -1244,6 +1244,11 @@ class TaskTypeDecl(BaseTypeDecl):
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.type_id.tok.symbol, Self),
+        add_env=True,
+    )
+
 
 class SingleTaskTypeDecl(TaskTypeDecl):
     pass

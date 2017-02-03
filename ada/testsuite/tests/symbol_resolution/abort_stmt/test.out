@@ -1,0 +1,8 @@
+Analyzing testabort.adb
+#######################
+
+Expr: <Id "T" 35:10-35:11>, references <SingleTaskDecl ["T"] 5:7-6:12>, type is <SingleTaskTypeDecl ["T"] 5:12-6:12>
+
+Expr: <Id "T2" 38:10-38:12>, references <ObjectDecl ["T2"] 31:4-31:21>, type is <TaskTypeDecl ["My_Task_Type"] 20:4-21:20>
+
+Done.

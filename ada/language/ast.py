@@ -1252,6 +1252,13 @@ class TaskTypeDecl(BaseTypeDecl):
 
 class SingleTaskTypeDecl(TaskTypeDecl):
     pass
+    env_spec = EnvSpec(
+        # In this case, we don't want to add this type to the env, because it's
+        # the single task that contains this type decl that will be added to
+        # the env. So we don't call the inherited env spec.
+        call_parents=False,
+        add_env=True
+    )
 
 
 class ProtectedTypeDecl(BasicDecl):
@@ -1549,6 +1556,9 @@ class SingleTaskDecl(BasicDecl):
     task_type = Field(type=T.SingleTaskTypeDecl)
     defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
 
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(Self.task_type.type_id.tok.symbol, Self)
+    )
 
 class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)

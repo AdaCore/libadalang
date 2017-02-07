@@ -11,8 +11,8 @@ procedure Main is
    Unit   : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
    P      : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
      (Kind => Ada_Param_Spec);
-   Params : constant Ada_Node_Vectors.Elements_Array :=
-      Root (Unit).Find (P).Consume;
+   Params : constant Ada_Node_Array :=
+      Ada_Node_Array (Root (Unit).Find (P).Consume);
 begin
    for P of Params loop
       declare

@@ -11,8 +11,8 @@ procedure Main is
    Unit      : constant Analysis_Unit := Get_From_File (Ctx, "pkg.ads");
    P         : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
      (Kind => Ada_Type_Decl);
-   Type_Defs : constant Ada_Node_Vectors.Elements_Array :=
-      Root (Unit).Find (P).Consume;
+   Type_Defs : constant Ada_Node_Array :=
+      Ada_Node_Array (Root (Unit).Find (P).Consume);
 begin
    for T of Type_Defs loop
       declare

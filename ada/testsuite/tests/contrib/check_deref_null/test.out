@@ -1,0 +1,45 @@
+commands-custom.adb
+Found test of Command.Execution at <Relation 1342:23-1342:47> after deref at <DottedName 1328:41-1328:58>
+debugger-base_gdb-gdb_cli.adb
+Found test of Process at <Relation 856:13-856:28> after deref at <Id "Process" 853:13-853:20>
+Found test of Process at <Relation 871:13-871:28> after deref at <Id "Process" 853:13-853:20>
+debugger-base_gdb-gdb_mi.adb
+Found test of Process at <Relation 1194:13-1194:28> after deref at <Id "Process" 1191:13-1191:20>
+Found test of Process at <Relation 1207:13-1207:28> after deref at <Id "Process" 1191:13-1191:20>
+dispatching_calls.adb
+Found test of Explored_Method at <Relation 99:12-99:35> after deref at <Id "Explored_Method" 97:43-97:58>
+foo.adb
+Found test of P at <Relation 15:7-15:15> after deref at <Id "P" 14:9-14:10>
+g-comlin.adb
+Found test of Line at <Relation 2811:10-2811:21> after deref at <Id "Line" 2805:49-2805:53>
+g-debpoo.adb
+Found test of Header.Alloc_Traceback at <Relation 2308:13-2308:43> after deref at <DottedName 2306:21-2306:43>
+g-exttre.adb
+Found test of Desc.Machine at <Relation 242:13-242:33> after deref at <DottedName 235:42-235:54>
+g-spipat.adb
+Found test of P.P at <Relation 2156:10-2156:20> after deref at <DottedName 2094:30-2094:33>
+gprbind.adb
+Found test of Ada_Compiler_Path at <Relation 641:7-641:31> after deref at <Id "Ada_Compiler_Path" 589:28-589:45>
+gps-kernel-search-sources.adb
+Found test of Tmp at <Relation 548:10-548:20> after deref at <Id "Tmp" 545:46-545:49>
+gps-location_view.adb
+Found test of View at <Relation 1947:10-1947:21> after deref at <Id "View" 1892:23-1892:27>
+gvd-process.adb
+Found test of Debugger.Debugger at <Relation 754:21-754:46> after deref at <DottedName 750:13-750:30>
+keymanager_module.adb
+Found test of Keymap at <Relation 2065:32-2065:45> after deref at <Id "Keymap" 2064:25-2064:31>
+language-tree-database.adb
+Found test of File at <Relation 953:10-953:22> after deref at <Id "File" 951:51-951:55>
+language.adb
+Found test of Context at <Relation 97:10-97:25> after deref at <Id "Context" 95:12-95:19>
+project_viewers.adb
+Found test of View at <Relation 597:10-597:22> after deref at <Id "View" 594:7-594:11>
+s-parint.adb
+Found test of Left at <Relation 620:14-620:26> after deref at <Id "Left" 617:25-617:29>
+Found test of Right at <Relation 620:36-620:49> after deref at <Id "Right" 618:26-618:31>
+s-traceb-xi-ppc.adb
+Found test of Frame at <Relation 96:46-96:58> after deref at <Id "Frame" 94:16-94:21>
+traces_dump.adb
+Found test of Info.Exec at <Relation 77:19-77:35> after deref at <DottedName 58:33-58:42>
+vcs_view-explorer.adb
+Found test of Explorer at <Relation 589:10-589:25> after deref at <Id "Explorer" 561:7-561:15>

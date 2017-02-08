@@ -4,7 +4,7 @@ TypeDecl[1:1-1:17]
 |  |tok: A
 |discriminants: <null>
 |type_def:
-|  IncompleteTypeDef[1:8-1:17]
-|  |has_tagged:
-|  |  TaggedPresent[1:8-1:8]
+|  IncompleteTaggedTypeDef[1:8-1:17]
+|  |has_abstract:
+|  |  AbstractAbsent[1:11-1:11]
 |aspects: <null>

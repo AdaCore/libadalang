@@ -300,7 +300,13 @@ A.add_rules(
                     "private"
                 ),
 
-                IncompleteTypeDef(Tagged("is", "tagged")),
+                IncompleteTaggedTypeDef(
+                    "is",
+                    Abstract("abstract"),
+                    "tagged"
+                ),
+
+                IncompleteTypeDef(),
             ),
             A.aspect_spec
         )

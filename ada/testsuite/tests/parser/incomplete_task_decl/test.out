@@ -29,8 +29,6 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  IncompleteTypeDef[2:10-2:10]
-|  |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  |  TaggedAbsent[2:10-2:10]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:14]
 |  |  |  |  |  |task_type:

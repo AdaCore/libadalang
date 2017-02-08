@@ -1107,9 +1107,12 @@ class DerivedTypeDef(TypeDef):
 
 
 class IncompleteTypeDef(TypeDef):
-    has_tagged = Field(type=Tagged)
+    pass
 
-    is_tagged_type = Property(Self.has_tagged.as_bool)
+
+class IncompleteTaggedTypeDef(IncompleteTypeDef):
+    has_abstract = Field(type=Abstract)
+    is_tagged_type = Property(True)
 
 
 class PrivateTypeDef(TypeDef):

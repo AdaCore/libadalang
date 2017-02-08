@@ -5,6 +5,4 @@ TypeDecl[1:1-1:7]
 |discriminants: <null>
 |type_def:
 |  IncompleteTypeDef[1:7-1:7]
-|  |has_tagged:
-|  |  TaggedAbsent[1:7-1:7]
 |aspects: <null>

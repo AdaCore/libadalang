@@ -1110,17 +1110,12 @@ class IncompleteTypeDef(TypeDef):
     has_tagged = Field(type=Tagged)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
-    # TODO: what should we return for array_ndims? Do we need to find the full
-    # view?
 
 
 class PrivateTypeDef(TypeDef):
     has_abstract = Field(type=Abstract)
     has_tagged = Field(type=Tagged)
     has_limited = Field(type=Limited)
-
-    # TODO: what should we return for array_ndims? Do we need to find the full
-    # view?
 
 
 class SignedIntTypeDef(TypeDef):

@@ -449,7 +449,16 @@ A.add_rules(
         A.simple_expr
     ),
 
-    aspect_assoc=AspectAssoc(A.name, Opt("=>", A.expr)),
+    contract_case_assoc=ContractCaseAssoc(
+        Or(A.expr, A.others_designator), "=>", A.expr
+    ),
+
+    contract_cases_expr=ContractCases(
+        "(", List(A.contract_case_assoc, sep=","), ")"
+    ),
+
+    aspect_assoc=AspectAssoc(A.name,
+                             Opt("=>", Or(A.expr, A.contract_cases_expr))),
 
     aspect_spec=Opt(AspectSpec("with", List(A.aspect_assoc, sep=","))),
 
@@ -596,8 +605,12 @@ A.add_rules(
         Opt(A.identifier, "=>"), A.expr
     ),
 
-    pragma=Pragma("pragma", A.identifier,
-                  Opt("(", List(A.pragma_argument, sep=","), ")")),
+    pragma=Pragma(
+        "pragma", A.identifier,
+        Opt("(",
+            List(Or(A.pragma_argument, A.contract_case_assoc), sep=","),
+            ")"),
+    ),
 
     subunit=Subunit(
         "separate", "(", A.static_name, ")",

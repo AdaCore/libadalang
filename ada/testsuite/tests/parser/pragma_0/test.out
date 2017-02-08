@@ -3,7 +3,7 @@ Pragma[1:1-1:27]
 |  Id[1:8-1:20]
 |  |tok: Unreferenced
 |args:
-|  PragmaArgumentAssocList[1:22-1:26]
+|  BaseAssocList[1:22-1:26]
 |  |  PragmaArgumentAssoc[1:22-1:23]
 |  |  |id: <null>
 |  |  |expr:

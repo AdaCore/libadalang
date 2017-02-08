@@ -1042,6 +1042,11 @@ class DecimalFixedPointDef(RealTypeDef):
 
 
 @abstract
+class BaseAssoc(AdaNode):
+    assoc_expr = AbstractProperty(type=T.Expr)
+
+
+@abstract
 class Constraint(AdaNode):
     pass
 
@@ -1502,12 +1507,13 @@ class SubpRenamingDecl(BasicSubpDecl):
 
 class Pragma(AdaNode):
     id = Field(type=T.Identifier)
-    args = Field(type=T.PragmaArgumentAssoc.list_type())
+    args = Field(type=T.BaseAssoc.list_type())
 
 
-class PragmaArgumentAssoc(AdaNode):
+class PragmaArgumentAssoc(BaseAssoc):
     id = Field(type=T.Identifier)
     expr = Field(type=T.Expr)
+    assoc_expr = Property(Self.expr)
 
 
 @abstract
@@ -1880,6 +1886,17 @@ class Expr(AdaNode):
         EnvElement instances.
         """
     )
+
+
+class ContractCaseAssoc(BaseAssoc):
+    guard = Field(type=T.AdaNode)
+    consequence = Field(type=T.Expr)
+
+    assoc_expr = Property(Self.consequence)
+
+
+class ContractCases(Expr):
+    contract_cases = Field(ContractCaseAssoc.list_type())
 
 
 class ParenExpr(Expr):

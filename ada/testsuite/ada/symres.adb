@@ -191,7 +191,7 @@ procedure Symres is
                --  Print headlines
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
-                  Arg : constant Expr := P_Node.F_Args.Item (1).F_Expr;
+                  Arg : constant Expr := P_Node.F_Args.Item (1).P_Assoc_Expr;
                   pragma Assert (Arg.all in String_Literal_Type'Class);
 
                   Tok : constant Token_Type := String_Literal (Arg).F_Tok;
@@ -206,7 +206,8 @@ procedure Symres is
                --  Perform symbol resolution
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
-                  Arg      : constant Expr := P_Node.F_Args.Item (1).F_Expr;
+                  Arg      : constant Expr
+                    := P_Node.F_Args.Item (1).P_Assoc_Expr;
                   Entities : Ada_Node_Array_Access := Arg.P_Entities;
                begin
                   Put_Line (Text (Arg) & " resolves to:");

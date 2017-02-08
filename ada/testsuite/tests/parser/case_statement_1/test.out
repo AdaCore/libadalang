@@ -1,0 +1,74 @@
+CompilationUnit[1:1-7:12]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-7:11]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-7:11]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:17]
+|  |  |  |subp_name:
+|  |  |  |  Id[1:11-1:17]
+|  |  |  |  |tok: Testcs
+|  |  |  |subp_params:
+|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:1-2:1]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[3:4-6:13]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[3:4-6:13]
+|  |  |  |  |  CaseStmt[3:4-6:12]
+|  |  |  |  |  |case_expr:
+|  |  |  |  |  |  Id[3:9-3:13]
+|  |  |  |  |  |  |tok: Mode
+|  |  |  |  |  |case_alts:
+|  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
+|  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]
+|  |  |  |  |  |  |  |choices:
+|  |  |  |  |  |  |  |  AdaNodeList[4:12-4:49]
+|  |  |  |  |  |  |  |  |  BinOp[4:12-4:49]
+|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  DottedName[4:12-4:28]
+|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  Id[4:12-4:16]
+|  |  |  |  |  |  |  |  |  |  |  |tok: TSSL
+|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  Id[4:17-4:28]
+|  |  |  |  |  |  |  |  |  |  |  |tok: CRYPTO_LOCK
+|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  OpOr[4:29-4:31]
+|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  DottedName[4:32-4:49]
+|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  Id[4:32-4:36]
+|  |  |  |  |  |  |  |  |  |  |  |tok: TSSL
+|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  Id[4:37-4:49]
+|  |  |  |  |  |  |  |  |  |  |  |tok: CRYPTO_WRITE
+|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  AdaNodeList[5:10-5:23]
+|  |  |  |  |  |  |  |  |  CallStmt[5:10-5:22]
+|  |  |  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |  |  |  DottedName[5:10-5:22]
+|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:10-5:16]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Locker
+|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:17-5:22]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Write
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[6:12-6:12]: <empty list>
+|  |  |end_id:
+|  |  |  Id[7:5-7:11]
+|  |  |  |tok: Testcs
+|pragmas:
+|  PragmaNodeList[8:1-8:1]: <empty list>

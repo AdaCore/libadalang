@@ -1082,7 +1082,7 @@ A.add_rules(
     choice=Or(
         A.discrete_range,
         A.discrete_subtype_indication,
-        A.simple_expr,
+        A.expr,
         A.others_designator
     ),
 

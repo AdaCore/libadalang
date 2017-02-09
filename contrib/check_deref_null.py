@@ -207,7 +207,7 @@ def explore(subp):
 
 
 def do_file(f):
-    c = lal.AnalysisContext('utf-8')
+    c = lal.AnalysisContext()
     unit = c.get_from_file(f)
     print f
     if unit.root is None:
@@ -225,6 +225,7 @@ def do_file(f):
 def main(args):
     for f in args.files:
         do_file(f)
+
 
 if __name__ == '__main__':
     main(parser.parse_args())

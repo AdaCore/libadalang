@@ -1,0 +1,7 @@
+foo.adb
+Found dereference of R.C at <ExplicitDeref 16:7-16:14> after null test at <DottedName 15:7-15:10>
+Found dereference of R.C at <ExplicitDeref 18:30-18:37> after null test at <DottedName 18:10-18:13>
+Found dereference of R.C at <ExplicitDeref 20:30-20:37> after null test at <DottedName 20:10-20:13>
+Found dereference of P.C at <ExplicitDeref 26:15-26:22> after null test at <DottedName 24:7-24:10>
+Found dereference of P.C at <ExplicitDeref 31:12-31:19> after null test at <DottedName 30:7-30:10>
+Found dereference of P.C at <ExplicitDeref 35:9-35:16> after null test at <DottedName 34:19-34:22>

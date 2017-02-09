@@ -85,21 +85,27 @@ def interesting_oper(op):
     return op.is_a(lal.OpAnd, lal.OpOr, lal.OpAndThen, lal.OpOrElse, lal.OpXor)
 
 
-def main(args):
-    c = lal.AnalysisContext('utf-8')
-    for f in args.files:
-        unit = c.get_from_file(f)
-        if unit.root is None:
-            print 'Could not parse {}:'.format(f)
-            for diag in unit.diagnostics:
-                print '   {}'.format(diag)
-            continue
+def do_file(f):
+    print f
+    c = lal.AnalysisContext()
+    unit = c.get_from_file(f)
 
-        for b in unit.root.findall(lambda e: e.is_a(lal.BinOp)):
-            if interesting_oper(b.f_op) and not same_as_parent(b):
-                oper = has_same_operands(b)
-                if oper:
-                    print 'Same operand {} for {} in {}'.format(oper, b, f)
+    if unit.root is None:
+        print 'Could not parse {}:'.format(f)
+        for diag in unit.diagnostics:
+            print '   {}'.format(diag)
+            return
+
+    for b in unit.root.findall(lambda e: e.is_a(lal.BinOp)):
+        if interesting_oper(b.f_op) and not same_as_parent(b):
+            oper = has_same_operands(b)
+            if oper:
+                print 'Same operand {} for {} in {}'.format(oper, b, f)
+
+
+def main(args):
+    for f in args.files:
+        do_file(f)
 
 
 if __name__ == '__main__':

@@ -49,22 +49,25 @@ def interesting_oper(op):
                        lal.OpPow, lal.OpConcat)
 
 
+def do_file(f):
+    print f
+    c = lal.AnalysisContext()
+    unit = c.get_from_file(f)
+
+    if unit.root is None:
+        print 'Could not parse {}:'.format(f)
+        for diag in unit.diagnostics:
+            print '   {}'.format(diag)
+            return
+
+    for b in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+        if interesting_oper(b.f_op) and has_same_operands(b):
+            print 'Same operands for {} in {}'.format(b, f)
+
+
 def main(args):
-    c = lal.AnalysisContext('utf-8')
     for f in args.files:
-        try:
-            unit = c.get_from_file(f)
-            if unit.root is None:
-                print 'Could not parse {}:'.format(f)
-                for diag in unit.diagnostics:
-                    print '   {}'.format(diag)
-                continue
-            for b in unit.root.findall(lal.BinOp):
-                if interesting_oper(b.f_op) and has_same_operands(b):
-                    print 'Same operands for {} in {}'.format(b, f)
-        except Exception, e:
-            print 'Analyzing {} failed with exception: {}: {}'.format(
-                f, type(e).__name__, e)
+        do_file(f)
 
 
 if __name__ == '__main__':

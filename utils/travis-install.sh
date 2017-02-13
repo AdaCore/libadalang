@@ -4,7 +4,7 @@ set -v
 set -e
 
 # Get GNAT
-if ! [[ -f $GNAT_TAR_PATH ]]
+if ! test -f $GNAT_TAR_PATH
 then
     mkdir -p $TOOLS_DIR
     wget -O $GNAT_TAR_PATH \
@@ -12,14 +12,14 @@ then
 fi
 
 # Get QUEX
-if ! [[ -f $QUEX_ZIP_PATH ]]
+if ! test -f $QUEX_ZIP_PATH
 then
     wget -O $QUEX_ZIP_PATH \
         "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet"
 fi
 
 # Get GNATCOLL
-if ! [[ -f $GNATCOLL_TAR_PATH ]]
+if ! test -f $GNATCOLL_TAR_PATH
 then
     wget -O $GNATCOLL_TAR_PATH \
         "http://mirrors.cdn.adacore.com/art/5739942ac7a447658d00e1e7"
@@ -31,7 +31,7 @@ fi
 # tar xf $GNATCOLL_TAR_PATH -C $TOOLS_DIR
 
 # Get Langkit
-if ! [[ -d langkit ]]
+if ! test -d langkit
 then
     git clone https://github.com/AdaCore/langkit
 fi

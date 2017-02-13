@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 
-import glob
 import os.path
-import shutil
 import subprocess
 import sys
 

@@ -11,29 +11,33 @@ with Interfaces; use Interfaces;
 
 with Langkit_Support.Adalog.Debug; use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Diagnostics;
-with Langkit_Support.Slocs; use Langkit_Support.Slocs;
-with Langkit_Support.Text;  use Langkit_Support.Text;
-with Libadalang.Analysis;   use Libadalang.Analysis;
+with Langkit_Support.Slocs;        use Langkit_Support.Slocs;
+with Langkit_Support.Text;         use Langkit_Support.Text;
+with Libadalang.Analysis;          use Libadalang.Analysis;
 
 with Put_Title;
 
 procedure Symres is
 
+   --  Holders for options that command-line can tune
+
+   Charset : Unbounded_String := To_Unbounded_String ("");
+   --  Charset to use in order to parse analysis units
+
+   Quiet   : Boolean := False;
+   --  If True, don't display anything but errors on standard output
+
+   Ctx     : Analysis_Context := No_Analysis_Context;
+
    function Text (N : access Ada_Node_Type'Class) return String
    is (Image (N.Text));
 
-   Charset : Unbounded_String := To_Unbounded_String ("");
-   Ctx     : Analysis_Context := No_Analysis_Context;
+   function Starts_With (S, Prefix : String) return Boolean is
+     (S'Length >= Prefix'Length
+      and then S (S'First .. S'First + Prefix'Length - 1) = Prefix);
 
-   function Context return Analysis_Context is
-   begin
-      if Ctx = No_Analysis_Context then
-         Ctx := Create (Charset => To_String (Charset));
-      end if;
-      return Ctx;
-   end Context;
-
-   Quiet : Boolean := False;
+   function Strip_Prefix (S, Prefix : String) return String is
+     (S (S'First + Prefix'Length .. S'Last));
 
    function "+" (S : String) return Unbounded_String
       renames To_Unbounded_String;
@@ -56,7 +60,9 @@ procedure Symres is
    --------------
 
    procedure New_Line is begin
-      if not Quiet then Ada.Text_IO.New_Line; end if;
+      if not Quiet then
+         Ada.Text_IO.New_Line;
+      end if;
    end New_Line;
 
    --------------
@@ -64,7 +70,9 @@ procedure Symres is
    --------------
 
    procedure Put_Line (S : String) is begin
-      if not Quiet then Ada.Text_IO.Put_Line (S); end if;
+      if not Quiet then
+         Ada.Text_IO.Put_Line (S);
+      end if;
    end Put_Line;
 
    ---------
@@ -72,7 +80,9 @@ procedure Symres is
    ---------
 
    procedure Put (S : String) is begin
-      if not Quiet then Ada.Text_IO.Put (S); end if;
+      if not Quiet then
+         Ada.Text_IO.Put (S);
+      end if;
    end Put;
 
    ------------------
@@ -255,12 +265,14 @@ procedure Symres is
       end;
    end Process_File;
 
+   package String_Vectors is new Ada.Containers.Vectors
+     (Positive, Unbounded_String);
+   Files : String_Vectors.Vector;
+
 begin
-   for I in 1 .. Ada.Command_Line.Argument_Count
-   loop
+   for I in 1 .. Ada.Command_Line.Argument_Count loop
       declare
-         Arg  : constant String := Ada.Command_Line.Argument (I);
-         Unit : Analysis_Unit;
+         Arg : constant String := Ada.Command_Line.Argument (I);
       begin
          if Arg in "--quiet" | "-q" then
             Quiet := True;
@@ -268,15 +280,28 @@ begin
             Set_Debug_State (Trace);
          elsif Arg in "--debug" | "-D" then
             Set_Debug_State (Step);
-         elsif Arg (1 .. Positive'Min (Arg'Last, 10)) = "--charset=" then
-            Charset := To_Unbounded_String (Arg (11 .. Arg'Last));
-         elsif Arg (1 .. Positive'Min(Arg'Last, 2)) = "--" then
-            Put_Line ("Unrecognized argument: " & Arg);
+         elsif Starts_With (Arg, "--charset") then
+            Charset := +Strip_Prefix (Arg, "--charset=");
+         elsif Starts_With (Arg, "--") then
+            Put_Line ("Invalid argument: " & Arg);
+            Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
+            return;
          else
-            Unit := Get_From_File (Context, Arg);
-            Put_Title ('#', "Analyzing " & Arg);
-            Process_File (Unit, Arg);
+            Files.Append (+Arg);
          end if;
+      end;
+   end loop;
+
+   Ctx := Create (Charset => +Charset);
+
+   for F of Files loop
+      declare
+         File : constant String := +F;
+         Unit : Analysis_Unit;
+      begin
+         Unit := Get_From_File (Ctx, File);
+         Put_Title ('#', "Analyzing " & File);
+         Process_File (Unit, File);
       end;
    end loop;
 

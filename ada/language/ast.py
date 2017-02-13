@@ -202,7 +202,7 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def xref_equation(origin_env=LexicalEnvType):
         """
@@ -219,9 +219,9 @@ class AdaNode(ASTNode):
         ignore(origin_env)
         return No(EquationType)
 
-    xref_stop_resolution = Property(False, private=True)
+    xref_stop_resolution = Property(False, public=False)
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def sub_equation(origin_env=LexicalEnvType):
         """
@@ -235,7 +235,7 @@ class AdaNode(ASTNode):
                   LogicTrue(),
                   Self.xref_equation(origin_env))
 
-    @langkit_property(return_type=BoolType, private=True,
+    @langkit_property(return_type=BoolType, public=False,
                       has_implicit_env=True)
     def resolve_symbols_internal(initial=BoolType):
         """
@@ -290,7 +290,7 @@ class AdaNode(ASTNode):
         doc="""
         If this unit has a body, fetch and return it.
         """,
-        private=True
+        public=False
     )
 
     spec_unit = Property(
@@ -309,12 +309,12 @@ class AdaNode(ASTNode):
         doc="""
         If this unit has a spec, fetch and return it.
         """,
-        private=True
+        public=False
     )
 
     std = Property(
         Self.unit.root.node_env.get('standard').at(0).el,
-        private=True,
+        public=False,
         doc="""
         Retrieves the standard unit. Used to access standard types.
         """
@@ -323,10 +323,10 @@ class AdaNode(ASTNode):
     std_entity = Property(
         lambda sym=Symbol: Self.std.children_env.get(sym).at(0).el,
         doc="Return an entity from the standard package with name `sym`",
-        private=True
+        public=False
     )
 
-    bool_type = Property(Self.std_entity('Boolean'), private=True)
+    bool_type = Property(Self.std_entity('Boolean'), public=False)
 
 
 def child_unit(name_expr, scope_expr):
@@ -362,7 +362,7 @@ class BasicDecl(AdaNode):
     defining_names = AbstractProperty(type=T.Name.array_type())
     defining_name = Property(Self.defining_names.at(0))
     defining_env = Property(
-        EmptyEnv, private=True,
+        EmptyEnv, public=False,
         doc="""
         Return a lexical environment that contains entities that are accessible
         as suffixes when Self is a prefix.
@@ -449,7 +449,7 @@ class BasicDecl(AdaNode):
             lambda _:                  No(SubpSpec),
         )
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, public=False)
     def constrain_prefix(prefix=T.Expr):
         """
         This method is used when self is a candidate suffix in a dotted
@@ -579,7 +579,7 @@ class ComponentDecl(BaseFormalParamDecl):
     identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     defining_env = Property(
         Self.component_def.type_expr.defining_env,
-        private=True,
+        public=False,
         doc="See BasicDecl.defining_env"
     )
 
@@ -588,7 +588,7 @@ class ComponentDecl(BaseFormalParamDecl):
 
     type_expression = Property(Self.component_def.type_expr)
 
-    @langkit_property(return_type=EquationType, private=True)
+    @langkit_property(return_type=EquationType, public=False)
     def constrain_prefix(prefix=T.Expr):
         return (
             # Simple type equivalence
@@ -1138,7 +1138,7 @@ class ArrayIndices(AdaNode):
         doc="""Number of dimensions described in this node."""
     )
 
-    @langkit_property(private=True, return_type=EquationType)
+    @langkit_property(public=False, return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         """
         Add a constraint on an expression passed as the index of an array
@@ -1345,7 +1345,7 @@ class TypeExpr(AdaNode):
     array_def = Property(Self.designated_type.array_def)
     array_ndims = Property(Self.designated_type.array_ndims)
     comp_type = Property(Self.designated_type.comp_type)
-    defining_env = Property(Self.designated_type.defining_env, private=True)
+    defining_env = Property(Self.designated_type.defining_env, public=False)
     accessed_type = Property(Self.designated_type.accessed_type)
 
     designated_type = AbstractProperty(
@@ -1642,7 +1642,7 @@ class BasePackageDecl(BasicDecl):
     private_part = Field(type=T.PrivatePart)
     end_id = Field(type=T.Name)
 
-    name = Property(Self.package_name, private=True)
+    name = Property(Self.package_name, public=False)
     defining_names = Property(Self.name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
@@ -1831,10 +1831,10 @@ class GenericPackageDecl(BasicDecl):
 @abstract
 class Expr(AdaNode):
 
-    type_var = UserField(LogicVarType, is_private=True)
+    type_var = UserField(LogicVarType, is_public=False)
     type_val = Property(Self.type_var.get_value)
 
-    @langkit_property(kind=AbstractKind.abstract_runtime_check, private=True,
+    @langkit_property(kind=AbstractKind.abstract_runtime_check, public=False,
                       return_type=LexicalEnvType, has_implicit_env=True)
     def designated_env(origin_env=LexicalEnvType):
         """
@@ -1846,7 +1846,7 @@ class Expr(AdaNode):
         pass
 
     parent_scope = AbstractProperty(
-        type=compiled_types.LexicalEnvType, private=True, runtime_check=True,
+        type=compiled_types.LexicalEnvType, public=False, runtime_check=True,
         has_implicit_env=True,
         doc="""
         Returns the lexical environment that is the scope in which the
@@ -1855,7 +1855,7 @@ class Expr(AdaNode):
     )
 
     relative_name = AbstractProperty(
-        type=compiled_types.Token, private=True, runtime_check=True,
+        type=compiled_types.Token, public=False, runtime_check=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix A.B.C, this will return C.
@@ -1864,7 +1864,7 @@ class Expr(AdaNode):
 
     env_elements = Property(Self.env_elements_impl(Env), has_implicit_env=True)
 
-    @langkit_property(private=True,
+    @langkit_property(public=False,
                       return_type=T.root_node.env_el().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       has_implicit_env=True)
@@ -1949,7 +1949,7 @@ class Op(T.EnumNode):
         """
     )
 
-    ref_var = UserField(type=LogicVarType, is_private=True)
+    ref_var = UserField(type=LogicVarType, is_public=False)
 
 
 class UnOp(Expr):
@@ -1991,7 +1991,7 @@ class BinOp(Expr):
     no_overload_equation = Property(
         Bind(Self.type_var, Self.left.type_var)
         & Bind(Self.type_var, Self.right.type_var),
-        private=True, doc="""
+        public=False, doc="""
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """
@@ -2065,7 +2065,7 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(kind=AbstractKind.abstract_runtime_check, private=True,
+    @langkit_property(kind=AbstractKind.abstract_runtime_check, public=False,
                       return_type=LogicVarType)
     def ref_var():
         """
@@ -2174,7 +2174,7 @@ class CallExpr(Name):
             Self.innermost_callexpr.general_xref_equation(origin_env)
         )
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def type_conv_xref_equation(origin_env=LexicalEnvType):
         """
@@ -2188,7 +2188,7 @@ class CallExpr(Name):
             Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def general_xref_equation(origin_env=LexicalEnvType):
         """
@@ -2267,7 +2267,7 @@ class CallExpr(Name):
             & Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def equation_for_type(origin_env=LexicalEnvType, type_designator=AdaNode):
         """
@@ -2368,7 +2368,7 @@ class CallExpr(Name):
             lambda ce: If(ce.name == Self, ce, No(CallExpr))
         )
 
-    @langkit_property(return_type=EquationType, private=True,
+    @langkit_property(return_type=EquationType, public=False,
                       has_implicit_env=True)
     def parent_callexprs_equation(origin_env=LexicalEnvType,
                                   designator_type=AdaNode):
@@ -2567,7 +2567,7 @@ class SingleTokNode(Name):
     tok = Field(type=T.Token)
     relative_name = Property(Self.tok)
 
-    r_ref_var = UserField(LogicVarType, is_private=True)
+    r_ref_var = UserField(LogicVarType, is_public=False)
     """
     This field is the logic variable for this node. It is not used directly,
     instead being retrieved via the ref_var property
@@ -2595,7 +2595,7 @@ class BaseId(SingleTokNode):
     def designated_env(origin_env=LexicalEnvType):
         return Self.designated_env_impl(origin_env, False)
 
-    @langkit_property(private=True, has_implicit_env=True)
+    @langkit_property(public=False, has_implicit_env=True)
     def designated_env_impl(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
         """
         Decoupled implementation for designated_env, specifically used by
@@ -2656,7 +2656,7 @@ class BaseId(SingleTokNode):
     def env_elements_impl(origin_env=LexicalEnvType):
         return Self.env_elements_baseid(origin_env, False)
 
-    @langkit_property(private=True, has_implicit_env=True)
+    @langkit_property(public=False, has_implicit_env=True)
     def env_elements_baseid(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by
@@ -2945,7 +2945,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                     )))
         )
 
-    @langkit_property(return_type=compiled_types.LexicalEnvType, private=True)
+    @langkit_property(return_type=compiled_types.LexicalEnvType, public=False)
     def defining_env():
         """
         Helper for BasicDecl.defining_env.
@@ -3008,7 +3008,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             EmptyArray(T.BasicDecl)
         )
 
-    @langkit_property(return_type=BoolType, private=True)
+    @langkit_property(return_type=BoolType, public=False)
     def paramless(md=Metadata):
         """
         Utility function. Given a subprogram spec and its associated metadata,

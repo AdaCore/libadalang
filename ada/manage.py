@@ -106,6 +106,12 @@ class Manage(ManageScript):
         )
 
     @property
+    def main_source_dirs(self):
+        return super(Manage, self).main_source_dirs | {
+            os.path.join('testsuite', 'ada')
+        }
+
+    @property
     def main_programs(self):
         return super(Manage, self).main_programs | {'symres', 'navigate'}
 
@@ -279,21 +285,6 @@ class Manage(ManageScript):
         print "Mean time to parse {0} lines of code : {1:.2f} seconds".format(
             lines_count, sum(elapsed_list) / float(len(elapsed_list))
         )
-
-    def do_generate(self, args):
-        """
-        Generate the Libadalang and Langkit libraries. Also copy sources for
-        testsuite programs (symres, ...).
-        """
-        super(Manage, self).do_generate(args)
-
-        for src_file in glob.glob(
-            self.dirs.lang_source_dir('testsuite', 'ada', '*.ad*')
-        ):
-            shutil.copy(
-                src_file,
-                self.dirs.build_dir('src', os.path.basename(src_file))
-            )
 
 
 if __name__ == '__main__':

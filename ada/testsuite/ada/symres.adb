@@ -9,11 +9,16 @@ with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
 
-with Langkit_Support.Adalog.Debug; use Langkit_Support.Adalog.Debug;
+with GNATCOLL.Projects; use GNATCOLL.Projects;
+with GNATCOLL.VFS;      use GNATCOLL.VFS;
+
+with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Diagnostics;
-with Langkit_Support.Slocs;        use Langkit_Support.Slocs;
-with Langkit_Support.Text;         use Langkit_Support.Text;
-with Libadalang.Analysis;          use Libadalang.Analysis;
+with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
+with Langkit_Support.Text;           use Langkit_Support.Text;
+with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
+with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 with Put_Title;
 
@@ -26,6 +31,9 @@ procedure Symres is
 
    Quiet   : Boolean := False;
    --  If True, don't display anything but errors on standard output
+
+   UFP     : Unit_File_Provider_Access;
+   --  When project file handling is enabled, corresponding unit file provider
 
    Ctx     : Analysis_Context := No_Analysis_Context;
 
@@ -282,6 +290,17 @@ begin
             Set_Debug_State (Step);
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
+         elsif Starts_With (Arg, "-P") then
+            declare
+               Project_File : constant String := Strip_Prefix (Arg, "-P");
+               Env          : Project_Environment_Access;
+               Project      : constant Project_Tree_Access := new Project_Tree;
+            begin
+               Initialize (Env);
+               Load (Project.all, Create (+Project_File), Env);
+               UFP := new Project_Unit_File_Provider_Type'
+                 (Create (Project, Env, True));
+            end;
          elsif Starts_With (Arg, "--") then
             Put_Line ("Invalid argument: " & Arg);
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
@@ -292,7 +311,9 @@ begin
       end;
    end loop;
 
-   Ctx := Create (Charset => +Charset);
+   Ctx := Create
+     (Charset            => +Charset,
+      Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
 
    for F of Files loop
       declare
@@ -306,5 +327,6 @@ begin
    end loop;
 
    Destroy (Ctx);
+   Destroy (UFP);
    Put_Line ("Done.");
 end Symres;

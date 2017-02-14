@@ -5,6 +5,5 @@ set -e
 
 export PATH=$GNAT_PATH/bin:$PATH
 gprbuild --version
-ada/manage.py --help
 ada/manage.py make
 ada/manage.py test

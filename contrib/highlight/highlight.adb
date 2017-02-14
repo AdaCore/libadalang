@@ -4,6 +4,7 @@ with Ada.Text_IO;
 with Langkit_Support.Diagnostics;
 with Libadalang.Analysis;
 
+with Colors;
 with Highlighter;
 with HTML;
 
@@ -65,9 +66,9 @@ procedure Highlight is
 
       Put_Line ("<style type=""text/css"">");
       Put_Line ("body { background-color: #"
-                & HTML.Color_To_HTML (HTML.Default_Style.Bg_Color)
+                & HTML.Color_To_HTML (Colors.Default_Style.Bg_Color)
                 & "; }");
-      Put_CSS_Rules (HTML.Default_Style.Style);
+      Put_CSS_Rules (Colors.Default_Style.Style);
       Put_Line ("</style></head><body>");
 
       --  Then write the highlighted source code itself

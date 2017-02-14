@@ -13,7 +13,8 @@ package body HTML is
 
    use type LAL.Token_Type;
 
-   Hex_Digits : constant array (Color_Level range 0 .. 15) of Character :=
+   Hex_Digits : constant
+     array (Colors.Color_Level range 0 .. 15) of Character :=
      "0123456789abcdef";
 
    ------------
@@ -40,7 +41,8 @@ package body HTML is
    -- Color_To_HTML --
    -------------------
 
-   function Color_To_HTML (Color : Color_Type) return HTML_Color is
+   function Color_To_HTML (Color : Colors.Color_Type) return HTML_Color is
+      use type Colors.Color_Level;
       Result : HTML_Color;
    begin
       Result (1) := Hex_Digits (Color.Red / 16);
@@ -56,13 +58,13 @@ package body HTML is
    -- Put_CSS_Rules --
    -------------------
 
-   procedure Put_CSS_Rules (S : Style_Type) is
+   procedure Put_CSS_Rules (S : Colors.Style_Type) is
    begin
       Put ("pre.code_highlight { background-color: #"
            & Color_To_HTML (S.Background_Color) & "; }" & ASCII.LF);
       for HL in Highlighter.Highlight_Type'Range loop
          declare
-            Style : Token_Style renames S.Tok_Styles (HL);
+            Style : Colors.Token_Style renames S.Tok_Styles (HL);
          begin
             Put ("pre.code_highlight span."
                  & Highlighter.Highlight_Name (HL) & " {");

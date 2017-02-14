@@ -64,6 +64,10 @@ class CAPIDriver(BaseDriver):
                        --  Code and data are shared in headers, so we expect
                        --  unused variables there.
 
+                       "-std=c99",
+                       --  Use a stable C standard. Different compilers means
+                       --  different default standard.
+
                        "-I{support_include_dir}", "-g");
                 end Compiler;
             end P;

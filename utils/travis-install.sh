@@ -25,10 +25,19 @@ then
         "http://mirrors.cdn.adacore.com/art/5739942ac7a447658d00e1e7"
 fi
 
-# Extract QUEX, GNAT and GNATCOLL
-#tar -xf $GNAT_TAR_PATH -C $TOOLS_DIR
-#unzip -o $QUEX_ZIP_PATH -d $TOOLS_DIR
-# tar xf $GNATCOLL_TAR_PATH -C $TOOLS_DIR
+# If needed, extract QUEX, GNAT and GNATCOLL
+if ! test -d $GNAT_PATH
+then
+    tar -xf $GNAT_TAR_PATH -C $TOOLS_DIR
+fi
+if ! test -d $QUEX_PATH
+then
+    unzip -o $QUEX_ZIP_PATH -d $TOOLS_DIR
+fi
+if ! test -d $GNATCOLL_PATH
+then
+    tar xf $GNATCOLL_TAR_PATH -C $TOOLS_DIR
+fi
 
 # Get Langkit
 if ! test -d langkit

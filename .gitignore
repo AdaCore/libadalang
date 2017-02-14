@@ -15,6 +15,7 @@ out
 performance_testsuite
 tmp
 langkit.prof
+README.html
 
 # GNAT/GPS junk
 auto.cgpr

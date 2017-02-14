@@ -272,10 +272,6 @@ class AdaNode(ASTNode):
         """
         return Self.node_env.eval_in_env(Self.resolve_symbols_internal(True))
 
-    @langkit_property(return_type=BoolType)
-    def is_visible_from(other=T.AdaNode):
-        return Self.children_env.is_visible_from(other.children_env)
-
     body_unit = Property(
         # TODO: handle units with multiple packages
         get_library_item(Self.unit).match(
@@ -383,7 +379,6 @@ class BasicDecl(AdaNode):
     )
 
     is_array = Property(Self.array_ndims > 0)
-    is_subp = Property(Self.is_a(T.BasicSubpDecl, T.SubpBody))
 
     expr_type = Property(
         Self.type_expression._.designated_type,
@@ -785,7 +780,6 @@ class RealTypeDef(TypeDef):
 class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
-    name = Property(Self.type_id)
     env_spec = EnvSpec(
         add_to_env=add_to_env(Self.type_id.relative_name.symbol, Self)
     )
@@ -1436,7 +1430,6 @@ class BasicSubpDecl(BasicDecl):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
 
-    name = Property(Self.subp_spec.name)
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
@@ -2880,29 +2873,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
             match_list.filter(
                 lambda m: m.formal.spec.is_mandatory
             ).length == nb_min_params,
-        )
-
-    @langkit_property(return_type=BoolType, has_implicit_env=True)
-    def match_param_assoc(pa=ParamAssoc):
-        """
-        Return whether some parameter association matches an argument in this
-        subprogram specification. Note that this matching disregards types: it
-        only considers arity and designators (named parameters).
-        """
-        # Parameter associations can match only if there is at least one
-        # formal in this spec.
-        return (Self.nb_max_params > 0) & (
-            # Then, all associations with no designator match, as we don't
-            # consider types.
-            Not(pa.designator.is_null)
-
-            # The ones with a designator match iff the designator is an
-            # identifier whose name is present in the list of formals.
-            | pa.designator.cast(Identifier).then(
-                lambda id: Self.unpacked_formal_params.any(
-                    lambda p: p.name.matches(id)
-                )
-            )
         )
 
     @langkit_property(return_type=BoolType)

@@ -130,9 +130,6 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node);
    --  Helper for the environment hook to handle library-level unit body nodes
 
-   procedure Ignore (Unit : Analysis_Unit) is null;
-   --  Helper to discard analysis units from Fetch_Unit
-
    --------------
    -- Env_Hook --
    --------------
@@ -169,7 +166,12 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
    begin
       for N of Names.Children loop
-         Ignore (Fetch_Unit (Ctx, N, Unit_Specification));
+         declare
+            Dummy : constant Analysis_Unit :=
+               Fetch_Unit (Ctx, N, Unit_Specification);
+         begin
+            null;
+         end;
       end loop;
    end Handle_With_Decl;
 
@@ -198,10 +200,14 @@ package body Libadalang.Unit_Files.Env_Hook is
       begin
          Dec_Ref (Names);
          if N.all in Dotted_Name_Type'Class then
-            Ignore (Fetch_Unit
-              (Ctx,
-               Ada_Node (Dotted_Name (N).F_Prefix),
-               Unit_Specification));
+            declare
+               Dummy : constant Analysis_Unit := Fetch_Unit
+                 (Ctx,
+                  Ada_Node (Dotted_Name (N).F_Prefix),
+                  Unit_Specification);
+            begin
+               null;
+            end;
          end if;
       end;
    end Handle_Unit_Decl;
@@ -225,10 +231,11 @@ package body Libadalang.Unit_Files.Env_Hook is
       pragma Assert (Names.N = 1);
 
       declare
-         N : constant Ada_Node := Ada_Node (Names.Items (1));
+         N     : constant Ada_Node := Ada_Node (Names.Items (1));
+         Dummy : Analysis_Unit;
       begin
          Dec_Ref (Names);
-         Ignore (Fetch_Unit (Ctx, N, Unit_Specification));
+         Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
       end;
    end Handle_Unit_Body;
 

@@ -66,9 +66,9 @@ get_string_literal(ada_analysis_unit unit) {
     if (!ada_node_child(node, 0, &node)
         || ada_node_kind(node) != ada_param_assoc)
         error("Got unexpected node for ada_node_child [10]");
-    if (!ada_basic_assoc_p_expr(node, &node)
+    if (!ada_param_assoc_f_r_expr(node, &node)
         || ada_node_kind(node) != ada_string_literal)
-        error("Got unexpected node for ada_param_assoc_f_expr [11]");
+        error("Got unexpected node for ada_param_assoc_f_r_expr [11]");
 
     if (!ada_single_tok_node_f_tok(node, &tok))
         error("Could not get token for the string literal");

@@ -1830,7 +1830,7 @@ class GenericPackageDecl(BasicDecl):
 @abstract
 class Expr(AdaNode):
 
-    type_var = UserField(LogicVarType, is_public=False)
+    type_var = UserField(LogicVarType, public=False)
     type_val = Property(Self.type_var.get_value)
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
@@ -1948,7 +1948,7 @@ class Op(T.EnumNode):
         """
     )
 
-    ref_var = UserField(type=LogicVarType, is_public=False)
+    ref_var = UserField(type=LogicVarType, public=False)
 
 
 class UnOp(Expr):
@@ -2562,7 +2562,7 @@ class SingleTokNode(Name):
     tok = Field(type=T.Token)
     relative_name = Property(Self.tok)
 
-    r_ref_var = UserField(LogicVarType, is_public=False)
+    r_ref_var = UserField(LogicVarType, public=False)
     """
     This field is the logic variable for this node. It is not used directly,
     instead being retrieved via the ref_var property

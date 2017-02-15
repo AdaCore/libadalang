@@ -76,22 +76,6 @@ def is_library_package(e):
     return Not(e.is_null) & is_package(e) & is_library_item(e)
 
 
-def decl_enclosing_scope(d):
-    """
-    Property helper to return the enclosing scope for the "d" declaration.
-
-    This returns the closest parent that is a package (decl and body), a
-    subprogram body or a block statement. Return null if there is no such
-    parent.
-    """
-    return d.parent.parents.filter(
-        lambda p: Or(
-            is_package(p),
-            p.is_a(SubpBody, BlockStmt)
-        )
-    ).at(0)
-
-
 def canonical_type_or_null(type_expr):
     """
     If "type_expr" is null, return null, otherwise return its canonical type
@@ -100,30 +84,12 @@ def canonical_type_or_null(type_expr):
     return type_expr._.designated_type.canonical_type
 
 
-def body_scope_decls(d):
-    """
-    Property helper to return a list of declarations for the body corresponding
-    to scope for the given "d" declaration.
-    """
-    return decl_enclosing_scope(d).match(
-        lambda pkg_decl=T.BasePackageDecl:
-            pkg_decl.body_part.decls.decls.as_array,
-        lambda pkg_body=T.PackageBody:
-            pkg_body.decls.decls.as_array,
-        lambda subp_body=T.SubpBody:
-            subp_body.decls.decls.as_array,
-        lambda block_stmt=T.BlockStmt:
-            block_stmt.decls.decls.as_array,
-        lambda _: EmptyArray(T.AdaNode),
-    )
-
-
 def decl_scope_decls(d):
     """
     Property helper to return a list of declarations for the body corresponding
     to scope for the given "d" declaration.
     """
-    return decl_enclosing_scope(d).match(
+    return d.enclosing_scope.match(
         lambda pkg_decl=T.BasePackageDecl:
             pkg_decl.public_part.decls.as_array,
         lambda pkg_body=T.PackageBody:
@@ -152,9 +118,16 @@ def subp_body_from_spec(decl, subp_spec):
 
         get_library_item(decl.body_unit).cast_or_raise(T.SubpBody),
 
-        body_scope_decls(decl).keep(T.SubpBody).filter(
+        decl.enclosing_scope.match(
+            lambda pkg_decl=T.BasePackageDecl: pkg_decl.body_part.decls,
+            lambda pkg_body=T.PackageBody: pkg_body.decls,
+            lambda subp_body=T.SubpBody: subp_body.decls,
+            lambda block_stmt=T.BlockStmt: block_stmt.decls,
+            lambda _: No(DeclarativePart),
+        ).then(lambda decl_part: decl_part.decls.keep(T.SubpBody).filter(
             lambda subp_body:
             subp_body.subp_spec.match_signature(subp_spec)).at(0)
+        )
     )
 
 
@@ -328,6 +301,20 @@ class AdaNode(ASTNode):
     )
 
     bool_type = Property(Self.std_entity('Boolean'))
+
+    enclosing_scope = Property(
+        Self.parent.parents.filter(
+            lambda p: Or(
+                is_package(p),
+                p.is_a(SubpBody, BlockStmt)
+            )
+        ).at(0),
+        doc="""
+        This returns the closest parent that is a package (decl and body), a
+        subprogram body or a block statement. Return null if there is no such
+        parent.
+        """
+    )
 
 
 def child_unit(name_expr, scope_expr):

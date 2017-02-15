@@ -27,7 +27,7 @@ package Colors is
 
       Bg_Color            : constant Color_Type := (8, 8, 8);
       Text_Color          : constant Color_Type := (248, 248, 242);
-      Comment_Color       : constant Color_Type := (117, 113, 94);
+      Comment_Color       : constant Color_Type := (117, 113, 105);
       Keyword_Color       : constant Color_Type := (255, 95, 135);
       Preprocessor_Color  : constant Color_Type := (215, 255, 215);
       Number_Color        : constant Color_Type := (175, 95, 255);

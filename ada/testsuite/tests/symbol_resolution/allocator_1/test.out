@@ -3,7 +3,7 @@ Analyzing pouet.adb
 
 Expr: <Id "I" 13:4-13:5>, references <ObjectDecl ["I"] 10:4-10:13>, type is <TypeDecl ["T_Ptr"] 8:4-8:30>
 Expr: <Allocator 13:9-13:14>, references None, type is <TypeDecl ["T_Ptr"] 8:4-8:30>
-Expr: <Id "T" 13:13-13:14>, references None, type is None
+Expr: <Id "T" 13:13-13:14>, references <TypeDecl ["T"] 4:4-6:14>, type is None
 
 Expr: <Id "J" 16:4-16:5>, references <ObjectDecl ["J"] 11:4-11:16>, type is <AnonymousTypeDecl ["None"] 11:8-11:16>
 Expr: <Allocator 16:9-16:23>, references None, type is <AnonymousTypeDecl ["None"] 11:8-11:16>

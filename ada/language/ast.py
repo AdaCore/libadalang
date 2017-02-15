@@ -979,6 +979,13 @@ class TypeDecl(BaseTypeDecl):
         )
     )
 
+    xref_entry_point = Property(True)
+
+    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    def xref_equation(origin_env=LexicalEnvType):
+        # TODO: Handle discriminants
+        return Self.type_def.xref_equation(origin_env)
+
 
 class AnonymousTypeDecl(TypeDecl):
 
@@ -1089,6 +1096,10 @@ class DerivedTypeDef(TypeDef):
         # Add environments from parent type defs
         Self.base_type.canonical_type.defining_env
     ))
+
+    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    def xref_equation(origin_env=LexicalEnvType):
+        return Self.subtype_indication.xref_equation(origin_env)
 
 
 class IncompleteTypeDef(TypeDef):
@@ -1381,7 +1392,7 @@ class SubtypeIndication(TypeExpr):
         # Called by allocator.xref_equation, since the suffix can be either a
         # qual expr or a subtype indication.
         ignore(origin_env)
-        return LogicTrue()
+        return Bind(Self.name.ref_var, Self.designated_type)
 
 
 class Mode(T.EnumNode):

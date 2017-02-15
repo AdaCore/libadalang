@@ -254,8 +254,11 @@ procedure Symres is
             elsif Pragma_Name = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                declare
-                  Block : Block_Stmt :=
-                    Block_Stmt (P_Node.Previous_Sibling);
+                  Block : Ada_Node :=
+                    (if Kind (P_Node.Parent.Parent) = Ada_Compilation_Unit
+                     then Compilation_Unit (P_Node.Parent.Parent).F_Body
+                     else P_Node.Previous_Sibling);
+
                   function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
                   is (N.P_Xref_Entry_Point);
                begin

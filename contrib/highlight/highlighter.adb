@@ -113,10 +113,6 @@ package body Highlighter is
    is
       Cur : LAL.Token_Type := First;
    begin
-      if Last = LAL.No_Token then
-         return;
-      end if;
-
       while Cur /= LAL.No_Token loop
          Set (Highlights, LAL.Data (Cur), HL);
          exit when Cur = Last;
@@ -258,12 +254,6 @@ package body Highlighter is
         (Node : access LAL.Ada_Node_Type'Class) return LAL.Visit_Status
       is
       begin
-         --  This is a ghost node
-
-         if Node.Token_End = LAL.No_Token then
-            return LAL.Over;
-         end if;
-
          case Node.Kind is
 
             -----------------

@@ -154,25 +154,24 @@ procedure Symres is
 
          Empty     : Boolean := True;
          Last_Line : Natural := 0;
-         It        : Find_Iterator := Find
-           (Root (Unit),
-            new Ada_Node_Kind_Filter'(Ada_Node_Predicate_Type with
-                                      Kind => Ada_Pragma_Node));
-         Node        : Ada_Node;
+
+         function Is_Pragma_Node (N : Ada_Node) return Boolean
+         is (Kind (N) = Ada_Pragma_Node);
 
          P_Node      : Pragma_Node;
-         Pragma_Name : Unbounded_String;
+
+         function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
+
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.
-         while Next (It, Node) loop
+         for Node of Root (Unit).Find (Is_Pragma_Node'Access).Consume loop
 
             P_Node := Pragma_Node (Node);
-            Pragma_Name := +Text (P_Node.F_Id.F_Tok);
 
             --  If this pragma and the previous ones are not on adjacent lines,
             --  do not make them adjacent in the output.
-            if +Pragma_Name /= "Config" then
+            if Pragma_Name /= "Config" then
                if Last_Line /= 0
                      and then
                   Natural (Node.Sloc_Range.Start_Line) - Last_Line > 1
@@ -182,7 +181,7 @@ procedure Symres is
                Last_Line := Natural (Node.Sloc_Range.End_Line);
             end if;
 
-            if +Pragma_Name = "Config" then
+            if Pragma_Name = "Config" then
                --  Handle testcase configuration pragmas for this file
                for Arg of P_Node.F_Args.Children loop
                   declare
@@ -205,7 +204,7 @@ procedure Symres is
                   end;
                end loop;
 
-            elsif +Pragma_Name = "Section" then
+            elsif Pragma_Name = "Section" then
                --  Print headlines
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
@@ -220,7 +219,7 @@ procedure Symres is
                end;
                Empty := True;
 
-            elsif +Pragma_Name = "Test" then
+            elsif Pragma_Name = "Test" then
                --  Perform symbol resolution
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
@@ -245,12 +244,12 @@ procedure Symres is
                end;
                Empty := False;
 
-            elsif +Pragma_Name = "Test_Statement" then
+            elsif Pragma_Name = "Test_Statement" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                Resolve_Node (P_Node.Previous_Sibling);
                Empty := False;
 
-            elsif +Pragma_Name = "Test_Block" then
+            elsif Pragma_Name = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
                declare
                   Block : Block_Stmt :=

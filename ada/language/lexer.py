@@ -72,7 +72,6 @@ class Token(LexerToken):
     While = WithText()
     Digits = WithText()
     Renames = WithText()
-    Withs = WithText()
     Do = WithText()
     Mod = WithText()
     Requeue = WithText()

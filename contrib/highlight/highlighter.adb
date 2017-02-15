@@ -19,7 +19,7 @@ package body Highlighter is
            | Ada_Then .. Ada_In
            | Ada_Is .. Ada_Declare
            | Ada_Delay | Ada_Until | Ada_When | Ada_Loop | Ada_While
-           | Ada_Renames | Ada_Withs | Ada_Do | Ada_Requeue
+           | Ada_Renames | Ada_Do | Ada_Requeue
          => Keyword,
 
          Ada_Subtype | Ada_Record => Keyword_Type,

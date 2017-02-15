@@ -3268,10 +3268,10 @@ class SubpBody(Body):
     env_spec = child_unit(
         '__body',
         If(is_library_item(Self),
-           Let(lambda scope=Self.subp_spec.name.scope:
-               If(scope == EmptyEnv,
-                  Self.subp_spec.name.parent_scope,
-                  scope)),
+           # In case the subp spec for this library level subprogram is
+           # missing, we'll put it in the parent's scope. This way, the xref to
+           # it should still resolve.
+           Self.subp_spec.name.scope._or(Self.subp_spec.name.parent_scope),
            Self.parent.children_env)
     )
 

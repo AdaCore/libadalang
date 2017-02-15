@@ -9,6 +9,8 @@ with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
 
+with GNAT.Traceback.Symbolic;
+
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
@@ -328,4 +330,10 @@ begin
    Destroy (Ctx);
    Destroy (UFP);
    Put_Line ("Done.");
+exception
+   when E : others =>
+      Put_Line ("Traceback :");
+      Put_Line ("");
+      Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+      raise;
 end Symres;

@@ -5,15 +5,19 @@ procedure Example is
 
    subtype Nat is Integer range 0 .. Integer'Last;
 
-   type Rec (N : Natural) is record
+   type Rec (N : Natural) is tagged record
       S : String (1 .. N);
    end record;
+
+   type Money_Type is delta 0.01 digits 14;
 
    generic
       with procedure Put_Line (S : String);
    package Things is
       procedure Process (S : access Wide_String)
-        with Pre => S /= null and then S'Length > 0;
+        with Pre => S /= null and then S'Length > 0
+                    and then (for all I in S.all'Range =>
+                              S.all (I) / ASCII.NUL);
    end Things;
 
    package body Things is

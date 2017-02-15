@@ -25,17 +25,18 @@ package Colors is
    package Default_Style is
       use Highlighter;
 
-      Bg_Color            : constant Color_Type := (8, 8, 8);
-      Text_Color          : constant Color_Type := (248, 248, 242);
-      Comment_Color       : constant Color_Type := (117, 113, 105);
-      Keyword_Color       : constant Color_Type := (255, 95, 135);
-      Preprocessor_Color  : constant Color_Type := (215, 255, 215);
-      Number_Color        : constant Color_Type := (175, 95, 255);
-      String_Color        : constant Color_Type := (230, 219, 116);
-      Label_Color         : constant Color_Type := (255, 250, 15);
-      Block_Color         : constant Color_Type := (138, 226, 52);
-      Type_Color          : constant Color_Type := (102, 217, 239);
-      Attribute_Ref_Color : constant Color_Type := (232, 70, 109);
+      Bg_Color              : constant Color_Type := (8, 8, 8);
+      Text_Color            : constant Color_Type := (248, 248, 242);
+      Comment_Color         : constant Color_Type := (117, 113, 105);
+      Keyword_Color         : constant Color_Type := (255, 95, 135);
+      Keyword_Special_Color : constant Color_Type := (224, 128, 32);
+      Preprocessor_Color    : constant Color_Type := (215, 255, 215);
+      Number_Color          : constant Color_Type := (175, 95, 255);
+      String_Color          : constant Color_Type := (230, 219, 116);
+      Label_Color           : constant Color_Type := (255, 250, 15);
+      Block_Color           : constant Color_Type := (138, 226, 52);
+      Type_Color            : constant Color_Type := (102, 217, 239);
+      Attribute_Ref_Color   : constant Color_Type := (232, 70, 109);
 
       Style : constant Style_Type :=
         (Background_Color => Bg_Color,
@@ -43,7 +44,10 @@ package Colors is
            (Text                   => (Text_Color, False),
             Comment                => (Comment_Color, False),
             Keyword                => (Keyword_Color, True),
+            Keyword_Type           => (Type_Color, False),
+            Keyword_Special        => (Keyword_Special_Color, False),
             Punctuation            => (Text_Color, False),
+            Punctuation_Special    => (Type_Color, False),
             Operator               => (Keyword_Color, False),
             Preprocessor_Directive => (Preprocessor_Color, False),
             Integer_Literal        => (Number_Color, False),

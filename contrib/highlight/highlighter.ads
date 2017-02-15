@@ -11,7 +11,10 @@ package Highlighter is
      (Text,
       Comment,
       Keyword,
+      Keyword_Type,
+      Keyword_Special,
       Punctuation,
+      Punctuation_Special,
       Operator,
       Preprocessor_Directive,
       Integer_Literal,
@@ -43,6 +46,12 @@ package Highlighter is
       Token      : LAL.Token_Data_Type;
       HL         : Highlight_Type);
    --  Assign the HL highlighting type to Token
+
+   procedure Set_Range
+     (Highlights  : in out Highlights_Holder;
+      First, Last : LAL.Token_Type;
+      HL          : Highlight_Type);
+   --  Likewise, for a range of tokens
 
    function Highlights_Match_Unit
      (Unit       : LAL.Analysis_Unit;

@@ -1,6 +1,7 @@
 package body Highlighter is
 
    use type LAL.Token_Type;
+   use type LAL.Ada_Node_Kind_Type;
    use Libadalang.Lexer;
 
    Basic_Highlights : constant
@@ -8,12 +9,35 @@ package body Highlighter is
      := (Ada_Termination                  => Text,
          Ada_Lexing_Failure               => Text,
          Ada_Identifier                   => Identifier,
-         Ada_All .. Ada_Xor               => Keyword,
-         Ada_Par_Close .. Ada_Diamond     => Punctuation,
-         Ada_Lte .. Ada_Divide            => Operator,
+         Ada_All .. Ada_Return
+           | Ada_Elsif | Ada_Reverse
+           | Ada_End .. Ada_Select
+           | Ada_Exception
+           | Ada_Separate | Ada_Exit | Ada_Others
+           | Ada_For | Ada_Out | Ada_Function | Ada_At
+           | Ada_Generic .. Ada_Body
+           | Ada_Then .. Ada_In
+           | Ada_Is .. Ada_Declare
+           | Ada_Delay | Ada_Until | Ada_When | Ada_Loop | Ada_While
+           | Ada_Renames | Ada_Withs | Ada_Do | Ada_Requeue
+         => Keyword,
+
+         Ada_Subtype | Ada_Record => Keyword_Type,
+
+         Ada_Abstract | Ada_Access | Ada_Aliased | Ada_Array | Ada_Constant
+           | Ada_Delta | Ada_Digits | Ada_Limited | Ada_Of | Ada_Private
+           | Ada_Range | Ada_Tagged
+         => Keyword_Special,
+
+         Ada_Par_Close .. Ada_Dot         => Punctuation_Special,
+         Ada_Diamond                      => Keyword,
+         Ada_Abs | Ada_And | Ada_Mod | Ada_Not | Ada_Or | Ada_Rem | Ada_Some
+           | Ada_Xor
+           | Ada_Lte .. Ada_Divide
+         => Operator,
+
          Ada_Tick                         => Punctuation,
-         Ada_Pipe                         => Punctuation,
-         Ada_Assign                       => Operator,
+         Ada_Pipe | Ada_Assign            => Punctuation_Special,
          Ada_Label_Start .. Ada_Label_End => Label_Name,
          Ada_String                       => String_Literal,
          Ada_Char                         => Character_Literal,
@@ -77,6 +101,28 @@ package body Highlighter is
          Highlights.Token_Highlights (Index) := HL;
       end if;
    end Set;
+
+   ---------------
+   -- Set_Range --
+   ---------------
+
+   procedure Set_Range
+     (Highlights  : in out Highlights_Holder;
+      First, Last : LAL.Token_Type;
+      HL          : Highlight_Type)
+   is
+      Cur : LAL.Token_Type := First;
+   begin
+      if Last = LAL.No_Token then
+         return;
+      end if;
+
+      while Cur /= LAL.No_Token loop
+         Set (Highlights, LAL.Data (Cur), HL);
+         exit when Cur = Last;
+         Cur := LAL.Next (Cur);
+      end loop;
+   end Set_Range;
 
    --------------------
    -- Highlight_Name --
@@ -212,6 +258,12 @@ package body Highlighter is
         (Node : access LAL.Ada_Node_Type'Class) return LAL.Visit_Status
       is
       begin
+         --  This is a ghost node
+
+         if Node.Token_End = LAL.No_Token then
+            return LAL.Over;
+         end if;
+
          case Node.Kind is
 
             -----------------
@@ -269,6 +321,7 @@ package body Highlighter is
                  (LAL.Subp_Body (Node).F_End_Id, Highlights);
 
             when LAL.Ada_Type_Decl =>
+               Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Type);
                Highlight_Block_Name
                  (LAL.Type_Decl (Node).F_Type_Id, Highlights);
 
@@ -333,6 +386,27 @@ package body Highlighter is
             when LAL.Ada_Label_Decl =>
                Highlight_Name
                  (LAL.Label_Decl (Node).F_Name, Label_Name, Highlights);
+
+            when LAL.Ada_Record_Def =>
+               Set (Highlights,
+                    LAL.Data (LAL.Previous (Node.Token_End)), Keyword_Type);
+
+            when LAL.Ada_Null_Record_Def =>
+               Set_Range
+                 (Highlights, Node.Token_Start, Node.Token_End, Keyword_Type);
+
+            when LAL.Ada_Aspect_Spec =>
+               Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Special);
+
+            when LAL.Ada_Quantified_Expr =>
+               Set (Highlights, LAL.Data (LAL.Next (Node.Token_Start)),
+                    Operator);
+
+            when LAL.Ada_Op =>
+               if Node.Kind /= LAL.Ada_Op_Double_Dot then
+                  Set_Range
+                    (Highlights, Node.Token_Start, Node.Token_End, Operator);
+               end if;
 
             when others =>
                null;

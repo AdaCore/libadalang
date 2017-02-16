@@ -202,7 +202,6 @@ debugger only the `factor_0` test case, execute:
 
     $ python ada/manage.py test -- -g ada/testsuite/tests/parser/factor_0
 
-
 Documentation
 -------------
 
@@ -215,3 +214,54 @@ documents, run from the top directory:
 And then open the following file in your favorite browser:
 
     ada/doc/_build/html/index.html
+
+Playing
+-------
+
+Libadalang has a Python API, for easy prototyping and explorative programming.
+It ships with an executable named `playground`, that allows you to analyze Ada
+files and play with them in an interactive Python console.
+
+Given the following `main.adb` Ada file:
+
+~~~ada
+with Ada.Text_IO; use Ada.Text_IO;
+
+procedure Main is
+begin
+    Put_Line ("Hello World");
+end Main;
+~~~
+
+You can start the playground on it:
+
+~~~sh
+% playground main.adb
+
+--
+-- libadalang playground
+--
+
+The file(s) passed as argument have been put into the u variable, or units if
+there are multiple.
+
+Enjoy !
+
+In [1]: print u.root.text
+with Ada.Text_IO; use Ada.Text_IO;
+
+procedure Main is
+begin
+    Put_Line ("Hello World");
+end Main;
+
+In [2]: print u.root.findall(mdl.CallExpr)
+[<CallExpr 5:5-5:29>]
+
+In [3]: print u.root.findall(mdl.CallExpr)[0].text
+Put_Line ("Hello World")
+~~~
+
+The playground embeds the [IPython](https://ipython.org/) interactive python
+console, so you have a modern interactive programming environment. You can use
+tab completion to explore the libadalang API.

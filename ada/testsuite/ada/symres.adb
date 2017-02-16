@@ -335,7 +335,7 @@ begin
    Put_Line ("Done.");
 exception
    when E : others =>
-      Put_Line ("Traceback :");
+      Put_Line ("Traceback:");
       Put_Line ("");
       Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
       raise;

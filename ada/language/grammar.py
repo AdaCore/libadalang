@@ -1094,7 +1094,7 @@ A.add_rules(
     ),
 
     relation=Or(
-        Relation(
+        RelationOp(
             A.relation,
             Or(Op.alt_eq("="), Op.alt_neq("/="),
                Op.alt_lt("<"), Op.alt_lte("<="),

@@ -7,7 +7,7 @@ Expr: <Id "B" 14:9-14:10>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"]
 Expr: <Id "C" 14:13-14:14>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
 
 Expr: <Id "Foo" 17:4-17:7>, references <ObjectDecl ["Foo"] 12:4-12:17>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
-Expr: <Relation 17:11-17:16>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <RelationOp 17:11-17:16>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
 Expr: <Id "B" 17:11-17:12>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
 Expr: <Id "C" 17:15-17:16>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:30>, type is <TypeDecl ["Integer"] 4:3-4:53>
 

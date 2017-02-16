@@ -159,7 +159,7 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  SelectWhenPartList[1:229-1:522]
 |  |  |  |  |  |  |  SelectWhenPart[1:229-1:376]
 |  |  |  |  |  |  |  |choices:
-|  |  |  |  |  |  |  |  Relation[1:234-1:249]
+|  |  |  |  |  |  |  |  RelationOp[1:234-1:249]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[1:234-1:240]
 |  |  |  |  |  |  |  |  |  |tok: Length
@@ -254,7 +254,7 @@ TaskBody[1:1-1:572]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |  SelectWhenPart[1:380-1:522]
 |  |  |  |  |  |  |  |choices:
-|  |  |  |  |  |  |  |  Relation[1:385-1:395]
+|  |  |  |  |  |  |  |  RelationOp[1:385-1:395]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[1:385-1:391]
 |  |  |  |  |  |  |  |  |  |tok: Length

@@ -89,7 +89,7 @@
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <IfStmt>
 |  |  |  |  |  |  |  |  |condition:
-|  |  |  |  |  |  |  |  |  <Relation>
+|  |  |  |  |  |  |  |  |  <RelationOp>
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')

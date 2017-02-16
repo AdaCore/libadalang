@@ -242,10 +242,10 @@ You can start the playground on it:
 -- libadalang playground
 --
 
-The file(s) passed as argument have been put into the u variable, or units if
+The file(s) passed as argument have been put into the `u` variable, or units if
 there are multiple.
 
-Enjoy !
+Enjoy!
 
 In [1]: print u.root.text
 with Ada.Text_IO; use Ada.Text_IO;
@@ -262,6 +262,6 @@ In [3]: print u.root.findall(mdl.CallExpr)[0].text
 Put_Line ("Hello World")
 ~~~
 
-The playground embeds the [IPython](https://ipython.org/) interactive python
+The playground embeds the [IPython](https://ipython.org/) interactive Python
 console, so you have a modern interactive programming environment. You can use
-tab completion to explore the libadalang API.
+tab completion to explore the Libadalang API.

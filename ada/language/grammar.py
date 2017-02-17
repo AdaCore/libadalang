@@ -1093,6 +1093,16 @@ A.add_rules(
         Op.alt_in("in"),
     ),
 
+    membership_choice=Or(
+        A.discrete_range,
+        A.discrete_subtype_indication,
+        A.simple_expr,
+    ),
+
+    membership_choice_list=List(
+        A.membership_choice, sep="|"
+    ),
+
     relation=Or(
         RelationOp(
             A.relation,
@@ -1102,7 +1112,7 @@ A.add_rules(
             A.simple_expr
         ),
 
-        MembershipExpr(A.relation, A.rel_op, A.choice_list),
+        MembershipExpr(A.relation, A.rel_op, A.membership_choice_list),
 
         A.simple_expr
     ),

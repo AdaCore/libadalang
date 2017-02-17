@@ -1,17 +1,17 @@
 foo.adb
-Same test <Relation 31:10-31:29> for <IfStmt 25:4-33:10> in foo.adb
+Same test <RelationOp 31:10-31:29> for <IfStmt 25:4-33:10> in foo.adb
 gnatdoc-frontend-comment_parser.adb
 Same test <BinOp 311:22-312:46> for <IfStmt 282:16-319:22> in gnatdoc-frontend-comment_parser.adb
 po_createref_parse_cmd.adb
-Same test <Relation 177:22-177:39> for <IfStmt 120:16-181:22> in po_createref_parse_cmd.adb
+Same test <RelationOp 177:22-177:39> for <IfStmt 120:16-181:22> in po_createref_parse_cmd.adb
 sem_attr.adb
 Same test <CallExpr 9665:16-9665:41> for <IfStmt 9641:10-9684:16> in sem_attr.adb
 sem_ch4.adb
-Same test <Relation 7380:25-7380:67> for <IfStmt 7377:19-7382:25> in sem_ch4.adb
+Same test <RelationOp 7380:25-7380:67> for <IfStmt 7377:19-7382:25> in sem_ch4.adb
 sem_eval.adb
 Same test <BinOp 5687:16-5688:49> for <IfStmt 5673:10-5726:16> in sem_eval.adb
 Same test <BinOp 5866:22-5867:55> for <IfStmt 5858:16-5882:22> in sem_eval.adb
 sem_prag.adb
 Same test <CallExpr 4908:19-4908:49> for <IfStmt 4888:13-4924:19> in sem_prag.adb
 sem_res.adb
-Same test <Relation 6803:13-6803:61> for <IfStmt 6774:7-6826:13> in sem_res.adb
+Same test <RelationOp 6803:13-6803:61> for <IfStmt 6774:7-6826:13> in sem_res.adb

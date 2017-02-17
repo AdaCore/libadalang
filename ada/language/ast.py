@@ -405,14 +405,6 @@ class BasicDecl(AdaNode):
         """
     )
 
-    array_def = Property(
-        Self.expr_type.array_def,
-        doc="""
-        Return the ArrayTypeDef instance corresponding to this basic
-        declaration.
-        """
-    )
-
     @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_expr_type():
         """
@@ -951,6 +943,7 @@ class TypeDecl(BaseTypeDecl):
     accessed_type = Property(Self.type_def.accessed_type)
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Self.type_def.base_type)
+    is_char_type = Property(Self.type_def.is_char_type)
 
     array_def = Property(Self.type_def.cast(T.ArrayTypeDef))
 
@@ -1348,8 +1341,6 @@ class TypeExpr(AdaNode):
         """
     )
 
-    is_anonymous_access = Property(False)
-
     @langkit_property(return_type=BaseTypeDecl)
     def element_type():
         """
@@ -1367,9 +1358,6 @@ class AnonymousType(TypeExpr):
     type_decl = Field(type=T.AnonymousTypeDecl)
 
     designated_type = Property(Self.type_decl)
-    is_anonymous_access = Property(
-        Self.type_decl.type_def.cast(T.AccessDef).then(lambda _: True)
-    )
 
 
 class SubtypeIndication(TypeExpr):
@@ -1584,12 +1572,8 @@ class ObjectDecl(BasicDecl):
     env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
 
     array_ndims = Property(Self.type_expr.array_ndims)
-    array_def = Property(Self.type_expr.array_def)
-
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
-
     defining_env = Property(Self.type_expr.defining_env)
-
     type_expression = Property(Self.type_expr)
 
     @langkit_property()

@@ -16,7 +16,7 @@ BinOp[1:1-1:68]
 |  |  |  |then_expr:
 |  |  |  |  Int[1:16-1:17]
 |  |  |  |  |tok: 4
-|  |  |  |elsif_list:
+|  |  |  |alternatives:
 |  |  |  |  ElsifExprPartList[1:18-1:18]: <empty list>
 |  |  |  |else_expr:
 |  |  |  |  Int[1:23-1:24]

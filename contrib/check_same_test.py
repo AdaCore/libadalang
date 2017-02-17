@@ -17,13 +17,11 @@ def list_tests(ifnode):
     """
     List all the tests of `ifnode`.
 
-    :type ifnode: lal.IfStmt lal.IfExpr
+    :type ifnode: lal.IfStmt|lal.IfExpr
     """
-
-    if isinstance(ifnode, lal.IfStmt):
-        return [ifnode.f_condition] + [f.f_expr for f in ifnode.f_alternatives]
-    else:
-        return [ifnode.f_cond_expr] + [f.f_cond_expr for f in ifnode.f_elsif_list]
+    return [ifnode.f_cond_expr] + [
+        f.f_cond_expr for f in ifnode.f_alternatives
+    ]
 
 
 def has_same_tests(expr):

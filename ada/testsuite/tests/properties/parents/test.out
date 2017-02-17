@@ -88,7 +88,7 @@
 |  |  |  |  |  |  |  <AdaNodeList>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <IfStmt>
-|  |  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  |  <RelationOp>
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  <Identifier>
@@ -98,7 +98,7 @@
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
-|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  |  |  <AdaNodeList>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStmt>

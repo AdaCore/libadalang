@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('files', help='The files to analyze',
                     type=str, nargs='+', metavar='F')
 
+
 def is_equality_operator(op):
     """
     Check that op is an equality or disequality operator.
@@ -44,9 +45,9 @@ def get_dereference(expr):
     Detect if expr is a dereference of a pointer object, and in that case
     return the object being dereferenced.
 
-    Without semantic information, we cannot know if the 'object' is an object or
-    a package, and even if it is an object, if it is of access type. We consider
-    all these as objects being referenced.
+    Without semantic information, we cannot know if the 'object' is an object
+    or a package, and even if it is an object, if it is of access type. We
+    consider all these as objects being referenced.
 
     :rtype: expr?
     """
@@ -61,9 +62,9 @@ def get_assignment(expr):
     the object being assigned.
 
     We make no attempt to detect if this is really an object or an expression.
-    Without semantic information, we also cannot know when an object is possibly
-    assigned by being passed as OUT or IN OUT parameter in a call. We also
-    cannot know if the address of an object is taken.
+    Without semantic information, we also cannot know when an object is
+    possibly assigned by being passed as OUT or IN OUT parameter in a call. We
+    also cannot know if the address of an object is taken.
 
     We could try to detect when the prefix of an object is assigned, thus
     assigning also the object as a side-effect, but leave it for a future
@@ -89,17 +90,17 @@ def explore(subp):
     """
     def remove_assign(node, derefs):
         var = get_assignment(node)
-        if var != None and var.text in derefs:  # why not simply var???
+        if var is not None and var.text in derefs:  # why not simply var???
             del derefs[var.text]
 
     def add_derefs(node, derefs):
         var = get_dereference(node)
-        if var != None:  # why not simply var???
+        if var is not None:  # why not simply var???
             derefs[var.text] = var
 
     def detect_nullity(node, derefs):
         var = get_nullity_test(node)
-        if var != None and var.text in derefs: # why not simply var???
+        if var is not None and var.text in derefs:  # why not simply var???
             print 'Found test of {} at {} after deref at {}'.format(
                 var.text, node, derefs[var.text])
 
@@ -116,7 +117,7 @@ def explore(subp):
         # join, e.g. after the if-statement.
         branch_derefs = derefs.copy()
 
-        # Call traverse recursively.
+        # Call traverse recursively
         traverse(node, branch_derefs, loop_test)
 
         # Remove those variables which have been redefined in the branch, which
@@ -145,18 +146,18 @@ def explore(subp):
         if not loop_test:
             detect_nullity(node, derefs)
 
-        # Add the objects dereferenced in node to the dictionary derefs.
+        # Add the objects dereferenced in node to the dictionary derefs
         add_derefs(node, derefs)
 
-        # Call traverse or traverse_branch recursively on sub-nodes.
+        # Call traverse or traverse_branch recursively on sub-nodes
         if isinstance(node, lal.AssignStmt):
             for sub in node:
                 traverse(sub, derefs, loop_test)
             remove_assign(node, derefs)
 
         elif isinstance(node, lal.IfStmt):
-            traverse(node.f_condition, derefs, loop_test)
-            traverse_branch(node.f_stmts, derefs, loop_test)
+            traverse(node.f_cond_expr, derefs, loop_test)
+            traverse_branch(node.f_then_stmts, derefs, loop_test)
             for sub in node.f_alternatives:
                 traverse_branch(sub, derefs, loop_test)
             traverse_branch(node.f_else_stmts, derefs, loop_test)
@@ -164,7 +165,7 @@ def explore(subp):
         elif isinstance(node, lal.IfExpr):
             traverse(node.f_cond_expr, derefs, loop_test)
             traverse_branch(node.f_then_expr, derefs, loop_test)
-            for sub in node.f_elsif_list:
+            for sub in node.f_alternatives:
                 traverse_branch(sub, derefs, loop_test)
             traverse_branch(node.f_else_expr, derefs, loop_test)
 

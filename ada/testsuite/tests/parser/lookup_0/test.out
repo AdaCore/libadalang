@@ -100,7 +100,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  AdaNodeList[7:7-11:14]
 |  |  |  |  |  |  |  |  IfStmt[7:7-11:13]
-|  |  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  Id[7:10-7:11]
@@ -110,7 +110,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  Int[7:15-7:16]
 |  |  |  |  |  |  |  |  |  |  |tok: 1
-|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  |  |  AdaNodeList[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
@@ -447,7 +447,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  AdaNodeList[7:7-11:14]
 |  |  |  |  |  |  |  |  IfStmt[7:7-11:13]
-|  |  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  Id[7:10-7:11]
@@ -457,7 +457,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  Int[7:15-7:16]
 |  |  |  |  |  |  |  |  |  |  |tok: 1
-|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  |  |  AdaNodeList[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
@@ -666,7 +666,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |stmts:
 |  |  |  |  |  AdaNodeList[7:7-11:14]
 |  |  |  |  |  |  IfStmt[7:7-11:13]
-|  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  Id[7:10-7:11]
@@ -676,7 +676,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  Int[7:15-7:16]
 |  |  |  |  |  |  |  |  |tok: 1
-|  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  AdaNodeList[8:10-8:19]
 |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
 |  |  |  |  |  |  |  |  |return_expr:

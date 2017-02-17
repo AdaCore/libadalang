@@ -42,7 +42,7 @@ BinOp[1:1-1:53]
 |  |  |then_expr:
 |  |  |  Int[1:42-1:44]
 |  |  |  |tok: 15
-|  |  |elsif_list:
+|  |  |alternatives:
 |  |  |  ElsifExprPartList[1:45-1:45]: <empty list>
 |  |  |else_expr:
 |  |  |  Int[1:50-1:52]

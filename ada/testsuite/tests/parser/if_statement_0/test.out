@@ -1,5 +1,5 @@
 IfStmt[1:1-1:86]
-|condition:
+|cond_expr:
 |  RelationOp[1:4-1:23]
 |  |left:
 |  |  Id[1:4-1:15]
@@ -9,7 +9,7 @@ IfStmt[1:1-1:86]
 |  |right:
 |  |  Real[1:19-1:23]
 |  |  |tok: 40.0
-|stmts:
+|then_stmts:
 |  AdaNodeList[1:29-1:79]
 |  |  CallStmt[1:29-1:45]
 |  |  |call:

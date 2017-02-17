@@ -42,7 +42,7 @@ ExprFunction[1:1-1:64]
 |  |then_expr:
 |  |  Int[1:55-1:56]
 |  |  |tok: 2
-|  |elsif_list:
+|  |alternatives:
 |  |  ElsifExprPartList[1:57-1:57]: <empty list>
 |  |else_expr:
 |  |  Int[1:62-1:63]

@@ -12,7 +12,7 @@ IfExpr[1:1-1:45]
 |then_expr:
 |  Int[1:15-1:17]
 |  |tok: 12
-|elsif_list:
+|alternatives:
 |  ElsifExprPartList[1:18-1:37]
 |  |  ElsifExprPart[1:18-1:37]
 |  |  |cond_expr:

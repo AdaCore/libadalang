@@ -2460,7 +2460,7 @@ class OthersDesignator(AdaNode):
 class IfExpr(Expr):
     cond_expr = Field(type=T.Expr)
     then_expr = Field(type=T.Expr)
-    elsif_list = Field(type=T.ElsifExprPart.list_type())
+    alternatives = Field(type=T.ElsifExprPart.list_type())
     else_expr = Field(type=T.Expr)
 
     @langkit_property()
@@ -2479,7 +2479,7 @@ class IfExpr(Expr):
 
                 # If no else, then the then_expression has type bool
                 Bind(Self.then_expr.type_var, Self.bool_type)
-            ) & Self.elsif_list.logic_all(lambda elsif: (
+            ) & Self.alternatives.logic_all(lambda elsif: (
                 # Build the sub equations for cond and then exprs
                 elsif.cond_expr.sub_equation(origin_env)
                 & elsif.then_expr.sub_equation(origin_env)
@@ -3450,25 +3450,25 @@ class RaiseStmt(SimpleStmt):
 
 
 class IfStmt(CompositeStmt):
-    condition = Field(type=T.Expr)
-    stmts = Field(type=T.AdaNode.list_type())
+    cond_expr = Field(type=T.Expr)
+    then_stmts = Field(type=T.AdaNode.list_type())
     alternatives = Field(type=T.ElsifStmtPart.list_type())
     else_stmts = Field(type=T.AdaNode.list_type())
 
     @langkit_property()
     def xref_equation(origin_env=LexicalEnvType):
         return (
-            Self.condition.sub_equation(origin_env)
-            & Bind(Self.condition.type_var, Self.bool_type)
+            Self.cond_expr.sub_equation(origin_env)
+            & Bind(Self.cond_expr.type_var, Self.bool_type)
             & Self.alternatives.logic_all(
-                lambda elsif: elsif.expr.sub_equation(origin_env)
-                & Bind(elsif.expr.type_var, Self.bool_type)
+                lambda elsif: elsif.cond_expr.sub_equation(origin_env)
+                & Bind(elsif.cond_expr.type_var, Self.bool_type)
             )
         )
 
 
 class ElsifStmtPart(AdaNode):
-    expr = Field(type=T.Expr)
+    cond_expr = Field(type=T.Expr)
     stmts = Field(type=T.AdaNode.list_type())
 
 

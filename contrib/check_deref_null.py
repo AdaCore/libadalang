@@ -219,7 +219,9 @@ def do_file(f):
             print '   {}'.format(diag)
             return
 
-    for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody, lal.ExprFunction))):
+    for subp in unit.root.findall(
+        lambda e: e.is_a(lal.SubpBody, lal.ExprFunction)
+    ):
         explore(subp)
 
 

@@ -53,7 +53,7 @@ def do_file(f):
             print '   {}'.format(diag)
             return
 
-    for b in unit.root.findall(lambda e: isinstance(e, (lal.IfStmt, lal.IfExpr))):
+    for b in unit.root.findall(lambda e: e.is_a(lal.IfStmt, lal.IfExpr)):
         oper = has_same_tests(b)
         if oper:
             print 'Same test {} for {} in {}'.format(oper, b, f)

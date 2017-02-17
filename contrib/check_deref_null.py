@@ -20,7 +20,7 @@ def is_equality_operator(op):
 
     :rtype: bool
     """
-    return isinstance(op, (lal.OpEq, lal.OpNeq))
+    return op.is_a(lal.OpEq, lal.OpNeq)
 
 
 def get_nullity_test(expr):
@@ -32,10 +32,10 @@ def get_nullity_test(expr):
 
     :rtype: expr?
     """
-    if isinstance(expr, lal.BinOp) and is_equality_operator(expr.f_op):
-        if isinstance(expr.f_left, lal.NullLiteral):
+    if expr.is_a(lal.BinOp) and is_equality_operator(expr.f_op):
+        if expr.f_left.is_a(lal.NullLiteral):
             return expr.f_right
-        if isinstance(expr.f_right, lal.NullLiteral):
+        if expr.f_right.is_a(lal.NullLiteral):
             return expr.f_left
     return None
 
@@ -51,7 +51,7 @@ def get_dereference(expr):
 
     :rtype: expr?
     """
-    if isinstance(expr, (lal.ExplicitDeref, lal.DottedName)):
+    if expr.is_a(lal.ExplicitDeref, lal.DottedName):
         return expr.f_prefix
     return None
 
@@ -72,7 +72,7 @@ def get_assignment(expr):
 
     :rtype: expr?
     """
-    if isinstance(expr, lal.AssignStmt):
+    if expr.is_a(lal.AssignStmt):
         return expr.f_dest
     return None
 
@@ -150,54 +150,50 @@ def explore(subp):
         add_derefs(node, derefs)
 
         # Call traverse or traverse_branch recursively on sub-nodes
-        if isinstance(node, lal.AssignStmt):
+        if node.is_a(lal.AssignStmt):
             for sub in node:
                 traverse(sub, derefs, loop_test)
             remove_assign(node, derefs)
 
-        elif isinstance(node, lal.IfStmt):
+        elif node.is_a(lal.IfStmt):
             traverse(node.f_cond_expr, derefs, loop_test)
             traverse_branch(node.f_then_stmts, derefs, loop_test)
             for sub in node.f_alternatives:
                 traverse_branch(sub, derefs, loop_test)
             traverse_branch(node.f_else_stmts, derefs, loop_test)
 
-        elif isinstance(node, lal.IfExpr):
+        elif node.is_a(lal.IfExpr):
             traverse(node.f_cond_expr, derefs, loop_test)
             traverse_branch(node.f_then_expr, derefs, loop_test)
             for sub in node.f_alternatives:
                 traverse_branch(sub, derefs, loop_test)
             traverse_branch(node.f_else_expr, derefs, loop_test)
 
-        elif isinstance(node, lal.CaseStmt):
+        elif node.is_a(lal.CaseStmt):
             traverse(node.f_case_expr, derefs, loop_test)
             for sub in node.f_case_alts:
                 traverse_branch(sub, derefs, loop_test)
 
-        elif isinstance(node, lal.LoopStmt):
+        elif node.is_a(lal.LoopStmt):
             traverse(node.f_spec, derefs, loop_test=True)
             traverse_branch(node.f_stmts, derefs, loop_test)
 
-        elif (isinstance(node, lal.BinOp)
-              and isinstance(node.f_op, (lal.OpAndThen, lal.OpOrElse))):
+        elif node.is_a(lal.BinOp) \
+                and node.f_op.is_a(lal.OpAndThen, lal.OpOrElse):
             traverse(node.f_left, derefs, loop_test)
             traverse_branch(node.f_right, derefs, loop_test)
 
         # Reset dereferences for exception handler, as control may come from
         # many sources.
-        elif isinstance(node, lal.ExceptionHandler):
+        elif node.is_a(lal.ExceptionHandler):
             traverse(node.f_stmts, {}, loop_test)
 
         # Ignore local subprograms and packages when exploring the enclosing
         # subprogram body.
-        elif isinstance(node, (lal.SubpBody,
-                               lal.PackageDecl,
-                               lal.GenericPackageDecl,
-                               lal.PackageBody,
-                               lal.ExprFunction)):
-            pass
-
-        else:
+        elif not node.is_a(
+            lal.SubpBody, lal.PackageDecl, lal.GenericPackageDecl,
+            lal.PackageBody, lal.ExprFunction
+        ):
             for sub in node:
                 traverse(sub, derefs, loop_test)
 

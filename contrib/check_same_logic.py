@@ -29,7 +29,7 @@ def list_operands(binop):
         :type expr: lal.Expr
         :type op: lal.Op
         """
-        if isinstance(expr, lal.BinOp) and type(expr.f_op) is type(op):
+        if expr.is_a(lal.BinOp) and type(expr.f_op) is type(op):
             return (list_sub_operands(expr.f_left, op)
                     + list_sub_operands(expr.f_right, op))
         else:
@@ -44,8 +44,7 @@ def is_bool_literal(expr):
     """
     Predicate to check whether `expr` is a boolean literal.
     """
-    return (isinstance(expr, lal.Identifier)
-            and expr.text.lower() in ['true', 'false'])
+    return expr.is_a(lal.Identifier) and expr.text.lower() in ['true', 'false']
 
 
 def has_same_operands(expr):
@@ -71,8 +70,8 @@ def same_as_parent(binop):
     :rtype: bool
     """
     par = binop.parent
-    return (isinstance(binop, lal.BinOp)
-            and isinstance(par, lal.BinOp)
+    return (binop.is_a(lal.BinOp)
+            and par.is_a(lal.BinOp)
             and type(binop.f_op) is type(par.f_op))
 
 
@@ -83,8 +82,7 @@ def interesting_oper(op):
 
     :rtype: bool
     """
-    return isinstance(op, (lal.OpAnd, lal.OpOr, lal.OpAndThen, lal.OpOrElse,
-                           lal.OpXor))
+    return op.is_a(lal.OpAnd, lal.OpOr, lal.OpAndThen, lal.OpOrElse, lal.OpXor)
 
 
 def main(args):
@@ -97,7 +95,7 @@ def main(args):
                 print '   {}'.format(diag)
             continue
 
-        for b in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+        for b in unit.root.findall(lambda e: e.is_a(lal.BinOp)):
             if interesting_oper(b.f_op) and not same_as_parent(b):
                 oper = has_same_operands(b)
                 if oper:

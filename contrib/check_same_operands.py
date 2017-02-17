@@ -45,8 +45,8 @@ def interesting_oper(op):
 
     :rtype: bool
     """
-    return not isinstance(op, (lal.OpMult, lal.OpPlus, lal.OpDoubleDot,
-                               lal.OpPow, lal.OpConcat))
+    return not op.is_a(lal.OpMult, lal.OpPlus, lal.OpDoubleDot,
+                       lal.OpPow, lal.OpConcat)
 
 
 def main(args):

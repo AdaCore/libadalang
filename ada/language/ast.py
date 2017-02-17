@@ -304,10 +304,7 @@ class AdaNode(ASTNode):
 
     enclosing_scope = Property(
         Self.parent.parents.filter(
-            lambda p: Or(
-                is_package(p),
-                p.is_a(SubpBody, BlockStmt)
-            )
+            lambda p: Or(is_package(p), p.is_a(SubpBody, BlockStmt))
         ).at(0),
         doc="""
         This returns the closest parent that is a package (decl and body), a

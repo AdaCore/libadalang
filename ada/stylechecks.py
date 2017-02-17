@@ -8,7 +8,9 @@ ADA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = join(ADA_DIR, '..')
 
 DIRS = ('ada', 'utils')
-EXCLUDES = ('tmp', 'doc', join('testsuite', 'acats'))
+EXCLUDES = ('tmp', 'doc',
+            join('testsuite', 'acats'),
+            join('testsuite', 'tests', 'contrib'))
 
 sys.path.append(join(ROOT_DIR, "langkit"))
 

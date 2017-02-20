@@ -1680,12 +1680,12 @@ class GenericInstantiation(BasicDecl):
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
     kind = Field(type=T.SubpKind)
-    name = Field(type=T.Name)
+    subp_name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
-    params = Field(type=T.AdaNode)
+    subp_params = Field(type=T.AdaNode)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.name.singleton)
+    defining_names = Property(Self.subp_name.singleton)
 
 
 class GenericPackageInstantiation(GenericInstantiation):

@@ -290,7 +290,8 @@ package body Highlighter is
                  (LAL.Generic_Package_Instantiation (Node).F_Name, Highlights);
             when LAL.Ada_Generic_Subp_Instantiation =>
                Highlight_Block_Name
-                 (LAL.Generic_Subp_Instantiation (Node).F_Name, Highlights);
+                 (LAL.Generic_Subp_Instantiation (Node).F_Subp_Name,
+                  Highlights);
 
             when LAL.Ada_Subp_Spec =>
                declare

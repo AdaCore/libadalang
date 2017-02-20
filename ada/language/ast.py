@@ -1753,7 +1753,7 @@ class FormalSubpDecl(BasicSubpDecl):
 
 
 class GenericFormalPart(BaseFormalParamHolder):
-    decls = Field()
+    decls = Field(type=T.AdaNode.list_type())
 
     abstract_formal_params = Property(
         Self.decls.keep(BaseFormalParamDecl)

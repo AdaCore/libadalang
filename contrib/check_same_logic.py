@@ -13,6 +13,11 @@ parser.add_argument('files', help='The files to analyze',
                     type=str, nargs='+', metavar='F')
 
 
+def location(node):
+    return (node.token_start._sloc_range.start.line,
+            node.token_start._sloc_range.start.column)
+
+
 def list_operands(binop):
     """
     List all the sub-operands of `binop`, as long as they have the same
@@ -47,19 +52,25 @@ def is_bool_literal(expr):
     return expr.is_a(lal.Identifier) and expr.text.lower() in ['true', 'false']
 
 
+def tokens_text(node):
+    return tuple((t.kind, t.text) for t in node.tokens)
+
+
 def has_same_operands(expr):
     """
     For a logic relation, checks whether any combination of its sub-operands
-    are syntactically equivalent. If a duplicate operand is found, return it.
+    are syntactically equivalent. If duplicate operands are found, return them.
 
     :rtype: lal.Expr|None
     """
-    ops = set()
-    for op in list_operands(expr):
-        tokens = tuple((t.kind, t.text) for t in op.tokens)
-        if tokens in ops:
-            return op
-        ops.add(tokens)
+    ops = {}
+    all_ops = list_operands(expr)
+    if len(all_ops) > 1:
+        for op in all_ops:
+            tokens = tokens_text(op)
+            if tokens in ops:
+                return (ops[tokens], op)
+            ops[tokens] = op
 
 
 def same_as_parent(binop):
@@ -86,7 +97,6 @@ def interesting_oper(op):
 
 
 def do_file(f):
-    print f
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
 
@@ -96,11 +106,15 @@ def do_file(f):
             print '   {}'.format(diag)
             return
 
-    for b in unit.root.findall(lambda e: e.is_a(lal.BinOp)):
-        if interesting_oper(b.f_op) and not same_as_parent(b):
-            oper = has_same_operands(b)
-            if oper:
-                print 'Same operand {} for {} in {}'.format(oper, b, f)
+    for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+        if interesting_oper(binop.f_op) and not same_as_parent(binop):
+            res = has_same_operands(binop)
+            if res is not None:
+                (fst_op, snd_op) = res
+                (fst_line,fst_col) = location(fst_op)
+                (snd_line,snd_col) = location(snd_op)
+                print ('{}:{}:{}: duplicate operand with line {}').format(
+                    f, snd_line, snd_col, fst_line)
 
 
 def main(args):

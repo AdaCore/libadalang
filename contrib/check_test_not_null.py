@@ -13,6 +13,12 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('files', help='The files to analyze',
                     type=str, nargs='+', metavar='F')
 
+
+def location(node):
+    return (node.token_start._sloc_range.start.line,
+            node.token_start._sloc_range.start.column)
+
+
 def is_equality_operator(op, polarity):
     """
     Check that op is an equality or disequality operator.
@@ -83,7 +89,7 @@ def get_assignment(expr):
     return None
 
 
-def explore(subp):
+def explore(f, subp):
     """
     Explore the content of a subprogram body (which could be also the body of
     an expression function), and detect if an object is dereferenced after
@@ -96,26 +102,28 @@ def explore(subp):
     """
     def remove_assign(node, nulls):
         var = get_assignment(node)
-        if var != None and var.text in nulls:  # why not simply var???
+        if var is not None and var.text in nulls:
             del nulls[var.text]
 
     def add_nulls(node, nulls, polarity):
         var = get_nullity_test(node, polarity)
-        if var != None:  # why not simply var???
+        if var is not None:
             nulls[var.text] = var
 
     def detect_dereference(node, nulls):
         var = get_dereference(node)
-        if var != None and var.text in nulls: # why not simply var???
-            print 'Found dereference of {} at {} after null test at {}'.format(
-                var.text, node, nulls[var.text])
+        if var is not None and var.text in nulls:
+            (fst_line,fst_col) = location(nulls[var.text])
+            (snd_line,snd_col) = location(node)
+            print ('{}:{}:{}: dereference of null value after test at line {}').format(
+                f, snd_line, snd_col, fst_line)
 
     def traverse_branch(node, nulls, cond=None, neg_cond=None):
         """
         Sub traversal procedure, called by the main traversal procedure
         traverse on branches in the control flow.
         """
-        if not node:
+        if node is None:
             return
 
         # Copy the dictionary of objects dereferenced, as the objects that are
@@ -186,7 +194,7 @@ def explore(subp):
         :param nulls: Dictionary for the objects equal to null on the path,
                       mapping their text to the object node in the AST.
         """
-        if not node:
+        if node is None:
             return
 
         # Start by checking for dereference in the context of the null tests
@@ -211,12 +219,12 @@ def explore(subp):
                 collect_nulls(assoc.f_expr, nulls, {}, result=True)
 
         elif isinstance(node, lal.IfStmt):
-            traverse(node.f_condition, nulls)
-            traverse_branch(node.f_stmts, nulls, cond=node.f_condition)
+            traverse(node.f_cond_expr, nulls)
+            traverse_branch(node.f_then_stmts, nulls, cond=node.f_cond_expr)
             # do not attempt yet to propagate conditions of elsif parts
             for sub in node.f_alternatives:
-                traverse_branch(sub, nulls, neg_cond=node.f_condition)
-            traverse_branch(node.f_else_stmts, nulls, neg_cond=node.f_condition)
+                traverse_branch(sub, nulls, neg_cond=node.f_cond_expr)
+            traverse_branch(node.f_else_stmts, nulls, neg_cond=node.f_cond_expr)
 
         elif isinstance(node, lal.IfExpr):
             traverse(node.f_cond_expr, nulls)
@@ -276,7 +284,6 @@ def explore(subp):
 def do_file(f):
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
-    print f
     if unit.root is None:
         print 'Could not parse {}:'.format(f)
         for diag in unit.diagnostics:
@@ -284,7 +291,7 @@ def do_file(f):
             return
 
     for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody, lal.ExprFunction))):
-        explore(subp)
+        explore(f, subp)
 
 
 def main(args):

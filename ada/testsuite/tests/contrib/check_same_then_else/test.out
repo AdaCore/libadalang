@@ -1,10 +1,7 @@
-backend-be_corba_ada-common.adb
 backend-be_corba_ada-common.adb:714:13: duplicate code already found at line 668
 backend-be_corba_ada-common.adb:725:13: duplicate code already found at line 668
 backend-be_corba_ada-common.adb:1193:10: duplicate code already found at line 1190
-backend-be_corba_ada-helpers_internals.adb
 backend-be_corba_ada-helpers_internals.adb:4190:16: duplicate code already found at line 4161
-be-be_messages.adb
 be-be_messages.adb:954:13: duplicate code already found at line 876
 be-be_messages.adb:959:13: duplicate code already found at line 876
 be-be_messages.adb:964:13: duplicate code already found at line 948
@@ -13,15 +10,10 @@ be-be_messages.adb:1196:13: duplicate code already found at line 1162
 be-be_messages.adb:1536:13: duplicate code already found at line 1526
 be-be_messages.adb:1547:13: duplicate code already found at line 1526
 be-be_messages.adb:1557:13: duplicate code already found at line 1526
-be-obj_ids-factory.adb
 be-obj_ids-factory.adb:1159:22: duplicate code already found at line 1131
-be-pvp-pvp_pass-prop-propagate_top_down.adb
 be-pvp-pvp_pass-prop-propagate_top_down.adb:575:22: duplicate code already found at line 532
-disassemblers.ads
 disassemblers.ads:102:9: duplicate code already found at line 97
-exp_aggr.adb
 exp_aggr.adb:3056:16: duplicate code already found at line 3049
-exp_attr.adb
 exp_attr.adb:3945:10: duplicate code already found at line 3382
 exp_attr.adb:4250:10: duplicate code already found at line 4236
 exp_attr.adb:4512:10: duplicate code already found at line 4236
@@ -29,18 +21,11 @@ exp_attr.adb:5642:10: duplicate code already found at line 4236
 exp_attr.adb:5918:10: duplicate code already found at line 5661
 exp_attr.adb:6369:10: duplicate code already found at line 4236
 exp_attr.adb:6396:10: duplicate code already found at line 4236
-exp_util.adb
 exp_util.adb:12976:13: duplicate code already found at line 12949
 exp_util.adb:12997:13: duplicate code already found at line 12949
-foo.adb
 foo.adb:33:7: duplicate code already found at line 26
-gnatdoc-frontend-comment_parser.adb
 gnatdoc-frontend-comment_parser.adb:302:19: duplicate code already found at line 292
-help_module.adb
 help_module.adb:599:10: duplicate code already found at line 555
-language-ada.adb
 language-ada.adb:1249:16: duplicate code already found at line 1219
-soap-generator-skel.adb
 soap-generator-skel.adb:545:22: duplicate code already found at line 523
-traces_elf.adb
 traces_elf.adb:1040:13: duplicate code already found at line 1032

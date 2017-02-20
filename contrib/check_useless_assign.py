@@ -177,10 +177,10 @@ def collect_local_subprograms(node, locsubprograms):
     if node is None:
         pass
     elif (isinstance(node, (lal.SubpSpec, lal.GenericSubpInstantiation)) and
-          # Check presence of f_name to rule out the definition of a subprogram
-          # access type.
-          node.f_name is not None):
-        locsubprograms.add(node.f_name.text)
+          # Check presence of f_subp_name to rule out the definition of a
+          # subprogram access type.
+          node.f_subp_name is not None):
+        locsubprograms.add(node.f_subp_name.text)
     else:
         for sub in node:
             collect_local_subprograms(sub, locsubprograms)
@@ -247,7 +247,7 @@ def explore(f, locvars, locsubprograms, subp):
     # The initial set of reads is the set of subprogram parameters. This
     # includes the OUT and IN OUT parameters which can be read after the
     # subprogram returns.
-    params = set([param.f_ids.text for param in subp.f_subp_spec.f_params])
+    params = set([param.f_ids.text for param in subp.f_subp_spec.f_subp_params])
 
     def remove_read(node, assigns, reads):
         obj = get_read(node)
@@ -369,8 +369,8 @@ def explore(f, locvars, locsubprograms, subp):
             traverse_branch(node.f_else_stmts, init_assigns, assigns, init_reads, reads)
             for sub in node.f_alternatives:
                 traverse_branch(sub, init_assigns, assigns, init_reads, reads)
-            traverse_branch(node.f_stmts, init_assigns, assigns, init_reads, reads)
-            traverse(node.f_condition, assigns, reads)
+            traverse_branch(node.f_then_stmts, init_assigns, assigns, init_reads, reads)
+            traverse(node.f_cond_expr, assigns, reads)
 
         elif isinstance(node, lal.CaseStmt):
             # Save initial version of assigns and reads
@@ -474,7 +474,6 @@ def explore(f, locvars, locsubprograms, subp):
 def do_file(f):
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
-    print f
     if unit.root is None:
         print 'Could not parse {}:'.format(f)
         for diag in unit.diagnostics:

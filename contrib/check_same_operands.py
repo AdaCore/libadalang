@@ -15,6 +15,11 @@ parser.add_argument(
 )
 
 
+def location(node):
+    return (node.token_start._sloc_range.start.line,
+            node.token_start._sloc_range.start.column)
+
+
 def same_tokens(left, right):
     """
     Returns whether left and right contain tokens that are structurally
@@ -50,7 +55,6 @@ def interesting_oper(op):
 
 
 def do_file(f):
-    print f
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
 
@@ -60,9 +64,11 @@ def do_file(f):
             print '   {}'.format(diag)
             return
 
-    for b in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
-        if interesting_oper(b.f_op) and has_same_operands(b):
-            print 'Same operands for {} in {}'.format(b, f)
+    for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+        if interesting_oper(binop.f_op) and has_same_operands(binop):
+            (line,col) = location(binop)
+            print ('{}:{}:{}: left and right operands of "{}" are identical').format(
+                f, line, col, binop.f_op.text)
 
 
 def main(args):

@@ -73,21 +73,21 @@ def list_blocks(node):
         """
         if isinstance(node, lal.IfStmt):
             if len(node.f_alternatives) == 0:
-                return node.f_stmts
+                return node.f_then_stmts
             else:
                 return node.f_alternatives[len(node.f_alternatives)-1].f_stmts
         else:
-            if len(node.f_elsif_list) == 0:
+            if len(node.f_alternatives) == 0:
                 return node.f_then_expr
             else:
-                return node.f_elsif_list[len(node.f_elsif_list)-1].f_then_expr
+                return node.f_alternatives[len(node.f_alternatives)-1].f_then_expr
 
     if isinstance(node, lal.IfStmt):
         blocks = []
-        if select_if_block(node.f_stmts, node.f_condition):
-            blocks += [node.f_stmts]
+        if select_if_block(node.f_then_stmts, node.f_cond_expr):
+            blocks += [node.f_then_stmts]
         blocks += [sub.f_stmts for sub in node.f_alternatives
-                   if select_if_block(sub.f_stmts, sub.f_expr)]
+                   if select_if_block(sub.f_stmts, sub.f_cond_expr)]
         # Only return the else block if it is the same as the block preceding
         # it. Otherwise, there may be valid reasons for code duplication, that
         # have to do with the order of evaluation of tests in an if-statement.
@@ -99,7 +99,7 @@ def list_blocks(node):
         blocks = []
         if select_if_block(node.f_then_expr, node.f_cond_expr):
             blocks += [node.f_then_expr]
-        blocks += [sub.f_then_expr for sub in node.f_elsif_list
+        blocks += [sub.f_then_expr for sub in node.f_alternatives
                    if select_if_block(sub.f_then_expr, sub.f_cond_expr)]
         # Only return the else block if it is the same as the block preceding
         # it. Otherwise, there may be valid reasons for code duplication, that
@@ -147,7 +147,6 @@ def has_same_blocks(node):
 
 
 def do_file(f):
-    print f
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
 

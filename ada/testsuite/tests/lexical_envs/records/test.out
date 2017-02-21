@@ -184,6 +184,10 @@ CompilationUnit[1:1-11:9]
     r1_type: [<TypeDecl ["R1_Type"] 2:4-5:14>]
     r2_type: [<TypeDecl ["R2_Type"] 7:4-10:14>]
 }>
+<LexEnv (Id <root>, Parent null), {
+    foo: [<PackageDecl ["Foo"] 1:1-11:8>]
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
+}>
 <TypeDecl 2:4-5:14> - <LexEnv (Id 2, Parent 1), {
     a: [<ComponentDecl ["A", "B"] 3:7-3:21>]
     b: [<ComponentDecl ["A", "B"] 3:7-3:21>]

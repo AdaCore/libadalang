@@ -991,7 +991,7 @@ A.add_rules(
         # Special case for 'Update
         AttributeRef(
             A.name, "'",
-            Identifier(L.Identifier(match_text="update", keep=True)),
+            Identifier(L.Identifier(match_text="Update", keep=True)),
             A.update_attr_aggregate
         ),
 

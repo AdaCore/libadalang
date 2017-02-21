@@ -289,7 +289,7 @@ class AdaNode(ASTNode):
     )
 
     std = Property(
-        Self.unit.root.node_env.get('standard').at(0).el,
+        Self.unit.root.node_env.get('Standard').at(0).el,
         doc="""
         Retrieves the standard unit. Used to access standard types.
         """
@@ -3047,7 +3047,7 @@ class ForLoopSpec(LoopSpec):
 
     @langkit_property(return_type=EquationType)
     def xref_equation(origin_env=LexicalEnvType):
-        int = Var(Self.std_entity('integer'))
+        int = Var(Self.std_entity('Integer'))
 
         return Self.loop_type.match(
 

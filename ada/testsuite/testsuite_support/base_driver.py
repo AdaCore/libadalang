@@ -298,6 +298,17 @@ class BaseDriver(TestDriver):
 
         return p.out
 
+    @property
+    def gpr_scenario_vars(self):
+        """
+        Return the project scenario variables to pass to GPRbuild.
+
+        :rtype: list[str]
+        """
+        return ['-XLIBRARY_TYPE={}'.format('static'
+                                           if self.disable_shared else
+                                           'relocatable')]
+
     #
     # Analysis helpers
     #

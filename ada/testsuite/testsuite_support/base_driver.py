@@ -305,9 +305,9 @@ class BaseDriver(TestDriver):
 
         :rtype: list[str]
         """
-        return ['-XLIBRARY_TYPE={}'.format('static'
-                                           if self.disable_shared else
-                                           'relocatable')]
+        library_type = 'static' if self.disable_shared else 'relocatable'
+        return ['-XLIBRARY_TYPE={}'.format(library_type),
+                '-XXMLADA_BUILD={}'.format(library_type)]
 
     #
     # Analysis helpers

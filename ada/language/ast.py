@@ -396,7 +396,7 @@ class BasicDecl(AdaNode):
         TODO: Enhance when we have interfaces.
         """
         return Self.match(
-            lambda subp=BasicSubpDecl: subp.subp_spec,
+            lambda subp=BasicSubpDecl: subp.subp_decl_spec,
             lambda subp=SubpBody:      subp.subp_spec,
             lambda _:                  No(SubpSpec),
         )
@@ -1388,31 +1388,31 @@ class Overriding(T.EnumNode):
 
 @abstract
 class BasicSubpDecl(BasicDecl):
-    overriding = Field(type=Overriding)
-    subp_spec = Field(type=T.SubpSpec)
-
-    defining_names = Property(Self.subp_spec.name.singleton)
-    defining_env = Property(Self.subp_spec.defining_env)
+    defining_names = Property(Self.subp_decl_spec.name.singleton)
+    defining_env = Property(Self.subp_decl_spec.defining_env)
 
     type_expression = Property(
-        Self.subp_spec.returns, doc="""
+        Self.subp_decl_spec.returns, doc="""
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """
     )
 
+    subp_decl_spec = AbstractProperty(type=T.SubpSpec)
+
     env_spec = EnvSpec(
-        initial_env=Self.subp_spec.name.parent_scope,
+        initial_env=Self.subp_decl_spec.name.parent_scope,
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
-            add_to_env(Self.subp_spec.name.relative_name.symbol, Self),
+            add_to_env(Self.subp_decl_spec.name.relative_name.symbol, Self),
 
             # Second custom action, adding to the type's environment if the
             # type is tagged and self is a primitive of it.
             add_to_env(
-                key=Self.subp_spec.name.relative_name.symbol,
-                val=Self.subp_spec.dottable_subp,
-                dest_env=Self.subp_spec.potential_dottable_type._.children_env,
+                key=Self.subp_decl_spec.name.relative_name.symbol,
+                val=Self.subp_decl_spec.dottable_subp,
+                dest_env=Self.subp_decl_spec
+                .potential_dottable_type._.children_env,
                 # We pass custom metadata, marking the entity as a dottable
                 # subprogram.
                 metadata=New(Metadata, dottable_subp=True,
@@ -1432,7 +1432,19 @@ class BasicSubpDecl(BasicDecl):
     )
 
 
-class SubpDecl(BasicSubpDecl):
+@abstract
+class ClassicSubpDecl(BasicSubpDecl):
+    """
+    This is an intermediate abstract class for subprogram declarations with a
+    common structure: overriding indicator, subp_spec, aspects, <other fields>.
+    """
+    overriding = Field(type=Overriding)
+    subp_spec = Field(type=T.SubpSpec)
+
+    subp_decl_spec = Property(Self.subp_spec)
+
+
+class SubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     body_part = Property(
@@ -1444,20 +1456,20 @@ class SubpDecl(BasicSubpDecl):
     )
 
 
-class NullSubpDecl(BasicSubpDecl):
+class NullSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class AbstractSubpDecl(BasicSubpDecl):
+class AbstractSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class ExprFunction(BasicSubpDecl):
+class ExprFunction(ClassicSubpDecl):
     expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
 
-class SubpRenamingDecl(BasicSubpDecl):
+class SubpRenamingDecl(ClassicSubpDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
@@ -1722,7 +1734,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     defining_names = Property(Self.name.singleton)
 
 
-class FormalSubpDecl(BasicSubpDecl):
+class FormalSubpDecl(ClassicSubpDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
@@ -1749,7 +1761,7 @@ class GenericFormal(BaseFormalParamDecl):
     defining_names = Property(Self.decl.defining_names)
 
 
-class GenericSubpDecl(BasicDecl):
+class GenericSubpDecl(BasicSubpDecl):
     env_spec = child_unit(Self.subp_spec.name.relative_name.symbol,
                           Self.subp_spec.name.parent_scope)
 
@@ -1766,6 +1778,8 @@ class GenericSubpDecl(BasicDecl):
         Return the SubpBody corresponding to this node.
         """
     )
+
+    subp_decl_spec = Property(Self.subp_spec)
 
 
 class GenericPackageDecl(BasicDecl):
@@ -1931,7 +1945,7 @@ class BinOp(Expr):
             Self.left.sub_equation(origin_env)
             & Self.right.sub_equation(origin_env)
         ) & (subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_spec.unpacked_formal_params:
+            lambda ps=subp.subp_decl_spec.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
             # operand.
@@ -1942,7 +1956,7 @@ class BinOp(Expr):
             & Bind(Self.right.type_var, ps.at(1).spec.type)
 
             # The subprogram's return type is the type of Self
-            & Bind(Self.type_var, subp.subp_spec.returns.designated_type)
+            & Bind(Self.type_var, subp.subp_decl_spec.returns.designated_type)
 
             # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
@@ -2624,14 +2638,14 @@ class BaseId(SingleTokNode):
         items = Var(Env.get_sequential(Self.tok, recursive=Not(is_parent_pkg)))
         pc = Var(Self.parent_callexpr)
 
-        def matching_subp(params, subp, env_el):
+        def matching_subp(params, subp, subp_spec, env_el):
             # Either the subprogram has is matching the CallExpr's parameters
-            return subp.subp_spec.is_matching_param_list(
+            return subp_spec.is_matching_param_list(
                 params, env_el.MD.dottable_subp
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
-                subp.subp_spec.paramless(env_el.MD)
+                subp_spec.paramless(env_el.MD)
                 & pc.check_type(et)
             ))
 
@@ -2665,10 +2679,10 @@ class BaseId(SingleTokNode):
             pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.el.match(
                     lambda subp=BasicSubpDecl:
-                        matching_subp(params, subp, e),
+                        matching_subp(params, subp, subp.subp_decl_spec, e),
 
                     lambda subp=SubpBody:
-                        matching_subp(params, subp, e),
+                        matching_subp(params, subp, subp.subp_spec, e),
 
                     # Type conversion case
                     lambda _=BaseTypeDecl: params.length == 1,

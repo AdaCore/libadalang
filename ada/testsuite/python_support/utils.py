@@ -22,7 +22,9 @@ def gprbuild(project_file):
     project that depends on Libadalang.
     """
     argv = ['gprbuild', '-P', project_file, '-q', '-p', '-m']
-    argv.append('-XLIBRARY_TYPE={}'.format(
-        'static' if LAL_DISABLE_SHARED else 'relocatable'
-    ))
+    library_kind = 'static' if LAL_DISABLE_SHARED else 'relocatable'
+    argv.extend([
+        '-XLIBRARY_TYPE={}'.format(library_kind),
+        '-XXMLADA_BUILD={}'.format(library_kind),
+    ])
     subprocess.check_call(argv)

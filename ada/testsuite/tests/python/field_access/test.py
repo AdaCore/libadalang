@@ -15,7 +15,7 @@ else:
         "Out-of-bound (overflow) child access is not handled properly")
 
 try:
-    tmp = root[-1]
+    tmp = root[-10]
 except IndexError as exc:
     pass
 else:

@@ -3579,7 +3579,7 @@ class TerminateAlternative(SimpleStmt):
 
 
 class PackageBody(Body):
-    env_spec = child_unit('__body', Self.package_name.scope)
+    env_spec = child_unit('__body', Self.body_scope)
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
@@ -3589,6 +3589,16 @@ class PackageBody(Body):
 
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
+
+    body_scope = Property(Let(
+        lambda scope=Self.parent.node_env.eval_in_env(Self.package_name.scope):
+
+        # If the package has a private part, then get the private part, else
+        # return the public part.
+        scope.get('__privatepart').at(0).then(
+            lambda pp: pp.children_env, default_val=scope
+        )
+    ), has_implicit_env=True)
 
     @langkit_property(return_type=T.BasePackageDecl, public=True)
     def decl_part():

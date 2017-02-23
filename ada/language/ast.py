@@ -1211,6 +1211,8 @@ class SubtypeDecl(BaseTypeDecl):
 
     accessed_type = Property(Self.canonical_type.accessed_type)
 
+    is_int_type = Property(Self.canonical_type.is_int_type)
+
 
 class TaskDef(AdaNode):
     interfaces = Field(type=T.Name.list_type())

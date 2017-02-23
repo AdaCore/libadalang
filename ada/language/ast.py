@@ -84,30 +84,6 @@ def canonical_type_or_null(type_expr):
     return type_expr._.designated_type.canonical_type
 
 
-def decl_scope_decls(d):
-    """
-    Property helper to return a list of declarations for the body corresponding
-    to scope for the given "d" declaration.
-    """
-    return d.enclosing_scope.match(
-        lambda pkg_decl=T.BasePackageDecl:
-            pkg_decl.public_part.decls.as_array,
-        lambda pkg_body=T.PackageBody:
-            Let(lambda decl=pkg_body.decl_part:
-                Let(lambda public_decls=decl.public_part.decls.as_array:
-                    decl.private_part.then(
-                        lambda private_part:
-                            public_decls.concat(private_part.decls.as_array),
-                        default_val=public_decls
-                    ))),
-        lambda subp_body=T.SubpBody:
-            subp_body.decls.decls.as_array,
-        lambda block_stmt=T.BlockStmt:
-            block_stmt.decls.decls.as_array,
-        lambda _: EmptyArray(T.AdaNode),
-    )
-
-
 def subp_body_from_spec(decl, subp_spec):
     """
     Property helper. Return the SubpBody node corresponding to "decl", which is

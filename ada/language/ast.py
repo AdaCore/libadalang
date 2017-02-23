@@ -3264,7 +3264,8 @@ class CompilationUnit(AdaNode):
 
 class SubpBody(Body):
     env_spec = child_unit(
-        '__body',
+        Self.subp_spec.name.relative_name.symbol,
+
         If(is_library_item(Self),
            # In case the subp spec for this library level subprogram is
            # missing, we'll put it in the parent's scope. This way, the xref to

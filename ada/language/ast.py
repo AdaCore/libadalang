@@ -3284,25 +3284,20 @@ class SubpBody(Body):
     decl_part = Property(
         If(
             is_library_item(Self),
+            # If library item, we just return the spec. We don't check if it's
+            # a valid and matching subprogram because that's an error case.
+            get_library_item(Self.spec_unit),
 
-            get_library_item(Self.spec_unit).match(
-                lambda subp_decl=T.SubpDecl: subp_decl,
-                lambda gen_subp_decl=T.GenericSubpDecl: gen_subp_decl,
-                lambda _: No(T.AdaNode)
-            ),
+            # If not a library item, find the matching subprogram spec in the
+            # env.
+            Self.parent.node_env.get(Self.defining_name.relative_name.symbol)
+            .find(lambda sp: sp.el.cast(T.BasicDecl).then(
+                lambda bd:
+                Not(bd.is_a(SubpBody))
+                & bd.subp_spec_or_null._.match_signature(Self.subp_spec)
+            )).el
 
-            decl_scope_decls(Self).filter(
-                lambda decl:
-                Let(lambda
-                    spec=decl.match(
-                        lambda subp_decl=T.SubpDecl: subp_decl.subp_spec,
-                        lambda gen_subp_decl=T.GenericSubpDecl:
-                            gen_subp_decl.subp_spec,
-                        lambda _: No(T.SubpSpec)
-                    ):
-
-                    spec._.match_signature(Self.subp_spec))
-            ).at(0)),
+        ),
         public=True,
         doc="""
         Return the SubpDecl corresponding to this node.

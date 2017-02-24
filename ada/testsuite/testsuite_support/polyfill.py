@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 """
 Provide in-place substitutes for our GNATpython-based testsuite.
 
@@ -18,7 +21,7 @@ import sys
 import tempfile
 import yaml
 
-from parallel_map import pmap
+from testsuite_support.parallel_map import pmap
 
 
 class _Main(object):
@@ -138,7 +141,7 @@ class ReportWriter(object):
         ))
 
         if not self.pretty_out:
-            print ""
+            print('')
 
         sys.stdout.flush()
 
@@ -149,7 +152,7 @@ class ReportWriter(object):
                 status not in ('PASSED', 'OK', 'UOK', 'XFAIL')):
 
             if self.pretty_out:
-                print ""  # Skip a line
+                print('')  # Skip a line
 
             lines = output.rstrip().splitlines()
 
@@ -163,14 +166,14 @@ class ReportWriter(object):
                     else:
                         col = self.colors.gray
 
-                    print '  {col}{line}{reset}'.format(
+                    print('  {col}{line}{reset}'.format(
                         col=col, reset=self.colors.reset, line=line.rstrip()
-                    )
+                    ))
             else:
-                print '{clr.red}{output}{clr.reset}'.format(
+                print('{clr.red}{output}{clr.reset}'.format(
                     clr=self.colors,
                     output=''.join('  {}\n'.format(l.rstrip()) for l in lines),
-                )
+                ))
 
         # Likewise in the report summary
         self.summary_file.write('{}:{}:{}\n'.format(
@@ -191,14 +194,14 @@ class ReportWriter(object):
     def print_hits(self):
         """Display statistics for statuses on the standard output."""
         sys.stdout.write("\r\033[K")
-        print 'Summary:'
+        print('Summary:')
         for status in sorted(self.hits):
-            print '  {}{}{}: {}'.format(
+            print('  {}{}{}: {}'.format(
                 self.get_color(status),
                 status,
                 self.colors.reset,
                 self.hits[status]
-            )
+            ))
 
     def close(self):
         """Close the files open for this report."""
@@ -329,7 +332,7 @@ class BaseTestsuite(object):
             self.colors.disable()
 
         if self.args.disable_cleanup:
-            print 'Temporary directory: {}'.format(self.working_dir)
+            print('Temporary directory: {}'.format(self.working_dir))
 
         self.tear_up()
 

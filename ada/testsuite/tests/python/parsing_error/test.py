@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import re
 
 import libadalang
@@ -39,4 +42,4 @@ for diag in unit.diagnostics:
     safe_print(diag, str)
 print('')
 
-print 'Done.'
+print('Done.')

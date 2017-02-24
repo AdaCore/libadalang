@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang
 
 src_buffer = """
@@ -24,4 +27,4 @@ else:
     assert False, ('Removing twice the analysis unit for foo.adb is supposed'
                    ' to raise an error but it did not')
 
-print 'Done.'
+print('Done.')

@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 from glob import glob
 import os
 
@@ -9,7 +12,7 @@ acats_dir = os.path.join(LAL_ROOTDIR, 'ada', 'testsuite', 'acats')
 
 
 if not os.path.isdir(acats_dir):
-    print "FAIL: You need to put the acats repo in ada/testsuite/acats"
+    print('FAIL: You need to put the acats repo in ada/testsuite/acats')
 else:
     c = lal.AnalysisContext()
 
@@ -24,11 +27,11 @@ else:
                     try:
                         u = c.get_from_file(filepath)
                     except Exception:
-                        print "ERROR in {}:".format(filepath)
+                        print('ERROR in {}:'.format(filepath))
                         raise
 
                     # Check that the parsing generated no diagnostics
                     if u.diagnostics:
-                        print "ERROR in {}:".format(filepath)
+                        print('ERROR in {}:'.format(filepath))
                         for d in u.diagnostics:
-                            print d
+                            print(d)

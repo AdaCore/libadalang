@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang as lal
 
 
@@ -43,4 +46,4 @@ for filename in (
 ):
     process(filename, True)
 
-print 'Done.'
+print('Done.')

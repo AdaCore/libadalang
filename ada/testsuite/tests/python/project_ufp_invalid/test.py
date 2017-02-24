@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import sys
 
 import libadalang
@@ -29,4 +32,4 @@ for filename in ('\n', ' '):
     else:
         pflush('   ... got no exception. Unacceptable!')
 
-print "Done."
+print('Done.')

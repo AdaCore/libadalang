@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang
 
 
@@ -18,4 +21,4 @@ for with_trivia in (False, True):
     print('  {}'.format(u.root.token_end))
     print('')
 
-print 'Done.'
+print('Done.')

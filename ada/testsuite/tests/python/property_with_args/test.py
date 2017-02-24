@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang
 
 ctx = libadalang.AnalysisContext('iso-8859-1')
@@ -18,4 +21,4 @@ i.dump(indent='  ')
 print('Foo.p_matches(Foo) = {}'.format(foo.p_matches(foo)))
 print('Foo.p_matches(I) = {}'.format(foo.p_matches(i)))
 
-print "Done."
+print('Done.')

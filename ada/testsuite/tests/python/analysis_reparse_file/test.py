@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import os
 
 import libadalang
@@ -26,19 +29,19 @@ ctx = libadalang.AnalysisContext('iso-8859-1')
 def check(unit):
     assert unit, 'Could not create the analysis unit for foo.adb from a file'
     if unit.diagnostics:
-        print 'Diagnostics for foo.adb:'
+        print('Diagnostics for foo.adb:')
         for diag in unit.diagnostics:
-            print '  {}'.format(diag)
+            print('  {}'.format(diag))
     else:
-        print 'WithClause: has_limited = {}'.format(
+        print('WithClause: has_limited = {}'.format(
             unit.root.f_prelude[0].f_has_limited
-        )
+        ))
 
 
 # First work with the "limited" keyword
 write_source(src_buffer_1)
 
-print '1. Parsing source 1'
+print('1. Parsing source 1')
 unit = ctx.get_from_file('foo.adb', reparse=False)
 check(unit)
 
@@ -49,19 +52,19 @@ check(unit)
 #  4. getting the unit with reparsing should clear is_limited.
 write_source(src_buffer_2)
 
-print '2. Parsing source 2 (reparse=false)'
+print('2. Parsing source 2 (reparse=false)')
 unit = ctx.get_from_file('foo.adb', reparse=False)
 check(unit)
 
 os.remove('foo.adb')
 
-print '3. Parsing with deleted file (reparse=true)'
+print('3. Parsing with deleted file (reparse=true)')
 unit = ctx.get_from_file('foo.adb', reparse=True)
 check(unit)
 
 write_source(src_buffer_2)
 
-print '4. Parsing source 2 (reparse=true)'
+print('4. Parsing source 2 (reparse=true)')
 unit = ctx.get_from_file('foo.adb', reparse=True)
 check(unit)
 
@@ -72,14 +75,14 @@ check(unit)
 
 write_source(src_buffer_1)
 
-print '5. Reparsing source 1'
+print('5. Reparsing source 1')
 unit.reparse()
 check(unit)
 
 os.remove('foo.adb')
 
-print '6. Reparsing with deleted file'
+print('6. Reparsing with deleted file')
 unit.reparse()
 check(unit)
 
-print 'Done.'
+print('Done.')

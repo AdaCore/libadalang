@@ -3,6 +3,9 @@ Test that Python wrapper objects around C AST nodes are preserved across
 different wrappings.
 """
 
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang
 
 
@@ -36,4 +39,4 @@ first_id = pre_process(unit)
 last_id = post_process(unit)
 assert first_id == last_id, (
     'Got different Python wrappers for the same C AST node')
-print 'Done.'
+print('Done.')

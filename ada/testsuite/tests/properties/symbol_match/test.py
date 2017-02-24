@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import libadalang
 
 import source
@@ -24,4 +27,4 @@ for a, b in [
     (foo, foo),
     (foo, i),
 ]:
-    print '{} matches {} => {}'.format(a, b, a.p_matches(b))
+    print('{} matches {} => {}'.format(a, b, a.p_matches(b)))

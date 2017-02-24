@@ -4,8 +4,8 @@ invalid.gpr:1:01: ":=" expected
 Trying to load invalid project: does_not_exist.gpr
 invalid.gpr:1:01: ":=" expected
    ... got an exception: Cannot open project invalid.gpr
-Trying to get unit: '\n'
-   ... got an exception: Invalid unit name: '\n' (body)
-Trying to get unit: ' '
-   ... got an exception: Invalid unit name: ' ' (body)
+Trying to get unit: u'\n'
+   ... got an exception: Invalid unit name: u'\n' (body)
+Trying to get unit: u' '
+   ... got an exception: Invalid unit name: u' ' (body)
 Done.

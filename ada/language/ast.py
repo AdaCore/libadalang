@@ -1,4 +1,5 @@
-from __future__ import absolute_import
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 
 from langkit import compiled_types
 from langkit.compiled_types import (
@@ -120,7 +121,7 @@ class Metadata(Struct):
 
 
 @abstract
-@root_grammar_class(generic_list_type='AdaList')
+@root_grammar_class(generic_list_type=b'AdaList')
 class AdaNode(ASTNode):
     """
     Root node class for the Ada grammar. This is good and necessary for several

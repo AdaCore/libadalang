@@ -1,5 +1,8 @@
 #! /usr/bin/env python
 
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import os.path
 import subprocess
 import sys
@@ -142,7 +145,7 @@ class Manage(ManageScript):
         try:
             self.check_call(args, 'Testsuite', argv, env=env)
         except subprocess.CalledProcessError as exc:
-            print >> sys.stderr, 'Testsuite failed: {}'.format(exc)
+            print('Testsuite failed: {}'.format(exc), file=sys.stderr)
             sys.exit(1)
         except KeyboardInterrupt:
             # At this point, the testsuite already made it explicit we stopped
@@ -274,15 +277,15 @@ class Manage(ManageScript):
             elapsed_list.append(elapsed)
 
             # Print a very basic report
-            print "Parsed {0} lines of Ada code in {1:.2f} seconds".format(
+            print("Parsed {0} lines of Ada code in {1:.2f} seconds".format(
                 lines_count, elapsed
-            )
+            ))
 
-        print ""
-        printcol("= Performance summary =", Colors.OKGREEN)
-        print "Mean time to parse {0} lines of code : {1:.2f} seconds".format(
+        print('')
+        printcol('= Performance summary =', Colors.OKGREEN)
+        print('Mean time to parse {0} lines of code : {1:.2f} seconds'.format(
             lines_count, sum(elapsed_list) / float(len(elapsed_list))
-        )
+        ))
 
 
 if __name__ == '__main__':

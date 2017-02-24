@@ -8,6 +8,9 @@ Usage::
 Run the Libadalang testsuite.
 """
 
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import os
 
 from testsuite_support import Testsuite

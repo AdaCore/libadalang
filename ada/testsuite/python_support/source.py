@@ -1,3 +1,7 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
+
 def src_slice(src_lines, sloc_range):
     """
     Given "src_lines", a list of strings representing a source file, return a

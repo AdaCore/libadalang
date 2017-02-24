@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import os
 import os.path
 import pipes
@@ -188,7 +191,7 @@ class BaseDriver(TestDriver):
         }
 
         key = self.test_env.get('python_interpreter', 'default')
-        if not isinstance(key, str):
+        if not isinstance(key, basestring):
             raise SetupError(
                 'Invalid "python_interpreter" key in test.yaml: it must'
                 ' contain a string, got a {} instead'.format(

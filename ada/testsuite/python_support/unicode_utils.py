@@ -1,7 +1,10 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 # The following sources do not contain the same string literals so that
 # testcases can check the the reparsing actually worked.
 
-src_buffer_iso_8859_1 = """with Ada.Text_IO; use Ada.Text_IO;
+src_buffer_iso_8859_1 = b"""with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Test is
 begin
@@ -10,7 +13,7 @@ end Test;
 """
 
 
-src_buffer_utf_8 = """with Ada.Text_IO; use Ada.Text_IO;
+src_buffer_utf_8 = b"""with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Test is
 begin

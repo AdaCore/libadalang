@@ -124,7 +124,8 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List);
    --  Helper for the environment hook to handle WithDecl nodes
 
-   procedure Handle_Unit_Decl (Ctx : Analysis_Context; Node : Basic_Decl);
+   procedure Handle_Unit_With_Parents
+     (Ctx : Analysis_Context; Node : Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
 
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node);
@@ -154,7 +155,7 @@ package body Libadalang.Unit_Files.Env_Hook is
          if Node.all in Body_Node_Type'Class then
             Handle_Unit_Body (Ctx, Body_Node (Node));
          elsif Node.all in Basic_Decl_Type'Class then
-            Handle_Unit_Decl (Ctx, Basic_Decl (Node));
+            Handle_Unit_With_Parents (Ctx, Basic_Decl (Node));
          end if;
       end if;
    end Env_Hook;
@@ -175,11 +176,13 @@ package body Libadalang.Unit_Files.Env_Hook is
       end loop;
    end Handle_With_Decl;
 
-   ----------------------
-   -- Handle_Unit_Decl --
-   ----------------------
+   ------------------------------
+   -- Handle_Unit_With_Parents --
+   ------------------------------
 
-   procedure Handle_Unit_Decl (Ctx : Analysis_Context; Node : Basic_Decl) is
+   procedure Handle_Unit_With_Parents
+     (Ctx : Analysis_Context; Node : Basic_Decl)
+   is
       Names : Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package decl, there is no
@@ -211,7 +214,7 @@ package body Libadalang.Unit_Files.Env_Hook is
             end;
          end if;
       end;
-   end Handle_Unit_Decl;
+   end Handle_Unit_With_Parents;
 
    ----------------------
    -- Handle_Unit_Body --

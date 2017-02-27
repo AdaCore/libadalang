@@ -2318,6 +2318,7 @@ class CallExpr(Name):
         """
         Helper property. Will return the innermost call expression following
         the name chain. For, example, given::
+
             A (B) (C) (D)
             ^-----------^ Self
             ^-------^     Self.name

@@ -701,7 +701,7 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
             #   in the set
             if (numlines < num_line_limit or
                 any(start_loc <= fst_end
-                    for (f, start_loc, end_loc) in locs[1:])):
+                    for (f, start_loc, end_loc) in locs[1:] if f == fst_file)):
                 return (maxHeight.get(), maxNode)
 
             msgs = ["code from line {} to line {}".format(start_loc, end_loc)

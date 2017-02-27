@@ -182,12 +182,13 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_Unit_Decl (Ctx : Analysis_Context; Node : Basic_Decl) is
       Names : Name_Array_Access;
    begin
-      if Node.all not in Package_Decl_Type'Class
-         and then Node.all not in Basic_Subp_Decl_Type'Class
-         and then Node.all not in Generic_Package_Decl_Type'Class
-         and then Node.all not in Generic_Subp_Decl_Type'Class
       --  If this not a library-level subprogram/package decl, there is no
       --  parent spec to process.
+      if Node.all not in 
+         Package_Decl_Type'Class
+         | Basic_Subp_Decl_Type'Class
+         | Generic_Package_Decl_Type'Class
+         | Generic_Subp_Decl_Type'Class
       then
          return;
       end if;

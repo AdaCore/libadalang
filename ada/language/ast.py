@@ -3255,15 +3255,31 @@ class CompilationUnit(AdaNode):
 
 
 class SubpBody(Body):
-    env_spec = child_unit(
-        Self.subp_spec.name.relative_name.symbol,
+    env_spec = EnvSpec(
+        initial_env=If(
+            is_library_item(Self),
+            # In case the subp spec for this library level subprogram is
+            # missing, we'll put it in the parent's scope. This way, the xref
+            # to it should still resolve.
+            Self.subp_spec.name.scope._or(Self.subp_spec.name.parent_scope),
+            Self.parent.children_env
+        ),
+        add_env=True,
+        add_to_env=[
+            # Add the body to its own parent env
+            add_to_env(Self.subp_spec.name.relative_name.symbol, Self),
 
-        If(is_library_item(Self),
-           # In case the subp spec for this library level subprogram is
-           # missing, we'll put it in the parent's scope. This way, the xref to
-           # it should still resolve.
-           Self.subp_spec.name.scope._or(Self.subp_spec.name.parent_scope),
-           Self.parent.children_env)
+            # Add the __body link to the spec, if there is one
+            add_to_env(
+                '__body', Self,
+                dest_env=Self.decl_part.then(
+                    lambda d: d.children_env,
+                    default_val=EmptyEnv
+                ),
+                is_post=True
+            ),
+        ],
+        env_hook_arg=Self,
     )
 
     overriding = Field(type=Overriding)

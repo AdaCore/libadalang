@@ -131,7 +131,7 @@ class Manage(ManageScript):
         env = self.derived_env()
 
         if not args.with_gnatpython:
-            env['WITHOUT_GNATPYTHON'] = '1'
+            env[b'WITHOUT_GNATPYTHON'] = b'1'
 
         argv = [
             'python',

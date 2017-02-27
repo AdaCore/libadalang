@@ -192,6 +192,7 @@ package body Libadalang.Unit_Files.Env_Hook is
          | Basic_Subp_Decl_Type'Class
          | Generic_Package_Decl_Type'Class
          | Generic_Subp_Decl_Type'Class
+         | Subp_Body_Type'Class
       then
          return;
       end if;
@@ -241,6 +242,12 @@ package body Libadalang.Unit_Files.Env_Hook is
          Dec_Ref (Names);
          Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
       end;
+
+      if Node.all in Subp_Body_Type'Class then
+         --  A library level subprogram body does not have to have a spec. So
+         --  we have to compute the parents directly from here.
+         Handle_Unit_With_Parents (Ctx, Basic_Decl (Node));
+      end if;
    end Handle_Unit_Body;
 
 end Libadalang.Unit_Files.Env_Hook;

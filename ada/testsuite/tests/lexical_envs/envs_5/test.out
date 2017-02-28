@@ -1,196 +1,64 @@
-CompilationUnitList[1:1-13:9]
-|  CompilationUnit[1:1-2:9]
-|  |prelude:
-|  |  AdaNodeList[1:1-1:1]: <empty list>
-|  |body:
-|  |  LibraryItem[1:1-2:8]
-|  |  |has_private:
-|  |  |  PrivateAbsent[1:1-1:1]
-|  |  |item:
-|  |  |  PackageDecl[1:1-2:8]
-|  |  |  |package_name:
-|  |  |  |  Id[1:9-1:12]
-|  |  |  |  |tok: Foo
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
-|  |  |  |  PublicPart[2:1-2:1]
-|  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_id:
-|  |  |  |  Id[2:5-2:8]
-|  |  |  |  |tok: Foo
-|  |pragmas:
-|  |  PragmaNodeList[4:1-4:1]: <empty list>
-|  CompilationUnit[4:1-6:13]
-|  |prelude:
-|  |  AdaNodeList[4:1-4:1]: <empty list>
-|  |body:
-|  |  LibraryItem[4:1-6:12]
-|  |  |has_private:
-|  |  |  PrivateAbsent[4:1-4:1]
-|  |  |item:
-|  |  |  GenericPackageDecl[4:1-6:12]
-|  |  |  |formal_part:
-|  |  |  |  GenericFormalPart[4:1-4:8]
-|  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
-|  |  |  |package_decl:
-|  |  |  |  BasePackageDecl[5:1-6:12]
-|  |  |  |  |package_name:
-|  |  |  |  |  DottedName[5:9-5:16]
-|  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[5:9-5:12]
-|  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[5:13-5:16]
-|  |  |  |  |  |  |tok: Bar
-|  |  |  |  |aspects: <null>
-|  |  |  |  |public_part:
-|  |  |  |  |  PublicPart[6:1-6:1]
-|  |  |  |  |  |decls:
-|  |  |  |  |  |  AdaNodeList[6:1-6:1]: <empty list>
-|  |  |  |  |private_part: <null>
-|  |  |  |  |end_id:
-|  |  |  |  |  DottedName[6:5-6:12]
-|  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[6:5-6:8]
-|  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[6:9-6:12]
-|  |  |  |  |  |  |tok: Bar
-|  |pragmas:
-|  |  PragmaNodeList[8:1-8:1]: <empty list>
-|  CompilationUnit[8:1-9:7]
-|  |prelude:
-|  |  AdaNodeList[8:1-8:1]: <empty list>
-|  |body:
-|  |  LibraryItem[8:1-9:6]
-|  |  |has_private:
-|  |  |  PrivateAbsent[8:1-8:1]
-|  |  |item:
-|  |  |  PackageDecl[8:1-9:6]
-|  |  |  |package_name:
-|  |  |  |  Id[8:9-8:10]
-|  |  |  |  |tok: A
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
-|  |  |  |  PublicPart[9:1-9:1]
-|  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[9:1-9:1]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_id:
-|  |  |  |  Id[9:5-9:6]
-|  |  |  |  |tok: A
-|  |pragmas:
-|  |  PragmaNodeList[11:1-11:1]: <empty list>
-|  CompilationUnit[11:1-13:9]
-|  |prelude:
-|  |  AdaNodeList[11:1-11:1]: <empty list>
-|  |body:
-|  |  LibraryItem[11:1-13:8]
-|  |  |has_private:
-|  |  |  PrivateAbsent[11:1-11:1]
-|  |  |item:
-|  |  |  SubpBody[11:1-13:8]
-|  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[11:1-11:1]
-|  |  |  |subp_spec:
-|  |  |  |  SubpSpec[11:1-11:14]
-|  |  |  |  |subp_name:
-|  |  |  |  |  DottedName[11:11-11:14]
-|  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[11:11-11:12]
-|  |  |  |  |  |  |tok: A
-|  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[11:13-11:14]
-|  |  |  |  |  |  |tok: B
-|  |  |  |  |subp_params:
-|  |  |  |  |  ParamSpecList[11:13-11:13]: <empty list>
-|  |  |  |  |subp_returns: <null>
-|  |  |  |aspects: <null>
-|  |  |  |decls:
-|  |  |  |  DeclarativePart[12:1-12:1]
-|  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[12:1-12:1]: <empty list>
-|  |  |  |stmts:
-|  |  |  |  HandledStmts[13:1-13:1]
-|  |  |  |  |stmts:
-|  |  |  |  |  AdaNodeList[13:1-13:1]: <empty list>
-|  |  |  |  |exceptions:
-|  |  |  |  |  AdaNodeList[12:1-12:1]: <empty list>
-|  |  |  |end_id:
-|  |  |  |  DottedName[13:5-13:8]
+CompilationUnit[1:1-3:9]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-3:8]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-3:8]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:14]
+|  |  |  |subp_name:
+|  |  |  |  DottedName[1:11-1:14]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[13:5-13:6]
+|  |  |  |  |  Id[1:11-1:12]
 |  |  |  |  |  |tok: A
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[13:7-13:8]
+|  |  |  |  |  Id[1:13-1:14]
 |  |  |  |  |  |tok: B
-|  |pragmas:
-|  |  PragmaNodeList[14:1-14:1]: <empty list>
+|  |  |  |subp_params:
+|  |  |  |  ParamSpecList[1:13-1:13]: <empty list>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:1-2:1]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[3:1-3:1]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[3:1-3:1]: <empty list>
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |end_id:
+|  |  |  DottedName[3:5-3:8]
+|  |  |  |prefix:
+|  |  |  |  Id[3:5-3:6]
+|  |  |  |  |tok: A
+|  |  |  |suffix:
+|  |  |  |  Id[3:7-3:8]
+|  |  |  |  |tok: B
+|pragmas:
+|  PragmaNodeList[4:1-4:1]: <empty list>
 
 ==== Dumping lexical environments ====
-<CompilationUnitList 1:1-13:9> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+<CompilationUnit 1:1-3:9> - <LexEnv (Id <root>, Parent null), {
+    a: [<PackageDecl ["A"] 1:1-3:6>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
-<CompilationUnit 1:1-2:9> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+<LibraryItem 1:1-3:8> - <LexEnv (Id <root>, Parent null), {
+    a: [<PackageDecl ["A"] 1:1-3:6>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
-<LibraryItem 1:1-2:8> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<PackageDecl 1:1-2:8> - <LexEnv (Id 1, Parent <root>), {
-    bar: [<GenericPackageDecl ["Foo.Bar"] 4:1-6:12>]
+<SubpBody 1:1-3:8> - <LexEnv (Id 2, Parent 1), empty>
+<LexEnv (Id 1, Parent <root>), {
+    b: [<SubpBody ["A.B"] 1:1-3:8>]
+    pouet: [<ObjectDecl ["Pouet"] 2:4-2:19>]
 }>
 <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
+    a: [<PackageDecl ["A"] 1:1-3:6>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
-<CompilationUnit 4:1-6:13> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<LibraryItem 4:1-6:12> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<GenericPackageDecl 4:1-6:12> - <LexEnv (Id 2, Parent 1), empty>
-<CompilationUnit 8:1-9:7> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<LibraryItem 8:1-9:6> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<PackageDecl 8:1-9:6> - <LexEnv (Id 3, Parent <root>), {
-    b: [<SubpBody ["A.B"] 11:1-13:8>]
-}>
-<LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<CompilationUnit 11:1-13:9> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<LibraryItem 11:1-13:8> - <LexEnv (Id <root>, Parent null), {
-    a: [<PackageDecl ["A"] 8:1-9:6>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<SubpBody 11:1-13:8> - <LexEnv (Id 4, Parent 3), empty>

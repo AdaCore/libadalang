@@ -1,2 +1,3 @@
 driver: parser
 action: pp-file-with-lexical-envs
+input_file: foo-bar.ads

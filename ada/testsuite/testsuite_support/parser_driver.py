@@ -25,12 +25,10 @@ class ParserDriver(BaseDriver):
         if self.action not in self.ACTIONS:
             raise SetupError('Invalid action: {}'.format(self.action))
 
-        # Pass an absolute filename to "parse" so that its output does not
+        # Pass a relative filename to "parse" so that its output does not
         # depend on the location of the working directory. This helps making
         # the test output stable across runs.
-        self.input_file = self.working_dir(
-            self.test_env.get('input_file', 'input')
-        )
+        self.input_file = self.test_env.get('input_file', 'input')
 
         self.check_file(self.input_file)
 
@@ -56,7 +54,8 @@ class ParserDriver(BaseDriver):
             rule_name = self.test_env.get('rule', None)
             if not rule_name:
                 raise SetupError('Parsing rule is missing from test.yaml')
-            parse_argv += ['-r', rule_name, self.read_file(self.input_file)]
+            parse_argv += ['-r', rule_name,
+                           self.read_file(self.working_dir(self.input_file))]
 
         for lookup in self.get_lookups():
             parse_argv.append(

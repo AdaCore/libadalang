@@ -25,16 +25,17 @@ class ParserDriver(BaseDriver):
         if self.action not in self.ACTIONS:
             raise SetupError('Invalid action: {}'.format(self.action))
 
-        self.check_file('input')
+        # Pass an absolute filename to "parse" so that its output does not
+        # depend on the location of the working directory. This helps making
+        # the test output stable across runs.
+        self.input_file = self.working_dir(
+            self.test_env.get('input_file', 'input')
+        )
+
+        self.check_file(self.input_file)
 
     @catch_test_errors
     def run(self):
-        # Pass a relative filename to "parse" so that its output does not
-        # depend on the location of the working directory. This helps making
-        # the test output stable across runs.
-        input_file_rel = 'input'
-        input_file = self.working_dir(input_file_rel)
-
         # Build the command line for the "parse" process we are going to run
         parse_argv = ['parse']
 
@@ -46,16 +47,16 @@ class ParserDriver(BaseDriver):
             parse_argv += ['-c', charset]
 
         if self.action == 'pretty-print-file':
-            parse_argv += ['-f', input_file_rel]
+            parse_argv += ['-f', self.input_file]
         elif self.action == 'pp-file-with-trivia':
-            parse_argv += ['-P', '-f', input_file_rel]
+            parse_argv += ['-P', '-f', self.input_file]
         elif self.action == 'pp-file-with-lexical-envs':
-            parse_argv += ['-E', '-f', input_file_rel]
+            parse_argv += ['-E', '-f', self.input_file]
         else:
             rule_name = self.test_env.get('rule', None)
             if not rule_name:
                 raise SetupError('Parsing rule is missing from test.yaml')
-            parse_argv += ['-r', rule_name, self.read_file(input_file)]
+            parse_argv += ['-r', rule_name, self.read_file(self.input_file)]
 
         for lookup in self.get_lookups():
             parse_argv.append(

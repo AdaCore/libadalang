@@ -22,15 +22,24 @@ from langkit.expressions.logic import (
 )
 
 
-def symbol_list(base_id_list):
+def add_to_env_kv(key, val, *args, **kwargs):
     """
-    Turn a list of BaseId into the corresponding array of symbols.
+    Wrapper around envs.add_to_env, that takes a key and a val expression, and
+    creates the intermediate env_assoc Struct.
+    """
+    return add_to_env(
+        New(T.env_assoc, key=key, val=val), *args, **kwargs
+    )
 
-    :param AbstractExpression base_id_list: ASTList for the BaseId nodes to
-        process.
-    :rtype: AbstractExpression
+
+def env_mappings(base_id_list, entity):
     """
-    return base_id_list.map(lambda base_id: base_id.tok.symbol)
+    Creates an env mapping array from a list of BaseId to be used as keys, and
+    an entity to be used as value in the mappings.
+    """
+    return base_id_list.map(
+        lambda base_id: New(T.env_assoc, key=base_id.tok.symbol, val=entity)
+    )
 
 
 def is_library_item(e):
@@ -314,7 +323,7 @@ def child_unit(name_expr, scope_expr):
             lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
         ),
         add_env=True,
-        add_to_env=add_to_env(name_expr, Self),
+        add_to_env=add_to_env_kv(name_expr, Self),
         env_hook_arg=Self,
     )
 
@@ -452,7 +461,9 @@ class DiscriminantSpec(BasicDecl):
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
 
-    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(env_mappings(Self.ids, Self))
+    )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
@@ -527,7 +538,9 @@ class ComponentDecl(BaseFormalParamDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(env_mappings(Self.ids, Self)),
+    )
 
     identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     defining_env = Property(
@@ -734,7 +747,7 @@ class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.type_id.relative_name.symbol, Self)
+        add_to_env=add_to_env_kv(Self.type_id.relative_name.symbol, Self)
     )
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
@@ -1213,7 +1226,7 @@ class TaskTypeDecl(BaseTypeDecl):
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.type_id.tok.symbol, Self),
+        add_to_env=add_to_env_kv(Self.type_id.tok.symbol, Self),
         add_env=True,
     )
 
@@ -1374,7 +1387,9 @@ class ParamSpec(BaseFormalParamDecl):
     is_mandatory = Property(Self.default.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
-    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(env_mappings(Self.ids, Self))
+    )
 
     type_expression = Property(Self.type_expr)
 
@@ -1405,13 +1420,17 @@ class BasicSubpDecl(BasicDecl):
         initial_env=Self.subp_decl_spec.name.parent_scope,
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
-            add_to_env(Self.subp_decl_spec.name.relative_name.symbol, Self),
+            add_to_env_kv(Self.subp_decl_spec.name.relative_name.symbol, Self),
 
             # Second custom action, adding to the type's environment if the
             # type is tagged and self is a primitive of it.
             add_to_env(
-                key=Self.subp_decl_spec.name.relative_name.symbol,
-                val=Self.subp_decl_spec.dottable_subp,
+                # TODO: We can refactor this to not use an array, thanks to
+                # mappings.
+                Self.subp_decl_spec.dottable_subp.map(lambda dp: New(
+                    T.env_assoc,
+                    key=Self.subp_decl_spec.name.relative_name.symbol, val=dp
+                )),
                 dest_env=Self.subp_decl_spec
                 .potential_dottable_type._.children_env,
                 # We pass custom metadata, marking the entity as a dottable
@@ -1523,7 +1542,7 @@ class SingleTaskDecl(BasicDecl):
     defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.task_type.type_id.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.task_type.type_id.tok.symbol, Self)
     )
 
     expr_type = Property(Self.task_type)
@@ -1560,7 +1579,9 @@ class ObjectDecl(BasicDecl):
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec(add_to_env=add_to_env(symbol_list(Self.ids), Self))
+    env_spec = EnvSpec(
+        add_to_env=add_to_env(env_mappings(Self.ids, Self))
+    )
 
     array_ndims = Property(Self.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
@@ -1588,7 +1609,7 @@ class DeclarativePart(AdaNode):
 class PrivatePart(DeclarativePart):
     env_spec = EnvSpec(
         add_env=True,
-        add_to_env=add_to_env('__privatepart', Self)
+        add_to_env=add_to_env_kv('__privatepart', Self)
     )
 
 
@@ -1659,7 +1680,7 @@ class ExceptionDecl(BasicDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.ids.map(lambda e: e.tok.symbol), Self)
+        add_to_env=add_to_env(env_mappings(Self.ids, Self))
     )
 
 
@@ -2741,7 +2762,7 @@ class EnumLiteralDecl(BasicDecl):
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.enum_identifier.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.enum_identifier.tok.symbol, Self)
     )
 
 
@@ -3032,7 +3053,7 @@ class ForLoopVarDecl(BasicDecl):
     ))
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env(Self.id.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.id.tok.symbol, Self)
     )
 
 
@@ -3267,10 +3288,10 @@ class SubpBody(Body):
         add_env=True,
         add_to_env=[
             # Add the body to its own parent env
-            add_to_env(Self.subp_spec.name.relative_name.symbol, Self),
+            add_to_env_kv(Self.subp_spec.name.relative_name.symbol, Self),
 
             # Add the __body link to the spec, if there is one
-            add_to_env(
+            add_to_env_kv(
                 '__body', Self,
                 dest_env=Self.decl_part.then(
                     lambda d: d.children_env,
@@ -3483,7 +3504,7 @@ class ElsifStmtPart(AdaNode):
 
 class LabelDecl(BasicDecl):
     name = Field(type=T.Identifier)
-    env_spec = EnvSpec(add_to_env=add_to_env(Self.name.tok.symbol, Self))
+    env_spec = EnvSpec(add_to_env=add_to_env_kv(Self.name.tok.symbol, Self))
     defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
@@ -3521,7 +3542,7 @@ class NamedStmt(CompositeStmt):
 
     env_spec = EnvSpec(
         add_env=True,
-        add_to_env=add_to_env(Self.decl.name.tok.symbol, Self.decl)
+        add_to_env=add_to_env_kv(Self.decl.name.tok.symbol, Self.decl)
     )
 
 

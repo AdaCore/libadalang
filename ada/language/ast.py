@@ -2568,6 +2568,10 @@ class SingleTokNode(Name):
 
     ref_var = Property(Self.r_ref_var)
 
+    sym = Property(
+        Self.tok.symbol, doc="Shortcut to get the symbol of this node"
+    )
+
 
 @abstract
 class BaseId(SingleTokNode):

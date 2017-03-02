@@ -12,3 +12,5 @@ GenericPackageInstantiation[1:1-1:24]
 |  |  |r_expr:
 |  |  |  BoxExpr[1:21-1:23]
 |aspects: <null>
+|instantiation_env_holder:
+|  InstantiationEnvHolder[1:24-1:24]

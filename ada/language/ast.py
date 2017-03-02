@@ -1699,8 +1699,17 @@ class GenericSubpInstantiation(GenericInstantiation):
     generic_entity_name = Field(type=T.Name)
     subp_params = Field(type=T.AdaNode)
     aspects = Field(type=T.AspectSpec)
+    instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
     defining_names = Property(Self.subp_name.singleton)
+
+
+class InstantiationEnvHolder(AdaNode):
+    """
+    This type does not correspond to anything in the source. It is just here
+    to hold the lexical env of the instantiation of the generic.
+    """
+    env_spec = EnvSpec(add_env=True)
 
 
 class GenericPackageInstantiation(GenericInstantiation):
@@ -1708,6 +1717,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     generic_entity_name = Field(type=T.Name)
     params = Field(type=T.AdaNode)
     aspects = Field(type=T.AspectSpec)
+    instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
     defining_names = Property(Self.name.singleton)
 

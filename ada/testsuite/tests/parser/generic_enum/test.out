@@ -231,8 +231,11 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |generic_entity_name:
 |  |  |  |  |  |  Id[20:24-20:25]
 |  |  |  |  |  |  |tok: P
-|  |  |  |  |  |params: <null>
+|  |  |  |  |  |params:
+|  |  |  |  |  |  AssocList[20:24-20:24]: <empty list>
 |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |instantiation_env_holder:
+|  |  |  |  |  |  InstantiationEnvHolder[20:25-20:25]
 |  |  |stmts:
 |  |  |  HandledStmts[23:4-23:13]
 |  |  |  |stmts:

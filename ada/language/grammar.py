@@ -75,6 +75,7 @@ def generic_instantiation(*leading_rules):
         "new", A.static_name,
         Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
         A.aspect_spec,
+        InstantiationEnvHolder()
     )
 
 A.add_rules(

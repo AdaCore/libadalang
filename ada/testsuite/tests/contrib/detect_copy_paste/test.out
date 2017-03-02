@@ -8,8 +8,8 @@ gpr_build_util.adb:362:1: copy-paste of 53 lines detected with code from line 65
 gpr_util.adb:1866:1: copy-paste of 38 lines detected with code from line 2199 to line 2236
 gpr_util.adb:1912:1: copy-paste of 30 lines detected with code from line 2249 to line 2278
 gpr_util.adb:1490:1: copy-paste of 28 lines detected with code from line 1532 to line 1559 in file gprbuild-compile.adb
-gprbuild-post_compile.adb:2338:1: copy-paste of 32 lines detected with code from line 2460 to line 2492
 gprbuild-post_compile.adb:1503:1: copy-paste of 24 lines detected with code from line 2236 to line 2259
+gprbuild-post_compile.adb:2338:1: copy-paste of 32 lines detected with code from line 2460 to line 2492
 gprlib-build_shared_lib.adb:168:1: copy-paste of 32 lines detected with code from line 1739 to line 1768 in file gprlib.adb
 gprbuild-main.adb:632:1: copy-paste of 23 lines detected with code from line 1541 to line 1563
 gpr_build_util.adb:422:1: copy-paste of 24 lines detected with code from line 719 to line 742 in file gprbuild-post_compile.adb

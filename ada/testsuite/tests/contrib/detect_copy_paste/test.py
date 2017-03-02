@@ -5,4 +5,7 @@ import glob
 
 sys.path.append(in_contrib())
 import detect_copy_paste
-detect_copy_paste.main(detect_copy_paste.parser.parse_args(["--ignore-ids", "--size-min=10"] + glob.glob('*.adb')))
+detect_copy_paste.main(
+    detect_copy_paste.parser.parse_args(["--ignore-ids", "--size-min=10"]
+                                        + sorted(glob.glob('*.adb')))
+)

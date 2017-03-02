@@ -1697,7 +1697,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     kind = Field(type=T.SubpKind)
     subp_name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
-    subp_params = Field(type=T.AdaNode)
+    subp_params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
@@ -1715,7 +1715,7 @@ class InstantiationEnvHolder(AdaNode):
 class GenericPackageInstantiation(GenericInstantiation):
     name = Field(type=T.Name)
     generic_entity_name = Field(type=T.Name)
-    params = Field(type=T.AdaNode)
+    params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 

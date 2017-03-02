@@ -73,8 +73,8 @@ def generic_instantiation(*leading_rules):
     return tuple(leading_rules) + (
         A.static_name, "is",
         "new", A.static_name,
-        Opt("(", A.call_suffix, ")"),
-        A.aspect_spec
+        Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
+        A.aspect_spec,
     )
 
 A.add_rules(

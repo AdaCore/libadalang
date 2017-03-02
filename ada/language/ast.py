@@ -1721,6 +1721,12 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.name.singleton)
 
+    designated_package = Property(
+        Self.node_env.eval_in_env(
+            Self.generic_entity_name.entities
+            .at(0).cast_or_raise(T.GenericPackageDecl)
+        )
+    )
 
 class RenamingClause(AdaNode):
     """

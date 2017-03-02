@@ -1728,6 +1728,23 @@ class GenericPackageInstantiation(GenericInstantiation):
         )
     )
 
+    env_spec = EnvSpec(
+        add_to_env=[
+            add_to_env_kv(Self.name.relative_name.symbol, Self),
+            add_to_env(
+                Self.designated_package.formal_part.match_param_list(
+                    Self.params, False
+                ).map(lambda pm: New(
+                    T.env_assoc,
+                    key=pm.actual.name.sym, val=pm.actual.assoc.expr
+                )),
+                is_post=True,
+                dest_env=Self.instantiation_env_holder.children_env
+            )
+        ]
+    )
+
+
 class RenamingClause(AdaNode):
     """
     Renaming clause, used everywhere renamings are valid.

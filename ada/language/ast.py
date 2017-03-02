@@ -38,7 +38,7 @@ def env_mappings(base_id_list, entity):
     an entity to be used as value in the mappings.
     """
     return base_id_list.map(
-        lambda base_id: New(T.env_assoc, key=base_id.tok.symbol, val=entity)
+        lambda base_id: New(T.env_assoc, key=base_id.sym, val=entity)
     )
 
 
@@ -1226,7 +1226,7 @@ class TaskTypeDecl(BaseTypeDecl):
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env_kv(Self.type_id.tok.symbol, Self),
+        add_to_env=add_to_env_kv(Self.type_id.sym, Self),
         add_env=True,
     )
 
@@ -1542,7 +1542,7 @@ class SingleTaskDecl(BasicDecl):
     defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env_kv(Self.task_type.type_id.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.task_type.type_id.sym, Self)
     )
 
     expr_type = Property(Self.task_type)
@@ -2114,13 +2114,11 @@ class Name(Expr):
         return Self.match(
             lambda id=Identifier:
                 n.cast(Identifier).then(
-                    lambda other_id:
-                    id.tok.symbol.equals(other_id.tok.symbol)
+                    lambda other_id: id.sym.equals(other_id.sym)
                 ),
             lambda sl=StringLiteral:
                 n.cast(StringLiteral).then(
-                    lambda other_sl:
-                    sl.tok.symbol.equals(other_sl.tok.symbol)
+                    lambda other_sl: sl.sym.equals(other_sl.sym)
                 ),
             lambda _: False
         )
@@ -2766,7 +2764,7 @@ class EnumLiteralDecl(BasicDecl):
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env_kv(Self.enum_identifier.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.enum_identifier.sym, Self)
     )
 
 
@@ -3057,7 +3055,7 @@ class ForLoopVarDecl(BasicDecl):
     ))
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env_kv(Self.id.tok.symbol, Self)
+        add_to_env=add_to_env_kv(Self.id.sym, Self)
     )
 
 
@@ -3194,7 +3192,7 @@ class AttributeRef(Name):
     ref_var = Property(Self.prefix.ref_var)
 
     designated_type_impl = Property(
-        If(Self.attribute.tok.symbol == 'Class',
+        If(Self.attribute.sym == 'Class',
            Self.prefix.designated_type_impl.classwide_type,
            Self.prefix.designated_type_impl)
     )
@@ -3508,7 +3506,7 @@ class ElsifStmtPart(AdaNode):
 
 class LabelDecl(BasicDecl):
     name = Field(type=T.Identifier)
-    env_spec = EnvSpec(add_to_env=add_to_env_kv(Self.name.tok.symbol, Self))
+    env_spec = EnvSpec(add_to_env=add_to_env_kv(Self.name.sym, Self))
     defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
@@ -3546,7 +3544,7 @@ class NamedStmt(CompositeStmt):
 
     env_spec = EnvSpec(
         add_env=True,
-        add_to_env=add_to_env_kv(Self.decl.name.tok.symbol, Self.decl)
+        add_to_env=add_to_env_kv(Self.decl.name.sym, Self.decl)
     )
 
 

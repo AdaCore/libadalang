@@ -45,10 +45,12 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
+      Context  : Analysis_Context;
       Node     : Ada_Node;
       Kind     : Unit_Kind)
       return String
    is
+      pragma Unreferenced (Context);
    begin
       if Node.all not in Name_Type'Class then
          raise Property_Error with "invalid AST node for unit name";
@@ -70,10 +72,13 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding function Get_File
      (Provider : Project_Unit_File_Provider_Type;
+      Context  : Analysis_Context;
       Name     : Text_Type;
       Kind     : Unit_Kind)
       return String
    is
+      pragma Unreferenced (Context);
+
       Str_Name : constant String :=
          Libadalang.Unit_Files.Default.Unit_String_Name (Name);
    begin

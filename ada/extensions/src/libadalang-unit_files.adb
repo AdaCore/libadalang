@@ -11,7 +11,7 @@ package body Libadalang.Unit_Files is
    is
       UFP      : constant Unit_File_Provider_Access_Cst :=
          Unit_File_Provider (Ctx);
-      Name_Str : constant String := UFP.Get_File (Name, Kind);
+      Name_Str : constant String := UFP.Get_File (Ctx, Name, Kind);
 
       --  TODO??? Find a proper way to handle file not found, parsing error,
       --  etc.

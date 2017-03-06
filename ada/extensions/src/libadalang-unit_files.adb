@@ -9,8 +9,7 @@ package body Libadalang.Unit_Files is
       Name : Ada_Node;
       Kind : Unit_Kind) return Analysis_Unit
    is
-      UFP      : constant Unit_File_Provider_Access_Cst :=
-         Unit_File_Provider (Ctx);
+      UFP      : constant Unit_Provider_Access_Cst := Unit_Provider (Ctx);
 
       --  TODO??? Find a proper way to handle file not found, parsing error,
       --  etc.

@@ -5,9 +5,9 @@ libadalang_docs = {
     'libadalang.project_scenario_variable': """
         Couple name/value to define a scenario variable for a project.
     """,
-    'libadalang.create_project_unit_file_provider': """
-        Load the project file at Project_File and return an unit file provider
-        that uses it.
+    'libadalang.create_project_unit_provider': """
+        Load the project file at Project_File and return an unit provider that
+        uses it.
 
         % if lang == 'python':
             If provided, Scenario_Vars must be a dict with key strings and key
@@ -21,7 +21,7 @@ libadalang_docs = {
 
         % if lang == 'c':
             When done with it, the result must be free'd with
-            ${capi.get_name('destroy_unit_file_provider')}.
+            ${capi.get_name('destroy_unit_provider')}.
         % endif
 
         If the requested project is invalid (error while opening the file,

@@ -2,22 +2,22 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
---  This package provides an Unit_File_Provider implementation that is the
---  default one for Analysis_Context.
+--  This package provides an Unit_Provider implementation that is the default
+--  one for Analysis_Context.
 
 package Libadalang.Unit_Files.Default is
 
-   type Default_Unit_File_Provider_Type is new Unit_File_Provider_Interface
+   type Default_Unit_Provider_Type is new Unit_Provider_Interface
       with private;
-   --  Default implementation for the Unit_File_Provider mechanism. It assumes
-   --  that all source files are in the current directory and that they follow
-   --  the GNAT convention for file names.
+   --  Default implementation for the Unit_Provider mechanism. It assumes that
+   --  all source files are in the current directory and that they follow the
+   --  GNAT convention for file names.
    --  See <http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn
    --       /the_gnat_compilation_model.html#file-naming-rules> for more
    --  details.
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_File_Provider_Type;
+     (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
       Node        : Ada_Node;
       Kind        : Unit_Kind;
@@ -26,7 +26,7 @@ package Libadalang.Unit_Files.Default is
       With_Trivia : Boolean := False) return Analysis_Unit;
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_File_Provider_Type;
+     (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
@@ -34,9 +34,9 @@ package Libadalang.Unit_Files.Default is
       Reparse     : Boolean := False;
       With_Trivia : Boolean := False) return Analysis_Unit;
 
-   Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;
-   --  Singleton for Default_Unit_File_Provider_Type. Used as the default
-   --  parameter for Libadalang.Analysis.Create.
+   Default_Unit_Provider : constant Unit_Provider_Access_Cst;
+   --  Singleton for Default_Unit_Provider_Type. Used as the default parameter
+   --  for Libadalang.Analysis.Create.
 
    function Unit_Text_Name (N : Name) return Text_Type;
    --  Turn the name of an unit represented as a Name node into a textual name.
@@ -64,11 +64,11 @@ package Libadalang.Unit_Files.Default is
 
 private
 
-   type Default_Unit_File_Provider_Type is new Unit_File_Provider_Interface
+   type Default_Unit_Provider_Type is new Unit_Provider_Interface
       with null record;
 
-   Default_Unit_File_Provider_Object : aliased Default_Unit_File_Provider_Type;
-   Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst :=
-      Default_Unit_File_Provider_Object'Access;
+   Default_Unit_Provider_Object : aliased Default_Unit_Provider_Type;
+   Default_Unit_Provider : constant Unit_Provider_Access_Cst :=
+      Default_Unit_Provider_Object'Access;
 
 end Libadalang.Unit_Files.Default;

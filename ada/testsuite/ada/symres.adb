@@ -34,8 +34,8 @@ procedure Symres is
    Quiet   : Boolean := False;
    --  If True, don't display anything but errors on standard output
 
-   UFP     : Unit_File_Provider_Access;
-   --  When project file handling is enabled, corresponding unit file provider
+   UFP     : Unit_Provider_Access;
+   --  When project file handling is enabled, corresponding unit provider
 
    Ctx     : Analysis_Context := No_Analysis_Context;
 
@@ -302,7 +302,7 @@ begin
             begin
                Initialize (Env);
                Load (Project.all, Create (+Project_File), Env);
-               UFP := new Project_Unit_File_Provider_Type'
+               UFP := new Project_Unit_Provider_Type'
                  (Create (Project, Env, True));
             end;
          elsif Starts_With (Arg, "--") then
@@ -316,8 +316,8 @@ begin
    end loop;
 
    Ctx := Create
-     (Charset            => +Charset,
-      Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
+     (Charset       => +Charset,
+      Unit_Provider => Unit_Provider_Access_Cst (UFP));
 
    for F of Files loop
       declare

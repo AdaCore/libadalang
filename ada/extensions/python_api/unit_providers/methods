@@ -2,7 +2,7 @@
 
     @classmethod
     def for_project(cls, project_file, scenario_vars=None):
-        ${py_doc('libadalang.create_project_unit_file_provider', 6)}
+        ${py_doc('libadalang.create_project_unit_provider', 6)}
 
         if scenario_vars:
             items = scenario_vars.items()
@@ -14,7 +14,7 @@
         else:
             scn_vars_array = None
 
-        c_value = _create_project_unit_file_provider(
+        c_value = _create_project_unit_provider(
             project_file,
             scn_vars_array
         )

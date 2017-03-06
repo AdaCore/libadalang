@@ -16,12 +16,12 @@
    type ${scn_var_array} is array (Positive range <>) of ${scn_var_type}
       with Convention => C;
 
-   function ${capi.get_name('create_project_unit_file_provider')}
+   function ${capi.get_name('create_project_unit_provider')}
      (Project_File  : chars_ptr;
       Scenario_Vars : System.Address)
-      return ${unit_file_provider_type}
+      return ${unit_provider_type}
       with Export        => True,
            Convention    => C,
            External_name =>
-               "${capi.get_name('create_project_unit_file_provider')}";
-   ${ada_c_doc('libadalang.create_project_unit_file_provider', 3)}
+               "${capi.get_name('create_project_unit_provider')}";
+   ${ada_c_doc('libadalang.create_project_unit_provider', 3)}

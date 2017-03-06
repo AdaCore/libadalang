@@ -11,24 +11,24 @@ with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 procedure Main is
 
-   function Load_Project (File : String) return Unit_File_Provider_Access;
+   function Load_Project (File : String) return Unit_Provider_Access;
 
    ------------------
    -- Load_Project --
    ------------------
 
-   function Load_Project (File : String) return Unit_File_Provider_Access is
+   function Load_Project (File : String) return Unit_Provider_Access is
       Env     : Project_Environment_Access;
       Project : constant Project_Tree_Access := new Project_Tree;
    begin
       Initialize (Env);
       Load (Project.all, Create (+File), Env);
-      return new Project_Unit_File_Provider_Type'(Create (Project, Env, True));
+      return new Project_Unit_Provider_Type'(Create (Project, Env, True));
    end Load_Project;
 
-   UFP : Unit_File_Provider_Access := Load_Project ("p.gpr");
+   UFP : Unit_Provider_Access := Load_Project ("p.gpr");
    Ctx : Analysis_Context :=
-      Create (Unit_File_Provider => Unit_File_Provider_Access_Cst (UFP));
+      Create (Unit_Provider => Unit_Provider_Access_Cst (UFP));
 
    Unit : constant Analysis_Unit :=
       Get_From_Provider (Ctx, "p2", Unit_Specification);

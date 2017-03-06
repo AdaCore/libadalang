@@ -27,7 +27,7 @@ package body Libadalang.Unit_Files.Default is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_File_Provider_Type;
+     (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
       Node        : Ada_Node;
       Kind        : Unit_Kind;
@@ -55,7 +55,7 @@ package body Libadalang.Unit_Files.Default is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_File_Provider_Type;
+     (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;

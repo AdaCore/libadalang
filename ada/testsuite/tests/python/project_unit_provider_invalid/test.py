@@ -13,14 +13,14 @@ def pflush(message):
 for project_file in ('invalid.gpr', 'does_not_exist.gpr'):
     pflush('Trying to load invalid project: {}'.format(project_file))
     try:
-        ufp = libadalang.UnitFileProvider.for_project('invalid.gpr')
+        ufp = libadalang.UnitProvider.for_project('invalid.gpr')
     except libadalang.InvalidProjectError as exc:
         pflush('   ... got an exception: {}'.format(exc))
     else:
         pflush('   ... got no exception. Unacceptable!')
 
 ctx = libadalang.AnalysisContext(
-    unit_file_provider=libadalang.UnitFileProvider.for_project('p.gpr')
+    unit_provider=libadalang.UnitProvider.for_project('p.gpr')
 )
 
 for filename in ('\n', ' '):

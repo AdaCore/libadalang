@@ -32,17 +32,17 @@
       return Result - 1;
    end Scenario_Vars_Count;
 
-   function ${capi.get_name('create_project_unit_file_provider')}
+   function ${capi.get_name('create_project_unit_provider')}
      (Project_File  : chars_ptr;
       Scenario_Vars : System.Address)
-      return ${unit_file_provider_type}
+      return ${unit_provider_type}
    is
       PF      : constant String := Value (Project_File);
 
       Project : Project_Tree_Access := new Project_Tree;
       Env     : Project_Environment_Access;
 
-      Result  : Unit_File_Provider_Access;
+      Result  : Unit_Provider_Access;
    begin
       Initialize (Env);
       if Scenario_Vars /= System.Null_Address then
@@ -63,10 +63,10 @@
          when Invalid_Project =>
             Free (Env);
             Free (Project);
-            return ${unit_file_provider_type} (System.Null_Address);
+            return ${unit_provider_type} (System.Null_Address);
       end;
 
       Result :=
-         new Project_Unit_File_Provider_Type'(Create (Project, Env, True));
+         new Project_Unit_Provider_Type'(Create (Project, Env, True));
       return Wrap (Result);
    end;

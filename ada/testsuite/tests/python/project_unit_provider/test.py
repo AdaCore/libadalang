@@ -6,7 +6,7 @@ import libadalang
 for src_dir in ('src1', 'src2'):
     print('For SRC_DIR={}:'.format(src_dir))
     ctx = libadalang.AnalysisContext(
-        unit_file_provider=libadalang.UnitFileProvider.for_project(
+        unit_provider=libadalang.UnitProvider.for_project(
             'p.gpr', {'SRC_DIR': src_dir}
         )
     )

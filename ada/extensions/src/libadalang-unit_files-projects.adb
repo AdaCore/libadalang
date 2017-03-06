@@ -5,7 +5,7 @@ with Libadalang.Unit_Files.Default;
 package body Libadalang.Unit_Files.Projects is
 
    function Get_Unit
-     (Provider    : Project_Unit_File_Provider_Type'Class;
+     (Provider    : Project_Unit_Provider_Type'Class;
       Context     : Analysis_Context;
       Name        : String;
       Kind        : Unit_Kind;
@@ -20,7 +20,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    function Get_Unit
-     (Provider    : Project_Unit_File_Provider_Type'Class;
+     (Provider    : Project_Unit_Provider_Type'Class;
       Context     : Analysis_Context;
       Name        : String;
       Kind        : Unit_Kind;
@@ -52,7 +52,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Project_Unit_File_Provider_Type;
+     (Provider    : Project_Unit_Provider_Type;
       Context     : Analysis_Context;
       Node        : Ada_Node;
       Kind        : Unit_Kind;
@@ -81,7 +81,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Project_Unit_File_Provider_Type;
+     (Provider    : Project_Unit_Provider_Type;
       Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
@@ -101,7 +101,7 @@ package body Libadalang.Unit_Files.Projects is
    ----------------
 
    overriding procedure Initialize
-     (Provider : in out Project_Unit_File_Provider_Type)
+     (Provider : in out Project_Unit_Provider_Type)
    is
    begin
       Provider.Project := null;
@@ -114,7 +114,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding procedure Finalize
-     (Provider : in out Project_Unit_File_Provider_Type)
+     (Provider : in out Project_Unit_Provider_Type)
    is
    begin
       if Provider.Is_Project_Owner then

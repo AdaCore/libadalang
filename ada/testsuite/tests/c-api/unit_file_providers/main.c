@@ -7,13 +7,13 @@
 #include "langkit_find.h"
 #include "langkit_text.h"
 
-struct my_unit_file_provider {
+struct my_unit_provider {
     int some_field;
 };
 
 void ufp_destroy(void *data) {
-    struct my_unit_file_provider *ufp_data
-      = (struct my_unit_file_provider *) data;
+    struct my_unit_provider *ufp_data
+      = (struct my_unit_provider *) data;
     printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
 }
 
@@ -26,8 +26,8 @@ ada_analysis_unit ufp_get_file_from_node(
     int reparse,
     int with_trivia)
 {
-    struct my_unit_file_provider *ufp_data
-      = (struct my_unit_file_provider *) data;
+    struct my_unit_provider *ufp_data
+      = (struct my_unit_provider *) data;
 
     printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
            ufp_data->some_field, kind);
@@ -62,12 +62,12 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
-    struct my_unit_file_provider ufp_data = { 42 };
-    ada_unit_file_provider ufp
-      = ada_create_unit_file_provider((void *) &ufp_data,
-                                      ufp_destroy,
-                                      ufp_get_file_from_node,
-                                      ufp_get_file_from_name);
+    struct my_unit_provider ufp_data = { 42 };
+    ada_unit_provider ufp
+      = ada_create_unit_provider((void *) &ufp_data,
+                                 ufp_destroy,
+                                 ufp_get_file_from_node,
+                                 ufp_get_file_from_name);
 
     ada_base_node pragma, args, assoc, expr;
     ada_ada_node_array entities;
@@ -117,7 +117,7 @@ main(void)
     free(entities);
 
     ada_destroy_analysis_context(ctx);
-    ada_destroy_unit_file_provider(ufp);
+    ada_destroy_unit_provider(ufp);
     puts("Done.");
     return 0;
 }

@@ -2128,7 +2128,8 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(return_type=AnalysisUnitType, external=True)
+    @langkit_property(return_type=AnalysisUnitType, external=True,
+                      uses_envs=False)
     def referenced_unit(kind=AnalysisUnitKind):
         """
         Return the analysis unit for the given "kind" corresponding to this

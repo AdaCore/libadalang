@@ -17,38 +17,42 @@ void ufp_destroy(void *data) {
     printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
 }
 
-char *ufp_get_file_from_node(
+ada_analysis_unit ufp_get_file_from_node(
     void *data,
     ada_analysis_context context,
     ada_base_node node,
-    ada_unit_kind kind)
+    ada_unit_kind kind,
+    const char *charset,
+    int reparse,
+    int with_trivia)
 {
-    (void) context;
-
     struct my_unit_file_provider *ufp_data
       = (struct my_unit_file_provider *) data;
-
-    char result_str[] = "strange_bar.ads";
-    char *result = malloc(sizeof(result_str));
-    strcpy(result, result_str);
 
     printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
            ufp_data->some_field, kind);
     dump_short_image(node, 0);
 
-    return result;
+    return ada_get_analysis_unit_from_file(context, "strange_bar.ads", charset,
+                                           reparse, with_trivia);
 }
 
-char *ufp_get_file_from_name(
+ada_analysis_unit ufp_get_file_from_name(
     void *data,
     ada_analysis_context context,
     ada_text name,
-    ada_unit_kind kind)
+    ada_unit_kind kind,
+    const char *charset,
+    int reparse,
+    int with_trivia)
 {
     (void) data;
     (void) context;
     (void) name;
     (void) kind;
+    (void) charset;
+    (void) reparse;
+    (void) with_trivia;
     printf("Calling ufp_get_file_from_name: unsupported!\n");
     exit(1);
 }

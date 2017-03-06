@@ -4,22 +4,29 @@ with Libadalang.Unit_Files.Default;
 
 package body Libadalang.Unit_Files.Projects is
 
-   function Get_File
-     (Provider : Project_Unit_File_Provider_Type'Class;
-      Name     : String;
-      Kind     : Unit_Kind)
-      return String;
-   --  Helper for Get_File primitives
+   function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type'Class;
+      Context     : Analysis_Context;
+      Name        : String;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False)
+      return Analysis_Unit;
+   --  Helper for Get_Unit primitives
 
    --------------
-   -- Get_File --
+   -- Get_Unit --
    --------------
 
-   function Get_File
-     (Provider : Project_Unit_File_Provider_Type'Class;
-      Name     : String;
-      Kind     : Unit_Kind)
-      return String
+   function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type'Class;
+      Context     : Analysis_Context;
+      Name        : String;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit
    is
       File : constant Filesystem_String := File_From_Unit
         (Project   => Root_Project (Provider.Project.all),
@@ -32,25 +39,27 @@ package body Libadalang.Unit_Files.Projects is
             Path : constant GNATCOLL.VFS.Virtual_File :=
                GNATCOLL.Projects.Create (Provider.Project.all, File);
          begin
-            return +Full_Name (Path);
+            return Get_From_File (Context, +Full_Name (Path), Charset, Reparse,
+                                  With_Trivia);
          end;
       end if;
 
       raise Property_Error with "unit not found";
-   end Get_File;
+   end Get_Unit;
 
    --------------
-   -- Get_File --
+   -- Get_Unit --
    --------------
 
-   overriding function Get_File
-     (Provider : Project_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Node     : Ada_Node;
-      Kind     : Unit_Kind)
-      return String
+   overriding function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Node        : Ada_Node;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit
    is
-      pragma Unreferenced (Context);
    begin
       if Node.all not in Name_Type'Class then
          raise Property_Error with "invalid AST node for unit name";
@@ -62,28 +71,30 @@ package body Libadalang.Unit_Files.Projects is
          Str_Name  : constant String :=
             Libadalang.Unit_Files.Default.Unit_String_Name (Name);
       begin
-         return Get_File (Provider, Str_Name, Kind);
+         return Get_Unit (Provider, Context, Str_Name, Kind, Charset, Reparse,
+                          With_Trivia);
       end;
-   end Get_File;
+   end Get_Unit;
 
    --------------
-   -- Get_File --
+   -- Get_Unit --
    --------------
 
-   overriding function Get_File
-     (Provider : Project_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Name     : Text_Type;
-      Kind     : Unit_Kind)
-      return String
+   overriding function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit
    is
-      pragma Unreferenced (Context);
-
       Str_Name : constant String :=
          Libadalang.Unit_Files.Default.Unit_String_Name (Name);
    begin
-      return Get_File (Provider, Str_Name, Kind);
-   end Get_File;
+      return Get_Unit (Provider, Context, Str_Name, Kind, Charset, Reparse,
+                       With_Trivia);
+   end Get_Unit;
 
    ----------------
    -- Initialize --

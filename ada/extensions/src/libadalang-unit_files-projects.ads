@@ -28,19 +28,23 @@ package Libadalang.Unit_Files.Projects is
    --  Otherwise, the project pointed by Project must outlive the returned unit
    --  file provider.
 
-   overriding function Get_File
-     (Provider : Project_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Node     : Ada_Node;
-      Kind     : Unit_Kind)
-      return String;
+   overriding function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Node        : Ada_Node;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit;
 
-   overriding function Get_File
-     (Provider : Project_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Name     : Text_Type;
-      Kind     : Unit_Kind)
-      return String;
+   overriding function Get_Unit
+     (Provider    : Project_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit;
 
    function Convert (Kind : Unit_Kind) return GNATCOLL.Projects.Unit_Parts is
      (case Kind is

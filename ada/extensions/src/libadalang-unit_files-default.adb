@@ -23,45 +23,52 @@ package body Libadalang.Unit_Files.Default is
           "ada"));
 
    --------------
-   -- Get_File --
+   -- Get_Unit --
    --------------
 
-   overriding function Get_File
-     (Provider : Default_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Node     : Ada_Node;
-      Kind     : Unit_Kind)
-      return String
+   overriding function Get_Unit
+     (Provider    : Default_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Node        : Ada_Node;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit
    is
-      pragma Unreferenced (Provider, Context);
+      pragma Unreferenced (Provider);
    begin
       if Node.all in Name_Type'Class then
          declare
             Str_Name  : constant String :=
                Unit_String_Name (Libadalang.Analysis.Name (Node));
          begin
-            return File_From_Unit (Str_Name, Kind);
+            return Get_From_File (Context, File_From_Unit (Str_Name, Kind),
+                                  Charset, Reparse, With_Trivia);
          end;
       end if;
 
       raise Property_Error with "invalid AST node for unit name";
-   end Get_File;
+   end Get_Unit;
 
    --------------
-   -- Get_File --
+   -- Get_Unit --
    --------------
 
-   overriding function Get_File
-     (Provider : Default_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Name     : Text_Type;
-      Kind     : Unit_Kind)
-      return String
+   overriding function Get_Unit
+     (Provider    : Default_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit
    is
-      pragma Unreferenced (Provider, Context);
+      pragma Unreferenced (Provider);
    begin
-      return File_From_Unit (Unit_String_Name (Name), Kind);
-   end Get_File;
+      return Get_From_File (Context,
+                            File_From_Unit (Unit_String_Name (Name), Kind),
+                            Charset, Reparse, With_Trivia);
+   end Get_Unit;
 
    --------------------
    -- Unit_Text_Name --

@@ -16,19 +16,23 @@ package Libadalang.Unit_Files.Default is
    --       /the_gnat_compilation_model.html#file-naming-rules> for more
    --  details.
 
-   overriding function Get_File
-     (Provider : Default_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Node     : Ada_Node;
-      Kind     : Unit_Kind)
-      return String;
+   overriding function Get_Unit
+     (Provider    : Default_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Node        : Ada_Node;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit;
 
-   overriding function Get_File
-     (Provider : Default_Unit_File_Provider_Type;
-      Context  : Analysis_Context;
-      Name     : Text_Type;
-      Kind     : Unit_Kind)
-      return String;
+   overriding function Get_Unit
+     (Provider    : Default_Unit_File_Provider_Type;
+      Context     : Analysis_Context;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False;
+      With_Trivia : Boolean := False) return Analysis_Unit;
 
    Default_Unit_File_Provider : constant Unit_File_Provider_Access_Cst;
    --  Singleton for Default_Unit_File_Provider_Type. Used as the default

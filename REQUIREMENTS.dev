@@ -8,3 +8,6 @@ psutil==3.4.2
 sphinx-rtd-theme==0.1.9
 funcy==1.7.1
 -e git+https://github.com/AdaCore/langkit.git#egg=langkit
+docutils==0.12
+autopep8==1.2.4
+yapf==0.16.0

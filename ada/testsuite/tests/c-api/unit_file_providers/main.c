@@ -19,9 +19,12 @@ void ufp_destroy(void *data) {
 
 char *ufp_get_file_from_node(
     void *data,
+    ada_analysis_context context,
     ada_base_node node,
     ada_unit_kind kind)
 {
+    (void) context;
+
     struct my_unit_file_provider *ufp_data
       = (struct my_unit_file_provider *) data;
 
@@ -38,10 +41,12 @@ char *ufp_get_file_from_node(
 
 char *ufp_get_file_from_name(
     void *data,
+    ada_analysis_context context,
     ada_text name,
     ada_unit_kind kind)
 {
     (void) data;
+    (void) context;
     (void) name;
     (void) kind;
     printf("Calling ufp_get_file_from_name: unsupported!\n");

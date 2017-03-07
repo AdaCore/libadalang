@@ -4,7 +4,7 @@ GenericPackageDecl[1:1-1:42]
 |  |decls:
 |  |  AdaNodeList[1:9-1:9]: <empty list>
 |package_decl:
-|  BasePackageDecl[1:9-1:42]
+|  GenericPackageInternal[1:9-1:42]
 |  |package_name:
 |  |  Id[1:17-1:18]
 |  |  |tok: A

@@ -1617,6 +1617,7 @@ class PublicPart(DeclarativePart):
     pass
 
 
+@abstract
 class BasePackageDecl(BasicDecl):
     """
     Package declarations. Concrete instances of this class
@@ -1840,12 +1841,26 @@ class GenericSubpDecl(BasicSubpDecl):
     subp_decl_spec = Property(Self.subp_spec)
 
 
+class GenericPackageInternal(BasePackageDecl):
+    """
+    This class denotes the internal package contained by a GenericPackageDecl.
+    """
+    # Implementation note: This exists so that we can insert an environment to
+    # distinguish between formal parameters and the package's contents.
+
+    env_spec = EnvSpec(add_env=True)
+
+    body_link = Property(
+        Self.parent.children_env.get('__body', recursive=False).at(0)
+    )
+
+
 class GenericPackageDecl(BasicDecl):
     env_spec = child_unit(Self.package_name.relative_name.symbol,
                           Self.package_name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
-    package_decl = Field(type=BasePackageDecl)
+    package_decl = Field(type=GenericPackageInternal)
 
     package_name = Property(Self.package_decl.package_name)
 

@@ -44,7 +44,7 @@ GenericPackageDecl[1:1-1:155]
 |  |  |  |  |  |  LimitedAbsent[1:42-1:42]
 |  |  |  |  |aspects: <null>
 |package_decl:
-|  BasePackageDecl[1:51-1:155]
+|  GenericPackageInternal[1:51-1:155]
 |  |package_name:
 |  |  Id[1:59-1:72]
 |  |  |tok: Generic_Stack

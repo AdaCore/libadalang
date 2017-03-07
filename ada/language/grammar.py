@@ -348,7 +348,8 @@ A.add_rules(
         GenericSubpDecl(
             A.generic_formal_part, A.subp_spec, A.aspect_spec
         ),
-        GenericPackageDecl(A.generic_formal_part, A.base_package_decl)
+        GenericPackageDecl(A.generic_formal_part,
+                           package_decl_factory(GenericPackageInternal)),
     ),
 
     generic_formal_part=GenericFormalPart(
@@ -410,7 +411,6 @@ A.add_rules(
     ),
 
     package_decl=package_decl_factory(PackageDecl),
-    base_package_decl=package_decl_factory(BasePackageDecl),
 
     basic_decl=Or(
         A.body,

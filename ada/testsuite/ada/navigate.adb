@@ -103,7 +103,8 @@ procedure Navigate is
 
                   --  Packages
 
-                  when LAL.Ada_Base_Package_Decl | LAL.Ada_Package_Decl =>
+                  when LAL.Ada_Base_Package_Decl =>
+
                      Print_Navigation
                        ("Body", Node,
                         LAL.Base_Package_Decl (Node).P_Body_Part);
@@ -251,7 +252,7 @@ procedure Navigate is
 
    begin
       case N.Kind is
-         when LAL.Ada_Base_Package_Decl | LAL.Ada_Package_Decl =>
+         when LAL.Ada_Base_Package_Decl =>
             return Has_Disable_Navigation
                (LAL.Base_Package_Decl (N).F_Aspects);
          when others =>

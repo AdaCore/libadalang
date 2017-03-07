@@ -264,7 +264,7 @@ package body Highlighter is
             --  name as a Block_Name. For instance: the name of a package, of a
             --  subprogram, of a type declaration, ...
 
-            when LAL.Ada_Base_Package_Decl | LAL.Ada_Package_Decl =>
+            when LAL.Ada_Base_Package_Decl =>
                declare
                   Pkg_Decl : constant LAL.Base_Package_Decl :=
                     LAL.Base_Package_Decl (Node);

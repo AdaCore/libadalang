@@ -1723,6 +1723,15 @@ class GenericPackageInstantiation(GenericInstantiation):
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
+    @langkit_property(return_type=compiled_types.LexicalEnvType)
+    def defining_env():
+        p = Var(Self.designated_package)
+        formal_env = Var(p.children_env)
+
+        return p.package_decl.children_env.rebind_env(
+            formal_env, Self.instantiation_env_holder.children_env
+        )
+
     defining_names = Property(Self.name.singleton)
 
     designated_package = Property(

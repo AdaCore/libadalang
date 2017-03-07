@@ -1639,26 +1639,29 @@ class BasePackageDecl(BasicDecl):
     defining_names = Property(Self.name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
+    body_link = Property(
+        Self.children_env.get('__body', recursive=False).at(0)
+    )
+
     @langkit_property(return_type=T.PackageBody, public=True)
     def body_part():
         """
         Return the PackageBody corresponding to this node.
         """
+        body_unit = Var(Self.body_unit)
+
         # Fetch the unit body even when we don't need it to make sure the body
         # (if it exists) is present in the environment.
-        return Let(
-            lambda body_unit=Self.body_unit:
-                If(is_library_item(Self),
+        return If(
+            is_library_item(Self),
 
-                   # If Self is a library-level package, then just fetch the
-                   # root package in the body unit.
-                   get_library_item(body_unit).cast(T.PackageBody),
+            # If Self is a library-level package, then just fetch the
+            # root package in the body unit.
+            get_library_item(body_unit).cast(T.PackageBody),
 
-                   # Self is a nested package: the name of such packages must
-                   # be an identifier. Now, just use the __body link.
-                   Self.children_env.get('__body', recursive=False)
-                       .at(0).then(
-                           lambda elt: elt.el.cast_or_raise(T.PackageBody)))
+            # Self is a nested package: the name of such packages must
+            # be an identifier. Now, just use the __body link.
+            Self.body_link.then(lambda elt: elt.el.cast(T.PackageBody))
         )
 
 

@@ -1,0 +1,115 @@
+CompilationUnit[1:1-10:10]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-10:9]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-10:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:15]
+|  |  |  |subp_name:
+|  |  |  |  Id[1:11-1:15]
+|  |  |  |  |tok: Test
+|  |  |  |subp_params:
+|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:4-7:38]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-7:38]
+|  |  |  |  |  GenericPackageDecl[2:4-5:9]
+|  |  |  |  |  |formal_part:
+|  |  |  |  |  |  GenericFormalPart[2:4-3:19]
+|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  AdaNodeList[3:7-3:19]
+|  |  |  |  |  |  |  |  GenericFormal[3:7-3:18]
+|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:18]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  |tok: T
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |inout:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:11-3:18]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |renaming_clause: <null>
+|  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |package_decl:
+|  |  |  |  |  |  GenericPackageInternal[4:4-5:9]
+|  |  |  |  |  |  |package_name:
+|  |  |  |  |  |  |  Id[4:12-4:13]
+|  |  |  |  |  |  |  |tok: D
+|  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |public_part:
+|  |  |  |  |  |  |  PublicPart[5:4-5:4]
+|  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  AdaNodeList[5:4-5:4]: <empty list>
+|  |  |  |  |  |  |private_part: <null>
+|  |  |  |  |  |  |end_id:
+|  |  |  |  |  |  |  Id[5:8-5:9]
+|  |  |  |  |  |  |  |tok: D
+|  |  |  |  |  GenericPackageInstantiation[7:4-7:37]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[7:12-7:18]
+|  |  |  |  |  |  |tok: D_Inst
+|  |  |  |  |  |generic_entity_name:
+|  |  |  |  |  |  Id[7:26-7:27]
+|  |  |  |  |  |  |tok: D
+|  |  |  |  |  |params:
+|  |  |  |  |  |  AssocList[7:29-7:36]
+|  |  |  |  |  |  |  ParamAssoc[7:29-7:36]
+|  |  |  |  |  |  |  |designator:
+|  |  |  |  |  |  |  |  Id[7:29-7:30]
+|  |  |  |  |  |  |  |  |tok: T
+|  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  Int[7:34-7:36]
+|  |  |  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |instantiation_env_holder:
+|  |  |  |  |  |  InstantiationEnvHolder[7:37-7:37]
+|  |  |stmts:
+|  |  |  HandledStmts[9:4-9:9]
+|  |  |  |stmts:
+|  |  |  |  AdaNodeList[9:4-9:9]
+|  |  |  |  |  NullStmt[9:4-9:8]
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[10:5-10:9]
+|  |  |  |tok: Test
+|pragmas:
+|  PragmaNodeList[11:1-11:1]: <empty list>
+
+==== Dumping lexical environments ====
+<CompilationUnit 1:1-10:10> - <LexEnv (Id <root>, Parent null), {
+    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
+    test: [<SubpBody ["Test"] 1:1-10:9>]
+}>
+<SubpBody 1:1-10:9> - <LexEnv (Id 1, Parent <root>), {
+    d: [<GenericPackageDecl ["D"] 2:4-5:9>]
+    d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:37>]
+}>
+<GenericPackageDecl 2:4-5:9> - <LexEnv (Id 2, Parent 1), {
+    t: [<ObjectDecl ["T"] 3:7-3:18>]
+}>
+<GenericPackageInternal 4:4-5:9> - <LexEnv (Id 3, Parent 2), empty>
+<InstantiationEnvHolder 7:37-7:37> - <LexEnv (Id 4, Parent 1), {
+    t: [<Int 7:34-7:36>]
+}>

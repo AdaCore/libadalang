@@ -43,10 +43,6 @@ CompilationUnit[1:1-3:13]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 }>
-<LibraryItem 1:1-3:12> - <LexEnv (Id <root>, Parent null), {
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
 <GenericPackageDecl 1:1-3:12> - <LexEnv (Id 2, Parent 1), empty>
 <LexEnv (Id 1, Parent <root>), {
     bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:12>]

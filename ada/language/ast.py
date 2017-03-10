@@ -384,15 +384,6 @@ class BasicDecl(AdaNode):
         """
     )
 
-    type_designator = Property(Let(lambda te=Self.type_expression: If(
-        Not(te.is_null), te.cast(AdaNode), Self.expr_type.cast(AdaNode),
-    )), doc="""
-        Return the type designator for this BasicDecl. This will either be a
-        TypeExpr instance, if applicable to this BasicDecl, or a
-        BaseTypeDecl.
-        """
-    )
-
     @langkit_property(return_type=T.BaseTypeDecl)
     def canonical_expr_type():
         """
@@ -1322,9 +1313,7 @@ class TypeExpr(AdaNode):
     declarations, a type expression contains one or the other.
     """
 
-    array_def = Property(Self.designated_type.array_def)
     array_ndims = Property(Self.designated_type.array_ndims)
-    comp_type = Property(Self.designated_type.comp_type)
     defining_env = Property(Self.designated_type.defining_env)
     accessed_type = Property(Self.designated_type.accessed_type)
 
@@ -2278,7 +2267,7 @@ class CallExpr(Name):
                     s.subp_spec_or_null.then(lambda ss: ss.paramless(e.MD),
                                              default_val=True),
 
-                    Self.equation_for_type(origin_env, s.type_designator),
+                    Self.equation_for_type(origin_env, s.expr_type),
 
                     # The type of the expression is the expr_type of the
                     # subprogram.
@@ -2313,7 +2302,7 @@ class CallExpr(Name):
                 & Self.parent_nested_callexpr.then(
                     lambda pce: pce.parent_callexprs_equation(
                         origin_env,
-                        Self.type_component(s.type_designator)
+                        s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
             ))
@@ -2323,16 +2312,12 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def equation_for_type(origin_env=LexicalEnvType, type_designator=AdaNode):
+    def equation_for_type(origin_env=LexicalEnvType, typ=T.BaseTypeDecl):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
         """
-        atd = Var(type_designator.match(
-            lambda te=TypeExpr: te.array_def,
-            lambda td=BaseTypeDecl: td.array_def,
-            lambda _: No(ArrayTypeDef)
-        ))
+        atd = Var(typ.array_def)
 
         return Let(lambda indices=atd.indices: Self.params.logic_all(
             lambda i, pa:
@@ -2341,59 +2326,33 @@ class CallExpr(Name):
         )) & Bind(Self.type_var, atd.comp_type)
 
     @langkit_property(return_type=BoolType)
-    def check_type_self(type_designator=AdaNode):
-        """
-        Internal helper for check_type. Implements the logic for the current
-        node only. TODO: Waiting on interfaces.
-        """
-        # TODO: Interface for type designator would be of course 100* better
-        # TODO 2: For the moment this is specialized for arrays, but we need to
-        # handle the case when the return value is an access to subprogram.
-        return type_designator.match(
-            lambda te=TypeExpr: te.array_ndims,
-            lambda td=BaseTypeDecl: td.array_ndims,
-            lambda _: -1
-        ) == Self.suffix.cast_or_raise(AssocList).length
-
-    @langkit_property(return_type=AdaNode)
-    def type_component(type_designator=AdaNode):
-        """
-        Helper to return the type component of a Node that can be either a
-        BaseTypeDecl or a TypeExpr. TODO: Waiting on interfaces.
-        """
-        return type_designator.match(
-            lambda te=TypeExpr: te.comp_type,
-            lambda td=BaseTypeDecl: td.comp_type,
-            lambda _: No(AdaNode)
-        )
-
-    @langkit_property(return_type=BoolType)
-    def check_type_internal(type_designator=AdaNode):
+    def check_type_internal(typ=T.BaseTypeDecl):
         """
         Internal helper for check_type. Will call check_type_self on Self and
         all parent CallExprs.
         """
         return And(
-            Self.check_type_self(type_designator),
+            # TODO 2: For the moment this is specialized for arrays, but we
+            # need to handle the case when the return value is an access to
+            # subprogram.
+            typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
             Self.parent.cast(T.CallExpr).then(
                 lambda ce: ce.check_type_internal(
-                    Self.type_component(type_designator)
+                    typ.comp_type
                 ), default_val=True
             )
         )
 
     @langkit_property(return_type=BoolType)
-    def check_type(type_designator=AdaNode):
+    def check_type(typ=T.BaseTypeDecl):
         """
-        Verifies that this callexpr is valid for the type designated by
-        type_designator. type_designator is either a BaseTypeDecl or a
-        TypeExpr. TODO: Waiting on interfaces.
+        Verifies that this callexpr is valid for the type designated by typ.
         """
         # Algorithm: We're:
         # 1. Taking the innermost call expression
         # 2. Recursing down call expression and component types up to self,
         # checking for each level that the call expression corresponds.
-        return Self.innermost_callexpr.check_type_internal(type_designator)
+        return Self.innermost_callexpr.check_type_internal(typ)
 
     @langkit_property(return_type=T.CallExpr)
     def innermost_callexpr():
@@ -2425,16 +2384,15 @@ class CallExpr(Name):
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
     def parent_callexprs_equation(origin_env=LexicalEnvType,
-                                  designator_type=AdaNode):
+                                  typ=T.BaseTypeDecl):
         """
         Construct the xref equation for the chain of parent nested callexprs.
         """
         return (
-            Self.equation_for_type(origin_env, designator_type)
+            Self.equation_for_type(origin_env, typ)
             & Self.parent_nested_callexpr.then(
                 lambda pce: pce.parent_callexprs_equation(
-                    origin_env,
-                    Self.type_component(designator_type)
+                    origin_env, typ.comp_type
                 ), default_val=LogicTrue()
             )
         )
@@ -2777,7 +2735,7 @@ class BaseId(SingleTokNode):
 
                     # In the case of ObjectDecls/BasicDecls in general, verify
                     # that the callexpr is valid for the given type designator.
-                    lambda o=ObjectDecl: pc.check_type(o.type_expr),
+                    lambda o=ObjectDecl: pc.check_type(o.expr_type),
                     lambda b=BasicDecl: pc.check_type(b.expr_type),
 
                     lambda _: False

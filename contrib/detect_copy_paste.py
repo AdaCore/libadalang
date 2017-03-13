@@ -26,7 +26,6 @@ http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substrin
 import argparse
 import itertools
 import libadalang as lal
-from os import walk
 import os.path
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -379,7 +378,13 @@ class Node(object):
         self.suffixIndex = -1
 
 
-def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
+def find_copy_pastes(codes, num_hash_limit, num_line_limit):
+    """
+    Main function to detect the longest copy-paste until no more is detected
+    of a "hash length" and "line length" greater than some fixed limit.
+
+    Currently use hash length of size_min and line length of size_min.
+    """
     # codes is a list of pairs of (hashcode,node)
 
     text = []  # Text to analyze
@@ -599,82 +604,57 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
         labelHeight = 0
         setSuffixIndexByDFS(Glob.root, labelHeight)
 
-    def findMaxHeight(n, labelHeight, maxHeight,
-                      substringStartIndex):
-        """
-        :type n: Node
-        :type labelHeight: int
-        :type maxHeight: IntPtr
-        :type substringStartIndex: IntPtr
-        """
-        if n is None:
+    def getLongestRepeatedSubstring(curNode, curHeight):
+        # Traverse the Suffix Tree to retrieve the internal node with a
+        # sufficient height, which corresponds to a longest copy-paste.
+        if curNode is None:
             return
 
-        if n.suffixIndex == -1:  # If it is internal node
-            for i in n.children.keys():
-                findMaxHeight(n.children[i],
-                              labelHeight + edgeLength(n.children[i]),
-                              maxHeight,
-                              substringStartIndex)
-        elif n.suffixIndex > -1:
-            if maxHeight.get() < labelHeight - edgeLength(n):
-                maxHeight.set(labelHeight - edgeLength(n))
-                substringStartIndex.set(n.suffixIndex)
+        if curNode.suffixIndex == -1:  # If it is internal node
+            ignore = False
 
-    def findNodeAtMaxHeight(n, labelHeight, maxHeight):
-        """
-        :type n: Node
-        :type labelHeight: int
-        :type maxHeight: int
-        :rtype: Node
-        """
-        if n is None:
+            # Only consider node if none of its childen is internal
+            if any([curNode.children[i].suffixIndex == -1
+                    for i in curNode.children.keys()]):
+                ignore = True
+
+            # Only consider node if no two suffixes have longer versions when
+            # considering the previous hash.
+            previous = [text[curNode.children[i].suffixIndex - 1]
+                        if curNode.children[i].suffixIndex != 0
+                        else 0
+                        for i in curNode.children.keys()]
+            if len(previous) != len(set(previous)):
+                ignore = True
+
+            if ignore:
+                for i in curNode.children.keys():
+                    getLongestRepeatedSubstring(
+                        curNode.children[i],
+                        curHeight + edgeLength(curNode.children[i]))
+                return
+
+        # Ignore leaf nodes
+        elif curNode.suffixIndex > -1:
             return
-
-        if n.suffixIndex == -1:  # If it is internal node
-            if maxHeight == labelHeight:
-                return n
-            for i in n.children.keys():
-                found = findNodeAtMaxHeight(
-                    n.children[i],
-                    labelHeight + edgeLength(n.children[i]),
-                    maxHeight)
-                if found:
-                    return found
-
-    def getLongestRepeatedSubstring():
-
-        # Traverse the Suffix Tree to retrieve the internal node with the
-        # maximum height, which corresponds to the longest copy-paste. On
-        # return, maxHeight contains the size of the copy-paste in number of
-        # hashes, and substringStartIndex contains the index in 'codes' where
-        # the copy-paste starts. We only use the former currently.
-        maxHeight = IntPtr(0)
-        substringStartIndex = IntPtr(0)
-        findMaxHeight(Glob.root, 0, maxHeight, substringStartIndex)
 
         # Only report copy-pastes that correspond to a minimal number of
         # hashes. This is loosely related to the number of lines, given the
         # heuristics used in the 'encode' function to give more or less
         # emphasis on some constructs by computing more or less hashes for
         # each.
-        if maxHeight.get() > num_hash_limit:
-
-            # Return the internal node in the Suffix Tree with the maximal
-            # height, which corresponds to the longest copy-paste.
-            maxNode = findNodeAtMaxHeight(Glob.root, 0, maxHeight.get())
+        if curHeight > num_hash_limit:
 
             # Given a leaf node 'n' in the Suffix Tree (which is the case for
-            # all children of node 'maxNode', otherwise 'maxNode' would not be
-            # the internal node with the maximal height), n.suffixIndex is the
-            # position in 'codes' where the suffix corresponding to this node
-            # starts.
+            # all children of node 'curNode', otherwise 'curNode' would have
+            # been ignored previously), n.suffixIndex is the position in
+            # 'codes' where the suffix corresponding to this node starts.
 
             # Hence, the triplets (hash, node, filename) corresponding to
             # a copy-paste for child 'n' are contained in the range from
             #   codes[n.suffixIndex]
             # to
-            #   codes[n.suffixIndex + maxHeight.get() - 1]
+            #   codes[n.suffixIndex + curHeight - 1]
             # and the corresponding nodes are retrieved from these by getting
             # the 'node' component of the code, and finally the starting line
             # for these nodes are obtained by calling start_line on these.
@@ -684,8 +664,8 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
             locs = [(codes[n.suffixIndex].filename,
                      start_line(codes[n.suffixIndex].node),
                      start_line(
-                         codes[n.suffixIndex + maxHeight.get() - 1].node))
-                    for i, n in maxNode.children.iteritems()]
+                         codes[n.suffixIndex + curHeight - 1].node))
+                    for i, n in curNode.children.iteritems()]
 
             # Sort the list to report the message on the first occurrence
             locs.sort()
@@ -702,7 +682,7 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
             if (numlines < num_line_limit or
                 any(start_loc <= fst_end
                     for (f, start_loc, end_loc) in locs[1:] if f == fst_file)):
-                return (maxHeight.get(), maxNode)
+                return (curHeight, curNode)
 
             msgs = ["code from line {} to line {}".format(start_loc, end_loc)
                     if f == fst_file
@@ -713,12 +693,12 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
 
             # Print useful info about the copy-paste in debug mode
             if debug:
-                print "copy-paste of {} hashes".format(maxHeight.get())
-                fst_index = maxNode.children[
-                    maxNode.children.keys()[0]].suffixIndex
+                print "copy-paste of {} hashes".format(curHeight)
+                fst_index = curNode.children[
+                    curNode.children.keys()[0]].suffixIndex
                 fst_node = codes[fst_index].node
-                snd_index = maxNode.children[
-                    maxNode.children.keys()[1]].suffixIndex
+                snd_index = curNode.children[
+                    curNode.children.keys()[1]].suffixIndex
                 snd_node = codes[snd_index].node
                 print "start node at index {} is {}".format(
                     fst_index, fst_node)
@@ -727,7 +707,6 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
 
             print "{}:{}:1: copy-paste of {} lines detected with {}".format(
                 fst_file, fst_start, numlines, msg)
-            return (maxHeight.get(), maxNode)
 
     # Get the list of hashes from the 'codes'
     text = [code.h for code in codes]
@@ -737,35 +716,12 @@ def find_longest_copy_paste(codes, num_hash_limit, num_line_limit):
 
     # Retrieve the longest copy-paste. A message might be issued by the call
     # when a copy-paste is found.
-    res = getLongestRepeatedSubstring()
-
-    # If a long enough copy-paste was found, return the 'codes' stripped from
-    # the indexes that correspond to the copy-paste just found.
-    if res:
-        maxHeight, maxNode = res
-        indexes = [(n.suffixIndex, n.suffixIndex + maxHeight - 1)
-                   for i, n in maxNode.children.iteritems()]
-
-        # Remove from text all hashes considered in the copy-paste
-        return [code for (i, code) in enumerate(codes)
-                if all(i < low or i > high for low, high in indexes)]
+    getLongestRepeatedSubstring(Glob.root, 0)
 
 ####################################################################
 # End of the Python program to implement Ukkonen's Suffix Tree     #
 # Construction and then find Longest Repeated Substring            #
 ####################################################################
-
-
-def find_copy_pastes(codes):
-    """
-    Main loop to detect the longest copy-paste until no more is detected
-    of a "hash length" and "line length" greater than some fixed limit.
-
-    Currently use hash length of size_min and line length of size_min.
-    """
-    while codes:
-        codes = find_longest_copy_paste(
-            codes, num_hash_limit=size_min, num_line_limit=size_min)
 
 
 def do_file(f):
@@ -788,7 +744,7 @@ def do_file(f):
         locnames = set()
         collect_local_names(locnames, unit.root)
     codes = encode(f, locnames, unit.root)
-    find_copy_pastes(codes)
+    find_copy_pastes(codes, num_hash_limit=size_min, num_line_limit=size_min)
 
 
 def do_files(files):
@@ -821,7 +777,7 @@ def do_files(files):
             collect_local_names(locnames, unit.root)
         codes += encode(f, locnames, unit.root) + [Code(i, unit.root, f)]
 
-    find_copy_pastes(codes)
+    find_copy_pastes(codes, num_hash_limit=size_min, num_line_limit=size_min)
 
 
 def do_directory(d):

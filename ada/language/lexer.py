@@ -156,6 +156,22 @@ rules = [
     (Pattern(r"#(.?)+"),                        Token.PrepLine),
 ]
 
+for kw_text, kw_token in [
+    ("access",       Token.Access),
+    ("range",        Token.Range),
+    ("digits",       Token.Digits),
+    ("delta",        Token.Delta),
+    ("mod",          Token.Mod),
+]:
+    rules.append(
+        Case(NoCase(kw_text),
+             Alt(prev_token_cond=(Token.Tick, ),
+                 send=Token.Identifier,
+                 match_size=len(kw_text)),
+             Alt(send=kw_token, match_size=len(kw_text)))
+    )
+
+
 # Keywords. If a tick appeared right before, this is actually an attribute
 # reference, so it's not a keyword.
 for kw_text, kw_token in [
@@ -173,7 +189,6 @@ for kw_text, kw_token in [
     ("accept",       Token.Accept),
     ("entry",        Token.Entry),
     ("select",       Token.Select),
-    ("access",       Token.Access),
     ("exception",    Token.Exception),
     ("of",           Token.Of),
     ("separate",     Token.Separate),
@@ -211,31 +226,21 @@ for kw_text, kw_token in [
     ("raise",        Token.Raise),
     ("use",          Token.Use),
     ("declare",      Token.Declare),
-    ("range",        Token.Range),
     ("delay",        Token.Delay),
     ("until",        Token.Until),
     ("limited",      Token.Limited),
     ("record",       Token.Record),
     ("when",         Token.When),
-    ("delta",        Token.Delta),
     ("loop",         Token.Loop),
     ("rem",          Token.Rem),
     ("while",        Token.While),
-    ("digits",       Token.Digits),
     ("renames",      Token.Renames),
     ("with",         Token.With),
     ("do",           Token.Do),
-    ("mod",          Token.Mod),
     ("requeue",      Token.Requeue),
     ("xor",          Token.Xor),
 ]:
-    rules.append(
-        Case(NoCase(kw_text),
-             Alt(prev_token_cond=(Token.Tick, ),
-                 send=Token.Identifier,
-                 match_size=len(kw_text)),
-             Alt(send=kw_token, match_size=len(kw_text)))
-    )
+    rules.append((NoCase(kw_text), kw_token))
 
 rules += [
     # Punctuation

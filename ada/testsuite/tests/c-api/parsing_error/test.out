@@ -1,2 +1,2 @@
-Diagnostic: 1:1-1:5: Expected "Termination", got "Identifier"
+Diagnostic: 1:1-1:5: Expected Termination, got Identifier
 Done.

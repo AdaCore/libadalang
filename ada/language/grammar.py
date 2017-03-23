@@ -78,6 +78,15 @@ def generic_instantiation(*leading_rules):
         InstantiationEnvHolder()
     )
 
+
+def recover(*rules):
+    """
+    Helper to parse a sequence of rules, and ignore their result, but recover
+    if they're absent.
+    """
+    return Opt(*rules).error()
+
+
 A.add_rules(
     protected_type_decl=ProtectedTypeDecl(
         L.Identifier(match_text="protected"),

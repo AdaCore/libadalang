@@ -422,8 +422,8 @@ A.add_rules(
     package_decl=package_decl_factory(PackageDecl),
 
     basic_decl=Or(
-        A.body,
         A.body_stub,
+        A.body,
         A.type_decl,
         A.task_type_decl,
         A.protected_type_decl,
@@ -521,7 +521,7 @@ A.add_rules(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, ";"),
             List(A.component_clause, ";", empty_valid=True),
-            "end", "record"
+            recover("end", "record")
         ),
         AtClause("for", A.direct_name, "use", "at", A.expr)
     ),
@@ -638,8 +638,8 @@ A.add_rules(
 
     library_unit_decl=Or(
         A.generic_decl,
-        A.package_decl,
         A.generic_instantiation,
+        A.package_decl,
         A.subp_decl,
     ),
 
@@ -739,7 +739,7 @@ A.add_rules(
         List(SelectWhenPart(Opt("when", A.expr, "=>"), A.stmts), sep="or"),
         Opt("else", A.stmts),
         Opt("then", "abort", A.stmts),
-        "end", "select"
+        recover("end", "select")
     ),
 
     accept_stmt=AcceptStmt(
@@ -753,12 +753,13 @@ A.add_rules(
     ),
 
     case_stmt=CaseStmt(
-        "case", A.expr, "is", List(A.case_alt), "end", "case"
+        "case", A.expr, "is", List(A.case_alt),
+        recover("end", "case")
     ),
 
     ext_return_stmt=ExtendedReturnStmt(
         "return", A.sub_object_decl,
-        Opt("do", A.handled_stmts, "end", "return")
+        Opt("do", A.handled_stmts, recover("end", "return"))
     ),
 
     iblock_stmt=BlockStmt(
@@ -773,7 +774,7 @@ A.add_rules(
 
     iloop_stmt=LoopStmt(
         Opt(A.iteration_scheme),
-        "loop", A.stmts, "end", "loop", Opt(A.identifier)
+        "loop", A.stmts, recover("end", "loop"), Opt(A.identifier)
     ),
 
     loop_stmt=Or(
@@ -796,7 +797,7 @@ A.add_rules(
         List(ElsifStmtPart("elsif", A.expr, "then", A.stmts),
              empty_valid=True),
         Opt("else", A.stmts),
-        "end", "if"
+        recover("end", "if")
     ),
 
     raise_stmt=Or(

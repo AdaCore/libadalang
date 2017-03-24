@@ -777,9 +777,15 @@ A.add_rules(
         Opt("do", A.handled_stmts, recover("end", "return"))
     ),
 
-    iblock_stmt=BlockStmt(
-        Opt("declare", DeclarativePart(A.basic_decls)),
-        "begin", A.handled_stmts, A.end_named_block
+    iblock_stmt=Or(
+        BlockStmt(
+            Null(DeclarativePart),
+            "begin", A.handled_stmts, A.end_named_block
+        ),
+        BlockStmt(
+            "declare", DeclarativePart(A.basic_decls),
+            recover("begin"), A.handled_stmts, A.end_named_block
+        ),
     ),
 
     block_stmt=Or(

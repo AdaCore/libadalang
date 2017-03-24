@@ -648,12 +648,6 @@ A.add_rules(
 
     library_unit_body=Or(A.subp_body, A.package_body),
 
-    library_unit_decl=Or(
-        A.generic_decl,
-        A.generic_instantiation,
-        A.package_decl,
-        A.subp_decl,
-    ),
 
     library_unit_renaming_decl=Or(
         A.package_renaming_decl,
@@ -662,9 +656,18 @@ A.add_rules(
 
     library_item=LibraryItem(
         Private("private"),
-        A.library_unit_body
-        | A.library_unit_renaming_decl
-        | A.library_unit_decl
+        Or(
+            A.null_subp_decl,
+            A.abstract_subp_decl,
+            A.expr_fn,
+            A.subp_renaming_decl,
+            A.generic_instantiation,
+            A.library_unit_body,
+            A.simple_subp_decl,
+            A.library_unit_renaming_decl,
+            A.generic_decl,
+            A.package_decl,
+        )
     ),
 
     compilation_unit=CompilationUnit(

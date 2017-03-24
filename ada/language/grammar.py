@@ -844,7 +844,7 @@ A.add_rules(
         A.aspect_spec,
         "is",
         A.decl_part,
-        "begin",
+        recover("begin"),
         A.handled_stmts,
         A.end_liblevel_block
     ),

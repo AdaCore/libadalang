@@ -860,8 +860,7 @@ A.add_rules(
         A.stmts
     ),
 
-    stmts=List(Or(Pick(A.stmt, Opt(";").error()),
-                  A.label), empty_valid=True),
+    stmts=List(Or(Pick(A.stmt, recover(";")), A.label), empty_valid=True),
 
     label=Label("<<", LabelDecl(A.identifier), ">>"),
 

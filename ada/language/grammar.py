@@ -414,7 +414,7 @@ A.add_rules(
         Opt(A.renaming_clause), A.aspect_spec
     ),
 
-    basic_decls=List(A.basic_decl, ";", empty_valid=True),
+    basic_decls=List(A.basic_decl, recover(";"), empty_valid=True),
 
     package_renaming_decl=PackageRenamingDecl(
         "package", A.static_name, A.renaming_clause, A.aspect_spec
@@ -671,12 +671,12 @@ A.add_rules(
     ),
 
     compilation_unit=CompilationUnit(
-        List(A.context_item, ";", empty_valid=True),
+        List(A.context_item, recover(";"), empty_valid=True),
 
-        A.subunit | A.library_item, ";",
+        A.subunit | A.library_item, recover(";"),
 
         # Eventual pragmas attached to the body
-        List(A.pragma, ";", empty_valid=True)
+        List(A.pragma, recover(";"), empty_valid=True)
     ),
 
     # This is the main rule. The root node will then be either:

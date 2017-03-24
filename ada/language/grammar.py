@@ -545,14 +545,21 @@ A.add_rules(
         Opt("return", A.type_expr)
     ),
 
+    expr_fn=subp_decl(
+        ExprFunction, "is", Or(Pick("(", A.expr, ")"), A.aggregate),
+    ),
+
+    null_subp_decl=subp_decl(NullSubpDecl, "is", "null"),
+    abstract_subp_decl=subp_decl(AbstractSubpDecl, "is", "abstract"),
+    subp_renaming_decl=subp_decl(SubpRenamingDecl, A.renaming_clause),
+    simple_subp_decl=subp_decl(SubpDecl),
+
     subp_decl=Or(
-        subp_decl(NullSubpDecl, "is", "null"),
-        subp_decl(AbstractSubpDecl, "is", "abstract"),
-        subp_decl(
-            ExprFunction, "is", Or(Pick("(", A.expr, ")"), A.aggregate),
-        ),
-        subp_decl(SubpRenamingDecl, A.renaming_clause),
-        subp_decl(SubpDecl)
+        A.null_subp_decl,
+        A.abstract_subp_decl,
+        A.expr_fn,
+        A.subp_renaming_decl,
+        A.simple_subp_decl
     ),
 
     with_clause=WithClause(

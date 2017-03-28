@@ -143,7 +143,7 @@ procedure Symres is
    begin
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop
-            Put_Line ("error: " & Filename & ":"
+            Put_Line ("error: " & Filename & ": "
                       & Langkit_Support.Diagnostics.To_Pretty_String (D));
          end loop;
          return;

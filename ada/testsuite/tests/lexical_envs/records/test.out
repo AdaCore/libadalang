@@ -173,6 +173,8 @@ CompilationUnit[1:1-11:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
+    Referenced:
+      <CompilationUnit 1:1-11:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-114:13>)
     foo: [<PackageDecl ["Foo"] 1:1-11:8>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 

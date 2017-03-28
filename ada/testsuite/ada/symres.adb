@@ -281,6 +281,9 @@ procedure Symres is
      (Positive, Unbounded_String);
    Files : String_Vectors.Vector;
 
+   Project_File  : Unbounded_String;
+   Scenario_Vars : String_Vectors.Vector;
+
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
       declare
@@ -295,16 +298,9 @@ begin
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
          elsif Starts_With (Arg, "-P") then
-            declare
-               Project_File : constant String := Strip_Prefix (Arg, "-P");
-               Env          : Project_Environment_Access;
-               Project      : constant Project_Tree_Access := new Project_Tree;
-            begin
-               Initialize (Env);
-               Load (Project.all, Create (+Project_File), Env);
-               UFP := new Project_Unit_Provider_Type'
-                 (Create (Project, Env, True));
-            end;
+            Project_File := +Strip_Prefix (Arg, "-P");
+         elsif Starts_With (Arg, "-X") then
+            Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
          elsif Starts_With (Arg, "--") then
             Put_Line ("Invalid argument: " & Arg);
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
@@ -314,6 +310,40 @@ begin
          end if;
       end;
    end loop;
+
+   if Length (Project_File) > 0 then
+      declare
+         Filename : constant String := +Project_File;
+         Env      : Project_Environment_Access;
+         Project  : constant Project_Tree_Access := new Project_Tree;
+      begin
+         Initialize (Env);
+
+         --  Set scenario variables
+         for Assoc of Scenario_Vars loop
+            declare
+               A : constant String := +Assoc;
+               Eq_Index : Natural := A'First;
+            begin
+               while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop
+                  Eq_Index := Eq_Index + 1;
+               end loop;
+               if Eq_Index not in A'Range then
+                  Put_Line ("Invalid scenario variable: -X" & A);
+                  Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
+                  return;
+               end if;
+               Change_Environment
+                 (Env.all,
+                  A (A'First .. Eq_Index - 1),
+                  A (Eq_Index + 1 .. A'Last));
+            end;
+         end loop;
+
+         Load (Project.all, Create (+Filename), Env);
+         UFP := new Project_Unit_Provider_Type'(Create (Project, Env, True));
+      end;
+   end if;
 
    Ctx := Create
      (Charset       => +Charset,

@@ -111,13 +111,13 @@ $root = LexEnv(Parent=null):
     __body: [<PackageBody ["Foo"] 1:1-10:8>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
 
-$1 = LexEnv(Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:8>):
+@1 = LexEnv(Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:8>):
     bar: [<SubpBody ["Bar"] 2:4-9:11>]
 
-$2 = LexEnv(Parent=$1, Node=<SubpBody ["Bar"] 2:4-9:11>):
+@2 = LexEnv(Parent=@1, Node=<SubpBody ["Bar"] 2:4-9:11>):
     i: [<ParamSpec ["I", "J"] 2:19-2:33>]
     j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 
-$3 = LexEnv(Parent=$2, Node=<BlockStmt 4:7-8:10>):
+@3 = LexEnv(Parent=@2, Node=<BlockStmt 4:7-8:10>):
     lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
 

@@ -104,16 +104,16 @@ $root = LexEnv(Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
     test: [<SubpBody ["Test"] 1:1-10:9>]
 
-$1 = LexEnv(Parent=$root, Node=<SubpBody ["Test"] 1:1-10:9>):
+@1 = LexEnv(Parent=$root, Node=<SubpBody ["Test"] 1:1-10:9>):
     d: [<GenericPackageDecl ["D"] 2:4-5:9>]
     d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:37>]
 
-$2 = LexEnv(Parent=$1, Node=<GenericPackageDecl ["D"] 2:4-5:9>):
+@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["D"] 2:4-5:9>):
     t: [<ObjectDecl ["T"] 3:7-3:18>]
 
-$3 = LexEnv(Parent=$2, Node=<GenericPackageInternal ["D"] 4:4-5:9>):
+@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:9>):
     <empty>
 
-$4 = LexEnv(Parent=$1, Node=<InstantiationEnvHolder 7:37-7:37>):
+@4 = LexEnv(Parent=@1, Node=<InstantiationEnvHolder 7:37-7:37>):
     t: [<Int 7:34-7:36>]
 

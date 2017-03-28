@@ -199,22 +199,26 @@ CompilationUnitList[1:1-17:11]
 |  |  PragmaNodeList[18:1-18:1]: <empty list>
 
 ==== Dumping lexical environments ====
-<CompilationUnitList 1:1-17:11> - <LexEnv (Id <root>, Parent null), {
+$root = LexEnv(Parent=null):
     a: [<PackageDecl ["A"] 10:1-11:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<PackageDecl 1:1-2:8> - <LexEnv (Id 1, Parent <root>), {
+
+$1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:8>):
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:12>]
-}>
-<PackageDecl 4:1-5:12> - <LexEnv (Id 2, Parent 1), {
+
+$2 = LexEnv(Parent=$1, Node=<PackageDecl ["Foo.Bar"] 4:1-5:12>):
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:16>]
-}>
-<PackageDecl 7:1-8:16> - <LexEnv (Id 3, Parent 2), empty>
-<PackageDecl 10:1-11:6> - <LexEnv (Id 4, Parent <root>), {
+
+$3 = LexEnv(Parent=$2, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:16>):
+    <empty>
+
+$4 = LexEnv(Parent=$root, Node=<PackageDecl ["A"] 10:1-11:6>):
     b: [<PackageDecl ["A.B"] 13:1-14:8>]
-}>
-<PackageDecl 13:1-14:8> - <LexEnv (Id 5, Parent 4), {
+
+$5 = LexEnv(Parent=$4, Node=<PackageDecl ["A.B"] 13:1-14:8>):
     c: [<PackageDecl ["A.B.C"] 16:1-17:10>]
-}>
-<PackageDecl 16:1-17:10> - <LexEnv (Id 6, Parent 5), empty>
+
+$6 = LexEnv(Parent=$5, Node=<PackageDecl ["A.B.C"] 16:1-17:10>):
+    <empty>
+

@@ -45,16 +45,18 @@ CompilationUnit[1:1-3:9]
 |  PragmaNodeList[4:1-4:1]: <empty list>
 
 ==== Dumping lexical environments ====
-<CompilationUnit 1:1-3:9> - <LexEnv (Id <root>, Parent null), {
+$root = LexEnv(Parent=null):
     a: [<PackageDecl ["A"] 1:1-3:6>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
-<SubpBody 1:1-3:8> - <LexEnv (Id 2, Parent 1), empty>
-<LexEnv (Id 1, Parent <root>), {
+
+$2 = LexEnv(Parent=$1, Node=<SubpBody ["A.B"] 1:1-3:8>):
+    <empty>
+
+$1 = LexEnv(Parent=$root, Node=<PackageDecl ["A"] 1:1-3:6>):
     b: [<SubpBody ["A.B"] 1:1-3:8>]
     pouet: [<ObjectDecl ["Pouet"] 2:4-2:19>]
-}>
-<LexEnv (Id <root>, Parent null), {
+
+$root = LexEnv(Parent=null):
     a: [<PackageDecl ["A"] 1:1-3:6>]
     standard: [<PackageDecl ["Standard"] 1:1-114:13>]
-}>
+

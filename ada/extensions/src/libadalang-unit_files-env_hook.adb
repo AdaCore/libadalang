@@ -1,5 +1,8 @@
 package body Libadalang.Unit_Files.Env_Hook is
 
+   --  The content of the following string literal has been generated running
+   --  GNAT with flag -gnatS, and then post-processed by hand.
+
    Std_Content : String :=
      "package Standard is" & ASCII.LF &
      "pragma Pure(Standard);" & ASCII.LF &
@@ -25,6 +28,9 @@ package body Libadalang.Unit_Files.Env_Hook is
      "  type Long_Long_Float is digits 18" & ASCII.LF &
      "    range -16#0.FFFF_FFFF_FFFF_FFFF#E+4096 .. " & ASCII.LF &
      "16#0.FFFF_FFFF_FFFF_FFFF#E+4096;" & ASCII.LF &
+     "  type Character is ('A');" & ASCII.LF &
+     "  type Wide_Character is ('A');" & ASCII.LF &
+     "  type Wide_Wide_Character is ('A');" & ASCII.LF &
      "  package ASCII is" & ASCII.LF &
      "     NUL   : constant Character := Character'Val (16#00#);" & ASCII.LF &
      "     SOH   : constant Character := Character'Val (16#01#);" & ASCII.LF &
@@ -110,6 +116,8 @@ package body Libadalang.Unit_Files.Env_Hook is
      "  pragma Pack (String);" & ASCII.LF &
      "  type Wide_String is array " & ASCII.LF &
      "(Positive range <>) of Wide_Character;" & ASCII.LF &
+     "  type Wide_Wide_String is array " & ASCII.LF &
+     "(Positive range <>) of Wide_Wide_Character;" & ASCII.LF &
      "  pragma Pack (Wide_String);" & ASCII.LF &
      "  type Duration is delta 0.000000001" & ASCII.LF &
      "    range -((2 ** 63 - 1) * 0.000000001) .." & ASCII.LF &

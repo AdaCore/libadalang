@@ -1,0 +1,7 @@
+Analyzing bar.ads
+#################
+
+Inst resolves to:
+    package Inst is new Foo.Gen (Integer)
+
+Done.

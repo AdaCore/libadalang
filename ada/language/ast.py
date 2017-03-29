@@ -1760,7 +1760,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                     Self.params, False
                 ).map(lambda pm: New(
                     T.env_assoc,
-                    key=pm.actual.name.sym, val=pm.actual.assoc.expr
+                    key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 )),
                 is_post=True,
                 dest_env=Self.instantiation_env_holder.children_env

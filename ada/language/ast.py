@@ -321,6 +321,23 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property()
+    def has_with_visibility(refd_unit=AnalysisUnitType):
+        """
+        Return whether Self's unit has "with visibility" on "refd_unit".
+
+        In other words, whether Self's unit has a WITH clause on "refd_unit",
+        or if its spec, or one of its parent specs has one.
+        """
+        return (
+            refd_unit.is_referenced_from(Self.unit)
+            | Self.unit.root.spec_unit.then(
+                lambda u: refd_unit.is_referenced_from(u)
+            ) | Self.unit.root.parent_unit_spec.then(
+                lambda u: refd_unit.is_referenced_from(u)
+            )
+        )
+
 
 def child_unit(name_expr, scope_expr):
     """
@@ -1929,7 +1946,13 @@ class Expr(AdaNode):
         """
     )
 
-    env_elements = Property(Self.env_elements_impl(Env), has_implicit_env=True)
+    env_elements = Property(
+        Self.env_elements_impl(Env).filter(lambda e: (
+            Not(is_library_item(e.el))
+            | Self.has_with_visibility(e.el.unit)
+        )),
+        has_implicit_env=True
+    )
 
     @langkit_property(return_type=T.root_node.env_el().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
@@ -2727,7 +2750,7 @@ class BaseId(SingleTokNode):
                 # package and self is not), we want to check whether the
                 # requester has visibility over the element.
                 If(
-                    is_parent_pkg & Not(is_library_package(e.el)),
+                    is_parent_pkg & Not(is_library_item(e.el)),
                     Env.env_node.unit.is_referenced_from(
                         origin_env.env_node.unit
                     ),

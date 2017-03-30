@@ -2704,9 +2704,13 @@ class BaseId(SingleTokNode):
                 # If we're at the visibility checking point (parent is a
                 # package and self is not), we want to check whether the
                 # requester has visibility over the element.
-                If(is_parent_pkg & Not(is_library_package(e.el)),
-                   Env.is_visible_from(origin_env),
-                   True)
+                If(
+                    is_parent_pkg & Not(is_library_package(e.el)),
+                    Env.env_node.unit.is_referenced_from(
+                        origin_env.env_node.unit
+                    ),
+                    True
+                )
 
                 & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(
                     # If there is a subp_spec, check that it corresponds to

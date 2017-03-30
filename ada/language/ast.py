@@ -274,6 +274,28 @@ class AdaNode(ASTNode):
         """
     )
 
+    parent_unit_spec = Property(
+        get_library_item(Self.unit).match(
+            lambda pkg_spec=T.BasePackageDecl:
+                pkg_spec.package_name,
+            lambda gen_pkg_decl=T.GenericPackageDecl:
+                gen_pkg_decl.package_name,
+            lambda subp_decl=T.SubpDecl:
+                subp_decl.subp_decl_spec.subp_name,
+            lambda gen_subp_decl=T.GenericSubpDecl:
+                gen_subp_decl.subp_spec.subp_name,
+            lambda _: No(T.Name),
+        )._.match(
+            lambda name=T.DottedName: name.referenced_unit(UnitSpecification),
+            lambda _: No(AnalysisUnitType),
+        ),
+        public=True,
+        doc="""
+        If this unit is a spec and is a child unit, return the spec of the
+        parent unit. Return a null analysis unit for all other cases.
+        """
+    )
+
     std = Property(
         Self.unit.root.node_env.get('Standard').at(0).el,
         doc="""

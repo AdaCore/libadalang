@@ -13,7 +13,7 @@ procedure Main is
    is (N.Kind = Ada_Bin_Op);
 
    BO     : constant Bin_Op :=
-     Bin_Op (CU.Find (Find_Binops'Access).Consume (1));
+     Bin_Op (Ada_Node_Iterators.Consume (CU.Find (Find_Binops'Access)) (1));
 begin
    Put_Line ("Tokens for node "
              & Langkit_Support.Text.Image (Short_Image (BO)) & ":");

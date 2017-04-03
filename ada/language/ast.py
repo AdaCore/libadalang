@@ -3305,7 +3305,7 @@ class DottedName(Name):
         ))
 
     designated_type_impl = Property(lambda: (
-        Self.prefix.env_elements.at(0).children_env.eval_in_env(
+        Self.prefix.designated_env(Env).eval_in_env(
             Self.suffix.designated_type_impl
         )
     ))

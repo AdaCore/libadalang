@@ -166,7 +166,7 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
         will resolve symbols and types for every sub expression of the
@@ -178,13 +178,12 @@ class AdaNode(ASTNode):
         # TODO: Maybe this should eventually be an AbstractProperty, but during
         # the development of the xref engine, it is practical to have the
         # default implementation return null, so that we can fail gracefully.
-        ignore(origin_env)
         return No(EquationType)
 
     xref_stop_resolution = Property(False)
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def sub_equation(origin_env=LexicalEnvType):
+    def sub_equation():
         """
         Wrapper for xref_equation, meant to be used inside of xref_equation
         when you want to get the sub equation of a sub expression. It is
@@ -194,7 +193,7 @@ class AdaNode(ASTNode):
         """
         return If(Self.xref_stop_resolution,
                   LogicTrue(),
-                  Self.xref_equation(origin_env))
+                  Self.xref_equation)
 
     @langkit_property(return_type=BoolType, has_implicit_env=True)
     def resolve_symbols_internal(initial=BoolType):
@@ -202,7 +201,7 @@ class AdaNode(ASTNode):
         Internal helper for resolve_symbols, implementing the recursive logic.
         """
         i = Var(If(initial | Self.xref_stop_resolution,
-                   Self.xref_equation(Env)._.solve,
+                   Self.xref_equation._.solve,
                    True))
 
         j = Self.children.all(lambda c: c.then(
@@ -992,9 +991,9 @@ class TypeDecl(BaseTypeDecl):
     xref_entry_point = Property(True)
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         # TODO: Handle discriminants
-        return Self.type_def.xref_equation(origin_env)
+        return Self.type_def.xref_equation
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -1108,8 +1107,8 @@ class DerivedTypeDef(TypeDef):
     ))
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.subtype_indication.xref_equation(origin_env)
+    def xref_equation():
+        return Self.subtype_indication.xref_equation
 
 
 class IncompleteTypeDef(TypeDef):
@@ -1331,7 +1330,7 @@ class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list_type())
 
     env_spec = EnvSpec(
-        ref_envs=Self.packages.map(lambda package: package.designated_env(Env))
+        ref_envs=Self.packages.map(lambda package: package.designated_env)
     )
 
 
@@ -1393,10 +1392,9 @@ class SubtypeIndication(TypeExpr):
     )
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         # Called by allocator.xref_equation, since the suffix can be either a
         # qual expr or a subtype indication.
-        ignore(origin_env)
         return Bind(Self.name.ref_var, Self.designated_type)
 
 
@@ -1617,10 +1615,10 @@ class ObjectDecl(BasicDecl):
     type_expression = Property(Self.type_expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return Self.default_expr.then(
             lambda de:
-            de.xref_equation(origin_env)
+            de.xref_equation
             & Bind(Self.default_expr.type_var,
                    Self.canonical_expr_type,
                    eq_prop=BaseTypeDecl.fields.matching_assign_type),
@@ -1920,7 +1918,7 @@ class Expr(AdaNode):
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LexicalEnvType, has_implicit_env=True)
-    def designated_env(origin_env=LexicalEnvType):
+    def designated_env():
         """
         Returns the lexical environment designated by this name.
 
@@ -1947,7 +1945,7 @@ class Expr(AdaNode):
     )
 
     env_elements = Property(
-        Self.env_elements_impl(Env).filter(lambda e: (
+        Self.env_elements_impl().filter(lambda e: (
             Not(is_library_item(e.el))
             | Self.has_with_visibility(e.el.unit)
         )),
@@ -1957,7 +1955,7 @@ class Expr(AdaNode):
     @langkit_property(return_type=T.root_node.env_el().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       has_implicit_env=True)
-    def env_elements_impl(origin_env=LexicalEnvType):
+    def env_elements_impl():
         """
         Returns the list of annotated elements in the lexical environment
         that can statically be a match for expr before overloading analysis.
@@ -1991,11 +1989,8 @@ class ParenExpr(Expr):
     expr = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        return (
-            Self.expr.sub_equation(origin_env)
-            & Bind(Self.expr.type_var, Self.type_var)
-        )
+    def xref_equation():
+        return Self.expr.sub_equation & Bind(Self.expr.type_var, Self.type_var)
 
 
 class Op(T.EnumNode):
@@ -2055,11 +2050,10 @@ class BinOp(Expr):
     ref_val = Property(Self.op.ref_var.get_value)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         subps = Var(Self.op.subprograms)
         return (
-            Self.left.sub_equation(origin_env)
-            & Self.right.sub_equation(origin_env)
+            Self.left.sub_equation & Self.right.sub_equation
         ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_decl_spec.unpacked_formal_params:
 
@@ -2114,7 +2108,7 @@ class Aggregate(Expr):
     xref_stop_resolution = Property(True)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         td = Var(Self.type_val.el.cast(BaseTypeDecl))
         atd = Var(td.array_def)
         return If(
@@ -2127,7 +2121,7 @@ class Aggregate(Expr):
                 lambda pm:
                 Bind(pm.actual.assoc.expr.type_var,
                      pm.formal.spec.type_expression.designated_type)
-                & pm.actual.assoc.expr.sub_equation(origin_env)
+                & pm.actual.assoc.expr.sub_equation
                 & If(pm.actual.name.is_null,
                      LogicTrue(),
                      Bind(pm.actual.name.ref_var, pm.formal.spec))
@@ -2136,7 +2130,7 @@ class Aggregate(Expr):
             # Second case, aggregate for an array
             Self.assocs.logic_all(
                 lambda assoc:
-                assoc.expr.sub_equation(origin_env)
+                assoc.expr.sub_equation
                 & Bind(assoc.expr.type_var, atd.comp_type)
             )
         )
@@ -2232,8 +2226,7 @@ class CallExpr(Name):
     ref_var = Property(Self.name.ref_var)
 
     @langkit_property(has_implicit_env=True)
-    def designated_env(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def designated_env():
         return Self.env_elements().map(lambda e: e.match(
             lambda subp=BasicSubpDecl.env_el(): subp.defining_env,
             lambda subp=SubpBody.env_el():      subp.defining_env,
@@ -2241,8 +2234,8 @@ class CallExpr(Name):
         )).env_group
 
     @langkit_property()
-    def env_elements_impl(origin_env=LexicalEnvType):
-        return Self.name.env_elements_impl(origin_env)
+    def env_elements_impl():
+        return Self.name.env_elements_impl()
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
@@ -2251,33 +2244,33 @@ class CallExpr(Name):
     params = Property(Self.suffix.cast(T.AssocList))
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return If(
             Not(Self.name.designated_type_impl.is_null),
 
             # Type conversion case
-            Self.type_conv_xref_equation(origin_env),
+            Self.type_conv_xref_equation,
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_callexpr.general_xref_equation(origin_env)
+            Self.innermost_callexpr.general_xref_equation
         )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def type_conv_xref_equation(origin_env=LexicalEnvType):
+    def type_conv_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in type
         conversion cases.
         """
         return And(
-            Self.params.at(0).expr.sub_equation(origin_env),
-            Self.name.sub_equation(origin_env),
+            Self.params.at(0).expr.sub_equation,
+            Self.name.sub_equation,
             Bind(Self.type_var, Self.name.type_var),
             Bind(Self.ref_var, Self.name.ref_var)
         )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def general_xref_equation(origin_env=LexicalEnvType):
+    def general_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.
@@ -2286,14 +2279,12 @@ class CallExpr(Name):
         subps = Var(Self.env_elements)
 
         return (
-            Self.name.sub_equation(origin_env)
+            Self.name.sub_equation
             # TODO: For the moment we presume that a CallExpr in an expression
             # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            & Self.params.logic_all(
-                lambda pa: pa.expr.sub_equation(origin_env)
-            )
+            & Self.params.logic_all(lambda pa: pa.expr.sub_equation)
 
             # For each potential subprogram match, we want to express the
             # following constraints:
@@ -2310,7 +2301,7 @@ class CallExpr(Name):
                     s.subp_spec_or_null.then(lambda ss: ss.paramless(e.MD),
                                              default_val=True),
 
-                    Self.equation_for_type(origin_env, s.expr_type),
+                    Self.equation_for_type(s.expr_type),
 
                     # The type of the expression is the expr_type of the
                     # subprogram.
@@ -2344,7 +2335,6 @@ class CallExpr(Name):
                 # construct the crossref equation.
                 & Self.parent_nested_callexpr.then(
                     lambda pce: pce.parent_callexprs_equation(
-                        origin_env,
                         s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
@@ -2355,7 +2345,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def equation_for_type(origin_env=LexicalEnvType, typ=T.BaseTypeDecl):
+    def equation_for_type(typ=T.BaseTypeDecl):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
@@ -2364,7 +2354,7 @@ class CallExpr(Name):
 
         return Let(lambda indices=atd.indices: Self.params.logic_all(
             lambda i, pa:
-            pa.expr.sub_equation(origin_env)
+            pa.expr.sub_equation()
             & indices.constrain_index_expr(pa.expr, i)
         )) & Bind(Self.type_var, atd.comp_type)
 
@@ -2426,17 +2416,15 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, has_implicit_env=True)
-    def parent_callexprs_equation(origin_env=LexicalEnvType,
-                                  typ=T.BaseTypeDecl):
+    def parent_callexprs_equation(typ=T.BaseTypeDecl):
         """
         Construct the xref equation for the chain of parent nested callexprs.
         """
         return (
-            Self.equation_for_type(origin_env, typ)
+            Self.equation_for_type(typ)
             & Self.parent_nested_callexpr.then(
-                lambda pce: pce.parent_callexprs_equation(
-                    origin_env, typ.comp_type
-                ), default_val=LogicTrue()
+                lambda pce: pce.parent_callexprs_equation(typ.comp_type),
+                default_val=LogicTrue()
             )
         )
 
@@ -2496,22 +2484,22 @@ class ExplicitDeref(Name):
     ref_var = Property(Self.prefix.ref_var)
 
     @langkit_property()
-    def designated_env(origin_env=LexicalEnvType):
+    def designated_env():
         # Since we have implicit dereference in Ada, everything is directly
         # accessible through the prefix, so we just use the prefix's env.
-        return Self.prefix.designated_env(origin_env)
+        return Self.prefix.designated_env()
 
     @langkit_property()
-    def env_elements_impl(origin_env=LexicalEnvType):
-        return Self.prefix.env_elements_impl(origin_env).filter(
+    def env_elements_impl():
+        return Self.prefix.env_elements_impl.filter(
             # Env elements for access derefs need to be of an access type
             lambda e: e.el.cast(BasicDecl)._.canonical_expr_type.is_access_type
         )
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.prefix.sub_equation(origin_env)
+            Self.prefix.sub_equation
             # Evaluate the prefix equation
 
             & Self.ref_var.domain(Self.env_elements)
@@ -2544,16 +2532,16 @@ class IfExpr(Expr):
     else_expr = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
             # Construct sub equations for common sub exprs
-            Self.cond_expr.sub_equation(origin_env)
-            & Self.then_expr.sub_equation(origin_env)
+            Self.cond_expr.sub_equation
+            & Self.then_expr.sub_equation
 
             & If(
                 Not(Self.else_expr.is_null),
                 # If there is an else, then construct sub equation
-                Self.else_expr.sub_equation(origin_env)
+                Self.else_expr.sub_equation
                 # And bind the then expr's and the else expr's types
                 & Bind(Self.then_expr.type_var, Self.else_expr.type_var),
 
@@ -2561,8 +2549,8 @@ class IfExpr(Expr):
                 Bind(Self.then_expr.type_var, Self.bool_type)
             ) & Self.alternatives.logic_all(lambda elsif: (
                 # Build the sub equations for cond and then exprs
-                elsif.cond_expr.sub_equation(origin_env)
-                & elsif.then_expr.sub_equation(origin_env)
+                elsif.cond_expr.sub_equation
+                & elsif.then_expr.sub_equation
 
                 # The condition is boolean
                 & Bind(elsif.cond_expr.type_var, Self.bool_type)
@@ -2585,7 +2573,7 @@ class CaseExpr(Expr):
     cases = Field(type=T.CaseExprAlternative.list_type())
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
         a = Var(Self.expr.resolve_symbols)
@@ -2595,15 +2583,14 @@ class CaseExpr(Expr):
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                Bind(e.type_var, Self.expr.type_val)
-                & e.sub_equation(origin_env),
+                Bind(e.type_var, Self.expr.type_val) & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()
             ))
 
             # Equations for the dependent expressions
-            & alt.expr.sub_equation(origin_env)
+            & alt.expr.sub_equation
 
             # The type of self is the type of each expr. Also, the type of
             # every expr is bound together by the conjunction of this bind for
@@ -2650,17 +2637,15 @@ class BaseId(SingleTokNode):
             EmptyEnv
         )
 
-    @langkit_property()
-    def designated_env(origin_env=LexicalEnvType):
-        return Self.designated_env_impl(origin_env, False)
+    designated_env = Property(Self.designated_env_impl(False))
 
     @langkit_property(has_implicit_env=True)
-    def designated_env_impl(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
+    def designated_env_impl(is_parent_pkg=BoolType):
         """
         Decoupled implementation for designated_env, specifically used by
         DottedName when the parent is a library level package.
         """
-        ents = Var(Self.env_elements_baseid(origin_env, is_parent_pkg))
+        ents = Var(Self.env_elements_baseid(is_parent_pkg))
 
         return Let(lambda el=ents.at(0).el: If(
             is_package(el),
@@ -2712,11 +2697,11 @@ class BaseId(SingleTokNode):
         )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
     @langkit_property(has_implicit_env=True)
-    def env_elements_impl(origin_env=LexicalEnvType):
-        return Self.env_elements_baseid(origin_env, False)
+    def env_elements_impl():
+        return Self.env_elements_baseid(False)
 
     @langkit_property(has_implicit_env=True)
-    def env_elements_baseid(origin_env=LexicalEnvType, is_parent_pkg=BoolType):
+    def env_elements_baseid(is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
@@ -2751,9 +2736,7 @@ class BaseId(SingleTokNode):
                 # requester has visibility over the element.
                 If(
                     is_parent_pkg & Not(is_library_item(e.el)),
-                    Env.env_node.unit.is_referenced_from(
-                        origin_env.env_node.unit
-                    ),
+                    Env.env_node.unit.is_referenced_from(Self.unit),
                     True
                 )
 
@@ -2791,8 +2774,7 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         dt = Self.designated_type_impl
         return If(
             Not(dt.is_null),
@@ -2815,8 +2797,7 @@ class StringLiteral(BaseId):
     _repr_name = "Str"
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return Predicate(BaseTypeDecl.fields.is_str_type, Self.type_var)
 
 
@@ -2840,8 +2821,7 @@ class CharLiteral(BaseId):
     _repr_name = "Chr"
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return Predicate(BaseTypeDecl.fields.is_char_type, Self.type_var)
 
 
@@ -2854,8 +2834,7 @@ class RealLiteral(NumLiteral):
     _repr_name = "Real"
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return Predicate(BaseTypeDecl.fields.is_real_type, Self.type_var)
 
 
@@ -2863,8 +2842,7 @@ class IntLiteral(NumLiteral):
     _repr_name = "Int"
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return Predicate(BaseTypeDecl.fields.is_int_type, Self.type_var)
 
 
@@ -3095,7 +3073,7 @@ class LoopSpec(AdaNode):
 
     @langkit_property(return_type=EquationType,
                       kind=AbstractKind.abstract_runtime_check)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         pass
 
 
@@ -3134,7 +3112,7 @@ class ForLoopSpec(LoopSpec):
     iter_expr = Field(type=T.AdaNode)
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         int = Var(Self.std_entity('Integer'))
 
         return Self.loop_type.match(
@@ -3175,7 +3153,7 @@ class ForLoopSpec(LoopSpec):
             # This is a for .. of
             lambda _=IterType.alt_of:
             # Equation for the expression
-            Self.iter_expr.sub_equation(origin_env)
+            Self.iter_expr.sub_equation
 
             # Then we want the type of the induction variable to be the
             # component type of the type of the expression.
@@ -3217,9 +3195,9 @@ class Allocator(Expr):
         )
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.type_or_expr.sub_equation(origin_env)
+            Self.type_or_expr.sub_equation
             & Predicate(BaseTypeDecl.fields.matching_allocator_type,
                         Self.type_var, Self.get_allocated_type)
         )
@@ -3232,11 +3210,11 @@ class QualExpr(Name):
     ref_var = Property(Self.prefix.ref_var)
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         typ = Self.prefix.designated_type_impl.canonical_type
 
         return (
-            Self.suffix.sub_equation(origin_env)
+            Self.suffix.sub_equation
             & Bind(Self.prefix.ref_var, typ)
             & Bind(Self.prefix.type_var, typ)
             & Bind(Self.suffix.type_var, typ)
@@ -3277,12 +3255,12 @@ class DottedName(Name):
     ref_var = Property(Self.suffix.ref_var)
 
     @langkit_property()
-    def designated_env(origin_env=LexicalEnvType):
-        pfx_env = Var(Self.prefix.designated_env(origin_env))
+    def designated_env():
+        pfx_env = Var(Self.prefix.designated_env)
         return pfx_env.eval_in_env(If(
             is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
-            Self.suffix.designated_env_impl(origin_env, True),
-            Self.suffix.designated_env(origin_env)
+            Self.suffix.designated_env_impl(True),
+            Self.suffix.designated_env
         ))
 
     scope = Property(Self.suffix.then(
@@ -3295,29 +3273,27 @@ class DottedName(Name):
     relative_name = Property(Self.suffix.relative_name)
 
     @langkit_property()
-    def env_elements_impl(origin_env=LexicalEnvType):
-        pfx_env = Var(Self.prefix.designated_env(origin_env))
+    def env_elements_impl():
+        pfx_env = Var(Self.prefix.designated_env)
 
         return pfx_env.eval_in_env(If(
             is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
-            Self.suffix.env_elements_baseid(origin_env, True),
-            Self.suffix.env_elements_impl(origin_env)
+            Self.suffix.env_elements_baseid(True),
+            Self.suffix.env_elements_impl
         ))
 
     designated_type_impl = Property(lambda: (
-        Self.prefix.designated_env(Env).eval_in_env(
+        Self.prefix.designated_env.eval_in_env(
             Self.suffix.designated_type_impl
         )
     ))
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         dt = Self.designated_type_impl
         base = Var(
-            Self.prefix.sub_equation(origin_env)
-            & Self.prefix.designated_env(origin_env).eval_in_env(
-                Self.suffix.sub_equation(origin_env)
-            )
+            Self.prefix.sub_equation
+            & Self.prefix.designated_env.eval_in_env(Self.suffix.sub_equation)
         )
         return If(
             Not(dt.is_null),
@@ -3440,9 +3416,9 @@ class CallStmt(SimpleStmt):
     call = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.call.sub_equation(origin_env)
+            Self.call.sub_equation
 
             # Call statements can have no return value
             & Bind(Self.call.type_var, No(AdaNode))
@@ -3453,8 +3429,7 @@ class NullStmt(SimpleStmt):
     null_lit = Field(repr=False)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return LogicTrue()
 
 
@@ -3463,10 +3438,10 @@ class AssignStmt(SimpleStmt):
     expr = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.dest.sub_equation(origin_env)
-            & Self.expr.sub_equation(origin_env)
+            Self.dest.sub_equation
+            & Self.expr.sub_equation
             & Bind(Self.expr.type_var, Self.dest.type_var,
                    eq_prop=BaseTypeDecl.fields.matching_assign_type)
         )
@@ -3476,8 +3451,8 @@ class GotoStmt(SimpleStmt):
     label_name = Field(type=T.Name)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.label_name.sub_equation(origin_env)
+    def xref_equation():
+        return Self.label_name.sub_equation
 
 
 class ExitStmt(SimpleStmt):
@@ -3485,9 +3460,9 @@ class ExitStmt(SimpleStmt):
     condition = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.condition.sub_equation(origin_env)
+            Self.condition.sub_equation
             & Bind(Self.condition.type_var, Self.bool_type)
         )
 
@@ -3501,9 +3476,9 @@ class ReturnStmt(SimpleStmt):
     )
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.return_expr.sub_equation(origin_env)
+            Self.return_expr.sub_equation
             & Bind(
                 Self.return_expr.type_var,
                 Self.subp.subp_spec.returns.designated_type.canonical_type
@@ -3520,10 +3495,10 @@ class AbortStmt(SimpleStmt):
     names = Field(type=T.Name.list_type())
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return Self.names.logic_all(
             lambda name:
-            name.sub_equation(origin_env)
+            name.sub_equation
             & Predicate(BaseTypeDecl.fields.is_task_type,
                         name.type_var)
         )
@@ -3534,8 +3509,8 @@ class DelayStmt(SimpleStmt):
     expr = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.expr.sub_equation(origin_env) & Bind(
+    def xref_equation():
+        return Self.expr.sub_equation & Bind(
             Self.expr.type_var, Self.std_entity('Duration')
         )
 
@@ -3545,8 +3520,8 @@ class RaiseStmt(SimpleStmt):
     error_message = Field(type=T.Expr)
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.exception_name.sub_equation(origin_env)
+    def xref_equation():
+        return Self.exception_name.sub_equation
 
 
 class IfStmt(CompositeStmt):
@@ -3556,12 +3531,12 @@ class IfStmt(CompositeStmt):
     else_stmts = Field(type=T.AdaNode.list_type())
 
     @langkit_property()
-    def xref_equation(origin_env=LexicalEnvType):
+    def xref_equation():
         return (
-            Self.cond_expr.sub_equation(origin_env)
+            Self.cond_expr.sub_equation
             & Bind(Self.cond_expr.type_var, Self.bool_type)
             & Self.alternatives.logic_all(
-                lambda elsif: elsif.cond_expr.sub_equation(origin_env)
+                lambda elsif: elsif.cond_expr.sub_equation
                 & Bind(elsif.cond_expr.type_var, Self.bool_type)
             )
         )
@@ -3586,8 +3561,8 @@ class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.expr.sub_equation(origin_env) & (
+    def xref_equation():
+        return Self.expr.sub_equation & (
             Bind(Self.expr.type_var, Self.bool_type)
         )
 
@@ -3622,8 +3597,8 @@ class LoopStmt(CompositeStmt):
     end_id = Field(type=T.Identifier)
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
-        return Self.spec.xref_equation(origin_env)
+    def xref_equation():
+        return Self.spec.xref_equation
 
 
 class BlockStmt(CompositeStmt):
@@ -3639,8 +3614,7 @@ class ExtendedReturnStmt(CompositeStmt):
     stmts = Field(type=T.HandledStmts)
 
     @langkit_property(return_type=EquationType)
-    def xref_equation(origin_env=LexicalEnvType):
-        ignore(origin_env)
+    def xref_equation():
         return LogicTrue()
 
     env_spec = EnvSpec(add_env=True)

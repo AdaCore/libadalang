@@ -147,7 +147,7 @@ class AdaNode(ASTNode):
     """
 
     type_val = Property(
-        No(T.AdaNode.env_el()),
+        No(T.AdaNode.entity()),
         public=True,
         doc="""
         This will return the value of the type of this node after symbol
@@ -156,7 +156,7 @@ class AdaNode(ASTNode):
         """
     )
     ref_val = Property(
-        No(T.AdaNode.env_el()),
+        No(T.AdaNode.entity()),
         public=True,
         doc="""
         This will return the node this nodes references after symbol
@@ -1952,7 +1952,7 @@ class Expr(AdaNode):
         has_implicit_env=True
     )
 
-    @langkit_property(return_type=T.root_node.env_el().array_type(),
+    @langkit_property(return_type=T.root_node.entity().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       has_implicit_env=True)
     def env_elements_impl():
@@ -2027,7 +2027,7 @@ class Op(T.EnumNode):
             lambda _=Op.alt_gt: '">"',
             lambda _=Op.alt_gte: '">="',
             lambda _: '<<>>',
-        )).keep(T.BasicSubpDecl.env_el()),
+        )).keep(T.BasicSubpDecl.entity()),
         doc="""
         Return the subprograms corresponding to this operator accessible in the
         lexical environment.
@@ -2228,8 +2228,8 @@ class CallExpr(Name):
     @langkit_property(has_implicit_env=True)
     def designated_env():
         return Self.env_elements().map(lambda e: e.match(
-            lambda subp=BasicSubpDecl.env_el(): subp.defining_env,
-            lambda subp=SubpBody.env_el():      subp.defining_env,
+            lambda subp=BasicSubpDecl.entity(): subp.defining_env,
+            lambda subp=SubpBody.entity():      subp.defining_env,
             lambda _:                           EmptyEnv,
         )).env_group
 
@@ -2289,7 +2289,7 @@ class CallExpr(Name):
             # For each potential subprogram match, we want to express the
             # following constraints:
             & subps.logic_any(lambda e: Let(
-                lambda s=e.cast(BasicDecl.env_el()):
+                lambda s=e.cast(BasicDecl.entity()):
 
                 # The called entity is the subprogram
                 Bind(Self.name.ref_var, e)
@@ -3300,7 +3300,7 @@ class DottedName(Name):
             base,
             base & Self.env_elements.logic_any(lambda e: (
                 Bind(Self.suffix.ref_var, e)
-                & e.cast(BasicDecl.env_el()).constrain_prefix(Self.prefix)
+                & e.cast(BasicDecl.entity()).constrain_prefix(Self.prefix)
                 & Bind(Self.type_var, Self.suffix.type_var)
             ))
         )

@@ -89,6 +89,7 @@ class Manage(ManageScript):
 
         return CompileCtx(
             lang_name='Ada',
+            short_name='LAL',
             lexer=ada_lexer,
             grammar=ada_grammar,
             default_charset='iso-8859-1',

@@ -19,12 +19,26 @@ IDEs. Its goals encompass, but are not limited to:
   that tools can be written from various ecosystems.
 * Incremental processing of source files.
 
-It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
-basis, and is at the time of writing the main project developped using it.
-
 Come and discuss with us on our [public HipChat
 room](https://www.hipchat.com/gQfbVZ9qL)!
 
+High level architecture
+-----------------------
+
+Libadalang is a library that can be used from Ada and Python. Most of its code
+is Ada code, generated from the language specification that you can find in
+[ada/language](ada/language).
+
+*WARNING*: You will *not* find the generated code in the repository. You have
+to generate it yourself. We're thinking about some plans to auto-generate the
+code and put it in another repo/branch.
+
+It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
+basis, and is at the time of writing the main project developped using it.
+
+The language specification, while embedded in Python syntax, is mostly its own
+language, the langkit DSL, that is used to specify the part of Ada syntax and
+semantics that are of interest to us.
 
 Status of the project
 ---------------------

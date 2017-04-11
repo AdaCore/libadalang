@@ -37,7 +37,7 @@ It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
 basis, and is at the time of writing the main project developped using it.
 
 The language specification, while embedded in Python syntax, is mostly its own
-language, the langkit DSL, that is used to specify the part of Ada syntax and
+language, the Langkit DSL, that is used to specify the part of Ada syntax and
 semantics that are of interest to us.
 
 Status of the project

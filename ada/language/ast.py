@@ -2298,8 +2298,10 @@ class CallExpr(Name):
                     # Test if the entity is a parameterless subprogram call,
                     # or something else (a component/local variable/etc),
                     # that would make this callexpr an array access.
-                    s.subp_spec_or_null.then(lambda ss: ss.paramless(e.MD),
-                                             default_val=True),
+                    s.subp_spec_or_null.then(
+                        lambda ss: ss.paramless(e.info.MD),
+                        default_val=True
+                    ),
 
                     Self.equation_for_type(s.expr_type),
 
@@ -2310,7 +2312,7 @@ class CallExpr(Name):
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
                     & s.subp_spec_or_null.match_param_list(
-                        Self.params, e.MD.dottable_subp
+                        Self.params, e.info.MD.dottable_subp
                     ).logic_all(
                         lambda pm: (
                             # The type of each actual matches the type of the
@@ -2715,11 +2717,11 @@ class BaseId(SingleTokNode):
         def matching_subp(params, subp, subp_spec, env_el):
             # Either the subprogram has is matching the CallExpr's parameters
             return subp_spec.is_matching_param_list(
-                params, env_el.MD.dottable_subp
+                params, env_el.info.MD.dottable_subp
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
-                subp_spec.paramless(env_el.MD)
+                subp_spec.paramless(env_el.info.MD)
                 & pc.check_type(et)
             ))
 
@@ -2743,7 +2745,7 @@ class BaseId(SingleTokNode):
                 & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(
                     # If there is a subp_spec, check that it corresponds to
                     # a parameterless subprogram.
-                    lambda ss: ss.paramless(e.MD),
+                    lambda ss: ss.paramless(e.info.MD),
                     default_val=True
                 )
             )),

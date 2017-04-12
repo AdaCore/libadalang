@@ -287,6 +287,22 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property()
+    def resolve_generic_actual():
+        """
+        Helper property to resolve the actuals of generic instantiations.
+        """
+        return Self.as_entity.match(
+            lambda te=T.TypeExpr.entity(): te.designated_type,
+
+            # TODO: depending on the formal that matches this actual, this name
+            # can be both an object or a type. For now, we assume it's a type
+            # but we should handle objects too.
+            lambda n=T.Name.entity(): n.name_designated_type,
+
+            lambda _: No(T.entity),
+        )
+
 
 def child_unit(name_expr, scope_expr):
     """
@@ -1743,7 +1759,8 @@ class GenericPackageInstantiation(GenericInstantiation):
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 )),
                 is_post=True,
-                dest_env=Self.instantiation_env_holder.children_env
+                dest_env=Self.instantiation_env_holder.children_env,
+                resolver=AdaNode.fields.resolve_generic_actual,
             )
         ]
     )

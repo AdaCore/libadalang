@@ -1,2 +1,3 @@
 driver: symbol_resolution
 input_sources: [foo.ads]
+expect_failure: Ref count problem Q413-026

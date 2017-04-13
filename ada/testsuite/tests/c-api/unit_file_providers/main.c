@@ -68,7 +68,7 @@ main(void)
                                  ufp_destroy,
                                  ufp_get_file_from_node,
                                  ufp_get_file_from_name);
-    ada_entity_info einfo = { {false, false, true}, NULL, true };
+    ada_entity_info einfo = { {false, false }, NULL };
 
     ada_base_node pragma, args, assoc, expr;
     ada_ada_node_array entities;

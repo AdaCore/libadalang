@@ -15,7 +15,7 @@ main(void)
 
     uint32_t unit_name_chars[2] = { 'p', '2' };
     ada_text unit_name = { unit_name_chars, 2, true };
-    ada_entity_info einfo = { {false, false, true}, NULL, true };
+    ada_entity_info einfo = { {false, false }, NULL };
 
     ada_base_node subtype_ind, name;
     ada_ada_node_array entities;

@@ -211,22 +211,12 @@ class AdaNode(ASTNode):
 
     body_unit = Property(
         # TODO: handle units with multiple packages
-        get_library_item(Self.unit).match(
-            lambda pkg_spec=T.BasePackageDecl:
-                pkg_spec.package_name.referenced_unit(UnitBody),
-            lambda gen_pkg_decl=T.GenericPackageDecl:
-                gen_pkg_decl.package_decl.package_name
-                .referenced_unit(UnitBody),
-            lambda pkg_body=T.PackageBody:
-                pkg_body.unit,
-            lambda subp_decl=T.BasicSubpDecl:
-                subp_decl.subp_decl_spec.name.referenced_unit(UnitBody),
-            lambda subp_body=T.SubpBody:
-                subp_body.unit,
-            lambda _: No(AnalysisUnitType),
+        get_library_item(Self.unit)._.match(
+            lambda body=T.Body: body.unit,
+            lambda decl=T.BasicDecl:
+                decl.defining_name.referenced_unit(UnitBody),
         ),
-        public=True,
-        doc="""
+        public=True, doc="""
         If this unit has a body, fetch and return it.
         """
     )

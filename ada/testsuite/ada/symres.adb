@@ -113,15 +113,17 @@ procedure Symres is
       if N.P_Resolve_Symbols then
          for Node of N.Find (Is_Expr'Access).Consume loop
             declare
-               P_Ref  : Ada_Node := Expr (Node).P_Ref_Val.El;
-               P_Type : Ada_Node := Expr (Node).P_Type_Val.El;
+               P_Ref  : Entity := Expr (Node).P_Ref_Val;
+               P_Type : Entity := Expr (Node).P_Type_Val;
             begin
                if not Quiet then
                   Put_Line
                     ("Expr: " & Safe_Image (Node) & ", references "
-                     & Safe_Image (P_Ref) & ", type is "
-                     & Safe_Image (P_Type));
+                     & Safe_Image (P_Ref.El) & ", type is "
+                     & Safe_Image (P_Type.El));
                end if;
+               Dec_Ref (P_Ref);
+               Dec_Ref (P_Type);
             end;
          end loop;
       else

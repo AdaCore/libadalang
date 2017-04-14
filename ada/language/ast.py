@@ -296,14 +296,14 @@ class AdaNode(ASTNode):
     )
 
     std = Property(
-        Self.unit.root.node_env.get('Standard').at(0).el,
+        Self.unit.root.node_env.get('Standard').at(0),
         doc="""
         Retrieves the standard unit. Used to access standard types.
         """
     )
 
     std_entity = Property(
-        lambda sym=Symbol: Self.std.children_env.get(sym).at(0).el,
+        lambda sym=Symbol: Self.std.children_env.get(sym).at(0),
         doc="Return an entity from the standard package with name `sym`"
     )
 

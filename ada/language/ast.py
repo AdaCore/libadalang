@@ -209,24 +209,26 @@ class AdaNode(ASTNode):
         """
         return Self.node_env.eval_in_env(Self.resolve_symbols_internal(True))
 
+    # TODO: Navigation properties are not ready to deal with units containing
+    # multiple packages.
+
     body_unit = Property(
-        # TODO: handle units with multiple packages
         get_library_item(Self.unit)._.match(
             lambda body=T.Body: body.unit,
             lambda decl=T.BasicDecl:
                 decl.defining_name.referenced_unit(UnitBody),
         ),
+
         public=True, doc="""
         If this unit has a body, fetch and return it.
         """
     )
 
     spec_unit = Property(
-        # TODO: handle units with multiple packages
         get_library_item(Self.unit)
         .cast(T.Body)._.defining_name.referenced_unit(UnitSpecification),
-        public=True,
-        doc="""
+
+        public=True, doc="""
         If this unit has a spec, fetch and return it. Return the null analysis
         unit otherwise. Note that this returns null for specs, as they don't
         have another spec themselves.

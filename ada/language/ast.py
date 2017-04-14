@@ -219,10 +219,8 @@ class AdaNode(ASTNode):
                 .referenced_unit(UnitBody),
             lambda pkg_body=T.PackageBody:
                 pkg_body.unit,
-            lambda subp_decl=T.SubpDecl:
-                subp_decl.subp_spec.name.referenced_unit(UnitBody),
-            lambda gen_subp_decl=T.GenericSubpDecl:
-                gen_subp_decl.subp_spec.name.referenced_unit(UnitBody),
+            lambda subp_decl=T.BasicSubpDecl:
+                subp_decl.subp_decl_spec.name.referenced_unit(UnitBody),
             lambda subp_body=T.SubpBody:
                 subp_body.unit,
             lambda _: No(AnalysisUnitType),
@@ -256,10 +254,8 @@ class AdaNode(ASTNode):
                 pkg_spec.package_name,
             lambda gen_pkg_decl=T.GenericPackageDecl:
                 gen_pkg_decl.package_name,
-            lambda subp_decl=T.SubpDecl:
+            lambda subp_decl=T.BasicSubpDecl:
                 subp_decl.subp_decl_spec.subp_name,
-            lambda gen_subp_decl=T.GenericSubpDecl:
-                gen_subp_decl.subp_spec.subp_name,
             lambda _: No(T.Name),
         )._.match(
             lambda name=T.DottedName: name.referenced_unit(UnitSpecification),

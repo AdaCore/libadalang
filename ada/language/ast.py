@@ -223,13 +223,8 @@ class AdaNode(ASTNode):
 
     spec_unit = Property(
         # TODO: handle units with multiple packages
-        get_library_item(Self.unit).match(
-            lambda pkg_body=T.PackageBody:
-                pkg_body.package_name.referenced_unit(UnitSpecification),
-            lambda subp_body=T.SubpBody:
-                subp_body.subp_spec.name.referenced_unit(UnitSpecification),
-            lambda _: No(AnalysisUnitType),
-        ),
+        get_library_item(Self.unit)
+        .cast(T.Body)._.defining_name.referenced_unit(UnitSpecification),
         public=True,
         doc="""
         If this unit has a spec, fetch and return it. Return the null analysis

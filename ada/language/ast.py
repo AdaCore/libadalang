@@ -17,9 +17,7 @@ from langkit.expressions import (
 from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
 )
-from langkit.expressions.logic import (
-    Predicate, LogicTrue
-)
+from langkit.expressions.logic import Predicate, LogicTrue
 
 
 def add_to_env_kv(key, val, *args, **kwargs):

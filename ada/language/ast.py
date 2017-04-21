@@ -266,8 +266,15 @@ class AdaNode(ASTNode):
         """
     )
 
+    std_env = Property(
+        Self.std.children_env,
+        doc="""
+        Get the children env of the Standard package.
+        """
+    )
+
     std_entity = Property(
-        lambda sym=Symbol: Self.std.children_env.get(sym).at(0),
+        lambda sym=Symbol: Self.std_env.get(sym).at(0),
         doc="Return an entity from the standard package with name `sym`"
     )
 
@@ -340,6 +347,16 @@ class AdaNode(ASTNode):
             EmptyArray(AdaNode)
         )
 
+    @langkit_property()
+    def self_library_item_or_none():
+        """
+        Helper for Standard package automatic "use". If Self is a library item,
+        return a singleton array for Self. Otherwise, return an empty array.
+        """
+        return If(Self.parent.is_a(T.LibraryItem),
+                  Self.to_array,
+                  EmptyArray(AdaNode))
+
 
 def child_unit(name_expr, scope_expr):
     """
@@ -366,11 +383,16 @@ def child_unit(name_expr, scope_expr):
         add_env=True,
         add_to_env=add_to_env_kv(name_expr, Self),
 
-        # If Self is a library item, reference the environments for packages
-        # that are used at the top-level here. See UsePackageClause's
-        # ref_env_nodes for the rationale.
-        ref_envs=RefEnvs(T.Expr.fields.designated_env,
-                         Self.library_item_use_package_clauses),
+        ref_envs=[
+            # If Self is a library item, reference the environments for
+            # packages that are used at the top-level here. See
+            # UsePackageClause's ref_env_nodes for the rationale.
+            RefEnvs(T.Expr.fields.designated_env,
+                    Self.library_item_use_package_clauses),
+
+            # Make the Standard package automatically used
+            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
+        ],
 
         env_hook_arg=Self,
     )
@@ -1515,11 +1537,16 @@ class BasicSubpDecl(BasicDecl):
         ],
         add_env=True,
 
-        # If Self is a library item, reference the environments for packages
-        # that are used at the top-level here. See UsePackageClause's
-        # ref_env_nodes for the rationale.
-        ref_envs=RefEnvs(T.Expr.fields.designated_env,
-                         Self.library_item_use_package_clauses),
+        ref_envs=[
+            # If Self is a library item, reference the environments for
+            # packages that are used at the top-level here. See
+            # UsePackageClause's ref_env_nodes for the rationale.
+            RefEnvs(T.Expr.fields.designated_env,
+                    Self.library_item_use_package_clauses),
+
+            # Make the Standard package automatically used
+            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
+        ],
 
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
@@ -3363,16 +3390,7 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list_type())
 
-    @langkit_property()
-    def standard_env():
-        return Self.std.children_env
-
-    env_spec = EnvSpec(
-        env_hook_arg=Self,
-
-        # Make the Standard package automatically used
-        ref_envs=RefEnvs(standard_env, Self.cast(AdaNode).singleton)
-    )
+    env_spec = EnvSpec(env_hook_arg=Self)
 
 
 class SubpBody(Body):
@@ -3399,6 +3417,16 @@ class SubpBody(Body):
                 ),
                 is_post=True
             ),
+        ],
+        ref_envs=[
+            # If Self is a library item, reference the environments for
+            # packages that are used at the top-level here. See
+            # UsePackageClause's ref_env_nodes for the rationale.
+            RefEnvs(T.Expr.fields.designated_env,
+                    Self.library_item_use_package_clauses),
+
+            # Make the Standard package automatically used
+            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
         ],
         env_hook_arg=Self,
     )

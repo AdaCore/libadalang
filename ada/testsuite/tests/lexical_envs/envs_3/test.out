@@ -200,33 +200,37 @@ CompilationUnitList[1:1-17:11]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
-    Referenced:
-      <CompilationUnit 1:1-119:14>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 4:1-5:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 7:1-8:17>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 10:1-11:7>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 13:1-14:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-      <CompilationUnit 16:1-17:11>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     a: [<PackageDecl ["A"] 10:1-11:6>]
     foo: [<PackageDecl ["Foo"] 1:1-2:8>]
     standard: [<PackageDecl ["Standard"] 1:1-119:13>]
 
 @1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:8>):
+    Referenced:
+      <PackageDecl ["Foo"] 1:1-2:8>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:12>]
 
 @2 = LexEnv(Parent=@1, Node=<PackageDecl ["Foo.Bar"] 4:1-5:12>):
+    Referenced:
+      <PackageDecl ["Foo.Bar"] 4:1-5:12>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:16>]
 
 @3 = LexEnv(Parent=@2, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:16>):
+    Referenced:
+      <PackageDecl ["Foo.Bar.Baz"] 7:1-8:16>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     <empty>
 
 @4 = LexEnv(Parent=$root, Node=<PackageDecl ["A"] 10:1-11:6>):
+    Referenced:
+      <PackageDecl ["A"] 10:1-11:6>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     b: [<PackageDecl ["A.B"] 13:1-14:8>]
 
 @5 = LexEnv(Parent=@4, Node=<PackageDecl ["A.B"] 13:1-14:8>):
+    Referenced:
+      <PackageDecl ["A.B"] 13:1-14:8>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     c: [<PackageDecl ["A.B.C"] 16:1-17:10>]
 
 @6 = LexEnv(Parent=@5, Node=<PackageDecl ["A.B.C"] 16:1-17:10>):
+    Referenced:
+      <PackageDecl ["A.B.C"] 16:1-17:10>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
     <empty>
 

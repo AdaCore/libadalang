@@ -1,6 +1,8 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
+import gc
+
 import libadalang as lal
 
 
@@ -24,6 +26,8 @@ u.populate_lexical_env()
 
 for pragma in u.root.findall(lal.PragmaNode):
     show_resolve(pragma)
+del pragma
+gc.collect()
 
 u2 = c.get_from_buffer('foo.ads', new_foo, reparse=True)
 u2.populate_lexical_env()

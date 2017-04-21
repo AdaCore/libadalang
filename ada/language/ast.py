@@ -8,7 +8,7 @@ from langkit.compiled_types import (
     env_metadata, has_abstract_list, root_grammar_class, Symbol
 )
 
-from langkit.envs import EnvSpec, add_to_env
+from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
     EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
@@ -60,6 +60,17 @@ def get_library_item(unit):
         lambda root:
             root.cast_or_raise(T.CompilationUnit).body
                 .cast_or_raise(T.LibraryItem).item
+    )
+
+
+def get_parent_library_item(node):
+    """
+    Property helper to return the first parent whose own parent is a
+    LibraryItem node.
+    """
+    return (
+        node.parents.filter(lambda p: p.is_a(T.LibraryItem))
+        .at(0).cast(T.LibraryItem).item
     )
 
 
@@ -301,6 +312,29 @@ class AdaNode(ASTNode):
             lambda _: No(T.entity),
         )
 
+    @langkit_property()
+    def library_item_use_package_clauses():
+        """
+        If Self is a library item, return a flat list of all names for
+        top-level UsePackageClause nodes. See
+        UsePackageClause.env_spec.ref_envs for more details.
+        """
+        lib_item = Var(get_parent_library_item(Self))
+        return If(
+            Self.equals(lib_item),
+
+            lib_item.parent.parent.cast_or_raise(T.CompilationUnit)
+            .prelude
+            .filter(lambda p: p.is_a(UsePackageClause))
+            .mapcat(
+                lambda p: p.cast_or_raise(UsePackageClause).packages.map(
+                    lambda n: n.cast(AdaNode)
+                )
+            ),
+
+            EmptyArray(AdaNode)
+        )
+
 
 def child_unit(name_expr, scope_expr):
     """
@@ -326,6 +360,13 @@ def child_unit(name_expr, scope_expr):
         ),
         add_env=True,
         add_to_env=add_to_env_kv(name_expr, Self),
+
+        # If Self is a library item, reference the environments for packages
+        # that are used at the top-level here. See UsePackageClause's
+        # ref_env_nodes for the rationale.
+        ref_envs=RefEnvs(T.Expr.fields.designated_env,
+                         Self.library_item_use_package_clauses),
+
         env_hook_arg=Self,
     )
 
@@ -1294,7 +1335,17 @@ class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list_type())
 
     env_spec = EnvSpec(
-        ref_envs=Self.packages.map(lambda package: package.designated_env)
+        ref_envs=RefEnvs(
+            T.Expr.fields.designated_env,
+
+            # We don't want to process use clauses that appear in the top-level
+            # scope here, as they apply to the library item's environment,
+            # which is not processed at this point yet. See CompilationUnit's
+            # ref_env_nodes.
+            If(Self.parent.parent.is_a(T.CompilationUnit),
+               EmptyArray(AdaNode),
+               Self.packages.map(lambda n: n.cast(AdaNode)))
+        )
     )
 
 
@@ -1458,6 +1509,12 @@ class BasicSubpDecl(BasicDecl):
             )
         ],
         add_env=True,
+
+        # If Self is a library item, reference the environments for packages
+        # that are used at the top-level here. See UsePackageClause's
+        # ref_env_nodes for the rationale.
+        ref_envs=RefEnvs(T.Expr.fields.designated_env,
+                         Self.library_item_use_package_clauses),
 
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
@@ -2684,7 +2741,22 @@ class BaseId(SingleTokNode):
         :param is_parent_pkg: Whether the origin of the env request is a
             package or not.
         """
-        items = Var(Env.get_sequential(Self.tok, recursive=Not(is_parent_pkg)))
+        parent_use_pkg_clause = Var(
+            Self.parents.filter(lambda p: p.is_a(UsePackageClause)).at(0)
+        )
+
+        # When we are resolving a name as part of an UsePackageClause, make the
+        # use clause node itself the referenc of the sequential lookup, so that
+        # during the designated env lookup, this use clause and all the
+        # following ones are ignored. This more correct and avoids an infinite
+        # recursion.
+        items = Var(Env.get_sequential(
+            Self.tok,
+            recursive=Not(is_parent_pkg),
+            sequential_from=parent_use_pkg_clause.then(
+                lambda p: p, default_val=Self
+            )
+        ))
         pc = Var(Self.parent_callexpr)
 
         def matching_subp(params, subp, subp_spec, env_el):
@@ -3286,12 +3358,20 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list_type())
 
+    @langkit_property()
+    def standard_env():
+        # A recursive env lookup here would yield infinite recursion, as all
+        # recursive env lookups will eventually evaluate this. We know that
+        # Standard is available without any use clause anyway, so non-recursive
+        # lookup is fine.
+        return Self.node_env.get('Standard',
+                                 recursive=False).at(0).children_env
+
     env_spec = EnvSpec(
         env_hook_arg=Self,
-        ref_envs=Self.node_env.get('Standard').at(0).then(
-            lambda std: std.children_env.singleton,
-            default_val=EmptyArray(LexicalEnvType)
-        )
+
+        # Make the Standard package automatically used
+        ref_envs=RefEnvs(standard_env, Self.cast(AdaNode).singleton)
     )
 
 

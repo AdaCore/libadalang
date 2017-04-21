@@ -255,7 +255,12 @@ class AdaNode(ASTNode):
     )
 
     std = Property(
-        Self.unit.root.node_env.get('Standard').at(0),
+        # This property is used during referenced envs resolution. As a
+        # consequence, a recursive env lookup here would yield infinite
+        # recursion, as all recursive env lookups will eventually evaluate
+        # this. We know that Standard is available without any use clause
+        # anyway, so non-recursive lookup is fine.
+        Self.unit.root.node_env.get('Standard', recursive=False).at(0),
         doc="""
         Retrieves the standard unit. Used to access standard types.
         """
@@ -3360,12 +3365,7 @@ class CompilationUnit(AdaNode):
 
     @langkit_property()
     def standard_env():
-        # A recursive env lookup here would yield infinite recursion, as all
-        # recursive env lookups will eventually evaluate this. We know that
-        # Standard is available without any use clause anyway, so non-recursive
-        # lookup is fine.
-        return Self.node_env.get('Standard',
-                                 recursive=False).at(0).children_env
+        return Self.std.children_env
 
     env_spec = EnvSpec(
         env_hook_arg=Self,

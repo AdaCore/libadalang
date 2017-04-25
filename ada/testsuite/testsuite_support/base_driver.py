@@ -340,7 +340,7 @@ class BaseDriver(TestDriver):
                     self.valgrind.format_report(self.valgrind_errors)
                 )
             )
-            failures.append('memory isuses detected')
+            failures.append('memory issues detected')
 
         if failures:
             self.set_failure(' | '.join(failures))

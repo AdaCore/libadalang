@@ -1,0 +1,6 @@
+Analyzing foo.adb
+#################
+
+Resolution failed for node <AssignStmt 9:4-9:24>
+
+Done.

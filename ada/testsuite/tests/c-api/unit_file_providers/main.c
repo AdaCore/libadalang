@@ -40,7 +40,7 @@ ada_analysis_unit ufp_get_file_from_node(
 ada_analysis_unit ufp_get_file_from_name(
     void *data,
     ada_analysis_context context,
-    ada_text name,
+    ada_text *name,
     ada_unit_kind kind,
     const char *charset,
     int reparse,
@@ -96,7 +96,7 @@ main(void)
       error("Could not get PragmaNode.f_args[0]");
     if (!ada_pragma_argument_assoc_f_expr(assoc, &expr) || expr == NULL)
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_entities(expr, einfo, &entities))
+    if (!ada_expr_p_entities(expr, &einfo, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_entities");
 
     text = ada_node_short_image(expr);

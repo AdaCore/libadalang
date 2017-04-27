@@ -35,7 +35,7 @@ main(void)
             print_sloc_range(&d.sloc_range);
             printf(": ");
         }
-        message = ada_text_to_locale_string (d.message);
+        message = ada_text_to_locale_string (&d.message);
         puts(message);
         free(message);
     }

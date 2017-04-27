@@ -28,7 +28,7 @@ main(void)
         error("Could not create the analysis context");
 
     unit = ada_get_analysis_unit_from_provider(
-        ctx, unit_name, ada_unit_kind_specification, NULL, 0, 0
+        ctx, &unit_name, ada_unit_kind_specification, NULL, 0, 0
     );
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
@@ -39,7 +39,7 @@ main(void)
       error("Could not find a SubtypeIndication node");
     if (!ada_subtype_indication_f_name (subtype_ind, &name) || name == NULL)
       error("Could not get SubtypeIndication.f_name");
-    if (!ada_expr_p_entities(name, einfo, &entities))
+    if (!ada_expr_p_entities(name, &einfo, &entities))
       error("Could not get SubtypeIndication.f_name.p_entities");
 
     text = ada_node_short_image(subtype_ind);

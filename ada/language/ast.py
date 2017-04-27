@@ -621,14 +621,14 @@ class ComponentDecl(BaseFormalParamDecl):
                  eq_prop=BaseTypeDecl.fields.matching_prefix_type)
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl)
+    @langkit_property(return_type=T.BaseTypeDecl.entity())
     def container_type():
         """
         Return the defining container type for this component declaration.
         """
         return Self.parents.find(
             lambda p: p.is_a(BaseTypeDecl)
-        ).cast(BaseTypeDecl)
+        ).cast(BaseTypeDecl).as_entity
 
 
 @abstract

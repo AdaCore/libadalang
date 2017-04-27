@@ -16,6 +16,8 @@ performance_testsuite
 tmp
 langkit.prof
 README.html
+core.*
+valgrind.out
 
 # GNAT/GPS junk
 auto.cgpr

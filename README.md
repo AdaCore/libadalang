@@ -20,7 +20,7 @@ IDEs. Its goals encompass, but are not limited to:
 * Incremental processing of source files.
 
 Come and discuss with us on our [public HipChat
-room](https://www.hipchat.com/gQfbVZ9qL)!
+room](https://www.hipchat.com/g34Il1Cen)!
 
 High level architecture
 -----------------------

@@ -50,17 +50,6 @@ def get_library_item(unit):
     )
 
 
-def get_parent_library_item(node):
-    """
-    Property helper to return the first parent whose own parent is a
-    LibraryItem node.
-    """
-    return (
-        node.parents.filter(lambda p: p.is_a(T.LibraryItem))
-        .at(0).cast(T.LibraryItem).item
-    )
-
-
 def is_package(e):
     """
     Property helper to determine if an entity is a package or not.
@@ -318,7 +307,7 @@ class AdaNode(ASTNode):
         top-level UsePackageClause nodes. See
         UsePackageClause.env_spec.ref_envs for more details.
         """
-        lib_item = Var(get_parent_library_item(Self))
+        lib_item = Var(Self.get_parent_library_item)
         return If(
             Self.equals(lib_item),
 
@@ -356,6 +345,17 @@ class AdaNode(ASTNode):
                 gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
             lambda _: False,
         ))
+
+    @langkit_property()
+    def get_parent_library_item():
+        """
+        Property helper to return the first parent whose own parent is a
+        LibraryItem node.
+        """
+        return (
+            Self.parents.filter(lambda p: p.is_a(T.LibraryItem))
+            .at(0).cast(T.LibraryItem).item
+        )
 
 
 def child_unit(name_expr, scope_expr):

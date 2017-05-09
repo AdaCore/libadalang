@@ -50,18 +50,6 @@ def get_library_item(unit):
     )
 
 
-def is_package(e):
-    """
-    Property helper to determine if an entity is a package or not.
-
-    :type e: AbstractExpression
-    :rtype: AbstractExpression
-    """
-    return Not(e.is_null) & e.is_a(
-        PackageDecl, PackageBody, GenericPackageInstantiation
-    )
-
-
 def is_library_package(e):
     """
     Property helper to determine if an entity is a library level package or
@@ -70,7 +58,7 @@ def is_library_package(e):
     :type e: AbstractExpression
     :rtype: AbstractExpression
     """
-    return Not(e.is_null) & is_package(e) & e.is_library_item
+    return Not(e.is_null) & e.is_package & e.is_library_item
 
 
 def canonical_type_or_null(type_expr):
@@ -258,7 +246,7 @@ class AdaNode(ASTNode):
 
     enclosing_scope = Property(
         Self.parent.parents.filter(
-            lambda p: Or(is_package(p), p.is_a(SubpBody, BlockStmt))
+            lambda p: p._.is_package | p.is_a(SubpBody, BlockStmt)
         ).at(0),
         doc="""
         This returns the closest parent that is a package (decl and body), a
@@ -356,6 +344,13 @@ class AdaNode(ASTNode):
             Self.parents.filter(lambda p: p.is_a(T.LibraryItem))
             .at(0).cast(T.LibraryItem).item
         )
+
+    @langkit_property()
+    def is_package():
+        """
+        Property helper to determine if an entity is a package or not.
+        """
+        return Self.is_a(PackageDecl, PackageBody, GenericPackageInstantiation)
 
 
 def child_unit(name_expr, scope_expr):
@@ -2712,7 +2707,7 @@ class BaseId(SingleTokNode):
         ents = Var(Self.env_elements_baseid(is_parent_pkg))
 
         return Let(lambda el=ents.at(0).el: If(
-            is_package(el),
+            el._.is_package,
             el.cast(BasicDecl).defining_env,
             ents.map(lambda e: e.el.cast(BasicDecl).defining_env).env_group
         ))

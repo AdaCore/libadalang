@@ -50,17 +50,6 @@ def get_library_item(unit):
     )
 
 
-def is_library_package(e):
-    """
-    Property helper to determine if an entity is a library level package or
-    not.
-
-    :type e: AbstractExpression
-    :rtype: AbstractExpression
-    """
-    return Not(e.is_null) & e.is_package & e.is_library_item
-
-
 def canonical_type_or_null(type_expr):
     """
     If "type_expr" is null, return null, otherwise return its canonical type
@@ -351,6 +340,14 @@ class AdaNode(ASTNode):
         Property helper to determine if an entity is a package or not.
         """
         return Self.is_a(PackageDecl, PackageBody, GenericPackageInstantiation)
+
+    @langkit_property()
+    def is_library_package():
+        """
+        Property helper to determine if an entity is a library level package or
+        not.
+        """
+        return Self.is_package & Self.is_library_item
 
 
 def child_unit(name_expr, scope_expr):
@@ -3331,7 +3328,7 @@ class DottedName(Name):
     def designated_env():
         pfx_env = Var(Self.prefix.designated_env)
         return pfx_env.eval_in_env(If(
-            is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
+            pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId),
             Self.suffix.designated_env_impl(True),
             Self.suffix.designated_env
         ))
@@ -3350,7 +3347,7 @@ class DottedName(Name):
         pfx_env = Var(Self.prefix.designated_env)
 
         return pfx_env.eval_in_env(If(
-            is_library_package(pfx_env.env_node) & Self.suffix.is_a(T.BaseId),
+            pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId),
             Self.suffix.env_elements_baseid(True),
             Self.suffix.env_elements_impl
         ))

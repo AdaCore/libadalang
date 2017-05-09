@@ -39,18 +39,6 @@ def env_mappings(base_id_list, entity):
     )
 
 
-def is_library_item(e):
-    """
-    Property helper to determine if an entity is the root entity for its unit.
-    """
-    return e.parent.then(lambda p: p.match(
-        lambda _=T.LibraryItem: True,
-        lambda gen_pkg_decl=T.GenericPackageDecl:
-            gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
-        lambda _: False,
-    ))
-
-
 def get_library_item(unit):
     """
     Property helper to get the library unit corresponding to "unit".
@@ -93,7 +81,7 @@ def is_library_package(e):
     :type e: AbstractExpression
     :rtype: AbstractExpression
     """
-    return Not(e.is_null) & is_package(e) & is_library_item(e)
+    return Not(e.is_null) & is_package(e) & e.is_library_item
 
 
 def canonical_type_or_null(type_expr):
@@ -355,6 +343,19 @@ class AdaNode(ASTNode):
         return If(Self.parent.is_a(T.LibraryItem),
                   Self.to_array,
                   EmptyArray(AdaNode))
+
+    @langkit_property()
+    def is_library_item():
+        """
+        Property helper to determine if an entity is the root entity for its
+        unit.
+        """
+        return Self.parent.then(lambda p: p.match(
+            lambda _=T.LibraryItem: True,
+            lambda gen_pkg_decl=T.GenericPackageDecl:
+                gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
+            lambda _: False,
+        ))
 
 
 def child_unit(name_expr, scope_expr):
@@ -1485,7 +1486,7 @@ class BasicSubpDecl(BasicDecl):
 
     body_part = Property(
         If(
-            is_library_item(Self),
+            Self.is_library_item,
 
             get_library_item(Self.body_unit).cast_or_raise(T.SubpBody),
 
@@ -1747,7 +1748,7 @@ class BasePackageDecl(BasicDecl):
         # Fetch the unit body even when we don't need it to make sure the body
         # (if it exists) is present in the environment.
         return If(
-            is_library_item(Self),
+            Self.is_library_item,
 
             # If Self is a library-level package, then just fetch the
             # root package in the body unit.
@@ -2006,7 +2007,7 @@ class Expr(AdaNode):
 
     env_elements = Property(
         Self.env_elements_impl().filter(lambda e: (
-            Not(is_library_item(e.el))
+            Not(e.is_library_item)
             | Self.has_with_visibility(e.el.unit)
         )),
         has_implicit_env=True
@@ -2813,7 +2814,7 @@ class BaseId(SingleTokNode):
                 # package and self is not), we want to check whether the
                 # requester has visibility over the element.
                 If(
-                    is_parent_pkg & Not(is_library_item(e.el)),
+                    is_parent_pkg & Not(e.is_library_item),
                     Env.env_node.unit.is_referenced_from(Self.unit),
                     True
                 )
@@ -3395,7 +3396,7 @@ class CompilationUnit(AdaNode):
 class SubpBody(Body):
     env_spec = EnvSpec(
         initial_env=If(
-            is_library_item(Self),
+            Self.is_library_item,
             # In case the subp spec for this library level subprogram is
             # missing, we'll put it in the parent's scope. This way, the xref
             # to it should still resolve.
@@ -3442,7 +3443,7 @@ class SubpBody(Body):
 
     decl_part = Property(
         If(
-            is_library_item(Self),
+            Self.is_library_item,
             # If library item, we just return the spec. We don't check if it's
             # a valid and matching subprogram because that's an error case.
             get_library_item(Self.spec_unit),

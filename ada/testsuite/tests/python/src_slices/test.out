@@ -1,13 +1,13 @@
 First and last tokens for test.adb:
-  * <Token Procedure u'procedure'>
-  * <Token Termination>
+  * <Token Procedure u'procedure' at 1:2-1:11>
+  * <Token Termination at 8:1-8:1>
 
 Whole source buffer for test.adb:
 u'procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test;\n'
 
 Empty range for the following bounds:
-  * <Token Semicolon u';'>
-  * <Token Identifier u'Test'>
+  * <Token Semicolon u';' at 7:10-7:11>
+  * <Token Identifier u'Test' at 1:12-1:16>
 u''
 
 Source excerpts for all Basic_Decl in test.adb:

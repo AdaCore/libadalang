@@ -3,6 +3,8 @@ Calling ufp_get_file_from_node (some_field=42, kind=0) on:
 | <Id "Ada" 1:6-1:9>
 | <Id "Text_IO" 1:10-1:17>
 Calling ufp_get_file_from_node (some_field=42, kind=0) on:
+<Id "Ada" 1:6-1:9>
+Calling ufp_get_file_from_node (some_field=42, kind=0) on:
 <Id "Bar" 2:6-2:9>
 Calling ufp_get_file_from_node (some_field=42, kind=0) on:
 <Id "Foo" 4:11-4:14>

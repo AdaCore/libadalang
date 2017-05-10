@@ -46,7 +46,7 @@ cd libadalang
 # Create a Python virtualenv and install the Libadalang code generation
 # dependencies.
 virtualenv lal-venv
-source lal-venv/bin/activate
+. lal-venv/bin/activate
 pip install -r REQUIREMENTS.dev
 
 # Finally generate Libadalang, build it and install it!

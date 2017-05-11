@@ -54,11 +54,16 @@ package Libadalang.Unit_Files.Default is
    function Unit_String_Name (N : Name) return String is
      (Unit_String_Name (Unit_Text_Name (N)));
 
-   function Spec_File_Name (Name : String) return String;
+   function File_From_Unit (Name : String; Kind : Unit_Kind) return String;
+   --  Convert an unit name and unit kind into the default filename
+
+   function Spec_File_Name (Name : String) return String is
+     (File_From_Unit (Name, Unit_Specification));
    --  Convert an unit name string into the default filename we expect for its
    --  specification. For instance, this turns "Foo.Bar" into "foo-bar.ads".
 
-   function Body_File_Name (Name : String) return String;
+   function Body_File_Name (Name : String) return String is
+     (File_From_Unit (Name, Unit_Body));
    --  Convert an unit name string into the default filename we expect for its
    --  body. For instance, this turns "Foo.Bar" into "foo-bar.adb".
 

@@ -12,16 +12,6 @@ with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
 
-   function File_From_Unit
-     (Name : String;
-      Kind : Unit_Kind)
-      return String
-   is (+GNATCOLL.Projects.File_From_Unit
-         (GNATCOLL.Projects.No_Project,
-          Name,
-          Libadalang.Unit_Files.Projects.Convert (Kind),
-          "ada"));
-
    --------------
    -- Get_Unit --
    --------------
@@ -141,17 +131,17 @@ package body Libadalang.Unit_Files.Default is
    end Unit_String_Name;
 
    --------------------
-   -- Spec_File_Name --
+   -- File_From_Unit --
    --------------------
 
-   function Spec_File_Name (Name : String) return String is
-     (File_From_Unit (Name, Unit_Specification));
-
-   --------------------
-   -- Body_File_Name --
-   --------------------
-
-   function Body_File_Name (Name : String) return String is
-     (File_From_Unit (Name, Unit_Body));
+   function File_From_Unit
+     (Name : String;
+      Kind : Unit_Kind)
+      return String
+   is (+GNATCOLL.Projects.File_From_Unit
+         (GNATCOLL.Projects.No_Project,
+          Name,
+          Libadalang.Unit_Files.Projects.Convert (Kind),
+          "ada"));
 
 end Libadalang.Unit_Files.Default;

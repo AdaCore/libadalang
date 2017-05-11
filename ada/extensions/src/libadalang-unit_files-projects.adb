@@ -44,7 +44,19 @@ package body Libadalang.Unit_Files.Projects is
          end;
       end if;
 
-      raise Property_Error with "unit not found";
+      declare
+         Dummy_File : constant String :=
+            Libadalang.Unit_Files.Default.File_From_Unit (Name, Kind);
+         Kind_Name  : constant String :=
+           (case Kind is
+            when Unit_Specification => "specification file",
+            when Unit_Body          => "body file");
+         Error      : constant String :=
+            "Could not find source file for " & Name & " (" & Kind_Name & ")";
+      begin
+         return Get_With_Error (Context, Dummy_File, Error, Charset,
+                                With_Trivia);
+      end;
    end Get_Unit;
 
    --------------

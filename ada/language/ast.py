@@ -392,8 +392,19 @@ def child_unit(name_expr, scope_expr):
 
 @abstract
 class BasicDecl(AdaNode):
-    defining_names = AbstractProperty(type=T.Name.array_type(), public=True)
-    defining_name = Property(Self.defining_names.at(0), public=True)
+    defining_names = AbstractProperty(
+        type=T.Name.array_type(), public=True, doc="""
+        Get all the names of this basic declaration.
+        """
+    )
+
+    defining_name = Property(
+        Self.defining_names.at(0), public=True, doc="""
+        Get the name of this declaration. If this declaration has several
+        names, it will return the first one.
+        """
+    )
+
     defining_env = Property(
         EmptyEnv,
         doc="""

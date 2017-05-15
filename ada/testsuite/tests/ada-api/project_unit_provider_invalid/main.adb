@@ -5,7 +5,8 @@ with Ada.Text_IO;                     use Ada.Text_IO;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
+with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
+with Langkit_Support.Text;        use Langkit_Support.Text;
 
 with Libadalang.Analysis;            use Libadalang.Analysis;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
@@ -51,7 +52,13 @@ begin
       begin
          Unit := Get_From_Provider (Ctx, +File, Unit_Specification);
 
-         Put_Line ("...   got no exception. Unacceptable!");
+         Put_Line ("   ...   got no exception.");
+         if Has_Diagnostics (Unit) then
+            Put_Line ("   ...   but we got diagnostics:");
+            for D of Diagnostics (Unit) loop
+               Put_Line ("   " & To_Pretty_String (D));
+            end loop;
+         end iF;
       exception
          when Exc : Invalid_Unit_Name_Error =>
             Put_Line ("   ... got an exception:");

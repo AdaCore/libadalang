@@ -339,7 +339,8 @@ class AdaNode(ASTNode):
         """
         Property helper to determine if an entity is a package or not.
         """
-        return Self.is_a(PackageDecl, PackageBody, GenericPackageInstantiation)
+        return Self.is_a(PackageDecl, PackageBody, GenericPackageInstantiation,
+                         PackageRenamingDecl)
 
     @langkit_property()
     def is_library_package():

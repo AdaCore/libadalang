@@ -2788,8 +2788,8 @@ class BaseId(SingleTokNode):
         )
 
         # When we are resolving a name as part of an UsePackageClause, make the
-        # use clause node itself the referenc of the sequential lookup, so that
-        # during the designated env lookup, this use clause and all the
+        # use clause node itself the reference of the sequential lookup, so
+        # that during the designated env lookup, this use clause and all the
         # following ones are ignored. This more correct and avoids an infinite
         # recursion.
         items = Var(Env.get_sequential(
@@ -2820,18 +2820,14 @@ class BaseId(SingleTokNode):
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
             items.filter(lambda e: (
-                # If we're at the visibility checking point (parent is a
-                # package and self is not), we want to check whether the
-                # requester has visibility over the element.
-                If(
-                    is_parent_pkg & Not(e.is_library_item),
-                    Env.env_node.unit.is_referenced_from(Self.unit),
-                    True
-                )
 
+                # If current item is a library item, we want to check that it
+                # is visible from the current unit.
+                (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
+
+                # If there is a subp_spec, check that it corresponds to
+                # a parameterless subprogram.
                 & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(
-                    # If there is a subp_spec, check that it corresponds to
-                    # a parameterless subprogram.
                     lambda ss: ss.paramless(e.info.MD),
                     default_val=True
                 )

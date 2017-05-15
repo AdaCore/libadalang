@@ -1869,7 +1869,13 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
+    env_spec = child_unit(Self.name.relative_name.symbol,
+                          Self.name.parent_scope)
+
     defining_names = Property(Self.name.singleton)
+    defining_env = Property(Self.node_env.eval_in_env(
+        Self.renames.renamed_object.entities.at(0).cast(BasicDecl).defining_env
+    ))
 
 
 @abstract

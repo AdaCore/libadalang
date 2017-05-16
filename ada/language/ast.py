@@ -1256,6 +1256,8 @@ class InterfaceTypeDef(TypeDef):
     interface_kind = Field(type=InterfaceKind)
     interfaces = Field(type=T.Name.list_type())
 
+    is_tagged_type = Property(True)
+
 
 class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)

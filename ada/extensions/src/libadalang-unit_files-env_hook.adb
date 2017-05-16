@@ -198,6 +198,7 @@ package body Libadalang.Unit_Files.Env_Hook is
       if Node.all not in 
          Package_Decl_Type'Class
          | Basic_Subp_Decl_Type'Class
+         | Package_Renaming_Decl_Type'Class
          | Generic_Package_Decl_Type'Class
          | Generic_Subp_Decl_Type'Class
          | Subp_Body_Type'Class

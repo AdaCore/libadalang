@@ -1161,6 +1161,8 @@ class PrivateTypeDef(TypeDef):
     has_tagged = Field(type=Tagged)
     has_limited = Field(type=Limited)
 
+    is_tagged_type = Property(Self.has_tagged.as_bool)
+
 
 class SignedIntTypeDef(TypeDef):
     range = Field(type=T.Expr)

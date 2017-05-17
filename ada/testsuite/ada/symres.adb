@@ -283,8 +283,9 @@ procedure Symres is
      (Positive, Unbounded_String);
    Files : String_Vectors.Vector;
 
-   Project_File  : Unbounded_String;
-   Scenario_Vars : String_Vectors.Vector;
+   With_Default_Project : Boolean := False;
+   Project_File         : Unbounded_String;
+   Scenario_Vars        : String_Vectors.Vector;
 
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
@@ -299,6 +300,8 @@ begin
             Set_Debug_State (Step);
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
+         elsif Arg = "--with-default-project" then
+            With_Default_Project := True;
          elsif Starts_With (Arg, "-P") then
             Project_File := +Strip_Prefix (Arg, "-P");
          elsif Starts_With (Arg, "-X") then
@@ -313,7 +316,7 @@ begin
       end;
    end loop;
 
-   if Length (Project_File) > 0 then
+   if With_Default_Project or else Length (Project_File) > 0 then
       declare
          Filename : constant String := +Project_File;
          Env      : Project_Environment_Access;
@@ -342,7 +345,11 @@ begin
             end;
          end loop;
 
-         Load (Project.all, Create (+Filename), Env);
+         if Filename'Length = 0 then
+            Load_Empty_Project (Project.all, Env);
+         else
+            Load (Project.all, Create (+Filename), Env);
+         end if;
          UFP := new Project_Unit_Provider_Type'(Create (Project, Env, True));
       end;
    end if;

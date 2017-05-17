@@ -154,7 +154,8 @@ procedure Symres is
 
       declare
          --  Configuration for this unit
-         Display_Slocs : Boolean := False;
+         Display_Slocs        : Boolean := False;
+         Display_Short_Images : Boolean := False;
 
          Empty     : Boolean := True;
          Last_Line : Natural := 0;
@@ -200,6 +201,8 @@ procedure Symres is
                   begin
                      if Name = "Display_Slocs" then
                         Display_Slocs := Decode_Boolean_Literal (Value);
+                     elsif Name = "Display_Short_Images" then
+                        Display_Short_Images := Decode_Boolean_Literal (Value);
                      else
                         raise Program_Error with
                           ("Invalid configuration: " & Image (Name, True));
@@ -233,7 +236,9 @@ procedure Symres is
                   Put_Line (Text (Arg) & " resolves to:");
                   Sort (Entities.Items);
                   for E of Entities.Items loop
-                     Put ("    " & Text (E));
+                     Put ("    " & (if Display_Short_Images
+                                    then Image (E.Short_Image)
+                                    else Text (E)));
                      if Display_Slocs then
                         Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
                      else

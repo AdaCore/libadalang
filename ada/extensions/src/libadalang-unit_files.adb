@@ -9,8 +9,24 @@ package body Libadalang.Unit_Files is
       Name : Ada_Node;
       Kind : Unit_Kind) return Analysis_Unit
    is
+      procedure Prepare_Semres (Unit : Analysis_Unit);
+      --  Prepare semantic analysis and reference Unit from the current unit
+
+      --------------------
+      -- Prepare_Semres --
+      --------------------
+
+      procedure Prepare_Semres (Unit : Analysis_Unit) is
+      begin
+         if Root (Unit) /= null then
+            Populate_Lexical_Env (Unit);
+            Reference_Unit (From => Get_Unit (Name), Referenced => Unit);
+         end if;
+      end Prepare_Semres;
+
       UFP              : constant Unit_Provider_Access_Cst :=
          Unit_Provider (Ctx);
+
       Unit, First_Unit : Analysis_Unit;
       Current_Name     : Ada_Node := Name;
 
@@ -22,18 +38,11 @@ package body Libadalang.Unit_Files is
          --  TODO??? Find a proper way to handle file not found, parsing error,
          --  etc.
          Unit := UFP.Get_Unit (Ctx, Current_Name, Kind);
+         Prepare_Semres (Unit);
 
          --  The first iteration gives the unit we are required to return
          if First_Unit = No_Analysis_Unit then
             First_Unit := Unit;
-         end if;
-
-         --  Prepare semantic analysis and reference the unit from the current
-         --  unit for each mentionned unit.
-         if Root (Unit) /= null then
-            Populate_Lexical_Env (Unit);
-            Reference_Unit
-              (From => Get_Unit (Current_Name), Referenced => Unit);
          end if;
 
          --  Fetch the next mention name to process

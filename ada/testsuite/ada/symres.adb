@@ -158,11 +158,10 @@ procedure Symres is
 
          Empty     : Boolean := True;
          Last_Line : Natural := 0;
+         P_Node    : Pragma_Node;
 
-         function Is_Pragma_Node (N : Ada_Node) return Boolean
-         is (Kind (N) = Ada_Pragma_Node);
-
-         P_Node      : Pragma_Node;
+         function Is_Pragma_Node (N : Ada_Node) return Boolean is
+           (Kind (N) = Ada_Pragma_Node);
 
          function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
 

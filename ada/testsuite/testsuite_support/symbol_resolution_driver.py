@@ -13,7 +13,9 @@ class SymbolResolutionDriver(BaseDriver):
 
     @property
     def run_python(self):
-        return self.py_runner.is_python_api_available
+        # TODO: right now, the Python driver does not support project handling
+        return (self.py_runner.is_python_api_available
+                and not self.with_default_project)
 
     @property
     def run_python_only(self):
@@ -32,6 +34,8 @@ class SymbolResolutionDriver(BaseDriver):
         self.input_sources = self.test_env['input_sources']
 
         self.charset = self.test_env.get('charset', None)
+        self.with_default_project = self.test_env.get('with_default_project',
+                                                      False)
 
         if self.run_python:
             self.py_runner.setup_environment()
@@ -41,6 +45,8 @@ class SymbolResolutionDriver(BaseDriver):
         args = list(self.input_sources)
         if self.charset:
             args.insert(0, '--charset={}'.format(self.charset))
+        if self.with_default_project:
+            args.insert(0, '--with-default-project')
 
         # Depending on whether Python is available and whether we want to run
         # only the Python driver, run both the Python and the Ada drivers for

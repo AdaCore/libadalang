@@ -1,0 +1,15 @@
+Analyzing foo.adb
+#################
+
+Ada.Text_IO.Integer_IO resolves to:
+    <GenericPackageDecl ["Ada.Text_IO.Integer_IO"] 43:9-85:27>
+Ada.Text_IO.Float_IO resolves to:
+    <GenericPackageDecl ["Ada.Text_IO.Float_IO"] 43:9-89:25>
+Ada.Text_IO.Fixed_IO resolves to:
+    <GenericPackageDecl ["Ada.Text_IO.Fixed_IO"] 23:9-69:25>
+Ada.Text_IO.Decimal_IO resolves to:
+    <GenericPackageDecl ["Ada.Text_IO.Decimal_IO"] 43:9-89:27>
+Ada.Text_IO.Enumeration_IO resolves to:
+    <GenericPackageDecl ["Ada.Text_IO.Enumeration_IO"] 23:9-55:31>
+
+Done.

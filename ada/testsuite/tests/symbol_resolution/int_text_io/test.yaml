@@ -1,0 +1,3 @@
+driver: symbol_resolution
+input_sources: [foo.adb]
+with_default_project: True

@@ -1,4 +1,19 @@
+with Langkit_Support.Text; use Langkit_Support.Text;
+
+with Libadalang.Unit_Files.Default; use Libadalang.Unit_Files.Default;
+
 package body Libadalang.Unit_Files is
+
+   Text_IO        : constant String := "ada.text_io";
+   Integer_IO     : aliased constant String := "integer_io";
+   Float_IO       : aliased constant String := "float_io";
+   Fixed_IO       : aliased constant String := "fixed_io";
+   Decimal_IO     : aliased constant String := "decimal_io";
+   Enumeration_IO : aliased constant String := "enumeration_io";
+   Text_IO_Subpackages : constant array (Positive range <>)
+                                  of access constant String :=
+     (Integer_IO'Access, Float_IO'Access, Fixed_IO'Access, Decimal_IO'Access,
+      Enumeration_IO'Access);
 
    ----------------
    -- Fetch_Unit --
@@ -31,6 +46,7 @@ package body Libadalang.Unit_Files is
       Current_Name     : Ada_Node := Name;
 
    begin
+
       --  In Ada, "with A.B" gives visibility to A and A.B. To process all
       --  "mentionned" units, the following loop iterates on ["A.B", "A"].
 
@@ -39,6 +55,28 @@ package body Libadalang.Unit_Files is
          --  etc.
          Unit := UFP.Get_Unit (Ctx, Current_Name, Kind);
          Prepare_Semres (Unit);
+
+         --  GNAT kludge: as an "optimization", the generic subpackages in
+         --  Ada.Text_IO (see Text_IO_Subpackages) are not present in the
+         --  Ada.Text_IO unit itself, but in private child packages. GNAT
+         --  magically imports them in Ada.Text_IO's namespace.
+         --
+         --  Here, try to import these child unit as soon as someone WITHes
+         --  Ada.Text_IO.
+
+         if Kind = Unit_Specification
+            and then Unit_String_Name (Libadalang.Analysis.Name (Name))
+                     = Text_IO
+         then
+            for SP of Text_IO_Subpackages loop
+               declare
+                  SU : constant Analysis_Unit := UFP.Get_Unit
+                    (Ctx, To_Text (Text_IO & "." & SP.all), Kind);
+               begin
+                  Prepare_Semres (SU);
+               end;
+            end loop;
+         end if;
 
          --  The first iteration gives the unit we are required to return
          if First_Unit = No_Analysis_Unit then

@@ -3756,15 +3756,19 @@ class PackageBody(Body):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
-    body_scope = Property(Let(
-        lambda scope=Self.parent.node_env.eval_in_env(Self.package_name.scope):
+    @langkit_property(has_implicit_env=True)
+    def body_scope():
+        scope = Var(Self.parent.node_env.eval_in_env(Self.package_name.scope))
+        public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
+            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+            default_val=scope
+        ))
 
-        # If the package has a private part, then get the private part, else
-        # return the public part.
-        scope.get('__privatepart').at(0).then(
+        # If the package has a private part, then get the private part,
+        # else return the public part.
+        return public_scope.get('__privatepart', recursive=False).at(0).then(
             lambda pp: pp.children_env, default_val=scope
         )
-    ), has_implicit_env=True)
 
     @langkit_property(return_type=T.BasePackageDecl, public=True)
     def decl_part():

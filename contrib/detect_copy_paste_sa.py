@@ -204,11 +204,7 @@ class Encoder(object):
 
     def encode_internal(self, filename, node):
         # Skip declaration as we are usually interested in bodies
-        if node.is_a(lal.SubpDecl):
-            pass
-        elif node.is_a(lal.ObjectDecl):
-            pass
-        elif node.is_a(lal.BaseTypeDecl):
+        if node.is_a(lal.SubpDecl, lal.ObjectDecl, lal.BaseTypeDecl):
             pass
         # Handle constructs with children
         elif len(node) > 0:
@@ -222,11 +218,7 @@ class Encoder(object):
                 for r in result:
                     yield r
         # Ignore empty lists
-        elif node.is_a(lal.AdaNodeList):
-            pass
-        elif node.is_a(lal.AdaList):
-            pass
-        elif node.is_a(lal.PragmaNodeList):
+        elif node.is_a(lal.AdaNodeList, lal.AdaList, lal.PragmaNodeList):
             pass
         # Local names are made 'anonymous'
         elif node.text in self.local_names:

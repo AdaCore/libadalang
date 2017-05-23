@@ -2003,7 +2003,7 @@ class GenericPackageInternal(BasePackageDecl):
     env_spec = EnvSpec(add_env=True)
 
     body_link = Property(
-        Self.parent.children_env.get('__body', recursive=False).at(0)
+        Self.children_env.get('__body', recursive=False).at(0)
     )
 
 
@@ -3815,7 +3815,7 @@ class PackageBody(Body):
         # If the package has a private part, then get the private part,
         # else return the public part.
         return public_scope.get('__privatepart', recursive=False).at(0).then(
-            lambda pp: pp.children_env, default_val=scope
+            lambda pp: pp.children_env, default_val=public_scope
         )
 
     @langkit_property(return_type=T.BasePackageDecl, public=True)

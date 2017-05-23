@@ -311,6 +311,42 @@ class AdaNode(ASTNode):
                   EmptyArray(AdaNode))
 
     @langkit_property()
+    def generic_formal_env_of_not_library_item():
+        """
+        Assuming Self is a generic package (or subprogram) body that is not a
+        library item, return the lexical environment for the corresponding
+        GenericPackageDecl (or GenericSubpDecl) node. Return an empty
+        environment in all other cases.
+
+        This is a helper for generic formals visibility in generic bodies. See
+        the use in the child_unit macro.
+        """
+        # TODO: refine this property to preserve entities when it makes sense
+        gen_decl = Var(If(
+            Self.is_library_item,
+
+            No(T.AdaNode.entity()),
+
+            Self.match(
+                lambda pkg_body=T.PackageBody:
+                    pkg_body.decl_part._.parent.cast(T.GenericPackageDecl)
+                    .as_entity,
+                lambda subp_body=T.SubpBody:
+                    # If subp_body is the body of a generic subprogram, then
+                    # the environment lookup below should return its
+                    # specification as the second node (the first being
+                    # subp_body). If it's not a generic declaration, then we
+                    # know subp_body is not a generic subprogram, and thus we
+                    # must return a null node here.
+                    subp_body.parent.node_env.get(
+                        subp_body.defining_name.relative_name.symbol
+                    ).at(1).cast(T.GenericSubpDecl).cast(T.AdaNode),
+                lambda _: No(T.AdaNode.entity())
+            )
+        ))
+        return gen_decl._.children_env
+
+    @langkit_property()
     def is_library_item():
         """
         Property helper to determine if an entity is the root entity for its
@@ -382,6 +418,12 @@ def child_unit(name_expr, scope_expr):
             # UsePackageClause's ref_env_nodes for the rationale.
             RefEnvs(T.Expr.fields.designated_env,
                     Self.library_item_use_package_clauses),
+
+            # If Self is a generic package/subprogram and not a library item,
+            # then the generic formals are not available in parent
+            # environments. Make them available with ref_envs.
+            RefEnvs(T.AdaNode.fields.generic_formal_env_of_not_library_item,
+                    Self.cast(T.AdaNode).to_array),
 
             # Make the Standard package automatically used
             RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
@@ -3434,6 +3476,12 @@ class SubpBody(Body):
             # UsePackageClause's ref_env_nodes for the rationale.
             RefEnvs(T.Expr.fields.designated_env,
                     Self.library_item_use_package_clauses),
+
+            # If Self is a generic package/subprogram and not a library item,
+            # then the generic formals are not available in parent
+            # environments. Make them available with ref_envs.
+            RefEnvs(T.AdaNode.fields.generic_formal_env_of_not_library_item,
+                    Self.cast(T.AdaNode).to_array),
 
             # Make the Standard package automatically used
             RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),

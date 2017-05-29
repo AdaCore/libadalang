@@ -397,10 +397,11 @@ A.add_rules(
 
     generic_renaming_decl=Or(
         generic_renaming_decl("package", GenericPackageRenamingDecl),
-        generic_renaming_decl(SubpKind.alt_procedure("procedure"),
-                              GenericSubpRenamingDecl),
-        generic_renaming_decl(SubpKind.alt_function("function"),
-                              GenericSubpRenamingDecl),
+        generic_renaming_decl(
+            Or(SubpKind.alt_procedure("procedure"),
+               SubpKind.alt_function("function")),
+            GenericSubpRenamingDecl
+        ),
     ),
 
     generic_instantiation=Or(

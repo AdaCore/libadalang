@@ -563,13 +563,14 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  CallExpr
-|  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  ParenExpr
+|  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  AssocList
+|  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  Int
 |  |  |  |  |  ------------
 |  |  |  |  |  -- Length --
 |  |  |  |  |  ------------
@@ -584,9 +585,10 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  DottedName
-|  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  ParenExpr
+|  |  |  |  |  |  |  DottedName
+|  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  -----------
 |  |  |  |  |  -- Slice --
 |  |  |  |  |  -----------
@@ -730,55 +732,56 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  IfExpr
-|  |  |  |  |  |  |  |  |  |  RelationOp
-|  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  OpLt
-|  |  |  |  |  |  |  |  |  |  |  BinOp
-|  |  |  |  |  |  |  |  |  |  |  |  CallExpr
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  OpMinus
-|  |  |  |  |  |  |  |  |  |  |  |  Int
-|  |  |  |  |  |  |  |  |  |  BinOp
-|  |  |  |  |  |  |  |  |  |  |  BinOp
-|  |  |  |  |  |  |  |  |  |  |  |  CallExpr
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  OpConcat
-|  |  |  |  |  |  |  |  |  |  |  |  Str
-|  |  |  |  |  |  |  |  |  |  |  OpConcat
-|  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  ParenExpr
+|  |  |  |  |  |  |  |  |  |  IfExpr
+|  |  |  |  |  |  |  |  |  |  |  RelationOp
 |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
-|  |  |  |  |  |  |  |  |  |  CallExpr
-|  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  AssocList
-|  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  OpLt
+|  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus
+|  |  |  |  |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  |  BinOp
+|  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  OpConcat
+|  |  |  |  |  |  |  |  |  |  |  |  |  Str
+|  |  |  |  |  |  |  |  |  |  |  |  OpConcat
+|  |  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  AssocList
+|  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  HandledStmts
 |  |  |  |  |  |  |  StmtList
 |  |  |  |  |  |  |  |  ReturnStmt

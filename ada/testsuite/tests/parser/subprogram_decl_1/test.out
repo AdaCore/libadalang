@@ -53,13 +53,15 @@ ExprFunction[1:1-1:75]
 |  |  |  |tok: Integer
 |  |  |constraint: <null>
 |expr:
-|  BinOp[1:69-1:74]
-|  |left:
-|  |  Id[1:69-1:70]
-|  |  |tok: B
-|  |op:
-|  |  OpDiv[1:71-1:72]
-|  |right:
-|  |  Id[1:73-1:74]
-|  |  |tok: C
+|  ParenExpr[1:68-1:75]
+|  |expr:
+|  |  BinOp[1:69-1:74]
+|  |  |left:
+|  |  |  Id[1:69-1:70]
+|  |  |  |tok: B
+|  |  |op:
+|  |  |  OpDiv[1:71-1:72]
+|  |  |right:
+|  |  |  Id[1:73-1:74]
+|  |  |  |tok: C
 |aspects: <null>

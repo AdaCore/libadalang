@@ -556,7 +556,7 @@ A.add_rules(
     ),
 
     expr_fn=subp_decl(
-        ExprFunction, "is", Or(Pick("(", A.expr, ")"), A.aggregate),
+        ExprFunction, "is", Or(A.paren_expr, A.aggregate),
     ),
 
     null_subp_decl=subp_decl(NullSubpDecl, "is", "null"),
@@ -1012,7 +1012,7 @@ A.add_rules(
     # parsers, so that we can use A.subtype_indication | A.name in allocator.
 
     qualified_name=QualExpr(
-        A.qual_name_internal, "'", Or(A.aggregate, Pick("(", A.expr, ")"))
+        A.qual_name_internal, "'", Or(A.aggregate, A.paren_expr)
     ),
 
     qual_name_internal=Or(
@@ -1040,7 +1040,7 @@ A.add_rules(
         # General Attributes
         AttributeRef(A.name, "'", A.identifier, Opt("(", A.call_suffix, ")")),
 
-        QualExpr(A.name, "'", Or(A.aggregate, Pick("(", A.expr, ")"))),
+        QualExpr(A.name, "'", Or(A.aggregate, A.paren_expr)),
 
         A.direct_name,
     ),

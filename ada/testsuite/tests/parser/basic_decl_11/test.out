@@ -35,16 +35,18 @@ ExprFunction[1:1-1:64]
 |  |  |  |tok: Integer
 |  |  |constraint: <null>
 |expr:
-|  IfExpr[1:45-1:63]
-|  |cond_expr:
-|  |  Int[1:48-1:49]
-|  |  |tok: 1
-|  |then_expr:
-|  |  Int[1:55-1:56]
-|  |  |tok: 2
-|  |alternatives:
-|  |  ElsifExprPartList[1:57-1:57]: <empty list>
-|  |else_expr:
-|  |  Int[1:62-1:63]
-|  |  |tok: 3
+|  ParenExpr[1:44-1:64]
+|  |expr:
+|  |  IfExpr[1:45-1:63]
+|  |  |cond_expr:
+|  |  |  Int[1:48-1:49]
+|  |  |  |tok: 1
+|  |  |then_expr:
+|  |  |  Int[1:55-1:56]
+|  |  |  |tok: 2
+|  |  |alternatives:
+|  |  |  ElsifExprPartList[1:57-1:57]: <empty list>
+|  |  |else_expr:
+|  |  |  Int[1:62-1:63]
+|  |  |  |tok: 3
 |aspects: <null>

@@ -212,6 +212,9 @@ class Manage(ManageScript):
                 return len(list(f))
 
         work_dir = os.path.abspath(args.work_dir)
+        variant_name = args.build_dir
+        report_file = os.path.join(work_dir,
+                                   'report-{}.txt'.format(variant_name))
         args.build_dir = os.path.join(work_dir, args.build_dir)
 
         if not args.no_recompile:
@@ -264,29 +267,45 @@ class Manage(ManageScript):
         # Get a count of the total number of ada source lines
         lines_count = sum(map(file_lines, ada_files))
 
-        printcol("=================================", Colors.HEADER)
-        printcol("= Performance testsuite results =", Colors.HEADER)
-        printcol("=================================", Colors.HEADER)
-        elapsed_list = []
-        parse_args = ['{}/bin/parse'.format(args.build_dir), '-s', '-F',
-                      file_list_name]
-        for _ in range(args.nb_runs):
-            # Execute parse on the file list and get the elapsed time
-            t = time()
-            subprocess.check_call(parse_args)
-            elapsed = time() - t
-            elapsed_list.append(elapsed)
+        with open(report_file, 'w') as f:
+            def write_report(text, color=None):
+                if color:
+                    printcol(text, color)
+                else:
+                    print(text)
+                print(text, file=f)
 
-            # Print a very basic report
-            print("Parsed {0} lines of Ada code in {1:.2f} seconds".format(
-                lines_count, elapsed
-            ))
+            write_report('=================================', Colors.HEADER)
+            write_report('= Performance testsuite results =', Colors.HEADER)
+            write_report('=================================', Colors.HEADER)
+            write_report('')
+            write_report(variant_name)
+            write_report('')
+            elapsed_list = []
+            parse_args = ['{}/bin/parse'.format(args.build_dir), '-s', '-F',
+                          file_list_name]
+            for _ in range(args.nb_runs):
+                # Execute parse on the file list and get the elapsed time
+                t = time()
+                subprocess.check_call(parse_args)
+                elapsed = time() - t
+                elapsed_list.append(elapsed)
 
-        print('')
-        printcol('= Performance summary =', Colors.OKGREEN)
-        print('Mean time to parse {0} lines of code : {1:.2f} seconds'.format(
-            lines_count, sum(elapsed_list) / float(len(elapsed_list))
-        ))
+                # Print a very basic report
+                write_report(
+                    'Parsed {0} lines of Ada code in {1:.2f} seconds'.format(
+                        lines_count, elapsed
+                    )
+                )
+
+            write_report('')
+            write_report('= Performance summary =', Colors.OKGREEN)
+            write_report(
+                'Mean time to parse {0} lines of code:'
+                ' {1:.2f} seconds'.format(
+                    lines_count, sum(elapsed_list) / float(len(elapsed_list))
+                )
+            )
 
 
 if __name__ == '__main__':

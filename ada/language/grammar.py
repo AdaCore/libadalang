@@ -1041,7 +1041,7 @@ A.add_rules(
     update_attr_content=List(A.multidim_array_assoc, sep=",",
                              list_cls=AssocList),
 
-    multidim_array_assoc=AggregateAssoc(
+    multidim_array_assoc=MultiDimArrayAssoc(
         List(A.aggregate, sep="|", list_cls=AdaNode.list_type()), "=>", A.expr,
     ),
 

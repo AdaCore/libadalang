@@ -2610,6 +2610,10 @@ class AggregateAssoc(BasicAssoc):
     names = Property(Self.designators.map(lambda d: d))
 
 
+class MultiDimArrayAssoc(AggregateAssoc):
+    pass
+
+
 class AssocList(BasicAssoc.list_type()):
 
     @langkit_property()

@@ -18,6 +18,10 @@ class Manage(ManageScript):
 
     ENABLE_WARNINGS_DEFAULT = True
 
+    PERF_PARSE = 'parse'
+    PERF_PARSE_AND_TRAVERSE = 'parse-and-traverse'
+    PERF_CHOICES = (PERF_PARSE, PERF_PARSE_AND_TRAVERSE)
+
     def __init__(self):
         super(Manage, self).__init__()
 
@@ -64,6 +68,11 @@ class Manage(ManageScript):
             '--no-recompile', action='store_true',
             help='Do not recompile the library before running the perf'
                  ' testsuite'
+        )
+        perf_test_parser.add_argument(
+            '--scenario', '-s',
+            choices=self.PERF_CHOICES, default=self.PERF_PARSE,
+            help='Profiling scenario to use. Basically: "what to measure?".'
         )
         perf_test_parser.set_defaults(func=self.do_perf_test)
         self.add_generate_args(perf_test_parser)
@@ -279,11 +288,14 @@ class Manage(ManageScript):
             write_report('= Performance testsuite results =', Colors.HEADER)
             write_report('=================================', Colors.HEADER)
             write_report('')
-            write_report(variant_name)
+            write_report('Name: {}'.format(variant_name))
+            write_report('Scenario: {}'.format(args.scenario))
             write_report('')
             elapsed_list = []
             parse_args = ['{}/bin/parse'.format(args.build_dir), '-s', '-F',
                           file_list_name]
+            if args.scenario == self.PERF_PARSE_AND_TRAVERSE:
+                parse_args.append('-C')
             for _ in range(args.nb_runs):
                 # Execute parse on the file list and get the elapsed time
                 t = time()

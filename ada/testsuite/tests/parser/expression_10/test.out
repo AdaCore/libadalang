@@ -12,7 +12,7 @@ Allocator[1:1-1:21]
 |  |  |  |tok: Class
 |  |  |args: <null>
 |  |suffix:
-|  |  Aggregate[1:14-1:20]
+|  |  Aggregate[1:13-1:21]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
 |  |  |  AssocList[1:14-1:20]

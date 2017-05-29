@@ -94,7 +94,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  Id[15:7-15:21]
 |  |  |  |  |  |  |  |  |  |tok: Contract_Cases
 |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  Aggregate[16:10-16:87]
+|  |  |  |  |  |  |  |  |  Aggregate[16:9-16:88]
 |  |  |  |  |  |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |  |  |  |  |  |assocs:
 |  |  |  |  |  |  |  |  |  |  AssocList[16:10-16:87]
@@ -222,7 +222,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  Id[19:6-19:20]
 |  |  |  |  |  |  |  |  |  |tok: Contract_Cases
 |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  Aggregate[19:25-20:64]
+|  |  |  |  |  |  |  |  |  Aggregate[19:24-20:65]
 |  |  |  |  |  |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |  |  |  |  |  |assocs:
 |  |  |  |  |  |  |  |  |  |  AssocList[19:25-20:64]

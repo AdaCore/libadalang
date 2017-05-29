@@ -14,7 +14,7 @@ CallStmt[1:1-1:30]
 |  |  |  ParamAssoc[1:19-1:29]
 |  |  |  |designator: <null>
 |  |  |  |r_expr:
-|  |  |  |  Aggregate[1:20-1:28]
+|  |  |  |  Aggregate[1:19-1:29]
 |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |assocs:
 |  |  |  |  |  AssocList[1:20-1:28]

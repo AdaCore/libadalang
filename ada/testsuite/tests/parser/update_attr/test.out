@@ -12,14 +12,14 @@ UpdateAttributeRef[1:1-1:35]
 |  Id[1:7-1:13]
 |  |tok: Update
 |args:
-|  Aggregate[1:14-1:34]
+|  Aggregate[1:13-1:35]
 |  |ancestor_expr: <null>
 |  |assocs:
 |  |  AssocList[1:14-1:34]
 |  |  |  AggregateAssoc[1:14-1:34]
 |  |  |  |designators:
 |  |  |  |  AdaNodeList[1:14-1:23]
-|  |  |  |  |  Aggregate[1:15-1:22]
+|  |  |  |  |  Aggregate[1:14-1:23]
 |  |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |  |assocs:
 |  |  |  |  |  |  AssocList[1:15-1:22]

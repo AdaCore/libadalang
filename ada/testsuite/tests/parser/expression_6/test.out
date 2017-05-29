@@ -6,7 +6,7 @@ Allocator[1:1-1:17]
 |  |  Id[1:5-1:12]
 |  |  |tok: Integer
 |  |suffix:
-|  |  Aggregate[1:14-1:16]
+|  |  Aggregate[1:13-1:17]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
 |  |  |  AssocList[1:14-1:16]

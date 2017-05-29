@@ -3,7 +3,7 @@ AttributeDefClause[1:1-1:36]
 |  Id[1:5-1:6]
 |  |tok: r
 |expr:
-|  Aggregate[1:12-1:35]
+|  Aggregate[1:11-1:36]
 |  |ancestor_expr: <null>
 |  |assocs:
 |  |  AssocList[1:12-1:35]

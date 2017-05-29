@@ -3,7 +3,7 @@ QualExpr[1:1-1:24]
 |  Id[1:1-1:10]
 |  |tok: User_Data
 |suffix:
-|  Aggregate[1:12-1:23]
+|  Aggregate[1:11-1:24]
 |  |ancestor_expr: <null>
 |  |assocs:
 |  |  AssocList[1:17-1:17]: <empty list>

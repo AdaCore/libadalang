@@ -966,9 +966,11 @@ A.add_rules(
     aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=AssocList),
     aggregate_content_null=Pick("null", "record", Null(AssocList)),
 
-    aggregate=Pick("(", Aggregate(
-        Opt(A.expr, "with"), A.aggregate_content_null | A.aggregate_content
-    ), ")"),
+    aggregate=Aggregate(
+        "(",
+        Opt(A.expr, "with"), A.aggregate_content_null | A.aggregate_content,
+        ")"
+    ),
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal),
 
@@ -1045,7 +1047,7 @@ A.add_rules(
 
     update_attr_aggregate=Or(
         A.aggregate,
-        Pick("(", Aggregate(Null(Expr), A.update_attr_content), ")")
+        Aggregate("(", Null(Expr), A.update_attr_content, ")")
     ),
 
     update_attr_content=List(A.multidim_array_assoc, sep=",",

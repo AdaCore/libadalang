@@ -11,7 +11,7 @@ AttributeRef[1:1-1:22]
 |  |  |  |tok: C
 |  |  |args: <null>
 |  |suffix:
-|  |  Aggregate[1:10-1:13]
+|  |  Aggregate[1:9-1:14]
 |  |  |ancestor_expr: <null>
 |  |  |assocs:
 |  |  |  AssocList[1:10-1:13]

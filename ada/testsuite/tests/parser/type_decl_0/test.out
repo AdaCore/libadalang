@@ -50,7 +50,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  AdaNodeList[3:9-6:15]
 |  |  |  |  |  |  |  |  Id[3:9-3:11]
 |  |  |  |  |  |  |  |  |tok: sn
-|  |  |  |  |  |  |  |  SubtypeIndication[4:9-4:24]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[4:9-4:24]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[4:9-4:9]
 |  |  |  |  |  |  |  |  |name:
@@ -68,7 +68,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  Int[4:23-4:24]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 0
-|  |  |  |  |  |  |  |  SubtypeIndication[5:9-5:34]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[5:9-5:34]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[5:9-5:9]
 |  |  |  |  |  |  |  |  |name:
@@ -118,7 +118,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  Variant[7:4-15:32]
 |  |  |  |  |  |  |choice_list:
 |  |  |  |  |  |  |  AdaNodeList[7:10-15:23]
-|  |  |  |  |  |  |  |  SubtypeIndication[7:10-7:26]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[7:10-7:26]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[7:10-7:10]
 |  |  |  |  |  |  |  |  |name:
@@ -136,7 +136,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  Id[7:24-7:26]
 |  |  |  |  |  |  |  |  |  |  |  |tok: c5
-|  |  |  |  |  |  |  |  SubtypeIndication[8:6-8:31]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[8:6-8:31]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[8:6-8:6]
 |  |  |  |  |  |  |  |  |name:
@@ -193,7 +193,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 3
 |  |  |  |  |  |  |  |  Id[10:6-10:8]
 |  |  |  |  |  |  |  |  |tok: sn
-|  |  |  |  |  |  |  |  SubtypeIndication[11:6-11:26]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[11:6-11:26]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[11:6-11:6]
 |  |  |  |  |  |  |  |  |name:
@@ -231,7 +231,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  |  |tok: s10
 |  |  |  |  |  |  |  |  Int[14:6-14:7]
 |  |  |  |  |  |  |  |  |tok: 9
-|  |  |  |  |  |  |  |  SubtypeIndication[15:6-15:23]
+|  |  |  |  |  |  |  |  DiscreteSubtypeIndication[15:6-15:23]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[15:6-15:6]
 |  |  |  |  |  |  |  |  |name:

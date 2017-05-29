@@ -601,7 +601,7 @@ A.add_rules(
     # will parse expressions as subtype indications sometimes, and even
     # cause parsing errors.
 
-    discrete_subtype_indication=SubtypeIndication(
+    discrete_subtype_indication=DiscreteSubtypeIndication(
         NotNull("not", "null"), A.subtype_name, A.range_constraint
     ),
 

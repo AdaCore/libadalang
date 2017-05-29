@@ -1507,6 +1507,10 @@ class ConstrainedSubtypeIndication(SubtypeIndication):
     pass
 
 
+class DiscreteSubtypeIndication(SubtypeIndication):
+    pass
+
+
 class Mode(T.EnumNode):
     alternatives = ["in", "out", "in_out", "default"]
 

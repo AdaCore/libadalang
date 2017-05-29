@@ -1029,7 +1029,7 @@ A.add_rules(
         ExplicitDeref(A.name, ".", "all"),
 
         # Special case for 'Update
-        AttributeRef(
+        UpdateAttributeRef(
             A.name, "'",
             Identifier(L.Identifier(match_text="Update", keep=True)),
             A.update_attr_aggregate

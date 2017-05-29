@@ -3417,6 +3417,10 @@ class AttributeRef(Name):
     )
 
 
+class UpdateAttributeRef(AttributeRef):
+    pass
+
+
 class RaiseExpr(Expr):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)

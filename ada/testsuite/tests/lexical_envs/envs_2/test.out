@@ -54,7 +54,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  HandledStmts[4:7-8:11]
 |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  AdaNodeList[4:7-8:11]
+|  |  |  |  |  |  |  StmtList[4:7-8:11]
 |  |  |  |  |  |  |  |  BlockStmt[4:7-8:10]
 |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[5:10-5:47]
@@ -87,7 +87,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  HandledStmts[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  |  AdaNodeList[7:10-7:15]
+|  |  |  |  |  |  |  |  |  |  StmtList[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:14]
 |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[7:14-7:14]: <empty list>

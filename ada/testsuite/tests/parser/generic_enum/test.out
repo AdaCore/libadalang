@@ -176,7 +176,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  HandledStmts[15:10-16:27]
 |  |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  |  AdaNodeList[15:10-16:27]
+|  |  |  |  |  |  |  |  |  |  StmtList[15:10-16:27]
 |  |  |  |  |  |  |  |  |  |  |  CallStmt[15:10-15:26]
 |  |  |  |  |  |  |  |  |  |  |  |call:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[15:10-15:26]
@@ -239,7 +239,7 @@ CompilationUnit[1:1-24:10]
 |  |  |stmts:
 |  |  |  HandledStmts[23:4-23:13]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[23:4-23:13]
+|  |  |  |  StmtList[23:4-23:13]
 |  |  |  |  |  CallStmt[23:4-23:12]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  DottedName[23:4-23:12]

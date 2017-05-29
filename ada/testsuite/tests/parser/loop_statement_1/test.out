@@ -31,6 +31,6 @@ LoopStmt[1:1-1:51]
 |  |  |  |  |  Int[1:29-1:31]
 |  |  |  |  |  |tok: 16
 |stmts:
-|  AdaNodeList[1:37-1:42]
+|  StmtList[1:37-1:42]
 |  |  NullStmt[1:37-1:41]
 |end_id: <null>

@@ -4,7 +4,7 @@ SelectStmt[1:1-1:154]
 |  |  SelectWhenPart[1:10-1:74]
 |  |  |choices: <null>
 |  |  |stmts:
-|  |  |  AdaNodeList[1:10-1:74]
+|  |  |  StmtList[1:10-1:74]
 |  |  |  |  AcceptStmt[1:10-1:73]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:17-1:22]
@@ -33,7 +33,7 @@ SelectStmt[1:1-1:154]
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:46-1:63]
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:46-1:63]
+|  |  |  |  |  |  StmtList[1:46-1:63]
 |  |  |  |  |  |  |  AssignStmt[1:46-1:62]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:46-1:51]
@@ -46,7 +46,7 @@ SelectStmt[1:1-1:154]
 |  |  SelectWhenPart[1:78-1:143]
 |  |  |choices: <null>
 |  |  |stmts:
-|  |  |  AdaNodeList[1:78-1:143]
+|  |  |  StmtList[1:78-1:143]
 |  |  |  |  AcceptStmt[1:78-1:142]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:85-1:90]
@@ -75,7 +75,7 @@ SelectStmt[1:1-1:154]
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:115-1:132]
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:115-1:132]
+|  |  |  |  |  |  StmtList[1:115-1:132]
 |  |  |  |  |  |  |  AssignStmt[1:115-1:131]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:115-1:122]
@@ -86,6 +86,6 @@ SelectStmt[1:1-1:154]
 |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  AdaNodeList[1:131-1:131]: <empty list>
 |else_stmts:
-|  AdaNodeList[1:142-1:142]: <empty list>
+|  StmtList[1:142-1:142]: <empty list>
 |abort_stmts:
-|  AdaNodeList[1:142-1:142]: <empty list>
+|  StmtList[1:142-1:142]: <empty list>

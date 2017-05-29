@@ -10,7 +10,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  Id[1:17-1:21]
 |  |  |  |  |tok: BUSY
 |  |  |stmts:
-|  |  |  AdaNodeList[1:25-1:59]
+|  |  |  StmtList[1:25-1:59]
 |  |  |  |  AcceptStmt[1:25-1:58]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:32-1:37]
@@ -21,7 +21,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:41-1:54]
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:41-1:54]
+|  |  |  |  |  |  StmtList[1:41-1:54]
 |  |  |  |  |  |  |  AssignStmt[1:41-1:53]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:41-1:45]
@@ -34,7 +34,7 @@ SelectStmt[1:1-1:125]
 |  |  SelectWhenPart[1:63-1:100]
 |  |  |choices: <null>
 |  |  |stmts:
-|  |  |  AdaNodeList[1:63-1:100]
+|  |  |  StmtList[1:63-1:100]
 |  |  |  |  AcceptStmt[1:63-1:99]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:70-1:77]
@@ -45,7 +45,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:81-1:95]
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:81-1:95]
+|  |  |  |  |  |  StmtList[1:81-1:95]
 |  |  |  |  |  |  |  AssignStmt[1:81-1:94]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:81-1:85]
@@ -58,9 +58,9 @@ SelectStmt[1:1-1:125]
 |  |  SelectWhenPart[1:104-1:114]
 |  |  |choices: <null>
 |  |  |stmts:
-|  |  |  AdaNodeList[1:104-1:114]
+|  |  |  StmtList[1:104-1:114]
 |  |  |  |  TerminateAlternative[1:104-1:113]
 |else_stmts:
-|  AdaNodeList[1:113-1:113]: <empty list>
+|  StmtList[1:113-1:113]: <empty list>
 |abort_stmts:
-|  AdaNodeList[1:113-1:113]: <empty list>
+|  StmtList[1:113-1:113]: <empty list>

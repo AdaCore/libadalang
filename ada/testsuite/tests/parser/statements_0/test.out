@@ -1,4 +1,4 @@
-AdaNodeList[1:1-1:235]
+StmtList[1:1-1:235]
 |  AcceptStmt[1:1-1:64]
 |  |name:
 |  |  Id[1:8-1:13]
@@ -27,7 +27,7 @@ AdaNodeList[1:1-1:235]
 |  |stmts:
 |  |  HandledStmts[1:37-1:54]
 |  |  |stmts:
-|  |  |  AdaNodeList[1:37-1:54]
+|  |  |  StmtList[1:37-1:54]
 |  |  |  |  AssignStmt[1:37-1:53]
 |  |  |  |  |dest:
 |  |  |  |  |  Id[1:37-1:42]
@@ -40,14 +40,14 @@ AdaNodeList[1:1-1:235]
 |  LoopStmt[1:66-1:234]
 |  |spec: <null>
 |  |stmts:
-|  |  AdaNodeList[1:71-1:225]
+|  |  StmtList[1:71-1:225]
 |  |  |  SelectStmt[1:71-1:224]
 |  |  |  |guards:
 |  |  |  |  SelectWhenPartList[1:80-1:213]
 |  |  |  |  |  SelectWhenPart[1:80-1:144]
 |  |  |  |  |  |choices: <null>
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:80-1:144]
+|  |  |  |  |  |  StmtList[1:80-1:144]
 |  |  |  |  |  |  |  AcceptStmt[1:80-1:143]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:87-1:92]
@@ -76,7 +76,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:116-1:133]
 |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  AdaNodeList[1:116-1:133]
+|  |  |  |  |  |  |  |  |  StmtList[1:116-1:133]
 |  |  |  |  |  |  |  |  |  |  AssignStmt[1:116-1:132]
 |  |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:116-1:121]
@@ -89,7 +89,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  SelectWhenPart[1:148-1:213]
 |  |  |  |  |  |choices: <null>
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  AdaNodeList[1:148-1:213]
+|  |  |  |  |  |  StmtList[1:148-1:213]
 |  |  |  |  |  |  |  AcceptStmt[1:148-1:212]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:155-1:160]
@@ -118,7 +118,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:185-1:202]
 |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  AdaNodeList[1:185-1:202]
+|  |  |  |  |  |  |  |  |  StmtList[1:185-1:202]
 |  |  |  |  |  |  |  |  |  |  AssignStmt[1:185-1:201]
 |  |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:185-1:192]
@@ -129,7 +129,7 @@ AdaNodeList[1:1-1:235]
 |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  AdaNodeList[1:201-1:201]: <empty list>
 |  |  |  |else_stmts:
-|  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
+|  |  |  |  StmtList[1:212-1:212]: <empty list>
 |  |  |  |abort_stmts:
-|  |  |  |  AdaNodeList[1:212-1:212]: <empty list>
+|  |  |  |  StmtList[1:212-1:212]: <empty list>
 |  |end_id: <null>

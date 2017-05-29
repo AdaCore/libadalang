@@ -19,6 +19,6 @@ NamedStmt[1:1-1:36]
 |  |  |  |  Int[1:14-1:16]
 |  |  |  |  |tok: 12
 |  |stmts:
-|  |  AdaNodeList[1:22-1:27]
+|  |  StmtList[1:22-1:27]
 |  |  |  NullStmt[1:22-1:26]
 |  |end_id: <null>

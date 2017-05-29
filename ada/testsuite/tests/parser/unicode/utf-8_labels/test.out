@@ -25,7 +25,7 @@ CompilationUnit[1:1-6:10]
 |  |  |stmts:
 |  |  |  HandledStmts[3:5-5:15]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[3:5-5:15]
+|  |  |  |  StmtList[3:5-5:15]
 |  |  |  |  |  Label[3:5-3:13]
 |  |  |  |  |  |decl:
 |  |  |  |  |  |  LabelDecl[3:7-3:11]

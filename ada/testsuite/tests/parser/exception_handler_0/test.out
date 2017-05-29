@@ -11,7 +11,7 @@ ExceptionHandler[1:1-1:34]
 |  |  |  |tok: Abort_Signal
 |  |  |args: <null>
 |stmts:
-|  AdaNodeList[1:28-1:34]
+|  StmtList[1:28-1:34]
 |  |  CallStmt[1:28-1:33]
 |  |  |call:
 |  |  |  Id[1:28-1:33]

@@ -25,7 +25,7 @@ ExtendedReturnStmt[1:1-1:41]
 |stmts:
 |  HandledStmts[1:23-1:30]
 |  |stmts:
-|  |  AdaNodeList[1:23-1:30]
+|  |  StmtList[1:23-1:30]
 |  |  |  AssignStmt[1:23-1:29]
 |  |  |  |dest:
 |  |  |  |  Id[1:23-1:24]

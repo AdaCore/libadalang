@@ -65,7 +65,7 @@ CompilationUnit[1:1-7:9]
 |  |  |stmts:
 |  |  |  HandledStmts[6:4-6:9]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[6:4-6:9]
+|  |  |  |  StmtList[6:4-6:9]
 |  |  |  |  |  NullStmt[6:4-6:8]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:8-6:8]: <empty list>

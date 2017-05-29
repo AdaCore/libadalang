@@ -8,7 +8,7 @@ AcceptStmt[1:1-1:34]
 |stmts:
 |  HandledStmts[1:17-1:30]
 |  |stmts:
-|  |  AdaNodeList[1:17-1:30]
+|  |  StmtList[1:17-1:30]
 |  |  |  AssignStmt[1:17-1:29]
 |  |  |  |dest:
 |  |  |  |  Id[1:17-1:21]

@@ -30,7 +30,7 @@ CompilationUnit[1:1-3:9]
 |  |  |stmts:
 |  |  |  HandledStmts[3:1-3:1]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[3:1-3:1]: <empty list>
+|  |  |  |  StmtList[3:1-3:1]: <empty list>
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |end_id:

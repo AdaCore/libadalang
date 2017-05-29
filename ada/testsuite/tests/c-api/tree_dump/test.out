@@ -19,7 +19,7 @@
 | | | <DeclarativePart>
 | | | | <AdaNodeList>
 | | | <HandledStmts>
-| | | | <AdaNodeList>
+| | | | <StmtList>
 | | | | | <CallStmt>
 | | | | | | <CallExpr>
 | | | | | | | <DottedName>

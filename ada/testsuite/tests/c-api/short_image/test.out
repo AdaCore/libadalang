@@ -19,7 +19,7 @@
 | | | <DeclarativePart 4:1-4:1>
 | | | | <AdaNodeList 4:1-4:1>
 | | | <HandledStmts 5:4-5:43>
-| | | | <AdaNodeList 5:4-5:43>
+| | | | <StmtList 5:4-5:43>
 | | | | | <CallStmt 5:4-5:42>
 | | | | | | <CallExpr 5:4-5:42>
 | | | | | | | <DottedName 5:4-5:24>

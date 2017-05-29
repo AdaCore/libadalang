@@ -1,7 +1,7 @@
 LoopStmt[1:1-1:30]
 |spec: <null>
 |stmts:
-|  AdaNodeList[1:6-1:21]
+|  StmtList[1:6-1:21]
 |  |  CallStmt[1:6-1:20]
 |  |  |call:
 |  |  |  CallExpr[1:6-1:20]

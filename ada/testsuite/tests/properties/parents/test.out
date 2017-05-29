@@ -85,7 +85,7 @@
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  <HandledStmts>
 |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  <AdaNodeList>
+|  |  |  |  |  |  |  <StmtList>
 |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  <IfStmt>
 |  |  |  |  |  |  |  |  |cond_expr:
@@ -99,7 +99,7 @@
 |  |  |  |  |  |  |  |  |  |  <IntLiteral>
 |  |  |  |  |  |  |  |  |  |  |tok: Token(u'0')
 |  |  |  |  |  |  |  |  |then_stmts:
-|  |  |  |  |  |  |  |  |  <AdaNodeList>
+|  |  |  |  |  |  |  |  |  <StmtList>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
@@ -132,7 +132,7 @@
 |  |  |  |  |  |  |  |  |alternatives:
 |  |  |  |  |  |  |  |  |  <ElsifStmtPartList>
 |  |  |  |  |  |  |  |  |else_stmts:
-|  |  |  |  |  |  |  |  |  <AdaNodeList>
+|  |  |  |  |  |  |  |  |  <StmtList>
 |  |  |  |  |  |  |  |  |  |item 0:
 |  |  |  |  |  |  |  |  |  |  <ReturnStmt>
 |  |  |  |  |  |  |  |  |  |  |return_expr:
@@ -146,7 +146,7 @@
 |  |  |stmts:
 |  |  |  <HandledStmts>
 |  |  |  |stmts:
-|  |  |  |  <AdaNodeList>
+|  |  |  |  <StmtList>
 |  |  |  |  |item 0:
 |  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:

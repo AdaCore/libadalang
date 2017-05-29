@@ -33,7 +33,7 @@ EntryBody[1:1-1:100]
 |stmts:
 |  HandledStmts[1:55-1:89]
 |  |stmts:
-|  |  AdaNodeList[1:55-1:89]
+|  |  StmtList[1:55-1:89]
 |  |  |  AssignStmt[1:55-1:72]
 |  |  |  |dest:
 |  |  |  |  Id[1:55-1:61]

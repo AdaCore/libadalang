@@ -26,7 +26,7 @@ AcceptStmt[1:1-1:67]
 |stmts:
 |  HandledStmts[1:39-1:56]
 |  |stmts:
-|  |  AdaNodeList[1:39-1:56]
+|  |  StmtList[1:39-1:56]
 |  |  |  AssignStmt[1:39-1:55]
 |  |  |  |dest:
 |  |  |  |  Id[1:39-1:44]

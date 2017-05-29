@@ -41,7 +41,7 @@
 |  |  |stmts:
 |  |  |  <HandledStmts>
 |  |  |  |stmts:
-|  |  |  |  <AdaNodeList>
+|  |  |  |  <StmtList>
 |  |  |  |  |item 0:
 |  |  |  |  |  <CallStmt>
 |  |  |  |  |  |call:

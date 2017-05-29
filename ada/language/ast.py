@@ -2638,6 +2638,10 @@ class DeclList(AdaNode.list_type()):
     pass
 
 
+class StmtList(AdaNode.list_type()):
+    pass
+
+
 class ExplicitDeref(Name):
     prefix = Field(type=T.Name)
     ref_var = Property(Self.prefix.ref_var)

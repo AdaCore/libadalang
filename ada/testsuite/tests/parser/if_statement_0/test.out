@@ -10,7 +10,7 @@ IfStmt[1:1-1:86]
 |  |  Real[1:19-1:23]
 |  |  |tok: 40.0
 |then_stmts:
-|  AdaNodeList[1:29-1:79]
+|  StmtList[1:29-1:79]
 |  |  CallStmt[1:29-1:45]
 |  |  |call:
 |  |  |  CallExpr[1:29-1:45]
@@ -40,4 +40,4 @@ IfStmt[1:1-1:86]
 |alternatives:
 |  ElsifStmtPartList[1:80-1:80]: <empty list>
 |else_stmts:
-|  AdaNodeList[1:78-1:78]: <empty list>
+|  StmtList[1:78-1:78]: <empty list>

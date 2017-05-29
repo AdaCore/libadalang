@@ -51,7 +51,7 @@ CompilationUnit[1:1-6:10]
 |  |  |stmts:
 |  |  |  HandledStmts[5:4-5:9]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[5:4-5:9]
+|  |  |  |  StmtList[5:4-5:9]
 |  |  |  |  |  NullStmt[5:4-5:8]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>

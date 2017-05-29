@@ -42,7 +42,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |stmts:
 |  |  |  |  HandledStmts[1:95-1:129]
 |  |  |  |  |stmts:
-|  |  |  |  |  AdaNodeList[1:95-1:129]
+|  |  |  |  |  StmtList[1:95-1:129]
 |  |  |  |  |  |  AssignStmt[1:95-1:112]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:95-1:101]
@@ -98,7 +98,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |stmts:
 |  |  |  |  HandledStmts[1:200-1:233]
 |  |  |  |  |stmts:
-|  |  |  |  |  AdaNodeList[1:200-1:233]
+|  |  |  |  |  StmtList[1:200-1:233]
 |  |  |  |  |  |  AssignStmt[1:200-1:217]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:200-1:207]

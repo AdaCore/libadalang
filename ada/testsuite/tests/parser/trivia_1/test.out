@@ -14,7 +14,7 @@ CompilationUnit
 |  |  |  |  |  |  |  Id
 |  |  |  -- Huhu
 |  |  |  HandledStmts
-|  |  |  |  AdaNodeList
+|  |  |  |  StmtList
 |  |  |  |  |  NullStmt
 |  |  |  |  |  |  Null
 |  |  |  |  |  -- Haha

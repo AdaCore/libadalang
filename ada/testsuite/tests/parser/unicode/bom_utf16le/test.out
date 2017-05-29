@@ -49,7 +49,7 @@ CompilationUnit[1:1-6:10]
 |  |  |stmts:
 |  |  |  HandledStmts[5:4-5:30]
 |  |  |  |stmts:
-|  |  |  |  AdaNodeList[5:4-5:30]
+|  |  |  |  StmtList[5:4-5:30]
 |  |  |  |  |  CallStmt[5:4-5:29]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[5:4-5:29]

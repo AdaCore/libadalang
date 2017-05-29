@@ -236,7 +236,8 @@ class Manage(ManageScript):
             subprocess.check_call([
                 'svn', 'co',
                 'svn+ssh://svn.us.adacore.com/Dev/trunk/gnat',
-                '-r', '314163'
+                '-r', '314163',
+                '--ignore-externals'
             ])
         if not os.path.exists('gps'):
             subprocess.check_call(['git', 'clone',

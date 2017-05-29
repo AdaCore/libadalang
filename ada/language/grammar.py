@@ -98,8 +98,7 @@ A.add_rules(
         A.protected_def
     ),
 
-    protected_op=Or(A.subp_decl, A.entry_decl, A.aspect_clause,
-                    A.pragma),
+    protected_op=Or(A.subp_decl, A.entry_decl, A.aspect_clause, A.pragma),
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=ProtectedDef(

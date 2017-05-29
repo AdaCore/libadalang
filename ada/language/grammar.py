@@ -103,9 +103,11 @@ A.add_rules(
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=ProtectedDef(
-        PublicPart(List(A.protected_op, ";", empty_valid=True)),
+        PublicPart(List(A.protected_op, ";",
+                        empty_valid=True, list_cls=DeclList)),
         Opt("private",
-            PrivatePart(List(A.protected_el, ";", empty_valid=True))),
+            PrivatePart(List(A.protected_el, ";",
+                             empty_valid=True, list_cls=DeclList))),
         A.end_named_block
     ),
 
@@ -122,8 +124,13 @@ A.add_rules(
     task_def=TaskDef(
         "is",
         Opt("new", List(A.static_name, sep="and"), "with"),
-        PublicPart(List(A.task_item, ";", empty_valid=True)),
-        Opt("private", PrivatePart(List(A.task_item, ";", empty_valid=True))),
+        PublicPart(
+            List(A.task_item, ";", empty_valid=True, list_cls=DeclList)
+        ),
+        Opt("private",
+            PrivatePart(
+                List(A.task_item, ";", empty_valid=True, list_cls=DeclList)
+            )),
         A.end_named_block
     ),
 

@@ -13,7 +13,7 @@ SingleTaskDecl[1:1-1:139]
 |  |  |public_part:
 |  |  |  PublicPart[1:26-1:118]
 |  |  |  |decls:
-|  |  |  |  AdaNodeList[1:26-1:118]
+|  |  |  |  DeclList[1:26-1:118]
 |  |  |  |  |  EntryDecl[1:26-1:70]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:26-1:26]

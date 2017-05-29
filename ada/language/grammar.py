@@ -605,7 +605,7 @@ A.add_rules(
         NotNull("not", "null"), A.subtype_name, A.range_constraint
     ),
 
-    constrained_subtype_indication=SubtypeIndication(
+    constrained_subtype_indication=ConstrainedSubtypeIndication(
         NotNull("not", "null"), A.subtype_name, A.constraint
     ),
 

@@ -1503,6 +1503,10 @@ class SubtypeIndication(TypeExpr):
         return Bind(Self.name.ref_var, Self.designated_type)
 
 
+class ConstrainedSubtypeIndication(SubtypeIndication):
+    pass
+
+
 class Mode(T.EnumNode):
     alternatives = ["in", "out", "in_out", "default"]
 

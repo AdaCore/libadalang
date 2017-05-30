@@ -1880,7 +1880,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     designated_package = Property(
         Self.node_env.eval_in_env(
-            Self.generic_entity_name.entities
+            Self.generic_entity_name.matching_nodes
             .at(0).cast_or_raise(T.GenericPackageDecl)
         )
     )
@@ -1920,7 +1920,8 @@ class PackageRenamingDecl(BasicDecl):
 
     defining_names = Property(Self.name.singleton)
     defining_env = Property(Self.node_env.eval_in_env(
-        Self.renames.renamed_object.entities.at(0).cast(BasicDecl).defining_env
+        Self.renames.renamed_object.matching_nodes.at(0).cast(BasicDecl)
+        .defining_env
     ))
 
 
@@ -2079,16 +2080,14 @@ class Expr(AdaNode):
         """
         pass
 
-    entities = Property(
-        Self.env_elements.map(lambda e: e.el),
-        type=T.root_node.array_type(),
-        public=True,
-        has_implicit_env=True,
-        doc="""
-        Same as env_elements, but return bare AdaNode instances rather than
-        EnvElement instances.
+    @langkit_property(return_type=T.root_node.array_type(), public=True,
+                      has_implicit_env=True)
+    def matching_nodes():
         """
-    )
+        Return the list of AST nodes that can be a match for this expression
+        before overloading analysis.
+        """
+        return Self.env_elements.map(lambda e: e.el)
 
 
 class ContractCaseAssoc(BaseAssoc):
@@ -3827,7 +3826,7 @@ class PackageBody(Body):
         "package_decl" field instead of the GenericPackageDecl itself.
         """
         return Self.parent.node_env.eval_in_env(
-            Self.package_name.entities.at(0).match(
+            Self.package_name.matching_nodes.at(0).match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:
                     gen_pkg_decl.package_decl,

@@ -7,7 +7,7 @@ import libadalang as lal
 
 def show_resolve(pragma):
     e = pragma.f_args[0].f_expr
-    ents = e.p_entities
+    ents = e.p_matching_nodes
     print('{} resolves to {}'.format(e, list(ents)))
 
 

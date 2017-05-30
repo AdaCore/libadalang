@@ -133,7 +133,7 @@ for src_file in input_sources:
             expr = p.f_args[0].f_expr
             print('{} resolves to:'.format(escape_ascii(expr.text)))
 
-            entities = expr.p_entities
+            entities = expr.p_matching_nodes
 
             # Sort matches before printing them so that the output is
             # guaranteed to be stable.

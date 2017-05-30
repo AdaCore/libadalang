@@ -96,8 +96,8 @@ main(void)
       error("Could not get PragmaNode.f_args[0]");
     if (!ada_pragma_argument_assoc_f_expr(assoc, &expr) || expr == NULL)
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_entities(expr, &einfo, &entities))
-      error("Could not get PragmaNode.f_args[0].f_expr.p_entities");
+    if (!ada_expr_p_matching_nodes(expr, &einfo, &entities))
+      error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
     text = ada_node_short_image(expr);
     fprint_text(stdout, text, false);

@@ -41,7 +41,8 @@ begin
       Subtype_Ind : constant Subtype_Indication := Subtype_Indication
         (Root.Find_First
            (new Ada_Node_Kind_Filter'(Kind => Ada_Subtype_Indication)));
-      Res_Type    : Ada_Node_Array_Access := Subtype_Ind.F_Name.P_Entities;
+      Res_Type    : Ada_Node_Array_Access :=
+         Subtype_Ind.F_Name.P_Matching_Nodes;
    begin
       Put_Line (Image (Subtype_Ind.Short_Image) & " resolves to:");
       for E of Res_Type.Items loop

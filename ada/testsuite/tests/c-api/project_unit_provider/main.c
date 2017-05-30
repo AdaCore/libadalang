@@ -39,8 +39,8 @@ main(void)
       error("Could not find a SubtypeIndication node");
     if (!ada_subtype_indication_f_name (subtype_ind, &name) || name == NULL)
       error("Could not get SubtypeIndication.f_name");
-    if (!ada_expr_p_entities(name, &einfo, &entities))
-      error("Could not get SubtypeIndication.f_name.p_entities");
+    if (!ada_expr_p_matching_nodes(name, &einfo, &entities))
+      error("Could not get SubtypeIndication.f_name.p_matching_nodes");
 
     text = ada_node_short_image(subtype_ind);
     fprint_text(stdout, text, false);

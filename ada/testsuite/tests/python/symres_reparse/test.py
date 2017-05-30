@@ -9,8 +9,8 @@ c = lal.AnalysisContext('utf-8')
 u = c.get_from_file("foo-bar.ads")
 u.populate_lexical_env()
 i = u.root.find(lal.PragmaArgumentAssoc).f_expr
-print(i.p_entities[0])
+print(i.p_matching_nodes[0])
 
 u2 = c.get_from_file("foo.ads", reparse=True)
 
-print(i.p_entities[0])
+print(i.p_matching_nodes[0])

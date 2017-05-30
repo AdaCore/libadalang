@@ -416,7 +416,7 @@ def child_unit(name_expr, scope_expr):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env,
+            RefEnvs(T.Expr.fields.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # If Self is a generic package/subprogram and not a library item,
@@ -1413,7 +1413,7 @@ class UsePackageClause(UseClause):
 
     env_spec = EnvSpec(
         ref_envs=RefEnvs(
-            T.Expr.fields.designated_env,
+            T.Expr.fields.designated_env_wrapper,
 
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
@@ -1591,7 +1591,7 @@ class BasicSubpDecl(BasicDecl):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env,
+            RefEnvs(T.Expr.fields.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # Make the Standard package automatically used
@@ -2044,6 +2044,10 @@ class Expr(AdaNode):
         the various candidate lexical environments.
         """
         pass
+
+    @langkit_property()
+    def designated_env_wrapper():
+        return Self.node_env.eval_in_env(Self.designated_env)
 
     parent_scope = AbstractProperty(
         type=compiled_types.LexicalEnvType, runtime_check=True,
@@ -3476,7 +3480,7 @@ class SubpBody(Body):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env,
+            RefEnvs(T.Expr.fields.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # If Self is a generic package/subprogram and not a library item,

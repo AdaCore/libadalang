@@ -386,6 +386,14 @@ class AdaNode(ASTNode):
         """
         return Self.is_package & Self.is_library_item
 
+    @langkit_property()
+    def initial_env():
+        """
+        Provide a lexical environment to use in EnvSpec's initial_env.
+        """
+        return Self.parent.then(lambda p: p.children_env,
+                                default_val=Self.children_env)
+
 
 def child_unit(name_expr, scope_expr):
     """
@@ -406,8 +414,10 @@ def child_unit(name_expr, scope_expr):
     """
 
     return EnvSpec(
-        initial_env=Let(
-            lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
+        initial_env=(
+            Self.initial_env.eval_in_env(Let(
+                lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
+            ))
         ),
         add_env=True,
         add_to_env=add_to_env_kv(name_expr, Self),
@@ -1558,7 +1568,9 @@ class BasicSubpDecl(BasicDecl):
     )
 
     env_spec = EnvSpec(
-        initial_env=Self.subp_decl_spec.name.parent_scope,
+        initial_env=Self.initial_env.eval_in_env(
+            Self.subp_decl_spec.name.parent_scope
+        ),
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
             add_to_env_kv(Self.subp_decl_spec.name.relative_name.symbol, Self),
@@ -1889,12 +1901,14 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env=[
             add_to_env_kv(Self.name.relative_name.symbol, Self),
             add_to_env(
-                Self.designated_package.formal_part.match_param_list(
-                    Self.params, False
-                ).map(lambda pm: New(
-                    T.env_assoc,
-                    key=pm.formal.name.sym, val=pm.actual.assoc.expr
-                )),
+                Self.initial_env.eval_in_env(
+                    Self.designated_package.formal_part.match_param_list(
+                        Self.params, False
+                    ).map(lambda pm: New(
+                        T.env_assoc,
+                        key=pm.formal.name.sym, val=pm.actual.assoc.expr
+                    ))
+                ),
                 is_post=True,
                 dest_env=Self.instantiation_env_holder.children_env,
                 resolver=AdaNode.fields.resolve_generic_actual,
@@ -3453,14 +3467,14 @@ class CompilationUnit(AdaNode):
 
 class SubpBody(Body):
     env_spec = EnvSpec(
-        initial_env=If(
+        initial_env=Self.initial_env.eval_in_env(If(
             Self.is_library_item,
             # In case the subp spec for this library level subprogram is
             # missing, we'll put it in the parent's scope. This way, the xref
             # to it should still resolve.
             Self.subp_spec.name.scope._or(Self.subp_spec.name.parent_scope),
             Self.parent.children_env
-        ),
+        )),
         add_env=True,
         add_to_env=[
             # Add the body to its own parent env

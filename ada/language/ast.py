@@ -1768,6 +1768,10 @@ class ObjectDecl(BasicDecl):
     xref_entry_point = Property(True)
 
 
+class ExtendedReturnStmtObjectDecl(ObjectDecl):
+    pass
+
+
 class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list_type())
 

@@ -1,11 +1,11 @@
-GenericSubpDecl[1:1-1:76]
+GenericSubpDecl[1:1-1:77]
 |formal_part:
 |  GenericFormalPart[1:1-1:35]
 |  |decls:
 |  |  AdaNodeList[1:9-1:35]
-|  |  |  GenericFormal[1:9-1:34]
+|  |  |  GenericFormal[1:9-1:35]
 |  |  |  |decl:
-|  |  |  |  TypeDecl[1:9-1:34]
+|  |  |  |  TypeDecl[1:9-1:35]
 |  |  |  |  |type_id:
 |  |  |  |  |  Id[1:14-1:23]
 |  |  |  |  |  |tok: Element_T

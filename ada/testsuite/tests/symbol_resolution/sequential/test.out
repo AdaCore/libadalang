@@ -3,12 +3,12 @@ Analyzing sequential_visibility.adb
 
 Expr: <Id "C" 9:7-9:8>, references None, type is None
 Expr: <Id "Int1" 9:11-9:15>, references None, type is None
-Expr: <CallExpr 9:19-9:26>, references <ExprFunction ["Foo"] 6:4-6:46>, type is <TypeDecl ["Int1"] 2:4-2:31>
-Expr: <Id "Foo" 9:19-9:22>, references <ExprFunction ["Foo"] 6:4-6:46>, type is <TypeDecl ["Int1"] 2:4-2:31>
-Expr: <Id "B" 9:24-9:25>, references <ObjectDecl ["B"] 4:4-4:17>, type is <TypeDecl ["Int1"] 2:4-2:31>
+Expr: <CallExpr 9:19-9:26>, references <ExprFunction ["Foo"] 6:4-6:47>, type is <TypeDecl ["Int1"] 2:4-2:32>
+Expr: <Id "Foo" 9:19-9:22>, references <ExprFunction ["Foo"] 6:4-6:47>, type is <TypeDecl ["Int1"] 2:4-2:32>
+Expr: <Id "B" 9:24-9:25>, references <ObjectDecl ["B"] 4:4-4:18>, type is <TypeDecl ["Int1"] 2:4-2:32>
 Expr: <Id "B" 13:7-13:8>, references None, type is None
 Expr: <Id "Int1" 13:11-13:15>, references None, type is None
-Expr: <Id "C" 13:19-13:20>, references <ObjectDecl ["C"] 9:7-9:26>, type is <TypeDecl ["Int1"] 2:4-2:31>
+Expr: <Id "C" 13:19-13:20>, references <ObjectDecl ["C"] 9:7-9:27>, type is <TypeDecl ["Int1"] 2:4-2:32>
 Expr: <Null 15:7-15:11>, references None, type is None
 
 Done.

@@ -1,4 +1,4 @@
-TaskTypeDecl[1:1-1:144]
+TaskTypeDecl[1:1-1:145]
 |type_id:
 |  Id[1:11-1:27]
 |  |tok: Buffer_Pool_Task
@@ -12,7 +12,7 @@ TaskTypeDecl[1:1-1:144]
 |  |  PublicPart[1:31-1:123]
 |  |  |decls:
 |  |  |  DeclList[1:31-1:123]
-|  |  |  |  EntryDecl[1:31-1:75]
+|  |  |  |  EntryDecl[1:31-1:76]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:31-1:31]
 |  |  |  |  |entry_id:
@@ -47,7 +47,7 @@ TaskTypeDecl[1:1-1:144]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  EntryDecl[1:77-1:122]
+|  |  |  |  EntryDecl[1:77-1:123]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:77-1:77]
 |  |  |  |  |entry_id:

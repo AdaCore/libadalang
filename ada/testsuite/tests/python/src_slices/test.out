@@ -11,8 +11,8 @@ Empty range for the following bounds:
 u''
 
 Source excerpts for all Basic_Decl in test.adb:
-  * <SubpBody ["Test"] 1:2-7:10>
-    u'procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test'
+  * <SubpBody ["Test"] 1:2-7:11>
+    u'procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test;'
 
   * <ParamSpec ["A"] 1:18-1:25>
     u'A : Foo'
@@ -20,8 +20,8 @@ Source excerpts for all Basic_Decl in test.adb:
   * <ParamSpec ["B"] 1:27-1:34>
     u'B : Bar'
 
-  * <ObjectDecl ["C"] 2:5-2:16>
-    u'C : Integer'
+  * <ObjectDecl ["C"] 2:5-2:17>
+    u'C : Integer;'
 
   * <ForLoopVarDecl ["El"] 4:9-4:22>
     u'El : Foo_Elem'

@@ -1,1 +1,1 @@
-accept SEIZE do BUSY := TRUE; end
+accept SEIZE do BUSY := TRUE; end;

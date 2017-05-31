@@ -1,1 +1,1 @@
-loop World(A, B, C); end loop
+loop World(A, B, C); end loop;

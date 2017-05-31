@@ -2,6 +2,6 @@ Analyzing p.adb
 ###############
 
 Foo resolves to:
-    function Foo return T
+    function Foo return T;
 
 Done.

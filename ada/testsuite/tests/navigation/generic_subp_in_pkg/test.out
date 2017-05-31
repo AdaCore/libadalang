@@ -1,13 +1,13 @@
 foo.ads
 #######
 
-Body of <SubpDecl ["Put_Line"] 3:4-3:35> is <SubpBody ["Put_Line"] 3:4-6:16> [foo.adb]
-Body of <GenericSubpDecl ["Print_Int_Gen"] 5:4-7:41> is <SubpBody ["Print_Int_Gen"] 8:4-11:21> [foo.adb]
+Body of <SubpDecl ["Put_Line"] 3:4-3:36> is <SubpBody ["Put_Line"] 3:4-6:17> [foo.adb]
+Body of <GenericSubpDecl ["Print_Int_Gen"] 5:4-7:42> is <SubpBody ["Print_Int_Gen"] 8:4-11:22> [foo.adb]
 
 foo.adb
 #######
 
-Decl of <SubpBody ["Put_Line"] 3:4-6:16> is <SubpDecl ["Put_Line"] 3:4-3:35> [foo.ads]
-Decl of <SubpBody ["Print_Int_Gen"] 8:4-11:21> is <GenericSubpDecl ["Print_Int_Gen"] 5:4-7:41> [foo.ads]
+Decl of <SubpBody ["Put_Line"] 3:4-6:17> is <SubpDecl ["Put_Line"] 3:4-3:36> [foo.ads]
+Decl of <SubpBody ["Print_Int_Gen"] 8:4-11:22> is <GenericSubpDecl ["Print_Int_Gen"] 5:4-7:42> [foo.ads]
 
 Done.

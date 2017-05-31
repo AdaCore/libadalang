@@ -1,7 +1,7 @@
 Analyzing testloop.adb
 ######################
 
-Expr: <Id "A" 7:7-7:8>, references <ObjectDecl ["A"] 2:4-2:15>, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Id "J" 7:12-7:13>, references <ForLoopVarDecl ["J"] 6:8-6:9>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "A" 7:7-7:8>, references <ObjectDecl ["A"] 2:4-2:16>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "J" 7:12-7:13>, references <ForLoopVarDecl ["J"] 6:8-6:9>, type is <TypeDecl ["Integer"] 4:3-4:54>
 
 Done.

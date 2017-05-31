@@ -1,8 +1,8 @@
-LoopStmt[1:1-1:30]
+LoopStmt[1:1-1:31]
 |spec: <null>
 |stmts:
 |  StmtList[1:6-1:21]
-|  |  CallStmt[1:6-1:20]
+|  |  CallStmt[1:6-1:21]
 |  |  |call:
 |  |  |  CallExpr[1:6-1:20]
 |  |  |  |name:

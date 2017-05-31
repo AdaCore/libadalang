@@ -1,4 +1,4 @@
-AssignStmt[1:1-1:12]
+AssignStmt[1:1-1:13]
 |dest:
 |  DottedName[1:1-1:6]
 |  |prefix:

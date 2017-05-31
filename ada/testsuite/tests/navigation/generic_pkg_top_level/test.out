@@ -1,12 +1,12 @@
 foo.ads
 #######
 
-Body of <GenericPackageDecl ["Foo"] 1:1-5:8> is <PackageBody ["Foo"] 1:1-6:8> [foo.adb]
-Body of <GenericPackageInternal ["Foo"] 3:1-5:8> is <PackageBody ["Foo"] 1:1-6:8> [foo.adb]
+Body of <GenericPackageDecl ["Foo"] 1:1-5:9> is <PackageBody ["Foo"] 1:1-6:9> [foo.adb]
+Body of <GenericPackageInternal ["Foo"] 3:1-5:9> is <PackageBody ["Foo"] 1:1-6:9> [foo.adb]
 
 foo.adb
 #######
 
-Decl of <PackageBody ["Foo"] 1:1-6:8> is <GenericPackageInternal ["Foo"] 3:1-5:8> [foo.ads]
+Decl of <PackageBody ["Foo"] 1:1-6:9> is <GenericPackageInternal ["Foo"] 3:1-5:9> [foo.ads]
 
 Done.

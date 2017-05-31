@@ -1,4 +1,4 @@
-SingleTaskDecl[1:1-1:139]
+SingleTaskDecl[1:1-1:140]
 |task_type:
 |  SingleTaskTypeDecl[1:6-1:139]
 |  |type_id:
@@ -14,7 +14,7 @@ SingleTaskDecl[1:1-1:139]
 |  |  |  PublicPart[1:26-1:118]
 |  |  |  |decls:
 |  |  |  |  DeclList[1:26-1:118]
-|  |  |  |  |  EntryDecl[1:26-1:70]
+|  |  |  |  |  EntryDecl[1:26-1:71]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:26-1:26]
 |  |  |  |  |  |entry_id:
@@ -49,7 +49,7 @@ SingleTaskDecl[1:1-1:139]
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  EntryDecl[1:72-1:117]
+|  |  |  |  |  EntryDecl[1:72-1:118]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:72-1:72]
 |  |  |  |  |  |entry_id:

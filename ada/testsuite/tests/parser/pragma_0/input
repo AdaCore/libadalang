@@ -1,1 +1,1 @@
-pragma Unreferenced (A, B)
+pragma Unreferenced (A, B);

@@ -1,1 +1,1 @@
-not overriding procedure A (B : Integer; C : Natural)
+not overriding procedure A (B : Integer; C : Natural);

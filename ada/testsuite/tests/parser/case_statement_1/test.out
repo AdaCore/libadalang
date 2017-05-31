@@ -2,11 +2,11 @@ CompilationUnit[1:1-7:12]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-7:11]
+|  LibraryItem[1:1-7:12]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-7:11]
+|  |  SubpBody[1:1-7:12]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -26,7 +26,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  HandledStmts[3:4-6:13]
 |  |  |  |stmts:
 |  |  |  |  StmtList[3:4-6:13]
-|  |  |  |  |  CaseStmt[3:4-6:12]
+|  |  |  |  |  CaseStmt[3:4-6:13]
 |  |  |  |  |  |case_expr:
 |  |  |  |  |  |  Id[3:9-3:13]
 |  |  |  |  |  |  |tok: Mode
@@ -56,7 +56,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  |  |  |  |  |  |  |  |tok: CRYPTO_WRITE
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  StmtList[5:10-5:23]
-|  |  |  |  |  |  |  |  |  CallStmt[5:10-5:22]
+|  |  |  |  |  |  |  |  |  CallStmt[5:10-5:23]
 |  |  |  |  |  |  |  |  |  |call:
 |  |  |  |  |  |  |  |  |  |  DottedName[5:10-5:22]
 |  |  |  |  |  |  |  |  |  |  |prefix:

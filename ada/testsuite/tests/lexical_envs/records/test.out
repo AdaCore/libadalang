@@ -2,11 +2,11 @@ CompilationUnit[1:1-11:9]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-11:8]
+|  LibraryItem[1:1-11:9]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  PackageDecl[1:1-11:8]
+|  |  PackageDecl[1:1-11:9]
 |  |  |package_name:
 |  |  |  Id[1:9-1:12]
 |  |  |  |tok: Foo
@@ -15,7 +15,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  PublicPart[2:4-10:15]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-10:15]
-|  |  |  |  |  TypeDecl[2:4-5:14]
+|  |  |  |  |  TypeDecl[2:4-5:15]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[2:9-2:16]
 |  |  |  |  |  |  |tok: R1_Type
@@ -34,7 +34,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  ComponentList[3:7-4:22]
 |  |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  |  AdaNodeList[3:7-4:22]
-|  |  |  |  |  |  |  |  |  |  ComponentDecl[3:7-3:21]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[3:7-3:22]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:11]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]
@@ -55,7 +55,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |  |  ComponentDecl[4:7-4:21]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[4:7-4:22]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[4:7-4:8]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[4:7-4:8]
@@ -76,7 +76,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  TypeDecl[7:4-10:14]
+|  |  |  |  |  TypeDecl[7:4-10:15]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[7:9-7:16]
 |  |  |  |  |  |  |tok: R2_Type
@@ -112,7 +112,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  ComponentList[8:7-9:27]
 |  |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  |  AdaNodeList[8:7-9:27]
-|  |  |  |  |  |  |  |  |  |  ComponentDecl[8:7-8:18]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[8:7-8:19]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[8:7-8:8]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[8:7-8:8]
@@ -131,7 +131,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |  |  ComponentDecl[9:7-9:26]
+|  |  |  |  |  |  |  |  |  |  ComponentDecl[9:7-9:27]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[9:7-9:8]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[9:7-9:8]
@@ -173,22 +173,22 @@ CompilationUnit[1:1-11:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
-    foo: [<PackageDecl ["Foo"] 1:1-11:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:13>]
+    foo: [<PackageDecl ["Foo"] 1:1-11:9>]
+    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-11:8>):
+@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-11:9>):
     Referenced:
-      <PackageDecl ["Foo"] 1:1-11:8>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-    r1_type: [<TypeDecl ["R1_Type"] 2:4-5:14>]
-    r2_type: [<TypeDecl ["R2_Type"] 7:4-10:14>]
+      <PackageDecl ["Foo"] 1:1-11:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+    r1_type: [<TypeDecl ["R1_Type"] 2:4-5:15>]
+    r2_type: [<TypeDecl ["R2_Type"] 7:4-10:15>]
 
-@2 = LexEnv(Parent=@1, Node=<TypeDecl ["R1_Type"] 2:4-5:14>):
-    a: [<ComponentDecl ["A", "B"] 3:7-3:21>]
-    b: [<ComponentDecl ["A", "B"] 3:7-3:21>]
-    c: [<ComponentDecl ["C"] 4:7-4:21>]
+@2 = LexEnv(Parent=@1, Node=<TypeDecl ["R1_Type"] 2:4-5:15>):
+    a: [<ComponentDecl ["A", "B"] 3:7-3:22>]
+    b: [<ComponentDecl ["A", "B"] 3:7-3:22>]
+    c: [<ComponentDecl ["C"] 4:7-4:22>]
 
-@3 = LexEnv(Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:14>):
-    i: [<ComponentDecl ["I"] 8:7-8:18>]
+@3 = LexEnv(Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
+    i: [<ComponentDecl ["I"] 8:7-8:19>]
     n: [<DiscriminantSpec ["N"] 7:18-7:29>]
-    s: [<ComponentDecl ["S"] 9:7-9:26>]
+    s: [<ComponentDecl ["S"] 9:7-9:27>]
 

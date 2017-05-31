@@ -2,11 +2,11 @@ CompilationUnit[1:1-1:24]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-1:23]
+|  LibraryItem[1:1-1:24]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  GenericPackageInstantiation[1:1-1:23]
+|  |  GenericPackageInstantiation[1:1-1:24]
 |  |  |name:
 |  |  |  Id[1:9-1:10]
 |  |  |  |tok: A

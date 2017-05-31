@@ -1,1 +1,1 @@
-generic procedure A renames B
+generic procedure A renames B;

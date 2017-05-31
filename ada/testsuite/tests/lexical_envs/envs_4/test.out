@@ -2,17 +2,17 @@ CompilationUnit[1:1-3:13]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-3:12]
+|  LibraryItem[1:1-3:13]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  GenericPackageDecl[1:1-3:12]
+|  |  GenericPackageDecl[1:1-3:13]
 |  |  |formal_part:
 |  |  |  GenericFormalPart[1:1-1:8]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |package_decl:
-|  |  |  GenericPackageInternal[2:1-3:12]
+|  |  |  GenericPackageInternal[2:1-3:13]
 |  |  |  |package_name:
 |  |  |  |  DottedName[2:9-2:16]
 |  |  |  |  |prefix:
@@ -40,23 +40,23 @@ CompilationUnit[1:1-3:13]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:13>]
+    foo: [<PackageDecl ["Foo"] 1:1-2:9>]
+    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
 
-@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:12>):
+@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>):
     Referenced:
-      <GenericPackageDecl ["Foo.Bar"] 1:1-3:12>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
+      <GenericPackageDecl ["Foo.Bar"] 1:1-3:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
     <empty>
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:8>):
+@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:9>):
     Referenced:
-      <PackageDecl ["Foo"] 1:1-2:8>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-    bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:12>]
+      <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+    bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>]
 
 $root = LexEnv(Parent=null):
-    foo: [<PackageDecl ["Foo"] 1:1-2:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:13>]
+    foo: [<PackageDecl ["Foo"] 1:1-2:9>]
+    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
 
-@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["Foo.Bar"] 2:1-3:12>):
+@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["Foo.Bar"] 2:1-3:13>):
     <empty>
 

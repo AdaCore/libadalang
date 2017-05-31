@@ -2,31 +2,31 @@ Analyzing test.adb
 ##################
 
 Pouet (5) resolves to:
-    function Pouet return Int_Array_Array is (A)
+    function Pouet return Int_Array_Array is (A);
 Pouet (5) (5) (5) resolves to:
     <none>
 Pouet (5) (5) resolves to:
-    function Pouet return Int_Array_Array is (A)
+    function Pouet return Int_Array_Array is (A);
 
-Expr: <Id "B" 20:4-20:5>, references <ObjectDecl ["B"] 14:4-14:15>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 20:9-20:14>, references <ObjectDecl ["C"] 12:4-12:34>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <Id "C" 20:9-20:10>, references <ObjectDecl ["C"] 12:4-12:34>, type is <TypeDecl ["Int_Array"] 5:4-5:62>
-Expr: <Int 20:12-20:13>, references None, type is <TypeDecl ["Integer"] 4:4-4:36>
+Expr: <Id "B" 20:4-20:5>, references <ObjectDecl ["B"] 14:4-14:16>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <CallExpr 20:9-20:14>, references <ObjectDecl ["C"] 12:4-12:35>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <Id "C" 20:9-20:10>, references <ObjectDecl ["C"] 12:4-12:35>, type is <TypeDecl ["Int_Array"] 5:4-5:63>
+Expr: <Int 20:12-20:13>, references None, type is <TypeDecl ["Integer"] 4:4-4:37>
 
-Expr: <Id "B" 23:4-23:5>, references <ObjectDecl ["B"] 14:4-14:15>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 23:9-23:18>, references <ObjectDecl ["A"] 8:4-8:52>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 23:9-23:14>, references <ObjectDecl ["A"] 8:4-8:52>, type is <TypeDecl ["Int_Array"] 5:4-5:62>
-Expr: <Id "A" 23:9-23:10>, references <ObjectDecl ["A"] 8:4-8:52>, type is <TypeDecl ["Int_Array_Array"] 6:4-6:70>
-Expr: <Int 23:12-23:13>, references None, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <Int 23:16-23:17>, references None, type is <TypeDecl ["Integer"] 4:4-4:36>
+Expr: <Id "B" 23:4-23:5>, references <ObjectDecl ["B"] 14:4-14:16>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <CallExpr 23:9-23:18>, references <ObjectDecl ["A"] 8:4-8:53>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <CallExpr 23:9-23:14>, references <ObjectDecl ["A"] 8:4-8:53>, type is <TypeDecl ["Int_Array"] 5:4-5:63>
+Expr: <Id "A" 23:9-23:10>, references <ObjectDecl ["A"] 8:4-8:53>, type is <TypeDecl ["Int_Array_Array"] 6:4-6:71>
+Expr: <Int 23:12-23:13>, references None, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <Int 23:16-23:17>, references None, type is <TypeDecl ["Integer"] 4:4-4:37>
 
-Expr: <Id "B" 26:4-26:5>, references <ObjectDecl ["B"] 14:4-14:15>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 26:9-26:22>, references <ExprFunction ["Pouet"] 10:4-10:48>, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <CallExpr 26:9-26:18>, references <ExprFunction ["Pouet"] 10:4-10:48>, type is <TypeDecl ["Int_Array"] 5:4-5:62>
-Expr: <Id "Pouet" 26:9-26:14>, references <ExprFunction ["Pouet"] 10:4-10:48>, type is <TypeDecl ["Int_Array_Array"] 6:4-6:70>
-Expr: <Int 26:16-26:17>, references None, type is <TypeDecl ["Integer"] 4:4-4:36>
-Expr: <Int 26:20-26:21>, references None, type is <TypeDecl ["Integer"] 4:4-4:36>
+Expr: <Id "B" 26:4-26:5>, references <ObjectDecl ["B"] 14:4-14:16>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <CallExpr 26:9-26:22>, references <ExprFunction ["Pouet"] 10:4-10:49>, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <CallExpr 26:9-26:18>, references <ExprFunction ["Pouet"] 10:4-10:49>, type is <TypeDecl ["Int_Array"] 5:4-5:63>
+Expr: <Id "Pouet" 26:9-26:14>, references <ExprFunction ["Pouet"] 10:4-10:49>, type is <TypeDecl ["Int_Array_Array"] 6:4-6:71>
+Expr: <Int 26:16-26:17>, references None, type is <TypeDecl ["Integer"] 4:4-4:37>
+Expr: <Int 26:20-26:21>, references None, type is <TypeDecl ["Integer"] 4:4-4:37>
 
-Resolution failed for node <AssignStmt 29:4-29:24>
+Resolution failed for node <AssignStmt 29:4-29:25>
 
 Done.

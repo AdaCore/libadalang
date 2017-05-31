@@ -1,1 +1,1 @@
-while A > 12 loop null; end loop
+while A > 12 loop null; end loop;

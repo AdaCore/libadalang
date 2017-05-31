@@ -1,4 +1,4 @@
-LoopStmt[1:1-1:51]
+LoopStmt[1:1-1:52]
 |spec:
 |  ForLoopSpec[1:5-1:31]
 |  |var_decl:
@@ -32,5 +32,5 @@ LoopStmt[1:1-1:51]
 |  |  |  |  |  |tok: 16
 |stmts:
 |  StmtList[1:37-1:42]
-|  |  NullStmt[1:37-1:41]
+|  |  NullStmt[1:37-1:42]
 |end_id: <null>

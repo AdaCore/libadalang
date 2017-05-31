@@ -1,1 +1,1 @@
-procedure A (B : Integer; C, D, E : access all Pouet) renames B
+procedure A (B : Integer; C, D, E : access all Pouet) renames B;

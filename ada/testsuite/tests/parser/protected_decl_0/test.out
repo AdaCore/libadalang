@@ -1,4 +1,4 @@
-SingleProtectedDecl[1:1-1:121]
+SingleProtectedDecl[1:1-1:122]
 |protected_name:
 |  Id[1:11-1:27]
 |  |tok: Protected_Buffer
@@ -11,7 +11,7 @@ SingleProtectedDecl[1:1-1:121]
 |  |  PublicPart[1:31-1:100]
 |  |  |decls:
 |  |  |  DeclList[1:31-1:100]
-|  |  |  |  EntryDecl[1:31-1:64]
+|  |  |  |  EntryDecl[1:31-1:65]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:31-1:31]
 |  |  |  |  |entry_id:
@@ -39,7 +39,7 @@ SingleProtectedDecl[1:1-1:121]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  EntryDecl[1:66-1:99]
+|  |  |  |  EntryDecl[1:66-1:100]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:66-1:66]
 |  |  |  |  |entry_id:

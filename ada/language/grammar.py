@@ -24,7 +24,7 @@ def package_decl_factory(dest_class):
         "package", A.static_name, A.aspect_spec, "is",
         PublicPart(A.basic_decls),
         Opt("private", PrivatePart(A.basic_decls)),
-        A.end_liblevel_block
+        A.end_liblevel_block, ";"
     )
 
 
@@ -37,7 +37,7 @@ def subp_decl(dest_class, *variant_part):
     :param dest_class: The destination AdaNode subclass to use for the result.
     :rtype: Transform
     """
-    variant_part += (A.aspect_spec,)
+    variant_part += (A.aspect_spec, ";")
     return dest_class(
         A.overriding_indicator,
         A.subp_spec,
@@ -56,7 +56,7 @@ def generic_renaming_decl(keyword, dest_class):
     """
     return dest_class(
         "generic", keyword, A.static_name, "renames", A.static_name,
-        A.aspect_spec
+        A.aspect_spec, ";"
     )
 
 
@@ -74,7 +74,7 @@ def generic_instantiation(*leading_rules):
         "new", A.static_name,
         Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
         A.aspect_spec,
-        InstantiationEnvHolder()
+        InstantiationEnvHolder(), ";"
     )
 
 
@@ -95,17 +95,17 @@ A.add_rules(
         "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", List(A.static_name, sep="and"), "with"),
-        A.protected_def
+        A.protected_def, ";"
     ),
 
     protected_op=Or(A.subp_decl, A.entry_decl, A.aspect_clause, A.pragma),
     protected_el=Or(A.protected_op, A.component_decl),
 
     protected_def=ProtectedDef(
-        PublicPart(List(A.protected_op, ";",
+        PublicPart(List(A.protected_op,
                         empty_valid=True, list_cls=DeclList)),
         Opt("private",
-            PrivatePart(List(A.protected_el, ";",
+            PrivatePart(List(A.protected_el,
                              empty_valid=True, list_cls=DeclList))),
         A.end_named_block
     ),
@@ -115,7 +115,7 @@ A.add_rules(
         A.identifier, A.aspect_spec,
         "is",
         Opt("new", List(A.static_name, sep="and"), "with"),
-        A.protected_def
+        A.protected_def, ";"
     ),
 
     task_item=Or(A.entry_decl, A.aspect_clause, A.pragma),
@@ -124,11 +124,11 @@ A.add_rules(
         "is",
         Opt("new", List(A.static_name, sep="and"), "with"),
         PublicPart(
-            List(A.task_item, ";", empty_valid=True, list_cls=DeclList)
+            List(A.task_item, empty_valid=True, list_cls=DeclList)
         ),
         Opt("private",
             PrivatePart(
-                List(A.task_item, ";", empty_valid=True, list_cls=DeclList)
+                List(A.task_item, empty_valid=True, list_cls=DeclList)
             )),
         A.end_named_block
     ),
@@ -136,12 +136,12 @@ A.add_rules(
     task_type_decl=TaskTypeDecl(
         "task", "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
-        Opt(A.task_def)
+        Opt(A.task_def), ";"
     ),
 
     subtype_decl=SubtypeDecl(
         "subtype", A.identifier, "is", A.subtype_indication,
-        A.aspect_spec
+        A.aspect_spec, ";"
     ),
 
     interface_type_def=InterfaceTypeDef(
@@ -302,7 +302,7 @@ A.add_rules(
         EnumTypeDecl(
             "type", A.identifier, "is",
             "(", List(A.enum_literal_decl, sep=","), ")",
-            A.aspect_spec
+            A.aspect_spec, ";"
         ),
         TypeDecl(
             "type", A.identifier, Opt(A.discriminant_part),
@@ -325,7 +325,7 @@ A.add_rules(
 
                 IncompleteTypeDef(),
             ),
-            A.aspect_spec
+            A.aspect_spec, ";"
         )
     ),
 
@@ -341,7 +341,7 @@ A.add_rules(
     ),
 
     component_item=Or(
-        NullComponentDecl("null"),
+        NullComponentDecl("null", ";"),
         A.component_decl,
         A.aspect_clause,
         A.pragma
@@ -351,17 +351,17 @@ A.add_rules(
 
     component_decl=ComponentDecl(
         List(A.identifier, sep=","), ":", A.component_def,
-        A.default_expr, A.aspect_spec
+        A.default_expr, A.aspect_spec, ";"
     ),
 
     component_list=ComponentList(
-        List(A.component_item, ";", empty_valid=True),
+        List(A.component_item, empty_valid=True),
         Opt(A.variant_part)
     ),
 
     generic_decl=Or(
         GenericSubpDecl(
-            A.generic_formal_part, A.subp_spec, A.aspect_spec
+            A.generic_formal_part, A.subp_spec, A.aspect_spec, ";"
         ),
         GenericPackageDecl(A.generic_formal_part,
                            package_decl_factory(GenericPackageInternal)),
@@ -369,7 +369,7 @@ A.add_rules(
 
     generic_formal_part=GenericFormalPart(
         "generic",
-        List(A.generic_formal_decl | A.use_clause, ";", empty_valid=True)
+        List(A.generic_formal_decl | A.use_clause, empty_valid=True)
     ),
 
     generic_formal_decl=Or(
@@ -389,8 +389,8 @@ A.add_rules(
         _(Opt("is")),
         Abstract("abstract"),
         Opt(Or(A.box_expr, A.name, A.null_literal)),
-
-        A.aspect_spec
+        A.aspect_spec,
+        ";"
     ),
 
     renaming_clause=RenamingClause("renames", A.name),
@@ -417,13 +417,13 @@ A.add_rules(
 
     exception_decl=ExceptionDecl(
         A.id_list, ":", "exception",
-        Opt(A.renaming_clause), A.aspect_spec
+        Opt(A.renaming_clause), A.aspect_spec, ";"
     ),
 
-    basic_decls=List(A.basic_decl, recover(";"), empty_valid=True),
+    basic_decls=List(A.basic_decl, empty_valid=True),
 
     package_renaming_decl=PackageRenamingDecl(
-        "package", A.static_name, A.renaming_clause, A.aspect_spec
+        "package", A.static_name, A.renaming_clause, A.aspect_spec, ";"
     ),
 
     package_decl=package_decl_factory(PackageDecl),
@@ -460,6 +460,19 @@ A.add_rules(
     ),
 
     sub_object_decl=ObjectDecl(
+        A.id_list,
+        ":",
+        Aliased("aliased"),
+        Constant("constant"),
+        Opt(A.mode),
+        A.type_expr,
+        A.default_expr,
+        Opt(A.renaming_clause),
+        A.aspect_spec,
+        ";"
+    ),
+
+    ext_ret_stmt_object_decl=ExtendedReturnStmtObjectDecl(
         A.id_list,  ":",
         Aliased("aliased"),
         Constant("constant"),
@@ -467,14 +480,14 @@ A.add_rules(
         A.type_expr,
         A.default_expr,
         Opt(A.renaming_clause),
-        A.aspect_spec
+        A.aspect_spec,
     ),
 
     id_list=List(A.identifier, sep=","),
 
     number_decl=NumberDecl(
         A.id_list, ":", "constant", ":=",
-        A.simple_expr
+        A.simple_expr, ";"
     ),
 
     contract_case_assoc=ContractCaseAssoc(
@@ -495,7 +508,7 @@ A.add_rules(
         SingleTaskTypeDecl(
             A.identifier, Null(A.discriminant_part),
             A.aspect_spec, Opt(A.task_def)
-        )
+        ), ";"
     ),
 
     overriding_indicator=Or(
@@ -517,7 +530,7 @@ A.add_rules(
             | A.discrete_range
             | A.subtype_indication, ")"),
         Opt(A.param_specs),
-        A.aspect_spec
+        A.aspect_spec, ";"
     ),
 
 
@@ -526,15 +539,15 @@ A.add_rules(
     ),
 
     aspect_clause=Or(
-        AttributeDefClause("for", A.name, "use", A.expr),
-        EnumRepClause("for", A.static_name, "use", A.aggregate),
+        AttributeDefClause("for", A.name, "use", A.expr, ";"),
+        EnumRepClause("for", A.static_name, "use", A.aggregate, ";"),
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, ";"),
             List(A.component_clause, ";", empty_valid=True),
-            recover("end", "record")
+            recover("end", "record", ";")
         ),
-        AtClause("for", A.direct_name, "use", "at", A.expr)
+        AtClause("for", A.direct_name, "use", "at", A.expr, ";")
     ),
 
     param_spec=ParamSpec(
@@ -575,17 +588,19 @@ A.add_rules(
     with_clause=WithClause(
         Limited("limited"),
         Private("private"),
-        "with", List(A.static_name, sep=",")
+        "with", List(A.static_name, sep=","), ";"
     ),
 
     context_item=Or(A.with_clause, A.use_clause, A.pragma),
 
     use_clause=Or(A.use_package_clause, A.use_type_clause),
 
-    use_package_clause=UsePackageClause("use", List(A.static_name, sep=",")),
+    use_package_clause=UsePackageClause(
+        "use", List(A.static_name, sep=","), ";"
+    ),
 
     use_type_clause=UseTypeClause("use", All("all"), "type",
-                                  List(A.name, sep=",")),
+                                  List(A.name, sep=","), ";"),
 
     subtype_indication=SubtypeIndication(
         NotNull("not", "null"), A.subtype_name, Opt(A.constraint)
@@ -645,6 +660,7 @@ A.add_rules(
         Opt("(",
             List(Or(A.pragma_argument, A.contract_case_assoc), sep=","),
             ")"),
+        ";"
     ),
 
     subunit=Subunit(
@@ -677,12 +693,12 @@ A.add_rules(
     ),
 
     compilation_unit=CompilationUnit(
-        List(A.context_item, recover(";"), empty_valid=True),
+        List(A.context_item, empty_valid=True),
 
-        A.subunit | A.library_item, recover(";"),
+        A.subunit | A.library_item,
 
         # Eventual pragmas attached to the body
-        List(A.pragma, recover(";"), empty_valid=True)
+        List(A.pragma, empty_valid=True)
     ),
 
     # This is the main rule. The root node will then be either:
@@ -691,7 +707,7 @@ A.add_rules(
     # * A list of pragmas.
     compilation=Or(
         # Special case for No_Body files and gnat.adc
-        Pick(List(A.pragma, ";", empty_valid=False),
+        Pick(List(A.pragma, empty_valid=False),
              L.Termination()),
 
         # One compilation unit case
@@ -712,37 +728,37 @@ A.add_rules(
         "when", A.expr,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        _(A.end_liblevel_block)
+        _(A.end_liblevel_block), ";"
     ),
 
     protected_body=ProtectedBody(
         L.Identifier(match_text="protected"),
         "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
-        _(A.end_liblevel_block)
+        _(A.end_liblevel_block), ";"
     ),
 
     protected_body_stub=ProtectedBodyStub(
         L.Identifier(match_text="protected"),
         "body", A.static_name, "is", "separate",
-        A.aspect_spec
+        A.aspect_spec, ";"
     ),
 
     task_body=TaskBody(
         "task", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        _(A.end_liblevel_block)
+        _(A.end_liblevel_block), ";"
     ),
 
     task_body_stub=TaskBodyStub(
         "task", "body", A.static_name,
-        "is", "separate", A.aspect_spec
+        "is", "separate", A.aspect_spec, ";"
     ),
 
     package_body_stub=PackageBodyStub(
         "package", "body", A.static_name,
-        "is", "separate", A.aspect_spec
+        "is", "separate", A.aspect_spec, ";"
     ),
 
 
@@ -750,23 +766,23 @@ A.add_rules(
         "package", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        A.end_liblevel_block
+        A.end_liblevel_block, ";"
     ),
 
-    terminate_alternative=TerminateAlternative("terminate"),
+    terminate_alternative=TerminateAlternative("terminate", ";"),
 
     select_stmt=SelectStmt(
         "select",
         List(SelectWhenPart(Opt("when", A.expr, "=>"), A.stmts), sep="or"),
         Opt("else", A.stmts),
         Opt("then", "abort", A.stmts),
-        recover("end", "select")
+        recover("end", "select"), ";"
     ),
 
     accept_stmt=AcceptStmt(
         "accept", A.identifier, Opt("(", A.expr, ")"),
         Opt(A.param_specs),
-        Opt("do", A.handled_stmts, _(A.end_named_block))
+        Opt("do", A.handled_stmts, _(A.end_named_block)), ";"
     ),
 
     case_alt=CaseStmtAlternative(
@@ -775,22 +791,22 @@ A.add_rules(
 
     case_stmt=CaseStmt(
         "case", A.expr, "is", List(A.case_alt),
-        recover("end", "case")
+        recover("end", "case"), ";"
     ),
 
     ext_return_stmt=ExtendedReturnStmt(
-        "return", A.sub_object_decl,
-        Opt("do", A.handled_stmts, recover("end", "return"))
+        "return", A.ext_ret_stmt_object_decl,
+        Opt("do", A.handled_stmts, recover("end", "return")), ";"
     ),
 
     iblock_stmt=Or(
         BlockStmt(
             Null(DeclarativePart),
-            "begin", A.handled_stmts, A.end_named_block
+            "begin", A.handled_stmts, A.end_named_block, ";"
         ),
         BlockStmt(
             "declare", DeclarativePart(A.basic_decls),
-            recover("begin"), A.handled_stmts, A.end_named_block
+            recover("begin"), A.handled_stmts, A.end_named_block, ";"
         ),
     ),
 
@@ -801,7 +817,7 @@ A.add_rules(
 
     iloop_stmt=LoopStmt(
         Opt(A.iteration_scheme),
-        "loop", A.stmts, recover("end", "loop"), Opt(A.identifier)
+        "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), ";"
     ),
 
     loop_stmt=Or(
@@ -824,17 +840,17 @@ A.add_rules(
         List(ElsifStmtPart("elsif", A.expr, "then", A.stmts),
              empty_valid=True),
         Opt("else", A.stmts),
-        recover("end", "if")
+        recover("end", "if"), ";"
     ),
 
     raise_stmt=Or(
-        RaiseStmt("raise", A.name, Opt("with", A.expr)),
-        RaiseStmt("raise", Null(Expr), Null(Expr)),
+        RaiseStmt("raise", A.name, Opt("with", A.expr), ";"),
+        RaiseStmt("raise", Null(Expr), Null(Expr), ";"),
     ),
 
-    delay_stmt=DelayStmt("delay", Until("until"), A.expr),
+    delay_stmt=DelayStmt("delay", Until("until"), A.expr, ";"),
 
-    abort_stmt=AbortStmt("abort", List(A.name, sep=",")),
+    abort_stmt=AbortStmt("abort", List(A.name, sep=","), ";"),
 
     body=Or(A.subp_body, A.package_body, A.task_body,
             A.protected_body, A.entry_body),
@@ -847,7 +863,7 @@ A.add_rules(
         A.subp_spec,
         "is",
         "separate",
-        A.aspect_spec
+        A.aspect_spec, ";"
     ),
 
     subp_body=SubpBody(
@@ -858,12 +874,13 @@ A.add_rules(
         A.decl_part,
         recover("begin"),
         A.handled_stmts,
-        A.end_liblevel_block
+        A.end_liblevel_block,
+        ";"
     ),
 
     handled_stmts=HandledStmts(
         A.stmts,
-        Opt("exception", List(A.exception_handler | Pick(A.pragma, ";")))
+        Opt("exception", List(A.exception_handler | A.pragma))
     ),
 
     exception_handler=ExceptionHandler(
@@ -873,7 +890,7 @@ A.add_rules(
     ),
 
     stmts=List(
-        Or(Pick(A.stmt, recover(";")), A.label),
+        Or(A.stmt, A.label),
         empty_valid=True, list_cls=StmtList
     ),
 
@@ -881,7 +898,7 @@ A.add_rules(
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
-    call_stmt=CallStmt(A.name),
+    call_stmt=CallStmt(A.name, ";"),
 
     simple_stmt=Or(A.null_stmt, A.assignment_stmt,
                    A.goto_stmt, A.exit_stmt,
@@ -889,17 +906,17 @@ A.add_rules(
                    A.call_stmt, A.abort_stmt, A.delay_stmt,
                    A.raise_stmt, A.terminate_alternative, A.pragma),
 
-    null_stmt=NullStmt(A.null_literal),
+    null_stmt=NullStmt(A.null_literal, ";"),
 
-    assignment_stmt=AssignStmt(A.name, ":=", A.expr),
+    assignment_stmt=AssignStmt(A.name, ":=", A.expr, ";"),
 
-    goto_stmt=GotoStmt("goto", A.static_name),
+    goto_stmt=GotoStmt("goto", A.static_name, ";"),
 
-    exit_stmt=ExitStmt("exit", Opt(A.identifier), Opt("when", A.expr)),
+    exit_stmt=ExitStmt("exit", Opt(A.identifier), Opt("when", A.expr), ";"),
 
-    return_stmt=ReturnStmt("return", Opt(A.expr)),
+    return_stmt=ReturnStmt("return", Opt(A.expr), ";"),
 
-    requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort")),
+    requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort"), ";"),
 
     identifier=Identifier(L.Identifier(keep=True)),
     char_literal=CharLiteral(L.Char(keep=True)),

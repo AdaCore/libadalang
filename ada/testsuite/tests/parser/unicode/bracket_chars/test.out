@@ -2,11 +2,11 @@ CompilationUnit[1:1-7:9]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-7:8]
+|  LibraryItem[1:1-7:9]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-7:8]
+|  |  SubpBody[1:1-7:9]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -22,7 +22,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  DeclarativePart[2:4-4:56]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-4:56]
-|  |  |  |  |  NumberDecl[2:4-2:31]
+|  |  |  |  |  NumberDecl[2:4-2:32]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[2:4-2:12]
 |  |  |  |  |  |  |  Id[2:4-2:12]
@@ -30,7 +30,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  |expr:
 |  |  |  |  |  |  Real[2:27-2:31]
 |  |  |  |  |  |  |tok: 3.14
-|  |  |  |  |  NumberDecl[3:4-3:39]
+|  |  |  |  |  NumberDecl[3:4-3:40]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[3:4-3:20]
 |  |  |  |  |  |  |  Id[3:4-3:20]
@@ -38,7 +38,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  |expr:
 |  |  |  |  |  |  Real[3:35-3:39]
 |  |  |  |  |  |  |tok: 3.14
-|  |  |  |  |  ObjectDecl[4:4-4:55]
+|  |  |  |  |  ObjectDecl[4:4-4:56]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[4:4-4:21]
 |  |  |  |  |  |  |  Id[4:4-4:21]
@@ -66,7 +66,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  HandledStmts[6:4-6:9]
 |  |  |  |stmts:
 |  |  |  |  StmtList[6:4-6:9]
-|  |  |  |  |  NullStmt[6:4-6:8]
+|  |  |  |  |  NullStmt[6:4-6:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:8-6:8]: <empty list>
 |  |  |end_id:

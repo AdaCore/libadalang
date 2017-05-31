@@ -1,13 +1,13 @@
 Analyzing testloop.adb
 ######################
 
-Expr: <Id "El" 12:7-12:9>, references <ForLoopVarDecl ["El"] 11:8-11:10>, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Int 12:13-12:15>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "El" 12:7-12:9>, references <ForLoopVarDecl ["El"] 11:8-11:10>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 12:13-12:15>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 
-Expr: <Id "El" 11:8-11:10>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Id "Foo" 11:14-11:17>, references <ExprFunction ["Foo"] 7:4-7:50>, type is <TypeDecl ["My_Array"] 5:4-5:56>
-Expr: <Id "El" 12:7-12:9>, references <ForLoopVarDecl ["El"] 11:8-11:10>, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Int 12:13-12:15>, references None, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "El" 11:8-11:10>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 11:14-11:17>, references <ExprFunction ["Foo"] 7:4-7:51>, type is <TypeDecl ["My_Array"] 5:4-5:57>
+Expr: <Id "El" 12:7-12:9>, references <ForLoopVarDecl ["El"] 11:8-11:10>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 12:13-12:15>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Test_Statement" 13:14-13:28>, references None, type is None
 
 Done.

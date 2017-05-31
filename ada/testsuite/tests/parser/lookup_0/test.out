@@ -1,7 +1,7 @@
 CompilationUnit[1:1-17:10]
 |prelude:
 |  AdaNodeList[1:1-1:18]
-|  |  WithClause[1:1-1:17]
+|  |  WithClause[1:1-1:18]
 |  |  |has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
 |  |  |has_private:
@@ -16,11 +16,11 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  Id[1:10-1:17]
 |  |  |  |  |  |tok: Text_IO
 |body:
-|  LibraryItem[3:1-17:9]
+|  LibraryItem[3:1-17:10]
 |  |has_private:
 |  |  PrivateAbsent[3:1-3:1]
 |  |item:
-|  |  SubpBody[3:1-17:9]
+|  |  SubpBody[3:1-17:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
@@ -54,7 +54,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  DeclarativePart[5:4-12:13]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[5:4-12:13]
-|  |  |  |  |  SubpBody[5:4-12:12]
+|  |  |  |  |  SubpBody[5:4-12:13]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
@@ -99,7 +99,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  HandledStmts[7:7-11:14]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  StmtList[7:7-11:14]
-|  |  |  |  |  |  |  |  IfStmt[7:7-11:13]
+|  |  |  |  |  |  |  |  IfStmt[7:7-11:14]
 |  |  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |  |  |left:
@@ -112,7 +112,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[8:10-8:19]
-|  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
+|  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  Int[8:17-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 1
@@ -120,7 +120,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  ElsifStmtPartList[9:7-9:7]: <empty list>
 |  |  |  |  |  |  |  |  |else_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[10:10-10:34]
-|  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:33]
+|  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
 |  |  |  |  |  |  |  |  |  |  |  |left:
@@ -156,7 +156,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  HandledStmts[15:4-16:68]
 |  |  |  |stmts:
 |  |  |  |  StmtList[15:4-16:68]
-|  |  |  |  |  CallStmt[15:4-15:42]
+|  |  |  |  |  CallStmt[15:4-15:43]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[15:4-15:42]
 |  |  |  |  |  |  |name:
@@ -179,7 +179,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  Str[15:26-15:41]
 |  |  |  |  |  |  |  |  |  |tok: "Hello, world!"
-|  |  |  |  |  CallStmt[16:4-16:67]
+|  |  |  |  |  CallStmt[16:4-16:68]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[16:4-16:67]
 |  |  |  |  |  |  |name:
@@ -239,7 +239,7 @@ CompilationUnit[1:1-17:10]
 |  PragmaNodeList[18:1-18:1]: <empty list>
 
 Lookup 1:1:
-WithClause[1:1-1:17]
+WithClause[1:1-1:18]
 |has_limited:
 |  LimitedAbsent[1:1-1:1]
 |has_private:
@@ -255,7 +255,7 @@ WithClause[1:1-1:17]
 |  |  |  |tok: Text_IO
 
 Lookup 1:2:
-WithClause[1:1-1:17]
+WithClause[1:1-1:18]
 |has_limited:
 |  LimitedAbsent[1:1-1:1]
 |has_private:
@@ -271,7 +271,7 @@ WithClause[1:1-1:17]
 |  |  |  |tok: Text_IO
 
 Lookup 1:4:
-WithClause[1:1-1:17]
+WithClause[1:1-1:18]
 |has_limited:
 |  LimitedAbsent[1:1-1:1]
 |has_private:
@@ -287,7 +287,7 @@ WithClause[1:1-1:17]
 |  |  |  |tok: Text_IO
 
 Lookup 1:5:
-WithClause[1:1-1:17]
+WithClause[1:1-1:18]
 |has_limited:
 |  LimitedAbsent[1:1-1:1]
 |has_private:
@@ -328,27 +328,26 @@ Id[1:10-1:17]
 |tok: Text_IO
 
 Lookup 1:17:
-AdaNodeList[1:1-1:18]
-|  WithClause[1:1-1:17]
-|  |has_limited:
-|  |  LimitedAbsent[1:1-1:1]
-|  |has_private:
-|  |  PrivateAbsent[1:1-1:1]
-|  |packages:
-|  |  NameList[1:6-1:17]
-|  |  |  DottedName[1:6-1:17]
-|  |  |  |prefix:
-|  |  |  |  Id[1:6-1:9]
-|  |  |  |  |tok: Ada
-|  |  |  |suffix:
-|  |  |  |  Id[1:10-1:17]
-|  |  |  |  |tok: Text_IO
+WithClause[1:1-1:18]
+|has_limited:
+|  LimitedAbsent[1:1-1:1]
+|has_private:
+|  PrivateAbsent[1:1-1:1]
+|packages:
+|  NameList[1:6-1:17]
+|  |  DottedName[1:6-1:17]
+|  |  |prefix:
+|  |  |  Id[1:6-1:9]
+|  |  |  |tok: Ada
+|  |  |suffix:
+|  |  |  Id[1:10-1:17]
+|  |  |  |tok: Text_IO
 
 Lookup 2:1:
 CompilationUnit[1:1-17:10]
 |prelude:
 |  AdaNodeList[1:1-1:18]
-|  |  WithClause[1:1-1:17]
+|  |  WithClause[1:1-1:18]
 |  |  |has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
 |  |  |has_private:
@@ -363,11 +362,11 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  Id[1:10-1:17]
 |  |  |  |  |  |tok: Text_IO
 |body:
-|  LibraryItem[3:1-17:9]
+|  LibraryItem[3:1-17:10]
 |  |has_private:
 |  |  PrivateAbsent[3:1-3:1]
 |  |item:
-|  |  SubpBody[3:1-17:9]
+|  |  SubpBody[3:1-17:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
@@ -401,7 +400,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  DeclarativePart[5:4-12:13]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[5:4-12:13]
-|  |  |  |  |  SubpBody[5:4-12:12]
+|  |  |  |  |  SubpBody[5:4-12:13]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
@@ -446,7 +445,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  HandledStmts[7:7-11:14]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  StmtList[7:7-11:14]
-|  |  |  |  |  |  |  |  IfStmt[7:7-11:13]
+|  |  |  |  |  |  |  |  IfStmt[7:7-11:14]
 |  |  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |  |  |left:
@@ -459,7 +458,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[8:10-8:19]
-|  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
+|  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  Int[8:17-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 1
@@ -467,7 +466,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  ElsifStmtPartList[9:7-9:7]: <empty list>
 |  |  |  |  |  |  |  |  |else_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[10:10-10:34]
-|  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:33]
+|  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
 |  |  |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
 |  |  |  |  |  |  |  |  |  |  |  |left:
@@ -503,7 +502,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  HandledStmts[15:4-16:68]
 |  |  |  |stmts:
 |  |  |  |  StmtList[15:4-16:68]
-|  |  |  |  |  CallStmt[15:4-15:42]
+|  |  |  |  |  CallStmt[15:4-15:43]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[15:4-15:42]
 |  |  |  |  |  |  |name:
@@ -526,7 +525,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  Str[15:26-15:41]
 |  |  |  |  |  |  |  |  |  |tok: "Hello, world!"
-|  |  |  |  |  CallStmt[16:4-16:67]
+|  |  |  |  |  CallStmt[16:4-16:68]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[16:4-16:67]
 |  |  |  |  |  |  |name:
@@ -586,7 +585,7 @@ CompilationUnit[1:1-17:10]
 |  PragmaNodeList[18:1-18:1]: <empty list>
 
 Lookup 4:1:
-SubpBody[3:1-17:9]
+SubpBody[3:1-17:10]
 |overriding:
 |  OverridingUnspecified[3:1-3:1]
 |subp_spec:
@@ -620,7 +619,7 @@ SubpBody[3:1-17:9]
 |  DeclarativePart[5:4-12:13]
 |  |decls:
 |  |  AdaNodeList[5:4-12:13]
-|  |  |  SubpBody[5:4-12:12]
+|  |  |  SubpBody[5:4-12:13]
 |  |  |  |overriding:
 |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |subp_spec:
@@ -665,7 +664,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  HandledStmts[7:7-11:14]
 |  |  |  |  |stmts:
 |  |  |  |  |  StmtList[7:7-11:14]
-|  |  |  |  |  |  IfStmt[7:7-11:13]
+|  |  |  |  |  |  IfStmt[7:7-11:14]
 |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  RelationOp[7:10-7:16]
 |  |  |  |  |  |  |  |left:
@@ -678,7 +677,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |then_stmts:
 |  |  |  |  |  |  |  StmtList[8:10-8:19]
-|  |  |  |  |  |  |  |  ReturnStmt[8:10-8:18]
+|  |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
 |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  Int[8:17-8:18]
 |  |  |  |  |  |  |  |  |  |tok: 1
@@ -686,7 +685,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |  ElsifStmtPartList[9:7-9:7]: <empty list>
 |  |  |  |  |  |  |else_stmts:
 |  |  |  |  |  |  |  StmtList[10:10-10:34]
-|  |  |  |  |  |  |  |  ReturnStmt[10:10-10:33]
+|  |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
 |  |  |  |  |  |  |  |  |return_expr:
 |  |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
 |  |  |  |  |  |  |  |  |  |left:
@@ -722,7 +721,7 @@ SubpBody[3:1-17:9]
 |  HandledStmts[15:4-16:68]
 |  |stmts:
 |  |  StmtList[15:4-16:68]
-|  |  |  CallStmt[15:4-15:42]
+|  |  |  CallStmt[15:4-15:43]
 |  |  |  |call:
 |  |  |  |  CallExpr[15:4-15:42]
 |  |  |  |  |name:
@@ -745,7 +744,7 @@ SubpBody[3:1-17:9]
 |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  Str[15:26-15:41]
 |  |  |  |  |  |  |  |tok: "Hello, world!"
-|  |  |  CallStmt[16:4-16:67]
+|  |  |  CallStmt[16:4-16:68]
 |  |  |  |call:
 |  |  |  |  CallExpr[16:4-16:67]
 |  |  |  |  |name:
@@ -803,7 +802,7 @@ SubpBody[3:1-17:9]
 |  |tok: Fact
 
 Lookup 10:10:
-ReturnStmt[10:10-10:33]
+ReturnStmt[10:10-10:34]
 |return_expr:
 |  BinOp[10:17-10:33]
 |  |left:

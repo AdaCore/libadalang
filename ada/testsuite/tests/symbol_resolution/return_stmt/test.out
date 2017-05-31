@@ -1,6 +1,6 @@
 Analyzing return_stmt.adb
 #########################
 
-Expr: <Id "Bar" 6:14-6:17>, references <ExprFunction ["Bar"] 3:7-3:42>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "Bar" 6:14-6:17>, references <ExprFunction ["Bar"] 3:7-3:43>, type is <TypeDecl ["Integer"] 4:3-4:54>
 
 Done.

@@ -1,18 +1,18 @@
 foo.ads
 #######
 
-Body of <PackageDecl ["Foo"] 1:1-11:8> is <PackageBody ["Foo"] 1:1-9:8> [foo.adb]
-Body of <PackageDecl ["Bar"] 5:4-7:11> is <PackageBody ["Bar"] 3:4-7:11> [foo.adb]
+Body of <PackageDecl ["Foo"] 1:1-11:9> is <PackageBody ["Foo"] 1:1-9:9> [foo.adb]
+Body of <PackageDecl ["Bar"] 5:4-7:12> is <PackageBody ["Bar"] 3:4-7:12> [foo.adb]
 
 foo.adb
 #######
 
-Decl of <PackageBody ["Foo"] 1:1-9:8> is <PackageDecl ["Foo"] 1:1-11:8> [foo.ads]
-Decl of <PackageBody ["Bar"] 3:4-7:11> is <PackageDecl ["Bar"] 5:4-7:11> [foo.ads]
+Decl of <PackageBody ["Foo"] 1:1-9:9> is <PackageDecl ["Foo"] 1:1-11:9> [foo.ads]
+Decl of <PackageBody ["Bar"] 3:4-7:12> is <PackageDecl ["Bar"] 5:4-7:12> [foo.ads]
 
 foo_child_only.ads
 ##################
 
-Body of <PackageDecl ["Bar"] 11:4-13:11> is <PackageBody ["Bar"] 3:4-7:11> [foo_child_only.adb]
+Body of <PackageDecl ["Bar"] 11:4-13:12> is <PackageBody ["Bar"] 3:4-7:12> [foo_child_only.adb]
 
 Done.

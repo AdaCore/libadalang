@@ -2,11 +2,11 @@ CompilationUnit[1:1-6:10]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-6:9]
+|  LibraryItem[1:1-6:10]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-6:9]
+|  |  SubpBody[1:1-6:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -22,7 +22,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  DeclarativePart[2:4-3:15]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:15]
-|  |  |  |  |  TypeDecl[2:4-2:10]
+|  |  |  |  |  TypeDecl[2:4-2:11]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[2:9-2:10]
 |  |  |  |  |  |  |tok: A
@@ -30,7 +30,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  IncompleteTypeDef[2:10-2:10]
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  SingleTaskDecl[3:4-3:14]
+|  |  |  |  |  SingleTaskDecl[3:4-3:15]
 |  |  |  |  |  |task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
 |  |  |  |  |  |  |type_id:
@@ -43,7 +43,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  HandledStmts[5:4-5:9]
 |  |  |  |stmts:
 |  |  |  |  StmtList[5:4-5:9]
-|  |  |  |  |  NullStmt[5:4-5:8]
+|  |  |  |  |  NullStmt[5:4-5:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:

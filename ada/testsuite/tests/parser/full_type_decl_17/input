@@ -1,1 +1,1 @@
-type Arr is array (Integer (12 .. 15)) of Integer
+type Arr is array (Integer (12 .. 15)) of Integer;

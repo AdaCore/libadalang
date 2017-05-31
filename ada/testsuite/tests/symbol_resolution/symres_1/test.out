@@ -2,6 +2,6 @@ Analyzing lol.adb
 #################
 
 Koin.Fu resolves to:
-    Fu : Integer
+    Fu : Integer;
 
 Done.

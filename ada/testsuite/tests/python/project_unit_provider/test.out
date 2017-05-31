@@ -1,7 +1,7 @@
 For SRC_DIR=src1:
 <SubtypeIndication 4:8-4:22> resolves to:
-  <TypeDecl ["Record_Type"] 2:4-2:35>
+  <TypeDecl ["Record_Type"] 2:4-2:36>
 For SRC_DIR=src2:
 <SubtypeIndication 5:8-5:22> resolves to:
-  <TypeDecl ["Record_Type"] 3:4-5:14>
+  <TypeDecl ["Record_Type"] 3:4-5:15>
 Done.

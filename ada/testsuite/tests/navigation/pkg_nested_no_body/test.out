@@ -1,13 +1,13 @@
 foo.ads
 #######
 
-Body of <PackageDecl ["Foo"] 1:1-11:8> is <PackageBody ["Foo"] 1:1-5:8> [foo.adb]
-<PackageDecl ["Bar"] 5:4-7:11> has no body
+Body of <PackageDecl ["Foo"] 1:1-11:9> is <PackageBody ["Foo"] 1:1-5:9> [foo.adb]
+<PackageDecl ["Bar"] 5:4-7:12> has no body
 
 qux.ads
 #######
 
-<PackageDecl ["Qux"] 1:1-5:8> has no body
-<PackageDecl ["Bar"] 2:4-4:11> has no body
+<PackageDecl ["Qux"] 1:1-5:9> has no body
+<PackageDecl ["Bar"] 2:4-4:12> has no body
 
 Done.

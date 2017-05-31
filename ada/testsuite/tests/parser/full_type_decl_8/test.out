@@ -1,4 +1,4 @@
-TypeDecl[1:1-1:78]
+TypeDecl[1:1-1:79]
 |type_id:
 |  Id[1:6-1:7]
 |  |tok: B
@@ -40,7 +40,7 @@ TypeDecl[1:1-1:78]
 |  |  |  ComponentList[1:55-1:67]
 |  |  |  |components:
 |  |  |  |  AdaNodeList[1:55-1:67]
-|  |  |  |  |  ComponentDecl[1:55-1:66]
+|  |  |  |  |  ComponentDecl[1:55-1:67]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:55-1:56]
 |  |  |  |  |  |  |  Id[1:55-1:56]
@@ -61,5 +61,5 @@ TypeDecl[1:1-1:78]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |variant_part: <null>
 |  |has_with_private:
-|  |  WithPrivateAbsent[2:1-2:1]
+|  |  WithPrivateAbsent[1:78-1:78]
 |aspects: <null>

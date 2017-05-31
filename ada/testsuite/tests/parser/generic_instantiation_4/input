@@ -1,1 +1,1 @@
-overriding function F is new Foo (Bar)
+overriding function F is new Foo (Bar);

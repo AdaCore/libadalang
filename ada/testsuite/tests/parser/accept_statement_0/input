@@ -1,1 +1,1 @@
-accept Insert (An_Item : in  Item) do Datum := An_Item; end Insert
+accept Insert (An_Item : in  Item) do Datum := An_Item; end Insert;

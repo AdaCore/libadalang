@@ -2,11 +2,11 @@ CompilationUnit[1:1-10:10]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-10:9]
+|  LibraryItem[1:1-10:10]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-10:9]
+|  |  SubpBody[1:1-10:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -22,14 +22,14 @@ CompilationUnit[1:1-10:10]
 |  |  |  DeclarativePart[2:4-7:38]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-7:38]
-|  |  |  |  |  GenericPackageDecl[2:4-5:9]
+|  |  |  |  |  GenericPackageDecl[2:4-5:10]
 |  |  |  |  |  |formal_part:
 |  |  |  |  |  |  GenericFormalPart[2:4-3:19]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[3:7-3:19]
-|  |  |  |  |  |  |  |  GenericFormal[3:7-3:18]
+|  |  |  |  |  |  |  |  GenericFormal[3:7-3:19]
 |  |  |  |  |  |  |  |  |decl:
-|  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:18]
+|  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:19]
 |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:8]
 |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]
@@ -52,7 +52,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |package_decl:
-|  |  |  |  |  |  GenericPackageInternal[4:4-5:9]
+|  |  |  |  |  |  GenericPackageInternal[4:4-5:10]
 |  |  |  |  |  |  |package_name:
 |  |  |  |  |  |  |  Id[4:12-4:13]
 |  |  |  |  |  |  |  |tok: D
@@ -65,7 +65,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |end_id:
 |  |  |  |  |  |  |  Id[5:8-5:9]
 |  |  |  |  |  |  |  |tok: D
-|  |  |  |  |  GenericPackageInstantiation[7:4-7:37]
+|  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[7:12-7:18]
 |  |  |  |  |  |  |tok: D_Inst
@@ -88,7 +88,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  HandledStmts[9:4-9:9]
 |  |  |  |stmts:
 |  |  |  |  StmtList[9:4-9:9]
-|  |  |  |  |  NullStmt[9:4-9:8]
+|  |  |  |  |  NullStmt[9:4-9:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
 |  |  |end_id:
@@ -99,19 +99,19 @@ CompilationUnit[1:1-10:10]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
-    standard: [<PackageDecl ["Standard"] 1:1-119:13>]
-    test: [<SubpBody ["Test"] 1:1-10:9>]
+    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
+    test: [<SubpBody ["Test"] 1:1-10:10>]
 
-@1 = LexEnv(Parent=$root, Node=<SubpBody ["Test"] 1:1-10:9>):
+@1 = LexEnv(Parent=$root, Node=<SubpBody ["Test"] 1:1-10:10>):
     Referenced:
-      <SubpBody ["Test"] 1:1-10:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-    d: [<GenericPackageDecl ["D"] 2:4-5:9>]
-    d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:37>]
+      <SubpBody ["Test"] 1:1-10:10>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+    d: [<GenericPackageDecl ["D"] 2:4-5:10>]
+    d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>]
 
-@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["D"] 2:4-5:9>):
-    t: [<ObjectDecl ["T"] 3:7-3:18>]
+@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["D"] 2:4-5:10>):
+    t: [<ObjectDecl ["T"] 3:7-3:19>]
 
-@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:9>):
+@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
     <empty>
 
 @4 = LexEnv(Parent=@1, Node=<InstantiationEnvHolder 7:37-7:37>):

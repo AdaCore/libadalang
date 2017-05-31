@@ -2,25 +2,25 @@ Analyzing tagged_prims.adb
 ##########################
 
 T_Inst.Baz resolves to:
-    Baz : Int
-    procedure Baz (Self : T'Class) is null
+    Baz : Int;
+    procedure Baz (Self : T'Class) is null;
 
 T_Inst.Baz (12) resolves to:
-    procedure Baz (Self : T'Class; Pouet : Int) is null
+    procedure Baz (Self : T'Class; Pouet : Int) is null;
 
-Expr: <DottedName 26:4-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:42>, type is None
-Expr: <Id "T_Inst" 26:4-26:10>, references <ObjectDecl ["T_Inst"] 17:4-17:14>, type is <TypeDecl ["T"] 5:4-7:14>
-Expr: <Id "Baz" 26:11-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:42>, type is None
+Expr: <DottedName 26:4-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:43>, type is None
+Expr: <Id "T_Inst" 26:4-26:10>, references <ObjectDecl ["T_Inst"] 17:4-17:15>, type is <TypeDecl ["T"] 5:4-7:15>
+Expr: <Id "Baz" 26:11-26:14>, references <NullSubpDecl ["Baz"] 12:4-12:43>, type is None
 
-Expr: <CallExpr 29:4-29:19>, references <NullSubpDecl ["Baz"] 15:4-15:55>, type is None
-Expr: <Id "Baz" 29:4-29:7>, references <NullSubpDecl ["Baz"] 15:4-15:55>, type is None
-Expr: <Id "T_Inst" 29:9-29:15>, references <ObjectDecl ["T_Inst"] 17:4-17:14>, type is <TypeDecl ["T"] 5:4-7:14>
-Expr: <Id "A" 29:17-29:18>, references <ObjectDecl ["A"] 19:4-19:11>, type is <TypeDecl ["Int"] 3:4-3:30>
+Expr: <CallExpr 29:4-29:19>, references <NullSubpDecl ["Baz"] 15:4-15:56>, type is None
+Expr: <Id "Baz" 29:4-29:7>, references <NullSubpDecl ["Baz"] 15:4-15:56>, type is None
+Expr: <Id "T_Inst" 29:9-29:15>, references <ObjectDecl ["T_Inst"] 17:4-17:15>, type is <TypeDecl ["T"] 5:4-7:15>
+Expr: <Id "A" 29:17-29:18>, references <ObjectDecl ["A"] 19:4-19:12>, type is <TypeDecl ["Int"] 3:4-3:31>
 
-Expr: <CallExpr 32:4-32:18>, references <NullSubpDecl ["Baz"] 15:4-15:55>, type is None
-Expr: <DottedName 32:4-32:14>, references <NullSubpDecl ["Baz"] 15:4-15:55>, type is None
-Expr: <Id "T_Inst" 32:4-32:10>, references <ObjectDecl ["T_Inst"] 17:4-17:14>, type is <TypeDecl ["T"] 5:4-7:14>
-Expr: <Id "Baz" 32:11-32:14>, references <NullSubpDecl ["Baz"] 15:4-15:55>, type is None
-Expr: <Id "A" 32:16-32:17>, references <ObjectDecl ["A"] 19:4-19:11>, type is <TypeDecl ["Int"] 3:4-3:30>
+Expr: <CallExpr 32:4-32:18>, references <NullSubpDecl ["Baz"] 15:4-15:56>, type is None
+Expr: <DottedName 32:4-32:14>, references <NullSubpDecl ["Baz"] 15:4-15:56>, type is None
+Expr: <Id "T_Inst" 32:4-32:10>, references <ObjectDecl ["T_Inst"] 17:4-17:15>, type is <TypeDecl ["T"] 5:4-7:15>
+Expr: <Id "Baz" 32:11-32:14>, references <NullSubpDecl ["Baz"] 15:4-15:56>, type is None
+Expr: <Id "A" 32:16-32:17>, references <ObjectDecl ["A"] 19:4-19:12>, type is <TypeDecl ["Int"] 3:4-3:31>
 
 Done.

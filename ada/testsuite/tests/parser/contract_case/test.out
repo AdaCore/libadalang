@@ -2,11 +2,11 @@ CompilationUnit[1:1-22:9]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-22:8]
+|  LibraryItem[1:1-22:9]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  PackageDecl[1:1-22:8]
+|  |  PackageDecl[1:1-22:9]
 |  |  |package_name:
 |  |  |  Id[1:9-1:12]
 |  |  |  |tok: Sat
@@ -23,7 +23,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  PublicPart[12:4-20:66]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[12:4-20:66]
-|  |  |  |  |  SubtypeDecl[12:4-12:47]
+|  |  |  |  |  SubtypeDecl[12:4-12:48]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[12:12-12:18]
 |  |  |  |  |  |  |tok: My_Int
@@ -47,7 +47,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  Int[12:41-12:47]
 |  |  |  |  |  |  |  |  |  |tok: 10_000
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  SubpDecl[14:4-16:88]
+|  |  |  |  |  SubpDecl[14:4-16:89]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[14:4-14:4]
 |  |  |  |  |  |subp_spec:
@@ -175,7 +175,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:81-16:87]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: 10_000
-|  |  |  |  |  SubpDecl[18:4-20:65]
+|  |  |  |  |  SubpDecl[18:4-20:66]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[18:4-18:4]
 |  |  |  |  |  |subp_spec:

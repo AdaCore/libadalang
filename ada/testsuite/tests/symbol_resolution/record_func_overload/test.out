@@ -2,16 +2,16 @@ Analyzing foo.adb
 #################
 
 F (1).A resolves to:
-    A : Integer
+    A : Integer;
 F (1).B resolves to:
-    B : Integer
+    B : Integer;
 F (1).Z resolves to:
     <none>
 
 G (1).C.A resolves to:
-    A : Integer
+    A : Integer;
 G (1).C.B resolves to:
-    B : Integer
+    B : Integer;
 G (1).C.Z resolves to:
     <none>
 

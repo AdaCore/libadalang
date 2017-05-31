@@ -2,10 +2,10 @@ Analyzing test2.ads
 ###################
 
 Foo resolves to:
-    Foo : Integer
+    Foo : Integer;
 
 A.Foo resolves to:
-    Foo : Integer
+    Foo : Integer;
 A.B.C.Foo resolves to:
     <none>
 

@@ -1,4 +1,4 @@
-EntryBody[1:1-1:100]
+EntryBody[1:1-1:101]
 |entry_name:
 |  Id[1:7-1:13]
 |  |tok: insert
@@ -34,14 +34,14 @@ EntryBody[1:1-1:100]
 |  HandledStmts[1:55-1:89]
 |  |stmts:
 |  |  StmtList[1:55-1:89]
-|  |  |  AssignStmt[1:55-1:72]
+|  |  |  AssignStmt[1:55-1:73]
 |  |  |  |dest:
 |  |  |  |  Id[1:55-1:61]
 |  |  |  |  |tok: buffer
 |  |  |  |expr:
 |  |  |  |  Id[1:65-1:72]
 |  |  |  |  |tok: an_item
-|  |  |  AssignStmt[1:74-1:88]
+|  |  |  AssignStmt[1:74-1:89]
 |  |  |  |dest:
 |  |  |  |  Id[1:74-1:79]
 |  |  |  |  |tok: empty

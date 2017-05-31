@@ -1,4 +1,4 @@
-SubtypeDecl[1:1-1:25]
+SubtypeDecl[1:1-1:26]
 |type_id:
 |  Id[1:9-1:10]
 |  |tok: A

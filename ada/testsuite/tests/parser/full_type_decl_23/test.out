@@ -1,4 +1,4 @@
-TypeDecl[1:1-1:20]
+TypeDecl[1:1-1:21]
 |type_id:
 |  Id[1:6-1:7]
 |  |tok: A
@@ -7,5 +7,5 @@ TypeDecl[1:1-1:20]
 |  InterfaceTypeDef[1:11-1:20]
 |  |interface_kind: <null>
 |  |interfaces:
-|  |  NameList[2:1-2:1]: <empty list>
+|  |  NameList[1:20-1:20]: <empty list>
 |aspects: <null>

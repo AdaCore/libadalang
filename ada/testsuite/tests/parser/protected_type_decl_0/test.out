@@ -1,4 +1,4 @@
-ProtectedTypeDecl[1:1-1:185]
+ProtectedTypeDecl[1:1-1:186]
 |protected_type_name:
 |  Id[1:16-1:37]
 |  |tok: Protected_Buffer_Type
@@ -12,7 +12,7 @@ ProtectedTypeDecl[1:1-1:185]
 |  |  PublicPart[1:41-1:110]
 |  |  |decls:
 |  |  |  DeclList[1:41-1:110]
-|  |  |  |  EntryDecl[1:41-1:74]
+|  |  |  |  EntryDecl[1:41-1:75]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:41-1:41]
 |  |  |  |  |entry_id:
@@ -40,7 +40,7 @@ ProtectedTypeDecl[1:1-1:185]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  EntryDecl[1:76-1:109]
+|  |  |  |  EntryDecl[1:76-1:110]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:76-1:76]
 |  |  |  |  |entry_id:
@@ -72,7 +72,7 @@ ProtectedTypeDecl[1:1-1:185]
 |  |  PrivatePart[1:119-1:159]
 |  |  |decls:
 |  |  |  DeclList[1:119-1:159]
-|  |  |  |  ComponentDecl[1:119-1:132]
+|  |  |  |  ComponentDecl[1:119-1:133]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:119-1:125]
 |  |  |  |  |  |  Id[1:119-1:125]
@@ -91,7 +91,7 @@ ProtectedTypeDecl[1:1-1:185]
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  ComponentDecl[1:134-1:158]
+|  |  |  |  ComponentDecl[1:134-1:159]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:134-1:139]
 |  |  |  |  |  |  Id[1:134-1:139]

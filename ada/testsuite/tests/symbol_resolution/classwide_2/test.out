@@ -1,8 +1,8 @@
 Analyzing testcw.adb
 ####################
 
-Expr: <CallExpr 18:7-18:15>, references <NullSubpDecl ["Foo"] 7:7-7:39>, type is None
-Expr: <Id "Foo" 18:7-18:10>, references <NullSubpDecl ["Foo"] 7:7-7:39>, type is None
-Expr: <Id "Cw" 18:12-18:14>, references <ObjectDecl ["CW"] 16:7-16:34>, type is <ClasswideTypeDecl ["A"] 0:0-0:0>
+Expr: <CallExpr 18:7-18:15>, references <NullSubpDecl ["Foo"] 7:7-7:40>, type is None
+Expr: <Id "Foo" 18:7-18:10>, references <NullSubpDecl ["Foo"] 7:7-7:40>, type is None
+Expr: <Id "Cw" 18:12-18:14>, references <ObjectDecl ["CW"] 16:7-16:35>, type is <ClasswideTypeDecl ["A"] 0:0-0:0>
 
 Done.

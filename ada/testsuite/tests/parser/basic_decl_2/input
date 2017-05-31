@@ -1,1 +1,1 @@
-A, B : Integer renames C.D.E
+A, B : Integer renames C.D.E;

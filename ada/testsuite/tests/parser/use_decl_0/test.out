@@ -1,4 +1,4 @@
-UsePackageClause[1:1-1:29]
+UsePackageClause[1:1-1:30]
 |packages:
 |  NameList[1:5-1:29]
 |  |  DottedName[1:5-1:16]

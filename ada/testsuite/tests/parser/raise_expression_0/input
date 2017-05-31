@@ -1,1 +1,1 @@
-A := raise NotImplementedError with "too bad"
+A := raise NotImplementedError with "too bad";

@@ -1,1 +1,3 @@
-return A : Integer do A := 3; end return
+return A : Integer do
+   A := 3;
+end return;

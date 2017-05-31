@@ -9,7 +9,7 @@ Variant[1:1-1:29]
 |  ComponentList[1:17-1:29]
 |  |components:
 |  |  AdaNodeList[1:17-1:29]
-|  |  |  ComponentDecl[1:17-1:28]
+|  |  |  ComponentDecl[1:17-1:29]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:17-1:18]
 |  |  |  |  |  Id[1:17-1:18]

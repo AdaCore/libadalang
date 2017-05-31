@@ -2,11 +2,11 @@ CompilationUnit[1:1-4:15]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-4:14]
+|  LibraryItem[1:1-4:15]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-4:14]
+|  |  SubpBody[1:1-4:15]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -26,7 +26,7 @@ CompilationUnit[1:1-4:15]
 |  |  |  HandledStmts[3:4-3:9]
 |  |  |  |stmts:
 |  |  |  |  StmtList[3:4-3:9]
-|  |  |  |  |  NullStmt[3:4-3:8]
+|  |  |  |  |  NullStmt[3:4-3:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
 |  |  |end_id:

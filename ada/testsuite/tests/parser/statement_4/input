@@ -1,1 +1,1 @@
-declare A : Integer := 12; begin Foo (A); end
+declare A : Integer := 12; begin Foo (A); end;

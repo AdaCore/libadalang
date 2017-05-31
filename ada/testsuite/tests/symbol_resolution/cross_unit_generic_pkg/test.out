@@ -2,8 +2,8 @@ Analyzing foo-pkg.ads
 #####################
 
 I resolves to:
-    I : Integer := 0
+    I : Integer := 0;
 Foo.I resolves to:
-    I : Integer := 0
+    I : Integer := 0;
 
 Done.

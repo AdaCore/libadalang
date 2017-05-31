@@ -1,9 +1,9 @@
 This is the list of all nodes in foo.adb, in prefix depth-first order:
   <CompilationUnit 1:1-4:9>
   <AdaNodeList 1:1-1:1>
-  <LibraryItem 1:1-4:8>
+  <LibraryItem 1:1-4:9>
   <PrivateAbsent 1:1-1:1>
-  <SubpBody ["Sum"] 1:1-4:8>
+  <SubpBody ["Sum"] 1:1-4:9>
   <OverridingUnspecified 1:1-1:1>
   <SubpSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
@@ -39,7 +39,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <AdaNodeList 2:1-2:1>
   <HandledStmts 3:4-3:21>
   <StmtList 3:4-3:21>
-  <ReturnStmt 3:4-3:20>
+  <ReturnStmt 3:4-3:21>
   <BinOp 3:11-3:20>
   <BinOp 3:11-3:16>
   <Id "A" 3:11-3:12>

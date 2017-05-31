@@ -1,4 +1,4 @@
-TaskTypeDecl[1:1-1:62]
+TaskTypeDecl[1:1-1:63]
 |type_id:
 |  Id[1:11-1:14]
 |  |tok: TT1
@@ -14,7 +14,7 @@ TaskTypeDecl[1:1-1:62]
 |  |  PublicPart[1:34-1:54]
 |  |  |decls:
 |  |  |  DeclList[1:34-1:54]
-|  |  |  |  EntryDecl[1:34-1:53]
+|  |  |  |  EntryDecl[1:34-1:54]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:34-1:34]
 |  |  |  |  |entry_id:

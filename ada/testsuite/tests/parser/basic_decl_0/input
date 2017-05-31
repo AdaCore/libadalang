@@ -1,1 +1,1 @@
-type Printable is task interface
+type Printable is task interface;

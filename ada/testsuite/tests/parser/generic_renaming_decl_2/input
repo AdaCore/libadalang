@@ -1,1 +1,1 @@
-generic package A renames B
+generic package A renames B;

@@ -1,11 +1,11 @@
-NamedStmt[1:1-1:36]
+NamedStmt[1:1-1:37]
 |decl:
 |  NamedStmtDecl[1:1-1:2]
 |  |name:
 |  |  Id[1:1-1:2]
 |  |  |tok: A
 |stmt:
-|  LoopStmt[1:4-1:36]
+|  LoopStmt[1:4-1:37]
 |  |spec:
 |  |  WhileLoopSpec[1:4-1:16]
 |  |  |expr:
@@ -20,5 +20,5 @@ NamedStmt[1:1-1:36]
 |  |  |  |  |tok: 12
 |  |stmts:
 |  |  StmtList[1:22-1:27]
-|  |  |  NullStmt[1:22-1:26]
+|  |  |  NullStmt[1:22-1:27]
 |  |end_id: <null>

@@ -1,108 +1,108 @@
-GenericPackageDecl[1:1-1:155]
+GenericPackageDecl[1:1-7:19]
 |formal_part:
-|  GenericFormalPart[1:1-1:50]
+|  GenericFormalPart[1:1-3:31]
 |  |decls:
-|  |  AdaNodeList[1:9-1:50]
-|  |  |  GenericFormal[1:9-1:22]
+|  |  AdaNodeList[2:5-3:31]
+|  |  |  GenericFormal[2:5-2:19]
 |  |  |  |decl:
-|  |  |  |  ObjectDecl[1:9-1:22]
+|  |  |  |  ObjectDecl[2:5-2:19]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:9-1:12]
-|  |  |  |  |  |  Id[1:9-1:12]
+|  |  |  |  |  IdentifierList[2:5-2:8]
+|  |  |  |  |  |  Id[2:5-2:8]
 |  |  |  |  |  |  |tok: Max
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:14-1:14]
+|  |  |  |  |  AliasedAbsent[2:10-2:10]
 |  |  |  |  |has_constant:
-|  |  |  |  |  ConstantAbsent[1:14-1:14]
+|  |  |  |  |  ConstantAbsent[2:10-2:10]
 |  |  |  |  |inout:
-|  |  |  |  |  ModeDefault[1:14-1:14]
+|  |  |  |  |  ModeDefault[2:10-2:10]
 |  |  |  |  |type_expr:
-|  |  |  |  |  SubtypeIndication[1:14-1:22]
+|  |  |  |  |  SubtypeIndication[2:10-2:18]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:14-1:14]
+|  |  |  |  |  |  NotNullAbsent[2:10-2:10]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:14-1:22]
+|  |  |  |  |  |  Id[2:10-2:18]
 |  |  |  |  |  |  |tok: Positive
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default_expr: <null>
 |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  GenericFormal[1:24-1:49]
+|  |  |  GenericFormal[3:5-3:31]
 |  |  |  |decl:
-|  |  |  |  TypeDecl[1:24-1:49]
+|  |  |  |  TypeDecl[3:5-3:31]
 |  |  |  |  |type_id:
-|  |  |  |  |  Id[1:29-1:38]
+|  |  |  |  |  Id[3:10-3:19]
 |  |  |  |  |  |tok: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
-|  |  |  |  |  PrivateTypeDef[1:39-1:49]
+|  |  |  |  |  PrivateTypeDef[3:20-3:30]
 |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  AbstractAbsent[1:42-1:42]
+|  |  |  |  |  |  AbstractAbsent[3:23-3:23]
 |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  TaggedAbsent[1:42-1:42]
+|  |  |  |  |  |  TaggedAbsent[3:23-3:23]
 |  |  |  |  |  |has_limited:
-|  |  |  |  |  |  LimitedAbsent[1:42-1:42]
+|  |  |  |  |  |  LimitedAbsent[3:23-3:23]
 |  |  |  |  |aspects: <null>
 |package_decl:
-|  GenericPackageInternal[1:51-1:155]
+|  GenericPackageInternal[4:1-7:19]
 |  |package_name:
-|  |  Id[1:59-1:72]
+|  |  Id[4:9-4:22]
 |  |  |tok: Generic_Stack
 |  |aspects: <null>
 |  |public_part:
-|  |  PublicPart[1:76-1:137]
+|  |  PublicPart[5:5-6:35]
 |  |  |decls:
-|  |  |  AdaNodeList[1:76-1:137]
-|  |  |  |  SubpDecl[1:76-1:105]
+|  |  |  AdaNodeList[5:5-6:35]
+|  |  |  |  SubpDecl[5:5-5:35]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:76-1:76]
+|  |  |  |  |  OverridingUnspecified[5:5-5:5]
 |  |  |  |  |subp_spec:
-|  |  |  |  |  SubpSpec[1:76-1:105]
+|  |  |  |  |  SubpSpec[5:5-5:34]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[1:86-1:90]
+|  |  |  |  |  |  Id[5:15-5:19]
 |  |  |  |  |  |  |tok: Push
 |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  ParamSpecList[1:92-1:104]
-|  |  |  |  |  |  |  ParamSpec[1:92-1:104]
+|  |  |  |  |  |  ParamSpecList[5:21-5:33]
+|  |  |  |  |  |  |  ParamSpec[5:21-5:33]
 |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  IdentifierList[1:92-1:93]
-|  |  |  |  |  |  |  |  |  Id[1:92-1:93]
+|  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
+|  |  |  |  |  |  |  |  |  Id[5:21-5:22]
 |  |  |  |  |  |  |  |  |  |tok: E
 |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[1:95-1:95]
+|  |  |  |  |  |  |  |  AliasedAbsent[5:24-5:24]
 |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeDefault[1:95-1:95]
+|  |  |  |  |  |  |  |  ModeDefault[5:24-5:24]
 |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  SubtypeIndication[1:95-1:104]
+|  |  |  |  |  |  |  |  SubtypeIndication[5:24-5:33]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:95-1:95]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
 |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[1:95-1:104]
+|  |  |  |  |  |  |  |  |  Id[5:24-5:33]
 |  |  |  |  |  |  |  |  |  |tok: Element_T
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  |  SubpDecl[1:107-1:136]
+|  |  |  |  SubpDecl[6:5-6:35]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:107-1:107]
+|  |  |  |  |  OverridingUnspecified[6:5-6:5]
 |  |  |  |  |subp_spec:
-|  |  |  |  |  SubpSpec[1:107-1:136]
+|  |  |  |  |  SubpSpec[6:5-6:34]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[1:116-1:119]
+|  |  |  |  |  |  Id[6:14-6:17]
 |  |  |  |  |  |  |tok: Pop
 |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  ParamSpecList[1:116-1:116]: <empty list>
+|  |  |  |  |  |  ParamSpecList[6:14-6:14]: <empty list>
 |  |  |  |  |  |subp_returns:
-|  |  |  |  |  |  SubtypeIndication[1:127-1:136]
+|  |  |  |  |  |  SubtypeIndication[6:25-6:34]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[1:127-1:127]
+|  |  |  |  |  |  |  NotNullAbsent[6:25-6:25]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[1:127-1:136]
+|  |  |  |  |  |  |  Id[6:25-6:34]
 |  |  |  |  |  |  |  |tok: Element_T
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_id:
-|  |  Id[1:142-1:155]
+|  |  Id[7:5-7:18]
 |  |  |tok: Generic_Stack

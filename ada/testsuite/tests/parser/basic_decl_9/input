@@ -1,1 +1,1 @@
-type T is delta <> digits <>
+type T is delta <> digits <>;

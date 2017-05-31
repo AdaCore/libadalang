@@ -1,4 +1,4 @@
-AttributeDefClause[1:1-1:36]
+AttributeDefClause[1:1-1:37]
 |attribute_expr:
 |  Id[1:5-1:6]
 |  |tok: r

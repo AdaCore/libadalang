@@ -3,7 +3,7 @@ Parsing failed:
 CompilationUnit[1:1-6:10]
 |prelude:
 |  AdaNodeList[1:1-1:35]
-|  |  WithClause[1:1-1:17]
+|  |  WithClause[1:1-1:18]
 |  |  |has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
 |  |  |has_private:
@@ -17,7 +17,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |suffix:
 |  |  |  |  |  Id[1:10-1:17]
 |  |  |  |  |  |tok: Text_IO
-|  |  UsePackageClause[1:19-1:34]
+|  |  UsePackageClause[1:19-1:35]
 |  |  |packages:
 |  |  |  NameList[1:23-1:34]
 |  |  |  |  DottedName[1:23-1:34]
@@ -28,11 +28,11 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  Id[1:27-1:34]
 |  |  |  |  |  |tok: Text_IO
 |body:
-|  LibraryItem[3:1-6:9]
+|  LibraryItem[3:1-6:10]
 |  |has_private:
 |  |  PrivateAbsent[3:1-3:1]
 |  |item:
-|  |  SubpBody[3:1-6:9]
+|  |  SubpBody[3:1-6:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
@@ -52,7 +52,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  HandledStmts[5:4-5:9]
 |  |  |  |stmts:
 |  |  |  |  StmtList[5:4-5:9]
-|  |  |  |  |  NullStmt[5:4-5:8]
+|  |  |  |  |  NullStmt[5:4-5:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:

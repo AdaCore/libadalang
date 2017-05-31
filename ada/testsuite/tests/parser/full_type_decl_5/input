@@ -1,1 +1,1 @@
-type Pouet is delta Delta_Value digits Num_Digits range Low .. High
+type Pouet is delta Delta_Value digits Num_Digits range Low .. High;

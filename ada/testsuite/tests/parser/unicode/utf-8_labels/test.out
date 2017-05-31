@@ -2,11 +2,11 @@ CompilationUnit[1:1-6:10]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-6:9]
+|  LibraryItem[1:1-6:10]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  SubpBody[1:1-6:9]
+|  |  SubpBody[1:1-6:10]
 |  |  |overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
@@ -32,7 +32,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[3:7-3:11]
 |  |  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089
-|  |  |  |  |  CallStmt[4:5-4:28]
+|  |  |  |  |  CallStmt[4:5-4:29]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[4:5-4:28]
 |  |  |  |  |  |  |name:
@@ -45,7 +45,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  Str[4:14-4:27]
 |  |  |  |  |  |  |  |  |  |tok: "Hello world"
-|  |  |  |  |  GotoStmt[5:5-5:14]
+|  |  |  |  |  GotoStmt[5:5-5:15]
 |  |  |  |  |  |label_name:
 |  |  |  |  |  |  Id[5:10-5:14]
 |  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089

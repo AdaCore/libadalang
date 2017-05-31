@@ -1,11 +1,11 @@
-SelectStmt[1:1-1:154]
+SelectStmt[1:1-1:155]
 |guards:
 |  SelectWhenPartList[1:10-1:143]
 |  |  SelectWhenPart[1:10-1:74]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:10-1:74]
-|  |  |  |  AcceptStmt[1:10-1:73]
+|  |  |  |  AcceptStmt[1:10-1:74]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:17-1:22]
 |  |  |  |  |  |tok: Store
@@ -34,7 +34,7 @@ SelectStmt[1:1-1:154]
 |  |  |  |  |  HandledStmts[1:46-1:63]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:46-1:63]
-|  |  |  |  |  |  |  AssignStmt[1:46-1:62]
+|  |  |  |  |  |  |  AssignStmt[1:46-1:63]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:46-1:51]
 |  |  |  |  |  |  |  |  |tok: Datum
@@ -47,7 +47,7 @@ SelectStmt[1:1-1:154]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:78-1:143]
-|  |  |  |  AcceptStmt[1:78-1:142]
+|  |  |  |  AcceptStmt[1:78-1:143]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:85-1:90]
 |  |  |  |  |  |tok: Fetch
@@ -76,7 +76,7 @@ SelectStmt[1:1-1:154]
 |  |  |  |  |  HandledStmts[1:115-1:132]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:115-1:132]
-|  |  |  |  |  |  |  AssignStmt[1:115-1:131]
+|  |  |  |  |  |  |  AssignStmt[1:115-1:132]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:115-1:122]
 |  |  |  |  |  |  |  |  |tok: An_Item

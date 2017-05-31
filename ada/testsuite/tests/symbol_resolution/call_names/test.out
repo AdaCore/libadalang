@@ -5,23 +5,23 @@ Local
 -----
 
 Proc resolves to:
-    procedure Proc at 12:7
+    procedure Proc; at 12:7
 Proc (1) resolves to:
-    procedure Proc (I : Integer) at 8:4
-    procedure Proc (I : Integer) at 13:7
-    procedure Proc (S : String) at 14:7
+    procedure Proc (I : Integer); at 8:4
+    procedure Proc (I : Integer); at 13:7
+    procedure Proc (S : String); at 14:7
 Proc (S => "foo") resolves to:
-    procedure Proc (S : String) at 14:7
+    procedure Proc (S : String); at 14:7
 Foo.Pack.Proc (I => 1) resolves to:
-    procedure Proc (I : Integer) at 13:7
+    procedure Proc (I : Integer); at 13:7
 
 Global
 ------
 
 Proc (1, 2) resolves to:
-    procedure Proc (I, J : Integer) at 9:4
+    procedure Proc (I, J : Integer); at 9:4
 Foo.Proc (1) resolves to:
-    procedure Proc (I : Integer) at 8:4
+    procedure Proc (I : Integer); at 8:4
 
 None
 ----
@@ -29,8 +29,8 @@ None
 Proc (1, 2, 3) resolves to:
     <none>
 Foo.Pack.Proc (1) resolves to:
-    procedure Proc (I : Integer) at 13:7
-    procedure Proc (S : String) at 14:7
+    procedure Proc (I : Integer); at 13:7
+    procedure Proc (S : String); at 14:7
 
 No_Local
 --------

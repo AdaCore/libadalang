@@ -1,8 +1,8 @@
 Analyzing test.adb
 ##################
 
-Expr: <CallExpr 6:4-6:10>, references <SubpDecl ["A"] 4:4-4:27>, type is None
-Expr: <Id "A" 6:4-6:5>, references <SubpDecl ["A"] 4:4-4:27>, type is None
-Expr: <Int 6:7-6:9>, references None, type is <TypeDecl ["Int_2"] 3:4-3:25>
+Expr: <CallExpr 6:4-6:10>, references <SubpDecl ["A"] 4:4-4:28>, type is None
+Expr: <Id "A" 6:4-6:5>, references <SubpDecl ["A"] 4:4-4:28>, type is None
+Expr: <Int 6:7-6:9>, references None, type is <TypeDecl ["Int_2"] 3:4-3:26>
 
 Done.

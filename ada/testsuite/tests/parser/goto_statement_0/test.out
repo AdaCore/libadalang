@@ -1,4 +1,4 @@
-GotoStmt[1:1-1:11]
+GotoStmt[1:1-1:12]
 |label_name:
 |  Id[1:6-1:11]
 |  |tok: Label

@@ -1,11 +1,11 @@
 foo.ads
 #######
 
-Body of <GenericSubpDecl ["Foo"] 1:1-3:28> is <SubpBody ["Foo"] 1:1-4:8> [foo.adb]
+Body of <GenericSubpDecl ["Foo"] 1:1-3:29> is <SubpBody ["Foo"] 1:1-4:9> [foo.adb]
 
 foo.adb
 #######
 
-Decl of <SubpBody ["Foo"] 1:1-4:8> is <GenericSubpDecl ["Foo"] 1:1-3:28> [foo.ads]
+Decl of <SubpBody ["Foo"] 1:1-4:9> is <GenericSubpDecl ["Foo"] 1:1-3:29> [foo.ads]
 
 Done.

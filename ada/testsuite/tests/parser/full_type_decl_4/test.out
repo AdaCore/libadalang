@@ -1,4 +1,4 @@
-TypeDecl[1:1-1:117]
+TypeDecl[1:1-1:118]
 |type_id:
 |  Id[1:6-1:9]
 |  |tok: Rec
@@ -34,7 +34,7 @@ TypeDecl[1:1-1:117]
 |  |  |  ComponentList[1:38-1:106]
 |  |  |  |components:
 |  |  |  |  AdaNodeList[1:38-1:53]
-|  |  |  |  |  ComponentDecl[1:38-1:52]
+|  |  |  |  |  ComponentDecl[1:38-1:53]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:38-1:42]
 |  |  |  |  |  |  |  Id[1:38-1:39]
@@ -73,7 +73,7 @@ TypeDecl[1:1-1:117]
 |  |  |  |  |  |  |  ComponentList[1:84-1:96]
 |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  AdaNodeList[1:84-1:96]
-|  |  |  |  |  |  |  |  |  ComponentDecl[1:84-1:95]
+|  |  |  |  |  |  |  |  |  ComponentDecl[1:84-1:96]
 |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  IdentifierList[1:84-1:85]
 |  |  |  |  |  |  |  |  |  |  |  Id[1:84-1:85]

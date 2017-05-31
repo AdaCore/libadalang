@@ -1,16 +1,16 @@
 Analyzing array_aggregate.adb
 #############################
 
-Expr: <Id "Inst" 8:4-8:8>, references <ObjectDecl ["Inst"] 4:4-4:12>, type is <TypeDecl ["A"] 3:4-3:40>
-Expr: <Aggregate 8:12-8:26>, references None, type is <TypeDecl ["A"] 3:4-3:40>
-Expr: <Int 8:23-8:25>, references None, type is <TypeDecl ["Integer"] 2:4-2:35>
+Expr: <Id "Inst" 8:4-8:8>, references <ObjectDecl ["Inst"] 4:4-4:13>, type is <TypeDecl ["A"] 3:4-3:41>
+Expr: <Aggregate 8:12-8:26>, references None, type is <TypeDecl ["A"] 3:4-3:41>
+Expr: <Int 8:23-8:25>, references None, type is <TypeDecl ["Integer"] 2:4-2:36>
 
-Expr: <Id "Inst" 11:4-11:8>, references <ObjectDecl ["Inst"] 4:4-4:12>, type is <TypeDecl ["A"] 3:4-3:40>
-Expr: <Aggregate 11:12-11:42>, references None, type is <TypeDecl ["A"] 3:4-3:40>
+Expr: <Id "Inst" 11:4-11:8>, references <ObjectDecl ["Inst"] 4:4-4:13>, type is <TypeDecl ["A"] 3:4-3:41>
+Expr: <Aggregate 11:12-11:42>, references None, type is <TypeDecl ["A"] 3:4-3:41>
 Expr: <Int 11:13-11:14>, references None, type is None
 Expr: <Int 11:17-11:18>, references None, type is None
 Expr: <Int 11:21-11:22>, references None, type is None
-Expr: <Id "I" 11:26-11:27>, references <ObjectDecl ["I"] 6:4-6:21>, type is <TypeDecl ["Integer"] 2:4-2:35>
-Expr: <Int 11:39-11:41>, references None, type is <TypeDecl ["Integer"] 2:4-2:35>
+Expr: <Id "I" 11:26-11:27>, references <ObjectDecl ["I"] 6:4-6:22>, type is <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <Int 11:39-11:41>, references None, type is <TypeDecl ["Integer"] 2:4-2:36>
 
 Done.

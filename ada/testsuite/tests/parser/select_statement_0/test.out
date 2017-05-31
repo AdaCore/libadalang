@@ -1,4 +1,4 @@
-SelectStmt[1:1-1:125]
+SelectStmt[1:1-1:126]
 |guards:
 |  SelectWhenPartList[1:8-1:114]
 |  |  SelectWhenPart[1:8-1:59]
@@ -11,7 +11,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |tok: BUSY
 |  |  |stmts:
 |  |  |  StmtList[1:25-1:59]
-|  |  |  |  AcceptStmt[1:25-1:58]
+|  |  |  |  AcceptStmt[1:25-1:59]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:32-1:37]
 |  |  |  |  |  |tok: SEIZE
@@ -22,7 +22,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |  HandledStmts[1:41-1:54]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:41-1:54]
-|  |  |  |  |  |  |  AssignStmt[1:41-1:53]
+|  |  |  |  |  |  |  AssignStmt[1:41-1:54]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:41-1:45]
 |  |  |  |  |  |  |  |  |tok: BUSY
@@ -35,7 +35,7 @@ SelectStmt[1:1-1:125]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:63-1:100]
-|  |  |  |  AcceptStmt[1:63-1:99]
+|  |  |  |  AcceptStmt[1:63-1:100]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:70-1:77]
 |  |  |  |  |  |tok: RELEASE
@@ -46,7 +46,7 @@ SelectStmt[1:1-1:125]
 |  |  |  |  |  HandledStmts[1:81-1:95]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:81-1:95]
-|  |  |  |  |  |  |  AssignStmt[1:81-1:94]
+|  |  |  |  |  |  |  AssignStmt[1:81-1:95]
 |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  Id[1:81-1:85]
 |  |  |  |  |  |  |  |  |tok: BUSY
@@ -59,7 +59,7 @@ SelectStmt[1:1-1:125]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:104-1:114]
-|  |  |  |  TerminateAlternative[1:104-1:113]
+|  |  |  |  TerminateAlternative[1:104-1:114]
 |else_stmts:
 |  StmtList[1:113-1:113]: <empty list>
 |abort_stmts:

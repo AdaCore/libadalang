@@ -1,10 +1,10 @@
 Analyzing test.adb
 ##################
 
-Expr: <CallExpr 11:4-11:12>, references <NullSubpDecl ["Foo"] 5:4-5:46>, type is None
-Expr: <Id "Foo" 11:4-11:7>, references <NullSubpDecl ["Foo"] 5:4-5:46>, type is None
-Expr: <Id "IA" 11:9-11:11>, references <ObjectDecl ["IA"] 8:4-8:27>, type is <TypeDecl ["Int_Access"] 3:4-3:41>
+Expr: <CallExpr 11:4-11:12>, references <NullSubpDecl ["Foo"] 5:4-5:47>, type is None
+Expr: <Id "Foo" 11:4-11:7>, references <NullSubpDecl ["Foo"] 5:4-5:47>, type is None
+Expr: <Id "IA" 11:9-11:11>, references <ObjectDecl ["IA"] 8:4-8:28>, type is <TypeDecl ["Int_Access"] 3:4-3:42>
 
-Resolution failed for node <CallStmt 14:4-14:12>
+Resolution failed for node <CallStmt 14:4-14:13>
 
 Done.

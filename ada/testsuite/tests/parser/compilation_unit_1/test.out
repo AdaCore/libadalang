@@ -2,11 +2,11 @@ CompilationUnit[1:1-1:55]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-1:54]
+|  LibraryItem[1:1-1:55]
 |  |has_private:
 |  |  PrivatePresent[1:1-1:1]
 |  |item:
-|  |  PackageDecl[1:9-1:54]
+|  |  PackageDecl[1:9-1:55]
 |  |  |package_name:
 |  |  |  Id[1:17-1:18]
 |  |  |  |tok: A
@@ -15,7 +15,7 @@ CompilationUnit[1:1-1:55]
 |  |  |  PublicPart[1:22-1:48]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[1:22-1:48]
-|  |  |  |  |  SubpDecl[1:22-1:47]
+|  |  |  |  |  SubpDecl[1:22-1:48]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:22-1:22]
 |  |  |  |  |  |subp_spec:

@@ -2,11 +2,11 @@ CompilationUnit[1:1-10:7]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-10:6]
+|  LibraryItem[1:1-10:7]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  PackageDecl[1:1-10:6]
+|  |  PackageDecl[1:1-10:7]
 |  |  |package_name:
 |  |  |  Id[1:9-1:10]
 |  |  |  |tok: P
@@ -15,7 +15,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  PublicPart[3:4-8:38]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[3:4-8:38]
-|  |  |  |  |  SubpDecl[3:4-3:38]
+|  |  |  |  |  SubpDecl[3:4-3:39]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[3:4-3:4]
 |  |  |  |  |  |subp_spec:
@@ -37,7 +37,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  Id[3:34-3:38]
 |  |  |  |  |  |  |  |  |  |tok: True
-|  |  |  |  |  GenericSubpDecl[5:4-6:40]
+|  |  |  |  |  GenericSubpDecl[5:4-6:41]
 |  |  |  |  |  |formal_part:
 |  |  |  |  |  |  GenericFormalPart[5:4-5:11]
 |  |  |  |  |  |  |decls:
@@ -61,7 +61,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  |  |  Id[6:36-6:40]
 |  |  |  |  |  |  |  |  |  |tok: True
-|  |  |  |  |  SubpDecl[8:4-8:37]
+|  |  |  |  |  SubpDecl[8:4-8:38]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[8:4-8:4]
 |  |  |  |  |  |subp_spec:

@@ -1,1 +1,1 @@
-overriding procedure A (B : Integer) is abstract
+overriding procedure A (B : Integer) is abstract;

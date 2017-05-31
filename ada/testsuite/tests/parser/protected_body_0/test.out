@@ -1,4 +1,4 @@
-ProtectedBody[1:1-1:271]
+ProtectedBody[1:1-1:272]
 |name:
 |  Id[1:16-1:37]
 |  |tok: protected_buffer_type
@@ -7,7 +7,7 @@ ProtectedBody[1:1-1:271]
 |  DeclarativePart[1:41-1:245]
 |  |decls:
 |  |  AdaNodeList[1:41-1:245]
-|  |  |  EntryBody[1:41-1:140]
+|  |  |  EntryBody[1:41-1:141]
 |  |  |  |entry_name:
 |  |  |  |  Id[1:47-1:53]
 |  |  |  |  |tok: insert
@@ -43,14 +43,14 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  HandledStmts[1:95-1:129]
 |  |  |  |  |stmts:
 |  |  |  |  |  StmtList[1:95-1:129]
-|  |  |  |  |  |  AssignStmt[1:95-1:112]
+|  |  |  |  |  |  AssignStmt[1:95-1:113]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:95-1:101]
 |  |  |  |  |  |  |  |tok: buffer
 |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  Id[1:105-1:112]
 |  |  |  |  |  |  |  |tok: an_item
-|  |  |  |  |  |  AssignStmt[1:114-1:128]
+|  |  |  |  |  |  AssignStmt[1:114-1:129]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:114-1:119]
 |  |  |  |  |  |  |  |tok: empty
@@ -59,7 +59,7 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  |  |  |  |tok: false
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
-|  |  |  EntryBody[1:142-1:244]
+|  |  |  EntryBody[1:142-1:245]
 |  |  |  |entry_name:
 |  |  |  |  Id[1:148-1:154]
 |  |  |  |  |tok: remove
@@ -99,14 +99,14 @@ ProtectedBody[1:1-1:271]
 |  |  |  |  HandledStmts[1:200-1:233]
 |  |  |  |  |stmts:
 |  |  |  |  |  StmtList[1:200-1:233]
-|  |  |  |  |  |  AssignStmt[1:200-1:217]
+|  |  |  |  |  |  AssignStmt[1:200-1:218]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:200-1:207]
 |  |  |  |  |  |  |  |tok: an_item
 |  |  |  |  |  |  |expr:
 |  |  |  |  |  |  |  Id[1:211-1:217]
 |  |  |  |  |  |  |  |tok: buffer
-|  |  |  |  |  |  AssignStmt[1:219-1:232]
+|  |  |  |  |  |  AssignStmt[1:219-1:233]
 |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  Id[1:219-1:224]
 |  |  |  |  |  |  |  |tok: empty

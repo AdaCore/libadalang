@@ -2,6 +2,6 @@ Analyzing foo.adb
 #################
 
 I resolves to:
-    I : Integer
+    I : Integer;
 
 Done.

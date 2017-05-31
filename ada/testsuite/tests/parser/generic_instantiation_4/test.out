@@ -1,4 +1,4 @@
-GenericSubpInstantiation[1:1-1:39]
+GenericSubpInstantiation[1:1-1:40]
 |overriding:
 |  OverridingOverriding[1:1-1:11]
 |kind:
@@ -18,4 +18,4 @@ GenericSubpInstantiation[1:1-1:39]
 |  |  |  |tok: Bar
 |aspects: <null>
 |instantiation_env_holder:
-|  InstantiationEnvHolder[2:1-2:1]
+|  InstantiationEnvHolder[1:39-1:39]

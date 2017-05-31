@@ -1,4 +1,4 @@
-IfStmt[1:1-1:86]
+IfStmt[1:1-1:87]
 |cond_expr:
 |  RelationOp[1:4-1:23]
 |  |left:
@@ -11,7 +11,7 @@ IfStmt[1:1-1:86]
 |  |  |tok: 40.0
 |then_stmts:
 |  StmtList[1:29-1:79]
-|  |  CallStmt[1:29-1:45]
+|  |  CallStmt[1:29-1:46]
 |  |  |call:
 |  |  |  CallExpr[1:29-1:45]
 |  |  |  |name:
@@ -24,7 +24,7 @@ IfStmt[1:1-1:86]
 |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  Str[1:39-1:44]
 |  |  |  |  |  |  |tok: "Wow"
-|  |  CallStmt[1:47-1:78]
+|  |  CallStmt[1:47-1:79]
 |  |  |call:
 |  |  |  CallExpr[1:47-1:78]
 |  |  |  |name:

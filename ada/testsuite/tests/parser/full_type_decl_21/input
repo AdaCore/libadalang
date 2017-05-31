@@ -1,1 +1,1 @@
-type A is access all B
+type A is access all B;

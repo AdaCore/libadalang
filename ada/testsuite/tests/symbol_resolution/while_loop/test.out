@@ -1,16 +1,16 @@
 Analyzing testwhile.adb
 #######################
 
-Expr: <Id "I" 8:7-8:8>, references <ObjectDecl ["I"] 5:4-5:15>, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Id "Foo" 8:12-8:15>, references <SubpDecl ["Foo"] 2:4-2:31>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "I" 8:7-8:8>, references <ObjectDecl ["I"] 5:4-5:16>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 8:12-8:15>, references <SubpDecl ["Foo"] 2:4-2:32>, type is <TypeDecl ["Integer"] 4:3-4:54>
 
-Expr: <Id "Foo" 10:17-10:20>, references <SubpDecl ["Foo"] 3:4-3:31>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <Id "Foo" 10:17-10:20>, references <SubpDecl ["Foo"] 3:4-3:32>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
 
-Expr: <Id "Foo" 7:10-7:13>, references <SubpDecl ["Foo"] 3:4-3:31>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
-Expr: <Id "I" 8:7-8:8>, references <ObjectDecl ["I"] 5:4-5:15>, type is <TypeDecl ["Integer"] 4:3-4:53>
-Expr: <Id "Foo" 8:12-8:15>, references <SubpDecl ["Foo"] 2:4-2:31>, type is <TypeDecl ["Integer"] 4:3-4:53>
+Expr: <Id "Foo" 7:10-7:13>, references <SubpDecl ["Foo"] 3:4-3:32>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "I" 8:7-8:8>, references <ObjectDecl ["I"] 5:4-5:16>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 8:12-8:15>, references <SubpDecl ["Foo"] 2:4-2:32>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Test_Statement" 9:14-9:28>, references None, type is None
-Expr: <Id "Foo" 10:17-10:20>, references <SubpDecl ["Foo"] 3:4-3:31>, type is <EnumTypeDecl ["Boolean"] 3:3-3:32>
+Expr: <Id "Foo" 10:17-10:20>, references <SubpDecl ["Foo"] 3:4-3:32>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Test_Statement" 11:14-11:28>, references None, type is None
 
 Done.

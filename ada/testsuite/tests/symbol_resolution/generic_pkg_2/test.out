@@ -1,9 +1,9 @@
 Analyzing p.adb
 ###############
 
-Expr: <Id "Inst" 5:7-5:11>, references <ObjectDecl ["Inst"] 3:7-3:15>, type is <TypeDecl ["U"] 3:4-3:21>
-Expr: <CallExpr 5:15-5:29>, references <FormalSubpDecl ["Convert"] 4:4-4:45>, type is <TypeDecl ["U"] 3:4-3:21>
-Expr: <Id "Convert" 5:15-5:22>, references <FormalSubpDecl ["Convert"] 4:4-4:45>, type is <TypeDecl ["U"] 3:4-3:21>
-Expr: <Id "Self" 5:24-5:28>, references <ParamSpec ["Self"] 2:19-2:27>, type is <TypeDecl ["T"] 2:4-2:21>
+Expr: <Id "Inst" 5:7-5:11>, references <ObjectDecl ["Inst"] 3:7-3:16>, type is <TypeDecl ["U"] 3:4-3:22>
+Expr: <CallExpr 5:15-5:29>, references <FormalSubpDecl ["Convert"] 4:4-4:46>, type is <TypeDecl ["U"] 3:4-3:22>
+Expr: <Id "Convert" 5:15-5:22>, references <FormalSubpDecl ["Convert"] 4:4-4:46>, type is <TypeDecl ["U"] 3:4-3:22>
+Expr: <Id "Self" 5:24-5:28>, references <ParamSpec ["Self"] 2:19-2:27>, type is <TypeDecl ["T"] 2:4-2:22>
 
 Done.

@@ -6,7 +6,7 @@ In Boo
 
 
 A resolves to:
-    A : Integer
+    A : Integer;
 
 In Far
 ------

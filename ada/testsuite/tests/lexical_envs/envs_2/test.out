@@ -2,11 +2,11 @@ CompilationUnit[1:1-10:9]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |body:
-|  LibraryItem[1:1-10:8]
+|  LibraryItem[1:1-10:9]
 |  |has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
-|  |  PackageBody[1:1-10:8]
+|  |  PackageBody[1:1-10:9]
 |  |  |package_name:
 |  |  |  Id[1:14-1:17]
 |  |  |  |tok: Foo
@@ -15,7 +15,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  DeclarativePart[2:4-9:12]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-9:12]
-|  |  |  |  |  SubpBody[2:4-9:11]
+|  |  |  |  |  SubpBody[2:4-9:12]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[2:4-2:4]
 |  |  |  |  |  |subp_spec:
@@ -55,12 +55,12 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  HandledStmts[4:7-8:11]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  StmtList[4:7-8:11]
-|  |  |  |  |  |  |  |  BlockStmt[4:7-8:10]
+|  |  |  |  |  |  |  |  BlockStmt[4:7-8:11]
 |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[5:10-5:47]
-|  |  |  |  |  |  |  |  |  |  |  SubtypeDecl[5:10-5:46]
+|  |  |  |  |  |  |  |  |  |  |  SubtypeDecl[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |  |  |type_id:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[5:18-5:21]
 |  |  |  |  |  |  |  |  |  |  |  |  |tok: Lol
@@ -88,7 +88,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  HandledStmts[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  StmtList[7:10-7:15]
-|  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:14]
+|  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[7:14-7:14]: <empty list>
 |  |  |  |  |  |  |  |  |end_id: <null>
@@ -106,18 +106,18 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
-    __body: [<PackageBody ["Foo"] 1:1-10:8>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:13>]
+    __body: [<PackageBody ["Foo"] 1:1-10:9>]
+    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:8>):
+@1 = LexEnv(Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:9>):
     Referenced:
-      <PackageBody ["Foo"] 1:1-10:8>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:13>)
-    bar: [<SubpBody ["Bar"] 2:4-9:11>]
+      <PackageBody ["Foo"] 1:1-10:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+    bar: [<SubpBody ["Bar"] 2:4-9:12>]
 
-@2 = LexEnv(Parent=@1, Node=<SubpBody ["Bar"] 2:4-9:11>):
+@2 = LexEnv(Parent=@1, Node=<SubpBody ["Bar"] 2:4-9:12>):
     i: [<ParamSpec ["I", "J"] 2:19-2:33>]
     j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 
-@3 = LexEnv(Parent=@2, Node=<BlockStmt 4:7-8:10>):
-    lol: [<SubtypeDecl ["Lol"] 5:10-5:46>]
+@3 = LexEnv(Parent=@2, Node=<BlockStmt 4:7-8:11>):
+    lol: [<SubtypeDecl ["Lol"] 5:10-5:47>]
 

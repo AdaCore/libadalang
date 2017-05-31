@@ -1,14 +1,14 @@
 foo.ads
 #######
 
-Body of <PackageDecl ["Foo"] 1:1-7:8> is <PackageBody ["Foo"] 1:1-8:8> [foo.adb]
-Body of <GenericPackageDecl ["Nested"] 2:4-6:14> is <PackageBody ["Nested"] 2:4-7:14> [foo.adb]
-Body of <GenericPackageInternal ["Nested"] 4:4-6:14> is <PackageBody ["Nested"] 2:4-7:14> [foo.adb]
+Body of <PackageDecl ["Foo"] 1:1-7:9> is <PackageBody ["Foo"] 1:1-8:9> [foo.adb]
+Body of <GenericPackageDecl ["Nested"] 2:4-6:15> is <PackageBody ["Nested"] 2:4-7:15> [foo.adb]
+Body of <GenericPackageInternal ["Nested"] 4:4-6:15> is <PackageBody ["Nested"] 2:4-7:15> [foo.adb]
 
 foo.adb
 #######
 
-Decl of <PackageBody ["Foo"] 1:1-8:8> is <PackageDecl ["Foo"] 1:1-7:8> [foo.ads]
-Decl of <PackageBody ["Nested"] 2:4-7:14> is <GenericPackageInternal ["Nested"] 4:4-6:14> [foo.ads]
+Decl of <PackageBody ["Foo"] 1:1-8:9> is <PackageDecl ["Foo"] 1:1-7:9> [foo.ads]
+Decl of <PackageBody ["Nested"] 2:4-7:15> is <GenericPackageInternal ["Nested"] 4:4-6:15> [foo.ads]
 
 Done.

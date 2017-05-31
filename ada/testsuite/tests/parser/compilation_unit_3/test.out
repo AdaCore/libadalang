@@ -1,7 +1,7 @@
 CompilationUnit[1:1-1:44]
 |prelude:
 |  AdaNodeList[1:1-1:20]
-|  |  WithClause[1:1-1:9]
+|  |  WithClause[1:1-1:10]
 |  |  |has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
 |  |  |has_private:
@@ -10,7 +10,7 @@ CompilationUnit[1:1-1:44]
 |  |  |  NameList[1:6-1:9]
 |  |  |  |  Id[1:6-1:9]
 |  |  |  |  |tok: Foo
-|  |  WithClause[1:11-1:19]
+|  |  WithClause[1:11-1:20]
 |  |  |has_limited:
 |  |  |  LimitedAbsent[1:11-1:11]
 |  |  |has_private:
@@ -20,11 +20,11 @@ CompilationUnit[1:1-1:44]
 |  |  |  |  Id[1:16-1:19]
 |  |  |  |  |tok: Bar
 |body:
-|  LibraryItem[1:21-1:43]
+|  LibraryItem[1:21-1:44]
 |  |has_private:
 |  |  PrivateAbsent[1:21-1:21]
 |  |item:
-|  |  GenericPackageInstantiation[1:21-1:43]
+|  |  GenericPackageInstantiation[1:21-1:44]
 |  |  |name:
 |  |  |  Id[1:29-1:30]
 |  |  |  |tok: A

@@ -1,1 +1,1 @@
-type A is Interface
+type A is Interface;

@@ -1,1 +1,1 @@
-package Int_Vectors is new Ada.Containers.Vectors (Natural, Integer)
+package Int_Vectors is new Ada.Containers.Vectors (Natural, Integer);

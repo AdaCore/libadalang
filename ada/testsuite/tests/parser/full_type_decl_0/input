@@ -1,1 +1,1 @@
-type A is (B, C, D)
+type A is (B, C, D);

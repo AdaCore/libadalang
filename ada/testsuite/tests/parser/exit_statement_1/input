@@ -1,1 +1,1 @@
-exit My_Loop when A < 12
+exit My_Loop when A < 12;

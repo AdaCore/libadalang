@@ -1,6 +1,4 @@
-Parsing failed:
-18:11: End of input expected, got "Semicolon"
-TypeDecl[1:1-18:11]
+TypeDecl[1:1-18:12]
 |type_id:
 |  Id[1:6-1:10]
 |  |tok: vrec
@@ -113,7 +111,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  ComponentList[6:19-6:24]
 |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  AdaNodeList[6:19-6:24]
-|  |  |  |  |  |  |  |  |  NullComponentDecl[6:19-6:23]
+|  |  |  |  |  |  |  |  |  NullComponentDecl[6:19-6:24]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[7:4-15:32]
 |  |  |  |  |  |  |choice_list:
@@ -253,7 +251,7 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  ComponentList[15:27-15:32]
 |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  AdaNodeList[15:27-15:32]
-|  |  |  |  |  |  |  |  |  NullComponentDecl[15:27-15:31]
+|  |  |  |  |  |  |  |  |  NullComponentDecl[15:27-15:32]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[16:4-16:34]
 |  |  |  |  |  |  |choice_list:
@@ -285,6 +283,6 @@ TypeDecl[1:1-18:11]
 |  |  |  |  |  |  |  ComponentList[16:29-16:34]
 |  |  |  |  |  |  |  |components:
 |  |  |  |  |  |  |  |  AdaNodeList[16:29-16:34]
-|  |  |  |  |  |  |  |  |  NullComponentDecl[16:29-16:33]
+|  |  |  |  |  |  |  |  |  NullComponentDecl[16:29-16:34]
 |  |  |  |  |  |  |  |variant_part: <null>
 |aspects: <null>

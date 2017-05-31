@@ -1,4 +1,4 @@
-AcceptStmt[1:1-1:67]
+AcceptStmt[1:1-1:68]
 |name:
 |  Id[1:8-1:14]
 |  |tok: Insert
@@ -27,7 +27,7 @@ AcceptStmt[1:1-1:67]
 |  HandledStmts[1:39-1:56]
 |  |stmts:
 |  |  StmtList[1:39-1:56]
-|  |  |  AssignStmt[1:39-1:55]
+|  |  |  AssignStmt[1:39-1:56]
 |  |  |  |dest:
 |  |  |  |  Id[1:39-1:44]
 |  |  |  |  |tok: Datum

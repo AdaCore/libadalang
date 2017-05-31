@@ -2,6 +2,6 @@ Analyzing foo.ads
 #################
 
 Bar.I resolves to:
-    I : Integer := 0
+    I : Integer := 0;
 
 Done.

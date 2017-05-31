@@ -2,6 +2,6 @@ Analyzing foo.adb
 #################
 
 Pkg_1.A.Bar resolves to:
-    procedure Bar
+    procedure Bar;
 
 Done.

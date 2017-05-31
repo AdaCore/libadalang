@@ -1,4 +1,4 @@
-AttributeDefClause[1:1-1:22]
+AttributeDefClause[1:1-1:23]
 |attribute_expr:
 |  AttributeRef[1:5-1:15]
 |  |prefix:

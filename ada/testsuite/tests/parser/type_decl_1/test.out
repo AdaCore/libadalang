@@ -1,6 +1,4 @@
-Parsing failed:
-1:22: End of input expected, got "Semicolon"
-TypeDecl[1:1-1:22]
+TypeDecl[1:1-1:23]
 |type_id:
 |  Id[1:6-1:7]
 |  |tok: A

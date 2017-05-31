@@ -1,1 +1,1 @@
-type Rec is record A, B : Integer; end record
+type Rec is record A, B : Integer; end record;

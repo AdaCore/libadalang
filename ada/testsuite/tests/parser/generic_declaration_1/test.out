@@ -35,7 +35,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |tok: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
-|  |  |  |  |  PrivateTypeDef[3:20-3:30]
+|  |  |  |  |  PrivateTypeDef[3:23-3:30]
 |  |  |  |  |  |has_abstract:
 |  |  |  |  |  |  AbstractAbsent[3:23-3:23]
 |  |  |  |  |  |has_tagged:

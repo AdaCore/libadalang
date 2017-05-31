@@ -1202,15 +1202,6 @@ class DerivedTypeDef(TypeDef):
         return Self.subtype_indication.xref_equation
 
 
-class IncompleteTypeDef(TypeDef):
-    pass
-
-
-class IncompleteTaggedTypeDef(IncompleteTypeDef):
-    has_abstract = Field(type=Abstract)
-    is_tagged_type = Property(True)
-
-
 class PrivateTypeDef(TypeDef):
     has_abstract = Field(type=Abstract)
     has_tagged = Field(type=Tagged)
@@ -3964,3 +3955,11 @@ class LibraryItem(AdaNode):
 
 class RangeSpec(AdaNode):
     range = Field(type=Expr)
+
+
+class IncompleteTypeDecl(BaseTypeDecl):
+    discriminants = Field(type=T.DiscriminantPart)
+
+
+class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
+    has_abstract = Field(type=Abstract)

@@ -4,7 +4,7 @@ TypeDecl[1:1-1:35]
 |  |tok: A
 |discriminants: <null>
 |type_def:
-|  PrivateTypeDef[1:8-1:34]
+|  PrivateTypeDef[1:11-1:34]
 |  |has_abstract:
 |  |  AbstractPresent[1:11-1:11]
 |  |has_tagged:

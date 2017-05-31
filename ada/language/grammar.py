@@ -306,27 +306,26 @@ A.add_rules(
         ),
         TypeDecl(
             "type", A.identifier, Opt(A.discriminant_part),
+            "is",
             Or(
-                Pick("is", A.type_def),
+                A.type_def,
 
                 PrivateTypeDef(
-                    "is",
                     Abstract("abstract"),
                     Tagged("tagged"),
                     Limited("limited"),
                     "private"
                 ),
-
-                IncompleteTaggedTypeDef(
-                    "is",
-                    Abstract("abstract"),
-                    "tagged"
-                ),
-
-                IncompleteTypeDef(),
             ),
             A.aspect_spec, ";"
-        )
+        ),
+        IncompleteTaggedTypeDecl(
+            "type", A.identifier, Opt(A.discriminant_part),
+            "is", Abstract("abstract"), "tagged", ";"
+        ),
+        IncompleteTypeDecl(
+            "type", A.identifier, Opt(A.discriminant_part), ";"
+        ),
     ),
 
     variant_part=VariantPart(

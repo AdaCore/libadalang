@@ -22,14 +22,11 @@ CompilationUnit[1:1-6:10]
 |  |  |  DeclarativePart[2:4-3:15]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:15]
-|  |  |  |  |  TypeDecl[2:4-2:11]
+|  |  |  |  |  IncompleteTypeDecl[2:4-2:11]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[2:9-2:10]
 |  |  |  |  |  |  |tok: A
 |  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
-|  |  |  |  |  |  IncompleteTypeDef[2:10-2:10]
-|  |  |  |  |  |aspects: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:15]
 |  |  |  |  |  |task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]

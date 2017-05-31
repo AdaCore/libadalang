@@ -1,10 +1,7 @@
-TypeDecl[1:1-1:18]
+IncompleteTaggedTypeDecl[1:1-1:18]
 |type_id:
 |  Id[1:6-1:7]
 |  |tok: A
 |discriminants: <null>
-|type_def:
-|  IncompleteTaggedTypeDef[1:8-1:17]
-|  |has_abstract:
-|  |  AbstractAbsent[1:11-1:11]
-|aspects: <null>
+|has_abstract:
+|  AbstractAbsent[1:11-1:11]

@@ -38,8 +38,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |subp_name:
 |  |  |  |  Id[3:11-3:15]
 |  |  |  |  |tok: What
-|  |  |  |subp_params:
-|  |  |  |  ParamSpecList[3:11-3:11]: <empty list>
+|  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
@@ -80,8 +79,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]
 |  |  |  |  |  |  |  |  |  |  |  |tok: J
-|  |  |  |  |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[6:21-6:21]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -106,8 +104,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]
 |  |  |  |  |  |  |  |  |  |  |  |tok: I
-|  |  |  |  |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[7:21-7:21]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -140,8 +137,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]
 |  |  |  |  |  |  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[9:17-9:17]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |private_part: <null>
@@ -165,8 +161,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]
 |  |  |  |  |  |  |  |  |  |  |tok: Foo
-|  |  |  |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  |  |  |  ParamSpecList[13:17-13:17]: <empty list>
+|  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |decls:

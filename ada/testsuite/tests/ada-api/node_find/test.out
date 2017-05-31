@@ -7,6 +7,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <OverridingUnspecified 1:1-1:1>
   <SubpSpec 1:1-1:68>
   <Id "Sum" 1:10-1:13>
+  <Params 1:14-1:53>
   <ParamSpecList 1:15-1:52>
   <ParamSpec ["A"] 1:15-1:26>
   <IdentifierList 1:15-1:16>

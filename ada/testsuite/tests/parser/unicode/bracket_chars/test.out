@@ -14,8 +14,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |subp_name:
 |  |  |  |  Id[1:11-1:14]
 |  |  |  |  |tok: Foo
-|  |  |  |subp_params:
-|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:

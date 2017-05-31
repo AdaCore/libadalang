@@ -62,25 +62,27 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  Id[5:15-5:19]
 |  |  |  |  |  |  |tok: Push
 |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  ParamSpecList[5:21-5:33]
-|  |  |  |  |  |  |  ParamSpec[5:21-5:33]
-|  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
-|  |  |  |  |  |  |  |  |  Id[5:21-5:22]
-|  |  |  |  |  |  |  |  |  |tok: E
-|  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[5:24-5:24]
-|  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeDefault[5:24-5:24]
-|  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  SubtypeIndication[5:24-5:33]
-|  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[5:24-5:33]
-|  |  |  |  |  |  |  |  |  |tok: Element_T
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  Params[5:20-5:34]
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  ParamSpecList[5:21-5:33]
+|  |  |  |  |  |  |  |  ParamSpec[5:21-5:33]
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
+|  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]
+|  |  |  |  |  |  |  |  |  |  |tok: E
+|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  AliasedAbsent[5:24-5:24]
+|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  ModeDefault[5:24-5:24]
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  SubtypeIndication[5:24-5:33]
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]
+|  |  |  |  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  SubpDecl[6:5-6:35]
@@ -91,8 +93,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  Id[6:14-6:17]
 |  |  |  |  |  |  |tok: Pop
-|  |  |  |  |  |subp_params:
-|  |  |  |  |  |  ParamSpecList[6:14-6:14]: <empty list>
+|  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  SubtypeIndication[6:25-6:34]
 |  |  |  |  |  |  |has_not_null:

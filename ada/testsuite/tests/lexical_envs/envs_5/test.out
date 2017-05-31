@@ -19,8 +19,7 @@ CompilationUnit[1:1-3:9]
 |  |  |  |  |suffix:
 |  |  |  |  |  Id[1:13-1:14]
 |  |  |  |  |  |tok: B
-|  |  |  |subp_params:
-|  |  |  |  ParamSpecList[1:13-1:13]: <empty list>
+|  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:

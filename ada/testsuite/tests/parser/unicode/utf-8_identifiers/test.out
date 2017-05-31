@@ -14,8 +14,7 @@ CompilationUnit[1:1-4:12]
 |  |  |  |subp_name:
 |  |  |  |  Id[1:11-1:17]
 |  |  |  |  |tok: kikoo\u1820
-|  |  |  |subp_params:
-|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:

@@ -15,23 +15,25 @@ EntryDecl[1:1-1:37]
 |  |  Int[1:13-1:14]
 |  |  |tok: 3
 |params:
-|  ParamSpecList[1:17-1:35]
-|  |  ParamSpec[1:17-1:35]
-|  |  |ids:
-|  |  |  IdentifierList[1:17-1:18]
-|  |  |  |  Id[1:17-1:18]
-|  |  |  |  |tok: B
-|  |  |has_aliased:
-|  |  |  AliasedAbsent[1:21-1:21]
-|  |  |mode:
-|  |  |  ModeInOut[1:21-1:27]
-|  |  |type_expr:
-|  |  |  SubtypeIndication[1:28-1:35]
-|  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |  |name:
-|  |  |  |  Id[1:28-1:35]
-|  |  |  |  |tok: BOOLEAN
-|  |  |  |constraint: <null>
-|  |  |default: <null>
+|  Params[1:16-1:36]
+|  |params:
+|  |  ParamSpecList[1:17-1:35]
+|  |  |  ParamSpec[1:17-1:35]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:17-1:18]
+|  |  |  |  |  Id[1:17-1:18]
+|  |  |  |  |  |tok: B
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:21-1:21]
+|  |  |  |mode:
+|  |  |  |  ModeInOut[1:21-1:27]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:28-1:35]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:28-1:35]
+|  |  |  |  |  |tok: BOOLEAN
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
 |aspects: <null>

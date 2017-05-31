@@ -24,27 +24,29 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  Id[2:14-2:17]
 |  |  |  |  |  |  |  |tok: Bar
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[2:19-2:33]
-|  |  |  |  |  |  |  |  ParamSpec[2:19-2:33]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[2:19-2:23]
-|  |  |  |  |  |  |  |  |  |  Id[2:19-2:20]
-|  |  |  |  |  |  |  |  |  |  |tok: I
-|  |  |  |  |  |  |  |  |  |  Id[2:22-2:23]
-|  |  |  |  |  |  |  |  |  |  |tok: J
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[2:26-2:26]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:26]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[2:26-2:33]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[2:26-2:26]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]
-|  |  |  |  |  |  |  |  |  |  |tok: Integer
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  Params[2:18-2:34]
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[2:19-2:33]
+|  |  |  |  |  |  |  |  |  ParamSpec[2:19-2:33]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[2:19-2:23]
+|  |  |  |  |  |  |  |  |  |  |  Id[2:19-2:20]
+|  |  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  |  Id[2:22-2:23]
+|  |  |  |  |  |  |  |  |  |  |  |tok: J
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[2:26-2:33]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:

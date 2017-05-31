@@ -16,25 +16,27 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  Id[1:36-1:40]
 |  |  |  |  |  |tok: Push
 |  |  |  |  |subp_params:
-|  |  |  |  |  ParamSpecList[1:42-1:54]
-|  |  |  |  |  |  ParamSpec[1:42-1:54]
-|  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:42-1:43]
-|  |  |  |  |  |  |  |  Id[1:42-1:43]
-|  |  |  |  |  |  |  |  |tok: E
-|  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
-|  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[1:45-1:45]
-|  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
-|  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:45-1:54]
-|  |  |  |  |  |  |  |  |tok: Element_T
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  Params[1:41-1:55]
+|  |  |  |  |  |params:
+|  |  |  |  |  |  ParamSpecList[1:42-1:54]
+|  |  |  |  |  |  |  ParamSpec[1:42-1:54]
+|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  IdentifierList[1:42-1:43]
+|  |  |  |  |  |  |  |  |  Id[1:42-1:43]
+|  |  |  |  |  |  |  |  |  |tok: E
+|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
+|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  ModeDefault[1:45-1:45]
+|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:45-1:54]
+|  |  |  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |subp_returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  SubpDecl[1:57-1:87]
@@ -45,8 +47,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:66-1:69]
 |  |  |  |  |  |tok: Pop
-|  |  |  |  |subp_params:
-|  |  |  |  |  ParamSpecList[1:66-1:66]: <empty list>
+|  |  |  |  |subp_params: <null>
 |  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[1:77-1:86]
 |  |  |  |  |  |has_not_null:

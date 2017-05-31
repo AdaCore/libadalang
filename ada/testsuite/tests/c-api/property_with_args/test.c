@@ -67,15 +67,22 @@ main(void)
     if (!ada_subp_spec_f_subp_params(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
 	      " SubpSpec -> Params");
+
+    if (!ada_params_f_params(tmp, &tmp))
+        error("Could not get CompilationUnit -> Body -> Item ->"
+	      " SubpSpec -> Params -> Params");
+
     if (!ada_node_child(tmp, 0, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubpSpec -> Params[0]");
+	      " SubpSpec -> Params -> Params[0]");
+
     if (!ada_param_spec_f_ids(tmp, &tmp))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubpSpec -> Params[0] -> Ids");
+	      " SubpSpec -> Params -> Params[0] -> Ids");
+
     if (!ada_node_child(tmp, 0, &i))
         error("Could not get CompilationUnit -> Body -> Item ->"
-	      " SubpSpec -> Params[0] -> Ids[0]");
+	      " SubpSpec -> Params -> Params[0] -> Ids[0]");
 
     printf("This should be Foo:\n");
     dump_identifier(foo);

@@ -558,12 +558,12 @@ A.add_rules(
         Opt(":=", A.expr),
     ),
 
-    param_specs=Pick("(", List(A.param_spec, sep=";"), ")"),
+    param_specs=Params("(", List(A.param_spec, sep=";"), ")"),
 
     subp_spec=SubpSpec(
         _(Or("procedure", "function")),
         Opt(A.static_name),
-        Opt(Pick("(", List(A.param_spec, sep=";"), Opt(")").error())),
+        Opt(A.param_specs),
         Opt("return", A.type_expr)
     ),
 

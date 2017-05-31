@@ -21,8 +21,7 @@ GenericPackageDecl[1:1-1:43]
 |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  Id[1:32-1:35]
 |  |  |  |  |  |  |tok: Set
-|  |  |  |  |  |subp_params:
-|  |  |  |  |  |  ParamSpecList[1:32-1:32]: <empty list>
+|  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>

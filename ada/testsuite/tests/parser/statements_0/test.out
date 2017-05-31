@@ -5,25 +5,27 @@ StmtList[1:1-1:235]
 |  |  |tok: Store
 |  |entry_index_expr: <null>
 |  |params:
-|  |  ParamSpecList[1:15-1:32]
-|  |  |  ParamSpec[1:15-1:32]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[1:15-1:22]
-|  |  |  |  |  Id[1:15-1:22]
-|  |  |  |  |  |tok: An_Item
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:25-1:25]
-|  |  |  |mode:
-|  |  |  |  ModeIn[1:25-1:27]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[1:28-1:32]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |  |  |name:
-|  |  |  |  |  Id[1:28-1:32]
-|  |  |  |  |  |tok: Item
-|  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  Params[1:14-1:33]
+|  |  |params:
+|  |  |  ParamSpecList[1:15-1:32]
+|  |  |  |  ParamSpec[1:15-1:32]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:15-1:22]
+|  |  |  |  |  |  Id[1:15-1:22]
+|  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:25-1:25]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeIn[1:25-1:27]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:28-1:32]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:28-1:32]
+|  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default: <null>
 |  |stmts:
 |  |  HandledStmts[1:37-1:54]
 |  |  |stmts:
@@ -54,25 +56,27 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |tok: Store
 |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  ParamSpecList[1:94-1:111]
-|  |  |  |  |  |  |  |  |  ParamSpec[1:94-1:111]
-|  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[1:94-1:101]
-|  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
-|  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:104-1:104]
-|  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeIn[1:104-1:106]
-|  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:107-1:111]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:107-1:107]
-|  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:107-1:111]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Item
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  Params[1:93-1:112]
+|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  ParamSpecList[1:94-1:111]
+|  |  |  |  |  |  |  |  |  |  ParamSpec[1:94-1:111]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  ModeIn[1:104-1:106]
+|  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:107-1:111]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:107-1:107]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:107-1:111]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:116-1:133]
 |  |  |  |  |  |  |  |  |stmts:
@@ -96,25 +100,27 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |tok: Fetch
 |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  ParamSpecList[1:162-1:180]
-|  |  |  |  |  |  |  |  |  ParamSpec[1:162-1:180]
-|  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[1:162-1:169]
-|  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
-|  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:172-1:172]
-|  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeOut[1:172-1:175]
-|  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:176-1:180]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:176-1:176]
-|  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:176-1:180]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Item
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  Params[1:161-1:181]
+|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  ParamSpecList[1:162-1:180]
+|  |  |  |  |  |  |  |  |  |  ParamSpec[1:162-1:180]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:172-1:172]
+|  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  ModeOut[1:172-1:175]
+|  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:176-1:180]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:176-1:176]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:176-1:180]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:185-1:202]
 |  |  |  |  |  |  |  |  |stmts:

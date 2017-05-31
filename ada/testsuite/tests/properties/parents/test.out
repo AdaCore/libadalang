@@ -30,8 +30,7 @@
 |  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |subp_params:
-|  |  |  |  <ParamSpecList>
+|  |  |  |subp_params: None
 |  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:
@@ -48,27 +47,29 @@
 |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |tok: Token(u'Fact')
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  <ParamSpecList>
-|  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  <ParamSpec>
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  <IdentifierList>
-|  |  |  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  <AliasedAbsent>
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  <ModeDefault>
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  <SubtypeIndication>
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  <NotNullAbsent>
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  <Identifier>
-|  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
-|  |  |  |  |  |  |  |  |  |constraint: None
-|  |  |  |  |  |  |  |  |default: None
+|  |  |  |  |  |  |  <Params>
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  <ParamSpecList>
+|  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  <ParamSpec>
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  <IdentifierList>
+|  |  |  |  |  |  |  |  |  |  |item 0:
+|  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'N')
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  <AliasedAbsent>
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  <ModeDefault>
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  <SubtypeIndication>
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  <NotNullAbsent>
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  |  |  |tok: Token(u'Integer')
+|  |  |  |  |  |  |  |  |  |  |constraint: None
+|  |  |  |  |  |  |  |  |  |default: None
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  <SubtypeIndication>
 |  |  |  |  |  |  |  |has_not_null:

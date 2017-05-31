@@ -3,68 +3,72 @@ SubpSpec[1:1-1:69]
 |  Id[1:11-1:12]
 |  |tok: I
 |subp_params:
-|  ParamSpecList[1:14-1:68]
-|  |  ParamSpec[1:14-1:55]
-|  |  |ids:
-|  |  |  IdentifierList[1:14-1:15]
-|  |  |  |  Id[1:14-1:15]
-|  |  |  |  |tok: A
-|  |  |has_aliased:
-|  |  |  AliasedAbsent[1:18-1:18]
-|  |  |mode:
-|  |  |  ModeInOut[1:18-1:24]
-|  |  |type_expr:
-|  |  |  AnonymousType[1:25-1:55]
-|  |  |  |type_decl:
-|  |  |  |  AnonymousTypeDecl[1:25-1:55]
-|  |  |  |  |type_id: <null>
-|  |  |  |  |discriminants: <null>
-|  |  |  |  |type_def:
-|  |  |  |  |  AccessToSubpDef[1:25-1:55]
-|  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:25-1:25]
-|  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  SubpSpec[1:32-1:55]
-|  |  |  |  |  |  |subp_name: <null>
-|  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[1:43-1:54]
-|  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  |tok: A
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[1:47-1:47]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[1:47-1:47]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[1:47-1:54]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]
-|  |  |  |  |  |  |  |  |  |  |tok: Integer
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
-|  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |aspects: <null>
-|  |  |default: <null>
-|  |  ParamSpec[1:57-1:68]
-|  |  |ids:
-|  |  |  IdentifierList[1:57-1:58]
-|  |  |  |  Id[1:57-1:58]
-|  |  |  |  |tok: B
-|  |  |has_aliased:
-|  |  |  AliasedAbsent[1:61-1:61]
-|  |  |mode:
-|  |  |  ModeDefault[1:61-1:61]
-|  |  |type_expr:
-|  |  |  SubtypeIndication[1:61-1:68]
-|  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:61-1:61]
-|  |  |  |name:
-|  |  |  |  Id[1:61-1:68]
-|  |  |  |  |tok: Integer
-|  |  |  |constraint: <null>
-|  |  |default: <null>
+|  Params[1:13-1:69]
+|  |params:
+|  |  ParamSpecList[1:14-1:68]
+|  |  |  ParamSpec[1:14-1:55]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:14-1:15]
+|  |  |  |  |  Id[1:14-1:15]
+|  |  |  |  |  |tok: A
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:18-1:18]
+|  |  |  |mode:
+|  |  |  |  ModeInOut[1:18-1:24]
+|  |  |  |type_expr:
+|  |  |  |  AnonymousType[1:25-1:55]
+|  |  |  |  |type_decl:
+|  |  |  |  |  AnonymousTypeDecl[1:25-1:55]
+|  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |type_def:
+|  |  |  |  |  |  AccessToSubpDef[1:25-1:55]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
+|  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  SubpSpec[1:32-1:55]
+|  |  |  |  |  |  |  |subp_name: <null>
+|  |  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |  |  Params[1:42-1:55]
+|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  ParamSpecList[1:43-1:54]
+|  |  |  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
+|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:43-1:44]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  ModeDefault[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:47-1:54]
+|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]
+|  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |subp_returns: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |  |default: <null>
+|  |  |  ParamSpec[1:57-1:68]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:57-1:58]
+|  |  |  |  |  Id[1:57-1:58]
+|  |  |  |  |  |tok: B
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:61-1:61]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:61-1:61]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:61-1:68]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:61-1:61]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:61-1:68]
+|  |  |  |  |  |tok: Integer
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
 |subp_returns: <null>

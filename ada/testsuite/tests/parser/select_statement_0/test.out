@@ -16,8 +16,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  Id[1:32-1:37]
 |  |  |  |  |  |tok: SEIZE
 |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params:
-|  |  |  |  |  ParamSpecList[1:32-1:32]: <empty list>
+|  |  |  |  |params: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:41-1:54]
 |  |  |  |  |  |stmts:
@@ -40,8 +39,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  Id[1:70-1:77]
 |  |  |  |  |  |tok: RELEASE
 |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params:
-|  |  |  |  |  ParamSpecList[1:70-1:70]: <empty list>
+|  |  |  |  |params: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:81-1:95]
 |  |  |  |  |  |stmts:

@@ -3045,7 +3045,7 @@ class ParamMatch(Struct):
 @abstract
 class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.Name)
-    params = AbstractProperty(type=T.ParamSpec.list_type())
+    params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
     returns = AbstractProperty(type=T.TypeExpr)
 
     abstract_formal_params = Property(
@@ -3210,11 +3210,17 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
 class SubpSpec(BaseSubpSpec):
     subp_name = Field(type=T.Name)
-    subp_params = Field(type=T.ParamSpec.list_type())
+    subp_params = Field(type=T.Params)
     subp_returns = Field(type=T.TypeExpr)
 
     name = Property(Self.subp_name)
-    params = Property(Self.subp_params)
+
+    params = Property(
+        Self.subp_params.then(
+            lambda p: p.params.map(lambda p: p),
+            default_val=EmptyArray(ParamSpec)
+        ), memoized=True
+    )
     returns = Property(Self.subp_returns)
 
 
@@ -3222,7 +3228,7 @@ class EntryDecl(BasicDecl):
     overriding = Field(type=Overriding)
     entry_id = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
-    params = Field(type=T.ParamSpec.list_type())
+    params = Field(type=T.Params)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
@@ -3815,7 +3821,7 @@ class CaseStmtAlternative(AdaNode):
 class AcceptStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
-    params = Field(type=T.ParamSpec.list_type())
+    params = Field(type=T.Params)
     stmts = Field(type=T.HandledStmts)
 
 
@@ -3899,7 +3905,7 @@ class ProtectedBody(Body):
 class EntryBody(Body):
     entry_name = Field(type=T.Identifier)
     index_spec = Field(type=T.EntryIndexSpec)
-    params = Field(type=T.ParamSpec.list_type())
+    params = Field(type=T.Params)
     barrier = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
@@ -3963,3 +3969,7 @@ class IncompleteTypeDecl(BaseTypeDecl):
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
     has_abstract = Field(type=Abstract)
+
+
+class Params(AdaNode):
+    params = Field(type=ParamSpec.list_type())

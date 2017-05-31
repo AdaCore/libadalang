@@ -14,8 +14,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_name:
 |  |  |  |  Id[1:11-1:15]
 |  |  |  |  |tok: Test
-|  |  |  |subp_params:
-|  |  |  |  ParamSpecList[1:11-1:11]: <empty list>
+|  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:

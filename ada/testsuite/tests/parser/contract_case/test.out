@@ -58,27 +58,29 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  Id[14:13-14:16]
 |  |  |  |  |  |  |  |tok: Add
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[14:18-14:31]
-|  |  |  |  |  |  |  |  ParamSpec[14:18-14:31]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[14:18-14:22]
-|  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]
-|  |  |  |  |  |  |  |  |  |  |tok: X
-|  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]
-|  |  |  |  |  |  |  |  |  |  |tok: Y
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[14:25-14:25]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[14:25-14:25]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[14:25-14:31]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[14:25-14:25]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]
-|  |  |  |  |  |  |  |  |  |  |tok: My_Int
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  Params[14:17-14:32]
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[14:18-14:31]
+|  |  |  |  |  |  |  |  |  ParamSpec[14:18-14:31]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[14:18-14:22]
+|  |  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]
+|  |  |  |  |  |  |  |  |  |  |  |tok: X
+|  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Y
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[14:25-14:31]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]
+|  |  |  |  |  |  |  |  |  |  |  |tok: My_Int
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[14:40-14:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -186,27 +188,29 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  Id[18:13-18:17]
 |  |  |  |  |  |  |  |tok: Mult
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[18:19-18:32]
-|  |  |  |  |  |  |  |  ParamSpec[18:19-18:32]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[18:19-18:23]
-|  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]
-|  |  |  |  |  |  |  |  |  |  |tok: X
-|  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]
-|  |  |  |  |  |  |  |  |  |  |tok: Y
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[18:26-18:26]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[18:26-18:26]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[18:26-18:32]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[18:26-18:26]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]
-|  |  |  |  |  |  |  |  |  |  |tok: My_Int
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  Params[18:18-18:33]
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[18:19-18:32]
+|  |  |  |  |  |  |  |  |  ParamSpec[18:19-18:32]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[18:19-18:23]
+|  |  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]
+|  |  |  |  |  |  |  |  |  |  |  |tok: X
+|  |  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Y
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[18:26-18:32]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]
+|  |  |  |  |  |  |  |  |  |  |  |tok: My_Int
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[18:41-18:47]
 |  |  |  |  |  |  |  |has_not_null:

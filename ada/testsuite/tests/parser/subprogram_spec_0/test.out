@@ -3,25 +3,27 @@ SubpSpec[1:1-1:39]
 |  Id[1:10-1:11]
 |  |tok: A
 |subp_params:
-|  ParamSpecList[1:13-1:23]
-|  |  ParamSpec[1:13-1:23]
-|  |  |ids:
-|  |  |  IdentifierList[1:13-1:14]
-|  |  |  |  Id[1:13-1:14]
-|  |  |  |  |tok: B
-|  |  |has_aliased:
-|  |  |  AliasedAbsent[1:17-1:17]
-|  |  |mode:
-|  |  |  ModeDefault[1:17-1:17]
-|  |  |type_expr:
-|  |  |  SubtypeIndication[1:17-1:23]
-|  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:17-1:17]
-|  |  |  |name:
-|  |  |  |  Id[1:17-1:23]
-|  |  |  |  |tok: String
-|  |  |  |constraint: <null>
-|  |  |default: <null>
+|  Params[1:12-1:24]
+|  |params:
+|  |  ParamSpecList[1:13-1:23]
+|  |  |  ParamSpec[1:13-1:23]
+|  |  |  |ids:
+|  |  |  |  IdentifierList[1:13-1:14]
+|  |  |  |  |  Id[1:13-1:14]
+|  |  |  |  |  |tok: B
+|  |  |  |has_aliased:
+|  |  |  |  AliasedAbsent[1:17-1:17]
+|  |  |  |mode:
+|  |  |  |  ModeDefault[1:17-1:17]
+|  |  |  |type_expr:
+|  |  |  |  SubtypeIndication[1:17-1:23]
+|  |  |  |  |has_not_null:
+|  |  |  |  |  NotNullAbsent[1:17-1:17]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:17-1:23]
+|  |  |  |  |  |tok: String
+|  |  |  |  |constraint: <null>
+|  |  |  |default: <null>
 |subp_returns:
 |  SubtypeIndication[1:32-1:39]
 |  |has_not_null:

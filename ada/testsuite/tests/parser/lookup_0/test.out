@@ -29,25 +29,27 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  Id[3:11-3:22]
 |  |  |  |  |tok: Hello_World
 |  |  |  |subp_params:
-|  |  |  |  ParamSpecList[3:24-3:46]
-|  |  |  |  |  ParamSpec[3:24-3:46]
-|  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[3:24-3:31]
-|  |  |  |  |  |  |  Id[3:24-3:31]
-|  |  |  |  |  |  |  |tok: Console
-|  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[3:34-3:34]
-|  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[3:34-3:34]
-|  |  |  |  |  |type_expr:
-|  |  |  |  |  |  SubtypeIndication[3:34-3:46]
-|  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[3:34-3:34]
-|  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[3:34-3:46]
-|  |  |  |  |  |  |  |tok: Console_Type
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default: <null>
+|  |  |  |  Params[3:23-3:47]
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[3:24-3:46]
+|  |  |  |  |  |  ParamSpec[3:24-3:46]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[3:24-3:31]
+|  |  |  |  |  |  |  |  Id[3:24-3:31]
+|  |  |  |  |  |  |  |  |tok: Console
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[3:34-3:34]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeDefault[3:34-3:34]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[3:34-3:34]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[3:34-3:46]
+|  |  |  |  |  |  |  |  |tok: Console_Type
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
@@ -63,25 +65,27 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
-|  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |tok: N
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |  |tok: Integer
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  Params[5:18-5:31]
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
+|  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  |tok: N
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -375,25 +379,27 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  Id[3:11-3:22]
 |  |  |  |  |tok: Hello_World
 |  |  |  |subp_params:
-|  |  |  |  ParamSpecList[3:24-3:46]
-|  |  |  |  |  ParamSpec[3:24-3:46]
-|  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[3:24-3:31]
-|  |  |  |  |  |  |  Id[3:24-3:31]
-|  |  |  |  |  |  |  |tok: Console
-|  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[3:34-3:34]
-|  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[3:34-3:34]
-|  |  |  |  |  |type_expr:
-|  |  |  |  |  |  SubtypeIndication[3:34-3:46]
-|  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[3:34-3:34]
-|  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[3:34-3:46]
-|  |  |  |  |  |  |  |tok: Console_Type
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default: <null>
+|  |  |  |  Params[3:23-3:47]
+|  |  |  |  |params:
+|  |  |  |  |  ParamSpecList[3:24-3:46]
+|  |  |  |  |  |  ParamSpec[3:24-3:46]
+|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  IdentifierList[3:24-3:31]
+|  |  |  |  |  |  |  |  Id[3:24-3:31]
+|  |  |  |  |  |  |  |  |tok: Console
+|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[3:34-3:34]
+|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  ModeDefault[3:34-3:34]
+|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
+|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[3:34-3:34]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[3:34-3:46]
+|  |  |  |  |  |  |  |  |tok: Console_Type
+|  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |default: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
@@ -409,25 +415,27 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |  |  |tok: Fact
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
-|  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |tok: N
-|  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
-|  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
-|  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
-|  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |  |tok: Integer
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  Params[5:18-5:31]
+|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
+|  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
+|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  |tok: N
+|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
+|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]
+|  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -594,25 +602,27 @@ SubpBody[3:1-17:10]
 |  |  Id[3:11-3:22]
 |  |  |tok: Hello_World
 |  |subp_params:
-|  |  ParamSpecList[3:24-3:46]
-|  |  |  ParamSpec[3:24-3:46]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[3:24-3:31]
-|  |  |  |  |  Id[3:24-3:31]
-|  |  |  |  |  |tok: Console
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[3:34-3:34]
-|  |  |  |mode:
-|  |  |  |  ModeDefault[3:34-3:34]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[3:34-3:46]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[3:34-3:34]
-|  |  |  |  |name:
-|  |  |  |  |  Id[3:34-3:46]
-|  |  |  |  |  |tok: Console_Type
-|  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  Params[3:23-3:47]
+|  |  |params:
+|  |  |  ParamSpecList[3:24-3:46]
+|  |  |  |  ParamSpec[3:24-3:46]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[3:24-3:31]
+|  |  |  |  |  |  Id[3:24-3:31]
+|  |  |  |  |  |  |tok: Console
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[3:34-3:34]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeDefault[3:34-3:34]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[3:34-3:46]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[3:34-3:34]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[3:34-3:46]
+|  |  |  |  |  |  |tok: Console_Type
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default: <null>
 |  |subp_returns: <null>
 |aspects: <null>
 |decls:
@@ -628,25 +638,27 @@ SubpBody[3:1-17:10]
 |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |tok: Fact
 |  |  |  |  |subp_params:
-|  |  |  |  |  ParamSpecList[5:19-5:30]
-|  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  Id[5:19-5:20]
-|  |  |  |  |  |  |  |  |tok: N
-|  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
-|  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[5:23-5:23]
-|  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[5:23-5:30]
-|  |  |  |  |  |  |  |  |tok: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  Params[5:18-5:31]
+|  |  |  |  |  |params:
+|  |  |  |  |  |  ParamSpecList[5:19-5:30]
+|  |  |  |  |  |  |  ParamSpec[5:19-5:30]
+|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
+|  |  |  |  |  |  |  |  |  Id[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |tok: N
+|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
+|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[5:23-5:30]
+|  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |has_not_null:

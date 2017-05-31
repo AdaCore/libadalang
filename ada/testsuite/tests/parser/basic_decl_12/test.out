@@ -7,82 +7,84 @@ SubpDecl[1:1-1:125]
 |  |  Id[1:11-1:25]
 |  |  |tok: Lines_Add_Hook
 |  |subp_params:
-|  |  ParamSpecList[1:27-1:123]
-|  |  |  ParamSpec[1:27-1:69]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[1:27-1:33]
-|  |  |  |  |  Id[1:27-1:33]
-|  |  |  |  |  |tok: Buffer
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:36-1:36]
-|  |  |  |mode:
-|  |  |  |  ModeDefault[1:36-1:36]
-|  |  |  |type_expr:
-|  |  |  |  AnonymousType[1:36-1:69]
-|  |  |  |  |type_decl:
-|  |  |  |  |  AnonymousTypeDecl[1:36-1:69]
-|  |  |  |  |  |type_id: <null>
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
-|  |  |  |  |  |  TypeAccessDef[1:36-1:69]
-|  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
-|  |  |  |  |  |  |has_all:
-|  |  |  |  |  |  |  AllAbsent[1:43-1:43]
-|  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantAbsent[1:43-1:43]
-|  |  |  |  |  |  |subtype_indication:
-|  |  |  |  |  |  |  SubtypeIndication[1:43-1:69]
+|  |  Params[1:26-1:124]
+|  |  |params:
+|  |  |  ParamSpecList[1:27-1:123]
+|  |  |  |  ParamSpec[1:27-1:69]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:27-1:33]
+|  |  |  |  |  |  Id[1:27-1:33]
+|  |  |  |  |  |  |tok: Buffer
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:36-1:36]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeDefault[1:36-1:36]
+|  |  |  |  |type_expr:
+|  |  |  |  |  AnonymousType[1:36-1:69]
+|  |  |  |  |  |type_decl:
+|  |  |  |  |  |  AnonymousTypeDecl[1:36-1:69]
+|  |  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |  |type_def:
+|  |  |  |  |  |  |  TypeAccessDef[1:36-1:69]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:43-1:43]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  AttributeRef[1:43-1:69]
-|  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  Id[1:43-1:63]
-|  |  |  |  |  |  |  |  |  |tok: Source_Buffer_Record
-|  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  Id[1:64-1:69]
-|  |  |  |  |  |  |  |  |  |tok: Class
-|  |  |  |  |  |  |  |  |args: <null>
+|  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
+|  |  |  |  |  |  |  |has_all:
+|  |  |  |  |  |  |  |  AllAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  ConstantAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |  |  SubtypeIndication[1:43-1:69]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  AttributeRef[1:43-1:69]
+|  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  Id[1:43-1:63]
+|  |  |  |  |  |  |  |  |  |  |tok: Source_Buffer_Record
+|  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  Id[1:64-1:69]
+|  |  |  |  |  |  |  |  |  |  |tok: Class
+|  |  |  |  |  |  |  |  |  |args: <null>
+|  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |default: <null>
-|  |  |  ParamSpec[1:71-1:96]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[1:71-1:76]
-|  |  |  |  |  Id[1:71-1:76]
-|  |  |  |  |  |tok: Start
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:80-1:80]
-|  |  |  |mode:
-|  |  |  |  ModeDefault[1:80-1:80]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[1:80-1:96]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:80-1:80]
-|  |  |  |  |name:
-|  |  |  |  |  Id[1:80-1:96]
-|  |  |  |  |  |tok: Buffer_Line_Type
-|  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
-|  |  |  ParamSpec[1:98-1:123]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[1:98-1:104]
-|  |  |  |  |  Id[1:98-1:104]
-|  |  |  |  |  |tok: Number
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:107-1:107]
-|  |  |  |mode:
-|  |  |  |  ModeDefault[1:107-1:107]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[1:107-1:123]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:107-1:107]
-|  |  |  |  |name:
-|  |  |  |  |  Id[1:107-1:123]
-|  |  |  |  |  |tok: Buffer_Line_Type
-|  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |default: <null>
+|  |  |  |  ParamSpec[1:71-1:96]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:71-1:76]
+|  |  |  |  |  |  Id[1:71-1:76]
+|  |  |  |  |  |  |tok: Start
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:80-1:80]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeDefault[1:80-1:80]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:80-1:96]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:80-1:80]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:80-1:96]
+|  |  |  |  |  |  |tok: Buffer_Line_Type
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default: <null>
+|  |  |  |  ParamSpec[1:98-1:123]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:98-1:104]
+|  |  |  |  |  |  Id[1:98-1:104]
+|  |  |  |  |  |  |tok: Number
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:107-1:107]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeDefault[1:107-1:107]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:107-1:123]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:107-1:107]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:107-1:123]
+|  |  |  |  |  |  |tok: Buffer_Line_Type
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default: <null>
 |  |subp_returns: <null>
 |aspects: <null>

@@ -7,27 +7,29 @@ FormalSubpDecl[1:1-1:71]
 |  |  Id[1:15-1:20]
 |  |  |tok: Pouet
 |  |subp_params:
-|  |  ParamSpecList[1:22-1:37]
-|  |  |  ParamSpec[1:22-1:37]
-|  |  |  |ids:
-|  |  |  |  IdentifierList[1:22-1:26]
-|  |  |  |  |  Id[1:22-1:23]
-|  |  |  |  |  |tok: X
-|  |  |  |  |  Id[1:25-1:26]
-|  |  |  |  |  |tok: Y
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:28-1:28]
-|  |  |  |mode:
-|  |  |  |  ModeDefault[1:28-1:28]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[1:28-1:37]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |  |  |name:
-|  |  |  |  |  Id[1:28-1:37]
-|  |  |  |  |  |tok: Element_T
-|  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  Params[1:21-1:38]
+|  |  |params:
+|  |  |  ParamSpecList[1:22-1:37]
+|  |  |  |  ParamSpec[1:22-1:37]
+|  |  |  |  |ids:
+|  |  |  |  |  IdentifierList[1:22-1:26]
+|  |  |  |  |  |  Id[1:22-1:23]
+|  |  |  |  |  |  |tok: X
+|  |  |  |  |  |  Id[1:25-1:26]
+|  |  |  |  |  |  |tok: Y
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:28-1:28]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeDefault[1:28-1:28]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:28-1:37]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:28-1:37]
+|  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default: <null>
 |  |subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
 |  |  |has_not_null:

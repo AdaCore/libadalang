@@ -30,8 +30,7 @@
 |  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
-|  |  |  |subp_params:
-|  |  |  |  <ParamSpecList>
+|  |  |  |subp_params: None
 |  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:

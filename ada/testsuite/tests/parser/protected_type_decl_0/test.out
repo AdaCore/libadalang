@@ -20,25 +20,27 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |tok: Insert
 |  |  |  |  |family_type: <null>
 |  |  |  |  |params:
-|  |  |  |  |  ParamSpecList[1:55-1:73]
-|  |  |  |  |  |  ParamSpec[1:55-1:73]
-|  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:55-1:62]
-|  |  |  |  |  |  |  |  Id[1:55-1:62]
-|  |  |  |  |  |  |  |  |tok: An_Item
-|  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
-|  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeIn[1:65-1:67]
-|  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
-|  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:69-1:73]
-|  |  |  |  |  |  |  |  |tok: Item
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  Params[1:54-1:74]
+|  |  |  |  |  |params:
+|  |  |  |  |  |  ParamSpecList[1:55-1:73]
+|  |  |  |  |  |  |  ParamSpec[1:55-1:73]
+|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
+|  |  |  |  |  |  |  |  |  Id[1:55-1:62]
+|  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
+|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  ModeIn[1:65-1:67]
+|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:69-1:73]
+|  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:110]
 |  |  |  |  |overriding:
@@ -48,25 +50,27 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |tok: Remove
 |  |  |  |  |family_type: <null>
 |  |  |  |  |params:
-|  |  |  |  |  ParamSpecList[1:90-1:108]
-|  |  |  |  |  |  ParamSpec[1:90-1:108]
-|  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:90-1:97]
-|  |  |  |  |  |  |  |  Id[1:90-1:97]
-|  |  |  |  |  |  |  |  |tok: An_Item
-|  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
-|  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeOut[1:100-1:103]
-|  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
-|  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
-|  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:104-1:108]
-|  |  |  |  |  |  |  |  |tok: Item
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  Params[1:89-1:109]
+|  |  |  |  |  |params:
+|  |  |  |  |  |  ParamSpecList[1:90-1:108]
+|  |  |  |  |  |  |  ParamSpec[1:90-1:108]
+|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  IdentifierList[1:90-1:97]
+|  |  |  |  |  |  |  |  |  Id[1:90-1:97]
+|  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
+|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  ModeOut[1:100-1:103]
+|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
+|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:104-1:108]
+|  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part:
 |  |  PrivatePart[1:119-1:159]

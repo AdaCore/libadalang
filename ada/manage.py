@@ -10,6 +10,7 @@ import sys
 from env import setenv
 setenv()
 
+from langkit.diagnostics import check_source_language
 from langkit.libmanage import ManageScript
 from langkit.utils import Colors, printcol
 
@@ -219,6 +220,11 @@ class Manage(ManageScript):
         def file_lines(filename):
             with open(filename) as f:
                 return len(list(f))
+
+        check_source_language(
+            not os.path.isabs(args.build_dir),
+            "--build-dir should be a relative path for perf testsuite"
+        )
 
         work_dir = os.path.abspath(args.work_dir)
         variant_name = args.build_dir

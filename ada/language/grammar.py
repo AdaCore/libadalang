@@ -237,7 +237,7 @@ A.add_rules(
         NullRecordDef("null", "record", Null(ComponentList)),
     ),
 
-    range_spec=Pick("range", A.discrete_range | A.name | A.box_expr),
+    range_spec=RangeSpec("range", A.discrete_range | A.name | A.box_expr),
 
     real_type_def=Or(A.floating_point_def, A.decimal_fixed_point_def,
                      A.ordinary_fixed_point_def),

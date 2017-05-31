@@ -25,13 +25,15 @@ TypeDecl[1:1-1:50]
 |  |  |  |  |  Int[1:27-1:29]
 |  |  |  |  |  |tok: 60
 |  |range:
-|  |  BinOp[1:37-1:49]
-|  |  |left:
-|  |  |  Real[1:37-1:40]
-|  |  |  |tok: 0.0
-|  |  |op:
-|  |  |  OpDoubleDot[1:41-1:43]
-|  |  |right:
-|  |  |  Real[1:44-1:49]
-|  |  |  |tok: 360.0
+|  |  RangeSpec[1:31-1:49]
+|  |  |range:
+|  |  |  BinOp[1:37-1:49]
+|  |  |  |left:
+|  |  |  |  Real[1:37-1:40]
+|  |  |  |  |tok: 0.0
+|  |  |  |op:
+|  |  |  |  OpDoubleDot[1:41-1:43]
+|  |  |  |right:
+|  |  |  |  Real[1:44-1:49]
+|  |  |  |  |tok: 360.0
 |aspects: <null>

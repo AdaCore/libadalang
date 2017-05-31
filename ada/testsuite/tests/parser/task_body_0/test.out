@@ -29,15 +29,17 @@ TaskBody[1:1-24:29]
 |  |  |  |  |constraint:
 |  |  |  |  |  RangeConstraint[3:32-3:49]
 |  |  |  |  |  |range:
-|  |  |  |  |  |  BinOp[3:38-3:49]
-|  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  Int[3:38-3:39]
-|  |  |  |  |  |  |  |tok: 1
-|  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  OpDoubleDot[3:40-3:42]
-|  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  Id[3:43-3:49]
-|  |  |  |  |  |  |  |tok: Q_Size
+|  |  |  |  |  |  RangeSpec[3:32-3:49]
+|  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  BinOp[3:38-3:49]
+|  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  Int[3:38-3:39]
+|  |  |  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  OpDoubleDot[3:40-3:42]
+|  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  Id[3:43-3:49]
+|  |  |  |  |  |  |  |  |tok: Q_Size
 |  |  |  |aspects: <null>
 |  |  |  ObjectDecl[4:4-4:44]
 |  |  |  |ids:
@@ -60,15 +62,17 @@ TaskBody[1:1-24:29]
 |  |  |  |  |constraint:
 |  |  |  |  |  RangeConstraint[4:21-4:38]
 |  |  |  |  |  |range:
-|  |  |  |  |  |  BinOp[4:27-4:38]
-|  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  Int[4:27-4:28]
-|  |  |  |  |  |  |  |tok: 0
-|  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  OpDoubleDot[4:29-4:31]
-|  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  Id[4:32-4:38]
-|  |  |  |  |  |  |  |tok: Q_Size
+|  |  |  |  |  |  RangeSpec[4:21-4:38]
+|  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  BinOp[4:27-4:38]
+|  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  Int[4:27-4:28]
+|  |  |  |  |  |  |  |  |tok: 0
+|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  OpDoubleDot[4:29-4:31]
+|  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  Id[4:32-4:38]
+|  |  |  |  |  |  |  |  |tok: Q_Size
 |  |  |  |default_expr:
 |  |  |  |  Int[4:42-4:43]
 |  |  |  |  |tok: 0

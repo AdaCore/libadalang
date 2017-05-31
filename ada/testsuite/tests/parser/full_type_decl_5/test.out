@@ -12,13 +12,15 @@ TypeDecl[1:1-1:69]
 |  |  Id[1:40-1:50]
 |  |  |tok: Num_Digits
 |  |range:
-|  |  BinOp[1:57-1:68]
-|  |  |left:
-|  |  |  Id[1:57-1:60]
-|  |  |  |tok: Low
-|  |  |op:
-|  |  |  OpDoubleDot[1:61-1:63]
-|  |  |right:
-|  |  |  Id[1:64-1:68]
-|  |  |  |tok: High
+|  |  RangeSpec[1:51-1:68]
+|  |  |range:
+|  |  |  BinOp[1:57-1:68]
+|  |  |  |left:
+|  |  |  |  Id[1:57-1:60]
+|  |  |  |  |tok: Low
+|  |  |  |op:
+|  |  |  |  OpDoubleDot[1:61-1:63]
+|  |  |  |right:
+|  |  |  |  Id[1:64-1:68]
+|  |  |  |  |tok: High
 |aspects: <null>

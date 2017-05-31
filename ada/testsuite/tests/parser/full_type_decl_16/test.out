@@ -18,7 +18,9 @@ TypeDecl[1:1-1:49]
 |  |  |  |  |constraint:
 |  |  |  |  |  RangeConstraint[1:28-1:36]
 |  |  |  |  |  |range:
-|  |  |  |  |  |  BoxExpr[1:34-1:36]
+|  |  |  |  |  |  RangeSpec[1:28-1:36]
+|  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  BoxExpr[1:34-1:36]
 |  |component_type:
 |  |  ComponentDef[1:41-1:48]
 |  |  |has_aliased:

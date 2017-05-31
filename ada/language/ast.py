@@ -1119,18 +1119,18 @@ class EnumTypeDecl(BaseTypeDecl):
 
 class FloatingPointDef(RealTypeDef):
     num_digits = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
     delta = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class DecimalFixedPointDef(RealTypeDef):
     delta = Field(type=T.Expr)
     digits = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 @abstract
@@ -1144,17 +1144,17 @@ class Constraint(AdaNode):
 
 
 class RangeConstraint(Constraint):
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class DigitsConstraint(Constraint):
     digits = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class DeltaConstraint(Constraint):
     digits = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class IndexConstraint(Constraint):
@@ -1220,7 +1220,7 @@ class PrivateTypeDef(TypeDef):
 
 
 class SignedIntTypeDef(TypeDef):
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
     is_int_type = Property(True)
 
 
@@ -1689,7 +1689,7 @@ class AttributeDefClause(AspectClause):
 class ComponentClause(AdaNode):
     id = Field(type=T.Identifier)
     position = Field(type=T.Expr)
-    range = Field(type=T.Expr)
+    range = Field(type=T.RangeSpec)
 
 
 class RecordRepClause(AspectClause):
@@ -3960,3 +3960,7 @@ class TaskBodyStub(BodyStub):
 class LibraryItem(AdaNode):
     has_private = Field(type=Private)
     item = Field(type=T.BasicDecl)
+
+
+class RangeSpec(AdaNode):
+    range = Field(type=Expr)

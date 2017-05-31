@@ -6,13 +6,15 @@ TypeDecl[1:1-1:25]
 |type_def:
 |  SignedIntTypeDef[1:11-1:24]
 |  |range:
-|  |  BinOp[1:17-1:24]
-|  |  |left:
-|  |  |  Int[1:17-1:18]
-|  |  |  |tok: 1
-|  |  |op:
-|  |  |  OpDoubleDot[1:19-1:21]
-|  |  |right:
-|  |  |  Int[1:22-1:24]
-|  |  |  |tok: 12
+|  |  RangeSpec[1:11-1:24]
+|  |  |range:
+|  |  |  BinOp[1:17-1:24]
+|  |  |  |left:
+|  |  |  |  Int[1:17-1:18]
+|  |  |  |  |tok: 1
+|  |  |  |op:
+|  |  |  |  OpDoubleDot[1:19-1:21]
+|  |  |  |right:
+|  |  |  |  Int[1:22-1:24]
+|  |  |  |  |tok: 12
 |aspects: <null>

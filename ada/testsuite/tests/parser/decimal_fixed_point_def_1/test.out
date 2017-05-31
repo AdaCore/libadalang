@@ -6,12 +6,14 @@ DecimalFixedPointDef[1:1-1:54]
 |  Id[1:26-1:36]
 |  |tok: Num_Digits
 |range:
-|  BinOp[1:43-1:54]
-|  |left:
-|  |  Id[1:43-1:46]
-|  |  |tok: Low
-|  |op:
-|  |  OpDoubleDot[1:47-1:49]
-|  |right:
-|  |  Id[1:50-1:54]
-|  |  |tok: High
+|  RangeSpec[1:37-1:54]
+|  |range:
+|  |  BinOp[1:43-1:54]
+|  |  |left:
+|  |  |  Id[1:43-1:46]
+|  |  |  |tok: Low
+|  |  |op:
+|  |  |  OpDoubleDot[1:47-1:49]
+|  |  |right:
+|  |  |  Id[1:50-1:54]
+|  |  |  |tok: High

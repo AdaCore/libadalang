@@ -3,12 +3,14 @@ OrdinaryFixedPointDef[1:1-1:29]
 |  Id[1:7-1:11]
 |  |tok: Delt
 |range:
-|  BinOp[1:18-1:29]
-|  |left:
-|  |  Id[1:18-1:21]
-|  |  |tok: Low
-|  |op:
-|  |  OpDoubleDot[1:22-1:24]
-|  |right:
-|  |  Id[1:25-1:29]
-|  |  |tok: High
+|  RangeSpec[1:12-1:29]
+|  |range:
+|  |  BinOp[1:18-1:29]
+|  |  |left:
+|  |  |  Id[1:18-1:21]
+|  |  |  |tok: Low
+|  |  |op:
+|  |  |  OpDoubleDot[1:22-1:24]
+|  |  |right:
+|  |  |  Id[1:25-1:29]
+|  |  |  |tok: High

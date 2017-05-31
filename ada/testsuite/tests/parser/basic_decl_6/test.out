@@ -6,5 +6,7 @@ TypeDecl[1:1-1:20]
 |type_def:
 |  SignedIntTypeDef[1:11-1:19]
 |  |range:
-|  |  BoxExpr[1:17-1:19]
+|  |  RangeSpec[1:11-1:19]
+|  |  |range:
+|  |  |  BoxExpr[1:17-1:19]
 |aspects: <null>

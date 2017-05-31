@@ -9,14 +9,17 @@ from langkit.compiled_types import (
 
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, Bind, EmptyArray, EmptyEnv, Env,
-    EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self, Var,
-    ignore, langkit_property
+    AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
+    EmptyEnv, EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self,
+    Var, ignore, langkit_property
 )
 from langkit.expressions.analysis_units import (
     AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
 )
 from langkit.expressions.logic import Predicate, LogicTrue
+
+
+Env = DynamicVariable('env', LexicalEnvType)
 
 
 def add_to_env_kv(key, val, *args, **kwargs):
@@ -104,7 +107,7 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
@@ -121,7 +124,7 @@ class AdaNode(ASTNode):
 
     xref_stop_resolution = Property(False)
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def sub_equation():
         """
         Wrapper for xref_equation, meant to be used inside of xref_equation
@@ -134,7 +137,7 @@ class AdaNode(ASTNode):
                   LogicTrue(),
                   Self.xref_equation)
 
-    @langkit_property(return_type=BoolType, has_implicit_env=True)
+    @langkit_property(return_type=BoolType, dynamic_vars=[Env])
     def resolve_symbols_internal(initial=BoolType):
         """
         Internal helper for resolve_symbols, implementing the recursive logic.
@@ -169,7 +172,7 @@ class AdaNode(ASTNode):
         successful, then type_var and ref_var will be bound on appropriate
         subnodes of the statement.
         """
-        return Self.node_env.eval_in_env(Self.resolve_symbols_internal(True))
+        return Env.bind(Self.node_env, Self.resolve_symbols_internal(True))
 
     # TODO: Navigation properties are not ready to deal with units containing
     # multiple packages.
@@ -415,7 +418,7 @@ def child_unit(name_expr, scope_expr):
 
     return EnvSpec(
         initial_env=(
-            Self.initial_env.eval_in_env(Let(
+            Env.bind(Self.initial_env, Let(
                 lambda scope=scope_expr: If(scope == EmptyEnv, Env, scope)
             ))
         ),
@@ -711,7 +714,7 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     @langkit_property(return_type=T.ParamMatch.array_type(),
-                      has_implicit_env=True)
+                      dynamic_vars=[Env])
     def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
         """
         For each ParamAssoc in a AssocList, return whether we could find a
@@ -1057,7 +1060,7 @@ class TypeDecl(BaseTypeDecl):
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
-        Self.children_env.eval_in_env(Self.type_def.defining_env)
+        Env.bind(Self.children_env, Self.type_def.defining_env)
 
         # TODO: The fact that the env should not be inherited from the called
         # property might be common enough to warrant a specific construct, such
@@ -1078,7 +1081,7 @@ class TypeDecl(BaseTypeDecl):
 
     xref_entry_point = Property(True)
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def xref_equation():
         # TODO: Handle discriminants
         return Self.type_def.xref_equation
@@ -1194,7 +1197,7 @@ class DerivedTypeDef(TypeDef):
         Self.base_type.canonical_type.defining_env
     ))
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def xref_equation():
         return Self.subtype_indication.xref_equation
 
@@ -1490,7 +1493,7 @@ class SubtypeIndication(TypeExpr):
     # SubtypeIndication node itself: we don't want to use whatever lexical
     # environment the caller is using.
     designated_type = Property(
-        Self.node_env.eval_in_env(Self.name.designated_type_impl)
+        Env.bind(Self.node_env, Self.name.designated_type_impl)
     )
 
     @langkit_property()
@@ -1568,9 +1571,8 @@ class BasicSubpDecl(BasicDecl):
     )
 
     env_spec = EnvSpec(
-        initial_env=Self.initial_env.eval_in_env(
-            Self.subp_decl_spec.name.parent_scope
-        ),
+        initial_env=Env.bind(Self.initial_env,
+                             Self.subp_decl_spec.name.parent_scope),
         add_to_env=[
             # First regular add to env action, adding to the subp's scope
             add_to_env_kv(Self.subp_decl_spec.name.relative_name.symbol, Self),
@@ -1891,17 +1893,17 @@ class GenericPackageInstantiation(GenericInstantiation):
     defining_names = Property(Self.name.singleton)
 
     designated_package = Property(
-        Self.node_env.eval_in_env(
-            Self.generic_entity_name.matching_nodes_impl
-            .at(0).cast_or_raise(T.GenericPackageDecl)
-        )
+        Env.bind(Self.node_env,
+                 Self.generic_entity_name.matching_nodes_impl
+                 .at(0).cast_or_raise(T.GenericPackageDecl))
     )
 
     env_spec = EnvSpec(
         add_to_env=[
             add_to_env_kv(Self.name.relative_name.symbol, Self),
             add_to_env(
-                Self.initial_env.eval_in_env(
+                Env.bind(
+                    Self.initial_env,
                     Self.designated_package.formal_part.match_param_list(
                         Self.params, False
                     ).map(lambda pm: New(
@@ -1933,7 +1935,8 @@ class PackageRenamingDecl(BasicDecl):
                           Self.name.parent_scope)
 
     defining_names = Property(Self.name.singleton)
-    defining_env = Property(Self.node_env.eval_in_env(
+    defining_env = Property(Env.bind(
+        Self.node_env,
         Self.renames.renamed_object.matching_nodes_impl.at(0).cast(BasicDecl)
         .defining_env
     ))
@@ -2049,7 +2052,7 @@ class Expr(AdaNode):
     type_val = Property(Self.type_var.get_value)
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=LexicalEnvType, has_implicit_env=True)
+                      return_type=LexicalEnvType, dynamic_vars=[Env])
     def designated_env():
         """
         Returns the lexical environment designated by this name.
@@ -2061,11 +2064,11 @@ class Expr(AdaNode):
 
     @langkit_property()
     def designated_env_wrapper():
-        return Self.node_env.eval_in_env(Self.designated_env)
+        return Env.bind(Self.node_env, Self.designated_env)
 
     parent_scope = AbstractProperty(
         type=compiled_types.LexicalEnvType, runtime_check=True,
-        has_implicit_env=True,
+        dynamic_vars=[Env],
         doc="""
         Returns the lexical environment that is the scope in which the
         entity designated by this name is defined/used.
@@ -2085,12 +2088,12 @@ class Expr(AdaNode):
             Not(e.is_library_item)
             | Self.has_with_visibility(e.el.unit)
         )),
-        has_implicit_env=True
+        dynamic_vars=[Env]
     )
 
     @langkit_property(return_type=T.root_node.entity().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
-                      has_implicit_env=True)
+                      dynamic_vars=[Env])
     def env_elements_impl():
         """
         Returns the list of annotated elements in the lexical environment
@@ -2098,7 +2101,7 @@ class Expr(AdaNode):
         """
         pass
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def matching_nodes_impl():
         return Self.env_elements.map(lambda e: e.el)
 
@@ -2108,7 +2111,7 @@ class Expr(AdaNode):
         Return the list of AST nodes that can be a match for this expression
         before overloading analysis.
         """
-        return Self.node_env.eval_in_env(Self.matching_nodes_impl)
+        return Env.bind(Self.node_env, Self.matching_nodes_impl)
 
 
 class ContractCaseAssoc(BaseAssoc):
@@ -2277,7 +2280,7 @@ class Aggregate(Expr):
 class Name(Expr):
 
     scope = Property(
-        EmptyEnv, has_implicit_env=True,
+        EmptyEnv, dynamic_vars=[Env],
         doc="""
         Lexical environment this identifier represents. This is similar to
         designated_env although it handles only cases for child units and it is
@@ -2302,7 +2305,7 @@ class Name(Expr):
     ref_val = Property(Self.ref_var.get_value)
 
     designated_type_impl = AbstractProperty(
-        type=BaseTypeDecl.entity(), runtime_check=True, has_implicit_env=True,
+        type=BaseTypeDecl.entity(), runtime_check=True, dynamic_vars=[Env],
         doc="""
         Assuming this name designates a type, return this type.
 
@@ -2312,7 +2315,7 @@ class Name(Expr):
     )
 
     name_designated_type = Property(
-        Self.node_env.eval_in_env(Self.designated_type_impl),
+        Env.bind(Self.node_env, Self.designated_type_impl),
         doc="""
         Like SubtypeIndication.designated_type, but on names, since because of
         Ada's ambiguous grammar, some subtype indications will be parsed as
@@ -2363,7 +2366,7 @@ class CallExpr(Name):
 
     ref_var = Property(Self.name.ref_var)
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def designated_env():
         return Self.env_elements().map(lambda e: e.match(
             lambda subp=BasicSubpDecl.entity(): subp.defining_env,
@@ -2394,7 +2397,7 @@ class CallExpr(Name):
             Self.innermost_callexpr.general_xref_equation
         )
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def type_conv_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in type
@@ -2407,7 +2410,7 @@ class CallExpr(Name):
             Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def general_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in
@@ -2484,7 +2487,7 @@ class CallExpr(Name):
             & Bind(Self.ref_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def equation_for_type(typ=T.BaseTypeDecl.entity()):
         """
         Construct an equation verifying if Self is conformant to the type
@@ -2555,7 +2558,7 @@ class CallExpr(Name):
             lambda ce: If(ce.name == Self, ce, No(CallExpr))
         )
 
-    @langkit_property(return_type=EquationType, has_implicit_env=True)
+    @langkit_property(return_type=EquationType, dynamic_vars=[Env])
     def parent_callexprs_equation(typ=T.BaseTypeDecl.entity()):
         """
         Construct the xref equation for the chain of parent nested callexprs.
@@ -2779,7 +2782,7 @@ class BaseId(SingleTokNode):
 
     designated_env = Property(Self.designated_env_impl(False))
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def designated_env_impl(is_parent_pkg=BoolType):
         """
         Decoupled implementation for designated_env, specifically used by
@@ -2836,11 +2839,11 @@ class BaseId(SingleTokNode):
             )
         )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def env_elements_impl():
         return Self.env_elements_baseid(False)
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def env_elements_baseid(is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by
@@ -3052,7 +3055,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
     )
 
-    @langkit_property(return_type=BoolType, has_implicit_env=True)
+    @langkit_property(return_type=BoolType, dynamic_vars=[Env])
     def is_matching_param_list(params=AssocList, is_dottable_subp=BoolType):
         """
         Return whether a AssocList is a match for this SubpSpec, i.e.
@@ -3375,7 +3378,7 @@ class QualExpr(Name):
     # this property and update Allocator.get_allocated type to do:
     # q.prefix.designated_type.
     designated_type = Property(
-        Self.node_env.eval_in_env(Self.designated_type_impl),
+        Env.bind(Self.node_env, Self.designated_type_impl),
     )
     designated_type_impl = Property(Self.prefix.designated_type_impl)
 
@@ -3407,14 +3410,14 @@ class DottedName(Name):
     @langkit_property()
     def designated_env():
         pfx_env = Var(Self.prefix.designated_env)
-        return pfx_env.eval_in_env(If(
+        return Env.bind(pfx_env, If(
             pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId),
             Self.suffix.designated_env_impl(True),
             Self.suffix.designated_env
         ))
 
     scope = Property(Self.suffix.then(
-        lambda sfx: Self.parent_scope.eval_in_env(sfx.scope),
+        lambda sfx: Env.bind(Self.parent_scope, sfx.scope),
         default_val=EmptyEnv
     ))
 
@@ -3426,16 +3429,15 @@ class DottedName(Name):
     def env_elements_impl():
         pfx_env = Var(Self.prefix.designated_env)
 
-        return pfx_env.eval_in_env(If(
+        return Env.bind(pfx_env, If(
             pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId),
             Self.suffix.env_elements_baseid(True),
             Self.suffix.env_elements_impl
         ))
 
     designated_type_impl = Property(lambda: (
-        Self.prefix.designated_env.eval_in_env(
-            Self.suffix.designated_type_impl
-        )
+        Env.bind(Self.prefix.designated_env,
+                 Self.suffix.designated_type_impl)
     ))
 
     @langkit_property()
@@ -3443,7 +3445,8 @@ class DottedName(Name):
         dt = Self.designated_type_impl
         base = Var(
             Self.prefix.sub_equation
-            & Self.prefix.designated_env.eval_in_env(Self.suffix.sub_equation)
+            & Env.bind(Self.prefix.designated_env,
+                       Self.suffix.sub_equation)
         )
         return If(
             Not(dt.is_null),
@@ -3467,7 +3470,7 @@ class CompilationUnit(AdaNode):
 
 class SubpBody(Body):
     env_spec = EnvSpec(
-        initial_env=Self.initial_env.eval_in_env(If(
+        initial_env=Env.bind(Self.initial_env, If(
             Self.is_library_item,
             # In case the subp spec for this library level subprogram is
             # missing, we'll put it in the parent's scope. This way, the xref
@@ -3824,9 +3827,9 @@ class PackageBody(Body):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
-    @langkit_property(has_implicit_env=True)
+    @langkit_property(dynamic_vars=[Env])
     def body_scope():
-        scope = Var(Self.parent.node_env.eval_in_env(Self.package_name.scope))
+        scope = Var(Env.bind(Self.parent.node_env, Self.package_name.scope))
         public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
             lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
             default_val=scope
@@ -3846,7 +3849,8 @@ class PackageBody(Body):
         If the case of generic package declarations, this returns the
         "package_decl" field instead of the GenericPackageDecl itself.
         """
-        return Self.parent.node_env.eval_in_env(
+        return Env.bind(
+            Self.parent.node_env,
             Self.package_name.matching_nodes_impl.at(0).match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:

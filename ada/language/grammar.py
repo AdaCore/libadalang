@@ -978,13 +978,14 @@ A.add_rules(
         Or(A.box_expr, A.expr)
     ),
 
-    aggregate_content=List(A.aggregate_assoc, sep=",", list_cls=AssocList),
-    aggregate_content_null=Pick("null", "record", Null(AssocList)),
-
-    aggregate=Aggregate(
-        "(",
-        Opt(A.expr, "with"), A.aggregate_content_null | A.aggregate_content,
-        ")"
+    aggregate=Or(
+        Aggregate(
+            "(", Opt(A.expr, "with"),
+            List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+            ")"
+        ),
+        NullRecordAggregate("(", Opt(A.expr, "with"),
+                            "null", "record", Null(AssocList), ")")
     ),
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal),

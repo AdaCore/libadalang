@@ -1669,7 +1669,7 @@ class AspectClause(AdaNode):
 
 class EnumRepClause(AspectClause):
     type_name = Field(type=T.Name)
-    aggregate = Field(type=T.Aggregate)
+    aggregate = Field(type=T.BaseAggregate)
 
 
 class AttributeDefClause(AspectClause):
@@ -2244,9 +2244,12 @@ class MembershipExpr(Expr):
     membership_exprs = Field(type=T.AdaNode.list_type())
 
 
-class Aggregate(Expr):
+class BaseAggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
     assocs = Field(type=T.AssocList)
+
+
+class Aggregate(BaseAggregate):
 
     xref_stop_resolution = Property(True)
 
@@ -2277,6 +2280,10 @@ class Aggregate(Expr):
                 & Bind(assoc.expr.type_var, atd.comp_type)
             )
         )
+
+
+class NullRecordAggregate(BaseAggregate):
+    pass
 
 
 @abstract

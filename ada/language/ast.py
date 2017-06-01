@@ -4004,3 +4004,7 @@ class Params(AdaNode):
 
 class ParentList(Name.list_type()):
     pass
+
+
+class DiscriminantChoiceList(Identifier.list_type()):
+    pass

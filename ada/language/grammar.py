@@ -192,7 +192,8 @@ A.add_rules(
     ),
 
     discriminant_assoc=DiscriminantAssoc(
-        Opt(List(A.identifier, sep="|"), "=>"),
+        Opt(List(A.identifier, sep="|",
+                 list_cls=DiscriminantChoiceList), "=>"),
         A.expr
     ),
 

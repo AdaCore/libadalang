@@ -3,7 +3,7 @@ GenericPackageDecl[1:1-7:19]
 |  GenericFormalPart[1:1-3:31]
 |  |decls:
 |  |  AdaNodeList[2:5-3:31]
-|  |  |  GenericFormal[2:5-2:19]
+|  |  |  GenericFormalObjDecl[2:5-2:19]
 |  |  |  |decl:
 |  |  |  |  ObjectDecl[2:5-2:19]
 |  |  |  |  |ids:
@@ -27,7 +27,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |default_expr: <null>
 |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |aspects: <null>
-|  |  |  GenericFormal[3:5-3:31]
+|  |  |  GenericFormalTypeDecl[3:5-3:31]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[3:5-3:31]
 |  |  |  |  |type_id:

@@ -26,7 +26,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  GenericFormalPart[2:4-3:19]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[3:7-3:19]
-|  |  |  |  |  |  |  |  GenericFormal[3:7-3:19]
+|  |  |  |  |  |  |  |  GenericFormalObjDecl[3:7-3:19]
 |  |  |  |  |  |  |  |  |decl:
 |  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:19]
 |  |  |  |  |  |  |  |  |  |ids:

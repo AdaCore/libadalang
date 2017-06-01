@@ -3,7 +3,7 @@ GenericSubpDecl[1:1-1:77]
 |  GenericFormalPart[1:1-1:35]
 |  |decls:
 |  |  AdaNodeList[1:9-1:35]
-|  |  |  GenericFormal[1:9-1:35]
+|  |  |  GenericFormalTypeDecl[1:9-1:35]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[1:9-1:35]
 |  |  |  |  |type_id:

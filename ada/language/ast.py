@@ -2001,6 +2001,22 @@ class GenericFormal(BaseFormalParamDecl):
     defining_names = Property(Self.decl.defining_names)
 
 
+class GenericFormalObjDecl(GenericFormal):
+    pass
+
+
+class GenericFormalTypeDecl(GenericFormal):
+    pass
+
+
+class GenericFormalSubpDecl(GenericFormal):
+    pass
+
+
+class GenericFormalPackage(GenericFormal):
+    pass
+
+
 class GenericSubpDecl(BasicSubpDecl):
     env_spec = child_unit(Self.subp_spec.name.relative_name.symbol,
                           Self.subp_spec.name.parent_scope)

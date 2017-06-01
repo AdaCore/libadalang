@@ -376,10 +376,10 @@ A.add_rules(
 
     generic_formal_decl=Or(
         A.pragma,
-        GenericFormal(A.object_decl),
-        GenericFormal(A.type_decl),
-        GenericFormal(A.formal_subp_decl),
-        GenericFormal("with", A.generic_instantiation)
+        GenericFormalObjDecl(A.object_decl),
+        GenericFormalTypeDecl(A.type_decl),
+        GenericFormalSubpDecl(A.formal_subp_decl),
+        GenericFormalPackage("with", A.generic_instantiation)
     ),
 
     formal_subp_decl=FormalSubpDecl(

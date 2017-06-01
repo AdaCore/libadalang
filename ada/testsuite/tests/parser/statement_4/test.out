@@ -1,4 +1,4 @@
-BlockStmt[1:1-1:47]
+DeclBlock[1:1-1:47]
 |decls:
 |  DeclarativePart[1:9-1:27]
 |  |decls:

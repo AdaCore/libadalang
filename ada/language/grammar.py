@@ -799,11 +799,10 @@ A.add_rules(
     ),
 
     iblock_stmt=Or(
-        BlockStmt(
-            Null(DeclarativePart),
+        BeginBlock(
             "begin", A.handled_stmts, A.end_named_block, ";"
         ),
-        BlockStmt(
+        DeclBlock(
             "declare", DeclarativePart(A.basic_decls),
             recover("begin"), A.handled_stmts, A.end_named_block, ";"
         ),

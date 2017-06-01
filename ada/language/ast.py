@@ -1556,7 +1556,7 @@ class BasicSubpDecl(BasicDecl):
                 lambda pkg_decl=T.BasePackageDecl: pkg_decl.body_part.decls,
                 lambda pkg_body=T.PackageBody: pkg_body.decls,
                 lambda subp_body=T.SubpBody: subp_body.decls,
-                lambda block_stmt=T.BlockStmt: block_stmt.decls,
+                lambda decl_block=T.DeclBlock: decl_block.decls,
                 lambda _: No(DeclarativePart),
             ).then(lambda decl_part: decl_part.decls.keep(T.SubpBody).filter(
                 lambda subp_body:
@@ -3790,11 +3790,18 @@ class LoopStmt(CompositeStmt):
 
 
 class BlockStmt(CompositeStmt):
+    env_spec = EnvSpec(add_env=True)
+
+
+class DeclBlock(BlockStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_id = Field(type=T.Identifier)
 
-    env_spec = EnvSpec(add_env=True)
+
+class BeginBlock(BlockStmt):
+    stmts = Field(type=T.HandledStmts)
+    end_id = Field(type=T.Identifier)
 
 
 class ExtendedReturnStmt(CompositeStmt):

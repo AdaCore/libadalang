@@ -57,7 +57,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  HandledStmts[4:7-8:11]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  StmtList[4:7-8:11]
-|  |  |  |  |  |  |  |  BlockStmt[4:7-8:11]
+|  |  |  |  |  |  |  |  DeclBlock[4:7-8:11]
 |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |decls:
@@ -122,6 +122,6 @@ $root = LexEnv(Parent=null):
     i: [<ParamSpec ["I", "J"] 2:19-2:33>]
     j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 
-@3 = LexEnv(Parent=@2, Node=<BlockStmt 4:7-8:11>):
+@3 = LexEnv(Parent=@2, Node=<DeclBlock 4:7-8:11>):
     lol: [<SubtypeDecl ["Lol"] 5:10-5:47>]
 

@@ -215,7 +215,7 @@ def encode(f, locnames, node):
             return enc(node.f_decls)
         elif node.is_a(lal.HandledStmts):
             return enc(node.f_stmts) + enc(node.f_exceptions)
-        elif node.is_a(lal.BlockStmt):
+        elif node.is_a(lal.DeclBlock):
             return enc(node.f_decls) + enc(node.f_stmts)
         elif node.is_a(lal.IfStmt):
             return ([Code(hash("if " + strcode(node.f_cond_expr)), node, f)]

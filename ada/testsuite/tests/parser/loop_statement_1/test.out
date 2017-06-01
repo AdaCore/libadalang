@@ -1,4 +1,4 @@
-LoopStmt[1:1-1:52]
+ForLoopStmt[1:1-1:52]
 |spec:
 |  ForLoopSpec[1:5-1:31]
 |  |var_decl:

@@ -385,7 +385,7 @@ def explore(f, locvars, locsubprograms, subp):
         # Reset assigns objects inside and before loop, as control may come
         # back from the loop body after variables may be read in the loop. Also
         # consider all local variables as possibly read.
-        elif isinstance(node, lal.LoopStmt):
+        elif isinstance(node, lal.BaseLoopStmt):
             reads |= set(locvars.keys())
             traverse_branch(node.f_stmts, {}, {}, reads, reads)
             traverse(node.f_spec, assigns, reads)

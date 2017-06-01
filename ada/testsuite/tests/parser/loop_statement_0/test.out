@@ -5,7 +5,7 @@ NamedStmt[1:1-1:35]
 |  |  Id[1:1-1:2]
 |  |  |tok: A
 |stmt:
-|  LoopStmt[1:4-1:35]
+|  ForLoopStmt[1:4-1:35]
 |  |spec:
 |  |  ForLoopSpec[1:8-1:14]
 |  |  |var_decl:

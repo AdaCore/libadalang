@@ -181,7 +181,7 @@ def explore(f, subp):
             for sub in node.f_case_alts:
                 traverse_branch(sub, derefs, loop_test)
 
-        elif node.is_a(lal.LoopStmt):
+        elif node.is_a(lal.BaseLoopStmt):
             traverse(node.f_spec, derefs, loop_test=True)
             traverse_branch(node.f_stmts, derefs, loop_test)
 

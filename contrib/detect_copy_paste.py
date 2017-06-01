@@ -231,7 +231,7 @@ def encode(f, locnames, node):
         elif node.is_a(lal.CaseStmtAlternative):
             return ([Code(hash("when " + strcode(node.f_choices)), node, f)]
                     + enc(node.f_stmts))
-        elif node.is_a(lal.LoopStmt):
+        elif node.is_a(lal.BaseLoopStmt):
             return ([Code(hash("loop " + strcode(node.f_spec)), node, f)]
                     + enc(node.f_stmts))
 

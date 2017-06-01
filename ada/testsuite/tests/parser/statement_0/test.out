@@ -1,4 +1,4 @@
-LoopStmt[1:1-1:34]
+WhileLoopStmt[1:1-1:34]
 |spec:
 |  WhileLoopSpec[1:1-1:13]
 |  |expr:

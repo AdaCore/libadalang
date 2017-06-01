@@ -5,7 +5,7 @@ NamedStmt[1:1-1:37]
 |  |  Id[1:1-1:2]
 |  |  |tok: A
 |stmt:
-|  LoopStmt[1:4-1:37]
+|  WhileLoopStmt[1:4-1:37]
 |  |spec:
 |  |  WhileLoopSpec[1:4-1:16]
 |  |  |expr:

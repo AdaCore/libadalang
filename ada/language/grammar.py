@@ -813,19 +813,24 @@ A.add_rules(
         NamedStmt(NamedStmtDecl(A.identifier), ":", A.iblock_stmt),
     ),
 
-    iloop_stmt=LoopStmt(
-        Opt(A.iteration_scheme),
-        "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), ";"
+    iloop_stmt=Or(
+        ForLoopStmt(
+            "for", A.for_loop_param_spec,
+            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), ";"
+        ),
+        WhileLoopStmt(
+            WhileLoopSpec("while", A.expr),
+            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), ";"
+        ),
+        LoopStmt(
+            Null(LoopSpec),
+            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), ";"
+        ),
     ),
 
     loop_stmt=Or(
         A.iloop_stmt,
         NamedStmt(NamedStmtDecl(A.identifier), ":", A.iloop_stmt),
-    ),
-
-    iteration_scheme=Or(
-        Pick("for", A.for_loop_param_spec),
-        WhileLoopSpec("while", A.expr)
     ),
 
     compound_stmt=Or(A.if_stmt, A.block_stmt,

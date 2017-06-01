@@ -321,9 +321,9 @@ package body Highlighter is
             when LAL.Ada_Named_Stmt_Decl =>
                Highlight_Block_Name
                  (LAL.Named_Stmt_Decl (Node).F_Name, Highlights);
-            when LAL.Ada_Loop_Stmt =>
+            when LAL.Ada_Base_Loop_Stmt =>
                Highlight_Block_Name
-                 (LAL.Loop_Stmt (Node).F_End_Id, Highlights);
+                 (LAL.Base_Loop_Stmt (Node).F_End_Id, Highlights);
             when LAL.Ada_Decl_Block =>
                Highlight_Block_Name
                  (LAL.Decl_Block (Node).F_End_Id, Highlights);

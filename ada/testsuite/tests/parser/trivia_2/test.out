@@ -105,7 +105,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  |  LoopStmt
+|  |  |  |  |  |  |  |  |  |  |  |  ForLoopStmt
 |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopSpec
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopVarDecl
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id

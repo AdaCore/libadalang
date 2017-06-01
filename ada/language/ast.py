@@ -3273,7 +3273,7 @@ class ForLoopVarDecl(BasicDecl):
         # specification. Run resolution if necessary.
         Let(lambda p=If(
             Self.id.type_val.el.is_null,
-            Self.parent.parent.cast(T.LoopStmt).resolve_symbols,
+            Self.parent.parent.cast(T.ForLoopStmt).resolve_symbols,
             True
         ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity()),
               No(BaseTypeDecl.entity()))),
@@ -3786,7 +3786,8 @@ class NamedStmt(CompositeStmt):
     )
 
 
-class LoopStmt(CompositeStmt):
+@abstract
+class BaseLoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.AdaNode.list_type())
     end_id = Field(type=T.Identifier)
@@ -3794,6 +3795,18 @@ class LoopStmt(CompositeStmt):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         return Self.spec.xref_equation
+
+
+class LoopStmt(BaseLoopStmt):
+    pass
+
+
+class ForLoopStmt(BaseLoopStmt):
+    pass
+
+
+class WhileLoopStmt(BaseLoopStmt):
+    pass
 
 
 class BlockStmt(CompositeStmt):

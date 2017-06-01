@@ -8,7 +8,7 @@ TypeDecl[1:1-1:52]
 |  |interface_kind:
 |  |  InterfaceKindSynchronized[1:11-1:23]
 |  |interfaces:
-|  |  NameList[1:34-1:51]
+|  |  ParentList[1:38-1:51]
 |  |  |  Id[1:38-1:42]
 |  |  |  |tok: Ilol
 |  |  |  Id[1:47-1:51]

@@ -25,7 +25,7 @@ TypeDecl[1:1-1:27]
 |  |  |  |  |tok: 1.0
 |  |  |  |range: <null>
 |  |interfaces:
-|  |  NameList[1:26-1:26]: <empty list>
+|  |  ParentList[1:23-1:23]: <empty list>
 |  |record_extension: <null>
 |  |has_with_private:
 |  |  WithPrivateAbsent[1:26-1:26]

@@ -7,5 +7,5 @@ TypeDecl[1:1-1:21]
 |  InterfaceTypeDef[1:11-1:20]
 |  |interface_kind: <null>
 |  |interfaces:
-|  |  NameList[1:20-1:20]: <empty list>
+|  |  ParentList[1:11-1:11]: <empty list>
 |aspects: <null>

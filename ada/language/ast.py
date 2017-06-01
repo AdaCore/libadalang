@@ -4000,3 +4000,7 @@ class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
 
 class Params(AdaNode):
     params = Field(type=ParamSpec.list_type())
+
+
+class ParentList(Name.list_type()):
+    pass

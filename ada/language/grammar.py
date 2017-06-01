@@ -87,6 +87,8 @@ def recover(*rules):
 
 
 A.add_rules(
+    parent_list=List(A.static_name, sep="and", list_cls=ParentList),
+
     end_named_block=recover("end", Opt(A.identifier)),
     end_liblevel_block=recover("end", Opt(A.static_name)),
 
@@ -94,7 +96,7 @@ A.add_rules(
         L.Identifier(match_text="protected"),
         "type", A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
-        "is", Opt("new", List(A.static_name, sep="and"), "with"),
+        "is", Opt("new", A.parent_list, "with"),
         A.protected_def, ";"
     ),
 
@@ -114,7 +116,7 @@ A.add_rules(
         L.Identifier(match_text="protected"),
         A.identifier, A.aspect_spec,
         "is",
-        Opt("new", List(A.static_name, sep="and"), "with"),
+        Opt("new", A.parent_list, "with"),
         A.protected_def, ";"
     ),
 
@@ -122,7 +124,7 @@ A.add_rules(
 
     task_def=TaskDef(
         "is",
-        Opt("new", List(A.static_name, sep="and"), "with"),
+        Opt("new", A.parent_list, "with"),
         PublicPart(
             List(A.task_item, empty_valid=True, list_cls=DeclList)
         ),
@@ -155,7 +157,7 @@ A.add_rules(
                                            match_text="synchronized"))
         )),
         L.Identifier(match_text="interface"),
-        List("and", A.static_name, empty_valid=True)
+        Opt("and", A.parent_list)
     ),
 
     array_type_def=ArrayTypeDef(
@@ -184,7 +186,7 @@ A.add_rules(
         ),
         "new",
         A.subtype_indication,
-        List("and", A.static_name, empty_valid=True),
+        Opt("and", A.parent_list),
         Opt("with", A.record_def),
         WithPrivate("with", "private")
     ),

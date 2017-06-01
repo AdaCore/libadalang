@@ -33,7 +33,7 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  |  Int[1:39-1:41]
 |  |  |  |  |  |  |tok: 12
 |  |interfaces:
-|  |  NameList[1:43-1:43]: <empty list>
+|  |  ParentList[1:41-1:41]: <empty list>
 |  |record_extension:
 |  |  RecordDef[1:48-1:78]
 |  |  |components:

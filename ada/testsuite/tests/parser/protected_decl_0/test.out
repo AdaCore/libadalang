@@ -4,7 +4,7 @@ SingleProtectedDecl[1:1-1:122]
 |  |tok: Protected_Buffer
 |aspects: <null>
 |interfaces:
-|  NameList[1:28-1:28]: <empty list>
+|  ParentList[1:28-1:28]: <empty list>
 |definition:
 |  ProtectedDef[1:31-1:121]
 |  |public_part:

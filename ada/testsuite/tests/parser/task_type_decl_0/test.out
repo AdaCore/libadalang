@@ -7,7 +7,7 @@ TaskTypeDecl[1:1-1:145]
 |definition:
 |  TaskDef[1:28-1:144]
 |  |interfaces:
-|  |  NameList[1:28-1:28]: <empty list>
+|  |  ParentList[1:28-1:28]: <empty list>
 |  |public_part:
 |  |  PublicPart[1:31-1:123]
 |  |  |decls:

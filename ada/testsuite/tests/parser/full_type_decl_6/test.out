@@ -20,7 +20,7 @@ TypeDecl[1:1-1:58]
 |  |  |  |tok: A
 |  |  |constraint: <null>
 |  |interfaces:
-|  |  NameList[1:19-1:19]: <empty list>
+|  |  ParentList[1:17-1:17]: <empty list>
 |  |record_extension:
 |  |  RecordDef[1:24-1:57]
 |  |  |components:

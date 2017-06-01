@@ -9,7 +9,7 @@ SingleTaskDecl[1:1-1:140]
 |  |definition:
 |  |  TaskDef[1:23-1:139]
 |  |  |interfaces:
-|  |  |  NameList[1:23-1:23]: <empty list>
+|  |  |  ParentList[1:23-1:23]: <empty list>
 |  |  |public_part:
 |  |  |  PublicPart[1:26-1:118]
 |  |  |  |decls:

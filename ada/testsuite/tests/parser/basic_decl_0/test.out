@@ -8,5 +8,5 @@ TypeDecl[1:1-1:34]
 |  |interface_kind:
 |  |  InterfaceKindTask[1:19-1:23]
 |  |interfaces:
-|  |  NameList[1:33-1:33]: <empty list>
+|  |  ParentList[1:24-1:24]: <empty list>
 |aspects: <null>

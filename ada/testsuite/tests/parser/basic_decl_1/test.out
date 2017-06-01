@@ -7,7 +7,7 @@ TaskTypeDecl[1:1-1:63]
 |definition:
 |  TaskDef[1:15-1:62]
 |  |interfaces:
-|  |  NameList[1:22-1:28]
+|  |  ParentList[1:22-1:28]
 |  |  |  Id[1:22-1:28]
 |  |  |  |tok: Server
 |  |public_part:

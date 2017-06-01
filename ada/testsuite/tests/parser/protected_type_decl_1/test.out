@@ -5,7 +5,7 @@ ProtectedTypeDecl[1:1-1:137]
 |discrs: <null>
 |aspects: <null>
 |interfaces:
-|  NameList[1:38-1:38]: <empty list>
+|  ParentList[1:38-1:38]: <empty list>
 |definition:
 |  ProtectedDef[1:41-1:136]
 |  |public_part:

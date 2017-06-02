@@ -126,7 +126,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |indices:
 |  |  |  |  |  |  |  ConstrainedArrayIndices[6:18-6:25]
 |  |  |  |  |  |  |  |list:
-|  |  |  |  |  |  |  |  AdaNodeList[6:18-6:25]
+|  |  |  |  |  |  |  |  ConstraintList[6:18-6:25]
 |  |  |  |  |  |  |  |  |  SubtypeIndication[6:18-6:25]
 |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:18-6:18]

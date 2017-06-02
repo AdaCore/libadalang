@@ -167,13 +167,15 @@ A.add_rules(
             UnconstrainedArrayIndices(List(A.subtype_indication, "range", "<>",
                                            sep=",")),
 
-            ConstrainedArrayIndices(List(A.discrete_subtype_definition,
-                                         sep=","))
+            ConstrainedArrayIndices(A.constraint_list)
         ),
         ")", "of", A.component_def
     ),
 
     discrete_subtype_definition=A.discrete_range | A.subtype_indication,
+
+    constraint_list=List(A.discrete_subtype_definition, sep=",",
+                         list_cls=ConstraintList),
 
     signed_int_type_def=SignedIntTypeDef(A.range_spec),
     mod_int_type_def=ModIntTypeDef("mod", A.sexpr_or_box),
@@ -202,7 +204,7 @@ A.add_rules(
     ),
 
     index_constraint=IndexConstraint(
-        "(", List(A.discrete_subtype_definition, sep=","), ")"
+        "(", A.constraint_list, ")"
     ),
 
     digits_constraint=DigitsConstraint(

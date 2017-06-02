@@ -4028,3 +4028,7 @@ class DiscriminantChoiceList(Identifier.list_type()):
 
 class AlternativesList(AdaNode.list_type()):
     pass
+
+
+class ConstraintList(AdaNode.list_type()):
+    pass

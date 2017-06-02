@@ -8,7 +8,7 @@ TypeDecl[1:1-1:51]
 |  |indices:
 |  |  ConstrainedArrayIndices[1:20-1:38]
 |  |  |list:
-|  |  |  AdaNodeList[1:20-1:38]
+|  |  |  ConstraintList[1:20-1:38]
 |  |  |  |  SubtypeIndication[1:20-1:38]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[1:20-1:20]
@@ -18,7 +18,7 @@ TypeDecl[1:1-1:51]
 |  |  |  |  |constraint:
 |  |  |  |  |  IndexConstraint[1:28-1:38]
 |  |  |  |  |  |constraints:
-|  |  |  |  |  |  AdaNodeList[1:29-1:37]
+|  |  |  |  |  |  ConstraintList[1:29-1:37]
 |  |  |  |  |  |  |  BinOp[1:29-1:37]
 |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  Int[1:29-1:31]

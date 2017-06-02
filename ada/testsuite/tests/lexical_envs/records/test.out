@@ -150,7 +150,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint:
 |  |  |  |  |  |  |  |  |  |  |  |  |  IndexConstraint[9:18-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |constraints:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ConstraintList[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[9:19-9:20]

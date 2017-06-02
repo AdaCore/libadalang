@@ -2,7 +2,7 @@ ArrayTypeDef[1:1-1:24]
 |indices:
 |  ConstrainedArrayIndices[1:8-1:14]
 |  |list:
-|  |  AdaNodeList[1:8-1:14]
+|  |  ConstraintList[1:8-1:14]
 |  |  |  BinOp[1:8-1:14]
 |  |  |  |left:
 |  |  |  |  Id[1:8-1:9]

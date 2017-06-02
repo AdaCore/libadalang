@@ -12,7 +12,7 @@ SubtypeDecl[1:1-1:26]
 |  |constraint:
 |  |  IndexConstraint[1:16-1:25]
 |  |  |constraints:
-|  |  |  AdaNodeList[1:17-1:24]
+|  |  |  ConstraintList[1:17-1:24]
 |  |  |  |  BinOp[1:17-1:24]
 |  |  |  |  |left:
 |  |  |  |  |  Int[1:17-1:18]

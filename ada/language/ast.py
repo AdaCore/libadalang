@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 from langkit import compiled_types
 from langkit.compiled_types import (
     ASTNode, BoolType, EquationType, Field, LexicalEnvType,
-    LogicVarType, LongType, Struct, T, UserField, abstract,
+    LogicVarType, LongType, Struct, T, UserField, abstract, synthetic,
     env_metadata, has_abstract_list, root_grammar_class, Symbol
 )
 
@@ -1041,6 +1041,7 @@ class BaseTypeDecl(BasicDecl):
     is_classwide = Property(False)
 
 
+@synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
     """
     Synthetic node (not parsed, generated from a property call). Refers to the
@@ -2018,6 +2019,7 @@ class GenericFormalPart(BaseFormalParamHolder):
     )
 
 
+@abstract
 class GenericFormal(BaseFormalParamDecl):
     decl = Field(T.BasicDecl)
     identifiers = Property(
@@ -2285,6 +2287,7 @@ class MembershipExpr(Expr):
     membership_exprs = Field(type=T.AdaNode.list_type())
 
 
+@abstract
 class BaseAggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
     assocs = Field(type=T.AssocList)
@@ -3847,6 +3850,7 @@ class WhileLoopStmt(BaseLoopStmt):
     pass
 
 
+@abstract
 class BlockStmt(CompositeStmt):
     env_spec = EnvSpec(add_env=True)
 

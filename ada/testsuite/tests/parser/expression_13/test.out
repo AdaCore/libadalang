@@ -17,7 +17,7 @@ AttributeRef[1:1-1:22]
 |  |  |  AssocList[1:10-1:13]
 |  |  |  |  AggregateAssoc[1:10-1:13]
 |  |  |  |  |designators:
-|  |  |  |  |  AdaNodeList[1:9-1:9]: <empty list>
+|  |  |  |  |  AlternativesList[1:9-1:9]: <empty list>
 |  |  |  |  |r_expr:
 |  |  |  |  |  Chr[1:10-1:13]
 |  |  |  |  |  |tok: 'D'

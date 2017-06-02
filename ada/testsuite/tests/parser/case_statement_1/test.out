@@ -33,7 +33,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
 |  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]
 |  |  |  |  |  |  |  |choices:
-|  |  |  |  |  |  |  |  AdaNodeList[4:12-4:49]
+|  |  |  |  |  |  |  |  AlternativesList[4:12-4:49]
 |  |  |  |  |  |  |  |  |  BinOp[4:12-4:49]
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  DottedName[4:12-4:28]

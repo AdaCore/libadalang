@@ -6,7 +6,7 @@ Aggregate[1:1-1:24]
 |  AssocList[1:9-1:23]
 |  |  AggregateAssoc[1:9-1:15]
 |  |  |designators:
-|  |  |  AdaNodeList[1:9-1:10]
+|  |  |  AlternativesList[1:9-1:10]
 |  |  |  |  Id[1:9-1:10]
 |  |  |  |  |tok: B
 |  |  |r_expr:
@@ -14,7 +14,7 @@ Aggregate[1:1-1:24]
 |  |  |  |tok: C
 |  |  AggregateAssoc[1:17-1:23]
 |  |  |designators:
-|  |  |  AdaNodeList[1:17-1:18]
+|  |  |  AlternativesList[1:17-1:18]
 |  |  |  |  Id[1:17-1:18]
 |  |  |  |  |tok: D
 |  |  |r_expr:

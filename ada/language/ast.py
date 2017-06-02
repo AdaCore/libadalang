@@ -4024,3 +4024,7 @@ class ParentList(Name.list_type()):
 
 class DiscriminantChoiceList(Identifier.list_type()):
     pass
+
+
+class AlternativesList(AdaNode.list_type()):
+    pass

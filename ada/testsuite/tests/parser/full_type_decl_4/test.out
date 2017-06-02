@@ -64,7 +64,7 @@ TypeDecl[1:1-1:118]
 |  |  |  |  |  VariantList[1:68-1:96]
 |  |  |  |  |  |  Variant[1:68-1:96]
 |  |  |  |  |  |  |choice_list:
-|  |  |  |  |  |  |  AdaNodeList[1:73-1:80]
+|  |  |  |  |  |  |  AlternativesList[1:73-1:80]
 |  |  |  |  |  |  |  |  Int[1:73-1:75]
 |  |  |  |  |  |  |  |  |tok: 12
 |  |  |  |  |  |  |  |  Int[1:78-1:80]

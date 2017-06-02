@@ -45,7 +45,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  VariantList[3:4-16:34]
 |  |  |  |  |  |  Variant[3:4-6:24]
 |  |  |  |  |  |  |choice_list:
-|  |  |  |  |  |  |  AdaNodeList[3:9-6:15]
+|  |  |  |  |  |  |  AlternativesList[3:9-6:15]
 |  |  |  |  |  |  |  |  Id[3:9-3:11]
 |  |  |  |  |  |  |  |  |tok: sn
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[4:9-4:24]
@@ -119,7 +119,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[7:4-15:32]
 |  |  |  |  |  |  |choice_list:
-|  |  |  |  |  |  |  AdaNodeList[7:10-15:23]
+|  |  |  |  |  |  |  AlternativesList[7:10-15:23]
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[7:10-7:26]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[7:10-7:10]
@@ -267,7 +267,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[16:4-16:34]
 |  |  |  |  |  |  |choice_list:
-|  |  |  |  |  |  |  AdaNodeList[16:9-16:25]
+|  |  |  |  |  |  |  AlternativesList[16:9-16:25]
 |  |  |  |  |  |  |  |  BinOp[16:9-16:25]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  BinOp[16:9-16:20]

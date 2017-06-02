@@ -104,7 +104,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  AssocList[16:10-16:87]
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[16:10-16:47]
 |  |  |  |  |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:10-16:24]
+|  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[16:10-16:24]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:10-16:24]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[16:10-16:15]
@@ -146,7 +146,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Y
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[16:49-16:87]
 |  |  |  |  |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:49-16:64]
+|  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[16:49-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:49-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[16:49-16:54]
@@ -234,7 +234,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  AssocList[19:25-20:64]
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[19:25-19:63]
 |  |  |  |  |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[19:25-19:39]
+|  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[19:25-19:39]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[19:25-19:39]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[19:25-19:30]
@@ -276,7 +276,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Y
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[20:25-20:64]
 |  |  |  |  |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[20:25-20:40]
+|  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[20:25-20:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[20:25-20:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[20:25-20:30]

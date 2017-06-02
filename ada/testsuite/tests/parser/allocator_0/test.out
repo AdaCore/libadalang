@@ -14,7 +14,7 @@ Allocator[1:1-1:24]
 |  |  |  AssocList[1:21-1:23]
 |  |  |  |  AggregateAssoc[1:21-1:23]
 |  |  |  |  |designators:
-|  |  |  |  |  AdaNodeList[1:20-1:20]: <empty list>
+|  |  |  |  |  AlternativesList[1:20-1:20]: <empty list>
 |  |  |  |  |r_expr:
 |  |  |  |  |  Int[1:21-1:23]
 |  |  |  |  |  |tok: 12

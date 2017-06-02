@@ -6,7 +6,7 @@ CaseExpr[1:1-1:39]
 |  CaseExprAlternativeList[1:11-1:39]
 |  |  CaseExprAlternative[1:11-1:24]
 |  |  |choices:
-|  |  |  AdaNodeList[1:16-1:18]
+|  |  |  AlternativesList[1:16-1:18]
 |  |  |  |  Int[1:16-1:18]
 |  |  |  |  |tok: 12
 |  |  |expr:
@@ -14,7 +14,7 @@ CaseExpr[1:1-1:39]
 |  |  |  |tok: 15
 |  |  CaseExprAlternative[1:26-1:39]
 |  |  |choices:
-|  |  |  AdaNodeList[1:31-1:33]
+|  |  |  AlternativesList[1:31-1:33]
 |  |  |  |  Int[1:31-1:33]
 |  |  |  |  |tok: 14
 |  |  |expr:

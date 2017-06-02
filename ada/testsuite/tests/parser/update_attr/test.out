@@ -18,26 +18,26 @@ UpdateAttributeRef[1:1-1:35]
 |  |  AssocList[1:14-1:34]
 |  |  |  AggregateAssoc[1:14-1:34]
 |  |  |  |designators:
-|  |  |  |  AdaNodeList[1:14-1:23]
+|  |  |  |  AlternativesList[1:14-1:23]
 |  |  |  |  |  Aggregate[1:14-1:23]
 |  |  |  |  |  |ancestor_expr: <null>
 |  |  |  |  |  |assocs:
 |  |  |  |  |  |  AssocList[1:15-1:22]
 |  |  |  |  |  |  |  AggregateAssoc[1:15-1:16]
 |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  AdaNodeList[1:14-1:14]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:14-1:14]: <empty list>
 |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  Id[1:15-1:16]
 |  |  |  |  |  |  |  |  |tok: I
 |  |  |  |  |  |  |  AggregateAssoc[1:18-1:19]
 |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  AdaNodeList[1:16-1:16]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:16-1:16]: <empty list>
 |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  Id[1:18-1:19]
 |  |  |  |  |  |  |  |  |tok: I
 |  |  |  |  |  |  |  AggregateAssoc[1:21-1:22]
 |  |  |  |  |  |  |  |designators:
-|  |  |  |  |  |  |  |  AdaNodeList[1:19-1:19]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:19-1:19]: <empty list>
 |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  Id[1:21-1:22]
 |  |  |  |  |  |  |  |  |tok: I

@@ -9,7 +9,7 @@ AttributeDefClause[1:1-1:37]
 |  |  AssocList[1:12-1:35]
 |  |  |  AggregateAssoc[1:12-1:18]
 |  |  |  |designators:
-|  |  |  |  AdaNodeList[1:12-1:13]
+|  |  |  |  AlternativesList[1:12-1:13]
 |  |  |  |  |  Id[1:12-1:13]
 |  |  |  |  |  |tok: A
 |  |  |  |r_expr:
@@ -17,7 +17,7 @@ AttributeDefClause[1:1-1:37]
 |  |  |  |  |tok: 1
 |  |  |  AggregateAssoc[1:20-1:26]
 |  |  |  |designators:
-|  |  |  |  AdaNodeList[1:20-1:21]
+|  |  |  |  AlternativesList[1:20-1:21]
 |  |  |  |  |  Id[1:20-1:21]
 |  |  |  |  |  |tok: B
 |  |  |  |r_expr:
@@ -25,7 +25,7 @@ AttributeDefClause[1:1-1:37]
 |  |  |  |  |tok: 5
 |  |  |  AggregateAssoc[1:28-1:35]
 |  |  |  |designators:
-|  |  |  |  AdaNodeList[1:28-1:29]
+|  |  |  |  AlternativesList[1:28-1:29]
 |  |  |  |  |  Id[1:28-1:29]
 |  |  |  |  |  |tok: C
 |  |  |  |r_expr:

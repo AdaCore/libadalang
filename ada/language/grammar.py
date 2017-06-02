@@ -891,8 +891,8 @@ A.add_rules(
 
     exception_handler=ExceptionHandler(
         "when", Opt(A.identifier, ":"),
-        List(A.name | A.others_designator, sep="|"), "=>",
-        A.stmts
+        List(A.name | A.others_designator, sep="|", list_cls=AlternativesList),
+        "=>", A.stmts
     ),
 
     stmts=List(
@@ -1078,7 +1078,7 @@ A.add_rules(
                              list_cls=AssocList),
 
     multidim_array_assoc=MultiDimArrayAssoc(
-        List(A.aggregate, sep="|", list_cls=AdaNode.list_type()), "=>", A.expr,
+        List(A.aggregate, sep="|", list_cls=AlternativesList), "=>", A.expr,
     ),
 
     # This rule is separate from name, and doesn't accept CallExprs, because
@@ -1152,7 +1152,7 @@ A.add_rules(
         A.others_designator
     ),
 
-    choice_list=List(A.choice, sep="|"),
+    choice_list=List(A.choice, sep="|", list_cls=AlternativesList),
 
     rel_op=Or(
         Op.alt_not_in("not", "in"),
@@ -1166,7 +1166,7 @@ A.add_rules(
     ),
 
     membership_choice_list=List(
-        A.membership_choice, sep="|"
+        A.membership_choice, sep="|", list_cls=AlternativesList
     ),
 
     relation=Or(

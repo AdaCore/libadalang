@@ -4,7 +4,7 @@ Aggregate[1:1-1:27]
 |  AssocList[1:2-1:26]
 |  |  AggregateAssoc[1:2-1:26]
 |  |  |designators:
-|  |  |  AdaNodeList[1:2-1:19]
+|  |  |  AlternativesList[1:2-1:19]
 |  |  |  |  AttributeRef[1:2-1:19]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[1:2-1:12]

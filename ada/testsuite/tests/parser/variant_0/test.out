@@ -1,6 +1,6 @@
 Variant[1:1-1:29]
 |choice_list:
-|  AdaNodeList[1:6-1:13]
+|  AlternativesList[1:6-1:13]
 |  |  Int[1:6-1:8]
 |  |  |tok: 12
 |  |  Int[1:11-1:13]

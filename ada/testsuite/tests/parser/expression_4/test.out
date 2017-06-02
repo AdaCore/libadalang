@@ -34,7 +34,7 @@ BinOp[1:1-1:68]
 |  |  |  |  CaseExprAlternativeList[1:39-1:67]
 |  |  |  |  |  CaseExprAlternative[1:39-1:52]
 |  |  |  |  |  |choices:
-|  |  |  |  |  |  AdaNodeList[1:44-1:46]
+|  |  |  |  |  |  AlternativesList[1:44-1:46]
 |  |  |  |  |  |  |  Int[1:44-1:46]
 |  |  |  |  |  |  |  |tok: 12
 |  |  |  |  |  |expr:
@@ -42,7 +42,7 @@ BinOp[1:1-1:68]
 |  |  |  |  |  |  |tok: 15
 |  |  |  |  |  CaseExprAlternative[1:54-1:67]
 |  |  |  |  |  |choices:
-|  |  |  |  |  |  AdaNodeList[1:59-1:61]
+|  |  |  |  |  |  AlternativesList[1:59-1:61]
 |  |  |  |  |  |  |  Int[1:59-1:61]
 |  |  |  |  |  |  |  |tok: 14
 |  |  |  |  |  |expr:

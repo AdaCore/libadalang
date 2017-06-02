@@ -851,7 +851,7 @@ A.add_rules(
 
     raise_stmt=Or(
         RaiseStmt("raise", A.name, Opt("with", A.expr), ";"),
-        RaiseStmt("raise", Null(Expr), Null(Expr), ";"),
+        RaiseStmt("raise", Null(Name), Null(Expr), ";"),
     ),
 
     delay_stmt=DelayStmt("delay", Until("until"), A.expr, ";"),
@@ -965,7 +965,7 @@ A.add_rules(
 
     raise_expr=Or(
         RaiseExpr("raise", A.name, Opt("with", A.expr)),
-        RaiseExpr("raise", Null(Expr), Null(Expr)),
+        RaiseExpr("raise", Null(Name), Null(Expr)),
     ),
 
     if_expr=IfExpr(

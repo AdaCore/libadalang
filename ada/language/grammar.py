@@ -785,10 +785,16 @@ A.add_rules(
         recover("end", "select"), ";"
     ),
 
-    accept_stmt=AcceptStmt(
-        "accept", A.identifier, Opt("(", A.expr, ")"),
-        Opt(A.param_specs),
-        Opt("do", A.handled_stmts, _(A.end_named_block)), ";"
+    accept_stmt=Or(
+        AcceptStmt(
+            "accept", A.identifier, Opt("(", A.expr, ")"),
+            Opt(A.param_specs), ";"
+        ),
+        AcceptStmtWithStmts(
+            "accept", A.identifier, Opt("(", A.expr, ")"),
+            Opt(A.param_specs),
+            "do", A.handled_stmts, A.end_named_block, ";"
+        ),
     ),
 
     case_alt=CaseStmtAlternative(

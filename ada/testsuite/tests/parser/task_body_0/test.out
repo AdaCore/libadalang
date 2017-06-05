@@ -174,7 +174,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |tok: Q_Size
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  StmtList[11:13-15:34]
-|  |  |  |  |  |  |  |  |  AcceptStmt[11:13-13:24]
+|  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[11:13-13:24]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[11:20-11:26]
 |  |  |  |  |  |  |  |  |  |  |tok: Insert
@@ -223,6 +223,9 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
 |  |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[12:37-12:37]: <empty list>
+|  |  |  |  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |  |  Id[13:17-13:23]
+|  |  |  |  |  |  |  |  |  |  |tok: Insert
 |  |  |  |  |  |  |  |  |  AssignStmt[14:13-14:41]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[14:13-14:17]
@@ -271,7 +274,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |tok: 0
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  StmtList[17:13-21:34]
-|  |  |  |  |  |  |  |  |  AcceptStmt[17:13-19:24]
+|  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[17:13-19:24]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[17:20-17:26]
 |  |  |  |  |  |  |  |  |  |  |tok: Remove
@@ -320,6 +323,9 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Head
 |  |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[18:37-18:37]: <empty list>
+|  |  |  |  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |  |  Id[19:17-19:23]
+|  |  |  |  |  |  |  |  |  |  |tok: Remove
 |  |  |  |  |  |  |  |  |  AssignStmt[20:13-20:41]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[20:13-20:17]

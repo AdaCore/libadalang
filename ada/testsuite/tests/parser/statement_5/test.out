@@ -1,4 +1,4 @@
-AcceptStmt[1:1-1:35]
+AcceptStmtWithStmts[1:1-1:35]
 |name:
 |  Id[1:8-1:13]
 |  |tok: SEIZE
@@ -17,3 +17,4 @@ AcceptStmt[1:1-1:35]
 |  |  |  |  |tok: TRUE
 |  |exceptions:
 |  |  AdaNodeList[1:29-1:29]: <empty list>
+|end_name: <null>

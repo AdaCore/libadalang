@@ -3900,7 +3900,11 @@ class AcceptStmt(CompositeStmt):
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
     params = Field(type=T.Params)
+
+
+class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)
+    end_name = Field(type=T.Name)
 
 
 class SelectStmt(CompositeStmt):

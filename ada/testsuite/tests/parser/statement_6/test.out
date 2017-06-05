@@ -5,7 +5,7 @@ SelectStmt[1:1-1:155]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:10-1:74]
-|  |  |  |  AcceptStmt[1:10-1:74]
+|  |  |  |  AcceptStmtWithStmts[1:10-1:74]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:17-1:22]
 |  |  |  |  |  |tok: Store
@@ -45,11 +45,14 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |tok: An_Item
 |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  AdaNodeList[1:62-1:62]: <empty list>
+|  |  |  |  |end_name:
+|  |  |  |  |  Id[1:68-1:73]
+|  |  |  |  |  |tok: Store
 |  |  SelectWhenPart[1:78-1:143]
 |  |  |choices: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:78-1:143]
-|  |  |  |  AcceptStmt[1:78-1:143]
+|  |  |  |  AcceptStmtWithStmts[1:78-1:143]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:85-1:90]
 |  |  |  |  |  |tok: Fetch
@@ -89,6 +92,9 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |tok: Datum
 |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  AdaNodeList[1:131-1:131]: <empty list>
+|  |  |  |  |end_name:
+|  |  |  |  |  Id[1:137-1:142]
+|  |  |  |  |  |tok: Fetch
 |else_stmts:
 |  StmtList[1:142-1:142]: <empty list>
 |abort_stmts:

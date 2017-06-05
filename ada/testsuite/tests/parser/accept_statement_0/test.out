@@ -1,4 +1,4 @@
-AcceptStmt[1:1-1:68]
+AcceptStmtWithStmts[1:1-1:68]
 |name:
 |  Id[1:8-1:14]
 |  |tok: Insert
@@ -38,3 +38,6 @@ AcceptStmt[1:1-1:68]
 |  |  |  |  |tok: An_Item
 |  |exceptions:
 |  |  AdaNodeList[1:55-1:55]: <empty list>
+|end_name:
+|  Id[1:61-1:67]
+|  |tok: Insert

@@ -540,7 +540,7 @@ A.add_rules(
 
 
     component_clause=ComponentClause(
-        A.identifier, "at", A.simple_expr, A.range_spec
+        A.identifier, "at", A.simple_expr, A.range_spec, ";"
     ),
 
     aspect_clause=Or(
@@ -549,7 +549,7 @@ A.add_rules(
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, ";"),
-            List(A.component_clause, ";", empty_valid=True),
+            List(A.component_clause, empty_valid=True),
             recover("end", "record", ";")
         ),
         AtClause("for", A.direct_name, "use", "at", A.expr, ";")

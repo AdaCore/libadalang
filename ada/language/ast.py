@@ -2000,15 +2000,23 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     defining_names = Property(Self.name.singleton)
 
 
+@abstract
 class FormalSubpDecl(ClassicSubpDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
-    has_abstract = Field(type=Abstract)
     default_value = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.singleton)
+
+
+class ConcreteFormalSubpDecl(FormalSubpDecl):
+    pass
+
+
+class AbstractFormalSubpDecl(FormalSubpDecl):
+    pass
 
 
 class GenericFormalPart(BaseFormalParamHolder):

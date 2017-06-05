@@ -71,7 +71,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  AdaNodeList[6:7-7:42]
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[6:7-6:40]
 |  |  |  |  |  |  |  |  |decl:
-|  |  |  |  |  |  |  |  |  FormalSubpDecl[6:7-6:40]
+|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[6:7-6:40]
 |  |  |  |  |  |  |  |  |  |overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[6:12-6:12]
 |  |  |  |  |  |  |  |  |  |subp_spec:
@@ -88,15 +88,13 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]
 |  |  |  |  |  |  |  |  |  |  |  |  |tok: Enum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  |  |  |  AbstractAbsent[6:38-6:38]
 |  |  |  |  |  |  |  |  |  |default_value:
 |  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]
 |  |  |  |  |  |  |  |  |  |  |tok: A
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[7:7-7:42]
 |  |  |  |  |  |  |  |  |decl:
-|  |  |  |  |  |  |  |  |  FormalSubpDecl[7:7-7:42]
+|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[7:7-7:42]
 |  |  |  |  |  |  |  |  |  |overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[7:12-7:12]
 |  |  |  |  |  |  |  |  |  |subp_spec:
@@ -113,8 +111,6 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]
 |  |  |  |  |  |  |  |  |  |  |  |  |tok: ENum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  |  |  |  AbstractAbsent[7:38-7:38]
 |  |  |  |  |  |  |  |  |  |default_value:
 |  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]
 |  |  |  |  |  |  |  |  |  |  |tok: 'B'

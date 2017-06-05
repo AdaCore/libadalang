@@ -384,17 +384,18 @@ A.add_rules(
         GenericFormalPackage("with", A.generic_instantiation)
     ),
 
-    formal_subp_decl=FormalSubpDecl(
-        "with",
-        Overriding.alt_unspecified(),
-        A.subp_spec,
-
-        # TODO: Refactor that kludge
-        _(Opt("is")),
-        Abstract("abstract"),
-        Opt(Or(A.box_expr, A.name, A.null_literal)),
-        A.aspect_spec,
-        ";"
+    formal_subp_decl=Or(
+        ConcreteFormalSubpDecl(
+            "with", Overriding.alt_unspecified(), A.subp_spec,
+            Opt("is", Or(A.box_expr, A.name, A.null_literal)),
+            A.aspect_spec, ";"
+        ),
+        AbstractFormalSubpDecl(
+            "with", Overriding.alt_unspecified(), A.subp_spec,
+            "is", "abstract",
+            Opt(Or(A.box_expr, A.name, A.null_literal)),
+            A.aspect_spec, ";"
+        ),
     ),
 
     renaming_clause=RenamingClause("renames", A.name),

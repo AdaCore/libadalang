@@ -3972,6 +3972,7 @@ class TaskBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.name.singleton)
 
@@ -3980,6 +3981,7 @@ class ProtectedBody(Body):
     name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.name.singleton)
 
@@ -3991,6 +3993,7 @@ class EntryBody(Body):
     barrier = Field(type=T.Expr)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.entry_name.cast(Name).singleton)
 

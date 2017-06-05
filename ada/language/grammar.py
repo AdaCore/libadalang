@@ -734,14 +734,14 @@ A.add_rules(
         "when", A.expr,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        _(A.end_liblevel_block), ";"
+        A.end_liblevel_block, ";"
     ),
 
     protected_body=ProtectedBody(
         L.Identifier(match_text="protected"),
         "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
-        _(A.end_liblevel_block), ";"
+        A.end_liblevel_block, ";"
     ),
 
     protected_body_stub=ProtectedBodyStub(
@@ -754,7 +754,7 @@ A.add_rules(
         "task", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        _(A.end_liblevel_block), ";"
+        A.end_liblevel_block, ";"
     ),
 
     task_body_stub=TaskBodyStub(

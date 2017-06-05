@@ -368,3 +368,6 @@ TaskBody[1:1-24:29]
 |  |  |  |end_id: <null>
 |  |exceptions:
 |  |  AdaNodeList[23:12-23:12]: <empty list>
+|end_name:
+|  Id[24:5-24:28]
+|  |tok: Cyclic_Buffer_Task_Type

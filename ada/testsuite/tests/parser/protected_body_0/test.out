@@ -61,6 +61,9 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |tok: false
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
+|  |  |  |end_name:
+|  |  |  |  Id[1:134-1:140]
+|  |  |  |  |tok: insert
 |  |  |  EntryBody[1:142-1:245]
 |  |  |  |entry_name:
 |  |  |  |  Id[1:148-1:154]
@@ -119,3 +122,9 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |tok: true
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:232-1:232]: <empty list>
+|  |  |  |end_name:
+|  |  |  |  Id[1:238-1:244]
+|  |  |  |  |tok: remove
+|end_name:
+|  Id[1:250-1:271]
+|  |tok: protected_buffer_type

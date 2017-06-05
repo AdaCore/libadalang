@@ -1267,7 +1267,7 @@ class ArrayIndices(AdaNode):
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    types = Field(type=T.SubtypeIndication.list_type())
+    types = Field(type=T.UnconstrainedArrayIndex.list_type())
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=EquationType)
@@ -4074,3 +4074,9 @@ class AlternativesList(AdaNode.list_type()):
 
 class ConstraintList(AdaNode.list_type()):
     pass
+
+
+class UnconstrainedArrayIndex(AdaNode):
+    subtype_indication = Field(type=SubtypeIndication)
+
+    designated_type = Property(Self.subtype_indication.designated_type)

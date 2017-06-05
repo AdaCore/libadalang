@@ -160,13 +160,15 @@ A.add_rules(
         Opt("and", A.parent_list)
     ),
 
+    unconstrained_index=UnconstrainedArrayIndex(
+        A.subtype_indication, "range", "<>"
+    ),
+
     array_type_def=ArrayTypeDef(
         "array",
         "(",
         Or(
-            UnconstrainedArrayIndices(List(A.subtype_indication, "range", "<>",
-                                           sep=",")),
-
+            UnconstrainedArrayIndices(List(A.unconstrained_index, sep=",")),
             ConstrainedArrayIndices(A.constraint_list)
         ),
         ")", "of", A.component_def

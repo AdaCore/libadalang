@@ -3,6 +3,8 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  OverridingUnspecified[1:6-1:6]
 |subp_spec:
 |  SubpSpec[1:6-1:55]
+|  |subp_kind:
+|  |  SubpKindFunction[1:6-1:14]
 |  |subp_name:
 |  |  Id[1:15-1:20]
 |  |  |tok: Pouet

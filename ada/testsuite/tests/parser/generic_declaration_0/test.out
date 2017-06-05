@@ -21,6 +21,8 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |aspects: <null>
 |subp_spec:
 |  SubpSpec[1:36-1:76]
+|  |subp_kind:
+|  |  SubpKindProcedure[1:36-1:45]
 |  |subp_name:
 |  |  Id[1:46-1:50]
 |  |  |tok: Swap

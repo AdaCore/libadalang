@@ -12,6 +12,8 @@ PackageDecl[1:1-1:106]
 |  |  |  |  OverridingUnspecified[1:26-1:26]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:26-1:55]
+|  |  |  |  |subp_kind:
+|  |  |  |  |  SubpKindProcedure[1:26-1:35]
 |  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:36-1:40]
 |  |  |  |  |  |tok: Push
@@ -44,6 +46,8 @@ PackageDecl[1:1-1:106]
 |  |  |  |  OverridingUnspecified[1:57-1:57]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:57-1:86]
+|  |  |  |  |subp_kind:
+|  |  |  |  |  SubpKindFunction[1:57-1:65]
 |  |  |  |  |subp_name:
 |  |  |  |  |  Id[1:66-1:69]
 |  |  |  |  |  |tok: Pop

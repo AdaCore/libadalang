@@ -11,6 +11,8 @@ CompilationUnit[30:1-32:49]
 |  |  |  OverridingUnspecified[30:1-30:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[30:1-31:40]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindFunction[30:1-30:9]
 |  |  |  |subp_name:
 |  |  |  |  DottedName[30:10-30:43]
 |  |  |  |  |prefix:

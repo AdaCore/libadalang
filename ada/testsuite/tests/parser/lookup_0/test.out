@@ -25,6 +25,8 @@ CompilationUnit[1:1-17:10]
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
 |  |  |  |  Id[3:11-3:22]
 |  |  |  |  |tok: Hello_World
@@ -61,6 +63,8 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |  |  |tok: Fact
@@ -375,6 +379,8 @@ CompilationUnit[1:1-17:10]
 |  |  |  OverridingUnspecified[3:1-3:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
 |  |  |  |  Id[3:11-3:22]
 |  |  |  |  |tok: Hello_World
@@ -411,6 +417,8 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |  |  |tok: Fact
@@ -598,6 +606,8 @@ SubpBody[3:1-17:10]
 |  OverridingUnspecified[3:1-3:1]
 |subp_spec:
 |  SubpSpec[3:1-3:47]
+|  |subp_kind:
+|  |  SubpKindProcedure[3:1-3:10]
 |  |subp_name:
 |  |  Id[3:11-3:22]
 |  |  |tok: Hello_World
@@ -634,6 +644,8 @@ SubpBody[3:1-17:10]
 |  |  |  |  OverridingUnspecified[5:4-5:4]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[5:4-5:46]
+|  |  |  |  |subp_kind:
+|  |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |  |subp_name:
 |  |  |  |  |  Id[5:13-5:17]
 |  |  |  |  |  |tok: Fact

@@ -47,6 +47,7 @@ CompilationUnit
 |  |  |  |  |  -------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindProcedure
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -211,6 +212,7 @@ CompilationUnit
 |  |  |  |  |  ------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindProcedure
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -321,6 +323,7 @@ CompilationUnit
 |  |  |  |  |  ---------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -384,6 +387,7 @@ CompilationUnit
 |  |  |  |  |  ----------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -453,6 +457,7 @@ CompilationUnit
 |  |  |  |  |  -------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindProcedure
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -478,6 +483,7 @@ CompilationUnit
 |  |  |  |  |  -----------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindProcedure
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -500,6 +506,7 @@ CompilationUnit
 |  |  |  |  |  ------------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -531,6 +538,7 @@ CompilationUnit
 |  |  |  |  |  ------------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -562,6 +570,7 @@ CompilationUnit
 |  |  |  |  |  -------------------
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -585,6 +594,7 @@ CompilationUnit
 |  |  |  |  |  ------------
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -604,6 +614,7 @@ CompilationUnit
 |  |  |  |  |  -----------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -671,6 +682,7 @@ CompilationUnit
 |  |  |  |  |  --------------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -717,6 +729,7 @@ CompilationUnit
 |  |  |  |  |  ----------
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
@@ -731,6 +744,7 @@ CompilationUnit
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  |  |  |  SubpSpec
+|  |  |  |  |  |  |  |  |  |  SubpKindFunction
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList

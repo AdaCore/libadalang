@@ -1,4 +1,6 @@
 SubpSpec[1:1-1:69]
+|subp_kind:
+|  SubpKindProcedure[1:1-1:10]
 |subp_name:
 |  Id[1:11-1:12]
 |  |tok: I
@@ -27,6 +29,8 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
 |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  SubpSpec[1:32-1:55]
+|  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  SubpKindProcedure[1:32-1:41]
 |  |  |  |  |  |  |  |subp_name: <null>
 |  |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  |  Params[1:42-1:55]

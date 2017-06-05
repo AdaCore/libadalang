@@ -567,7 +567,8 @@ A.add_rules(
     param_specs=Params("(", List(A.param_spec, sep=";"), ")"),
 
     subp_spec=SubpSpec(
-        _(Or("procedure", "function")),
+        Or(SubpKind.alt_procedure("procedure"),
+           SubpKind.alt_function("function")),
         Opt(A.static_name),
         Opt(A.param_specs),
         Opt("return", A.type_expr)

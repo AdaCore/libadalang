@@ -20,6 +20,8 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |  OverridingUnspecified[1:22-1:22]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[1:22-1:47]
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  SubpKindFunction[1:22-1:30]
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[1:31-1:32]
 |  |  |  |  |  |  |  |tok: B

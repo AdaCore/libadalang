@@ -11,6 +11,8 @@ CompilationUnit[1:1-4:12]
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |subp_spec:
 |  |  |  SubpSpec[1:1-1:17]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
 |  |  |  |  Id[1:11-1:17]
 |  |  |  |  |tok: kikoo\u1820

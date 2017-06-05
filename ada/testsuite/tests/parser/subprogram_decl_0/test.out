@@ -3,6 +3,8 @@ AbstractSubpDecl[1:1-1:50]
 |  OverridingOverriding[1:1-1:11]
 |subp_spec:
 |  SubpSpec[1:12-1:37]
+|  |subp_kind:
+|  |  SubpKindProcedure[1:12-1:21]
 |  |subp_name:
 |  |  Id[1:22-1:23]
 |  |  |tok: A

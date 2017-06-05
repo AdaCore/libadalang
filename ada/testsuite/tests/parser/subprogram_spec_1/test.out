@@ -1,4 +1,6 @@
 SubpSpec[1:1-1:65]
+|subp_kind:
+|  SubpKindFunction[1:1-1:9]
 |subp_name:
 |  Id[1:10-1:11]
 |  |tok: A

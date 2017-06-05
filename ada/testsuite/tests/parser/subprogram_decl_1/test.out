@@ -3,6 +3,8 @@ ExprFunction[1:1-1:76]
 |  OverridingOverriding[1:1-1:11]
 |subp_spec:
 |  SubpSpec[1:12-1:64]
+|  |subp_kind:
+|  |  SubpKindFunction[1:12-1:20]
 |  |subp_name:
 |  |  Id[1:21-1:22]
 |  |  |tok: A

@@ -3,6 +3,8 @@ SubpDecl[1:1-1:125]
 |  OverridingUnspecified[1:1-1:1]
 |subp_spec:
 |  SubpSpec[1:1-1:124]
+|  |subp_kind:
+|  |  SubpKindProcedure[1:1-1:10]
 |  |subp_name:
 |  |  Id[1:11-1:25]
 |  |  |tok: Lines_Add_Hook

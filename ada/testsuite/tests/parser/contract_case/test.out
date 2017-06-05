@@ -54,6 +54,8 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  OverridingUnspecified[14:4-14:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[14:4-14:46]
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  SubpKindFunction[14:4-14:12]
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[14:13-14:16]
 |  |  |  |  |  |  |  |tok: Add
@@ -184,6 +186,8 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  OverridingUnspecified[18:4-18:4]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[18:4-18:47]
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  SubpKindFunction[18:4-18:12]
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  Id[18:13-18:17]
 |  |  |  |  |  |  |  |tok: Mult

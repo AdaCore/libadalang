@@ -3,6 +3,7 @@ CompilationUnit
 |  LibraryItem
 |  |  SubpBody
 |  |  |  SubpSpec
+|  |  |  |  SubpKindProcedure
 |  |  |  |  Id
 |  |  |  DeclarativePart
 |  |  |  |  AdaNodeList

@@ -27,6 +27,8 @@
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubpSpec>
+|  |  |  |subp_kind:
+|  |  |  |  <SubpKindProcedure>
 |  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')

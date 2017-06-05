@@ -27,6 +27,8 @@
 |  |  |  <OverridingUnspecified>
 |  |  |subp_spec:
 |  |  |  <SubpSpec>
+|  |  |  |subp_kind:
+|  |  |  |  <SubpKindProcedure>
 |  |  |  |subp_name:
 |  |  |  |  <Identifier>
 |  |  |  |  |tok: Token(u'Foo')
@@ -43,6 +45,8 @@
 |  |  |  |  |  |  <OverridingUnspecified>
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  <SubpSpec>
+|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  <SubpKindFunction>
 |  |  |  |  |  |  |subp_name:
 |  |  |  |  |  |  |  <Identifier>
 |  |  |  |  |  |  |  |tok: Token(u'Fact')

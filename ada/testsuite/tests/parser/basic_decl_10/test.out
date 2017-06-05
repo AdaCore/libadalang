@@ -3,6 +3,8 @@ SubpDecl[1:1-1:55]
 |  OverridingNotOverriding[1:1-1:15]
 |subp_spec:
 |  SubpSpec[1:16-1:54]
+|  |subp_kind:
+|  |  SubpKindProcedure[1:16-1:25]
 |  |subp_name:
 |  |  Id[1:26-1:27]
 |  |  |tok: A

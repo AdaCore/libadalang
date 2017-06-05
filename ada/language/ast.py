@@ -3266,6 +3266,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
 
 class SubpSpec(BaseSubpSpec):
+    subp_kind = Field(type=T.SubpKind)
     subp_name = Field(type=T.Name)
     subp_params = Field(type=T.Params)
     subp_returns = Field(type=T.TypeExpr)

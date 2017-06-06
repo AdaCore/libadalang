@@ -94,7 +94,7 @@ class AdaNode(ASTNode):
         public=True,
         doc="""
         This will return the value of the type of this node after symbol
-        resolution. NOTE: For this to be bound, resolve_symbols needs to be
+        resolution. NOTE: For this to be bound, resolve_names needs to be
         called on the appropriate parent node first.
         """
     )
@@ -103,7 +103,7 @@ class AdaNode(ASTNode):
         public=True,
         doc="""
         This will return the node this nodes references after symbol
-        resolution. NOTE: For this to be bound, resolve_symbols needs to be
+        resolution. NOTE: For this to be bound, resolve_names needs to be
         called on the appropriate parent node first.
         """
     )
@@ -112,11 +112,11 @@ class AdaNode(ASTNode):
     def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
-        will resolve symbols and types for every sub expression of the
-        expression you call it on. Note that if you call that on any
-        expression, in some context it might lack full information and return
-        multiple solutions. If you want completely precise resolution, you must
-        call that on the outermost node that supports xref_equation.
+        will resolve names and types for every sub expression of the expression
+        you call it on. Note that if you call that on any expression, in some
+        context it might lack full information and return multiple solutions.
+        If you want completely precise resolution, you must call that on the
+        outermost node that supports xref_equation.
         """
         # TODO: Maybe this should eventually be an AbstractProperty, but during
         # the development of the xref engine, it is practical to have the
@@ -139,16 +139,16 @@ class AdaNode(ASTNode):
                   Self.xref_equation)
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
-    def resolve_symbols_internal(initial=BoolType):
+    def resolve_names_internal(initial=BoolType):
         """
-        Internal helper for resolve_symbols, implementing the recursive logic.
+        Internal helper for resolve_names, implementing the recursive logic.
         """
         i = Var(If(initial | Self.xref_stop_resolution,
                    Self.xref_equation._.solve,
                    True))
 
         j = Self.children.all(lambda c: c.then(
-            lambda c: c.resolve_symbols_internal(False), default_val=True
+            lambda c: c.resolve_names_internal(False), default_val=True
         ))
         return i & j
 
@@ -157,20 +157,20 @@ class AdaNode(ASTNode):
         public=True,
         doc="""
         Designates entities that are entry point for the xref solving
-        infrastructure. If this returns true, then resolve_symbols can be
-        called on it.
+        infrastructure. If this returns true, then resolve_names can be called
+        on it.
         """
     )
 
     @langkit_property(return_type=BoolType, public=True)
-    def resolve_symbols():
+    def resolve_names():
         """
-        This will resolve symbols for this node. If the operation is
-        successful, then type_var and ref_var will be bound on appropriate
-        subnodes of the statement.
+        This will resolve names for this node. If the operation is successful,
+        then type_var and ref_var will be bound on appropriate subnodes of the
+        statement.
         """
         return env.bind(Self.node_env,
-                        origin.bind(Self, Self.resolve_symbols_internal(True)))
+                        origin.bind(Self, Self.resolve_names_internal(True)))
 
     # TODO: Navigation properties are not ready to deal with units containing
     # multiple packages.
@@ -2783,7 +2783,7 @@ class CaseExpr(Expr):
     def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
-        a = Var(Self.expr.resolve_symbols)
+        a = Var(Self.expr.resolve_names)
         ignore(a)
 
         return Self.cases.logic_all(lambda alt: (
@@ -3312,7 +3312,7 @@ class ForLoopVarDecl(BasicDecl):
         # specification. Run resolution if necessary.
         Let(lambda p=If(
             Self.id.type_val.el.is_null,
-            Self.parent.parent.cast(T.ForLoopStmt).resolve_symbols,
+            Self.parent.parent.cast(T.ForLoopStmt).resolve_names,
             True
         ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity()),
               No(BaseTypeDecl.entity()))),

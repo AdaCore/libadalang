@@ -110,7 +110,7 @@ procedure Symres is
       if Langkit_Support.Adalog.Debug.Debug then
          N.Assign_Names_To_Logic_Vars;
       end if;
-      if N.P_Resolve_Symbols then
+      if N.P_Resolve_Names then
          for Node of N.Find (Is_Expr'Access).Consume loop
             declare
                P_Ref  : Entity := Expr (Node).P_Ref_Val;

@@ -51,8 +51,8 @@ def resolve_statement(statement):
     assert statement.p_xref_entry_point
 
     # Perform symbol resolution on the preceding statement, using the
-    # p_resolve_symbols property.
-    if statement.p_resolve_symbols:
+    # p_resolve_names property.
+    if statement.p_resolve_names:
         # If it worked, print the reference value and the type value of
         # every sub expression in the statement.
         for expr in statement.findall(lal.Expr):

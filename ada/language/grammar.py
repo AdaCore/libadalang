@@ -230,7 +230,7 @@ A.add_rules(
 
     discriminant_spec=DiscriminantSpec(
         List(A.identifier, sep=","), ":", A.type_expr,
-        A.default_expr
+        Opt(":=", A.expr)
     ),
 
     discr_spec_list=List(A.discriminant_spec, sep=";"),
@@ -358,11 +358,9 @@ A.add_rules(
         A.pragma
     ),
 
-    default_expr=Opt(":=", A.expr),
-
     component_decl=ComponentDecl(
         List(A.identifier, sep=","), ":", A.component_def,
-        A.default_expr, A.aspect_spec, ";"
+        Opt(":=", A.expr), A.aspect_spec, ";"
     ),
 
     component_list=ComponentList(
@@ -478,7 +476,7 @@ A.add_rules(
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
-        A.default_expr,
+        Opt(":=", A.expr),
         Opt(A.renaming_clause),
         A.aspect_spec,
         ";"
@@ -490,7 +488,7 @@ A.add_rules(
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
-        A.default_expr,
+        Opt(":=", A.expr),
         Opt(A.renaming_clause),
         A.aspect_spec,
     ),

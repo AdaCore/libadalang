@@ -24,7 +24,7 @@ def package_decl_factory(dest_class):
         "package", A.static_name, A.aspect_spec, "is",
         PublicPart(A.basic_decls),
         Opt("private", PrivatePart(A.basic_decls)),
-        A.end_liblevel_block, ";"
+        end_liblevel_block(), ";"
     )
 
 
@@ -86,11 +86,16 @@ def recover(*rules):
     return Opt(*rules).error()
 
 
+def end_liblevel_block():
+    return recover("end", Opt(A.static_name))
+
+
+def end_named_block():
+    return recover("end", Opt(A.identifier))
+
+
 A.add_rules(
     parent_list=List(A.static_name, sep="and", list_cls=ParentList),
-
-    end_named_block=recover("end", Opt(A.identifier)),
-    end_liblevel_block=recover("end", Opt(A.static_name)),
 
     protected_type_decl=ProtectedTypeDecl(
         L.Identifier(match_text="protected"),
@@ -109,7 +114,7 @@ A.add_rules(
         Opt("private",
             PrivatePart(List(A.protected_el,
                              empty_valid=True, list_cls=DeclList))),
-        A.end_named_block
+        end_named_block()
     ),
 
     protected_decl=SingleProtectedDecl(
@@ -132,7 +137,7 @@ A.add_rules(
             PrivatePart(
                 List(A.task_item, empty_valid=True, list_cls=DeclList)
             )),
-        A.end_named_block
+        end_named_block()
     ),
 
     task_type_decl=TaskTypeDecl(
@@ -736,14 +741,14 @@ A.add_rules(
         "when", A.expr,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        A.end_liblevel_block, ";"
+        end_liblevel_block(), ";"
     ),
 
     protected_body=ProtectedBody(
         L.Identifier(match_text="protected"),
         "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
-        A.end_liblevel_block, ";"
+        end_liblevel_block(), ";"
     ),
 
     protected_body_stub=ProtectedBodyStub(
@@ -756,7 +761,7 @@ A.add_rules(
         "task", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        A.end_liblevel_block, ";"
+        end_liblevel_block(), ";"
     ),
 
     task_body_stub=TaskBodyStub(
@@ -774,7 +779,7 @@ A.add_rules(
         "package", "body", A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        A.end_liblevel_block, ";"
+        end_liblevel_block(), ";"
     ),
 
     terminate_alternative=TerminateAlternative("terminate", ";"),
@@ -795,7 +800,7 @@ A.add_rules(
         AcceptStmtWithStmts(
             "accept", A.identifier, Opt("(", A.expr, ")"),
             Opt(A.param_specs),
-            "do", A.handled_stmts, A.end_named_block, ";"
+            "do", A.handled_stmts, end_named_block(), ";"
         ),
     ),
 
@@ -815,11 +820,11 @@ A.add_rules(
 
     iblock_stmt=Or(
         BeginBlock(
-            "begin", A.handled_stmts, A.end_named_block, ";"
+            "begin", A.handled_stmts, end_named_block(), ";"
         ),
         DeclBlock(
             "declare", DeclarativePart(A.basic_decls),
-            recover("begin"), A.handled_stmts, A.end_named_block, ";"
+            recover("begin"), A.handled_stmts, end_named_block(), ";"
         ),
     ),
 
@@ -892,7 +897,7 @@ A.add_rules(
         A.decl_part,
         recover("begin"),
         A.handled_stmts,
-        A.end_liblevel_block,
+        end_liblevel_block(),
         ";"
     ),
 

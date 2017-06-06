@@ -155,13 +155,9 @@ class AdaNode(ASTNode):
     xref_entry_point = Property(
         False,
         public=True,
-
-        # TODO: accoding to symres.adb, the true entry point for users is the
-        # "resolve_symbols" property. We should fix doc for this public
-        # property to talk only about public API.
         doc="""
         Designates entities that are entry point for the xref solving
-        infrastructure. If this returns true, then xref_equation can be
+        infrastructure. If this returns true, then resolve_symbols can be
         called on it.
         """
     )
@@ -948,8 +944,9 @@ class BaseTypeDecl(BasicDecl):
     is_iterable_type = Property(
         # TODO: Only works with array types at the moment, need to implement
         # on:
-        # Spark iterable types (Iterable aspect).
-        # Ada 2012 iterable types.
+        #
+        #   * Spark iterable types (Iterable aspect).
+        #   * Ada 2012 iterable types.
         Self.is_array,
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
@@ -1086,12 +1083,6 @@ class TypeDecl(BaseTypeDecl):
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
         env.bind(Self.children_env, Self.type_def.defining_env)
-
-        # TODO: The fact that the env should not be inherited from the called
-        # property might be common enough to warrant a specific construct, such
-        # as a kw parameter to Property: inherit_caller_env=False - or even
-        # make it the default, and only inherit the env when explicitly
-        # specified.
     )
 
     env_spec = EnvSpec(add_env=True)
@@ -2569,8 +2560,8 @@ class CallExpr(Name):
         all parent CallExprs.
         """
         return And(
-            # TODO 2: For the moment this is specialized for arrays, but we
-            # need to handle the case when the return value is an access to
+            # TODO: For the moment this is specialized for arrays, but we need
+            # to handle the case when the return value is an access to
             # subprogram.
             typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
             Self.parent.cast(T.CallExpr).then(

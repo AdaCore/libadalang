@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_subtype_access
-driver: symbol_resolution
-input_sources: [test_subtype_access.adb]

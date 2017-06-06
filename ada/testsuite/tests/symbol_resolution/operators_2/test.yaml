@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: operators_2
-driver: symbol_resolution
-input_sources: [testop.adb]

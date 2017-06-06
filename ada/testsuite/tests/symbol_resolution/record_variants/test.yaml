@@ -1,5 +1,0 @@
-description:
-   Test that symbol resolution for record members works fine for members
-   present in variant parts.
-driver: symbol_resolution
-input_sources: [foo.ads]

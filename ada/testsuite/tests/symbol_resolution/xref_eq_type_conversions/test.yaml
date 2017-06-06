@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_type_conversions
-driver: symbol_resolution
-input_sources: [type_conv.adb]

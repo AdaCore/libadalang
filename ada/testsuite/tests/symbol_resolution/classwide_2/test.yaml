@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: classwide_2
-driver: symbol_resolution
-input_sources: [testcw.adb]

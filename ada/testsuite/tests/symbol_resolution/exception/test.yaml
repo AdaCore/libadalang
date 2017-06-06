@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: exception
-driver: symbol_resolution
-input_sources: [testexc.adb]

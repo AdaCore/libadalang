@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_tagged_primitives
-driver: symbol_resolution
-input_sources: [tagged_prims.adb]

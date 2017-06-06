@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_aggregates_3
+driver: name-resolution
+input_sources: [array_aggregate.adb]

@@ -1,4 +1,0 @@
-description:
-   Test type equivalence with subtypes
-driver: symbol_resolution
-input_sources: [test1.adb]

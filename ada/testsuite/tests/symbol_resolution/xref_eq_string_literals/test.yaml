@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_string_literals
-driver: symbol_resolution
-input_sources: [teststrlit.adb]

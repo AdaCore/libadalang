@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_recursive_access
+driver: name-resolution
+input_sources: [test_access.adb]

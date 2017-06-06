@@ -1,4 +1,0 @@
-description:
-   Test simple resolution of symbols in statements
-driver: symbol_resolution
-input_sources: [test1.adb]

@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: abort_stmt
-driver: symbol_resolution
-input_sources: [testabort.adb]

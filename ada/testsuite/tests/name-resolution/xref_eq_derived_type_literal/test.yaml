@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_derived_type_literal
+driver: name-resolution
+input_sources: [test.adb]

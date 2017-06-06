@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: anonymous_access_2
-driver: symbol_resolution
-input_sources: [test.adb]

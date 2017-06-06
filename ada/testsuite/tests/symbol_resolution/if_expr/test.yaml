@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: if_expr
-driver: symbol_resolution
-input_sources: [test.adb]

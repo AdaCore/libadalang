@@ -18,10 +18,10 @@ if not with_gnatpython:
 
 import testsuite_support.adaapi_driver
 import testsuite_support.capi_driver
+import testsuite_support.name_resolution_driver
 import testsuite_support.navigation_driver
 import testsuite_support.parser_driver
 import testsuite_support.python_driver
-import testsuite_support.symbol_resolution_driver
 
 
 class Testsuite(BaseTestsuite):
@@ -32,8 +32,8 @@ class Testsuite(BaseTestsuite):
         'navigation': testsuite_support.navigation_driver.NavigationDriver,
         'parser': testsuite_support.parser_driver.ParserDriver,
         'python': testsuite_support.python_driver.PythonDriver,
-        'symbol_resolution':
-            testsuite_support.symbol_resolution_driver.SymbolResolutionDriver,
+        'name-resolution':
+            testsuite_support.name_resolution_driver.NameResolutionDriver,
     }
 
     def add_options(self):

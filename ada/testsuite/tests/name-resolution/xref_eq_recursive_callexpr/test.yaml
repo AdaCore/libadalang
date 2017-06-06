@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_recursive_callexpr
+driver: name-resolution
+input_sources: [test.adb]

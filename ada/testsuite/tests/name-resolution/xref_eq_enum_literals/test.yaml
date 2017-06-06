@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_enum_literals
+driver: name-resolution
+input_sources: [enum_types.adb]

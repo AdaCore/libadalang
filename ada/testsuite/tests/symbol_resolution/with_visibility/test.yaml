@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: with_visibility
-driver: symbol_resolution
-input_sources: [foo.ads]

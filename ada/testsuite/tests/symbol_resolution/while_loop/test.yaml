@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: while_loop
-driver: symbol_resolution
-input_sources: [testwhile.adb]

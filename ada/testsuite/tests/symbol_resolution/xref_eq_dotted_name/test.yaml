@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_dotted_name
-driver: symbol_resolution
-input_sources: [subp_record.adb]

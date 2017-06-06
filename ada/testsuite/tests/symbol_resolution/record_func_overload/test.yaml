@@ -1,6 +1,0 @@
-description:
-   Test that symbol resolution for record members work when the prefix
-   designates ambiguously one record type or another one because of overloaded
-   functions.
-driver: symbol_resolution
-input_sources: [foo.adb]

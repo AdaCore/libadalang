@@ -1,5 +1,0 @@
-description:
-    Test that symbol resolution for record members can resolve the inherited
-    members in derived record types.
-driver: symbol_resolution
-input_sources: [foo.ads]

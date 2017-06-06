@@ -1,4 +1,0 @@
-description:
-    Symbol resolution: xref_eq_named_actuals
-driver: symbol_resolution
-input_sources: [proc_call_named.adb]

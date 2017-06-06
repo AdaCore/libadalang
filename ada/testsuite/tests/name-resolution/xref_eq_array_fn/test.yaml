@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: xref_eq_array_fn
+driver: name-resolution
+input_sources: [test_array_fn.adb]

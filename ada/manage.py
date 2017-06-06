@@ -124,7 +124,7 @@ class Manage(ManageScript):
 
     @property
     def main_programs(self):
-        return super(Manage, self).main_programs | {'symres', 'navigate'}
+        return super(Manage, self).main_programs | {'nameres', 'navigate'}
 
     def do_test(self, args):
         """

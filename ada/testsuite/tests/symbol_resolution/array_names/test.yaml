@@ -1,6 +1,0 @@
-description:
-    Test symbol resolution on various CallExpr nodes. In particular, this tests
-    the filtering of object declarations that are arrays depending on the
-    arguments provided to the CallExpr.
-driver: symbol_resolution
-input_sources: [foo.adb]

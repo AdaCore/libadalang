@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: late_use_clause
+driver: name-resolution
+input_sources: [testuse.adb]

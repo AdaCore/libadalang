@@ -617,8 +617,12 @@ class TypeDef(AdaNode):
     )
 
     is_real_type = Property(False, doc="Whether type is a real type or not.")
-    is_int_type = Property(False,
-                           doc="Whether type is an integer type or not.")
+
+    @langkit_property(dynamic_vars=[origin])
+    def is_int_type():
+        """Whether type is an integer type or not."""
+        return False
+
     is_access_type = Property(False,
                               doc="Whether type is an access type or not.")
     is_char_type = Property(False)
@@ -884,7 +888,11 @@ class BaseTypeDecl(BasicDecl):
 
     is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")
-    is_int_type = Property(False, doc="Whether type is an integer type or not")
+
+    @langkit_property(dynamic_vars=[origin])
+    def is_int_type():
+        """Whether type is an integer type or not."""
+        return False
 
     is_access_type = Property(False,
                               doc="Whether type is an access type or not")
@@ -1018,7 +1026,8 @@ class BaseTypeDecl(BasicDecl):
             allocated_type.matching_type(Self.accessed_type)
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity())
+    @langkit_property(return_type=T.BaseTypeDecl.entity(),
+                      dynamic_vars=[origin])
     def canonical_type():
         """
         Return the canonical type declaration for this type declaration. For
@@ -1329,9 +1338,7 @@ class SubtypeDecl(BaseTypeDecl):
     array_ndims = Property(Self.subtype.array_ndims)
     defining_env = Property(Self.subtype.defining_env)
 
-    canonical_type = Property(
-        origin.bind(Self, Self.subtype.designated_type).canonical_type
-    )
+    canonical_type = Property(Self.subtype.designated_type.canonical_type)
 
     accessed_type = Property(Self.canonical_type.accessed_type)
 

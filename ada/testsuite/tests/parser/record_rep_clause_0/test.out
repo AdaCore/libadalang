@@ -1,7 +1,4 @@
-Parsing failed:
-1:179: Missing 'end record ;'
-1:189: Expected ';', got Termination
-RecordRepClause[1:1-1:178]
+RecordRepClause[1:1-1:190]
 |component_name:
 |  Id[1:5-1:7]
 |  |tok: X2

@@ -4079,4 +4079,6 @@ class ConstraintList(AdaNode.list_type()):
 class UnconstrainedArrayIndex(AdaNode):
     subtype_indication = Field(type=SubtypeIndication)
 
-    designated_type = Property(Self.subtype_indication.designated_type)
+    @langkit_property(dynamic_vars=[origin])
+    def designated_type():
+        return Self.subtype_indication.designated_type

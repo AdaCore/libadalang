@@ -1,0 +1,12 @@
+Analyzing main.adb
+##################
+
+Expr: <Id "V" 10:4-10:5>, references <ObjectDecl ["V", "V2"] 7:4-7:31>, type is <TypeDecl ["Vector"] 4:4-4:27>
+Expr: <Id "V2" 10:9-10:11>, references <ObjectDecl ["V", "V2"] 7:4-7:31>, type is <TypeDecl ["Vector"] 4:4-4:27>
+
+Expr: <Id "V3" 13:4-13:6>, references <ObjectDecl ["V3", "V4"] 8:4-8:33>, type is <TypeDecl ["Vector"] 4:4-4:27>
+Expr: <Id "V4" 13:10-13:12>, references <ObjectDecl ["V3", "V4"] 8:4-8:33>, type is <TypeDecl ["Vector"] 4:4-4:27>
+
+Resolution failed for node <AssignStmt 16:4-16:12>
+
+Done.

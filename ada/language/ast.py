@@ -75,7 +75,7 @@ class Metadata(Struct):
 
 
 @abstract
-@root_grammar_class(generic_list_type=b'AdaList')
+@root_grammar_class
 class AdaNode(ASTNode):
     """
     Root node class for the Ada grammar. This is good and necessary for several
@@ -88,6 +88,8 @@ class AdaNode(ASTNode):
        polluting every LanguageKit node, and without bringing back the root
        ASTNode in the code templates.
     """
+
+    _generic_list_type = 'AdaList'
 
     type_val = Property(
         No(T.AdaNode.entity()),

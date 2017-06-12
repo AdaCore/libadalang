@@ -2145,7 +2145,7 @@ class Expr(AdaNode):
         dynamic_vars=[env]
     )
 
-    @langkit_property(return_type=T.root_node.entity().array_type(),
+    @langkit_property(return_type=AdaNode.entity().array_type(),
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env])
     def env_elements_impl():
@@ -2159,7 +2159,7 @@ class Expr(AdaNode):
     def matching_nodes_impl():
         return Self.env_elements.map(lambda e: e.el)
 
-    @langkit_property(return_type=T.root_node.array_type(), public=True)
+    @langkit_property(return_type=AdaNode.array_type(), public=True)
     def matching_nodes():
         """
         Return the list of AST nodes that can be a match for this expression

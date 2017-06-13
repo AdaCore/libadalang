@@ -2,9 +2,9 @@ from __future__ import absolute_import, division, print_function
 
 from langkit import compiled_types
 from langkit.dsl import (
-    ASTNode, BoolType, EquationType, Field, LexicalEnvType, LogicVarType,
-    LongType, Struct, Symbol, T, UserField, abstract, synthetic, env_metadata,
-    has_abstract_list, root_grammar_class
+    ASTNode, BoolType, EnumNode, EquationType, Field, LexicalEnvType,
+    LogicVarType, LongType, Struct, Symbol, T, UserField, abstract, synthetic,
+    env_metadata, has_abstract_list, root_grammar_class
 )
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
@@ -796,59 +796,59 @@ class NullRecordDef(BaseRecordDef):
     pass
 
 
-class Tagged(T.EnumNode):
+class Tagged(EnumNode):
     qualifier = True
 
 
-class Abstract(T.EnumNode):
+class Abstract(EnumNode):
     qualifier = True
 
 
-class Limited(T.EnumNode):
+class Limited(EnumNode):
     qualifier = True
 
 
-class Private(T.EnumNode):
+class Private(EnumNode):
     qualifier = True
 
 
-class Aliased(T.EnumNode):
+class Aliased(EnumNode):
     qualifier = True
 
 
-class NotNull(T.EnumNode):
+class NotNull(EnumNode):
     qualifier = True
 
 
-class Constant(T.EnumNode):
+class Constant(EnumNode):
     qualifier = True
 
 
-class All(T.EnumNode):
+class All(EnumNode):
     qualifier = True
 
 
-class Abort(T.EnumNode):
+class Abort(EnumNode):
     qualifier = True
 
 
-class Reverse(T.EnumNode):
+class Reverse(EnumNode):
     qualifier = True
 
 
-class WithPrivate(T.EnumNode):
+class WithPrivate(EnumNode):
     qualifier = True
 
 
-class Until(T.EnumNode):
+class Until(EnumNode):
     qualifier = True
 
 
-class Synchronized(T.EnumNode):
+class Synchronized(EnumNode):
     qualifier = True
 
 
-class Protected(T.EnumNode):
+class Protected(EnumNode):
     qualifier = True
 
 
@@ -1313,7 +1313,7 @@ class ArrayTypeDef(TypeDef):
     array_ndims = Property(Self.indices.ndims)
 
 
-class InterfaceKind(T.EnumNode):
+class InterfaceKind(EnumNode):
     alternatives = ["limited", "task", "protected", "synchronized"]
 
 
@@ -1526,7 +1526,7 @@ class DiscreteSubtypeIndication(SubtypeIndication):
     pass
 
 
-class Mode(T.EnumNode):
+class Mode(EnumNode):
     alternatives = ["in", "out", "in_out", "default"]
 
 
@@ -1552,7 +1552,7 @@ class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list_type())
 
 
-class Overriding(T.EnumNode):
+class Overriding(EnumNode):
     alternatives = ["overriding", "not_overriding", "unspecified"]
 
 
@@ -1988,7 +1988,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     defining_names = Property(Self.name.singleton)
 
 
-class SubpKind(T.EnumNode):
+class SubpKind(EnumNode):
     alternatives = ["procedure", "function"]
 
 
@@ -2188,7 +2188,7 @@ class ParenExpr(Expr):
         return Self.expr.sub_equation & Bind(Self.expr.type_var, Self.type_var)
 
 
-class Op(T.EnumNode):
+class Op(EnumNode):
     """
     Operation in a binary expression.
 
@@ -3292,11 +3292,11 @@ class EntryDecl(BasicDecl):
     defining_names = Property(Self.entry_id.cast(T.Name).singleton)
 
 
-class Quantifier(T.EnumNode):
+class Quantifier(EnumNode):
     alternatives = ["all", "some"]
 
 
-class IterType(T.EnumNode):
+class IterType(EnumNode):
     alternatives = ["in", "of"]
 
 

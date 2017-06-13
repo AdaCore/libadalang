@@ -3077,13 +3077,13 @@ class NullLiteral(SingleTokNode):
 
 
 class SingleFormal(Struct):
-    name = Field(type=BaseId)
-    spec = Field(type=BaseFormalParamDecl)
+    name = UserField(type=BaseId)
+    spec = UserField(type=BaseFormalParamDecl)
 
 
 class SingleActual(Struct):
-    name = Field(type=BaseId)
-    assoc = Field(type=T.BasicAssoc)
+    name = UserField(type=BaseId)
+    assoc = UserField(type=T.BasicAssoc)
 
 
 class ParamMatch(Struct):
@@ -3092,11 +3092,11 @@ class ParamMatch(Struct):
 
     Each value relates to one ParamAssoc.
     """
-    has_matched = Field(type=BoolType, doc="""
+    has_matched = UserField(type=BoolType, doc="""
         Whether the matched ParamAssoc a ParamSpec.
     """)
-    actual = Field(type=SingleActual)
-    formal = Field(type=SingleFormal)
+    actual = UserField(type=SingleActual)
+    formal = UserField(type=SingleFormal)
 
 
 @abstract

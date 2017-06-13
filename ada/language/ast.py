@@ -1,12 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
 from langkit import compiled_types
-from langkit.compiled_types import (
-    ASTNode, BoolType, EquationType, Field, LexicalEnvType,
-    LogicVarType, LongType, Struct, T, UserField, abstract, synthetic,
-    env_metadata, has_abstract_list, root_grammar_class, Symbol
+from langkit.dsl import (
+    ASTNode, BoolType, EquationType, Field, LexicalEnvType, LogicVarType,
+    LongType, Struct, Symbol, T, UserField, abstract, synthetic, env_metadata,
+    has_abstract_list, root_grammar_class
 )
-
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,

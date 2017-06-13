@@ -429,17 +429,17 @@ def child_unit(name_expr, scope_expr):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env_wrapper,
+            RefEnvs(T.Expr.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # If Self is a generic package/subprogram and not a library item,
             # then the generic formals are not available in parent
             # environments. Make them available with ref_envs.
-            RefEnvs(T.AdaNode.fields.generic_formal_env_of_not_library_item,
+            RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
                     Self.cast(T.AdaNode).to_array),
 
             # Make the Standard package automatically used
-            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
+            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
         ],
 
         env_hook_arg=Self,
@@ -690,7 +690,7 @@ class ComponentDecl(BaseFormalParamDecl):
     def constrain_prefix(prefix=T.Expr):
         # Simple type equivalence
         return Bind(prefix.type_var, Self.container_type,
-                    eq_prop=BaseTypeDecl.fields.matching_prefix_type)
+                    eq_prop=BaseTypeDecl.matching_prefix_type)
 
     @langkit_property(return_type=T.BaseTypeDecl.entity())
     def container_type():
@@ -1434,7 +1434,7 @@ class UsePackageClause(UseClause):
 
     env_spec = EnvSpec(
         ref_envs=RefEnvs(
-            T.Expr.fields.designated_env_wrapper,
+            T.Expr.designated_env_wrapper,
 
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
@@ -1631,11 +1631,11 @@ class BasicSubpDecl(BasicDecl):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env_wrapper,
+            RefEnvs(T.Expr.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # Make the Standard package automatically used
-            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
+            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
         ],
 
         # Call the env hook so that library-level subprograms have their
@@ -1779,7 +1779,7 @@ class ObjectDecl(BasicDecl):
             de.xref_equation
             & Bind(Self.default_expr.type_var,
                    Self.canonical_expr_type,
-                   eq_prop=BaseTypeDecl.fields.matching_assign_type),
+                   eq_prop=BaseTypeDecl.matching_assign_type),
             default_val=LogicTrue()
         )
 
@@ -1943,7 +1943,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                 ),
                 is_post=True,
                 dest_env=Self.instantiation_env_holder.children_env,
-                resolver=AdaNode.fields.resolve_generic_actual,
+                resolver=AdaNode.resolve_generic_actual,
             )
         ]
     )
@@ -2525,8 +2525,7 @@ class CallExpr(Name):
                             Bind(
                                 pm.actual.assoc.expr.type_var,
                                 pm.formal.spec.type_expression.designated_type,
-                                eq_prop=BaseTypeDecl.fields
-                                                    .matching_formal_type
+                                eq_prop=BaseTypeDecl.matching_formal_type
                             )
                         ) & If(
                             # Bind actuals designators to parameters if there
@@ -2730,7 +2729,7 @@ class ExplicitDeref(Name):
 
             & Bind(Self.prefix.type_var,
                    Self.type_var,
-                   BaseTypeDecl.fields.accessed_type)
+                   BaseTypeDecl.accessed_type)
             # We don't need to check if the type is an access type, since we
             # already constrained the domain above.
         )
@@ -3011,7 +3010,7 @@ class BaseId(SingleTokNode):
             # Other cases
             Self.ref_var.domain(Self.env_elements)
             & Bind(Self.ref_var, Self.type_var,
-                   BasicDecl.fields.canonical_expr_type)
+                   BasicDecl.canonical_expr_type)
         ))
 
 
@@ -3024,7 +3023,7 @@ class StringLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.fields.is_str_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_str_type, Self.type_var)
 
 
 class EnumLiteralDecl(BasicDecl):
@@ -3048,7 +3047,7 @@ class CharLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.fields.is_char_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_char_type, Self.type_var)
 
 
 @abstract
@@ -3061,7 +3060,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.fields.is_real_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_real_type, Self.type_var)
 
 
 class IntLiteral(NumLiteral):
@@ -3069,7 +3068,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.fields.is_int_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_int_type, Self.type_var)
 
 
 class NullLiteral(SingleTokNode):
@@ -3393,7 +3392,7 @@ class ForLoopSpec(LoopSpec):
             # component type of the type of the expression.
             & Bind(Self.iter_expr.cast(T.Expr).type_var,
                    Self.var_decl.id.type_var,
-                   BaseTypeDecl.fields.comp_type)
+                   BaseTypeDecl.comp_type)
 
             # If there is a type annotation, then the type of var should be
             # conformant.
@@ -3404,7 +3403,7 @@ class ForLoopSpec(LoopSpec):
 
             # Finally, we want the type of the expression to be an iterable
             # type.
-            & Predicate(BaseTypeDecl.fields.is_iterable_type,
+            & Predicate(BaseTypeDecl.is_iterable_type,
                         Self.iter_expr.cast(T.Expr).type_var)
         )
 
@@ -3431,7 +3430,7 @@ class Allocator(Expr):
     def xref_equation():
         return (
             Self.type_or_expr.sub_equation
-            & Predicate(BaseTypeDecl.fields.matching_allocator_type,
+            & Predicate(BaseTypeDecl.matching_allocator_type,
                         Self.type_var, Self.get_allocated_type)
         )
 
@@ -3580,17 +3579,17 @@ class SubpBody(Body):
             # If Self is a library item, reference the environments for
             # packages that are used at the top-level here. See
             # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.fields.designated_env_wrapper,
+            RefEnvs(T.Expr.designated_env_wrapper,
                     Self.library_item_use_package_clauses),
 
             # If Self is a generic package/subprogram and not a library item,
             # then the generic formals are not available in parent
             # environments. Make them available with ref_envs.
-            RefEnvs(T.AdaNode.fields.generic_formal_env_of_not_library_item,
+            RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
                     Self.cast(T.AdaNode).to_array),
 
             # Make the Standard package automatically used
-            RefEnvs(AdaNode.fields.std_env, Self.self_library_item_or_none),
+            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
         ],
         env_hook_arg=Self,
     )
@@ -3689,7 +3688,7 @@ class AssignStmt(SimpleStmt):
             Self.dest.sub_equation
             & Self.expr.sub_equation
             & Bind(Self.expr.type_var, Self.dest.type_var,
-                   eq_prop=BaseTypeDecl.fields.matching_assign_type)
+                   eq_prop=BaseTypeDecl.matching_assign_type)
         )
 
 
@@ -3745,7 +3744,7 @@ class AbortStmt(SimpleStmt):
         return Self.names.logic_all(
             lambda name:
             name.sub_equation
-            & Predicate(BaseTypeDecl.fields.is_task_type,
+            & Predicate(BaseTypeDecl.is_task_type,
                         name.type_var)
         )
 

@@ -4,7 +4,7 @@ from langkit import compiled_types
 from langkit.dsl import (
     ASTNode, BoolType, EnumNode, EquationType, Field, LexicalEnvType,
     LogicVarType, LongType, Struct, Symbol, T, UserField, abstract, synthetic,
-    env_metadata, has_abstract_list, root_grammar_class
+    env_metadata, has_abstract_list
 )
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
@@ -74,7 +74,6 @@ class Metadata(Struct):
 
 
 @abstract
-@root_grammar_class
 class AdaNode(ASTNode):
     """
     Root node class for the Ada grammar. This is good and necessary for several

@@ -1,10 +1,10 @@
 from __future__ import absolute_import, division, print_function
 
-from langkit import compiled_types
 from langkit.dsl import (
-    ASTNode, BoolType, EnumNode, EquationType, Field, LexicalEnvType,
-    LogicVarType, LongType, Struct, Symbol, T, UserField, abstract, synthetic,
-    env_metadata, has_abstract_list
+    AnalysisUnitKind, AnalysisUnitType, ASTNode, BoolType, EnumNode,
+    EquationType, Field, LexicalEnvType, LogicVarType, LongType, Struct,
+    Symbol, T, Token, UserField, abstract, synthetic, env_metadata,
+    has_abstract_list
 )
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
@@ -12,9 +12,7 @@ from langkit.expressions import (
     EmptyEnv, EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self,
     Var, ignore, langkit_property
 )
-from langkit.expressions.analysis_units import (
-    AnalysisUnitKind, AnalysisUnitType, UnitBody, UnitSpecification
-)
+from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import Predicate, LogicTrue
 
 
@@ -1910,7 +1908,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
-    @langkit_property(return_type=compiled_types.LexicalEnvType)
+    @langkit_property(return_type=LexicalEnvType)
     def defining_env():
         p = Var(Self.designated_package)
         formal_env = Var(p.children_env)
@@ -2121,7 +2119,7 @@ class Expr(AdaNode):
         return env.bind(Self.node_env, origin.bind(Self, Self.designated_env))
 
     parent_scope = AbstractProperty(
-        type=compiled_types.LexicalEnvType, runtime_check=True,
+        type=LexicalEnvType, runtime_check=True,
         dynamic_vars=[env],
         doc="""
         Returns the lexical environment that is the scope in which the
@@ -2130,7 +2128,7 @@ class Expr(AdaNode):
     )
 
     relative_name = AbstractProperty(
-        type=compiled_types.Token, runtime_check=True,
+        type=Token, runtime_check=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix A.B.C, this will return C.
@@ -3187,7 +3185,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                     )))
         ))
 
-    @langkit_property(return_type=compiled_types.LexicalEnvType,
+    @langkit_property(return_type=LexicalEnvType,
                       dynamic_vars=[origin])
     def defining_env():
         """

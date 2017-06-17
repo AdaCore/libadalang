@@ -501,8 +501,8 @@ class BasicDecl(AdaNode):
         return Self.type_expression._.designated_type
 
     type_expression = Property(
-        No(T.TypeExpr),
-        type=T.TypeExpr,
+        No(T.TypeExpr).as_entity,
+        type=T.TypeExpr.entity(),
         doc="""
         Return the type expression for this BasicDecl if applicable, a null
         otherwise.
@@ -654,7 +654,6 @@ class BaseFormalParamDecl(BasicDecl):
     components and for subprogram parameters.
     """
     identifiers = AbstractProperty(type=T.BaseId.array_type())
-    type_expression = AbstractProperty(type=T.TypeExpr, runtime_check=True)
     is_mandatory = Property(False)
 
     type = Property(
@@ -681,7 +680,7 @@ class ComponentDecl(BaseFormalParamDecl):
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     array_ndims = Property(Self.component_def.type_expr.array_ndims)
 
-    type_expression = Property(Self.component_def.type_expr)
+    type_expression = Property(Self.component_def.type_expr.as_entity)
 
     @langkit_property(return_type=EquationType)
     def constrain_prefix(prefix=T.Expr):
@@ -1542,7 +1541,7 @@ class ParamSpec(BaseFormalParamDecl):
         add_to_env=add_to_env(env_mappings(Self.ids, Self))
     )
 
-    type_expression = Property(Self.type_expr)
+    type_expression = Property(Self.type_expr.as_entity)
 
 
 class AspectSpec(AdaNode):
@@ -1559,7 +1558,7 @@ class BasicSubpDecl(BasicDecl):
     defining_env = Property(Self.subp_decl_spec.defining_env)
 
     type_expression = Property(
-        Self.subp_decl_spec.returns, doc="""
+        Self.subp_decl_spec.returns.as_entity, doc="""
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """
@@ -1767,7 +1766,7 @@ class ObjectDecl(BasicDecl):
     array_ndims = Property(Self.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     defining_env = Property(Self.type_expr.defining_env)
-    type_expression = Property(Self.type_expr)
+    type_expression = Property(Self.type_expr.as_entity)
 
     @langkit_property()
     def xref_equation():

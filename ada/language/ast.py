@@ -1558,7 +1558,7 @@ class BasicSubpDecl(BasicDecl):
     defining_env = Property(Self.subp_decl_spec.defining_env)
 
     type_expression = Property(
-        Self.subp_decl_spec.returns.as_entity, doc="""
+        Self.subp_decl_spec.returns, doc="""
         The expr type of a subprogram declaration is the return type of the
         subprogram if the subprogram is a function.
         """
@@ -3097,7 +3097,7 @@ class ParamMatch(Struct):
 class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.Name)
     params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
-    returns = AbstractProperty(type=T.TypeExpr)
+    returns = AbstractProperty(type=T.TypeExpr.entity())
 
     abstract_formal_params = Property(
         Self.params.map(lambda p: p.cast(BaseFormalParamDecl))
@@ -3274,7 +3274,7 @@ class SubpSpec(BaseSubpSpec):
             default_val=EmptyArray(ParamSpec)
         ), memoized=True
     )
-    returns = Property(Self.subp_returns)
+    returns = Property(Self.subp_returns.as_entity)
 
 
 class EntryDecl(BasicDecl):

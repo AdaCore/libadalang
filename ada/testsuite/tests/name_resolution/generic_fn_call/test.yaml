@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: generic_fn_call
+driver: symbol_resolution
+input_sources: [main.adb]

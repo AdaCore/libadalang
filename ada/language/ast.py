@@ -286,7 +286,7 @@ class AdaNode(ASTNode):
         """
         lib_item = Var(Self.get_parent_library_item)
         return If(
-            Self.equals(lib_item),
+            Self.as_entity.equals(lib_item),
 
             lib_item.parent.parent.cast_or_raise(T.CompilationUnit)
             .prelude
@@ -367,7 +367,7 @@ class AdaNode(ASTNode):
         """
         return (
             Self.parents.filter(lambda p: p.is_a(T.LibraryItem))
-            .at(0).cast(T.LibraryItem).item
+            .at(0).cast(T.LibraryItem).item.as_entity
         )
 
     @langkit_property()

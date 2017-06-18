@@ -518,7 +518,7 @@ class BasicDecl(AdaNode):
         """
         return Self.expr_type._.canonical_type
 
-    @langkit_property(return_type=T.SubpSpec)
+    @langkit_property(return_type=T.SubpSpec.entity())
     def subp_spec_or_null():
         """
         If node is a Subp, returns the specification of this subprogram.
@@ -528,7 +528,7 @@ class BasicDecl(AdaNode):
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,
             lambda subp=SubpBody:      subp.subp_spec,
             lambda _:                  No(SubpSpec),
-        )
+        ).as_entity
 
     @langkit_property(return_type=EquationType, dynamic_vars=[origin])
     def constrain_prefix(prefix=T.Expr):
@@ -2962,7 +2962,6 @@ class BaseId(SingleTokNode):
                 # If current item is a library item, we want to check that it
                 # is visible from the current unit.
                 (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
-
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
                 & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(

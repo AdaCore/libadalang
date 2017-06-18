@@ -715,7 +715,7 @@ class BaseFormalParamHolder(AdaNode):
     unpacked_formal_params = Property(
         Self.abstract_formal_params.mapcat(
             lambda spec: spec.identifiers.map(lambda id: (
-                New(SingleFormal, name=id, spec=spec)
+                New(SingleFormal, name=id, spec=spec.as_entity)
             ))
         ),
         doc='Couples (identifier, param spec) for all parameters'
@@ -3074,7 +3074,7 @@ class NullLiteral(SingleTokNode):
 
 class SingleFormal(Struct):
     name = UserField(type=BaseId)
-    spec = UserField(type=BaseFormalParamDecl)
+    spec = UserField(type=BaseFormalParamDecl.entity())
 
 
 class SingleActual(Struct):

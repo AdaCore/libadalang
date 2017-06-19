@@ -762,7 +762,7 @@ class ComponentList(BaseFormalParamHolder):
     type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
 
     parent_component_list = Property(
-        Self.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.components
+        Self.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.comps
     )
 
     @langkit_property()
@@ -784,6 +784,9 @@ class ComponentList(BaseFormalParamHolder):
 @abstract
 class BaseRecordDef(AdaNode):
     components = Field(type=T.ComponentList)
+
+    # TODO: Kludge, to remove when Q619-018 is implemented
+    comps = Property(Self.components.as_entity)
 
 
 class RecordDef(BaseRecordDef):
@@ -2313,7 +2316,7 @@ class Aggregate(BaseAggregate):
             atd.is_null,
 
             # First case, aggregate for a record
-            td.record_def.components.match_param_list(
+            td.record_def.comps.match_param_list(
                 Self.assocs, False
             ).logic_all(
                 lambda pm:

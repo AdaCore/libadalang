@@ -1047,7 +1047,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     # We don't want to add the classwide type to the environment
     env_spec = EnvSpec(call_parents=False)
 
-    typedecl = Property(Self.parent.cast(BaseTypeDecl))
+    typedecl = Property(Self.parent.cast(BaseTypeDecl).as_entity)
 
     is_classwide = Property(True)
 

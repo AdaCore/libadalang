@@ -1026,11 +1026,13 @@ class BaseTypeDecl(BasicDecl):
         """
         return Self.as_entity
 
-    classwide_type = Property(If(
+    classwide_type_node = Property(If(
         Self.is_tagged_type,
-        New(T.ClasswideTypeDecl, type_id=Self.type_id).as_entity,
-        No(T.ClasswideTypeDecl).as_entity
+        New(T.ClasswideTypeDecl, type_id=Self.type_id),
+        No(T.ClasswideTypeDecl)
     ), memoized=True)
+
+    classwide_type = Property(Self.classwide_type_node.as_entity)
 
     is_classwide = Property(False)
 

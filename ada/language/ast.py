@@ -909,8 +909,8 @@ class BaseTypeDecl(BasicDecl):
         Return the base type entity for this derived type declaration.
         """
     )
-    array_def = Property(No(T.ArrayTypeDef))
-    record_def = Property(No(T.BaseRecordDef))
+    array_def = Property(No(T.ArrayTypeDef.entity()))
+    record_def = Property(No(T.BaseRecordDef.entity()))
 
     @langkit_property(dynamic_vars=[origin])
     def comp_type():
@@ -922,7 +922,7 @@ class BaseTypeDecl(BasicDecl):
             1. The component type for an array.
             2. The return type for an access to function.
         """
-        return Self.array_def._.as_entity.comp_type
+        return Self.array_def._.comp_type
 
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.
@@ -1077,7 +1077,7 @@ class TypeDecl(BaseTypeDecl):
     base_type = Property(Self.type_def.base_type)
     is_char_type = Property(Self.type_def.is_char_type)
 
-    array_def = Property(Self.type_def.cast(T.ArrayTypeDef))
+    array_def = Property(Self.type_def.cast(T.ArrayTypeDef).as_entity)
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
@@ -1092,7 +1092,7 @@ class TypeDecl(BaseTypeDecl):
             lambda r=T.RecordTypeDef: r.record_def,
             lambda d=T.DerivedTypeDef: d.record_extension,
             lambda _: No(T.BaseRecordDef)
-        )
+        ).as_entity
     )
 
     xref_entry_point = Property(True)
@@ -2306,7 +2306,8 @@ class Aggregate(BaseAggregate):
 
     @langkit_property()
     def xref_equation():
-        td = Var(Self.type_val.cast(BaseTypeDecl))
+        td = Var(Self.type_val.cast(BaseTypeDecl.entity()))
+
         atd = Var(td.array_def)
         return If(
             atd.is_null,

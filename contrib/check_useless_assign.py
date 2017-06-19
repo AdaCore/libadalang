@@ -247,7 +247,8 @@ def explore(f, locvars, locsubprograms, subp):
     # The initial set of reads is the set of subprogram parameters. This
     # includes the OUT and IN OUT parameters which can be read after the
     # subprogram returns.
-    params = set([param.f_ids.text for param in subp.f_subp_spec.p_params])
+    params = set([param.f_ids.text
+                  for param in subp.f_subp_spec.p_node_params])
 
     def remove_read(node, assigns, reads):
         obj = get_read(node)

@@ -297,7 +297,7 @@ package body Highlighter is
                declare
                   Subp_Spec : constant LAL.Subp_Spec := LAL.Subp_Spec (Node);
                   Params    : constant LAL.Param_Spec_Array_Access :=
-                    Subp_Spec.P_Params;
+                    Subp_Spec.P_Node_Params;
                begin
                   Highlight_Block_Name (Subp_Spec.F_Subp_Name, Highlights);
                   Highlight_Type_Expr (Subp_Spec.F_Subp_Returns, Highlights);

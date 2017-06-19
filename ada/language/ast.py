@@ -526,9 +526,9 @@ class BasicDecl(AdaNode):
         """
         return Self.match(
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,
-            lambda subp=SubpBody:      subp.subp_spec,
-            lambda _:                  No(SubpSpec),
-        ).as_entity
+            lambda subp=SubpBody:      subp.subp_spec.as_entity,
+            lambda _:                  No(SubpSpec.entity()),
+        )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[origin])
     def constrain_prefix(prefix=T.Expr):
@@ -707,14 +707,14 @@ class BaseFormalParamHolder(AdaNode):
     """
 
     abstract_formal_params = AbstractProperty(
-        type=BaseFormalParamDecl.array_type(),
+        type=BaseFormalParamDecl.entity().array_type(),
         doc="Return the list of abstract formal parameters for this holder."
     )
 
     unpacked_formal_params = Property(
         Self.abstract_formal_params.mapcat(
             lambda spec: spec.identifiers.map(lambda id: (
-                New(SingleFormal, name=id, spec=spec.as_entity)
+                New(SingleFormal, name=id, spec=spec)
             ))
         ),
         doc='Couples (identifier, param spec) for all parameters'
@@ -759,7 +759,7 @@ class ComponentList(BaseFormalParamHolder):
     components = Field(type=T.AdaNode.list_type())
     variant_part = Field(type=T.VariantPart)
 
-    type_def = Property(Self.parent.parent.cast(T.TypeDef))
+    type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
 
     parent_component_list = Property(
         Self.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.components
@@ -770,7 +770,9 @@ class ComponentList(BaseFormalParamHolder):
         # TODO: Incomplete definition. We need to handle variant parts.
         pcl = Var(Self.parent_component_list)
 
-        self_comps = Var(Self.components.keep(BaseFormalParamDecl))
+        self_comps = Var(Self.components.keep(BaseFormalParamDecl).map(
+            lambda e: e.as_entity
+        ))
 
         return If(
             pcl.is_null,
@@ -1564,7 +1566,7 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
-    subp_decl_spec = AbstractProperty(type=T.SubpSpec)
+    subp_decl_spec = AbstractProperty(type=T.SubpSpec.entity())
 
     body_part = Property(
         If(
@@ -1607,7 +1609,7 @@ class BasicSubpDecl(BasicDecl):
                 )),
                 dest_env=Let(
                     lambda spec=Self.subp_decl_spec:
-                    origin.bind(spec,
+                    origin.bind(spec.el,
                                 spec.potential_dottable_type._.children_env)
                 ),
                 # We pass custom metadata, marking the entity as a dottable
@@ -1649,7 +1651,7 @@ class ClassicSubpDecl(BasicSubpDecl):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
 
-    subp_decl_spec = Property(Self.subp_spec)
+    subp_decl_spec = Property(Self.subp_spec.as_entity)
 
 
 class SubpDecl(ClassicSubpDecl):
@@ -2020,7 +2022,7 @@ class GenericFormalPart(BaseFormalParamHolder):
     decls = Field(type=T.AdaNode.list_type())
 
     abstract_formal_params = Property(
-        Self.decls.keep(BaseFormalParamDecl)
+        Self.decls.keep(BaseFormalParamDecl).map(lambda e: e.as_entity)
     )
 
 
@@ -2059,7 +2061,7 @@ class GenericSubpDecl(BasicSubpDecl):
 
     defining_names = Property(Self.subp_spec.name.singleton)
 
-    subp_decl_spec = Property(Self.subp_spec)
+    subp_decl_spec = Property(Self.subp_spec.as_entity)
 
 
 class GenericPackageInternal(BasePackageDecl):
@@ -2304,7 +2306,7 @@ class Aggregate(BaseAggregate):
 
     @langkit_property()
     def xref_equation():
-        td = Var(Self.type_val.el.cast(BaseTypeDecl))
+        td = Var(Self.type_val.cast(BaseTypeDecl))
         atd = Var(td.array_def)
         return If(
             atd.is_null,
@@ -2707,7 +2709,7 @@ class ExplicitDeref(Name):
     def env_elements_impl():
         return origin.bind(Self, Self.prefix.env_elements_impl.filter(
             # Env elements for access derefs need to be of an access type
-            lambda e: e.el.cast(BasicDecl)._.canonical_expr_type.is_access_type
+            lambda e: e.cast(BasicDecl)._.canonical_expr_type.is_access_type
         ))
 
     @langkit_property()
@@ -2847,7 +2849,7 @@ class BaseId(SingleTokNode):
                 T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
                 T.GenericSubpDecl
             ),
-            elt.el.children_env,
+            elt.children_env,
             EmptyEnv
         )
 
@@ -2864,7 +2866,7 @@ class BaseId(SingleTokNode):
         return origin.bind(Self, Let(lambda el=ents.at(0).el: If(
             el._.is_package,
             el.cast(BasicDecl).defining_env,
-            ents.map(lambda e: e.el.cast(BasicDecl).defining_env).env_group
+            ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group
         )))
 
     parent_scope = Property(env)
@@ -2963,7 +2965,7 @@ class BaseId(SingleTokNode):
                 (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                & e.el.cast_or_raise(BasicDecl).subp_spec_or_null.then(
+                & e.cast_or_raise(BasicDecl).subp_spec_or_null.then(
                     lambda ss: ss.paramless(e.info.MD),
                     default_val=True
                 )
@@ -2974,7 +2976,7 @@ class BaseId(SingleTokNode):
             # * subprograms for which the actuals match;
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(AssocList).then(lambda params: (
-                items.filter(lambda e: e.el.match(
+                items.filter(lambda e: e.match(
                     lambda subp=BasicSubpDecl:
                         matching_subp(params, subp, subp.subp_decl_spec, e),
 
@@ -3096,8 +3098,10 @@ class ParamMatch(Struct):
 @abstract
 class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.Name)
-    params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
     returns = AbstractProperty(type=T.TypeExpr.entity())
+
+    node_params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
+    params = Property(Self.node_params.map(lambda p: p.as_entity))
 
     abstract_formal_params = Property(
         Self.params.map(lambda p: p.cast(BaseFormalParamDecl))
@@ -3142,7 +3146,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BoolType)
-    def match_signature(other=T.SubpSpec):
+    def match_signature(other=T.SubpSpec.entity()):
         """
         Return whether SubpSpec's signature matches Self's.
 
@@ -3268,11 +3272,11 @@ class SubpSpec(BaseSubpSpec):
 
     name = Property(Self.subp_name)
 
-    params = Property(
+    node_params = Property(
         Self.subp_params.then(
             lambda p: p.params.map(lambda p: p),
             default_val=EmptyArray(ParamSpec)
-        ), memoized=True
+        )
     )
     returns = Property(Self.subp_returns.as_entity)
 
@@ -3318,7 +3322,7 @@ class ForLoopVarDecl(BasicDecl):
         # eventually be infered, which necessitates name resolution on the loop
         # specification. Run resolution if necessary.
         Let(lambda p=If(
-            Self.id.type_val.el.is_null,
+            Self.id.type_val.is_null,
             Self.parent.parent.cast(T.ForLoopStmt).resolve_names,
             True
         ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity()),
@@ -3612,7 +3616,9 @@ class SubpBody(Body):
             .find(lambda sp: sp.el.cast(T.BasicDecl).then(
                 lambda bd:
                 Not(bd.is_a(SubpBody))
-                & bd.subp_spec_or_null._.match_signature(Self.subp_spec)
+                & bd.subp_spec_or_null._.match_signature(
+                    Self.subp_spec.as_entity
+                )
             )).el
 
         ),

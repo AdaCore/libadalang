@@ -31,7 +31,7 @@ main_file_name = file_names[0]
 
 yaml = """description:
     Symbol resolution: {test_name}
-driver: symbol_resolution
+driver: name-resolution
 input_sources: [{main_file_name}]
 """.format(**locals())
 

@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: generic_aggregates
+driver: name-resolution
+input_sources: [main.adb]

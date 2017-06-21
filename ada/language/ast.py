@@ -1917,6 +1917,8 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.name.singleton)
 
+    # TODO: Investigate if the fact that this returns a node could be a problem
+    # or not. Hint: Generics inside generics.
     designated_package = Property(
         env.bind(Self.node_env,
                  Self.generic_entity_name.matching_nodes_impl

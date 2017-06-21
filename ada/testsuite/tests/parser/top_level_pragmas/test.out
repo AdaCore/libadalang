@@ -61,7 +61,7 @@ CompilationUnit[30:1-32:49]
 |  |  |aspects: <null>
 |pragmas:
 |  PragmaNodeList[32:1-32:49]
-|  |  Pragma[32:1-32:49]
+|  |  PragmaNode[32:1-32:49]
 |  |  |id:
 |  |  |  Id[32:8-32:12]
 |  |  |  |tok: Pure

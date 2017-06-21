@@ -4,7 +4,7 @@ from langkit.dsl import (
     AnalysisUnitKind, AnalysisUnitType, ASTNode, BoolType, EnumNode,
     EquationType, Field, LexicalEnvType, LogicVarType, LongType, Struct,
     Symbol, T, Token, UserField, abstract, synthetic, env_metadata,
-    has_abstract_list
+    has_abstract_list, Annotations
 )
 from langkit.envs import EnvSpec, RefEnvs, add_to_env
 from langkit.expressions import (
@@ -77,7 +77,9 @@ class AdaNode(ASTNode):
     Root node class for the Ada syntax tree.
     """
 
-    _generic_list_type = 'AdaList'
+    annotations = Annotations(
+        generic_list_type='AdaList'
+    )
 
     type_val = Property(
         No(T.AdaNode.entity()),
@@ -3011,11 +3013,11 @@ class BaseId(SingleTokNode):
 
 
 class Identifier(BaseId):
-    _repr_name = "Id"
+    annotations = Annotations(repr_name="Id")
 
 
 class StringLiteral(BaseId):
-    _repr_name = "Str"
+    annotations = Annotations(repr_name="Str")
 
     @langkit_property()
     def xref_equation():
@@ -3039,7 +3041,7 @@ class EnumLiteralDecl(BasicDecl):
 
 
 class CharLiteral(BaseId):
-    _repr_name = "Chr"
+    annotations = Annotations(repr_name="Chr")
 
     @langkit_property()
     def xref_equation():
@@ -3048,11 +3050,11 @@ class CharLiteral(BaseId):
 
 @abstract
 class NumLiteral(SingleTokNode):
-    _repr_name = "Num"
+    annotations = Annotations(repr_name="Num")
 
 
 class RealLiteral(NumLiteral):
-    _repr_name = "Real"
+    annotations = Annotations(repr_name="Real")
 
     @langkit_property()
     def xref_equation():
@@ -3060,7 +3062,7 @@ class RealLiteral(NumLiteral):
 
 
 class IntLiteral(NumLiteral):
-    _repr_name = "Int"
+    annotations = Annotations(repr_name="Int")
 
     @langkit_property()
     def xref_equation():
@@ -3068,7 +3070,7 @@ class IntLiteral(NumLiteral):
 
 
 class NullLiteral(SingleTokNode):
-    _repr_name = "Null"
+    annotations = Annotations(repr_name="Null")
 
 
 class SingleFormal(Struct):

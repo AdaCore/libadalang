@@ -1570,13 +1570,15 @@ class BasicSubpDecl(BasicDecl):
 
             Self.enclosing_scope.match(
                 lambda pkg_decl=T.BasePackageDecl: pkg_decl.body_part.decls,
-                lambda pkg_body=T.PackageBody: pkg_body.decls,
-                lambda subp_body=T.SubpBody: subp_body.decls,
-                lambda decl_block=T.DeclBlock: decl_block.decls,
+                lambda pkg_body=T.PackageBody: pkg_body.decls.el,
+                lambda subp_body=T.SubpBody: subp_body.decls.el,
+                lambda decl_block=T.DeclBlock: decl_block.decls.el,
                 lambda _: No(DeclarativePart),
-            ).then(lambda decl_part: decl_part.decls.keep(T.SubpBody).filter(
-                lambda subp_body:
-                subp_body.subp_spec.match_signature(Self.subp_decl_spec)).at(0)
+            ).then(
+                lambda decl_part: decl_part.decls.keep(T.SubpBody).filter(
+                    lambda subp_body:
+                    subp_body.subp_spec.match_signature(Self.subp_decl_spec)
+                ).at(0)
             )
         ),
         public=True,

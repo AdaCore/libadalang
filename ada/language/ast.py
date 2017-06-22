@@ -2499,7 +2499,7 @@ class CallExpr(Name):
                     # or something else (a component/local variable/etc),
                     # that would make this callexpr an array access.
                     s.subp_spec_or_null.then(
-                        lambda ss: ss.paramless(e.info.MD),
+                        lambda ss: ss.paramless(e.info.md),
                         default_val=True
                     ),
 
@@ -2512,7 +2512,7 @@ class CallExpr(Name):
                     # For each parameter, the type of the expression matches
                     # the expected type for this subprogram.
                     & s.subp_spec_or_null.match_param_list(
-                        Self.params, e.info.MD.dottable_subp
+                        Self.params, e.info.md.dottable_subp
                     ).logic_all(
                         lambda pm: (
                             # The type of each actual matches the type of the
@@ -2940,11 +2940,11 @@ class BaseId(SingleTokNode):
         def matching_subp(params, subp, subp_spec, env_el):
             # Either the subprogram has is matching the CallExpr's parameters
             return subp_spec.is_matching_param_list(
-                params, env_el.info.MD.dottable_subp
+                params, env_el.info.md.dottable_subp
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
             ) | subp.expr_type.then(lambda et: (
-                subp_spec.paramless(env_el.info.MD)
+                subp_spec.paramless(env_el.info.md)
                 & pc.check_type(et)
             ))
 
@@ -2963,7 +2963,7 @@ class BaseId(SingleTokNode):
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
                 & e.cast_or_raise(BasicDecl).subp_spec_or_null.then(
-                    lambda ss: ss.paramless(e.info.MD),
+                    lambda ss: ss.paramless(e.info.md),
                     default_val=True
                 )
             )),

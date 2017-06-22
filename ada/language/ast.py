@@ -3150,7 +3150,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Note that the comparison for types isn't just a name comparison: it
         compares the canonical subtype.
         """
-        return origin.bind(Self, And(
+        origin_self = Var(Self.name)
+        origin_other = Var(other.el.name)
+        return And(
             # Check that the names are the same
             Self.name.matches(other.name),
 
@@ -3162,8 +3164,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
             If(other.returns.is_null,
                Self.returns.is_null,
                And(Not(other.returns.is_null),
-                   canonical_type_or_null(other.returns)
-                   == canonical_type_or_null(Self.returns))),
+                   origin.bind(origin_other,
+                               canonical_type_or_null(other.returns))
+                   == origin.bind(origin_self,
+                                  canonical_type_or_null(Self.returns)))),
 
             # Check that there is the same number of formals and that each
             # formal matches.
@@ -3175,14 +3179,21 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 And(self_params.length == other_params.length,
                     self_params.all(
                         lambda i, p:
-                        And(p.name.matches(other_params.at(i).name),
-                            canonical_type_or_null(p.spec.type_expression)
-                            == canonical_type_or_null(
-                                other_params.at(i)
-                                .spec.type_expression)
+                        And(
+                            p.name.matches(other_params.at(i).name),
+                            origin.bind(
+                                origin_self,
+                                canonical_type_or_null(p.spec.type_expression)
+                            ) == origin.bind(
+                                origin_other,
+                                canonical_type_or_null(
+                                    other_params.at(i).spec.type_expression
+                                )
                             )
-                    )))
-        ))
+                        )
+                    ))
+            )
+        )
 
     @langkit_property(return_type=LexicalEnvType,
                       dynamic_vars=[origin])

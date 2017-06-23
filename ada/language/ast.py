@@ -78,7 +78,8 @@ class AdaNode(ASTNode):
     """
 
     annotations = Annotations(
-        generic_list_type='AdaList'
+        generic_list_type='AdaList',
+        warn_on_node=True
     )
 
     type_val = Property(
@@ -439,6 +440,7 @@ def child_unit(name_expr, scope_expr):
 
 @abstract
 class BasicDecl(AdaNode):
+
     defining_names = AbstractProperty(
         type=T.Name.array_type(), public=True, doc="""
         Get all the names of this basic declaration.
@@ -446,7 +448,7 @@ class BasicDecl(AdaNode):
     )
 
     defining_name = Property(
-        Self.defining_names.at(0), public=True, doc="""
+        Self.defining_names.at(0).as_entity, public=True, doc="""
         Get the name of this declaration. If this declaration has several
         names, it will return the first one.
         """
@@ -555,7 +557,8 @@ class BasicDecl(AdaNode):
         Self.parents.find(
             lambda p: p.is_a(T.DeclarativePart)
         ).cast(T.DeclarativePart),
-        doc="Return the scope of definition of this basic declaration."
+        doc="Return the scope of definition of this basic declaration.",
+        ignore_warn_on_node=True
     )
 
 
@@ -1029,7 +1032,7 @@ class BaseTypeDecl(BasicDecl):
         Self.is_tagged_type,
         New(T.ClasswideTypeDecl, type_id=Self.type_id),
         No(T.ClasswideTypeDecl)
-    ), memoized=True)
+    ), memoized=True, ignore_warn_on_node=True)
 
     classwide_type = Property(Self.classwide_type_node.as_entity)
 
@@ -1147,7 +1150,9 @@ class DecimalFixedPointDef(RealTypeDef):
 
 @abstract
 class BaseAssoc(AdaNode):
-    assoc_expr = AbstractProperty(type=T.Expr, public=True)
+    assoc_expr = AbstractProperty(
+        type=T.Expr, public=True, ignore_warn_on_node=True
+    )
 
 
 @abstract
@@ -1586,7 +1591,8 @@ class BasicSubpDecl(BasicDecl):
         public=True,
         doc="""
         Return the SubpBody corresponding to this node.
-        """
+        """,
+        ignore_warn_on_node=True
     )
 
     env_spec = EnvSpec(
@@ -1820,15 +1826,15 @@ class BasePackageDecl(BasicDecl):
     private_part = Field(type=T.PrivatePart)
     end_id = Field(type=T.Name)
 
-    name = Property(Self.package_name)
-    defining_names = Property(Self.name.singleton)
+    defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
     body_link = Property(
         Self.children_env.get('__body', recursive=False).at(0)
     )
 
-    @langkit_property(return_type=T.PackageBody, public=True)
+    @langkit_property(return_type=T.PackageBody, public=True,
+                      ignore_warn_on_node=True)
     def body_part():
         """
         Return the PackageBody corresponding to this node.
@@ -1922,7 +1928,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     # or not. Hint: Generics inside generics.
     designated_package = Property(
         env.bind(Self.node_env,
-                 Self.generic_entity_name.matching_nodes_impl
+                 Self.generic_entity_name.env_elements
                  .at(0).cast_or_raise(T.GenericPackageDecl))
     )
 
@@ -2079,17 +2085,15 @@ class GenericPackageInternal(BasePackageDecl):
 
 
 class GenericPackageDecl(BasicDecl):
-    env_spec = child_unit(Self.package_name.relative_name.symbol,
-                          Self.package_name.parent_scope)
+    env_spec = child_unit(Self.package_decl.package_name.relative_name.symbol,
+                          Self.package_decl.package_name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
     package_decl = Field(type=GenericPackageInternal)
 
-    package_name = Property(Self.package_decl.package_name)
+    defining_names = Property(Self.package_decl.package_name.singleton)
 
-    defining_names = Property(Self.package_name.singleton)
-
-    @langkit_property(public=True)
+    @langkit_property(public=True, ignore_warn_on_node=True)
     def body_part():
         """
         Return the PackageBody corresponding to this node, or null if there is
@@ -2445,7 +2449,7 @@ class CallExpr(Name):
     # subtypes for discriminated records or arrays.
     designated_type_impl = Property(Self.name.designated_type_impl)
 
-    params = Property(Self.suffix.cast(T.AssocList))
+    params = Property(Self.suffix.cast(T.AssocList), ignore_warn_on_node=True)
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
@@ -2592,7 +2596,7 @@ class CallExpr(Name):
         # checking for each level that the call expression corresponds.
         return Self.innermost_callexpr.check_type_internal(typ)
 
-    @langkit_property(return_type=T.CallExpr)
+    @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
     def innermost_callexpr():
         """
         Helper property. Will return the innermost call expression following
@@ -2610,7 +2614,7 @@ class CallExpr(Name):
             lambda ce: ce.innermost_callexpr(), default_val=Self
         )
 
-    @langkit_property(return_type=T.CallExpr)
+    @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
     def parent_nested_callexpr():
         """
         Will return the parent callexpr iff Self is the name of the parent
@@ -2637,7 +2641,7 @@ class CallExpr(Name):
 @abstract
 @has_abstract_list
 class BasicAssoc(AdaNode):
-    expr = AbstractProperty(type=T.Expr)
+    expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
     names = AbstractProperty(type=T.AdaNode.array_type())
 
 
@@ -2882,7 +2886,7 @@ class BaseId(SingleTokNode):
         .at(0).cast(BaseTypeDecl.entity()),
     )
 
-    @langkit_property(return_type=CallExpr)
+    @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)
     def parent_callexpr():
         """
         If this BaseId is the main symbol qualifying the prefix in a call
@@ -3098,7 +3102,7 @@ class ParamMatch(Struct):
 
 @abstract
 class BaseSubpSpec(BaseFormalParamHolder):
-    name = AbstractProperty(type=T.Name)
+    name = AbstractProperty(type=T.Name, ignore_warn_on_node=True)
     returns = AbstractProperty(type=T.TypeExpr.entity())
 
     node_params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
@@ -3637,7 +3641,8 @@ class SubpBody(Body):
         public=True,
         doc="""
         Return the SubpDecl corresponding to this node.
-        """
+        """,
+        ignore_warn_on_node=True
     )
 
 
@@ -3729,7 +3734,7 @@ class ReturnStmt(SimpleStmt):
     return_expr = Field(type=T.Expr)
 
     subp = Property(
-        Self.parents.find(lambda p: p.is_a(SubpBody)).cast(SubpBody),
+        Self.parents.find(lambda p: p.is_a(SubpBody)).cast(SubpBody).as_entity,
         doc="Returns the subprogram this return statement belongs to"
     )
 
@@ -3961,7 +3966,8 @@ class PackageBody(Body):
             lambda pp: pp.children_env, default_val=public_scope
         )
 
-    @langkit_property(return_type=T.BasePackageDecl, public=True)
+    @langkit_property(return_type=T.BasePackageDecl, public=True,
+                      ignore_warn_on_node=True)
     def decl_part():
         """
         Return the BasePackageDecl corresponding to this node.

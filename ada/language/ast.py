@@ -1923,12 +1923,14 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.name.singleton)
 
-    # TODO: Investigate if the fact that this returns a node could be a problem
-    # or not. Hint: Generics inside generics.
     designated_package = Property(
         env.bind(Self.node_env,
                  Self.generic_entity_name.env_elements
-                 .at(0).cast_or_raise(T.GenericPackageDecl))
+                 .at(0).cast_or_raise(T.GenericPackageDecl)),
+        doc="""
+        Return the formal package designated by the right hand part of this
+        generic package instantiation.
+        """
     )
 
     env_spec = EnvSpec(

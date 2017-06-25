@@ -6,7 +6,7 @@ GenericSubpInstantiation[1:1-1:40]
 |subp_name:
 |  Id[1:21-1:22]
 |  |tok: F
-|generic_entity_name:
+|generic_subp_name:
 |  Id[1:30-1:33]
 |  |tok: Foo
 |subp_params:

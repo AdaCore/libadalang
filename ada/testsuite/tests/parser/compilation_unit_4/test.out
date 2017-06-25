@@ -38,7 +38,7 @@ CompilationUnit[1:1-1:48]
 |  |  |  |suffix:
 |  |  |  |  Id[1:33-1:34]
 |  |  |  |  |tok: C
-|  |  |generic_entity_name:
+|  |  |generic_pkg_name:
 |  |  |  Id[1:42-1:43]
 |  |  |  |tok: B
 |  |  |params:

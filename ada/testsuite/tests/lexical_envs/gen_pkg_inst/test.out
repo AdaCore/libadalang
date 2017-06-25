@@ -70,7 +70,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[7:12-7:18]
 |  |  |  |  |  |  |tok: D_Inst
-|  |  |  |  |  |generic_entity_name:
+|  |  |  |  |  |generic_pkg_name:
 |  |  |  |  |  |  Id[7:26-7:27]
 |  |  |  |  |  |  |tok: D
 |  |  |  |  |  |params:

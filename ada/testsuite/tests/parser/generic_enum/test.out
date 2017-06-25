@@ -229,7 +229,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[20:12-20:16]
 |  |  |  |  |  |  |tok: Inst
-|  |  |  |  |  |generic_entity_name:
+|  |  |  |  |  |generic_pkg_name:
 |  |  |  |  |  |  Id[20:24-20:25]
 |  |  |  |  |  |  |tok: P
 |  |  |  |  |  |params:

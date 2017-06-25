@@ -1882,19 +1882,27 @@ class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
     """
-    pass
+
+    generic_entity_name = AbstractProperty(
+        type=T.Name.entity, doc="""
+        Return the name of the generic entity designated by this generic
+        instantiation
+        """
+    )
 
 
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
     kind = Field(type=T.SubpKind)
     subp_name = Field(type=T.Name)
-    generic_entity_name = Field(type=T.Name)
+    generic_subp_name = Field(type=T.Name)
     subp_params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
 
     defining_names = Property(Self.subp_name.singleton)
+
+    generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
 
 class InstantiationEnvHolder(AdaNode):
@@ -1907,10 +1915,12 @@ class InstantiationEnvHolder(AdaNode):
 
 class GenericPackageInstantiation(GenericInstantiation):
     name = Field(type=T.Name)
-    generic_entity_name = Field(type=T.Name)
+    generic_pkg_name = Field(type=T.Name)
     params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
     instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
+
+    generic_entity_name = Property(Self.generic_pkg_name.as_entity)
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():

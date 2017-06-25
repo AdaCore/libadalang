@@ -28,7 +28,7 @@ CompilationUnit[1:1-1:44]
 |  |  |name:
 |  |  |  Id[1:29-1:30]
 |  |  |  |tok: A
-|  |  |generic_entity_name:
+|  |  |generic_pkg_name:
 |  |  |  Id[1:38-1:39]
 |  |  |  |tok: B
 |  |  |params:

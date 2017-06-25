@@ -10,7 +10,7 @@ CompilationUnit[1:1-1:24]
 |  |  |name:
 |  |  |  Id[1:9-1:10]
 |  |  |  |tok: A
-|  |  |generic_entity_name:
+|  |  |generic_pkg_name:
 |  |  |  Id[1:18-1:19]
 |  |  |  |tok: B
 |  |  |params:

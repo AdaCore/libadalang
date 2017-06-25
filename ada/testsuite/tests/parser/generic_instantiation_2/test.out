@@ -2,7 +2,7 @@ GenericPackageInstantiation[1:1-1:25]
 |name:
 |  Id[1:9-1:10]
 |  |tok: P
-|generic_entity_name:
+|generic_pkg_name:
 |  Id[1:18-1:19]
 |  |tok: Q
 |params:

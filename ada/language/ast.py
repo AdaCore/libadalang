@@ -572,7 +572,7 @@ class BodyStub(Body):
 
 
 class DiscriminantSpec(BasicDecl):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
 
@@ -589,7 +589,7 @@ class DiscriminantPart(AdaNode):
 
 
 class KnownDiscriminantPart(DiscriminantPart):
-    discr_specs = Field(type=T.DiscriminantSpec.list_type())
+    discr_specs = Field(type=T.DiscriminantSpec.list)
 
 
 class UnknownDiscriminantPart(DiscriminantPart):
@@ -634,13 +634,13 @@ class TypeDef(AdaNode):
 
 
 class Variant(AdaNode):
-    choice_list = Field(type=T.AdaNode.list_type())
+    choice_list = Field(type=T.AdaNode.list)
     components = Field(type=T.ComponentList)
 
 
 class VariantPart(AdaNode):
     discr_name = Field(type=T.Identifier)
-    variant = Field(type=T.Variant.list_type())
+    variant = Field(type=T.Variant.list)
 
 
 @abstract
@@ -658,7 +658,7 @@ class BaseFormalParamDecl(BasicDecl):
 
 
 class ComponentDecl(BaseFormalParamDecl):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     component_def = Field(type=T.ComponentDef)
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
@@ -752,7 +752,7 @@ class BaseFormalParamHolder(AdaNode):
 
 
 class ComponentList(BaseFormalParamHolder):
-    components = Field(type=T.AdaNode.list_type())
+    components = Field(type=T.AdaNode.list)
     variant_part = Field(type=T.VariantPart)
 
     type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
@@ -1123,7 +1123,7 @@ class AnonymousTypeDecl(TypeDecl):
 
 
 class EnumTypeDecl(BaseTypeDecl):
-    enum_literals = Field(type=T.EnumLiteralDecl.list_type())
+    enum_literals = Field(type=T.EnumLiteralDecl.list)
     aspects = Field(type=T.AspectSpec)
 
     is_char_type = Property(Self.enum_literals.any(
@@ -1174,15 +1174,15 @@ class DeltaConstraint(Constraint):
 
 
 class IndexConstraint(Constraint):
-    constraints = Field(type=T.AdaNode.list_type())
+    constraints = Field(type=T.AdaNode.list)
 
 
 class DiscriminantConstraint(Constraint):
-    constraints = Field(type=T.DiscriminantAssoc.list_type())
+    constraints = Field(type=T.DiscriminantAssoc.list)
 
 
 class DiscriminantAssoc(Constraint):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     expr = Field(type=T.Expr)
 
 
@@ -1191,7 +1191,7 @@ class DerivedTypeDef(TypeDef):
     has_limited = Field(type=Limited)
     has_synchronized = Field(type=Synchronized)
     subtype_indication = Field(type=T.SubtypeIndication)
-    interfaces = Field(type=T.Name.list_type())
+    interfaces = Field(type=T.Name.list)
     record_extension = Field(type=T.BaseRecordDef)
     has_with_private = Field(type=WithPrivate)
 
@@ -1266,7 +1266,7 @@ class ArrayIndices(AdaNode):
 
 
 class UnconstrainedArrayIndices(ArrayIndices):
-    types = Field(type=T.UnconstrainedArrayIndex.list_type())
+    types = Field(type=T.UnconstrainedArrayIndex.list)
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=EquationType)
@@ -1276,7 +1276,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
 
 class ConstrainedArrayIndices(ArrayIndices):
-    list = Field(type=T.AdaNode.list_type())
+    list = Field(type=T.AdaNode.list)
 
     ndims = Property(Self.list.length)
 
@@ -1317,7 +1317,7 @@ class InterfaceKind(EnumNode):
 
 class InterfaceTypeDef(TypeDef):
     interface_kind = Field(type=InterfaceKind)
-    interfaces = Field(type=T.Name.list_type())
+    interfaces = Field(type=T.Name.list)
 
     is_tagged_type = Property(True)
 
@@ -1337,7 +1337,7 @@ class SubtypeDecl(BaseTypeDecl):
 
 
 class TaskDef(AdaNode):
-    interfaces = Field(type=T.Name.list_type())
+    interfaces = Field(type=T.Name.list)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
     end_id = Field(type=T.Identifier)
@@ -1378,7 +1378,7 @@ class ProtectedTypeDecl(BasicDecl):
     protected_type_name = Field(type=T.Identifier)
     discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
-    interfaces = Field(type=T.Name.list_type())
+    interfaces = Field(type=T.Name.list)
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_type_name.cast(T.Name).singleton)
@@ -1417,7 +1417,7 @@ class NullComponentDecl(AdaNode):
 class WithClause(AdaNode):
     has_limited = Field(type=Limited)
     has_private = Field(type=Private)
-    packages = Field(type=T.Name.list_type())
+    packages = Field(type=T.Name.list)
 
     env_spec = EnvSpec(env_hook_arg=Self)
 
@@ -1428,7 +1428,7 @@ class UseClause(AdaNode):
 
 
 class UsePackageClause(UseClause):
-    packages = Field(type=T.Name.list_type())
+    packages = Field(type=T.Name.list)
 
     env_spec = EnvSpec(
         ref_envs=RefEnvs(
@@ -1447,7 +1447,7 @@ class UsePackageClause(UseClause):
 
 class UseTypeClause(UseClause):
     has_all = Field(type=All)
-    types = Field(type=T.Name.list_type())
+    types = Field(type=T.Name.list)
 
 
 @abstract
@@ -1529,7 +1529,7 @@ class Mode(EnumNode):
 
 
 class ParamSpec(BaseFormalParamDecl):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpr)
@@ -1547,7 +1547,7 @@ class ParamSpec(BaseFormalParamDecl):
 
 
 class AspectSpec(AdaNode):
-    aspect_assocs = Field(type=T.AspectAssoc.list_type())
+    aspect_assocs = Field(type=T.AspectAssoc.list)
 
 
 class Overriding(EnumNode):
@@ -1681,7 +1681,7 @@ class SubpRenamingDecl(ClassicSubpDecl):
 
 class Pragma(AdaNode):
     id = Field(type=T.Identifier)
-    args = Field(type=T.BaseAssoc.list_type())
+    args = Field(type=T.BaseAssoc.list)
 
 
 class PragmaArgumentAssoc(BaseAssoc):
@@ -1714,7 +1714,7 @@ class ComponentClause(AdaNode):
 class RecordRepClause(AspectClause):
     component_name = Field(type=T.Name)
     at_expr = Field(type=T.Expr)
-    components = Field(type=T.ComponentClause.list_type())
+    components = Field(type=T.ComponentClause.list)
 
 
 class AtClause(AspectClause):
@@ -1736,7 +1736,7 @@ class SingleTaskDecl(BasicDecl):
 class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
-    interfaces = Field(type=T.Name.list_type())
+    interfaces = Field(type=T.Name.list)
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(Self.protected_name.cast(T.Name).singleton)
@@ -1748,14 +1748,14 @@ class AspectAssoc(AdaNode):
 
 
 class NumberDecl(BasicDecl):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     expr = Field(type=T.Expr)
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
 
 class ObjectDecl(BasicDecl):
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)
     inout = Field(type=Mode)
@@ -1792,7 +1792,7 @@ class ExtendedReturnStmtObjectDecl(ObjectDecl):
 
 
 class DeclarativePart(AdaNode):
-    decls = Field(type=T.AdaNode.list_type())
+    decls = Field(type=T.AdaNode.list)
 
 
 class PrivatePart(DeclarativePart):
@@ -1867,7 +1867,7 @@ class ExceptionDecl(BasicDecl):
     """
     Exception declarations.
     """
-    ids = Field(type=T.Identifier.list_type())
+    ids = Field(type=T.Identifier.list)
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
@@ -2024,7 +2024,7 @@ class AbstractFormalSubpDecl(FormalSubpDecl):
 
 
 class GenericFormalPart(BaseFormalParamHolder):
-    decls = Field(type=T.AdaNode.list_type())
+    decls = Field(type=T.AdaNode.list)
 
     abstract_formal_params = Property(
         Self.decls.keep(BaseFormalParamDecl).map(lambda e: e.as_entity)
@@ -2178,7 +2178,7 @@ class ContractCaseAssoc(BaseAssoc):
 
 
 class ContractCases(Expr):
-    contract_cases = Field(ContractCaseAssoc.list_type())
+    contract_cases = Field(ContractCaseAssoc.list)
 
 
 class ParenExpr(Expr):
@@ -2294,7 +2294,7 @@ class MembershipExpr(Expr):
     """
     expr = Field(type=T.Expr)
     op = Field(type=Op)
-    membership_exprs = Field(type=T.AdaNode.list_type())
+    membership_exprs = Field(type=T.AdaNode.list)
 
 
 @abstract
@@ -2660,7 +2660,7 @@ class AggregateAssoc(BasicAssoc):
     """
     Assocation (X => Y) used for aggregates and parameter associations.
     """
-    designators = Field(type=T.AdaNode.list_type())
+    designators = Field(type=T.AdaNode.list)
     r_expr = Field(type=T.Expr)
 
     expr = Property(Self.r_expr)
@@ -2671,7 +2671,7 @@ class MultiDimArrayAssoc(AggregateAssoc):
     pass
 
 
-class AssocList(BasicAssoc.list_type()):
+class AssocList(BasicAssoc.list):
 
     @langkit_property()
     def unpacked_params():
@@ -2691,11 +2691,11 @@ class AssocList(BasicAssoc.list_type()):
         )))
 
 
-class DeclList(AdaNode.list_type()):
+class DeclList(AdaNode.list):
     pass
 
 
-class StmtList(AdaNode.list_type()):
+class StmtList(AdaNode.list):
     pass
 
 
@@ -2748,7 +2748,7 @@ class OthersDesignator(AdaNode):
 class IfExpr(Expr):
     cond_expr = Field(type=T.Expr)
     then_expr = Field(type=T.Expr)
-    alternatives = Field(type=T.ElsifExprPart.list_type())
+    alternatives = Field(type=T.ElsifExprPart.list)
     else_expr = Field(type=T.Expr)
 
     @langkit_property()
@@ -2790,7 +2790,7 @@ class ElsifExprPart(AdaNode):
 
 class CaseExpr(Expr):
     expr = Field(type=T.Expr)
-    cases = Field(type=T.CaseExprAlternative.list_type())
+    cases = Field(type=T.CaseExprAlternative.list)
 
     @langkit_property()
     def xref_equation():
@@ -2820,7 +2820,7 @@ class CaseExpr(Expr):
 
 
 class CaseExprAlternative(Expr):
-    choices = Field(type=T.AdaNode.list_type())
+    choices = Field(type=T.AdaNode.list)
     expr = Field(type=T.Expr)
 
 
@@ -3559,7 +3559,7 @@ class CompilationUnit(AdaNode):
     """Root node for all Ada analysis units."""
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     body = Field(type=T.AdaNode)
-    pragmas = Field(type=T.Pragma.list_type())
+    pragmas = Field(type=T.Pragma.list)
 
     env_spec = EnvSpec(env_hook_arg=Self)
 
@@ -3646,14 +3646,14 @@ class SubpBody(Body):
 
 
 class HandledStmts(AdaNode):
-    stmts = Field(type=T.AdaNode.list_type())
-    exceptions = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list)
+    exceptions = Field(type=T.AdaNode.list)
 
 
 class ExceptionHandler(AdaNode):
     exc_name = Field(type=T.Identifier)
-    handled_exceptions = Field(type=T.AdaNode.list_type())
-    stmts = Field(type=T.AdaNode.list_type())
+    handled_exceptions = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.AdaNode.list)
 
 
 @abstract
@@ -3754,7 +3754,7 @@ class RequeueStmt(SimpleStmt):
 
 
 class AbortStmt(SimpleStmt):
-    names = Field(type=T.Name.list_type())
+    names = Field(type=T.Name.list)
 
     @langkit_property()
     def xref_equation():
@@ -3788,9 +3788,9 @@ class RaiseStmt(SimpleStmt):
 
 class IfStmt(CompositeStmt):
     cond_expr = Field(type=T.Expr)
-    then_stmts = Field(type=T.AdaNode.list_type())
-    alternatives = Field(type=T.ElsifStmtPart.list_type())
-    else_stmts = Field(type=T.AdaNode.list_type())
+    then_stmts = Field(type=T.AdaNode.list)
+    alternatives = Field(type=T.ElsifStmtPart.list)
+    else_stmts = Field(type=T.AdaNode.list)
 
     @langkit_property()
     def xref_equation():
@@ -3806,7 +3806,7 @@ class IfStmt(CompositeStmt):
 
 class ElsifStmtPart(AdaNode):
     cond_expr = Field(type=T.Expr)
-    stmts = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list)
 
 
 class LabelDecl(BasicDecl):
@@ -3856,7 +3856,7 @@ class NamedStmt(CompositeStmt):
 @abstract
 class BaseLoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
-    stmts = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list)
     end_id = Field(type=T.Identifier)
 
     @langkit_property(return_type=EquationType)
@@ -3905,12 +3905,12 @@ class ExtendedReturnStmt(CompositeStmt):
 
 class CaseStmt(CompositeStmt):
     case_expr = Field(type=T.Expr)
-    case_alts = Field(type=T.CaseStmtAlternative.list_type())
+    case_alts = Field(type=T.CaseStmtAlternative.list)
 
 
 class CaseStmtAlternative(AdaNode):
-    choices = Field(type=T.AdaNode.list_type())
-    stmts = Field(type=T.AdaNode.list_type())
+    choices = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.AdaNode.list)
 
 
 class AcceptStmt(CompositeStmt):
@@ -3925,14 +3925,14 @@ class AcceptStmtWithStmts(AcceptStmt):
 
 
 class SelectStmt(CompositeStmt):
-    guards = Field(type=T.SelectWhenPart.list_type())
-    else_stmts = Field(type=T.AdaNode.list_type())
-    abort_stmts = Field(type=T.AdaNode.list_type())
+    guards = Field(type=T.SelectWhenPart.list)
+    else_stmts = Field(type=T.AdaNode.list)
+    abort_stmts = Field(type=T.AdaNode.list)
 
 
 class SelectWhenPart(AdaNode):
     choices = Field(type=T.Expr)
-    stmts = Field(type=T.AdaNode.list_type())
+    stmts = Field(type=T.AdaNode.list)
 
 
 class TerminateAlternative(SimpleStmt):
@@ -4075,22 +4075,22 @@ class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
 
 
 class Params(AdaNode):
-    params = Field(type=ParamSpec.list_type())
+    params = Field(type=ParamSpec.list)
 
 
-class ParentList(Name.list_type()):
+class ParentList(Name.list):
     pass
 
 
-class DiscriminantChoiceList(Identifier.list_type()):
+class DiscriminantChoiceList(Identifier.list):
     pass
 
 
-class AlternativesList(AdaNode.list_type()):
+class AlternativesList(AdaNode.list):
     pass
 
 
-class ConstraintList(AdaNode.list_type()):
+class ConstraintList(AdaNode.list):
     pass
 
 

@@ -441,7 +441,7 @@ def child_unit(name_expr, scope_expr):
 class BasicDecl(AdaNode):
 
     defining_names = AbstractProperty(
-        type=T.Name.array_type(), public=True, doc="""
+        type=T.Name.array, public=True, doc="""
         Get all the names of this basic declaration.
         """
     )
@@ -649,7 +649,7 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
     """
-    identifiers = AbstractProperty(type=T.BaseId.array_type())
+    identifiers = AbstractProperty(type=T.BaseId.array)
     is_mandatory = Property(False)
 
     type = Property(
@@ -703,7 +703,7 @@ class BaseFormalParamHolder(AdaNode):
     """
 
     abstract_formal_params = AbstractProperty(
-        type=BaseFormalParamDecl.entity.array_type(),
+        type=BaseFormalParamDecl.entity.array,
         doc="Return the list of abstract formal parameters for this holder."
     )
 
@@ -716,7 +716,7 @@ class BaseFormalParamHolder(AdaNode):
         doc='Couples (identifier, param spec) for all parameters'
     )
 
-    @langkit_property(return_type=T.ParamMatch.array_type(),
+    @langkit_property(return_type=T.ParamMatch.array,
                       dynamic_vars=[env])
     def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
         """
@@ -2147,7 +2147,7 @@ class Expr(AdaNode):
         dynamic_vars=[env]
     )
 
-    @langkit_property(return_type=AdaNode.entity.array_type(),
+    @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env])
     def env_elements_impl():
@@ -2161,7 +2161,7 @@ class Expr(AdaNode):
     def matching_nodes_impl():
         return Self.env_elements.map(lambda e: e.el)
 
-    @langkit_property(return_type=AdaNode.array_type(), public=True)
+    @langkit_property(return_type=AdaNode.array, public=True)
     def matching_nodes():
         """
         Return the list of AST nodes that can be a match for this expression
@@ -2641,7 +2641,7 @@ class CallExpr(Name):
 @has_abstract_list
 class BasicAssoc(AdaNode):
     expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
-    names = AbstractProperty(type=T.AdaNode.array_type())
+    names = AbstractProperty(type=T.AdaNode.array)
 
 
 class ParamAssoc(BasicAssoc):
@@ -3104,7 +3104,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.Name, ignore_warn_on_node=True)
     returns = AbstractProperty(type=T.TypeExpr.entity)
 
-    node_params = AbstractProperty(type=T.ParamSpec.array_type(), public=True)
+    node_params = AbstractProperty(type=T.ParamSpec.array, public=True)
     params = Property(Self.node_params.map(lambda p: p.as_entity))
 
     abstract_formal_params = Property(
@@ -3218,7 +3218,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Self.params._.at(0)._.type_expr._.element_type
 
-    @langkit_property(return_type=T.BasicDecl.array_type())
+    @langkit_property(return_type=T.BasicDecl.array)
     def dottable_subp():
         """
         Used for environments. Returns either an empty array, or an array

@@ -1851,8 +1851,9 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
-    designated_entity = Property(
-        env.bind(Self.node_env, Self.generic_entity_name.env_elements.at(0)),
+    designated_generic_decl = Property(
+        env.bind(Self.node_env, Self.generic_entity_name.env_elements.at(0))
+        .cast_or_raise(T.GenericDecl),
         doc="""
         Return the formal package designated by the right hand part of this
         generic package instantiation.
@@ -1873,10 +1874,6 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
-    designated_subp = Property(
-        Self.designated_entity.cast_or_raise(T.GenericSubpDecl)
-    )
-
 
 class InstantiationEnvHolder(AdaNode):
     """
@@ -1895,16 +1892,12 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     generic_entity_name = Property(Self.generic_pkg_name.as_entity)
 
-    designated_package = Property(
-        Self.designated_entity.cast_or_raise(T.GenericPackageDecl)
-    )
-
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():
-        p = Var(Self.designated_package)
+        p = Var(Self.designated_generic_decl)
         formal_env = Var(p.children_env)
 
-        return p.package_decl.children_env.rebind_env(
+        return p.decl.children_env.rebind_env(
             formal_env, Self.instantiation_env_holder.children_env
         )
 
@@ -1916,7 +1909,7 @@ class GenericPackageInstantiation(GenericInstantiation):
             add_to_env(
                 env.bind(
                     Self.initial_env,
-                    Self.designated_package.formal_part.match_param_list(
+                    Self.designated_generic_decl.formal_part.match_param_list(
                         Self.params, False
                     ).map(lambda pm: New(
                         T.env_assoc,

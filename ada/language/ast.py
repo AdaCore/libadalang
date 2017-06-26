@@ -3636,29 +3636,26 @@ class SubpBody(Body):
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Self.subp_spec.defining_env)
 
-    decl_part = Property(
-        If(
-            Self.is_library_item,
-            # If library item, we just return the spec. We don't check if it's
-            # a valid and matching subprogram because that's an error case.
-            get_library_item(Self.spec_unit),
+    decl_part = Property(If(
+        Self.is_library_item,
+        # If library item, we just return the spec. We don't check if it's
+        # a valid and matching subprogram because that's an error case.
+        get_library_item(Self.spec_unit),
 
-            # If not a library item, find the matching subprogram spec in the
-            # env.
-            Self.parent.node_env.get(Self.defining_name.relative_name.symbol)
-            .find(lambda sp: sp.el.cast(T.BasicDecl).then(
-                lambda bd:
-                Not(bd.is_a(SubpBody))
-                & bd.subp_spec_or_null._.match_signature(
-                    Self.subp_spec.as_entity
-                )
-            )).el
+        # If not a library item, find the matching subprogram spec in the
+        # env.
+        Self.parent.node_env.get(Self.defining_name.relative_name.symbol)
+        .find(lambda sp: sp.el.cast(T.BasicDecl).then(
+            lambda bd:
+            Not(bd.is_a(SubpBody))
+            & bd.subp_spec_or_null._.match_signature(
+                Self.subp_spec.as_entity
+            )
+        )).el
 
-        ),
+    ),
         public=True,
-        doc="""
-        Return the SubpDecl corresponding to this node.
-        """,
+        doc="Return the SubpDecl corresponding to this node.",
         ignore_warn_on_node=True
     )
 

@@ -2096,10 +2096,6 @@ class GenericPackageInternal(BasePackageDecl):
 
     env_spec = EnvSpec(add_env=True)
 
-    body_link = Property(
-        Self.children_env.get('__body', recursive=False).at(0)
-    )
-
 
 class GenericPackageDecl(BasicDecl):
     env_spec = child_unit(Self.relative_name,

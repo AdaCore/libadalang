@@ -1814,10 +1814,6 @@ class BasePackageDecl(BasicDecl):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Self.children_env.env_orphan)
 
-    body_link = Property(
-        Self.children_env.get('__body', recursive=False).at(0)
-    )
-
     @langkit_property(return_type=T.PackageBody, public=True,
                       ignore_warn_on_node=True)
     def body_part():
@@ -1826,7 +1822,8 @@ class BasePackageDecl(BasicDecl):
         """
         _ = Var(Self.body_unit)
         ignore(_)
-        return Self.body_link.then(lambda elt: elt.el.cast(T.PackageBody))
+        return (Self.children_env.get('__body', recursive=False)
+                .at(0).cast(T.PackageBody).el)
 
 
 class PackageDecl(BasePackageDecl):

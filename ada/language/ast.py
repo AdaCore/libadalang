@@ -3638,6 +3638,7 @@ class SubpBody(Body):
 
     decl_part = Property(If(
         Self.is_library_item,
+
         # If library item, we just return the spec. We don't check if it's
         # a valid and matching subprogram because that's an error case.
         get_library_item(Self.spec_unit),
@@ -3645,12 +3646,16 @@ class SubpBody(Body):
         # If not a library item, find the matching subprogram spec in the
         # env.
         Self.parent.node_env.get(Self.relative_name)
-        .find(lambda sp: sp.cast(T.BasicSubpDecl).then(
-            lambda bd: bd.subp_decl_spec.match_signature(
-                Self.subp_spec.as_entity
-            )
-        )).el
+        .find(lambda sp: sp.match(
+            # If this body completes a generic subprogram, then we just return
+            # it (no need to match the signature).
+            lambda _=T.GenericSubpDecl: True,
 
+            lambda subp_decl=T.BasicSubpDecl:
+            subp_decl.subp_decl_spec.match_signature(Self.subp_spec.as_entity),
+
+            lambda _: False
+        )).el
     ),
         public=True,
         doc="Return the SubpDecl corresponding to this node.",

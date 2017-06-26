@@ -1564,8 +1564,7 @@ class BasicSubpDecl(BasicDecl):
         """
         Return the SubpBody corresponding to this node.
         """
-        _ = Var(Self.body_unit)
-        ignore(_)
+        ignore(Var(Self.body_unit))
         return Self.children_env.get('__body', recursive=False).at(0).el
 
     env_spec = EnvSpec(
@@ -1809,8 +1808,7 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        _ = Var(Self.body_unit)
-        ignore(_)
+        ignore(Var(Self.body_unit))
         return (Self.children_env.get('__body', recursive=False)
                 .at(0).cast(T.PackageBody).el)
 
@@ -2767,8 +2765,7 @@ class CaseExpr(Expr):
     def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
-        a = Var(Self.expr.resolve_names)
-        ignore(a)
+        ignore(Var(Self.expr.resolve_names))
 
         return Self.cases.logic_all(lambda alt: (
             alt.choices.logic_all(lambda c: c.match(

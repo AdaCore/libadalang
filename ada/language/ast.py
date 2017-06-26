@@ -1570,31 +1570,14 @@ class BasicSubpDecl(BasicDecl):
 
     subp_decl_spec = AbstractProperty(type=T.SubpSpec.entity)
 
-    body_part = Property(
-        If(
-            Self.is_library_item,
-
-            get_library_item(Self.body_unit).cast_or_raise(T.SubpBody),
-
-            Self.enclosing_scope.match(
-                lambda pkg_decl=T.BasePackageDecl: pkg_decl.body_part.decls,
-                lambda pkg_body=T.PackageBody: pkg_body.decls.el,
-                lambda subp_body=T.SubpBody: subp_body.decls.el,
-                lambda decl_block=T.DeclBlock: decl_block.decls.el,
-                lambda _: No(DeclarativePart),
-            ).then(
-                lambda decl_part: decl_part.decls.keep(T.SubpBody).filter(
-                    lambda subp_body:
-                    subp_body.subp_spec.match_signature(Self.subp_decl_spec)
-                ).at(0)
-            )
-        ),
-        public=True,
-        doc="""
+    @langkit_property(public=True, ignore_warn_on_node=True)
+    def body_part():
+        """
         Return the SubpBody corresponding to this node.
-        """,
-        ignore_warn_on_node=True
-    )
+        """
+        _ = Var(Self.body_unit)
+        ignore(_)
+        return Self.children_env.get('__body', recursive=False).at(0).el
 
     env_spec = EnvSpec(
         initial_env=env.bind(Self.initial_env,

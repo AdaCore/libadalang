@@ -20,6 +20,33 @@ env = DynamicVariable('env', LexicalEnvType)
 origin = DynamicVariable('origin', T.AdaNode)
 
 
+def ref_used_packages():
+    """
+    If Self is a library item, reference the environments for
+    packages that are used at the top-level here. See
+    UsePackageClause's ref_env_nodes for the rationale.
+    """
+    return RefEnvs(T.Expr.designated_env_wrapper,
+                   Self.library_item_use_package_clauses)
+
+
+def ref_std():
+    """
+    Make the Standard package automatically used.
+    """
+    return RefEnvs(AdaNode.std_env, Self.self_library_item_or_none)
+
+
+def ref_generic_formals():
+    """
+    If Self is a generic package/subprogram and not a library item,
+    then the generic formals are not available in parent
+    environments. Make them available with ref_envs.
+    """
+    return RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
+                   Self.cast(T.AdaNode).to_array)
+
+
 def add_to_env_kv(key, val, *args, **kwargs):
     """
     Wrapper around envs.add_to_env, that takes a key and a val expression, and
@@ -404,24 +431,7 @@ def child_unit(name_expr, scope_expr):
         ),
         add_env=True,
         add_to_env=add_to_env_kv(name_expr, Self),
-
-        ref_envs=[
-            # If Self is a library item, reference the environments for
-            # packages that are used at the top-level here. See
-            # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.designated_env_wrapper,
-                    Self.library_item_use_package_clauses),
-
-            # If Self is a generic package/subprogram and not a library item,
-            # then the generic formals are not available in parent
-            # environments. Make them available with ref_envs.
-            RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
-                    Self.cast(T.AdaNode).to_array),
-
-            # Make the Standard package automatically used
-            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
-        ],
-
+        ref_envs=[ref_used_packages(), ref_generic_formals(), ref_std()],
         env_hook_arg=Self,
     )
 
@@ -1608,18 +1618,7 @@ class BasicSubpDecl(BasicDecl):
             )
         ],
         add_env=True,
-
-        ref_envs=[
-            # If Self is a library item, reference the environments for
-            # packages that are used at the top-level here. See
-            # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.designated_env_wrapper,
-                    Self.library_item_use_package_clauses),
-
-            # Make the Standard package automatically used
-            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
-        ],
-
+        ref_envs=[ref_used_packages(), ref_std()],
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
         env_hook_arg=Self,
@@ -2067,18 +2066,7 @@ class GenericSubpDecl(BasicDecl):
             add_to_env_kv(Self.relative_name, Self),
         ],
         add_env=True,
-
-        ref_envs=[
-            # If Self is a library item, reference the environments for
-            # packages that are used at the top-level here. See
-            # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.designated_env_wrapper,
-                    Self.library_item_use_package_clauses),
-
-            # Make the Standard package automatically used
-            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
-        ],
-
+        ref_envs=[ref_used_packages(), ref_std()],
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
         env_hook_arg=Self,
@@ -3600,22 +3588,7 @@ class SubpBody(Body):
                 is_post=True
             ),
         ],
-        ref_envs=[
-            # If Self is a library item, reference the environments for
-            # packages that are used at the top-level here. See
-            # UsePackageClause's ref_env_nodes for the rationale.
-            RefEnvs(T.Expr.designated_env_wrapper,
-                    Self.library_item_use_package_clauses),
-
-            # If Self is a generic package/subprogram and not a library item,
-            # then the generic formals are not available in parent
-            # environments. Make them available with ref_envs.
-            RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
-                    Self.cast(T.AdaNode).to_array),
-
-            # Make the Standard package automatically used
-            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
-        ],
+        ref_envs=[ref_used_packages(), ref_generic_formals(), ref_std()],
         env_hook_arg=Self,
     )
 

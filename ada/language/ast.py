@@ -333,7 +333,7 @@ class AdaNode(ASTNode):
                     # know subp_body is not a generic subprogram, and thus we
                     # must return a null node here.
                     subp_body.parent.node_env.get(
-                        subp_body.defining_name.relative_name
+                        subp_body.relative_name
                     ).at(1).cast(T.GenericSubpDecl).cast(T.AdaNode),
                 lambda _: No(T.AdaNode.entity)
             )
@@ -874,7 +874,7 @@ class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
     env_spec = EnvSpec(
-        add_to_env=add_to_env_kv(Self.type_id.relative_name, Self)
+        add_to_env=add_to_env_kv(Self.relative_name, Self)
     )
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
@@ -1602,7 +1602,7 @@ class BasicSubpDecl(BasicDecl):
         add_to_env=[
             # First regular add to env action, adding the subprogram to it's
             # scope.
-            add_to_env_kv(Self.subp_decl_spec.name.relative_name, Self),
+            add_to_env_kv(Self.relative_name, Self),
 
             # Second custom action, adding to the type's environment if the
             # type is tagged and self is a primitive of it.
@@ -1611,7 +1611,7 @@ class BasicSubpDecl(BasicDecl):
                 # mappings.
                 Self.subp_decl_spec.dottable_subp.map(lambda dp: New(
                     T.env_assoc,
-                    key=Self.subp_decl_spec.name.relative_name, val=dp
+                    key=Self.relative_name, val=dp
                 )),
                 dest_env=Let(
                     lambda spec=Self.subp_decl_spec:
@@ -1862,8 +1862,7 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    env_spec = child_unit(Self.package_name.relative_name,
-                          Self.package_name.parent_scope)
+    env_spec = child_unit(Self.relative_name, Self.package_name.parent_scope)
 
 
 class ExceptionDecl(BasicDecl):
@@ -1954,7 +1953,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     env_spec = EnvSpec(
         add_to_env=[
-            add_to_env_kv(Self.name.relative_name, Self),
+            add_to_env_kv(Self.relative_name, Self),
             add_to_env(
                 env.bind(
                     Self.initial_env,
@@ -1985,7 +1984,7 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = child_unit(Self.name.relative_name, Self.name.parent_scope)
+    env_spec = child_unit(Self.relative_name, Self.name.parent_scope)
 
     defining_names = Property(Self.name.singleton)
     defining_env = Property(env.bind(
@@ -2077,8 +2076,7 @@ class GenericFormalPackage(GenericFormal):
 
 
 class GenericSubpDecl(BasicSubpDecl):
-    env_spec = child_unit(Self.subp_spec.name.relative_name,
-                          Self.subp_spec.name.parent_scope)
+    env_spec = child_unit(Self.relative_name, Self.subp_spec.name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
     subp_spec = Field(type=T.SubpSpec)
@@ -2104,7 +2102,7 @@ class GenericPackageInternal(BasePackageDecl):
 
 
 class GenericPackageDecl(BasicDecl):
-    env_spec = child_unit(Self.package_decl.package_name.relative_name,
+    env_spec = child_unit(Self.relative_name,
                           Self.package_decl.package_name.parent_scope)
 
     formal_part = Field(type=T.GenericFormalPart)
@@ -3597,7 +3595,7 @@ class SubpBody(Body):
         add_env=True,
         add_to_env=[
             # Add the body to its own parent env
-            add_to_env_kv(Self.subp_spec.name.relative_name, Self),
+            add_to_env_kv(Self.relative_name, Self),
 
             # Add the __body link to the spec, if there is one
             add_to_env_kv(
@@ -3646,7 +3644,7 @@ class SubpBody(Body):
 
         # If not a library item, find the matching subprogram spec in the
         # env.
-        Self.parent.node_env.get(Self.defining_name.relative_name)
+        Self.parent.node_env.get(Self.relative_name)
         .find(lambda sp: sp.cast(T.BasicSubpDecl).then(
             lambda bd: bd.subp_decl_spec.match_signature(
                 Self.subp_spec.as_entity

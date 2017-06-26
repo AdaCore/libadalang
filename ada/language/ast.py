@@ -551,6 +551,14 @@ class BasicDecl(AdaNode):
 
     relative_name = Property(Self.defining_name.relative_name)
 
+    @langkit_property()
+    def body_part_entity():
+        """
+        Return the body corresponding to this node if applicable.
+        """
+        ignore(Var(Self.body_unit))
+        return Self.children_env.get('__body', recursive=False).at(0)
+
 
 @abstract
 class Body(BasicDecl):
@@ -1564,9 +1572,7 @@ class BasicSubpDecl(BasicDecl):
         """
         Return the SubpBody corresponding to this node.
         """
-        ignore(Var(Self.body_unit))
-        return (Self.children_env.get('__body', recursive=False)
-                .at(0).cast(SubpBody).el)
+        return Self.body_part_entity.cast(SubpBody).el
 
     env_spec = EnvSpec(
         initial_env=env.bind(Self.initial_env,
@@ -1809,9 +1815,7 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        ignore(Var(Self.body_unit))
-        return (Self.children_env.get('__body', recursive=False)
-                .at(0).cast(T.PackageBody).el)
+        return Self.body_part_entity.cast(T.PackageBody).el
 
 
 class PackageDecl(BasePackageDecl):

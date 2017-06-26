@@ -370,7 +370,9 @@ A.add_rules(
 
     generic_decl=Or(
         GenericSubpDecl(
-            A.generic_formal_part, A.subp_spec, A.aspect_spec, ";"
+            A.generic_formal_part,
+            GenericSubpInternal(A.subp_spec, A.aspect_spec),
+            ";"
         ),
         GenericPackageDecl(A.generic_formal_part,
                            package_decl_factory(GenericPackageInternal)),

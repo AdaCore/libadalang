@@ -43,26 +43,28 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  GenericFormalPart[5:4-5:11]
 |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
-|  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  SubpSpec[6:4-6:22]
-|  |  |  |  |  |  |subp_kind:
-|  |  |  |  |  |  |  SubpKindProcedure[6:4-6:13]
-|  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[6:14-6:22]
-|  |  |  |  |  |  |  |tok: Has_Post
-|  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |aspects:
-|  |  |  |  |  |  AspectSpec[6:23-6:40]
-|  |  |  |  |  |  |aspect_assocs:
-|  |  |  |  |  |  |  AspectAssocList[6:28-6:40]
-|  |  |  |  |  |  |  |  AspectAssoc[6:28-6:40]
-|  |  |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  |  |  Id[6:28-6:32]
-|  |  |  |  |  |  |  |  |  |tok: Post
-|  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  Id[6:36-6:40]
-|  |  |  |  |  |  |  |  |  |tok: True
+|  |  |  |  |  |subp_decl:
+|  |  |  |  |  |  GenericSubpInternal[6:4-6:40]
+|  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  SubpSpec[6:4-6:22]
+|  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  SubpKindProcedure[6:4-6:13]
+|  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  Id[6:14-6:22]
+|  |  |  |  |  |  |  |  |tok: Has_Post
+|  |  |  |  |  |  |  |subp_params: <null>
+|  |  |  |  |  |  |  |subp_returns: <null>
+|  |  |  |  |  |  |aspects:
+|  |  |  |  |  |  |  AspectSpec[6:23-6:40]
+|  |  |  |  |  |  |  |aspect_assocs:
+|  |  |  |  |  |  |  |  AspectAssocList[6:28-6:40]
+|  |  |  |  |  |  |  |  |  AspectAssoc[6:28-6:40]
+|  |  |  |  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  |  |  |  Id[6:28-6:32]
+|  |  |  |  |  |  |  |  |  |  |tok: Post
+|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  Id[6:36-6:40]
+|  |  |  |  |  |  |  |  |  |  |tok: True
 |  |  |  |  |  SubpDecl[8:4-8:38]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[8:4-8:4]

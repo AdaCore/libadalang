@@ -2035,16 +2035,54 @@ class GenericFormalPackage(GenericFormal):
     pass
 
 
-class GenericSubpDecl(BasicSubpDecl):
-    env_spec = child_unit(Self.relative_name, Self.subp_spec.name.parent_scope)
-
-    formal_part = Field(type=T.GenericFormalPart)
+class GenericSubpInternal(AdaNode):
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.subp_spec.name.singleton)
+    env_spec = EnvSpec(add_env=True)
 
-    subp_decl_spec = Property(Self.subp_spec.as_entity)
+
+class GenericSubpDecl(BasicDecl):
+    env_spec = child_unit(Self.relative_name,
+                          Self.subp_decl.subp_spec.name.parent_scope)
+
+    formal_part = Field(type=T.GenericFormalPart)
+    subp_decl = Field(type=T.GenericSubpInternal)
+
+    defining_names = Property(Self.subp_decl.subp_spec.name.singleton)
+
+    @langkit_property(public=True, ignore_warn_on_node=True)
+    def body_part():
+        """
+        Return the SubpBody corresponding to this node.
+        """
+        return Self.body_part_entity.cast(SubpBody).el
+
+    env_spec = EnvSpec(
+        initial_env=env.bind(Self.initial_env,
+                             Self.subp_decl.subp_spec.name.parent_scope),
+        add_to_env=[
+            # First regular add to env action, adding the subprogram to it's
+            # scope.
+            add_to_env_kv(Self.relative_name, Self),
+        ],
+        add_env=True,
+
+        ref_envs=[
+            # If Self is a library item, reference the environments for
+            # packages that are used at the top-level here. See
+            # UsePackageClause's ref_env_nodes for the rationale.
+            RefEnvs(T.Expr.designated_env_wrapper,
+                    Self.library_item_use_package_clauses),
+
+            # Make the Standard package automatically used
+            RefEnvs(AdaNode.std_env, Self.self_library_item_or_none),
+        ],
+
+        # Call the env hook so that library-level subprograms have their
+        # parent unit (if any) environment.
+        env_hook_arg=Self,
+    )
 
 
 class GenericPackageInternal(BasePackageDecl):

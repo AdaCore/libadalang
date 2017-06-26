@@ -19,36 +19,38 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |has_limited:
 |  |  |  |  |  |  LimitedAbsent[1:27-1:27]
 |  |  |  |  |aspects: <null>
-|subp_spec:
-|  SubpSpec[1:36-1:76]
-|  |subp_kind:
-|  |  SubpKindProcedure[1:36-1:45]
-|  |subp_name:
-|  |  Id[1:46-1:50]
-|  |  |tok: Swap
-|  |subp_params:
-|  |  Params[1:51-1:76]
-|  |  |params:
-|  |  |  ParamSpecList[1:52-1:75]
-|  |  |  |  ParamSpec[1:52-1:75]
-|  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:52-1:56]
-|  |  |  |  |  |  Id[1:52-1:53]
-|  |  |  |  |  |  |tok: X
-|  |  |  |  |  |  Id[1:55-1:56]
-|  |  |  |  |  |  |tok: Y
-|  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:59-1:59]
-|  |  |  |  |mode:
-|  |  |  |  |  ModeInOut[1:59-1:65]
-|  |  |  |  |type_expr:
-|  |  |  |  |  SubtypeIndication[1:66-1:75]
-|  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:66-1:66]
-|  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:66-1:75]
-|  |  |  |  |  |  |tok: Element_T
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
-|  |subp_returns: <null>
-|aspects: <null>
+|subp_decl:
+|  GenericSubpInternal[1:36-1:76]
+|  |subp_spec:
+|  |  SubpSpec[1:36-1:76]
+|  |  |subp_kind:
+|  |  |  SubpKindProcedure[1:36-1:45]
+|  |  |subp_name:
+|  |  |  Id[1:46-1:50]
+|  |  |  |tok: Swap
+|  |  |subp_params:
+|  |  |  Params[1:51-1:76]
+|  |  |  |params:
+|  |  |  |  ParamSpecList[1:52-1:75]
+|  |  |  |  |  ParamSpec[1:52-1:75]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[1:52-1:56]
+|  |  |  |  |  |  |  Id[1:52-1:53]
+|  |  |  |  |  |  |  |tok: X
+|  |  |  |  |  |  |  Id[1:55-1:56]
+|  |  |  |  |  |  |  |tok: Y
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[1:59-1:59]
+|  |  |  |  |  |mode:
+|  |  |  |  |  |  ModeInOut[1:59-1:65]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[1:66-1:75]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[1:66-1:66]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:66-1:75]
+|  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default: <null>
+|  |  |subp_returns: <null>
+|  |aspects: <null>

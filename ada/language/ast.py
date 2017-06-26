@@ -2034,10 +2034,11 @@ class GenericFormalPackage(GenericFormal):
     pass
 
 
-class GenericSubpInternal(AdaNode):
+class GenericSubpInternal(BasicSubpDecl):
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
+    subp_decl_spec = Property(Self.subp_spec.as_entity)
     env_spec = EnvSpec(add_env=True)
 
 

@@ -3645,10 +3645,8 @@ class SubpBody(Body):
         # If not a library item, find the matching subprogram spec in the
         # env.
         Self.parent.node_env.get(Self.defining_name.relative_name.symbol)
-        .find(lambda sp: sp.el.cast(T.BasicDecl).then(
-            lambda bd:
-            Not(bd.is_a(SubpBody))
-            & bd.subp_spec_or_null._.match_signature(
+        .find(lambda sp: sp.cast(T.BasicSubpDecl).then(
+            lambda bd: bd.subp_decl_spec.match_signature(
                 Self.subp_spec.as_entity
             )
         )).el

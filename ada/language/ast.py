@@ -2041,11 +2041,15 @@ class GenericSubpInternal(AdaNode):
     env_spec = EnvSpec(add_env=True)
 
 
-class GenericSubpDecl(BasicDecl):
+@abstract
+class GenericDecl(BasicDecl):
+    formal_part = Field(type=T.GenericFormalPart)
+
+
+class GenericSubpDecl(GenericDecl):
     env_spec = child_unit(Self.relative_name,
                           Self.subp_decl.subp_spec.name.parent_scope)
 
-    formal_part = Field(type=T.GenericFormalPart)
     subp_decl = Field(type=T.GenericSubpInternal)
 
     defining_names = Property(Self.subp_decl.subp_spec.name.singleton)
@@ -2079,11 +2083,10 @@ class GenericPackageInternal(BasePackageDecl):
     env_spec = EnvSpec(add_env=True)
 
 
-class GenericPackageDecl(BasicDecl):
+class GenericPackageDecl(GenericDecl):
     env_spec = child_unit(Self.relative_name,
                           Self.package_decl.package_name.parent_scope)
 
-    formal_part = Field(type=T.GenericFormalPart)
     package_decl = Field(type=GenericPackageInternal)
 
     defining_names = Property(Self.package_decl.package_name.singleton)

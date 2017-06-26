@@ -227,17 +227,6 @@ class AdaNode(ASTNode):
 
     bool_type = Property(Self.std_entity('Boolean'))
 
-    enclosing_scope = Property(
-        Self.parent.parents.filter(
-            lambda p: p._.is_package | p.is_a(SubpBody, BlockStmt)
-        ).at(0).as_entity,
-        doc="""
-        This returns the closest parent that is a package (decl and body), a
-        subprogram body or a block statement. Return null if there is no such
-        parent.
-        """
-    )
-
     @langkit_property()
     def has_with_visibility(refd_unit=AnalysisUnitType):
         """

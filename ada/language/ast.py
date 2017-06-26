@@ -2044,6 +2044,7 @@ class GenericSubpInternal(AdaNode):
 @abstract
 class GenericDecl(BasicDecl):
     formal_part = Field(type=T.GenericFormalPart)
+    decl = AbstractProperty(type=T.BasicDecl.entity)
 
 
 class GenericSubpDecl(GenericDecl):
@@ -2072,6 +2073,8 @@ class GenericSubpDecl(GenericDecl):
         env_hook_arg=Self,
     )
 
+    decl = Property(Self.subp_decl.as_entity)
+
 
 class GenericPackageInternal(BasePackageDecl):
     """
@@ -2098,6 +2101,8 @@ class GenericPackageDecl(GenericDecl):
         none.
         """
         return Self.package_decl.body_part
+
+    decl = Property(Self.package_decl.as_entity)
 
 
 @abstract

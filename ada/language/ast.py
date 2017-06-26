@@ -1565,7 +1565,8 @@ class BasicSubpDecl(BasicDecl):
         Return the SubpBody corresponding to this node.
         """
         ignore(Var(Self.body_unit))
-        return Self.children_env.get('__body', recursive=False).at(0).el
+        return (Self.children_env.get('__body', recursive=False)
+                .at(0).cast(SubpBody).el)
 
     env_spec = EnvSpec(
         initial_env=env.bind(Self.initial_env,

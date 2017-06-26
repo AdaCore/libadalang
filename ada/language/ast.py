@@ -1841,21 +1841,9 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        body_unit = Var(Self.body_unit)
-
-        # Fetch the unit body even when we don't need it to make sure the body
-        # (if it exists) is present in the environment.
-        return If(
-            Self.is_library_item,
-
-            # If Self is a library-level package, then just fetch the
-            # root package in the body unit.
-            get_library_item(body_unit).cast(T.PackageBody),
-
-            # Self is a nested package: the name of such packages must
-            # be an identifier. Now, just use the __body link.
-            Self.body_link.then(lambda elt: elt.el.cast(T.PackageBody))
-        )
+        _ = Var(Self.body_unit)
+        ignore(_)
+        return Self.body_link.then(lambda elt: elt.el.cast(T.PackageBody))
 
 
 class PackageDecl(BasePackageDecl):

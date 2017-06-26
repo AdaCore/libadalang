@@ -560,6 +560,8 @@ class BasicDecl(AdaNode):
         ignore_warn_on_node=True
     )
 
+    relative_name = Property(Self.defining_name.relative_name)
+
 
 @abstract
 class Body(BasicDecl):

@@ -2060,11 +2060,7 @@ class GenericSubpDecl(BasicDecl):
     env_spec = EnvSpec(
         initial_env=env.bind(Self.initial_env,
                              Self.subp_decl.subp_spec.name.parent_scope),
-        add_to_env=[
-            # First regular add to env action, adding the subprogram to it's
-            # scope.
-            add_to_env_kv(Self.relative_name, Self),
-        ],
+        add_to_env=[add_to_env_kv(Self.relative_name, Self)],
         add_env=True,
         ref_envs=[ref_used_packages(), ref_std()],
         # Call the env hook so that library-level subprograms have their

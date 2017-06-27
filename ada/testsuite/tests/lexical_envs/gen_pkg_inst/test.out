@@ -68,7 +68,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |tok: D
 |  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
 |  |  |  |  |  |instantiation_env_holder:
-|  |  |  |  |  |  InstantiationEnvHolder[7:4-7:4]
+|  |  |  |  |  |  EnvHolder[7:4-7:4]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[7:12-7:18]
 |  |  |  |  |  |  |tok: D_Inst
@@ -115,6 +115,6 @@ $root = LexEnv(Parent=null):
 @3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
     <empty>
 
-@4 = LexEnv(Parent=@1, Node=<InstantiationEnvHolder 7:4-7:4>):
+@4 = LexEnv(Parent=@1, Node=<EnvHolder 7:4-7:4>):
     t: [<Int 7:34-7:36>]
 

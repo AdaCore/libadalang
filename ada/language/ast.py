@@ -1844,7 +1844,7 @@ class GenericInstantiation(BasicDecl):
     Instantiations of generics.
     """
 
-    instantiation_env_holder = Field(type=T.InstantiationEnvHolder)
+    instantiation_env_holder = Field(type=T.EnvHolder)
 
     generic_entity_name = AbstractProperty(
         type=T.Name.entity, doc="""
@@ -1863,10 +1863,13 @@ class GenericInstantiation(BasicDecl):
     )
 
 
-class InstantiationEnvHolder(AdaNode):
+class EnvHolder(AdaNode):
     """
     This type does not correspond to anything in the source. It is just here
-    to hold the lexical env of the instantiation of the generic.
+    to hold a lexical environment.
+
+    TODO: This should be do-able in a simpler fashion, by exposing a
+    LexicalEnvType field that is automatically initialized.
     """
     env_spec = EnvSpec(add_env=True)
 

@@ -1861,6 +1861,14 @@ class GenericInstantiation(BasicDecl):
     )
 
 
+class InstantiationEnvHolder(AdaNode):
+    """
+    This type does not correspond to anything in the source. It is just here
+    to hold the lexical env of the instantiation of the generic.
+    """
+    env_spec = EnvSpec(add_env=True)
+
+
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
     kind = Field(type=T.SubpKind)
@@ -1873,14 +1881,6 @@ class GenericSubpInstantiation(GenericInstantiation):
     defining_names = Property(Self.subp_name.singleton)
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
-
-
-class InstantiationEnvHolder(AdaNode):
-    """
-    This type does not correspond to anything in the source. It is just here
-    to hold the lexical env of the instantiation of the generic.
-    """
-    env_spec = EnvSpec(add_env=True)
 
 
 class GenericPackageInstantiation(GenericInstantiation):

@@ -25,6 +25,8 @@ CompilationUnit[1:1-1:48]
 |  |  PrivateAbsent[1:21-1:21]
 |  |item:
 |  |  GenericPackageInstantiation[1:21-1:48]
+|  |  |instantiation_env_holder:
+|  |  |  InstantiationEnvHolder[1:21-1:21]
 |  |  |name:
 |  |  |  DottedName[1:29-1:34]
 |  |  |  |prefix:
@@ -49,7 +51,5 @@ CompilationUnit[1:1-1:48]
 |  |  |  |  |  Id[1:45-1:46]
 |  |  |  |  |  |tok: C
 |  |  |aspects: <null>
-|  |  |instantiation_env_holder:
-|  |  |  InstantiationEnvHolder[1:47-1:47]
 |pragmas:
 |  PragmaNodeList[2:1-2:1]: <empty list>

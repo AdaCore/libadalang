@@ -69,12 +69,11 @@ def generic_instantiation(*leading_rules):
     :param dest_class: The destination AdaNode subclass to use for the result.
     :rtype: Transform
     """
-    return tuple(leading_rules) + (
+    return (InstantiationEnvHolder(),) + tuple(leading_rules) + (
         A.static_name, "is",
         "new", A.static_name,
         Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
-        A.aspect_spec,
-        InstantiationEnvHolder(), ";"
+        A.aspect_spec, ";"
     )
 
 

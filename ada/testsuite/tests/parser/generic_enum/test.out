@@ -226,6 +226,8 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  Id[18:8-18:9]
 |  |  |  |  |  |  |tok: P
 |  |  |  |  |  GenericPackageInstantiation[20:4-20:26]
+|  |  |  |  |  |instantiation_env_holder:
+|  |  |  |  |  |  InstantiationEnvHolder[20:4-20:4]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[20:12-20:16]
 |  |  |  |  |  |  |tok: Inst
@@ -235,8 +237,6 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |params:
 |  |  |  |  |  |  AssocList[20:24-20:24]: <empty list>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |instantiation_env_holder:
-|  |  |  |  |  |  InstantiationEnvHolder[20:25-20:25]
 |  |  |stmts:
 |  |  |  HandledStmts[23:4-23:13]
 |  |  |  |stmts:

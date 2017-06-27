@@ -1,4 +1,6 @@
 GenericPackageInstantiation[1:1-1:25]
+|instantiation_env_holder:
+|  InstantiationEnvHolder[1:1-1:1]
 |name:
 |  Id[1:9-1:10]
 |  |tok: P
@@ -12,5 +14,3 @@ GenericPackageInstantiation[1:1-1:25]
 |  |  |r_expr:
 |  |  |  BoxExpr[1:21-1:23]
 |aspects: <null>
-|instantiation_env_holder:
-|  InstantiationEnvHolder[1:24-1:24]

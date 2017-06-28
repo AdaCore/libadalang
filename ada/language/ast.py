@@ -1889,6 +1889,11 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     @langkit_property(return_type=LexicalEnvType, memoized=True)
     def rebound_env():
+        """
+        Returns a synthetic lex env containing only a mapping from the
+        instantiation's name to the subprogram, with formals rebound to
+        actuals.
+        """
         p = Var(Self.designated_generic_decl)
         formal_env = Var(p.children_env)
 

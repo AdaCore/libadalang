@@ -1887,6 +1887,43 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
+    @langkit_property(return_type=LexicalEnvType, memoized=True)
+    def rebound_env():
+        p = Var(Self.designated_generic_decl)
+        formal_env = Var(p.children_env)
+
+        return Self.ref_env_holder.children_env.env_orphan.rebind_env(
+            formal_env, Self.instantiation_env_holder.children_env
+        )
+
+    env_spec = EnvSpec(
+        add_to_env=[
+            add_to_env(
+                env.bind(
+                    Self.initial_env,
+                    Self.designated_generic_decl.formal_part.match_param_list(
+                        Self.subp_params, False
+                    ).map(lambda pm: New(
+                        T.env_assoc,
+                        key=pm.formal.name.sym, val=pm.actual.assoc.expr
+                    ))
+                ),
+                is_post=True,
+                dest_env=Self.instantiation_env_holder.children_env,
+                resolver=AdaNode.resolve_generic_actual,
+            ),
+            add_to_env_kv(
+                Self.relative_name, Self,
+                dest_env=Self.ref_env_holder.children_env,
+                is_post=True
+            ),
+        ],
+        post_ref_envs=RefEnvs(
+            T.GenericSubpInstantiation.rebound_env,
+            Self.cast(T.AdaNode).singleton
+        )
+    )
+
 
 class GenericPackageInstantiation(GenericInstantiation):
     name = Field(type=T.Name)

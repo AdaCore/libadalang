@@ -1917,8 +1917,11 @@ class GenericSubpInstantiation(GenericInstantiation):
                 dest_env=Self.instantiation_env_holder.children_env,
                 resolver=AdaNode.resolve_generic_actual,
             ),
+
             add_to_env_kv(
-                Self.relative_name, Self,
+                Self.relative_name,
+                Self.designated_generic_decl
+                .cast(T.GenericSubpDecl).subp_decl.el,
                 dest_env=Self.ref_env_holder.children_env,
                 is_post=True
             ),

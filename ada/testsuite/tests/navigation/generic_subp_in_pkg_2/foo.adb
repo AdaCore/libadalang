@@ -1,9 +1,9 @@
 package body Foo is
 
-   procedure Put_Line (S : String) is
+   function To_String (I : Integer) return String is
    begin
-      null;
-   end Put_Line;
+      return I'Image;
+   end To_String;
 
    procedure Print_T (Inst : T) is
    begin

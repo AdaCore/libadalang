@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: generic_cw_types
+driver: name-resolution
+input_sources: [main.adb]

@@ -2927,19 +2927,22 @@ class BaseId(SingleTokNode):
         :param is_parent_pkg: Whether the origin of the env request is a
             package or not.
         """
-        parent_use_pkg_clause = Var(
-            Self.parents.filter(lambda p: p.is_a(UsePackageClause)).at(0)
+
+        # Some constructs will add themselves to their parent lexical env, and
+        # with lazy env resolution, if the resolution uses envs, it might
+        # create an infinitely recursive lookup. For that reason we will do the
+        # sequential lookup from a safe point, where no recursion can happen
+        # for those constructs.
+        parent_clause = Var(
+            Self.parents.filter(
+                lambda p: p.is_a(UsePackageClause, GenericSubpInstantiation)
+            ).at(0)
         )
 
-        # When we are resolving a name as part of an UsePackageClause, make the
-        # use clause node itself the reference of the sequential lookup, so
-        # that during the designated env lookup, this use clause and all the
-        # following ones are ignored. This more correct and avoids an infinite
-        # recursion.
         items = Var(env.get_sequential(
             Self.tok,
             recursive=Not(is_parent_pkg),
-            sequential_from=parent_use_pkg_clause.then(
+            sequential_from=parent_clause.then(
                 lambda p: p, default_val=Self
             )
         ))

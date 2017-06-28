@@ -60,23 +60,6 @@ def generic_renaming_decl(keyword, dest_class):
     )
 
 
-def generic_instantiation(*leading_rules):
-    """
-    Factory for generic instantiations grammar rules.
-
-    :param str keyword: The variant keyword that will initiate the generic
-        instantiation rule.
-    :param dest_class: The destination AdaNode subclass to use for the result.
-    :rtype: Transform
-    """
-    return (EnvHolder(),) + tuple(leading_rules) + (
-        A.static_name, "is",
-        "new", A.static_name,
-        Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
-        A.aspect_spec, ";"
-    )
-
-
 def recover(*rules):
     """
     Helper to parse a sequence of rules, and ignore their result, but recover
@@ -416,14 +399,26 @@ A.add_rules(
     ),
 
     generic_instantiation=Or(
-        GenericPackageInstantiation(*generic_instantiation("package")),
-        GenericSubpInstantiation(*generic_instantiation(
+        GenericPackageInstantiation(
+            EnvHolder(), "package",
+            A.static_name, "is",
+            "new", A.static_name,
+            Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
+            A.aspect_spec, ";"
+        ),
+
+        GenericSubpInstantiation(
+            EnvHolder(),
             A.overriding_indicator,
             Or(
                 SubpKind.alt_procedure("procedure"),
                 SubpKind.alt_function("function")
-            )
-        )),
+            ),
+            A.static_name, "is",
+            "new", A.static_name,
+            Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
+            A.aspect_spec, ";",
+        ),
     ),
 
     exception_decl=ExceptionDecl(

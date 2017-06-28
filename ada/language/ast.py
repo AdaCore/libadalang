@@ -1881,6 +1881,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     generic_subp_name = Field(type=T.Name)
     subp_params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
+    ref_env_holder = Field(type=T.EnvHolder)
 
     defining_names = Property(Self.subp_name.singleton)
 

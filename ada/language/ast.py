@@ -6,7 +6,7 @@ from langkit.dsl import (
     Symbol, T, UserField, abstract, synthetic, env_metadata,
     has_abstract_list, Annotations
 )
-from langkit.envs import EnvSpec, RefEnvs, add_to_env
+from langkit.envs import EnvSpec, reference, add_to_env
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
     EmptyEnv, EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self,
@@ -26,15 +26,16 @@ def ref_used_packages():
     packages that are used at the top-level here. See
     UsePackageClause's ref_env_nodes for the rationale.
     """
-    return RefEnvs(T.Expr.designated_env_wrapper,
-                   Self.library_item_use_package_clauses)
+    return reference(Self.library_item_use_package_clauses,
+                     through=T.Expr.designated_env_wrapper)
 
 
 def ref_std():
     """
     Make the Standard package automatically used.
     """
-    return RefEnvs(AdaNode.std_env, Self.self_library_item_or_none)
+    return reference(Self.self_library_item_or_none,
+                     through=AdaNode.std_env)
 
 
 def ref_generic_formals():
@@ -43,8 +44,8 @@ def ref_generic_formals():
     then the generic formals are not available in parent
     environments. Make them available with ref_envs.
     """
-    return RefEnvs(T.AdaNode.generic_formal_env_of_not_library_item,
-                   Self.cast(T.AdaNode).to_array)
+    return reference(Self.cast(T.AdaNode).to_array,
+                     through=T.AdaNode.generic_formal_env_of_not_library_item)
 
 
 def add_to_env_kv(key, val, *args, **kwargs):
@@ -1440,16 +1441,16 @@ class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list)
 
     env_spec = EnvSpec(
-        ref_envs=RefEnvs(
-            T.Expr.designated_env_wrapper,
-
+        ref_envs=reference(
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
             # which is not processed at this point yet. See CompilationUnit's
             # ref_env_nodes.
             If(Self.parent.parent.is_a(T.CompilationUnit),
                EmptyArray(AdaNode),
-               Self.packages.map(lambda n: n.cast(AdaNode)))
+               Self.packages.map(lambda n: n.cast(AdaNode))),
+
+            T.Expr.designated_env_wrapper
         )
     )
 
@@ -1926,9 +1927,9 @@ class GenericSubpInstantiation(GenericInstantiation):
                 is_post=True
             ),
         ],
-        post_ref_envs=RefEnvs(
-            T.GenericSubpInstantiation.rebound_env,
-            Self.cast(T.AdaNode).singleton
+        post_ref_envs=reference(
+            Self.cast(T.AdaNode).singleton,
+            through=T.GenericSubpInstantiation.rebound_env
         )
     )
 

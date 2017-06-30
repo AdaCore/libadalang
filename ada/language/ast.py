@@ -1374,7 +1374,6 @@ class TaskTypeDecl(BaseTypeDecl):
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):
-    pass
     env_spec = EnvSpec(
         # In this case, we don't want to add this type to the env, because it's
         # the single task that contains this type decl that will be added to

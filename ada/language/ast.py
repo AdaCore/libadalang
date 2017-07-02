@@ -1769,8 +1769,8 @@ class DeclarativePart(AdaNode):
 
 class PrivatePart(DeclarativePart):
     env_spec = EnvSpec([
-        add_env(),
-        add_to_env_kv('__privatepart', Self)
+        add_to_env_kv('__privatepart', Self),
+        add_env()
     ])
 
 

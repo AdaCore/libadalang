@@ -6,7 +6,9 @@ from langkit.dsl import (
     Symbol, T, UserField, abstract, synthetic, env_metadata,
     has_abstract_list, Annotations
 )
-from langkit.envs import EnvSpec, reference, add_to_env, add_env
+from langkit.envs import (
+    EnvSpec, reference, add_to_env, add_env, handle_children
+)
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
     EmptyEnv, EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self,
@@ -1587,8 +1589,10 @@ class BasicSubpDecl(BasicDecl):
         add_to_env_kv(Self.relative_name, Self),
         add_env(),
         ref_used_packages(),
-        ref_std()
-    ], [
+        ref_std(),
+
+        handle_children(),
+
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.
         add_to_env(
@@ -1893,7 +1897,8 @@ class GenericSubpInstantiation(GenericInstantiation):
             formal_env, Self.instantiation_env_holder.children_env
         )
 
-    env_spec = EnvSpec([], [
+    env_spec = EnvSpec([
+        handle_children(),
         add_to_env_kv(
             Self.relative_name,
             Self.designated_generic_decl
@@ -1941,7 +1946,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     env_spec = EnvSpec([
         add_to_env_kv(Self.relative_name, Self),
-    ], [
+        handle_children(),
         add_to_env(
             env.bind(
                 Self.initial_env,
@@ -3608,8 +3613,10 @@ class SubpBody(Body):
         add_env(),
         ref_used_packages(),
         ref_generic_formals(),
-        ref_std()
-    ], [
+        ref_std(),
+
+        handle_children(),
+
         # Add the __body link to the spec, if there is one
         add_to_env_kv(
             '__body', Self,

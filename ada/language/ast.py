@@ -427,7 +427,7 @@ def child_unit(name_expr, scope_expr):
     :rtype: EnvSpec
     """
 
-    return EnvSpec([
+    return EnvSpec(
         call_env_hook(Self),
         set_initial_env(
             env.bind(Self.initial_env, Let(
@@ -439,7 +439,7 @@ def child_unit(name_expr, scope_expr):
         ref_used_packages(),
         ref_generic_formals(),
         ref_std()
-    ])
+    )
 
 
 @abstract
@@ -591,9 +591,9 @@ class DiscriminantSpec(BasicDecl):
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env(env_mappings(Self.ids, Self))
-    ])
+    )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
@@ -678,9 +678,9 @@ class ComponentDecl(BaseFormalParamDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env(env_mappings(Self.ids, Self)),
-    ])
+    )
 
     identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     defining_env = Property(
@@ -886,9 +886,9 @@ class RealTypeDef(TypeDef):
 class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.relative_name, Self)
-    ])
+    )
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
@@ -1098,10 +1098,10 @@ class TypeDecl(BaseTypeDecl):
         env.bind(Self.children_env, Self.type_def.defining_env)
     )
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.relative_name, Self),
         add_env()
-    ])
+    )
 
     record_def = Property(
         Self.type_def.match(
@@ -1375,10 +1375,10 @@ class TaskTypeDecl(BaseTypeDecl):
 
     defining_names = Property(Self.type_id.cast(T.Name).singleton)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.type_id.sym, Self),
         add_env()
-    ])
+    )
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):
@@ -1386,7 +1386,7 @@ class SingleTaskTypeDecl(TaskTypeDecl):
         # In this case, we don't want to add this type to the env, because it's
         # the single task that contains this type decl that will be added to
         # the env. So we don't call the inherited env spec.
-        [add_env()]
+        add_env()
     )
 
 
@@ -1435,9 +1435,9 @@ class WithClause(AdaNode):
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         call_env_hook(Self)
-    ])
+    )
 
 
 @abstract
@@ -1448,7 +1448,7 @@ class UseClause(AdaNode):
 class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         reference(
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
@@ -1460,7 +1460,7 @@ class UsePackageClause(UseClause):
 
             T.Expr.designated_env_wrapper
         )
-    ])
+    )
 
 
 class UseTypeClause(UseClause):
@@ -1557,9 +1557,9 @@ class ParamSpec(BaseFormalParamDecl):
     is_mandatory = Property(Self.default.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env(env_mappings(Self.ids, Self))
-    ])
+    )
 
     type_expression = Property(Self.type_expr.as_entity)
 
@@ -1593,7 +1593,7 @@ class BasicSubpDecl(BasicDecl):
         """
         return Self.body_part_entity.cast(SubpBody).el
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
         call_env_hook(Self),
 
@@ -1628,7 +1628,6 @@ class BasicSubpDecl(BasicDecl):
                          implicit_deref=False),
 
         )
-    ],
     )
 
 
@@ -1713,9 +1712,9 @@ class SingleTaskDecl(BasicDecl):
     task_type = Field(type=T.SingleTaskTypeDecl)
     defining_names = Property(Self.task_type.type_id.cast(T.Name).singleton)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.task_type.type_id.sym, Self)
-    ])
+    )
 
     expr_type = Property(Self.task_type.as_entity)
 
@@ -1751,9 +1750,7 @@ class ObjectDecl(BasicDecl):
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec([
-        add_to_env(env_mappings(Self.ids, Self))
-    ])
+    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
     array_ndims = Property(Self.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
@@ -1783,10 +1780,10 @@ class DeclarativePart(AdaNode):
 
 
 class PrivatePart(DeclarativePart):
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv('__privatepart', Self),
         add_env()
-    ])
+    )
 
 
 class PublicPart(DeclarativePart):
@@ -1840,9 +1837,7 @@ class ExceptionDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
-    env_spec = EnvSpec([
-        add_to_env(env_mappings(Self.ids, Self))
-    ])
+    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
 
 @abstract
@@ -1878,7 +1873,7 @@ class EnvHolder(AdaNode):
     TODO: This should be do-able in a simpler fashion, by exposing a
     LexicalEnvType field that is automatically initialized.
     """
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec(add_env())
 
 
 class GenericSubpInstantiation(GenericInstantiation):
@@ -1908,7 +1903,7 @@ class GenericSubpInstantiation(GenericInstantiation):
             formal_env, Self.instantiation_env_holder.children_env
         )
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         handle_children(),
         add_to_env_kv(
             Self.relative_name,
@@ -1933,7 +1928,7 @@ class GenericSubpInstantiation(GenericInstantiation):
             dest_env=Self.instantiation_env_holder.children_env,
             resolver=AdaNode.resolve_generic_actual,
         ),
-    ])
+    )
 
 
 class GenericPackageInstantiation(GenericInstantiation):
@@ -1955,7 +1950,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.name.singleton)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.relative_name, Self),
         handle_children(),
         add_to_env(
@@ -1971,7 +1966,7 @@ class GenericPackageInstantiation(GenericInstantiation):
             dest_env=Self.instantiation_env_holder.children_env,
             resolver=AdaNode.resolve_generic_actual,
         )
-    ])
+    )
 
 
 class RenamingClause(AdaNode):
@@ -2082,7 +2077,7 @@ class GenericSubpInternal(BasicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     subp_decl_spec = Property(Self.subp_spec.as_entity)
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec(add_env())
 
 
 @abstract
@@ -2106,7 +2101,7 @@ class GenericSubpDecl(GenericDecl):
         """
         return Self.body_part_entity.cast(SubpBody).el
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         # Process eventual parent unit
         call_env_hook(Self),
 
@@ -2117,7 +2112,7 @@ class GenericSubpDecl(GenericDecl):
         add_env(),
         ref_used_packages(),
         ref_std()
-    ])
+    )
 
     decl = Property(Self.subp_decl.as_entity)
 
@@ -2129,7 +2124,7 @@ class GenericPackageInternal(BasePackageDecl):
     # Implementation note: This exists so that we can insert an environment to
     # distinguish between formal parameters and the package's contents.
 
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec(add_env())
 
 
 class GenericPackageDecl(GenericDecl):
@@ -3090,9 +3085,9 @@ class EnumLiteralDecl(BasicDecl):
 
     defining_names = Property(Self.enum_identifier.cast(T.Name).singleton)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.enum_identifier.sym, Self)
-    ])
+    )
 
 
 class CharLiteral(BaseId):
@@ -3399,9 +3394,7 @@ class ForLoopVarDecl(BasicDecl):
         Self.id_type.designated_type.canonical_type
     ))
 
-    env_spec = EnvSpec([
-        add_to_env_kv(Self.id.sym, Self)
-    ])
+    env_spec = EnvSpec(add_to_env_kv(Self.id.sym, Self))
 
 
 class ForLoopSpec(LoopSpec):
@@ -3613,11 +3606,11 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)
 
-    env_spec = EnvSpec([call_env_hook(Self)])
+    env_spec = EnvSpec(call_env_hook(Self))
 
 
 class SubpBody(Body):
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         call_env_hook(Self),
 
         set_initial_env(
@@ -3650,7 +3643,7 @@ class SubpBody(Body):
                 lambda d: d.children_env
             ),
         )
-    ])
+    )
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
@@ -3855,7 +3848,7 @@ class ElsifStmtPart(AdaNode):
 
 class LabelDecl(BasicDecl):
     name = Field(type=T.Identifier)
-    env_spec = EnvSpec([add_to_env_kv(Self.name.sym, Self)])
+    env_spec = EnvSpec(add_to_env_kv(Self.name.sym, Self))
     defining_names = Property(Self.name.cast(T.Name).singleton)
 
 
@@ -3891,10 +3884,10 @@ class NamedStmt(CompositeStmt):
     decl = Field(type=T.NamedStmtDecl)
     stmt = Field(type=T.CompositeStmt)
 
-    env_spec = EnvSpec([
+    env_spec = EnvSpec(
         add_to_env_kv(Self.decl.name.sym, Self.decl),
         add_env()
-    ])
+    )
 
 
 @abstract
@@ -3922,7 +3915,7 @@ class WhileLoopStmt(BaseLoopStmt):
 
 @abstract
 class BlockStmt(CompositeStmt):
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec(add_env())
 
 
 class DeclBlock(BlockStmt):
@@ -3944,7 +3937,7 @@ class ExtendedReturnStmt(CompositeStmt):
     def xref_equation():
         return LogicTrue()
 
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec(add_env())
 
 
 class CaseStmt(CompositeStmt):

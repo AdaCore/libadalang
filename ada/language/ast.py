@@ -1058,7 +1058,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     equivalent to their non-classwide type, except for some resolution rules.
     """
     # We don't want to add the classwide type to the environment
-    env_spec = EnvSpec(call_parents=False)
+    env_spec = EnvSpec()
 
     typedecl = Property(Self.parent.cast(BaseTypeDecl).as_entity)
 
@@ -1095,7 +1095,10 @@ class TypeDecl(BaseTypeDecl):
         env.bind(Self.children_env, Self.type_def.defining_env)
     )
 
-    env_spec = EnvSpec([add_env()])
+    env_spec = EnvSpec([
+        add_to_env_kv(Self.relative_name, Self),
+        add_env()
+    ])
 
     record_def = Property(
         Self.type_def.match(
@@ -1131,7 +1134,7 @@ class AnonymousTypeDecl(TypeDecl):
 
     # We don't want to add anonymous type declarations to the lexical
     # environments, so we reset the env spec.
-    env_spec = EnvSpec(call_parents=False)
+    env_spec = EnvSpec()
 
 
 class EnumTypeDecl(BaseTypeDecl):
@@ -1380,7 +1383,7 @@ class SingleTaskTypeDecl(TaskTypeDecl):
         # In this case, we don't want to add this type to the env, because it's
         # the single task that contains this type decl that will be added to
         # the env. So we don't call the inherited env spec.
-        [add_env()], call_parents=False
+        [add_env()]
     )
 
 

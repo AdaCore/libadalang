@@ -7,7 +7,7 @@ from langkit.dsl import (
     has_abstract_list, Annotations
 )
 from langkit.envs import (
-    EnvSpec, reference, add_to_env, add_env, handle_children
+    EnvSpec, reference, add_to_env, add_env, handle_children, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
@@ -427,16 +427,17 @@ def child_unit(name_expr, scope_expr):
     """
 
     return EnvSpec([
+        set_initial_env(
+            env.bind(Self.initial_env, Let(
+                lambda scope=scope_expr: If(scope == EmptyEnv, env, scope)
+            ))
+        ),
         add_to_env_kv(name_expr, Self),
         add_env(),
         ref_used_packages(),
         ref_generic_formals(),
         ref_std()
-    ], initial_env=(
-        env.bind(Self.initial_env, Let(
-            lambda scope=scope_expr: If(scope == EmptyEnv, env, scope)
-        ))
-    ), env_hook_arg=Self)
+    ], env_hook_arg=Self)
 
 
 @abstract
@@ -1589,6 +1590,10 @@ class BasicSubpDecl(BasicDecl):
         return Self.body_part_entity.cast(SubpBody).el
 
     env_spec = EnvSpec([
+        set_initial_env(
+            env.bind(Self.initial_env, Self.subp_decl_spec.name.parent_scope)
+        ),
+
         add_to_env_kv(Self.relative_name, Self),
         add_env(),
         ref_used_packages(),
@@ -1616,8 +1621,7 @@ class BasicSubpDecl(BasicDecl):
                          implicit_deref=False),
 
         )
-    ], initial_env=env.bind(Self.initial_env,
-                            Self.subp_decl_spec.name.parent_scope),
+    ],
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
         env_hook_arg=Self,
@@ -2099,13 +2103,14 @@ class GenericSubpDecl(GenericDecl):
         return Self.body_part_entity.cast(SubpBody).el
 
     env_spec = EnvSpec([
+        set_initial_env(
+            env.bind(Self.initial_env, Self.defining_name.parent_scope)
+        ),
         add_to_env_kv(Self.relative_name, Self),
         add_env(),
         ref_used_packages(),
         ref_std()
     ],
-        initial_env=env.bind(Self.initial_env,
-                             Self.subp_decl.subp_spec.name.parent_scope),
         # Call the env hook so that library-level subprograms have their
         # parent unit (if any) environment.
         env_hook_arg=Self,
@@ -3610,6 +3615,20 @@ class CompilationUnit(AdaNode):
 
 class SubpBody(Body):
     env_spec = EnvSpec([
+
+        set_initial_env(
+            env.bind(Self.initial_env, If(
+                Self.is_library_item,
+                # In case the subp spec for this library level subprogram is
+                # missing, we'll put it in the parent's scope. This way, the
+                # xref to it should still resolve.
+                Self.subp_spec.name.scope._or(
+                    Self.subp_spec.name.parent_scope
+                ),
+                Self.parent.children_env
+            )),
+        ),
+
         # Add the body to its own parent env
         add_to_env_kv(Self.relative_name, Self),
 
@@ -3628,14 +3647,6 @@ class SubpBody(Body):
             ),
         )
     ],
-        initial_env=env.bind(Self.initial_env, If(
-            Self.is_library_item,
-            # In case the subp spec for this library level subprogram is
-            # missing, we'll put it in the parent's scope. This way, the xref
-            # to it should still resolve.
-            Self.subp_spec.name.scope._or(Self.subp_spec.name.parent_scope),
-            Self.parent.children_env
-        )),
         env_hook_arg=Self,
     )
 

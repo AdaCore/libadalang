@@ -1906,7 +1906,8 @@ class GenericSubpInstantiation(GenericInstantiation):
         ),
         reference(
             Self.cast(T.AdaNode).singleton,
-            through=T.GenericSubpInstantiation.rebound_env
+            through=T.GenericSubpInstantiation.rebound_env,
+            transitive=True
         ),
         add_to_env(
             env.bind(

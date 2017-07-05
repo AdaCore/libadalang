@@ -1,0 +1,9 @@
+Analyzing pouet.ads
+###################
+
+B resolves to:
+    B : Integer := A;
+A resolves to:
+    <none>
+
+Done.

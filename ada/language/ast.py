@@ -298,11 +298,10 @@ class AdaNode(ASTNode):
         top-level UsePackageClause nodes. See
         UsePackageClause.env_spec.ref_envs for more details.
         """
-        lib_item = Var(Self.get_parent_library_item)
         return If(
-            Self.as_entity.equals(lib_item),
+            Self.parent.is_a(T.LibraryItem),
 
-            lib_item.parent.parent.cast_or_raise(T.CompilationUnit)
+            Self.parent.parent.cast_or_raise(T.CompilationUnit)
             .prelude
             .filter(lambda p: p.is_a(UsePackageClause))
             .mapcat(
@@ -372,17 +371,6 @@ class AdaNode(ASTNode):
                 gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
             lambda _: False,
         ))
-
-    @langkit_property()
-    def get_parent_library_item():
-        """
-        Property helper to return the first parent whose own parent is a
-        LibraryItem node.
-        """
-        return (
-            Self.parents.filter(lambda p: p.is_a(T.LibraryItem))
-            .at(0).cast(T.LibraryItem).item.as_entity
-        )
 
     @langkit_property()
     def is_package():

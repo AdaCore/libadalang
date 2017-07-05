@@ -25,11 +25,11 @@ origin = DynamicVariable('origin', T.AdaNode)
 
 def ref_used_packages():
     """
-    If Self is a library item, reference the environments for
+    If Self is a library item or a subunit, reference the environments for
     packages that are used at the top-level here. See
     UsePackageClause's ref_env_nodes for the rationale.
     """
-    return reference(Self.library_item_use_package_clauses,
+    return reference(Self.top_level_use_package_clauses,
                      through=T.Expr.designated_env_wrapper)
 
 
@@ -71,14 +71,19 @@ def env_mappings(base_id_list, entity):
     )
 
 
-def get_library_item(unit):
+def get_top_level_item(unit):
     """
-    Property helper to get the library unit corresponding to "unit".
+    Property helper to get the top-level item in "unit".
+
+    This is the body of a Subunit, or the item of a LibraryItem.
     """
     return unit.root.then(
         lambda root:
-            root.cast_or_raise(T.CompilationUnit).body
-                .cast_or_raise(T.LibraryItem).item
+            root.cast_or_raise(T.CompilationUnit).body.match(
+                lambda li=T.LibraryItem: li.item,
+                lambda su=T.Subunit: su.body,
+                lambda _: No(T.BasicDecl),
+            )
     )
 
 
@@ -200,7 +205,7 @@ class AdaNode(ASTNode):
     # multiple packages.
 
     body_unit = Property(
-        get_library_item(Self.unit)._.match(
+        get_top_level_item(Self.unit)._.match(
             lambda body=T.Body: body.unit,
             lambda decl=T.BasicDecl:
                 decl.defining_name.referenced_unit(UnitBody),
@@ -212,7 +217,7 @@ class AdaNode(ASTNode):
     )
 
     spec_unit = Property(
-        get_library_item(Self.unit)
+        get_top_level_item(Self.unit)
         .cast(T.Body)._.defining_name.referenced_unit(UnitSpecification),
 
         public=True, doc="""
@@ -223,7 +228,7 @@ class AdaNode(ASTNode):
     )
 
     parent_unit_spec = Property(
-        get_library_item(Self.unit)._.defining_name.cast(T.DottedName)
+        get_top_level_item(Self.unit)._.defining_name.cast(T.DottedName)
         ._.referenced_unit(UnitSpecification),
 
         public=True, doc="""
@@ -292,14 +297,14 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property()
-    def library_item_use_package_clauses():
+    def top_level_use_package_clauses():
         """
-        If Self is a library item, return a flat list of all names for
-        top-level UsePackageClause nodes. See
+        If Self is a library item or a subunit, return a flat list of all names
+        for top-level UsePackageClause nodes. See
         UsePackageClause.env_spec.ref_envs for more details.
         """
         return If(
-            Self.parent.is_a(T.LibraryItem),
+            Self.parent.is_a(T.LibraryItem, T.Subunit),
 
             Self.parent.parent.cast_or_raise(T.CompilationUnit)
             .prelude
@@ -3648,7 +3653,7 @@ class SubpBody(Body):
 
         # If library item, we just return the spec. We don't check if it's
         # a valid and matching subprogram because that's an error case.
-        get_library_item(Self.spec_unit),
+        get_top_level_item(Self.spec_unit),
 
         # If not a library item, find the matching subprogram spec in the
         # env.
@@ -3978,7 +3983,23 @@ class PackageBody(Body):
 
     @langkit_property(dynamic_vars=[env])
     def body_scope():
-        scope = Var(env.bind(Self.parent.node_env, Self.package_name.scope))
+        scope = Var(env.bind(
+            Self.parent.node_env,
+
+            # Subunits always appear at the top-level in package bodies. So if
+            # this is a subunit, the scope is the same as the scope of the
+            # corresponding "is separate" decl, hence: the defining env of this
+            # top-level package body.
+            Self.parent.cast(T.Subunit).then(
+                lambda su: get_top_level_item(
+                    su.name.referenced_unit(UnitBody)
+                ).children_env,
+                default_val=Self.package_name.scope
+            )
+        ))
+
+        # If this the corresponding decl is a generic, go grab the internal
+        # package decl.
         public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
             lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
             default_val=scope

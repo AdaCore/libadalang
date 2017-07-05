@@ -26,6 +26,9 @@ with Put_Title;
 
 procedure Nameres is
 
+   package String_Vectors is new Ada.Containers.Vectors
+     (Positive, Unbounded_String);
+
    --  Holders for options that command-line can tune
 
    Charset : Unbounded_String := To_Unbounded_String ("");
@@ -64,6 +67,11 @@ procedure Nameres is
    function Decode_Boolean_Literal (T : Text_Type) return Boolean is
      (Boolean'Wide_Wide_Value (T));
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
+
+   procedure Add_Files_From_Project
+     (PT    : Project_Tree_Access;
+      P     : Project_Type;
+      Files : in out String_Vectors.Vector);
 
    --------------
    -- New_Line --
@@ -283,13 +291,37 @@ procedure Nameres is
       end;
    end Process_File;
 
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
+   ----------------------------
+   -- Add_Files_From_Project --
+   ----------------------------
+
+   procedure Add_Files_From_Project
+     (PT    : Project_Tree_Access;
+      P     : Project_Type;
+      Files : in out String_Vectors.Vector)
+   is
+      List : File_Array_Access := P.Source_Files;
+   begin
+      for F of List.all loop
+         declare
+            FI        : constant File_Info := PT.Info (F);
+            Full_Name : Filesystem_String renames F.Full_Name.all;
+            Name      : constant String := +Full_Name;
+         begin
+            if FI.Language = "ada" then
+               Files.Append (+Name);
+            end if;
+         end;
+      end loop;
+      Unchecked_Free (List);
+   end Add_Files_From_Project;
+
    Files : String_Vectors.Vector;
 
    With_Default_Project : Boolean := False;
    Project_File         : Unbounded_String;
    Scenario_Vars        : String_Vectors.Vector;
+   Files_From_Project   : Boolean := False;
 
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
@@ -306,6 +338,8 @@ begin
             Charset := +Strip_Prefix (Arg, "--charset=");
          elsif Arg = "--with-default-project" then
             With_Default_Project := True;
+         elsif Arg = "--files-from-project" then
+            Files_From_Project := True;
          elsif Starts_With (Arg, "-P") then
             Project_File := +Strip_Prefix (Arg, "-P");
          elsif Starts_With (Arg, "-X") then
@@ -355,6 +389,10 @@ begin
             Load (Project.all, Create (+Filename), Env);
          end if;
          UFP := new Project_Unit_Provider_Type'(Create (Project, Env, True));
+
+         if Files_From_Project then
+            Add_Files_From_Project (Project, Project.Root_Project, Files);
+         end if;
       end;
    end if;
 

@@ -1,0 +1,13 @@
+Analyzing foo.adb
+#################
+
+Pkg.Baz resolves to:
+    procedure Baz;
+
+Analyzing foo-pkg.adb
+#####################
+
+I resolves to:
+    I : Integer;
+
+Done.

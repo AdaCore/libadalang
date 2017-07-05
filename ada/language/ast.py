@@ -3563,10 +3563,7 @@ class DottedName(Name):
     @langkit_property()
     def env_elements_impl():
         pfx_env = Var(origin.bind(Self, Self.prefix.designated_env))
-
-        return env.bind(pfx_env, Self.suffix.env_elements_baseid(
-            pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId)
-        ))
+        return env.bind(pfx_env, Self.suffix.env_elements_baseid(True))
 
     designated_type_impl = Property(lambda: (
         env.bind(Self.prefix.designated_env,

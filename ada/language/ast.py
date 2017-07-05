@@ -4000,7 +4000,7 @@ class PackageBody(Body):
         "package_decl" field instead of the GenericPackageDecl itself.
         """
         return env.bind(
-            Self.parent.node_env,
+            Self.node_env,
             Self.package_name.matching_nodes_impl.at(0).match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:

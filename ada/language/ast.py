@@ -1882,7 +1882,7 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
-    @langkit_property(return_type=LexicalEnvType, memoized=True)
+    @langkit_property(return_type=LexicalEnvType)
     def rebound_env():
         """
         Returns a synthetic lex env containing only a mapping from the

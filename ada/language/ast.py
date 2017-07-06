@@ -1556,6 +1556,10 @@ class ParamSpec(BaseFormalParamDecl):
 
     type_expression = Property(Self.type_expr.as_entity)
 
+    @langkit_property()
+    def defining_env():
+        return Self.type_expr.defining_env
+
 
 class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list)

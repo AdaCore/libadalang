@@ -2,4 +2,4 @@ description:
    Test that name resolution for record members work when the prefix designates
    ambiguously one record type or another one because of overloaded functions.
 driver: name-resolution
-input_sources: [foo.adb]
+input_sources: [foo.ads]

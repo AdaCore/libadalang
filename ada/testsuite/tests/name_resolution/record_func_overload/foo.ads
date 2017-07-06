@@ -1,7 +1,5 @@
 package Foo is
 
-   type Integer is range 1 .. 100;
-
    type R1_Type is record
       A : Integer;
    end record;

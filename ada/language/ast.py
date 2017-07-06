@@ -3299,8 +3299,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
                         # 4. Then we can just add the private dottable
                         # subprograms to the private full view.
 
-                        t.declarative_scope == bd.declarative_scope.parent
-                        .cast(PackageDecl).then(lambda pd: pd.public_part)
+                        t.declarative_scope == (
+                            bd.declarative_scope._.parent.cast(PackageDecl)
+                            .then(lambda pd: pd.public_part)
+                        )
                     )
                 ))
             ),

@@ -33,6 +33,15 @@ def ref_used_packages():
                      through=T.Expr.designated_env_wrapper)
 
 
+def ref_used_packages_in_spec():
+    """
+    If Self, which is assumed to be a SubpBody, is a library-level subprogram,
+    it must "inherit" the use clauses of its declaration, if there is one.
+    """
+    return reference(Self.self_library_item_or_none,
+                     through=T.AdaNode.use_packages_in_spec_of_subp_body)
+
+
 def ref_std():
     """
     Make the Standard package automatically used.
@@ -327,6 +336,29 @@ class AdaNode(ASTNode):
         return If(Self.parent.is_a(T.LibraryItem),
                   Self.to_array,
                   EmptyArray(AdaNode))
+
+    @langkit_property()
+    def use_packages_in_spec_of_subp_body():
+        """
+        If Self is a library-level SubpBody, fetch the environments USE'd in
+        its declaration. See "ref_used_packages_in_spec".
+        """
+        return Let(lambda subpb=Self.cast(T.SubpBody): If(
+            subpb.parent.is_a(T.LibraryItem),
+
+            subpb.decl_part.then(
+                lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
+                    lambda use_name:
+                    origin.bind(use_name, env.bind(
+                        use_name.node_env,
+                        use_name.cast_or_raise(T.Name).designated_env
+                    ))
+                ).env_group,
+                default_val=EmptyEnv
+            ),
+
+            EmptyEnv
+        ))
 
     @langkit_property()
     def generic_formal_env_of_not_library_item():
@@ -3627,6 +3659,7 @@ class SubpBody(Body):
 
         add_env(),
         ref_used_packages(),
+        ref_used_packages_in_spec(),
         ref_generic_formals(),
         ref_std(),
 

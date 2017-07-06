@@ -1,0 +1,9 @@
+Analyzing foo.ads
+#################
+
+Analyzing foo.adb
+#################
+
+Expr: <Id "R" 9:11-9:12>, references <ObjectDecl ["R"] 2:4-2:16>, type is <TypeDecl ["Integer"] 4:3-4:54>
+
+Done.

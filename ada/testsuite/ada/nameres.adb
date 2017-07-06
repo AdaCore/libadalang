@@ -174,6 +174,29 @@ procedure Nameres is
 
          function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
 
+         procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
+            Name  : constant Text_Type := Text (Id.F_Tok);
+         begin
+            if E.all not in Identifier_Type'Class then
+               raise Program_Error with
+                 ("Invalid config value for " & Image (Name, True) & ": "
+                  & Text (E));
+            end if;
+
+            declare
+               Value : constant Text_Type := Text (Identifier (E).F_Tok);
+            begin
+               if Name = "Display_Slocs" then
+                  Display_Slocs := Decode_Boolean_Literal (Value);
+               elsif Name = "Display_Short_Images" then
+                  Display_Short_Images := Decode_Boolean_Literal (Value);
+               else
+                  raise Program_Error with
+                    ("Invalid configuration: " & Image (Name, True));
+               end if;
+            end;
+         end Handle_Pragma_Config;
+
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.
@@ -199,22 +222,16 @@ procedure Nameres is
                   declare
                      A     : constant Pragma_Argument_Assoc :=
                         Pragma_Argument_Assoc (Arg);
-
-                     pragma Assert (A.F_Id.all in Identifier_Type'Class);
-                     Name  : constant Text_Type := Text (A.F_Id.F_Tok);
-
-                     pragma Assert (A.F_Expr.all in Identifier_Type'Class);
-                     Value : constant Text_Type :=
-                        Text (Identifier (A.F_Expr).F_Tok);
                   begin
-                     if Name = "Display_Slocs" then
-                        Display_Slocs := Decode_Boolean_Literal (Value);
-                     elsif Name = "Display_Short_Images" then
-                        Display_Short_Images := Decode_Boolean_Literal (Value);
-                     else
+                     if A.F_Id = null then
                         raise Program_Error with
-                          ("Invalid configuration: " & Image (Name, True));
+                           "Name missing in pragma Config";
+                     elsif A.F_Id.all not in Identifier_Type'Class then
+                        raise Program_Error with
+                           "Name in pragma Config must be an identifier";
                      end if;
+
+                     Handle_Pragma_Config (A.F_Id, A.F_Expr);
                   end;
                end loop;
 

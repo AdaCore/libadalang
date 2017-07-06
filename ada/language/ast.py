@@ -1612,7 +1612,7 @@ class BasicSubpDecl(BasicDecl):
             )),
             dest_env=Let(
                 lambda spec=Self.subp_decl_spec:
-                origin.bind(spec.el,
+                origin.bind(spec.el.subp_name,
                             spec.potential_dottable_type._.children_env)
             ),
             # We pass custom metadata, marking the entity as a dottable
@@ -2799,6 +2799,7 @@ class IfExpr(Expr):
 
             & If(
                 Not(Self.else_expr.is_null),
+
                 # If there is an else, then construct sub equation
                 Self.else_expr.sub_equation
                 # And bind the then expr's and the else expr's types
@@ -3267,7 +3268,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         criterias for being a dottable subprogram.
         """
         bd = Var(Self.parent.cast_or_raise(BasicDecl))
-        return origin.bind(Self, If(
+        return origin.bind(Self.name, If(
             And(
                 Self.nb_max_params > 0,
                 Self.potential_dottable_type.then(lambda t: And(

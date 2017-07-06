@@ -73,6 +73,13 @@ procedure Nameres is
       P     : Project_Type;
       Files : in out String_Vectors.Vector);
 
+   function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array_Access is
+     (Arg.P_Matching_Nodes);
+   --  Do the resolution associated to a Test pragma.
+   --
+   --  This function is here to provide a simple breakpoint location for
+   --  debugging sessions.
+
    --------------
    -- New_Line --
    --------------
@@ -256,7 +263,7 @@ procedure Nameres is
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg      : constant Expr
                     := P_Node.F_Args.Item (1).P_Assoc_Expr;
-                  Entities : Ada_Node_Array_Access := Arg.P_Matching_Nodes;
+                  Entities : Ada_Node_Array_Access := Do_Pragma_Test (Arg);
                begin
                   Put_Line (Text (Arg) & " resolves to:");
                   Sort (Entities.Items);

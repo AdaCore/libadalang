@@ -30,7 +30,7 @@ def ref_used_packages():
     UsePackageClause's ref_env_nodes for the rationale.
     """
     return reference(Self.top_level_use_package_clauses,
-                     through=T.Expr.designated_env_wrapper)
+                     T.Name.use_package_name_designated_env)
 
 
 def ref_used_packages_in_spec():
@@ -1487,9 +1487,21 @@ class UsePackageClause(UseClause):
                EmptyArray(AdaNode),
                Self.packages.map(lambda n: n.cast(AdaNode))),
 
-            T.Expr.designated_env_wrapper
+            T.Name.use_package_name_designated_env
         )
     )
+
+    @langkit_property(memoized=True, return_type=LexicalEnvType.array)
+    def designated_envs():
+        """
+        Return the array of designated envs corresponding to each package name.
+
+        It is very important for this property to be memoized, as it is used a
+        lot during lexical environment lookups.
+        """
+        return Self.packages.map(
+            lambda n: env.bind(n.node_env, origin.bind(n, n.designated_env))
+        )
 
 
 class UseTypeClause(UseClause):
@@ -2202,10 +2214,6 @@ class Expr(AdaNode):
         """
         pass
 
-    @langkit_property()
-    def designated_env_wrapper():
-        return env.bind(Self.node_env, origin.bind(Self, Self.designated_env))
-
     parent_scope = AbstractProperty(
         type=LexicalEnvType, runtime_check=True,
         dynamic_vars=[env],
@@ -2502,6 +2510,16 @@ class Name(Expr):
                 ),
             lambda _: False
         )
+
+    @langkit_property()
+    def use_package_name_designated_env():
+        """
+        Assuming Self is a name that is the direct child of a
+        UsePackageClause's package name list, return the memoized designated
+        environment for it.
+        """
+        return (Self.parent.parent.cast_or_raise(T.UsePackageClause)
+                .designated_envs.at(Self.child_index))
 
 
 class CallExpr(Name):

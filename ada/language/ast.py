@@ -1993,7 +1993,12 @@ class GenericPackageInstantiation(GenericInstantiation):
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():
         p = Var(Self.designated_generic_decl)
-        formal_env = Var(p.children_env)
+
+        # We use the formal env to create rebindings. There, we purposefully
+        # want the children env of the P node, with no rebindings associated,
+        # since the rebinding indication concerns the *naked* generic. Hence
+        # we use p.el.children_env.
+        formal_env = Var(p.el.children_env)
 
         return p.decl.children_env.rebind_env(
             formal_env, Self.instantiation_env_holder.children_env

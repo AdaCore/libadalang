@@ -360,7 +360,7 @@ class AdaNode(ASTNode):
             EmptyEnv
         ))
 
-    @langkit_property()
+    @langkit_property(memoized=True)
     def generic_formal_env_of_not_library_item():
         """
         Assuming Self is a generic package (or subprogram) body that is not a
@@ -370,6 +370,10 @@ class AdaNode(ASTNode):
 
         This is a helper for generic formals visibility in generic bodies. See
         the use in the child_unit macro.
+
+        The following property is evaluated each time we make a recursive
+        lexical environment lookup on a child unit. As it does itself a lot of
+        lookups, memoizing it is very important.
         """
         # TODO: refine this property to preserve entities when it makes sense
         gen_decl = Var(If(
@@ -1918,12 +1922,17 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
-    @langkit_property(return_type=LexicalEnvType)
+    @langkit_property(return_type=LexicalEnvType, memoized=True)
     def rebound_env():
         """
         Returns a synthetic lex env containing only a mapping from the
         instantiation's name to the subprogram, with formals rebound to
         actuals.
+
+        The following property is evaluated each time we make a recursive
+        lexical environment lookup on an environment that hosts a generic
+        subprogram instanciation child unit. As it does itself a lot of
+        lookups, memoizing it is very important.
         """
         p = Var(Self.designated_generic_decl)
         formal_env = Var(p.children_env)

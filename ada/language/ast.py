@@ -1928,44 +1928,30 @@ class GenericSubpInstantiation(GenericInstantiation):
     generic_subp_name = Field(type=T.Name)
     subp_params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
-    ref_env_holder = Field(type=T.EnvHolder)
 
     defining_names = Property(Self.subp_name.singleton)
 
     generic_entity_name = Property(Self.generic_subp_name.as_entity)
 
-    @langkit_property(return_type=LexicalEnvType, memoized=True)
-    def rebound_env():
+    @langkit_property()
+    def designated_subp():
         """
-        Returns a synthetic lex env containing only a mapping from the
-        instantiation's name to the subprogram, with formals rebound to
-        actuals.
-
-        The following property is evaluated each time we make a recursive
-        lexical environment lookup on an environment that hosts a generic
-        subprogram instanciation child unit. As it does itself a lot of
-        lookups, memoizing it is very important.
+        Return the subprogram decl designated by this instantiation.
         """
         p = Var(Self.designated_generic_decl)
-        formal_env = Var(p.children_env)
 
-        return Self.ref_env_holder.children_env.env_orphan.rebind_env(
-            formal_env, Self.instantiation_env_holder.children_env
-        )
+        return New(BasicSubpDecl.entity,
+                   el=p.el.cast(GenericSubpDecl).subp_decl,
+                   info=New(
+                       T.entity_info, md=p.info.md,
+                       rebindings=p.info.rebindings.append_rebinding(
+                           p.el.children_env,
+                           Self.instantiation_env_holder.children_env
+                       )
+                   )).cast(T.entity)
 
     env_spec = EnvSpec(
         handle_children(),
-        add_to_env_kv(
-            Self.relative_name,
-            Self.designated_generic_decl
-            .cast(T.GenericSubpDecl).subp_decl.el,
-            dest_env=Self.ref_env_holder.children_env,
-        ),
-        reference(
-            Self.cast(T.AdaNode).singleton,
-            through=T.GenericSubpInstantiation.rebound_env,
-            transitive=True
-        ),
         add_to_env(
             env.bind(
                 Self.initial_env,
@@ -1979,6 +1965,8 @@ class GenericSubpInstantiation(GenericInstantiation):
             dest_env=Self.instantiation_env_holder.children_env,
             resolver=AdaNode.resolve_generic_actual,
         ),
+        add_to_env_kv(Self.relative_name, Self,
+                      resolver=T.GenericSubpInstantiation.designated_subp),
     )
 
 

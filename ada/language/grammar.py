@@ -418,7 +418,6 @@ A.add_rules(
             "new", A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, ";",
-            EnvHolder()
         ),
     ),
 

@@ -12,8 +12,8 @@ from langkit.envs import (
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
-    EmptyEnv, EnvGroup, If, Let, Literal, New, No, Not, Or, Property, Self,
-    Var, ignore, langkit_property
+    EmptyEnv, EnvGroup, If, Let, Literal, No, Not, Or, Property, Self, Var,
+    ignore, langkit_property
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import Predicate, LogicTrue
@@ -66,7 +66,7 @@ def add_to_env_kv(key, val, *args, **kwargs):
     creates the intermediate env_assoc Struct.
     """
     return add_to_env(
-        New(T.env_assoc, key=key, val=val), *args, **kwargs
+        T.env_assoc.new(key=key, val=val), *args, **kwargs
     )
 
 
@@ -76,7 +76,7 @@ def env_mappings(base_id_list, entity):
     an entity to be used as value in the mappings.
     """
     return base_id_list.map(
-        lambda base_id: New(T.env_assoc, key=base_id.sym, val=entity)
+        lambda base_id: T.env_assoc.new(key=base_id.sym, val=entity)
     )
 
 
@@ -753,8 +753,8 @@ class BaseFormalParamHolder(AdaNode):
 
     unpacked_formal_params = Property(
         Self.abstract_formal_params.mapcat(
-            lambda spec: spec.identifiers.map(lambda id: (
-                New(SingleFormal, name=id, spec=spec)
+            lambda spec: spec.identifiers.map(lambda id: SingleFormal.new(
+                name=id, spec=spec
             ))
         ),
         doc='Couples (identifier, param spec) for all parameters'
@@ -769,10 +769,8 @@ class BaseFormalParamHolder(AdaNode):
         a default value).
         """
         def matches(formal, actual):
-            return New(ParamMatch,
-                       has_matched=True,
-                       formal=formal,
-                       actual=actual)
+            return ParamMatch.new(has_matched=True,
+                                  formal=formal, actual=actual)
 
         unpacked_formals = Var(Self.unpacked_formal_params)
 
@@ -1073,7 +1071,7 @@ class BaseTypeDecl(BasicDecl):
 
     classwide_type_node = Property(If(
         Self.is_tagged_type,
-        New(T.ClasswideTypeDecl, type_id=Self.type_id),
+        T.ClasswideTypeDecl.new(type_id=Self.type_id),
         No(T.ClasswideTypeDecl)
     ), memoized=True, ignore_warn_on_node=True)
 
@@ -1658,8 +1656,7 @@ class BasicSubpDecl(BasicDecl):
         add_to_env(
             # TODO: We can refactor this to not use an array, thanks to
             # mappings.
-            Self.subp_decl_spec.dottable_subp.map(lambda dp: New(
-                T.env_assoc,
+            Self.subp_decl_spec.dottable_subp.map(lambda dp: T.env_assoc.new(
                 key=Self.relative_name, val=dp
             )),
             dest_env=Let(
@@ -1669,8 +1666,7 @@ class BasicSubpDecl(BasicDecl):
             ),
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
-            metadata=New(Metadata, dottable_subp=True,
-                         implicit_deref=False),
+            metadata=Metadata.new(dottable_subp=True, implicit_deref=False)
 
         )
     )
@@ -1958,8 +1954,7 @@ class GenericSubpInstantiation(GenericInstantiation):
                 Self.initial_env,
                 Self.designated_generic_decl.formal_part.match_param_list(
                     Self.subp_params, False
-                ).map(lambda pm: New(
-                    T.env_assoc,
+                ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 ))
             ),
@@ -2003,8 +1998,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                 Self.initial_env,
                 Self.designated_generic_decl.formal_part.match_param_list(
                     Self.params, False
-                ).map(lambda pm: New(
-                    T.env_assoc,
+                ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 ))
             ),
@@ -2778,11 +2772,11 @@ class AssocList(BasicAssoc.list):
         """
         return Self.mapcat(lambda pa: Let(lambda names=pa.names: If(
             names.length == 0,
-            New(SingleActual, name=No(Identifier), assoc=pa).singleton,
+            SingleActual.new(name=No(Identifier), assoc=pa).singleton,
             names.filtermap(
                 filter_expr=lambda n: n.is_a(T.BaseId),
                 expr=lambda i:
-                New(SingleActual, name=i.cast(T.BaseId), assoc=pa)
+                SingleActual.new(name=i.cast(T.BaseId), assoc=pa)
             )
         )))
 

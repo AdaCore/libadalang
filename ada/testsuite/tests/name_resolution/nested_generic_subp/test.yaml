@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: nested_generic_subp
+driver: name-resolution
+input_sources: [main.adb]

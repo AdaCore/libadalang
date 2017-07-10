@@ -1940,15 +1940,16 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         p = Var(Self.designated_generic_decl)
 
-        return New(BasicSubpDecl.entity,
-                   el=p.el.cast(GenericSubpDecl).subp_decl,
-                   info=New(
-                       T.entity_info, md=p.info.md,
-                       rebindings=p.info.rebindings.append_rebinding(
-                           p.el.children_env,
-                           Self.instantiation_env_holder.children_env
-                       )
-                   )).cast(T.entity)
+        return BasicSubpDecl.entity.new(
+            el=p.el.cast(GenericSubpDecl).subp_decl,
+            info=T.entity_info.new(
+                md=p.info.md,
+                rebindings=p.info.rebindings.append_rebinding(
+                    p.el.children_env,
+                    Self.instantiation_env_holder.children_env
+                )
+            )
+        ).cast(T.entity)
 
     env_spec = EnvSpec(
         handle_children(),

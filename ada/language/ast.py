@@ -1319,7 +1319,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return Bind(
             index_expr.type_var,
-            Self.types.at(dim).as_entity.designated_type.canonical_type
+            Self.as_entity.types.at(dim).designated_type.canonical_type
         )
 
 
@@ -2088,7 +2088,7 @@ class GenericFormalPart(BaseFormalParamHolder):
     decls = Field(type=T.AdaNode.list)
 
     abstract_formal_params = Property(
-        Self.decls.keep(BaseFormalParamDecl).map(lambda e: e.as_entity)
+        Self.as_entity.decls.keep(BaseFormalParamDecl)
     )
 
 
@@ -2121,7 +2121,7 @@ class GenericSubpInternal(BasicSubpDecl):
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
-    subp_decl_spec = Property(Self.subp_spec.as_entity)
+    subp_decl_spec = Property(Self.as_entity.subp_spec)
     env_spec = EnvSpec(add_env())
 
 
@@ -2159,7 +2159,7 @@ class GenericSubpDecl(GenericDecl):
         ref_std()
     )
 
-    decl = Property(Self.subp_decl.as_entity)
+    decl = Property(Self.as_entity.subp_decl)
 
 
 class GenericPackageInternal(BasePackageDecl):
@@ -2188,7 +2188,7 @@ class GenericPackageDecl(GenericDecl):
         """
         return Self.as_entity.package_decl.body_part
 
-    decl = Property(Self.package_decl.as_entity)
+    decl = Property(Self.as_entity.package_decl)
 
 
 @abstract
@@ -2336,8 +2336,8 @@ class BinOp(Expr):
     def xref_equation():
         subps = Var(Self.as_entity.op.subprograms)
         return (
-            Self.left.as_entity.sub_equation
-            & Self.right.as_entity.sub_equation
+            Self.as_entity.left.sub_equation
+            & Self.as_entity.right.sub_equation
         ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_decl_spec.unpacked_formal_params:
 
@@ -2417,7 +2417,7 @@ class Aggregate(BaseAggregate):
             ),
 
             # Second case, aggregate for an array
-            Self.assocs.logic_all(
+            Self.as_entity.assocs.logic_all(
                 lambda assoc:
                 assoc.expr.as_entity.sub_equation
                 & Bind(assoc.expr.type_var, atd.comp_type)
@@ -2639,8 +2639,8 @@ class CallExpr(Name):
                 # For every callexpr between self and the furthest callexpr
                 # that is an ancestor of Self via the name chain, we'll
                 # construct the crossref equation.
-                & Self.parent_nested_callexpr.then(
-                    lambda pce: pce.as_entity.parent_callexprs_equation(
+                & Self.parent_nested_callexpr.as_entity.then(
+                    lambda pce: pce.parent_callexprs_equation(
                         s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
@@ -2728,9 +2728,9 @@ class CallExpr(Name):
         """
         return (
             Self.equation_for_type(typ)
-            & Self.parent_nested_callexpr.then(
+            & Self.parent_nested_callexpr.as_entity.then(
                 lambda pce:
-                pce.as_entity.parent_callexprs_equation(typ.comp_type),
+                pce.parent_callexprs_equation(typ.comp_type),
                 default_val=LogicTrue()
             )
         )
@@ -2898,19 +2898,19 @@ class CaseExpr(Expr):
         # of the semres.
         ignore(Var(Self.as_entity.expr.resolve_names))
 
-        return Self.cases.logic_all(lambda alt: (
+        return Self.as_entity.cases.logic_all(lambda alt: (
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
                 Bind(e.type_var, Self.expr.type_val)
-                & e.as_entity.sub_equation,
+                & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()
             ))
 
             # Equations for the dependent expressions
-            & alt.expr.as_entity.sub_equation
+            & alt.expr.sub_equation
 
             # The type of self is the type of each expr. Also, the type of
             # every expr is bound together by the conjunction of this bind for
@@ -3398,7 +3398,7 @@ class SubpSpec(BaseSubpSpec):
             default_val=EmptyArray(ParamSpec)
         )
     )
-    returns = Property(Self.subp_returns.as_entity)
+    returns = Property(Self.as_entity.subp_returns)
 
 
 class EntryDecl(BasicDecl):
@@ -3516,7 +3516,7 @@ class ForLoopSpec(LoopSpec):
             & If(Self.var_decl.id_type.is_null,
                  LogicTrue(),
                  Bind(Self.var_decl.id.type_var,
-                      Self.var_decl.id_type.as_entity.designated_type
+                      Self.as_entity.var_decl.id_type.designated_type
                       .canonical_type))
 
             # Finally, we want the type of the expression to be an iterable
@@ -3538,7 +3538,7 @@ class Allocator(Expr):
 
     @langkit_property()
     def get_allocated_type():
-        return origin.bind(Self, Self.type_or_expr.as_entity.match(
+        return origin.bind(Self, Self.as_entity.type_or_expr.match(
             lambda t=SubtypeIndication.entity: t.designated_type,
             lambda q=QualExpr.entity: q.designated_type,
             lambda _: No(BaseTypeDecl.entity)
@@ -3727,7 +3727,7 @@ class SubpBody(Body):
             lambda _=T.GenericSubpDecl: True,
 
             lambda subp_decl=T.BasicSubpDecl:
-            subp_decl.subp_decl_spec.match_signature(Self.subp_spec.as_entity),
+            subp_decl.subp_decl_spec.match_signature(Self.as_entity.subp_spec),
 
             lambda _: False
         )).el
@@ -3851,11 +3851,10 @@ class AbortStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Self.names.logic_all(
+        return Self.as_entity.names.logic_all(
             lambda name:
-            name.as_entity.sub_equation
-            & Predicate(BaseTypeDecl.is_task_type,
-                        name.type_var)
+            name.sub_equation & Predicate(BaseTypeDecl.is_task_type,
+                                          name.type_var)
         )
 
 
@@ -3890,8 +3889,8 @@ class IfStmt(CompositeStmt):
         return (
             Self.as_entity.cond_expr.sub_equation
             & Bind(Self.cond_expr.type_var, Self.bool_type)
-            & Self.alternatives.logic_all(
-                lambda elsif: elsif.as_entity.cond_expr.sub_equation
+            & Self.as_entity.alternatives.logic_all(
+                lambda elsif: elsif.cond_expr.sub_equation
                 & Bind(elsif.cond_expr.type_var, Self.bool_type)
             )
         )

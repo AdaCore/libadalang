@@ -186,7 +186,8 @@ class AdaNode(ASTNode):
                    True))
 
         j = Self.children.all(lambda c: c.then(
-            lambda c: c.resolve_names_internal(False), default_val=True
+            lambda c: c.as_entity.resolve_names_internal(False),
+            default_val=True
         ))
         return i & j
 
@@ -346,7 +347,7 @@ class AdaNode(ASTNode):
         return Let(lambda subpb=Self.cast(T.SubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
 
-            subpb.decl_part.then(
+            subpb.as_bare_entity.decl_part.then(
                 lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
                     lambda use_name:
                     origin.bind(use_name, env.bind(
@@ -379,12 +380,11 @@ class AdaNode(ASTNode):
         gen_decl = Var(If(
             Self.is_library_item,
 
-            No(T.AdaNode.entity),
+            No(T.AdaNode),
 
-            Self.match(
+            Self.as_bare_entity.match(
                 lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part._.parent.cast(T.GenericPackageDecl)
-                    .as_entity,
+                    pkg_body.decl_part._.parent.cast(T.GenericPackageDecl),
                 lambda subp_body=T.SubpBody:
                     # If subp_body is the body of a generic subprogram, then
                     # the environment lookup below should return its
@@ -394,8 +394,8 @@ class AdaNode(ASTNode):
                     # must return a null node here.
                     subp_body.parent.node_env.get(
                         subp_body.relative_name
-                    ).at(1).cast(T.GenericSubpDecl).cast(T.AdaNode),
-                lambda _: No(T.AdaNode.entity)
+                    ).at(1).el.cast(T.GenericSubpDecl).cast(T.AdaNode),
+                lambda _: No(T.AdaNode)
             )
         ))
         return gen_decl._.children_env
@@ -475,13 +475,15 @@ def child_unit(name_expr, scope_expr):
 class BasicDecl(AdaNode):
 
     defining_names = AbstractProperty(
-        type=T.Name.array, public=True, doc="""
+        type=T.Name.array, public=True, uses_entity_info=False,
+        doc="""
         Get all the names of this basic declaration.
         """
     )
 
     defining_name = Property(
-        Self.defining_names.at(0).as_entity, public=True, doc="""
+        Self.defining_names.at(0), public=True, ignore_warn_on_node=True,
+        doc="""
         Get the name of this declaration. If this declaration has several
         names, it will return the first one.
         """
@@ -553,9 +555,9 @@ class BasicDecl(AdaNode):
         If node is a Subp, returns the specification of this subprogram.
         TODO: Enhance when we have interfaces.
         """
-        return Self.match(
+        return Self.as_entity.match(
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,
-            lambda subp=SubpBody:      subp.subp_spec.as_entity,
+            lambda subp=SubpBody:      subp.subp_spec,
             lambda _:                  No(SubpSpec.entity),
         )
 
@@ -657,7 +659,7 @@ class TypeDef(AdaNode):
         """Whether type is an integer type or not."""
         return False
 
-    is_access_type = Property(False,
+    is_access_type = Property(False, uses_entity_info=False,
                               doc="Whether type is an access type or not.")
     is_char_type = Property(False)
 
@@ -713,12 +715,12 @@ class ComponentDecl(BaseFormalParamDecl):
 
     identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
     defining_env = Property(
-        Self.component_def.type_expr.defining_env,
+        Self.as_entity.component_def.type_expr.defining_env,
         doc="See BasicDecl.defining_env"
     )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
-    array_ndims = Property(Self.component_def.type_expr.array_ndims)
+    array_ndims = Property(Self.as_entity.component_def.type_expr.array_ndims)
 
     type_expression = Property(Self.component_def.type_expr.as_entity)
 
@@ -1069,11 +1071,11 @@ class BaseTypeDecl(BasicDecl):
         """
         return Self.as_entity
 
-    classwide_type_node = Property(If(
-        Self.is_tagged_type,
-        T.ClasswideTypeDecl.new(type_id=Self.type_id),
-        No(T.ClasswideTypeDecl)
-    ), memoized=True, ignore_warn_on_node=True)
+    @langkit_property(memoized=True, ignore_warn_on_node=True)
+    def classwide_type_node():
+        return If(Self.is_tagged_type,
+                  T.ClasswideTypeDecl.new(type_id=Self.type_id),
+                  No(T.ClasswideTypeDecl))
 
     classwide_type = Property(Self.classwide_type_node.as_entity)
 
@@ -1107,22 +1109,22 @@ class TypeDecl(BaseTypeDecl):
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
 
-    array_ndims = Property(Self.type_def.array_ndims)
+    array_ndims = Property(Self.as_entity.type_def.array_ndims)
 
-    is_real_type = Property(Self.type_def.is_real_type)
-    is_int_type = Property(Self.type_def.is_int_type)
-    is_access_type = Property(Self.type_def.is_access_type)
-    accessed_type = Property(Self.type_def.as_entity.accessed_type)
+    is_real_type = Property(Self.as_entity.type_def.is_real_type)
+    is_int_type = Property(Self.as_entity.type_def.is_int_type)
+    is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
+    accessed_type = Property(Self.as_entity.type_def.accessed_type)
     is_tagged_type = Property(Self.type_def.is_tagged_type)
-    base_type = Property(Self.type_def.base_type)
-    is_char_type = Property(Self.type_def.is_char_type)
+    base_type = Property(Self.as_entity.type_def.base_type)
+    is_char_type = Property(Self.as_entity.type_def.is_char_type)
 
-    array_def = Property(Self.type_def.cast(T.ArrayTypeDef).as_entity)
+    array_def = Property(Self.as_entity.type_def.cast(T.ArrayTypeDef))
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
-        env.bind(Self.children_env, Self.type_def.defining_env)
+        env.bind(Self.children_env, Self.as_entity.type_def.defining_env)
     )
 
     env_spec = EnvSpec(
@@ -1143,7 +1145,7 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         # TODO: Handle discriminants
-        return Self.type_def.xref_equation
+        return Self.as_entity.type_def.xref_equation
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -1158,9 +1160,8 @@ class AnonymousTypeDecl(TypeDecl):
 
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
-        return Self.type_def.cast(AccessDef)._.accessed_type.matching_type(
-            other.accessed_type
-        )
+        return (Self.as_entity.type_def.cast(AccessDef)._.accessed_type
+                .matching_type(other.accessed_type))
 
     # We don't want to add anonymous type declarations to the lexical
     # environments, so we reset the env spec.
@@ -1243,12 +1244,12 @@ class DerivedTypeDef(TypeDef):
     array_ndims = Property(Self.base_type.array_ndims)
 
     base_type = Property(
-        origin.bind(Self, Self.subtype_indication.designated_type)
+        origin.bind(Self, Self.as_entity.subtype_indication.designated_type)
     )
 
     is_real_type = Property(Self.base_type.is_real_type)
     is_int_type = Property(Self.base_type.is_int_type)
-    is_access_type = Property(Self.base_type.is_access_type)
+    is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Self.base_type.is_char_type)
     accessed_type = Property(Self.base_type.accessed_type)
     is_tagged_type = Property(True)
@@ -1257,12 +1258,12 @@ class DerivedTypeDef(TypeDef):
         Self.children_env.env_orphan,
 
         # Add environments from parent type defs
-        Self.base_type.canonical_type.defining_env
+        Self.as_entity.base_type.canonical_type.defining_env
     ))
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Self.subtype_indication.xref_equation
+        return Self.as_entity.subtype_indication.xref_equation
 
 
 class PrivateTypeDef(TypeDef):
@@ -1316,8 +1317,10 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
-        return Bind(index_expr.type_var,
-                    Self.types.at(dim).designated_type.canonical_type)
+        return Bind(
+            index_expr.type_var,
+            Self.types.at(dim).as_entity.designated_type.canonical_type
+        )
 
 
 class ConstrainedArrayIndices(ArrayIndices):
@@ -1329,7 +1332,8 @@ class ConstrainedArrayIndices(ArrayIndices):
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return Self.list.at(dim).match(
             lambda n=T.SubtypeIndication:
-            Bind(index_expr.type_var, n.designated_type.canonical_type),
+            Bind(index_expr.type_var,
+                 n.as_entity.designated_type.canonical_type),
 
             # TODO: We need to parse Standard to express the fact that when
             # we've got an anonymous range in the array index definition,
@@ -1371,14 +1375,15 @@ class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
 
-    array_ndims = Property(Self.subtype.array_ndims)
-    defining_env = Property(Self.subtype.defining_env)
+    array_ndims = Property(Self.as_entity.subtype.array_ndims)
+    defining_env = Property(Self.as_entity.subtype.defining_env)
 
-    canonical_type = Property(Self.subtype.designated_type.canonical_type)
+    canonical_type = Property(Self.as_entity.subtype.designated_type
+                              .canonical_type)
 
-    accessed_type = Property(Self.canonical_type.accessed_type)
+    accessed_type = Property(Self.as_entity.canonical_type.accessed_type)
 
-    is_int_type = Property(Self.canonical_type.is_int_type)
+    is_int_type = Property(Self.as_entity.canonical_type.is_int_type)
 
 
 class TaskDef(AdaNode):
@@ -1446,7 +1451,7 @@ class TypeAccessDef(AccessDef):
     subtype_indication = Field(type=T.SubtypeIndication)
     constraint = Field(type=T.Constraint)
 
-    accessed_type = Property(Self.subtype_indication.designated_type)
+    accessed_type = Property(Self.as_entity.subtype_indication.designated_type)
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -1604,7 +1609,7 @@ class ParamSpec(BaseFormalParamDecl):
 
     @langkit_property()
     def defining_env():
-        return Self.type_expr.defining_env
+        return Self.as_entity.type_expr.defining_env
 
 
 class AspectSpec(AdaNode):
@@ -1617,7 +1622,8 @@ class Overriding(EnumNode):
 
 @abstract
 class BasicSubpDecl(BasicDecl):
-    defining_names = Property(Self.subp_decl_spec.name.singleton)
+    defining_names = Property(
+        Self.as_bare_entity.subp_decl_spec.name.singleton)
     defining_env = Property(Self.subp_decl_spec.defining_env)
 
     type_expression = Property(
@@ -1793,16 +1799,16 @@ class ObjectDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
-    array_ndims = Property(Self.type_expr.array_ndims)
+    array_ndims = Property(Self.as_entity.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
-    defining_env = Property(Self.type_expr.defining_env)
+    defining_env = Property(Self.as_entity.type_expr.defining_env)
     type_expression = Property(Self.type_expr.as_entity)
 
     @langkit_property()
     def xref_equation():
         return Self.default_expr.then(
             lambda de:
-            de.xref_equation
+            de.as_entity.xref_equation
             & Bind(Self.default_expr.type_var,
                    Self.canonical_expr_type,
                    eq_prop=BaseTypeDecl.matching_assign_type),
@@ -2025,8 +2031,8 @@ class PackageRenamingDecl(BasicDecl):
     defining_names = Property(Self.name.singleton)
     defining_env = Property(env.bind(
         Self.node_env,
-        Self.renames.renamed_object.matching_nodes_impl.at(0).cast(BasicDecl)
-        .defining_env
+        Self.as_entity.renames.renamed_object.env_elements.at(0)
+        .cast(BasicDecl).defining_env
     ))
 
 
@@ -2180,7 +2186,7 @@ class GenericPackageDecl(GenericDecl):
         Return the PackageBody corresponding to this node, or null if there is
         none.
         """
-        return Self.package_decl.body_part
+        return Self.as_entity.package_decl.body_part
 
     decl = Property(Self.package_decl.as_entity)
 
@@ -2266,7 +2272,8 @@ class ParenExpr(Expr):
 
     @langkit_property()
     def xref_equation():
-        return Self.expr.sub_equation & Bind(Self.expr.type_var, Self.type_var)
+        return Self.as_entity.expr.sub_equation & Bind(Self.expr.type_var,
+                                                       Self.type_var)
 
 
 class Op(EnumNode):
@@ -2327,9 +2334,10 @@ class BinOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        subps = Var(Self.op.subprograms)
+        subps = Var(Self.as_entity.op.subprograms)
         return (
-            Self.left.sub_equation & Self.right.sub_equation
+            Self.left.as_entity.sub_equation
+            & Self.right.as_entity.sub_equation
         ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_decl_spec.unpacked_formal_params:
 
@@ -2402,7 +2410,7 @@ class Aggregate(BaseAggregate):
                 lambda pm:
                 Bind(pm.actual.assoc.expr.type_var,
                      pm.formal.spec.type_expression.designated_type)
-                & pm.actual.assoc.expr.sub_equation
+                & pm.actual.assoc.expr.as_entity.sub_equation
                 & If(pm.actual.name.is_null,
                      LogicTrue(),
                      Bind(pm.actual.name.ref_var, pm.formal.spec))
@@ -2411,7 +2419,7 @@ class Aggregate(BaseAggregate):
             # Second case, aggregate for an array
             Self.assocs.logic_all(
                 lambda assoc:
-                assoc.expr.sub_equation
+                assoc.expr.as_entity.sub_equation
                 & Bind(assoc.expr.type_var, atd.comp_type)
             )
         )
@@ -2550,7 +2558,7 @@ class CallExpr(Name):
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_callexpr.general_xref_equation
+            Self.innermost_callexpr.as_entity.general_xref_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -2560,8 +2568,8 @@ class CallExpr(Name):
         conversion cases.
         """
         return And(
-            Self.params.at(0).expr.sub_equation,
-            Self.name.sub_equation,
+            Self.params.at(0).expr.as_entity.sub_equation,
+            Self.as_entity.name.sub_equation,
             Bind(Self.type_var, Self.name.type_var),
             Bind(Self.ref_var, Self.name.ref_var)
         )
@@ -2576,12 +2584,12 @@ class CallExpr(Name):
         subps = Var(Self.env_elements)
 
         return (
-            Self.name.sub_equation
+            Self.as_entity.name.sub_equation
             # TODO: For the moment we presume that a CallExpr in an expression
             # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            & Self.params.logic_all(lambda pa: pa.expr.sub_equation)
+            & Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation)
 
             # For each potential subprogram match, we want to express the
             # following constraints:
@@ -2632,7 +2640,7 @@ class CallExpr(Name):
                 # that is an ancestor of Self via the name chain, we'll
                 # construct the crossref equation.
                 & Self.parent_nested_callexpr.then(
-                    lambda pce: pce.parent_callexprs_equation(
+                    lambda pce: pce.as_entity.parent_callexprs_equation(
                         s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
@@ -2652,7 +2660,7 @@ class CallExpr(Name):
 
         return Let(lambda indices=atd.indices: Self.params.logic_all(
             lambda i, pa:
-            pa.expr.sub_equation()
+            pa.expr.as_entity.sub_equation()
             & indices.constrain_index_expr(pa.expr, i)
         )) & Bind(Self.type_var, atd.comp_type)
 
@@ -2721,7 +2729,8 @@ class CallExpr(Name):
         return (
             Self.equation_for_type(typ)
             & Self.parent_nested_callexpr.then(
-                lambda pce: pce.parent_callexprs_equation(typ.comp_type),
+                lambda pce:
+                pce.as_entity.parent_callexprs_equation(typ.comp_type),
                 default_val=LogicTrue()
             )
         )
@@ -2809,7 +2818,7 @@ class ExplicitDeref(Name):
     @langkit_property()
     def xref_equation():
         return (
-            Self.prefix.sub_equation
+            Self.as_entity.prefix.sub_equation
             # Evaluate the prefix equation
 
             & Self.ref_var.domain(Self.env_elements)
@@ -2845,20 +2854,20 @@ class IfExpr(Expr):
     def xref_equation():
         return (
             # Construct sub equations for common sub exprs
-            Self.cond_expr.sub_equation
-            & Self.then_expr.sub_equation
+            Self.as_entity.cond_expr.sub_equation
+            & Self.as_entity.then_expr.sub_equation
 
             & If(
                 Not(Self.else_expr.is_null),
 
                 # If there is an else, then construct sub equation
-                Self.else_expr.sub_equation
+                Self.as_entity.else_expr.sub_equation
                 # And bind the then expr's and the else expr's types
                 & Bind(Self.then_expr.type_var, Self.else_expr.type_var),
 
                 # If no else, then the then_expression has type bool
                 Bind(Self.then_expr.type_var, Self.bool_type)
-            ) & Self.alternatives.logic_all(lambda elsif: (
+            ) & Self.as_entity.alternatives.logic_all(lambda elsif: (
                 # Build the sub equations for cond and then exprs
                 elsif.cond_expr.sub_equation
                 & elsif.then_expr.sub_equation
@@ -2887,20 +2896,21 @@ class CaseExpr(Expr):
     def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
-        ignore(Var(Self.expr.resolve_names))
+        ignore(Var(Self.as_entity.expr.resolve_names))
 
         return Self.cases.logic_all(lambda alt: (
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                Bind(e.type_var, Self.expr.type_val) & e.sub_equation,
+                Bind(e.type_var, Self.expr.type_val)
+                & e.as_entity.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()
             ))
 
             # Equations for the dependent expressions
-            & alt.expr.sub_equation
+            & alt.expr.as_entity.sub_equation
 
             # The type of self is the type of each expr. Also, the type of
             # every expr is bound together by the conjunction of this bind for
@@ -2957,7 +2967,7 @@ class BaseId(SingleTokNode):
         """
         ents = Var(Self.env_elements_baseid(is_parent_pkg))
 
-        return origin.bind(Self, Let(lambda el=ents.at(0).el: If(
+        return origin.bind(Self, Let(lambda el=ents.at(0): If(
             el._.is_package,
             el.cast(BasicDecl).defining_env,
             ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group
@@ -3433,13 +3443,13 @@ class ForLoopVarDecl(BasicDecl):
         # specification. Run resolution if necessary.
         Let(lambda p=If(
             Self.id.type_val.is_null,
-            Self.parent.parent.cast(T.ForLoopStmt).resolve_names,
+            Self.parent.parent.cast(T.ForLoopStmt).as_entity.resolve_names,
             True
         ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity),
               No(BaseTypeDecl.entity))),
 
         # If there is a type annotation, just return it
-        Self.id_type.designated_type.canonical_type
+        Self.as_entity.id_type.designated_type.canonical_type
     ))
 
     env_spec = EnvSpec(add_to_env_kv(Self.id.sym, Self))
@@ -3461,7 +3471,7 @@ class ForLoopSpec(LoopSpec):
             lambda _=IterType.alt_in:
 
             # Let's handle the different possibilities
-            Self.iter_expr.match(
+            Self.as_entity.iter_expr.match(
                 # Anonymous range case: for I in 1 .. 100
                 # In that case, the type of everything is Standard.Integer.
                 lambda binop=T.BinOp:
@@ -3493,7 +3503,7 @@ class ForLoopSpec(LoopSpec):
             # This is a for .. of
             lambda _=IterType.alt_of:
             # Equation for the expression
-            Self.iter_expr.sub_equation
+            Self.as_entity.iter_expr.sub_equation
 
             # Then we want the type of the induction variable to be the
             # component type of the type of the expression.
@@ -3506,7 +3516,8 @@ class ForLoopSpec(LoopSpec):
             & If(Self.var_decl.id_type.is_null,
                  LogicTrue(),
                  Bind(Self.var_decl.id.type_var,
-                      Self.var_decl.id_type.designated_type.canonical_type))
+                      Self.var_decl.id_type.as_entity.designated_type
+                      .canonical_type))
 
             # Finally, we want the type of the expression to be an iterable
             # type.
@@ -3536,7 +3547,7 @@ class Allocator(Expr):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         return (
-            Self.type_or_expr.sub_equation
+            Self.as_entity.type_or_expr.sub_equation
             & Predicate(BaseTypeDecl.matching_allocator_type,
                         Self.type_var, Self.get_allocated_type)
         )
@@ -3553,7 +3564,7 @@ class QualExpr(Name):
         typ = Self.prefix.designated_type_impl.canonical_type
 
         return (
-            Self.suffix.sub_equation
+            Self.as_entity.suffix.sub_equation
             & Bind(Self.prefix.ref_var, typ)
             & Bind(Self.prefix.type_var, typ)
             & Bind(Self.suffix.type_var, typ)
@@ -3629,8 +3640,9 @@ class DottedName(Name):
     def xref_equation():
         dt = Self.designated_type_impl
         base = Var(
-            Self.prefix.sub_equation
-            & env.bind(Self.prefix.designated_env, Self.suffix.sub_equation)
+            Self.as_entity.prefix.sub_equation
+            & env.bind(Self.prefix.designated_env,
+                       Self.as_entity.suffix.sub_equation)
         )
         return If(
             Not(dt.is_null),
@@ -3697,7 +3709,7 @@ class SubpBody(Body):
     end_id = Field(type=T.Name)
 
     defining_names = Property(Self.subp_spec.name.singleton)
-    defining_env = Property(Self.subp_spec.defining_env)
+    defining_env = Property(Self.as_entity.subp_spec.defining_env)
 
     decl_part = Property(If(
         Self.is_library_item,
@@ -3761,7 +3773,7 @@ class CallStmt(SimpleStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Self.call.sub_equation
+            Self.as_entity.call.sub_equation
 
             # Call statements can have no return value
             & Bind(Self.call.type_var, No(AdaNode.entity))
@@ -3783,8 +3795,8 @@ class AssignStmt(SimpleStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Self.dest.sub_equation
-            & Self.expr.sub_equation
+            Self.as_entity.dest.sub_equation
+            & Self.as_entity.expr.sub_equation
             & Bind(Self.expr.type_var, Self.dest.type_var,
                    eq_prop=BaseTypeDecl.matching_assign_type)
         )
@@ -3795,7 +3807,7 @@ class GotoStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Self.label_name.sub_equation
+        return Self.as_entity.label_name.sub_equation
 
 
 class ExitStmt(SimpleStmt):
@@ -3805,7 +3817,7 @@ class ExitStmt(SimpleStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Self.condition.sub_equation
+            Self.as_entity.condition.sub_equation
             & Bind(Self.condition.type_var, Self.bool_type)
         )
 
@@ -3821,7 +3833,7 @@ class ReturnStmt(SimpleStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Self.return_expr.sub_equation
+            Self.as_entity.return_expr.sub_equation
             & Bind(
                 Self.return_expr.type_var,
                 Self.subp.subp_spec.returns.designated_type.canonical_type
@@ -3841,7 +3853,7 @@ class AbortStmt(SimpleStmt):
     def xref_equation():
         return Self.names.logic_all(
             lambda name:
-            name.sub_equation
+            name.as_entity.sub_equation
             & Predicate(BaseTypeDecl.is_task_type,
                         name.type_var)
         )
@@ -3853,7 +3865,7 @@ class DelayStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Self.expr.sub_equation & Bind(
+        return Self.as_entity.expr.sub_equation & Bind(
             Self.expr.type_var, Self.std_entity('Duration')
         )
 
@@ -3864,7 +3876,7 @@ class RaiseStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Self.exception_name.sub_equation
+        return Self.as_entity.exception_name.sub_equation
 
 
 class IfStmt(CompositeStmt):
@@ -3876,10 +3888,10 @@ class IfStmt(CompositeStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Self.cond_expr.sub_equation
+            Self.as_entity.cond_expr.sub_equation
             & Bind(Self.cond_expr.type_var, Self.bool_type)
             & Self.alternatives.logic_all(
-                lambda elsif: elsif.cond_expr.sub_equation
+                lambda elsif: elsif.as_entity.cond_expr.sub_equation
                 & Bind(elsif.cond_expr.type_var, Self.bool_type)
             )
         )
@@ -3905,7 +3917,7 @@ class WhileLoopSpec(LoopSpec):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Self.expr.sub_equation & (
+        return Self.as_entity.expr.sub_equation & (
             Bind(Self.expr.type_var, Self.bool_type)
         )
 
@@ -3942,7 +3954,7 @@ class BaseLoopStmt(CompositeStmt):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Self.spec.xref_equation
+        return Self.as_entity.spec.xref_equation
 
 
 class LoopStmt(BaseLoopStmt):
@@ -4196,4 +4208,4 @@ class UnconstrainedArrayIndex(AdaNode):
 
     @langkit_property(dynamic_vars=[origin])
     def designated_type():
-        return Self.subtype_indication.designated_type
+        return Self.as_entity.subtype_indication.designated_type

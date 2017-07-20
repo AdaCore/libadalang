@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/AdaCore/libadalang.svg?branch=master)](https://travis-ci.org/AdaCore/libadalang)
+[![Build Status](https://travis-ci.org/AdaCore/libadalang.svg?branch=master
+)](https://travis-ci.org/AdaCore/libadalang)
 
 Libadalang
 ==========
@@ -211,8 +212,8 @@ Because adding `build/bin` to the `PATH` is not very convenient,
     $ python ada/manage.py test
 
 It runs the testsuite with the `--enable-color` option. It is also possible to
-pass other arguments to `testsuite.py`. For instance, if you want to run under a
-debugger only the `factor_0` test case, execute:
+pass other arguments to `testsuite.py`. For instance, if you want to run under
+a debugger only the `factor_0` test case, execute:
 
     $ python ada/manage.py test -- -g ada/testsuite/tests/parser/factor_0
 

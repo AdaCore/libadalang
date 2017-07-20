@@ -44,9 +44,13 @@ semantics that are of interest to us.
 Status of the project
 ---------------------
 
-Libadalang is still pre-alpha software! None of its APIs are stable, the shape
-of the abstract syntax tree is not yet stable, and most of its features are
-either not stable or not fully implemented.
+Libadalang is still in development. its APIs are not stable, the shape of the
+abstract syntax tree is not yet completelely stable, and most of its features
+are either not stable or not fully implemented.
+
+It is not yet safe to rely on the API stability of Libadalang in your projects.
+However, Libadalang is used internally in some AdaCore projects, so you might
+find it as a project dependency.
 
 Libadalang currently:
 

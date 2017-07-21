@@ -2977,10 +2977,6 @@ class BaseId(SingleTokNode):
     relative_name = Property(Self.tok.symbol)
 
     designated_type_impl = Property(
-        # TODO: For correct semantics and xref, we still want to implement
-        # correct support, so that references to the incomplete type don't
-        # reference the complete type. This is low priority but still needs
-        # to be done.
         env.get_sequential(Self.tok, sequential_from=origin)
         .at(0).cast(BaseTypeDecl.entity),
     )

@@ -3607,11 +3607,10 @@ class DottedName(Name):
     @langkit_property()
     def designated_env():
         pfx_env = Var(Self.prefix.designated_env)
-        return env.bind(pfx_env, If(
-            pfx_env.env_node._.is_library_package & Self.suffix.is_a(T.BaseId),
-            Self.suffix.designated_env_impl(True),
-            Self.suffix.designated_env
-        ))
+        return env.bind(
+            pfx_env,
+            Self.suffix.designated_env_impl(True).inherit_rebindings(pfx_env)
+        )
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),

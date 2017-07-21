@@ -422,14 +422,6 @@ class AdaNode(ASTNode):
                          PackageRenamingDecl)
 
     @langkit_property()
-    def is_library_package():
-        """
-        Property helper to determine if an entity is a library level package or
-        not.
-        """
-        return Self.is_package & Self.is_library_item
-
-    @langkit_property()
     def initial_env():
         """
         Provide a lexical environment to use in EnvSpec's initial_env.

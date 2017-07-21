@@ -1798,9 +1798,9 @@ class ObjectDecl(BasicDecl):
 
     @langkit_property()
     def xref_equation():
-        return Self.default_expr.then(
+        return Self.as_entity.default_expr.then(
             lambda de:
-            de.as_entity.xref_equation
+            de.xref_equation
             & Bind(Self.default_expr.type_var,
                    Self.canonical_expr_type,
                    eq_prop=BaseTypeDecl.matching_assign_type),

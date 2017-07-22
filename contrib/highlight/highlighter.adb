@@ -140,23 +140,29 @@ package body Highlighter is
       end if;
 
       case Name.Kind is
+         when LAL.Ada_Identifier | LAL.Ada_String_Literal =>
+
+            --  Highlight the only token that this node has
+
+            declare
+               Tok : constant LAL.Token_Type :=
+                 LAL.Single_Tok_Node (Name).F_Tok;
+            begin
+               Set (Highlights, LAL.Data (Tok), HL);
+            end;
+
          when LAL.Ada_Dotted_Name =>
 
             --  Highlight both the prefix, the suffix and the dot token
 
             declare
-               use all type LAL.Ada_Node_Type, LAL.Ada_Node;
                Dotted_Name : constant LAL.Dotted_Name :=
-                 LAL.Dotted_Name (Name);
+                  LAL.Dotted_Name (Name);
                Dot_Token   : constant LAL.Token_Type :=
-                 (if LAL.Is_Null (Dotted_Name.F_Prefix)
-                  then LAL.No_Token
-                  else LAL.Next (Dotted_Name.F_Prefix.Token_End));
+                  LAL.Next (Dotted_Name.F_Prefix.Token_End);
             begin
                Highlight_Name (Dotted_Name.F_Prefix, HL, Highlights);
-               if Dot_Token /= LAL.No_Token then
-                  Set (Highlights, LAL.Data (Dot_Token), HL);
-               end if;
+               Set (Highlights, LAL.Data (Dot_Token), HL);
                Highlight_Name (Dotted_Name.F_Suffix, HL, Highlights);
             end;
 
@@ -165,14 +171,6 @@ package body Highlighter is
             --  Just highlight the name of the called entity
 
             Highlight_Name (LAL.Call_Expr (Name).F_Name, HL, Highlights);
-
-         when LAL.Ada_Identifier | LAL.Ada_String_Literal =>
-            declare
-               Tok : constant LAL.Token_Type :=
-                 LAL.Single_Tok_Node (Name).F_Tok;
-            begin
-               Set (Highlights, LAL.Data (Tok), HL);
-            end;
 
          when others =>
             return;
@@ -452,8 +450,7 @@ package body Highlighter is
       while Token /= LAL.No_Token loop
          declare
             TD         : constant LAL.Token_Data_Type := LAL.Data (Token);
-            HL         : constant Highlighter.Highlight_Type :=
-              Highlighter.Get (Highlights, TD);
+            HL         : constant Highlight_Type := Get (Highlights, TD);
             Sloc_Range : constant Slocs.Source_Location_Range :=
               LAL.Sloc_Range (TD);
             Text       : constant Langkit_Support.Text.Text_Type :=

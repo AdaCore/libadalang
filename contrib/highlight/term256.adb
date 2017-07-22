@@ -1,13 +1,6 @@
-with Langkit_Support.Slocs;
-use type Langkit_Support.Slocs.Line_Number;
-use type Langkit_Support.Slocs.Column_Number;
 with Langkit_Support.Text;
 
 package body Term256 is
-
-   package Slocs renames Langkit_Support.Slocs;
-
-   use type LAL.Token_Type;
 
    ANSI_Reset : constant String := ASCII.ESC & "[0m";
 
@@ -46,39 +39,38 @@ package body Term256 is
 
       pragma Unreferenced (Charset);
 
-      Token       : LAL.Token_Type := LAL.First_Token (Unit);
-      Last_Sloc   : Slocs.Source_Location := (1, 1);
+      function Escape (T : Langkit_Support.Text.Text_Type) return String
+      is (Langkit_Support.Text.Image (T));
+
+      procedure Put_Token
+        (Text : Langkit_Support.Text.Text_Type;
+         HL   : Highlighter.Highlight_Type);
+      procedure New_Line;
+      procedure Indent (Length : Natural);
+      --  Generic parameters for Put_Tokens below
+
+      procedure Put_Token
+        (Text : Langkit_Support.Text.Text_Type;
+         HL   : Highlighter.Highlight_Type)
+      is
+      begin
+         Put
+           (Style_To_ANSI (S.Tok_Styles (HL)) & Escape (Text) & ANSI_Reset);
+      end Put_Token;
+
+      procedure New_Line is
+      begin
+         Put ((1 => ASCII.LF));
+      end New_Line;
+
+      procedure Indent (Length : Natural) is
+      begin
+         Put ((1 .. Length => ' '));
+      end Indent;
+
+      procedure Put_Tokens is new Highlighter.Put_Tokens;
    begin
-      while Token /= LAL.No_Token loop
-         declare
-            TD         : constant LAL.Token_Data_Type := LAL.Data (Token);
-            HL         : constant Highlighter.Highlight_Type :=
-              Highlighter.Get (Highlights, TD);
-            Sloc_Range : constant Slocs.Source_Location_Range :=
-              LAL.Sloc_Range (TD);
-            Text       : constant Langkit_Support.Text.Text_Type :=
-              LAL.Text (Token);
-
-            function Escape (T : Langkit_Support.Text.Text_Type) return String
-            is (Langkit_Support.Text.Image (T));
-
-         begin
-            while Last_Sloc.Line < Sloc_Range.Start_Line loop
-               Put ((1 => ASCII.LF));
-               Last_Sloc.Line := Last_Sloc.Line + 1;
-               Last_Sloc.Column := 1;
-            end loop;
-            while Last_Sloc.Column < Sloc_Range.Start_Column loop
-               Put (" ");
-               Last_Sloc.Column := Last_Sloc.Column + 1;
-            end loop;
-
-            Put
-              (Style_To_ANSI (S.Tok_Styles (HL)) & Escape (Text) & ANSI_Reset);
-            Last_Sloc := Slocs.End_Sloc (Sloc_Range);
-         end;
-         Token := LAL.Next (Token);
-      end loop;
+      Put_Tokens (Unit, Highlights);
    end Put_Tokens;
 
 end Term256;

@@ -1,3 +1,5 @@
+with Langkit_Support.Text;
+
 with Libadalang.Analysis;
 with Libadalang.Lexer;
 
@@ -67,6 +69,18 @@ package Highlighter is
       Highlights : in out Highlights_Holder)
      with Pre => Highlights_Match_Unit (Unit, Highlights);
    --  Compute highlighting types for all tokens in Unit
+
+   generic
+      with procedure Put_Token
+        (Text : Langkit_Support.Text.Text_Type; HL : Highlight_Type) is <>;
+      with procedure New_Line is <>;
+      with procedure Indent (Length : Natural) is <>;
+   procedure Put_Tokens
+     (Unit       : LAL.Analysis_Unit;
+      Highlights : Highlights_Holder)
+     with Pre => Highlights_Match_Unit (Unit, Highlights);
+   --  Using the given output primitives, output the token stream from Unit
+   --  with the given highlightings.
 
 private
 

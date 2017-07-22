@@ -1,4 +1,10 @@
+with Langkit_Support.Slocs;
+use type Langkit_Support.Slocs.Line_Number;
+use type Langkit_Support.Slocs.Column_Number;
+
 package body Highlighter is
+
+   package Slocs renames Langkit_Support.Slocs;
 
    use type LAL.Token_Type;
    use type LAL.Ada_Node_Kind_Type;
@@ -431,5 +437,42 @@ package body Highlighter is
 
       LAL.Traverse (LAL.Root (Unit), Syntax_Highlight'Access);
    end Highlight;
+
+   ----------------
+   -- Put_Tokens --
+   ----------------
+
+   procedure Put_Tokens
+     (Unit       : LAL.Analysis_Unit;
+      Highlights : Highlights_Holder)
+   is
+      Token     : LAL.Token_Type := LAL.First_Token (Unit);
+      Last_Sloc : Slocs.Source_Location := (1, 1);
+   begin
+      while Token /= LAL.No_Token loop
+         declare
+            TD         : constant LAL.Token_Data_Type := LAL.Data (Token);
+            HL         : constant Highlighter.Highlight_Type :=
+              Highlighter.Get (Highlights, TD);
+            Sloc_Range : constant Slocs.Source_Location_Range :=
+              LAL.Sloc_Range (TD);
+            Text       : constant Langkit_Support.Text.Text_Type :=
+              LAL.Text (Token);
+         begin
+            while Last_Sloc.Line < Sloc_Range.Start_Line loop
+               New_Line;
+               Last_Sloc.Line := Last_Sloc.Line + 1;
+               Last_Sloc.Column := 1;
+            end loop;
+            if Sloc_Range.Start_Column > Last_Sloc.Column then
+               Indent (Integer (Sloc_Range.Start_Column - Last_Sloc.Column));
+            end if;
+
+            Put_Token (Text, HL);
+            Last_Sloc := Slocs.End_Sloc (Sloc_Range);
+         end;
+         Token := LAL.Next (Token);
+      end loop;
+   end Put_Tokens;
 
 end Highlighter;

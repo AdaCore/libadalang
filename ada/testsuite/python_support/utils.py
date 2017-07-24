@@ -2,11 +2,18 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import os.path
+import pipes
+import re
 import subprocess
 
 
 LAL_ROOTDIR = os.path.abspath(os.environ['LIBADALANG_ROOTDIR'])
 LAL_DISABLE_SHARED = bool(int(os.environ['LIBADALANG_DISABLE_SHARED']))
+
+DIRECTORY_MISSING_RE = re.compile(
+    r'.*\.gpr:\d+:\d+: warning:'
+    r' \w+ directory ".*" (not found|does not exist)'
+)
 
 
 def in_contrib(*args):
@@ -42,3 +49,32 @@ def gprbuild(project_file):
         '-XXMLADA_BUILD={}'.format(library_kind),
     ])
     subprocess.check_call(argv)
+
+
+def run_nameres(args):
+    """
+    Run the name resolution program with the given arguments.
+
+    If it exits with a non-zero status code, print an error message, display
+    its output and stop.  Otherwise, display its output with warnings about
+    missing directories filtered out.
+
+    :param list[str] args: Arguments to pass to nameres.
+    """
+    argv = ['nameres'] + args
+    p = subprocess.Popen(argv, stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    stdout, _ = p.communicate()
+
+    if p.returncode:
+        print('nameres exitted with status code {}'.format(p.returncode))
+        print('Command line was:', ' '.join(pipes.quote(a) for a in argv))
+        print('Output was:')
+        print('')
+        print(stdout)
+        return
+
+    for line in stdout.splitlines():
+        line = line.strip()
+        if not DIRECTORY_MISSING_RE.match(line):
+            print(line)

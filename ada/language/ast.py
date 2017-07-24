@@ -352,7 +352,8 @@ class AdaNode(ASTNode):
                     lambda use_name:
                     origin.bind(use_name, env.bind(
                         use_name.node_env,
-                        use_name.cast_or_raise(T.Name).designated_env
+                        use_name.cast_or_raise(T.Name)
+                        .as_bare_entity.designated_env
                     ))
                 ).env_group,
                 default_val=EmptyEnv
@@ -1495,7 +1496,9 @@ class UsePackageClause(UseClause):
         lot during lexical environment lookups.
         """
         return Self.packages.map(
-            lambda n: env.bind(n.node_env, origin.bind(n, n.designated_env))
+            lambda n:
+            env.bind(n.node_env,
+                     origin.bind(n, n.as_bare_entity.designated_env))
         )
 
 
@@ -1560,8 +1563,10 @@ class SubtypeIndication(TypeExpr):
     # SubtypeIndication node itself: we don't want to use whatever lexical
     # environment the caller is using. However we need to inherit the
     # visibility (origin node) of the caller.
-    designated_type = Property(env.bind(Self.node_env,
-                                        Self.name.designated_type_impl))
+    designated_type = Property(
+        env.bind(Self.as_entity.node_env,
+                 Self.as_entity.name.designated_type_impl)
+    )
 
     @langkit_property()
     def xref_equation():
@@ -1982,6 +1987,19 @@ class GenericPackageInstantiation(GenericInstantiation):
         # we use p.el.children_env.
         formal_env = Var(p.el.children_env)
 
+        # TODO: If this generic instantiation is inside a generic
+        # instantiation, then it needs to inherit the rebindings of the
+        # enclosing instantiation. Something like::
+        #
+        #   p.decl.children_env.rebind_env(
+        #       Self.as_entity.info.rebindings.append_rebindings(
+        #           formal_env, Self.instantiation_env_holder.children_env
+        #       )
+        #   )
+        #
+        # This means that rebind_env should take rebindings rather than a
+        # single rebinding.
+
         return p.decl.children_env.rebind_env(
             formal_env, Self.instantiation_env_holder.children_env
         )
@@ -2237,7 +2255,7 @@ class Expr(AdaNode):
 
     @langkit_property(dynamic_vars=[env])
     def matching_nodes_impl():
-        return Self.env_elements.map(lambda e: e.el)
+        return Self.as_bare_entity.env_elements.map(lambda e: e.el)
 
     @langkit_property(return_type=AdaNode.array, public=True)
     def matching_nodes():
@@ -2461,7 +2479,8 @@ class Name(Expr):
     )
 
     name_designated_type = Property(
-        env.bind(Self.node_env, origin.bind(Self, Self.designated_type_impl)),
+        env.bind(Self.node_env,
+                 origin.bind(Self, Self.as_entity.designated_type_impl)),
         doc="""
         Like SubtypeIndication.designated_type, but on names, since because of
         Ada's ambiguous grammar, some subtype indications will be parsed as
@@ -2532,18 +2551,18 @@ class CallExpr(Name):
 
     @langkit_property()
     def env_elements_impl():
-        return Self.name.env_elements_impl()
+        return Self.as_entity.name.env_elements_impl()
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
-    designated_type_impl = Property(Self.name.designated_type_impl)
+    designated_type_impl = Property(Self.as_entity.name.designated_type_impl)
 
     params = Property(Self.suffix.cast(T.AssocList), ignore_warn_on_node=True)
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
         return If(
-            Not(Self.name.designated_type_impl.is_null),
+            Not(Self.as_entity.name.designated_type_impl.is_null),
 
             # Type conversion case
             Self.type_conv_xref_equation,
@@ -2798,14 +2817,18 @@ class ExplicitDeref(Name):
     def designated_env():
         # Since we have implicit dereference in Ada, everything is directly
         # accessible through the prefix, so we just use the prefix's env.
-        return Self.prefix.designated_env()
+        return Self.as_entity.prefix.designated_env()
 
     @langkit_property()
     def env_elements_impl():
-        return origin.bind(Self, Self.prefix.env_elements_impl.filter(
-            # Env elements for access derefs need to be of an access type
-            lambda e: e.cast(BasicDecl)._.canonical_expr_type.is_access_type
-        ))
+        return origin.bind(
+            Self,
+            Self.as_entity.prefix.env_elements_impl.filter(
+                # Env elements for access derefs need to be of an access type
+                lambda e:
+                e.cast(BasicDecl)._.canonical_expr_type.is_access_type
+            )
+        )
 
     @langkit_property()
     def xref_equation():
@@ -2949,7 +2972,7 @@ class BaseId(SingleTokNode):
             EmptyEnv
         )
 
-    designated_env = Property(Self.designated_env_impl(False))
+    designated_env = Property(Self.as_entity.designated_env_impl(False))
 
     @langkit_property(dynamic_vars=[env])
     def designated_env_impl(is_parent_pkg=BoolType):
@@ -2957,7 +2980,7 @@ class BaseId(SingleTokNode):
         Decoupled implementation for designated_env, specifically used by
         DottedName when the parent is a library level package.
         """
-        ents = Var(Self.env_elements_baseid(is_parent_pkg))
+        ents = Var(Self.as_entity.env_elements_baseid(is_parent_pkg))
 
         return origin.bind(Self, Let(lambda el=ents.at(0): If(
             el._.is_package,
@@ -3003,7 +3026,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(dynamic_vars=[env])
     def env_elements_impl():
-        return Self.env_elements_baseid(False)
+        return Self.as_entity.env_elements_baseid(False)
 
     @langkit_property(dynamic_vars=[env])
     def env_elements_baseid(is_parent_pkg=BoolType):
@@ -3549,7 +3572,7 @@ class QualExpr(Name):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        typ = Self.prefix.designated_type_impl.canonical_type
+        typ = Self.as_entity.prefix.designated_type_impl.canonical_type
 
         return (
             Self.as_entity.suffix.sub_equation
@@ -3563,9 +3586,10 @@ class QualExpr(Name):
     # this property and update Allocator.get_allocated type to do:
     # q.prefix.designated_type.
     designated_type = Property(
-        env.bind(Self.node_env, origin.bind(Self, Self.designated_type_impl)),
+        env.bind(Self.as_entity.node_env,
+                 origin.bind(Self, Self.as_entity.designated_type_impl)),
     )
-    designated_type_impl = Property(Self.prefix.designated_type_impl)
+    designated_type_impl = Property(Self.as_entity.prefix.designated_type_impl)
 
 
 class AttributeRef(Name):
@@ -3577,8 +3601,8 @@ class AttributeRef(Name):
 
     designated_type_impl = Property(
         If(Self.attribute.sym == 'Class',
-           Self.prefix.designated_type_impl.classwide_type,
-           Self.prefix.designated_type_impl)
+           Self.as_entity.prefix.designated_type_impl.classwide_type,
+           Self.as_entity.prefix.designated_type_impl)
     )
 
 
@@ -3598,10 +3622,15 @@ class DottedName(Name):
 
     @langkit_property()
     def designated_env():
-        pfx_env = Var(Self.prefix.designated_env)
+        pfx_env = Var(Self.as_entity.prefix.designated_env)
         return env.bind(
             pfx_env,
-            Self.suffix.designated_env_impl(True).inherit_rebindings(pfx_env)
+            Self.as_entity.suffix.designated_env_impl(True)
+            # TODO: Verify if this is valid, eg, why Self.as_entity is not
+            # sufficient to propagate rebindings to the designated env. Maybe
+            # the missing piece is the rebind_env in
+            # GenericPackageInstantiation.defining_env.
+            .inherit_rebindings(pfx_env)
         )
 
     scope = Property(Self.suffix.then(
@@ -3615,12 +3644,12 @@ class DottedName(Name):
 
     @langkit_property()
     def env_elements_impl():
-        pfx_env = Var(origin.bind(Self, Self.prefix.designated_env))
+        pfx_env = Var(origin.bind(Self, Self.as_entity.prefix.designated_env))
         return env.bind(pfx_env, Self.suffix.env_elements_baseid(True))
 
     designated_type_impl = Property(lambda: (
-        env.bind(Self.prefix.designated_env,
-                 Self.suffix.designated_type_impl)
+        env.bind(Self.as_entity.prefix.designated_env,
+                 Self.as_entity.suffix.designated_type_impl)
     ))
 
     @langkit_property()
@@ -3628,7 +3657,7 @@ class DottedName(Name):
         dt = Self.designated_type_impl
         base = Var(
             Self.as_entity.prefix.sub_equation
-            & env.bind(Self.prefix.designated_env,
+            & env.bind(Self.as_entity.prefix.designated_env,
                        Self.as_entity.suffix.sub_equation)
         )
         return If(

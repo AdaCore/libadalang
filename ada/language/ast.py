@@ -1987,21 +1987,12 @@ class GenericPackageInstantiation(GenericInstantiation):
         # we use p.el.children_env.
         formal_env = Var(p.el.children_env)
 
-        # TODO: If this generic instantiation is inside a generic
-        # instantiation, then it needs to inherit the rebindings of the
-        # enclosing instantiation. Something like::
-        #
-        #   p.decl.children_env.rebind_env(
-        #       Self.as_entity.info.rebindings.append_rebindings(
-        #           formal_env, Self.instantiation_env_holder.children_env
-        #       )
-        #   )
-        #
-        # This means that rebind_env should take rebindings rather than a
-        # single rebinding.
-
         return p.decl.children_env.rebind_env(
-            formal_env, Self.instantiation_env_holder.children_env
+            # If this generic instantiation is inside a generic instantiation,
+            # then it inherits the rebindings of the enclosing instantiation.
+            Self.as_entity.info.rebindings.append_rebinding(
+                formal_env, Self.instantiation_env_holder.children_env
+            )
         )
 
     defining_names = Property(Self.name.singleton)
@@ -3626,11 +3617,6 @@ class DottedName(Name):
         return env.bind(
             pfx_env,
             Self.as_entity.suffix.designated_env_impl(True)
-            # TODO: Verify if this is valid, eg, why Self.as_entity is not
-            # sufficient to propagate rebindings to the designated env. Maybe
-            # the missing piece is the rebind_env in
-            # GenericPackageInstantiation.defining_env.
-            .inherit_rebindings(pfx_env)
         )
 
     scope = Property(Self.suffix.then(

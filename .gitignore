@@ -19,12 +19,13 @@ README.html
 core.*
 valgrind.out
 
-# GNAT/GPS junk
+# GNAT/GPS/GDB junk
 auto.cgpr
 gnatinspect.db
 gnatinspect.db-*
 *-loc.xml
 *.ali
+.gdb_history
 
 # IDEA junk
 .idea
@@ -41,7 +42,5 @@ lkex
 lksp
 lktp
 
-# ACATS
-ada/testsuite/acats
-
-.gdb_history
+# External sources for the testsuite
+ada/testsuite/ext_src

@@ -7,7 +7,7 @@ import libadalang as lal
 from utils import LAL_ROOTDIR
 
 
-acats_dir = os.path.join(LAL_ROOTDIR, 'ada', 'testsuite', 'acats')
+acats_dir = os.path.join(LAL_ROOTDIR, 'ada', 'testsuite', 'ext_src', 'acats')
 
 
 if not os.path.isdir(acats_dir):

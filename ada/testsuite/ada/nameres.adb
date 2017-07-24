@@ -252,8 +252,9 @@ procedure Nameres is
                   Tok : constant Token_Type := String_Literal (Arg).F_Tok;
                   T   : constant Text_Type := Text (Tok);
                begin
-                  Put_Title
-                    ('-', Image (T (T'First + 1 .. T'Last - 1)));
+                  if not Quiet then
+                     Put_Title ('-', Image (T (T'First + 1 .. T'Last - 1)));
+                  end if;
                end;
                Empty := True;
 
@@ -430,7 +431,9 @@ begin
          Unit : Analysis_Unit;
       begin
          Unit := Get_From_File (Ctx, File);
-         Put_Title ('#', "Analyzing " & File);
+         if not Quiet then
+            Put_Title ('#', "Analyzing " & File);
+         end if;
          Process_File (Unit, File);
       end;
    end loop;

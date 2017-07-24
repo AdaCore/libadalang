@@ -77,6 +77,7 @@ class BaseDriver(TestDriver):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
 
+        # If asked to run under Valgrind, prepare a Valgrind instance
         if self.global_env['options'].valgrind:
             valgrind_supp = self.test_env.get('valgrind_suppressions', None)
             if valgrind_supp:
@@ -87,6 +88,22 @@ class BaseDriver(TestDriver):
         else:
             self.valgrind = None
         self.valgrind_errors = []
+
+        # If this test requires sources from external repositories, make sure
+        # we have them at hand. Otherwise skip it.
+        repos = self.test_env.get('external_sources', [])
+        bad_repos_exc = SetupError('Invalid "external_sources" entry: list of'
+                                   ' strings expected')
+        if not isinstance(repos, list):
+            raise bad_repos_exc
+        for repo in repos:
+            if not isinstance(repo, str):
+                raise bad_repos_exc
+            if not os.path.exists(os.path.join(self.testsuite_dir, 'ext_src',
+                                               repo)):
+                self.result.set_status(
+                    'SKIP', 'Missing external source: {}'.format(repo)
+                )
 
         self.check_file(self.expected_file)
 

@@ -16,6 +16,18 @@ def in_contrib(*args):
     return os.path.join(LAL_ROOTDIR, 'contrib', *args)
 
 
+def get_ext_src(repo):
+    """
+    Return the absolute path to the external sources for repository "repo".
+
+    :param str repo: Name of the source repository.
+    :rtype: str
+    """
+    path = os.path.join(LAL_ROOTDIR, 'ada', 'testsuite', 'ext_src', repo)
+    assert os.path.isdir(path)
+    return path
+
+
 def gprbuild(project_file):
     """
     Invoke gprbuild on the given project file.

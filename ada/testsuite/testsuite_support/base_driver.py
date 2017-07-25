@@ -102,7 +102,7 @@ class BaseDriver(TestDriver):
             if not os.path.exists(os.path.join(self.testsuite_dir, 'ext_src',
                                                repo)):
                 self.result.set_status(
-                    'SKIP', 'Missing external source: {}'.format(repo)
+                    'DEAD', 'Missing external source: {}'.format(repo)
                 )
 
         self.check_file(self.expected_file)

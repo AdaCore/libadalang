@@ -1347,7 +1347,7 @@ class ArrayTypeDef(TypeDef):
     @langkit_property(dynamic_vars=[origin])
     def comp_type():
         """Returns the type stored as a component in the array."""
-        return (Self.component_type.type_expr.as_entity
+        return (Entity.component_type.type_expr
                 .designated_type.canonical_type)
 
     array_ndims = Property(Self.indices.ndims)
@@ -1551,7 +1551,7 @@ class AnonymousType(TypeExpr):
     """
     type_decl = Field(type=T.AnonymousTypeDecl)
 
-    designated_type = Property(Self.type_decl.as_entity)
+    designated_type = Property(Entity.type_decl)
 
 
 class SubtypeIndication(TypeExpr):
@@ -1602,7 +1602,7 @@ class ParamSpec(BaseFormalParamDecl):
         add_to_env(env_mappings(Self.ids, Self))
     )
 
-    type_expression = Property(Self.type_expr.as_entity)
+    type_expression = Property(Entity.type_expr)
 
     @langkit_property()
     def defining_env():
@@ -1684,7 +1684,7 @@ class ClassicSubpDecl(BasicSubpDecl):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
 
-    subp_decl_spec = Property(Self.subp_spec.as_entity)
+    subp_decl_spec = Property(Entity.subp_spec)
 
 
 class SubpDecl(ClassicSubpDecl):
@@ -1760,7 +1760,7 @@ class SingleTaskDecl(BasicDecl):
         add_to_env_kv(Self.task_type.type_id.sym, Self)
     )
 
-    expr_type = Property(Self.task_type.as_entity)
+    expr_type = Property(Entity.task_type)
 
 
 class SingleProtectedDecl(BasicDecl):
@@ -1799,7 +1799,7 @@ class ObjectDecl(BasicDecl):
     array_ndims = Property(Entity.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     defining_env = Property(Entity.type_expr.defining_env)
-    type_expression = Property(Self.type_expr.as_entity)
+    type_expression = Property(Entity.type_expr)
 
     @langkit_property()
     def xref_equation():
@@ -1930,7 +1930,7 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.subp_name.singleton)
 
-    generic_entity_name = Property(Self.generic_subp_name.as_entity)
+    generic_entity_name = Property(Entity.generic_subp_name)
 
     @langkit_property()
     def designated_subp():
@@ -1975,7 +1975,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
 
-    generic_entity_name = Property(Self.generic_pkg_name.as_entity)
+    generic_entity_name = Property(Entity.generic_pkg_name)
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():

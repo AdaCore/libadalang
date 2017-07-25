@@ -1532,7 +1532,7 @@ class TypeExpr(AdaNode):
 
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
-        return Self.designated_type.accessed_type
+        return Self.designated_type._.accessed_type
 
     @langkit_property(dynamic_vars=[origin])
     def defining_env():

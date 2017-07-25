@@ -1997,9 +1997,9 @@ class GenericPackageInstantiation(GenericInstantiation):
         # want the children env of the P node, with no rebindings associated,
         # since the rebinding indication concerns the *naked* generic. Hence
         # we use p.el.children_env.
-        formal_env = Var(p.el.children_env)
+        formal_env = p._.el.children_env
 
-        return p.decl.children_env.rebind_env(
+        return p._.decl.children_env.rebind_env(
             # If this generic instantiation is inside a generic instantiation,
             # then it inherits the rebindings of the enclosing instantiation.
             Entity.info.rebindings.append_rebinding(

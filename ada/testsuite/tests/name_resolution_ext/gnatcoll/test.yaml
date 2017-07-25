@@ -1,0 +1,4 @@
+driver: python
+input_sources: []
+external_sources: [gnatcoll]
+expect_failure: Crashes to be fixed under Q724-018

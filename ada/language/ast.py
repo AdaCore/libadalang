@@ -2019,7 +2019,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env(
             env.bind(
                 Self.initial_env,
-                Self.designated_generic_decl.formal_part.match_param_list(
+                Self.designated_generic_decl._.formal_part.match_param_list(
                     Self.params, False
                 ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr

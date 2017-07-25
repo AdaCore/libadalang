@@ -4094,7 +4094,7 @@ class PackageBody(Body):
         """
         return env.bind(
             Entity.node_env,
-            Entity.package_name.env_elements.at(0).match(
+            Entity.package_name.env_elements.at(0)._.match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:
                     gen_pkg_decl.package_decl,

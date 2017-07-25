@@ -1909,7 +1909,7 @@ class GenericInstantiation(BasicDecl):
     designated_generic_decl = Property(
         env.bind(
             Self.node_env, Self.generic_entity_name.env_elements.at(0)
-        ).match(
+        )._.match(
             lambda b=Body: b.decl_part_entity,
             lambda d=BasicDecl: d,
             lambda _: No(T.GenericDecl.entity)

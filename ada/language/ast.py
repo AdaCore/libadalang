@@ -347,7 +347,7 @@ class AdaNode(ASTNode):
         return Let(lambda subpb=Self.cast(T.SubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
 
-            subpb.as_bare_entity.decl_part.then(
+            subpb.as_bare_entity.decl_part_entity.then(
                 lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
                     lambda use_name:
                     origin.bind(use_name, env.bind(
@@ -385,7 +385,8 @@ class AdaNode(ASTNode):
 
             Self.as_bare_entity.match(
                 lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part._.parent.cast(T.GenericPackageDecl),
+                    pkg_body.decl_part_entity.
+                    _.parent.cast(T.GenericPackageDecl),
                 lambda subp_body=T.SubpBody:
                     # If subp_body is the body of a generic subprogram, then
                     # the environment lookup below should return its
@@ -602,7 +603,17 @@ class BasicDecl(AdaNode):
 
 @abstract
 class Body(BasicDecl):
-    pass
+
+    decl_part_entity = AbstractProperty(
+        type=BasicDecl.entity, runtime_check=True
+    )
+
+    decl_part = Property(
+        Self.decl_part_entity.el, public=True, ignore_warn_on_node=True,
+        doc="""
+        Return the decl corresponding to this node if applicable.
+        """
+    )
 
 
 @abstract
@@ -3697,7 +3708,7 @@ class SubpBody(Body):
         # Add the __body link to the spec, if there is one
         add_to_env_kv(
             '__body', Self,
-            dest_env=Self.decl_part.then(
+            dest_env=Self.decl_part_entity.then(
                 lambda d: d.children_env
             ),
         )
@@ -3713,12 +3724,12 @@ class SubpBody(Body):
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Entity.subp_spec.defining_env)
 
-    decl_part = Property(If(
+    decl_part_entity = Property(If(
         Self.is_library_item,
 
         # If library item, we just return the spec. We don't check if it's
         # a valid and matching subprogram because that's an error case.
-        get_top_level_item(Self.spec_unit),
+        get_top_level_item(Self.spec_unit).as_entity,
 
         # If not a library item, find the matching subprogram spec in the
         # env.
@@ -3732,11 +3743,9 @@ class SubpBody(Body):
             subp_decl.subp_decl_spec.match_signature(Entity.subp_spec),
 
             lambda _: False
-        )).el
+        )).cast_or_raise(BasicDecl)
     ),
-        public=True,
         doc="Return the SubpDecl corresponding to this node.",
-        ignore_warn_on_node=True
     )
 
 
@@ -4075,9 +4084,8 @@ class PackageBody(Body):
             lambda pp: pp.children_env, default_val=public_scope
         )
 
-    @langkit_property(return_type=T.BasePackageDecl, public=True,
-                      ignore_warn_on_node=True)
-    def decl_part():
+    @langkit_property()
+    def decl_part_entity():
         """
         Return the BasePackageDecl corresponding to this node.
 
@@ -4085,12 +4093,12 @@ class PackageBody(Body):
         "package_decl" field instead of the GenericPackageDecl itself.
         """
         return env.bind(
-            Self.node_env,
-            Self.package_name.matching_nodes_impl.at(0).match(
+            Entity.node_env,
+            Entity.package_name.env_elements.at(0).match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:
                     gen_pkg_decl.package_decl,
-                lambda _: No(T.BasePackageDecl)
+                lambda _: No(T.BasePackageDecl.entity)
             )
         )
 

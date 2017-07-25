@@ -96,14 +96,6 @@ def get_top_level_item(unit):
     )
 
 
-def canonical_type_or_null(type_expr):
-    """
-    If "type_expr" is null, return null, otherwise return its canonical type
-    declaration.
-    """
-    return type_expr._.designated_type.canonical_type
-
-
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
@@ -1554,6 +1546,10 @@ class TypeExpr(AdaNode):
         """
         d = Self.designated_type
         return If(d.is_null, Self.accessed_type, d)
+
+    @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
+    def canonical_type():
+        return Self.designated_type._.canonical_type
 
 
 class AnonymousType(TypeExpr):
@@ -3293,9 +3289,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
                Self.returns.is_null,
                And(Not(other.returns.is_null),
                    origin.bind(origin_other,
-                               canonical_type_or_null(other.returns))
+                               other.returns._.canonical_type)
                    == origin.bind(origin_self,
-                                  canonical_type_or_null(Self.returns)))),
+                                  Self.returns._.canonical_type))),
 
             # Check that there is the same number of formals and that each
             # formal matches.
@@ -3311,12 +3307,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
                             p.name.matches(other_params.at(i).name),
                             origin.bind(
                                 origin_self,
-                                canonical_type_or_null(p.spec.type_expression)
+                                p.spec.type_expression._.canonical_type
                             ) == origin.bind(
                                 origin_other,
-                                canonical_type_or_null(
-                                    other_params.at(i).spec.type_expression
-                                )
+                                other_params.at(i).spec
+                                .type_expression._.canonical_type
                             )
                         )
                     ))

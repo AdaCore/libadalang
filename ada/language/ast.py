@@ -1911,8 +1911,13 @@ class GenericInstantiation(BasicDecl):
     )
 
     designated_generic_decl = Property(
-        env.bind(Self.node_env, Self.generic_entity_name.env_elements.at(0))
-        .cast_or_raise(T.GenericDecl),
+        env.bind(
+            Self.node_env, Self.generic_entity_name.env_elements.at(0)
+        ).match(
+            lambda b=Body: b.decl_part_entity,
+            lambda d=BasicDecl: d,
+            lambda _: No(T.GenericDecl.entity)
+        )._.cast(T.GenericDecl),
         doc="""
         Return the formal package designated by the right hand part of this
         generic package instantiation.
@@ -1966,7 +1971,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         add_to_env(
             env.bind(
                 Self.initial_env,
-                Self.designated_generic_decl.formal_part.match_param_list(
+                Self.designated_generic_decl._.formal_part.match_param_list(
                     Self.subp_params, False
                 ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr

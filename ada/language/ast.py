@@ -3603,7 +3603,7 @@ class AttributeRef(Name):
 
     designated_type_impl = Property(
         If(Self.attribute.sym == 'Class',
-           Entity.prefix.designated_type_impl.classwide_type,
+           Entity.prefix.designated_type_impl._.classwide_type,
            Entity.prefix.designated_type_impl)
     )
 

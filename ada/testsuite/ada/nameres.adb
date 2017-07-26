@@ -42,6 +42,10 @@ procedure Nameres is
 
    Ctx     : Analysis_Context := No_Analysis_Context;
 
+   Resolve_All          : Boolean := False;
+   --  Whether to run the tool in "resolve all cross references" mode. In that
+   --  mode, pragmas are ignored.
+
    function Text (N : access Ada_Node_Type'Class) return String
    is (Image (N.Text));
 
@@ -181,6 +185,10 @@ procedure Nameres is
          return;
       end if;
       Populate_Lexical_Env (Unit);
+
+      if Resolve_All then
+         Resolve_Block (Root (Unit));
+      end if;
 
       declare
          --  Configuration for this unit
@@ -367,6 +375,8 @@ begin
             Charset := +Strip_Prefix (Arg, "--charset=");
          elsif Arg = "--with-default-project" then
             With_Default_Project := True;
+         elsif Arg = "--all" then
+            Resolve_All := True;
          elsif Arg = "--files-from-project" then
             Files_From_Project := True;
          elsif Starts_With (Arg, "-P") then

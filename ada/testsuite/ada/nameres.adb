@@ -146,6 +146,21 @@ procedure Nameres is
       end if;
    end Resolve_Node;
 
+   -------------------
+   -- Resolve_Block --
+   -------------------
+
+   procedure Resolve_Block (Block : Ada_Node) is
+      function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
+      is (N.P_Xref_Entry_Point);
+   begin
+      for Node
+        of Block.Find (Is_Xref_Entry_Point'Access).Consume
+      loop
+         Resolve_Node (Node);
+      end loop;
+   end Resolve_Block;
+
    ------------------
    -- Process_File --
    ------------------
@@ -292,21 +307,10 @@ procedure Nameres is
 
             elsif Pragma_Name = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
-               declare
-                  Block : Ada_Node :=
-                    (if Kind (P_Node.Parent.Parent) = Ada_Compilation_Unit
-                     then Compilation_Unit (P_Node.Parent.Parent).F_Body
-                     else P_Node.Previous_Sibling);
-
-                  function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
-                  is (N.P_Xref_Entry_Point);
-               begin
-                  for Node
-                    of Block.Find (Is_Xref_Entry_Point'Access).Consume
-                  loop
-                     Resolve_Node (Node);
-                  end loop;
-               end;
+               Resolve_Block
+                 (if Kind (P_Node.Parent.Parent) = Ada_Compilation_Unit
+                  then Compilation_Unit (P_Node.Parent.Parent).F_Body
+                  else P_Node.Previous_Sibling);
                Empty := False;
             end if;
          end loop;

@@ -139,6 +139,9 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node);
    --  Helper for the environment hook to handle library-level unit body nodes
 
+   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Basic_Decl);
+   --  Helper for the environment hook to handle sub-units (separates)
+
    --------------
    -- Env_Hook --
    --------------
@@ -165,6 +168,8 @@ package body Libadalang.Unit_Files.Env_Hook is
          elsif Node.all in Basic_Decl_Type'Class then
             Handle_Unit_With_Parents (Ctx, Basic_Decl (Node));
          end if;
+      elsif Node.Parent.all in Subunit_Type'Class then
+         Handle_Subunit (Ctx, Basic_Decl (Node));
       end if;
    end Env_Hook;
 
@@ -225,6 +230,20 @@ package body Libadalang.Unit_Files.Env_Hook is
          end if;
       end;
    end Handle_Unit_With_Parents;
+
+   --------------------
+   -- Handle_Subunit --
+   --------------------
+
+   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Basic_Decl)
+   is
+      --  Sub-unit handling is very simple: We just want to fetch the
+      --  containing unit.
+      Dummy : constant Analysis_Unit := Fetch_Unit
+        (Ctx, Ada_Node (Subunit (Node.Parent).F_Name), Unit_Body);
+   begin
+      null;
+   end Handle_Subunit;
 
    ----------------------
    -- Handle_Unit_Body --

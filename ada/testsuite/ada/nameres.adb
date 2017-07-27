@@ -360,6 +360,8 @@ procedure Nameres is
    Scenario_Vars        : String_Vectors.Vector;
    Files_From_Project   : Boolean := False;
 
+   Discard_Errors : Boolean := False;
+
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
       declare
@@ -369,6 +371,8 @@ begin
             Quiet := True;
          elsif Arg in "--trace" | "-T" then
             Set_Debug_State (Trace);
+         elsif Arg in "--discard-errors-in-populate-lexical-env" | "-d" then
+            Discard_Errors := True;
          elsif Arg in "--debug" | "-D" then
             Set_Debug_State (Step);
          elsif Starts_With (Arg, "--charset") then
@@ -438,6 +442,7 @@ begin
    Ctx := Create
      (Charset       => +Charset,
       Unit_Provider => Unit_Provider_Access_Cst (UFP));
+   Discard_Errors_In_Populate_Lexical_Env (Ctx, Discard_Errors);
 
    for F of Files loop
       declare

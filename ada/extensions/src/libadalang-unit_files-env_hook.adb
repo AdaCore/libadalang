@@ -196,11 +196,11 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Handle_Unit_With_Parents
      (Ctx : Analysis_Context; Node : Basic_Decl)
    is
-      Names : Name_Array_Access;
+      N : Name;
    begin
       --  If this not a library-level subprogram/package decl, there is no
       --  parent spec to process.
-      if Node.all not in 
+      if Node.all not in
          Package_Decl_Type'Class
          | Basic_Subp_Decl_Type'Class
          | Package_Renaming_Decl_Type'Class
@@ -211,24 +211,18 @@ package body Libadalang.Unit_Files.Env_Hook is
          return;
       end if;
 
-      Names := Node.P_Defining_Names;
-      pragma Assert (Names.N = 1);
+      N := Node.P_Defining_Name;
 
-      declare
-         N : constant Ada_Node := Ada_Node (Names.Items (1));
-      begin
-         Dec_Ref (Names);
-         if N.all in Dotted_Name_Type'Class then
-            declare
-               Dummy : constant Analysis_Unit := Fetch_Unit
-                 (Ctx,
-                  Ada_Node (Dotted_Name (N).F_Prefix),
-                  Unit_Specification);
-            begin
-               null;
-            end;
-         end if;
-      end;
+      if N.all in Dotted_Name_Type'Class then
+         declare
+            Dummy : constant Analysis_Unit := Fetch_Unit
+              (Ctx,
+               Ada_Node (Dotted_Name (N).F_Prefix),
+               Unit_Specification);
+         begin
+            null;
+         end;
+      end if;
    end Handle_Unit_With_Parents;
 
    --------------------

@@ -2056,6 +2056,17 @@ class GenericRenamingDecl(BasicDecl):
     """
     renaming_name = AbstractProperty(type=T.Name.entity)
 
+    resolve = Property(env.bind(
+        Entity.node_env,
+        Entity.renaming_name.env_elements.at(0)._.match(
+            lambda gd=T.GenericDecl: gd,
+            lambda grd=T.GenericRenamingDecl: grd.resolve,
+            lambda _: No(T.GenericDecl.entity)
+        )
+    ), type=T.GenericDecl.entity, doc="""
+    Resolve the GenericDecl this renaming decl is pointing at
+    """)
+
 
 class GenericPackageRenamingDecl(GenericRenamingDecl):
     name = Field(type=T.Name)

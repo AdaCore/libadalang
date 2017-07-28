@@ -2347,7 +2347,9 @@ class BinOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        subps = Var(Entity.op.subprograms)
+        subps = Var(Entity.op.subprograms.filter(
+            lambda s: s.subp_decl_spec.nb_max_params == 2
+        ))
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation

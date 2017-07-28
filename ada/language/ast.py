@@ -2043,7 +2043,7 @@ class PackageRenamingDecl(BasicDecl):
 
     defining_names = Property(Self.name.singleton)
     defining_env = Property(env.bind(
-        Self.node_env,
+        Entity.node_env,
         Entity.renames.renamed_object.env_elements.at(0)
         ._.cast(BasicDecl).defining_env
     ))

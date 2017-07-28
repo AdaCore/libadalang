@@ -1911,6 +1911,7 @@ class GenericInstantiation(BasicDecl):
             Self.node_env, Self.generic_entity_name.env_elements.at(0)
         )._.match(
             lambda b=Body: b.decl_part_entity,
+            lambda rd=T.GenericRenamingDecl: rd.resolve,
             lambda d=BasicDecl: d,
             lambda _: No(T.GenericDecl.entity)
         )._.cast(T.GenericDecl),

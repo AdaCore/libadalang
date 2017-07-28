@@ -2069,6 +2069,8 @@ class GenericRenamingDecl(BasicDecl):
 
 
 class GenericPackageRenamingDecl(GenericRenamingDecl):
+    env_spec = child_unit(Self.relative_name, Self.name.parent_scope)
+
     name = Field(type=T.Name)
     renames = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
@@ -2083,6 +2085,8 @@ class SubpKind(EnumNode):
 
 
 class GenericSubpRenamingDecl(GenericRenamingDecl):
+    env_spec = child_unit(Self.relative_name, Self.name.parent_scope)
+
     kind = Field(type=T.SubpKind)
     name = Field(type=T.Name)
     renames = Field(type=T.Name)

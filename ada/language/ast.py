@@ -2054,7 +2054,7 @@ class GenericRenamingDecl(BasicDecl):
     """
     Base node for all generic renaming declarations.
     """
-    pass
+    renaming_name = AbstractProperty(type=T.Name.entity)
 
 
 class GenericPackageRenamingDecl(GenericRenamingDecl):
@@ -2063,6 +2063,8 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
+
+    renaming_name = Property(Entity.renames)
 
 
 class SubpKind(EnumNode):
@@ -2076,6 +2078,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
+    renaming_name = Property(Entity.renames)
 
 
 @abstract

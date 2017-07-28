@@ -2077,7 +2077,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.name.singleton)
-
+    defining_env = Property(Self.resolve.defining_env)
     renaming_name = Property(Entity.renames)
 
 

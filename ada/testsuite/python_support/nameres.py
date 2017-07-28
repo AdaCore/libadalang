@@ -67,6 +67,8 @@ parser.add_argument(
     'files', help='Files to analyze', type=str, nargs='+', metavar='files'
 )
 parser.add_argument('--charset', type=str, default="")
+parser.add_argument('--discard-errors-in-populate-lexical-env', '-d',
+                    action='store_true')
 args = parser.parse_args()
 
 input_sources = args.files
@@ -74,6 +76,9 @@ charset = args.charset
 
 
 ctx = lal.AnalysisContext(charset)
+ctx.discard_errors_in_populate_lexical_env(
+    args.discard_errors_in_populate_lexical_env
+)
 for src_file in input_sources:
     print_title('#', 'Analyzing {}'.format(src_file))
 

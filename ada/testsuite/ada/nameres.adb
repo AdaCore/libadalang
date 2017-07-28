@@ -2,6 +2,7 @@ with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Hashed_Maps;
 with Ada.Containers.Vectors;
+with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Text_IO;
@@ -129,6 +130,7 @@ procedure Nameres is
       if Langkit_Support.Adalog.Debug.Debug then
          N.Assign_Names_To_Logic_Vars;
       end if;
+
       if N.P_Resolve_Names then
          for Node of N.Find (Is_Expr'Access).Consume loop
             declare
@@ -148,6 +150,11 @@ procedure Nameres is
       else
          Put_Line ("Resolution failed for node " & Safe_Image (N));
       end if;
+   exception
+   when E : others =>
+         Put_Line
+           ("Resolution failed with exception for node " & Safe_Image (N));
+         Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
    end Resolve_Node;
 
    -------------------

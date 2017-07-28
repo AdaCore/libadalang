@@ -2337,6 +2337,25 @@ class UnOp(Expr):
     op = Field(type=Op)
     expr = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation():
+        subps = Var(Entity.op.subprograms.filter(
+            lambda s: s.subp_decl_spec.nb_max_params == 1
+        ))
+        return Entity.expr.sub_equation & (subps.logic_any(lambda subp: Let(
+            lambda ps=subp.subp_decl_spec.unpacked_formal_params:
+
+            # The subprogram's first argument must match Self's left
+            # operand.
+            Bind(Self.expr.type_var, ps.at(0).spec.type)
+
+            # The subprogram's return type is the type of Self
+            & Bind(Self.type_var, subp.subp_decl_spec.returns.designated_type)
+
+            # The operator references the subprogram
+            & Bind(Self.op.ref_var, subp)
+        )) | Bind(Self.type_var, Self.expr.type_var))
+
 
 class BinOp(Expr):
     left = Field(type=T.Expr)

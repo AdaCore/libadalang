@@ -435,8 +435,7 @@ begin
 
          if Filename'Length = 0 then
             Load_Empty_Project (Project.all, Env);
-            Project.Root_Project.Set_Attribute
-              (Source_Dirs_Attribute, (1 => new String'(".")));
+            Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
             Project.Root_Project.Delete_Attribute (Languages_Attribute);
             Project.Recompute_View;
          else

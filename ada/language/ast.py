@@ -544,6 +544,7 @@ class BasicDecl(AdaNode):
         return Entity.match(
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,
             lambda subp=SubpBody:      subp.subp_spec,
+            lambda subp=SubpBodyStub:  subp.subp_spec,
             lambda _:                  No(SubpSpec.entity),
         )
 
@@ -3144,6 +3145,9 @@ class BaseId(SingleTokNode):
                     lambda subp=SubpBody:
                         matching_subp(params, subp, subp.subp_spec, e),
 
+                    lambda subp=SubpBodyStub:
+                        matching_subp(params, subp, subp.subp_spec, e),
+
                     # Type conversion case
                     lambda _=BaseTypeDecl: params.length == 1,
 
@@ -4199,6 +4203,15 @@ class SubpBodyStub(BodyStub):
     defining_names = Property(Self.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
     # what we put in lexical environment is their SubpSpec child.
+
+    env_spec = EnvSpec(
+        add_to_env_kv(Self.relative_name, Self),
+        # TODO: If subp body stubs can be separates, we need to handle that
+        # here.
+        add_env(),
+    )
+
+    type_expression = Property(Entity.subp_spec.returns)
 
 
 class PackageBodyStub(BodyStub):

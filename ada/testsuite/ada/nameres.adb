@@ -129,29 +129,36 @@ procedure Nameres is
 
    procedure Resolve_Node (N : Ada_Node) is
 
-      function Is_Expr (N : Ada_Node) return Boolean
-      is (N.all in Expr_Type'Class);
-   begin
-      if Langkit_Support.Adalog.Debug.Debug then
-         N.Assign_Names_To_Logic_Vars;
-      end if;
-
-      if N.P_Resolve_Names then
-         for Node of N.Find (Is_Expr'Access).Consume loop
+      function Print_Node (N : access Ada_Node_Type'Class) return Visit_Status
+      is
+      begin
+         if N.all in Expr_Type'Class then
             declare
-               P_Ref  : Entity := Expr (Node).P_Ref_Val;
-               P_Type : Entity := Expr (Node).P_Type_Val;
+               P_Ref  : Entity := Expr (N).P_Ref_Val;
+               P_Type : Entity := Expr (N).P_Type_Val;
             begin
                if not Quiet then
                   Put_Line
-                    ("Expr: " & Safe_Image (Node) & ", references "
+                    ("Expr: " & Safe_Image (N) & ", references "
                      & Safe_Image (P_Ref.El) & ", type is "
                      & Safe_Image (P_Type.El));
                end if;
                Dec_Ref (P_Ref);
                Dec_Ref (P_Type);
             end;
-         end loop;
+         end if;
+         return Into;
+      end Print_Node;
+
+      Dummy : Visit_Status;
+
+   begin
+      if Langkit_Support.Adalog.Debug.Debug then
+         N.Assign_Names_To_Logic_Vars;
+      end if;
+
+      if N.P_Resolve_Names then
+         Dummy := Traverse (N, Print_Node'Access);
       else
          Put_Line ("Resolution failed for node " & Safe_Image (N));
       end if;

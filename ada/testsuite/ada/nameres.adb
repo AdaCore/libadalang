@@ -161,14 +161,21 @@ procedure Nameres is
    -- Resolve_Block --
    -------------------
 
-   procedure Resolve_Block (Block : Ada_Node) is
+   procedure Resolve_Block (Block : Ada_Node; Header : Boolean := False) is
       function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
       is (N.P_Xref_Entry_Point);
    begin
       for Node
         of Block.Find (Is_Xref_Entry_Point'Access).Consume
       loop
+
+         if Header then
+            Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
+         end if;
          Resolve_Node (Node);
+         if Header then
+            Put_Line ("");
+         end if;
       end loop;
    end Resolve_Block;
 

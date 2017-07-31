@@ -178,14 +178,18 @@ package body Libadalang.Unit_Files.Env_Hook is
    ----------------------
 
    procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
+      Dummy : Analysis_Unit := No_Analysis_Unit;
    begin
       for N of Names.Children loop
-         declare
-            Dummy : constant Analysis_Unit :=
-               Fetch_Unit (Ctx, N, Unit_Specification);
-         begin
-            null;
-         end;
+         --  First fetch the spec
+         Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
+
+         --  If no spec exists, maybe it is a library level subprogram with
+         --  just a body, so fetch the body.
+         if Root (Dummy) = null then
+            Dummy := Fetch_Unit (Ctx, N, Unit_Body);
+         end if;
+         Dummy := No_Analysis_Unit;
       end loop;
    end Handle_With_Decl;
 

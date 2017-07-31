@@ -127,7 +127,7 @@ procedure Nameres is
    -- Resolve_Node --
    ------------------
 
-   procedure Resolve_Node (N : Ada_Node) is
+   procedure Resolve_Node (Node : Ada_Node) is
 
       function Print_Node (N : access Ada_Node_Type'Class) return Visit_Status
       is
@@ -147,25 +147,26 @@ procedure Nameres is
                Dec_Ref (P_Type);
             end;
          end if;
-         return Into;
+         return (if N.P_Xref_Entry_Point and N /= Node
+                 then Over else Into);
       end Print_Node;
 
       Dummy : Visit_Status;
 
    begin
       if Langkit_Support.Adalog.Debug.Debug then
-         N.Assign_Names_To_Logic_Vars;
+         Node.Assign_Names_To_Logic_Vars;
       end if;
 
-      if N.P_Resolve_Names then
-         Dummy := Traverse (N, Print_Node'Access);
+      if Node.P_Resolve_Names then
+         Dummy := Traverse (Node, Print_Node'Access);
       else
-         Put_Line ("Resolution failed for node " & Safe_Image (N));
+         Put_Line ("Resolution failed for node " & Safe_Image (Node));
       end if;
    exception
    when E : others =>
          Put_Line
-           ("Resolution failed with exception for node " & Safe_Image (N));
+           ("Resolution failed with exception for node " & Safe_Image (Node));
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
    end Resolve_Node;
 

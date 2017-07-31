@@ -47,20 +47,28 @@ def decode_boolean_literal(node):
         ))
 
 
-def resolve_statement(statement):
-    assert statement.p_xref_entry_point
-
-    # Perform name resolution on the preceding statement, using the
-    # p_resolve_names property.
-    if statement.p_resolve_names:
-        # If it worked, print the reference value and the type value of
-        # every sub expression in the statement.
-        for expr in statement.findall(lal.Expr):
+def resolve_node(node):
+    def print_nodes(n):
+        if n.is_a(lal.Expr):
             print("Expr: {}, references {}, type is {}".format(
-                expr, expr.p_ref_val.el, expr.p_type_val.el
+                n, n.p_ref_val.el, n.p_type_val.el
             ))
+        if n.p_xref_entry_point and n != node:
+            return
+        else:
+            for c in n:
+                if c is not None:
+                    print_nodes(c)
+
+    assert node.p_xref_entry_point
+
+    # Perform name resolution on the node, using the p_resolve_names property
+    if node.p_resolve_names:
+        # If it worked, print the reference value and the type value of
+        # every sub expression in the node.
+        print_nodes(node)
     else:
-        print("Resolution failed for node {}".format(statement))
+        print("Resolution failed for node {}".format(node))
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -154,7 +162,7 @@ for src_file in input_sources:
 
         elif pragma_name == u'Test_Statement':
             assert not p.f_args
-            resolve_statement(p.previous_sibling)
+            resolve_node(p.previous_sibling)
             empty = False
 
         elif pragma_name == u'Test_Block':
@@ -162,7 +170,7 @@ for src_file in input_sources:
             for statement in p.previous_sibling.findall(
                 lambda n: n.p_xref_entry_point
             ):
-                resolve_statement(statement)
+                resolve_node(statement)
             empty = False
 
     if not empty:

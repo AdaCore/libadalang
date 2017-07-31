@@ -200,7 +200,7 @@ procedure Nameres is
       Populate_Lexical_Env (Unit);
 
       if Resolve_All then
-         Resolve_Block (Root (Unit));
+         Resolve_Block (Root (Unit), Header => True);
       end if;
 
       declare

@@ -115,14 +115,19 @@ procedure Nameres is
       end if;
    end Put;
 
+   ----------------
+   -- Safe_Image --
+   ----------------
+
+   function Safe_Image
+     (Node : access Ada_Node_Type'Class) return String
+   is (if Node = null then "None" else Image (Node.Short_Image));
+
    ------------------
    -- Resolve_Node --
    ------------------
 
    procedure Resolve_Node (N : Ada_Node) is
-      function Safe_Image
-        (Node : access Ada_Node_Type'Class) return String
-      is (if Node = null then "None" else Image (Node.Short_Image));
 
       function Is_Expr (N : Ada_Node) return Boolean
       is (N.all in Expr_Type'Class);
@@ -184,12 +189,6 @@ procedure Nameres is
    ------------------
 
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
-
-      function Safe_Image
-        (Node : access Ada_Node_Type'Class) return String
-      is
-        (if Node = null then "None" else Image (Node.Short_Image));
-
    begin
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop

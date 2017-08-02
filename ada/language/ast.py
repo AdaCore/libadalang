@@ -1030,7 +1030,7 @@ class BaseTypeDecl(BasicDecl):
                 actual_type.is_classwide,
                 actual_type.is_derived_type(formal_type)
             ),
-            actual_type == formal_type,
+            actual_type.canonical_type == formal_type.canonical_type,
             actual_type.matching_access_type(formal_type)
         )
 

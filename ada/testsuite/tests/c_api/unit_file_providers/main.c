@@ -68,7 +68,6 @@ main(void)
                                  ufp_destroy,
                                  ufp_get_file_from_node,
                                  ufp_get_file_from_name);
-    ada_entity_info einfo = { {false, false }, NULL };
 
     ada_base_node pragma, args, assoc, expr;
     ada_ada_node_array entities;
@@ -96,7 +95,7 @@ main(void)
       error("Could not get PragmaNode.f_args[0]");
     if (!ada_pragma_argument_assoc_f_expr(assoc, &expr) || expr == NULL)
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_matching_nodes(expr, &einfo, &entities))
+    if (!ada_expr_p_matching_nodes(expr, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
     text = ada_node_short_image(expr);

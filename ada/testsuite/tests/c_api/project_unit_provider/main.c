@@ -15,7 +15,6 @@ main(void)
 
     uint32_t unit_name_chars[2] = { 'p', '2' };
     ada_text unit_name = { unit_name_chars, 2, true };
-    ada_entity_info einfo = { {false, false }, NULL };
 
     ada_base_node subtype_ind, name;
     ada_ada_node_array entities;
@@ -39,7 +38,7 @@ main(void)
       error("Could not find a SubtypeIndication node");
     if (!ada_subtype_indication_f_name (subtype_ind, &name) || name == NULL)
       error("Could not get SubtypeIndication.f_name");
-    if (!ada_expr_p_matching_nodes(name, &einfo, &entities))
+    if (!ada_expr_p_matching_nodes(name, &entities))
       error("Could not get SubtypeIndication.f_name.p_matching_nodes");
 
     text = ada_node_short_image(subtype_ind);

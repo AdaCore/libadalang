@@ -38,7 +38,7 @@ def ref_used_packages_in_spec():
     If Self, which is assumed to be a SubpBody, is a library-level subprogram,
     it must "inherit" the use clauses of its declaration, if there is one.
     """
-    return reference(Self.self_library_item_or_none,
+    return reference(Self.self_toplevel_item_or_none,
                      through=T.AdaNode.use_packages_in_spec_of_subp_body)
 
 
@@ -46,7 +46,7 @@ def ref_std():
     """
     Make the Standard package automatically used.
     """
-    return reference(Self.self_library_item_or_none,
+    return reference(Self.self_toplevel_item_or_none,
                      through=AdaNode.std_env)
 
 
@@ -305,12 +305,13 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property()
-    def self_library_item_or_none():
+    def self_toplevel_item_or_none():
         """
-        Helper for Standard package automatic "use". If Self is a library item,
-        return a singleton array for Self. Otherwise, return an empty array.
+        Helper for Standard package automatic "use". If Self is a toplevel item
+        (library item or subunit), return a singleton array for Self.
+        Otherwise, return an empty array.
         """
-        return If(Self.parent.is_a(T.LibraryItem),
+        return If(Self.parent.is_a(T.LibraryItem, T.Subunit),
                   Self.to_array,
                   EmptyArray(AdaNode))
 

@@ -191,7 +191,7 @@ class AdaNode(ASTNode):
     # multiple packages.
 
     body_unit = Property(
-        Self.top_levem_item(Self.unit)._.match(
+        Self.top_level_item(Self.unit)._.match(
             lambda body=T.Body: body.unit,
             lambda decl=T.BasicDecl:
                 decl.defining_name.referenced_unit(UnitBody),
@@ -203,7 +203,7 @@ class AdaNode(ASTNode):
     )
 
     spec_unit = Property(
-        Self.top_levem_item(Self.unit)
+        Self.top_level_item(Self.unit)
         .cast(T.Body)._.defining_name.referenced_unit(UnitSpecification),
 
         public=True, doc="""
@@ -214,7 +214,7 @@ class AdaNode(ASTNode):
     )
 
     parent_unit_spec = Property(
-        Self.top_levem_item(Self.unit)._.defining_name.cast(T.DottedName)
+        Self.top_level_item(Self.unit)._.defining_name.cast(T.DottedName)
         ._.referenced_unit(UnitSpecification),
 
         public=True, doc="""
@@ -409,7 +409,7 @@ class AdaNode(ASTNode):
                                 default_val=Self.children_env)
 
     @langkit_property(ignore_warn_on_node=True)
-    def top_levem_item(unit=AnalysisUnitType):
+    def top_level_item(unit=AnalysisUnitType):
         """
         Property helper to get the top-level item in "unit".
 
@@ -3796,7 +3796,7 @@ class SubpBody(Body):
 
         # If library item, we just return the spec. We don't check if it's
         # a valid and matching subprogram because that's an error case.
-        Self.top_levem_item(Self.spec_unit).as_entity,
+        Self.top_level_item(Self.spec_unit).as_entity,
 
         # If not a library item, find the matching subprogram spec in the
         # env.
@@ -4133,7 +4133,7 @@ class PackageBody(Body):
             # corresponding "is separate" decl, hence: the defining env of this
             # top-level package body.
             Self.parent.cast(T.Subunit).then(
-                lambda su: Self.top_levem_item(
+                lambda su: Self.top_level_item(
                     su.name.referenced_unit(UnitBody)
                 ).children_env,
                 default_val=Self.package_name.scope

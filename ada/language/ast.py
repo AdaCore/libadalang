@@ -2655,12 +2655,12 @@ class CallExpr(Name):
             # remaining cases.
             & Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation)
 
-            # For each potential subprogram match, we want to express the
+            # For each potential entity match, we want to express the
             # following constraints:
             & subps.logic_any(lambda e: Let(
                 lambda s=e.cast(BasicDecl.entity):
 
-                # The called entity is the subprogram
+                # The called entity is the matched entity
                 Bind(Self.name.ref_var, e)
 
                 & If(
@@ -2671,7 +2671,6 @@ class CallExpr(Name):
                         lambda ss: ss.paramless(e.info.md),
                         default_val=True
                     ),
-
                     Self.array_type_equation(s.expr_type),
                     Self.subprogram_equation(s),
                 )

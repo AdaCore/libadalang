@@ -1966,6 +1966,10 @@ class GenericSubpInstantiation(GenericInstantiation):
         ).cast(T.entity)
 
     env_spec = EnvSpec(
+        add_env(),
+        ref_used_packages(),
+        ref_std(),
+
         handle_children(),
         add_to_env(
             env.bind(
@@ -2014,6 +2018,10 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     env_spec = EnvSpec(
         add_to_env_kv(Self.relative_name, Self),
+        add_env(),
+        ref_used_packages(),
+        ref_std(),
+
         handle_children(),
         add_to_env(
             env.bind(

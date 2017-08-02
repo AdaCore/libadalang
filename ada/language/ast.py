@@ -16,7 +16,7 @@ from langkit.expressions import (
     Var, ignore, langkit_property
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
-from langkit.expressions.logic import Predicate, LogicTrue
+from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
 
 
 env = DynamicVariable('env', LexicalEnvType)
@@ -2665,7 +2665,7 @@ class CallExpr(Name):
 
             # For each potential entity match, we want to express the
             # following constraints:
-            & subps.logic_any(lambda e: Let(
+            & (subps.logic_any(lambda e: Let(
                 lambda s=e.cast(BasicDecl.entity):
 
                 # The called entity is the matched entity
@@ -2690,10 +2690,27 @@ class CallExpr(Name):
                         s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
-            ))
+            )) | Self.operator_equation)
 
             # Bind the callexpr's ref_var to the id's ref var
             & Bind(Self.ref_var, Self.name.ref_var)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def operator_equation():
+        rel_name = Var(Self.name.relative_name)
+        unpacked_p = Var(Self.params.unpacked_params)
+        return If(
+            Or(rel_name == '"="',
+               rel_name == '"="',
+               rel_name == '"/="',
+               rel_name == '"<"',
+               rel_name == '"<="',
+               rel_name == '">"',
+               rel_name == '">="') & (unpacked_p.length == 2),
+            Bind(Self.type_var, unpacked_p.at(0).assoc.expr.type_var)
+            & Bind(Self.type_var, unpacked_p.at(1).assoc.expr.type_var),
+            LogicFalse(),
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

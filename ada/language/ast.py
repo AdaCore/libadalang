@@ -3801,6 +3801,8 @@ class SubpBody(Body):
         doc="Return the SubpDecl corresponding to this node.",
     )
 
+    type_expression = Property(Entity.subp_spec.returns)
+
 
 class HandledStmts(AdaNode):
     stmts = Field(type=T.AdaNode.list)

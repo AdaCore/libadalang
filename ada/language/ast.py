@@ -2674,31 +2674,7 @@ class CallExpr(Name):
 
                     Self.equation_for_type(s.expr_type),
 
-                    # The type of the expression is the expr_type of the
-                    # subprogram.
-                    Bind(Self.type_var, s.expr_type)
-
-                    # For each parameter, the type of the expression matches
-                    # the expected type for this subprogram.
-                    & s.subp_spec_or_null.match_param_list(
-                        Self.params, e.info.md.dottable_subp
-                    ).logic_all(
-                        lambda pm: (
-                            # The type of each actual matches the type of the
-                            # formal.
-                            Bind(
-                                pm.actual.assoc.expr.type_var,
-                                pm.formal.spec.type_expression.designated_type,
-                                eq_prop=BaseTypeDecl.matching_formal_type
-                            )
-                        ) & If(
-                            # Bind actuals designators to parameters if there
-                            # are designators.
-                            pm.actual.name.is_null,
-                            LogicTrue(),
-                            Bind(pm.actual.name.ref_var, pm.formal.spec)
-                        )
-                    )
+                    Self.subprogram_equation(s),
                 )
                 # For every callexpr between self and the furthest callexpr
                 # that is an ancestor of Self via the name chain, we'll
@@ -2727,6 +2703,36 @@ class CallExpr(Name):
             pa.expr.as_entity.sub_equation()
             & indices.constrain_index_expr(pa.expr, i)
         )) & Bind(Self.type_var, atd.comp_type)
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def subprogram_equation(subp=T.BasicDecl.entity):
+        return (
+            # The type of the expression is the expr_type of the
+            # subprogram.
+            Bind(Self.type_var, subp.expr_type)
+
+            # For each parameter, the type of the expression matches
+            # the expected type for this subprogram.
+            & subp.subp_spec_or_null.match_param_list(
+                Self.params, subp.info.md.dottable_subp
+            ).logic_all(
+                lambda pm: (
+                    # The type of each actual matches the type of the
+                    # formal.
+                    Bind(
+                        pm.actual.assoc.expr.type_var,
+                        pm.formal.spec.type_expression.designated_type,
+                        eq_prop=BaseTypeDecl.matching_formal_type
+                    )
+                ) & If(
+                    # Bind actuals designators to parameters if there
+                    # are designators.
+                    pm.actual.name.is_null,
+                    LogicTrue(),
+                    Bind(pm.actual.name.ref_var, pm.formal.spec)
+                )
+            )
+        )
 
     @langkit_property(return_type=BoolType)
     def check_type_internal(typ=T.BaseTypeDecl.entity):

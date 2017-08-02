@@ -2672,8 +2672,7 @@ class CallExpr(Name):
                         default_val=True
                     ),
 
-                    Self.equation_for_type(s.expr_type),
-
+                    Self.array_type_equation(s.expr_type),
                     Self.subprogram_equation(s),
                 )
                 # For every callexpr between self and the furthest callexpr
@@ -2691,7 +2690,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def equation_for_type(typ=T.BaseTypeDecl.entity):
+    def array_type_equation(typ=T.BaseTypeDecl.entity):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
@@ -2797,7 +2796,7 @@ class CallExpr(Name):
         Construct the xref equation for the chain of parent nested callexprs.
         """
         return (
-            Self.equation_for_type(typ)
+            Self.array_type_equation(typ)
             & Self.parent_nested_callexpr.as_entity.then(
                 lambda pce:
                 pce.parent_callexprs_equation(typ.comp_type),

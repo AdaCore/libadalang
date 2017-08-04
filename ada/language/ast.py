@@ -2590,6 +2590,14 @@ class Name(Expr):
         """
     )
 
+    base_name = Property(
+        No(T.Name.entity),
+        doc="""
+        Returns the base name of this instance. For example,
+        for a prefix A.B.C, this will return A.B.
+        """
+    )
+
 
 class CallExpr(Name):
     """
@@ -3723,6 +3731,7 @@ class DottedName(Name):
     parent_scope = Property(Self.prefix.scope)
 
     relative_name = Property(Self.suffix.relative_name)
+    base_name = Property(Entity.prefix)
 
     @langkit_property()
     def env_elements_impl():

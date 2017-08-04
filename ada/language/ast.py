@@ -2665,16 +2665,15 @@ class CallExpr(Name):
         subps = Var(Entity.env_elements)
 
         return (
-            Entity.name.sub_equation
             # TODO: For the moment we presume that a CallExpr in an expression
             # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            & Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation)
+            Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation)
 
             # For each potential entity match, we want to express the
             # following constraints:
-            & (subps.logic_any(lambda e: Let(
+            & ((subps.logic_any(lambda e: Let(
                 lambda s=e.cast(BasicDecl.entity):
 
                 # The called entity is the matched entity
@@ -2699,10 +2698,9 @@ class CallExpr(Name):
                         s.expr_type.comp_type
                     ), default_val=LogicTrue()
                 )
-            )) | Self.operator_equation)
-
-            # Bind the callexpr's ref_var to the id's ref var
-            & Bind(Self.ref_var, Self.name.ref_var)
+            )) & Bind(Self.ref_var, Self.name.ref_var)
+               & Entity.name.sub_equation)
+               | Entity.operator_equation)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -2717,8 +2715,11 @@ class CallExpr(Name):
                rel_name == '"<="',
                rel_name == '">"',
                rel_name == '">="') & (unpacked_p.length == 2),
-            Bind(Self.type_var, unpacked_p.at(0).assoc.expr.type_var)
-            & Bind(Self.type_var, unpacked_p.at(1).assoc.expr.type_var),
+
+            Entity.name.base_name.sub_equation
+            & Bind(unpacked_p.at(0).assoc.expr.type_var,
+                 unpacked_p.at(1).assoc.expr.type_var)
+            & Bind(Self.type_var, Self.bool_type),
             LogicFalse(),
         )
 

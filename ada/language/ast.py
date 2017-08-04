@@ -2267,14 +2267,6 @@ class Expr(AdaNode):
         """
     )
 
-    relative_name = AbstractProperty(
-        type=Symbol, runtime_check=True,
-        doc="""
-        Returns the relative name of this instance. For example,
-        for a prefix A.B.C, this will return C.
-        """
-    )
-
     env_elements = Property(
         Entity.env_elements_impl().filter(lambda e: (
             Not(e.is_library_item)
@@ -2588,6 +2580,14 @@ class Name(Expr):
         """
         return (Self.parent.parent.cast_or_raise(T.UsePackageClause)
                 .designated_envs.at(Self.child_index))
+
+    relative_name = AbstractProperty(
+        type=Symbol, runtime_check=True,
+        doc="""
+        Returns the relative name of this instance. For example,
+        for a prefix A.B.C, this will return C.
+        """
+    )
 
 
 class CallExpr(Name):

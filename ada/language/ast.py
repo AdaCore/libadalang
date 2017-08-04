@@ -1819,14 +1819,15 @@ class ObjectDecl(BasicDecl):
 
     @langkit_property()
     def xref_equation():
+        typ = Var(Entity.canonical_expr_type)
         return Entity.default_expr.then(
             lambda de:
             de.xref_equation
             & Bind(Self.default_expr.type_var,
-                   Entity.canonical_expr_type,
+                   typ,
                    eq_prop=BaseTypeDecl.matching_assign_type),
             default_val=LogicTrue()
-        )
+        ) & Entity.type_expr.sub_equation
 
     xref_entry_point = Property(True)
 

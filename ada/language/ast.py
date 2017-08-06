@@ -2717,23 +2717,16 @@ class CallExpr(Name):
         rel_name = Var(Self.name.relative_name)
         params = Var(Self.params.unpacked_params)
         return If(
-            Or(rel_name == '"="', rel_name == '"="',
-               rel_name == '"/="', rel_name == '"<"',
-               rel_name == '"<="', rel_name == '">"',
-               rel_name == '">="'),
+            rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="', '">"',
+                            '">="'),
 
             Bind(params.at(0).assoc.expr.type_var,
                  params.at(1).assoc.expr.type_var)
             & Bind(Self.type_var, Self.bool_type),
 
-            If(
-                Or(rel_name == '"and"', rel_name == '"or"',
-                   rel_name == '"xor"', rel_name == '"abs"',
-                   rel_name == '"not"', rel_name == '"**"',
-                   rel_name == '"*"', rel_name == '"/"',
-                   rel_name == '"mod"', rel_name == '"rem"',
-                   rel_name == '"+"', rel_name == '"-"',
-                   rel_name == '"&"'),
+            If(rel_name.any_of('"and"', '"or"', '"xor"', '"abs"', '"not"',
+                               '"**"', '"*"', '"/"', '"mod"', '"rem"', '"+"',
+                               '"-"', '"&"'),
 
                 Bind(params.at(0).assoc.expr.type_var,
                      params.at(1).assoc.expr.type_var)

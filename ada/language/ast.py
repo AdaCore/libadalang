@@ -3151,11 +3151,16 @@ class BaseId(SingleTokNode):
             package or not.
         """
 
-        # Some constructs will add themselves to their parent lexical env, and
-        # with lazy env resolution, if the resolution uses envs, it might
-        # create an infinitely recursive lookup. For that reason we will do the
-        # sequential lookup from a safe point, where no recursion can happen
-        # for those constructs.
+        # Some constructs, like use clauses, add a referenced env to their
+        # parent scope, which uses a resolver that will itself do a lookup. So
+        # that this does not generate an infinitely recursive lookup, the
+        # lookup must be passed a sequential start point that will exclude the
+        # referenced env.
+        #
+        # TODO: This might be solvable at the langkit level. In principle this
+        # should never happen because we could pass down to the nested lookup
+        # operation the information that we're resolving a reference at point X
+        # in code, and that this reference should subsequently not be followed.
         parent_clause = Var(
             Self.parents.filter(
                 lambda p: p.is_a(UsePackageClause, GenericSubpInstantiation)

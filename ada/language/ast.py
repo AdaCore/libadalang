@@ -2705,22 +2705,50 @@ class CallExpr(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def operator_equation():
-        rel_name = Var(Self.name.relative_name)
-        unpacked_p = Var(Self.params.unpacked_params)
-        return If(
-            Or(rel_name == '"="',
-               rel_name == '"="',
-               rel_name == '"/="',
-               rel_name == '"<"',
-               rel_name == '"<="',
-               rel_name == '">"',
-               rel_name == '">="') & (unpacked_p.length == 2),
+        params = Var(Self.params.unpacked_params)
+        return Entity.name.base_name._.sub_equation._or(LogicFalse()) & If(
+            params.length == 2,
+            Entity.binop_equation(),
+            If(params.length == 1, Entity.unop_equation(), LogicFalse())
+        )
 
-            Entity.name.base_name.sub_equation
-            & Bind(unpacked_p.at(0).assoc.expr.type_var,
-                 unpacked_p.at(1).assoc.expr.type_var)
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def binop_equation():
+        rel_name = Var(Self.name.relative_name)
+        params = Var(Self.params.unpacked_params)
+        return If(
+            Or(rel_name == '"="', rel_name == '"="',
+               rel_name == '"/="', rel_name == '"<"',
+               rel_name == '"<="', rel_name == '">"',
+               rel_name == '">="'),
+
+            Bind(params.at(0).assoc.expr.type_var,
+                 params.at(1).assoc.expr.type_var)
             & Bind(Self.type_var, Self.bool_type),
-            LogicFalse(),
+
+            If(
+                Or(rel_name == '"and"', rel_name == '"or"',
+                   rel_name == '"xor"', rel_name == '"abs"',
+                   rel_name == '"not"', rel_name == '"**"',
+                   rel_name == '"*"', rel_name == '"/"',
+                   rel_name == '"mod"', rel_name == '"rem"',
+                   rel_name == '"+"', rel_name == '"-"',
+                   rel_name == '"&"'),
+
+                Bind(params.at(0).assoc.expr.type_var,
+                     params.at(1).assoc.expr.type_var)
+
+                & Bind(params.at(0).assoc.expr.type_var,
+                       Self.type_var),
+
+                LogicFalse())
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def unop_equation():
+        return Bind(
+            Self.params.unpacked_params.at(0).assoc.expr.type_var,
+            Self.type_var
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

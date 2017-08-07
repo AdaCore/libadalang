@@ -677,6 +677,12 @@ class TypeDef(AdaNode):
     def defining_env():
         return EmptyEnv
 
+    containing_type = Property(
+        Entity.parent.cast_or_raise(T.TypeDecl).as_entity, doc="""
+        Return the TypeDecl containing this TypeDef
+        """
+    )
+
 
 class Variant(AdaNode):
     choice_list = Field(type=T.AdaNode.list)

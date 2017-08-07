@@ -913,6 +913,8 @@ class RecordTypeDef(TypeDef):
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
 
+    xref_equation = Property(LogicTrue())
+
 
 @abstract
 class RealTypeDef(TypeDef):

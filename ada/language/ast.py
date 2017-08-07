@@ -2664,43 +2664,48 @@ class CallExpr(Name):
         # List of every applicable subprogram
         subps = Var(Entity.env_elements)
 
-        return (
+        return And(
             # TODO: For the moment we presume that a CallExpr in an expression
             # context necessarily has a AssocList as a suffix, but this is not
             # always true (for example, entry families calls). Handle the
             # remaining cases.
-            Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation)
+            Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation),
 
             # For each potential entity match, we want to express the
             # following constraints:
-            & ((subps.logic_any(lambda e: Let(
-                lambda s=e.cast(BasicDecl.entity):
+            And(
+                subps.logic_any(lambda e: Let(
+                    lambda s=e.cast_or_raise(BasicDecl.entity):
 
-                # The called entity is the matched entity
-                Bind(Self.name.ref_var, e)
+                    # The called entity is the matched entity
+                    Bind(Self.name.ref_var, e)
 
-                & If(
-                    # Test if the entity is a parameterless subprogram call,
-                    # or something else (a component/local variable/etc),
-                    # that would make this callexpr an array access.
-                    s.subp_spec_or_null.then(
-                        lambda ss: ss.paramless(e.info.md),
-                        default_val=True
-                    ),
-                    Entity.array_type_equation(s.expr_type),
-                    Entity.subprogram_equation(s),
-                )
-                # For every callexpr between self and the furthest callexpr
-                # that is an ancestor of Self via the name chain, we'll
-                # construct the crossref equation.
-                & Self.parent_nested_callexpr.as_entity.then(
-                    lambda pce: pce.parent_callexprs_equation(
-                        s.expr_type.comp_type
-                    ), default_val=LogicTrue()
-                )
-            )) & Bind(Self.ref_var, Self.name.ref_var)
-               & Entity.name.sub_equation)
-               | Entity.operator_equation)
+                    & If(
+                        # Test if the entity is a parameterless subprogram
+                        # call, or something else (a component/local
+                        # variable/etc), that would make this callexpr an array
+                        # access.
+                        s.subp_spec_or_null.then(
+                            lambda ss: ss.paramless(e.info.md),
+                            default_val=True
+                        ),
+                        Entity.array_type_equation(s.expr_type),
+                        Entity.subprogram_equation(s),
+                    )
+
+                    # For every callexpr between self and the furthest callexpr
+                    # that is an ancestor of Self via the name chain, we'll
+                    # construct the crossref equation.
+                    & Self.parent_nested_callexpr.as_entity.then(
+                        lambda pce: pce.parent_callexprs_equation(
+                            s.expr_type.comp_type
+                        ), default_val=LogicTrue()
+                    )
+                )),
+                Bind(Self.ref_var, Self.name.ref_var),
+                Entity.name.sub_equation
+            )
+            | Entity.operator_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

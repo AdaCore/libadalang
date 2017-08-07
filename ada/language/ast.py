@@ -1127,7 +1127,11 @@ class TypeDecl(BaseTypeDecl):
     base_type = Property(Entity.type_def.base_type)
     is_char_type = Property(Entity.type_def.is_char_type)
 
-    array_def = Property(Entity.type_def.cast(T.ArrayTypeDef))
+    array_def = Property(Entity.type_def.match(
+        lambda atd=T.ArrayTypeDef: atd,
+        lambda dtd=T.DerivedTypeDef: dtd.base_type.array_def,
+        lambda _: No(T.ArrayTypeDef.entity)
+    ))
 
     defining_env = Property(
         # Evaluating in type env, because the defining environment of a type

@@ -1497,9 +1497,7 @@ class WithClause(AdaNode):
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec(
-        call_env_hook(Self)
-    )
+    env_spec = EnvSpec(call_env_hook(Self))
 
 
 @abstract

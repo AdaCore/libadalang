@@ -5,10 +5,10 @@ Resolving xrefs for node <AssignStmt 9:4-9:29>
 **********************************************
 
 Expr: <Id "F" 9:4-9:5>, references <ObjectDecl ["F"] 7:4-7:14>, type is <TypeDecl ["Float"] 13:3-14:51>
-Expr: <CallExpr 9:9-9:28>, references <SubpDecl ["Convert"] 7:7-7:41>, type is <TypeDecl ["Float"] 13:3-14:51>
-Expr: <DottedName 9:9-9:23>, references <SubpDecl ["Convert"] 7:7-7:41>, type is <TypeDecl ["Float"] 13:3-14:51>
+Expr: <CallExpr 9:9-9:28>, references <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>, type is <TypeDecl ["Float"] 13:3-14:51>
+Expr: <DottedName 9:9-9:23>, references <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>, type is <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "B_Inst" 9:9-9:15>, references <GenericPackageInstantiation ["B_Inst"] 5:4-5:43>, type is None
-Expr: <Id "Convert" 9:16-9:23>, references <SubpDecl ["Convert"] 7:7-7:41>, type is <TypeDecl ["Float"] 13:3-14:51>
+Expr: <Id "Convert" 9:16-9:23>, references <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>, type is <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Int 9:25-9:27>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 
 

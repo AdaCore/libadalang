@@ -140,8 +140,7 @@ procedure Nameres is
                if not Quiet then
                   Put_Line
                     ("Expr: " & Safe_Image (N) & ", references "
-                     & Safe_Image (P_Ref.El) & ", type is "
-                     & Safe_Image (P_Type.El));
+                     & Image (P_Ref) & ", type is " & Image (P_Type));
                end if;
                Dec_Ref (P_Ref);
                Dec_Ref (P_Type);

@@ -5,20 +5,20 @@ Resolving xrefs for node <ObjectDecl ["V"] 12:7-12:44>
 ******************************************************
 
 Expr: <Id "V" 12:7-12:8>, references None, type is None
-Expr: <AttributeRef 12:11-12:33>, references <ClasswideTypeDecl ["Vector"] 0:0-0:0>, type is None
-Expr: <DottedName 12:11-12:27>, references <ClasswideTypeDecl ["Vector"] 0:0-0:0>, type is None
+Expr: <AttributeRef 12:11-12:33>, references <| ClasswideTypeDecl ["Vector"] 0:0-0:0 [main.adb:4:4] |>, type is None
+Expr: <DottedName 12:11-12:27>, references <| ClasswideTypeDecl ["Vector"] 0:0-0:0 [main.adb:4:4] |>, type is None
 Expr: <Id "My_Vector" 12:11-12:20>, references None, type is None
-Expr: <Id "Vector" 12:21-12:27>, references <ClasswideTypeDecl ["Vector"] 0:0-0:0>, type is None
+Expr: <Id "Vector" 12:21-12:27>, references <| ClasswideTypeDecl ["Vector"] 0:0-0:0 [main.adb:4:4] |>, type is None
 Expr: <Id "Class" 12:28-12:33>, references None, type is None
-Expr: <Id "Create" 12:37-12:43>, references <SubpDecl ["Create"] 6:4-6:40>, type is <ClasswideTypeDecl ["Vector"] 0:0-0:0>
+Expr: <Id "Create" 12:37-12:43>, references <| SubpDecl ["Create"] 6:4-6:40 [main.adb:4:4] |>, type is <| ClasswideTypeDecl ["Vector"] 0:0-0:0 [main.adb:4:4] |>
 
 Resolving xrefs for node <CallStmt 14:7-14:21>
 **********************************************
 
-Expr: <CallExpr 14:7-14:20>, references <SubpDecl ["Append"] 8:4-8:58>, type is None
-Expr: <DottedName 14:7-14:15>, references <SubpDecl ["Append"] 8:4-8:58>, type is None
-Expr: <Id "V" 14:7-14:8>, references <ObjectDecl ["V"] 12:7-12:44>, type is <ClasswideTypeDecl ["Vector"] 0:0-0:0>
-Expr: <Id "Append" 14:9-14:15>, references <SubpDecl ["Append"] 8:4-8:58>, type is None
+Expr: <CallExpr 14:7-14:20>, references <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>, type is None
+Expr: <DottedName 14:7-14:15>, references <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>, type is None
+Expr: <Id "V" 14:7-14:8>, references <ObjectDecl ["V"] 12:7-12:44>, type is <| ClasswideTypeDecl ["Vector"] 0:0-0:0 [main.adb:4:4] |>
+Expr: <Id "Append" 14:9-14:15>, references <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>, type is None
 Expr: <Int 14:17-14:19>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 
 

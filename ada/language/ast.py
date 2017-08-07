@@ -122,7 +122,8 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(kind=AbstractKind.abstract_runtime_check,
+                      return_type=EquationType, dynamic_vars=[env, origin])
     def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
@@ -132,10 +133,7 @@ class AdaNode(ASTNode):
         If you want completely precise resolution, you must call that on the
         outermost node that supports xref_equation.
         """
-        # TODO: Maybe this should eventually be an AbstractProperty, but during
-        # the development of the xref engine, it is practical to have the
-        # default implementation return null, so that we can fail gracefully.
-        return No(EquationType)
+        pass
 
     xref_stop_resolution = Property(False)
 

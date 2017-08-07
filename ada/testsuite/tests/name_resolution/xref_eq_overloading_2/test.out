@@ -4,10 +4,18 @@ Analyzing test1.adb
 Resolving xrefs for node <AssignStmt 13:4-13:15>
 ************************************************
 
-Expr: <Id "I" 13:4-13:5>, references <ObjectDecl ["I"] 11:4-11:19>, type is <TypeDecl ["My_Integer"] 2:4-2:39>
-Expr: <CallExpr 13:9-13:14>, references <SubpDecl ["B"] 8:4-8:50>, type is <TypeDecl ["My_Integer"] 2:4-2:39>
-Expr: <Id "B" 13:9-13:10>, references <SubpDecl ["B"] 8:4-8:50>, type is <TypeDecl ["My_Integer"] 2:4-2:39>
-Expr: <Id "A" 13:12-13:13>, references <SubpDecl ["A"] 5:4-5:33>, type is <TypeDecl ["My_Integer"] 2:4-2:39>
+Expr: <Id "I" 13:4-13:5>
+  references: <ObjectDecl ["I"] 11:4-11:19>
+  type:       <TypeDecl ["My_Integer"] 2:4-2:39>
+Expr: <CallExpr 13:9-13:14>
+  references: <SubpDecl ["B"] 8:4-8:50>
+  type:       <TypeDecl ["My_Integer"] 2:4-2:39>
+Expr: <Id "B" 13:9-13:10>
+  references: <SubpDecl ["B"] 8:4-8:50>
+  type:       <TypeDecl ["My_Integer"] 2:4-2:39>
+Expr: <Id "A" 13:12-13:13>
+  references: <SubpDecl ["A"] 5:4-5:33>
+  type:       <TypeDecl ["My_Integer"] 2:4-2:39>
 
 
 Done.

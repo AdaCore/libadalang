@@ -4,9 +4,15 @@ Analyzing testblock.adb
 Resolving xrefs for node <GotoStmt 8:7-8:18>
 ********************************************
 
-Expr: <DottedName 8:12-8:17>, references <LabelDecl ["B"] 7:9-7:10>, type is None
-Expr: <Id "Foo" 8:12-8:15>, references <NamedStmtDecl ["Foo"] 3:4-3:7>, type is None
-Expr: <Id "B" 8:16-8:17>, references <LabelDecl ["B"] 7:9-7:10>, type is None
+Expr: <DottedName 8:12-8:17>
+  references: <LabelDecl ["B"] 7:9-7:10>
+  type:       None
+Expr: <Id "Foo" 8:12-8:15>
+  references: <NamedStmtDecl ["Foo"] 3:4-3:7>
+  type:       None
+Expr: <Id "B" 8:16-8:17>
+  references: <LabelDecl ["B"] 7:9-7:10>
+  type:       None
 
 
 Done.

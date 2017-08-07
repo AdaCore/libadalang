@@ -4,9 +4,15 @@ Analyzing test.adb
 Resolving xrefs for node <CallStmt 6:4-6:11>
 ********************************************
 
-Expr: <CallExpr 6:4-6:10>, references <SubpDecl ["A"] 4:4-4:28>, type is None
-Expr: <Id "A" 6:4-6:5>, references <SubpDecl ["A"] 4:4-4:28>, type is None
-Expr: <Int 6:7-6:9>, references None, type is <TypeDecl ["Int_2"] 3:4-3:26>
+Expr: <CallExpr 6:4-6:10>
+  references: <SubpDecl ["A"] 4:4-4:28>
+  type:       None
+Expr: <Id "A" 6:4-6:5>
+  references: <SubpDecl ["A"] 4:4-4:28>
+  type:       None
+Expr: <Int 6:7-6:9>
+  references: None
+  type:       <TypeDecl ["Int_2"] 3:4-3:26>
 
 
 Done.

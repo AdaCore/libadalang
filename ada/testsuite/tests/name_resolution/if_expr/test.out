@@ -4,23 +4,47 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt 8:4-8:33>
 **********************************************
 
-Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <ParenExpr 8:9-8:32>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <IfExpr 8:10-8:31>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "True" 8:13-8:17>, references <EnumLiteralDecl ["True"] 3:27-3:31>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "B" 8:23-8:24>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "C" 8:30-8:31>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 8:4-8:5>
+  references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <ParenExpr 8:9-8:32>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <IfExpr 8:10-8:31>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "True" 8:13-8:17>
+  references: <EnumLiteralDecl ["True"] 3:27-3:31>
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "B" 8:23-8:24>
+  references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "C" 8:30-8:31>
+  references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Resolving xrefs for node <AssignStmt 11:4-11:34>
 ************************************************
 
-Expr: <Id "A" 11:4-11:5>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <ParenExpr 11:9-11:33>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <IfExpr 11:10-11:32>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Foo" 11:13-11:16>, references <SubpDecl ["Foo"] 5:4-5:32>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "Foo" 11:22-11:25>, references <SubpDecl ["Foo"] 4:4-4:32>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "C" 11:31-11:32>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 11:4-11:5>
+  references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <ParenExpr 11:9-11:33>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <IfExpr 11:10-11:32>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 11:13-11:16>
+  references: <SubpDecl ["Foo"] 5:4-5:32>
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "Foo" 11:22-11:25>
+  references: <SubpDecl ["Foo"] 4:4-4:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "C" 11:31-11:32>
+  references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Done.

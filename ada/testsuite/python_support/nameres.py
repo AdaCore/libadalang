@@ -51,9 +51,9 @@ def resolve_node(node):
 
     def print_nodes(n):
         if n.is_a(lal.Expr):
-            print("Expr: {}, references {}, type is {}".format(
-                n, n.p_ref_val, n.p_type_val
-            ))
+            print('Expr: {}'.format(n))
+            print('  references: {}'.format(n.p_ref_val))
+            print('  type:       {}'.format(n.p_type_val))
         if n.p_xref_entry_point and n != node:
             return
         else:

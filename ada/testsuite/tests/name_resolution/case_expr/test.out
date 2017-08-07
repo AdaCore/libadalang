@@ -4,18 +4,42 @@ Analyzing testcase.adb
 Resolving xrefs for node <AssignStmt 8:4-10:31>
 ***********************************************
 
-Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 5:4-5:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <ParenExpr 8:9-10:30>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <CaseExpr 8:10-10:29>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "A" 8:15-8:16>, references <ObjectDecl ["A"] 5:4-5:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <CaseExprAlternative 9:10-9:27>, references None, type is None
-Expr: <Int 9:15-9:17>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 9:20-9:22>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "A" 9:26-9:27>, references <ObjectDecl ["A"] 5:4-5:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <CaseExprAlternative 10:10-10:29>, references None, type is None
-Expr: <Int 10:15-10:17>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 10:20-10:22>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Foo" 10:26-10:29>, references <ExprFunction ["Foo"] 2:4-2:40>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 8:4-8:5>
+  references: <ObjectDecl ["A"] 5:4-5:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <ParenExpr 8:9-10:30>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <CaseExpr 8:10-10:29>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 8:15-8:16>
+  references: <ObjectDecl ["A"] 5:4-5:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <CaseExprAlternative 9:10-9:27>
+  references: None
+  type:       None
+Expr: <Int 9:15-9:17>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 9:20-9:22>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 9:26-9:27>
+  references: <ObjectDecl ["A"] 5:4-5:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <CaseExprAlternative 10:10-10:29>
+  references: None
+  type:       None
+Expr: <Int 10:15-10:17>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 10:20-10:22>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 10:26-10:29>
+  references: <ExprFunction ["Foo"] 2:4-2:40>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Done.

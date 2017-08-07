@@ -4,10 +4,18 @@ Analyzing test_access.adb
 Resolving xrefs for node <AssignStmt 15:4-15:15>
 ************************************************
 
-Expr: <DottedName 15:4-15:9>, references <ComponentDecl ["A", "B"] 5:7-5:18>, type is <TypeDecl ["Int"] 2:4-2:38>
-Expr: <Id "R_A" 15:4-15:7>, references <ObjectDecl ["R_A"] 11:4-11:21>, type is <TypeDecl ["Rec_Access"] 8:4-8:38>
-Expr: <Id "B" 15:8-15:9>, references <ComponentDecl ["A", "B"] 5:7-5:18>, type is <TypeDecl ["Int"] 2:4-2:38>
-Expr: <Id "I" 15:13-15:14>, references <ObjectDecl ["I"] 12:4-12:12>, type is <TypeDecl ["Int"] 2:4-2:38>
+Expr: <DottedName 15:4-15:9>
+  references: <ComponentDecl ["A", "B"] 5:7-5:18>
+  type:       <TypeDecl ["Int"] 2:4-2:38>
+Expr: <Id "R_A" 15:4-15:7>
+  references: <ObjectDecl ["R_A"] 11:4-11:21>
+  type:       <TypeDecl ["Rec_Access"] 8:4-8:38>
+Expr: <Id "B" 15:8-15:9>
+  references: <ComponentDecl ["A", "B"] 5:7-5:18>
+  type:       <TypeDecl ["Int"] 2:4-2:38>
+Expr: <Id "I" 15:13-15:14>
+  references: <ObjectDecl ["I"] 12:4-12:12>
+  type:       <TypeDecl ["Int"] 2:4-2:38>
 
 
 Done.

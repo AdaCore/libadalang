@@ -4,19 +4,35 @@ Analyzing testop.adb
 Resolving xrefs for node <AssignStmt 9:4-9:15>
 **********************************************
 
-Expr: <Id "A" 9:4-9:5>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <BinOp 9:9-9:14>, references <ExprFunction [""+""] 3:4-3:57>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "B" 9:9-9:10>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "C" 9:13-9:14>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 9:4-9:5>
+  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 9:9-9:14>
+  references: <ExprFunction [""+""] 3:4-3:57>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "B" 9:9-9:10>
+  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "C" 9:13-9:14>
+  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Resolving xrefs for node <AssignStmt 12:4-12:17>
 ************************************************
 
-Expr: <Id "Foo" 12:4-12:7>, references <ObjectDecl ["Foo"] 7:4-7:18>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
-Expr: <RelationOp 12:11-12:16>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "B" 12:11-12:12>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "C" 12:15-12:16>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Foo" 12:4-12:7>
+  references: <ObjectDecl ["Foo"] 7:4-7:18>
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <RelationOp 12:11-12:16>
+  references: None
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "B" 12:11-12:12>
+  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "C" 12:15-12:16>
+  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Done.

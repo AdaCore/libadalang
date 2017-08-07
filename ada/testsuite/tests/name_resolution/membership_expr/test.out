@@ -4,26 +4,50 @@ Analyzing testmembership.adb
 Resolving xrefs for node <ObjectDecl ["A", "B"] 2:4-2:25>
 *********************************************************
 
-Expr: <Id "A" 2:4-2:5>, references None, type is None
-Expr: <Id "B" 2:7-2:8>, references None, type is None
-Expr: <Id "Integer" 2:11-2:18>, references <TypeDecl ["Integer"] 4:3-4:54>, type is None
-Expr: <Int 2:22-2:24>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "A" 2:4-2:5>
+  references: None
+  type:       None
+Expr: <Id "B" 2:7-2:8>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:11-2:18>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <Int 2:22-2:24>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <IfStmt 4:4-6:11>
 ******************************************
 
-Expr: <MembershipExpr 4:7-4:26>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "A" 4:7-4:8>, references <ObjectDecl ["A", "B"] 2:4-2:25>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 4:12-4:13>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 4:16-4:17>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <BinOp 4:20-4:26>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 4:20-4:21>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "B" 4:25-4:26>, references <ObjectDecl ["A", "B"] 2:4-2:25>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <MembershipExpr 4:7-4:26>
+  references: None
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "A" 4:7-4:8>
+  references: <ObjectDecl ["A", "B"] 2:4-2:25>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 4:12-4:13>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 4:16-4:17>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 4:20-4:26>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 4:20-4:21>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "B" 4:25-4:26>
+  references: <ObjectDecl ["A", "B"] 2:4-2:25>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <NullStmt 5:7-5:12>
 ********************************************
 
-Expr: <Null 5:7-5:11>, references None, type is None
+Expr: <Null 5:7-5:11>
+  references: None
+  type:       None
 
 
 Done.

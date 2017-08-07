@@ -138,9 +138,9 @@ procedure Nameres is
                P_Type : Entity := Expr (N).P_Type_Val;
             begin
                if not Quiet then
-                  Put_Line
-                    ("Expr: " & Safe_Image (N) & ", references "
-                     & Image (P_Ref) & ", type is " & Image (P_Type));
+                  Put_Line ("Expr: " & Safe_Image (N));
+                  Put_Line ("  references: " & Image (P_Ref));
+                  Put_Line ("  type:       " & Image (P_Type));
                end if;
                Dec_Ref (P_Ref);
                Dec_Ref (P_Type);

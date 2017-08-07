@@ -4,14 +4,22 @@ Analyzing test_object_decl.adb
 Resolving xrefs for node <ObjectDecl ["A"] 6:7-6:22>
 ****************************************************
 
-Expr: <Id "A" 6:7-6:8>, references None, type is None
-Expr: <Id "Int" 6:11-6:14>, references <TypeDecl ["Int"] 2:4-2:31>, type is None
-Expr: <Int 6:18-6:21>, references None, type is <TypeDecl ["Int"] 2:4-2:31>
+Expr: <Id "A" 6:7-6:8>
+  references: None
+  type:       None
+Expr: <Id "Int" 6:11-6:14>
+  references: <TypeDecl ["Int"] 2:4-2:31>
+  type:       None
+Expr: <Int 6:18-6:21>
+  references: None
+  type:       <TypeDecl ["Int"] 2:4-2:31>
 
 Resolving xrefs for node <NullStmt 8:7-8:12>
 ********************************************
 
-Expr: <Null 8:7-8:11>, references None, type is None
+Expr: <Null 8:7-8:11>
+  references: None
+  type:       None
 
 
 Done.

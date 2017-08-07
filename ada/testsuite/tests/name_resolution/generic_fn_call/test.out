@@ -4,12 +4,24 @@ Analyzing main.adb
 Resolving xrefs for node <CallStmt 10:4-10:29>
 **********************************************
 
-Expr: <CallExpr 10:4-10:28>, references <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>, type is None
-Expr: <DottedName 10:4-10:21>, references <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>, type is None
-Expr: <Id "Int_Vector" 10:4-10:14>, references <GenericPackageInstantiation ["Int_Vector"] 4:4-4:47>, type is None
-Expr: <Id "Append" 10:15-10:21>, references <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>, type is None
-Expr: <Id "V" 10:23-10:24>, references <ObjectDecl ["V", "V2"] 7:4-7:31>, type is <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:4:4] |>
-Expr: <Id "B" 10:26-10:27>, references <ObjectDecl ["B"] 8:4-8:21>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <CallExpr 10:4-10:28>
+  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  type:       None
+Expr: <DottedName 10:4-10:21>
+  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  type:       None
+Expr: <Id "Int_Vector" 10:4-10:14>
+  references: <GenericPackageInstantiation ["Int_Vector"] 4:4-4:47>
+  type:       None
+Expr: <Id "Append" 10:15-10:21>
+  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  type:       None
+Expr: <Id "V" 10:23-10:24>
+  references: <ObjectDecl ["V", "V2"] 7:4-7:31>
+  type:       <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:4:4] |>
+Expr: <Id "B" 10:26-10:27>
+  references: <ObjectDecl ["B"] 8:4-8:21>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 
 Done.

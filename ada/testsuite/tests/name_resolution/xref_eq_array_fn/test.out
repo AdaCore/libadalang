@@ -4,10 +4,18 @@ Analyzing test_array_fn.adb
 Resolving xrefs for node <AssignStmt 8:4-8:15>
 **********************************************
 
-Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 6:4-6:16>, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <CallExpr 8:9-8:14>, references <ExprFunction ["F"] 4:4-4:42>, type is <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <Id "F" 8:9-8:10>, references <ExprFunction ["F"] 4:4-4:42>, type is <TypeDecl ["T"] 3:4-3:55>
-Expr: <Int 8:12-8:13>, references None, type is <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <Id "A" 8:4-8:5>
+  references: <ObjectDecl ["A"] 6:4-6:16>
+  type:       <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <CallExpr 8:9-8:14>
+  references: <ExprFunction ["F"] 4:4-4:42>
+  type:       <TypeDecl ["Integer"] 2:4-2:36>
+Expr: <Id "F" 8:9-8:10>
+  references: <ExprFunction ["F"] 4:4-4:42>
+  type:       <TypeDecl ["T"] 3:4-3:55>
+Expr: <Int 8:12-8:13>
+  references: None
+  type:       <TypeDecl ["Integer"] 2:4-2:36>
 
 
 Done.

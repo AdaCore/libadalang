@@ -4,8 +4,12 @@ Analyzing test1.adb
 Resolving xrefs for node <AssignStmt 12:4-12:11>
 ************************************************
 
-Expr: <Id "A" 12:4-12:5>, references <ObjectDecl ["A"] 7:4-7:12>, type is <TypeDecl ["Int"] 2:4-2:30>
-Expr: <Id "B" 12:9-12:10>, references <ExprFunction ["B"] 10:4-10:37>, type is <TypeDecl ["Int"] 2:4-2:30>
+Expr: <Id "A" 12:4-12:5>
+  references: <ObjectDecl ["A"] 7:4-7:12>
+  type:       <TypeDecl ["Int"] 2:4-2:30>
+Expr: <Id "B" 12:9-12:10>
+  references: <ExprFunction ["B"] 10:4-10:37>
+  type:       <TypeDecl ["Int"] 2:4-2:30>
 
 
 Done.

@@ -4,21 +4,41 @@ Analyzing pouet.adb
 Resolving xrefs for node <AssignStmt 13:4-13:15>
 ************************************************
 
-Expr: <Id "I" 13:4-13:5>, references <ObjectDecl ["I"] 10:4-10:14>, type is <TypeDecl ["T_Ptr"] 8:4-8:31>
-Expr: <Allocator 13:9-13:14>, references None, type is <TypeDecl ["T_Ptr"] 8:4-8:31>
-Expr: <Id "T" 13:13-13:14>, references <TypeDecl ["T"] 4:4-6:15>, type is None
+Expr: <Id "I" 13:4-13:5>
+  references: <ObjectDecl ["I"] 10:4-10:14>
+  type:       <TypeDecl ["T_Ptr"] 8:4-8:31>
+Expr: <Allocator 13:9-13:14>
+  references: None
+  type:       <TypeDecl ["T_Ptr"] 8:4-8:31>
+Expr: <Id "T" 13:13-13:14>
+  references: <TypeDecl ["T"] 4:4-6:15>
+  type:       None
 
 
 Resolving xrefs for node <AssignStmt 16:4-16:24>
 ************************************************
 
-Expr: <Id "J" 16:4-16:5>, references <ObjectDecl ["J"] 11:4-11:17>, type is <AnonymousTypeDecl ["None"] 11:8-11:16>
-Expr: <Allocator 16:9-16:23>, references None, type is <AnonymousTypeDecl ["None"] 11:8-11:16>
-Expr: <QualExpr 16:13-16:23>, references <TypeDecl ["T"] 4:4-6:15>, type is <TypeDecl ["T"] 4:4-6:15>
-Expr: <Id "T" 16:13-16:14>, references <TypeDecl ["T"] 4:4-6:15>, type is <TypeDecl ["T"] 4:4-6:15>
-Expr: <Aggregate 16:15-16:23>, references None, type is <TypeDecl ["T"] 4:4-6:15>
-Expr: <Int 16:16-16:18>, references None, type is <TypeDecl ["Integer"] 2:4-2:44>
-Expr: <Int 16:20-16:22>, references None, type is <TypeDecl ["Integer"] 2:4-2:44>
+Expr: <Id "J" 16:4-16:5>
+  references: <ObjectDecl ["J"] 11:4-11:17>
+  type:       <AnonymousTypeDecl ["None"] 11:8-11:16>
+Expr: <Allocator 16:9-16:23>
+  references: None
+  type:       <AnonymousTypeDecl ["None"] 11:8-11:16>
+Expr: <QualExpr 16:13-16:23>
+  references: <TypeDecl ["T"] 4:4-6:15>
+  type:       <TypeDecl ["T"] 4:4-6:15>
+Expr: <Id "T" 16:13-16:14>
+  references: <TypeDecl ["T"] 4:4-6:15>
+  type:       <TypeDecl ["T"] 4:4-6:15>
+Expr: <Aggregate 16:15-16:23>
+  references: None
+  type:       <TypeDecl ["T"] 4:4-6:15>
+Expr: <Int 16:16-16:18>
+  references: None
+  type:       <TypeDecl ["Integer"] 2:4-2:44>
+Expr: <Int 16:20-16:22>
+  references: None
+  type:       <TypeDecl ["Integer"] 2:4-2:44>
 
 
 Done.

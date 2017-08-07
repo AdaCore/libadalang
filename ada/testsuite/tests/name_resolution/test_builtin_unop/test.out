@@ -4,21 +4,41 @@ Analyzing testunop.adb
 Resolving xrefs for node <AssignStmt 10:4-10:11>
 ************************************************
 
-Expr: <Id "B" 10:4-10:5>, references <ObjectDecl ["A", "B"] 8:4-8:17>, type is <TypeDecl ["T"] 4:10-4:35>
-Expr: <Int 10:9-10:10>, references None, type is <TypeDecl ["T"] 4:10-4:35>
+Expr: <Id "B" 10:4-10:5>
+  references: <ObjectDecl ["A", "B"] 8:4-8:17>
+  type:       <TypeDecl ["T"] 4:10-4:35>
+Expr: <Int 10:9-10:10>
+  references: None
+  type:       <TypeDecl ["T"] 4:10-4:35>
 
 
 Resolving xrefs for node <AssignStmt 13:4-13:21>
 ************************************************
 
-Expr: <Id "A" 13:4-13:5>, references <ObjectDecl ["A", "B"] 8:4-8:17>, type is <TypeDecl ["T"] 4:10-4:35>
-Expr: <CallExpr 13:9-13:20>, references None, type is <TypeDecl ["T"] 4:10-4:35>
-Expr: <DottedName 13:9-13:16>, references None, type is None
-Expr: <DottedName 13:9-13:12>, references <PackageDecl ["E"] 3:7-5:13>, type is None
-Expr: <Id "P" 13:9-13:10>, references <PackageDecl ["P"] 2:4-6:10>, type is None
-Expr: <Id "E" 13:11-13:12>, references <PackageDecl ["E"] 3:7-5:13>, type is None
-Expr: <Str ""+"" 13:13-13:16>, references None, type is None
-Expr: <Id "B" 13:18-13:19>, references <ObjectDecl ["A", "B"] 8:4-8:17>, type is <TypeDecl ["T"] 4:10-4:35>
+Expr: <Id "A" 13:4-13:5>
+  references: <ObjectDecl ["A", "B"] 8:4-8:17>
+  type:       <TypeDecl ["T"] 4:10-4:35>
+Expr: <CallExpr 13:9-13:20>
+  references: None
+  type:       <TypeDecl ["T"] 4:10-4:35>
+Expr: <DottedName 13:9-13:16>
+  references: None
+  type:       None
+Expr: <DottedName 13:9-13:12>
+  references: <PackageDecl ["E"] 3:7-5:13>
+  type:       None
+Expr: <Id "P" 13:9-13:10>
+  references: <PackageDecl ["P"] 2:4-6:10>
+  type:       None
+Expr: <Id "E" 13:11-13:12>
+  references: <PackageDecl ["E"] 3:7-5:13>
+  type:       None
+Expr: <Str ""+"" 13:13-13:16>
+  references: None
+  type:       None
+Expr: <Id "B" 13:18-13:19>
+  references: <ObjectDecl ["A", "B"] 8:4-8:17>
+  type:       <TypeDecl ["T"] 4:10-4:35>
 
 
 Done.

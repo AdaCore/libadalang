@@ -1,6 +1,10 @@
 Analyzing return_stmt.adb
 #########################
 
+Resolving xrefs for node <ReturnStmt 6:7-6:18>
+**********************************************
+
 Expr: <Id "Bar" 6:14-6:17>, references <ExprFunction ["Bar"] 3:7-3:43>, type is <TypeDecl ["Integer"] 4:3-4:54>
+
 
 Done.

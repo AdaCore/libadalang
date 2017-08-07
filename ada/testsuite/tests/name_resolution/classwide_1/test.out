@@ -1,6 +1,9 @@
 Analyzing testcw.adb
 ####################
 
+Resolving xrefs for node <ObjectDecl ["CW"] 15:7-15:35>
+*******************************************************
+
 Expr: <Id "CW" 15:7-15:9>, references None, type is None
 Expr: <AttributeRef 15:12-15:19>, references <ClasswideTypeDecl ["A"] 0:0-0:0>, type is None
 Expr: <Id "A" 15:12-15:13>, references <ClasswideTypeDecl ["A"] 0:0-0:0>, type is None
@@ -10,8 +13,13 @@ Expr: <Id "A" 15:23-15:24>, references <TypeDecl ["A"] 3:7-5:18>, type is <TypeD
 Expr: <Aggregate 15:25-15:34>, references None, type is <TypeDecl ["A"] 3:7-5:18>
 Expr: <Id "A" 15:26-15:27>, references <ComponentDecl ["A"] 4:10-4:22>, type is None
 Expr: <Int 15:31-15:33>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <CallStmt 17:7-17:14>
+**********************************************
+
 Expr: <DottedName 17:7-17:13>, references <NullSubpDecl ["Foo"] 7:7-7:40>, type is None
 Expr: <Id "CW" 17:7-17:9>, references <ObjectDecl ["CW"] 15:7-15:35>, type is <ClasswideTypeDecl ["A"] 0:0-0:0>
 Expr: <Id "Foo" 17:10-17:13>, references <NullSubpDecl ["Foo"] 7:7-7:40>, type is None
+
 
 Done.

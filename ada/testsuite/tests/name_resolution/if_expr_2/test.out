@@ -5,6 +5,9 @@ Test elsif branches
 -------------------
 
 
+Resolving xrefs for node <AssignStmt 9:4-9:52>
+**********************************************
+
 Expr: <Id "A" 9:4-9:5>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <ParenExpr 9:9-9:51>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <IfExpr 9:10-9:50>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
@@ -14,9 +17,13 @@ Expr: <Id "True" 9:32-9:36>, references <EnumLiteralDecl ["True"] 3:27-3:31>, ty
 Expr: <Id "B" 9:42-9:43>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "C" 9:49-9:50>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
 
+
 Test single then
 ----------------
 
+
+Resolving xrefs for node <AssignStmt 13:4-13:48>
+************************************************
 
 Expr: <Id "A" 13:4-13:5>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <ParenExpr 13:9-13:47>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
@@ -27,5 +34,6 @@ Expr: <Id "Foo" 13:17-13:20>, references <SubpDecl ["Foo"] 5:4-5:32>, type is <E
 Expr: <Id "Foo" 13:26-13:29>, references <SubpDecl ["Foo"] 5:4-5:32>, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Foo" 13:36-13:39>, references <SubpDecl ["Foo"] 4:4-4:32>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "B" 13:45-13:46>, references <ObjectDecl ["A", "B", "C"] 2:4-2:22>, type is <TypeDecl ["Integer"] 4:3-4:54>
+
 
 Done.

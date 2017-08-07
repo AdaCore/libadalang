@@ -1,8 +1,12 @@
 Analyzing test.adb
 ##################
 
+Resolving xrefs for node <CallStmt 7:4-7:10>
+********************************************
+
 Expr: <CallExpr 7:4-7:9>, references <SubpDecl ["A"] 3:4-3:26>, type is None
 Expr: <Id "A" 7:4-7:5>, references <SubpDecl ["A"] 3:4-3:26>, type is None
 Expr: <Id "B" 7:7-7:8>, references <ObjectDecl ["B"] 5:4-5:12>, type is <TypeDecl ["Int"] 2:4-2:31>
+
 
 Done.

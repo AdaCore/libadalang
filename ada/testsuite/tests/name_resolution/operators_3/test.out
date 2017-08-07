@@ -1,6 +1,9 @@
 Analyzing testop.adb
 ####################
 
+Resolving xrefs for node <IfStmt 14:4-16:11>
+********************************************
+
 Expr: <BinOp 14:7-14:47>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <BinOp 14:7-14:25>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp 14:7-14:12>, references None, type is <EnumTypeDecl ["Boolean"] 3:3-3:33>
@@ -14,5 +17,6 @@ Expr: <BinOp 14:36-14:41>, references <ExprFunction [""+""] 5:4-5:57>, type is <
 Expr: <Id "A" 14:36-14:37>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "B" 14:40-14:41>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "C" 14:45-14:46>, references <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>, type is <TypeDecl ["Integer"] 4:3-4:54>
+
 
 Done.

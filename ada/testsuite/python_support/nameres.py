@@ -48,6 +48,7 @@ def decode_boolean_literal(node):
 
 
 def resolve_node(node):
+
     def print_nodes(n):
         if n.is_a(lal.Expr):
             print("Expr: {}, references {}, type is {}".format(
@@ -62,6 +63,8 @@ def resolve_node(node):
 
     assert node.p_xref_entry_point
 
+    print_title('*', "Resolving xrefs for node {}".format(node))
+
     # Perform name resolution on the node, using the p_resolve_names property
     if node.p_resolve_names:
         # If it worked, print the reference value and the type value of
@@ -69,6 +72,8 @@ def resolve_node(node):
         print_nodes(node)
     else:
         print("Resolution failed for node {}".format(node))
+
+    print('')
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -167,9 +172,11 @@ for src_file in input_sources:
 
         elif pragma_name == u'Test_Block':
             assert not p.f_args
-            for statement in p.previous_sibling.findall(
-                lambda n: n.p_xref_entry_point
-            ):
+            block = (p.parent.parent.f_body
+                     if p.parent.parent.is_a(lal.CompilationUnit)
+                     else p.previous_sibling)
+
+            for statement in block.findall(lambda n: n.p_xref_entry_point):
                 resolve_node(statement)
             empty = False
 

@@ -1,7 +1,15 @@
 Analyzing testuse.adb
 #####################
 
+Resolving xrefs for node <ObjectDecl ["C"] 14:7-14:24>
+******************************************************
+
 Resolution failed for node <ObjectDecl ["C"] 14:7-14:24>
+
+Resolving xrefs for node <NullStmt 17:7-17:12>
+**********************************************
+
 Expr: <Null 17:7-17:11>, references None, type is None
+
 
 Done.

@@ -1,15 +1,27 @@
 Analyzing test.adb
 ##################
 
+Resolving xrefs for node <CallStmt 8:4-8:11>
+********************************************
+
 Expr: <CallExpr 8:4-8:10>, references <SubpDecl ["A"] 3:4-3:26>, type is None
 Expr: <Id "A" 8:4-8:5>, references <SubpDecl ["A"] 3:4-3:26>, type is None
 Expr: <Int 8:7-8:9>, references None, type is <TypeDecl ["Int"] 2:4-2:31>
+
+
+Resolving xrefs for node <AssignStmt 11:4-11:16>
+************************************************
 
 Expr: <Id "B" 11:4-11:5>, references <ObjectDecl ["B"] 6:4-6:12>, type is <TypeDecl ["Int"] 2:4-2:31>
 Expr: <CallExpr 11:9-11:15>, references <SubpDecl ["C"] 4:4-4:36>, type is <TypeDecl ["Int"] 2:4-2:31>
 Expr: <Id "C" 11:9-11:10>, references <SubpDecl ["C"] 4:4-4:36>, type is <TypeDecl ["Int"] 2:4-2:31>
 Expr: <Int 11:12-11:14>, references None, type is <TypeDecl ["Int"] 2:4-2:31>
 
+
+Resolving xrefs for node <CallStmt 14:4-14:11>
+**********************************************
+
 Resolution failed for node <CallStmt 14:4-14:11>
+
 
 Done.

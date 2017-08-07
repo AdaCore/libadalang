@@ -1,6 +1,10 @@
 Analyzing foo.adb
 #################
 
+Resolving xrefs for node <AssignStmt 9:4-9:25>
+**********************************************
+
 Resolution failed for node <AssignStmt 9:4-9:25>
+
 
 Done.

@@ -1,14 +1,22 @@
 Analyzing main.adb
 ##################
 
+Resolving xrefs for node <AssignStmt 11:4-11:20>
+************************************************
+
 Expr: <Id "M" 11:4-11:5>, references <ObjectDecl ["M"] 6:4-6:23>, type is <TypeDecl ["Tuple"] 5:4-8:15>
 Expr: <Aggregate 11:9-11:19>, references None, type is <TypeDecl ["Tuple"] 5:4-8:15>
 Expr: <Int 11:10-11:12>, references None, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Real 11:14-11:18>, references None, type is <TypeDecl ["Float"] 13:3-14:51>
 
+
+Resolving xrefs for node <AssignStmt 14:4-14:20>
+************************************************
+
 Expr: <Id "M" 14:4-14:5>, references <ObjectDecl ["M"] 6:4-6:23>, type is <TypeDecl ["Tuple"] 5:4-8:15>
 Expr: <Aggregate 14:9-14:19>, references None, type is <TypeDecl ["Tuple"] 5:4-8:15>
 Expr: <Id "Foo" 14:10-14:13>, references <ExprFunction ["Foo"] 8:4-8:40>, type is <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Foo" 14:15-14:18>, references <ExprFunction ["Foo"] 9:4-9:40>, type is <TypeDecl ["Float"] 13:3-14:51>
+
 
 Done.

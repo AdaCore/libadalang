@@ -1,12 +1,19 @@
 Analyzing derived_aggregate.adb
 ###############################
 
+Resolving xrefs for node <AssignStmt 19:4-19:26>
+************************************************
+
 Expr: <Id "R" 19:4-19:5>, references <ObjectDecl ["R"] 15:4-15:14>, type is <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 19:9-19:25>, references None, type is <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Real 19:10-19:13>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Real 19:15-19:18>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Int 19:20-19:21>, references None, type is <TypeDecl ["Integer"] 5:4-5:34>
 Expr: <Int 19:23-19:24>, references None, type is <TypeDecl ["Integer"] 5:4-5:34>
+
+
+Resolving xrefs for node <AssignStmt 22:4-22:45>
+************************************************
 
 Expr: <Id "R" 22:4-22:5>, references <ObjectDecl ["R"] 15:4-15:14>, type is <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 22:9-22:44>, references None, type is <TypeDecl ["Rec_2"] 11:4-13:15>
@@ -19,6 +26,10 @@ Expr: <Real 22:31-22:34>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Id "A" 22:36-22:37>, references <ComponentDecl ["A", "B"] 8:7-8:20>, type is None
 Expr: <Real 22:40-22:43>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 
+
+Resolving xrefs for node <AssignStmt 25:4-25:41>
+************************************************
+
 Expr: <Id "R" 25:4-25:5>, references <ObjectDecl ["R"] 15:4-15:14>, type is <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 25:9-25:40>, references None, type is <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Id "C" 25:10-25:11>, references <ComponentDecl ["C", "D"] 12:7-12:22>, type is None
@@ -29,6 +40,11 @@ Expr: <Real 25:27-25:30>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Id "A" 25:32-25:33>, references <ComponentDecl ["A", "B"] 8:7-8:20>, type is None
 Expr: <Real 25:36-25:39>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 
+
+Resolving xrefs for node <AssignStmt 28:4-28:26>
+************************************************
+
 Resolution failed for node <AssignStmt 28:4-28:26>
+
 
 Done.

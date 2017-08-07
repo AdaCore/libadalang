@@ -154,6 +154,7 @@ procedure Nameres is
       Dummy : Visit_Status;
 
    begin
+      Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
       if Langkit_Support.Adalog.Debug.Debug then
          Node.Assign_Names_To_Logic_Vars;
       end if;
@@ -163,18 +164,20 @@ procedure Nameres is
       else
          Put_Line ("Resolution failed for node " & Safe_Image (Node));
       end if;
+      Put_Line ("");
    exception
    when E : others =>
          Put_Line
            ("Resolution failed with exception for node " & Safe_Image (Node));
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+         Put_Line ("");
    end Resolve_Node;
 
    -------------------
    -- Resolve_Block --
    -------------------
 
-   procedure Resolve_Block (Block : Ada_Node; Header : Boolean := False) is
+   procedure Resolve_Block (Block : Ada_Node) is
       function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
       is (N.P_Xref_Entry_Point);
    begin
@@ -182,13 +185,7 @@ procedure Nameres is
         of Block.Find (Is_Xref_Entry_Point'Access).Consume
       loop
 
-         if Header then
-            Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
-         end if;
          Resolve_Node (Node);
-         if Header then
-            Put_Line ("");
-         end if;
       end loop;
    end Resolve_Block;
 
@@ -208,7 +205,7 @@ procedure Nameres is
       Populate_Lexical_Env (Unit);
 
       if Resolve_All then
-         Resolve_Block (Root (Unit), Header => True);
+         Resolve_Block (Root (Unit));
       end if;
 
       declare

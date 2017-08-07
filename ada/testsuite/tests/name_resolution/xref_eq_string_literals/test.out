@@ -1,14 +1,26 @@
 Analyzing teststrlit.adb
 ########################
 
+Resolving xrefs for node <AssignStmt 13:4-13:15>
+************************************************
+
 Expr: <Id "S" 13:4-13:5>, references <ObjectDecl ["S"] 6:4-6:12>, type is <TypeDecl ["Str"] 4:4-4:36>
 Expr: <Str ""abc"" 13:9-13:14>, references None, type is <TypeDecl ["Str"] 4:4-4:36>
 
+
+Resolving xrefs for node <AssignStmt 16:4-16:15>
+************************************************
+
 Resolution failed for node <AssignStmt 16:4-16:15>
+
+
+Resolving xrefs for node <AssignStmt 19:4-19:21>
+************************************************
 
 Expr: <Id "I" 19:4-19:5>, references <ObjectDecl ["I"] 7:4-7:12>, type is <TypeDecl ["Int"] 3:4-3:31>
 Expr: <CallExpr 19:9-19:20>, references <SubpDecl ["Foo"] 9:4-9:38>, type is <TypeDecl ["Int"] 3:4-3:31>
 Expr: <Id "Foo" 19:9-19:12>, references <SubpDecl ["Foo"] 9:4-9:38>, type is <TypeDecl ["Int"] 3:4-3:31>
 Expr: <Str ""abc"" 19:14-19:19>, references None, type is <TypeDecl ["Str"] 4:4-4:36>
+
 
 Done.

@@ -1,6 +1,9 @@
 Analyzing derived_aggregate.adb
 ###############################
 
+Resolving xrefs for node <AssignStmt 20:4-20:63>
+************************************************
+
 Expr: <Id "R" 20:4-20:5>, references <ObjectDecl ["R"] 16:4-16:14>, type is <TypeDecl ["Rec_2"] 11:4-14:15>
 Expr: <Aggregate 20:9-20:62>, references None, type is <TypeDecl ["Rec_2"] 11:4-14:15>
 Expr: <Id "A" 20:10-20:11>, references <ComponentDecl ["A", "B"] 8:7-8:20>, type is None
@@ -15,5 +18,6 @@ Expr: <Id "R" 20:46-20:47>, references <ComponentDecl ["R"] 13:7-13:15>, type is
 Expr: <Aggregate 20:51-20:61>, references None, type is <TypeDecl ["Rec"] 7:4-9:15>
 Expr: <Real 20:52-20:55>, references None, type is <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Id "Foo" 20:57-20:60>, references <ExprFunction ["Foo"] 18:4-18:39>, type is <TypeDecl ["Float"] 4:4-4:39>
+
 
 Done.

@@ -1,7 +1,11 @@
 Analyzing test1.adb
 ###################
 
+Resolving xrefs for node <AssignStmt 8:4-8:11>
+**********************************************
+
 Expr: <Id "A" 8:4-8:5>, references <ObjectDecl ["A"] 4:4-4:12>, type is <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Id "B" 8:9-8:10>, references <SubpDecl ["B"] 6:4-6:26>, type is <TypeDecl ["Int"] 2:4-2:30>
+
 
 Done.

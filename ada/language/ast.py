@@ -2196,6 +2196,8 @@ class GenericDecl(BasicDecl):
     formal_part = Field(type=T.GenericFormalPart)
     decl = AbstractProperty(type=T.BasicDecl.entity)
 
+    annotations = Annotations(rebindable=True)
+
 
 class GenericSubpDecl(GenericDecl):
     env_spec = child_unit(Self.relative_name,

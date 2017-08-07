@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: membership_expr
+driver: name-resolution
+input_sources: [testmembership.adb]

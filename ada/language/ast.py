@@ -1362,6 +1362,15 @@ class ConstrainedArrayIndices(ArrayIndices):
             lambda _: LogicTrue()
         )
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.list.logic_all(
+            lambda index: index.sub_equation
+            & index.cast(T.Expr).then(
+                lambda expr: Predicate(BaseTypeDecl.is_int_type, expr.type_var)
+            )
+        )
+
 
 class ComponentDef(AdaNode):
     has_aliased = Field(type=Aliased)

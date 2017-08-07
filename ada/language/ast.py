@@ -1280,6 +1280,13 @@ class SignedIntTypeDef(TypeDef):
     range = Field(type=T.RangeSpec)
     is_int_type = Property(True)
 
+    xref_equation = Property(
+        # We consider that the range expression is of the type we're defining.
+        # Not sure how good of an idea this is but works in most cases.
+        Bind(Entity.range.range.type_var, Entity.containing_type)
+        & Entity.range.xref_equation
+    )
+
 
 class ModIntTypeDef(TypeDef):
     expr = Field(type=T.Expr)

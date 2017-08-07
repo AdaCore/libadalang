@@ -1275,6 +1275,8 @@ class PrivateTypeDef(TypeDef):
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
 
+    xref_equation = Property(LogicTrue())
+
 
 class SignedIntTypeDef(TypeDef):
     range = Field(type=T.RangeSpec)

@@ -2463,6 +2463,14 @@ class MembershipExpr(Expr):
     op = Field(type=Op)
     membership_exprs = Field(type=T.ExprAlternativesList)
 
+    xref_equation = Property(
+        Entity.expr.sub_equation
+        & Entity.membership_exprs.logic_all(
+            lambda m:
+            m.sub_equation & Bind(Entity.expr.type_var, m.type_var)
+        )
+    )
+
 
 class DiscreteSubtypeExpr(Expr):
     subtype = Field(type=T.DiscreteSubtypeIndication)

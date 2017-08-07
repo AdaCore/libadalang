@@ -1389,6 +1389,10 @@ class ArrayTypeDef(TypeDef):
 
     array_ndims = Property(Self.indices.ndims)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.indices.sub_equation
+
 
 class InterfaceKind(EnumNode):
     alternatives = ["limited", "task", "protected", "synchronized"]

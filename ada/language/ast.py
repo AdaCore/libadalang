@@ -4090,6 +4090,8 @@ class NamedStmt(CompositeStmt):
         add_env()
     )
 
+    xref_equation = Property(LogicTrue())
+
 
 @abstract
 class BaseLoopStmt(CompositeStmt):

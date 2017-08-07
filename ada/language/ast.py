@@ -2970,7 +2970,7 @@ class ExplicitDeref(Name):
 
 
 class BoxExpr(Expr):
-    pass
+    xref_equation = Property(LogicTrue())
 
 
 class OthersDesignator(AdaNode):

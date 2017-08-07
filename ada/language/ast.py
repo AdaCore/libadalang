@@ -4118,6 +4118,8 @@ class WhileLoopStmt(BaseLoopStmt):
 class BlockStmt(CompositeStmt):
     env_spec = EnvSpec(add_env())
 
+    xref_equation = Property(LogicTrue())
+
 
 class DeclBlock(BlockStmt):
     decls = Field(type=T.DeclarativePart)

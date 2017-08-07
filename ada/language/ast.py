@@ -2028,7 +2028,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         # want the children env of the P node, with no rebindings associated,
         # since the rebinding indication concerns the *naked* generic. Hence
         # we use p.el.children_env.
-        formal_env = p._.el.children_env
+        formal_env = Var(p.then(lambda p: p.el.children_env))
 
         return p._.decl.children_env.rebind_env(
             # If this generic instantiation is inside a generic instantiation,

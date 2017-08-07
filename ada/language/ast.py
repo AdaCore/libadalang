@@ -2464,6 +2464,10 @@ class MembershipExpr(Expr):
     membership_exprs = Field(type=T.AdaNode.list)
 
 
+class DiscreteSubtypeExpr(Expr):
+    subtype = Field(type=T.DiscreteSubtypeIndication)
+
+
 @abstract
 class BaseAggregate(Expr):
     ancestor_expr = Field(type=T.Expr)

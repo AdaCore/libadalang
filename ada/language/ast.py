@@ -4327,6 +4327,8 @@ class LibraryItem(AdaNode):
 class RangeSpec(AdaNode):
     range = Field(type=Expr)
 
+    xref_equation = Property(Entity.range.xref_equation)
+
 
 class IncompleteTypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)

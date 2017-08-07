@@ -7,7 +7,7 @@ BinOp[1:1-1:41]
 |  |op:
 |  |  OpIn[1:5-1:7]
 |  |membership_exprs:
-|  |  AlternativesList[1:9-1:19]
+|  |  ExprAlternativesList[1:9-1:19]
 |  |  |  BinOp[1:9-1:19]
 |  |  |  |left:
 |  |  |  |  Id[1:9-1:12]
@@ -27,7 +27,7 @@ BinOp[1:1-1:41]
 |  |op:
 |  |  OpIn[1:27-1:29]
 |  |membership_exprs:
-|  |  AlternativesList[1:31-1:41]
+|  |  ExprAlternativesList[1:31-1:41]
 |  |  |  BinOp[1:31-1:41]
 |  |  |  |left:
 |  |  |  |  Id[1:31-1:34]

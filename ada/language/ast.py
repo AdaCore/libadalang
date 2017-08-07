@@ -2461,7 +2461,7 @@ class MembershipExpr(Expr):
     """
     expr = Field(type=T.Expr)
     op = Field(type=Op)
-    membership_exprs = Field(type=T.AdaNode.list)
+    membership_exprs = Field(type=T.ExprAlternativesList)
 
 
 class DiscreteSubtypeExpr(Expr):
@@ -4367,6 +4367,10 @@ class DiscriminantChoiceList(Identifier.list):
 
 
 class AlternativesList(AdaNode.list):
+    pass
+
+
+class ExprAlternativesList(Expr.list):
     pass
 
 

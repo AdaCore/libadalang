@@ -1177,7 +1177,7 @@ A.add_rules(
     ),
 
     membership_choice_list=List(
-        A.membership_choice, sep="|", list_cls=AlternativesList
+        A.membership_choice, sep="|", list_cls=ExprAlternativesList
     ),
 
     relation=Or(

@@ -1,0 +1,27 @@
+Analyzing main.adb
+##################
+
+Resolving xrefs for node <AssignStmt 15:4-15:33>
+************************************************
+
+Expr: <Id "Val" 15:4-15:7>
+  references: <ObjectDecl ["Val"] 13:4-13:16>
+  type:       <TypeDecl ["Lol"] 2:4-2:28>
+Expr: <DottedName 15:11-15:32>
+  references: <| SubpDecl ["Bar"] 6:4-6:28 [main.adb:11:4, main.adb:8:7] |>
+  type:       <TypeDecl ["Lol"] 2:4-2:28>
+Expr: <DottedName 15:11-15:28>
+  references: <| GenericPackageInstantiation ["A_B_Inst"] 8:7-8:39 [main.adb:11:4] |>
+  type:       None
+Expr: <Id "Pkg_Inst" 15:11-15:19>
+  references: <GenericPackageInstantiation ["Pkg_Inst"] 11:4-11:40>
+  type:       None
+Expr: <Id "A_B_Inst" 15:20-15:28>
+  references: <| GenericPackageInstantiation ["A_B_Inst"] 8:7-8:39 [main.adb:11:4] |>
+  type:       None
+Expr: <Id "Bar" 15:29-15:32>
+  references: <| SubpDecl ["Bar"] 6:4-6:28 [main.adb:11:4, main.adb:8:7] |>
+  type:       <TypeDecl ["Lol"] 2:4-2:28>
+
+
+Done.

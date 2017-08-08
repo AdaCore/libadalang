@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: test_generic_env_shedding
+driver: name-resolution
+input_sources: [main.adb]

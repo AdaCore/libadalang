@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: array_constraints_res
+driver: name-resolution
+input_sources: [test.adb]

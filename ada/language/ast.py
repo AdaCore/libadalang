@@ -2584,7 +2584,7 @@ class Name(Expr):
     )
 
     name_designated_type = Property(
-        env.bind(Self.node_env,
+        env.bind(Entity.node_env,
                  origin.bind(Self, Entity.designated_type_impl)),
         doc="""
         Like SubtypeIndication.designated_type, but on names, since because of

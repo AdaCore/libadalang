@@ -8,7 +8,7 @@ from langkit.dsl import (
 )
 from langkit.envs import (
     EnvSpec, reference, add_to_env, add_env, handle_children, set_initial_env,
-    call_env_hook
+    call_env_hook, do
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
@@ -1501,7 +1501,14 @@ class WithClause(AdaNode):
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec(call_env_hook(Self))
+    env_spec = EnvSpec(do(Self.packages.map(
+        lambda package_name:
+        # First fetch the spec
+        package_name.referenced_unit(UnitSpecification)
+        # If no spec exists, maybe it is a library level subprogram with
+        # just a body, so fetch the body.
+        .root._or(package_name.referenced_unit(UnitBody).root)
+    )))
 
 
 @abstract

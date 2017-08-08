@@ -129,9 +129,6 @@ package body Libadalang.Unit_Files.Env_Hook is
      "  Tasking_Error    : exception;" & ASCII.LF &
      "end Standard;" & ASCII.LF;
 
-   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List);
-   --  Helper for the environment hook to handle WithDecl nodes
-
    procedure Handle_Unit_With_Parents
      (Ctx : Analysis_Context; Node : Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
@@ -149,9 +146,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    procedure Env_Hook (Unit : Analysis_Unit; Node : Ada_Node) is
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
-      if Node.all in With_Clause_Type'Class then
-         Handle_With_Decl (Ctx, With_Clause (Node).F_Packages);
-      elsif Node.all in Compilation_Unit_Type'Class then
+      if Node.all in Compilation_Unit_Type'Class then
          if not Has_Unit (Ctx, "standard.ads")
             and then Get_Filename (Get_Unit (Node)) /= "standard.ads"
          then
@@ -172,26 +167,6 @@ package body Libadalang.Unit_Files.Env_Hook is
          Handle_Subunit (Ctx, Basic_Decl (Node));
       end if;
    end Env_Hook;
-
-   ----------------------
-   -- Handle_With_Decl --
-   ----------------------
-
-   procedure Handle_With_Decl (Ctx : Analysis_Context; Names : Name_List) is
-      Dummy : Analysis_Unit := No_Analysis_Unit;
-   begin
-      for N of Names.Children loop
-         --  First fetch the spec
-         Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
-
-         --  If no spec exists, maybe it is a library level subprogram with
-         --  just a body, so fetch the body.
-         if Root (Dummy) = null then
-            Dummy := Fetch_Unit (Ctx, N, Unit_Body);
-         end if;
-         Dummy := No_Analysis_Unit;
-      end loop;
-   end Handle_With_Decl;
 
    ------------------------------
    -- Handle_Unit_With_Parents --

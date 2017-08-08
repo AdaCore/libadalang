@@ -392,6 +392,8 @@ begin
             Discard_Errors := True;
          elsif Arg in "--debug" | "-D" then
             Set_Debug_State (Step);
+         elsif Arg = "--step-on-fail" then
+            Set_Debug_State (Step_At_First_Unsat);
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
          elsif Arg = "--with-default-project" then

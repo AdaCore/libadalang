@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: first_attribute
+driver: name-resolution
+input_sources: [testfirst.adb]

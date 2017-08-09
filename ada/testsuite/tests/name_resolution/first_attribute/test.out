@@ -1,0 +1,164 @@
+Analyzing testfirst.adb
+#######################
+
+Resolving xrefs for node <TypeDecl ["A"] 2:4-2:50>
+**************************************************
+
+Expr: <Id "A" 2:9-2:10>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:21-2:28>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <BoxExpr 2:35-2:37>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:42-2:49>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["B"] 3:4-3:45>
+**************************************************
+
+Expr: <Id "B" 3:9-3:10>
+  references: None
+  type:       None
+Expr: <Id "Integer" 3:18-3:25>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <BinOp 3:32-3:44>
+  references: None
+  type:       None
+Expr: <Int 3:32-3:33>
+  references: None
+  type:       None
+Expr: <Int 3:37-3:44>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["C"] 5:4-5:12>
+****************************************************
+
+Expr: <Id "C" 5:4-5:5>
+  references: None
+  type:       None
+Expr: <Id "B" 5:10-5:11>
+  references: <TypeDecl ["B"] 3:4-3:45>
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["D"] 6:4-6:31>
+****************************************************
+
+Expr: <Id "D" 6:4-6:5>
+  references: None
+  type:       None
+Expr: <Id "A" 6:10-6:11>
+  references: <TypeDecl ["A"] 2:4-2:50>
+  type:       None
+Expr: <Aggregate 6:15-6:30>
+  references: None
+  type:       <TypeDecl ["A"] 2:4-2:50>
+Expr: <Int 6:16-6:17>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 6:19-6:20>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 6:22-6:23>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 6:25-6:26>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 6:28-6:29>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Idx"] 7:4-7:18>
+******************************************************
+
+Expr: <Id "Idx" 7:4-7:7>
+  references: None
+  type:       None
+Expr: <Id "Integer" 7:10-7:17>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["Lol"] 9:4-11:15>
+*****************************************************
+
+Expr: <Id "Lol" 9:9-9:12>
+  references: None
+  type:       None
+Expr: <Id "Pouet" 10:7-10:12>
+  references: None
+  type:       None
+Expr: <Id "A" 10:15-10:16>
+  references: None
+  type:       None
+Expr: <BinOp 10:18-10:25>
+  references: None
+  type:       None
+Expr: <Int 10:18-10:19>
+  references: None
+  type:       None
+Expr: <Int 10:23-10:25>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 16:4-16:17>
+************************************************
+
+Expr: <Id "C" 16:4-16:5>
+  references: <ObjectDecl ["C"] 5:4-5:12>
+  type:       <TypeDecl ["B"] 3:4-3:45>
+Expr: <AttributeRef 16:9-16:16>
+  references: <TypeDecl ["B"] 3:4-3:45>
+  type:       <TypeDecl ["B"] 3:4-3:45>
+Expr: <Id "B" 16:9-16:10>
+  references: <TypeDecl ["B"] 3:4-3:45>
+  type:       None
+Expr: <Id "First" 16:11-16:16>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 17:4-17:19>
+************************************************
+
+Expr: <Id "Idx" 17:4-17:7>
+  references: <ObjectDecl ["Idx"] 7:4-7:18>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <AttributeRef 17:11-17:18>
+  references: <ObjectDecl ["D"] 6:4-6:31>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "D" 17:11-17:12>
+  references: <ObjectDecl ["D"] 6:4-6:31>
+  type:       <TypeDecl ["A"] 2:4-2:50>
+Expr: <Id "First" 17:13-17:18>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 19:4-19:27>
+************************************************
+
+Expr: <Id "Idx" 19:4-19:7>
+  references: <ObjectDecl ["Idx"] 7:4-7:18>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <AttributeRef 19:11-19:26>
+  references: <ComponentDecl ["Pouet"] 10:7-10:27>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 19:11-19:20>
+  references: <ComponentDecl ["Pouet"] 10:7-10:27>
+  type:       <TypeDecl ["A"] 2:4-2:50>
+Expr: <Id "Foo" 19:11-19:14>
+  references: <ExprFunction ["Foo"] 13:4-13:46>
+  type:       <TypeDecl ["Lol"] 9:4-11:15>
+Expr: <Id "Pouet" 19:15-19:20>
+  references: <ComponentDecl ["Pouet"] 10:7-10:27>
+  type:       <TypeDecl ["A"] 2:4-2:50>
+Expr: <Id "First" 19:21-19:26>
+  references: None
+  type:       None
+
+
+Done.

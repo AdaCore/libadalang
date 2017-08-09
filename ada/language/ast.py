@@ -3825,6 +3825,35 @@ class AttributeRef(Name):
            Entity.prefix.designated_type_impl)
     )
 
+    @langkit_property()
+    def xref_equation():
+        rel_name = Var(Self.attribute.relative_name)
+        return If(
+            rel_name.any_of('First', 'Last'),
+            Entity.firstlast_xref_equation,
+            LogicFalse()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def firstlast_xref_equation():
+        typ = Entity.prefix.name_designated_type
+        return If(
+            Not(typ.is_null),
+
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+            # Self is of this type
+            & Bind(Self.type_var, Self.prefix.ref_var),
+
+            # Prefix is not a type, it's an instance
+            Entity.prefix.sub_equation
+            # It must be an array
+            & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
+            # Its component type is the type of Self
+            & Bind(Self.type_var, Self.prefix.type_var,
+                   conv_prop=BaseTypeDecl.comp_type)
+        )
+
 
 class UpdateAttributeRef(AttributeRef):
     pass

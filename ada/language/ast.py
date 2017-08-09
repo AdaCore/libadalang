@@ -1405,8 +1405,10 @@ class ConstrainedArrayIndices(ArrayIndices):
     def xref_equation():
         return Entity.list.logic_all(
             lambda index: index.sub_equation
-            & index.cast(T.Expr).then(
-                lambda expr: Predicate(BaseTypeDecl.is_int_type, expr.type_var)
+            & index.match(
+                lambda expr=T.Expr:
+                Predicate(BaseTypeDecl.is_int_type, expr.type_var),
+                lambda _: LogicTrue()
             )
         )
 

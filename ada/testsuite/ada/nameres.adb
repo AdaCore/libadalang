@@ -153,7 +153,9 @@ procedure Nameres is
       Dummy : Visit_Status;
 
    begin
-      Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
+      if not Quiet then
+         Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
+      end if;
       if Langkit_Support.Adalog.Debug.Debug then
          Node.Assign_Names_To_Logic_Vars;
       end if;

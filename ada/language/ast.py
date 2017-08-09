@@ -3408,6 +3408,10 @@ class IntLiteral(NumLiteral):
 class NullLiteral(SingleTokNode):
     annotations = Annotations(repr_name="Null")
 
+    @langkit_property()
+    def xref_equation():
+        return Predicate(BaseTypeDecl.is_access_type, Self.type_var)
+
 
 class SingleFormal(Struct):
     name = UserField(type=BaseId)

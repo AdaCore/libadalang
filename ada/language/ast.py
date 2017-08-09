@@ -1527,6 +1527,7 @@ class TypeAccessDef(AccessDef):
     constraint = Field(type=T.Constraint)
 
     accessed_type = Property(Entity.subtype_indication.designated_type)
+    xref_equation = Property(Entity.subtype_indication.xref_equation)
 
 
 class FormalDiscreteTypeDef(TypeDef):

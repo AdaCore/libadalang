@@ -3844,7 +3844,20 @@ class AttributeRef(Name):
         return If(
             rel_name.any_of('First', 'Last'),
             Entity.firstlast_xref_equation,
-            LogicFalse()
+            If(
+                rel_name == 'Access',
+                Entity.access_equation,
+                LogicTrue()
+            )
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def access_equation():
+        return (
+            Entity.prefix.xref_equation
+            & Predicate(BaseTypeDecl.is_access_of,
+                        Self.type_var,
+                        Self.prefix.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

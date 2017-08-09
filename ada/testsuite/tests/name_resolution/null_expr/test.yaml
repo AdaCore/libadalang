@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: null_expr
+driver: name-resolution
+input_sources: [testnull.adb]

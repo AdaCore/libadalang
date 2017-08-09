@@ -1,0 +1,24 @@
+Analyzing testnull.adb
+######################
+
+Resolving xrefs for node <ObjectDecl ["B"] 5:4-5:28>
+****************************************************
+
+Expr: <Id "B" 5:4-5:5>
+  references: None
+  type:       None
+Expr: <Id "Int_Ptr" 5:8-5:15>
+  references: <TypeDecl ["Int_Ptr"] 2:4-2:35>
+  type:       None
+Expr: <AttributeRef 5:19-5:27>
+  references: <ObjectDecl ["A"] 4:4-4:22>
+  type:       <TypeDecl ["Int_Ptr"] 2:4-2:35>
+Expr: <Id "A" 5:19-5:20>
+  references: <ObjectDecl ["A"] 4:4-4:22>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Access" 5:21-5:27>
+  references: None
+  type:       None
+
+
+Done.

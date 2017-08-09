@@ -769,6 +769,21 @@ class ComponentDecl(BaseFormalParamDecl):
             lambda p: p.is_a(BaseTypeDecl)
         ).cast(BaseTypeDecl).as_entity
 
+    @langkit_property()
+    def xref_equation():
+        typ = Var(Entity.canonical_expr_type)
+        return (
+            Entity.component_def.type_expr.sub_equation
+            & Entity.default_expr.then(
+                lambda de:
+                de.sub_equation
+                & Bind(Self.default_expr.type_var,
+                       typ,
+                       eq_prop=BaseTypeDecl.matching_assign_type),
+                default_val=LogicTrue()
+            )
+        )
+
 
 @abstract
 class BaseFormalParamHolder(AdaNode):

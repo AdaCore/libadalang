@@ -596,8 +596,32 @@ class BasicDecl(AdaNode):
 @abstract
 class Body(BasicDecl):
 
-    decl_part_entity = AbstractProperty(
-        type=BasicDecl.entity, runtime_check=True
+    decl_part_entity = Property(If(
+        Self.is_library_item,
+
+        # If library item, we just return the spec. We don't check if it's
+        # a valid and matching subprogram because that's an error case.
+        Self.top_level_item(Self.spec_unit).as_entity,
+
+        # If not a library item, find the matching subprogram spec in the
+        # env.
+        Entity.parent.node_env.get(Self.relative_name)
+        .find(lambda sp: sp.match(
+            # If this body completes a generic subprogram, then we just return
+            # it (no need to match the signature).
+            lambda _=T.GenericSubpDecl: True,
+
+            lambda subp_decl=T.BasicSubpDecl:
+            subp_decl.subp_decl_spec.match_signature(Entity.subp_spec_or_null),
+
+            lambda _: False
+        )).cast_or_raise(T.BasicDecl.entity)
+    ),
+        doc="""
+        Return the decl corresponding to this body. For convenience, the
+        default implemention is for subprograms, overloaded in other kinds of
+        bodies.
+        """,
     )
 
     decl_part = Property(
@@ -3901,30 +3925,6 @@ class SubpBody(Body):
     defining_names = Property(Self.subp_spec.name.singleton)
     defining_env = Property(Entity.subp_spec.defining_env)
 
-    decl_part_entity = Property(If(
-        Self.is_library_item,
-
-        # If library item, we just return the spec. We don't check if it's
-        # a valid and matching subprogram because that's an error case.
-        Self.top_level_item(Self.spec_unit).as_entity,
-
-        # If not a library item, find the matching subprogram spec in the
-        # env.
-        Self.parent.node_env.get(Self.relative_name)
-        .find(lambda sp: sp.match(
-            # If this body completes a generic subprogram, then we just return
-            # it (no need to match the signature).
-            lambda _=T.GenericSubpDecl: True,
-
-            lambda subp_decl=T.BasicSubpDecl:
-            subp_decl.subp_decl_spec.match_signature(Entity.subp_spec),
-
-            lambda _: False
-        )).cast_or_raise(BasicDecl)
-    ),
-        doc="Return the SubpDecl corresponding to this node.",
-    )
-
     type_expression = Property(Entity.subp_spec.returns)
 
 
@@ -4281,7 +4281,7 @@ class PackageBody(Body):
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:
                     gen_pkg_decl.package_decl,
-                lambda _: No(T.BasePackageDecl.entity)
+                lambda _: No(T.BasicDecl.entity)
             )
         )
 

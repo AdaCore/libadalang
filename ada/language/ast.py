@@ -1681,6 +1681,7 @@ class AnonymousType(TypeExpr):
     type_decl = Field(type=T.AnonymousTypeDecl)
 
     designated_type = Property(Entity.type_decl)
+    xref_equation = Property(Entity.type_decl.sub_equation)
 
 
 class SubtypeIndication(TypeExpr):

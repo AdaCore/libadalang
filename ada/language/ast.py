@@ -4142,13 +4142,14 @@ class ReturnStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return (
-            Entity.return_expr.sub_equation
+        return Entity.return_expr.then(
+            lambda rexpr:
+            rexpr.sub_equation
             & Bind(
-                Self.return_expr.type_var,
+                rexpr.type_var,
                 Entity.subp.subp_spec.returns.designated_type.canonical_type
             )
-        )
+        )._or(LogicTrue())
 
 
 class RequeueStmt(SimpleStmt):

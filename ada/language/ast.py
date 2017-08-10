@@ -2827,11 +2827,13 @@ class CallExpr(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def operator_equation():
-        params = Var(Self.params.unpacked_params)
-        return Entity.name.base_name._.sub_equation._or(LogicFalse()) & If(
-            params.length == 2,
-            Entity.binop_equation(),
-            If(params.length == 1, Entity.unop_equation(), LogicFalse())
+        return Self.params._.unpacked_params.then(
+            lambda params:
+            Entity.name.base_name._.sub_equation._or(LogicFalse()) & If(
+                params.length == 2,
+                Entity.binop_equation(),
+                If(params.length == 1, Entity.unop_equation(), LogicFalse())
+            )
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

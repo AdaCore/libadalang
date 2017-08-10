@@ -151,16 +151,17 @@ class AdaNode(ASTNode):
                   Entity.xref_equation)
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
-    def resolve_names_internal(initial=BoolType):
+    def resolve_names_internal(initial=BoolType,
+                               additional_equation=EquationType):
         """
         Internal helper for resolve_names, implementing the recursive logic.
         """
         i = Var(If(initial | Self.xref_stop_resolution,
-                   Entity.xref_equation._.solve,
+                   (Entity.xref_equation & additional_equation)._.solve,
                    True))
 
         j = Self.children.all(lambda c: c.then(
-            lambda c: c.as_entity.resolve_names_internal(False),
+            lambda c: c.as_entity.resolve_names_internal(False, LogicTrue()),
             default_val=True
         ))
         return i & j
@@ -182,8 +183,10 @@ class AdaNode(ASTNode):
         then type_var and ref_var will be bound on appropriate subnodes of the
         statement.
         """
-        return env.bind(Entity.node_env,
-                        origin.bind(Self, Entity.resolve_names_internal(True)))
+        return env.bind(
+            Entity.node_env,
+            origin.bind(Self, Entity.resolve_names_internal(True, LogicTrue()))
+        )
 
     # TODO: Navigation properties are not ready to deal with units containing
     # multiple packages.

@@ -2887,11 +2887,28 @@ class CallExpr(Name):
         """
         atd = Var(typ.array_def)
 
-        return Let(lambda indices=atd.indices: Self.params.logic_all(
-            lambda i, pa:
-            pa.expr.as_entity.sub_equation()
-            & indices.constrain_index_expr(pa.expr, i)
-        )) & Bind(Self.type_var, atd.comp_type)
+        return atd._.indices.then(
+            lambda indices:
+            Self.suffix.match(
+                # Regular array access
+                lambda _=T.AssocList: Self.params._.logic_all(
+                    lambda i, pa:
+                    pa.expr.as_entity.sub_equation()
+                    & indices.constrain_index_expr(pa.expr, i)
+                )
+                & Bind(Self.type_var, atd.comp_type),
+
+                # Slice access
+                lambda bo=T.BinOp:
+                indices.constrain_index_expr(bo.left, 0)
+                & indices.constrain_index_expr(bo.right, 0)
+                & Bind(bo.type_var, bo.right.type_var)
+                & Bind(Self.type_var, typ),
+
+                # TODO: Handle remaining cases (SubtypeIndication?)
+                lambda _: LogicFalse()
+            )
+        )._or(LogicFalse())
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def subprogram_equation(subp=T.BasicDecl.entity):

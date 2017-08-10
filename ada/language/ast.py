@@ -2793,10 +2793,6 @@ class CallExpr(Name):
         subps = Var(Entity.env_elements)
 
         return And(
-            # TODO: For the moment we presume that a CallExpr in an expression
-            # context necessarily has a AssocList as a suffix, but this is not
-            # always true (for example, entry families calls). Handle the
-            # remaining cases.
             Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation),
 
             # For each potential entity match, we want to express the

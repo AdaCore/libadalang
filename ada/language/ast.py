@@ -4281,6 +4281,24 @@ class CaseStmt(CompositeStmt):
     case_expr = Field(type=T.Expr)
     case_alts = Field(type=T.CaseStmtAlternative.list)
 
+    @langkit_property()
+    def xref_equation():
+        ignore(Var(Entity.case_expr.resolve_names_internal(
+            True, Predicate(BaseTypeDecl.is_discrete_type,
+                            Self.case_expr.type_var)
+        )))
+
+        return Entity.case_alts.logic_all(lambda alt: (
+            alt.choices.logic_all(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr:
+                Bind(e.type_var, Self.case_expr.type_val) & e.sub_equation,
+
+                # TODO: Bind other cases: SubtypeIndication and Range
+                lambda _: LogicTrue()
+            ))
+        ))
+
 
 class CaseStmtAlternative(AdaNode):
     choices = Field(type=T.AdaNode.list)

@@ -861,6 +861,7 @@ class ComponentList(BaseFormalParamHolder):
     variant_part = Field(type=T.VariantPart)
 
     type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
+    type_decl = Property(Entity.type_def.parent.cast(T.TypeDecl).as_entity)
 
     parent_component_list = Property(
         Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.comps
@@ -873,9 +874,13 @@ class ComponentList(BaseFormalParamHolder):
             lambda e: e.as_entity
         ))
 
+        with_discrs = Var(self_comps.concat(
+            Entity.type_decl._.discriminants._.abstract_formal_params()
+        ))
+
         return Entity.parent_component_list.then(
-            lambda pcl: pcl.abstract_formal_params.concat(self_comps),
-            default_val=self_comps
+            lambda pcl: pcl.abstract_formal_params.concat(with_discrs),
+            default_val=with_discrs
         )
 
 

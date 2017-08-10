@@ -990,6 +990,10 @@ class BaseTypeDecl(BasicDecl):
     is_enum_type = Property(False)
 
     @langkit_property(dynamic_vars=[origin])
+    def is_discrete_type():
+        return Entity.is_int_type | Entity.is_enum_type
+
+    @langkit_property(dynamic_vars=[origin])
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
@@ -3155,7 +3159,9 @@ class CaseExpr(Expr):
     def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
-        ignore(Var(Entity.expr.resolve_names))
+        ignore(Var(Entity.expr.resolve_names_internal(
+            True, Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
+        )))
 
         return Entity.cases.logic_all(lambda alt: (
             alt.choices.logic_all(lambda c: c.match(

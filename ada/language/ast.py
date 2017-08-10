@@ -769,6 +769,7 @@ class TypeDef(AdaNode):
     is_access_type = Property(False, uses_entity_info=False,
                               doc="Whether type is an access type or not.")
     is_char_type = Property(False)
+    is_enum_type = Property(False)
 
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
@@ -985,6 +986,7 @@ class BaseTypeDecl(BasicDecl):
 
     is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")
+    is_enum_type = Property(False)
 
     @langkit_property(dynamic_vars=[origin])
     def is_int_type():
@@ -1189,6 +1191,7 @@ class TypeDecl(BaseTypeDecl):
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Entity.type_def.base_type)
     is_char_type = Property(Entity.type_def.is_char_type)
+    is_enum_type = Property(Entity.type_def.is_enum_type)
 
     array_def = Property(Entity.type_def.match(
         lambda atd=T.ArrayTypeDef: atd,
@@ -1250,6 +1253,8 @@ class EnumTypeDecl(BaseTypeDecl):
     is_char_type = Property(Self.enum_literals.any(
         lambda lit: lit.enum_identifier.is_a(T.CharLiteral)
     ))
+
+    is_enum_type = Property(True)
 
 
 class FloatingPointDef(RealTypeDef):
@@ -1328,6 +1333,7 @@ class DerivedTypeDef(TypeDef):
     is_char_type = Property(Entity.base_type.is_char_type)
     accessed_type = Property(Entity.base_type.accessed_type)
     is_tagged_type = Property(True)
+    is_enum_type = Property(Entity.base_type.is_enum_type)
 
     defining_env = Property(EnvGroup(
         Entity.children_env.env_orphan,

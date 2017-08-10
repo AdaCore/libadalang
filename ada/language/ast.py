@@ -972,6 +972,7 @@ class RecordTypeDef(TypeDef):
 @abstract
 class RealTypeDef(TypeDef):
     is_real_type = Property(True)
+    xref_equation = Property(LogicTrue())
 
 
 @abstract

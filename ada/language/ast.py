@@ -638,7 +638,6 @@ class BodyStub(Body):
     pass
 
 
-class DiscriminantSpec(BasicDecl):
 @abstract
 class BaseFormalParamDecl(BasicDecl):
     """
@@ -655,6 +654,7 @@ class BaseFormalParamDecl(BasicDecl):
     )
 
 
+class DiscriminantSpec(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
@@ -664,6 +664,9 @@ class BaseFormalParamDecl(BasicDecl):
     )
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
+
+    identifiers = Property(Self.ids.map(lambda i: i.cast(BaseId)))
+    type_expression = Property(Entity.type_expr)
 
 
 @abstract

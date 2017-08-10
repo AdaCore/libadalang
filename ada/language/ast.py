@@ -670,8 +670,6 @@ class DiscriminantSpec(BaseFormalParamDecl):
 
 
 @abstract
-class DiscriminantPart(AdaNode):
-    pass
 class BaseFormalParamHolder(AdaNode):
     """
     Base class for lists of formal parameters. This is used both for subprogram
@@ -726,8 +724,22 @@ class BaseFormalParamHolder(AdaNode):
         ))
 
 
+@abstract
+class DiscriminantPart(BaseFormalParamHolder):
+
+    @langkit_property()
+    def abstract_formal_params():
+        return EmptyArray(T.BaseFormalParamDecl.entity)
+
+
 class KnownDiscriminantPart(DiscriminantPart):
     discr_specs = Field(type=T.DiscriminantSpec.list)
+
+    @langkit_property()
+    def abstract_formal_params():
+        return Self.discr_specs.map(
+            lambda e: e.cast(BaseFormalParamDecl).as_entity
+        )
 
 
 class UnknownDiscriminantPart(DiscriminantPart):

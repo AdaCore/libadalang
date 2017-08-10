@@ -639,6 +639,22 @@ class BodyStub(Body):
 
 
 class DiscriminantSpec(BasicDecl):
+@abstract
+class BaseFormalParamDecl(BasicDecl):
+    """
+    Base class for formal parameter declarations. This is used both for records
+    components and for subprogram parameters.
+    """
+    identifiers = AbstractProperty(type=T.BaseId.array)
+    is_mandatory = Property(False)
+
+    type = Property(
+        origin.bind(
+            Self, Entity.type_expression.designated_type.canonical_type
+        )
+    )
+
+
     ids = Field(type=T.Identifier.list)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
@@ -766,22 +782,6 @@ class Variant(AdaNode):
 class VariantPart(AdaNode):
     discr_name = Field(type=T.Identifier)
     variant = Field(type=T.Variant.list)
-
-
-@abstract
-class BaseFormalParamDecl(BasicDecl):
-    """
-    Base class for formal parameter declarations. This is used both for records
-    components and for subprogram parameters.
-    """
-    identifiers = AbstractProperty(type=T.BaseId.array)
-    is_mandatory = Property(False)
-
-    type = Property(
-        origin.bind(
-            Self, Entity.type_expression.designated_type.canonical_type
-        )
-    )
 
 
 class ComponentDecl(BaseFormalParamDecl):

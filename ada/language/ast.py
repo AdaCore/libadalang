@@ -960,7 +960,7 @@ class RecordTypeDef(TypeDef):
     defining_env = Property(
         # We don't want to be able to access env elements in parents,
         # so we orphan the env.
-        Entity.children_env.env_orphan,
+        Entity.children_env,
         type=LexicalEnvType
     )
 
@@ -1341,7 +1341,7 @@ class DerivedTypeDef(TypeDef):
     is_enum_type = Property(Entity.base_type.is_enum_type)
 
     defining_env = Property(EnvGroup(
-        Entity.children_env.env_orphan,
+        Entity.children_env,
 
         # Add environments from parent type defs
         Entity.base_type.canonical_type.defining_env
@@ -1985,7 +1985,7 @@ class BasePackageDecl(BasicDecl):
     end_id = Field(type=T.Name)
 
     defining_names = Property(Self.package_name.singleton)
-    defining_env = Property(Entity.children_env.env_orphan)
+    defining_env = Property(Entity.children_env)
 
     @langkit_property(return_type=T.PackageBody, public=True,
                       ignore_warn_on_node=True)
@@ -4373,7 +4373,7 @@ class PackageBody(Body):
     end_id = Field(type=T.Name)
 
     defining_names = Property(Self.package_name.singleton)
-    defining_env = Property(Entity.children_env.env_orphan)
+    defining_env = Property(Entity.children_env)
 
     @langkit_property(dynamic_vars=[env])
     def body_scope():

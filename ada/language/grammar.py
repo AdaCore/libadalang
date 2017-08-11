@@ -530,12 +530,14 @@ A.add_rules(
     entry_decl=EntryDecl(
         A.overriding_indicator,
         "entry",
-        A.identifier,
-        Opt("(",
-            A.constrained_subtype_indication
-            | A.discrete_range
-            | A.subtype_indication, ")"),
-        Opt(A.param_specs),
+        EntrySpec(
+            A.identifier,
+            Opt("(",
+                A.constrained_subtype_indication
+                | A.discrete_range
+                | A.subtype_indication, ")"),
+            Opt(A.param_specs),
+        ),
         A.aspect_spec, ";"
     ),
 

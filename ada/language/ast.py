@@ -3713,12 +3713,20 @@ class SubpSpec(BaseSubpSpec):
 
 class EntryDecl(BasicDecl):
     overriding = Field(type=Overriding)
-    entry_id = Field(type=T.Identifier)
-    family_type = Field(type=T.AdaNode)
-    params = Field(type=T.Params)
+    spec = Field(type=T.EntrySpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.entry_id.cast(T.Name).singleton)
+    defining_names = Property(Self.spec.name.cast(T.Name).singleton)
+
+
+class EntrySpec(BaseFormalParamHolder):
+    name = Field(type=T.Identifier)
+    family_type = Field(type=T.AdaNode)
+    params = Field(type=T.Params)
+
+    abstract_formal_params = Property(
+        Entity.params.params.map(lambda p: p.cast(BaseFormalParamDecl))
+    )
 
 
 class Quantifier(EnumNode):

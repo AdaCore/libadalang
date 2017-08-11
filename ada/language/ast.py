@@ -3748,7 +3748,8 @@ class ForLoopVarDecl(BasicDecl):
         # specification. Run resolution if necessary.
         Let(lambda p=If(
             Self.id.type_val.is_null,
-            Self.parent.parent.cast(T.ForLoopStmt).as_entity.resolve_names,
+            Self.parent.parent
+            .cast(T.ForLoopStmt).spec.as_entity.resolve_names,
             True
         ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity),
               No(BaseTypeDecl.entity))),

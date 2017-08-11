@@ -4385,6 +4385,8 @@ class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.Name)
 
+    xref_equation = Property(LogicTrue())
+
 
 class SelectStmt(CompositeStmt):
     guards = Field(type=T.SelectWhenPart.list)

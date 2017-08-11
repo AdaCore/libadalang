@@ -4478,6 +4478,12 @@ class TaskBody(Body):
         add_env(),
     )
 
+    @langkit_property()
+    def task_type():
+        return Entity.parent.node_env.get(Self.relative_name).find(
+            lambda sp: sp.is_a(T.TaskTypeDecl)
+        ).cast(T.TaskTypeDecl)
+
 
 class ProtectedBody(Body):
     name = Field(type=T.Name)

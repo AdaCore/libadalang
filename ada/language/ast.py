@@ -4473,6 +4473,11 @@ class TaskBody(Body):
 
     defining_names = Property(Self.name.singleton)
 
+    env_spec = EnvSpec(
+        add_to_env_kv(Self.relative_name, Self),
+        add_env(),
+    )
+
 
 class ProtectedBody(Body):
     name = Field(type=T.Name)

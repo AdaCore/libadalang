@@ -3319,7 +3319,11 @@ class BaseId(SingleTokNode):
 
     designated_type_impl = Property(
         env.get_sequential(Self.tok, sequential_from=origin)
-        .at(0).cast(BaseTypeDecl.entity),
+        .at(0)._.match(
+            lambda t=T.BaseTypeDecl.entity: t,
+            lambda tb=T.TaskBody.entity: tb.task_type,
+            lambda _: No(BaseTypeDecl.entity)
+        )
     )
 
     @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)

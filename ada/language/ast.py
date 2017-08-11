@@ -1271,7 +1271,7 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         # TODO: Handle discriminants
-        return Entity.type_def.xref_equation
+        return Entity.type_def.sub_equation
 
 
 class AnonymousTypeDecl(TypeDecl):

@@ -261,6 +261,7 @@ class AdaNode(ASTNode):
     )
 
     bool_type = Property(Self.std_entity('Boolean'))
+    int_type = Property(Self.std_entity('Integer'))
 
     @langkit_property()
     def has_with_visibility(refd_unit=AnalysisUnitType):

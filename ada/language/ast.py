@@ -1421,6 +1421,8 @@ class ModIntTypeDef(TypeDef):
     expr = Field(type=T.Expr)
     is_int_type = Property(True)
 
+    xref_equation = Property(Entity.expr.sub_equation)
+
 
 @abstract
 class ArrayIndices(AdaNode):

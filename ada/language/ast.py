@@ -4301,7 +4301,7 @@ class BaseLoopStmt(CompositeStmt):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Entity.spec.xref_equation
+        return Entity.spec._.xref_equation._or(LogicTrue())
 
 
 class LoopStmt(BaseLoopStmt):

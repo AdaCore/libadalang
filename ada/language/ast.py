@@ -4162,7 +4162,8 @@ class ReturnStmt(SimpleStmt):
             rexpr.sub_equation
             & Bind(
                 rexpr.type_var,
-                Entity.subp.subp_spec.returns.designated_type.canonical_type
+                Entity.subp.subp_spec.returns.designated_type.canonical_type,
+                eq_prop=BaseTypeDecl.matching_assign_type
             )
         )._or(LogicTrue())
 

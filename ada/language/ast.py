@@ -4378,6 +4378,8 @@ class AcceptStmt(CompositeStmt):
     entry_index_expr = Field(type=T.Expr)
     params = Field(type=T.Params)
 
+    env_spec = EnvSpec(add_env())
+
 
 class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)

@@ -707,6 +707,24 @@ class BaseFormalParamHolder(AdaNode):
         doc='Couples (identifier, param spec) for all parameters'
     )
 
+    nb_min_params = Property(
+        Self.as_bare_entity.unpacked_formal_params.filter(
+            lambda p: p.spec.is_mandatory
+        ).length,
+        type=LongType, doc="""
+        Return the minimum number of parameters this subprogram can be called
+        while still being a legal call.
+        """
+    )
+
+    nb_max_params = Property(
+        Self.as_bare_entity.unpacked_formal_params.length, type=LongType,
+        doc="""
+        Return the maximum number of parameters this subprogram can be called
+        while still being a legal call.
+        """
+    )
+
     @langkit_property(return_type=T.ParamMatch.array,
                       dynamic_vars=[env])
     def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
@@ -3543,24 +3561,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
     abstract_formal_params = Property(
         Entity.params.map(lambda p: p.cast(BaseFormalParamDecl))
-    )
-
-    nb_min_params = Property(
-        Self.as_bare_entity.unpacked_formal_params.filter(
-            lambda p: p.spec.is_mandatory
-        ).length,
-        type=LongType, doc="""
-        Return the minimum number of parameters this subprogram can be called
-        while still being a legal call.
-        """
-    )
-
-    nb_max_params = Property(
-        Self.as_bare_entity.unpacked_formal_params.length, type=LongType,
-        doc="""
-        Return the maximum number of parameters this subprogram can be called
-        while still being a legal call.
-        """
     )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env])

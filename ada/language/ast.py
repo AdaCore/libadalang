@@ -1611,7 +1611,7 @@ class TypeAccessDef(AccessDef):
 
 
 class FormalDiscreteTypeDef(TypeDef):
-    pass
+    xref_equation = Property(LogicTrue())
 
 
 class NullComponentDecl(AdaNode):

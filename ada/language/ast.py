@@ -1487,8 +1487,7 @@ class ConstrainedArrayIndices(ArrayIndices):
         return Entity.list.logic_all(
             lambda index: index.sub_equation
             & index.match(
-                lambda expr=T.Expr:
-                Predicate(BaseTypeDecl.is_int_type, expr.type_var),
+                lambda expr=T.Expr: Bind(expr.type_var, Self.int_type),
                 lambda _: LogicTrue()
             )
         )

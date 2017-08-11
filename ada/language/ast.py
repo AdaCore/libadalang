@@ -3719,6 +3719,11 @@ class EntryDecl(BasicDecl):
 
     defining_names = Property(Self.spec.name.cast(T.Name).singleton)
 
+    env_spec = EnvSpec(
+        add_to_env_kv(Self.relative_name, Self),
+        add_env()
+    )
+
 
 class EntrySpec(BaseFormalParamHolder):
     name = Field(type=T.Identifier)

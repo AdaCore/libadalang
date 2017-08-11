@@ -738,6 +738,32 @@ class BaseFormalParamHolder(AdaNode):
             ))
         ))
 
+    @langkit_property(return_type=BoolType)
+    def match_formal_params(other=T.BaseFormalParamHolder.entity):
+        # Check that there is the same number of formals and that each
+        # formal matches.
+        return Let(
+            lambda
+            self_params=Entity.unpacked_formal_params,
+            other_params=other.unpacked_formal_params:
+
+            And(self_params.length == other_params.length,
+                self_params.all(
+                    lambda i, p:
+                    And(
+                        p.name.matches(other_params.at(i).name),
+                        origin.bind(
+                            Self,
+                            p.spec.type_expression._.canonical_type
+                        ) == origin.bind(
+                            other.el,
+                            other_params.at(i).spec
+                            .type_expression._.canonical_type
+                        )
+                    )
+                ))
+        )
+
 
 @abstract
 class DiscriminantPart(BaseFormalParamHolder):
@@ -3558,6 +3584,22 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BoolType)
+    def match_return_type(other=T.SubpSpec.entity):
+        # Check that the return type is the same. Caveat: it's not because
+        # we could not find the canonical type that it is null!
+        #
+        # TODO: simplify this code when SubpSpec provides a kind to
+        # distinguish functions and procedures.
+        return Or(
+            And(other.returns.is_null, Entity.returns.is_null),
+            And(
+                Not(other.returns.is_null), Not(Entity.returns.is_null),
+                origin.bind(other.el, other.returns._.canonical_type)
+                == origin.bind(Self, Entity.returns._.canonical_type)
+            )
+        )
+
+    @langkit_property(return_type=BoolType)
     def match_signature(other=T.SubpSpec.entity):
         """
         Return whether SubpSpec's signature matches Self's.
@@ -3565,48 +3607,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Note that the comparison for types isn't just a name comparison: it
         compares the canonical subtype.
         """
-        origin_self = Var(Self.name)
-        origin_other = Var(other.el.name)
         return And(
             # Check that the names are the same
             Self.name.matches(other.name),
-
-            # Check that the return type is the same. Caveat: it's not because
-            # we could not find the canonical type that it is null!
-            #
-            # TODO: simplify this code when SubpSpec provides a kind to
-            # distinguish functions and procedures.
-            If(other.returns.is_null,
-               Entity.returns.is_null,
-               And(Not(other.returns.is_null),
-                   origin.bind(origin_other,
-                               other.returns._.canonical_type)
-                   == origin.bind(origin_self,
-                                  Entity.returns._.canonical_type))),
-
-            # Check that there is the same number of formals and that each
-            # formal matches.
-            Let(
-                lambda
-                self_params=Entity.unpacked_formal_params,
-                other_params=other.unpacked_formal_params:
-
-                And(self_params.length == other_params.length,
-                    self_params.all(
-                        lambda i, p:
-                        And(
-                            p.name.matches(other_params.at(i).name),
-                            origin.bind(
-                                origin_self,
-                                p.spec.type_expression._.canonical_type
-                            ) == origin.bind(
-                                origin_other,
-                                other_params.at(i).spec
-                                .type_expression._.canonical_type
-                            )
-                        )
-                    ))
-            )
+            Entity.match_return_type(other),
+            Entity.match_formal_params(other),
         )
 
     @langkit_property(return_type=LexicalEnvType,

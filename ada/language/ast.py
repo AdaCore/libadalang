@@ -156,14 +156,26 @@ class AdaNode(ASTNode):
         """
         Internal helper for resolve_names, implementing the recursive logic.
         """
-        i = Var(If(initial | Self.xref_stop_resolution,
-                   (Entity.xref_equation & additional_equation)._.solve,
-                   True))
 
-        j = Self.children.all(lambda c: c.then(
-            lambda c: c.as_entity.resolve_names_internal(False, LogicTrue()),
+        solve_xref = Var(initial | Self.xref_stop_resolution)
+
+        i = Var(If(
+            solve_xref,
+            (Entity.xref_equation & additional_equation)._.solve,
+            True)
+        )
+
+        j = Var(Self.children.all(lambda c: c.then(
+            # Do not explore nodes that are xref entry points, and are not the
+            # initial node.
+            lambda c: If(
+                c.xref_entry_point,
+                True,
+                c.as_entity.resolve_names_internal(False, LogicTrue()),
+            ),
             default_val=True
-        ))
+        )))
+
         return i & j
 
     xref_entry_point = Property(

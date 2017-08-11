@@ -1476,9 +1476,8 @@ class ConstrainedArrayIndices(ArrayIndices):
             Bind(index_expr.type_var,
                  n.as_entity.designated_type.canonical_type),
 
-            # TODO: We need to parse Standard to express the fact that when
-            # we've got an anonymous range in the array index definition,
-            # the index needs to be of type Standard.Integer.
+            lambda _=T.Expr: Bind(index_expr.type_var, Self.int_type),
+
             lambda _: LogicTrue()
         )
 

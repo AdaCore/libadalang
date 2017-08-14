@@ -1620,6 +1620,8 @@ class TaskTypeDecl(BaseTypeDecl):
         add_env()
     )
 
+    defining_env = Property(Entity.children_env)
+
 
 class SingleTaskTypeDecl(TaskTypeDecl):
     env_spec = EnvSpec(

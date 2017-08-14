@@ -550,7 +550,7 @@ class BasicDecl(AdaNode):
         """
         return Entity.expr_type._.canonical_type
 
-    @langkit_property(return_type=T.SubpSpec.entity)
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
     def subp_spec_or_null():
         """
         If node is a Subp, returns the specification of this subprogram.
@@ -560,6 +560,7 @@ class BasicDecl(AdaNode):
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,
             lambda subp=SubpBody:      subp.subp_spec,
             lambda subp=SubpBodyStub:  subp.subp_spec,
+            lambda entry=EntryDecl:    entry.spec,
             lambda _:                  No(SubpSpec.entity),
         )
 
@@ -628,7 +629,9 @@ class Body(BasicDecl):
             lambda _=T.GenericSubpDecl: True,
 
             lambda subp_decl=T.BasicSubpDecl:
-            subp_decl.subp_decl_spec.match_signature(Entity.subp_spec_or_null),
+            subp_decl.subp_decl_spec.match_signature(
+                Entity.subp_spec_or_null.cast(T.SubpSpec)
+            ),
 
             lambda _: False
         )).cast_or_raise(T.BasicDecl.entity)

@@ -554,7 +554,6 @@ class BasicDecl(AdaNode):
     def subp_spec_or_null():
         """
         If node is a Subp, returns the specification of this subprogram.
-        TODO: Enhance when we have interfaces.
         """
         return Entity.match(
             lambda subp=BasicSubpDecl: subp.subp_decl_spec,

@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: test_slice
+driver: name-resolution
+input_sources: [testslice.adb]

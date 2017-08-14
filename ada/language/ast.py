@@ -608,6 +608,24 @@ class BasicDecl(AdaNode):
         ignore(Var(Self.body_unit))
         return Self.children_env.get('__body', recursive=False).at(0)
 
+    @langkit_property(dynamic_vars=[env, origin])
+    def is_matching_subp(params=T.AssocList,
+                         param_holder=T.BaseFormalParamHolder.entity,
+                         parent_callexpr=T.CallExpr):
+        """
+        Returns whether Entity is a matching subprogram or apparented entity
+        for the params list and the given call expression.
+        """
+        # Either the subprogram has is matching the CallExpr's parameters
+        return param_holder.is_matching_param_list(
+            params, Entity.info.md.dottable_subp
+            # Or the entity is parameterless, and the returned
+            # component (s) matches the callexpr (s).
+        ) | Entity.expr_type.then(lambda et: (
+            param_holder.paramless(Entity.info.md)
+            & parent_callexpr.check_type(et)
+        ))
+
 
 @abstract
 class Body(BasicDecl):
@@ -3431,17 +3449,6 @@ class BaseId(SingleTokNode):
         ))
         pc = Var(Self.parent_callexpr)
 
-        def matching_subp(params, decl, param_holder, env_el):
-            # Either the subprogram has is matching the CallExpr's parameters
-            return param_holder.is_matching_param_list(
-                params, env_el.info.md.dottable_subp
-                # Or the subprogram is parameterless, and the returned
-                # component (s) matches the callexpr (s).
-            ) | decl.expr_type.then(lambda et: (
-                param_holder.paramless(env_el.info.md)
-                & pc.check_type(et)
-            ))
-
         return origin.bind(Self, If(
             pc.is_null,
 
@@ -3469,16 +3476,16 @@ class BaseId(SingleTokNode):
             pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.match(
                     lambda entry=EntryDecl:
-                        matching_subp(params, entry, entry.spec, e),
+                        entry.is_matching_subp(params, entry.spec, pc),
 
                     lambda subp=BasicSubpDecl:
-                        matching_subp(params, subp, subp.subp_decl_spec, e),
+                        subp.is_matching_subp(params, subp.subp_decl_spec, pc),
 
                     lambda subp=SubpBody:
-                        matching_subp(params, subp, subp.subp_spec, e),
+                        subp.is_matching_subp(params, subp.subp_spec, pc),
 
                     lambda subp=SubpBodyStub:
-                        matching_subp(params, subp, subp.subp_spec, e),
+                        subp.is_matching_subp(params, subp.subp_spec, pc),
 
                     # Type conversion case
                     lambda _=BaseTypeDecl: params.length == 1,

@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: case_stmt
+driver: name-resolution
+input_sources: [test_case.adb]

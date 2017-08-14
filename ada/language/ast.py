@@ -3051,27 +3051,29 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=BoolType)
-    def check_type(typ=T.BaseTypeDecl.entity):
+    def check_for_type(typ=T.BaseTypeDecl.entity):
         """
-        Internal helper for check_type. Will call check_type_self on Self and
-        all parent CallExprs.
+        Check that self is an appropriate CallExpr for given type, which must
+        be a subscriptable type (eg; a type for which it makes senses to do a
+        call expr on an instance of the type, like an array type, or an access
+        to subprogram type.
         """
-
-        # Algorithm: We're:
-        # 1. Taking the innermost call expression
-        # 2. Recursing down call expression and component types up to self,
-        # checking for each level that the call expression corresponds.
-        return And(
+        # Algorithm: We're Recursing down call expression and component types
+        # up to self, checking for each level that the call expression
+        # corresponds.
+        return typ.then(lambda typ: And(
             # TODO: For the moment this is specialized for arrays, but we need
             # to handle the case when the return value is an access to
             # subprogram.
             typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
+
+
             Self.parent.cast(T.CallExpr).then(
-                lambda ce: ce.check_type(
+                lambda ce: ce.check_for_type(
                     origin.bind(Self, typ.expr_type)
                 ), default_val=True
             )
-        )
+        ))
 
     @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
     def innermost_callexpr():
@@ -3479,20 +3481,20 @@ class BaseId(SingleTokNode):
                                 params, b.info.md.dottable_subp
                             ),
                             pc.parent.cast(T.CallExpr).then(
-                                lambda ce: ce.check_type(b.expr_type),
+                                lambda ce: ce.check_for_type(b.expr_type),
                                 default_val=True
                             )
                         )
 
                         # Or the entity is parameterless, and the returned
                         # component (s) matches the callexpr (s).
-                        | And(b.expr_type.then(lambda et: pc.check_type(et)),
+                        | And(pc.check_for_type(b.expr_type),
                               spec.paramless(b.info.md)),
 
                         # In the case of ObjectDecls/CompDecls in general,
                         # verify that the callexpr is valid for the given type
                         # designator.
-                        default_val=pc.check_type(b.expr_type)
+                        default_val=pc.check_for_type(b.expr_type)
                     ),
 
                     lambda _: False

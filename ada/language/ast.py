@@ -4412,10 +4412,21 @@ class SelectStmt(CompositeStmt):
     else_stmts = Field(type=T.StmtList)
     abort_stmts = Field(type=T.StmtList)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.guards.logic_all(lambda wp: wp.sub_equation)
+
 
 class SelectWhenPart(AdaNode):
     condition = Field(type=T.Expr)
     stmts = Field(type=T.AdaNode.list)
+
+    @langkit_property()
+    def xref_equation():
+        return (
+            Entity.condition.sub_equation
+            & Bind(Self.condition.type_var, Self.bool_type)
+        )
 
 
 class TerminateAlternative(SimpleStmt):

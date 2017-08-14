@@ -795,6 +795,27 @@ class BaseFormalParamHolder(AdaNode):
                 ))
         )
 
+    @langkit_property(return_type=BoolType, dynamic_vars=[env])
+    def is_matching_param_list(params=T.AssocList, is_dottable_subp=BoolType):
+        """
+        Return whether a AssocList is a match for this SubpSpec, i.e.
+        whether the argument count (and designators, if any) match.
+        """
+        bare = Var(Self.as_bare_entity)
+        match_list = Var(bare.match_param_list(params, is_dottable_subp))
+        nb_max_params = If(is_dottable_subp, bare.nb_max_params - 1,
+                           bare.nb_max_params)
+        nb_min_params = If(is_dottable_subp, bare.nb_min_params - 1,
+                           bare.nb_min_params)
+
+        return And(
+            params.length <= nb_max_params,
+            match_list.all(lambda m: m.has_matched),
+            match_list.filter(
+                lambda m: m.formal.spec.is_mandatory
+            ).length == nb_min_params,
+        )
+
 
 @abstract
 class DiscriminantPart(BaseFormalParamHolder):
@@ -3578,27 +3599,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
     abstract_formal_params = Property(
         Entity.params.map(lambda p: p.cast(BaseFormalParamDecl))
     )
-
-    @langkit_property(return_type=BoolType, dynamic_vars=[env])
-    def is_matching_param_list(params=AssocList, is_dottable_subp=BoolType):
-        """
-        Return whether a AssocList is a match for this SubpSpec, i.e.
-        whether the argument count (and designators, if any) match.
-        """
-        bare = Var(Self.as_bare_entity)
-        match_list = Var(bare.match_param_list(params, is_dottable_subp))
-        nb_max_params = If(is_dottable_subp, bare.nb_max_params - 1,
-                           bare.nb_max_params)
-        nb_min_params = If(is_dottable_subp, bare.nb_min_params - 1,
-                           bare.nb_min_params)
-
-        return And(
-            params.length <= nb_max_params,
-            match_list.all(lambda m: m.has_matched),
-            match_list.filter(
-                lambda m: m.formal.spec.is_mandatory
-            ).length == nb_min_params,
-        )
 
     @langkit_property(return_type=BoolType)
     def match_return_type(other=T.SubpSpec.entity):

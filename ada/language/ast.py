@@ -3467,6 +3467,9 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.match(
+                    lambda entry=EntryDecl:
+                        matching_subp(params, entry, entry.spec, e),
+
                     lambda subp=BasicSubpDecl:
                         matching_subp(params, subp, subp.subp_decl_spec, e),
 

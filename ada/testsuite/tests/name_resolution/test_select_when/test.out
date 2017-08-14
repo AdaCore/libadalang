@@ -1,0 +1,239 @@
+Analyzing selectwhen.adb
+########################
+
+Resolving xrefs for node <ObjectDecl ["Q_Size"] 10:6-10:39>
+***********************************************************
+
+Expr: <Id "Q_Size" 10:6-10:12>
+  references: None
+  type:       None
+Expr: <Id "Integer" 10:24-10:31>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <Int 10:35-10:38>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Length"] 12:6-12:46>
+***********************************************************
+
+Expr: <Id "Length" 12:6-12:12>
+  references: None
+  type:       None
+Expr: <Id "Natural" 12:15-12:22>
+  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       None
+Expr: <BinOp 12:29-12:40>
+  references: None
+  type:       None
+Expr: <Int 12:29-12:30>
+  references: None
+  type:       None
+Expr: <Id "Q_Size" 12:34-12:40>
+  references: None
+  type:       None
+Expr: <Int 12:44-12:45>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+*****************************************************************
+
+Expr: <Id "Head" 13:6-13:10>
+  references: None
+  type:       None
+Expr: <Id "Tail" 13:12-13:16>
+  references: None
+  type:       None
+Expr: <Id "Q_Range" 13:19-13:26>
+  references: <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       None
+Expr: <Int 13:30-13:31>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Data"] 14:6-14:37>
+*********************************************************
+
+Expr: <Id "Data" 14:6-14:10>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AnonymousTypeDecl ["None"] 14:13-14:36>
+*****************************************************************
+
+Expr: <Id "Q_Range" 14:20-14:27>
+  references: <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       None
+Expr: <Id "Item" 14:32-14:36>
+  references: None
+  type:       None
+
+Resolving xrefs for node <LoopStmt 16:6-32:15>
+**********************************************
+
+
+Resolving xrefs for node <SelectStmt 17:9-31:20>
+************************************************
+
+Expr: <RelationOp 18:17-18:32>
+  references: None
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "Length" 18:17-18:23>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Q_Size" 18:26-18:32>
+  references: <ObjectDecl ["Q_Size"] 10:6-10:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <RelationOp 25:17-25:27>
+  references: None
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "Length" 25:17-25:23>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 25:26-25:27>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AcceptStmtWithStmts 19:15-21:26>
+**********************************************************
+
+Expr: <Id "Insert" 19:22-19:28>
+  references: None
+  type:       None
+Expr: <Id "An_Item" 19:30-19:37>
+  references: None
+  type:       None
+Expr: <Id "Item" 19:44-19:48>
+  references: None
+  type:       None
+Expr: <Id "Insert" 21:19-21:25>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 20:18-20:40>
+*************************************************
+
+Expr: <CallExpr 20:18-20:28>
+  references: <ObjectDecl ["Data"] 14:6-14:37>
+  type:       <TypeDecl ["Item"] 2:4-2:29>
+Expr: <Id "Data" 20:18-20:22>
+  references: <ObjectDecl ["Data"] 14:6-14:37>
+  type:       <AnonymousTypeDecl ["None"] 14:13-14:36>
+Expr: <Id "Tail" 20:23-20:27>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "An_Item" 20:32-20:39>
+  references: <ParamSpec ["An_Item"] 19:30-19:48>
+  type:       <TypeDecl ["Item"] 2:4-2:29>
+
+Resolving xrefs for node <AssignStmt 22:15-22:43>
+*************************************************
+
+Expr: <Id "Tail" 22:15-22:19>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 22:23-22:42>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 22:23-22:38>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Tail" 22:23-22:27>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Q_Size" 22:32-22:38>
+  references: <ObjectDecl ["Q_Size"] 10:6-10:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 22:41-22:42>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AssignStmt 23:15-23:36>
+*************************************************
+
+Expr: <Id "Length" 23:15-23:21>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 23:25-23:35>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Length" 23:25-23:31>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 23:34-23:35>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AcceptStmtWithStmts 26:15-28:26>
+**********************************************************
+
+Expr: <Id "Remove" 26:22-26:28>
+  references: None
+  type:       None
+Expr: <Id "An_Item" 26:30-26:37>
+  references: None
+  type:       None
+Expr: <Id "Item" 26:44-26:48>
+  references: None
+  type:       None
+Expr: <Id "Remove" 28:19-28:25>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 27:18-27:40>
+*************************************************
+
+Expr: <Id "An_Item" 27:18-27:25>
+  references: <ParamSpec ["An_Item"] 26:30-26:48>
+  type:       <TypeDecl ["Item"] 2:4-2:29>
+Expr: <CallExpr 27:29-27:39>
+  references: <ObjectDecl ["Data"] 14:6-14:37>
+  type:       <TypeDecl ["Item"] 2:4-2:29>
+Expr: <Id "Data" 27:29-27:33>
+  references: <ObjectDecl ["Data"] 14:6-14:37>
+  type:       <AnonymousTypeDecl ["None"] 14:13-14:36>
+Expr: <Id "Head" 27:34-27:38>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AssignStmt 29:15-29:43>
+*************************************************
+
+Expr: <Id "Head" 29:15-29:19>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 29:23-29:42>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 29:23-29:38>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Head" 29:23-29:27>
+  references: <ObjectDecl ["Head", "Tail"] 13:6-13:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Q_Size" 29:32-29:38>
+  references: <ObjectDecl ["Q_Size"] 10:6-10:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 29:41-29:42>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AssignStmt 30:15-30:36>
+*************************************************
+
+Expr: <Id "Length" 30:15-30:21>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 30:25-30:35>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Length" 30:25-30:31>
+  references: <ObjectDecl ["Length"] 12:6-12:46>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 30:34-30:35>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

@@ -172,6 +172,9 @@ procedure Nameres is
            ("Resolution failed with exception for node " & Safe_Image (Node));
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
          Put_Line ("");
+
+         Put_Line ("Traceback:");
+         Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
    end Resolve_Node;
 
    -------------------

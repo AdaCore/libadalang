@@ -25,6 +25,6 @@ R3.S (1) resolves to:
 R4.R1.C resolves to:
     C    : Natural;
 R4.R2 (1).I resolves to:
-    <none>
+    I : Integer;
 
 Done.

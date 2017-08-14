@@ -1566,6 +1566,8 @@ class ArrayTypeDef(TypeDef):
     def xref_equation():
         return Entity.indices.sub_equation
 
+    defining_env = Property(Entity.comp_type.defining_env)
+
 
 class InterfaceKind(EnumNode):
     alternatives = ["limited", "task", "protected", "synchronized"]

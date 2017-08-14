@@ -162,7 +162,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |guards:
 |  |  |  |  |  |  SelectWhenPartList[10:10-21:34]
 |  |  |  |  |  |  |  SelectWhenPart[10:10-15:34]
-|  |  |  |  |  |  |  |choices:
+|  |  |  |  |  |  |  |condition:
 |  |  |  |  |  |  |  |  RelationOp[10:15-10:30]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[10:15-10:21]
@@ -262,7 +262,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  Int[15:32-15:33]
 |  |  |  |  |  |  |  |  |  |  |  |tok: 1
 |  |  |  |  |  |  |  SelectWhenPart[16:13-21:34]
-|  |  |  |  |  |  |  |choices:
+|  |  |  |  |  |  |  |condition:
 |  |  |  |  |  |  |  |  RelationOp[16:18-16:28]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[16:18-16:24]

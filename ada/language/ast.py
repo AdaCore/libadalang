@@ -4414,7 +4414,7 @@ class SelectStmt(CompositeStmt):
 
 
 class SelectWhenPart(AdaNode):
-    choices = Field(type=T.Expr)
+    condition = Field(type=T.Expr)
     stmts = Field(type=T.AdaNode.list)
 
 

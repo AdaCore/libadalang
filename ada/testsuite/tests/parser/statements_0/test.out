@@ -50,7 +50,7 @@ StmtList[1:1-1:235]
 |  |  |  |guards:
 |  |  |  |  SelectWhenPartList[1:80-1:213]
 |  |  |  |  |  SelectWhenPart[1:80-1:144]
-|  |  |  |  |  |choices: <null>
+|  |  |  |  |  |condition: <null>
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:80-1:144]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:80-1:144]
@@ -97,7 +97,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  Id[1:138-1:143]
 |  |  |  |  |  |  |  |  |tok: Store
 |  |  |  |  |  SelectWhenPart[1:148-1:213]
-|  |  |  |  |  |choices: <null>
+|  |  |  |  |  |condition: <null>
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:148-1:213]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:148-1:213]

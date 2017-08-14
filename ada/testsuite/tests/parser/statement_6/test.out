@@ -2,7 +2,7 @@ SelectStmt[1:1-1:155]
 |guards:
 |  SelectWhenPartList[1:10-1:143]
 |  |  SelectWhenPart[1:10-1:74]
-|  |  |choices: <null>
+|  |  |condition: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:10-1:74]
 |  |  |  |  AcceptStmtWithStmts[1:10-1:74]
@@ -49,7 +49,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  Id[1:68-1:73]
 |  |  |  |  |  |tok: Store
 |  |  SelectWhenPart[1:78-1:143]
-|  |  |choices: <null>
+|  |  |condition: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:78-1:143]
 |  |  |  |  AcceptStmtWithStmts[1:78-1:143]

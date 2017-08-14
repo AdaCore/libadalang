@@ -2923,22 +2923,22 @@ class CallExpr(Name):
                         # call, or something else (a component/local
                         # variable/etc), that would make this callexpr an array
                         # access.
-                        s.subp_spec_or_null.then(
-                            lambda ss: ss.paramless(e.info.md),
-                            default_val=True
-                        ),
+                        s.paramless_subp,
                         Entity.array_type_equation(s.expr_type),
-                        Entity.subprogram_equation(s),
+                        Entity.subprogram_equation(s)
                     )
-
-                    # For every callexpr between self and the furthest callexpr
-                    # that is an ancestor of Self via the name chain, we'll
-                    # construct the crossref equation.
                     & Self.parent_nested_callexpr.as_entity.then(
                         lambda pce: pce.parent_callexprs_equation(
-                            s.expr_type.comp_type
+                            # If s is paramless, then Self was a subscript to
+                            # the s object, and the parent callexpr is a
+                            # subscript to its component. However, if s is not
+                            # paramless, then Self was a call to s, and the
+                            # parent callexpr is a subscript to an instance of
+                            # s's return type.
+                            If(s.paramless_subp,
+                               s.expr_type.comp_type, s.expr_type),
                         ), default_val=LogicTrue()
-                    )
+                    ),
                 )),
                 Bind(Self.ref_var, Self.name.ref_var),
                 Entity.name.sub_equation

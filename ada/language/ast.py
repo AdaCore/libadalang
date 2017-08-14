@@ -2844,9 +2844,8 @@ class CallExpr(Name):
     @langkit_property()
     def designated_env():
         return Entity.env_elements().map(lambda e: e.match(
-            lambda subp=BasicSubpDecl.entity: subp.defining_env,
-            lambda subp=SubpBody.entity:      subp.defining_env,
-            lambda _:                           EmptyEnv,
+            lambda bd=BasicDecl.entity:       bd.defining_env,
+            lambda _:                         EmptyEnv,
         )).env_group
 
     @langkit_property()

@@ -3455,10 +3455,7 @@ class BaseId(SingleTokNode):
                 (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                & e.cast_or_raise(BasicDecl).subp_spec_or_null.then(
-                    lambda ss: ss.paramless(e.info.md),
-                    default_val=True
-                )
+                & e.cast_or_raise(BasicDecl).paramless_subp
             )),
 
             # This identifier is the name for a called subprogram or an array.

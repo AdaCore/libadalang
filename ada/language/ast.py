@@ -3494,7 +3494,6 @@ class BaseId(SingleTokNode):
 
                     # In the case of ObjectDecls/BasicDecls in general, verify
                     # that the callexpr is valid for the given type designator.
-                    lambda o=ObjectDecl: pc.check_type(o.expr_type),
                     lambda b=BasicDecl: pc.check_type(b.expr_type),
 
                     lambda _: False

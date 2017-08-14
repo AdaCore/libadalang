@@ -3431,14 +3431,14 @@ class BaseId(SingleTokNode):
         ))
         pc = Var(Self.parent_callexpr)
 
-        def matching_subp(params, subp, subp_spec, env_el):
+        def matching_subp(params, decl, param_holder, env_el):
             # Either the subprogram has is matching the CallExpr's parameters
-            return subp_spec.is_matching_param_list(
+            return param_holder.is_matching_param_list(
                 params, env_el.info.md.dottable_subp
                 # Or the subprogram is parameterless, and the returned
                 # component (s) matches the callexpr (s).
-            ) | subp.expr_type.then(lambda et: (
-                subp_spec.paramless(env_el.info.md)
+            ) | decl.expr_type.then(lambda et: (
+                param_holder.paramless(env_el.info.md)
                 & pc.check_type(et)
             ))
 

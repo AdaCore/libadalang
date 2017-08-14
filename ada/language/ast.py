@@ -563,6 +563,17 @@ class BasicDecl(AdaNode):
             lambda _:                  No(SubpSpec.entity),
         )
 
+    @langkit_property(return_type=BoolType)
+    def paramless_subp():
+        """
+        Return true if entity denotes a paramless subprogram entity, when used
+        in an expression context.
+        """
+        return Entity.subp_spec_or_null.then(
+            lambda ss: ss.paramless(Entity.info.md),
+            default_val=True
+        )
+
     @langkit_property(return_type=EquationType, dynamic_vars=[origin])
     def constrain_prefix(prefix=T.Expr):
         """

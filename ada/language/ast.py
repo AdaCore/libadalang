@@ -725,6 +725,18 @@ class BaseFormalParamHolder(AdaNode):
         """
     )
 
+    @langkit_property(return_type=BoolType)
+    def paramless(md=Metadata):
+        """
+        Utility function. Given a subprogram spec and its associated metadata,
+        determine if it can be called without parameters (and hence without a
+        callexpr).
+        """
+        return Or(
+            md.dottable_subp & (Self.nb_min_params == 1),
+            Self.nb_min_params == 0
+        )
+
     @langkit_property(return_type=T.ParamMatch.array,
                       dynamic_vars=[env])
     def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
@@ -3685,18 +3697,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
             bd.singleton,
             EmptyArray(T.BasicDecl)
         ))
-
-    @langkit_property(return_type=BoolType)
-    def paramless(md=Metadata):
-        """
-        Utility function. Given a subprogram spec and its associated metadata,
-        determine if it can be called without parameters (and hence without a
-        callexpr).
-        """
-        return Or(
-            md.dottable_subp & (Self.nb_min_params == 1),
-            Self.nb_min_params == 0
-        )
 
 
 class SubpSpec(BaseSubpSpec):

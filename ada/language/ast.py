@@ -4401,6 +4401,8 @@ class AcceptStmt(CompositeStmt):
 
     env_spec = EnvSpec(add_env())
 
+    xref_equation = Property(LogicTrue())
+
 
 class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)

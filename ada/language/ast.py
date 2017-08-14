@@ -608,24 +608,6 @@ class BasicDecl(AdaNode):
         ignore(Var(Self.body_unit))
         return Self.children_env.get('__body', recursive=False).at(0)
 
-    @langkit_property(dynamic_vars=[env, origin])
-    def is_matching_subp(params=T.AssocList,
-                         param_holder=T.BaseFormalParamHolder.entity,
-                         parent_callexpr=T.CallExpr):
-        """
-        Returns whether Entity is a matching subprogram or apparented entity
-        for the params list and the given call expression.
-        """
-        # Either the subprogram has is matching the CallExpr's parameters
-        return param_holder.is_matching_param_list(
-            params, Entity.info.md.dottable_subp
-            # Or the entity is parameterless, and the returned
-            # component (s) matches the callexpr (s).
-        ) | Entity.expr_type.then(lambda et: (
-            param_holder.paramless(Entity.info.md)
-            & parent_callexpr.check_type(et)
-        ))
-
 
 @abstract
 class Body(BasicDecl):
@@ -3058,33 +3040,27 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=BoolType)
-    def check_type_internal(typ=T.BaseTypeDecl.entity):
+    def check_type(typ=T.BaseTypeDecl.entity):
         """
         Internal helper for check_type. Will call check_type_self on Self and
         all parent CallExprs.
         """
+
+        # Algorithm: We're:
+        # 1. Taking the innermost call expression
+        # 2. Recursing down call expression and component types up to self,
+        # checking for each level that the call expression corresponds.
         return And(
             # TODO: For the moment this is specialized for arrays, but we need
             # to handle the case when the return value is an access to
             # subprogram.
             typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
             Self.parent.cast(T.CallExpr).then(
-                lambda ce: ce.check_type_internal(
-                    origin.bind(Self, typ.comp_type)
+                lambda ce: ce.check_type(
+                    origin.bind(Self, typ.expr_type)
                 ), default_val=True
             )
         )
-
-    @langkit_property(return_type=BoolType)
-    def check_type(typ=T.BaseTypeDecl.entity):
-        """
-        Verifies that this callexpr is valid for the type designated by typ.
-        """
-        # Algorithm: We're:
-        # 1. Taking the innermost call expression
-        # 2. Recursing down call expression and component types up to self,
-        # checking for each level that the call expression corresponds.
-        return Self.innermost_callexpr.check_type_internal(typ)
 
     @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
     def innermost_callexpr():
@@ -3449,7 +3425,8 @@ class BaseId(SingleTokNode):
                 lambda p: p, default_val=Self
             )
         ))
-        pc = Var(Self.parent_callexpr)
+
+        pc = Var(Self.parent_callexpr.then(lambda pc: pc.innermost_callexpr))
 
         return origin.bind(Self, If(
             pc.is_null,
@@ -3477,24 +3454,35 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match.
             pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.match(
-                    lambda entry=EntryDecl:
-                        entry.is_matching_subp(params, entry.spec, pc),
-
-                    lambda subp=BasicSubpDecl:
-                        subp.is_matching_subp(params, subp.subp_decl_spec, pc),
-
-                    lambda subp=SubpBody:
-                        subp.is_matching_subp(params, subp.subp_spec, pc),
-
-                    lambda subp=SubpBodyStub:
-                        subp.is_matching_subp(params, subp.subp_spec, pc),
-
                     # Type conversion case
                     lambda _=BaseTypeDecl: params.length == 1,
 
-                    # In the case of ObjectDecls/BasicDecls in general, verify
-                    # that the callexpr is valid for the given type designator.
-                    lambda b=BasicDecl: pc.check_type(b.expr_type),
+                    lambda b=BasicDecl:
+                    b.subp_spec_or_null.then(
+                        lambda spec:
+
+                        # Either the subprogram is matching the CallExpr's
+                        # parameters.
+                        And(
+                            spec.is_matching_param_list(
+                                params, b.info.md.dottable_subp
+                            ),
+                            pc.parent.cast(T.CallExpr).then(
+                                lambda ce: ce.check_type(b.expr_type),
+                                default_val=True
+                            )
+                        )
+
+                        # Or the entity is parameterless, and the returned
+                        # component (s) matches the callexpr (s).
+                        | And(b.expr_type.then(lambda et: pc.check_type(et)),
+                              spec.paramless(b.info.md)),
+
+                        # In the case of ObjectDecls/CompDecls in general,
+                        # verify that the callexpr is valid for the given type
+                        # designator.
+                        default_val=pc.check_type(b.expr_type)
+                    ),
 
                     lambda _: False
                 ))

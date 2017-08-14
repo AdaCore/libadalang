@@ -4409,8 +4409,8 @@ class AcceptStmtWithStmts(AcceptStmt):
 
 class SelectStmt(CompositeStmt):
     guards = Field(type=T.SelectWhenPart.list)
-    else_stmts = Field(type=T.AdaNode.list)
-    abort_stmts = Field(type=T.AdaNode.list)
+    else_stmts = Field(type=T.StmtList)
+    abort_stmts = Field(type=T.StmtList)
 
 
 class SelectWhenPart(AdaNode):

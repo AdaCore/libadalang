@@ -1110,6 +1110,10 @@ class BaseTypeDecl(BasicDecl):
         return Entity.is_int_type | Entity.is_enum_type
 
     @langkit_property(dynamic_vars=[origin])
+    def is_num_type_or_null():
+        return Self.is_null | Entity.is_int_type | Entity.is_real_type
+
+    @langkit_property(dynamic_vars=[origin])
     def is_int_type_or_null():
         """
         Special version of is_int_type, used for xref predicate. In some

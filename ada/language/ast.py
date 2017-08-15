@@ -1141,8 +1141,10 @@ class BaseTypeDecl(BasicDecl):
                             doc="Whether type is a character type or not")
 
     @langkit_property(dynamic_vars=[origin])
-    def is_str_type():
-        return Entity.is_array & Entity.comp_type._.is_char_type
+    def is_str_type_or_null():
+        return Self.is_null | (
+            Entity.is_array & Entity.comp_type._.is_char_type
+        )
 
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
@@ -3609,7 +3611,7 @@ class StringLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_str_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
 
 
 class EnumLiteralDecl(BasicDecl):

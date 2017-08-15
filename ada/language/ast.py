@@ -829,6 +829,14 @@ class BaseFormalParamHolder(AdaNode):
             ).length == nb_min_params,
         )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    def return_type():
+        """
+        Returns the return type of Self, if applicable (eg. if Self is a
+        subprogram). Else, returns null.
+        """
+        return No(T.BaseTypeDecl.entity)
+
 
 @abstract
 class DiscriminantPart(BaseFormalParamHolder):
@@ -3745,6 +3753,8 @@ class SubpSpec(BaseSubpSpec):
         )
     )
     returns = Property(Entity.subp_returns)
+
+    return_type = Property(Entity.returns._.designated_type)
 
 
 class EntryDecl(BasicDecl):

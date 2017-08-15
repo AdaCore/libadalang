@@ -3993,6 +3993,10 @@ class AttributeRef(Name):
     )
 
     @langkit_property()
+    def is_access():
+        return Self.attribute.relative_name == 'Access'
+
+    @langkit_property()
     def xref_equation():
         rel_name = Var(Self.attribute.relative_name)
         return If(

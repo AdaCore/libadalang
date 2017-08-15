@@ -3,13 +3,7 @@ QualExpr[1:1-1:13]
 |  Id[1:1-1:8]
 |  |tok: Integer
 |suffix:
-|  Aggregate[1:9-1:13]
-|  |ancestor_expr: <null>
-|  |assocs:
-|  |  AssocList[1:10-1:12]
-|  |  |  AggregateAssoc[1:10-1:12]
-|  |  |  |designators:
-|  |  |  |  AlternativesList[1:9-1:9]: <empty list>
-|  |  |  |r_expr:
-|  |  |  |  Int[1:10-1:12]
-|  |  |  |  |tok: 12
+|  ParenExpr[1:9-1:13]
+|  |expr:
+|  |  Int[1:10-1:12]
+|  |  |tok: 12

@@ -11,16 +11,10 @@ AttributeRef[1:1-1:22]
 |  |  |  |tok: C
 |  |  |args: <null>
 |  |suffix:
-|  |  Aggregate[1:9-1:14]
-|  |  |ancestor_expr: <null>
-|  |  |assocs:
-|  |  |  AssocList[1:10-1:13]
-|  |  |  |  AggregateAssoc[1:10-1:13]
-|  |  |  |  |designators:
-|  |  |  |  |  AlternativesList[1:9-1:9]: <empty list>
-|  |  |  |  |r_expr:
-|  |  |  |  |  Chr[1:10-1:13]
-|  |  |  |  |  |tok: 'D'
+|  |  ParenExpr[1:9-1:14]
+|  |  |expr:
+|  |  |  Chr[1:10-1:13]
+|  |  |  |tok: 'D'
 |attribute:
 |  Id[1:15-1:22]
 |  |tok: Pointer

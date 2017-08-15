@@ -1049,7 +1049,7 @@ A.add_rules(
     # parsers, so that we can use A.subtype_indication | A.name in allocator.
 
     qualified_name=QualExpr(
-        A.qual_name_internal, "'", Or(A.aggregate, A.paren_expr)
+        A.qual_name_internal, "'", Or(A.paren_expr, A.aggregate)
     ),
 
     qual_name_internal=Or(
@@ -1077,7 +1077,7 @@ A.add_rules(
         # General Attributes
         AttributeRef(A.name, "'", A.identifier, Opt("(", A.call_suffix, ")")),
 
-        QualExpr(A.name, "'", Or(A.aggregate, A.paren_expr)),
+        QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 
         A.direct_name,
     ),

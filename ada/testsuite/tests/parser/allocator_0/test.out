@@ -8,13 +8,7 @@ Allocator[1:1-1:24]
 |  |  Id[1:12-1:19]
 |  |  |tok: Integer
 |  |suffix:
-|  |  Aggregate[1:20-1:24]
-|  |  |ancestor_expr: <null>
-|  |  |assocs:
-|  |  |  AssocList[1:21-1:23]
-|  |  |  |  AggregateAssoc[1:21-1:23]
-|  |  |  |  |designators:
-|  |  |  |  |  AlternativesList[1:20-1:20]: <empty list>
-|  |  |  |  |r_expr:
-|  |  |  |  |  Int[1:21-1:23]
-|  |  |  |  |  |tok: 12
+|  |  ParenExpr[1:20-1:24]
+|  |  |expr:
+|  |  |  Int[1:21-1:23]
+|  |  |  |tok: 12

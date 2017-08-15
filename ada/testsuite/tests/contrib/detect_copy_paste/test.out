@@ -12,7 +12,7 @@ gprbuild-main.adb:632:1: copy-paste of 23 lines detected with code from line 154
 gprlib-build_shared_lib.adb:168:1: copy-paste of 32 lines detected with code from line 1739 to line 1768 in file gprlib.adb
 gprbuild-link.adb:1692:1: copy-paste of 73 lines detected with code from line 2300 to line 2372
 gprbuild-post_compile.adb:1285:1: copy-paste of 37 lines detected with code from line 1351 to line 1388
-gpr_build_util.adb:422:1: copy-paste of 24 lines detected with code from line 719 to line 742 in file gprbuild-post_compile.adb
 gprbind.adb:811:1: copy-paste of 65 lines detected with code from line 1402 to line 1471 in file gprlib.adb
+gpr_build_util.adb:422:1: copy-paste of 24 lines detected with code from line 719 to line 742 in file gprbuild-post_compile.adb
 gpr_util.adb:2005:1: copy-paste of 100 lines detected with code from line 2294 to line 2391
 gpr_util.adb:1855:1: copy-paste of 32 lines detected with code from line 2442 to line 2473

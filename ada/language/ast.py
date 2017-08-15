@@ -2023,7 +2023,8 @@ class PragmaArgumentAssoc(BaseAssoc):
 
 @abstract
 class AspectClause(AdaNode):
-    pass
+    xref_entry_point = Property(True)
+    xref_equation = Property(LogicTrue())
 
 
 class EnumRepClause(AspectClause):

@@ -1131,13 +1131,25 @@ class BaseTypeDecl(BasicDecl):
         return No(T.BaseTypeDecl.entity)
 
     @langkit_property(dynamic_vars=[origin])
-    def is_access_of(other=T.BaseTypeDecl.entity):
+    def is_access_of(entity=T.BasicDecl.entity):
         """
         Returns whether self is an access type whose accessed type matches
         other.
         """
         access_type = Var(Entity)
-        return access_type.accessed_type.matching_type(other)
+        return If(
+            Not(entity.subp_spec_or_null.is_null),
+
+            # This is an access to subprogram
+            access_type.access_def.cast(AccessToSubpDef).then(
+                lambda sa: sa.subp_spec.match_signature(
+                    entity.subp_spec_or_null.cast(T.SubpSpec), False
+                )
+            ),
+
+            # This is a regular access to object
+            access_type.accessed_type.matching_type(entity.expr_type)
+        )
 
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
     base_type = Property(
@@ -3999,7 +4011,7 @@ class AttributeRef(Name):
             Entity.prefix.xref_equation
             & Predicate(BaseTypeDecl.is_access_of,
                         Self.type_var,
-                        Self.prefix.type_var)
+                        Self.prefix.ref_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

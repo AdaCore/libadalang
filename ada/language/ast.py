@@ -2736,6 +2736,14 @@ class Aggregate(BaseAggregate):
 
     @langkit_property()
     def xref_equation():
+        return If(
+            Self.parent.is_a(AspectClause),
+            LogicTrue(),
+            Entity.general_xref_equation()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def general_xref_equation():
         td = Var(Self.type_val.cast(BaseTypeDecl.entity))
 
         atd = Var(td.array_def)

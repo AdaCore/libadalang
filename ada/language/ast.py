@@ -3636,7 +3636,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_real_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_real_type_or_null, Self.type_var)
 
 
 class IntLiteral(NumLiteral):
@@ -3644,7 +3644,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_int_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_int_type_or_null, Self.type_var)
 
 
 class NullLiteral(SingleTokNode):

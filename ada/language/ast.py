@@ -1109,6 +1109,8 @@ class BaseTypeDecl(BasicDecl):
     is_access_type = Property(False,
                               doc="Whether type is an access type or not")
 
+    access_def = Property(No(T.AccessDef.entity))
+
     is_char_type = Property(False,
                             doc="Whether type is a character type or not")
 
@@ -1301,6 +1303,12 @@ class TypeDecl(BaseTypeDecl):
     is_int_type = Property(Entity.type_def.is_int_type)
     is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
     accessed_type = Property(Entity.type_def.accessed_type)
+    access_def = Property(Entity.type_def.match(
+        lambda ad=T.AccessDef: ad,
+        lambda dtd=T.DerivedTypeDef: dtd.base_type.access_def,
+        lambda _: No(T.AccessDef.entity)
+    ))
+
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Entity.type_def.base_type)
     is_char_type = Property(Entity.type_def.is_char_type)

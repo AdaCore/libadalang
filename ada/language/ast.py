@@ -4035,14 +4035,25 @@ class AttributeRef(Name):
     @langkit_property()
     def xref_equation():
         rel_name = Var(Self.attribute.relative_name)
-        return If(
-            rel_name.any_of('First', 'Last'),
-            Entity.firstlast_xref_equation,
-            If(
-                rel_name == 'Access',
-                Entity.access_equation,
-                LogicTrue()
-            )
+        return Cond(
+            rel_name.any_of('First', 'Last'), Entity.firstlast_xref_equation,
+
+            rel_name == 'Length', Entity.length_equation,
+
+            rel_name == 'Access', Entity.access_equation,
+
+            LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def length_equation():
+        typ = Entity.prefix.name_designated_type
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+
+            # Type of 'Length is Integer
+            & Bind(Self.type_var, Self.int_type)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

@@ -1150,7 +1150,11 @@ class BaseTypeDecl(BasicDecl):
             1. The component type for an array.
             2. The return type for an access to function.
         """
-        return Entity.array_def._.comp_type
+        return Entity.array_def.then(lambda ad: ad.comp_type)._or(
+            Entity.access_def.cast(T.AccessToSubpDef).then(
+                lambda sa: sa.subp_spec.returns.designated_type
+            )
+        )
 
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.

@@ -3601,11 +3601,32 @@ class BaseId(SingleTokNode):
             # Type conversion case
             Bind(Self.ref_var, dt) & Bind(Self.type_var, dt),
 
+            Entity.general_xref_equation
+        ))
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def general_xref_equation():
+        env_els = Var(Entity.env_elements)
+        num_decl = env_els.at(0).cast(NumberDecl.entity)
+
+        return If(
+            Not(num_decl.is_null),
+
+            # If a num decl, then ensure it is used in a context where a num
+            # decl is needed.
+            # TODO: Apparently GNAT is able to distinguish between real and int
+            # constants, and that can be leveraged in overloading. This is a
+            # very edgish case but still needs to be implemented.
+            And(
+                Bind(Self.ref_var, num_decl),
+                Predicate(BaseTypeDecl.is_num_type_or_null, Self.type_var)
+            ),
+
             # Other cases
-            Self.ref_var.domain(Entity.env_elements)
+            Self.ref_var.domain(env_els)
             & Bind(Self.ref_var, Self.type_var,
                    BasicDecl.canonical_expr_type)
-        ))
+        )
 
 
 class Identifier(BaseId):

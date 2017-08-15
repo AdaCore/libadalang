@@ -1110,6 +1110,24 @@ class BaseTypeDecl(BasicDecl):
         return Entity.is_int_type | Entity.is_enum_type
 
     @langkit_property(dynamic_vars=[origin])
+    def is_int_type_or_null():
+        """
+        Special version of is_int_type, used for xref predicate. In some
+        contexts, when the type of something is unknown, it will be affected
+        the value null. In that case, it can be anything, so
+        is_int_type_or_null is supposed to pass.
+        """
+        return Self.is_null | Entity.is_int_type
+
+    @langkit_property(dynamic_vars=[origin])
+    def is_real_type_or_null():
+        """
+        Special version of is_float_type, used for xref predicate; see
+        is_int_type_or_null for details.
+        """
+        return Self.is_null | Entity.is_real_type
+
+    @langkit_property(dynamic_vars=[origin])
     def is_int_type():
         """Whether type is an integer type or not."""
         return False

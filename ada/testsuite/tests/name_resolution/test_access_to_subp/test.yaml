@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: test_access_to_subp
+driver: name-resolution
+input_sources: [testaccesstosubp.adb]

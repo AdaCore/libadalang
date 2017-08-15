@@ -3062,7 +3062,7 @@ class CallExpr(Name):
             )
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=BoolType, dynamic_vars=[env])
     def check_for_type(typ=T.BaseTypeDecl.entity):
         """
         Check that self is an appropriate CallExpr for given type, which must
@@ -3074,11 +3074,16 @@ class CallExpr(Name):
         # up to self, checking for each level that the call expression
         # corresponds.
         return typ.then(lambda typ: And(
-            # TODO: For the moment this is specialized for arrays, but we need
-            # to handle the case when the return value is an access to
-            # subprogram.
-            typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
+            Or(
+                # Arrays
+                typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
 
+                # Accesses to subprograms
+                typ.access_def.cast(T.AccessToSubpDef).then(
+                    lambda sa:
+                    sa.subp_spec.is_matching_param_list(Self.params, False)
+                )
+            ),
 
             Self.parent.cast(T.CallExpr).then(
                 lambda ce: ce.check_for_type(

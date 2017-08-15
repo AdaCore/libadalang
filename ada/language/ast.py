@@ -2084,6 +2084,8 @@ class NumberDecl(BasicDecl):
 
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
 
+    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+
 
 class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list)

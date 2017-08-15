@@ -2945,7 +2945,8 @@ class CallExpr(Name):
                         # access.
                         s.paramless_subp,
                         Entity.subscriptable_type_equation(s.expr_type),
-                        Entity.subprogram_equation(s)
+                        Entity.subprogram_equation(s.subp_spec_or_null,
+                                                   s.info.md.dottable_subp)
                     )
                     & Self.parent_nested_callexpr.as_entity.then(
                         lambda pce: pce.parent_callexprs_equation(
@@ -3038,19 +3039,23 @@ class CallExpr(Name):
                 # TODO: Handle remaining cases (SubtypeIndication?)
                 lambda _: LogicFalse()
             )
-        )._or(LogicFalse())
+        )._or(typ.access_def.cast(AccessToSubpDef).then(
+            lambda asd: Entity.subprogram_equation(asd.subp_spec, False)
+        )._or(LogicFalse()))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def subprogram_equation(subp=T.BasicDecl.entity):
-        return (
+    def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
+                            dottable_subp=BoolType):
+        return subp_spec.then(
+            lambda subp_spec:
             # The type of the expression is the expr_type of the
             # subprogram.
-            Bind(Self.type_var, subp.expr_type)
+            Bind(Self.type_var, subp_spec.return_type)
 
             # For each parameter, the type of the expression matches
             # the expected type for this subprogram.
-            & subp.subp_spec_or_null.match_param_list(
-                Self.params, subp.info.md.dottable_subp
+            & subp_spec.match_param_list(
+                Self.params, dottable_subp
             ).logic_all(
                 lambda pm: (
                     # The type of each actual matches the type of the
@@ -3068,7 +3073,7 @@ class CallExpr(Name):
                     Bind(pm.actual.name.ref_var, pm.formal.spec)
                 )
             )
-        )
+        )._or(LogicFalse())
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env])
     def check_for_type(typ=T.BaseTypeDecl.entity):

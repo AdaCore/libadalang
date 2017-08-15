@@ -640,7 +640,7 @@ class Body(BasicDecl):
 
             lambda subp_decl=T.BasicSubpDecl:
             subp_decl.subp_decl_spec.match_signature(
-                Entity.subp_spec_or_null.cast(T.SubpSpec)
+                Entity.subp_spec_or_null.cast(T.SubpSpec), True
             ),
 
             lambda _: False
@@ -3669,16 +3669,19 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BoolType)
-    def match_signature(other=T.SubpSpec.entity):
+    def match_signature(other=T.SubpSpec.entity, match_name=BoolType):
         """
         Return whether SubpSpec's signature matches Self's.
 
         Note that the comparison for types isn't just a name comparison: it
-        compares the canonical subtype.
+        compares the canonical types.
+
+        If match_name is False, then the name of subprogram will not be
+        checked.
         """
         return And(
             # Check that the names are the same
-            Self.name.matches(other.name),
+            Not(match_name) | Self.name.matches(other.name),
             Entity.match_return_type(other),
             Entity.match_formal_params(other),
         )

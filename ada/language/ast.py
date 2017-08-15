@@ -13,7 +13,7 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
     EmptyEnv, EnvGroup, If, Let, Literal, No, Not, Or, Property, Self, Entity,
-    Var, ignore, langkit_property
+    Var, ignore, langkit_property, Cond
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
@@ -3469,9 +3469,17 @@ class BaseId(SingleTokNode):
             )
         ))
 
-        pc = Var(Self.parent_callexpr.then(lambda pc: pc.innermost_callexpr))
+        # TODO: there is a big smell here: We're doing the filtering for parent
+        # expressions in the baseid env_elements. We should solve that.
 
-        return origin.bind(Self, If(
+        pc = Var(Self.parent_callexpr.then(lambda pc: pc.innermost_callexpr))
+        access_ref = Var(Self.parent.cast(AttributeRef))
+
+        return origin.bind(Self, Cond(
+            access_ref.then(lambda ar: ar.is_access),
+
+            items.filter(lambda e: Not(e.is_a(T.BaseTypeDecl))),
+
             pc.is_null,
 
             # If it is not the main id in a CallExpr: either the name

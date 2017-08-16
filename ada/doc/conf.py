@@ -12,9 +12,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
-import os
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -339,17 +336,13 @@ epub_exclude_files = ['search.html']
 def setup(app):
     """
     This hook will be automatically executed when building the documentation.
+
     It will generate the source code for libadalang, so that it is available
     for API doc generation.
     """
-    import subprocess
-    from os import path
-    import sys
-    file_path = path.dirname(path.abspath(__file__))
-    subprocess.check_call(
-        ["python", "ada/manage.py", "generate", "--no-compile-quex"],
-        cwd=path.join(file_path, "..", "..")
-    )
-    sys.path.append(
-        path.abspath(path.join(file_path, "..", "..", "build", "python"))
-    )
+    # Make sure we can import Libadalang
+    try:
+        import libadalang
+    except:
+        print('ERROR: could not import Libadalang')
+        raise

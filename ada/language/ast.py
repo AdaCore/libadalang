@@ -1114,6 +1114,12 @@ class BaseTypeDecl(BasicDecl):
     is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_enum_type = Property(False)
+    is_classwide = Property(False)
+    classwide_type = Property(If(
+        Entity.is_tagged_type,
+        Self.classwide_type_node.as_entity,
+        No(T.ClasswideTypeDecl.entity)
+    ))
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
@@ -1319,13 +1325,9 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(memoized=True, ignore_warn_on_node=True)
     def classwide_type_node():
-        return If(Self.is_tagged_type,
-                  T.ClasswideTypeDecl.new(type_id=Self.type_id),
-                  No(T.ClasswideTypeDecl))
+        return T.ClasswideTypeDecl.new(type_id=Self.type_id)
 
-    classwide_type = Property(Self.classwide_type_node.as_entity)
 
-    is_classwide = Property(False)
 
 
 @synthetic

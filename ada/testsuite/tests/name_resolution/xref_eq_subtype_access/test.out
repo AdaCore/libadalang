@@ -20,7 +20,7 @@ Expr: <ExplicitDeref 13:4-13:9>
   type:       <TypeDecl ["Bit"] 2:4-2:29>
 Expr: <Id "S" 13:4-13:5>
   references: <ObjectDecl ["S"] 6:4-6:12>
-  type:       <TypeDecl ["Bit_Access"] 3:4-3:38>
+  type:       <SubtypeDecl ["Sub"] 4:4-4:30>
 Expr: <Id "B" 13:13-13:14>
   references: <ObjectDecl ["B"] 8:4-8:12>
   type:       <TypeDecl ["Bit"] 2:4-2:29>
@@ -34,7 +34,7 @@ Expr: <ExplicitDeref 16:4-16:9>
   type:       <TypeDecl ["Bit"] 2:4-2:29>
 Expr: <Id "S" 16:4-16:5>
   references: <ObjectDecl ["S"] 6:4-6:12>
-  type:       <TypeDecl ["Bit_Access"] 3:4-3:38>
+  type:       <SubtypeDecl ["Sub"] 4:4-4:30>
 Expr: <Int 16:13-16:14>
   references: None
   type:       <TypeDecl ["Bit"] 2:4-2:29>

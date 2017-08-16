@@ -1329,6 +1329,8 @@ class BaseTypeDecl(BasicDecl):
 
 
 
+    is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):

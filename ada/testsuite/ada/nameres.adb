@@ -47,6 +47,9 @@ procedure Nameres is
    --  Whether to run the tool in "resolve all cross references" mode. In that
    --  mode, pragmas are ignored.
 
+   Only_Show_Failures   : Boolean := False;
+   --  Only print failures to stdout
+
    function Text (N : access Ada_Node_Type'Class) return String
    is (Image (N.Text));
 
@@ -153,7 +156,7 @@ procedure Nameres is
       Dummy : Visit_Status;
 
    begin
-      if not Quiet then
+      if not (Quiet or else Only_Show_Failures) then
          Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
       end if;
       if Langkit_Support.Adalog.Debug.Debug then
@@ -161,11 +164,15 @@ procedure Nameres is
       end if;
 
       if Node.P_Resolve_Names then
-         Dummy := Traverse (Node, Print_Node'Access);
+         if not Only_Show_Failures then
+            Dummy := Traverse (Node, Print_Node'Access);
+         end if;
       else
          Put_Line ("Resolution failed for node " & Safe_Image (Node));
       end if;
-      Put_Line ("");
+      if not (Quiet or else Only_Show_Failures) then
+         Put_Line ("");
+      end if;
    exception
    when E : others =>
          Put_Line
@@ -381,8 +388,7 @@ procedure Nameres is
    Project_File         : Unbounded_String;
    Scenario_Vars        : String_Vectors.Vector;
    Files_From_Project   : Boolean := False;
-
-   Discard_Errors : Boolean := False;
+   Discard_Errors       : Boolean := False;
 
 begin
    for I in 1 .. Ada.Command_Line.Argument_Count loop
@@ -405,6 +411,8 @@ begin
             With_Default_Project := True;
          elsif Arg = "--all" then
             Resolve_All := True;
+         elsif Arg = "--only-show-failures" then
+            Only_Show_Failures := True;
          elsif Arg = "--files-from-project" then
             Files_From_Project := True;
          elsif Starts_With (Arg, "-P") then

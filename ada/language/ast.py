@@ -449,7 +449,7 @@ class AdaNode(ASTNode):
         )
 
 
-def child_unit(name_expr, scope_expr):
+def child_unit(name_expr, scope_expr, dest_env=None):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -466,6 +466,10 @@ def child_unit(name_expr, scope_expr):
 
     :rtype: EnvSpec
     """
+    add_to_env_expr = (
+        add_to_env_kv(name_expr, Self, dest_env=dest_env)
+        if dest_env else add_to_env_kv(name_expr, Self)
+    )
 
     return EnvSpec(
         call_env_hook(Self),
@@ -474,7 +478,7 @@ def child_unit(name_expr, scope_expr):
                 lambda scope=scope_expr: If(scope == EmptyEnv, env, scope)
             ))
         ),
-        add_to_env_kv(name_expr, Self),
+        add_to_env_expr,
         add_env(),
         ref_used_packages(),
         ref_generic_formals(),
@@ -2225,7 +2229,27 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    env_spec = child_unit(Self.relative_name, Self.package_name.parent_scope)
+    env_spec = child_unit(
+        Self.relative_name, Self.decl_scope,
+        dest_env=env.bind(Self.parent.node_env, Self.package_name.parent_scope)
+    )
+
+    @langkit_property(dynamic_vars=[env])
+    def decl_scope():
+        scope = Var(Self.package_name.parent_scope)
+
+        # If this the corresponding decl is a generic, go grab the internal
+        # package decl.
+        public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
+            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+            default_val=scope
+        ))
+
+        # If the package has a private part, then get the private part,
+        # else return the public part.
+        return public_scope.get('__privatepart', recursive=False).at(0).then(
+            lambda pp: pp.children_env, default_val=public_scope
+        )
 
 
 class ExceptionDecl(BasicDecl):
@@ -4641,19 +4665,15 @@ class PackageBody(Body):
 
     @langkit_property(dynamic_vars=[env])
     def body_scope():
-        scope = Var(env.bind(
-            Self.parent.node_env,
-
-            # Subunits always appear at the top-level in package bodies. So if
-            # this is a subunit, the scope is the same as the scope of the
-            # corresponding "is separate" decl, hence: the defining env of this
-            # top-level package body.
-            Self.parent.cast(T.Subunit).then(
-                lambda su: Self.top_level_item(
-                    su.name.referenced_unit(UnitBody)
-                ).children_env,
-                default_val=Self.package_name.scope
-            )
+        # Subunits always appear at the top-level in package bodies. So if
+        # this is a subunit, the scope is the same as the scope of the
+        # corresponding "is separate" decl, hence: the defining env of this
+        # top-level package body.
+        scope = Var(Self.parent.cast(T.Subunit).then(
+            lambda su: Self.top_level_item(
+                su.name.referenced_unit(UnitBody)
+            ).children_env,
+            default_val=Self.package_name.scope
         ))
 
         # If this the corresponding decl is a generic, go grab the internal

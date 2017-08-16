@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
+from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     AnalysisUnitKind, AnalysisUnitType, ASTNode, BoolType, EnumNode,
     EquationType, Field, LexicalEnvType, LogicVarType, LongType, Struct,
@@ -21,6 +22,15 @@ from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
 
 env = DynamicVariable('env', LexicalEnvType)
 origin = DynamicVariable('origin', T.AdaNode)
+
+
+def TypeBind(*args, **kwargs):
+    check_source_language(
+        'eq_prop' not in kwargs.keys(),
+        "You cannot pass an eq_prop to TypeBind"
+    )
+    kwargs['eq_prop'] = BaseTypeDecl.matching_type
+    return Bind(*args, **kwargs)
 
 
 def ref_used_packages():

@@ -4314,10 +4314,10 @@ class ExitStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return (
-            Entity.condition.sub_equation
-            & Bind(Self.condition.type_var, Self.bool_type)
-        )
+        return Entity.condition.then(lambda cond: (
+            cond.sub_equation
+            & Bind(cond.type_var, Self.bool_type)
+        ))
 
 
 class ReturnStmt(SimpleStmt):

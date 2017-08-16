@@ -1651,15 +1651,32 @@ class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def from_type():
+        return origin.bind(
+            Self, Entity.subtype.designated_type.match(
+                lambda st=T.SubtypeDecl: st.from_type,
+                lambda t: t
+            )
+        )
+
     array_ndims = Property(Entity.subtype.array_ndims)
     defining_env = Property(Entity.subtype.defining_env)
 
-    canonical_type = Property(Entity.subtype.designated_type
-                              .canonical_type)
-
-    accessed_type = Property(Entity.canonical_type.accessed_type)
-
-    is_int_type = Property(Entity.canonical_type.is_int_type)
+    canonical_type = Property(Entity.from_type.canonical_type)
+    record_def = Property(Entity.from_type.record_def)
+    accessed_type = Property(Entity.from_type.accessed_type)
+    is_int_type = Property(Entity.from_type.is_int_type)
+    is_real_type = Property(Entity.from_type.is_real_type)
+    is_enum_type = Property(Entity.from_type.is_enum_type)
+    is_access_type = Property(Entity.from_type.is_access_type)
+    access_def = Property(Entity.from_type.access_def)
+    is_char_type = Property(Entity.from_type.is_char_type)
+    is_tagged_type = Property(Entity.from_type.is_tagged_type)
+    base_type = Property(Entity.from_type.base_type)
+    array_def = Property(Entity.from_type.array_def)
+    record_def = Property(Entity.from_type.record_def)
+    is_classwide = Property(Entity.from_type.is_classwide)
 
 
 class TaskDef(AdaNode):

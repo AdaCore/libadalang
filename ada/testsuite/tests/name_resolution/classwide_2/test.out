@@ -12,7 +12,7 @@ Expr: <Id "Foo" 18:7-18:10>
   type:       None
 Expr: <Id "Cw" 18:12-18:14>
   references: <ObjectDecl ["CW"] 16:7-16:35>
-  type:       <ClasswideTypeDecl ["A"] 0:0-0:0>
+  type:       <ClasswideTypeDecl ["A"] 3:7-5:18>
 
 
 Done.

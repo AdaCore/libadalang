@@ -9,7 +9,7 @@ Expr: <DottedName 5:7-5:14>
   type:       <TypeDecl ["T"] 2:4-2:22>
 Expr: <Id "V" 5:7-5:8>
   references: <ObjectDecl ["V"] 3:7-3:58>
-  type:       <ClasswideTypeDecl ["Object_Type"] 0:0-0:0>
+  type:       <ClasswideTypeDecl ["Object_Type"] 7:4-9:15>
 Expr: <Id "Value" 5:9-5:14>
   references: <ComponentDecl ["Value"] 8:7-8:17>
   type:       <TypeDecl ["T"] 2:4-2:22>

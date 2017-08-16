@@ -8,10 +8,10 @@ Expr: <Id "CW" 15:7-15:9>
   references: None
   type:       None
 Expr: <AttributeRef 15:12-15:19>
-  references: <ClasswideTypeDecl ["A"] 0:0-0:0>
+  references: <ClasswideTypeDecl ["A"] 3:7-5:18>
   type:       None
 Expr: <Id "A" 15:12-15:13>
-  references: <ClasswideTypeDecl ["A"] 0:0-0:0>
+  references: <ClasswideTypeDecl ["A"] 3:7-5:18>
   type:       None
 Expr: <Id "Class" 15:14-15:19>
   references: None
@@ -40,7 +40,7 @@ Expr: <DottedName 17:7-17:13>
   type:       None
 Expr: <Id "CW" 17:7-17:9>
   references: <ObjectDecl ["CW"] 15:7-15:35>
-  type:       <ClasswideTypeDecl ["A"] 0:0-0:0>
+  type:       <ClasswideTypeDecl ["A"] 3:7-5:18>
 Expr: <Id "Foo" 17:10-17:13>
   references: <NullSubpDecl ["Foo"] 7:7-7:40>
   type:       None

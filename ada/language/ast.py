@@ -1327,7 +1327,30 @@ class BaseTypeDecl(BasicDecl):
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(type_id=Self.type_id)
 
+    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity)
+    def previous_part(go_to_incomplete=BoolType):
+        """
+        Returns the previous part for this type decl.
+        """
+        return Self.type_id.then(
+            lambda type_name:
 
+            Self.children_env.get_sequential(
+                type_name.tok, sequential_from=Self
+            ).then(lambda previous_parts: Cond(
+                Self.is_in_private_part,
+                previous_parts.filter(
+                    lambda t:
+                    t.cast(T.TypeDecl)._.type_def._.is_a(PrivateTypeDef)
+                ).at(0).cast(T.BaseTypeDecl),
+
+                go_to_incomplete, previous_parts.filter(
+                    lambda t: Not(t.cast(T.IncompleteTypeDecl).is_null)
+                ).at(0).cast(T.BaseTypeDecl),
+
+                No(T.BaseTypeDecl.entity),
+            ))
+        )
 
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 

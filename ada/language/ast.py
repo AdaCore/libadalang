@@ -1115,6 +1115,14 @@ class BaseTypeDecl(BasicDecl):
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_enum_type = Property(False)
     is_classwide = Property(False)
+    is_access_type = Property(False,
+                              doc="Whether type is an access type or not")
+
+    access_def = Property(No(T.AccessDef.entity))
+
+    is_char_type = Property(False,
+                            doc="Whether type is a character type or not")
+
     classwide_type = Property(If(
         Entity.is_tagged_type,
         Self.classwide_type_node.as_entity,
@@ -1151,14 +1159,6 @@ class BaseTypeDecl(BasicDecl):
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
-
-    is_access_type = Property(False,
-                              doc="Whether type is an access type or not")
-
-    access_def = Property(No(T.AccessDef.entity))
-
-    is_char_type = Property(False,
-                            doc="Whether type is a character type or not")
 
     @langkit_property(dynamic_vars=[origin])
     def is_str_type_or_null():

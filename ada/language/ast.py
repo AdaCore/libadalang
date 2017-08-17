@@ -2327,18 +2327,18 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         Return the subprogram decl designated by this instantiation.
         """
-        p = Var(Self.designated_generic_decl)
-
-        return BasicSubpDecl.entity.new(
-            el=p.el.cast(GenericSubpDecl).subp_decl,
-            info=T.entity_info.new(
-                md=p.info.md,
-                rebindings=p.info.rebindings.append_rebinding(
-                    p.el.children_env,
-                    Self.instantiation_env_holder.children_env
+        return Self.designated_generic_decl.then(
+            lambda p: BasicSubpDecl.entity.new(
+                el=p.el.cast(GenericSubpDecl).subp_decl,
+                info=T.entity_info.new(
+                    md=p.info.md,
+                    rebindings=p.info.rebindings.append_rebinding(
+                        p.el.children_env,
+                        Self.instantiation_env_holder.children_env
+                    )
                 )
-            )
-        ).cast(T.entity)
+            ).cast(T.entity)
+        )
 
     env_spec = EnvSpec(
         add_env(),

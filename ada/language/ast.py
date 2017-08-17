@@ -2373,19 +2373,20 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():
-        p = Var(Self.designated_generic_decl)
-
-        # We use the formal env to create rebindings. There, we purposefully
-        # want the children env of the P node, with no rebindings associated,
-        # since the rebinding indication concerns the *naked* generic. Hence
-        # we use p.el.children_env.
-        formal_env = Var(p.then(lambda p: p.el.children_env))
-
-        return p._.decl.children_env.rebind_env(
-            # If this generic instantiation is inside a generic instantiation,
-            # then it inherits the rebindings of the enclosing instantiation.
-            Entity.info.rebindings.append_rebinding(
-                formal_env, Self.instantiation_env_holder.children_env
+        return Self.designated_generic_decl.then(
+            lambda p: p._.decl.children_env.rebind_env(
+                # If this generic instantiation is inside a generic
+                # instantiation, then it inherits the rebindings of the
+                # enclosing instantiation.
+                Entity.info.rebindings.append_rebinding(
+                    # We use the formal env to create rebindings. There, we
+                    # purposefully want the children env of the P node, with no
+                    # rebindings associated, since the rebinding indication
+                    # concerns the *naked* generic. Hence we use
+                    # p.el.children_env.
+                    p.el.children_env,
+                    Self.instantiation_env_holder.children_env
+                )
             )
         )
 

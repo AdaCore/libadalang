@@ -449,7 +449,7 @@ class AdaNode(ASTNode):
         )
 
 
-def child_unit(name_expr, scope_expr, dest_env=None):
+def child_unit(name_expr, scope_expr, dest_env=None, more_rules=[]):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -466,6 +466,8 @@ def child_unit(name_expr, scope_expr, dest_env=None):
 
     :rtype: EnvSpec
     """
+    more_rules = list(more_rules)
+
     add_to_env_expr = (
         add_to_env_kv(name_expr, Self, dest_env=dest_env)
         if dest_env else add_to_env_kv(name_expr, Self)
@@ -482,7 +484,8 @@ def child_unit(name_expr, scope_expr, dest_env=None):
         add_env(),
         ref_used_packages(),
         ref_generic_formals(),
-        ref_std()
+        ref_std(),
+        *more_rules
     )
 
 

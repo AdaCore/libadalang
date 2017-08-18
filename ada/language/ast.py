@@ -4705,7 +4705,12 @@ class TerminateAlternative(SimpleStmt):
 
 
 class PackageBody(Body):
-    env_spec = child_unit('__body', Self.body_scope)
+    env_spec = child_unit(
+        '__body', Self.body_scope, more_rules=[
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.PackageBody.subunit_pkg_decl)
+        ]
+    )
 
     package_name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
@@ -4716,6 +4721,11 @@ class PackageBody(Body):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Entity.children_env)
 
+    @langkit_property()
+    def subunit_pkg_decl():
+        return env.bind(
+            Self.subunit_root._.children_env,
+            Self.defining_name.scope
         )
 
     @langkit_property()

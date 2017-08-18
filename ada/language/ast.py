@@ -378,7 +378,6 @@ class AdaNode(ASTNode):
         lexical environment lookup on a child unit. As it does itself a lot of
         lookups, memoizing it is very important.
         """
-        # TODO: refine this property to preserve entities when it makes sense
         gen_decl = Var(If(
             Self.is_library_item,
 
@@ -388,16 +387,18 @@ class AdaNode(ASTNode):
                 lambda pkg_body=T.PackageBody:
                     pkg_body.decl_part_entity.
                     _.parent.cast(T.GenericPackageDecl),
-                lambda subp_body=T.SubpBody:
-                    # If subp_body is the body of a generic subprogram, then
-                    # the environment lookup below should return its
-                    # specification as the second node (the first being
-                    # subp_body). If it's not a generic declaration, then we
-                    # know subp_body is not a generic subprogram, and thus we
-                    # must return a null node here.
-                    subp_body.parent.node_env.get(
-                        subp_body.relative_name
-                    ).at(1).el.cast(T.GenericSubpDecl).cast(T.AdaNode),
+                lambda bod=T.SubpBody:
+                    # We're only searching for generics. We look at index 1 and
+                    # 2, because if self is a subunit, the first entity we find
+                    # will be the separate declaration. NOTE: We don't use
+                    # decl_part/previous_part on purpose: They can cause env
+                    # lookups, hence doing an infinite recursion.
+                    bod.children_env.env_parent.get(bod.relative_name).then(
+                        lambda results:
+                        results.at(1).el.cast(T.GenericSubpDecl)._or(
+                            results.at(2).el.cast(T.GenericSubpDecl)
+                        )
+                    ).cast(T.AdaNode),
                 lambda _: No(T.AdaNode)
             )
         ))

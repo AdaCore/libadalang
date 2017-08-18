@@ -641,8 +641,8 @@ class BasicDecl(AdaNode):
 @abstract
 class Body(BasicDecl):
 
-    decl_part_entity = Property(If(
-        Self.is_library_item,
+    previous_part = Property(If(
+        Self.is_library_item & Not(Self.is_subunit),
 
         # If library item, we just return the spec. We don't check if it's
         # a valid and matching subprogram because that's an error case.
@@ -650,8 +650,8 @@ class Body(BasicDecl):
 
         # If not a library item, find the matching subprogram spec in the
         # env.
-        Entity.parent.node_env.get(Self.relative_name)
-        .find(lambda sp: sp.match(
+        Entity.children_env.env_parent.get(Self.relative_name)
+        .find(lambda sp: And(Not(sp.el == Self), sp.match(
             # If this body completes a generic subprogram, then we just return
             # it (no need to match the signature).
             lambda _=T.GenericSubpDecl: True,
@@ -661,8 +661,13 @@ class Body(BasicDecl):
                 Entity.subp_spec_or_null.cast(T.SubpSpec), True
             ),
 
+            lambda subp_stub=T.SubpBodyStub:
+            subp_stub.subp_spec.match_signature(
+                Entity.subp_spec_or_null.cast(T.SubpSpec), True
+            ),
+
             lambda _: False
-        )).cast_or_raise(T.BasicDecl.entity)
+        ))).cast_or_raise(T.BasicDecl.entity)
     ),
         doc="""
         Return the decl corresponding to this body. For convenience, the
@@ -670,6 +675,16 @@ class Body(BasicDecl):
         bodies.
         """,
     )
+
+    @langkit_property()
+    def decl_part_entity():
+        return Entity.previous_part.then(
+            lambda prev_part: prev_part.match(
+                lambda subp_stub=T.SubpBodyStub:
+                subp_stub.previous_part,
+                lambda other: other
+            )
+        )
 
     decl_part = Property(
         Self.as_bare_entity.decl_part_entity.el,

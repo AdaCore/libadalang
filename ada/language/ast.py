@@ -692,7 +692,53 @@ class Body(BasicDecl):
         doc="""
         Return the decl corresponding to this node if applicable.
         """
+
     )
+
+    @langkit_property()
+    def is_subunit():
+        return Not(Self.parent.cast(T.Subunit).is_null)
+
+    @langkit_property()
+    def subunit_root():
+        """
+        If self is a subunit, return the body in which it is rooted.
+        """
+        return Self.parent.cast(T.Subunit).then(lambda su: Self.top_level_item(
+            su.name.referenced_unit(UnitBody)
+        ))
+
+    @langkit_property(dynamic_vars=[env])
+    def body_scope():
+        # Subunits always appear at the top-level in package bodies. So if
+        # this is a subunit, the scope is the same as the scope of the
+        # corresponding "is separate" decl, hence: the defining env of this
+        # top-level package body.
+        scope = Var(Self.subunit_root.then(
+            lambda su: su.children_env,
+            # In case this is a library level subprogram that has no spec
+            # (which is legal), we'll register this body in the parent scope.
+            default_val=If(
+                Self.is_subprogram & Not(Self.is_library_item),
+                Self.parent.children_env,
+                Self.defining_name.scope._or(
+                    Self.defining_name.parent_scope
+                ),
+            )
+        ))
+
+        # If this the corresponding decl is a generic, go grab the internal
+        # package decl.
+        public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
+            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+            default_val=scope
+        ))
+
+        # If the package has a private part, then get the private part,
+        # else return the public part.
+        return public_scope.get('__privatepart', recursive=False).at(0).then(
+            lambda pp: pp.children_env, default_val=public_scope
+        )
 
 
 @abstract
@@ -4679,30 +4725,6 @@ class PackageBody(Body):
     defining_names = Property(Self.package_name.singleton)
     defining_env = Property(Entity.children_env)
 
-    @langkit_property(dynamic_vars=[env])
-    def body_scope():
-        # Subunits always appear at the top-level in package bodies. So if
-        # this is a subunit, the scope is the same as the scope of the
-        # corresponding "is separate" decl, hence: the defining env of this
-        # top-level package body.
-        scope = Var(Self.parent.cast(T.Subunit).then(
-            lambda su: Self.top_level_item(
-                su.name.referenced_unit(UnitBody)
-            ).children_env,
-            default_val=Self.package_name.scope
-        ))
-
-        # If this the corresponding decl is a generic, go grab the internal
-        # package decl.
-        public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
-            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
-            default_val=scope
-        ))
-
-        # If the package has a private part, then get the private part,
-        # else return the public part.
-        return public_scope.get('__privatepart', recursive=False).at(0).then(
-            lambda pp: pp.children_env, default_val=public_scope
         )
 
     @langkit_property()

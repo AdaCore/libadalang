@@ -4334,16 +4334,7 @@ class SubpBody(Body):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, If(
-                Self.is_library_item,
-                # In case the subp spec for this library level subprogram is
-                # missing, we'll put it in the parent's scope. This way, the
-                # xref to it should still resolve.
-                Self.subp_spec.name.scope._or(
-                    Self.subp_spec.name.parent_scope
-                ),
-                Self.parent.children_env
-            )),
+            env.bind(Self.initial_env, Self.body_scope),
         ),
 
         # Add the body to its own parent env

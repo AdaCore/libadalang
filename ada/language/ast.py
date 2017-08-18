@@ -572,6 +572,16 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=BoolType)
+    def is_subprogram():
+        return Self.match(
+            lambda _=BasicSubpDecl: True,
+            lambda _=SubpBody:      True,
+            lambda _=SubpBodyStub:  True,
+            lambda _=EntryDecl:     True,
+            lambda _:               False
+        )
+
+    @langkit_property(return_type=BoolType)
     def paramless_subp():
         """
         Return true if entity denotes a paramless subprogram entity, when used

@@ -642,40 +642,41 @@ class BasicDecl(AdaNode):
 @abstract
 class Body(BasicDecl):
 
-    previous_part = Property(If(
-        Self.is_library_item & Not(Self.is_subunit),
-
-        # If library item, we just return the spec. We don't check if it's
-        # a valid and matching subprogram because that's an error case.
-        Self.top_level_item(Self.spec_unit).as_entity,
-
-        # If not a library item, find the matching subprogram spec in the
-        # env.
-        Entity.children_env.env_parent.get(Self.relative_name)
-        .find(lambda sp: And(Not(sp.el == Self), sp.match(
-            # If this body completes a generic subprogram, then we just return
-            # it (no need to match the signature).
-            lambda _=T.GenericSubpDecl: True,
-
-            lambda subp_decl=T.BasicSubpDecl:
-            subp_decl.subp_decl_spec.match_signature(
-                Entity.subp_spec_or_null.cast(T.SubpSpec), True
-            ),
-
-            lambda subp_stub=T.SubpBodyStub:
-            subp_stub.subp_spec.match_signature(
-                Entity.subp_spec_or_null.cast(T.SubpSpec), True
-            ),
-
-            lambda _: False
-        ))).cast_or_raise(T.BasicDecl.entity)
-    ),
-        doc="""
+    @langkit_property()
+    def previous_part():
+        """
         Return the decl corresponding to this body. For convenience, the
         default implemention is for subprograms, overloaded in other kinds of
         bodies.
-        """,
-    )
+        """
+        return If(
+            Self.is_library_item & Not(Self.is_subunit),
+
+            # If library item, we just return the spec. We don't check if it's
+            # a valid and matching subprogram because that's an error case.
+            Self.top_level_item(Self.spec_unit).as_entity,
+
+            # If not a library item, find the matching subprogram spec in the
+            # env.
+            Entity.children_env.env_parent.get(Self.relative_name)
+            .find(lambda sp: And(Not(sp.el == Self), sp.match(
+                # If this body completes a generic subprogram, then we just
+                # return it (no need to match the signature).
+                lambda _=T.GenericSubpDecl: True,
+
+                lambda subp_decl=T.BasicSubpDecl:
+                subp_decl.subp_decl_spec.match_signature(
+                    Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                ),
+
+                lambda subp_stub=T.SubpBodyStub:
+                subp_stub.subp_spec.match_signature(
+                    Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                ),
+
+                lambda _: False
+            ))).cast_or_raise(T.BasicDecl.entity)
+        )
 
     @langkit_property()
     def decl_part_entity():

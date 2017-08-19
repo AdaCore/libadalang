@@ -711,7 +711,7 @@ class Body(BasicDecl):
         ))
 
     @langkit_property(dynamic_vars=[env])
-    def body_scope():
+    def body_scope(follow_private=BoolType):
         # Subunits always appear at the top-level in package bodies. So if
         # this is a subunit, the scope is the same as the scope of the
         # corresponding "is separate" decl, hence: the defining env of this
@@ -738,8 +738,12 @@ class Body(BasicDecl):
 
         # If the package has a private part, then get the private part,
         # else return the public part.
-        return public_scope.get('__privatepart', recursive=False).at(0).then(
-            lambda pp: pp.children_env, default_val=public_scope
+        return If(
+            follow_private,
+            public_scope.get('__privatepart', recursive=False).at(0).then(
+                lambda pp: pp.children_env, default_val=public_scope
+            ),
+            public_scope
         )
 
 
@@ -4336,7 +4340,7 @@ class SubpBody(Body):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Self.body_scope),
+            env.bind(Self.initial_env, Self.body_scope(True)),
         ),
 
         # Add the body to its own parent env
@@ -4708,7 +4712,7 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     env_spec = child_unit(
-        '__body', Self.body_scope, more_rules=[
+        '__body', Self.body_scope(True), more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl)
         ]

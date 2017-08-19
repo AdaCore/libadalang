@@ -4215,6 +4215,7 @@ class AttributeRef(Name):
             rel_name == 'Length', Entity.length_equation,
 
             rel_name == 'Access', Entity.access_equation,
+            rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,
 
             LogicTrue()
@@ -4251,6 +4252,23 @@ class AttributeRef(Name):
             & Predicate(BaseTypeDecl.is_int_type_or_null, Self.type_var)
         )
 
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def image_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+
+            # Type of expression is designated type
+            & TypeBind(expr.type_var, typ)
+
+            # Type of self is String
+            & TypeBind(Self.type_var, Self.std_entity('String'))
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def length_equation():
         typ = Var(Entity.prefix.name_designated_type)
         return (

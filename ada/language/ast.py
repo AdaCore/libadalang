@@ -4210,6 +4210,7 @@ class AttributeRef(Name):
         rel_name = Var(Self.attribute.relative_name)
         return Cond(
             rel_name.any_of('First', 'Last'), Entity.firstlast_xref_equation,
+            rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
             rel_name == 'Length', Entity.length_equation,
 
@@ -4219,6 +4220,19 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def minmax_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        left = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        right = Var(Self.args.cast_or_raise(T.AssocList).at(1).expr)
+
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            TypeBind(Self.prefix.ref_var, typ)
+            & TypeBind(left.type_var, right.type_var)
+            & TypeBind(Self.type_var, left.type_var)
+            & TypeBind(Self.type_var, typ)
+        )
+
     def length_equation():
         typ = Var(Entity.prefix.name_designated_type)
         return (

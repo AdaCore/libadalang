@@ -4215,6 +4215,7 @@ class AttributeRef(Name):
             rel_name == 'Length', Entity.length_equation,
 
             rel_name == 'Access', Entity.access_equation,
+            rel_name == 'Aft', Entity.aft_equation,
 
             LogicTrue()
         )
@@ -4231,6 +4232,23 @@ class AttributeRef(Name):
             & TypeBind(left.type_var, right.type_var)
             & TypeBind(Self.type_var, left.type_var)
             & TypeBind(Self.type_var, typ)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def aft_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+
+            & Or(
+                TypeBind(Self.type_var, Self.int_type),
+                LogicTrue()
+            )
+
+            # Type of self is String
+            & Predicate(BaseTypeDecl.is_int_type_or_null, Self.type_var)
         )
 
     def length_equation():

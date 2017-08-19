@@ -1411,7 +1411,7 @@ class BaseTypeDecl(BasicDecl):
                 Self.is_in_private_part,
                 previous_parts.filter(
                     lambda t:
-                    t.cast(T.TypeDecl)._.type_def._.is_a(PrivateTypeDef)
+                    t.cast(T.BaseTypeDecl).is_private
                 ).at(0).cast(T.BaseTypeDecl),
 
                 go_to_incomplete, previous_parts.filter(
@@ -1430,6 +1430,8 @@ class BaseTypeDecl(BasicDecl):
         )
 
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
+
+    is_private = Property(False)
 
 
 @synthetic
@@ -1475,6 +1477,12 @@ class TypeDecl(BaseTypeDecl):
     base_type = Property(Entity.type_def.base_type)
     is_char_type = Property(Entity.type_def.is_char_type)
     is_enum_type = Property(Entity.type_def.is_enum_type)
+    is_private = Property(
+        Self.type_def.is_a(T.PrivateTypeDef)
+        | Self.type_def.cast(T.DerivedTypeDef).then(
+            lambda dtd: dtd.has_with_private.as_bool
+        )
+    )
 
     array_def = Property(Entity.type_def.match(
         lambda atd=T.ArrayTypeDef: atd,

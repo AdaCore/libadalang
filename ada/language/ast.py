@@ -4213,7 +4213,6 @@ class AttributeRef(Name):
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
             rel_name == 'Length', Entity.length_equation,
-
             rel_name == 'Access', Entity.access_equation,
             rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,

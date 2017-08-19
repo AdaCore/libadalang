@@ -1050,6 +1050,8 @@ class ComponentDecl(BaseFormalParamDecl):
             )
         )
 
+    xref_entry_point = Property(True)
+
 
 class ComponentList(BaseFormalParamHolder):
     components = Field(type=T.AdaNode.list)

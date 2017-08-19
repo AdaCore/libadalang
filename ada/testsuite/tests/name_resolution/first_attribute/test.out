@@ -90,11 +90,15 @@ Resolving xrefs for node <TypeDecl ["Lol"] 9:4-11:15>
 Expr: <Id "Lol" 9:9-9:12>
   references: None
   type:       None
+
+Resolving xrefs for node <ComponentDecl ["Pouet"] 10:7-10:27>
+*************************************************************
+
 Expr: <Id "Pouet" 10:7-10:12>
   references: None
   type:       None
 Expr: <Id "A" 10:15-10:16>
-  references: None
+  references: <TypeDecl ["A"] 2:4-2:50>
   type:       None
 Expr: <BinOp 10:18-10:25>
   references: None

@@ -1044,8 +1044,7 @@ class ComponentDecl(BaseFormalParamDecl):
             & Entity.default_expr.then(
                 lambda de:
                 de.sub_equation
-                & Bind(Self.default_expr.type_var,
-                       typ,
+                & Bind(de.type_var, typ,
                        eq_prop=BaseTypeDecl.matching_assign_type),
                 default_val=LogicTrue()
             )

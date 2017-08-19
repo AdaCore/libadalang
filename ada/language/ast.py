@@ -1424,7 +1424,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl, ignore_warn_on_node=True)
     def canonical_part():
-        return Self.previous_part(False).then(
+        return Self.previous_part(True).then(
             lambda pp: pp.canonical_part,
             default_val=Self,
         )

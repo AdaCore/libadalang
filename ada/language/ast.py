@@ -1713,24 +1713,33 @@ class ConstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
-        return Self.list.at(dim).match(
-            lambda n=T.SubtypeIndication:
-            TypeBind(index_expr.type_var,
-                     n.as_entity.designated_type),
-
-            lambda _=T.Expr: TypeBind(index_expr.type_var, Self.int_type),
-
-            lambda _: LogicTrue()
-        )
+        return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
     def xref_equation():
         return Entity.list.logic_all(
-            lambda index: index.sub_equation
-            & index.match(
-                lambda expr=T.Expr: TypeBind(expr.type_var, Self.int_type),
-                lambda _: LogicTrue()
+            lambda index:
+            index.sub_equation
+            & index.cast(T.Expr).then(
+                lambda expr:
+                TypeBind(expr.type_var, Self.int_type)
+                | Predicate(BaseTypeDecl.is_discrete_type, expr.type_var),
+                default_val=LogicTrue()
             )
+        )
+
+    @langkit_property(dynamic_vars=[origin])
+    def index_type(dim=LongType):
+        # We might need to solve self's equation to get the index type
+        ignore(Var(env.bind(
+            Self.node_env, Self.parent.parent.as_entity.resolve_names_internal(
+                True, LogicTrue()
+            )
+        )))
+        return Entity.list.at(dim).match(
+            lambda st=T.SubtypeIndication: st.designated_type,
+            lambda e=T.Expr: e.type_val.cast(T.BaseTypeDecl.entity),
+            lambda _: No(T.BaseTypeDecl.entity)
         )
 
 

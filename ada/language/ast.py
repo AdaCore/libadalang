@@ -1378,9 +1378,11 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_type(expected_type=T.BaseTypeDecl.entity):
         actual_type = Var(Entity)
-        return Or(
-            actual_type.canonical_type == expected_type.canonical_type,
-            actual_type.matching_access_type(expected_type)
+        return And(
+            Not(expected_type.is_null),
+            Not(actual_type.is_null),
+            Or(actual_type.canonical_type == expected_type.canonical_type,
+               actual_type.matching_access_type(expected_type))
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])

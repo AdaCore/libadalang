@@ -4344,7 +4344,9 @@ class SubpBody(Body):
         ),
 
         # Add the body to its own parent env
-        add_to_env_kv(Self.relative_name, Self),
+        add_to_env_kv(Self.relative_name, Self,
+                      dest_env=env.bind(Self.initial_env,
+                                        Self.body_scope(False))),
 
         add_env(),
         ref_used_packages(),

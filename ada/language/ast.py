@@ -871,26 +871,18 @@ class BaseFormalParamHolder(AdaNode):
     def match_formal_params(other=T.BaseFormalParamHolder.entity):
         # Check that there is the same number of formals and that each
         # formal matches.
-        return Let(
-            lambda
-            self_params=Entity.unpacked_formal_params,
-            other_params=other.unpacked_formal_params:
 
-            And(self_params.length == other_params.length,
-                self_params.all(
-                    lambda i, p:
-                    And(
-                        p.name.matches(other_params.at(i).name),
-                        origin.bind(
-                            Self,
-                            p.spec.type_expression._.canonical_type
-                        ) == origin.bind(
-                            other.el,
-                            other_params.at(i).spec
-                            .type_expression._.canonical_type
-                        )
-                    )
-                ))
+        self_params = Var(Entity.unpacked_formal_params)
+        other_params = Var(other.unpacked_formal_params)
+        return And(
+            self_params.length == other_params.length,
+            self_params.all(lambda i, p: And(
+                p.name.matches(other_params.at(i).name),
+                origin.bind(
+                    Self,
+                    p.spec.type._.matching_type(other_params.at(i).spec.type)
+                )
+            ))
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env])

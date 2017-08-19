@@ -4220,7 +4220,7 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def length_equation():
-        typ = Entity.prefix.name_designated_type
+        typ = Var(Entity.prefix.name_designated_type)
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)

@@ -1529,7 +1529,7 @@ class AnonymousTypeDecl(TypeDecl):
 
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
-        return (Entity.type_def.cast(AccessDef)._.accessed_type
+        return (Entity.type_def.cast(AccessDef)._.accessed_type._
                 .matching_type(other.accessed_type))
 
     # We don't want to add anonymous type declarations to the lexical

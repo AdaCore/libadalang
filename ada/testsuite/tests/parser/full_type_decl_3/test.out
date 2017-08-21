@@ -57,3 +57,5 @@ TypeDecl[1:1-1:65]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |variant_part: <null>
 |aspects: <null>
+|primitives:
+|  PrimitivesEnvHolder[1:64-1:64]

@@ -67,6 +67,8 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |primitives:
+|  |  |  |  |  |  |  PrimitivesEnvHolder[1:53-1:53]
 |  |  |  |  |default: <null>
 |  |subp_returns: <null>
 |renames:

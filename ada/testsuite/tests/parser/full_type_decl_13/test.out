@@ -12,3 +12,5 @@ TypeDecl[1:1-1:35]
 |  |has_limited:
 |  |  LimitedAbsent[1:27-1:27]
 |aspects: <null>
+|primitives:
+|  PrimitivesEnvHolder[1:34-1:34]

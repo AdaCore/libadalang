@@ -51,6 +51,8 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |primitives:
+|  |  |  |  |  |  |  PrimitivesEnvHolder[1:69-1:69]
 |  |  |  |  |default: <null>
 |  |  |  |  ParamSpec[1:71-1:96]
 |  |  |  |  |ids:

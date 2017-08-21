@@ -43,6 +43,8 @@ ObjectDecl[1:1-1:51]
 |  |  |  |  |  |  |tok: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |aspects: <null>
+|  |  |primitives:
+|  |  |  PrimitivesEnvHolder[1:50-1:50]
 |default_expr: <null>
 |renaming_clause: <null>
 |aspects: <null>

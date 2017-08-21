@@ -120,9 +120,8 @@ class Metadata(Struct):
         BoolType, doc="Whether the stored element is a subprogram accessed "
                       "through the dot notation"
     )
-    implicit_deref = UserField(
-        BoolType, doc="Whether the stored element is accessed through an "
-                      "implicit dereference"
+    primitive = UserField(
+        BoolType, doc="Whether this represents an inherited primitive"
     )
 
 
@@ -818,6 +817,12 @@ class BaseFormalParamDecl(BasicDecl):
     type = Property(
         origin.bind(
             Self, Entity.type_expression._.designated_type
+        )
+    )
+
+    el_type = Property(
+        origin.bind(
+            Self, Entity.type_expression._.element_type
         )
     )
 
@@ -1537,6 +1542,7 @@ class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
+    primitives = Field(type=T.PrimitivesEnvHolder)
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
@@ -1575,6 +1581,7 @@ class TypeDecl(BaseTypeDecl):
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
+        reference(Self.cast(AdaNode).singleton, T.TypeDecl.primitives_env),
         add_env()
     )
 
@@ -1594,6 +1601,43 @@ class TypeDecl(BaseTypeDecl):
         return Entity.type_def.sub_equation
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
+
+    @langkit_property(return_type=LexicalEnvType.array)
+    def primitives_envs_nonmemoized():
+        """
+        Non-memoized implem for primitives_env. Used in cases where there is
+        relevant entity info.
+        """
+        return Entity.base_type.cast(T.TypeDecl).then(
+            lambda bt: bt.primitives.children_env.singleton.concat(
+                bt.primitives_envs
+            )
+        )
+
+    @langkit_property(return_type=LexicalEnvType.array, memoized=True)
+    def primitives_envs_memoized():
+        """
+        Memoized implem for primitives_env. Used in cases where there is
+        no relevant entity info.
+        """
+        return Self.as_bare_entity.base_type.cast(T.TypeDecl).then(
+            lambda bt: bt.primitives.children_env.singleton.concat(
+                bt.primitives_envs
+            )
+        )
+
+    @langkit_property(return_type=LexicalEnvType.array)
+    def primitives_envs():
+        return If(
+            Entity.info.is_null,
+            Self.primitives_envs_memoized,
+            Entity.primitives_envs_nonmemoized
+        )
+
+    primitives_env = Property(Self.type_def.match(
+        lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group,
+        lambda _: EmptyEnv
+    ))
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -2245,8 +2289,23 @@ class BasicSubpDecl(BasicDecl):
             ),
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
-            metadata=Metadata.new(dottable_subp=True, implicit_deref=False)
+            metadata=Metadata.new(dottable_subp=True, primitive=False)
+        ),
 
+        # Adding subp to the primitives env if the subp is a primitive. TODO:
+        # Ada allows a subprogram to be a primitive of several types. This is
+        # not handled for the moment, due to the limitations of the current env
+        # spec format. We could modify dest_env to take an array optionally,
+        # but that's one more kludge to the pile.
+
+        add_to_env(
+            T.env_assoc.new(key=Entity.relative_name, val=Self),
+            dest_env=origin.bind(
+                Self,
+                Self.as_bare_entity.subp_decl_spec
+                .primitive_subp_of.cast(T.TypeDecl)._.primitives._.children_env
+            ),
+            metadata=Metadata.new(dottable_subp=False, primitive=True)
         )
     )
 
@@ -2510,6 +2569,10 @@ class EnvHolder(AdaNode):
     TODO: This should be do-able in a simpler fashion, by exposing a
     LexicalEnvType field that is automatically initialized.
     """
+    env_spec = EnvSpec(add_env())
+
+
+class PrimitivesEnvHolder(AdaNode):
     env_spec = EnvSpec(add_env())
 
 
@@ -4077,6 +4140,20 @@ class BaseSubpSpec(BaseFormalParamHolder):
         notation, return the type of dottable elements.
         """
         return Entity.params._.at(0)._.type_expr._.element_type
+
+    @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
+    def primitive_subp_of():
+        bd = Var(Entity.parent.cast_or_raise(BasicDecl))
+        params = Var(Entity.unpacked_formal_params)
+        types = Var(params.map(lambda p: p.spec.el_type))
+
+        return types.find(lambda typ: typ.then(
+            lambda typ: typ.declarative_scope.any_of(
+                bd.declarative_scope,
+                bd.declarative_scope
+                ._.parent.cast(BasePackageDecl)._.public_part
+            )
+        ))
 
     @langkit_property(return_type=BoolType)
     def is_dottable_subp():

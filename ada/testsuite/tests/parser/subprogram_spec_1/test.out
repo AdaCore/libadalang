@@ -63,6 +63,8 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |primitives:
+|  |  |  |  |  |  PrimitivesEnvHolder[1:49-1:49]
 |  |  |  |default: <null>
 |subp_returns:
 |  SubtypeIndication[1:58-1:65]

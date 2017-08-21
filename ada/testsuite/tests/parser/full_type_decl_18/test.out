@@ -31,3 +31,5 @@ TypeDecl[1:1-1:41]
 |  |  |  |  |tok: Integer
 |  |  |  |constraint: <null>
 |aspects: <null>
+|primitives:
+|  PrimitivesEnvHolder[1:40-1:40]

@@ -10,3 +10,5 @@ TypeDecl[1:1-1:34]
 |  |interfaces:
 |  |  ParentList[1:24-1:24]: <empty list>
 |aspects: <null>
+|primitives:
+|  PrimitivesEnvHolder[1:33-1:33]

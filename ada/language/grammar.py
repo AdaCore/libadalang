@@ -289,7 +289,7 @@ A.add_rules(
     anonymous_type_decl=AnonymousTypeDecl(
         Null(A.identifier), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
-        A.aspect_spec
+        A.aspect_spec, PrimitivesEnvHolder()
     ),
 
     type_decl=Or(
@@ -311,7 +311,7 @@ A.add_rules(
                     "private"
                 ),
             ),
-            A.aspect_spec, ";"
+            A.aspect_spec, PrimitivesEnvHolder(), ";"
         ),
         IncompleteTaggedTypeDecl(
             "type", A.identifier, Opt(A.discriminant_part),

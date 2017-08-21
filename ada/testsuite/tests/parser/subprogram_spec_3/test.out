@@ -56,6 +56,8 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |primitives:
+|  |  |  |  |  |  PrimitivesEnvHolder[1:55-1:55]
 |  |  |  |default: <null>
 |  |  |  ParamSpec[1:57-1:68]
 |  |  |  |ids:

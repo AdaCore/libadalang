@@ -52,3 +52,5 @@ TypeDecl[1:1-1:58]
 |  |has_with_private:
 |  |  WithPrivateAbsent[1:57-1:57]
 |aspects: <null>
+|primitives:
+|  PrimitivesEnvHolder[1:57-1:57]

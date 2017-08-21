@@ -2016,7 +2016,11 @@ class TypeExpr(AdaNode):
         return the designated type.
         """
         d = Entity.designated_type
-        return If(d.is_null, Entity.accessed_type, d)
+        return If(
+            d.cast(AnonymousTypeDecl)._.type_def.cast(AccessDef).is_null,
+            d,
+            Entity.accessed_type,
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def canonical_type():

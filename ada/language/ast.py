@@ -4266,6 +4266,7 @@ class AttributeRef(Name):
         rel_name = Var(Self.attribute.relative_name)
         return Cond(
             rel_name.any_of('First', 'Last'), Entity.firstlast_xref_equation,
+            rel_name.any_of('Succ', 'Pred'), Entity.succpred_xref_equation,
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
             rel_name == 'Length', Entity.length_equation,
@@ -4276,6 +4277,17 @@ class AttributeRef(Name):
             rel_name == 'Aft', Entity.aft_equation,
 
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def succpred_xref_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        arg = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+
+        return (
+            TypeBind(Self.prefix.ref_var, typ)
+            & TypeBind(arg.type_var, typ)
+            & TypeBind(Self.type_var, typ)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

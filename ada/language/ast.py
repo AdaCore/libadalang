@@ -4158,6 +4158,10 @@ class ForLoopSpec(LoopSpec):
                 TypeBind(Self.var_decl.id.type_var,
                          t.designated_type.canonical_type),
 
+                lambda r=T.AttributeRef:
+                r.sub_equation
+                & TypeBind(Self.var_decl.id.type_var, r.type_var),
+
                 # Name case: Either the name is a subtype indication, or an
                 # attribute on a subtype indication, in which case the logic is
                 # the same as above, either it's an expression that yields an
@@ -4283,6 +4287,7 @@ class AttributeRef(Name):
             rel_name == 'Access', Entity.access_equation,
             rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,
+            rel_name == 'Range', Entity.range_equation,
 
             LogicTrue()
         )
@@ -4376,6 +4381,30 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def range_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        return If(
+            Not(typ.is_null),
+
+            Bind(Self.prefix.ref_var, typ) & Cond(
+                typ.is_array,
+                TypeBind(Self.type_var, typ.first_index_type),
+
+                typ.is_discrete_type,
+                TypeBind(Self.type_var, typ),
+
+                LogicFalse()
+            ),
+
+            Entity.prefix.sub_equation
+            # It must be an array
+            & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
+            # Its index type is the type of Self
+            & TypeBind(Self.type_var, Self.prefix.type_var,
+                       conv_prop=BaseTypeDecl.first_index_type),
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def firstlast_xref_equation():
         typ = Entity.prefix.name_designated_type
         return If(
@@ -4391,7 +4420,7 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             # It must be an array
             & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
-            # Its component type is the type of Self
+            # Its index type is the type of Self
             & TypeBind(Self.type_var, Self.prefix.type_var,
                        conv_prop=BaseTypeDecl.first_index_type)
         )

@@ -655,6 +655,22 @@ class BasicDecl(AdaNode):
         ignore(Var(Self.body_unit))
         return Self.children_env.get('__body', recursive=False).at(0)
 
+    @langkit_property(dynamic_vars=[env])
+    def pkg_decl_scope():
+        scope = Var(Self.defining_name.parent_scope)
+
+        # If this the corresponding decl is a generic, go grab the internal
+        # package decl. Then If the package has a private part, then get the
+        # private part, else return the public part.
+        return Let(
+            lambda public_scope=scope.env_node.cast(T.GenericPackageDecl).then(
+                lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+                default_val=scope
+            ): public_scope.get('__privatepart', recursive=False).at(0).then(
+                lambda pp: pp.children_env, default_val=public_scope
+            )
+        )
+
 
 @abstract
 class Body(BasicDecl):
@@ -2377,26 +2393,9 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     env_spec = child_unit(
-        Self.relative_name, Self.decl_scope,
+        Self.relative_name, Self.pkg_decl_scope,
         dest_env=env.bind(Self.parent.node_env, Self.package_name.parent_scope)
     )
-
-    @langkit_property(dynamic_vars=[env])
-    def decl_scope():
-        scope = Var(Self.package_name.parent_scope)
-
-        # If this the corresponding decl is a generic, go grab the internal
-        # package decl.
-        public_scope = Var(scope.env_node.cast(T.GenericPackageDecl).then(
-            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
-            default_val=scope
-        ))
-
-        # If the package has a private part, then get the private part,
-        # else return the public part.
-        return public_scope.get('__privatepart', recursive=False).at(0).then(
-            lambda pp: pp.children_env, default_val=public_scope
-        )
 
 
 class ExceptionDecl(BasicDecl):

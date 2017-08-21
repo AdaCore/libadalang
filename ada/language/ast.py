@@ -4270,6 +4270,7 @@ class AttributeRef(Name):
 
             rel_name == 'Length', Entity.length_equation,
             rel_name == 'Pos', Entity.pos_equation,
+            rel_name == 'Val', Entity.val_equation,
             rel_name == 'Access', Entity.access_equation,
             rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,
@@ -4335,6 +4336,17 @@ class AttributeRef(Name):
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             & universal_int_bind(Self.type_var)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def val_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+            & TypeBind(Self.type_var, typ)
+            & universal_int_bind(expr.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

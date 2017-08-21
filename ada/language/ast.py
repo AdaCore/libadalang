@@ -44,6 +44,16 @@ def universal_int_bind(type_var):
     ) & Predicate(BaseTypeDecl.is_int_type_or_null, type_var)
 
 
+def universal_discrete_bind(type_var):
+    """
+    Like universal_int_bind, but for any discrete type.
+    """
+    return Or(
+        TypeBind(type_var, Self.int_type),
+        LogicTrue()
+    ) & Predicate(BaseTypeDecl.is_discrete_type, type_var)
+
+
 def ref_used_packages():
     """
     If Self is a library item or a subunit, reference the environments for
@@ -4127,8 +4137,6 @@ class ForLoopSpec(LoopSpec):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        int = Var(Self.std_entity('Integer'))
-
         return Self.loop_type.match(
 
             # This is a for .. in
@@ -4139,10 +4147,9 @@ class ForLoopSpec(LoopSpec):
                 # Anonymous range case: for I in 1 .. 100
                 # In that case, the type of everything is Standard.Integer.
                 lambda binop=T.BinOp:
-                TypeBind(binop.type_var, int) &
-                TypeBind(binop.left.type_var, int) &
-                TypeBind(binop.right.type_var, int) &
-                TypeBind(Self.var_decl.id.type_var, int),
+                binop.sub_equation
+                & universal_discrete_bind(binop.type_var)
+                & TypeBind(Self.var_decl.id.type_var, binop.type_var),
 
                 # Subtype indication case: the induction variable is of the
                 # type.

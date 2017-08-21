@@ -517,15 +517,11 @@ class BasicDecl(AdaNode):
         """
     )
 
-    array_ndims = Property(
-        Literal(0),
-        doc="""
-        If this designates an entity with an array-like interface, return its
-        number of dimensions. Return 0 otherwise.
-        """
-    )
+    @langkit_property(dynamic_vars=[origin], return_type=LongType)
+    def array_ndims():
+        return Entity.expr_type.array_ndims
 
-    is_array = Property(Entity.array_ndims > 0)
+    is_array = Property(Entity.array_ndims > 0, dynamic_vars=[origin])
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[origin])
@@ -944,7 +940,8 @@ class TypeDef(AdaNode):
         doc="""
         If this designates an array type, return its number of dimensions.
         Return 0 otherwise.
-        """
+        """,
+        dynamic_vars=[origin]
     )
 
     is_real_type = Property(False, doc="Whether type is a real type or not.")
@@ -1197,6 +1194,10 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     ))
 
+    @langkit_property(dynamic_vars=[origin], return_type=LongType)
+    def array_ndims():
+        return Literal(0)
+
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
         return Entity.is_int_type | Entity.is_enum_type
@@ -1313,7 +1314,8 @@ class BaseTypeDecl(BasicDecl):
         Entity.is_array,
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
-        """
+        """,
+        dynamic_vars=[origin]
     )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
@@ -2264,7 +2266,6 @@ class ObjectDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
-    array_ndims = Property(Entity.type_expr.array_ndims)
     defining_names = Property(Self.ids.map(lambda id: id.cast(T.Name)))
     defining_env = Property(Entity.type_expr.defining_env)
     type_expression = Property(Entity.type_expr)
@@ -3321,7 +3322,7 @@ class CallExpr(Name):
         # Algorithm: We're Recursing down call expression and component types
         # up to self, checking for each level that the call expression
         # corresponds.
-        return typ.then(lambda typ: And(
+        return origin.bind(Self, typ.then(lambda typ: And(
             Or(
                 # Arrays
                 typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
@@ -3338,7 +3339,7 @@ class CallExpr(Name):
                     origin.bind(Self, typ.expr_type)
                 ), default_val=True
             )
-        ))
+        )))
 
     @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
     def innermost_callexpr():

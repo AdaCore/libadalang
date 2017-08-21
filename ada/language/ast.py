@@ -1293,6 +1293,10 @@ class BaseTypeDecl(BasicDecl):
     def index_type(dim=LongType):
         return Entity.array_def.then(lambda ad: ad.index_type(dim))
 
+    @langkit_property(dynamic_vars=[origin])
+    def first_index_type():
+        return Entity.index_type(0)
+
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.
     expr_type = Property(Entity)

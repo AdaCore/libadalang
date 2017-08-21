@@ -1651,6 +1651,7 @@ class DerivedTypeDef(TypeDef):
 
     array_ndims = Property(Entity.base_type.array_ndims)
 
+    # TODO: this origin bind is erroneous
     base_type = Property(
         origin.bind(Self, Entity.subtype_indication.designated_type)
     )

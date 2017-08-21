@@ -4330,10 +4330,8 @@ class AttributeRef(Name):
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
-
             # Type of expression is designated type
             & TypeBind(expr.type_var, typ)
-
             # Type of self is String
             & TypeBind(Self.type_var, Self.std_entity('String'))
         )
@@ -4344,7 +4342,6 @@ class AttributeRef(Name):
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
-
             # Type of 'Length is Integer
             & TypeBind(Self.type_var, Self.int_type)
         )

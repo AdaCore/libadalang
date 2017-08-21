@@ -1284,6 +1284,10 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
+    @langkit_property(dynamic_vars=[origin])
+    def index_type(dim=LongType):
+        return Entity.array_def.then(lambda ad: ad.index_type(dim))
+
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.
     expr_type = Property(Entity)
@@ -1693,6 +1697,11 @@ class ArrayIndices(AdaNode):
         ignore(index_expr, dim)
         return LogicTrue()
 
+    @langkit_property(dynamic_vars=[origin], kind=AbstractKind.abstract,
+                      return_type=T.BaseTypeDecl.entity)
+    def index_type(dim=LongType):
+        pass
+
 
 class UnconstrainedArrayIndices(ArrayIndices):
     types = Field(type=T.UnconstrainedArrayIndex.list)
@@ -1702,8 +1711,12 @@ class UnconstrainedArrayIndices(ArrayIndices):
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         return TypeBind(
             index_expr.type_var,
-            Entity.types.at(dim).designated_type
+            Entity.index_type(dim)
         )
+
+    @langkit_property()
+    def index_type(dim=LongType):
+        return Entity.types.at(dim).designated_type
 
 
 class ConstrainedArrayIndices(ArrayIndices):
@@ -1756,6 +1769,10 @@ class ArrayTypeDef(TypeDef):
     def comp_type():
         """Returns the type stored as a component in the array."""
         return (Entity.component_type.type_expr.designated_type)
+
+    @langkit_property(dynamic_vars=[origin])
+    def index_type(dim=LongType):
+        return Entity.indices.index_type(dim)
 
     array_ndims = Property(Self.indices.ndims)
 

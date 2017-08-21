@@ -947,6 +947,10 @@ class TypeDef(AdaNode):
     is_real_type = Property(False, doc="Whether type is a real type or not.")
 
     @langkit_property(dynamic_vars=[origin])
+    def is_discrete_type():
+        return Entity.is_int_type | Entity.is_enum_type | Entity.is_char_type
+
+    @langkit_property(dynamic_vars=[origin])
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
@@ -1522,6 +1526,8 @@ class TypeDecl(BaseTypeDecl):
         # TODO: Handle discriminants
         return Entity.type_def.sub_equation
 
+    is_discrete_type = Property(Entity.type_def.is_discrete_type)
+
 
 class AnonymousTypeDecl(TypeDecl):
 
@@ -1816,6 +1822,7 @@ class SubtypeDecl(BaseTypeDecl):
     record_def = Property(Entity.from_type.record_def)
     accessed_type = Property(Entity.from_type.accessed_type)
     is_int_type = Property(Entity.from_type.is_int_type)
+    is_discrete_type = Property(Entity.from_type.is_discrete_type)
     is_real_type = Property(Entity.from_type.is_real_type)
     is_enum_type = Property(Entity.from_type.is_enum_type)
     is_access_type = Property(Entity.from_type.is_access_type)
@@ -1903,6 +1910,8 @@ class TypeAccessDef(AccessDef):
 
 class FormalDiscreteTypeDef(TypeDef):
     xref_equation = Property(LogicTrue())
+
+    is_discrete_type = Property(True)
 
 
 class NullComponentDecl(AdaNode):

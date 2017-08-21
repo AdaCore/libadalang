@@ -2137,11 +2137,9 @@ class BasicSubpDecl(BasicDecl):
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.
         add_to_env(
-            # TODO: We can refactor this to not use an array, thanks to
-            # mappings.
-            Self.as_bare_entity.subp_decl_spec.dottable_subp.map(
-                lambda dp: T.env_assoc.new(key=Self.relative_name, val=dp)
-            ),
+            If(Self.as_bare_entity.subp_decl_spec.is_dottable_subp,
+               T.env_assoc.new(key=Self.relative_name, val=Self),
+               No(T.env_assoc)),
             dest_env=Let(
                 lambda spec=Self.as_bare_entity.subp_decl_spec:
                 origin.bind(spec.el.subp_name,
@@ -3973,54 +3971,49 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.params._.at(0)._.type_expr._.element_type
 
-    @langkit_property(return_type=T.BasicDecl.array)
-    def dottable_subp():
+    @langkit_property(return_type=BoolType)
+    def is_dottable_subp():
         """
-        Used for environments. Returns either an empty array, or an array
-        containg the subprogram declaration for this spec, if self meets the
-        criterias for being a dottable subprogram.
+        Returns wether the subprogram containing this spec is a subprogram
+        callable via the dot notation.
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
-        return origin.bind(Entity.name, If(
-            And(
-                Entity.nb_max_params > 0,
-                Entity.potential_dottable_type.then(lambda t: And(
-                    # Dot notation only works on tagged types
-                    t.is_tagged_type,
+        return origin.bind(Entity.name, And(
+            Entity.nb_max_params > 0,
+            Entity.potential_dottable_type.then(lambda t: And(
+                # Dot notation only works on tagged types
+                t.is_tagged_type,
 
-                    Or(
-                        # Needs to be declared in the same scope as the type
-                        t.declarative_scope == bd.declarative_scope,
+                Or(
+                    # Needs to be declared in the same scope as the type
+                    t.declarative_scope == bd.declarative_scope,
 
-                        # Or in the private part corresponding to the type's
-                        # public part. TODO: This is invalid because it will
-                        # make private subprograms visible from the outside.
-                        # Fix:
-                        #
-                        # 1. Add a property that synthetizes a full view node
-                        # for a tagged type when there isn't one in the source.
-                        #
-                        # 2. Add this synthetized full view to the private
-                        # part of the package where the tagged type is defined,
-                        # if there is one, as part of the tagged type
-                        # definition's env spec.
-                        #
-                        # 3. When computing the private part, if there is a
-                        # real in-source full view for the tagged type,
-                        # replace the synthetic one.
-                        #
-                        # 4. Then we can just add the private dottable
-                        # subprograms to the private full view.
+                    # Or in the private part corresponding to the type's
+                    # public part. TODO: This is invalid because it will
+                    # make private subprograms visible from the outside.
+                    # Fix:
+                    #
+                    # 1. Add a property that synthetizes a full view node
+                    # for a tagged type when there isn't one in the source.
+                    #
+                    # 2. Add this synthetized full view to the private
+                    # part of the package where the tagged type is defined,
+                    # if there is one, as part of the tagged type
+                    # definition's env spec.
+                    #
+                    # 3. When computing the private part, if there is a
+                    # real in-source full view for the tagged type,
+                    # replace the synthetic one.
+                    #
+                    # 4. Then we can just add the private dottable
+                    # subprograms to the private full view.
 
-                        t.declarative_scope == (
-                            bd.declarative_scope._.parent.cast(PackageDecl)
-                            .then(lambda pd: pd.public_part)
-                        )
+                    t.declarative_scope == (
+                        bd.declarative_scope._.parent.cast(BasePackageDecl)
+                        .then(lambda pd: pd.public_part)
                     )
-                ))
-            ),
-            bd.singleton,
-            EmptyArray(T.BasicDecl)
+                )
+            ))
         ))
 
 

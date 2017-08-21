@@ -33,6 +33,17 @@ def TypeBind(*args, **kwargs):
     return Bind(*args, **kwargs)
 
 
+def universal_int_bind(type_var):
+    """
+    Return an equation that will bind type_var to any integer value,
+    corresponding to the notion of universal_integer in the Ada RM.
+    """
+    return Or(
+        TypeBind(type_var, Self.int_type),
+        LogicTrue()
+    ) & Predicate(BaseTypeDecl.is_int_type_or_null, type_var)
+
+
 def ref_used_packages():
     """
     If Self is a library item or a subunit, reference the environments for
@@ -4286,14 +4297,7 @@ class AttributeRef(Name):
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
-
-            & Or(
-                TypeBind(Self.type_var, Self.int_type),
-                LogicTrue()
-            )
-
-            # Type of self is String
-            & Predicate(BaseTypeDecl.is_int_type_or_null, Self.type_var)
+            & universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

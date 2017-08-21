@@ -47,6 +47,10 @@ procedure Nameres is
    --  Whether to run the tool in "resolve all cross references" mode. In that
    --  mode, pragmas are ignored.
 
+   Solve_Line           : Natural := 0;
+   --  If passed, the tool will ignore all pragmas, ignore --all, and only
+   --  solve the node at given line.
+
    Only_Show_Failures   : Boolean := False;
    --  Only print failures to stdout
 
@@ -190,7 +194,9 @@ procedure Nameres is
 
    procedure Resolve_Block (Block : Ada_Node) is
       function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
-      is (N.P_Xref_Entry_Point);
+      is (N.P_Xref_Entry_Point
+          and then (Solve_Line = 0
+                    or else Natural (N.Sloc_Range.Start_Line) = Solve_Line));
    begin
       for Node
         of Block.Find (Is_Xref_Entry_Point'Access).Consume
@@ -215,7 +221,7 @@ procedure Nameres is
       end if;
       Populate_Lexical_Env (Unit);
 
-      if Resolve_All then
+      if Resolve_All or Solve_Line /= 0 then
          Resolve_Block (Root (Unit));
       end if;
 
@@ -417,6 +423,8 @@ begin
             Files_From_Project := True;
          elsif Starts_With (Arg, "-P") then
             Project_File := +Strip_Prefix (Arg, "-P");
+         elsif Starts_With (Arg, "-L") then
+            Solve_Line := Positive'Value (Strip_Prefix (Arg, "-L"));
          elsif Starts_With (Arg, "-X") then
             Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
          elsif Starts_With (Arg, "--") then

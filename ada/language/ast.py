@@ -4269,6 +4269,7 @@ class AttributeRef(Name):
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
             rel_name == 'Length', Entity.length_equation,
+            rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Access', Entity.access_equation,
             rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,
@@ -4325,6 +4326,15 @@ class AttributeRef(Name):
 
             # Type of 'Length is Integer
             & TypeBind(Self.type_var, Self.int_type)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def pos_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+            & universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

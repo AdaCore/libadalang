@@ -4393,7 +4393,7 @@ class AttributeRef(Name):
             & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
             # Its component type is the type of Self
             & TypeBind(Self.type_var, Self.prefix.type_var,
-                       conv_prop=BaseTypeDecl.comp_type)
+                       conv_prop=BaseTypeDecl.first_index_type)
         )
 
 

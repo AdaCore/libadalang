@@ -17,7 +17,7 @@ procedure Example is
       procedure Process (S : access Wide_String)
         with Pre => S /= null and then S'Length > 0
                     and then (for all I in S.all'Range =>
-                              S.all (I) / ASCII.NUL);
+                              Wide_Character'Pos (S.all (I)) = 0);
    end Things;
 
    package body Things is
@@ -50,7 +50,7 @@ procedure Example is
    A          : Integer := 0;
    ["03C0"]   : Standard.Integer := 0;
    S          : aliased Wide_String := "Hello, ["03C0"] world!";
-   Hex_Digits : array (0 .. 15) of Character := "012456789abcdef";
+   Hex_Digits : array (0 .. 15) of Character := "0123456789abcdef";
 begin
    Text_IO_Things.Process (S'Access);
 end;

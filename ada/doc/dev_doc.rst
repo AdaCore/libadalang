@@ -40,7 +40,8 @@ special class from Langkit). These subclasses contain various members:
   C++ methods, or Ada tagged type primitives, in a dedicated programming
   language: the properties DSL.  This DSL provides features to build and solve
   logic equations: create logic variables tied to nodes, add possible values,
-  add constraints on variables, etc.
+  add constraints on variables, etc. This DSL is documented in
+  :langkit_doc:`Langkit's documentation <properties_dsl.html>`
 
 Name resolution is implemented with both environment specifications and the
 properties DSL. Libadalang developpers first define how lexical environments

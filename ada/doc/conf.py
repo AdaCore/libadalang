@@ -27,6 +27,7 @@
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.extlinks',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
 ]
@@ -346,3 +347,7 @@ def setup(app):
     except:
         print('ERROR: could not import Libadalang')
         raise
+
+# TODO: for deployment, update the following URL to an available Langkit
+# documentation site.
+extlinks = {'langkit_doc': ('http://example.org/langkit-doc/%s', None)}

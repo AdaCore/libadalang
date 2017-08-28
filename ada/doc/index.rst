@@ -16,7 +16,6 @@ Contents:
    testsuite
    python_api_doc
    dev_doc
-   changelog
 
 Indices and tables
 ==================

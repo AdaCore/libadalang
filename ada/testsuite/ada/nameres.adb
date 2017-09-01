@@ -141,16 +141,14 @@ procedure Nameres is
       begin
          if N.all in Expr_Type'Class then
             declare
-               P_Ref  : Entity := Expr (N).P_Ref_Val;
-               P_Type : Entity := Expr (N).P_Type_Val;
+               P_Ref  : constant Entity := Expr (N).P_Ref_Val;
+               P_Type : constant Entity := Expr (N).P_Type_Val;
             begin
                if not Quiet then
                   Put_Line ("Expr: " & Safe_Image (N));
                   Put_Line ("  references: " & Image (P_Ref));
                   Put_Line ("  type:       " & Image (P_Type));
                end if;
-               Dec_Ref (P_Ref);
-               Dec_Ref (P_Type);
             end;
          end if;
          return (if N.P_Xref_Entry_Point and N /= Node
@@ -320,8 +318,8 @@ procedure Nameres is
                --  Perform name resolution
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
-                  Arg      : constant Expr
-                    := P_Node.F_Args.Item (1).P_Assoc_Expr;
+                  Arg      : constant Expr :=
+                     P_Node.F_Args.Item (1).P_Assoc_Expr;
                   Entities : Ada_Node_Array_Access := Do_Pragma_Test (Arg);
                begin
                   Put_Line (Text (Arg) & " resolves to:");

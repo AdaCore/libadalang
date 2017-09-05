@@ -3475,9 +3475,8 @@ class AssocList(BasicAssoc.list):
             names.length == 0,
             SingleActual.new(name=No(Identifier), assoc=pa).singleton,
             names.filtermap(
-                filter_expr=lambda n: n.is_a(T.BaseId),
-                expr=lambda i:
-                SingleActual.new(name=i.cast(T.BaseId), assoc=pa)
+                lambda i: SingleActual.new(name=i.cast(T.BaseId), assoc=pa),
+                lambda n: n.is_a(T.BaseId),
             )
         )))
 

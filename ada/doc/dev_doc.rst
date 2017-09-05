@@ -46,7 +46,7 @@ special class from Langkit). These subclasses contain various members:
 Name resolution is implemented with both environment specifications and the
 properties DSL. Libadalang developpers first define how lexical environments
 are built, and then use the properties DSL to query them, build equations and
-them solve equations: their solutions are the results of name resolution.
+then solve equations: their solutions are the results of name resolution.
 
 Note that the properties DSL is mostly functional. This fact gives us some
 invariants on which to rely in order to handle memoization of results/data

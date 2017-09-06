@@ -1,0 +1,17 @@
+== Initial ==
+<CallExpr 9:4-9:40>
+  resolves to: <| SubpDecl ["Clear"] 7:4-7:40 [foo.adb:5:4, options.ads:14:4] |>
+
+== Reloading foo.adb ==
+<CallExpr 9:4-9:40>
+  resolves to: <| SubpDecl ["Clear"] 7:4-7:40 [foo.adb:5:4, options.ads:14:4] |>
+
+== Reloading options.ads ==
+<CallExpr 9:4-9:40>
+  resolves to: <| SubpDecl ["Clear"] 7:4-7:40 [foo.adb:5:4, options.ads:14:4] |>
+
+== Reloading vectors.ads ==
+<CallExpr 9:4-9:40>
+  resolves to: <| SubpDecl ["Clear"] 7:4-7:40 [foo.adb:5:4, options.ads:14:4] |>
+
+Done.

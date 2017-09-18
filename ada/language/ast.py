@@ -1974,6 +1974,11 @@ class WithClause(AdaNode):
         .root._or(package_name.referenced_unit(UnitBody).root)
     )))
 
+    xref_entry_point = Property(True)
+    xref_equation = Property(
+        Entity.packages.logic_all(lambda p: p.sub_equation)
+    )
+
 
 @abstract
 class UseClause(AdaNode):
@@ -2010,6 +2015,11 @@ class UsePackageClause(UseClause):
             env.bind(n.node_env,
                      origin.bind(n, n.as_bare_entity.designated_env))
         )
+
+    xref_entry_point = Property(True)
+    xref_equation = Property(
+        Entity.packages.logic_all(lambda p: p.sub_equation)
+    )
 
 
 class UseTypeClause(UseClause):

@@ -2057,6 +2057,14 @@ class TypeExpr(AdaNode):
         """
     )
 
+    designated_type_decl = Property(
+        origin.bind(Self, Entity.designated_type),
+        public=True,
+        doc="""
+        Returns the type declaration designated by this type expression.
+        """
+    )
+
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def element_type():
         """

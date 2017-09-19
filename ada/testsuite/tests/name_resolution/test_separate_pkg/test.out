@@ -1,0 +1,25 @@
+Analyzing test-foo.adb
+######################
+
+Resolving xrefs for node <AssignStmt 5:7-5:15>
+**********************************************
+
+Expr: <Id "I" 5:7-5:8>
+  references: <ObjectDecl ["I"] 5:7-5:24>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 5:12-5:14>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <AssignStmt 6:7-6:15>
+**********************************************
+
+Expr: <Id "J" 6:7-6:8>
+  references: <ObjectDecl ["J"] 9:4-9:21>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 6:12-6:14>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

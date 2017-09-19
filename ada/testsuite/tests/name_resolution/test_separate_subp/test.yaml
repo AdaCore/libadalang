@@ -1,0 +1,4 @@
+description:
+    Symbol resolution: test_separate_subp
+driver: name-resolution
+input_sources: [test-foo.adb]

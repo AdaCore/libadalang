@@ -22,6 +22,7 @@ parser.add_argument(
     "ada_files", nargs='+',
     help="The files for the test. The first file is the main one"
 )
+parser.add_argument('--with-default-project', action='store_true')
 args = parser.parse_args()
 
 test_name = args.test_name
@@ -33,6 +34,7 @@ yaml = """description:
     Symbol resolution: {test_name}
 driver: name-resolution
 input_sources: [{main_file_name}]
+with_default_project: {args.with_default_project}
 """.format(**locals())
 
 os.chdir('ada/testsuite/tests/name_resolution')
@@ -46,10 +48,12 @@ os.chdir(test_name)
 print(os.getcwd())
 with open("test.out", "w") as test_out:
     try:
-        output = subprocess.check_output([
-            "python", "../../../python_support/nameres.py",
-            main_file_name
-        ])
+        output = subprocess.check_output(
+            ["nameres"]
+            + (["--with-default-project"]
+               if args.with_default_project else [])
+            + [main_file_name]
+        )
         print("Name res succeeded, result:\n\n{}".format(output))
         test_out.write(output)
     except subprocess.CalledProcessError, e:

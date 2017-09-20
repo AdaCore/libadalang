@@ -1221,8 +1221,11 @@ class BaseTypeDecl(BasicDecl):
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_enum_type = Property(False)
     is_classwide = Property(False)
-    is_access_type = Property(False,
-                              doc="Whether type is an access type or not")
+    is_access_type = Property(
+        False,
+        public=True,
+        doc="Whether Self is an access type or not"
+    )
 
     access_def = Property(No(T.AccessDef.entity))
 

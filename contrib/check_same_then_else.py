@@ -160,9 +160,8 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    for b in unit.root.findall(lambda e: isinstance(e, (lal.IfStmt, lal.IfExpr,
-                                                        lal.CaseStmt,
-                                                        lal.CaseExpr))):
+    for b in unit.root.findall((lal.IfStmt, lal.IfExpr, lal.CaseStmt,
+                                lal.CaseExpr)):
         duplicates = has_same_blocks(b)
         for duplicate in duplicates:
             (fst_line, fst_col), (snd_line, snd_col) = duplicate

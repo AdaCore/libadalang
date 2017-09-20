@@ -480,7 +480,7 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    for subp in unit.root.findall(lambda e: isinstance(e, lal.SubpBody)):
+    for subp in unit.root.findall(lal.SubpBody):
         # Collect local variables for which useless assignment will be
         # detected.
         locvars = {}

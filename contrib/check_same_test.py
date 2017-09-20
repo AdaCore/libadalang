@@ -67,8 +67,7 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    for ifnode in unit.root.findall(lambda e: isinstance(e, (lal.IfStmt,
-                                                             lal.IfExpr))):
+    for ifnode in unit.root.findall((lal.IfStmt, lal.IfExpr)):
         res = has_same_tests(ifnode)
         if res is not None:
             fst_test, snd_test = res

@@ -117,7 +117,7 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+    for binop in unit.root.findall(lal.BinOp):
         if interesting_oper(binop.f_op) and not same_as_parent(binop):
             res = has_same_operands(binop)
             if res is not None:

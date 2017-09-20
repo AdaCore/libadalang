@@ -66,7 +66,7 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
+    for binop in unit.root.findall(lal.BinOp):
         if interesting_oper(binop.f_op) and has_same_operands(binop):
             line, col = location(binop)
             print('{}:{}:{}: left and right operands of "{}" are'

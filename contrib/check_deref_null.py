@@ -6,6 +6,8 @@ dominated by a dereference of the same variable, without intervening assignment
 to the variable.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 import libadalang as lal
 
@@ -106,10 +108,10 @@ def explore(f, subp):
     def detect_nullity(node, derefs):
         var = get_nullity_test(node)
         if var is not None and var.text in derefs:
-            (fst_line,fst_col) = location(derefs[var.text])
-            (snd_line,snd_col) = location(node)
-            print ('{}:{}:{}: suspicious test of null value after dereference at line {}').format(
-                f, snd_line, snd_col, fst_line)
+            fst_line, fst_col = location(derefs[var.text])
+            snd_line, snd_col = location(node)
+            print('{}:{}:{}: suspicious test of null value after dereference'
+                  ' at line {}'.format(f, snd_line, snd_col, fst_line))
 
     def traverse_branch(node, derefs, loop_test):
         """
@@ -217,12 +219,13 @@ def do_file(f):
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
-    for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody, lal.ExprFunction))):
+    for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody,
+                                                           lal.ExprFunction))):
         explore(f, subp)
 
 

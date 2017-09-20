@@ -20,8 +20,10 @@ shrinking string of hashes, from which we remove the hashes for the previously
 found copy-paste (whether it is reported or not).
 
 The implementation of Ukkonnen's algorithm is adapted from the C code at
-http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/
+<http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/>.
 """
+
+from __future__ import (absolute_import, division, print_function)
 
 import argparse
 import itertools
@@ -104,9 +106,9 @@ class Code(object):
     """
     Define a 'code' for a construct rooted at a given node, which consists in 3
     fields:
-    - a hash encoding a construct
-    - a node representing this construct
-    - the name of the file containing the node
+    - a hash encoding a construct;
+    - a node representing this construct;
+    - the name of the file containing the node.
     """
     def __init__(self, h, node, filename):
         self.h = h
@@ -139,7 +141,7 @@ def encode(f, locnames, node):
     to post-process the copy-pastes to exclude irrelevant tokens at the start
     or end, as done in "Clone Detection Using Abstract Syntax Suffix Trees" by
     Rainer Koschke, Raimar Falke and Pierre Frenzel, available at
-    https://www.informatik.uni-bremen.de/st/papers/astclones-wcre06.pdf
+    <https://www.informatik.uni-bremen.de/st/papers/astclones-wcre06.pdf>.
 
     :type f: string
     :param set|None locnames: Set of locally defined names in the file or None
@@ -312,24 +314,24 @@ def encode(f, locnames, node):
 
 # This code is an adaptation in Python of the implementation of Ukkonnen's
 # algorithm in C presented at
-# http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/
+# <http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/>.
 
 # The comments of the C implementation have been kept, including the acronyms
 # in the comments, which refer to specific steps of the algorithm:
-# - APCFALZ: activePoint change for Active Length ZERO
-# - APCFWD: activePoint change for walk down
-# - APCFER3: activePoint change for extension rule 3
-# - APCFER2C1: activePoint change for extension rule 2, case 1
-# - APCFER2C2: activePoint change for extension rule 2, case 2
+# - APCFALZ: activePoint change for Active Length ZERO;
+# - APCFWD: activePoint change for walk down;
+# - APCFER3: activePoint change for extension rule 3;
+# - APCFER2C1: activePoint change for extension rule 2, case 1;
+# - APCFER2C2: activePoint change for extension rule 2, case 2.
 
 # These are explained in details in the series of 6 blog posts detailing
 # Ukkonnen's algorithm, found at
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-1/
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-2/
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-4/
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/
-# http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-1/>
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-2/>
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/>
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-4/>
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/>
+# <http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/>.
 
 
 class IntPtr(object):
@@ -352,12 +354,11 @@ class Node(object):
         """
         self.children = {}
 
-        # For root node, suffixLink will be set to NULL
-        # For internal nodes, suffixLink will be set to root
-        # by default in  current extension and may change in
-        # next extension
+        # For root node, suffixLink will be set to NULL.  For internal nodes,
+        # suffixLink will be set to root by default in current extension and
+        # may change in next extension.
 
-        # pointer to other node via suffix link
+        # Pointer to other node via suffix link
         self.suffixLink = root
 
         # (start, end) interval specifies the edge, by which the node is
@@ -369,12 +370,11 @@ class Node(object):
         self.start = start
         self.end = end
 
-        # suffixIndex will be set to -1 by default and
-        # actual suffix index will be set later for leaves
-        # at the end of all phases
+        # suffixIndex will be set to -1 by default and actual suffix index will
+        # be set later for leaves at the end of all phases.
 
-        # for leaf nodes, it stores the index of suffix for the path from root
-        # to leaf
+        # For leaf nodes, it stores the index of suffix for the path from root
+        # to leaf.
         self.suffixIndex = -1
 
 
@@ -403,7 +403,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
         activeNode = None
 
         # activeEdge is represeted as input string character index (not the
-        # character itself)
+        # character itself).
 
         activeEdge = -1
         activeLength = 0
@@ -432,7 +432,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
         # activePoint change for walk down (APCFWD) using Skip/Count Trick
         # (Trick 1). If activeLength is greater than current edge length, set
         # next internal node as activeNode and adjust activeEdge and
-        # activeLength accordingly to represent same activePoint
+        # activeLength accordingly to represent same activePoint.
         if Glob.activeLength >= edgeLength(currNode):
             Glob.activeEdge += edgeLength(currNode)
             Glob.activeLength -= edgeLength(currNode)
@@ -446,16 +446,16 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
         :type pos: int
         """
         # Extension Rule 1, this takes care of extending all leaves created so
-        # far in tree
+        # far in tree.
         Glob.leafEnd.set(pos)
 
         # Increment remainingSuffixCount indicating that a new suffix added to
-        # the list of suffixes yet to be added in tree
+        # the list of suffixes yet to be added in tree.
         Glob.remainingSuffixCount += 1
 
-        # set lastNewNode to NULL while starting a new phase, indicating there
+        # Set lastNewNode to NULL while starting a new phase, indicating there
         # is no internal node waiting for it's suffix link reset in current
-        # phase
+        # phase.
         Glob.lastNewNode = None
 
         # Add all suffixes (yet to be added) one by one in tree
@@ -465,7 +465,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                 Glob.activeEdge = pos  # APCFALZ
 
             # There is no outgoing edge starting with activeEdge from
-            # activeNode
+            # activeNode.
             if text[Glob.activeEdge] not in Glob.activeNode.children:
                 # Extension Rule 2 (A new leaf edge gets created)
                 Glob.activeNode.children[text[Glob.activeEdge]] = \
@@ -482,7 +482,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                     Glob.lastNewNode = None
 
             # There is an outgoing edge starting with activeEdge from
-            # activeNode
+            # activeNode.
             else:
                 # Get the next node at the end of edge starting with activeEdge
                 nxt = Glob.activeNode.children[text[Glob.activeEdge]]
@@ -491,11 +491,11 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                     continue
 
                 # Extension Rule 3 (current character being processed is
-                # already on the edge)
+                # already on the edge).
                 if text[nxt.start + Glob.activeLength] == text[pos]:
                     # If a newly created node waiting for it's suffix link to
                     # be set, then set suffix link of that waiting node to
-                    # curent active node
+                    # curent active node.
                     if Glob.lastNewNode and Glob.activeNode != Glob.root:
                         Glob.lastNewNode.suffixLink = Glob.activeNode
                         Glob.lastNewNode = None
@@ -503,7 +503,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                     # APCFER3
                     Glob.activeLength += 1
                     # STOP all further processing in this phase and move on to
-                    # next phase
+                    # next phase.
                     break
 
                 # We will be here when activePoint is in middle of the edge
@@ -511,7 +511,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                 # on the edge (we fall off the tree). In this case, we add a
                 # new internal node and a new leaf edge going out of that new
                 # node. This is Extension Rule 2, where a new leaf edge and a
-                # new internal node get created
+                # new internal node get created.
                 Glob.splitEnd = IntPtr(nxt.start + Glob.activeLength - 1)
 
                 # New internal node
@@ -528,7 +528,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                 # waiting for it's suffix link reset, do it now.
                 if Glob.lastNewNode:
                     # suffixLink of lastNewNode points to current newly created
-                    # internal node
+                    # internal node.
                     Glob.lastNewNode.suffixLink = split
 
                 # Make the current newly created internal node waiting for it's
@@ -556,12 +556,12 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
         :type i: int
         :type j: int
         """
-        for k in range(j-i):
-            print text[i + k]
+        for k in range(j - i):
+            print(text[i + k])
 
-    # Print the suffix tree as well along with setting suffix index
-    # So tree will be printed in DFS manner
-    # Each edge along with it's suffix index will be printed
+    # Print the suffix tree as well along with setting suffix index so tree
+    # will be printed in DFS manner.  Each edge along with it's suffix index
+    # will be printed.
     def setSuffixIndexByDFS(n, labelHeight):
         """
         :type n: Node
@@ -571,9 +571,9 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
             return
 
         if n.start != -1:  # A non-root node
-            # Print the label on edge from parent to current node
-            # Uncomment below line to print suffix tree
-            # print_range(n.start, n.end.get())
+            # Print the label on edge from parent to current node.  Uncomment
+            # below line to print suffix tree.
+            # TODO: print_range(n.start, n.end.get()).
             pass
 
         leaf = True
@@ -589,13 +589,13 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
 
     # Build the suffix tree and print the edge labels along with
     # suffixIndex. suffixIndex for leaf edges will be >= 0 and
-    # for non-leaf edges will be -1
+    # for non-leaf edges will be -1.
     def buildSuffixTree():
         Glob.size = len(text)
         Glob.rootEnd = IntPtr(- 1)
 
         # Root is a special node with start and end indices as -1,
-        # as it has no parent from where an edge comes to root
+        # as it has no parent from where an edge comes to root.
         Glob.root = Node(Glob.root, -1, Glob.rootEnd)
 
         Glob.activeNode = Glob.root  # First activeNode will be root
@@ -676,9 +676,9 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
             numlines = fst_end - fst_start + 1
 
             # Ignore the potential copy-paste in two cases:
-            # - if the number of actual code lines copy-pasted is too small
+            # - if the number of actual code lines copy-pasted is too small;
             # - in case of overlap between the first code snippet and any other
-            #   in the set
+            #   in the set.
             if (numlines < num_line_limit or
                 any(start_loc <= fst_end
                     for (f, start_loc, end_loc) in locs[1:] if f == fst_file)):
@@ -693,20 +693,20 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
 
             # Print useful info about the copy-paste in debug mode
             if debug:
-                print "copy-paste of {} hashes".format(curHeight)
+                print("copy-paste of {} hashes".format(curHeight))
                 fst_index = curNode.children[
                     curNode.children.keys()[0]].suffixIndex
                 fst_node = codes[fst_index].node
                 snd_index = curNode.children[
                     curNode.children.keys()[1]].suffixIndex
                 snd_node = codes[snd_index].node
-                print "start node at index {} is {}".format(
-                    fst_index, fst_node)
-                print "other start node at index {} is {}".format(
-                    snd_index, snd_node)
+                print("start node at index {} is {}".format(
+                    fst_index, fst_node))
+                print("other start node at index {} is {}".format(
+                    snd_index, snd_node))
 
-            print "{}:{}:1: copy-paste of {} lines detected with {}".format(
-                fst_file, fst_start, numlines, msg)
+            print("{}:{}:1: copy-paste of {} lines detected with {}".format(
+                fst_file, fst_start, numlines, msg))
 
     # Get the list of hashes from the 'codes'
     text = [code.h for code in codes]
@@ -733,9 +733,9 @@ def do_file(f):
 
     # For the analysis of a single file, return in error if not parsable
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
     if ignore_ids:
@@ -759,9 +759,9 @@ def do_files(files):
     # not parsable, and proceed with others.
     for (f, unit) in units:
         if unit.root is None:
-            print 'Could not parse {}:'.format(f)
+            print('Could not parse {}:'.format(f))
             for diag in unit.diagnostics:
-                print '   {}'.format(diag)
+                print('   {}'.format(diag))
 
     units = [(f, unit) for (f, unit) in units if unit.root is not None]
     # Intersperse the codes of each file with a "code" using a different

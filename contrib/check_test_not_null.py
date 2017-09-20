@@ -6,6 +6,8 @@ dominated by a dereference of the same variable, without intervening assignment
 to the variable.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 import libadalang as lal
 
@@ -44,7 +46,8 @@ def get_nullity_test(expr, polarity):
                      should be detected.
     :rtype: lal.Expr
     """
-    if isinstance(expr, lal.BinOp) and is_equality_operator(expr.f_op, polarity):
+    if (isinstance(expr, lal.BinOp) and
+            is_equality_operator(expr.f_op, polarity)):
         if isinstance(expr.f_left, lal.NullLiteral):
             return expr.f_right
         if isinstance(expr.f_right, lal.NullLiteral):
@@ -57,9 +60,9 @@ def get_dereference(expr):
     Detect if expr is a dereference of a pointer object, and in that case
     return the object being dereferenced.
 
-    Without semantic information, we cannot know if the 'object' is an object or
-    a package, and even if it is an object, if it is of access type. We consider
-    all these as objects being referenced.
+    Without semantic information, we cannot know if the 'object' is an object
+    or a package, and even if it is an object, if it is of access type. We
+    consider all these as objects being referenced.
 
     :rtype: expr?
     """
@@ -74,9 +77,9 @@ def get_assignment(expr):
     the object being assigned.
 
     We make no attempt to detect if this is really an object or an expression.
-    Without semantic information, we also cannot know when an object is possibly
-    assigned by being passed as OUT or IN OUT parameter in a call. We also
-    cannot know if the address of an object is taken.
+    Without semantic information, we also cannot know when an object is
+    possibly assigned by being passed as OUT or IN OUT parameter in a call. We
+    also cannot know if the address of an object is taken.
 
     We could try to detect when the prefix of an object is assigned, thus
     assigning also the object as a side-effect, but leave it for a future
@@ -113,10 +116,10 @@ def explore(f, subp):
     def detect_dereference(node, nulls):
         var = get_dereference(node)
         if var is not None and var.text in nulls:
-            (fst_line,fst_col) = location(nulls[var.text])
-            (snd_line,snd_col) = location(node)
-            print ('{}:{}:{}: dereference of null value after test at line {}').format(
-                f, snd_line, snd_col, fst_line)
+            fst_line, fst_col = location(nulls[var.text])
+            snd_line, snd_col = location(node)
+            print('{}:{}:{}: dereference of null value after test at line'
+                  ' {}'.format(f, snd_line, snd_col, fst_line))
 
     def traverse_branch(node, nulls, cond=None, neg_cond=None):
         """
@@ -136,7 +139,7 @@ def explore(f, subp):
         if neg_cond:
             collect_nulls(neg_cond, branch_nulls, {}, result=False)
 
-        # Call traverse recursively.
+        # Call traverse recursively
         traverse(node, branch_nulls)
 
         # Remove those variables which have been redefined in the branch, which
@@ -154,11 +157,11 @@ def explore(f, subp):
         :type node: lal.Expr
         :type result: Boolean
         """
-        # Add the objects tested against null in node to the dictionary nulls.
+        # Add the objects tested against null in node to the dictionary nulls
         add_nulls(node, nulls, polarity=result)
         add_nulls(node, notnulls, polarity=not result)
 
-        # Call collect_nulls recursively on sub-nodes.
+        # Call collect_nulls recursively on sub-nodes
         if isinstance(node, lal.UnOp) and isinstance(node.f_op, lal.OpNot):
             collect_nulls(node.f_expr, nulls, notnulls, not result)
 
@@ -168,7 +171,7 @@ def explore(f, subp):
                 collect_nulls(node.f_left, nulls, notnulls, result)
                 collect_nulls(node.f_right, nulls, notnulls, result)
             else:
-                pass # no guarantees if A and B evaluates to False
+                pass  # no guarantees if A and B evaluates to False
 
         elif (isinstance(node, lal.BinOp)
               and isinstance(node.f_op, (lal.OpOr, lal.OpOrElse))):
@@ -176,7 +179,7 @@ def explore(f, subp):
                 collect_nulls(node.f_left, nulls, notnulls, result)
                 collect_nulls(node.f_right, nulls, notnulls, result)
             else:
-                pass # no guarantees if A or B evaluates to True
+                pass  # no guarantees if A or B evaluates to True
 
         # Always filter out nulls by notnulls. For example we may have assigned
         # an object to null, then performed some call that is not taken into
@@ -201,7 +204,7 @@ def explore(f, subp):
         # found so far on the path. This may issue a message.
         detect_dereference(node, nulls)
 
-        # Call traverse or traverse_branch recursively on sub-nodes.
+        # Call traverse or traverse_branch recursively on sub-nodes
         if isinstance(node, lal.AssignStmt):
             for sub in node:
                 traverse(sub, nulls)
@@ -221,15 +224,16 @@ def explore(f, subp):
         elif isinstance(node, lal.IfStmt):
             traverse(node.f_cond_expr, nulls)
             traverse_branch(node.f_then_stmts, nulls, cond=node.f_cond_expr)
-            # do not attempt yet to propagate conditions of elsif parts
+            # Do not attempt yet to propagate conditions of elsif parts
             for sub in node.f_alternatives:
                 traverse_branch(sub, nulls, neg_cond=node.f_cond_expr)
-            traverse_branch(node.f_else_stmts, nulls, neg_cond=node.f_cond_expr)
+            traverse_branch(node.f_else_stmts, nulls,
+                            neg_cond=node.f_cond_expr)
 
         elif isinstance(node, lal.IfExpr):
             traverse(node.f_cond_expr, nulls)
             traverse_branch(node.f_then_expr, nulls, cond=node.f_cond_expr)
-            # do not attempt yet to propagate conditions of elsif parts
+            # Do not attempt yet to propagate conditions of elsif parts
             for sub in node.f_elsif_list:
                 traverse_branch(sub, nulls, neg_cond=node.f_cond_expr)
             traverse_branch(node.f_else_expr, nulls, neg_cond=node.f_cond_expr)
@@ -246,11 +250,13 @@ def explore(f, subp):
             traverse_branch(node.f_stmts, {})
             nulls.clear()
 
-        elif isinstance(node, lal.BinOp) and isinstance(node.f_op, lal.OpAndThen):
+        elif (isinstance(node, lal.BinOp) and
+                isinstance(node.f_op, lal.OpAndThen)):
             traverse(node.f_left, nulls)
             traverse_branch(node.f_right, nulls, cond=node.f_left)
 
-        elif isinstance(node, lal.BinOp) and isinstance(node.f_op, lal.OpOrElse):
+        elif (isinstance(node, lal.BinOp) and
+                isinstance(node.f_op, lal.OpOrElse)):
             traverse(node.f_left, nulls)
             traverse_branch(node.f_right, nulls, neg_cond=node.f_left)
 
@@ -285,12 +291,13 @@ def do_file(f):
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
-    for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody, lal.ExprFunction))):
+    for subp in unit.root.findall(lambda e: isinstance(e, (lal.SubpBody,
+                                                           lal.ExprFunction))):
         explore(f, subp)
 
 

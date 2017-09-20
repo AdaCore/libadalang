@@ -13,6 +13,8 @@ Hence no message is issued in the following cases:
   part.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 import libadalang as lal
 
@@ -60,10 +62,10 @@ def list_blocks(node):
         # of the block. Otherwise, not sharing the blocks might be better
         # coding style.
         len_test = num_tokens(test)
-        return num_tokens(block) > max(10,len_test)
+        return num_tokens(block) > max(10, len_test)
 
     def select_case_block(block):
-        # Only report blocks of length greater than 10 tokens.
+        # Only report blocks of length greater than 10 tokens
         return num_tokens(block) > 10
 
     def last_block_before_else(node):
@@ -75,12 +77,12 @@ def list_blocks(node):
             if len(node.f_alternatives) == 0:
                 return node.f_then_stmts
             else:
-                return node.f_alternatives[len(node.f_alternatives)-1].f_stmts
+                return node.f_alternatives[-1].f_stmts
         else:
             if len(node.f_alternatives) == 0:
                 return node.f_then_expr
             else:
-                return node.f_alternatives[len(node.f_alternatives)-1].f_then_expr
+                return node.f_alternatives[-1].f_then_expr
 
     if isinstance(node, lal.IfStmt):
         blocks = []
@@ -92,7 +94,8 @@ def list_blocks(node):
         # it. Otherwise, there may be valid reasons for code duplication, that
         # have to do with the order of evaluation of tests in an if-statement.
         if (node.f_else_stmts and
-            have_same_tokens(node.f_else_stmts, last_block_before_else(node))):
+                have_same_tokens(node.f_else_stmts,
+                                 last_block_before_else(node))):
             blocks += [node.f_else_stmts]
 
     elif isinstance(node, lal.IfExpr):
@@ -105,7 +108,8 @@ def list_blocks(node):
         # it. Otherwise, there may be valid reasons for code duplication, that
         # have to do with the order of evaluation of tests in an if-expression.
         if (node.f_else_expr and
-            have_same_tokens(node.f_else_expr, last_block_before_else(node))):
+                have_same_tokens(node.f_else_expr,
+                                 last_block_before_else(node))):
             blocks += [node.f_else_expr]
 
     elif isinstance(node, lal.CaseStmt):
@@ -151,17 +155,20 @@ def do_file(f):
     unit = c.get_from_file(f)
 
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
-    for b in unit.root.findall(lambda e: isinstance(e, (lal.IfStmt, lal.IfExpr, lal.CaseStmt, lal.CaseExpr))):
+    for b in unit.root.findall(lambda e: isinstance(e, (lal.IfStmt, lal.IfExpr,
+                                                        lal.CaseStmt,
+                                                        lal.CaseExpr))):
         duplicates = has_same_blocks(b)
         for duplicate in duplicates:
-            ((fst_line,fst_col),(snd_line,snd_col)) = duplicate
-            print '{}:{}:{}: duplicate code already found at line {}'.format(
-                f, snd_line, snd_col, fst_line)
+            (fst_line, fst_col), (snd_line, snd_col) = duplicate
+            print('{}:{}:{}: duplicate code already found at line {}'.format(
+                f, snd_line, snd_col, fst_line
+            ))
 
 
 def main(args):

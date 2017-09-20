@@ -2,32 +2,35 @@
 
 """
 This script will detect copy-pastes in the input Ada sources, taking as
-input list of files and directories
+input list of files and directories.
 
 It starts by turning the text of the Ada sources into a string of hashes,
 roughly one per logical line of code.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
-import libadalang as lal
-import os
 import datetime
+import os
+
+import libadalang as lal
 
 
 # Suffix array computation in linear time using Karkkainen Sanders skew
 # algorithm. This is the exact implementation found at the end of the
 # original paper (in C++ in the paper).
 # Original paper can be found at:
-#   https://pdfs.semanticscholar.org/8dfc/1a49894632a27a88490db18441180a215fe2.pdf
+# <https://pdfs.semanticscholar.org/8dfc/1a49894632a27a88490db18441180a215fe2.pdf>.
 #
 # For note this algorithm was to first to propose linear time SA
 # construction. A faster one has been discoveed since:
 # Nong, Ge; Zhang, Sen; Chan, Wai Hong (2009). Linear Suffix Array Construction
-# by Almost Pure Induced-Sorting. 2009 Data Compression Conference
+# by Almost Pure Induced-Sorting. 2009 Data Compression Conference.
 #
 # Also in 2009 a new algorithm was found to handle in linear time dynamic
 # suffix array (compute a suffix array after insertion/deletion of part of
-# the input)
+# the input).
 
 def radix_pass(a, b, r, n, k):
     c = [0] * (k + 1)
@@ -101,9 +104,9 @@ def suffix_array(s, k=256, n=None):
             if SA12[t] < n0 else (SA12[t] - n0) * 3 + 2
         j = SA0[p]
         if (SA12[t] < n0 and (s[i], s12[SA12[t] + n0]) <=
-                (s[j], s12[j/3])) or \
-                (s[i], s[i+1], s12[SA12[t] - n0 + 1]) <= \
-                (s[j], s[j+1], s12[j/3+n0]):
+                (s[j], s12[j / 3])) or \
+                (s[i], s[i + 1], s12[SA12[t] - n0 + 1]) <= \
+                (s[j], s[j + 1], s12[j / 3 + n0]):
             SA.append(i)
             t += 1
             if t == n02:
@@ -129,9 +132,9 @@ class Code(object):
     """
     Define a 'code' for a construct rooted at a given node, which consists in 3
     fields:
-    - a hash encoding a construct
-    - a node representing this construct
-    - the name of the file containing the node
+    - a hash encoding a construct;
+    - a node representing this construct;
+    - the name of the file containing the node.
     """
     __slots__ = ('h', 'node', 'filename')
 
@@ -196,8 +199,7 @@ class Encoder(object):
 
         result = list(self.encode_internal(filename, node))
 
-        # Add marker unique to the file to avoid cross
-        # file boundaries matches
+        # Add marker unique to the file to avoid cross file boundaries matches
         result.append(Code(self.rank, node, filename))
         self.rank += 1
         return result
@@ -225,7 +227,7 @@ class Encoder(object):
             yield Code(Encoder.JOKER, node, filename)
         else:
             # Finaly take care of other entities. Include kind of the entities
-            # in the name to avoid collisions
+            # in the name to avoid collisions.
             s = str(node.kind_name) + ':' + node.text
             if s not in self.rank_dict:
                 self.rank_dict[s] = self.rank
@@ -241,13 +243,13 @@ class CodeChunk(object):
     def __init__(self, path, begin, end, size):
         """Initialize a code chunk.
 
-        :param path: filename containing the source code
+        :param path: Filename containing the source code.
         :type path: str
-        :param begin: first line of the code chunk
+        :param begin: First line of the code chunk.
         :type begin: int
-        :param end: last line of the code chunk
+        :param end: Last line of the code chunk.
         :type end: int
-        :param size: number of significative syntactic elements
+        :param size: Number of significative syntactic elements.
         :type size: int
         """
         self.path = path
@@ -259,7 +261,8 @@ class CodeChunk(object):
         """Return length in lines of the code chunk."""
         result = self.end - self.begin
         if result < 0:
-            print 'invalid chunk %s, %s %s' % (self.path, self.begin, self.end)
+            print('invalid chunk %s, %s %s' % (self.path, self.begin,
+                                               self.end))
             # Invalid chunk...
             return 0
         else:
@@ -271,10 +274,10 @@ class CodeChunk(object):
     def intersect_with(self, cr):
         """Check if two chunks do intersect.
 
-        :param cr: code chunk to compare with
+        :param cr: Code chunk to compare with.
         :type cr: CodeChunk
         :return: True if the two chunk share some lines of code,
-            False otherwise
+            False otherwise.
         :rtype: bool
         """
         return self.path == cr.path and (cr.begin <= self.begin <= cr.end or
@@ -283,9 +286,9 @@ class CodeChunk(object):
     def is_wider_than(self, cr):
         """Check if current chunk is a superset of another chunk.
 
-        :param cr: code chunk to compare with
+        :param cr: Code chunk to compare with.
         :type cr: CodeChunk
-        :return: True if current chunk is a superset, False otherwise
+        :return: True if current chunk is a superset, False otherwise.
         :rtype: bool
         """
         return (self.path == cr.path and
@@ -303,7 +306,7 @@ def do_files(files, args):
 
     def show_time(start_time, msg, reset=True):
         now = datetime.datetime.now()
-        print '%-60s [%3.3fs]' % (msg, (now - start_time).total_seconds())
+        print('%-60s [%3.3fs]' % (msg, (now - start_time).total_seconds()))
         if reset:
             start_time = now
         return start_time
@@ -315,14 +318,14 @@ def do_files(files, args):
     # not parsable, and proceed with others.
     for (f, unit) in units:
         if unit.root is None:
-            print 'Could not parse {}:'.format(f)
+            print('Could not parse {}:'.format(f))
 
     units = [(f, unit) for (f, unit) in units if unit.root is not None]
     start_time = show_time(start_time,
                            'libadalang analysis (%s units)' % len(units))
 
     # All the units have been parsed correctly. Now encode the code into
-    # a list of 'hashes'
+    # a list of 'hashes'.
     codes = []
     encoder = Encoder()
     for i, (f, unit) in enumerate(units):
@@ -353,7 +356,7 @@ def do_files(files, args):
             continue
 
         # Check if a longuer prefix exist in the suffix array. Analyse
-        # only the longuest prefixes
+        # only the longuest prefixes.
         if suffix[0] > 0 and suffix[1] > 0 and \
                 codes[suffix[0] - 1].h == codes[suffix[1] - 1].h:
             stats['skipped'] += 1
@@ -362,7 +365,7 @@ def do_files(files, args):
         # Find the length of the common prefix between the two suffixes.
         # The following code is a bit naive and can be removed in case the
         # LCP table is computed at the same time as the suffix array.
-        # With skew algorithm this is possible (keeping the linear property)
+        # With skew algorithm this is possible (keeping the linear property).
 
         # Size of the common prefix
         prefix_length = 0
@@ -387,14 +390,14 @@ def do_files(files, args):
                     (code[0].path == code[1].path and
                      code[0].begin > code[1].begin):
                 # By ordering in lexicograhic order the paths we avoid
-                # duplicates
+                # duplicates.
                 code = (code[1], code[0])
 
             if len(code[0]) >= args.min_lines:
 
                 if code[0].intersect_with(code[1]):
                     # A code cannot be a copy of itself
-                    print 'ingore %s vs %s' % (code[0], code[1])
+                    print('ingore %s vs %s' % (code[0], code[1]))
                     continue
 
                 if code[0].path not in copy_pastes:
@@ -402,23 +405,23 @@ def do_files(files, args):
 
                 found = False
                 # This search is unoptimized but efficient as we usually
-                # deal with few elements per file (??? to be improved ???)
+                # deal with few elements per file (TODO: to be improved).
                 for index, elt in enumerate(copy_pastes[code[0].path]):
                     if code[0].is_wider_than(elt[0]) and \
                             code[1].is_wider_than(elt[1]):
-                        # Code duplication is a superset of a previous
-                        # one, so replace
+                        # Code duplication is a superset of a previous one, so
+                        # replace.
                         copy_pastes[code[0].path][index] = code
                         found = True
                         break
                     elif elt[0].is_wider_than(code[0]) and \
                             elt[1].is_wider_than(code[1]):
-                        # Code duplication is a subset of a previous
-                        # one, so ignore
+                        # Code duplication is a subset of a previous one, so
+                        # ignore.
                         found = True
                         break
                 if not found:
-                    # New code chunk.
+                    # New code chunk
                     copy_pastes[code[0].path].append(code)
             else:
                 pass
@@ -429,16 +432,16 @@ def do_files(files, args):
 
     # Display the results
     if copy_pastes:
-        print '%4s %4s: %s' % ('LINE', 'SIZE', 'CHUNKS')
+        print('%4s %4s: %s' % ('LINE', 'SIZE', 'CHUNKS'))
     for chunks in copy_pastes.itervalues():
         for chunk in sorted(chunks, key=lambda x: x[0].size):
-            print '%4d %4d: %-40s (%4d,%4d) ~= %-40s (%4d, %4d)' % \
-                (len(chunk[0]),
-                 chunk[0].size,
-                 os.path.relpath(chunk[0].path, args.rel_path),
-                 chunk[0].begin, chunk[0].end,
-                 os.path.relpath(chunk[1].path, args.rel_path),
-                 chunk[1].begin, chunk[1].end)
+            print('%4d %4d: %-40s (%4d,%4d) ~= %-40s (%4d, %4d)' % (
+                len(chunk[0]),
+                chunk[0].size,
+                os.path.relpath(chunk[0].path, args.rel_path),
+                chunk[0].begin, chunk[0].end,
+                os.path.relpath(chunk[1].path, args.rel_path),
+                chunk[1].begin, chunk[1].end))
     show_time(overall_start_time, 'Overall')
 
 
@@ -479,7 +482,7 @@ def main():
                 file_list += [os.path.join(root, f) for f in files
                               if f.endswith('.adb')]
         else:
-            print 'error: %s does not exist' % path
+            print('error: %s does not exist' % path)
     do_files(file_list, args)
 
 if __name__ == '__main__':

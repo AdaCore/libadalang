@@ -5,6 +5,8 @@ This script will detect syntactically identical expressions which are chained
 together in a chain of logical operators in the input Ada sources.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 import libadalang as lal
 
@@ -25,6 +27,7 @@ def is_literal(expr):
                              lal.CharLiteral,
                              lal.IntLiteral,
                              lal.NullLiteral))
+
 
 def list_left_unequal_operands(binop):
     """
@@ -109,20 +112,20 @@ def do_file(f):
     unit = c.get_from_file(f)
 
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
     for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
         if interesting_oper(binop.f_op) and not same_as_parent(binop):
             res = has_same_operands(binop)
             if res is not None:
-                (op, fst_val, snd_val) = res
-                (line,col) = location(op)
-                print ('{}:{}:{}: expression is always true, ' +
-                       '"{}" is always different from {} or {}').format(
-                           f, line, col, op.text, fst_val.text, snd_val.text)
+                op, fst_val, snd_val = res
+                line, col = location(op)
+                print('{}:{}:{}: expression is always true,'
+                      ' "{}" is always different from {} or {}'.format(
+                          f, line, col, op.text, fst_val.text, snd_val.text))
 
 
 def main(args):

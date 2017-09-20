@@ -5,6 +5,8 @@ This script will detect comparison and arithmetic operations that have operands
 which are syntactically identical in the input Ada sources.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 
 import libadalang as lal
@@ -59,16 +61,16 @@ def do_file(f):
     unit = c.get_from_file(f)
 
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
     for binop in unit.root.findall(lambda e: isinstance(e, lal.BinOp)):
         if interesting_oper(binop.f_op) and has_same_operands(binop):
-            (line,col) = location(binop)
-            print ('{}:{}:{}: left and right operands of "{}" are identical').format(
-                f, line, col, binop.f_op.text)
+            line, col = location(binop)
+            print('{}:{}:{}: left and right operands of "{}" are'
+                  ' identical'.format(f, line, col, binop.f_op.text))
 
 
 def main(args):

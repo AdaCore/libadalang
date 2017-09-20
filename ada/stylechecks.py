@@ -9,12 +9,13 @@ import sys
 ADA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = join(ADA_DIR, '..')
 
-DIRS = ('ada', 'utils')
+DIRS = ('ada', 'contrib', 'utils')
 EXCLUDES = ('tmp', 'doc',
+            join('contrib', 'highlight', 'obj'),
             join('testsuite', 'ext_src'),
             join('testsuite', 'tests', 'contrib'))
 
-sys.path.append(join(ROOT_DIR, "langkit"))
+sys.path.append(join(ROOT_DIR, 'langkit'))
 
 import langkit.stylechecks
 

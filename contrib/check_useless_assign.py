@@ -3,18 +3,18 @@
 """
 This checker will detect a useless assignments to local variables of two kinds:
 (1) the local variable is reassigned with no possible read since the assignment
-(2) the subprogram returns before the variable is read
+(2) the subprogram returns before the variable is read.
 
 In the first case, the reassignment must be at the same scope level, or in a
 scope above, the initial assignment. So the following useless assignment will
-be detected:
+be detected::
 
    if Cond then
       X := 0;
    end if;
    X := 1;
 
-but not this one:
+but not this one::
 
    X := 0;
    if Cond then
@@ -25,14 +25,14 @@ but not this one:
 
 In the second case, the return must be at the same scope level, or in a
 scope above, the initial assignment. So the following useless assignment will
-be detected:
+be detected::
 
    if Cond then
       X := 0;
    end if;
    return;
 
-but not this one:
+but not this one::
 
    X := 0;
    if Cond then
@@ -42,14 +42,14 @@ but not this one:
    end if;
 
 Record paths like X.Y are considered as well, so the following useless
-assignment will be detected:
+assignment will be detected::
 
    if Cond then
       X.Y := 0;
    end if;
    X := 1;
 
-as well as this one:
+as well as this one::
 
    if Cond then
       X.Y := 0;
@@ -57,6 +57,8 @@ as well as this one:
    X.Y := 1;
 
 """
+
+from __future__ import (absolute_import, division, print_function)
 
 import argparse
 import libadalang as lal
@@ -76,9 +78,9 @@ def get_read(expr):
     Detect if expr is a read of an object, and in that case return the object
     being read.
 
-    Without semantic information, we cannot know if the 'object' is an object or
-    a parameterless function call, an array access or a call. We consider all
-    these as objects being read.
+    Without semantic information, we cannot know if the 'object' is an object
+    or a parameterless function call, an array access or a call. We consider
+    all these as objects being read.
 
     :param lal.Expr expr:
     :rtype: lal.Identifier | lal.DottedName | lal.CallExpr | None
@@ -129,14 +131,12 @@ def collect_local_vars(node, locvars,
         elif (no_address_taken and
               node.f_aspects is not None and
               any([aspect.f_id.text == "Address"
-                   for aspect in node.f_aspects.f_aspect_assocs])
-        ):
+                   for aspect in node.f_aspects.f_aspect_assocs])):
             pass
         # Consider that the variable may be marked "aliased"
         elif (no_aliased and
               node.f_has_aliased is not None and
-              node.f_has_aliased.p_as_bool
-        ):
+              node.f_has_aliased.p_as_bool):
             pass
         else:
             for var in node.f_ids:
@@ -231,10 +231,10 @@ def explore(f, locvars, locsubprograms, subp):
       they are read.
 
     For the above computation, an assignment to X.Y.Z counts also as a read of
-    X and a read of X.Y
+    X and a read of X.Y.
 
-    Subprogram parameters are considered as special local variables, that should
-    be considered as read on return.
+    Subprogram parameters are considered as special local variables, that
+    should be considered as read on return.
 
     Currently only record paths like X.Y.Z are considered, not array paths like
     X(Y), as there are too many false alarms with array paths without semantic
@@ -254,8 +254,7 @@ def explore(f, locvars, locsubprograms, subp):
         obj = get_read(node)
         if obj is not None:
             if (is_local_var(obj, locvars) and
-                is_variable_or_record_path(obj)
-            ):
+                    is_variable_or_record_path(obj)):
                 reads.add(obj.text)
                 if obj.text in assigns:
                     del assigns[obj.text]
@@ -273,22 +272,21 @@ def explore(f, locvars, locsubprograms, subp):
             # Only report issues on record paths
             if is_local_var(obj, locvars) and is_variable_or_record_path(obj):
                 if obj.text in assigns:
-                    (fst_line,fst_col) = location(obj)
-                    (snd_line,snd_col) = location(assigns[obj.text])
-                    print ('{}:{}:{}: useless assignment, ' +
-                           '{} reassigned at line {}').format(
-                               f, fst_line, fst_col, obj.text, snd_line)
+                    fst_line, fst_col = location(obj)
+                    snd_line, snd_col = location(assigns[obj.text])
+                    print('{}:{}:{}: useless assignment,'
+                          ' {} reassigned at line {}'.format(
+                              f, fst_line, fst_col, obj.text, snd_line))
 
                 # Without semantic information, we cannot know if assignment to
                 # X.C is through a pointer X to memory. So currently only
                 # detect useless assignment before return on whole variables.
                 elif (isinstance(obj, lal.Identifier) and
-                      obj.text not in reads
-                ):
-                    (fst_line,fst_col) = location(obj)
-                    print ('{}:{}:{}: useless assignment, ' +
-                           '{} not read before return').format(
-                               f, fst_line, fst_col, obj.text)
+                        obj.text not in reads):
+                    fst_line, fst_col = location(obj)
+                    print('{}:{}:{}: useless assignment,'
+                          ' {} not read before return'.format(
+                              f, fst_line, fst_col, obj.text))
 
     def declare_assign(node, assigns):
         if is_local_var(node, locvars):
@@ -320,7 +318,7 @@ def explore(f, locvars, locsubprograms, subp):
         # Copy the set of object read so far
         branch_reads = init_reads.copy()
 
-        # Call traverse recursively.
+        # Call traverse recursively
         traverse(node, branch_assigns, branch_reads)
 
         # Remove those variables which have been read in the branch, which
@@ -339,8 +337,8 @@ def explore(f, locvars, locsubprograms, subp):
         order.
 
         :param lal.AdaNode node: Current node in the AST.
-        :param map assigns: Dictionary for the local objects assigned on the path,
-                            mapping their text to the object node in the AST.
+        :param map assigns: Dictionary for the local objects assigned on the
+            path, mapping their text to the object node in the AST.
         :param set reads: Set for the local objects read on the path.
         """
         if node is None:
@@ -360,17 +358,19 @@ def explore(f, locvars, locsubprograms, subp):
                 for sub in node.f_dest:
                     traverse(sub, assigns, reads)
 
-        # Call traverse or traverse_branch recursively on sub-nodes.
+        # Call traverse or traverse_branch recursively on sub-nodes
         elif isinstance(node, lal.IfStmt):
             # Save initial version of assigns and reads
             init_assigns = assigns.copy()
             init_reads = reads.copy()
             # Deal with all branches, using the "init" versions and updating
             # the versions propagated.
-            traverse_branch(node.f_else_stmts, init_assigns, assigns, init_reads, reads)
+            traverse_branch(node.f_else_stmts, init_assigns, assigns,
+                            init_reads, reads)
             for sub in node.f_alternatives:
                 traverse_branch(sub, init_assigns, assigns, init_reads, reads)
-            traverse_branch(node.f_then_stmts, init_assigns, assigns, init_reads, reads)
+            traverse_branch(node.f_then_stmts, init_assigns, assigns,
+                            init_reads, reads)
             traverse(node.f_cond_expr, assigns, reads)
 
         elif isinstance(node, lal.CaseStmt):
@@ -451,8 +451,7 @@ def explore(f, locvars, locsubprograms, subp):
                 callee = None
 
             if (callee is not None and
-                is_local_subprogram(callee, locsubprograms)
-            ):
+                    is_local_subprogram(callee, locsubprograms)):
                 assigns.clear()
                 reads |= set(locvars.keys())
 
@@ -476,9 +475,9 @@ def do_file(f):
     c = lal.AnalysisContext()
     unit = c.get_from_file(f)
     if unit.root is None:
-        print 'Could not parse {}:'.format(f)
+        print('Could not parse {}:'.format(f))
         for diag in unit.diagnostics:
-            print '   {}'.format(diag)
+            print('   {}'.format(diag))
             return
 
     for subp in unit.root.findall(lambda e: isinstance(e, lal.SubpBody)):

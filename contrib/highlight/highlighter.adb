@@ -336,7 +336,8 @@ package body Highlighter is
                Highlight_Block_Name
                  (LAL.Begin_Block (Node).F_End_Id, Highlights);
 
-            --  ??? Still lots of nodes to handle! Protected types, tasks, etc.
+            --  TODO??? Still lots of nodes to handle! Protected types, tasks,
+            --  etc.
 
             ----------------
             -- Type names --

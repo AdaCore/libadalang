@@ -13,6 +13,8 @@ and the subprogram do not match, such as::
 If passed the --fix flag, it will fix the boxes in the same pass.
 """
 
+from __future__ import (absolute_import, division, print_function)
+
 import argparse
 import libadalang as lal
 
@@ -66,9 +68,9 @@ def main(args):
         # Parse, and report errors on fail
         unit = c.get_from_file(f, with_trivia=True)
         if unit.root is None:
-            print 'Could not parse {}:'.format(f)
+            print('Could not parse {}:'.format(f))
             for diag in unit.diagnostics:
-                print '   {}'.format(diag)
+                print('   {}'.format(diag))
             continue
 
         # If successful, check boxes for every subprogram body
@@ -83,16 +85,16 @@ def main(args):
             # Box is malformed, report the error
             subp_name = sb.f_subp_spec.f_subp_name.f_tok.text
             first_line = first_comment.sloc_range.start.line
-            print "{}:{}:{}: Malformed box for subprogram '{}'".format(
+            print("{}:{}:{}: Malformed box for subprogram '{}'".format(
                 f, sb.sloc_range.start.line, sb.sloc_range.start.column,
                 subp_name
-            )
+            ))
             for i in range(
                 first_line,
                 sb.f_subp_spec.sloc_range.end.line + 1
             ):
-                print content[i - 1]
-            print
+                print(content[i - 1])
+            print()
 
             # If user asked to fix malformed boxes, replace the box in the
             # source list.

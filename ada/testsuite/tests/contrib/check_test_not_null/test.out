@@ -1,6 +1,7 @@
-foo.adb:16:7: dereference of null value after test at line 15
-foo.adb:18:30: dereference of null value after test at line 18
-foo.adb:20:30: dereference of null value after test at line 20
-foo.adb:26:15: dereference of null value after test at line 24
-foo.adb:31:12: dereference of null value after test at line 30
-foo.adb:35:9: dereference of null value after test at line 34
+foo.adb:18:4: dereference of null value after test at line 17
+foo.adb:21:7: dereference of null value after test at line 20
+foo.adb:23:30: dereference of null value after test at line 23
+foo.adb:25:30: dereference of null value after test at line 25
+foo.adb:31:15: dereference of null value after test at line 29
+foo.adb:36:12: dereference of null value after test at line 35
+foo.adb:40:9: dereference of null value after test at line 39

@@ -10,8 +10,13 @@ procedure Foo is
    R : aliased Rec;
    P : Rec_Ptr := R'Access;
    X : Integer;
+   T : A.B.C; -- type A.B.C does not exist
 
 begin
+   T.x.all := 0;
+   T := null;
+   T.x.all := 0;
+
    if R.C = null then
       R.C.all := 0;
       return;

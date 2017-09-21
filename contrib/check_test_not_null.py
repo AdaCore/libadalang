@@ -205,7 +205,15 @@ def explore(f, subp):
         detect_dereference(node, nulls)
 
         # Call traverse or traverse_branch recursively on sub-nodes
-        if isinstance(node, lal.AssignStmt):
+        if isinstance(node, lal.ObjectDecl):
+            tdecl = node.f_type_expr.p_designated_type_decl.el
+            if tdecl is not None and tdecl.p_is_access_type:
+                if (node.f_default_expr is None or
+                        node.f_default_expr.is_a(lal.NullLiteral)):
+                    for id in node.f_ids:
+                        nulls[id.text] = id
+
+        elif isinstance(node, lal.AssignStmt):
             for sub in node:
                 traverse(sub, nulls)
             remove_assign(node, nulls)
@@ -296,6 +304,7 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
+    unit.populate_lexical_env()
     for subp in unit.root.findall((lal.SubpBody, lal.ExprFunction)):
         explore(f, subp)
 

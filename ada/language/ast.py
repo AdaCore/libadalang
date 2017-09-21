@@ -3794,29 +3794,10 @@ class BaseId(SingleTokNode):
         :param is_parent_pkg: Whether the origin of the env request is a
             package or not.
         """
-
-        # Some constructs, like use clauses, add a referenced env to their
-        # parent scope, which uses a resolver that will itself do a lookup. So
-        # that this does not generate an infinitely recursive lookup, the
-        # lookup must be passed a sequential start point that will exclude the
-        # referenced env.
-        #
-        # TODO: This might be solvable at the langkit level. In principle this
-        # should never happen because we could pass down to the nested lookup
-        # operation the information that we're resolving a reference at point X
-        # in code, and that this reference should subsequently not be followed.
-        parent_clause = Var(
-            Self.parents.filter(
-                lambda p: p.is_a(UsePackageClause, GenericSubpInstantiation)
-            ).at(0)
-        )
-
         items = Var(env.get_sequential(
             Self.tok,
             recursive=Not(is_parent_pkg),
-            sequential_from=parent_clause.then(
-                lambda p: p, default_val=Self
-            )
+            sequential_from=Self,
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent

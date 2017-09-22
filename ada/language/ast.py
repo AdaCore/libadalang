@@ -61,7 +61,8 @@ def ref_used_packages():
     UsePackageClause's ref_env_nodes for the rationale.
     """
     return reference(Self.top_level_use_package_clauses,
-                     T.Name.use_package_name_designated_env)
+                     T.Name.use_package_name_designated_env,
+                     register_creator=False)
 
 
 def ref_used_packages_in_spec():

@@ -3980,12 +3980,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
         #
         # TODO: simplify this code when SubpSpec provides a kind to
         # distinguish functions and procedures.
+        self_ret = Var(Entity.returns)
+        other_ret = Var(other.returns)
         return Or(
-            And(other.returns.is_null, Entity.returns.is_null),
+            And(other_ret.is_null, self_ret.is_null),
             And(
-                Not(other.returns.is_null), Not(Entity.returns.is_null),
-                origin.bind(other.el, other.returns._.canonical_type)
-                == origin.bind(Self, Entity.returns._.canonical_type)
+                Not(other_ret.is_null), Not(self_ret.is_null),
+                origin.bind(other.el, other_ret._.canonical_type)
+                == origin.bind(Self, self_ret._.canonical_type)
             )
         )
 

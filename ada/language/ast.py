@@ -78,7 +78,8 @@ def ref_std():
     Make the Standard package automatically used.
     """
     return reference(Self.self_toplevel_item_or_none,
-                     through=AdaNode.std_env)
+                     through=AdaNode.std_env,
+                     register_creator=False)
 
 
 def ref_generic_formals():
@@ -88,7 +89,8 @@ def ref_generic_formals():
     environments. Make them available with ref_envs.
     """
     return reference(Self.cast(T.AdaNode).to_array,
-                     through=T.AdaNode.generic_formal_env_of_not_library_item)
+                     through=T.AdaNode.generic_formal_env_of_not_library_item,
+                     register_creator=False)
 
 
 def add_to_env_kv(key, val, *args, **kwargs):

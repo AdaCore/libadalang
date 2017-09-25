@@ -1986,7 +1986,7 @@ class WithClause(AdaNode):
 
     xref_entry_point = Property(True)
     xref_equation = Property(
-        Entity.packages.logic_all(lambda p: p.sub_equation)
+        Entity.packages.logic_all(lambda p: p.xref_no_overloading(False))
     )
 
 
@@ -2028,7 +2028,7 @@ class UsePackageClause(UseClause):
 
     xref_entry_point = Property(True)
     xref_equation = Property(
-        Entity.packages.logic_all(lambda p: p.sub_equation)
+        Entity.packages.logic_all(lambda p: p.xref_no_overloading(False))
     )
 
 
@@ -3171,6 +3171,28 @@ class Name(Expr):
         for a prefix A.B.C, this will return A.B.
         """
     )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def xref_no_overloading(in_dotted_name=(BoolType, False)):
+        """
+        Simple xref equation for names in clauses with no overloading, such as
+        with and use clauses.
+        """
+        return Entity.match(
+            lambda dn=T.DottedName: env.bind(
+                dn.prefix.designated_env,
+                dn.prefix.xref_no_overloading(False)
+                & dn.suffix.xref_no_overloading(True)
+            ),
+            lambda i=T.BaseId: Bind(
+                i.ref_var,
+                env.get_sequential(
+                    i.relative_name, sequential_from=Entity.el,
+                    recursive=Not(in_dotted_name)
+                ).at(0).cast(T.BasicDecl)
+            ),
+            lambda _: LogicTrue()
+        )
 
 
 class CallExpr(Name):

@@ -1624,8 +1624,13 @@ class DecimalFixedPointDef(RealTypeDef):
 
 @abstract
 class BaseAssoc(AdaNode):
+    """
+    Abstract class for a key -> value association, where the value is an
+    expression.
+    """
     assoc_expr = AbstractProperty(
-        type=T.Expr, public=True, ignore_warn_on_node=True
+        type=T.Expr, public=True, ignore_warn_on_node=True,
+        doc="Returns the expression side of this assoc node."
     )
 
 

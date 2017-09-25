@@ -736,7 +736,7 @@ class Body(BasicDecl):
     def is_subunit():
         return Not(Self.parent.cast(T.Subunit).is_null)
 
-    @langkit_property()
+    @langkit_property(ignore_warn_on_node=True)
     def subunit_root():
         """
         If self is a subunit, return the body in which it is rooted.

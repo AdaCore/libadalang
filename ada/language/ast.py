@@ -3973,7 +3973,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.Name, ignore_warn_on_node=True)
     returns = AbstractProperty(type=T.TypeExpr.entity)
 
-    node_params = AbstractProperty(type=T.ParamSpec.array, public=True)
+    node_params = AbstractProperty(
+        type=T.ParamSpec.array, public=True, doc="""
+        Returns the array of parameters specification for this subprogram spec.
+        """
+    )
     params = Property(Self.node_params.map(lambda p: p.as_entity))
 
     abstract_formal_params = Property(

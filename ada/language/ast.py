@@ -4510,14 +4510,13 @@ class DottedName(Name):
 
     @langkit_property()
     def xref_equation():
-        dt = Entity.designated_type_impl
         base = Var(
             Entity.prefix.sub_equation
             & env.bind(Entity.prefix.designated_env,
                        Entity.suffix.sub_equation)
         )
         return If(
-            Not(dt.is_null),
+            Not(Entity.designated_type_impl.is_null),
             base,
             base & Entity.env_elements.logic_any(lambda e: (
                 Bind(Self.suffix.ref_var, e)

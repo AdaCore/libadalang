@@ -1986,7 +1986,7 @@ class WithClause(AdaNode):
 
     xref_entry_point = Property(True)
     xref_equation = Property(
-        Entity.packages.logic_all(lambda p: p.xref_no_overloading(False))
+        Entity.packages.logic_all(lambda p: p.xref_no_overloading)
     )
 
 
@@ -2028,7 +2028,7 @@ class UsePackageClause(UseClause):
 
     xref_entry_point = Property(True)
     xref_equation = Property(
-        Entity.packages.logic_all(lambda p: p.xref_no_overloading(False))
+        Entity.packages.logic_all(lambda p: p.xref_no_overloading)
     )
 
 

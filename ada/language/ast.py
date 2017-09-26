@@ -671,7 +671,7 @@ class BasicDecl(AdaNode):
         return Self.children_env.get('__body', recursive=False).at(0)
 
     @langkit_property(dynamic_vars=[env])
-    def pkg_decl_scope():
+    def decl_scope():
         scope = Var(Self.defining_name.parent_scope)
 
         # If this the corresponding decl is a generic, go grab the internal
@@ -679,7 +679,11 @@ class BasicDecl(AdaNode):
         # private part, else return the public part.
         return Let(
             lambda public_scope=scope.env_node.cast(T.GenericPackageDecl).then(
-                lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+                lambda gen_pkg_decl: If(
+                    Self.is_a(FormalSubpDecl),
+                    scope,
+                    gen_pkg_decl.package_decl.children_env,
+                ),
                 default_val=scope
             ): public_scope.get('__privatepart', recursive=False).at(0).then(
                 lambda pp: pp.children_env, default_val=public_scope
@@ -2206,11 +2210,16 @@ class BasicSubpDecl(BasicDecl):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env,
-                     Self.as_bare_entity.subp_decl_spec.name.parent_scope)
+            env.bind(Self.initial_env, Self.decl_scope)
         ),
 
-        add_to_env_kv(Self.relative_name, Self),
+        add_to_env_kv(
+            Self.relative_name, Self,
+            dest_env=env.bind(
+                Self.initial_env,
+                Self.as_bare_entity.subp_decl_spec.name.parent_scope
+            )
+        ),
         add_env(),
         ref_used_packages(),
         ref_std(),
@@ -2434,7 +2443,7 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     env_spec = child_unit(
-        Self.relative_name, Self.pkg_decl_scope,
+        Self.relative_name, Self.decl_scope,
         dest_env=env.bind(Self.parent.node_env, Self.package_name.parent_scope)
     )
 
@@ -2581,9 +2590,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     env_spec = EnvSpec(
         set_initial_env(env.bind(
             Self.initial_env,
-            If(Self.is_generic_formal_pkg,
-                Self.initial_env,
-                Self.pkg_decl_scope)
+            If(Self.is_generic_formal_pkg, Self.initial_env, Self.decl_scope)
         )),
         add_to_env_kv(Self.relative_name, Self),
         add_env(),

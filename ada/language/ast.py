@@ -3698,7 +3698,7 @@ class BaseId(SingleTokNode):
         return If(
             Not(elt.is_null) & elt.el.is_a(
                 T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
-                T.GenericSubpDecl
+                T.GenericSubpDecl, T.SubpDecl
             ),
             elt.children_env,
             EmptyEnv

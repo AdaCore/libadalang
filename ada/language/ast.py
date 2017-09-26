@@ -4924,9 +4924,10 @@ class SelectWhenPart(AdaNode):
 
     @langkit_property()
     def xref_equation():
-        return (
-            Entity.condition.sub_equation
-            & TypeBind(Self.condition.type_var, Self.bool_type)
+        return Entity.condition.then(
+            lambda c:
+            c.sub_equation & TypeBind(Self.condition.type_var, Self.bool_type),
+            default_val=LogicTrue()
         )
 
 

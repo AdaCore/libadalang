@@ -62,7 +62,7 @@ def ref_used_packages():
     """
     return reference(Self.top_level_use_package_clauses,
                      T.Name.use_package_name_designated_env,
-                     register_creator=False)
+                     visible_to_children=True)
 
 
 def ref_used_packages_in_spec():
@@ -80,7 +80,7 @@ def ref_std():
     """
     return reference(Self.self_toplevel_item_or_none,
                      through=AdaNode.std_env,
-                     register_creator=False)
+                     visible_to_children=True)
 
 
 def ref_generic_formals():
@@ -91,7 +91,7 @@ def ref_generic_formals():
     """
     return reference(Self.cast(T.AdaNode).to_array,
                      through=T.AdaNode.generic_formal_env_of_not_library_item,
-                     register_creator=False)
+                     visible_to_children=True)
 
 
 def add_to_env_kv(key, val, *args, **kwargs):
@@ -4942,7 +4942,7 @@ class PackageBody(Body):
         '__body', Self.body_scope(True), more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl,
-                      register_creator=False)
+                      visible_to_children=True)
         ]
     )
 

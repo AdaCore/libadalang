@@ -4941,7 +4941,8 @@ class PackageBody(Body):
     env_spec = child_unit(
         '__body', Self.body_scope(True), more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.subunit_pkg_decl)
+                      through=T.PackageBody.subunit_pkg_decl,
+                      register_creator=False)
         ]
     )
 

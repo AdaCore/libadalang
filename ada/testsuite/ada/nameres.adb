@@ -68,12 +68,12 @@ procedure Nameres is
       renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
 
-   function "<" (Left, Right : Ada_Node) return Boolean is
-     (Left.Sloc_Range.Start_Line < Right.Sloc_Range.Start_Line);
+   function "<" (Left, Right : Entity) return Boolean is
+     (Left.El.Sloc_Range.Start_Line < Right.El.Sloc_Range.Start_Line);
    procedure Sort is new Ada.Containers.Generic_Array_Sort
      (Index_Type   => Positive,
-      Element_Type => Ada_Node,
-      Array_Type   => Ada_Node_Array,
+      Element_Type => Entity,
+      Array_Type   => Entity_Array,
       "<"          => "<");
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean is
@@ -85,7 +85,7 @@ procedure Nameres is
       P     : Project_Type;
       Files : in out String_Vectors.Vector);
 
-   function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array_Access is
+   function Do_Pragma_Test (Arg : Expr) return Entity_Array_Access is
      (Arg.P_Matching_Nodes);
    --  Do the resolution associated to a Test pragma.
    --
@@ -320,16 +320,17 @@ procedure Nameres is
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg      : constant Expr :=
                      P_Node.F_Args.Item (1).P_Assoc_Expr;
-                  Entities : Ada_Node_Array_Access := Do_Pragma_Test (Arg);
+                  Entities : Entity_Array_Access := Do_Pragma_Test (Arg);
                begin
                   Put_Line (Text (Arg) & " resolves to:");
                   Sort (Entities.Items);
                   for E of Entities.Items loop
                      Put ("    " & (if Display_Short_Images
-                                    then Image (E.Short_Image)
-                                    else Text (E)));
+                                    then Image (E.El.Short_Image)
+                                    else Text (E.El)));
                      if Display_Slocs then
-                        Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
+                        Put_Line (" at "
+                                  & Image (Start_Sloc (E.El.Sloc_Range)));
                      else
                         New_Line;
                      end if;

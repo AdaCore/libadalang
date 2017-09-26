@@ -70,7 +70,8 @@ main(void)
                                  ufp_get_file_from_name);
 
     ada_base_node pragma, args, assoc, expr;
-    ada_ada_node_array entities;
+    ada_entity_info einfo = { { false, false }, NULL };
+    ada_entity_array entities;
     ada_text text;
     int i;
 
@@ -95,7 +96,7 @@ main(void)
       error("Could not get PragmaNode.f_args[0]");
     if (!ada_pragma_argument_assoc_f_expr(assoc, &expr) || expr == NULL)
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_matching_nodes(expr, &entities))
+    if (!ada_expr_p_matching_nodes(expr, &einfo, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
     text = ada_node_short_image(expr);
@@ -104,7 +105,7 @@ main(void)
     printf(" resolves to:\n");
 
     for (i = 0; i < entities->n; ++i) {
-        ada_base_node ent = entities->items[i];
+        ada_base_node ent = entities->items[i].el;
 
         printf("  ");
         text = ada_node_short_image(ent);
@@ -114,7 +115,7 @@ main(void)
     }
     if (entities->n == 0)
       printf("  <nothing>\n");
-    free(entities);
+    ada_entity_array_dec_ref(entities);
 
     ada_destroy_analysis_context(ctx);
     ada_destroy_unit_provider(ufp);

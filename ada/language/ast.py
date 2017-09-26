@@ -2855,17 +2855,13 @@ class Expr(AdaNode):
         """
         pass
 
-    @langkit_property(dynamic_vars=[env])
-    def matching_nodes_impl():
-        return Self.as_bare_entity.env_elements.map(lambda e: e.el)
-
-    @langkit_property(return_type=AdaNode.array, public=True)
+    @langkit_property(return_type=AdaNode.entity.array, public=True)
     def matching_nodes():
         """
         Return the list of AST nodes that can be a match for this expression
         before overloading analysis.
         """
-        return env.bind(Self.node_env, Self.matching_nodes_impl)
+        return env.bind(Self.node_env, Entity.env_elements)
 
 
 class ContractCaseAssoc(BaseAssoc):

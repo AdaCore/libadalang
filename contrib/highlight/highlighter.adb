@@ -300,13 +300,13 @@ package body Highlighter is
             when LAL.Ada_Subp_Spec =>
                declare
                   Subp_Spec : constant LAL.Subp_Spec := LAL.Subp_Spec (Node);
-                  Params    : constant LAL.Param_Spec_Array_Access :=
-                    Subp_Spec.P_Node_Params;
+                  Params    : constant LAL.Entity_Param_Spec_Array_Access :=
+                    Subp_Spec.P_Params;
                begin
                   Highlight_Block_Name (Subp_Spec.F_Subp_Name, Highlights);
                   Highlight_Type_Expr (Subp_Spec.F_Subp_Returns, Highlights);
                   for Param of Params.Items loop
-                     Highlight_Type_Expr (Param.F_Type_Expr, Highlights);
+                     Highlight_Type_Expr (Param.El.F_Type_Expr, Highlights);
                   end loop;
                end;
             when LAL.Ada_Subp_Body =>

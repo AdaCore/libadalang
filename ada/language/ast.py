@@ -259,15 +259,25 @@ class AdaNode(ASTNode):
         """
     )
 
-    parent_unit_spec = Property(
-        Self.top_level_item(Self.unit)._.defining_name.cast(T.DottedName)
-        ._.referenced_unit(UnitSpecification),
+    @langkit_property(return_type=LexicalEnvType)
+    def parent_unit_env_helper(unit=AnalysisUnitType, env=LexicalEnvType):
+        return env.env_parent.then(lambda parent_env: parent_env.env_node.then(
+            lambda parent_node: If(
+                parent_node.unit == unit,
+                Self.parent_unit_env_helper(unit, parent_env),
+                parent_env
+            )
+        ))
 
-        public=True, doc="""
-        If this unit is a spec and is a child unit, return the spec of the
-        parent unit. Return a null analysis unit for all other cases.
+    @langkit_property()
+    def parent_unit_env(env=LexicalEnvType):
         """
-    )
+        Given env's AnalysisUnit, return the first env that has a different
+        analysis unit in the env parent chain.
+        """
+        return env.then(
+            lambda env: Self.parent_unit_env_helper(env.env_node.unit, env)
+        )
 
     std = Property(
         # This property is used during referenced envs resolution. As a
@@ -296,7 +306,7 @@ class AdaNode(ASTNode):
     bool_type = Property(Self.std_entity('Boolean'))
     int_type = Property(Self.std_entity('Integer'))
 
-    @langkit_property()
+    @langkit_property(return_type=BoolType)
     def has_with_visibility(refd_unit=AnalysisUnitType):
         """
         Return whether Self's unit has "with visibility" on "refd_unit".
@@ -304,13 +314,16 @@ class AdaNode(ASTNode):
         In other words, whether Self's unit has a WITH clause on "refd_unit",
         or if its spec, or one of its parent specs has one.
         """
-        return (
-            refd_unit.is_referenced_from(Self.unit)
-            | Self.unit.root.spec_unit.then(
-                lambda u: refd_unit.is_referenced_from(u)
-            ) | Self.unit.root.parent_unit_spec.then(
-                lambda u: refd_unit.is_referenced_from(u)
+        return Or(
+            refd_unit.is_referenced_from(Self.unit),
+            Self.parent_unit_env(
+                # Here we go and explicitly grab the top level item, rather
+                # than use Self's children env, because of use clauses, that
+                # can be at the top level but semantically belong to the env of
+                # the top level item.
+                Self.top_level_item(Self.unit).children_env
             )
+            .env_node._.has_with_visibility(refd_unit)
         )
 
     @langkit_property()

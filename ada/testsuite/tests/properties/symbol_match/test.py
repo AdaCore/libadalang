@@ -26,4 +26,4 @@ for a, b in [
     (foo, foo),
     (foo, i),
 ]:
-    print('{} matches {} => {}'.format(a, b, a.p_matches(b)))
+    print('{} matches {} => {}'.format(a, b, a.p_name_matches(b)))

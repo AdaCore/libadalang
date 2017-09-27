@@ -17,7 +17,7 @@ foo.dump(indent='  ')
 print('This should be I:')
 i.dump(indent='  ')
 
-print('Foo.p_matches(Foo) = {}'.format(foo.p_matches(foo)))
-print('Foo.p_matches(I) = {}'.format(foo.p_matches(i)))
+print('Foo.p_name_matches(Foo) = {}'.format(foo.p_name_matches(foo)))
+print('Foo.p_name_matches(I) = {}'.format(foo.p_name_matches(i)))
 
 print('Done.')

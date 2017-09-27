@@ -3154,7 +3154,7 @@ class Name(Expr):
         """
         pass
 
-    @langkit_property(public=True)
+    @langkit_property()
     def matches(n=T.Name):
         """
         Return whether two names match each other.
@@ -3173,6 +3173,16 @@ class Name(Expr):
                 ),
             lambda _: False
         )
+
+    @langkit_property(public=True)
+    def name_matches(n=T.Name.entity):
+        """
+        Return whether two names match each other.
+
+        This compares the symbol for Identifier and StringLiteral nodes. We
+        consider that there is no match for all other node kinds.
+        """
+        return Self.matches(n.el)
 
     @langkit_property()
     def use_package_name_designated_env():

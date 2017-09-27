@@ -1,2 +1,0 @@
-<Id "Foo" 1:11-1:14> matches <Id "Foo" 1:11-1:14> => True
-<Id "Foo" 1:11-1:14> matches <Id "I" 1:16-1:17> => False

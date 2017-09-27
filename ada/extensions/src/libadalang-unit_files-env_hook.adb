@@ -190,7 +190,7 @@ package body Libadalang.Unit_Files.Env_Hook is
          return;
       end if;
 
-      N := Node.P_Defining_Name;
+      N := Node.P_Defining_Name.El;
 
       if N.all in Dotted_Name_Type'Class then
          declare
@@ -223,7 +223,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    ----------------------
 
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node) is
-      Names : Name_Array_Access;
+      Names : Entity_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
       --  to process.
@@ -237,7 +237,7 @@ package body Libadalang.Unit_Files.Env_Hook is
       pragma Assert (Names.N = 1);
 
       declare
-         N     : constant Ada_Node := Ada_Node (Names.Items (1));
+         N     : constant Ada_Node := Ada_Node (Names.Items (1).El);
          Dummy : Analysis_Unit;
       begin
          Dec_Ref (Names);

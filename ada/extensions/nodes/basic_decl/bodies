@@ -29,13 +29,13 @@ is
       end if;
    end Name_Image;
 
-   Children : Name_Array := Self.P_Defining_Names;
+   Children : Entity_Name_Array := Self.P_Defining_Names;
 begin
    Append (Ret, "<" & To_Text (Kind_Name (Self)) & " [");
 
    for I in Children'Range loop
       Append (Ret, """");
-      Append (Ret, Name_Image (Children (I)));
+      Append (Ret, Name_Image (Children (I).El));
          Append (Ret, """");
       if I /= Children'Last then
          Append (Ret, ", ");

@@ -743,8 +743,8 @@ class Body(BasicDecl):
         )
 
     decl_part = Property(
-        Self.as_bare_entity.decl_part_entity.el,
-        public=True, ignore_warn_on_node=True,
+        Self.as_bare_entity.decl_part_entity,
+        public=True,
         doc="""
         Return the decl corresponding to this node if applicable.
         """
@@ -1650,7 +1650,7 @@ class BaseAssoc(AdaNode):
     expression.
     """
     assoc_expr = AbstractProperty(
-        type=T.Expr, public=True, ignore_warn_on_node=True,
+        type=T.Expr.entity, public=True,
         doc="Returns the expression side of this assoc node."
     )
 
@@ -2204,12 +2204,12 @@ class BasicSubpDecl(BasicDecl):
 
     subp_decl_spec = AbstractProperty(type=T.SubpSpec.entity)
 
-    @langkit_property(public=True, ignore_warn_on_node=True)
+    @langkit_property(public=True)
     def body_part():
         """
         Return the SubpBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(SubpBody).el
+        return Self.body_part_entity.cast(SubpBody)
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
@@ -2293,7 +2293,7 @@ class Pragma(AdaNode):
 class PragmaArgumentAssoc(BaseAssoc):
     id = Field(type=T.Identifier)
     expr = Field(type=T.Expr)
-    assoc_expr = Property(Self.expr)
+    assoc_expr = Property(Entity.expr)
 
 
 @abstract
@@ -2439,13 +2439,12 @@ class BasePackageDecl(BasicDecl):
     defining_names = Property(Self.package_name.as_entity.singleton)
     defining_env = Property(Entity.children_env)
 
-    @langkit_property(return_type=T.PackageBody, public=True,
-                      ignore_warn_on_node=True)
+    @langkit_property(public=True)
     def body_part():
         """
         Return the PackageBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(T.PackageBody).el
+        return Self.body_part_entity.cast(T.PackageBody)
 
 
 class PackageDecl(BasePackageDecl):
@@ -2770,12 +2769,12 @@ class GenericSubpDecl(GenericDecl):
     defining_names = Property(
         Self.subp_decl.subp_spec.name.as_entity.singleton)
 
-    @langkit_property(public=True, ignore_warn_on_node=True)
+    @langkit_property(public=True)
     def body_part():
         """
         Return the SubpBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(SubpBody).el
+        return Self.body_part_entity.cast(SubpBody)
 
     env_spec = EnvSpec(
         # Process eventual parent unit
@@ -2812,7 +2811,7 @@ class GenericPackageDecl(GenericDecl):
     defining_names = Property(
         Self.package_decl.package_name.as_entity.singleton)
 
-    @langkit_property(public=True, ignore_warn_on_node=True)
+    @langkit_property(public=True)
     def body_part():
         """
         Return the PackageBody corresponding to this node, or null if there is
@@ -2880,7 +2879,7 @@ class ContractCaseAssoc(BaseAssoc):
     guard = Field(type=T.AdaNode)
     consequence = Field(type=T.Expr)
 
-    assoc_expr = Property(Self.consequence)
+    assoc_expr = Property(Entity.consequence)
 
 
 class ContractCases(Expr):

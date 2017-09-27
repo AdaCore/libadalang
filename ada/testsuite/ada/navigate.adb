@@ -107,29 +107,29 @@ procedure Navigate is
 
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Base_Package_Decl (Node).P_Body_Part);
+                        LAL.Base_Package_Decl (Node).P_Body_Part.El);
                   when LAL.Ada_Package_Body =>
                      Print_Navigation
-                       ("Decl", Node, LAL.Package_Body (Node).P_Decl_Part);
+                       ("Decl", Node, LAL.Package_Body (Node).P_Decl_Part.El);
 
                   when LAL.Ada_Generic_Package_Decl =>
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Generic_Package_Decl (Node).P_Body_Part);
+                        LAL.Generic_Package_Decl (Node).P_Body_Part.El);
 
                   --  Subprograms
 
                   when LAL.Ada_Subp_Decl =>
                      Print_Navigation
-                       ("Body", Node, LAL.Subp_Decl (Node).P_Body_Part);
+                       ("Body", Node, LAL.Subp_Decl (Node).P_Body_Part.El);
                   when LAL.Ada_Subp_Body =>
                      Print_Navigation
-                       ("Decl", Node, LAL.Subp_Body (Node).P_Decl_Part);
+                       ("Decl", Node, LAL.Subp_Body (Node).P_Decl_Part.El);
 
                   when LAL.Ada_Generic_Subp_Decl =>
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Generic_Subp_Decl (Node).P_Body_Part);
+                        LAL.Generic_Subp_Decl (Node).P_Body_Part.El);
 
                   when others =>
                      Processed_Something := False;

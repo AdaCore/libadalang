@@ -302,7 +302,8 @@ procedure Nameres is
                --  Print headlines
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
-                  Arg : constant Expr := P_Node.F_Args.Item (1).P_Assoc_Expr;
+                  Arg : constant Expr :=
+                     P_Node.F_Args.Item (1).P_Assoc_Expr.El;
                   pragma Assert (Arg.all in String_Literal_Type'Class);
 
                   Tok : constant Token_Type := String_Literal (Arg).F_Tok;
@@ -319,7 +320,7 @@ procedure Nameres is
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg      : constant Expr :=
-                     P_Node.F_Args.Item (1).P_Assoc_Expr;
+                     P_Node.F_Args.Item (1).P_Assoc_Expr.El;
                   Entities : Entity_Array_Access := Do_Pragma_Test (Arg);
                begin
                   Put_Line (Text (Arg) & " resolves to:");

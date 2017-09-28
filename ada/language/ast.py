@@ -121,7 +121,8 @@ class Metadata(Struct):
                       "through the dot notation"
     )
     primitive = UserField(
-        BoolType, doc="Whether this represents an inherited primitive"
+        T.AdaNode,
+        doc="The type for which this subprogram is a primitive, if any"
     )
 
 
@@ -2289,7 +2290,8 @@ class BasicSubpDecl(BasicDecl):
             ),
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
-            metadata=Metadata.new(dottable_subp=True, primitive=False)
+            metadata=Metadata.new(dottable_subp=True,
+                                  primitive=No(T.AdaNode))
         ),
 
         # Adding subp to the primitives env if the subp is a primitive. TODO:
@@ -2305,7 +2307,14 @@ class BasicSubpDecl(BasicDecl):
                 Self.as_bare_entity.subp_decl_spec
                 .primitive_subp_of.cast(T.TypeDecl)._.primitives._.children_env
             ),
-            metadata=Metadata.new(dottable_subp=False, primitive=True)
+            metadata=Metadata.new(
+                dottable_subp=False,
+                primitive=origin.bind(
+                    Self,
+                    Self.as_bare_entity.subp_decl_spec
+                    .primitive_subp_of.cast(T.AdaNode).el
+                )
+            )
         )
     )
 

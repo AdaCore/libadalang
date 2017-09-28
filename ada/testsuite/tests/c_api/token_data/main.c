@@ -4,20 +4,8 @@
 
 #include "langkit_text.h"
 
+#include "utils.h"
 
-static void
-error(const char *msg)
-{
-    const ada_exception *exc = ada_get_last_exception();
-
-    fputs(msg, stderr);
-    if (exc != NULL) {
-        puts("Last Ada exception:");
-        puts(exc->information);
-    }
-
-    exit(1);
-}
 
 int
 main(void)
@@ -41,16 +29,16 @@ main(void)
     node = ada_unit_root(unit);
     if (node == NULL)
         error("Could not get analysis unit root node");
-    if (!ada_compilation_unit_f_body(node, &node))
+    if (!ada_compilation_unit_f_body(node, &no_entity_info, &node))
         error("Could not get CompilationUnit.f_bodies");
-    if (!ada_library_item_f_item(node, &node))
+    if (!ada_library_item_f_item(node, &no_entity_info, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item");
-    if (!ada_subp_body_f_subp_spec(node, &node))
+    if (!ada_subp_body_f_subp_spec(node, &no_entity_info, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec");
-    if (!ada_subp_spec_f_subp_name(node, &node))
+    if (!ada_subp_spec_f_subp_name(node, &no_entity_info, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name");
-    if (!ada_single_tok_node_f_tok(node, &tok))
+    if (!ada_single_tok_node_f_tok(node, &no_entity_info, &tok))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name.f_tok");
 

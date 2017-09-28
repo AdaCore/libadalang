@@ -4,13 +4,8 @@
 
 #include "langkit_text.h"
 
+#include "utils.h"
 
-static void
-error(const char *msg)
-{
-    fputs(msg, stderr);
-    exit(1);
-}
 
 int
 main(void)
@@ -39,7 +34,7 @@ main(void)
     if (ada_node_kind (tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
     overriding = NULL;
-    if (ada_subp_body_f_overriding(tmp, &overriding))
+    if (ada_subp_body_f_overriding(tmp, &no_entity_info, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (overriding != NULL)
       error("Getting CompilationUnit.overriding failed but nevertheless output"
@@ -61,13 +56,15 @@ main(void)
 
     if (ada_node_kind(with_clause) != ada_with_clause)
         error("Got something else than a WithClause");
-    if (!ada_with_clause_f_has_limited(with_clause, &has_limited))
+    if (!ada_with_clause_f_has_limited(with_clause, &no_entity_info,
+                                       &has_limited))
         error("Could got get WithClause.is_limited");
-    if (!ada_with_clause_f_has_private(with_clause, &has_private))
+    if (!ada_with_clause_f_has_private(with_clause, &no_entity_info,
+                                       &has_private))
         error("Could got get WithClause.has_private");
 
-    ada_limited_node_p_as_bool (has_limited, &is_limited);
-    ada_private_node_p_as_bool (has_private, &is_private);
+    ada_limited_node_p_as_bool (has_limited, &no_entity_info, &is_limited);
+    ada_private_node_p_as_bool (has_private, &no_entity_info, &is_private);
 
     printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithClause: is_private = %s\n", is_private ? "true" : "false");
@@ -82,7 +79,7 @@ main(void)
 
     if (ada_node_kind(subp_body) != ada_subp_body)
         error("Got something else than a SubpBody");
-    if (!ada_subp_body_f_overriding(subp_body, &overriding))
+    if (!ada_subp_body_f_overriding(subp_body, &no_entity_info, &overriding))
         error("Could not get SubpBody.overriding");
 
     const ada_text kind = ada_kind_name(ada_node_kind(overriding));
@@ -91,18 +88,18 @@ main(void)
     printf("\n");
 
 
-    if (!ada_subp_body_f_subp_spec(subp_body, &tmp))
+    if (!ada_subp_body_f_subp_spec(subp_body, &no_entity_info, &tmp))
       error("Could not get SubpBody.subp_spec");
     if (ada_node_kind(tmp) != ada_subp_spec)
       error("SubpBody.subp_spec is not a SubpSpec");
 
-    if (!ada_subp_spec_f_subp_name(tmp, &tmp))
+    if (!ada_subp_spec_f_subp_name(tmp, &no_entity_info, &tmp))
       error("Could not get SubpBody.subp_spec.name");
     if (ada_node_kind(tmp) != ada_identifier)
       error("SubpBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
-    if (!ada_single_tok_node_f_tok(subp_name, &tok))
+    if (!ada_single_tok_node_f_tok(subp_name, &no_entity_info, &tok))
       error("Could not get Identifier.tok");
     printf("Identifier: tok = ");
     fprint_text(stderr, tok.text, false);

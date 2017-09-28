@@ -3,6 +3,8 @@
 #include <string.h>
 #include "libadalang.h"
 
+#include "utils.h"
+
 
 const char *src_buffer_1 = (
   "limited with Ada.Text_IO;\n"
@@ -24,13 +26,6 @@ const char *src_buffer_2 = (
   "end Foo;\n"
 );
 
-static void
-error(const char *msg)
-{
-    fputs(msg, stderr);
-    exit(1);
-}
-
 void check(ada_analysis_unit unit)
 {
     ada_base_node prelude_list, with_clause;
@@ -39,13 +34,15 @@ void check(ada_analysis_unit unit)
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a buffer");
 
-    if (!ada_compilation_unit_f_prelude(ada_unit_root(unit), &prelude_list)
+    if (!ada_compilation_unit_f_prelude(ada_unit_root(unit), &no_entity_info,
+                                        &prelude_list)
         || !ada_node_child(prelude_list, 0, &with_clause)
-        || !ada_with_clause_f_has_limited(with_clause, &has_limited))
+        || !ada_with_clause_f_has_limited(with_clause, &no_entity_info,
+                                          &has_limited))
         error("Could not traverse the AST as expected");
 
     ada_bool is_limited;
-    ada_limited_node_p_as_bool (has_limited, &is_limited);
+    ada_limited_node_p_as_bool (has_limited, &no_entity_info, &is_limited);
     printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
 }
 

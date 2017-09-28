@@ -70,7 +70,6 @@ main(void)
                                  ufp_get_file_from_name);
 
     ada_base_node pragma, args, assoc, expr;
-    ada_entity_info einfo = { { false, false }, NULL };
     ada_entity_array entities;
     ada_text text;
     int i;
@@ -88,15 +87,17 @@ main(void)
     pragma = find_node(ada_unit_root(unit), ada_pragma_node);
     if (pragma == NULL)
       error("Could not find a PragmaNode node");
-    if (!ada_pragma_node_f_args (pragma, &args) || args == NULL)
+    if (!ada_pragma_node_f_args (pragma, &no_entity_info, &args)
+        || args == NULL)
       error("Could not get PragmaNode.f_args");
     if (ada_node_child_count(args) != 1)
       error("PragmaNode.f_args should have exactly one child");
     if (!ada_node_child(args, 0, &assoc) || assoc == NULL)
       error("Could not get PragmaNode.f_args[0]");
-    if (!ada_pragma_argument_assoc_f_expr(assoc, &expr) || expr == NULL)
+    if (!ada_pragma_argument_assoc_f_expr(assoc, &no_entity_info, &expr)
+        || expr == NULL)
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_matching_nodes(expr, &einfo, &entities))
+    if (!ada_expr_p_matching_nodes(expr, &no_entity_info, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
     text = ada_node_short_image(expr);

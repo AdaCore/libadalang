@@ -41,36 +41,36 @@ get_string_literal(ada_analysis_unit unit) {
     if (node == NULL
         || ada_node_kind(node) != ada_compilation_unit)
         error("Got unexpected node for ada_unit_root [1]");
-    if (!ada_compilation_unit_f_body(node, &node)
+    if (!ada_compilation_unit_f_body(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_library_item)
         error("Got unexpected node for ada_compilation_unit_f_body [2]");
-    if (!ada_library_item_f_item(node, &node)
+    if (!ada_library_item_f_item(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_subp_body)
         error("Got unexpected node for ada_library_item_f_item [4]");
-    if (!ada_subp_body_f_stmts(node, &node)
+    if (!ada_subp_body_f_stmts(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_handled_stmts)
         error("Got unexpected node for ada_subp_body_f_stmts [5]");
-    if (!ada_handled_stmts_f_stmts(node, &node)
+    if (!ada_handled_stmts_f_stmts(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_stmt_list)
         error("Got unexpected node for"
               " ada_handled_stmts_f_stmts [6]");
     if (!ada_node_child(node, 0, &node)
         || ada_node_kind(node) != ada_call_stmt)
         error("Got unexpected node for ada_node_child [7]");
-    if (!ada_call_stmt_f_call(node, &node)
+    if (!ada_call_stmt_f_call(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_call_expr)
         error("Got unexpected node for ada_call_stmt_f_call [8]");
-    if (!ada_call_expr_f_suffix(node, &node)
+    if (!ada_call_expr_f_suffix(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_assoc_list)
         error("Got unexpected node for ada_call_expr_f_suffix [9]");
     if (!ada_node_child(node, 0, &node)
         || ada_node_kind(node) != ada_param_assoc)
         error("Got unexpected node for ada_node_child [10]");
-    if (!ada_param_assoc_f_r_expr(node, &node)
+    if (!ada_param_assoc_f_r_expr(node, &no_entity_info, &node)
         || ada_node_kind(node) != ada_string_literal)
         error("Got unexpected node for ada_param_assoc_f_r_expr [11]");
 
-    if (!ada_single_tok_node_f_tok(node, &tok))
+    if (!ada_single_tok_node_f_tok(node, &no_entity_info, &tok))
         error("Could not get token for the string literal");
 
     return tok.text;

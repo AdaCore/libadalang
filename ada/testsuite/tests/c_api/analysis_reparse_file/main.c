@@ -48,12 +48,14 @@ void check(ada_analysis_unit unit)
     if (ast_root == NULL)
         dump_diagnostics(unit, "foo.adb");
     else {
-        if (!ada_compilation_unit_f_prelude(ast_root, &prelude_list)
+        if (!ada_compilation_unit_f_prelude(ast_root, &no_entity_info,
+                                            &prelude_list)
             || !ada_node_child(prelude_list, 0, &with_clause)
-            || !ada_with_clause_f_has_limited(with_clause, &has_limited))
+            || !ada_with_clause_f_has_limited(with_clause, &no_entity_info,
+                                              &has_limited))
             error("Could not traverse the AST as expected");
         ada_bool is_limited;
-        ada_limited_node_p_as_bool (has_limited, &is_limited);
+        ada_limited_node_p_as_bool (has_limited, &no_entity_info, &is_limited);
         printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
     }
 }

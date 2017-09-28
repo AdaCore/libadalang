@@ -6,10 +6,20 @@
 #include <stdlib.h>
 
 
+const ada_entity_info no_entity_info = { { false, false }, NULL };
+
+
 static void
 error(const char *msg)
 {
+    const ada_exception *exc = ada_get_last_exception();
+
     fprintf(stderr, "%s\n", msg);
+    if (exc != NULL) {
+        puts("Last Ada exception:");
+        puts(exc->information);
+    }
+
     exit(1);
 }
 

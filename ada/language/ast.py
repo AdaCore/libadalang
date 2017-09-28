@@ -1424,11 +1424,20 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    def matching_formal_prim_type(formal_type=T.BaseTypeDecl.entity):
+        return Entity.matching_formal_type_impl(formal_type, True)
+
+    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_formal_type(formal_type=T.BaseTypeDecl.entity):
+        return Entity.matching_formal_type_impl(formal_type)
+
+    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    def matching_formal_type_impl(formal_type=T.BaseTypeDecl.entity,
+                                  accept_derived=(BoolType, False)):
         actual_type = Var(Entity)
         return Or(
             And(
-                formal_type.is_classwide,
+                formal_type.is_classwide | accept_derived,
                 actual_type.is_derived_type(formal_type)
             ),
             And(
@@ -3399,7 +3408,8 @@ class CallExpr(Name):
                         s.paramless_subp,
                         Entity.subscriptable_type_equation(s.expr_type),
                         Entity.subprogram_equation(s.subp_spec_or_null,
-                                                   s.info.md.dottable_subp)
+                                                   s.info.md.dottable_subp,
+                                                   s.info.md.primitive)
                     )
                     & Self.parent_nested_callexpr.as_entity.then(
                         lambda pce: pce.parent_callexprs_equation(
@@ -3480,12 +3490,13 @@ class CallExpr(Name):
                 lambda _: LogicFalse()
             )
         )._or(typ.access_def.cast(AccessToSubpDef).then(
-            lambda asd: Entity.subprogram_equation(asd.subp_spec, False)
+            lambda asd: Entity.subprogram_equation(asd.subp_spec, False,
+                                                   No(AdaNode))
         )._or(LogicFalse()))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
-                            dottable_subp=BoolType):
+                            dottable_subp=BoolType, primitive=AdaNode):
         return subp_spec.then(
             lambda subp_spec:
             # The type of the expression is the expr_type of the
@@ -3497,14 +3508,16 @@ class CallExpr(Name):
             & subp_spec.match_param_list(
                 Self.params, dottable_subp
             ).logic_all(
-                lambda pm: (
+                lambda pm: Let(
+                    lambda ft=pm.formal.spec.type_expression.designated_type:
+
                     # The type of each actual matches the type of the
                     # formal.
-                    Bind(
-                        pm.actual.assoc.expr.type_var,
-                        pm.formal.spec.type_expression.designated_type,
-                        eq_prop=BaseTypeDecl.matching_formal_type
-                    )
+                    If(ft.el == primitive,
+                       Bind(pm.actual.assoc.expr.type_var, ft,
+                            eq_prop=BaseTypeDecl.matching_formal_prim_type),
+                       Bind(pm.actual.assoc.expr.type_var, ft,
+                            eq_prop=BaseTypeDecl.matching_formal_type))
                 ) & If(
                     # Bind actuals designators to parameters if there
                     # are designators.

@@ -1589,7 +1589,10 @@ class TypeDecl(BaseTypeDecl):
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
-        reference(Self.cast(AdaNode).singleton, T.TypeDecl.primitives_env),
+        reference(
+            Self.cast(AdaNode).singleton, T.TypeDecl.primitives_env,
+            transitive=True
+        ),
         add_env()
     )
 

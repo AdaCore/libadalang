@@ -3542,8 +3542,15 @@ class CallExpr(Name):
         # corresponds.
         return origin.bind(Self, typ.then(lambda typ: And(
             Or(
+                Self.suffix.match(
+                    # Array access case
+                    lambda al=AssocList: typ.array_ndims == al.length,
+
+                    # Array slice case
+                    lambda bo=BinOp: typ.array_ndims == 1,
+                    lambda _: False
+                ),
                 # Arrays
-                typ.array_ndims == Self.suffix.cast_or_raise(AssocList).length,
 
                 # Accesses to subprograms
                 typ.access_def.cast(T.AccessToSubpDef).then(

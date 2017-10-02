@@ -20,7 +20,7 @@ void ufp_destroy(void *data) {
 ada_analysis_unit ufp_get_file_from_node(
     void *data,
     ada_analysis_context context,
-    ada_base_node node,
+    ada_base_entity *node,
     ada_unit_kind kind,
     const char *charset,
     int reparse,
@@ -31,7 +31,7 @@ ada_analysis_unit ufp_get_file_from_node(
 
     printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
            ufp_data->some_field, kind);
-    dump_short_image(node, 0);
+    dump_short_image(node->el, 0);
 
     return ada_get_analysis_unit_from_file(context, "strange_bar.ads", charset,
                                            reparse, with_trivia);

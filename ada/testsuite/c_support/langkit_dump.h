@@ -37,13 +37,13 @@ print_token(ada_token *token)
 }
 
 static void
-dump(ada_base_node node, int level)
+dump(ada_base_entity *node, int level)
 {
     ada_node_kind_enum kind;
     ada_text kind_name;
     unsigned i, count;
 
-    if (node == NULL) {
+    if (ada_node_is_null(node)) {
         print_indent(level);
         printf("<null node>\n");
         return;
@@ -59,21 +59,21 @@ dump(ada_base_node node, int level)
     count = ada_node_child_count(node);
     for (i = 0; i < count; ++i)
     {
-        ada_base_node child;
+        ada_base_entity child;
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");
-        dump(child, level + 1);
+        dump(&child, level + 1);
     }
 }
 
 static void
-dump_short_image(ada_base_node node, int level)
+dump_short_image(ada_base_entity *node, int level)
 {
     ada_text img;
     unsigned i, count;
 
-    if (node == NULL) {
+    if (ada_node_is_null(node)) {
         print_indent(level);
         printf("<null node>\n");
         return;
@@ -88,11 +88,11 @@ dump_short_image(ada_base_node node, int level)
     count = ada_node_child_count(node);
     for (i = 0; i < count; ++i)
     {
-        ada_base_node child;
+        ada_base_entity child;
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");
-        dump_short_image(child, level + 1);
+        dump_short_image(&child, level + 1);
     }
 }
 

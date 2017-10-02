@@ -37,25 +37,25 @@ void write_source(const char *src_buffer)
 
 void check(ada_analysis_unit unit)
 {
-    ada_base_node ast_root;
-    ada_base_node prelude_list, with_clause;
-    ada_base_node has_limited;
+    ada_base_entity ast_root;
+    ada_base_entity prelude_list, with_clause;
+    ada_base_entity has_limited;
 
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a file");
-    ast_root = ada_unit_root(unit);
+    ada_unit_root(unit, &ast_root);
 
-    if (ast_root == NULL)
+    if (ada_node_is_null(&ast_root))
         dump_diagnostics(unit, "foo.adb");
     else {
-        if (!ada_compilation_unit_f_prelude(ast_root, &no_entity_info,
-                                            &prelude_list)
-            || !ada_node_child(prelude_list, 0, &with_clause)
-            || !ada_with_clause_f_has_limited(with_clause, &no_entity_info,
-                                              &has_limited))
+        if (!ada_compilation_unit_f_prelude(ast_root.el, &no_entity_info,
+                                            &prelude_list.el)
+            || !ada_node_child(&prelude_list, 0, &with_clause)
+            || !ada_with_clause_f_has_limited(with_clause.el, &no_entity_info,
+                                              &has_limited.el))
             error("Could not traverse the AST as expected");
         ada_bool is_limited;
-        ada_limited_node_p_as_bool (has_limited, &no_entity_info, &is_limited);
+        ada_limited_node_p_as_bool (has_limited.el, &no_entity_info, &is_limited);
         printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
     }
 }

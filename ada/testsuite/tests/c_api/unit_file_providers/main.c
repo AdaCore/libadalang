@@ -31,7 +31,7 @@ ada_analysis_unit ufp_get_file_from_node(
 
     printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
            ufp_data->some_field, kind);
-    dump_short_image(node->el, 0);
+    dump_short_image(node, 0);
 
     return ada_get_analysis_unit_from_file(context, "strange_bar.ads", charset,
                                            reparse, with_trivia);
@@ -69,7 +69,7 @@ main(void)
                                  ufp_get_file_from_node,
                                  ufp_get_file_from_name);
 
-    ada_base_node pragma, args, assoc, expr;
+    ada_base_entity root, pragma, args, assoc, expr;
     ada_entity_array entities;
     ada_text text;
     int i;
@@ -84,29 +84,30 @@ main(void)
         error("Could not create the analysis unit from foo.adb");
     ada_unit_populate_lexical_env(unit);
 
-    pragma = find_node(ada_unit_root(unit), ada_pragma_node);
-    if (pragma == NULL)
+    ada_unit_root(unit, &root);
+    find_node(&root, ada_pragma_node, &pragma);
+    if (ada_node_is_null(&pragma))
       error("Could not find a PragmaNode node");
-    if (!ada_pragma_node_f_args (pragma, &no_entity_info, &args)
-        || args == NULL)
+    if (!ada_pragma_node_f_args (pragma.el, &no_entity_info, &args.el)
+        || ada_node_is_null(&args))
       error("Could not get PragmaNode.f_args");
-    if (ada_node_child_count(args) != 1)
+    if (ada_node_child_count(&args) != 1)
       error("PragmaNode.f_args should have exactly one child");
-    if (!ada_node_child(args, 0, &assoc) || assoc == NULL)
+    if (!ada_node_child(&args, 0, &assoc) || ada_node_is_null(&assoc))
       error("Could not get PragmaNode.f_args[0]");
-    if (!ada_pragma_argument_assoc_f_expr(assoc, &no_entity_info, &expr)
-        || expr == NULL)
+    if (!ada_pragma_argument_assoc_f_expr(assoc.el, &no_entity_info, &expr.el)
+        || ada_node_is_null(&expr))
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_matching_nodes(expr, &no_entity_info, &entities))
+    if (!ada_expr_p_matching_nodes(expr.el, &no_entity_info, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
-    text = ada_node_short_image(expr);
+    text = ada_node_short_image(&expr);
     fprint_text(stdout, text, false);
     ada_destroy_text(&text);
     printf(" resolves to:\n");
 
     for (i = 0; i < entities->n; ++i) {
-        ada_base_node ent = entities->items[i].el;
+        ada_base_entity *ent = &entities->items[i];
 
         printf("  ");
         text = ada_node_short_image(ent);

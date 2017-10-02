@@ -12,6 +12,7 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
+    ada_base_entity root;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context("iso-8859-1", NULL);
@@ -22,7 +23,8 @@ main(void)
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 
-    dump(ada_unit_root(unit), 0);
+    ada_unit_root(unit, &root);
+    dump(&root, 0);
 
     ada_destroy_analysis_context(ctx);
     puts("Done");

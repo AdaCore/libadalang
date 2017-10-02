@@ -16,7 +16,7 @@ main(void)
     uint32_t unit_name_chars[2] = { 'p', '2' };
     ada_text unit_name = { unit_name_chars, 2, true };
 
-    ada_base_node subtype_ind, name;
+    ada_base_entity root, subtype_ind, name;
     ada_entity_array entities;
     ada_text text;
     int i;
@@ -33,22 +33,24 @@ main(void)
         error("Could not create the analysis unit from foo.adb");
     ada_unit_populate_lexical_env(unit);
 
-    subtype_ind = find_node(ada_unit_root(unit), ada_subtype_indication);
-    if (subtype_ind == NULL)
+    ada_unit_root(unit, &root);
+    find_node(&root, ada_subtype_indication, &subtype_ind);
+    if (ada_node_is_null(&subtype_ind))
       error("Could not find a SubtypeIndication node");
-    if (!ada_subtype_indication_f_name (subtype_ind, &no_entity_info, &name)
-        || name == NULL)
+    if (!ada_subtype_indication_f_name (subtype_ind.el, &no_entity_info,
+                                        &name.el)
+        || ada_node_is_null(&name))
       error("Could not get SubtypeIndication.f_name");
-    if (!ada_expr_p_matching_nodes(name, &no_entity_info, &entities))
+    if (!ada_expr_p_matching_nodes(name.el, &no_entity_info, &entities))
       error("Could not get SubtypeIndication.f_name.p_matching_nodes");
 
-    text = ada_node_short_image(subtype_ind);
+    text = ada_node_short_image(&subtype_ind);
     fprint_text(stdout, text, false);
     ada_destroy_text(&text);
     printf(" resolves to:\n");
 
     for (i = 0; i < entities->n; ++i) {
-        ada_base_node ent = entities->items[i].el;
+        ada_base_entity *ent = &entities->items[i];
 
         printf("  ");
         text = ada_node_short_image(ent);

@@ -10,6 +10,7 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
+    ada_base_entity root;
 
     libadalang_initialize();
     ctx = ada_create_analysis_context("iso-8859-1", NULL);
@@ -20,7 +21,8 @@ main(void)
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb");
 
-    if (ada_unit_root(unit) != NULL)
+    ada_unit_root(unit, &root);
+    if (!ada_node_is_null(&root))
         error("Got an AST for foo.adb whereas the file does not exists");
 
     dump_diagnostics(unit, "foo.adb");

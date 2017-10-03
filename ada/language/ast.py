@@ -1219,8 +1219,6 @@ class RecordTypeDef(TypeDef):
     record_def = Field(type=T.BaseRecordDef)
 
     defining_env = Property(
-        # We don't want to be able to access env elements in parents,
-        # so we orphan the env.
         Entity.children_env,
         type=LexicalEnvType
     )

@@ -2589,7 +2589,7 @@ class EnvHolder(AdaNode):
 
 
 class PrimitivesEnvHolder(AdaNode):
-    env_spec = EnvSpec(add_env())
+    env_spec = EnvSpec(add_env(no_parent=True))
 
 
 class GenericSubpInstantiation(GenericInstantiation):

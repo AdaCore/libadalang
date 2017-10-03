@@ -3013,7 +3013,10 @@ class Op(EnumNode):
             lambda _=Op.alt_gt: '">"',
             lambda _=Op.alt_gte: '">="',
             lambda _: '<<>>',
-        )).keep(T.BasicSubpDecl.entity),
+        )).filtermap(
+            lambda e: e.cast_or_raise(T.BasicDecl),
+            lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
+        ),
         doc="""
         Return the subprograms corresponding to this operator accessible in the
         lexical environment.
@@ -3030,10 +3033,10 @@ class UnOp(Expr):
     @langkit_property()
     def xref_equation():
         subps = Var(Entity.op.subprograms.filter(
-            lambda s: s.subp_decl_spec.nb_max_params == 1
+            lambda s: s.subp_spec_or_null.nb_max_params == 1
         ))
         return Entity.expr.sub_equation & (subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_decl_spec.unpacked_formal_params:
+            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
             # operand.
@@ -3041,7 +3044,7 @@ class UnOp(Expr):
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
-                       subp.subp_decl_spec.returns.designated_type)
+                       subp.subp_spec_or_null.return_type)
 
             # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
@@ -3058,13 +3061,13 @@ class BinOp(Expr):
     @langkit_property()
     def xref_equation():
         subps = Var(Entity.op.subprograms.filter(
-            lambda s: s.subp_decl_spec.nb_max_params == 2
+            lambda s: s.subp_spec_or_null.nb_max_params == 2
         ))
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation
         ) & (subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_decl_spec.unpacked_formal_params:
+            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
             # operand.
@@ -3076,7 +3079,7 @@ class BinOp(Expr):
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
-                       subp.subp_decl_spec.returns.designated_type)
+                       subp.subp_spec_or_null.return_type)
 
             # The operator references the subprogram
             & TypeBind(Self.op.ref_var, subp)
@@ -4669,6 +4672,7 @@ class DottedName(Name):
             & env.bind(Entity.prefix.designated_env,
                        Entity.suffix.sub_equation)
         )
+
         return If(
             Not(Entity.designated_type_impl.is_null),
             base,

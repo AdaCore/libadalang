@@ -4697,8 +4697,8 @@ class SubpBody(Body):
         # Add the __body link to the spec, if there is one
         add_to_env_kv(
             '__body', Self,
-            dest_env=Self.as_bare_entity.decl_part_entity.then(
-                lambda d: d.children_env
+            dest_env=Entity.decl_part_entity.then(
+                lambda d: d.el.children_env
             ),
         )
     )

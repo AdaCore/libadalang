@@ -4023,7 +4023,13 @@ class StringLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
+        return If(
+            # StringLiteral can be in a name, if it is an operator, in which
+            # case we don't want to constrain its type.
+            Self.parent.is_a(Name),
+            LogicTrue(),
+            Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
+        )
 
 
 class EnumLiteralDecl(BasicDecl):

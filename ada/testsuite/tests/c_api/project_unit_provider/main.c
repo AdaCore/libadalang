@@ -37,11 +37,10 @@ main(void)
     find_node(&root, ada_subtype_indication, &subtype_ind);
     if (ada_node_is_null(&subtype_ind))
       error("Could not find a SubtypeIndication node");
-    if (!ada_subtype_indication_f_name (subtype_ind.el, &no_entity_info,
-                                        &name.el)
+    if (!ada_subtype_indication_f_name (&subtype_ind, &name)
         || ada_node_is_null(&name))
       error("Could not get SubtypeIndication.f_name");
-    if (!ada_expr_p_matching_nodes(name.el, &no_entity_info, &entities))
+    if (!ada_expr_p_matching_nodes(&name, &entities))
       error("Could not get SubtypeIndication.f_name.p_matching_nodes");
 
     text = ada_node_short_image(&subtype_ind);

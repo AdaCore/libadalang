@@ -29,16 +29,16 @@ main(void)
     ada_unit_root(unit, &node);
     if (ada_node_is_null(&node))
         error("Could not get analysis unit root node");
-    if (!ada_compilation_unit_f_body(node.el, &no_entity_info, &node.el))
+    if (!ada_compilation_unit_f_body(&node, &node))
         error("Could not get CompilationUnit.f_bodies");
-    if (!ada_library_item_f_item(node.el, &no_entity_info, &node.el))
+    if (!ada_library_item_f_item(&node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item");
-    if (!ada_subp_body_f_subp_spec(node.el, &no_entity_info, &node.el))
+    if (!ada_subp_body_f_subp_spec(&node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec");
-    if (!ada_subp_spec_f_subp_name(node.el, &no_entity_info, &node.el))
+    if (!ada_subp_spec_f_subp_name(&node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name");
-    if (!ada_single_tok_node_f_tok(node.el, &no_entity_info, &tok))
+    if (!ada_single_tok_node_f_tok(&node, &tok))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name.f_tok");
 

@@ -35,15 +35,13 @@ void check(ada_analysis_unit unit)
         error("Could not create the analysis unit for foo.adb from a buffer");
 
     ada_unit_root(unit, &root);
-    if (!ada_compilation_unit_f_prelude(root.el, &no_entity_info,
-                                        &prelude_list.el)
+    if (!ada_compilation_unit_f_prelude(&root, &prelude_list)
         || !ada_node_child(&prelude_list, 0, &with_clause)
-        || !ada_with_clause_f_has_limited(with_clause.el, &no_entity_info,
-                                          &has_limited.el))
+        || !ada_with_clause_f_has_limited(&with_clause, &has_limited))
         error("Could not traverse the AST as expected");
 
     ada_bool is_limited;
-    ada_limited_node_p_as_bool (has_limited.el, &no_entity_info, &is_limited);
+    ada_limited_node_p_as_bool (&has_limited, &is_limited);
     printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
 }
 

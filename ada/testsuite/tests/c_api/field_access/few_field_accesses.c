@@ -36,7 +36,7 @@ main(void)
     if (ada_node_kind (&tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
     overriding.el = NULL;
-    if (ada_subp_body_f_overriding(tmp.el, &no_entity_info, &overriding.el))
+    if (ada_subp_body_f_overriding(&tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (!ada_node_is_null(&overriding))
       error("Getting CompilationUnit.overriding failed but nevertheless output"
@@ -58,15 +58,13 @@ main(void)
 
     if (ada_node_kind(&with_clause) != ada_with_clause)
         error("Got something else than a WithClause");
-    if (!ada_with_clause_f_has_limited(with_clause.el, &no_entity_info,
-                                       &has_limited.el))
+    if (!ada_with_clause_f_has_limited(&with_clause, &has_limited))
         error("Could got get WithClause.is_limited");
-    if (!ada_with_clause_f_has_private(with_clause.el, &no_entity_info,
-                                       &has_private.el))
+    if (!ada_with_clause_f_has_private(&with_clause, &has_private))
         error("Could got get WithClause.has_private");
 
-    ada_limited_node_p_as_bool (has_limited.el, &no_entity_info, &is_limited);
-    ada_private_node_p_as_bool (has_private.el, &no_entity_info, &is_private);
+    ada_limited_node_p_as_bool (&has_limited, &is_limited);
+    ada_private_node_p_as_bool (&has_private, &is_private);
 
     printf("WithClause: is_limited = %s\n", is_limited ? "true" : "false");
     printf("WithClause: is_private = %s\n", is_private ? "true" : "false");
@@ -81,8 +79,7 @@ main(void)
 
     if (ada_node_kind(&subp_body) != ada_subp_body)
         error("Got something else than a SubpBody");
-    if (!ada_subp_body_f_overriding(subp_body.el, &no_entity_info,
-                                    &overriding.el))
+    if (!ada_subp_body_f_overriding(&subp_body, &overriding))
         error("Could not get SubpBody.overriding");
 
     const ada_text kind = ada_kind_name(ada_node_kind(&overriding));
@@ -91,18 +88,18 @@ main(void)
     printf("\n");
 
 
-    if (!ada_subp_body_f_subp_spec(subp_body.el, &no_entity_info, &tmp.el))
+    if (!ada_subp_body_f_subp_spec(&subp_body, &tmp))
       error("Could not get SubpBody.subp_spec");
     if (ada_node_kind(&tmp) != ada_subp_spec)
       error("SubpBody.subp_spec is not a SubpSpec");
 
-    if (!ada_subp_spec_f_subp_name(tmp.el, &no_entity_info, &tmp.el))
+    if (!ada_subp_spec_f_subp_name(&tmp, &tmp))
       error("Could not get SubpBody.subp_spec.name");
     if (ada_node_kind(&tmp) != ada_identifier)
       error("SubpBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
-    if (!ada_single_tok_node_f_tok(subp_name.el, &no_entity_info, &tok))
+    if (!ada_single_tok_node_f_tok(&subp_name, &tok))
       error("Could not get Identifier.tok");
     printf("Identifier: tok = ");
     fprint_text(stderr, tok.text, false);

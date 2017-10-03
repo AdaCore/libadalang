@@ -88,17 +88,17 @@ main(void)
     find_node(&root, ada_pragma_node, &pragma);
     if (ada_node_is_null(&pragma))
       error("Could not find a PragmaNode node");
-    if (!ada_pragma_node_f_args (pragma.el, &no_entity_info, &args.el)
+    if (!ada_pragma_node_f_args (&pragma, &args)
         || ada_node_is_null(&args))
       error("Could not get PragmaNode.f_args");
     if (ada_node_child_count(&args) != 1)
       error("PragmaNode.f_args should have exactly one child");
     if (!ada_node_child(&args, 0, &assoc) || ada_node_is_null(&assoc))
       error("Could not get PragmaNode.f_args[0]");
-    if (!ada_pragma_argument_assoc_f_expr(assoc.el, &no_entity_info, &expr.el)
+    if (!ada_pragma_argument_assoc_f_expr(&assoc, &expr)
         || ada_node_is_null(&expr))
       error("Could not get PragmaNode.f_args[0].f_expr");
-    if (!ada_expr_p_matching_nodes(expr.el, &no_entity_info, &entities))
+    if (!ada_expr_p_matching_nodes(&expr, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
     text = ada_node_short_image(&expr);

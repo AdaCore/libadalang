@@ -29,6 +29,10 @@ def escape_ascii(string):
         return string
 
 
+def entity_repr(e):
+    return e.entity_repr if e else 'None'
+
+
 def print_title(char, title):
     print(title)
     print(char * len(title))
@@ -57,8 +61,8 @@ def resolve_node(node):
 
         if n.is_a(lal.Expr):
             print('Expr: {}'.format(n))
-            print('  references: {}'.format(n.p_ref_val))
-            print('  type:       {}'.format(n.p_type_val))
+            print('  references: {}'.format(entity_repr(n.p_ref_val)))
+            print('  type:       {}'.format(entity_repr(n.p_type_val)))
         if n.p_xref_entry_point and n != node:
             return
         else:

@@ -1,12 +1,12 @@
 --  vim: ft=ada
 
 function P_Referenced_Unit
-  (Node : access Name_Type'Class;
+  (Node : access Bare_Name_Type'Class;
    Kind : Unit_Kind) return Analysis_Unit
 is
 begin
    return Libadalang.Unit_Files.Fetch_Unit
-     (Node.Unit.Context, Ada_Node (Node), Kind);
+     (Node.Unit.Context, Bare_Ada_Node (Node), Kind);
 exception
    when Property_Error =>
       return No_Analysis_Unit;

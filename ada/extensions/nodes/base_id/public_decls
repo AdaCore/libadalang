@@ -1,5 +1,6 @@
 --  vim: ft=ada
 
-overriding function Short_Image (Node : access Base_Id_Type) return Text_Type;
+overriding function Short_Image
+  (Node : access Bare_Base_Id_Type) return Text_Type;
 --  Custom version of Short_Image for basic declarations, that will print the
 --  names of the entities it declares.

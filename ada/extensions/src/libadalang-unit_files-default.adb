@@ -19,18 +19,18 @@ package body Libadalang.Unit_Files.Default is
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
-      Node        : Ada_Node;
+      Node        : Ada_Node'Class;
       Kind        : Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False;
       With_Trivia : Boolean := False) return Analysis_Unit
    is
       pragma Unreferenced (Provider);
+      N : constant Bare_Ada_Node := Bare_Node (Node);
    begin
-      if Node.all in Name_Type'Class then
+      if N.all in Bare_Name_Type'Class then
          declare
-            Str_Name  : constant String :=
-               Unit_String_Name (Libadalang.Analysis.Name (Node));
+            Str_Name : constant String := Unit_String_Name (Bare_Name (N));
          begin
             return Get_From_File (Context, File_From_Unit (Str_Name, Kind),
                                   Charset, Reparse, With_Trivia);
@@ -64,21 +64,21 @@ package body Libadalang.Unit_Files.Default is
    -- Unit_Text_Name --
    --------------------
 
-   function Unit_Text_Name (N : Name) return Text_Type is
+   function Unit_Text_Name (N : Bare_Name) return Text_Type is
    begin
-      if N.all in Identifier_Type'Class then
-         return Text (Identifier (N).F_Tok);
+      if N.all in Bare_Identifier_Type'Class then
+         return Text (F_Tok (Bare_Identifier (N)));
 
-      elsif N.all in Dotted_Name_Type'Class then
+      elsif N.all in Bare_Dotted_Name_Type'Class then
          declare
-            DN : constant Dotted_Name := Dotted_Name (N);
+            DN : constant Bare_Dotted_Name := Bare_Dotted_Name (N);
          begin
-            if DN.F_Prefix.all in Name_Type'Class
-               and then DN.F_Suffix.all in Identifier_Type'Class
+            if DN.F_Prefix.all in Bare_Name_Type'Class
+               and then DN.F_Suffix.all in Bare_Identifier_Type'Class
             then
-               return (Unit_Text_Name (Name (DN.F_Prefix))
+               return (Unit_Text_Name (Bare_Name (DN.F_Prefix))
                        & "."
-                       & Unit_Text_Name (Name (DN.F_Suffix)));
+                       & Unit_Text_Name (Bare_Name (DN.F_Suffix)));
             end if;
          end;
       end if;
@@ -100,7 +100,7 @@ package body Libadalang.Unit_Files.Default is
    ----------------------
 
    function Unit_String_Name (Name : Text_Type) return String is
-      Result      : String (Name'Range);
+      Result : String (Name'Range);
    begin
       --  Make Name lower case and replace dots with dashes. Only allow ASCII.
 

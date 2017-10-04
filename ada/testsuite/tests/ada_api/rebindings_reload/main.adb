@@ -6,7 +6,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Langkit_Support.Diagnostics;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
@@ -38,10 +39,9 @@ procedure Main is
    -------------
 
    procedure Process (Title : String) is
-      Call : constant Call_Expr := Call_Expr (Find_First
+      Call : constant Call_Expr := Find_First
         (Root (Foo),
-         new Ada_Node_Kind_Filter'(Kind => Ada_Call_Expr)));
-      Named : constant Expr := Expr (Call.F_Name);
+         new Ada_Node_Kind_Filter'(Kind => Ada_Call_Expr)).As_Call_Expr;
    begin
       Put_Line ("== " & Title & " ==");
       if not Call.P_Resolve_Names then
@@ -51,7 +51,7 @@ procedure Main is
       end if;
 
       declare
-         Ref : constant Entity := Call.P_Ref_Val;
+         Ref : constant Ada_Node := Call.P_Ref_Val;
       begin
          Put_Line (Image (Call.Short_Image));
          Put_Line ("  resolves to: " & Image (Ref));

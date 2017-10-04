@@ -5,6 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Langkit_Support.Diagnostics;
 with Langkit_Support.Text;
 with Libadalang.Analysis;
+with Libadalang.Iterators;
 
 with Put_Title;
 
@@ -12,8 +13,9 @@ procedure Navigate is
 
    package CMD renames Ada.Command_Line;
    package LAL renames Libadalang.Analysis;
+   package LALIT renames Libadalang.Iterators;
 
-   function Short_Image (Node : access LAL.Ada_Node_Type'Class) return String
+   function Short_Image (Node : LAL.Ada_Node'Class) return String
    is (Langkit_Support.Text.Image (Node.Short_Image));
 
    function To_Lower (S : String) return String
@@ -21,7 +23,7 @@ procedure Navigate is
 
    Fatal_Error   : exception;
    Ctx           : LAL.Analysis_Context;
-   Enabled_Kinds : array (LAL.Ada_Node_Kind_type) of Boolean :=
+   Enabled_Kinds : array (LAL.Ada_Node_Kind_Type) of Boolean :=
      (others => False);
 
    function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean;
@@ -35,7 +37,7 @@ procedure Navigate is
    procedure Print_Usage;
    procedure Process_File (Unit : LAL.Analysis_Unit; Filename : String);
    procedure Print_Navigation
-     (Part_Name : String; Orig, Dest : access LAL.Ada_Node_Type'Class);
+     (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class);
    procedure Decode_Kinds (List : String);
 
    ---------------------
@@ -90,8 +92,8 @@ procedure Navigate is
       LAL.Populate_Lexical_Env (Unit);
 
       declare
-         It            : LAL.Local_Find_Iterator :=
-            LAL.Root (Unit).Find (Node_Filter'Access);
+         It            : LALIT.Local_Find_Iterator :=
+            LALIT.Find (LAL.Root (Unit), Node_Filter'Access);
          Node          : LAL.Ada_Node;
          At_Least_Once : Boolean := False;
       begin
@@ -107,29 +109,29 @@ procedure Navigate is
 
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Base_Package_Decl (Node).P_Body_Part.El);
+                        Node.As_Base_Package_Decl.P_Body_Part);
                   when LAL.Ada_Package_Body =>
                      Print_Navigation
-                       ("Decl", Node, LAL.Package_Body (Node).P_Decl_Part.El);
+                       ("Decl", Node, Node.As_Package_Body.P_Decl_Part);
 
                   when LAL.Ada_Generic_Package_Decl =>
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Generic_Package_Decl (Node).P_Body_Part.El);
+                        Node.As_Generic_Package_Decl.P_Body_Part);
 
                   --  Subprograms
 
                   when LAL.Ada_Subp_Decl =>
                      Print_Navigation
-                       ("Body", Node, LAL.Subp_Decl (Node).P_Body_Part.El);
+                       ("Body", Node, Node.As_Subp_Decl.P_Body_Part);
                   when LAL.Ada_Subp_Body =>
                      Print_Navigation
-                       ("Decl", Node, LAL.Subp_Body (Node).P_Decl_Part.El);
+                       ("Decl", Node, Node.As_Subp_Body.P_Decl_Part);
 
                   when LAL.Ada_Generic_Subp_Decl =>
                      Print_Navigation
                        ("Body", Node,
-                        LAL.Generic_Subp_Decl (Node).P_Body_Part.El);
+                        Node.As_Generic_Subp_Decl.P_Body_Part);
 
                   when others =>
                      Processed_Something := False;
@@ -154,9 +156,9 @@ procedure Navigate is
    ----------------------
 
    procedure Print_Navigation
-     (Part_Name : String; Orig, Dest : access LAL.Ada_Node_Type'Class) is
+     (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class) is
    begin
-      if Dest = null then
+      if Dest.Is_Null then
          Put_Line
            (Short_Image (Orig) & " has no " & To_Lower (Part_Name));
       else
@@ -228,20 +230,18 @@ procedure Navigate is
         (Aspects : LAL.Aspect_Spec) return Boolean
       is
          use type LAL.Ada_Node_Kind_Type;
-         use type LAL.Aspect_Spec;
       begin
-         if Aspects = null then
+         if Aspects.Is_Null then
             return False;
          end if;
          for Child of LAL.Ada_Node_Array'(Aspects.F_Aspect_Assocs.Children)
          loop
             declare
-               Assoc : constant LAL.Aspect_Assoc := LAL.Aspect_Assoc (Child);
+               Assoc : constant LAL.Aspect_Assoc := Child.As_Aspect_Assoc;
             begin
                if Assoc.F_Id.Kind = LAL.Ada_Identifier then
                   declare
-                     Id : constant LAL.Identifier :=
-                        LAL.Identifier (Assoc.F_Id);
+                     Id : constant LAL.Identifier := Assoc.F_Id.As_Identifier;
                   begin
                      return Lowercase_Name (Id) = "disable_navigation";
                   end;
@@ -254,8 +254,7 @@ procedure Navigate is
    begin
       case N.Kind is
          when LAL.Ada_Base_Package_Decl =>
-            return Has_Disable_Navigation
-               (LAL.Base_Package_Decl (N).F_Aspects);
+            return Has_Disable_Navigation (N.As_Base_Package_Decl.F_Aspects);
          when others =>
             return False;
       end case;

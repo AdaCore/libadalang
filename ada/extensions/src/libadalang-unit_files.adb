@@ -21,7 +21,7 @@ package body Libadalang.Unit_Files is
 
    function Fetch_Unit
      (Ctx  : Analysis_Context;
-      Name : Ada_Node;
+      Name : Bare_Ada_Node;
       Kind : Unit_Kind) return Analysis_Unit
    is
       procedure Prepare_Semres (Unit : Analysis_Unit);
@@ -33,9 +33,10 @@ package body Libadalang.Unit_Files is
 
       procedure Prepare_Semres (Unit : Analysis_Unit) is
       begin
-         if Root (Unit) /= null then
+         if not Root (Unit).Is_Null then
             Populate_Lexical_Env (Unit);
-            Reference_Unit (From => Get_Unit (Name), Referenced => Unit);
+            Reference_Unit (From       => Get_Unit (Create (Name)),
+                            Referenced => Unit);
          end if;
       end Prepare_Semres;
 
@@ -43,7 +44,7 @@ package body Libadalang.Unit_Files is
          Unit_Provider (Ctx);
 
       Unit, First_Unit : Analysis_Unit;
-      Current_Name     : Ada_Node := Name;
+      Current_Name     : Bare_Ada_Node := Name;
 
    begin
 
@@ -53,7 +54,7 @@ package body Libadalang.Unit_Files is
       while Current_Name /= null loop
          --  TODO??? Find a proper way to handle file not found, parsing error,
          --  etc.
-         Unit := UFP.Get_Unit (Ctx, Current_Name, Kind);
+         Unit := UFP.Get_Unit (Ctx, Create (Current_Name), Kind);
          Prepare_Semres (Unit);
 
          --  GNAT kludge: as an "optimization", the generic subpackages in
@@ -65,8 +66,7 @@ package body Libadalang.Unit_Files is
          --  Ada.Text_IO.
 
          if Kind = Unit_Specification
-            and then Unit_String_Name (Libadalang.Analysis.Name (Name))
-                     = Text_IO
+            and then Unit_String_Name (Bare_Name (Name)) = Text_IO
          then
             for SP of Text_IO_Subpackages loop
                declare
@@ -84,10 +84,11 @@ package body Libadalang.Unit_Files is
          end if;
 
          --  Fetch the next mention name to process
-         if Current_Name.all in Base_Id_Type'Class then
+         if Current_Name.all in Bare_Base_Id_Type'Class then
             Current_Name := null;
-         elsif Current_Name.all in Dotted_Name_Type'Class then
-            Current_Name := Ada_Node (Dotted_Name (Current_Name).F_Prefix);
+         elsif Current_Name.all in Bare_Dotted_Name_Type'Class then
+            Current_Name :=
+               Bare_Ada_Node (Bare_Dotted_Name (Current_Name).F_Prefix);
          else
             raise Property_Error;
          end if;

@@ -1,52 +1,62 @@
---  vim: ft=ada
+## vim: ft=makoada
+
+-----------------
+-- Short_Image --
+-----------------
 
 overriding function Short_Image
-  (Node : access Basic_Decl_Type)
-   return Text_Type
+  (Node : access Bare_Basic_Decl_Type) return Text_Type
 is
-   Self : access Basic_Decl_Type'Class := Node;
+   Self : access Bare_Basic_Decl_Type'Class := Node;
    Ret : Unbounded_Wide_Wide_String;
 
-   function Name_Image (Node : access Expr_Type'Class) return Text_Type;
+   function Name_Image (Node : access Bare_Expr_Type'Class) return Text_Type;
    --  Print a Dotted Name
 
-   function Name_Image (Node : access Expr_Type'Class) return Text_Type
+   function Name_Image (Node : access Bare_Expr_Type'Class) return Text_Type
    is
-      D : Dotted_Name;
+      D : Bare_Dotted_Name;
    begin
       if Node = null then
          return "None";
       end if;
 
-      if Node.all in Single_Tok_Node_Type'Class then
-         return Text
-           (F_Tok (Single_Tok_Node_Type (Node.all)'Access));
-      elsif Node.all in Dotted_Name_Type'Class then
-         D := Dotted_Name_Type (Node.all)'Access;
+      if Node.all in Bare_Single_Tok_Node_Type'Class then
+         return Text (F_Tok (Bare_Single_Tok_Node (Node)));
+
+      elsif Node.all in Bare_Dotted_Name_Type'Class then
+         D := Bare_Dotted_Name_Type (Node.all)'Access;
          return Name_Image (D.F_Prefix) & "." & Name_Image (D.F_Suffix);
+
       else
          return "<>";
       end if;
    end Name_Image;
 
-   Children : Entity_Name_Array := Self.P_Defining_Names;
+   Children : Entity_Name_Array_Access := Self.P_Defining_Names;
 begin
    Append (Ret, "<" & To_Text (Kind_Name (Self)) & " [");
 
-   for I in Children'Range loop
+   for I in Children.Items'Range loop
       Append (Ret, """");
-      Append (Ret, Name_Image (Children (I).El));
+      Append (Ret, Name_Image (Children.Items (I).El));
          Append (Ret, """");
-      if I /= Children'Last then
+      if I /= Children.Items'Last then
          Append (Ret, ", ");
       end if;
    end loop;
+   Dec_Ref (Children);
 
    Append (Ret, "] " & To_Text (Image (Sloc_Range (Node))) & ">");
    return To_Wide_Wide_String (Ret);
 end Short_Image;
 
-function P_Create_Lex_Env (Node : access Basic_Decl_Type'Class) return Lexical_Env is
+----------------------
+-- P_Create_Lex_Env --
+----------------------
+
+function P_Create_Lex_Env
+  (Node : access Bare_Basic_Decl_Type'Class) return Lexical_Env is
 begin
    return AST_Envs.Create (No_Env_Getter, Node, False);
 end P_Create_Lex_Env;

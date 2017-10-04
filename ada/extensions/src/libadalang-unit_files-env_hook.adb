@@ -130,23 +130,23 @@ package body Libadalang.Unit_Files.Env_Hook is
      "end Standard;" & ASCII.LF;
 
    procedure Handle_Unit_With_Parents
-     (Ctx : Analysis_Context; Node : Basic_Decl);
+     (Ctx : Analysis_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
 
-   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node);
+   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Bare_Body);
    --  Helper for the environment hook to handle library-level unit body nodes
 
-   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Basic_Decl);
+   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle sub-units (separates)
 
    --------------
    -- Env_Hook --
    --------------
 
-   procedure Env_Hook (Unit : Analysis_Unit; Node : Ada_Node) is
+   procedure Env_Hook (Unit : Analysis_Unit; Node : Bare_Ada_Node) is
       Ctx : constant Analysis_Context := Get_Context (Unit);
    begin
-      if Node.all in Compilation_Unit_Type'Class then
+      if Node.all in Bare_Compilation_Unit_Type'Class then
          if not Has_Unit (Ctx, "standard.ads")
             and then Get_Filename (Get_Unit (Node)) /= "standard.ads"
          then
@@ -157,14 +157,14 @@ package body Libadalang.Unit_Files.Env_Hook is
                Populate_Lexical_Env (Std);
             end;
          end if;
-      elsif Node.Parent.all in Library_Item_Type'Class then
-         if Node.all in Body_Node_Type'Class then
-            Handle_Unit_Body (Ctx, Body_Node (Node));
-         elsif Node.all in Basic_Decl_Type'Class then
-            Handle_Unit_With_Parents (Ctx, Basic_Decl (Node));
+      elsif Node.Parent.all in Bare_Library_Item_Type'Class then
+         if Node.all in Bare_Body_Type'Class then
+            Handle_Unit_Body (Ctx, Bare_Body (Node));
+         elsif Node.all in Bare_Basic_Decl_Type'Class then
+            Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
          end if;
-      elsif Node.Parent.all in Subunit_Type'Class then
-         Handle_Subunit (Ctx, Basic_Decl (Node));
+      elsif Node.Parent.all in Bare_Subunit_Type'Class then
+         Handle_Subunit (Ctx, Bare_Basic_Decl (Node));
       end if;
    end Env_Hook;
 
@@ -173,32 +173,32 @@ package body Libadalang.Unit_Files.Env_Hook is
    ------------------------------
 
    procedure Handle_Unit_With_Parents
-     (Ctx : Analysis_Context; Node : Basic_Decl)
+     (Ctx : Analysis_Context; Node : Bare_Basic_Decl)
    is
-      N : Name;
+      N : Bare_Name;
    begin
       --  If this not a library-level subprogram/package decl, there is no
       --  parent spec to process.
       if Node.all not in
-         Package_Decl_Type'Class
-         | Basic_Subp_Decl_Type'Class
-         | Package_Renaming_Decl_Type'Class
-         | Generic_Package_Decl_Type'Class
-         | Generic_Package_Instantiation_Type'Class
-         | Generic_Subp_Instantiation_Type'Class
-         | Generic_Subp_Decl_Type'Class
-         | Subp_Body_Type'Class
+         Bare_Package_Decl_Type'Class
+         | Bare_Basic_Subp_Decl_Type'Class
+         | Bare_Package_Renaming_Decl_Type'Class
+         | Bare_Generic_Package_Decl_Type'Class
+         | Bare_Generic_Package_Instantiation_Type'Class
+         | Bare_Generic_Subp_Instantiation_Type'Class
+         | Bare_Generic_Subp_Decl_Type'Class
+         | Bare_Subp_Body_Type'Class
       then
          return;
       end if;
 
       N := Node.P_Defining_Name.El;
 
-      if N.all in Dotted_Name_Type'Class then
+      if N.all in Bare_Dotted_Name_Type'Class then
          declare
             Dummy : constant Analysis_Unit := Fetch_Unit
               (Ctx,
-               Ada_Node (Dotted_Name (N).F_Prefix),
+               Bare_Ada_Node (Bare_Dotted_Name (N).F_Prefix),
                Unit_Specification);
          begin
             null;
@@ -210,12 +210,12 @@ package body Libadalang.Unit_Files.Env_Hook is
    -- Handle_Subunit --
    --------------------
 
-   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Basic_Decl)
+   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Bare_Basic_Decl)
    is
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
       Dummy : constant Analysis_Unit := Fetch_Unit
-        (Ctx, Ada_Node (Subunit (Node.Parent.El).F_Name), Unit_Body);
+        (Ctx, Bare_Ada_Node (Bare_Subunit (Node.Parent).F_Name), Unit_Body);
    begin
       null;
    end Handle_Subunit;
@@ -224,13 +224,13 @@ package body Libadalang.Unit_Files.Env_Hook is
    -- Handle_Unit_Body --
    ----------------------
 
-   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Body_Node) is
+   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Bare_Body) is
       Names : Entity_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
       --  to process.
-      if Node.all not in Package_Body_Type'Class
-         and then Node.all not in Subp_Body_Type'Class
+      if Node.all not in Bare_Package_Body_Type'Class
+         and then Node.all not in Bare_Subp_Body_Type'Class
       then
          return;
       end if;
@@ -239,17 +239,17 @@ package body Libadalang.Unit_Files.Env_Hook is
       pragma Assert (Names.N = 1);
 
       declare
-         N     : constant Ada_Node := Ada_Node (Names.Items (1).El);
+         N     : constant Bare_Ada_Node := Bare_Ada_Node (Names.Items (1).El);
          Dummy : Analysis_Unit;
       begin
          Dec_Ref (Names);
          Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
       end;
 
-      if Node.all in Subp_Body_Type'Class then
+      if Node.all in Bare_Subp_Body_Type'Class then
          --  A library level subprogram body does not have to have a spec. So
          --  we have to compute the parents directly from here.
-         Handle_Unit_With_Parents (Ctx, Basic_Decl (Node));
+         Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
       end if;
    end Handle_Unit_Body;
 

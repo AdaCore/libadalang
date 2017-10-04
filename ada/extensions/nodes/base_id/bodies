@@ -1,6 +1,7 @@
 --  vim: ft=ada
 
-overriding function Short_Image (Node : access Base_Id_Type) return Text_Type
+overriding function Short_Image
+  (Node : access Bare_Base_Id_Type) return Text_Type
 is
    Self : access ${root_node_value_type}'Class := Node;
 begin

@@ -1,7 +1,8 @@
 with Ada.Characters.Conversions; use Ada.Characters.Conversions;
 with Ada.Text_IO;                use Ada.Text_IO;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;
@@ -27,7 +28,7 @@ begin
    end;
 
    declare
-      It : Ada_Node_Iterators.Iterator'Class := Traverse (null);
+      It : Ada_Node_Iterators.Iterator'Class := Traverse (No_Ada_Node);
    begin
       Put_Line
         ("Note that we also can iterate on null nodes:");

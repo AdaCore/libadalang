@@ -2,7 +2,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
    Ctx   : Analysis_Context := Create;
@@ -31,7 +32,8 @@ begin
 
    declare
       function Filter (N : Ada_Node) return Boolean is
-        (N.all in Basic_Decl_Type'Class);
+        (N.Kind in Ada_Basic_Decl);
+
       procedure Proc (N : Ada_Node) is
       begin
          Put_Line ("  * " & Image (N.Short_Image));

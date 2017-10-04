@@ -3,18 +3,19 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Iterators; use Libadalang.Iterators;
 with Libadalang.Lexer;
 
 procedure Main is
    Ctx    : Analysis_Context := Create;
    Unit   : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
-   N      : constant Ada_Node := Root (Unit).Find_First
-     (new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
+   N      : constant Ada_Node := Find_First
+     (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
 begin
    declare
-      Id       : constant Single_Tok_Node := Single_Tok_Node (N);
-      Tok      : constant Token_Type := F_Tok (Id);
+      Id       : constant Single_Tok_Node := N.As_Single_Tok_Node;
+      Tok      : constant Token_Type := Id.F_Tok;
       Tok_Data : constant Token_Data_Type := Data (Tok);
    begin
       Put_Line ("Token data for the ""foo"" identifier:");

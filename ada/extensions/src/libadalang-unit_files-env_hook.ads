@@ -5,7 +5,7 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 
 package Libadalang.Unit_Files.Env_Hook is
 
-   procedure Env_Hook (Unit : Analysis_Unit; Node : Ada_Node);
+   procedure Env_Hook (Unit : Analysis_Unit; Node : Bare_Ada_Node);
    --  Callback for the lexical environment hook. Fetch the analysis units
    --  that are designated by Node. Node is assumed to be a list of names
    --  coming from a With_Decl node.

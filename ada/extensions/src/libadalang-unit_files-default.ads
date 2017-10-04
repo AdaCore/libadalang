@@ -19,7 +19,7 @@ package Libadalang.Unit_Files.Default is
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
-      Node        : Ada_Node;
+      Node        : Ada_Node'Class;
       Kind        : Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False;
@@ -38,7 +38,7 @@ package Libadalang.Unit_Files.Default is
    --  Singleton for Default_Unit_Provider_Type. Used as the default parameter
    --  for Libadalang.Analysis.Create.
 
-   function Unit_Text_Name (N : Name) return Text_Type;
+   function Unit_Text_Name (N : Bare_Name) return Text_Type;
    --  Turn the name of an unit represented as a Name node into a textual name.
    --  For instance: "Foo.Bar". Raise a Property_Error if a Property_Error if N
    --  is not a valid unit name.
@@ -51,7 +51,7 @@ package Libadalang.Unit_Files.Default is
    --  then turn it into a lower-case ASCII string. Raise a Property_Error if
    --  this assumption is false.
 
-   function Unit_String_Name (N : Name) return String is
+   function Unit_String_Name (N : Bare_Name) return String is
      (Unit_String_Name (Unit_Text_Name (N)));
 
    function File_From_Unit (Name : String; Kind : Unit_Kind) return String;

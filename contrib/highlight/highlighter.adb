@@ -55,23 +55,23 @@ package body Highlighter is
    --  For each token kind, associate a default highlighting type
 
    procedure Highlight_Name
-     (Name       : access LAL.Name_Type'Class;
+     (Name       : LAL.Name'Class;
       HL         : Highlight_Type;
       Highlights : in out Highlights_Holder);
    --  Assign the HL highlighting type to the main identifiers in Name
 
    procedure Highlight_Block_Name
-     (Name       : access LAL.Name_Type'Class;
+     (Name       : LAL.Name'Class;
       Highlights : in out Highlights_Holder);
    --  Assign the Block_Name highlighting type to the main identifiers in Name
 
    procedure Highlight_Attribute_Ref
-     (Id         : access LAL.Identifier_Type'Class;
+     (Id         : LAL.Identifier'Class;
       Highlights : in out Highlights_Holder);
    --  Assign the Attribute_Name highlighting type to the "'Name" tokens in Id
 
    procedure Highlight_Type_Expr
-     (Expr       : access LAL.Type_Expr_Type'Class;
+     (Expr       : LAL.Type_Expr'Class;
       Highlights : in out Highlights_Holder);
    --  Assign the Type_Name highlighting type to the main type name in Expr
 
@@ -131,11 +131,11 @@ package body Highlighter is
    --------------------
 
    procedure Highlight_Name
-     (Name       : access LAL.Name_Type'Class;
+     (Name       : LAL.Name'Class;
       HL         : Highlight_Type;
       Highlights : in out Highlights_Holder) is
    begin
-      if Name = null then
+      if Name.Is_Null then
          return;
       end if;
 
@@ -145,8 +145,7 @@ package body Highlighter is
             --  Highlight the only token that this node has
 
             declare
-               Tok : constant LAL.Token_Type :=
-                 LAL.Single_Tok_Node (Name).F_Tok;
+               Tok : constant LAL.Token_Type := Name.As_Single_Tok_Node.F_Tok;
             begin
                Set (Highlights, LAL.Data (Tok), HL);
             end;
@@ -156,8 +155,7 @@ package body Highlighter is
             --  Highlight both the prefix, the suffix and the dot token
 
             declare
-               Dotted_Name : constant LAL.Dotted_Name :=
-                  LAL.Dotted_Name (Name);
+               Dotted_Name : constant LAL.Dotted_Name := Name.As_Dotted_Name;
                Dot_Token   : constant LAL.Token_Type :=
                   LAL.Next (Dotted_Name.F_Prefix.Token_End);
             begin
@@ -170,7 +168,7 @@ package body Highlighter is
 
             --  Just highlight the name of the called entity
 
-            Highlight_Name (LAL.Call_Expr (Name).F_Name, HL, Highlights);
+            Highlight_Name (Name.As_Call_Expr.F_Name, HL, Highlights);
 
          when others =>
             return;
@@ -182,10 +180,10 @@ package body Highlighter is
    --------------------------
 
    procedure Highlight_Block_Name
-     (Name       : access LAL.Name_Type'Class;
+     (Name       : LAL.Name'Class;
       Highlights : in out Highlights_Holder) is
    begin
-      if Name = null then
+      if Name.Is_Null then
          return;
       end if;
       Highlight_Name (Name, Block_Name, Highlights);
@@ -196,10 +194,10 @@ package body Highlighter is
    -----------------------------
 
    procedure Highlight_Attribute_Ref
-     (Id         : access LAL.Identifier_Type'Class;
+     (Id         : LAL.Identifier'Class;
       Highlights : in out Highlights_Holder) is
    begin
-      if Id = null then
+      if Id.Is_Null then
          return;
       end if;
 
@@ -214,10 +212,10 @@ package body Highlighter is
    -------------------------
 
    procedure Highlight_Type_Expr
-     (Expr       : access LAL.Type_Expr_Type'Class;
+     (Expr       : LAL.Type_Expr'Class;
       Highlights : in out Highlights_Holder) is
    begin
-      if Expr = null then
+      if Expr.Is_Null then
          return;
       end if;
 
@@ -227,7 +225,7 @@ package body Highlighter is
 
          when LAL.Ada_Subtype_Indication =>
             Highlight_Name
-              (LAL.Subtype_Indication (Expr).F_Name, Type_Name, Highlights);
+              (Expr.As_Subtype_Indication.F_Name, Type_Name, Highlights);
 
          when others =>
 
@@ -246,7 +244,7 @@ package body Highlighter is
       Highlights : in out Highlights_Holder)
    is
       function Syntax_Highlight
-        (Node : access LAL.Ada_Node_Type'Class) return LAL.Visit_Status;
+        (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
       --  Function to be called on all AST nodes in Unit. This is the
       --  *syntax* highlighting algorithm entry point.
 
@@ -255,7 +253,7 @@ package body Highlighter is
       ----------------------
 
       function Syntax_Highlight
-        (Node : access LAL.Ada_Node_Type'Class) return LAL.Visit_Status
+        (Node : LAL.Ada_Node'Class) return LAL.Visit_Status
       is
       begin
          case Node.Kind is
@@ -271,15 +269,14 @@ package body Highlighter is
             when LAL.Ada_Base_Package_Decl =>
                declare
                   Pkg_Decl : constant LAL.Base_Package_Decl :=
-                    LAL.Base_Package_Decl (Node);
+                     Node.As_Base_Package_Decl;
                begin
                   Highlight_Block_Name (Pkg_Decl.F_Package_Name, Highlights);
                   Highlight_Block_Name (Pkg_Decl.F_End_Id, Highlights);
                end;
             when LAL.Ada_Package_Body =>
                declare
-                  Pkg_Body : constant LAL.Package_Body :=
-                    LAL.Package_Body (Node);
+                  Pkg_Body : constant LAL.Package_Body := Node.As_Package_Body;
                begin
                   Highlight_Block_Name (Pkg_Body.F_Package_Name, Highlights);
                   Highlight_Block_Name (Pkg_Body.F_End_Id, Highlights);
@@ -287,54 +284,54 @@ package body Highlighter is
 
             when LAL.Ada_Package_Renaming_Decl =>
                Highlight_Block_Name
-                 (LAL.Package_Renaming_Decl (Node).F_Name, Highlights);
+                 (Node.As_Package_Renaming_Decl.F_Name, Highlights);
 
             when LAL.Ada_Generic_Package_Instantiation =>
                Highlight_Block_Name
-                 (LAL.Generic_Package_Instantiation (Node).F_Name, Highlights);
+                 (Node.As_Generic_Package_Instantiation.F_Name, Highlights);
             when LAL.Ada_Generic_Subp_Instantiation =>
                Highlight_Block_Name
-                 (LAL.Generic_Subp_Instantiation (Node).F_Subp_Name,
+                 (Node.As_Generic_Subp_Instantiation.F_Subp_Name,
                   Highlights);
 
             when LAL.Ada_Subp_Spec =>
                declare
-                  Subp_Spec : constant LAL.Subp_Spec := LAL.Subp_Spec (Node);
-                  Params    : constant LAL.Entity_Param_Spec_Array_Access :=
+                  Subp_Spec : constant LAL.Subp_Spec := Node.As_Subp_Spec;
+                  Params    : constant LAL.Param_Spec_Array :=
                     Subp_Spec.P_Params;
                begin
                   Highlight_Block_Name (Subp_Spec.F_Subp_Name, Highlights);
                   Highlight_Type_Expr (Subp_Spec.F_Subp_Returns, Highlights);
-                  for Param of Params.Items loop
-                     Highlight_Type_Expr (Param.El.F_Type_Expr, Highlights);
+                  for Param of Params loop
+                     Highlight_Type_Expr (Param.F_Type_Expr, Highlights);
                   end loop;
                end;
             when LAL.Ada_Subp_Body =>
                Highlight_Block_Name
-                 (LAL.Subp_Body (Node).F_End_Id, Highlights);
+                 (Node.As_Subp_Body.F_End_Id, Highlights);
 
             when LAL.Ada_Type_Decl =>
                Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Type);
                Highlight_Block_Name
-                 (LAL.Type_Decl (Node).F_Type_Id, Highlights);
+                 (Node.As_Type_Decl.F_Type_Id, Highlights);
 
             when LAL.Ada_Subtype_Decl =>
                Highlight_Block_Name
-                 (LAL.Subtype_Decl (Node).F_Type_Id, Highlights);
+                 (Node.As_Subtype_Decl.F_Type_Id, Highlights);
 
             when LAL.Ada_Named_Stmt_Decl =>
                Highlight_Block_Name
-                 (LAL.Named_Stmt_Decl (Node).F_Name, Highlights);
+                 (Node.As_Named_Stmt_Decl.F_Name, Highlights);
             when LAL.Ada_Base_Loop_Stmt =>
                Highlight_Block_Name
-                 (LAL.Base_Loop_Stmt (Node).F_End_Id, Highlights);
+                 (Node.As_Base_Loop_Stmt.F_End_Id, Highlights);
             when LAL.Ada_Decl_Block =>
                Highlight_Block_Name
-                 (LAL.Decl_Block (Node).F_End_Id, Highlights);
+                 (Node.As_Decl_Block.F_End_Id, Highlights);
 
             when LAL.Ada_Begin_Block =>
                Highlight_Block_Name
-                 (LAL.Begin_Block (Node).F_End_Id, Highlights);
+                 (Node.As_Begin_Block.F_End_Id, Highlights);
 
             --  TODO??? Still lots of nodes to handle! Protected types, tasks,
             --  etc.
@@ -348,30 +345,30 @@ package body Highlighter is
 
             when LAL.Ada_Type_Access_Def =>
                Highlight_Name
-                 (LAL.Type_Access_Def (Node).F_Subtype_Indication.F_Name,
+                 (Node.As_Type_Access_Def.F_Subtype_Indication.F_Name,
                   Type_Name, Highlights);
 
             when LAL.Ada_Object_Decl =>
                Highlight_Type_Expr
-                 (LAL.Object_Decl (Node).F_Type_Expr, Highlights);
+                 (Node.As_Object_Decl.F_Type_Expr, Highlights);
 
             when LAL.Ada_Use_Type_Clause =>
                declare
                   Types : constant LAL.Name_List :=
-                    LAL.Use_Type_Clause (Node).F_Types;
+                     Node.As_Use_Type_Clause.F_Types;
                begin
                   for I in 1 .. Types.Child_Count loop
                      Highlight_Name
-                       (LAL.Name (Types.Child (I)), Type_Name, Highlights);
+                       (Types.Child (I).As_Name, Type_Name, Highlights);
                   end loop;
                end;
 
             when LAL.Ada_Discriminant_Spec =>
                Highlight_Type_Expr
-                 (LAL.Discriminant_Spec (Node).F_Type_Expr, Highlights);
+                 (Node.As_Discriminant_Spec.F_Type_Expr, Highlights);
             when LAL.Ada_Component_Def =>
                Highlight_Type_Expr
-                 (LAL.Component_Def (Node).F_Type_Expr, Highlights);
+                 (Node.As_Component_Def.F_Type_Expr, Highlights);
 
             ----------
             -- Misc --
@@ -379,11 +376,11 @@ package body Highlighter is
 
             when LAL.Ada_Attribute_Ref =>
                Highlight_Attribute_Ref
-                 (LAL.Attribute_Ref (Node).F_Attribute, Highlights);
+                 (Node.As_Attribute_Ref.F_Attribute, Highlights);
 
             when LAL.Ada_Label_Decl =>
                Highlight_Name
-                 (LAL.Label_Decl (Node).F_Name, Label_Name, Highlights);
+                 (Node.As_Label_Decl.F_Name, Label_Name, Highlights);
 
             when LAL.Ada_Record_Def =>
                Set (Highlights,

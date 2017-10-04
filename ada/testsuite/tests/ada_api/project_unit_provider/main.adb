@@ -6,6 +6,7 @@ with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
@@ -38,17 +39,16 @@ begin
    Populate_Lexical_Env (Unit);
 
    declare
-      Subtype_Ind : constant Subtype_Indication := Subtype_Indication
-        (Root.Find_First
-           (new Ada_Node_Kind_Filter'(Kind => Ada_Subtype_Indication)));
-      Res_Type    : Entity_Array_Access :=
+      Subtype_Ind : constant Subtype_Indication := Find_First
+        (Root, new Ada_Node_Kind_Filter'(Kind => Ada_Subtype_Indication))
+        .As_Subtype_Indication;
+      Res_Type    : constant Ada_Node_Array :=
          Subtype_Ind.F_Name.P_Matching_Nodes;
    begin
       Put_Line (Image (Subtype_Ind.Short_Image) & " resolves to:");
-      for E of Res_Type.Items loop
-         Put_Line ("  " & Image (E.El.Short_Image));
+      for E of Res_Type loop
+         Put_Line ("  " & Image (E.Short_Image));
       end loop;
-      Dec_Ref (Res_Type);
    end;
 
    Destroy (Ctx);

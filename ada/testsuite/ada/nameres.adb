@@ -20,6 +20,7 @@ with Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
@@ -54,8 +55,7 @@ procedure Nameres is
    Only_Show_Failures   : Boolean := False;
    --  Only print failures to stdout
 
-   function Text (N : access Ada_Node_Type'Class) return String
-   is (Image (N.Text));
+   function Text (N : Ada_Node'Class) return String is (Image (N.Text));
 
    function Starts_With (S, Prefix : String) return Boolean is
      (S'Length >= Prefix'Length
@@ -68,12 +68,12 @@ procedure Nameres is
       renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
 
-   function "<" (Left, Right : Entity) return Boolean is
-     (Left.El.Sloc_Range.Start_Line < Right.El.Sloc_Range.Start_Line);
+   function "<" (Left, Right : Ada_Node) return Boolean is
+     (Left.Sloc_Range.Start_Line < Right.Sloc_Range.Start_Line);
    procedure Sort is new Ada.Containers.Generic_Array_Sort
      (Index_Type   => Positive,
-      Element_Type => Entity,
-      Array_Type   => Entity_Array,
+      Element_Type => Ada_Node,
+      Array_Type   => Ada_Node_Array,
       "<"          => "<");
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean is
@@ -85,7 +85,7 @@ procedure Nameres is
       P     : Project_Type;
       Files : in out String_Vectors.Vector);
 
-   function Do_Pragma_Test (Arg : Expr) return Entity_Array_Access is
+   function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array is
      (Arg.P_Matching_Nodes);
    --  Do the resolution associated to a Test pragma.
    --
@@ -126,9 +126,8 @@ procedure Nameres is
    -- Safe_Image --
    ----------------
 
-   function Safe_Image
-     (Node : access Ada_Node_Type'Class) return String
-   is (if Node = null then "None" else Image (Node.Short_Image));
+   function Safe_Image (Node : Ada_Node'Class) return String is
+     (Image (Node.Short_Image));
 
    ------------------
    -- Resolve_Node --
@@ -136,13 +135,12 @@ procedure Nameres is
 
    procedure Resolve_Node (Node : Ada_Node) is
 
-      function Print_Node (N : access Ada_Node_Type'Class) return Visit_Status
-      is
+      function Print_Node (N : Ada_Node'Class) return Visit_Status is
       begin
-         if N.all in Expr_Type'Class then
+         if N.Kind in Ada_Expr then
             declare
-               P_Ref  : constant Entity := Expr (N).P_Ref_Val;
-               P_Type : constant Entity := Expr (N).P_Type_Val;
+               P_Ref  : constant Ada_Node := N.As_Expr.P_Ref_Val;
+               P_Type : constant Ada_Node := N.As_Expr.P_Type_Val;
             begin
                if not Quiet then
                   Put_Line ("Expr: " & Safe_Image (N));
@@ -151,7 +149,7 @@ procedure Nameres is
                end if;
             end;
          end if;
-         return (if N.P_Xref_Entry_Point and N /= Node
+         return (if N.P_Xref_Entry_Point and N.As_Ada_Node /= Node
                  then Over else Into);
       end Print_Node;
 
@@ -176,7 +174,7 @@ procedure Nameres is
          Put_Line ("");
       end if;
    exception
-   when E : others =>
+      when E : others =>
          Put_Line
            ("Resolution failed with exception for node " & Safe_Image (Node));
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
@@ -196,10 +194,7 @@ procedure Nameres is
           and then (Solve_Line = 0
                     or else Natural (N.Sloc_Range.Start_Line) = Solve_Line));
    begin
-      for Node
-        of Block.Find (Is_Xref_Entry_Point'Access).Consume
-      loop
-
+      for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
          Resolve_Node (Node);
       end loop;
    end Resolve_Block;
@@ -238,16 +233,16 @@ procedure Nameres is
          function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
 
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
-            Name  : constant Text_Type := Text (Id.F_Tok);
+            Name : constant Text_Type := Text (Id.F_Tok);
          begin
-            if E.all not in Identifier_Type'Class then
+            if E.Kind /= Ada_Identifier then
                raise Program_Error with
                  ("Invalid config value for " & Image (Name, True) & ": "
                   & Text (E));
             end if;
 
             declare
-               Value : constant Text_Type := Text (Identifier (E).F_Tok);
+               Value : constant Text_Type := Text (E.As_Identifier.F_Tok);
             begin
                if Name = "Display_Slocs" then
                   Display_Slocs := Decode_Boolean_Literal (Value);
@@ -263,9 +258,9 @@ procedure Nameres is
       begin
          --  Print what entities are found for expressions X in all the "pragma
          --  Test (X)" we can find in this unit.
-         for Node of Root (Unit).Find (Is_Pragma_Node'Access).Consume loop
+         for Node of Find (Root (Unit), Is_Pragma_Node'Access).Consume loop
 
-            P_Node := Pragma_Node (Node);
+            P_Node := Node.As_Pragma_Node;
 
             --  If this pragma and the previous ones are not on adjacent lines,
             --  do not make them adjacent in the output.
@@ -284,12 +279,12 @@ procedure Nameres is
                for Arg of Ada_Node_Array'(P_Node.F_Args.Children) loop
                   declare
                      A : constant Pragma_Argument_Assoc :=
-                        Pragma_Argument_Assoc (Arg);
+                        Arg.As_Pragma_Argument_Assoc;
                   begin
-                     if A.F_Id = null then
+                     if A.F_Id.Is_Null then
                         raise Program_Error with
                            "Name missing in pragma Config";
-                     elsif A.F_Id.all not in Identifier_Type'Class then
+                     elsif A.F_Id.Kind /= Ada_Identifier then
                         raise Program_Error with
                            "Name in pragma Config must be an identifier";
                      end if;
@@ -303,10 +298,10 @@ procedure Nameres is
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg : constant Expr :=
-                     P_Node.F_Args.Item (1).P_Assoc_Expr.El;
-                  pragma Assert (Arg.all in String_Literal_Type'Class);
+                     P_Node.F_Args.Child (1).As_Base_Assoc.P_Assoc_Expr;
+                  pragma Assert (Arg.Kind = Ada_String_Literal);
 
-                  Tok : constant Token_Type := String_Literal (Arg).F_Tok;
+                  Tok : constant Token_Type := Arg.As_String_Literal.F_Tok;
                   T   : constant Text_Type := Text (Tok);
                begin
                   if not Quiet then
@@ -320,26 +315,25 @@ procedure Nameres is
                declare
                   pragma Assert (P_Node.F_Args.Child_Count = 1);
                   Arg      : constant Expr :=
-                     P_Node.F_Args.Item (1).P_Assoc_Expr.El;
-                  Entities : Entity_Array_Access := Do_Pragma_Test (Arg);
+                     P_Node.F_Args.Child (1).As_Base_Assoc.P_Assoc_Expr;
+                  Entities : Ada_Node_Array := Do_Pragma_Test (Arg);
                begin
                   Put_Line (Text (Arg) & " resolves to:");
-                  Sort (Entities.Items);
-                  for E of Entities.Items loop
+                  Sort (Entities);
+                  for E of Entities loop
                      Put ("    " & (if Display_Short_Images
-                                    then Image (E.El.Short_Image)
-                                    else Text (E.El)));
+                                    then Image (E.Short_Image)
+                                    else Text (E)));
                      if Display_Slocs then
                         Put_Line (" at "
-                                  & Image (Start_Sloc (E.El.Sloc_Range)));
+                                  & Image (Start_Sloc (E.Sloc_Range)));
                      else
                         New_Line;
                      end if;
                   end loop;
-                  if Entities.N = 0 then
+                  if Entities'Length = 0 then
                      Put_Line ("    <none>");
                   end if;
-                  Dec_Ref (Entities);
                end;
                Empty := False;
 
@@ -356,7 +350,7 @@ procedure Nameres is
                begin
                   Resolve_Block
                     (if Parent_2.Kind = Ada_Compilation_Unit
-                     then Compilation_Unit (Parent_2).F_Body
+                     then Parent_2.As_Compilation_Unit.F_Body
                      else P_Node.Previous_Sibling);
                end;
                Empty := False;

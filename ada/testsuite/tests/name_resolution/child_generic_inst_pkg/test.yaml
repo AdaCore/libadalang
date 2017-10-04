@@ -1,0 +1,5 @@
+description:
+    Symbol resolution: child_generic_inst_pkg
+driver: name-resolution
+input_sources: [main.adb]
+with_default_project: False

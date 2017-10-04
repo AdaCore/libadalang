@@ -2626,6 +2626,8 @@ class GenericSubpInstantiation(GenericInstantiation):
         )
 
     env_spec = EnvSpec(
+        call_env_hook(Self),
+
         add_env(),
         ref_used_packages(),
         ref_std(),
@@ -2680,6 +2682,8 @@ class GenericPackageInstantiation(GenericInstantiation):
     is_generic_formal_pkg = Property(Self.parent.is_a(T.GenericFormalPackage))
 
     env_spec = EnvSpec(
+        call_env_hook(Self),
+
         set_initial_env(env.bind(
             Self.initial_env,
             If(Self.is_generic_formal_pkg, Self.initial_env, Entity.decl_scope)

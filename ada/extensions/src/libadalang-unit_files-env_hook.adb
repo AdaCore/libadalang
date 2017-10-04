@@ -184,6 +184,8 @@ package body Libadalang.Unit_Files.Env_Hook is
          | Basic_Subp_Decl_Type'Class
          | Package_Renaming_Decl_Type'Class
          | Generic_Package_Decl_Type'Class
+         | Generic_Package_Instantiation_Type'Class
+         | Generic_Subp_Instantiation_Type'Class
          | Generic_Subp_Decl_Type'Class
          | Subp_Body_Type'Class
       then

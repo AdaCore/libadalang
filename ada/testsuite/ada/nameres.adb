@@ -281,9 +281,9 @@ procedure Nameres is
 
             if Pragma_Name = "Config" then
                --  Handle testcase configuration pragmas for this file
-               for Arg of P_Node.F_Args.Children loop
+               for Arg of Ada_Node_Array'(P_Node.F_Args.Children) loop
                   declare
-                     A     : constant Pragma_Argument_Assoc :=
+                     A : constant Pragma_Argument_Assoc :=
                         Pragma_Argument_Assoc (Arg);
                   begin
                      if A.F_Id = null then
@@ -350,10 +350,15 @@ procedure Nameres is
 
             elsif Pragma_Name = "Test_Block" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);
-               Resolve_Block
-                 (if Kind (P_Node.Parent.Parent) = Ada_Compilation_Unit
-                  then Compilation_Unit (P_Node.Parent.Parent).F_Body
-                  else P_Node.Previous_Sibling);
+               declare
+                  Parent_1 : constant Ada_Node := P_Node.Parent;
+                  Parent_2 : constant Ada_Node := Parent_1.Parent;
+               begin
+                  Resolve_Block
+                    (if Parent_2.Kind = Ada_Compilation_Unit
+                     then Compilation_Unit (Parent_2).F_Body
+                     else P_Node.Previous_Sibling);
+               end;
                Empty := False;
             end if;
          end loop;

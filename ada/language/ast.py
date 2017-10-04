@@ -424,7 +424,7 @@ class AdaNode(ASTNode):
             Self.as_bare_entity.match(
                 lambda pkg_body=T.PackageBody:
                     pkg_body.decl_part_entity.
-                    _.parent.cast(T.GenericPackageDecl),
+                    _.el.parent.cast(T.GenericPackageDecl),
                 lambda bod=T.SubpBody:
                     # We're only searching for generics. We look at index 1 and
                     # 2, because if self is a subunit, the first entity we find
@@ -1041,7 +1041,7 @@ class TypeDef(AdaNode):
         return EmptyEnv
 
     containing_type = Property(
-        Entity.parent.cast_or_raise(T.TypeDecl).as_entity, doc="""
+        Entity.parent.cast_or_raise(T.TypeDecl), doc="""
         Return the TypeDecl containing this TypeDef
         """
     )
@@ -1117,7 +1117,7 @@ class ComponentList(BaseFormalParamHolder):
     variant_part = Field(type=T.VariantPart)
 
     type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
-    type_decl = Property(Entity.type_def.parent.cast(T.TypeDecl).as_entity)
+    type_decl = Property(Entity.type_def.parent.cast(T.TypeDecl))
 
     parent_component_list = Property(
         Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.comps

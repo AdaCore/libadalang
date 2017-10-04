@@ -261,7 +261,7 @@ def explore(f, locvars, locsubprograms, subp):
             # If not itself the prefix of a record access path like X.Y.Z,
             # consider that a read of X.Y after and before successive
             # assignments to X.Y.Z is enough to validate them.
-            if not isinstance(obj.parent, lal.DottedName):
+            if not isinstance(obj.parent.el, lal.DottedName):
                 for path in assigns.keys():
                     if path.startswith(obj.text):
                         del assigns[path]

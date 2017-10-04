@@ -233,7 +233,8 @@ procedure Navigate is
          if Aspects = null then
             return False;
          end if;
-         for Child of Aspects.F_Aspect_Assocs.Children loop
+         for Child of LAL.Ada_Node_Array'(Aspects.F_Aspect_Assocs.Children)
+         loop
             declare
                Assoc : constant LAL.Aspect_Assoc := LAL.Aspect_Assoc (Child);
             begin

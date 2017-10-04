@@ -48,8 +48,13 @@ def decode_boolean_literal(node):
 
 
 def resolve_node(node):
+    if isinstance(node, lal.Entity):
+        node = node.el
 
     def print_nodes(n):
+        if isinstance(n, lal.Entity):
+            n = n.el
+
         if n.is_a(lal.Expr):
             print('Expr: {}'.format(n))
             print('  references: {}'.format(n.p_ref_val))

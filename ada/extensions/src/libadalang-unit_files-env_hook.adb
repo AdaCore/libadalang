@@ -213,7 +213,7 @@ package body Libadalang.Unit_Files.Env_Hook is
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
       Dummy : constant Analysis_Unit := Fetch_Unit
-        (Ctx, Ada_Node (Subunit (Node.Parent).F_Name), Unit_Body);
+        (Ctx, Ada_Node (Subunit (Node.Parent.El).F_Name), Unit_Body);
    begin
       null;
    end Handle_Subunit;

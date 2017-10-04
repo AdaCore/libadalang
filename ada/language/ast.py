@@ -3550,7 +3550,7 @@ class CallExpr(Name):
                     lambda al=AssocList: typ.array_ndims == al.length,
 
                     # Array slice case
-                    lambda bo=BinOp: typ.array_ndims == 1,
+                    lambda _=BinOp: typ.array_ndims == 1,
                     lambda _: False
                 ),
                 # Arrays

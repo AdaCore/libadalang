@@ -206,7 +206,7 @@ def explore(f, subp):
 
         # Call traverse or traverse_branch recursively on sub-nodes
         if isinstance(node, lal.ObjectDecl):
-            tdecl = node.f_type_expr.p_designated_type_decl.el
+            tdecl = node.f_type_expr.p_designated_type_decl
             if tdecl is not None and tdecl.p_is_access_type:
                 if (node.f_default_expr is None or
                         node.f_default_expr.is_a(lal.NullLiteral)):

@@ -673,7 +673,7 @@ class BasicDecl(AdaNode):
         return Self.children_env.get('__body', recursive=False).at(0)
 
     @langkit_property(dynamic_vars=[env])
-    def decl_scope():
+    def decl_scope(follow_private=(BoolType, True)):
         scope = Var(Entity.defining_name.parent_scope)
 
         # If this the corresponding decl is a generic, go grab the internal
@@ -687,8 +687,12 @@ class BasicDecl(AdaNode):
                     gen_pkg_decl.package_decl.children_env,
                 ),
                 default_val=scope
-            ): public_scope.get('__privatepart', recursive=False).at(0).then(
-                lambda pp: pp.children_env, default_val=public_scope
+            ): If(
+                follow_private,
+                public_scope.get('__privatepart', recursive=False).at(0).then(
+                    lambda pp: pp.children_env, default_val=public_scope
+                ),
+                public_scope
             )
         )
 

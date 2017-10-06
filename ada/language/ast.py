@@ -2664,16 +2664,25 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():
+        self_children_env = Var(Self.children_env.env_orphan)
         return Self.designated_generic_decl.then(
-            lambda p: p._.decl.children_env.rebind_env(
+            lambda p:
+            # If this instantiation is library level, then we want to shed
+            # rebindings from the env itself, because they will be added from
+            # the Entity rebindings below anyway.
+            If(Self.is_library_item,
+               p._.decl.el.children_env,
+               p.decl.children_env).singleton.concat(
+                self_children_env.singleton
+            ).env_group.rebind_env(
                 # If this generic instantiation is inside a generic
                 # instantiation, then it inherits the rebindings of the
                 # enclosing instantiation.
                 Entity.info.rebindings.append_rebinding(
                     # We use the formal env to create rebindings. There, we
-                    # purposefully want the children env of the P node, with no
-                    # rebindings associated, since the rebinding indication
-                    # concerns the *naked* generic. Hence we use
+                    # purposefully want the children env of the P node,
+                    # with no rebindings associated, since the rebinding
+                    # indication concerns the *naked* generic. Hence we use
                     # p.el.children_env.
                     p.el.children_env,
                     Self.instantiation_env_holder.children_env
@@ -2683,14 +2692,15 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Self.name.as_entity.singleton)
 
-    is_generic_formal_pkg = Property(Self.parent.is_a(T.GenericFormalPackage))
+    is_formal_pkg = Property(Self.parent.is_a(T.GenericFormalPackage))
+    is_any_formal = Property(Self.params._.at(0)._.expr._.is_a(T.BoxExpr))
 
     env_spec = EnvSpec(
         call_env_hook(Self),
 
         set_initial_env(env.bind(
             Self.initial_env,
-            If(Self.is_generic_formal_pkg, Self.initial_env, Entity.decl_scope)
+            If(Self.is_formal_pkg, Self.initial_env, Entity.decl_scope)
         )),
         add_to_env_kv(Entity.relative_name, Self),
         add_env(),
@@ -2701,11 +2711,13 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env(
             env.bind(
                 Self.initial_env,
-                Self.designated_generic_decl._.formal_part.match_param_list(
-                    Self.params, False
-                ).map(lambda pm: T.env_assoc.new(
-                    key=pm.formal.name.sym, val=pm.actual.assoc.expr
-                ))
+                If(Self.is_any_formal,
+                   EmptyArray(T.env_assoc),
+                   Self.designated_generic_decl._.formal_part.match_param_list(
+                       Self.params, False
+                   ).map(lambda pm: T.env_assoc.new(
+                       key=pm.formal.name.sym, val=pm.actual.assoc.expr
+                   )))
             ),
             dest_env=Self.instantiation_env_holder.children_env,
             resolver=AdaNode.resolve_generic_actual,

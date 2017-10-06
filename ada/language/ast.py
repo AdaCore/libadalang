@@ -2893,8 +2893,11 @@ class GenericPackageInternal(BasePackageDecl):
 
 
 class GenericPackageDecl(GenericDecl):
-    env_spec = child_unit(Entity.relative_name,
-                          Self.package_decl.package_name.parent_scope)
+    env_spec = child_unit(
+        Entity.relative_name,
+        Entity.decl_scope,
+        dest_env=env.bind(Self.parent.node_env, Entity.decl_scope(False))
+    )
 
     package_decl = Field(type=GenericPackageInternal)
 

@@ -13,8 +13,18 @@ set -e
 
 INSTALL_DIR=/path/to/install
 
-# Install GNAT GPL 2017 for your platform in $INSTALL_DIR (see
-# https://libre.adacore.com/), then...
+# Install a GNAT Pro or GNAT GPL release for your platform in $INSTALL_DIR (see
+# https://libre.adacore.com/ for GPL releases). Then, get the corresponding
+# version of GNATCOLL. For instance, GNATCOLL GPL 2017:
+
+wget -O gnatcoll-gpl-2017-src.tar.gz \
+    http://mirrors.cdn.adacore.com/art/591c45e2c7a447af2deed016
+tar xf gnatcoll-gpl-2017-src.tar.gz
+if [ -d gnatcoll ]
+then
+    rm -rf gnatcoll
+fi
+mv gnatcoll-gpl-2017-src gnatcoll
 
 ############################################
 # The following should work out of the box #
@@ -24,10 +34,7 @@ export PATH="$INSTALL_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$PATH"
 
 # Build GNATCOLL and install it in $INSTALL_DIR
-wget -O gnatcoll-gpl-2017-src.tar.gz \
-    http://mirrors.cdn.adacore.com/art/591c45e2c7a447af2deed016
-tar xf gnatcoll-gpl-2017-src.tar.gz
-cd gnatcoll-gpl-2017-src
+cd gnatcoll
 ./configure --prefix="$INSTALL_DIR" \
     --enable-build=Debug --enable-shared --enable-projects
 make PROCESSORS=0

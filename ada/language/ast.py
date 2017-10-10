@@ -3206,6 +3206,16 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    @langkit_property(return_type=BoolType, public=True)
+    def is_range_attribute():
+        """
+        Predicate that returns True if self is a range attribute ref.
+        """
+        return Self.cast(T.AttributeRef).then(
+            lambda attr_ref:
+            attr_ref.as_bare_entity.attribute.relative_name == 'Range'
+        )
+
     scope = Property(
         EmptyEnv, dynamic_vars=[env],
         doc="""

@@ -7,7 +7,9 @@ from language.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
-from langkit.parsers import Grammar, Row, _, Null, Tok, Opt, List, Or, Pick
+from langkit.parsers import (
+    Grammar, Row, _, Null, Tok, Opt, List, Or, Pick, Predicate
+)
 
 ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
@@ -1154,9 +1156,10 @@ A.add_rules(
         Op.alt_or("or"),
     ),
 
-    discrete_range=BinOp(A.simple_expr,
-                         Op.alt_double_dot(".."),
-                         A.simple_expr),
+    discrete_range=Or(
+        BinOp(A.simple_expr, Op.alt_double_dot(".."), A.simple_expr),
+        Predicate(A.name, T.Name.is_range_attribute)
+    ),
 
     choice=Or(
         A.discrete_range,

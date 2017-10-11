@@ -76,8 +76,6 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |primitives:
-|  |  |  |  |  |  PrimitivesEnvHolder[5:14-5:14]
 |  |  |  |  |  TypeDecl[7:4-10:15]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[7:9-7:16]
@@ -166,8 +164,6 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |primitives:
-|  |  |  |  |  |  PrimitivesEnvHolder[10:14-10:14]
 |  |  |private_part: <null>
 |  |  |end_id:
 |  |  |  Id[11:5-11:8]
@@ -191,14 +187,8 @@ $root = LexEnv(Parent=null):
     b: [<ComponentDecl ["A", "B"] 3:7-3:22>]
     c: [<ComponentDecl ["C"] 4:7-4:22>]
 
-@3 = LexEnv(Parent=null, Node=<PrimitivesEnvHolder 5:14-5:14>):
-    <empty>
-
-@4 = LexEnv(Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
+@3 = LexEnv(Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
     i: [<ComponentDecl ["I"] 8:7-8:19>]
     n: [<DiscriminantSpec ["N"] 7:18-7:29>]
     s: [<ComponentDecl ["S"] 9:7-9:27>]
-
-@5 = LexEnv(Parent=null, Node=<PrimitivesEnvHolder 10:14-10:14>):
-    <empty>
 

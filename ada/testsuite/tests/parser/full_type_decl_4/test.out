@@ -94,5 +94,3 @@ TypeDecl[1:1-1:118]
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |variant_part: <null>
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:117-1:117]

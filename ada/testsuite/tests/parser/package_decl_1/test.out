@@ -86,8 +86,6 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |primitives:
-|  |  |  |  |  |  PrimitivesEnvHolder[1:91-1:91]
 |  |  |  |default_expr:
 |  |  |  |  Null[1:94-1:98]
 |  |  |  |  |tok: null

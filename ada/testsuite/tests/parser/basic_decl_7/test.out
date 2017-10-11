@@ -8,5 +8,3 @@ TypeDecl[1:1-1:18]
 |  |expr:
 |  |  BoxExpr[1:15-1:17]
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:17-1:17]

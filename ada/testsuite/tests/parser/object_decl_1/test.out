@@ -35,8 +35,6 @@ ObjectDecl[1:1-1:65]
 |  |  |  |  |constraint: <null>
 |  |  |  |constraint: <null>
 |  |  |aspects: <null>
-|  |  |primitives:
-|  |  |  PrimitivesEnvHolder[1:41-1:41]
 |default_expr:
 |  Null[1:44-1:48]
 |  |tok: null

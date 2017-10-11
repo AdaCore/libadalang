@@ -40,5 +40,3 @@ TypeDecl[1:1-1:47]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |variant_part: <null>
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:46-1:46]

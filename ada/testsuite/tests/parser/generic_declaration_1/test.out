@@ -43,8 +43,6 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |has_limited:
 |  |  |  |  |  |  LimitedAbsent[3:23-3:23]
 |  |  |  |  |aspects: <null>
-|  |  |  |  |primitives:
-|  |  |  |  |  PrimitivesEnvHolder[3:30-3:30]
 |package_decl:
 |  GenericPackageInternal[4:1-7:19]
 |  |package_name:

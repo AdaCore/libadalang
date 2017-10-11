@@ -147,8 +147,6 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |tok: Item
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |primitives:
-|  |  |  |  |  |  PrimitivesEnvHolder[6:34-6:34]
 |  |  |  |default_expr: <null>
 |  |  |  |renaming_clause: <null>
 |  |  |  |aspects: <null>

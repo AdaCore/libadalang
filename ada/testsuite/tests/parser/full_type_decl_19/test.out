@@ -14,5 +14,3 @@ TypeDecl[1:1-1:52]
 |  |  |  Id[1:47-1:51]
 |  |  |  |tok: Imdr
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:51-1:51]

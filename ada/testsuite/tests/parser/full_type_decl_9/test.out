@@ -37,5 +37,3 @@ TypeDecl[1:1-1:50]
 |  |  |  |  Real[1:44-1:49]
 |  |  |  |  |tok: 360.0
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:49-1:49]

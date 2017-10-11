@@ -21,5 +21,3 @@ TypeDecl[1:1-1:24]
 |  |  |constraint: <null>
 |  |constraint: <null>
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:23-1:23]

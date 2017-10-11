@@ -298,5 +298,3 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  |  NullComponentDecl[16:29-16:34]
 |  |  |  |  |  |  |  |variant_part: <null>
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[18:11-18:11]

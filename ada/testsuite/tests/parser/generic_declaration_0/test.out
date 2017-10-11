@@ -19,8 +19,6 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |has_limited:
 |  |  |  |  |  |  LimitedAbsent[1:27-1:27]
 |  |  |  |  |aspects: <null>
-|  |  |  |  |primitives:
-|  |  |  |  |  PrimitivesEnvHolder[1:34-1:34]
 |subp_decl:
 |  GenericSubpInternal[1:36-1:76]
 |  |subp_spec:

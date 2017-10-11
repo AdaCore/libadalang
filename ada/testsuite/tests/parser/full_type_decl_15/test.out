@@ -18,5 +18,3 @@ TypeDecl[1:1-1:25]
 |  |  |  |  Int[1:22-1:24]
 |  |  |  |  |tok: 12
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:24-1:24]

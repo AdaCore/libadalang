@@ -15,5 +15,3 @@ TypeDecl[1:1-1:23]
 |  |  NullRecordDef[1:11-1:22]
 |  |  |components: <null>
 |aspects: <null>
-|primitives:
-|  PrimitivesEnvHolder[1:22-1:22]

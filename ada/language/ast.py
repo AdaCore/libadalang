@@ -1554,7 +1554,20 @@ class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
-    primitives = Field(type=T.PrimitivesEnvHolder)
+
+    @langkit_property(return_type=LexicalEnvType, external=True,
+                      uses_entity_info=False)
+    def create_lex_env():
+        """
+        Returns a new non refcounted parentless env associated to Node. This is
+        meant for internal usage, and the result has to be memoized in order
+        not to leak envs.
+        """
+        pass
+
+    @langkit_property(memoized=True, return_type=LexicalEnvType)
+    def primitives():
+        return Self.create_lex_env
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
@@ -1624,7 +1637,7 @@ class TypeDecl(BaseTypeDecl):
         relevant entity info.
         """
         return Entity.base_type.cast(T.TypeDecl).then(
-            lambda bt: bt.primitives.children_env.singleton.concat(
+            lambda bt: bt.primitives.singleton.concat(
                 bt.primitives_envs
             )
         )
@@ -1636,7 +1649,7 @@ class TypeDecl(BaseTypeDecl):
         no relevant entity info.
         """
         return Self.as_bare_entity.base_type.cast(T.TypeDecl).then(
-            lambda bt: bt.primitives.children_env.singleton.concat(
+            lambda bt: bt.primitives.singleton.concat(
                 bt.primitives_envs
             )
         )
@@ -2319,7 +2332,7 @@ class BasicSubpDecl(BasicDecl):
             dest_env=origin.bind(
                 Self,
                 Self.as_bare_entity.subp_decl_spec
-                .primitive_subp_of.cast(T.TypeDecl)._.primitives._.children_env
+                .primitive_subp_of.cast(T.TypeDecl)._.primitives
             ),
             metadata=Metadata.new(
                 dottable_subp=False,
@@ -2593,10 +2606,6 @@ class EnvHolder(AdaNode):
     LexicalEnvType field that is automatically initialized.
     """
     env_spec = EnvSpec(add_env())
-
-
-class PrimitivesEnvHolder(AdaNode):
-    env_spec = EnvSpec(add_env(no_parent=True))
 
 
 class GenericSubpInstantiation(GenericInstantiation):

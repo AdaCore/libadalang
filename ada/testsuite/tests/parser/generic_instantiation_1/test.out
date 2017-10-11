@@ -1,6 +1,4 @@
 GenericPackageInstantiation[1:1-1:100]
-|instantiation_env_holder:
-|  EnvHolder[1:1-1:1]
 |name:
 |  Id[1:9-1:20]
 |  |tok: Int_Vectors

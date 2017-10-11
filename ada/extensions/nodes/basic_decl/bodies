@@ -45,3 +45,8 @@ begin
    Append (Ret, "] " & To_Text (Image (Sloc_Range (Node))) & ">");
    return To_Wide_Wide_String (Ret);
 end Short_Image;
+
+function P_Create_Lex_Env (Node : access Basic_Decl_Type'Class) return Lexical_Env is
+begin
+   return AST_Envs.Create (No_Env_Getter, Node, False);
+end P_Create_Lex_Env;

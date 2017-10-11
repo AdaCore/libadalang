@@ -1,6 +1,4 @@
 GenericSubpInstantiation[1:1-1:40]
-|instantiation_env_holder:
-|  EnvHolder[1:1-1:1]
 |overriding:
 |  OverridingOverriding[1:1-1:11]
 |kind:

@@ -696,6 +696,16 @@ class BasicDecl(AdaNode):
             )
         )
 
+    @langkit_property(return_type=LexicalEnvType, external=True,
+                      uses_entity_info=False)
+    def create_lex_env():
+        """
+        Returns a new non refcounted parentless env associated to Node. This is
+        meant for internal usage, and the result has to be memoized in order
+        not to leak envs.
+        """
+        pass
+
 
 @abstract
 class Body(BasicDecl):
@@ -1554,16 +1564,6 @@ class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
-
-    @langkit_property(return_type=LexicalEnvType, external=True,
-                      uses_entity_info=False)
-    def create_lex_env():
-        """
-        Returns a new non refcounted parentless env associated to Node. This is
-        meant for internal usage, and the result has to be memoized in order
-        not to leak envs.
-        """
-        pass
 
     @langkit_property(memoized=True, return_type=LexicalEnvType)
     def primitives():
@@ -2571,7 +2571,7 @@ class GenericInstantiation(BasicDecl):
     Instantiations of generics.
     """
 
-    instantiation_env_holder = Field(type=T.EnvHolder)
+    instantiation_env = Property(Self.create_lex_env, memoized=True)
 
     generic_entity_name = AbstractProperty(
         type=T.Name.entity, doc="""
@@ -2597,17 +2597,6 @@ class GenericInstantiation(BasicDecl):
     )
 
 
-class EnvHolder(AdaNode):
-    """
-    This type does not correspond to anything in the source. It is just here
-    to hold a lexical environment.
-
-    TODO: This should be do-able in a simpler fashion, by exposing a
-    LexicalEnvType field that is automatically initialized.
-    """
-    env_spec = EnvSpec(add_env())
-
-
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
     kind = Field(type=T.SubpKind)
@@ -2631,8 +2620,7 @@ class GenericSubpInstantiation(GenericInstantiation):
                 info=T.entity_info.new(
                     md=p.info.md,
                     rebindings=p.info.rebindings.append_rebinding(
-                        p.el.children_env,
-                        Self.instantiation_env_holder.children_env
+                        p.el.children_env, Self.instantiation_env
                     )
                 )
             ).cast(T.entity)
@@ -2655,7 +2643,7 @@ class GenericSubpInstantiation(GenericInstantiation):
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 ))
             ),
-            dest_env=Self.instantiation_env_holder.children_env,
+            dest_env=Self.instantiation_env,
             resolver=AdaNode.resolve_generic_actual,
         ),
         add_to_env_kv(Entity.relative_name, Self,
@@ -2693,8 +2681,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                     # with no rebindings associated, since the rebinding
                     # indication concerns the *naked* generic. Hence we use
                     # p.el.children_env.
-                    p.el.children_env,
-                    Self.instantiation_env_holder.children_env
+                    p.el.children_env, Self.instantiation_env
                 )
             )
         )
@@ -2728,7 +2715,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                        key=pm.formal.name.sym, val=pm.actual.assoc.expr
                    )))
             ),
-            dest_env=Self.instantiation_env_holder.children_env,
+            dest_env=Self.instantiation_env,
             resolver=AdaNode.resolve_generic_actual,
         )
     )

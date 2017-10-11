@@ -7,8 +7,6 @@ CompilationUnit[1:1-1:24]
 |  |  PrivateAbsent[1:1-1:1]
 |  |item:
 |  |  GenericPackageInstantiation[1:1-1:24]
-|  |  |instantiation_env_holder:
-|  |  |  EnvHolder[1:1-1:1]
 |  |  |name:
 |  |  |  Id[1:9-1:10]
 |  |  |  |tok: A

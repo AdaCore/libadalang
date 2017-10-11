@@ -25,8 +25,6 @@ CompilationUnit[1:1-1:44]
 |  |  PrivateAbsent[1:21-1:21]
 |  |item:
 |  |  GenericPackageInstantiation[1:21-1:44]
-|  |  |instantiation_env_holder:
-|  |  |  EnvHolder[1:21-1:21]
 |  |  |name:
 |  |  |  Id[1:29-1:30]
 |  |  |  |tok: A

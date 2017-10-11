@@ -1,6 +1,0 @@
---  vim: ft=ada
-
-function P_Create_Lex_Env (Node : access Type_Decl_Type'Class) return Lexical_Env is
-begin
-   return AST_Envs.Create (No_Env_Getter, Node, False);
-end P_Create_Lex_Env;

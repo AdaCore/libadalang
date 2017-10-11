@@ -402,7 +402,7 @@ A.add_rules(
 
     generic_instantiation=Or(
         GenericPackageInstantiation(
-            EnvHolder(), "package",
+            "package",
             A.static_name, "is",
             "new", A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
@@ -410,7 +410,6 @@ A.add_rules(
         ),
 
         GenericSubpInstantiation(
-            EnvHolder(),
             A.overriding_indicator,
             Or(
                 SubpKind.alt_procedure("procedure"),

@@ -1,3 +1,4 @@
 driver: python
 input_sources: []
 external_sources: [gnatcoverage, gnatcoll]
+expect_failure: Pending on QA11-047

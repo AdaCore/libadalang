@@ -106,6 +106,7 @@ class Token(LexerToken):
     Assign = WithText()
     LabelStart = WithText()
     LabelEnd = WithText()
+    Target = WithText()
 
     # String and char literals
     String = WithText()
@@ -118,6 +119,7 @@ class Token(LexerToken):
     # Trivia
     Comment = WithTrivia()
     PrepLine = WithTrivia()
+
 
 ada_lexer = Lexer(Token)
 
@@ -267,6 +269,7 @@ rules += [
     (Literal("!"),                              Token.Pipe),
     (Literal("<<"),                             Token.LabelStart),
     (Literal(">>"),                             Token.LabelEnd),
+    (Literal("@"),                              Token.Target),
 
     # Literals
     (ada_lexer.patterns.integer_literal,        Token.Integer),

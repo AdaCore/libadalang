@@ -1084,8 +1084,12 @@ A.add_rules(
 
         QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 
-        A.direct_name,
+        A.direct_name_or_target_name,
     ),
+
+    direct_name_or_target_name=Or(A.direct_name, A.target_name),
+
+    target_name=TargetName("@"),
 
     update_attr_aggregate=Or(
         A.aggregate,

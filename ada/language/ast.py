@@ -3347,6 +3347,10 @@ class Name(Expr):
         )
 
 
+class TargetName(Name):
+    pass
+
+
 class CallExpr(Name):
     """
     Represent a syntactic call expression.

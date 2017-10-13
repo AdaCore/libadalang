@@ -3206,7 +3206,9 @@ class Aggregate(BaseAggregate):
 
 
 class NullRecordAggregate(BaseAggregate):
-    pass
+    @langkit_property()
+    def xref_equation():
+        return LogicTrue()
 
 
 @abstract

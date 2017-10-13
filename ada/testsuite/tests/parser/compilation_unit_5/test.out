@@ -1,0 +1,73 @@
+CompilationUnit[1:1-5:11]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-5:11]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-5:11]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:16]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
+|  |  |  |subp_name:
+|  |  |  |  Id[1:11-1:16]
+|  |  |  |  |tok: Pouet
+|  |  |  |subp_params: <null>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:4-2:22]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-2:22]
+|  |  |  |  |  ObjectDecl[2:4-2:22]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[2:4-2:5]
+|  |  |  |  |  |  |  Id[2:4-2:5]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[2:8-2:8]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantAbsent[2:8-2:8]
+|  |  |  |  |  |inout:
+|  |  |  |  |  |  ModeDefault[2:8-2:8]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[2:8-2:15]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[2:8-2:8]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:8-2:15]
+|  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default_expr:
+|  |  |  |  |  |  Int[2:19-2:21]
+|  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |renaming_clause: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |stmts:
+|  |  |  HandledStmts[4:4-4:15]
+|  |  |  |stmts:
+|  |  |  |  StmtList[4:4-4:15]
+|  |  |  |  |  AssignStmt[4:4-4:15]
+|  |  |  |  |  |dest:
+|  |  |  |  |  |  Id[4:4-4:5]
+|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  BinOp[4:9-4:14]
+|  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  TargetName[4:9-4:10]
+|  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  OpPlus[4:11-4:12]
+|  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  Id[4:13-4:14]
+|  |  |  |  |  |  |  |tok: A
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
+|  |  |end_id:
+|  |  |  Id[5:5-5:10]
+|  |  |  |tok: Pouet
+|pragmas:
+|  PragmaNodeList[6:1-6:1]: <empty list>

@@ -423,8 +423,9 @@ class AdaNode(ASTNode):
 
             Self.as_bare_entity.match(
                 lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part_entity.
-                    _.el.parent.cast(T.GenericPackageDecl),
+                    pkg_body.decl_part_entity.then(
+                        lambda d: d.el.parent.cast(T.GenericPackageDecl)
+                    ),
                 lambda bod=T.SubpBody:
                     # We're only searching for generics. We look at index 1 and
                     # 2, because if self is a subunit, the first entity we find

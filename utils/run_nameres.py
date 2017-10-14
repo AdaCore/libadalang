@@ -153,8 +153,11 @@ class Failure(Result):
         text_file.write(self.text)
         print(self.text)
         text_file.close()
+
+        editor = os.environ.get('EDITOR', 'vim')
+
         subprocess.check_call([
-            "ngvim", "+{}".format(self.lineno), self.file_result.file_path
+            editor, "+{}".format(self.lineno), self.file_result.file_path
         ])
 
     def debug_nameres(self):

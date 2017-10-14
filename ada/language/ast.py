@@ -90,7 +90,7 @@ def ref_generic_formals():
     environments. Make them available with ref_envs.
     """
     return reference(Self.cast(T.AdaNode).to_array,
-                     through=T.AdaNode.generic_formal_env_of_not_library_item,
+                     through=T.AdaNode.nested_generic_formal_part,
                      visible_to_children=True)
 
 
@@ -402,10 +402,10 @@ class AdaNode(ASTNode):
         ))
 
     @langkit_property(memoized=True)
-    def generic_formal_env_of_not_library_item():
+    def nested_generic_formal_part():
         """
-        Assuming Self is a generic package (or subprogram) body that is not a
-        library item, return the lexical environment for the corresponding
+        Assuming Self is a generic entity's body that is nested (not a library
+        item), return the lexical environment for the corresponding
         GenericPackageDecl (or GenericSubpDecl) node. Return an empty
         environment in all other cases.
 

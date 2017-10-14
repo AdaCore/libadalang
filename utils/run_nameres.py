@@ -398,7 +398,7 @@ def main(dirs, j, chunk_size, nores, project, extra_arg):
 
     embed()
 
-    if (previously_passing or previously_failing) and results.save:
+    if results.save:
         dump_to(results, "results_file")
 
     progress_file.close()

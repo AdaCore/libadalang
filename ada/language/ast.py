@@ -2,10 +2,10 @@ from __future__ import absolute_import, division, print_function
 
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
-    AnalysisUnitKind, AnalysisUnitType, ASTNode, BoolType, EnumNode,
-    EquationType, Field, LexicalEnvType, LogicVarType, LongType, Struct,
-    Symbol, T, UserField, abstract, synthetic, env_metadata,
-    has_abstract_list, Annotations
+    AnalysisUnitKind, AnalysisUnitType, Annotations, ASTNode, BoolType,
+    EnumNode, EquationType, Field, LexicalEnvType, LogicVarType, LongType,
+    Struct, SymbolType, T, UserField, abstract, env_metadata,
+    has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, reference, add_to_env, add_env, handle_children, set_initial_env,
@@ -301,7 +301,7 @@ class AdaNode(ASTNode):
     )
 
     std_entity = Property(
-        lambda sym=Symbol: Self.std_env.get(sym).at(0),
+        lambda sym=SymbolType: Self.std_env.get(sym).at(0),
         doc="Return an entity from the standard package with name `sym`"
     )
 
@@ -3309,7 +3309,7 @@ class Name(Expr):
                 .designated_envs.at(Self.child_index))
 
     relative_name = AbstractProperty(
-        type=Symbol, runtime_check=True,
+        type=SymbolType, runtime_check=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix A.B.C, this will return C.
@@ -3840,7 +3840,7 @@ class CaseExprAlternative(Expr):
 
 @abstract
 class SingleTokNode(Name):
-    tok = Field(type=T.Token)
+    tok = Field(type=T.TokenType)
     relative_name = Property(Self.tok.symbol)
 
     r_ref_var = UserField(LogicVarType, public=False)

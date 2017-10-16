@@ -1,0 +1,4 @@
+d1: <ObjectDecl ["I"] 5:7-5:19>
+d2: <ObjectDecl ["I"] 10:4-10:26>
+resolved: <ObjectDecl ["I"] 5:7-5:19>
+Done.

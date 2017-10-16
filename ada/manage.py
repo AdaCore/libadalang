@@ -17,7 +17,7 @@ from langkit.utils import Colors, printcol
 
 class Manage(ManageScript):
 
-    ENABLE_WARNINGS_DEFAULT = True
+    ENABLE_BUILD_WARNINGS_DEFAULT = True
 
     PERF_PARSE = 'parse'
     PERF_PARSE_AND_TRAVERSE = 'parse-and-traverse'

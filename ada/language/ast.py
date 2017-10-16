@@ -1608,7 +1608,8 @@ class TypeDecl(BaseTypeDecl):
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
         reference(
-            Self.cast(AdaNode).singleton, T.TypeDecl.primitives_env,
+            Self.cast(AdaNode).singleton,
+            through=T.TypeDecl.primitives_env,
             transitive=True
         ),
         add_env()
@@ -1638,9 +1639,7 @@ class TypeDecl(BaseTypeDecl):
         relevant entity info.
         """
         return Entity.base_type.cast(T.TypeDecl).then(
-            lambda bt: bt.primitives.singleton.concat(
-                bt.primitives_envs
-            )
+            lambda bt: bt.primitives.singleton.concat(bt.primitives_envs)
         )
 
     @langkit_property(return_type=LexicalEnvType.array, memoized=True)
@@ -2482,13 +2481,23 @@ class ObjectDecl(BasicDecl):
     @langkit_property()
     def xref_equation():
         typ = Var(Entity.expr_type)
-        return Entity.type_expr.sub_equation & Entity.default_expr.then(
-            lambda de:
-            de.sub_equation
-            & Bind(Self.default_expr.type_var,
-                   typ,
-                   eq_prop=BaseTypeDecl.matching_assign_type),
-            default_val=LogicTrue()
+        return (
+            Entity.type_expr.sub_equation
+            & Entity.default_expr.then(
+                lambda de:
+                de.sub_equation
+                & Bind(de.el.type_var,
+                       typ,
+                       eq_prop=BaseTypeDecl.matching_assign_type),
+                default_val=LogicTrue()
+            )
+            & Entity.renaming_clause.then(
+                lambda rc:
+                rc.renamed_object.sub_equation
+                & Bind(rc.renamed_object.el.type_var, typ,
+                       eq_prop=BaseTypeDecl.matching_assign_type),
+                default_val=LogicTrue()
+            )
         )
 
     xref_entry_point = Property(True)

@@ -17,6 +17,8 @@ decls = u.root.findall(lal.ObjectDecl)
 d1, d2 = decls
 n = d2.f_default_expr
 
+node_dict = dict((node, repr(node)) for node in (d1, d2, n))
+
 print('d1:', d1)
 print('d2:', d2)
 if not d2.p_resolve_names:
@@ -29,10 +31,13 @@ print('resolved:', resolved)
 if d1 != d1:
     print('Self comparison failed')
 
-if d1 != u.root.find(lal.ObjectDecl):
+new_d1 = u.root.find(lal.ObjectDecl)
+if d1 != new_d1:
     print('Simple comparison failed')
 
 if d1 == resolved:
-    print('Entity info ignored')
+    print('Entity info ignored for comparison')
+
+print('Dict lookup:', node_dict[new_d1])
 
 print('Done.')

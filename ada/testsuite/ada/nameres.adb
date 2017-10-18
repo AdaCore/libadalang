@@ -313,29 +313,48 @@ procedure Nameres is
             elsif Pragma_Name = "Test" then
                --  Perform name resolution
                declare
-                  pragma Assert (P_Node.F_Args.Child_Count = 1);
+                  pragma Assert (P_Node.F_Args.Child_Count in 1 | 2);
+
                   Arg      : constant Expr :=
                      P_Node.F_Args.Child (1).As_Base_Assoc.P_Assoc_Expr;
-                  Entities : Ada_Node_Array := Do_Pragma_Test (Arg);
+
+                  Debug_Lookup : Boolean := False;
+
                begin
-                  Put_Line (Text (Arg) & " resolves to:");
-                  Sort (Entities);
-                  for E of Entities loop
-                     Put ("    " & (if Display_Short_Images
-                                    then Image (E.Short_Image)
-                                    else Text (E)));
-                     if Display_Slocs then
-                        Put_Line (" at "
-                                  & Image (Start_Sloc (E.Sloc_Range)));
-                     else
-                        New_Line;
-                     end if;
-                  end loop;
-                  if Entities'Length = 0 then
-                     Put_Line ("    <none>");
+                  if P_Node.F_Args.Child_Count = 2 then
+                     Debug_Lookup := Text
+                       (As_Base_Assoc
+                         (P_Node.F_Args.Child (2)).P_Assoc_Expr) 
+                          = String'("Debug");
                   end if;
+
+                  Trigger_Envs_Debug (Debug_Lookup);
+
+                  declare
+                     Entities : Ada_Node_Array := Do_Pragma_Test (Arg);
+                  begin
+
+                     Put_Line (Text (Arg) & " resolves to:");
+                     Sort (Entities);
+                     for E of Entities loop
+                        Put ("    " & (if Display_Short_Images
+                                       then Image (E.Short_Image)
+                                       else Text (E)));
+                        if Display_Slocs then
+                           Put_Line (" at "
+                                     & Image (Start_Sloc (E.Sloc_Range)));
+                        else
+                           New_Line;
+                        end if;
+                     end loop;
+                     if Entities'Length = 0 then
+                        Put_Line ("    <none>");
+                     end if;
+                  end;
                end;
+
                Empty := False;
+               Trigger_Envs_Debug (False);
 
             elsif Pragma_Name = "Test_Statement" then
                pragma Assert (P_Node.F_Args.Child_Count = 0);

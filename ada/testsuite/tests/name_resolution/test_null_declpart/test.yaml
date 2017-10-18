@@ -1,0 +1,5 @@
+description:
+    Symbol resolution: test_null_declpart
+driver: name-resolution
+input_sources: [foo.adb]
+with_default_project: False

@@ -697,16 +697,6 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(return_type=LexicalEnvType, external=True,
-                      uses_entity_info=False)
-    def create_lex_env():
-        """
-        Returns a new non refcounted parentless env associated to Node. This is
-        meant for internal usage, and the result has to be memoized in order
-        not to leak envs.
-        """
-        pass
-
 
 @abstract
 class Body(BasicDecl):
@@ -1565,10 +1555,12 @@ class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
+    prims_env = UserField(type=T.LexicalEnvType, public=False)
 
-    @langkit_property(memoized=True, return_type=LexicalEnvType)
+    @langkit_property(external=True, uses_entity_info=False,
+                      return_type=LexicalEnvType)
     def primitives():
-        return Self.create_lex_env
+        pass
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
@@ -2581,7 +2573,12 @@ class GenericInstantiation(BasicDecl):
     Instantiations of generics.
     """
 
-    instantiation_env = Property(Self.create_lex_env, memoized=True)
+    inst_env = UserField(type=T.LexicalEnvType, public=False)
+
+    @langkit_property(external=True, uses_entity_info=False,
+                      return_type=LexicalEnvType)
+    def instantiation_env():
+        pass
 
     generic_entity_name = AbstractProperty(
         type=T.Name.entity, doc="""

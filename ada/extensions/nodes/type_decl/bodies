@@ -1,0 +1,17 @@
+## vim: ft=makoada
+
+------------------
+-- P_Primitives --
+------------------
+
+function P_Primitives
+  (Node : access Bare_Type_Decl_Type'Class) return Lexical_Env
+is
+begin
+   if Node.F_Prims_Env = Empty_Env then
+      Node.F_Prims_Env :=
+         AST_Envs.Create (No_Env_Getter, Node, Is_Refcounted => False);
+      Register_Destroyable (Node.Unit, Node.F_Prims_Env);
+   end if;
+   return Node.F_Prims_Env;
+end P_Primitives;

@@ -50,17 +50,3 @@ begin
    Append (Ret, "] " & To_Text (Image (Sloc_Range (Node))) & ">");
    return To_Wide_Wide_String (Ret);
 end Short_Image;
-
-----------------------
--- P_Create_Lex_Env --
-----------------------
-
-function P_Create_Lex_Env
-  (Node : access Bare_Basic_Decl_Type'Class) return Lexical_Env
-is
-   Result : constant Lexical_Env :=
-      AST_Envs.Create (No_Env_Getter, Node, Is_Refcounted => False);
-begin
-   Register_Destroyable (Node.Unit, Result);
-   return Result;
-end P_Create_Lex_Env;

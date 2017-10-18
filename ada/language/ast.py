@@ -4230,11 +4230,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         types = Var(params.map(lambda p: p.spec.el_type))
 
         return types.find(lambda typ: typ.then(
-            lambda typ: typ.declarative_scope.any_of(
+            lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(
                 bd.declarative_scope,
                 bd.declarative_scope
                 ._.parent.cast(BasePackageDecl)._.public_part
-            )
+            ))
         ))
 
     @langkit_property(return_type=BoolType)

@@ -40,8 +40,8 @@ def universal_int_bind(type_var):
     """
     return Or(
         TypeBind(type_var, Self.int_type),
-        LogicTrue()
-    ) & Predicate(BaseTypeDecl.is_int_type_or_null, type_var)
+        Predicate(BaseTypeDecl.is_int_type_or_null, type_var)
+    )
 
 
 def universal_discrete_bind(type_var):

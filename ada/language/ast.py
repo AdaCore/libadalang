@@ -3453,7 +3453,7 @@ class CallExpr(Name):
                         # variable/etc), that would make this callexpr an array
                         # access.
                         s.paramless_subp,
-                        Entity.subscriptable_type_equation(s.expr_type),
+                        Entity.subscriptable_type_equation(s.expr_type, False),
                         Entity.subprogram_equation(s.subp_spec_or_null,
                                                    s.info.md.dottable_subp,
                                                    s.info.md.primitive)
@@ -3508,7 +3508,8 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def subscriptable_type_equation(typ=T.BaseTypeDecl.entity):
+    def subscriptable_type_equation(typ=T.BaseTypeDecl.entity,
+                                    constrain_params=(BoolType, True)):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
@@ -3521,7 +3522,11 @@ class CallExpr(Name):
                 # Regular array access
                 lambda _=T.AssocList: Self.params._.logic_all(
                     lambda i, pa:
-                    pa.expr.as_entity.sub_equation()
+                    If(
+                        constrain_params,
+                        pa.expr.as_entity.sub_equation(),
+                        LogicTrue()
+                    )
                     & indices.constrain_index_expr(pa.expr, i)
                 )
                 & TypeBind(Self.type_var, atd.comp_type),

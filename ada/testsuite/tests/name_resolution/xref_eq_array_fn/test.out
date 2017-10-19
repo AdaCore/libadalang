@@ -15,7 +15,7 @@ Expr: <Id "F" 8:9-8:10>
   type:       <TypeDecl ["T"] 3:4-3:55>
 Expr: <Int 8:12-8:13>
   references: None
-  type:       <TypeDecl ["Integer"] 2:4-2:36>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 
 Done.

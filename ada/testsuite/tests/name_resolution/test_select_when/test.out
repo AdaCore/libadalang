@@ -12,7 +12,7 @@ Expr: <Id "Integer" 10:24-10:31>
   type:       None
 Expr: <Int 10:35-10:38>
   references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <ObjectDecl ["Length"] 12:6-12:46>
 ***********************************************************
@@ -34,7 +34,7 @@ Expr: <Id "Q_Size" 12:34-12:40>
   type:       None
 Expr: <Int 12:44-12:45>
   references: None
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <ObjectDecl ["Head", "Tail"] 13:6-13:32>
 *****************************************************************
@@ -50,7 +50,7 @@ Expr: <Id "Q_Range" 13:19-13:26>
   type:       None
 Expr: <Int 13:30-13:31>
   references: None
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <ObjectDecl ["Data"] 14:6-14:37>
 *********************************************************
@@ -93,7 +93,7 @@ Expr: <Id "Length" 25:17-25:23>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <Int 25:26-25:27>
   references: None
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AcceptStmtWithStmts 19:15-21:26>
 **********************************************************
@@ -147,7 +147,7 @@ Expr: <Id "Q_Size" 22:32-22:38>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 22:41-22:42>
   references: None
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AssignStmt 23:15-23:36>
 *************************************************
@@ -163,7 +163,7 @@ Expr: <Id "Length" 23:25-23:31>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <Int 23:34-23:35>
   references: None
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AcceptStmtWithStmts 26:15-28:26>
 **********************************************************
@@ -217,7 +217,7 @@ Expr: <Id "Q_Size" 29:32-29:38>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 29:41-29:42>
   references: None
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AssignStmt 30:15-30:36>
 *************************************************
@@ -233,7 +233,7 @@ Expr: <Id "Length" 30:25-30:31>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <Int 30:34-30:35>
   references: None
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 
 Done.

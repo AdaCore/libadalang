@@ -38,10 +38,7 @@ def universal_int_bind(type_var):
     Return an equation that will bind type_var to any integer value,
     corresponding to the notion of universal_integer in the Ada RM.
     """
-    return Or(
-        TypeBind(type_var, Self.int_type),
-        Predicate(BaseTypeDecl.is_int_type_or_null, type_var)
-    )
+    return TypeBind(type_var, Self.universal_int_type)
 
 
 def universal_discrete_bind(type_var):
@@ -305,6 +302,7 @@ class AdaNode(ASTNode):
 
     bool_type = Property(Self.std_entity('Boolean'))
     int_type = Property(Self.std_entity('Integer'))
+    universal_int_type = Property(Self.std_entity('Universal_Int_Type_'))
 
     @langkit_property(return_type=BoolType)
     def has_with_visibility(refd_unit=AnalysisUnitType):
@@ -1281,16 +1279,6 @@ class BaseTypeDecl(BasicDecl):
         return Self.is_null | Entity.is_int_type | Entity.is_real_type
 
     @langkit_property(dynamic_vars=[origin])
-    def is_int_type_or_null():
-        """
-        Special version of is_int_type, used for xref predicate. In some
-        contexts, when the type of something is unknown, it will be affected
-        the value null. In that case, it can be anything, so
-        is_int_type_or_null is supposed to pass.
-        """
-        return Self.is_null | Entity.is_int_type
-
-    @langkit_property(dynamic_vars=[origin])
     def is_real_type_or_null():
         """
         Special version of is_float_type, used for xref predicate; see
@@ -1445,8 +1433,7 @@ class BaseTypeDecl(BasicDecl):
                 actual_type.is_classwide,
                 actual_type.is_derived_type(formal_type)
             ),
-            actual_type.canonical_type == formal_type.canonical_type,
-            actual_type.matching_access_type(formal_type)
+            actual_type.matching_type(formal_type)
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
@@ -1463,11 +1450,17 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_type(expected_type=T.BaseTypeDecl.entity):
         actual_type = Var(Entity)
-        return And(
-            Not(expected_type.is_null),
-            Not(actual_type.is_null),
-            Or(actual_type.canonical_type == expected_type.canonical_type,
-               actual_type.matching_access_type(expected_type))
+        return Or(
+            And(actual_type == Self.universal_int_type,
+                expected_type.is_int_type),
+
+            And(expected_type == Self.universal_int_type,
+                actual_type.is_int_type),
+
+            And(Not(expected_type.is_null),
+                Not(actual_type.is_null),
+                Or(actual_type.canonical_type == expected_type.canonical_type,
+                   actual_type.matching_access_type(expected_type)))
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
@@ -4136,7 +4129,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_int_type_or_null, Self.type_var)
+        return universal_int_bind(Self.type_var)
 
 
 class NullLiteral(SingleTokNode):

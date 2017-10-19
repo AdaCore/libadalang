@@ -12,10 +12,10 @@ Expr: <BinOp 3:25-3:34>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <Int 3:25-3:26>
   references: None
-  type:       <TypeDecl ["Typ"] 3:7-3:35>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 3:30-3:34>
   references: None
-  type:       <TypeDecl ["Typ"] 3:7-3:35>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <ObjectDecl ["A", "B"] 6:4-6:25>
 *********************************************************
@@ -37,7 +37,7 @@ Expr: <Id "Typ" 6:15-6:18>
   type:       None
 Expr: <Int 6:22-6:24>
   references: None
-  type:       <TypeDecl ["Typ"] 3:7-3:35>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AssignStmt 8:4-8:24>
 **********************************************

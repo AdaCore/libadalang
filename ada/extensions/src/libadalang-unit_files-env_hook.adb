@@ -127,6 +127,7 @@ package body Libadalang.Unit_Files.Env_Hook is
      "  Program_Error    : exception;" & ASCII.LF &
      "  Storage_Error    : exception;" & ASCII.LF &
      "  Tasking_Error    : exception;" & ASCII.LF &
+     "  type Universal_Int_Type_ is range -1 .. 1;" & ASCII.LF &
      "end Standard;" & ASCII.LF;
 
    procedure Handle_Unit_With_Parents

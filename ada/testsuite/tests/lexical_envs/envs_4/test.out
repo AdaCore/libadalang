@@ -41,21 +41,21 @@ CompilationUnit[1:1-3:13]
 ==== Dumping lexical environments ====
 $root = LexEnv(Parent=null):
     foo: [<PackageDecl ["Foo"] 1:1-2:9>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
+    standard: [<PackageDecl ["Standard"] 1:1-120:14>]
 
 @2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>):
     Referenced:
-      <GenericPackageDecl ["Foo.Bar"] 1:1-3:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+      <GenericPackageDecl ["Foo.Bar"] 1:1-3:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
     <empty>
 
 @1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:9>):
     Referenced:
-      <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-119:14>)
+      <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
     bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>]
 
 $root = LexEnv(Parent=null):
     foo: [<PackageDecl ["Foo"] 1:1-2:9>]
-    standard: [<PackageDecl ["Standard"] 1:1-119:14>]
+    standard: [<PackageDecl ["Standard"] 1:1-120:14>]
 
 @3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["Foo.Bar"] 2:1-3:13>):
     <empty>

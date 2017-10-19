@@ -20,7 +20,7 @@ Expr: <Id "A" 9:4-9:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Int 9:9-9:11>
   references: None
-  type:       <TypeDecl ["Int"] 2:4-2:30>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 
 Done.

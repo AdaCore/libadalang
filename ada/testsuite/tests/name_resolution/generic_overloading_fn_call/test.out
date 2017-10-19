@@ -47,7 +47,7 @@ Expr: <Id "V" 13:28-13:29>
   type:       <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:4:4] |>
 Expr: <Int 13:31-13:33>
   references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 
 Done.

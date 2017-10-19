@@ -295,9 +295,7 @@ class AdaNode(ASTNode):
 
     std_env = Property(
         Self.std.children_env,
-        doc="""
-        Get the children env of the Standard package.
-        """
+        doc="Get the children env of the Standard package."
     )
 
     std_entity = Property(

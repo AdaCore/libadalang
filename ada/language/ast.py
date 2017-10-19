@@ -3480,28 +3480,37 @@ class CallExpr(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def operator_equation():
         rel_name = Var(Entity.name.relative_name)
+
+        def base_name_eq():
+            return Entity.name.base_name._.sub_equation._or(LogicFalse())
+
         return Self.params._.unpacked_params.then(
             lambda params:
-            Entity.name.base_name._.sub_equation._or(LogicFalse()) & Cond(
+            Cond(
                 (params.length == 2)
                 & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="', '">"',
                                   '">="'),
                 TypeBind(params.at(0).assoc.expr.type_var,
                          params.at(1).assoc.expr.type_var)
-                & TypeBind(Self.type_var, Self.bool_type),
+                & TypeBind(Self.type_var, Self.bool_type)
+                & base_name_eq(),
+
 
                 (params.length == 2)
                 & rel_name.any_of(
-                    '"and"', '"or"', '"xor"', '"abs"', '"not"', '"**"', '"*"',
+                    '"and"', '"or"', '"xor"', '"abs"', '"**"', '"*"',
                     '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
                 ),
                 TypeBind(params.at(0).assoc.expr.type_var,
                          params.at(1).assoc.expr.type_var)
                 & TypeBind(params.at(0).assoc.expr.type_var,
-                           Self.type_var),
+                           Self.type_var)
+                & base_name_eq(),
 
-                params.length == 1,
-                TypeBind(params.at(0).assoc.expr.type_var, Self.type_var),
+                (params.length == 1)
+                & rel_name.any_of('"+"', '"-"', '"not"', '"abs"'),
+                TypeBind(params.at(0).assoc.expr.type_var, Self.type_var)
+                & base_name_eq(),
 
                 LogicFalse()
             )

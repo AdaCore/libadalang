@@ -1,0 +1,5 @@
+description:
+    Symbol resolution: test_paramless_access_to_subp
+driver: name-resolution
+input_sources: [testaccsubp.adb]
+with_default_project: False

@@ -202,35 +202,35 @@ CompilationUnitList[1:1-17:11]
 $root = LexEnv(Parent=null):
     a: [<PackageDecl ["A"] 10:1-11:7>]
     foo: [<PackageDecl ["Foo"] 1:1-2:9>]
-    standard: [<PackageDecl ["Standard"] 1:1-120:14>]
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
 @1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:9>):
     Referenced:
-      <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:13>]
 
 @2 = LexEnv(Parent=@1, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
     Referenced:
-      <PackageDecl ["Foo.Bar"] 4:1-5:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["Foo.Bar"] 4:1-5:13>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>]
 
 @3 = LexEnv(Parent=@2, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
     Referenced:
-      <PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     <empty>
 
 @4 = LexEnv(Parent=$root, Node=<PackageDecl ["A"] 10:1-11:7>):
     Referenced:
-      <PackageDecl ["A"] 10:1-11:7>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["A"] 10:1-11:7>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     b: [<PackageDecl ["A.B"] 13:1-14:9>]
 
 @5 = LexEnv(Parent=@4, Node=<PackageDecl ["A.B"] 13:1-14:9>):
     Referenced:
-      <PackageDecl ["A.B"] 13:1-14:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["A.B"] 13:1-14:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     c: [<PackageDecl ["A.B.C"] 16:1-17:11>]
 
 @6 = LexEnv(Parent=@5, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
     Referenced:
-      <PackageDecl ["A.B.C"] 16:1-17:11>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-120:14>)
+      <PackageDecl ["A.B.C"] 16:1-17:11>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
     <empty>
 

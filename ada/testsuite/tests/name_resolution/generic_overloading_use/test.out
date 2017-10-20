@@ -15,7 +15,7 @@ Expr: <Id "V2" 13:12-13:14>
   type:       <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:5:4] |>
 Expr: <Real 13:16-13:20>
   references: None
-  type:       <TypeDecl ["Float"] 13:3-14:51>
+  type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 
 
 Resolving xrefs for node <CallStmt 16:4-16:19>

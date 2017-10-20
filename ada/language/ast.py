@@ -303,6 +303,7 @@ class AdaNode(ASTNode):
     bool_type = Property(Self.std_entity('Boolean'))
     int_type = Property(Self.std_entity('Integer'))
     universal_int_type = Property(Self.std_entity('Universal_Int_Type_'))
+    universal_real_type = Property(Self.std_entity('Universal_Real_Type_'))
 
     @langkit_property(return_type=BoolType)
     def has_with_visibility(refd_unit=AnalysisUnitType):
@@ -1279,14 +1280,6 @@ class BaseTypeDecl(BasicDecl):
         return Self.is_null | Entity.is_int_type | Entity.is_real_type
 
     @langkit_property(dynamic_vars=[origin])
-    def is_real_type_or_null():
-        """
-        Special version of is_float_type, used for xref predicate; see
-        is_int_type_or_null for details.
-        """
-        return Self.is_null | Entity.is_real_type
-
-    @langkit_property(dynamic_vars=[origin])
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
@@ -1456,6 +1449,12 @@ class BaseTypeDecl(BasicDecl):
 
             And(expected_type == Self.universal_int_type,
                 actual_type.is_int_type),
+
+            And(actual_type == Self.universal_real_type,
+                expected_type.is_real_type),
+
+            And(expected_type == Self.universal_real_type,
+                actual_type.is_real_type),
 
             And(Not(expected_type.is_null),
                 Not(actual_type.is_null),
@@ -4121,7 +4120,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_real_type_or_null, Self.type_var)
+        return TypeBind(Self.type_var, Self.universal_real_type)
 
 
 class IntLiteral(NumLiteral):

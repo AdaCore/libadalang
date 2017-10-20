@@ -178,7 +178,7 @@ Expr: <CallExpr 32:6-32:16>
   type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Str ""="" 32:6-32:9>
   references: <SubpBody [""=""] 14:3-17:11>
-  type:       None
+  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "h" 32:11-32:12>
   references: <ObjectDecl ["g", "h"] 7:3-7:26>
   type:       <TypeDecl ["File_Type_Access"] 4:3-4:49>

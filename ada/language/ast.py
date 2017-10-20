@@ -4053,6 +4053,10 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def xref_equation():
+        return Entity.base_id_xref_equation()
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def base_id_xref_equation():
         return Let(lambda dt=Entity.designated_type_impl: If(
             Not(dt.is_null),
 
@@ -4100,7 +4104,7 @@ class StringLiteral(BaseId):
             # StringLiteral can be in a name, if it is an operator, in which
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
-            LogicTrue(),
+            Entity.base_id_xref_equation(),
             Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
         )
 

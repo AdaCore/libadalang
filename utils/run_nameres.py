@@ -148,13 +148,13 @@ class Failure(Result):
             self.exception = [l for l in lines if l.startswith('>')][0]
             self.traceback = split_by(lambda l: l != "Traceback:", lines)[1]
 
-    def open_failure(self):
+    def open_failure(self, editor=None):
         text_file = NamedTemporaryFile()
         text_file.write(self.text)
         print(self.text)
         text_file.close()
 
-        editor = os.environ.get('EDITOR', 'vim')
+        editor = editor or os.environ.get('EDITOR', 'vim')
 
         subprocess.check_call([
             editor, "+{}".format(self.lineno), self.file_result.file_path

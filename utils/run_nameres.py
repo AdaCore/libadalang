@@ -7,7 +7,7 @@ the results.
 
 from __future__ import print_function, absolute_import, division
 
-import click
+import argparse
 from collections import defaultdict
 import cPickle
 from funcy import split_by, partition_by, cat, memoize, pairwise, chunks
@@ -294,20 +294,13 @@ class Results(object):
         return [f for f in self.failures if f.file_name == filename][0]
 
 
-@click.command()
-@click.argument('dirs', nargs=-1)
-@click.option('-j', default=1)
-@click.option('--chunk-size', default=100)
-@click.option('--nores', is_flag=True)
-@click.option('--project', default="")
-@click.option('--extra-arg', '-E', multiple=True)
-def main(dirs, j, chunk_size, nores, project, extra_arg):
+def main(dirs, j, chunk_size, no_resolution, project, extra_args):
 
-    print("NAMERES ARGS :::: ", extra_arg)
-
+    print(dirs, j, chunk_size, no_resolution, project, extra_args)
     print("Loading old results ..")
+
     prev_results = load_or_create("results_file", lambda: None)
-    if nores:
+    if no_resolution:
         results = prev_results
         embed()
         return
@@ -329,7 +322,7 @@ def main(dirs, j, chunk_size, nores, project, extra_arg):
 
     raw_results = pmap(
         lambda (dir, f): FileResult.nameres_files(
-            dir, f, project=project, extra_args=extra_arg
+            dir, f, project=project, extra_args=extra_args
         ),
         files, nb_threads=j
     )
@@ -404,4 +397,17 @@ def main(dirs, j, chunk_size, nores, project, extra_arg):
     progress_file.close()
 
 
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('dirs', help='The dirs to analyze',
+                        type=str, nargs='*')
+    parser.add_argument('--jobs', '-j', type=int, default=1)
+    parser.add_argument('--chunk-size', '-c', type=int, default=100)
+    parser.add_argument('--project', '-p', type=str, default="")
+    parser.add_argument('--extra-args', '-E', type=str,
+                        nargs='+', default=[])
+    parser.add_argument('--no-resolution', '-N', action='store_true')
+    args = parser.parse_args()
+    print(args.dirs)
+    main(args.dirs, args.jobs, args.chunk_size, args.no_resolution,
+         args.project, args.extra_args)

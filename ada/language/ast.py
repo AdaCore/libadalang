@@ -3112,7 +3112,13 @@ class BinOp(Expr):
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """
-        return (
+        return Self.op.match(
+            lambda _=Op.alt_pow:
+
+            TypeBind(Self.right.type_var, Self.universal_int_type)
+            & TypeBind(Self.left.type_var, Self.type_var),
+
+            lambda _:
             TypeBind(Self.type_var, Self.left.type_var)
             & TypeBind(Self.type_var, Self.right.type_var)
         )
@@ -3492,13 +3498,19 @@ class CallExpr(Name):
 
                 (params.length == 2)
                 & rel_name.any_of(
-                    '"and"', '"or"', '"xor"', '"abs"', '"**"', '"*"',
+                    '"and"', '"or"', '"xor"', '"abs"', '"*"',
                     '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
                 ),
                 TypeBind(params.at(0).assoc.expr.type_var,
                          params.at(1).assoc.expr.type_var)
                 & TypeBind(params.at(0).assoc.expr.type_var,
                            Self.type_var)
+                & base_name_eq(),
+
+                (params.length == 2) & (rel_name == '"**"'),
+                TypeBind(params.at(1).assoc.expr.type_var,
+                         Self.universal_int_type)
+                & TypeBind(params.at(0).assoc.expr.type_var, Self.type_var)
                 & base_name_eq(),
 
                 (params.length == 1)

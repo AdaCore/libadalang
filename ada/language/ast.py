@@ -2027,6 +2027,8 @@ class AccessToSubpDef(AccessDef):
 
     xref_equation = Property(LogicTrue())
 
+    accessed_type = Property(Entity.subp_spec.return_type)
+
 
 class TypeAccessDef(AccessDef):
     has_all = Field(type=All)
@@ -3739,7 +3741,13 @@ class ExplicitDeref(Name):
             Entity.prefix.env_elements_impl.filter(
                 # Env elements for access derefs need to be of an access type
                 lambda e:
-                e.cast(BasicDecl)._.expr_type.is_access_type
+                e.cast(BasicDecl)._.expr_type.then(
+                    lambda t: t.is_access_type & t.access_def.match(
+                        lambda sa=AccessToSubpDef:
+                        sa.subp_spec.params.length == 0,
+                        lambda _: True
+                    )
+                )
             )
         )
 

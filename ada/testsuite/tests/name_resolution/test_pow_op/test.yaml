@@ -1,0 +1,5 @@
+description:
+    Symbol resolution: test_pow_op
+driver: name-resolution
+input_sources: [testexp.adb]
+with_default_project: False

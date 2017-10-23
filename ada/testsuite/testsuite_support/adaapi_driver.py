@@ -5,7 +5,7 @@ from testsuite_support.base_driver import (
 )
 
 
-class CAPIDriver(BaseDriver):
+class AdaAPIDriver(BaseDriver):
 
     #
     # Driver entry poins
@@ -13,7 +13,7 @@ class CAPIDriver(BaseDriver):
 
     @catch_test_errors
     def tear_up(self):
-        super(CAPIDriver, self).tear_up()
+        super(AdaAPIDriver, self).tear_up()
 
         if 'main' not in self.test_env:
             raise SetupError('Missing "main" key in test.yaml')

@@ -27,7 +27,7 @@ import testsuite_support.python_driver
 class Testsuite(BaseTestsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
-        'ada-api': testsuite_support.adaapi_driver.CAPIDriver,
+        'ada-api': testsuite_support.adaapi_driver.AdaAPIDriver,
         'c-api': testsuite_support.capi_driver.CAPIDriver,
         'navigation': testsuite_support.navigation_driver.NavigationDriver,
         'parser': testsuite_support.parser_driver.ParserDriver,

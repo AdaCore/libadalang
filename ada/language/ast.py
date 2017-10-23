@@ -401,7 +401,7 @@ class AdaNode(ASTNode):
             EmptyEnv
         ))
 
-    @langkit_property(memoized=True)
+    @langkit_property(memoized=True, memoize_in_populate=True)
     def nested_generic_formal_part():
         """
         Assuming Self is a generic entity's body that is nested (not a library
@@ -1488,7 +1488,8 @@ class BaseTypeDecl(BasicDecl):
         """
         return Entity.canonical_part.as_entity
 
-    @langkit_property(memoized=True, ignore_warn_on_node=True)
+    @langkit_property(memoized=True, memoize_in_populate=True,
+                      ignore_warn_on_node=True)
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(type_id=Self.type_id)
 
@@ -1634,7 +1635,8 @@ class TypeDecl(BaseTypeDecl):
             lambda bt: bt.primitives.singleton.concat(bt.primitives_envs)
         )
 
-    @langkit_property(return_type=LexicalEnvType.array, memoized=True)
+    @langkit_property(return_type=LexicalEnvType.array, memoized=True,
+                      memoize_in_populate=True)
     def primitives_envs_memoized():
         """
         Memoized implem for primitives_env. Used in cases where there is
@@ -2098,7 +2100,8 @@ class UsePackageClause(UseClause):
         )
     )
 
-    @langkit_property(memoized=True, return_type=LexicalEnvType.array)
+    @langkit_property(memoized=True, memoize_in_populate=True,
+                      return_type=LexicalEnvType.array)
     def designated_envs():
         """
         Return the array of designated envs corresponding to each package name.
@@ -4349,23 +4352,25 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_names = Property(Self.id.cast(T.Name).as_entity.singleton)
 
-    expr_type = Property(If(
-        Self.id_type.is_null,
+    @langkit_property(unsafe_memoization=True)
+    def expr_type():
+        return If(
+            Self.id_type.is_null,
 
-        # The type of a for loop variable does not need to be annotated, it can
-        # eventually be infered, which necessitates name resolution on the loop
-        # specification. Run resolution if necessary.
-        Let(lambda p=If(
-            Self.id.type_val.is_null,
-            Self.parent.parent
-            .cast(T.ForLoopStmt).spec.as_entity.resolve_names,
-            True
-        ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity),
-              No(BaseTypeDecl.entity))),
+            # The type of a for loop variable does not need to be annotated, it
+            # can eventually be infered, which necessitates name resolution on
+            # the loop specification. Run resolution if necessary.
+            Let(lambda p=If(
+                Self.id.type_val.is_null,
+                Self.parent.parent
+                .cast(T.ForLoopStmt).spec.as_entity.resolve_names,
+                True
+            ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity),
+                  No(BaseTypeDecl.entity))),
 
-        # If there is a type annotation, just return it
-        Entity.id_type.designated_type
-    ))
+            # If there is a type annotation, just return it
+            Entity.id_type.designated_type
+        )
 
     env_spec = EnvSpec(add_to_env_kv(Self.id.sym, Self))
 

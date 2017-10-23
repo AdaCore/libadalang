@@ -6,7 +6,6 @@ from testsuite_support.base_driver import (
 
 
 class ParserDriver(BaseDriver):
-    TIMEOUT = 300
 
     ACTIONS = ('pretty-print', 'pretty-print-file',
                'pp-file-with-trivia', 'pp-file-with-lexical-envs')

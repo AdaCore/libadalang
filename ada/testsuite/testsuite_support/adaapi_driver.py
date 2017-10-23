@@ -6,7 +6,6 @@ from testsuite_support.base_driver import (
 
 
 class CAPIDriver(BaseDriver):
-    TIMEOUT = 300
 
     #
     # Driver entry poins

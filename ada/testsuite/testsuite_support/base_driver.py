@@ -71,7 +71,7 @@ class BaseDriver(TestDriver):
     be easier to submit it upstream...
     """
 
-    TIMEOUT = None
+    DEFAULT_TIMEOUT = 300
 
     def tear_up(self):
         super(BaseDriver, self).tear_up()
@@ -124,6 +124,20 @@ class BaseDriver(TestDriver):
                                  ' expected a string but got {}'.format(
                                      type(comment)))
             self.expect_failure_comment = comment
+
+        # Use the specified timeout if any, otherwise fallback to the default
+        # one.
+        try:
+            timeout = self.test_env['timeout']
+        except KeyError:
+            self.timeout = self.DEFAULT_TIMEOUT
+        else:
+            if (not isinstance(timeout, int)
+                    or timeout < 0):
+                raise SetupError('Invalid "timeout" entry: expected a positive'
+                                 ' number of seconds, got {} instead'.format(
+                                     timeout))
+            self.timeout = timeout
 
     def read_file(self, filename):
         """Return the content of `filename`."""
@@ -297,7 +311,7 @@ class BaseDriver(TestDriver):
             argv = self.valgrind.wrap_argv(argv)
 
         p = Run(argv, cwd=self.working_dir(),
-                timeout=self.TIMEOUT,
+                timeout=self.timeout,
                 output=PIPE,
                 error=STDOUT)
 

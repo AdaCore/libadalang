@@ -9,7 +9,6 @@ from testsuite_support.base_driver import (
 
 
 class PythonDriver(BaseDriver):
-    TIMEOUT = 300
 
     #
     # Driver entry poins

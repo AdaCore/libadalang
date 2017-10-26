@@ -302,16 +302,15 @@ class Results(object):
         return [f for f in self.failures if f.file_name == filename][0]
 
 
-def main(dirs, j, chunk_size, no_resolution, project, extra_args):
+def main(dirs, j, chunk_size, automated, no_resolution, project, extra_args):
 
-    print("Loading old results ..")
-
-    prev_results = load_or_create("results_file", lambda: None)
-    if no_resolution:
-        results = prev_results
-        embed()
-        return
-
+    if not automated:
+        print("Loading old results ..")
+        prev_results = load_or_create("results_file", lambda: None)
+        if no_resolution:
+            results = prev_results
+            embed()
+            return
 
     results = Results()
     files = []
@@ -336,6 +335,17 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
         results.add(subresults)
         bar.update(len(results))
 
+    if automated:
+        print("ACATS Passing:")
+        for success in results.successes:
+            print(success.file_name)
+        return
+
+    ####################################
+    # Start of interactive mode report #
+    ####################################
+
+    print("Report for {}:".format(time.strftime("%Y-%m-%d %Hh%M")))
 
     successes = len(results.successes)
     failures = len(results.failures)
@@ -408,7 +418,9 @@ if __name__ == '__main__':
     parser.add_argument('--extra-args', '-E', type=str,
                         nargs='+', default=[])
     parser.add_argument('--no-resolution', '-N', action='store_true')
+    parser.add_argument('--automated', '-A', action='store_true')
     args = parser.parse_args()
     print(args.dirs)
-    main(args.dirs, args.jobs, args.chunk_size, args.no_resolution,
+    main(args.dirs, args.jobs, args.chunk_size,
+         args.automated, args.no_resolution,
          args.project, args.extra_args)

@@ -13,7 +13,6 @@ import cPickle
 from funcy import split_by, partition_by, cat, memoize, pairwise, chunks
 from glob import glob
 import os
-import progressbar
 import Queue
 import subprocess
 from tempfile import NamedTemporaryFile
@@ -21,6 +20,16 @@ from threading import Thread, Event
 import time
 
 from langkit.utils import col, Colors
+
+try:
+    from progressbar import ProgressBar
+except ImportError:
+    class ProgressBar(object):
+        def __init__(self, *args):
+            pass
+
+        def update(self, *args):
+            pass
 
 try:
     from IPython import embed
@@ -334,7 +343,7 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
 
     total_nb_files = sum(len(fs[1]) for fs in files)
 
-    bar = progressbar.ProgressBar(max_value=total_nb_files)
+    bar = ProgressBar(max_value=total_nb_files)
     for subresults in raw_results:
         results.add(subresults)
         bar.update(len(results))

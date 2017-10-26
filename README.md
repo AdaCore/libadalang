@@ -120,7 +120,8 @@ Quick guide to use Libadalang
 
 In order to use Libadalang, one has first to generate its code and to build it.
 You can read and run manually the steps in the "Setup" section below, or you
-can use [our script](install-lal-and-deps.sh) to semi-automate this. After
+can use [our script](install-lal-and-deps.sh) to semi-automate this (please
+read and update this script to adapt it to your setup before running it). After
 this, you can either use Libadalang in Ada with the `libadalang.gpr` project
 file, or in Python just import the `libadalang` module.
 

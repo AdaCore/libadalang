@@ -304,7 +304,6 @@ class Results(object):
 
 def main(dirs, j, chunk_size, no_resolution, project, extra_args):
 
-    print(dirs, j, chunk_size, no_resolution, project, extra_args)
     print("Loading old results ..")
 
     prev_results = load_or_create("results_file", lambda: None)

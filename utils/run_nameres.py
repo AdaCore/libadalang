@@ -12,7 +12,6 @@ from collections import defaultdict
 import cPickle
 from funcy import split_by, partition_by, cat, memoize, pairwise, chunks
 from glob import glob
-from IPython import embed
 import os
 import progressbar
 import Queue
@@ -22,6 +21,12 @@ from threading import Thread, Event
 import time
 
 from langkit.utils import col, Colors
+
+try:
+    from IPython import embed
+except ImportError:
+    def embed():
+        print("WARNING: calling embed but IPython is not present !")
 
 
 def load_or_create(file_name, constructor):

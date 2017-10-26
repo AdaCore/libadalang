@@ -1,3 +1,2 @@
-description: Test simple name resolution in statements.
 driver: name-resolution
 input_sources: [test1.adb]

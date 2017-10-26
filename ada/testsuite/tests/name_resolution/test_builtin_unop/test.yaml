@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: test_builtin_unop
 driver: name-resolution
 input_sources: [testunop.adb]

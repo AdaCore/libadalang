@@ -1,3 +1,6 @@
+--  Test that name resolution for record members resolve to the member
+--  declaration in simple cases.
+
 package Foo is
    type Char is ('a', 'b', 'c');
 

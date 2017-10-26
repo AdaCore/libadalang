@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: qualified_name
 driver: name-resolution
 input_sources: [b.adb]

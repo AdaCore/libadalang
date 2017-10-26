@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: non_transitive_use
 driver: name-resolution
 input_sources: [test.ads]

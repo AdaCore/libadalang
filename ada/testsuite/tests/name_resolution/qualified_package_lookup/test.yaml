@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: qualified_package_lookup
 driver: name-resolution
 input_sources: [test2.ads]

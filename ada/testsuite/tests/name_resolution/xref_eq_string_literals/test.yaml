@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: xref_eq_string_literals
 driver: name-resolution
 input_sources: [teststrlit.adb]

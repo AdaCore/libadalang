@@ -1,3 +1,6 @@
+--  Test that ame resolution for record members can resolve the inherited
+--  members in derived record types.
+
 package Foo is
    type R1_Type is record
       A, B : Integer;

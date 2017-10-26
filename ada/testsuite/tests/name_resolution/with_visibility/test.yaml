@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: with_visibility
 driver: name-resolution
 input_sources: [foo.ads]

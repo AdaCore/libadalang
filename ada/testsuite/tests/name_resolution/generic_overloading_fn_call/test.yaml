@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: generic_overloading_fn_call
 driver: name-resolution
 input_sources: [main.adb]

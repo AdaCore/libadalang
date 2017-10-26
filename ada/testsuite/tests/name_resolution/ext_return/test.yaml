@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: ext_return
 driver: name-resolution
 input_sources: [testextreturn.adb]

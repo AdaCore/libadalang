@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: test_select_when
 driver: name-resolution
 input_sources: [selectwhen.adb]

@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: abort_stmt
 driver: name-resolution
 input_sources: [testabort.adb]

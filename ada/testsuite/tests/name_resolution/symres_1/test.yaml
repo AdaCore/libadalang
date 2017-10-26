@@ -1,4 +1,2 @@
-description:
-    Test the resolution of a name to the corresponding object declaration.
 driver: name-resolution
 input_sources: [lol.adb]

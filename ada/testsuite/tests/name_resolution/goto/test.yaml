@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: goto
 driver: name-resolution
 input_sources: [testloop.adb]

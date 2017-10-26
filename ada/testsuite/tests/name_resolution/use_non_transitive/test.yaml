@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: use_non_transitive
 driver: name-resolution
 input_sources: [pouet.ads]

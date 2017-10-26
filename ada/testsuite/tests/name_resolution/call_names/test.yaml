@@ -1,6 +1,2 @@
-description:
-    Test name resolution on various CallExpr nodes. In particular, this tests
-    the filtering of subprogram specifications depending on the arguments
-    provided to the CallExpr.
 driver: name-resolution
 input_sources: [foo.ads]

@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: generic_pkg_1
 driver: name-resolution
 input_sources: [p.adb]

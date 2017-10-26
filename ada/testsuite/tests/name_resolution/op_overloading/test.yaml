@@ -1,5 +1,3 @@
-description:
-    Symbol resolution: op_overloading
 driver: name-resolution
 input_sources: [tests1.adb]
 with_default_project: True

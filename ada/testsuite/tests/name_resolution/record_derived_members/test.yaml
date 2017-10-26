@@ -1,5 +1,2 @@
-description:
-    Test that ame resolution for record members can resolve the inherited
-    members in derived record types.
 driver: name-resolution
 input_sources: [foo.ads]

@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: for_loop_2
 driver: name-resolution
 input_sources: [testloop.adb]

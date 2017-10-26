@@ -1,5 +1,2 @@
-description:
-   Test that name resolution for record members works fine for members present
-   in variant parts.
 driver: name-resolution
 input_sources: [foo.ads]

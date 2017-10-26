@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: xref_eq_access_1
 driver: name-resolution
 input_sources: [test_access.adb]

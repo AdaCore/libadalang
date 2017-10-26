@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: case_expr
 driver: name-resolution
 input_sources: [testcase.adb]

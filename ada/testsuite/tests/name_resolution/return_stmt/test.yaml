@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: return_stmt
 driver: name-resolution
 input_sources: [return_stmt.adb]

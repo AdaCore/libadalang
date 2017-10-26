@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: xref_eq_aggregates_1
 driver: name-resolution
 input_sources: [simple_aggregate.adb]

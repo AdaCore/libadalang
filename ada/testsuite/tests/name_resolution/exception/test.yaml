@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: exception
 driver: name-resolution
 input_sources: [testexc.adb]

@@ -1,3 +1,6 @@
+--  Test that name resolution for record members works fine for members present
+--  in variant parts.
+
 package Foo is
 
    type Kind_Type is (Integer, Character, Boolean);

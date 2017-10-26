@@ -1,3 +1,5 @@
+--  Test the resolution of a name to the corresponding object declaration
+
 package body Lol is
    package Koin is
       Fu : Integer;

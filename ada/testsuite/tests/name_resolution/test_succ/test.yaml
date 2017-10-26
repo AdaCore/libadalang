@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: test_succ
 driver: name-resolution
 input_sources: [testsucc.adb]

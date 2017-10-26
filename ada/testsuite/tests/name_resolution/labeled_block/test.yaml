@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: labeled_block
 driver: name-resolution
 input_sources: [testblock.adb]

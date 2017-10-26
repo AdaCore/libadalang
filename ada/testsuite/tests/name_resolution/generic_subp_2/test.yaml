@@ -1,4 +1,2 @@
-description:
-    Symbol resolution: generic_subp
 driver: name-resolution
 input_sources: [main.adb]

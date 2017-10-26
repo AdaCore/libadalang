@@ -1,3 +1,7 @@
+--   Test that symbol lookups in some lexical environments do not "leak" in
+--   their parents's lexical environment when they should not, as it is the
+--   case when resolving qualified names.
+
 package Foo is
 
    package Bar is

@@ -1,3 +1,7 @@
+--  Test that name resolution for record members work when the prefix
+--  designates ambiguously one record type or another one because of overloaded
+--  functions.
+
 package Foo is
 
    type R1_Type is record

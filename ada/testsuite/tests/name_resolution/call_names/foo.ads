@@ -1,3 +1,7 @@
+--  Test name resolution on various CallExpr nodes. In particular, this tests
+--  the filtering of subprogram specifications depending on the arguments
+--  provided to the CallExpr.
+
 pragma Config (Display_Slocs => True);
 
 package Foo is

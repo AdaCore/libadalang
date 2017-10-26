@@ -1,3 +1,7 @@
+--  Test name resolution on various CallExpr nodes. In particular, this tests
+--  the filtering of object declarations that are arrays depending on the
+--  arguments provided to the CallExpr.
+
 procedure Foo is
 
    type UArray_D1 is array (Natural range <>) of Integer;

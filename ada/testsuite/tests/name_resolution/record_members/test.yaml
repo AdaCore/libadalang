@@ -1,5 +1,2 @@
-description:
-    Test that name resolution for record members resolve to the member
-    declaration in simple cases.
 driver: name-resolution
 input_sources: [foo.adb]

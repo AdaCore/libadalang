@@ -15,7 +15,6 @@ from glob import glob
 import os
 import Queue
 import subprocess
-from tempfile import NamedTemporaryFile
 from threading import Thread, Event
 import time
 
@@ -163,13 +162,8 @@ class Failure(Result):
             self.traceback = split_by(lambda l: l != "Traceback:", lines)[1]
 
     def open_failure(self, editor=None):
-        text_file = NamedTemporaryFile()
-        text_file.write(self.text)
         print(self.text)
-        text_file.close()
-
         editor = editor or os.environ.get('EDITOR', 'vim')
-
         subprocess.check_call([
             editor, "+{}".format(self.lineno), self.file_result.file_path
         ])

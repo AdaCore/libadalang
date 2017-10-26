@@ -313,11 +313,6 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
         embed()
         return
 
-    progress_file = open("progress_file", "a")
-
-    def prn(*args):
-        print(*args)
-        print(*args, file=progress_file)
 
     results = Results()
     files = []
@@ -342,19 +337,20 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
         results.add(subresults)
         bar.update(len(results))
 
-    prn("Report for {}:".format(time.strftime("%Y-%m-%d %Hh%M")))
 
     successes = len(results.successes)
     failures = len(results.failures)
     nb_files = successes + failures
 
-    prn("Number of successful tests: {}".format(col(successes, Colors.GREEN)))
-    prn("Number of failures: {}".format(col(failures, Colors.RED)))
-    prn(
+    print(
+        "Number of successful tests: {}".format(col(successes, Colors.GREEN))
+    )
+    print("Number of failures: {}".format(col(failures, Colors.RED)))
+    print(
         "Number of crashes: {}".format(col(len(results.crashes), Colors.RED))
     )
 
-    prn("Percentage of files passing: {:.2f}%".format(
+    print("Percentage of files passing: {:.2f}%".format(
         float(successes) / float(nb_files) * 100
     ))
 
@@ -362,20 +358,20 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
     ind_failures = len(results.individual_failures)
     total_xrefs = ind_successes + ind_failures
 
-    prn("Number of individual successes: {}".format(
+    print("Number of individual successes: {}".format(
         col(ind_successes, Colors.GREEN)
     ))
-    prn("Number of individual failures: {}".format(
+    print("Number of individual failures: {}".format(
         col(ind_failures, Colors.RED)
     ))
 
-    prn("Percentage of successes: {:.2f}%".format(
+    print("Percentage of successes: {:.2f}%".format(
         float(ind_successes) / float(total_xrefs) * 100
     ))
 
-    prn("Crashes: ")
+    print("Crashes: ")
     for crash in results.crashes:
-        prn("    {}".format(crash.file_name))
+        print("    {}".format(crash.file_name))
 
     def print_exceptions():
         print("Exceptions:")
@@ -385,24 +381,22 @@ def main(dirs, j, chunk_size, no_resolution, project, extra_args):
     previously_passing = set()
     previously_failing = set()
     if prev_results is not None:
-        prn(col("Newly passing tests:", Colors.GREEN))
+        print(col("Newly passing tests:", Colors.GREEN))
         previously_passing = set(r.file_name for r in prev_results.successes)
         now_passing = set(r.file_name for r in results.successes)
         for f in (now_passing - previously_passing):
-            prn("    {}".format(f))
+            print("    {}".format(f))
 
-        prn(col("Newly failing tests:", Colors.RED))
+        print(col("Newly failing tests:", Colors.RED))
         previously_failing = set(r.file_name for r in prev_results.failures)
         now_failing = set(r.file_name for r in results.failures)
         for f in (now_failing - previously_failing):
-            prn("   {}".format(f))
+            print("   {}".format(f))
 
     embed()
 
     if results.save:
         dump_to(results, "results_file")
-
-    progress_file.close()
 
 
 if __name__ == '__main__':

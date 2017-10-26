@@ -30,9 +30,7 @@ ada_file_paths = map(os.path.abspath, args.ada_files)
 file_names = map(path.basename, ada_file_paths)
 main_file_name = file_names[0]
 
-yaml = """description:
-    Symbol resolution: {test_name}
-driver: name-resolution
+yaml = """driver: name-resolution
 input_sources: [{main_file_name}]
 with_default_project: {args.with_default_project}
 """.format(**locals())

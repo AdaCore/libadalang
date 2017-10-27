@@ -3261,8 +3261,8 @@ class Name(Expr):
 
     ref_val = Property(Self.ref_var.get_value)
 
-    designated_type_impl = AbstractProperty(
-        type=BaseTypeDecl.entity, runtime_check=True,
+    designated_type_impl = Property(
+        No(BaseTypeDecl.entity),
         dynamic_vars=[env, origin],
         doc="""
         Assuming this name designates a type, return this type.

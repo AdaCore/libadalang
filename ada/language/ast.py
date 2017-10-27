@@ -3234,6 +3234,18 @@ class Name(Expr):
         """
     )
 
+    @langkit_property(return_type=T.BoolType)
+    def is_simple_name():
+        """
+        Returns whether Self is a BaseId or a DottedName composed only of
+        BaseIds.
+        """
+        return Self.match(
+            lambda _=T.BaseId: True,
+            lambda dt=T.DottedName: dt.prefix.is_simple_name,
+            lambda _: False
+        )
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LogicVarType)
     def ref_var():

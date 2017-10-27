@@ -1788,6 +1788,8 @@ class PrivateTypeDef(TypeDef):
 
     xref_equation = Property(LogicTrue())
 
+    defining_env = Property(Entity.children_env, type=LexicalEnvType)
+
 
 class SignedIntTypeDef(TypeDef):
     range = Field(type=T.RangeSpec)

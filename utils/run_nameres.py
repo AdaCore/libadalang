@@ -414,13 +414,10 @@ if __name__ == '__main__':
                         type=str, nargs='*')
     parser.add_argument('--jobs', '-j', type=int, default=1)
     parser.add_argument('--chunk-size', '-c', type=int, default=100)
-    parser.add_argument('--project', '-p', type=str, default="")
-    parser.add_argument('--extra-args', '-E', type=str,
-                        nargs='+', default=[])
+    parser.add_argument('--project', '-P', type=str, default="")
     parser.add_argument('--no-resolution', '-N', action='store_true')
     parser.add_argument('--automated', '-A', action='store_true')
-    args = parser.parse_args()
-    print(args.dirs)
+    args, extra_args = parser.parse_known_args()
     main(args.dirs, args.jobs, args.chunk_size,
          args.automated, args.no_resolution,
-         args.project, args.extra_args)
+         args.project, extra_args)

@@ -3488,7 +3488,9 @@ class CallExpr(Name):
                 Bind(Self.ref_var, Self.name.ref_var),
                 Entity.name.sub_equation
             )
-            | Entity.operator_equation
+            | If(Entity.name.is_simple_name,
+                 Entity.operator_equation,
+                 LogicFalse())
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

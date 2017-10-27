@@ -3911,7 +3911,7 @@ class SingleTokNode(Name):
 @abstract
 class BaseId(SingleTokNode):
 
-    @langkit_property()
+    @langkit_property(memoized=True)
     def scope():
         elt = Var(env.get(Self.tok).at(0))
         return If(
@@ -3943,14 +3943,15 @@ class BaseId(SingleTokNode):
     parent_scope = Property(env)
     relative_name = Property(Self.tok.symbol)
 
-    designated_type_impl = Property(
-        env.get_sequential(Self.tok, sequential_from=origin)
-        .at(0)._.match(
+    @langkit_property(memoized=True)
+    def designated_type_impl():
+        return env.get_sequential(
+            Self.tok, sequential_from=origin
+        ).at(0)._.match(
             lambda t=T.BaseTypeDecl.entity: t,
             lambda tb=T.TaskBody.entity: tb.task_type,
             lambda _: No(BaseTypeDecl.entity)
         )
-    )
 
     @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)
     def parent_callexpr():
@@ -3984,7 +3985,7 @@ class BaseId(SingleTokNode):
     def env_elements_impl():
         return Entity.env_elements_baseid(False)
 
-    @langkit_property(dynamic_vars=[env])
+    @langkit_property(dynamic_vars=[env], memoized=True)
     def env_elements_baseid(is_parent_pkg=BoolType):
         """
         Decoupled implementation for env_elements_impl, specifically used by

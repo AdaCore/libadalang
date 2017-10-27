@@ -3407,7 +3407,7 @@ class CallExpr(Name):
     @langkit_property(return_type=EquationType)
     def xref_equation():
         return If(
-            Not(Entity.name.designated_type_impl.is_null),
+            Not(Entity.name.name_designated_type.is_null),
 
             # Type conversion case
             Entity.type_conv_xref_equation,

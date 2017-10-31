@@ -10,8 +10,6 @@ with Ada.Unchecked_Deallocation;
 
 with Interfaces; use Interfaces;
 
-with GNAT.Traceback.Symbolic;
-
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
@@ -179,9 +177,6 @@ procedure Nameres is
            ("Resolution failed with exception for node " & Safe_Image (Node));
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
          Put_Line ("");
-
-         Put_Line ("Traceback:");
-         Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
    end Resolve_Node;
 
    -------------------
@@ -525,6 +520,5 @@ exception
    when E : others =>
       Put_Line ("Traceback:");
       Put_Line ("");
-      Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
       raise;
 end Nameres;

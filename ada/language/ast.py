@@ -1483,7 +1483,8 @@ class BaseTypeDecl(BasicDecl):
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(type_id=Self.type_id)
 
-    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity)
+    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
+                      memoized=True)
     def previous_part(go_to_incomplete=BoolType):
         """
         Returns the previous part for this type decl.

@@ -4734,10 +4734,8 @@ class DottedName(Name):
     @langkit_property()
     def designated_env():
         pfx_env = Var(Entity.prefix.designated_env)
-        return env.bind(
-            pfx_env,
-            Entity.suffix.designated_env_impl(True)
-        )
+        return env.bind(pfx_env,
+                        Entity.suffix.designated_env_impl(True))
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),
@@ -4754,18 +4752,16 @@ class DottedName(Name):
         pfx_env = Var(origin.bind(Self, Entity.prefix.designated_env))
         return env.bind(pfx_env, Entity.suffix.env_elements_baseid(True))
 
-    designated_type_impl = Property(lambda: (
-        env.bind(Entity.prefix.designated_env,
-                 Entity.suffix.designated_type_impl)
-    ))
+    @langkit_property()
+    def designated_type_impl():
+        return env.bind(Entity.prefix.designated_env,
+                        Entity.suffix.designated_type_impl)
 
     @langkit_property()
     def xref_equation():
-        base = Var(
-            Entity.prefix.sub_equation
-            & env.bind(Entity.prefix.designated_env,
-                       Entity.suffix.sub_equation)
-        )
+        base = Var(Entity.prefix.sub_equation
+                   & env.bind(Entity.prefix.designated_env,
+                              Entity.suffix.sub_equation))
 
         return If(
             Not(Entity.designated_type_impl.is_null),

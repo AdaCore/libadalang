@@ -284,7 +284,7 @@ class AdaNode(ASTNode):
         # recursion, as all recursive env lookups will eventually evaluate
         # this. We know that Standard is available without any use clause
         # anyway, so non-recursive lookup is fine.
-        Self.unit.root.node_env.get('Standard', recursive=False).at(0),
+        Self.unit.root.node_env.get_first('Standard', recursive=False).at(0),
         doc="""
         Retrieves the standard unit. Used to access standard types.
         """
@@ -296,7 +296,7 @@ class AdaNode(ASTNode):
     )
 
     std_entity = Property(
-        lambda sym=SymbolType: Self.std_env.get(sym).at(0),
+        lambda sym=SymbolType: Self.std_env.get_first(sym).at(0),
         doc="Return an entity from the standard package with name `sym`"
     )
 
@@ -668,7 +668,7 @@ class BasicDecl(AdaNode):
         Return the body corresponding to this node if applicable.
         """
         ignore(Var(Self.body_unit))
-        return Self.children_env.get('__body', recursive=False).at(0)
+        return Self.children_env.get_first('__body', recursive=False).at(0)
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(BoolType, True)):
@@ -3362,7 +3362,7 @@ class Name(Expr):
             ),
             lambda i=T.BaseId: Bind(
                 i.ref_var,
-                env.get_sequential(
+                env.get_first_sequential(
                     i.relative_name, sequential_from=Entity.el,
                     recursive=Not(in_dotted_name)
                 ).at(0).cast(T.BasicDecl)
@@ -3913,7 +3913,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def scope():
-        elt = Var(env.get(Self.tok).at(0))
+        elt = Var(env.get_first(Self.tok).at(0))
         return If(
             Not(elt.is_null) & elt.el.is_a(
                 T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
@@ -3945,7 +3945,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def designated_type_impl():
-        return env.get_sequential(
+        return env.get_first_sequential(
             Self.tok, sequential_from=origin
         ).at(0)._.match(
             lambda t=T.BaseTypeDecl.entity: t,

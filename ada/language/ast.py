@@ -3215,6 +3215,30 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
+        """
+        Construct the xref equation for the chain of parent nested callexprs.
+        """
+        return Self.match(
+            lambda ce=T.CallExpr:
+            ce.as_entity.subscriptable_type_equation(typ)
+            & Self.parent_name(root).as_entity.then(
+                lambda pce:
+                pce.parent_name_equation(typ.comp_type, root),
+                default_val=LogicTrue()
+            ),
+            lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
+        )
+
+    @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
+    def parent_name(stop_at=T.Name):
+        """
+        Will return the parent callexpr iff Self is the name of the parent
+        callexpr.
+        """
+        return If(Self == stop_at, No(T.Name), Self.parent.cast(T.Name))
+
     @langkit_property(return_type=BoolType, public=True)
     def is_range_attribute():
         """
@@ -3415,7 +3439,7 @@ class CallExpr(Name):
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_callexpr.as_entity.general_xref_equation
+            Self.innermost_callexpr.as_entity.general_xref_equation(Self)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -3442,7 +3466,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def general_xref_equation():
+    def general_xref_equation(root=T.CallExpr):
         """
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.
@@ -3473,8 +3497,8 @@ class CallExpr(Name):
                                                    s.info.md.dottable_subp,
                                                    s.info.md.primitive)
                     )
-                    & Self.parent_nested_callexpr.as_entity.then(
-                        lambda pce: pce.parent_callexprs_equation(
+                    & Self.parent_name(root).as_entity.then(
+                        lambda pce: pce.parent_name_equation(
                             # If s is paramless, then Self was a subscript to
                             # the s object, and the parent callexpr is a
                             # subscript to its component. However, if s is not
@@ -3483,6 +3507,7 @@ class CallExpr(Name):
                             # s's return type.
                             If(s.paramless_subp,
                                s.expr_type.comp_type, s.expr_type),
+                            root
                         ), default_val=LogicTrue()
                     ),
                 )),
@@ -3665,30 +3690,6 @@ class CallExpr(Name):
         """
         return Self.name.cast(T.CallExpr).then(
             lambda ce: ce.innermost_callexpr(), default_val=Self
-        )
-
-    @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
-    def parent_nested_callexpr():
-        """
-        Will return the parent callexpr iff Self is the name of the parent
-        callexpr.
-        """
-        return Self.parent.cast(T.CallExpr).then(
-            lambda ce: If(ce.name == Self, ce, No(CallExpr))
-        )
-
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def parent_callexprs_equation(typ=T.BaseTypeDecl.entity):
-        """
-        Construct the xref equation for the chain of parent nested callexprs.
-        """
-        return (
-            Entity.subscriptable_type_equation(typ)
-            & Self.parent_nested_callexpr.as_entity.then(
-                lambda pce:
-                pce.parent_callexprs_equation(typ.comp_type),
-                default_val=LogicTrue()
-            )
         )
 
 

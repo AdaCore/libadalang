@@ -3217,6 +3217,14 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def bottom_up_name_equation():
+        return Self.innermost_name.as_entity.match(
+            lambda ce=T.CallExpr: ce.general_xref_equation(Self),
+            lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
+            lambda _: LogicFalse(),
+        )
+
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
     def innermost_name():
         """
@@ -3466,11 +3474,7 @@ class CallExpr(Name):
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_name.as_entity.match(
-                lambda ce=T.CallExpr: ce.general_xref_equation(Self),
-                lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
-                lambda _: LogicFalse(),
-            )
+            Entity.bottom_up_name_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -3803,11 +3807,7 @@ class ExplicitDeref(Name):
 
     @langkit_property()
     def xref_equation():
-        return Self.innermost_name.as_entity.match(
-            lambda ce=T.CallExpr: ce.general_xref_equation(Self),
-            lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
-            lambda _: LogicFalse(),
-        )
+        return Entity.bottom_up_name_equation
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def general_xref_equation(root=(T.Name, No(T.Name))):

@@ -3215,6 +3215,31 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
+    def innermost_callexpr():
+        """
+        Helper property. Will return the innermost call expression following
+        the name chain. For, example, given::
+
+            A (B) (C) (D)
+            ^-----------^ Self
+            ^-------^     Self.name
+            ^---^         Self.name.name
+
+        Self.innermost_callexpr will return the node corresponding to
+        Self.name.name.
+        """
+        name = Var(Self.match(
+            lambda ce=T.CallExpr: ce.name,
+            lambda ed=T.ExplicitDeref: ed.prefix,
+            lambda _: No(T.Name)
+
+        ))
+
+        return If(name.is_a(T.CallExpr, T.ExplicitDeref),
+                  name.innermost_callexpr,
+                  Self)
+
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
         """
@@ -3673,24 +3698,6 @@ class CallExpr(Name):
                 ), default_val=True
             )
         )))
-
-    @langkit_property(return_type=T.CallExpr, ignore_warn_on_node=True)
-    def innermost_callexpr():
-        """
-        Helper property. Will return the innermost call expression following
-        the name chain. For, example, given::
-
-            A (B) (C) (D)
-            ^-----------^ Self
-            ^-------^     Self.name
-            ^---^         Self.name.name
-
-        Self.innermost_callexpr will return the node corresponding to
-        Self.name.name.
-        """
-        return Self.name.cast(T.CallExpr).then(
-            lambda ce: ce.innermost_callexpr(), default_val=Self
-        )
 
 
 @abstract

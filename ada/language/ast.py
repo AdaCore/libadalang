@@ -4769,6 +4769,10 @@ class RaiseExpr(Expr):
     exception_name = Field(type=T.Expr)
     error_message = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.exception_name.sub_equation
+
 
 class DottedName(Name):
     prefix = Field(type=T.Name)

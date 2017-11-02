@@ -4005,7 +4005,7 @@ class BaseId(SingleTokNode):
         # TODO: there is a big smell here: We're doing the filtering for parent
         # expressions in the baseid env_elements. We should solve that.
 
-        pc = Var(Self.parent_callexpr.then(lambda pc: pc.innermost_callexpr))
+        pc = Var(Self.parent_callexpr)
         access_ref = Var(Self.parent.cast(AttributeRef).as_entity)
 
         return origin.bind(Self, Cond(

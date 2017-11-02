@@ -1,0 +1,24 @@
+Analyzing testimplderef.adb
+###########################
+
+Inst_2 (2) resolves to:
+    Inst_2 : Ptr_Arr := new Arr'(others => 12);
+
+Resolving xrefs for node <AssignStmt 25:4-25:21>
+************************************************
+
+Expr: <CallExpr 25:4-25:14>
+  references: <ObjectDecl ["Inst_2"] 15:4-15:47>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <Id "Inst_2" 25:4-25:10>
+  references: <ObjectDecl ["Inst_2"] 15:4-15:47>
+  type:       <TypeDecl ["Ptr_Arr"] 11:4-11:35>
+Expr: <Int 25:12-25:13>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Int 25:18-25:20>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

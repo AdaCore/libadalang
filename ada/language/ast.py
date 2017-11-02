@@ -1335,8 +1335,10 @@ class BaseTypeDecl(BasicDecl):
             2. The return type for an access to function.
         """
         return Entity.array_def.then(lambda ad: ad.comp_type)._or(
-            Entity.access_def.cast(T.AccessToSubpDef).then(
-                lambda sa: sa.subp_spec.returns.designated_type
+            Entity.access_def._.match(
+                lambda asd=T.AccessToSubpDef:
+                asd.subp_spec.returns.designated_type,
+                lambda tad=T.TypeAccessDef: tad.accessed_type
             )
         )
 
@@ -3243,26 +3245,26 @@ class Name(Expr):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
         """
-        Construct the xref equation for the chain of parent nested callexprs.
+        Construct the xref equation for the chain of parent nested names.
         """
         return Self.match(
             lambda ce=T.CallExpr:
-            ce.as_entity.subscriptable_type_equation(typ)
-            & Self.parent_name(root).as_entity.then(
-                lambda pce:
-                pce.parent_name_equation(typ.comp_type, root),
-                default_val=LogicTrue()
-            ),
+            ce.as_entity.subscriptable_type_equation(typ),
+            lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
             lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
+        ) & Self.parent_name(root).as_entity.then(
+            lambda pn: pn.parent_name_equation(typ.comp_type, root),
+            default_val=LogicTrue()
         )
 
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
     def parent_name(stop_at=T.Name):
         """
-        Will return the parent callexpr iff Self is the name of the parent
-        callexpr.
+        Will return the parent name until the stop point.
         """
-        return If(Self == stop_at, No(T.Name), Self.parent.cast(T.Name))
+        return If(stop_at.is_null | (Self == stop_at),
+                  No(T.Name),
+                  Self.parent.cast(T.Name))
 
     @langkit_property(return_type=BoolType, public=True)
     def is_range_attribute():
@@ -3464,7 +3466,11 @@ class CallExpr(Name):
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_callexpr.as_entity.general_xref_equation(Self)
+            Self.innermost_callexpr.as_entity.match(
+                lambda ce=T.CallExpr: ce.general_xref_equation(Self),
+                lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
+                lambda _: LogicFalse(),
+            )
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -3523,7 +3529,7 @@ class CallExpr(Name):
                                                    s.info.md.primitive)
                     )
                     & Self.parent_name(root).as_entity.then(
-                        lambda pce: pce.parent_name_equation(
+                        lambda pn: pn.parent_name_equation(
                             # If s is paramless, then Self was a subscript to
                             # the s object, and the parent callexpr is a
                             # subscript to its component. However, if s is not
@@ -3788,24 +3794,34 @@ class ExplicitDeref(Name):
             )
         )
 
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def eq_for_type(typ=T.BaseTypeDecl.entity):
+        return And(
+            Bind(Self.prefix.type_var, typ),
+            Bind(Self.type_var, typ.accessed_type)
+        )
+
     @langkit_property()
     def xref_equation():
-        return (
-            Entity.prefix.sub_equation
-            # Evaluate the prefix equation
+        return Entity.general_xref_equation()
 
-            & Self.ref_var.domain(Entity.env_elements)
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def general_xref_equation(root=(T.CallExpr, No(T.CallExpr))):
+        env_els = Var(Entity.env_elements)
+
+        return Entity.prefix.sub_equation & env_els.logic_all(
+            lambda el:
+            Bind(Self.ref_var, el)
             # Restrict the domain of the reference to entities that are of an
             # access type.
 
             & Bind(Self.ref_var, Self.prefix.ref_var)
-            # Propagate this constraint upward to the prefix expression
-
-            & TypeBind(Self.prefix.type_var,
-                       Self.type_var,
-                       BaseTypeDecl.accessed_type)
-            # We don't need to check if the type is an access type, since we
-            # already constrained the domain above.
+            & Entity.eq_for_type(el.cast(T.BasicDecl).expr_type)
+            & Self.parent_name(root).as_entity.then(
+                lambda pn: pn.parent_name_equation(
+                    el.cast(T.BasicDecl).expr_type.accessed_type, root
+                ), default_val=LogicTrue()
+            )
         )
 
 

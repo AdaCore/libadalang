@@ -3218,9 +3218,9 @@ class NullRecordAggregate(BaseAggregate):
 class Name(Expr):
 
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
-    def innermost_callexpr():
+    def innermost_name():
         """
-        Helper property. Will return the innermost call expression following
+        Helper property. Will return the innermost name following
         the name chain. For, example, given::
 
             A (B) (C) (D)
@@ -3228,7 +3228,7 @@ class Name(Expr):
             ^-------^     Self.name
             ^---^         Self.name.name
 
-        Self.innermost_callexpr will return the node corresponding to
+        Self.innermost_name will return the node corresponding to
         Self.name.name.
         """
         name = Var(Self.match(
@@ -3239,7 +3239,7 @@ class Name(Expr):
         ))
 
         return If(name.is_a(T.CallExpr, T.ExplicitDeref),
-                  name.innermost_callexpr,
+                  name.innermost_name,
                   Self)
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -3466,7 +3466,7 @@ class CallExpr(Name):
 
             # General case. We'll call general_xref_equation on the innermost
             # call expression, to handle nested call expression cases.
-            Self.innermost_callexpr.as_entity.match(
+            Self.innermost_name.as_entity.match(
                 lambda ce=T.CallExpr: ce.general_xref_equation(Self),
                 lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
                 lambda _: LogicFalse(),

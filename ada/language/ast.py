@@ -2957,7 +2957,7 @@ class Expr(AdaNode):
     )
 
     env_elements = Property(
-        Entity.env_elements_impl().filter(lambda e: (
+        Entity.env_elements_impl.filter(lambda e: (
             Not(e.is_library_item)
             | Self.has_with_visibility(e.el.unit)
         )),
@@ -3109,7 +3109,7 @@ class BinOp(Expr):
 
             # The operator references the subprogram
             & TypeBind(Self.op.ref_var, subp)
-        )) | Self.no_overload_equation())
+        )) | Self.no_overload_equation)
 
     @langkit_property(dynamic_vars=[origin])
     def no_overload_equation():
@@ -3175,7 +3175,7 @@ class Aggregate(BaseAggregate):
         return If(
             Self.parent.is_a(AspectClause),
             LogicTrue(),
-            Entity.general_xref_equation()
+            Entity.general_xref_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -3449,14 +3449,14 @@ class CallExpr(Name):
 
     @langkit_property()
     def designated_env():
-        return Entity.env_elements().map(lambda e: e.match(
+        return Entity.env_elements.map(lambda e: e.match(
             lambda bd=BasicDecl.entity:       bd.defining_env,
             lambda _:                         EmptyEnv,
         )).env_group
 
     @langkit_property()
     def env_elements_impl():
-        return Entity.name.env_elements_impl()
+        return Entity.name.env_elements_impl
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
@@ -3620,7 +3620,7 @@ class CallExpr(Name):
                     lambda i, pa:
                     If(
                         constrain_params,
-                        pa.expr.as_entity.sub_equation(),
+                        pa.expr.as_entity.sub_equation,
                         LogicTrue()
                     )
                     & indices.constrain_index_expr(pa.expr, i)
@@ -3791,7 +3791,7 @@ class ExplicitDeref(Name):
     def designated_env():
         # Since we have implicit dereference in Ada, everything is directly
         # accessible through the prefix, so we just use the prefix's env.
-        return Entity.prefix.designated_env()
+        return Entity.prefix.designated_env
 
     @langkit_property()
     def env_elements_impl():
@@ -4162,7 +4162,7 @@ class StringLiteral(BaseId):
             # StringLiteral can be in a name, if it is an operator, in which
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
-            Entity.base_id_xref_equation(),
+            Entity.base_id_xref_equation,
             Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
         )
 

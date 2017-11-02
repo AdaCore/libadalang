@@ -1350,7 +1350,7 @@ class BaseTypeDecl(BasicDecl):
         return Entity.array_def.then(lambda ad: ad.comp_type)._or(
             Entity.access_def._.match(
                 lambda asd=T.AccessToSubpDef:
-                asd.subp_spec.returns.designated_type,
+                asd.subp_spec.return_type,
                 lambda tad=T.TypeAccessDef: tad.accessed_type
             )
         )

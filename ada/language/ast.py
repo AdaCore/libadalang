@@ -3497,7 +3497,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def general_xref_equation(root=T.CallExpr):
+    def general_xref_equation(root=T.Name):
         """
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.
@@ -3803,10 +3803,14 @@ class ExplicitDeref(Name):
 
     @langkit_property()
     def xref_equation():
-        return Entity.general_xref_equation()
+        return Self.innermost_name.as_entity.match(
+            lambda ce=T.CallExpr: ce.general_xref_equation(Self),
+            lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
+            lambda _: LogicFalse(),
+        )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def general_xref_equation(root=(T.CallExpr, No(T.CallExpr))):
+    def general_xref_equation(root=(T.Name, No(T.Name))):
         env_els = Var(Entity.env_elements)
 
         return Entity.prefix.sub_equation & env_els.logic_all(

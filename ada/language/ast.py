@@ -3646,10 +3646,10 @@ class CallExpr(Name):
                 # TODO: Handle remaining cases (SubtypeIndication?)
                 lambda _: LogicFalse()
             )
-        )._or(typ.access_def.cast(AccessToSubpDef).then(
+        )._or(typ.then(lambda typ: typ.access_def.cast(AccessToSubpDef).then(
             lambda asd: Entity.subprogram_equation(asd.subp_spec, False,
                                                    No(AdaNode))
-        )._or(LogicFalse()))
+        ))._or(LogicFalse()))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,

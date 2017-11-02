@@ -1325,6 +1325,19 @@ class BaseTypeDecl(BasicDecl):
     record_def = Property(No(T.BaseRecordDef.entity))
 
     @langkit_property(dynamic_vars=[origin])
+    def array_def_with_deref():
+        """
+        Return the array def corresponding to type Self in the context of
+        array-indexing, eg. implicitly dereferencing if Self is an access.
+        """
+        return Cond(
+            Entity.is_array, Entity.array_def,
+            Entity.is_access_type,
+            Entity.comp_type.then(lambda c: c.array_def),
+            No(T.ArrayTypeDef.entity)
+        )
+
+    @langkit_property(dynamic_vars=[origin])
     def comp_type():
         """
         Return the component type of the type, if applicable. The component
@@ -3606,11 +3619,7 @@ class CallExpr(Name):
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
         """
-        atd = Var(Cond(
-            typ.is_array, typ.array_def,
-            typ.is_access_type, typ.comp_type.array_def,
-            No(T.ArrayTypeDef.entity)
-        ))
+        atd = Var(typ.then(lambda t: t.array_def_with_deref))
 
         return atd._.indices.then(
             lambda indices:
@@ -3688,12 +3697,7 @@ class CallExpr(Name):
         # up to self, checking for each level that the call expression
         # corresponds.
 
-        atd = Var(Cond(
-            typ.is_null, No(T.ArrayTypeDef.entity),
-            typ.is_array, typ.array_def,
-            typ.is_access_type, typ.comp_type.array_def,
-            No(T.ArrayTypeDef.entity)
-        ))
+        atd = Var(typ.then(lambda t: t.array_def_with_deref))
 
         return origin.bind(Self, typ.then(lambda typ: And(
             Or(

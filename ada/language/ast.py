@@ -3606,7 +3606,11 @@ class CallExpr(Name):
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
         """
-        atd = Var(typ.array_def)
+        atd = Var(Cond(
+            typ.is_array, typ.array_def,
+            typ.is_access_type, typ.comp_type.array_def,
+            No(T.ArrayTypeDef.entity)
+        ))
 
         return atd._.indices.then(
             lambda indices:
@@ -3672,7 +3676,7 @@ class CallExpr(Name):
             )
         )._or(LogicFalse())
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[env])
+    @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
     def check_for_type(typ=T.BaseTypeDecl.entity):
         """
         Check that self is an appropriate CallExpr for given type, which must
@@ -3683,17 +3687,25 @@ class CallExpr(Name):
         # Algorithm: We're Recursing down call expression and component types
         # up to self, checking for each level that the call expression
         # corresponds.
+
+        atd = Var(Cond(
+            typ.is_null, No(T.ArrayTypeDef.entity),
+            typ.is_array, typ.array_def,
+            typ.is_access_type, typ.comp_type.array_def,
+            No(T.ArrayTypeDef.entity)
+        ))
+
         return origin.bind(Self, typ.then(lambda typ: And(
             Or(
-                Self.suffix.match(
-                    # Array access case
-                    lambda al=AssocList: typ.array_ndims == al.length,
+                # Arrays
+                atd.then(lambda _: Self.suffix.match(
+                    # Array indexing case
+                    lambda al=AssocList: atd.array_ndims == al.length,
 
                     # Array slice case
-                    lambda _=BinOp: typ.array_ndims == 1,
+                    lambda _=BinOp: atd.array_ndims == 1,
                     lambda _: False
-                ),
-                # Arrays
+                ), default_val=False),
 
                 # Accesses to subprograms
                 typ.access_def.cast(T.AccessToSubpDef).then(

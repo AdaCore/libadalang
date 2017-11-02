@@ -3136,6 +3136,19 @@ class BinOp(Expr):
             TypeBind(Self.right.type_var, Self.universal_int_type)
             & TypeBind(Self.left.type_var, Self.type_var),
 
+            lambda _=Op.alt_concat: Or(
+                TypeBind(Self.type_var, Self.left.type_var)
+                & TypeBind(Self.type_var, Self.right.type_var),
+
+                TypeBind(Self.type_var, Self.left.type_var)
+                & TypeBind(Self.left.type_var, Self.right.type_var,
+                           conv_prop=BaseTypeDecl.comp_type),
+
+                TypeBind(Self.type_var, Self.right.type_var)
+                & TypeBind(Self.right.type_var, Self.left.type_var,
+                           conv_prop=BaseTypeDecl.comp_type)
+            ),
+
             lambda _:
             TypeBind(Self.type_var, Self.left.type_var)
             & TypeBind(Self.type_var, Self.right.type_var)

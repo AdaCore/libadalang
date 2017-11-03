@@ -4750,7 +4750,7 @@ class AttributeRef(Name):
             # It must be an array
             & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
             # Its index type is the type of Self
-            & TypeBind(Self.type_var, Self.prefix.type_var,
+            & TypeBind(Self.prefix.type_var, Self.type_var,
                        conv_prop=BaseTypeDecl.first_index_type),
         )
 
@@ -4771,7 +4771,7 @@ class AttributeRef(Name):
             # It must be an array
             & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
             # Its index type is the type of Self
-            & TypeBind(Self.type_var, Self.prefix.type_var,
+            & TypeBind(Self.prefix.type_var, Self.type_var,
                        conv_prop=BaseTypeDecl.first_index_type)
         )
 

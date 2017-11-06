@@ -41,16 +41,6 @@ def universal_int_bind(type_var):
     return TypeBind(type_var, Self.universal_int_type)
 
 
-def universal_discrete_bind(type_var):
-    """
-    Like universal_int_bind, but for any discrete type.
-    """
-    return Or(
-        TypeBind(type_var, Self.int_type),
-        LogicTrue()
-    ) & Predicate(BaseTypeDecl.is_discrete_type, type_var)
-
-
 def ref_used_packages():
     """
     If Self is a library item or a subunit, reference the environments for
@@ -4500,7 +4490,6 @@ class ForLoopSpec(LoopSpec):
                 # In that case, the type of everything is Standard.Integer.
                 lambda binop=T.BinOp:
                 binop.sub_equation
-                & universal_discrete_bind(binop.type_var)
                 & TypeBind(Self.var_decl.id.type_var, binop.type_var),
 
                 # Subtype indication case: the induction variable is of the

@@ -1327,8 +1327,9 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def array_def_with_deref():
         """
-        Return the array def corresponding to type Self in the context of
-        array-indexing, eg. implicitly dereferencing if Self is an access.
+        Return the array definition corresponding to type `Self` in the context
+        of array-indexing, e.g. implicitly dereferencing if `Self` is an
+        access.
         """
         return Cond(
             Entity.is_array, Entity.array_def,
@@ -1340,9 +1341,9 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def comp_type():
         """
-        Return the component type of the type, if applicable. The component
-        type is the type you'll get if you call an instance of the Self type.
-        So it can either be:
+        Return the component type of `Self`, if applicable. The component type
+        is the type you'll get if you call a value whose type is `Self`.  So it
+        can either be:
 
             1. The component type for an array.
             2. The return type for an access to function.
@@ -3256,16 +3257,16 @@ class Name(Expr):
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
     def innermost_name():
         """
-        Helper property. Will return the innermost name following
-        the name chain. For, example, given::
+        Helper property. Return the innermost name following the name chain.
+        For example, given::
 
             A (B) (C) (D)
             ^-----------^ Self
             ^-------^     Self.name
             ^---^         Self.name.name
 
-        Self.innermost_name will return the node corresponding to
-        Self.name.name.
+        `Self.innermost_name` will return the node corresponding to
+        `Self.name.name`.
         """
         name = Var(Self.match(
             lambda ce=T.CallExpr: ce.name,

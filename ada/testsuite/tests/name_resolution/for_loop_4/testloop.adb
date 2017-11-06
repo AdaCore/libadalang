@@ -5,7 +5,6 @@ procedure Testloop is
    type My_Array is array (Integer range <>) of Natural;
 
    function Foo return My_Array is ((1, 2, 3, 4));
-   function Foo return Integer is (12);
 
 begin
    for El of Foo loop

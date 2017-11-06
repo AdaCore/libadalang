@@ -4477,6 +4477,20 @@ class ForLoopSpec(LoopSpec):
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
+    @langkit_property(unsafe_memoization=True)
+    def iter_type():
+        p = Var(If(
+            Self.iter_expr.type_val.is_null,
+            Entity.iter_expr.resolve_names,
+            True
+        ))
+
+        return If(
+            p,
+            Self.iter_expr.type_val.cast_or_raise(BaseTypeDecl.entity),
+            No(BaseTypeDecl.entity)
+        )
+
     @langkit_property(return_type=EquationType)
     def xref_equation():
         return Self.loop_type.match(
@@ -4517,27 +4531,26 @@ class ForLoopSpec(LoopSpec):
             ),
 
             # This is a for .. of
-            lambda _=IterType.alt_of:
-            # Equation for the expression
-            Entity.iter_expr.sub_equation
+            lambda _=IterType.alt_of: Let(lambda it_typ=Entity.iter_type: If(
 
-            # Then we want the type of the induction variable to be the
-            # component type of the type of the expression.
-            & TypeBind(Self.iter_expr.cast(T.Expr).type_var,
-                       Self.var_decl.id.type_var,
-                       BaseTypeDecl.comp_type)
+                it_typ.is_iterable_type,
 
-            # If there is a type annotation, then the type of var should be
-            # conformant.
-            & If(Self.var_decl.id_type.is_null,
-                 LogicTrue(),
-                 TypeBind(Self.var_decl.id.type_var,
-                          Entity.var_decl.id_type.designated_type))
+                # Equation for the expression
+                Entity.iter_expr.sub_equation
 
-            # Finally, we want the type of the expression to be an iterable
-            # type.
-            & Predicate(BaseTypeDecl.is_iterable_type,
-                        Self.iter_expr.cast(T.Expr).type_var)
+                # Then we want the type of the induction variable to be the
+                # component type of the type of the expression.
+                & TypeBind(Self.var_decl.id.type_var, it_typ.comp_type)
+
+                # If there is a type annotation, then the type of var should be
+                # conformant.
+                & If(Self.var_decl.id_type.is_null,
+                     LogicTrue(),
+                     TypeBind(Self.var_decl.id.type_var,
+                              Entity.var_decl.id_type.designated_type)),
+
+                LogicFalse()
+            ))
         )
 
 

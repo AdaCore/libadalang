@@ -4038,12 +4038,43 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def designated_type_impl():
-        return env.get_first_sequential(
+
+        # This is the view of the type where it is referenced
+        des_type = Var(env.get_first_sequential(
             Self.tok, sequential_from=origin
-        )._.match(
+        ).then(lambda env_el: env_el.match(
             lambda t=T.BaseTypeDecl.entity: t,
             lambda tb=T.TaskBody.entity: tb.task_type,
             lambda _: No(BaseTypeDecl.entity)
+        )))
+
+        # We might have a more complete view of the type at the origin point
+        completer_view = Var(origin.then(
+            lambda o: o.children_env.get_first_sequential(
+                Self.tok, sequential_from=origin
+            )).cast(T.BaseTypeDecl)
+        )
+
+        # If completer_view is a more complete view of the type we're looking
+        # up, then return completer_view. Else return des_type.
+        return If(
+            Not(completer_view.is_null)
+            & Self.is_view_of_type(des_type, completer_view),
+            completer_view,
+            des_type
+        )
+
+    @langkit_property(return_type=BoolType)
+    def is_view_of_type(typ=T.BaseTypeDecl.entity,
+                        comp_view=T.BaseTypeDecl.entity):
+        """
+        Predicate that will return true if comp_view is a more complete view of
+        type typ, or if it is the same view of type typ.
+        """
+        return Cond(
+            comp_view.is_null, False,
+            comp_view == typ, True,
+            Self.is_view_of_type(typ, comp_view.previous_part(True))
         )
 
     @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)

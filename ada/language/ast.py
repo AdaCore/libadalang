@@ -3508,7 +3508,8 @@ class Name(Expr):
                        i.relative_name, sequential_from=Entity.el,
                        recursive=Not(in_dotted_name)
                    ).cast(T.BasicDecl),
-                   env.get_first(i.relative_name, recursive=Not(in_dotted_name))
+                   env.get_first(i.relative_name,
+                                 recursive=Not(in_dotted_name))
                    .cast(T.BasicDecl))
             ),
             lambda _: LogicTrue()

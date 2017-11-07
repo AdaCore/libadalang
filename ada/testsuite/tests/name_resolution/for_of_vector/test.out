@@ -1,0 +1,127 @@
+Analyzing testvec.adb
+#####################
+
+Resolving xrefs for node <ObjectDecl ["I"] 7:4-7:24>
+****************************************************
+
+Expr: <Id "I" 7:4-7:5>
+  references: None
+  type:       None
+Expr: <DottedName 7:8-7:23>
+  references: <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Id "Int_Vecs" 7:8-7:16>
+  references: None
+  type:       None
+Expr: <Id "Vector" 7:17-7:23>
+  references: <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["A"] 8:4-8:16>
+****************************************************
+
+Expr: <Id "A" 8:4-8:5>
+  references: None
+  type:       None
+Expr: <Id "Integer" 8:8-8:15>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <CallStmt 10:4-10:18>
+**********************************************
+
+Expr: <CallExpr 10:4-10:17>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <DottedName 10:4-10:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Id "I" 10:4-10:5>
+  references: <ObjectDecl ["I"] 7:4-7:24>
+  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+Expr: <Id "Append" 10:6-10:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Int 10:14-10:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <CallStmt 11:4-11:18>
+**********************************************
+
+Expr: <CallExpr 11:4-11:17>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <DottedName 11:4-11:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Id "I" 11:4-11:5>
+  references: <ObjectDecl ["I"] 7:4-7:24>
+  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+Expr: <Id "Append" 11:6-11:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Int 11:14-11:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <CallStmt 12:4-12:18>
+**********************************************
+
+Expr: <CallExpr 12:4-12:17>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <DottedName 12:4-12:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Id "I" 12:4-12:5>
+  references: <ObjectDecl ["I"] 7:4-7:24>
+  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+Expr: <Id "Append" 12:6-12:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Int 12:14-12:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <CallStmt 13:4-13:18>
+**********************************************
+
+Expr: <CallExpr 13:4-13:17>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <DottedName 13:4-13:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Id "I" 13:4-13:5>
+  references: <ObjectDecl ["I"] 7:4-7:24>
+  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+Expr: <Id "Append" 13:6-13:12>
+  references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
+  type:       None
+Expr: <Int 13:14-13:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <ForLoopStmt 15:4-17:13>
+*************************************************
+
+Expr: <Id "El" 15:8-15:10>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "I" 15:14-15:15>
+  references: <ObjectDecl ["I"] 7:4-7:24>
+  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+
+Resolving xrefs for node <AssignStmt 16:7-16:15>
+************************************************
+
+Expr: <Id "A" 16:7-16:8>
+  references: <ObjectDecl ["A"] 8:4-8:16>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "El" 16:12-16:14>
+  references: <ForLoopVarDecl ["El"] 15:8-15:10>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

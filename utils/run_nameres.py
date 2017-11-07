@@ -126,9 +126,9 @@ class Result(object):
             "for node (.*?)$", text, re.MULTILINE
         )[0]
 
-    @property
+    @memoized_property
     def lineno(self):
-        return self.node.split(" ")[1].split(":")[0]
+        return self.node.split(" ")[-1].split(":")[0]
 
     @staticmethod
     def construct(file_result, lines):

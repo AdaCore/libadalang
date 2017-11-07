@@ -3191,9 +3191,21 @@ class BinOp(Expr):
                            conv_prop=BaseTypeDecl.comp_type)
             ),
 
-            lambda _:
-            TypeBind(Self.type_var, Self.left.type_var)
-            & TypeBind(Self.type_var, Self.right.type_var)
+            lambda _: Or(
+                # Regular case: Both operands and binop are of the same type
+                TypeBind(Self.type_var, Self.left.type_var)
+                & TypeBind(Self.type_var, Self.right.type_var),
+
+                # Universal real with universal int case: Implicit conversion
+                # of the binop to universal real.
+                Or(
+                    universal_int_bind(Self.left.type_var)
+                    & universal_real_bind(Self.right.type_var),
+
+                    universal_real_bind(Self.left.type_var)
+                    & universal_int_bind(Self.right.type_var)
+                ) & universal_real_bind(Self.type_var)
+            )
         )
 
 

@@ -1348,8 +1348,8 @@ class BaseTypeDecl(BasicDecl):
             No(T.ArrayTypeDef.entity)
         )
 
-    @langkit_property(dynamic_vars=[origin])
-    def comp_type():
+    @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
+    def comp_type(is_subscript=(BoolType, False)):
         """
         Return the component type of `Self`, if applicable. The component type
         is the type you'll get if you call a value whose type is `Self`.  So it
@@ -1359,11 +1359,16 @@ class BaseTypeDecl(BasicDecl):
             2. The return type for an access to function.
         """
         return Entity.then(
-            lambda e: e.array_def.then(lambda ad: ad.comp_type)._or(
-                e.access_def._.match(
-                    lambda asd=T.AccessToSubpDef:
-                    asd.subp_spec.return_type,
-                    lambda tad=T.TypeAccessDef: tad.accessed_type
+            lambda e: Let(
+                lambda ad=If(is_subscript,
+                             Entity.array_def_with_deref,
+                             Entity.array_def):
+                ad.then(lambda ad: ad.comp_type)._or(
+                    e.access_def._.match(
+                        lambda asd=T.AccessToSubpDef:
+                        asd.subp_spec.return_type,
+                        lambda tad=T.TypeAccessDef: tad.accessed_type
+                    )
                 )
             )
         )
@@ -3626,7 +3631,8 @@ class CallExpr(Name):
                             # parent callexpr is a subscript to an instance of
                             # s's return type.
                             If(s.paramless_subp,
-                               s.expr_type.comp_type, s.expr_type),
+                               s.expr_type.comp_type(is_subscript=True),
+                               s.expr_type),
                             root
                         ), default_val=LogicTrue()
                     ),

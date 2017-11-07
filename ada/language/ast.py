@@ -5337,7 +5337,7 @@ class SelectWhenPart(AdaNode):
 
 
 class TerminateAlternative(SimpleStmt):
-    pass
+    xref_equation = Property(LogicTrue())
 
 
 class PackageBody(Body):

@@ -5204,7 +5204,7 @@ class LoopStmt(BaseLoopStmt):
 
 
 class ForLoopStmt(BaseLoopStmt):
-    pass
+    env_spec = EnvSpec(add_env())
 
 
 class WhileLoopStmt(BaseLoopStmt):

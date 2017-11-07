@@ -5057,7 +5057,7 @@ class ExitStmt(SimpleStmt):
         return Entity.condition.then(lambda cond: (
             cond.sub_equation
             & TypeBind(cond.type_var, Self.bool_type)
-        ))
+        ), default_val=LogicTrue())
 
 
 class ReturnStmt(SimpleStmt):

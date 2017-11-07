@@ -3895,8 +3895,8 @@ class ExplicitDeref(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def eq_for_type(typ=T.BaseTypeDecl.entity):
         return And(
-            Bind(Self.prefix.type_var, typ),
-            Bind(Self.type_var, typ.accessed_type)
+            TypeBind(Self.prefix.type_var, typ),
+            TypeBind(Self.type_var, typ.accessed_type)
         )
 
     @langkit_property()

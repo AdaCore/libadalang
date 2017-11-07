@@ -8,7 +8,7 @@ from language.lexer import ada_lexer as L
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
 from langkit.parsers import (
-    Grammar, Row, _, Null, Tok, Opt, List, Or, Pick, Predicate
+    Grammar, _, Null, Tok, Opt, List, Or, Pick, Predicate
 )
 
 ada_grammar = Grammar(main_rule_name='compilation')
@@ -24,7 +24,7 @@ def package_decl_factory(dest_class):
     Factory for creating a grammar rule that parses package declarations. Used
     to be able to generate both PackageDecl and BasePackageDecl instances.
 
-    :rtype: Row
+    :rtype: Parser
     """
     return dest_class(
         "package", A.static_name, A.aspect_spec, "is",

@@ -1270,10 +1270,6 @@ class BaseTypeDecl(BasicDecl):
         return Entity.is_int_type | Entity.is_enum_type
 
     @langkit_property(dynamic_vars=[origin])
-    def is_num_type_or_null():
-        return Self.is_null | Entity.is_int_type | Entity.is_real_type
-
-    @langkit_property(dynamic_vars=[origin])
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
@@ -2461,6 +2457,20 @@ class NumberDecl(BasicDecl):
         lambda id: id.cast(T.Name).as_entity))
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+
+    @langkit_property(unsafe_memoization=True)
+    def expr_type():
+        p = Var(If(Self.expr.type_val.is_null,
+                   Entity.expr.resolve_names,
+                   True))
+
+        typ = Var(If(p,
+                     Self.expr.type_val.cast_or_raise(BaseTypeDecl.entity),
+                     No(BaseTypeDecl.entity)))
+
+        return If(typ.is_int_type,
+                  Self.universal_int_type,
+                  Self.universal_real_type).cast(BaseTypeDecl.entity)
 
 
 class ObjectDecl(BasicDecl):
@@ -4141,25 +4151,10 @@ class BaseId(SingleTokNode):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def general_xref_equation():
         env_els = Var(Entity.env_elements)
-        num_decl = env_els.at(0).cast(NumberDecl.entity)
 
-        return If(
-            Not(num_decl.is_null),
-
-            # If a num decl, then ensure it is used in a context where a num
-            # decl is needed.
-            # TODO: Apparently GNAT is able to distinguish between real and int
-            # constants, and that can be leveraged in overloading. This is a
-            # very edgish case but still needs to be implemented.
-            And(
-                Bind(Self.ref_var, num_decl),
-                Predicate(BaseTypeDecl.is_num_type_or_null, Self.type_var)
-            ),
-
-            # Other cases
+        return (
             Self.ref_var.domain(env_els)
-            & Bind(Self.ref_var, Self.type_var,
-                   BasicDecl.expr_type)
+            & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type)
         )
 
 

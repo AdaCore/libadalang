@@ -4649,10 +4649,19 @@ class AttributeRef(Name):
             rel_name.any_of('Maximum_Alignment', 'Word_Size'),
             Entity.standard_attr_equation,
 
+            rel_name.any_of('Small', 'Large'),
+            Entity.universal_real_equation,
+
             LogicTrue()
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def universal_real_equation():
+        return (
+            universal_real_bind(Self.type_var)
+            & Entity.prefix.sub_equation
+        )
+
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def standard_attr_equation():
         return (

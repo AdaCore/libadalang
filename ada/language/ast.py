@@ -4511,6 +4511,8 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_names = Property(Self.id.cast(T.Name).as_entity.singleton)
 
+    defining_env = Property(Entity.expr_type.defining_env)
+
     @langkit_property(unsafe_memoization=True)
     def expr_type():
         return If(

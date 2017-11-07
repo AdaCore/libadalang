@@ -566,6 +566,13 @@ class BasicDecl(AdaNode):
 
     is_array = Property(Entity.array_ndims > 0, dynamic_vars=[origin])
 
+    @langkit_property(dynamic_vars=[origin], return_type=BoolType)
+    def is_array_or_access():
+        return (
+            Entity.is_array
+            | Entity.expr_type.accessed_type.then(lambda at: at.is_array)
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[origin])
     def expr_type():
@@ -1363,7 +1370,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin])
     def index_type(dim=LongType):
-        return Entity.array_def.then(lambda ad: ad.index_type(dim))
+        return Entity.array_def_with_deref.then(lambda ad: ad.index_type(dim))
 
     @langkit_property(dynamic_vars=[origin])
     def first_index_type():
@@ -4838,7 +4845,7 @@ class AttributeRef(Name):
 
             Entity.prefix.sub_equation
             # It must be an array
-            & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
+            & Predicate(BasicDecl.is_array_or_access, Self.prefix.ref_var)
             # Its index type is the type of Self
             & TypeBind(Self.prefix.type_var, Self.type_var,
                        conv_prop=BaseTypeDecl.first_index_type),
@@ -4859,7 +4866,7 @@ class AttributeRef(Name):
             # Prefix is not a type, it's an instance
             Entity.prefix.sub_equation
             # It must be an array
-            & Predicate(BasicDecl.is_array, Self.prefix.ref_var)
+            & Predicate(BasicDecl.is_array_or_access, Self.prefix.ref_var)
             # Its index type is the type of Self
             & TypeBind(Self.prefix.type_var, Self.type_var,
                        conv_prop=BaseTypeDecl.first_index_type)

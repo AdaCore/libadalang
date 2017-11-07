@@ -41,6 +41,10 @@ def universal_int_bind(type_var):
     return TypeBind(type_var, Self.universal_int_type)
 
 
+def universal_real_bind(type_var):
+    return TypeBind(type_var, Self.universal_real_type)
+
+
 def ref_used_packages():
     """
     If Self is a library item or a subunit, reference the environments for
@@ -4212,7 +4216,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return TypeBind(Self.type_var, Self.universal_real_type)
+        return universal_real_bind(Self.type_var)
 
 
 class IntLiteral(NumLiteral):

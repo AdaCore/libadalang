@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [testcst.adb]
+with_default_project: False

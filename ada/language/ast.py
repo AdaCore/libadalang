@@ -147,6 +147,19 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property(return_type=T.AspectSpec.entity)
+    def node_aspects():
+        """
+        Return the list of aspects that are attached to this node.
+        """
+        return No(T.AspectSpec.entity)
+
+    @langkit_property(return_type=T.AspectAssoc.entity)
+    def get_aspect(name=SymbolType):
+        return Entity.node_aspects._.aspect_assocs.find(
+            lambda asp: asp.id.cast(T.BaseId).sym == name
+        )
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=EquationType, dynamic_vars=[env, origin])
     def xref_equation():
@@ -1378,12 +1391,24 @@ class BaseTypeDecl(BasicDecl):
         #
         #   * Spark iterable types (Iterable aspect).
         #   * Ada 2012 iterable types.
-        Entity.is_array,
+        Or(
+            Entity.is_array,
+            Not(Entity.get_aspect('Iterator_Element').is_null)
+        ),
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
         """,
         dynamic_vars=[origin]
     )
+
+    @langkit_property(dynamic_vars=[origin])
+    def iterable_comp_type():
+        ie = Var(Entity.get_aspect('Iterator_Element'))
+        return If(
+            ie.is_null,
+            Entity.comp_type,
+            ie.expr.cast(T.Name).name_designated_type
+        )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_prefix_type(container_type=T.BaseTypeDecl.entity):
@@ -1549,6 +1574,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.typedecl.is_iterable_type)
     defining_env = Property(Entity.typedecl.defining_env)
+    node_aspects = Property(Entity.typedecl.node_aspects)
 
 
 class TypeDecl(BaseTypeDecl):
@@ -1556,6 +1582,8 @@ class TypeDecl(BaseTypeDecl):
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
     prims_env = UserField(type=T.LexicalEnvType, public=False)
+
+    node_aspects = Property(Entity.aspects)
 
     @langkit_property(external=True, uses_entity_info=False,
                       return_type=LexicalEnvType)
@@ -4539,7 +4567,8 @@ class ForLoopSpec(LoopSpec):
 
                 # Then we want the type of the induction variable to be the
                 # component type of the type of the expression.
-                & TypeBind(Self.var_decl.id.type_var, it_typ.comp_type)
+                & TypeBind(Self.var_decl.id.type_var,
+                           it_typ.iterable_comp_type)
 
                 # If there is a type annotation, then the type of var should be
                 # conformant.

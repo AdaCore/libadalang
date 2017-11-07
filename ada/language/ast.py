@@ -4642,7 +4642,19 @@ class AttributeRef(Name):
             rel_name == 'Aft', Entity.aft_equation,
             rel_name == 'Range', Entity.range_equation,
 
+            rel_name.any_of('Maximum_Alignment', 'Word_Size'),
+            Entity.standard_attr_equation,
+
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def standard_attr_equation():
+        return (
+            # TODO: run the equation of the prefix (std package), does not
+            # work for the moment because the architecture is wrong.
+            universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

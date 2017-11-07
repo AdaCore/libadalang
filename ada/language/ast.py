@@ -3470,7 +3470,8 @@ class Name(Expr):
     )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def xref_no_overloading(in_dotted_name=(BoolType, False)):
+    def xref_no_overloading(in_dotted_name=(BoolType, False),
+                            sequential=(BoolType, True)):
         """
         Simple xref equation for names in clauses with no overloading, such as
         with and use clauses.
@@ -3483,10 +3484,13 @@ class Name(Expr):
             ),
             lambda i=T.BaseId: Bind(
                 i.ref_var,
-                env.get_first_sequential(
-                    i.relative_name, sequential_from=Entity.el,
-                    recursive=Not(in_dotted_name)
-                ).cast(T.BasicDecl)
+                If(sequential,
+                   env.get_first_sequential(
+                       i.relative_name, sequential_from=Entity.el,
+                       recursive=Not(in_dotted_name)
+                   ).cast(T.BasicDecl),
+                   env.get_first(i.relative_name, recursive=Not(in_dotted_name))
+                   .cast(T.BasicDecl))
             ),
             lambda _: LogicTrue()
         )
@@ -5041,7 +5045,7 @@ class GotoStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Entity.label_name.sub_equation
+        return Entity.label_name.xref_no_overloading(sequential=False)
 
 
 class ExitStmt(SimpleStmt):

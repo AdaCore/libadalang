@@ -4217,7 +4217,8 @@ class BaseId(SingleTokNode):
 
         return (
             Self.ref_var.domain(env_els)
-            & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type)
+            & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type,
+                   eq_prop=BaseTypeDecl.matching_type)
         )
 
 

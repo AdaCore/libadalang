@@ -21,7 +21,7 @@ Expr: <Str ""**"" 15:12-15:16>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "e" 15:17-15:18>
   references: <NumberDecl ["e"] 29:4-30:72>
-  type:       <TypeDecl ["Float"] 13:3-14:51>
+  type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 Expr: <Real 15:20-15:25>
   references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>

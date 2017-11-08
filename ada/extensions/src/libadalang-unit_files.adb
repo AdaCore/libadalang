@@ -54,7 +54,8 @@ package body Libadalang.Unit_Files is
       while Current_Name /= null loop
          --  TODO??? Find a proper way to handle file not found, parsing error,
          --  etc.
-         Unit := UFP.Get_Unit (Ctx, Create (Current_Name), Kind);
+         Unit := UFP.Get_Unit
+           (Ctx, Unit_Text_Name (Bare_Name (Current_Name)), Kind);
          Prepare_Semres (Unit);
 
          --  GNAT kludge: as an "optimization", the generic subpackages in

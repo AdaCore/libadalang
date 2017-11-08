@@ -66,35 +66,6 @@ package body Libadalang.Unit_Files.Projects is
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider_Type;
       Context     : Analysis_Context;
-      Node        : Ada_Node'Class;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit
-   is
-      N : constant Bare_Ada_Node := Bare_Node (Node);
-   begin
-      if N.all not in Bare_Name_Type'Class then
-         raise Property_Error with "invalid AST node for unit name";
-      end if;
-
-      declare
-         Name      : constant Bare_Name := Bare_Name (N);
-         Str_Name  : constant String :=
-            Libadalang.Unit_Files.Default.Unit_String_Name (Name);
-      begin
-         return Get_Unit (Provider, Context, Str_Name, Kind, Charset, Reparse,
-                          With_Trivia);
-      end;
-   end Get_Unit;
-
-   --------------
-   -- Get_Unit --
-   --------------
-
-   overriding function Get_Unit
-     (Provider    : Project_Unit_Provider_Type;
-      Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";

@@ -17,26 +17,6 @@ void ufp_destroy(void *data) {
     printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
 }
 
-ada_analysis_unit ufp_get_file_from_node(
-    void *data,
-    ada_analysis_context context,
-    ada_base_entity *node,
-    ada_unit_kind kind,
-    const char *charset,
-    int reparse,
-    int with_trivia)
-{
-    struct my_unit_provider *ufp_data
-      = (struct my_unit_provider *) data;
-
-    printf("Calling ufp_get_file_from_node (some_field=%d, kind=%d) on:\n",
-           ufp_data->some_field, kind);
-    dump_short_image(node, 0);
-
-    return ada_get_analysis_unit_from_file(context, "strange_bar.ads", charset,
-                                           reparse, with_trivia);
-}
-
 ada_analysis_unit ufp_get_file_from_name(
     void *data,
     ada_analysis_context context,
@@ -46,15 +26,16 @@ ada_analysis_unit ufp_get_file_from_name(
     int reparse,
     int with_trivia)
 {
-    (void) data;
-    (void) context;
-    (void) name;
-    (void) kind;
-    (void) charset;
-    (void) reparse;
-    (void) with_trivia;
-    printf("Calling ufp_get_file_from_name: unsupported!\n");
-    exit(1);
+    struct my_unit_provider *ufp_data
+      = (struct my_unit_provider *) data;
+
+    printf("Calling ufp_get_file_from_name (some_field=%d, kind=%d) "
+           "with name: \"", ufp_data->some_field, kind);
+    fprint_text(stdout, *name, false);
+    printf("\"\n");
+
+    return ada_get_analysis_unit_from_file(context, "strange_bar.ads",
+                                           charset, reparse, with_trivia);
 }
 
 int
@@ -66,7 +47,6 @@ main(void)
     ada_unit_provider ufp
       = ada_create_unit_provider((void *) &ufp_data,
                                  ufp_destroy,
-                                 ufp_get_file_from_node,
                                  ufp_get_file_from_name);
 
     ada_base_entity root, pragma, args, assoc, expr;

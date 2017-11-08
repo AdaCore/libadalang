@@ -19,34 +19,6 @@ package body Libadalang.Unit_Files.Default is
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;
-      Node        : Ada_Node'Class;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit
-   is
-      pragma Unreferenced (Provider);
-      N : constant Bare_Ada_Node := Bare_Node (Node);
-   begin
-      if N.all in Bare_Name_Type'Class then
-         declare
-            Str_Name : constant String := Unit_String_Name (Bare_Name (N));
-         begin
-            return Get_From_File (Context, File_From_Unit (Str_Name, Kind),
-                                  Charset, Reparse, With_Trivia);
-         end;
-      end if;
-
-      raise Property_Error with "invalid AST node for unit name";
-   end Get_Unit;
-
-   --------------
-   -- Get_Unit --
-   --------------
-
-   overriding function Get_Unit
-     (Provider    : Default_Unit_Provider_Type;
-      Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
@@ -56,7 +28,8 @@ package body Libadalang.Unit_Files.Default is
       pragma Unreferenced (Provider);
    begin
       return Get_From_File (Context,
-                            File_From_Unit (Unit_String_Name (Name), Kind),
+                            File_From_Unit
+                              (Unit_String_Name (Name), Kind),
                             Charset, Reparse, With_Trivia);
    end Get_Unit;
 

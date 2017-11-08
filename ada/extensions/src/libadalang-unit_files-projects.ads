@@ -29,15 +29,6 @@ package Libadalang.Unit_Files.Projects is
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider_Type;
       Context     : Analysis_Context;
-      Node        : Ada_Node'Class;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit;
-
-   overriding function Get_Unit
-     (Provider    : Project_Unit_Provider_Type;
-      Context     : Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";

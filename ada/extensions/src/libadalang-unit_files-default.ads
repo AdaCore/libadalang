@@ -46,9 +46,9 @@ package Libadalang.Unit_Files.Default is
    function Unit_String_Name (Name : Text_Type) return String;
    --  Assuming Name contains only characters in the following subset::
    --
-   --     '-' | '_' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z'
+   --     '.' | '-' | '_' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z'
    --
-   --  then turn it into a lower-case ASCII string. Raise a Property_Error if
+   --  then turn it into a lower-case ASCII strings. Raise a Property_Error if
    --  this assumption is false.
 
    function Unit_String_Name (N : Bare_Name) return String is

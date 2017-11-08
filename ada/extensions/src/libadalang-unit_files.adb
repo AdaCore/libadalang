@@ -84,7 +84,7 @@ package body Libadalang.Unit_Files is
             First_Unit := Unit;
          end if;
 
-         --  Fetch the next mention name to process
+         --  Fetch the next name to process
          if Current_Name.all in Bare_Base_Id_Type'Class then
             Current_Name := null;
          elsif Current_Name.all in Bare_Dotted_Name_Type'Class then

@@ -53,6 +53,9 @@ procedure Nameres is
    Only_Show_Failures   : Boolean := False;
    --  Only print failures to stdout
 
+   Dump_Envs            : Boolean := False;
+   --  Dump lexical envs of every explicitly passed file
+
    function Text (N : Ada_Node'Class) return String is (Image (N.Text));
 
    function Starts_With (S, Prefix : String) return Boolean is
@@ -208,6 +211,11 @@ procedure Nameres is
          return;
       end if;
       Populate_Lexical_Env (Unit);
+
+      if Dump_Envs then
+         Put_Title ('-', "Dumping envs for " & Filename);
+         Dump_Lexical_Env (Unit);
+      end if;
 
       if Resolve_All or Solve_Line /= 0 then
          Resolve_Block (Root (Unit));
@@ -428,6 +436,8 @@ begin
             Charset := +Strip_Prefix (Arg, "--charset=");
          elsif Arg = "--with-default-project" then
             With_Default_Project := True;
+         elsif Arg in "--print-envs" | "-E" then
+            Dump_Envs := True;
          elsif Arg = "--all" then
             Resolve_All := True;
          elsif Arg = "--only-show-failures" then
@@ -506,6 +516,7 @@ begin
          Unit : Analysis_Unit;
       begin
          Unit := Get_From_File (Ctx, File);
+
          if not Quiet then
             Put_Title ('#', "Analyzing " & File);
          end if;

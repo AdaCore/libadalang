@@ -12,7 +12,7 @@ from langkit.envs import (
     call_env_hook, do
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyArray,
+    AbstractKind, AbstractProperty, And, Bind, DynamicVariable,
     EmptyEnv, EnvGroup, If, Let, Literal, No, Not, Or, Property, Self, Entity,
     Var, ignore, langkit_property, Cond
 )
@@ -379,7 +379,7 @@ class AdaNode(ASTNode):
                 )
             ),
 
-            EmptyArray(AdaNode)
+            No(T.AdaNode.array)
         )
 
     @langkit_property()
@@ -391,7 +391,7 @@ class AdaNode(ASTNode):
         """
         return If(Self.parent.is_a(T.LibraryItem, T.Subunit),
                   Self.to_array,
-                  EmptyArray(AdaNode))
+                  No(T.AdaNode.array))
 
     @langkit_property()
     def use_packages_in_spec_of_subp_body():
@@ -1009,7 +1009,7 @@ class DiscriminantPart(BaseFormalParamHolder):
 
     @langkit_property()
     def abstract_formal_params():
-        return EmptyArray(T.BaseFormalParamDecl.entity)
+        return No(T.BaseFormalParamDecl.entity.array)
 
 
 class KnownDiscriminantPart(DiscriminantPart):
@@ -2148,7 +2148,7 @@ class UsePackageClause(UseClause):
             # which is not processed at this point yet. See CompilationUnit's
             # ref_env_nodes.
             If(Self.parent.parent.is_a(T.CompilationUnit),
-               EmptyArray(AdaNode),
+               No(T.AdaNode.array),
                Self.packages.map(lambda n: n.cast(AdaNode))),
 
             T.Name.use_package_name_designated_env
@@ -2787,7 +2787,7 @@ class GenericPackageInstantiation(GenericInstantiation):
             env.bind(
                 Self.initial_env,
                 If(Self.is_any_formal,
-                   EmptyArray(T.env_assoc),
+                   No(T.env_assoc.array),
                    Self.designated_generic_decl._.formal_part.match_param_list(
                        Self.params, False
                    ).map(lambda pm: T.env_assoc.new(
@@ -3832,7 +3832,7 @@ class ParamAssoc(BasicAssoc):
 
     expr = Property(Self.r_expr)
     names = Property(If(Self.designator.is_null,
-                        EmptyArray(AdaNode), Self.designator.singleton))
+                        No(T.AdaNode.array), Self.designator.singleton))
 
 
 class AggregateAssoc(BasicAssoc):
@@ -4494,7 +4494,7 @@ class SubpSpec(BaseSubpSpec):
     params = Property(
         Entity.subp_params.then(
             lambda p: p.params.map(lambda p: p),
-            default_val=EmptyArray(ParamSpec.entity)
+            default_val=No(T.ParamSpec.entity.array)
         )
     )
     returns = Property(Entity.subp_returns)

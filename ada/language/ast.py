@@ -4772,6 +4772,7 @@ class AttributeRef(Name):
             rel_name == 'Image', Entity.image_equation,
             rel_name == 'Aft', Entity.aft_equation,
             rel_name == 'Range', Entity.range_equation,
+            rel_name == 'Identity', Entity.identity_equation,
 
             rel_name.any_of('Maximum_Alignment', 'Word_Size'),
             Entity.standard_attr_equation,
@@ -4781,6 +4782,19 @@ class AttributeRef(Name):
 
             LogicTrue()
         )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def identity_equation():
+        ext_id_type = Var(
+            Entity
+            .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
+            ._.children_env.get_first('Exception_Id', recursive=False)
+            .cast(T.BaseTypeDecl)
+        )
+        # NOTE: We don't verify that the prefix designates an exception
+        # declaration, because that's legality, not name resolution.
+        return (Entity.prefix.sub_equation
+                & TypeBind(Self.type_var, ext_id_type))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def universal_real_equation():

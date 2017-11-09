@@ -1,0 +1,17 @@
+--  vim: ft=ada
+
+function P_Get_Unit
+  (Node : access Bare_Ada_Node_Type'Class; 
+   Name : Symbol_Type_Array_Access; 
+   Kind : Unit_Kind) return Analysis_Unit
+is
+begin
+   return Libadalang.Unit_Files.Fetch_Unit
+     (Node.Unit.Context,
+      Libadalang.Unit_Files.Symbol_Type_Array (Name.Items),
+      Node.Unit,
+      Kind);
+exception
+   when Property_Error =>
+      return No_Analysis_Unit;
+end P_Get_Unit;

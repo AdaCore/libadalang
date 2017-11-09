@@ -147,6 +147,33 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property(return_type=AnalysisUnitType, external=True,
+                      uses_entity_info=False)
+    def get_unit(name=SymbolType.array, kind=AnalysisUnitKind):
+        """
+        Return the analysis unit for the given "kind" corresponding to this
+        Name. Return null if this is an illegal unit name.
+        """
+        pass
+
+    @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
+                      ignore_warn_on_node=True)
+    def get_compilation_unit(name=SymbolType.array, kind=AnalysisUnitKind):
+        """
+        Return the compilation unit node for the given analysis unit "kind" and
+        correpsonding to the name "name".
+        """
+        u = Var(Self.get_unit(name, kind))
+
+        return u.root.match(
+            lambda cu=T.CompilationUnit: cu.body.match(
+                lambda su=T.Subunit: su.body,
+                lambda li=T.LibraryItem: li.item,
+                lambda _: No(T.AdaNode)
+            ),
+            lambda _: No(T.AdaNode),
+        )
+
     @langkit_property(return_type=T.AspectSpec.entity)
     def node_aspects():
         """

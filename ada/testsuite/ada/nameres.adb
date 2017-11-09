@@ -434,7 +434,7 @@ begin
             Set_Debug_State (Step_At_First_Unsat);
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
-         elsif Arg = "--with-default-project" then
+         elsif Arg in "--with-default-project" | "-DP" then
             With_Default_Project := True;
          elsif Arg in "--print-envs" | "-E" then
             Dump_Envs := True;

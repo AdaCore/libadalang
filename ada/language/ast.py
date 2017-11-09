@@ -5049,10 +5049,30 @@ class HandledStmts(AdaNode):
     exceptions = Field(type=T.AdaNode.list)
 
 
-class ExceptionHandler(AdaNode):
+class ExceptionHandler(BasicDecl):
     exc_name = Field(type=T.Identifier)
     handled_exceptions = Field(type=T.AdaNode.list)
     stmts = Field(type=T.AdaNode.list)
+
+    env_spec = EnvSpec(
+        add_env(),
+        add_to_env(
+            env_mappings(Entity.exc_name.then(lambda n: n.singleton),
+                         Self),
+            dest_env=Self.children_env
+        )
+    )
+
+    defining_names = Property(Self.exc_name.cast(T.Name).as_entity.singleton)
+
+    @langkit_property()
+    def expr_type():
+        return (
+            Entity
+            .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
+            ._.children_env.get_first('Exception_Occurrence', recursive=False)
+            .cast(T.BaseTypeDecl)
+        )
 
 
 @abstract

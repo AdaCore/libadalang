@@ -308,20 +308,20 @@ class AdaNode(ASTNode):
     )
 
     bool_type = Property(
-       Self.std_entity('Boolean'), public=True, doc="""
-       Return the standard Boolean type.
-       """
+        Self.std_entity('Boolean'), public=True, doc="""
+        Return the standard Boolean type.
+        """
     )
     int_type = Property(Self.std_entity('Integer'))
     universal_int_type = Property(
-       Self.std_entity('Universal_Int_Type_'), public=True, doc="""
-       Return the standard Universal Integer type.
-       """
+        Self.std_entity('Universal_Int_Type_'), public=True, doc="""
+        Return the standard Universal Integer type.
+        """
     )
     universal_real_type = Property(
-       Self.std_entity('Universal_Real_Type_'), public=True, doc="""
-       Return the standard Universal Real type.
-       """
+        Self.std_entity('Universal_Real_Type_'), public=True, doc="""
+        Return the standard Universal Real type.
+        """
     )
 
     @langkit_property(return_type=BoolType)

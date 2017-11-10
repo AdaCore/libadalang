@@ -11,7 +11,7 @@ begin
    if Node.F_Inst_Env = Empty_Env then
       Node.F_Inst_Env :=
          AST_Envs.Create (No_Env_Getter, Node, Is_Refcounted => False);
-      Register_Destroyable (Node.Unit, Node.F_Inst_Env);
+      Register_Destroyable (Node.Unit, Node.F_Inst_Env.Env);
    end if;
    return Node.F_Inst_Env;
 end P_Instantiation_Env;

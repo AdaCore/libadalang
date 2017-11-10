@@ -313,8 +313,16 @@ class AdaNode(ASTNode):
        """
     )
     int_type = Property(Self.std_entity('Integer'))
-    universal_int_type = Property(Self.std_entity('Universal_Int_Type_'))
-    universal_real_type = Property(Self.std_entity('Universal_Real_Type_'))
+    universal_int_type = Property(
+       Self.std_entity('Universal_Int_Type_'), public=True, doc="""
+       Return the standard Universal Integer type.
+       """
+    )
+    universal_real_type = Property(
+       Self.std_entity('Universal_Real_Type_'), public=True, doc="""
+       Return the standard Universal Real type.
+       """
+    )
 
     @langkit_property(return_type=BoolType)
     def has_with_visibility(refd_unit=AnalysisUnitType):

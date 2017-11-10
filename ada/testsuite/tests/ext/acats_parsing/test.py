@@ -9,11 +9,12 @@ from utils import get_ext_src
 
 acats_dir = get_ext_src('acats')
 
+c = lal.AnalysisContext()
+
 # Find every C test in the ACATS
 for d in glob(os.path.join(acats_dir, 'acats-4', 'tests', 'c*')):
     for root, dirs, files in os.walk(d):
         for filename in files:
-            c = lal.AnalysisContext()
             filepath = os.path.join(root, filename)
             if filename.endswith('.a') or filename.endswith('.ada'):
 

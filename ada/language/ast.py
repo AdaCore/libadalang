@@ -307,7 +307,11 @@ class AdaNode(ASTNode):
         doc="Return an entity from the standard package with name `sym`"
     )
 
-    bool_type = Property(Self.std_entity('Boolean'))
+    bool_type = Property(
+       Self.std_entity('Boolean'), public=True, doc="""
+       Return the standard Boolean type.
+       """
+    )
     int_type = Property(Self.std_entity('Integer'))
     universal_int_type = Property(Self.std_entity('Universal_Int_Type_'))
     universal_real_type = Property(Self.std_entity('Universal_Real_Type_'))

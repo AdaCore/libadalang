@@ -147,6 +147,20 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property(return_type=T.AdaNode.entity)
+    def semantic_parent_helper(env=LexicalEnvType):
+        return env.then(lambda env: env.env_node.as_entity._or(
+            Entity.semantic_parent_helper(env.env_parent)
+        ))
+
+    @langkit_property(public=True)
+    def semantic_parent():
+        """
+        Return the semantic parent for this node, if applicable, null
+        otherwise.
+        """
+        return Entity.semantic_parent_helper(Entity.children_env.env_parent)
+
     @langkit_property(return_type=AnalysisUnitType, external=True,
                       uses_entity_info=False)
     def get_unit(name=SymbolType.array, kind=AnalysisUnitKind):

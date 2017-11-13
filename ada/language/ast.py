@@ -2299,7 +2299,10 @@ class SubtypeIndication(TypeExpr):
     # visibility (origin node) of the caller.
     designated_type = Property(
         env.bind(Entity.node_env,
-                 Entity.name.designated_type_impl)
+                 Entity.name.designated_type_impl),
+        public=True, doc="""
+        Return the BaseTypeDecl that this SubtypeIndication designates.
+        """
     )
 
     @langkit_property()

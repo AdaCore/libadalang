@@ -1382,7 +1382,7 @@ class BaseTypeDecl(BasicDecl):
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type declaration.
-        """
+        """, public=True
     )
     array_def = Property(No(T.ArrayTypeDef.entity))
     record_def = Property(No(T.BaseRecordDef.entity))

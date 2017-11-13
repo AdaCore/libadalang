@@ -8,13 +8,17 @@ package body Libadalang.Sources is
    -- Decode_Brackets --
    ---------------------
 
-   function Decode_Brackets (Pattern : Text_Type) return Wide_Wide_Character is
+   procedure Decode_Brackets
+     (Pattern : Text_Type;
+      Error   : out Boolean;
+      Result  : out Wide_Wide_Character) is
    begin
       if Pattern'Length < 6 or else Pattern'Length > 12
          or else Pattern (Pattern'First .. Pattern'First + 1) /= "["""
          or else Pattern (Pattern'Last - 1 .. Pattern'Last) /= """]"
       then
-         raise Invalid_Brackets_Encoding;
+         Error := True;
+         return;
       end if;
 
       declare
@@ -32,12 +36,15 @@ package body Libadalang.Sources is
                elsif C in 'a' .. 'f' then
                   Digit := Charcode - Wide_Wide_Character'Pos ('a') + 10;
                else
-                  raise Invalid_Brackets_Encoding;
+                  Error := True;
+                  return;
                end if;
                Codepoint := 16 * Codepoint + Digit;
             end;
          end loop;
-         return Wide_Wide_Character'Val (Codepoint);
+
+         Result := Wide_Wide_Character'Val (Codepoint);
+         Error := False;
       end;
    end Decode_Brackets;
 
@@ -45,7 +52,7 @@ package body Libadalang.Sources is
    -- Canonicalize --
    ------------------
 
-   function Canonicalize (Name : Text_Type) return Text_Type is
+   function Canonicalize (Name : Text_Type) return Symbolization_Result is
       Result      : Text_Type (Name'Range);
       Result_Last : Integer := Name'First - 1;
 
@@ -59,8 +66,9 @@ package body Libadalang.Sources is
 
          Result_Last := Result_Last + 1;
          declare
-            C : constant Wide_Wide_Character := Name (I);
-            J : Positive := I + 1;
+            C     : constant Wide_Wide_Character := Name (I);
+            J     : Positive := I + 1;
+            Error : Boolean;
          begin
             if C = '['
                and then J in Name'Range
@@ -72,7 +80,10 @@ package body Libadalang.Sources is
                while J < Name'Last and then Name (J) /= ']' loop
                   J := J + 1;
                end loop;
-               Result (Result_Last) := Decode_Brackets (Name (I .. J));
+               Decode_Brackets (Name (I .. J), Error, Result (Result_Last));
+               if Error then
+                  return Create_Error ("invalid brackets encoding");
+               end if;
                I := J;
 
             else
@@ -109,7 +120,7 @@ package body Libadalang.Sources is
          I := I + 1;
       end loop;
 
-      return Result (Result'First .. Result_Last);
+      return Create_Symbol (Result (Result'First .. Result_Last));
    end Canonicalize;
 
 end Libadalang.Sources;

@@ -1,0 +1,78 @@
+input: 4:4: invalid brackets encoding
+CompilationUnit[1:1-7:9]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-7:9]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-7:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:14]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
+|  |  |  |subp_name:
+|  |  |  |  Id[1:11-1:14]
+|  |  |  |  |tok: Foo
+|  |  |  |subp_params: <null>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:4-4:56]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:4-4:56]
+|  |  |  |  |  NumberDecl[2:4-2:32]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[2:4-2:12]
+|  |  |  |  |  |  |  Id[2:4-2:12]
+|  |  |  |  |  |  |  |tok: ["03C0"]
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  Real[2:27-2:31]
+|  |  |  |  |  |  |tok: 3.14
+|  |  |  |  |  NumberDecl[3:4-3:40]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[3:4-3:20]
+|  |  |  |  |  |  |  Id[3:4-3:20]
+|  |  |  |  |  |  |  |tok: This_Is_["03C0"]
+|  |  |  |  |  |expr:
+|  |  |  |  |  |  Real[3:35-3:39]
+|  |  |  |  |  |  |tok: 3.14
+|  |  |  |  |  ObjectDecl[4:4-4:56]
+|  |  |  |  |  |ids:
+|  |  |  |  |  |  IdentifierList[4:4-4:21]
+|  |  |  |  |  |  |  Id[4:4-4:21]
+|  |  |  |  |  |  |  |tok: ["800003C0"]_Name
+|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  AliasedAbsent[4:24-4:24]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantPresent[4:24-4:24]
+|  |  |  |  |  |inout:
+|  |  |  |  |  |  ModeDefault[4:33-4:33]
+|  |  |  |  |  |type_expr:
+|  |  |  |  |  |  SubtypeIndication[4:33-4:39]
+|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[4:33-4:33]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[4:33-4:39]
+|  |  |  |  |  |  |  |tok: String
+|  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |default_expr:
+|  |  |  |  |  |  Str[4:43-4:55]
+|  |  |  |  |  |  |tok: "["0003C0"]"
+|  |  |  |  |  |renaming_clause: <null>
+|  |  |  |  |  |aspects: <null>
+|  |  |stmts:
+|  |  |  HandledStmts[6:4-6:9]
+|  |  |  |stmts:
+|  |  |  |  StmtList[6:4-6:9]
+|  |  |  |  |  NullStmt[6:4-6:9]
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[6:8-6:8]: <empty list>
+|  |  |end_id:
+|  |  |  Id[7:5-7:8]
+|  |  |  |tok: Foo
+|pragmas:
+|  PragmaNodeList[8:1-8:1]: <empty list>

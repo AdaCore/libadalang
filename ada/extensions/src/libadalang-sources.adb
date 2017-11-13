@@ -22,6 +22,9 @@ package body Libadalang.Sources is
       end if;
 
       declare
+         subtype Valid_Codepoint is Unsigned_32
+            range Wide_Wide_Character'Pos (Wide_Wide_Character'First)
+               .. Wide_Wide_Character'Pos (Wide_Wide_Character'Last);
          Codepoint : Unsigned_32 := 0;
       begin
          for C of Pattern (Pattern'First + 2 .. Pattern'Last - 2) loop
@@ -42,6 +45,11 @@ package body Libadalang.Sources is
                Codepoint := 16 * Codepoint + Digit;
             end;
          end loop;
+
+         if Codepoint not in Valid_Codepoint then
+            Error := True;
+            return;
+         end if;
 
          Result := Wide_Wide_Character'Val (Codepoint);
          Error := False;

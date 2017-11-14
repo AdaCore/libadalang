@@ -1654,6 +1654,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     is_tagged_type = Property(True)
     base_type = Property(Entity.typedecl.base_type)
+    base_interfaces = Property(Entity.typedecl.base_interfaces)
     record_def = Property(Entity.typedecl.record_def)
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.typedecl.is_iterable_type)
@@ -1688,7 +1689,7 @@ class TypeDecl(BaseTypeDecl):
 
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Entity.type_def.base_type)
-    base_types = Property(Entity.type_def.base_types)
+    base_interfaces = Property(Entity.type_def.base_interfaces)
     is_char_type = Property(Entity.type_def.is_char_type)
     is_enum_type = Property(Entity.type_def.is_enum_type)
     is_private = Property(

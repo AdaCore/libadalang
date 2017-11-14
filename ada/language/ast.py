@@ -1901,7 +1901,10 @@ class DerivedTypeDef(TypeDef):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Entity.subtype_indication.xref_equation
+        return (
+            Entity.subtype_indication.xref_equation
+            & Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
+        )
 
 
 class PrivateTypeDef(TypeDef):

@@ -1741,11 +1741,11 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(return_type=LexicalEnvType.array, memoized=True,
                       memoize_in_populate=True)
     def primitives_envs():
-        return Entity.base_type.cast(T.TypeDecl).then(
+        return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
             lambda bt: bt.primitives.singleton.concat(
                 bt.primitives_envs
             )
-        )
+        ))
 
     primitives_env = Property(Self.type_def.match(
         lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group,

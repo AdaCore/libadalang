@@ -4797,6 +4797,7 @@ class AttributeRef(Name):
             rel_name.any_of('Succ', 'Pred'), Entity.succpred_xref_equation,
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
+            rel_name == 'Size', Entity.size_equation,
             rel_name == 'Length', Entity.length_equation,
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
@@ -4941,6 +4942,19 @@ class AttributeRef(Name):
             & Predicate(BaseTypeDecl.is_access_of,
                         Self.type_var,
                         Self.prefix.ref_var)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def size_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        return If(
+            Not(typ.is_null),
+
+            Bind(Self.prefix.ref_var, typ)
+            & universal_int_bind(Self.type_var),
+
+            Entity.prefix.sub_equation
+            & universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

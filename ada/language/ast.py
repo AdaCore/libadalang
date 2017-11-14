@@ -4912,7 +4912,7 @@ class AttributeRef(Name):
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             # Type of 'Length is Integer
-            & TypeBind(Self.type_var, Self.int_type)
+            & universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

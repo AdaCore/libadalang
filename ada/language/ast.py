@@ -1464,9 +1464,9 @@ class BaseTypeDecl(BasicDecl):
         """
         return Or(
             Entity.canonical_type == other_type.canonical_type,
-            (Not(Entity.classwide_type.is_null)
-             & (Entity.classwide_type == other_type.classwide_type)),
-            Entity.base_type._.is_derived_type(other_type)
+            And(Not(Entity.classwide_type.is_null),
+                Entity.classwide_type == other_type.classwide_type),
+            Entity.base_types.any(lambda bt: bt._.is_derived_type(other_type))
         )
 
     is_iterable_type = Property(

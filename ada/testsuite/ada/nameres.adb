@@ -471,7 +471,7 @@ begin
          --  Set scenario variables
          for Assoc of Scenario_Vars loop
             declare
-               A : constant String := +Assoc;
+               A        : constant String := +Assoc;
                Eq_Index : Natural := A'First;
             begin
                while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop

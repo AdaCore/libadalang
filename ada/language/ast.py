@@ -2066,6 +2066,10 @@ class InterfaceTypeDef(TypeDef):
 
     defining_env = Property(Entity.children_env)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
+
 
 class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)

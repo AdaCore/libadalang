@@ -1738,35 +1738,13 @@ class TypeDecl(BaseTypeDecl):
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
-    @langkit_property(return_type=LexicalEnvType.array)
-    def primitives_envs_nonmemoized():
-        """
-        Non-memoized implem for primitives_env. Used in cases where there is
-        relevant entity info.
-        """
-        return Entity.base_type.cast(T.TypeDecl).then(
-            lambda bt: bt.primitives.singleton.concat(bt.primitives_envs)
-        )
-
     @langkit_property(return_type=LexicalEnvType.array, memoized=True,
                       memoize_in_populate=True)
-    def primitives_envs_memoized():
-        """
-        Memoized implem for primitives_env. Used in cases where there is
-        no relevant entity info.
-        """
-        return Self.as_bare_entity.base_type.cast(T.TypeDecl).then(
+    def primitives_envs():
+        return Entity.base_type.cast(T.TypeDecl).then(
             lambda bt: bt.primitives.singleton.concat(
                 bt.primitives_envs
             )
-        )
-
-    @langkit_property(return_type=LexicalEnvType.array)
-    def primitives_envs():
-        return If(
-            Entity.info.is_null,
-            Self.primitives_envs_memoized,
-            Entity.primitives_envs_nonmemoized
         )
 
     primitives_env = Property(Self.type_def.match(

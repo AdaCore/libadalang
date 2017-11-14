@@ -1,0 +1,21 @@
+Analyzing testifc.adb
+#####################
+
+Resolving xrefs for node <CallStmt 17:4-17:19>
+**********************************************
+
+Expr: <CallExpr 17:4-17:18>
+  references: <NullSubpDecl ["Foo"] 4:7-4:53>
+  type:       None
+Expr: <Id "Foo" 17:4-17:7>
+  references: <NullSubpDecl ["Foo"] 4:7-4:53>
+  type:       None
+Expr: <Id "Inst" 17:9-17:13>
+  references: <ObjectDecl ["Inst"] 15:4-15:32>
+  type:       <TypeDecl ["C"] 10:7-10:40>
+Expr: <Int 17:15-17:17>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

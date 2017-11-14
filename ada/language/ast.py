@@ -13,7 +13,7 @@ from langkit.envs import (
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable,
-    EmptyEnv, EnvGroup, If, Let, Literal, No, Not, Or, Property, Self, Entity,
+    EmptyEnv, If, Let, Literal, No, Not, Or, Property, Self, Entity,
     Var, ignore, langkit_property, Cond
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
@@ -1893,12 +1893,11 @@ class DerivedTypeDef(TypeDef):
     is_tagged_type = Property(True)
     is_enum_type = Property(Entity.base_type.is_enum_type)
 
-    defining_env = Property(EnvGroup(
-        Entity.children_env,
-
-        # Add environments from parent type defs
-        Entity.base_type.defining_env
-    ))
+    defining_env = Property(
+        Entity.base_types.map(
+            lambda bt: bt._.defining_env
+        ).concat(Entity.children_env.singleton).env_group
+    )
 
     @langkit_property(return_type=EquationType)
     def xref_equation():

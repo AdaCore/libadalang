@@ -2064,6 +2064,8 @@ class InterfaceTypeDef(TypeDef):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
+    defining_env = Property(Entity.children_env)
+
 
 class SubtypeDecl(BaseTypeDecl):
     subtype = Field(type=T.SubtypeIndication)

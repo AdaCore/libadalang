@@ -1105,6 +1105,12 @@ class TypeDef(AdaNode):
         """
     )
 
+    base_interfaces = Property(
+        No(T.BaseTypeDecl.entity.array), doc="""
+        Return the interfaces this type derives from
+        """
+    )
+
     @langkit_property(dynamic_vars=[origin])
     def defining_env():
         return EmptyEnv
@@ -1384,6 +1390,8 @@ class BaseTypeDecl(BasicDecl):
         Return the base type entity for this derived type declaration.
         """, public=True
     )
+    base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
+
     array_def = Property(No(T.ArrayTypeDef.entity))
     record_def = Property(No(T.BaseRecordDef.entity))
 
@@ -1861,6 +1869,10 @@ class DerivedTypeDef(TypeDef):
         origin.bind(Self, Entity.subtype_indication.designated_type)
     )
 
+    base_interfaces = Property(
+        Entity.interfaces.map(lambda i: i.name_designated_type)
+    )
+
     is_real_type = Property(Entity.base_type.is_real_type)
     is_int_type = Property(Entity.base_type.is_int_type)
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
@@ -2033,6 +2045,10 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field(type=T.Name.list)
 
     is_tagged_type = Property(True)
+
+    base_interfaces = Property(
+        Entity.interfaces.map(lambda i: i.name_designated_type)
+    )
 
 
 class SubtypeDecl(BaseTypeDecl):

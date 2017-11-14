@@ -4805,6 +4805,7 @@ class AttributeRef(Name):
             rel_name == 'Aft', Entity.aft_equation,
             rel_name == 'Range', Entity.range_equation,
             rel_name == 'Identity', Entity.identity_equation,
+            rel_name == 'Address', Entity.address_equation,
 
             rel_name.any_of('Maximum_Alignment', 'Word_Size'),
             Entity.standard_attr_equation,
@@ -4814,6 +4815,17 @@ class AttributeRef(Name):
 
             LogicTrue()
         )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def address_equation():
+        address_type = Var(
+            Entity
+            .get_compilation_unit(['System'], UnitSpecification)
+            ._.children_env.get_first('Address', recursive=False)
+            .cast(T.BaseTypeDecl)
+        )
+        return (Entity.prefix.sub_equation
+                & TypeBind(Self.type_var, address_type))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def identity_equation():

@@ -4503,6 +4503,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def primitive_subp_of():
+        """
+        Return the type of which this subprogram is a primitive of.
+        """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         params = Var(Entity.unpacked_formal_params)
         types = Var(params.map(lambda p: p.spec.el_type))

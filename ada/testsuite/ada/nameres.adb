@@ -56,6 +56,9 @@ procedure Nameres is
    Dump_Envs            : Boolean := False;
    --  Dump lexical envs of every explicitly passed file
 
+   Timeout : Natural := 100_000;
+   --  Logic resolution timeout
+
    function Text (N : Ada_Node'Class) return String is (Image (N.Text));
 
    function Starts_With (S, Prefix : String) return Boolean is
@@ -448,6 +451,8 @@ begin
             Project_File := +Strip_Prefix (Arg, "-P");
          elsif Starts_With (Arg, "-L") then
             Solve_Line := Positive'Value (Strip_Prefix (Arg, "-L"));
+         elsif Starts_With (Arg, "-t") then
+            Timeout := Natural'Value (Strip_Prefix (Arg, "-t"));
          elsif Starts_With (Arg, "-X") then
             Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
          elsif Starts_With (Arg, "--") then
@@ -509,6 +514,7 @@ begin
      (Charset       => +Charset,
       Unit_Provider => Unit_Provider_Access_Cst (UFP));
    Discard_Errors_In_Populate_Lexical_Env (Ctx, Discard_Errors);
+   Set_Logic_Resolution_Timeout (Ctx, Timeout);
 
    for F of Files loop
       declare

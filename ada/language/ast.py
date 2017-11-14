@@ -1105,6 +1105,12 @@ class TypeDef(AdaNode):
         """
     )
 
+    base_types = Property(
+        Entity.base_type.singleton.concat(Entity.base_interfaces), doc="""
+        Return all the base types for this type (base type + base interfaces)
+        """
+    )
+
     base_interfaces = Property(
         No(T.BaseTypeDecl.entity.array), doc="""
         Return the interfaces this type derives from
@@ -1390,6 +1396,11 @@ class BaseTypeDecl(BasicDecl):
         Return the base type entity for this derived type declaration.
         """, public=True
     )
+
+    base_types = Property(
+        Entity.base_type.singleton.concat(Entity.base_interfaces)
+    )
+
     base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
 
     array_def = Property(No(T.ArrayTypeDef.entity))
@@ -1677,6 +1688,7 @@ class TypeDecl(BaseTypeDecl):
 
     is_tagged_type = Property(Self.type_def.is_tagged_type)
     base_type = Property(Entity.type_def.base_type)
+    base_types = Property(Entity.type_def.base_types)
     is_char_type = Property(Entity.type_def.is_char_type)
     is_enum_type = Property(Entity.type_def.is_enum_type)
     is_private = Property(

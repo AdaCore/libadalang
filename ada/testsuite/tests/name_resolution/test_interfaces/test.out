@@ -1,0 +1,75 @@
+Analyzing testifc.adb
+#####################
+
+Resolving xrefs for node <TypeDecl ["A"] 4:4-4:24>
+**************************************************
+
+Expr: <Id "A" 4:9-4:10>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["E"] 7:4-7:24>
+**************************************************
+
+Expr: <Id "E" 7:9-7:10>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["B"] 10:4-10:43>
+****************************************************
+
+Expr: <Id "B" 10:9-10:10>
+  references: None
+  type:       None
+Expr: <Id "A" 10:18-10:19>
+  references: <TypeDecl ["A"] 4:4-4:24>
+  type:       None
+Expr: <Id "E" 10:24-10:25>
+  references: <TypeDecl ["E"] 7:4-7:24>
+  type:       <TypeDecl ["E"] 7:4-7:24>
+
+Resolving xrefs for node <ObjectDecl ["Inst"] 12:4-12:13>
+*********************************************************
+
+Expr: <Id "Inst" 12:4-12:8>
+  references: None
+  type:       None
+Expr: <Id "B" 12:11-12:12>
+  references: <TypeDecl ["B"] 10:4-10:43>
+  type:       None
+
+Resolving xrefs for node <UsePackageClause 14:4-14:14>
+******************************************************
+
+Expr: <Id "Pouet" 14:8-14:13>
+  references: <PackageDecl ["Pouet"] 2:4-13:14>
+  type:       None
+
+Resolving xrefs for node <CallStmt 16:4-16:21>
+**********************************************
+
+Expr: <CallExpr 16:4-16:20>
+  references: <NullSubpDecl ["Frobulize"] 5:4-5:43>
+  type:       None
+Expr: <Id "Frobulize" 16:4-16:13>
+  references: <NullSubpDecl ["Frobulize"] 5:4-5:43>
+  type:       None
+Expr: <Id "Inst" 16:15-16:19>
+  references: <ObjectDecl ["Inst"] 12:4-12:13>
+  type:       <TypeDecl ["B"] 10:4-10:43>
+
+Resolving xrefs for node <CallStmt 17:4-17:19>
+**********************************************
+
+Expr: <DottedName 17:4-17:18>
+  references: <NullSubpDecl ["Frobulize"] 5:4-5:43>
+  type:       None
+Expr: <Id "Inst" 17:4-17:8>
+  references: <ObjectDecl ["Inst"] 12:4-12:13>
+  type:       <TypeDecl ["B"] 10:4-10:43>
+Expr: <Id "Frobulize" 17:9-17:18>
+  references: <NullSubpDecl ["Frobulize"] 5:4-5:43>
+  type:       None
+
+
+Done.

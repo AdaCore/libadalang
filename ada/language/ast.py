@@ -4356,11 +4356,18 @@ class StringLiteral(BaseId):
 class EnumLiteralDecl(BasicDecl):
     enum_identifier = Field(type=T.BaseId)
 
-    @langkit_property()
-    def expr_type():
+    @langkit_property(public=True)
+    def enum_type():
+        """
+        Return the enum type corresponding to this enum literal.
+        """
         return Self.parents.find(
             lambda p: p.is_a(BaseTypeDecl)
         ).cast(BaseTypeDecl).as_entity
+
+    @langkit_property()
+    def expr_type():
+        return Entity.enum_type
 
     defining_names = Property(
         Self.enum_identifier.cast(T.Name).as_entity.singleton)

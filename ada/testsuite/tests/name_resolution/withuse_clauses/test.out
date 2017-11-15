@@ -1,31 +1,19 @@
 Analyzing testwu.adb
 ####################
 
-Resolving xrefs for node <WithClause 1:1-1:18>
+Resolving xrefs for node <WithClause 1:1-1:10>
 **********************************************
 
-Expr: <DottedName 1:6-1:17>
-  references: <PackageDecl ["Ada.Text_IO"] 49:1-471:17>
-  type:       None
-Expr: <Id "Ada" 1:6-1:9>
-  references: <PackageDecl ["Ada"] 16:1-20:9>
-  type:       None
-Expr: <Id "Text_IO" 1:10-1:17>
-  references: <PackageDecl ["Ada.Text_IO"] 49:1-471:17>
+Expr: <Id "Lib" 1:6-1:9>
+  references: <PackageDecl ["Lib"] 1:1-3:9>
   type:       None
 
 
-Resolving xrefs for node <UsePackageClause 4:1-4:17>
-****************************************************
+Resolving xrefs for node <UsePackageClause 4:1-4:9>
+***************************************************
 
-Expr: <DottedName 4:5-4:16>
-  references: <PackageDecl ["Ada.Text_IO"] 49:1-471:17>
-  type:       None
-Expr: <Id "Ada" 4:5-4:8>
-  references: <PackageDecl ["Ada"] 16:1-20:9>
-  type:       None
-Expr: <Id "Text_IO" 4:9-4:16>
-  references: <PackageDecl ["Ada.Text_IO"] 49:1-471:17>
+Expr: <Id "Lib" 4:5-4:8>
+  references: <PackageDecl ["Lib"] 1:1-3:9>
   type:       None
 
 
@@ -33,10 +21,10 @@ Resolving xrefs for node <CallStmt 9:4-9:21>
 ********************************************
 
 Expr: <CallExpr 9:4-9:20>
-  references: <SubpDecl ["Put_Line"] 263:4-264:22>
+  references: <SubpDecl ["Put_Line"] 2:4-2:36>
   type:       None
 Expr: <Id "Put_Line" 9:4-9:12>
-  references: <SubpDecl ["Put_Line"] 263:4-264:22>
+  references: <SubpDecl ["Put_Line"] 2:4-2:36>
   type:       None
 Expr: <Str ""LOL"" 9:14-9:19>
   references: None

@@ -1,7 +1,7 @@
-with Ada.Text_IO;
+with Lib;
 pragma Test_Statement;
 
-use Ada.Text_IO;
+use Lib;
 pragma Test_Statement;
 
 procedure Testwu is

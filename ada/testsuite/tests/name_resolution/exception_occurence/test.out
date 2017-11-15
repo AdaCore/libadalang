@@ -1,0 +1,24 @@
+Analyzing test_exc.adb
+######################
+
+Resolving xrefs for node <CallStmt 8:4-8:37>
+********************************************
+
+Expr: <CallExpr 8:4-8:36>
+  references: <SubpDecl ["Put_Line"] 263:4-264:22>
+  type:       None
+Expr: <Id "Put_Line" 8:4-8:12>
+  references: <SubpDecl ["Put_Line"] 263:4-264:22>
+  type:       None
+Expr: <CallExpr 8:14-8:35>
+  references: <SubpDecl ["Exception_Message"] 94:4-94:72>
+  type:       <TypeDecl ["String"] 104:3-104:57>
+Expr: <Id "Exception_Message" 8:14-8:31>
+  references: <SubpDecl ["Exception_Message"] 94:4-94:72>
+  type:       <TypeDecl ["String"] 104:3-104:57>
+Expr: <Id "E" 8:33-8:34>
+  references: <ExceptionHandler ["E"] 7:1-9:26>
+  type:       <TypeDecl ["Exception_Occurrence"] 63:4-63:49>
+
+
+Done.

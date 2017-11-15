@@ -15,7 +15,7 @@ package body Libadalang.Expr_Eval is
          case D.Kind is
             when LAL.Ada_Enum_Literal_Decl =>
 
-               --  An enum literal declaration evaluates to itself.
+               --  An enum literal declaration evaluates to itself
                return (Enum_Lit,
                        D.As_Enum_Literal_Decl.P_Enum_Type,
                        D.As_Enum_Literal_Decl);

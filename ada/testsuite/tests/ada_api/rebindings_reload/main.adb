@@ -51,7 +51,7 @@ procedure Main is
       end if;
 
       declare
-         Ref : constant Ada_Node := Call.P_Ref_Val;
+         Ref : constant Basic_Decl := Call.P_Referenced_Decl;
       begin
          Put_Line (Image (Call.Short_Image));
          Put_Line ("  resolves to: " & Image (Ref));

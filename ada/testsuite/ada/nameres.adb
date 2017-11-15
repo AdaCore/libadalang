@@ -151,8 +151,8 @@ procedure Nameres is
       begin
          if N.Kind in Ada_Expr then
             declare
-               P_Ref  : constant Ada_Node := N.As_Expr.P_Ref_Val;
-               P_Type : constant Ada_Node := N.As_Expr.P_Type_Val;
+               P_Ref  : constant Basic_Decl := N.As_Expr.P_Referenced_Decl;
+               P_Type : constant Base_Type_Decl := N.As_Expr.P_Expression_Type;
             begin
                if not Quiet then
                   Put_Line ("Expr: " & Safe_Image (N));

@@ -128,24 +128,32 @@ class AdaNode(ASTNode):
         warn_on_node=True
     )
 
-    type_val = Property(
-        No(T.AdaNode.entity),
+    expression_type = Property(
+        No(T.BaseTypeDecl.entity),
+        type=T.BaseTypeDecl.entity,
         public=True,
         doc="""
         This will return the value of the type of this node after symbol
-        resolution. NOTE: For this to be bound, resolve_names needs to be
-        called on the appropriate parent node first.
+        resolution.
         """
     )
-    ref_val = Property(
-        No(T.AdaNode.entity),
+
+    referenced_decl = Property(
+        No(T.BasicDecl.entity),
         public=True,
         doc="""
         This will return the node this nodes references after symbol
-        resolution. NOTE: For this to be bound, resolve_names needs to be
-        called on the appropriate parent node first.
+        resolution.
         """
     )
+
+    @langkit_property()
+    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType):
+        success = Var(
+            from_node.parents.find(lambda p: p.xref_entry_point).resolve_names
+        )
+
+        return If(success, lvar.get_value, No(T.AdaNode.entity))
 
     @langkit_property(return_type=T.AdaNode.entity)
     def semantic_parent_helper(env=LexicalEnvType):
@@ -267,7 +275,8 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=BoolType, public=True)
+    @langkit_property(return_type=BoolType, public=True,
+                      memoized=True, unsafe_memoization=True)
     def resolve_names():
         """
         This will resolve names for this node. If the operation is successful,
@@ -3064,6 +3073,10 @@ class Expr(AdaNode):
     type_var = UserField(LogicVarType, public=False)
     type_val = Property(Self.type_var.get_value)
 
+    expression_type = Property(
+        Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
+    )
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LexicalEnvType, dynamic_vars=[env, origin])
     def designated_env():
@@ -3210,7 +3223,11 @@ class BinOp(Expr):
     op = Field(type=Op)
     right = Field(type=T.Expr)
 
-    ref_val = Property(Self.op.ref_var.get_value)
+    @langkit_property()
+    def referenced_decl():
+        return Self.logic_val(
+            Entity, Self.op.ref_var
+        ).cast_or_raise(T.BasicDecl)
 
     @langkit_property()
     def xref_equation():
@@ -3472,7 +3489,9 @@ class Name(Expr):
         """
         pass
 
-    ref_val = Property(Self.ref_var.get_value)
+    @langkit_property()
+    def referenced_decl():
+        return Self.logic_val(Entity, Self.ref_var).cast_or_raise(T.BasicDecl)
 
     designated_type_impl = Property(
         No(BaseTypeDecl.entity),
@@ -4610,7 +4629,7 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_env = Property(Entity.expr_type.defining_env)
 
-    @langkit_property(unsafe_memoization=True)
+    @langkit_property(memoized=True, unsafe_memoization=True)
     def expr_type():
         return If(
             Self.id_type.is_null,
@@ -4618,13 +4637,7 @@ class ForLoopVarDecl(BasicDecl):
             # The type of a for loop variable does not need to be annotated, it
             # can eventually be infered, which necessitates name resolution on
             # the loop specification. Run resolution if necessary.
-            Let(lambda p=If(
-                Self.id.type_val.is_null,
-                Self.parent.parent
-                .cast(T.ForLoopStmt).spec.as_entity.resolve_names,
-                True
-            ): If(p, Self.id.type_val.cast_or_raise(BaseTypeDecl.entity),
-                  No(BaseTypeDecl.entity))),
+            Entity.id.expression_type,
 
             # If there is a type annotation, just return it
             Entity.id_type.designated_type
@@ -4639,19 +4652,14 @@ class ForLoopSpec(LoopSpec):
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
-    @langkit_property(unsafe_memoization=True)
+    @langkit_property(memoized=True, unsafe_memoization=True)
     def iter_type():
-        p = Var(If(
-            Self.iter_expr.type_val.is_null,
-            Entity.iter_expr.resolve_names,
-            True
-        ))
+        p = Var(Entity.iter_expr.resolve_names)
 
-        return If(
-            p,
-            Self.iter_expr.type_val.cast_or_raise(BaseTypeDecl.entity),
-            No(BaseTypeDecl.entity)
-        )
+        return If(p,
+                  Entity.iter_expr.cast_or_raise(T.Expr)
+                  .type_var.get_value.cast(T.BaseTypeDecl),
+                  No(BaseTypeDecl.entity))
 
     @langkit_property(return_type=EquationType)
     def xref_equation():

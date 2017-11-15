@@ -141,7 +141,7 @@ procedure Navigate is
             exception
                when LAL.Property_Error =>
                   Put_Line ("Error when processing " & Short_Image (Node));
-                  At_Least_once := True;
+                  At_Least_Once := True;
             end;
          end loop;
          if not At_Least_Once then
@@ -271,7 +271,7 @@ begin
    for I in 2 .. CMD.Argument_Count loop
       declare
          Arg  : constant String := CMD.Argument (I);
-         Unit : LAL.Analysis_Unit := LAL.Get_From_File (Ctx, Arg);
+         Unit : constant LAL.Analysis_Unit := LAL.Get_From_File (Ctx, Arg);
       begin
          Put_Title ('#', Arg);
          Process_File (Unit, Arg);

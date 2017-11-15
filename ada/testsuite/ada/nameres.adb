@@ -1,14 +1,9 @@
 with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
-with Ada.Containers.Hashed_Maps;
 with Ada.Containers.Vectors;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Strings.Unbounded.Hash;
 with Ada.Text_IO;
-with Ada.Unchecked_Deallocation;
-
-with Interfaces; use Interfaces;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
@@ -96,11 +91,18 @@ procedure Nameres is
    --  This function is here to provide a simple breakpoint location for
    --  debugging sessions.
 
+   procedure New_Line;
+   procedure Put_Line (S : String);
+   procedure Put (S : String);
+   procedure Resolve_Node (Node : Ada_Node);
+   procedure Resolve_Block (Block : Ada_Node);
+
    --------------
    -- New_Line --
    --------------
 
-   procedure New_Line is begin
+   procedure New_Line is
+   begin
       if not Quiet then
          Ada.Text_IO.New_Line;
       end if;
@@ -138,6 +140,12 @@ procedure Nameres is
    ------------------
 
    procedure Resolve_Node (Node : Ada_Node) is
+
+      function Print_Node (N : Ada_Node'Class) return Visit_Status;
+
+      ----------------
+      -- Print_Node --
+      ----------------
 
       function Print_Node (N : Ada_Node'Class) return Visit_Status is
       begin
@@ -238,6 +246,12 @@ procedure Nameres is
 
          function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
 
+         procedure Handle_Pragma_Config (Id : Identifier; E : Expr);
+
+         --------------------------
+         -- Handle_Pragma_Config --
+         --------------------------
+
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
             Name : constant Text_Type := Text (Id.F_Tok);
          begin
@@ -330,7 +344,7 @@ procedure Nameres is
                   if P_Node.F_Args.Child_Count = 2 then
                      Debug_Lookup := Text
                        (As_Base_Assoc
-                         (P_Node.F_Args.Child (2)).P_Assoc_Expr) 
+                         (P_Node.F_Args.Child (2)).P_Assoc_Expr)
                           = String'("Debug");
                   end if;
 
@@ -534,7 +548,7 @@ begin
    Destroy (UFP);
    Put_Line ("Done.");
 exception
-   when E : others =>
+   when others =>
       Put_Line ("Traceback:");
       Put_Line ("");
       raise;

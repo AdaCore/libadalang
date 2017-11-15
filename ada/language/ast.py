@@ -362,7 +362,11 @@ class AdaNode(ASTNode):
         Return the standard Boolean type.
         """
     )
-    int_type = Property(Self.std_entity('Integer'))
+    int_type = Property(
+        Self.std_entity('Integer'), public=True, doc="""
+        Return the standard Integer type.
+        """
+    )
     universal_int_type = Property(
         Self.std_entity('Universal_Int_Type_'), public=True, doc="""
         Return the standard Universal Integer type.

@@ -170,7 +170,7 @@ class AdaNode(ASTNode):
         return Entity.semantic_parent_helper(Entity.children_env.env_parent)
 
     @langkit_property(return_type=AnalysisUnitType, external=True,
-                      uses_entity_info=False)
+                      uses_entity_info=False, uses_envs=False)
     def get_unit(name=SymbolType.array, kind=AnalysisUnitKind):
         """
         Return the analysis unit for the given "kind" corresponding to this
@@ -1679,7 +1679,7 @@ class TypeDecl(BaseTypeDecl):
 
     node_aspects = Property(Entity.aspects)
 
-    @langkit_property(external=True, uses_entity_info=False,
+    @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
                       return_type=LexicalEnvType)
     def primitives():
         pass
@@ -2712,7 +2712,7 @@ class GenericInstantiation(BasicDecl):
 
     inst_env = UserField(type=T.LexicalEnvType, public=False)
 
-    @langkit_property(external=True, uses_entity_info=False,
+    @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
                       return_type=LexicalEnvType)
     def instantiation_env():
         pass
@@ -3516,7 +3516,7 @@ class Name(Expr):
     )
 
     @langkit_property(return_type=AnalysisUnitType, external=True,
-                      uses_entity_info=False)
+                      uses_entity_info=False, uses_envs=False)
     def referenced_unit(kind=AnalysisUnitKind):
         """
         Return the analysis unit for the given "kind" corresponding to this

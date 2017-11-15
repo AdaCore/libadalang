@@ -1724,7 +1724,7 @@ class TypeDecl(BaseTypeDecl):
         add_to_env_kv(Entity.relative_name, Self),
         reference(
             Self.cast(AdaNode).singleton,
-            through=T.TypeDecl.primitives_env,
+            through=T.TypeDecl.parent_primitives_env,
             transitive=True
         ),
         add_env()
@@ -1749,17 +1749,24 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(return_type=LexicalEnvType.array, memoized=True,
                       memoize_in_populate=True)
-    def primitives_envs():
+    def primitives_envs(include_self=(BoolType, False)):
         return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
             lambda bt: bt.primitives.singleton.concat(
                 bt.primitives_envs
             )
-        ))
+        )).concat(
+            If(include_self,
+               Entity.primitives.singleton, No(LexicalEnvType.array))
+        )
 
-    primitives_env = Property(Self.type_def.match(
+    parent_primitives_env = Property(Self.type_def.match(
         lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group,
         lambda _: EmptyEnv
     ))
+
+    primitives_env = Property(
+        Entity.primitives_envs(include_self=True).env_group
+    )
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -2244,6 +2251,20 @@ class UsePackageClause(UseClause):
 class UseTypeClause(UseClause):
     has_all = Field(type=All)
     types = Field(type=T.Name.list)
+
+    env_spec = EnvSpec(
+        reference(
+            # We don't want to process use clauses that appear in the top-level
+            # scope here, as they apply to the library item's environment,
+            # which is not processed at this point yet. See CompilationUnit's
+            # ref_env_nodes.
+            If(Self.parent.parent.is_a(T.CompilationUnit),
+               No(T.AdaNode.array),
+               Self.types.map(lambda n: n.cast(AdaNode))),
+
+            T.Name.name_designated_type_env
+        )
+    )
 
 
 @abstract
@@ -3515,6 +3536,10 @@ class Name(Expr):
         public=True
     )
 
+    @langkit_property(memoized=True, memoize_in_populate=True)
+    def name_designated_type_env():
+        return Entity.name_designated_type.cast(T.TypeDecl)._.primitives_env
+
     @langkit_property(return_type=AnalysisUnitType, external=True,
                       uses_entity_info=False, uses_envs=False)
     def referenced_unit(kind=AnalysisUnitKind):
@@ -3554,7 +3579,7 @@ class Name(Expr):
         """
         return Self.matches(n.el)
 
-    @langkit_property()
+    @langkit_property(memoized=True, memoize_in_populate=True)
     def use_package_name_designated_env():
         """
         Assuming Self is a name that is the direct child of a

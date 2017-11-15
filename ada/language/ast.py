@@ -133,8 +133,8 @@ class AdaNode(ASTNode):
         type=T.BaseTypeDecl.entity,
         public=True,
         doc="""
-        This will return the value of the type of this node after symbol
-        resolution.
+        Return the declaration corresponding to the type of this expression
+        after name resolution.
         """
     )
 
@@ -142,8 +142,7 @@ class AdaNode(ASTNode):
         No(T.BasicDecl.entity),
         public=True,
         doc="""
-        This will return the node this nodes references after symbol
-        resolution.
+        Return the declaration this node references after name resolution.
         """
     )
 

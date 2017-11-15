@@ -62,7 +62,6 @@ main(void)
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
-    ada_unit_populate_lexical_env(unit);
 
     ada_unit_root(unit, &root);
     find_node(&root, ada_pragma_node, &pragma);

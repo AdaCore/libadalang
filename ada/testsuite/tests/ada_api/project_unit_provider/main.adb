@@ -36,8 +36,6 @@ procedure Main is
    Root : constant Ada_Node := Libadalang.Analysis.Root (Unit);
 
 begin
-   Populate_Lexical_Env (Unit);
-
    declare
       Subtype_Ind : constant Subtype_Indication := Find_First
         (Root, new Ada_Node_Kind_Filter'(Kind => Ada_Subtype_Indication))

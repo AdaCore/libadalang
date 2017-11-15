@@ -89,7 +89,6 @@ procedure Navigate is
          New_Line;
          return;
       end if;
-      LAL.Populate_Lexical_Env (Unit);
 
       declare
          It            : LALIT.Local_Find_Iterator :=

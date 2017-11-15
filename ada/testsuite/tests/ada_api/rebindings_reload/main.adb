@@ -31,7 +31,6 @@ procedure Main is
          end loop;
          raise Program_Error;
       end if;
-      Populate_Lexical_Env (Unit);
    end Reload;
 
    -------------

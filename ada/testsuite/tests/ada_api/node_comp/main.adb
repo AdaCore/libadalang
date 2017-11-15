@@ -19,7 +19,6 @@ procedure Main is
          end loop;
          raise Program_Error with "Parsing error";
       end if;
-      Populate_Lexical_Env (Unit);
       return Unit;
    end Get_Unit;
 

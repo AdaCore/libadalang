@@ -7,7 +7,6 @@ import libadalang as lal
 
 c = lal.AnalysisContext('utf-8')
 u = c.get_from_file("foo-bar.ads")
-u.populate_lexical_env()
 i = u.root.find(lal.PragmaArgumentAssoc).f_expr
 print(i.p_matching_nodes[0])
 

@@ -304,7 +304,6 @@ def do_file(f):
             print('   {}'.format(diag))
             return
 
-    unit.populate_lexical_env()
     for subp in unit.root.findall((lal.SubpBody, lal.ExprFunction)):
         explore(f, subp)
 

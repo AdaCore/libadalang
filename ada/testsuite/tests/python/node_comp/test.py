@@ -11,7 +11,6 @@ if u.diagnostics:
     for d in u.diagnostics:
         print('error: {}'.format(d))
     sys.exit(1)
-u.populate_lexical_env()
 
 decls = u.root.findall(lal.ObjectDecl)
 d1, d2 = decls

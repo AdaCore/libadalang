@@ -10,9 +10,6 @@ procedure Main is
    function Is_Object_Decl (N : Ada_Node) return Boolean
    is (Kind (N) in Ada_Object_Decl);
 begin
-
-   Populate_Lexical_Env (Unit);
-
    for E of Find (Root (Unit), Is_Object_Decl'Access).Consume loop
       declare
          Res : Eval_Result := Expr_Eval (E.As_Object_Decl.F_Default_Expr);

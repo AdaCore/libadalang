@@ -10,7 +10,6 @@ for src_dir in ('src1', 'src2'):
         )
     )
     unit = ctx.get_from_provider('p2', 'specification')
-    unit.populate_lexical_env()
 
     subtype_ind = unit.root.find(libadalang.SubtypeIndication)
     print('{} resolves to:'.format(subtype_ind))

@@ -31,7 +31,6 @@ main(void)
     );
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
-    ada_unit_populate_lexical_env(unit);
 
     ada_unit_root(unit, &root);
     find_node(&root, ada_subtype_indication, &subtype_ind);

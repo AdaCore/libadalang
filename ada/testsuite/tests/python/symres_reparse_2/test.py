@@ -21,7 +21,6 @@ end Foo;
 
 c = lal.AnalysisContext('utf-8')
 u = c.get_from_file('foo-bar.ads')
-u.populate_lexical_env()
 
 for pragma in u.root.findall(lal.PragmaNode):
     show_resolve(pragma)
@@ -29,7 +28,6 @@ del pragma
 gc.collect()
 
 u2 = c.get_from_buffer('foo.ads', new_foo, reparse=True)
-u2.populate_lexical_env()
 
 for pragma in u.root.findall(lal.PragmaNode):
     show_resolve(pragma)

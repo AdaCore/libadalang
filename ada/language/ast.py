@@ -4881,7 +4881,25 @@ class AttributeRef(Name):
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
             rel_name == 'Access', Entity.access_equation,
-            rel_name == 'Image', Entity.image_equation,
+
+            rel_name == 'Image',
+            Entity.image_equation(Self.std_entity('String')),
+
+            rel_name == 'Wide_Image',
+            Entity.image_equation(Self.std_entity('Wide_String')),
+
+            rel_name == 'Wide_Wide_Image',
+            Entity.image_equation(Self.std_entity('Wide_Wide_String')),
+
+            rel_name == 'Value',
+            Entity.value_equation(Self.std_entity('String')),
+
+            rel_name == 'Wide_Value',
+            Entity.value_equation(Self.std_entity('Wide_String')),
+
+            rel_name == 'Wide_Wide_Value',
+            Entity.value_equation(Self.std_entity('Wide_Wide_String')),
+
             rel_name == 'Aft', Entity.aft_equation,
             rel_name == 'Range', Entity.range_equation,
             rel_name == 'Identity', Entity.identity_equation,
@@ -4966,7 +4984,23 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def image_equation():
+    def value_equation(str_type=T.AdaNode.entity):
+        typ = Var(Entity.prefix.name_designated_type)
+        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+
+        return (
+            # Prefix is a type, bind prefix's ref var to it
+            Bind(Self.prefix.ref_var, typ)
+
+            # Type of expression is str_type
+            & TypeBind(expr.type_var, str_type)
+
+            # Type of self is designated type
+            & TypeBind(Self.type_var, typ)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
 
@@ -4976,7 +5010,7 @@ class AttributeRef(Name):
             # Type of expression is designated type
             & TypeBind(expr.type_var, typ)
             # Type of self is String
-            & TypeBind(Self.type_var, Self.std_entity('String'))
+            & TypeBind(Self.type_var, str_type)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

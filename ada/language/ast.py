@@ -3453,14 +3453,18 @@ class Name(Expr):
         """
         Construct the xref equation for the chain of parent nested names.
         """
-        return Self.match(
-            lambda ce=T.CallExpr:
-            ce.as_entity.subscriptable_type_equation(typ),
-            lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
-            lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
-        ) & Self.parent_name(root).as_entity.then(
-            lambda pn: pn.parent_name_equation(typ.comp_type, root),
-            default_val=LogicTrue()
+        return If(
+            typ.is_null,
+            LogicFalse(),
+            Self.match(
+                lambda ce=T.CallExpr:
+                ce.as_entity.subscriptable_type_equation(typ),
+                lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
+                lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
+            ) & Self.parent_name(root).as_entity.then(
+                lambda pn: pn.parent_name_equation(typ.comp_type, root),
+                default_val=LogicTrue()
+            )
         )
 
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)

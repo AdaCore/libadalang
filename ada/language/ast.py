@@ -2613,6 +2613,10 @@ class NumberDecl(BasicDecl):
                   Self.universal_int_type,
                   Self.universal_real_type).cast(BaseTypeDecl.entity)
 
+    xref_entry_point = Property(True)
+
+    xref_equation = Property(Entity.expr.sub_equation)
+
 
 class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list)

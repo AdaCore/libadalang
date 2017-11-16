@@ -14,6 +14,7 @@ ada/testsuite/tests/*/*/*/*.ads no-precommit-check
 ada/testsuite/tests/*/*/*/*.c no-precommit-check
 ada/testsuite/*/*/*.h no-precommit-check
 ada/testsuite/ada/* no-precommit-check
+ada/testsuite/ada/gnat_compare/* no-precommit-check
 ada/testsuite/c_support/* no-precommit-check
 
 ada/doc/conf.py no-precommit-check

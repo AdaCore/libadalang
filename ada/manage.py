@@ -119,12 +119,14 @@ class Manage(ManageScript):
     @property
     def main_source_dirs(self):
         return super(Manage, self).main_source_dirs | {
-            os.path.join('testsuite', 'ada')
+            os.path.join('testsuite', 'ada'),
+            os.path.join('testsuite', 'ada', 'gnat_compare')
         }
 
     @property
     def main_programs(self):
-        return super(Manage, self).main_programs | {'nameres', 'navigate'}
+        return super(Manage, self).main_programs | {'nameres', 'navigate',
+                                                    'gnat_compare'}
 
     def do_test(self, args):
         """

@@ -377,6 +377,25 @@ class AdaNode(ASTNode):
         """
     )
 
+    ext_id_type = Property(
+        Self
+        .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
+        ._.children_env.get_first('Exception_Id', recursive=False)
+        .cast(T.BaseTypeDecl), doc="""
+        Return the type Ada.Exceptions.Exception_Id.
+        """
+
+    )
+
+    task_id_type = Property(
+        Self.get_compilation_unit(['Ada', 'Task_Identification'],
+                                  UnitSpecification)
+        ._.children_env.get_first('Task_Id', recursive=False)
+        .cast(T.BaseTypeDecl), doc="""
+        Return the type Ada.Task_Identification.Task_Id.
+        """
+    )
+
     @langkit_property(return_type=BoolType)
     def has_with_visibility(refd_unit=AnalysisUnitType):
         """
@@ -624,6 +643,15 @@ class BasicDecl(AdaNode):
         as suffixes when Self is a prefix.
         """
     )
+
+    @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
+    def identity_type():
+        return Entity.match(
+            lambda _=T.ExceptionDecl: Self.ext_id_type,
+            lambda _=T.TaskTypeDecl: Self.task_id_type,
+            lambda _=T.TaskBody: Self.task_id_type,
+            lambda _: No(T.BaseTypeDecl.entity)
+        )
 
     @langkit_property(dynamic_vars=[origin], return_type=LongType)
     def array_ndims():
@@ -4881,16 +4909,11 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def identity_equation():
-        ext_id_type = Var(
-            Entity
-            .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
-            ._.children_env.get_first('Exception_Id', recursive=False)
-            .cast(T.BaseTypeDecl)
-        )
         # NOTE: We don't verify that the prefix designates an exception
         # declaration, because that's legality, not name resolution.
         return (Entity.prefix.sub_equation
-                & TypeBind(Self.type_var, ext_id_type))
+                & TypeBind(Self.prefix.ref_var, Self.type_var,
+                           conv_prop=BasicDecl.identity_type))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def universal_real_equation():

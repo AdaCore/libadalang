@@ -5322,7 +5322,11 @@ class RaiseStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Entity.exception_name.sub_equation
+        return If(
+            Self.exception_name.is_null,
+            LogicTrue(),
+            Entity.exception_name._.sub_equation
+        )
 
 
 class IfStmt(CompositeStmt):

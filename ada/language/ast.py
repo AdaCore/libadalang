@@ -5365,6 +5365,10 @@ class LabelDecl(BasicDecl):
 class Label(SimpleStmt):
     decl = Field(type=T.LabelDecl)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        return LogicTrue()
+
 
 class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)

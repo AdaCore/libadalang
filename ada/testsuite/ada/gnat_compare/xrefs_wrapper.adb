@@ -2,8 +2,8 @@ package body Xrefs_Wrapper is
 
    function Subp_Spec_Params (Spec : Subp_Spec) return Param_Spec_List is
      (Spec.F_Subp_Params.F_Params);
-   function Subp_Decl_Params (Decl : Subp_Decl) return Param_Spec_List is
-     (Subp_Spec_Params (Decl.F_Subp_Spec));
+   function Subp_Decl_Params (Decl : Basic_Subp_Decl) return Param_Spec_List is
+     (Subp_Spec_Params (Decl.P_Subp_Decl_Spec));
 
    -------------------------
    -- Record_Discriminant --
@@ -25,19 +25,33 @@ package body Xrefs_Wrapper is
    ----------------------
 
    function Subp_Body_Formal (Decl : Basic_Decl'Class) return Basic_Decl is
-      Subp_Decl : Libadalang.Analysis.Subp_Decl;
-      Subp_Body : Libadalang.Analysis.Subp_Body;
+      Subp_Body : Ada_Node;
+      Subp_Decl : Basic_Subp_Decl;
    begin
       if Decl.Kind /= Ada_Param_Spec then
          return No_Basic_Decl;
       end if;
 
-      Subp_Body := Decl.P_Semantic_Parent.As_Subp_Body;
+      Subp_Body := Decl.P_Semantic_Parent;
 
-      Subp_Decl := Subp_Body.P_Decl_Part.As_Subp_Decl;
-      if Subp_Decl.Is_Null then
+      --  TODO: remove the .Is_Null check. For now, P_Semantic_Parent can
+      --  return a null node in the context of a generic with rebindings.
+      if Subp_Body.Is_Null or else Subp_Body.Kind /= Ada_Subp_Body then
          return No_Basic_Decl;
       end if;
+
+      declare
+         Decl_Part : constant Basic_Decl := Subp_Body.As_Subp_Body.P_Decl_Part;
+      begin
+         if Decl_Part.Is_Null then
+            return No_Basic_Decl;
+         elsif Decl_Part.Kind = Ada_Generic_Subp_Decl then
+            Subp_Decl :=
+              Decl_Part.As_Generic_Subp_Decl.F_Subp_Decl.As_Basic_Subp_Decl;
+         else
+            Subp_Decl := Decl_Part.As_Basic_Subp_Decl;
+         end if;
+      end;
 
       declare
          Decl_Params : constant Param_Spec_List :=

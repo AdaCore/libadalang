@@ -27,7 +27,7 @@ package Xrefs_Wrapper is
    --  references to its formals in the body to the formal declarations in the
    --  declaration, while LAL resolves to the formal declaration in the body.
    --
-   --  If Decl is formal declaration in a subprogram body, it returns the
+   --  If Decl is formal declaration in a subprogram body, return the
    --  corresponding declaration in the subprogram declaration.
 
    Pre_Wrappers : array (Positive range <>) of Pre_Wrapper_Type :=

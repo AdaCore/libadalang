@@ -18,7 +18,7 @@ package Xrefs is
    --  Index that designates a source file in File_Table_Type
 
    type File_Table_Type is private;
-   --  Sorted set of source files (base names only).
+   --  Sorted set of source files (base names only)
 
    function File_Index
      (Files    : in out File_Table_Type;

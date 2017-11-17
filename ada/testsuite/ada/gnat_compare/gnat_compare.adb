@@ -13,6 +13,7 @@ with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 with String_Utils; use String_Utils;
 with Xrefs;        use Xrefs;
+with Xrefs_Wrapper;
 
 procedure GNAT_Compare is
 
@@ -240,6 +241,19 @@ procedure GNAT_Compare is
          --  ... Ref will be the "referenced" part.
          begin
             Ref := Node.P_Referenced_Decl;
+
+            if not Ref.Is_Null then
+               for Wrapper of Xrefs_Wrapper.Wrappers loop
+                  declare
+                     Wrapped_Ref : constant Basic_Decl := Wrapper (Ref);
+                  begin
+                     if not Wrapped_Ref.Is_Null then
+                        Ref := Wrapped_Ref;
+                        exit;
+                     end if;
+                  end;
+               end loop;
+            end if;
          exception
             when Property_Error =>
                Xref.Error := True;

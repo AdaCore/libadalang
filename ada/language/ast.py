@@ -166,7 +166,7 @@ class AdaNode(ASTNode):
         Return the semantic parent for this node, if applicable, null
         otherwise.
         """
-        return Entity.semantic_parent_helper(Entity.children_env.env_parent)
+        return Entity.semantic_parent_helper(Entity.node_env)
 
     @langkit_property(return_type=AnalysisUnitType, external=True,
                       uses_entity_info=False, uses_envs=False)

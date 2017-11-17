@@ -2441,7 +2441,10 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
-    subp_decl_spec = AbstractProperty(type=T.SubpSpec.entity)
+    subp_decl_spec = AbstractProperty(
+        type=T.SubpSpec.entity, public=True,
+        doc='Return the specification for this subprogram'
+    )
 
     @langkit_property(public=True)
     def body_part():

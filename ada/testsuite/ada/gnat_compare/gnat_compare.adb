@@ -215,6 +215,10 @@ procedure GNAT_Compare is
       function Traverse (Node : Ada_Node'Class) return Visit_Status;
       --  Called for all AST nodes under Root
 
+      function Resolve (Node : Ada_Node'Class) return Basic_Decl;
+      --  Try to resolve Node into the corresponding declaration, applying
+      --  post-processing from Xrefs_Wrapper. Retu
+
       procedure Process (LAL_Xref : Xref_Type; LAL_Node : Ada_Node'Class);
       --  Helper called from Traverse to run for all resolutions that either
       --  failed or succeeded and returned a non-null referenced declaration.
@@ -240,20 +244,7 @@ procedure GNAT_Compare is
 
          --  ... Ref will be the "referenced" part.
          begin
-            Ref := Node.P_Referenced_Decl;
-
-            if not Ref.Is_Null then
-               for Wrapper of Xrefs_Wrapper.Wrappers loop
-                  declare
-                     Wrapped_Ref : constant Basic_Decl := Wrapper (Ref);
-                  begin
-                     if not Wrapped_Ref.Is_Null then
-                        Ref := Wrapped_Ref;
-                        exit;
-                     end if;
-                  end;
-               end loop;
-            end if;
+            Ref := Resolve (Node);
          exception
             when Property_Error =>
                Xref.Error := True;
@@ -277,6 +268,40 @@ procedure GNAT_Compare is
          Process (Xref, Node);
          return Into;
       end Traverse;
+
+      -------------
+      -- Resolve --
+      -------------
+
+      function Resolve (Node : Ada_Node'Class) return Basic_Decl is
+         Ref : Basic_Decl;
+      begin
+         for Wrapper of Xrefs_Wrapper.Pre_Wrappers loop
+            declare
+               Wrapped_Ref : constant Basic_Decl := Wrapper (Node);
+            begin
+               if not Wrapped_Ref.Is_Null then
+                  return Wrapped_Ref;
+               end if;
+            end;
+         end loop;
+
+         Ref := Node.P_Referenced_Decl;
+
+         if not Ref.Is_Null then
+            for Wrapper of Xrefs_Wrapper.Post_Wrappers loop
+               declare
+                  Wrapped_Ref : constant Basic_Decl := Wrapper (Ref);
+               begin
+                  if not Wrapped_Ref.Is_Null then
+                     return Wrapped_Ref;
+                  end if;
+               end;
+            end loop;
+         end if;
+
+         return Ref;
+      end Resolve;
 
       -------------
       -- Process --

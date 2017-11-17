@@ -5,6 +5,21 @@ package body Xrefs_Wrapper is
    function Subp_Decl_Params (Decl : Subp_Decl) return Param_Spec_List is
      (Subp_Spec_Params (Decl.F_Subp_Spec));
 
+   -------------------------
+   -- Record_Discriminant --
+   -------------------------
+
+   function Record_Discriminant (Node : Ada_Node'Class) return Basic_Decl is
+   begin
+      if Node.Kind /= Ada_Identifier
+        or else Node.Parent.Parent.Kind /= Ada_Discriminant_Spec
+      then
+         return No_Basic_Decl;
+      end if;
+
+      return Node.Parent.Parent.P_Semantic_Parent.As_Basic_Decl;
+   end Record_Discriminant;
+
    ----------------------
    -- Subp_Body_Formal --
    ----------------------

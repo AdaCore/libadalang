@@ -17,8 +17,7 @@ package body Xrefs_Wrapper is
          return No_Basic_Decl;
       end if;
 
-      --  TODO: use Decl.P_Semantic_Parent when GitHub issue #28 is fixed
-      Subp_Body := Decl.Parent.Parent.Parent.Parent.As_Subp_Body;
+      Subp_Body := Decl.P_Semantic_Parent.As_Subp_Body;
 
       Subp_Decl := Subp_Body.P_Decl_Part.As_Subp_Decl;
       if Subp_Decl.Is_Null then

@@ -492,7 +492,9 @@ begin
    for Unit_Xrefs of LI_Xrefs loop
       declare
          Name : constant String := Filename (Files, Unit_Xrefs.Unit);
-         Unit : constant Analysis_Unit := Get_From_File (Ctx, Name);
+         Path : constant String :=
+           +Full_Name (Project.Create (+Name));
+         Unit : constant Analysis_Unit := Get_From_File (Ctx, Path);
       begin
          Put_Line ("== " & Name & " ==");
 

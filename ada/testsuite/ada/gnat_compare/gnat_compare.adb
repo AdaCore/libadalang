@@ -44,6 +44,9 @@ procedure GNAT_Compare is
    Ignore_Columns : Boolean := False;
    --  Whether to ignore differences in column numbers for referenced entities
 
+   Skip_Build : Boolean := False;
+   --  Assume the input project file is already build and don't run GPRbuild
+
    procedure Report
      (Files               : File_Table_Type;
       GNAT_Xref, LAL_Xref : Xref_Type;
@@ -459,6 +462,9 @@ begin
          elsif Arg = "-c" then
             Ignore_Columns := True;
 
+         elsif Arg = "-b" then
+            Skip_Build := True;
+
          elsif Arg (Arg'First) = '-' then
             Put_Line ("Invalid argument: " & Arg);
             raise Program_Error;
@@ -472,7 +478,9 @@ begin
    --  Build the input project and import the resulting xrefs database
 
    Load_Project (+Project_File, Scenario_Vars, Project, Env, UFP);
-   Run_GPRbuild (+Project_File, Scenario_Vars);
+   if not Skip_Build then
+      Run_GPRbuild (+Project_File, Scenario_Vars);
+   end if;
    Load_All_Xrefs_From_LI (Project.all, Files, LI_Xrefs, Source_Files);
 
    --  Browse this database and compare it to what LAL can resolve

@@ -7,6 +7,7 @@ with GNAT.OS_Lib; use GNAT.OS_Lib;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
+with Langkit_Support.Diagnostics;    use Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Libadalang.Analysis;            use Libadalang.Analysis;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
@@ -494,6 +495,14 @@ begin
          Unit : constant Analysis_Unit := Get_From_File (Ctx, Name);
       begin
          Put_Line ("== " & Name & " ==");
+
+         if Has_Diagnostics (Unit) then
+            for D of Diagnostics (Unit) loop
+               Put_Line (To_Pretty_String (D));
+            end loop;
+            raise Program_Error;
+         end if;
+
          Sort (Files, Unit_Xrefs.Xrefs);
          Compare_Xrefs (Files, Root (Unit), Unit_Xrefs.Xrefs);
          Free (Unit_Xrefs);

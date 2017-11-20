@@ -61,7 +61,6 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  |  Id[1:42-1:49]
 |  |  |  |  |  |  |  |  |tok: Integer
 |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default: <null>
 |subp_returns:

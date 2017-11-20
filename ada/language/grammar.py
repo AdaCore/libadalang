@@ -280,7 +280,6 @@ A.add_rules(
             All("all"),
             Constant("constant"),
             A.subtype_indication,
-            Opt(A.constraint),
         )
     ),
 

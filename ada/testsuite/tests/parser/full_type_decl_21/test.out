@@ -19,5 +19,4 @@ TypeDecl[1:1-1:24]
 |  |  |  Id[1:22-1:23]
 |  |  |  |tok: B
 |  |  |constraint: <null>
-|  |constraint: <null>
 |aspects: <null>

@@ -2232,7 +2232,6 @@ class TypeAccessDef(AccessDef):
     has_all = Field(type=All)
     has_constant = Field(type=Constant)
     subtype_indication = Field(type=T.SubtypeIndication)
-    constraint = Field(type=T.Constraint)
 
     accessed_type = Property(Entity.subtype_indication.designated_type)
     xref_equation = Property(Entity.subtype_indication.xref_equation)

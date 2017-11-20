@@ -49,7 +49,6 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |  |  |tok: Class
 |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |default: <null>
 |  |  |  |  ParamSpec[1:71-1:96]

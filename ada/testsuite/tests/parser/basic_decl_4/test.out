@@ -65,7 +65,6 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |  |  |  Id[1:48-1:53]
 |  |  |  |  |  |  |  |  |  |tok: Pouet
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns: <null>

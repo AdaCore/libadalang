@@ -33,7 +33,6 @@ ObjectDecl[1:1-1:49]
 |  |  |  |  |  Id[1:33-1:40]
 |  |  |  |  |  |tok: Integer
 |  |  |  |  |constraint: <null>
-|  |  |  |constraint: <null>
 |  |  |aspects: <null>
 |default_expr:
 |  Null[1:44-1:48]

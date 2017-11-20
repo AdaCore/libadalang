@@ -221,7 +221,7 @@ procedure GNAT_Compare is
 
       function Resolve (Node : Ada_Node'Class) return Basic_Decl;
       --  Try to resolve Node into the corresponding declaration, applying
-      --  post-processing from Xrefs_Wrapper. Retu
+      --  post-processing from Xrefs_Wrapper.
 
       procedure Process (LAL_Xref : Xref_Type; LAL_Node : Ada_Node'Class);
       --  Helper called from Traverse to run for all resolutions that either

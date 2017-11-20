@@ -30,9 +30,17 @@ package Xrefs_Wrapper is
    --  If Decl is formal declaration in a subprogram body, return the
    --  corresponding declaration in the subprogram declaration.
 
+   function Generic_Package (Decl : Basic_Decl'Class) return Basic_Decl;
+   --  GNAT resolves to the identifier of a generic package whereas LAL
+   --  resolves to the top-level "generic" declaration.
+   --
+   --  If Decl is a Generic_Package_Decl, return the underlying
+   --  Generic_Package_Internal node.
+
    Pre_Wrappers : array (Positive range <>) of Pre_Wrapper_Type :=
      (1 => Record_Discriminant'Access);
    Post_Wrappers : array (Positive range <>) of Post_Wrapper_Type :=
-     (1 => Subp_Body_Formal'Access);
+     (Subp_Body_Formal'Access,
+      Generic_Package'Access);
 
 end Xrefs_Wrapper;

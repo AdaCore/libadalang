@@ -213,8 +213,9 @@ A.add_rules(
     range_constraint=RangeConstraint(A.range_spec),
 
     constraint=Or(A.digits_constraint, A.delta_constraint,
-                  A.range_constraint, A.index_constraint,
-                  A.discriminant_constraint),
+                  A.range_constraint,
+                  A.discriminant_constraint,
+                  A.index_constraint),
 
     discriminant_spec=DiscriminantSpec(
         List(A.identifier, sep=","), ":", A.type_expr,

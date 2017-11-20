@@ -1,0 +1,39 @@
+Analyzing rd.adb
+################
+
+Resolving xrefs for node <ObjectDecl ["Inst"] 14:4-14:51>
+*********************************************************
+
+Expr: <Id "Inst" 14:4-14:8>
+  references: None
+  type:       None
+Expr: <Id "R2" 14:11-14:13>
+  references: <TypeDecl ["R2"] 10:4-12:15>
+  type:       None
+Expr: <Aggregate 14:17-14:50>
+  references: None
+  type:       <TypeDecl ["R2"] 10:4-12:15>
+Expr: <Id "A" 14:18-14:19>
+  references: <EnumLiteralDecl ["A"] 8:15-8:16>
+  type:       <EnumTypeDecl ["N"] 8:4-8:24>
+Expr: <Real 14:21-14:25>
+  references: None
+  type:       <TypeDecl ["Float"] 13:3-14:51>
+Expr: <Real 14:27-14:31>
+  references: None
+  type:       <TypeDecl ["Float"] 13:3-14:51>
+Expr: <Real 14:33-14:37>
+  references: None
+  type:       <TypeDecl ["Float"] 13:3-14:51>
+Expr: <Int 14:39-14:41>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 14:43-14:45>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 14:47-14:49>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

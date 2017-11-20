@@ -5737,6 +5737,8 @@ class RangeSpec(AdaNode):
 class IncompleteTypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
 
+    env_spec = EnvSpec(add_env())
+
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
     has_abstract = Field(type=Abstract)

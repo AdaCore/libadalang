@@ -39,6 +39,16 @@ procedure GNAT_Compare is
    Enabled : array (Comparison_Type) of Boolean := (others => True);
    --  For each kind of xrefs difference, determine whether we should report it
 
+   Count_Enabled : array (Comparison_Type) of Boolean := (others => True);
+   --  For each kind of xrefs difference, say whether we should compute stats
+   --  about it.
+
+   GNAT_Xref_Count : Natural := 0;
+   --  Number of Xrefs entries in GNAT (total)
+
+   Counts : array (Comparison_Type) of Natural := (others => 0);
+   --  For each kind of xrefs difference, hit count
+
    Show_Nodes     : Boolean := False;
    --  In report, whether to show nodes that LAL uses to resolve references
 
@@ -384,6 +394,10 @@ procedure GNAT_Compare is
       Comp                : Comparison_Type;
       LAL_Node            : Ada_Node'Class) is
    begin
+      if Count_Enabled (Comp) then
+         Counts (Comp) := Counts (Comp) + 1;
+      end if;
+
       if not Enabled (Comp) then
          return;
       end if;
@@ -454,6 +468,10 @@ begin
                           with "Invalid character: " & C);
                begin
                   Enabled (Comp) := False;
+
+                  Count_Enabled (Comp) := Comp = Ok;
+                  --  Count OK xrefs even when they are not displayed in the
+                  --  report. This is less surprising.
                end;
             end loop;
 
@@ -496,6 +514,8 @@ begin
            +Full_Name (Project.Create (+Name));
          Unit : constant Analysis_Unit := Get_From_File (Ctx, Path);
       begin
+         GNAT_Xref_Count :=
+           GNAT_Xref_Count + Natural (Unit_Xrefs.Xrefs.Length);
          Put_Line ("== " & Name & " ==");
 
          if Has_Diagnostics (Unit) then
@@ -510,6 +530,34 @@ begin
          Free (Unit_Xrefs);
       end;
    end loop;
+
+   New_Line;
+   if GNAT_Xref_Count = 0 then
+      Put_Line ("No stats");
+   else
+      Put_Line ("Stats:");
+      Put_Line
+        ("GNAT xrefs have" & Natural'Image (GNAT_Xref_Count) & " entries");
+      Put_Line ("LAL xrefs have:");
+      for Comp in Comparison_Type'Range loop
+         if Count_Enabled (Comp) then
+            declare
+               type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
+
+               Count : constant Natural := Counts (Comp);
+               P     : constant Percentage :=
+                 100.0 * Percentage
+                   (Percentage (Count) / Percentage (GNAT_Xref_Count));
+               P_Img : constant String := Percentage'Image (P);
+            begin
+               Put_Line
+                 ("  *" & Natural'Image (Count)
+                  & " " & Comparison_Type'Image (Comp) & " entries ("
+                  & P_Img (P_Img'First + 1 .. P_Img'Last) & "%)");
+            end;
+         end if;
+      end loop;
+   end if;
 
    Destroy (Ctx);
    Free (Project);

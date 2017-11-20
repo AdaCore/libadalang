@@ -17,7 +17,7 @@ Expr: <Id "Foo" 4:26-4:29>
   references: <ExprFunction ["Foo"] 2:4-2:42>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Integer" 4:34-4:41>
-  references: None
+  references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
 
 Resolving xrefs for node <NullStmt 6:4-6:9>

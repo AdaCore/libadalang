@@ -25,13 +25,13 @@ Expr: <Id "Natural" 12:15-12:22>
   type:       None
 Expr: <BinOp 12:29-12:40>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 12:29-12:30>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Id "Q_Size" 12:34-12:40>
-  references: None
-  type:       None
+  references: <ObjectDecl ["Q_Size"] 10:6-10:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 12:44-12:45>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
@@ -66,7 +66,7 @@ Expr: <Id "Q_Range" 14:20-14:27>
   references: <SubtypeDecl ["Q_Range"] 11:6-11:52>
   type:       None
 Expr: <Id "Item" 14:32-14:36>
-  references: None
+  references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
 
 Resolving xrefs for node <LoopStmt 16:6-32:15>

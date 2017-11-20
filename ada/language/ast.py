@@ -1872,23 +1872,41 @@ class Constraint(AdaNode):
 class RangeConstraint(Constraint):
     range = Field(type=T.RangeSpec)
 
+    xref_equation = Property(Entity.range.sub_equation)
+
 
 class DigitsConstraint(Constraint):
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
+
+    xref_equation = Property(
+        Entity.digits.sub_equation & Entity.range.sub_equation
+    )
 
 
 class DeltaConstraint(Constraint):
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
+    xref_equation = Property(
+        Entity.digits.sub_equation & Entity.range.sub_equation
+    )
+
 
 class IndexConstraint(Constraint):
     constraints = Field(type=T.AdaNode.list)
 
+    xref_equation = Property(
+        Entity.constraints.logic_all(lambda c: c.xref_equation)
+    )
+
 
 class DiscriminantConstraint(Constraint):
     constraints = Field(type=T.DiscriminantAssoc.list)
+
+    xref_equation = Property(
+        Entity.constraints.logic_all(lambda c: c.expr.xref_equation)
+    )
 
 
 class DiscriminantAssoc(Constraint):
@@ -2058,6 +2076,10 @@ class ComponentDef(AdaNode):
     has_aliased = Field(type=Aliased)
     type_expr = Field(type=T.TypeExpr)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.type_expr.sub_equation
+
 
 class ArrayTypeDef(TypeDef):
     indices = Field(type=T.ArrayIndices)
@@ -2076,7 +2098,10 @@ class ArrayTypeDef(TypeDef):
 
     @langkit_property()
     def xref_equation():
-        return Entity.indices.sub_equation
+        return And(
+            Entity.indices.sub_equation,
+            Entity.component_type.sub_equation
+        )
 
     defining_env = Property(Entity.comp_type.defining_env)
 
@@ -2387,7 +2412,12 @@ class SubtypeIndication(TypeExpr):
     def xref_equation():
         # Called by allocator.xref_equation, since the suffix can be either a
         # qual expr or a subtype indication.
-        return TypeBind(Self.name.ref_var, Entity.designated_type)
+        return And(
+            TypeBind(Self.name.ref_var, Entity.designated_type),
+            Entity.constraint.then(
+                lambda c: c.sub_equation, default_val=LogicTrue()
+            )
+        )
 
 
 class ConstrainedSubtypeIndication(SubtypeIndication):

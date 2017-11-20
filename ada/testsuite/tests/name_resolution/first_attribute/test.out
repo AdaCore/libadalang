@@ -14,7 +14,7 @@ Expr: <BoxExpr 2:35-2:37>
   references: None
   type:       None
 Expr: <Id "Integer" 2:42-2:49>
-  references: None
+  references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["B"] 3:4-3:45>
@@ -28,13 +28,13 @@ Expr: <Id "Integer" 3:18-3:25>
   type:       None
 Expr: <BinOp 3:32-3:44>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 3:32-3:33>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 3:37-3:44>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <ObjectDecl ["C"] 5:4-5:12>
 ****************************************************
@@ -102,13 +102,13 @@ Expr: <Id "A" 10:15-10:16>
   type:       None
 Expr: <BinOp 10:18-10:25>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 10:18-10:19>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 10:23-10:25>
   references: None
-  type:       None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <AssignStmt 16:4-16:17>
 ************************************************

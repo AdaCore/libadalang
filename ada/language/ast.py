@@ -4919,6 +4919,9 @@ class AttributeRef(Name):
             rel_name.any_of('Small', 'Large'),
             Entity.universal_real_equation,
 
+            rel_name == 'Img',
+            Entity.img_equation(Self.std_entity('String')),
+
             LogicTrue()
         )
 
@@ -5017,6 +5020,16 @@ class AttributeRef(Name):
             Bind(Self.prefix.ref_var, typ)
             # Type of expression is designated type
             & TypeBind(expr.type_var, typ)
+            # Type of self is String
+            & TypeBind(Self.type_var, str_type)
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def img_equation(str_type=T.AdaNode.entity):
+        return (
+            # Prefix is an expression, bind prefix's ref var to it
+            Entity.prefix.xref_equation
+
             # Type of self is String
             & TypeBind(Self.type_var, str_type)
         )

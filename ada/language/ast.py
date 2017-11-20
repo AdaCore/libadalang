@@ -5322,10 +5322,17 @@ class ExitStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Entity.condition.then(lambda cond: (
-            cond.sub_equation
-            & TypeBind(cond.type_var, Self.bool_type)
-        ), default_val=LogicTrue())
+        return And(
+            Entity.condition.then(lambda cond: (
+                cond.sub_equation
+                & TypeBind(cond.type_var, Self.bool_type)
+            ), default_val=LogicTrue()),
+
+            Entity.loop_name.then(
+                lambda ln: ln.xref_no_overloading,
+                default_val=LogicTrue()
+            )
+        )
 
 
 class ReturnStmt(SimpleStmt):

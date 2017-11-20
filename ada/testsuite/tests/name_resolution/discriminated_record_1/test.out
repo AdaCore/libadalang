@@ -1,0 +1,27 @@
+Analyzing fail.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["F"] 8:4-8:32>
+****************************************************
+
+Expr: <Id "F" 8:4-8:5>
+  references: None
+  type:       None
+Expr: <Id "Fail_Rec" 8:8-8:16>
+  references: <TypeDecl ["Fail_Rec"] 4:4-6:15>
+  type:       None
+Expr: <Aggregate 8:20-8:31>
+  references: None
+  type:       <TypeDecl ["Fail_Rec"] 4:4-6:15>
+Expr: <Id "A" 8:21-8:22>
+  references: <EnumLiteralDecl ["A"] 2:18-2:19>
+  type:       <EnumTypeDecl ["Enum"] 2:4-2:27>
+Expr: <Int 8:24-8:26>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 8:28-8:30>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

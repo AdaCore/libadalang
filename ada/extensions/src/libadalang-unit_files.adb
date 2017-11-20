@@ -258,7 +258,7 @@ package body Libadalang.Unit_Files is
 
    procedure Fetch_Standard (Context : Analysis_Context) is
       Std : constant Analysis_Unit :=
-         Get_From_Buffer (Context, "standard.ads", "ascii", Std_Content);
+         Get_From_Buffer (Context, "__standard", "ascii", Std_Content);
    begin
       Populate_Lexical_Env (Std);
    end Fetch_Standard;

@@ -27,5 +27,5 @@ end P_Get_Unit;
 function P_Standard_Unit
   (Node : access Bare_Ada_Node_Type'Class) return Analysis_Unit is
 begin
-   return Get_From_File (Node.Unit.Context, "standard.ads");
+   return Get_From_File (Node.Unit.Context, "__standard");
 end P_Standard_Unit;

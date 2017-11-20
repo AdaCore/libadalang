@@ -28,6 +28,6 @@ package Libadalang.Unit_Files is
 
    procedure Fetch_Standard (Context : Analysis_Context);
    --  Create the "Standard" analysis unit in Context. This unit will be called
-   --  "standard.ads".
+   --  "__standard".
 
 end Libadalang.Unit_Files;

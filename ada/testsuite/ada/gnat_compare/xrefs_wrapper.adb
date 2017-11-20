@@ -75,4 +75,17 @@ package body Xrefs_Wrapper is
       return Decl.As_Generic_Package_Decl.F_Package_Decl.As_Basic_Decl;
    end Generic_Package;
 
+   ------------------
+   -- Generic_Subp --
+   ------------------
+
+   function Generic_Subp (Decl : Basic_Decl'Class) return Basic_Decl is
+   begin
+      if Decl.Kind /= Ada_Generic_Subp_Decl then
+         return No_Basic_Decl;
+      end if;
+
+      return Decl.As_Generic_Subp_Decl.F_Subp_Decl.As_Basic_Decl;
+   end Generic_Subp;
+
 end Xrefs_Wrapper;

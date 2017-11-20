@@ -1,6 +1,0 @@
-## vim: filetype=makoada
-
-with GNATCOLL.Projects; use GNATCOLL.Projects;
-with GNATCOLL.VFS; use GNATCOLL.VFS;
-
-with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;

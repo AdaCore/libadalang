@@ -91,12 +91,12 @@ class Manage(ManageScript):
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
-        from langkit.compile_context import CompileCtx, LibraryEntity
+        from langkit.compile_context import ADA_BODY, CompileCtx, LibraryEntity
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
         from language.documentation import libadalang_docs
 
-        return CompileCtx(
+        ctx = CompileCtx(
             lang_name='Ada',
             short_name='LAL',
             lexer=ada_lexer,
@@ -115,6 +115,13 @@ class Manage(ManageScript):
                                                'Canonicalize'),
             documentations=libadalang_docs,
         )
+
+        for unit in ('GNATCOLL.Projects', 'GNATCOLL.VFS',
+                     'Libadalang.Unit_Files.Projects'):
+            ctx.add_with_clause('Analysis.Implementation.C', ADA_BODY, unit,
+                                use_clause=True)
+
+        return ctx
 
     @property
     def main_source_dirs(self):

@@ -334,15 +334,20 @@ class AdaNode(ASTNode):
             lambda env: Self.parent_unit_env_helper(env.env_node.unit, env)
         )
 
+    @langkit_property(return_type=T.AnalysisUnitType, public=True,
+                      external=True, uses_entity_info=False, uses_envs=False)
+    def standard_unit():
+        """
+        Return the analysis unit corresponding to the Standard package.
+        """
+        pass
+
     std = Property(
-        # This property is used during referenced envs resolution. As a
-        # consequence, a recursive env lookup here would yield infinite
-        # recursion, as all recursive env lookups will eventually evaluate
-        # this. We know that Standard is available without any use clause
-        # anyway, so non-recursive lookup is fine.
-        Self.unit.root.node_env.get_first('Standard', recursive=False),
+        Self.standard_unit.root.cast(T.CompilationUnit)
+        .body.cast(T.LibraryItem).item.as_bare_entity,
         doc="""
-        Retrieves the standard unit. Used to access standard types.
+        Retrieves the package corresponding to the Standard unit. Used to
+        access standard types.
         """
     )
 
@@ -5180,8 +5185,6 @@ class CompilationUnit(AdaNode):
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)
-
-    env_spec = EnvSpec(call_env_hook(Self))
 
 
 class SubpBody(Body):

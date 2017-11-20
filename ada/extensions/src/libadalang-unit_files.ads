@@ -26,4 +26,8 @@ package Libadalang.Unit_Files is
    --  When Name is an illegal unit name (a call expression, for instance),
    --  this raises a Property_Error.
 
+   procedure Fetch_Standard (Context : Analysis_Context);
+   --  Create the "Standard" analysis unit in Context. This unit will be called
+   --  "standard.ads".
+
 end Libadalang.Unit_Files;

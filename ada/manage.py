@@ -121,6 +121,9 @@ class Manage(ManageScript):
             ctx.add_with_clause('Analysis.Implementation.C', ADA_BODY, unit,
                                 use_clause=True)
 
+        ctx.add_with_clause('Analysis', ADA_BODY, 'Libadalang.Unit_Files',
+                            use_clause=True)
+
         return ctx
 
     @property

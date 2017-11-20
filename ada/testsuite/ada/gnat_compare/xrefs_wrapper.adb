@@ -101,4 +101,20 @@ package body Xrefs_Wrapper is
       return Decl.As_Generic_Subp_Decl.F_Subp_Decl.As_Basic_Decl;
    end Generic_Subp;
 
+   ------------------
+   -- Private_Type --
+   ------------------
+
+   function Private_Type (Decl : Basic_Decl'Class) return Basic_Decl is
+   begin
+      if Decl.Kind not in Ada_Base_Type_Decl then
+         return No_Basic_Decl;
+      end if;
+
+      return
+        (Decl.As_Base_Type_Decl
+         .P_Previous_Part (Go_To_Incomplete => True)
+         .As_Basic_Decl);
+   end Private_Type;
+
 end Xrefs_Wrapper;

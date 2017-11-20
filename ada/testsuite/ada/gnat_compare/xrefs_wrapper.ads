@@ -52,12 +52,21 @@ package Xrefs_Wrapper is
    --  If Decl is a Generic_Subp_Decl, return the underlying
    --  Generic_Subp_Internal node.
 
+   function Private_Type (Decl : Basic_Decl'Class) return Basic_Decl;
+   --  GNAT resolves type references to the first part of a type declaration
+   --  (the incomplete one, or the private one) whereas LAL resolves to the
+   --  most complete view.
+   --
+   --  If Decl is a Base_Type_Decl, return the result of P_Previous_Part
+   --  (Go_To_Incomplete => True).
+
    Pre_Wrappers : array (Positive range <>) of Pre_Wrapper_Type :=
      (1 => Record_Discriminant'Access);
    Post_Wrappers : array (Positive range <>) of Post_Wrapper_Type :=
      (Subp_Body_Formal'Access,
       Subp_Body'Access,
       Generic_Package'Access,
-      Generic_Subp'Access);
+      Generic_Subp'Access,
+      Private_Type'Access);
 
 end Xrefs_Wrapper;

@@ -1950,10 +1950,12 @@ class DerivedTypeDef(TypeDef):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return (
+        # We want to make discriminants accessible, so need to evaluate this in
+        # Self's children_env.
+        return env.bind(Self.children_env, (
             Entity.subtype_indication.xref_equation
             & Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
-        )
+        ))
 
 
 class PrivateTypeDef(TypeDef):

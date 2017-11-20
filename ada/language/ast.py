@@ -1249,21 +1249,28 @@ class ComponentList(BaseFormalParamHolder):
         Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.comps
     )
 
-    @langkit_property()
-    def abstract_formal_params():
+    @langkit_property(return_type=BaseFormalParamDecl.entity.array)
+    def abstract_formal_params_impl(include_discrs=(BoolType, True)):
         # TODO: Incomplete definition. We need to handle variant parts.
         self_comps = Var(Self.components.keep(BaseFormalParamDecl).map(
             lambda e: e.as_entity
         ))
 
-        with_discrs = Var(self_comps.concat(
-            Entity.type_decl._.discriminants._.abstract_formal_params()
+        ret = Var(Entity.parent_component_list.then(
+            lambda pcl: pcl.abstract_formal_params_impl(False)
+            .concat(self_comps),
+            default_val=self_comps
         ))
 
-        return Entity.parent_component_list.then(
-            lambda pcl: pcl.abstract_formal_params.concat(with_discrs),
-            default_val=with_discrs
+        return If(
+            include_discrs,
+            Entity.type_decl._.discriminants_list.concat(ret),
+            ret
         )
+
+    @langkit_property()
+    def abstract_formal_params():
+        return Entity.abstract_formal_params_impl
 
 
 @abstract
@@ -1682,6 +1689,10 @@ class BaseTypeDecl(BasicDecl):
 
     is_private = Property(False)
 
+    discriminants_list = AbstractProperty(
+        type=BaseFormalParamDecl.entity.array
+    )
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
@@ -1706,6 +1717,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     defining_env = Property(Entity.typedecl.defining_env)
     node_aspects = Property(Entity.typedecl.node_aspects)
 
+    discriminants_list = Property(Entity.typedecl.discriminants_list)
+
 
 class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
@@ -1714,6 +1727,19 @@ class TypeDecl(BaseTypeDecl):
     prims_env = UserField(type=T.LexicalEnvType, public=False)
 
     node_aspects = Property(Entity.aspects)
+
+    @langkit_property()
+    def discriminants_list():
+        base_type = Var(Entity.base_type)
+        self_discs = Var(Entity.discriminants.then(
+            lambda d: d.abstract_formal_params)
+        )
+
+        return Cond(
+            self_discs.length > 0, self_discs,
+            Not(base_type.is_null), Entity.base_type.discriminants_list,
+            No(T.BaseFormalParamDecl.entity.array)
+        )
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
                       return_type=LexicalEnvType)
@@ -1834,6 +1860,8 @@ class EnumTypeDecl(BaseTypeDecl):
     ))
 
     is_enum_type = Property(True)
+
+    discriminants_list = Property(No(BaseFormalParamDecl.entity.array))
 
 
 class FloatingPointDef(RealTypeDef):
@@ -2160,6 +2188,7 @@ class SubtypeDecl(BaseTypeDecl):
     array_def = Property(Entity.from_type.array_def)
     record_def = Property(Entity.from_type.record_def)
     is_classwide = Property(Entity.from_type.is_classwide)
+    discriminants_list = Property(Entity.from_type.discriminants_list)
 
 
 class TaskDef(AdaNode):
@@ -2189,6 +2218,8 @@ class TaskTypeDecl(BaseTypeDecl):
     )
 
     defining_env = Property(Entity.children_env)
+
+    discriminants_list = Property(Entity.discrs.abstract_formal_params)
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):
@@ -5790,6 +5821,8 @@ class IncompleteTypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
 
     env_spec = EnvSpec(add_env())
+
+    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):

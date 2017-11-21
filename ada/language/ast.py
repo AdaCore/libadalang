@@ -2876,6 +2876,31 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
+    xref_entry_point = Property(True)
+
+    xref_equation = Property(
+        Bind(Entity.generic_entity_name.ref_var,
+             Entity.designated_generic_decl)
+        & Entity.generic_entity_name.match(
+            lambda dn=T.DottedName: dn.prefix.xref_no_overloading,
+            lambda _: LogicTrue()
+        ) & If(
+            Entity.is_any_formal,
+            LogicTrue(),
+            Self.designated_generic_decl._.formal_part.match_param_list(
+                Entity.generic_inst_params.el, False
+            ).logic_all(
+                lambda pm: pm.formal.spec.cast(T.GenericFormal).decl.match(
+                    lambda _=T.TypeDecl:
+                    pm.actual.assoc.expr.cast_or_raise(T.Name)
+                    .as_entity.xref_no_overloading,
+
+                    lambda _: LogicTrue(),
+                )
+            )
+        )
+    )
+
 
 class GenericSubpInstantiation(GenericInstantiation):
     overriding = Field(type=Overriding)
@@ -2919,7 +2944,7 @@ class GenericSubpInstantiation(GenericInstantiation):
             env.bind(
                 Self.initial_env,
                 Self.designated_generic_decl._.formal_part.match_param_list(
-                    Self.subp_params, False
+                    Self.params, False
                 ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
                 ))

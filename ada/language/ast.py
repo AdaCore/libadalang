@@ -2850,6 +2850,12 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
+    generic_inst_params = AbstractProperty(
+        type=T.AssocList.entity, doc="""
+        Return the parameters of this generic instantiation
+        """
+    )
+
     is_any_formal = Property(
         Entity.generic_inst_params._.at(0)._.expr._.is_a(T.BoxExpr)
     )
@@ -2882,6 +2888,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     defining_names = Property(Self.subp_name.as_entity.singleton)
 
     generic_entity_name = Property(Entity.generic_subp_name)
+    generic_inst_params = Property(Entity.params)
 
     @langkit_property()
     def designated_subp():
@@ -2932,6 +2939,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     aspects = Field(type=T.AspectSpec)
 
     generic_entity_name = Property(Entity.generic_pkg_name)
+    generic_inst_params = Property(Entity.params)
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():

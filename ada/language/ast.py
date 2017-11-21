@@ -581,6 +581,50 @@ class AdaNode(ASTNode):
                 )
         )
 
+    @langkit_property()
+    def unpack_formals(formal_params=T.BaseFormalParamDecl.entity.array):
+        """
+        Couples (identifier, param spec) for all parameters.
+        """
+        return formal_params.mapcat(
+            lambda spec: spec.identifiers.map(lambda id: SingleFormal.new(
+                name=id, spec=spec
+            ))
+        )
+
+    @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
+    def match_formals(formal_params=T.BaseFormalParamDecl.entity.array,
+                      params=T.AssocList,
+                      is_dottable_subp=BoolType):
+        """
+        For each ParamAssoc in a AssocList, return whether we could find a
+        matching formal in Self, and whether this formal is optional (i.e. has
+        a default value).
+        """
+        def matches(formal, actual):
+            return ParamMatch.new(has_matched=True,
+                                  formal=formal, actual=actual)
+
+        unpacked_formals = Var(Self.unpack_formals(formal_params))
+
+        return params.unpacked_params.map(lambda i, a: If(
+            a.name.is_null,
+
+            Let(lambda idx=If(is_dottable_subp, i + 1, i):
+                # Positional parameter case: if this parameter has no
+                # name association, make sure we have enough formals.
+                unpacked_formals.at(idx).then(lambda sp: matches(sp, a))),
+
+            # Named parameter case: make sure the designator is
+            # actualy a name and that there is a corresponding
+            # formal.
+            a.name.then(lambda id: (
+                unpacked_formals.find(lambda p: p.name.matches(id)).then(
+                    lambda sp: matches(sp, a)
+                )
+            ))
+        ))
+
 
 def child_unit(name_expr, scope_expr, dest_env=None, more_rules=[]):
     """
@@ -972,13 +1016,18 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     unpacked_formal_params = Property(
-        Entity.abstract_formal_params.mapcat(
-            lambda spec: spec.identifiers.map(lambda id: SingleFormal.new(
-                name=id, spec=spec
-            ))
-        ),
-        doc='Couples (identifier, param spec) for all parameters'
+        Self.unpack_formals(Entity.abstract_formal_params),
+        doc="""
+        Couples (identifier, param spec) for all parameters
+        """
     )
+
+    @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
+    def match_param_list(params=T.AssocList,
+                         is_dottable_subp=BoolType):
+        return Self.match_formals(
+            Entity.abstract_formal_params, params, is_dottable_subp
+        )
 
     nb_min_params = Property(
         Self.as_bare_entity.unpacked_formal_params.filter(
@@ -1009,38 +1058,6 @@ class BaseFormalParamHolder(AdaNode):
             md.dottable_subp & (Self.nb_min_params == 1),
             Self.nb_min_params == 0
         )
-
-    @langkit_property(return_type=T.ParamMatch.array,
-                      dynamic_vars=[env])
-    def match_param_list(params=T.AssocList, is_dottable_subp=BoolType):
-        """
-        For each ParamAssoc in a AssocList, return whether we could find a
-        matching formal in Self, and whether this formal is optional (i.e. has
-        a default value).
-        """
-        def matches(formal, actual):
-            return ParamMatch.new(has_matched=True,
-                                  formal=formal, actual=actual)
-
-        unpacked_formals = Var(Entity.unpacked_formal_params)
-
-        return params.unpacked_params.map(lambda i, a: If(
-            a.name.is_null,
-
-            Let(lambda idx=If(is_dottable_subp, i + 1, i):
-                # Positional parameter case: if this parameter has no
-                # name association, make sure we have enough formals.
-                unpacked_formals.at(idx).then(lambda sp: matches(sp, a))),
-
-            # Named parameter case: make sure the designator is
-            # actualy a name and that there is a corresponding
-            # formal.
-            a.name.then(lambda id: (
-                unpacked_formals.find(lambda p: p.name.matches(id)).then(
-                    lambda sp: matches(sp, a)
-                )
-            ))
-        ))
 
     @langkit_property(return_type=BoolType)
     def match_formal_params(other=T.BaseFormalParamHolder.entity):

@@ -2850,6 +2850,10 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
+    is_any_formal = Property(
+        Entity.generic_inst_params._.at(0)._.expr._.is_a(T.BoxExpr)
+    )
+
     designated_generic_decl = Property(
         env.bind(
             Self.node_env,
@@ -2959,7 +2963,6 @@ class GenericPackageInstantiation(GenericInstantiation):
     defining_names = Property(Self.name.as_entity.singleton)
 
     is_formal_pkg = Property(Self.parent.is_a(T.GenericFormalPackage))
-    is_any_formal = Property(Self.params._.at(0)._.expr._.is_a(T.BoxExpr))
 
     env_spec = EnvSpec(
         call_env_hook(Self),
@@ -2977,7 +2980,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env(
             env.bind(
                 Self.initial_env,
-                If(Self.is_any_formal,
+                If(Entity.is_any_formal,
                    No(T.env_assoc.array),
                    Self.designated_generic_decl._.formal_part.match_param_list(
                        Self.params, False

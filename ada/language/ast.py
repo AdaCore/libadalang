@@ -2846,7 +2846,7 @@ class GenericInstantiation(BasicDecl):
     generic_entity_name = AbstractProperty(
         type=T.Name.entity, doc="""
         Return the name of the generic entity designated by this generic
-        instantiation
+        instantiation.
         """
     )
 

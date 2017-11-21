@@ -2876,7 +2876,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     kind = Field(type=T.SubpKind)
     subp_name = Field(type=T.Name)
     generic_subp_name = Field(type=T.Name)
-    subp_params = Field(type=T.AssocList)
+    params = Field(type=T.AssocList)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_name.as_entity.singleton)

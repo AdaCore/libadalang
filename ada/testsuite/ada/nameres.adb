@@ -17,6 +17,12 @@ with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
+pragma Warnings (Off, "referenced");
+pragma Warnings (Off, "use clause for package");
+with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
+pragma Warnings (On, "use clause for package");
+pragma Warnings (On, "referenced");
+
 with Put_Title;
 
 procedure Nameres is
@@ -54,7 +60,7 @@ procedure Nameres is
    Timeout : Natural := 100_000;
    --  Logic resolution timeout
 
-   function Text (N : Ada_Node'Class) return String is (Image (N.Text));
+   function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
 
    function Starts_With (S, Prefix : String) return Boolean is
      (S'Length >= Prefix'Length
@@ -68,7 +74,7 @@ procedure Nameres is
    function "+" (S : Unbounded_String) return String renames To_String;
 
    function "<" (Left, Right : Ada_Node) return Boolean is
-     (Left.Sloc_Range.Start_Line < Right.Sloc_Range.Start_Line);
+     (Sloc_Range (Left).Start_Line < Sloc_Range (Right).Start_Line);
    procedure Sort is new Ada.Containers.Generic_Array_Sort
      (Index_Type   => Positive,
       Element_Type => Ada_Node,
@@ -85,7 +91,7 @@ procedure Nameres is
       Files : in out String_Vectors.Vector);
 
    function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array is
-     (Arg.P_Matching_Nodes);
+     (P_Matching_Nodes (Arg));
    --  Do the resolution associated to a Test pragma.
    --
    --  This function is here to provide a simple breakpoint location for
@@ -133,7 +139,7 @@ procedure Nameres is
    ----------------
 
    function Safe_Image (Node : Ada_Node'Class) return String is
-     (Image (Node.Short_Image));
+     (Image (Short_Image (Node)));
 
    ------------------
    -- Resolve_Node --
@@ -149,10 +155,11 @@ procedure Nameres is
 
       function Print_Node (N : Ada_Node'Class) return Visit_Status is
       begin
-         if N.Kind in Ada_Expr then
+         if Kind (N) in Ada_Expr then
             declare
-               P_Ref  : constant Basic_Decl := N.As_Expr.P_Referenced_Decl;
-               P_Type : constant Base_Type_Decl := N.As_Expr.P_Expression_Type;
+               P_Ref  : constant Basic_Decl := P_Referenced_Decl (As_Expr (N));
+               P_Type : constant Base_Type_Decl :=
+                  P_Expression_Type (As_Expr (N));
             begin
                if not Quiet then
                   Put_Line ("Expr: " & Safe_Image (N));
@@ -161,7 +168,7 @@ procedure Nameres is
                end if;
             end;
          end if;
-         return (if N.P_Xref_Entry_Point and N.As_Ada_Node /= Node
+         return (if P_Xref_Entry_Point (N) and As_Ada_Node (N) /= Node
                  then Over else Into);
       end Print_Node;
 
@@ -172,10 +179,10 @@ procedure Nameres is
          Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
       end if;
       if Langkit_Support.Adalog.Debug.Debug then
-         Node.Assign_Names_To_Logic_Vars;
+         Assign_Names_To_Logic_Vars (Node);
       end if;
 
-      if Node.P_Resolve_Names then
+      if P_Resolve_Names (Node) then
          if not Only_Show_Failures then
             Dummy := Traverse (Node, Print_Node'Access);
          end if;
@@ -199,9 +206,9 @@ procedure Nameres is
 
    procedure Resolve_Block (Block : Ada_Node) is
       function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
-      is (N.P_Xref_Entry_Point
+      is (P_Xref_Entry_Point (N)
           and then (Solve_Line = 0
-                    or else Natural (N.Sloc_Range.Start_Line) = Solve_Line));
+                    or else Natural (Sloc_Range (N).Start_Line) = Solve_Line));
    begin
       for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
          Resolve_Node (Node);
@@ -244,7 +251,7 @@ procedure Nameres is
          function Is_Pragma_Node (N : Ada_Node) return Boolean is
            (Kind (N) = Ada_Pragma_Node);
 
-         function Pragma_Name return String is (Text (P_Node.F_Id.F_Tok));
+         function Pragma_Name return String is (Text (F_Tok (F_Id (P_Node))));
 
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr);
 
@@ -253,16 +260,16 @@ procedure Nameres is
          --------------------------
 
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
-            Name : constant Text_Type := Text (Id.F_Tok);
+            Name : constant Text_Type := Text (F_Tok (Id));
          begin
-            if E.Kind /= Ada_Identifier then
+            if Kind (E) /= Ada_Identifier then
                raise Program_Error with
                  ("Invalid config value for " & Image (Name, True) & ": "
                   & Text (E));
             end if;
 
             declare
-               Value : constant Text_Type := Text (E.As_Identifier.F_Tok);
+               Value : constant Text_Type := Text (F_Tok (As_Identifier (E)));
             begin
                if Name = "Display_Slocs" then
                   Display_Slocs := Decode_Boolean_Literal (Value);
@@ -280,48 +287,48 @@ procedure Nameres is
          --  Test (X)" we can find in this unit.
          for Node of Find (Root (Unit), Is_Pragma_Node'Access).Consume loop
 
-            P_Node := Node.As_Pragma_Node;
+            P_Node := As_Pragma_Node (Node);
 
             --  If this pragma and the previous ones are not on adjacent lines,
             --  do not make them adjacent in the output.
             if Pragma_Name /= "Config" then
                if Last_Line /= 0
                      and then
-                  Natural (Node.Sloc_Range.Start_Line) - Last_Line > 1
+                  Natural (Sloc_Range (Node).Start_Line) - Last_Line > 1
                then
                   New_Line;
                end if;
-               Last_Line := Natural (Node.Sloc_Range.End_Line);
+               Last_Line := Natural (Sloc_Range (Node).End_Line);
             end if;
 
             if Pragma_Name = "Config" then
                --  Handle testcase configuration pragmas for this file
-               for Arg of Ada_Node_Array'(P_Node.F_Args.Children) loop
+               for Arg of Ada_Node_Array'(Children (F_Args (P_Node))) loop
                   declare
                      A : constant Pragma_Argument_Assoc :=
-                        Arg.As_Pragma_Argument_Assoc;
+                        As_Pragma_Argument_Assoc (Arg);
                   begin
-                     if A.F_Id.Is_Null then
+                     if Is_Null (F_Id (A)) then
                         raise Program_Error with
                            "Name missing in pragma Config";
-                     elsif A.F_Id.Kind /= Ada_Identifier then
+                     elsif Kind (F_Id (A)) /= Ada_Identifier then
                         raise Program_Error with
                            "Name in pragma Config must be an identifier";
                      end if;
 
-                     Handle_Pragma_Config (A.F_Id, A.F_Expr);
+                     Handle_Pragma_Config (F_Id (A), F_Expr (A));
                   end;
                end loop;
 
             elsif Pragma_Name = "Section" then
                --  Print headlines
                declare
-                  pragma Assert (P_Node.F_Args.Child_Count = 1);
+                  pragma Assert (Child_Count (F_Args (P_Node)) = 1);
                   Arg : constant Expr :=
-                     P_Node.F_Args.Child (1).As_Base_Assoc.P_Assoc_Expr;
-                  pragma Assert (Arg.Kind = Ada_String_Literal);
+                     P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
+                  pragma Assert (Kind (Arg) = Ada_String_Literal);
 
-                  Tok : constant Token_Type := Arg.As_String_Literal.F_Tok;
+                  Tok : constant Token_Type := F_Tok (As_String_Literal (Arg));
                   T   : constant Text_Type := Text (Tok);
                begin
                   if not Quiet then
@@ -333,18 +340,18 @@ procedure Nameres is
             elsif Pragma_Name = "Test" then
                --  Perform name resolution
                declare
-                  pragma Assert (P_Node.F_Args.Child_Count in 1 | 2);
+                  pragma Assert (Child_Count (F_Args (P_Node)) in 1 | 2);
 
                   Arg      : constant Expr :=
-                     P_Node.F_Args.Child (1).As_Base_Assoc.P_Assoc_Expr;
+                     P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
 
                   Debug_Lookup : Boolean := False;
 
                begin
-                  if P_Node.F_Args.Child_Count = 2 then
+                  if Child_Count (F_Args (P_Node)) = 2 then
                      Debug_Lookup := Text
-                       (As_Base_Assoc
-                         (P_Node.F_Args.Child (2)).P_Assoc_Expr)
+                       (P_Assoc_Expr (As_Base_Assoc
+                         (Child (F_Args (P_Node), 2))))
                           = String'("Debug");
                   end if;
 
@@ -358,11 +365,11 @@ procedure Nameres is
                      Sort (Entities);
                      for E of Entities loop
                         Put ("    " & (if Display_Short_Images
-                                       then Image (E.Short_Image)
+                                       then Image (Short_Image (E))
                                        else Text (E)));
                         if Display_Slocs then
                            Put_Line (" at "
-                                     & Image (Start_Sloc (E.Sloc_Range)));
+                                     & Image (Start_Sloc (Sloc_Range (E))));
                         else
                            New_Line;
                         end if;
@@ -377,20 +384,20 @@ procedure Nameres is
                Trigger_Envs_Debug (False);
 
             elsif Pragma_Name = "Test_Statement" then
-               pragma Assert (P_Node.F_Args.Child_Count = 0);
-               Resolve_Node (P_Node.Previous_Sibling);
+               pragma Assert (Child_Count (F_Args (P_Node)) = 0);
+               Resolve_Node (Previous_Sibling (P_Node));
                Empty := False;
 
             elsif Pragma_Name = "Test_Block" then
-               pragma Assert (P_Node.F_Args.Child_Count = 0);
+               pragma Assert (Child_Count (F_Args (P_Node)) = 0);
                declare
-                  Parent_1 : constant Ada_Node := P_Node.Parent;
-                  Parent_2 : constant Ada_Node := Parent_1.Parent;
+                  Parent_1 : constant Ada_Node := Parent (P_Node);
+                  Parent_2 : constant Ada_Node := Parent (Parent_1);
                begin
                   Resolve_Block
-                    (if Parent_2.Kind = Ada_Compilation_Unit
-                     then Parent_2.As_Compilation_Unit.F_Body
-                     else P_Node.Previous_Sibling);
+                    (if Kind (Parent_2) = Ada_Compilation_Unit
+                     then F_Body (As_Compilation_Unit (Parent_2))
+                     else Previous_Sibling (P_Node));
                end;
                Empty := False;
             end if;

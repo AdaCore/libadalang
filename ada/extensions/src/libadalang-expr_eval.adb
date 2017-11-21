@@ -1,3 +1,11 @@
+
+pragma Warnings (Off, "referenced");
+pragma Warnings (Off, "use clause for package");
+with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
+pragma Warnings (On, "use clause for package");
+pragma Warnings (On, "referenced");
+
 package body Libadalang.Expr_Eval is
 
    ---------------
@@ -12,19 +20,19 @@ package body Libadalang.Expr_Eval is
 
       function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result is
       begin
-         case D.Kind is
+         case Kind (D) is
             when LAL.Ada_Enum_Literal_Decl =>
 
                --  An enum literal declaration evaluates to itself
                return (Enum_Lit,
-                       D.As_Enum_Literal_Decl.P_Enum_Type,
-                       D.As_Enum_Literal_Decl);
+                       P_Enum_Type (As_Enum_Literal_Decl (D)),
+                       As_Enum_Literal_Decl (D));
 
             when LAL.Ada_Number_Decl =>
 
                --  A number declaration evaluates to the evaluation of its
                --  expression.
-               return Expr_Eval (D.As_Number_Decl.F_Expr);
+               return Expr_Eval (F_Expr (As_Number_Decl (D)));
 
             when others =>
                raise LAL.Property_Error;
@@ -32,20 +40,22 @@ package body Libadalang.Expr_Eval is
       end Eval_Decl;
 
    begin
-      case E.Kind is
+      case Kind (E) is
          when LAL.Ada_Base_Id =>
 
-            return Eval_Decl (E.As_Base_Id.P_Referenced_Decl);
+            return Eval_Decl (P_Referenced_Decl (As_Base_Id (E)));
 
          when LAL.Ada_Int_Literal =>
             return (Int,
-                    E.P_Universal_Int_Type.As_Base_Type_Decl,
-                    Long_Integer'Value (LAL.Text (E.As_Int_Literal.F_Tok)));
+                    As_Base_Type_Decl (P_Universal_Int_Type (E)),
+                    Long_Integer'Value
+                      (LAL.Text (F_Tok (As_Int_Literal (E)))));
 
          when LAL.Ada_Real_Literal =>
             return (Real,
-                    E.P_Universal_Real_Type.As_Base_Type_Decl,
-                    Long_Float'Value (LAL.Text (E.As_Real_Literal.F_Tok)));
+                    As_Base_Type_Decl (P_Universal_Real_Type (E)),
+                    Long_Float'Value
+                      (LAL.Text (F_Tok (As_Real_Literal (E)))));
 
          when LAL.Ada_Bin_Op =>
             raise LAL.Property_Error;
@@ -63,7 +73,7 @@ package body Libadalang.Expr_Eval is
       case Self.Kind is
          when Int => return Integer (Self.Int_Result);
          when Real => raise LAL.Property_Error;
-         when Enum_Lit => return Self.Enum_Result.Child_Index + 1;
+         when Enum_Lit => return Child_Index (Self.Enum_Result) + 1;
       end case;
    end As_Int;
 
@@ -78,7 +88,7 @@ package body Libadalang.Expr_Eval is
         & (case Self.Kind is
               when Int => Self.Int_Result'Image,
               when Real => Self.Real_Result'Image,
-              when Enum_Lit => Self.Enum_Result.Short_Image) & ">";
+              when Enum_Lit => Short_Image (Self.Enum_Result)) & ">";
    end Image;
 
 end Libadalang.Expr_Eval;

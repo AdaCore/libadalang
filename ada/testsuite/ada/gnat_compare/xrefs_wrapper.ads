@@ -33,7 +33,7 @@ package Xrefs_Wrapper is
    function Subp_Body (Decl : Basic_Decl'Class) return Basic_Decl;
    --  When a subprogram has both a declaration and a body, GNAT resoves
    --  references to this subprogram (like in calls) that have visibility
-   --  on both to the declaration, while LAL resolves to the body.
+   --  on both to the declaration, while LAL resolves to the body.
    --
    --  If Decl is a subprogram body that has a separate declaration, return the
    --  corresponding declaration.

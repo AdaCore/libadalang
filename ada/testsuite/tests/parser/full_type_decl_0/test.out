@@ -1,19 +1,22 @@
-EnumTypeDecl[1:1-1:21]
+TypeDecl[1:1-1:21]
 |type_id:
 |  Id[1:6-1:7]
 |  |tok: A
-|enum_literals:
-|  EnumLiteralDeclList[1:12-1:19]
-|  |  EnumLiteralDecl[1:12-1:13]
-|  |  |enum_identifier:
-|  |  |  Id[1:12-1:13]
-|  |  |  |tok: B
-|  |  EnumLiteralDecl[1:15-1:16]
-|  |  |enum_identifier:
-|  |  |  Id[1:15-1:16]
-|  |  |  |tok: C
-|  |  EnumLiteralDecl[1:18-1:19]
-|  |  |enum_identifier:
-|  |  |  Id[1:18-1:19]
-|  |  |  |tok: D
+|discriminants: <null>
+|type_def:
+|  EnumTypeDef[1:11-1:20]
+|  |enum_literals:
+|  |  EnumLiteralDeclList[1:12-1:19]
+|  |  |  EnumLiteralDecl[1:12-1:13]
+|  |  |  |enum_identifier:
+|  |  |  |  Id[1:12-1:13]
+|  |  |  |  |tok: B
+|  |  |  EnumLiteralDecl[1:15-1:16]
+|  |  |  |enum_identifier:
+|  |  |  |  Id[1:15-1:16]
+|  |  |  |  |tok: C
+|  |  |  EnumLiteralDecl[1:18-1:19]
+|  |  |  |enum_identifier:
+|  |  |  |  Id[1:18-1:19]
+|  |  |  |  |tok: D
 |aspects: <null>

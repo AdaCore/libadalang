@@ -283,10 +283,14 @@ A.add_rules(
         )
     ),
 
+    enum_type_def=EnumTypeDef(
+        "(", List(A.enum_literal_decl, sep=","), ")",
+    ),
+
     type_def=Or(A.record_type_def, A.real_type_def,
                 A.derived_type_def, A.signed_int_type_def,
                 A.mod_int_type_def, A.array_type_def, A.interface_type_def,
-                A.access_def, A.formal_discrete_type_def),
+                A.access_def, A.formal_discrete_type_def, A.enum_type_def),
 
     variant=Variant(
         "when", A.choice_list, "=>", A.component_list
@@ -299,11 +303,6 @@ A.add_rules(
     ),
 
     type_decl=Or(
-        EnumTypeDecl(
-            "type", A.identifier, "is",
-            "(", List(A.enum_literal_decl, sep=","), ")",
-            A.aspect_spec, ";"
-        ),
         TypeDecl(
             "type", A.identifier, Opt(A.discriminant_part),
             "is",

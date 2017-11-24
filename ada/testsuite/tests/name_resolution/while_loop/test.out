@@ -17,7 +17,7 @@ Resolving xrefs for node <ExitStmt 10:7-10:21>
 
 Expr: <Id "Foo" 10:17-10:20>
   references: <SubpDecl ["Foo"] 3:4-3:32>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 
 Resolving xrefs for node <WhileLoopStmt 7:4-12:13>
@@ -25,7 +25,7 @@ Resolving xrefs for node <WhileLoopStmt 7:4-12:13>
 
 Expr: <Id "Foo" 7:10-7:13>
   references: <SubpDecl ["Foo"] 3:4-3:32>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Test_Statement" 9:14-9:28>
   references: None
   type:       None

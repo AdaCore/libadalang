@@ -25,7 +25,8 @@ package body Libadalang.Expr_Eval is
 
                --  An enum literal declaration evaluates to itself
                return (Enum_Lit,
-                       P_Enum_Type (As_Enum_Literal_Decl (D)),
+                       As_Base_Type_Decl
+                         (P_Enum_Type (As_Enum_Literal_Decl (D))),
                        As_Enum_Literal_Decl (D));
 
             when LAL.Ada_Number_Decl =>

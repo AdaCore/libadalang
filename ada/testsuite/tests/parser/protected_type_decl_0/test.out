@@ -1,5 +1,5 @@
 ProtectedTypeDecl[1:1-1:186]
-|protected_type_name:
+|type_id:
 |  Id[1:16-1:37]
 |  |tok: Protected_Buffer_Type
 |discrs: <null>

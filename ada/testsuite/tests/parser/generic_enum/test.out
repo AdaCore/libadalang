@@ -47,24 +47,27 @@ CompilationUnit[1:1-24:10]
 |  |  |  DeclarativePart[4:4-20:26]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[4:4-20:26]
-|  |  |  |  |  EnumTypeDecl[4:4-4:29]
+|  |  |  |  |  TypeDecl[4:4-4:29]
 |  |  |  |  |  |type_id:
 |  |  |  |  |  |  Id[4:9-4:13]
 |  |  |  |  |  |  |tok: Enum
-|  |  |  |  |  |enum_literals:
-|  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
-|  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
-|  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  Id[4:18-4:19]
-|  |  |  |  |  |  |  |  |tok: A
-|  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
-|  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  Chr[4:21-4:24]
-|  |  |  |  |  |  |  |  |tok: 'B'
-|  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
-|  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  Id[4:26-4:27]
-|  |  |  |  |  |  |  |  |tok: C
+|  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |type_def:
+|  |  |  |  |  |  EnumTypeDef[4:17-4:28]
+|  |  |  |  |  |  |enum_literals:
+|  |  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
+|  |  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
+|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |  Id[4:18-4:19]
+|  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
+|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |  Chr[4:21-4:24]
+|  |  |  |  |  |  |  |  |  |tok: 'B'
+|  |  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
+|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |  Id[4:26-4:27]
+|  |  |  |  |  |  |  |  |  |tok: C
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
 |  |  |  |  |  |formal_part:

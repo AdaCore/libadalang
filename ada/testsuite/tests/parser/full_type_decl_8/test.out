@@ -21,7 +21,7 @@ TypeDecl[1:1-1:79]
 |  |  |constraint:
 |  |  |  DiscriminantConstraint[1:17-1:42]
 |  |  |  |constraints:
-|  |  |  |  DiscriminantAssocList[1:18-1:41]
+|  |  |  |  AssocList[1:18-1:41]
 |  |  |  |  |  DiscriminantAssoc[1:18-1:41]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  DiscriminantChoiceList[1:18-1:35]
@@ -29,7 +29,7 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  |  |  |tok: Discr_1
 |  |  |  |  |  |  |  Id[1:28-1:35]
 |  |  |  |  |  |  |  |tok: Discr_2
-|  |  |  |  |  |expr:
+|  |  |  |  |  |disc_expr:
 |  |  |  |  |  |  Int[1:39-1:41]
 |  |  |  |  |  |  |tok: 12
 |  |interfaces:

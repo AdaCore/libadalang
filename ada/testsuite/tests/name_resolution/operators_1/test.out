@@ -23,10 +23,10 @@ Resolving xrefs for node <AssignStmt 12:4-12:17>
 
 Expr: <Id "Foo" 12:4-12:7>
   references: <ObjectDecl ["Foo"] 7:4-7:18>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp 12:11-12:16>
   references: None
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "B" 12:11-12:12>
   references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 6:4-6:31>
   type:       <TypeDecl ["Integer"] 4:3-4:54>

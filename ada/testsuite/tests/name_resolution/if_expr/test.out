@@ -15,7 +15,7 @@ Expr: <IfExpr 8:10-8:31>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "True" 8:13-8:17>
   references: <EnumLiteralDecl ["True"] 3:27-3:31>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "B" 8:23-8:24>
   references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
@@ -38,7 +38,7 @@ Expr: <IfExpr 11:10-11:32>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Foo" 11:13-11:16>
   references: <SubpDecl ["Foo"] 5:4-5:32>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Foo" 11:22-11:25>
   references: <SubpDecl ["Foo"] 4:4-4:32>
   type:       <TypeDecl ["Integer"] 4:3-4:54>

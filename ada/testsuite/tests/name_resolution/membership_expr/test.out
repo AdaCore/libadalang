@@ -22,7 +22,7 @@ Resolving xrefs for node <IfStmt 4:4-6:11>
 
 Expr: <MembershipExpr 4:7-4:26>
   references: None
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "A" 4:7-4:8>
   references: <ObjectDecl ["A", "B"] 2:4-2:25>
   type:       <TypeDecl ["Integer"] 4:3-4:54>

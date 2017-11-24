@@ -15,7 +15,7 @@ Expr: <Aggregate 8:20-8:31>
   type:       <TypeDecl ["Fail_Rec"] 4:4-6:15>
 Expr: <Id "A" 8:21-8:22>
   references: <EnumLiteralDecl ["A"] 2:18-2:19>
-  type:       <EnumTypeDecl ["Enum"] 2:4-2:27>
+  type:       <TypeDecl ["Enum"] 2:4-2:27>
 Expr: <Int 8:24-8:26>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>

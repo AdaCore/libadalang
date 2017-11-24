@@ -78,7 +78,7 @@ Resolving xrefs for node <SelectStmt 17:9-31:20>
 
 Expr: <RelationOp 18:17-18:32>
   references: None
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Length" 18:17-18:23>
   references: <ObjectDecl ["Length"] 12:6-12:46>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
@@ -87,7 +87,7 @@ Expr: <Id "Q_Size" 18:26-18:32>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <RelationOp 25:17-25:27>
   references: None
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Length" 25:17-25:23>
   references: <ObjectDecl ["Length"] 12:6-12:46>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>

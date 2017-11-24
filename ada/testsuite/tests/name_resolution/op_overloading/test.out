@@ -58,7 +58,7 @@ Resolving xrefs for node <ReturnStmt 16:5-16:17>
 
 Expr: <Id "True" 16:12-16:16>
   references: <EnumLiteralDecl ["True"] 3:27-3:31>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 Resolving xrefs for node <CallStmt 20:3-20:35>
 **********************************************
@@ -74,7 +74,7 @@ Expr: <Id "f" 20:10-20:11>
   type:       <TypeDecl ["File_Type"] 52:4-52:38>
 Expr: <Id "Out_File" 20:13-20:21>
   references: <EnumLiteralDecl ["Out_File"] 53:32-53:40>
-  type:       <EnumTypeDecl ["File_Mode"] 53:4-53:55>
+  type:       <TypeDecl ["File_Mode"] 53:4-53:55>
 Expr: <Str ""test.txt"" 20:23-20:33>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -113,10 +113,10 @@ Resolving xrefs for node <IfStmt 23:3-26:10>
 
 Expr: <CallExpr 23:6-23:16>
   references: <SubpDecl ["Is_Open"] 107:4-107:55>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "Is_Open" 23:6-23:13>
   references: <SubpDecl ["Is_Open"] 107:4-107:55>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "f" 23:14-23:15>
   references: <ObjectDecl ["f"] 6:3-6:24>
   type:       <TypeDecl ["File_Type"] 52:4-52:38>
@@ -155,7 +155,7 @@ Resolving xrefs for node <IfStmt 28:3-30:10>
 
 Expr: <RelationOp 28:6-28:11>
   references: <SubpBody [""=""] 14:3-17:11>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "h" 28:6-28:7>
   references: <ObjectDecl ["g", "h"] 7:3-7:26>
   type:       <TypeDecl ["File_Type_Access"] 4:3-4:49>
@@ -175,10 +175,10 @@ Resolving xrefs for node <IfStmt 32:3-34:10>
 
 Expr: <CallExpr 32:6-32:16>
   references: <SubpBody [""=""] 14:3-17:11>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Str ""="" 32:6-32:9>
   references: <SubpBody [""=""] 14:3-17:11>
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "h" 32:11-32:12>
   references: <ObjectDecl ["g", "h"] 7:3-7:26>
   type:       <TypeDecl ["File_Type_Access"] 4:3-4:49>

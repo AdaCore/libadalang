@@ -15,7 +15,7 @@ Expr: <Aggregate 14:17-14:50>
   type:       <TypeDecl ["R2"] 10:4-12:15>
 Expr: <Id "A" 14:18-14:19>
   references: <EnumLiteralDecl ["A"] 8:15-8:16>
-  type:       <EnumTypeDecl ["N"] 8:4-8:24>
+  type:       <TypeDecl ["N"] 8:4-8:24>
 Expr: <Real 14:21-14:25>
   references: None
   type:       <TypeDecl ["Float"] 13:3-14:51>

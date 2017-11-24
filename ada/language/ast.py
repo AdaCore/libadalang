@@ -1884,9 +1884,8 @@ class AnonymousTypeDecl(TypeDecl):
     env_spec = EnvSpec()
 
 
-class EnumTypeDecl(BaseTypeDecl):
+class EnumTypeDef(TypeDef):
     enum_literals = Field(type=T.EnumLiteralDecl.list)
-    aspects = Field(type=T.AspectSpec)
 
     is_char_type = Property(Self.enum_literals.any(
         lambda lit: lit.enum_identifier.is_a(T.CharLiteral)
@@ -1894,7 +1893,7 @@ class EnumTypeDecl(BaseTypeDecl):
 
     is_enum_type = Property(True)
 
-    discriminants_list = Property(No(BaseFormalParamDecl.entity.array))
+    xref_equation = Property(LogicTrue())
 
 
 class FloatingPointDef(RealTypeDef):
@@ -4595,8 +4594,8 @@ class EnumLiteralDecl(BasicDecl):
         Return the enum type corresponding to this enum literal.
         """
         return Self.parents.find(
-            lambda p: p.is_a(BaseTypeDecl)
-        ).cast(BaseTypeDecl).as_entity
+            lambda p: p.is_a(TypeDecl)
+        ).cast(TypeDecl).as_entity
 
     @langkit_property()
     def expr_type():
@@ -4606,20 +4605,15 @@ class EnumLiteralDecl(BasicDecl):
         Self.enum_identifier.cast(T.Name).as_entity.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv(Self.enum_identifier.sym, Self)
-        add_to_env(
-            T.env_assoc.new(key=Entity.relative_name, val=Self),
-            dest_env=origin.bind(
-                Self,
-                Entity.enum_type._.primitives
-            ),
+        add_to_env_kv(Self.enum_identifier.sym, Self,
+                      dest_env=Entity.enum_type.node_env),
+
+        add_to_env_kv(
+            Self.enum_identifier.sym, Self,
+            dest_env=Entity.enum_type.primitives,
             metadata=Metadata.new(
                 dottable_subp=False,
-                primitive=origin.bind(
-                    Self,
-                    Self.as_bare_entity.subp_decl_spec
-                    .primitive_subp_of.cast(T.AdaNode).el
-                )
+                primitive=Entity.enum_type.el
             )
         )
     )

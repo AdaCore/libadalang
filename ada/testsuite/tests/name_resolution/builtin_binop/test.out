@@ -69,7 +69,7 @@ Resolving xrefs for node <IfStmt 10:4-12:11>
 
 Expr: <CallExpr 10:7-10:21>
   references: None
-  type:       <EnumTypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <DottedName 10:7-10:14>
   references: None
   type:       None

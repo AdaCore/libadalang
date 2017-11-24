@@ -6,10 +6,10 @@ Resolving xrefs for node <AssignStmt 6:4-6:13>
 
 Expr: <Id "C" 6:4-6:5>
   references: <ObjectDecl ["C"] 4:4-4:13>
-  type:       <EnumTypeDecl ["Char"] 2:4-2:33>
+  type:       <TypeDecl ["Char"] 2:4-2:33>
 Expr: <Chr "'a'" 6:9-6:12>
   references: None
-  type:       <EnumTypeDecl ["Char"] 2:4-2:33>
+  type:       <TypeDecl ["Char"] 2:4-2:33>
 
 
 Resolving xrefs for node <AssignStmt 9:4-9:12>

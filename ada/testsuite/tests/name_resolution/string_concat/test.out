@@ -8,11 +8,11 @@ Expr: <Id "A" 2:4-2:5>
   references: None
   type:       None
 Expr: <Id "Character" 2:17-2:26>
-  references: <EnumTypeDecl ["Character"] 20:3-20:27>
+  references: <TypeDecl ["Character"] 20:3-20:27>
   type:       None
 Expr: <Chr "'l'" 2:30-2:33>
   references: None
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 
 Resolving xrefs for node <ObjectDecl ["B"] 3:4-3:40>
 ****************************************************
@@ -21,17 +21,17 @@ Expr: <Id "B" 3:4-3:5>
   references: None
   type:       None
 Expr: <Id "Character" 3:17-3:26>
-  references: <EnumTypeDecl ["Character"] 20:3-20:27>
+  references: <TypeDecl ["Character"] 20:3-20:27>
   type:       None
 Expr: <DottedName 3:30-3:39>
   references: <ObjectDecl ["NUL"] 24:6-24:59>
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <Id "ASCII" 3:30-3:35>
   references: <PackageDecl ["ASCII"] 23:3-103:13>
   type:       None
 Expr: <Id "NUL" 3:36-3:39>
   references: <ObjectDecl ["NUL"] 24:6-24:59>
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 
 Resolving xrefs for node <ObjectDecl ["E"] 5:4-5:33>
 ****************************************************
@@ -60,7 +60,7 @@ Expr: <BinOp 6:27-6:38>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Chr "'c'" 6:27-6:30>
   references: None
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <Str ""lol"" 6:33-6:38>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -98,7 +98,7 @@ Expr: <BinOp 8:27-8:32>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "A" 8:27-8:28>
   references: <ObjectDecl ["A"] 2:4-2:34>
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <Id "D" 8:31-8:32>
   references: <ObjectDecl ["D"] 7:4-7:37>
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -120,7 +120,7 @@ Expr: <Str ""lol"" 9:27-9:32>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "B" 9:35-9:36>
   references: <ObjectDecl ["B"] 3:4-3:40>
-  type:       <EnumTypeDecl ["Character"] 20:3-20:27>
+  type:       <TypeDecl ["Character"] 20:3-20:27>
 
 Resolving xrefs for node <NullStmt 12:4-12:9>
 *********************************************

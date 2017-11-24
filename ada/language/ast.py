@@ -923,21 +923,34 @@ class Body(BasicDecl):
         ))
 
     @langkit_property(dynamic_vars=[env])
-    def body_scope(follow_private=BoolType):
+    def body_scope(follow_private=BoolType, force_decl=(BoolType, False)):
+        """
+        Return the scope for this body.
+        If follow_private, then returns the private part if possible.
+
+        If force_decl, then returns the corresponding declaration's scope,
+        rather than the parent body's scope.
+        """
+
         # Subunits always appear at the top-level in package bodies. So if
         # this is a subunit, the scope is the same as the scope of the
         # corresponding "is separate" decl, hence: the defining env of this
         # top-level package body.
         scope = Var(Self.subunit_root.then(
             lambda su: su.children_env,
+
             # In case this is a library level subprogram that has no spec
             # (which is legal), we'll register this body in the parent scope.
-            default_val=If(
-                Self.is_subprogram & Not(Self.is_library_item),
-                Self.parent.children_env,
+            default_val=Cond(
+                Self.is_subprogram & Self.is_library_item,
                 Entity.defining_name.scope._or(
                     Entity.defining_name.parent_scope
                 ),
+
+                Self.is_library_item | force_decl, Entity.defining_name.scope,
+
+                Self.parent.children_env,
+
             )
         ))
 
@@ -4337,7 +4350,7 @@ class BaseId(SingleTokNode):
     @langkit_property(memoized=True)
     def scope():
         elt = Var(env.get_first(Self.tok))
-        return If(
+        ret = Var(If(
             Not(elt.is_null) & elt.el.is_a(
                 T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
                 T.GenericSubpDecl, T.SubpDecl, T.GenericPackageInstantiation,
@@ -4345,6 +4358,13 @@ class BaseId(SingleTokNode):
             ),
             elt.children_env,
             EmptyEnv
+        ))
+
+        # If this the corresponding decl is a generic, go grab the internal
+        # package decl.
+        return ret.env_node.cast(T.GenericPackageDecl).then(
+            lambda gen_pkg_decl: gen_pkg_decl.package_decl.children_env,
+            default_val=ret
         )
 
     designated_env = Property(Entity.designated_env_impl(False))
@@ -5751,10 +5771,26 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     env_spec = child_unit(
-        '__body', Entity.body_scope(True), more_rules=[
+        '__body',
+        Entity.body_scope(True),
+
+        # Add the __body link to the package decl
+        dest_env=env.bind(
+            Self.initial_env,
+            # If this is a sub package, sub_package
+            Entity.sub_package_decl
+
+            ._or(Entity.body_scope(False))
+        ),
+
+        more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl,
-                      visible_to_children=True)
+                      visible_to_children=True),
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.PackageBody.sub_package_decl,
+                      visible_to_children=True,
+                      transitive=True)
         ]
     )
 
@@ -5766,6 +5802,13 @@ class PackageBody(Body):
 
     defining_names = Property(Self.package_name.as_entity.singleton)
     defining_env = Property(Entity.children_env)
+
+    @langkit_property()
+    def sub_package_decl():
+        return env.bind(
+            Self.initial_env,
+            Entity.body_scope(True, True)
+        )
 
     @langkit_property()
     def subunit_pkg_decl():

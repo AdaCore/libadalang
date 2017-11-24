@@ -115,6 +115,10 @@ class Metadata(Struct):
         T.AdaNode,
         doc="The type for which this subprogram is a primitive, if any"
     )
+    primitive_real_type = UserField(
+        T.AdaNode,
+        doc="The type for which this subprogram is a primitive, if any"
+    )
 
 
 @abstract
@@ -487,7 +491,7 @@ class AdaNode(ASTNode):
                         use_name.cast_or_raise(T.Name)
                         .as_bare_entity.designated_env
                     ))
-                ).env_group,
+                ).env_group(),
                 default_val=EmptyEnv
             ),
 
@@ -1855,12 +1859,18 @@ class TypeDecl(BaseTypeDecl):
         )
 
     parent_primitives_env = Property(Self.type_def.match(
-        lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group,
+        lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
+            with_md=Metadata.new(
+                dottable_subp=False,
+                primitive=No(T.AdaNode),
+                primitive_real_type=Self,
+            )
+        ),
         lambda _: EmptyEnv
     ))
 
     primitives_env = Property(
-        Entity.primitives_envs(include_self=True).env_group
+        Entity.primitives_envs(include_self=True).env_group()
     )
 
 
@@ -2037,7 +2047,7 @@ class DerivedTypeDef(TypeDef):
     defining_env = Property(
         Entity.base_types.map(
             lambda bt: bt._.defining_env
-        ).concat(Entity.children_env.singleton).env_group
+        ).concat(Entity.children_env.singleton).env_group()
     )
 
     @langkit_property(return_type=EquationType)
@@ -2617,7 +2627,8 @@ class BasicSubpDecl(BasicDecl):
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
             metadata=Metadata.new(dottable_subp=True,
-                                  primitive=No(T.AdaNode))
+                                  primitive=No(T.AdaNode),
+                                  primitive_real_type=No(T.AdaNode))
         ),
 
         # Adding subp to the primitives env if the subp is a primitive. TODO:
@@ -2639,7 +2650,8 @@ class BasicSubpDecl(BasicDecl):
                     Self,
                     Self.as_bare_entity.subp_decl_spec
                     .primitive_subp_of.cast(T.AdaNode).el
-                )
+                ),
+                primitive_real_type=No(T.AdaNode)
             )
         )
     )
@@ -3040,7 +3052,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                p._.decl.el.children_env,
                p.decl.children_env).singleton.concat(
                 self_children_env.singleton
-            ).env_group.rebind_env(
+            ).env_group().rebind_env(
                 # If this generic instantiation is inside a generic
                 # instantiation, then it inherits the rebindings of the
                 # enclosing instantiation.
@@ -3861,7 +3873,7 @@ class CallExpr(Name):
         return Entity.env_elements.map(lambda e: e.match(
             lambda bd=BasicDecl.entity:       bd.defining_env,
             lambda _:                         EmptyEnv,
-        )).env_group
+        )).env_group()
 
     @langkit_property()
     def env_elements_impl():
@@ -4379,7 +4391,7 @@ class BaseId(SingleTokNode):
         return origin.bind(Self, Let(lambda el=ents.at(0): If(
             el._.is_package,
             el.cast(BasicDecl).defining_env,
-            ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group
+            ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group()
         )))
 
     parent_scope = Property(env)
@@ -4613,7 +4625,8 @@ class EnumLiteralDecl(BasicDecl):
             dest_env=Entity.enum_type.primitives,
             metadata=Metadata.new(
                 dottable_subp=False,
-                primitive=Entity.enum_type.el
+                primitive=Entity.enum_type.el,
+                primitive_real_type=No(T.AdaNode)
             )
         )
     )

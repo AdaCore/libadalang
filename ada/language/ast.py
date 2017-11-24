@@ -1976,7 +1976,8 @@ class ArrayIndices(AdaNode):
         doc="""Number of dimensions described in this node."""
     )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[origin])
+    @langkit_property(return_type=EquationType, dynamic_vars=[origin],
+                      kind=AbstractKind.abstract)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
         """
         Add a constraint on an expression passed as the index of an array
@@ -1992,8 +1993,7 @@ class ArrayIndices(AdaNode):
             --      ^ Will add constraint on lit that it needs to be of type
             --      Integer.
         """
-        ignore(index_expr, dim)
-        return LogicTrue()
+        pass
 
     @langkit_property(dynamic_vars=[origin], kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity)
@@ -2326,7 +2326,7 @@ class TypeExpr(AdaNode):
         return Entity.designated_type.defining_env
 
     designated_type = AbstractProperty(
-        type=BaseTypeDecl.entity, runtime_check=True,
+        type=BaseTypeDecl.entity,
         dynamic_vars=[origin],
         doc="""
         Return the type designated by this type expression.
@@ -4693,11 +4693,6 @@ class IterType(EnumNode):
 @abstract
 class LoopSpec(AdaNode):
     pass
-
-    @langkit_property(return_type=EquationType,
-                      kind=AbstractKind.abstract_runtime_check)
-    def xref_equation():
-        pass
 
 
 class ForLoopVarDecl(BasicDecl):

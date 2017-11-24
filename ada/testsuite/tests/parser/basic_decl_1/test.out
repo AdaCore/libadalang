@@ -19,11 +19,11 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |  OverridingUnspecified[1:34-1:34]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:40-1:53]
-|  |  |  |  |  |name:
+|  |  |  |  |  |entry_name:
 |  |  |  |  |  |  Id[1:40-1:41]
 |  |  |  |  |  |  |tok: Q
 |  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |params:
+|  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:41-1:53]
 |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  ParamSpecList[1:42-1:52]

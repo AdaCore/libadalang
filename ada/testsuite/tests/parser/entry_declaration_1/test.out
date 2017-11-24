@@ -3,7 +3,7 @@ EntryDecl[1:1-1:37]
 |  OverridingUnspecified[1:1-1:1]
 |spec:
 |  EntrySpec[1:7-1:36]
-|  |name:
+|  |entry_name:
 |  |  Id[1:7-1:8]
 |  |  |tok: E
 |  |family_type:
@@ -16,7 +16,7 @@ EntryDecl[1:1-1:37]
 |  |  |right:
 |  |  |  Int[1:13-1:14]
 |  |  |  |tok: 3
-|  |params:
+|  |entry_params:
 |  |  Params[1:16-1:36]
 |  |  |params:
 |  |  |  ParamSpecList[1:17-1:35]

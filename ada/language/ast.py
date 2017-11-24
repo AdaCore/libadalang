@@ -869,6 +869,13 @@ class BasicDecl(AdaNode):
 class Body(BasicDecl):
 
     @langkit_property()
+    def sub_body_decl():
+        return env.bind(
+            Self.initial_env,
+            Entity.body_scope(True, True)
+        )
+
+    @langkit_property()
     def previous_part():
         """
         Return the decl corresponding to this body. For convenience, the
@@ -957,9 +964,12 @@ class Body(BasicDecl):
             # (which is legal), we'll register this body in the parent scope.
             default_val=Cond(
                 Self.is_subprogram & Self.is_library_item,
-                Entity.defining_name.scope._or(
-                    Entity.defining_name.parent_scope
-                ),
+                Let(lambda dns=Entity.defining_name.scope:
+                    # If the scope is self's scope, return parent scope, or
+                    # else we'll have an infinite recursion.
+                    If(dns.is_null | (dns.env_node == Self),
+                       Entity.defining_name.parent_scope,
+                       dns)),
 
                 Self.is_library_item | force_decl, Entity.defining_name.scope,
 
@@ -2297,7 +2307,7 @@ class TaskTypeDecl(BaseTypeDecl):
     defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv(Self.type_id.sym, Self),
+        add_to_env_kv(Entity.relative_name, Self),
         add_env()
     )
 
@@ -2322,6 +2332,13 @@ class ProtectedTypeDecl(BaseTypeDecl):
     definition = Field(type=T.ProtectedDef)
 
     discriminants_list = Property(Entity.discrs.abstract_formal_params)
+
+    defining_env = Property(Entity.children_env)
+
+    env_spec = EnvSpec(
+        add_to_env_kv(Entity.relative_name, Self),
+        add_env()
+    )
 
 
 @abstract
@@ -2787,7 +2804,15 @@ class SingleProtectedDecl(BasicDecl):
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(
-        Self.protected_name.cast(T.Name).as_entity.singleton)
+        Self.protected_name.cast(T.Name).as_entity.singleton
+    )
+
+    defining_env = Property(Entity.children_env)
+
+    env_spec = EnvSpec(
+        add_to_env_kv(Entity.relative_name, Self),
+        add_env()
+    )
 
 
 class AspectAssoc(AdaNode):
@@ -4396,9 +4421,7 @@ class BaseId(SingleTokNode):
         elt = Var(env.get_first(Self.tok))
         ret = Var(If(
             Not(elt.is_null) & elt.el.is_a(
-                T.PackageDecl, T.PackageBody, T.GenericPackageDecl,
-                T.GenericSubpDecl, T.SubpDecl, T.GenericPackageInstantiation,
-                T.GenericSubpInstantiation
+                T.BasicDecl
             ),
             elt.children_env,
             EmptyEnv
@@ -4813,10 +4836,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         params = Var(Entity.unpacked_formal_params)
-        types = Var(params.map(lambda p: p.spec.el_type)
-                    .concat(Entity.returns._.designated_type.then(
-                        lambda dt: dt.singleton)
-                    ))
+        types = Var(
+            params.map(lambda p: p.spec.el_type)
+            .concat(Entity.returns._.designated_type.then(
+                lambda dt: dt.singleton)
+            )
+        )
 
         return types.find(lambda typ: typ.then(
             lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(
@@ -4896,7 +4921,7 @@ class EntryDecl(BasicDecl):
     spec = Field(type=T.EntrySpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.spec.name.cast(T.Name).as_entity.singleton)
+    defining_names = Property(Self.spec.name.as_entity.singleton)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
@@ -4904,14 +4929,19 @@ class EntryDecl(BasicDecl):
     )
 
 
-class EntrySpec(BaseFormalParamHolder):
-    name = Field(type=T.Identifier)
+class EntrySpec(BaseSubpSpec):
+    entry_name = Field(type=T.Identifier)
     family_type = Field(type=T.AdaNode)
-    params = Field(type=T.Params)
+    entry_params = Field(type=T.Params)
 
-    abstract_formal_params = Property(
-        Entity.params.params.map(lambda p: p.cast(BaseFormalParamDecl))
+    name = Property(Self.entry_name.cast(T.Name))
+    params = Property(
+        Entity.entry_params.then(
+            lambda p: p.params.map(lambda p: p),
+            default_val=No(T.ParamSpec.entity.array)
+        )
     )
+    returns = Property(No(T.TypeExpr.entity))
 
 
 class Quantifier(EnumNode):
@@ -5432,7 +5462,7 @@ class SubpBody(Body):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Entity.body_scope(True)),
+            env.bind(Self.initial_env, Entity.body_scope(False)),
         ),
 
         # Add the body to its own parent env
@@ -5849,7 +5879,7 @@ class PackageBody(Body):
         dest_env=env.bind(
             Self.initial_env,
             # If this is a sub package, sub_package
-            Entity.sub_package_decl
+            Entity.sub_body_decl
 
             ._or(Entity.body_scope(False))
         ),
@@ -5859,7 +5889,7 @@ class PackageBody(Body):
                       through=T.PackageBody.subunit_pkg_decl,
                       visible_to_children=True),
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.sub_package_decl,
+                      through=T.Body.sub_body_decl,
                       visible_to_children=True,
                       transitive=True)
         ]
@@ -5873,13 +5903,6 @@ class PackageBody(Body):
 
     defining_names = Property(Self.package_name.as_entity.singleton)
     defining_env = Property(Entity.children_env)
-
-    @langkit_property()
-    def sub_package_decl():
-        return env.bind(
-            Self.initial_env,
-            Entity.body_scope(True, True)
-        )
 
     @langkit_property()
     def subunit_pkg_decl():
@@ -5929,6 +5952,27 @@ class TaskBody(Body):
 
 
 class ProtectedBody(Body):
+    env_spec = child_unit(
+        '__body',
+        Entity.body_scope(True),
+
+        # Add the __body link to the package decl
+        dest_env=env.bind(
+            Self.initial_env,
+            # If this is a sub package, sub_package
+            Entity.sub_body_decl
+
+            ._or(Entity.body_scope(False))
+        ),
+
+        more_rules=[
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.Body.sub_body_decl,
+                      visible_to_children=True,
+                      transitive=True)
+        ]
+    )
+
     name = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
@@ -5942,11 +5986,14 @@ class EntryBody(Body):
     index_spec = Field(type=T.EntryIndexSpec)
     params = Field(type=T.Params)
     barrier = Field(type=T.Expr)
+
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.Name)
 
     defining_names = Property(Self.entry_name.cast(Name).as_entity.singleton)
+
+    env_spec = EnvSpec(add_env())
 
 
 class EntryIndexSpec(AdaNode):

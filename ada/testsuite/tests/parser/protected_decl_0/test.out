@@ -16,11 +16,11 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  OverridingUnspecified[1:31-1:31]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:37-1:64]
-|  |  |  |  |  |name:
+|  |  |  |  |  |entry_name:
 |  |  |  |  |  |  Id[1:37-1:43]
 |  |  |  |  |  |  |tok: Insert
 |  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |params:
+|  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:44-1:64]
 |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  ParamSpecList[1:45-1:63]
@@ -48,11 +48,11 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  OverridingUnspecified[1:66-1:66]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:72-1:99]
-|  |  |  |  |  |name:
+|  |  |  |  |  |entry_name:
 |  |  |  |  |  |  Id[1:72-1:78]
 |  |  |  |  |  |  |tok: Remove
 |  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |params:
+|  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:79-1:99]
 |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  ParamSpecList[1:80-1:98]

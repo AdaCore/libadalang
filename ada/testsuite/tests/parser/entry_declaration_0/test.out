@@ -3,7 +3,7 @@ EntryDecl[1:1-1:46]
 |  OverridingUnspecified[1:1-1:1]
 |spec:
 |  EntrySpec[1:7-1:45]
-|  |name:
+|  |entry_name:
 |  |  Id[1:7-1:13]
 |  |  |tok: Insert
 |  |family_type:
@@ -14,7 +14,7 @@ EntryDecl[1:1-1:46]
 |  |  |  Id[1:15-1:24]
 |  |  |  |tok: Buffer_Id
 |  |  |constraint: <null>
-|  |params:
+|  |entry_params:
 |  |  Params[1:26-1:45]
 |  |  |params:
 |  |  |  ParamSpecList[1:27-1:44]

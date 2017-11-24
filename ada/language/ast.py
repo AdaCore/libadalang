@@ -4607,6 +4607,21 @@ class EnumLiteralDecl(BasicDecl):
 
     env_spec = EnvSpec(
         add_to_env_kv(Self.enum_identifier.sym, Self)
+        add_to_env(
+            T.env_assoc.new(key=Entity.relative_name, val=Self),
+            dest_env=origin.bind(
+                Self,
+                Entity.enum_type._.primitives
+            ),
+            metadata=Metadata.new(
+                dottable_subp=False,
+                primitive=origin.bind(
+                    Self,
+                    Self.as_bare_entity.subp_decl_spec
+                    .primitive_subp_of.cast(T.AdaNode).el
+                )
+            )
+        )
     )
 
 

@@ -24,6 +24,16 @@ env = DynamicVariable('env', LexicalEnvType)
 origin = DynamicVariable('origin', T.AdaNode)
 
 
+def entity_no_md(type, node, rebindings):
+    return Let(lambda n=node: type.entity.new(
+        el=n,
+        info=T.entity_info.new(
+            rebindings=rebindings,
+            md=No(T.env_md)
+        )
+    ))
+
+
 def TypeBind(*args, **kwargs):
     check_source_language(
         'eq_prop' not in kwargs.keys(),
@@ -4611,7 +4621,20 @@ class EnumLiteralDecl(BasicDecl):
 
     @langkit_property()
     def expr_type():
-        return Entity.enum_type
+        return If(
+            # If this enum literal decl has been found through a primitive env
+            # (type of md.primitive matches enum type), then we want  to return
+            # the derived type from which we found this enum literal.
+            Entity.info.md.primitive == Entity.enum_type.el,
+
+            entity_no_md(
+                BaseTypeDecl,
+                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
+                Entity.info.rebindings
+            ),
+
+            Entity.enum_type
+        )
 
     defining_names = Property(
         Self.enum_identifier.cast(T.Name).as_entity.singleton)

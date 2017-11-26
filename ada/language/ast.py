@@ -1954,9 +1954,19 @@ class DiscriminantConstraint(Constraint):
     )
 
 
-class DiscriminantAssoc(Constraint):
+@abstract
+@has_abstract_list
+class BasicAssoc(AdaNode):
+    expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
+    names = AbstractProperty(type=T.AdaNode.array)
+
+
+class DiscriminantAssoc(BasicAssoc):
     ids = Field(type=T.Identifier.list)
-    expr = Field(type=T.Expr)
+    disc_expr = Field(type=T.Expr)
+
+    expr = Property(Self.disc_expr)
+    names = Property(Self.ids.map(lambda i: i.cast(T.AdaNode)))
 
 
 class DerivedTypeDef(TypeDef):
@@ -4076,13 +4086,6 @@ class CallExpr(Name):
                 ), default_val=True
             )
         )))
-
-
-@abstract
-@has_abstract_list
-class BasicAssoc(AdaNode):
-    expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
-    names = AbstractProperty(type=T.AdaNode.array)
 
 
 class ParamAssoc(BasicAssoc):

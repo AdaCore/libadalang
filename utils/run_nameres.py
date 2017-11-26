@@ -241,7 +241,8 @@ class FileResult(object):
             print("Resolution crashed.")
             print("Command line: {}".format(" ".join(args)))
             return []
-        except:
+        except Exception, e:
+            print("Exception : {}".format(e))
             return []
         finally:
             if debug:

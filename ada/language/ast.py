@@ -2590,6 +2590,29 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
+    @langkit_property()
+    def expr_type():
+
+        ret = Var(
+            Entity.type_expression.then(lambda te: te.designated_type)
+        )
+
+        return If(
+            # If this subprogram has been found through a primitive env
+            # (md.primitive is set) and this primitive env is the one of the
+            # return type (md.primitive == return type), then we want to return
+            # the derived type through which we found this primitive
+            # (md.primitive_real_type).
+
+            Not(ret.is_null) & (Entity.info.md.primitive == ret.el),
+            entity_no_md(
+                BaseTypeDecl,
+                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
+                Entity.info.rebindings
+            ),
+            ret
+        )
+
     subp_decl_spec = AbstractProperty(
         type=T.SubpSpec.entity, public=True,
         doc='Return the specification for this subprogram'
@@ -4790,7 +4813,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         params = Var(Entity.unpacked_formal_params)
-        types = Var(params.map(lambda p: p.spec.el_type))
+        types = Var(params.map(lambda p: p.spec.el_type)
+                    .concat(Entity.returns._.designated_type.then(
+                        lambda dt: dt.singleton)
+                    ))
 
         return types.find(lambda typ: typ.then(
             lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(

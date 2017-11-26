@@ -5898,7 +5898,10 @@ class RangeSpec(AdaNode):
 class IncompleteTypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
 
-    env_spec = EnvSpec(add_env())
+    env_spec = EnvSpec(
+        add_to_env_kv(Entity.relative_name, Self),
+        add_env()
+    )
 
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 

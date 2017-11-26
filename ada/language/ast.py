@@ -2283,15 +2283,13 @@ class SingleTaskTypeDecl(TaskTypeDecl):
     )
 
 
-class ProtectedTypeDecl(BasicDecl):
-    protected_type_name = Field(type=T.Identifier)
+class ProtectedTypeDecl(BaseTypeDecl):
     discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
     interfaces = Field(type=T.Name.list)
     definition = Field(type=T.ProtectedDef)
 
-    defining_names = Property(
-        Self.protected_type_name.cast(T.Name).as_entity.singleton)
+    discriminants_list = Property(Entity.discrs.abstract_formal_params)
 
 
 @abstract

@@ -869,7 +869,10 @@ class BasicDecl(AdaNode):
 class Body(BasicDecl):
 
     @langkit_property()
-    def sub_body_decl():
+    def body_decl_scope():
+        """
+        Return the scope of this body's decl.
+        """
         return env.bind(
             Self.initial_env,
             Entity.body_scope(True, True)
@@ -5879,7 +5882,7 @@ class PackageBody(Body):
         dest_env=env.bind(
             Self.initial_env,
             # If this is a sub package, sub_package
-            Entity.sub_body_decl
+            Entity.body_decl_scope
 
             ._or(Entity.body_scope(False))
         ),
@@ -5889,7 +5892,7 @@ class PackageBody(Body):
                       through=T.PackageBody.subunit_pkg_decl,
                       visible_to_children=True),
             reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.sub_body_decl,
+                      through=T.Body.body_decl_scope,
                       visible_to_children=True,
                       transitive=True)
         ]
@@ -5960,14 +5963,14 @@ class ProtectedBody(Body):
         dest_env=env.bind(
             Self.initial_env,
             # If this is a sub package, sub_package
-            Entity.sub_body_decl
+            Entity.body_decl_scope
 
             ._or(Entity.body_scope(False))
         ),
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.sub_body_decl,
+                      through=T.Body.body_decl_scope,
                       visible_to_children=True,
                       transitive=True)
         ]

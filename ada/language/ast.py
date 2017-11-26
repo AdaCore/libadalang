@@ -1947,7 +1947,7 @@ class IndexConstraint(Constraint):
 
 
 class DiscriminantConstraint(Constraint):
-    constraints = Field(type=T.DiscriminantAssoc.list)
+    constraints = Field(type=T.AssocList)
 
     xref_equation = Property(
         Entity.constraints.logic_all(lambda c: c.expr.xref_equation)

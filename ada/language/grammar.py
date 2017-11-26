@@ -195,7 +195,7 @@ A.add_rules(
     ),
 
     discriminant_constraint=DiscriminantConstraint(
-        "(", List(A.discriminant_assoc, sep=","), ")"
+        "(", List(A.discriminant_assoc, sep=",", list_cls=AssocList), ")"
     ),
 
     index_constraint=IndexConstraint(

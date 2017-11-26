@@ -1949,9 +1949,31 @@ class IndexConstraint(Constraint):
 class DiscriminantConstraint(Constraint):
     constraints = Field(type=T.AssocList)
 
-    xref_equation = Property(
-        Entity.constraints.logic_all(lambda c: c.expr.xref_equation)
-    )
+    @langkit_property()
+    def xref_equation():
+        typ = Var(Self.parent.cast_or_raise(T.SubtypeIndication)
+                  .as_entity.designated_type)
+
+        return If(
+            # Due to ambiguities in the grammar, this can actually be parsed as
+            # a DiscriminantConstraint but be an index constraint.
+            typ.is_array,
+
+            # Index constraints imply no overloading
+            Entity.constraints.logic_all(
+                lambda c: c.expr.as_entity.sub_equation
+            ),
+
+            # Regular discriminant constraint case
+            Self.match_formals(
+                typ.discriminants_list, Self.constraints, False
+            ).logic_all(
+                lambda pm: pm.actual.assoc.expr.as_entity.xref_equation
+                & TypeBind(
+                    pm.actual.assoc.expr.type_var, pm.formal.spec.type
+                )
+            )
+        )
 
 
 @abstract

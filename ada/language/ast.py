@@ -1753,6 +1753,9 @@ class TypeDecl(BaseTypeDecl):
         )
 
         return Cond(
+            Entity.is_access_type,
+            origin.bind(Self, Entity.accessed_type.discriminants_list),
+
             self_discs.length > 0, self_discs,
             Not(base_type.is_null), Entity.base_type.discriminants_list,
             No(T.BaseFormalParamDecl.entity.array)

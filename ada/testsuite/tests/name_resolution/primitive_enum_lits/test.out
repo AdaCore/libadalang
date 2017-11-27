@@ -1,0 +1,60 @@
+Analyzing testderenum.adb
+#########################
+
+Resolving xrefs for node <TypeDecl ["En"] 2:4-2:25>
+***************************************************
+
+Expr: <Id "En" 2:9-2:11>
+  references: None
+  type:       None
+Expr: <Id "A" 2:16-2:17>
+  references: None
+  type:       None
+Expr: <Id "B" 2:19-2:20>
+  references: None
+  type:       None
+Expr: <Id "C" 2:22-2:23>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["En2"] 4:4-4:36>
+****************************************************
+
+Expr: <Id "En2" 4:9-4:12>
+  references: None
+  type:       None
+Expr: <Id "En" 4:20-4:22>
+  references: <TypeDecl ["En"] 2:4-2:25>
+  type:       None
+Expr: <BinOp 4:29-4:35>
+  references: None
+  type:       <TypeDecl ["En"] 2:4-2:25>
+Expr: <Id "B" 4:29-4:30>
+  references: <EnumLiteralDecl ["B"] 2:19-2:20>
+  type:       <TypeDecl ["En"] 2:4-2:25>
+Expr: <Id "C" 4:34-4:35>
+  references: <EnumLiteralDecl ["C"] 2:22-2:23>
+  type:       <TypeDecl ["En"] 2:4-2:25>
+
+Resolving xrefs for node <ObjectDecl ["E"] 6:4-6:17>
+****************************************************
+
+Expr: <Id "E" 6:4-6:5>
+  references: None
+  type:       None
+Expr: <Id "En2" 6:8-6:11>
+  references: <TypeDecl ["En2"] 4:4-4:36>
+  type:       None
+Expr: <Id "B" 6:15-6:16>
+  references: <EnumLiteralDecl ["B"] 2:19-2:20>
+  type:       <TypeDecl ["En2"] 4:4-4:36>
+
+Resolving xrefs for node <NullStmt 8:4-8:9>
+*******************************************
+
+Expr: <Null 8:4-8:8>
+  references: None
+  type:       None
+
+
+Done.

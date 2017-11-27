@@ -2548,6 +2548,13 @@ class SubtypeIndication(TypeExpr):
         # qual expr or a subtype indication.
         return And(
             TypeBind(Self.name.ref_var, Entity.designated_type),
+
+            # Bind sub components of the name
+            Entity.name.cast(T.DottedName).then(
+                lambda dn: dn.prefix.xref_no_overloading,
+                default_val=LogicTrue()
+            ),
+
             Entity.constraint.then(
                 lambda c: c.sub_equation, default_val=LogicTrue()
             )

@@ -30,7 +30,7 @@ Expr: <DottedName 6:11-6:18>
   references: <TypeDecl ["Typ"] 3:7-3:35>
   type:       None
 Expr: <Id "Pkg" 6:11-6:14>
-  references: None
+  references: <PackageDecl ["Pkg"] 2:4-4:12>
   type:       None
 Expr: <Id "Typ" 6:15-6:18>
   references: <TypeDecl ["Typ"] 3:7-3:35>

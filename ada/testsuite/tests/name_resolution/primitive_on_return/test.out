@@ -18,7 +18,7 @@ Expr: <DottedName 7:24-7:30>
   references: <TypeDecl ["Base"] 3:7-3:32>
   type:       None
 Expr: <Id "A" 7:24-7:25>
-  references: None
+  references: <PackageDecl ["A"] 2:4-5:10>
   type:       None
 Expr: <Id "Base" 7:26-7:30>
   references: <TypeDecl ["Base"] 3:7-3:32>

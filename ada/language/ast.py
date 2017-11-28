@@ -1256,6 +1256,59 @@ class Variant(AdaNode):
     choice_list = Field(type=T.AdaNode.list)
     components = Field(type=T.ComponentList)
 
+    @langkit_property(return_type=BoolType)
+    def choice_match(choice=T.AdaNode.entity, val=LongType):
+        """
+        Checks whether val matches choice.
+        """
+        return choice.match(
+
+            # If choice is a binop, it is either a range, or a static
+            # arithmetic expression.
+            lambda bo=T.BinOp: If(
+                # If choice is a range, then check that val is in the range
+                bo.op.is_a(Op.alt_double_dot),
+
+                And(val >= bo.left.eval_as_int,
+                    val <= bo.right.eval_as_int),
+
+                val == bo.eval_as_int,
+            ),
+
+            # If choice is a name, it is either a subtype name, either a
+            # constant number name.
+            lambda n=T.Name: n.name_designated_type._.discrete_range.then(
+                lambda dr: And(val >= dr.low_bound, val <= dr.high_bound),
+                default_val=(val == n.eval_as_int)
+            ),
+
+            # If choice is a subtype indication, then get the range
+            lambda st=T.SubtypeIndication: st.discrete_range.then(
+                lambda dr: And(val >= dr.low_bound,
+                               val <= dr.high_bound)
+            ),
+
+            # If it is an expr, then just check for equality
+            lambda e=T.Expr: val == e.eval_as_int,
+
+            # If 'others', always return true
+            lambda _=T.OthersDesignator: True,
+
+            lambda _: False,
+        )
+
+    @langkit_property(return_type=BoolType)
+    def matches(expr=T.Expr):
+        """
+        Check if any choice in the choice list matches expr's value.
+        """
+        # Statically evaluate expr
+        expr_val = Var(expr.eval_as_int)
+
+        return Self.choice_list.any(
+            lambda c: Self.choice_match(c.as_entity, expr_val)
+        )
+
 
 class VariantPart(AdaNode):
     discr_name = Field(type=T.Identifier)
@@ -1280,6 +1333,31 @@ class VariantPart(AdaNode):
                 lambda _: LogicTrue()
             ))
         ))
+
+    @langkit_property(return_type=T.BaseFormalParamDecl.entity.array)
+    def get_components(discrs=T.ParamMatch.array):
+        """
+        Get components for this variant part, depending on the values of
+        discrs.
+        """
+        # Get the specific discriminant this variant part depends upon
+        discr = Var(discrs.find(
+            lambda d: d.formal.name.tok.symbol == Self.discr_name.tok.symbol
+        ))
+
+        # Get the variant branch with a choice that matches the discriminant's
+        # value.
+        variant = Var(Self.variant.find(
+            lambda v: v.as_entity.matches(discr.actual.assoc.expr)
+        ).as_entity)
+
+        # Get the components for this variant branch. We're passing down
+        # discriminants, because there might be a nested variant part in this
+        # variant branch.
+        return variant.components.abstract_formal_params_impl(
+            discrs, False, False
+        )
+
 
 class ComponentDecl(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list)
@@ -1348,16 +1426,31 @@ class ComponentList(BaseFormalParamHolder):
     )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
-    def abstract_formal_params_impl(include_discrs=(BoolType, True)):
-        # TODO: Incomplete definition. We need to handle variant parts.
-        self_comps = Var(Self.components.keep(BaseFormalParamDecl).map(
-            lambda e: e.as_entity
+    def abstract_formal_params_impl(
+        discrs=T.ParamMatch.array,
+        include_discrs=(BoolType, True),
+        recurse=(BoolType, True)
+    ):
+
+        # Get self's components. We pass along discriminants, to get variant
+        # part's components too.
+        self_comps = Var(Entity.components.keep(BaseFormalParamDecl).concat(
+            Entity.variant_part._.get_components(discrs)
         ))
 
-        ret = Var(Entity.parent_component_list.then(
-            lambda pcl: pcl.abstract_formal_params_impl(False)
-            .concat(self_comps),
-            default_val=self_comps
+        # Append parent's components.
+        # TODO: The parent could have a variant part too, using the explicit
+        # discriminants mappings. We need to handle that too.
+        ret = Var(If(
+            recurse,
+            Entity.parent_component_list.then(
+                lambda pcl: pcl.abstract_formal_params_impl(
+                    No(T.ParamMatch.array), False
+                )
+                .concat(self_comps),
+                default_val=self_comps
+            ),
+            self_comps
         ))
 
         return If(
@@ -1368,7 +1461,7 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property()
     def abstract_formal_params():
-        return Entity.abstract_formal_params_impl
+        return Entity.abstract_formal_params_impl(No(T.ParamMatch.array))
 
 
 @abstract
@@ -3771,17 +3864,7 @@ class Aggregate(BaseAggregate):
             atd.is_null,
 
             # First case, aggregate for a record
-            td.record_def.comps.match_param_list(
-                Self.assocs, False
-            ).logic_all(
-                lambda pm:
-                TypeBind(pm.actual.assoc.expr.type_var,
-                         pm.formal.spec.type_expression.designated_type)
-                & pm.actual.assoc.expr.as_entity.sub_equation
-                & If(pm.actual.name.is_null,
-                     LogicTrue(),
-                     Bind(pm.actual.name.ref_var, pm.formal.spec))
-            ),
+            Entity.record_equation(td),
 
             # Second case, aggregate for an array
             Entity.assocs.logic_all(
@@ -3789,6 +3872,61 @@ class Aggregate(BaseAggregate):
                 assoc.expr.as_entity.sub_equation
                 & TypeBind(assoc.expr.type_var, atd.comp_type)
             )
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def assoc_equation(match=T.ParamMatch):
+        """
+        Helper for record_equation. Returns the equation for one discriminant
+        assoc. Meant to be passed as additional equation to resolve_names.
+        """
+        return And(
+            TypeBind(match.actual.assoc.expr.type_var,
+                     match.formal.spec.type_expression.designated_type),
+            If(match.actual.name.is_null,
+               LogicTrue(),
+               Bind(match.actual.name.ref_var, match.formal.spec))
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def record_equation(td=BaseTypeDecl.entity):
+        """
+        Equation for the case where this is an aggregate for a record
+        type.
+        """
+        discrs = Var(td.discriminants_list)
+
+        # Get param matches for discriminants only
+        discriminants_matches = Var(Self.match_formals(
+            td.discriminants_list, Self.assocs, False
+        ).filter(
+            lambda pm: Not(discrs.find(lambda d: d == pm.formal.spec).is_null)
+        ))
+
+        # We run resolution for discriminants, because need ref and type
+        # information to statically evaluate their values.
+        ignore(Var(discriminants_matches.map(
+            lambda dm: dm.actual.assoc.expr.as_entity.resolve_names_internal(
+                True, Self.assoc_equation(dm)
+            )
+        )))
+
+        # Get param matches for all aggregates' params. Here, we use and pass
+        # down the discriminant matches, so that abstract_formal_params_impl is
+        # able to calculate the list of components belonging to variant parts,
+        # depending on the static value of discriminants.
+        all_params = Var(td.record_def.comps.abstract_formal_params_impl(
+            discrs=discriminants_matches
+        ))
+
+        # Match formals to actuals, and compute equations
+        return Self.match_formals(all_params, Self.assocs, False).logic_all(
+            lambda pm:
+            TypeBind(pm.actual.assoc.expr.type_var,
+                     pm.formal.spec.type_expression.designated_type)
+            & pm.actual.assoc.expr.as_entity.sub_equation
+            & pm.actual.name.then(lambda n: Bind(n.ref_var, pm.formal.spec),
+                                  LogicTrue())
         )
 
 

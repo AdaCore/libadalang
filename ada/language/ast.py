@@ -1261,6 +1261,25 @@ class VariantPart(AdaNode):
     discr_name = Field(type=T.Identifier)
     variant = Field(type=T.Variant.list)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        ignore(Var(
+            Entity.discr_name.resolve_names_internal(True, LogicTrue()))
+        )
+
+        return Entity.variant.logic_all(lambda var: (
+            var.choice_list.logic_all(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr:
+                TypeBind(e.type_var, Self.discr_name.type_val)
+                & e.sub_equation,
+
+                # TODO: Bind other cases: SubtypeIndication and Range
+                lambda _: LogicTrue()
+            ))
+        ))
 
 class ComponentDecl(BaseFormalParamDecl):
     ids = Field(type=T.Identifier.list)

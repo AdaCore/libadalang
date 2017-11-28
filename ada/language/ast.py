@@ -697,6 +697,8 @@ def child_unit(name_expr, scope_expr, dest_env=None, more_rules=[]):
 @abstract
 class BasicDecl(AdaNode):
 
+    annotations = Annotations(custom_short_image=True)
+
     defining_names = AbstractProperty(
         type=T.Name.entity.array, public=True,
         doc="""
@@ -4670,6 +4672,8 @@ class SingleTokNode(Name):
 
 @abstract
 class BaseId(SingleTokNode):
+
+    annotations = Annotations(custom_short_image=True)
 
     @langkit_property(memoized=True)
     def scope():

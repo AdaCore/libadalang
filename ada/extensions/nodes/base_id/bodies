@@ -1,11 +1,15 @@
 --  vim: ft=ada
 
-overriding function Short_Image
-  (Node : access Bare_Base_Id_Type) return Text_Type
+------------------------------
+-- Bare_Base_Id_Short_Image --
+------------------------------
+
+function Bare_Base_Id_Short_Image
+  (Node : access Bare_Base_Id_Type'Class) return Text_Type
 is
    Self : access ${root_node_value_type}'Class := Node;
 begin
    return "<" & To_Text (Kind_Name (Self))
           & " """ & Text (F_Tok (Node)) & """ "
           & To_Text (Image (Sloc_Range (Node))) & ">";
-end Short_Image;
+end Bare_Base_Id_Short_Image;

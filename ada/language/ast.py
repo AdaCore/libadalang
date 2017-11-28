@@ -2874,18 +2874,12 @@ class BasicSubpDecl(BasicDecl):
 
         add_to_env(
             T.env_assoc.new(key=Entity.relative_name, val=Self),
-            dest_env=origin.bind(
-                Self,
-                Self.as_bare_entity.subp_decl_spec
-                .primitive_subp_of.cast(T.TypeDecl)._.primitives
-            ),
+            dest_env=(Self.as_bare_entity.subp_decl_spec
+                      .primitive_subp_of.cast(T.TypeDecl)._.primitives),
             metadata=Metadata.new(
                 dottable_subp=False,
-                primitive=origin.bind(
-                    Self,
-                    Self.as_bare_entity.subp_decl_spec
-                    .primitive_subp_of.cast(T.AdaNode).el
-                ),
+                primitive=(Self.as_bare_entity.subp_decl_spec
+                           .primitive_subp_of.cast(T.AdaNode).el),
                 primitive_real_type=No(T.AdaNode)
             )
         )
@@ -5090,7 +5084,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.params._.at(0)._.type_expr._.element_type
 
-    @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
+    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
     def primitive_subp_of():
         """
         Return the type of which this subprogram is a primitive of.
@@ -5099,7 +5093,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         params = Var(Entity.unpacked_formal_params)
         types = Var(
             params.map(lambda p: p.spec.el_type)
-            .concat(Entity.returns._.designated_type.then(
+            .concat(origin.bind(Self, Entity.returns._.designated_type).then(
                 lambda dt: dt.singleton)
             )
         )

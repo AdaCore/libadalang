@@ -228,6 +228,8 @@ class FileResult(object):
                 file_name, _, _, content = res.split("\n", 3)
                 content = content.strip()
                 file_result = FileResult(file_name, dir)
+                file_result.extra_args = extra_args
+                file_result.project = project
                 content = list(pairwise(partition_by(
                     lambda l: 'Resolving xrefs' in l, content.splitlines())
                 ))
@@ -251,7 +253,9 @@ class FileResult(object):
     def rerun_nameres(self, debug=False, extra_args=[]):
         extra_args = list(extra_args)
         res = self.nameres_files(self.dir, [self.file_name],
-                                 debug=debug, extra_args=extra_args)
+                                 debug=debug,
+                                 extra_args=extra_args + self.extra_args,
+                                 project=self.project)
         if res:
             return res[0]
 

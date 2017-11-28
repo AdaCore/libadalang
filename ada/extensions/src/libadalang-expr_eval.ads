@@ -34,6 +34,5 @@ package Libadalang.Expr_Eval is
 
    function Expr_Eval (E : LAL.Expr) return Eval_Result;
    --  Evaluate the expression passed as parameter
-  
 
 end Libadalang.Expr_Eval;

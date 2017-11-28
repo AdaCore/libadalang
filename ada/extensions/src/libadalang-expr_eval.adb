@@ -44,7 +44,9 @@ package body Libadalang.Expr_Eval is
       case Kind (E) is
          when LAL.Ada_Base_Id =>
 
-            return Eval_Decl (P_Referenced_Decl (As_Base_Id (E)));
+            return Eval_Decl
+              (P_Referenced_Decl_Internal
+                 (As_Base_Id (E), Try_Immediate => True));
 
          when LAL.Ada_Int_Literal =>
             return (Int,

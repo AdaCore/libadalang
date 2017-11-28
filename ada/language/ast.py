@@ -3381,6 +3381,15 @@ class Expr(AdaNode):
         Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
     )
 
+    @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
+                      return_type=LongType)
+    def eval_as_int():
+        """
+        Statically evaluates self, and returns the value of the evaluation as
+        an integer.
+        """
+        pass
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LexicalEnvType, dynamic_vars=[env, origin])
     def designated_env():

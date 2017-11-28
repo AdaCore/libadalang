@@ -152,19 +152,33 @@ class AdaNode(ASTNode):
         """
     )
 
-    referenced_decl = Property(
-        No(T.BasicDecl.entity),
-        public=True,
-        doc="""
-        Return the declaration this node references after name resolution.
+    @langkit_property(public=True)
+    def referenced_decl():
         """
-    )
+        Return the declaration this node references after name resolution.
+
+        try_immediate is an internal parameter, not meant for public use.
+        """
+        return Entity.referenced_decl_internal(False)
+
+    @langkit_property(public=True)
+    def referenced_decl_internal(try_immediate=BoolType):
+        """
+        Return the declaration this node references. Try not to run name res if
+        already resolved. INTERNAL USE ONLY.
+        """
+        # TODO: remove from public API
+        ignore(try_immediate)
+        return No(T.BasicDecl.entity)
 
     @langkit_property()
-    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType):
-        success = Var(
+    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType,
+                  try_immediate=(BoolType, False)):
+        success = Var(If(
+            try_immediate & Not(lvar.get_value.is_null),
+            True,
             from_node.parents.find(lambda p: p.xref_entry_point).resolve_names
-        )
+        ))
 
         return If(success, lvar.get_value, No(T.AdaNode.entity))
 
@@ -3605,9 +3619,9 @@ class BinOp(Expr):
     right = Field(type=T.Expr)
 
     @langkit_property()
-    def referenced_decl():
+    def referenced_decl_internal(try_immediate=BoolType):
         return Self.logic_val(
-            Entity, Self.op.ref_var
+            Entity, Self.op.ref_var, try_immediate
         ).cast_or_raise(T.BasicDecl)
 
     @langkit_property()
@@ -3875,8 +3889,11 @@ class Name(Expr):
         pass
 
     @langkit_property()
-    def referenced_decl():
-        return Self.logic_val(Entity, Self.ref_var).cast_or_raise(T.BasicDecl)
+    def referenced_decl_internal(try_immediate=BoolType):
+        return Self.logic_val(
+            Entity, Self.ref_var,
+            try_immediate
+        ).cast_or_raise(T.BasicDecl)
 
     designated_type_impl = Property(
         No(BaseTypeDecl.entity),

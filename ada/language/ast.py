@@ -1171,6 +1171,14 @@ class UnknownDiscriminantPart(DiscriminantPart):
 
 @abstract
 class TypeDef(AdaNode):
+
+    @langkit_property(return_type=T.DiscreteRange)
+    def discrete_range():
+        """
+        Return the discrete range for this type def, if applicable.
+        """
+        return No(DiscreteRange)
+
     array_ndims = Property(
         Literal(0),
         doc="""
@@ -1424,6 +1432,15 @@ class RealTypeDef(TypeDef):
     xref_equation = Property(LogicTrue())
 
 
+class DiscreteRange(Struct):
+    """
+    Represents the range of a discrete type or subtype. The bounds are already
+    evaluated, so the type of the fields is LongType.
+    """
+    low_bound = UserField(type=LongType)
+    high_bound = UserField(type=LongType)
+
+
 @abstract
 class BaseTypeDecl(BasicDecl):
     type_id = Field(type=T.Identifier)
@@ -1458,6 +1475,13 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin], return_type=LongType)
     def array_ndims():
         return Literal(0)
+
+    @langkit_property(return_type=DiscreteRange)
+    def discrete_range():
+        """
+        Return the discrete range for this type decl, if applicable.
+        """
+        return No(DiscreteRange)
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
@@ -1786,6 +1810,10 @@ class TypeDecl(BaseTypeDecl):
     node_aspects = Property(Entity.aspects)
 
     @langkit_property()
+    def discrete_range():
+        return Entity.type_def.discrete_range
+
+    @langkit_property()
     def discriminants_list():
         base_type = Var(Entity.base_type)
         self_discs = Var(Entity.discriminants.then(
@@ -2082,6 +2110,10 @@ class DerivedTypeDef(TypeDef):
             & Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
         ))
 
+    @langkit_property()
+    def discrete_range():
+        return Entity.subtype_indication.discrete_range
+
 
 class PrivateTypeDef(TypeDef):
     has_abstract = Field(type=Abstract)
@@ -2106,12 +2138,20 @@ class SignedIntTypeDef(TypeDef):
         & Entity.range.xref_equation
     )
 
+    @langkit_property()
+    def discrete_range():
+        return Entity.range.range.discrete_range
+
 
 class ModIntTypeDef(TypeDef):
     expr = Field(type=T.Expr)
     is_int_type = Property(True)
 
     xref_equation = Property(Entity.expr.sub_equation)
+
+    @langkit_property()
+    def discrete_range():
+        return DiscreteRange.new(low_bound=0, high_bound=Self.expr.eval_as_int)
 
 
 @abstract
@@ -2286,6 +2326,10 @@ class SubtypeDecl(BaseTypeDecl):
     record_def = Property(Entity.from_type.record_def)
     is_classwide = Property(Entity.from_type.is_classwide)
     discriminants_list = Property(Entity.from_type.discriminants_list)
+
+    @langkit_property()
+    def discrete_range():
+        return Entity.subtype.discrete_range
 
 
 class TaskDef(AdaNode):
@@ -2559,6 +2603,11 @@ class SubtypeIndication(TypeExpr):
                 lambda c: c.sub_equation, default_val=LogicTrue()
             )
         )
+
+    @langkit_property()
+    def discrete_range():
+        rc = Var(Entity.constraint.cast_or_raise(RangeConstraint))
+        return rc.range.range.discrete_range
 
 
 class ConstrainedSubtypeIndication(SubtypeIndication):
@@ -3389,6 +3438,25 @@ class Expr(AdaNode):
         an integer.
         """
         pass
+
+    @langkit_property(return_type=DiscreteRange)
+    def discrete_range():
+        """
+        Return the discrete range for this expression, if applicable.
+        """
+        return Entity.match(
+            # TODO: This won't handle array objects
+            lambda ar=T.AttributeRef: ar.prefix.discrete_range,
+
+            lambda n=T.Name: n.name_designated_type.then(
+                lambda dt: dt.discrete_range
+            ),
+
+            lambda bo=T.BinOp: DiscreteRange.new(
+                low_bound=bo.left.eval_as_int, high_bound=bo.right.eval_as_int
+            ),
+            lambda _: No(DiscreteRange)
+        )
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LexicalEnvType, dynamic_vars=[env, origin])

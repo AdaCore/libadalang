@@ -1732,8 +1732,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     is_iterable_type = Property(
-        # TODO: Only works with array types at the moment, need to implement
-        # on:
+        # TODO: Need to implement on:
         #
         #   * Spark iterable types (Iterable aspect).
         #   * Ada 2012 iterable types.

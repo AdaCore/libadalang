@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [test2.ads]
+input_sources: [a.ads, d.ads]

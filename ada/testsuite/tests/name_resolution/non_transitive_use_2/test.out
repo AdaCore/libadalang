@@ -1,5 +1,5 @@
-Analyzing test.ads
-##################
+Analyzing boo.ads
+#################
 
 In Boo
 ------
@@ -8,9 +8,11 @@ In Boo
 A resolves to:
     A : Integer;
 
+Analyzing far.ads
+#################
+
 In Far
 ------
-
 
 Boo.A resolves to:
     <none>

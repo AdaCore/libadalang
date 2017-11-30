@@ -4706,9 +4706,46 @@ class BaseId(SingleTokNode):
 
         return origin.bind(Self, Let(lambda el=ents.at(0): If(
             el._.is_package,
-            el.cast(BasicDecl).defining_env,
+            Entity.pkg_env(el.cast(BasicDecl)),
             ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group()
         )))
+
+    @langkit_property(dynamic_vars=[env], return_type=BoolType)
+    def is_children_env(parent=LexicalEnvType, current_env=LexicalEnvType):
+        return Cond(
+            current_env == parent, True,
+            current_env.is_null, False,
+            Self.is_children_env(parent, current_env.env_parent)
+        )
+
+    @langkit_property(dynamic_vars=[env, origin])
+    def pkg_env(bd=T.BasicDecl.entity):
+        """
+        Return the lexical environment for this identifier, should it be a
+        package. This method handles resolving to the most visible part of a
+        package - private or body - if necessary.
+        """
+        env = Var(bd.defining_env)
+
+        tl_item = Var(Self.top_level_item(Self.unit).as_entity)
+        tl_item_env = Var(tl_item.children_env)
+
+        return Cond(
+
+            tl_item.cast(PackageBody).then(lambda ob: bd == ob.previous_part),
+            tl_item_env,
+
+            # TODO: Probably some special handling for separates here, because
+            # they'll have full visibility on the package body in which they're
+            # defined.
+
+            Self.is_children_env(env, tl_item_env),
+            env.get('__privatepart', recursive=False).at(0).then(
+                lambda pp: pp.children_env, default_val=env
+            ),
+
+            env
+        )
 
     parent_scope = Property(env)
     relative_name = Property(Self.tok.symbol)

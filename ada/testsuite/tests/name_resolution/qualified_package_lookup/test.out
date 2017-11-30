@@ -1,8 +1,11 @@
-Analyzing test2.ads
-###################
+Analyzing a.ads
+###############
 
 Foo resolves to:
     Foo : Integer;
+
+Analyzing d.ads
+###############
 
 A.Foo resolves to:
     Foo : Integer;

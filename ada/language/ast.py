@@ -2454,6 +2454,7 @@ class SubtypeDecl(BaseTypeDecl):
     record_def = Property(Entity.from_type.record_def)
     is_classwide = Property(Entity.from_type.is_classwide)
     discriminants_list = Property(Entity.from_type.discriminants_list)
+    is_iterable_type = Property(Entity.from_type.is_iterable_type)
 
     @langkit_property()
     def discrete_range():

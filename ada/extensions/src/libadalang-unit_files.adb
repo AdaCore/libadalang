@@ -154,7 +154,7 @@ package body Libadalang.Unit_Files is
    ---------------------
 
    function Name_To_Symbols (Name : Bare_Ada_Node) return Symbol_Type_Array is
-     (case Kind (Name) is
+     (case Name.Kind is
 
       when Ada_Base_Id =>
         (1 => Get_Symbol (F_Tok (Bare_Identifier (Name)))),

@@ -654,7 +654,8 @@ class AdaNode(ASTNode):
         ))
 
 
-def child_unit(name_expr, scope_expr, dest_env=None, more_rules=[]):
+def child_unit(name_expr, scope_expr, dest_env=None,
+               transitive_parent=False, more_rules=[]):
     """
     This macro will add the properties and the env specification necessary
     to make a node implement the specification of a library child unit in
@@ -686,7 +687,7 @@ def child_unit(name_expr, scope_expr, dest_env=None, more_rules=[]):
             ))
         ),
         add_to_env_expr,
-        add_env(),
+        add_env(transitive_parent=transitive_parent),
         ref_used_packages(),
         ref_generic_formals(),
         ref_std(),
@@ -3082,7 +3083,7 @@ class DeclarativePart(AdaNode):
 class PrivatePart(DeclarativePart):
     env_spec = EnvSpec(
         add_to_env_kv('__privatepart', Self),
-        add_env()
+        add_env(transitive_parent=True)
     )
 
 
@@ -5729,7 +5730,7 @@ class SubpBody(Body):
                       dest_env=env.bind(Self.initial_env,
                                         Entity.body_scope(False))),
 
-        add_env(),
+        add_env(transitive_parent=True),
         ref_used_packages(),
         ref_used_packages_in_spec(),
         ref_generic_formals(),
@@ -6142,6 +6143,8 @@ class PackageBody(Body):
 
             ._or(Entity.body_scope(False))
         ),
+
+        transitive_parent=True,
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,

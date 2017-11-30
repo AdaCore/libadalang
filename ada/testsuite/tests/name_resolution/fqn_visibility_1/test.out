@@ -1,0 +1,48 @@
+Analyzing b.adb
+###############
+
+Resolving xrefs for node <ObjectDecl ["I"] 4:4-4:61>
+****************************************************
+
+Expr: <Id "I" 4:4-4:5>
+  references: None
+  type:       None
+Expr: <Id "Integer" 4:8-4:15>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <BinOp 4:19-4:60>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 4:19-4:47>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 4:19-4:31>
+  references: <ObjectDecl ["Public_Int"] 3:4-3:30>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "B" 4:19-4:20>
+  references: <PackageDecl ["B"] 1:1-6:7>
+  type:       None
+Expr: <Id "Public_Int" 4:21-4:31>
+  references: <ObjectDecl ["Public_Int"] 3:4-3:30>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 4:34-4:47>
+  references: <ObjectDecl ["Private_Int"] 5:4-5:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "B" 4:34-4:35>
+  references: <PackageDecl ["B"] 1:1-6:7>
+  type:       None
+Expr: <Id "Private_Int" 4:36-4:47>
+  references: <ObjectDecl ["Private_Int"] 5:4-5:32>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 4:50-4:60>
+  references: <ObjectDecl ["Body_Int"] 2:4-2:29>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "B" 4:50-4:51>
+  references: <PackageDecl ["B"] 1:1-6:7>
+  type:       None
+Expr: <Id "Body_Int" 4:52-4:60>
+  references: <ObjectDecl ["Body_Int"] 2:4-2:29>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

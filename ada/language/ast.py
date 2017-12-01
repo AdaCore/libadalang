@@ -4783,14 +4783,39 @@ class BaseId(SingleTokNode):
     @langkit_property(memoized=True)
     def designated_type_impl():
 
+        def get_real_type(basic_decl):
+            return basic_decl.match(
+                lambda t=T.BaseTypeDecl.entity: t,
+                lambda tb=T.TaskBody.entity: tb.task_type,
+                lambda _: No(BaseTypeDecl.entity)
+            )
+
         # This is the view of the type where it is referenced
-        des_type = Var(env.get_first_sequential(
+        des_type_1 = Var(env.get_first_sequential(
+            Self.tok, sequential_from=Self
+        ).then(lambda env_el: get_real_type(env_el)))
+
+        # This is the view of the type where it is used
+        des_type_2 = Var(env.get_first_sequential(
             Self.tok, sequential_from=origin
-        ).then(lambda env_el: env_el.match(
-            lambda t=T.BaseTypeDecl.entity: t,
-            lambda tb=T.TaskBody.entity: tb.task_type,
-            lambda _: No(BaseTypeDecl.entity)
-        )))
+        ).then(lambda env_el: get_real_type(env_el)))
+
+        des_type = Var(Cond(
+            # In some cases des_type_1 can be null TODO: investigate
+            des_type_1.is_null, des_type_2,
+
+            # If same type, then it doesn't matter (return early from the view
+            # checking below).
+            des_type_1 == des_type_2, des_type_1,
+
+            # If des_type_1 is a less complete version of des_type_2, then pick
+            # des_type_2.
+            des_type_1.then(lambda d: d.is_view_of_type(des_type_2)),
+            des_type_2,
+
+            # In any other case use des_type_1
+            des_type_1
+        ))
 
         # We might have a more complete view of the type at the origin point
         completer_view = Var(origin.then(
@@ -4803,7 +4828,7 @@ class BaseId(SingleTokNode):
         # up, then return completer_view. Else return des_type.
         return If(
             Not(completer_view.is_null)
-            & Self.is_view_of_type(des_type, completer_view),
+            & des_type.then(lambda d: d.is_view_of_type(completer_view)),
             completer_view,
             des_type
         )

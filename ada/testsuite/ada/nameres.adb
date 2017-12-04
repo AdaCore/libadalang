@@ -6,6 +6,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
+with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
@@ -442,6 +443,9 @@ procedure Nameres is
    Discard_Errors       : Boolean := False;
 
 begin
+
+   GNATCOLL.Traces.Parse_Config_File;
+
    for I in 1 .. Ada.Command_Line.Argument_Count loop
       declare
          Arg : constant String := Ada.Command_Line.Argument (I);

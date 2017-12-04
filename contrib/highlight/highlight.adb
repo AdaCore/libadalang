@@ -111,8 +111,10 @@ procedure Highlight is
    procedure Output_Highlighted (Unit : LAL.Analysis_Unit) is
       use Ada.Text_IO;
 
+      function URL (Unit : LAL.Analysis_Unit) return String is ("");
+
       procedure Put_CSS_Rules is new HTML.Put_CSS_Rules (Put);
-      procedure Put_Tokens_HTML is new HTML.Put_Tokens (Put);
+      procedure Put_Tokens_HTML is new HTML.Put_Tokens (Put, URL);
       procedure Put_Tokens_Term256 is new Term256.Put_Tokens (Put);
 
       Highlights : Highlighter.Highlights_Holder

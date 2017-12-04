@@ -25,12 +25,21 @@ package HTML is
 
    generic
       with procedure Put (HTML : String);
+      with function URL (Unit : LAL.Analysis_Unit) return String;
    procedure Put_Tokens
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlighter.Highlights_Holder;
-      Charset    : String)
+      Charset    : String;
+      With_Xrefs : Boolean := False)
      with Pre => Highlighter.Highlights_Match_Unit (Unit, Highlights);
    --  Using Put, write HTML content to syntax highlight source code from Unit
    --  according to the input highlighting data.
+   --
+   --  If With_Xrefs is true, use Libadalang's name resolution to create
+   --  hyperlinks from identifiers to their definitions. In this case (and in
+   --  this case only), URL is used to retrieve the URL to use to point to the
+   --  source the unit that contains the definition. If URL returns an empty
+   --  string, the definition is considered to be out of the scope of the set
+   --  of generated HTML pages.
 
 end HTML;

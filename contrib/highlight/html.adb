@@ -1,6 +1,7 @@
 with Ada.Strings.Unbounded;
 
 with GNATCOLL.Strings;
+with Langkit_Support.Slocs;
 with Langkit_Support.Text;
 
 --  with GNATCOLL.Iconv;
@@ -78,11 +79,11 @@ package body HTML is
    procedure Put_Tokens
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlighter.Highlights_Holder;
-      Charset    : String)
+      Charset    : String;
+      With_Xrefs : Boolean := False)
    is
-      --  TODO: use Charset to properly encode token text (see Escape below)
-
       pragma Unreferenced (Charset);
+      --  TODO: use Charset to properly encode token text (see Escape below)
 
       function Line_Anchor (Line : Natural) return String;
       --  Name of the anchor for the given line
@@ -97,6 +98,15 @@ package body HTML is
       procedure New_Line;
       procedure Indent (Length : Natural);
       --  Generic parameters for Put_Tokens below
+
+      Xrefs : array (1 .. LAL.Token_Count (Unit)) of LAL.Basic_Decl;
+      --  For each token, No_Basic_Decl for no cross-reference, or the
+      --  declaration to which the token should link.
+
+      function Traverse (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
+      --  Callback for AST traversal. Return "Into" in all cases. When visiting
+      --  a string literal or an identifier, perform name resolution on it and
+      --  record the resulting declaration in the Xrefs array.
 
       Current_Line : Positive := 1;
       --  Line number for the tokens to be emitted
@@ -120,12 +130,47 @@ package body HTML is
          Data  : LAL.Token_Data_Type;
          HL    : Highlighter.Highlight_Type)
       is
-         pragma Unreferenced (Data);
          Text : constant Langkit_Support.Text.Text_Type := LAL.Text (Token);
+
+         Decl : constant LAL.Basic_Decl :=
+           (if LAL.Is_Trivia (Data)
+            then LAL.No_Basic_Decl
+            else Xrefs (Natural (LAL.Index (Token))));
+         --  The declaration that xrefs associated to this token, if any
       begin
+
+         --  Emit decoration for xref information, if any
+         if not Decl.Is_Null then
+            declare
+               Unit     : constant LAL.Analysis_Unit := Decl.Get_Unit;
+               Href     : constant String := URL (Unit);
+               Line_Raw : constant String :=
+                 Langkit_Support.Slocs.Line_Number'Image
+                   (Decl.Sloc_Range.Start_Line);
+               Line     : constant String :=
+                 GNATCOLL.Strings.To_XString (Line_Raw).Trim.To_String;
+            begin
+               --  If the declaration for this token is in the scope of the set
+               --  of HTML documents we generate, create a hyperlink. In all
+               --  cases, create a label for the token.
+               Put ("<a");
+               if Href /= "" then
+                  Put (" href=""" & Escape (Href) & "#L" & Line & """");
+               end if;
+               Put (" title=""" & Escape (LAL.Get_Filename (Unit))
+                    & ", line " & Line & """");
+               Put (">");
+            end;
+         end if;
+
+         --  Emit the highlighted token/trivia itself
          Put ("<span class=""" & Highlighter.Highlight_Name (HL) & """>");
          Put (Escape (Text));
          Put ("</span>");
+
+         if not Decl.Is_Null then
+            Put ("</a>");
+         end if;
       end Put_Token;
 
       --------------
@@ -149,8 +194,44 @@ package body HTML is
          Put ((1 .. Length => ' '));
       end Indent;
 
+      --------------
+      -- Traverse --
+      --------------
+
+      function Traverse (Node : LAL.Ada_Node'Class) return LAL.Visit_Status is
+      begin
+         --  We only annnotate leaf nodes for xrefs
+         if Node.Kind not in LAL.Ada_String_Literal | LAL.Ada_Identifier then
+            return LAL.Into;
+         end if;
+
+         --  Try to perform name resolution on this single-token node. Discard
+         --  errors.
+         declare
+            Token : constant LAL.Token_Type := Node.As_Single_Tok_Node.F_Tok;
+            Index : constant Natural := Natural (LAL.Index (Token));
+            Decl  : LAL.Basic_Decl renames Xrefs (Index);
+         begin
+            Decl := Node.P_Referenced_Decl;
+         exception
+            when LAL.Property_Error =>
+               Decl := LAL.No_Basic_Decl;
+         end;
+         return LAL.Into;
+      end Traverse;
+
       procedure Put_Tokens is new Highlighter.Put_Tokens;
    begin
+
+      --  Create the Xrefs array if asked to
+      if With_Xrefs then
+         for Xref of Xrefs loop
+            Xref := LAL.No_Basic_Decl;
+         end loop;
+         LAL.Root (Unit).Traverse (Traverse'Access);
+      end if;
+
+      --  Then emit HTML tags for the highlighted source code
       Put ("<pre class=""code_highlight"">");
       Put ("<span class=""inline"" id=""" & Line_Anchor (1) & """>");
       Put_Tokens (Unit, Highlights);

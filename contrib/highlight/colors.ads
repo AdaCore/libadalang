@@ -17,8 +17,9 @@ package Colors is
    type Token_Styles is array (Highlighter.Highlight_Type) of Token_Style;
 
    type Style_Type is record
-      Background_Color : Color_Type;
-      Tok_Styles       : Token_Styles;
+      Background_Color  : Color_Type;
+      Selected_Bg_Color : Color_Type;
+      Tok_Styles        : Token_Styles;
    end record;
    --  Set of graphical attributes for syntax highlighting
 
@@ -26,6 +27,7 @@ package Colors is
       use Highlighter;
 
       Bg_Color              : constant Color_Type := (8, 8, 8);
+      Selected_Bg_Color     : constant Color_Type := (36, 36, 36);
       Text_Color            : constant Color_Type := (248, 248, 242);
       Comment_Color         : constant Color_Type := (117, 113, 105);
       Keyword_Color         : constant Color_Type := (255, 95, 135);
@@ -39,8 +41,9 @@ package Colors is
       Attribute_Ref_Color   : constant Color_Type := (232, 70, 109);
 
       Style : constant Style_Type :=
-        (Background_Color => Bg_Color,
-         Tok_Styles       =>
+        (Background_Color  => Bg_Color,
+         Selected_Bg_Color => Selected_Bg_Color,
+         Tok_Styles        =>
            (Text                   => (Text_Color, False),
             Comment                => (Comment_Color, False),
             Keyword                => (Keyword_Color, True),

@@ -6,7 +6,7 @@ project Highlight is
    for Languages use ("Ada");
    for Source_Dirs use (".");
    for Object_Dir use "obj";
-   for Main use ("highlight.adb");
+   for Main use ("highlight.adb", "ada2web.adb");
 
    package Compiler is
       for Default_Switches ("Ada") use ("-g", "-O0", "-gnatwae", "-gnatyg");

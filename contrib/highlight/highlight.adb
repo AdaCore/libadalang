@@ -137,6 +137,7 @@ procedure Highlight is
             Put_Line ("body { background-color: #"
                       & HTML.Color_To_HTML (Colors.Default_Style.Bg_Color)
                       & "; }");
+            Put_Line ("span.line { display: block; }");
             Put_CSS_Rules (Colors.Default_Style.Style);
             Put_Line ("</style></head><body>");
 

@@ -1,5 +1,6 @@
 with Ada.Strings.Unbounded;
 
+with GNATCOLL.Strings;
 with Langkit_Support.Text;
 
 --  with GNATCOLL.Iconv;
@@ -83,6 +84,9 @@ package body HTML is
 
       pragma Unreferenced (Charset);
 
+      function Line_Anchor (Line : Natural) return String;
+      --  Name of the anchor for the given line
+
       function Escape (T : Langkit_Support.Text.Text_Type) return String
       is (Escape (Langkit_Support.Text.Image (T)));
 
@@ -93,6 +97,19 @@ package body HTML is
       procedure New_Line;
       procedure Indent (Length : Natural);
       --  Generic parameters for Put_Tokens below
+
+      Current_Line : Positive := 1;
+      --  Line number for the tokens to be emitted
+
+      -----------------
+      -- Line_Anchor --
+      -----------------
+
+      function Line_Anchor (Line : Natural) return String is
+      begin
+         return 'L' & GNATCOLL.Strings.To_XString
+           (Natural'Image (Line)).Trim.To_String;
+      end Line_Anchor;
 
       ---------------
       -- Put_Token --
@@ -117,7 +134,10 @@ package body HTML is
 
       procedure New_Line is
       begin
-         Put ((1 => ASCII.LF));
+         Current_Line := Current_Line + 1;
+         Put ("</span>");
+         Put ("<span class=""line"" id="""
+              & Line_Anchor (Current_Line) & """>");
       end New_Line;
 
       ------------
@@ -132,7 +152,9 @@ package body HTML is
       procedure Put_Tokens is new Highlighter.Put_Tokens;
    begin
       Put ("<pre class=""code_highlight"">");
+      Put ("<span class=""inline"" id=""" & Line_Anchor (1) & """>");
       Put_Tokens (Unit, Highlights);
+      Put ("</span>");
       Put ("</pre>");
    end Put_Tokens;
 

@@ -1,5 +1,3 @@
-with Langkit_Support.Text;
-
 with Libadalang.Analysis;
 with Libadalang.Lexer;
 
@@ -7,7 +5,6 @@ package Highlighter is
 
    package LAL renames Libadalang.Analysis;
    subtype Token_Index is Libadalang.Lexer.Token_Data_Handlers.Token_Index;
-   use type Token_Index;
 
    type Highlight_Type is
      (Text,
@@ -72,7 +69,9 @@ package Highlighter is
 
    generic
       with procedure Put_Token
-        (Text : Langkit_Support.Text.Text_Type; HL : Highlight_Type) is <>;
+        (Token : LAL.Token_Type;
+         Data  : LAL.Token_Data_Type;
+         HL    : Highlight_Type) is <>;
       with procedure New_Line is <>;
       with procedure Indent (Length : Natural) is <>;
    procedure Put_Tokens

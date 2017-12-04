@@ -452,8 +452,6 @@ package body Highlighter is
             HL         : constant Highlight_Type := Get (Highlights, TD);
             Sloc_Range : constant Slocs.Source_Location_Range :=
               LAL.Sloc_Range (TD);
-            Text       : constant Langkit_Support.Text.Text_Type :=
-              LAL.Text (Token);
          begin
             while Last_Sloc.Line < Sloc_Range.Start_Line loop
                New_Line;
@@ -464,7 +462,7 @@ package body Highlighter is
                Indent (Integer (Sloc_Range.Start_Column - Last_Sloc.Column));
             end if;
 
-            Put_Token (Text, HL);
+            Put_Token (Token, TD, HL);
             Last_Sloc := Slocs.End_Sloc (Sloc_Range);
          end;
          Token := LAL.Next (Token);

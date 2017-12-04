@@ -43,16 +43,20 @@ package body Term256 is
       is (Langkit_Support.Text.Image (T));
 
       procedure Put_Token
-        (Text : Langkit_Support.Text.Text_Type;
+        (Token : LAL.Token_Type;
+         Data  : LAL.Token_Data_Type;
          HL   : Highlighter.Highlight_Type);
       procedure New_Line;
       procedure Indent (Length : Natural);
       --  Generic parameters for Put_Tokens below
 
       procedure Put_Token
-        (Text : Langkit_Support.Text.Text_Type;
-         HL   : Highlighter.Highlight_Type)
+        (Token : LAL.Token_Type;
+         Data  : LAL.Token_Data_Type;
+         HL    : Highlighter.Highlight_Type)
       is
+         pragma Unreferenced (Data);
+         Text : constant Langkit_Support.Text.Text_Type := LAL.Text (Token);
       begin
          Put
            (Style_To_ANSI (S.Tok_Styles (HL)) & Escape (Text) & ANSI_Reset);

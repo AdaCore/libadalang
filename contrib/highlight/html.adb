@@ -94,6 +94,10 @@ package body HTML is
       procedure Indent (Length : Natural);
       --  Generic parameters for Put_Tokens below
 
+      ---------------
+      -- Put_Token --
+      ---------------
+
       procedure Put_Token
         (Token : LAL.Token_Type;
          Data  : LAL.Token_Data_Type;
@@ -107,10 +111,18 @@ package body HTML is
          Put ("</span>");
       end Put_Token;
 
+      --------------
+      -- New_Line --
+      --------------
+
       procedure New_Line is
       begin
          Put ((1 => ASCII.LF));
       end New_Line;
+
+      ------------
+      -- Indent --
+      ------------
 
       procedure Indent (Length : Natural) is
       begin

@@ -1,7 +1,7 @@
 with Ada.Command_Line;
+with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Ordered_Sets;
 with Ada.Containers.Vectors;
-with Ada.Containers.Generic_Array_Sort;
 with Ada.Directories;
 with Ada.Text_IO;
 

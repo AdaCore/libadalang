@@ -551,8 +551,8 @@ A.add_rules(
     ),
 
     aspect_clause=Or(
-        AttributeDefClause("for", A.name, "use", A.expr, sc()),
         EnumRepClause("for", A.static_name, "use", A.aggregate, sc()),
+        AttributeDefClause("for", A.name, "use", A.expr, sc()),
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, sc()),

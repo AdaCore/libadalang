@@ -1,8 +1,8 @@
-AttributeDefClause[1:1-1:37]
-|attribute_expr:
+EnumRepClause[1:1-1:37]
+|type_name:
 |  Id[1:5-1:6]
 |  |tok: r
-|expr:
+|aggregate:
 |  Aggregate[1:11-1:36]
 |  |ancestor_expr: <null>
 |  |assocs:

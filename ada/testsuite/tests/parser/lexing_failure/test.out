@@ -1,0 +1,41 @@
+Parsing failed:
+1:11: Invalid token, ignored
+1:17: Invalid token, ignored
+3:9: Invalid token, ignored
+CompilationUnit[1:1-4:9]
+|prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|body:
+|  LibraryItem[1:1-4:9]
+|  |has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |item:
+|  |  SubpBody[1:1-4:9]
+|  |  |overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |subp_spec:
+|  |  |  SubpSpec[1:1-1:16]
+|  |  |  |subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
+|  |  |  |subp_name:
+|  |  |  |  Id[1:13-1:16]
+|  |  |  |  |tok: Foo
+|  |  |  |subp_params: <null>
+|  |  |  |subp_returns: <null>
+|  |  |aspects: <null>
+|  |  |decls:
+|  |  |  DeclarativePart[2:1-2:1]
+|  |  |  |decls:
+|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |stmts:
+|  |  |  HandledStmts[3:4-3:12]
+|  |  |  |stmts:
+|  |  |  |  StmtList[3:4-3:12]
+|  |  |  |  |  NullStmt[3:4-3:12]
+|  |  |  |exceptions:
+|  |  |  |  AdaNodeList[3:11-3:11]: <empty list>
+|  |  |end_id:
+|  |  |  Id[4:5-4:8]
+|  |  |  |tok: Foo
+|pragmas:
+|  PragmaNodeList[5:1-5:1]: <empty list>

@@ -82,7 +82,7 @@ class CAPIDriver(BaseDriver):
         # shared libraries, make it explicit: some dependencies (such as
         # GNATcoll) use shared ones by default while others such as gnat_util
         # use static ones.
-        argv = ['gprbuild', '-Pp', '-m'] + self.gpr_scenario_vars
+        argv = ['gprbuild', '-Pp'] + self.gpr_scenario_vars
         self.run_and_check(argv, append_output=False)
         self.run_and_check([self.test_program], for_debug=True, memcheck=True)
 

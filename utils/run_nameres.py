@@ -10,7 +10,7 @@ from __future__ import print_function, absolute_import, division
 import argparse
 from collections import defaultdict
 import cPickle
-from funcy import split_by, partition_by, cat, memoize, pairwise, chunks
+from funcy import split_by, partition_by, cat, memoize, chunks
 from glob import glob
 import os
 import Queue
@@ -184,6 +184,7 @@ class FileResult(object):
         if isinstance(result, Success):
             self.successes.append(result)
         else:
+            print("Adding failure {}".format(result))
             self.failures.append(result)
 
     @memoized_property
@@ -230,13 +231,14 @@ class FileResult(object):
                 file_result = FileResult(file_name, dir)
                 file_result.extra_args = extra_args
                 file_result.project = project
-                content = list(pairwise(partition_by(
-                    lambda l: 'Resolving xrefs' in l, content.splitlines())
-                ))
-                for header, res_lines in content:
+                pb = iter(partition_by(lambda l: 'Resolving xrefs' in l,
+                                       content.splitlines()))
+                ct = list(zip(pb, pb))
+                for header, res_lines in ct:
                     file_result.add(
                         Result.construct(file_result, header + res_lines)
                     )
+
                 results.append(file_result)
             return results
         except subprocess.CalledProcessError:

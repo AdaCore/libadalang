@@ -1960,6 +1960,13 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 
+    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
+                      memoized=True)
+    def previous_part(go_to_incomplete=BoolType):
+        return Entity.typedecl.previous_part(go_to_incomplete).then(
+            lambda pp: pp.classwide_type
+        )
+
 
 class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)

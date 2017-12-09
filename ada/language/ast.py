@@ -4402,6 +4402,9 @@ class CallExpr(Name):
         designator passed in parameter.
         """
         atd = Var(typ.then(lambda t: t.array_def_with_deref))
+        real_typ = Var(typ.then(
+            lambda t: If(t.is_access_type, t.accessed_type, t))
+        )
 
         return atd._.indices.then(
             lambda indices:
@@ -4423,7 +4426,7 @@ class CallExpr(Name):
                 indices.constrain_index_expr(bo.left, 0)
                 & indices.constrain_index_expr(bo.right, 0)
                 & TypeBind(bo.type_var, bo.right.type_var)
-                & TypeBind(Self.type_var, typ),
+                & TypeBind(Self.type_var, real_typ),
 
                 # TODO: Handle remaining cases (SubtypeIndication?)
                 lambda _: LogicFalse()

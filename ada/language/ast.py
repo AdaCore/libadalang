@@ -1617,6 +1617,16 @@ class BaseTypeDecl(BasicDecl):
         """
         return No(DiscreteRange)
 
+    @langkit_property(dynamic_vars=[origin], memoized=True)
+    def is_iterator_type():
+        iifcs = Var(Entity.get_compilation_unit(
+            ['Ada', 'Iterator_Interfaces'], UnitSpecification
+        ))
+        typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
+            lambda cw: cw.typedecl, default_val=Entity)
+        )
+        return typ.semantic_parent.semantic_parent.el == iifcs
+
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
         return Entity.is_int_type | Entity.is_enum_type
@@ -1928,6 +1938,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     record_def = Property(Entity.typedecl.record_def)
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.typedecl.is_iterable_type)
+    iterable_comp_type = Property(Entity.typedecl.iterable_comp_type)
     defining_env = Property(Entity.typedecl.defining_env)
     node_aspects = Property(Entity.typedecl.node_aspects)
 
@@ -2460,6 +2471,7 @@ class SubtypeDecl(BaseTypeDecl):
     is_classwide = Property(Entity.from_type.is_classwide)
     discriminants_list = Property(Entity.from_type.discriminants_list)
     is_iterable_type = Property(Entity.from_type.is_iterable_type)
+    iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
 
     @langkit_property()
     def discrete_range():
@@ -5331,8 +5343,8 @@ class ForLoopSpec(LoopSpec):
                 lambda t=T.Name: t.name_designated_type.then(
                     lambda typ:
                     TypeBind(Self.var_decl.id.type_var, typ.canonical_type),
-                    # TODO: Handle the iterator case
-                    default_val=LogicTrue()
+
+                    default_val=Entity.iterator_xref_equation
                 ),
 
                 lambda _: LogicTrue()  # should never happen
@@ -5360,6 +5372,26 @@ class ForLoopSpec(LoopSpec):
 
                 LogicFalse()
             ))
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def iterator_xref_equation():
+        iter_expr = Var(Entity.iter_expr.cast_or_raise(T.Expr))
+
+        p = Var(iter_expr.resolve_names_internal(
+            True,
+            Predicate(BaseTypeDecl.is_iterator_type,
+                      iter_expr.type_var)
+        ))
+
+        return If(
+            p,
+            TypeBind(
+                Self.var_decl.id.type_var,
+                iter_expr.type_var.get_value
+                .children_env.get_first('Cursor').cast_or_raise(T.BaseTypeDecl)
+            ),
+            LogicFalse()
         )
 
 

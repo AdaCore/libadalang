@@ -250,6 +250,7 @@ class AdaNode(ASTNode):
         pass
 
     xref_stop_resolution = Property(False)
+    stop_resolution_equation = Property(LogicTrue())
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def sub_equation():
@@ -261,7 +262,7 @@ class AdaNode(ASTNode):
         resolution in several steps.
         """
         return If(Entity.xref_stop_resolution,
-                  LogicTrue(),
+                  Entity.stop_resolution_equation,
                   Entity.xref_equation)
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
@@ -3873,6 +3874,14 @@ class BaseAggregate(Expr):
 class Aggregate(BaseAggregate):
 
     xref_stop_resolution = Property(True)
+
+    # An aggregate is resolved separately from the rest of an expression,
+    # however, resolution of the containing expression can leverage the
+    # knowledge that self is an aggregate, by accepting only type that can be
+    # represented by an aggregate (eg. records and arrays).
+    stop_resolution_equation = Property(origin.bind(
+        Self, Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)
+    ))
 
     @langkit_property()
     def xref_equation():

@@ -1583,6 +1583,19 @@ class BaseTypeDecl(BasicDecl):
         add_to_env_kv(Entity.relative_name, Self)
     )
 
+    @langkit_property(return_type=BoolType)
+    def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
+        """
+        Predicate that will return true if comp_view is a more complete view of
+        type typ, or if it is the same view of type typ.
+        """
+        typ = Var(Entity)
+        return Cond(
+            comp_view.is_null, False,
+            comp_view == typ, True,
+            typ.is_view_of_type(comp_view.previous_part(True))
+        )
+
     defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
 
     is_task_type = Property(False, doc="Whether type is a task type")
@@ -4793,19 +4806,6 @@ class BaseId(SingleTokNode):
             & Self.is_view_of_type(des_type, completer_view),
             completer_view,
             des_type
-        )
-
-    @langkit_property(return_type=BoolType)
-    def is_view_of_type(typ=T.BaseTypeDecl.entity,
-                        comp_view=T.BaseTypeDecl.entity):
-        """
-        Predicate that will return true if comp_view is a more complete view of
-        type typ, or if it is the same view of type typ.
-        """
-        return Cond(
-            comp_view.is_null, False,
-            comp_view == typ, True,
-            Self.is_view_of_type(typ, comp_view.previous_part(True))
         )
 
     @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)

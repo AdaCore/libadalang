@@ -4282,16 +4282,6 @@ class CallExpr(Name):
             Entity.name.sub_equation,
             TypeBind(Self.type_var, Self.name.type_var),
             Bind(Self.ref_var, Self.name.ref_var),
-
-            # Here, we're doing a "non failing bind" to null. In some cases,
-            # like literals, the exact type of the conversion target is not
-            # known. It is set to null in those cases, which acts as some sort
-            # of wildcard for type predicates.
-            Or(
-                Bind(Self.params.at(0).expr.type_var,
-                     No(BaseTypeDecl.entity)),
-                LogicTrue()
-            )
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

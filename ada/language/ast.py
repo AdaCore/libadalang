@@ -1962,6 +1962,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     iterable_comp_type = Property(Entity.typedecl.iterable_comp_type)
     defining_env = Property(Entity.typedecl.defining_env)
     node_aspects = Property(Entity.typedecl.node_aspects)
+    is_private = Property(Entity.typedecl.is_private)
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 
@@ -2496,6 +2497,7 @@ class SubtypeDecl(BaseTypeDecl):
     is_iterable_type = Property(Entity.from_type.is_iterable_type)
     iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
     is_record_type = Property(Entity.from_type.is_record_type)
+    is_private = Property(Entity.from_type.is_private)
 
     @langkit_property()
     def discrete_range():

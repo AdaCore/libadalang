@@ -5198,6 +5198,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ))
         ))
 
+    return_type = Property(Entity.returns._.designated_type)
+
 
 class SubpSpec(BaseSubpSpec):
     subp_kind = Field(type=T.SubpKind)
@@ -5214,8 +5216,6 @@ class SubpSpec(BaseSubpSpec):
         )
     )
     returns = Property(Entity.subp_returns)
-
-    return_type = Property(Entity.returns._.designated_type)
 
 
 class EntryDecl(BasicDecl):

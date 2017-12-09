@@ -2042,12 +2042,14 @@ class TypeDecl(BaseTypeDecl):
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
+        add_env(),
+        handle_children(),
         reference(
             Self.cast(AdaNode).singleton,
             through=T.TypeDecl.parent_primitives_env,
-            transitive=True
+            transitive=True,
+            dest_env=Self.node_env
         ),
-        add_env()
     )
 
     record_def = Property(
@@ -2653,7 +2655,7 @@ class UsePackageClause(UseClause):
         """
         return Self.packages.map(
             lambda n:
-            env.bind(n.node_env,
+            env.bind(Self.node_env,
                      origin.bind(n, n.as_bare_entity.designated_env))
         )
 
@@ -2668,6 +2670,7 @@ class UseTypeClause(UseClause):
     types = Field(type=T.Name.list)
 
     env_spec = EnvSpec(
+        handle_children(),
         reference(
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
@@ -2677,7 +2680,8 @@ class UseTypeClause(UseClause):
                No(T.AdaNode.array),
                Self.types.map(lambda n: n.cast(AdaNode))),
 
-            T.Name.name_designated_type_env
+            T.Name.name_designated_type_env,
+            dest_env=Self.node_env
         )
     )
 

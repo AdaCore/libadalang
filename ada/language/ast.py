@@ -1226,6 +1226,7 @@ class TypeDef(AdaNode):
                               doc="Whether type is an access type or not.")
     is_char_type = Property(False)
     is_enum_type = Property(False)
+    is_record_type = Property(False)
 
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
@@ -1557,6 +1558,7 @@ class RecordTypeDef(TypeDef):
     )
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
+    is_record_type = Property(True)
 
     xref_equation = Property(LogicTrue())
 
@@ -1599,6 +1601,7 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
 
+    is_record_type = Property(False)
     is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")
     is_enum_type = Property(False)
@@ -1994,6 +1997,7 @@ class TypeDecl(BaseTypeDecl):
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
+    is_record_type = Property(Entity.type_def.is_record_type)
     is_real_type = Property(Entity.type_def.is_real_type)
     is_int_type = Property(Entity.type_def.is_int_type)
     is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
@@ -2252,6 +2256,7 @@ class DerivedTypeDef(TypeDef):
     accessed_type = Property(Entity.base_type.accessed_type)
     is_tagged_type = Property(True)
     is_enum_type = Property(Entity.base_type.is_enum_type)
+    is_record_type = Property(Entity.base_type.is_record_type)
 
     defining_env = Property(
         Entity.base_types.map(
@@ -2486,6 +2491,7 @@ class SubtypeDecl(BaseTypeDecl):
     discriminants_list = Property(Entity.from_type.discriminants_list)
     is_iterable_type = Property(Entity.from_type.is_iterable_type)
     iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
+    is_record_type = Property(Entity.from_type.is_record_type)
 
     @langkit_property()
     def discrete_range():

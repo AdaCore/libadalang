@@ -2067,8 +2067,7 @@ class TypeDecl(BaseTypeDecl):
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
-    @langkit_property(return_type=LexicalEnvType.array, memoized=True,
-                      memoize_in_populate=True)
+    @langkit_property(return_type=LexicalEnvType.array)
     def primitives_envs(include_self=(BoolType, False)):
         return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
             lambda bt: bt.primitives.singleton.concat(
@@ -2079,20 +2078,22 @@ class TypeDecl(BaseTypeDecl):
                Entity.primitives.singleton, No(LexicalEnvType.array))
         )
 
-    parent_primitives_env = Property(Self.type_def.match(
-        lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
-            with_md=Metadata.new(
-                dottable_subp=False,
-                primitive=No(T.AdaNode),
-                primitive_real_type=Self,
-            )
-        ),
-        lambda _: EmptyEnv
-    ))
+    @langkit_property(memoized=True, memoize_in_populate=True)
+    def parent_primitives_env():
+        return Self.type_def.match(
+            lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
+                with_md=Metadata.new(
+                    dottable_subp=False,
+                    primitive=No(T.AdaNode),
+                    primitive_real_type=Self,
+                )
+            ),
+            lambda _: EmptyEnv
+        )
 
-    primitives_env = Property(
-        Entity.primitives_envs(include_self=True).env_group()
-    )
+    @langkit_property(memoized=True, memoize_in_populate=True)
+    def primitives_env():
+        return Entity.primitives_envs(include_self=True).env_group()
 
 
 class AnonymousTypeDecl(TypeDecl):

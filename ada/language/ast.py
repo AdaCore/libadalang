@@ -1601,6 +1601,10 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
 
+    @langkit_property(dynamic_vars=[origin], return_type=BoolType)
+    def is_array_or_rec():
+        return Entity.is_array | Entity.is_record_type
+
     is_record_type = Property(False)
     is_task_type = Property(False, doc="Whether type is a task type")
     is_real_type = Property(False, doc="Whether type is a real type or not.")

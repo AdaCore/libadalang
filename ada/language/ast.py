@@ -1121,7 +1121,8 @@ class BaseFormalParamHolder(AdaNode):
         )
 
     @langkit_property(return_type=BoolType)
-    def match_formal_params(other=T.BaseFormalParamHolder.entity):
+    def match_formal_params(other=T.BaseFormalParamHolder.entity,
+                            match_names=(BoolType, True)):
         # Check that there is the same number of formals and that each
         # formal matches.
 
@@ -1130,7 +1131,7 @@ class BaseFormalParamHolder(AdaNode):
         return And(
             self_params.length == other_params.length,
             self_params.all(lambda i, p: And(
-                p.name.matches(other_params.at(i).name),
+                p.name.matches(other_params.at(i).name) | Not(match_names),
                 origin.bind(
                     Self,
                     p.spec.type._.matching_type(other_params.at(i).spec.type)
@@ -5110,7 +5111,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             # Check that the names are the same
             Not(match_name) | Self.name.matches(other.name),
             Entity.match_return_type(other),
-            Entity.match_formal_params(other),
+            Entity.match_formal_params(other, match_name),
         )
 
     @langkit_property(return_type=LexicalEnvType,

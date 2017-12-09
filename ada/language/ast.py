@@ -636,7 +636,7 @@ class AdaNode(ASTNode):
 
         unpacked_formals = Var(Self.unpack_formals(formal_params))
 
-        return params.unpacked_params.map(lambda i, a: If(
+        return params.then(lambda p: p.unpacked_params.map(lambda i, a: If(
             a.name.is_null,
 
             Let(lambda idx=If(is_dottable_subp, i + 1, i):
@@ -652,7 +652,7 @@ class AdaNode(ASTNode):
                     lambda sp: matches(sp, a)
                 )
             ))
-        ))
+        )))
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,

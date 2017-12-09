@@ -62,6 +62,30 @@ package body Libadalang.Expr_Eval is
 
          when LAL.Ada_Bin_Op =>
             raise LAL.Property_Error;
+         when LAL.Ada_Un_Op =>
+            declare
+               UO : LAL.Un_Op := As_Un_Op (E);
+               Op : LAL.Op := F_Op (UO);
+               Operand_Val : Eval_Result := Expr_Eval (F_Expr (UO));
+            begin
+               case Kind (Op) is
+                  when Ada_Op_Minus =>
+                     case Operand_Val.Kind is
+                        when Int =>
+                           return Operand_Val'Update
+                             (Int_Result => -Operand_Val.Int_Result);
+                        when Real =>
+                           return Operand_Val'Update
+                             (Real_Result => -Operand_Val.Real_Result);
+                        when Enum_Lit =>
+                           raise Property_Error;
+                     end case;
+                  when Ada_Op_Plus =>
+                     return Operand_Val;
+                  when others =>
+                     raise Property_Error;
+               end case;
+            end;
          when others =>
             raise LAL.Property_Error;
       end case;

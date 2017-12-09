@@ -1908,19 +1908,12 @@ class BaseTypeDecl(BasicDecl):
 
             Self.children_env.get_sequential(
                 type_name.tok, sequential_from=Self
-            ).then(lambda previous_parts: Cond(
-                Self.is_in_private_part,
-                previous_parts.filter(
-                    lambda t:
-                    t.cast(T.BaseTypeDecl).is_private
-                ).at(0).cast(T.BaseTypeDecl),
-
-                go_to_incomplete, previous_parts.filter(
-                    lambda t: Not(t.cast(T.IncompleteTypeDecl).is_null)
-                ).at(0).cast(T.BaseTypeDecl),
-
-                No(T.BaseTypeDecl.entity),
-            ))
+            ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
+                And(Entity.is_in_private_part,
+                    pp.cast(T.BaseTypeDecl)._.is_private),
+                And(go_to_incomplete,
+                    pp.is_a(T.IncompleteTypeDecl)),
+            )).cast(T.BaseTypeDecl))
         )
 
     @langkit_property(return_type=T.BaseTypeDecl, ignore_warn_on_node=True)

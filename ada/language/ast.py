@@ -1668,6 +1668,11 @@ class BaseTypeDecl(BasicDecl):
         return No(T.BaseTypeDecl.entity)
 
     @langkit_property(dynamic_vars=[origin])
+    def is_access_to(typ=T.BaseTypeDecl.entity):
+        access_type = Var(Entity)
+        return access_type.accessed_type.matching_formal_type(typ)
+
+    @langkit_property(dynamic_vars=[origin])
     def is_access_of(entity=T.BasicDecl.entity):
         """
         Returns whether self is an access type whose accessed type matches
@@ -1918,7 +1923,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl, ignore_warn_on_node=True)
     def canonical_part():
-        return Self.previous_part(True).then(
+        return Entity.previous_part(True).then(
             lambda pp: pp.canonical_part,
             default_val=Self,
         )
@@ -5560,8 +5565,33 @@ class AttributeRef(Name):
             rel_name == 'Img',
             Entity.img_equation(Self.std_entity('String')),
 
+            rel_name == 'Write',
+            Entity.write_attr_equation,
+
             LogicTrue()
         )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def write_attr_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+
+        root_stream_type = Var(
+            Entity
+            .get_compilation_unit(['Ada', 'Streams'], UnitSpecification)
+            ._.children_env.get_first('Root_Stream_Type', recursive=False)
+            .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
+        )
+
+        stream_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
+        obj_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(1).expr)
+
+        return (Entity.prefix.sub_equation
+                & obj_arg.as_entity.sub_equation
+                & stream_arg.as_entity.sub_equation
+                & Predicate(BaseTypeDecl.is_access_to,
+                            stream_arg.type_var,
+                            root_stream_type)
+                & TypeBind(obj_arg.type_var, typ))
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def address_equation():

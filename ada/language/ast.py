@@ -1963,6 +1963,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     defining_env = Property(Entity.typedecl.defining_env)
     node_aspects = Property(Entity.typedecl.node_aspects)
     is_private = Property(Entity.typedecl.is_private)
+    is_in_private_part = Property(Entity.typedecl.is_in_private_part)
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 

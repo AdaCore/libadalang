@@ -62,8 +62,7 @@ def ref_used_packages():
     UsePackageClause's ref_env_nodes for the rationale.
     """
     return reference(Self.top_level_use_package_clauses,
-                     T.Name.use_package_name_designated_env,
-                     visible_to_children=True)
+                     T.Name.use_package_name_designated_env)
 
 
 def ref_used_packages_in_spec():
@@ -80,8 +79,7 @@ def ref_std():
     Make the Standard package automatically used.
     """
     return reference(Self.self_toplevel_item_or_none,
-                     through=AdaNode.std_env,
-                     visible_to_children=True)
+                     through=AdaNode.std_env)
 
 
 def ref_generic_formals():
@@ -91,8 +89,7 @@ def ref_generic_formals():
     environments. Make them available with ref_envs.
     """
     return reference(Self.cast(T.AdaNode).to_array,
-                     through=T.AdaNode.nested_generic_formal_part,
-                     visible_to_children=True)
+                     through=T.AdaNode.nested_generic_formal_part)
 
 
 def add_to_env_kv(key, val, *args, **kwargs):
@@ -6292,11 +6289,9 @@ class PackageBody(Body):
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.subunit_pkg_decl,
-                      visible_to_children=True),
+                      through=T.PackageBody.subunit_pkg_decl),
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      visible_to_children=True,
                       transitive=True)
         ]
     )
@@ -6374,7 +6369,6 @@ class ProtectedBody(Body):
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      visible_to_children=True,
                       transitive=True)
         ]
     )

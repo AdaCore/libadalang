@@ -873,7 +873,11 @@ class BasicDecl(AdaNode):
                 ),
                 default_val=scope
             ): If(
-                follow_private,
+                follow_private
+                # Don't try to go to private part if we're not in a package
+                # decl.
+                & public_scope.env_node._.is_a(T.BasePackageDecl),
+
                 public_scope.get('__privatepart', recursive=False).at(0).then(
                     lambda pp: pp.children_env, default_val=public_scope
                 ),

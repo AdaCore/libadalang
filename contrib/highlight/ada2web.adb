@@ -7,6 +7,7 @@ with Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.Strings;  use GNATCOLL.Strings;
+with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with Langkit_Support.Diagnostics;
 with Libadalang.Analysis;
@@ -330,6 +331,8 @@ procedure Ada2Web is
    Index      : Ada.Text_IO.File_Type;
 
 begin
+   GNATCOLL.Traces.Parse_Config_File;
+
    if not Parse_Arguments then
       Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       return;

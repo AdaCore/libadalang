@@ -1,6 +1,26 @@
 Analyzing testrange.adb
 #######################
 
+Resolving xrefs for node <ParamSpec ["I"] 2:19-2:30>
+****************************************************
+
+Expr: <Id "I" 2:19-2:20>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:23-2:30>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["F"] 3:19-3:28>
+****************************************************
+
+Expr: <Id "F" 3:19-3:20>
+  references: None
+  type:       None
+Expr: <Id "Float" 3:23-3:28>
+  references: <TypeDecl ["Float"] 13:3-14:51>
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Oops"] 5:4-5:56>
 *****************************************************
 

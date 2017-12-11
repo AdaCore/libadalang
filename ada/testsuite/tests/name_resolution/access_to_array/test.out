@@ -11,6 +11,16 @@ Expr: <Id "String" 2:34-2:40>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
 
+Resolving xrefs for node <ParamSpec ["S"] 3:20-3:30>
+****************************************************
+
+Expr: <Id "S" 3:20-3:21>
+  references: None
+  type:       None
+Expr: <Id "String" 3:24-3:30>
+  references: <TypeDecl ["String"] 104:3-104:57>
+  type:       None
+
 Resolving xrefs for node <ReturnStmt 5:7-5:29>
 **********************************************
 

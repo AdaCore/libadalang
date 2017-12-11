@@ -8,11 +8,31 @@ Expr: <Id "A" 4:9-4:10>
   references: None
   type:       None
 
+Resolving xrefs for node <ParamSpec ["Self"] 5:25-5:33>
+*******************************************************
+
+Expr: <Id "Self" 5:25-5:29>
+  references: None
+  type:       None
+Expr: <Id "A" 5:32-5:33>
+  references: <TypeDecl ["A"] 4:4-4:24>
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["E"] 7:4-7:24>
 **************************************************
 
 Expr: <Id "E" 7:9-7:10>
   references: None
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Self"] 8:24-8:32>
+*******************************************************
+
+Expr: <Id "Self" 8:24-8:28>
+  references: None
+  type:       None
+Expr: <Id "E" 8:31-8:32>
+  references: <TypeDecl ["E"] 7:4-7:24>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["B"] 10:4-10:43>

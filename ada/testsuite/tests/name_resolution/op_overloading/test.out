@@ -34,6 +34,16 @@ Expr: <Id "File_Type_Access" 7:9-7:25>
   references: <TypeDecl ["File_Type_Access"] 4:3-4:49>
   type:       None
 
+Resolving xrefs for node <ParamSpec ["x"] 9:18-9:37>
+****************************************************
+
+Expr: <Id "x" 9:18-9:19>
+  references: None
+  type:       None
+Expr: <Id "File_Type_Access" 9:21-9:37>
+  references: <TypeDecl ["File_Type_Access"] 4:3-4:49>
+  type:       None
+
 Resolving xrefs for node <CallStmt 11:5-11:31>
 **********************************************
 
@@ -52,6 +62,19 @@ Expr: <Id "x" 11:14-11:15>
 Expr: <Str ""lalala"" 11:21-11:29>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
+
+Resolving xrefs for node <ParamSpec ["lhs", "rhs"] 14:16-14:45>
+***************************************************************
+
+Expr: <Id "lhs" 14:16-14:19>
+  references: None
+  type:       None
+Expr: <Id "rhs" 14:21-14:24>
+  references: None
+  type:       None
+Expr: <Id "File_Type_Access" 14:29-14:45>
+  references: <TypeDecl ["File_Type_Access"] 4:3-4:49>
+  type:       None
 
 Resolving xrefs for node <ReturnStmt 16:5-16:17>
 ************************************************

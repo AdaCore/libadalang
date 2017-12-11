@@ -101,14 +101,18 @@ Resolving xrefs for node <AcceptStmtWithStmts 19:15-21:26>
 Expr: <Id "Insert" 19:22-19:28>
   references: None
   type:       None
+Expr: <Id "Insert" 21:19-21:25>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["An_Item"] 19:30-19:48>
+************************************************************
+
 Expr: <Id "An_Item" 19:30-19:37>
   references: None
   type:       None
 Expr: <Id "Item" 19:44-19:48>
-  references: None
-  type:       None
-Expr: <Id "Insert" 21:19-21:25>
-  references: None
+  references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
 
 Resolving xrefs for node <AssignStmt 20:18-20:40>
@@ -171,14 +175,18 @@ Resolving xrefs for node <AcceptStmtWithStmts 26:15-28:26>
 Expr: <Id "Remove" 26:22-26:28>
   references: None
   type:       None
+Expr: <Id "Remove" 28:19-28:25>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["An_Item"] 26:30-26:48>
+************************************************************
+
 Expr: <Id "An_Item" 26:30-26:37>
   references: None
   type:       None
 Expr: <Id "Item" 26:44-26:48>
-  references: None
-  type:       None
-Expr: <Id "Remove" 28:19-28:25>
-  references: None
+  references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
 
 Resolving xrefs for node <AssignStmt 27:18-27:40>

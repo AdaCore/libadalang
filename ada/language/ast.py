@@ -2848,6 +2848,22 @@ class ParamSpec(BaseFormalParamDecl):
     def defining_env():
         return Entity.type_expr.defining_env
 
+    @langkit_property()
+    def xref_equation():
+        typ = Var(Entity.expr_type)
+        return (
+            Entity.type_expr.sub_equation
+
+            & Entity.default.then(
+                lambda de: de.sub_equation
+                & Bind(de.type_var, typ,
+                       eq_prop=BaseTypeDecl.matching_assign_type),
+                default_val=LogicTrue()
+            )
+        )
+
+    xref_entry_point = Property(True)
+
 
 class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list)

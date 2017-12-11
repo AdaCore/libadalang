@@ -1,0 +1,3 @@
+--  vim: filetype=ada
+
+for Switches ("libadalang-unit_files.adb") use ("-O1");

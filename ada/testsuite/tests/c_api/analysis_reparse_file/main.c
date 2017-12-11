@@ -65,7 +65,7 @@ main(void)
     ada_analysis_unit unit;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context("iso-8859-1", NULL);
+    ctx = ada_create_analysis_context("iso-8859-1", 0, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context");
 
@@ -73,7 +73,7 @@ main(void)
     write_source(src_buffer_1);
 
     puts("1. Parsing source 1");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     check(unit);
 
     /* Now work without the "limited" keyword:
@@ -84,19 +84,19 @@ main(void)
     write_source(src_buffer_2);
 
     puts("2. Parsing source 2 (reparse=false)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     check(unit);
 
     remove("foo.adb");
 
     puts("3. Parsing with deleted file (reparse=true)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
     check(unit);
 
     write_source(src_buffer_2);
 
     puts("4. Parsing source 2 (reparse=true)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
     check(unit);
 
     write_source(src_buffer_1);

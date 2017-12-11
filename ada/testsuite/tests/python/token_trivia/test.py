@@ -3,8 +3,8 @@ from __future__ import absolute_import, division, print_function
 import libadalang
 
 
-ctx = libadalang.AnalysisContext()
-u = ctx.get_from_file('foo.adb', with_trivia=True)
+ctx = libadalang.AnalysisContext(with_trivia=True)
+u = ctx.get_from_file('foo.adb')
 
 prev_token = None
 for token in u.iter_tokens():

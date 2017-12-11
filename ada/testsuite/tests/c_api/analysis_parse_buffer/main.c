@@ -29,13 +29,12 @@ main(void)
     ada_analysis_unit unit;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context("iso-8859-1", NULL);
+    ctx = ada_create_analysis_context("iso-8859-1", 0, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context");
 
     unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
-                                             src_buffer, strlen(src_buffer),
-                                             0);
+                                             src_buffer, strlen(src_buffer));
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a buffer");
 

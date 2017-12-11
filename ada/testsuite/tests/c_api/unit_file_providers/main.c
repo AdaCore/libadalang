@@ -23,8 +23,7 @@ ada_analysis_unit ufp_get_file_from_name(
     ada_text *name,
     ada_unit_kind kind,
     const char *charset,
-    int reparse,
-    int with_trivia)
+    int reparse)
 {
     struct my_unit_provider *ufp_data
       = (struct my_unit_provider *) data;
@@ -35,7 +34,7 @@ ada_analysis_unit ufp_get_file_from_name(
     printf("\"\n");
 
     return ada_get_analysis_unit_from_file(context, "strange_bar.ads",
-                                           charset, reparse, with_trivia);
+                                           charset, reparse);
 }
 
 int
@@ -55,11 +54,11 @@ main(void)
     int i;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL, ufp);
+    ctx = ada_create_analysis_context(NULL, 0, ufp);
     if (ctx == NULL)
         error("Could not create the analysis context");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 

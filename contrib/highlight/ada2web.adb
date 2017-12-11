@@ -219,7 +219,7 @@ procedure Ada2Web is
       --  an empty string.
 
       Unit       : constant LAL.Analysis_Unit :=
-        LAL.Get_From_File (Ctx, Source_File, With_Trivia => True);
+        LAL.Get_From_File (Ctx, Source_File);
       Highlights : Highlighter.Highlights_Holder
         (Highlighter.Token_Index (LAL.Token_Count (Unit)),
          Highlighter.Token_Index (LAL.Trivia_Count (Unit)));
@@ -341,7 +341,8 @@ begin
    --  Create the analysis context for Libadalang
    UFP := new Libadalang.Unit_Files.Projects.Project_Unit_Provider_Type'
      (Libadalang.Unit_Files.Projects.Create (Prj_Tree, Env, True));
-   Ctx := LAL.Create (Unit_Provider => LAL.Unit_Provider_Access_Cst (UFP));
+   Ctx := LAL.Create (Unit_Provider => LAL.Unit_Provider_Access_Cst (UFP),
+                      With_Trivia   => True);
 
    --  Create the output directories, if needed
    declare

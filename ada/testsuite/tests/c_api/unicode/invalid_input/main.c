@@ -17,13 +17,13 @@ main(void)
     const size_t iso_8859_1_length = strlen(src_buffer_iso_8859_1);
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context("utf-8", NULL);
+    ctx = ada_create_analysis_context("utf-8", 0, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 
     unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_iso_8859_1,
-                                             iso_8859_1_length, 0);
+                                             iso_8859_1_length);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 

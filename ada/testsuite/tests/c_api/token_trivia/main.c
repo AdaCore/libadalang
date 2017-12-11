@@ -28,11 +28,11 @@ main(void)
     ada_token tok, prev_tok;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL, NULL);
+    ctx = ada_create_analysis_context(NULL, 1, NULL);
     if (ctx == NULL)
         handle_exception("Could not create the analysis context");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0, 1);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     if (unit == NULL)
         handle_exception("Could not create the analysis unit from foo.adb");
 

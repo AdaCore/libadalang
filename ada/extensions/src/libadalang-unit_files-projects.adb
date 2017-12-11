@@ -10,8 +10,7 @@ package body Libadalang.Unit_Files.Projects is
       Name        : String;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False)
+      Reparse     : Boolean := False)
       return Analysis_Unit;
    --  Helper for Get_Unit primitives
 
@@ -25,8 +24,7 @@ package body Libadalang.Unit_Files.Projects is
       Name        : String;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit
+      Reparse     : Boolean := False) return Analysis_Unit
    is
       File : constant Filesystem_String := File_From_Unit
         (Project   => Root_Project (Provider.Project.all),
@@ -39,8 +37,8 @@ package body Libadalang.Unit_Files.Projects is
             Path : constant GNATCOLL.VFS.Virtual_File :=
                GNATCOLL.Projects.Create (Provider.Project.all, File);
          begin
-            return Get_From_File (Context, +Full_Name (Path), Charset, Reparse,
-                                  With_Trivia);
+            return Get_From_File (Context, +Full_Name (Path), Charset,
+                                  Reparse);
          end;
       end if;
 
@@ -54,8 +52,7 @@ package body Libadalang.Unit_Files.Projects is
          Error      : constant String :=
             "Could not find source file for " & Name & " (" & Kind_Name & ")";
       begin
-         return Get_With_Error (Context, Dummy_File, Error, Charset,
-                                With_Trivia);
+         return Get_With_Error (Context, Dummy_File, Error, Charset);
       end;
    end Get_Unit;
 
@@ -69,14 +66,12 @@ package body Libadalang.Unit_Files.Projects is
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit
+      Reparse     : Boolean := False) return Analysis_Unit
    is
       Str_Name : constant String :=
          Libadalang.Unit_Files.Default.Unit_String_Name (Name);
    begin
-      return Get_Unit (Provider, Context, Str_Name, Kind, Charset, Reparse,
-                       With_Trivia);
+      return Get_Unit (Provider, Context, Str_Name, Kind, Charset, Reparse);
    end Get_Unit;
 
    ----------------

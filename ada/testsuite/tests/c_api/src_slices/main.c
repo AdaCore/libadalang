@@ -23,14 +23,14 @@ main(void)
     ada_text text;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL, NULL);
+    ctx = ada_create_analysis_context(NULL, 0, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "test.adb", NULL, 0, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "test.adb", NULL, 0);
     if (unit == NULL)
         error("Could not create the analysis unit from test.adb");
-    unit2 = ada_get_analysis_unit_from_file(ctx, "test2.adb", NULL, 0, 0);
+    unit2 = ada_get_analysis_unit_from_file(ctx, "test2.adb", NULL, 0);
     if (unit2 == NULL)
         error("Could not create the analysis unit from test2.adb");
 

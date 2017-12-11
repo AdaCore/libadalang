@@ -10,8 +10,6 @@ procedure Main is
 
    subtype Token_Index is Libadalang.Lexer.Token_Data_Handlers.Token_Index;
 
-   Ctx : Analysis_Context := Create;
-
    procedure Process (Filename : String; With_Trivia : Boolean);
 
    -------------
@@ -19,8 +17,9 @@ procedure Main is
    -------------
 
    procedure Process (Filename : String; With_Trivia : Boolean) is
-      Unit  : constant Analysis_Unit :=
-         Get_From_File (Ctx, Filename, With_Trivia => With_Trivia);
+      Ctx   : Analysis_Context := Create (With_Trivia => With_Trivia);
+      Unit  : constant Analysis_Unit := Get_From_File (Ctx, Filename);
+
       Token      : Token_Type := First_Token (Unit);
       Prev_Token : Token_Type := No_Token;
    begin
@@ -50,7 +49,7 @@ procedure Main is
          Token := Next (Token);
       end loop;
       New_Line;
-      Remove (Ctx, Filename);
+      Destroy (Ctx);
    end Process;
 
    type String_Array is array (Positive range <>) of Unbounded_String;
@@ -79,6 +78,5 @@ begin
       Process (To_String (Filename), True);
    end loop;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

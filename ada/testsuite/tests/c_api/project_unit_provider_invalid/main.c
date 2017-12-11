@@ -21,7 +21,7 @@ main(void)
     int i;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL, NULL);
+    ctx = ada_create_analysis_context(NULL, 0, NULL);
     if (ctx == NULL)
         error("Could not create the analysis context");
 
@@ -33,7 +33,7 @@ main(void)
         printf("\n");
 
         unit = ada_get_analysis_unit_from_provider(
-            ctx, &unit_name, ada_unit_kind_specification, NULL, 0, 0
+            ctx, &unit_name, ada_unit_kind_specification, NULL, 0
         );
         if (unit == NULL)
             printf("   ... got a null unit\n");

@@ -4,7 +4,8 @@ import libadalang as lal
 
 
 def process(filename, with_trivia):
-    unit = ctx.get_from_file(filename, with_trivia=with_trivia)
+    ctx = lal.AnalysisContext(with_trivia=with_trivia)
+    unit = ctx.get_from_file(filename)
     token = unit.first_token
     prev_token = None
 
@@ -29,7 +30,6 @@ def process(filename, with_trivia):
     ctx.remove(filename)
 
 
-ctx = lal.AnalysisContext()
 for filename in ('no_trivia.adb', 'empty.adb'):
     process(filename, False)
 

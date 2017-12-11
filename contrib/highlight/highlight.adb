@@ -155,13 +155,13 @@ procedure Highlight is
       end case;
    end Output_Highlighted;
 
-   Ctx      : LAL.Analysis_Context := LAL.Create;
+   Ctx      : LAL.Analysis_Context := LAL.Create (With_Trivia => True);
    Src_File : constant String := Get_Source_File;
 begin
    if Src_File'Length > 0 then
       declare
          Unit : constant LAL.Analysis_Unit :=
-           LAL.Get_From_File (Ctx, Src_File, With_Trivia => True);
+           LAL.Get_From_File (Ctx, Src_File);
       begin
          --  If there are any error, just print them on the standard error
          --  stream and abort. Otherwise, do our job.

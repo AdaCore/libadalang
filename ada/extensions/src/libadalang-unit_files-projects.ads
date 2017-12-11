@@ -32,8 +32,7 @@ package Libadalang.Unit_Files.Projects is
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False;
-      With_Trivia : Boolean := False) return Analysis_Unit;
+      Reparse     : Boolean := False) return Analysis_Unit;
 
    function Convert (Kind : Unit_Kind) return GNATCOLL.Projects.Unit_Parts is
      (case Kind is

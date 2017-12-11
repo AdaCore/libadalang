@@ -3,12 +3,10 @@ from __future__ import absolute_import, division, print_function
 import libadalang
 
 
-ctx = libadalang.AnalysisContext()
 for with_trivia in (False, True):
     print('With_Trivia => {}'.format(with_trivia))
-    u = ctx.get_from_file('foo.adb',
-                          with_trivia=with_trivia,
-                          reparse=True)
+    ctx = libadalang.AnalysisContext(with_trivia=with_trivia)
+    u = ctx.get_from_file('foo.adb')
 
     print('Unit has {} tokens and {} trivias'.format(
         u.token_count, u.trivia_count))

@@ -10,7 +10,6 @@ with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
-with Langkit_Support.Diagnostics;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 with Libadalang.Analysis;            use Libadalang.Analysis;
@@ -224,8 +223,7 @@ procedure Nameres is
    begin
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop
-            Put_Line ("error: " & Filename & ": "
-                      & Langkit_Support.Diagnostics.To_Pretty_String (D));
+            Put_Line (Format_GNU_Diagnostic (Unit, D));
          end loop;
          return;
       end if;

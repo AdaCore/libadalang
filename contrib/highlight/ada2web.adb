@@ -9,7 +9,6 @@ with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.Strings;  use GNATCOLL.Strings;
 with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
-with Langkit_Support.Diagnostics;
 with Libadalang.Analysis;
 with Libadalang.Unit_Files.Projects;
 
@@ -266,7 +265,7 @@ procedure Ada2Web is
          for D of LAL.Diagnostics (Unit) loop
             Ada.Text_IO.Put_Line
               (Ada.Text_IO.Standard_Error,
-               Langkit_Support.Diagnostics.To_Pretty_String (D));
+               LAL.Format_GNU_Diagnostic (Unit, D));
          end loop;
          Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
          return;

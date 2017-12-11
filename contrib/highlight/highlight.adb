@@ -1,7 +1,6 @@
 with Ada.Command_Line;
 with Ada.Text_IO;
 
-with Langkit_Support.Diagnostics;
 with Libadalang.Analysis;
 
 with Colors;
@@ -170,7 +169,7 @@ begin
             for D of LAL.Diagnostics (Unit) loop
                Ada.Text_IO.Put_Line
                  (Ada.Text_IO.Standard_Error,
-                  Langkit_Support.Diagnostics.To_Pretty_String (D));
+                  LAL.Format_GNU_Diagnostic (Unit, D));
             end loop;
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
 

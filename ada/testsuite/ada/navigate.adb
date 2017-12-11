@@ -2,7 +2,6 @@ with Ada.Characters.Handling;
 with Ada.Command_Line;
 with Ada.Text_IO; use Ada.Text_IO;
 
-with Langkit_Support.Diagnostics;
 with Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Iterators;
@@ -35,7 +34,7 @@ procedure Navigate is
      (Message    : String;
       With_Usage : Boolean := False);
    procedure Print_Usage;
-   procedure Process_File (Unit : LAL.Analysis_Unit; Filename : String);
+   procedure Process_File (Unit : LAL.Analysis_Unit);
    procedure Print_Navigation
      (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class);
    procedure Decode_Kinds (List : String);
@@ -79,12 +78,11 @@ procedure Navigate is
    -- Process_File --
    ------------------
 
-   procedure Process_File (Unit : LAL.Analysis_Unit; Filename : String) is
+   procedure Process_File (Unit : LAL.Analysis_Unit) is
    begin
       if LAL.Has_Diagnostics (Unit) then
          for D of LAL.Diagnostics (Unit) loop
-            Put_Line ("error: " & Filename & ": "
-                      & Langkit_Support.Diagnostics.To_Pretty_String (D));
+            Put_Line (LAL.Format_GNU_Diagnostic (Unit, D));
          end loop;
          New_Line;
          return;
@@ -273,7 +271,7 @@ begin
          Unit : constant LAL.Analysis_Unit := LAL.Get_From_File (Ctx, Arg);
       begin
          Put_Title ('#', Arg);
-         Process_File (Unit, Arg);
+         Process_File (Unit);
       end;
    end loop;
 

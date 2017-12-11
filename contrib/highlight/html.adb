@@ -111,6 +111,9 @@ package body HTML is
       Current_Line : Positive := 1;
       --  Line number for the tokens to be emitted
 
+      Empty_Line : Boolean := True;
+      --  Whether the current line is empty
+
       -----------------
       -- Line_Anchor --
       -----------------
@@ -171,6 +174,8 @@ package body HTML is
          if not Decl.Is_Null then
             Put ("</a>");
          end if;
+
+         Empty_Line := False;
       end Put_Token;
 
       --------------
@@ -181,8 +186,13 @@ package body HTML is
       begin
          Current_Line := Current_Line + 1;
          Put ("</span>");
+         if Empty_Line then
+            Put ((1 => ASCII.LF));
+         end if;
          Put ("<span class=""line"" id="""
               & Line_Anchor (Current_Line) & """>");
+
+         Empty_Line := True;
       end New_Line;
 
       ------------
@@ -191,6 +201,7 @@ package body HTML is
 
       procedure Indent (Length : Natural) is
       begin
+         Empty_Line := False;
          Put ((1 .. Length => ' '));
       end Indent;
 

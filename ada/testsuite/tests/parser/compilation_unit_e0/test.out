@@ -1,5 +1,5 @@
 Parsing failed:
-7:1: End of input expected, got "Identifier"
+<input>:7:1: End of input expected, got "Identifier"
 CompilationUnit[1:1-6:10]
 |prelude:
 |  AdaNodeList[1:1-1:35]

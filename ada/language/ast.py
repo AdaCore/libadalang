@@ -482,7 +482,10 @@ class AdaNode(ASTNode):
             # TODO: depending on the formal that matches this actual, this name
             # can be both an object or a type. For now, we assume it's a type
             # but we should handle objects too.
-            lambda n=T.Name.entity: n.name_designated_type,
+            lambda n=T.Name.entity: n.name_designated_type.cast(T.entity)._or(
+                # If we don't find a type, find something else
+                env.bind(n.children_env, n.env_elements.at(0))
+            ),
 
             lambda _: No(T.entity),
         )

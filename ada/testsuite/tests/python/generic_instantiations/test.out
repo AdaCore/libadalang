@@ -1,0 +1,11 @@
+<Id "V" 23:40-23:41> -> <ObjectDecl ["V"] 6:7-6:13>
+Instantiation chain:
+  * <GenericPackageInstantiation ["A_Inst"] 12:7-12:35>
+  * <GenericPackageInstantiation ["B_Inst"] 18:7-18:35>
+  * <GenericPackageInstantiation ["C_Inst"] 21:4-21:38>
+
+<PackageDecl ["Foo"] 1:1-25:9>
+Instantiation chain:
+  (none)
+
+Done.

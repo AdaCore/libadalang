@@ -12,9 +12,9 @@ from langkit.envs import (
     call_env_hook, do
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, Bind, DynamicVariable,
-    EmptyEnv, If, Let, Literal, No, Not, Or, Property, Self, Entity,
-    Var, ignore, langkit_property, Cond
+    AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyEnv, If,
+    Let, Literal, No, Not, Or, Property, Self, Entity, Var, ignore,
+    langkit_property, Cond
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
@@ -167,6 +167,30 @@ class AdaNode(ASTNode):
         # TODO: remove from public API
         ignore(try_immediate)
         return No(T.BasicDecl.entity)
+
+    @langkit_property(public=True)
+    def generic_instantiations():
+        """
+        Return the potentially empty list of generic package/subprogram
+        instantiations that led to the creation of this entity. Outer-most
+        instantiations appear last.
+        """
+        return Self.generic_instantiations_internal(Entity.info.rebindings)
+
+    @langkit_property(return_type=T.GenericInstantiation.entity.array)
+    def generic_instantiations_internal(r=T.EnvRebindingsType):
+        return If(
+            r == No(T.EnvRebindingsType),
+            No(T.GenericInstantiation.entity.array),
+
+            Let(lambda
+                head=(r.rebindings_new_env.env_node
+                      .cast_or_raise(T.GenericInstantiation).as_bare_entity),
+                tail=Self.generic_instantiations_internal(
+                    r.rebindings_parent
+                ):
+                head.singleton.concat(tail))
+        )
 
     @langkit_property()
     def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType,

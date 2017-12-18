@@ -14,7 +14,7 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyEnv, If,
     Let, Literal, No, Not, Or, Property, Self, Entity, Var, ignore,
-    langkit_property, Cond
+    langkit_property, Cond, ArrayLiteral as Array
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
@@ -1635,9 +1635,17 @@ class BaseTypeDecl(BasicDecl):
     is_enum_type = Property(False)
     is_classwide = Property(False)
     is_access_type = Property(
-        False,
-        public=True,
-        doc="Whether Self is an access type or not"
+        False, public=True, doc="Whether Self is an access type or not"
+    )
+
+    is_implicit_deref = Property(
+        Entity.is_access_type | Not(Entity.get_imp_deref.is_null),
+        doc="Whether Self is an implicitly dereferenceable type or not"
+    )
+
+    get_imp_deref = Property(
+        No(T.AspectAssoc.entity),
+        doc="Whether Self has an Implicit_Dereference aspect or not"
     )
 
     access_def = Property(No(T.AccessDef.entity))
@@ -1742,7 +1750,7 @@ class BaseTypeDecl(BasicDecl):
         """
         return Cond(
             Entity.is_array, Entity.array_def,
-            Entity.is_access_type,
+            Entity.is_implicit_deref,
             Entity.comp_type.then(lambda c: c.array_def),
             No(T.ArrayTypeDef.entity)
         )
@@ -1865,10 +1873,18 @@ class BaseTypeDecl(BasicDecl):
                 formal_type.is_classwide | accept_derived,
                 actual_type.is_derived_type(formal_type)
             ),
+
             And(
                 actual_type.is_classwide,
                 actual_type.is_derived_type(formal_type)
             ),
+
+            And(
+                Not(actual_type.get_imp_deref.is_null),
+                actual_type
+                .accessed_type.matching_formal_type(formal_type)
+            ),
+
             actual_type.matching_type(formal_type)
         )
 
@@ -1877,9 +1893,16 @@ class BaseTypeDecl(BasicDecl):
         actual_type = Var(Entity)
         return Or(
             Entity.matching_type(expected_type),
+
             And(
                 expected_type.is_classwide,
                 actual_type.is_derived_type(expected_type)
+            ),
+
+            And(
+                Not(actual_type.get_imp_deref.is_null),
+                actual_type
+                .accessed_type.matching_assign_type(expected_type)
             )
         )
 
@@ -2036,7 +2059,27 @@ class TypeDecl(BaseTypeDecl):
     is_real_type = Property(Entity.type_def.is_real_type)
     is_int_type = Property(Entity.type_def.is_int_type)
     is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
-    accessed_type = Property(Entity.type_def.accessed_type)
+
+    @langkit_property()
+    def accessed_type():
+        imp_deref = Var(Entity.get_imp_deref)
+
+        return If(
+            imp_deref.is_null,
+            Entity.type_def.accessed_type,
+
+            # Here, we need to call defining_env on TypeDef, in order to not
+            # recurse for ever (accessed_type is called by defining_env).
+            Entity.type_def.defining_env.get_first(
+                imp_deref.expr.cast(T.Name).relative_name
+            )
+
+            # We cast to BaseFormalParamDecl. Following Ada's legality rule,
+            # you need to implicit deref on a discriminant, but I see no reason
+            # to enforce that here.
+            .cast_or_raise(T.BaseFormalParamDecl).type.accessed_type
+        )
+
     access_def = Property(Entity.type_def.match(
         lambda ad=T.AccessDef: ad,
         lambda dtd=T.DerivedTypeDef: dtd.base_type.access_def,
@@ -2061,11 +2104,21 @@ class TypeDecl(BaseTypeDecl):
         lambda _: No(T.ArrayTypeDef.entity)
     ))
 
-    defining_env = Property(
+    @langkit_property()
+    def defining_env():
+        imp_deref = Var(Entity.get_imp_deref)
+
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
-        env.bind(Entity.children_env, Entity.type_def.defining_env)
-    )
+        self_env = Var(
+            env.bind(Entity.children_env, Entity.type_def.defining_env)
+        )
+
+        return If(
+            imp_deref.is_null,
+            self_env,
+            Array([self_env, Entity.accessed_type.defining_env]).env_group()
+        )
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
@@ -2123,6 +2176,8 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(memoized=True, memoize_in_populate=True)
     def primitives_env():
         return Entity.primitives_envs(include_self=True).env_group()
+
+    get_imp_deref = Property(Entity.get_aspect('Implicit_Dereference'))
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -4442,7 +4497,7 @@ class CallExpr(Name):
         """
         atd = Var(typ.then(lambda t: t.array_def_with_deref))
         real_typ = Var(typ.then(
-            lambda t: If(t.is_access_type, t.accessed_type, t))
+            lambda t: If(t.is_implicit_deref, t.accessed_type, t))
         )
 
         return atd._.indices.then(

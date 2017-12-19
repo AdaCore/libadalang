@@ -10,8 +10,7 @@ is
 begin
    if Node.F_Inst_Env = Empty_Env then
       Node.F_Inst_Env :=
-         AST_Envs.Create (No_Env_Getter, Node, Is_Refcounted => False,
-                          Owner => Node.Unit);
+         AST_Envs.Create (No_Env_Getter, Node, Owner => Node.Unit);
       Register_Destroyable (Node.Unit, Node.F_Inst_Env.Env);
    end if;
    return Node.F_Inst_Env;

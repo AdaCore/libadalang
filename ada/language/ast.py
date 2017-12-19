@@ -3438,25 +3438,24 @@ class GenericPackageInstantiation(GenericInstantiation):
         self_children_env = Var(Self.children_env.env_orphan)
         return Self.designated_generic_decl.then(
             lambda p:
-            # If this instantiation is library level, then we want to shed
-            # rebindings from the env itself, because they will be added from
-            # the Entity rebindings below anyway.
-            If(Self.is_library_item,
-               p._.decl.el.children_env,
-               p.decl.children_env).singleton.concat(
-                self_children_env.singleton
-            ).env_group().rebind_env(
-                # If this generic instantiation is inside a generic
-                # instantiation, then it inherits the rebindings of the
-                # enclosing instantiation.
-                Entity.info.rebindings.append_rebinding(
-                    # We use the formal env to create rebindings. There, we
-                    # purposefully want the children env of the P node,
-                    # with no rebindings associated, since the rebinding
-                    # indication concerns the *naked* generic. Hence we use
-                    # p.el.children_env.
-                    p.el.children_env, Self.instantiation_env
-                )
+
+            # We take the naked generic decl env via .el (no rebindings).
+            # We group it with the instantiation's env.
+            Array([p._.decl.el.children_env, self_children_env]).env_group()
+
+            .rebind_env(
+                # Take the rebindings from the current context
+                Entity.info.rebindings
+
+                # Append the rebindings from the decl
+                .concat_rebindings(p._.decl.info.rebindings)
+
+                # Append the rebindings for the current instantiation.
+                # NOTE: We use the formal env to create rebindings. There, we
+                # purposefully want the children env of the P node, with no
+                # rebindings associated, since the rebinding indication
+                # concerns the *naked* generic. Hence we use p.el.children_env.
+                .append_rebinding(p.el.children_env, Self.instantiation_env)
             )
         )
 

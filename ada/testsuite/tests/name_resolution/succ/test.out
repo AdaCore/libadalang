@@ -1,6 +1,13 @@
 Analyzing testsucc.adb
 ######################
 
+Resolving xrefs for node <SubpSpec 1:1-1:19>
+********************************************
+
+Expr: <Id "Testsucc" 1:11-1:19>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Enum"] 2:4-2:30>
 *****************************************************
 

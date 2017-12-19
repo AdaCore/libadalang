@@ -1,6 +1,33 @@
 Analyzing test.adb
 ##################
 
+Resolving xrefs for node <SubpSpec 1:1-1:15>
+********************************************
+
+Expr: <Id "Test" 1:11-1:15>
+  references: None
+  type:       None
+
+Resolving xrefs for node <SubpSpec 2:4-2:31>
+********************************************
+
+Expr: <Id "Foo" 2:13-2:16>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:24-2:31>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <SubpSpec 3:4-3:29>
+********************************************
+
+Expr: <Id "Foo" 3:13-3:16>
+  references: None
+  type:       None
+Expr: <Id "Float" 3:24-3:29>
+  references: <TypeDecl ["Float"] 13:3-14:51>
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["A"] 4:4-4:42>
 **************************************************
 

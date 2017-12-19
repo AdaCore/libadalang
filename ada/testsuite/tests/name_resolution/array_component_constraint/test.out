@@ -1,6 +1,16 @@
 Analyzing pack.ads
 ##################
 
+Resolving xrefs for node <SubpSpec 2:4-2:29>
+********************************************
+
+Expr: <Id "F" 2:13-2:14>
+  references: None
+  type:       None
+Expr: <Id "Natural" 2:22-2:29>
+  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Ints"] 4:4-4:53>
 *****************************************************
 

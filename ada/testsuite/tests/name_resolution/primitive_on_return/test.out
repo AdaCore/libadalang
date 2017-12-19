@@ -1,11 +1,28 @@
 Analyzing prim_ret.adb
 ######################
 
+Resolving xrefs for node <SubpSpec 1:1-1:19>
+********************************************
+
+Expr: <Id "Prim_Ret" 1:11-1:19>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Base"] 3:7-3:32>
 *****************************************************
 
 Expr: <Id "Base" 3:12-3:16>
   references: None
+  type:       None
+
+Resolving xrefs for node <SubpSpec 4:7-4:34>
+********************************************
+
+Expr: <Id "Create" 4:16-4:22>
+  references: None
+  type:       None
+Expr: <Id "Base" 4:30-4:34>
+  references: <TypeDecl ["Base"] 3:7-3:32>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Derived"] 7:4-7:31>

@@ -1,6 +1,13 @@
 Analyzing testbinop.adb
 #######################
 
+Resolving xrefs for node <SubpSpec 1:1-1:20>
+********************************************
+
+Expr: <Id "Testbinop" 1:11-1:20>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Typ"] 3:7-3:35>
 ****************************************************
 

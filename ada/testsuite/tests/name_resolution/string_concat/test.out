@@ -1,6 +1,13 @@
 Analyzing test.adb
 ##################
 
+Resolving xrefs for node <SubpSpec 1:1-1:15>
+********************************************
+
+Expr: <Id "Test" 1:11-1:15>
+  references: None
+  type:       None
+
 Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:34>
 ****************************************************
 

@@ -1,6 +1,13 @@
 Analyzing testfirst.adb
 #######################
 
+Resolving xrefs for node <SubpSpec 1:1-1:20>
+********************************************
+
+Expr: <Id "Testfirst" 1:11-1:20>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["A"] 2:4-2:50>
 **************************************************
 
@@ -109,6 +116,26 @@ Expr: <Int 10:18-10:19>
 Expr: <Int 10:23-10:25>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <SubpSpec 13:4-13:27>
+**********************************************
+
+Expr: <Id "Foo" 13:13-13:16>
+  references: None
+  type:       None
+Expr: <Id "Lol" 13:24-13:27>
+  references: <TypeDecl ["Lol"] 9:4-11:15>
+  type:       None
+
+Resolving xrefs for node <SubpSpec 14:4-14:31>
+**********************************************
+
+Expr: <Id "Foo" 14:13-14:16>
+  references: None
+  type:       None
+Expr: <Id "Integer" 14:24-14:31>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
 
 Resolving xrefs for node <AssignStmt 16:4-16:17>
 ************************************************

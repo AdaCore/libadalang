@@ -1,6 +1,13 @@
 Analyzing testvec.adb
 #####################
 
+Resolving xrefs for node <SubpSpec 4:1-4:18>
+********************************************
+
+Expr: <Id "Testvec" 4:11-4:18>
+  references: None
+  type:       None
+
 Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:70>
 ****************************************************************************
 

@@ -1,6 +1,13 @@
 Analyzing testpro.adb
 #####################
 
+Resolving xrefs for node <SubpSpec 1:1-1:19>
+********************************************
+
+Expr: <Id "Test_Pro" 1:11-1:19>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Item"] 2:4-2:29>
 *****************************************************
 
@@ -11,6 +18,13 @@ Expr: <Id "Integer" 2:21-2:28>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
 
+Resolving xrefs for node <EntrySpec 5:15-5:42>
+**********************************************
+
+Expr: <Id "Insert" 5:15-5:21>
+  references: None
+  type:       None
+
 Resolving xrefs for node <ParamSpec ["An_Item"] 5:23-5:41>
 **********************************************************
 
@@ -19,6 +33,13 @@ Expr: <Id "An_Item" 5:23-5:30>
   type:       None
 Expr: <Id "Item" 5:37-5:41>
   references: <TypeDecl ["Item"] 2:4-2:29>
+  type:       None
+
+Resolving xrefs for node <EntrySpec 6:15-6:42>
+**********************************************
+
+Expr: <Id "Remove" 6:15-6:21>
+  references: None
   type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 6:23-6:41>

@@ -1,6 +1,13 @@
 Analyzing tests1.adb
 ####################
 
+Resolving xrefs for node <SubpSpec 3:1-3:17>
+********************************************
+
+Expr: <Id "Tests1" 3:11-3:17>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["File_Type_Access"] 4:3-4:49>
 *****************************************************************
 
@@ -34,6 +41,13 @@ Expr: <Id "File_Type_Access" 7:9-7:25>
   references: <TypeDecl ["File_Type_Access"] 4:3-4:49>
   type:       None
 
+Resolving xrefs for node <SubpSpec 9:3-9:38>
+********************************************
+
+Expr: <Id "Lala" 9:13-9:17>
+  references: None
+  type:       None
+
 Resolving xrefs for node <ParamSpec ["x"] 9:18-9:37>
 ****************************************************
 
@@ -62,6 +76,16 @@ Expr: <Id "x" 11:14-11:15>
 Expr: <Str ""lalala"" 11:21-11:29>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
+
+Resolving xrefs for node <SubpSpec 14:3-14:61>
+**********************************************
+
+Expr: <Str ""="" 14:12-14:15>
+  references: None
+  type:       None
+Expr: <Id "Boolean" 14:54-14:61>
+  references: <TypeDecl ["Boolean"] 3:3-3:33>
+  type:       None
 
 Resolving xrefs for node <ParamSpec ["lhs", "rhs"] 14:16-14:45>
 ***************************************************************

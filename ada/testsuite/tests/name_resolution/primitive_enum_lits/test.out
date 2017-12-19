@@ -1,6 +1,13 @@
 Analyzing testderenum.adb
 #########################
 
+Resolving xrefs for node <SubpSpec 1:1-1:22>
+********************************************
+
+Expr: <Id "Testderenum" 1:11-1:22>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["En"] 2:4-2:25>
 ***************************************************
 

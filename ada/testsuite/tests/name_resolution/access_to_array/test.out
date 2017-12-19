@@ -1,6 +1,13 @@
 Analyzing testarraccess.adb
 ###########################
 
+Resolving xrefs for node <SubpSpec 1:1-1:24>
+********************************************
+
+Expr: <Id "TestArrAccess" 1:11-1:24>
+  references: None
+  type:       None
+
 Resolving xrefs for node <TypeDecl ["Str_Access"] 2:4-2:41>
 ***********************************************************
 
@@ -9,6 +16,16 @@ Expr: <Id "Str_Access" 2:9-2:19>
   type:       None
 Expr: <Id "String" 2:34-2:40>
   references: <TypeDecl ["String"] 104:3-104:57>
+  type:       None
+
+Resolving xrefs for node <SubpSpec 3:4-3:49>
+********************************************
+
+Expr: <Id "Prout" 3:13-3:18>
+  references: None
+  type:       None
+Expr: <Id "Str_Access" 3:39-3:49>
+  references: <TypeDecl ["Str_Access"] 2:4-2:41>
   type:       None
 
 Resolving xrefs for node <ParamSpec ["S"] 3:20-3:30>

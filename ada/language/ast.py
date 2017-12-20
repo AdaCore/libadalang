@@ -1759,8 +1759,10 @@ class BaseTypeDecl(BasicDecl):
         """
         return Cond(
             Entity.is_array, Entity.array_def,
+
             Entity.is_implicit_deref,
-            Entity.comp_type.then(lambda c: c.array_def),
+            Entity.accessed_type.then(lambda c: c.array_def),
+
             No(T.ArrayTypeDef.entity)
         )
 

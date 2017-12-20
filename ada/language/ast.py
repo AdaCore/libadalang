@@ -2595,6 +2595,8 @@ class SubtypeDecl(BaseTypeDecl):
     def xref_equation():
         return Entity.subtype.sub_equation
 
+    xref_entry_point = Property(True)
+
 
 class TaskDef(AdaNode):
     interfaces = Field(type=T.Name.list)

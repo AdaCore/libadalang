@@ -14,6 +14,25 @@ Expr: <Int 10:35-10:38>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <SubtypeDecl ["Q_Range"] 11:6-11:52>
+*************************************************************
+
+Expr: <Id "Q_Range" 11:14-11:21>
+  references: None
+  type:       None
+Expr: <Id "Positive" 11:25-11:33>
+  references: <SubtypeDecl ["Positive"] 6:3-6:57>
+  type:       None
+Expr: <BinOp 11:40-11:51>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Int 11:40-11:41>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Id "Q_Size" 11:45-11:51>
+  references: <ObjectDecl ["Q_Size"] 10:6-10:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
 Resolving xrefs for node <ObjectDecl ["Length"] 12:6-12:46>
 ***********************************************************
 

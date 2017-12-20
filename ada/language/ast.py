@@ -2206,6 +2206,8 @@ class AnonymousTypeDecl(TypeDecl):
         return (Entity.type_def.cast(AccessDef)._.accessed_type._
                 .matching_type(other.accessed_type))
 
+    xref_entry_point = Property(False)
+
     # We don't want to add anonymous type declarations to the lexical
     # environments, so we reset the env spec.
     env_spec = EnvSpec()

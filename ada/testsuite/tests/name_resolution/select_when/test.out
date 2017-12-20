@@ -77,10 +77,6 @@ Resolving xrefs for node <ObjectDecl ["Data"] 14:6-14:37>
 Expr: <Id "Data" 14:6-14:10>
   references: None
   type:       None
-
-Resolving xrefs for node <AnonymousTypeDecl ["None"] 14:13-14:36>
-*****************************************************************
-
 Expr: <Id "Q_Range" 14:20-14:27>
   references: <SubtypeDecl ["Q_Range"] 11:6-11:52>
   type:       None

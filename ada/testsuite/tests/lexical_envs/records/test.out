@@ -172,22 +172,21 @@ CompilationUnit[1:1-11:9]
 |  PragmaNodeList[12:1-12:1]: <empty list>
 
 ==== Dumping lexical environments ====
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     foo: [<PackageDecl ["Foo"] 1:1-11:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Foo"] 1:1-11:9>):
-    Referenced:
-      <PackageDecl ["Foo"] 1:1-11:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Foo"] 1:1-11:9>):
+  Referenced: <PackageDecl ["Foo"] 1:1-11:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     r1_type: [<TypeDecl ["R1_Type"] 2:4-5:15>]
     r2_type: [<TypeDecl ["R2_Type"] 7:4-10:15>]
 
-@2 = LexEnv(Parent=@1, Node=<TypeDecl ["R1_Type"] 2:4-5:15>):
+@2 = LexEnv(Primary, Parent=@1, Node=<TypeDecl ["R1_Type"] 2:4-5:15>):
     a: [<ComponentDecl ["A", "B"] 3:7-3:22>]
     b: [<ComponentDecl ["A", "B"] 3:7-3:22>]
     c: [<ComponentDecl ["C"] 4:7-4:22>]
 
-@3 = LexEnv(Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
+@3 = LexEnv(Primary, Parent=@1, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
     i: [<ComponentDecl ["I"] 8:7-8:19>]
     n: [<DiscriminantSpec ["N"] 7:18-7:29>]
     s: [<ComponentDecl ["S"] 9:7-9:27>]

@@ -2,80 +2,74 @@
 == Reloading Pkg ==
 ===================
 ## Pkg ##
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
-    Referenced:
-      <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+  Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@2 = LexEnv(Parent=@1, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+@2 = LexEnv(Primary, Parent=@1, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
     <empty>
 
 ## Child ##
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@2 = LexEnv(Parent=@1, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
-    Referenced:
-      <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
+  Referenced: <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     p2: [<NullSubpDecl ["P2"] 2:4-2:25>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
-    Referenced:
-      <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+  Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@3 = LexEnv(Parent=@2, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+@3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
     <empty>
 
 =====================
 == Reloading Child ==
 =====================
 ## Pkg ##
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
-    Referenced:
-      <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+  Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@2 = LexEnv(Parent=@1, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+@2 = LexEnv(Primary, Parent=@1, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
     <empty>
 
 ## Child ##
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@2 = LexEnv(Parent=@1, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
-    Referenced:
-      <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
+  Referenced: <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     p2: [<NullSubpDecl ["P2"] 2:4-2:25>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
-    Referenced:
-      <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+  Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     pkg: [<PackageDecl ["Pkg"] 1:1-3:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@3 = LexEnv(Parent=@2, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+@3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
     <empty>
 
 Done.

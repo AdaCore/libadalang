@@ -111,18 +111,17 @@ CompilationUnit[1:1-10:9]
 |  PragmaNodeList[11:1-11:1]: <empty list>
 
 ==== Dumping lexical environments ====
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@1 = LexEnv(Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:9>):
-    Referenced:
-      <PackageBody ["Foo"] 1:1-10:9>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageBody ["Foo"] 1:1-10:9>):
+  Referenced: <PackageBody ["Foo"] 1:1-10:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     bar: [<SubpBody ["Bar"] 2:4-9:12>]
 
-@2 = LexEnv(Parent=@1, Node=<SubpBody ["Bar"] 2:4-9:12>):
+@2 = LexEnv(Primary, Parent=@1, Node=<SubpBody ["Bar"] 2:4-9:12>):
     i: [<ParamSpec ["I", "J"] 2:19-2:33>]
     j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 
-@3 = LexEnv(Parent=@2, Node=<DeclBlock 4:7-8:11>):
+@3 = LexEnv(Primary, Parent=@2, Node=<DeclBlock 4:7-8:11>):
     lol: [<SubtypeDecl ["Lol"] 5:10-5:47>]
 

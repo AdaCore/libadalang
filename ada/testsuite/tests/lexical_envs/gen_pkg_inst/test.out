@@ -97,22 +97,21 @@ CompilationUnit[1:1-10:10]
 |  PragmaNodeList[11:1-11:1]: <empty list>
 
 ==== Dumping lexical environments ====
-$root = LexEnv(Parent=null):
+$root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
     test: [<SubpBody ["Test"] 1:1-10:10>]
 
-@1 = LexEnv(Parent=$root, Node=<SubpBody ["Test"] 1:1-10:10>):
-    Referenced:
-      <SubpBody ["Test"] 1:1-10:10>: LexEnv(Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<SubpBody ["Test"] 1:1-10:10>):
+  Referenced: <SubpBody ["Test"] 1:1-10:10>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
     d: [<GenericPackageDecl ["D"] 2:4-5:10>]
     d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>]
 
-@2 = LexEnv(Parent=@1, Node=<GenericPackageDecl ["D"] 2:4-5:10>):
+@2 = LexEnv(Primary, Parent=@1, Node=<GenericPackageDecl ["D"] 2:4-5:10>):
     t: [<ObjectDecl ["T"] 3:7-3:19>]
 
-@3 = LexEnv(Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
+@3 = LexEnv(Primary, Parent=@2, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
     <empty>
 
-@4 = LexEnv(Parent=@1, Node=<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>):
+@4 = LexEnv(Primary, Parent=@1, Node=<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>):
     <empty>
 

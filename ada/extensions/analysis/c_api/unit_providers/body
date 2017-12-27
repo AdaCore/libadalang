@@ -58,7 +58,8 @@
       end if;
 
       begin
-         Load (Project.all, Create (+PF), Env);
+         Load (Project.all, Create (+PF), Env,
+               Report_Missing_Dirs => False);
       exception
          when Invalid_Project =>
             Free (Env);

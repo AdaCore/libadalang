@@ -836,13 +836,24 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=BoolType)
-    def paramless_subp():
+    def can_be_paramless():
         """
-        Return true if entity denotes a paramless subprogram entity, when used
+        Return true if entity can be a paramless subprogram entity, when used
         in an expression context.
         """
         return Entity.subp_spec_or_null.then(
-            lambda ss: ss.paramless(Entity.info.md),
+            lambda ss: ss.paramless(Entity.info.md, can_be=True),
+            default_val=True
+        )
+
+    @langkit_property(return_type=BoolType)
+    def is_paramless():
+        """
+        Return true if entity is a paramless subprogram entity, when used
+        in an expression context.
+        """
+        return Entity.subp_spec_or_null.then(
+            lambda ss: ss.paramless(Entity.info.md, can_be=False),
             default_val=True
         )
 
@@ -1143,15 +1154,16 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     @langkit_property(return_type=BoolType)
-    def paramless(md=Metadata):
+    def paramless(md=Metadata, can_be=(BoolType, True)):
         """
         Utility function. Given a subprogram spec and its associated metadata,
         determine if it can be called without parameters (and hence without a
         callexpr).
         """
+        nb_params = Var(If(can_be, Self.nb_min_params, Self.nb_max_params))
         return Or(
-            md.dottable_subp & (Self.nb_min_params == 1),
-            Self.nb_min_params == 0
+            md.dottable_subp & (nb_params == 1),
+            nb_params == 0
         )
 
     @langkit_property(return_type=BoolType)
@@ -4432,6 +4444,52 @@ class CallExpr(Name):
         # List of every applicable subprogram
         subps = Var(Entity.env_elements)
 
+        def entity_equation(s):
+            # The called entity is the matched entity
+            return Bind(Self.name.ref_var, s) & Cond(
+
+                # If s does not have any parameters, then we construct the
+                # chain of name equations starting from self, with the parent
+                # component.
+                s.is_paramless, Entity.parent_name_equation(
+                    s.expr_type.comp_type(is_subscript=True), root
+                ),
+
+                # If S can be called in a paramless fashion, but can also be
+                # called with parameters, we are forced to make a disjunction.
+                s.can_be_paramless, Or(
+                    Entity.parent_name_equation(
+                        s.expr_type.comp_type(is_subscript=True), root
+                    ),
+
+                    And(
+                        Entity.subprogram_equation(
+                            s.subp_spec_or_null,
+                            s.info.md.dottable_subp,
+                            s.info.md.primitive
+                        ),
+                        Entity.parent_name(root).as_entity.then(
+                            lambda pn:
+                            pn.parent_name_equation(s.expr_type, root),
+                            default_val=LogicTrue()
+                        )
+                    )
+                ),
+
+                And(
+                    Entity.subprogram_equation(
+                        s.subp_spec_or_null,
+                        s.info.md.dottable_subp,
+                        s.info.md.primitive
+                    ),
+                    Entity.parent_name(root).as_entity.then(
+                        lambda pn:
+                        pn.parent_name_equation(s.expr_type, root),
+                        default_val=LogicTrue()
+                    )
+                )
+            )
+
         return And(
             Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation),
 
@@ -4440,35 +4498,7 @@ class CallExpr(Name):
             And(
                 subps.logic_any(lambda e: Let(
                     lambda s=e.cast_or_raise(BasicDecl.entity):
-
-                    # The called entity is the matched entity
-                    Bind(Self.name.ref_var, e)
-
-                    & If(
-                        # Test if the entity is a parameterless subprogram
-                        # call, or something else (a component/local
-                        # variable/etc), that would make this callexpr an array
-                        # access.
-                        s.paramless_subp,
-                        Entity.subscriptable_type_equation(s.expr_type, False),
-                        Entity.subprogram_equation(s.subp_spec_or_null,
-                                                   s.info.md.dottable_subp,
-                                                   s.info.md.primitive)
-                    )
-                    & Self.parent_name(root).as_entity.then(
-                        lambda pn: pn.parent_name_equation(
-                            # If s is paramless, then Self was a subscript to
-                            # the s object, and the parent callexpr is a
-                            # subscript to its component. However, if s is not
-                            # paramless, then Self was a call to s, and the
-                            # parent callexpr is a subscript to an instance of
-                            # s's return type.
-                            If(s.paramless_subp,
-                               s.expr_type.comp_type(is_subscript=True),
-                               s.expr_type),
-                            root
-                        ), default_val=LogicTrue()
-                    ),
+                    entity_equation(s)
                 )),
                 Bind(Self.ref_var, Self.name.ref_var),
                 Entity.name.sub_equation
@@ -5063,7 +5093,7 @@ class BaseId(SingleTokNode):
                 (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                & e.cast_or_raise(BasicDecl).paramless_subp
+                & e.cast_or_raise(BasicDecl).can_be_paramless
             )),
 
             # This identifier is the name for a called subprogram or an array.

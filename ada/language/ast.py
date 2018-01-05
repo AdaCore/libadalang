@@ -1477,7 +1477,7 @@ class ComponentList(BaseFormalParamHolder):
     type_decl = Property(Entity.type_def.parent.cast(T.TypeDecl))
 
     parent_component_list = Property(
-        Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def.comps
+        Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def._.comps
     )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)

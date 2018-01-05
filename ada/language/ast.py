@@ -900,7 +900,7 @@ class BasicDecl(AdaNode):
         Return the body corresponding to this node if applicable.
         """
         ignore(Var(Self.body_unit))
-        return Self.children_env.get_first('__body', recursive=False)
+        return Entity.children_env.get_first('__body', recursive=False)
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(BoolType, True)):
@@ -3035,7 +3035,7 @@ class BasicSubpDecl(BasicDecl):
         """
         Return the SubpBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(SubpBody)
+        return Entity.body_part_entity.cast(SubpBody)
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
@@ -3325,7 +3325,7 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(T.PackageBody)
+        return Entity.body_part_entity.cast(T.PackageBody)
 
 
 class PackageDecl(BasePackageDecl):
@@ -3712,7 +3712,7 @@ class GenericSubpDecl(GenericDecl):
         """
         Return the SubpBody corresponding to this node.
         """
-        return Self.body_part_entity.cast(SubpBody)
+        return Entity.body_part_entity.cast(SubpBody)
 
     env_spec = EnvSpec(
         # Process eventual parent unit
@@ -4213,7 +4213,9 @@ class Name(Expr):
             Self.match(
                 lambda ce=T.CallExpr:
                 ce.as_entity.subscriptable_type_equation(typ),
+
                 lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
+
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
             ) & Self.parent_name(root).as_entity.then(
                 lambda pn: pn.parent_name_equation(

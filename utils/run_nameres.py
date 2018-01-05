@@ -251,6 +251,7 @@ class FileResult(object):
         finally:
             if debug:
                 print("Command line: {}".format(" ".join(args)))
+                print("Dir: {}".format(dir))
 
     def rerun_nameres(self, debug=False, extra_args=[]):
         extra_args = list(extra_args)

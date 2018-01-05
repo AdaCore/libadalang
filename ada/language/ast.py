@@ -2109,7 +2109,7 @@ class TypeDecl(BaseTypeDecl):
         lambda _: No(T.AccessDef.entity)
     ))
 
-    is_tagged_type = Property(Self.type_def.is_tagged_type)
+    is_tagged_type = Property(Entity.type_def.is_tagged_type)
     base_type = Property(Entity.type_def.base_type)
     base_interfaces = Property(Entity.type_def.base_interfaces)
     is_char_type = Property(Entity.type_def.is_char_type)
@@ -2372,9 +2372,11 @@ class DerivedTypeDef(TypeDef):
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)
     accessed_type = Property(Entity.base_type.accessed_type)
-    is_tagged_type = Property(True)
+    is_tagged_type = Property(Not(Entity.record_extension.is_null))
     is_enum_type = Property(Entity.base_type.is_enum_type)
-    is_record_type = Property(Entity.base_type.is_record_type)
+    is_record_type = Property(
+        Entity.is_tagged_type | Entity.base_type.is_record_type
+    )
 
     defining_env = Property(
         Entity.base_types.map(

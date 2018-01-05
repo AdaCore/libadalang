@@ -4044,17 +4044,22 @@ class Aggregate(BaseAggregate):
         td = Var(Self.type_val.cast(BaseTypeDecl.entity))
 
         atd = Var(td.array_def)
-        return If(
-            atd.is_null,
+        return And(
+            Entity.ancestor_expr.then(
+                lambda ae: ae.sub_equation, default_val=LogicTrue()
+            ),
+            If(
+                atd.is_null,
 
-            # First case, aggregate for a record
-            Entity.record_equation(td),
+                # First case, aggregate for a record
+                Entity.record_equation(td),
 
-            # Second case, aggregate for an array
-            Entity.assocs.logic_all(
-                lambda assoc:
-                assoc.expr.as_entity.sub_equation
-                & TypeBind(assoc.expr.type_var, atd.comp_type)
+                # Second case, aggregate for an array
+                Entity.assocs.logic_all(
+                    lambda assoc:
+                    assoc.expr.as_entity.sub_equation
+                    & TypeBind(assoc.expr.type_var, atd.comp_type)
+                )
             )
         )
 

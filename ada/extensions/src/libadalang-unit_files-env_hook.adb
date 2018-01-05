@@ -59,7 +59,8 @@ package body Libadalang.Unit_Files.Env_Hook is
             Dummy : constant Analysis_Unit := Fetch_Unit
               (Ctx,
                Bare_Ada_Node (Bare_Dotted_Name (N).F_Prefix),
-               Unit_Specification);
+               Unit_Specification,
+               Load_If_Needed => True);
          begin
             null;
          end;
@@ -75,7 +76,8 @@ package body Libadalang.Unit_Files.Env_Hook is
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
       Dummy : constant Analysis_Unit := Fetch_Unit
-        (Ctx, Bare_Ada_Node (Bare_Subunit (Node.Parent).F_Name), Unit_Body);
+        (Ctx, Bare_Ada_Node (Bare_Subunit (Node.Parent).F_Name), Unit_Body,
+         Load_If_Needed => True);
    begin
       null;
    end Handle_Subunit;
@@ -103,7 +105,8 @@ package body Libadalang.Unit_Files.Env_Hook is
          Dummy : Analysis_Unit;
       begin
          Dec_Ref (Names);
-         Dummy := Fetch_Unit (Ctx, N, Unit_Specification);
+         Dummy := Fetch_Unit (Ctx, N, Unit_Specification,
+                              Load_If_Needed => True);
       end;
 
       if Node.all in Bare_Subp_Body_Type'Class then

@@ -217,25 +217,34 @@ class AdaNode(ASTNode):
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 
-    @langkit_property(return_type=AnalysisUnitType, external=True,
-                      uses_entity_info=False, uses_envs=False)
-    def get_unit(name=SymbolType.array, kind=AnalysisUnitKind):
+    @langkit_property(
+        return_type=AnalysisUnitType, external=True, uses_entity_info=False,
+        uses_envs=False,
+        memoization_incompatible_reason='Getting an analysis unit cannot'
+                                        ' appear in a memoized context'
+    )
+    def get_unit(name=SymbolType.array, kind=AnalysisUnitKind,
+                 load_if_needed=BoolType):
         """
         Return the analysis unit for the given "kind" corresponding to this
-        Name. Return null if this is an illegal unit name.
+        Name. Return null if this is an illegal unit name, or if
+        "load_if_needed" is false and the unit is not loaded yet.
         """
         pass
 
     @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
-                      ignore_warn_on_node=True)
+                      ignore_warn_on_node=True, unsafe_memoization=True)
     def get_compilation_unit(name=SymbolType.array, kind=AnalysisUnitKind):
         """
-        Return the compilation unit node for the given analysis unit "kind" and
-        correpsonding to the name "name".
+        If the corresponding analysis unit is loaded, return the compilation
+        unit node for the given analysis unit "kind" and correpsonding to the
+        name "name". If it's not loaded, return none.
         """
-        u = Var(Self.get_unit(name, kind))
+        # Because we don't load the unit when it's not already there, it is
+        # safe to use this property in a memoized context.
+        u = Var(Self.get_unit(name, kind, False))
 
-        return u.root.match(
+        return u._.root._.match(
             lambda cu=T.CompilationUnit: cu.body.match(
                 lambda su=T.Subunit: su.body,
                 lambda li=T.LibraryItem: li.item,
@@ -355,7 +364,7 @@ class AdaNode(ASTNode):
     spec_unit = Property(
         Self.top_level_item(Self.unit)
         .cast(T.Body)._.as_bare_entity.defining_name
-        .referenced_unit(UnitSpecification),
+        .referenced_unit_or_null(UnitSpecification),
 
         public=True, doc="""
         If this unit has a spec, fetch and return it. Return the null analysis
@@ -625,7 +634,7 @@ class AdaNode(ASTNode):
 
         This is the body of a Subunit, or the item of a LibraryItem.
         """
-        return unit.root.then(
+        return unit._.root.then(
             lambda root:
                 root.cast_or_raise(T.CompilationUnit).body.match(
                     lambda li=T.LibraryItem: li.item,
@@ -989,7 +998,7 @@ class Body(BasicDecl):
         If self is a subunit, return the body in which it is rooted.
         """
         return Self.parent.cast(T.Subunit).then(lambda su: Self.top_level_item(
-            su.name.referenced_unit(UnitBody)
+            su.name.referenced_unit_or_null(UnitBody)
         ))
 
     @langkit_property(dynamic_vars=[env])
@@ -4237,14 +4246,35 @@ class Name(Expr):
     def name_designated_type_env():
         return Entity.name_designated_type.cast(T.TypeDecl)._.primitives_env
 
-    @langkit_property(return_type=AnalysisUnitType, external=True,
-                      uses_entity_info=False, uses_envs=False)
-    def referenced_unit(kind=AnalysisUnitKind):
+    @langkit_property(
+        return_type=AnalysisUnitType, external=True, uses_entity_info=False,
+        uses_envs=False,
+        memoization_incompatible_reason='Getting an analysis unit cannot'
+                                        ' appear in a memoized context'
+    )
+    def internal_referenced_unit(kind=AnalysisUnitKind,
+                                 load_if_needed=BoolType):
         """
         Return the analysis unit for the given "kind" corresponding to this
-        Name. Return null if this is an illegal unit name.
+        Name. Return null if this is an illegal unit name. If "load_if_needed"
+        is false and the target analysis unit is not loaded yet, don't load it
+        and return a null unit.
         """
         pass
+
+    @langkit_property()
+    def referenced_unit(kind=AnalysisUnitKind):
+        """
+        Shortcut for: `.internal_referenced_unit(kind, True)`.
+        """
+        return Self.internal_referenced_unit(kind, True)
+
+    @langkit_property(unsafe_memoization=True)
+    def referenced_unit_or_null(kind=AnalysisUnitKind):
+        """
+        Shortcut for: `.internal_referenced_unit(kind, False)`.
+        """
+        return Self.internal_referenced_unit(kind, False)
 
     @langkit_property()
     def matches(n=T.Name):

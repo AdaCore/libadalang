@@ -22,12 +22,19 @@ char *ufp_get_unit_filename(
     ada_text *name,
     ada_unit_kind kind)
 {
-    (void) data;
-    (void) name;
-    (void) kind;
+    const char result_static[] = "strange_bar.ads";
+    char *result;
+    struct my_unit_provider *ufp_data
+      = (struct my_unit_provider *) data;
 
-    puts("Calling supposedly dead code");
-    exit(1);
+    printf("Calling ufp_get_unit_filename (some_field=%d, kind=%d) "
+           "with name: \"", ufp_data->some_field, kind);
+    fprint_text(stdout, *name, false);
+    printf("\"\n");
+
+    result = malloc(sizeof(result_static));
+    strcpy(result, result_static);
+    return result;
 }
 
 ada_analysis_unit ufp_get_file_from_name(

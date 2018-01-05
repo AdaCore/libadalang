@@ -185,20 +185,22 @@ package body Libadalang.Unit_Files is
    ----------------
 
    function Fetch_Unit
-     (Ctx  : Analysis_Context;
-      Name : Bare_Ada_Node;
-      Kind : Unit_Kind) return Analysis_Unit
-   is
+     (Ctx            : Analysis_Context;
+      Name           : Bare_Ada_Node;
+      Kind           : Unit_Kind;
+      Load_If_Needed : Boolean) return Analysis_Unit is
    begin
       return Fetch_Unit
-        (Ctx, Name_To_Symbols (Name), Get_Unit (Create (Name)), Kind);
+        (Ctx, Name_To_Symbols (Name), Get_Unit (Create (Name)), Kind,
+         Load_If_Needed);
    end Fetch_Unit;
 
    function Fetch_Unit
-     (Ctx       : Analysis_Context;
-      Name      : Symbol_Type_Array;
-      From_Unit : Analysis_Unit;
-      Kind      : Unit_Kind) return Analysis_Unit
+     (Ctx            : Analysis_Context;
+      Name           : Symbol_Type_Array;
+      From_Unit      : Analysis_Unit;
+      Kind           : Unit_Kind;
+      Load_If_Needed : Boolean) return Analysis_Unit
    is
       procedure Prepare_Semres (Unit : Analysis_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
@@ -216,9 +218,20 @@ package body Libadalang.Unit_Files is
          end if;
       end Prepare_Semres;
 
-      UFP : constant Unit_Provider_Access_Cst := Unit_Provider (Ctx);
+      UFP              : constant Unit_Provider_Access_Cst :=
+         Unit_Provider (Ctx);
       Unit, First_Unit : Analysis_Unit;
    begin
+      if not Load_If_Needed then
+         declare
+            Filename : constant String :=
+               UFP.Get_Unit_Filename (To_String (Name), Kind);
+         begin
+            if not Has_Unit (Ctx, Filename) then
+               return No_Analysis_Unit;
+            end if;
+         end;
+      end if;
 
       --  GNAT kludge: as an "optimization", the generic subpackages in
       --  Ada.Text_IO (see Text_IO_Subpackages) are not present in the

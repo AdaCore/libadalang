@@ -5,16 +5,17 @@
 ----------------
 
 function P_Get_Unit
-  (Node : access Bare_Ada_Node_Type'Class; 
-   Name : Symbol_Type_Array_Access; 
-   Kind : Unit_Kind) return Analysis_Unit
-is
+  (Node           : access Bare_Ada_Node_Type'Class;
+   Name           : Symbol_Type_Array_Access;
+   Kind           : Unit_Kind;
+   Load_If_Needed : Boolean) return Analysis_Unit is
 begin
    return Libadalang.Unit_Files.Fetch_Unit
      (Node.Unit.Context,
       Libadalang.Unit_Files.Symbol_Type_Array (Name.Items),
       Node.Unit,
-      Kind);
+      Kind,
+      Load_If_Needed);
 exception
    when Property_Error =>
       return No_Analysis_Unit;

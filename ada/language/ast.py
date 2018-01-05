@@ -547,7 +547,7 @@ class AdaNode(ASTNode):
             EmptyEnv
         ))
 
-    @langkit_property(memoized=True, memoize_in_populate=True)
+    @langkit_property()
     def nested_generic_formal_part():
         """
         Assuming Self is a generic entity's body that is nested (not a library

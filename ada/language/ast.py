@@ -5740,7 +5740,26 @@ class AttributeRef(Name):
             rel_name == 'Write',
             Entity.write_attr_equation,
 
+            rel_name == 'Tag', Entity.tag_attr_equation,
+
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def tag_attr_equation():
+        tag_type = Var(
+            Entity
+            .get_compilation_unit(['Ada', 'Tags'], UnitSpecification)
+            ._.children_env.get_first('Tag', recursive=False)
+            .cast(T.BaseTypeDecl)
+        )
+
+        return (
+            # Prefix is an expression, bind prefix's ref var to it
+            Entity.prefix.xref_equation
+
+            # Type of self is String
+            & TypeBind(Self.type_var, tag_type)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

@@ -16,6 +16,11 @@ package Libadalang.Unit_Files.Default is
    --       /the_gnat_compilation_model.html#file-naming-rules> for more
    --  details.
 
+   overriding function Get_Unit_Filename
+     (Provider : Default_Unit_Provider_Type;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String;
+
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
       Context     : Analysis_Context;

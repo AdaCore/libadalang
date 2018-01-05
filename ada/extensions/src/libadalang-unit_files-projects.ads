@@ -26,6 +26,11 @@ package Libadalang.Unit_Files.Projects is
    --  Otherwise, the project pointed by Project must outlive the returned unit
    --  file provider.
 
+   overriding function Get_Unit_Filename
+     (Provider : Project_Unit_Provider_Type;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String;
+
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider_Type;
       Context     : Analysis_Context;

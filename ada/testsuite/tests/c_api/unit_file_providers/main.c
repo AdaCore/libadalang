@@ -17,6 +17,19 @@ void ufp_destroy(void *data) {
     printf("Calling ufp_destroy (some_field=%d)\n", ufp_data->some_field);
 }
 
+char *ufp_get_unit_filename(
+    void *data,
+    ada_text *name,
+    ada_unit_kind kind)
+{
+    (void) data;
+    (void) name;
+    (void) kind;
+
+    puts("Calling supposedly dead code");
+    exit(1);
+}
+
 ada_analysis_unit ufp_get_file_from_name(
     void *data,
     ada_analysis_context context,
@@ -46,6 +59,7 @@ main(void)
     ada_unit_provider ufp
       = ada_create_unit_provider((void *) &ufp_data,
                                  ufp_destroy,
+                                 ufp_get_unit_filename,
                                  ufp_get_file_from_name);
 
     ada_base_entity root, pragma, args, assoc, expr;

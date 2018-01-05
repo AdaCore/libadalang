@@ -4,6 +4,35 @@ with Libadalang.Unit_Files.Default;
 
 package body Libadalang.Unit_Files.Projects is
 
+   -----------------------
+   -- Get_Unit_Filename --
+   -----------------------
+
+   overriding function Get_Unit_Filename
+     (Provider : Project_Unit_Provider_Type;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String
+   is
+      Str_Name : constant String :=
+         Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+      File : constant Filesystem_String := File_From_Unit
+        (Project   => Root_Project (Provider.Project.all),
+         Unit_Name => Str_Name,
+         Part      => Convert (Kind),
+         Language  => "Ada");
+   begin
+      if File'Length = 0 then
+         raise Property_Error;
+      end if;
+
+      declare
+         Path : constant GNATCOLL.VFS.Virtual_File :=
+            GNATCOLL.Projects.Create (Provider.Project.all, File);
+      begin
+         return +Full_Name (Path);
+      end;
+   end Get_Unit_Filename;
+
    --------------
    -- Get_Unit --
    --------------
@@ -14,39 +43,33 @@ package body Libadalang.Unit_Files.Projects is
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit
-   is
-      Str_Name : constant String :=
-         Libadalang.Unit_Files.Default.Unit_String_Name (Name);
-      File     : constant Filesystem_String := File_From_Unit
-        (Project   => Root_Project (Provider.Project.all),
-         Unit_Name => Str_Name,
-         Part      => Convert (Kind),
-         Language  => "Ada");
+      Reparse     : Boolean := False) return Analysis_Unit is
    begin
-      if File'Length /= 0 then
-         declare
-            Path : constant GNATCOLL.VFS.Virtual_File :=
-               GNATCOLL.Projects.Create (Provider.Project.all, File);
-         begin
-            return Get_From_File (Context, +Full_Name (Path), Charset,
-                                  Reparse);
-         end;
-      end if;
 
       declare
-         Dummy_File : constant String :=
-            Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
-         Kind_Name  : constant String :=
-           (case Kind is
-            when Unit_Specification => "specification file",
-            when Unit_Body          => "body file");
-         Error      : constant String :=
-            "Could not find source file for " & Str_Name & " (" & Kind_Name
-            & ")";
+         Filename : constant String :=
+            Provider.Get_Unit_Filename (Name, Kind);
       begin
-         return Get_With_Error (Context, Dummy_File, Error, Charset);
+         return Get_From_File (Context, Filename, Charset, Reparse);
       end;
+
+   exception
+      when Property_Error =>
+         declare
+            Str_Name : constant String :=
+               Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+            Dummy_File : constant String :=
+               Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
+            Kind_Name  : constant String :=
+              (case Kind is
+               when Unit_Specification => "specification file",
+               when Unit_Body          => "body file");
+            Error      : constant String :=
+               "Could not find source file for " & Str_Name & " (" & Kind_Name
+               & ")";
+         begin
+            return Get_With_Error (Context, Dummy_File, Error, Charset);
+         end;
    end Get_Unit;
 
    ----------------

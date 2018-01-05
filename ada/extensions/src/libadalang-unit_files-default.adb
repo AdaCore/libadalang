@@ -12,6 +12,20 @@ with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
 
+   -----------------------
+   -- Get_Unit_Filename --
+   -----------------------
+
+   overriding function Get_Unit_Filename
+     (Provider : Default_Unit_Provider_Type;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String
+   is
+      pragma Unreferenced (Provider);
+   begin
+      return File_From_Unit (Unit_String_Name (Name), Kind);
+   end Get_Unit_Filename;
+
    --------------
    -- Get_Unit --
    --------------

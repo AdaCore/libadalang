@@ -3381,7 +3381,7 @@ class GenericInstantiation(BasicDecl):
         Entity.generic_inst_params._.at(0)._.expr._.is_a(T.BoxExpr)
     )
 
-    designated_generic_decl = Property(
+    nonbound_generic_decl = Property(
         env.bind(
             Self.node_env,
             Self.as_bare_entity.generic_entity_name.env_elements.at(0)
@@ -3397,18 +3397,22 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
+    designated_generic_decl = AbstractProperty(
+        type=T.BasicDecl.entity, public=True
+    )
+
     xref_entry_point = Property(True)
 
     xref_equation = Property(
         Bind(Entity.generic_entity_name.ref_var,
-             Entity.designated_generic_decl)
+             Entity.nonbound_generic_decl)
         & Entity.generic_entity_name.match(
             lambda dn=T.DottedName: dn.prefix.xref_no_overloading,
             lambda _: LogicTrue()
         ) & If(
             Entity.is_any_formal,
             LogicTrue(),
-            Self.designated_generic_decl._.formal_part.match_param_list(
+            Self.nonbound_generic_decl._.formal_part.match_param_list(
                 Entity.generic_inst_params.el, False
             ).logic_all(
                 lambda pm: pm.formal.spec.cast(T.GenericFormal).decl.match(
@@ -3441,7 +3445,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         Return the subprogram decl designated by this instantiation.
         """
-        return Self.designated_generic_decl.then(
+        return Self.nonbound_generic_decl.then(
             lambda p: BasicSubpDecl.entity.new(
                 el=p.el.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
@@ -3452,6 +3456,10 @@ class GenericSubpInstantiation(GenericInstantiation):
                 )
             ).cast(T.entity)
         )
+
+    designated_generic_decl = Property(
+        Entity.designated_subp.cast(T.BasicDecl)
+    )
 
     env_spec = EnvSpec(
         call_env_hook(Self),
@@ -3464,7 +3472,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         add_to_env(
             env.bind(
                 Self.initial_env,
-                Self.designated_generic_decl._.formal_part.match_param_list(
+                Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Self.params, False
                 ).map(lambda pm: T.env_assoc.new(
                     key=pm.formal.name.sym, val=pm.actual.assoc.expr
@@ -3487,31 +3495,37 @@ class GenericPackageInstantiation(GenericInstantiation):
     generic_entity_name = Property(Entity.generic_pkg_name)
     generic_inst_params = Property(Entity.params)
 
-    @langkit_property(return_type=LexicalEnvType)
-    def defining_env():
-        self_children_env = Var(Self.children_env.env_orphan)
-        return Self.designated_generic_decl.then(
-            lambda p:
+    @langkit_property()
+    def designated_package():
+        return Self.nonbound_generic_decl.then(
+            lambda p: BasePackageDecl.entity.new(
+                el=p.el.cast(GenericPackageDecl).package_decl,
+                info=T.entity_info.new(
+                    md=p.info.md,
 
-            # We take the naked generic decl env via .el (no rebindings).
-            # We group it with the instantiation's env.
-            Array([p._.decl.el.children_env, self_children_env]).env_group()
+                    # Take the rebindings from the current context
+                    rebindings=Entity.info.rebindings
 
-            .rebind_env(
-                # Take the rebindings from the current context
-                Entity.info.rebindings
+                    # Append the rebindings from the decl
+                    .concat_rebindings(p._.decl.info.rebindings)
 
-                # Append the rebindings from the decl
-                .concat_rebindings(p._.decl.info.rebindings)
-
-                # Append the rebindings for the current instantiation.
-                # NOTE: We use the formal env to create rebindings. There, we
-                # purposefully want the children env of the P node, with no
-                # rebindings associated, since the rebinding indication
-                # concerns the *naked* generic. Hence we use p.el.children_env.
-                .append_rebinding(p.el.children_env, Self.instantiation_env)
+                    # Append the rebindings for the current instantiation.
+                    # NOTE: We use the formal env to create rebindings. There,
+                    # we purposefully want the children env of the P node, with
+                    # no rebindings associated, since the rebinding indication
+                    # concerns the *naked* generic. Hence we use
+                    # p.el.children_env.
+                    .append_rebinding(p.el.children_env,
+                                      Self.instantiation_env)
+                )
             )
         )
+
+    designated_generic_decl = Property(Entity.designated_package)
+
+    @langkit_property(return_type=LexicalEnvType)
+    def defining_env():
+        return Entity.designated_generic_decl.children_env
 
     defining_names = Property(Self.name.as_entity.singleton)
 
@@ -3535,7 +3549,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                 Self.initial_env,
                 If(Entity.is_any_formal,
                    No(T.env_assoc.array),
-                   Self.designated_generic_decl._.formal_part.match_param_list(
+                   Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Self.params, False
                    ).map(lambda pm: T.env_assoc.new(
                        key=pm.formal.name.sym, val=pm.actual.assoc.expr

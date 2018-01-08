@@ -1911,6 +1911,16 @@ class BaseTypeDecl(BasicDecl):
                 actual_type.is_derived_type(formal_type)
             ),
 
+            # Matching of access types parameters
+            actual_type.accessed_type.then(
+                lambda actual_access:
+                formal_type.accessed_type.then(
+                    lambda formal_access:
+                    And(actual_access.is_classwide | accept_derived,
+                        actual_access.is_derived_type(formal_access))
+                )
+            ),
+
             And(
                 Not(actual_type.get_imp_deref.is_null),
                 actual_type

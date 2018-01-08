@@ -1306,6 +1306,8 @@ class TypeDef(AdaNode):
         """
     )
 
+    previous_part = Property(Entity.containing_type.previous_part(True))
+
 
 class Variant(AdaNode):
     choice_list = Field(type=T.AdaNode.list)

@@ -4188,7 +4188,12 @@ class Name(Expr):
                 lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
             ) & Self.parent_name(root).as_entity.then(
-                lambda pn: pn.parent_name_equation(typ.comp_type, root),
+                lambda pn: pn.parent_name_equation(
+                    typ.comp_type(
+                        is_subscript=Not(Self.is_a(T.ExplicitDeref))
+                    ),
+                    root
+                ),
                 default_val=LogicTrue()
             )
         )
@@ -4470,14 +4475,14 @@ class CallExpr(Name):
                 # chain of name equations starting from self, with the parent
                 # component.
                 s.is_paramless, Entity.parent_name_equation(
-                    s.expr_type.comp_type(is_subscript=True), root
+                    s.expr_type, root
                 ),
 
                 # If S can be called in a paramless fashion, but can also be
                 # called with parameters, we are forced to make a disjunction.
                 s.can_be_paramless, Or(
                     Entity.parent_name_equation(
-                        s.expr_type.comp_type(is_subscript=True), root
+                        s.expr_type, root
                     ),
 
                     And(

@@ -1308,6 +1308,11 @@ class TypeDef(AdaNode):
 
     previous_part = Property(Entity.containing_type.previous_part(True))
 
+    previous_part_env = Property(Entity.previous_part._.match(
+        lambda _=T.IncompleteTypeDecl: EmptyEnv,
+        lambda t: t.children_env
+    ))
+
 
 class Variant(AdaNode):
     choice_list = Field(type=T.AdaNode.list)
@@ -1600,7 +1605,9 @@ class RecordTypeDef(TypeDef):
     record_def = Field(type=T.BaseRecordDef)
 
     defining_env = Property(
-        Entity.children_env,
+        Array([
+            Entity.children_env, Entity.previous_part_env
+        ]).env_group(),
         type=LexicalEnvType
     )
 
@@ -2383,7 +2390,9 @@ class DerivedTypeDef(TypeDef):
     defining_env = Property(
         Entity.base_types.map(
             lambda bt: bt._.defining_env
-        ).concat(Entity.children_env.singleton).env_group()
+        ).concat(
+            Array([Entity.children_env, Entity.previous_part_env])
+        ).env_group()
     )
 
     @langkit_property(return_type=EquationType)

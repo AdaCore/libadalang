@@ -2381,7 +2381,11 @@ class DerivedTypeDef(TypeDef):
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)
     accessed_type = Property(Entity.base_type.accessed_type)
-    is_tagged_type = Property(Not(Entity.record_extension.is_null))
+    is_tagged_type = Property(
+        Not(Entity.record_extension.is_null)
+        | Not(Entity.has_with_private.is_null)
+    )
+
     is_enum_type = Property(Entity.base_type.is_enum_type)
     is_record_type = Property(
         Entity.is_tagged_type | Entity.base_type.is_record_type

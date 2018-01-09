@@ -220,8 +220,8 @@ class AdaNode(ASTNode):
     @langkit_property(
         return_type=AnalysisUnitType, external=True, uses_entity_info=False,
         uses_envs=False,
-        memoization_incompatible_reason='Getting an analysis unit cannot'
-                                        ' appear in a memoized context'
+        call_non_memoizable_because='Getting an analysis unit cannot appear'
+                                    ' in a memoized context'
     )
     def get_unit(name=SymbolType.array, kind=AnalysisUnitKind,
                  load_if_needed=BoolType):
@@ -233,7 +233,7 @@ class AdaNode(ASTNode):
         pass
 
     @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
-                      ignore_warn_on_node=True, unsafe_memoization=True)
+                      ignore_warn_on_node=True, call_memoizable=True)
     def get_compilation_unit(name=SymbolType.array, kind=AnalysisUnitKind):
         """
         If the corresponding analysis unit is loaded, return the compilation
@@ -334,7 +334,7 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(return_type=BoolType, public=True,
-                      memoized=True, unsafe_memoization=True)
+                      memoized=True, call_memoizable=True)
     def resolve_names():
         """
         This will resolve names for this node. If the operation is successful,
@@ -3218,7 +3218,7 @@ class NumberDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
-    @langkit_property(unsafe_memoization=True)
+    @langkit_property(call_memoizable=True)
     def expr_type():
         p = Var(If(Self.expr.type_val.is_null,
                    Entity.expr.resolve_names,
@@ -4318,8 +4318,8 @@ class Name(Expr):
     @langkit_property(
         return_type=AnalysisUnitType, external=True, uses_entity_info=False,
         uses_envs=False,
-        memoization_incompatible_reason='Getting an analysis unit cannot'
-                                        ' appear in a memoized context'
+        call_non_memoizable_because='Getting an analysis unit cannot appear'
+                                    ' in a memoized context'
     )
     def internal_referenced_unit(kind=AnalysisUnitKind,
                                  load_if_needed=BoolType):
@@ -4338,7 +4338,7 @@ class Name(Expr):
         """
         return Self.internal_referenced_unit(kind, True)
 
-    @langkit_property(unsafe_memoization=True)
+    @langkit_property(call_memoizable=True)
     def referenced_unit_or_null(kind=AnalysisUnitKind):
         """
         Shortcut for: `.internal_referenced_unit(kind, False)`.
@@ -5549,7 +5549,7 @@ class ForLoopVarDecl(BasicDecl):
 
     defining_env = Property(Entity.expr_type.defining_env)
 
-    @langkit_property(memoized=True, unsafe_memoization=True)
+    @langkit_property(memoized=True, call_memoizable=True)
     def expr_type():
         return If(
             Self.id_type.is_null,
@@ -5572,7 +5572,7 @@ class ForLoopSpec(LoopSpec):
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
-    @langkit_property(memoized=True, unsafe_memoization=True)
+    @langkit_property(memoized=True, call_memoizable=True)
     def iter_type():
         p = Var(Entity.iter_expr.resolve_names)
 

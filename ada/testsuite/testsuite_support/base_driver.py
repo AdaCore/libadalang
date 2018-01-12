@@ -270,6 +270,11 @@ class BaseDriver(TestDriver):
 
         fileutils.sync_tree(self.test_dir, self.working_dir())
 
+    @staticmethod
+    def diff(first_file, second_file):
+        return fileutils.diff(first_file, second_file,
+                              ignore_white_chars=False)
+
     #
     # Run helpers
     #
@@ -352,8 +357,7 @@ class BaseDriver(TestDriver):
         failures = []
 
         # Check for the test output itself
-        diff = fileutils.diff(self.expected_file, self.output_file,
-                              ignore_white_chars=False)
+        diff = self.diff(self.expected_file, self.output_file)
         if diff:
             if rewrite:
                 new_baseline = self.read_file(self.output_file)

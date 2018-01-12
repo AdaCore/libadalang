@@ -3398,7 +3398,11 @@ class GenericInstantiation(BasicDecl):
     )
 
     designated_generic_decl = AbstractProperty(
-        type=T.BasicDecl.entity, public=True
+        type=T.BasicDecl.entity, public=True, doc="""
+        Return the generic decl entity designated by this instantiation,
+        containing the generic context. This is equivalent to the expanded
+        generic unit in GNAT.
+        """
     )
 
     xref_entry_point = Property(True)

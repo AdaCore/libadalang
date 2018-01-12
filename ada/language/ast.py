@@ -5806,7 +5806,24 @@ class AttributeRef(Name):
 
             rel_name == 'Tag', Entity.tag_attr_equation,
 
+            rel_name == 'Result', Entity.result_attr_equation,
+
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def result_attr_equation():
+        containing_subp = Var(Self.parents.find(
+            lambda p: p.is_a(BasicSubpDecl, SubpBody)
+        ).as_entity.cast(T.BasicDecl))
+
+        returns = Var(containing_subp.subp_spec_or_null.then(
+            lambda ss: ss.return_type
+        ))
+
+        return And(
+            TypeBind(Self.type_var, returns),
+            Bind(Entity.prefix.ref_var, containing_subp)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

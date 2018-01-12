@@ -1,78 +1,78 @@
-<CompilationUnit>
+CompilationUnit 1:1-6:9
 |prelude:
-|  <AdaNodeList>
-|  |item 0:
-|  |  <WithClause>
+|  AdaNodeList 1:1-1:18
+|  |item_0:
+|  |  WithClause 1:1-1:18
 |  |  |has_limited:
-|  |  |  <LimitedAbsent>
+|  |  |  LimitedAbsent 1:1-1:1
 |  |  |has_private:
-|  |  |  <PrivateAbsent>
+|  |  |  PrivateAbsent 1:1-1:1
 |  |  |packages:
-|  |  |  <NameList>
-|  |  |  |item 0:
-|  |  |  |  <DottedName>
+|  |  |  NameList 1:6-1:17
+|  |  |  |item_0:
+|  |  |  |  DottedName 1:6-1:17
 |  |  |  |  |prefix:
-|  |  |  |  |  <Identifier>
+|  |  |  |  |  Id "Ada" 1:6-1:9
 |  |  |  |  |  |tok: Token(u'Ada')
 |  |  |  |  |suffix:
-|  |  |  |  |  <Identifier>
+|  |  |  |  |  Id "Text_IO" 1:10-1:17
 |  |  |  |  |  |tok: Token(u'Text_IO')
 |body:
-|  <LibraryItem>
+|  LibraryItem 3:1-6:9
 |  |has_private:
-|  |  <PrivateAbsent>
+|  |  PrivateAbsent 3:1-3:1
 |  |item:
-|  |  <SubpBody>
+|  |  SubpBody ["Foo"] 3:1-6:9
 |  |  |overriding:
-|  |  |  <OverridingUnspecified>
+|  |  |  OverridingUnspecified 3:1-3:1
 |  |  |subp_spec:
-|  |  |  <SubpSpec>
+|  |  |  SubpSpec 3:1-3:14
 |  |  |  |subp_kind:
-|  |  |  |  <SubpKindProcedure>
+|  |  |  |  SubpKindProcedure 3:1-3:10
 |  |  |  |subp_name:
-|  |  |  |  <Identifier>
+|  |  |  |  Id "Foo" 3:11-3:14
 |  |  |  |  |tok: Token(u'Foo')
 |  |  |  |subp_params: None
 |  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:
-|  |  |  <DeclarativePart>
+|  |  |  DeclarativePart 4:1-4:1
 |  |  |  |decls:
-|  |  |  |  <AdaNodeList>
+|  |  |  |  AdaNodeList 4:1-4:1
 |  |  |stmts:
-|  |  |  <HandledStmts>
+|  |  |  HandledStmts 5:4-5:43
 |  |  |  |stmts:
-|  |  |  |  <StmtList>
-|  |  |  |  |item 0:
-|  |  |  |  |  <CallStmt>
+|  |  |  |  StmtList 5:4-5:43
+|  |  |  |  |item_0:
+|  |  |  |  |  CallStmt 5:4-5:43
 |  |  |  |  |  |call:
-|  |  |  |  |  |  <CallExpr>
+|  |  |  |  |  |  CallExpr 5:4-5:42
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  <DottedName>
+|  |  |  |  |  |  |  DottedName 5:4-5:24
 |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  <DottedName>
+|  |  |  |  |  |  |  |  DottedName 5:4-5:15
 |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  Id "Ada" 5:4-5:7
 |  |  |  |  |  |  |  |  |  |tok: Token(u'Ada')
 |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  |  Id "Text_IO" 5:8-5:15
 |  |  |  |  |  |  |  |  |  |tok: Token(u'Text_IO')
 |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  <Identifier>
+|  |  |  |  |  |  |  |  Id "Put_Line" 5:16-5:24
 |  |  |  |  |  |  |  |  |tok: Token(u'Put_Line')
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  <AssocList>
-|  |  |  |  |  |  |  |item 0:
-|  |  |  |  |  |  |  |  <ParamAssoc>
+|  |  |  |  |  |  |  AssocList 5:26-5:41
+|  |  |  |  |  |  |  |item_0:
+|  |  |  |  |  |  |  |  ParamAssoc 5:26-5:41
 |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  <StringLiteral>
+|  |  |  |  |  |  |  |  |  Str ""Hello, world!"" 5:26-5:41
 |  |  |  |  |  |  |  |  |  |tok: Token(u'"Hello, world!"')
 |  |  |  |exceptions:
-|  |  |  |  <AdaNodeList>
+|  |  |  |  AdaNodeList 5:42-5:42
 |  |  |end_id:
-|  |  |  <Identifier>
+|  |  |  Id "Foo" 6:5-6:8
 |  |  |  |tok: Token(u'Foo')
 |pragmas:
-|  <PragmaNodeList>
+|  PragmaNodeList 7:1-7:1
 Done

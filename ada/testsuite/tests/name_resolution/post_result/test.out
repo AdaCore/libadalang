@@ -1,0 +1,61 @@
+Analyzing test_result_attr.adb
+##############################
+
+Resolving xrefs for node <SubpSpec 1:1-1:27>
+********************************************
+
+Expr: <Id "Test_Result_Attr" 1:11-1:27>
+  references: None
+  type:       None
+
+Resolving xrefs for node <SubpSpec 2:4-2:34>
+********************************************
+
+Expr: <Id "Barize" 2:13-2:19>
+  references: None
+  type:       None
+Expr: <Id "Integer" 2:27-2:34>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <AspectAssoc 3:12-3:38>
+************************************************
+
+Expr: <Id "Post" 3:12-3:16>
+  references: None
+  type:       None
+Expr: <RelationOp 3:20-3:38>
+  references: None
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+Expr: <AttributeRef 3:20-3:33>
+  references: <SubpDecl ["Barize"] 2:4-3:39>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Barize" 3:20-3:26>
+  references: <SubpDecl ["Barize"] 2:4-3:39>
+  type:       None
+Expr: <Id "Result" 3:27-3:33>
+  references: None
+  type:       None
+Expr: <Int 3:36-3:38>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <SubpSpec 5:4-5:34>
+********************************************
+
+Expr: <Id "Barize" 5:13-5:19>
+  references: None
+  type:       None
+Expr: <Id "Integer" 5:27-5:34>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+
+Resolving xrefs for node <ReturnStmt 7:7-7:17>
+**********************************************
+
+Expr: <Int 7:14-7:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

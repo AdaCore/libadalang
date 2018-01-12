@@ -3205,8 +3205,22 @@ class SingleProtectedDecl(BasicDecl):
 
 
 class AspectAssoc(AdaNode):
-    id = Field(type=T.Expr)
+    id = Field(type=T.Name)
     expr = Field(type=T.Expr)
+
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Cond(
+            Self.parent.parent.parent.is_a(BasicSubpDecl, SubpBody)
+            & Entity.id.relative_name.any_of('Pre', 'Post'),
+
+            Entity.expr.sub_equation
+            & TypeBind(Self.expr.type_var, Self.bool_type),
+
+            LogicTrue()
+        )
 
 
 class NumberDecl(BasicDecl):

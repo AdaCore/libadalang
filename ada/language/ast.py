@@ -5940,8 +5940,10 @@ class AttributeRef(Name):
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
 
         return (
+            expr.as_entity.sub_equation
+
             # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
+            & Bind(Self.prefix.ref_var, typ)
 
             # Type of expression is str_type
             & TypeBind(expr.type_var, str_type)
@@ -5956,8 +5958,9 @@ class AttributeRef(Name):
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
 
         return (
+            expr.as_entity.sub_equation
             # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
+            & Bind(Self.prefix.ref_var, typ)
             # Type of expression is designated type
             & TypeBind(expr.type_var, typ)
             # Type of self is String

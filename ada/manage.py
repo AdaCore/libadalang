@@ -144,6 +144,12 @@ class Manage(ManageScript):
         return super(Manage, self).main_programs | {'nameres', 'navigate',
                                                     'gnat_compare'}
 
+    def do_generate(self, args):
+        # Always generate the unparsing machinery
+        args.generate_unparser = True
+        super(Manage, self).do_generate(args)
+    do_generate.__doc__ = ManageScript.do_generate.__doc__
+
     def do_test(self, args):
         """
         Run the testsuite.

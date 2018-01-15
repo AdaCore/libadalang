@@ -24,7 +24,7 @@ def full_name(n):
     """
     if isinstance(n, DottedName):
         return "{}.{}".format(n.f_prefix.full_name, n.f_suffix.full_name)
-    elif isinstance(n, Identifier):
+    elif isinstance(n, BaseId):
         return n.text
     else:
         raise Exception("Wrong type for name: {}".format(type(n)))
@@ -32,5 +32,4 @@ def full_name(n):
 
 Token.match = token_match
 SingleTokNode.text = single_tok_node_text
-DottedName.full_name = full_name
-Identifier.full_name = full_name
+Name.full_name = full_name

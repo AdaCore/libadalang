@@ -1107,6 +1107,22 @@ class DiscriminantSpec(BaseFormalParamDecl):
     identifiers = Property(Self.ids.map(lambda i: i.cast(BaseId)))
     type_expression = Property(Entity.type_expr)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Entity.type_expr.sub_equation,
+            Entity.default_expr.then(
+                lambda de:
+                de.sub_equation
+                & Bind(de.el.type_var,
+                       Entity.expr_type,
+                       eq_prop=BaseTypeDecl.matching_assign_type),
+                default_val=LogicTrue()
+            )
+        )
+
 
 @abstract
 class BaseFormalParamHolder(AdaNode):

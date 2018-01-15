@@ -33,11 +33,15 @@ Resolving xrefs for node <TypeDecl ["Bounded_Ints"] 5:4-8:15>
 Expr: <Id "Bounded_Ints" 5:9-5:21>
   references: None
   type:       None
+
+Resolving xrefs for node <DiscriminantSpec ["Max_Size"] 5:23-5:41>
+******************************************************************
+
 Expr: <Id "Max_Size" 5:23-5:31>
   references: None
   type:       None
 Expr: <Id "Natural" 5:34-5:41>
-  references: None
+  references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
 
 Resolving xrefs for node <ComponentDecl ["Length"] 6:7-6:29>

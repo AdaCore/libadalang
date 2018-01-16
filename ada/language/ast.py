@@ -3145,6 +3145,11 @@ class SubpRenamingDecl(ClassicSubpDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
+    xref_entry_point = Property(True)
+    xref_equation = Property(
+        Entity.renames.renamed_object.xref_no_overloading
+    )
+
 
 class Pragma(AdaNode):
     id = Field(type=T.Identifier)
@@ -3599,7 +3604,7 @@ class RenamingClause(AdaNode):
     """
     Renaming clause, used everywhere renamings are valid.
     """
-    renamed_object = Field(type=T.Expr)
+    renamed_object = Field(type=T.Name)
 
 
 class PackageRenamingDecl(BasicDecl):

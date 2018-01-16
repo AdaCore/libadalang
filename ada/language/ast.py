@@ -3621,6 +3621,11 @@ class PackageRenamingDecl(BasicDecl):
         ._.cast(BasicDecl).defining_env
     ))
 
+    xref_entry_point = Property(True)
+    xref_equation = Property(
+        Entity.renames.renamed_object.xref_no_overloading
+    )
+
 
 @abstract
 class GenericRenamingDecl(BasicDecl):

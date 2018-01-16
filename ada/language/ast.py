@@ -837,13 +837,7 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=BoolType)
     def is_subprogram():
-        return Self.match(
-            lambda _=BasicSubpDecl: True,
-            lambda _=SubpBody:      True,
-            lambda _=SubpBodyStub:  True,
-            lambda _=EntryDecl:     True,
-            lambda _:               False
-        )
+        return Self.is_a(BasicSubpDecl, SubpBody, SubpBodyStub, EntryDecl)
 
     @langkit_property(return_type=BoolType)
     def can_be_paramless():

@@ -732,6 +732,16 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    @langkit_property(return_type=BoolType)
+    def subp_decl_match_signature(other=T.BasicDecl.entity):
+        return (
+            Entity.subp_spec_or_null
+            .cast_or_raise(T.BaseSubpSpec).match_signature(
+                other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
+                False
+            )
+        )
+
     annotations = Annotations(custom_short_image=True)
 
     defining_names = AbstractProperty(
@@ -3146,9 +3156,12 @@ class SubpRenamingDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     xref_entry_point = Property(True)
-    xref_equation = Property(
-        Entity.renames.renamed_object.xref_no_overloading
-    )
+    xref_equation = Property(And(
+        Entity.renames.renamed_object.xref_no_overloading,
+        Predicate(BasicDecl.subp_decl_match_signature,
+                  Entity.renames.renamed_object.ref_var,
+                  Entity.cast(T.BasicDecl))
+    ))
 
 
 class Pragma(AdaNode):

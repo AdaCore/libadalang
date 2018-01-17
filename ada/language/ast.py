@@ -5840,8 +5840,16 @@ class AttributeRef(Name):
             rel_name == 'Tag', Entity.tag_attr_equation,
 
             rel_name == 'Result', Entity.result_attr_equation,
+            rel_name == 'Old',    Entity.old_attr_equation,
 
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def old_attr_equation():
+        return And(
+            Entity.prefix.sub_equation,
+            TypeBind(Self.type_var, Self.prefix.type_var),
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

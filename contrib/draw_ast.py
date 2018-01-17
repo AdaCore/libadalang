@@ -139,7 +139,7 @@ def to_dot(parent, node):
         else:
             label = []
             rows = []
-            for name, value in node.iter_fields(with_properties=False):
+            for name, value in node.iter_fields():
                 rows.append(name)
                 result.extend(to_dot(node, value))
                 result.append(edge(parent, node, value, name))

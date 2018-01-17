@@ -1335,7 +1335,7 @@ class TypeDef(AdaNode):
 
 
 class Variant(AdaNode):
-    choice_list = Field(type=T.AdaNode.list)
+    choice_list = Field(type=T.AlternativesList)
     components = Field(type=T.ComponentList)
 
     @langkit_property(return_type=BoolType)
@@ -2334,7 +2334,7 @@ class DeltaConstraint(Constraint):
 
 
 class IndexConstraint(Constraint):
-    constraints = Field(type=T.AdaNode.list)
+    constraints = Field(type=T.ConstraintList)
 
     xref_equation = Property(
         Entity.constraints.logic_all(lambda c: c.xref_equation)
@@ -2379,7 +2379,7 @@ class BasicAssoc(AdaNode):
 
 
 class DiscriminantAssoc(BasicAssoc):
-    ids = Field(type=T.Identifier.list)
+    ids = Field(type=T.DiscriminantChoiceList)
     disc_expr = Field(type=T.Expr)
 
     expr = Property(Self.disc_expr)
@@ -2391,7 +2391,7 @@ class DerivedTypeDef(TypeDef):
     has_limited = Field(type=Limited)
     has_synchronized = Field(type=Synchronized)
     subtype_indication = Field(type=T.SubtypeIndication)
-    interfaces = Field(type=T.Name.list)
+    interfaces = Field(type=T.ParentList)
     record_extension = Field(type=T.BaseRecordDef)
     has_with_private = Field(type=WithPrivate)
 
@@ -2531,7 +2531,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
 
 class ConstrainedArrayIndices(ArrayIndices):
-    list = Field(type=T.AdaNode.list)
+    list = Field(type=T.ConstraintList)
 
     ndims = Property(Self.list.length)
 
@@ -2607,7 +2607,7 @@ class InterfaceKind(EnumNode):
 
 class InterfaceTypeDef(TypeDef):
     interface_kind = Field(type=InterfaceKind)
-    interfaces = Field(type=T.Name.list)
+    interfaces = Field(type=T.ParentList)
 
     is_tagged_type = Property(True)
 
@@ -2671,7 +2671,7 @@ class SubtypeDecl(BaseTypeDecl):
 
 
 class TaskDef(AdaNode):
-    interfaces = Field(type=T.Name.list)
+    interfaces = Field(type=T.ParentList)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
     end_id = Field(type=T.Identifier)
@@ -2713,7 +2713,7 @@ class SingleTaskTypeDecl(TaskTypeDecl):
 class ProtectedTypeDecl(BaseTypeDecl):
     discrs = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
-    interfaces = Field(type=T.Name.list)
+    interfaces = Field(type=T.ParentList)
     definition = Field(type=T.ProtectedDef)
 
     discriminants_list = Property(Entity.discrs.abstract_formal_params)
@@ -3181,7 +3181,7 @@ class EnumRepClause(AspectClause):
 
 
 class AttributeDefClause(AspectClause):
-    attribute_expr = Field(type=T.Expr)
+    attribute_expr = Field(type=T.Name)
     expr = Field(type=T.Expr)
 
 
@@ -3217,7 +3217,7 @@ class SingleTaskDecl(BasicDecl):
 class SingleProtectedDecl(BasicDecl):
     protected_name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
-    interfaces = Field(type=T.Name.list)
+    interfaces = Field(type=T.ParentList)
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(
@@ -4790,7 +4790,7 @@ class AggregateAssoc(BasicAssoc):
     """
     Assocation (X => Y) used for aggregates and parameter associations.
     """
-    designators = Field(type=T.AdaNode.list)
+    designators = Field(type=T.AlternativesList)
     r_expr = Field(type=T.Expr)
 
     expr = Property(Self.r_expr)
@@ -4972,7 +4972,7 @@ class CaseExpr(Expr):
 
 
 class CaseExprAlternative(Expr):
-    choices = Field(type=T.AdaNode.list)
+    choices = Field(type=T.AlternativesList)
     expr = Field(type=T.Expr)
 
 
@@ -5723,7 +5723,7 @@ class QuantifiedExpr(Expr):
 
 
 class Allocator(Expr):
-    subpool = Field(type=T.Expr)
+    subpool = Field(type=T.Name)
     type_or_expr = Field(type=T.AdaNode)
 
     @langkit_property()
@@ -6113,7 +6113,7 @@ class UpdateAttributeRef(AttributeRef):
 
 
 class RaiseExpr(Expr):
-    exception_name = Field(type=T.Expr)
+    exception_name = Field(type=T.Name)
     error_message = Field(type=T.Expr)
 
     @langkit_property()
@@ -6220,14 +6220,14 @@ class SubpBody(Body):
 
 
 class HandledStmts(AdaNode):
-    stmts = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.StmtList)
     exceptions = Field(type=T.AdaNode.list)
 
 
 class ExceptionHandler(BasicDecl):
     exc_name = Field(type=T.Identifier)
-    handled_exceptions = Field(type=T.AdaNode.list)
-    stmts = Field(type=T.AdaNode.list)
+    handled_exceptions = Field(type=T.AlternativesList)
+    stmts = Field(type=T.StmtList)
 
     env_spec = EnvSpec(
         add_env(),
@@ -6269,7 +6269,7 @@ class CallStmt(SimpleStmt):
     """
     Statement for entry or procedure calls.
     """
-    call = Field(type=T.Expr)
+    call = Field(type=T.Name)
 
     @langkit_property()
     def xref_equation():
@@ -6290,7 +6290,7 @@ class NullStmt(SimpleStmt):
 
 
 class AssignStmt(SimpleStmt):
-    dest = Field(type=T.Expr)
+    dest = Field(type=T.Name)
     expr = Field(type=T.Expr)
 
     @langkit_property()
@@ -6380,7 +6380,7 @@ class DelayStmt(SimpleStmt):
 
 
 class RaiseStmt(SimpleStmt):
-    exception_name = Field(type=T.Expr)
+    exception_name = Field(type=T.Name)
     error_message = Field(type=T.Expr)
 
     @langkit_property()
@@ -6394,9 +6394,9 @@ class RaiseStmt(SimpleStmt):
 
 class IfStmt(CompositeStmt):
     cond_expr = Field(type=T.Expr)
-    then_stmts = Field(type=T.AdaNode.list)
+    then_stmts = Field(type=T.StmtList)
     alternatives = Field(type=T.ElsifStmtPart.list)
-    else_stmts = Field(type=T.AdaNode.list)
+    else_stmts = Field(type=T.StmtList)
 
     @langkit_property()
     def xref_equation():
@@ -6412,7 +6412,7 @@ class IfStmt(CompositeStmt):
 
 class ElsifStmtPart(AdaNode):
     cond_expr = Field(type=T.Expr)
-    stmts = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.StmtList)
 
 
 class LabelDecl(BasicDecl):
@@ -6468,7 +6468,7 @@ class NamedStmt(CompositeStmt):
 @abstract
 class BaseLoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
-    stmts = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.StmtList)
     end_id = Field(type=T.Identifier)
 
     @langkit_property(return_type=EquationType)
@@ -6507,7 +6507,7 @@ class BeginBlock(BlockStmt):
 
 
 class ExtendedReturnStmt(CompositeStmt):
-    object_decl = Field(type=T.ObjectDecl)
+    object_decl = Field(type=T.ExtendedReturnStmtObjectDecl)
     stmts = Field(type=T.HandledStmts)
 
     @langkit_property(return_type=EquationType)
@@ -6541,8 +6541,8 @@ class CaseStmt(CompositeStmt):
 
 
 class CaseStmtAlternative(AdaNode):
-    choices = Field(type=T.AdaNode.list)
-    stmts = Field(type=T.AdaNode.list)
+    choices = Field(type=T.AlternativesList)
+    stmts = Field(type=T.StmtList)
 
 
 class AcceptStmt(CompositeStmt):
@@ -6557,7 +6557,7 @@ class AcceptStmt(CompositeStmt):
 
 class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.Identifier)
 
     xref_equation = Property(LogicTrue())
 
@@ -6574,7 +6574,7 @@ class SelectStmt(CompositeStmt):
 
 class SelectWhenPart(AdaNode):
     condition = Field(type=T.Expr)
-    stmts = Field(type=T.AdaNode.list)
+    stmts = Field(type=T.StmtList)
 
     @langkit_property()
     def xref_equation():

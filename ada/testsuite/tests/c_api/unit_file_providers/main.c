@@ -90,7 +90,7 @@ main(void)
     if (!ada_pragma_node_f_args (&pragma, &args)
         || ada_node_is_null(&args))
       error("Could not get PragmaNode.f_args");
-    if (ada_node_child_count(&args) != 1)
+    if (ada_node_children_count(&args) != 1)
       error("PragmaNode.f_args should have exactly one child");
     if (!ada_node_child(&args, 0, &assoc) || ada_node_is_null(&assoc))
       error("Could not get PragmaNode.f_args[0]");

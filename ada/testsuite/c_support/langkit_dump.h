@@ -56,7 +56,7 @@ dump(ada_base_entity *node, int level)
     fprint_text(stdout, kind_name, false);
     puts(">");
 
-    count = ada_node_child_count(node);
+    count = ada_node_children_count(node);
     for (i = 0; i < count; ++i)
     {
         ada_base_entity child;
@@ -85,7 +85,7 @@ dump_short_image(ada_base_entity *node, int level)
     printf("\n");
     ada_destroy_text(&img);
 
-    count = ada_node_child_count(node);
+    count = ada_node_children_count(node);
     for (i = 0; i < count; ++i)
     {
         ada_base_entity child;

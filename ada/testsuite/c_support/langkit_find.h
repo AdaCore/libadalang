@@ -15,7 +15,7 @@ find_node(ada_base_entity *root, ada_node_kind_enum kind,
     unsigned count;
 
     memcpy(&root_copy, root, sizeof(root_copy));
-    count = ada_node_child_count(&root_copy);
+    count = ada_node_children_count(&root_copy);
 
     if (ada_node_kind (&root_copy) == kind) {
         memcpy(result_p, &root_copy, sizeof(*result_p));

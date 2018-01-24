@@ -322,7 +322,7 @@ procedure Nameres is
             elsif Pragma_Name = "Section" then
                --  Print headlines
                declare
-                  pragma Assert (Child_Count (F_Args (P_Node)) = 1);
+                  pragma Assert (Children_Count (F_Args (P_Node)) = 1);
                   Arg : constant Expr :=
                      P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
                   pragma Assert (Kind (Arg) = Ada_String_Literal);
@@ -339,7 +339,7 @@ procedure Nameres is
             elsif Pragma_Name = "Test" then
                --  Perform name resolution
                declare
-                  pragma Assert (Child_Count (F_Args (P_Node)) in 1 | 2);
+                  pragma Assert (Children_Count (F_Args (P_Node)) in 1 | 2);
 
                   Arg      : constant Expr :=
                      P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
@@ -347,7 +347,7 @@ procedure Nameres is
                   Debug_Lookup : Boolean := False;
 
                begin
-                  if Child_Count (F_Args (P_Node)) = 2 then
+                  if Children_Count (F_Args (P_Node)) = 2 then
                      Debug_Lookup := Text
                        (P_Assoc_Expr (As_Base_Assoc
                          (Child (F_Args (P_Node), 2))))
@@ -383,12 +383,12 @@ procedure Nameres is
                Trigger_Envs_Debug (False);
 
             elsif Pragma_Name = "Test_Statement" then
-               pragma Assert (Child_Count (F_Args (P_Node)) = 0);
+               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
                Resolve_Node (Previous_Sibling (P_Node));
                Empty := False;
 
             elsif Pragma_Name = "Test_Block" then
-               pragma Assert (Child_Count (F_Args (P_Node)) = 0);
+               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
                declare
                   Parent_1 : constant Ada_Node := Parent (P_Node);
                   Parent_2 : constant Ada_Node := Parent (Parent_1);

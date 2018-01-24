@@ -358,7 +358,7 @@ package body Highlighter is
                   Types : constant LAL.Name_List :=
                      Node.As_Use_Type_Clause.F_Types;
                begin
-                  for I in 1 .. Types.Child_Count loop
+                  for I in 1 .. Types.Children_Count loop
                      Highlight_Name
                        (Types.Child (I).As_Name, Type_Name, Highlights);
                   end loop;

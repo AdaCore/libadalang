@@ -1,7 +1,6 @@
 BinOp[1:1-1:53]
 |left:
-|  Int[1:1-1:3]
-|  |tok: 12
+|  Int[1:1-1:3]: 12
 |op:
 |  OpPlus[1:4-1:5]
 |right:
@@ -19,31 +18,25 @@ BinOp[1:1-1:53]
 |  |  |  |  |  |var_decl:
 |  |  |  |  |  |  ForLoopVarDecl[1:19-1:20]
 |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  Id[1:19-1:20]
-|  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  Id[1:19-1:20]: A
 |  |  |  |  |  |  |id_type: <null>
 |  |  |  |  |  |loop_type:
 |  |  |  |  |  |  IterTypeIn[1:21-1:23]
 |  |  |  |  |  |has_reverse:
 |  |  |  |  |  |  ReverseAbsent[1:24-1:24]
 |  |  |  |  |  |iter_expr:
-|  |  |  |  |  |  Id[1:24-1:25]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |expr:
 |  |  |  |  |  RelationOp[1:29-1:35]
 |  |  |  |  |  |left:
-|  |  |  |  |  |  Id[1:29-1:30]
-|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  Id[1:29-1:30]: A
 |  |  |  |  |  |op:
 |  |  |  |  |  |  OpEq[1:31-1:32]
 |  |  |  |  |  |right:
-|  |  |  |  |  |  Int[1:33-1:35]
-|  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  Int[1:33-1:35]: 12
 |  |  |then_expr:
-|  |  |  Int[1:42-1:44]
-|  |  |  |tok: 15
+|  |  |  Int[1:42-1:44]: 15
 |  |  |alternatives:
 |  |  |  ElsifExprPartList[1:45-1:45]: <empty list>
 |  |  |else_expr:
-|  |  |  Int[1:50-1:52]
-|  |  |  |tok: 16
+|  |  |  Int[1:50-1:52]: 16

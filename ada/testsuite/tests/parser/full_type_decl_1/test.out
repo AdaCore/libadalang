@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:27]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:
 |  EnumTypeDef[1:11-1:26]
@@ -9,14 +8,11 @@ TypeDecl[1:1-1:27]
 |  |  EnumLiteralDeclList[1:12-1:25]
 |  |  |  EnumLiteralDecl[1:12-1:15]
 |  |  |  |enum_identifier:
-|  |  |  |  Chr[1:12-1:15]
-|  |  |  |  |tok: 'B'
+|  |  |  |  Chr[1:12-1:15]: 'B'
 |  |  |  EnumLiteralDecl[1:17-1:20]
 |  |  |  |enum_identifier:
-|  |  |  |  Chr[1:17-1:20]
-|  |  |  |  |tok: 'C'
+|  |  |  |  Chr[1:17-1:20]: 'C'
 |  |  |  EnumLiteralDecl[1:22-1:25]
 |  |  |  |enum_identifier:
-|  |  |  |  Chr[1:22-1:25]
-|  |  |  |  |tok: 'D'
+|  |  |  |  Chr[1:22-1:25]: 'D'
 |aspects: <null>

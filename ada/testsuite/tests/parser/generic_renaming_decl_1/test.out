@@ -2,19 +2,15 @@ GenericSubpRenamingDecl[1:1-1:46]
 |kind:
 |  SubpKindFunction[1:9-1:17]
 |name:
-|  Id[1:18-1:19]
-|  |tok: A
+|  Id[1:18-1:19]: A
 |renames:
-|  Id[1:28-1:29]
-|  |tok: B
+|  Id[1:28-1:29]: B
 |aspects:
 |  AspectSpec[1:30-1:45]
 |  |aspect_assocs:
 |  |  AspectAssocList[1:35-1:45]
 |  |  |  AspectAssoc[1:35-1:45]
 |  |  |  |id:
-|  |  |  |  Id[1:35-1:38]
-|  |  |  |  |tok: Foo
+|  |  |  |  Id[1:35-1:38]: Foo
 |  |  |  |expr:
-|  |  |  |  Id[1:42-1:45]
-|  |  |  |  |tok: Bar
+|  |  |  |  Id[1:42-1:45]: Bar

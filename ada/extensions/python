@@ -9,14 +9,6 @@ def token_match(self, other):
 
 
 @property
-def single_tok_node_text(self):
-    """
-    Return the text for any SingleTokNode.
-    """
-    return self.f_tok.text
-
-
-@property
 def full_name(n):
     """
     Return a nicely pretty printed name for any expr that is only formed of
@@ -31,5 +23,4 @@ def full_name(n):
 
 
 Token.match = token_match
-SingleTokNode.text = single_tok_node_text
 Name.full_name = full_name

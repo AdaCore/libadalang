@@ -1424,7 +1424,7 @@ class VariantPart(AdaNode):
         """
         # Get the specific discriminant this variant part depends upon
         discr = Var(discrs.find(
-            lambda d: d.formal.name.tok.symbol == Self.discr_name.tok.symbol
+            lambda d: d.formal.name.symbol == Self.discr_name.symbol
         ))
 
         # Get the variant branch with a choice that matches the discriminant's
@@ -2021,7 +2021,7 @@ class BaseTypeDecl(BasicDecl):
             lambda type_name:
 
             Self.children_env.get_sequential(
-                type_name.tok, sequential_from=Self
+                type_name, sequential_from=Self
             ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,
                     pp.cast(T.BaseTypeDecl)._.is_private),
@@ -4978,8 +4978,9 @@ class CaseExprAlternative(Expr):
 
 @abstract
 class SingleTokNode(Name):
-    tok = Field(type=T.TokenType)
-    relative_name = Property(Self.tok.symbol)
+    token_node = True
+
+    relative_name = Property(Self.symbol)
 
     r_ref_var = UserField(LogicVarType, public=False)
     """
@@ -4990,7 +4991,7 @@ class SingleTokNode(Name):
     ref_var = Property(Self.r_ref_var)
 
     sym = Property(
-        Self.tok.symbol, doc="Shortcut to get the symbol of this node"
+        Self.symbol, doc="Shortcut to get the symbol of this node"
     )
 
 
@@ -5001,7 +5002,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def scope():
-        elt = Var(env.get_first(Self.tok))
+        elt = Var(env.get_first(Self))
         ret = Var(If(
             Not(elt.is_null) & elt.el.is_a(
                 T.BasicDecl
@@ -5071,7 +5072,7 @@ class BaseId(SingleTokNode):
         )
 
     parent_scope = Property(env)
-    relative_name = Property(Self.tok.symbol)
+    relative_name = Property(Self.symbol)
 
     @langkit_property(memoized=True)
     def designated_type_impl():
@@ -5085,12 +5086,12 @@ class BaseId(SingleTokNode):
 
         # This is the view of the type where it is referenced
         des_type_1 = Var(env.get_first_sequential(
-            Self.tok, sequential_from=Self
+            Self, sequential_from=Self
         ).then(lambda env_el: get_real_type(env_el)))
 
         # This is the view of the type where it is used
         des_type_2 = Var(env.get_first_sequential(
-            Self.tok, sequential_from=origin
+            Self, sequential_from=origin
         ).then(lambda env_el: get_real_type(env_el)))
 
         des_type = Var(Cond(
@@ -5113,7 +5114,7 @@ class BaseId(SingleTokNode):
         # We might have a more complete view of the type at the origin point
         completer_view = Var(origin.then(
             lambda o: o.children_env.get_first_sequential(
-                Self.tok, sequential_from=origin
+                Self, sequential_from=origin
             )).cast(T.BaseTypeDecl)
         )
 
@@ -5168,7 +5169,7 @@ class BaseId(SingleTokNode):
             package or not.
         """
         items = Var(env.get_sequential(
-            Self.tok,
+            Self,
             recursive=Not(is_parent_pkg),
             sequential_from=Self,
         ))

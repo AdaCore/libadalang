@@ -6,8 +6,7 @@ AbstractSubpDecl[1:1-1:50]
 |  |subp_kind:
 |  |  SubpKindProcedure[1:12-1:21]
 |  |subp_name:
-|  |  Id[1:22-1:23]
-|  |  |tok: A
+|  |  Id[1:22-1:23]: A
 |  |subp_params:
 |  |  Params[1:24-1:37]
 |  |  |params:
@@ -15,8 +14,7 @@ AbstractSubpDecl[1:1-1:50]
 |  |  |  |  ParamSpec[1:25-1:36]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:25-1:26]
-|  |  |  |  |  |  Id[1:25-1:26]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:25-1:26]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:29-1:29]
 |  |  |  |  |mode:
@@ -26,8 +24,7 @@ AbstractSubpDecl[1:1-1:50]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:29-1:29]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:29-1:36]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:29-1:36]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns: <null>

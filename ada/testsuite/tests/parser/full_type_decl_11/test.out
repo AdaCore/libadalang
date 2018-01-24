@@ -1,5 +1,4 @@
 IncompleteTypeDecl[1:1-1:8]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants: <null>

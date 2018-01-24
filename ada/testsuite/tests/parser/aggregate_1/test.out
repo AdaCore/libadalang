@@ -5,27 +5,21 @@ Aggregate[1:1-1:42]
 |  |  AggregateAssoc[1:2-1:9]
 |  |  |designators:
 |  |  |  AlternativesList[1:2-1:3]
-|  |  |  |  Id[1:2-1:3]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:2-1:3]: A
 |  |  |r_expr:
-|  |  |  Int[1:7-1:9]
-|  |  |  |tok: 12
+|  |  |  Int[1:7-1:9]: 12
 |  |  AggregateAssoc[1:11-1:18]
 |  |  |designators:
 |  |  |  AlternativesList[1:11-1:12]
-|  |  |  |  Id[1:11-1:12]
-|  |  |  |  |tok: B
+|  |  |  |  Id[1:11-1:12]: B
 |  |  |r_expr:
-|  |  |  Int[1:16-1:18]
-|  |  |  |tok: 15
+|  |  |  Int[1:16-1:18]: 15
 |  |  AggregateAssoc[1:20-1:27]
 |  |  |designators:
 |  |  |  AlternativesList[1:20-1:21]
-|  |  |  |  Id[1:20-1:21]
-|  |  |  |  |tok: C
+|  |  |  |  Id[1:20-1:21]: C
 |  |  |r_expr:
-|  |  |  Int[1:25-1:27]
-|  |  |  |tok: 89
+|  |  |  Int[1:25-1:27]: 89
 |  |  AggregateAssoc[1:29-1:41]
 |  |  |designators:
 |  |  |  AlternativesList[1:29-1:35]

@@ -4,13 +4,11 @@ WhileLoopStmt[1:1-1:34]
 |  |expr:
 |  |  RelationOp[1:7-1:13]
 |  |  |left:
-|  |  |  Id[1:7-1:8]
-|  |  |  |tok: A
+|  |  |  Id[1:7-1:8]: A
 |  |  |op:
 |  |  |  OpGt[1:9-1:10]
 |  |  |right:
-|  |  |  Int[1:11-1:13]
-|  |  |  |tok: 12
+|  |  |  Int[1:11-1:13]: 12
 |stmts:
 |  StmtList[1:19-1:24]
 |  |  NullStmt[1:19-1:24]

@@ -4,8 +4,7 @@ ForLoopStmt[1:1-1:52]
 |  |var_decl:
 |  |  ForLoopVarDecl[1:5-1:6]
 |  |  |id:
-|  |  |  Id[1:5-1:6]
-|  |  |  |tok: A
+|  |  |  Id[1:5-1:6]: A
 |  |  |id_type: <null>
 |  |loop_type:
 |  |  IterTypeIn[1:7-1:9]
@@ -16,8 +15,7 @@ ForLoopStmt[1:1-1:52]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:10-1:10]
 |  |  |name:
-|  |  |  Id[1:10-1:17]
-|  |  |  |tok: Integer
+|  |  |  Id[1:10-1:17]: Integer
 |  |  |constraint:
 |  |  |  RangeConstraint[1:18-1:31]
 |  |  |  |range:
@@ -25,13 +23,11 @@ ForLoopStmt[1:1-1:52]
 |  |  |  |  |range:
 |  |  |  |  |  BinOp[1:24-1:31]
 |  |  |  |  |  |left:
-|  |  |  |  |  |  Int[1:24-1:25]
-|  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  Int[1:24-1:25]: 1
 |  |  |  |  |  |op:
 |  |  |  |  |  |  OpDoubleDot[1:26-1:28]
 |  |  |  |  |  |right:
-|  |  |  |  |  |  Int[1:29-1:31]
-|  |  |  |  |  |  |tok: 16
+|  |  |  |  |  |  Int[1:29-1:31]: 16
 |stmts:
 |  StmtList[1:37-1:42]
 |  |  NullStmt[1:37-1:42]

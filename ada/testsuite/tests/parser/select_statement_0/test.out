@@ -7,14 +7,12 @@ SelectStmt[1:1-1:126]
 |  |  |  |op:
 |  |  |  |  OpNot[1:13-1:16]
 |  |  |  |expr:
-|  |  |  |  Id[1:17-1:21]
-|  |  |  |  |tok: BUSY
+|  |  |  |  Id[1:17-1:21]: BUSY
 |  |  |stmts:
 |  |  |  StmtList[1:25-1:59]
 |  |  |  |  AcceptStmtWithStmts[1:25-1:59]
 |  |  |  |  |name:
-|  |  |  |  |  Id[1:32-1:37]
-|  |  |  |  |  |tok: SEIZE
+|  |  |  |  |  Id[1:32-1:37]: SEIZE
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
@@ -23,11 +21,9 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  StmtList[1:41-1:54]
 |  |  |  |  |  |  |  AssignStmt[1:41-1:54]
 |  |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  |  Id[1:41-1:45]
-|  |  |  |  |  |  |  |  |tok: BUSY
+|  |  |  |  |  |  |  |  Id[1:41-1:45]: BUSY
 |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  Id[1:49-1:53]
-|  |  |  |  |  |  |  |  |tok: TRUE
+|  |  |  |  |  |  |  |  Id[1:49-1:53]: TRUE
 |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  |  |  |  |end_name: <null>
@@ -37,8 +33,7 @@ SelectStmt[1:1-1:126]
 |  |  |  StmtList[1:63-1:100]
 |  |  |  |  AcceptStmtWithStmts[1:63-1:100]
 |  |  |  |  |name:
-|  |  |  |  |  Id[1:70-1:77]
-|  |  |  |  |  |tok: RELEASE
+|  |  |  |  |  Id[1:70-1:77]: RELEASE
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
@@ -47,11 +42,9 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  StmtList[1:81-1:95]
 |  |  |  |  |  |  |  AssignStmt[1:81-1:95]
 |  |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  |  Id[1:81-1:85]
-|  |  |  |  |  |  |  |  |tok: BUSY
+|  |  |  |  |  |  |  |  Id[1:81-1:85]: BUSY
 |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  Id[1:89-1:94]
-|  |  |  |  |  |  |  |  |tok: FALSE
+|  |  |  |  |  |  |  |  Id[1:89-1:94]: FALSE
 |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  AdaNodeList[1:94-1:94]: <empty list>
 |  |  |  |  |end_name: <null>

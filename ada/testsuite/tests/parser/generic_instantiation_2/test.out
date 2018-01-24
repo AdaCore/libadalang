@@ -1,10 +1,8 @@
 GenericPackageInstantiation[1:1-1:25]
 |name:
-|  Id[1:9-1:10]
-|  |tok: P
+|  Id[1:9-1:10]: P
 |generic_pkg_name:
-|  Id[1:18-1:19]
-|  |tok: Q
+|  Id[1:18-1:19]: Q
 |params:
 |  AssocList[1:21-1:23]
 |  |  ParamAssoc[1:21-1:23]

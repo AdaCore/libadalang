@@ -1,8 +1,7 @@
 ObjectDecl[1:1-1:51]
 |ids:
 |  IdentifierList[1:1-1:4]
-|  |  Id[1:1-1:4]
-|  |  |tok: Arr
+|  |  Id[1:1-1:4]: Arr
 |has_aliased:
 |  AliasedPresent[1:7-1:7]
 |has_constant:
@@ -23,13 +22,11 @@ ObjectDecl[1:1-1:51]
 |  |  |  |  |  ConstraintList[1:31-1:38]
 |  |  |  |  |  |  BinOp[1:31-1:38]
 |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  Int[1:31-1:32]
-|  |  |  |  |  |  |  |tok: 1
+|  |  |  |  |  |  |  Int[1:31-1:32]: 1
 |  |  |  |  |  |  |op:
 |  |  |  |  |  |  |  OpDoubleDot[1:33-1:35]
 |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  Int[1:36-1:38]
-|  |  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  |  Int[1:36-1:38]: 12
 |  |  |  |component_type:
 |  |  |  |  ComponentDef[1:43-1:50]
 |  |  |  |  |has_aliased:
@@ -39,8 +36,7 @@ ObjectDecl[1:1-1:51]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:43-1:43]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:43-1:50]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:43-1:50]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |aspects: <null>
 |default_expr: <null>

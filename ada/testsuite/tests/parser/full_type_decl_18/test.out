@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:41]
 |type_id:
-|  Id[1:6-1:9]
-|  |tok: Arr
+|  Id[1:6-1:9]: Arr
 |discriminants: <null>
 |type_def:
 |  ArrayTypeDef[1:13-1:40]
@@ -11,13 +10,11 @@ TypeDecl[1:1-1:41]
 |  |  |  ConstraintList[1:20-1:28]
 |  |  |  |  BinOp[1:20-1:28]
 |  |  |  |  |left:
-|  |  |  |  |  Int[1:20-1:22]
-|  |  |  |  |  |tok: 12
+|  |  |  |  |  Int[1:20-1:22]: 12
 |  |  |  |  |op:
 |  |  |  |  |  OpDoubleDot[1:23-1:25]
 |  |  |  |  |right:
-|  |  |  |  |  Int[1:26-1:28]
-|  |  |  |  |  |tok: 15
+|  |  |  |  |  Int[1:26-1:28]: 15
 |  |component_type:
 |  |  ComponentDef[1:33-1:40]
 |  |  |has_aliased:
@@ -27,7 +24,6 @@ TypeDecl[1:1-1:41]
 |  |  |  |has_not_null:
 |  |  |  |  NotNullAbsent[1:33-1:33]
 |  |  |  |name:
-|  |  |  |  Id[1:33-1:40]
-|  |  |  |  |tok: Integer
+|  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |constraint: <null>
 |aspects: <null>

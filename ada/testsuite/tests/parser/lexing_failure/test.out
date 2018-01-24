@@ -18,8 +18,7 @@ CompilationUnit[1:1-4:9]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:13-1:16]
-|  |  |  |  |tok: Foo
+|  |  |  |  Id[1:13-1:16]: Foo
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -35,7 +34,6 @@ CompilationUnit[1:1-4:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:11-3:11]: <empty list>
 |  |  |end_id:
-|  |  |  Id[4:5-4:8]
-|  |  |  |tok: Foo
+|  |  |  Id[4:5-4:8]: Foo
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

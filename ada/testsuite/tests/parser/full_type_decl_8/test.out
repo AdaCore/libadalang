@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:79]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: B
+|  Id[1:6-1:7]: B
 |discriminants: <null>
 |type_def:
 |  DerivedTypeDef[1:11-1:78]
@@ -16,8 +15,7 @@ TypeDecl[1:1-1:79]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:15-1:15]
 |  |  |name:
-|  |  |  Id[1:15-1:16]
-|  |  |  |tok: A
+|  |  |  Id[1:15-1:16]: A
 |  |  |constraint:
 |  |  |  DiscriminantConstraint[1:17-1:42]
 |  |  |  |constraints:
@@ -25,13 +23,10 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  DiscriminantAssoc[1:18-1:41]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  DiscriminantChoiceList[1:18-1:35]
-|  |  |  |  |  |  |  Id[1:18-1:25]
-|  |  |  |  |  |  |  |tok: Discr_1
-|  |  |  |  |  |  |  Id[1:28-1:35]
-|  |  |  |  |  |  |  |tok: Discr_2
+|  |  |  |  |  |  |  Id[1:18-1:25]: Discr_1
+|  |  |  |  |  |  |  Id[1:28-1:35]: Discr_2
 |  |  |  |  |  |disc_expr:
-|  |  |  |  |  |  Int[1:39-1:41]
-|  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  Int[1:39-1:41]: 12
 |  |interfaces:
 |  |  ParentList[1:41-1:41]: <empty list>
 |  |record_extension:
@@ -43,8 +38,7 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  ComponentDecl[1:55-1:67]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:55-1:56]
-|  |  |  |  |  |  |  Id[1:55-1:56]
-|  |  |  |  |  |  |  |tok: D
+|  |  |  |  |  |  |  Id[1:55-1:56]: D
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:59-1:66]
 |  |  |  |  |  |  |has_aliased:
@@ -54,8 +48,7 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:59-1:59]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:59-1:66]
-|  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  Id[1:59-1:66]: Integer
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |aspects: <null>

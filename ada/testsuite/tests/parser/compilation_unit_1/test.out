@@ -8,8 +8,7 @@ CompilationUnit[1:1-1:55]
 |  |item:
 |  |  PackageDecl[1:9-1:55]
 |  |  |package_name:
-|  |  |  Id[1:17-1:18]
-|  |  |  |tok: A
+|  |  |  Id[1:17-1:18]: A
 |  |  |aspects: <null>
 |  |  |public_part:
 |  |  |  PublicPart[1:22-1:48]
@@ -23,21 +22,18 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[1:22-1:30]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[1:31-1:32]
-|  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  |  Id[1:31-1:32]: B
 |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[1:40-1:47]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:40-1:47]
-|  |  |  |  |  |  |  |  |tok: Boolean
+|  |  |  |  |  |  |  |  Id[1:40-1:47]: Boolean
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_id:
-|  |  |  Id[1:53-1:54]
-|  |  |  |tok: A
+|  |  |  Id[1:53-1:54]: A
 |pragmas:
 |  PragmaNodeList[2:1-2:1]: <empty list>

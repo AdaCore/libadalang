@@ -6,10 +6,8 @@ RecordDef[1:1-1:34]
 |  |  |  ComponentDecl[1:8-1:23]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:8-1:12]
-|  |  |  |  |  Id[1:8-1:9]
-|  |  |  |  |  |tok: A
-|  |  |  |  |  Id[1:11-1:12]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[1:8-1:9]: A
+|  |  |  |  |  Id[1:11-1:12]: B
 |  |  |  |component_def:
 |  |  |  |  ComponentDef[1:15-1:22]
 |  |  |  |  |has_aliased:
@@ -19,8 +17,7 @@ RecordDef[1:1-1:34]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:15-1:15]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:15-1:22]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:15-1:22]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |default_expr: <null>
 |  |  |  |aspects: <null>

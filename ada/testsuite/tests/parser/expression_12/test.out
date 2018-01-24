@@ -4,18 +4,14 @@ AttributeRef[1:1-1:22]
 |  |prefix:
 |  |  AttributeRef[1:1-1:6]
 |  |  |prefix:
-|  |  |  Id[1:1-1:2]
-|  |  |  |tok: A
+|  |  |  Id[1:1-1:2]: A
 |  |  |attribute:
-|  |  |  Id[1:5-1:6]
-|  |  |  |tok: C
+|  |  |  Id[1:5-1:6]: C
 |  |  |args: <null>
 |  |suffix:
 |  |  ParenExpr[1:9-1:14]
 |  |  |expr:
-|  |  |  Chr[1:10-1:13]
-|  |  |  |tok: 'D'
+|  |  |  Chr[1:10-1:13]: 'D'
 |attribute:
-|  Id[1:15-1:22]
-|  |tok: Pointer
+|  Id[1:15-1:22]: Pointer
 |args: <null>

@@ -52,7 +52,7 @@ package body Libadalang.Unit_Files.Default is
    function Unit_Text_Name (N : Bare_Name) return Text_Type is
    begin
       if N.all in Bare_Identifier_Type'Class then
-         return Text (F_Tok (Bare_Identifier (N)));
+         return N.Text;
 
       elsif N.all in Bare_Dotted_Name_Type'Class then
          declare

@@ -2,8 +2,7 @@ NamedStmt[1:1-1:35]
 |decl:
 |  NamedStmtDecl[1:1-1:2]
 |  |name:
-|  |  Id[1:1-1:2]
-|  |  |tok: A
+|  |  Id[1:1-1:2]: A
 |stmt:
 |  ForLoopStmt[1:4-1:35]
 |  |spec:
@@ -11,16 +10,14 @@ NamedStmt[1:1-1:35]
 |  |  |var_decl:
 |  |  |  ForLoopVarDecl[1:8-1:9]
 |  |  |  |id:
-|  |  |  |  Id[1:8-1:9]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:8-1:9]: A
 |  |  |  |id_type: <null>
 |  |  |loop_type:
 |  |  |  IterTypeIn[1:10-1:12]
 |  |  |has_reverse:
 |  |  |  ReverseAbsent[1:13-1:13]
 |  |  |iter_expr:
-|  |  |  Id[1:13-1:14]
-|  |  |  |tok: B
+|  |  |  Id[1:13-1:14]: B
 |  |stmts:
 |  |  StmtList[1:20-1:25]
 |  |  |  NullStmt[1:20-1:25]

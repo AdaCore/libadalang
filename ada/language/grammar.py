@@ -7,9 +7,7 @@ from language.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
-from langkit.parsers import (
-    Grammar, _, Null, Tok, Opt, List, Or, Pick, Predicate
-)
+from langkit.parsers import Grammar, List, Null, Opt, Or, Pick, Predicate, _
 
 ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
@@ -146,8 +144,9 @@ A.add_rules(
             InterfaceKind.alt_protected(
                 L.Identifier(match_text="protected"),
             ),
-            InterfaceKind.alt_synchronized(Tok(L.Identifier,
-                                           match_text="synchronized"))
+            InterfaceKind.alt_synchronized(
+                L.Identifier(match_text="synchronized"),
+            )
         )),
         L.Identifier(match_text="interface"),
         Opt("and", A.parent_list)
@@ -721,14 +720,14 @@ A.add_rules(
     compilation=Or(
         # Special case for No_Body files and gnat.adc
         Pick(List(A.pragma, empty_valid=False),
-             L.Termination()),
+             L.Termination),
 
         # One compilation unit case
-        Pick(A.compilation_unit, L.Termination()),
+        Pick(A.compilation_unit, L.Termination),
 
         # Several compilation units case
         Pick(List(A.compilation_unit, empty_valid=True),
-             L.Termination()),
+             L.Termination),
     ),
 
     decl_part=DeclarativePart(A.basic_decls),
@@ -941,15 +940,15 @@ A.add_rules(
 
     requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort"), sc()),
 
-    identifier=Identifier(L.Identifier(keep=True)),
-    char_literal=CharLiteral(L.Char(keep=True)),
-    string_literal=StringLiteral(L.String(keep=True)),
+    identifier=Identifier(L.Identifier),
+    char_literal=CharLiteral(L.Char),
+    string_literal=StringLiteral(L.String),
 
-    dec_literal=RealLiteral(L.Decimal(keep=True)),
-    int_literal=IntLiteral(L.Integer(keep=True)),
+    dec_literal=RealLiteral(L.Decimal),
+    int_literal=IntLiteral(L.Integer),
     num_literal=A.dec_literal | A.int_literal,
 
-    null_literal=NullLiteral(L.Null(keep=True)),
+    null_literal=NullLiteral(L.Null),
 
     allocator=Allocator(
         "new", Opt("(", A.name, ")"),
@@ -994,9 +993,9 @@ A.add_rules(
     conditional_expr=Or(A.if_expr, A.case_expr,
                         A.quantified_expr),
 
-    box_expr=BoxExpr(Tok("<>")),
+    box_expr=BoxExpr("<>"),
 
-    others_designator=OthersDesignator(Tok("others")),
+    others_designator=OthersDesignator("others"),
 
     aggregate_assoc=AggregateAssoc(
         Opt(A.choice_list, "=>"),
@@ -1074,7 +1073,7 @@ A.add_rules(
         # Special case for 'Update
         UpdateAttributeRef(
             A.name, "'",
-            Identifier(L.Identifier(match_text="Update", keep=True)),
+            Identifier(L.Identifier(match_text="Update")),
             A.update_attr_aggregate
         ),
 

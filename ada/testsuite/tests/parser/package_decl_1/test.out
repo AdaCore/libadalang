@@ -1,7 +1,6 @@
 PackageDecl[1:1-1:106]
 |package_name:
-|  Id[1:9-1:10]
-|  |tok: A
+|  Id[1:9-1:10]: A
 |aspects: <null>
 |public_part:
 |  PublicPart[1:14-1:99]
@@ -15,8 +14,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_kind:
 |  |  |  |  |  SubpKindProcedure[1:14-1:23]
 |  |  |  |  |subp_name:
-|  |  |  |  |  Id[1:24-1:25]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |subp_params:
 |  |  |  |  |  Params[1:26-1:42]
 |  |  |  |  |  |params:
@@ -24,10 +22,8 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  ParamSpec[1:27-1:41]
 |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  IdentifierList[1:27-1:31]
-|  |  |  |  |  |  |  |  |  Id[1:27-1:28]
-|  |  |  |  |  |  |  |  |  |tok: C
-|  |  |  |  |  |  |  |  |  Id[1:30-1:31]
-|  |  |  |  |  |  |  |  |  |tok: D
+|  |  |  |  |  |  |  |  |  Id[1:27-1:28]: C
+|  |  |  |  |  |  |  |  |  Id[1:30-1:31]: D
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:34-1:34]
 |  |  |  |  |  |  |  |mode:
@@ -37,8 +33,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:34-1:34]
 |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[1:34-1:41]
-|  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  Id[1:34-1:41]: Integer
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |subp_returns: <null>
@@ -46,16 +41,13 @@ PackageDecl[1:1-1:106]
 |  |  |  NumberDecl[1:44-1:63]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:44-1:45]
-|  |  |  |  |  Id[1:44-1:45]
-|  |  |  |  |  |tok: C
+|  |  |  |  |  Id[1:44-1:45]: C
 |  |  |  |expr:
-|  |  |  |  Int[1:60-1:62]
-|  |  |  |  |tok: 15
+|  |  |  |  Int[1:60-1:62]: 15
 |  |  |  ObjectDecl[1:64-1:99]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:64-1:65]
-|  |  |  |  |  Id[1:64-1:65]
-|  |  |  |  |  |tok: D
+|  |  |  |  |  Id[1:64-1:65]: D
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:68-1:68]
 |  |  |  |has_constant:
@@ -81,16 +73,13 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:84-1:84]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:84-1:90]
-|  |  |  |  |  |  |  |  |tok: Double
+|  |  |  |  |  |  |  |  Id[1:84-1:90]: Double
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |default_expr:
-|  |  |  |  Null[1:94-1:98]
-|  |  |  |  |tok: null
+|  |  |  |  Null[1:94-1:98]: null
 |  |  |  |renaming_clause: <null>
 |  |  |  |aspects: <null>
 |private_part: <null>
 |end_id:
-|  Id[1:104-1:105]
-|  |tok: A
+|  Id[1:104-1:105]: A

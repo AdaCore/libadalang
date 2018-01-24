@@ -30,4 +30,4 @@ def get_string_literal(unit):
     subp = node.f_body.f_item
     call = subp.f_stmts.f_stmts[0]
     str_lit = call.f_call.f_suffix[0].f_r_expr
-    return str_lit.f_tok.text
+    return str_lit.text

@@ -1,10 +1,8 @@
 ObjectDecl[1:1-1:30]
 |ids:
 |  IdentifierList[1:1-1:5]
-|  |  Id[1:1-1:2]
-|  |  |tok: A
-|  |  Id[1:4-1:5]
-|  |  |tok: B
+|  |  Id[1:1-1:2]: A
+|  |  Id[1:4-1:5]: B
 |has_aliased:
 |  AliasedAbsent[1:8-1:8]
 |has_constant:
@@ -16,8 +14,7 @@ ObjectDecl[1:1-1:30]
 |  |has_not_null:
 |  |  NotNullAbsent[1:8-1:8]
 |  |name:
-|  |  Id[1:8-1:15]
-|  |  |tok: Integer
+|  |  Id[1:8-1:15]: Integer
 |  |constraint: <null>
 |default_expr: <null>
 |renaming_clause:
@@ -27,12 +24,9 @@ ObjectDecl[1:1-1:30]
 |  |  |prefix:
 |  |  |  DottedName[1:24-1:27]
 |  |  |  |prefix:
-|  |  |  |  Id[1:24-1:25]
-|  |  |  |  |tok: C
+|  |  |  |  Id[1:24-1:25]: C
 |  |  |  |suffix:
-|  |  |  |  Id[1:26-1:27]
-|  |  |  |  |tok: D
+|  |  |  |  Id[1:26-1:27]: D
 |  |  |suffix:
-|  |  |  Id[1:28-1:29]
-|  |  |  |tok: E
+|  |  |  Id[1:28-1:29]: E
 |aspects: <null>

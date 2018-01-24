@@ -36,6 +36,6 @@ print('WithClause: overriding = {}'.format(subp_body.f_overriding))
 
 subp_name = subp_body.f_subp_spec.f_subp_name
 assert subp_name.kind_name == 'Identifier'
-print('Identifier: tok = {}'.format(subp_name.f_tok.text))
+print('Identifier: tok = {}'.format(subp_name.text))
 
 print('Done.')

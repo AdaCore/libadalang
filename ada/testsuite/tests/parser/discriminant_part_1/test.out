@@ -4,28 +4,24 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  DiscriminantSpec[1:2-1:13]
 |  |  |ids:
 |  |  |  IdentifierList[1:2-1:3]
-|  |  |  |  Id[1:2-1:3]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:2-1:3]: A
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:6-1:13]
 |  |  |  |has_not_null:
 |  |  |  |  NotNullAbsent[1:6-1:6]
 |  |  |  |name:
-|  |  |  |  Id[1:6-1:13]
-|  |  |  |  |tok: Integer
+|  |  |  |  Id[1:6-1:13]: Integer
 |  |  |  |constraint: <null>
 |  |  |default_expr: <null>
 |  |  DiscriminantSpec[1:15-1:25]
 |  |  |ids:
 |  |  |  IdentifierList[1:15-1:16]
-|  |  |  |  Id[1:15-1:16]
-|  |  |  |  |tok: B
+|  |  |  |  Id[1:15-1:16]: B
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:19-1:25]
 |  |  |  |has_not_null:
 |  |  |  |  NotNullAbsent[1:19-1:19]
 |  |  |  |name:
-|  |  |  |  Id[1:19-1:25]
-|  |  |  |  |tok: String
+|  |  |  |  Id[1:19-1:25]: String
 |  |  |  |constraint: <null>
 |  |  |default_expr: <null>

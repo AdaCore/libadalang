@@ -6,8 +6,7 @@ SubpDecl[1:1-1:55]
 |  |subp_kind:
 |  |  SubpKindProcedure[1:16-1:25]
 |  |subp_name:
-|  |  Id[1:26-1:27]
-|  |  |tok: A
+|  |  Id[1:26-1:27]: A
 |  |subp_params:
 |  |  Params[1:28-1:54]
 |  |  |params:
@@ -15,8 +14,7 @@ SubpDecl[1:1-1:55]
 |  |  |  |  ParamSpec[1:29-1:40]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:29-1:30]
-|  |  |  |  |  |  Id[1:29-1:30]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:29-1:30]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:33-1:33]
 |  |  |  |  |mode:
@@ -26,15 +24,13 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:33-1:33]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:33-1:40]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |  |  |  ParamSpec[1:42-1:53]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:42-1:43]
-|  |  |  |  |  |  Id[1:42-1:43]
-|  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  Id[1:42-1:43]: C
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:46-1:46]
 |  |  |  |  |mode:
@@ -44,8 +40,7 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:46-1:46]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:46-1:53]
-|  |  |  |  |  |  |tok: Natural
+|  |  |  |  |  |  Id[1:46-1:53]: Natural
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns: <null>

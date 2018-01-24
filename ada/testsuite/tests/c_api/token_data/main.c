@@ -38,9 +38,9 @@ main(void)
     if (!ada_subp_spec_f_subp_name(&node, &node))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
               ".f_name");
-    if (!ada_single_tok_node_f_tok(&node, &tok))
+    if (!ada_ada_node_token_start(&node, &tok))
         error("Could not get CompilationUnit.f_bodies[0].f_item.f_subp_spec"
-              ".f_name.f_tok");
+              ".f_name.token_start");
 
     puts("Token data for the \"foo\" identifier:");
     tk_name = ada_token_kind_name(tok.kind);

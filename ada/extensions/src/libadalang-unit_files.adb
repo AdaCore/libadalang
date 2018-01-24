@@ -157,7 +157,7 @@ package body Libadalang.Unit_Files is
      (case Name.Kind is
 
       when Ada_Base_Id =>
-        (1 => Get_Symbol (F_Tok (Bare_Identifier (Name)))),
+        (1 => Get_Symbol (Bare_Identifier (Name))),
 
       when Ada_Dotted_Name =>
         Name_To_Symbols (Bare_Ada_Node (Bare_Dotted_Name (Name).F_Prefix))

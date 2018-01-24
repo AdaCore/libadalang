@@ -4,18 +4,15 @@ EntryDecl[1:1-1:37]
 |spec:
 |  EntrySpec[1:7-1:36]
 |  |entry_name:
-|  |  Id[1:7-1:8]
-|  |  |tok: E
+|  |  Id[1:7-1:8]: E
 |  |family_type:
 |  |  BinOp[1:10-1:14]
 |  |  |left:
-|  |  |  Int[1:10-1:11]
-|  |  |  |tok: 1
+|  |  |  Int[1:10-1:11]: 1
 |  |  |op:
 |  |  |  OpDoubleDot[1:11-1:13]
 |  |  |right:
-|  |  |  Int[1:13-1:14]
-|  |  |  |tok: 3
+|  |  |  Int[1:13-1:14]: 3
 |  |entry_params:
 |  |  Params[1:16-1:36]
 |  |  |params:
@@ -23,8 +20,7 @@ EntryDecl[1:1-1:37]
 |  |  |  |  ParamSpec[1:17-1:35]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:17-1:18]
-|  |  |  |  |  |  Id[1:17-1:18]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:17-1:18]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:21-1:21]
 |  |  |  |  |mode:
@@ -34,8 +30,7 @@ EntryDecl[1:1-1:37]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:28-1:28]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:28-1:35]
-|  |  |  |  |  |  |tok: BOOLEAN
+|  |  |  |  |  |  Id[1:28-1:35]: BOOLEAN
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |aspects: <null>

@@ -14,8 +14,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:15]
-|  |  |  |  |tok: Test
+|  |  |  |  Id[1:11-1:15]: Test
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -31,29 +30,24 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |decl:
 |  |  |  |  |  |  LabelDecl[3:7-3:11]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[3:7-3:11]
-|  |  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089
+|  |  |  |  |  |  |  Id[3:7-3:11]: \u308c\u306a\u304c\u3089
 |  |  |  |  |  CallStmt[4:5-4:29]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[4:5-4:28]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[4:5-4:13]
-|  |  |  |  |  |  |  |tok: Put_Line
+|  |  |  |  |  |  |  Id[4:5-4:13]: Put_Line
 |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  AssocList[4:14-4:27]
 |  |  |  |  |  |  |  |  ParamAssoc[4:14-4:27]
 |  |  |  |  |  |  |  |  |designator: <null>
 |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  Str[4:14-4:27]
-|  |  |  |  |  |  |  |  |  |tok: "Hello world"
+|  |  |  |  |  |  |  |  |  Str[4:14-4:27]: "Hello world"
 |  |  |  |  |  GotoStmt[5:5-5:15]
 |  |  |  |  |  |label_name:
-|  |  |  |  |  |  Id[5:10-5:14]
-|  |  |  |  |  |  |tok: \u308c\u306a\u304c\u3089
+|  |  |  |  |  |  Id[5:10-5:14]: \u308c\u306a\u304c\u3089
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:14-5:14]: <empty list>
 |  |  |end_id:
-|  |  |  Id[6:5-6:9]
-|  |  |  |tok: Test
+|  |  |  Id[6:5-6:9]: Test
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

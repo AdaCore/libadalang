@@ -2,5 +2,4 @@ Label[1:1-1:12]
 |decl:
 |  LabelDecl[1:5-1:10]
 |  |name:
-|  |  Id[1:5-1:10]
-|  |  |tok: pouet
+|  |  Id[1:5-1:10]: pouet

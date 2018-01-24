@@ -1,7 +1,6 @@
 IncompleteTaggedTypeDecl[1:1-1:27]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants: <null>
 |has_abstract:
 |  AbstractPresent[1:11-1:11]

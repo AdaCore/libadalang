@@ -1,8 +1,7 @@
 ObjectDecl[1:1-1:7]
 |ids:
 |  IdentifierList[1:1-1:2]
-|  |  Id[1:1-1:2]
-|  |  |tok: A
+|  |  Id[1:1-1:2]: A
 |has_aliased:
 |  AliasedAbsent[1:5-1:5]
 |has_constant:
@@ -14,8 +13,7 @@ ObjectDecl[1:1-1:7]
 |  |has_not_null:
 |  |  NotNullAbsent[1:5-1:5]
 |  |name:
-|  |  Id[1:5-1:6]
-|  |  |tok: B
+|  |  Id[1:5-1:6]: B
 |  |constraint: <null>
 |default_expr: <null>
 |renaming_clause: <null>
@@ -25,8 +23,7 @@ Lookup 1:4:
 ObjectDecl[1:1-1:7]
 |ids:
 |  IdentifierList[1:1-1:2]
-|  |  Id[1:1-1:2]
-|  |  |tok: A
+|  |  Id[1:1-1:2]: A
 |has_aliased:
 |  AliasedAbsent[1:5-1:5]
 |has_constant:
@@ -38,13 +35,11 @@ ObjectDecl[1:1-1:7]
 |  |has_not_null:
 |  |  NotNullAbsent[1:5-1:5]
 |  |name:
-|  |  Id[1:5-1:6]
-|  |  |tok: B
+|  |  Id[1:5-1:6]: B
 |  |constraint: <null>
 |default_expr: <null>
 |renaming_clause: <null>
 |aspects: <null>
 
 Lookup 1:5:
-Id[1:5-1:6]
-|tok: B
+Id[1:5-1:6]: B

@@ -2,8 +2,7 @@ SingleTaskDecl[1:1-1:140]
 |task_type:
 |  SingleTaskTypeDecl[1:6-1:139]
 |  |type_id:
-|  |  Id[1:6-1:22]
-|  |  |tok: Buffer_Pool_Task
+|  |  Id[1:6-1:22]: Buffer_Pool_Task
 |  |discrs: <null>
 |  |aspects: <null>
 |  |definition:
@@ -20,15 +19,13 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |spec:
 |  |  |  |  |  |  EntrySpec[1:32-1:70]
 |  |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  |  Id[1:32-1:38]
-|  |  |  |  |  |  |  |tok: Insert
+|  |  |  |  |  |  |  Id[1:32-1:38]: Insert
 |  |  |  |  |  |  |family_type:
 |  |  |  |  |  |  |  SubtypeIndication[1:40-1:49]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:40-1:49]
-|  |  |  |  |  |  |  |  |tok: Buffer_Id
+|  |  |  |  |  |  |  |  Id[1:40-1:49]: Buffer_Id
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  |  Params[1:51-1:70]
@@ -37,8 +34,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  ParamSpec[1:52-1:69]
 |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  IdentifierList[1:52-1:59]
-|  |  |  |  |  |  |  |  |  |  |  Id[1:52-1:59]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:52-1:59]: An_Item
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:62-1:62]
 |  |  |  |  |  |  |  |  |  |mode:
@@ -48,8 +44,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:65-1:65]
 |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:65-1:69]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:65-1:69]: Item
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |aspects: <null>
@@ -59,15 +54,13 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |spec:
 |  |  |  |  |  |  EntrySpec[1:78-1:117]
 |  |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  |  Id[1:78-1:84]
-|  |  |  |  |  |  |  |tok: Remove
+|  |  |  |  |  |  |  Id[1:78-1:84]: Remove
 |  |  |  |  |  |  |family_type:
 |  |  |  |  |  |  |  SubtypeIndication[1:86-1:95]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:86-1:86]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:86-1:95]
-|  |  |  |  |  |  |  |  |tok: Buffer_Id
+|  |  |  |  |  |  |  |  Id[1:86-1:95]: Buffer_Id
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  |  Params[1:97-1:117]
@@ -76,8 +69,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  ParamSpec[1:98-1:116]
 |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  IdentifierList[1:98-1:105]
-|  |  |  |  |  |  |  |  |  |  |  Id[1:98-1:105]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:98-1:105]: An_Item
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:108-1:108]
 |  |  |  |  |  |  |  |  |  |mode:
@@ -87,12 +79,10 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:112-1:112]
 |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:112-1:116]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:112-1:116]: Item
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_id:
-|  |  |  Id[1:123-1:139]
-|  |  |  |tok: Buffer_Pool_Task
+|  |  |  Id[1:123-1:139]: Buffer_Pool_Task

@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:27]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: B
+|  Id[1:6-1:7]: B
 |discriminants: <null>
 |type_def:
 |  DerivedTypeDef[1:11-1:26]
@@ -16,13 +15,11 @@ TypeDecl[1:1-1:27]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:15-1:15]
 |  |  |name:
-|  |  |  Id[1:15-1:16]
-|  |  |  |tok: A
+|  |  |  Id[1:15-1:16]: A
 |  |  |constraint:
 |  |  |  DeltaConstraint[1:17-1:26]
 |  |  |  |digits:
-|  |  |  |  Real[1:23-1:26]
-|  |  |  |  |tok: 1.0
+|  |  |  |  Real[1:23-1:26]: 1.0
 |  |  |  |range: <null>
 |  |interfaces:
 |  |  ParentList[1:23-1:23]: <empty list>

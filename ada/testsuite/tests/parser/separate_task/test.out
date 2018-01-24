@@ -8,8 +8,7 @@ CompilationUnit[1:1-6:7]
 |  |item:
 |  |  PackageBody[1:1-6:7]
 |  |  |package_name:
-|  |  |  Id[1:14-1:15]
-|  |  |  |tok: S
+|  |  |  Id[1:14-1:15]: S
 |  |  |aspects: <null>
 |  |  |decls:
 |  |  |  DeclarativePart[2:4-3:32]
@@ -17,15 +16,13 @@ CompilationUnit[1:1-6:7]
 |  |  |  |  AdaNodeList[2:4-3:32]
 |  |  |  |  |  TaskTypeDecl[2:4-2:20]
 |  |  |  |  |  |type_id:
-|  |  |  |  |  |  Id[2:14-2:19]
-|  |  |  |  |  |  |tok: share
+|  |  |  |  |  |  Id[2:14-2:19]: share
 |  |  |  |  |  |discrs: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |definition: <null>
 |  |  |  |  |  TaskBodyStub[3:4-3:32]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[3:14-3:19]
-|  |  |  |  |  |  |tok: share
+|  |  |  |  |  |  Id[3:14-3:19]: share
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
 |  |  |  HandledStmts[5:4-5:9]
@@ -35,7 +32,6 @@ CompilationUnit[1:1-6:7]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:
-|  |  |  Id[6:5-6:6]
-|  |  |  |tok: S
+|  |  |  Id[6:5-6:6]: S
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

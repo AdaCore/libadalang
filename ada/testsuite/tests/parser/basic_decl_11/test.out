@@ -6,8 +6,7 @@ ExprFunction[1:1-1:65]
 |  |subp_kind:
 |  |  SubpKindFunction[1:1-1:9]
 |  |subp_name:
-|  |  Id[1:10-1:11]
-|  |  |tok: A
+|  |  Id[1:10-1:11]: A
 |  |subp_params:
 |  |  Params[1:12-1:25]
 |  |  |params:
@@ -15,8 +14,7 @@ ExprFunction[1:1-1:65]
 |  |  |  |  ParamSpec[1:13-1:24]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:13-1:14]
-|  |  |  |  |  |  Id[1:13-1:14]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:17-1:17]
 |  |  |  |  |mode:
@@ -26,8 +24,7 @@ ExprFunction[1:1-1:65]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:17-1:17]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:17-1:24]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:17-1:24]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns:
@@ -35,22 +32,18 @@ ExprFunction[1:1-1:65]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:33-1:33]
 |  |  |name:
-|  |  |  Id[1:33-1:40]
-|  |  |  |tok: Integer
+|  |  |  Id[1:33-1:40]: Integer
 |  |  |constraint: <null>
 |expr:
 |  ParenExpr[1:44-1:64]
 |  |expr:
 |  |  IfExpr[1:45-1:63]
 |  |  |cond_expr:
-|  |  |  Int[1:48-1:49]
-|  |  |  |tok: 1
+|  |  |  Int[1:48-1:49]: 1
 |  |  |then_expr:
-|  |  |  Int[1:55-1:56]
-|  |  |  |tok: 2
+|  |  |  Int[1:55-1:56]: 2
 |  |  |alternatives:
 |  |  |  ElsifExprPartList[1:57-1:57]: <empty list>
 |  |  |else_expr:
-|  |  |  Int[1:62-1:63]
-|  |  |  |tok: 3
+|  |  |  Int[1:62-1:63]: 3
 |aspects: <null>

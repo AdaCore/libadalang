@@ -10,21 +10,17 @@ CompilationUnit[1:1-24:10]
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:6-1:9]
-|  |  |  |  |  |tok: Ada
+|  |  |  |  |  Id[1:6-1:9]: Ada
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:10-1:17]
-|  |  |  |  |  |tok: Text_IO
+|  |  |  |  |  Id[1:10-1:17]: Text_IO
 |  |  UsePackageClause[1:19-1:35]
 |  |  |packages:
 |  |  |  NameList[1:23-1:34]
 |  |  |  |  DottedName[1:23-1:34]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:23-1:26]
-|  |  |  |  |  |tok: Ada
+|  |  |  |  |  Id[1:23-1:26]: Ada
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:27-1:34]
-|  |  |  |  |  |tok: Text_IO
+|  |  |  |  |  Id[1:27-1:34]: Text_IO
 |body:
 |  LibraryItem[3:1-24:10]
 |  |has_private:
@@ -38,8 +34,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[3:11-3:15]
-|  |  |  |  |tok: What
+|  |  |  |  Id[3:11-3:15]: What
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -49,8 +44,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  AdaNodeList[4:4-20:26]
 |  |  |  |  |  TypeDecl[4:4-4:29]
 |  |  |  |  |  |type_id:
-|  |  |  |  |  |  Id[4:9-4:13]
-|  |  |  |  |  |  |tok: Enum
+|  |  |  |  |  |  Id[4:9-4:13]: Enum
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  EnumTypeDef[4:17-4:28]
@@ -58,16 +52,13 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
 |  |  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  |  Id[4:18-4:19]
-|  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  Id[4:18-4:19]: A
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
 |  |  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  |  Chr[4:21-4:24]
-|  |  |  |  |  |  |  |  |  |tok: 'B'
+|  |  |  |  |  |  |  |  |  Chr[4:21-4:24]: 'B'
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
 |  |  |  |  |  |  |  |  |enum_identifier:
-|  |  |  |  |  |  |  |  |  Id[4:26-4:27]
-|  |  |  |  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
 |  |  |  |  |  |formal_part:
@@ -84,20 +75,17 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[6:12-6:20]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]
-|  |  |  |  |  |  |  |  |  |  |  |tok: J
+|  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]: J
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:30-6:30]
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Enum
+|  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Enum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |default_value:
-|  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]
-|  |  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]: A
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[7:7-7:42]
 |  |  |  |  |  |  |  |  |decl:
@@ -109,26 +97,22 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[7:12-7:20]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]
-|  |  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]: I
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:30-7:30]
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: ENum
+|  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]: ENum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |default_value:
-|  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]
-|  |  |  |  |  |  |  |  |  |  |tok: 'B'
+|  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]: 'B'
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |package_decl:
 |  |  |  |  |  |  GenericPackageInternal[8:4-10:10]
 |  |  |  |  |  |  |package_name:
-|  |  |  |  |  |  |  Id[8:12-8:13]
-|  |  |  |  |  |  |  |tok: P
+|  |  |  |  |  |  |  Id[8:12-8:13]: P
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |public_part:
 |  |  |  |  |  |  |  PublicPart[9:7-9:21]
@@ -142,19 +126,16 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[9:7-9:16]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]: Foo
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |private_part: <null>
 |  |  |  |  |  |  |end_id:
-|  |  |  |  |  |  |  Id[10:8-10:9]
-|  |  |  |  |  |  |  |tok: P
+|  |  |  |  |  |  |  Id[10:8-10:9]: P
 |  |  |  |  |  PackageBody[12:4-18:10]
 |  |  |  |  |  |package_name:
-|  |  |  |  |  |  Id[12:17-12:18]
-|  |  |  |  |  |  |tok: P
+|  |  |  |  |  |  Id[12:17-12:18]: P
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  DeclarativePart[13:7-17:15]
@@ -168,8 +149,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[13:7-13:16]
 |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]
-|  |  |  |  |  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]: Foo
 |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |aspects: <null>
@@ -185,8 +165,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |call:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[15:10-15:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:10-15:18]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Put_Line
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:10-15:18]: Put_Line
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[15:20-15:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[15:20-15:25]
@@ -194,18 +173,15 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[15:20-15:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:20-15:21]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: J
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:20-15:21]: J
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:22-15:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Img
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:22-15:25]: Img
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |  |  |  CallStmt[16:10-16:27]
 |  |  |  |  |  |  |  |  |  |  |  |call:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[16:10-16:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:10-16:18]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Put_Line
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:10-16:18]: Put_Line
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:20-16:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:20-16:25]
@@ -213,28 +189,22 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[16:20-16:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:20-16:21]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: I
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:20-16:21]: I
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:22-16:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |tok: Img
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:22-16:25]: Img
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:26-16:26]: <empty list>
 |  |  |  |  |  |  |  |  |end_id:
-|  |  |  |  |  |  |  |  |  Id[17:11-17:14]
-|  |  |  |  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  |  |  |  Id[17:11-17:14]: Foo
 |  |  |  |  |  |stmts: <null>
 |  |  |  |  |  |end_id:
-|  |  |  |  |  |  Id[18:8-18:9]
-|  |  |  |  |  |  |tok: P
+|  |  |  |  |  |  Id[18:8-18:9]: P
 |  |  |  |  |  GenericPackageInstantiation[20:4-20:26]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[20:12-20:16]
-|  |  |  |  |  |  |tok: Inst
+|  |  |  |  |  |  Id[20:12-20:16]: Inst
 |  |  |  |  |  |generic_pkg_name:
-|  |  |  |  |  |  Id[20:24-20:25]
-|  |  |  |  |  |  |tok: P
+|  |  |  |  |  |  Id[20:24-20:25]: P
 |  |  |  |  |  |params:
 |  |  |  |  |  |  AssocList[20:24-20:24]: <empty list>
 |  |  |  |  |  |aspects: <null>
@@ -246,15 +216,12 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  DottedName[23:4-23:12]
 |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  Id[23:4-23:8]
-|  |  |  |  |  |  |  |tok: Inst
+|  |  |  |  |  |  |  Id[23:4-23:8]: Inst
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  Id[23:9-23:12]
-|  |  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  |  Id[23:9-23:12]: Foo
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[23:12-23:12]: <empty list>
 |  |  |end_id:
-|  |  |  Id[24:5-24:9]
-|  |  |  |tok: What
+|  |  |  Id[24:5-24:9]: What
 |pragmas:
 |  PragmaNodeList[25:1-25:1]: <empty list>

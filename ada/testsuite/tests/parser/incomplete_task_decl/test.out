@@ -14,8 +14,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:15]
-|  |  |  |  |tok: Main
+|  |  |  |  Id[1:11-1:15]: Main
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -25,15 +24,13 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  AdaNodeList[2:4-3:15]
 |  |  |  |  |  IncompleteTypeDecl[2:4-2:11]
 |  |  |  |  |  |type_id:
-|  |  |  |  |  |  Id[2:9-2:10]
-|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  Id[2:9-2:10]: A
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:15]
 |  |  |  |  |  |task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
 |  |  |  |  |  |  |type_id:
-|  |  |  |  |  |  |  Id[3:9-3:14]
-|  |  |  |  |  |  |  |tok: Pouet
+|  |  |  |  |  |  |  Id[3:9-3:14]: Pouet
 |  |  |  |  |  |  |discrs: <null>
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |definition: <null>
@@ -45,7 +42,6 @@ CompilationUnit[1:1-6:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:
-|  |  |  Id[6:5-6:9]
-|  |  |  |tok: Main
+|  |  |  Id[6:5-6:9]: Main
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

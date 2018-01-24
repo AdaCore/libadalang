@@ -8,8 +8,7 @@ CompilationUnit[1:1-10:7]
 |  |item:
 |  |  PackageDecl[1:1-10:7]
 |  |  |package_name:
-|  |  |  Id[1:9-1:10]
-|  |  |  |tok: P
+|  |  |  Id[1:9-1:10]: P
 |  |  |aspects: <null>
 |  |  |public_part:
 |  |  |  PublicPart[3:4-8:38]
@@ -23,8 +22,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindProcedure[3:4-3:13]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[3:14-3:21]
-|  |  |  |  |  |  |  |tok: Has_Pre
+|  |  |  |  |  |  |  Id[3:14-3:21]: Has_Pre
 |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects:
@@ -33,11 +31,9 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  AspectAssocList[3:27-3:38]
 |  |  |  |  |  |  |  |  AspectAssoc[3:27-3:38]
 |  |  |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  |  |  Id[3:27-3:30]
-|  |  |  |  |  |  |  |  |  |tok: Pre
+|  |  |  |  |  |  |  |  |  Id[3:27-3:30]: Pre
 |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  Id[3:34-3:38]
-|  |  |  |  |  |  |  |  |  |tok: True
+|  |  |  |  |  |  |  |  |  Id[3:34-3:38]: True
 |  |  |  |  |  GenericSubpDecl[5:4-6:41]
 |  |  |  |  |  |formal_part:
 |  |  |  |  |  |  GenericFormalPart[5:4-5:11]
@@ -50,8 +46,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  SubpKindProcedure[6:4-6:13]
 |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  Id[6:14-6:22]
-|  |  |  |  |  |  |  |  |tok: Has_Post
+|  |  |  |  |  |  |  |  Id[6:14-6:22]: Has_Post
 |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |aspects:
@@ -60,11 +55,9 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  AspectAssocList[6:28-6:40]
 |  |  |  |  |  |  |  |  |  AspectAssoc[6:28-6:40]
 |  |  |  |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  |  |  |  Id[6:28-6:32]
-|  |  |  |  |  |  |  |  |  |  |tok: Post
+|  |  |  |  |  |  |  |  |  |  Id[6:28-6:32]: Post
 |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  Id[6:36-6:40]
-|  |  |  |  |  |  |  |  |  |  |tok: True
+|  |  |  |  |  |  |  |  |  |  Id[6:36-6:40]: True
 |  |  |  |  |  SubpDecl[8:4-8:38]
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified[8:4-8:4]
@@ -73,8 +66,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindProcedure[8:4-8:13]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[8:14-8:25]
-|  |  |  |  |  |  |  |tok: No_Contract
+|  |  |  |  |  |  |  Id[8:14-8:25]: No_Contract
 |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects:
@@ -83,12 +75,10 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  AspectAssocList[8:31-8:37]
 |  |  |  |  |  |  |  |  AspectAssoc[8:31-8:37]
 |  |  |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  |  |  Id[8:31-8:37]
-|  |  |  |  |  |  |  |  |  |tok: Inline
+|  |  |  |  |  |  |  |  |  Id[8:31-8:37]: Inline
 |  |  |  |  |  |  |  |  |expr: <null>
 |  |  |private_part: <null>
 |  |  |end_id:
-|  |  |  Id[10:5-10:6]
-|  |  |  |tok: P
+|  |  |  Id[10:5-10:6]: P
 |pragmas:
 |  PragmaNodeList[11:1-11:1]: <empty list>

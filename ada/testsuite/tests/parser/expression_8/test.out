@@ -2,12 +2,10 @@ CallExpr[1:1-1:10]
 |name:
 |  ExplicitDeref[1:1-1:6]
 |  |prefix:
-|  |  Id[1:1-1:2]
-|  |  |tok: A
+|  |  Id[1:1-1:2]: A
 |suffix:
 |  AssocList[1:8-1:9]
 |  |  ParamAssoc[1:8-1:9]
 |  |  |designator: <null>
 |  |  |r_expr:
-|  |  |  Id[1:8-1:9]
-|  |  |  |tok: B
+|  |  |  Id[1:8-1:9]: B

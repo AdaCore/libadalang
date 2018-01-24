@@ -7,11 +7,8 @@ UseTypeClause[1:1-1:36]
 |  |  |prefix:
 |  |  |  DottedName[1:14-1:28]
 |  |  |  |prefix:
-|  |  |  |  Id[1:14-1:17]
-|  |  |  |  |tok: Ada
+|  |  |  |  Id[1:14-1:17]: Ada
 |  |  |  |suffix:
-|  |  |  |  Id[1:18-1:28]
-|  |  |  |  |tok: Containers
+|  |  |  |  Id[1:18-1:28]: Containers
 |  |  |suffix:
-|  |  |  Id[1:29-1:35]
-|  |  |  |tok: Vector
+|  |  |  Id[1:29-1:35]: Vector

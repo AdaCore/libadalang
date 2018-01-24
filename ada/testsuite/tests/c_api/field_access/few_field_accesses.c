@@ -99,8 +99,8 @@ main(void)
       error("SubpBody.subp_spec.name is not an Identifier");
     subp_name = tmp;
 
-    if (!ada_single_tok_node_f_tok(&subp_name, &tok))
-      error("Could not get Identifier.tok");
+    if (!ada_ada_node_token_start(&subp_name, &tok))
+      error("Could not get token for Identifier");
     printf("Identifier: tok = ");
     fprint_text(stderr, tok.text, false);
     putchar('\n');

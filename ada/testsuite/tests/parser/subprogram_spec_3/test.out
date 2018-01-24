@@ -2,8 +2,7 @@ SubpSpec[1:1-1:69]
 |subp_kind:
 |  SubpKindProcedure[1:1-1:10]
 |subp_name:
-|  Id[1:11-1:12]
-|  |tok: I
+|  Id[1:11-1:12]: I
 |subp_params:
 |  Params[1:13-1:69]
 |  |params:
@@ -11,8 +10,7 @@ SubpSpec[1:1-1:69]
 |  |  |  ParamSpec[1:14-1:55]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:14-1:15]
-|  |  |  |  |  Id[1:14-1:15]
-|  |  |  |  |  |tok: A
+|  |  |  |  |  Id[1:14-1:15]: A
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:18-1:18]
 |  |  |  |mode:
@@ -39,8 +37,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]: A
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |  |  |  |mode:
@@ -50,8 +47,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |subp_returns: <null>
@@ -60,8 +56,7 @@ SubpSpec[1:1-1:69]
 |  |  |  ParamSpec[1:57-1:68]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:57-1:58]
-|  |  |  |  |  Id[1:57-1:58]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[1:57-1:58]: B
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:61-1:61]
 |  |  |  |mode:
@@ -71,8 +66,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[1:61-1:61]
 |  |  |  |  |name:
-|  |  |  |  |  Id[1:61-1:68]
-|  |  |  |  |  |tok: Integer
+|  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
 |subp_returns: <null>

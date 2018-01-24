@@ -9,8 +9,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |item:
 |  |  |  PackageDecl[1:1-2:9]
 |  |  |  |package_name:
-|  |  |  |  Id[1:9-1:12]
-|  |  |  |  |tok: Foo
+|  |  |  |  Id[1:9-1:12]: Foo
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[2:1-2:1]
@@ -18,8 +17,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |  |private_part: <null>
 |  |  |  |end_id:
-|  |  |  |  Id[2:5-2:8]
-|  |  |  |  |tok: Foo
+|  |  |  |  Id[2:5-2:8]: Foo
 |  |pragmas:
 |  |  PragmaNodeList[4:1-4:1]: <empty list>
 |  CompilationUnit[4:1-5:13]
@@ -34,11 +32,9 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |package_name:
 |  |  |  |  DottedName[4:9-4:16]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[4:9-4:12]
-|  |  |  |  |  |tok: Foo
+|  |  |  |  |  Id[4:9-4:12]: Foo
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[4:13-4:16]
-|  |  |  |  |  |tok: Bar
+|  |  |  |  |  Id[4:13-4:16]: Bar
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[5:1-5:1]
@@ -48,11 +44,9 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |end_id:
 |  |  |  |  DottedName[5:5-5:12]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[5:5-5:8]
-|  |  |  |  |  |tok: Foo
+|  |  |  |  |  Id[5:5-5:8]: Foo
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[5:9-5:12]
-|  |  |  |  |  |tok: Bar
+|  |  |  |  |  Id[5:9-5:12]: Bar
 |  |pragmas:
 |  |  PragmaNodeList[7:1-7:1]: <empty list>
 |  CompilationUnit[7:1-8:17]
@@ -69,14 +63,11 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[7:9-7:16]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[7:9-7:12]
-|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  Id[7:9-7:12]: Foo
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[7:13-7:16]
-|  |  |  |  |  |  |tok: Bar
+|  |  |  |  |  |  Id[7:13-7:16]: Bar
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[7:17-7:20]
-|  |  |  |  |  |tok: Baz
+|  |  |  |  |  Id[7:17-7:20]: Baz
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[8:1-8:1]
@@ -88,14 +79,11 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[8:5-8:12]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[8:5-8:8]
-|  |  |  |  |  |  |tok: Foo
+|  |  |  |  |  |  Id[8:5-8:8]: Foo
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[8:9-8:12]
-|  |  |  |  |  |  |tok: Bar
+|  |  |  |  |  |  Id[8:9-8:12]: Bar
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[8:13-8:16]
-|  |  |  |  |  |tok: Baz
+|  |  |  |  |  Id[8:13-8:16]: Baz
 |  |pragmas:
 |  |  PragmaNodeList[10:1-10:1]: <empty list>
 |  CompilationUnit[10:1-11:7]
@@ -108,8 +96,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |item:
 |  |  |  PackageDecl[10:1-11:7]
 |  |  |  |package_name:
-|  |  |  |  Id[10:9-10:10]
-|  |  |  |  |tok: A
+|  |  |  |  Id[10:9-10:10]: A
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[11:1-11:1]
@@ -117,8 +104,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |  AdaNodeList[11:1-11:1]: <empty list>
 |  |  |  |private_part: <null>
 |  |  |  |end_id:
-|  |  |  |  Id[11:5-11:6]
-|  |  |  |  |tok: A
+|  |  |  |  Id[11:5-11:6]: A
 |  |pragmas:
 |  |  PragmaNodeList[13:1-13:1]: <empty list>
 |  CompilationUnit[13:1-14:9]
@@ -133,11 +119,9 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |package_name:
 |  |  |  |  DottedName[13:9-13:12]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[13:9-13:10]
-|  |  |  |  |  |tok: A
+|  |  |  |  |  Id[13:9-13:10]: A
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[13:11-13:12]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[13:11-13:12]: B
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[14:1-14:1]
@@ -147,11 +131,9 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |end_id:
 |  |  |  |  DottedName[14:5-14:8]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[14:5-14:6]
-|  |  |  |  |  |tok: A
+|  |  |  |  |  Id[14:5-14:6]: A
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[14:7-14:8]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[14:7-14:8]: B
 |  |pragmas:
 |  |  PragmaNodeList[16:1-16:1]: <empty list>
 |  CompilationUnit[16:1-17:11]
@@ -168,14 +150,11 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[16:9-16:12]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[16:9-16:10]
-|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  Id[16:9-16:10]: A
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[16:11-16:12]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[16:11-16:12]: B
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[16:13-16:14]
-|  |  |  |  |  |tok: C
+|  |  |  |  |  Id[16:13-16:14]: C
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[17:1-17:1]
@@ -187,14 +166,11 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[17:5-17:8]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[17:5-17:6]
-|  |  |  |  |  |  |tok: A
+|  |  |  |  |  |  Id[17:5-17:6]: A
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[17:7-17:8]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[17:7-17:8]: B
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[17:9-17:10]
-|  |  |  |  |  |tok: C
+|  |  |  |  |  Id[17:9-17:10]: C
 |  |pragmas:
 |  |  PragmaNodeList[18:1-18:1]: <empty list>
 

@@ -8,8 +8,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  ObjectDecl[2:5-2:19]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[2:5-2:8]
-|  |  |  |  |  |  Id[2:5-2:8]
-|  |  |  |  |  |  |tok: Max
+|  |  |  |  |  |  Id[2:5-2:8]: Max
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[2:10-2:10]
 |  |  |  |  |has_constant:
@@ -21,8 +20,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[2:10-2:10]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[2:10-2:18]
-|  |  |  |  |  |  |tok: Positive
+|  |  |  |  |  |  Id[2:10-2:18]: Positive
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default_expr: <null>
 |  |  |  |  |renaming_clause: <null>
@@ -31,8 +29,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[3:5-3:31]
 |  |  |  |  |type_id:
-|  |  |  |  |  Id[3:10-3:19]
-|  |  |  |  |  |tok: Element_T
+|  |  |  |  |  Id[3:10-3:19]: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
 |  |  |  |  |  PrivateTypeDef[3:23-3:30]
@@ -46,8 +43,7 @@ GenericPackageDecl[1:1-7:19]
 |package_decl:
 |  GenericPackageInternal[4:1-7:19]
 |  |package_name:
-|  |  Id[4:9-4:22]
-|  |  |tok: Generic_Stack
+|  |  Id[4:9-4:22]: Generic_Stack
 |  |aspects: <null>
 |  |public_part:
 |  |  PublicPart[5:5-6:35]
@@ -61,8 +57,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  SubpKindProcedure[5:5-5:14]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[5:15-5:19]
-|  |  |  |  |  |  |tok: Push
+|  |  |  |  |  |  Id[5:15-5:19]: Push
 |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  Params[5:20-5:34]
 |  |  |  |  |  |  |params:
@@ -70,8 +65,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |  |  ParamSpec[5:21-5:33]
 |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
-|  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]
-|  |  |  |  |  |  |  |  |  |  |tok: E
+|  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]: E
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[5:24-5:24]
 |  |  |  |  |  |  |  |  |mode:
@@ -81,8 +75,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]
-|  |  |  |  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]: Element_T
 |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |subp_returns: <null>
@@ -95,19 +88,16 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  SubpKindFunction[6:5-6:13]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[6:14-6:17]
-|  |  |  |  |  |  |tok: Pop
+|  |  |  |  |  |  Id[6:14-6:17]: Pop
 |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  SubtypeIndication[6:25-6:34]
 |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[6:25-6:25]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[6:25-6:34]
-|  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |  Id[6:25-6:34]: Element_T
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_id:
-|  |  Id[7:5-7:18]
-|  |  |tok: Generic_Stack
+|  |  Id[7:5-7:18]: Generic_Stack

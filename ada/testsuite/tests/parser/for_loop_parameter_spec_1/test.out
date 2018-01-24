@@ -2,20 +2,17 @@ ForLoopSpec[1:1-1:19]
 |var_decl:
 |  ForLoopVarDecl[1:1-1:12]
 |  |id:
-|  |  Id[1:1-1:2]
-|  |  |tok: A
+|  |  Id[1:1-1:2]: A
 |  |id_type:
 |  |  SubtypeIndication[1:5-1:12]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:5-1:5]
 |  |  |name:
-|  |  |  Id[1:5-1:12]
-|  |  |  |tok: Integer
+|  |  |  Id[1:5-1:12]: Integer
 |  |  |constraint: <null>
 |loop_type:
 |  IterTypeOf[1:13-1:15]
 |has_reverse:
 |  ReverseAbsent[1:16-1:16]
 |iter_expr:
-|  Id[1:16-1:19]
-|  |tok: Foo
+|  Id[1:16-1:19]: Foo

@@ -41,13 +41,13 @@ def print_title(char, title):
 
 def decode_boolean_literal(node):
     assert isinstance(node, lal.Identifier)
-    if node.f_tok.text == 'True':
+    if node.text == 'True':
         return True
-    elif node.f_tok.text == 'False':
+    elif node.text == 'False':
         return False
     else:
         raise ValueError('Invalid boolean literal: {}'.format(
-            escape_ascii(node.f_tok.text)
+            escape_ascii(node.text)
         ))
 
 
@@ -121,7 +121,7 @@ for src_file in input_sources:
     # Print what entities are found for expressions X in all the "pragma Test
     # (X)" we can find in this unit.
     for p in unit.root.finditer(lal.PragmaNode):
-        pragma_name = p.f_id.f_tok.text
+        pragma_name = p.f_id.text
 
         # If this pragma and the previous ones are not on adjacent lines, do
         # not make them adjacent in the output.
@@ -136,7 +136,7 @@ for src_file in input_sources:
             for arg in p.f_args:
                 assert isinstance(arg.f_id, lal.Identifier)
                 assert isinstance(arg.f_expr, lal.Identifier)
-                name = arg.f_id.f_tok.text
+                name = arg.f_id.text
                 value = arg.f_expr
                 if name == u'Display_Slocs':
                     display_slocs = decode_boolean_literal(value)
@@ -150,7 +150,7 @@ for src_file in input_sources:
             assert len(p.f_args) == 1
             arg = p.f_args[0].f_expr
             assert isinstance(arg, lal.StringLiteral)
-            print_title('-', escape_ascii(arg.f_tok.text[1:-1]))
+            print_title('-', escape_ascii(arg.text[1:-1]))
             empty = False
 
         elif pragma_name == u'Test':

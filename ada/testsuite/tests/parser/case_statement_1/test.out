@@ -14,8 +14,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:17]
-|  |  |  |  |tok: Testcs
+|  |  |  |  Id[1:11-1:17]: Testcs
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -29,8 +28,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  StmtList[3:4-6:13]
 |  |  |  |  |  CaseStmt[3:4-6:13]
 |  |  |  |  |  |case_expr:
-|  |  |  |  |  |  Id[3:9-3:13]
-|  |  |  |  |  |  |tok: Mode
+|  |  |  |  |  |  Id[3:9-3:13]: Mode
 |  |  |  |  |  |case_alts:
 |  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
 |  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]
@@ -40,36 +38,29 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  |  DottedName[4:12-4:28]
 |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  Id[4:12-4:16]
-|  |  |  |  |  |  |  |  |  |  |  |tok: TSSL
+|  |  |  |  |  |  |  |  |  |  |  Id[4:12-4:16]: TSSL
 |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  Id[4:17-4:28]
-|  |  |  |  |  |  |  |  |  |  |  |tok: CRYPTO_LOCK
+|  |  |  |  |  |  |  |  |  |  |  Id[4:17-4:28]: CRYPTO_LOCK
 |  |  |  |  |  |  |  |  |  |op:
 |  |  |  |  |  |  |  |  |  |  OpOr[4:29-4:31]
 |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  DottedName[4:32-4:49]
 |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  Id[4:32-4:36]
-|  |  |  |  |  |  |  |  |  |  |  |tok: TSSL
+|  |  |  |  |  |  |  |  |  |  |  Id[4:32-4:36]: TSSL
 |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  Id[4:37-4:49]
-|  |  |  |  |  |  |  |  |  |  |  |tok: CRYPTO_WRITE
+|  |  |  |  |  |  |  |  |  |  |  Id[4:37-4:49]: CRYPTO_WRITE
 |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  StmtList[5:10-5:23]
 |  |  |  |  |  |  |  |  |  CallStmt[5:10-5:23]
 |  |  |  |  |  |  |  |  |  |call:
 |  |  |  |  |  |  |  |  |  |  DottedName[5:10-5:22]
 |  |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  |  Id[5:10-5:16]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Locker
+|  |  |  |  |  |  |  |  |  |  |  Id[5:10-5:16]: Locker
 |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  Id[5:17-5:22]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Write
+|  |  |  |  |  |  |  |  |  |  |  Id[5:17-5:22]: Write
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:12-6:12]: <empty list>
 |  |  |end_id:
-|  |  |  Id[7:5-7:11]
-|  |  |  |tok: Testcs
+|  |  |  Id[7:5-7:11]: Testcs
 |pragmas:
 |  PragmaNodeList[8:1-8:1]: <empty list>

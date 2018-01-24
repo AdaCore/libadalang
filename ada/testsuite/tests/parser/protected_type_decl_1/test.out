@@ -1,7 +1,6 @@
 ProtectedTypeDecl[1:1-1:137]
 |type_id:
-|  Id[1:16-1:37]
-|  |tok: Protected_Buffer_Type
+|  Id[1:16-1:37]: Protected_Buffer_Type
 |discrs: <null>
 |aspects: <null>
 |interfaces:
@@ -18,8 +17,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:47-1:74]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:47-1:53]
-|  |  |  |  |  |  |tok: Insert
+|  |  |  |  |  |  Id[1:47-1:53]: Insert
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:54-1:74]
@@ -28,8 +26,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  ParamSpec[1:55-1:73]
 |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
-|  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]
-|  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
 |  |  |  |  |  |  |  |  |mode:
@@ -39,8 +36,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]
-|  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
@@ -50,8 +46,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:82-1:109]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:82-1:88]
-|  |  |  |  |  |  |tok: Remove
+|  |  |  |  |  |  Id[1:82-1:88]: Remove
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:89-1:109]
@@ -60,8 +55,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  ParamSpec[1:90-1:108]
 |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  IdentifierList[1:90-1:97]
-|  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]
-|  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
 |  |  |  |  |  |  |  |  |mode:
@@ -71,12 +65,10 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]
-|  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_id:
-|  |  Id[1:115-1:136]
-|  |  |tok: Protected_Buffer_Type
+|  |  Id[1:115-1:136]: Protected_Buffer_Type

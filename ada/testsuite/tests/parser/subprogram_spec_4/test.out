@@ -2,8 +2,7 @@ SubpSpec[1:1-1:37]
 |subp_kind:
 |  SubpKindFunction[1:1-1:9]
 |subp_name:
-|  Id[1:10-1:11]
-|  |tok: A
+|  Id[1:10-1:11]: A
 |subp_params: <null>
 |subp_returns:
 |  SubtypeIndication[1:19-1:37]
@@ -12,21 +11,17 @@ SubpSpec[1:1-1:37]
 |  |name:
 |  |  DottedName[1:19-1:26]
 |  |  |prefix:
-|  |  |  Id[1:19-1:22]
-|  |  |  |tok: Pkg
+|  |  |  Id[1:19-1:22]: Pkg
 |  |  |suffix:
-|  |  |  Id[1:23-1:26]
-|  |  |  |tok: Arr
+|  |  |  Id[1:23-1:26]: Arr
 |  |constraint:
 |  |  IndexConstraint[1:27-1:37]
 |  |  |constraints:
 |  |  |  ConstraintList[1:28-1:36]
 |  |  |  |  BinOp[1:28-1:36]
 |  |  |  |  |left:
-|  |  |  |  |  Int[1:28-1:30]
-|  |  |  |  |  |tok: 12
+|  |  |  |  |  Int[1:28-1:30]: 12
 |  |  |  |  |op:
 |  |  |  |  |  OpDoubleDot[1:31-1:33]
 |  |  |  |  |right:
-|  |  |  |  |  Int[1:34-1:36]
-|  |  |  |  |  |tok: 18
+|  |  |  |  |  Int[1:34-1:36]: 18

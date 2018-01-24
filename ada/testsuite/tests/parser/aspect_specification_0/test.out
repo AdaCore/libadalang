@@ -5,19 +5,15 @@ AspectSpec[1:1-1:25]
 |  |  |id:
 |  |  |  AttributeRef[1:6-1:15]
 |  |  |  |prefix:
-|  |  |  |  Id[1:6-1:9]
-|  |  |  |  |tok: Pre
+|  |  |  |  Id[1:6-1:9]: Pre
 |  |  |  |attribute:
-|  |  |  |  Id[1:10-1:15]
-|  |  |  |  |tok: Class
+|  |  |  |  Id[1:10-1:15]: Class
 |  |  |  |args: <null>
 |  |  |expr:
 |  |  |  RelationOp[1:19-1:25]
 |  |  |  |left:
-|  |  |  |  Id[1:19-1:20]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:19-1:20]: A
 |  |  |  |op:
 |  |  |  |  OpLt[1:21-1:22]
 |  |  |  |right:
-|  |  |  |  Int[1:23-1:25]
-|  |  |  |  |tok: 12
+|  |  |  |  Int[1:23-1:25]: 12

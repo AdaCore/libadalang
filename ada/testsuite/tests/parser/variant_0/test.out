@@ -1,10 +1,8 @@
 Variant[1:1-1:29]
 |choice_list:
 |  AlternativesList[1:6-1:13]
-|  |  Int[1:6-1:8]
-|  |  |tok: 12
-|  |  Int[1:11-1:13]
-|  |  |tok: 15
+|  |  Int[1:6-1:8]: 12
+|  |  Int[1:11-1:13]: 15
 |components:
 |  ComponentList[1:17-1:29]
 |  |components:
@@ -12,8 +10,7 @@ Variant[1:1-1:29]
 |  |  |  ComponentDecl[1:17-1:29]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:17-1:18]
-|  |  |  |  |  Id[1:17-1:18]
-|  |  |  |  |  |tok: C
+|  |  |  |  |  Id[1:17-1:18]: C
 |  |  |  |component_def:
 |  |  |  |  ComponentDef[1:21-1:28]
 |  |  |  |  |has_aliased:
@@ -23,8 +20,7 @@ Variant[1:1-1:29]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:21-1:21]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:21-1:28]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:21-1:28]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |default_expr: <null>
 |  |  |  |aspects: <null>

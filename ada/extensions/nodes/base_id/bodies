@@ -10,6 +10,6 @@ is
    Self : access ${root_node_value_type}'Class := Node;
 begin
    return "<" & To_Text (Kind_Name (Self))
-          & " """ & Text (F_Tok (Node)) & """ "
+          & " """ & Node.Text & """ "
           & To_Text (Image (Sloc_Range (Node))) & ">";
 end Bare_Base_Id_Short_Image;

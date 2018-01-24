@@ -6,8 +6,7 @@ SubpDecl[1:1-1:125]
 |  |subp_kind:
 |  |  SubpKindProcedure[1:1-1:10]
 |  |subp_name:
-|  |  Id[1:11-1:25]
-|  |  |tok: Lines_Add_Hook
+|  |  Id[1:11-1:25]: Lines_Add_Hook
 |  |subp_params:
 |  |  Params[1:26-1:124]
 |  |  |params:
@@ -15,8 +14,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  ParamSpec[1:27-1:69]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:27-1:33]
-|  |  |  |  |  |  Id[1:27-1:33]
-|  |  |  |  |  |  |tok: Buffer
+|  |  |  |  |  |  Id[1:27-1:33]: Buffer
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:36-1:36]
 |  |  |  |  |mode:
@@ -42,11 +40,9 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  AttributeRef[1:43-1:69]
 |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  Id[1:43-1:63]
-|  |  |  |  |  |  |  |  |  |  |tok: Source_Buffer_Record
+|  |  |  |  |  |  |  |  |  |  Id[1:43-1:63]: Source_Buffer_Record
 |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  Id[1:64-1:69]
-|  |  |  |  |  |  |  |  |  |  |tok: Class
+|  |  |  |  |  |  |  |  |  |  Id[1:64-1:69]: Class
 |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
@@ -54,8 +50,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  ParamSpec[1:71-1:96]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:71-1:76]
-|  |  |  |  |  |  Id[1:71-1:76]
-|  |  |  |  |  |  |tok: Start
+|  |  |  |  |  |  Id[1:71-1:76]: Start
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:80-1:80]
 |  |  |  |  |mode:
@@ -65,15 +60,13 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:80-1:80]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:80-1:96]
-|  |  |  |  |  |  |tok: Buffer_Line_Type
+|  |  |  |  |  |  Id[1:80-1:96]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |  |  |  ParamSpec[1:98-1:123]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:98-1:104]
-|  |  |  |  |  |  Id[1:98-1:104]
-|  |  |  |  |  |  |tok: Number
+|  |  |  |  |  |  Id[1:98-1:104]: Number
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:107-1:107]
 |  |  |  |  |mode:
@@ -83,8 +76,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:107-1:107]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:107-1:123]
-|  |  |  |  |  |  |tok: Buffer_Line_Type
+|  |  |  |  |  |  Id[1:107-1:123]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns: <null>

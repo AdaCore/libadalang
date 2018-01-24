@@ -7,8 +7,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[1:9-1:35]
 |  |  |  |  |type_id:
-|  |  |  |  |  Id[1:14-1:23]
-|  |  |  |  |  |tok: Element_T
+|  |  |  |  |  Id[1:14-1:23]: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
 |  |  |  |  |  PrivateTypeDef[1:27-1:34]
@@ -26,8 +25,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  |subp_kind:
 |  |  |  SubpKindProcedure[1:36-1:45]
 |  |  |subp_name:
-|  |  |  Id[1:46-1:50]
-|  |  |  |tok: Swap
+|  |  |  Id[1:46-1:50]: Swap
 |  |  |subp_params:
 |  |  |  Params[1:51-1:76]
 |  |  |  |params:
@@ -35,10 +33,8 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  ParamSpec[1:52-1:75]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:52-1:56]
-|  |  |  |  |  |  |  Id[1:52-1:53]
-|  |  |  |  |  |  |  |tok: X
-|  |  |  |  |  |  |  Id[1:55-1:56]
-|  |  |  |  |  |  |  |tok: Y
+|  |  |  |  |  |  |  Id[1:52-1:53]: X
+|  |  |  |  |  |  |  Id[1:55-1:56]: Y
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:59-1:59]
 |  |  |  |  |  |mode:
@@ -48,8 +44,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:66-1:66]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[1:66-1:75]
-|  |  |  |  |  |  |  |tok: Element_T
+|  |  |  |  |  |  |  Id[1:66-1:75]: Element_T
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default: <null>
 |  |  |subp_returns: <null>

@@ -52,13 +52,13 @@ package body Libadalang.Expr_Eval is
             return (Int,
                     As_Base_Type_Decl (P_Universal_Int_Type (E)),
                     Long_Integer'Value
-                      (LAL.Text (F_Tok (As_Int_Literal (E)))));
+                      (LAL.Text (As_Int_Literal (E))));
 
          when LAL.Ada_Real_Literal =>
             return (Real,
                     As_Base_Type_Decl (P_Universal_Real_Type (E)),
                     Long_Float'Value
-                      (LAL.Text (F_Tok (As_Real_Literal (E)))));
+                      (LAL.Text (As_Real_Literal (E))));
 
          when LAL.Ada_Bin_Op =>
             raise LAL.Property_Error;

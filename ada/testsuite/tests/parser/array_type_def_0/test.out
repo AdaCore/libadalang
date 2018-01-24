@@ -5,13 +5,11 @@ ArrayTypeDef[1:1-1:24]
 |  |  ConstraintList[1:8-1:14]
 |  |  |  BinOp[1:8-1:14]
 |  |  |  |left:
-|  |  |  |  Id[1:8-1:9]
-|  |  |  |  |tok: B
+|  |  |  |  Id[1:8-1:9]: B
 |  |  |  |op:
 |  |  |  |  OpDoubleDot[1:10-1:12]
 |  |  |  |right:
-|  |  |  |  Id[1:13-1:14]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:13-1:14]: A
 |component_type:
 |  ComponentDef[1:19-1:24]
 |  |has_aliased:
@@ -21,6 +19,5 @@ ArrayTypeDef[1:1-1:24]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:19-1:19]
 |  |  |name:
-|  |  |  Id[1:19-1:24]
-|  |  |  |tok: Pouet
+|  |  |  Id[1:19-1:24]: Pouet
 |  |  |constraint: <null>

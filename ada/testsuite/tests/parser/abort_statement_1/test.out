@@ -3,12 +3,10 @@ AbortStmt[1:1-1:20]
 |  NameList[1:7-1:19]
 |  |  CallExpr[1:7-1:19]
 |  |  |name:
-|  |  |  Id[1:7-1:15]
-|  |  |  |tok: TT_Array
+|  |  |  Id[1:7-1:15]: TT_Array
 |  |  |suffix:
 |  |  |  AssocList[1:17-1:18]
 |  |  |  |  ParamAssoc[1:17-1:18]
 |  |  |  |  |designator: <null>
 |  |  |  |  |r_expr:
-|  |  |  |  |  Int[1:17-1:18]
-|  |  |  |  |  |tok: 2
+|  |  |  |  |  Int[1:17-1:18]: 2

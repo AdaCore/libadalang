@@ -250,7 +250,7 @@ procedure Nameres is
          function Is_Pragma_Node (N : Ada_Node) return Boolean is
            (Kind (N) = Ada_Pragma_Node);
 
-         function Pragma_Name return String is (Text (F_Tok (F_Id (P_Node))));
+         function Pragma_Name return String is (P_Node.F_Id.Text);
 
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr);
 
@@ -259,7 +259,7 @@ procedure Nameres is
          --------------------------
 
          procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
-            Name : constant Text_Type := Text (F_Tok (Id));
+            Name : constant Text_Type := Id.Text;
          begin
             if Kind (E) /= Ada_Identifier then
                raise Program_Error with
@@ -268,7 +268,7 @@ procedure Nameres is
             end if;
 
             declare
-               Value : constant Text_Type := Text (F_Tok (As_Identifier (E)));
+               Value : constant Text_Type := E.Text;
             begin
                if Name = "Display_Slocs" then
                   Display_Slocs := Decode_Boolean_Literal (Value);
@@ -327,8 +327,7 @@ procedure Nameres is
                      P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
                   pragma Assert (Kind (Arg) = Ada_String_Literal);
 
-                  Tok : constant Token_Type := F_Tok (As_String_Literal (Arg));
-                  T   : constant Text_Type := Text (Tok);
+                  T : constant Text_Type := Arg.Text;
                begin
                   if not Quiet then
                      Put_Title ('-', Image (T (T'First + 1 .. T'Last - 1)));

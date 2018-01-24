@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:58]
 |type_id:
-|  Id[1:6-1:9]
-|  |tok: Rec
+|  Id[1:6-1:9]: Rec
 |discriminants: <null>
 |type_def:
 |  DerivedTypeDef[1:13-1:57]
@@ -16,8 +15,7 @@ TypeDecl[1:1-1:58]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:17-1:17]
 |  |  |name:
-|  |  |  Id[1:17-1:18]
-|  |  |  |tok: A
+|  |  |  Id[1:17-1:18]: A
 |  |  |constraint: <null>
 |  |interfaces:
 |  |  ParentList[1:17-1:17]: <empty list>
@@ -30,10 +28,8 @@ TypeDecl[1:1-1:58]
 |  |  |  |  |  ComponentDecl[1:31-1:46]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:31-1:35]
-|  |  |  |  |  |  |  Id[1:31-1:32]
-|  |  |  |  |  |  |  |tok: A
-|  |  |  |  |  |  |  Id[1:34-1:35]
-|  |  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  |  Id[1:31-1:32]: A
+|  |  |  |  |  |  |  Id[1:34-1:35]: B
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:38-1:45]
 |  |  |  |  |  |  |has_aliased:
@@ -43,8 +39,7 @@ TypeDecl[1:1-1:58]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:38-1:38]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:38-1:45]
-|  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  Id[1:38-1:45]: Integer
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |aspects: <null>

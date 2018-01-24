@@ -1,15 +1,13 @@
 TaskTypeDecl[1:1-1:63]
 |type_id:
-|  Id[1:11-1:14]
-|  |tok: TT1
+|  Id[1:11-1:14]: TT1
 |discrs: <null>
 |aspects: <null>
 |definition:
 |  TaskDef[1:15-1:62]
 |  |interfaces:
 |  |  ParentList[1:22-1:28]
-|  |  |  Id[1:22-1:28]
-|  |  |  |tok: Server
+|  |  |  Id[1:22-1:28]: Server
 |  |public_part:
 |  |  PublicPart[1:34-1:54]
 |  |  |decls:
@@ -20,8 +18,7 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:40-1:53]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:40-1:41]
-|  |  |  |  |  |  |tok: Q
+|  |  |  |  |  |  Id[1:40-1:41]: Q
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:41-1:53]
@@ -30,8 +27,7 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |  |  |  |  ParamSpec[1:42-1:52]
 |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  IdentifierList[1:42-1:43]
-|  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]
-|  |  |  |  |  |  |  |  |  |  |tok: X
+|  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: X
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
 |  |  |  |  |  |  |  |  |mode:
@@ -41,12 +37,10 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:48-1:48]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:48-1:52]
-|  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  Id[1:48-1:52]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_id:
-|  |  Id[1:59-1:62]
-|  |  |tok: TT1
+|  |  Id[1:59-1:62]: TT1

@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:24]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:
 |  TypeAccessDef[1:11-1:23]
@@ -16,7 +15,6 @@ TypeDecl[1:1-1:24]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:22-1:22]
 |  |  |name:
-|  |  |  Id[1:22-1:23]
-|  |  |  |tok: B
+|  |  |  Id[1:22-1:23]: B
 |  |  |constraint: <null>
 |aspects: <null>

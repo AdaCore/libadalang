@@ -14,8 +14,7 @@ CompilationUnit[1:1-4:15]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:20]
-|  |  |  |  |tok: Kikoolol\xe9
+|  |  |  |  Id[1:11-1:20]: Kikoolol\xe9
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -31,7 +30,6 @@ CompilationUnit[1:1-4:15]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
 |  |  |end_id:
-|  |  |  Id[4:5-4:14]
-|  |  |  |tok: Kikoolol\xe9
+|  |  |  Id[4:5-4:14]: Kikoolol\xe9
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

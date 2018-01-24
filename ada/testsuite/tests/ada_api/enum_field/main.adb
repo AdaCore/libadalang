@@ -16,13 +16,10 @@ procedure Main is
 begin
    for P of Params loop
       declare
-         PP        : constant Param_Spec := P.As_Param_Spec;
-         Name      : constant Token_Type :=
-            PP.F_Ids.Child (1).As_Identifier.F_Tok;
-         Name_Text : constant Text_Type := Text (Name);
+         PP   : constant Param_Spec := P.As_Param_Spec;
+         Name : constant Text_Type := PP.F_Ids.Child (1).Text;
       begin
-         Put_Line
-           (Image (Name_Text) & " is a: " & Ada_Mode'Image (PP.F_Mode));
+         Put_Line (Image (Name) & " is a: " & Ada_Mode'Image (PP.F_Mode));
       end;
    end loop;
    Destroy (Ctx);

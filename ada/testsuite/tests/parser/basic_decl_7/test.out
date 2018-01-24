@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:18]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: T
+|  Id[1:6-1:7]: T
 |discriminants: <null>
 |type_def:
 |  ModIntTypeDef[1:11-1:17]

@@ -146,7 +146,8 @@ package body Highlighter is
             --  Highlight the only token that this node has
 
             declare
-               Tok : constant LAL.Token_Type := Name.As_Single_Tok_Node.F_Tok;
+               Tok : constant LAL.Token_Type :=
+                  Name.As_Single_Tok_Node.Token_Start;
             begin
                Set (Highlights, LAL.Data (Tok), HL);
             end;
@@ -204,8 +205,10 @@ package body Highlighter is
 
       --  Set style for both the attribute name and the leading 'tick' token
 
-      Set (Highlights, LAL.Data (LAL.Previous (Id.F_Tok)), Attribute_Name);
-      Set (Highlights, LAL.Data (Id.F_Tok), Attribute_Name);
+      Set (Highlights,
+           LAL.Data (LAL.Previous (Id.Token_Start)),
+           Attribute_Name);
+      Set (Highlights, LAL.Data (Id.Token_Start), Attribute_Name);
    end Highlight_Attribute_Ref;
 
    -------------------------

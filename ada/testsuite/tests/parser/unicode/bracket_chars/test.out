@@ -14,8 +14,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:14]
-|  |  |  |  |tok: Foo
+|  |  |  |  Id[1:11-1:14]: Foo
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -26,24 +25,19 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  NumberDecl[2:4-2:32]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[2:4-2:12]
-|  |  |  |  |  |  |  Id[2:4-2:12]
-|  |  |  |  |  |  |  |tok: ["03C0"]
+|  |  |  |  |  |  |  Id[2:4-2:12]: ["03C0"]
 |  |  |  |  |  |expr:
-|  |  |  |  |  |  Real[2:27-2:31]
-|  |  |  |  |  |  |tok: 3.14
+|  |  |  |  |  |  Real[2:27-2:31]: 3.14
 |  |  |  |  |  NumberDecl[3:4-3:40]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[3:4-3:20]
-|  |  |  |  |  |  |  Id[3:4-3:20]
-|  |  |  |  |  |  |  |tok: This_Is_["03C0"]
+|  |  |  |  |  |  |  Id[3:4-3:20]: This_Is_["03C0"]
 |  |  |  |  |  |expr:
-|  |  |  |  |  |  Real[3:35-3:39]
-|  |  |  |  |  |  |tok: 3.14
+|  |  |  |  |  |  Real[3:35-3:39]: 3.14
 |  |  |  |  |  ObjectDecl[4:4-4:56]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[4:4-4:21]
-|  |  |  |  |  |  |  Id[4:4-4:21]
-|  |  |  |  |  |  |  |tok: ["000003C0"]_Name
+|  |  |  |  |  |  |  Id[4:4-4:21]: ["000003C0"]_Name
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[4:24-4:24]
 |  |  |  |  |  |has_constant:
@@ -55,12 +49,10 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[4:33-4:33]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[4:33-4:39]
-|  |  |  |  |  |  |  |tok: String
+|  |  |  |  |  |  |  Id[4:33-4:39]: String
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default_expr:
-|  |  |  |  |  |  Str[4:43-4:55]
-|  |  |  |  |  |  |tok: "["0003C0"]"
+|  |  |  |  |  |  Str[4:43-4:55]: "["0003C0"]"
 |  |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
@@ -71,7 +63,6 @@ CompilationUnit[1:1-7:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:8-6:8]: <empty list>
 |  |  |end_id:
-|  |  |  Id[7:5-7:8]
-|  |  |  |tok: Foo
+|  |  |  Id[7:5-7:8]: Foo
 |pragmas:
 |  PragmaNodeList[8:1-8:1]: <empty list>

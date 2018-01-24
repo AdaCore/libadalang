@@ -16,11 +16,9 @@ CompilationUnit[1:1-3:13]
 |  |  |  |package_name:
 |  |  |  |  DottedName[2:9-2:16]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[2:9-2:12]
-|  |  |  |  |  |tok: Foo
+|  |  |  |  |  Id[2:9-2:12]: Foo
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[2:13-2:16]
-|  |  |  |  |  |tok: Bar
+|  |  |  |  |  Id[2:13-2:16]: Bar
 |  |  |  |aspects: <null>
 |  |  |  |public_part:
 |  |  |  |  PublicPart[3:1-3:1]
@@ -30,11 +28,9 @@ CompilationUnit[1:1-3:13]
 |  |  |  |end_id:
 |  |  |  |  DottedName[3:5-3:12]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[3:5-3:8]
-|  |  |  |  |  |tok: Foo
+|  |  |  |  |  Id[3:5-3:8]: Foo
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[3:9-3:12]
-|  |  |  |  |  |tok: Bar
+|  |  |  |  |  Id[3:9-3:12]: Bar
 |pragmas:
 |  PragmaNodeList[4:1-4:1]: <empty list>
 

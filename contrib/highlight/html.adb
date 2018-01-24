@@ -219,7 +219,8 @@ package body HTML is
          --  Try to perform name resolution on this single-token node. Discard
          --  errors.
          declare
-            Token : constant LAL.Token_Type := Node.As_Single_Tok_Node.F_Tok;
+            Token : constant LAL.Token_Type :=
+               Node.As_Single_Tok_Node.Token_Start;
             Index : constant Natural := Natural (LAL.Index (Token));
             Decl  : LAL.Basic_Decl renames Xrefs (Index);
          begin

@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:81]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants:
 |  KnownDiscriminantPart[1:8-1:36]
 |  |discr_specs:
@@ -9,17 +8,14 @@ TypeDecl[1:1-1:81]
 |  |  |  DiscriminantSpec[1:9-1:35]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:9-1:25]
-|  |  |  |  |  Id[1:9-1:16]
-|  |  |  |  |  |tok: Discr_1
-|  |  |  |  |  Id[1:18-1:25]
-|  |  |  |  |  |tok: Discr_2
+|  |  |  |  |  Id[1:9-1:16]: Discr_1
+|  |  |  |  |  Id[1:18-1:25]: Discr_2
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:28-1:35]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[1:28-1:28]
 |  |  |  |  |name:
-|  |  |  |  |  Id[1:28-1:35]
-|  |  |  |  |  |tok: Integer
+|  |  |  |  |  Id[1:28-1:35]: Integer
 |  |  |  |  |constraint: <null>
 |  |  |  |default_expr: <null>
 |type_def:
@@ -39,10 +35,8 @@ TypeDecl[1:1-1:81]
 |  |  |  |  |  ComponentDecl[1:54-1:69]
 |  |  |  |  |  |ids:
 |  |  |  |  |  |  IdentifierList[1:54-1:58]
-|  |  |  |  |  |  |  Id[1:54-1:55]
-|  |  |  |  |  |  |  |tok: B
-|  |  |  |  |  |  |  Id[1:57-1:58]
-|  |  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  |  Id[1:54-1:55]: B
+|  |  |  |  |  |  |  Id[1:57-1:58]: C
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:61-1:68]
 |  |  |  |  |  |  |has_aliased:
@@ -52,8 +46,7 @@ TypeDecl[1:1-1:81]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:61-1:61]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:61-1:68]
-|  |  |  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |aspects: <null>

@@ -6,8 +6,7 @@ ExprFunction[1:1-1:76]
 |  |subp_kind:
 |  |  SubpKindFunction[1:12-1:20]
 |  |subp_name:
-|  |  Id[1:21-1:22]
-|  |  |tok: A
+|  |  Id[1:21-1:22]: A
 |  |subp_params:
 |  |  Params[1:23-1:49]
 |  |  |params:
@@ -15,8 +14,7 @@ ExprFunction[1:1-1:76]
 |  |  |  |  ParamSpec[1:24-1:35]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:24-1:25]
-|  |  |  |  |  |  Id[1:24-1:25]
-|  |  |  |  |  |  |tok: B
+|  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:28-1:28]
 |  |  |  |  |mode:
@@ -26,15 +24,13 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:28-1:28]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:28-1:35]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:28-1:35]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |  |  |  ParamSpec[1:37-1:48]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:37-1:38]
-|  |  |  |  |  |  Id[1:37-1:38]
-|  |  |  |  |  |  |tok: C
+|  |  |  |  |  |  Id[1:37-1:38]: C
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:41-1:41]
 |  |  |  |  |mode:
@@ -44,8 +40,7 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:41-1:41]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:41-1:48]
-|  |  |  |  |  |  |tok: Integer
+|  |  |  |  |  |  Id[1:41-1:48]: Integer
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |subp_returns:
@@ -53,19 +48,16 @@ ExprFunction[1:1-1:76]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:57-1:57]
 |  |  |name:
-|  |  |  Id[1:57-1:64]
-|  |  |  |tok: Integer
+|  |  |  Id[1:57-1:64]: Integer
 |  |  |constraint: <null>
 |expr:
 |  ParenExpr[1:68-1:75]
 |  |expr:
 |  |  BinOp[1:69-1:74]
 |  |  |left:
-|  |  |  Id[1:69-1:70]
-|  |  |  |tok: B
+|  |  |  Id[1:69-1:70]: B
 |  |  |op:
 |  |  |  OpDiv[1:71-1:72]
 |  |  |right:
-|  |  |  Id[1:73-1:74]
-|  |  |  |tok: C
+|  |  |  Id[1:73-1:74]: C
 |aspects: <null>

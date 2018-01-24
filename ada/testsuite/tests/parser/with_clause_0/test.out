@@ -7,8 +7,6 @@ WithClause[1:1-1:18]
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
 |  |  |prefix:
-|  |  |  Id[1:6-1:9]
-|  |  |  |tok: Ada
+|  |  |  Id[1:6-1:9]: Ada
 |  |  |suffix:
-|  |  |  Id[1:10-1:17]
-|  |  |  |tok: Text_IO
+|  |  |  Id[1:10-1:17]: Text_IO

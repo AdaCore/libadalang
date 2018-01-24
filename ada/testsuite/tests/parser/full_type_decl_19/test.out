@@ -1,7 +1,6 @@
 TypeDecl[1:1-1:52]
 |type_id:
-|  Id[1:6-1:7]
-|  |tok: A
+|  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:
 |  InterfaceTypeDef[1:11-1:51]
@@ -9,8 +8,6 @@ TypeDecl[1:1-1:52]
 |  |  InterfaceKindSynchronized[1:11-1:23]
 |  |interfaces:
 |  |  ParentList[1:38-1:51]
-|  |  |  Id[1:38-1:42]
-|  |  |  |tok: Ilol
-|  |  |  Id[1:47-1:51]
-|  |  |  |tok: Imdr
+|  |  |  Id[1:38-1:42]: Ilol
+|  |  |  Id[1:47-1:51]: Imdr
 |aspects: <null>

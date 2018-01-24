@@ -16,14 +16,12 @@ procedure Main is
 begin
    for T of Type_Defs loop
       declare
-         TD  : constant Type_Decl := T.As_Type_Decl;
-         RTD : constant Record_Type_Def := TD.F_Type_Def.As_Record_Type_Def;
-
-         Name      : constant Token_Type := TD.F_Type_ID.F_Tok;
-         Name_Text : constant Text_Type := Text (Name);
+         TD   : constant Type_Decl := T.As_Type_Decl;
+         RTD  : constant Record_Type_Def := TD.F_Type_Def.As_Record_Type_Def;
+         Name : constant Text_Type := TD.F_Type_ID.Text;
       begin
          Put_Line
-           (Image (Name_Text) & " is abstract: "
+           (Image (Name) & " is abstract: "
             & Boolean'Image (RTD.F_Has_Abstract));
       end;
    end loop;

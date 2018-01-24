@@ -18,14 +18,11 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[30:10-30:21]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[30:10-30:13]
-|  |  |  |  |  |  |tok: Ada
+|  |  |  |  |  |  Id[30:10-30:13]: Ada
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[30:14-30:21]
-|  |  |  |  |  |  |tok: Strings
+|  |  |  |  |  |  Id[30:14-30:21]: Strings
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[30:22-30:43]
-|  |  |  |  |  |tok: Less_Case_Insensitive
+|  |  |  |  |  Id[30:22-30:43]: Less_Case_Insensitive
 |  |  |  |subp_params:
 |  |  |  |  Params[31:3-31:25]
 |  |  |  |  |params:
@@ -33,10 +30,8 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |  ParamSpec[31:4-31:24]
 |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  IdentifierList[31:4-31:15]
-|  |  |  |  |  |  |  |  Id[31:4-31:8]
-|  |  |  |  |  |  |  |  |tok: Left
-|  |  |  |  |  |  |  |  Id[31:10-31:15]
-|  |  |  |  |  |  |  |  |tok: Right
+|  |  |  |  |  |  |  |  Id[31:4-31:8]: Left
+|  |  |  |  |  |  |  |  Id[31:10-31:15]: Right
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[31:18-31:18]
 |  |  |  |  |  |  |mode:
@@ -46,8 +41,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[31:18-31:18]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[31:18-31:24]
-|  |  |  |  |  |  |  |  |tok: String
+|  |  |  |  |  |  |  |  Id[31:18-31:24]: String
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |subp_returns:
@@ -55,16 +49,14 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[31:33-31:33]
 |  |  |  |  |name:
-|  |  |  |  |  Id[31:33-31:40]
-|  |  |  |  |  |tok: Boolean
+|  |  |  |  |  Id[31:33-31:40]: Boolean
 |  |  |  |  |constraint: <null>
 |  |  |aspects: <null>
 |pragmas:
 |  PragmaNodeList[32:1-32:49]
 |  |  PragmaNode[32:1-32:49]
 |  |  |id:
-|  |  |  Id[32:8-32:12]
-|  |  |  |tok: Pure
+|  |  |  Id[32:8-32:12]: Pure
 |  |  |args:
 |  |  |  BaseAssocList[32:14-32:47]
 |  |  |  |  PragmaArgumentAssoc[32:14-32:47]
@@ -74,11 +66,8 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |prefix:
 |  |  |  |  |  |  DottedName[32:14-32:25]
 |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  Id[32:14-32:17]
-|  |  |  |  |  |  |  |tok: Ada
+|  |  |  |  |  |  |  Id[32:14-32:17]: Ada
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  Id[32:18-32:25]
-|  |  |  |  |  |  |  |tok: Strings
+|  |  |  |  |  |  |  Id[32:18-32:25]: Strings
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[32:26-32:47]
-|  |  |  |  |  |  |tok: Less_Case_Insensitive
+|  |  |  |  |  |  Id[32:26-32:47]: Less_Case_Insensitive

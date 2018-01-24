@@ -12,21 +12,17 @@ CompilationUnit[1:1-6:10]
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:6-1:9]
-|  |  |  |  |  |tok: Ada
+|  |  |  |  |  Id[1:6-1:9]: Ada
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:10-1:17]
-|  |  |  |  |  |tok: Text_IO
+|  |  |  |  |  Id[1:10-1:17]: Text_IO
 |  |  UsePackageClause[1:19-1:35]
 |  |  |packages:
 |  |  |  NameList[1:23-1:34]
 |  |  |  |  DottedName[1:23-1:34]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:23-1:26]
-|  |  |  |  |  |tok: Ada
+|  |  |  |  |  Id[1:23-1:26]: Ada
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:27-1:34]
-|  |  |  |  |  |tok: Text_IO
+|  |  |  |  |  Id[1:27-1:34]: Text_IO
 |body:
 |  LibraryItem[3:1-6:10]
 |  |has_private:
@@ -40,8 +36,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[3:11-3:15]
-|  |  |  |  |tok: Test
+|  |  |  |  Id[3:11-3:15]: Test
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -57,7 +52,6 @@ CompilationUnit[1:1-6:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_id:
-|  |  |  Id[6:5-6:9]
-|  |  |  |tok: Test
+|  |  |  Id[6:5-6:9]: Test
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

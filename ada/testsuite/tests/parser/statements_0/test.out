@@ -1,8 +1,7 @@
 StmtList[1:1-1:235]
 |  AcceptStmtWithStmts[1:1-1:65]
 |  |name:
-|  |  Id[1:8-1:13]
-|  |  |tok: Store
+|  |  Id[1:8-1:13]: Store
 |  |entry_index_expr: <null>
 |  |params:
 |  |  Params[1:14-1:33]
@@ -11,8 +10,7 @@ StmtList[1:1-1:235]
 |  |  |  |  ParamSpec[1:15-1:32]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:15-1:22]
-|  |  |  |  |  |  Id[1:15-1:22]
-|  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  Id[1:15-1:22]: An_Item
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:25-1:25]
 |  |  |  |  |mode:
@@ -22,8 +20,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:28-1:28]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:28-1:32]
-|  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  Id[1:28-1:32]: Item
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |  |stmts:
@@ -32,16 +29,13 @@ StmtList[1:1-1:235]
 |  |  |  StmtList[1:37-1:54]
 |  |  |  |  AssignStmt[1:37-1:54]
 |  |  |  |  |dest:
-|  |  |  |  |  Id[1:37-1:42]
-|  |  |  |  |  |tok: Datum
+|  |  |  |  |  Id[1:37-1:42]: Datum
 |  |  |  |  |expr:
-|  |  |  |  |  Id[1:46-1:53]
-|  |  |  |  |  |tok: An_Item
+|  |  |  |  |  Id[1:46-1:53]: An_Item
 |  |  |exceptions:
 |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  |end_name:
-|  |  Id[1:59-1:64]
-|  |  |tok: Store
+|  |  Id[1:59-1:64]: Store
 |  LoopStmt[1:66-1:235]
 |  |spec: <null>
 |  |stmts:
@@ -55,8 +49,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  StmtList[1:80-1:144]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:80-1:144]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:87-1:92]
-|  |  |  |  |  |  |  |  |tok: Store
+|  |  |  |  |  |  |  |  Id[1:87-1:92]: Store
 |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  Params[1:93-1:112]
@@ -65,8 +58,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:94-1:111]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:94-1:101]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]: An_Item
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:104-1:104]
 |  |  |  |  |  |  |  |  |  |  |mode:
@@ -76,8 +68,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:107-1:107]
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:107-1:111]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:107-1:111]: Item
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |stmts:
@@ -86,24 +77,20 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  StmtList[1:116-1:133]
 |  |  |  |  |  |  |  |  |  |  AssignStmt[1:116-1:133]
 |  |  |  |  |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:116-1:121]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Datum
+|  |  |  |  |  |  |  |  |  |  |  Id[1:116-1:121]: Datum
 |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:125-1:132]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:125-1:132]: An_Item
 |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  AdaNodeList[1:132-1:132]: <empty list>
 |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  Id[1:138-1:143]
-|  |  |  |  |  |  |  |  |tok: Store
+|  |  |  |  |  |  |  |  Id[1:138-1:143]: Store
 |  |  |  |  |  SelectWhenPart[1:148-1:213]
 |  |  |  |  |  |condition: <null>
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:148-1:213]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:148-1:213]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:155-1:160]
-|  |  |  |  |  |  |  |  |tok: Fetch
+|  |  |  |  |  |  |  |  Id[1:155-1:160]: Fetch
 |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  Params[1:161-1:181]
@@ -112,8 +99,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:162-1:180]
 |  |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:162-1:169]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]: An_Item
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:172-1:172]
 |  |  |  |  |  |  |  |  |  |  |mode:
@@ -123,8 +109,7 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:176-1:176]
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:176-1:180]
-|  |  |  |  |  |  |  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  |  |  |  |  |  |  Id[1:176-1:180]: Item
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |default: <null>
 |  |  |  |  |  |  |  |stmts:
@@ -133,16 +118,13 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  StmtList[1:185-1:202]
 |  |  |  |  |  |  |  |  |  |  AssignStmt[1:185-1:202]
 |  |  |  |  |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:185-1:192]
-|  |  |  |  |  |  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  |  |  |  |  |  Id[1:185-1:192]: An_Item
 |  |  |  |  |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  |  |  |  |  Id[1:196-1:201]
-|  |  |  |  |  |  |  |  |  |  |  |tok: Datum
+|  |  |  |  |  |  |  |  |  |  |  Id[1:196-1:201]: Datum
 |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  AdaNodeList[1:201-1:201]: <empty list>
 |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  Id[1:207-1:212]
-|  |  |  |  |  |  |  |  |tok: Fetch
+|  |  |  |  |  |  |  |  Id[1:207-1:212]: Fetch
 |  |  |  |else_stmts:
 |  |  |  |  StmtList[1:212-1:212]: <empty list>
 |  |  |  |abort_stmts:

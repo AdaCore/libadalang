@@ -16,11 +16,9 @@ CompilationUnit[1:1-3:9]
 |  |  |  |subp_name:
 |  |  |  |  DottedName[1:11-1:14]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:11-1:12]
-|  |  |  |  |  |tok: A
+|  |  |  |  |  Id[1:11-1:12]: A
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:13-1:14]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -37,11 +35,9 @@ CompilationUnit[1:1-3:9]
 |  |  |end_id:
 |  |  |  DottedName[3:5-3:8]
 |  |  |  |prefix:
-|  |  |  |  Id[3:5-3:6]
-|  |  |  |  |tok: A
+|  |  |  |  Id[3:5-3:6]: A
 |  |  |  |suffix:
-|  |  |  |  Id[3:7-3:8]
-|  |  |  |  |tok: B
+|  |  |  |  Id[3:7-3:8]: B
 |pragmas:
 |  PragmaNodeList[4:1-4:1]: <empty list>
 

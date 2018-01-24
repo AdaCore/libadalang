@@ -1,7 +1,6 @@
 BinOp[1:1-1:68]
 |left:
-|  Int[1:1-1:2]
-|  |tok: 7
+|  Int[1:1-1:2]: 7
 |op:
 |  OpPlus[1:3-1:4]
 |right:
@@ -11,16 +10,13 @@ BinOp[1:1-1:68]
 |  |  |expr:
 |  |  |  IfExpr[1:6-1:24]
 |  |  |  |cond_expr:
-|  |  |  |  Id[1:9-1:10]
-|  |  |  |  |tok: B
+|  |  |  |  Id[1:9-1:10]: B
 |  |  |  |then_expr:
-|  |  |  |  Int[1:16-1:17]
-|  |  |  |  |tok: 4
+|  |  |  |  Int[1:16-1:17]: 4
 |  |  |  |alternatives:
 |  |  |  |  ElsifExprPartList[1:18-1:18]: <empty list>
 |  |  |  |else_expr:
-|  |  |  |  Int[1:23-1:24]
-|  |  |  |  |tok: 5
+|  |  |  |  Int[1:23-1:24]: 5
 |  |op:
 |  |  OpDiv[1:26-1:27]
 |  |right:
@@ -28,23 +24,18 @@ BinOp[1:1-1:68]
 |  |  |expr:
 |  |  |  CaseExpr[1:29-1:67]
 |  |  |  |expr:
-|  |  |  |  Id[1:34-1:35]
-|  |  |  |  |tok: A
+|  |  |  |  Id[1:34-1:35]: A
 |  |  |  |cases:
 |  |  |  |  CaseExprAlternativeList[1:39-1:67]
 |  |  |  |  |  CaseExprAlternative[1:39-1:52]
 |  |  |  |  |  |choices:
 |  |  |  |  |  |  AlternativesList[1:44-1:46]
-|  |  |  |  |  |  |  Int[1:44-1:46]
-|  |  |  |  |  |  |  |tok: 12
+|  |  |  |  |  |  |  Int[1:44-1:46]: 12
 |  |  |  |  |  |expr:
-|  |  |  |  |  |  Int[1:50-1:52]
-|  |  |  |  |  |  |tok: 15
+|  |  |  |  |  |  Int[1:50-1:52]: 15
 |  |  |  |  |  CaseExprAlternative[1:54-1:67]
 |  |  |  |  |  |choices:
 |  |  |  |  |  |  AlternativesList[1:59-1:61]
-|  |  |  |  |  |  |  Int[1:59-1:61]
-|  |  |  |  |  |  |  |tok: 14
+|  |  |  |  |  |  |  Int[1:59-1:61]: 14
 |  |  |  |  |  |expr:
-|  |  |  |  |  |  Int[1:65-1:67]
-|  |  |  |  |  |  |tok: 16
+|  |  |  |  |  |  Int[1:65-1:67]: 16

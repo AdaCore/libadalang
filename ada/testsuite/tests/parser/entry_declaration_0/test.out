@@ -4,15 +4,13 @@ EntryDecl[1:1-1:46]
 |spec:
 |  EntrySpec[1:7-1:45]
 |  |entry_name:
-|  |  Id[1:7-1:13]
-|  |  |tok: Insert
+|  |  Id[1:7-1:13]: Insert
 |  |family_type:
 |  |  SubtypeIndication[1:15-1:24]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:15-1:15]
 |  |  |name:
-|  |  |  Id[1:15-1:24]
-|  |  |  |tok: Buffer_Id
+|  |  |  Id[1:15-1:24]: Buffer_Id
 |  |  |constraint: <null>
 |  |entry_params:
 |  |  Params[1:26-1:45]
@@ -21,8 +19,7 @@ EntryDecl[1:1-1:46]
 |  |  |  |  ParamSpec[1:27-1:44]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:27-1:34]
-|  |  |  |  |  |  Id[1:27-1:34]
-|  |  |  |  |  |  |tok: An_Item
+|  |  |  |  |  |  Id[1:27-1:34]: An_Item
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:37-1:37]
 |  |  |  |  |mode:
@@ -32,8 +29,7 @@ EntryDecl[1:1-1:46]
 |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:40-1:44]
-|  |  |  |  |  |  |tok: Item
+|  |  |  |  |  |  Id[1:40-1:44]: Item
 |  |  |  |  |  |constraint: <null>
 |  |  |  |  |default: <null>
 |aspects: <null>

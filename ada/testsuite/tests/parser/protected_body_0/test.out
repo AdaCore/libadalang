@@ -1,7 +1,6 @@
 ProtectedBody[1:1-1:272]
 |name:
-|  Id[1:16-1:37]
-|  |tok: protected_buffer_type
+|  Id[1:16-1:37]: protected_buffer_type
 |aspects: <null>
 |decls:
 |  DeclarativePart[1:41-1:245]
@@ -9,8 +8,7 @@ ProtectedBody[1:1-1:272]
 |  |  AdaNodeList[1:41-1:245]
 |  |  |  EntryBody[1:41-1:141]
 |  |  |  |entry_name:
-|  |  |  |  Id[1:47-1:53]
-|  |  |  |  |tok: insert
+|  |  |  |  Id[1:47-1:53]: insert
 |  |  |  |index_spec: <null>
 |  |  |  |params:
 |  |  |  |  Params[1:54-1:74]
@@ -19,8 +17,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  ParamSpec[1:55-1:73]
 |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
-|  |  |  |  |  |  |  |  Id[1:55-1:62]
-|  |  |  |  |  |  |  |  |tok: an_item
+|  |  |  |  |  |  |  |  Id[1:55-1:62]: an_item
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
 |  |  |  |  |  |  |mode:
@@ -30,13 +27,11 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:69-1:73]
-|  |  |  |  |  |  |  |  |tok: item
+|  |  |  |  |  |  |  |  Id[1:69-1:73]: item
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |barrier:
-|  |  |  |  Id[1:80-1:85]
-|  |  |  |  |tok: empty
+|  |  |  |  Id[1:80-1:85]: empty
 |  |  |  |decls:
 |  |  |  |  DeclarativePart[1:89-1:89]
 |  |  |  |  |decls:
@@ -47,27 +42,21 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  StmtList[1:95-1:129]
 |  |  |  |  |  |  AssignStmt[1:95-1:113]
 |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  Id[1:95-1:101]
-|  |  |  |  |  |  |  |tok: buffer
+|  |  |  |  |  |  |  Id[1:95-1:101]: buffer
 |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  Id[1:105-1:112]
-|  |  |  |  |  |  |  |tok: an_item
+|  |  |  |  |  |  |  Id[1:105-1:112]: an_item
 |  |  |  |  |  |  AssignStmt[1:114-1:129]
 |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  Id[1:114-1:119]
-|  |  |  |  |  |  |  |tok: empty
+|  |  |  |  |  |  |  Id[1:114-1:119]: empty
 |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  Id[1:123-1:128]
-|  |  |  |  |  |  |  |tok: false
+|  |  |  |  |  |  |  Id[1:123-1:128]: false
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
 |  |  |  |end_name:
-|  |  |  |  Id[1:134-1:140]
-|  |  |  |  |tok: insert
+|  |  |  |  Id[1:134-1:140]: insert
 |  |  |  EntryBody[1:142-1:245]
 |  |  |  |entry_name:
-|  |  |  |  Id[1:148-1:154]
-|  |  |  |  |tok: remove
+|  |  |  |  Id[1:148-1:154]: remove
 |  |  |  |index_spec: <null>
 |  |  |  |params:
 |  |  |  |  Params[1:155-1:175]
@@ -76,8 +65,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  ParamSpec[1:156-1:174]
 |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  IdentifierList[1:156-1:163]
-|  |  |  |  |  |  |  |  Id[1:156-1:163]
-|  |  |  |  |  |  |  |  |tok: an_item
+|  |  |  |  |  |  |  |  Id[1:156-1:163]: an_item
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:166-1:166]
 |  |  |  |  |  |  |mode:
@@ -87,8 +75,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:170-1:170]
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id[1:170-1:174]
-|  |  |  |  |  |  |  |  |tok: item
+|  |  |  |  |  |  |  |  Id[1:170-1:174]: item
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |default: <null>
 |  |  |  |barrier:
@@ -96,8 +83,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |op:
 |  |  |  |  |  OpNot[1:181-1:184]
 |  |  |  |  |expr:
-|  |  |  |  |  Id[1:185-1:190]
-|  |  |  |  |  |tok: empty
+|  |  |  |  |  Id[1:185-1:190]: empty
 |  |  |  |decls:
 |  |  |  |  DeclarativePart[1:194-1:194]
 |  |  |  |  |decls:
@@ -108,23 +94,17 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  StmtList[1:200-1:233]
 |  |  |  |  |  |  AssignStmt[1:200-1:218]
 |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  Id[1:200-1:207]
-|  |  |  |  |  |  |  |tok: an_item
+|  |  |  |  |  |  |  Id[1:200-1:207]: an_item
 |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  Id[1:211-1:217]
-|  |  |  |  |  |  |  |tok: buffer
+|  |  |  |  |  |  |  Id[1:211-1:217]: buffer
 |  |  |  |  |  |  AssignStmt[1:219-1:233]
 |  |  |  |  |  |  |dest:
-|  |  |  |  |  |  |  Id[1:219-1:224]
-|  |  |  |  |  |  |  |tok: empty
+|  |  |  |  |  |  |  Id[1:219-1:224]: empty
 |  |  |  |  |  |  |expr:
-|  |  |  |  |  |  |  Id[1:228-1:232]
-|  |  |  |  |  |  |  |tok: true
+|  |  |  |  |  |  |  Id[1:228-1:232]: true
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:232-1:232]: <empty list>
 |  |  |  |end_name:
-|  |  |  |  Id[1:238-1:244]
-|  |  |  |  |tok: remove
+|  |  |  |  Id[1:238-1:244]: remove
 |end_name:
-|  Id[1:250-1:271]
-|  |tok: protected_buffer_type
+|  Id[1:250-1:271]: protected_buffer_type

@@ -2,8 +2,7 @@ SubpSpec[1:1-1:39]
 |subp_kind:
 |  SubpKindFunction[1:1-1:9]
 |subp_name:
-|  Id[1:10-1:11]
-|  |tok: A
+|  Id[1:10-1:11]: A
 |subp_params:
 |  Params[1:12-1:24]
 |  |params:
@@ -11,8 +10,7 @@ SubpSpec[1:1-1:39]
 |  |  |  ParamSpec[1:13-1:23]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:13-1:14]
-|  |  |  |  |  Id[1:13-1:14]
-|  |  |  |  |  |tok: B
+|  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:17-1:17]
 |  |  |  |mode:
@@ -22,8 +20,7 @@ SubpSpec[1:1-1:39]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[1:17-1:17]
 |  |  |  |  |name:
-|  |  |  |  |  Id[1:17-1:23]
-|  |  |  |  |  |tok: String
+|  |  |  |  |  Id[1:17-1:23]: String
 |  |  |  |  |constraint: <null>
 |  |  |  |default: <null>
 |subp_returns:
@@ -31,6 +28,5 @@ SubpSpec[1:1-1:39]
 |  |has_not_null:
 |  |  NotNullAbsent[1:32-1:32]
 |  |name:
-|  |  Id[1:32-1:39]
-|  |  |tok: Integer
+|  |  Id[1:32-1:39]: Integer
 |  |constraint: <null>

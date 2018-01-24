@@ -22,7 +22,7 @@ is
       end if;
 
       if Node.all in Bare_Single_Tok_Node_Type'Class then
-         return Text (F_Tok (Bare_Single_Tok_Node (Node)));
+         return Node.Text;
 
       elsif Node.all in Bare_Dotted_Name_Type'Class then
          D := Bare_Dotted_Name_Type (Node.all)'Access;

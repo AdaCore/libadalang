@@ -1,7 +1,6 @@
 QualExpr[1:1-1:24]
 |prefix:
-|  Id[1:1-1:10]
-|  |tok: User_Data
+|  Id[1:1-1:10]: User_Data
 |suffix:
 |  NullRecordAggregate[1:11-1:24]
 |  |ancestor_expr: <null>

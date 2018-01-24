@@ -214,7 +214,7 @@ procedure Navigate is
    function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean is
 
       function Lowercase_Name (Id : LAL.Identifier) return String is
-        (To_Lower (Langkit_Support.Text.Image (LAL.Text (Id.F_Tok))));
+        (To_Lower (Langkit_Support.Text.Image (Id.Text)));
 
       function Has_Disable_Navigation
         (Aspects : LAL.Aspect_Spec) return Boolean;

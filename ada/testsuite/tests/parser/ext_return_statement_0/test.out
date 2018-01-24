@@ -3,8 +3,7 @@ ExtendedReturnStmt[1:1-3:12]
 |  ExtendedReturnStmtObjectDecl[1:8-1:19]
 |  |ids:
 |  |  IdentifierList[1:8-1:9]
-|  |  |  Id[1:8-1:9]
-|  |  |  |tok: A
+|  |  |  Id[1:8-1:9]: A
 |  |has_aliased:
 |  |  AliasedAbsent[1:12-1:12]
 |  |has_constant:
@@ -16,8 +15,7 @@ ExtendedReturnStmt[1:1-3:12]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:12-1:12]
 |  |  |name:
-|  |  |  Id[1:12-1:19]
-|  |  |  |tok: Integer
+|  |  |  Id[1:12-1:19]: Integer
 |  |  |constraint: <null>
 |  |default_expr: <null>
 |  |renaming_clause: <null>
@@ -28,10 +26,8 @@ ExtendedReturnStmt[1:1-3:12]
 |  |  StmtList[2:4-2:11]
 |  |  |  AssignStmt[2:4-2:11]
 |  |  |  |dest:
-|  |  |  |  Id[2:4-2:5]
-|  |  |  |  |tok: A
+|  |  |  |  Id[2:4-2:5]: A
 |  |  |  |expr:
-|  |  |  |  Int[2:9-2:10]
-|  |  |  |  |tok: 3
+|  |  |  |  Int[2:9-2:10]: 3
 |  |exceptions:
 |  |  AdaNodeList[2:10-2:10]: <empty list>

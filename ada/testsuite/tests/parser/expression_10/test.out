@@ -5,11 +5,9 @@ Allocator[1:1-1:21]
 |  |prefix:
 |  |  AttributeRef[1:5-1:12]
 |  |  |prefix:
-|  |  |  Id[1:5-1:6]
-|  |  |  |tok: A
+|  |  |  Id[1:5-1:6]: A
 |  |  |attribute:
-|  |  |  Id[1:7-1:12]
-|  |  |  |tok: Class
+|  |  |  Id[1:7-1:12]: Class
 |  |  |args: <null>
 |  |suffix:
 |  |  Aggregate[1:13-1:21]
@@ -20,11 +18,9 @@ Allocator[1:1-1:21]
 |  |  |  |  |designators:
 |  |  |  |  |  AlternativesList[1:13-1:13]: <empty list>
 |  |  |  |  |r_expr:
-|  |  |  |  |  Int[1:14-1:16]
-|  |  |  |  |  |tok: 12
+|  |  |  |  |  Int[1:14-1:16]: 12
 |  |  |  |  AggregateAssoc[1:18-1:20]
 |  |  |  |  |designators:
 |  |  |  |  |  AlternativesList[1:16-1:16]: <empty list>
 |  |  |  |  |r_expr:
-|  |  |  |  |  Int[1:18-1:20]
-|  |  |  |  |  |tok: 15
+|  |  |  |  |  Int[1:18-1:20]: 15

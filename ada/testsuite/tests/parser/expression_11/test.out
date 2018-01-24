@@ -1,7 +1,5 @@
 DottedName[1:1-1:8]
 |prefix:
-|  Id[1:1-1:4]
-|  |tok: Lol
+|  Id[1:1-1:4]: Lol
 |suffix:
-|  Str[1:5-1:8]
-|  |tok: "="
+|  Str[1:5-1:8]: "="

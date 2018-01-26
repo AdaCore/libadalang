@@ -3255,6 +3255,12 @@ class AspectAssoc(AdaNode):
             Entity.expr.sub_equation
             & TypeBind(Self.expr.type_var, Self.bool_type),
 
+            Self.parent.parent.parent.is_a(T.BaseTypeDecl)
+            & Entity.id.relative_name.any_of('Model_Of'),
+
+            TypeBind(Self.expr.type_var,
+                     Entity.expr.cast_or_raise(T.Name).name_designated_type),
+
             LogicTrue()
         )
 

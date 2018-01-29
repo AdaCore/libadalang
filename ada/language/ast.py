@@ -2884,6 +2884,14 @@ class TypeExpr(AdaNode):
         """
     )
 
+    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
+    def designated_type_decl_from(origin_node=T.AdaNode.entity):
+        """
+        Return the type declaration designated by this type expression as
+        viewed from the node given by origin_node.
+        """
+        return origin.bind(origin_node.el, Entity.designated_type)
+
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def element_type():
         """

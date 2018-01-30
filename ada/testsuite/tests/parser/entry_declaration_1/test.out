@@ -32,5 +32,5 @@ EntryDecl[1:1-1:37]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:28-1:35]: BOOLEAN
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |aspects: <null>

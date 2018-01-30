@@ -19,7 +19,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  AnonymousType[1:25-1:55]
 |  |  |  |  |type_decl:
 |  |  |  |  |  AnonymousTypeDecl[1:25-1:55]
-|  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |name: <null>
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  AccessToSubpDef[1:25-1:55]
@@ -49,10 +49,10 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |  |  |  ParamSpec[1:57-1:68]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:57-1:58]
@@ -68,5 +68,5 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |subp_returns: <null>

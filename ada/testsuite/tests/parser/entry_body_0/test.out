@@ -21,7 +21,7 @@ EntryBody[1:1-1:101]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:29-1:33]: item
 |  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |barrier:
 |  Id[1:40-1:45]: empty
 |decls:

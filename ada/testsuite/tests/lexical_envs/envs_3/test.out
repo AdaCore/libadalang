@@ -16,7 +16,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  Id[2:5-2:8]: Foo
 |  |pragmas:
 |  |  PragmaNodeList[4:1-4:1]: <empty list>
@@ -41,7 +41,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[5:1-5:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  DottedName[5:5-5:12]
 |  |  |  |  |prefix:
 |  |  |  |  |  Id[5:5-5:8]: Foo
@@ -74,7 +74,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[8:1-8:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  DottedName[8:5-8:16]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[8:5-8:12]
@@ -103,7 +103,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[11:1-11:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  Id[11:5-11:6]: A
 |  |pragmas:
 |  |  PragmaNodeList[13:1-13:1]: <empty list>
@@ -128,7 +128,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[14:1-14:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  DottedName[14:5-14:8]
 |  |  |  |  |prefix:
 |  |  |  |  |  Id[14:5-14:6]: A
@@ -161,7 +161,7 @@ CompilationUnitList[1:1-17:11]
 |  |  |  |  |decls:
 |  |  |  |  |  AdaNodeList[17:1-17:1]: <empty list>
 |  |  |  |private_part: <null>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  DottedName[17:5-17:10]
 |  |  |  |  |prefix:
 |  |  |  |  |  DottedName[17:5-17:8]

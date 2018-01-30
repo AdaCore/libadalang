@@ -18,7 +18,7 @@ begin
       declare
          TD   : constant Type_Decl := T.As_Type_Decl;
          RTD  : constant Record_Type_Def := TD.F_Type_Def.As_Record_Type_Def;
-         Name : constant Text_Type := TD.F_Type_ID.Text;
+         Name : constant Text_Type := TD.F_Name.Text;
       begin
          Put_Line
            (Image (Name) & " is abstract: "

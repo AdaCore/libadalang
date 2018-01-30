@@ -33,7 +33,7 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[1:53-1:54]: A
 |pragmas:
 |  PragmaNodeList[2:1-2:1]: <empty list>

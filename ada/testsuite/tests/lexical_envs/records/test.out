@@ -15,7 +15,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-10:15]
 |  |  |  |  |  TypeDecl[2:4-5:15]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[2:9-2:16]: R1_Type
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
@@ -70,7 +70,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  TypeDecl[7:4-10:15]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[7:9-7:16]: R2_Type
 |  |  |  |  |  |discriminants:
 |  |  |  |  |  |  KnownDiscriminantPart[7:17-7:30]
@@ -149,7 +149,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[11:5-11:8]: Foo
 |pragmas:
 |  PragmaNodeList[12:1-12:1]: <empty list>

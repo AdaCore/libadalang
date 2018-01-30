@@ -25,5 +25,5 @@ GenericPackageDecl[1:1-1:43]
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[1:41-1:42]: A

@@ -1,5 +1,5 @@
 SingleProtectedDecl[1:1-1:122]
-|protected_name:
+|name:
 |  Id[1:11-1:27]: Protected_Buffer
 |aspects: <null>
 |interfaces:
@@ -37,7 +37,7 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:59-1:63]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:66-1:100]
 |  |  |  |  |overriding:
@@ -66,8 +66,8 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:94-1:98]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[1:105-1:121]: Protected_Buffer

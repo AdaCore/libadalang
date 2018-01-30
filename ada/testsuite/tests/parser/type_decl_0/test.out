@@ -1,5 +1,5 @@
 TypeDecl[1:1-18:12]
-|type_id:
+|name:
 |  Id[1:6-1:10]: vrec
 |discriminants:
 |  KnownDiscriminantPart[1:10-1:27]
@@ -39,7 +39,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |variant:
 |  |  |  |  |  VariantList[3:4-16:34]
 |  |  |  |  |  |  Variant[3:4-6:24]
-|  |  |  |  |  |  |choice_list:
+|  |  |  |  |  |  |choices:
 |  |  |  |  |  |  |  AlternativesList[3:9-6:15]
 |  |  |  |  |  |  |  |  Id[3:9-3:11]: sn
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[4:9-4:24]
@@ -102,7 +102,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  |  NullComponentDecl[6:19-6:24]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[7:4-15:32]
-|  |  |  |  |  |  |choice_list:
+|  |  |  |  |  |  |choices:
 |  |  |  |  |  |  |  AlternativesList[7:10-15:23]
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[7:10-7:26]
 |  |  |  |  |  |  |  |  |has_not_null:
@@ -226,7 +226,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  |  NullComponentDecl[15:27-15:32]
 |  |  |  |  |  |  |  |variant_part: <null>
 |  |  |  |  |  |  Variant[16:4-16:34]
-|  |  |  |  |  |  |choice_list:
+|  |  |  |  |  |  |choices:
 |  |  |  |  |  |  |  AlternativesList[16:9-16:25]
 |  |  |  |  |  |  |  |  BinOp[16:9-16:25]
 |  |  |  |  |  |  |  |  |left:

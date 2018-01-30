@@ -7,13 +7,13 @@ ObjectDecl[1:1-1:49]
 |  AliasedAbsent[1:8-1:8]
 |has_constant:
 |  ConstantAbsent[1:8-1:8]
-|inout:
+|mode:
 |  ModeDefault[1:8-1:8]
 |type_expr:
 |  AnonymousType[1:8-1:40]
 |  |type_decl:
 |  |  AnonymousTypeDecl[1:8-1:40]
-|  |  |type_id: <null>
+|  |  |name: <null>
 |  |  |discriminants: <null>
 |  |  |type_def:
 |  |  |  TypeAccessDef[1:8-1:40]

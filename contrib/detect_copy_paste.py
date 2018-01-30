@@ -228,8 +228,8 @@ def encode(f, locnames, node):
             return ([Code(hash("elsif " + strcode(node.f_cond_expr)), node, f)]
                     + enc(node.f_stmts))
         elif node.is_a(lal.CaseStmt):
-            return ([Code(hash("case " + strcode(node.f_case_expr)), node, f)]
-                    + enc(node.f_case_alts))
+            return ([Code(hash("case " + strcode(node.f_expr)), node, f)]
+                    + enc(node.f_alternatives))
         elif node.is_a(lal.CaseStmtAlternative):
             return ([Code(hash("when " + strcode(node.f_choices)), node, f)]
                     + enc(node.f_stmts))

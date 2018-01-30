@@ -26,7 +26,7 @@ ExprFunction[1:1-1:65]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:17-1:24]: Integer
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns:
 |  |  SubtypeIndication[1:33-1:40]
 |  |  |has_not_null:

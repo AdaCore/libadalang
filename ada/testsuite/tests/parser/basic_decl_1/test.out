@@ -1,7 +1,7 @@
 TaskTypeDecl[1:1-1:63]
-|type_id:
+|name:
 |  Id[1:11-1:14]: TT1
-|discrs: <null>
+|discriminants: <null>
 |aspects: <null>
 |definition:
 |  TaskDef[1:15-1:62]
@@ -39,8 +39,8 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:48-1:52]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[1:59-1:62]: TT1

@@ -113,7 +113,7 @@ def list_blocks(node):
             blocks += [node.f_else_expr]
 
     elif isinstance(node, lal.CaseStmt):
-        blocks = [sub.f_stmts for sub in node.f_case_alts
+        blocks = [sub.f_stmts for sub in node.f_alternatives
                   if select_case_block(sub.f_stmts)]
 
     elif isinstance(node, lal.CaseExpr):

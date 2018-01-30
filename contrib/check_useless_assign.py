@@ -379,9 +379,9 @@ def explore(f, locvars, locsubprograms, subp):
             init_reads = reads.copy()
             # Deal with all branches, using the "init" versions and updating
             # the versions propagated.
-            for sub in node.f_case_alts:
+            for sub in node.f_alternatives:
                 traverse_branch(sub, init_assigns, assigns, init_reads, reads)
-            traverse(node.f_case_expr, assigns, reads)
+            traverse(node.f_expr, assigns, reads)
 
         # Reset assigns objects inside and before loop, as control may come
         # back from the loop body after variables may be read in the loop. Also

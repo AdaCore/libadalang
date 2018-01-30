@@ -43,7 +43,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
@@ -60,7 +60,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |  |  SubtypeDecl[5:10-5:47]
-|  |  |  |  |  |  |  |  |  |  |  |type_id:
+|  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[5:18-5:21]: Lol
 |  |  |  |  |  |  |  |  |  |  |  |subtype:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:25-5:46]
@@ -88,13 +88,13 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[7:14-7:14]: <empty list>
-|  |  |  |  |  |  |  |  |end_id: <null>
+|  |  |  |  |  |  |  |  |end_name: <null>
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[8:10-8:10]: <empty list>
-|  |  |  |  |  |end_id:
+|  |  |  |  |  |end_name:
 |  |  |  |  |  |  Id[9:8-9:11]: Bar
 |  |  |stmts: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[10:5-10:8]: Foo
 |pragmas:
 |  PragmaNodeList[11:1-11:1]: <empty list>

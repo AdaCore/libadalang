@@ -2,7 +2,7 @@ SelectStmt[1:1-1:126]
 |guards:
 |  SelectWhenPartList[1:8-1:114]
 |  |  SelectWhenPart[1:8-1:59]
-|  |  |condition:
+|  |  |cond_expr:
 |  |  |  UnOp[1:13-1:21]
 |  |  |  |op:
 |  |  |  |  OpNot[1:13-1:16]
@@ -28,7 +28,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  |  |  |  |end_name: <null>
 |  |  SelectWhenPart[1:63-1:100]
-|  |  |condition: <null>
+|  |  |cond_expr: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:63-1:100]
 |  |  |  |  AcceptStmtWithStmts[1:63-1:100]
@@ -49,7 +49,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  AdaNodeList[1:94-1:94]: <empty list>
 |  |  |  |  |end_name: <null>
 |  |  SelectWhenPart[1:104-1:114]
-|  |  |condition: <null>
+|  |  |cond_expr: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:104-1:114]
 |  |  |  |  TerminateAlternative[1:104-1:114]

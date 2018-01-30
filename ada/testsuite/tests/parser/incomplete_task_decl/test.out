@@ -23,15 +23,15 @@ CompilationUnit[1:1-6:10]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:15]
 |  |  |  |  |  IncompleteTypeDecl[2:4-2:11]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[2:9-2:10]: A
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:15]
 |  |  |  |  |  |task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
-|  |  |  |  |  |  |type_id:
+|  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[3:9-3:14]: Pouet
-|  |  |  |  |  |  |discrs: <null>
+|  |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |definition: <null>
 |  |  |stmts:
@@ -41,7 +41,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  NullStmt[5:4-5:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[6:5-6:9]: Main
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

@@ -1,7 +1,7 @@
 CaseStmt[1:1-1:128]
-|case_expr:
+|expr:
 |  Id[1:6-1:7]: X
-|case_alts:
+|alternatives:
 |  CaseStmtAlternativeList[1:11-1:118]
 |  |  CaseStmtAlternative[1:11-1:34]
 |  |  |choices:

@@ -1,5 +1,5 @@
 ExceptionHandler[1:1-1:34]
-|exc_name: <null>
+|exception_name: <null>
 |handled_exceptions:
 |  AlternativesList[1:6-1:24]
 |  |  AttributeRef[1:6-1:24]

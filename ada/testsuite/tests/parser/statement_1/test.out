@@ -18,4 +18,4 @@ NamedStmt[1:1-1:37]
 |  |stmts:
 |  |  StmtList[1:22-1:27]
 |  |  |  NullStmt[1:22-1:27]
-|  |end_id: <null>
+|  |end_name: <null>

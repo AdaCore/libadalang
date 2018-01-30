@@ -1,5 +1,5 @@
 TypeDecl[1:1-1:21]
-|type_id:
+|name:
 |  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:
@@ -7,12 +7,12 @@ TypeDecl[1:1-1:21]
 |  |enum_literals:
 |  |  EnumLiteralDeclList[1:12-1:19]
 |  |  |  EnumLiteralDecl[1:12-1:13]
-|  |  |  |enum_identifier:
+|  |  |  |name:
 |  |  |  |  Id[1:12-1:13]: B
 |  |  |  EnumLiteralDecl[1:15-1:16]
-|  |  |  |enum_identifier:
+|  |  |  |name:
 |  |  |  |  Id[1:15-1:16]: C
 |  |  |  EnumLiteralDecl[1:18-1:19]
-|  |  |  |enum_identifier:
+|  |  |  |name:
 |  |  |  |  Id[1:18-1:19]: D
 |aspects: <null>

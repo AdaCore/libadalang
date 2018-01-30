@@ -33,7 +33,7 @@ CompilationUnit[1:1-4:9]
 |  |  |  |  |  NullStmt[3:4-3:12]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:11-3:11]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[4:5-4:8]: Foo
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

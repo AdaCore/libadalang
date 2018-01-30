@@ -30,7 +30,7 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  |  |  AliasedAbsent[2:8-2:8]
 |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  ConstantAbsent[2:8-2:8]
-|  |  |  |  |  |inout:
+|  |  |  |  |  |mode:
 |  |  |  |  |  |  ModeDefault[2:8-2:8]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[2:8-2:15]
@@ -60,7 +60,7 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  |  |  |  Id[4:13-4:14]: A
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[5:5-5:10]: Pouet
 |pragmas:
 |  PragmaNodeList[6:1-6:1]: <empty list>

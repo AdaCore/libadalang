@@ -26,7 +26,7 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:42-1:53]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:42-1:43]
@@ -42,6 +42,6 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:46-1:53]: Natural
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns: <null>
 |aspects: <null>

@@ -22,7 +22,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[12:4-20:66]
 |  |  |  |  |  SubtypeDecl[12:4-12:48]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[12:12-12:18]: My_Int
 |  |  |  |  |  |subtype:
 |  |  |  |  |  |  SubtypeIndication[12:22-12:47]
@@ -72,7 +72,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]: My_Int
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[14:40-14:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -185,7 +185,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]: My_Int
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[18:41-18:47]
 |  |  |  |  |  |  |  |has_not_null:
@@ -270,7 +270,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[20:58-20:64]: 10_000
 |  |  |private_part: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[22:5-22:8]: Sat
 |pragmas:
 |  PragmaNodeList[23:1-23:1]: <empty list>

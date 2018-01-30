@@ -26,7 +26,7 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:28-1:35]: Integer
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:37-1:48]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:37-1:38]
@@ -42,7 +42,7 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:41-1:48]: Integer
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns:
 |  |  SubtypeIndication[1:57-1:64]
 |  |  |has_not_null:

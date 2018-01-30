@@ -1,5 +1,5 @@
 TypeDecl[1:1-1:79]
-|type_id:
+|name:
 |  Id[1:6-1:7]: B
 |discriminants: <null>
 |type_def:
@@ -25,7 +25,7 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  |  DiscriminantChoiceList[1:18-1:35]
 |  |  |  |  |  |  |  Id[1:18-1:25]: Discr_1
 |  |  |  |  |  |  |  Id[1:28-1:35]: Discr_2
-|  |  |  |  |  |disc_expr:
+|  |  |  |  |  |discr_expr:
 |  |  |  |  |  |  Int[1:39-1:41]: 12
 |  |interfaces:
 |  |  ParentList[1:41-1:41]: <empty list>

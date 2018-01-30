@@ -34,7 +34,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:45-1:54]: Element_T
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |subp_returns: <null>
 |  |  |  |aspects: <null>
 |  |  |  SubpDecl[1:57-1:87]
@@ -56,5 +56,5 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |constraint: <null>
 |  |  |  |aspects: <null>
 |private_part: <null>
-|end_id:
+|end_name:
 |  Id[1:92-1:105]: Generic_Stack

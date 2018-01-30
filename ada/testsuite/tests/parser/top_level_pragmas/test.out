@@ -43,7 +43,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[31:18-31:24]: String
 |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |default_expr: <null>
 |  |  |  |subp_returns:
 |  |  |  |  SubtypeIndication[31:33-31:40]
 |  |  |  |  |has_not_null:

@@ -29,7 +29,7 @@ CompilationUnit[1:1-4:15]
 |  |  |  |  |  NullStmt[3:4-3:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[4:5-4:14]: Kikoolol\xe9
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

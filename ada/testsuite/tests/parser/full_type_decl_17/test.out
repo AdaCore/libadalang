@@ -1,5 +1,5 @@
 TypeDecl[1:1-1:51]
-|type_id:
+|name:
 |  Id[1:6-1:9]: Arr
 |discriminants: <null>
 |type_def:

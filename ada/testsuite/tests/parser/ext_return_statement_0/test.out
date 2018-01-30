@@ -1,5 +1,5 @@
 ExtendedReturnStmt[1:1-3:12]
-|object_decl:
+|decl:
 |  ExtendedReturnStmtObjectDecl[1:8-1:19]
 |  |ids:
 |  |  IdentifierList[1:8-1:9]
@@ -8,7 +8,7 @@ ExtendedReturnStmt[1:1-3:12]
 |  |  AliasedAbsent[1:12-1:12]
 |  |has_constant:
 |  |  ConstantAbsent[1:12-1:12]
-|  |inout:
+|  |mode:
 |  |  ModeDefault[1:12-1:12]
 |  |type_expr:
 |  |  SubtypeIndication[1:12-1:19]

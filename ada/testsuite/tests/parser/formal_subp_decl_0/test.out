@@ -27,7 +27,7 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:28-1:37]: Element_T
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
 |  |  |has_not_null:
@@ -35,6 +35,6 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |  |name:
 |  |  |  Id[1:46-1:55]: Element_T
 |  |  |constraint: <null>
-|default_value:
+|default_expr:
 |  BoxExpr[1:68-1:70]
 |aspects: <null>

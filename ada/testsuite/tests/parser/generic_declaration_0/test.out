@@ -6,7 +6,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  GenericFormalTypeDecl[1:9-1:35]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[1:9-1:35]
-|  |  |  |  |type_id:
+|  |  |  |  |name:
 |  |  |  |  |  Id[1:14-1:23]: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
@@ -46,6 +46,6 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[1:66-1:75]: Element_T
 |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default: <null>
+|  |  |  |  |  |default_expr: <null>
 |  |  |subp_returns: <null>
 |  |aspects: <null>

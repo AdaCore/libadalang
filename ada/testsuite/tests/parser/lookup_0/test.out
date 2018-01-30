@@ -46,7 +46,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[3:34-3:46]: Console_Type
 |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |default_expr: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
@@ -81,7 +81,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -141,7 +141,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |  |  |  |end_id:
+|  |  |  |  |  |end_name:
 |  |  |  |  |  |  Id[12:8-12:12]: Fact
 |  |  |stmts:
 |  |  |  HandledStmts[15:4-16:68]
@@ -211,7 +211,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]: 6
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[17:5-17:9]: Fact
 |pragmas:
 |  PragmaNodeList[18:1-18:1]: <empty list>
@@ -354,7 +354,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[3:34-3:46]: Console_Type
 |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |default_expr: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
@@ -389,7 +389,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |  |  |has_not_null:
@@ -449,7 +449,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |  |  |  |end_id:
+|  |  |  |  |  |end_name:
 |  |  |  |  |  |  Id[12:8-12:12]: Fact
 |  |  |stmts:
 |  |  |  HandledStmts[15:4-16:68]
@@ -519,7 +519,7 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]: 6
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[17:5-17:9]: Fact
 |pragmas:
 |  PragmaNodeList[18:1-18:1]: <empty list>
@@ -553,7 +553,7 @@ SubpBody[3:1-17:10]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[3:34-3:46]: Console_Type
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns: <null>
 |aspects: <null>
 |decls:
@@ -588,7 +588,7 @@ SubpBody[3:1-17:10]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[5:39-5:46]
 |  |  |  |  |  |has_not_null:
@@ -648,7 +648,7 @@ SubpBody[3:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |  |end_id:
+|  |  |  |end_name:
 |  |  |  |  Id[12:8-12:12]: Fact
 |stmts:
 |  HandledStmts[15:4-16:68]
@@ -718,7 +718,7 @@ SubpBody[3:1-17:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]: 6
 |  |exceptions:
 |  |  AdaNodeList[16:67-16:67]: <empty list>
-|end_id:
+|end_name:
 |  Id[17:5-17:9]: Fact
 
 Lookup 10:10:

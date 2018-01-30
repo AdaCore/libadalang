@@ -22,7 +22,7 @@ SubpSpec[1:1-1:39]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:17-1:23]: String
 |  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |subp_returns:
 |  SubtypeIndication[1:32-1:39]
 |  |has_not_null:

@@ -67,7 +67,7 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id "Integer" 4:23-4:30: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: None
-|  |  |  |  |  |  |  |  |  |default: None
+|  |  |  |  |  |  |  |  |  |default_expr: None
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication 4:39-4:46
 |  |  |  |  |  |  |  |has_not_null:
@@ -131,7 +131,7 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |  |  |  |  |  Int 9:17-9:18: 1
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList 10:13-10:13
-|  |  |  |  |  |end_id:
+|  |  |  |  |  |end_name:
 |  |  |  |  |  |  Id "Fact" 11:8-11:12: Fact
 |  |  |stmts:
 |  |  |  HandledStmts 13:4-13:40
@@ -172,7 +172,7 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int 13:35-13:36: 6
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList 13:39-13:39
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id "Foo" 14:5-14:8: Foo
 |pragmas:
 |  PragmaNodeList 15:1-15:1

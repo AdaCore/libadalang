@@ -247,8 +247,8 @@ def explore(f, subp):
             traverse_branch(node.f_else_expr, nulls, neg_cond=node.f_cond_expr)
 
         elif isinstance(node, lal.CaseStmt):
-            traverse(node.f_case_expr, nulls)
-            for sub in node.f_case_alts:
+            traverse(node.f_expr, nulls)
+            for sub in node.f_alternatives:
                 traverse_branch(sub, nulls)
 
         # Reset null objects inside and after loop, as control may come back

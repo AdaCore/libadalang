@@ -27,9 +27,9 @@ CompilationUnit[1:1-7:12]
 |  |  |  |stmts:
 |  |  |  |  StmtList[3:4-6:13]
 |  |  |  |  |  CaseStmt[3:4-6:13]
-|  |  |  |  |  |case_expr:
+|  |  |  |  |  |expr:
 |  |  |  |  |  |  Id[3:9-3:13]: Mode
-|  |  |  |  |  |case_alts:
+|  |  |  |  |  |alternatives:
 |  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
 |  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]
 |  |  |  |  |  |  |  |choices:
@@ -60,7 +60,7 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  |  |  |  |  |  |  |  Id[5:17-5:22]: Write
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:12-6:12]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[7:5-7:11]: Testcs
 |pragmas:
 |  PragmaNodeList[8:1-8:1]: <empty list>

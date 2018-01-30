@@ -12,4 +12,4 @@ WhileLoopStmt[1:1-1:34]
 |stmts:
 |  StmtList[1:19-1:24]
 |  |  NullStmt[1:19-1:24]
-|end_id: <null>
+|end_name: <null>

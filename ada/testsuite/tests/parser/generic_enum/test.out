@@ -43,7 +43,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[4:4-20:26]
 |  |  |  |  |  TypeDecl[4:4-4:29]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[4:9-4:13]: Enum
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
@@ -51,13 +51,13 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |enum_literals:
 |  |  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
-|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[4:18-4:19]: A
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
-|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Chr[4:21-4:24]: 'B'
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
-|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
@@ -84,7 +84,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Enum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_value:
+|  |  |  |  |  |  |  |  |  |default_expr:
 |  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]: A
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[7:7-7:42]
@@ -106,7 +106,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]: ENum
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_value:
+|  |  |  |  |  |  |  |  |  |default_expr:
 |  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]: 'B'
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |package_decl:
@@ -131,7 +131,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |private_part: <null>
-|  |  |  |  |  |  |end_id:
+|  |  |  |  |  |  |end_name:
 |  |  |  |  |  |  |  Id[10:8-10:9]: P
 |  |  |  |  |  PackageBody[12:4-18:10]
 |  |  |  |  |  |package_name:
@@ -195,10 +195,10 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:26-16:26]: <empty list>
-|  |  |  |  |  |  |  |  |end_id:
+|  |  |  |  |  |  |  |  |end_name:
 |  |  |  |  |  |  |  |  |  Id[17:11-17:14]: Foo
 |  |  |  |  |  |stmts: <null>
-|  |  |  |  |  |end_id:
+|  |  |  |  |  |end_name:
 |  |  |  |  |  |  Id[18:8-18:9]: P
 |  |  |  |  |  GenericPackageInstantiation[20:4-20:26]
 |  |  |  |  |  |name:
@@ -221,7 +221,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  Id[23:9-23:12]: Foo
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[23:12-23:12]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[24:5-24:9]: What
 |pragmas:
 |  PragmaNodeList[25:1-25:1]: <empty list>

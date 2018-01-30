@@ -7,4 +7,4 @@ PackageDecl[1:1-2:5]
 |  |decls:
 |  |  AdaNodeList[2:1-2:1]: <empty list>
 |private_part: <null>
-|end_id: <null>
+|end_name: <null>

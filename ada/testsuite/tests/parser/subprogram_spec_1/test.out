@@ -24,7 +24,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:23-1:29]: String
 |  |  |  |  |constraint: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |  |  |  ParamSpec[1:31-1:49]
 |  |  |  |ids:
 |  |  |  |  IdentifierList[1:31-1:32]
@@ -37,7 +37,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  AnonymousType[1:35-1:49]
 |  |  |  |  |type_decl:
 |  |  |  |  |  AnonymousTypeDecl[1:35-1:49]
-|  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |name: <null>
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  TypeAccessDef[1:35-1:49]
@@ -55,7 +55,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  |  Id[1:42-1:49]: Integer
 |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |aspects: <null>
-|  |  |  |default: <null>
+|  |  |  |default_expr: <null>
 |subp_returns:
 |  SubtypeIndication[1:58-1:65]
 |  |has_not_null:

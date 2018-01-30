@@ -31,5 +31,5 @@ EntryDecl[1:1-1:46]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:40-1:44]: Item
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |aspects: <null>

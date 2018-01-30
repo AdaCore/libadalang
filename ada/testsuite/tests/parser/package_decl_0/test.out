@@ -13,5 +13,5 @@ PackageDecl[1:1-1:40]
 |  |  |  |expr:
 |  |  |  |  Int[1:30-1:32]: 12
 |private_part: <null>
-|end_id:
+|end_name:
 |  Id[1:38-1:39]: A

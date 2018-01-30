@@ -37,7 +37,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:11-3:11]
 |  |  |  |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:11-3:11]
-|  |  |  |  |  |  |  |  |  |inout:
+|  |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[3:11-3:11]
 |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:11-3:18]
@@ -59,7 +59,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  AdaNodeList[5:4-5:4]: <empty list>
 |  |  |  |  |  |  |private_part: <null>
-|  |  |  |  |  |  |end_id:
+|  |  |  |  |  |  |end_name:
 |  |  |  |  |  |  |  Id[5:8-5:9]: D
 |  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
 |  |  |  |  |  |name:
@@ -81,7 +81,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  NullStmt[9:4-9:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[10:5-10:9]: Test
 |pragmas:
 |  PragmaNodeList[11:1-11:1]: <empty list>

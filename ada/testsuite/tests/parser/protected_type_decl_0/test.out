@@ -1,7 +1,7 @@
 ProtectedTypeDecl[1:1-1:186]
-|type_id:
+|name:
 |  Id[1:16-1:37]: Protected_Buffer_Type
-|discrs: <null>
+|discriminants: <null>
 |aspects: <null>
 |interfaces:
 |  ParentList[1:38-1:38]: <empty list>
@@ -38,7 +38,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:110]
 |  |  |  |  |overriding:
@@ -67,7 +67,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part:
 |  |  PrivatePart[1:119-1:159]
@@ -108,5 +108,5 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |default_expr:
 |  |  |  |  |  Id[1:154-1:158]: True
 |  |  |  |  |aspects: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[1:164-1:185]: Protected_Buffer_Type

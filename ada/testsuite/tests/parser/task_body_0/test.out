@@ -13,7 +13,7 @@ TaskBody[1:1-24:29]
 |  |  |  |expr:
 |  |  |  |  Int[2:25-2:28]: 100
 |  |  |  SubtypeDecl[3:4-3:50]
-|  |  |  |type_id:
+|  |  |  |name:
 |  |  |  |  Id[3:12-3:19]: Q_Range
 |  |  |  |subtype:
 |  |  |  |  SubtypeIndication[3:23-3:49]
@@ -42,7 +42,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  AliasedAbsent[4:13-4:13]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[4:13-4:13]
-|  |  |  |inout:
+|  |  |  |mode:
 |  |  |  |  ModeDefault[4:13-4:13]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[4:13-4:38]
@@ -75,7 +75,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  AliasedAbsent[5:17-5:17]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[5:17-5:17]
-|  |  |  |inout:
+|  |  |  |mode:
 |  |  |  |  ModeDefault[5:17-5:17]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[5:17-5:24]
@@ -96,13 +96,13 @@ TaskBody[1:1-24:29]
 |  |  |  |  AliasedAbsent[6:11-6:11]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[6:11-6:11]
-|  |  |  |inout:
+|  |  |  |mode:
 |  |  |  |  ModeDefault[6:11-6:11]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[6:11-6:34]
 |  |  |  |  |type_decl:
 |  |  |  |  |  AnonymousTypeDecl[6:11-6:34]
-|  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |name: <null>
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  ArrayTypeDef[6:11-6:34]
@@ -143,7 +143,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |guards:
 |  |  |  |  |  |  SelectWhenPartList[10:10-21:34]
 |  |  |  |  |  |  |  SelectWhenPart[10:10-15:34]
-|  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  RelationOp[10:15-10:30]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[10:15-10:21]: Length
@@ -176,7 +176,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[12:16-12:38]
 |  |  |  |  |  |  |  |  |  |  |stmts:
@@ -227,7 +227,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |right:
 |  |  |  |  |  |  |  |  |  |  |  Int[15:32-15:33]: 1
 |  |  |  |  |  |  |  SelectWhenPart[16:13-21:34]
-|  |  |  |  |  |  |  |condition:
+|  |  |  |  |  |  |  |cond_expr:
 |  |  |  |  |  |  |  |  RelationOp[16:18-16:28]
 |  |  |  |  |  |  |  |  |left:
 |  |  |  |  |  |  |  |  |  Id[16:18-16:24]: Length
@@ -260,7 +260,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[18:16-18:38]
 |  |  |  |  |  |  |  |  |  |  |stmts:
@@ -314,7 +314,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
 |  |  |  |  |  |abort_stmts:
 |  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
-|  |  |  |end_id: <null>
+|  |  |  |end_name: <null>
 |  |exceptions:
 |  |  AdaNodeList[23:12-23:12]: <empty list>
 |end_name:

@@ -1,5 +1,5 @@
 TypeDecl[1:1-1:23]
-|type_id:
+|name:
 |  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:

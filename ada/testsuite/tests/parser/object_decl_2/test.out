@@ -6,13 +6,13 @@ ObjectDecl[1:1-1:51]
 |  AliasedPresent[1:7-1:7]
 |has_constant:
 |  ConstantPresent[1:15-1:15]
-|inout:
+|mode:
 |  ModeDefault[1:24-1:24]
 |type_expr:
 |  AnonymousType[1:24-1:50]
 |  |type_decl:
 |  |  AnonymousTypeDecl[1:24-1:50]
-|  |  |type_id: <null>
+|  |  |name: <null>
 |  |  |discriminants: <null>
 |  |  |type_def:
 |  |  |  ArrayTypeDef[1:24-1:50]

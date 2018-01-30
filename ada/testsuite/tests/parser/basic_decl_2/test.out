@@ -7,7 +7,7 @@ ObjectDecl[1:1-1:30]
 |  AliasedAbsent[1:8-1:8]
 |has_constant:
 |  ConstantAbsent[1:8-1:8]
-|inout:
+|mode:
 |  ModeDefault[1:8-1:8]
 |type_expr:
 |  SubtypeIndication[1:8-1:15]

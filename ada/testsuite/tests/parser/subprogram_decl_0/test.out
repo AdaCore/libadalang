@@ -26,6 +26,6 @@ AbstractSubpDecl[1:1-1:50]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:29-1:36]: Integer
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns: <null>
 |aspects: <null>

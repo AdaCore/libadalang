@@ -15,9 +15,9 @@ CompilationUnit[1:1-6:7]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:32]
 |  |  |  |  |  TaskTypeDecl[2:4-2:20]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[2:14-2:19]: share
-|  |  |  |  |  |discrs: <null>
+|  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |definition: <null>
 |  |  |  |  |  TaskBodyStub[3:4-3:32]
@@ -31,7 +31,7 @@ CompilationUnit[1:1-6:7]
 |  |  |  |  |  NullStmt[5:4-5:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[6:5-6:6]: S
 |pragmas:
 |  PragmaNodeList[7:1-7:1]: <empty list>

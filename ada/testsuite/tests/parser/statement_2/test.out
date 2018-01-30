@@ -5,4 +5,4 @@ LoopStmt[1:1-1:22]
 |  |  CallStmt[1:6-1:12]
 |  |  |call:
 |  |  |  Id[1:6-1:11]: World
-|end_id: <null>
+|end_name: <null>

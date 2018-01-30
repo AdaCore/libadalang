@@ -1,5 +1,5 @@
 TypeDecl[1:1-1:69]
-|type_id:
+|name:
 |  Id[1:6-1:11]: Pouet
 |discriminants: <null>
 |type_def:

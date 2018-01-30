@@ -13,7 +13,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  AliasedAbsent[2:10-2:10]
 |  |  |  |  |has_constant:
 |  |  |  |  |  ConstantAbsent[2:10-2:10]
-|  |  |  |  |inout:
+|  |  |  |  |mode:
 |  |  |  |  |  ModeDefault[2:10-2:10]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[2:10-2:18]
@@ -28,7 +28,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  GenericFormalTypeDecl[3:5-3:31]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[3:5-3:31]
-|  |  |  |  |type_id:
+|  |  |  |  |name:
 |  |  |  |  |  Id[3:10-3:19]: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
@@ -77,7 +77,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]: Element_T
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  SubpDecl[6:5-6:35]
@@ -99,5 +99,5 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[7:5-7:18]: Generic_Stack

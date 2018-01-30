@@ -2,7 +2,7 @@ SelectStmt[1:1-1:155]
 |guards:
 |  SelectWhenPartList[1:10-1:143]
 |  |  SelectWhenPart[1:10-1:74]
-|  |  |condition: <null>
+|  |  |cond_expr: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:10-1:74]
 |  |  |  |  AcceptStmtWithStmts[1:10-1:74]
@@ -28,7 +28,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:37-1:41]: Item
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:46-1:63]
 |  |  |  |  |  |stmts:
@@ -43,7 +43,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |end_name:
 |  |  |  |  |  Id[1:68-1:73]: Store
 |  |  SelectWhenPart[1:78-1:143]
-|  |  |condition: <null>
+|  |  |cond_expr: <null>
 |  |  |stmts:
 |  |  |  StmtList[1:78-1:143]
 |  |  |  |  AcceptStmtWithStmts[1:78-1:143]
@@ -69,7 +69,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:106-1:110]: Item
 |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:115-1:132]
 |  |  |  |  |  |stmts:

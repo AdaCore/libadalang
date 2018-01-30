@@ -1,9 +1,9 @@
 SingleTaskDecl[1:1-1:140]
 |task_type:
 |  SingleTaskTypeDecl[1:6-1:139]
-|  |type_id:
+|  |name:
 |  |  Id[1:6-1:22]: Buffer_Pool_Task
-|  |discrs: <null>
+|  |discriminants: <null>
 |  |aspects: <null>
 |  |definition:
 |  |  TaskDef[1:23-1:139]
@@ -46,7 +46,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:65-1:69]: Item
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  EntryDecl[1:72-1:118]
 |  |  |  |  |  |overriding:
@@ -81,8 +81,8 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:112-1:116]: Item
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[1:123-1:139]: Buffer_Pool_Task

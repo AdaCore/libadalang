@@ -15,7 +15,7 @@ CompilationUnit[1:1-4:14]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-3:28]
 |  |  |  |  |  TypeDecl[2:4-2:23]
-|  |  |  |  |  |type_id:
+|  |  |  |  |  |name:
 |  |  |  |  |  |  Id[2:9-2:13]: Enum
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
@@ -23,7 +23,7 @@ CompilationUnit[1:1-4:14]
 |  |  |  |  |  |  |enum_literals:
 |  |  |  |  |  |  |  EnumLiteralDeclList[2:18-2:21]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[2:18-2:21]
-|  |  |  |  |  |  |  |  |enum_identifier:
+|  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[2:18-2:21]: Red
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  EnumRepClause[3:4-3:28]
@@ -41,7 +41,7 @@ CompilationUnit[1:1-4:14]
 |  |  |  |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  |  |  |  Int[3:25-3:26]: 1
 |  |  |private_part: <null>
-|  |  |end_id:
+|  |  |end_name:
 |  |  |  Id[4:5-4:13]: Enum_Rep
 |pragmas:
 |  PragmaNodeList[5:1-5:1]: <empty list>

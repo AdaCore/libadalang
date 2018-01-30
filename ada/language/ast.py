@@ -1335,7 +1335,7 @@ class TypeDef(AdaNode):
 
 
 class Variant(AdaNode):
-    choice_list = Field(type=T.AlternativesList)
+    choices = Field(type=T.AlternativesList)
     components = Field(type=T.ComponentList)
 
     @langkit_property(return_type=BoolType)
@@ -1387,7 +1387,7 @@ class Variant(AdaNode):
         # Statically evaluate expr
         expr_val = Var(expr.eval_as_int)
 
-        return Self.choice_list.any(
+        return Self.choices.any(
             lambda c: Self.choice_match(c.as_entity, expr_val)
         )
 
@@ -1405,7 +1405,7 @@ class VariantPart(AdaNode):
         )
 
         return Entity.variant.logic_all(lambda var: (
-            var.choice_list.logic_all(lambda c: c.match(
+            var.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
                 TypeBind(e.type_var, Self.discr_name.type_val)
@@ -1417,13 +1417,13 @@ class VariantPart(AdaNode):
         ))
 
     @langkit_property(return_type=T.BaseFormalParamDecl.entity.array)
-    def get_components(discrs=T.ParamMatch.array):
+    def get_components(discriminants=T.ParamMatch.array):
         """
         Get components for this variant part, depending on the values of
-        discrs.
+        discriminants.
         """
         # Get the specific discriminant this variant part depends upon
-        discr = Var(discrs.find(
+        discr = Var(discriminants.find(
             lambda d: d.formal.name.symbol == Self.discr_name.symbol
         ))
 
@@ -1437,7 +1437,7 @@ class VariantPart(AdaNode):
         # discriminants, because there might be a nested variant part in this
         # variant branch.
         return variant.components.abstract_formal_params_impl(
-            discrs, False, False
+            discriminants, False, False
         )
 
 
@@ -1509,15 +1509,15 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
     def abstract_formal_params_impl(
-        discrs=T.ParamMatch.array,
-        include_discrs=(BoolType, True),
+        discriminants=T.ParamMatch.array,
+        include_discriminants=(BoolType, True),
         recurse=(BoolType, True)
     ):
 
         # Get self's components. We pass along discriminants, to get variant
         # part's components too.
         self_comps = Var(Entity.components.keep(BaseFormalParamDecl).concat(
-            Entity.variant_part._.get_components(discrs)
+            Entity.variant_part._.get_components(discriminants)
         ))
 
         # Append parent's components.
@@ -1536,7 +1536,7 @@ class ComponentList(BaseFormalParamHolder):
         ))
 
         return If(
-            include_discrs,
+            include_discriminants,
             Entity.type_decl._.discriminants_list.concat(ret),
             ret
         )
@@ -1654,7 +1654,7 @@ class DiscreteRange(Struct):
 
 @abstract
 class BaseTypeDecl(BasicDecl):
-    type_id = Field(type=T.Identifier)
+    name = Field(type=T.Identifier)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self)
@@ -1673,7 +1673,7 @@ class BaseTypeDecl(BasicDecl):
             typ.is_view_of_type(comp_view.previous_part(True))
         )
 
-    defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
+    defining_names = Property(Self.name.cast(T.Name).as_entity.singleton)
 
     @langkit_property(dynamic_vars=[origin], return_type=BoolType)
     def is_array_or_rec():
@@ -2009,7 +2009,7 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(memoized=True, memoize_in_populate=True,
                       ignore_warn_on_node=True)
     def classwide_type_node():
-        return T.ClasswideTypeDecl.new(type_id=Self.type_id)
+        return T.ClasswideTypeDecl.new(name=Self.name)
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
@@ -2017,7 +2017,7 @@ class BaseTypeDecl(BasicDecl):
         """
         Returns the previous part for this type decl.
         """
-        return Self.type_id.then(
+        return Self.name.then(
             lambda type_name:
 
             Self.children_env.get_sequential(
@@ -2268,7 +2268,7 @@ class EnumTypeDef(TypeDef):
     enum_literals = Field(type=T.EnumLiteralDecl.list)
 
     is_char_type = Property(Self.enum_literals.any(
-        lambda lit: lit.enum_identifier.is_a(T.CharLiteral)
+        lambda lit: lit.name.is_a(T.CharLiteral)
     ))
 
     is_enum_type = Property(True)
@@ -2380,9 +2380,9 @@ class BasicAssoc(AdaNode):
 
 class DiscriminantAssoc(BasicAssoc):
     ids = Field(type=T.DiscriminantChoiceList)
-    disc_expr = Field(type=T.Expr)
+    discr_expr = Field(type=T.Expr)
 
-    expr = Property(Self.disc_expr)
+    expr = Property(Self.discr_expr)
     names = Property(Self.ids.map(lambda i: i.cast(T.AdaNode)))
 
 
@@ -2674,22 +2674,22 @@ class TaskDef(AdaNode):
     interfaces = Field(type=T.ParentList)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_id = Field(type=T.Identifier)
+    end_name = Field(type=T.Identifier)
 
 
 class ProtectedDef(AdaNode):
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_id = Field(type=T.Identifier)
+    end_name = Field(type=T.Identifier)
 
 
 class TaskTypeDecl(BaseTypeDecl):
-    discrs = Field(type=T.DiscriminantPart)
+    discriminants = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
     definition = Field(type=T.TaskDef)
     is_task_type = Property(True)
 
-    defining_names = Property(Self.type_id.cast(T.Name).as_entity.singleton)
+    defining_names = Property(Self.name.cast(T.Name).as_entity.singleton)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.relative_name, Self),
@@ -2698,7 +2698,7 @@ class TaskTypeDecl(BaseTypeDecl):
 
     defining_env = Property(Entity.children_env)
 
-    discriminants_list = Property(Entity.discrs.abstract_formal_params)
+    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):
@@ -2711,12 +2711,12 @@ class SingleTaskTypeDecl(TaskTypeDecl):
 
 
 class ProtectedTypeDecl(BaseTypeDecl):
-    discrs = Field(type=T.DiscriminantPart)
+    discriminants = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
     interfaces = Field(type=T.ParentList)
     definition = Field(type=T.ProtectedDef)
 
-    discriminants_list = Property(Entity.discrs.abstract_formal_params)
+    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 
     defining_env = Property(Entity.children_env)
 
@@ -2975,10 +2975,10 @@ class ParamSpec(BaseFormalParamDecl):
     has_aliased = Field(type=Aliased)
     mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpr)
-    default = Field(type=T.Expr)
+    default_expr = Field(type=T.Expr)
 
     identifiers = Property(Self.ids.map(lambda e: e.cast(BaseId)))
-    is_mandatory = Property(Self.default.is_null)
+    is_mandatory = Property(Self.default_expr.is_null)
     defining_names = Property(Self.ids.map(
         lambda id: id.cast(T.Name).as_entity))
 
@@ -2998,7 +2998,7 @@ class ParamSpec(BaseFormalParamDecl):
         return (
             Entity.type_expr.sub_equation
 
-            & Entity.default.then(
+            & Entity.default_expr.then(
                 lambda de: de.sub_equation
                 & Bind(de.type_var, typ,
                        eq_prop=BaseTypeDecl.matching_assign_type),
@@ -3200,7 +3200,7 @@ class ComponentClause(AdaNode):
 
 
 class RecordRepClause(AspectClause):
-    component_name = Field(type=T.Name)
+    name = Field(type=T.Name)
     at_expr = Field(type=T.Expr)
     components = Field(type=T.ComponentClause.list)
 
@@ -3213,23 +3213,23 @@ class AtClause(AspectClause):
 class SingleTaskDecl(BasicDecl):
     task_type = Field(type=T.SingleTaskTypeDecl)
     defining_names = Property(
-        Self.task_type.type_id.cast(T.Name).as_entity.singleton)
+        Self.task_type.name.cast(T.Name).as_entity.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv(Self.task_type.type_id.sym, Self)
+        add_to_env_kv(Self.task_type.name.sym, Self)
     )
 
     expr_type = Property(Entity.task_type)
 
 
 class SingleProtectedDecl(BasicDecl):
-    protected_name = Field(type=T.Identifier)
+    name = Field(type=T.Identifier)
     aspects = Field(type=T.AspectSpec)
     interfaces = Field(type=T.ParentList)
     definition = Field(type=T.ProtectedDef)
 
     defining_names = Property(
-        Self.protected_name.cast(T.Name).as_entity.singleton
+        Self.name.cast(T.Name).as_entity.singleton
     )
 
     defining_env = Property(Entity.children_env)
@@ -3291,7 +3291,7 @@ class ObjectDecl(BasicDecl):
     ids = Field(type=T.Identifier.list)
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)
-    inout = Field(type=Mode)
+    mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
     renaming_clause = Field(type=T.RenamingClause)
@@ -3365,7 +3365,7 @@ class BasePackageDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_id = Field(type=T.Name)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.package_name.as_entity.singleton)
     defining_env = Property(Entity.children_env)
@@ -3694,7 +3694,7 @@ class FormalSubpDecl(ClassicSubpDecl):
     """
     Formal subprogram declarations, in generic declarations formal parts.
     """
-    default_value = Field(type=T.Expr)
+    default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
@@ -4183,13 +4183,15 @@ class Aggregate(BaseAggregate):
         Equation for the case where this is an aggregate for a record
         type.
         """
-        discrs = Var(td.discriminants_list)
+        discriminants = Var(td.discriminants_list)
 
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
             td.discriminants_list, Self.assocs, False
         ).filter(
-            lambda pm: Not(discrs.find(lambda d: d == pm.formal.spec).is_null)
+            lambda pm: Not(discriminants
+                           .find(lambda d: d == pm.formal.spec)
+                           .is_null)
         ))
 
         # We run resolution for discriminants, because need ref and type
@@ -4205,7 +4207,7 @@ class Aggregate(BaseAggregate):
         # able to calculate the list of components belonging to variant parts,
         # depending on the static value of discriminants.
         all_params = Var(td.record_def.comps.abstract_formal_params_impl(
-            discrs=discriminants_matches
+            discriminants=discriminants_matches
         ))
 
         # Match formals to actuals, and compute equations
@@ -5295,7 +5297,7 @@ class StringLiteral(BaseId):
 
 
 class EnumLiteralDecl(BasicDecl):
-    enum_identifier = Field(type=T.BaseId)
+    name = Field(type=T.BaseId)
 
     @langkit_property(public=True)
     def enum_type():
@@ -5324,14 +5326,14 @@ class EnumLiteralDecl(BasicDecl):
         )
 
     defining_names = Property(
-        Self.enum_identifier.cast(T.Name).as_entity.singleton)
+        Self.name.cast(T.Name).as_entity.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv(Self.enum_identifier.sym, Self,
+        add_to_env_kv(Self.name.sym, Self,
                       dest_env=Entity.enum_type.node_env),
 
         add_to_env_kv(
-            Self.enum_identifier.sym, Self,
+            Self.name.sym, Self,
             dest_env=Entity.enum_type.primitives,
             metadata=Metadata.new(
                 dottable_subp=False,
@@ -6228,7 +6230,7 @@ class SubpBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_id = Field(type=T.Name)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
     defining_env = Property(Entity.subp_spec.defining_env)
@@ -6242,20 +6244,21 @@ class HandledStmts(AdaNode):
 
 
 class ExceptionHandler(BasicDecl):
-    exc_name = Field(type=T.Identifier)
+    exception_name = Field(type=T.Identifier)
     handled_exceptions = Field(type=T.AlternativesList)
     stmts = Field(type=T.StmtList)
 
     env_spec = EnvSpec(
         add_env(),
         add_to_env(
-            env_mappings(Entity.exc_name.then(lambda n: n.singleton),
+            env_mappings(Entity.exception_name.then(lambda n: n.singleton),
                          Self),
             dest_env=Self.children_env
         )
     )
 
-    defining_names = Property(Self.exc_name.cast(T.Name).as_entity.singleton)
+    defining_names = Property(Self.exception_name.cast(T.Name)
+                              .as_entity.singleton)
 
     @langkit_property()
     def expr_type():
@@ -6328,12 +6331,12 @@ class GotoStmt(SimpleStmt):
 
 class ExitStmt(SimpleStmt):
     loop_name = Field(type=T.Identifier)
-    condition = Field(type=T.Expr)
+    cond_expr = Field(type=T.Expr)
 
     @langkit_property()
     def xref_equation():
         return And(
-            Entity.condition.then(lambda cond: (
+            Entity.cond_expr.then(lambda cond: (
                 cond.sub_equation
                 & TypeBind(cond.type_var, Self.bool_type)
             ), default_val=LogicTrue()),
@@ -6484,7 +6487,7 @@ class NamedStmt(CompositeStmt):
 class BaseLoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.StmtList)
-    end_id = Field(type=T.Identifier)
+    end_name = Field(type=T.Identifier)
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
@@ -6513,16 +6516,16 @@ class BlockStmt(CompositeStmt):
 class DeclBlock(BlockStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_id = Field(type=T.Identifier)
+    end_name = Field(type=T.Identifier)
 
 
 class BeginBlock(BlockStmt):
     stmts = Field(type=T.HandledStmts)
-    end_id = Field(type=T.Identifier)
+    end_name = Field(type=T.Identifier)
 
 
 class ExtendedReturnStmt(CompositeStmt):
-    object_decl = Field(type=T.ExtendedReturnStmtObjectDecl)
+    decl = Field(type=T.ExtendedReturnStmtObjectDecl)
     stmts = Field(type=T.HandledStmts)
 
     @langkit_property(return_type=EquationType)
@@ -6533,21 +6536,21 @@ class ExtendedReturnStmt(CompositeStmt):
 
 
 class CaseStmt(CompositeStmt):
-    case_expr = Field(type=T.Expr)
-    case_alts = Field(type=T.CaseStmtAlternative.list)
+    expr = Field(type=T.Expr)
+    alternatives = Field(type=T.CaseStmtAlternative.list)
 
     @langkit_property()
     def xref_equation():
-        ignore(Var(Entity.case_expr.resolve_names_internal(
+        ignore(Var(Entity.expr.resolve_names_internal(
             True, Predicate(BaseTypeDecl.is_discrete_type,
-                            Self.case_expr.type_var)
+                            Self.expr.type_var)
         )))
 
-        return Entity.case_alts.logic_all(lambda alt: (
+        return Entity.alternatives.logic_all(lambda alt: (
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                TypeBind(e.type_var, Self.case_expr.type_val) & e.sub_equation,
+                TypeBind(e.type_var, Self.expr.type_val) & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()
@@ -6588,14 +6591,14 @@ class SelectStmt(CompositeStmt):
 
 
 class SelectWhenPart(AdaNode):
-    condition = Field(type=T.Expr)
+    cond_expr = Field(type=T.Expr)
     stmts = Field(type=T.StmtList)
 
     @langkit_property()
     def xref_equation():
-        return Entity.condition.then(
+        return Entity.cond_expr.then(
             lambda c:
-            c.sub_equation & TypeBind(Self.condition.type_var, Self.bool_type),
+            c.sub_equation & TypeBind(Self.cond_expr.type_var, Self.bool_type),
             default_val=LogicTrue()
         )
 
@@ -6633,7 +6636,7 @@ class PackageBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_id = Field(type=T.Name)
+    end_name = Field(type=T.Name)
 
     defining_names = Property(Self.package_name.as_entity.singleton)
     defining_env = Property(Entity.children_env)

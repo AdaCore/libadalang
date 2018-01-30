@@ -1,7 +1,7 @@
 TaskTypeDecl[1:1-1:145]
-|type_id:
+|name:
 |  Id[1:11-1:27]: Buffer_Pool_Task
-|discrs: <null>
+|discriminants: <null>
 |aspects: <null>
 |definition:
 |  TaskDef[1:28-1:144]
@@ -44,7 +44,7 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:70-1:74]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:77-1:123]
 |  |  |  |  |overriding:
@@ -79,8 +79,8 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:117-1:121]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
-|  |end_id:
+|  |end_name:
 |  |  Id[1:128-1:144]: Buffer_Pool_Task

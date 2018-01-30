@@ -23,7 +23,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  AnonymousType[1:36-1:69]
 |  |  |  |  |  |type_decl:
 |  |  |  |  |  |  AnonymousTypeDecl[1:36-1:69]
-|  |  |  |  |  |  |type_id: <null>
+|  |  |  |  |  |  |name: <null>
 |  |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |  |type_def:
 |  |  |  |  |  |  |  TypeAccessDef[1:36-1:69]
@@ -46,7 +46,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |  |args: <null>
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:71-1:96]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:71-1:76]
@@ -62,7 +62,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:80-1:96]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:98-1:123]
 |  |  |  |  |ids:
 |  |  |  |  |  IdentifierList[1:98-1:104]
@@ -78,6 +78,6 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:107-1:123]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default: <null>
+|  |  |  |  |default_expr: <null>
 |  |subp_returns: <null>
 |aspects: <null>

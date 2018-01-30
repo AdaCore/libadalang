@@ -11,7 +11,7 @@ DeclBlock[1:1-1:47]
 |  |  |  |  AliasedAbsent[1:13-1:13]
 |  |  |  |has_constant:
 |  |  |  |  ConstantAbsent[1:13-1:13]
-|  |  |  |inout:
+|  |  |  |mode:
 |  |  |  |  ModeDefault[1:13-1:13]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:13-1:20]
@@ -41,4 +41,4 @@ DeclBlock[1:1-1:47]
 |  |  |  |  |  |  |  Id[1:39-1:40]: A
 |  |exceptions:
 |  |  AdaNodeList[1:41-1:41]: <empty list>
-|end_id: <null>
+|end_name: <null>

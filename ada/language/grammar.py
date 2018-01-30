@@ -928,7 +928,7 @@ A.add_rules(
                    A.call_stmt, A.abort_stmt, A.delay_stmt,
                    A.raise_stmt, A.terminate_alternative, A.pragma),
 
-    null_stmt=NullStmt(A.null_literal, sc()),
+    null_stmt=NullStmt(L.Null, sc()),
 
     assignment_stmt=AssignStmt(A.name, ":=", A.expr, sc()),
 

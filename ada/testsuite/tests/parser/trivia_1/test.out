@@ -17,10 +17,8 @@ CompilationUnit
 |  |  |  HandledStmts
 |  |  |  |  StmtList
 |  |  |  |  |  NullStmt
-|  |  |  |  |  |  Null
 |  |  |  |  |  -- Haha
 |  |  |  |  |  -- Hoho
 |  |  |  |  |  NullStmt
-|  |  |  |  |  |  Null
 |  |  |  Id
 -- foo

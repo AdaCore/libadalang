@@ -50,9 +50,6 @@ Expr: <Id "Integer" 4:34-4:41>
 Resolving xrefs for node <NullStmt 6:4-6:9>
 *******************************************
 
-Expr: <Null 6:4-6:8>
-  references: None
-  type:       None
 
 
 Done.

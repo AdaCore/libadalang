@@ -17,9 +17,6 @@ Expr: <Int 6:18-6:21>
 Resolving xrefs for node <NullStmt 8:7-8:12>
 ********************************************
 
-Expr: <Null 8:7-8:11>
-  references: None
-  type:       None
 
 
 Done.

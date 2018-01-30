@@ -337,9 +337,6 @@ Expr: <Id "g" 39:11-39:12>
 Resolving xrefs for node <NullStmt 40:7-40:12>
 **********************************************
 
-Expr: <Null 40:7-40:11>
-  references: None
-  type:       None
 
 Resolving xrefs for node <IfStmt 43:4-45:11>
 ********************************************
@@ -360,9 +357,6 @@ Expr: <Id "g" 43:15-43:16>
 Resolving xrefs for node <NullStmt 44:7-44:12>
 **********************************************
 
-Expr: <Null 44:7-44:11>
-  references: None
-  type:       None
 
 
 Done.

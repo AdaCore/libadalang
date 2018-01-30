@@ -6299,8 +6299,6 @@ class CallStmt(SimpleStmt):
 
 
 class NullStmt(SimpleStmt):
-    null_lit = Field(repr=False)
-
     @langkit_property()
     def xref_equation():
         return LogicTrue()

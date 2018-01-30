@@ -132,9 +132,6 @@ Expr: <Id "B" 9:35-9:36>
 Resolving xrefs for node <NullStmt 12:4-12:9>
 *********************************************
 
-Expr: <Null 12:4-12:8>
-  references: None
-  type:       None
 
 
 Done.

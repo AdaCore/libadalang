@@ -5222,7 +5222,7 @@ class BaseId(SingleTokNode):
     @langkit_property()
     def all_env_elements(is_parent_pkg=(BoolType, False)):
         return env.get_sequential(
-            Self.tok,
+            Self,
             recursive=Not(is_parent_pkg),
             sequential_from=Self,
         )

@@ -3258,8 +3258,9 @@ class AspectAssoc(AdaNode):
 
     @langkit_property()
     def xref_equation():
+        target = Var(Self.parent.parent.parent)
         return Cond(
-            Self.parent.parent.parent.is_a(BasicSubpDecl, SubpBody)
+            target.is_a(BasicSubpDecl, SubpBody)
             & Entity.id.relative_name.any_of(
                 'Pre', 'Post', 'Model_Pre', 'Model_Post'
             ),
@@ -3268,16 +3269,27 @@ class AspectAssoc(AdaNode):
             & TypeBind(Self.expr.type_var, Self.bool_type),
 
             # Model_Of aspect on types
-            Self.parent.parent.parent.is_a(T.BaseTypeDecl)
+            target.is_a(T.BaseTypeDecl)
             & Entity.id.relative_name.any_of('Model_Of'),
             TypeBind(Self.expr.type_var,
                      Entity.expr.cast_or_raise(T.Name).name_designated_type),
 
             # Model_Of aspect on subprograms
-            Self.parent.parent.parent.is_a(T.BasicSubpDecl)
+            target.is_a(T.BasicSubpDecl)
             & Entity.id.relative_name.any_of('Model_Of'),
-            TypeBind(Self.expr.type_var,
-                     Entity.expr.cast_or_raise(T.Name).name_designated_type),
+            Bind(
+                Self.expr.cast_or_raise(T.Name).ref_var,
+                Entity.expr.cast_or_raise(T.Name).all_env_elements.find(
+                    lambda e:
+                    e.cast_or_raise(T.BasicDecl)
+                    .subp_spec_or_null
+                    .cast_or_raise(T.BaseSubpSpec).match_signature(
+                        target.as_entity.cast_or_raise(T.BasicSubpDecl)
+                        .subp_decl_spec,
+                        False
+                    )
+                )
+            ),
 
             LogicTrue()
         )
@@ -4262,6 +4274,12 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    @langkit_property(return_type=AdaNode.entity.array,
+                      kind=AbstractKind.abstract_runtime_check,
+                      dynamic_vars=[env, origin])
+    def all_env_elements(is_parent_pkg=(BoolType, False)):
+        pass
+
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def bottom_up_name_equation():
         return Self.innermost_name.as_entity.match(
@@ -5201,6 +5219,14 @@ class BaseId(SingleTokNode):
     def env_elements_impl():
         return Entity.env_elements_baseid(False)
 
+    @langkit_property()
+    def all_env_elements(is_parent_pkg=(BoolType, False)):
+        return env.get_sequential(
+            Self.tok,
+            recursive=Not(is_parent_pkg),
+            sequential_from=Self,
+        )
+
     @langkit_property(dynamic_vars=[env], memoized=True)
     def env_elements_baseid(is_parent_pkg=BoolType):
         """
@@ -5452,7 +5478,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
     )
 
     @langkit_property(return_type=BoolType)
-    def match_return_type(other=T.SubpSpec.entity):
+    def match_return_type(other=T.BaseSubpSpec.entity):
         # Check that the return type is the same. Caveat: it's not because
         # we could not find the canonical type that it is null!
         #
@@ -5470,7 +5496,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BoolType)
-    def match_signature(other=T.SubpSpec.entity, match_name=BoolType):
+    def match_signature(other=T.BaseSubpSpec.entity, match_name=BoolType):
         """
         Return whether SubpSpec's signature matches Self's.
 
@@ -6198,6 +6224,13 @@ class DottedName(Name):
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(pfx_env,
                         Entity.suffix.designated_env_impl(True))
+
+    @langkit_property()
+    def all_env_elements(is_parent_pkg=(BoolType, False)):
+        ignore(is_parent_pkg)
+        pfx_env = Var(Entity.prefix.designated_env)
+        return env.bind(pfx_env,
+                        Entity.suffix.all_env_elements(True))
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),

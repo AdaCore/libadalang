@@ -3281,8 +3281,8 @@ class AspectAssoc(AdaNode):
                 Self.expr.cast_or_raise(T.Name).ref_var,
                 Entity.expr.cast_or_raise(T.Name).all_env_elements.find(
                     lambda e:
-                    e.cast_or_raise(T.BasicDecl)
-                    .subp_spec_or_null
+                    e.is_a(T.BasicSubpDecl)
+                    & e.cast(T.BasicSubpDecl).subp_decl_spec
                     .cast_or_raise(T.BaseSubpSpec).match_signature(
                         target.as_entity.cast_or_raise(T.BasicSubpDecl)
                         .subp_decl_spec,

@@ -1660,6 +1660,16 @@ class BaseTypeDecl(BasicDecl):
         add_to_env_kv(Entity.relative_name, Self)
     )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def model_of_type():
+        """
+        Return the type for which this type is a model, if applicable.
+        """
+        return (
+            Entity.get_aspect('Model_Of')
+            .expr.cast_or_raise(T.Name).name_designated_type
+        )
+
     @langkit_property(return_type=BoolType)
     def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
         """
@@ -3250,14 +3260,22 @@ class AspectAssoc(AdaNode):
     def xref_equation():
         return Cond(
             Self.parent.parent.parent.is_a(BasicSubpDecl, SubpBody)
-            & Entity.id.relative_name.any_of('Pre', 'Post'),
+            & Entity.id.relative_name.any_of(
+                'Pre', 'Post', 'Model_Pre', 'Model_Post'
+            ),
 
             Entity.expr.sub_equation
             & TypeBind(Self.expr.type_var, Self.bool_type),
 
+            # Model_Of aspect on types
             Self.parent.parent.parent.is_a(T.BaseTypeDecl)
             & Entity.id.relative_name.any_of('Model_Of'),
+            TypeBind(Self.expr.type_var,
+                     Entity.expr.cast_or_raise(T.Name).name_designated_type),
 
+            # Model_Of aspect on subprograms
+            Self.parent.parent.parent.is_a(T.BasicSubpDecl)
+            & Entity.id.relative_name.any_of('Model_Of'),
             TypeBind(Self.expr.type_var,
                      Entity.expr.cast_or_raise(T.Name).name_designated_type),
 
@@ -3341,6 +3359,14 @@ class ExtendedReturnStmtObjectDecl(ObjectDecl):
 
 class DeclarativePart(AdaNode):
     decls = Field(type=T.AdaNode.list)
+
+    @langkit_property(memoized=True)
+    def types_with_models():
+        return Entity.decls.filtermap(
+            lambda d: d.cast(T.BaseTypeDecl),
+            lambda d:
+            d.is_a(BaseTypeDecl) & Not(d.get_aspect('Model_Of').is_null)
+        )
 
 
 class PrivatePart(DeclarativePart):
@@ -5859,7 +5885,23 @@ class AttributeRef(Name):
             rel_name == 'Result', Entity.result_attr_equation,
             rel_name == 'Old',    Entity.old_attr_equation,
 
+            # Lal checkers specific
+            rel_name == 'Model', Entity.model_attr_equation,
+
             LogicTrue()
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def model_attr_equation():
+        return (
+            Entity.prefix.sub_equation
+            & Self.type_var.domain(
+                Self.top_level_item(Self.unit)
+                .cast_or_raise(T.PackageDecl).public_part
+                .as_entity.types_with_models.map(lambda t: t.cast(T.AdaNode))
+            )
+            & TypeBind(Self.type_var, Self.prefix.type_var,
+                       conv_prop=BaseTypeDecl.model_of_type)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

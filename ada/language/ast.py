@@ -2735,7 +2735,7 @@ class AccessDef(TypeDef):
 
 
 class AccessToSubpDef(AccessDef):
-    has_protected = Field(type=Protected, repr=False)
+    has_protected = Field(type=Protected)
     subp_spec = Field(type=T.SubpSpec)
 
     xref_equation = Property(LogicTrue())

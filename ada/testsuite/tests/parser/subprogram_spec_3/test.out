@@ -25,6 +25,8 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  AccessToSubpDef[1:25-1:55]
 |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
+|  |  |  |  |  |  |has_protected:
+|  |  |  |  |  |  |  ProtectedAbsent[1:32-1:32]
 |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  SubpSpec[1:32-1:55]
 |  |  |  |  |  |  |  |subp_kind:

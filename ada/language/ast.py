@@ -3271,8 +3271,8 @@ class AspectAssoc(AdaNode):
             # Model_Of aspect on types
             target.is_a(T.BaseTypeDecl)
             & Entity.id.relative_name.any_of('Model_Of'),
-            TypeBind(Self.expr.type_var,
-                     Entity.expr.cast_or_raise(T.Name).name_designated_type),
+            Bind(Self.expr.cast_or_raise(T.Name).ref_var,
+                 Entity.expr.cast_or_raise(T.Name).name_designated_type),
 
             # Model_Of aspect on subprograms
             target.is_a(T.BasicSubpDecl)

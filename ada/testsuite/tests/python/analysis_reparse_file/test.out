@@ -4,12 +4,12 @@ WithClause: has_limited = <LimitedPresent 2:1-2:1>
 WithClause: has_limited = <LimitedPresent 2:1-2:1>
 3. Parsing with deleted file (reparse=true)
 Diagnostics for foo.adb:
-  Cannot open foo.adb
+  Cannot open <somefile>
 4. Parsing source 2 (reparse=true)
 WithClause: has_limited = <LimitedAbsent 1:1-1:1>
 5. Reparsing source 1
 WithClause: has_limited = <LimitedPresent 2:1-2:1>
 6. Reparsing with deleted file
 Diagnostics for foo.adb:
-  Cannot open foo.adb
+  Cannot open <somefile>
 Done.

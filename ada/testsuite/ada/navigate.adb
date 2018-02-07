@@ -2,6 +2,7 @@ with Ada.Characters.Handling;
 with Ada.Command_Line;
 with Ada.Text_IO; use Ada.Text_IO;
 
+with GNATCOLL.VFS;
 with Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Iterators;
@@ -38,6 +39,19 @@ procedure Navigate is
    procedure Print_Navigation
      (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class);
    procedure Decode_Kinds (List : String);
+
+   function Basename (Filename : String) return String;
+   --  Return the base name of the Filename path
+
+   --------------
+   -- Basename --
+   --------------
+
+   function Basename (Filename : String) return String is
+      use GNATCOLL.VFS;
+   begin
+      return +Create (+Filename).Base_Name;
+   end Basename;
 
    ---------------------
    -- Stop_With_Error --
@@ -162,7 +176,7 @@ procedure Navigate is
          Put_Line
            (Part_Name & " of " & Short_Image (Orig) & " is "
             & Short_Image (Dest)
-            & " [" & LAL.Get_Filename (Dest.Get_Unit) & "]");
+            & " [" & Basename (LAL.Get_Filename (Dest.Get_Unit)) & "]");
       end if;
    end Print_Navigation;
 

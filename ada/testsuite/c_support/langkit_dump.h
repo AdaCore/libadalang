@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "libadalang.h"
 
@@ -99,6 +100,10 @@ dump_short_image(ada_base_entity *node, int level)
 static void
 dump_diagnostics(ada_analysis_unit unit, const char *unit_name)
 {
+    const uint32_t msg_prefix[] = {
+        'C', 'a', 'n', 'n', 'o' , 't',
+        ' ', 'o', 'p', 'e', 'n', ' '
+    };
     unsigned i;
 
     printf("Diagnostics for %s\n", unit_name);
@@ -112,7 +117,11 @@ dump_diagnostics(ada_analysis_unit unit, const char *unit_name)
             print_sloc_range(&d.sloc_range);
             printf(": ");
         }
-        fprint_text(stdout, d.message, false);
+        if (!memcmp(msg_prefix, d.message.chars,
+                    sizeof(msg_prefix) / sizeof(msg_prefix[0])))
+            printf("Cannot open <somefile>");
+        else
+            fprint_text(stdout, d.message, false);
         putchar('\n');
     }
 }

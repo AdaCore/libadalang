@@ -30,6 +30,9 @@ def check(unit):
     if unit.diagnostics:
         print('Diagnostics for foo.adb:')
         for diag in unit.diagnostics:
+            diag = str(diag)
+            if diag.startswith('Cannot open '):
+                diag = 'Cannot open <somefile>'
             print('  {}'.format(diag))
     else:
         print('WithClause: has_limited = {}'.format(

@@ -1,6 +1,7 @@
 with Ada.Command_Line;
 with Ada.Text_IO;
 
+with GNATCOLL.VFS;
 with Libadalang.Analysis;
 
 with Colors;
@@ -36,6 +37,19 @@ procedure Highlight is
    procedure Output_Highlighted (Unit : LAL.Analysis_Unit);
    --  Write the syntax highlighted source code for Unit according to
    --  Output_Format.
+
+   function Basename (Filename : String) return String;
+   --  Return the base name of the Filename path
+
+   --------------
+   -- Basename --
+   --------------
+
+   function Basename (Filename : String) return String is
+      use GNATCOLL.VFS;
+   begin
+      return +Create (+Filename).Base_Name;
+   end Basename;
 
    ---------------------
    -- Get_Source_File --
@@ -130,7 +144,8 @@ procedure Highlight is
               ("<meta http-equiv=""Content-Type"""
                & " content=""charset=utf-8"" />");
             Put_Line
-              ("<title>" & HTML.Escape (LAL.Get_Filename (Unit)) & "</title>");
+              ("<title>" & HTML.Escape (Basename (LAL.Get_Filename (Unit)))
+               & "</title>");
 
             --  Write CSS rules for each highlighting style
 

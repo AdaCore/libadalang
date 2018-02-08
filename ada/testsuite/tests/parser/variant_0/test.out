@@ -15,6 +15,8 @@ Variant[1:1-1:29]
 |  |  |  |  ComponentDef[1:21-1:28]
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:21-1:21]
+|  |  |  |  |has_constant:
+|  |  |  |  |  ConstantAbsent[1:21-1:21]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:21-1:28]
 |  |  |  |  |  |has_not_null:

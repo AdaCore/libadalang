@@ -23,6 +23,8 @@ TypeDecl[1:1-1:49]
 |  |  ComponentDef[1:41-1:48]
 |  |  |has_aliased:
 |  |  |  AliasedAbsent[1:41-1:41]
+|  |  |has_constant:
+|  |  |  ConstantAbsent[1:41-1:41]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:41-1:48]
 |  |  |  |has_not_null:

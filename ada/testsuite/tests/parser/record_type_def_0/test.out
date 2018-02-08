@@ -20,6 +20,8 @@ RecordTypeDef[1:1-1:34]
 |  |  |  |  |  ComponentDef[1:15-1:22]
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:15-1:15]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantAbsent[1:15-1:15]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:15-1:22]
 |  |  |  |  |  |  |has_not_null:

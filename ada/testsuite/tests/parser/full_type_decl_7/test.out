@@ -41,6 +41,8 @@ TypeDecl[1:1-1:81]
 |  |  |  |  |  |  ComponentDef[1:61-1:68]
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:61-1:61]
+|  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  ConstantAbsent[1:61-1:61]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:61-1:68]
 |  |  |  |  |  |  |  |has_not_null:

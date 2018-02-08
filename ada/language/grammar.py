@@ -268,9 +268,7 @@ A.add_rules(
         AccessToSubpDef(
             NotNull("not", "null"),
             "access",
-            Protected(
-                L.Identifier(match_text="protected"),
-            ),
+            Protected(L.Identifier(match_text="protected")),
             A.subp_spec
         ),
         TypeAccessDef(
@@ -334,6 +332,7 @@ A.add_rules(
 
     component_def=ComponentDef(
         Aliased("aliased"),
+        Constant("constant"),
         A.type_expr
     ),
 

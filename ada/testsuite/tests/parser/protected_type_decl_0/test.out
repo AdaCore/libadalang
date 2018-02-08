@@ -81,6 +81,8 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  ComponentDef[1:128-1:132]
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:128-1:128]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantAbsent[1:128-1:128]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:128-1:132]
 |  |  |  |  |  |  |has_not_null:
@@ -98,6 +100,8 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  ComponentDef[1:143-1:150]
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:143-1:143]
+|  |  |  |  |  |has_constant:
+|  |  |  |  |  |  ConstantAbsent[1:143-1:143]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:143-1:150]
 |  |  |  |  |  |  |has_not_null:

@@ -120,6 +120,8 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  ComponentDef[6:30-6:34]
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[6:30-6:30]
+|  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  ConstantAbsent[6:30-6:30]
 |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
 |  |  |  |  |  |  |  |  |has_not_null:

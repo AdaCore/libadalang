@@ -14,6 +14,8 @@ ArrayTypeDef[1:1-1:24]
 |  ComponentDef[1:19-1:24]
 |  |has_aliased:
 |  |  AliasedAbsent[1:19-1:19]
+|  |has_constant:
+|  |  ConstantAbsent[1:19-1:19]
 |  |type_expr:
 |  |  SubtypeIndication[1:19-1:24]
 |  |  |has_not_null:

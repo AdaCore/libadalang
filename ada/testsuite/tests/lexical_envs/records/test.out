@@ -41,6 +41,8 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[3:14-3:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:14-3:14]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:14-3:21]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -58,6 +60,8 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[4:14-4:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[4:14-4:14]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[4:14-4:21]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -110,6 +114,8 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[8:11-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[8:11-8:11]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[8:11-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -127,6 +133,8 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[9:11-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[9:11-9:11]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[9:11-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:

@@ -2579,6 +2579,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
 class ComponentDef(AdaNode):
     has_aliased = Field(type=Aliased)
+    has_constant = Field(type=Constant)
     type_expr = Field(type=T.TypeExpr)
 
     @langkit_property()

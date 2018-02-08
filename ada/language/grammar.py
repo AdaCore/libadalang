@@ -7,7 +7,9 @@ from language.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
-from langkit.parsers import Grammar, List, Null, Opt, Or, Pick, Predicate, _
+from langkit.parsers import (
+    Grammar, List, Null, Opt, Or, Pick, Predicate, _, NoBacktrack as cut, _Row
+)
 
 ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
@@ -73,11 +75,11 @@ def recover(*rules):
 
 
 def end_liblevel_block():
-    return recover("end", Opt(A.static_name))
+    return Pick("end", Opt(A.static_name))
 
 
 def end_named_block():
-    return recover("end", Opt(A.identifier))
+    return Pick("end", Opt(A.identifier))
 
 
 A.add_rules(
@@ -833,16 +835,19 @@ A.add_rules(
 
     iloop_stmt=Or(
         ForLoopStmt(
-            "for", A.for_loop_param_spec,
-            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), sc()
+            "for", cut(),
+            A.for_loop_param_spec,
+            "loop",
+            A.stmts,
+            "end", "loop", Opt(A.identifier), ";"
         ),
         WhileLoopStmt(
-            WhileLoopSpec("while", A.expr),
-            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), sc()
+            WhileLoopSpec("while", cut(), A.expr),
+            "loop", A.stmts, "end", "loop", Opt(A.identifier), ";"
         ),
         LoopStmt(
             Null(LoopSpec),
-            "loop", A.stmts, recover("end", "loop"), Opt(A.identifier), sc()
+            "loop", cut(), A.stmts, "end", "loop", Opt(A.identifier), ";"
         ),
     ),
 
@@ -857,11 +862,11 @@ A.add_rules(
                      A.select_stmt),
 
     if_stmt=IfStmt(
-        "if", A.expr, "then", A.stmts,
+        "if", cut(), A.expr, "then", A.stmts,
         List(ElsifStmtPart("elsif", A.expr, "then", A.stmts),
              empty_valid=True),
         Opt("else", A.stmts),
-        recover("end", "if"), sc()
+        "end", "if", ";"
     ),
 
     raise_stmt=Or(
@@ -892,11 +897,12 @@ A.add_rules(
         A.subp_spec,
         A.aspect_spec,
         "is",
+        cut(),
         A.decl_part,
-        recover("begin"),
+        "begin",
         A.handled_stmts,
         end_liblevel_block(),
-        sc()
+        ";"
     ),
 
     handled_stmts=HandledStmts(

@@ -1670,6 +1670,17 @@ class BaseTypeDecl(BasicDecl):
             .expr.cast_or_raise(T.Name).name_designated_type
         )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def modeled_type(from_unit=AnalysisUnitType):
+        """
+        Return model type for this type if applicable.
+        """
+        types_with_models = (Self.top_level_item(from_unit)
+                             .cast_or_raise(T.PackageDecl).public_part
+                             .types_with_models)
+
+        return types_with_models.find(lambda t: t.model_of_type == Entity)
+
     @langkit_property(return_type=BoolType)
     def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
         """
@@ -3375,7 +3386,7 @@ class DeclarativePart(AdaNode):
 
     @langkit_property(memoized=True)
     def types_with_models():
-        return Entity.decls.filtermap(
+        return Self.as_bare_entity.decls.filtermap(
             lambda d: d.cast(T.BaseTypeDecl),
             lambda d:
             d.is_a(BaseTypeDecl) & Not(d.get_aspect('Model_Of').is_null)
@@ -5855,6 +5866,25 @@ class AttributeRef(Name):
     )
 
     @langkit_property()
+    def designated_env():
+        return If(
+            Entity.attribute.relative_name == 'Model',
+            Entity.designated_env_model_attr,
+            EmptyEnv
+        )
+
+    @langkit_property(return_type=LexicalEnvType, dynamic_vars=[env, origin])
+    def designated_env_model_attr():
+        model_types = Var(
+            Entity.prefix.env_elements
+            .map(lambda e: e.cast_or_raise(T.BasicDecl).expr_type)
+            .map(lambda t: t.modeled_type(Self.unit))
+            .filter(lambda t: Not(t.is_null))
+        )
+
+        return model_types.map(lambda mt: mt.defining_env).env_group()
+
+    @langkit_property()
     def is_access():
         return Entity.attribute.relative_name == 'Access'
 
@@ -5925,7 +5955,7 @@ class AttributeRef(Name):
             & Self.type_var.domain(
                 Self.top_level_item(Self.unit)
                 .cast_or_raise(T.PackageDecl).public_part
-                .as_entity.types_with_models.map(lambda t: t.cast(T.AdaNode))
+                .types_with_models.map(lambda t: t.cast(T.AdaNode))
             )
             & TypeBind(Self.type_var, Self.prefix.type_var,
                        conv_prop=BaseTypeDecl.model_of_type)

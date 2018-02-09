@@ -18,7 +18,7 @@ INSTALL_DIR=/path/to/install
 # version of GNATCOLL. For instance, GNATCOLL GPL 2017:
 
 wget -O gnatcoll-gpl-2017-src.tar.gz \
-    http://mirrors.cdn.adacore.com/art/591c45e2c7a447af2deed016
+    http://mirrors.cdn.adacore.com/art/5a15c79cc7a4479a23674c66
 tar xf gnatcoll-gpl-2017-src.tar.gz
 if [ -d gnatcoll ]
 then

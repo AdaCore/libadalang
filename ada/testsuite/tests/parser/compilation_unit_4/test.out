@@ -11,16 +11,16 @@ CompilationUnit[1:1-1:48]
 |  |  |  |  Id[1:6-1:9]: Foo
 |  |  WithClause[1:11-1:20]
 |  |  |has_limited:
-|  |  |  LimitedAbsent[1:11-1:11]
+|  |  |  LimitedAbsent[1:10-1:10]
 |  |  |has_private:
-|  |  |  PrivateAbsent[1:11-1:11]
+|  |  |  PrivateAbsent[1:10-1:10]
 |  |  |packages:
 |  |  |  NameList[1:16-1:19]
 |  |  |  |  Id[1:16-1:19]: Bar
 |body:
 |  LibraryItem[1:21-1:48]
 |  |has_private:
-|  |  PrivateAbsent[1:21-1:21]
+|  |  PrivateAbsent[1:20-1:20]
 |  |item:
 |  |  GenericPackageInstantiation[1:21-1:48]
 |  |  |name:
@@ -43,4 +43,4 @@ CompilationUnit[1:1-1:48]
 |  |  |  |  |  Id[1:45-1:46]: C
 |  |  |aspects: <null>
 |pragmas:
-|  PragmaNodeList[2:1-2:1]: <empty list>
+|  PragmaNodeList[1:48-1:48]: <empty list>

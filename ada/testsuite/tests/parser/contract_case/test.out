@@ -18,7 +18,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  Id[2:8-2:18]: SPARK_Mode
 |  |  |  |  |  |expr: <null>
 |  |  |public_part:
-|  |  |  PublicPart[12:4-20:66]
+|  |  |  PublicPart[3:3-22:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[12:4-20:66]
 |  |  |  |  |  SubtypeDecl[12:4-12:48]
@@ -27,7 +27,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |subtype:
 |  |  |  |  |  |  SubtypeIndication[12:22-12:47]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[12:22-12:22]
+|  |  |  |  |  |  |  NotNullAbsent[12:21-12:21]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[12:22-12:29]: Integer
 |  |  |  |  |  |  |constraint:
@@ -45,7 +45,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  SubpDecl[14:4-16:89]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[14:4-14:4]
+|  |  |  |  |  |  OverridingUnspecified[12:48-12:48]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[14:4-14:46]
 |  |  |  |  |  |  |subp_kind:
@@ -62,13 +62,13 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]: X
 |  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]: Y
 |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[14:24-14:24]
 |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeDefault[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |  ModeDefault[14:24-14:24]
 |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[14:25-14:31]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[14:25-14:25]
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[14:24-14:24]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]: My_Int
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -76,7 +76,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[14:40-14:46]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[14:40-14:40]
+|  |  |  |  |  |  |  |  NotNullAbsent[14:39-14:39]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[14:40-14:46]: My_Int
 |  |  |  |  |  |  |  |constraint: <null>
@@ -158,7 +158,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:81-16:87]: 10_000
 |  |  |  |  |  SubpDecl[18:4-20:66]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[18:4-18:4]
+|  |  |  |  |  |  OverridingUnspecified[16:89-16:89]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[18:4-18:47]
 |  |  |  |  |  |  |subp_kind:
@@ -175,13 +175,13 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]: X
 |  |  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]: Y
 |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[18:25-18:25]
 |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeDefault[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |  ModeDefault[18:25-18:25]
 |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[18:26-18:32]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[18:26-18:26]
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[18:25-18:25]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]: My_Int
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -189,7 +189,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[18:41-18:47]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[18:41-18:41]
+|  |  |  |  |  |  |  |  NotNullAbsent[18:40-18:40]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[18:41-18:47]: My_Int
 |  |  |  |  |  |  |  |constraint: <null>
@@ -273,4 +273,4 @@ CompilationUnit[1:1-22:9]
 |  |  |end_name:
 |  |  |  Id[22:5-22:8]: Sat
 |pragmas:
-|  PragmaNodeList[23:1-23:1]: <empty list>
+|  PragmaNodeList[22:9-22:9]: <empty list>

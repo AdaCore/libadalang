@@ -3,11 +3,11 @@ ObjectDecl[1:1-1:51]
 |  IdentifierList[1:1-1:4]
 |  |  Id[1:1-1:4]: Arr
 |has_aliased:
-|  AliasedPresent[1:7-1:7]
+|  AliasedPresent[1:6-1:6]
 |has_constant:
-|  ConstantPresent[1:15-1:15]
+|  ConstantPresent[1:14-1:14]
 |mode:
-|  ModeDefault[1:24-1:24]
+|  ModeDefault[1:23-1:23]
 |type_expr:
 |  AnonymousType[1:24-1:50]
 |  |type_decl:
@@ -30,13 +30,13 @@ ObjectDecl[1:1-1:51]
 |  |  |  |component_type:
 |  |  |  |  ComponentDef[1:43-1:50]
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:43-1:43]
+|  |  |  |  |  AliasedAbsent[1:42-1:42]
 |  |  |  |  |has_constant:
-|  |  |  |  |  ConstantAbsent[1:43-1:43]
+|  |  |  |  |  ConstantAbsent[1:42-1:42]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:43-1:50]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:43-1:43]
+|  |  |  |  |  |  NotNullAbsent[1:42-1:42]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:43-1:50]: Integer
 |  |  |  |  |  |constraint: <null>

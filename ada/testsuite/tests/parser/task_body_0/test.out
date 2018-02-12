@@ -3,7 +3,7 @@ TaskBody[1:1-24:29]
 |  Id[1:11-1:34]: Cyclic_Buffer_Task_Type
 |aspects: <null>
 |decls:
-|  DeclarativePart[2:4-6:35]
+|  DeclarativePart[1:37-7:1]
 |  |decls:
 |  |  AdaNodeList[2:4-6:35]
 |  |  |  NumberDecl[2:4-2:29]
@@ -18,7 +18,7 @@ TaskBody[1:1-24:29]
 |  |  |  |subtype:
 |  |  |  |  SubtypeIndication[3:23-3:49]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[3:23-3:23]
+|  |  |  |  |  NotNullAbsent[3:22-3:22]
 |  |  |  |  |name:
 |  |  |  |  |  Id[3:23-3:31]: Positive
 |  |  |  |  |constraint:
@@ -39,15 +39,15 @@ TaskBody[1:1-24:29]
 |  |  |  |  IdentifierList[4:4-4:10]
 |  |  |  |  |  Id[4:4-4:10]: Length
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[4:13-4:13]
+|  |  |  |  AliasedAbsent[4:12-4:12]
 |  |  |  |has_constant:
-|  |  |  |  ConstantAbsent[4:13-4:13]
+|  |  |  |  ConstantAbsent[4:12-4:12]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[4:13-4:13]
+|  |  |  |  ModeDefault[4:12-4:12]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[4:13-4:38]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[4:13-4:13]
+|  |  |  |  |  NotNullAbsent[4:12-4:12]
 |  |  |  |  |name:
 |  |  |  |  |  Id[4:13-4:20]: Natural
 |  |  |  |  |constraint:
@@ -72,15 +72,15 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  Id[5:4-5:8]: Head
 |  |  |  |  |  Id[5:10-5:14]: Tail
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[5:17-5:17]
+|  |  |  |  AliasedAbsent[5:16-5:16]
 |  |  |  |has_constant:
-|  |  |  |  ConstantAbsent[5:17-5:17]
+|  |  |  |  ConstantAbsent[5:16-5:16]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[5:17-5:17]
+|  |  |  |  ModeDefault[5:16-5:16]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[5:17-5:24]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[5:17-5:17]
+|  |  |  |  |  NotNullAbsent[5:16-5:16]
 |  |  |  |  |name:
 |  |  |  |  |  Id[5:17-5:24]: Q_Range
 |  |  |  |  |constraint: <null>
@@ -93,11 +93,11 @@ TaskBody[1:1-24:29]
 |  |  |  |  IdentifierList[6:4-6:8]
 |  |  |  |  |  Id[6:4-6:8]: Data
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[6:11-6:11]
+|  |  |  |  AliasedAbsent[6:10-6:10]
 |  |  |  |has_constant:
-|  |  |  |  ConstantAbsent[6:11-6:11]
+|  |  |  |  ConstantAbsent[6:10-6:10]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[6:11-6:11]
+|  |  |  |  ModeDefault[6:10-6:10]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[6:11-6:34]
 |  |  |  |  |type_decl:
@@ -119,13 +119,13 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |component_type:
 |  |  |  |  |  |  |  ComponentDef[6:30-6:34]
 |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[6:30-6:30]
+|  |  |  |  |  |  |  |  AliasedAbsent[6:29-6:29]
 |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  ConstantAbsent[6:30-6:30]
+|  |  |  |  |  |  |  |  ConstantAbsent[6:29-6:29]
 |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[6:30-6:30]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[6:29-6:29]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Item
 |  |  |  |  |  |  |  |  |constraint: <null>
@@ -134,7 +134,7 @@ TaskBody[1:1-24:29]
 |  |  |  |renaming_clause: <null>
 |  |  |  |aspects: <null>
 |stmts:
-|  HandledStmts[8:4-23:13]
+|  HandledStmts[7:6-24:1]
 |  |stmts:
 |  |  StmtList[8:4-23:13]
 |  |  |  LoopStmt[8:4-23:13]
@@ -168,19 +168,19 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList[11:28-11:35]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
 |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:38-11:38]
+|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:37-11:37]
 |  |  |  |  |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  |  |  |  |  ModeIn[11:38-11:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[11:42-11:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[11:42-11:42]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[11:40-11:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  |  HandledStmts[12:16-12:38]
+|  |  |  |  |  |  |  |  |  |  HandledStmts[11:50-13:13]
 |  |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  |  StmtList[12:16-12:38]
 |  |  |  |  |  |  |  |  |  |  |  |  AssignStmt[12:16-12:38]
@@ -252,19 +252,19 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList[17:28-17:35]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
 |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:38-17:38]
+|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:37-17:37]
 |  |  |  |  |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  |  |  |  |  ModeOut[17:38-17:41]
 |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[17:42-17:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[17:42-17:42]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[17:41-17:41]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  |  HandledStmts[18:16-18:38]
+|  |  |  |  |  |  |  |  |  |  HandledStmts[17:50-19:13]
 |  |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  |  StmtList[18:16-18:38]
 |  |  |  |  |  |  |  |  |  |  |  |  AssignStmt[18:16-18:38]

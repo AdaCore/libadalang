@@ -22,13 +22,13 @@ TypeDecl[1:1-1:49]
 |  |component_type:
 |  |  ComponentDef[1:41-1:48]
 |  |  |has_aliased:
-|  |  |  AliasedAbsent[1:41-1:41]
+|  |  |  AliasedAbsent[1:40-1:40]
 |  |  |has_constant:
-|  |  |  ConstantAbsent[1:41-1:41]
+|  |  |  ConstantAbsent[1:40-1:40]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:41-1:48]
 |  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:41-1:41]
+|  |  |  |  NotNullAbsent[1:40-1:40]
 |  |  |  |name:
 |  |  |  |  Id[1:41-1:48]: Integer
 |  |  |  |constraint: <null>

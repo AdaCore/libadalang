@@ -7,7 +7,7 @@ SubpSpec[1:1-1:37]
 |subp_returns:
 |  SubtypeIndication[1:19-1:37]
 |  |has_not_null:
-|  |  NotNullAbsent[1:19-1:19]
+|  |  NotNullAbsent[1:18-1:18]
 |  |name:
 |  |  DottedName[1:19-1:26]
 |  |  |prefix:

@@ -3,7 +3,7 @@ ProtectedBody[1:1-1:272]
 |  Id[1:16-1:37]: protected_buffer_type
 |aspects: <null>
 |decls:
-|  DeclarativePart[1:41-1:245]
+|  DeclarativePart[1:40-1:246]
 |  |decls:
 |  |  AdaNodeList[1:41-1:245]
 |  |  |  EntryBody[1:41-1:141]
@@ -19,13 +19,13 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
 |  |  |  |  |  |  |  |  Id[1:55-1:62]: an_item
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
+|  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
 |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  ModeIn[1:65-1:67]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:67-1:67]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:69-1:73]: item
 |  |  |  |  |  |  |  |constraint: <null>
@@ -33,11 +33,11 @@ ProtectedBody[1:1-1:272]
 |  |  |  |barrier:
 |  |  |  |  Id[1:80-1:85]: empty
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[1:89-1:89]
+|  |  |  |  DeclarativePart[1:88-1:89]
 |  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[1:89-1:89]: <empty list>
+|  |  |  |  |  AdaNodeList[1:88-1:88]: <empty list>
 |  |  |  |stmts:
-|  |  |  |  HandledStmts[1:95-1:129]
+|  |  |  |  HandledStmts[1:94-1:130]
 |  |  |  |  |stmts:
 |  |  |  |  |  StmtList[1:95-1:129]
 |  |  |  |  |  |  AssignStmt[1:95-1:113]
@@ -67,13 +67,13 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  IdentifierList[1:156-1:163]
 |  |  |  |  |  |  |  |  Id[1:156-1:163]: an_item
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:166-1:166]
+|  |  |  |  |  |  |  AliasedAbsent[1:165-1:165]
 |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  ModeOut[1:166-1:169]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:170-1:174]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:170-1:170]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:169-1:169]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:170-1:174]: item
 |  |  |  |  |  |  |  |constraint: <null>
@@ -85,11 +85,11 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |expr:
 |  |  |  |  |  Id[1:185-1:190]: empty
 |  |  |  |decls:
-|  |  |  |  DeclarativePart[1:194-1:194]
+|  |  |  |  DeclarativePart[1:193-1:194]
 |  |  |  |  |decls:
-|  |  |  |  |  AdaNodeList[1:194-1:194]: <empty list>
+|  |  |  |  |  AdaNodeList[1:193-1:193]: <empty list>
 |  |  |  |stmts:
-|  |  |  |  HandledStmts[1:200-1:233]
+|  |  |  |  HandledStmts[1:199-1:234]
 |  |  |  |  |stmts:
 |  |  |  |  |  StmtList[1:200-1:233]
 |  |  |  |  |  |  AssignStmt[1:200-1:218]

@@ -8,7 +8,7 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:6-1:13]
 |  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:6-1:6]
+|  |  |  |  NotNullAbsent[1:5-1:5]
 |  |  |  |name:
 |  |  |  |  Id[1:6-1:13]: Integer
 |  |  |  |constraint: <null>
@@ -20,7 +20,7 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:19-1:25]
 |  |  |  |has_not_null:
-|  |  |  |  NotNullAbsent[1:19-1:19]
+|  |  |  |  NotNullAbsent[1:18-1:18]
 |  |  |  |name:
 |  |  |  |  Id[1:19-1:25]: String
 |  |  |  |constraint: <null>

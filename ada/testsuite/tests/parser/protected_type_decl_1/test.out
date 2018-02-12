@@ -4,16 +4,16 @@ ProtectedTypeDecl[1:1-1:137]
 |discriminants: <null>
 |aspects: <null>
 |interfaces:
-|  ParentList[1:38-1:38]: <empty list>
+|  ParentList[1:37-1:37]: <empty list>
 |definition:
 |  ProtectedDef[1:41-1:136]
 |  |public_part:
-|  |  PublicPart[1:41-1:110]
+|  |  PublicPart[1:40-1:111]
 |  |  |decls:
 |  |  |  DeclList[1:41-1:110]
 |  |  |  |  EntryDecl[1:41-1:75]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:41-1:41]
+|  |  |  |  |  OverridingUnspecified[1:40-1:40]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:47-1:74]
 |  |  |  |  |  |entry_name:
@@ -28,13 +28,13 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
 |  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[1:65-1:65]
+|  |  |  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
 |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  ModeIn[1:65-1:67]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
 |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:67-1:67]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -42,7 +42,7 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:110]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:76-1:76]
+|  |  |  |  |  OverridingUnspecified[1:75-1:75]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:82-1:109]
 |  |  |  |  |  |entry_name:
@@ -57,13 +57,13 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  |  |  IdentifierList[1:90-1:97]
 |  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[1:100-1:100]
+|  |  |  |  |  |  |  |  |  AliasedAbsent[1:99-1:99]
 |  |  |  |  |  |  |  |  |mode:
 |  |  |  |  |  |  |  |  |  ModeOut[1:100-1:103]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
 |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:104-1:104]
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:103-1:103]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]: Item
 |  |  |  |  |  |  |  |  |  |constraint: <null>

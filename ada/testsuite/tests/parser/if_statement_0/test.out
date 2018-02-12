@@ -32,6 +32,6 @@ IfStmt[1:1-1:87]
 |  |  |  |  |  |r_expr:
 |  |  |  |  |  |  Str[1:57-1:77]: "It's extremely hot"
 |alternatives:
-|  ElsifStmtPartList[1:80-1:80]: <empty list>
+|  ElsifStmtPartList[1:79-1:79]: <empty list>
 |else_stmts:
 |  StmtList[1:78-1:78]: <empty list>

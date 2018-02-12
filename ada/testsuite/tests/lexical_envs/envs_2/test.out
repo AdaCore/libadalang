@@ -11,12 +11,12 @@ CompilationUnit[1:1-10:9]
 |  |  |  Id[1:14-1:17]: Foo
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:4-9:12]
+|  |  |  DeclarativePart[1:20-10:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-9:12]
 |  |  |  |  |  SubpBody[2:4-9:12]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[2:4-2:4]
+|  |  |  |  |  |  OverridingUnspecified[1:20-1:20]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[2:4-2:34]
 |  |  |  |  |  |  |subp_kind:
@@ -33,13 +33,13 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[2:19-2:20]: I
 |  |  |  |  |  |  |  |  |  |  |  Id[2:22-2:23]: J
 |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[2:25-2:25]
 |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeDefault[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |  ModeDefault[2:25-2:25]
 |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[2:26-2:33]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[2:26-2:26]
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[2:25-2:25]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -47,16 +47,16 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
-|  |  |  |  |  |  DeclarativePart[3:4-3:4]
+|  |  |  |  |  |  DeclarativePart[2:37-3:4]
 |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  AdaNodeList[3:4-3:4]: <empty list>
+|  |  |  |  |  |  |  AdaNodeList[2:37-2:37]: <empty list>
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  HandledStmts[4:7-8:11]
+|  |  |  |  |  |  HandledStmts[3:9-9:4]
 |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  StmtList[4:7-8:11]
 |  |  |  |  |  |  |  |  DeclBlock[4:7-8:11]
 |  |  |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  |  |  DeclarativePart[5:10-5:47]
+|  |  |  |  |  |  |  |  |  DeclarativePart[4:14-6:7]
 |  |  |  |  |  |  |  |  |  |decls:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[5:10-5:47]
 |  |  |  |  |  |  |  |  |  |  |  SubtypeDecl[5:10-5:47]
@@ -65,7 +65,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |  |subtype:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:25-5:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:25-5:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[5:25-5:32]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint:
@@ -82,7 +82,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[5:44-5:46]: 10
 |  |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  |  |  HandledStmts[7:10-7:15]
+|  |  |  |  |  |  |  |  |  HandledStmts[6:12-8:7]
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  StmtList[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:15]
@@ -97,7 +97,7 @@ CompilationUnit[1:1-10:9]
 |  |  |end_name:
 |  |  |  Id[10:5-10:8]: Foo
 |pragmas:
-|  PragmaNodeList[11:1-11:1]: <empty list>
+|  PragmaNodeList[10:9-10:9]: <empty list>
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Primary, Parent=null):

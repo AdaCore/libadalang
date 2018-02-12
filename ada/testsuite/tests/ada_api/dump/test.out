@@ -24,13 +24,13 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |  IdentifierList[1:18-1:19]
 |  |  |  |  |  |  |  |  Id[1:18-1:19]: A
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:22-1:22]
+|  |  |  |  |  |  |  AliasedAbsent[1:21-1:21]
 |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[1:22-1:22]
+|  |  |  |  |  |  |  ModeDefault[1:21-1:21]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:22-1:25]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:22-1:22]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:21-1:21]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:22-1:25]: Foo
 |  |  |  |  |  |  |  |constraint: <null>
@@ -40,13 +40,13 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |  IdentifierList[1:27-1:28]
 |  |  |  |  |  |  |  |  Id[1:27-1:28]: B
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:31-1:31]
+|  |  |  |  |  |  |  AliasedAbsent[1:30-1:30]
 |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[1:31-1:31]
+|  |  |  |  |  |  |  ModeDefault[1:30-1:30]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:31-1:34]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:31-1:31]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:30-1:30]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:31-1:34]: Bar
 |  |  |  |  |  |  |  |constraint: <null>
@@ -54,11 +54,11 @@ CompilationUnit[1:2-5:11]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[1:39-1:39]
+|  |  |  DeclarativePart[1:38-1:39]
 |  |  |  |decls:
-|  |  |  |  AdaNodeList[1:39-1:39]: <empty list>
+|  |  |  |  AdaNodeList[1:38-1:38]: <empty list>
 |  |  |stmts:
-|  |  |  HandledStmts[2:6-4:15]
+|  |  |  HandledStmts[1:44-5:2]
 |  |  |  |stmts:
 |  |  |  |  StmtList[2:6-4:15]
 |  |  |  |  |  ForLoopStmt[2:6-4:15]
@@ -71,14 +71,14 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |  |id_type:
 |  |  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[2:15-2:15]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[2:14-2:14]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[2:15-2:23]: Foo_Elem
 |  |  |  |  |  |  |  |  |constraint: <null>
 |  |  |  |  |  |  |loop_type:
 |  |  |  |  |  |  |  IterTypeOf[2:24-2:26]
 |  |  |  |  |  |  |has_reverse:
-|  |  |  |  |  |  |  ReverseAbsent[2:27-2:27]
+|  |  |  |  |  |  |  ReverseAbsent[2:26-2:26]
 |  |  |  |  |  |  |iter_expr:
 |  |  |  |  |  |  |  Id[2:27-2:28]: A
 |  |  |  |  |  |stmts:
@@ -104,5 +104,5 @@ CompilationUnit[1:2-5:11]
 |  |  |end_name:
 |  |  |  Id[5:6-5:10]: Test
 |pragmas:
-|  PragmaNodeList[6:1-6:1]: <empty list>
+|  PragmaNodeList[5:11-5:11]: <empty list>
 Done.

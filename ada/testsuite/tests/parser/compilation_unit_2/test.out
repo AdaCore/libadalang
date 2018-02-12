@@ -19,4 +19,4 @@ CompilationUnit[1:1-1:24]
 |  |  |  |  |  Id[1:21-1:22]: C
 |  |  |aspects: <null>
 |pragmas:
-|  PragmaNodeList[2:1-2:1]: <empty list>
+|  PragmaNodeList[1:24-1:24]: <empty list>

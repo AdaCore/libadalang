@@ -11,7 +11,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  Id[1:9-1:12]: Foo
 |  |  |aspects: <null>
 |  |  |public_part:
-|  |  |  PublicPart[2:4-10:15]
+|  |  |  PublicPart[1:15-11:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-10:15]
 |  |  |  |  |  TypeDecl[2:4-5:15]
@@ -21,11 +21,11 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  RecordTypeDef[2:20-5:14]
 |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  AbstractAbsent[2:20-2:20]
+|  |  |  |  |  |  |  AbstractAbsent[2:19-2:19]
 |  |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  |  TaggedAbsent[2:20-2:20]
+|  |  |  |  |  |  |  TaggedAbsent[2:19-2:19]
 |  |  |  |  |  |  |has_limited:
-|  |  |  |  |  |  |  LimitedAbsent[2:20-2:20]
+|  |  |  |  |  |  |  LimitedAbsent[2:19-2:19]
 |  |  |  |  |  |  |record_def:
 |  |  |  |  |  |  |  RecordDef[2:20-5:14]
 |  |  |  |  |  |  |  |components:
@@ -40,13 +40,13 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[3:14-3:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:13-3:13]
 |  |  |  |  |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:13-3:13]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:14-3:21]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:14-3:14]
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:13-3:13]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:14-3:21]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -59,13 +59,13 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[4:14-4:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[4:13-4:13]
 |  |  |  |  |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[4:13-4:13]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[4:14-4:21]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[4:14-4:14]
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[4:13-4:13]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[4:14-4:21]: Natural
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -87,7 +87,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[7:22-7:29]
 |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:22-7:22]
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:21-7:21]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[7:22-7:29]: Natural
 |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -95,11 +95,11 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  RecordTypeDef[7:34-10:14]
 |  |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  |  AbstractAbsent[7:34-7:34]
+|  |  |  |  |  |  |  AbstractAbsent[7:33-7:33]
 |  |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  |  TaggedAbsent[7:34-7:34]
+|  |  |  |  |  |  |  TaggedAbsent[7:33-7:33]
 |  |  |  |  |  |  |has_limited:
-|  |  |  |  |  |  |  LimitedAbsent[7:34-7:34]
+|  |  |  |  |  |  |  LimitedAbsent[7:33-7:33]
 |  |  |  |  |  |  |record_def:
 |  |  |  |  |  |  |  RecordDef[7:34-10:14]
 |  |  |  |  |  |  |  |components:
@@ -113,13 +113,13 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[8:11-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[8:10-8:10]
 |  |  |  |  |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[8:10-8:10]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[8:11-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[8:11-8:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[8:10-8:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[8:11-8:18]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -132,13 +132,13 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[9:11-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[9:10-9:10]
 |  |  |  |  |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[9:10-9:10]
 |  |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[9:11-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[9:11-9:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[9:10-9:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:11-9:17]: String
 |  |  |  |  |  |  |  |  |  |  |  |  |constraint:
@@ -160,7 +160,7 @@ CompilationUnit[1:1-11:9]
 |  |  |end_name:
 |  |  |  Id[11:5-11:8]: Foo
 |pragmas:
-|  PragmaNodeList[12:1-12:1]: <empty list>
+|  PragmaNodeList[11:9-11:9]: <empty list>
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Primary, Parent=null):

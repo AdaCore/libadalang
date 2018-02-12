@@ -16,13 +16,13 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  IdentifierList[1:29-1:30]
 |  |  |  |  |  |  Id[1:29-1:30]: B
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:33-1:33]
+|  |  |  |  |  AliasedAbsent[1:32-1:32]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:33-1:33]
+|  |  |  |  |  ModeDefault[1:32-1:32]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:33-1:40]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:33-1:33]
+|  |  |  |  |  |  NotNullAbsent[1:32-1:32]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |  |constraint: <null>
@@ -32,13 +32,13 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  IdentifierList[1:42-1:43]
 |  |  |  |  |  |  Id[1:42-1:43]: C
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:46-1:46]
+|  |  |  |  |  AliasedAbsent[1:45-1:45]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:46-1:46]
+|  |  |  |  |  ModeDefault[1:45-1:45]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:46-1:53]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:46-1:46]
+|  |  |  |  |  |  NotNullAbsent[1:45-1:45]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:46-1:53]: Natural
 |  |  |  |  |  |constraint: <null>

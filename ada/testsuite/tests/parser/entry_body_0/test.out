@@ -11,13 +11,13 @@ EntryBody[1:1-1:101]
 |  |  |  |  IdentifierList[1:15-1:22]
 |  |  |  |  |  Id[1:15-1:22]: an_item
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:25-1:25]
+|  |  |  |  AliasedAbsent[1:24-1:24]
 |  |  |  |mode:
 |  |  |  |  ModeIn[1:25-1:27]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:29-1:33]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:29-1:29]
+|  |  |  |  |  NotNullAbsent[1:27-1:27]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:29-1:33]: item
 |  |  |  |  |constraint: <null>
@@ -25,11 +25,11 @@ EntryBody[1:1-1:101]
 |barrier:
 |  Id[1:40-1:45]: empty
 |decls:
-|  DeclarativePart[1:49-1:49]
+|  DeclarativePart[1:48-1:49]
 |  |decls:
-|  |  AdaNodeList[1:49-1:49]: <empty list>
+|  |  AdaNodeList[1:48-1:48]: <empty list>
 |stmts:
-|  HandledStmts[1:55-1:89]
+|  HandledStmts[1:54-1:90]
 |  |stmts:
 |  |  StmtList[1:55-1:89]
 |  |  |  AssignStmt[1:55-1:73]

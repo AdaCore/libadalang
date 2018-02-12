@@ -12,11 +12,11 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |type_def:
 |  |  |  |  |  PrivateTypeDef[1:27-1:34]
 |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  AbstractAbsent[1:27-1:27]
+|  |  |  |  |  |  AbstractAbsent[1:26-1:26]
 |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  TaggedAbsent[1:27-1:27]
+|  |  |  |  |  |  TaggedAbsent[1:26-1:26]
 |  |  |  |  |  |has_limited:
-|  |  |  |  |  |  LimitedAbsent[1:27-1:27]
+|  |  |  |  |  |  LimitedAbsent[1:26-1:26]
 |  |  |  |  |aspects: <null>
 |subp_decl:
 |  GenericSubpInternal[1:36-1:76]
@@ -36,13 +36,13 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |  |  Id[1:52-1:53]: X
 |  |  |  |  |  |  |  Id[1:55-1:56]: Y
 |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[1:59-1:59]
+|  |  |  |  |  |  AliasedAbsent[1:58-1:58]
 |  |  |  |  |  |mode:
 |  |  |  |  |  |  ModeInOut[1:59-1:65]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:66-1:75]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[1:66-1:66]
+|  |  |  |  |  |  |  NotNullAbsent[1:65-1:65]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[1:66-1:75]: Element_T
 |  |  |  |  |  |  |constraint: <null>

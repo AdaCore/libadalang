@@ -3,15 +3,15 @@ ObjectDecl[1:1-1:95]
 |  IdentifierList[1:1-1:15]
 |  |  Id[1:1-1:15]: Columns_Config
 |has_aliased:
-|  AliasedAbsent[1:18-1:18]
+|  AliasedAbsent[1:17-1:17]
 |has_constant:
-|  ConstantAbsent[1:18-1:18]
+|  ConstantAbsent[1:17-1:17]
 |mode:
-|  ModeDefault[1:18-1:18]
+|  ModeDefault[1:17-1:17]
 |type_expr:
 |  SubtypeIndication[1:18-1:48]
 |  |has_not_null:
-|  |  NotNullAbsent[1:18-1:18]
+|  |  NotNullAbsent[1:17-1:17]
 |  |name:
 |  |  Id[1:18-1:48]: Line_Info_Display_Array_Access
 |  |constraint: <null>

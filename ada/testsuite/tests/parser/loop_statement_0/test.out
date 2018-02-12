@@ -15,7 +15,7 @@ NamedStmt[1:1-1:35]
 |  |  |loop_type:
 |  |  |  IterTypeIn[1:10-1:12]
 |  |  |has_reverse:
-|  |  |  ReverseAbsent[1:13-1:13]
+|  |  |  ReverseAbsent[1:12-1:12]
 |  |  |iter_expr:
 |  |  |  Id[1:13-1:14]: B
 |  |stmts:

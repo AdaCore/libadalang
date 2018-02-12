@@ -12,7 +12,7 @@ SubpSpec[1:1-1:69]
 |  |  |  |  IdentifierList[1:14-1:15]
 |  |  |  |  |  Id[1:14-1:15]: A
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:18-1:18]
+|  |  |  |  AliasedAbsent[1:17-1:17]
 |  |  |  |mode:
 |  |  |  |  ModeInOut[1:18-1:24]
 |  |  |  |type_expr:
@@ -24,9 +24,9 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  AccessToSubpDef[1:25-1:55]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[1:25-1:25]
+|  |  |  |  |  |  |  NotNullAbsent[1:24-1:24]
 |  |  |  |  |  |  |has_protected:
-|  |  |  |  |  |  |  ProtectedAbsent[1:32-1:32]
+|  |  |  |  |  |  |  ProtectedAbsent[1:31-1:31]
 |  |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  |  SubpSpec[1:32-1:55]
 |  |  |  |  |  |  |  |subp_kind:
@@ -41,13 +41,13 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:43-1:44]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]: A
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:46-1:46]
 |  |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  |  ModeDefault[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |  ModeDefault[1:46-1:46]
 |  |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:47-1:54]
 |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
+|  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:46-1:46]
 |  |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -60,13 +60,13 @@ SubpSpec[1:1-1:69]
 |  |  |  |  IdentifierList[1:57-1:58]
 |  |  |  |  |  Id[1:57-1:58]: B
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:61-1:61]
+|  |  |  |  AliasedAbsent[1:60-1:60]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:61-1:61]
+|  |  |  |  ModeDefault[1:60-1:60]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:61-1:68]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:61-1:61]
+|  |  |  |  |  NotNullAbsent[1:60-1:60]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |constraint: <null>

@@ -33,13 +33,13 @@ CompilationUnit[30:1-32:49]
 |  |  |  |  |  |  |  |  Id[31:4-31:8]: Left
 |  |  |  |  |  |  |  |  Id[31:10-31:15]: Right
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[31:18-31:18]
+|  |  |  |  |  |  |  AliasedAbsent[31:17-31:17]
 |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  ModeDefault[31:18-31:18]
+|  |  |  |  |  |  |  ModeDefault[31:17-31:17]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[31:18-31:24]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[31:18-31:18]
+|  |  |  |  |  |  |  |  NotNullAbsent[31:17-31:17]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[31:18-31:24]: String
 |  |  |  |  |  |  |  |constraint: <null>
@@ -47,7 +47,7 @@ CompilationUnit[30:1-32:49]
 |  |  |  |subp_returns:
 |  |  |  |  SubtypeIndication[31:33-31:40]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[31:33-31:33]
+|  |  |  |  |  NotNullAbsent[31:32-31:32]
 |  |  |  |  |name:
 |  |  |  |  |  Id[31:33-31:40]: Boolean
 |  |  |  |  |constraint: <null>

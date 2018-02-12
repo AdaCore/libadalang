@@ -7,7 +7,7 @@ ForLoopSpec[1:1-1:21]
 |loop_type:
 |  IterTypeIn[1:3-1:5]
 |has_reverse:
-|  ReverseAbsent[1:6-1:6]
+|  ReverseAbsent[1:5-1:5]
 |iter_expr:
 |  BinOp[1:6-1:21]
 |  |left:

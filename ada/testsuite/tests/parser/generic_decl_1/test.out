@@ -11,12 +11,12 @@ CompilationUnit[1:1-10:7]
 |  |  |  Id[1:9-1:10]: P
 |  |  |aspects: <null>
 |  |  |public_part:
-|  |  |  PublicPart[3:4-8:38]
+|  |  |  PublicPart[1:13-10:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[3:4-8:38]
 |  |  |  |  |  SubpDecl[3:4-3:39]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[3:4-3:4]
+|  |  |  |  |  |  OverridingUnspecified[1:13-1:13]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[3:4-3:21]
 |  |  |  |  |  |  |subp_kind:
@@ -38,7 +38,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |formal_part:
 |  |  |  |  |  |  GenericFormalPart[5:4-5:11]
 |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  AdaNodeList[6:4-6:4]: <empty list>
+|  |  |  |  |  |  |  AdaNodeList[5:11-5:11]: <empty list>
 |  |  |  |  |  |subp_decl:
 |  |  |  |  |  |  GenericSubpInternal[6:4-6:40]
 |  |  |  |  |  |  |subp_spec:
@@ -60,7 +60,7 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |  |  Id[6:36-6:40]: True
 |  |  |  |  |  SubpDecl[8:4-8:38]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[8:4-8:4]
+|  |  |  |  |  |  OverridingUnspecified[6:41-6:41]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[8:4-8:25]
 |  |  |  |  |  |  |subp_kind:
@@ -81,4 +81,4 @@ CompilationUnit[1:1-10:7]
 |  |  |end_name:
 |  |  |  Id[10:5-10:6]: P
 |pragmas:
-|  PragmaNodeList[11:1-11:1]: <empty list>
+|  PragmaNodeList[10:7-10:7]: <empty list>

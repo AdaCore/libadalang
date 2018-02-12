@@ -24,11 +24,11 @@ CompilationUnit[1:1-7:10]
 |body:
 |  LibraryItem[3:1-7:10]
 |  |has_private:
-|  |  PrivateAbsent[3:1-3:1]
+|  |  PrivateAbsent[1:35-1:35]
 |  |item:
 |  |  SubpBody[3:1-7:10]
 |  |  |overriding:
-|  |  |  OverridingUnspecified[3:1-3:1]
+|  |  |  OverridingUnspecified[1:35-1:35]
 |  |  |subp_spec:
 |  |  |  SubpSpec[3:1-3:15]
 |  |  |  |subp_kind:
@@ -39,7 +39,7 @@ CompilationUnit[1:1-7:10]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[4:4-4:27]
+|  |  |  DeclarativePart[3:18-5:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[4:4-4:27]
 |  |  |  |  |  ObjectDecl[4:4-4:27]
@@ -47,15 +47,15 @@ CompilationUnit[1:1-7:10]
 |  |  |  |  |  |  IdentifierList[4:4-4:5]
 |  |  |  |  |  |  |  Id[4:4-4:5]: A
 |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[4:8-4:8]
+|  |  |  |  |  |  AliasedAbsent[4:7-4:7]
 |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  ConstantAbsent[4:8-4:8]
+|  |  |  |  |  |  ConstantAbsent[4:7-4:7]
 |  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[4:8-4:8]
+|  |  |  |  |  |  ModeDefault[4:7-4:7]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[4:8-4:15]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[4:8-4:8]
+|  |  |  |  |  |  |  NotNullAbsent[4:7-4:7]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[4:8-4:15]: Integer
 |  |  |  |  |  |  |constraint: <null>
@@ -74,7 +74,7 @@ CompilationUnit[1:1-7:10]
 |  |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
-|  |  |  HandledStmts[6:4-6:16]
+|  |  |  HandledStmts[5:6-7:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[6:4-6:16]
 |  |  |  |  |  CallStmt[6:4-6:16]

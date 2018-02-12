@@ -11,12 +11,12 @@ CompilationUnit[1:1-1:55]
 |  |  |  Id[1:17-1:18]: A
 |  |  |aspects: <null>
 |  |  |public_part:
-|  |  |  PublicPart[1:22-1:48]
+|  |  |  PublicPart[1:21-1:49]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[1:22-1:48]
 |  |  |  |  |  SubpDecl[1:22-1:48]
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified[1:22-1:22]
+|  |  |  |  |  |  OverridingUnspecified[1:21-1:21]
 |  |  |  |  |  |subp_spec:
 |  |  |  |  |  |  SubpSpec[1:22-1:47]
 |  |  |  |  |  |  |subp_kind:
@@ -27,7 +27,7 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[1:40-1:47]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:39-1:39]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:40-1:47]: Boolean
 |  |  |  |  |  |  |  |constraint: <null>
@@ -36,4 +36,4 @@ CompilationUnit[1:1-1:55]
 |  |  |end_name:
 |  |  |  Id[1:53-1:54]: A
 |pragmas:
-|  PragmaNodeList[2:1-2:1]: <empty list>
+|  PragmaNodeList[1:55-1:55]: <empty list>

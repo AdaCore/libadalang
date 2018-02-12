@@ -2,19 +2,19 @@ GenericPackageDecl[1:1-1:43]
 |formal_part:
 |  GenericFormalPart[1:1-1:8]
 |  |decls:
-|  |  AdaNodeList[1:9-1:9]: <empty list>
+|  |  AdaNodeList[1:8-1:8]: <empty list>
 |package_decl:
 |  GenericPackageInternal[1:9-1:43]
 |  |package_name:
 |  |  Id[1:17-1:18]: A
 |  |aspects: <null>
 |  |public_part:
-|  |  PublicPart[1:22-1:36]
+|  |  PublicPart[1:21-1:37]
 |  |  |decls:
 |  |  |  AdaNodeList[1:22-1:36]
 |  |  |  |  SubpDecl[1:22-1:36]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[1:22-1:22]
+|  |  |  |  |  OverridingUnspecified[1:21-1:21]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[1:22-1:35]
 |  |  |  |  |  |subp_kind:

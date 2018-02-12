@@ -12,13 +12,13 @@ SubpSpec[1:1-1:39]
 |  |  |  |  IdentifierList[1:13-1:14]
 |  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:17-1:17]
+|  |  |  |  AliasedAbsent[1:16-1:16]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:17-1:17]
+|  |  |  |  ModeDefault[1:16-1:16]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:17-1:23]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:17-1:17]
+|  |  |  |  |  NotNullAbsent[1:16-1:16]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:17-1:23]: String
 |  |  |  |  |constraint: <null>
@@ -26,7 +26,7 @@ SubpSpec[1:1-1:39]
 |subp_returns:
 |  SubtypeIndication[1:32-1:39]
 |  |has_not_null:
-|  |  NotNullAbsent[1:32-1:32]
+|  |  NotNullAbsent[1:31-1:31]
 |  |name:
 |  |  Id[1:32-1:39]: Integer
 |  |constraint: <null>

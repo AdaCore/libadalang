@@ -19,7 +19,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:4-4:56]
+|  |  |  DeclarativePart[1:17-5:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-4:56]
 |  |  |  |  |  NumberDecl[2:4-2:32]
@@ -39,15 +39,15 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  |  IdentifierList[4:4-4:21]
 |  |  |  |  |  |  |  Id[4:4-4:21]: ["000003C0"]_Name
 |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[4:24-4:24]
+|  |  |  |  |  |  AliasedAbsent[4:23-4:23]
 |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  ConstantPresent[4:24-4:24]
+|  |  |  |  |  |  ConstantPresent[4:23-4:23]
 |  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[4:33-4:33]
+|  |  |  |  |  |  ModeDefault[4:32-4:32]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[4:33-4:39]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[4:33-4:33]
+|  |  |  |  |  |  |  NotNullAbsent[4:32-4:32]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[4:33-4:39]: String
 |  |  |  |  |  |  |constraint: <null>
@@ -56,7 +56,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
-|  |  |  HandledStmts[6:4-6:9]
+|  |  |  HandledStmts[5:6-7:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[6:4-6:9]
 |  |  |  |  |  NullStmt[6:4-6:9]
@@ -65,4 +65,4 @@ CompilationUnit[1:1-7:9]
 |  |  |end_name:
 |  |  |  Id[7:5-7:8]: Foo
 |pragmas:
-|  PragmaNodeList[8:1-8:1]: <empty list>
+|  PragmaNodeList[7:9-7:9]: <empty list>

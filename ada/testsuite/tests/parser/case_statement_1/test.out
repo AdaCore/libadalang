@@ -19,11 +19,11 @@ CompilationUnit[1:1-7:12]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:1-2:1]
+|  |  |  DeclarativePart[1:20-2:1]
 |  |  |  |decls:
-|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |  |  AdaNodeList[1:20-1:20]: <empty list>
 |  |  |stmts:
-|  |  |  HandledStmts[3:4-6:13]
+|  |  |  HandledStmts[2:6-7:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[3:4-6:13]
 |  |  |  |  |  CaseStmt[3:4-6:13]
@@ -63,4 +63,4 @@ CompilationUnit[1:1-7:12]
 |  |  |end_name:
 |  |  |  Id[7:5-7:11]: Testcs
 |pragmas:
-|  PragmaNodeList[8:1-8:1]: <empty list>
+|  PragmaNodeList[7:12-7:12]: <empty list>

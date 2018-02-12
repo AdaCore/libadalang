@@ -16,7 +16,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
-|  |  |  |  |  HandledStmts[1:41-1:54]
+|  |  |  |  |  HandledStmts[1:40-1:55]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:41-1:54]
 |  |  |  |  |  |  |  AssignStmt[1:41-1:54]
@@ -37,7 +37,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
-|  |  |  |  |  HandledStmts[1:81-1:95]
+|  |  |  |  |  HandledStmts[1:80-1:96]
 |  |  |  |  |  |stmts:
 |  |  |  |  |  |  StmtList[1:81-1:95]
 |  |  |  |  |  |  |  AssignStmt[1:81-1:95]

@@ -1,5 +1,5 @@
 DelayStmt[1:1-1:16]
 |has_until:
-|  UntilPresent[1:7-1:7]
+|  UntilPresent[1:6-1:6]
 |expr:
 |  Int[1:13-1:15]: 12

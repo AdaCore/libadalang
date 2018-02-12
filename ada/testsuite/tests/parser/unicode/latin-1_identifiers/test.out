@@ -19,11 +19,11 @@ CompilationUnit[1:1-4:15]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:1-2:1]
+|  |  |  DeclarativePart[1:23-2:1]
 |  |  |  |decls:
-|  |  |  |  AdaNodeList[2:1-2:1]: <empty list>
+|  |  |  |  AdaNodeList[1:23-1:23]: <empty list>
 |  |  |stmts:
-|  |  |  HandledStmts[3:4-3:9]
+|  |  |  HandledStmts[2:6-4:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[3:4-3:9]
 |  |  |  |  |  NullStmt[3:4-3:9]
@@ -32,4 +32,4 @@ CompilationUnit[1:1-4:15]
 |  |  |end_name:
 |  |  |  Id[4:5-4:14]: Kikoolol\xe9
 |pragmas:
-|  PragmaNodeList[5:1-5:1]: <empty list>
+|  PragmaNodeList[4:15-4:15]: <empty list>

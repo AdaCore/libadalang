@@ -5,15 +5,15 @@ TypeDecl[1:1-1:79]
 |type_def:
 |  DerivedTypeDef[1:11-1:78]
 |  |has_abstract:
-|  |  AbstractAbsent[1:11-1:11]
+|  |  AbstractAbsent[1:10-1:10]
 |  |has_limited:
-|  |  LimitedAbsent[1:11-1:11]
+|  |  LimitedAbsent[1:10-1:10]
 |  |has_synchronized:
-|  |  SynchronizedAbsent[1:11-1:11]
+|  |  SynchronizedAbsent[1:10-1:10]
 |  |subtype_indication:
 |  |  SubtypeIndication[1:15-1:42]
 |  |  |has_not_null:
-|  |  |  NotNullAbsent[1:15-1:15]
+|  |  |  NotNullAbsent[1:14-1:14]
 |  |  |name:
 |  |  |  Id[1:15-1:16]: A
 |  |  |constraint:
@@ -42,13 +42,13 @@ TypeDecl[1:1-1:79]
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:59-1:66]
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:59-1:59]
+|  |  |  |  |  |  |  AliasedAbsent[1:58-1:58]
 |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantAbsent[1:59-1:59]
+|  |  |  |  |  |  |  ConstantAbsent[1:58-1:58]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:59-1:66]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:59-1:59]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:58-1:58]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:59-1:66]: Integer
 |  |  |  |  |  |  |  |constraint: <null>

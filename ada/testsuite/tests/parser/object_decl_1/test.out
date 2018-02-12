@@ -4,11 +4,11 @@ ObjectDecl[1:1-1:65]
 |  |  Id[1:1-1:2]: A
 |  |  Id[1:4-1:5]: B
 |has_aliased:
-|  AliasedAbsent[1:8-1:8]
+|  AliasedAbsent[1:7-1:7]
 |has_constant:
-|  ConstantAbsent[1:8-1:8]
+|  ConstantAbsent[1:7-1:7]
 |mode:
-|  ModeDefault[1:8-1:8]
+|  ModeDefault[1:7-1:7]
 |type_expr:
 |  AnonymousType[1:8-1:40]
 |  |type_decl:
@@ -18,15 +18,15 @@ ObjectDecl[1:1-1:65]
 |  |  |type_def:
 |  |  |  TypeAccessDef[1:8-1:40]
 |  |  |  |has_not_null:
-|  |  |  |  NotNullPresent[1:8-1:8]
+|  |  |  |  NotNullPresent[1:7-1:7]
 |  |  |  |has_all:
-|  |  |  |  AllAbsent[1:24-1:24]
+|  |  |  |  AllAbsent[1:23-1:23]
 |  |  |  |has_constant:
-|  |  |  |  ConstantPresent[1:24-1:24]
+|  |  |  |  ConstantPresent[1:23-1:23]
 |  |  |  |subtype_indication:
 |  |  |  |  SubtypeIndication[1:33-1:40]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:33-1:33]
+|  |  |  |  |  NotNullAbsent[1:32-1:32]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |constraint: <null>

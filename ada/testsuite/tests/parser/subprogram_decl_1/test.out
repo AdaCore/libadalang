@@ -16,13 +16,13 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  IdentifierList[1:24-1:25]
 |  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:28-1:28]
+|  |  |  |  |  AliasedAbsent[1:27-1:27]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:28-1:28]
+|  |  |  |  |  ModeDefault[1:27-1:27]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:28-1:35]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |  |  NotNullAbsent[1:27-1:27]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:28-1:35]: Integer
 |  |  |  |  |  |constraint: <null>
@@ -32,13 +32,13 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |  IdentifierList[1:37-1:38]
 |  |  |  |  |  |  Id[1:37-1:38]: C
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:41-1:41]
+|  |  |  |  |  AliasedAbsent[1:40-1:40]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:41-1:41]
+|  |  |  |  |  ModeDefault[1:40-1:40]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:41-1:48]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:41-1:41]
+|  |  |  |  |  |  NotNullAbsent[1:40-1:40]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:41-1:48]: Integer
 |  |  |  |  |  |constraint: <null>
@@ -46,7 +46,7 @@ ExprFunction[1:1-1:76]
 |  |subp_returns:
 |  |  SubtypeIndication[1:57-1:64]
 |  |  |has_not_null:
-|  |  |  NotNullAbsent[1:57-1:57]
+|  |  |  NotNullAbsent[1:56-1:56]
 |  |  |name:
 |  |  |  Id[1:57-1:64]: Integer
 |  |  |constraint: <null>

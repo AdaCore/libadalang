@@ -1,6 +1,6 @@
 AbstractFormalSubpDecl[1:1-1:71]
 |overriding:
-|  OverridingUnspecified[1:6-1:6]
+|  OverridingUnspecified[1:5-1:5]
 |subp_spec:
 |  SubpSpec[1:6-1:55]
 |  |subp_kind:
@@ -17,13 +17,13 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |  |  |  |  |  Id[1:22-1:23]: X
 |  |  |  |  |  |  Id[1:25-1:26]: Y
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:28-1:28]
+|  |  |  |  |  AliasedAbsent[1:27-1:27]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:28-1:28]
+|  |  |  |  |  ModeDefault[1:27-1:27]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:28-1:37]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |  |  NotNullAbsent[1:27-1:27]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:28-1:37]: Element_T
 |  |  |  |  |  |constraint: <null>
@@ -31,7 +31,7 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
 |  |  |has_not_null:
-|  |  |  NotNullAbsent[1:46-1:46]
+|  |  |  NotNullAbsent[1:45-1:45]
 |  |  |name:
 |  |  |  Id[1:46-1:55]: Element_T
 |  |  |constraint: <null>

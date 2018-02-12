@@ -5,15 +5,15 @@ TypeDecl[1:1-1:31]
 |type_def:
 |  TypeAccessDef[1:13-1:30]
 |  |has_not_null:
-|  |  NotNullPresent[1:13-1:13]
+|  |  NotNullPresent[1:12-1:12]
 |  |has_all:
-|  |  AllAbsent[1:29-1:29]
+|  |  AllAbsent[1:28-1:28]
 |  |has_constant:
-|  |  ConstantAbsent[1:29-1:29]
+|  |  ConstantAbsent[1:28-1:28]
 |  |subtype_indication:
 |  |  SubtypeIndication[1:29-1:30]
 |  |  |has_not_null:
-|  |  |  NotNullAbsent[1:29-1:29]
+|  |  |  NotNullAbsent[1:28-1:28]
 |  |  |name:
 |  |  |  Id[1:29-1:30]: A
 |  |  |constraint: <null>

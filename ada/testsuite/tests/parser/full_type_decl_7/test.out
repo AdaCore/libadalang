@@ -13,7 +13,7 @@ TypeDecl[1:1-1:81]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:28-1:35]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:28-1:28]
+|  |  |  |  |  NotNullAbsent[1:27-1:27]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:28-1:35]: Integer
 |  |  |  |  |constraint: <null>
@@ -21,11 +21,11 @@ TypeDecl[1:1-1:81]
 |type_def:
 |  RecordTypeDef[1:40-1:80]
 |  |has_abstract:
-|  |  AbstractAbsent[1:40-1:40]
+|  |  AbstractAbsent[1:39-1:39]
 |  |has_tagged:
-|  |  TaggedPresent[1:40-1:40]
+|  |  TaggedPresent[1:39-1:39]
 |  |has_limited:
-|  |  LimitedAbsent[1:47-1:47]
+|  |  LimitedAbsent[1:46-1:46]
 |  |record_def:
 |  |  RecordDef[1:47-1:80]
 |  |  |components:
@@ -40,13 +40,13 @@ TypeDecl[1:1-1:81]
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:61-1:68]
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:61-1:61]
+|  |  |  |  |  |  |  AliasedAbsent[1:60-1:60]
 |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantAbsent[1:61-1:61]
+|  |  |  |  |  |  |  ConstantAbsent[1:60-1:60]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:61-1:68]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:61-1:61]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:60-1:60]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |  |  |  |constraint: <null>

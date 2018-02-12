@@ -476,6 +476,7 @@ A.add_rules(
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
+        cut(),
         Opt(":=", A.expr),
         Opt(A.renaming_clause),
         A.aspect_spec,
@@ -496,7 +497,9 @@ A.add_rules(
     id_list=List(A.identifier, sep=","),
 
     number_decl=NumberDecl(
-        A.id_list, ":", "constant", ":=",
+        A.id_list, ":", "constant",
+        cut(),
+        ":=",
         A.simple_expr, sc()
     ),
 
@@ -776,10 +779,10 @@ A.add_rules(
 
 
     package_body=PackageBody(
-        "package", "body", A.static_name, A.aspect_spec,
+        "package", "body", cut(), A.static_name, A.aspect_spec,
         "is", A.decl_part,
         Opt("begin", A.handled_stmts),
-        end_liblevel_block(), sc()
+        end_liblevel_block(), ";"
     ),
 
     terminate_alternative=TerminateAlternative("terminate", sc()),

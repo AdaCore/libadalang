@@ -11,13 +11,13 @@ RecordDef[1:1-1:34]
 |  |  |  |component_def:
 |  |  |  |  ComponentDef[1:15-1:22]
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:15-1:15]
+|  |  |  |  |  AliasedAbsent[1:14-1:14]
 |  |  |  |  |has_constant:
-|  |  |  |  |  ConstantAbsent[1:15-1:15]
+|  |  |  |  |  ConstantAbsent[1:14-1:14]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:15-1:22]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:15-1:15]
+|  |  |  |  |  |  NotNullAbsent[1:14-1:14]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:15-1:22]: Integer
 |  |  |  |  |  |constraint: <null>

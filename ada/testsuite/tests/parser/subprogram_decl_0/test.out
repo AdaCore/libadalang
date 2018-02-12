@@ -16,13 +16,13 @@ AbstractSubpDecl[1:1-1:50]
 |  |  |  |  |  IdentifierList[1:25-1:26]
 |  |  |  |  |  |  Id[1:25-1:26]: B
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:29-1:29]
+|  |  |  |  |  AliasedAbsent[1:28-1:28]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:29-1:29]
+|  |  |  |  |  ModeDefault[1:28-1:28]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:29-1:36]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:29-1:29]
+|  |  |  |  |  |  NotNullAbsent[1:28-1:28]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:29-1:36]: Integer
 |  |  |  |  |  |constraint: <null>

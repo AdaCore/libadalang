@@ -5,9 +5,9 @@ TypeDecl[1:1-1:35]
 |type_def:
 |  PrivateTypeDef[1:11-1:34]
 |  |has_abstract:
-|  |  AbstractPresent[1:11-1:11]
+|  |  AbstractPresent[1:10-1:10]
 |  |has_tagged:
-|  |  TaggedPresent[1:20-1:20]
+|  |  TaggedPresent[1:19-1:19]
 |  |has_limited:
-|  |  LimitedAbsent[1:27-1:27]
+|  |  LimitedAbsent[1:26-1:26]
 |aspects: <null>

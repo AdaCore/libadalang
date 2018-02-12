@@ -3,15 +3,15 @@ ObjectDecl[1:1-1:7]
 |  IdentifierList[1:1-1:2]
 |  |  Id[1:1-1:2]: A
 |has_aliased:
-|  AliasedAbsent[1:5-1:5]
+|  AliasedAbsent[1:4-1:4]
 |has_constant:
-|  ConstantAbsent[1:5-1:5]
+|  ConstantAbsent[1:4-1:4]
 |mode:
-|  ModeDefault[1:5-1:5]
+|  ModeDefault[1:4-1:4]
 |type_expr:
 |  SubtypeIndication[1:5-1:6]
 |  |has_not_null:
-|  |  NotNullAbsent[1:5-1:5]
+|  |  NotNullAbsent[1:4-1:4]
 |  |name:
 |  |  Id[1:5-1:6]: B
 |  |constraint: <null>
@@ -25,15 +25,15 @@ ObjectDecl[1:1-1:7]
 |  IdentifierList[1:1-1:2]
 |  |  Id[1:1-1:2]: A
 |has_aliased:
-|  AliasedAbsent[1:5-1:5]
+|  AliasedAbsent[1:4-1:4]
 |has_constant:
-|  ConstantAbsent[1:5-1:5]
+|  ConstantAbsent[1:4-1:4]
 |mode:
-|  ModeDefault[1:5-1:5]
+|  ModeDefault[1:4-1:4]
 |type_expr:
 |  SubtypeIndication[1:5-1:6]
 |  |has_not_null:
-|  |  NotNullAbsent[1:5-1:5]
+|  |  NotNullAbsent[1:4-1:4]
 |  |name:
 |  |  Id[1:5-1:6]: B
 |  |constraint: <null>

@@ -8,18 +8,18 @@
 | | | | | <Id "Ada" 1:6-1:9>
 | | | | | <Id "Text_IO" 1:10-1:17>
 | <LibraryItem 3:1-6:9>
-| | <PrivateAbsent 3:1-3:1>
+| | <PrivateAbsent 1:18-1:18>
 | | <SubpBody ["Foo"] 3:1-6:9>
-| | | <OverridingUnspecified 3:1-3:1>
+| | | <OverridingUnspecified 1:18-1:18>
 | | | <SubpSpec 3:1-3:14>
 | | | | <SubpKindProcedure 3:1-3:10>
 | | | | <Id "Foo" 3:11-3:14>
 | | | | <null node>
 | | | | <null node>
 | | | <null node>
-| | | <DeclarativePart 4:1-4:1>
-| | | | <AdaNodeList 4:1-4:1>
-| | | <HandledStmts 5:4-5:43>
+| | | <DeclarativePart 3:17-4:1>
+| | | | <AdaNodeList 3:17-3:17>
+| | | <HandledStmts 4:6-6:1>
 | | | | <StmtList 5:4-5:43>
 | | | | | <CallStmt 5:4-5:43>
 | | | | | | <CallExpr 5:4-5:42>
@@ -34,5 +34,5 @@
 | | | | | | | | | <Str ""Hello, world!"" 5:26-5:41>
 | | | | <AdaNodeList 5:42-5:42>
 | | | <Id "Foo" 6:5-6:8>
-| <PragmaNodeList 7:1-7:1>
+| <PragmaNodeList 6:9-6:9>
 Done

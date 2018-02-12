@@ -10,15 +10,15 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  IdentifierList[2:5-2:8]
 |  |  |  |  |  |  Id[2:5-2:8]: Max
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[2:10-2:10]
+|  |  |  |  |  AliasedAbsent[2:9-2:9]
 |  |  |  |  |has_constant:
-|  |  |  |  |  ConstantAbsent[2:10-2:10]
+|  |  |  |  |  ConstantAbsent[2:9-2:9]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[2:10-2:10]
+|  |  |  |  |  ModeDefault[2:9-2:9]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[2:10-2:18]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[2:10-2:10]
+|  |  |  |  |  |  NotNullAbsent[2:9-2:9]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[2:10-2:18]: Positive
 |  |  |  |  |  |constraint: <null>
@@ -34,11 +34,11 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |type_def:
 |  |  |  |  |  PrivateTypeDef[3:23-3:30]
 |  |  |  |  |  |has_abstract:
-|  |  |  |  |  |  AbstractAbsent[3:23-3:23]
+|  |  |  |  |  |  AbstractAbsent[3:22-3:22]
 |  |  |  |  |  |has_tagged:
-|  |  |  |  |  |  TaggedAbsent[3:23-3:23]
+|  |  |  |  |  |  TaggedAbsent[3:22-3:22]
 |  |  |  |  |  |has_limited:
-|  |  |  |  |  |  LimitedAbsent[3:23-3:23]
+|  |  |  |  |  |  LimitedAbsent[3:22-3:22]
 |  |  |  |  |aspects: <null>
 |package_decl:
 |  GenericPackageInternal[4:1-7:19]
@@ -46,12 +46,12 @@ GenericPackageDecl[1:1-7:19]
 |  |  Id[4:9-4:22]: Generic_Stack
 |  |aspects: <null>
 |  |public_part:
-|  |  PublicPart[5:5-6:35]
+|  |  PublicPart[4:25-7:1]
 |  |  |decls:
 |  |  |  AdaNodeList[5:5-6:35]
 |  |  |  |  SubpDecl[5:5-5:35]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[5:5-5:5]
+|  |  |  |  |  OverridingUnspecified[4:25-4:25]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[5:5-5:34]
 |  |  |  |  |  |subp_kind:
@@ -67,13 +67,13 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
 |  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]: E
 |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  AliasedAbsent[5:24-5:24]
+|  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
 |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  ModeDefault[5:24-5:24]
+|  |  |  |  |  |  |  |  |  ModeDefault[5:23-5:23]
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[5:24-5:33]
 |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:24-5:24]
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:23-5:23]
 |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]: Element_T
 |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -82,7 +82,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |aspects: <null>
 |  |  |  |  SubpDecl[6:5-6:35]
 |  |  |  |  |overriding:
-|  |  |  |  |  OverridingUnspecified[6:5-6:5]
+|  |  |  |  |  OverridingUnspecified[5:35-5:35]
 |  |  |  |  |subp_spec:
 |  |  |  |  |  SubpSpec[6:5-6:34]
 |  |  |  |  |  |subp_kind:
@@ -93,7 +93,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  SubtypeIndication[6:25-6:34]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[6:25-6:25]
+|  |  |  |  |  |  |  NotNullAbsent[6:24-6:24]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[6:25-6:34]: Element_T
 |  |  |  |  |  |  |constraint: <null>

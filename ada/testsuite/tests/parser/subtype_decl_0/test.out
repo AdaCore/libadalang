@@ -4,7 +4,7 @@ SubtypeDecl[1:1-1:26]
 |subtype:
 |  SubtypeIndication[1:14-1:25]
 |  |has_not_null:
-|  |  NotNullAbsent[1:14-1:14]
+|  |  NotNullAbsent[1:13-1:13]
 |  |name:
 |  |  Id[1:14-1:15]: B
 |  |constraint:

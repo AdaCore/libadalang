@@ -21,13 +21,13 @@ EntryDecl[1:1-1:46]
 |  |  |  |  |  IdentifierList[1:27-1:34]
 |  |  |  |  |  |  Id[1:27-1:34]: An_Item
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:37-1:37]
+|  |  |  |  |  AliasedAbsent[1:36-1:36]
 |  |  |  |  |mode:
 |  |  |  |  |  ModeIn[1:37-1:39]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:40-1:44]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:40-1:40]
+|  |  |  |  |  |  NotNullAbsent[1:39-1:39]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:40-1:44]: Item
 |  |  |  |  |  |constraint: <null>

@@ -1,6 +1,6 @@
 UseTypeClause[1:1-1:36]
 |has_all:
-|  AllPresent[1:5-1:5]
+|  AllPresent[1:4-1:4]
 |types:
 |  NameList[1:14-1:35]
 |  |  DottedName[1:14-1:35]

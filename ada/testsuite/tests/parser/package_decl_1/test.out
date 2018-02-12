@@ -3,12 +3,12 @@ PackageDecl[1:1-1:106]
 |  Id[1:9-1:10]: A
 |aspects: <null>
 |public_part:
-|  PublicPart[1:14-1:99]
+|  PublicPart[1:13-1:100]
 |  |decls:
 |  |  AdaNodeList[1:14-1:99]
 |  |  |  SubpDecl[1:14-1:43]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[1:14-1:14]
+|  |  |  |  OverridingUnspecified[1:13-1:13]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:14-1:42]
 |  |  |  |  |subp_kind:
@@ -25,13 +25,13 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  |  Id[1:27-1:28]: C
 |  |  |  |  |  |  |  |  |  Id[1:30-1:31]: D
 |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[1:34-1:34]
+|  |  |  |  |  |  |  |  AliasedAbsent[1:33-1:33]
 |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeDefault[1:34-1:34]
+|  |  |  |  |  |  |  |  ModeDefault[1:33-1:33]
 |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:34-1:41]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:34-1:34]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:33-1:33]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:34-1:41]: Integer
 |  |  |  |  |  |  |  |  |constraint: <null>
@@ -49,11 +49,11 @@ PackageDecl[1:1-1:106]
 |  |  |  |  IdentifierList[1:64-1:65]
 |  |  |  |  |  Id[1:64-1:65]: D
 |  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:68-1:68]
+|  |  |  |  AliasedAbsent[1:67-1:67]
 |  |  |  |has_constant:
-|  |  |  |  ConstantAbsent[1:68-1:68]
+|  |  |  |  ConstantAbsent[1:67-1:67]
 |  |  |  |mode:
-|  |  |  |  ModeDefault[1:68-1:68]
+|  |  |  |  ModeDefault[1:67-1:67]
 |  |  |  |type_expr:
 |  |  |  |  AnonymousType[1:68-1:90]
 |  |  |  |  |type_decl:
@@ -63,15 +63,15 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  TypeAccessDef[1:68-1:90]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[1:68-1:68]
+|  |  |  |  |  |  |  NotNullAbsent[1:67-1:67]
 |  |  |  |  |  |  |has_all:
-|  |  |  |  |  |  |  AllAbsent[1:75-1:75]
+|  |  |  |  |  |  |  AllAbsent[1:74-1:74]
 |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantPresent[1:75-1:75]
+|  |  |  |  |  |  |  ConstantPresent[1:74-1:74]
 |  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  SubtypeIndication[1:84-1:90]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:84-1:84]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:83-1:83]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:84-1:90]: Double
 |  |  |  |  |  |  |  |constraint: <null>

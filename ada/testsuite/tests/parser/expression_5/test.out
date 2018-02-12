@@ -23,7 +23,7 @@ BinOp[1:1-1:53]
 |  |  |  |  |  |loop_type:
 |  |  |  |  |  |  IterTypeIn[1:21-1:23]
 |  |  |  |  |  |has_reverse:
-|  |  |  |  |  |  ReverseAbsent[1:24-1:24]
+|  |  |  |  |  |  ReverseAbsent[1:23-1:23]
 |  |  |  |  |  |iter_expr:
 |  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |expr:
@@ -37,6 +37,6 @@ BinOp[1:1-1:53]
 |  |  |then_expr:
 |  |  |  Int[1:42-1:44]: 15
 |  |  |alternatives:
-|  |  |  ElsifExprPartList[1:45-1:45]: <empty list>
+|  |  |  ElsifExprPartList[1:44-1:44]: <empty list>
 |  |  |else_expr:
 |  |  |  Int[1:50-1:52]: 16

@@ -19,7 +19,7 @@ CompilationUnit[1:1-5:11]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:4-2:22]
+|  |  |  DeclarativePart[1:19-3:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-2:22]
 |  |  |  |  |  ObjectDecl[2:4-2:22]
@@ -27,15 +27,15 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  |  |  IdentifierList[2:4-2:5]
 |  |  |  |  |  |  |  Id[2:4-2:5]: A
 |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  AliasedAbsent[2:8-2:8]
+|  |  |  |  |  |  AliasedAbsent[2:7-2:7]
 |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  ConstantAbsent[2:8-2:8]
+|  |  |  |  |  |  ConstantAbsent[2:7-2:7]
 |  |  |  |  |  |mode:
-|  |  |  |  |  |  ModeDefault[2:8-2:8]
+|  |  |  |  |  |  ModeDefault[2:7-2:7]
 |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  SubtypeIndication[2:8-2:15]
 |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  NotNullAbsent[2:8-2:8]
+|  |  |  |  |  |  |  NotNullAbsent[2:7-2:7]
 |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  Id[2:8-2:15]: Integer
 |  |  |  |  |  |  |constraint: <null>
@@ -44,7 +44,7 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  |  |renaming_clause: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
-|  |  |  HandledStmts[4:4-4:15]
+|  |  |  HandledStmts[3:6-5:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[4:4-4:15]
 |  |  |  |  |  AssignStmt[4:4-4:15]
@@ -63,4 +63,4 @@ CompilationUnit[1:1-5:11]
 |  |  |end_name:
 |  |  |  Id[5:5-5:10]: Pouet
 |pragmas:
-|  PragmaNodeList[6:1-6:1]: <empty list>
+|  PragmaNodeList[5:11-5:11]: <empty list>

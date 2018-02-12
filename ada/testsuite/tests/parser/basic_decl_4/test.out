@@ -16,13 +16,13 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  IdentifierList[1:14-1:15]
 |  |  |  |  |  |  Id[1:14-1:15]: B
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:18-1:18]
+|  |  |  |  |  AliasedAbsent[1:17-1:17]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:18-1:18]
+|  |  |  |  |  ModeDefault[1:17-1:17]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:18-1:25]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:18-1:18]
+|  |  |  |  |  |  NotNullAbsent[1:17-1:17]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:18-1:25]: Integer
 |  |  |  |  |  |constraint: <null>
@@ -34,9 +34,9 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  Id[1:30-1:31]: D
 |  |  |  |  |  |  Id[1:33-1:34]: E
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:37-1:37]
+|  |  |  |  |  AliasedAbsent[1:36-1:36]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:37-1:37]
+|  |  |  |  |  ModeDefault[1:36-1:36]
 |  |  |  |  |type_expr:
 |  |  |  |  |  AnonymousType[1:37-1:53]
 |  |  |  |  |  |type_decl:
@@ -46,15 +46,15 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |type_def:
 |  |  |  |  |  |  |  TypeAccessDef[1:37-1:53]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:37-1:37]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
 |  |  |  |  |  |  |  |has_all:
-|  |  |  |  |  |  |  |  AllPresent[1:44-1:44]
+|  |  |  |  |  |  |  |  AllPresent[1:43-1:43]
 |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  ConstantAbsent[1:48-1:48]
+|  |  |  |  |  |  |  |  ConstantAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:48-1:53]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:48-1:48]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:48-1:53]: Pouet
 |  |  |  |  |  |  |  |  |constraint: <null>

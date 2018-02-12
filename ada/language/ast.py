@@ -3382,6 +3382,8 @@ class ExtendedReturnStmtObjectDecl(ObjectDecl):
 
 
 class DeclarativePart(AdaNode):
+    annotations = Annotations(snaps=True)
+
     decls = Field(type=T.AdaNode.list)
 
     @langkit_property(memoized=True)
@@ -6351,6 +6353,8 @@ class SubpBody(Body):
 
 
 class HandledStmts(AdaNode):
+    annotations = Annotations(snaps=True)
+
     stmts = Field(type=T.StmtList)
     exceptions = Field(type=T.AdaNode.list)
 

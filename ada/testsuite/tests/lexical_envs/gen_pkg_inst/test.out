@@ -19,7 +19,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
 |  |  |decls:
-|  |  |  DeclarativePart[2:4-7:38]
+|  |  |  DeclarativePart[1:18-8:1]
 |  |  |  |decls:
 |  |  |  |  AdaNodeList[2:4-7:38]
 |  |  |  |  |  GenericPackageDecl[2:4-5:10]
@@ -34,15 +34,15 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:8]
 |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: T
 |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:10-3:10]
 |  |  |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:10-3:10]
 |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeDefault[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |  ModeDefault[3:10-3:10]
 |  |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:11-3:18]
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:11-3:11]
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:10-3:10]
 |  |  |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: <null>
@@ -55,9 +55,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  Id[4:12-4:13]: D
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |public_part:
-|  |  |  |  |  |  |  PublicPart[5:4-5:4]
+|  |  |  |  |  |  |  PublicPart[4:16-5:4]
 |  |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  |  AdaNodeList[5:4-5:4]: <empty list>
+|  |  |  |  |  |  |  |  AdaNodeList[4:16-4:16]: <empty list>
 |  |  |  |  |  |  |private_part: <null>
 |  |  |  |  |  |  |end_name:
 |  |  |  |  |  |  |  Id[5:8-5:9]: D
@@ -75,7 +75,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  Int[7:34-7:36]: 12
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
-|  |  |  HandledStmts[9:4-9:9]
+|  |  |  HandledStmts[8:6-10:1]
 |  |  |  |stmts:
 |  |  |  |  StmtList[9:4-9:9]
 |  |  |  |  |  NullStmt[9:4-9:9]
@@ -84,7 +84,7 @@ CompilationUnit[1:1-10:10]
 |  |  |end_name:
 |  |  |  Id[10:5-10:9]: Test
 |pragmas:
-|  PragmaNodeList[11:1-11:1]: <empty list>
+|  PragmaNodeList[10:10-10:10]: <empty list>
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Primary, Parent=null):

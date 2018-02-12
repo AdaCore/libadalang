@@ -12,7 +12,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:19-1:20]
 |  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:19-1:19]
+|  |  |  |  |  NotNullAbsent[1:18-1:18]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:19-1:20]: t
 |  |  |  |  |constraint: <null>
@@ -21,17 +21,17 @@ TypeDecl[1:1-18:12]
 |type_def:
 |  RecordTypeDef[1:31-18:11]
 |  |has_abstract:
-|  |  AbstractAbsent[1:31-1:31]
+|  |  AbstractAbsent[1:30-1:30]
 |  |has_tagged:
-|  |  TaggedAbsent[1:31-1:31]
+|  |  TaggedAbsent[1:30-1:30]
 |  |has_limited:
-|  |  LimitedAbsent[1:31-1:31]
+|  |  LimitedAbsent[1:30-1:30]
 |  |record_def:
 |  |  RecordDef[1:31-18:11]
 |  |  |components:
 |  |  |  ComponentList[2:4-17:13]
 |  |  |  |components:
-|  |  |  |  AdaNodeList[2:4-2:4]: <empty list>
+|  |  |  |  AdaNodeList[1:37-1:37]: <empty list>
 |  |  |  |variant_part:
 |  |  |  |  VariantPart[2:4-17:13]
 |  |  |  |  |discr_name:
@@ -44,7 +44,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  Id[3:9-3:11]: sn
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[4:9-4:24]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[4:9-4:9]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[4:8-4:8]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[4:9-4:11]: s1
 |  |  |  |  |  |  |  |  |constraint:
@@ -61,7 +61,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  |  |  |  |  Int[4:23-4:24]: 0
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[5:9-5:34]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[5:9-5:9]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[5:8-5:8]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[5:9-5:11]: s2
 |  |  |  |  |  |  |  |  |constraint:
@@ -106,7 +106,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  AlternativesList[7:10-15:23]
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[7:10-7:26]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[7:10-7:10]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[7:8-7:8]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[7:10-7:12]: s1
 |  |  |  |  |  |  |  |  |constraint:
@@ -123,7 +123,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[7:24-7:26]: c5
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[8:6-8:31]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[8:6-8:6]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[8:5-8:5]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[8:6-8:8]: s1
 |  |  |  |  |  |  |  |  |constraint:
@@ -172,7 +172,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  Id[10:6-10:8]: sn
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[11:6-11:26]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[11:6-11:6]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[11:5-11:5]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[11:6-11:8]: s1
 |  |  |  |  |  |  |  |  |constraint:
@@ -204,7 +204,7 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  Int[14:6-14:7]: 9
 |  |  |  |  |  |  |  |  DiscreteSubtypeIndication[15:6-15:23]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[15:6-15:6]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[15:5-15:5]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[15:6-15:9]: s10
 |  |  |  |  |  |  |  |  |constraint:

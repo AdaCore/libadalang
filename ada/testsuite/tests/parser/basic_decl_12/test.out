@@ -16,9 +16,9 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  IdentifierList[1:27-1:33]
 |  |  |  |  |  |  Id[1:27-1:33]: Buffer
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:36-1:36]
+|  |  |  |  |  AliasedAbsent[1:35-1:35]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:36-1:36]
+|  |  |  |  |  ModeDefault[1:35-1:35]
 |  |  |  |  |type_expr:
 |  |  |  |  |  AnonymousType[1:36-1:69]
 |  |  |  |  |  |type_decl:
@@ -28,15 +28,15 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |type_def:
 |  |  |  |  |  |  |  TypeAccessDef[1:36-1:69]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:35-1:35]
 |  |  |  |  |  |  |  |has_all:
-|  |  |  |  |  |  |  |  AllAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |  AllAbsent[1:42-1:42]
 |  |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  |  ConstantAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |  ConstantAbsent[1:42-1:42]
 |  |  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:43-1:69]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:43-1:43]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:42-1:42]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  AttributeRef[1:43-1:69]
 |  |  |  |  |  |  |  |  |  |prefix:
@@ -52,13 +52,13 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  IdentifierList[1:71-1:76]
 |  |  |  |  |  |  Id[1:71-1:76]: Start
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:80-1:80]
+|  |  |  |  |  AliasedAbsent[1:79-1:79]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:80-1:80]
+|  |  |  |  |  ModeDefault[1:79-1:79]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:80-1:96]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:80-1:80]
+|  |  |  |  |  |  NotNullAbsent[1:79-1:79]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:80-1:96]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>
@@ -68,13 +68,13 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  IdentifierList[1:98-1:104]
 |  |  |  |  |  |  Id[1:98-1:104]: Number
 |  |  |  |  |has_aliased:
-|  |  |  |  |  AliasedAbsent[1:107-1:107]
+|  |  |  |  |  AliasedAbsent[1:106-1:106]
 |  |  |  |  |mode:
-|  |  |  |  |  ModeDefault[1:107-1:107]
+|  |  |  |  |  ModeDefault[1:106-1:106]
 |  |  |  |  |type_expr:
 |  |  |  |  |  SubtypeIndication[1:107-1:123]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:107-1:107]
+|  |  |  |  |  |  NotNullAbsent[1:106-1:106]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:107-1:123]: Buffer_Line_Type
 |  |  |  |  |  |constraint: <null>

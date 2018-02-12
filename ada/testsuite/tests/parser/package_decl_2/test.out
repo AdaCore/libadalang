@@ -3,12 +3,12 @@ PackageDecl[1:1-1:106]
 |  Id[1:9-1:22]: Generic_Stack
 |aspects: <null>
 |public_part:
-|  PublicPart[1:26-1:87]
+|  PublicPart[1:25-1:88]
 |  |decls:
 |  |  AdaNodeList[1:26-1:87]
 |  |  |  SubpDecl[1:26-1:56]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[1:26-1:26]
+|  |  |  |  OverridingUnspecified[1:25-1:25]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:26-1:55]
 |  |  |  |  |subp_kind:
@@ -24,13 +24,13 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  IdentifierList[1:42-1:43]
 |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: E
 |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[1:45-1:45]
+|  |  |  |  |  |  |  |  AliasedAbsent[1:44-1:44]
 |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeDefault[1:45-1:45]
+|  |  |  |  |  |  |  |  ModeDefault[1:44-1:44]
 |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
 |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
+|  |  |  |  |  |  |  |  |  NotNullAbsent[1:44-1:44]
 |  |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  |  Id[1:45-1:54]: Element_T
 |  |  |  |  |  |  |  |  |constraint: <null>
@@ -39,7 +39,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |aspects: <null>
 |  |  |  SubpDecl[1:57-1:87]
 |  |  |  |overriding:
-|  |  |  |  OverridingUnspecified[1:57-1:57]
+|  |  |  |  OverridingUnspecified[1:56-1:56]
 |  |  |  |subp_spec:
 |  |  |  |  SubpSpec[1:57-1:86]
 |  |  |  |  |subp_kind:
@@ -50,7 +50,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[1:77-1:86]
 |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:77-1:77]
+|  |  |  |  |  |  NotNullAbsent[1:76-1:76]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  Id[1:77-1:86]: Element_T
 |  |  |  |  |  |constraint: <null>

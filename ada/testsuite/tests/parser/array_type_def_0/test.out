@@ -13,13 +13,13 @@ ArrayTypeDef[1:1-1:24]
 |component_type:
 |  ComponentDef[1:19-1:24]
 |  |has_aliased:
-|  |  AliasedAbsent[1:19-1:19]
+|  |  AliasedAbsent[1:18-1:18]
 |  |has_constant:
-|  |  ConstantAbsent[1:19-1:19]
+|  |  ConstantAbsent[1:18-1:18]
 |  |type_expr:
 |  |  SubtypeIndication[1:19-1:24]
 |  |  |has_not_null:
-|  |  |  NotNullAbsent[1:19-1:19]
+|  |  |  NotNullAbsent[1:18-1:18]
 |  |  |name:
 |  |  |  Id[1:19-1:24]: Pouet
 |  |  |constraint: <null>

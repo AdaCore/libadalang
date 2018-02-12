@@ -14,7 +14,7 @@ BinOp[1:1-1:68]
 |  |  |  |then_expr:
 |  |  |  |  Int[1:16-1:17]: 4
 |  |  |  |alternatives:
-|  |  |  |  ElsifExprPartList[1:18-1:18]: <empty list>
+|  |  |  |  ElsifExprPartList[1:17-1:17]: <empty list>
 |  |  |  |else_expr:
 |  |  |  |  Int[1:23-1:24]: 5
 |  |op:

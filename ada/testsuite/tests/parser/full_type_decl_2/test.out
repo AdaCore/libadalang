@@ -5,11 +5,11 @@ TypeDecl[1:1-1:47]
 |type_def:
 |  RecordTypeDef[1:13-1:46]
 |  |has_abstract:
-|  |  AbstractAbsent[1:13-1:13]
+|  |  AbstractAbsent[1:12-1:12]
 |  |has_tagged:
-|  |  TaggedAbsent[1:13-1:13]
+|  |  TaggedAbsent[1:12-1:12]
 |  |has_limited:
-|  |  LimitedAbsent[1:13-1:13]
+|  |  LimitedAbsent[1:12-1:12]
 |  |record_def:
 |  |  RecordDef[1:13-1:46]
 |  |  |components:
@@ -24,13 +24,13 @@ TypeDecl[1:1-1:47]
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:27-1:34]
 |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  AliasedAbsent[1:27-1:27]
+|  |  |  |  |  |  |  AliasedAbsent[1:26-1:26]
 |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantAbsent[1:27-1:27]
+|  |  |  |  |  |  |  ConstantAbsent[1:26-1:26]
 |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:27-1:34]
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent[1:27-1:27]
+|  |  |  |  |  |  |  |  NotNullAbsent[1:26-1:26]
 |  |  |  |  |  |  |  |name:
 |  |  |  |  |  |  |  |  Id[1:27-1:34]: Integer
 |  |  |  |  |  |  |  |constraint: <null>

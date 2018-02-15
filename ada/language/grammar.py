@@ -327,7 +327,7 @@ A.add_rules(
     ),
 
     variant_part=VariantPart(
-        "case", A.identifier, "is",
+        "case", cut(), A.identifier, "is",
         List(A.variant),
         "end", "case", sc()
     ),
@@ -480,7 +480,7 @@ A.add_rules(
         Opt(":=", A.expr),
         Opt(A.renaming_clause),
         A.aspect_spec,
-        sc()
+        ";"
     ),
 
     ext_ret_stmt_object_decl=ExtendedReturnStmtObjectDecl(

@@ -574,7 +574,7 @@ A.add_rules(
         Opt(":=", A.expr),
     ),
 
-    param_specs=Params("(", List(A.param_spec, sep=";"), ")"),
+    param_specs=Params("(", cut(), List(A.param_spec, sep=";"), ")"),
 
     subp_spec=SubpSpec(
         Or(SubpKind.alt_procedure("procedure"),

@@ -28,21 +28,23 @@ logger = logging.getLogger()
 
 
 class FieldIndentRules(object):
-    def __init__(self, constant_increment=0, on_token=None):
+    def __init__(self, constant_increment=0):
         self.constant_increment = constant_increment
-        self.on_token = on_token
 
     def __repr__(self):
         return "<FieldIndentRules {} {}>".format(
-            self.constant_increment, self.on_token
+            self.constant_increment
         )
 
 
 class IndentRules(object):
-    def __init__(self, field_rules=None, cont_line=None):
+    def __init__(self, field_rules=None, cont_line=None,
+                 on_token_start=None, on_token_end=None):
         self._complete = False
         self.field_rules = field_rules or indent_fields()
         self._cont_line = cont_line
+        self.on_token_start = on_token_start
+        self.on_token_end = on_token_end
 
     def update(self, other):
         self.field_rules.update(other.field_rules)
@@ -71,7 +73,6 @@ def field_rules(**kwargs):
 #########################################
 
 block_rule = field_rules(constant_increment=3)
-paren_rule = field_rules(on_token="(")
 
 indent_map = {
     lal.SubpBody: IndentRules(
@@ -89,7 +90,12 @@ indent_map = {
         field_rules=indent_fields(components=block_rule)
     ),
     lal.Params: IndentRules(
-        field_rules=indent_fields(params=paren_rule)
+        on_token_start="(",
+        on_token_end=")"
+    ),
+    lal.ParenExpr: IndentRules(
+        on_token_start="(",
+        on_token_end=")"
     ),
     lal.Stmt: IndentRules(cont_line=2),
     lal.ObjectDecl: IndentRules(cont_line=2),
@@ -170,29 +176,74 @@ def indent_all_file(unit, buffer):
     indent_buffer = [[0, None]
                      for _ in range(0, unit.root.sloc_range.end.line + 1)]
 
-    def indent_internal(node, increment=-1, fixed_level=-1):
+    def indent_internal(node, increment=-1):
 
         if not isinstance(node, lal.AdaNode):
             return
 
         indent_rules = get_indent_for_type(type(node))
+        fixed_level = -1
+
         logger.info("node: {}".format(node))
         logger.info("cont_line: {}".format(indent_rules.cont_line))
-        indent_fields = indent_rules.field_rules
 
         if indent_buffer[node.sloc_range.start.line - 1][1] is None:
             indent_buffer[node.sloc_range.start.line - 1][1] = node
 
-        startl = node.sloc_range.start.line
-        endl = node.sloc_range.end.line
+        startl = endl = -1
+        if indent_rules.on_token_start:
+            if increment > 0:
+                logger.error(
+                    "Increment = {}, but indent rules for {} have "
+                    "on_token_start = {}".format(
+                        increment, type(node), indent_rules.on_token_start
+                    )
+                )
+                assert False
+
+            for t in node.tokens:
+                if t.text == indent_rules.on_token_start:
+                    startl = t.sloc_range.start.line
+                    fixed_level = t.sloc_range.start.column
+                elif t.text == indent_rules.on_token_end:
+                    endl = t.sloc_range.end.line
+
+            if endl == -1:
+                endl = node.sloc_range.end.line
+
+            logger.info(
+                "==========  In on_token mode, fixed level = {}"
+                " start line = {} end line = {}".format(
+                    fixed_level, startl, endl
+                )
+            )
+        else:
+            startl = node.sloc_range.start.line
+            endl = node.sloc_range.end.line
+
+        if startl == -1 or endl == -1:
+            logger.error(
+                "start line and end line not set. Consistency error !"
+            )
+            assert False
+
         next_tok = node.token_end.next
         prev_tok = node.token_start.previous
 
+        # If there is another node on the start line, start one line below
         if prev_tok and prev_tok.sloc_range.end.line == startl:
             startl = startl + 1
 
-        if next_tok and next_tok.sloc_range.start.line == endl:
+        # If there is another node on the end line, start one line above
+        if (next_tok
+                and next_tok.sloc_range.start.line == endl
+                and node.token_end.sloc_range.end.line != endl):
             endl = endl - 1
+
+        logger.info(
+            "==========  After adjusting "
+            " start line = {} end line = {}".format(startl, endl)
+        )
 
         for l in range(startl, endl + 1):
             logger.info("Node: {}, Line: {}".format(node, l))
@@ -209,25 +260,16 @@ def indent_all_file(unit, buffer):
             if l != startl:
                 indent_buffer[l - 1][0] += indent_rules.cont_line
 
+        # Process fields
+
+        indent_fields = indent_rules.field_rules
         for field_name, child in node.iter_fields():
             # print("Child: {}: {}".format(field_name, child))
 
             ir = indent_fields[field_name[2:]]
-            logger.info("on token: {}, constant_increment: {}".format(
-                ir.on_token, ir.constant_increment
-            ))
-            if ir.on_token:
-                for t in node.tokens:
-                    if t.text == ir.on_token:
-                        lnum = t.sloc_range.start.line
-                        line = buffer[lnum - 1]
-                        strip_line = line.lstrip()
-                        nb_stripped = len(line) - len(strip_line)
-                        diff = indent_buffer[lnum - 1][0] - nb_stripped
-                        current_level = t.sloc_range.start.column + diff
-                        indent_internal(child, -1, current_level)
-            else:
-                indent_internal(child, ir.constant_increment, -1)
+            logger.info("constant_increment: {}".format(ir.constant_increment))
+
+            indent_internal(child, ir.constant_increment)
 
     indent_internal(unit.root, 0)
 

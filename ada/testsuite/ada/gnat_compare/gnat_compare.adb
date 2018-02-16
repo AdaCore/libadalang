@@ -220,7 +220,7 @@ procedure GNAT_Compare is
    is
 
       Index  : constant File_Index_Type :=
-        File_Index (Files, Get_Filename (Root.Get_Unit));
+        File_Index (Files, Get_Filename (Root.Unit));
 
       Cursor : Natural := Xrefs.First_Index;
       --  Index of the next xref in Xrefs to use for comparison
@@ -269,7 +269,7 @@ procedure GNAT_Compare is
          elsif not Ref.Is_Null then
             Xref.Entity_Sloc := Start_Sloc (Ref.Sloc_Range);
             Xref.Entity_File :=
-              File_Index (Files, Get_Filename (Ref.Get_Unit));
+              File_Index (Files, Get_Filename (Ref.Unit));
 
          else
             --  When execution reached this place, we got no error and the

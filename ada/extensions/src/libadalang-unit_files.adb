@@ -191,7 +191,7 @@ package body Libadalang.Unit_Files is
       Load_If_Needed : Boolean) return Analysis_Unit is
    begin
       return Fetch_Unit
-        (Ctx, Name_To_Symbols (Name), Get_Unit (Create (Name)), Kind,
+        (Ctx, Name_To_Symbols (Name), Unit (Create (Name)), Kind,
          Load_If_Needed);
    end Fetch_Unit;
 

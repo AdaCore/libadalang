@@ -176,7 +176,7 @@ procedure Navigate is
          Put_Line
            (Part_Name & " of " & Short_Image (Orig) & " is "
             & Short_Image (Dest)
-            & " [" & Basename (LAL.Get_Filename (Dest.Get_Unit)) & "]");
+            & " [" & Basename (LAL.Get_Filename (Dest.Unit)) & "]");
       end if;
    end Print_Navigation;
 

@@ -145,7 +145,7 @@ package body HTML is
          --  Emit decoration for xref information, if any
          if not Decl.Is_Null then
             declare
-               Unit     : constant LAL.Analysis_Unit := Decl.Get_Unit;
+               Unit     : constant LAL.Analysis_Unit := Decl.Unit;
                Href     : constant String := URL (Unit);
                Line_Raw : constant String :=
                  Langkit_Support.Slocs.Line_Number'Image

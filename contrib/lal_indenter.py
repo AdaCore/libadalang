@@ -1,5 +1,5 @@
 """
-This is a toy/prototype indenter for Libadalang. It's purpose are:
+This is a toy/prototype indenter for Libadalang. Its purposes are:
 
 1. Experimentation. This is used to help designing the proper primitives in
    Langkit so that it is easy to build a code indenter on top of it.

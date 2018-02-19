@@ -91,13 +91,18 @@ parser.add_argument(
 parser.add_argument('--charset', type=str, default="")
 parser.add_argument('--discard-errors-in-populate-lexical-env', '-d',
                     action='store_true')
+parser.add_argument('--project', '-P', type=str)
 args = parser.parse_args()
 
 input_sources = args.files
 charset = args.charset
 
 
-ctx = lal.AnalysisContext(charset)
+provider = (lal.UnitProvider.for_project(args.project)
+            if args.project else None)
+
+
+ctx = lal.AnalysisContext(charset, unit_provider=provider)
 ctx.discard_errors_in_populate_lexical_env(
     args.discard_errors_in_populate_lexical_env
 )

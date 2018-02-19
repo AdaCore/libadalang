@@ -1075,8 +1075,8 @@ A.add_rules(
 
     name=Or(
         CallExpr(A.name, "(", cut(), A.call_suffix, ")"),
-        DottedName(A.name, ".", A.direct_name),
         ExplicitDeref(A.name, ".", "all"),
+        DottedName(A.name, ".", cut(), A.direct_name),
 
         # Special case for 'Update
         UpdateAttributeRef(

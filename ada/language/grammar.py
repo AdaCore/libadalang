@@ -1068,8 +1068,7 @@ A.add_rules(
         DottedName(A.qual_name_internal, ".", A.direct_name),
         # Attributes, needed because of 'Class: A'Class'(...)
         AttributeRef(
-            A.qual_name_internal, "'", A.identifier,
-            Opt("(", A.call_suffix, ")")
+            A.qual_name_internal, "'", A.identifier, Null(AdaNode)
         ),
         A.direct_name
     ),

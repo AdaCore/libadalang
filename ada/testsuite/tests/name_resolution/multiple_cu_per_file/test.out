@@ -1,0 +1,65 @@
+Analyzing foo.adb
+#################
+
+Resolving xrefs for node <ObjectDecl ["I1"] 5:4-5:43>
+*****************************************************
+
+Expr: <Id "I1" 5:4-5:6>
+  references: None
+  type:       None
+Expr: <Id "Integer" 5:18-5:25>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <CallExpr 5:29-5:42>
+  references: <SubpDecl ["Fact"] 2:4-2:47>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 5:29-5:38>
+  references: <SubpDecl ["Fact"] 2:4-2:47>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Pkg1" 5:29-5:33>
+  references: <PackageDecl ["Pkg1"] 1:1-3:10>
+  type:       None
+Expr: <Id "Fact" 5:34-5:38>
+  references: <SubpDecl ["Fact"] 2:4-2:47>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 5:40-5:41>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Resolving xrefs for node <ObjectDecl ["I2"] 8:4-8:41>
+*****************************************************
+
+Expr: <Id "I2" 8:4-8:6>
+  references: None
+  type:       None
+Expr: <Id "Integer" 8:18-8:25>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <CallExpr 8:29-8:40>
+  references: <SubpDecl ["Id"] 6:4-6:45>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <DottedName 8:29-8:36>
+  references: <SubpDecl ["Id"] 6:4-6:45>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Pkg2" 8:29-8:33>
+  references: <PackageDecl ["Pkg2"] 5:1-7:10>
+  type:       None
+Expr: <Id "Id" 8:34-8:36>
+  references: <SubpDecl ["Id"] 6:4-6:45>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 8:38-8:39>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Analyzing specs.ada
+###################
+
+Analyzing bodies.ada
+####################
+
+Resolving xrefs for node <ReturnStmt 9:10-9:44>
+***********************************************
+
+TODO

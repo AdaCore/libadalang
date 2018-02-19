@@ -1074,7 +1074,7 @@ A.add_rules(
     ),
 
     name=Or(
-        CallExpr(A.name, "(", A.call_suffix, ")"),
+        CallExpr(A.name, "(", cut(), A.call_suffix, ")"),
         DottedName(A.name, ".", A.direct_name),
         ExplicitDeref(A.name, ".", "all"),
 

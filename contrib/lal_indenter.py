@@ -73,6 +73,7 @@ def field_rules(**kwargs):
 #########################################
 
 block_rule = field_rules(constant_increment=3)
+paren_rule = IndentRules(on_token_start="(", on_token_end=")")
 
 indent_map = {
     lal.SubpBody: IndentRules(
@@ -89,14 +90,12 @@ indent_map = {
     lal.BaseRecordDef: IndentRules(
         field_rules=indent_fields(components=block_rule)
     ),
-    lal.Params: IndentRules(
-        on_token_start="(",
-        on_token_end=")"
-    ),
-    lal.ParenExpr: IndentRules(
-        on_token_start="(",
-        on_token_end=")"
-    ),
+
+    lal.Params: paren_rule,
+    lal.ParenExpr: paren_rule,
+    lal.Aggregate: paren_rule,
+    lal.CallExpr: paren_rule,
+
     lal.Stmt: IndentRules(cont_line=2),
     lal.ObjectDecl: IndentRules(cont_line=2),
 }

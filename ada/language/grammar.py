@@ -789,10 +789,11 @@ A.add_rules(
 
     select_stmt=SelectStmt(
         "select",
+        cut(),
         List(SelectWhenPart(Opt("when", A.expr, "=>"), A.stmts), sep="or"),
         Opt("else", A.stmts),
         Opt("then", "abort", A.stmts),
-        recover("end", "select"), sc()
+        "end", "select", ";"
     ),
 
     accept_stmt=Or(

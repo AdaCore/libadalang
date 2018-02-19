@@ -8,9 +8,11 @@ ada/extensions/src/*.adb no-precommit-check
 ada/extensions/src/*.ads no-precommit-check
 ada/testsuite/tests/*/*/*.adb no-precommit-check
 ada/testsuite/tests/*/*/*.ads no-precommit-check
+ada/testsuite/tests/*/*/*.ada no-precommit-check
 ada/testsuite/tests/*/*/*.c no-precommit-check
 ada/testsuite/tests/*/*/*/*.adb no-precommit-check
 ada/testsuite/tests/*/*/*/*.ads no-precommit-check
+ada/testsuite/tests/*/*/*/*.ada no-precommit-check
 ada/testsuite/tests/*/*/*/*.c no-precommit-check
 ada/testsuite/*/*/*.h no-precommit-check
 ada/testsuite/ada/* no-precommit-check

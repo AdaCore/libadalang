@@ -36,6 +36,7 @@ class NameResolutionDriver(BaseDriver):
         self.charset = self.test_env.get('charset', None)
         self.with_default_project = self.test_env.get('with_default_project',
                                                       False)
+        self.project_file = self.test_env.get('project_file', None)
 
         if self.run_python:
             self.py_runner.setup_environment()
@@ -47,6 +48,8 @@ class NameResolutionDriver(BaseDriver):
             args.insert(0, '--charset={}'.format(self.charset))
         if self.with_default_project:
             args.insert(0, '--with-default-project')
+        if self.project_file:
+            args.insert(0, '-P{}'.format(self.project_file))
 
         # Depending on whether Python is available and whether we want to run
         # only the Python driver, run both the Python and the Ada drivers for

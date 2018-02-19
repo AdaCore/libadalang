@@ -813,8 +813,8 @@ A.add_rules(
     ),
 
     case_stmt=CaseStmt(
-        "case", A.expr, "is", List(A.case_alt),
-        recover("end", "case"), sc()
+        "case", cut(), A.expr, "is", List(A.case_alt),
+        "end", "case", ";"
     ),
 
     ext_return_stmt=ExtendedReturnStmt(

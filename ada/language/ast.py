@@ -935,6 +935,10 @@ class BasicDecl(AdaNode):
         )
 
 
+class ErrorDecl(BasicDecl):
+    defining_names = Property(No(T.Name.entity.array))
+
+
 @abstract
 class Body(BasicDecl):
 
@@ -6389,6 +6393,10 @@ class ExceptionHandler(BasicDecl):
 @abstract
 class Stmt(AdaNode):
     xref_entry_point = Property(True)
+
+
+class ErrorStmt(Stmt):
+    pass
 
 
 @abstract

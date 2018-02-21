@@ -8,7 +8,8 @@ from language.lexer import ada_lexer as L
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
 from langkit.parsers import (
-    Grammar, List, Null, Opt, Or, Pick, Predicate, _, NoBacktrack as cut, _Row
+    Grammar, List, Null, Opt, Or, Pick, Predicate, _, NoBacktrack as cut, _Row,
+    Skip
 )
 
 ada_grammar = Grammar(main_rule_name='compilation')
@@ -28,8 +29,8 @@ def package_decl_factory(dest_class):
     """
     return dest_class(
         "package", A.static_name, A.aspect_spec, "is",
-        PublicPart(A.basic_decls),
-        Opt("private", PrivatePart(A.basic_decls)),
+        PublicPart(A.basic_decls.dont_skip(Or("private", "end"))),
+        Opt("private", PrivatePart(A.basic_decls.dont_skip("end"))),
         end_liblevel_block(), sc()
     )
 
@@ -430,7 +431,7 @@ A.add_rules(
         Opt(A.renaming_clause), A.aspect_spec, sc()
     ),
 
-    basic_decls=List(A.basic_decl, empty_valid=True),
+    basic_decls=List(Or(A.basic_decl, Skip(ErrorDecl)), empty_valid=True),
 
     package_renaming_decl=PackageRenamingDecl(
         "package", A.static_name, A.renaming_clause, A.aspect_spec, sc()
@@ -742,7 +743,7 @@ A.add_rules(
                            A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
         "when", A.expr,
-        "is", A.decl_part,
+        "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), sc()
     ),
@@ -750,7 +751,7 @@ A.add_rules(
     protected_body=ProtectedBody(
         L.Identifier(match_text="protected"),
         "body", A.static_name, A.aspect_spec,
-        "is", A.decl_part,
+        "is", A.decl_part.dont_skip("end"),
         end_liblevel_block(), sc()
     ),
 
@@ -762,7 +763,7 @@ A.add_rules(
 
     task_body=TaskBody(
         "task", "body", A.static_name, A.aspect_spec,
-        "is", A.decl_part,
+        "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), sc()
     ),
@@ -780,7 +781,7 @@ A.add_rules(
 
     package_body=PackageBody(
         "package", "body", cut(), A.static_name, A.aspect_spec,
-        "is", A.decl_part,
+        "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), ";"
     ),
@@ -790,9 +791,12 @@ A.add_rules(
     select_stmt=SelectStmt(
         "select",
         cut(),
-        List(SelectWhenPart(Opt("when", A.expr, "=>"), A.stmts), sep="or"),
-        Opt("else", A.stmts),
-        Opt("then", "abort", A.stmts),
+        List(SelectWhenPart(
+            Opt("when", A.expr, "=>"),
+            A.stmts.dont_skip(Or("else", "then", "end", "or"))
+        ), sep="or"),
+        Opt("else", A.stmts.dont_skip(Or("end", "then"))),
+        Opt("then", "abort", A.stmts.dont_skip("end")),
         "end", "select", ";"
     ),
 
@@ -809,7 +813,8 @@ A.add_rules(
     ),
 
     case_alt=CaseStmtAlternative(
-        "when", A.choice_list, "=>", A.stmts
+        "when", A.choice_list, "=>",
+        A.stmts.dont_skip(Or("when", "end"))
     ),
 
     case_stmt=CaseStmt(
@@ -827,8 +832,8 @@ A.add_rules(
             "begin", A.handled_stmts, end_named_block(), sc()
         ),
         DeclBlock(
-            "declare", DeclarativePart(A.basic_decls),
-            recover("begin"), A.handled_stmts, end_named_block(), sc()
+            "declare", A.decl_part.dont_skip("begin"),
+            "begin", A.handled_stmts, end_named_block(), sc()
         ),
     ),
 
@@ -842,16 +847,18 @@ A.add_rules(
             "for", cut(),
             A.for_loop_param_spec,
             "loop",
-            A.stmts,
+            A.stmts.dont_skip("end"),
             "end", "loop", Opt(A.identifier), ";"
         ),
         WhileLoopStmt(
             WhileLoopSpec("while", cut(), A.expr),
-            "loop", A.stmts, "end", "loop", Opt(A.identifier), ";"
+            "loop", A.stmts.dont_skip("end"),
+            "end", "loop", Opt(A.identifier), ";"
         ),
         LoopStmt(
             Null(LoopSpec),
-            "loop", cut(), A.stmts, "end", "loop", Opt(A.identifier), ";"
+            "loop", cut(), A.stmts.dont_skip("end"),
+            "end", "loop", Opt(A.identifier), ";"
         ),
     ),
 
@@ -866,10 +873,12 @@ A.add_rules(
                      A.select_stmt),
 
     if_stmt=IfStmt(
-        "if", cut(), A.expr, "then", A.stmts,
-        List(ElsifStmtPart("elsif", A.expr, "then", A.stmts),
+        "if", cut(), A.expr, "then",
+        A.stmts.dont_skip(Or("elsif", "else", "end")),
+        List(ElsifStmtPart("elsif", A.expr, "then",
+                           A.stmts.dont_skip(Or("elsif", "else", "end"))),
              empty_valid=True),
-        Opt("else", A.stmts),
+        Opt("else", A.stmts.dont_skip("end")),
         "end", "if", ";"
     ),
 
@@ -902,7 +911,7 @@ A.add_rules(
         A.aspect_spec,
         "is",
         cut(),
-        A.decl_part,
+        A.decl_part.dont_skip("begin"),
         "begin",
         A.handled_stmts,
         end_liblevel_block(),
@@ -910,18 +919,18 @@ A.add_rules(
     ),
 
     handled_stmts=HandledStmts(
-        A.stmts,
+        A.stmts.dont_skip(Or("exception", "end")),
         Opt("exception", List(A.exception_handler | A.pragma))
     ),
 
     exception_handler=ExceptionHandler(
         "when", Opt(A.identifier, ":"),
         List(A.name | A.others_designator, sep="|", list_cls=AlternativesList),
-        "=>", A.stmts
+        "=>", A.stmts.dont_skip(Or("when", "pragma", "end"))
     ),
 
     stmts=List(
-        Or(A.stmt, A.label),
+        Or(A.stmt, A.label, Skip(ErrorStmt)),
         empty_valid=True, list_cls=StmtList
     ),
 

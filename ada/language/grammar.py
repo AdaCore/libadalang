@@ -8,8 +8,7 @@ from language.lexer import ada_lexer as L
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
 from langkit.parsers import (
-    Grammar, List, Null, Opt, Or, Pick, Predicate, _, NoBacktrack as cut, _Row,
-    Skip
+    Grammar, List, Null, Opt, Or, Pick, Predicate, _, NoBacktrack as cut, Skip
 )
 
 ada_grammar = Grammar(main_rule_name='compilation')

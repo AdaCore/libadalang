@@ -129,7 +129,7 @@ A.add_rules(
     ),
 
     task_type_decl=TaskTypeDecl(
-        "task", "type", A.identifier, Opt(A.discriminant_part),
+        "task", "type", cut(), A.identifier, Opt(A.discriminant_part),
         A.aspect_spec,
         Opt(A.task_def), sc()
     ),
@@ -517,7 +517,7 @@ A.add_rules(
     aspect_spec=Opt(AspectSpec("with", List(A.aspect_assoc, sep=","))),
 
     single_task_decl=SingleTaskDecl(
-        "task",
+        "task", cut(),
         SingleTaskTypeDecl(
             A.identifier, Null(A.discriminant_part),
             A.aspect_spec, Opt(A.task_def)
@@ -1129,7 +1129,7 @@ A.add_rules(
     ),
 
     static_name=Or(
-        DottedName(A.static_name, ".", A.direct_name),
+        DottedName(A.static_name, ".", cut(), A.direct_name),
         A.direct_name
     ),
 
@@ -1143,8 +1143,8 @@ A.add_rules(
     paren_expr=ParenExpr("(", A.expr, ")"),
 
     factor=Or(
-        UnOp(Op.alt_abs("abs") | Op.alt_not("not"), A.primary),
-        BinOp(A.primary, Op.alt_pow("**"), A.primary),
+        UnOp(Op.alt_abs("abs") | Op.alt_not("not"), cut(), A.primary),
+        BinOp(A.primary, Op.alt_pow("**"), cut(), A.primary),
         A.primary
     ),
 
@@ -1152,12 +1152,12 @@ A.add_rules(
         BinOp(A.term, Or(Op.alt_mult("*"),
                          Op.alt_div("/"),
                          Op.alt_mod("mod"),
-                         Op.alt_rem("rem")), A.factor),
+                         Op.alt_rem("rem")), cut(), A.factor),
         A.factor
     ),
 
     unop_term=Or(
-        UnOp(Op.alt_plus("+") | Op.alt_minus("-"), A.term),
+        UnOp(Op.alt_plus("+") | Op.alt_minus("-"), cut(), A.term),
         A.term
     ),
 
@@ -1165,6 +1165,7 @@ A.add_rules(
         BinOp(
             A.simple_expr,
             Or(Op.alt_plus("+"), Op.alt_minus("-"), Op.alt_concat("&")),
+            cut(),
             A.term
         ),
         A.unop_term
@@ -1213,6 +1214,7 @@ A.add_rules(
             Or(Op.alt_eq("="), Op.alt_neq("/="),
                Op.alt_lt("<"), Op.alt_lte("<="),
                Op.alt_gt(">"), Op.alt_gte(">=")),
+            cut(),
             A.simple_expr
         ),
 
@@ -1222,7 +1224,7 @@ A.add_rules(
     ),
 
     expr=Or(
-        BinOp(A.expr, A.boolean_op, A.relation),
+        BinOp(A.expr, A.boolean_op, cut(), A.relation),
         A.relation
     ),
 

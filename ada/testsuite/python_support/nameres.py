@@ -180,12 +180,12 @@ for src_file in input_sources:
             empty = False
 
         elif pragma_name == u'Test_Statement':
-            assert not p.f_args
+            assert len(p.f_args) == 0
             resolve_node(p.previous_sibling)
             empty = False
 
         elif pragma_name == u'Test_Block':
-            assert not p.f_args
+            assert len(p.f_args) == 0
             block = (p.parent.parent.f_body
                      if p.parent.parent.is_a(lal.CompilationUnit)
                      else p.previous_sibling)

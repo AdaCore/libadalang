@@ -26,12 +26,6 @@ Resolving xrefs for node <WhileLoopStmt 7:4-12:13>
 Expr: <Id "Foo" 7:10-7:13>
   references: <SubpDecl ["Foo"] 3:4-3:32>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "Test_Statement" 9:14-9:28>
-  references: None
-  type:       None
-Expr: <Id "Test_Statement" 11:14-11:28>
-  references: None
-  type:       None
 
 
 Done.

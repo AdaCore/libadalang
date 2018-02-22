@@ -15,9 +15,6 @@ Expr: <Int 5:15-5:17>
 Resolving xrefs for node <ExtendedReturnStmt 4:7-7:18>
 ******************************************************
 
-Expr: <Id "Test_Statement" 6:17-6:31>
-  references: None
-  type:       None
 
 
 Done.

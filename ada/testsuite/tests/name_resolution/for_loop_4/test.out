@@ -21,9 +21,6 @@ Expr: <Id "El" 10:8-10:10>
 Expr: <Id "Foo" 10:14-10:17>
   references: <ExprFunction ["Foo"] 7:4-7:51>
   type:       <TypeDecl ["My_Array"] 5:4-5:57>
-Expr: <Id "Test_Statement" 12:14-12:28>
-  references: None
-  type:       None
 
 
 Done.

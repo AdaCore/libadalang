@@ -3196,6 +3196,18 @@ class Pragma(AdaNode):
     id = Field(type=T.Identifier)
     args = Field(type=T.BaseAssoc.list)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Cond(
+            Entity.id.relative_name == 'Assert',
+            Let(lambda expr=Entity.args.at(0).assoc_expr:
+                expr.sub_equation
+                & TypeBind(expr.type_var, Self.bool_type)),
+            LogicTrue(),
+        )
+
 
 class PragmaArgumentAssoc(BaseAssoc):
     id = Field(type=T.Identifier)

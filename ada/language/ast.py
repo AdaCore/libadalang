@@ -4043,6 +4043,12 @@ class UnOp(Expr):
     expr = Field(type=T.Expr)
 
     @langkit_property()
+    def referenced_decl_internal(try_immediate=BoolType):
+        return Self.logic_val(
+            Entity, Self.op.ref_var, try_immediate
+        ).cast_or_raise(T.BasicDecl)
+
+    @langkit_property()
     def xref_equation():
         subps = Var(Entity.op.subprograms.filter(
             lambda s: s.subp_spec_or_null.nb_max_params == 1
@@ -4070,6 +4076,7 @@ class BinOp(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=BoolType):
+        # TODO: Factor all those implems that do the same thing
         return Self.logic_val(
             Entity, Self.op.ref_var, try_immediate
         ).cast_or_raise(T.BasicDecl)

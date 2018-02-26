@@ -207,21 +207,21 @@ package body Libadalang.Unit_Files is
       Kind           : Unit_Kind;
       Load_If_Needed : Boolean) return Analysis_Unit
    is
-      procedure Prepare_Semres (Unit : Analysis_Unit);
+      procedure Prepare_Nameres (Unit : Analysis_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
 
-      --------------------
-      -- Prepare_Semres --
-      --------------------
+      ---------------------
+      -- Prepare_Nameres --
+      ---------------------
 
-      procedure Prepare_Semres (Unit : Analysis_Unit) is
+      procedure Prepare_Nameres (Unit : Analysis_Unit) is
       begin
          if not Is_Null (Root (Unit)) then
             Populate_Lexical_Env (Unit);
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
-      end Prepare_Semres;
+      end Prepare_Nameres;
 
       UFP              : constant Unit_Provider_Access_Cst :=
          Unit_Provider (Ctx);
@@ -250,7 +250,7 @@ package body Libadalang.Unit_Files is
 
       if Kind = Unit_Specification and then To_String (Name) = Text_IO then
          for SP of Text_IO_Subpackages loop
-            Prepare_Semres
+            Prepare_Nameres
               (UFP.Get_Unit (Ctx, Text_IO & "." & SP.all, Kind));
          end loop;
       end if;
@@ -265,7 +265,7 @@ package body Libadalang.Unit_Files is
             --  TODO??? Find a proper way to handle file not found, parsing
             --  error, etc.
             Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), Kind);
-            Prepare_Semres (Unit);
+            Prepare_Nameres (Unit);
 
             --  The first iteration gives the unit we are required to return
             if First_Unit = No_Analysis_Unit then

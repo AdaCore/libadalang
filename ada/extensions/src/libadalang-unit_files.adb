@@ -261,10 +261,15 @@ package body Libadalang.Unit_Files is
       for I in reverse Name'Range loop
          declare
             Current_Name : Symbol_Type_Array := Name (Name'First .. I);
+
+            I_Kind : constant Unit_Kind :=
+              (if I = Name'Last then Kind else Unit_Specification);
+            --  When looking for unit A.B, A is a specification even if we mean
+            --  to fetch B's body.
          begin
             --  TODO??? Find a proper way to handle file not found, parsing
             --  error, etc.
-            Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), Kind);
+            Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), I_Kind);
             Prepare_Nameres (Unit);
 
             --  The first iteration gives the unit we are required to return

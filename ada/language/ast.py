@@ -3609,8 +3609,11 @@ class GenericSubpInstantiation(GenericInstantiation):
             dest_env=Self.instantiation_env,
             resolver=AdaNode.resolve_generic_actual,
         ),
-        add_to_env_kv(Entity.relative_name, Self,
-                      resolver=T.GenericSubpInstantiation.designated_subp),
+        add_to_env_kv(
+            Entity.relative_name, Self,
+            resolver=T.GenericSubpInstantiation.designated_subp,
+            dest_env=Self.node_env
+        ),
     )
 
 

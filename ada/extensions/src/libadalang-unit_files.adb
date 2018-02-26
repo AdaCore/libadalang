@@ -250,8 +250,14 @@ package body Libadalang.Unit_Files is
 
       if Kind = Unit_Specification and then To_String (Name) = Text_IO then
          for SP of Text_IO_Subpackages loop
-            Prepare_Nameres
-              (UFP.Get_Unit (Ctx, Text_IO & "." & SP.all, Kind));
+            declare
+               SP_Symbol : constant Symbol_Type :=
+                  Lookup_Symbol (Ctx, SP.all);
+               SP_FQN    : constant Symbol_Type_Array := Name & SP_Symbol;
+            begin
+               Prepare_Nameres
+                 (UFP.Get_Unit (Ctx, To_String (SP_FQN), Kind));
+            end;
          end loop;
       end if;
 

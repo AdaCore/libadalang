@@ -176,31 +176,56 @@ CompilationUnitList[1:1-17:11]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Primary, Parent=null):
-    a: [<PackageDecl ["A"] 10:1-11:7>]
-    foo: [<PackageDecl ["Foo"] 1:1-2:9>]
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Foo"] 1:1-2:9>):
-  Referenced: <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+    'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
+    a: [<PackageDecl ["A"] 10:1-11:7>]
+    ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
+    boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
+    character: [<TypeDecl ["Character"] 20:3-20:27>]
+    constraint_error: [<ExceptionDecl ["Constraint_Error"] 115:3-115:32>]
+    duration: [<TypeDecl ["Duration"] 111:3-113:42>]
+    false: [<EnumLiteralDecl ["False"] 3:20-3:25>]
+    float: [<TypeDecl ["Float"] 13:3-14:51>]
+    foo: [<PackageDecl ["Foo"] 1:1-2:9>]
+    integer: [<TypeDecl ["Integer"] 4:3-4:54>]
+    long_float: [<TypeDecl ["Long_Float"] 15:3-16:73>]
+    long_integer: [<TypeDecl ["Long_Integer"] 9:3-9:66>]
+    long_long_float: [<TypeDecl ["Long_Long_Float"] 17:3-19:33>]
+    long_long_integer: [<TypeDecl ["Long_Long_Integer"] 10:3-10:66>]
+    natural: [<SubtypeDecl ["Natural"] 5:3-5:57>]
+    positive: [<SubtypeDecl ["Positive"] 6:3-6:57>]
+    program_error: [<ExceptionDecl ["Program_Error"] 116:3-116:32>]
+    short_float: [<TypeDecl ["Short_Float"] 11:3-12:51>]
+    short_integer: [<TypeDecl ["Short_Integer"] 8:3-8:66>]
+    short_short_integer: [<TypeDecl ["Short_Short_Integer"] 7:3-7:64>]
+    storage_error: [<ExceptionDecl ["Storage_Error"] 117:3-117:32>]
+    string: [<TypeDecl ["String"] 104:3-104:57>]
+    tasking_error: [<ExceptionDecl ["Tasking_Error"] 118:3-118:32>]
+    true: [<EnumLiteralDecl ["True"] 3:27-3:31>]
+    universal_int_type_: [<TypeDecl ["Universal_Int_Type_"] 119:3-119:45>]
+    universal_real_type_: [<TypeDecl ["Universal_Real_Type_"] 120:3-120:42>]
+    wide_character: [<TypeDecl ["Wide_Character"] 21:3-21:32>]
+    wide_string: [<TypeDecl ["Wide_String"] 106:3-107:39>]
+    wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
+    wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
+
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] 1:1-2:9>):
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:13>]
 
-@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
-  Referenced: <PackageDecl ["Foo.Bar"] 4:1-5:13>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
-  Referenced: <PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
     <empty>
 
-@4 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["A"] 10:1-11:7>):
-  Referenced: <PackageDecl ["A"] 10:1-11:7>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@5 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["A"] 10:1-11:7>):
     b: [<PackageDecl ["A.B"] 13:1-14:9>]
 
-@5 = LexEnv(Primary, Parent=@4, Node=<PackageDecl ["A.B"] 13:1-14:9>):
-  Referenced: <PackageDecl ["A.B"] 13:1-14:9>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@6 = LexEnv(Primary, Parent=@5, Node=<PackageDecl ["A.B"] 13:1-14:9>):
     c: [<PackageDecl ["A.B.C"] 16:1-17:11>]
 
-@6 = LexEnv(Primary, Parent=@5, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
-  Referenced: <PackageDecl ["A.B.C"] 16:1-17:11>: LexEnv(Primary, Node=<PackageDecl ["Standard"] 1:1-121:14>)
+@7 = LexEnv(Primary, Parent=@6, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
     <empty>
 

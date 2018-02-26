@@ -74,14 +74,6 @@ def ref_used_packages_in_spec():
                      through=T.AdaNode.use_packages_in_spec_of_subp_body)
 
 
-def ref_std():
-    """
-    Make the Standard package automatically used.
-    """
-    return reference(Self.self_toplevel_item_or_none,
-                     through=AdaNode.std_env)
-
-
 def ref_generic_formals():
     """
     If Self is a generic package/subprogram and not a library item,
@@ -724,7 +716,6 @@ def child_unit(name_expr, scope_expr, dest_env=None,
         add_env(transitive_parent=transitive_parent),
         ref_used_packages(),
         ref_generic_formals(),
-        ref_std(),
         *more_rules
     )
 
@@ -3108,7 +3099,6 @@ class BasicSubpDecl(BasicDecl):
         ),
         add_env(),
         ref_used_packages(),
-        ref_std(),
 
         handle_children(),
 
@@ -3594,7 +3584,6 @@ class GenericSubpInstantiation(GenericInstantiation):
 
         add_env(),
         ref_used_packages(),
-        ref_std(),
 
         handle_children(),
         add_to_env(
@@ -3672,7 +3661,6 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env_kv(Entity.relative_name, Self),
         add_env(),
         ref_used_packages(),
-        ref_std(),
 
         handle_children(),
         add_to_env(
@@ -3860,7 +3848,6 @@ class GenericSubpDecl(GenericDecl):
         add_to_env_kv(Entity.relative_name, Self),
         add_env(),
         ref_used_packages(),
-        ref_std()
     )
 
     decl = Property(Entity.subp_decl)
@@ -6334,6 +6321,8 @@ class CompilationUnit(AdaNode):
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)
 
+    env_spec = EnvSpec(set_initial_env(Self.std_env))
+
 
 class SubpBody(Body):
     env_spec = EnvSpec(
@@ -6352,7 +6341,6 @@ class SubpBody(Body):
         ref_used_packages(),
         ref_used_packages_in_spec(),
         ref_generic_formals(),
-        ref_std(),
 
         handle_children(),
 

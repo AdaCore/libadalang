@@ -35,7 +35,7 @@ CompilationUnit[1:1-3:13]
 |  PragmaNodeList[3:13-3:13]: <empty list>
 
 ==== Dumping lexical environments ====
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
@@ -67,16 +67,16 @@ CompilationUnit[1:1-3:13]
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-$root = LexEnv(Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
-
-@3 = LexEnv(Primary, Parent=@2, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>):
+@1 = LexEnv(Primary, Empty, Parent=null):
     <empty>
 
-@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] 1:1-2:9>):
+@4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>):
+    <empty>
+
+@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo"] 1:1-2:9>):
     bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>]
 
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
@@ -108,9 +108,9 @@ $root = LexEnv(Primary, Parent=null):
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-$root = LexEnv(Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
+@1 = LexEnv(Primary, Empty, Parent=null):
+    <empty>
 
-@4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageInternal ["Foo.Bar"] 2:1-3:13>):
+@5 = LexEnv(Primary, Parent=@4, Node=<GenericPackageInternal ["Foo.Bar"] 2:1-3:13>):
     <empty>
 

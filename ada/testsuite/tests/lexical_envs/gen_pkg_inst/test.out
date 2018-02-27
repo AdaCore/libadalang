@@ -87,7 +87,7 @@ CompilationUnit[1:1-10:10]
 |  PragmaNodeList[10:10-10:10]: <empty list>
 
 ==== Dumping lexical environments ====
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
@@ -119,19 +119,19 @@ CompilationUnit[1:1-10:10]
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-$root = LexEnv(Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
+@1 = LexEnv(Primary, Empty, Parent=null):
+    <empty>
 
-@2 = LexEnv(Primary, Parent=@1, Node=<SubpBody ["Test"] 1:1-10:10>):
+@3 = LexEnv(Primary, Parent=@2, Node=<SubpBody ["Test"] 1:1-10:10>):
     d: [<GenericPackageDecl ["D"] 2:4-5:10>]
     d_inst: [<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<GenericPackageDecl ["D"] 2:4-5:10>):
+@4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageDecl ["D"] 2:4-5:10>):
     t: [<ObjectDecl ["T"] 3:7-3:19>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
+@5 = LexEnv(Primary, Parent=@4, Node=<GenericPackageInternal ["D"] 4:4-5:10>):
     <empty>
 
-@5 = LexEnv(Primary, Parent=@2, Node=<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>):
+@6 = LexEnv(Primary, Parent=@3, Node=<GenericPackageInstantiation ["D_Inst"] 7:4-7:38>):
     <empty>
 

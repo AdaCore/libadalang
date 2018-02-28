@@ -2636,11 +2636,8 @@ class ConstrainedArrayIndices(ArrayIndices):
     @langkit_property(dynamic_vars=[origin])
     def index_type(dim=LongType):
         # We might need to solve self's equation to get the index type
-        ignore(Var(env.bind(
-            Self.node_env, Self.parent.parent.as_entity.resolve_names_internal(
-                True, LogicTrue()
-            )
-        )))
+        ignore(Var(Self.parent.parent.as_entity.resolve_names))
+
         return Entity.list.at(dim).match(
             lambda st=T.SubtypeIndication: st.designated_type,
             lambda e=T.Expr: e.type_val.cast(T.BaseTypeDecl.entity),

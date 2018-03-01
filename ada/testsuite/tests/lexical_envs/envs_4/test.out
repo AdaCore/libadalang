@@ -36,6 +36,26 @@ CompilationUnit[1:1-3:13]
 
 ==== Dumping lexical environments ====
 @2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+  Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Short_Integer"] 7:3-7:64>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Integer"] 8:3-8:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Integer"] 9:3-9:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Long_Integer"] 10:3-10:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Float"] 11:3-12:51>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Float"] 13:3-14:51>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Float"] 15:3-16:73>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Long_Float"] 17:3-19:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Character"] 20:3-20:27>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Character"] 21:3-21:32>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Wide_Character"] 22:3-22:37>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["String"] 104:3-104:57>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_String"] 106:3-107:39>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Wide_String"] 108:3-109:44>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Duration"] 111:3-113:42>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
@@ -71,12 +91,34 @@ CompilationUnit[1:1-3:13]
     <empty>
 
 @4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>):
+  Referenced: <GenericPackageDecl ["Foo.Bar"] 1:1-3:13>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:13>)
     <empty>
 
 @3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo"] 1:1-2:9>):
+  Referenced: <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-2:9>)
     bar: [<GenericPackageDecl ["Foo.Bar"] 1:1-3:13>]
 
 @2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+  Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Short_Integer"] 7:3-7:64>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Integer"] 8:3-8:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Integer"] 9:3-9:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Long_Integer"] 10:3-10:66>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Short_Float"] 11:3-12:51>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Float"] 13:3-14:51>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Float"] 15:3-16:73>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Long_Long_Float"] 17:3-19:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Character"] 20:3-20:27>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Character"] 21:3-21:32>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Wide_Character"] 22:3-22:37>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["String"] 104:3-104:57>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_String"] 106:3-107:39>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Wide_Wide_String"] 108:3-109:44>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Duration"] 111:3-113:42>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
+  Referenced: <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]

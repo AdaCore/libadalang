@@ -141,6 +141,11 @@ class AdaNode(ASTNode):
         """
     )
 
+    empty_env = Property(
+        Self.parents.find(lambda p: p.is_a(T.CompilationUnit))
+        .cast(T.CompilationUnit).get_empty_env,
+    )
+
     @langkit_property(public=True)
     def referenced_decl():
         """
@@ -588,7 +593,9 @@ class AdaNode(ASTNode):
                 lambda _: No(T.AdaNode)
             )
         ))
-        return gen_decl._.children_env
+        return gen_decl.then(
+            lambda gd: gd.children_env, default_val=Self.empty_env
+        )
 
     @langkit_property()
     def is_library_item():
@@ -2274,7 +2281,7 @@ class TypeDecl(BaseTypeDecl):
                     primitive_real_type=Self,
                 )
             ),
-            lambda _: EmptyEnv
+            lambda _: Self.empty_env
         )
 
     @langkit_property(memoized=True)
@@ -6414,6 +6421,19 @@ class CompilationUnit(AdaNode):
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)
+    no_env = UserField(type=T.LexicalEnvType, public=False)
+
+    @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
+                      return_type=LexicalEnvType)
+    def get_empty_env():
+        """
+        Returns an empty env to use in env specs. This is meant as an
+        optimization: Langkit referenced envs that return empty env can never
+        be cached, so we used a CompilationUnit specific empty env, that will
+        live for the same duration as its analysis unit, and then be
+        invalidated.
+        """
+        pass
 
     env_spec = EnvSpec(set_initial_env(Self.std_env))
 

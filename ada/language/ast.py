@@ -2238,7 +2238,7 @@ class TypeDecl(BaseTypeDecl):
                Entity.primitives.singleton, No(LexicalEnvType.array))
         )
 
-    @langkit_property(memoized=True, memoize_in_populate=True)
+    @langkit_property(memoized=True)
     def parent_primitives_env():
         return Self.type_def.match(
             lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
@@ -2251,7 +2251,7 @@ class TypeDecl(BaseTypeDecl):
             lambda _: EmptyEnv
         )
 
-    @langkit_property(memoized=True, memoize_in_populate=True)
+    @langkit_property(memoized=True)
     def primitives_env():
         return Entity.primitives_envs(include_self=True).env_group()
 
@@ -2821,8 +2821,7 @@ class UsePackageClause(UseClause):
         )
     )
 
-    @langkit_property(memoized=True, memoize_in_populate=True,
-                      return_type=LexicalEnvType.array)
+    @langkit_property(return_type=LexicalEnvType.array)
     def designated_envs():
         """
         Return the array of designated envs corresponding to each package name.
@@ -4449,7 +4448,7 @@ class Name(Expr):
         public=True
     )
 
-    @langkit_property(memoized=True, memoize_in_populate=True)
+    @langkit_property(memoized=True)
     def name_designated_type_env():
         return Entity.name_designated_type.cast(T.TypeDecl)._.primitives_env
 
@@ -4513,7 +4512,7 @@ class Name(Expr):
         """
         return Self.matches(n.el)
 
-    @langkit_property(memoized=True, memoize_in_populate=True)
+    @langkit_property()
     def use_package_name_designated_env():
         """
         Assuming Self is a name that is the direct child of a

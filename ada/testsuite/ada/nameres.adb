@@ -57,6 +57,8 @@ procedure Nameres is
    Dump_Envs            : Boolean := False;
    --  Dump lexical envs of every explicitly passed file
 
+   Do_Reparse           : Boolean := False;
+
    Timeout : Natural := 100_000;
    --  Logic resolution timeout
 
@@ -228,6 +230,13 @@ procedure Nameres is
          return;
       end if;
       Populate_Lexical_Env (Unit);
+
+      if Do_Reparse then
+         for I in 1 .. 10 loop
+            Reparse (Unit);
+            Populate_Lexical_Env (Unit);
+         end loop;
+      end if;
 
       if Dump_Envs then
          Put_Title ('-', "Dumping envs for " & Filename);
@@ -463,6 +472,8 @@ begin
             With_Default_Project := True;
          elsif Arg in "--print-envs" | "-E" then
             Dump_Envs := True;
+         elsif Arg = "--reparse" then
+            Do_Reparse := True;
          elsif Arg = "--all" then
             Resolve_All := True;
          elsif Arg = "--only-show-failures" then

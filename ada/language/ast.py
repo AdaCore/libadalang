@@ -1791,6 +1791,23 @@ class BaseTypeDecl(BasicDecl):
     def accessed_type():
         return No(T.BaseTypeDecl.entity)
 
+    @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
+    def final_accessed_type(first_call=(BoolType, True)):
+        """
+        Call accessed_type recursively until we get the most nested accessed
+        type. For example, for the following code::
+
+            type A is access Integer;
+            type AA is access A;
+            type AAA is access AA;
+
+        ``AAA``'s final_accessed_type is Integer.
+        """
+        return Entity.accessed_type.then(
+            lambda at: at.final_accessed_type(False),
+            default_val=If(first_call, No(T.BaseTypeDecl.entity), Entity)
+        )
+
     @langkit_property(dynamic_vars=[origin])
     def is_access_to(typ=T.BaseTypeDecl.entity):
         access_type = Var(Entity)
@@ -1935,7 +1952,7 @@ class BaseTypeDecl(BasicDecl):
             Entity.is_derived_type(cont_type),
 
             # Access to derived type case
-            Entity.accessed_type._.is_derived_type(cont_type),
+            Entity.final_accessed_type._.matching_formal_prim_type(cont_type),
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])

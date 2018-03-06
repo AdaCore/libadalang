@@ -2379,8 +2379,18 @@ class AnonymousTypeDecl(TypeDecl):
 
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
-        return (Entity.type_def.cast(AccessDef)._.accessed_type._
-                .matching_type(other.accessed_type))
+        return Entity.type_def.cast(AccessDef)._.match(
+            lambda asp=AccessToSubpDef:
+            other.access_def.cast(AccessToSubpDef).then(
+                lambda sa: sa.subp_spec.match_signature(
+                    asp.subp_spec, False
+                )
+            ),
+            lambda ad:
+            ad.accessed_type.then(
+                lambda ast: ast.matching_type(other.accessed_type)
+            )
+        )
 
     xref_entry_point = Property(False)
 

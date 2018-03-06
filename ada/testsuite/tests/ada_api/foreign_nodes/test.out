@@ -2,7 +2,7 @@
 == Reloading Pkg ==
 ===================
 ## Pkg ##
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -54,19 +54,19 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
   Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+@3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
     <empty>
 
 ## Child ##
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -118,19 +118,19 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
+@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
   Referenced: <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:15>)
     p2: [<NullSubpDecl ["P2"] 2:4-2:25>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
   Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -182,17 +182,17 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@5 = LexEnv(Primary, Parent=@4, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+@4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
     <empty>
 
 =====================
 == Reloading Child ==
 =====================
 ## Pkg ##
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -244,19 +244,19 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
   Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+@3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
     <empty>
 
 ## Child ##
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -308,19 +308,19 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
+@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg.Child"] 1:1-3:15>):
   Referenced: <PackageDecl ["Pkg.Child"] 1:1-3:15>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:15>)
     p2: [<NullSubpDecl ["P2"] 2:4-2:25>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Pkg"] 1:1-3:9>):
   Referenced: <PackageDecl ["Pkg"] 1:1-3:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     child: [<PackageDecl ["Pkg.Child"] 1:1-3:15>]
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -372,10 +372,10 @@
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@5 = LexEnv(Primary, Parent=@4, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+@4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
     <empty>
 
 Done.

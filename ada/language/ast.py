@@ -6502,7 +6502,24 @@ class CompilationUnit(AdaNode):
         """
         pass
 
-    env_spec = EnvSpec(set_initial_env(Self.std_env))
+    env_spec = EnvSpec(
+        set_initial_env(Let(
+            lambda n=Self.body.cast(T.LibraryItem).then(
+                lambda i: i.item.as_bare_entity.defining_name
+            ):
+
+            Cond(
+                n.is_null, Self.initial_env,
+
+                # If self is Standard package, then register self in the root
+                # env.
+                n.is_a(T.BaseId) & (n.relative_name == 'Standard'),
+                Self.initial_env,
+
+                Self.std_env
+            )
+        ))
+    )
 
 
 class SubpBody(Body):

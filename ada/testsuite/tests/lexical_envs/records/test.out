@@ -163,7 +163,7 @@ CompilationUnit[1:1-11:9]
 |  PragmaNodeList[11:9-11:9]: <empty list>
 
 ==== Dumping lexical environments ====
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -215,22 +215,22 @@ CompilationUnit[1:1-11:9]
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
+$root = LexEnv(Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo"] 1:1-11:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] 1:1-11:9>):
   Referenced: <PackageDecl ["Foo"] 1:1-11:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-11:9>)
   Referenced: <TypeDecl ["R1_Type"] 2:4-5:15>: LexEnv(Primary, Node=<CompilationUnit 1:1-11:9>)
   Referenced: <TypeDecl ["R2_Type"] 7:4-10:15>: LexEnv(Primary, Node=<CompilationUnit 1:1-11:9>)
     r1_type: [<TypeDecl ["R1_Type"] 2:4-5:15>]
     r2_type: [<TypeDecl ["R2_Type"] 7:4-10:15>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<TypeDecl ["R1_Type"] 2:4-5:15>):
+@3 = LexEnv(Primary, Parent=@2, Node=<TypeDecl ["R1_Type"] 2:4-5:15>):
     a: [<ComponentDecl ["A", "B"] 3:7-3:22>]
     b: [<ComponentDecl ["A", "B"] 3:7-3:22>]
     c: [<ComponentDecl ["C"] 4:7-4:22>]
 
-@5 = LexEnv(Primary, Parent=@3, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
+@4 = LexEnv(Primary, Parent=@2, Node=<TypeDecl ["R2_Type"] 7:4-10:15>):
     i: [<ComponentDecl ["I"] 8:7-8:19>]
     n: [<DiscriminantSpec ["N"] 7:18-7:29>]
     s: [<ComponentDecl ["S"] 9:7-9:27>]

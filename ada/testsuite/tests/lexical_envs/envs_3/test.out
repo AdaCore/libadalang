@@ -176,9 +176,9 @@ CompilationUnitList[1:1-17:11]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Primary, Parent=null):
-    <empty>
+    standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
-@2 = LexEnv(Primary, Parent=null, Node=<PackageDecl ["Standard"] 1:1-121:14>):
+@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
   Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Boolean"] 3:3-3:33>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
   Referenced: <TypeDecl ["Integer"] 4:3-4:54>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
@@ -231,30 +231,27 @@ $root = LexEnv(Primary, Parent=null):
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] 22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
-@1 = LexEnv(Primary, Empty, Parent=null):
-    <empty>
-
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo"] 1:1-2:9>):
+@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] 1:1-2:9>):
   Referenced: <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-2:9>)
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:13>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
+@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
   Referenced: <PackageDecl ["Foo.Bar"] 4:1-5:13>: LexEnv(Primary, Node=<CompilationUnit 4:1-5:13>)
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>]
 
-@5 = LexEnv(Primary, Parent=@4, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
+@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
   Referenced: <PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>: LexEnv(Primary, Node=<CompilationUnit 7:1-8:17>)
     <empty>
 
-@6 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["A"] 10:1-11:7>):
+@5 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["A"] 10:1-11:7>):
   Referenced: <PackageDecl ["A"] 10:1-11:7>: LexEnv(Primary, Node=<CompilationUnit 10:1-11:7>)
     b: [<PackageDecl ["A.B"] 13:1-14:9>]
 
-@7 = LexEnv(Primary, Parent=@6, Node=<PackageDecl ["A.B"] 13:1-14:9>):
+@6 = LexEnv(Primary, Parent=@5, Node=<PackageDecl ["A.B"] 13:1-14:9>):
   Referenced: <PackageDecl ["A.B"] 13:1-14:9>: LexEnv(Primary, Node=<CompilationUnit 13:1-14:9>)
     c: [<PackageDecl ["A.B.C"] 16:1-17:11>]
 
-@8 = LexEnv(Primary, Parent=@7, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
+@7 = LexEnv(Primary, Parent=@6, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
   Referenced: <PackageDecl ["A.B.C"] 16:1-17:11>: LexEnv(Primary, Node=<CompilationUnit 16:1-17:11>)
     <empty>
 

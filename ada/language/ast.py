@@ -6383,8 +6383,15 @@ class AttributeRef(Name):
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
 
-            # Self is of this type
-            & Bind(Self.type_var, Self.prefix.ref_var),
+            & If(typ.is_array,
+                 # if typ is an array, attr is of the index type
+                 TypeBind(Self.prefix.ref_var,
+                          Self.type_var,
+                          conv_prop=BaseTypeDecl.first_index_type),
+                 # elsif typ is a discrete type, attr is of the same type
+                 TypeBind(Self.prefix.ref_var,
+                          Self.type_var)),
+
 
             # Prefix is not a type, it's an instance
             Entity.prefix.sub_equation

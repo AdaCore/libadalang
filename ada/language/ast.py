@@ -5239,15 +5239,15 @@ class BaseId(SingleTokNode):
             default_val=ret
         )
 
-    designated_env = Property(Entity.designated_env_impl(False))
+    designated_env = Property(Entity.designated_env_impl)
 
     @langkit_property(dynamic_vars=[env])
-    def designated_env_impl(is_parent_pkg=BoolType):
+    def designated_env_impl():
         """
         Decoupled implementation for designated_env, specifically used by
         DottedName when the parent is a library level package.
         """
-        ents = Var(Entity.env_elements_baseid(is_parent_pkg))
+        ents = Var(Entity.env_elements_baseid)
 
         return origin.bind(Self, Let(lambda el=ents.at(0): If(
             el._.is_package,
@@ -5378,7 +5378,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(dynamic_vars=[env])
     def env_elements_impl():
-        return Entity.env_elements_baseid(False)
+        return Entity.env_elements_baseid
 
     @langkit_property()
     def all_env_els_impl(parent_pkg=(BoolType, False), seq=(BoolType, True)):
@@ -5391,17 +5391,14 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
-    def env_elements_baseid(is_parent_pkg=BoolType):
+    def env_elements_baseid():
         """
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
-
-        :param is_parent_pkg: Whether the origin of the env request is a
-            package or not.
         """
         items = Var(env.get_sequential(
             Self,
-            recursive=Not(is_parent_pkg),
+            recursive=Self.is_prefix,
             sequential_from=Self,
         ))
 
@@ -6407,7 +6404,7 @@ class DottedName(Name):
     def designated_env():
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(pfx_env,
-                        Entity.suffix.designated_env_impl(True))
+                        Entity.suffix.designated_env_impl)
 
     @langkit_property()
     def all_env_els_impl(parent_pkg=(BoolType, False), seq=(BoolType, True)):
@@ -6429,7 +6426,7 @@ class DottedName(Name):
     @langkit_property()
     def env_elements_impl():
         pfx_env = Var(origin.bind(Self, Entity.prefix.designated_env))
-        return env.bind(pfx_env, Entity.suffix.env_elements_baseid(True))
+        return env.bind(pfx_env, Entity.suffix.env_elements_baseid)
 
     @langkit_property()
     def designated_type_impl():

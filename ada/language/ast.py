@@ -1937,7 +1937,7 @@ class BaseTypeDecl(BasicDecl):
         cont_type = Var(container_type)
         return Or(
             # Derived type case
-            Entity.is_derived_type(cont_type),
+            Entity.matching_formal_prim_type(cont_type),
 
             # Access to derived type case
             Entity.final_accessed_type._.matching_formal_prim_type(cont_type),

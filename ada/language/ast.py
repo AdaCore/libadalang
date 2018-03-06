@@ -1916,14 +1916,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     is_iterable_type = Property(
-        # TODO: Need to implement on:
-        #
-        #   * Spark iterable types (Iterable aspect).
-        #   * Ada 2012 iterable types.
-        Or(
-            Entity.is_array,
-            Not(Entity.get_aspect('Iterator_Element').is_null)
-        ),
+        False,
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
         """,
@@ -1932,12 +1925,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin])
     def iterable_comp_type():
-        ie = Var(Entity.get_aspect('Iterator_Element'))
-        return If(
-            ie.is_null,
-            Entity.comp_type,
-            ie.expr.cast(T.Name).name_designated_type
-        )
+        return No(T.BaseTypeDecl.entity)
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_prefix_type(container_type=T.BaseTypeDecl.entity):
@@ -2146,6 +2134,38 @@ class TypeDecl(BaseTypeDecl):
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
     prims_env = UserField(type=T.LexicalEnvType, public=False)
+
+    is_iterable_type = Property(
+        # TODO: Need to implement on:
+        #
+        #   * Spark iterable types (Iterable aspect).
+        Or(
+            Entity.is_array,
+            Not(Entity.get_aspect('Iterator_Element').is_null),
+            Entity.type_def.match(
+                lambda dtd=T.DerivedTypeDef:
+                dtd.base_type.then(lambda bt: bt.is_iterable_type),
+                lambda _: False
+            )
+        ),
+        doc="""
+        Whether Self is a type that is iterable in a for .. of loop
+        """,
+        dynamic_vars=[origin]
+    )
+
+    @langkit_property()
+    def iterable_comp_type():
+        ie = Var(Entity.get_aspect('Iterator_Element'))
+        return Cond(
+            Entity.is_array, Entity.comp_type,
+            Not(ie.is_null), ie.expr.cast(T.Name).name_designated_type,
+            Entity.type_def.match(
+                lambda dtd=T.DerivedTypeDef:
+                dtd.base_type.then(lambda bt: bt.iterable_comp_type),
+                lambda _: No(T.BaseTypeDecl.entity)
+            )
+        )
 
     node_aspects = Property(Entity.aspects)
 

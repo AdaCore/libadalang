@@ -2211,10 +2211,17 @@ class TypeDecl(BaseTypeDecl):
             env.bind(Entity.children_env, Entity.type_def.defining_env)
         )
 
-        return If(
-            imp_deref.is_null,
+        return Cond(
+            Not(imp_deref.is_null),
+            Array([self_env, Entity.accessed_type.defining_env]).env_group(),
+
+            Entity.has_ud_indexing,
+            Entity.constant_indexing_fns
+            .concat(Entity.variable_indexing_fns)
+            .map(lambda fn: fn.defining_env)
+            .concat([self_env]).env_group(),
+
             self_env,
-            Array([self_env, Entity.accessed_type.defining_env]).env_group()
         )
 
     env_spec = EnvSpec(

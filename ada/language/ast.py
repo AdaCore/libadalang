@@ -2041,7 +2041,7 @@ class BaseTypeDecl(BasicDecl):
     def matching_allocator_type(allocated_type=T.BaseTypeDecl.entity):
         return And(
             Entity.is_access_type,
-            allocated_type.matching_type(Entity.accessed_type)
+            allocated_type.matching_formal_type(Entity.accessed_type)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,

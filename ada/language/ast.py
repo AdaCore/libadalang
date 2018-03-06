@@ -3165,6 +3165,20 @@ class BasicSubpDecl(BasicDecl):
     )
 
     @langkit_property()
+    def constrain_prefix(prefix=T.Expr):
+        return If(
+            # If self is a dottable subprogram, then we want to constrain the
+            # prefix so that it's type is the type of the first parameter of
+            # self.
+            Entity.info.md.dottable_subp,
+            Bind(prefix.type_var,
+                 Entity.subp_decl_spec
+                 .unpacked_formal_params.at(0)._.spec.type,
+                 eq_prop=BaseTypeDecl.matching_prefix_type),
+            LogicTrue()
+        )
+
+    @langkit_property()
     def expr_type():
 
         ret = Var(

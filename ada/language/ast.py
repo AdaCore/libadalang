@@ -4680,6 +4680,20 @@ class Name(Expr):
             lambda _: LogicTrue()
         )
 
+    @langkit_property(return_type=T.BoolType, memoized=True)
+    def is_prefix():
+        """
+        Returns whether Self is the prefix in name. Is used to determine
+        whether lookups on this name should be recursive or not, without having
+        to pass down the information as a function parameter.
+        """
+        return Or(
+            Self.parent.is_a(T.DottedName)
+            & (Self.parent.cast(T.DottedName).prefix == Self)
+            & Self.parent.cast(T.Name).is_prefix,
+            Not(Self.parent.is_a(T.DottedName))
+        )
+
 
 class TargetName(Name):
     pass

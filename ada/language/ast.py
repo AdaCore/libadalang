@@ -1908,10 +1908,12 @@ class BaseTypeDecl(BasicDecl):
         """
         Whether Self is derived from other_type.
         """
+        entity_can = Var(Entity.canonical_type)
+        other_can = Var(other_type.canonical_type)
         return Or(
-            Entity.canonical_type == other_type.canonical_type,
+            entity_can == other_can,
             And(Not(Entity.classwide_type.is_null),
-                Entity.classwide_type == other_type.classwide_type),
+                entity_can.classwide_type == other_can.classwide_type),
             Entity.base_types.any(lambda bt: bt._.is_derived_type(other_type))
         )
 

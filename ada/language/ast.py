@@ -2691,8 +2691,8 @@ class ConstrainedArrayIndices(ArrayIndices):
     def index_type(dim=LongType):
         # We might need to solve self's equation to get the index type
         ignore(Var(Self.parents.find(
-            lambda p: p.xref_entry_point).as_entity.resolve_names)
-        )
+            lambda p: p.xref_entry_point).as_entity.resolve_names
+        ))
 
         return Entity.list.at(dim).match(
             lambda st=T.SubtypeIndication: st.designated_type,

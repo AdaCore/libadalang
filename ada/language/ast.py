@@ -2696,7 +2696,7 @@ class ConstrainedArrayIndices(ArrayIndices):
             lambda p: p.xref_entry_point).as_entity.resolve_names
         ))
 
-        return Entity.list.at(dim).match(
+        return Entity.list.at(dim)._.match(
             lambda st=T.SubtypeIndication: st.designated_type,
             lambda e=T.Expr: e.type_val.cast(T.BaseTypeDecl.entity),
             lambda _: No(T.BaseTypeDecl.entity)

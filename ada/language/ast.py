@@ -1068,7 +1068,13 @@ class Body(BasicDecl):
         # If the package has a private part, then get the private part,
         # else return the public part.
         return If(
-            follow_private,
+            And(
+                follow_private,
+                public_scope.env_node._.is_a(
+                    T.BasePackageDecl, T.SingleProtectedDecl,
+                    T.ProtectedTypeDecl,
+                )
+            ),
             public_scope.get('__privatepart', recursive=False).at(0).then(
                 lambda pp: pp.children_env, default_val=public_scope
             ),

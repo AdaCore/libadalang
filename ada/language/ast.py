@@ -5567,7 +5567,10 @@ class StringLiteral(BaseId):
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
             Entity.base_id_xref_equation,
-            Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
+            Or(
+                TypeBind(Self.type_var, Self.std_entity('String')),
+                Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
+            )
         )
 
 

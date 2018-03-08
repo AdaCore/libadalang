@@ -2141,6 +2141,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
             lambda pp: pp.classwide_type
         )
 
+    canonical_type = Property(Entity.typedecl.canonical_type)
+
 
 class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)

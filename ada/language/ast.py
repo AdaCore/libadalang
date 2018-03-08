@@ -61,15 +61,6 @@ def ref_used_packages():
     packages that are used at the top-level here. See
     UsePackageClause's ref_env_nodes for the rationale.
     """
-
-
-def ref_used_packages_in_spec():
-    """
-    If Self, which is assumed to be a SubpBody, is a library-level subprogram,
-    it must "inherit" the use clauses of its declaration, if there is one.
-    """
-    return reference(Self.self_toplevel_item_or_none,
-                     through=T.AdaNode.use_packages_in_spec_of_subp_body)
     return reference(
         Self.top_level_use_package_clauses,
         through=T.Name.use_package_name_designated_env,
@@ -518,21 +509,10 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property()
-    def self_toplevel_item_or_none():
-        """
-        Helper for Standard package automatic "use". If Self is a toplevel item
-        (library item or subunit), return a singleton array for Self.
-        Otherwise, return an empty array.
-        """
-        return If(Self.parent.is_a(T.LibraryItem, T.Subunit),
-                  Self.to_array,
-                  No(T.AdaNode.array))
-
-    @langkit_property()
     def use_packages_in_spec_of_subp_body():
         """
         If Self is a library-level SubpBody, fetch the environments USE'd in
-        its declaration. See "ref_used_packages_in_spec".
+        its declaration.
         """
         return Let(lambda subpb=Self.cast(T.SubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
@@ -6569,7 +6549,16 @@ class SubpBody(Body):
 
         add_env(transitive_parent=True),
         ref_used_packages(),
-        ref_used_packages_in_spec(),
+
+        # If Self, which is assumed to be a SubpBody, is a library-level
+        # subprogram, it must "inherit" the use clauses of its declaration, if
+        # there is one.
+        reference(
+            Self.cast(T.AdaNode).to_array,
+            through=T.AdaNode.use_packages_in_spec_of_subp_body,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+
         ref_generic_formals(),
 
         handle_children(),

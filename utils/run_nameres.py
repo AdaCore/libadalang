@@ -14,6 +14,7 @@ from funcy import split_by, partition_by, cat, memoize, chunks
 from glob import glob
 import os
 import Queue
+import re
 import subprocess
 from threading import Thread, Event
 import time
@@ -310,7 +311,8 @@ class Results(object):
         return [f for f in self.failures if f.file_name == filename][0]
 
 
-def main(dirs, j, chunk_size, automated, no_resolution, project, extra_args):
+def main(dirs, pattern, j, chunk_size, automated,
+         no_resolution, project, extra_args):
 
     if not automated:
         print("Loading old results ..")
@@ -323,9 +325,12 @@ def main(dirs, j, chunk_size, automated, no_resolution, project, extra_args):
     results = Results()
     files = []
     for dir in dirs:
+        dir_files = sorted(glob('{}/*.ad?'.format(dir)))
+        if pattern:
+            dir_files = [f for f in dir_files if re.findall(pattern, f)]
         dir_files = chunks(
             chunk_size,
-            map(os.path.basename, sorted(glob('{}/*.ad?'.format(dir))))
+            map(os.path.basename, dir_files)
         )
         files += [(dir, fs) for fs in dir_files]
 
@@ -420,12 +425,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('dirs', help='The dirs to analyze',
                         type=str, nargs='*')
+    parser.add_argument('--pattern', '-p', type=str, default="",
+                        help='Pattern to filter the files')
     parser.add_argument('--jobs', '-j', type=int, default=1)
     parser.add_argument('--chunk-size', '-c', type=int, default=100)
     parser.add_argument('--project', '-P', type=str, default="")
     parser.add_argument('--no-resolution', '-N', action='store_true')
     parser.add_argument('--automated', '-A', action='store_true')
     args, extra_args = parser.parse_known_args()
-    main(args.dirs, args.jobs, args.chunk_size,
+    main(args.dirs, args.pattern, args.jobs, args.chunk_size,
          args.automated, args.no_resolution,
          args.project, extra_args)

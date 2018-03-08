@@ -1709,6 +1709,25 @@ class BaseTypeDecl(BasicDecl):
         doc="Whether Self is an implicitly dereferenceable type or not"
     )
 
+    has_ud_indexing = Property(
+        False, doc="Whether self has user defined indexing or not"
+    )
+
+    constant_indexing_fns = Property(
+        No(T.BasicDecl.entity.array),
+        doc="""
+        For a type with user defined indexing, return the set of all
+        Constant_Indexing functions.
+        """
+    )
+    variable_indexing_fns = Property(
+        No(T.BasicDecl.entity.array),
+        doc="""
+        For a type with user defined indexing, return the set of all
+        Variable_Indexing functions.
+        """
+    )
+
     get_imp_deref = Property(
         No(T.AspectAssoc.entity),
         doc="Whether Self has an Implicit_Dereference aspect or not"
@@ -2256,6 +2275,45 @@ class TypeDecl(BaseTypeDecl):
         return Entity.primitives_envs(include_self=True).env_group()
 
     get_imp_deref = Property(Entity.get_aspect('Implicit_Dereference'))
+
+    has_ud_indexing = Property(
+        Not(Entity.get_aspect('Constant_Indexing').is_null)
+        | Not(Entity.get_aspect('Variable_Indexing').is_null)
+    )
+
+    @langkit_property()
+    def constant_indexing_fns():
+        return Entity.get_aspect('Constant_Indexing').then(
+            lambda a:
+            a.expr.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss:
+                    origin.bind(
+                        Self,
+                        ss.unpacked_formal_params.at(0)
+                        ._.spec.type.matching_formal_type(Entity)
+                    )
+                )
+            )
+        )
+
+    @langkit_property()
+    def variable_indexing_fns():
+        return origin.bind(Self, Entity.get_aspect('Variable_Indexing').then(
+            lambda a:
+            a.expr.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss:
+                    ss.unpacked_formal_params.at(0)
+                    ._.spec.type.matching_formal_type(Entity)
+                    & ss.return_type.is_implicit_deref
+                )
+            )
+        ))
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -4764,35 +4822,51 @@ class CallExpr(Name):
             lambda t: If(t.is_implicit_deref, t.accessed_type, t))
         )
 
-        return atd._.indices.then(
-            lambda indices:
-            Self.suffix.match(
+        return Cond(
+            Not(atd._.indices.is_null), Self.suffix.match(
                 # Regular array access
                 lambda _=T.AssocList: Self.params._.logic_all(
-                    lambda i, pa:
-                    If(
+                    lambda i, pa: If(
                         constrain_params,
                         pa.expr.as_entity.sub_equation,
                         LogicTrue()
                     )
-                    & indices.constrain_index_expr(pa.expr, i)
+                    & atd.indices.constrain_index_expr(pa.expr, i)
                 )
                 & TypeBind(Self.type_var, atd.comp_type),
 
                 # Slice access
                 lambda bo=T.BinOp:
-                indices.constrain_index_expr(bo.left, 0)
-                & indices.constrain_index_expr(bo.right, 0)
+                atd.indices.constrain_index_expr(bo.left, 0)
+                & atd.indices.constrain_index_expr(bo.right, 0)
                 & TypeBind(bo.type_var, bo.right.type_var)
                 & TypeBind(Self.type_var, real_typ),
 
                 # TODO: Handle remaining cases (SubtypeIndication?)
                 lambda _: LogicFalse()
-            )
-        )._or(typ.then(lambda typ: typ.access_def.cast(AccessToSubpDef).then(
-            lambda asd: Entity.subprogram_equation(asd.subp_spec, False,
-                                                   No(AdaNode))
-        ))._or(LogicFalse()))
+            ),
+
+            # Type has user defined indexing
+            Not(typ.is_null) & typ.has_ud_indexing,
+            typ.constant_indexing_fns.concat(typ.variable_indexing_fns)
+            .logic_any(lambda fn: Let(
+                lambda
+                formal=fn.subp_spec_or_null.unpacked_formal_params.at(1),
+                ret_type=fn.subp_spec_or_null.return_type,
+                param=Self.params.at(0).expr:
+
+                TypeBind(Self.type_var, ret_type)
+                & If(constrain_params,
+                     param.as_entity.sub_equation, LogicTrue())
+                & TypeBind(param.type_var, formal.spec.type)
+            )),
+
+            typ.access_def.cast(AccessToSubpDef).then(
+                lambda asd: Entity.subprogram_equation(asd.subp_spec, False,
+                                                       No(AdaNode)),
+                default_val=LogicFalse(),
+            ),
+        )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
@@ -4858,7 +4932,11 @@ class CallExpr(Name):
                 typ.access_def.cast(T.AccessToSubpDef).then(
                     lambda sa:
                     sa.subp_spec.is_matching_param_list(Self.params, False)
-                )
+                ),
+
+                # Types with user defined indexing
+                typ.has_ud_indexing
+                & Self.suffix.cast(T.AssocList).then(lambda al: al.length == 1)
             ),
 
             Self.parent.cast(T.CallExpr).then(
@@ -5308,8 +5386,10 @@ class BaseId(SingleTokNode):
 
             # This identifier is the name for a called subprogram or an array.
             # So only keep:
-            # * subprograms for which the actuals match;
-            # * arrays for which the number of dimensions match.
+            # * subprograms for which the actuals match
+            # * arrays for which the number of dimensions match
+            # * any type that has a user defined indexing aspect.
+
             pc.suffix.cast(AssocList).then(lambda params: (
                 items.filter(lambda e: e.match(
                     # Type conversion case

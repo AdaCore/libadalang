@@ -61,8 +61,6 @@ def ref_used_packages():
     packages that are used at the top-level here. See
     UsePackageClause's ref_env_nodes for the rationale.
     """
-    return reference(Self.top_level_use_package_clauses,
-                     T.Name.use_package_name_designated_env)
 
 
 def ref_used_packages_in_spec():
@@ -72,6 +70,11 @@ def ref_used_packages_in_spec():
     """
     return reference(Self.self_toplevel_item_or_none,
                      through=T.AdaNode.use_packages_in_spec_of_subp_body)
+    return reference(
+        Self.top_level_use_package_clauses,
+        through=T.Name.use_package_name_designated_env,
+        cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+    )
 
 
 def ref_generic_formals():
@@ -503,9 +506,7 @@ class AdaNode(ASTNode):
         for top-level UsePackageClause nodes. See
         UsePackageClause.env_spec.ref_envs for more details.
         """
-        return If(
-            Self.parent.is_a(T.LibraryItem, T.Subunit),
-
+        return (
             Self.parent.parent.cast_or_raise(T.CompilationUnit)
             .prelude
             .filter(lambda p: p.is_a(UsePackageClause))
@@ -513,9 +514,7 @@ class AdaNode(ASTNode):
                 lambda p: p.cast_or_raise(UsePackageClause).packages.map(
                     lambda n: n.cast(AdaNode)
                 )
-            ),
-
-            No(T.AdaNode.array)
+            )
         )
 
     @langkit_property()

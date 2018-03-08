@@ -4303,7 +4303,7 @@ class Name(Expr):
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env, origin])
-    def all_env_elements(is_parent_pkg=(BoolType, False)):
+    def all_env_elements(parent_pkg=(BoolType, False), seq=(BoolType, True)):
         pass
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -5246,11 +5246,13 @@ class BaseId(SingleTokNode):
         return Entity.env_elements_baseid(False)
 
     @langkit_property()
-    def all_env_elements(is_parent_pkg=(BoolType, False)):
-        return env.get_sequential(
-            Self,
-            recursive=Not(is_parent_pkg),
-            sequential_from=Self,
+    def all_env_elements(parent_pkg=(BoolType, False), seq=(BoolType, True)):
+        return If(
+            seq,
+            env.get_sequential(
+                Self, recursive=Not(parent_pkg), sequential_from=Self
+            ),
+            env.get(Self, recursive=Not(parent_pkg))
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
@@ -6271,11 +6273,11 @@ class DottedName(Name):
                         Entity.suffix.designated_env_impl(True))
 
     @langkit_property()
-    def all_env_elements(is_parent_pkg=(BoolType, False)):
-        ignore(is_parent_pkg)
+    def all_env_elements(parent_pkg=(BoolType, False), seq=(BoolType, True)):
+        ignore(parent_pkg)
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(pfx_env,
-                        Entity.suffix.all_env_elements(True))
+                        Entity.suffix.all_env_elements(True, seq))
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),

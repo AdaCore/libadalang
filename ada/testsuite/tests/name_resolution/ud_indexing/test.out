@@ -1,0 +1,24 @@
+Analyzing testindexing.adb
+##########################
+
+Resolving xrefs for node <ObjectDecl ["A"] 27:4-27:29>
+******************************************************
+
+Expr: <Id "A" 27:4-27:5>
+  references: None
+  type:       None
+Expr: <Id "Integer" 27:8-27:15>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <CallExpr 27:19-27:28>
+  references: <ObjectDecl ["Inst"] 21:4-21:13>
+  type:       <TypeDecl ["Ref"] 6:7-7:41>
+Expr: <Id "Inst" 27:19-27:23>
+  references: <ObjectDecl ["Inst"] 21:4-21:13>
+  type:       <TypeDecl ["T"] 3:7-4:42>
+Expr: <Int 27:25-27:27>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

@@ -2291,7 +2291,8 @@ class TypeDecl(BaseTypeDecl):
             Self.cast(AdaNode).singleton,
             through=T.TypeDecl.parent_primitives_env,
             transitive=True,
-            dest_env=Self.node_env
+            dest_env=Self.node_env,
+            cond=Self.type_def.is_a(T.DerivedTypeDef)
         ),
     )
 

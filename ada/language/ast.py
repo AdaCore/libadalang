@@ -3300,11 +3300,17 @@ class SubpRenamingDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     xref_entry_point = Property(True)
-    xref_equation = Property(And(
-        Entity.renames.renamed_object.xref_no_overloading,
-        Predicate(BasicDecl.subp_decl_match_signature,
-                  Entity.renames.renamed_object.ref_var,
-                  Entity.cast(T.BasicDecl))
+    xref_equation = Property(Or(
+        And(
+            Entity.renames.renamed_object.xref_no_overloading,
+            Predicate(BasicDecl.subp_decl_match_signature,
+                      Entity.renames.renamed_object.ref_var,
+                      Entity.cast(T.BasicDecl))
+        ),
+        # Operators might be built-in, so if we cannot find a reference, we'll
+        # just abandon resolution...
+        If(Entity.renames.renamed_object.is_operator_name,
+           LogicTrue(), LogicFalse())
     ))
 
 
@@ -4714,6 +4720,14 @@ class Name(Expr):
             & Self.parent.cast(T.Name).is_prefix,
             Not(Self.parent.is_a(T.DottedName))
         )
+
+    is_operator_name = Property(
+        Entity.relative_name.any_of(
+            '"="',  '"="', '"/="', '"<"', '"<="', '">"', '">="', '"and"',
+            '"or"', '"xor"', '"abs"', '"*"', '"/"', '"mod"', '"rem"', '"+"',
+            '"-"', '"&"' '"+"', '"-"', '"not"', '"abs"'
+        )
+    )
 
 
 class TargetName(Name):

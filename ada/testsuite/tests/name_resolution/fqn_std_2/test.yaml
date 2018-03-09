@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [teststd.ads]
+with_default_project: False

@@ -74,8 +74,11 @@ def ref_generic_formals():
     then the generic formals are not available in parent
     environments. Make them available with ref_envs.
     """
-    return reference(Self.cast(T.AdaNode).to_array,
-                     through=T.AdaNode.nested_generic_formal_part)
+    return reference(
+        Self.cast(T.AdaNode).to_array,
+        through=T.AdaNode.nested_generic_formal_part,
+        cond=Not(Self.is_library_item)
+    )
 
 
 def add_to_env_kv(key, val, *args, **kwargs):
@@ -547,31 +550,26 @@ class AdaNode(ASTNode):
         lexical environment lookup on a child unit. As it does itself a lot of
         lookups, memoizing it is very important.
         """
-        gen_decl = Var(If(
-            Self.is_library_item,
-
-            No(T.AdaNode),
-
-            Self.as_bare_entity.match(
-                lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part_entity.then(
-                        lambda d: d.el.parent.cast(T.GenericPackageDecl)
-                    ),
-                lambda bod=T.SubpBody:
-                    # We're only searching for generics. We look at index 1 and
-                    # 2, because if self is a subunit, the first entity we find
-                    # will be the separate declaration. NOTE: We don't use
-                    # decl_part/previous_part on purpose: They can cause env
-                    # lookups, hence doing an infinite recursion.
-                    bod.children_env.env_parent.get(bod.relative_name).then(
-                        lambda results:
-                        results.at(1).el.cast(T.GenericSubpDecl)._or(
-                            results.at(2).el.cast(T.GenericSubpDecl)
-                        )
-                    ).cast(T.AdaNode),
-                lambda _: No(T.AdaNode)
-            )
+        gen_decl = Var(Self.as_bare_entity.match(
+            lambda pkg_body=T.PackageBody:
+                pkg_body.decl_part_entity.then(
+                    lambda d: d.el.parent.cast(T.GenericPackageDecl)
+                ),
+            lambda bod=T.SubpBody:
+                # We're only searching for generics. We look at index 1 and
+                # 2, because if self is a subunit, the first entity we find
+                # will be the separate declaration. NOTE: We don't use
+                # decl_part/previous_part on purpose: They can cause env
+                # lookups, hence doing an infinite recursion.
+                bod.children_env.env_parent.get(bod.relative_name).then(
+                    lambda results:
+                    results.at(1).el.cast(T.GenericSubpDecl)._or(
+                        results.at(2).el.cast(T.GenericSubpDecl)
+                    )
+                ).cast(T.AdaNode),
+            lambda _: No(T.AdaNode)
         ))
+
         return gen_decl.then(
             lambda gd: gd.children_env, default_val=Self.empty_env
         )
@@ -2920,19 +2918,16 @@ class UseClause(AdaNode):
 class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec(
-        reference(
-            # We don't want to process use clauses that appear in the top-level
-            # scope here, as they apply to the library item's environment,
-            # which is not processed at this point yet. See CompilationUnit's
-            # ref_env_nodes.
-            If(Self.parent.parent.is_a(T.CompilationUnit),
-               No(T.AdaNode.array),
-               Self.packages.map(lambda n: n.cast(AdaNode))),
+    env_spec = EnvSpec(reference(
+        Self.packages.map(lambda n: n.cast(AdaNode)),
+        T.Name.use_package_name_designated_env,
 
-            T.Name.use_package_name_designated_env
-        )
-    )
+        # We don't want to process use clauses that appear in the top-level
+        # scope here, as they apply to the library item's environment,
+        # which is not processed at this point yet. See CompilationUnit's
+        # ref_env_nodes.
+        cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
+    ))
 
     @langkit_property(return_type=LexicalEnvType.array)
     def designated_envs():
@@ -2961,17 +2956,15 @@ class UseTypeClause(UseClause):
     env_spec = EnvSpec(
         handle_children(),
         reference(
+            Self.types.map(lambda n: n.cast(AdaNode)),
+            T.Name.name_designated_type_env,
+            dest_env=Self.node_env,
             # We don't want to process use clauses that appear in the top-level
             # scope here, as they apply to the library item's environment,
             # which is not processed at this point yet. See CompilationUnit's
             # ref_env_nodes.
-            If(Self.parent.parent.is_a(T.CompilationUnit),
-               No(T.AdaNode.array),
-               Self.types.map(lambda n: n.cast(AdaNode))),
-
-            T.Name.name_designated_type_env,
-            dest_env=Self.node_env
-        )
+            cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
+        ),
     )
 
 
@@ -6992,7 +6985,9 @@ class PackageBody(Body):
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.subunit_pkg_decl),
+                      through=T.PackageBody.subunit_pkg_decl,
+                      cond=Not(Self.subunit_root.is_null)),
+
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
                       transitive=True)

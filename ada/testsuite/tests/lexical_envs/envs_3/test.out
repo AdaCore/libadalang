@@ -179,7 +179,6 @@ $root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
 @1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
-  Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     a: [<PackageDecl ["A"] 10:1-11:7>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
@@ -213,26 +212,20 @@ $root = LexEnv(Primary, Parent=null):
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] 108:3-109:44>]
 
 @2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] 1:1-2:9>):
-  Referenced: <PackageDecl ["Foo"] 1:1-2:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-2:9>)
     bar: [<PackageDecl ["Foo.Bar"] 4:1-5:13>]
 
 @3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar"] 4:1-5:13>):
-  Referenced: <PackageDecl ["Foo.Bar"] 4:1-5:13>: LexEnv(Primary, Node=<CompilationUnit 4:1-5:13>)
     baz: [<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>]
 
 @4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>):
-  Referenced: <PackageDecl ["Foo.Bar.Baz"] 7:1-8:17>: LexEnv(Primary, Node=<CompilationUnit 7:1-8:17>)
     <empty>
 
 @5 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["A"] 10:1-11:7>):
-  Referenced: <PackageDecl ["A"] 10:1-11:7>: LexEnv(Primary, Node=<CompilationUnit 10:1-11:7>)
     b: [<PackageDecl ["A.B"] 13:1-14:9>]
 
 @6 = LexEnv(Primary, Parent=@5, Node=<PackageDecl ["A.B"] 13:1-14:9>):
-  Referenced: <PackageDecl ["A.B"] 13:1-14:9>: LexEnv(Primary, Node=<CompilationUnit 13:1-14:9>)
     c: [<PackageDecl ["A.B.C"] 16:1-17:11>]
 
 @7 = LexEnv(Primary, Parent=@6, Node=<PackageDecl ["A.B.C"] 16:1-17:11>):
-  Referenced: <PackageDecl ["A.B.C"] 16:1-17:11>: LexEnv(Primary, Node=<CompilationUnit 16:1-17:11>)
     <empty>
 

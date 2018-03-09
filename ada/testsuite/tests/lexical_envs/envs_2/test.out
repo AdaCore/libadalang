@@ -101,7 +101,6 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 @1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] 1:1-121:14>):
-  Referenced: <PackageDecl ["Standard"] 1:1-121:14>: LexEnv(Primary, Node=<CompilationUnit 1:1-121:14>)
     'a': [<EnumLiteralDecl ["'A'"] 20:22-20:25>, <EnumLiteralDecl ["'A'"] 21:27-21:30>, <EnumLiteralDecl ["'A'"] 22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] 23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] 3:3-3:33>]
@@ -136,7 +135,6 @@ $root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
 @2 = LexEnv(Primary, Parent=@1, Node=<PackageBody ["Foo"] 1:1-10:9>):
-  Referenced: <PackageBody ["Foo"] 1:1-10:9>: LexEnv(Primary, Node=<CompilationUnit 1:1-10:9>)
     bar: [<SubpBody ["Bar"] 2:4-9:12>]
 
 @3 = LexEnv(Primary, Parent=@2, Node=<SubpBody ["Bar"] 2:4-9:12>):

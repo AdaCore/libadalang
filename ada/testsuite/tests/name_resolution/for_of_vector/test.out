@@ -8,31 +8,19 @@ Expr: <Id "Testvec" 4:11-4:18>
   references: None
   type:       None
 
-Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:70>
+Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:55>
 ****************************************************************************
 
 Expr: <Id "Int_Vecs" 5:12-5:20>
   references: None
   type:       None
-Expr: <DottedName 5:28-5:50>
-  references: <GenericPackageDecl ["Ada.Containers.Vectors"] 40:1-518:28>
+Expr: <Id "Vectors" 5:28-5:35>
+  references: <GenericPackageDecl ["Vectors"] 40:1-518:13>
   type:       None
-Expr: <DottedName 5:28-5:42>
-  references: <PackageDecl ["Ada.Containers"] 16:1-24:20>
-  type:       None
-Expr: <Id "Ada" 5:28-5:31>
-  references: <PackageDecl ["Ada"] 16:1-20:9>
-  type:       None
-Expr: <Id "Containers" 5:32-5:42>
-  references: <PackageDecl ["Ada.Containers"] 16:1-24:20>
-  type:       None
-Expr: <Id "Vectors" 5:43-5:50>
-  references: <GenericPackageDecl ["Ada.Containers.Vectors"] 40:1-518:28>
-  type:       None
-Expr: <Id "Natural" 5:52-5:59>
+Expr: <Id "Natural" 5:37-5:44>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
-Expr: <Id "Integer" 5:61-5:68>
+Expr: <Id "Integer" 5:46-5:53>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
 
@@ -43,13 +31,13 @@ Expr: <Id "I" 7:4-7:5>
   references: None
   type:       None
 Expr: <DottedName 7:8-7:23>
-  references: <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  references: <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
   type:       None
 Expr: <Id "Int_Vecs" 7:8-7:16>
-  references: <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:70>
+  references: <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:55>
   type:       None
 Expr: <Id "Vector" 7:17-7:23>
-  references: <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  references: <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["A"] 8:4-8:16>
@@ -73,7 +61,7 @@ Expr: <DottedName 10:4-10:12>
   type:       None
 Expr: <Id "I" 10:4-10:5>
   references: <ObjectDecl ["I"] 7:4-7:24>
-  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" 10:6-10:12>
   references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
   type:       None
@@ -92,7 +80,7 @@ Expr: <DottedName 11:4-11:12>
   type:       None
 Expr: <Id "I" 11:4-11:5>
   references: <ObjectDecl ["I"] 7:4-7:24>
-  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" 11:6-11:12>
   references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
   type:       None
@@ -111,7 +99,7 @@ Expr: <DottedName 12:4-12:12>
   type:       None
 Expr: <Id "I" 12:4-12:5>
   references: <ObjectDecl ["I"] 7:4-7:24>
-  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" 12:6-12:12>
   references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
   type:       None
@@ -130,7 +118,7 @@ Expr: <DottedName 13:4-13:12>
   type:       None
 Expr: <Id "I" 13:4-13:5>
   references: <ObjectDecl ["I"] 7:4-7:24>
-  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" 13:6-13:12>
   references: <| SubpDecl ["Append"] 245:4-248:36 [testvec.adb:5:4] |>
   type:       None
@@ -146,7 +134,7 @@ Expr: <Id "El" 15:8-15:10>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "I" 15:14-15:15>
   references: <ObjectDecl ["I"] 7:4-7:24>
-  type:       <| TypeDecl ["Vector"] 57:4-62:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
 
 Resolving xrefs for node <AssignStmt 16:7-16:15>
 ************************************************

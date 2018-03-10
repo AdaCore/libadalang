@@ -1,8 +1,8 @@
-with Ada.Containers.Vectors;
+with Vectors;
 with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Testvec is
-   package Int_Vecs is new Ada.Containers.Vectors (Natural, Integer);
+   package Int_Vecs is new Vectors (Natural, Integer);
 
    I : Int_Vecs.Vector;
    A : Integer;

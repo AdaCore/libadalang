@@ -1,5 +1,5 @@
-with Vectors;
 with Ada.Text_IO; use Ada.Text_IO;
+with Vectors;
 
 procedure Testvec is
    package Int_Vecs is new Vectors (Natural, Integer);

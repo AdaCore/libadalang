@@ -44,12 +44,12 @@ generic
    with function "=" (Left, Right : Element_Type) return Boolean is <>;
 
 package Vectors is
-     
+
    type Hash_Type is mod 2**32;
    type Count_Type is range 0 .. 2**31 - 1;
 
    Capacity_Error : exception;
-   
+
    subtype Extended_Index is Index_Type'Base
      range Index_Type'First - 1 ..
            Index_Type'Min (Index_Type'Base'Last - 1, Index_Type'Last) + 1;
@@ -435,7 +435,7 @@ private
            raise Program_Error with "uninitialized reference";
          --  The RM says, "The default initialization of an object of
          --  type Constant_Reference_Type or Reference_Type propagates
-         --  Program_Error."
+         --  Program_Error".
       end record;
 
    procedure Write
@@ -457,7 +457,7 @@ private
            raise Program_Error with "uninitialized reference";
          --  The RM says, "The default initialization of an object of
          --  type Constant_Reference_Type or Reference_Type propagates
-         --  Program_Error."
+         --  Program_Error".
       end record;
 
    procedure Write
@@ -488,7 +488,7 @@ private
 
    function Get_Element_Access
      (Position : Cursor) return not null Element_Access;
-   --  Returns a pointer to the element designated by Position.
+   --  Returns a pointer to the element designated by Position
 
    No_Element : constant Cursor := Cursor'(null, Index_Type'First);
 

@@ -2057,8 +2057,8 @@ class BaseTypeDecl(BasicDecl):
         return Self.name.then(
             lambda type_name:
 
-            Self.children_env.get_sequential(
-                type_name, sequential_from=Self
+            Self.children_env.get(
+                type_name, from_node=Self
             ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,
                     pp.cast(T.BaseTypeDecl)._.is_private),
@@ -4429,7 +4429,7 @@ class Name(Expr):
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env, origin])
-    def all_env_els_impl(parent_pkg=(BoolType, False), seq=(BoolType, True)):
+    def all_env_els_impl(seq=(BoolType, True)):
         pass
 
     @langkit_property()
@@ -4674,8 +4674,7 @@ class Name(Expr):
     )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def xref_no_overloading(in_dotted_name=(BoolType, False),
-                            sequential=(BoolType, True)):
+    def xref_no_overloading(sequential=(BoolType, True)):
         """
         Simple xref equation for names in clauses with no overloading, such as
         with and use clauses.
@@ -4683,19 +4682,16 @@ class Name(Expr):
         return Entity.match(
             lambda dn=T.DottedName: env.bind(
                 dn.prefix.designated_env,
-                dn.prefix.xref_no_overloading(False)
-                & dn.suffix.xref_no_overloading(True)
+                dn.prefix.xref_no_overloading(sequential)
+                & dn.suffix.xref_no_overloading(sequential)
             ),
             lambda i=T.BaseId: Bind(
                 i.ref_var,
-                If(sequential,
-                   env.get_first_sequential(
-                       i.relative_name, sequential_from=Entity.el,
-                       recursive=Not(in_dotted_name)
-                   ).cast(T.BasicDecl),
-                   env.get_first(i.relative_name,
-                                 recursive=Not(in_dotted_name))
-                   .cast(T.BasicDecl))
+                env.get_first(
+                    i.relative_name,
+                    from_node=If(sequential, Entity.el, No(T.Name)),
+                    recursive=Self.is_prefix,
+                ).cast(T.BasicDecl),
             ),
             lambda _: LogicTrue()
         )
@@ -5348,13 +5344,13 @@ class BaseId(SingleTokNode):
             )
 
         # This is the view of the type where it is referenced
-        des_type_1 = Var(env.get_first_sequential(
-            Self, sequential_from=Self
+        des_type_1 = Var(env.get_first(
+            Self, from_node=Self
         ).then(lambda env_el: get_real_type(env_el)))
 
         # This is the view of the type where it is used
-        des_type_2 = Var(env.get_first_sequential(
-            Self, sequential_from=origin
+        des_type_2 = Var(env.get_first(
+            Self, from_node=origin
         ).then(lambda env_el: get_real_type(env_el)))
 
         des_type = Var(Cond(
@@ -5376,9 +5372,8 @@ class BaseId(SingleTokNode):
 
         # We might have a more complete view of the type at the origin point
         completer_view = Var(origin.then(
-            lambda o: o.children_env.get_first_sequential(
-                Self, sequential_from=origin
-            )).cast(T.BaseTypeDecl)
+            lambda o: o.children_env.get_first(Self, from_node=origin))
+            .cast(T.BaseTypeDecl)
         )
 
         # If completer_view is a more complete view of the type we're looking
@@ -5423,13 +5418,9 @@ class BaseId(SingleTokNode):
         return Entity.env_elements_baseid
 
     @langkit_property()
-    def all_env_els_impl(parent_pkg=(BoolType, False), seq=(BoolType, True)):
-        return If(
-            seq,
-            env.get_sequential(
-                Self, recursive=Not(parent_pkg), sequential_from=Self
-            ),
-            env.get(Self, recursive=Not(parent_pkg))
+    def all_env_els_impl(seq=(BoolType, True)):
+        return env.get(
+            Self, recursive=Self.is_prefix, from_node=If(seq, Self, No(T.Name))
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
@@ -5438,11 +5429,7 @@ class BaseId(SingleTokNode):
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
         """
-        items = Var(env.get_sequential(
-            Self,
-            recursive=Self.is_prefix,
-            sequential_from=Self,
-        ))
+        items = Var(env.get(Self, recursive=Self.is_prefix, from_node=Self))
 
         # TODO: there is a big smell here: We're doing the filtering for parent
         # expressions in the baseid env_elements. We should solve that.
@@ -6459,11 +6446,9 @@ class DottedName(Name):
                         Entity.suffix.designated_env_impl)
 
     @langkit_property()
-    def all_env_els_impl(parent_pkg=(BoolType, False), seq=(BoolType, True)):
-        ignore(parent_pkg)
+    def all_env_els_impl(seq=(BoolType, True)):
         pfx_env = Var(Entity.prefix.designated_env)
-        return env.bind(pfx_env,
-                        Entity.suffix.all_env_els_impl(True, seq))
+        return env.bind(pfx_env, Entity.suffix.all_env_els_impl(seq))
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),

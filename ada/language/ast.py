@@ -1819,7 +1819,7 @@ class BaseTypeDecl(BasicDecl):
             ),
 
             # This is a regular access to object
-            access_type.accessed_type.matching_type(entity.expr_type)
+            entity.expr_type.matching_formal_type(access_type.accessed_type)
         )
 
     is_tagged_type = Property(False, doc="Whether type is tagged or not")

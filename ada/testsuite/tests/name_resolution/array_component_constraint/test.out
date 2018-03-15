@@ -17,6 +17,10 @@ Resolving xrefs for node <TypeDecl ["Ints"] 4:4-4:53>
 Expr: <Id "Ints" 4:9-4:13>
   references: None
   type:       None
+
+Resolving xrefs for node <ArrayTypeDef 4:17-4:52>
+*************************************************
+
 Expr: <Id "Natural" 4:24-4:31>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -82,6 +86,10 @@ Resolving xrefs for node <TypeDecl ["Ints_Doubled"] 10:4-10:60>
 Expr: <Id "Ints_Doubled" 10:9-10:21>
   references: None
   type:       None
+
+Resolving xrefs for node <ArrayTypeDef 10:25-10:59>
+***************************************************
+
 Expr: <BinOp 10:32-10:38>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>

@@ -2736,6 +2736,8 @@ class ArrayTypeDef(TypeDef):
 
     defining_env = Property(Entity.comp_type.defining_env)
 
+    xref_entry_point = Property(True)
+
 
 class InterfaceKind(EnumNode):
     alternatives = ["limited", "task", "protected", "synchronized"]

@@ -2291,14 +2291,22 @@ class TypeDecl(BaseTypeDecl):
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
     @langkit_property(return_type=LexicalEnvType.array)
+    def own_primitives_envs():
+        # If self has a previous part, it might have primitives too
+        return Entity.previous_part(False).cast(T.TypeDecl).then(
+            lambda pp: Array([Self.primitives, pp.primitives]),
+            default_val=Self.primitives.singleton
+        )
+
+    @langkit_property(return_type=LexicalEnvType.array)
     def primitives_envs(include_self=(BoolType, False)):
         return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
-            lambda bt: bt.primitives.singleton.concat(
+            lambda bt: bt.own_primitives_envs.concat(
                 bt.primitives_envs
             )
         )).concat(
             If(include_self,
-               Entity.primitives.singleton, No(LexicalEnvType.array))
+               Entity.own_primitives_envs, No(LexicalEnvType.array))
         )
 
     @langkit_property(memoized=True)

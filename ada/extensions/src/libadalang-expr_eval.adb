@@ -61,7 +61,42 @@ package body Libadalang.Expr_Eval is
                       (Text (As_Real_Literal (E))));
 
          when LAL.Ada_Bin_Op =>
-            raise LAL.Property_Error;
+            declare
+               BO : LAL.Bin_Op := As_Bin_Op (E);
+               Op : LAL.Op := F_Op (BO);
+               L : Eval_Result := Expr_Eval (F_Left (BO));
+               R : Eval_Result := Expr_Eval (F_Right (BO));
+            begin
+               if L.Kind /= R.Kind then
+                  raise Property_Error;
+                  --  TODO??? There are actually some rules about implicit
+                  --  conversions that we might have to implement someday.
+               end if;
+
+               case R.Kind is
+                  when Int =>
+                     return R'Update
+                       (Int_Result =>
+                          (case Kind (Op) is
+                           when Ada_Op_Plus => L.Int_Result + R.Int_Result,
+                           when Ada_Op_Minus => L.Int_Result + R.Int_Result,
+                           when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
+                           when Ada_Op_Div   => L.Int_Result / R.Int_Result,
+                           when others   => raise Property_Error));
+                  when Real =>
+                     return R'Update
+                       (Real_Result =>
+                          (case Kind (Op) is
+                           when Ada_Op_Plus => L.Real_Result + R.Real_Result,
+                           when Ada_Op_Minus => L.Real_Result + R.Real_Result,
+                           when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
+                           when Ada_Op_Div   => L.Real_Result / R.Real_Result,
+                           when others   => raise Property_Error));
+                  when Enum_Lit =>
+                     raise Property_Error;
+               end case;
+
+            end;
          when LAL.Ada_Un_Op =>
             declare
                UO : LAL.Un_Op := As_Un_Op (E);

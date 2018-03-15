@@ -3071,14 +3071,7 @@ class SubtypeIndication(TypeExpr):
         # Called by allocator.xref_equation, since the suffix can be either a
         # qual expr or a subtype indication.
         return And(
-            TypeBind(Self.name.ref_var, Entity.designated_type),
-
-            # Bind sub components of the name
-            Entity.name.cast(T.DottedName).then(
-                lambda dn: dn.prefix.xref_no_overloading,
-                default_val=LogicTrue()
-            ),
-
+            Entity.name.subtype_indication_equation,
             Entity.constraint.then(
                 lambda c: c.sub_equation, default_val=LogicTrue()
             )
@@ -4510,6 +4503,10 @@ class Name(Expr):
             )
         )
 
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def subtype_indication_equation():
+        return Entity.xref_no_overloading
+
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
     def parent_name(stop_at=T.Name):
         """
@@ -4704,7 +4701,14 @@ class Name(Expr):
                     recursive=Self.is_prefix,
                 ).cast(T.BasicDecl),
             ),
-            lambda _: LogicTrue()
+
+            # xref_no_overloading can be used to resolve type references in
+            # generic instantiations. In that case, we might encounter a 'Class
+            # attribute. We just want to resolve the prefix.
+            lambda at=T.AttributeRef:
+            at.prefix.xref_no_overloading(sequential),
+
+            lambda _: LogicFalse()
         )
 
     @langkit_property(return_type=T.BoolType, memoized=True)

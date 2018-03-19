@@ -758,13 +758,6 @@ class BasicDecl(AdaNode):
 
     is_array = Property(Entity.array_ndims > 0, dynamic_vars=[origin])
 
-    @langkit_property(dynamic_vars=[origin], return_type=BoolType)
-    def is_array_or_access():
-        return (
-            Entity.is_array
-            | Entity.expr_type.accessed_type.then(lambda at: at.is_array)
-        )
-
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[origin])
     def expr_type():
@@ -1882,10 +1875,6 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def index_type(dim=LongType):
         return Entity.array_def_with_deref.then(lambda ad: ad.index_type(dim))
-
-    @langkit_property(dynamic_vars=[origin])
-    def first_index_type():
-        return Entity.index_type(0)
 
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.
@@ -6089,9 +6078,11 @@ class AttributeRef(Name):
     def xref_equation():
         rel_name = Var(Entity.attribute.relative_name)
         return Cond(
-            rel_name.any_of('First', 'Last'), Entity.firstlast_xref_equation,
             rel_name.any_of('Succ', 'Pred'), Entity.succpred_xref_equation,
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
+
+            rel_name.any_of('First', 'Last', 'Range'),
+            Entity.first_last_range_equation,
 
             rel_name == 'Size', Entity.size_equation,
             rel_name == 'Length', Entity.length_equation,
@@ -6118,7 +6109,6 @@ class AttributeRef(Name):
             Entity.value_equation(Self.std_entity('Wide_Wide_String')),
 
             rel_name == 'Aft', Entity.aft_equation,
-            rel_name == 'Range', Entity.range_equation,
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
 
@@ -6384,55 +6374,41 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def range_equation():
+    def first_last_range_equation():
         typ = Var(Entity.prefix.name_designated_type)
+
+        # If the range attribute has an argument, then it's a static expression
+        # representing an int that we will use as a dimension.
+        dim = Var(Self.args.then(
+            lambda args:
+            args.cast_or_raise(T.AssocList).at(0).expr.eval_as_int,
+            default_val=1
+        ) - 1)
+
         return If(
             Not(typ.is_null),
 
+            # Prefix is a type
             Bind(Self.prefix.ref_var, typ) & Cond(
-                typ.is_array,
-                TypeBind(Self.type_var, typ.first_index_type),
+                # If it's an array, take the appropriate index type
+                typ.is_array, TypeBind(Self.type_var, typ.index_type(dim)),
 
-                typ.is_discrete_type,
+                # If it's a discrete type, then bind to the discrete type
+                typ.is_discrete_type | typ.is_real_type,
                 TypeBind(Self.type_var, typ),
 
                 LogicFalse()
             ),
 
-            Entity.prefix.sub_equation
-            # It must be an array
-            & Predicate(BasicDecl.is_array_or_access, Self.prefix.ref_var)
-            # Its index type is the type of Self
-            & TypeBind(Self.prefix.type_var, Self.type_var,
-                       conv_prop=BaseTypeDecl.first_index_type),
-        )
+            # Prefix is not a type: In that case we have permission to resolve
+            # prefix separately.
+            Let(lambda
+                res=Entity.prefix.resolve_names_internal(True, LogicTrue()),
+                pfx_typ=Entity.prefix.type_val.cast(T.BaseTypeDecl):
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def firstlast_xref_equation():
-        typ = Entity.prefix.name_designated_type
-        return If(
-            Not(typ.is_null),
-
-            # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
-
-            & If(typ.is_array,
-                 # if typ is an array, attr is of the index type
-                 TypeBind(Self.prefix.ref_var,
-                          Self.type_var,
-                          conv_prop=BaseTypeDecl.first_index_type),
-                 # elsif typ is a discrete type, attr is of the same type
-                 TypeBind(Self.prefix.ref_var,
-                          Self.type_var)),
-
-
-            # Prefix is not a type, it's an instance
-            Entity.prefix.sub_equation
-            # It must be an array
-            & Predicate(BasicDecl.is_array_or_access, Self.prefix.ref_var)
-            # Its index type is the type of Self
-            & TypeBind(Self.prefix.type_var, Self.type_var,
-                       conv_prop=BaseTypeDecl.first_index_type)
+                If(res & Not(pfx_typ.array_def_with_deref.is_null),
+                   TypeBind(Self.type_var, pfx_typ.index_type(dim)),
+                   LogicFalse()))
         )
 
 

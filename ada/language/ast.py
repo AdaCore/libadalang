@@ -3445,7 +3445,8 @@ class NumberDecl(BasicDecl):
     expr = Field(type=T.Expr)
 
     defining_names = Property(Self.ids.map(
-        lambda id: id.cast(T.Name).as_entity))
+        lambda id: id.cast(T.Name).as_entity
+    ))
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 

@@ -5554,7 +5554,22 @@ class BaseId(SingleTokNode):
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
         """
-        items = Var(env.get(Self, recursive=Self.is_prefix, from_node=Self))
+        items = Var(env.get(
+            Self, recursive=Self.is_prefix,
+            # If we are in an aspect, then lookup is not sequential.
+            # TODO: The fact that this is here is ugly, and also the logic is
+            # probably wrong.
+            from_node=If(
+                Not(Self.parents.find(
+                    lambda p: p.cast(T.AspectAssoc).then(
+                        lambda a: a.id.as_entity
+                        .relative_name.any_of('Pre', 'Post')
+                    )
+                ).is_null),
+                No(T.AdaNode),
+                Self
+            )
+        ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent
         # expressions in the baseid env_elements. We should solve that.

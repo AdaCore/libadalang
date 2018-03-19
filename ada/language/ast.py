@@ -5499,9 +5499,13 @@ class BaseId(SingleTokNode):
                 # If current item is a library item, we want to check that it
                 # is visible from the current unit.
                 (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
+
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                & e.cast_or_raise(BasicDecl).can_be_paramless
+                & Or(
+                    e.cast_or_raise(BasicDecl).can_be_paramless,
+                    e.cast(T.SubpBody)._.in_scope
+                )
             )),
 
             # This identifier is the name for a called subprogram or an array.
@@ -6594,7 +6598,36 @@ class SubpBody(Body):
     end_name = Field(type=T.Name)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
-    defining_env = Property(Entity.subp_spec.defining_env)
+
+    @langkit_property(return_type=BoolType,
+                      dynamic_vars=[origin])
+    def in_scope():
+        """
+        Return True if ``origin`` is directly in the scope of this Subprogram
+        body.
+        """
+        return And(
+            origin.unit == Self.unit,
+            Not(origin.parents.find(lambda p: p == Self).is_null)
+        )
+
+    @langkit_property(return_type=LexicalEnvType,
+                      dynamic_vars=[origin])
+    def defining_env():
+        return If(
+            Entity.in_scope,
+
+            If(
+                Entity.subp_spec_or_null
+                ._.paramless(Entity.info.md, can_be=True),
+                Array([
+                    Entity.children_env, Entity.subp_spec.defining_env
+                ]).env_group(),
+                Entity.children_env
+            ),
+
+            Entity.subp_spec.defining_env
+        )
 
     type_expression = Property(Entity.subp_spec.returns)
 

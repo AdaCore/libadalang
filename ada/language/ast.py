@@ -5035,8 +5035,18 @@ class CallExpr(Name):
                 & TypeBind(bo.type_var, bo.right.type_var)
                 & TypeBind(Self.type_var, real_typ),
 
-                # TODO: Handle remaining cases (SubtypeIndication?)
-                lambda _: LogicFalse()
+                # Range attribute
+                lambda ar=T.AttributeRef:
+                ar.as_entity.sub_equation
+                & atd.indices.constrain_index_expr(ar, 0)
+                & TypeBind(Self.type_var, real_typ),
+
+                # Subtype indication
+                lambda st=T.SubtypeIndication:
+                st.as_entity.sub_equation
+                & TypeBind(Self.type_var, real_typ),
+
+                lambda _: LogicFalse(),
             ),
 
             # Type has user defined indexing

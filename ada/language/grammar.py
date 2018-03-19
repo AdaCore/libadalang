@@ -1200,7 +1200,7 @@ A.add_rules(
 
     membership_choice=Or(
         A.discrete_range,
-        DiscreteSubtypeExpr(A.discrete_subtype_indication),
+        DiscreteSubtypeName(A.discrete_subtype_indication),
         A.simple_expr,
     ),
 

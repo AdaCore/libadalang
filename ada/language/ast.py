@@ -4306,10 +4306,6 @@ class MembershipExpr(Expr):
     )
 
 
-class DiscreteSubtypeExpr(Expr):
-    subtype = Field(type=T.DiscreteSubtypeIndication)
-
-
 @abstract
 class BaseAggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
@@ -4756,6 +4752,10 @@ class Name(Expr):
             '"-"', '"&"' '"+"', '"-"', '"not"', '"abs"'
         )
     )
+
+
+class DiscreteSubtypeName(Name):
+    subtype = Field(type=T.DiscreteSubtypeIndication)
 
 
 class TargetName(Name):

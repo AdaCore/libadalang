@@ -5575,13 +5575,8 @@ class BaseId(SingleTokNode):
         # expressions in the baseid env_elements. We should solve that.
 
         pc = Var(Self.parent_callexpr)
-        access_ref = Var(Self.parent.cast(AttributeRef).as_entity)
 
         return origin.bind(Self, Cond(
-            access_ref.then(lambda ar: ar.is_access),
-
-            items.filter(lambda e: Not(e.is_a(T.BaseTypeDecl))),
-
             pc.is_null,
 
             # If it is not the main id in a CallExpr: either the name
@@ -6203,10 +6198,6 @@ class AttributeRef(Name):
         )
 
         return model_types.map(lambda mt: mt.defining_env).env_group()
-
-    @langkit_property()
-    def is_access():
-        return Entity.attribute.relative_name == 'Access'
 
     @langkit_property()
     def xref_equation():

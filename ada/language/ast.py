@@ -1941,7 +1941,11 @@ class BaseTypeDecl(BasicDecl):
         return expected_type.match(
             lambda atd=T.AnonymousTypeDecl.entity:
             atd.access_def_matches(actual_type),
-            lambda _: False
+            lambda _: actual_type.match(
+                lambda atd2=T.AnonymousTypeDecl.entity:
+                atd2.access_def_matches(expected_type),
+                lambda _: False
+            )
         )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])

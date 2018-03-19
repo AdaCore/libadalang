@@ -4,7 +4,12 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt 7:4-7:13>
 **********************************************
 
-Resolution failed for node <AssignStmt 7:4-7:13>
+Expr: <Id "IA" 7:4-7:6>
+  references: <ObjectDecl ["IA"] 4:4-4:28>
+  type:       <TypeDecl ["Int_Access"] 3:4-3:42>
+Expr: <Id "AI" 7:10-7:12>
+  references: <ObjectDecl ["AI"] 5:4-5:32>
+  type:       <AnonymousTypeDecl ["None"] 5:9-5:23>
 
 
 Resolving xrefs for node <AssignStmt 10:4-10:13>

@@ -18,7 +18,15 @@ Expr: <Id "IA" 11:9-11:11>
 Resolving xrefs for node <CallStmt 14:4-14:13>
 **********************************************
 
-Resolution failed for node <CallStmt 14:4-14:13>
+Expr: <CallExpr 14:4-14:12>
+  references: <NullSubpDecl ["Bar"] 6:4-6:43>
+  type:       None
+Expr: <Id "Bar" 14:4-14:7>
+  references: <NullSubpDecl ["Bar"] 6:4-6:43>
+  type:       None
+Expr: <Id "AI" 14:9-14:11>
+  references: <ObjectDecl ["AI"] 9:4-9:32>
+  type:       <AnonymousTypeDecl ["None"] 9:9-9:23>
 
 
 Done.

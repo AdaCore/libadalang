@@ -1643,6 +1643,24 @@ class BaseTypeDecl(BasicDecl):
         add_to_env_kv(Entity.relative_name, Self)
     )
 
+    @langkit_property(
+        return_type=T.BaseTypeDecl.entity, public=True, memoized=True
+    )
+    def private_completion():
+        """
+        Return the private completion for this type, if there is one.
+        """
+        return (
+            Entity.declarative_scope.cast(T.PublicPart)
+            ._.parent.cast(BasePackageDecl)
+            ._.private_part._.decls._.find(
+                lambda d: d.cast(T.BaseTypeDecl).then(
+                    lambda pp:
+                    pp.as_entity.relative_name == Entity.relative_name
+                )
+            ).cast(T.BaseTypeDecl).as_entity
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def model_of_type():
         """
@@ -3216,14 +3234,9 @@ class BasicSubpDecl(BasicDecl):
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.
         add_to_env(
-            If(Self.as_bare_entity.subp_decl_spec.is_dottable_subp,
-               T.env_assoc.new(key=Entity.relative_name, val=Self),
-               No(T.env_assoc)),
-            dest_env=Let(
-                lambda spec=Self.as_bare_entity.subp_decl_spec:
-                origin.bind(spec.el.subp_name,
-                            spec.potential_dottable_type._.children_env)
-            ),
+            T.env_assoc.new(key=Entity.relative_name, val=Self),
+            dest_env=Self.as_bare_entity.subp_decl_spec
+            .dottable_subp_of._.children_env,
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
             metadata=Metadata.new(dottable_subp=True,
@@ -5750,49 +5763,32 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ))
         ))
 
-    @langkit_property(return_type=BoolType)
-    def is_dottable_subp():
+    @langkit_property(return_type=BaseTypeDecl.entity)
+    def dottable_subp_of():
         """
         Returns wether the subprogram containing this spec is a subprogram
         callable via the dot notation.
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
-        return origin.bind(Entity.name, And(
+        return origin.bind(Entity.name, If(
             Entity.nb_max_params > 0,
-            Entity.potential_dottable_type.then(lambda t: And(
-                # Dot notation only works on tagged types
-                t.is_tagged_type,
+            Entity.potential_dottable_type.then(lambda t: If(
+                # Dot notation only works on tagged types, needs to be declared
+                # in the same scope as the type.
 
-                Or(
-                    # Needs to be declared in the same scope as the type
-                    t.declarative_scope == bd.declarative_scope,
+                # NOTE: We are not actually implementing the correct Ada
+                # semantics here, because you can call primitives via the dot
+                # notation on private types with a tagged completion.
+                # However, since private types don't have components, this
+                # should not ever be a problem with legal Ada.
+                (t.is_tagged_type | t.private_completion._.is_tagged_type)
+                & (t.declarative_scope == bd.declarative_scope),
 
-                    # Or in the private part corresponding to the type's
-                    # public part. TODO: This is invalid because it will
-                    # make private subprograms visible from the outside.
-                    # Fix:
-                    #
-                    # 1. Add a property that synthetizes a full view node
-                    # for a tagged type when there isn't one in the source.
-                    #
-                    # 2. Add this synthetized full view to the private
-                    # part of the package where the tagged type is defined,
-                    # if there is one, as part of the tagged type
-                    # definition's env spec.
-                    #
-                    # 3. When computing the private part, if there is a
-                    # real in-source full view for the tagged type,
-                    # replace the synthetic one.
-                    #
-                    # 4. Then we can just add the private dottable
-                    # subprograms to the private full view.
+                t,
 
-                    t.declarative_scope == (
-                        bd.declarative_scope._.parent.cast(BasePackageDecl)
-                        .then(lambda pd: pd.public_part)
-                    )
-                )
-            ))
+                No(T.BaseTypeDecl.entity)
+            )),
+            No(T.BaseTypeDecl.entity)
         ))
 
     return_type = Property(Entity.returns._.designated_type)

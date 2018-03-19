@@ -4344,6 +4344,24 @@ class Aggregate(BaseAggregate):
         Self, Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)
     ))
 
+    @langkit_property(return_type=T.BaseAggregate, ignore_warn_on_node=True)
+    def root_direct_parent_aggregate():
+        return Self.direct_parent_aggregate.then(
+            lambda p: p.root_direct_parent_aggregate,
+            default_val=Self
+        )
+
+    @langkit_property(return_type=T.LongType)
+    def sub_aggregate_rank(r=(LongType, 0)):
+        return Self.direct_parent_aggregate.then(
+            lambda p: p.sub_aggregate_rank(r + 1),
+            default_val=r
+        )
+
+    @langkit_property(ignore_warn_on_node=True)
+    def direct_parent_aggregate():
+        return Self.parent.parent.parent.cast(T.Aggregate)
+
     @langkit_property()
     def xref_equation():
         return If(
@@ -4354,24 +4372,54 @@ class Aggregate(BaseAggregate):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def general_xref_equation():
-        td = Var(Self.type_val.cast(BaseTypeDecl.entity))
+
+        # Self might be a sub-aggregate in a multi-dimensional array aggregate.
+        # So we'll go and grab the root direct parent aggregate, which is the
+        # aggregate that is really an aggregate if this corresponds to a
+        # multi-dimensional array.
+        rtd = Var(Self.root_direct_parent_aggregate
+                  .type_val.cast(BaseTypeDecl.entity))
+
+        # We take the number of dimensions of this root rype, if it exists
+        is_multidim = Var(rtd.then(lambda rtd: rtd.array_ndims > 1))
+
+        # If the root type def exists is multi-dimensional, then take it. Else,
+        # this is a regular aggregate. In this case grab the type in type_val.
+        td = Var(If(is_multidim, rtd, Self.type_val.cast(BaseTypeDecl.entity)))
+
+        # If this is a sub aggregate, compute the rank of it in the dimensions
+        rank = Var(If(is_multidim, Self.sub_aggregate_rank, 0))
 
         atd = Var(td.array_def)
-        return And(
+        return Cond(
+            atd.is_null,
+
+            # First case, aggregate for a record
             Entity.ancestor_expr.then(
                 lambda ae: ae.sub_equation, default_val=LogicTrue()
-            ),
-            If(
-                atd.is_null,
+            )
+            & Entity.record_equation(td),
 
-                # First case, aggregate for a record
-                Entity.record_equation(td),
+            # Second case, aggregate for an array
+            Entity.assocs.logic_all(
+                lambda assoc:
+                If(
+                    Or(Not(is_multidim),
+                       rank == rtd.array_ndims - 1),
 
-                # Second case, aggregate for an array
-                Entity.assocs.logic_all(
-                    lambda assoc:
                     assoc.expr.as_entity.sub_equation
-                    & TypeBind(assoc.expr.type_var, atd.comp_type)
+                    & TypeBind(assoc.expr.type_var, atd.comp_type),
+
+                    LogicTrue()
+                )
+
+                & assoc.names.logic_all(
+                    lambda n:
+                    n.as_entity.sub_equation
+                    & n.cast(T.Expr).then(
+                        lambda n: TypeBind(n.type_var, atd.index_type(rank)),
+                        default_val=LogicTrue()
+                    )
                 )
             )
         )

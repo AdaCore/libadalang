@@ -5076,7 +5076,11 @@ class CallExpr(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
-                            dottable_subp=BoolType, primitive=AdaNode):
+                            dottable_subp=BoolType,
+                            primitive=AdaNode):
+
+        prim_type = Var(primitive.cast_or_raise(T.BaseTypeDecl))
+
         return subp_spec.then(
             lambda subp_spec:
             # The type of the expression is the expr_type of the
@@ -5093,7 +5097,9 @@ class CallExpr(Name):
 
                     # The type of each actual matches the type of the
                     # formal.
-                    If(ft.el == primitive,
+                    If(ft.el.as_bare_entity
+                       .matching_type(prim_type.as_bare_entity),
+
                        Bind(pm.actual.assoc.expr.type_var, ft,
                             eq_prop=BaseTypeDecl.matching_formal_prim_type),
                        Bind(pm.actual.assoc.expr.type_var, ft,

@@ -4262,7 +4262,12 @@ class BinOp(Expr):
 
                 TypeBind(Self.type_var, Self.right.type_var)
                 & TypeBind(Self.right.type_var, Self.left.type_var,
+                           conv_prop=BaseTypeDecl.comp_type),
+
+                TypeBind(Self.right.type_var, Self.left.type_var)
+                & TypeBind(Self.type_var, Self.right.type_var,
                            conv_prop=BaseTypeDecl.comp_type)
+
             ),
 
             lambda _: Or(

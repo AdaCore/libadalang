@@ -3296,7 +3296,7 @@ class SubpRenamingDecl(ClassicSubpDecl):
     xref_entry_point = Property(True)
     xref_equation = Property(Or(
         And(
-            Entity.renames.renamed_object.xref_no_overloading,
+            Entity.renames.renamed_object.xref_no_overloading(all_els=True),
             Predicate(BasicDecl.subp_decl_match_signature,
                       Entity.renames.renamed_object.ref_var,
                       Entity.cast(T.BasicDecl))
@@ -4679,32 +4679,45 @@ class Name(Expr):
     )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def xref_no_overloading(sequential=(BoolType, True)):
+    def xref_no_overloading(sequential=(BoolType, True),
+                            all_els=(BoolType, False)):
         """
-        Simple xref equation for names in clauses with no overloading, such as
-        with and use clauses.
+        Simple xref equation for names. Doesn't try to resolve overloads. If
+        ``all_els`` is True, then the name will be bound to the domain of all
+        elements that corresponds. Else, it will be bound to the first one.
+
+        ``sequential`` determines whether the lookup will be sequential or not.
         """
         return Entity.match(
             lambda dn=T.DottedName:
-            dn.prefix.xref_no_overloading(sequential)
+            dn.prefix.xref_no_overloading(sequential, all_els)
             & env.bind(
                 dn.prefix.designated_env,
-                dn.suffix.xref_no_overloading(sequential)
+                dn.suffix.xref_no_overloading(sequential, all_els)
             ),
-            lambda i=T.BaseId: Bind(
-                i.ref_var,
-                env.get_first(
-                    i.relative_name,
-                    from_node=If(sequential, Entity.el, No(T.Name)),
-                    recursive=Self.is_prefix,
-                ).cast(T.BasicDecl),
+            lambda i=T.BaseId: If(
+                all_els and Self.is_suffix,
+                i.ref_var.domain(
+                    env.get(
+                        i.relative_name,
+                        from_node=If(sequential, Entity.el, No(T.Name)),
+                    ),
+                ),
+                Bind(
+                    i.ref_var,
+                    env.get_first(
+                        i.relative_name,
+                        from_node=If(sequential, Entity.el, No(T.Name)),
+                        recursive=Self.is_prefix,
+                    ),
+                )
             ),
 
             # xref_no_overloading can be used to resolve type references in
             # generic instantiations. In that case, we might encounter a 'Class
             # attribute. We just want to resolve the prefix.
             lambda at=T.AttributeRef:
-            at.prefix.xref_no_overloading(sequential),
+            at.prefix.xref_no_overloading(sequential, all_els),
 
             lambda _: LogicFalse()
         )
@@ -4720,6 +4733,19 @@ class Name(Expr):
             Self.parent.is_a(T.DottedName)
             & (Self.parent.cast(T.DottedName).prefix == Self)
             & Self.parent.cast(T.Name).is_prefix,
+            Not(Self.parent.is_a(T.DottedName))
+        )
+
+    @langkit_property(return_type=T.BoolType, memoized=True)
+    def is_suffix():
+        """
+        Returns whether Self is the suffix in name.
+        """
+        return Or(
+            Self.parent.is_a(T.DottedName)
+            & (Self.parent.cast(T.DottedName).suffix == Self)
+            & Self.parent.cast(T.Name).is_suffix,
+
             Not(Self.parent.is_a(T.DottedName))
         )
 

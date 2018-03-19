@@ -5224,13 +5224,7 @@ class ExplicitDeref(Name):
             Entity.prefix.env_elements_impl.filter(
                 # Env elements for access derefs need to be of an access type
                 lambda e:
-                e.cast(BasicDecl)._.expr_type.then(
-                    lambda t: t.is_access_type & t.access_def.match(
-                        lambda sa=AccessToSubpDef:
-                        sa.subp_spec.params.length == 0,
-                        lambda _: True
-                    )
-                )
+                e.cast(BasicDecl)._.expr_type.then(lambda t: t.is_access_type)
             )
         )
 

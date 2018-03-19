@@ -4305,11 +4305,24 @@ class MembershipExpr(Expr):
     membership_exprs = Field(type=T.ExprAlternativesList)
 
     xref_equation = Property(
-        Entity.expr.sub_equation
-        & Entity.membership_exprs.logic_all(
-            lambda m:
-            m.sub_equation & TypeBind(Entity.expr.type_var, m.type_var)
-        )
+        TypeBind(Self.type_var, Self.bool_type)
+        & Entity.expr.sub_equation
+        & Or(
+            # Regular membership check
+            Entity.membership_exprs.logic_all(
+                lambda m:
+                m.sub_equation
+                & TypeBind(Entity.expr.type_var, m.type_var)
+            ),
+
+            # Tagged type check
+            Entity.membership_exprs.logic_all(
+                lambda m: m.cast(T.Name)._.name_designated_type.then(
+                    lambda _: m.cast(T.Name).xref_no_overloading,
+                    default_val=LogicFalse()
+                )
+            )
+        ),
     )
 
 

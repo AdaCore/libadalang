@@ -6096,6 +6096,17 @@ class QuantifiedExpr(Expr):
     loop_spec = Field(type=T.ForLoopSpec)
     expr = Field(type=T.Expr)
 
+    @langkit_property(return_type=EquationType)
+    def xref_equation():
+        spec_success = Var(Entity.loop_spec.resolve_names)
+
+        return If(
+            spec_success,
+            Entity.expr.sub_equation
+            & TypeBind(Entity.expr.type_var, Self.bool_type),
+            LogicFalse()
+        )
+
 
 class Allocator(Expr):
     subpool = Field(type=T.Name)

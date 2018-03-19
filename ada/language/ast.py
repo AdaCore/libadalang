@@ -6011,11 +6011,16 @@ class ForLoopSpec(LoopSpec):
     @langkit_property(memoized=True, call_memoizable=True)
     def iter_type():
         p = Var(Entity.iter_expr.resolve_names)
+        typ = Var(If(p,
+                     Entity.iter_expr.cast_or_raise(T.Expr)
+                     .type_var.get_value.cast(T.BaseTypeDecl),
+                     No(BaseTypeDecl.entity)))
 
-        return If(p,
-                  Entity.iter_expr.cast_or_raise(T.Expr)
-                  .type_var.get_value.cast(T.BaseTypeDecl),
-                  No(BaseTypeDecl.entity))
+        return If(
+            typ.is_implicit_deref,
+            origin.bind(Self, typ.accessed_type),
+            typ
+        )
 
     @langkit_property(return_type=EquationType)
     def xref_equation():

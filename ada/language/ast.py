@@ -2663,10 +2663,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=EquationType)
     def constrain_index_expr(index_expr=T.Expr, dim=LongType):
-        return TypeBind(
-            index_expr.type_var,
-            Entity.index_type(dim)
-        )
+        return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
     def index_type(dim=LongType):

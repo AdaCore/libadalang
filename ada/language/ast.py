@@ -1813,24 +1813,16 @@ class BaseTypeDecl(BasicDecl):
         return access_type.accessed_type.matching_formal_type(typ)
 
     @langkit_property(dynamic_vars=[origin])
-    def is_access_of(entity=T.BasicDecl.entity):
+    def is_subp_access_of(entity=T.BasicDecl.entity):
         """
         Returns whether self is an access type whose accessed type matches
         other.
         """
         access_type = Var(Entity)
-        return If(
-            Not(entity.subp_spec_or_null.is_null),
-
-            # This is an access to subprogram
-            access_type.access_def.cast(AccessToSubpDef).then(
-                lambda sa: sa.subp_spec.match_signature(
-                    entity.subp_spec_or_null.cast(T.SubpSpec), False
-                )
-            ),
-
-            # This is a regular access to object
-            entity.expr_type.matching_formal_type(access_type.accessed_type)
+        return access_type.access_def.cast(AccessToSubpDef).then(
+            lambda sa: sa.subp_spec.match_signature(
+                entity.subp_spec_or_null.cast(T.SubpSpec), False
+            )
         )
 
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
@@ -1955,6 +1947,10 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_formal_prim_type(formal_type=T.BaseTypeDecl.entity):
         return Entity.matching_formal_type_impl(formal_type, True)
+
+    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    def matching_formal_type_inverted(formal_type=T.BaseTypeDecl.entity):
+        return formal_type.matching_formal_type_impl(Entity)
 
     @langkit_property(return_type=BoolType, dynamic_vars=[origin])
     def matching_formal_type(formal_type=T.BaseTypeDecl.entity):
@@ -6349,11 +6345,17 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def access_equation():
-        return (
-            Entity.prefix.xref_equation
-            & Predicate(BaseTypeDecl.is_access_of,
+        return Or(
+            Entity.prefix.xref_no_overloading(all_els=True)
+            & Predicate(BaseTypeDecl.is_subp_access_of,
                         Self.type_var,
-                        Self.prefix.ref_var)
+                        Self.prefix.ref_var),
+
+            Entity.prefix.xref_equation
+            & Bind(Self.type_var,
+                   Self.prefix.type_var,
+                   conv_prop=BaseTypeDecl.accessed_type,
+                   eq_prop=BaseTypeDecl.matching_formal_type_inverted)
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

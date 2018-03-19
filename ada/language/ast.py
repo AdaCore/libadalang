@@ -5209,7 +5209,7 @@ class BoxExpr(Expr):
 
 
 class OthersDesignator(AdaNode):
-    pass
+    xref_equation = Property(LogicTrue())
 
 
 class IfExpr(Expr):

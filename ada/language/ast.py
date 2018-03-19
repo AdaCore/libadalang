@@ -5055,8 +5055,11 @@ class CallExpr(Name):
             )),
 
             typ.access_def.cast(AccessToSubpDef).then(
-                lambda asd: Entity.subprogram_equation(asd.subp_spec, False,
-                                                       No(AdaNode)),
+                lambda asd:
+                Entity.subprogram_equation(asd.subp_spec, False, No(AdaNode))
+                & Entity.params.logic_all(
+                    lambda pa: pa.expr.as_entity.sub_equation
+                ),
                 default_val=LogicFalse(),
             ),
         )

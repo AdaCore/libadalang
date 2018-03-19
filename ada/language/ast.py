@@ -2002,7 +2002,7 @@ class BaseTypeDecl(BasicDecl):
 
             And(
                 expected_type.is_classwide,
-                actual_type.is_derived_type(expected_type)
+                actual_type.matching_formal_prim_type(expected_type)
             ),
 
             And(

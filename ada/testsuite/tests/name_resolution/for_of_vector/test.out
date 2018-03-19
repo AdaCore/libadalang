@@ -129,6 +129,10 @@ Expr: <Int 13:14-13:16>
 Resolving xrefs for node <ForLoopStmt 15:4-17:13>
 *************************************************
 
+
+Resolving xrefs for node <ForLoopSpec 15:8-15:15>
+*************************************************
+
 Expr: <Id "El" 15:8-15:10>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>

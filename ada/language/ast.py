@@ -6105,6 +6105,8 @@ class ForLoopSpec(LoopSpec):
             LogicFalse()
         )
 
+    xref_entry_point = Property(True)
+
 
 class QuantifiedExpr(Expr):
     quantifier = Field(type=Quantifier)

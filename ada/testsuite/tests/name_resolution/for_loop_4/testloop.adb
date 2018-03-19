@@ -9,8 +9,7 @@ procedure Testloop is
 begin
    for El of Foo loop
       El := 12;
-      pragma Test_Statement;
    end loop;
-   pragma Test_Statement;
+   pragma Test_Block;
 
 end Testloop;

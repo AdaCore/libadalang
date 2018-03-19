@@ -53,6 +53,10 @@ Expr: <Id "The_Vec" 8:8-8:15>
 Resolving xrefs for node <ForLoopStmt 10:4-12:13>
 *************************************************
 
+
+Resolving xrefs for node <ForLoopSpec 10:8-10:15>
+*************************************************
+
 Expr: <Id "El" 10:8-10:10>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>

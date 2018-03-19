@@ -1,6 +1,16 @@
 Analyzing testloop.adb
 ######################
 
+Resolving xrefs for node <ForLoopSpec 10:8-10:17>
+*************************************************
+
+Expr: <Id "El" 10:8-10:10>
+  references: None
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <Id "Foo" 10:14-10:17>
+  references: <ExprFunction ["Foo"] 7:4-7:51>
+  type:       <TypeDecl ["My_Array"] 5:4-5:57>
+
 Resolving xrefs for node <AssignStmt 11:7-11:16>
 ************************************************
 
@@ -10,17 +20,6 @@ Expr: <Id "El" 11:7-11:9>
 Expr: <Int 11:13-11:15>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
-
-Resolving xrefs for node <ForLoopStmt 10:4-13:13>
-*************************************************
-
-Expr: <Id "El" 10:8-10:10>
-  references: None
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
-Expr: <Id "Foo" 10:14-10:17>
-  references: <ExprFunction ["Foo"] 7:4-7:51>
-  type:       <TypeDecl ["My_Array"] 5:4-5:57>
 
 
 Done.

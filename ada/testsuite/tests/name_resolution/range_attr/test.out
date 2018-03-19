@@ -81,6 +81,10 @@ Expr: <Id "Oops" 7:10-7:14>
 Resolving xrefs for node <ForLoopStmt 9:4-11:13>
 ************************************************
 
+
+Resolving xrefs for node <ForLoopSpec 9:8-9:26>
+***********************************************
+
 Expr: <Id "I" 9:8-9:9>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
@@ -108,6 +112,10 @@ Expr: <Id "I" 10:12-10:13>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt 13:4-16:13>
+*************************************************
+
+
+Resolving xrefs for node <ForLoopSpec 13:8-13:23>
 *************************************************
 
 Expr: <Id "J" 13:8-13:9>
@@ -156,6 +164,10 @@ Expr: <Id "J" 15:17-15:18>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt 18:4-21:13>
+*************************************************
+
+
+Resolving xrefs for node <ForLoopSpec 18:8-18:22>
 *************************************************
 
 Expr: <Id "J" 18:8-18:9>

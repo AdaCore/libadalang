@@ -5249,18 +5249,23 @@ class ExplicitDeref(Name):
     def general_xref_equation(root=(T.Name, No(T.Name))):
         env_els = Var(Entity.env_elements)
 
-        return Entity.prefix.sub_equation & env_els.logic_all(
-            lambda el:
-            Bind(Self.ref_var, el)
-            # Restrict the domain of the reference to entities that are of an
-            # access type.
-
-            & Bind(Self.ref_var, Self.prefix.ref_var)
-            & Entity.eq_for_type(el.cast(T.BasicDecl).expr_type)
-            & Self.parent_name(root).as_entity.then(
-                lambda pn: pn.parent_name_equation(
-                    el.cast(T.BasicDecl).expr_type.accessed_type, root
-                ), default_val=LogicTrue()
+        return Entity.prefix.sub_equation & env_els.logic_any(
+            lambda el: el.cast(T.BasicDecl).expr_type.then(
+                lambda typ:
+                Bind(Self.ref_var, el)
+                & Bind(Self.ref_var, Self.prefix.ref_var)
+                & Entity.eq_for_type(typ)
+                & typ.access_def.cast(AccessToSubpDef).then(
+                    lambda _: Self.parent_name(root).as_entity.then(
+                        lambda pn: pn.parent_name_equation(typ, root),
+                        default_val=LogicTrue()
+                    ),
+                    default_val=Self.parent_name(root).as_entity.then(
+                        lambda pn: pn.parent_name_equation(
+                            typ.accessed_type, root
+                        ), default_val=LogicTrue()
+                    )
+                )
             )
         )
 

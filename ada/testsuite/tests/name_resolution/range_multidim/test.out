@@ -1,0 +1,166 @@
+Analyzing test_range.adb
+########################
+
+Resolving xrefs for node <SubpSpec 1:1-1:21>
+********************************************
+
+Expr: <Id "Test_Range" 1:11-1:21>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["Color"] 3:4-3:37>
+******************************************************
+
+Expr: <Id "Color" 3:9-3:14>
+  references: None
+  type:       None
+Expr: <Id "Red" 3:19-3:22>
+  references: None
+  type:       None
+Expr: <Id "Green" 3:24-3:29>
+  references: None
+  type:       None
+Expr: <Id "Blue" 3:31-3:35>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["A"] 5:4-5:66>
+**************************************************
+
+Expr: <Id "A" 5:9-5:10>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ArrayTypeDef 5:14-5:65>
+*************************************************
+
+Expr: <Id "Integer" 5:21-5:28>
+  references: <TypeDecl ["Integer"] 4:3-4:54>
+  type:       None
+Expr: <BoxExpr 5:35-5:37>
+  references: None
+  type:       None
+Expr: <Id "Color" 5:39-5:44>
+  references: <TypeDecl ["Color"] 3:4-3:37>
+  type:       None
+Expr: <BoxExpr 5:51-5:53>
+  references: None
+  type:       None
+Expr: <Id "Natural" 5:58-5:65>
+  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["Inst"] 7:4-7:49>
+*******************************************************
+
+Expr: <Id "Inst" 7:4-7:8>
+  references: None
+  type:       None
+Expr: <Id "A" 7:11-7:12>
+  references: <TypeDecl ["A"] 5:4-5:66>
+  type:       None
+Expr: <Aggregate 7:16-7:48>
+  references: None
+  type:       <TypeDecl ["A"] 5:4-5:66>
+Expr: <BinOp 7:17-7:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Int 7:17-7:18>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Int 7:22-7:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Aggregate 7:28-7:47>
+  references: None
+  type:       None
+Expr: <BinOp 7:29-7:40>
+  references: None
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <Id "Red" 7:29-7:32>
+  references: <EnumLiteralDecl ["Red"] 3:19-3:22>
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <Id "Blue" 7:36-7:40>
+  references: <EnumLiteralDecl ["Blue"] 3:31-3:35>
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <Int 7:44-7:46>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <ObjectDecl ["S"] 9:4-9:16>
+****************************************************
+
+Expr: <Id "S" 9:4-9:5>
+  references: None
+  type:       None
+Expr: <Id "Natural" 9:8-9:15>
+  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       None
+
+Resolving xrefs for node <ForLoopStmt 11:4-15:13>
+*************************************************
+
+
+Resolving xrefs for node <ForLoopSpec 11:8-11:27>
+*************************************************
+
+Expr: <Id "I" 11:8-11:9>
+  references: None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <AttributeRef 11:13-11:27>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Inst" 11:13-11:17>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <TypeDecl ["A"] 5:4-5:66>
+Expr: <Id "Range" 11:18-11:23>
+  references: None
+  type:       None
+Expr: <Int 11:25-11:26>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ForLoopStmt 12:7-14:16>
+*************************************************
+
+
+Resolving xrefs for node <ForLoopSpec 12:11-12:30>
+**************************************************
+
+Expr: <Id "J" 12:11-12:12>
+  references: None
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <AttributeRef 12:16-12:30>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <Id "Inst" 12:16-12:20>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <TypeDecl ["A"] 5:4-5:66>
+Expr: <Id "Range" 12:21-12:26>
+  references: None
+  type:       None
+Expr: <Int 12:28-12:29>
+  references: None
+  type:       None
+
+Resolving xrefs for node <AssignStmt 13:10-13:27>
+*************************************************
+
+Expr: <Id "S" 13:10-13:11>
+  references: <ObjectDecl ["S"] 9:4-9:16>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <CallExpr 13:15-13:26>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <Id "Inst" 13:15-13:19>
+  references: <ObjectDecl ["Inst"] 7:4-7:49>
+  type:       <TypeDecl ["A"] 5:4-5:66>
+Expr: <Id "I" 13:21-13:22>
+  references: <ForLoopVarDecl ["I"] 11:8-11:9>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "J" 13:24-13:25>
+  references: <ForLoopVarDecl ["J"] 12:11-12:12>
+  type:       <TypeDecl ["Color"] 3:4-3:37>
+
+
+Done.

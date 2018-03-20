@@ -12,7 +12,7 @@ gnatcov_dir = get_ext_src('gnatcoverage')
 gnatcoll_dir = os.path.join(get_ext_src('gnatcoll'), 'src')
 
 os.environ['GPR_PROJECT_PATH'] = gnatcoll_dir
-run_nameres(['--quiet', '--files-from-project',
+run_nameres(['--only-show-failures', '--files-from-project', '--all',
              '-P{}'.format(os.path.join(gnatcov_dir, 'gnatcov.gpr')),
              '-XBINUTILS_SRC_DIR=/doesnotexists',
              '-XBINUTILS_BUILD_DIR=/doesnotexists'])

@@ -4690,10 +4690,11 @@ class Name(Expr):
         with and use clauses.
         """
         return Entity.match(
-            lambda dn=T.DottedName: env.bind(
+            lambda dn=T.DottedName:
+            dn.prefix.xref_no_overloading(sequential)
+            & env.bind(
                 dn.prefix.designated_env,
-                dn.prefix.xref_no_overloading(sequential)
-                & dn.suffix.xref_no_overloading(sequential)
+                dn.suffix.xref_no_overloading(sequential)
             ),
             lambda i=T.BaseId: Bind(
                 i.ref_var,

@@ -8,7 +8,7 @@ if ! test -f $GNAT_TAR_PATH
 then
     mkdir -p $TOOLS_DIR
     wget -O $GNAT_TAR_PATH \
-        "http://mirrors.cdn.adacore.com/art/5739cefdc7a447658e0b016b"
+        "http://mirrors.cdn.adacore.com/art/591c6d80c7a447af2deed1d7"
 fi
 
 # Get QUEX
@@ -22,7 +22,7 @@ fi
 if ! test -f $GNATCOLL_TAR_PATH
 then
     wget -O $GNATCOLL_TAR_PATH \
-        "http://mirrors.cdn.adacore.com/art/5739942ac7a447658d00e1e7"
+        "http://mirrors.cdn.adacore.com/art/5a15c79cc7a4479a23674c66"
 fi
 
 # If needed, extract QUEX, GNAT and GNATCOLL

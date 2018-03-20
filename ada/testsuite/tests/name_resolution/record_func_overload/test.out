@@ -7,7 +7,6 @@ F (1).B resolves to:
     B : Integer;
 F (1).Z resolves to:
     <none>
-
 G (1).C.A resolves to:
     A : Integer;
 G (1).C.B resolves to:

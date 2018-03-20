@@ -11,7 +11,6 @@ OU2 (1) resolves to:
     <none>
 OU2 (1, True) resolves to:
     OU2 : UArray_D2 (1 .. 9, False .. True);
-
 OC1 (1) resolves to:
     OC1 : CArray_D1;
 OC1 (1, True) resolves to:
@@ -20,7 +19,6 @@ OC2 (1) resolves to:
     <none>
 OC2 (1, True) resolves to:
     OC2 : CArray_D2;
-
 OSU (1) resolves to:
     OSU : SUArray (1 .. 9);
 OSU (1, True) resolves to:

@@ -23,7 +23,6 @@ Expr: <Id "C" 25:19-25:20>
   references: <ComponentDecl ["C"] 9:7-9:19>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 
-
 Resolving xrefs for node <AssignStmt 28:4-28:21>
 ************************************************
 

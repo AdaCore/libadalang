@@ -4,7 +4,6 @@ Analyzing test.adb
 Test elsif branches
 -------------------
 
-
 Resolving xrefs for node <AssignStmt 9:4-9:52>
 **********************************************
 
@@ -33,10 +32,8 @@ Expr: <Id "C" 9:49-9:50>
   references: <ObjectDecl ["A", "B", "C"] 2:4-2:22>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-
 Test single then
 ----------------
-
 
 Resolving xrefs for node <AssignStmt 13:4-13:48>
 ************************************************

@@ -121,20 +121,11 @@ for src_file in input_sources:
     unit.populate_lexical_env()
 
     empty = True
-    last_line = None
 
     # Print what entities are found for expressions X in all the "pragma Test
     # (X)" we can find in this unit.
     for p in unit.root.finditer(lal.PragmaNode):
         pragma_name = p.f_id.text
-
-        # If this pragma and the previous ones are not on adjacent lines, do
-        # not make them adjacent in the output.
-        if pragma_name != u'Config':
-            if (last_line is not None and
-                    p.sloc_range.start.line - last_line > 1):
-                print('')
-            last_line = p.sloc_range.start.line
 
         if pragma_name == u'Config':
             # Handle testcase configuration pragmas for this file

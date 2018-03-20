@@ -7,7 +7,6 @@ Pouet (5) (5) (5) resolves to:
     function Pouet return Int_Array_Array is (A);
 Pouet (5) (5) resolves to:
     function Pouet return Int_Array_Array is (A);
-
 Resolving xrefs for node <AssignStmt 20:4-20:15>
 ************************************************
 
@@ -23,7 +22,6 @@ Expr: <Id "C" 20:9-20:10>
 Expr: <Int 20:12-20:13>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
 
 Resolving xrefs for node <AssignStmt 23:4-23:19>
 ************************************************
@@ -47,7 +45,6 @@ Expr: <Int 23:16-23:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <AssignStmt 26:4-26:23>
 ************************************************
 
@@ -69,7 +66,6 @@ Expr: <Int 26:16-26:17>
 Expr: <Int 26:20-26:21>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
 
 Resolving xrefs for node <AssignStmt 29:4-29:25>
 ************************************************

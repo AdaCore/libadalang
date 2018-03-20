@@ -8,14 +8,12 @@ Expr: <Id "Lib" 1:6-1:9>
   references: <PackageDecl ["Lib"] 1:1-3:9>
   type:       None
 
-
 Resolving xrefs for node <UsePackageClause 4:1-4:9>
 ***************************************************
 
 Expr: <Id "Lib" 4:5-4:8>
   references: <PackageDecl ["Lib"] 1:1-3:9>
   type:       None
-
 
 Resolving xrefs for node <CallStmt 9:4-9:21>
 ********************************************

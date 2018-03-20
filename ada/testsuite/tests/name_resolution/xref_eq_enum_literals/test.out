@@ -11,7 +11,6 @@ Expr: <Id "Enum_1" 8:9-8:15>
   references: <EnumLiteralDecl ["Enum_1"] 2:15-2:21>
   type:       <TypeDecl ["A"] 2:4-2:31>
 
-
 Resolving xrefs for node <AssignStmt 11:4-11:16>
 ************************************************
 
@@ -21,7 +20,6 @@ Expr: <Id "Q" 11:4-11:5>
 Expr: <Id "Enum_1" 11:9-11:15>
   references: <EnumLiteralDecl ["Enum_1"] 3:15-3:21>
   type:       <TypeDecl ["B"] 3:4-3:39>
-
 
 Resolving xrefs for node <AssignStmt 14:4-14:16>
 ************************************************

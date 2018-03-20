@@ -4,7 +4,6 @@ Analyzing boo.ads
 In Boo
 ------
 
-
 A resolves to:
     A : Integer;
 
@@ -13,7 +12,6 @@ Analyzing far.ads
 
 In Far
 ------
-
 
 A resolves to:
     <none>

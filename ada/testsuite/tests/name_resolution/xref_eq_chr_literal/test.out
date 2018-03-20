@@ -11,7 +11,6 @@ Expr: <Chr "'a'" 6:9-6:12>
   references: None
   type:       <TypeDecl ["Char"] 2:4-2:33>
 
-
 Resolving xrefs for node <AssignStmt 9:4-9:12>
 **********************************************
 

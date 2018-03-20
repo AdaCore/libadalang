@@ -14,7 +14,6 @@ Expr: <Id "IA" 11:9-11:11>
   references: <ObjectDecl ["IA"] 8:4-8:28>
   type:       <TypeDecl ["Int_Access"] 3:4-3:42>
 
-
 Resolving xrefs for node <CallStmt 14:4-14:13>
 **********************************************
 

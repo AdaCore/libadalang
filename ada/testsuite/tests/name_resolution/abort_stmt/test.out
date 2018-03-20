@@ -8,7 +8,6 @@ Expr: <Id "T" 35:10-35:11>
   references: <SingleTaskDecl ["T"] 5:7-6:13>
   type:       <SingleTaskTypeDecl ["T"] 5:12-6:12>
 
-
 Resolving xrefs for node <AbortStmt 38:4-38:13>
 ***********************************************
 

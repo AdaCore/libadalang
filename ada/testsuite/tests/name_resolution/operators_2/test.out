@@ -17,7 +17,6 @@ Expr: <Id "C" 14:13-14:14>
   references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-
 Resolving xrefs for node <AssignStmt 17:4-17:17>
 ************************************************
 
@@ -33,7 +32,6 @@ Expr: <Id "B" 17:11-17:12>
 Expr: <Id "C" 17:15-17:16>
   references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-
 
 Resolving xrefs for node <AssignStmt 20:4-20:15>
 ************************************************

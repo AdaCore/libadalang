@@ -7,7 +7,6 @@ Bar.R.A resolves to:
     A : Record_Type_2;
 Bar.R.A.B resolves to:
     B : Integer;
-
 Baz.Loul resolves to:
     <none>
 

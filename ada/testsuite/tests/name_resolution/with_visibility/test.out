@@ -7,12 +7,10 @@ Bar.R.A resolves to:
     A : Record_Type_2;
 Bar.R.A.B resolves to:
     B : Integer;
-
 Bar.Pouet resolves to:
     function Pouet return Baz.Integer;
 Baz.Pouet resolves to:
     <none>
-
 Baz.Loul resolves to:
     <none>
 

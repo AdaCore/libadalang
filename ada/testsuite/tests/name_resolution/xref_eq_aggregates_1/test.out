@@ -17,12 +17,10 @@ Expr: <Int 11:13-11:14>
   references: None
   type:       <TypeDecl ["Integer"] 2:4-2:34>
 
-
 Resolving xrefs for node <AssignStmt 14:4-14:18>
 ************************************************
 
 Resolution failed for node <AssignStmt 14:4-14:18>
-
 
 Resolving xrefs for node <AssignStmt 17:4-17:18>
 ************************************************

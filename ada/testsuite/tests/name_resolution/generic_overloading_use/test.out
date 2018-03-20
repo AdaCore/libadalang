@@ -17,7 +17,6 @@ Expr: <Real 13:16-13:20>
   references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 
-
 Resolving xrefs for node <CallStmt 16:4-16:19>
 **********************************************
 

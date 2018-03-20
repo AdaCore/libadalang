@@ -4,10 +4,8 @@ Analyzing tagged_prims.adb
 T_Inst.Baz resolves to:
     Baz : Int;
     procedure Baz (Self : T'Class) is null;
-
 T_Inst.Baz (12) resolves to:
     procedure Baz (Self : T'Class; Pouet : Int) is null;
-
 Resolving xrefs for node <CallStmt 26:4-26:15>
 **********************************************
 
@@ -20,7 +18,6 @@ Expr: <Id "T_Inst" 26:4-26:10>
 Expr: <Id "Baz" 26:11-26:14>
   references: <NullSubpDecl ["Baz"] 12:4-12:43>
   type:       None
-
 
 Resolving xrefs for node <CallStmt 29:4-29:20>
 **********************************************
@@ -37,7 +34,6 @@ Expr: <Id "T_Inst" 29:9-29:15>
 Expr: <Id "A" 29:17-29:18>
   references: <ObjectDecl ["A"] 19:4-19:12>
   type:       <TypeDecl ["Int"] 3:4-3:31>
-
 
 Resolving xrefs for node <CallStmt 32:4-32:19>
 **********************************************

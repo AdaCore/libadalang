@@ -11,12 +11,10 @@ Expr: <Str ""abc"" 13:9-13:14>
   references: None
   type:       <TypeDecl ["Str"] 4:4-4:36>
 
-
 Resolving xrefs for node <AssignStmt 16:4-16:15>
 ************************************************
 
 Resolution failed for node <AssignStmt 16:4-16:15>
-
 
 Resolving xrefs for node <AssignStmt 19:4-19:21>
 ************************************************

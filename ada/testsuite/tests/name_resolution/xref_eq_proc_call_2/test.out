@@ -14,7 +14,6 @@ Expr: <Int 8:7-8:9>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <AssignStmt 11:4-11:16>
 ************************************************
 
@@ -30,7 +29,6 @@ Expr: <Id "C" 11:9-11:10>
 Expr: <Int 11:12-11:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
 
 Resolving xrefs for node <CallStmt 14:4-14:11>
 **********************************************

@@ -17,7 +17,6 @@ Expr: <Real 11:14-11:18>
   references: None
   type:       <TypeDecl ["Float"] 13:3-14:51>
 
-
 Resolving xrefs for node <AssignStmt 14:4-14:20>
 ************************************************
 

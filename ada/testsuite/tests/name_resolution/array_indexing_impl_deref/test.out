@@ -3,7 +3,6 @@ Analyzing testimplderef.adb
 
 Inst_2 (2) resolves to:
     Inst_2 : Ptr_Arr := new Arr'(others => 12);
-
 Resolving xrefs for node <AssignStmt 25:4-25:21>
 ************************************************
 

@@ -253,7 +253,6 @@ procedure Nameres is
          Display_Short_Images : Boolean := False;
 
          Empty     : Boolean := True;
-         Last_Line : Natural := 0;
          P_Node    : Pragma_Node;
 
          function Is_Pragma_Node (N : Ada_Node) return Boolean is
@@ -296,18 +295,6 @@ procedure Nameres is
          for Node of Find (Root (Unit), Is_Pragma_Node'Access).Consume loop
 
             P_Node := As_Pragma_Node (Node);
-
-            --  If this pragma and the previous ones are not on adjacent lines,
-            --  do not make them adjacent in the output.
-            if Pragma_Name /= "Config" then
-               if Last_Line /= 0
-                     and then
-                  Natural (Sloc_Range (Node).Start_Line) - Last_Line > 1
-               then
-                  New_Line;
-               end if;
-               Last_Line := Natural (Sloc_Range (Node).End_Line);
-            end if;
 
             if Pragma_Name = "Config" then
                --  Handle testcase configuration pragmas for this file
@@ -556,7 +543,7 @@ begin
       begin
          Unit := Get_From_File (Ctx, File);
 
-         if not Quiet then
+         if not (Quiet or else Only_Show_Failures) then
             Put_Title ('#', "Analyzing " & File);
          end if;
          Process_File (Unit, File);
@@ -566,9 +553,4 @@ begin
    Destroy (Ctx);
    Destroy (UFP);
    Put_Line ("Done.");
-exception
-   when others =>
-      Put_Line ("Traceback:");
-      Put_Line ("");
-      raise;
 end Nameres;

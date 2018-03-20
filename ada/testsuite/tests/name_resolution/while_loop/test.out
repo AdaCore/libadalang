@@ -11,14 +11,12 @@ Expr: <Id "Foo" 8:12-8:15>
   references: <SubpDecl ["Foo"] 2:4-2:32>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-
 Resolving xrefs for node <ExitStmt 10:7-10:21>
 **********************************************
 
 Expr: <Id "Foo" 10:17-10:20>
   references: <SubpDecl ["Foo"] 3:4-3:32>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
-
 
 Resolving xrefs for node <WhileLoopStmt 7:4-12:13>
 **************************************************

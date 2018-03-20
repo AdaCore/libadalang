@@ -17,7 +17,6 @@ Expr: <Int 22:11-22:13>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <AssignStmt 25:4-25:14>
 ************************************************
 
@@ -33,7 +32,6 @@ Expr: <Id "B" 25:6-25:7>
 Expr: <Int 25:11-25:13>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
 
 Resolving xrefs for node <AssignStmt 28:4-28:18>
 ************************************************
@@ -54,7 +52,6 @@ Expr: <Int 28:15-28:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <AssignStmt 31:4-31:18>
 ************************************************
 
@@ -74,7 +71,6 @@ Expr: <Int 31:15-31:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <AssignStmt 34:4-34:14>
 ************************************************
 
@@ -90,7 +86,6 @@ Expr: <Id "D" 34:6-34:7>
 Expr: <Int 34:11-34:13>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
 
 Resolving xrefs for node <AssignStmt 37:4-37:14>
 ************************************************

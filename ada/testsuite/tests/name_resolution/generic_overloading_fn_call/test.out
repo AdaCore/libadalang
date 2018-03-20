@@ -23,7 +23,6 @@ Expr: <Id "B" 10:26-10:27>
   references: <ObjectDecl ["B"] 8:4-8:21>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-
 Resolving xrefs for node <AssignStmt 13:4-13:35>
 ************************************************
 

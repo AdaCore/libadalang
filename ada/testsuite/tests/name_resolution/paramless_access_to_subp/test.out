@@ -14,7 +14,6 @@ Expr: <Id "A_Ptr" 11:9-11:14>
   references: <ObjectDecl ["A_Ptr"] 6:4-6:31>
   type:       <TypeDecl ["Fn_Ptr"] 2:4-2:50>
 
-
 A_Ptr resolves to:
     A_Ptr : Fn_Ptr := A'Access;
 A_Ptr.all resolves to:

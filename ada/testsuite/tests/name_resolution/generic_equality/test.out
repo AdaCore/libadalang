@@ -11,7 +11,6 @@ Expr: <Id "V2" 10:9-10:11>
   references: <ObjectDecl ["V", "V2"] 7:4-7:31>
   type:       <| TypeDecl ["Vector"] 4:4-4:27 [main.adb:4:4] |>
 
-
 Resolving xrefs for node <AssignStmt 13:4-13:13>
 ************************************************
 
@@ -21,7 +20,6 @@ Expr: <Id "V3" 13:4-13:6>
 Expr: <Id "V4" 13:10-13:12>
   references: <ObjectDecl ["V3", "V4"] 8:4-8:33>
   type:       <| TypeDecl ["Vector"] 4:4-4:27 [main.adb:5:4] |>
-
 
 Resolving xrefs for node <AssignStmt 16:4-16:12>
 ************************************************

@@ -11,7 +11,6 @@ Expr: <Int 5:15-5:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-
 Resolving xrefs for node <ExtendedReturnStmt 4:7-7:18>
 ******************************************************
 

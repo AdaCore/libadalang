@@ -14,7 +14,6 @@ Expr: <Id "T" 13:13-13:14>
   references: <TypeDecl ["T"] 4:4-6:15>
   type:       None
 
-
 Resolving xrefs for node <AssignStmt 16:4-16:24>
 ************************************************
 

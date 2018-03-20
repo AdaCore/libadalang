@@ -17,7 +17,6 @@ Expr: <Id "Foo" 6:11-6:14>
   references: <ExprFunction ["Foo"] 2:4-2:40>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-
 Resolving xrefs for node <AssignStmt 9:4-9:17>
 **********************************************
 

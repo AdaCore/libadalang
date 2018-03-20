@@ -8,7 +8,6 @@ Expr: <Id "C" 6:15-6:16>
   references: <LabelDecl ["C"] 5:12-5:13>
   type:       None
 
-
 Resolving xrefs for node <GotoStmt 9:10-9:21>
 *********************************************
 

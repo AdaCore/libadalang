@@ -23,7 +23,6 @@ Expr: <Int 19:23-19:24>
   references: None
   type:       <TypeDecl ["Integer"] 5:4-5:34>
 
-
 Resolving xrefs for node <AssignStmt 22:4-22:45>
 ************************************************
 
@@ -58,7 +57,6 @@ Expr: <Real 22:40-22:43>
   references: None
   type:       <TypeDecl ["Float"] 4:4-4:39>
 
-
 Resolving xrefs for node <AssignStmt 25:4-25:41>
 ************************************************
 
@@ -89,7 +87,6 @@ Expr: <Id "A" 25:32-25:33>
 Expr: <Real 25:36-25:39>
   references: None
   type:       <TypeDecl ["Float"] 4:4-4:39>
-
 
 Resolving xrefs for node <AssignStmt 28:4-28:26>
 ************************************************

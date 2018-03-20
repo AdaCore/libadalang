@@ -4235,7 +4235,7 @@ class BinOp(Expr):
                        subp.subp_spec_or_null.return_type)
 
             # The operator references the subprogram
-            & TypeBind(Self.op.ref_var, subp)
+            & Bind(Self.op.ref_var, subp)
         )) | Self.no_overload_equation)
 
     @langkit_property(dynamic_vars=[origin])

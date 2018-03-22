@@ -5399,6 +5399,12 @@ class DefiningName(Name):
     ref_var = Property(Self.name.ref_var)
     env_elements_impl = Property(Entity.name.env_elements_impl)
 
+    basic_decl = Property(
+        Self.parents.find(lambda p: p.is_a(T.BasicDecl))
+        .cast_or_raise(T.BasicDecl).as_entity,
+        public=True, doc="Returns this DefiningName's basic declaration"
+    )
+
 
 @abstract
 class BaseId(SingleTokNode):

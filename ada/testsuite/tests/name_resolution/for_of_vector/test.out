@@ -4,16 +4,10 @@ Analyzing testvec.adb
 Resolving xrefs for node <SubpSpec 4:1-4:18>
 ********************************************
 
-Expr: <Id "Testvec" 4:11-4:18>
-  references: None
-  type:       None
 
 Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:55>
 ****************************************************************************
 
-Expr: <Id "Int_Vecs" 5:12-5:20>
-  references: None
-  type:       None
 Expr: <Id "Vectors" 5:28-5:35>
   references: <GenericPackageDecl ["Vectors"] 40:1-518:13>
   type:       None
@@ -27,9 +21,6 @@ Expr: <Id "Integer" 5:46-5:53>
 Resolving xrefs for node <ObjectDecl ["I"] 7:4-7:24>
 ****************************************************
 
-Expr: <Id "I" 7:4-7:5>
-  references: None
-  type:       None
 Expr: <DottedName 7:8-7:23>
   references: <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
   type:       None
@@ -43,9 +34,6 @@ Expr: <Id "Vector" 7:17-7:23>
 Resolving xrefs for node <ObjectDecl ["A"] 8:4-8:16>
 ****************************************************
 
-Expr: <Id "A" 8:4-8:5>
-  references: None
-  type:       None
 Expr: <Id "Integer" 8:8-8:15>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -133,9 +121,6 @@ Resolving xrefs for node <ForLoopStmt 15:4-17:13>
 Resolving xrefs for node <ForLoopSpec 15:8-15:15>
 *************************************************
 
-Expr: <Id "El" 15:8-15:10>
-  references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "I" 15:14-15:15>
   references: <ObjectDecl ["I"] 7:4-7:24>
   type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>

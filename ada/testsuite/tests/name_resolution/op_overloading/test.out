@@ -4,46 +4,22 @@ Analyzing tests1.adb
 Resolving xrefs for node <SubpSpec 1:1-1:17>
 ********************************************
 
-Expr: <Id "Tests1" 1:11-1:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["File_Type"] 2:4-2:34>
 **********************************************************
 
-Expr: <Id "File_Type" 2:9-2:18>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["File_Kind"] 3:4-3:55>
 **********************************************************
 
-Expr: <Id "File_Kind" 3:9-3:18>
-  references: None
-  type:       None
-Expr: <Id "In_File" 3:23-3:30>
-  references: None
-  type:       None
-Expr: <Id "Out_File" 3:32-3:40>
-  references: None
-  type:       None
-Expr: <Id "In_Out_File" 3:42-3:53>
-  references: None
-  type:       None
 
 Resolving xrefs for node <SubpSpec 5:4-6:61>
 ********************************************
 
-Expr: <Id "Create" 5:14-5:20>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["Self"] 6:7-6:27>
 ******************************************************
 
-Expr: <Id "Self" 6:7-6:11>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 6:18-6:27>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -51,9 +27,6 @@ Expr: <Id "File_Type" 6:18-6:27>
 Resolving xrefs for node <ParamSpec ["Kind"] 6:29-6:45>
 *******************************************************
 
-Expr: <Id "Kind" 6:29-6:33>
-  references: None
-  type:       None
 Expr: <Id "File_Kind" 6:36-6:45>
   references: <TypeDecl ["File_Kind"] 3:4-3:55>
   type:       None
@@ -61,9 +34,6 @@ Expr: <Id "File_Kind" 6:36-6:45>
 Resolving xrefs for node <ParamSpec ["Name"] 6:47-6:60>
 *******************************************************
 
-Expr: <Id "Name" 6:47-6:51>
-  references: None
-  type:       None
 Expr: <Id "String" 6:54-6:60>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -71,9 +41,6 @@ Expr: <Id "String" 6:54-6:60>
 Resolving xrefs for node <SubpSpec 8:4-8:54>
 ********************************************
 
-Expr: <Id "Is_Open" 8:13-8:20>
-  references: None
-  type:       None
 Expr: <Id "Boolean" 8:47-8:54>
   references: <TypeDecl ["Boolean"] 3:3-3:33>
   type:       None
@@ -81,9 +48,6 @@ Expr: <Id "Boolean" 8:47-8:54>
 Resolving xrefs for node <ParamSpec ["Self"] 8:22-8:38>
 *******************************************************
 
-Expr: <Id "Self" 8:22-8:26>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 8:29-8:38>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -91,16 +55,10 @@ Expr: <Id "File_Type" 8:29-8:38>
 Resolving xrefs for node <SubpSpec 10:4-10:56>
 **********************************************
 
-Expr: <Id "Put_Line" 10:14-10:22>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["Self"] 10:24-10:40>
 *********************************************************
 
-Expr: <Id "Self" 10:24-10:28>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 10:31-10:40>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -108,9 +66,6 @@ Expr: <Id "File_Type" 10:31-10:40>
 Resolving xrefs for node <ParamSpec ["Line"] 10:42-10:55>
 *********************************************************
 
-Expr: <Id "Line" 10:42-10:46>
-  references: None
-  type:       None
 Expr: <Id "String" 10:49-10:55>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -118,16 +73,10 @@ Expr: <Id "String" 10:49-10:55>
 Resolving xrefs for node <SubpSpec 12:4-12:38>
 **********************************************
 
-Expr: <Id "Close" 12:14-12:19>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["Self"] 12:21-12:37>
 *********************************************************
 
-Expr: <Id "Self" 12:21-12:25>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 12:28-12:37>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -135,9 +84,6 @@ Expr: <Id "File_Type" 12:28-12:37>
 Resolving xrefs for node <TypeDecl ["File_Type_Access"] 14:4-14:50>
 *******************************************************************
 
-Expr: <Id "File_Type_Access" 14:9-14:25>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 14:40-14:49>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -145,9 +91,6 @@ Expr: <Id "File_Type" 14:40-14:49>
 Resolving xrefs for node <ObjectDecl ["f"] 16:4-16:25>
 ******************************************************
 
-Expr: <Id "f" 16:4-16:5>
-  references: None
-  type:       None
 Expr: <Id "File_Type" 16:15-16:24>
   references: <TypeDecl ["File_Type"] 2:4-2:34>
   type:       None
@@ -155,12 +98,6 @@ Expr: <Id "File_Type" 16:15-16:24>
 Resolving xrefs for node <ObjectDecl ["g", "h"] 17:4-17:27>
 ***********************************************************
 
-Expr: <Id "g" 17:4-17:5>
-  references: None
-  type:       None
-Expr: <Id "h" 17:7-17:8>
-  references: None
-  type:       None
 Expr: <Id "File_Type_Access" 17:10-17:26>
   references: <TypeDecl ["File_Type_Access"] 14:4-14:50>
   type:       None
@@ -168,16 +105,10 @@ Expr: <Id "File_Type_Access" 17:10-17:26>
 Resolving xrefs for node <SubpSpec 19:4-19:39>
 **********************************************
 
-Expr: <Id "Lala" 19:14-19:18>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["x"] 19:19-19:38>
 ******************************************************
 
-Expr: <Id "x" 19:19-19:20>
-  references: None
-  type:       None
 Expr: <Id "File_Type_Access" 19:22-19:38>
   references: <TypeDecl ["File_Type_Access"] 14:4-14:50>
   type:       None
@@ -204,9 +135,6 @@ Expr: <Str ""lalala"" 21:23-21:31>
 Resolving xrefs for node <SubpSpec 24:4-24:62>
 **********************************************
 
-Expr: <Str ""="" 24:13-24:16>
-  references: None
-  type:       None
 Expr: <Id "Boolean" 24:55-24:62>
   references: <TypeDecl ["Boolean"] 3:3-3:33>
   type:       None
@@ -214,12 +142,6 @@ Expr: <Id "Boolean" 24:55-24:62>
 Resolving xrefs for node <ParamSpec ["lhs", "rhs"] 24:17-24:46>
 ***************************************************************
 
-Expr: <Id "lhs" 24:17-24:20>
-  references: None
-  type:       None
-Expr: <Id "rhs" 24:22-24:25>
-  references: None
-  type:       None
 Expr: <Id "File_Type_Access" 24:30-24:46>
   references: <TypeDecl ["File_Type_Access"] 14:4-14:50>
   type:       None

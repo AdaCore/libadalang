@@ -18,7 +18,9 @@ CompilationUnit[1:1-4:9]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:13-1:16]: Foo
+|  |  |  |  DefiningName[1:13-1:16]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:13-1:16]: Foo
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>

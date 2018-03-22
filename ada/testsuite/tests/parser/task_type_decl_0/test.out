@@ -1,6 +1,8 @@
 TaskTypeDecl[1:1-1:145]
 |name:
-|  Id[1:11-1:27]: Buffer_Pool_Task
+|  DefiningName[1:11-1:27]
+|  |name:
+|  |  Id[1:11-1:27]: Buffer_Pool_Task
 |discriminants: <null>
 |aspects: <null>
 |definition:
@@ -17,7 +19,9 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:37-1:75]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:37-1:43]: Insert
+|  |  |  |  |  |  DefiningName[1:37-1:43]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:37-1:43]: Insert
 |  |  |  |  |  |family_type:
 |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
 |  |  |  |  |  |  |has_not_null:
@@ -31,8 +35,10 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |  |  |  ParamSpecList[1:57-1:74]
 |  |  |  |  |  |  |  |  ParamSpec[1:57-1:74]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:57-1:64]
-|  |  |  |  |  |  |  |  |  |  Id[1:57-1:64]: An_Item
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:57-1:64]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:57-1:64]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:57-1:64]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:66-1:66]
 |  |  |  |  |  |  |  |  |mode:
@@ -52,7 +58,9 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:83-1:122]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:83-1:89]: Remove
+|  |  |  |  |  |  DefiningName[1:83-1:89]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:83-1:89]: Remove
 |  |  |  |  |  |family_type:
 |  |  |  |  |  |  SubtypeIndication[1:91-1:100]
 |  |  |  |  |  |  |has_not_null:
@@ -66,8 +74,10 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |  |  |  ParamSpecList[1:103-1:121]
 |  |  |  |  |  |  |  |  ParamSpec[1:103-1:121]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:103-1:110]
-|  |  |  |  |  |  |  |  |  |  Id[1:103-1:110]: An_Item
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:103-1:110]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:103-1:110]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:103-1:110]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:112-1:112]
 |  |  |  |  |  |  |  |  |mode:

@@ -1,5 +1,5 @@
 WithClause: has_limited = <LimitedPresent 1:1-1:1>
 WithClause: has_private = <PrivateAbsent 1:8-1:8>
 WithClause: overriding = <OverridingUnspecified 1:26-1:26>
-Identifier: tok = Foo
+DefiningName: text = Foo
 Done.

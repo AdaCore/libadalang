@@ -2,7 +2,9 @@ SubpSpec[1:1-1:37]
 |subp_kind:
 |  SubpKindFunction[1:1-1:9]
 |subp_name:
-|  Id[1:10-1:11]: A
+|  DefiningName[1:10-1:11]
+|  |name:
+|  |  Id[1:10-1:11]: A
 |subp_params: <null>
 |subp_returns:
 |  SubtypeIndication[1:19-1:37]

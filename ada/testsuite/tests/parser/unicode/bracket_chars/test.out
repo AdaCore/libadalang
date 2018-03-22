@@ -14,7 +14,9 @@ CompilationUnit[1:1-7:9]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:14]: Foo
+|  |  |  |  DefiningName[1:11-1:14]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:14]: Foo
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -24,20 +26,26 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  AdaNodeList[2:4-4:56]
 |  |  |  |  |  NumberDecl[2:4-2:32]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[2:4-2:12]
-|  |  |  |  |  |  |  Id[2:4-2:12]: ["03C0"]
+|  |  |  |  |  |  DefiningNameList[2:4-2:12]
+|  |  |  |  |  |  |  DefiningName[2:4-2:12]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[2:4-2:12]: ["03C0"]
 |  |  |  |  |  |expr:
 |  |  |  |  |  |  Real[2:27-2:31]: 3.14
 |  |  |  |  |  NumberDecl[3:4-3:40]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[3:4-3:20]
-|  |  |  |  |  |  |  Id[3:4-3:20]: This_Is_["03C0"]
+|  |  |  |  |  |  DefiningNameList[3:4-3:20]
+|  |  |  |  |  |  |  DefiningName[3:4-3:20]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[3:4-3:20]: This_Is_["03C0"]
 |  |  |  |  |  |expr:
 |  |  |  |  |  |  Real[3:35-3:39]: 3.14
 |  |  |  |  |  ObjectDecl[4:4-4:56]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[4:4-4:21]
-|  |  |  |  |  |  |  Id[4:4-4:21]: ["000003C0"]_Name
+|  |  |  |  |  |  DefiningNameList[4:4-4:21]
+|  |  |  |  |  |  |  DefiningName[4:4-4:21]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[4:4-4:21]: ["000003C0"]_Name
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[4:23-4:23]
 |  |  |  |  |  |has_constant:

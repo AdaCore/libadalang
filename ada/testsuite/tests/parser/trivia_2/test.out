@@ -26,14 +26,16 @@ CompilationUnit
 |  -----------------------------
 |  LibraryItem
 |  |  PackageBody
-|  |  |  DottedName
-|  |  |  |  Id
-|  |  |  |  Id
+|  |  |  DefiningName
+|  |  |  |  DottedName
+|  |  |  |  |  Id
+|  |  |  |  |  Id
 |  |  |  DeclarativePart
 |  |  |  |  AdaNodeList
 |  |  |  |  |  ObjectDecl
-|  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  BinOp
@@ -48,25 +50,29 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindProcedure
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  ModeInOut
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  DeclarativePart
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  |  |  ObjectDecl
-|  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  BinOp
@@ -109,7 +115,8 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  ForLoopStmt
 |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopSpec
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ForLoopVarDecl
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  IterTypeIn
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
@@ -213,18 +220,21 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindProcedure
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  ModeInOut
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  HandledStmts
@@ -324,17 +334,20 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -388,17 +401,20 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -458,12 +474,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindProcedure
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  ModeInOut
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
@@ -484,12 +502,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindProcedure
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  ModeInOut
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
@@ -507,12 +527,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -539,12 +561,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -571,12 +595,14 @@ CompilationUnit
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -595,12 +621,14 @@ CompilationUnit
 |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -615,18 +643,22 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -683,12 +715,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -730,12 +764,14 @@ CompilationUnit
 |  |  |  |  |  SubpBody
 |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  SubtypeIndication
@@ -745,17 +781,20 @@ CompilationUnit
 |  |  |  |  |  |  |  |  ExprFunction
 |  |  |  |  |  |  |  |  |  SubpSpec
 |  |  |  |  |  |  |  |  |  |  SubpKindFunction
-|  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  Params
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec
-|  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication

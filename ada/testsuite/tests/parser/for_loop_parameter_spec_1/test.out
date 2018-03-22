@@ -2,7 +2,9 @@ ForLoopSpec[1:1-1:19]
 |var_decl:
 |  ForLoopVarDecl[1:1-1:12]
 |  |id:
-|  |  Id[1:1-1:2]: A
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
 |  |id_type:
 |  |  SubtypeIndication[1:5-1:12]
 |  |  |has_not_null:

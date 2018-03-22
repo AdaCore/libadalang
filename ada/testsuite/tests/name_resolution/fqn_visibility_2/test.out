@@ -4,9 +4,6 @@ Analyzing b-c.ads
 Resolving xrefs for node <ObjectDecl ["Private_Int"] 3:4-3:58>
 **************************************************************
 
-Expr: <Id "Private_Int" 3:4-3:15>
-  references: None
-  type:       None
 Expr: <Id "Integer" 3:18-3:25>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

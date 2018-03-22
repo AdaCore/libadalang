@@ -6,16 +6,22 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |subp_kind:
 |  |  SubpKindFunction[1:6-1:14]
 |  |subp_name:
-|  |  Id[1:15-1:20]: Pouet
+|  |  DefiningName[1:15-1:20]
+|  |  |name:
+|  |  |  Id[1:15-1:20]: Pouet
 |  |subp_params:
 |  |  Params[1:21-1:38]
 |  |  |params:
 |  |  |  ParamSpecList[1:22-1:37]
 |  |  |  |  ParamSpec[1:22-1:37]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:22-1:26]
-|  |  |  |  |  |  Id[1:22-1:23]: X
-|  |  |  |  |  |  Id[1:25-1:26]: Y
+|  |  |  |  |  DefiningNameList[1:22-1:26]
+|  |  |  |  |  |  DefiningName[1:22-1:23]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:22-1:23]: X
+|  |  |  |  |  |  DefiningName[1:25-1:26]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:25-1:26]: Y
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:27-1:27]
 |  |  |  |  |mode:

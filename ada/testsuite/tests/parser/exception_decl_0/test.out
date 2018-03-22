@@ -1,8 +1,14 @@
 ExceptionDecl[1:1-1:26]
 |ids:
-|  IdentifierList[1:1-1:13]
-|  |  Id[1:1-1:2]: A
-|  |  Id[1:4-1:5]: B
-|  |  Id[1:7-1:13]: Douche
+|  DefiningNameList[1:1-1:13]
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
+|  |  DefiningName[1:4-1:5]
+|  |  |name:
+|  |  |  Id[1:4-1:5]: B
+|  |  DefiningName[1:7-1:13]
+|  |  |name:
+|  |  |  Id[1:7-1:13]: Douche
 |renames: <null>
 |aspects: <null>

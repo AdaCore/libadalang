@@ -2,8 +2,10 @@ ExtendedReturnStmt[1:1-3:12]
 |decl:
 |  ExtendedReturnStmtObjectDecl[1:8-1:19]
 |  |ids:
-|  |  IdentifierList[1:8-1:9]
-|  |  |  Id[1:8-1:9]: A
+|  |  DefiningNameList[1:8-1:9]
+|  |  |  DefiningName[1:8-1:9]
+|  |  |  |name:
+|  |  |  |  Id[1:8-1:9]: A
 |  |has_aliased:
 |  |  AliasedAbsent[1:11-1:11]
 |  |has_constant:

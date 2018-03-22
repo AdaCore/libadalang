@@ -4,9 +4,6 @@ Analyzing testnull.adb
 Resolving xrefs for node <ObjectDecl ["B"] 5:4-5:28>
 ****************************************************
 
-Expr: <Id "B" 5:4-5:5>
-  references: None
-  type:       None
 Expr: <Id "Int_Ptr" 5:8-5:15>
   references: <TypeDecl ["Int_Ptr"] 2:4-2:35>
   type:       None

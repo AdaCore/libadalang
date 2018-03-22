@@ -4,9 +4,6 @@ Analyzing fail.adb
 Resolving xrefs for node <ObjectDecl ["F"] 8:4-8:32>
 ****************************************************
 
-Expr: <Id "F" 8:4-8:5>
-  references: None
-  type:       None
 Expr: <Id "Fail_Rec" 8:8-8:16>
   references: <TypeDecl ["Fail_Rec"] 4:4-6:15>
   type:       None

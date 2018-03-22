@@ -7,8 +7,10 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |decl:
 |  |  |  |  ObjectDecl[2:5-2:19]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[2:5-2:8]
-|  |  |  |  |  |  Id[2:5-2:8]: Max
+|  |  |  |  |  DefiningNameList[2:5-2:8]
+|  |  |  |  |  |  DefiningName[2:5-2:8]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:5-2:8]: Max
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[2:9-2:9]
 |  |  |  |  |has_constant:
@@ -29,7 +31,9 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |decl:
 |  |  |  |  TypeDecl[3:5-3:31]
 |  |  |  |  |name:
-|  |  |  |  |  Id[3:10-3:19]: Element_T
+|  |  |  |  |  DefiningName[3:10-3:19]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[3:10-3:19]: Element_T
 |  |  |  |  |discriminants: <null>
 |  |  |  |  |type_def:
 |  |  |  |  |  PrivateTypeDef[3:23-3:30]
@@ -43,7 +47,9 @@ GenericPackageDecl[1:1-7:19]
 |package_decl:
 |  GenericPackageInternal[4:1-7:19]
 |  |package_name:
-|  |  Id[4:9-4:22]: Generic_Stack
+|  |  DefiningName[4:9-4:22]
+|  |  |name:
+|  |  |  Id[4:9-4:22]: Generic_Stack
 |  |aspects: <null>
 |  |public_part:
 |  |  PublicPart[4:25-7:1]
@@ -57,15 +63,19 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  SubpKindProcedure[5:5-5:14]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[5:15-5:19]: Push
+|  |  |  |  |  |  DefiningName[5:15-5:19]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[5:15-5:19]: Push
 |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  Params[5:20-5:34]
 |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  ParamSpecList[5:21-5:33]
 |  |  |  |  |  |  |  |  ParamSpec[5:21-5:33]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[5:21-5:22]
-|  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]: E
+|  |  |  |  |  |  |  |  |  DefiningNameList[5:21-5:22]
+|  |  |  |  |  |  |  |  |  |  DefiningName[5:21-5:22]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[5:21-5:22]: E
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[5:23-5:23]
 |  |  |  |  |  |  |  |  |mode:
@@ -88,7 +98,9 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  SubpKindFunction[6:5-6:13]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[6:14-6:17]: Pop
+|  |  |  |  |  |  DefiningName[6:14-6:17]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[6:14-6:17]: Pop
 |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  SubtypeIndication[6:25-6:34]

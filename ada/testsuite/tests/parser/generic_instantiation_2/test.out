@@ -1,6 +1,8 @@
 GenericPackageInstantiation[1:1-1:25]
 |name:
-|  Id[1:9-1:10]: P
+|  DefiningName[1:9-1:10]
+|  |name:
+|  |  Id[1:9-1:10]: P
 |generic_pkg_name:
 |  Id[1:18-1:19]: Q
 |params:

@@ -4,38 +4,14 @@ Analyzing test_array_indices.adb
 Resolving xrefs for node <SubpSpec 1:1-1:29>
 ********************************************
 
-Expr: <Id "Test_Array_Indices" 1:11-1:29>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["Color"] 2:4-2:54>
 ******************************************************
 
-Expr: <Id "Color" 2:9-2:14>
-  references: None
-  type:       None
-Expr: <Id "Yellow" 2:19-2:25>
-  references: None
-  type:       None
-Expr: <Id "Blue" 2:27-2:31>
-  references: None
-  type:       None
-Expr: <Id "Green" 2:33-2:38>
-  references: None
-  type:       None
-Expr: <Id "Black" 2:40-2:45>
-  references: None
-  type:       None
-Expr: <Id "White" 2:47-2:52>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["A"] 3:4-3:39>
 **************************************************
 
-Expr: <Id "A" 3:9-3:10>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 3:14-3:38>
 *************************************************
@@ -50,9 +26,6 @@ Expr: <Id "Integer" 3:31-3:38>
 Resolving xrefs for node <ObjectDecl ["Inst"] 5:4-5:45>
 *******************************************************
 
-Expr: <Id "Inst" 5:4-5:8>
-  references: None
-  type:       None
 Expr: <Id "A" 5:11-5:12>
   references: <TypeDecl ["A"] 3:4-3:39>
   type:       None

@@ -24,15 +24,17 @@ CompilationUnit[1:1-1:48]
 |  |item:
 |  |  GenericPackageInstantiation[1:21-1:48]
 |  |  |name:
-|  |  |  DottedName[1:29-1:34]
-|  |  |  |prefix:
-|  |  |  |  DottedName[1:29-1:32]
+|  |  |  DefiningName[1:29-1:34]
+|  |  |  |name:
+|  |  |  |  DottedName[1:29-1:34]
 |  |  |  |  |prefix:
-|  |  |  |  |  Id[1:29-1:30]: A
+|  |  |  |  |  DottedName[1:29-1:32]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[1:29-1:30]: A
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[1:31-1:32]: B
 |  |  |  |  |suffix:
-|  |  |  |  |  Id[1:31-1:32]: B
-|  |  |  |suffix:
-|  |  |  |  Id[1:33-1:34]: C
+|  |  |  |  |  Id[1:33-1:34]: C
 |  |  |generic_pkg_name:
 |  |  |  Id[1:42-1:43]: B
 |  |  |params:

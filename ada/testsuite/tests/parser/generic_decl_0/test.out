@@ -6,7 +6,9 @@ GenericPackageDecl[1:1-1:43]
 |package_decl:
 |  GenericPackageInternal[1:9-1:43]
 |  |package_name:
-|  |  Id[1:17-1:18]: A
+|  |  DefiningName[1:17-1:18]
+|  |  |name:
+|  |  |  Id[1:17-1:18]: A
 |  |aspects: <null>
 |  |public_part:
 |  |  PublicPart[1:21-1:37]
@@ -20,7 +22,9 @@ GenericPackageDecl[1:1-1:43]
 |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  SubpKindProcedure[1:22-1:31]
 |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  Id[1:32-1:35]: Set
+|  |  |  |  |  |  DefiningName[1:32-1:35]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:32-1:35]: Set
 |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |aspects: <null>

@@ -14,7 +14,9 @@ CompilationUnit[1:1-4:12]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:17]: kikoo\u1820
+|  |  |  |  DefiningName[1:11-1:17]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:17]: kikoo\u1820
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>

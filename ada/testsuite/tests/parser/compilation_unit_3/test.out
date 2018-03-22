@@ -24,7 +24,9 @@ CompilationUnit[1:1-1:44]
 |  |item:
 |  |  GenericPackageInstantiation[1:21-1:44]
 |  |  |name:
-|  |  |  Id[1:29-1:30]: A
+|  |  |  DefiningName[1:29-1:30]
+|  |  |  |name:
+|  |  |  |  Id[1:29-1:30]: A
 |  |  |generic_pkg_name:
 |  |  |  Id[1:38-1:39]: B
 |  |  |params:

@@ -1,6 +1,8 @@
 ProtectedBody[1:1-1:272]
 |name:
-|  Id[1:16-1:37]: protected_buffer_type
+|  DefiningName[1:16-1:37]
+|  |name:
+|  |  Id[1:16-1:37]: protected_buffer_type
 |aspects: <null>
 |decls:
 |  DeclarativePart[1:40-1:246]
@@ -8,7 +10,9 @@ ProtectedBody[1:1-1:272]
 |  |  AdaNodeList[1:41-1:245]
 |  |  |  EntryBody[1:41-1:141]
 |  |  |  |entry_name:
-|  |  |  |  Id[1:47-1:53]: insert
+|  |  |  |  DefiningName[1:47-1:53]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:47-1:53]: insert
 |  |  |  |index_spec: <null>
 |  |  |  |params:
 |  |  |  |  Params[1:54-1:74]
@@ -16,8 +20,10 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  ParamSpecList[1:55-1:73]
 |  |  |  |  |  |  ParamSpec[1:55-1:73]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:55-1:62]
-|  |  |  |  |  |  |  |  Id[1:55-1:62]: an_item
+|  |  |  |  |  |  |  DefiningNameList[1:55-1:62]
+|  |  |  |  |  |  |  |  DefiningName[1:55-1:62]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:55-1:62]: an_item
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
 |  |  |  |  |  |  |mode:
@@ -56,7 +62,9 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  Id[1:134-1:140]: insert
 |  |  |  EntryBody[1:142-1:245]
 |  |  |  |entry_name:
-|  |  |  |  Id[1:148-1:154]: remove
+|  |  |  |  DefiningName[1:148-1:154]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:148-1:154]: remove
 |  |  |  |index_spec: <null>
 |  |  |  |params:
 |  |  |  |  Params[1:155-1:175]
@@ -64,8 +72,10 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  ParamSpecList[1:156-1:174]
 |  |  |  |  |  |  ParamSpec[1:156-1:174]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:156-1:163]
-|  |  |  |  |  |  |  |  Id[1:156-1:163]: an_item
+|  |  |  |  |  |  |  DefiningNameList[1:156-1:163]
+|  |  |  |  |  |  |  |  DefiningName[1:156-1:163]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:156-1:163]: an_item
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:165-1:165]
 |  |  |  |  |  |  |mode:

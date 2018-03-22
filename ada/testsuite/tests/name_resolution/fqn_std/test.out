@@ -4,9 +4,6 @@ Analyzing teststd.adb
 Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:33>
 ****************************************************
 
-Expr: <Id "A" 2:4-2:5>
-  references: None
-  type:       None
 Expr: <DottedName 2:8-2:24>
   references: <TypeDecl ["Boolean"] 3:3-3:33>
   type:       None

@@ -4,9 +4,6 @@ Analyzing testcw.adb
 Resolving xrefs for node <ObjectDecl ["CW"] 15:7-15:35>
 *******************************************************
 
-Expr: <Id "CW" 15:7-15:9>
-  references: None
-  type:       None
 Expr: <AttributeRef 15:12-15:19>
   references: <TypeDecl ["A"] 3:7-5:18>
   type:       None

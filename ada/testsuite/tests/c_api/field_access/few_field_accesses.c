@@ -95,8 +95,8 @@ main(void)
 
     if (!ada_subp_spec_f_subp_name(&tmp, &tmp))
       error("Could not get SubpBody.subp_spec.name");
-    if (ada_node_kind(&tmp) != ada_identifier)
-      error("SubpBody.subp_spec.name is not an Identifier");
+    if (ada_node_kind(&tmp) != ada_defining_name)
+      error("SubpBody.subp_spec.name is not a DefiningName");
     subp_name = tmp;
 
     if (!ada_ada_node_token_start(&subp_name, &tok))

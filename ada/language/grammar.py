@@ -27,7 +27,7 @@ def package_decl_factory(dest_class):
     :rtype: Parser
     """
     return dest_class(
-        "package", A.static_name, A.aspect_spec, "is",
+        "package", A.defining_name, A.aspect_spec, "is",
         PublicPart(A.basic_decls.dont_skip(Or("private", "end"))),
         Opt("private", PrivatePart(A.basic_decls.dont_skip("end"))),
         end_liblevel_block(), sc()
@@ -61,7 +61,7 @@ def generic_renaming_decl(keyword, dest_class):
     :rtype: Transform
     """
     return dest_class(
-        "generic", keyword, A.static_name, "renames", A.static_name,
+        "generic", keyword, A.defining_name, "renames", A.static_name,
         A.aspect_spec, ";"
     )
 
@@ -87,7 +87,7 @@ A.add_rules(
 
     protected_type_decl=ProtectedTypeDecl(
         L.Identifier(match_text="protected"),
-        "type", A.identifier, Opt(A.discriminant_part),
+        "type", A.defining_id, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", A.parent_list, "with"),
         A.protected_def, sc()
@@ -107,7 +107,7 @@ A.add_rules(
 
     protected_decl=SingleProtectedDecl(
         L.Identifier(match_text="protected"),
-        A.identifier, A.aspect_spec,
+        A.defining_id, A.aspect_spec,
         "is",
         Opt("new", A.parent_list, "with"),
         A.protected_def, sc()
@@ -129,13 +129,13 @@ A.add_rules(
     ),
 
     task_type_decl=TaskTypeDecl(
-        "task", "type", cut(), A.identifier, Opt(A.discriminant_part),
+        "task", "type", cut(), A.defining_id, Opt(A.discriminant_part),
         A.aspect_spec,
         Opt(A.task_def), sc()
     ),
 
     subtype_decl=SubtypeDecl(
-        "subtype", A.identifier, "is", A.subtype_indication,
+        "subtype", A.defining_id, "is", A.subtype_indication,
         A.aspect_spec, sc()
     ),
 
@@ -219,7 +219,7 @@ A.add_rules(
                   A.index_constraint),
 
     discriminant_spec=DiscriminantSpec(
-        List(A.identifier, sep=","), ":", A.type_expr,
+        List(A.defining_id, sep=","), ":", A.type_expr,
         Opt(":=", A.expr)
     ),
 
@@ -230,7 +230,9 @@ A.add_rules(
         UnknownDiscriminantPart("(", "<>", ")"),
     ),
 
-    enum_literal_decl=EnumLiteralDecl(A.identifier | A.char_literal),
+    enum_literal_decl=EnumLiteralDecl(
+        A.defining_id | DefiningName(A.char_literal)
+    ),
 
     formal_discrete_type_def=FormalDiscreteTypeDef("(", "<>", ")"),
 
@@ -296,14 +298,14 @@ A.add_rules(
     ),
 
     anonymous_type_decl=AnonymousTypeDecl(
-        Null(A.identifier), Null(A.discriminant_part),
+        Null(A.defining_id), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
         A.aspect_spec
     ),
 
     type_decl=Or(
         TypeDecl(
-            "type", A.identifier, Opt(A.discriminant_part),
+            "type", A.defining_id, Opt(A.discriminant_part),
             "is",
             Or(
                 A.type_def,
@@ -318,11 +320,11 @@ A.add_rules(
             A.aspect_spec, sc()
         ),
         IncompleteTaggedTypeDecl(
-            "type", A.identifier, Opt(A.discriminant_part),
+            "type", A.defining_id, Opt(A.discriminant_part),
             "is", Abstract("abstract"), "tagged", ";"
         ),
         IncompleteTypeDecl(
-            "type", A.identifier, Opt(A.discriminant_part), ";"
+            "type", A.defining_id, Opt(A.discriminant_part), ";"
         ),
     ),
 
@@ -346,7 +348,7 @@ A.add_rules(
     ),
 
     component_decl=ComponentDecl(
-        List(A.identifier, sep=","), ":", A.component_def,
+        List(A.defining_id, sep=","), ":", A.component_def,
         Opt(":=", A.expr), A.aspect_spec, sc()
     ),
 
@@ -406,7 +408,7 @@ A.add_rules(
     generic_instantiation=Or(
         GenericPackageInstantiation(
             "package",
-            A.static_name, "is",
+            A.defining_name, "is",
             "new", A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc()
@@ -418,7 +420,7 @@ A.add_rules(
                 SubpKind.alt_procedure("procedure"),
                 SubpKind.alt_function("function")
             ),
-            A.static_name, "is",
+            A.defining_name, "is",
             "new", A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc(),
@@ -426,14 +428,14 @@ A.add_rules(
     ),
 
     exception_decl=ExceptionDecl(
-        A.id_list, ":", "exception",
+        A.defining_id_list, ":", "exception",
         Opt(A.renaming_clause), A.aspect_spec, sc()
     ),
 
     basic_decls=List(Or(A.basic_decl, Skip(ErrorDecl)), empty_valid=True),
 
     package_renaming_decl=PackageRenamingDecl(
-        "package", A.static_name, A.renaming_clause, A.aspect_spec, sc()
+        "package", A.defining_name, A.renaming_clause, A.aspect_spec, sc()
     ),
 
     package_decl=package_decl_factory(PackageDecl),
@@ -470,7 +472,7 @@ A.add_rules(
     ),
 
     sub_object_decl=ObjectDecl(
-        A.id_list,
+        A.defining_id_list,
         ":",
         Aliased("aliased"),
         Constant("constant"),
@@ -484,7 +486,7 @@ A.add_rules(
     ),
 
     ext_ret_stmt_object_decl=ExtendedReturnStmtObjectDecl(
-        A.id_list,  ":",
+        A.defining_id_list,  ":",
         Aliased("aliased"),
         Constant("constant"),
         Opt(A.mode),
@@ -494,10 +496,10 @@ A.add_rules(
         A.aspect_spec,
     ),
 
-    id_list=List(A.identifier, sep=","),
+    defining_id_list=List(A.defining_id, sep=","),
 
     number_decl=NumberDecl(
-        A.id_list, ":", "constant",
+        A.defining_id_list, ":", "constant",
         cut(),
         ":=",
         A.simple_expr, sc()
@@ -519,7 +521,7 @@ A.add_rules(
     single_task_decl=SingleTaskDecl(
         "task", cut(),
         SingleTaskTypeDecl(
-            A.identifier, Null(A.discriminant_part),
+            A.defining_id, Null(A.discriminant_part),
             A.aspect_spec, Opt(A.task_def)
         ), sc()
     ),
@@ -538,7 +540,7 @@ A.add_rules(
         A.overriding_indicator,
         "entry",
         EntrySpec(
-            A.identifier,
+            A.defining_id,
             Opt("(",
                 A.constrained_subtype_indication
                 | A.discrete_range
@@ -566,7 +568,7 @@ A.add_rules(
     ),
 
     param_spec=ParamSpec(
-        List(A.identifier, sep=","),
+        List(A.defining_id, sep=","),
         ":",
         Aliased("aliased"),
         Opt(A.mode),
@@ -579,7 +581,7 @@ A.add_rules(
     subp_spec=SubpSpec(
         Or(SubpKind.alt_procedure("procedure"),
            SubpKind.alt_function("function")),
-        Opt(A.static_name),
+        Opt(A.defining_name),
         Opt(A.param_specs),
         Opt("return", A.type_expr)
     ),
@@ -737,7 +739,7 @@ A.add_rules(
     decl_part=DeclarativePart(A.basic_decls),
 
     entry_body=EntryBody(
-        "entry", A.identifier,
+        "entry", A.defining_id,
         Opt(EntryIndexSpec("(", "for", A.identifier, "in",
                            A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
@@ -749,37 +751,37 @@ A.add_rules(
 
     protected_body=ProtectedBody(
         L.Identifier(match_text="protected"),
-        "body", A.static_name, A.aspect_spec,
+        "body", A.defining_name, A.aspect_spec,
         "is", A.decl_part.dont_skip("end"),
         end_liblevel_block(), sc()
     ),
 
     protected_body_stub=ProtectedBodyStub(
         L.Identifier(match_text="protected"),
-        "body", A.static_name, "is", "separate",
+        "body", A.defining_name, "is", "separate",
         A.aspect_spec, sc()
     ),
 
     task_body=TaskBody(
-        "task", "body", A.static_name, A.aspect_spec,
+        "task", "body", A.defining_name, A.aspect_spec,
         "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), sc()
     ),
 
     task_body_stub=TaskBodyStub(
-        "task", "body", A.static_name,
+        "task", "body", A.defining_name,
         "is", "separate", A.aspect_spec, sc()
     ),
 
     package_body_stub=PackageBodyStub(
-        "package", "body", A.static_name,
+        "package", "body", A.defining_name,
         "is", "separate", A.aspect_spec, sc()
     ),
 
 
     package_body=PackageBody(
-        "package", "body", cut(), A.static_name, A.aspect_spec,
+        "package", "body", cut(), A.defining_name, A.aspect_spec,
         "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), ";"
@@ -838,7 +840,7 @@ A.add_rules(
 
     block_stmt=Or(
         A.iblock_stmt,
-        NamedStmt(NamedStmtDecl(A.identifier), ":", A.iblock_stmt),
+        NamedStmt(NamedStmtDecl(A.defining_id), ":", A.iblock_stmt),
     ),
 
     iloop_stmt=Or(
@@ -863,7 +865,7 @@ A.add_rules(
 
     loop_stmt=Or(
         A.iloop_stmt,
-        NamedStmt(NamedStmtDecl(A.identifier), ":", A.iloop_stmt),
+        NamedStmt(NamedStmtDecl(A.defining_id), ":", A.iloop_stmt),
     ),
 
     compound_stmt=Or(A.if_stmt, A.block_stmt,
@@ -923,7 +925,7 @@ A.add_rules(
     ),
 
     exception_handler=ExceptionHandler(
-        "when", Opt(A.identifier, ":"),
+        "when", Opt(A.defining_id, ":"),
         List(A.name | A.others_designator, sep="|", list_cls=AlternativesList),
         "=>", A.stmts.dont_skip(Or("when", "pragma", "end"))
     ),
@@ -933,7 +935,7 @@ A.add_rules(
         empty_valid=True, list_cls=StmtList
     ),
 
-    label=Label("<<", LabelDecl(A.identifier), ">>"),
+    label=Label("<<", LabelDecl(A.defining_id), ">>"),
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
@@ -961,6 +963,8 @@ A.add_rules(
     char_literal=CharLiteral(L.Char),
     string_literal=StringLiteral(L.String),
 
+    defining_id=DefiningName(A.identifier),
+
     dec_literal=RealLiteral(L.Decimal),
     int_literal=IntLiteral(L.Integer),
     num_literal=A.dec_literal | A.int_literal,
@@ -973,7 +977,7 @@ A.add_rules(
     ),
 
     for_loop_param_spec=ForLoopSpec(
-        ForLoopVarDecl(A.identifier, Opt(":", A.subtype_indication)),
+        ForLoopVarDecl(A.defining_id, Opt(":", A.subtype_indication)),
         IterType.alt_in("in") | IterType.alt_of("of"),
         Reverse("reverse"),
         A.discrete_range | A.discrete_subtype_indication | A.name
@@ -1101,6 +1105,7 @@ A.add_rules(
 
         A.direct_name_or_target_name,
     ),
+    defining_name=DefiningName(A.static_name),
 
     direct_name_or_target_name=Or(A.direct_name, A.target_name),
 

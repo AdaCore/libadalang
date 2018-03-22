@@ -34,7 +34,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[3:11-3:15]: What
+|  |  |  |  DefiningName[3:11-3:15]
+|  |  |  |  |name:
+|  |  |  |  |  Id[3:11-3:15]: What
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -44,7 +46,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  AdaNodeList[4:4-20:26]
 |  |  |  |  |  TypeDecl[4:4-4:29]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[4:9-4:13]: Enum
+|  |  |  |  |  |  DefiningName[4:9-4:13]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[4:9-4:13]: Enum
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  EnumTypeDef[4:17-4:28]
@@ -52,13 +56,19 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
 |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[4:18-4:19]: A
+|  |  |  |  |  |  |  |  |  DefiningName[4:18-4:19]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[4:18-4:19]: A
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
 |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Chr[4:21-4:24]: 'B'
+|  |  |  |  |  |  |  |  |  DefiningName[4:21-4:24]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Chr[4:21-4:24]: 'B'
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
 |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
+|  |  |  |  |  |  |  |  |  DefiningName[4:26-4:27]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
 |  |  |  |  |  |formal_part:
@@ -75,7 +85,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[6:12-6:20]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]: J
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[6:21-6:22]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]: J
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
@@ -97,7 +109,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[7:12-7:20]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]: I
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[7:21-7:22]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]: I
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
@@ -112,7 +126,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |package_decl:
 |  |  |  |  |  |  GenericPackageInternal[8:4-10:10]
 |  |  |  |  |  |  |package_name:
-|  |  |  |  |  |  |  Id[8:12-8:13]: P
+|  |  |  |  |  |  |  DefiningName[8:12-8:13]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[8:12-8:13]: P
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |public_part:
 |  |  |  |  |  |  |  PublicPart[8:16-10:4]
@@ -126,7 +142,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[9:7-9:16]
 |  |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]: Foo
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[9:17-9:20]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]: Foo
 |  |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |  |aspects: <null>
@@ -135,7 +153,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  Id[10:8-10:9]: P
 |  |  |  |  |  PackageBody[12:4-18:10]
 |  |  |  |  |  |package_name:
-|  |  |  |  |  |  Id[12:17-12:18]: P
+|  |  |  |  |  |  DefiningName[12:17-12:18]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[12:17-12:18]: P
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |decls:
 |  |  |  |  |  |  DeclarativePart[12:21-18:4]
@@ -149,7 +169,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[13:7-13:16]
 |  |  |  |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]: Foo
+|  |  |  |  |  |  |  |  |  |  DefiningName[13:17-13:20]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]: Foo
 |  |  |  |  |  |  |  |  |  |subp_params: <null>
 |  |  |  |  |  |  |  |  |  |subp_returns: <null>
 |  |  |  |  |  |  |  |  |aspects: <null>
@@ -202,7 +224,9 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  Id[18:8-18:9]: P
 |  |  |  |  |  GenericPackageInstantiation[20:4-20:26]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[20:12-20:16]: Inst
+|  |  |  |  |  |  DefiningName[20:12-20:16]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[20:12-20:16]: Inst
 |  |  |  |  |  |generic_pkg_name:
 |  |  |  |  |  |  Id[20:24-20:25]: P
 |  |  |  |  |  |params:

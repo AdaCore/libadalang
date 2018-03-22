@@ -14,11 +14,13 @@ CompilationUnit[1:1-3:9]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  DottedName[1:11-1:14]
-|  |  |  |  |prefix:
-|  |  |  |  |  Id[1:11-1:12]: A
-|  |  |  |  |suffix:
-|  |  |  |  |  Id[1:13-1:14]: B
+|  |  |  |  DefiningName[1:11-1:14]
+|  |  |  |  |name:
+|  |  |  |  |  DottedName[1:11-1:14]
+|  |  |  |  |  |prefix:
+|  |  |  |  |  |  Id[1:11-1:12]: A
+|  |  |  |  |  |suffix:
+|  |  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>

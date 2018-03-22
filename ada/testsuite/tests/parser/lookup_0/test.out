@@ -26,15 +26,19 @@ CompilationUnit[1:1-17:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[3:11-3:22]: Hello_World
+|  |  |  |  DefiningName[3:11-3:22]
+|  |  |  |  |name:
+|  |  |  |  |  Id[3:11-3:22]: Hello_World
 |  |  |  |subp_params:
 |  |  |  |  Params[3:23-3:47]
 |  |  |  |  |params:
 |  |  |  |  |  ParamSpecList[3:24-3:46]
 |  |  |  |  |  |  ParamSpec[3:24-3:46]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[3:24-3:31]
-|  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
+|  |  |  |  |  |  |  DefiningNameList[3:24-3:31]
+|  |  |  |  |  |  |  |  DefiningName[3:24-3:31]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[3:33-3:33]
 |  |  |  |  |  |  |mode:
@@ -61,15 +65,19 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[5:13-5:17]: Fact
+|  |  |  |  |  |  |  DefiningName[5:13-5:17]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[5:13-5:17]: Fact
 |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  Params[5:18-5:31]
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
+|  |  |  |  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
 |  |  |  |  |  |  |  |  |  |mode:
@@ -334,15 +342,19 @@ CompilationUnit[1:1-17:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[3:11-3:22]: Hello_World
+|  |  |  |  DefiningName[3:11-3:22]
+|  |  |  |  |name:
+|  |  |  |  |  Id[3:11-3:22]: Hello_World
 |  |  |  |subp_params:
 |  |  |  |  Params[3:23-3:47]
 |  |  |  |  |params:
 |  |  |  |  |  ParamSpecList[3:24-3:46]
 |  |  |  |  |  |  ParamSpec[3:24-3:46]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[3:24-3:31]
-|  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
+|  |  |  |  |  |  |  DefiningNameList[3:24-3:31]
+|  |  |  |  |  |  |  |  DefiningName[3:24-3:31]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[3:33-3:33]
 |  |  |  |  |  |  |mode:
@@ -369,15 +381,19 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[5:13-5:17]: Fact
+|  |  |  |  |  |  |  DefiningName[5:13-5:17]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[5:13-5:17]: Fact
 |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  Params[5:18-5:31]
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
+|  |  |  |  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
 |  |  |  |  |  |  |  |  |  |mode:
@@ -536,15 +552,19 @@ DeclarativePart[3:50-14:1]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindFunction[5:4-5:12]
 |  |  |  |subp_name:
-|  |  |  |  Id[5:13-5:17]: Fact
+|  |  |  |  DefiningName[5:13-5:17]
+|  |  |  |  |name:
+|  |  |  |  |  Id[5:13-5:17]: Fact
 |  |  |  |subp_params:
 |  |  |  |  Params[5:18-5:31]
 |  |  |  |  |params:
 |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  ParamSpec[5:19-5:30]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[5:19-5:20]
-|  |  |  |  |  |  |  |  Id[5:19-5:20]: N
+|  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
+|  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
 |  |  |  |  |  |  |mode:

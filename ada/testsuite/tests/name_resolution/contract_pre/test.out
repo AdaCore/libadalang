@@ -4,9 +4,6 @@ Analyzing f.ads
 Resolving xrefs for node <SubpSpec 1:1-1:39>
 ********************************************
 
-Expr: <Id "F" 1:10-1:11>
-  references: None
-  type:       None
 Expr: <Id "Integer" 1:32-1:39>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -14,9 +11,6 @@ Expr: <Id "Integer" 1:32-1:39>
 Resolving xrefs for node <ParamSpec ["x"] 1:12-1:23>
 ****************************************************
 
-Expr: <Id "x" 1:12-1:13>
-  references: None
-  type:       None
 Expr: <Id "Integer" 1:16-1:23>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

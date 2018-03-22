@@ -4,9 +4,6 @@ Analyzing teststd.ads
 Resolving xrefs for node <TypeDecl ["My_Int"] 2:4-2:40>
 *******************************************************
 
-Expr: <Id "My_Int" 2:9-2:15>
-  references: None
-  type:       None
 Expr: <DottedName 2:23-2:39>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -20,9 +17,6 @@ Expr: <Id "Integer" 2:32-2:39>
 Resolving xrefs for node <ObjectDecl ["A"] 3:4-3:38>
 ****************************************************
 
-Expr: <Id "A" 3:4-3:5>
-  references: None
-  type:       None
 Expr: <DottedName 3:8-3:31>
   references: <TypeDecl ["My_Int"] 2:4-2:40>
   type:       None

@@ -2,7 +2,9 @@ NamedStmt[1:1-1:37]
 |decl:
 |  NamedStmtDecl[1:1-1:2]
 |  |name:
-|  |  Id[1:1-1:2]: A
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
 |stmt:
 |  WhileLoopStmt[1:4-1:37]
 |  |spec:

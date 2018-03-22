@@ -3,8 +3,10 @@ KnownDiscriminantPart[1:1-1:26]
 |  DiscriminantSpecList[1:2-1:25]
 |  |  DiscriminantSpec[1:2-1:13]
 |  |  |ids:
-|  |  |  IdentifierList[1:2-1:3]
-|  |  |  |  Id[1:2-1:3]: A
+|  |  |  DefiningNameList[1:2-1:3]
+|  |  |  |  DefiningName[1:2-1:3]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:2-1:3]: A
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:6-1:13]
 |  |  |  |has_not_null:
@@ -15,8 +17,10 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  |default_expr: <null>
 |  |  DiscriminantSpec[1:15-1:25]
 |  |  |ids:
-|  |  |  IdentifierList[1:15-1:16]
-|  |  |  |  Id[1:15-1:16]: B
+|  |  |  DefiningNameList[1:15-1:16]
+|  |  |  |  DefiningName[1:15-1:16]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:15-1:16]: B
 |  |  |type_expr:
 |  |  |  SubtypeIndication[1:19-1:25]
 |  |  |  |has_not_null:

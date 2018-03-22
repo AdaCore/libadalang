@@ -2,7 +2,9 @@ GenericSubpRenamingDecl[1:1-1:46]
 |kind:
 |  SubpKindFunction[1:9-1:17]
 |name:
-|  Id[1:18-1:19]: A
+|  DefiningName[1:18-1:19]
+|  |name:
+|  |  Id[1:18-1:19]: A
 |renames:
 |  Id[1:28-1:29]: B
 |aspects:

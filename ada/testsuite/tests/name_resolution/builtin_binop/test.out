@@ -4,16 +4,10 @@ Analyzing testbinop.adb
 Resolving xrefs for node <SubpSpec 1:1-1:20>
 ********************************************
 
-Expr: <Id "Testbinop" 1:11-1:20>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["Typ"] 3:7-3:35>
 ****************************************************
 
-Expr: <Id "Typ" 3:12-3:15>
-  references: None
-  type:       None
 Expr: <BinOp 3:25-3:34>
   references: None
   type:       <TypeDecl ["Typ"] 3:7-3:35>
@@ -27,12 +21,6 @@ Expr: <Int 3:30-3:34>
 Resolving xrefs for node <ObjectDecl ["A", "B"] 6:4-6:25>
 *********************************************************
 
-Expr: <Id "A" 6:4-6:5>
-  references: None
-  type:       None
-Expr: <Id "B" 6:7-6:8>
-  references: None
-  type:       None
 Expr: <DottedName 6:11-6:18>
   references: <TypeDecl ["Typ"] 3:7-3:35>
   type:       None

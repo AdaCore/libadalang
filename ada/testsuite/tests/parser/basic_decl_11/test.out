@@ -6,15 +6,19 @@ ExprFunction[1:1-1:65]
 |  |subp_kind:
 |  |  SubpKindFunction[1:1-1:9]
 |  |subp_name:
-|  |  Id[1:10-1:11]: A
+|  |  DefiningName[1:10-1:11]
+|  |  |name:
+|  |  |  Id[1:10-1:11]: A
 |  |subp_params:
 |  |  Params[1:12-1:25]
 |  |  |params:
 |  |  |  ParamSpecList[1:13-1:24]
 |  |  |  |  ParamSpec[1:13-1:24]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:13-1:14]
-|  |  |  |  |  |  Id[1:13-1:14]: B
+|  |  |  |  |  DefiningNameList[1:13-1:14]
+|  |  |  |  |  |  DefiningName[1:13-1:14]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:16-1:16]
 |  |  |  |  |mode:

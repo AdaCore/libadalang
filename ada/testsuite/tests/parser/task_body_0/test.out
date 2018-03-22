@@ -1,6 +1,8 @@
 TaskBody[1:1-24:29]
 |name:
-|  Id[1:11-1:34]: Cyclic_Buffer_Task_Type
+|  DefiningName[1:11-1:34]
+|  |name:
+|  |  Id[1:11-1:34]: Cyclic_Buffer_Task_Type
 |aspects: <null>
 |decls:
 |  DeclarativePart[1:37-7:1]
@@ -8,13 +10,17 @@ TaskBody[1:1-24:29]
 |  |  AdaNodeList[2:4-6:35]
 |  |  |  NumberDecl[2:4-2:29]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[2:4-2:10]
-|  |  |  |  |  Id[2:4-2:10]: Q_Size
+|  |  |  |  DefiningNameList[2:4-2:10]
+|  |  |  |  |  DefiningName[2:4-2:10]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[2:4-2:10]: Q_Size
 |  |  |  |expr:
 |  |  |  |  Int[2:25-2:28]: 100
 |  |  |  SubtypeDecl[3:4-3:50]
 |  |  |  |name:
-|  |  |  |  Id[3:12-3:19]: Q_Range
+|  |  |  |  DefiningName[3:12-3:19]
+|  |  |  |  |name:
+|  |  |  |  |  Id[3:12-3:19]: Q_Range
 |  |  |  |subtype:
 |  |  |  |  SubtypeIndication[3:23-3:49]
 |  |  |  |  |has_not_null:
@@ -36,8 +42,10 @@ TaskBody[1:1-24:29]
 |  |  |  |aspects: <null>
 |  |  |  ObjectDecl[4:4-4:44]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[4:4-4:10]
-|  |  |  |  |  Id[4:4-4:10]: Length
+|  |  |  |  DefiningNameList[4:4-4:10]
+|  |  |  |  |  DefiningName[4:4-4:10]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[4:4-4:10]: Length
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[4:12-4:12]
 |  |  |  |has_constant:
@@ -68,9 +76,13 @@ TaskBody[1:1-24:29]
 |  |  |  |aspects: <null>
 |  |  |  ObjectDecl[5:4-5:30]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[5:4-5:14]
-|  |  |  |  |  Id[5:4-5:8]: Head
-|  |  |  |  |  Id[5:10-5:14]: Tail
+|  |  |  |  DefiningNameList[5:4-5:14]
+|  |  |  |  |  DefiningName[5:4-5:8]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[5:4-5:8]: Head
+|  |  |  |  |  DefiningName[5:10-5:14]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[5:10-5:14]: Tail
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[5:16-5:16]
 |  |  |  |has_constant:
@@ -90,8 +102,10 @@ TaskBody[1:1-24:29]
 |  |  |  |aspects: <null>
 |  |  |  ObjectDecl[6:4-6:35]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[6:4-6:8]
-|  |  |  |  |  Id[6:4-6:8]: Data
+|  |  |  |  DefiningNameList[6:4-6:8]
+|  |  |  |  |  DefiningName[6:4-6:8]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[6:4-6:8]: Data
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[6:10-6:10]
 |  |  |  |has_constant:
@@ -165,8 +179,10 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[11:28-11:46]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[11:28-11:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList[11:28-11:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[11:28-11:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[11:28-11:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
 |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:37-11:37]
 |  |  |  |  |  |  |  |  |  |  |  |  |mode:
@@ -249,8 +265,10 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[17:28-17:46]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[17:28-17:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  |  |  IdentifierList[17:28-17:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[17:28-17:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[17:28-17:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
 |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:37-17:37]
 |  |  |  |  |  |  |  |  |  |  |  |  |mode:

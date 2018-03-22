@@ -4,9 +4,6 @@ Analyzing testslice.adb
 Resolving xrefs for node <ObjectDecl ["C"] 6:4-6:33>
 ****************************************************
 
-Expr: <Id "C" 6:4-6:5>
-  references: None
-  type:       None
 Expr: <Id "String" 6:8-6:14>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None

@@ -8,7 +8,9 @@ CompilationUnit[1:1-11:9]
 |  |item:
 |  |  PackageDecl[1:1-11:9]
 |  |  |package_name:
-|  |  |  Id[1:9-1:12]: Foo
+|  |  |  DefiningName[1:9-1:12]
+|  |  |  |name:
+|  |  |  |  Id[1:9-1:12]: Foo
 |  |  |aspects: <null>
 |  |  |public_part:
 |  |  |  PublicPart[1:15-11:1]
@@ -16,7 +18,9 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  AdaNodeList[2:4-10:15]
 |  |  |  |  |  TypeDecl[2:4-5:15]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[2:9-2:16]: R1_Type
+|  |  |  |  |  |  DefiningName[2:9-2:16]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:9-2:16]: R1_Type
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |type_def:
 |  |  |  |  |  |  RecordTypeDef[2:20-5:14]
@@ -34,9 +38,13 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  AdaNodeList[3:7-4:22]
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[3:7-3:22]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:11]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: A
-|  |  |  |  |  |  |  |  |  |  |  |  Id[3:10-3:11]: B
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[3:7-3:11]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: A
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[3:10-3:11]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:10-3:11]: B
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[3:14-3:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
@@ -54,8 +62,10 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[4:7-4:22]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[4:7-4:8]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[4:7-4:8]: C
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[4:7-4:8]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[4:7-4:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[4:7-4:8]: C
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[4:14-4:21]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
@@ -75,15 +85,19 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  TypeDecl[7:4-10:15]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[7:9-7:16]: R2_Type
+|  |  |  |  |  |  DefiningName[7:9-7:16]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[7:9-7:16]: R2_Type
 |  |  |  |  |  |discriminants:
 |  |  |  |  |  |  KnownDiscriminantPart[7:17-7:30]
 |  |  |  |  |  |  |discr_specs:
 |  |  |  |  |  |  |  DiscriminantSpecList[7:18-7:29]
 |  |  |  |  |  |  |  |  DiscriminantSpec[7:18-7:29]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[7:18-7:19]
-|  |  |  |  |  |  |  |  |  |  Id[7:18-7:19]: N
+|  |  |  |  |  |  |  |  |  DefiningNameList[7:18-7:19]
+|  |  |  |  |  |  |  |  |  |  DefiningName[7:18-7:19]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[7:18-7:19]: N
 |  |  |  |  |  |  |  |  |type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[7:22-7:29]
 |  |  |  |  |  |  |  |  |  |has_not_null:
@@ -108,8 +122,10 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  AdaNodeList[8:7-9:27]
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[8:7-8:19]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[8:7-8:8]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[8:7-8:8]: I
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[8:7-8:8]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[8:7-8:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[8:7-8:8]: I
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[8:11-8:18]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
@@ -127,8 +143,10 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[9:7-9:27]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[9:7-9:8]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[9:7-9:8]: S
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[9:7-9:8]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[9:7-9:8]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:7-9:8]: S
 |  |  |  |  |  |  |  |  |  |  |component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[9:11-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |has_aliased:

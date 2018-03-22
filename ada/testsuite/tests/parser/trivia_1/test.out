@@ -4,12 +4,14 @@ CompilationUnit
 |  |  SubpBody
 |  |  |  SubpSpec
 |  |  |  |  SubpKindProcedure
-|  |  |  |  Id
+|  |  |  |  DefiningName
+|  |  |  |  |  Id
 |  |  |  DeclarativePart
 |  |  |  |  AdaNodeList
 |  |  |  |  |  ObjectDecl
-|  |  |  |  |  |  IdentifierList
-|  |  |  |  |  |  |  Id
+|  |  |  |  |  |  DefiningNameList
+|  |  |  |  |  |  |  DefiningName
+|  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  -- Hinhin
 |  |  |  |  |  |  SubtypeIndication
 |  |  |  |  |  |  |  Id

@@ -6,15 +6,19 @@ SubpDecl[1:1-1:125]
 |  |subp_kind:
 |  |  SubpKindProcedure[1:1-1:10]
 |  |subp_name:
-|  |  Id[1:11-1:25]: Lines_Add_Hook
+|  |  DefiningName[1:11-1:25]
+|  |  |name:
+|  |  |  Id[1:11-1:25]: Lines_Add_Hook
 |  |subp_params:
 |  |  Params[1:26-1:124]
 |  |  |params:
 |  |  |  ParamSpecList[1:27-1:123]
 |  |  |  |  ParamSpec[1:27-1:69]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:27-1:33]
-|  |  |  |  |  |  Id[1:27-1:33]: Buffer
+|  |  |  |  |  DefiningNameList[1:27-1:33]
+|  |  |  |  |  |  DefiningName[1:27-1:33]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:27-1:33]: Buffer
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:35-1:35]
 |  |  |  |  |mode:
@@ -49,8 +53,10 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:71-1:96]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:71-1:76]
-|  |  |  |  |  |  Id[1:71-1:76]: Start
+|  |  |  |  |  DefiningNameList[1:71-1:76]
+|  |  |  |  |  |  DefiningName[1:71-1:76]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:71-1:76]: Start
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:79-1:79]
 |  |  |  |  |mode:
@@ -65,8 +71,10 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:98-1:123]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:98-1:104]
-|  |  |  |  |  |  Id[1:98-1:104]: Number
+|  |  |  |  |  DefiningNameList[1:98-1:104]
+|  |  |  |  |  |  DefiningName[1:98-1:104]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:98-1:104]: Number
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:106-1:106]
 |  |  |  |  |mode:

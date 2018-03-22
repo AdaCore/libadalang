@@ -4,9 +4,6 @@ Analyzing pack.ads
 Resolving xrefs for node <SubpSpec 2:4-2:29>
 ********************************************
 
-Expr: <Id "F" 2:13-2:14>
-  references: None
-  type:       None
 Expr: <Id "Natural" 2:22-2:29>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -14,9 +11,6 @@ Expr: <Id "Natural" 2:22-2:29>
 Resolving xrefs for node <TypeDecl ["Ints"] 4:4-4:53>
 *****************************************************
 
-Expr: <Id "Ints" 4:9-4:13>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 4:17-4:52>
 *************************************************
@@ -34,16 +28,10 @@ Expr: <Id "Integer" 4:45-4:52>
 Resolving xrefs for node <TypeDecl ["Bounded_Ints"] 5:4-8:15>
 *************************************************************
 
-Expr: <Id "Bounded_Ints" 5:9-5:21>
-  references: None
-  type:       None
 
 Resolving xrefs for node <DiscriminantSpec ["Max_Size"] 5:23-5:41>
 ******************************************************************
 
-Expr: <Id "Max_Size" 5:23-5:31>
-  references: None
-  type:       None
 Expr: <Id "Natural" 5:34-5:41>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -51,9 +39,6 @@ Expr: <Id "Natural" 5:34-5:41>
 Resolving xrefs for node <ComponentDecl ["Length"] 6:7-6:29>
 ************************************************************
 
-Expr: <Id "Length" 6:7-6:13>
-  references: None
-  type:       None
 Expr: <Id "Natural" 6:16-6:23>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -64,9 +49,6 @@ Expr: <Int 6:27-6:28>
 Resolving xrefs for node <ComponentDecl ["Objs"] 7:7-7:37>
 **********************************************************
 
-Expr: <Id "Objs" 7:7-7:11>
-  references: None
-  type:       None
 Expr: <Id "Ints" 7:16-7:20>
   references: <TypeDecl ["Ints"] 4:4-4:53>
   type:       None
@@ -83,9 +65,6 @@ Expr: <Id "Max_Size" 7:27-7:35>
 Resolving xrefs for node <TypeDecl ["Ints_Doubled"] 10:4-10:60>
 ***************************************************************
 
-Expr: <Id "Ints_Doubled" 10:9-10:21>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 10:25-10:59>
 ***************************************************

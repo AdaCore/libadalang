@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:20]
 |name:
-|  Id[1:6-1:7]: T
+|  DefiningName[1:6-1:7]
+|  |name:
+|  |  Id[1:6-1:7]: T
 |discriminants: <null>
 |type_def:
 |  SignedIntTypeDef[1:11-1:19]

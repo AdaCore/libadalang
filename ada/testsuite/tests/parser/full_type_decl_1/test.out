@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:27]
 |name:
-|  Id[1:6-1:7]: A
+|  DefiningName[1:6-1:7]
+|  |name:
+|  |  Id[1:6-1:7]: A
 |discriminants: <null>
 |type_def:
 |  EnumTypeDef[1:11-1:26]
@@ -8,11 +10,17 @@ TypeDecl[1:1-1:27]
 |  |  EnumLiteralDeclList[1:12-1:25]
 |  |  |  EnumLiteralDecl[1:12-1:15]
 |  |  |  |name:
-|  |  |  |  Chr[1:12-1:15]: 'B'
+|  |  |  |  DefiningName[1:12-1:15]
+|  |  |  |  |name:
+|  |  |  |  |  Chr[1:12-1:15]: 'B'
 |  |  |  EnumLiteralDecl[1:17-1:20]
 |  |  |  |name:
-|  |  |  |  Chr[1:17-1:20]: 'C'
+|  |  |  |  DefiningName[1:17-1:20]
+|  |  |  |  |name:
+|  |  |  |  |  Chr[1:17-1:20]: 'C'
 |  |  |  EnumLiteralDecl[1:22-1:25]
 |  |  |  |name:
-|  |  |  |  Chr[1:22-1:25]: 'D'
+|  |  |  |  DefiningName[1:22-1:25]
+|  |  |  |  |name:
+|  |  |  |  |  Chr[1:22-1:25]: 'D'
 |aspects: <null>

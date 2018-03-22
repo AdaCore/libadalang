@@ -2,17 +2,25 @@ SubpSpec[1:1-1:65]
 |subp_kind:
 |  SubpKindFunction[1:1-1:9]
 |subp_name:
-|  Id[1:10-1:11]: A
+|  DefiningName[1:10-1:11]
+|  |name:
+|  |  Id[1:10-1:11]: A
 |subp_params:
 |  Params[1:12-1:50]
 |  |params:
 |  |  ParamSpecList[1:13-1:49]
 |  |  |  ParamSpec[1:13-1:29]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:13-1:20]
-|  |  |  |  |  Id[1:13-1:14]: B
-|  |  |  |  |  Id[1:16-1:17]: C
-|  |  |  |  |  Id[1:19-1:20]: D
+|  |  |  |  DefiningNameList[1:13-1:20]
+|  |  |  |  |  DefiningName[1:13-1:14]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:13-1:14]: B
+|  |  |  |  |  DefiningName[1:16-1:17]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:16-1:17]: C
+|  |  |  |  |  DefiningName[1:19-1:20]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:19-1:20]: D
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:22-1:22]
 |  |  |  |mode:
@@ -27,8 +35,10 @@ SubpSpec[1:1-1:65]
 |  |  |  |default_expr: <null>
 |  |  |  ParamSpec[1:31-1:49]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:31-1:32]
-|  |  |  |  |  Id[1:31-1:32]: E
+|  |  |  |  DefiningNameList[1:31-1:32]
+|  |  |  |  |  DefiningName[1:31-1:32]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:31-1:32]: E
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:34-1:34]
 |  |  |  |mode:

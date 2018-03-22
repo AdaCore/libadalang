@@ -9,8 +9,10 @@ Variant[1:1-1:29]
 |  |  AdaNodeList[1:17-1:29]
 |  |  |  ComponentDecl[1:17-1:29]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:17-1:18]
-|  |  |  |  |  Id[1:17-1:18]: C
+|  |  |  |  DefiningNameList[1:17-1:18]
+|  |  |  |  |  DefiningName[1:17-1:18]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:17-1:18]: C
 |  |  |  |component_def:
 |  |  |  |  ComponentDef[1:21-1:28]
 |  |  |  |  |has_aliased:

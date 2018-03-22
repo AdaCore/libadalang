@@ -4,16 +4,10 @@ Analyzing test_result_attr.adb
 Resolving xrefs for node <SubpSpec 1:1-1:27>
 ********************************************
 
-Expr: <Id "Test_Result_Attr" 1:11-1:27>
-  references: None
-  type:       None
 
 Resolving xrefs for node <SubpSpec 2:4-2:34>
 ********************************************
 
-Expr: <Id "Barize" 2:13-2:19>
-  references: None
-  type:       None
 Expr: <Id "Integer" 2:27-2:34>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -43,9 +37,6 @@ Expr: <Int 3:36-3:38>
 Resolving xrefs for node <SubpSpec 5:4-5:34>
 ********************************************
 
-Expr: <Id "Barize" 5:13-5:19>
-  references: None
-  type:       None
 Expr: <Id "Integer" 5:27-5:34>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

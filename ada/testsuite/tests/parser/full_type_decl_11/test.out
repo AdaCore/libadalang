@@ -1,4 +1,6 @@
 IncompleteTypeDecl[1:1-1:8]
 |name:
-|  Id[1:6-1:7]: A
+|  DefiningName[1:6-1:7]
+|  |name:
+|  |  Id[1:6-1:7]: A
 |discriminants: <null>

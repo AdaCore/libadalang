@@ -4,9 +4,6 @@ Analyzing test-foo.adb
 Resolving xrefs for node <SubpSpec 3:4-3:17>
 ********************************************
 
-Expr: <Id "Bar" 3:14-3:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <AssignStmt 5:7-5:15>
 **********************************************

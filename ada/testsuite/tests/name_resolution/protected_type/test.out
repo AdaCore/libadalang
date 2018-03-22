@@ -4,16 +4,10 @@ Analyzing testpro.adb
 Resolving xrefs for node <SubpSpec 1:1-1:19>
 ********************************************
 
-Expr: <Id "Test_Pro" 1:11-1:19>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["Item"] 2:4-2:29>
 *****************************************************
 
-Expr: <Id "Item" 2:9-2:13>
-  references: None
-  type:       None
 Expr: <Id "Integer" 2:21-2:28>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -21,16 +15,10 @@ Expr: <Id "Integer" 2:21-2:28>
 Resolving xrefs for node <EntrySpec 5:15-5:42>
 **********************************************
 
-Expr: <Id "Insert" 5:15-5:21>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 5:23-5:41>
 **********************************************************
 
-Expr: <Id "An_Item" 5:23-5:30>
-  references: None
-  type:       None
 Expr: <Id "Item" 5:37-5:41>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -38,16 +26,10 @@ Expr: <Id "Item" 5:37-5:41>
 Resolving xrefs for node <EntrySpec 6:15-6:42>
 **********************************************
 
-Expr: <Id "Remove" 6:15-6:21>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 6:23-6:41>
 **********************************************************
 
-Expr: <Id "An_Item" 6:23-6:30>
-  references: None
-  type:       None
 Expr: <Id "Item" 6:37-6:41>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -55,9 +37,6 @@ Expr: <Id "Item" 6:37-6:41>
 Resolving xrefs for node <ComponentDecl ["Buffer"] 8:9-8:23>
 ************************************************************
 
-Expr: <Id "Buffer" 8:9-8:15>
-  references: None
-  type:       None
 Expr: <Id "Item" 8:18-8:22>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -65,9 +44,6 @@ Expr: <Id "Item" 8:18-8:22>
 Resolving xrefs for node <ComponentDecl ["Empty"] 9:9-9:34>
 ***********************************************************
 
-Expr: <Id "Empty" 9:9-9:14>
-  references: None
-  type:       None
 Expr: <Id "Boolean" 9:18-9:25>
   references: <TypeDecl ["Boolean"] 3:3-3:33>
   type:       None
@@ -78,9 +54,6 @@ Expr: <Id "True" 9:29-9:33>
 Resolving xrefs for node <ParamSpec ["An_Item"] 13:23-13:41>
 ************************************************************
 
-Expr: <Id "An_Item" 13:23-13:30>
-  references: None
-  type:       None
 Expr: <Id "Item" 13:37-13:41>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -108,9 +81,6 @@ Expr: <Id "False" 17:21-17:26>
 Resolving xrefs for node <ParamSpec ["An_Item"] 19:23-19:41>
 ************************************************************
 
-Expr: <Id "An_Item" 19:23-19:30>
-  references: None
-  type:       None
 Expr: <Id "Item" 19:37-19:41>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -138,9 +108,6 @@ Expr: <Id "True" 23:21-23:25>
 Resolving xrefs for node <ObjectDecl ["Inst"] 27:6-27:30>
 *********************************************************
 
-Expr: <Id "Inst" 27:6-27:10>
-  references: None
-  type:       None
 Expr: <Id "Protected_Buffer" 27:13-27:29>
   references: <ProtectedTypeDecl ["Protected_Buffer"] 4:6-10:27>
   type:       None

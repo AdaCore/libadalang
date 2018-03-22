@@ -1,14 +1,18 @@
 TypeDecl[1:1-18:12]
 |name:
-|  Id[1:6-1:10]: vrec
+|  DefiningName[1:6-1:10]
+|  |name:
+|  |  Id[1:6-1:10]: vrec
 |discriminants:
 |  KnownDiscriminantPart[1:10-1:27]
 |  |discr_specs:
 |  |  DiscriminantSpecList[1:12-1:25]
 |  |  |  DiscriminantSpec[1:12-1:25]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:12-1:16]
-|  |  |  |  |  Id[1:12-1:16]: disc
+|  |  |  |  DefiningNameList[1:12-1:16]
+|  |  |  |  |  DefiningName[1:12-1:16]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:12-1:16]: disc
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:19-1:20]
 |  |  |  |  |has_not_null:

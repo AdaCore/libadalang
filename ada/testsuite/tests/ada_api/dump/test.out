@@ -14,15 +14,19 @@ CompilationUnit[1:2-5:11]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:2-1:11]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:12-1:16]: Test
+|  |  |  |  DefiningName[1:12-1:16]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:12-1:16]: Test
 |  |  |  |subp_params:
 |  |  |  |  Params[1:17-1:35]
 |  |  |  |  |params:
 |  |  |  |  |  ParamSpecList[1:18-1:34]
 |  |  |  |  |  |  ParamSpec[1:18-1:25]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:18-1:19]
-|  |  |  |  |  |  |  |  Id[1:18-1:19]: A
+|  |  |  |  |  |  |  DefiningNameList[1:18-1:19]
+|  |  |  |  |  |  |  |  DefiningName[1:18-1:19]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:18-1:19]: A
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:21-1:21]
 |  |  |  |  |  |  |mode:
@@ -37,8 +41,10 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  ParamSpec[1:27-1:34]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[1:27-1:28]
-|  |  |  |  |  |  |  |  Id[1:27-1:28]: B
+|  |  |  |  |  |  |  DefiningNameList[1:27-1:28]
+|  |  |  |  |  |  |  |  DefiningName[1:27-1:28]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:27-1:28]: B
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:30-1:30]
 |  |  |  |  |  |  |mode:
@@ -67,7 +73,9 @@ CompilationUnit[1:2-5:11]
 |  |  |  |  |  |  |var_decl:
 |  |  |  |  |  |  |  ForLoopVarDecl[2:10-2:23]
 |  |  |  |  |  |  |  |id:
-|  |  |  |  |  |  |  |  Id[2:10-2:12]: El
+|  |  |  |  |  |  |  |  DefiningName[2:10-2:12]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[2:10-2:12]: El
 |  |  |  |  |  |  |  |id_type:
 |  |  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
 |  |  |  |  |  |  |  |  |has_not_null:

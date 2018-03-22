@@ -14,7 +14,9 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:15]: Main
+|  |  |  |  DefiningName[1:11-1:15]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:15]: Main
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -24,13 +26,17 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  AdaNodeList[2:4-3:15]
 |  |  |  |  |  IncompleteTypeDecl[2:4-2:11]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[2:9-2:10]: A
+|  |  |  |  |  |  DefiningName[2:9-2:10]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:9-2:10]: A
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:15]
 |  |  |  |  |  |task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[3:9-3:14]: Pouet
+|  |  |  |  |  |  |  DefiningName[3:9-3:14]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[3:9-3:14]: Pouet
 |  |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |definition: <null>

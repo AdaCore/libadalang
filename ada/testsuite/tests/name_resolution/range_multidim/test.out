@@ -4,32 +4,14 @@ Analyzing test_range.adb
 Resolving xrefs for node <SubpSpec 1:1-1:21>
 ********************************************
 
-Expr: <Id "Test_Range" 1:11-1:21>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["Color"] 3:4-3:37>
 ******************************************************
 
-Expr: <Id "Color" 3:9-3:14>
-  references: None
-  type:       None
-Expr: <Id "Red" 3:19-3:22>
-  references: None
-  type:       None
-Expr: <Id "Green" 3:24-3:29>
-  references: None
-  type:       None
-Expr: <Id "Blue" 3:31-3:35>
-  references: None
-  type:       None
 
 Resolving xrefs for node <TypeDecl ["A"] 5:4-5:66>
 **************************************************
 
-Expr: <Id "A" 5:9-5:10>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 5:14-5:65>
 *************************************************
@@ -53,9 +35,6 @@ Expr: <Id "Natural" 5:58-5:65>
 Resolving xrefs for node <ObjectDecl ["Inst"] 7:4-7:49>
 *******************************************************
 
-Expr: <Id "Inst" 7:4-7:8>
-  references: None
-  type:       None
 Expr: <Id "A" 7:11-7:12>
   references: <TypeDecl ["A"] 5:4-5:66>
   type:       None
@@ -90,9 +69,6 @@ Expr: <Int 7:44-7:46>
 Resolving xrefs for node <ObjectDecl ["S"] 9:4-9:16>
 ****************************************************
 
-Expr: <Id "S" 9:4-9:5>
-  references: None
-  type:       None
 Expr: <Id "Natural" 9:8-9:15>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -104,9 +80,6 @@ Resolving xrefs for node <ForLoopStmt 11:4-15:13>
 Resolving xrefs for node <ForLoopSpec 11:8-11:27>
 *************************************************
 
-Expr: <Id "I" 11:8-11:9>
-  references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 11:13-11:27>
   references: <ObjectDecl ["Inst"] 7:4-7:49>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
@@ -127,9 +100,6 @@ Resolving xrefs for node <ForLoopStmt 12:7-14:16>
 Resolving xrefs for node <ForLoopSpec 12:11-12:30>
 **************************************************
 
-Expr: <Id "J" 12:11-12:12>
-  references: None
-  type:       <TypeDecl ["Color"] 3:4-3:37>
 Expr: <AttributeRef 12:16-12:30>
   references: <ObjectDecl ["Inst"] 7:4-7:49>
   type:       <TypeDecl ["Color"] 3:4-3:37>

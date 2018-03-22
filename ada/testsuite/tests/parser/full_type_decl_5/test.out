@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:69]
 |name:
-|  Id[1:6-1:11]: Pouet
+|  DefiningName[1:6-1:11]
+|  |name:
+|  |  Id[1:6-1:11]: Pouet
 |discriminants: <null>
 |type_def:
 |  DecimalFixedPointDef[1:15-1:68]

@@ -1,6 +1,8 @@
 PackageDecl[1:1-1:106]
 |package_name:
-|  Id[1:9-1:10]: A
+|  DefiningName[1:9-1:10]
+|  |name:
+|  |  Id[1:9-1:10]: A
 |aspects: <null>
 |public_part:
 |  PublicPart[1:13-1:100]
@@ -14,16 +16,22 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_kind:
 |  |  |  |  |  SubpKindProcedure[1:14-1:23]
 |  |  |  |  |subp_name:
-|  |  |  |  |  Id[1:24-1:25]: B
+|  |  |  |  |  DefiningName[1:24-1:25]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |subp_params:
 |  |  |  |  |  Params[1:26-1:42]
 |  |  |  |  |  |params:
 |  |  |  |  |  |  ParamSpecList[1:27-1:41]
 |  |  |  |  |  |  |  ParamSpec[1:27-1:41]
 |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  IdentifierList[1:27-1:31]
-|  |  |  |  |  |  |  |  |  Id[1:27-1:28]: C
-|  |  |  |  |  |  |  |  |  Id[1:30-1:31]: D
+|  |  |  |  |  |  |  |  DefiningNameList[1:27-1:31]
+|  |  |  |  |  |  |  |  |  DefiningName[1:27-1:28]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[1:27-1:28]: C
+|  |  |  |  |  |  |  |  |  DefiningName[1:30-1:31]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[1:30-1:31]: D
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:33-1:33]
 |  |  |  |  |  |  |  |mode:
@@ -40,14 +48,18 @@ PackageDecl[1:1-1:106]
 |  |  |  |aspects: <null>
 |  |  |  NumberDecl[1:44-1:63]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:44-1:45]
-|  |  |  |  |  Id[1:44-1:45]: C
+|  |  |  |  DefiningNameList[1:44-1:45]
+|  |  |  |  |  DefiningName[1:44-1:45]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:44-1:45]: C
 |  |  |  |expr:
 |  |  |  |  Int[1:60-1:62]: 15
 |  |  |  ObjectDecl[1:64-1:99]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:64-1:65]
-|  |  |  |  |  Id[1:64-1:65]: D
+|  |  |  |  DefiningNameList[1:64-1:65]
+|  |  |  |  |  DefiningName[1:64-1:65]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:64-1:65]: D
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:67-1:67]
 |  |  |  |has_constant:

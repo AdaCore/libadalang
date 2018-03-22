@@ -28,7 +28,9 @@ CompilationUnit 1:1-14:9
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure 3:1-3:10
 |  |  |  |subp_name:
-|  |  |  |  Id "Foo" 3:11-3:14: Foo
+|  |  |  |  DefiningName 3:11-3:14
+|  |  |  |  |name:
+|  |  |  |  |  Id "Foo" 3:11-3:14: Foo
 |  |  |  |subp_params: None
 |  |  |  |subp_returns: None
 |  |  |aspects: None
@@ -45,7 +47,9 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction 4:4-4:12
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id "Fact" 4:13-4:17: Fact
+|  |  |  |  |  |  |  DefiningName 4:13-4:17
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id "Fact" 4:13-4:17: Fact
 |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  Params 4:18-4:31
 |  |  |  |  |  |  |  |params:
@@ -53,9 +57,11 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |  |  |item_0:
 |  |  |  |  |  |  |  |  |  ParamSpec ["N"] 4:19-4:30
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList 4:19-4:20
+|  |  |  |  |  |  |  |  |  |  DefiningNameList 4:19-4:20
 |  |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  |  Id "N" 4:19-4:20: N
+|  |  |  |  |  |  |  |  |  |  |  DefiningName 4:19-4:20
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id "N" 4:19-4:20: N
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent 4:22-4:22
 |  |  |  |  |  |  |  |  |  |mode:

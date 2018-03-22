@@ -8,7 +8,9 @@ CompilationUnit[1:1-6:7]
 |  |item:
 |  |  PackageBody[1:1-6:7]
 |  |  |package_name:
-|  |  |  Id[1:14-1:15]: S
+|  |  |  DefiningName[1:14-1:15]
+|  |  |  |name:
+|  |  |  |  Id[1:14-1:15]: S
 |  |  |aspects: <null>
 |  |  |decls:
 |  |  |  DeclarativePart[1:18-4:1]
@@ -16,13 +18,17 @@ CompilationUnit[1:1-6:7]
 |  |  |  |  AdaNodeList[2:4-3:32]
 |  |  |  |  |  TaskTypeDecl[2:4-2:20]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[2:14-2:19]: share
+|  |  |  |  |  |  DefiningName[2:14-2:19]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[2:14-2:19]: share
 |  |  |  |  |  |discriminants: <null>
 |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |definition: <null>
 |  |  |  |  |  TaskBodyStub[3:4-3:32]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[3:14-3:19]: share
+|  |  |  |  |  |  DefiningName[3:14-3:19]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[3:14-3:19]: share
 |  |  |  |  |  |aspects: <null>
 |  |  |stmts:
 |  |  |  HandledStmts[4:6-6:1]

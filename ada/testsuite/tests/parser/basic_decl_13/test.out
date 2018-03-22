@@ -1,7 +1,9 @@
 ObjectDecl[1:1-1:95]
 |ids:
-|  IdentifierList[1:1-1:15]
-|  |  Id[1:1-1:15]: Columns_Config
+|  DefiningNameList[1:1-1:15]
+|  |  DefiningName[1:1-1:15]
+|  |  |name:
+|  |  |  Id[1:1-1:15]: Columns_Config
 |has_aliased:
 |  AliasedAbsent[1:17-1:17]
 |has_constant:

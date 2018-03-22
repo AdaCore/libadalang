@@ -8,7 +8,9 @@ CompilationUnit[1:1-22:9]
 |  |item:
 |  |  PackageDecl[1:1-22:9]
 |  |  |package_name:
-|  |  |  Id[1:9-1:12]: Sat
+|  |  |  DefiningName[1:9-1:12]
+|  |  |  |name:
+|  |  |  |  Id[1:9-1:12]: Sat
 |  |  |aspects:
 |  |  |  AspectSpec[2:3-2:18]
 |  |  |  |aspect_assocs:
@@ -23,7 +25,9 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  AdaNodeList[12:4-20:66]
 |  |  |  |  |  SubtypeDecl[12:4-12:48]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[12:12-12:18]: My_Int
+|  |  |  |  |  |  DefiningName[12:12-12:18]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[12:12-12:18]: My_Int
 |  |  |  |  |  |subtype:
 |  |  |  |  |  |  SubtypeIndication[12:22-12:47]
 |  |  |  |  |  |  |has_not_null:
@@ -51,16 +55,22 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[14:4-14:12]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[14:13-14:16]: Add
+|  |  |  |  |  |  |  DefiningName[14:13-14:16]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[14:13-14:16]: Add
 |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  Params[14:17-14:32]
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  ParamSpecList[14:18-14:31]
 |  |  |  |  |  |  |  |  |  ParamSpec[14:18-14:31]
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[14:18-14:22]
-|  |  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]: X
-|  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]: Y
+|  |  |  |  |  |  |  |  |  |  DefiningNameList[14:18-14:22]
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[14:18-14:19]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]: X
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[14:21-14:22]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]: Y
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[14:24-14:24]
 |  |  |  |  |  |  |  |  |  |mode:
@@ -164,16 +174,22 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[18:4-18:12]
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  Id[18:13-18:17]: Mult
+|  |  |  |  |  |  |  DefiningName[18:13-18:17]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[18:13-18:17]: Mult
 |  |  |  |  |  |  |subp_params:
 |  |  |  |  |  |  |  Params[18:18-18:33]
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  ParamSpecList[18:19-18:32]
 |  |  |  |  |  |  |  |  |  ParamSpec[18:19-18:32]
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[18:19-18:23]
-|  |  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]: X
-|  |  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]: Y
+|  |  |  |  |  |  |  |  |  |  DefiningNameList[18:19-18:23]
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[18:19-18:20]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]: X
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[18:22-18:23]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]: Y
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[18:25-18:25]
 |  |  |  |  |  |  |  |  |  |mode:

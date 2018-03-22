@@ -4,9 +4,6 @@ Analyzing main.adb
 Resolving xrefs for node <ObjectDecl ["B"] 5:4-5:25>
 ****************************************************
 
-Expr: <Id "B" 5:4-5:5>
-  references: None
-  type:       None
 Expr: <Id "Integer" 5:8-5:15>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

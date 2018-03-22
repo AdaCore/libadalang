@@ -4,9 +4,6 @@ Analyzing selectwhen.adb
 Resolving xrefs for node <ObjectDecl ["Q_Size"] 10:6-10:39>
 ***********************************************************
 
-Expr: <Id "Q_Size" 10:6-10:12>
-  references: None
-  type:       None
 Expr: <Id "Integer" 10:24-10:31>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -17,9 +14,6 @@ Expr: <Int 10:35-10:38>
 Resolving xrefs for node <SubtypeDecl ["Q_Range"] 11:6-11:52>
 *************************************************************
 
-Expr: <Id "Q_Range" 11:14-11:21>
-  references: None
-  type:       None
 Expr: <Id "Positive" 11:25-11:33>
   references: <SubtypeDecl ["Positive"] 6:3-6:57>
   type:       None
@@ -36,9 +30,6 @@ Expr: <Id "Q_Size" 11:45-11:51>
 Resolving xrefs for node <ObjectDecl ["Length"] 12:6-12:46>
 ***********************************************************
 
-Expr: <Id "Length" 12:6-12:12>
-  references: None
-  type:       None
 Expr: <Id "Natural" 12:15-12:22>
   references: <SubtypeDecl ["Natural"] 5:3-5:57>
   type:       None
@@ -58,12 +49,6 @@ Expr: <Int 12:44-12:45>
 Resolving xrefs for node <ObjectDecl ["Head", "Tail"] 13:6-13:32>
 *****************************************************************
 
-Expr: <Id "Head" 13:6-13:10>
-  references: None
-  type:       None
-Expr: <Id "Tail" 13:12-13:16>
-  references: None
-  type:       None
 Expr: <Id "Q_Range" 13:19-13:26>
   references: <SubtypeDecl ["Q_Range"] 11:6-11:52>
   type:       None
@@ -74,9 +59,6 @@ Expr: <Int 13:30-13:31>
 Resolving xrefs for node <ObjectDecl ["Data"] 14:6-14:37>
 *********************************************************
 
-Expr: <Id "Data" 14:6-14:10>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 14:13-14:36>
 ***************************************************
@@ -127,9 +109,6 @@ Expr: <Id "Insert" 21:19-21:25>
 Resolving xrefs for node <ParamSpec ["An_Item"] 19:30-19:48>
 ************************************************************
 
-Expr: <Id "An_Item" 19:30-19:37>
-  references: None
-  type:       None
 Expr: <Id "Item" 19:44-19:48>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None
@@ -201,9 +180,6 @@ Expr: <Id "Remove" 28:19-28:25>
 Resolving xrefs for node <ParamSpec ["An_Item"] 26:30-26:48>
 ************************************************************
 
-Expr: <Id "An_Item" 26:30-26:37>
-  references: None
-  type:       None
 Expr: <Id "Item" 26:44-26:48>
   references: <TypeDecl ["Item"] 2:4-2:29>
   type:       None

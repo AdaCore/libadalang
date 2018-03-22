@@ -172,6 +172,11 @@ package body Highlighter is
 
             Highlight_Name (Name.As_Call_Expr.F_Name, HL, Highlights);
 
+         when LAL.Ada_Defining_Name =>
+
+            --  Highlight inner name
+            Highlight_Name (Name.As_Defining_Name.F_Name, HL, Highlights);
+
          when others =>
             return;
       end case;

@@ -4,9 +4,6 @@ Analyzing main.adb
 Resolving xrefs for node <ObjectDecl ["V"] 12:7-12:44>
 ******************************************************
 
-Expr: <Id "V" 12:7-12:8>
-  references: None
-  type:       None
 Expr: <AttributeRef 12:11-12:33>
   references: <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
   type:       None

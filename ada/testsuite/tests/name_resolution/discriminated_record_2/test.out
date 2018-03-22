@@ -4,9 +4,6 @@ Analyzing rd.adb
 Resolving xrefs for node <ObjectDecl ["Inst"] 14:4-14:51>
 *********************************************************
 
-Expr: <Id "Inst" 14:4-14:8>
-  references: None
-  type:       None
 Expr: <Id "R2" 14:11-14:13>
   references: <TypeDecl ["R2"] 10:4-12:15>
   type:       None

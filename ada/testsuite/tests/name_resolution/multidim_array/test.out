@@ -4,9 +4,6 @@ Analyzing test_array_indices.adb
 Resolving xrefs for node <ObjectDecl ["Inst"] 6:4-7:55>
 *******************************************************
 
-Expr: <Id "Inst" 6:4-6:8>
-  references: None
-  type:       None
 Expr: <Id "A" 6:11-6:12>
   references: <TypeDecl ["A"] 4:4-4:46>
   type:       None

@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:34]
 |name:
-|  Id[1:6-1:15]: Printable
+|  DefiningName[1:6-1:15]
+|  |name:
+|  |  Id[1:6-1:15]: Printable
 |discriminants: <null>
 |type_def:
 |  InterfaceTypeDef[1:19-1:33]

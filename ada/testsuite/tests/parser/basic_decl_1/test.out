@@ -1,6 +1,8 @@
 TaskTypeDecl[1:1-1:63]
 |name:
-|  Id[1:11-1:14]: TT1
+|  DefiningName[1:11-1:14]
+|  |name:
+|  |  Id[1:11-1:14]: TT1
 |discriminants: <null>
 |aspects: <null>
 |definition:
@@ -18,7 +20,9 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:40-1:53]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:40-1:41]: Q
+|  |  |  |  |  |  DefiningName[1:40-1:41]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:40-1:41]: Q
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:41-1:53]
@@ -26,8 +30,10 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |  |  |  ParamSpecList[1:42-1:52]
 |  |  |  |  |  |  |  |  ParamSpec[1:42-1:52]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:42-1:43]
-|  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: X
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:42-1:43]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:42-1:43]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: X
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:44-1:44]
 |  |  |  |  |  |  |  |  |mode:

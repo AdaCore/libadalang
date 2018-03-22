@@ -157,7 +157,8 @@ procedure Nameres is
 
       function Print_Node (N : Ada_Node'Class) return Visit_Status is
       begin
-         if Kind (N) in Ada_Expr then
+         if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
+         then
             declare
                P_Ref  : constant Basic_Decl := P_Referenced_Decl (As_Expr (N));
                P_Type : constant Base_Type_Decl :=
@@ -170,7 +171,8 @@ procedure Nameres is
                end if;
             end;
          end if;
-         return (if P_Xref_Entry_Point (N) and As_Ada_Node (N) /= Node
+         return (if (P_Xref_Entry_Point (N) and then As_Ada_Node (N) /= Node)
+                 or else Kind (N) in Ada_Defining_Name
                  then Over else Into);
       end Print_Node;
 

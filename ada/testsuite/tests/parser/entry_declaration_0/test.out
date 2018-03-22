@@ -4,7 +4,9 @@ EntryDecl[1:1-1:46]
 |spec:
 |  EntrySpec[1:7-1:45]
 |  |entry_name:
-|  |  Id[1:7-1:13]: Insert
+|  |  DefiningName[1:7-1:13]
+|  |  |name:
+|  |  |  Id[1:7-1:13]: Insert
 |  |family_type:
 |  |  SubtypeIndication[1:15-1:24]
 |  |  |has_not_null:
@@ -18,8 +20,10 @@ EntryDecl[1:1-1:46]
 |  |  |  ParamSpecList[1:27-1:44]
 |  |  |  |  ParamSpec[1:27-1:44]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:27-1:34]
-|  |  |  |  |  |  Id[1:27-1:34]: An_Item
+|  |  |  |  |  DefiningNameList[1:27-1:34]
+|  |  |  |  |  |  DefiningName[1:27-1:34]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:27-1:34]: An_Item
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:36-1:36]
 |  |  |  |  |mode:

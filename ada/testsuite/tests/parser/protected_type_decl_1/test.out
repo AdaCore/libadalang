@@ -1,6 +1,8 @@
 ProtectedTypeDecl[1:1-1:137]
 |name:
-|  Id[1:16-1:37]: Protected_Buffer_Type
+|  DefiningName[1:16-1:37]
+|  |name:
+|  |  Id[1:16-1:37]: Protected_Buffer_Type
 |discriminants: <null>
 |aspects: <null>
 |interfaces:
@@ -17,7 +19,9 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:47-1:74]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:47-1:53]: Insert
+|  |  |  |  |  |  DefiningName[1:47-1:53]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:47-1:53]: Insert
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:54-1:74]
@@ -25,8 +29,10 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  ParamSpecList[1:55-1:73]
 |  |  |  |  |  |  |  |  ParamSpec[1:55-1:73]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:55-1:62]
-|  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: An_Item
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:55-1:62]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:55-1:62]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
 |  |  |  |  |  |  |  |  |mode:
@@ -46,7 +52,9 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |spec:
 |  |  |  |  |  EntrySpec[1:82-1:109]
 |  |  |  |  |  |entry_name:
-|  |  |  |  |  |  Id[1:82-1:88]: Remove
+|  |  |  |  |  |  DefiningName[1:82-1:88]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:82-1:88]: Remove
 |  |  |  |  |  |family_type: <null>
 |  |  |  |  |  |entry_params:
 |  |  |  |  |  |  Params[1:89-1:109]
@@ -54,8 +62,10 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |  |  |  ParamSpecList[1:90-1:108]
 |  |  |  |  |  |  |  |  ParamSpec[1:90-1:108]
 |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  IdentifierList[1:90-1:97]
-|  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]: An_Item
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:90-1:97]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:90-1:97]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]: An_Item
 |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:99-1:99]
 |  |  |  |  |  |  |  |  |mode:

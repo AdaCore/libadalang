@@ -4,16 +4,10 @@ Analyzing test.adb
 Resolving xrefs for node <SubpSpec 1:1-1:15>
 ********************************************
 
-Expr: <Id "Test" 1:11-1:15>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:34>
 ****************************************************
 
-Expr: <Id "A" 2:4-2:5>
-  references: None
-  type:       None
 Expr: <Id "Character" 2:17-2:26>
   references: <TypeDecl ["Character"] 20:3-20:27>
   type:       None
@@ -24,9 +18,6 @@ Expr: <Chr "'l'" 2:30-2:33>
 Resolving xrefs for node <ObjectDecl ["B"] 3:4-3:40>
 ****************************************************
 
-Expr: <Id "B" 3:4-3:5>
-  references: None
-  type:       None
 Expr: <Id "Character" 3:17-3:26>
   references: <TypeDecl ["Character"] 20:3-20:27>
   type:       None
@@ -43,9 +34,6 @@ Expr: <Id "NUL" 3:36-3:39>
 Resolving xrefs for node <ObjectDecl ["E"] 5:4-5:33>
 ****************************************************
 
-Expr: <Id "E" 5:4-5:5>
-  references: None
-  type:       None
 Expr: <Id "String" 5:17-5:23>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -56,9 +44,6 @@ Expr: <Str ""oiy"" 5:27-5:32>
 Resolving xrefs for node <ObjectDecl ["C"] 6:4-6:39>
 ****************************************************
 
-Expr: <Id "C" 6:4-6:5>
-  references: None
-  type:       None
 Expr: <Id "String" 6:17-6:23>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -75,9 +60,6 @@ Expr: <Str ""lol"" 6:33-6:38>
 Resolving xrefs for node <ObjectDecl ["D"] 7:4-7:37>
 ****************************************************
 
-Expr: <Id "D" 7:4-7:5>
-  references: None
-  type:       None
 Expr: <Id "String" 7:17-7:23>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -94,9 +76,6 @@ Expr: <Str ""lol"" 7:31-7:36>
 Resolving xrefs for node <ObjectDecl ["F"] 8:4-8:33>
 ****************************************************
 
-Expr: <Id "F" 8:4-8:5>
-  references: None
-  type:       None
 Expr: <Id "String" 8:17-8:23>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None
@@ -113,9 +92,6 @@ Expr: <Id "D" 8:31-8:32>
 Resolving xrefs for node <ObjectDecl ["G"] 9:4-9:37>
 ****************************************************
 
-Expr: <Id "G" 9:4-9:5>
-  references: None
-  type:       None
 Expr: <Id "String" 9:17-9:23>
   references: <TypeDecl ["String"] 104:3-104:57>
   type:       None

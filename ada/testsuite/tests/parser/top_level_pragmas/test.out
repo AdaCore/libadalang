@@ -14,24 +14,30 @@ CompilationUnit[30:1-32:49]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindFunction[30:1-30:9]
 |  |  |  |subp_name:
-|  |  |  |  DottedName[30:10-30:43]
-|  |  |  |  |prefix:
-|  |  |  |  |  DottedName[30:10-30:21]
+|  |  |  |  DefiningName[30:10-30:43]
+|  |  |  |  |name:
+|  |  |  |  |  DottedName[30:10-30:43]
 |  |  |  |  |  |prefix:
-|  |  |  |  |  |  Id[30:10-30:13]: Ada
+|  |  |  |  |  |  DottedName[30:10-30:21]
+|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  Id[30:10-30:13]: Ada
+|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  Id[30:14-30:21]: Strings
 |  |  |  |  |  |suffix:
-|  |  |  |  |  |  Id[30:14-30:21]: Strings
-|  |  |  |  |suffix:
-|  |  |  |  |  Id[30:22-30:43]: Less_Case_Insensitive
+|  |  |  |  |  |  Id[30:22-30:43]: Less_Case_Insensitive
 |  |  |  |subp_params:
 |  |  |  |  Params[31:3-31:25]
 |  |  |  |  |params:
 |  |  |  |  |  ParamSpecList[31:4-31:24]
 |  |  |  |  |  |  ParamSpec[31:4-31:24]
 |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  IdentifierList[31:4-31:15]
-|  |  |  |  |  |  |  |  Id[31:4-31:8]: Left
-|  |  |  |  |  |  |  |  Id[31:10-31:15]: Right
+|  |  |  |  |  |  |  DefiningNameList[31:4-31:15]
+|  |  |  |  |  |  |  |  DefiningName[31:4-31:8]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[31:4-31:8]: Left
+|  |  |  |  |  |  |  |  DefiningName[31:10-31:15]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[31:10-31:15]: Right
 |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[31:17-31:17]
 |  |  |  |  |  |  |mode:

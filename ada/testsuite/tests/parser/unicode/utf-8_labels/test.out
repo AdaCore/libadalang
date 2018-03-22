@@ -14,7 +14,9 @@ CompilationUnit[1:1-6:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:15]: Test
+|  |  |  |  DefiningName[1:11-1:15]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:15]: Test
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -30,7 +32,9 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |decl:
 |  |  |  |  |  |  LabelDecl[3:7-3:11]
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id[3:7-3:11]: \u308c\u306a\u304c\u3089
+|  |  |  |  |  |  |  DefiningName[3:7-3:11]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[3:7-3:11]: \u308c\u306a\u304c\u3089
 |  |  |  |  |  CallStmt[4:5-4:29]
 |  |  |  |  |  |call:
 |  |  |  |  |  |  CallExpr[4:5-4:28]

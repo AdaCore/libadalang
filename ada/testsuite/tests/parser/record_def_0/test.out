@@ -5,9 +5,13 @@ RecordDef[1:1-1:34]
 |  |  AdaNodeList[1:8-1:23]
 |  |  |  ComponentDecl[1:8-1:23]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:8-1:12]
-|  |  |  |  |  Id[1:8-1:9]: A
-|  |  |  |  |  Id[1:11-1:12]: B
+|  |  |  |  DefiningNameList[1:8-1:12]
+|  |  |  |  |  DefiningName[1:8-1:9]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:8-1:9]: A
+|  |  |  |  |  DefiningName[1:11-1:12]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:11-1:12]: B
 |  |  |  |component_def:
 |  |  |  |  ComponentDef[1:15-1:22]
 |  |  |  |  |has_aliased:

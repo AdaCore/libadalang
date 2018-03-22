@@ -7,7 +7,7 @@ pragma Warnings (On, "referenced");
 package body Libadalang.Unit_Files is
 
    Text_IO        : constant Text_Type := "ada.text_io";
-   Integer_IO     : aliased constant Text_Type := "integer_io";
+   Integer_IO     : aliased constant Text_Type := "integer_io";  
    Float_IO       : aliased constant Text_Type := "float_io";
    Fixed_IO       : aliased constant Text_Type := "fixed_io";
    Decimal_IO     : aliased constant Text_Type := "decimal_io";
@@ -153,16 +153,20 @@ package body Libadalang.Unit_Files is
    -- Name_To_Symbols --
    ---------------------
 
-   function Name_To_Symbols (Name : Bare_Ada_Node) return Symbol_Type_Array is
+   function Name_To_Symbols 
+      (Name : access Bare_Name_Type'Class) return Symbol_Type_Array 
+   is
      (case Name.Kind is
 
       when Ada_Base_Id =>
         (1 => Get_Symbol (Bare_Identifier (Name))),
 
       when Ada_Dotted_Name =>
-        Name_To_Symbols (Bare_Ada_Node (Bare_Dotted_Name (Name).F_Prefix))
-        & Name_To_Symbols
-           (Bare_Ada_Node (Bare_Dotted_Name (Name).F_Suffix)),
+        Name_To_Symbols (Bare_Dotted_Name (Name).F_Prefix)
+        & Name_To_Symbols (Bare_Dotted_Name (Name).F_Suffix),
+
+      when Ada_Defining_Name =>
+        Name_To_Symbols (Bare_Defining_Name (Name).F_Name),
 
       when others =>
          raise Property_Error with "Wrong node in Name_To_Symbols");
@@ -186,12 +190,13 @@ package body Libadalang.Unit_Files is
 
    function Fetch_Unit
      (Ctx            : Analysis_Context;
-      Name           : Bare_Ada_Node;
+      Name           : Bare_Name;
       Kind           : Unit_Kind;
       Load_If_Needed : Boolean) return Analysis_Unit is
    begin
       return Fetch_Unit
-        (Ctx, Name_To_Symbols (Name), Unit (Create (Name)), Kind,
+        (Ctx, Name_To_Symbols (Name), 
+         Unit (Create (Bare_Ada_Node (Name))), Kind,
          Load_If_Needed);
    end Fetch_Unit;
 

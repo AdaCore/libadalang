@@ -6,15 +6,19 @@ ExprFunction[1:1-1:76]
 |  |subp_kind:
 |  |  SubpKindFunction[1:12-1:20]
 |  |subp_name:
-|  |  Id[1:21-1:22]: A
+|  |  DefiningName[1:21-1:22]
+|  |  |name:
+|  |  |  Id[1:21-1:22]: A
 |  |subp_params:
 |  |  Params[1:23-1:49]
 |  |  |params:
 |  |  |  ParamSpecList[1:24-1:48]
 |  |  |  |  ParamSpec[1:24-1:35]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:24-1:25]
-|  |  |  |  |  |  Id[1:24-1:25]: B
+|  |  |  |  |  DefiningNameList[1:24-1:25]
+|  |  |  |  |  |  DefiningName[1:24-1:25]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:24-1:25]: B
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:27-1:27]
 |  |  |  |  |mode:
@@ -29,8 +33,10 @@ ExprFunction[1:1-1:76]
 |  |  |  |  |default_expr: <null>
 |  |  |  |  ParamSpec[1:37-1:48]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:37-1:38]
-|  |  |  |  |  |  Id[1:37-1:38]: C
+|  |  |  |  |  DefiningNameList[1:37-1:38]
+|  |  |  |  |  |  DefiningName[1:37-1:38]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:37-1:38]: C
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:40-1:40]
 |  |  |  |  |mode:

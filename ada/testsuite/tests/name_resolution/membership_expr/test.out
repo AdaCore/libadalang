@@ -4,19 +4,10 @@ Analyzing testmembership.adb
 Resolving xrefs for node <SubpSpec 1:1-1:25>
 ********************************************
 
-Expr: <Id "Testmembership" 1:11-1:25>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ObjectDecl ["A", "B"] 2:4-2:25>
 *********************************************************
 
-Expr: <Id "A" 2:4-2:5>
-  references: None
-  type:       None
-Expr: <Id "B" 2:7-2:8>
-  references: None
-  type:       None
 Expr: <Id "Integer" 2:11-2:18>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

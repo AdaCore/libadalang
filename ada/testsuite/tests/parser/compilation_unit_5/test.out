@@ -14,7 +14,9 @@ CompilationUnit[1:1-5:11]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:16]: Pouet
+|  |  |  |  DefiningName[1:11-1:16]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:16]: Pouet
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -24,8 +26,10 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  AdaNodeList[2:4-2:22]
 |  |  |  |  |  ObjectDecl[2:4-2:22]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[2:4-2:5]
-|  |  |  |  |  |  |  Id[2:4-2:5]: A
+|  |  |  |  |  |  DefiningNameList[2:4-2:5]
+|  |  |  |  |  |  |  DefiningName[2:4-2:5]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[2:4-2:5]: A
 |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  AliasedAbsent[2:7-2:7]
 |  |  |  |  |  |has_constant:

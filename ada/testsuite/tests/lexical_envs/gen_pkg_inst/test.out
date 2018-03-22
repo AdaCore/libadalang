@@ -14,7 +14,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |subp_name:
-|  |  |  |  Id[1:11-1:15]: Test
+|  |  |  |  DefiningName[1:11-1:15]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:11-1:15]: Test
 |  |  |  |subp_params: <null>
 |  |  |  |subp_returns: <null>
 |  |  |aspects: <null>
@@ -31,8 +33,10 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  |decl:
 |  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:19]
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  IdentifierList[3:7-3:8]
-|  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: T
+|  |  |  |  |  |  |  |  |  |  DefiningNameList[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[3:7-3:8]
+|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: T
 |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:10-3:10]
 |  |  |  |  |  |  |  |  |  |has_constant:
@@ -52,7 +56,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |package_decl:
 |  |  |  |  |  |  GenericPackageInternal[4:4-5:10]
 |  |  |  |  |  |  |package_name:
-|  |  |  |  |  |  |  Id[4:12-4:13]: D
+|  |  |  |  |  |  |  DefiningName[4:12-4:13]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[4:12-4:13]: D
 |  |  |  |  |  |  |aspects: <null>
 |  |  |  |  |  |  |public_part:
 |  |  |  |  |  |  |  PublicPart[4:16-5:4]
@@ -63,7 +69,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  Id[5:8-5:9]: D
 |  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[7:12-7:18]: D_Inst
+|  |  |  |  |  |  DefiningName[7:12-7:18]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[7:12-7:18]: D_Inst
 |  |  |  |  |  |generic_pkg_name:
 |  |  |  |  |  |  Id[7:26-7:27]: D
 |  |  |  |  |  |params:

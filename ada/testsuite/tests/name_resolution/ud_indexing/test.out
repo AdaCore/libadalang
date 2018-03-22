@@ -4,9 +4,6 @@ Analyzing testindexing.adb
 Resolving xrefs for node <ObjectDecl ["A"] 27:4-27:29>
 ******************************************************
 
-Expr: <Id "A" 27:4-27:5>
-  references: None
-  type:       None
 Expr: <Id "Integer" 27:8-27:15>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None

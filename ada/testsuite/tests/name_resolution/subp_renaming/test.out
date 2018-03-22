@@ -4,23 +4,14 @@ Analyzing test_subp_renaming.adb
 Resolving xrefs for node <SubpSpec 1:1-1:29>
 ********************************************
 
-Expr: <Id "Test_Subp_Renaming" 1:11-1:29>
-  references: None
-  type:       None
 
 Resolving xrefs for node <SubpSpec 2:4-2:29>
 ********************************************
 
-Expr: <Id "Foo" 2:14-2:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["A"] 2:19-2:28>
 ****************************************************
 
-Expr: <Id "A" 2:19-2:20>
-  references: None
-  type:       None
 Expr: <Id "Float" 2:23-2:28>
   references: <TypeDecl ["Float"] 13:3-14:51>
   type:       None
@@ -28,16 +19,10 @@ Expr: <Id "Float" 2:23-2:28>
 Resolving xrefs for node <SubpSpec 3:4-3:31>
 ********************************************
 
-Expr: <Id "Foo" 3:14-3:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["A"] 3:19-3:30>
 ****************************************************
 
-Expr: <Id "A" 3:19-3:20>
-  references: None
-  type:       None
 Expr: <Id "Integer" 3:23-3:30>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -52,16 +37,10 @@ Expr: <Id "Foo" 5:38-5:41>
 Resolving xrefs for node <SubpSpec 5:4-5:29>
 ********************************************
 
-Expr: <Id "Bar" 5:14-5:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["I"] 5:19-5:28>
 ****************************************************
 
-Expr: <Id "I" 5:19-5:20>
-  references: None
-  type:       None
 Expr: <Id "Float" 5:23-5:28>
   references: <TypeDecl ["Float"] 13:3-14:51>
   type:       None

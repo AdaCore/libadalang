@@ -10,7 +10,7 @@ package Libadalang.Unit_Files is
 
    function Fetch_Unit
      (Ctx            : Analysis_Context;
-      Name           : Bare_Ada_Node;
+      Name           : Bare_Name;
       Kind           : Unit_Kind;
       Load_If_Needed : Boolean) return Analysis_Unit;
 

@@ -4,23 +4,14 @@ Analyzing testrange.adb
 Resolving xrefs for node <SubpSpec 1:1-1:20>
 ********************************************
 
-Expr: <Id "Testrange" 1:11-1:20>
-  references: None
-  type:       None
 
 Resolving xrefs for node <SubpSpec 2:4-2:31>
 ********************************************
 
-Expr: <Id "Foo" 2:14-2:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["I"] 2:19-2:30>
 ****************************************************
 
-Expr: <Id "I" 2:19-2:20>
-  references: None
-  type:       None
 Expr: <Id "Integer" 2:23-2:30>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       None
@@ -28,16 +19,10 @@ Expr: <Id "Integer" 2:23-2:30>
 Resolving xrefs for node <SubpSpec 3:4-3:29>
 ********************************************
 
-Expr: <Id "Foo" 3:14-3:17>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ParamSpec ["F"] 3:19-3:28>
 ****************************************************
 
-Expr: <Id "F" 3:19-3:20>
-  references: None
-  type:       None
 Expr: <Id "Float" 3:23-3:28>
   references: <TypeDecl ["Float"] 13:3-14:51>
   type:       None
@@ -45,9 +30,6 @@ Expr: <Id "Float" 3:23-3:28>
 Resolving xrefs for node <TypeDecl ["Oops"] 5:4-5:56>
 *****************************************************
 
-Expr: <Id "Oops" 5:9-5:13>
-  references: None
-  type:       None
 
 Resolving xrefs for node <ArrayTypeDef 5:17-5:55>
 *************************************************
@@ -71,9 +53,6 @@ Expr: <Id "Float" 5:50-5:55>
 Resolving xrefs for node <ObjectDecl ["Arr"] 7:4-7:15>
 ******************************************************
 
-Expr: <Id "Arr" 7:4-7:7>
-  references: None
-  type:       None
 Expr: <Id "Oops" 7:10-7:14>
   references: <TypeDecl ["Oops"] 5:4-5:56>
   type:       None
@@ -85,9 +64,6 @@ Resolving xrefs for node <ForLoopStmt 9:4-11:13>
 Resolving xrefs for node <ForLoopSpec 9:8-9:26>
 ***********************************************
 
-Expr: <Id "I" 9:8-9:9>
-  references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 9:13-9:26>
   references: <TypeDecl ["Integer"] 4:3-4:54>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
@@ -118,9 +94,6 @@ Resolving xrefs for node <ForLoopStmt 13:4-16:13>
 Resolving xrefs for node <ForLoopSpec 13:8-13:23>
 *************************************************
 
-Expr: <Id "J" 13:8-13:9>
-  references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 13:13-13:23>
   references: <TypeDecl ["Oops"] 5:4-5:56>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
@@ -170,9 +143,6 @@ Resolving xrefs for node <ForLoopStmt 18:4-21:13>
 Resolving xrefs for node <ForLoopSpec 18:8-18:22>
 *************************************************
 
-Expr: <Id "J" 18:8-18:9>
-  references: None
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 18:13-18:22>
   references: <ObjectDecl ["Arr"] 7:4-7:15>
   type:       <TypeDecl ["Integer"] 4:3-4:54>

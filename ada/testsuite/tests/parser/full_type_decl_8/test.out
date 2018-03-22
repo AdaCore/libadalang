@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:79]
 |name:
-|  Id[1:6-1:7]: B
+|  DefiningName[1:6-1:7]
+|  |name:
+|  |  Id[1:6-1:7]: B
 |discriminants: <null>
 |type_def:
 |  DerivedTypeDef[1:11-1:78]
@@ -37,8 +39,10 @@ TypeDecl[1:1-1:79]
 |  |  |  |  AdaNodeList[1:55-1:67]
 |  |  |  |  |  ComponentDecl[1:55-1:67]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[1:55-1:56]
-|  |  |  |  |  |  |  Id[1:55-1:56]: D
+|  |  |  |  |  |  DefiningNameList[1:55-1:56]
+|  |  |  |  |  |  |  DefiningName[1:55-1:56]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:55-1:56]: D
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:59-1:66]
 |  |  |  |  |  |  |has_aliased:

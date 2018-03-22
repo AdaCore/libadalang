@@ -1,6 +1,8 @@
 TypeDecl[1:1-1:51]
 |name:
-|  Id[1:6-1:9]: Arr
+|  DefiningName[1:6-1:9]
+|  |name:
+|  |  Id[1:6-1:9]: Arr
 |discriminants: <null>
 |type_def:
 |  ArrayTypeDef[1:13-1:50]

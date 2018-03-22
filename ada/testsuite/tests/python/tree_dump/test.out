@@ -13,7 +13,8 @@
 | | | <OverridingUnspecified>
 | | | <SubpSpec>
 | | | | <SubpKindProcedure>
-| | | | <Identifier>
+| | | | <DefiningName>
+| | | | | <Identifier>
 | | | | <null node>
 | | | | <null node>
 | | | <null node>

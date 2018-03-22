@@ -9,8 +9,10 @@ StmtList[1:1-1:235]
 |  |  |  ParamSpecList[1:15-1:32]
 |  |  |  |  ParamSpec[1:15-1:32]
 |  |  |  |  |ids:
-|  |  |  |  |  IdentifierList[1:15-1:22]
-|  |  |  |  |  |  Id[1:15-1:22]: An_Item
+|  |  |  |  |  DefiningNameList[1:15-1:22]
+|  |  |  |  |  |  DefiningName[1:15-1:22]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:15-1:22]: An_Item
 |  |  |  |  |has_aliased:
 |  |  |  |  |  AliasedAbsent[1:24-1:24]
 |  |  |  |  |mode:
@@ -57,8 +59,10 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  ParamSpecList[1:94-1:111]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:94-1:111]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:94-1:101]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[1:94-1:101]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:94-1:101]: An_Item
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:103-1:103]
 |  |  |  |  |  |  |  |  |  |  |mode:
@@ -98,8 +102,10 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  ParamSpecList[1:162-1:180]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:162-1:180]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:162-1:169]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[1:162-1:169]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:162-1:169]: An_Item
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:171-1:171]
 |  |  |  |  |  |  |  |  |  |  |mode:

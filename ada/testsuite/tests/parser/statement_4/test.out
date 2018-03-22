@@ -5,8 +5,10 @@ DeclBlock[1:1-1:47]
 |  |  AdaNodeList[1:9-1:27]
 |  |  |  ObjectDecl[1:9-1:27]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:9-1:10]
-|  |  |  |  |  Id[1:9-1:10]: A
+|  |  |  |  DefiningNameList[1:9-1:10]
+|  |  |  |  |  DefiningName[1:9-1:10]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:9-1:10]: A
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:12-1:12]
 |  |  |  |has_constant:

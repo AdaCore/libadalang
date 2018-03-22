@@ -1,15 +1,21 @@
 TypeDecl[1:1-1:81]
 |name:
-|  Id[1:6-1:7]: A
+|  DefiningName[1:6-1:7]
+|  |name:
+|  |  Id[1:6-1:7]: A
 |discriminants:
 |  KnownDiscriminantPart[1:8-1:36]
 |  |discr_specs:
 |  |  DiscriminantSpecList[1:9-1:35]
 |  |  |  DiscriminantSpec[1:9-1:35]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:9-1:25]
-|  |  |  |  |  Id[1:9-1:16]: Discr_1
-|  |  |  |  |  Id[1:18-1:25]: Discr_2
+|  |  |  |  DefiningNameList[1:9-1:25]
+|  |  |  |  |  DefiningName[1:9-1:16]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:9-1:16]: Discr_1
+|  |  |  |  |  DefiningName[1:18-1:25]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:18-1:25]: Discr_2
 |  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:28-1:35]
 |  |  |  |  |has_not_null:
@@ -34,9 +40,13 @@ TypeDecl[1:1-1:81]
 |  |  |  |  AdaNodeList[1:54-1:69]
 |  |  |  |  |  ComponentDecl[1:54-1:69]
 |  |  |  |  |  |ids:
-|  |  |  |  |  |  IdentifierList[1:54-1:58]
-|  |  |  |  |  |  |  Id[1:54-1:55]: B
-|  |  |  |  |  |  |  Id[1:57-1:58]: C
+|  |  |  |  |  |  DefiningNameList[1:54-1:58]
+|  |  |  |  |  |  |  DefiningName[1:54-1:55]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:54-1:55]: B
+|  |  |  |  |  |  |  DefiningName[1:57-1:58]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[1:57-1:58]: C
 |  |  |  |  |  |component_def:
 |  |  |  |  |  |  ComponentDef[1:61-1:68]
 |  |  |  |  |  |  |has_aliased:

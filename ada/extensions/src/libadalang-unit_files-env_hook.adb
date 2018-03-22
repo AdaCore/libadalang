@@ -52,13 +52,13 @@ package body Libadalang.Unit_Files.Env_Hook is
          return;
       end if;
 
-      N := Node.P_Defining_Name.El;
+      N := Node.P_Defining_Name.El.F_Name;
 
       if N.all in Bare_Dotted_Name_Type'Class then
          declare
             Dummy : constant Analysis_Unit := Fetch_Unit
               (Ctx,
-               Bare_Ada_Node (Bare_Dotted_Name (N).F_Prefix),
+               Bare_Dotted_Name (N).F_Prefix,
                Unit_Specification,
                Load_If_Needed => True);
          begin
@@ -76,7 +76,7 @@ package body Libadalang.Unit_Files.Env_Hook is
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
       Dummy : constant Analysis_Unit := Fetch_Unit
-        (Ctx, Bare_Ada_Node (Bare_Subunit (Node.Parent).F_Name), Unit_Body,
+        (Ctx, Bare_Subunit (Node.Parent).F_Name, Unit_Body,
          Load_If_Needed => True);
    begin
       null;
@@ -87,7 +87,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    ----------------------
 
    procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Bare_Body) is
-      Names : Entity_Name_Array_Access;
+      Names : Entity_Defining_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
       --  to process.
@@ -101,7 +101,7 @@ package body Libadalang.Unit_Files.Env_Hook is
       pragma Assert (Names.N = 1);
 
       declare
-         N     : constant Bare_Ada_Node := Bare_Ada_Node (Names.Items (1).El);
+         N     : constant Bare_Name := Names.Items (1).El.F_Name;
          Dummy : Analysis_Unit;
       begin
          Dec_Ref (Names);

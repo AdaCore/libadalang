@@ -1,7 +1,9 @@
 ObjectDecl[1:1-1:7]
 |ids:
-|  IdentifierList[1:1-1:2]
-|  |  Id[1:1-1:2]: A
+|  DefiningNameList[1:1-1:2]
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
 |has_aliased:
 |  AliasedAbsent[1:4-1:4]
 |has_constant:
@@ -22,8 +24,10 @@ ObjectDecl[1:1-1:7]
 Lookup 1:4:
 ObjectDecl[1:1-1:7]
 |ids:
-|  IdentifierList[1:1-1:2]
-|  |  Id[1:1-1:2]: A
+|  DefiningNameList[1:1-1:2]
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
 |has_aliased:
 |  AliasedAbsent[1:4-1:4]
 |has_constant:

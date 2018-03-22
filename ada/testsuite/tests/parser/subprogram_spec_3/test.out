@@ -2,15 +2,19 @@ SubpSpec[1:1-1:69]
 |subp_kind:
 |  SubpKindProcedure[1:1-1:10]
 |subp_name:
-|  Id[1:11-1:12]: I
+|  DefiningName[1:11-1:12]
+|  |name:
+|  |  Id[1:11-1:12]: I
 |subp_params:
 |  Params[1:13-1:69]
 |  |params:
 |  |  ParamSpecList[1:14-1:68]
 |  |  |  ParamSpec[1:14-1:55]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:14-1:15]
-|  |  |  |  |  Id[1:14-1:15]: A
+|  |  |  |  DefiningNameList[1:14-1:15]
+|  |  |  |  |  DefiningName[1:14-1:15]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:14-1:15]: A
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:17-1:17]
 |  |  |  |mode:
@@ -38,8 +42,10 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  ParamSpecList[1:43-1:54]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
 |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  IdentifierList[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]: A
+|  |  |  |  |  |  |  |  |  |  |  DefiningNameList[1:43-1:44]
+|  |  |  |  |  |  |  |  |  |  |  |  DefiningName[1:43-1:44]
+|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]: A
 |  |  |  |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:46-1:46]
 |  |  |  |  |  |  |  |  |  |  |mode:
@@ -57,8 +63,10 @@ SubpSpec[1:1-1:69]
 |  |  |  |default_expr: <null>
 |  |  |  ParamSpec[1:57-1:68]
 |  |  |  |ids:
-|  |  |  |  IdentifierList[1:57-1:58]
-|  |  |  |  |  Id[1:57-1:58]: B
+|  |  |  |  DefiningNameList[1:57-1:58]
+|  |  |  |  |  DefiningName[1:57-1:58]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:57-1:58]: B
 |  |  |  |has_aliased:
 |  |  |  |  AliasedAbsent[1:60-1:60]
 |  |  |  |mode:

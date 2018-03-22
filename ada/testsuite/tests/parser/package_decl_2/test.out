@@ -1,6 +1,8 @@
 PackageDecl[1:1-1:106]
 |package_name:
-|  Id[1:9-1:22]: Generic_Stack
+|  DefiningName[1:9-1:22]
+|  |name:
+|  |  Id[1:9-1:22]: Generic_Stack
 |aspects: <null>
 |public_part:
 |  PublicPart[1:25-1:88]
@@ -14,15 +16,19 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_kind:
 |  |  |  |  |  SubpKindProcedure[1:26-1:35]
 |  |  |  |  |subp_name:
-|  |  |  |  |  Id[1:36-1:40]: Push
+|  |  |  |  |  DefiningName[1:36-1:40]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:36-1:40]: Push
 |  |  |  |  |subp_params:
 |  |  |  |  |  Params[1:41-1:55]
 |  |  |  |  |  |params:
 |  |  |  |  |  |  ParamSpecList[1:42-1:54]
 |  |  |  |  |  |  |  ParamSpec[1:42-1:54]
 |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  IdentifierList[1:42-1:43]
-|  |  |  |  |  |  |  |  |  Id[1:42-1:43]: E
+|  |  |  |  |  |  |  |  DefiningNameList[1:42-1:43]
+|  |  |  |  |  |  |  |  |  DefiningName[1:42-1:43]
+|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: E
 |  |  |  |  |  |  |  |has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:44-1:44]
 |  |  |  |  |  |  |  |mode:
@@ -45,7 +51,9 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |subp_kind:
 |  |  |  |  |  SubpKindFunction[1:57-1:65]
 |  |  |  |  |subp_name:
-|  |  |  |  |  Id[1:66-1:69]: Pop
+|  |  |  |  |  DefiningName[1:66-1:69]
+|  |  |  |  |  |name:
+|  |  |  |  |  |  Id[1:66-1:69]: Pop
 |  |  |  |  |subp_params: <null>
 |  |  |  |  |subp_returns:
 |  |  |  |  |  SubtypeIndication[1:77-1:86]

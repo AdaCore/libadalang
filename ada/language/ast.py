@@ -872,7 +872,10 @@ class BasicDecl(AdaNode):
         Return the body corresponding to this node if applicable.
         """
         ignore(Var(Self.body_unit))
-        return Entity.children_env.get_first('__body', recursive=False)
+        return (
+            Entity.children_env
+            .get_first('__body', recursive=False).cast(T.Body)
+        )
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(BoolType, True)):

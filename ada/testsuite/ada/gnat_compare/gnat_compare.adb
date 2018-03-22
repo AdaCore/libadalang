@@ -228,7 +228,8 @@ procedure GNAT_Compare is
       function Traverse (Node : Ada_Node'Class) return Visit_Status;
       --  Called for all AST nodes under Root
 
-      function Resolve (Node : Ada_Node'Class) return Basic_Decl;
+      function Resolve
+        (Node : Ada_Node; Error : out Boolean) return Defining_Name;
       --  Try to resolve Node into the corresponding declaration, applying
       --  post-processing from Xrefs_Wrapper.
 
@@ -241,7 +242,8 @@ procedure GNAT_Compare is
       --------------
 
       function Traverse (Node : Ada_Node'Class) return Visit_Status is
-         Ref  : Basic_Decl;
+         Ref  : Defining_Name;
+         Rel  : Single_Tok_Node;
          Xref : Xref_Type;
       begin
          --  GNAT only considers leaf items for xrefs, so skip for instance
@@ -257,17 +259,18 @@ procedure GNAT_Compare is
 
          --  ... Ref will be the "referenced" part.
          begin
-            Ref := Resolve (Node);
-         exception
-            when Property_Error =>
-               Xref.Error := True;
+            Ref := Resolve (Node.As_Ada_Node, Xref.Error);
          end;
 
          if Xref.Error then
             null;
 
          elsif not Ref.Is_Null then
-            Xref.Entity_Sloc := Start_Sloc (Ref.Sloc_Range);
+
+            --  Take the relative name because that's what GNAT does
+            Rel := Ref.P_Relative_Name;
+
+            Xref.Entity_Sloc := Start_Sloc (Rel.Sloc_Range);
             Xref.Entity_File :=
               File_Index (Files, Get_Filename (Ref.Unit));
 
@@ -286,12 +289,14 @@ procedure GNAT_Compare is
       -- Resolve --
       -------------
 
-      function Resolve (Node : Ada_Node'Class) return Basic_Decl is
-         Ref : Basic_Decl;
+      function Resolve
+        (Node : Ada_Node; Error : out Boolean) return Defining_Name
+      is
+         Ref : Defining_Name;
       begin
          for Wrapper of Xrefs_Wrapper.Pre_Wrappers loop
             declare
-               Wrapped_Ref : constant Basic_Decl := Wrapper (Node);
+               Wrapped_Ref : constant Defining_Name := Wrapper (Node);
             begin
                if not Wrapped_Ref.Is_Null then
                   return Wrapped_Ref;
@@ -299,12 +304,17 @@ procedure GNAT_Compare is
             end;
          end loop;
 
-         Ref := Node.P_Referenced_Decl;
+         begin
+            Ref := Node.As_Name.P_Xref;
+         exception
+            when Property_Error =>
+               Error := True;
+         end;
 
          if not Ref.Is_Null then
             for Wrapper of Xrefs_Wrapper.Post_Wrappers loop
                declare
-                  Wrapped_Ref : constant Basic_Decl := Wrapper (Ref);
+                  Wrapped_Ref : constant Defining_Name := Wrapper (Ref);
                begin
                   if not Wrapped_Ref.Is_Null then
                      return Wrapped_Ref;

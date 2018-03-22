@@ -4827,6 +4827,8 @@ class CallExpr(Name):
 
     ref_var = Property(Self.name.ref_var)
 
+    relative_name = Property(Self.name.relative_name)
+
     @langkit_property()
     def designated_env():
         return Entity.env_elements.map(lambda e: e.match(
@@ -5201,6 +5203,8 @@ class StmtList(AdaNode.list):
 class ExplicitDeref(Name):
     prefix = Field(type=T.Name)
     ref_var = Property(Self.prefix.ref_var)
+
+    relative_name = Property(Self.prefix.relative_name)
 
     @langkit_property()
     def designated_env():
@@ -6146,6 +6150,8 @@ class QualExpr(Name):
 
     ref_var = Property(Self.prefix.ref_var)
 
+    relative_name = Property(Self.prefix.relative_name)
+
     @langkit_property(return_type=EquationType)
     def xref_equation():
         typ = Entity.prefix.designated_type_impl
@@ -6174,6 +6180,7 @@ class AttributeRef(Name):
     args = Field(type=T.AdaNode)
 
     ref_var = Property(Self.prefix.ref_var)
+    relative_name = Property(Self.prefix.relative_name)
 
     designated_type_impl = Property(
         If(Self.attribute.sym == 'Class',

@@ -5,32 +5,32 @@ Resolving xrefs for node <TypeDecl ["My_Int"] 2:4-2:40>
 *******************************************************
 
 Expr: <DottedName 2:23-2:39>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <Id "Standard" 2:23-2:31>
-  references: <PackageDecl ["Standard"] 1:1-121:14>
+  references: <DefiningName 1:9-1:17>
   type:       None
 Expr: <Id "Integer" 2:32-2:39>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["A"] 3:4-3:38>
 ****************************************************
 
 Expr: <DottedName 3:8-3:31>
-  references: <TypeDecl ["My_Int"] 2:4-2:40>
+  references: <DefiningName 2:9-2:15>
   type:       None
 Expr: <DottedName 3:8-3:24>
-  references: <PackageDecl ["Teststd"] 1:1-4:13>
+  references: <DefiningName 1:9-1:16>
   type:       None
 Expr: <Id "Standard" 3:8-3:16>
-  references: <PackageDecl ["Standard"] 1:1-121:14>
+  references: <DefiningName 1:9-1:17>
   type:       None
 Expr: <Id "Teststd" 3:17-3:24>
-  references: <PackageDecl ["Teststd"] 1:1-4:13>
+  references: <DefiningName 1:9-1:16>
   type:       None
 Expr: <Id "My_Int" 3:25-3:31>
-  references: <TypeDecl ["My_Int"] 2:4-2:40>
+  references: <DefiningName 2:9-2:15>
   type:       None
 Expr: <Int 3:35-3:37>
   references: None

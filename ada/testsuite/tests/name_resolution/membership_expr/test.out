@@ -9,7 +9,7 @@ Resolving xrefs for node <ObjectDecl ["A", "B"] 2:4-2:25>
 *********************************************************
 
 Expr: <Id "Integer" 2:11-2:18>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <Int 2:22-2:24>
   references: None
@@ -19,10 +19,9 @@ Resolving xrefs for node <IfStmt 4:4-6:11>
 ******************************************
 
 Expr: <MembershipExpr 4:7-4:26>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "A" 4:7-4:8>
-  references: <ObjectDecl ["A", "B"] 2:4-2:25>
+  references: <DefiningName 2:4-2:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 4:12-4:13>
   references: None
@@ -31,13 +30,12 @@ Expr: <Int 4:16-4:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <BinOp 4:20-4:26>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 4:20-4:21>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Id "B" 4:25-4:26>
-  references: <ObjectDecl ["A", "B"] 2:4-2:25>
+  references: <DefiningName 2:7-2:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <NullStmt 5:7-5:12>

@@ -5,7 +5,7 @@ Resolving xrefs for node <CaseStmt 7:4-10:13>
 *********************************************
 
 Expr: <Id "Foo" 7:9-7:12>
-  references: <ExprFunction ["Foo"] 4:4-4:40>
+  references: <DefiningName 4:13-4:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 8:12-8:14>
   references: None

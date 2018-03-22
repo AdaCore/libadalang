@@ -9,7 +9,7 @@ Resolving xrefs for node <ParamSpec ["X"] 1:22-1:40>
 ****************************************************
 
 Expr: <Id "Integer" 1:33-1:40>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <AspectAssoc 2:3-2:24>
@@ -19,19 +19,17 @@ Expr: <Id "Post" 2:3-2:7>
   references: None
   type:       None
 Expr: <RelationOp 2:11-2:24>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "X" 2:11-2:12>
-  references: <ParamSpec ["X"] 1:22-1:40>
+  references: <DefiningName 1:22-1:23>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp 2:15-2:24>
-  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 2:15-2:20>
-  references: <ParamSpec ["X"] 1:22-1:40>
+  references: <DefiningName 1:22-1:23>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "X" 2:15-2:16>
-  references: <ParamSpec ["X"] 1:22-1:40>
+  references: <DefiningName 1:22-1:23>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Old" 2:17-2:20>
   references: None

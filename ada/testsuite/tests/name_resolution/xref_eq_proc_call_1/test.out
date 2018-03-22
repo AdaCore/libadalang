@@ -5,13 +5,13 @@ Resolving xrefs for node <CallStmt 7:4-7:10>
 ********************************************
 
 Expr: <CallExpr 7:4-7:9>
-  references: <SubpDecl ["A"] 3:4-3:26>
+  references: <DefiningName 3:14-3:15>
   type:       None
 Expr: <Id "A" 7:4-7:5>
-  references: <SubpDecl ["A"] 3:4-3:26>
+  references: <DefiningName 3:14-3:15>
   type:       None
 Expr: <Id "B" 7:7-7:8>
-  references: <ObjectDecl ["B"] 5:4-5:12>
+  references: <DefiningName 5:4-5:5>
   type:       <TypeDecl ["Int"] 2:4-2:31>
 
 

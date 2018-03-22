@@ -13,37 +13,37 @@ Resolving xrefs for node <SubpSpec 4:7-4:34>
 ********************************************
 
 Expr: <Id "Base" 4:30-4:34>
-  references: <TypeDecl ["Base"] 3:7-3:32>
+  references: <DefiningName 3:12-3:16>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Derived"] 7:4-7:31>
 ********************************************************
 
 Expr: <DottedName 7:24-7:30>
-  references: <TypeDecl ["Base"] 3:7-3:32>
+  references: <DefiningName 3:12-3:16>
   type:       None
 Expr: <Id "A" 7:24-7:25>
-  references: <PackageDecl ["A"] 2:4-5:10>
+  references: <DefiningName 2:12-2:13>
   type:       None
 Expr: <Id "Base" 7:26-7:30>
-  references: <TypeDecl ["Base"] 3:7-3:32>
+  references: <DefiningName 3:12-3:16>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["Inst"] 9:4-9:19>
 *******************************************************
 
 Expr: <Id "Derived" 9:11-9:18>
-  references: <TypeDecl ["Derived"] 7:4-7:31>
+  references: <DefiningName 7:9-7:16>
   type:       None
 
 Resolving xrefs for node <AssignStmt 12:4-12:19>
 ************************************************
 
 Expr: <Id "Inst" 12:4-12:8>
-  references: <ObjectDecl ["Inst"] 9:4-9:19>
+  references: <DefiningName 9:4-9:8>
   type:       <TypeDecl ["Derived"] 7:4-7:31>
 Expr: <Id "Create" 12:12-12:18>
-  references: <ExprFunction ["Create"] 4:7-4:52>
+  references: <DefiningName 4:16-4:22>
   type:       <TypeDecl ["Derived"] 7:4-7:31>
 
 

@@ -5,24 +5,24 @@ Resolving xrefs for node <WithClause 1:1-1:10>
 **********************************************
 
 Expr: <Id "Lib" 1:6-1:9>
-  references: <PackageDecl ["Lib"] 1:1-3:9>
+  references: <DefiningName 1:9-1:12>
   type:       None
 
 Resolving xrefs for node <UsePackageClause 4:1-4:9>
 ***************************************************
 
 Expr: <Id "Lib" 4:5-4:8>
-  references: <PackageDecl ["Lib"] 1:1-3:9>
+  references: <DefiningName 1:9-1:12>
   type:       None
 
 Resolving xrefs for node <CallStmt 9:4-9:21>
 ********************************************
 
 Expr: <CallExpr 9:4-9:20>
-  references: <SubpDecl ["Put_Line"] 2:4-2:36>
+  references: <DefiningName 2:14-2:22>
   type:       None
 Expr: <Id "Put_Line" 9:4-9:12>
-  references: <SubpDecl ["Put_Line"] 2:4-2:36>
+  references: <DefiningName 2:14-2:22>
   type:       None
 Expr: <Str ""LOL"" 9:14-9:19>
   references: None

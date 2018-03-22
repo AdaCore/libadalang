@@ -5,10 +5,10 @@ Resolving xrefs for node <AssignStmt 5:7-5:21>
 **********************************************
 
 Expr: <Id "New_T" 5:7-5:12>
-  references: <ObjectDecl ["New_T"] 3:7-3:17>
+  references: <DefiningName 3:7-3:12>
   type:       <TypeDecl ["T"] 2:4-2:22>
 Expr: <Id "Self" 5:16-5:20>
-  references: <ParamSpec ["Self"] 2:19-2:27>
+  references: <DefiningName 2:19-2:23>
   type:       <TypeDecl ["T"] 2:4-2:22>
 
 

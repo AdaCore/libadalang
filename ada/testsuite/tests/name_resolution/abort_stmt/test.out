@@ -5,14 +5,14 @@ Resolving xrefs for node <AbortStmt 35:4-35:12>
 ***********************************************
 
 Expr: <Id "T" 35:10-35:11>
-  references: <SingleTaskDecl ["T"] 5:7-6:13>
+  references: <DefiningName 5:12-5:13>
   type:       <SingleTaskTypeDecl ["T"] 5:12-6:12>
 
 Resolving xrefs for node <AbortStmt 38:4-38:13>
 ***********************************************
 
 Expr: <Id "T2" 38:10-38:12>
-  references: <ObjectDecl ["T2"] 31:4-31:22>
+  references: <DefiningName 31:4-31:6>
   type:       <TaskTypeDecl ["My_Task_Type"] 20:4-21:21>
 
 

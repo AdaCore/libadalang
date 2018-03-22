@@ -9,7 +9,7 @@ Resolving xrefs for node <SubpSpec 2:4-2:34>
 ********************************************
 
 Expr: <Id "Integer" 2:27-2:34>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <AspectAssoc 3:12-3:38>
@@ -19,13 +19,12 @@ Expr: <Id "Post" 3:12-3:16>
   references: None
   type:       None
 Expr: <RelationOp 3:20-3:38>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <AttributeRef 3:20-3:33>
-  references: <SubpDecl ["Barize"] 2:4-3:39>
+  references: <DefiningName 2:13-2:19>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Barize" 3:20-3:26>
-  references: <SubpDecl ["Barize"] 2:4-3:39>
+  references: <DefiningName 2:13-2:19>
   type:       None
 Expr: <Id "Result" 3:27-3:33>
   references: None
@@ -38,7 +37,7 @@ Resolving xrefs for node <SubpSpec 5:4-5:34>
 ********************************************
 
 Expr: <Id "Integer" 5:27-5:34>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <ReturnStmt 7:7-7:17>

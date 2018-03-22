@@ -17,23 +17,22 @@ Resolving xrefs for node <ArrayTypeDef 3:14-3:38>
 *************************************************
 
 Expr: <Id "Color" 3:21-3:26>
-  references: <TypeDecl ["Color"] 2:4-2:54>
+  references: <DefiningName 2:9-2:14>
   type:       None
 Expr: <Id "Integer" 3:31-3:38>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["Inst"] 5:4-5:45>
 *******************************************************
 
 Expr: <Id "A" 5:11-5:12>
-  references: <TypeDecl ["A"] 3:4-3:39>
+  references: <DefiningName 3:9-3:10>
   type:       None
 Expr: <Aggregate 5:16-5:44>
-  references: None
   type:       <TypeDecl ["A"] 3:4-3:39>
 Expr: <Id "Yellow" 5:17-5:23>
-  references: <EnumLiteralDecl ["Yellow"] 2:19-2:25>
+  references: <DefiningName 2:19-2:25>
   type:       <TypeDecl ["Color"] 2:4-2:54>
 Expr: <Int 5:27-5:29>
   references: None

@@ -5,10 +5,9 @@ Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:37>
 ****************************************************
 
 Expr: <Id "Float" 2:8-2:13>
-  references: <TypeDecl ["Float"] 13:3-14:51>
+  references: <DefiningName 13:8-13:13>
   type:       None
 Expr: <BinOp 2:17-2:36>
-  references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 Expr: <Real 2:17-2:31>
   references: None

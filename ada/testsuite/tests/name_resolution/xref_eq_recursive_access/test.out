@@ -5,37 +5,37 @@ Resolving xrefs for node <AssignStmt 15:4-15:32>
 ************************************************
 
 Expr: <DottedName 15:4-15:26>
-  references: <ComponentDecl ["A"] 8:7-8:18>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 Expr: <DottedName 15:4-15:24>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <ExplicitDeref 15:4-15:19>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List_Record"] 7:4-10:15>
 Expr: <DottedName 15:4-15:15>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <DottedName 15:4-15:10>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <Id "R" 15:4-15:5>
-  references: <ObjectDecl ["R"] 12:4-12:27>
+  references: <DefiningName 12:4-12:5>
   type:       <TypeDecl ["Linked_List_Record"] 7:4-10:15>
 Expr: <Id "Next" 15:6-15:10>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <Id "Next" 15:11-15:15>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <Id "Next" 15:20-15:24>
-  references: <ComponentDecl ["Next"] 9:7-9:26>
+  references: <DefiningName 9:7-9:11>
   type:       <TypeDecl ["Linked_List"] 5:4-5:54>
 Expr: <Id "A" 15:25-15:26>
-  references: <ComponentDecl ["A"] 8:7-8:18>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 Expr: <Id "I" 15:30-15:31>
-  references: <ObjectDecl ["I"] 13:4-13:12>
+  references: <DefiningName 13:4-13:5>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 
 

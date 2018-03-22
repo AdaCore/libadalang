@@ -5,32 +5,32 @@ Resolving xrefs for node <AssignStmt 14:4-14:17>
 ************************************************
 
 Expr: <ExplicitDeref 14:4-14:11>
-  references: <ObjectDecl ["R_A"] 11:4-11:21>
+  references: <DefiningName 11:4-11:7>
   type:       <TypeDecl ["Rec"] 4:4-6:15>
 Expr: <Id "R_A" 14:4-14:7>
-  references: <ObjectDecl ["R_A"] 11:4-11:21>
+  references: <DefiningName 11:4-11:7>
   type:       <TypeDecl ["Rec_Access"] 8:4-8:38>
 Expr: <Id "R" 14:15-14:16>
-  references: <ObjectDecl ["R"] 10:4-10:36>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["Rec"] 4:4-6:15>
 
 Resolving xrefs for node <AssignStmt 17:4-17:19>
 ************************************************
 
 Expr: <DottedName 17:4-17:13>
-  references: <ComponentDecl ["A", "B"] 5:7-5:18>
+  references: <DefiningName 5:10-5:11>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 Expr: <ExplicitDeref 17:4-17:11>
-  references: <ObjectDecl ["R_A"] 11:4-11:21>
+  references: <DefiningName 11:4-11:7>
   type:       <TypeDecl ["Rec"] 4:4-6:15>
 Expr: <Id "R_A" 17:4-17:7>
-  references: <ObjectDecl ["R_A"] 11:4-11:21>
+  references: <DefiningName 11:4-11:7>
   type:       <TypeDecl ["Rec_Access"] 8:4-8:38>
 Expr: <Id "B" 17:12-17:13>
-  references: <ComponentDecl ["A", "B"] 5:7-5:18>
+  references: <DefiningName 5:10-5:11>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 Expr: <Id "I" 17:17-17:18>
-  references: <ObjectDecl ["I"] 12:4-12:12>
+  references: <DefiningName 12:4-12:5>
   type:       <TypeDecl ["Int"] 2:4-2:38>
 
 

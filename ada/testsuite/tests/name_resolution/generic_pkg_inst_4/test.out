@@ -5,13 +5,13 @@ Resolving xrefs for node <AssignStmt 6:4-6:19>
 **********************************************
 
 Expr: <DottedName 6:4-6:13>
-  references: <| ObjectDecl ["X"] 4:4-4:10 [bar.adb:4:4] |>
+  references: <| DefiningName 4:4-4:5 [bar.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Foo_Int" 6:4-6:11>
-  references: <GenericPackageInstantiation ["Foo_Int"] 4:4-4:41>
+  references: <DefiningName 4:12-4:19>
   type:       None
 Expr: <Id "X" 6:12-6:13>
-  references: <| ObjectDecl ["X"] 4:4-4:10 [bar.adb:4:4] |>
+  references: <| DefiningName 4:4-4:5 [bar.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 6:17-6:18>
   references: None

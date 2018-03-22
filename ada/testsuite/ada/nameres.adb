@@ -159,17 +159,14 @@ procedure Nameres is
       begin
          if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
          then
-            declare
-               P_Ref  : constant Basic_Decl := P_Referenced_Decl (As_Expr (N));
-               P_Type : constant Base_Type_Decl :=
-                  P_Expression_Type (As_Expr (N));
-            begin
-               if not Quiet then
-                  Put_Line ("Expr: " & Safe_Image (N));
-                  Put_Line ("  references: " & Image (P_Ref));
-                  Put_Line ("  type:       " & Image (P_Type));
+            if not Quiet then
+               Put_Line ("Expr: " & Safe_Image (N));
+               if Kind (N) in Ada_Name then
+                  Put_Line ("  references: " & Image (P_Xref (As_Name (N))));
                end if;
-            end;
+               Put_Line
+                 ("  type:       " & Image (P_Expression_Type (As_Expr (N))));
+            end if;
          end if;
          return (if (P_Xref_Entry_Point (N) and then As_Ada_Node (N) /= Node)
                  or else Kind (N) in Ada_Defining_Name

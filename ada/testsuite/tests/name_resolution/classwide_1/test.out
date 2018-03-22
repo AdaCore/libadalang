@@ -5,25 +5,24 @@ Resolving xrefs for node <ObjectDecl ["CW"] 15:7-15:35>
 *******************************************************
 
 Expr: <AttributeRef 15:12-15:19>
-  references: <TypeDecl ["A"] 3:7-5:18>
+  references: <DefiningName 3:12-3:13>
   type:       None
 Expr: <Id "A" 15:12-15:13>
-  references: <TypeDecl ["A"] 3:7-5:18>
+  references: <DefiningName 3:12-3:13>
   type:       None
 Expr: <Id "Class" 15:14-15:19>
   references: None
   type:       None
 Expr: <QualExpr 15:23-15:34>
-  references: <TypeDecl ["A"] 3:7-5:18>
+  references: <DefiningName 3:12-3:13>
   type:       <TypeDecl ["A"] 3:7-5:18>
 Expr: <Id "A" 15:23-15:24>
-  references: <TypeDecl ["A"] 3:7-5:18>
+  references: <DefiningName 3:12-3:13>
   type:       <TypeDecl ["A"] 3:7-5:18>
 Expr: <Aggregate 15:25-15:34>
-  references: None
   type:       <TypeDecl ["A"] 3:7-5:18>
 Expr: <Id "A" 15:26-15:27>
-  references: <ComponentDecl ["A"] 4:10-4:22>
+  references: <DefiningName 4:10-4:11>
   type:       None
 Expr: <Int 15:31-15:33>
   references: None
@@ -33,13 +32,13 @@ Resolving xrefs for node <CallStmt 17:7-17:14>
 **********************************************
 
 Expr: <DottedName 17:7-17:13>
-  references: <NullSubpDecl ["Foo"] 7:7-7:40>
+  references: <DefiningName 7:17-7:20>
   type:       None
 Expr: <Id "CW" 17:7-17:9>
-  references: <ObjectDecl ["CW"] 15:7-15:35>
+  references: <DefiningName 15:7-15:9>
   type:       <ClasswideTypeDecl ["A"] 3:7-5:18>
 Expr: <Id "Foo" 17:10-17:13>
-  references: <NullSubpDecl ["Foo"] 7:7-7:40>
+  references: <DefiningName 7:17-7:20>
   type:       None
 
 

@@ -5,44 +5,44 @@ Resolving xrefs for node <CallStmt 10:4-10:29>
 **********************************************
 
 Expr: <CallExpr 10:4-10:28>
-  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  references: <| DefiningName 7:14-7:20 [main.adb:4:4] |>
   type:       None
 Expr: <DottedName 10:4-10:21>
-  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  references: <| DefiningName 7:14-7:20 [main.adb:4:4] |>
   type:       None
 Expr: <Id "Int_Vector" 10:4-10:14>
-  references: <GenericPackageInstantiation ["Int_Vector"] 4:4-4:47>
+  references: <DefiningName 4:12-4:22>
   type:       None
 Expr: <Id "Append" 10:15-10:21>
-  references: <| SubpDecl ["Append"] 7:4-7:58 [main.adb:4:4] |>
+  references: <| DefiningName 7:14-7:20 [main.adb:4:4] |>
   type:       None
 Expr: <Id "V" 10:23-10:24>
-  references: <ObjectDecl ["V", "V2"] 7:4-7:31>
+  references: <DefiningName 7:4-7:5>
   type:       <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:4:4] |>
 Expr: <Id "B" 10:26-10:27>
-  references: <ObjectDecl ["B"] 8:4-8:21>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <AssignStmt 13:4-13:35>
 ************************************************
 
 Expr: <Id "B" 13:4-13:5>
-  references: <ObjectDecl ["B"] 8:4-8:21>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <CallExpr 13:9-13:34>
-  references: <| SubpDecl ["Append"] 8:4-8:71 [main.adb:4:4] |>
+  references: <| DefiningName 8:13-8:19 [main.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <DottedName 13:9-13:26>
-  references: <| SubpDecl ["Append"] 8:4-8:71 [main.adb:4:4] |>
+  references: <| DefiningName 8:13-8:19 [main.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Int_Vector" 13:9-13:19>
-  references: <GenericPackageInstantiation ["Int_Vector"] 4:4-4:47>
+  references: <DefiningName 4:12-4:22>
   type:       None
 Expr: <Id "Append" 13:20-13:26>
-  references: <| SubpDecl ["Append"] 8:4-8:71 [main.adb:4:4] |>
+  references: <| DefiningName 8:13-8:19 [main.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "V" 13:28-13:29>
-  references: <ObjectDecl ["V", "V2"] 7:4-7:31>
+  references: <DefiningName 7:4-7:5>
   type:       <| TypeDecl ["Vector"] 4:4-4:31 [main.adb:4:4] |>
 Expr: <Int 13:31-13:33>
   references: None

@@ -9,66 +9,62 @@ Resolving xrefs for node <TypeDecl ["Str_Access"] 2:4-2:41>
 ***********************************************************
 
 Expr: <Id "String" 2:34-2:40>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       None
 
 Resolving xrefs for node <SubpSpec 3:4-3:49>
 ********************************************
 
 Expr: <Id "Str_Access" 3:39-3:49>
-  references: <TypeDecl ["Str_Access"] 2:4-2:41>
+  references: <DefiningName 2:9-2:19>
   type:       None
 
 Resolving xrefs for node <ParamSpec ["S"] 3:20-3:30>
 ****************************************************
 
 Expr: <Id "String" 3:24-3:30>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       None
 
 Resolving xrefs for node <ReturnStmt 5:7-5:29>
 **********************************************
 
 Expr: <Allocator 5:14-5:28>
-  references: None
   type:       <TypeDecl ["Str_Access"] 2:4-2:41>
 Expr: <QualExpr 5:18-5:28>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "String" 5:18-5:24>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <ParenExpr 5:25-5:28>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "S" 5:26-5:27>
-  references: <ParamSpec ["S"] 3:20-3:30>
+  references: <DefiningName 3:20-3:21>
   type:       <TypeDecl ["String"] 104:3-104:57>
 
 Resolving xrefs for node <ObjectDecl ["A"] 8:4-8:18>
 ****************************************************
 
 Expr: <Id "Character" 8:8-8:17>
-  references: <TypeDecl ["Character"] 20:3-20:27>
+  references: <DefiningName 20:8-20:17>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["S"] 10:4-10:44>
 ******************************************************
 
 Expr: <Id "Str_Access" 10:8-10:18>
-  references: <TypeDecl ["Str_Access"] 2:4-2:41>
+  references: <DefiningName 2:9-2:19>
   type:       None
 Expr: <Allocator 10:22-10:43>
-  references: None
   type:       <TypeDecl ["Str_Access"] 2:4-2:41>
 Expr: <QualExpr 10:26-10:43>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "String" 10:26-10:32>
-  references: <TypeDecl ["String"] 104:3-104:57>
+  references: <DefiningName 104:8-104:14>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <ParenExpr 10:33-10:43>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Str ""lolwat"" 10:34-10:42>
   references: None
@@ -78,19 +74,19 @@ Resolving xrefs for node <AssignStmt 13:4-13:31>
 ************************************************
 
 Expr: <Id "A" 13:4-13:5>
-  references: <ObjectDecl ["A"] 8:4-8:18>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <CallExpr 13:9-13:30>
-  references: <SubpBody ["Prout"] 3:4-6:14>
+  references: <DefiningName 3:13-3:18>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <ExplicitDeref 13:9-13:26>
-  references: <SubpBody ["Prout"] 3:4-6:14>
+  references: <DefiningName 3:13-3:18>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <CallExpr 13:9-13:22>
-  references: <SubpBody ["Prout"] 3:4-6:14>
+  references: <DefiningName 3:13-3:18>
   type:       <TypeDecl ["Str_Access"] 2:4-2:41>
 Expr: <Id "Prout" 13:9-13:14>
-  references: <SubpBody ["Prout"] 3:4-6:14>
+  references: <DefiningName 3:13-3:18>
   type:       <TypeDecl ["Str_Access"] 2:4-2:41>
 Expr: <Str ""lol"" 13:16-13:21>
   references: None
@@ -103,16 +99,16 @@ Resolving xrefs for node <AssignStmt 15:4-15:19>
 ************************************************
 
 Expr: <Id "A" 15:4-15:5>
-  references: <ObjectDecl ["A"] 8:4-8:18>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <CallExpr 15:9-15:18>
-  references: <ObjectDecl ["S"] 10:4-10:44>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 Expr: <ExplicitDeref 15:9-15:14>
-  references: <ObjectDecl ["S"] 10:4-10:44>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "S" 15:9-15:10>
-  references: <ObjectDecl ["S"] 10:4-10:44>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["Str_Access"] 2:4-2:41>
 Expr: <Int 15:16-15:17>
   references: None

@@ -5,16 +5,16 @@ Resolving xrefs for node <AssignStmt 9:4-9:22>
 **********************************************
 
 Expr: <Id "O" 9:4-9:5>
-  references: <ObjectDecl ["O"] 7:4-7:16>
+  references: <DefiningName 7:4-7:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <ExplicitDeref 9:9-9:21>
-  references: <ObjectDecl ["Inst"] 5:4-5:42>
+  references: <DefiningName 5:4-5:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <ExplicitDeref 9:9-9:17>
-  references: <ObjectDecl ["Inst"] 5:4-5:42>
+  references: <DefiningName 5:4-5:8>
   type:       <TypeDecl ["A"] 2:4-2:33>
 Expr: <Id "Inst" 9:9-9:13>
-  references: <ObjectDecl ["Inst"] 5:4-5:42>
+  references: <DefiningName 5:4-5:8>
   type:       <TypeDecl ["AA"] 3:4-3:28>
 
 

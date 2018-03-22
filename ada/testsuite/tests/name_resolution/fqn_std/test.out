@@ -5,16 +5,16 @@ Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:33>
 ****************************************************
 
 Expr: <DottedName 2:8-2:24>
-  references: <TypeDecl ["Boolean"] 3:3-3:33>
+  references: <DefiningName 3:8-3:15>
   type:       None
 Expr: <Id "Standard" 2:8-2:16>
-  references: <PackageDecl ["Standard"] 1:1-121:14>
+  references: <DefiningName 1:9-1:17>
   type:       None
 Expr: <Id "Boolean" 2:17-2:24>
-  references: <TypeDecl ["Boolean"] 3:3-3:33>
+  references: <DefiningName 3:8-3:15>
   type:       None
 Expr: <Id "True" 2:28-2:32>
-  references: <EnumLiteralDecl ["True"] 3:27-3:31>
+  references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 

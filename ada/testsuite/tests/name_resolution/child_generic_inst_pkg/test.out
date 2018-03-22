@@ -5,22 +5,22 @@ Resolving xrefs for node <ObjectDecl ["B"] 5:4-5:25>
 ****************************************************
 
 Expr: <Id "Integer" 5:8-5:15>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <DottedName 5:19-5:24>
-  references: <| ObjectDecl ["A"] 3:4-3:16 [b-c.ads:3:1] |>
+  references: <| DefiningName 3:4-3:5 [b-c.ads:3:1] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <DottedName 5:19-5:22>
-  references: <GenericPackageInstantiation ["B.C"] 3:1-3:22>
+  references: <DefiningName 3:9-3:12>
   type:       None
 Expr: <Id "B" 5:19-5:20>
-  references: <ObjectDecl ["B"] 5:4-5:25>
+  references: <DefiningName 5:4-5:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "C" 5:21-5:22>
-  references: <GenericPackageInstantiation ["B.C"] 3:1-3:22>
+  references: <DefiningName 3:9-3:12>
   type:       None
 Expr: <Id "A" 5:23-5:24>
-  references: <| ObjectDecl ["A"] 3:4-3:16 [b-c.ads:3:1] |>
+  references: <| DefiningName 3:4-3:5 [b-c.ads:3:1] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 

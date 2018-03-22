@@ -5,16 +5,16 @@ Resolving xrefs for node <AssignStmt 15:7-15:16>
 ************************************************
 
 Expr: <Id "E" 15:7-15:8>
-  references: <ObjectDecl ["E"] 12:7-12:20>
+  references: <DefiningName 12:7-12:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <DottedName 15:12-15:15>
-  references: <ComponentDecl ["F"] 8:7-8:23>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "G" 15:12-15:13>
-  references: <ObjectDecl ["G"] 13:7-13:21>
+  references: <DefiningName 13:7-13:8>
   type:       <TypeDecl ["My_Record"] 6:4-9:15>
 Expr: <Id "F" 15:14-15:15>
-  references: <ComponentDecl ["F"] 8:7-8:23>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 
 

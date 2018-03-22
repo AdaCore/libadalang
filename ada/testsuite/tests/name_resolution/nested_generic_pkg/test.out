@@ -5,19 +5,19 @@ Resolving xrefs for node <AssignStmt 9:4-9:29>
 **********************************************
 
 Expr: <Id "F" 9:4-9:5>
-  references: <ObjectDecl ["F"] 7:4-7:14>
+  references: <DefiningName 7:4-7:5>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <CallExpr 9:9-9:28>
-  references: <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>
+  references: <| DefiningName 7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <DottedName 9:9-9:23>
-  references: <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>
+  references: <| DefiningName 7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "B_Inst" 9:9-9:15>
-  references: <GenericPackageInstantiation ["B_Inst"] 5:4-5:43>
+  references: <DefiningName 5:12-5:18>
   type:       None
 Expr: <Id "Convert" 9:16-9:23>
-  references: <| SubpDecl ["Convert"] 7:7-7:41 [main.adb:4:4, main.adb:5:4] |>
+  references: <| DefiningName 7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Int 9:25-9:27>
   references: None

@@ -5,44 +5,44 @@ Resolving xrefs for node <AssignStmt 25:4-25:21>
 ************************************************
 
 Expr: <Id "Pouet" 25:4-25:9>
-  references: <ObjectDecl ["Pouet"] 23:4-23:20>
+  references: <DefiningName 23:4-23:9>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 Expr: <DottedName 25:13-25:20>
-  references: <ComponentDecl ["C"] 9:7-9:19>
+  references: <DefiningName 9:7-9:8>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 Expr: <DottedName 25:13-25:18>
-  references: <ComponentDecl ["B"] 13:7-13:17>
+  references: <DefiningName 13:7-13:8>
   type:       <TypeDecl ["Rec_1"] 8:4-10:15>
 Expr: <Id "Foo" 25:13-25:16>
-  references: <ExprFunction ["Foo"] 20:4-20:50>
+  references: <DefiningName 20:13-20:16>
   type:       <TypeDecl ["Rec_A"] 12:4-14:15>
 Expr: <Id "B" 25:17-25:18>
-  references: <ComponentDecl ["B"] 13:7-13:17>
+  references: <DefiningName 13:7-13:8>
   type:       <TypeDecl ["Rec_1"] 8:4-10:15>
 Expr: <Id "C" 25:19-25:20>
-  references: <ComponentDecl ["C"] 9:7-9:19>
+  references: <DefiningName 9:7-9:8>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 
 Resolving xrefs for node <AssignStmt 28:4-28:21>
 ************************************************
 
 Expr: <Id "Pouet" 28:4-28:9>
-  references: <ObjectDecl ["Pouet"] 23:4-23:20>
+  references: <DefiningName 23:4-23:9>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 Expr: <DottedName 28:13-28:20>
-  references: <ComponentDecl ["D"] 5:7-5:19>
+  references: <DefiningName 5:7-5:8>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 Expr: <DottedName 28:13-28:18>
-  references: <ComponentDecl ["B"] 17:7-17:17>
+  references: <DefiningName 17:7-17:8>
   type:       <TypeDecl ["Rec_2"] 4:4-6:15>
 Expr: <Id "Foo" 28:13-28:16>
-  references: <ExprFunction ["Foo"] 21:4-21:50>
+  references: <DefiningName 21:13-21:16>
   type:       <TypeDecl ["Rec_B"] 16:4-18:15>
 Expr: <Id "B" 28:17-28:18>
-  references: <ComponentDecl ["B"] 17:7-17:17>
+  references: <DefiningName 17:7-17:8>
   type:       <TypeDecl ["Rec_2"] 4:4-6:15>
 Expr: <Id "D" 28:19-28:20>
-  references: <ComponentDecl ["D"] 5:7-5:19>
+  references: <DefiningName 5:7-5:8>
   type:       <TypeDecl ["Integer"] 2:4-2:37>
 
 

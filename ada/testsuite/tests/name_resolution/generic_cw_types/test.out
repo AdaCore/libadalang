@@ -5,38 +5,38 @@ Resolving xrefs for node <ObjectDecl ["V"] 12:7-12:44>
 ******************************************************
 
 Expr: <AttributeRef 12:11-12:33>
-  references: <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
+  references: <| DefiningName 4:9-4:15 [main.adb:4:4] |>
   type:       None
 Expr: <DottedName 12:11-12:27>
-  references: <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
+  references: <| DefiningName 4:9-4:15 [main.adb:4:4] |>
   type:       None
 Expr: <Id "My_Vector" 12:11-12:20>
-  references: <GenericPackageInstantiation ["My_Vector"] 4:4-4:46>
+  references: <DefiningName 4:12-4:21>
   type:       None
 Expr: <Id "Vector" 12:21-12:27>
-  references: <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
+  references: <| DefiningName 4:9-4:15 [main.adb:4:4] |>
   type:       None
 Expr: <Id "Class" 12:28-12:33>
   references: None
   type:       None
 Expr: <Id "Create" 12:37-12:43>
-  references: <| SubpDecl ["Create"] 6:4-6:40 [main.adb:4:4] |>
+  references: <| DefiningName 6:13-6:19 [main.adb:4:4] |>
   type:       <| ClasswideTypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
 
 Resolving xrefs for node <CallStmt 14:7-14:21>
 **********************************************
 
 Expr: <CallExpr 14:7-14:20>
-  references: <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>
+  references: <| DefiningName 8:14-8:20 [main.adb:4:4] |>
   type:       None
 Expr: <DottedName 14:7-14:15>
-  references: <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>
+  references: <| DefiningName 8:14-8:20 [main.adb:4:4] |>
   type:       None
 Expr: <Id "V" 14:7-14:8>
-  references: <ObjectDecl ["V"] 12:7-12:44>
+  references: <DefiningName 12:7-12:8>
   type:       <| ClasswideTypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4] |>
 Expr: <Id "Append" 14:9-14:15>
-  references: <| SubpDecl ["Append"] 8:4-8:58 [main.adb:4:4] |>
+  references: <| DefiningName 8:14-8:20 [main.adb:4:4] |>
   type:       None
 Expr: <Int 14:17-14:19>
   references: None

@@ -5,43 +5,36 @@ Resolving xrefs for node <IfStmt 14:4-16:11>
 ********************************************
 
 Expr: <BinOp 14:7-14:47>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <BinOp 14:7-14:25>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp 14:7-14:12>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "A" 14:7-14:8>
-  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "B" 14:11-14:12>
-  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Foo" 14:22-14:25>
-  references: <ObjectDecl ["Foo"] 12:4-12:18>
+  references: <DefiningName 12:4-12:7>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <ParenExpr 14:34-14:47>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp 14:35-14:46>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <ParenExpr 14:35-14:42>
-  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp 14:36-14:41>
-  references: <ExprFunction [""+""] 5:4-5:57>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "A" 14:36-14:37>
-  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "B" 14:40-14:41>
-  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "C" 14:45-14:46>
-  references: <ObjectDecl ["A", "B", "C", "D", "E", "F"] 8:4-8:31>
+  references: <DefiningName 8:10-8:11>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 

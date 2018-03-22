@@ -5,48 +5,48 @@ Resolving xrefs for node <AssignStmt 13:7-13:18>
 ************************************************
 
 Expr: <Id "A" 13:7-13:8>
-  references: <ObjectDecl ["A"] 9:4-9:17>
+  references: <DefiningName 9:4-9:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <CallExpr 13:12-13:17>
-  references: <SubpDecl ["B"] 6:4-6:36>
+  references: <DefiningName 6:13-6:14>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Id "B" 13:12-13:13>
-  references: <SubpDecl ["B"] 6:4-6:36>
+  references: <DefiningName 6:13-6:14>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Id "A" 13:15-13:16>
-  references: <ObjectDecl ["A"] 9:4-9:17>
+  references: <DefiningName 9:4-9:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 
 Resolving xrefs for node <AssignStmt 14:7-14:18>
 ************************************************
 
 Expr: <Id "C" 14:7-14:8>
-  references: <ObjectDecl ["C"] 10:4-10:18>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["Int2"] 3:4-3:31>
 Expr: <CallExpr 14:12-14:17>
-  references: <SubpDecl ["B"] 7:4-7:37>
+  references: <DefiningName 7:13-7:14>
   type:       <TypeDecl ["Int2"] 3:4-3:31>
 Expr: <Id "B" 14:12-14:13>
-  references: <SubpDecl ["B"] 7:4-7:37>
+  references: <DefiningName 7:13-7:14>
   type:       <TypeDecl ["Int2"] 3:4-3:31>
 Expr: <Id "A" 14:15-14:16>
-  references: <ObjectDecl ["A"] 9:4-9:17>
+  references: <DefiningName 9:4-9:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 
 Resolving xrefs for node <AssignStmt 15:7-15:18>
 ************************************************
 
 Expr: <Id "A" 15:7-15:8>
-  references: <ObjectDecl ["A"] 9:4-9:17>
+  references: <DefiningName 9:4-9:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <CallExpr 15:12-15:17>
-  references: <SubpDecl ["B"] 5:4-5:37>
+  references: <DefiningName 5:13-5:14>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Id "B" 15:12-15:13>
-  references: <SubpDecl ["B"] 5:4-5:37>
+  references: <DefiningName 5:13-5:14>
   type:       <TypeDecl ["Int"] 2:4-2:30>
 Expr: <Id "C" 15:15-15:16>
-  references: <ObjectDecl ["C"] 10:4-10:18>
+  references: <DefiningName 10:4-10:5>
   type:       <TypeDecl ["Int2"] 3:4-3:31>
 
 

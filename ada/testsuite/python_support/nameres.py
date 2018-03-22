@@ -61,7 +61,10 @@ def resolve_node(node):
 
         if n.is_a(lal.Expr) and not n.is_a(lal.DefiningName):
             print('Expr: {}'.format(n))
-            print('  references: {}'.format(entity_repr(n.p_referenced_decl)))
+
+            if n.is_a(lal.Name):
+                print('  references: {}'.format(entity_repr(n.p_xref)))
+
             print('  type:       {}'.format(entity_repr(n.p_expression_type)))
         if n.p_xref_entry_point and n != node or n.is_a(lal.DefiningName):
             return

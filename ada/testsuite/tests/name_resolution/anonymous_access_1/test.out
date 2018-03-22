@@ -5,26 +5,26 @@ Resolving xrefs for node <CallStmt 11:4-11:13>
 **********************************************
 
 Expr: <CallExpr 11:4-11:12>
-  references: <NullSubpDecl ["Foo"] 5:4-5:47>
+  references: <DefiningName 5:14-5:17>
   type:       None
 Expr: <Id "Foo" 11:4-11:7>
-  references: <NullSubpDecl ["Foo"] 5:4-5:47>
+  references: <DefiningName 5:14-5:17>
   type:       None
 Expr: <Id "IA" 11:9-11:11>
-  references: <ObjectDecl ["IA"] 8:4-8:28>
+  references: <DefiningName 8:4-8:6>
   type:       <TypeDecl ["Int_Access"] 3:4-3:42>
 
 Resolving xrefs for node <CallStmt 14:4-14:13>
 **********************************************
 
 Expr: <CallExpr 14:4-14:12>
-  references: <NullSubpDecl ["Bar"] 6:4-6:43>
+  references: <DefiningName 6:14-6:17>
   type:       None
 Expr: <Id "Bar" 14:4-14:7>
-  references: <NullSubpDecl ["Bar"] 6:4-6:43>
+  references: <DefiningName 6:14-6:17>
   type:       None
 Expr: <Id "AI" 14:9-14:11>
-  references: <ObjectDecl ["AI"] 9:4-9:32>
+  references: <DefiningName 9:4-9:6>
   type:       <AnonymousTypeDecl ["None"] 9:9-9:23>
 
 

@@ -5,13 +5,12 @@ Resolving xrefs for node <ObjectDecl ["Inst"] 14:4-14:51>
 *********************************************************
 
 Expr: <Id "R2" 14:11-14:13>
-  references: <TypeDecl ["R2"] 10:4-12:15>
+  references: <DefiningName 10:9-10:11>
   type:       None
 Expr: <Aggregate 14:17-14:50>
-  references: None
   type:       <TypeDecl ["R2"] 10:4-12:15>
 Expr: <Id "A" 14:18-14:19>
-  references: <EnumLiteralDecl ["A"] 8:15-8:16>
+  references: <DefiningName 8:15-8:16>
   type:       <TypeDecl ["N"] 8:4-8:24>
 Expr: <Real 14:21-14:25>
   references: None

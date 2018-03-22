@@ -13,23 +13,23 @@ Resolving xrefs for node <ObjectDecl ["Inst"] 4:4-4:21>
 *******************************************************
 
 Expr: <Id "Enum" 4:11-4:15>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       None
 Expr: <Id "A" 4:19-4:20>
-  references: <EnumLiteralDecl ["A"] 2:18-2:19>
+  references: <DefiningName 2:18-2:19>
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 
 Resolving xrefs for node <ObjectDecl ["Inst_2"] 5:4-5:37>
 *********************************************************
 
 Expr: <Id "Enum" 5:13-5:17>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       None
 Expr: <AttributeRef 5:21-5:36>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 Expr: <Id "Enum" 5:21-5:25>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       None
 Expr: <Id "Succ" 5:26-5:30>
   references: None
@@ -42,13 +42,13 @@ Resolving xrefs for node <ObjectDecl ["Inst_3"] 6:4-6:34>
 *********************************************************
 
 Expr: <Id "Enum" 6:13-6:17>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       None
 Expr: <AttributeRef 6:21-6:33>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 Expr: <Id "Enum" 6:21-6:25>
-  references: <TypeDecl ["Enum"] 2:4-2:30>
+  references: <DefiningName 2:9-2:13>
   type:       None
 Expr: <Id "Succ" 6:26-6:30>
   references: None

@@ -5,16 +5,16 @@ Resolving xrefs for node <CallStmt 8:4-8:25>
 ********************************************
 
 Expr: <CallExpr 8:4-8:24>
-  references: <| GenericSubpInternal ["Print_T"] 8:4-8:32 [main.adb:5:7] |>
+  references: <| DefiningName 8:14-8:21 [main.adb:5:7] |>
   type:       None
 Expr: <DottedName 8:4-8:19>
-  references: <| GenericSubpInternal ["Print_T"] 8:4-8:32 [main.adb:5:7] |>
+  references: <| DefiningName 8:14-8:21 [main.adb:5:7] |>
   type:       None
 Expr: <Id "Pouet" 8:4-8:9>
-  references: <PackageDecl ["Pouet"] 4:4-6:14>
+  references: <DefiningName 4:12-4:17>
   type:       None
 Expr: <Id "Print_Int" 8:10-8:19>
-  references: <| GenericSubpInternal ["Print_T"] 8:4-8:32 [main.adb:5:7] |>
+  references: <| DefiningName 8:14-8:21 [main.adb:5:7] |>
   type:       None
 Expr: <Int 8:21-8:23>
   references: None

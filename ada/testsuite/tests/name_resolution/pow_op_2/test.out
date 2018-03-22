@@ -5,22 +5,22 @@ Resolving xrefs for node <AssignStmt 15:4-15:27>
 ************************************************
 
 Expr: <Id "F" 15:4-15:5>
-  references: <ObjectDecl ["F"] 13:4-13:14>
+  references: <DefiningName 13:4-13:5>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <CallExpr 15:9-15:26>
-  references: <SubpDecl [""**""] 6:7-6:49>
+  references: <DefiningName 6:16-6:20>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <DottedName 15:9-15:16>
-  references: <SubpDecl [""**""] 6:7-6:49>
+  references: <DefiningName 6:16-6:20>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "EF" 15:9-15:11>
-  references: <PackageDecl ["EF"] 5:4-8:11>
+  references: <DefiningName 5:12-5:14>
   type:       None
 Expr: <Str ""**"" 15:12-15:16>
-  references: <SubpDecl [""**""] 6:7-6:49>
+  references: <DefiningName 6:16-6:20>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "e" 15:17-15:18>
-  references: <NumberDecl ["e"] 29:4-30:72>
+  references: <DefiningName 29:4-29:5>
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 Expr: <Real 15:20-15:25>
   references: None

@@ -5,7 +5,7 @@ Resolving xrefs for node <RaiseStmt 4:4-4:12>
 *********************************************
 
 Expr: <Id "A" 4:10-4:11>
-  references: <ExceptionDecl ["A", "B"] 2:4-2:21>
+  references: <DefiningName 2:4-2:5>
   type:       None
 
 

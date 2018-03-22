@@ -13,7 +13,7 @@ Resolving xrefs for node <AssignStmt 5:7-5:15>
 **********************************************
 
 Expr: <Id "J" 5:7-5:8>
-  references: <ObjectDecl ["J"] 8:4-8:16>
+  references: <DefiningName 8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 5:12-5:14>
   references: None

@@ -9,7 +9,6 @@ Resolving xrefs for node <TypeDecl ["Typ"] 3:7-3:35>
 ****************************************************
 
 Expr: <BinOp 3:25-3:34>
-  references: None
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <Int 3:25-3:26>
   references: None
@@ -22,13 +21,13 @@ Resolving xrefs for node <ObjectDecl ["A", "B"] 6:4-6:25>
 *********************************************************
 
 Expr: <DottedName 6:11-6:18>
-  references: <TypeDecl ["Typ"] 3:7-3:35>
+  references: <DefiningName 3:12-3:15>
   type:       None
 Expr: <Id "Pkg" 6:11-6:14>
-  references: <PackageDecl ["Pkg"] 2:4-4:12>
+  references: <DefiningName 2:12-2:15>
   type:       None
 Expr: <Id "Typ" 6:15-6:18>
-  references: <TypeDecl ["Typ"] 3:7-3:35>
+  references: <DefiningName 3:12-3:15>
   type:       None
 Expr: <Int 6:22-6:24>
   references: None
@@ -38,7 +37,7 @@ Resolving xrefs for node <AssignStmt 8:4-8:24>
 **********************************************
 
 Expr: <Id "A" 8:4-8:5>
-  references: <ObjectDecl ["A", "B"] 6:4-6:25>
+  references: <DefiningName 6:4-6:5>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <CallExpr 8:9-8:23>
   references: None
@@ -47,16 +46,16 @@ Expr: <DottedName 8:9-8:16>
   references: None
   type:       None
 Expr: <Id "Pkg" 8:9-8:12>
-  references: <PackageDecl ["Pkg"] 2:4-4:12>
+  references: <DefiningName 2:12-2:15>
   type:       None
 Expr: <Str ""+"" 8:13-8:16>
   references: None
   type:       None
 Expr: <Id "A" 8:18-8:19>
-  references: <ObjectDecl ["A", "B"] 6:4-6:25>
+  references: <DefiningName 6:4-6:5>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <Id "B" 8:21-8:22>
-  references: <ObjectDecl ["A", "B"] 6:4-6:25>
+  references: <DefiningName 6:7-6:8>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 
 Resolving xrefs for node <IfStmt 10:4-12:11>
@@ -69,16 +68,16 @@ Expr: <DottedName 10:7-10:14>
   references: None
   type:       None
 Expr: <Id "Pkg" 10:7-10:10>
-  references: <PackageDecl ["Pkg"] 2:4-4:12>
+  references: <DefiningName 2:12-2:15>
   type:       None
 Expr: <Str ""="" 10:11-10:14>
   references: None
   type:       None
 Expr: <Id "A" 10:16-10:17>
-  references: <ObjectDecl ["A", "B"] 6:4-6:25>
+  references: <DefiningName 6:4-6:5>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <Id "B" 10:19-10:20>
-  references: <ObjectDecl ["A", "B"] 6:4-6:25>
+  references: <DefiningName 6:7-6:8>
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 
 Resolving xrefs for node <NullStmt 11:7-11:12>

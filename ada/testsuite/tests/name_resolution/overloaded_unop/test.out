@@ -5,10 +5,9 @@ Resolving xrefs for node <ObjectDecl ["I"] 4:7-4:34>
 ****************************************************
 
 Expr: <Id "Integer" 4:20-4:27>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <UnOp 4:31-4:33>
-  references: <ExprFunction [""-""] 2:7-2:56>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 4:32-4:33>
   references: None

@@ -8,10 +8,9 @@ Expr: <Id "Assert" 6:14-6:20>
   references: None
   type:       None
 Expr: <RelationOp 6:21-6:26>
-  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "I" 6:21-6:22>
-  references: <ObjectDecl ["I"] 4:7-4:34>
+  references: <DefiningName 4:7-4:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 6:25-6:26>
   references: None

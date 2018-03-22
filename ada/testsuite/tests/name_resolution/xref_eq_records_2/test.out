@@ -5,54 +5,54 @@ Resolving xrefs for node <AssignStmt 24:10-24:28>
 *************************************************
 
 Expr: <Id "C" 24:10-24:11>
-  references: <ObjectDecl ["C", "D", "E"] 12:7-12:26>
+  references: <DefiningName 12:7-12:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <CallExpr 24:15-24:27>
-  references: <SubpDecl ["Bar"] 17:7-17:66>
+  references: <DefiningName 17:16-17:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "Bar" 24:15-24:18>
-  references: <SubpDecl ["Bar"] 17:7-17:66>
+  references: <DefiningName 17:16-17:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "Baz" 24:20-24:23>
-  references: <SubpDecl ["Baz"] 20:7-20:36>
+  references: <DefiningName 20:16-20:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "G" 24:25-24:26>
-  references: <ObjectDecl ["G"] 14:7-14:21>
+  references: <DefiningName 14:7-14:8>
   type:       <TypeDecl ["My_Record"] 6:4-9:15>
 
 Resolving xrefs for node <AssignStmt 25:10-25:30>
 *************************************************
 
 Expr: <Id "D" 25:10-25:11>
-  references: <ObjectDecl ["C", "D", "E"] 12:7-12:26>
+  references: <DefiningName 12:10-12:11>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <CallExpr 25:15-25:29>
-  references: <SubpDecl ["Bar"] 16:7-16:63>
+  references: <DefiningName 16:16-16:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "Bar" 25:15-25:18>
-  references: <SubpDecl ["Bar"] 16:7-16:63>
+  references: <DefiningName 16:16-16:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "Baz" 25:20-25:23>
-  references: <SubpDecl ["Baz"] 19:7-19:34>
+  references: <DefiningName 19:16-19:19>
   type:       <TypeDecl ["My_Int"] 3:4-3:39>
 Expr: <Id "Baz" 25:25-25:28>
-  references: <SubpDecl ["Baz"] 20:7-20:36>
+  references: <DefiningName 20:16-20:19>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 
 Resolving xrefs for node <AssignStmt 26:10-26:19>
 *************************************************
 
 Expr: <Id "E" 26:10-26:11>
-  references: <ObjectDecl ["C", "D", "E"] 12:7-12:26>
+  references: <DefiningName 12:13-12:14>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <DottedName 26:15-26:18>
-  references: <ComponentDecl ["F"] 8:7-8:23>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 Expr: <Id "G" 26:15-26:16>
-  references: <ObjectDecl ["G"] 14:7-14:21>
+  references: <DefiningName 14:7-14:8>
   type:       <TypeDecl ["My_Record"] 6:4-9:15>
 Expr: <Id "F" 26:17-26:18>
-  references: <ComponentDecl ["F"] 8:7-8:23>
+  references: <DefiningName 8:7-8:8>
   type:       <TypeDecl ["My_Float"] 4:4-4:31>
 
 

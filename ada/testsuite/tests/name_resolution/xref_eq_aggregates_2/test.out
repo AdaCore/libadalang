@@ -5,10 +5,9 @@ Resolving xrefs for node <AssignStmt 19:4-19:26>
 ************************************************
 
 Expr: <Id "R" 19:4-19:5>
-  references: <ObjectDecl ["R"] 15:4-15:14>
+  references: <DefiningName 15:4-15:5>
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 19:9-19:25>
-  references: None
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Real 19:10-19:13>
   references: None
@@ -27,31 +26,30 @@ Resolving xrefs for node <AssignStmt 22:4-22:45>
 ************************************************
 
 Expr: <Id "R" 22:4-22:5>
-  references: <ObjectDecl ["R"] 15:4-15:14>
+  references: <DefiningName 15:4-15:5>
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 22:9-22:44>
-  references: None
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Id "C" 22:10-22:11>
-  references: <ComponentDecl ["C", "D"] 12:7-12:22>
+  references: <DefiningName 12:7-12:8>
   type:       None
 Expr: <Int 22:15-22:16>
   references: None
   type:       <TypeDecl ["Integer"] 5:4-5:34>
 Expr: <Id "D" 22:18-22:19>
-  references: <ComponentDecl ["C", "D"] 12:7-12:22>
+  references: <DefiningName 12:10-12:11>
   type:       None
 Expr: <Int 22:23-22:24>
   references: None
   type:       <TypeDecl ["Integer"] 5:4-5:34>
 Expr: <Id "B" 22:26-22:27>
-  references: <ComponentDecl ["A", "B"] 8:7-8:20>
+  references: <DefiningName 8:10-8:11>
   type:       None
 Expr: <Real 22:31-22:34>
   references: None
   type:       <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Id "A" 22:36-22:37>
-  references: <ComponentDecl ["A", "B"] 8:7-8:20>
+  references: <DefiningName 8:7-8:8>
   type:       None
 Expr: <Real 22:40-22:43>
   references: None
@@ -61,28 +59,27 @@ Resolving xrefs for node <AssignStmt 25:4-25:41>
 ************************************************
 
 Expr: <Id "R" 25:4-25:5>
-  references: <ObjectDecl ["R"] 15:4-15:14>
+  references: <DefiningName 15:4-15:5>
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Aggregate 25:9-25:40>
-  references: None
   type:       <TypeDecl ["Rec_2"] 11:4-13:15>
 Expr: <Id "C" 25:10-25:11>
-  references: <ComponentDecl ["C", "D"] 12:7-12:22>
+  references: <DefiningName 12:7-12:8>
   type:       None
 Expr: <Id "D" 25:14-25:15>
-  references: <ComponentDecl ["C", "D"] 12:7-12:22>
+  references: <DefiningName 12:10-12:11>
   type:       None
 Expr: <Int 25:19-25:20>
   references: None
   type:       <TypeDecl ["Integer"] 5:4-5:34>
 Expr: <Id "B" 25:22-25:23>
-  references: <ComponentDecl ["A", "B"] 8:7-8:20>
+  references: <DefiningName 8:10-8:11>
   type:       None
 Expr: <Real 25:27-25:30>
   references: None
   type:       <TypeDecl ["Float"] 4:4-4:39>
 Expr: <Id "A" 25:32-25:33>
-  references: <ComponentDecl ["A", "B"] 8:7-8:20>
+  references: <DefiningName 8:7-8:8>
   type:       None
 Expr: <Real 25:36-25:39>
   references: None

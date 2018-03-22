@@ -5,20 +5,20 @@ Resolving xrefs for node <AssignStmt 8:4-8:16>
 **********************************************
 
 Expr: <Id "P" 8:4-8:5>
-  references: <ObjectDecl ["P"] 5:4-5:10>
+  references: <DefiningName 5:4-5:5>
   type:       <TypeDecl ["A"] 2:4-2:31>
 Expr: <Id "Enum_1" 8:9-8:15>
-  references: <EnumLiteralDecl ["Enum_1"] 2:15-2:21>
+  references: <DefiningName 2:15-2:21>
   type:       <TypeDecl ["A"] 2:4-2:31>
 
 Resolving xrefs for node <AssignStmt 11:4-11:16>
 ************************************************
 
 Expr: <Id "Q" 11:4-11:5>
-  references: <ObjectDecl ["Q"] 6:4-6:10>
+  references: <DefiningName 6:4-6:5>
   type:       <TypeDecl ["B"] 3:4-3:39>
 Expr: <Id "Enum_1" 11:9-11:15>
-  references: <EnumLiteralDecl ["Enum_1"] 3:15-3:21>
+  references: <DefiningName 3:15-3:21>
   type:       <TypeDecl ["B"] 3:4-3:39>
 
 Resolving xrefs for node <AssignStmt 14:4-14:16>

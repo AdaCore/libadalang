@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec 2:4-2:29>
 ********************************************
 
 Expr: <Id "Natural" 2:22-2:29>
-  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  references: <DefiningName 5:11-5:18>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Ints"] 4:4-4:53>
@@ -16,13 +16,12 @@ Resolving xrefs for node <ArrayTypeDef 4:17-4:52>
 *************************************************
 
 Expr: <Id "Natural" 4:24-4:31>
-  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  references: <DefiningName 5:11-5:18>
   type:       None
 Expr: <BoxExpr 4:38-4:40>
-  references: None
   type:       None
 Expr: <Id "Integer" 4:45-4:52>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Bounded_Ints"] 5:4-8:15>
@@ -33,14 +32,14 @@ Resolving xrefs for node <DiscriminantSpec ["Max_Size"] 5:23-5:41>
 ******************************************************************
 
 Expr: <Id "Natural" 5:34-5:41>
-  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  references: <DefiningName 5:11-5:18>
   type:       None
 
 Resolving xrefs for node <ComponentDecl ["Length"] 6:7-6:29>
 ************************************************************
 
 Expr: <Id "Natural" 6:16-6:23>
-  references: <SubtypeDecl ["Natural"] 5:3-5:57>
+  references: <DefiningName 5:11-5:18>
   type:       None
 Expr: <Int 6:27-6:28>
   references: None
@@ -50,16 +49,15 @@ Resolving xrefs for node <ComponentDecl ["Objs"] 7:7-7:37>
 **********************************************************
 
 Expr: <Id "Ints" 7:16-7:20>
-  references: <TypeDecl ["Ints"] 4:4-4:53>
+  references: <DefiningName 4:9-4:13>
   type:       None
 Expr: <BinOp 7:22-7:35>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 7:22-7:23>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Id "Max_Size" 7:27-7:35>
-  references: <DiscriminantSpec ["Max_Size"] 5:23-5:41>
+  references: <DefiningName 5:23-5:31>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 
 Resolving xrefs for node <TypeDecl ["Ints_Doubled"] 10:4-10:60>
@@ -70,7 +68,6 @@ Resolving xrefs for node <ArrayTypeDef 10:25-10:59>
 ***************************************************
 
 Expr: <BinOp 10:32-10:38>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 10:32-10:33>
   references: None
@@ -79,10 +76,10 @@ Expr: <Int 10:37-10:38>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Id "Bounded_Ints" 10:43-10:55>
-  references: <TypeDecl ["Bounded_Ints"] 5:4-8:15>
+  references: <DefiningName 5:9-5:21>
   type:       None
 Expr: <Id "F" 10:57-10:58>
-  references: <SubpDecl ["F"] 2:4-2:30>
+  references: <DefiningName 2:13-2:14>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 
 

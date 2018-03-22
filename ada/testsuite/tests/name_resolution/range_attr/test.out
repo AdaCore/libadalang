@@ -13,7 +13,7 @@ Resolving xrefs for node <ParamSpec ["I"] 2:19-2:30>
 ****************************************************
 
 Expr: <Id "Integer" 2:23-2:30>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <SubpSpec 3:4-3:29>
@@ -24,7 +24,7 @@ Resolving xrefs for node <ParamSpec ["F"] 3:19-3:28>
 ****************************************************
 
 Expr: <Id "Float" 3:23-3:28>
-  references: <TypeDecl ["Float"] 13:3-14:51>
+  references: <DefiningName 13:8-13:13>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Oops"] 5:4-5:56>
@@ -35,10 +35,9 @@ Resolving xrefs for node <ArrayTypeDef 5:17-5:55>
 *************************************************
 
 Expr: <Id "Integer" 5:24-5:31>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <BinOp 5:38-5:45>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int 5:38-5:39>
   references: None
@@ -47,14 +46,14 @@ Expr: <Int 5:43-5:45>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Id "Float" 5:50-5:55>
-  references: <TypeDecl ["Float"] 13:3-14:51>
+  references: <DefiningName 13:8-13:13>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["Arr"] 7:4-7:15>
 ******************************************************
 
 Expr: <Id "Oops" 7:10-7:14>
-  references: <TypeDecl ["Oops"] 5:4-5:56>
+  references: <DefiningName 5:9-5:13>
   type:       None
 
 Resolving xrefs for node <ForLoopStmt 9:4-11:13>
@@ -65,10 +64,10 @@ Resolving xrefs for node <ForLoopSpec 9:8-9:26>
 ***********************************************
 
 Expr: <AttributeRef 9:13-9:26>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Integer" 9:13-9:20>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <Id "Range" 9:21-9:26>
   references: None
@@ -78,13 +77,13 @@ Resolving xrefs for node <CallStmt 10:7-10:15>
 **********************************************
 
 Expr: <CallExpr 10:7-10:14>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "Foo" 10:7-10:10>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "I" 10:12-10:13>
-  references: <ForLoopVarDecl ["I"] 9:8-9:9>
+  references: <DefiningName 9:8-9:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt 13:4-16:13>
@@ -95,10 +94,10 @@ Resolving xrefs for node <ForLoopSpec 13:8-13:23>
 *************************************************
 
 Expr: <AttributeRef 13:13-13:23>
-  references: <TypeDecl ["Oops"] 5:4-5:56>
+  references: <DefiningName 5:9-5:13>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Oops" 13:13-13:17>
-  references: <TypeDecl ["Oops"] 5:4-5:56>
+  references: <DefiningName 5:9-5:13>
   type:       None
 Expr: <Id "Range" 13:18-13:23>
   references: None
@@ -108,32 +107,32 @@ Resolving xrefs for node <CallStmt 14:7-14:15>
 **********************************************
 
 Expr: <CallExpr 14:7-14:14>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "Foo" 14:7-14:10>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "J" 14:12-14:13>
-  references: <ForLoopVarDecl ["J"] 13:8-13:9>
+  references: <DefiningName 13:8-13:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <CallStmt 15:7-15:21>
 **********************************************
 
 Expr: <CallExpr 15:7-15:20>
-  references: <NullSubpDecl ["Foo"] 3:4-3:38>
+  references: <DefiningName 3:14-3:17>
   type:       None
 Expr: <Id "Foo" 15:7-15:10>
-  references: <NullSubpDecl ["Foo"] 3:4-3:38>
+  references: <DefiningName 3:14-3:17>
   type:       None
 Expr: <CallExpr 15:12-15:19>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "Arr" 15:12-15:15>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Oops"] 5:4-5:56>
 Expr: <Id "J" 15:17-15:18>
-  references: <ForLoopVarDecl ["J"] 13:8-13:9>
+  references: <DefiningName 13:8-13:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt 18:4-21:13>
@@ -144,10 +143,10 @@ Resolving xrefs for node <ForLoopSpec 18:8-18:22>
 *************************************************
 
 Expr: <AttributeRef 18:13-18:22>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Arr" 18:13-18:16>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Oops"] 5:4-5:56>
 Expr: <Id "Range" 18:17-18:22>
   references: None
@@ -157,32 +156,32 @@ Resolving xrefs for node <CallStmt 19:7-19:15>
 **********************************************
 
 Expr: <CallExpr 19:7-19:14>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "Foo" 19:7-19:10>
-  references: <NullSubpDecl ["Foo"] 2:4-2:40>
+  references: <DefiningName 2:14-2:17>
   type:       None
 Expr: <Id "J" 19:12-19:13>
-  references: <ForLoopVarDecl ["J"] 18:8-18:9>
+  references: <DefiningName 18:8-18:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 Resolving xrefs for node <CallStmt 20:7-20:21>
 **********************************************
 
 Expr: <CallExpr 20:7-20:20>
-  references: <NullSubpDecl ["Foo"] 3:4-3:38>
+  references: <DefiningName 3:14-3:17>
   type:       None
 Expr: <Id "Foo" 20:7-20:10>
-  references: <NullSubpDecl ["Foo"] 3:4-3:38>
+  references: <DefiningName 3:14-3:17>
   type:       None
 Expr: <CallExpr 20:12-20:19>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Float"] 13:3-14:51>
 Expr: <Id "Arr" 20:12-20:15>
-  references: <ObjectDecl ["Arr"] 7:4-7:15>
+  references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Oops"] 5:4-5:56>
 Expr: <Id "J" 20:17-20:18>
-  references: <ForLoopVarDecl ["J"] 18:8-18:9>
+  references: <DefiningName 18:8-18:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
 

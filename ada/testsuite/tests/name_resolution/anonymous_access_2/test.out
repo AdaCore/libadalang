@@ -5,20 +5,20 @@ Resolving xrefs for node <AssignStmt 7:4-7:13>
 **********************************************
 
 Expr: <Id "IA" 7:4-7:6>
-  references: <ObjectDecl ["IA"] 4:4-4:28>
+  references: <DefiningName 4:4-4:6>
   type:       <TypeDecl ["Int_Access"] 3:4-3:42>
 Expr: <Id "AI" 7:10-7:12>
-  references: <ObjectDecl ["AI"] 5:4-5:32>
+  references: <DefiningName 5:4-5:6>
   type:       <AnonymousTypeDecl ["None"] 5:9-5:23>
 
 Resolving xrefs for node <AssignStmt 10:4-10:13>
 ************************************************
 
 Expr: <Id "AI" 10:4-10:6>
-  references: <ObjectDecl ["AI"] 5:4-5:32>
+  references: <DefiningName 5:4-5:6>
   type:       <AnonymousTypeDecl ["None"] 5:9-5:23>
 Expr: <Id "IA" 10:10-10:12>
-  references: <ObjectDecl ["IA"] 4:4-4:28>
+  references: <DefiningName 4:4-4:6>
   type:       <TypeDecl ["Int_Access"] 3:4-3:42>
 
 

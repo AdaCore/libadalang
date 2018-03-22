@@ -9,7 +9,7 @@ Resolving xrefs for node <TypeDecl ["Item"] 2:4-2:29>
 *****************************************************
 
 Expr: <Id "Integer" 2:21-2:28>
-  references: <TypeDecl ["Integer"] 4:3-4:54>
+  references: <DefiningName 4:8-4:15>
   type:       None
 
 Resolving xrefs for node <EntrySpec 5:15-5:42>
@@ -20,7 +20,7 @@ Resolving xrefs for node <ParamSpec ["An_Item"] 5:23-5:41>
 **********************************************************
 
 Expr: <Id "Item" 5:37-5:41>
-  references: <TypeDecl ["Item"] 2:4-2:29>
+  references: <DefiningName 2:9-2:13>
   type:       None
 
 Resolving xrefs for node <EntrySpec 6:15-6:42>
@@ -31,101 +31,101 @@ Resolving xrefs for node <ParamSpec ["An_Item"] 6:23-6:41>
 **********************************************************
 
 Expr: <Id "Item" 6:37-6:41>
-  references: <TypeDecl ["Item"] 2:4-2:29>
+  references: <DefiningName 2:9-2:13>
   type:       None
 
 Resolving xrefs for node <ComponentDecl ["Buffer"] 8:9-8:23>
 ************************************************************
 
 Expr: <Id "Item" 8:18-8:22>
-  references: <TypeDecl ["Item"] 2:4-2:29>
+  references: <DefiningName 2:9-2:13>
   type:       None
 
 Resolving xrefs for node <ComponentDecl ["Empty"] 9:9-9:34>
 ***********************************************************
 
 Expr: <Id "Boolean" 9:18-9:25>
-  references: <TypeDecl ["Boolean"] 3:3-3:33>
+  references: <DefiningName 3:8-3:15>
   type:       None
 Expr: <Id "True" 9:29-9:33>
-  references: <EnumLiteralDecl ["True"] 3:27-3:31>
+  references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 13:23-13:41>
 ************************************************************
 
 Expr: <Id "Item" 13:37-13:41>
-  references: <TypeDecl ["Item"] 2:4-2:29>
+  references: <DefiningName 2:9-2:13>
   type:       None
 
 Resolving xrefs for node <AssignStmt 16:12-16:30>
 *************************************************
 
 Expr: <Id "Buffer" 16:12-16:18>
-  references: <ComponentDecl ["Buffer"] 8:9-8:23>
+  references: <DefiningName 8:9-8:15>
   type:       <TypeDecl ["Item"] 2:4-2:29>
 Expr: <Id "An_Item" 16:22-16:29>
-  references: <ParamSpec ["An_Item"] 13:23-13:41>
+  references: <DefiningName 13:23-13:30>
   type:       <TypeDecl ["Item"] 2:4-2:29>
 
 Resolving xrefs for node <AssignStmt 17:12-17:27>
 *************************************************
 
 Expr: <Id "Empty" 17:12-17:17>
-  references: <ComponentDecl ["Empty"] 9:9-9:34>
+  references: <DefiningName 9:9-9:14>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "False" 17:21-17:26>
-  references: <EnumLiteralDecl ["False"] 3:20-3:25>
+  references: <DefiningName 3:20-3:25>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 19:23-19:41>
 ************************************************************
 
 Expr: <Id "Item" 19:37-19:41>
-  references: <TypeDecl ["Item"] 2:4-2:29>
+  references: <DefiningName 2:9-2:13>
   type:       None
 
 Resolving xrefs for node <AssignStmt 22:12-22:30>
 *************************************************
 
 Expr: <Id "An_Item" 22:12-22:19>
-  references: <ParamSpec ["An_Item"] 19:23-19:41>
+  references: <DefiningName 19:23-19:30>
   type:       <TypeDecl ["Item"] 2:4-2:29>
 Expr: <Id "Buffer" 22:23-22:29>
-  references: <ComponentDecl ["Buffer"] 8:9-8:23>
+  references: <DefiningName 8:9-8:15>
   type:       <TypeDecl ["Item"] 2:4-2:29>
 
 Resolving xrefs for node <AssignStmt 23:12-23:26>
 *************************************************
 
 Expr: <Id "Empty" 23:12-23:17>
-  references: <ComponentDecl ["Empty"] 9:9-9:34>
+  references: <DefiningName 9:9-9:14>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "True" 23:21-23:25>
-  references: <EnumLiteralDecl ["True"] 3:27-3:31>
+  references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 Resolving xrefs for node <ObjectDecl ["Inst"] 27:6-27:30>
 *********************************************************
 
 Expr: <Id "Protected_Buffer" 27:13-27:29>
-  references: <ProtectedTypeDecl ["Protected_Buffer"] 4:6-10:27>
+  references: <DefiningName 4:21-4:37>
   type:       None
 
 Resolving xrefs for node <CallStmt 29:4-29:21>
 **********************************************
 
 Expr: <CallExpr 29:4-29:20>
-  references: <EntryDecl ["Insert"] 5:9-5:43>
+  references: <DefiningName 5:15-5:21>
   type:       None
 Expr: <DottedName 29:4-29:15>
-  references: <EntryDecl ["Insert"] 5:9-5:43>
+  references: <DefiningName 5:15-5:21>
   type:       None
 Expr: <Id "Inst" 29:4-29:8>
-  references: <ObjectDecl ["Inst"] 27:6-27:30>
+  references: <DefiningName 27:6-27:10>
   type:       <ProtectedTypeDecl ["Protected_Buffer"] 4:6-10:27>
 Expr: <Id "Insert" 29:9-29:15>
-  references: <EntryDecl ["Insert"] 5:9-5:43>
+  references: <DefiningName 5:15-5:21>
   type:       None
 Expr: <Int 29:17-29:19>
   references: None

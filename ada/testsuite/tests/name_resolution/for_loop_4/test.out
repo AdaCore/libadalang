@@ -5,14 +5,14 @@ Resolving xrefs for node <ForLoopSpec 10:8-10:17>
 *************************************************
 
 Expr: <Id "Foo" 10:14-10:17>
-  references: <ExprFunction ["Foo"] 7:4-7:51>
+  references: <DefiningName 7:13-7:16>
   type:       <TypeDecl ["My_Array"] 5:4-5:57>
 
 Resolving xrefs for node <AssignStmt 11:7-11:16>
 ************************************************
 
 Expr: <Id "El" 11:7-11:9>
-  references: <ForLoopVarDecl ["El"] 10:8-10:10>
+  references: <DefiningName 10:8-10:10>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <Int 11:13-11:15>
   references: None

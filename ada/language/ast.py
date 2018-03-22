@@ -4478,6 +4478,25 @@ class Name(Expr):
         """
     )
 
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def referenced_id(ref_decl=T.BasicDecl.entity):
+        """
+        Like ``referenced_decl``, but will return the defining identifier for
+        the decl, rather than the basic declaration node itself.
+        """
+        return ref_decl.then(lambda ref_decl: Entity.relative_name.then(
+            lambda rel_name: ref_decl.defining_names.find(
+                lambda dn: dn.relative_name == rel_name
+            )
+        )._or(ref_decl.defining_name), default_val=No(T.DefiningName.entity))
+
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def xref():
+        """
+        Return a cross reference from this name to a defining identifier.
+        """
+        return Entity.referenced_id(Entity.referenced_decl)
+
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env, origin])

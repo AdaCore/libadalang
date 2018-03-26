@@ -523,8 +523,6 @@ begin
            +Full_Name (Project.Create (+Name));
          Unit : constant Analysis_Unit := Get_From_File (Ctx, Path);
       begin
-         GNAT_Xref_Count :=
-           GNAT_Xref_Count + Natural (Unit_Xrefs.Xrefs.Length);
          Put_Line ("== " & Name & " ==");
 
          if Has_Diagnostics (Unit) then
@@ -535,6 +533,11 @@ begin
          end if;
 
          Sort (Files, Unit_Xrefs.Xrefs);
+         Remove_Duplicates (Unit_Xrefs.Xrefs);
+
+         GNAT_Xref_Count :=
+           GNAT_Xref_Count + Natural (Unit_Xrefs.Xrefs.Length);
+
          Compare_Xrefs (Files, Root (Unit), Unit_Xrefs.Xrefs);
          Free (Unit_Xrefs);
       end;

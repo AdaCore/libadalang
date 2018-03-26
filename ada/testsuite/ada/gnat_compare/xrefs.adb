@@ -456,6 +456,25 @@ package body Xrefs is
       Sort (Xrefs.First_Index, Xrefs.Last_Index);
    end Sort;
 
+   -----------------------
+   -- Remove_Duplicates --
+   -----------------------
+
+   procedure Remove_Duplicates (Xrefs : in out Xref_Vectors.Vector)
+   is
+      Last_Xref : Xref_Type := (Error => True, others => <>);
+      Out_Vec : Xref_Vectors.Vector;
+   begin
+      for Xref of Xrefs loop
+         if Last_Xref.Error or else Xref.Ref_Sloc /= Last_Xref.Ref_Sloc then
+            Out_Vec.Append (Xref);
+         end if;
+         Last_Xref := Xref;
+      end loop;
+
+      Xrefs := Out_Vec;
+   end Remove_Duplicates;
+
    ----------
    -- Sort --
    ----------

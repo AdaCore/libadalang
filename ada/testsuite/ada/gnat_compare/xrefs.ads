@@ -72,6 +72,9 @@ package Xrefs is
 
    procedure Sort
      (Files : in out File_Table_Type; Xrefs : in out Xref_Vectors.Vector);
+
+   procedure Remove_Duplicates (Xrefs : in out Xref_Vectors.Vector);
+
    procedure Sort
      (Files : in out File_Table_Type;
       Xrefs : in out Unit_Xrefs_Vectors.Vector);

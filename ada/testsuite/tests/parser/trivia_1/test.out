@@ -22,5 +22,6 @@ CompilationUnit
 |  |  |  |  |  -- Haha
 |  |  |  |  |  -- Hoho
 |  |  |  |  |  NullStmt
-|  |  |  Id
+|  |  |  EndName
+|  |  |  |  Id
 -- foo

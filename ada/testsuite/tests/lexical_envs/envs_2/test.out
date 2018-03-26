@@ -102,10 +102,14 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[8:10-8:10]: <empty list>
 |  |  |  |  |  |end_name:
-|  |  |  |  |  |  Id[9:8-9:11]: Bar
+|  |  |  |  |  |  EndName[9:8-9:11]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[9:8-9:11]: Bar
 |  |  |stmts: <null>
 |  |  |end_name:
-|  |  |  Id[10:5-10:8]: Foo
+|  |  |  EndName[10:5-10:8]
+|  |  |  |name:
+|  |  |  |  Id[10:5-10:8]: Foo
 |pragmas:
 |  PragmaNodeList[10:9-10:9]: <empty list>
 

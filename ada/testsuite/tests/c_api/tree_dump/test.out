@@ -34,6 +34,7 @@
 | | | | | | | | | <null node>
 | | | | | | | | | <StringLiteral>
 | | | | <AdaNodeList>
-| | | <Identifier>
+| | | <EndName>
+| | | | <Identifier>
 | <PragmaNodeList>
 Done

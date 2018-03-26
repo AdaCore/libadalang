@@ -19,9 +19,29 @@ Expr: <Int 5:12-5:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <EndName 6:8-6:11>
+*******************************************
+
+Expr: <EndName 6:8-6:11>
+  references: <DefiningName 3:14-3:17>
+  type:       None
+Expr: <Id "Bar" 6:8-6:11>
+  references: <DefiningName 3:14-3:17>
+  type:       None
+
 Resolving xrefs for node <NullStmt 8:4-8:9>
 *******************************************
 
+
+Resolving xrefs for node <EndName 9:5-9:8>
+******************************************
+
+Expr: <EndName 9:5-9:8>
+  references: <DefiningName 2:11-2:14>
+  type:       None
+Expr: <Id "Foo" 9:5-9:8>
+  references: <DefiningName 2:11-2:14>
+  type:       None
 
 
 Done.

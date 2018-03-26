@@ -138,7 +138,9 @@ CompilationUnit 1:1-14:9
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList 10:13-10:13
 |  |  |  |  |  |end_name:
-|  |  |  |  |  |  Id "Fact" 11:8-11:12: Fact
+|  |  |  |  |  |  EndName 11:8-11:12
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id "Fact" 11:8-11:12: Fact
 |  |  |stmts:
 |  |  |  HandledStmts 12:6-14:1
 |  |  |  |stmts:
@@ -179,7 +181,9 @@ CompilationUnit 1:1-14:9
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList 13:39-13:39
 |  |  |end_name:
-|  |  |  Id "Foo" 14:5-14:8: Foo
+|  |  |  EndName 14:5-14:8
+|  |  |  |name:
+|  |  |  |  Id "Foo" 14:5-14:8: Foo
 |pragmas:
 |  PragmaNodeList 14:9-14:9
 Parents of CompilationUnit[1:1-14:9]:

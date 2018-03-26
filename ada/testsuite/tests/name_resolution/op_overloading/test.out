@@ -132,6 +132,16 @@ Expr: <Str ""lalala"" 21:23-21:31>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 
+Resolving xrefs for node <EndName 22:8-22:12>
+*********************************************
+
+Expr: <EndName 22:8-22:12>
+  references: <DefiningName 19:14-19:18>
+  type:       None
+Expr: <Id "Lala" 22:8-22:12>
+  references: <DefiningName 19:14-19:18>
+  type:       None
+
 Resolving xrefs for node <SubpSpec 24:4-24:62>
 **********************************************
 
@@ -152,6 +162,16 @@ Resolving xrefs for node <ReturnStmt 26:7-26:19>
 Expr: <Id "True" 26:14-26:18>
   references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
+
+Resolving xrefs for node <EndName 27:8-27:11>
+*********************************************
+
+Expr: <EndName 27:8-27:11>
+  references: <DefiningName 24:13-24:16>
+  type:       None
+Expr: <Str ""="" 27:8-27:11>
+  references: <DefiningName 24:13-24:16>
+  type:       None
 
 Resolving xrefs for node <CallStmt 30:4-30:36>
 **********************************************
@@ -278,6 +298,16 @@ Expr: <Id "g" 43:15-43:16>
 Resolving xrefs for node <NullStmt 44:7-44:12>
 **********************************************
 
+
+Resolving xrefs for node <EndName 46:5-46:11>
+*********************************************
+
+Expr: <EndName 46:5-46:11>
+  references: <DefiningName 1:11-1:17>
+  type:       None
+Expr: <Id "Tests1" 46:5-46:11>
+  references: <DefiningName 1:11-1:17>
+  type:       None
 
 
 Done.

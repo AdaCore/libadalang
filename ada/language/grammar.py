@@ -75,11 +75,11 @@ def recover(*rules):
 
 
 def end_liblevel_block():
-    return Pick("end", Opt(A.static_name))
+    return Pick("end", Opt(EndName(A.static_name)))
 
 
 def end_named_block():
-    return Pick("end", Opt(A.identifier))
+    return Pick("end", Opt(EndName(A.identifier)))
 
 
 A.add_rules(
@@ -849,17 +849,17 @@ A.add_rules(
             A.for_loop_param_spec,
             "loop",
             A.stmts.dont_skip("end"),
-            "end", "loop", Opt(A.identifier), ";"
+            "end", "loop", Opt(EndName(A.identifier)), ";"
         ),
         WhileLoopStmt(
             WhileLoopSpec("while", cut(), A.expr),
             "loop", A.stmts.dont_skip("end"),
-            "end", "loop", Opt(A.identifier), ";"
+            "end", "loop", Opt(EndName(A.identifier)), ";"
         ),
         LoopStmt(
             Null(LoopSpec),
             "loop", cut(), A.stmts.dont_skip("end"),
-            "end", "loop", Opt(A.identifier), ";"
+            "end", "loop", Opt(EndName(A.identifier)), ";"
         ),
     ),
 

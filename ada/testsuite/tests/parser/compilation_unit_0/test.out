@@ -95,6 +95,8 @@ CompilationUnit[1:1-7:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[6:15-6:15]: <empty list>
 |  |  |end_name:
-|  |  |  Id[7:5-7:9]: Test
+|  |  |  EndName[7:5-7:9]
+|  |  |  |name:
+|  |  |  |  Id[7:5-7:9]: Test
 |pragmas:
 |  PragmaNodeList[7:10-7:10]: <empty list>

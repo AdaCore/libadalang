@@ -98,7 +98,7 @@ Resolving xrefs for node <AcceptStmtWithStmts 19:15-21:26>
 Expr: <Id "Insert" 19:22-19:28>
   references: None
   type:       None
-Expr: <Id "Insert" 21:19-21:25>
+Expr: <EndName 21:19-21:25>
   references: None
   type:       None
 
@@ -124,6 +124,11 @@ Expr: <Id "Tail" 20:23-20:27>
 Expr: <Id "An_Item" 20:32-20:39>
   references: <DefiningName 19:30-19:37>
   type:       <TypeDecl ["Item"] 2:4-2:29>
+
+Resolving xrefs for node <EndName 21:19-21:25>
+**********************************************
+
+Resolution failed for node <EndName 21:19-21:25>
 
 Resolving xrefs for node <AssignStmt 22:15-22:43>
 *************************************************
@@ -166,7 +171,7 @@ Resolving xrefs for node <AcceptStmtWithStmts 26:15-28:26>
 Expr: <Id "Remove" 26:22-26:28>
   references: None
   type:       None
-Expr: <Id "Remove" 28:19-28:25>
+Expr: <EndName 28:19-28:25>
   references: None
   type:       None
 
@@ -192,6 +197,11 @@ Expr: <Id "Data" 27:29-27:33>
 Expr: <Id "Head" 27:34-27:38>
   references: <DefiningName 13:6-13:10>
   type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+
+Resolving xrefs for node <EndName 28:19-28:25>
+**********************************************
+
+Resolution failed for node <EndName 28:19-28:25>
 
 Resolving xrefs for node <AssignStmt 29:15-29:43>
 *************************************************
@@ -227,6 +237,16 @@ Expr: <Id "Length" 30:25-30:31>
 Expr: <Int 30:34-30:35>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <EndName 33:7-33:30>
+*********************************************
+
+Expr: <EndName 33:7-33:30>
+  references: <DefiningName 9:13-9:36>
+  type:       None
+Expr: <Id "Cyclic_Buffer_Task_Type" 33:7-33:30>
+  references: <DefiningName 9:13-9:36>
+  type:       None
 
 
 Done.

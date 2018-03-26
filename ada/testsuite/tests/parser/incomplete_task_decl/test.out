@@ -48,6 +48,8 @@ CompilationUnit[1:1-6:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
 |  |  |end_name:
-|  |  |  Id[6:5-6:9]: Main
+|  |  |  EndName[6:5-6:9]
+|  |  |  |name:
+|  |  |  |  Id[6:5-6:9]: Main
 |pragmas:
 |  PragmaNodeList[6:10-6:10]: <empty list>

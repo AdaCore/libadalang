@@ -287,6 +287,8 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[20:58-20:64]: 10_000
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[22:5-22:8]: Sat
+|  |  |  EndName[22:5-22:8]
+|  |  |  |name:
+|  |  |  |  Id[22:5-22:8]: Sat
 |pragmas:
 |  PragmaNodeList[22:9-22:9]: <empty list>

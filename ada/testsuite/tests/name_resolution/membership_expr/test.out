@@ -42,5 +42,15 @@ Resolving xrefs for node <NullStmt 5:7-5:12>
 ********************************************
 
 
+Resolving xrefs for node <EndName 7:5-7:19>
+*******************************************
+
+Expr: <EndName 7:5-7:19>
+  references: <DefiningName 1:11-1:25>
+  type:       None
+Expr: <Id "Testmembership" 7:5-7:19>
+  references: <DefiningName 1:11-1:25>
+  type:       None
+
 
 Done.

@@ -176,7 +176,9 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[11:5-11:8]: Foo
+|  |  |  EndName[11:5-11:8]
+|  |  |  |name:
+|  |  |  |  Id[11:5-11:8]: Foo
 |pragmas:
 |  PragmaNodeList[11:9-11:9]: <empty list>
 

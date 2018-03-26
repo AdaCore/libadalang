@@ -215,7 +215,9 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[12:37-12:37]: <empty list>
 |  |  |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  |  |  Id[13:17-13:23]: Insert
+|  |  |  |  |  |  |  |  |  |  EndName[13:17-13:23]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[13:17-13:23]: Insert
 |  |  |  |  |  |  |  |  |  AssignStmt[14:13-14:41]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[14:13-14:17]: Tail
@@ -301,7 +303,9 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[18:37-18:37]: <empty list>
 |  |  |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  |  |  Id[19:17-19:23]: Remove
+|  |  |  |  |  |  |  |  |  |  EndName[19:17-19:23]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[19:17-19:23]: Remove
 |  |  |  |  |  |  |  |  |  AssignStmt[20:13-20:41]
 |  |  |  |  |  |  |  |  |  |dest:
 |  |  |  |  |  |  |  |  |  |  Id[20:13-20:17]: Head
@@ -338,4 +342,6 @@ TaskBody[1:1-24:29]
 |  |exceptions:
 |  |  AdaNodeList[23:12-23:12]: <empty list>
 |end_name:
-|  Id[24:5-24:28]: Cyclic_Buffer_Task_Type
+|  EndName[24:5-24:28]
+|  |name:
+|  |  Id[24:5-24:28]: Cyclic_Buffer_Task_Type

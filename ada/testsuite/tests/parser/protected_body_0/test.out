@@ -59,7 +59,9 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
 |  |  |  |end_name:
-|  |  |  |  Id[1:134-1:140]: insert
+|  |  |  |  EndName[1:134-1:140]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:134-1:140]: insert
 |  |  |  EntryBody[1:142-1:245]
 |  |  |  |entry_name:
 |  |  |  |  DefiningName[1:148-1:154]
@@ -115,6 +117,10 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |exceptions:
 |  |  |  |  |  AdaNodeList[1:232-1:232]: <empty list>
 |  |  |  |end_name:
-|  |  |  |  Id[1:238-1:244]: remove
+|  |  |  |  EndName[1:238-1:244]
+|  |  |  |  |name:
+|  |  |  |  |  Id[1:238-1:244]: remove
 |end_name:
-|  Id[1:250-1:271]: protected_buffer_type
+|  EndName[1:250-1:271]
+|  |name:
+|  |  Id[1:250-1:271]: protected_buffer_type

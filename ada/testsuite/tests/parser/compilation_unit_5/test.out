@@ -65,6 +65,8 @@ CompilationUnit[1:1-5:11]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
 |  |  |end_name:
-|  |  |  Id[5:5-5:10]: Pouet
+|  |  |  EndName[5:5-5:10]
+|  |  |  |name:
+|  |  |  |  Id[5:5-5:10]: Pouet
 |pragmas:
 |  PragmaNodeList[5:11-5:11]: <empty list>

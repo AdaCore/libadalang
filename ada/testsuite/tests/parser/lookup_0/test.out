@@ -150,7 +150,9 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |  |  |  |end_name:
-|  |  |  |  |  |  Id[12:8-12:12]: Fact
+|  |  |  |  |  |  EndName[12:8-12:12]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[12:8-12:12]: Fact
 |  |  |stmts:
 |  |  |  HandledStmts[14:6-17:1]
 |  |  |  |stmts:
@@ -220,7 +222,9 @@ CompilationUnit[1:1-17:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
 |  |  |end_name:
-|  |  |  Id[17:5-17:9]: Fact
+|  |  |  EndName[17:5-17:9]
+|  |  |  |name:
+|  |  |  |  Id[17:5-17:9]: Fact
 |pragmas:
 |  PragmaNodeList[17:10-17:10]: <empty list>
 
@@ -466,7 +470,9 @@ CompilationUnit[1:1-17:10]
 |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |  |  |  |end_name:
-|  |  |  |  |  |  Id[12:8-12:12]: Fact
+|  |  |  |  |  |  EndName[12:8-12:12]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[12:8-12:12]: Fact
 |  |  |stmts:
 |  |  |  HandledStmts[14:6-17:1]
 |  |  |  |stmts:
@@ -536,7 +542,9 @@ CompilationUnit[1:1-17:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
 |  |  |end_name:
-|  |  |  Id[17:5-17:9]: Fact
+|  |  |  EndName[17:5-17:9]
+|  |  |  |name:
+|  |  |  |  Id[17:5-17:9]: Fact
 |pragmas:
 |  PragmaNodeList[17:10-17:10]: <empty list>
 
@@ -637,7 +645,9 @@ DeclarativePart[3:50-14:1]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
 |  |  |end_name:
-|  |  |  Id[12:8-12:12]: Fact
+|  |  |  EndName[12:8-12:12]
+|  |  |  |name:
+|  |  |  |  Id[12:8-12:12]: Fact
 
 Lookup 10:10:
 ReturnStmt[10:10-10:34]

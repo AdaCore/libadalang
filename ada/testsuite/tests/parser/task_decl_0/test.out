@@ -95,4 +95,6 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[1:123-1:139]: Buffer_Pool_Task
+|  |  |  EndName[1:123-1:139]
+|  |  |  |name:
+|  |  |  |  Id[1:123-1:139]: Buffer_Pool_Task

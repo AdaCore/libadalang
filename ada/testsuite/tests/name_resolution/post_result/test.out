@@ -47,5 +47,25 @@ Expr: <Int 7:14-7:16>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <EndName 8:8-8:14>
+*******************************************
+
+Expr: <EndName 8:8-8:14>
+  references: <DefiningName 5:13-5:19>
+  type:       None
+Expr: <Id "Barize" 8:8-8:14>
+  references: <DefiningName 5:13-5:19>
+  type:       None
+
+Resolving xrefs for node <EndName 10:5-10:21>
+*********************************************
+
+Expr: <EndName 10:5-10:21>
+  references: <DefiningName 1:11-1:27>
+  type:       None
+Expr: <Id "Test_Result_Attr" 10:5-10:21>
+  references: <DefiningName 1:11-1:27>
+  type:       None
+
 
 Done.

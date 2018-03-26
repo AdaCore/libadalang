@@ -53,5 +53,15 @@ Resolving xrefs for node <NullStmt 11:7-11:12>
 **********************************************
 
 
+Resolving xrefs for node <EndName 13:5-13:19>
+*********************************************
+
+Expr: <EndName 13:5-13:19>
+  references: <DefiningName 3:11-3:25>
+  type:       None
+Expr: <Id "For_Of_Derived" 13:5-13:19>
+  references: <DefiningName 3:11-3:25>
+  type:       None
+
 
 Done.

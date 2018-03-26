@@ -34,6 +34,7 @@
 | | | | | | | | | <null node>
 | | | | | | | | | <Str ""Hello, world!"" 5:26-5:41>
 | | | | <AdaNodeList 5:42-5:42>
-| | | <Id "Foo" 6:5-6:8>
+| | | <EndName 6:5-6:8>
+| | | | <Id "Foo" 6:5-6:8>
 | <PragmaNodeList 6:9-6:9>
 Done

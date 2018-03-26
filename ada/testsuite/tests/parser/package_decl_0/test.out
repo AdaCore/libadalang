@@ -18,4 +18,6 @@ PackageDecl[1:1-1:40]
 |  |  |  |  Int[1:30-1:32]: 12
 |private_part: <null>
 |end_name:
-|  Id[1:38-1:39]: A
+|  EndName[1:38-1:39]
+|  |name:
+|  |  Id[1:38-1:39]: A

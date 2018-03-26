@@ -38,6 +38,8 @@ CompilationUnit[1:1-1:55]
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[1:53-1:54]: A
+|  |  |  EndName[1:53-1:54]
+|  |  |  |name:
+|  |  |  |  Id[1:53-1:54]: A
 |pragmas:
 |  PragmaNodeList[1:55-1:55]: <empty list>

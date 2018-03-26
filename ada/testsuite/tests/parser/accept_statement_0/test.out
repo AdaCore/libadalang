@@ -36,4 +36,6 @@ AcceptStmtWithStmts[1:1-1:68]
 |  |exceptions:
 |  |  AdaNodeList[1:55-1:55]: <empty list>
 |end_name:
-|  Id[1:61-1:67]: Insert
+|  EndName[1:61-1:67]
+|  |name:
+|  |  Id[1:61-1:67]: Insert

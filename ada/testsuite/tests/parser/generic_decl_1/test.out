@@ -87,6 +87,8 @@ CompilationUnit[1:1-10:7]
 |  |  |  |  |  |  |  |  |expr: <null>
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[10:5-10:6]: P
+|  |  |  EndName[10:5-10:6]
+|  |  |  |name:
+|  |  |  |  Id[10:5-10:6]: P
 |pragmas:
 |  PragmaNodeList[10:7-10:7]: <empty list>

@@ -66,7 +66,9 @@ CompilationUnit 1:1-6:9
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList 5:42-5:42
 |  |  |end_name:
-|  |  |  Id "Foo" 6:5-6:8: Foo
+|  |  |  EndName 6:5-6:8
+|  |  |  |name:
+|  |  |  |  Id "Foo" 6:5-6:8: Foo
 |pragmas:
 |  PragmaNodeList 6:9-6:9
 Done

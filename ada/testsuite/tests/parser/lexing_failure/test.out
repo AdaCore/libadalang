@@ -36,6 +36,8 @@ CompilationUnit[1:1-4:9]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
 |  |  |end_name:
-|  |  |  Id[4:5-4:8]: Foo
+|  |  |  EndName[4:5-4:8]
+|  |  |  |name:
+|  |  |  |  Id[4:5-4:8]: Foo
 |pragmas:
 |  PragmaNodeList[4:9-4:9]: <empty list>

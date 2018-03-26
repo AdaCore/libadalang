@@ -81,4 +81,6 @@ ProtectedTypeDecl[1:1-1:137]
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_name:
-|  |  Id[1:115-1:136]: Protected_Buffer_Type
+|  |  EndName[1:115-1:136]
+|  |  |name:
+|  |  |  Id[1:115-1:136]: Protected_Buffer_Type

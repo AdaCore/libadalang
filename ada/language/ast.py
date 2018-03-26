@@ -2819,13 +2819,13 @@ class TaskDef(AdaNode):
     interfaces = Field(type=T.ParentList)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
 
 class ProtectedDef(AdaNode):
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
 
 class TaskTypeDecl(BaseTypeDecl):
@@ -3549,7 +3549,7 @@ class BasePackageDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.package_name.singleton)
     defining_env = Property(Entity.children_env)
@@ -5410,6 +5410,39 @@ class DefiningName(Name):
     )
 
 
+class EndName(Name):
+    name = Field(type=T.Name)
+
+    parent_scope = Property(Self.name.parent_scope)
+    scope = Property(Self.name.scope)
+    relative_name = Property(Entity.name.relative_name)
+    ref_var = Property(Self.name.ref_var)
+    env_elements_impl = Property(Entity.name.env_elements_impl)
+
+    basic_decl = Property(
+        Self.parents.find(lambda p: p.is_a(T.NamedStmt)).then(
+            lambda ns:
+            ns.cast_or_raise(T.NamedStmt).decl.cast(T.BasicDecl).as_entity
+        )._or(
+            Self.parents.find(lambda p: p.is_a(T.BasicDecl))
+            .cast_or_raise(T.BasicDecl).as_entity,
+        ),
+        public=True, memoized=True,
+        doc="Returns this EndName's basic declaration"
+    )
+
+    xref_equation = Property(
+        Entity.name.xref_no_overloading(
+            all_els=Not(Entity.basic_decl.subp_spec_or_null.is_null)
+        )
+        & If(Entity.basic_decl.is_a(T.SubpBody),
+             Bind(Self.ref_var, Entity.basic_decl),
+             LogicTrue())
+    )
+
+    xref_entry_point = Property(True)
+
+
 @abstract
 class BaseId(SingleTokNode):
 
@@ -6730,7 +6763,7 @@ class SubpBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
 
@@ -7022,7 +7055,7 @@ class NamedStmt(CompositeStmt):
 class BaseLoopStmt(CompositeStmt):
     spec = Field(type=T.LoopSpec)
     stmts = Field(type=T.StmtList)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
@@ -7051,12 +7084,12 @@ class BlockStmt(CompositeStmt):
 class DeclBlock(BlockStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
 
 class BeginBlock(BlockStmt):
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
 
 class ExtendedReturnStmt(CompositeStmt):
@@ -7110,7 +7143,7 @@ class AcceptStmt(CompositeStmt):
 
 class AcceptStmtWithStmts(AcceptStmt):
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Identifier)
+    end_name = Field(type=T.EndName)
 
     xref_equation = Property(LogicTrue())
 
@@ -7173,7 +7206,7 @@ class PackageBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.package_name.singleton)
     defining_env = Property(Entity.children_env)
@@ -7209,7 +7242,7 @@ class TaskBody(Body):
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.name.singleton)
 
@@ -7249,7 +7282,7 @@ class ProtectedBody(Body):
     name = Field(type=T.DefiningName)
     aspects = Field(type=T.AspectSpec)
     decls = Field(type=T.DeclarativePart)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.name.singleton)
 
@@ -7262,7 +7295,7 @@ class EntryBody(Body):
 
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.Name)
+    end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.entry_name.singleton)
 

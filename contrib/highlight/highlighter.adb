@@ -281,14 +281,12 @@ package body Highlighter is
                      Node.As_Base_Package_Decl;
                begin
                   Highlight_Block_Name (Pkg_Decl.F_Package_Name, Highlights);
-                  Highlight_Block_Name (Pkg_Decl.F_End_Name, Highlights);
                end;
             when LAL.Ada_Package_Body =>
                declare
                   Pkg_Body : constant LAL.Package_Body := Node.As_Package_Body;
                begin
                   Highlight_Block_Name (Pkg_Body.F_Package_Name, Highlights);
-                  Highlight_Block_Name (Pkg_Body.F_End_Name, Highlights);
                end;
 
             when LAL.Ada_Package_Renaming_Decl =>
@@ -303,6 +301,9 @@ package body Highlighter is
                  (Node.As_Generic_Subp_Instantiation.F_Subp_Name,
                   Highlights);
 
+            when LAL.Ada_End_Name =>
+               Highlight_Block_Name (Node.As_End_Name.F_Name, Highlights);
+
             when LAL.Ada_Subp_Spec =>
                declare
                   Subp_Spec : constant LAL.Subp_Spec := Node.As_Subp_Spec;
@@ -315,10 +316,6 @@ package body Highlighter is
                      Highlight_Type_Expr (Param.F_Type_Expr, Highlights);
                   end loop;
                end;
-            when LAL.Ada_Subp_Body =>
-               Highlight_Block_Name
-                 (Node.As_Subp_Body.F_End_Name, Highlights);
-
             when LAL.Ada_Type_Decl =>
                Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Type);
                Highlight_Block_Name
@@ -331,16 +328,6 @@ package body Highlighter is
             when LAL.Ada_Named_Stmt_Decl =>
                Highlight_Block_Name
                  (Node.As_Named_Stmt_Decl.F_Name, Highlights);
-            when LAL.Ada_Base_Loop_Stmt =>
-               Highlight_Block_Name
-                 (Node.As_Base_Loop_Stmt.F_End_Name, Highlights);
-            when LAL.Ada_Decl_Block =>
-               Highlight_Block_Name
-                 (Node.As_Decl_Block.F_End_Name, Highlights);
-
-            when LAL.Ada_Begin_Block =>
-               Highlight_Block_Name
-                 (Node.As_Begin_Block.F_End_Name, Highlights);
 
             --  TODO??? Still lots of nodes to handle! Protected types, tasks,
             --  etc.

@@ -36,5 +36,15 @@ Expr: <Int 3:35-3:37>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <EndName 4:5-4:12>
+*******************************************
+
+Expr: <EndName 4:5-4:12>
+  references: <DefiningName 1:9-1:16>
+  type:       None
+Expr: <Id "Teststd" 4:5-4:12>
+  references: <DefiningName 1:9-1:16>
+  type:       None
+
 
 Done.

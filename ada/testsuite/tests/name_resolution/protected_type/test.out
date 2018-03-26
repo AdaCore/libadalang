@@ -51,6 +51,16 @@ Expr: <Id "True" 9:29-9:33>
   references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
+Resolving xrefs for node <EndName 10:10-10:26>
+**********************************************
+
+Expr: <EndName 10:10-10:26>
+  references: <DefiningName 4:21-4:37>
+  type:       None
+Expr: <Id "Protected_Buffer" 10:10-10:26>
+  references: <DefiningName 4:21-4:37>
+  type:       None
+
 Resolving xrefs for node <ParamSpec ["An_Item"] 13:23-13:41>
 ************************************************************
 
@@ -77,6 +87,16 @@ Expr: <Id "Empty" 17:12-17:17>
 Expr: <Id "False" 17:21-17:26>
   references: <DefiningName 3:20-3:25>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
+
+Resolving xrefs for node <EndName 18:13-18:19>
+**********************************************
+
+Expr: <EndName 18:13-18:19>
+  references: <DefiningName 5:15-5:21>
+  type:       None
+Expr: <Id "Insert" 18:13-18:19>
+  references: <DefiningName 5:15-5:21>
+  type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 19:23-19:41>
 ************************************************************
@@ -105,6 +125,26 @@ Expr: <Id "True" 23:21-23:25>
   references: <DefiningName 3:27-3:31>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
+Resolving xrefs for node <EndName 24:13-24:19>
+**********************************************
+
+Expr: <EndName 24:13-24:19>
+  references: <DefiningName 6:15-6:21>
+  type:       None
+Expr: <Id "Remove" 24:13-24:19>
+  references: <DefiningName 6:15-6:21>
+  type:       None
+
+Resolving xrefs for node <EndName 25:10-25:26>
+**********************************************
+
+Expr: <EndName 25:10-25:26>
+  references: <DefiningName 4:21-4:37>
+  type:       None
+Expr: <Id "Protected_Buffer" 25:10-25:26>
+  references: <DefiningName 4:21-4:37>
+  type:       None
+
 Resolving xrefs for node <ObjectDecl ["Inst"] 27:6-27:30>
 *********************************************************
 
@@ -130,6 +170,16 @@ Expr: <Id "Insert" 29:9-29:15>
 Expr: <Int 29:17-29:19>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <EndName 30:5-30:13>
+*********************************************
+
+Expr: <EndName 30:5-30:13>
+  references: <DefiningName 1:11-1:19>
+  type:       None
+Expr: <Id "Test_Pro" 30:5-30:13>
+  references: <DefiningName 1:11-1:19>
+  type:       None
 
 
 Done.

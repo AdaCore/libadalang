@@ -66,7 +66,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  |  |  |  |  AdaNodeList[4:16-4:16]: <empty list>
 |  |  |  |  |  |  |private_part: <null>
 |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  Id[5:8-5:9]: D
+|  |  |  |  |  |  |  EndName[5:8-5:9]
+|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  Id[5:8-5:9]: D
 |  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
 |  |  |  |  |  |name:
 |  |  |  |  |  |  DefiningName[7:12-7:18]
@@ -90,7 +92,9 @@ CompilationUnit[1:1-10:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
 |  |  |end_name:
-|  |  |  Id[10:5-10:9]: Test
+|  |  |  EndName[10:5-10:9]
+|  |  |  |name:
+|  |  |  |  Id[10:5-10:9]: Test
 |pragmas:
 |  PragmaNodeList[10:10-10:10]: <empty list>
 

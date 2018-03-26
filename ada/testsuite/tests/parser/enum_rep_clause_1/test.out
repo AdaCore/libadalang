@@ -48,6 +48,8 @@ CompilationUnit[1:1-4:14]
 |  |  |  |  |  |  |  |  |  Int[3:25-3:26]: 1
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[4:5-4:13]: Enum_Rep
+|  |  |  EndName[4:5-4:13]
+|  |  |  |name:
+|  |  |  |  Id[4:5-4:13]: Enum_Rep
 |pragmas:
 |  PragmaNodeList[4:14-4:14]: <empty list>

@@ -80,4 +80,6 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_name:
-|  |  Id[1:105-1:121]: Protected_Buffer
+|  |  EndName[1:105-1:121]
+|  |  |name:
+|  |  |  Id[1:105-1:121]: Protected_Buffer

@@ -37,7 +37,9 @@ StmtList[1:1-1:235]
 |  |  |exceptions:
 |  |  |  AdaNodeList[1:53-1:53]: <empty list>
 |  |end_name:
-|  |  Id[1:59-1:64]: Store
+|  |  EndName[1:59-1:64]
+|  |  |name:
+|  |  |  Id[1:59-1:64]: Store
 |  LoopStmt[1:66-1:235]
 |  |spec: <null>
 |  |stmts:
@@ -87,7 +89,9 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  AdaNodeList[1:132-1:132]: <empty list>
 |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  Id[1:138-1:143]: Store
+|  |  |  |  |  |  |  |  EndName[1:138-1:143]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:138-1:143]: Store
 |  |  |  |  |  SelectWhenPart[1:148-1:213]
 |  |  |  |  |  |cond_expr: <null>
 |  |  |  |  |  |stmts:
@@ -130,7 +134,9 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |exceptions:
 |  |  |  |  |  |  |  |  |  AdaNodeList[1:201-1:201]: <empty list>
 |  |  |  |  |  |  |  |end_name:
-|  |  |  |  |  |  |  |  Id[1:207-1:212]: Fetch
+|  |  |  |  |  |  |  |  EndName[1:207-1:212]
+|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  Id[1:207-1:212]: Fetch
 |  |  |  |else_stmts:
 |  |  |  |  StmtList[1:212-1:212]: <empty list>
 |  |  |  |abort_stmts:

@@ -94,4 +94,6 @@ PackageDecl[1:1-1:106]
 |  |  |  |aspects: <null>
 |private_part: <null>
 |end_name:
-|  Id[1:104-1:105]: A
+|  EndName[1:104-1:105]
+|  |name:
+|  |  Id[1:104-1:105]: A

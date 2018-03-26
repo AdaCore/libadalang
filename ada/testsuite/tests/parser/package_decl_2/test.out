@@ -65,4 +65,6 @@ PackageDecl[1:1-1:106]
 |  |  |  |aspects: <null>
 |private_part: <null>
 |end_name:
-|  Id[1:92-1:105]: Generic_Stack
+|  EndName[1:92-1:105]
+|  |name:
+|  |  Id[1:92-1:105]: Generic_Stack

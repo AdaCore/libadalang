@@ -93,4 +93,6 @@ TaskTypeDecl[1:1-1:145]
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_name:
-|  |  Id[1:128-1:144]: Buffer_Pool_Task
+|  |  EndName[1:128-1:144]
+|  |  |name:
+|  |  |  Id[1:128-1:144]: Buffer_Pool_Task

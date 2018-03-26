@@ -49,4 +49,6 @@ TaskTypeDecl[1:1-1:63]
 |  |  |  |  |aspects: <null>
 |  |private_part: <null>
 |  |end_name:
-|  |  Id[1:59-1:62]: TT1
+|  |  EndName[1:59-1:62]
+|  |  |name:
+|  |  |  Id[1:59-1:62]: TT1

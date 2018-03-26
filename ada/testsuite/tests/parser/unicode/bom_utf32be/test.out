@@ -62,6 +62,8 @@ CompilationUnit[1:1-6:10]
 |  |  |  |exceptions:
 |  |  |  |  AdaNodeList[5:29-5:29]: <empty list>
 |  |  |end_name:
-|  |  |  Id[6:5-6:9]: Test
+|  |  |  EndName[6:5-6:9]
+|  |  |  |name:
+|  |  |  |  Id[6:5-6:9]: Test
 |pragmas:
 |  PragmaNodeList[6:10-6:10]: <empty list>

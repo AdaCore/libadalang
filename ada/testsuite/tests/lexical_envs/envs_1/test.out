@@ -42,7 +42,9 @@ CompilationUnit[1:1-3:9]
 |  |  |  |  |  |aspects: <null>
 |  |  |private_part: <null>
 |  |  |end_name:
-|  |  |  Id[3:5-3:8]: Foo
+|  |  |  EndName[3:5-3:8]
+|  |  |  |name:
+|  |  |  |  Id[3:5-3:8]: Foo
 |pragmas:
 |  PragmaNodeList[3:9-3:9]: <empty list>
 

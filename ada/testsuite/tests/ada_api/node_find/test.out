@@ -54,6 +54,7 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <OpPlus 3:17-3:18>
   <Id "C" 3:19-3:20>
   <AdaNodeList 3:20-3:20>
+  <EndName 4:5-4:8>
   <Id "Sum" 4:5-4:8>
   <PragmaNodeList 4:9-4:9>
 Note that we also can iterate on null nodes:

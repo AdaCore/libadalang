@@ -184,5 +184,15 @@ Expr: <Id "J" 20:17-20:18>
   references: <DefiningName 18:8-18:9>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
+Resolving xrefs for node <EndName 23:5-23:14>
+*********************************************
+
+Expr: <EndName 23:5-23:14>
+  references: <DefiningName 1:11-1:20>
+  type:       None
+Expr: <Id "Testrange" 23:5-23:14>
+  references: <DefiningName 1:11-1:20>
+  type:       None
+
 
 Done.

@@ -135,5 +135,15 @@ Expr: <Id "El" 16:12-16:14>
   references: <DefiningName 15:8-15:10>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
+Resolving xrefs for node <EndName 19:5-19:12>
+*********************************************
+
+Expr: <EndName 19:5-19:12>
+  references: <DefiningName 4:11-4:18>
+  type:       None
+Expr: <Id "Testvec" 19:5-19:12>
+  references: <DefiningName 4:11-4:18>
+  type:       None
+
 
 Done.

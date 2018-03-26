@@ -17,6 +17,16 @@ Expr: <Int 3:30-3:34>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <EndName 4:8-4:11>
+*******************************************
+
+Expr: <EndName 4:8-4:11>
+  references: <DefiningName 2:12-2:15>
+  type:       None
+Expr: <Id "Pkg" 4:8-4:11>
+  references: <DefiningName 2:12-2:15>
+  type:       None
+
 Resolving xrefs for node <ObjectDecl ["A", "B"] 6:4-6:25>
 *********************************************************
 
@@ -83,6 +93,16 @@ Expr: <Id "B" 10:19-10:20>
 Resolving xrefs for node <NullStmt 11:7-11:12>
 **********************************************
 
+
+Resolving xrefs for node <EndName 13:5-13:14>
+*********************************************
+
+Expr: <EndName 13:5-13:14>
+  references: <DefiningName 1:11-1:20>
+  type:       None
+Expr: <Id "Testbinop" 13:5-13:14>
+  references: <DefiningName 1:11-1:20>
+  type:       None
 
 
 Done.

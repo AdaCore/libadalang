@@ -49,4 +49,6 @@ EntryBody[1:1-1:101]
 |  |exceptions:
 |  |  AdaNodeList[1:88-1:88]: <empty list>
 |end_name:
-|  Id[1:94-1:100]: insert
+|  EndName[1:94-1:100]
+|  |name:
+|  |  Id[1:94-1:100]: insert

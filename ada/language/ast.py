@@ -3152,6 +3152,24 @@ class ParamSpec(BaseFormalParamDecl):
 
     xref_entry_point = Property(True)
 
+    @langkit_property(return_type=T.DefiningName.entity)
+    def decl_param(param=T.DefiningName.entity):
+        """
+        If self is a ParamSpec of a subprogram body, go fetch the equivalent
+        spec in the subprogram decl.
+        """
+        return If(
+            Entity.semantic_parent.is_a(T.SubpBody),
+
+            Entity.semantic_parent.cast_or_raise(T.SubpBody).decl_part_entity
+            .cast_or_raise(T.BasicSubpDecl).subp_decl_spec
+            .unpacked_formal_params.find(
+                lambda sf: sf.name.name_symbol == param.name_symbol
+            ).name.as_entity,
+
+            param
+        )
+
 
 class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list)
@@ -4523,10 +4541,45 @@ class Name(Expr):
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def xref():
-        """
-        Return a cross reference from this name to a defining identifier.
-        """
-        return Entity.referenced_id(Entity.referenced_decl)
+        dn = Var(Entity.parents.find(lambda p: p.is_a(T.DefiningName))
+                 .cast(T.DefiningName))
+        bd = Var(dn.then(lambda dn: dn.basic_decl))
+
+        return Cond(
+            bd.then(lambda bd: bd.is_a(T.ParamSpec)),
+            bd.cast(T.ParamSpec).decl_param(dn),
+
+            bd.then(lambda bd: bd.is_a(Body)),
+            bd.cast(T.Body).decl_part_entity.defining_name,
+
+            bd.then(lambda bd: bd.is_a(BasicDecl)),
+            bd.body_part_entity.defining_name,
+
+            Entity.referenced_id(Entity.referenced_decl)
+        )
+
+    @langkit_property(public=True)
+    def gnat_xref():
+        bd = Var(
+            Entity.parents.find(lambda p: p.is_a(T.DefiningName))
+            .cast(T.DefiningName).then(
+                lambda dn: dn.basic_decl
+            )
+        )
+
+        return Cond(
+            bd.then(lambda bd: bd.is_a(T.DiscriminantSpec, T.ParamSpec))
+            & bd.semantic_parent.is_a(T.SubpDecl),
+
+            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            Let(lambda ret=Entity.xref: Let(lambda dbd=ret.basic_decl: Cond(
+                dbd.is_a(T.ParamSpec),
+                dbd.cast(T.ParamSpec).decl_param(ret),
+
+                ret
+            )))
+        )
 
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,

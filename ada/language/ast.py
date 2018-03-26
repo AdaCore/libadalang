@@ -2927,7 +2927,7 @@ class WithClause(AdaNode):
 
 @abstract
 class UseClause(AdaNode):
-    pass
+    xref_entry_point = Property(True)
 
 
 class UsePackageClause(UseClause):
@@ -2958,7 +2958,6 @@ class UsePackageClause(UseClause):
                      origin.bind(n, n.as_bare_entity.designated_env))
         )
 
-    xref_entry_point = Property(True)
     xref_equation = Property(
         Entity.packages.logic_all(lambda p: p.xref_no_overloading)
     )
@@ -2980,6 +2979,10 @@ class UseTypeClause(UseClause):
             # ref_env_nodes.
             cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
         ),
+    )
+
+    xref_equation = Property(
+        Entity.types.logic_all(lambda p: p.xref_no_overloading)
     )
 
 

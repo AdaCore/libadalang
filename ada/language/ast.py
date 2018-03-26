@@ -5405,7 +5405,8 @@ class DefiningName(Name):
     basic_decl = Property(
         Self.parents.find(lambda p: p.is_a(T.BasicDecl))
         .cast_or_raise(T.BasicDecl).as_entity,
-        public=True, doc="Returns this DefiningName's basic declaration"
+        public=True, memoized=True,
+        doc="Returns this DefiningName's basic declaration"
     )
 
 

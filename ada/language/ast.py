@@ -3289,6 +3289,13 @@ class ExprFunction(ClassicSubpDecl):
     expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
+    xref_equation = Property(
+        Entity.expr.sub_equation
+        & TypeBind(Entity.expr.type_var, Entity.subp_decl_spec.return_type)
+    )
+
+    xref_entry_point = Property(True)
+
 
 class SubpRenamingDecl(ClassicSubpDecl):
     renames = Field(type=T.RenamingClause)

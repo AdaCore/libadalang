@@ -9,6 +9,12 @@ Resolving xrefs for node <TypeDecl ["Base"] 3:7-3:32>
 *****************************************************
 
 
+Resolving xrefs for node <ExprFunction ["Create"] 4:7-4:52>
+***********************************************************
+
+Expr: <NullRecordAggregate 4:38-4:51>
+  type:       <TypeDecl ["Base"] 3:7-3:32>
+
 Resolving xrefs for node <SubpSpec 4:7-4:34>
 ********************************************
 

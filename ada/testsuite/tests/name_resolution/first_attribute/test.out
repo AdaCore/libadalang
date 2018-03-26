@@ -93,12 +93,29 @@ Expr: <Int 10:23-10:25>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
+Resolving xrefs for node <ExprFunction ["Foo"] 13:4-13:46>
+**********************************************************
+
+Expr: <Aggregate 13:31-13:45>
+  type:       <TypeDecl ["Lol"] 9:4-11:15>
+Expr: <BoxExpr 13:42-13:44>
+  type:       None
+
 Resolving xrefs for node <SubpSpec 13:4-13:27>
 **********************************************
 
 Expr: <Id "Lol" 13:24-13:27>
   references: <DefiningName 9:9-9:12>
   type:       None
+
+Resolving xrefs for node <ExprFunction ["Foo"] 14:4-14:40>
+**********************************************************
+
+Expr: <ParenExpr 14:35-14:39>
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <Int 14:36-14:38>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
 Resolving xrefs for node <SubpSpec 14:4-14:31>
 **********************************************

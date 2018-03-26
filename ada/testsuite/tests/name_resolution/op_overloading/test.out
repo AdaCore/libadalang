@@ -38,6 +38,15 @@ Expr: <Id "String" 6:54-6:60>
   references: <DefiningName 104:8-104:14>
   type:       None
 
+Resolving xrefs for node <ExprFunction ["Is_Open"] 8:4-8:66>
+************************************************************
+
+Expr: <ParenExpr 8:58-8:65>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "False" 8:59-8:64>
+  references: <DefiningName 3:20-3:25>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+
 Resolving xrefs for node <SubpSpec 8:4-8:54>
 ********************************************
 

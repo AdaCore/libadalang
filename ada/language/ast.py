@@ -6842,6 +6842,12 @@ class ExceptionHandler(BasicDecl):
             .cast(T.BaseTypeDecl)
         )
 
+    xref_equation = Property(
+        Self.handled_exceptions.logic_all(lambda he: he.as_entity.sub_equation)
+    )
+
+    xref_entry_point = Property(True)
+
 
 @abstract
 class Stmt(AdaNode):

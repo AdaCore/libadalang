@@ -271,6 +271,15 @@ procedure GNAT_Compare is
             Rel := Ref.P_Relative_Name;
 
             Xref.Entity_Sloc := Start_Sloc (Rel.Sloc_Range);
+
+            --  When an entity whose name is a string literal is referenced,
+            --  GNAT puts the column after the first ". Let's mimic that
+            --  behavior.
+
+            if Rel.Kind = Ada_String_Literal then
+               Xref.Entity_Sloc.Column := Xref.Entity_Sloc.Column + 1;
+            end if;
+
             Xref.Entity_File :=
               File_Index (Files, Get_Filename (Ref.Unit));
 

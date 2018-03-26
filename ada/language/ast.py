@@ -4198,6 +4198,12 @@ class Op(EnumNode):
 
     ref_var = UserField(type=LogicVarType, public=False)
 
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def xref():
+        return Entity.parent.referenced_decl.defining_name
+
+    gnat_xref = Property(Entity.xref)
+
 
 class UnOp(Expr):
     op = Field(type=Op)

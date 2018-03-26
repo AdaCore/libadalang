@@ -238,7 +238,13 @@ A.add_rules(
 
     record_def=Or(
         RecordDef("record", A.component_list, "end", "record"),
-        NullRecordDef("null", "record", Null(ComponentList)),
+        NullRecordDef(
+            "null", "record",
+            ComponentList(
+                Null(List(A.component_item)),
+                Null(A.variant_part)
+            ),
+        ),
     ),
 
     range_spec=RangeSpec("range", A.discrete_range | A.name | A.box_expr),

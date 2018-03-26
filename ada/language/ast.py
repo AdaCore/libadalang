@@ -3706,6 +3706,10 @@ class GenericInstantiation(BasicDecl):
                     .as_entity.xref_no_overloading,
 
                     lambda _: LogicTrue(),
+                ) & pm.actual.name.then(
+                    lambda n:
+                    Bind(n.ref_var, pm.formal.name.as_bare_entity.basic_decl),
+                    default_val=LogicTrue()
                 )
             )
         )

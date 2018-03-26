@@ -248,7 +248,7 @@ procedure GNAT_Compare is
       begin
          --  GNAT only considers leaf items for xrefs, so skip for instance
          --  Dotted_Name nodes here.
-         if Node.Kind not in Ada_String_Literal | Ada_Identifier then
+         if Node.Kind not in Ada_String_Literal | Ada_Identifier | Ada_Op then
             return Into;
          end if;
 

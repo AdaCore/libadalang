@@ -232,7 +232,9 @@ package body Libadalang.Unit_Files is
             Filename : constant String :=
                UFP.Get_Unit_Filename (To_String (Name), Kind);
          begin
-            if not Has_Unit (Ctx, Filename) then
+            if Filename = "" then
+               return No_Analysis_Unit;
+            elsif not Has_Unit (Ctx, Filename) then
                return No_Analysis_Unit;
             end if;
          end;

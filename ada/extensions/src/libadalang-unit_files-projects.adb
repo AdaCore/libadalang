@@ -22,7 +22,7 @@ package body Libadalang.Unit_Files.Projects is
          Language  => "Ada");
    begin
       if File'Length = 0 then
-         raise Property_Error;
+         return "";
       end if;
 
       declare
@@ -43,18 +43,13 @@ package body Libadalang.Unit_Files.Projects is
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit is
+      Reparse     : Boolean := False) return Analysis_Unit 
+   is
+      Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
    begin
-
-      declare
-         Filename : constant String :=
-            Provider.Get_Unit_Filename (Name, Kind);
-      begin
+      if Filename /= "" then
          return Get_From_File (Context, Filename, Charset, Reparse);
-      end;
-
-   exception
-      when Property_Error =>
+      else
          declare
             Str_Name : constant String :=
                Libadalang.Unit_Files.Default.Unit_String_Name (Name);
@@ -70,6 +65,7 @@ package body Libadalang.Unit_Files.Projects is
          begin
             return Get_With_Error (Context, Dummy_File, Error, Charset);
          end;
+      end if;
    end Get_Unit;
 
    ----------------

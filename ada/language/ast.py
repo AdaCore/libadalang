@@ -3345,6 +3345,13 @@ class Pragma(AdaNode):
             Let(lambda expr=Entity.args.at(0).assoc_expr:
                 expr.sub_equation
                 & TypeBind(expr.type_var, Self.bool_type)),
+
+            Entity.id.name_symbol == 'Unreferenced',
+            Entity.args.logic_all(
+                lambda assoc:
+                assoc.assoc_expr.cast_or_raise(T.Name).xref_no_overloading
+            ),
+
             LogicTrue(),
         )
 

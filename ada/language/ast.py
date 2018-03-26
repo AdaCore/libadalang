@@ -152,6 +152,21 @@ class AdaNode(ASTNode):
         """
         return Entity.referenced_decl_internal(False)
 
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def xref():
+        """
+        Return a cross reference from this node to a defining identifier.
+        """
+        return No(T.DefiningName.entity)
+
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def gnat_xref():
+        """
+        Return a cross reference from this name to a defining identifier,
+        trying to mimic GNAT's xrefs as much as possible.
+        """
+        return No(T.DefiningName.entity)
+
     @langkit_property(public=True)
     def referenced_decl_internal(try_immediate=BoolType):
         """

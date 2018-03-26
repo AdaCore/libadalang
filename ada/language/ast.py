@@ -1067,9 +1067,7 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
     """
-    identifiers = Property(
-        Entity.defining_names.map(lambda e: e.name.cast_or_raise(T.BaseId).el)
-    )
+    identifiers = Property(Entity.defining_names.map(lambda e: e.el))
     is_mandatory = Property(False)
 
     type = Property(
@@ -1411,7 +1409,7 @@ class VariantPart(AdaNode):
         """
         # Get the specific discriminant this variant part depends upon
         discr = Var(discriminants.find(
-            lambda d: d.formal.name.symbol == Self.discr_name.symbol
+            lambda d: d.formal.name.name_symbol == Self.discr_name.symbol
         ))
 
         # Get the variant branch with a choice that matches the discriminant's
@@ -3721,7 +3719,7 @@ class GenericSubpInstantiation(GenericInstantiation):
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Self.params, False
                 ).map(lambda pm: T.env_assoc.new(
-                    key=pm.formal.name.sym, val=pm.actual.assoc.expr
+                    key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr
                 ))
             ),
             dest_env=Self.instantiation_env,
@@ -3800,7 +3798,7 @@ class GenericPackageInstantiation(GenericInstantiation):
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Self.params, False
                    ).map(lambda pm: T.env_assoc.new(
-                       key=pm.formal.name.sym, val=pm.actual.assoc.expr
+                       key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr
                    )))
             ),
             dest_env=Self.instantiation_env,
@@ -5845,7 +5843,7 @@ class NullLiteral(SingleTokNode):
 
 
 class SingleFormal(Struct):
-    name = UserField(type=BaseId)
+    name = UserField(type=DefiningName)
     spec = UserField(type=BaseFormalParamDecl.entity)
 
 

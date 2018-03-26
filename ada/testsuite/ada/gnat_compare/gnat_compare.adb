@@ -314,7 +314,7 @@ procedure GNAT_Compare is
          end loop;
 
          begin
-            Ref := Node.As_Name.P_Xref;
+            Ref := Node.P_Gnat_Xref;
          exception
             when Property_Error =>
                Error := True;

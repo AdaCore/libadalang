@@ -557,10 +557,9 @@ begin
                type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
 
                Count : constant Natural := Counts (Comp);
-               P     : constant Percentage :=
-                 100.0 * Percentage
-                   (Percentage (Count) / Percentage (GNAT_Xref_Count));
-               P_Img : constant String := Percentage'Image (P);
+               P     : constant Float :=
+                 100.0 * Float (Count) / Float (GNAT_Xref_Count);
+               P_Img : constant String := Percentage'Image (Percentage (P));
             begin
                Put_Line
                  ("  *" & Natural'Image (Count)

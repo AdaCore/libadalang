@@ -132,12 +132,12 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
-* Install the GNAT tools and compiler. You can find the GPL version of them
-  on <http://libre.adacore.com>
+* Install the GNAT tools and compiler. You can find Community Editions on
+  <https://www.adacore.com/download>
 * Build and install the GNATcoll library. You can find its source release on
-  <http://libre.adacore.com> or directly on GitHub:
+  <https://www.adacore.com/download> or directly on GitHub:
   <https://github.com/AdaCore/gnatcoll> (just make sure you checkout the
-  `gpl-2016` branch).
+  `gpl-20**` branch corresponding to your GNAT Community release).
 * Install Quex version 0.65.4 -
   <http://downloads.sourceforge.net/project/quex/DOWNLOAD/quex-0.65.4.tar.gz>
   Follow the installation guide in the Quex `README`

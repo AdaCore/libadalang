@@ -6594,9 +6594,15 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        expr = Var(Self.args.cast(T.AssocList).then(lambda al: al.at(0).expr))
 
-        return (
+        return If(
+            typ.is_null,
+
+            # If prefix is not a type, then it is an expression
+            Entity.prefix.sub_equation
+            & TypeBind(Self.type_var, str_type),
+
             expr.as_entity.sub_equation
             # Prefix is a type, bind prefix's ref var to it
             & Bind(Self.prefix.ref_var, typ)

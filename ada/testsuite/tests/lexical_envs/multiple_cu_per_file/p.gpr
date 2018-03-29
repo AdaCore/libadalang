@@ -1,0 +1,14 @@
+project P is
+
+   for Main use ("foo.adb");
+
+   package Naming is
+      for Spec ("Parent") use "specs-1.ada" at 1;
+
+      for Spec ("Parent.Child") use "specs-2.ada" at 1;
+
+      for Spec ("Parent.Child.Grandchild") use "specs-1.ada" at 2;
+      for Body ("Parent.Child.Grandchild") use "bodies-1.ada" at 1;
+   end Naming;
+
+end P;

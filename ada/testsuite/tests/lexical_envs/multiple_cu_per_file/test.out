@@ -1,0 +1,10 @@
+From scratch:
+Fact resolves to: <SubpDecl ["Fact"] 5:4-5:47>
+
+Reloading specs-1.ada:
+Fact resolves to: <SubpDecl ["Fact"] 5:4-5:47>
+
+Reloading specs-2.ada:
+Fact resolves to: <SubpDecl ["Fact"] 5:4-5:47>
+
+Done.

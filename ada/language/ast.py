@@ -3816,7 +3816,12 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():
-        return Entity.designated_generic_decl.children_env
+        dp = Var(Entity.designated_package)
+        return If(
+            Self.is_formal_pkg,
+            Array([dp.children_env, dp.parent.children_env]).env_group(),
+            dp.children_env
+        )
 
     defining_names = Property(Entity.name.singleton)
 

@@ -2157,6 +2157,7 @@ class TypeDecl(BaseTypeDecl):
         Or(
             Entity.is_array,
             Not(Entity.get_aspect('Iterator_Element').is_null),
+            Not(Entity.get_aspect('Iterable').is_null),
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.is_iterable_type),
@@ -2172,9 +2173,17 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property()
     def iterable_comp_type():
         ie = Var(Entity.get_aspect('Iterator_Element'))
+        it = Var(Entity.get_aspect('Iterable'))
+
         return Cond(
             Entity.is_array, Entity.comp_type,
             Not(ie.is_null), ie.expr.cast(T.Name).name_designated_type,
+
+            Not(it.is_null),
+            it.expr.cast(T.Aggregate).assocs.unpacked_params.find(
+                lambda sa: sa.name.name_symbol == 'Element'
+            ).assoc.expr.as_entity.referenced_decl.expr_type,
+
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.iterable_comp_type),
@@ -3448,6 +3457,15 @@ class AspectAssoc(AdaNode):
     def xref_equation():
         target = Var(Self.parent.parent.parent)
         return Cond(
+            # Iterable aspect
+            Entity.id.name_symbol == 'Iterable',
+            Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
+                lambda sa:
+                sa.assoc.expr.as_entity
+                .cast_or_raise(T.Name).xref_no_overloading(sequential=False)
+            ),
+
+            # Contracts
             target.is_a(BasicSubpDecl, SubpBody)
             & Entity.id.name_symbol.any_of(
                 'Pre', 'Post', 'Model_Pre', 'Model_Post'
@@ -4407,7 +4425,7 @@ class Aggregate(BaseAggregate):
     @langkit_property()
     def xref_equation():
         return If(
-            Self.parent.is_a(AspectClause),
+            Self.parent.is_a(AspectClause, AspectAssoc),
             LogicTrue(),
             Entity.general_xref_equation
         )

@@ -3767,7 +3767,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         )
 
     designated_generic_decl = Property(
-        Entity.designated_subp.cast(T.BasicDecl)
+        Entity.designated_subp.parent.cast(T.BasicDecl)
     )
 
     env_spec = EnvSpec(

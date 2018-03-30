@@ -6401,7 +6401,10 @@ class AttributeRef(Name):
             rel_name == 'Length', Entity.length_equation,
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
-            rel_name == 'Access', Entity.access_equation,
+
+            rel_name.any_of('Access',
+                            'Unchecked_Access', 'Unrestricted_Access'),
+            Entity.access_equation,
 
             rel_name == 'Image',
             Entity.image_equation(Self.std_entity('String')),

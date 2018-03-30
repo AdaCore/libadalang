@@ -14,7 +14,7 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, Bind, Cond,
     DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not, Or, Property,
-    Self, Var, ignore, langkit_property
+    PropertyError, Self, Var, ignore, langkit_property
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
@@ -925,6 +925,35 @@ class BasicDecl(AdaNode):
                 public_scope
             )
         )
+
+    @langkit_property(public=True)
+    def fully_qualified_name():
+        """
+        Return the fully qualified name corresponding to this declaration.
+        """
+        # TODO: handle non-library items
+        name = Var(Self.match(
+            lambda subp_decl=T.ClassicSubpDecl:
+                subp_decl.subp_spec.subp_name,
+            lambda pkg_decl=T.BasePackageDecl:
+                pkg_decl.package_name,
+            lambda subp_inst=T.GenericSubpInstantiation:
+                subp_inst.subp_name,
+            lambda pkg_inst=T.GenericPackageInstantiation:
+                pkg_inst.name,
+            lambda pkg_renam=T.PackageRenamingDecl:
+                pkg_renam.name,
+            lambda gen_subp=T.GenericSubpDecl:
+                gen_subp.subp_decl.subp_spec.subp_name,
+            lambda gen_pkg=T.GenericPackageDecl:
+                gen_pkg.package_decl.package_name,
+            lambda subp_body=T.SubpBody:
+                subp_body.subp_spec.subp_name,
+            lambda pkg_body=T.PackageBody:
+                pkg_body.package_name,
+            lambda _: PropertyError(T.Name),
+        ))
+        return name.as_symbol_array
 
 
 class ErrorDecl(BasicDecl):
@@ -4949,6 +4978,22 @@ class Name(Expr):
         )
     )
 
+    @langkit_property(public=True, return_type=SymbolType.array)
+    def as_symbol_array():
+        """
+        Turn this name into an array of symbols.
+
+        For instance, "A.B.C" is turned into ['A', 'B', 'C'].
+        """
+        return Self.match(
+            lambda dname=T.DefiningName: dname.name.as_symbol_array,
+            lambda tok=T.SingleTokNode: tok.symbol.singleton,
+            lambda dot=T.DottedName: dot.prefix.as_symbol_array.concat(
+                dot.suffix.as_symbol_array
+            ),
+            lambda _: PropertyError(SymbolType.array),
+        )
+
 
 class DiscreteSubtypeName(Name):
     subtype = Field(type=T.DiscreteSubtypeIndication)
@@ -7443,6 +7488,15 @@ class EntryIndexSpec(AdaNode):
 class Subunit(AdaNode):
     name = Field(type=T.Name)
     body = Field(type=T.Body)
+
+    @langkit_property(public=True)
+    def fully_qualified_name():
+        """
+        Return the fully qualified name corresponding to this subunit.
+        """
+        return Self.name.as_symbol_array.concat(
+            Self.body.fully_qualified_name
+        )
 
 
 class ProtectedBodyStub(BodyStub):

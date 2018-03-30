@@ -2162,7 +2162,8 @@ class TypeDecl(BaseTypeDecl):
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.is_iterable_type),
                 lambda _: False
-            )
+            ),
+            Entity.previous_part(False).then(lambda pp: pp.is_iterable_type)
         ),
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
@@ -2188,8 +2189,9 @@ class TypeDecl(BaseTypeDecl):
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.iterable_comp_type),
                 lambda _: No(T.BaseTypeDecl.entity)
-            )
-        )
+            ),
+        )._or(Entity.previous_part(False)
+              .then(lambda pp: pp.iterable_comp_type))
 
     node_aspects = Property(Entity.aspects)
 

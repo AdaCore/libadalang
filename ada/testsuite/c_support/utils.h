@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-const ada_entity_info no_entity_info = { { false, NULL, NULL }, NULL };
+const ada_entity_info no_entity_info = { { false, NULL, NULL, false }, NULL };
 
 
 static void

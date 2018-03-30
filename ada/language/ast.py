@@ -115,6 +115,10 @@ class Metadata(Struct):
         T.AdaNode,
         doc="The type for which this subprogram is a primitive, if any"
     )
+    access_entity = UserField(
+        BoolType,
+        doc="Whether the accessed entity is an anonymous access to it or not."
+    )
 
 
 @abstract
@@ -142,6 +146,26 @@ class AdaNode(ASTNode):
         Self.parents.find(lambda p: p.is_a(T.CompilationUnit))
         .cast(T.CompilationUnit).get_empty_env,
     )
+
+    @langkit_property(return_type=T.AdaNode.entity)
+    def trigger_access_entity(val=T.BoolType):
+        """
+        Return Self as an entity, but with the ``access_entity`` field set to
+        val. Helper for the 'Unrestricted_Access machinery.
+        """
+        new_md = Var(Metadata.new(
+            dottable_subp=Entity.info.md.dottable_subp,
+            primitive=Entity.info.md.primitive,
+            primitive_real_type=Entity.info.md.primitive_real_type,
+            access_entity=val
+        ))
+
+        return AdaNode.entity.new(
+            el=Entity.el, info=T.entity_info.new(
+                rebindings=Entity.info.rebindings,
+                md=new_md
+            )
+        )
 
     @langkit_property(public=True)
     def referenced_decl():
@@ -794,7 +818,16 @@ class BasicDecl(AdaNode):
 
         expr_type will return the declaration of the type F.
         """
-        return Entity.type_expression._.designated_type
+        ret = Var(Entity.type_expression.then(lambda te: te.designated_type))
+
+        # If the entity is actually an anonymous access to the decl rather than
+        # the decl itself, return an anonymous access type pointing to the type
+        # of the decl.
+        return If(
+            Entity.info.md.access_entity,
+            ret.anonymous_access_type,
+            ret
+        )
 
     type_expression = Property(
         No(T.TypeExpr).as_entity,
@@ -1690,6 +1723,22 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Entity.name.singleton)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      memoized=True, public=True)
+    def anonymous_access_type():
+        return T.AnonymousTypeDecl.new(
+            name=Self.name,
+            discriminants=No(T.DiscriminantPart),
+            type_def=T.TypeAccessDef.new(
+                has_not_null=T.NotNullAbsent.new(),
+                has_all=T.AllAbsent.new(),
+                has_constant=T.ConstantAbsent.new(),
+                type_expr=T.TypeRef.new(type_decl=Self)
+            ),
+            aspects=No(T.AspectSpec),
+            prims_env=No(T.LexicalEnvType)
+        ).cast(T.BaseTypeDecl).as_entity
+
     @langkit_property(
         return_type=T.BaseTypeDecl.entity, public=True, memoized=True
     )
@@ -2380,6 +2429,7 @@ class TypeDecl(BaseTypeDecl):
                     dottable_subp=False,
                     primitive=No(T.AdaNode),
                     primitive_real_type=Self,
+                    access_entity=False,
                 )
             ),
             lambda _: Self.empty_env
@@ -2942,10 +2992,10 @@ class AccessToSubpDef(AccessDef):
 class TypeAccessDef(AccessDef):
     has_all = Field(type=All)
     has_constant = Field(type=Constant)
-    subtype_indication = Field(type=T.SubtypeIndication)
+    type_expr = Field(type=T.TypeExpr)
 
-    accessed_type = Property(Entity.subtype_indication.designated_type)
-    xref_equation = Property(Entity.subtype_indication.xref_equation)
+    accessed_type = Property(Entity.type_expr.designated_type)
+    xref_equation = Property(Entity.type_expr.xref_equation)
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -3053,6 +3103,13 @@ class TypeExpr(AdaNode):
         origin.bind(Self, Entity.designated_type.array_ndims)
     )
 
+    type_name = Property(
+        Entity.cast(T.SubtypeIndication).then(lambda sti: sti.name),
+        doc="Return the name node for this type expression, "
+        "if applicable, else null",
+        public=True
+    )
+
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
         return Entity.designated_type._.accessed_type
@@ -3108,6 +3165,19 @@ class AnonymousType(TypeExpr):
     Container for inline anonymous array and access types declarations.
     """
     type_decl = Field(type=T.AnonymousTypeDecl)
+
+    designated_type = Property(Entity.type_decl)
+    xref_equation = Property(Entity.type_decl.sub_equation)
+
+
+@synthetic
+class TypeRef(TypeExpr):
+    """
+    Synthetic type expression, meant to directly reference a type decl. Used in
+    the context of anonymous access types automatically generated when using
+    the 'Unrestricted_Access attribute.
+    """
+    type_decl = Field(type=T.BaseTypeDecl)
 
     designated_type = Property(Entity.type_decl)
     xref_equation = Property(Entity.type_decl.sub_equation)
@@ -3312,7 +3382,8 @@ class BasicSubpDecl(BasicDecl):
             # subprogram.
             metadata=Metadata.new(dottable_subp=True,
                                   primitive=No(T.AdaNode),
-                                  primitive_real_type=No(T.AdaNode))
+                                  primitive_real_type=No(T.AdaNode),
+                                  access_entity=False)
         ),
 
         # Adding subp to the primitives env if the subp is a primitive. TODO:
@@ -3329,7 +3400,8 @@ class BasicSubpDecl(BasicDecl):
                 dottable_subp=False,
                 primitive=(Self.as_bare_entity.subp_decl_spec
                            .primitive_subp_of.cast(T.AdaNode).el),
-                primitive_real_type=No(T.AdaNode)
+                primitive_real_type=No(T.AdaNode),
+                access_entity=False
             )
         )
     )
@@ -5427,24 +5499,32 @@ class ExplicitDeref(Name):
     def general_xref_equation(root=(T.Name, No(T.Name))):
         env_els = Var(Entity.env_elements)
 
-        return Entity.prefix.sub_equation & env_els.logic_any(
-            lambda el: el.cast(T.BasicDecl).expr_type.then(
-                lambda typ:
-                Bind(Self.ref_var, el)
-                & Bind(Self.ref_var, Self.prefix.ref_var)
-                & Entity.eq_for_type(typ)
-                & typ.access_def.cast(AccessToSubpDef).then(
-                    lambda _: Self.parent_name(root).as_entity.then(
-                        lambda pn: pn.parent_name_equation(typ, root),
-                        default_val=LogicTrue()
-                    ),
-                    default_val=Self.parent_name(root).as_entity.then(
-                        lambda pn: pn.parent_name_equation(
-                            typ.accessed_type, root
-                        ), default_val=LogicTrue()
+        return Entity.prefix.sub_equation & Or(
+            env_els.logic_any(
+                lambda el: el.cast(T.BasicDecl).expr_type.then(
+                    lambda typ:
+
+                    # Bind Self's ref var to the entity, with the access_entity
+                    # field set to False, since self designated the non-access
+                    # entity.
+                    Bind(Self.ref_var, el.trigger_access_entity(False))
+
+                    & Bind(Self.ref_var, Self.prefix.ref_var)
+                    & Entity.eq_for_type(typ)
+                    & typ.access_def.cast(AccessToSubpDef).then(
+                        lambda _: Self.parent_name(root).as_entity.then(
+                            lambda pn: pn.parent_name_equation(typ, root),
+                            default_val=LogicTrue()
+                        ),
+                        default_val=Self.parent_name(root).as_entity.then(
+                            lambda pn: pn.parent_name_equation(
+                                typ.accessed_type, root
+                            ), default_val=LogicTrue()
+                        )
                     )
                 )
-            )
+            ),
+
         )
 
 
@@ -5956,7 +6036,8 @@ class EnumLiteralDecl(BasicDecl):
             metadata=Metadata.new(
                 dottable_subp=False,
                 primitive=Entity.enum_type.el,
-                primitive_real_type=No(T.AdaNode)
+                primitive_real_type=No(T.AdaNode),
+                access_entity=False
             )
         )
     )
@@ -6418,10 +6499,33 @@ class AttributeRef(Name):
     )
 
     @langkit_property()
-    def designated_env():
+    def env_elements_impl():
         return If(
+            Self.attribute.sym == 'Unrestricted_Access',
+            Entity.prefix.env_elements_impl.map(
+                lambda e:
+                # Using unrestricted accesses, the entities are actually
+                # anonymous access to entities, so mark the entities as such.
+                e.cast_or_raise(T.BasicDecl).trigger_access_entity(True)
+            ),
+            No(T.AdaNode.entity.array),
+        )
+
+    is_access_attr = Property(
+        Entity.attribute.name_symbol.any_of(
+            'Access', 'Unchecked_Access', 'Unrestricted_Access'
+        )
+    )
+
+    @langkit_property()
+    def designated_env():
+        return Cond(
             Entity.attribute.name_symbol == 'Model',
             Entity.designated_env_model_attr,
+
+            Entity.is_access_attr,
+            Entity.prefix.designated_env,
+
             EmptyEnv
         )
 
@@ -6725,16 +6829,25 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def access_equation():
         return Or(
+            # Access to
             Entity.prefix.xref_no_overloading(all_els=True)
             & Predicate(BaseTypeDecl.is_subp_access_of,
                         Self.type_var,
                         Self.prefix.ref_var),
 
             Entity.prefix.xref_equation
-            & Bind(Self.type_var,
-                   Self.prefix.type_var,
-                   conv_prop=BaseTypeDecl.accessed_type,
-                   eq_prop=BaseTypeDecl.matching_formal_type_inverted)
+            & If(
+                Entity.attribute.name_symbol == 'Unrestricted_Access',
+                Bind(Self.prefix.type_var,
+                     Self.type_var,
+                     conv_prop=BaseTypeDecl.anonymous_access_type,
+                     eq_prop=BaseTypeDecl.matching_prefix_type),
+
+                Bind(Self.type_var,
+                     Self.prefix.type_var,
+                     conv_prop=BaseTypeDecl.accessed_type,
+                     eq_prop=BaseTypeDecl.matching_formal_type_inverted),
+            )
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

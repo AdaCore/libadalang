@@ -27,7 +27,7 @@ ObjectDecl[1:1-1:49]
 |  |  |  |  AllAbsent[1:23-1:23]
 |  |  |  |has_constant:
 |  |  |  |  ConstantPresent[1:23-1:23]
-|  |  |  |subtype_indication:
+|  |  |  |type_expr:
 |  |  |  |  SubtypeIndication[1:33-1:40]
 |  |  |  |  |has_not_null:
 |  |  |  |  |  NotNullAbsent[1:32-1:32]

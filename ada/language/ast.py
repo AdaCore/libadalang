@@ -8,16 +8,16 @@ from langkit.dsl import (
     has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, reference, add_to_env, add_env, handle_children, set_initial_env,
-    call_env_hook, do
+    EnvSpec, add_to_env, add_env, call_env_hook, handle_children, do,
+    reference, set_initial_env
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, Bind, DynamicVariable, EmptyEnv, If,
-    Let, Literal, No, Not, Or, Property, Self, Entity, Var, ignore,
-    langkit_property, Cond, ArrayLiteral as Array
+    AbstractKind, AbstractProperty, And, ArrayLiteral as Array, Bind, Cond,
+    DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not, Or, Property,
+    Self, Var, ignore, langkit_property
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
-from langkit.expressions.logic import Predicate, LogicTrue, LogicFalse
+from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 
 env = DynamicVariable('env', LexicalEnvType)

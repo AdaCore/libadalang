@@ -991,7 +991,7 @@ class Body(BasicDecl):
         )
 
     decl_part = Property(
-        Self.as_bare_entity.decl_part_entity,
+        Entity.decl_part_entity,
         public=True,
         doc="""
         Return the decl corresponding to this node if applicable.

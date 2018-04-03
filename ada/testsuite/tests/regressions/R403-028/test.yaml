@@ -1,0 +1,3 @@
+driver: python
+main: test.py
+input_sources: []

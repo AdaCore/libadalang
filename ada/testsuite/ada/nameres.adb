@@ -13,6 +13,7 @@ with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Auto_Provider;       use Libadalang.Auto_Provider;
 with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
@@ -434,6 +435,9 @@ procedure Nameres is
    Files_From_Project   : Boolean := False;
    Discard_Errors       : Boolean := False;
 
+   Use_Auto_Provider  : Boolean := False;
+   Auto_Provider_Dirs : String_Vectors.Vector;
+
 begin
 
    GNATCOLL.Traces.Parse_Config_File;
@@ -474,6 +478,10 @@ begin
             Timeout := Natural'Value (Strip_Prefix (Arg, "-t"));
          elsif Starts_With (Arg, "-X") then
             Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
+         elsif Arg in "-A" | "--auto-provider" then
+            Use_Auto_Provider := True;
+         elsif Starts_With (Arg, "--auto-dir=") then
+            Auto_Provider_Dirs.Append (+Strip_Prefix (Arg, "--auto-dir="));
          elsif Starts_With (Arg, "--") then
             Put_Line ("Invalid argument: " & Arg);
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
@@ -526,6 +534,22 @@ begin
          if Files_From_Project then
             Add_Files_From_Project (Project, Project.Root_Project, Files);
          end if;
+      end;
+
+   elsif Use_Auto_Provider then
+      declare
+         use String_Vectors;
+         Dirs  : GNATCOLL.VFS.File_Array
+           (1 .. Natural (Auto_Provider_Dirs.Length));
+         Files : GNATCOLL.VFS.File_Array_Access;
+      begin
+         for Cur in Auto_Provider_Dirs.Iterate loop
+            Dirs (To_Index (Cur)) := Create (+To_String (Element (Cur)));
+         end loop;
+         Files := Find_Files (Directories => Dirs);
+
+         UFP := Create_Auto_Provider (Files.all, +Charset);
+         GNATCOLL.VFS.Unchecked_Free (Files);
       end;
    end if;
 

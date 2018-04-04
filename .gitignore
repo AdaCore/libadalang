@@ -48,4 +48,4 @@ lktp
 ada/testsuite/ext_src
 
 # Custom grab bag dir
-misc
+/misc

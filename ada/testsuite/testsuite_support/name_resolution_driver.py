@@ -13,9 +13,11 @@ class NameResolutionDriver(BaseDriver):
 
     @property
     def run_python(self):
-        # TODO: right now, the Python driver does not support project handling
+        # TODO: right now, the Python driver does not support using a default
+        # project or the auto unit provider.
         return (self.py_runner.is_python_api_available
-                and not self.with_default_project)
+                and not self.with_default_project
+                and not self.auto_provider_dirs)
 
     @property
     def run_python_only(self):
@@ -38,6 +40,8 @@ class NameResolutionDriver(BaseDriver):
                                                       False)
         self.project_file = self.test_env.get('project_file', None)
 
+        self.auto_provider_dirs = self.test_env.get('auto_provider_dirs', None)
+
         if self.run_python:
             self.py_runner.setup_environment()
 
@@ -50,6 +54,11 @@ class NameResolutionDriver(BaseDriver):
             args.insert(0, '--with-default-project')
         if self.project_file:
             args.insert(0, '-P{}'.format(self.project_file))
+        if self.auto_provider_dirs:
+            args = (['--auto-provider'] +
+                    ['--auto-dir={}'.format(d)
+                        for d in self.auto_provider_dirs] +
+                    args)
 
         # Depending on whether Python is available and whether we want to run
         # only the Python driver, run both the Python and the Ada drivers for

@@ -1,6 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
 import argparse
+import os.path
+import re
 import sys
 
 import libadalang as lal
@@ -95,14 +97,27 @@ parser.add_argument('--charset', type=str, default="")
 parser.add_argument('--discard-errors-in-populate-lexical-env', '-d',
                     action='store_true')
 parser.add_argument('--project', '-P', type=str)
+parser.add_argument('--auto-provider', action='store_true')
+parser.add_argument('--auto-dir', action='append')
 args = parser.parse_args()
 
 input_sources = args.files
 charset = args.charset
 
 
-provider = (lal.UnitProvider.for_project(args.project)
-            if args.project else None)
+if args.project:
+    provider = lal.UnitProvider.for_project(args.project)
+elif args.auto_provider:
+    input_files = []
+    filename_re = re.compile(r'.*\.(ad.|a|spc|bdy)')
+    for d in args.auto_dir:
+        for dirpath, dirnames, filenames in os.walk(d):
+            for f in filenames:
+                if filename_re.match(f):
+                    input_files.append(os.path.join(dirpath, f))
+    provider = lal.UnitProvider.auto(input_files)
+else:
+    provider = None
 
 
 ctx = lal.AnalysisContext(charset, unit_provider=provider)

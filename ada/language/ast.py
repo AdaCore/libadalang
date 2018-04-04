@@ -6872,6 +6872,35 @@ class CompilationUnit(AdaNode):
         """
         pass
 
+    @langkit_property(public=True)
+    def fully_qualified_name():
+        """
+        Return the fully qualified name corresponding to this declaration.
+        """
+        return Self.body.match(
+            lambda li=T.LibraryItem: li.item.fully_qualified_name,
+            lambda su=T.Subunit: su.fully_qualified_name,
+            lambda _: PropertyError(
+                SymbolType.array, 'Unexpected CompilationUnit.f_body attribute'
+            ),
+        )
+
+    @langkit_property(public=True)
+    def unit_kind():
+        """
+        Return the kind corresponding to this analysis unit.
+        """
+        return Self.body.match(
+            lambda li=T.LibraryItem: li.item.match(
+                lambda _=T.Body: UnitBody,
+                lambda _: UnitSpecification
+            ),
+            lambda _=T.Subunit: UnitBody,
+            lambda _: PropertyError(
+                AnalysisUnitKind, 'Unexpected CompilationUnit.f_body attribute'
+            ),
+        )
+
     env_spec = EnvSpec(
         set_initial_env(Let(
             lambda n=Self.body.cast(T.LibraryItem).then(

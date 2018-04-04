@@ -103,7 +103,7 @@ package body Libadalang.Sources is
 
          --  Now, perform case folding. Optimization: don't do costly wide wide
          --  To_Lower for ASCII: this is the most common case by far and we can
-         --  handle it very quicly here with several range checks.
+         --  handle it very quickly here with several range checks.
 
          declare
             subtype WWC is Wide_Wide_Character;

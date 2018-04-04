@@ -24,3 +24,21 @@
             raise InvalidProjectError(
                 'Cannot open project {}'.format(project_file)
             )
+
+    @classmethod
+    def auto(cls, input_files, charset=None):
+        ${py_doc('libadalang.create_auto_provider', 8)}
+
+        # Create a NULL-terminated array of strings
+        c_strings = [ctypes.c_char_p(f) for f in input_files]
+        c_array_type = ctypes.c_char_p * (len(input_files) + 1)
+        c_array = c_array_type()
+        for i, c_str in enumerate(c_strings):
+            c_array[i] = c_str
+        c_array[-1] = None
+
+        c_array_ptr = ctypes.pointer(c_array)
+        input_files_arg = ctypes.cast(c_array_ptr,
+                                      ctypes.POINTER(ctypes.c_char_p))
+        c_value = _create_auto_provider(input_files_arg, charset)
+        return cls(c_value)

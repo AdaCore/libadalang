@@ -70,3 +70,42 @@
          new Project_Unit_Provider_Type'(Create (Project, Env, True));
       return Wrap (Result);
    end;
+
+   function ${capi.get_name('create_auto_provider')}
+     (Input_Files : System.Address;
+      Charset     : chars_ptr)
+      return ${unit_provider_type}
+   is
+      use GNATCOLL.VFS;
+
+      type C_String_Array is array (Positive) of chars_ptr
+         with Convention => C;
+
+      Files_Count       : Natural := 0;
+      Input_Files_Array : C_String_Array with
+         Import  => True,
+         Address => Input_Files;
+
+      Actual_Charset : constant String :=
+        (if Charset = Null_Ptr then Default_Charset else Value (Charset));
+   begin
+      while Input_Files_Array (Files_Count + 1) /= Null_Ptr loop
+         Files_Count := Files_Count + 1;
+      end loop;
+
+      declare
+         --  Allocate the array of filenames on the heap, as it may be too
+         --  large for the stack.
+
+         Files  : File_Array_Access := new File_Array (1 .. Files_Count);
+         Result : Unit_Provider_Access;
+      begin
+         for I in Files'Range loop
+            Files (I) := Create (+Value (Input_Files_Array (I)));
+         end loop;
+
+         Result := Create_Auto_Provider (Files.all, Actual_Charset);
+         Unchecked_Free (Files);
+         return Wrap (Result);
+      end;
+   end;

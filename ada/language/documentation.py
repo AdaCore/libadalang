@@ -34,4 +34,24 @@ libadalang_docs = {
     'libadalang.invalid_project_error': """
         Raised when an error occurs while loading a project file.
     """,
+    'libadalang.create_auto_provider': """
+        Return a unit provider that knows which compilation units are to be
+        found in the given list of source files.
+
+        This knowledge is built trying to parse all given input files as Ada
+        source files and listing the compilation units found there. Files that
+        cannot be parsed properly or redundant compilation units are discarded.
+
+        Source files are decoded using the given charset. If it is ${null}, the
+        default charset (ISO-8859-1) is used.
+
+        % if lang == 'c':
+            `input_files` must point to a NULL-terminated array of filenames.
+            Once this function returns, this array and the strings it contains
+            can be deallocated.
+
+            When done with it, the result must be free'd with
+            ${capi.get_name('destroy_unit_provider')}.
+        % endif
+    """,
 }

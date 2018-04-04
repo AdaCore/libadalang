@@ -24,3 +24,12 @@
            Convention    => C,
            External_name => "${capi.get_name('create_project_unit_provider')}";
    ${ada_c_doc('libadalang.create_project_unit_provider', 3)}
+
+   function ${capi.get_name('create_auto_provider')}
+     (Input_Files : System.Address;
+      Charset     : chars_ptr)
+      return ${unit_provider_type}
+      with Export        => True,
+           Convention    => C,
+           External_name => "${capi.get_name('create_auto_provider')}";
+   ${ada_c_doc('libadalang.create_auto_provider', 3)}

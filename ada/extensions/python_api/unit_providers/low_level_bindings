@@ -9,3 +9,9 @@ _create_project_unit_provider = _import_func(
     [ctypes.c_char_p, ctypes.POINTER(_project_scenario_variable)],
     _unit_provider
 )
+
+_create_auto_provider = _import_func(
+    '${capi.get_name("create_auto_provider")}',
+    [ctypes.POINTER(ctypes.c_char_p), ctypes.c_char_p],
+    _unit_provider
+)

@@ -5,7 +5,7 @@ libadalang_docs = {
         Couple name/value to define a scenario variable for a project.
     """,
     'libadalang.create_project_unit_provider': """
-        Load the project file at Project_File and return an unit provider that
+        Load the project file at Project_File and return a unit provider that
         uses it.
 
         % if lang == 'python':

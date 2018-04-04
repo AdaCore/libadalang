@@ -37,7 +37,7 @@ package Libadalang.Auto_Provider is
       Charset     : String := Default_Charset)
       return Unit_Provider_Interface'Class;
    --  Return a unit provider that knows which compilation units are to be
-   --  found in which source files.
+   --  found in the given list of source files.
    --
    --  This knowledge is built trying to parse all given Input_Files as Ada
    --  source files and listing the compilation units found there. Files that

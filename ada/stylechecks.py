@@ -14,7 +14,8 @@ EXCLUDES = ('tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('testsuite', 'ext_src'),
             join('testsuite', 'tests', 'contrib'),
-            join('testsuite', 'tests', 'name_resolution', 'symbol_canon'))
+            join('testsuite', 'tests', 'name_resolution', 'symbol_canon'),
+            join('testsuite', 'tests', 'regressions'))
 
 sys.path.append(join(ROOT_DIR, 'langkit'))
 

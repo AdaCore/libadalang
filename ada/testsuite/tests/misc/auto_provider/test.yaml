@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [foo.adb]
+auto_provider_dirs: [src1, src2]

@@ -1,0 +1,33 @@
+Analyzing foo.adb
+#################
+
+Resolving xrefs for node <ObjectDecl ["I"] 4:4-4:47>
+****************************************************
+
+Expr: <Id "Integer" 4:17-4:24>
+  references: <DefiningName 4:8-4:15>
+  type:       None
+Expr: <CallExpr 4:28-4:46>
+  references: <DefiningName 2:13-2:17>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <DottedName 4:28-4:42>
+  references: <DefiningName 2:13-2:17>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <DottedName 4:28-4:37>
+  references: <DefiningName 1:9-1:18>
+  type:       None
+Expr: <Id "Pkg" 4:28-4:31>
+  references: <DefiningName 1:9-1:12>
+  type:       None
+Expr: <Id "Child" 4:32-4:37>
+  references: <DefiningName 1:9-1:18>
+  type:       None
+Expr: <Id "Fact" 4:38-4:42>
+  references: <DefiningName 2:13-2:17>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+Expr: <Int 4:44-4:45>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

@@ -4109,6 +4109,7 @@ class GenericPackageDecl(GenericDecl):
 
 
 @abstract
+@has_abstract_list
 class Expr(AdaNode):
 
     type_var = UserField(LogicVarType, public=False)
@@ -5892,6 +5893,7 @@ class BaseId(SingleTokNode):
         )
 
 
+@has_abstract_list
 class Identifier(BaseId):
     annotations = Annotations(repr_name="Id")
 

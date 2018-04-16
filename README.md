@@ -225,15 +225,27 @@ a debugger only the `factor_0` test case, execute:
 Documentation
 -------------
 
-The developer and user's documentation for Libadalang is in `ada/doc`. You can
-consult it as a text files or you can build it.  For instance, to generate HTML
-documents, run from the top directory:
+Libadalang comes with two separate Sphinx-based documentations: the User Manual
+and the Developer Manual.
 
-    $ make -C ada/doc html
+The first one lies in the ``user_manual`` directory and the second one in the
+``dev_manual`` directory. You can consult them as text files or build them. For
+instance, to generate HTML documents, run from the top directory:
 
-And then open the following file in your favorite browser:
+```sh
+$ make -C user_manual html
+$ make -C dev_manual html
+```
 
-    ada/doc/_build/html/index.html
+And then open the generated files in your favorite browser:
+
+```sh
+$ $BROWSER user_manual/_build/html/index.html
+$ $BROWSER dev_manual/_build/html/index.html
+```
+
+Note that, as it relies on Python code introspection, you need a working
+Libadalang Python API in order to generate the User Manual.
 
 Playing
 -------

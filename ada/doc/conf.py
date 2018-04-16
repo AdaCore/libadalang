@@ -45,8 +45,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'libadalang'
-copyright = u'2014, Raphael Amiard'
+project = u'Libadalang'
+copyright = u'2014-2018, AdaCore'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -204,7 +204,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'libadalang.tex', u'libadalang Documentation',
-   u'Raphael Amiard', 'manual'),
+   u'AdaCore', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -234,7 +234,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'libadalang', u'libadalang Documentation',
-     [u'Raphael Amiard'], 1)
+     [u'AdaCore'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -248,7 +248,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'libadalang', u'libadalang Documentation',
-   u'Raphael Amiard', 'libadalang', 'One line description of project.',
+   u'AdaCore', 'libadalang', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -269,9 +269,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'libadalang'
-epub_author = u'Raphael Amiard'
-epub_publisher = u'Raphael Amiard'
-epub_copyright = u'2014, Raphael Amiard'
+epub_author = u'AdaCore'
+epub_publisher = u'AdaCore'
+epub_copyright = u'2014-2018, AdaCore'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'libadalang'

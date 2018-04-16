@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Libadalang'
+project = u'Libadalang Developer Manual'
 copyright = u'2014-2018, AdaCore'
 
 # The version info for the project you're documenting, acts as replacement for

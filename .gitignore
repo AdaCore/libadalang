@@ -11,6 +11,7 @@ __pycache__
 # Build/test temporaries
 *.o
 build
+_build
 prod_build
 out
 performance_testsuite

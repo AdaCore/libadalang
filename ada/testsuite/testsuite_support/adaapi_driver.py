@@ -21,10 +21,10 @@ class AdaAPIDriver(BaseDriver):
 
         if 'input_sources' not in self.test_env:
             raise SetupError('Missing "input_sources" key in test.yaml')
-        input_sources = self.test_env['input_sources']
+        self.input_sources = self.test_env['input_sources']
 
         self.check_file(main)
-        self.check_file_list('"input_sources"', input_sources)
+        self.check_file_list('"input_sources"', self.input_sources)
 
         with open(self.working_dir('gen.gpr'), 'w') as f:
             f.write('''
@@ -56,7 +56,8 @@ class AdaAPIDriver(BaseDriver):
         # use static ones.
         argv = ['gprbuild', '-Pgen'] + self.gpr_scenario_vars
         self.run_and_check(argv, append_output=False)
-        self.run_and_check([self.test_program], for_debug=True, memcheck=True)
+        self.run_and_check([self.test_program] + self.input_sources,
+                           for_debug=True, memcheck=True)
 
     #
     # Helpers

@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 from langkit.lexer import (
     Lexer, NoCaseLit, Literal, Pattern, Ignore, WithText, Case, Alt,
-    LexerToken, WithSymbol, WithTrivia
+    LexerToken, TokenFamily, WithSymbol, WithTrivia
 )
 
 
@@ -119,6 +119,17 @@ class Token(LexerToken):
     # Trivia
     Comment = WithTrivia()
     PrepLine = WithTrivia()
+
+    Alphanumericals = TokenFamily(
+        Identifier, All, Abort, Else, New, Return, Abs, Elsif, Not, Reverse,
+        Abstract, End, Null, Accept, Entry, Select, Access, Exception, Of,
+        Separate, Aliased, Exit, Or, Some, Others, Subtype, And, For, Out,
+        Array, Function, At, Tagged, Generic, Package, Task, Begin, Goto,
+        Pragma, Terminate, Body, Private, Then, If, Procedure, Type, Case, In,
+        Constant, Is, Raise, Use, Declare, Range, Delay, Until, Limited,
+        Record, When, Delta, Loop, Rem, While, Digits, Renames, Do, Mod,
+        Requeue, Xor, With, Decimal, Integer
+    )
 
 
 ada_lexer = Lexer(Token)
@@ -294,3 +305,6 @@ rules += [
 ]
 
 ada_lexer.add_rules(*rules)
+
+ada_lexer.add_spacing((Token.Alphanumericals, Token.Alphanumericals))
+ada_lexer.add_newline_after(Token.Comment, Token.PrepLine)

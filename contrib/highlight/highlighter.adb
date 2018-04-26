@@ -123,7 +123,7 @@ package body Highlighter is
       while Cur /= LAL.No_Token loop
          Set (Highlights, LAL.Data (Cur), HL);
          exit when Cur = Last;
-         Cur := LAL.Next (Cur);
+         Cur := LAL.Next (Cur, Exclude_Trivia => True);
       end loop;
    end Set_Range;
 
@@ -159,7 +159,8 @@ package body Highlighter is
             declare
                Dotted_Name : constant LAL.Dotted_Name := Name.As_Dotted_Name;
                Dot_Token   : constant LAL.Token_Type :=
-                  LAL.Next (Dotted_Name.F_Prefix.Token_End);
+                  LAL.Next (Dotted_Name.F_Prefix.Token_End,
+                            Exclude_Trivia => True);
             begin
                Highlight_Name (Dotted_Name.F_Prefix, HL, Highlights);
                Set (Highlights, LAL.Data (Dot_Token), HL);
@@ -211,7 +212,7 @@ package body Highlighter is
       --  Set style for both the attribute name and the leading 'tick' token
 
       Set (Highlights,
-           LAL.Data (LAL.Previous (Id.Token_Start)),
+           LAL.Data (LAL.Previous (Id.Token_Start, Exclude_Trivia => True)),
            Attribute_Name);
       Set (Highlights, LAL.Data (Id.Token_Start), Attribute_Name);
    end Highlight_Attribute_Ref;
@@ -380,7 +381,9 @@ package body Highlighter is
 
             when LAL.Ada_Record_Def =>
                Set (Highlights,
-                    LAL.Data (LAL.Previous (Node.Token_End)), Keyword_Type);
+                    LAL.Data (LAL.Previous (Node.Token_End,
+                                            Exclude_Trivia => True)),
+                    Keyword_Type);
 
             when LAL.Ada_Null_Record_Def =>
                Set_Range
@@ -390,7 +393,8 @@ package body Highlighter is
                Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Special);
 
             when LAL.Ada_Quantified_Expr =>
-               Set (Highlights, LAL.Data (LAL.Next (Node.Token_Start)),
+               Set (Highlights, LAL.Data (LAL.Next (Node.Token_Start,
+                                                    Exclude_Trivia => True)),
                     Operator);
 
             when LAL.Ada_Op =>

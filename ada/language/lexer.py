@@ -164,7 +164,7 @@ ada_lexer.add_patterns(
 
 rules = [
     # Blanks and trivia
-    (Pattern(r"[ \t\r\n\r\f]+"),                Token.Whitespace),
+    (Pattern(r"[ \t\r\n\f]+"),                Token.Whitespace),
     (Pattern(r"--(.?)+"),                       Token.Comment),
     (Pattern(r"#(.?)+"),                        Token.PrepLine),
 ]

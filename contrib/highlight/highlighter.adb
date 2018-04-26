@@ -1,10 +1,8 @@
-with Langkit_Support.Slocs;
-use type Langkit_Support.Slocs.Line_Number;
-use type Langkit_Support.Slocs.Column_Number;
+with Langkit_Support.Text;
 
 package body Highlighter is
 
-   package Slocs renames Langkit_Support.Slocs;
+   package Chars renames Langkit_Support.Text.Chars;
 
    use type LAL.Token_Type;
    use type LAL.Ada_Node_Kind_Type;
@@ -52,6 +50,7 @@ package body Highlighter is
          Ada_Decimal                      => Integer_Literal,
          Ada_Integer                      => Integer_Literal,
          Ada_Comment                      => Comment,
+         Ada_Whitespace                   => Text,
          Ada_Prep_Line                    => Preprocessor_Directive);
    --  For each token kind, associate a default highlighting type
 
@@ -442,27 +441,40 @@ package body Highlighter is
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlights_Holder)
    is
-      Token     : LAL.Token_Type := LAL.First_Token (Unit);
-      Last_Sloc : Slocs.Source_Location := (1, 1);
+      Token : LAL.Token_Type := LAL.First_Token (Unit);
    begin
       while Token /= LAL.No_Token loop
          declare
-            TD         : constant LAL.Token_Data_Type := LAL.Data (Token);
-            HL         : constant Highlight_Type := Get (Highlights, TD);
-            Sloc_Range : constant Slocs.Source_Location_Range :=
-              LAL.Sloc_Range (TD);
+            TD : constant LAL.Token_Data_Type := LAL.Data (Token);
+            HL : constant Highlight_Type := Get (Highlights, TD);
          begin
-            while Last_Sloc.Line < Sloc_Range.Start_Line loop
-               New_Line;
-               Last_Sloc.Line := Last_Sloc.Line + 1;
-               Last_Sloc.Column := 1;
-            end loop;
-            if Sloc_Range.Start_Column > Last_Sloc.Column then
-               Indent (Integer (Sloc_Range.Start_Column - Last_Sloc.Column));
-            end if;
+            if LAL.Kind (TD) = Ada_Whitespace then
+               --  If this is a whitespace token, transmit its code layout
+               --  change to the HTML document as appropriate.
 
-            Put_Token (Token, TD, HL);
-            Last_Sloc := Slocs.End_Sloc (Sloc_Range);
+               for C of Langkit_Support.Text.Text_Type'(LAL.Text (Token)) loop
+                  case C is
+                     when ' ' | Chars.HT | Chars.FF | Chars.CR =>
+                        declare
+                           ASCII_C : constant Character := Character'Val
+                             (Langkit_Support.Text.Character_Type'Pos (C));
+                        begin
+                           Add_Whitespace (ASCII_C);
+                        end;
+
+                     when Chars.LF =>
+                        New_Line;
+
+                     when others =>
+                        --  Whitespace tokens are not supposed to contain any
+                        --  other character.
+                        raise Program_Error;
+                  end case;
+               end loop;
+
+            else
+               Put_Token (Token, TD, HL);
+            end if;
          end;
          Token := LAL.Next (Token);
       end loop;

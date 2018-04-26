@@ -1,8 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
 from langkit.lexer import (
-    Lexer, NoCaseLit, Literal, Pattern, Ignore, WithText, Case, Alt,
-    LexerToken, TokenFamily, WithSymbol, WithTrivia
+    Alt, Case, Lexer, LexerToken, Literal, NoCaseLit, Pattern, TokenFamily,
+    WithSymbol, WithText, WithTrivia
 )
 
 
@@ -119,6 +119,7 @@ class Token(LexerToken):
     # Trivia
     Comment = WithTrivia()
     PrepLine = WithTrivia()
+    Whitespace = WithTrivia()
 
     Alphanumericals = TokenFamily(
         Identifier, All, Abort, Else, New, Return, Abs, Elsif, Not, Reverse,
@@ -163,7 +164,7 @@ ada_lexer.add_patterns(
 
 rules = [
     # Blanks and trivia
-    (Pattern(r"[ \t\r\n\r\f]+"),                Ignore()),
+    (Pattern(r"[ \t\r\n\r\f]+"),                Token.Whitespace),
     (Pattern(r"--(.?)+"),                       Token.Comment),
     (Pattern(r"#(.?)+"),                        Token.PrepLine),
 ]

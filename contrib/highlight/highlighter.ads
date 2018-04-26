@@ -73,7 +73,7 @@ package Highlighter is
          Data  : LAL.Token_Data_Type;
          HL    : Highlight_Type) is <>;
       with procedure New_Line is <>;
-      with procedure Indent (Length : Natural) is <>;
+      with procedure Add_Whitespace (C : Character) is <>;
    procedure Put_Tokens
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlights_Holder)

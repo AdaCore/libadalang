@@ -96,7 +96,7 @@ package body HTML is
          Data  : LAL.Token_Data_Type;
          HL   : Highlighter.Highlight_Type);
       procedure New_Line;
-      procedure Indent (Length : Natural);
+      procedure Add_Whitespace (C : Character);
       --  Generic parameters for Put_Tokens below
 
       Xrefs : array (1 .. LAL.Token_Count (Unit)) of LAL.Basic_Decl;
@@ -199,11 +199,11 @@ package body HTML is
       -- Indent --
       ------------
 
-      procedure Indent (Length : Natural) is
+      procedure Add_Whitespace (C : Character) is
       begin
          Empty_Line := False;
-         Put ((1 .. Length => ' '));
-      end Indent;
+         Put ((1 => C));
+      end Add_Whitespace;
 
       --------------
       -- Traverse --

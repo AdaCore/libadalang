@@ -1,3 +1,4 @@
 Comment "--  This is a comment"
+Whitespace "\x0a"
 Termination
 Done.

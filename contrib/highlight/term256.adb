@@ -47,7 +47,7 @@ package body Term256 is
          Data  : LAL.Token_Data_Type;
          HL   : Highlighter.Highlight_Type);
       procedure New_Line;
-      procedure Indent (Length : Natural);
+      procedure Add_Whitespace (C : Character);
       --  Generic parameters for Put_Tokens below
 
       procedure Put_Token
@@ -67,10 +67,10 @@ package body Term256 is
          Put ((1 => ASCII.LF));
       end New_Line;
 
-      procedure Indent (Length : Natural) is
+      procedure Add_Whitespace (C : Character) is
       begin
-         Put ((1 .. Length => ' '));
-      end Indent;
+         Put ((1 => C));
+      end Add_Whitespace;
 
       procedure Put_Tokens is new Highlighter.Put_Tokens;
    begin

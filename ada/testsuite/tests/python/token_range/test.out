@@ -8,7 +8,7 @@ AST root start and end tokens:
   <Token Semicolon u';' at 5:8-5:9>
 
 With_Trivia => True
-Unit has 10 tokens and 1 trivias
+Unit has 10 tokens and 9 trivias
 Unit start and end tokens:
   <Token Comment u'--  Example' at 1:1-1:12>
   <Token Termination at 6:1-6:1>

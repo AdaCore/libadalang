@@ -594,7 +594,7 @@ class AdaNode(ASTNode):
                 pkg_body.decl_part_entity.then(
                     lambda d: d.el.parent.cast(T.GenericPackageDecl)
                 ),
-            lambda bod=T.SubpBody:
+            lambda bod=T.BaseSubpBody:
                 # We're only searching for generics. We look at index 1 and
                 # 2, because if self is a subunit, the first entity we find
                 # will be the separate declaration. NOTE: We don't use
@@ -823,10 +823,26 @@ class BasicDecl(AdaNode):
         # If the entity is actually an anonymous access to the decl rather than
         # the decl itself, return an anonymous access type pointing to the type
         # of the decl.
-        return If(
+        ret_2 = Var(If(
             Entity.info.md.access_entity,
             ret.anonymous_access_type,
             ret
+        ))
+
+        return If(
+            # If this basic decl has been found through a primitive env
+            # (md.primitive is set) and this primitive env is the one of the
+            # return type (md.primitive == return type), then we want to return
+            # the derived type through which we found this primitive
+            # (md.primitive_real_type).
+
+            Not(ret_2.is_null) & (Entity.info.md.primitive == ret_2.el),
+            entity_no_md(
+                BaseTypeDecl,
+                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
+                Entity.info.rebindings
+            ),
+            ret_2
         )
 
     type_expression = Property(
@@ -839,21 +855,23 @@ class BasicDecl(AdaNode):
     )
 
     @langkit_property(return_type=T.BaseFormalParamHolder.entity)
-    def subp_spec_or_null():
+    def subp_spec_or_null(follow_generic=(BoolType, False)):
         """
         If node is a Subp, returns the specification of this subprogram.
         """
         return Entity.match(
-            lambda subp=BasicSubpDecl: subp.subp_decl_spec,
-            lambda subp=SubpBody:      subp.subp_spec,
-            lambda subp=SubpBodyStub:  subp.subp_spec,
-            lambda entry=EntryDecl:    entry.spec,
-            lambda _:                  No(SubpSpec.entity),
+            lambda subp=BasicSubpDecl:  subp.subp_decl_spec,
+            lambda subp=BaseSubpBody:       subp.subp_spec,
+            lambda subp=SubpBodyStub:   subp.subp_spec,
+            lambda entry=EntryDecl:     entry.spec,
+            lambda gsp=GenericSubpDecl:
+            If(follow_generic, gsp.subp_decl.subp_spec, No(SubpSpec.entity)),
+            lambda _:                   No(SubpSpec.entity),
         )
 
     @langkit_property(return_type=BoolType)
     def is_subprogram():
-        return Self.is_a(BasicSubpDecl, SubpBody, SubpBodyStub, EntryDecl)
+        return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 
     @langkit_property(return_type=BoolType)
     def can_be_paramless():
@@ -1723,8 +1741,7 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Entity.name.singleton)
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      memoized=True, public=True)
+    @langkit_property(return_type=T.BaseTypeDecl.entity, memoized=True)
     def anonymous_access_type():
         return T.AnonymousTypeDecl.new(
             name=Self.name,
@@ -3269,13 +3286,16 @@ class ParamSpec(BaseFormalParamDecl):
         spec in the subprogram decl.
         """
         return If(
-            Entity.semantic_parent.is_a(T.SubpBody),
+            Entity.semantic_parent.is_a(T.BaseSubpBody),
 
-            Entity.semantic_parent.cast_or_raise(T.SubpBody).decl_part_entity
-            .cast_or_raise(T.BasicSubpDecl).subp_decl_spec
-            .unpacked_formal_params.find(
-                lambda sf: sf.name.name_symbol == param.name_symbol
-            ).name.as_entity,
+            Entity.semantic_parent.cast_or_raise(T.BaseSubpBody)
+            .decl_part_entity.then(
+                lambda decl:
+                decl.subp_spec_or_null(follow_generic=True)
+                .unpacked_formal_params.find(
+                    lambda sf: sf.name.name_symbol == param.name_symbol
+                ).name.as_entity,
+            ),
 
             param
         )
@@ -3320,25 +3340,7 @@ class BasicSubpDecl(BasicDecl):
     @langkit_property()
     def expr_type():
 
-        ret = Var(
-            Entity.type_expression.then(lambda te: te.designated_type)
-        )
-
-        return If(
-            # If this subprogram has been found through a primitive env
-            # (md.primitive is set) and this primitive env is the one of the
-            # return type (md.primitive == return type), then we want to return
-            # the derived type through which we found this primitive
-            # (md.primitive_real_type).
-
-            Not(ret.is_null) & (Entity.info.md.primitive == ret.el),
-            entity_no_md(
-                BaseTypeDecl,
-                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings
-            ),
-            ret
-        )
+        return Entity.type_expression.then(lambda te: te.designated_type)
 
     subp_decl_spec = AbstractProperty(
         type=T.SubpSpec.entity, public=True,
@@ -3348,9 +3350,9 @@ class BasicSubpDecl(BasicDecl):
     @langkit_property(public=True)
     def body_part():
         """
-        Return the SubpBody corresponding to this node.
+        Return the BaseSubpBody corresponding to this node.
         """
-        return Entity.body_part_entity.cast(SubpBody)
+        return Entity.body_part_entity.cast(BaseSubpBody)
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
@@ -3429,18 +3431,6 @@ class NullSubpDecl(ClassicSubpDecl):
 
 class AbstractSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
-
-
-class ExprFunction(ClassicSubpDecl):
-    expr = Field(type=T.Expr)
-    aspects = Field(type=T.AspectSpec)
-
-    xref_equation = Property(
-        Entity.expr.sub_equation
-        & TypeBind(Entity.expr.type_var, Entity.subp_decl_spec.return_type)
-    )
-
-    xref_entry_point = Property(True)
 
 
 class SubpRenamingDecl(ClassicSubpDecl):
@@ -3569,7 +3559,7 @@ class AspectAssoc(AdaNode):
             ),
 
             # Contracts
-            target.is_a(BasicSubpDecl, SubpBody)
+            target.is_a(BasicSubpDecl, BaseSubpBody)
             & Entity.id.name_symbol.any_of(
                 'Pre', 'Post', 'Model_Pre', 'Model_Post'
             ),
@@ -4128,9 +4118,9 @@ class GenericSubpDecl(GenericDecl):
     @langkit_property(public=True)
     def body_part():
         """
-        Return the SubpBody corresponding to this node.
+        Return the BaseSubpBody corresponding to this node.
         """
-        return Entity.body_part_entity.cast(SubpBody)
+        return Entity.body_part_entity.cast(BaseSubpBody)
 
     env_spec = EnvSpec(
         # Process eventual parent unit
@@ -5899,7 +5889,7 @@ class BaseId(SingleTokNode):
                 # a parameterless subprogram.
                 & Or(
                     e.cast_or_raise(BasicDecl).can_be_paramless,
-                    e.cast(T.SubpBody)._.in_scope
+                    e.cast(T.BaseSubpBody)._.in_scope
                 )
             )),
 
@@ -6625,7 +6615,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def result_attr_equation():
         containing_subp = Var(Self.parents.find(
-            lambda p: p.is_a(BasicSubpDecl, SubpBody)
+            lambda p: p.is_a(BasicSubpDecl, BaseSubpBody)
         ).as_entity.cast(T.BasicDecl))
 
         returns = Var(containing_subp.subp_spec_or_null.then(
@@ -7034,7 +7024,8 @@ class CompilationUnit(AdaNode):
     )
 
 
-class SubpBody(Body):
+@abstract
+class BaseSubpBody(Body):
     env_spec = EnvSpec(
         call_env_hook(Self),
 
@@ -7069,15 +7060,44 @@ class SubpBody(Body):
             dest_env=Entity.decl_part_entity.then(
                 lambda d: d.el.children_env
             ),
+        ),
+
+        # Adding subp to the type's environment if the type is tagged and self
+        # is a primitive of it.
+        add_to_env(
+            T.env_assoc.new(key=Entity.name_symbol, val=Self),
+            dest_env=Self.as_bare_entity.subp_spec
+            .dottable_subp_of._.children_env,
+            # We pass custom metadata, marking the entity as a dottable
+            # subprogram.
+            metadata=Metadata.new(dottable_subp=True,
+                                  primitive=No(T.AdaNode),
+                                  primitive_real_type=No(T.AdaNode),
+                                  access_entity=False)
+        ),
+
+        # Adding subp to the primitives env if the subp is a primitive. TODO:
+        # Ada allows a subprogram to be a primitive of several types. This is
+        # not handled for the moment, due to the limitations of the current env
+        # spec format. We could modify dest_env to take an array optionally,
+        # but that's one more kludge to the pile.
+
+        add_to_env(
+            T.env_assoc.new(key=Entity.name_symbol, val=Self),
+            dest_env=(Self.as_bare_entity.subp_spec
+                      .primitive_subp_of.cast(T.TypeDecl)._.primitives),
+            metadata=Metadata.new(
+                dottable_subp=False,
+                primitive=(Self.as_bare_entity.subp_spec
+                           .primitive_subp_of.cast(T.AdaNode).el),
+                primitive_real_type=No(T.AdaNode),
+                access_entity=False
+            )
         )
     )
 
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
-    aspects = Field(type=T.AspectSpec)
-    decls = Field(type=T.DeclarativePart)
-    stmts = Field(type=T.HandledStmts)
-    end_name = Field(type=T.EndName)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
 
@@ -7112,6 +7132,26 @@ class SubpBody(Body):
         )
 
     type_expression = Property(Entity.subp_spec.returns)
+
+
+class ExprFunction(BaseSubpBody):
+    expr = Field(type=T.Expr)
+    aspects = Field(type=T.AspectSpec)
+
+    xref_equation = Property(
+        Entity.expr.sub_equation
+        & TypeBind(Entity.expr.type_var, Entity.subp_spec.return_type)
+    )
+
+    xref_entry_point = Property(True)
+
+
+class SubpBody(BaseSubpBody):
+
+    aspects = Field(type=T.AspectSpec)
+    decls = Field(type=T.DeclarativePart)
+    stmts = Field(type=T.HandledStmts)
+    end_name = Field(type=T.EndName)
 
 
 class HandledStmts(AdaNode):

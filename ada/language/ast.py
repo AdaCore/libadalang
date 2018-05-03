@@ -3816,8 +3816,7 @@ class GenericInstantiation(BasicDecl):
             ._.formal_part.match_param_list(
                 Entity.generic_inst_params.el, False
             ).logic_all(lambda pm: Let(
-                lambda actual_name=
-                pm.actual.assoc.expr.as_entity.cast(T.Name):
+                lambda actual_name=pm.actual.assoc.expr.as_entity.cast(T.Name):
                 pm.formal.spec.cast(T.GenericFormal).decl.match(
                     lambda _=T.TypeDecl: actual_name.xref_no_overloading,
 

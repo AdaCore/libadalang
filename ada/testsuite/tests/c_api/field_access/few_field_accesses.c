@@ -36,7 +36,7 @@ main(void)
     if (ada_node_kind (&tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
     overriding.el = NULL;
-    if (ada_subp_body_f_overriding(&tmp, &overriding))
+    if (ada_base_subp_body_f_overriding(&tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (!ada_node_is_null(&overriding))
       error("Getting CompilationUnit.overriding failed but nevertheless output"
@@ -79,7 +79,7 @@ main(void)
 
     if (ada_node_kind(&subp_body) != ada_subp_body)
         error("Got something else than a SubpBody");
-    if (!ada_subp_body_f_overriding(&subp_body, &overriding))
+    if (!ada_base_subp_body_f_overriding(&subp_body, &overriding))
         error("Could not get SubpBody.overriding");
 
     const ada_text kind = ada_kind_name(ada_node_kind(&overriding));
@@ -88,7 +88,7 @@ main(void)
     printf("\n");
 
 
-    if (!ada_subp_body_f_subp_spec(&subp_body, &tmp))
+    if (!ada_base_subp_body_f_subp_spec(&subp_body, &tmp))
       error("Could not get SubpBody.subp_spec");
     if (ada_node_kind(&tmp) != ada_subp_spec)
       error("SubpBody.subp_spec is not a SubpSpec");

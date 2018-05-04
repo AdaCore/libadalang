@@ -3811,13 +3811,24 @@ class GenericInstantiation(BasicDecl):
         ) & If(
             Entity.is_any_formal,
             LogicTrue(),
-            Self.nonbound_generic_decl._.formal_part.match_param_list(
+
+            Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
+            ._.formal_part.match_param_list(
                 Entity.generic_inst_params.el, False
-            ).logic_all(
-                lambda pm: pm.formal.spec.cast(T.GenericFormal).decl.match(
-                    lambda _=T.TypeDecl:
-                    pm.actual.assoc.expr.cast_or_raise(T.Name)
-                    .as_entity.xref_no_overloading,
+            ).logic_all(lambda pm: Let(
+                lambda actual_name=
+                pm.actual.assoc.expr.as_entity.cast(T.Name):
+                pm.formal.spec.cast(T.GenericFormal).decl.match(
+                    lambda _=T.TypeDecl: actual_name.xref_no_overloading,
+
+                    lambda subp_decl=T.FormalSubpDecl.entity:
+                    Or(
+                        actual_name.xref_no_overloading
+                        & Predicate(BasicDecl.subp_decl_match_signature,
+                                    actual_name.ref_var,
+                                    subp_decl.cast(T.BasicDecl)),
+                        LogicTrue()
+                    ),
 
                     lambda _: LogicTrue(),
                 ) & pm.actual.name.then(
@@ -3825,7 +3836,7 @@ class GenericInstantiation(BasicDecl):
                     Bind(n.ref_var, pm.formal.name.as_bare_entity.basic_decl),
                     default_val=LogicTrue()
                 )
-            )
+            ))
         )
     )
 

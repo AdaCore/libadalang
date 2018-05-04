@@ -6548,11 +6548,10 @@ class AttributeRef(Name):
             rel_name.any_of('Succ', 'Pred'), Entity.succpred_xref_equation,
             rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
 
-            rel_name.any_of('First', 'Last', 'Range'),
-            Entity.first_last_range_equation,
+            rel_name.any_of('First', 'Last', 'Range', 'Length'),
+            Entity.array_attr_equation,
 
             rel_name == 'Size', Entity.size_equation,
-            rel_name == 'Length', Entity.length_equation,
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
 
@@ -6798,16 +6797,6 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def length_equation():
-        typ = Var(Entity.prefix.name_designated_type)
-        return (
-            # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
-            # Type of 'Length is Integer
-            & universal_int_bind(Self.type_var)
-        )
-
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def pos_equation():
         typ = Var(Entity.prefix.name_designated_type)
         return (
@@ -6865,7 +6854,8 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def first_last_range_equation():
+    def array_attr_equation():
+        is_length = Var(Entity.attribute.name_symbol == 'Length')
         typ = Var(Entity.prefix.name_designated_type)
 
         # If the range attribute has an argument, then it's a static expression
@@ -6881,11 +6871,14 @@ class AttributeRef(Name):
 
             # Prefix is a type
             Bind(Self.prefix.ref_var, typ) & Cond(
+                typ.is_array & is_length, universal_int_bind(Self.type_var),
+
                 # If it's an array, take the appropriate index type
                 typ.is_array, TypeBind(Self.type_var, typ.index_type(dim)),
 
                 # If it's a discrete type, then bind to the discrete type
-                typ.is_discrete_type | typ.is_real_type,
+                typ.is_discrete_type | typ.is_real_type & Not(is_length),
+
                 TypeBind(Self.type_var, typ),
 
                 LogicFalse()
@@ -6898,7 +6891,9 @@ class AttributeRef(Name):
                 pfx_typ=Entity.prefix.type_val.cast(T.BaseTypeDecl):
 
                 If(res & Not(pfx_typ.array_def_with_deref.is_null),
-                   TypeBind(Self.type_var, pfx_typ.index_type(dim)),
+                   If(is_length,
+                      universal_int_bind(Self.type_var),
+                      TypeBind(Self.type_var, pfx_typ.index_type(dim))),
                    LogicFalse()))
         )
 

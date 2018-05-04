@@ -5676,14 +5676,11 @@ class EndName(Name):
         doc="Returns this EndName's basic declaration"
     )
 
-    xref_equation = Property(
-        Entity.name.xref_no_overloading(
-            all_els=Not(Entity.basic_decl.subp_spec_or_null.is_null)
-        )
-        & If(Entity.basic_decl.is_a(T.SubpBody),
-             Bind(Self.ref_var, Entity.basic_decl),
-             LogicTrue())
-    )
+    xref_equation = Property(If(
+        Entity.basic_decl.is_a(T.SubpBody),
+        Bind(Self.ref_var, Entity.basic_decl),
+        Entity.name.xref_no_overloading,
+    ))
 
     xref_entry_point = Property(True)
 

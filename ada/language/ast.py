@@ -5289,7 +5289,9 @@ class CallExpr(Name):
                 atd.indices.constrain_index_expr(bo.left, 0)
                 & atd.indices.constrain_index_expr(bo.right, 0)
                 & TypeBind(bo.type_var, bo.right.type_var)
-                & TypeBind(Self.type_var, real_typ),
+                & TypeBind(Self.type_var, real_typ)
+                & bo.as_entity.left.sub_equation
+                & bo.as_entity.right.sub_equation,
 
                 # Range attribute
                 lambda ar=T.AttributeRef:

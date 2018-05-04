@@ -1188,6 +1188,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
     )
 
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))
+    defining_env = Property(Entity.type_expr.defining_env)
 
     type_expression = Property(Entity.type_expr)
 

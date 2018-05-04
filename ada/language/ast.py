@@ -4709,7 +4709,7 @@ class Name(Expr):
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
             bd.then(lambda bd: bd.is_a(T.ParamSpec))
-            & bd.semantic_parent.is_a(T.AbstractSubpDecl),
+            & bd.semantic_parent.is_a(T.AbstractSubpDecl, T.FormalSubpDecl),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),

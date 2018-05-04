@@ -3936,7 +3936,9 @@ class GenericPackageInstantiation(GenericInstantiation):
             )
         )
 
-    designated_generic_decl = Property(Entity.designated_package)
+    designated_generic_decl = Property(
+        Entity.designated_package.parent.cast(T.BasicDecl)
+    )
 
     @langkit_property(return_type=LexicalEnvType)
     def defining_env():

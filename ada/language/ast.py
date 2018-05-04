@@ -5136,7 +5136,6 @@ class CallExpr(Name):
             Self.params.at(0).expr.as_entity.sub_equation,
             Entity.name.sub_equation,
             TypeBind(Self.type_var, Self.name.type_var),
-            Bind(Self.ref_var, Self.name.ref_var),
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -5782,12 +5781,14 @@ class BaseId(SingleTokNode):
 
         # This is the view of the type where it is referenced
         des_type_1 = Var(env.get_first(
-            Self, from_node=Self
+            Self, from_node=Self,
+            recursive=Self.is_prefix
         ).then(lambda env_el: get_real_type(env_el)))
 
         # This is the view of the type where it is used
         des_type_2 = Var(env.get_first(
-            Self, from_node=origin
+            Self, from_node=origin,
+            recursive=Self.is_prefix
         ).then(lambda env_el: get_real_type(env_el)))
 
         des_type = Var(Cond(
@@ -5981,6 +5982,10 @@ class BaseId(SingleTokNode):
 @has_abstract_list
 class Identifier(BaseId):
     annotations = Annotations(repr_name="Id")
+    is_not_class_id = Property(
+        Not(Self.symbol == 'Class'), public=True,
+        doc="Private property used for parsing, do not use."
+    )
 
 
 class StringLiteral(BaseId):
@@ -6609,6 +6614,8 @@ class AttributeRef(Name):
 
             rel_name == 'Result', Entity.result_attr_equation,
             rel_name == 'Old',    Entity.old_attr_equation,
+
+            rel_name == 'Class',    Entity.prefix.sub_equation,
 
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,

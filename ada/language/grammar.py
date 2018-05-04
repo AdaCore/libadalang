@@ -1105,7 +1105,12 @@ A.add_rules(
         ),
 
         # General Attributes
-        AttributeRef(A.name, "'", A.identifier, Opt("(", A.call_suffix, ")")),
+        AttributeRef(A.name, "'",
+                     Predicate(A.identifier, T.Identifier.is_not_class_id),
+                     Opt("(", A.call_suffix, ")")),
+
+        AttributeRef(A.name, "'", Identifier(L.Identifier(match_text='Class')),
+                     Null(A.call_suffix)),
 
         QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 

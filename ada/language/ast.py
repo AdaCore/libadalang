@@ -6198,8 +6198,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return types.find(lambda typ: typ.then(
             lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(
                 bd.declarative_scope,
-                bd.declarative_scope
-                ._.parent.cast(BasePackageDecl)._.public_part
+                bd.declarative_scope._.parent.cast(BasePackageDecl)
+                ._.public_part
             ))
         ))
 

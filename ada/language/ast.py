@@ -286,7 +286,7 @@ class AdaNode(ASTNode):
             lambda _: No(T.AdaNode),
         )
 
-    @langkit_property(return_type=T.AspectSpec.entity)
+    @langkit_property(return_type=T.AspectSpec.entity, public=True)
     def node_aspects():
         """
         Return the list of aspects that are attached to this node.

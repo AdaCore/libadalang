@@ -6536,6 +6536,11 @@ class AttributeRef(Name):
             Entity.is_access_attr,
             Entity.prefix.designated_env,
 
+            Entity.attribute.name_symbol == 'Result',
+            Self.parents.find(lambda p: p.is_a(BasicSubpDecl, SubpBody))
+            .as_entity.cast(T.BasicDecl).subp_spec_or_null
+            .return_type.defining_env,
+
             EmptyEnv
         )
 

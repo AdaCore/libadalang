@@ -1897,6 +1897,8 @@ class BaseTypeDecl(BasicDecl):
             Entity.is_array & Entity.comp_type._.is_char_type
         )
 
+    is_not_null_char_type = Property(Not(Self.is_null) & Entity.is_char_type)
+
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
         return No(T.BaseTypeDecl.entity)
@@ -6036,7 +6038,7 @@ class CharLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_char_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_not_null_char_type, Self.type_var)
 
 
 @abstract

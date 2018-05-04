@@ -6129,8 +6129,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
             And(other_ret.is_null, self_ret.is_null),
             And(
                 Not(other_ret.is_null), Not(self_ret.is_null),
-                origin.bind(other.el, other_ret._.canonical_type)
-                == origin.bind(Self, self_ret._.canonical_type)
+                origin.bind(
+                    Self,
+                    origin.bind(other.el, other_ret.canonical_type)
+                    .matching_type(self_ret.canonical_type)
+                )
             )
         )
 

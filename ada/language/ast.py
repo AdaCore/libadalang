@@ -4707,9 +4707,16 @@ class Name(Expr):
 
         return Cond(
             bd.then(lambda bd: bd.is_a(T.DiscriminantSpec, T.ParamSpec))
-            & bd.semantic_parent.is_a(T.SubpDecl),
-
+            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.ParamSpec))
+            & bd.semantic_parent.is_a(T.AbstractSubpDecl),
+            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
+            bd.cast(T.AbstractSubpDecl).subp_decl_spec
+            .primitive_subp_of.defining_name,
 
             Let(lambda ret=Entity.xref: Let(lambda dbd=ret.basic_decl: Cond(
                 dbd.is_a(T.ParamSpec),

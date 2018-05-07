@@ -3296,6 +3296,7 @@ class ParamSpec(BaseFormalParamDecl):
                 .unpacked_formal_params.find(
                     lambda sf: sf.name.name_symbol == param.name_symbol
                 ).name.as_entity,
+                default_val=param
             ),
 
             param

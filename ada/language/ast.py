@@ -7357,10 +7357,18 @@ class RaiseStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return If(
-            Self.exception_name.is_null,
-            LogicTrue(),
-            Entity.exception_name._.sub_equation
+        return And(
+            Entity.exception_name.then(
+                lambda en: en.sub_equation,
+                default_val=LogicTrue()
+            ),
+            Entity.error_message.then(
+                lambda er: And(
+                    Predicate(BaseTypeDecl.is_str_type_or_null, er.type_var),
+                    er.sub_equation
+                ),
+                default_val=LogicTrue()
+            )
         )
 
 

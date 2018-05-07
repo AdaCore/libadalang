@@ -6631,6 +6631,10 @@ class AttributeRef(Name):
 
             rel_name == 'Class',    Entity.prefix.sub_equation,
 
+            rel_name == 'Valid',
+            Entity.prefix.sub_equation
+            & TypeBind(Self.type_var, Self.bool_type),
+
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 

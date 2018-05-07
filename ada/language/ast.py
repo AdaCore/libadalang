@@ -6863,6 +6863,7 @@ class AttributeRef(Name):
             Bind(Self.prefix.ref_var, typ)
             & TypeBind(Self.type_var, typ)
             & universal_int_bind(expr.type_var)
+            & expr.as_entity.sub_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

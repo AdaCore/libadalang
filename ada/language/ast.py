@@ -3839,6 +3839,11 @@ class GenericInstantiation(BasicDecl):
                         LogicTrue()
                     ),
 
+                    lambda obj_decl=T.ObjectDecl:
+                    pm.actual.assoc.expr.as_entity.sub_equation
+                    & TypeBind(pm.actual.assoc.expr.type_var,
+                               obj_decl.expr_type),
+
                     lambda _: LogicTrue(),
                 ) & pm.actual.name.then(
                     lambda n:

@@ -6844,10 +6844,14 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def pos_equation():
         typ = Var(Entity.prefix.name_designated_type)
+        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             & universal_int_bind(Self.type_var)
+            & Bind(expr.type_var, typ)
+            & expr.as_entity.sub_equation
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])

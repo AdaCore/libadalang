@@ -6757,12 +6757,14 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def minmax_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        left = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
-        right = Var(Self.args.cast_or_raise(T.AssocList).at(1).expr)
+        left = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
+        right = Var(Entity.args.cast_or_raise(T.AssocList).at(1).expr)
 
         return (
+            left.as_entity.sub_equation
+            & right.as_entity.sub_equation
             # Prefix is a type, bind prefix's ref var to it
-            TypeBind(Self.prefix.ref_var, typ)
+            & TypeBind(Self.prefix.ref_var, typ)
             & TypeBind(left.type_var, right.type_var)
             & TypeBind(Self.type_var, left.type_var)
             & TypeBind(Self.type_var, typ)

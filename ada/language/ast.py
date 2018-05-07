@@ -3498,6 +3498,17 @@ class AttributeDefClause(AspectClause):
     attribute_expr = Field(type=T.Name)
     expr = Field(type=T.Expr)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return (
+            Entity.expr.sub_equation
+            & Entity.attribute_expr.cast(T.AttributeRef).then(
+                lambda ar: ar.prefix.sub_equation, default_val=LogicTrue()
+            )
+        )
+
 
 class ComponentClause(AdaNode):
     id = Field(type=T.Identifier)

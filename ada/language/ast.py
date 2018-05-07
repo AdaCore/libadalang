@@ -6619,8 +6619,10 @@ class AttributeRef(Name):
             rel_name == 'Img',
             Entity.img_equation(Self.std_entity('String')),
 
-            rel_name == 'Write',
-            Entity.write_attr_equation,
+            rel_name.any_of('Write', 'Read', 'Output'),
+            Entity.stream_attrs_equation(False),
+
+            rel_name == 'Input', Entity.stream_attrs_equation(True),
 
             rel_name == 'Tag', Entity.tag_attr_equation,
 
@@ -6688,7 +6690,7 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def write_attr_equation():
+    def stream_attrs_equation(return_obj=(BoolType, False)):
         typ = Var(Entity.prefix.name_designated_type)
 
         root_stream_type = Var(
@@ -6699,15 +6701,21 @@ class AttributeRef(Name):
         )
 
         stream_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
-        obj_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(1).expr)
+        obj_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(1)._.expr)
 
-        return (Entity.prefix.sub_equation
+        return (
+            Entity.prefix.sub_equation
+            & stream_arg.as_entity.sub_equation
+            & Predicate(BaseTypeDecl.is_access_to,
+                        stream_arg.type_var,
+                        root_stream_type)
+            & If(
+                return_obj,
+                TypeBind(Self.type_var, typ),
+                TypeBind(obj_arg.type_var, typ)
                 & obj_arg.as_entity.sub_equation
-                & stream_arg.as_entity.sub_equation
-                & Predicate(BaseTypeDecl.is_access_to,
-                            stream_arg.type_var,
-                            root_stream_type)
-                & TypeBind(obj_arg.type_var, typ))
+            )
+        )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def address_equation():

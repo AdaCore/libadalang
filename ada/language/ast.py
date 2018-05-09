@@ -4771,6 +4771,12 @@ class Name(Expr):
                 dbd.is_a(T.ParamSpec),
                 dbd.cast(T.ParamSpec).decl_param(ret),
 
+                dbd.is_a(T.GenericSubpInternal, T.GenericPackageInternal),
+                dbd.generic_instantiations.at(0).then(
+                    lambda gi: gi.cast_or_raise(T.BasicDecl).defining_name,
+                    default_val=ret
+                ),
+
                 ret
             )))
         )

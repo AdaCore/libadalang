@@ -1,0 +1,37 @@
+Analyzing streamable_types.ads
+##############################
+
+Resolving xrefs for node <AttributeDefClause 14:3-14:26>
+********************************************************
+
+Expr: <AttributeRef 14:7-14:15>
+  references: <DefiningName 6:8-6:11>
+  type:       None
+Expr: <Id "Int" 14:7-14:10>
+  references: <DefiningName 6:8-6:11>
+  type:       <TypeDecl ["Int"] 6:3-6:28>
+Expr: <Id "Read" 14:11-14:15>
+  references: None
+  type:       None
+Expr: <Id "Parse" 14:20-14:25>
+  references: <DefiningName 11:13-11:18>
+  type:       None
+
+Resolving xrefs for node <AttributeDefClause 17:3-17:27>
+********************************************************
+
+Expr: <AttributeRef 17:7-17:16>
+  references: <DefiningName 6:8-6:11>
+  type:       None
+Expr: <Id "Int" 17:7-17:10>
+  references: <DefiningName 6:8-6:11>
+  type:       <TypeDecl ["Int"] 6:3-6:28>
+Expr: <Id "Write" 17:11-17:16>
+  references: None
+  type:       None
+Expr: <Id "Print" 17:21-17:26>
+  references: <DefiningName 8:13-8:18>
+  type:       None
+
+
+Done.

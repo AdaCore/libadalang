@@ -6748,9 +6748,8 @@ class AttributeRef(Name):
         return (
             Entity.prefix.sub_equation
             & stream_arg.as_entity.sub_equation
-            & Predicate(BaseTypeDecl.is_access_to,
-                        stream_arg.type_var,
-                        root_stream_type)
+            & TypeBind(stream_arg.type_var,
+                       root_stream_type.anonymous_access_type)
             & If(
                 return_obj,
                 TypeBind(Self.type_var, typ),

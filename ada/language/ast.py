@@ -872,6 +872,28 @@ class BasicDecl(AdaNode):
         return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 
     @langkit_property(return_type=BoolType)
+    def is_stream_subprogram_for_type(typ=T.BaseTypeDecl.entity,
+                                      return_obj=BoolType):
+        root_stream_type = Var(
+            Entity
+            .get_compilation_unit(['Ada', 'Streams'], UnitSpecification)
+            ._.children_env.get_first('Root_Stream_Type', recursive=False)
+            .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
+        )
+        params = Var(Entity.subp_spec_or_null._.unpacked_formal_params)
+
+        return origin.bind(
+            Self,
+            Self.is_subprogram
+            & params.at(0).spec.type.is_access_to(root_stream_type)
+            & If(
+                return_obj,
+                Entity.subp_spec_or_null.return_type.matching_formal_type(typ),
+                params.at(1).spec.type.matching_formal_type(typ),
+            )
+        )
+
+    @langkit_property(return_type=BoolType)
     def can_be_paramless():
         """
         Return true if entity can be a paramless subprogram entity, when used
@@ -3503,11 +3525,22 @@ class AttributeDefClause(AspectClause):
 
     @langkit_property()
     def xref_equation():
-        return (
+        attr = Var(Entity.attribute_expr.cast_or_raise(T.AttributeRef))
+        rel_name = Var(attr.attribute.name_symbol)
+
+        return Cond(
+            rel_name.any_of('Read', 'Write', 'Input', 'Output'),
+            Entity.expr.cast_or_raise(T.Name).xref_no_overloading
+            & Predicate(
+                BasicDecl.is_stream_subprogram_for_type,
+                Entity.expr.cast(T.Name).ref_var,
+                attr.prefix.name_designated_type,
+                rel_name == 'Input',
+            ),
+
             Entity.expr.sub_equation
-            & Entity.attribute_expr.cast(T.AttributeRef).then(
-                lambda ar: ar.prefix.sub_equation, default_val=LogicTrue()
-            )
+        ) & attr.then(
+            lambda ar: ar.prefix.sub_equation, default_val=LogicTrue()
         )
 
 

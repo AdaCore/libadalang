@@ -4755,7 +4755,8 @@ class Name(Expr):
 
         return Cond(
             bd.then(lambda bd: bd.is_a(T.DiscriminantSpec, T.ParamSpec))
-            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction),
+            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction,
+                                      T.GenericSubpInternal),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
             bd.then(lambda bd: bd.is_a(T.ParamSpec))

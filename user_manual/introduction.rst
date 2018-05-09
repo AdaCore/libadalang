@@ -74,8 +74,8 @@ Here is how you can parse the resulting file with Libadalang.
     with Libadalang.Analysis;  use Libadalang.Analysis;
 
     procedure Main is
-       Ctx       : Analysis_Context := Create;
-       Unit      : Analysis_Unit := Get_From_File (Ctx, "test.adb");
+       Ctx  : Analysis_Context := Create;
+       Unit : Analysis_Unit := Get_From_File (Ctx, "test.adb");
     begin
        Print (Unit);
        Destroy (Ctx);
@@ -116,15 +116,13 @@ accessors.
 
     with Ada.Text_IO;          use Ada.Text_IO;
     with Libadalang.Analysis;  use Libadalang.Analysis;
-    with Libadalang.AST;       use Libadalang.AST;
-    with Libadalang.AST.Types; use Libadalang.AST.Types;
 
     procedure Main is
-       Ctx       : Analysis_Context := Create;
-       Unit      : Analysis_Unit    := Get_From_File (Ctx, "test.adb");
-       CU        : Compilation_Unit := Compilation_Unit (Root (Unit));
-       Bod       : Library_Item     := Library_Item (F_Body (CU));
-       Subp      : Subprogram_Body  := Subprogram_Body (F_Item (Bod));
+       Ctx  : Analysis_Context := Create;
+       Unit : Analysis_Unit    := Get_From_File (Ctx, "test.adb");
+       CU   : Compilation_Unit := Root (Unit).As_Compilation_Unit;
+       Bod  : Library_Item     := CU.F_Body.As_Library_Item;
+       Subp : Subp_Body        := Bod.F_Item.As_Subp_Body;
     begin
        Subp.Print;
        Destroy (Ctx);

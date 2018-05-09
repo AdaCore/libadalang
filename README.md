@@ -139,7 +139,7 @@ following steps:
   <https://github.com/AdaCore/gnatcoll> (just make sure you checkout the
   `gpl-20**` branch corresponding to your GNAT Community release).
 * Install Quex version 0.65.4 -
-  <http://downloads.sourceforge.net/project/quex/DOWNLOAD/quex-0.65.4.tar.gz>
+  <https://sourceforge.net/projects/quex/files/HISTORY/0.65/quex-0.65.4.tar.gz/download>
   Follow the installation guide in the Quex `README`
 * Install every Python dependency. We recommend creating a virtualenv and
   installing them inside of it, this way:

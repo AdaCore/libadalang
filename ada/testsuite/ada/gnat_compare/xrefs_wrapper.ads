@@ -15,13 +15,6 @@ package Xrefs_Wrapper is
    --  they matches this construct, they try to find the entity that GNAT xref
    --  would yield and return it. Otherwise they return No_Basic_Decl.
 
-   function Record_Discriminant (Node : Ada_Node) return Defining_Name;
-   --  GNAT resolves the definition of a discriminant to the identifier of the
-   --  embedding type.
-   --
-   --  If Decl is an Identifier under a Discriminant_Spec node, return the
-   --  embedding type declaration.
-
    function Subp_Body_Formal (DN : Defining_Name) return Defining_Name;
    --  When a subprogram has both a declaration and a body, GNAT resolves
    --  references to its formals in the body to the formal declarations in the
@@ -60,8 +53,6 @@ package Xrefs_Wrapper is
    --  If Decl is a Base_Type_Decl, return the result of P_Previous_Part
    --  (Go_To_Incomplete => True).
 
-   Pre_Wrappers : array (Positive range <>) of Pre_Wrapper_Type :=
-     (1 => Record_Discriminant'Access);
    Post_Wrappers : array (Positive range <>) of Post_Wrapper_Type :=
      (Subp_Body_Formal'Access,
       Subp_Body'Access,

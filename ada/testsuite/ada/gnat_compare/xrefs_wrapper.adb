@@ -8,23 +8,6 @@ package body Xrefs_Wrapper is
    function Def_Name (BD : Basic_Decl) return Defining_Name
    is (if BD /= No_Basic_Decl then BD.P_Defining_Name else No_Defining_Name);
 
-   -------------------------
-   -- Record_Discriminant --
-   -------------------------
-
-   function Record_Discriminant (Node : Ada_Node) return Defining_Name is
-   begin
-      if Node.Kind /= Ada_Identifier
-        or else Node.Parent.Parent.Kind /= Ada_Discriminant_Spec
-      then
-         return No_Defining_Name;
-      end if;
-
-      return Def_Name
-        (Node.Parent.Parent
-         .P_Semantic_Parent.As_Basic_Decl);
-   end Record_Discriminant;
-
    ----------------------
    -- Subp_Body_Formal --
    ----------------------

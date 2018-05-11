@@ -171,8 +171,6 @@ class AdaNode(ASTNode):
     def referenced_decl():
         """
         Return the declaration this node references after name resolution.
-
-        try_immediate is an internal parameter, not meant for public use.
         """
         return Entity.referenced_decl_internal(False)
 

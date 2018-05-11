@@ -4815,7 +4815,8 @@ class Name(Expr):
             bd.cast(T.BaseTypeDecl).previous_part(True).defining_name,
 
             bd.then(lambda bd: bd.is_a(BasicDecl)),
-            bd.body_part_entity.defining_name,
+            bd.body_part_entity.then(lambda bpe: bpe.defining_name)
+            ._or(bd.defining_name),
 
             Entity.referenced_id(Entity.referenced_decl)
         )

@@ -181,14 +181,6 @@ class AdaNode(ASTNode):
         """
         return No(T.DefiningName.entity)
 
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
-    def gnat_xref():
-        """
-        Return a cross reference from this name to a defining identifier,
-        trying to mimic GNAT's xrefs as much as possible.
-        """
-        return No(T.DefiningName.entity)
-
     @langkit_property(public=True)
     def referenced_decl_internal(try_immediate=BoolType):
         """
@@ -699,6 +691,73 @@ class AdaNode(ASTNode):
                 )
             ))
         )))
+
+    @langkit_property(public=True)
+    def gnat_xref():
+        """
+        Return a cross reference from this name to a defining identifier,
+        trying to mimic GNAT's xrefs as much as possible.
+        """
+
+        bd = Var(
+            Entity.parents.find(lambda p: p.is_a(T.DefiningName))
+            .cast(T.DefiningName).then(
+                lambda dn: dn.basic_decl
+            )
+        )
+
+        return Cond(
+            bd.then(lambda bd: bd.is_a(T.ParamSpec))
+            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction,
+                                      T.GenericSubpInternal,
+                                      T.BaseTypeDecl),
+            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.DiscriminantSpec)),
+            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.ParamSpec))
+            & bd.semantic_parent.is_a(T.AbstractSubpDecl, T.FormalSubpDecl,
+                                      T.NullSubpDecl),
+            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
+            bd.cast(T.AbstractSubpDecl).subp_decl_spec
+            .primitive_subp_of.defining_name,
+
+            bd.then(lambda bd: bd.is_a(T.BasicSubpDecl)),
+            bd.cast(T.BasicSubpDecl).subp_decl_spec.primitive_subp_of.then(
+                lambda prim_typ:
+                prim_typ.is_tagged_type.then(
+                    lambda _: prim_typ.private_completion.then(
+                        lambda pc: pc.defining_name
+                    )._or(prim_typ.defining_name)
+                )
+            ),
+
+            Let(lambda ret=Entity.xref: Let(lambda dbd=ret.basic_decl: Cond(
+                dbd.is_a(T.ParamSpec),
+                dbd.cast(T.ParamSpec).decl_param(ret),
+
+                dbd.is_a(T.GenericSubpInternal, T.GenericPackageInternal),
+                dbd.generic_instantiations.at(0).then(
+                    lambda gi: gi.cast_or_raise(T.BasicDecl).defining_name,
+                    default_val=ret
+                ),
+
+                dbd.is_a(T.ObjectDecl),
+                dbd.cast(T.ObjectDecl).public_part_decl.then(
+                    lambda ppd: ppd.defining_name
+                )._or(ret),
+
+
+                dbd.is_a(T.BaseSubpBody),
+                dbd.cast(T.BaseSubpBody)
+                .decl_part_entity._or(dbd).defining_name,
+
+                ret
+            )))
+        )
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -3705,6 +3764,21 @@ class ObjectDecl(BasicDecl):
             )
         )
 
+    @langkit_property(public=True)
+    def public_part_decl():
+        """
+        If this object decl is the constant completion of an object decl in the
+        public part, return the object decl from the public part.
+        """
+
+        return If(
+            Entity.is_in_private_part & Self.has_constant.as_bool,
+            Self.declarative_scope.parent
+            .cast(T.BasePackageDecl).public_part.children_env
+            .get_first(Self.name_symbol, recursive=False).cast(T.BasicDecl),
+            No(T.BasicDecl.entity)
+        )
+
     xref_entry_point = Property(True)
 
 
@@ -4382,8 +4456,6 @@ class Op(EnumNode):
     def xref():
         return Entity.parent.referenced_decl.defining_name
 
-    gnat_xref = Property(Entity.xref)
-
 
 class UnOp(Expr):
     op = Field(type=Op)
@@ -4742,43 +4814,6 @@ class Name(Expr):
             bd.body_part_entity.defining_name,
 
             Entity.referenced_id(Entity.referenced_decl)
-        )
-
-    @langkit_property(public=True)
-    def gnat_xref():
-        bd = Var(
-            Entity.parents.find(lambda p: p.is_a(T.DefiningName))
-            .cast(T.DefiningName).then(
-                lambda dn: dn.basic_decl
-            )
-        )
-
-        return Cond(
-            bd.then(lambda bd: bd.is_a(T.DiscriminantSpec, T.ParamSpec))
-            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction,
-                                      T.GenericSubpInternal),
-            bd.semantic_parent.cast(T.BasicDecl).defining_name,
-
-            bd.then(lambda bd: bd.is_a(T.ParamSpec))
-            & bd.semantic_parent.is_a(T.AbstractSubpDecl, T.FormalSubpDecl),
-            bd.semantic_parent.cast(T.BasicDecl).defining_name,
-
-            bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
-            bd.cast(T.AbstractSubpDecl).subp_decl_spec
-            .primitive_subp_of.defining_name,
-
-            Let(lambda ret=Entity.xref: Let(lambda dbd=ret.basic_decl: Cond(
-                dbd.is_a(T.ParamSpec),
-                dbd.cast(T.ParamSpec).decl_param(ret),
-
-                dbd.is_a(T.GenericSubpInternal, T.GenericPackageInternal),
-                dbd.generic_instantiations.at(0).then(
-                    lambda gi: gi.cast_or_raise(T.BasicDecl).defining_name,
-                    default_val=ret
-                ),
-
-                ret
-            )))
         )
 
     @langkit_property(return_type=AdaNode.entity.array,

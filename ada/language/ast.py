@@ -744,6 +744,8 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
+
     @langkit_property(return_type=BoolType)
     def subp_decl_match_signature(other=T.BasicDecl.entity):
         return (
@@ -2214,8 +2216,6 @@ class BaseTypeDecl(BasicDecl):
             lambda pp: pp.canonical_part,
             default_val=Self,
         )
-
-    is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 
     is_private = Property(False)
 

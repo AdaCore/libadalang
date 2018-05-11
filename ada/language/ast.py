@@ -4810,6 +4810,10 @@ class Name(Expr):
             bd.then(lambda bd: bd.is_a(Body)),
             bd.cast(T.Body).decl_part_entity.defining_name,
 
+            bd.then(lambda bd: bd.is_a(BaseTypeDecl)
+                    & bd.cast(T.BaseTypeDecl).is_in_private_part),
+            bd.cast(T.BaseTypeDecl).previous_part(True).defining_name,
+
             bd.then(lambda bd: bd.is_a(BasicDecl)),
             bd.body_part_entity.defining_name,
 

@@ -334,6 +334,8 @@ def main(dirs, pattern, j, chunk_size, automated,
         )
         files += [(dir, fs) for fs in dir_files]
 
+    project = os.path.abspath(project)
+
     raw_results = pmap(
         lambda (dir, f): FileResult.nameres_files(
             dir, f, project=project, extra_args=extra_args

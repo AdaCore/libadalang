@@ -303,16 +303,6 @@ procedure GNAT_Compare is
       is
          Ref : Defining_Name;
       begin
-         for Wrapper of Xrefs_Wrapper.Pre_Wrappers loop
-            declare
-               Wrapped_Ref : constant Defining_Name := Wrapper (Node);
-            begin
-               if not Wrapped_Ref.Is_Null then
-                  return Wrapped_Ref;
-               end if;
-            end;
-         end loop;
-
          begin
             Ref := Node.P_Gnat_Xref;
          exception

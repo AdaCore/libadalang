@@ -257,6 +257,11 @@ procedure GNAT_Compare is
          Xref.Ref_File := Index;
          Xref.Error := False;
 
+         --  String literal names have slocs after the "
+         if Node.Kind = Ada_String_Literal then
+            Xref.Ref_Sloc.Column  := Xref.Ref_Sloc.Column + 1;
+         end if;
+
          --  ... Ref will be the "referenced" part.
          begin
             Ref := Resolve (Node.As_Ada_Node, Xref.Error);

@@ -1264,9 +1264,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
 
-    env_spec = EnvSpec(
-        add_to_env(env_mappings(Self.ids, Self))
-    )
+    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))
     defining_env = Property(Entity.type_expr.defining_env)
@@ -1609,9 +1607,7 @@ class ComponentDecl(BaseFormalParamDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec(
-        add_to_env(env_mappings(Self.ids, Self)),
-    )
+    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
     defining_env = Property(
         Entity.component_def.type_expr.defining_env,
@@ -1817,9 +1813,7 @@ class DiscreteRange(Struct):
 class BaseTypeDecl(BasicDecl):
     name = Field(type=T.DefiningName)
 
-    env_spec = EnvSpec(
-        add_to_env_kv(Entity.name_symbol, Self)
-    )
+    env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
 
     defining_names = Property(Entity.name.singleton)
 

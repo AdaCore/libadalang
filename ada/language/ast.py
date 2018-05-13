@@ -3890,7 +3890,8 @@ class GenericInstantiation(BasicDecl):
     nonbound_generic_decl = Property(
         env.bind(
             Self.node_env,
-            Self.as_bare_entity.generic_entity_name.env_elements.at(0)
+            Self.as_bare_entity.generic_entity_name
+            .all_env_elements(seq=True, seq_from=Self).at(0)
         )._.match(
             lambda b=Body: b.decl_part_entity,
             lambda rd=T.GenericRenamingDecl: rd.resolve,

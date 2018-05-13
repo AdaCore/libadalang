@@ -5817,13 +5817,27 @@ class BaseId(SingleTokNode):
         Decoupled implementation for designated_env, specifically used by
         DottedName when the parent is a library level package.
         """
-        ents = Var(Entity.env_elements_baseid)
+        bd = Var(Self.parents.find(
+            lambda p: p.is_a(T.GenericPackageInstantiation)
+        ))
+        env_els = Var(Entity.env_elements_baseid)
+        pkg = Var(env_els.filter(lambda e: Not(e.el == bd)).at(0))
 
-        return origin.bind(Self, Let(lambda el=ents.at(0): If(
-            el._.is_package,
-            Entity.pkg_env(el.cast(BasicDecl)),
-            ents.map(lambda e: e.cast(BasicDecl).defining_env).env_group()
-        )))
+        return origin.bind(Self, If(
+            pkg._.is_package,
+            # If current item is a library item, we want to check that it
+            # is visible from the current unit.
+            If(
+                Or(Not(pkg.is_library_item),
+                   Self.has_with_visibility(pkg.unit)),
+                Entity.pkg_env(pkg.cast(BasicDecl)),
+                No(T.LexicalEnvType)
+            ),
+
+            env_els.map(
+                lambda e: e.cast(BasicDecl).defining_env
+            ).env_group()
+        ))
 
     @langkit_property(dynamic_vars=[env], return_type=BoolType)
     def is_children_env(parent=LexicalEnvType, current_env=LexicalEnvType):
@@ -5996,13 +6010,9 @@ class BaseId(SingleTokNode):
             # other subprograms.
             items.filter(lambda e: (
 
-                # If current item is a library item, we want to check that it
-                # is visible from the current unit.
-                (Not(e.is_library_item) | Self.has_with_visibility(e.unit))
-
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                & Or(
+                Or(
                     e.cast_or_raise(BasicDecl).can_be_paramless,
                     e.cast(T.BaseSubpBody)._.in_scope
                 )

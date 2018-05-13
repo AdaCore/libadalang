@@ -4818,16 +4818,19 @@ class Name(Expr):
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env, origin])
-    def all_env_els_impl(seq=(BoolType, True)):
+    def all_env_els_impl(seq=(BoolType, True),
+                         seq_from=(AdaNode, No(T.AdaNode))):
         pass
 
     @langkit_property()
-    def all_env_elements(seq=(BoolType, True)):
+    def all_env_elements(seq=(BoolType, True),
+                         seq_from=(AdaNode, No(T.AdaNode))):
         """
         Return all elements in self's scope corresponding to self.
         """
         return origin.bind(
-            Self, env.bind(Entity.node_env, Entity.all_env_els_impl(seq=seq))
+            Self, env.bind(Entity.node_env,
+                           Entity.all_env_els_impl(seq=seq, seq_from=seq_from))
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -5947,9 +5950,12 @@ class BaseId(SingleTokNode):
         return Entity.env_elements_baseid
 
     @langkit_property()
-    def all_env_els_impl(seq=(BoolType, True)):
+    def all_env_els_impl(seq=(BoolType, True),
+                         seq_from=(AdaNode, No(T.AdaNode))):
         return env.get(
-            Self, recursive=Self.is_prefix, from_node=If(seq, Self, No(T.Name))
+            Self, recursive=Self.is_prefix,
+            from_node=If(seq, If(Not(seq_from.is_null), seq_from, Self),
+                         No(T.AdaNode))
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
@@ -7051,9 +7057,10 @@ class DottedName(Name):
                         Entity.suffix.designated_env_impl)
 
     @langkit_property()
-    def all_env_els_impl(seq=(BoolType, True)):
+    def all_env_els_impl(seq=(BoolType, True),
+                         seq_from=(AdaNode, No(T.AdaNode))):
         pfx_env = Var(Entity.prefix.designated_env)
-        return env.bind(pfx_env, Entity.suffix.all_env_els_impl(seq))
+        return env.bind(pfx_env, Entity.suffix.all_env_els_impl(seq, seq_from))
 
     scope = Property(Self.suffix.then(
         lambda sfx: env.bind(Self.parent_scope, sfx.scope),

@@ -568,7 +568,7 @@ begin
       begin
          Unit := Get_From_File (Ctx, File);
 
-         if not (Quiet or else Only_Show_Failures) then
+         if not Quiet then
             Put_Title ('#', "Analyzing " & File);
          end if;
          Process_File (Unit, File);

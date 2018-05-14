@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [generic_inst_hiding.adb]
+with_default_project: False

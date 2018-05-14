@@ -1,0 +1,18 @@
+Analyzing generic_inst_hiding.adb
+#################################
+
+Resolving xrefs for node <GenericPackageInstantiation ["A"] 12:4-12:25>
+***********************************************************************
+
+Expr: <DottedName 12:21-12:24>
+  references: <DefiningName 4:15-4:16>
+  type:       None
+Expr: <Id "A" 12:21-12:22>
+  references: <DefiningName 12:12-12:13>
+  type:       None
+Expr: <Id "B" 12:23-12:24>
+  references: <DefiningName 4:15-4:16>
+  type:       None
+
+
+Done.

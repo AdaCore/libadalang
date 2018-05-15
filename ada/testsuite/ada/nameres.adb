@@ -413,6 +413,8 @@ procedure Nameres is
    is
       List : File_Array_Access := P.Source_Files;
    begin
+      Sort (List.all);
+
       for F of List.all loop
          declare
             FI        : constant File_Info := PT.Info (F);

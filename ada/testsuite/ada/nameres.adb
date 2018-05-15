@@ -39,6 +39,14 @@ procedure Nameres is
    Quiet   : Boolean := False;
    --  If True, don't display anything but errors on standard output
 
+   Stats   : Boolean := False;
+
+   package Stats_Data is
+      Nb_Successes       : Natural := 0;
+      Nb_Fails           : Natural := 0;
+      Nb_Exception_Fails : Natural := 0;
+   end Stats_Data;
+
    UFP     : Unit_Provider_Access;
    --  When project file handling is enabled, corresponding unit provider
 
@@ -92,6 +100,8 @@ procedure Nameres is
      (PT    : Project_Tree_Access;
       P     : Project_Type;
       Files : in out String_Vectors.Vector);
+
+   procedure Show_Stats;
 
    function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array is
      (P_Matching_Nodes (Arg));
@@ -188,8 +198,11 @@ procedure Nameres is
          if not Only_Show_Failures then
             Dummy := Traverse (Node, Print_Node'Access);
          end if;
+
+         Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
       else
          Put_Line ("Resolution failed for node " & Safe_Image (Node));
+         Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
       end if;
       if not (Quiet or else Only_Show_Failures) then
          Put_Line ("");
@@ -198,6 +211,8 @@ procedure Nameres is
       when E : others =>
          Put_Line
            ("Resolution failed with exception for node " & Safe_Image (Node));
+         Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
+         Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
          Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
          Put_Line ("");
    end Resolve_Node;
@@ -440,6 +455,27 @@ procedure Nameres is
    Use_Auto_Provider  : Boolean := False;
    Auto_Provider_Dirs : String_Vectors.Vector;
 
+   procedure Show_Stats is
+   begin
+      if Stats then
+         declare
+            type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
+            Total : constant Natural :=
+              Stats_Data.Nb_Successes + Stats_Data.Nb_Fails;
+            Percent_Successes : constant Percentage := Percentage
+              (Float (Stats_Data.Nb_Successes) / Float (Total) * 100.0);
+            Percent_Failures : constant Percentage :=
+              Percentage (Float (Stats_Data.Nb_Fails) / Float (Total) * 100.0);
+         begin
+            Put_Line ("Resolved " & Total'Image & " nodes");
+            Put_Line ("Of which" & Stats_Data.Nb_Successes'Image
+                      & " successes - " & Percent_Successes'Image & "%");
+            Put_Line ("Of which" & Stats_Data.Nb_Fails'Image
+                      & " failures - " & Percent_Failures'Image & "%");
+         end;
+      end if;
+   end Show_Stats;
+
 begin
 
    GNATCOLL.Traces.Parse_Config_File;
@@ -450,6 +486,8 @@ begin
       begin
          if Arg in "--quiet" | "-q" then
             Quiet := True;
+         elsif Arg = "--stats" then
+            Stats := True;
          elsif Arg in "--trace" | "-T" then
             Set_Debug_State (Trace);
          elsif Arg in "--discard-errors-in-populate-lexical-env" | "-d" then
@@ -575,7 +613,14 @@ begin
       end;
    end loop;
 
+   Show_Stats;
+
    Destroy (Ctx);
    Destroy (UFP);
    Put_Line ("Done.");
+
+exception
+   when others =>
+      Show_Stats;
+      raise;
 end Nameres;

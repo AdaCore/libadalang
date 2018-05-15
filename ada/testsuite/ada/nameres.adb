@@ -610,6 +610,12 @@ begin
             Put_Title ('#', "Analyzing " & File);
          end if;
          Process_File (Unit, File);
+      exception
+         when E : others =>
+            Put_Line
+              ("Resolution failed with exception for file " & File);
+            Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+            Put_Line ("");
       end;
    end loop;
 

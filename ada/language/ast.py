@@ -1122,7 +1122,7 @@ class Body(BasicDecl):
             # If not a library item, find the matching subprogram spec in the
             # env.
             Entity.children_env.env_parent.get(Entity.name_symbol)
-            .find(lambda sp: And(Not(sp.el == Self), sp.match(
+            .find(lambda sp: And(Not(sp.is_null), Not(sp.el == Self), sp.match(
                 # If this body completes a generic subprogram, then we just
                 # return it (no need to match the signature).
                 lambda _=T.GenericSubpDecl: True,

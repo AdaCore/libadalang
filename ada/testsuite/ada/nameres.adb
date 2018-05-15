@@ -33,6 +33,9 @@ procedure Nameres is
 
    --  Holders for options that command-line can tune
 
+   File_Limit : Integer := -1;
+   Nb_Files_Analyzed : Natural := 0;
+
    Charset : Unbounded_String := To_Unbounded_String ("");
    --  Charset to use in order to parse analysis units
 
@@ -498,6 +501,8 @@ begin
             Set_Debug_State (Step_At_First_Unsat);
          elsif Starts_With (Arg, "--charset") then
             Charset := +Strip_Prefix (Arg, "--charset=");
+         elsif Starts_With (Arg, "--file-limit") then
+            File_Limit := Integer'Value (Strip_Prefix (Arg, "--file-limit="));
          elsif Arg in "--with-default-project" | "-DP" then
             With_Default_Project := True;
          elsif Arg in "--print-envs" | "-E" then
@@ -617,6 +622,9 @@ begin
             Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
             Put_Line ("");
       end;
+
+      Nb_Files_Analyzed := Nb_Files_Analyzed + 1;
+      exit when File_Limit /= -1 and then Nb_Files_Analyzed >= File_Limit;
    end loop;
 
    Show_Stats;

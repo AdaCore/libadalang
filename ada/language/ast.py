@@ -4288,6 +4288,8 @@ class GenericPackageDecl(GenericDecl):
 
     package_decl = Field(type=GenericPackageInternal)
 
+    defining_env = Property(Entity.package_decl.defining_env)
+
     defining_names = Property(
         Self.package_decl.package_name.as_entity.singleton)
 

@@ -13,6 +13,7 @@ with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Analysis.Implementation;
 with Libadalang.Auto_Provider;       use Libadalang.Auto_Provider;
 with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
@@ -489,6 +490,9 @@ begin
       begin
          if Arg in "--quiet" | "-q" then
             Quiet := True;
+         elsif Arg = "--no-lookup-cache" then
+            Libadalang.Analysis.Implementation
+              .AST_Envs.Activate_Lookup_Cache := False;
          elsif Arg = "--stats" then
             Stats := True;
          elsif Arg in "--trace" | "-T" then

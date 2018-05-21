@@ -57,7 +57,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  AllAbsent[1:41-1:41]
 |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  ConstantAbsent[1:41-1:41]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  SubtypeIndication[1:42-1:49]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:41-1:41]

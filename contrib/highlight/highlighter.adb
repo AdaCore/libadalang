@@ -341,7 +341,7 @@ package body Highlighter is
 
             when LAL.Ada_Type_Access_Def =>
                Highlight_Name
-                 (Node.As_Type_Access_Def.F_Type_Expr.P_Type_Name,
+                 (Node.As_Type_Access_Def.F_Subtype_Indication.P_Type_Name,
                   Type_Name, Highlights);
 
             when LAL.Ada_Object_Decl =>

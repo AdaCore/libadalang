@@ -37,7 +37,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  AllAbsent[1:42-1:42]
 |  |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  |  ConstantAbsent[1:42-1:42]
-|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:43-1:69]
 |  |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:42-1:42]

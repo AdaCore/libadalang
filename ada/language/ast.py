@@ -6308,14 +6308,18 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         Return the type of which this subprogram is a primitive of.
         """
+
+        # TODO: This might be improved by checking for spelling before looking
+        # up every type.
+
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         params = Var(Entity.unpacked_formal_params)
-        types = Var(
-            params.map(lambda p: p.spec.el_type)
-            .concat(origin.bind(Self, Entity.returns._.designated_type).then(
-                lambda dt: dt.singleton)
-            )
-        )
+        types = Var(origin.bind(
+            Self,
+            params.map(lambda p: p.spec.el_type._.canonical_type)
+            .concat(Entity.returns._.designated_type
+                    ._.canonical_type._.singleton)
+        ))
 
         return types.find(lambda typ: typ.then(
             lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(

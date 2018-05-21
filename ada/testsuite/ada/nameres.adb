@@ -34,16 +34,16 @@ procedure Nameres is
 
    --  Holders for options that command-line can tune
 
-   File_Limit : Integer := -1;
+   File_Limit        : Integer := -1;
    Nb_Files_Analyzed : Natural := 0;
 
    Charset : Unbounded_String := To_Unbounded_String ("");
    --  Charset to use in order to parse analysis units
 
-   Quiet   : Boolean := False;
+   Quiet : Boolean := False;
    --  If True, don't display anything but errors on standard output
 
-   Stats   : Boolean := False;
+   Stats : Boolean := False;
 
    package Stats_Data is
       Nb_Successes       : Natural := 0;
@@ -51,26 +51,26 @@ procedure Nameres is
       Nb_Exception_Fails : Natural := 0;
    end Stats_Data;
 
-   UFP     : Unit_Provider_Access;
+   UFP : Unit_Provider_Access;
    --  When project file handling is enabled, corresponding unit provider
 
-   Ctx     : Analysis_Context := No_Analysis_Context;
+   Ctx : Analysis_Context := No_Analysis_Context;
 
-   Resolve_All          : Boolean := False;
+   Resolve_All : Boolean := False;
    --  Whether to run the tool in "resolve all cross references" mode. In that
    --  mode, pragmas are ignored.
 
-   Solve_Line           : Natural := 0;
+   Solve_Line : Natural := 0;
    --  If passed, the tool will ignore all pragmas, ignore --all, and only
    --  solve the node at given line.
 
-   Only_Show_Failures   : Boolean := False;
+   Only_Show_Failures : Boolean := False;
    --  Only print failures to stdout
 
-   Dump_Envs            : Boolean := False;
+   Dump_Envs : Boolean := False;
    --  Dump lexical envs of every explicitly passed file
 
-   Do_Reparse           : Boolean := False;
+   Do_Reparse : Boolean := False;
 
    Timeout : Natural := 100_000;
    --  Logic resolution timeout

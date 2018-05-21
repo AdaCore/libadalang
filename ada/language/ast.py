@@ -4440,7 +4440,7 @@ class Op(EnumNode):
             lambda _=Op.alt_minus: '"-"',
             lambda _=Op.alt_concat: '"&"',
             lambda _=Op.alt_eq: '"="',
-            lambda _=Op.alt_neq: '"/="',
+            lambda _=Op.alt_neq: '"="',
             lambda _=Op.alt_lt: '"<"',
             lambda _=Op.alt_lte: '"<="',
             lambda _=Op.alt_gt: '">"',

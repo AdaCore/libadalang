@@ -610,13 +610,14 @@ begin
 
    for F of Files loop
       declare
-         File : constant String := +F;
-         Unit : Analysis_Unit;
+         File     : constant String := +F;
+         Basename : constant String := +Create (+To_String (F)).Base_Name;
+         Unit     : Analysis_Unit;
       begin
          Unit := Get_From_File (Ctx, File);
 
          if not Quiet then
-            Put_Title ('#', "Analyzing " & File);
+            Put_Title ('#', "Analyzing " & Basename);
          end if;
          Process_File (Unit, File);
       exception

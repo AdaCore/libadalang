@@ -1,442 +1,443 @@
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/ali_files.adb
-#################################################################################################
+Analyzing ali_files.adb
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/ali_files.ads
-#################################################################################################
+Analyzing ali_files.ads
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-dynamic_html.adb
-################################################################################################################
+Analyzing annotations-dynamic_html.adb
+######################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-dynamic_html.ads
-################################################################################################################
+Analyzing annotations-dynamic_html.ads
+######################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-html.adb
-########################################################################################################
+Analyzing annotations-html.adb
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-html.ads
-########################################################################################################
+Analyzing annotations-html.ads
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-report.adb
-##########################################################################################################
+Analyzing annotations-report.adb
+################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-report.ads
-##########################################################################################################
+Analyzing annotations-report.ads
+################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-xcov.adb
-########################################################################################################
+Analyzing annotations-xcov.adb
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-xcov.ads
-########################################################################################################
+Analyzing annotations-xcov.ads
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-xml.adb
-#######################################################################################################
+Analyzing annotations-xml.adb
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations-xml.ads
-#######################################################################################################
+Analyzing annotations-xml.ads
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations.adb
-###################################################################################################
+Analyzing annotations.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/annotations.ads
-###################################################################################################
+Analyzing annotations.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/arch__32.ads
-################################################################################################
+Analyzing arch__32.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/argparse.adb
-################################################################################################
+Analyzing argparse.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/argparse.ads
-################################################################################################
+Analyzing argparse.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/binary_files.adb
-####################################################################################################
+Analyzing binary_files.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/binary_files.ads
-####################################################################################################
+Analyzing binary_files.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/cfg_dump.adb
-################################################################################################
+Analyzing cfg_dump.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/cfg_dump.ads
-################################################################################################
+Analyzing cfg_dump.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/check_scos.adb
-##################################################################################################
+Analyzing check_scos.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/check_scos.ads
-##################################################################################################
+Analyzing check_scos.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/checkpoints.adb
-###################################################################################################
+Analyzing checkpoints.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/checkpoints.ads
-###################################################################################################
+Analyzing checkpoints.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coff.ads
-############################################################################################
+Analyzing coff.ads
+##################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/command_line.adb
-####################################################################################################
+Analyzing command_line.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/command_line.ads
-####################################################################################################
+Analyzing command_line.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/commands.adb
-################################################################################################
+Analyzing commands.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/commands.ads
-################################################################################################
+Analyzing commands.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/convert.adb
-###############################################################################################
+Analyzing convert.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/convert.ads
-###############################################################################################
+Analyzing convert.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-object.adb
-#######################################################################################################
+Analyzing coverage-object.adb
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-object.ads
-#######################################################################################################
+Analyzing coverage-object.ads
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-source.adb
-#######################################################################################################
+Analyzing coverage-source.adb
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-source.ads
-#######################################################################################################
+Analyzing coverage-source.ads
+#############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-tags.adb
-#####################################################################################################
+Analyzing coverage-tags.adb
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage-tags.ads
-#####################################################################################################
+Analyzing coverage-tags.ads
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage.adb
-################################################################################################
+Analyzing coverage.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/coverage.ads
-################################################################################################
+Analyzing coverage.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/decision_map.adb
-####################################################################################################
+Analyzing decision_map.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/decision_map.ads
-####################################################################################################
+Analyzing decision_map.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/diagnostics.adb
-###################################################################################################
+Analyzing diagnostics.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/diagnostics.ads
-###################################################################################################
+Analyzing diagnostics.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_arm.adb
-################################################################################################
+Analyzing disa_arm.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_arm.ads
-################################################################################################
+Analyzing disa_arm.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_common.adb
-###################################################################################################
+Analyzing disa_common.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_common.ads
-###################################################################################################
+Analyzing disa_common.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_lmp.adb
-################################################################################################
+Analyzing disa_lmp.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_lmp.ads
-################################################################################################
+Analyzing disa_lmp.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_ppc.adb
-################################################################################################
+Analyzing disa_ppc.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_ppc.ads
-################################################################################################
+Analyzing disa_ppc.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_sparc.adb
-##################################################################################################
+Analyzing disa_sparc.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_sparc.ads
-##################################################################################################
+Analyzing disa_sparc.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_symbolize.adb
-######################################################################################################
+Analyzing disa_symbolize.adb
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_symbolize.ads
-######################################################################################################
+Analyzing disa_symbolize.ads
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_thumb.adb
-##################################################################################################
+Analyzing disa_thumb.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_thumb.ads
-##################################################################################################
+Analyzing disa_thumb.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_x86.adb
-################################################################################################
+Analyzing disa_x86.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disa_x86.ads
-################################################################################################
+Analyzing disa_x86.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disassemble_insn_properties.adb
-###################################################################################################################
+Analyzing disassemble_insn_properties.adb
+#########################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disassemble_insn_properties.ads
-###################################################################################################################
+Analyzing disassemble_insn_properties.ads
+#########################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disassemblers.adb
-#####################################################################################################
+Analyzing disassemblers.adb
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/disassemblers.ads
-#####################################################################################################
+Analyzing disassemblers.ads
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/display.adb
-###############################################################################################
+Analyzing display.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/display.ads
-###############################################################################################
+Analyzing display.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/dwarf.ads
-#############################################################################################
+Analyzing dwarf.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/dwarf_handling.adb
-######################################################################################################
+Analyzing dwarf_handling.adb
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/dwarf_handling.ads
-######################################################################################################
+Analyzing dwarf_handling.ads
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf32.adb
-#############################################################################################
+Analyzing elf32.adb
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf32.ads
-#############################################################################################
+Analyzing elf32.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf64.adb
-#############################################################################################
+Analyzing elf64.adb
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf64.ads
-#############################################################################################
+Analyzing elf64.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_common.adb
-##################################################################################################
+Analyzing elf_common.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_common.ads
-##################################################################################################
+Analyzing elf_common.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_disassemblers.adb
-#########################################################################################################
+Analyzing elf_disassemblers.adb
+###############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_disassemblers.ads
-#########################################################################################################
+Analyzing elf_disassemblers.ads
+###############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_files.adb
-#################################################################################################
+Analyzing elf_files.adb
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/elf_files.ads
-#################################################################################################
+Analyzing elf_files.ads
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/execs_dbase.adb
-###################################################################################################
+Analyzing execs_dbase.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/execs_dbase.ads
-###################################################################################################
+Analyzing execs_dbase.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/factory_registry.adb
-########################################################################################################
+Analyzing factory_registry.adb
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/factory_registry.ads
-########################################################################################################
+Analyzing factory_registry.ads
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/files_table.adb
-###################################################################################################
+Analyzing files_table.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/files_table.ads
-###################################################################################################
+Analyzing files_table.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/gnatcov.adb
-###############################################################################################
+Analyzing gnatcov.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/hex_images.adb
-##################################################################################################
+Analyzing hex_images.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/hex_images.ads
-##################################################################################################
+Analyzing hex_images.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/highlighting.adb
-####################################################################################################
+Analyzing highlighting.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/highlighting.ads
-####################################################################################################
+Analyzing highlighting.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/inputs.adb
-##############################################################################################
+Analyzing inputs.adb
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/inputs.ads
-##############################################################################################
+Analyzing inputs.ads
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/libopcodes_bind/dis_opcodes.ads
-###################################################################################################################
+Analyzing dis_opcodes.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/mc_dc.adb
-#############################################################################################
+Analyzing mc_dc.adb
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/mc_dc.ads
-#############################################################################################
+Analyzing mc_dc.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/object_locations.adb
-########################################################################################################
+Analyzing object_locations.adb
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/object_locations.ads
-########################################################################################################
+Analyzing object_locations.ads
+##############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/outputs.adb
-###############################################################################################
+Analyzing outputs.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/outputs.ads
-###############################################################################################
+Analyzing outputs.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/pecoff_files.adb
-####################################################################################################
+Analyzing pecoff_files.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/pecoff_files.ads
-####################################################################################################
+Analyzing pecoff_files.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/perf_counters.adb
-#####################################################################################################
+Analyzing perf_counters.adb
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/perf_counters.ads
-#####################################################################################################
+Analyzing perf_counters.ads
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/ppc_descs.adb
-#################################################################################################
+Analyzing ppc_descs.adb
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/ppc_descs.ads
-#################################################################################################
+Analyzing ppc_descs.ads
+#######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/project.adb
-###############################################################################################
+Analyzing project.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/project.ads
-###############################################################################################
+Analyzing project.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/qemu_traces.ads
-###################################################################################################
+Analyzing qemu_traces.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/qemu_traces_entries__32.ads
-###############################################################################################################
+Analyzing qemu_traces_entries__32.ads
+#####################################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/rundrv-config.adb
-#####################################################################################################
+Analyzing rundrv-config.adb
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/rundrv-config.ads
-#####################################################################################################
+Analyzing rundrv-config.ads
+###########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/rundrv.adb
-##############################################################################################
+Analyzing rundrv.adb
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/rundrv.ads
-##############################################################################################
+Analyzing rundrv.ads
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/sc_obligations.adb
-######################################################################################################
+Analyzing sc_obligations.adb
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/sc_obligations.ads
-######################################################################################################
+Analyzing sc_obligations.ads
+############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/slocs.adb
-#############################################################################################
+Resolution failed for node <ObjectDecl ["Pragma_Might_Generate_Code"] 327:4-591:35>
+Analyzing slocs.adb
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/slocs.ads
-#############################################################################################
+Analyzing slocs.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/sparc_descs.ads
-###################################################################################################
+Analyzing sparc_descs.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/strings.adb
-###############################################################################################
+Analyzing strings.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/strings.ads
-###############################################################################################
+Analyzing strings.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/swaps.adb
-#############################################################################################
+Analyzing swaps.adb
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/swaps.ads
-#############################################################################################
+Analyzing swaps.ads
+###################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/switches.adb
-################################################################################################
+Analyzing switches.adb
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/switches.ads
-################################################################################################
+Analyzing switches.ads
+######################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/symbols.adb
-###############################################################################################
+Analyzing symbols.adb
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/symbols.ads
-###############################################################################################
+Analyzing symbols.ads
+#####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces.adb
-##############################################################################################
+Analyzing traces.adb
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces.ads
-##############################################################################################
+Analyzing traces.ads
+####################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_dbase.adb
-####################################################################################################
+Analyzing traces_dbase.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_dbase.ads
-####################################################################################################
+Analyzing traces_dbase.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_disa.adb
-###################################################################################################
+Analyzing traces_disa.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_disa.ads
-###################################################################################################
+Analyzing traces_disa.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_dump.adb
-###################################################################################################
+Analyzing traces_dump.adb
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_dump.ads
-###################################################################################################
+Analyzing traces_dump.ads
+#########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_elf.adb
-##################################################################################################
+Analyzing traces_elf.adb
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_elf.ads
-##################################################################################################
+Analyzing traces_elf.ads
+########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_files.adb
-####################################################################################################
+Analyzing traces_files.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_files.ads
-####################################################################################################
+Analyzing traces_files.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_files_list.adb
-#########################################################################################################
+Analyzing traces_files_list.adb
+###############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_files_list.ads
-#########################################################################################################
+Analyzing traces_files_list.ads
+###############################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_lines.adb
-####################################################################################################
+Analyzing traces_lines.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_lines.ads
-####################################################################################################
+Analyzing traces_lines.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_names.adb
-####################################################################################################
+Analyzing traces_names.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_names.ads
-####################################################################################################
+Analyzing traces_names.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_stats.adb
-####################################################################################################
+Analyzing traces_stats.adb
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/traces_stats.ads
-####################################################################################################
+Analyzing traces_stats.ads
+##########################
 
-Analyzing /home/amiard/libadalang/src/libadalang/ada/testsuite/ext_src/gnatcoverage/version.ads
-###############################################################################################
+Analyzing version.ads
+#####################
 
 Done.

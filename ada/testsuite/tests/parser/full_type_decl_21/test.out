@@ -12,7 +12,7 @@ TypeDecl[1:1-1:24]
 |  |  AllPresent[1:17-1:17]
 |  |has_constant:
 |  |  ConstantAbsent[1:21-1:21]
-|  |type_expr:
+|  |subtype_indication:
 |  |  SubtypeIndication[1:22-1:23]
 |  |  |has_not_null:
 |  |  |  NotNullAbsent[1:21-1:21]

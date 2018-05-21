@@ -1819,14 +1819,12 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl.entity, memoized=True)
     def anonymous_access_type():
-        return T.AnonymousTypeDecl.new(
+        return T.SynthAnonymousTypeDecl.new(
             name=Self.name,
             discriminants=No(T.DiscriminantPart),
-            type_def=T.TypeAccessDef.new(
+            type_def=T.AnonymousTypeAccessDef.new(
                 has_not_null=T.NotNullAbsent.new(),
-                has_all=T.AllAbsent.new(),
-                has_constant=T.ConstantAbsent.new(),
-                type_expr=T.TypeRef.new(type_decl=Self)
+                type_decl=Self
             ),
             aspects=No(T.AspectSpec),
             prims_env=No(T.LexicalEnvType)
@@ -2065,7 +2063,7 @@ class BaseTypeDecl(BasicDecl):
                     e.access_def._.match(
                         lambda asd=T.AccessToSubpDef:
                         asd.subp_spec.return_type,
-                        lambda tad=T.TypeAccessDef: tad.accessed_type
+                        lambda tad=T.BaseTypeAccessDef: tad.accessed_type
                     )
                 )
             )
@@ -2606,6 +2604,14 @@ class AnonymousTypeDecl(TypeDecl):
     env_spec = EnvSpec()
 
 
+@synthetic
+class SynthAnonymousTypeDecl(AnonymousTypeDecl):
+    """
+    Synthetic anonymous type decl. Used to generate anonymous access types.
+    """
+    pass
+
+
 class EnumTypeDef(TypeDef):
     enum_literals = Field(type=T.EnumLiteralDecl.list)
 
@@ -3082,13 +3088,29 @@ class AccessToSubpDef(AccessDef):
     accessed_type = Property(Entity.subp_spec.return_type)
 
 
-class TypeAccessDef(AccessDef):
+@abstract
+class BaseTypeAccessDef(AccessDef):
+    pass
+
+
+class TypeAccessDef(BaseTypeAccessDef):
     has_all = Field(type=All)
     has_constant = Field(type=Constant)
-    type_expr = Field(type=T.TypeExpr)
+    subtype_indication = Field(type=T.SubtypeIndication)
 
-    accessed_type = Property(Entity.type_expr.designated_type)
-    xref_equation = Property(Entity.type_expr.xref_equation)
+    accessed_type = Property(Entity.subtype_indication.designated_type)
+    xref_equation = Property(Entity.subtype_indication.xref_equation)
+
+
+@synthetic
+class AnonymousTypeAccessDef(BaseTypeAccessDef):
+    """
+    Synthetic type access, that will directly reference a type decl. It is used
+    to generate synthetic anonymous access types.
+    """
+    type_decl = Field(type=T.BaseTypeDecl)
+
+    accessed_type = Property(Entity.type_decl)
 
 
 class FormalDiscreteTypeDef(TypeDef):
@@ -3258,19 +3280,6 @@ class AnonymousType(TypeExpr):
     Container for inline anonymous array and access types declarations.
     """
     type_decl = Field(type=T.AnonymousTypeDecl)
-
-    designated_type = Property(Entity.type_decl)
-    xref_equation = Property(Entity.type_decl.sub_equation)
-
-
-@synthetic
-class TypeRef(TypeExpr):
-    """
-    Synthetic type expression, meant to directly reference a type decl. Used in
-    the context of anonymous access types automatically generated when using
-    the 'Unrestricted_Access attribute.
-    """
-    type_decl = Field(type=T.BaseTypeDecl)
 
     designated_type = Property(Entity.type_decl)
     xref_equation = Property(Entity.type_decl.sub_equation)

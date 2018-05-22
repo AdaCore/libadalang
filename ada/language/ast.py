@@ -5758,6 +5758,22 @@ class SingleTokNode(Name):
         Self.symbol, doc="Shortcut to get the symbol of this node"
     )
 
+    @langkit_property(dynamic_vars=[env])
+    def env_get_first(recursive=BoolType, from_node=T.AdaNode):
+        """
+        Like env.get_first, but returning the first visible element in the Ada
+        sense.
+        """
+        return env.get(
+            Self,
+            recursive=recursive,
+            from_node=from_node,
+        ).find(
+            lambda el:
+            Or(Not(el.is_library_item),
+               Self.has_with_visibility(el.el.unit))
+        )
+
 
 class DefiningName(Name):
     name = Field(type=T.Name)
@@ -5909,16 +5925,20 @@ class BaseId(SingleTokNode):
             )
 
         # This is the view of the type where it is referenced
-        des_type_1 = Var(env.get_first(
-            Self, from_node=Self,
+        des_type_1 = Var(Self.env_get_first(
+            from_node=Self,
             recursive=Self.is_prefix
-        ).then(lambda env_el: get_real_type(env_el)))
+        ).then(
+            lambda env_el: get_real_type(env_el)
+        ))
 
         # This is the view of the type where it is used
-        des_type_2 = Var(env.get_first(
-            Self, from_node=origin,
+        des_type_2 = Var(Self.env_get_first(
+            from_node=origin,
             recursive=Self.is_prefix
-        ).then(lambda env_el: get_real_type(env_el)))
+        ).then(
+            lambda env_el: get_real_type(env_el)
+        ))
 
         des_type = Var(Cond(
             # In some cases des_type_1 can be null TODO: investigate

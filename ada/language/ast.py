@@ -7209,6 +7209,8 @@ class CompilationUnit(AdaNode):
             ):
 
             Cond(
+                Self.body.is_a(T.Subunit), Self.std_env,
+
                 n.is_null, Self.initial_env,
 
                 # If self is Standard package, then register self in the root

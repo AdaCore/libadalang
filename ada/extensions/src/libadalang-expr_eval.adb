@@ -42,11 +42,11 @@ package body Libadalang.Expr_Eval is
 
    begin
       case Kind (E) is
-         when LAL.Ada_Base_Id =>
+         when LAL.Ada_Base_Id | LAL.Ada_Dotted_Name =>
 
             return Eval_Decl
               (P_Referenced_Decl_Internal
-                 (As_Base_Id (E), Try_Immediate => True));
+                 (E, Try_Immediate => True));
 
          when LAL.Ada_Int_Literal =>
             return (Int,

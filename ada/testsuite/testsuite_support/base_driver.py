@@ -23,6 +23,7 @@ if not with_gnatpython:
     )
 # pyflakes on
 
+import testsuite_support.discriminants as discriminants
 from testsuite_support.valgrind import Valgrind
 
 
@@ -107,23 +108,24 @@ class BaseDriver(TestDriver):
 
         self.check_file(self.expected_file)
 
-        # See if we expect a failure for this testcase
+        # Load the expected failure matcher for this testcase
         try:
-            comment = self.test_env['expect_failure']
-        except KeyError:
+            expect_failure_matcher = discriminants.Matcher.from_json(
+                self.test_env.get('expect_failure', [])
+            )
+        except ValueError as exc:
+            raise SetupError('Invalid "expect_failure" entry: {}'.format(exc))
+
+        # Determine whether we do have an expected failure
+        self.expect_failure_comment = expect_failure_matcher.matches()
+        if self.expect_failure_comment is None:
             self.expect_failure = False
-            self.expect_failure_comment = None
         else:
             # Because of wrapping in the YAML file, we can get multi-line
             # strings, which is not valid for comments.
-            comment = comment.replace('\n', ' ').strip()
-
+            self.expect_failure_comment = (self.expect_failure_comment
+                                           .replace('\n', ' ').strip())
             self.expect_failure = True
-            if not (comment is None or isinstance(comment, basestring)):
-                raise SetupError('Invalid "expect_failure" entry:'
-                                 ' expected a string but got {}'.format(
-                                     type(comment)))
-            self.expect_failure_comment = comment
 
         # Use the specified timeout if any, otherwise fallback to the default
         # one.

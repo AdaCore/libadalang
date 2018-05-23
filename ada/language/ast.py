@@ -1489,8 +1489,12 @@ class TypeDef(AdaNode):
         """Whether type is an integer type or not."""
         return False
 
-    is_access_type = Property(False, uses_entity_info=False,
-                              doc="Whether type is an access type or not.")
+    is_access_type = Property(
+        False, uses_entity_info=False,
+        doc="Whether type is an access type or not.",
+        dynamic_vars=[origin]
+    )
+
     is_char_type = Property(False)
     is_enum_type = Property(False)
     is_record_type = Property(False)
@@ -1946,13 +1950,17 @@ class BaseTypeDecl(BasicDecl):
 
     is_enum_type = Property(False)
     is_classwide = Property(False)
+
     is_access_type = Property(
-        False, public=True, doc="Whether Self is an access type or not"
+        False, public=True,
+        doc="Whether Self is an access type or not",
+        dynamic_vars=[(origin, No(T.AdaNode))]
     )
 
     is_implicit_deref = Property(
         Entity.is_access_type | Not(Entity.get_imp_deref.is_null),
-        doc="Whether Self is an implicitly dereferenceable type or not"
+        doc="Whether Self is an implicitly dereferenceable type or not",
+        dynamic_vars=[origin]
     )
 
     has_ud_indexing = Property(
@@ -2424,14 +2432,14 @@ class TypeDecl(BaseTypeDecl):
             lambda d: d.abstract_formal_params)
         )
 
-        return Cond(
+        return origin.bind(Self, Cond(
             Entity.is_access_type,
-            origin.bind(Self, Entity.accessed_type.discriminants_list),
+            Entity.accessed_type.discriminants_list,
 
             self_discs.length > 0, self_discs,
             Not(base_type.is_null), Entity.base_type.discriminants_list,
             No(T.BaseFormalParamDecl.entity.array)
-        )
+        ))
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
                       return_type=LexicalEnvType)
@@ -3055,7 +3063,7 @@ class SubtypeDecl(BaseTypeDecl):
     is_discrete_type = Property(Entity.from_type.is_discrete_type)
     is_real_type = Property(Entity.from_type_bound.is_real_type)
     is_enum_type = Property(Entity.from_type_bound.is_enum_type)
-    is_access_type = Property(Entity.from_type_bound.is_access_type)
+    is_access_type = Property(Entity.from_type.is_access_type)
     access_def = Property(Entity.from_type_bound.access_def)
     is_char_type = Property(Entity.from_type_bound.is_char_type)
     is_tagged_type = Property(Entity.from_type_bound.is_tagged_type)
@@ -6539,11 +6547,11 @@ class ForLoopSpec(LoopSpec):
                      .type_var.get_value.cast(T.BaseTypeDecl),
                      No(BaseTypeDecl.entity)))
 
-        return If(
+        return origin.bind(Self, If(
             typ.is_implicit_deref,
-            origin.bind(Self, typ.accessed_type),
+            typ.accessed_type,
             typ
-        )
+        ))
 
     @langkit_property(return_type=EquationType)
     def xref_equation():

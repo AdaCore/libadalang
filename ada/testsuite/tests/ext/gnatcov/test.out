@@ -343,7 +343,6 @@ Analyzing sc_obligations.adb
 Analyzing sc_obligations.ads
 ############################
 
-Resolution failed for node <ObjectDecl ["Pragma_Might_Generate_Code"] 327:4-591:35>
 Analyzing slocs.adb
 ###################
 

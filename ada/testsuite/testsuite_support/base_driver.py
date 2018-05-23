@@ -78,6 +78,9 @@ class BaseDriver(TestDriver):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
 
+        discriminants.add_discriminants(self.global_env['options']
+                                        .discriminants)
+
         # If asked to run under Valgrind, prepare a Valgrind instance
         if self.global_env['options'].valgrind:
             valgrind_supp = self.test_env.get('valgrind_suppressions', None)

@@ -16,6 +16,19 @@ if not with_gnatpython:
 # pyflakes on
 
 
+additional_discriminants = set()
+
+
+def add_discriminants(discr_str):
+    """
+    Import additional discriminants from a comma-separated list.
+
+    :param str discr_str: Comma-separated list of discriminants to add.
+    """
+    if discr_str:
+        additional_discriminants.update(discr_str.split(','))
+
+
 def get_discriminants():
     """
     If GNATpython is available, use it to return the list of discriminants
@@ -24,7 +37,8 @@ def get_discriminants():
 
     :rtype: list[str]
     """
-    return Env().discriminants if Env else []
+    return ((Env().discriminants if Env else []) +
+            sorted(additional_discriminants))
 
 
 class Matcher(object):

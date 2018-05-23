@@ -18,7 +18,7 @@ if not with_gnatpython:
 
 import testsuite_support.adaapi_driver
 import testsuite_support.capi_driver
-from testsuite_support.discriminants import get_discriminants
+import testsuite_support.discriminants as discriminants
 import testsuite_support.name_resolution_driver
 import testsuite_support.navigation_driver
 import testsuite_support.parser_driver
@@ -38,6 +38,9 @@ class Testsuite(BaseTestsuite):
     }
 
     def add_options(self):
+        self.main.add_option(
+            '--discriminants',
+            help='Comma-separated list of additional discriminants')
         self.main.add_option(
             '--valgrind', action='store_true', default=False,
             help='Run tests within Valgrind to check memory issues.')
@@ -75,9 +78,12 @@ class Testsuite(BaseTestsuite):
         super(Testsuite, self).tear_up()
 
         opts = self.global_env['options']
+
+        discriminants.add_discriminants(opts.discriminants)
+
         assert not opts.valgrind or not opts.debug, (
             'Debugging while checking memory with Valgrind is not supported.')
 
     def write_comment_file(self, _):
         with open(os.path.join(self.output_dir, 'discr'), 'w') as f:
-            f.write(' '.join(get_discriminants()))
+            f.write(' '.join(discriminants.get_discriminants()))

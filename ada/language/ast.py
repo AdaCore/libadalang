@@ -2174,15 +2174,11 @@ class BaseTypeDecl(BasicDecl):
                                   accept_derived=(BoolType, False)):
         actual_type = Var(Entity)
         return Or(
-            And(
-                formal_type.is_classwide | accept_derived,
-                actual_type.is_derived_type(formal_type)
-            ),
+            And(formal_type.is_classwide | accept_derived,
+                actual_type.is_derived_type(formal_type)),
 
-            And(
-                actual_type.is_classwide,
-                actual_type.is_derived_type(formal_type)
-            ),
+            And(actual_type.is_classwide,
+                actual_type.is_derived_type(formal_type)),
 
             # Matching of access types parameters
             actual_type.accessed_type.then(
@@ -2194,11 +2190,9 @@ class BaseTypeDecl(BasicDecl):
                 )
             ),
 
-            And(
-                Not(actual_type.get_imp_deref.is_null),
+            And(Not(actual_type.get_imp_deref.is_null),
                 actual_type
-                .accessed_type.matching_formal_type(formal_type)
-            ),
+                .accessed_type.matching_formal_type(formal_type)),
 
             actual_type.matching_type(formal_type)
         )

@@ -157,6 +157,18 @@ class AdaNode(ASTNode):
         .cast(T.CompilationUnit).get_empty_env,
     )
 
+    @langkit_property(return_type=BoolType)
+    def is_children_env(parent=LexicalEnvType, current_env=LexicalEnvType):
+        """
+        Static property. Will return True if current_env is a children of
+        parent.
+        """
+        return Cond(
+            current_env == parent, True,
+            current_env.is_null, False,
+            Self.is_children_env(parent, current_env.env_parent)
+        )
+
     @langkit_property(return_type=T.AdaNode.entity)
     def trigger_access_entity(val=T.BoolType):
         """
@@ -5874,14 +5886,6 @@ class BaseId(SingleTokNode):
                 lambda e: e.cast(BasicDecl).defining_env
             ).env_group()
         ))
-
-    @langkit_property(dynamic_vars=[env], return_type=BoolType)
-    def is_children_env(parent=LexicalEnvType, current_env=LexicalEnvType):
-        return Cond(
-            current_env == parent, True,
-            current_env.is_null, False,
-            Self.is_children_env(parent, current_env.env_parent)
-        )
 
     @langkit_property(dynamic_vars=[env, origin])
     def pkg_env(bd=T.BasicDecl.entity):

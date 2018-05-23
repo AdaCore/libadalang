@@ -18,6 +18,7 @@ if not with_gnatpython:
 
 import testsuite_support.adaapi_driver
 import testsuite_support.capi_driver
+from testsuite_support.discriminants import get_discriminants
 import testsuite_support.name_resolution_driver
 import testsuite_support.navigation_driver
 import testsuite_support.parser_driver
@@ -76,3 +77,7 @@ class Testsuite(BaseTestsuite):
         opts = self.global_env['options']
         assert not opts.valgrind or not opts.debug, (
             'Debugging while checking memory with Valgrind is not supported.')
+
+    def write_comment_file(self, _):
+        with open(os.path.join(self.output_dir, 'discr'), 'w') as f:
+            f.write(' '.join(get_discriminants()))

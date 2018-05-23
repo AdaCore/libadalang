@@ -2996,12 +2996,18 @@ class SubtypeDecl(BaseTypeDecl):
     aspects = Field(type=T.AspectSpec)
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def from_type_bound():
+        # TODO: This is a hack, to avoid making all of the predicates on types
+        # take an origin. But ultimately, for semantic correctness, it will be
+        # necessary to remove this, and migrate every property using it to
+        # having a dynamic origin parameter.
+        return origin.bind(Self, Entity.from_type)
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
     def from_type():
-        return origin.bind(
-            Self, Entity.subtype.designated_type.match(
-                lambda st=T.SubtypeDecl: st.from_type,
-                lambda t: t
-            )
+        return Entity.subtype.designated_type.match(
+            lambda st=T.SubtypeDecl: st.from_type,
+            lambda t: t
         )
 
     array_ndims = Property(Entity.subtype.array_ndims)
@@ -3012,21 +3018,21 @@ class SubtypeDecl(BaseTypeDecl):
     accessed_type = Property(Entity.from_type.accessed_type)
     is_int_type = Property(Entity.from_type.is_int_type)
     is_discrete_type = Property(Entity.from_type.is_discrete_type)
-    is_real_type = Property(Entity.from_type.is_real_type)
-    is_enum_type = Property(Entity.from_type.is_enum_type)
-    is_access_type = Property(Entity.from_type.is_access_type)
-    access_def = Property(Entity.from_type.access_def)
-    is_char_type = Property(Entity.from_type.is_char_type)
-    is_tagged_type = Property(Entity.from_type.is_tagged_type)
-    base_type = Property(Entity.from_type.base_type)
-    array_def = Property(Entity.from_type.array_def)
-    record_def = Property(Entity.from_type.record_def)
-    is_classwide = Property(Entity.from_type.is_classwide)
-    discriminants_list = Property(Entity.from_type.discriminants_list)
+    is_real_type = Property(Entity.from_type_bound.is_real_type)
+    is_enum_type = Property(Entity.from_type_bound.is_enum_type)
+    is_access_type = Property(Entity.from_type_bound.is_access_type)
+    access_def = Property(Entity.from_type_bound.access_def)
+    is_char_type = Property(Entity.from_type_bound.is_char_type)
+    is_tagged_type = Property(Entity.from_type_bound.is_tagged_type)
+    base_type = Property(Entity.from_type_bound.base_type)
+    array_def = Property(Entity.from_type_bound.array_def)
+    record_def = Property(Entity.from_type_bound.record_def)
+    is_classwide = Property(Entity.from_type_bound.is_classwide)
+    discriminants_list = Property(Entity.from_type_bound.discriminants_list)
     is_iterable_type = Property(Entity.from_type.is_iterable_type)
     iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
-    is_record_type = Property(Entity.from_type.is_record_type)
-    is_private = Property(Entity.from_type.is_private)
+    is_record_type = Property(Entity.from_type_bound.is_record_type)
+    is_private = Property(Entity.from_type_bound.is_private)
 
     @langkit_property()
     def discrete_range():

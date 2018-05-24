@@ -562,15 +562,17 @@ A.add_rules(
     ),
 
     aspect_clause=Or(
-        EnumRepClause("for", A.static_name, "use", A.aggregate, sc()),
-        AttributeDefClause("for", A.name, "use", A.expr, sc()),
+        EnumRepClause("for", A.static_name, "use", A.aggregate, cut(), ";"),
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, sc()),
             List(A.component_clause, empty_valid=True),
-            recover("end", "record", sc())
+            "end", "record", sc()
         ),
-        AtClause("for", A.direct_name, "use", "at", A.expr, sc())
+        AtClause("for", A.direct_name, "use", "at", A.expr, ";"),
+        # We put AttributeDefClause last, because it's the most general rule,
+        # and that will allow us to get the best error recovery.
+        AttributeDefClause("for", A.name, "use", cut(), A.expr, ";"),
     ),
 
     param_spec=ParamSpec(

@@ -752,8 +752,9 @@ A.add_rules(
                            A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
         "when", A.expr,
-        "is", A.decl_part.dont_skip(Or("begin", "end")),
-        Opt("begin", A.handled_stmts),
+        "is", A.recov_decl_part,
+        recover("begin"),
+        A.handled_stmts,
         end_liblevel_block(), sc()
     ),
 
@@ -772,8 +773,9 @@ A.add_rules(
 
     task_body=TaskBody(
         "task", "body", A.defining_name, A.aspect_spec,
-        "is", A.decl_part.dont_skip(Or("begin", "end")),
-        Opt("begin", A.handled_stmts),
+        "is", A.recov_decl_part,
+        recover("begin"),
+        A.handled_stmts,
         end_liblevel_block(), sc()
     ),
 
@@ -841,8 +843,10 @@ A.add_rules(
             "begin", A.handled_stmts, end_named_block(), sc()
         ),
         DeclBlock(
-            "declare", A.decl_part.dont_skip("begin"),
-            "begin", A.handled_stmts, end_named_block(), sc()
+            "declare",
+            A.recov_decl_part,
+            recover("begin"),
+            A.handled_stmts, end_named_block(), sc()
         ),
     ),
 
@@ -914,14 +918,19 @@ A.add_rules(
         A.aspect_spec, sc()
     ),
 
+    recov_decl_part=A.decl_part.dont_skip(Or(
+        "begin", "end", "if", "for", "while", "loop",
+        "declare", "accept", "select", "case"
+    )),
+
     subp_body=SubpBody(
         A.overriding_indicator,
         A.subp_spec,
         A.aspect_spec,
         "is",
         cut(),
-        A.decl_part.dont_skip("begin"),
-        "begin",
+        A.recov_decl_part,
+        recover("begin"),
         A.handled_stmts,
         end_liblevel_block(),
         ";"

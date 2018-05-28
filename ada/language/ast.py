@@ -4938,7 +4938,7 @@ class Name(Expr):
                   No(T.Name),
                   Self.parent.cast(T.Name))
 
-    @langkit_property(return_type=BoolType, public=True)
+    @langkit_property(return_type=BoolType)
     def is_range_attribute():
         """
         Predicate that returns True if self is a range attribute ref.
@@ -6134,10 +6134,7 @@ class BaseId(SingleTokNode):
 @has_abstract_list
 class Identifier(BaseId):
     annotations = Annotations(repr_name="Id")
-    is_not_class_id = Property(
-        Not(Self.symbol == 'Class'), public=True,
-        doc="Private property used for parsing, do not use."
-    )
+    is_not_class_id = Property(Not(Self.symbol == 'Class'))
 
 
 class StringLiteral(BaseId):

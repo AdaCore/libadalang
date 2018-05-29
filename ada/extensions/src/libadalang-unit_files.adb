@@ -1,9 +1,5 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-pragma Warnings (Off, "referenced");
-with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
-pragma Warnings (On, "referenced");
-
 package body Libadalang.Unit_Files is
 
    Text_IO        : constant Text_Type := "ada.text_io";

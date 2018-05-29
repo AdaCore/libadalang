@@ -19,12 +19,6 @@ with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
-pragma Warnings (Off, "referenced");
-pragma Warnings (Off, "use clause for package");
-with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
-pragma Warnings (On, "use clause for package");
-pragma Warnings (On, "referenced");
-
 with Put_Title;
 
 procedure Nameres is

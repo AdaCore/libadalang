@@ -82,6 +82,11 @@ package body Libadalang.Expr_Eval is
                            when Ada_Op_Minus => L.Int_Result + R.Int_Result,
                            when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
                            when Ada_Op_Div   => L.Int_Result / R.Int_Result,
+                           when Ada_Op_Pow   =>
+                             (if R.Int_Result >= 0
+                              then L.Int_Result ** Natural (R.Int_Result)
+                              else raise Property_Error
+                                with "Expected natural exponent"),
                            when others   =>
                              raise Property_Error
                              with "Unhandled operator: " & Kind (Op)'Img));

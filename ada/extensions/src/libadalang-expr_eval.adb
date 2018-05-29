@@ -1,11 +1,5 @@
-
-pragma Warnings (Off, "referenced");
-pragma Warnings (Off, "use clause for package");
 with Libadalang.Analysis; use Libadalang.Analysis;
-with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
-with Libadalang.Sources; use Libadalang.Sources;
-pragma Warnings (On, "use clause for package");
-pragma Warnings (On, "referenced");
+with Libadalang.Sources;  use Libadalang.Sources;
 
 package body Libadalang.Expr_Eval is
 

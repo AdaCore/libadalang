@@ -82,7 +82,9 @@ package body Libadalang.Expr_Eval is
                            when Ada_Op_Minus => L.Int_Result + R.Int_Result,
                            when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
                            when Ada_Op_Div   => L.Int_Result / R.Int_Result,
-                           when others   => raise Property_Error));
+                           when others   =>
+                             raise Property_Error
+                             with "Unhandled operator: " & Kind (Op)'Img));
                   when Real =>
                      return R'Update
                        (Real_Result =>
@@ -118,11 +120,20 @@ package body Libadalang.Expr_Eval is
                   when Ada_Op_Plus =>
                      return Operand_Val;
                   when others =>
-                     raise Property_Error;
+                     raise Property_Error
+                     with "Unhandled operator: " & Kind (Op)'Img;
                end case;
             end;
+         when LAL.Ada_Attribute_Ref =>
+            declare
+               AR : LAL.Attribute_Ref := As_Attribute_Ref (E);
+               Attr : LAL.Identifier := F_Attribute (AR);
+            begin
+               raise Property_Error
+               with "Unhandled attribute ref: " & Text (Attr);
+            end;
          when others =>
-            raise LAL.Property_Error;
+            raise Property_Error with "Unhandled node: " & Kind (E)'Img;
       end case;
    end Expr_Eval;
 

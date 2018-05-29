@@ -4346,7 +4346,7 @@ class Expr(AdaNode):
     )
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
-                      return_type=LongType)
+                      return_type=LongType, public=True)
     def eval_as_int():
         """
         Statically evaluates self, and returns the value of the evaluation as

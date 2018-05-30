@@ -5,12 +5,12 @@
 -------------------
 
 function P_Eval_As_Int
-  (Node : access Bare_Expr_Type'Class) return Integer
+  (Node : access Bare_Expr_Type'Class) return Big_Integer_Type
 is
    Full_Node : Libadalang.Analysis.Expr :=
      Expr'(Node => Node, E_Info => No_Public_Entity_Info);
 
    package Eval renames Libadalang.Expr_Eval;
 begin
-   return Eval.As_Int (Eval.Expr_Eval (Full_Node));
+   return Create (Eval.As_Int (Eval.Expr_Eval (Full_Node)));
 end P_Eval_As_Int;

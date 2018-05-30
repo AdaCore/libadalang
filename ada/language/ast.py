@@ -12,9 +12,9 @@ from langkit.envs import (
     reference, set_initial_env
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, ArrayLiteral as Array, Bind, Cond,
-    DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not, Or, Property,
-    PropertyError, Self, Var, ignore, langkit_property
+    AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigInteger,
+    Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
+    Or, Property, PropertyError, Self, Var, ignore, langkit_property
 )
 from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
@@ -1521,7 +1521,7 @@ class Variant(AdaNode):
     components = Field(type=T.ComponentList)
 
     @langkit_property(return_type=BoolType)
-    def choice_match(choice=T.AdaNode.entity, val=LongType):
+    def choice_match(choice=T.AdaNode.entity, val=T.BigIntegerType):
         """
         Checks whether val matches choice.
         """
@@ -1827,8 +1827,8 @@ class DiscreteRange(Struct):
     Represents the range of a discrete type or subtype. The bounds are already
     evaluated, so the type of the fields is LongType.
     """
-    low_bound = UserField(type=LongType)
-    high_bound = UserField(type=LongType)
+    low_bound = UserField(type=T.BigIntegerType)
+    high_bound = UserField(type=T.BigIntegerType)
 
 
 @abstract
@@ -2843,7 +2843,8 @@ class ModIntTypeDef(TypeDef):
 
     @langkit_property()
     def discrete_range():
-        return DiscreteRange.new(low_bound=0, high_bound=Self.expr.eval_as_int)
+        return DiscreteRange.new(low_bound=BigInteger(0),
+                                 high_bound=Self.expr.eval_as_int)
 
 
 @abstract
@@ -4346,7 +4347,7 @@ class Expr(AdaNode):
     )
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
-                      return_type=LongType, public=True)
+                      return_type=T.BigIntegerType, public=True)
     def eval_as_int():
         """
         Statically evaluates self, and returns the value of the evaluation as
@@ -7060,7 +7061,7 @@ class AttributeRef(Name):
         # representing an int that we will use as a dimension.
         dim = Var(Self.args.then(
             lambda args:
-            args.cast_or_raise(T.AssocList).at(0).expr.eval_as_int,
+            args.cast_or_raise(T.AssocList).at(0).expr.eval_as_int.as_int,
             default_val=1
         ) - 1)
 

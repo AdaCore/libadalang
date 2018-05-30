@@ -5,10 +5,10 @@ python:
 env:
   global:
     - TOOLS_DIR=$HOME/build_tools
-    - GNAT_TAR_PATH=$TOOLS_DIR/gnat-gpl-2016-x86_64-linux-bin.tar.gz
-    - GNATCOLL_TAR_PATH=$TOOLS_DIR/gnatcoll-gpl-2016-src.tar.gz
-    - GNAT_PATH=$TOOLS_DIR/gnat-gpl-2016-x86_64-linux-bin
-    - GNATCOLL_PATH=$TOOLS_DIR/gnatcoll-gpl-2016-src
+    - GNAT_TAR_PATH=$TOOLS_DIR/gnat-gpl-2017-x86_64-linux-bin.tar.gz
+    - GNATCOLL_TAR_PATH=$TOOLS_DIR/gnatcoll-gpl-2017-src.tar.gz
+    - GNAT_PATH=$TOOLS_DIR/gnat-gpl-2017-x86_64-linux-bin
+    - GNATCOLL_PATH=$TOOLS_DIR/gnatcoll-gpl-2017-src
     - QUEX_ZIP_PATH=$TOOLS_DIR/quex-0.65.4.zip
     - QUEX_PATH=$TOOLS_DIR/quex-0.65.4
 

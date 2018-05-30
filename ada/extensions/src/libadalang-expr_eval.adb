@@ -79,7 +79,7 @@ package body Libadalang.Expr_Eval is
                        (Int_Result =>
                           (case Kind (Op) is
                            when Ada_Op_Plus => L.Int_Result + R.Int_Result,
-                           when Ada_Op_Minus => L.Int_Result + R.Int_Result,
+                           when Ada_Op_Minus => L.Int_Result - R.Int_Result,
                            when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
                            when Ada_Op_Div   => L.Int_Result / R.Int_Result,
                            when Ada_Op_Pow   =>

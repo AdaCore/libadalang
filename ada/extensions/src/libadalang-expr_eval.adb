@@ -3,6 +3,7 @@ pragma Warnings (Off, "referenced");
 pragma Warnings (Off, "use clause for package");
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Analysis.Properties; use Libadalang.Analysis.Properties;
+with Libadalang.Sources; use Libadalang.Sources;
 pragma Warnings (On, "use clause for package");
 pragma Warnings (On, "referenced");
 
@@ -39,6 +40,49 @@ package body Libadalang.Expr_Eval is
                raise LAL.Property_Error;
          end case;
       end Eval_Decl;
+
+      type Range_Attr is (Range_First, Range_Last);
+
+      function Eval_Range_Attr (D : LAL.Ada_Node; A : Range_Attr)
+                                return Eval_Result is
+      begin
+         case Kind (D) is
+            when LAL.Ada_Name =>
+               return Eval_Range_Attr
+                 (As_Ada_Node
+                    (P_Referenced_Decl_Internal
+                         (As_Name (D), Try_Immediate => True)), A);
+            when LAL.Ada_Type_Decl =>
+               return Eval_Range_Attr
+                 (As_Ada_Node (F_Type_Def (As_Type_Decl (D))), A);
+            when LAL.Ada_Type_Def =>
+               case Kind (D) is
+                  when LAL.Ada_Signed_Int_Type_Def =>
+                     declare
+                        Rng : LAL.Expr :=
+                          F_Range (F_Range (As_Signed_Int_Type_Def (D)));
+                     begin
+                        case Kind (Rng) is
+                           when LAL.Ada_Bin_Op_Range =>
+                             return (case A is
+                                 when Range_First =>
+                                    Expr_Eval (F_Left (As_Bin_Op (Rng))),
+                                 when Range_Last =>
+                                    Expr_Eval (F_Right (As_Bin_Op (Rng))));
+                           when others =>
+                              raise LAL.Property_Error with "Unsupported range"
+                                & " expression: " & Text (Rng);
+                        end case;
+                     end;
+                  when others =>
+                     raise LAL.Property_Error with "Cannot get "
+                       & A'Img & " attribute of type def " & Kind (D)'Img;
+               end case;
+            when others =>
+               raise LAL.Property_Error with "Cannot eval "
+                 & A'Img & " attribute of " & Kind (D)'Img;
+         end case;
+      end Eval_Range_Attr;
 
    begin
       case Kind (E) is
@@ -133,9 +177,18 @@ package body Libadalang.Expr_Eval is
             declare
                AR : LAL.Attribute_Ref := As_Attribute_Ref (E);
                Attr : LAL.Identifier := F_Attribute (AR);
+               Name : Wide_Wide_String := Canonicalize (Text (Attr)).Symbol;
             begin
-               raise Property_Error
-               with "Unhandled attribute ref: " & Text (Attr);
+               if Name = "first" then
+                  return Eval_Range_Attr
+                    (As_Ada_Node (F_Prefix (AR)), Range_First);
+               elsif Name = "last" then
+                   return Eval_Range_Attr
+                    (As_Ada_Node (F_Prefix (AR)), Range_Last);
+               else
+                  raise Property_Error
+                    with "Unhandled attribute ref: " & Text (Attr);
+               end if;
             end;
          when others =>
             raise Property_Error with "Unhandled node: " & Kind (E)'Img;

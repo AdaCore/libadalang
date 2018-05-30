@@ -1,3 +1,5 @@
+with GNATCOLL.GMP.Integers;
+
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Lexer; use Libadalang.Lexer;
@@ -21,5 +23,15 @@ private package Libadalang.Sources is
       with Inline;
    --  Return a canonicalized name for Name. This performs case folding and
    --  brackets decoding.
+
+   -------------------------------
+   -- Numeric literals handling --
+   -------------------------------
+
+   function Decode_Integer_Literal
+     (Text : Text_Type) return GNATCOLL.GMP.Integers.Big_Integer;
+   --  Turn Text, a valid Ada integer literal, into the signified integer
+   --  (arbitrary precision). Raise a Libadalang.Analysis.Property_Error if
+   --  Text is not a valid literal.
 
 end Libadalang.Sources;

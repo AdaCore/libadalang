@@ -2,6 +2,8 @@ with Ada.Wide_Wide_Characters.Handling;
 
 with Interfaces; use Interfaces;
 
+with Libadalang.Analysis;
+
 package body Libadalang.Sources is
 
    ---------------------
@@ -130,5 +132,292 @@ package body Libadalang.Sources is
 
       return Create_Symbol (Result (Result'First .. Result_Last));
    end Canonicalize;
+
+   -------------------------------
+   -- Numeric literals handling --
+   -------------------------------
+
+   type String_Slice is record
+      First : Positive;
+      Last  : Natural;
+   end record;
+   --  First class citizen type for string slices, with same semantics for
+   --  bounds: they are inclusive and Last < First means an empty slice.
+
+   subtype Numerical_Base is Natural range 2 .. 16;
+
+   type Parsed_Numeric_Literal is record
+      Base : Numerical_Base;
+      --  Base for the numeric literal
+
+      Numeral : String_Slice;
+      --  Slice for the basic number, to be interpreted in base 10 if Base is
+      --  empty, or in the corresponding base otherwise. This slice cannot be
+      --  empty and can contain underscores.
+
+      Exponent : Integer;
+      --  Exponent to apply to Numeral, so that the designated number is::
+      --
+      --     Numeral * 10 ** Exponent.
+   end record;
+   --  Result of the analysis of a numeric literal string
+
+   function Parse_Numeric_Literal
+     (Text : Text_Type) return Parsed_Numeric_Literal;
+   --  Parse Text as an Ada numeric literal. Raise a
+   --  Libadalang.Analysis.Property_Error if it is invalid. Otherwise, return
+   --  information about it.
+
+   function Strip_Underscores (Text : Text_Type) return String;
+   --  Turn Text, a wide wide string that contains only digits and
+   --  underscores, into a simple string, with the underscores stripped.
+
+   function Evaluate_Simple_Number (Text : Text_Type) return Integer is
+     (Integer'Value (Strip_Underscores (Text)));
+
+   procedure Error;
+   --  Raise a Property_Error for an invalid numeric literal
+
+   -----------------------
+   -- Strip_Underscores --
+   -----------------------
+
+   function Strip_Underscores (Text : Text_Type) return String is
+
+      Result : String (Text'Range);
+      Next   : Natural := Result'First;
+
+      procedure Put (I : Positive);
+      --  Append Text (I) to Result, incrementing Next
+
+      ---------
+      -- Put --
+      ---------
+
+      procedure Put (I : Positive) is
+      begin
+         Result (Next) := Character'Val (Wide_Wide_Character'Pos (Text (I)));
+         Next := Next + 1;
+      end Put;
+
+   begin
+      for I in Text'Range loop
+         case Text (I) is
+            when '0' .. '9' => Put (I);
+            when '+' | '-'  =>
+               if I /= Text'First then
+                  Error;
+               else
+                  Put (I);
+               end if;
+            when '_'        => null;
+            when others     => Error;
+         end case;
+      end loop;
+      return Result (Result'First .. Next - 1);
+   end;
+
+   -----------
+   -- Error --
+   -----------
+
+   procedure Error is
+   begin
+      raise Libadalang.Analysis.Property_Error with "invalid numeric literal";
+   end Error;
+
+   ---------------------------
+   -- Parse_Numeric_Literal --
+   ---------------------------
+
+   function Parse_Numeric_Literal
+     (Text : Text_Type) return Parsed_Numeric_Literal
+   is
+
+      subtype Index is Integer range Text'First - 1 .. Text'Last;
+      No_Index : constant Index := Index'First;
+
+      Result : Parsed_Numeric_Literal;
+
+      Base_First_Delimiter  : Index := No_Index;
+      Base_Second_Delimiter : Index := No_Index;
+   begin
+
+      --  First, look for the two base delimiters ('#' or ':' characters)
+      for I in Text'Range loop
+         if Text (I) in '#' | ':' then
+            if Base_Second_Delimiter /= No_Index then
+               Error;
+            elsif Base_First_Delimiter /= No_Index then
+               Base_Second_Delimiter := I;
+            else
+               Base_First_Delimiter := I;
+            end if;
+         end if;
+      end loop;
+
+      --  Either only two are present, either no one is
+      if Base_First_Delimiter /= No_Index
+         and then Base_Second_Delimiter = No_Index
+      then
+         Error;
+      end if;
+
+      if Base_First_Delimiter /= No_Index then
+         --  Decode the base, when present
+         declare
+            Base_Image : Text_Type renames
+               Text (Text'First .. Base_First_Delimiter - 1);
+         begin
+            if Base_Image'Length = 0 then
+               Error;
+            end if;
+            Result.Base := Evaluate_Simple_Number (Base_Image);
+         exception
+            when Constraint_Error =>
+               Error;
+         end;
+
+         Result.Numeral := (Base_First_Delimiter + 1,
+                            Base_Second_Delimiter - 1);
+
+         --  Decode the exponent, if present
+         if Base_Second_Delimiter < Text'Last then
+            if Text (Base_Second_Delimiter + 1) not in 'e' | 'E' then
+               Error;
+            end if;
+            begin
+               Result.Exponent := Evaluate_Simple_Number
+                 (Text (Base_Second_Delimiter + 2 ..  Text'Last));
+            exception
+               when Constraint_Error =>
+                  Error;
+            end;
+         else
+            Result.Exponent := 0;
+         end if;
+
+      else
+         --  When absent, fallback to its default and look for an exponent
+         Result.Base := 10;
+
+         --  Look for an exponent: whether we find it or not, we'll then know
+         --  how the numeral spans.
+         declare
+            Exponent_Delimiter : Index := No_Index;
+         begin
+            for I in Text'Range loop
+               if Text (I) in 'E' | 'e' then
+                  if Exponent_Delimiter /= No_Index then
+                     Error;
+                  end if;
+                  Exponent_Delimiter := I;
+               end if;
+            end loop;
+
+            Result.Numeral.First := Text'First;
+            if Exponent_Delimiter /= No_Index then
+               Result.Numeral.Last := Exponent_Delimiter - 1;
+               Result.Exponent := Evaluate_Simple_Number
+                 (Text (Exponent_Delimiter + 1 .. Text'Last));
+            else
+               Result.Numeral.Last := Text'Last;
+               Result.Exponent := 0;
+            end if;
+         end;
+      end if;
+
+      --  Make sure the numeral only uses digits allowed by the base
+      declare
+
+         function Rebase
+           (Value, From, To : Wide_Wide_Character) return Wide_Wide_Character;
+
+         ------------
+         -- Rebase --
+         ------------
+
+         function Rebase
+           (Value, From, To : Wide_Wide_Character) return Wide_Wide_Character
+         is
+            From_Pos : constant Natural := Wide_Wide_Character'Pos (From);
+            To_Pos   : constant Natural := Wide_Wide_Character'Pos (To);
+            Offset   : constant Integer := To_Pos - From_Pos;
+         begin
+            return Wide_Wide_Character'Val
+              (Wide_Wide_Character'Pos (Value) + Offset);
+         end Rebase;
+
+         Digits_First : constant Wide_Wide_Character := '0';
+         Digits_Last  : constant Wide_Wide_Character :=
+           (if Result.Base <= 10
+            then Rebase (Digits_First, '0', '9')
+            else '9');
+
+         Lower_Ext_Digits_First : constant Wide_Wide_Character := 'a';
+         Lower_Ext_Digits_Last  : constant Wide_Wide_Character :=
+            Wide_Wide_Character'Val
+              (Wide_Wide_Character'Pos (Lower_Ext_Digits_First)
+               + Result.Base - 9);
+
+         Upper_Ext_Digits_First : constant Wide_Wide_Character := 'A';
+         Upper_Ext_Digits_Last  : constant Wide_Wide_Character :=
+            Rebase (Lower_Ext_Digits_Last, 'a', 'A');
+
+         C : Wide_Wide_Character;
+      begin
+         for I in Result.Numeral.First .. Result.Numeral.Last loop
+            C := Text (I);
+            if C not in '_' | Digits_First .. Digits_Last
+                      | Lower_Ext_Digits_First .. Lower_Ext_Digits_Last
+                      | Upper_Ext_Digits_First .. Upper_Ext_Digits_Last
+            then
+               Error;
+            end if;
+         end loop;
+      end;
+
+      return Result;
+   end Parse_Numeric_Literal;
+
+   ----------------------------
+   -- Decode_Integer_Literal --
+   ----------------------------
+
+   function Decode_Integer_Literal
+     (Text : Text_Type) return GNATCOLL.GMP.Integers.Big_Integer
+   is
+      use GNATCOLL.GMP;
+      use GNATCOLL.GMP.Integers;
+
+      function Slice (SS : String_Slice) return String is
+        (Strip_Underscores (Text (SS.First .. SS.Last)));
+
+      Parsed : constant Parsed_Numeric_Literal :=
+         Parse_Numeric_Literal (Text);
+   begin
+      return Result : Big_Integer do
+         declare
+            Numeral : constant String := Slice (Parsed.Numeral);
+         begin
+            Result.Set (Numeral, Int (Parsed.Base));
+         end;
+
+         --  Evaluate and apply the exponent. For integer literals, negative
+         --  exponents are invalid.
+         if Parsed.Exponent < 0 then
+            Error;
+
+         elsif Parsed.Exponent > 0 then
+            declare
+               Exponent : Big_Integer;
+            begin
+               Exponent.Set (10);
+               Exponent.Raise_To_N (Unsigned_Long (Parsed.Exponent));
+               Result.Multiply (Exponent);
+            end;
+         end if;
+      end return;
+   end Decode_Integer_Literal;
 
 end Libadalang.Sources;

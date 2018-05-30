@@ -6230,6 +6230,14 @@ class IntLiteral(NumLiteral):
     def xref_equation():
         return universal_int_bind(Self.type_var)
 
+    @langkit_property(return_type=T.BigIntegerType, external=True, public=True,
+                      uses_entity_info=False, uses_envs=False)
+    def denoted_value():
+        """
+        Return the value that this literal denotes.
+        """
+        pass
+
 
 class NullLiteral(SingleTokNode):
     annotations = Annotations(repr_name="Null")

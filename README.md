@@ -134,10 +134,11 @@ following steps:
 
 * Install the GNAT tools and compiler. You can find Community Editions on
   <https://www.adacore.com/download>
-* Build and install the GNATcoll library. You can find its source release on
-  <https://www.adacore.com/download> or directly on GitHub:
-  <https://github.com/AdaCore/gnatcoll> (just make sure you checkout the
-  `gpl-20**` branch corresponding to your GNAT Community release).
+* Build and install the GNATcoll library (core, plus Iconv and GMP bindings).
+  You can find its source release on <https://www.adacore.com/download> or
+  directly on GitHub: <https://github.com/AdaCore/gnatcoll-core> and
+  <https://github.com/AdaCore/gnatcoll-bindings> (just make sure you checkout
+  the `gpl-20**` branch corresponding to your GNAT Community release).
 * Install Quex version 0.65.4 -
   <https://sourceforge.net/projects/quex/files/HISTORY/0.65/quex-0.65.4.tar.gz/download>
   Follow the installation guide in the Quex `README`

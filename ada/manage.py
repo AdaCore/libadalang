@@ -129,10 +129,15 @@ class Manage(ManageScript):
         ctx.add_with_clause('Analysis', ADA_BODY, 'Libadalang.Unit_Files',
                             use_clause=True)
 
-        # Lal needs access to the static expression evaluator, for name
+        # Libadalang needs access to the static expression evaluator, for name
         # resolution of aggregates.
         ctx.add_with_clause('Analysis.Implementation',
                             ADA_BODY, 'Libadalang.Expr_Eval',
+                            use_clause=False)
+
+        # It also needs access to the literal decoders
+        ctx.add_with_clause('Analysis.Implementation',
+                            ADA_BODY, 'Libadalang.Sources',
                             use_clause=False)
 
         return ctx

@@ -21,14 +21,7 @@ package body Libadalang.Expr_Eval is
       Value      : Long_Float) return Eval_Result
    is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
 
-   function Copy (Result : Eval_Result) return Eval_Result is
-     (case Result.Kind is
-      when Enum_Lit => Create_Enum_Result (Result.Expr_Type,
-                                           Result.Enum_Result),
-      when Int => Create_Int_Result (Result.Expr_Type,
-                                     Result.Int_Result),
-      when Real => Create_Real_Result (Result.Expr_Type,
-                                       Result.Real_Result));
+   function Copy (Result : Eval_Result) return Eval_Result;
 
    function Raise_To_N (Left, Right : Big_Integer) return Big_Integer;
    --  Raise Left to the power of Right and return the result. If Right is too
@@ -48,6 +41,24 @@ package body Libadalang.Expr_Eval is
          Result.Int_Result.Set (Value);
       end return;
    end Create_Int_Result;
+
+   ----------
+   -- Copy --
+   ----------
+   function Copy (Result : Eval_Result) return Eval_Result is
+   begin
+      case Result.Kind is
+         when Enum_Lit =>
+            return Create_Enum_Result
+              (Result.Expr_Type, Result.Enum_Result);
+         when Int =>
+            return Create_Int_Result
+              (Result.Expr_Type, Result.Int_Result);
+         when Real =>
+            return Create_Real_Result
+              (Result.Expr_Type, Result.Real_Result);
+      end case;
+   end Copy;
 
    ----------------
    -- Raise_To_N --

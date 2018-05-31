@@ -10,7 +10,7 @@ package Libadalang.Expr_Eval is
 
    type Expr_Kind is (Enum_Lit, Int, Real);
 
-   type Eval_Result (Kind : Expr_Kind) is record
+   type Eval_Result (Kind : Expr_Kind) is limited record
       Expr_Type : LAL.Base_Type_Decl;
 
       case Kind is

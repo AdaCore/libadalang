@@ -1,11 +1,11 @@
 Expr <ObjectDecl ["Expr_1"] 7:4-7:26> evaluated to <Eval_Result ENUM_LIT <EnumLiteralDecl ["A"] 2:21-2:22>>
-   Int value is  1
+   Int value is 1
 
 Expr <ObjectDecl ["Expr_2"] 8:4-8:26> evaluated to <Eval_Result ENUM_LIT <EnumLiteralDecl ["B"] 2:24-2:25>>
-   Int value is  2
+   Int value is 2
 
-Expr <ObjectDecl ["Expr_3"] 9:4-9:27> evaluated to <Eval_Result INT  12>
-   Int value is  12
+Expr <ObjectDecl ["Expr_3"] 9:4-9:27> evaluated to <Eval_Result INT 12>
+   Int value is 12
 
 Expr <ObjectDecl ["Expr_3"] 10:4-10:27> evaluated to <Eval_Result REAL  1.20000000000000E+01>
 

@@ -1,3 +1,5 @@
+with GNATCOLL.GMP.Integers;
+
 with Libadalang.Analysis;
 
 --  This package implements an expression evaluator for Libadalang. The aim
@@ -8,6 +10,8 @@ package Libadalang.Expr_Eval is
 
    package LAL renames Libadalang.Analysis;
 
+   subtype Big_Integer is GNATCOLL.GMP.Integers.Big_Integer;
+
    type Expr_Kind is (Enum_Lit, Int, Real);
 
    type Eval_Result (Kind : Expr_Kind) is limited record
@@ -17,14 +21,14 @@ package Libadalang.Expr_Eval is
          when Enum_Lit =>
             Enum_Result : LAL.Enum_Literal_Decl;
          when Int =>
-            Int_Result : Long_Integer;
+            Int_Result : Big_Integer;
          when Real =>
             Real_Result : Long_Float;
       end case;
    end record;
    --  This data type represents the result of the evaluation of an expression
    
-   function As_Int (Self : Eval_Result) return Integer;
+   function As_Int (Self : Eval_Result) return Big_Integer;
    --  Return the given evaluation result as an Integer, if applicable. This
    --  will work for enum or int results, not for real results.
    

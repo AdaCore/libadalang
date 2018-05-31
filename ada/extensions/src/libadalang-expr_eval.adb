@@ -83,20 +83,19 @@ package body Libadalang.Expr_Eval is
 
       function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result is
       begin
-         case Kind (D) is
+         case D.Kind is
             when LAL.Ada_Enum_Literal_Decl =>
 
                --  An enum literal declaration evaluates to itself
                return (Enum_Lit,
-                       As_Base_Type_Decl
-                         (P_Enum_Type (As_Enum_Literal_Decl (D))),
-                       As_Enum_Literal_Decl (D));
+                       D.As_Enum_Literal_Decl.P_Enum_Type.As_Base_Type_Decl,
+                       D.As_Enum_Literal_Decl);
 
             when LAL.Ada_Number_Decl =>
 
                --  A number declaration evaluates to the evaluation of its
                --  expression.
-               return Expr_Eval (F_Expr (As_Number_Decl (D)));
+               return Expr_Eval (D.As_Number_Decl.F_Expr);
 
             when others =>
                raise LAL.Property_Error;
@@ -105,48 +104,48 @@ package body Libadalang.Expr_Eval is
 
       type Range_Attr is (Range_First, Range_Last);
 
-      function Eval_Range_Attr (D : LAL.Ada_Node; A : Range_Attr)
-                                return Eval_Result is
+      function Eval_Range_Attr
+        (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result is
       begin
-         case Kind (D) is
+         case D.Kind is
             when LAL.Ada_Name =>
                return Eval_Range_Attr
-                 (As_Ada_Node
-                    (P_Referenced_Decl_Internal
-                         (As_Name (D), Try_Immediate => True)), A);
+                 (D.As_Name.P_Referenced_Decl_Internal (Try_Immediate => True)
+                  .As_Ada_Node,
+                  A);
             when LAL.Ada_Type_Decl =>
-               return Eval_Range_Attr
-                 (As_Ada_Node (F_Type_Def (As_Type_Decl (D))), A);
+               return Eval_Range_Attr (D.As_Type_Decl.F_Type_Def.As_Ada_Node,
+                                       A);
             when LAL.Ada_Type_Def =>
                case Kind (D) is
                   when LAL.Ada_Signed_Int_Type_Def =>
                      declare
-                        Rng : LAL.Expr :=
-                          F_Range (F_Range (As_Signed_Int_Type_Def (D)));
+                        Rng : constant LAL.Expr :=
+                          D.As_Signed_Int_Type_Def.F_Range.F_Range;
                      begin
                         case Kind (Rng) is
                            when LAL.Ada_Bin_Op_Range =>
                               declare
-                                 BO   : constant LAL.Bin_Op := As_Bin_Op (Rng);
+                                 BO   : constant LAL.Bin_Op := Rng.As_Bin_Op;
                                  Expr : constant LAL.Expr :=
                                    (case A is
-                                    when Range_First => F_Left (BO),
-                                    when Range_Last  => F_Right (BO));
+                                    when Range_First => BO.F_Left,
+                                    when Range_Last  => BO.F_Right);
                               begin
                                  return Expr_Eval (Expr);
                               end;
                            when others =>
                               raise LAL.Property_Error with "Unsupported range"
-                                & " expression: " & Text (Rng);
+                                & " expression: " & Rng.Text;
                         end case;
                      end;
                   when others =>
                      raise LAL.Property_Error with "Cannot get "
-                       & A'Img & " attribute of type def " & Kind (D)'Img;
+                       & A'Img & " attribute of type def " & D.Kind'Img;
                end case;
             when others =>
                raise LAL.Property_Error with "Cannot eval "
-                 & A'Img & " attribute of " & Kind (D)'Img;
+                 & A'Img & " attribute of " & D.Kind'Img;
          end case;
       end Eval_Range_Attr;
 
@@ -155,26 +154,24 @@ package body Libadalang.Expr_Eval is
          when LAL.Ada_Base_Id | LAL.Ada_Dotted_Name =>
 
             return Eval_Decl
-              (P_Referenced_Decl_Internal
-                 (E, Try_Immediate => True));
+              (E.P_Referenced_Decl_Internal (Try_Immediate => True));
 
          when LAL.Ada_Int_Literal =>
             return (Int,
-                    As_Base_Type_Decl (P_Universal_Int_Type (E)),
-                    P_Denoted_Value (As_Int_Literal (E)));
+                    E.P_Universal_Int_Type.As_Base_Type_Decl,
+                    E.As_Int_Literal.P_Denoted_Value);
 
          when LAL.Ada_Real_Literal =>
             return (Real,
-                    As_Base_Type_Decl (P_Universal_Real_Type (E)),
-                    Long_Float'Value
-                      (Text (As_Real_Literal (E))));
+                    E.P_Universal_Real_Type.As_Base_Type_Decl,
+                    Long_Float'Value (E.Text));
 
          when LAL.Ada_Bin_Op =>
             declare
-               BO : LAL.Bin_Op := As_Bin_Op (E);
-               Op : LAL.Op := F_Op (BO);
-               L : Eval_Result := Expr_Eval (F_Left (BO));
-               R : Eval_Result := Expr_Eval (F_Right (BO));
+               BO : constant LAL.Bin_Op := E.As_Bin_Op;
+               Op : constant LAL.Op := BO.F_Op;
+               L  : constant Eval_Result := Expr_Eval (BO.F_Left);
+               R  : constant Eval_Result := Expr_Eval (BO.F_Right);
             begin
                if L.Kind /= R.Kind then
                   raise Property_Error;
@@ -200,7 +197,7 @@ package body Libadalang.Expr_Eval is
                      return Create_Real_Result
                        (R.Expr_Type,
                         (case Kind (Op) is
-                         when Ada_Op_Plus => L.Real_Result + R.Real_Result,
+                         when Ada_Op_Plus  => L.Real_Result + R.Real_Result,
                          when Ada_Op_Minus => L.Real_Result + R.Real_Result,
                          when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
                          when Ada_Op_Div   => L.Real_Result / R.Real_Result,
@@ -212,9 +209,9 @@ package body Libadalang.Expr_Eval is
             end;
          when LAL.Ada_Un_Op =>
             declare
-               UO          : LAL.Un_Op := As_Un_Op (E);
-               Op          : LAL.Op := F_Op (UO);
-               Operand_Val : Eval_Result := Expr_Eval (F_Expr (UO));
+               UO          : constant LAL.Un_Op := E.As_Un_Op;
+               Op          : constant LAL.Op := UO.F_Op;
+               Operand_Val : constant Eval_Result := Expr_Eval (UO.F_Expr);
             begin
                case Kind (Op) is
                   when Ada_Op_Minus =>
@@ -232,28 +229,29 @@ package body Libadalang.Expr_Eval is
                      return Copy (Operand_Val);
                   when others =>
                      raise Property_Error
-                     with "Unhandled operator: " & Kind (Op)'Img;
+                     with "Unhandled operator: " & Op.Kind'Img;
                end case;
             end;
          when LAL.Ada_Attribute_Ref =>
             declare
-               AR : LAL.Attribute_Ref := As_Attribute_Ref (E);
-               Attr : LAL.Identifier := F_Attribute (AR);
-               Name : Wide_Wide_String := Canonicalize (Text (Attr)).Symbol;
+               AR   : constant LAL.Attribute_Ref := E.As_Attribute_Ref;
+               Attr : constant LAL.Identifier := AR.F_Attribute;
+               Name : constant Wide_Wide_String :=
+                  Canonicalize (Attr.Text).Symbol;
             begin
                if Name = "first" then
                   return Eval_Range_Attr
-                    (As_Ada_Node (F_Prefix (AR)), Range_First);
+                    (As_Ada_Node (AR.F_Prefix), Range_First);
                elsif Name = "last" then
                    return Eval_Range_Attr
-                    (As_Ada_Node (F_Prefix (AR)), Range_Last);
+                    (As_Ada_Node (AR.F_Prefix), Range_Last);
                else
                   raise Property_Error
-                    with "Unhandled attribute ref: " & Text (Attr);
+                    with "Unhandled attribute ref: " & Attr.Text;
                end if;
             end;
          when others =>
-            raise Property_Error with "Unhandled node: " & Kind (E)'Img;
+            raise Property_Error with "Unhandled node: " & E.Kind'Img;
       end case;
    end Expr_Eval;
 
@@ -271,7 +269,7 @@ package body Libadalang.Expr_Eval is
                raise LAL.Property_Error;
             when Enum_Lit =>
                declare
-                  Pos : constant Natural := Child_Index (Self.Enum_Result) + 1;
+                  Pos : constant Natural := Self.Enum_Result.Child_Index + 1;
                begin
                   Result.Set (GNATCOLL.GMP.Long (Pos));
                end;
@@ -288,9 +286,9 @@ package body Libadalang.Expr_Eval is
       return "<Eval_Result "
         & Self.Kind'Image & " "
         & (case Self.Kind is
-              when Int => Self.Int_Result.Image,
-              when Real => Self.Real_Result'Image,
-              when Enum_Lit => Short_Image (Self.Enum_Result)) & ">";
+           when Int => Self.Int_Result.Image,
+           when Real => Self.Real_Result'Image,
+           when Enum_Lit => Self.Enum_Result.Short_Image) & ">";
    end Image;
 
 end Libadalang.Expr_Eval;

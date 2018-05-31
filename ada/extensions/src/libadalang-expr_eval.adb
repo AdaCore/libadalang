@@ -128,13 +128,13 @@ package body Libadalang.Expr_Eval is
                return Eval_Range_Attr (D.As_Type_Decl.F_Type_Def.As_Ada_Node,
                                        A);
             when LAL.Ada_Type_Def =>
-               case Kind (D) is
+               case D.Kind is
                   when LAL.Ada_Signed_Int_Type_Def =>
                      declare
                         Rng : constant LAL.Expr :=
                           D.As_Signed_Int_Type_Def.F_Range.F_Range;
                      begin
-                        case Kind (Rng) is
+                        case Rng.Kind is
                            when LAL.Ada_Bin_Op_Range =>
                               declare
                                  BO   : constant LAL.Bin_Op := Rng.As_Bin_Op;
@@ -161,7 +161,7 @@ package body Libadalang.Expr_Eval is
       end Eval_Range_Attr;
 
    begin
-      case Kind (E) is
+      case E.Kind is
          when LAL.Ada_Base_Id | LAL.Ada_Dotted_Name =>
 
             return Eval_Decl
@@ -194,7 +194,7 @@ package body Libadalang.Expr_Eval is
                   when Int =>
                      return Create_Int_Result
                        (R.Expr_Type,
-                        (case Kind (Op) is
+                        (case Op.Kind is
                          when Ada_Op_Plus => L.Int_Result + R.Int_Result,
                          when Ada_Op_Minus => L.Int_Result - R.Int_Result,
                          when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
@@ -203,11 +203,11 @@ package body Libadalang.Expr_Eval is
                             Raise_To_N (L.Int_Result, R.Int_Result),
                          when others   =>
                            raise Property_Error
-                           with "Unhandled operator: " & Kind (Op)'Img));
+                           with "Unhandled operator: " & Op.Kind'Img));
                   when Real =>
                      return Create_Real_Result
                        (R.Expr_Type,
-                        (case Kind (Op) is
+                        (case Op.Kind is
                          when Ada_Op_Plus  => L.Real_Result + R.Real_Result,
                          when Ada_Op_Minus => L.Real_Result + R.Real_Result,
                          when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
@@ -218,13 +218,14 @@ package body Libadalang.Expr_Eval is
                end case;
 
             end;
+
          when LAL.Ada_Un_Op =>
             declare
                UO          : constant LAL.Un_Op := E.As_Un_Op;
                Op          : constant LAL.Op := UO.F_Op;
                Operand_Val : constant Eval_Result := Expr_Eval (UO.F_Expr);
             begin
-               case Kind (Op) is
+               case Op.Kind is
                   when Ada_Op_Minus =>
                      case Operand_Val.Kind is
                         when Int =>
@@ -243,6 +244,7 @@ package body Libadalang.Expr_Eval is
                      with "Unhandled operator: " & Op.Kind'Img;
                end case;
             end;
+
          when LAL.Ada_Attribute_Ref =>
             declare
                AR   : constant LAL.Attribute_Ref := E.As_Attribute_Ref;

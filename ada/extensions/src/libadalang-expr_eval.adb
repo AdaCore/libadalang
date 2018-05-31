@@ -1,3 +1,7 @@
+with GNATCOLL.GMP.Integers;
+
+use type GNATCOLL.GMP.Integers.Big_Integer;
+
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Sources;  use Libadalang.Sources;
 
@@ -10,8 +14,7 @@ package body Libadalang.Expr_Eval is
 
    function Create_Int_Result
      (Expr_Type  : LAL.Base_Type_Decl;
-      Value      : Long_Integer) return Eval_Result
-   is ((Kind => Int, Expr_Type => Expr_Type, Int_Result => Value));
+      Value      : Big_Integer) return Eval_Result;
 
    function Create_Real_Result
      (Expr_Type  : LAL.Base_Type_Decl;
@@ -26,6 +29,47 @@ package body Libadalang.Expr_Eval is
                                      Result.Int_Result),
       when Real => Create_Real_Result (Result.Expr_Type,
                                        Result.Real_Result));
+
+   function Raise_To_N (Left, Right : Big_Integer) return Big_Integer;
+   --  Raise Left to the power of Right and return the result. If Right is too
+   --  big or if it is negative, raise a Property_Error.
+
+   -----------------------
+   -- Create_Int_Result --
+   -----------------------
+
+   function Create_Int_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Big_Integer) return Eval_Result is
+   begin
+      return Result : Eval_Result :=
+        (Kind => Int, Expr_Type => Expr_Type, Int_Result => <>)
+      do
+         Result.Int_Result.Set (Value);
+      end return;
+   end Create_Int_Result;
+
+   ----------------
+   -- Raise_To_N --
+   ----------------
+
+   function Raise_To_N (Left, Right : Big_Integer) return Big_Integer is
+      use GNATCOLL.GMP;
+      N : Unsigned_Long;
+   begin
+      if Right < 0 then
+         raise Property_Error with "Expected natural exponent";
+      end if;
+
+      begin
+         N := Unsigned_Long'Value (Right.Image);
+      exception
+         when Constraint_Error =>
+            raise Property_Error with "Exponent is too large";
+      end;
+
+      return Left ** N;
+   end Raise_To_N;
 
    ---------------
    -- Expr_Eval --
@@ -82,11 +126,15 @@ package body Libadalang.Expr_Eval is
                      begin
                         case Kind (Rng) is
                            when LAL.Ada_Bin_Op_Range =>
-                             return (case A is
-                                 when Range_First =>
-                                    Expr_Eval (F_Left (As_Bin_Op (Rng))),
-                                 when Range_Last =>
-                                    Expr_Eval (F_Right (As_Bin_Op (Rng))));
+                              declare
+                                 BO   : constant LAL.Bin_Op := As_Bin_Op (Rng);
+                                 Expr : constant LAL.Expr :=
+                                   (case A is
+                                    when Range_First => F_Left (BO),
+                                    when Range_Last  => F_Right (BO));
+                              begin
+                                 return Expr_Eval (Expr);
+                              end;
                            when others =>
                               raise LAL.Property_Error with "Unsupported range"
                                 & " expression: " & Text (Rng);
@@ -113,8 +161,7 @@ package body Libadalang.Expr_Eval is
          when LAL.Ada_Int_Literal =>
             return (Int,
                     As_Base_Type_Decl (P_Universal_Int_Type (E)),
-                    Long_Integer'Value
-                      (Text (As_Int_Literal (E))));
+                    P_Denoted_Value (As_Int_Literal (E)));
 
          when LAL.Ada_Real_Literal =>
             return (Real,
@@ -145,10 +192,7 @@ package body Libadalang.Expr_Eval is
                          when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
                          when Ada_Op_Div   => L.Int_Result / R.Int_Result,
                          when Ada_Op_Pow   =>
-                           (if R.Int_Result >= 0
-                            then L.Int_Result ** Natural (R.Int_Result)
-                            else raise Property_Error
-                              with "Expected natural exponent"),
+                            Raise_To_N (L.Int_Result, R.Int_Result),
                          when others   =>
                            raise Property_Error
                            with "Unhandled operator: " & Kind (Op)'Img));
@@ -217,13 +261,22 @@ package body Libadalang.Expr_Eval is
    -- As_Int --
    ------------
 
-   function As_Int (Self : Eval_Result) return Integer is
+   function As_Int (Self : Eval_Result) return Big_Integer is
    begin
-      case Self.Kind is
-         when Int => return Integer (Self.Int_Result);
-         when Real => raise LAL.Property_Error;
-         when Enum_Lit => return Child_Index (Self.Enum_Result) + 1;
-      end case;
+      return Result : Big_Integer do
+         case Self.Kind is
+            when Int =>
+               Result.Set (Self.Int_Result);
+            when Real =>
+               raise LAL.Property_Error;
+            when Enum_Lit =>
+               declare
+                  Pos : constant Natural := Child_Index (Self.Enum_Result) + 1;
+               begin
+                  Result.Set (GNATCOLL.GMP.Long (Pos));
+               end;
+         end case;
+      end return;
    end As_Int;
 
    -----------
@@ -235,7 +288,7 @@ package body Libadalang.Expr_Eval is
       return "<Eval_Result "
         & Self.Kind'Image & " "
         & (case Self.Kind is
-              when Int => Self.Int_Result'Image,
+              when Int => Self.Int_Result.Image,
               when Real => Self.Real_Result'Image,
               when Enum_Lit => Short_Image (Self.Enum_Result)) & ">";
    end Image;

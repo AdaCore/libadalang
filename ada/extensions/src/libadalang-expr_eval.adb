@@ -3,6 +3,30 @@ with Libadalang.Sources;  use Libadalang.Sources;
 
 package body Libadalang.Expr_Eval is
 
+   function Create_Enum_Result
+     (Expr_Type : LAL.Base_Type_Decl;
+      Value     : LAL.Enum_Literal_Decl) return Eval_Result
+   is ((Kind => Enum_Lit, Expr_Type => Expr_Type, Enum_Result => Value));
+
+   function Create_Int_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Long_Integer) return Eval_Result
+   is ((Kind => Int, Expr_Type => Expr_Type, Int_Result => Value));
+
+   function Create_Real_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Long_Float) return Eval_Result
+   is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
+
+   function Copy (Result : Eval_Result) return Eval_Result is
+     (case Result.Kind is
+      when Enum_Lit => Create_Enum_Result (Result.Expr_Type,
+                                           Result.Enum_Result),
+      when Int => Create_Int_Result (Result.Expr_Type,
+                                     Result.Int_Result),
+      when Real => Create_Real_Result (Result.Expr_Type,
+                                       Result.Real_Result));
+
    ---------------
    -- Expr_Eval --
    ---------------
@@ -113,30 +137,30 @@ package body Libadalang.Expr_Eval is
 
                case R.Kind is
                   when Int =>
-                     return R'Update
-                       (Int_Result =>
-                          (case Kind (Op) is
-                           when Ada_Op_Plus => L.Int_Result + R.Int_Result,
-                           when Ada_Op_Minus => L.Int_Result - R.Int_Result,
-                           when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
-                           when Ada_Op_Div   => L.Int_Result / R.Int_Result,
-                           when Ada_Op_Pow   =>
-                             (if R.Int_Result >= 0
-                              then L.Int_Result ** Natural (R.Int_Result)
-                              else raise Property_Error
-                                with "Expected natural exponent"),
-                           when others   =>
-                             raise Property_Error
-                             with "Unhandled operator: " & Kind (Op)'Img));
+                     return Create_Int_Result
+                       (R.Expr_Type,
+                        (case Kind (Op) is
+                         when Ada_Op_Plus => L.Int_Result + R.Int_Result,
+                         when Ada_Op_Minus => L.Int_Result - R.Int_Result,
+                         when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
+                         when Ada_Op_Div   => L.Int_Result / R.Int_Result,
+                         when Ada_Op_Pow   =>
+                           (if R.Int_Result >= 0
+                            then L.Int_Result ** Natural (R.Int_Result)
+                            else raise Property_Error
+                              with "Expected natural exponent"),
+                         when others   =>
+                           raise Property_Error
+                           with "Unhandled operator: " & Kind (Op)'Img));
                   when Real =>
-                     return R'Update
-                       (Real_Result =>
-                          (case Kind (Op) is
-                           when Ada_Op_Plus => L.Real_Result + R.Real_Result,
-                           when Ada_Op_Minus => L.Real_Result + R.Real_Result,
-                           when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
-                           when Ada_Op_Div   => L.Real_Result / R.Real_Result,
-                           when others   => raise Property_Error));
+                     return Create_Real_Result
+                       (R.Expr_Type,
+                        (case Kind (Op) is
+                         when Ada_Op_Plus => L.Real_Result + R.Real_Result,
+                         when Ada_Op_Minus => L.Real_Result + R.Real_Result,
+                         when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
+                         when Ada_Op_Div   => L.Real_Result / R.Real_Result,
+                         when others   => raise Property_Error));
                   when Enum_Lit =>
                      raise Property_Error;
                end case;
@@ -144,24 +168,24 @@ package body Libadalang.Expr_Eval is
             end;
          when LAL.Ada_Un_Op =>
             declare
-               UO : LAL.Un_Op := As_Un_Op (E);
-               Op : LAL.Op := F_Op (UO);
+               UO          : LAL.Un_Op := As_Un_Op (E);
+               Op          : LAL.Op := F_Op (UO);
                Operand_Val : Eval_Result := Expr_Eval (F_Expr (UO));
             begin
                case Kind (Op) is
                   when Ada_Op_Minus =>
                      case Operand_Val.Kind is
                         when Int =>
-                           return Operand_Val'Update
-                             (Int_Result => -Operand_Val.Int_Result);
+                           return Create_Int_Result
+                             (Operand_Val.Expr_Type, -Operand_Val.Int_Result);
                         when Real =>
-                           return Operand_Val'Update
-                             (Real_Result => -Operand_Val.Real_Result);
+                           return Create_Real_Result
+                             (Operand_Val.Expr_Type, -Operand_Val.Real_Result);
                         when Enum_Lit =>
                            raise Property_Error;
                      end case;
                   when Ada_Op_Plus =>
-                     return Operand_Val;
+                     return Copy (Operand_Val);
                   when others =>
                      raise Property_Error
                      with "Unhandled operator: " & Kind (Op)'Img;

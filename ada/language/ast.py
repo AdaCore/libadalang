@@ -679,8 +679,12 @@ class AdaNode(ASTNode):
     @langkit_property()
     def unpack_formals(formal_params=T.BaseFormalParamDecl.entity.array):
         """
-        Couples (identifier, param spec) for all parameters.
+        Static method. Couples (identifier, param spec) for all parameters.
         """
+        return Self.unit.root.unpack_formals_impl(formal_params)
+
+    @langkit_property()
+    def unpack_formals_impl(formal_params=T.BaseFormalParamDecl.entity.array):
         return formal_params.mapcat(
             lambda spec: spec.identifiers.map(lambda id: SingleFormal.new(
                 name=id, spec=spec
@@ -1271,7 +1275,9 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
     """
-    identifiers = Property(Entity.defining_names.map(lambda e: e.el))
+    identifiers = Property(Entity.defining_names.map(lambda e: e.el),
+                           memoized=True)
+
     is_mandatory = Property(False)
 
     type = Property(
@@ -5931,7 +5937,7 @@ class BaseId(SingleTokNode):
 
     parent_scope = Property(env)
 
-    @langkit_property(memoized=True)
+    @langkit_property()
     def designated_type_impl():
 
         def get_real_type(basic_decl):

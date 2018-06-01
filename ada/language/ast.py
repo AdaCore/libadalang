@@ -1471,7 +1471,14 @@ class TypeDef(AdaNode):
         dynamic_vars=[origin]
     )
 
-    is_real_type = Property(False, doc="Whether type is a real type or not.")
+    is_real_type = Property(
+        Self.is_float_type | Self.is_fixed_point,
+        doc="Whether type is a real type or not."
+    )
+
+    is_float_type = Property(False, doc="Whether type is a float type or not.")
+    is_fixed_point = Property(False,
+                              doc="Whether type is a fixed point type or not.")
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
@@ -1837,7 +1844,6 @@ class RecordTypeDef(TypeDef):
 
 @abstract
 class RealTypeDef(TypeDef):
-    is_real_type = Property(True)
     xref_equation = Property(LogicTrue())
 
 
@@ -1929,7 +1935,15 @@ class BaseTypeDecl(BasicDecl):
 
     is_record_type = Property(False)
     is_task_type = Property(False, doc="Whether type is a task type")
-    is_real_type = Property(False, doc="Whether type is a real type or not.")
+
+    is_real_type = Property(False, doc="Whether type is a real type or not.",
+                            public=True)
+    is_float_type = Property(False, doc="Whether type is a float type or not.",
+                             public=True)
+    is_fixed_point = Property(
+        False, doc="Whether type is a fixed point type or not.", public=True
+    )
+
     is_enum_type = Property(False)
     is_classwide = Property(False)
     is_access_type = Property(
@@ -2428,6 +2442,8 @@ class TypeDecl(BaseTypeDecl):
 
     is_record_type = Property(Entity.type_def.is_record_type)
     is_real_type = Property(Entity.type_def.is_real_type)
+    is_float_type = Property(Entity.type_def.is_real_type)
+    is_fixed_point = Property(Entity.type_def.is_real_type)
     is_int_type = Property(Entity.type_def.is_int_type)
     is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
 
@@ -2662,17 +2678,22 @@ class EnumTypeDef(TypeDef):
 class FloatingPointDef(RealTypeDef):
     num_digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
+    is_float_type = Property(True)
 
 
 class OrdinaryFixedPointDef(RealTypeDef):
     delta = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
+    is_fixed_point = Property(True)
+
 
 class DecimalFixedPointDef(RealTypeDef):
     delta = Field(type=T.Expr)
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
+
+    is_fixed_point = Property(True)
 
 
 @abstract

@@ -442,7 +442,8 @@ class AdaNode(ASTNode):
                       external=True, uses_entity_info=False, uses_envs=False)
     def standard_unit():
         """
-        Return the analysis unit corresponding to the Standard package.
+        Static method. Return the analysis unit corresponding to the Standard
+        package.
         """
         pass
 

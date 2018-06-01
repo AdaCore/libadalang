@@ -468,22 +468,22 @@ class AdaNode(ASTNode):
 
     bool_type = Property(
         Self.std_entity('Boolean'), public=True, doc="""
-        Return the standard Boolean type.
+        Static method. Return the standard Boolean type.
         """
     )
     int_type = Property(
         Self.std_entity('Integer'), public=True, doc="""
-        Return the standard Integer type.
+        Static method. Return the standard Integer type.
         """
     )
     universal_int_type = Property(
         Self.std_entity('Universal_Int_Type_'), public=True, doc="""
-        Return the standard Universal Integer type.
+        Static method. Return the standard Universal Integer type.
         """
     )
     universal_real_type = Property(
         Self.std_entity('Universal_Real_Type_'), public=True, doc="""
-        Return the standard Universal Real type.
+        Static method. Return the standard Universal Real type.
         """
     )
 

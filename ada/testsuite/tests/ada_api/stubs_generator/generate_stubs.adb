@@ -1,15 +1,12 @@
 with Ada.Command_Line; use Ada.Command_Line;
 with Ada.Text_IO;      use Ada.Text_IO;
 
-with GNATCOLL.Iconv; use GNATCOLL.Iconv;
-
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.Lexer;     use Libadalang.Lexer;
 with Libadalang.Rewriting; use Libadalang.Rewriting;
 
-procedure Foo is
+procedure Generate_Stubs is
    Input_File : constant String := Argument (1);
 
    Charset   : constant String := "ISO-8859-1";
@@ -95,19 +92,9 @@ begin
             --  Instead of creating all nodes manually, one by one, we just
             --  give a string template, several nodes to fill in holes, and let
             --  the rewriting machinery do its magic.
-
-            Text       : constant Text_Type := Unparse (Body_Stub);
-            Text_Bytes : constant String (1 .. 4 * Text'Length)
-              with Import => True, Address => Text'Address;
-            --  Unparse (i.e. turn tree nodes into text) the resulting stub.
-            --  This gives us Text_Type values, so we need to convert the
-            --  result into the charset we defined above in order to print the
-            --  result to standard output.
          begin
             Put_Line ("===");
-            Put_Line (Iconv (Input     => Text_Bytes,
-                             From_Code => Internal_Charset,
-                             To_Code   => Charset));
+            Put_Line (Transcode (Unparse (Body_Stub), Charset));
             New_Line;
          end;
       end if;
@@ -120,4 +107,4 @@ begin
    Destroy (Ctx);
 
    Put_Line ("generate_stubs.adb: Done.");
-end Foo;
+end Generate_Stubs;

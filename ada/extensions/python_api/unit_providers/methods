@@ -4,20 +4,23 @@
     def for_project(cls, project_file, scenario_vars=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
+        if not isinstance(project_file, str):
+            raise TypeError('`project_file` argument must be a string')
+
         if scenario_vars:
             items = scenario_vars.items()
             scn_vars_array_type = _project_scenario_variable * (len(items) + 1)
             scn_vars_array = scn_vars_array_type()
             for i, (name, value) in enumerate(items):
+                if not isinstance(name, str) or not isinstance(value, str):
+                    raise TypeError('`scenario_vars` must be a dict mapping'
+                                    ' strings to strings')
                 scn_vars_array[i] = _project_scenario_variable(name, value)
             scn_vars_array[-1] = _project_scenario_variable(None, None)
         else:
             scn_vars_array = None
 
-        c_value = _create_project_unit_provider(
-            project_file,
-            scn_vars_array
-        )
+        c_value = _create_project_unit_provider(project_file, scn_vars_array)
         if c_value:
             return cls(c_value)
         else:

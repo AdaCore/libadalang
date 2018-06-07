@@ -2,6 +2,22 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang
 
+
+for args in [
+    (None, ),
+    (1, ),
+    ('p.gpr', {1: 'bar'}),
+    ('p.gpr', {'bar': 1}),
+]:
+    print('Trying to build with', args)
+    try:
+        libadalang.UnitProvider.for_project(*args)
+    except TypeError as exc:
+        print('   ... got a TypeError exception:', exc)
+    else:
+        assert False
+
+
 for src_dir in ('src1', 'src2'):
     print('For SRC_DIR={}:'.format(src_dir))
     ctx = libadalang.AnalysisContext(

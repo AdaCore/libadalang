@@ -1,13 +1,13 @@
 First and last tokens for test.adb:
-  * <Token Kind=Procedure Text="procedure">
+  * <Token Kind=Whitespace Text=" ">
   * <Token Kind=Termination Text="">
 
 Whole source buffer for test.adb:
-procedure Test (A : Foo; B : Bar) is\x0a    C : Integer;\x0a begin\x0a    for El : Foo_Elem of A loop\x0a       B.RealBar (El);\x0a    end loop;\x0a end Test;\x0a
+ procedure Test (A : Foo; B : Bar) is\x0a    C : Integer;\x0a begin\x0a    for El : Foo_Elem of A loop\x0a       B.RealBar (El);\x0a    end loop;\x0a end Test;\x0a
 
 Empty range for the following bounds:
-  * <Token Kind=Semicolon Text=";">
-  * <Token Kind=Identifier Text="Test">
+  * <Token Kind=Whitespace Text="\x0a">
+  * <Token Kind=Procedure Text="procedure">
 ""
 
 Source excerpts for all Basic_Decl in test.adb:

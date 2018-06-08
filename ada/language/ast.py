@@ -1077,9 +1077,10 @@ class BasicDecl(AdaNode):
                     follow_private,
                     public_scope.env_node._.is_a(
                         T.BasePackageDecl, T.SingleProtectedDecl,
-                        T.ProtectedTypeDecl,
+                        T.ProtectedTypeDecl
                     )
                 ),
+
                 # Don't try to go to private part if we're not in a package
                 # decl.
 
@@ -4124,7 +4125,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
         set_initial_env(env.bind(
             Self.initial_env,
-            If(Self.is_formal_pkg, Self.initial_env, Entity.decl_scope)
+            If(Self.is_formal_pkg, Self.initial_env, Entity.decl_scope(False))
         )),
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),

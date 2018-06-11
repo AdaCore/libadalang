@@ -6,6 +6,8 @@ Trying to build with ('p.gpr', {1: 'bar'})
    ... got a TypeError exception: `scenario_vars` must be a dict mapping strings to strings
 Trying to build with ('p.gpr', {'bar': 1})
    ... got a TypeError exception: `scenario_vars` must be a dict mapping strings to strings
+Trying to build with (u'p.gpr', {u'SRC_DIR': u'src1'})
+   ... success!
 For SRC_DIR=src1:
 <SubtypeIndication 4:8-4:22> resolves to:
   <TypeDecl ["Record_Type"] 2:4-2:36>

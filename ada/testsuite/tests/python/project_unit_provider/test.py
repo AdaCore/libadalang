@@ -8,6 +8,7 @@ for args in [
     (1, ),
     ('p.gpr', {1: 'bar'}),
     ('p.gpr', {'bar': 1}),
+    (u'p.gpr', {u'SRC_DIR': u'src1'}),
 ]:
     print('Trying to build with', args)
     try:
@@ -15,7 +16,7 @@ for args in [
     except TypeError as exc:
         print('   ... got a TypeError exception:', exc)
     else:
-        assert False
+        print('   ... success!')
 
 
 for src_dir in ('src1', 'src2'):

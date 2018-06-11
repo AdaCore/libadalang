@@ -4,7 +4,13 @@
     def for_project(cls, project_file, scenario_vars=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
-        if not isinstance(project_file, str):
+        # Here and below, acccept 'unicode' instances as well as 'str' ones:
+        # ctypes will automatically take care of converting unicode instances
+        # for C functions accepting c_char_p arguments. The behavior will be
+        # the same as when using str-based API in standard Python modules
+        # (encoding error if transcoding is not possible with default
+        # encoding).
+        if not isinstance(project_file, basestring):
             raise TypeError('`project_file` argument must be a string')
 
         if scenario_vars:
@@ -12,7 +18,8 @@
             scn_vars_array_type = _project_scenario_variable * (len(items) + 1)
             scn_vars_array = scn_vars_array_type()
             for i, (name, value) in enumerate(items):
-                if not isinstance(name, str) or not isinstance(value, str):
+                if (not isinstance(name, basestring) or
+                        not isinstance(value, basestring)):
                     raise TypeError('`scenario_vars` must be a dict mapping'
                                     ' strings to strings')
                 scn_vars_array[i] = _project_scenario_variable(name, value)

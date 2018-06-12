@@ -1479,7 +1479,13 @@ class TypeDef(AdaNode):
     def accessed_type():
         return No(BaseTypeDecl.entity)
 
-    is_tagged_type = Property(False, doc="Whether type is tagged or not")
+    @langkit_property(public=True)
+    def is_tagged_type():
+        """
+        Return whether this type is tagged.
+        """
+        return False
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type definition.

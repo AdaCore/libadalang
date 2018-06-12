@@ -43,7 +43,7 @@ package body Libadalang.Unit_Files.Projects is
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit 
+      Reparse     : Boolean := False) return Analysis_Unit
    is
       Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
    begin
@@ -73,8 +73,7 @@ package body Libadalang.Unit_Files.Projects is
    ----------------
 
    overriding procedure Initialize
-     (Provider : in out Project_Unit_Provider_Type)
-   is
+     (Provider : in out Project_Unit_Provider_Type) is
    begin
       Provider.Project := null;
       Provider.Env := null;
@@ -86,8 +85,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding procedure Finalize
-     (Provider : in out Project_Unit_Provider_Type)
-   is
+     (Provider : in out Project_Unit_Provider_Type) is
    begin
       if Provider.Is_Project_Owner then
          Unload (Provider.Project.all);

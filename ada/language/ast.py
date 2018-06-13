@@ -2251,7 +2251,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[origin])
+                      dynamic_vars=[(origin, No(T.AdaNode))], public=True)
     def canonical_type():
         """
         Return the canonical type declaration for this type declaration. For

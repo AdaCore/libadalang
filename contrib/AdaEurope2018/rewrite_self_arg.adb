@@ -14,12 +14,12 @@ procedure Rewrite_Self_Arg is
    package TIO renames Ada.Text_IO;
    package LAL renames Libadalang.Analysis;
    use type LAL.Ada_Node_Kind_Type;
-   package LALR renames Libadalang.Rewriting;
+   package LALRW renames Libadalang.Rewriting;
 
    type Analysis_Unit_Array is array (Positive range <>) of LAL.Analysis_Unit;
 
    function Modified_Units
-     (Handle : LALR.Rewriting_Handle) return Analysis_Unit_Array;
+     (Handle : LALRW.Rewriting_Handle) return Analysis_Unit_Array;
    --  Return the list of analysis units that will be modified by the Handle
    --  rewritting session.
 
@@ -28,21 +28,21 @@ procedure Rewrite_Self_Arg is
    function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
    procedure Summarize (Context : LAL.Analysis_Context);
 
-   Handle : LALR.Rewriting_Handle;
+   Handle : LALRW.Rewriting_Handle;
 
    --------------------
    -- Modified_Units --
    --------------------
 
    function Modified_Units
-     (Handle : LALR.Rewriting_Handle) return Analysis_Unit_Array
+     (Handle : LALRW.Rewriting_Handle) return Analysis_Unit_Array
    is
-      Units : constant LALR.Unit_Rewriting_Handle_Array :=
-        LALR.Unit_Handles (Handle);
+      Units : constant LALRW.Unit_Rewriting_Handle_Array :=
+        LALRW.Unit_Handles (Handle);
       Result : Analysis_Unit_Array (Units'Range);
    begin
       for I in Units'Range loop
-         Result (I) := LALR.Unit (Units (I));
+         Result (I) := LALRW.Unit (Units (I));
       end loop;
       return Result;
    end Modified_Units;
@@ -53,7 +53,7 @@ procedure Rewrite_Self_Arg is
 
    procedure Initialize (Context : LAL.Analysis_Context) is
    begin
-      Handle := LALR.Start_Rewriting (Context);
+      Handle := LALRW.Start_Rewriting (Context);
    end Initialize;
 
    ------------------
@@ -61,7 +61,7 @@ procedure Rewrite_Self_Arg is
    ------------------
 
    function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status is
-      use type LALR.Node_Rewriting_Handle;
+      use type LALRW.Node_Rewriting_Handle;
 
       Subp_Spec : LAL.Subp_Spec;
       --  Subprogram specification to rewrite
@@ -69,7 +69,7 @@ procedure Rewrite_Self_Arg is
       Primitive_Of : LAL.Base_Type_Decl;
       --  Subp_Spec is a primitive of this
 
-      Id : LALR.Node_Rewriting_Handle := LALR.No_Node_Rewriting_Handle;
+      Id : LALRW.Node_Rewriting_Handle := LALRW.No_Node_Rewriting_Handle;
       --  Formal identifier to rewrite into Self
    begin
       --  Only process Subp_Spec nodes that are primitives and that have at
@@ -97,19 +97,19 @@ procedure Rewrite_Self_Arg is
               PS.F_Type_Expr.P_Designated_Type_Decl.P_Canonical_Type;
          begin
             if Param_Type = Primitive_Of then
-               if Id /= LALR.No_Node_Rewriting_Handle
+               if Id /= LALRW.No_Node_Rewriting_Handle
                  or else PS.F_Ids.Children_Count > 1
                then
                   return LAL.Into;
                end if;
-               Id := LALR.Handle (PS.F_Ids.Child (1).As_Defining_Name.F_Name);
+               Id := LALRW.Handle (PS.F_Ids.Child (1).As_Defining_Name.F_Name);
             end if;
          end;
       end loop;
 
       --  Rename the formal!
-      if Id /= LALR.No_Node_Rewriting_Handle then
-         LALR.Set_Text (Id, "Self");
+      if Id /= LALRW.No_Node_Rewriting_Handle then
+         LALRW.Set_Text (Id, "Self");
       end if;
 
       return LAL.Into;
@@ -134,7 +134,7 @@ procedure Rewrite_Self_Arg is
       Units : constant Analysis_Unit_Array := Modified_Units (Handle);
       --  Remember which analysis units are to be rewritten
 
-      Result : constant LALR.Apply_Result := LALR.Apply (Handle);
+      Result : constant LALRW.Apply_Result := LALRW.Apply (Handle);
    begin
       case Result.Success is
          when True => null;

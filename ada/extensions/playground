@@ -1,0 +1,29 @@
+## vim: filetype=makopython
+
+    def create_arg_parser(self):
+        Playground.create_arg_parser(self)
+        self.parser.add_argument(
+            '-X', action='append',
+            help="Scenario variables to pass along to GPR"
+        )
+        self.parser.add_argument(
+            '-P', '--project', type=str, default='', help="GPR project file"
+        )
+
+    def process_args(self):
+        from tempfile import mkdtemp
+        if not self.args.project:
+            with open("{}/default.gpr".format(mkdtemp()), 'w') as f:
+                f.write("project Default is end Default;")
+                self.args.project = f.name
+
+        self.scen_vars = {}
+        if self.args.X:
+            for var in self.args.X:
+                k, v = var.split("=")
+                self.scen_vars[k] = v
+
+    def create_unit_provider(self):
+        return ${module_name}.UnitProvider.for_project(
+            self.args.project, self.scen_vars
+        )

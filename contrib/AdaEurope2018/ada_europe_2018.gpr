@@ -1,0 +1,12 @@
+with "libadalang";
+
+project Ada_Europe_2018 is
+
+   for Main use ("derivation_count.adb", "rewrite_self_arg.adb");
+   for Object_Dir use "obj";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatyg", "-gnatwa");
+   end Compiler;  
+
+end Ada_Europe_2018;

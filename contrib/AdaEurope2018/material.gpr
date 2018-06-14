@@ -1,0 +1,4 @@
+project Material is
+   for Source_Dirs use ("material");
+   for Object_Dir use "obj-material";
+end Material;

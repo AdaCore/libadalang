@@ -6189,6 +6189,14 @@ class Identifier(BaseId):
 class StringLiteral(BaseId):
     annotations = Annotations(repr_name="Str")
 
+    @langkit_property(return_type=T.StringType, external=True, public=True,
+                      uses_entity_info=False, uses_envs=False)
+    def denoted_value():
+        """
+        Return the value that this literal denotes.
+        """
+        pass
+
     @langkit_property()
     def xref_equation():
         return If(

@@ -151,6 +151,150 @@ package body Libadalang.Sources is
       return Text (Text'First + 1);
    end Decode_Character_Literal;
 
+   ---------------------------
+   -- Decode_String_Literal --
+   ---------------------------
+
+   function Decode_String_Literal (Text : Text_Type) return Text_Type is
+
+      Result : Text_Type (Text'Range);
+      Last   : Natural := Result'First - 1;
+
+      procedure Error;
+      procedure Put (C : Character_Type);
+
+      -----------
+      -- Error --
+      -----------
+
+      procedure Error is
+      begin
+         raise Libadalang.Analysis.Property_Error
+            with "Invalid string literal";
+      end Error;
+
+      ---------
+      -- Put --
+      ---------
+
+      procedure Put (C : Character_Type) is
+      begin
+         Last := Last + 1;
+         Result (Last) := C;
+      end Put;
+
+      Delimiter         : Character_Type;
+      Last_Is_Delimiter : Boolean := False;
+      I                 : Natural;
+   begin
+      --  TODO: handle brackets encoding
+
+      if Text'Length < 2
+         or else Text (Text'First) not in '"' | '%'
+         or else Text (Text'Last) /= Text (Text'Last)
+      then
+         Error;
+      end if;
+      Delimiter := Text (Text'First);
+
+      I := Text'First + 1;
+      while I < Text'Last loop
+         declare
+            C : constant Character_Type := Text (I);
+         begin
+            if C = Delimiter then
+               if Last_Is_Delimiter then
+                  Put (C);
+                  Last_Is_Delimiter := False;
+               else
+                  Last_Is_Delimiter := True;
+               end if;
+
+            elsif C = '[' then
+               if Last_Is_Delimiter then
+                  Error;
+               end if;
+
+               --  If this is not a brackets encoding, just forward characters
+               --  to Result, otherwise check that it is a valid one.
+               if
+                  I + 1 = Text'Last
+                  --  C is the last character
+
+                  or else Text (I + 1) /= '"'
+                  --  C is not followed by '"' ("[a" is not a brackets
+                  --  encoding).
+
+                  or else (I + 2 < Text'Last and then Text (I + 2) = '"')
+                  --  C is followed by two quotes ("[""" is not a brackets
+                  --  encoding).
+               then
+                  Put (C);
+
+               else
+                  --  Thanks to the above condition, we know that at this point
+                  --  Text (I) is followed by a quote: look for the closing
+                  --  sequence ('"' followed by ']').
+                  declare
+                     Closing_Bracket : Natural := 0;
+                  begin
+                     for J in I + 2 .. Text'Last - 1 loop
+                        if Text (J) = '"' then
+                           Closing_Bracket := J + 1;
+                           if Closing_Bracket > Text'Last - 1
+                              or else Text (Closing_Bracket) /= ']'
+                           then
+                              Error;
+                           end if;
+                           exit;
+
+                        elsif Text (J) not in '0' .. '9'
+                                            | 'a' .. 'f'
+                                            | 'A' .. 'F'
+                        then
+                           Error;
+                        end if;
+                     end loop;
+
+                     --  Make sure we found the closing sequence, then decode
+                     --  it and move on to what comes next...
+                     if Closing_Bracket = 0 then
+                        Error;
+                     end if;
+
+                     declare
+                        Denoted_Char : Character_Type;
+                        Has_Error    : Boolean;
+                     begin
+                        Decode_Brackets (Text (I .. Closing_Bracket),
+                                         Has_Error, Denoted_Char);
+                        if Has_Error then
+                           Error;
+                        end if;
+                        Put (Denoted_Char);
+                     end;
+                     I := Closing_Bracket;
+                  end;
+               end if;
+
+            else
+               if Last_Is_Delimiter then
+                  Error;
+               else
+                  Put (C);
+               end if;
+            end if;
+         end;
+         I := I + 1;
+      end loop;
+
+      if Last_Is_Delimiter then
+         Error;
+      end if;
+
+      return Result (Result'First .. Last);
+   end Decode_String_Literal;
+
    -------------------------------
    -- Numeric literals handling --
    -------------------------------

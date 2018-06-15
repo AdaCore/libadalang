@@ -24,12 +24,19 @@ package body Libadalang.Sources is
       end if;
 
       declare
+         Digits_String : Text_Type renames Pattern
+           (Pattern'First + 2 ..  Pattern'Last - 2);
          subtype Valid_Codepoint is Unsigned_32
             range Wide_Wide_Character'Pos (Wide_Wide_Character'First)
                .. Wide_Wide_Character'Pos (Wide_Wide_Character'Last);
          Codepoint : Unsigned_32 := 0;
       begin
-         for C of Pattern (Pattern'First + 2 .. Pattern'Last - 2) loop
+         if Digits_String'Length not in 2 | 4 | 6 | 8 then
+            Error := True;
+            return;
+         end if;
+
+         for C of Digits_String loop
             declare
                Charcode : constant Unsigned_32 := Wide_Wide_Character'Pos (C);
                Digit    : Unsigned_32;

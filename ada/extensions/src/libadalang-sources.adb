@@ -133,6 +133,24 @@ package body Libadalang.Sources is
       return Create_Symbol (Result (Result'First .. Result_Last));
    end Canonicalize;
 
+   ------------------------------
+   -- Decode_Character_Literal --
+   ------------------------------
+
+   function Decode_Character_Literal (Text : Text_Type) return Character_Type
+   is
+   begin
+      if Text'Length /= 3
+         or else Text (Text'First) /= '''
+         or else Text (Text'Last) /= '''
+      then
+         raise Libadalang.Analysis.Property_Error
+            with "Invalid character literal";
+      end if;
+
+      return Text (Text'First + 1);
+   end Decode_Character_Literal;
+
    -------------------------------
    -- Numeric literals handling --
    -------------------------------

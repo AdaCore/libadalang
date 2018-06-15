@@ -6254,6 +6254,14 @@ class EnumLiteralDecl(BasicDecl):
 class CharLiteral(BaseId):
     annotations = Annotations(repr_name="Chr")
 
+    @langkit_property(return_type=T.CharacterType, external=True, public=True,
+                      uses_entity_info=False, uses_envs=False)
+    def denoted_value():
+        """
+        Return the value that this literal denotes.
+        """
+        pass
+
     @langkit_property()
     def xref_equation():
         return Predicate(BaseTypeDecl.is_not_null_char_type, Self.type_var)

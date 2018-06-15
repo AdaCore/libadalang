@@ -24,6 +24,11 @@ private package Libadalang.Sources is
    --  Return a canonicalized name for Name. This performs case folding and
    --  brackets decoding.
 
+   function Decode_Character_Literal (Text : Text_Type) return Character_Type;
+   --  Turn Text, a valid Ada character literal, into the signified character.
+   --  Raise a Libadalang.Analysis.Property_Error if Text is not a valid
+   --  literal.
+
    -------------------------------
    -- Numeric literals handling --
    -------------------------------

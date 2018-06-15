@@ -136,7 +136,7 @@ class Token(LexerToken):
 ada_lexer = Lexer(Token)
 
 ada_lexer.add_patterns(
-    ('bracket_char', r'(\[\"([0-9A-F][0-9A-F]){2,4}\"\])'),
+    ('bracket_char', r'(\[\"[0-9a-fA-F]+\"\])'),
     ('p_string', r'\"(\"\"|{bracket_char}|[^\n\"])*\"'),
     ('p_percent_string', r'%(%%|{bracket_char}|[^\n%])*%'),
 

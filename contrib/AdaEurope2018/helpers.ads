@@ -14,7 +14,7 @@ package Helpers is
    --    * If Initialize is passed, call it on the resulting analysis context.
    --
    --    * Then call Process on all analysis units we get for the source files
-   --      in this project
+   --      in this project.
    --
    --    * If Summarize is passed, call it before destroying the analysis
    --      context.

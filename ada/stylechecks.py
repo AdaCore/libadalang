@@ -16,6 +16,7 @@ EXCLUDES = ('tmp', 'doc',
             join('testsuite', 'ext_src'),
             join('testsuite', 'tests', 'contrib'),
             join('testsuite', 'tests', 'python', 'char_literal', 'foo.ads'),
+            join('testsuite', 'tests', 'python', 'string_literal', 'foo.ads'),
             join('testsuite', 'tests', 'name_resolution', 'symbol_canon'),
             join('testsuite', 'tests', 'regressions'))
 

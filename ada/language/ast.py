@@ -3385,7 +3385,7 @@ class SubtypeIndication(TypeExpr):
     @langkit_property()
     def discrete_range():
         rc = Var(Entity.constraint.cast_or_raise(RangeConstraint))
-        return rc.range.range.discrete_range
+        return rc._.range.range.discrete_range
 
 
 class ConstrainedSubtypeIndication(SubtypeIndication):

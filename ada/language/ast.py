@@ -2776,8 +2776,9 @@ class DiscriminantConstraint(Constraint):
                 typ.discriminants_list, Self.constraints, False
             ).logic_all(
                 lambda pm: pm.actual.assoc.expr.as_entity.xref_equation
-                & TypeBind(
-                    pm.actual.assoc.expr.type_var, pm.formal.spec.type
+                & Bind(
+                    pm.actual.assoc.expr.type_var, pm.formal.spec.type,
+                    eq_prop=BaseTypeDecl.matching_formal_type
                 )
             )
         )

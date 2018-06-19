@@ -2226,7 +2226,7 @@ class BaseTypeDecl(BasicDecl):
                 lambda actual_access:
                 formal_type.accessed_type.then(
                     lambda formal_access:
-                    And(actual_access.is_classwide | accept_derived,
+                    And(formal_access.is_classwide | accept_derived,
                         actual_access.is_derived_type(formal_access))
                 )
             ),

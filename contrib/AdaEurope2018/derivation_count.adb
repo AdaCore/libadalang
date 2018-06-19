@@ -27,9 +27,7 @@ procedure Derivation_Count is
    --  Mapping of tagged type declarations to the number of times this type
    --  declaration is derived.
 
-   procedure Process_Unit (Unit : LAL.Analysis_Unit);
    function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
-   procedure Summarize (Context : LAL.Analysis_Context);
 
    ------------------
    -- Process_Node --
@@ -69,32 +67,23 @@ procedure Derivation_Count is
       return LAL.Into;
    end Process_Node;
 
-   ------------------
-   -- Process_Unit --
-   ------------------
+   Units : Helpers.Unit_Vectors.Vector;
 
-   procedure Process_Unit (Unit : LAL.Analysis_Unit) is
-   begin
-      LAL.Root (Unit).Traverse (Process_Node'Access);
-   end Process_Unit;
+   Ctx : constant LAL.Analysis_Context :=
+     Helpers.Initialize ("material.gpr", Units);
 
-   ---------------
-   -- Summarize --
-   ---------------
-
-   procedure Summarize (Context : LAL.Analysis_Context) is
-      pragma Unreferenced (Context);
-   begin
-      for Cur in Histogram.Iterate loop
-         declare
-            use Derivation_Histogram_Maps;
-         begin
-            TIO.Put_Line (Key (Cur).Image & " is derived"
-                          & Positive'Image (Element (Cur)) & " times");
-         end;
-      end loop;
-   end Summarize;
-
+   pragma Unreferenced (Ctx);
 begin
-   Helpers.Iterate_Units (null, Process_Unit'Access, Summarize'Access);
+   for Unit of Units loop
+      LAL.Root (Unit).Traverse (Process_Node'Access);
+   end loop;
+
+   for Cur in Histogram.Iterate loop
+      declare
+         use Derivation_Histogram_Maps;
+      begin
+         TIO.Put_Line (Key (Cur).Image & " is derived"
+                       & Positive'Image (Element (Cur)) & " times");
+      end;
+   end loop;
 end Derivation_Count;

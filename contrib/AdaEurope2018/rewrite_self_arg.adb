@@ -3,9 +3,8 @@
 
 with Ada.Text_IO;
 
-with Langkit_Support.Text;
-with Libadalang.Analysis;
-with Libadalang.Rewriting;
+with Langkit_Support.Text, Libadalang.Analysis, Libadalang.Iterators,
+     Libadalang.Rewriting;
 
 with Helpers;
 
@@ -13,138 +12,95 @@ procedure Rewrite_Self_Arg is
 
    package TIO renames Ada.Text_IO;
    package LAL renames Libadalang.Analysis;
+   package LAL_RW renames Libadalang.Rewriting;
+   package LAL_It renames Libadalang.Iterators;
+
    use type LAL.Ada_Node_Kind_Type;
-   package LALRW renames Libadalang.Rewriting;
 
-   type Analysis_Unit_Array is array (Positive range <>) of LAL.Analysis_Unit;
+   Units : Helpers.Unit_Vectors.Vector;
 
-   function Modified_Units
-     (Handle : LALRW.Rewriting_Handle) return Analysis_Unit_Array;
-   --  Return the list of analysis units that will be modified by the Handle
-   --  rewritting session.
+   Ctx : constant LAL.Analysis_Context :=
+     Helpers.Initialize ("material.gpr", Units);
 
-   procedure Initialize (Context : LAL.Analysis_Context);
-   procedure Process_Unit (Unit : LAL.Analysis_Unit);
-   function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
-   procedure Summarize (Context : LAL.Analysis_Context);
+   Handle : LAL_RW.Rewriting_Handle := LAL_RW.Start_Rewriting (Ctx);
 
-   Handle : LALRW.Rewriting_Handle;
+   function Is_Subp (N : LAL.Ada_Node) return Boolean is
+     (LAL.Kind (N) = LAL.Ada_Subp_Spec);
 
-   --------------------
-   -- Modified_Units --
-   --------------------
+begin
 
-   function Modified_Units
-     (Handle : LALRW.Rewriting_Handle) return Analysis_Unit_Array
-   is
-      Units : constant LALRW.Unit_Rewriting_Handle_Array :=
-        LALRW.Unit_Handles (Handle);
-      Result : Analysis_Unit_Array (Units'Range);
-   begin
-      for I in Units'Range loop
-         Result (I) := LALRW.Unit (Units (I));
-      end loop;
-      return Result;
-   end Modified_Units;
-
-   ----------------
-   -- Initialize --
-   ----------------
-
-   procedure Initialize (Context : LAL.Analysis_Context) is
-   begin
-      Handle := LALRW.Start_Rewriting (Context);
-   end Initialize;
-
-   ------------------
-   -- Process_Node --
-   ------------------
-
-   function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status is
-      use type LALRW.Node_Rewriting_Handle;
-
-      Subp_Spec : LAL.Subp_Spec;
-      --  Subprogram specification to rewrite
-
-      Primitive_Of : LAL.Base_Type_Decl;
-      --  Subp_Spec is a primitive of this
-
-      Id : LALRW.Node_Rewriting_Handle := LALRW.No_Node_Rewriting_Handle;
-      --  Formal identifier to rewrite into Self
-   begin
-      --  Only process Subp_Spec nodes that are primitives and that have at
-      --  least one paramater.
-      if Node.Kind /= LAL.Ada_Subp_Spec then
-         return LAL.Into;
-      end if;
-
-      Subp_Spec := Node.As_Subp_Spec;
-      Primitive_Of := Subp_Spec.P_Primitive_Subp_Of;
-      if Primitive_Of.Is_Null or else Subp_Spec.F_Subp_Params.Is_Null
-      then
-         return LAL.Into;
-      end if;
-
-      --  Look for a parameter whose type is the same as Primitive_Of. Abort
-      --  rewriting if there are more than one such parameter.
-      Primitive_Of := Primitive_Of.P_Canonical_Type;
-      for Param_Spec of Subp_Spec.F_Subp_Params.F_Params.Children loop
+   for Unit of Units loop
+      for Node of LAL_It.Find (LAL.Root (Unit), Is_Subp'Access).Consume loop
          declare
-            use type LAL.Base_Type_Decl;
+            use type LAL_RW.Node_Rewriting_Handle;
 
-            PS         : constant LAL.Param_Spec := Param_Spec.As_Param_Spec;
-            Param_Type : constant LAL.Base_Type_Decl :=
-              PS.F_Type_Expr.P_Designated_Type_Decl.P_Canonical_Type;
+            Subp_Spec : constant LAL.Subp_Spec := Node.As_Subp_Spec;
+            --  Subprogram specification to rewrite
+
+            Primitive_Of : LAL.Base_Type_Decl;
+            --  Subp_Spec is a primitive of this
+
+            Id        : LAL_RW.Node_Rewriting_Handle
+              := LAL_RW.No_Node_Rewriting_Handle;
+            --  Formal identifier to rewrite into Self
          begin
-            if Param_Type = Primitive_Of then
-               if Id /= LALRW.No_Node_Rewriting_Handle
-                 or else PS.F_Ids.Children_Count > 1
-               then
-                  return LAL.Into;
+
+            Primitive_Of := Subp_Spec.P_Primitive_Subp_Of;
+
+            if not Primitive_Of.Is_Null
+              and then not Subp_Spec.F_Subp_Params.Is_Null
+            then
+               --  Look for a parameter whose type is the same as Primitive_Of.
+               --  Abort rewriting if there are more than one such parameter.
+               Primitive_Of := Primitive_Of.P_Canonical_Type;
+
+               for Param_Spec of Subp_Spec.F_Subp_Params.F_Params.Children loop
+                  declare
+                     use type LAL.Base_Type_Decl;
+
+                     PS         : constant LAL.Param_Spec :=
+                       Param_Spec.As_Param_Spec;
+                     Param_Type : constant LAL.Base_Type_Decl :=
+                       PS.F_Type_Expr.P_Designated_Type_Decl.P_Canonical_Type;
+                  begin
+                     if Param_Type = Primitive_Of
+                       and then Id = LAL_RW.No_Node_Rewriting_Handle
+                       and then PS.F_Ids.Children_Count = 1
+                     then
+                        Id := LAL_RW.Handle
+                          (PS.F_Ids.Child (1).As_Defining_Name.F_Name);
+                     end if;
+                  end;
+               end loop;
+
+               --  Rename the formal!
+               if Id /= LAL_RW.No_Node_Rewriting_Handle then
+                  LAL_RW.Set_Text (Id, "Self");
                end if;
-               Id := LALRW.Handle (PS.F_Ids.Child (1).As_Defining_Name.F_Name);
+
             end if;
          end;
       end loop;
+   end loop;
 
-      --  Rename the formal!
-      if Id /= LALRW.No_Node_Rewriting_Handle then
-         LALRW.Set_Text (Id, "Self");
-      end if;
+   --  Write results
 
-      return LAL.Into;
-   end Process_Node;
-
-   ------------------
-   -- Process_Unit --
-   ------------------
-
-   procedure Process_Unit (Unit : LAL.Analysis_Unit) is
-   begin
-      LAL.Root (Unit).Traverse (Process_Node'Access);
-   end Process_Unit;
-
-   ---------------
-   -- Summarize --
-   ---------------
-
-   procedure Summarize (Context : LAL.Analysis_Context) is
-      pragma Unreferenced (Context);
-
-      Units : constant Analysis_Unit_Array := Modified_Units (Handle);
+   declare
+      Units : constant LAL_RW.Unit_Rewriting_Handle_Array
+        := LAL_RW.Unit_Handles (Handle);
       --  Remember which analysis units are to be rewritten
 
-      Result : constant LALRW.Apply_Result := LALRW.Apply (Handle);
+      Result : constant LAL_RW.Apply_Result := LAL_RW.Apply (Handle);
    begin
-      case Result.Success is
-         when True => null;
-         when False => TIO.Put_Line ("Error during rewriting...");
-      end case;
+      if not Result.Success then
+         TIO.Put_Line ("Error during rewriting...");
+      end if;
 
       --  Go through all rewritten units and generate a ".new" source file to
       --  contain the rewritten sources.
-      for U of Units loop
+      for Unit_Handle of Units loop
          declare
+            U        : constant LAL.Analysis_Unit := LAL_RW.Unit (Unit_Handle);
             Filename : constant String := LAL.Get_Filename (U) & ".new";
             Charset  : constant String := LAL.Get_Charset (U);
 
@@ -157,15 +113,11 @@ procedure Rewrite_Self_Arg is
 
             Output_File : TIO.File_Type;
          begin
-            TIO.Create
-              (Output_File, TIO.Out_File, Filename);
+            TIO.Create (Output_File, TIO.Out_File, Filename);
             TIO.Put (Output_File, Content_Bytes);
             TIO.Close (Output_File);
          end;
       end loop;
-   end Summarize;
+   end;
 
-begin
-   Helpers.Iterate_Units
-     (Initialize'Access, Process_Unit'Access, Summarize'Access);
 end Rewrite_Self_Arg;

@@ -768,12 +768,8 @@ class AdaNode(ASTNode):
         trying to mimic GNAT's xrefs as much as possible.
         """
 
-        bd = Var(
-            Entity.parents.find(lambda p: p.is_a(T.DefiningName))
-            .cast(T.DefiningName).then(
-                lambda dn: dn.basic_decl
-            )
-        )
+        bd = Var(Entity.cast(T.Name).enclosing_defining_name
+                 .then(lambda dn: dn.basic_decl))
 
         return Cond(
             bd.then(lambda bd: bd.is_a(T.ParamSpec))
@@ -4879,6 +4875,21 @@ class NullRecordAggregate(BaseAggregate):
 @abstract
 class Name(Expr):
 
+    enclosing_defining_name = Property(
+        Entity.parents.find(lambda p: p.is_a(T.DefiningName))
+        .cast(T.DefiningName),
+        public=True, doc="""
+        If this name is part of a defining name, return the enclosing defining
+        name node.
+        """,
+    )
+
+    is_defining = Property(
+        Not(Entity.enclosing_defining_name.is_null),
+        public=True,
+        doc="Return True if this name is part of a defining name."
+    )
+
     parent_scope = AbstractProperty(
         type=LexicalEnvType, runtime_check=True,
         dynamic_vars=[env],
@@ -4909,8 +4920,7 @@ class Name(Expr):
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def xref():
-        dn = Var(Entity.parents.find(lambda p: p.is_a(T.DefiningName))
-                 .cast(T.DefiningName))
+        dn = Var(Entity.enclosing_defining_name)
         bd = Var(dn.then(lambda dn: dn.basic_decl))
 
         return Cond(

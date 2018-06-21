@@ -111,11 +111,43 @@ def env_mappings(defining_names, entity):
     )
 
 
+def new_metadata(**kwargs):
+    """
+    Constructor for Metadata. Waiting on default values for structs.
+    """
+    source = None
+    if "source" in kwargs:
+        source = kwargs["source"]
+        del kwargs["source"]
+
+    vals = [
+        ("dottable_subp", False),
+        ("primitive", No(T.AdaNode)),
+        ("primitive_real_type", No(T.AdaNode)),
+        ("access_entity", False),
+        ("is_call", False),
+    ]
+
+    for k, v in vals:
+        if k not in kwargs:
+            kwargs[k] = v if not source else getattr(Entity.info.md, k)
+
+    return Metadata.new(**kwargs)
+
+
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
         BoolType, doc="Whether the stored element is a subprogram accessed "
                       "through the dot notation"
+    )
+    access_entity = UserField(
+        BoolType,
+        doc="Whether the accessed entity is an anonymous access to it or not."
+    )
+    is_call = UserField(
+        BoolType,
+        doc="Whether the entity represents a call in the original context"
     )
     primitive = UserField(
         T.AdaNode,
@@ -124,10 +156,6 @@ class Metadata(Struct):
     primitive_real_type = UserField(
         T.AdaNode,
         doc="The type for which this subprogram is a primitive, if any"
-    )
-    access_entity = UserField(
-        BoolType,
-        doc="Whether the accessed entity is an anonymous access to it or not."
     )
 
 
@@ -175,17 +203,26 @@ class AdaNode(ASTNode):
         Return Self as an entity, but with the ``access_entity`` field set to
         val. Helper for the 'Unrestricted_Access machinery.
         """
-        new_md = Var(Metadata.new(
-            dottable_subp=Entity.info.md.dottable_subp,
-            primitive=Entity.info.md.primitive,
-            primitive_real_type=Entity.info.md.primitive_real_type,
-            access_entity=val
-        ))
+        new_md = Var(new_metadata(source=Entity.info.md, access_entity=val))
 
         return AdaNode.entity.new(
             el=Entity.el, info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
                 md=new_md
+            )
+        )
+
+    @langkit_property(return_type=T.AdaNode.entity)
+    def trigger_is_call():
+        """
+        Return Self as an entity, but with the ``is_call`` md field set to
+        True.
+        """
+        return AdaNode.entity.new(
+            el=Entity.el,
+            info=T.entity_info.new(
+                rebindings=Entity.info.rebindings,
+                md=new_metadata(source=Entity.info.md, is_call=True)
             )
         )
 
@@ -2575,12 +2612,7 @@ class TypeDecl(BaseTypeDecl):
     def parent_primitives_env():
         return Self.type_def.match(
             lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
-                with_md=Metadata.new(
-                    dottable_subp=False,
-                    primitive=No(T.AdaNode),
-                    primitive_real_type=Self,
-                    access_entity=False,
-                )
+                with_md=new_metadata(primitive_real_type=Self)
             ),
             lambda _: Self.empty_env
         )
@@ -3540,10 +3572,7 @@ class BasicSubpDecl(BasicDecl):
             .dottable_subp_of._.children_env,
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
-            metadata=Metadata.new(dottable_subp=True,
-                                  primitive=No(T.AdaNode),
-                                  primitive_real_type=No(T.AdaNode),
-                                  access_entity=False)
+            metadata=new_metadata(dottable_subp=True)
         ),
 
         # Adding subp to the primitives env if the subp is a primitive. TODO:
@@ -3556,12 +3585,9 @@ class BasicSubpDecl(BasicDecl):
             T.env_assoc.new(key=Entity.name_symbol, val=Self),
             dest_env=(Self.as_bare_entity.subp_decl_spec
                       .primitive_subp_of.cast(T.TypeDecl)._.primitives),
-            metadata=Metadata.new(
-                dottable_subp=False,
+            metadata=new_metadata(
                 primitive=(Self.as_bare_entity.subp_decl_spec
                            .primitive_subp_of.cast(T.AdaNode).el),
-                primitive_real_type=No(T.AdaNode),
-                access_entity=False
             )
         )
     )
@@ -4862,6 +4888,13 @@ class Name(Expr):
         """
     )
 
+    @langkit_property(public=True, return_type=T.BoolType)
+    def is_call():
+        """
+        Returns True if this Name corresponds to a call.
+        """
+        return Entity.referenced_decl.info.md.is_call
+
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def referenced_id(ref_decl=T.BasicDecl.entity):
         """
@@ -6153,7 +6186,10 @@ class BaseId(SingleTokNode):
                     lambda _: False
                 ))
             ), default_val=items)
-        ))
+        )).map(
+            lambda e: If(e.cast(T.BasicDecl).subp_spec_or_null.is_null,
+                         e, e.trigger_is_call)
+        )
 
     @langkit_property()
     def xref_equation():
@@ -6250,12 +6286,7 @@ class EnumLiteralDecl(BasicDecl):
         add_to_env_kv(
             Self.name_symbol, Self,
             dest_env=Entity.enum_type.primitives,
-            metadata=Metadata.new(
-                dottable_subp=False,
-                primitive=Entity.enum_type.el,
-                primitive_real_type=No(T.AdaNode),
-                access_entity=False
-            )
+            metadata=new_metadata(primitive=Entity.enum_type.el)
         )
     )
 
@@ -7083,7 +7114,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def access_equation():
         return Or(
-            # Access to
+            # Access to subprogram
             Entity.prefix.xref_no_overloading(all_els=True)
             & Predicate(BaseTypeDecl.is_subp_access_of,
                         Self.type_var,
@@ -7345,10 +7376,7 @@ class BaseSubpBody(Body):
             .dottable_subp_of._.children_env,
             # We pass custom metadata, marking the entity as a dottable
             # subprogram.
-            metadata=Metadata.new(dottable_subp=True,
-                                  primitive=No(T.AdaNode),
-                                  primitive_real_type=No(T.AdaNode),
-                                  access_entity=False)
+            metadata=new_metadata(dottable_subp=True)
         ),
 
         # Adding subp to the primitives env if the subp is a primitive. TODO:
@@ -7361,12 +7389,9 @@ class BaseSubpBody(Body):
             T.env_assoc.new(key=Entity.name_symbol, val=Self),
             dest_env=(Self.as_bare_entity.subp_spec
                       .primitive_subp_of.cast(T.TypeDecl)._.primitives),
-            metadata=Metadata.new(
-                dottable_subp=False,
+            metadata=new_metadata(
                 primitive=(Self.as_bare_entity.subp_spec
                            .primitive_subp_of.cast(T.AdaNode).el),
-                primitive_real_type=No(T.AdaNode),
-                access_entity=False
             )
         )
     )

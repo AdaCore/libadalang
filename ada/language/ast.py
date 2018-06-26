@@ -1028,11 +1028,11 @@ class BasicDecl(AdaNode):
         return origin.bind(
             Self,
             Self.is_subprogram
-            & params.at(0).spec.type.is_access_to(root_stream_type)
+            & params.at(0).spec.formal_type.is_access_to(root_stream_type)
             & If(
                 return_obj,
                 Entity.subp_spec_or_null.return_type.matching_formal_type(typ),
-                params.at(1).spec.type.matching_formal_type(typ),
+                params.at(1).spec.formal_type.matching_formal_type(typ),
             )
         )
 
@@ -1331,10 +1331,9 @@ class BaseFormalParamDecl(BasicDecl):
 
     is_mandatory = Property(False)
 
-    type = Property(
-        origin.bind(
-            Self, Entity.type_expression._.designated_type
-        )
+    formal_type = Property(
+        origin.bind(Self, Entity.type_expression._.designated_type),
+        doc="Return the type for this formal.", public=True
     )
 
     el_type = Property(
@@ -1445,7 +1444,8 @@ class BaseFormalParamHolder(AdaNode):
                 p.name.matches(other_params.at(i).name) | Not(match_names),
                 origin.bind(
                     Self,
-                    p.spec.type._.matching_type(other_params.at(i).spec.type)
+                    p.spec.formal_type
+                    ._.matching_type(other_params.at(i).spec.formal_type)
                 )
             ))
         )
@@ -2529,7 +2529,7 @@ class TypeDecl(BaseTypeDecl):
             # We cast to BaseFormalParamDecl. Following Ada's legality rule,
             # you need to implicit deref on a discriminant, but I see no reason
             # to enforce that here.
-            .cast_or_raise(T.BaseFormalParamDecl).type.accessed_type
+            .cast_or_raise(T.BaseFormalParamDecl).formal_type.accessed_type
         )
 
     access_def = Property(Entity.type_def.match(
@@ -2660,7 +2660,7 @@ class TypeDecl(BaseTypeDecl):
                     origin.bind(
                         Self,
                         ss.unpacked_formal_params.at(0)
-                        ._.spec.type.matching_formal_type(Entity)
+                        ._.spec.formal_type.matching_formal_type(Entity)
                     )
                 )
             )
@@ -2676,7 +2676,7 @@ class TypeDecl(BaseTypeDecl):
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
                     lambda ss:
                     ss.unpacked_formal_params.at(0)
-                    ._.spec.type.matching_formal_type(Entity)
+                    ._.spec.formal_type.matching_formal_type(Entity)
                     & ss.return_type.is_implicit_deref
                 )
             )
@@ -2829,7 +2829,7 @@ class DiscriminantConstraint(Constraint):
             ).logic_all(
                 lambda pm: pm.actual.assoc.expr.as_entity.xref_equation
                 & Bind(
-                    pm.actual.assoc.expr.type_var, pm.formal.spec.type,
+                    pm.actual.assoc.expr.type_var, pm.formal.spec.formal_type,
                     eq_prop=BaseTypeDecl.matching_formal_type
                 )
             )
@@ -3542,7 +3542,7 @@ class BasicSubpDecl(BasicDecl):
             Entity.info.md.dottable_subp,
             Bind(prefix.type_var,
                  Entity.subp_decl_spec
-                 .unpacked_formal_params.at(0)._.spec.type,
+                 .unpacked_formal_params.at(0)._.spec.formal_type,
                  eq_prop=BaseTypeDecl.matching_prefix_type),
             LogicTrue()
         )
@@ -4600,7 +4600,7 @@ class UnOp(Expr):
 
             # The subprogram's first argument must match Self's left
             # operand.
-            TypeBind(Self.expr.type_var, ps.at(0).spec.type)
+            TypeBind(Self.expr.type_var, ps.at(0).spec.formal_type)
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
@@ -4636,11 +4636,11 @@ class BinOp(Expr):
 
             # The subprogram's first argument must match Self's left
             # operand.
-            TypeBind(Self.left.type_var, ps.at(0).spec.type)
+            TypeBind(Self.left.type_var, ps.at(0).spec.formal_type)
 
             # The subprogram's second argument must match Self's right
             # operand.
-            & TypeBind(Self.right.type_var, ps.at(1).spec.type)
+            & TypeBind(Self.right.type_var, ps.at(1).spec.formal_type)
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
@@ -5560,7 +5560,7 @@ class CallExpr(Name):
                 TypeBind(Self.type_var, ret_type)
                 & If(constrain_params,
                      param.as_entity.sub_equation, LogicTrue())
-                & TypeBind(param.type_var, formal.spec.type)
+                & TypeBind(param.type_var, formal.spec.formal_type)
             )),
 
             typ.access_def.cast(AccessToSubpDef).then(

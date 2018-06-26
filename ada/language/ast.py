@@ -1160,28 +1160,11 @@ class BasicDecl(AdaNode):
         Return the fully qualified name corresponding to this declaration.
         """
         # TODO: handle non-library items
-        name = Var(Self.match(
-            lambda subp_decl=T.ClassicSubpDecl:
-                subp_decl.subp_spec.subp_name,
-            lambda pkg_decl=T.BasePackageDecl:
-                pkg_decl.package_name,
-            lambda subp_inst=T.GenericSubpInstantiation:
-                subp_inst.subp_name,
-            lambda pkg_inst=T.GenericPackageInstantiation:
-                pkg_inst.name,
-            lambda pkg_renam=T.PackageRenamingDecl:
-                pkg_renam.name,
-            lambda gen_subp=T.GenericSubpDecl:
-                gen_subp.subp_decl.subp_spec.subp_name,
-            lambda gen_pkg=T.GenericPackageDecl:
-                gen_pkg.package_decl.package_name,
-            lambda subp_body=T.SubpBody:
-                subp_body.subp_spec.subp_name,
-            lambda pkg_body=T.PackageBody:
-                pkg_body.package_name,
-            lambda _: PropertyError(T.Name),
-        ))
-        return name.as_symbol_array
+        return If(
+            Self.is_unit_root,
+            Self.as_bare_entity.defining_name.as_symbol_array,
+            PropertyError(SymbolType.array)
+        )
 
 
 class ErrorDecl(BasicDecl):

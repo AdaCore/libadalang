@@ -4320,9 +4320,7 @@ class AbstractFormalSubpDecl(FormalSubpDecl):
 class GenericFormalPart(BaseFormalParamHolder):
     decls = Field(type=T.AdaNode.list)
 
-    abstract_formal_params = Property(
-        Entity.decls.keep(BaseFormalParamDecl)
-    )
+    abstract_formal_params = Property(Entity.decls.keep(BaseFormalParamDecl))
 
 
 @abstract

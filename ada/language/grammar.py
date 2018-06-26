@@ -566,7 +566,7 @@ A.add_rules(
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, sc()),
-            List(A.component_clause, empty_valid=True),
+            List(Or(A.component_clause, A.pragma), empty_valid=True),
             "end", "record", sc()
         ),
         AtClause("for", A.direct_name, "use", "at", A.expr, ";"),

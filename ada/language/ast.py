@@ -3708,7 +3708,7 @@ class ComponentClause(AdaNode):
 class RecordRepClause(AspectClause):
     name = Field(type=T.Name)
     at_expr = Field(type=T.Expr)
-    components = Field(type=T.ComponentClause.list)
+    components = Field(type=T.AdaNode.list)
 
 
 class AtClause(AspectClause):

@@ -3,7 +3,7 @@ RecordRepClause[1:1-1:190]
 |  Id[1:5-1:7]: X2
 |at_expr: <null>
 |components:
-|  ComponentClauseList[1:21-1:178]
+|  AdaNodeList[1:21-1:178]
 |  |  ComponentClause[1:21-1:44]
 |  |  |id:
 |  |  |  Id[1:21-1:23]: L1

@@ -2308,8 +2308,12 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=BoolType,
+                      dynamic_vars=[default_origin()], public=True)
     def matching_type(expected_type=T.BaseTypeDecl.entity):
+        """
+        Return whether ``self`` matches ``expected_type``.
+        """
         actual_type = Var(Entity)
         return Or(
             And(actual_type == Self.universal_int_type,

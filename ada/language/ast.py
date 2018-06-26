@@ -1462,7 +1462,8 @@ class BaseFormalParamHolder(AdaNode):
             ).length == nb_min_params,
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()], public=True)
     def return_type():
         """
         Returns the return type of Self, if applicable (eg. if Self is a
@@ -2148,7 +2149,8 @@ class BaseTypeDecl(BasicDecl):
             No(T.ArrayTypeDef.entity)
         )
 
-    @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
+    @langkit_property(dynamic_vars=[default_origin()],
+                      return_type=T.BaseTypeDecl.entity, public=True)
     def comp_type(is_subscript=(BoolType, False)):
         """
         Return the component type of `Self`, if applicable. The component type
@@ -2173,15 +2175,20 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[default_origin()], public=True)
     def index_type(dim=LongType):
+        """
+        Return the index type for dimension ``dim`` for this type, if
+        applicable.
+        """
         return Entity.array_def_with_deref.then(lambda ad: ad.index_type(dim))
 
     # A BaseTypeDecl in an expression context corresponds to a type conversion,
     # so its type is itself.
     expr_type = Property(Entity)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=BoolType,
+                      dynamic_vars=[default_origin()], public=True)
     def is_derived_type(other_type=T.BaseTypeDecl.entity):
         """
         Whether Self is derived from other_type.

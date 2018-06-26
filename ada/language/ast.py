@@ -511,6 +511,7 @@ class AdaNode(ASTNode):
 
     std_entity = Property(
         lambda sym=SymbolType: Self.unit.root.std_entity_implem(sym),
+        public=True,
         doc="Static property. Return an entity from the standard package"
             " with name `sym`."
     )

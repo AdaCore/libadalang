@@ -95,7 +95,7 @@ def ref_generic_formals():
     return reference(
         Self.cast(T.AdaNode).to_array,
         through=T.AdaNode.nested_generic_formal_part,
-        cond=Not(Self.is_library_item)
+        cond=Not(Self.is_unit_root)
     )
 
 
@@ -677,19 +677,6 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property()
-    def is_library_item():
-        """
-        Property helper to determine if an entity is the root entity for its
-        unit.
-        """
-        return Self.parent.then(lambda p: p.match(
-            lambda _=T.LibraryItem: True,
-            lambda gen_pkg_decl=T.GenericPackageDecl:
-                gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
-            lambda _: False,
-        ))
-
-    @langkit_property()
     def is_package():
         """
         Property helper to determine if an entity is a package or not.
@@ -875,6 +862,18 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 
 @abstract
 class BasicDecl(AdaNode):
+
+    @langkit_property(public=True)
+    def is_unit_root():
+        """
+        Whether a BasicDecl is the root decl for its unit.
+        """
+        return Self.parent.then(lambda p: p.match(
+            lambda _=T.LibraryItem: True,
+            lambda gen_pkg_decl=T.GenericPackageDecl:
+                gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
+            lambda _: False,
+        ))
 
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 
@@ -1187,7 +1186,7 @@ class Body(BasicDecl):
         bodies.
         """
         return If(
-            Self.is_library_item & Not(Self.is_subunit),
+            Self.is_unit_root & Not(Self.is_subunit),
 
             # If library item, we just return the spec. We don't check if it's
             # a valid and matching subprogram because that's an error case.
@@ -1267,7 +1266,7 @@ class Body(BasicDecl):
             # In case this is a library level subprogram that has no spec
             # (which is legal), we'll register this body in the parent scope.
             default_val=Cond(
-                Self.is_subprogram & Self.is_library_item,
+                Self.is_subprogram & Self.is_unit_root,
                 Let(lambda dns=Entity.defining_name.scope:
                     # If the scope is self's scope, return parent scope, or
                     # else we'll have an infinite recursion.
@@ -1275,7 +1274,7 @@ class Body(BasicDecl):
                        Entity.defining_name.parent_scope,
                        dns)),
 
-                Self.is_library_item | force_decl, Entity.defining_name.scope,
+                Self.is_unit_root | force_decl, Entity.defining_name.scope,
 
                 Self.parent.children_env,
 
@@ -4473,7 +4472,7 @@ class Expr(AdaNode):
 
     env_elements = Property(
         Entity.env_elements_impl.filter(lambda e: (
-            Not(e.is_library_item)
+            Not(e.cast(T.BasicDecl).is_unit_root)
             | Self.has_with_visibility(e.el.unit)
         )),
         dynamic_vars=[env]
@@ -5890,7 +5889,7 @@ class SingleTokNode(Name):
             from_node=from_node,
         ).find(
             lambda el:
-            Or(Not(el.is_library_item),
+            Or(Not(el.cast(T.BasicDecl).is_unit_root),
                Self.has_with_visibility(el.el.unit))
         )
 
@@ -5977,16 +5976,18 @@ class BaseId(SingleTokNode):
             lambda p: p.is_a(T.GenericPackageInstantiation)
         ))
         env_els = Var(Entity.env_elements_baseid)
-        pkg = Var(env_els.filter(lambda e: Not(e.el == bd)).at(0))
+        pkg = Var(
+            env_els.filter(lambda e: Not(e.el == bd)).at(0).cast(T.BasicDecl)
+        )
 
         return origin.bind(Self, If(
             pkg._.is_package,
             # If current item is a library item, we want to check that it
             # is visible from the current unit.
             If(
-                Or(Not(pkg.is_library_item),
+                Or(Not(pkg.is_unit_root),
                    Self.has_with_visibility(pkg.unit)),
-                Entity.pkg_env(pkg.cast(BasicDecl)),
+                Entity.pkg_env(pkg),
                 No(T.LexicalEnvType)
             ),
 

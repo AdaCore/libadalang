@@ -350,8 +350,11 @@ class AdaNode(ASTNode):
         """
         return No(T.AspectSpec.entity)
 
-    @langkit_property(return_type=T.AspectAssoc.entity)
+    @langkit_property(return_type=T.AspectAssoc.entity, public=True)
     def get_aspect(name=SymbolType):
+        """
+        Return the aspect with name ``name`` for this entity.
+        """
         return Entity.node_aspects._.aspect_assocs.find(
             lambda asp: asp.id.cast(T.BaseId).sym == name
         )

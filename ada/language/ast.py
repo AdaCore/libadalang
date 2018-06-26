@@ -443,7 +443,7 @@ class AdaNode(ASTNode):
     # multiple packages.
 
     body_unit = Property(
-        Self.top_level_item(Self.unit)._.match(
+        Self.top_level_decl(Self.unit)._.match(
             lambda body=T.Body: body.unit,
             lambda decl=T.BasicDecl:
                 decl.as_bare_entity.defining_name.referenced_unit(UnitBody),
@@ -455,7 +455,7 @@ class AdaNode(ASTNode):
     )
 
     spec_unit = Property(
-        Self.top_level_item(Self.unit)
+        Self.top_level_decl(Self.unit)
         .cast(T.Body)._.as_bare_entity.defining_name
         .referenced_unit_or_null(UnitSpecification),
 
@@ -574,7 +574,7 @@ class AdaNode(ASTNode):
                 # than use Self's children env, because of use clauses, that
                 # can be at the top level but semantically belong to the env of
                 # the top level item.
-                Self.top_level_item(Self.unit).children_env
+                Self.top_level_decl(Self.unit).children_env
             )
             .env_node._.has_with_visibility(refd_unit)
         )
@@ -695,11 +695,10 @@ class AdaNode(ASTNode):
         return Self.parent.then(lambda p: p.children_env,
                                 default_val=Self.children_env)
 
-    @langkit_property(ignore_warn_on_node=True)
-    def top_level_item(unit=AnalysisUnitType):
+    @langkit_property(ignore_warn_on_node=True, public=True)
+    def top_level_decl(unit=AnalysisUnitType):
         """
-        Property helper to get the top-level item in "unit".
-
+        Static method. Get the top-level decl in "unit".
         This is the body of a Subunit, or the item of a LibraryItem.
         """
         return unit._.root.then(
@@ -1193,7 +1192,7 @@ class Body(BasicDecl):
 
             # If library item, we just return the spec. We don't check if it's
             # a valid and matching subprogram because that's an error case.
-            Self.top_level_item(Self.spec_unit).as_entity,
+            Self.top_level_decl(Self.spec_unit).as_entity,
 
             # If not a library item, find the matching subprogram spec in the
             # env.
@@ -1245,7 +1244,7 @@ class Body(BasicDecl):
         """
         If self is a subunit, return the body in which it is rooted.
         """
-        return Self.parent.cast(T.Subunit).then(lambda su: Self.top_level_item(
+        return Self.parent.cast(T.Subunit).then(lambda su: Self.top_level_decl(
             su.name.referenced_unit_or_null(UnitBody)
         ))
 
@@ -1958,7 +1957,7 @@ class BaseTypeDecl(BasicDecl):
         """
         Return model type for this type if applicable.
         """
-        types_with_models = (Self.top_level_item(from_unit)
+        types_with_models = (Self.top_level_decl(from_unit)
                              .cast_or_raise(T.PackageDecl).public_part
                              .types_with_models)
 
@@ -6008,7 +6007,7 @@ class BaseId(SingleTokNode):
         """
         env = Var(bd.defining_env)
 
-        tl_item = Var(Self.top_level_item(Self.unit).as_entity)
+        tl_item = Var(Self.top_level_decl(Self.unit).as_entity)
         tl_item_env = Var(tl_item.children_env)
 
         return Cond(
@@ -6921,7 +6920,7 @@ class AttributeRef(Name):
         return (
             Entity.prefix.sub_equation
             & Self.type_var.domain(
-                Self.top_level_item(Self.unit)
+                Self.top_level_decl(Self.unit)
                 .cast_or_raise(T.PackageDecl).public_part
                 .types_with_models.map(lambda t: t.cast(T.AdaNode))
             )

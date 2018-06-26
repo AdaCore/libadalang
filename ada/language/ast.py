@@ -1333,9 +1333,7 @@ class BaseFormalParamDecl(BasicDecl):
     )
 
     el_type = Property(
-        origin.bind(
-            Self, Entity.type_expression._.element_type
-        )
+        origin.bind(Self, Entity.type_expression._.element_type)
     )
 
 

@@ -6541,13 +6541,8 @@ class SubpSpec(BaseSubpSpec):
     subp_returns = Field(type=T.TypeExpr)
 
     name = Property(Self.subp_name)
+    params = Property(Entity.subp_params._.params.map(lambda p: p))
 
-    params = Property(
-        Entity.subp_params.then(
-            lambda p: p.params.map(lambda p: p),
-            default_val=No(T.ParamSpec.entity.array)
-        )
-    )
     returns = Property(Entity.subp_returns)
 
 

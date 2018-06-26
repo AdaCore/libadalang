@@ -4895,6 +4895,9 @@ class NullRecordAggregate(BaseAggregate):
 
 @abstract
 class Name(Expr):
+    """
+    Base class for names.
+    """
 
     enclosing_defining_name = Property(
         Entity.parents.find(lambda p: p.is_a(T.DefiningName))

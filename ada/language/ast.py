@@ -1090,7 +1090,8 @@ class BasicDecl(AdaNode):
             lambda p: p.is_a(T.DeclarativePart)
         ).cast(T.DeclarativePart),
         doc="Return the scope of definition of this basic declaration.",
-        ignore_warn_on_node=True
+        ignore_warn_on_node=True,
+        public=True
     )
 
     relative_name = Property(Entity.defining_name.relative_name)

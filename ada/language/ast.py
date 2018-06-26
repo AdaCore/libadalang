@@ -6739,8 +6739,11 @@ class Allocator(Expr):
     subpool = Field(type=T.Name)
     type_or_expr = Field(type=T.AdaNode)
 
-    @langkit_property()
+    @langkit_property(public=True)
     def get_allocated_type():
+        """
+        Return the allocated type for this allocator.
+        """
         return origin.bind(Self, Entity.type_or_expr.match(
             lambda t=SubtypeIndication.entity: t.designated_type,
             lambda q=QualExpr.entity: q.designated_type,

@@ -1376,7 +1376,8 @@ class BaseFormalParamHolder(AdaNode):
 
     abstract_formal_params = AbstractProperty(
         type=BaseFormalParamDecl.entity.array,
-        doc="Return the list of abstract formal parameters for this holder."
+        doc="Return the list of abstract formal parameters for this holder.",
+        public=True
     )
 
     unpacked_formal_params = Property(
@@ -1397,15 +1398,15 @@ class BaseFormalParamHolder(AdaNode):
         Self.as_bare_entity.unpacked_formal_params.filter(
             lambda p: p.spec.is_mandatory
         ).length,
-        type=LongType, doc="""
+        type=LongType, public=True, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.
         """
     )
 
     nb_max_params = Property(
-        Self.as_bare_entity.unpacked_formal_params.length, type=LongType,
-        doc="""
+        Self.as_bare_entity.unpacked_formal_params.length, public=True,
+        type=LongType, doc="""
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
         """

@@ -541,7 +541,7 @@ class AdaNode(ASTNode):
         """
     )
 
-    ext_id_type = Property(
+    exc_id_type = Property(
         Self
         .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
         ._.children_env.get_first('Exception_Id', recursive=False)
@@ -919,7 +919,7 @@ class BasicDecl(AdaNode):
     @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
     def identity_type():
         return Entity.match(
-            lambda _=T.ExceptionDecl: Self.ext_id_type,
+            lambda _=T.ExceptionDecl: Self.exc_id_type,
             lambda _=T.TaskTypeDecl: Self.task_id_type,
             lambda _=T.TaskBody: Self.task_id_type,
             lambda _: No(T.BaseTypeDecl.entity)

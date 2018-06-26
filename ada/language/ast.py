@@ -24,6 +24,14 @@ env = DynamicVariable('env', LexicalEnvType)
 origin = DynamicVariable('origin', T.AdaNode)
 
 
+def default_origin():
+    """
+    Helper to return an origin dynamic param spec wich defaults to
+    No(AdaNode).
+    """
+    return (origin, No(T.AdaNode))
+
+
 def entity_no_md(type, node, rebindings):
     return Let(lambda n=node: type.entity.new(
         el=n,

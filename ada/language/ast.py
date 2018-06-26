@@ -988,10 +988,13 @@ class BasicDecl(AdaNode):
         """
     )
 
-    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity, public=True)
     def subp_spec_or_null(follow_generic=(BoolType, False)):
         """
-        If node is a Subp, returns the specification of this subprogram.
+        If Self is a Subp, returns the specification of this subprogram.
+
+        If ``follow_generic`` is True, will also work for instances of
+        ``GenericSubpDecl``.
         """
         return Entity.match(
             lambda subp=BasicSubpDecl:  subp.subp_decl_spec,

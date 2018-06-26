@@ -1109,10 +1109,10 @@ class BasicDecl(AdaNode):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
 
-    @langkit_property()
-    def body_part_entity():
+    @langkit_property(public=True)
+    def body_part_for_decl():
         """
-        Return the body corresponding to this node if applicable.
+        Return the body corresponding to this declaration, if applicable.
         """
         ignore(Var(Self.body_unit))
         return If(
@@ -3558,7 +3558,7 @@ class BasicSubpDecl(BasicDecl):
         """
         Return the BaseSubpBody corresponding to this node.
         """
-        return Entity.body_part_entity.cast(BaseSubpBody)
+        return Entity.body_part_for_decl.cast(BaseSubpBody)
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
@@ -3954,7 +3954,7 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        return Entity.body_part_entity.cast(T.PackageBody)
+        return Entity.body_part_for_decl.cast(T.PackageBody)
 
 
 class PackageDecl(BasePackageDecl):
@@ -4374,7 +4374,7 @@ class GenericSubpDecl(GenericDecl):
         """
         Return the BaseSubpBody corresponding to this node.
         """
-        return Entity.body_part_entity.cast(BaseSubpBody)
+        return Entity.body_part_for_decl.cast(BaseSubpBody)
 
     env_spec = EnvSpec(
         # Process eventual parent unit
@@ -4955,7 +4955,7 @@ class Name(Expr):
             bd.cast(T.BaseTypeDecl).previous_part(True).defining_name,
 
             bd.then(lambda bd: bd.is_a(BasicDecl)),
-            bd.body_part_entity.then(lambda bpe: bpe.defining_name)
+            bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)
             ._or(bd.defining_name),
 
             Entity.referenced_id(Entity.referenced_decl)

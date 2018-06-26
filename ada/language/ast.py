@@ -1006,8 +1006,12 @@ class BasicDecl(AdaNode):
             lambda _:                   No(SubpSpec.entity),
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=BoolType, public=True)
     def is_subprogram():
+        """
+        Return True if self is a subprogram node in the general sense (which
+        is, an entity that can be called). This includes separates and entries.
+        """
         return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 
     @langkit_property(return_type=BoolType)

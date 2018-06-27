@@ -338,7 +338,7 @@ package body Libadalang.Sources is
    --  information about it.
 
    function Strip_Underscores (Text : Text_Type) return String;
-   --  Turn Text, a wide wide string that contains only digits and
+   --  Turn Text, a wide wide string that contains only alphanumerics and
    --  underscores, into a simple string, with the underscores stripped.
 
    function Evaluate_Simple_Number (Text : Text_Type) return Integer is
@@ -372,19 +372,21 @@ package body Libadalang.Sources is
    begin
       for I in Text'Range loop
          case Text (I) is
-            when '0' .. '9' => Put (I);
+            when '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' => Put (I);
+
             when '+' | '-'  =>
                if I /= Text'First then
                   Error;
                else
                   Put (I);
                end if;
-            when '_'        => null;
-            when others     => Error;
+
+            when '_'    => null;
+            when others => Error;
          end case;
       end loop;
       return Result (Result'First .. Next - 1);
-   end;
+   end Strip_Underscores;
 
    -----------
    -- Error --

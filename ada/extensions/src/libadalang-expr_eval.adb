@@ -263,6 +263,8 @@ package body Libadalang.Expr_Eval is
                     with "Unhandled attribute ref: " & Attr.Text;
                end if;
             end;
+         when LAL.Ada_Paren_Expr =>
+            return Expr_Eval (E.As_Paren_Expr.F_Expr);
          when others =>
             raise Property_Error with "Unhandled node: " & E.Kind'Img;
       end case;

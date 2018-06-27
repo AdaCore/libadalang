@@ -284,7 +284,7 @@ package body Libadalang.Expr_Eval is
                raise LAL.Property_Error;
             when Enum_Lit =>
                declare
-                  Pos : constant Natural := Self.Enum_Result.Child_Index + 1;
+                  Pos : constant Natural := Self.Enum_Result.Child_Index;
                begin
                   Result.Set (GNATCOLL.GMP.Long (Pos));
                end;

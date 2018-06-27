@@ -443,7 +443,15 @@ package body Libadalang.Sources is
             if Base_Image'Length = 0 then
                Error;
             end if;
-            Result.Base := Evaluate_Simple_Number (Base_Image);
+
+            declare
+               Base : constant Integer := Evaluate_Simple_Number (Base_Image);
+            begin
+               if Base not in Numerical_Base then
+                  Error;
+               end if;
+               Result.Base := Base;
+            end;
          exception
             when Constraint_Error =>
                Error;

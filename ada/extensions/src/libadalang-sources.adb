@@ -520,7 +520,8 @@ package body Libadalang.Sources is
          Digits_First : constant Wide_Wide_Character := '0';
          Digits_Last  : constant Wide_Wide_Character :=
            (if Result.Base <= 10
-            then Rebase (Digits_First, '0', '9')
+            then Wide_Wide_Character'Val (Wide_Wide_Character'Pos ('0')
+                                          + Result.Base - 1)
             else '9');
 
          Lower_Ext_Digits_First : constant Wide_Wide_Character := 'a';

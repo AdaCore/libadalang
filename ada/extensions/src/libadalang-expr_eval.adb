@@ -5,6 +5,8 @@ use type GNATCOLL.GMP.Integers.Big_Integer;
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Sources;  use Libadalang.Sources;
 
+with Langkit_Support.Text;
+
 package body Libadalang.Expr_Eval is
 
    function Create_Enum_Result
@@ -40,6 +42,14 @@ package body Libadalang.Expr_Eval is
       do
          Result.Int_Result.Set (Value);
       end return;
+   end Create_Int_Result;
+
+   function Create_Int_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Integer) return Eval_Result is
+   begin
+      return Create_Int_Result
+         (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
 
    ----------
@@ -162,10 +172,25 @@ package body Libadalang.Expr_Eval is
 
    begin
       case E.Kind is
-         when LAL.Ada_Base_Id | LAL.Ada_Dotted_Name =>
-
+         when LAL.Ada_Identifier | LAL.Ada_Dotted_Name =>
             return Eval_Decl
               (E.P_Referenced_Decl_Internal (Try_Immediate => True));
+
+         when LAL.Ada_Char_Literal =>
+            declare
+               X : LAL.Basic_Decl := E.P_Referenced_Decl_Internal
+                                       (Try_Immediate => True);
+            begin
+               if X = No_Basic_Decl then
+                  return Create_Int_Result
+                    (E.P_Expression_Type,
+                     Langkit_Support.Text.Character_Type'Pos
+                       (As_Char_Literal (E).P_Denoted_Value));
+               else
+                  return Eval_Decl
+                    (E.P_Referenced_Decl_Internal (Try_Immediate => True));
+               end if;
+            end;
 
          when LAL.Ada_Int_Literal =>
             return (Int,

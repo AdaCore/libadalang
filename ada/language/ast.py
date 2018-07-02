@@ -9,7 +9,7 @@ from langkit.dsl import (
 )
 from langkit.envs import (
     EnvSpec, add_to_env, add_env, call_env_hook, handle_children, do,
-    reference, set_initial_env
+    reference, set_initial_env, RefKind
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigInteger,
@@ -2585,7 +2585,7 @@ class TypeDecl(BaseTypeDecl):
         reference(
             Self.cast(AdaNode).singleton,
             through=T.TypeDecl.parent_primitives_env,
-            transitive=True,
+            kind=RefKind.transitive,
             dest_env=Self.node_env,
             cond=Self.type_def.is_a(T.DerivedTypeDef)
         ),
@@ -7905,7 +7905,7 @@ class PackageBody(Body):
 
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      transitive=True)
+                      kind=RefKind.transitive)
         ]
     )
 
@@ -7982,7 +7982,7 @@ class ProtectedBody(Body):
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      transitive=True)
+                      kind=RefKind.transitive)
         ]
     )
 

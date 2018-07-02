@@ -95,7 +95,8 @@ def ref_generic_formals():
     return reference(
         Self.cast(T.AdaNode).to_array,
         through=T.AdaNode.nested_generic_formal_part,
-        cond=Not(Self.is_unit_root)
+        cond=Not(Self.is_unit_root),
+        kind=RefKind.prioritary,
     )
 
 
@@ -4207,6 +4208,7 @@ class GenericPackageInstantiation(GenericInstantiation):
             Self.initial_env,
             If(Self.is_formal_pkg, Self.initial_env, Entity.decl_scope(False))
         )),
+
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
         ref_used_packages(),

@@ -4013,11 +4013,9 @@ class GenericInstantiation(BasicDecl):
     )
 
     nonbound_generic_decl = Property(
-        env.bind(
-            Self.node_env,
-            Self.as_bare_entity.generic_entity_name
-            .all_env_elements(seq=True, seq_from=Self).at(0)
-        )._.match(
+        Self.as_bare_entity.generic_entity_name
+        .all_env_elements(seq=True, seq_from=Self).at(0)
+        ._.match(
             lambda b=Body: b.decl_part_entity,
             lambda rd=T.GenericRenamingDecl: rd.resolve,
             lambda d=BasicDecl: d,
@@ -4118,6 +4116,13 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     env_spec = EnvSpec(
         call_env_hook(Self),
+
+        set_initial_env(
+            env.bind(Self.initial_env, Let(
+                lambda scope=Self.as_bare_entity.defining_name.parent_scope:
+                If(scope == EmptyEnv, env, scope)
+            ))
+        ),
 
         add_env(),
         ref_used_packages(),

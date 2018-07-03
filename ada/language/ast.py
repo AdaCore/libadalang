@@ -6795,6 +6795,10 @@ class QualExpr(Name):
     )
     designated_type_impl = Property(Entity.prefix.designated_type_impl)
 
+    @langkit_property()
+    def designated_env():
+        return Entity.designated_type.defining_env
+
 
 class AttributeRef(Name):
     prefix = Field(type=T.Name)

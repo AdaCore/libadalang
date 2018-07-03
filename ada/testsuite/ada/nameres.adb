@@ -5,9 +5,10 @@ with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
-with GNATCOLL.Projects; use GNATCOLL.Projects;
+with GNATCOLL.Opt_Parse;
+with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;
-with GNATCOLL.VFS;      use GNATCOLL.VFS;
+with GNATCOLL.VFS;       use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
@@ -26,57 +27,111 @@ procedure Nameres is
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
 
-   --  Holders for options that command-line can tune
-
-   File_Limit        : Integer := -1;
-   Nb_Files_Analyzed : Natural := 0;
-
-   Charset : Unbounded_String := To_Unbounded_String ("");
-   --  Charset to use in order to parse analysis units
-
-   Quiet : Boolean := False;
-   --  If True, don't display anything but errors on standard output
-
-   Stats : Boolean := False;
-
    package Stats_Data is
+      Nb_Files_Analyzed : Natural := 0;
       Nb_Successes       : Natural := 0;
       Nb_Fails           : Natural := 0;
       Nb_Exception_Fails : Natural := 0;
    end Stats_Data;
+
+   package Args is
+      use GNATCOLL.Opt_Parse;
+      Parser : Argument_Parser := Create_Argument_Parser
+        (Help =>
+           "Run Libadalang's name resolution on a file, set of file, "
+           & "or project");
+
+      package File_Limit is new Parse_Option
+        (Parser, "-l", "--file-limit", "Stop program after N files", Integer,
+         Default_Val => -1);
+
+      package Charset is new Parse_Option
+        (Parser, "-C", "--charset", "Charset to use for source decoding",
+         Unbounded_String, Default_Val => To_Unbounded_String ("iso-8859-1"));
+
+      package Quiet is new Parse_Flag
+        (Parser, "-q", "--quiet", "Quiet mode (no output on stdout)");
+
+      package Stats is new Parse_Flag
+        (Parser, "-S", "--stats", "Output stats at the end of analysis");
+
+      package Resolve_All is new Parse_Flag
+        (Parser, "-A", "--all", "Resolve every cross reference");
+
+      package Solve_Line is new Parse_Option
+        (Parser, "-L", "--solve-line", "Only analyze line N",
+         Natural, Default_Val => 0);
+
+      package Only_Show_Failures is new Parse_Flag
+        (Parser, Long => "--only-show-failures",
+         Help => "Only output failures on stdout");
+
+      package Dump_Envs is new Parse_Flag
+        (Parser, "-E", "--dump-envs",
+         Help => "Dump lexical envs after populating them");
+
+      package Do_Reparse is new Parse_Flag
+        (Parser,
+         Long => "--reparse",
+         Help => "Reparse units 10 times (hardening)");
+
+      package Timeout is new Parse_Option
+        (Parser, "--timeout", "-t", "Timeout equation solving after N steps",
+         Natural, Default_Val => 100_000);
+
+      package No_Lookup_Cache is new Parse_Flag
+        (Parser,
+         Long => "--no-lookup-cache", Help => "Deactivate lookup cache");
+
+      package Trace is new Parse_Flag
+        (Parser, "-T", "--trace", Help => "Trace logic equation solving");
+
+      package Debug is new Parse_Flag
+        (Parser, "-D", "--debug", Help => "Debug logic equation solving");
+
+      package With_Default_Project is new Parse_Flag
+        (Parser, "-DP", "--with-default-project",
+         Help => "Use default project");
+
+      package Files_From_Project is new Parse_Flag
+        (Parser,
+         Long => "--files-from-project",
+         Help => "Take files from specified project file");
+
+      package Auto_Dirs is new Parse_Option_List
+        (Parser, "-A", "--auto-dir",
+         Arg_Type   => Unbounded_String,
+         Accumulate => True,
+         Help       =>
+            "Directories to use for the auto provider. If one is passed, "
+            & "auto provider will be used, and project options ignored");
+
+      package Scenario_Vars is new Parse_Option_List
+        (Parser, Short => "-X", Long => "--scenario-variables",
+         Arg_Type   => Unbounded_String,
+         Accumulate => True,
+         Help       => "Scenario variables to pass to the project file");
+
+      package Project_File is new Parse_Option
+        (Parser, "-P", "--project",
+         Arg_Type    => Unbounded_String,
+         Default_Val => Null_Unbounded_String,
+         Help        => "Project file to use");
+
+      package Files is new Parse_Positional_Arg_List
+        (Parser,
+         Name        => "files",
+         Arg_Type    => Unbounded_String,
+         Help        => "Files to analyze",
+         Allow_Empty => True);
+   end Args;
 
    UFP : Unit_Provider_Access;
    --  When project file handling is enabled, corresponding unit provider
 
    Ctx : Analysis_Context := No_Analysis_Context;
 
-   Resolve_All : Boolean := False;
-   --  Whether to run the tool in "resolve all cross references" mode. In that
-   --  mode, pragmas are ignored.
-
-   Solve_Line : Natural := 0;
-   --  If passed, the tool will ignore all pragmas, ignore --all, and only
-   --  solve the node at given line.
-
-   Only_Show_Failures : Boolean := False;
-   --  Only print failures to stdout
-
-   Dump_Envs : Boolean := False;
-   --  Dump lexical envs of every explicitly passed file
-
-   Do_Reparse : Boolean := False;
-
-   Timeout : Natural := 100_000;
-   --  Logic resolution timeout
-
    function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
-
-   function Starts_With (S, Prefix : String) return Boolean is
-     (S'Length >= Prefix'Length
-      and then S (S'First .. S'First + Prefix'Length - 1) = Prefix);
-
-   function Strip_Prefix (S, Prefix : String) return String is
-     (S (S'First + Prefix'Length .. S'Last));
 
    function "+" (S : String) return Unbounded_String
       renames To_Unbounded_String;
@@ -84,6 +139,7 @@ procedure Nameres is
 
    function "<" (Left, Right : Ada_Node) return Boolean is
      (Sloc_Range (Left).Start_Line < Sloc_Range (Right).Start_Line);
+
    procedure Sort is new Ada.Containers.Generic_Array_Sort
      (Index_Type   => Positive,
       Element_Type => Ada_Node,
@@ -111,8 +167,6 @@ procedure Nameres is
    procedure New_Line;
    procedure Put_Line (S : String);
    procedure Put (S : String);
-   procedure Resolve_Node (Node : Ada_Node);
-   procedure Resolve_Block (Block : Ada_Node);
 
    --------------
    -- New_Line --
@@ -120,7 +174,7 @@ procedure Nameres is
 
    procedure New_Line is
    begin
-      if not Quiet then
+      if not Args.Quiet.Get then
          Ada.Text_IO.New_Line;
       end if;
    end New_Line;
@@ -130,7 +184,7 @@ procedure Nameres is
    --------------
 
    procedure Put_Line (S : String) is begin
-      if not Quiet then
+      if not Args.Quiet.Get then
          Ada.Text_IO.Put_Line (S);
       end if;
    end Put_Line;
@@ -140,7 +194,7 @@ procedure Nameres is
    ---------
 
    procedure Put (S : String) is begin
-      if not Quiet then
+      if not Args.Quiet.Get then
          Ada.Text_IO.Put (S);
       end if;
    end Put;
@@ -153,88 +207,96 @@ procedure Nameres is
      (Image (Short_Image (Node)));
 
    ------------------
-   -- Resolve_Node --
-   ------------------
-
-   procedure Resolve_Node (Node : Ada_Node) is
-
-      function Print_Node (N : Ada_Node'Class) return Visit_Status;
-
-      ----------------
-      -- Print_Node --
-      ----------------
-
-      function Print_Node (N : Ada_Node'Class) return Visit_Status is
-      begin
-         if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
-         then
-            if not Quiet then
-               Put_Line ("Expr: " & Safe_Image (N));
-               if Kind (N) in Ada_Name then
-                  Put_Line ("  references: " & Image (P_Xref (As_Name (N))));
-               end if;
-               Put_Line
-                 ("  type:       " & Image (P_Expression_Type (As_Expr (N))));
-            end if;
-         end if;
-         return (if (P_Xref_Entry_Point (N) and then As_Ada_Node (N) /= Node)
-                 or else Kind (N) in Ada_Defining_Name
-                 then Over else Into);
-      end Print_Node;
-
-      Dummy : Visit_Status;
-
-   begin
-      if not (Quiet or else Only_Show_Failures) then
-         Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
-      end if;
-      if Langkit_Support.Adalog.Debug.Debug then
-         Assign_Names_To_Logic_Vars (Node);
-      end if;
-
-      if P_Resolve_Names (Node) then
-         if not Only_Show_Failures then
-            Dummy := Traverse (Node, Print_Node'Access);
-         end if;
-
-         Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
-      else
-         Put_Line ("Resolution failed for node " & Safe_Image (Node));
-         Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
-      end if;
-      if not (Quiet or else Only_Show_Failures) then
-         Put_Line ("");
-      end if;
-   exception
-      when E : others =>
-         Put_Line
-           ("Resolution failed with exception for node " & Safe_Image (Node));
-         Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
-         Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
-         Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-         Put_Line ("");
-   end Resolve_Node;
-
-   -------------------
-   -- Resolve_Block --
-   -------------------
-
-   procedure Resolve_Block (Block : Ada_Node) is
-      function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
-      is (P_Xref_Entry_Point (N)
-          and then (Solve_Line = 0
-                    or else Natural (Sloc_Range (N).Start_Line) = Solve_Line));
-   begin
-      for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
-         Resolve_Node (Node);
-      end loop;
-   end Resolve_Block;
-
-   ------------------
    -- Process_File --
    ------------------
 
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
+      procedure Resolve_Node (Node : Ada_Node);
+      procedure Resolve_Block (Block : Ada_Node);
+
+      -------------------
+      -- Resolve_Block --
+      -------------------
+
+      procedure Resolve_Block (Block : Ada_Node) is
+         function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
+         is (P_Xref_Entry_Point (N)
+             and then
+               (Args.Solve_Line.Get = 0
+                or else
+                Natural (Sloc_Range (N).Start_Line) = Args.Solve_Line.Get));
+      begin
+         for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
+            Resolve_Node (Node);
+         end loop;
+      end Resolve_Block;
+
+      ------------------
+      -- Resolve_Node --
+      ------------------
+
+      procedure Resolve_Node (Node : Ada_Node) is
+
+         function Print_Node (N : Ada_Node'Class) return Visit_Status;
+
+         ----------------
+         -- Print_Node --
+         ----------------
+
+         function Print_Node (N : Ada_Node'Class) return Visit_Status is
+         begin
+            if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
+            then
+               if not Args.Quiet.Get then
+                  Put_Line ("Expr: " & Safe_Image (N));
+                  if Kind (N) in Ada_Name then
+                     Put_Line
+                       ("  references: " & Image (P_Xref (As_Name (N))));
+                  end if;
+                  Put_Line
+                    ("  type:     " & Image (P_Expression_Type (As_Expr (N))));
+               end if;
+            end if;
+            return
+              (if (P_Xref_Entry_Point (N) and then As_Ada_Node (N) /= Node)
+               or else Kind (N) in Ada_Defining_Name
+               then Over
+               else Into);
+         end Print_Node;
+
+         Dummy : Visit_Status;
+
+      begin
+         if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
+            Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
+         end if;
+         if Langkit_Support.Adalog.Debug.Debug then
+            Assign_Names_To_Logic_Vars (Node);
+         end if;
+
+         if P_Resolve_Names (Node) then
+            if not Args.Only_Show_Failures.Get then
+               Dummy := Traverse (Node, Print_Node'Access);
+            end if;
+
+            Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
+         else
+            Put_Line ("Resolution failed for node " & Safe_Image (Node));
+            Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
+         end if;
+         if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
+            Put_Line ("");
+         end if;
+      exception
+         when E : others =>
+            Put_Line
+              ("Resolution failed w. exception for node " & Safe_Image (Node));
+            Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
+            Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
+            Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+            Put_Line ("");
+      end Resolve_Node;
+
    begin
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop
@@ -244,19 +306,19 @@ procedure Nameres is
       end if;
       Populate_Lexical_Env (Unit);
 
-      if Do_Reparse then
+      if Args.Do_Reparse.Get then
          for I in 1 .. 10 loop
             Reparse (Unit);
             Populate_Lexical_Env (Unit);
          end loop;
       end if;
 
-      if Dump_Envs then
+      if Args.Dump_Envs.Get then
          Put_Title ('-', "Dumping envs for " & Filename);
          Dump_Lexical_Env (Unit);
       end if;
 
-      if Resolve_All or Solve_Line /= 0 then
+      if Args.Resolve_All.Get or Args.Solve_Line.Get /= 0 then
          Resolve_Block (Root (Unit));
       end if;
 
@@ -338,7 +400,7 @@ procedure Nameres is
 
                   T : constant Text_Type := Text (Arg);
                begin
-                  if not Quiet then
+                  if not Args.Quiet.Get then
                      Put_Title ('-', Image (T (T'First + 1 .. T'Last - 1)));
                   end if;
                end;
@@ -444,18 +506,13 @@ procedure Nameres is
 
    Files : String_Vectors.Vector;
 
-   With_Default_Project : Boolean := False;
-   Project_File         : Unbounded_String;
-   Scenario_Vars        : String_Vectors.Vector;
-   Files_From_Project   : Boolean := False;
-   Discard_Errors       : Boolean := False;
-
-   Use_Auto_Provider  : Boolean := False;
-   Auto_Provider_Dirs : String_Vectors.Vector;
+   ----------------
+   -- Show_Stats --
+   ----------------
 
    procedure Show_Stats is
    begin
-      if Stats then
+      if Args.Stats.Get then
          declare
             type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
             Total : constant Natural :=
@@ -476,75 +533,45 @@ procedure Nameres is
 
 begin
 
+   --  Setup traces from config file
    GNATCOLL.Traces.Parse_Config_File;
 
-   for I in 1 .. Ada.Command_Line.Argument_Count loop
-      declare
-         Arg : constant String := Ada.Command_Line.Argument (I);
-      begin
-         if Arg in "--quiet" | "-q" then
-            Quiet := True;
-         elsif Arg = "--no-lookup-cache" then
-            Libadalang.Analysis.Implementation
-              .AST_Envs.Activate_Lookup_Cache := False;
-         elsif Arg = "--stats" then
-            Stats := True;
-         elsif Arg in "--trace" | "-T" then
-            Set_Debug_State (Trace);
-         elsif Arg in "--discard-errors-in-populate-lexical-env" | "-d" then
-            Discard_Errors := True;
-         elsif Arg in "--debug" | "-D" then
-            Set_Debug_State (Step);
-         elsif Arg = "--step-on-fail" then
-            Set_Debug_State (Step_At_First_Unsat);
-         elsif Starts_With (Arg, "--charset") then
-            Charset := +Strip_Prefix (Arg, "--charset=");
-         elsif Starts_With (Arg, "--file-limit") then
-            File_Limit := Integer'Value (Strip_Prefix (Arg, "--file-limit="));
-         elsif Arg in "--with-default-project" | "-DP" then
-            With_Default_Project := True;
-         elsif Arg in "--print-envs" | "-E" then
-            Dump_Envs := True;
-         elsif Arg = "--reparse" then
-            Do_Reparse := True;
-         elsif Arg = "--all" then
-            Resolve_All := True;
-         elsif Arg = "--only-show-failures" then
-            Only_Show_Failures := True;
-         elsif Arg = "--files-from-project" then
-            Files_From_Project := True;
-         elsif Starts_With (Arg, "-P") then
-            Project_File := +Strip_Prefix (Arg, "-P");
-         elsif Starts_With (Arg, "-L") then
-            Solve_Line := Positive'Value (Strip_Prefix (Arg, "-L"));
-         elsif Starts_With (Arg, "-t") then
-            Timeout := Natural'Value (Strip_Prefix (Arg, "-t"));
-         elsif Starts_With (Arg, "-X") then
-            Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
-         elsif Arg in "-A" | "--auto-provider" then
-            Use_Auto_Provider := True;
-         elsif Starts_With (Arg, "--auto-dir=") then
-            Auto_Provider_Dirs.Append (+Strip_Prefix (Arg, "--auto-dir="));
-         elsif Starts_With (Arg, "--") then
-            Put_Line ("Invalid argument: " & Arg);
-            Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
-            return;
-         else
-            Files.Append (+Arg);
-         end if;
-      end;
-   end loop;
+   --
+   --  Set up of file & project data from command line arguments
+   --
 
-   if With_Default_Project or else Length (Project_File) > 0 then
+   if not Args.Parser.Parse then
+      return;
+   end if;
+
+   if Args.No_Lookup_Cache.Get then
+      Libadalang.Analysis.Implementation
+        .AST_Envs.Activate_Lookup_Cache := False;
+   end if;
+
+   if Args.Trace.Get then
+      Set_Debug_State (Trace);
+   elsif Args.Debug.Get then
+      Set_Debug_State (Step);
+   end if;
+
+   if not Args.Files_From_Project.Get then
+      for F of Args.Files.Get loop
+         Files.Append (F);
+      end loop;
+   end if;
+
+   if Args.With_Default_Project.Get or else Length (Args.Project_File.Get) > 0
+   then
       declare
-         Filename : constant String := +Project_File;
+         Filename : constant String := +Args.Project_File.Get;
          Env      : Project_Environment_Access;
          Project  : constant Project_Tree_Access := new Project_Tree;
       begin
          Initialize (Env);
 
          --  Set scenario variables
-         for Assoc of Scenario_Vars loop
+         for Assoc of Args.Scenario_Vars.Get loop
             declare
                A        : constant String := +Assoc;
                Eq_Index : Natural := A'First;
@@ -574,33 +601,37 @@ begin
          end if;
          UFP := new Project_Unit_Provider_Type'(Create (Project, Env, True));
 
-         if Files_From_Project then
+         if Args.Files_From_Project.Get then
             Add_Files_From_Project (Project, Project.Root_Project, Files);
          end if;
       end;
 
-   elsif Use_Auto_Provider then
+   elsif Args.Auto_Dirs.Get'Length > 0 then
       declare
-         use String_Vectors;
-         Dirs  : GNATCOLL.VFS.File_Array
-           (1 .. Natural (Auto_Provider_Dirs.Length));
+         Auto_Dirs : Args.Auto_Dirs.Result_Array renames Args.Auto_Dirs.Get;
+         Dirs  : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
          Files : GNATCOLL.VFS.File_Array_Access;
       begin
-         for Cur in Auto_Provider_Dirs.Iterate loop
-            Dirs (To_Index (Cur)) := Create (+To_String (Element (Cur)));
+         for I in Dirs'Range loop
+            Dirs (I) := Create (+To_String (Auto_Dirs (I)));
          end loop;
+
          Files := Find_Files (Directories => Dirs);
 
-         UFP := Create_Auto_Provider (Files.all, +Charset);
+         UFP := Create_Auto_Provider (Files.all, +Args.Charset.Get);
          GNATCOLL.VFS.Unchecked_Free (Files);
       end;
    end if;
 
+   Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
+
+   --
+   --  Main logic
+   --
+
    Ctx := Create
-     (Charset       => +Charset,
+     (Charset       => +Args.Charset.Get,
       Unit_Provider => Unit_Provider_Access_Cst (UFP));
-   Discard_Errors_In_Populate_Lexical_Env (Ctx, Discard_Errors);
-   Set_Logic_Resolution_Timeout (Ctx, Timeout);
 
    for F of Files loop
       declare
@@ -610,7 +641,7 @@ begin
       begin
          Unit := Get_From_File (Ctx, File);
 
-         if not Quiet then
+         if not Args.Quiet.Get then
             Put_Title ('#', "Analyzing " & Basename);
          end if;
          Process_File (Unit, File);
@@ -622,16 +653,17 @@ begin
             Put_Line ("");
       end;
 
-      Nb_Files_Analyzed := Nb_Files_Analyzed + 1;
-      exit when File_Limit /= -1 and then Nb_Files_Analyzed >= File_Limit;
+      Stats_Data.Nb_Files_Analyzed := Stats_Data.Nb_Files_Analyzed + 1;
+      exit when Args.File_Limit.Get /= -1
+        and then Stats_Data.Nb_Files_Analyzed >= Args.File_Limit.Get;
    end loop;
-
-   Show_Stats;
 
    Destroy (Ctx);
    Destroy (UFP);
-   Put_Line ("Done.");
 
+   Show_Stats;
+
+   Put_Line ("Done.");
 exception
    when others =>
       Show_Stats;

@@ -54,9 +54,8 @@ class NameResolutionDriver(BaseDriver):
         if self.project_file:
             args.insert(0, '-P{}'.format(self.project_file))
         if self.auto_provider_dirs:
-            args = (['--auto-provider'] +
-                    ['--auto-dir={}'.format(d)
-                        for d in self.auto_provider_dirs] +
+            args = (['--auto-dir={}'.format(d)
+                     for d in self.auto_provider_dirs] +
                     args)
 
         # Depending on whether Python is available and whether we want to run

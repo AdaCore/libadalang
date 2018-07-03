@@ -97,7 +97,6 @@ parser.add_argument('--charset', type=str, default="")
 parser.add_argument('--discard-errors-in-populate-lexical-env', '-d',
                     action='store_true')
 parser.add_argument('--project', '-P', type=str)
-parser.add_argument('--auto-provider', action='store_true')
 parser.add_argument('--auto-dir', action='append')
 args = parser.parse_args()
 
@@ -107,7 +106,7 @@ charset = args.charset
 
 if args.project:
     provider = lal.UnitProvider.for_project(args.project)
-elif args.auto_provider:
+elif args.auto_dir:
     input_files = []
     filename_re = re.compile(r'.*\.(ad.|a|spc|bdy)')
     for d in args.auto_dir:

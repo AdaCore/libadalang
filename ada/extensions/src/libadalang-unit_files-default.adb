@@ -126,10 +126,24 @@ package body Libadalang.Unit_Files.Default is
      (Name : String;
       Kind : Unit_Kind)
       return String
-   is (+GNATCOLL.Projects.File_From_Unit
-         (GNATCOLL.Projects.No_Project,
-          Name,
-          Libadalang.Unit_Files.Projects.Convert (Kind),
-          "ada"));
+   is
+   begin
+      GPR_Lock.Seize;
+
+      declare
+         Ret : String := +GNATCOLL.Projects.File_From_Unit
+           (GNATCOLL.Projects.No_Project,
+            Name,
+            Libadalang.Unit_Files.Projects.Convert (Kind),
+            "ada");
+      begin
+         GPR_Lock.Release;
+         return Ret;
+      end;
+   exception
+      when others =>
+         GPR_Lock.Release;
+         raise;
+   end File_From_Unit;
 
 end Libadalang.Unit_Files.Default;

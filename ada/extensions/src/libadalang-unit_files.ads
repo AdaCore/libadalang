@@ -4,6 +4,8 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Analysis.Implementation;
 use Libadalang.Analysis.Implementation;
 
+private with GNAT.Semaphores;
+
 package Libadalang.Unit_Files is
 
    type Symbol_Type_Array is array (Positive range <>) of Symbol_Type;
@@ -33,5 +35,7 @@ package Libadalang.Unit_Files is
    procedure Fetch_Standard (Context : Analysis_Context);
    --  Create the "Standard" analysis unit in Context. This unit will be called
    --  "__standard".
-
+private
+   GPR_Lock : GNAT.Semaphores.Binary_Semaphore
+     (Initially_Available => True, Ceiling => GNAT.Semaphores.Default_Ceiling);
 end Libadalang.Unit_Files;

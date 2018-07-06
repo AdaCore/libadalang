@@ -1,6 +1,6 @@
 with Ada.Finalization;
 
-with GNATCOLL.Projects; use GNATCOLL.Projects;
+with GNATCOLL.Projects;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
@@ -16,9 +16,11 @@ package Libadalang.Unit_Files.Projects is
    type Project_Unit_Provider_Access is access Project_Unit_Provider_Type;
    --  Unit_Provider implementation that relies on a project file
 
+   package Prj renames GNATCOLL.Projects;
+
    function Create
-     (Project          : Project_Tree_Access;
-      Env              : Project_Environment_Access;
+     (Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean)
       return Project_Unit_Provider_Type;
    --  Create an unit provider using Project. If Is_Project_Owner is true,
@@ -50,8 +52,8 @@ private
       new Ada.Finalization.Limited_Controlled
       and Unit_Provider_Interface
    with record
-      Project          : Project_Tree_Access;
-      Env              : Project_Environment_Access;
+      Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean;
    end record;
 
@@ -61,8 +63,8 @@ private
      (Provider : in out Project_Unit_Provider_Type);
 
    function Create
-     (Project          : Project_Tree_Access;
-      Env              : Project_Environment_Access;
+     (Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean)
       return Project_Unit_Provider_Type
    is ((Ada.Finalization.Limited_Controlled with

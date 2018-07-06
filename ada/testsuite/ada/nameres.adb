@@ -1,5 +1,7 @@
 with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
+with Ada.Containers.Synchronized_Queue_Interfaces;
+with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Containers.Vectors;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
@@ -26,6 +28,16 @@ procedure Nameres is
 
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
+
+   package String_QI
+   is new Ada.Containers.Synchronized_Queue_Interfaces (Unbounded_String);
+
+   package String_Queues
+   is new Ada.Containers.Unbounded_Synchronized_Queues (String_QI);
+
+   Queue : String_Queues.Queue;
+
+   pragma Warnings (Off, "ref");
 
    package Stats_Data is
       Nb_Files_Analyzed : Natural := 0;
@@ -76,8 +88,12 @@ procedure Nameres is
          Help => "Reparse units 10 times (hardening)");
 
       package Timeout is new Parse_Option
-        (Parser, "--timeout", "-t", "Timeout equation solving after N steps",
+        (Parser, "-t", "--timeout", "Timeout equation solving after N steps",
          Natural, Default_Val => 100_000);
+
+      package Jobs is new Parse_Option
+        (Parser, "-j", "--jobs", "Timeout equation solving after N steps",
+         Natural, Default_Val => 1);
 
       package No_Lookup_Cache is new Parse_Flag
         (Parser,
@@ -128,8 +144,6 @@ procedure Nameres is
 
    UFP : Unit_Provider_Access;
    --  When project file handling is enabled, corresponding unit provider
-
-   Ctx : Analysis_Context := No_Analysis_Context;
 
    function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
 
@@ -253,8 +267,8 @@ procedure Nameres is
                      Put_Line
                        ("  references: " & Image (P_Xref (As_Name (N))));
                   end if;
-                  Put_Line
-                    ("  type:     " & Image (P_Expression_Type (As_Expr (N))));
+                  Put_Line ("  type:       "
+                            & Image (P_Expression_Type (As_Expr (N))));
                end if;
             end if;
             return
@@ -504,8 +518,6 @@ procedure Nameres is
       Unchecked_Free (List);
    end Add_Files_From_Project;
 
-   Files : String_Vectors.Vector;
-
    ----------------
    -- Show_Stats --
    ----------------
@@ -531,6 +543,73 @@ procedure Nameres is
       end if;
    end Show_Stats;
 
+   Files : String_Vectors.Vector;
+
+   task type Main_Task_Type is
+      entry Create_Context (UFP : Unit_Provider_Access);
+      entry Stop;
+   end Main_Task_Type;
+
+   --------------------
+   -- Main_Task_Type --
+   --------------------
+
+   task body Main_Task_Type is
+      Started : Boolean := False;
+      Ctx     : Analysis_Context := No_Analysis_Context;
+      F       : Unbounded_String;
+   begin
+      accept Create_Context (UFP : Unit_Provider_Access) do
+         Ctx := Create
+           (Charset       => +Args.Charset.Get,
+            Unit_Provider => Unit_Provider_Access_Cst (UFP));
+
+         Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
+      end Create_Context;
+
+      loop
+         select
+            Queue.Dequeue (F);
+         or
+            delay 0.1;
+            exit;
+         end select;
+
+         declare
+            File     : constant String := +F;
+            Basename : constant String :=
+              +Create (+File).Base_Name;
+            Unit     : Analysis_Unit;
+         begin
+            Unit := Get_From_File (Ctx, File);
+
+            if not Args.Quiet.Get then
+               Put_Title ('#', "Analyzing " & Basename);
+            end if;
+            Process_File (Unit, File);
+
+            Stats_Data.Nb_Files_Analyzed
+              := Stats_Data.Nb_Files_Analyzed + 1;
+            exit when Args.File_Limit.Get /= -1
+              and then Stats_Data.Nb_Files_Analyzed
+                >= Args.File_Limit.Get;
+         exception
+            when E : others =>
+               Put_Line
+                 ("Resolution failed with exception for file " & File);
+               Put_Line
+                 ("> " & Ada.Exceptions.Exception_Information (E));
+               Put_Line ("");
+         end;
+      end loop;
+
+      Destroy (Ctx);
+
+      accept Stop do
+         null;
+      end Stop;
+   end Main_Task_Type;
+
 begin
 
    --  Setup traces from config file
@@ -544,121 +623,109 @@ begin
       return;
    end if;
 
-   if Args.No_Lookup_Cache.Get then
-      Libadalang.Analysis.Implementation
-        .AST_Envs.Activate_Lookup_Cache := False;
-   end if;
+   declare
+      Task_Pool : array (0 .. Args.Jobs.Get - 1) of Main_Task_Type;
+   begin
 
-   if Args.Trace.Get then
-      Set_Debug_State (Trace);
-   elsif Args.Debug.Get then
-      Set_Debug_State (Step);
-   end if;
+      if Args.No_Lookup_Cache.Get then
+         Libadalang.Analysis.Implementation
+           .AST_Envs.Activate_Lookup_Cache := False;
+      end if;
 
-   if not Args.Files_From_Project.Get then
-      for F of Args.Files.Get loop
-         Files.Append (F);
+      if Args.Trace.Get then
+         Set_Debug_State (Trace);
+      elsif Args.Debug.Get then
+         Set_Debug_State (Step);
+      end if;
+
+      if not Args.Files_From_Project.Get then
+         for F of Args.Files.Get loop
+            Files.Append (F);
+         end loop;
+      end if;
+
+      if Args.With_Default_Project.Get
+        or else Length (Args.Project_File.Get) > 0
+      then
+         declare
+            Filename : constant String := +Args.Project_File.Get;
+            Env      : Project_Environment_Access;
+            Project  : constant Project_Tree_Access := new Project_Tree;
+         begin
+            Initialize (Env);
+
+            --  Set scenario variables
+            for Assoc of Args.Scenario_Vars.Get loop
+               declare
+                  A        : constant String := +Assoc;
+                  Eq_Index : Natural := A'First;
+               begin
+                  while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop
+                     Eq_Index := Eq_Index + 1;
+                  end loop;
+                  if Eq_Index not in A'Range then
+                     Put_Line ("Invalid scenario variable: -X" & A);
+                     Ada.Command_Line.Set_Exit_Status
+                       (Ada.Command_Line.Failure);
+                     return;
+                  end if;
+                  Change_Environment
+                    (Env.all,
+                     A (A'First .. Eq_Index - 1),
+                     A (Eq_Index + 1 .. A'Last));
+               end;
+            end loop;
+
+            if Filename'Length = 0 then
+               Load_Empty_Project (Project.all, Env);
+               Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
+               Project.Root_Project.Delete_Attribute (Languages_Attribute);
+               Project.Recompute_View;
+            else
+               Load (Project.all, Create (+Filename), Env);
+            end if;
+            UFP := new Project_Unit_Provider_Type'
+              (Create (Project, Env, True));
+
+            if Args.Files_From_Project.Get then
+               Add_Files_From_Project (Project, Project.Root_Project, Files);
+            end if;
+         end;
+
+      elsif Args.Auto_Dirs.Get'Length > 0 then
+         declare
+            Auto_Dirs : Args.Auto_Dirs.Result_Array renames Args.Auto_Dirs.Get;
+            Dirs      : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
+            Files     : GNATCOLL.VFS.File_Array_Access;
+         begin
+            for I in Dirs'Range loop
+               Dirs (I) := Create (+To_String (Auto_Dirs (I)));
+            end loop;
+
+            Files := Find_Files (Directories => Dirs);
+
+            UFP := Create_Auto_Provider (Files.all, +Args.Charset.Get);
+            GNATCOLL.VFS.Unchecked_Free (Files);
+         end;
+      end if;
+
+      --
+      --  Main logic
+      --
+
+      for T of Task_Pool loop
+         T.Create_Context (UFP);
       end loop;
-   end if;
 
-   if Args.With_Default_Project.Get or else Length (Args.Project_File.Get) > 0
-   then
-      declare
-         Filename : constant String := +Args.Project_File.Get;
-         Env      : Project_Environment_Access;
-         Project  : constant Project_Tree_Access := new Project_Tree;
-      begin
-         Initialize (Env);
+      for F of Files loop
+         Queue.Enqueue (F);
+      end loop;
 
-         --  Set scenario variables
-         for Assoc of Args.Scenario_Vars.Get loop
-            declare
-               A        : constant String := +Assoc;
-               Eq_Index : Natural := A'First;
-            begin
-               while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop
-                  Eq_Index := Eq_Index + 1;
-               end loop;
-               if Eq_Index not in A'Range then
-                  Put_Line ("Invalid scenario variable: -X" & A);
-                  Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
-                  return;
-               end if;
-               Change_Environment
-                 (Env.all,
-                  A (A'First .. Eq_Index - 1),
-                  A (Eq_Index + 1 .. A'Last));
-            end;
-         end loop;
+      for T of Task_Pool loop
+         T.Stop;
+      end loop;
+   end;
 
-         if Filename'Length = 0 then
-            Load_Empty_Project (Project.all, Env);
-            Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
-            Project.Root_Project.Delete_Attribute (Languages_Attribute);
-            Project.Recompute_View;
-         else
-            Load (Project.all, Create (+Filename), Env);
-         end if;
-         UFP := new Project_Unit_Provider_Type'(Create (Project, Env, True));
-
-         if Args.Files_From_Project.Get then
-            Add_Files_From_Project (Project, Project.Root_Project, Files);
-         end if;
-      end;
-
-   elsif Args.Auto_Dirs.Get'Length > 0 then
-      declare
-         Auto_Dirs : Args.Auto_Dirs.Result_Array renames Args.Auto_Dirs.Get;
-         Dirs  : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
-         Files : GNATCOLL.VFS.File_Array_Access;
-      begin
-         for I in Dirs'Range loop
-            Dirs (I) := Create (+To_String (Auto_Dirs (I)));
-         end loop;
-
-         Files := Find_Files (Directories => Dirs);
-
-         UFP := Create_Auto_Provider (Files.all, +Args.Charset.Get);
-         GNATCOLL.VFS.Unchecked_Free (Files);
-      end;
-   end if;
-
-   Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
-
-   --
-   --  Main logic
-   --
-
-   Ctx := Create
-     (Charset       => +Args.Charset.Get,
-      Unit_Provider => Unit_Provider_Access_Cst (UFP));
-
-   for F of Files loop
-      declare
-         File     : constant String := +F;
-         Basename : constant String := +Create (+To_String (F)).Base_Name;
-         Unit     : Analysis_Unit;
-      begin
-         Unit := Get_From_File (Ctx, File);
-
-         if not Args.Quiet.Get then
-            Put_Title ('#', "Analyzing " & Basename);
-         end if;
-         Process_File (Unit, File);
-      exception
-         when E : others =>
-            Put_Line
-              ("Resolution failed with exception for file " & File);
-            Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-            Put_Line ("");
-      end;
-
-      Stats_Data.Nb_Files_Analyzed := Stats_Data.Nb_Files_Analyzed + 1;
-      exit when Args.File_Limit.Get /= -1
-        and then Stats_Data.Nb_Files_Analyzed >= Args.File_Limit.Get;
-   end loop;
-
-   Destroy (Ctx);
    Destroy (UFP);
 
    Show_Stats;

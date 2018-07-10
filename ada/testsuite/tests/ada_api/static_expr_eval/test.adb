@@ -8,6 +8,7 @@ procedure Test is
    Expr_2 : My_Enum := B;
    Expr_3 : Integer := 12;
    Expr_4 : Float := 12.0;
+   Expr_5 : Integer := Expr_3;
 begin
    null;
 end Test;

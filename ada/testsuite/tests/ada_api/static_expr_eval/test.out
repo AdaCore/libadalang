@@ -7,6 +7,6 @@ Expr <ObjectDecl ["Expr_2"] 8:4-8:26> evaluated to <Eval_Result ENUM_LIT <EnumLi
 Expr <ObjectDecl ["Expr_3"] 9:4-9:27> evaluated to <Eval_Result INT 12>
    Int value is 12
 
-Expr <ObjectDecl ["Expr_3"] 10:4-10:27> evaluated to <Eval_Result REAL  1.20000000000000E+01>
+Expr <ObjectDecl ["Expr_4"] 10:4-10:27> evaluated to <Eval_Result REAL  1.20000000000000E+01>
 
 Done.

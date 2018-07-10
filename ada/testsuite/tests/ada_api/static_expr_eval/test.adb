@@ -7,7 +7,7 @@ procedure Test is
    Expr_1 : My_Enum := A;
    Expr_2 : My_Enum := B;
    Expr_3 : Integer := 12;
-   Expr_3 : Float := 12.0;
+   Expr_4 : Float := 12.0;
 begin
    null;
 end Test;

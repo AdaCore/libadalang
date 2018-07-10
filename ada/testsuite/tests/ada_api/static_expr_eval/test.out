@@ -9,4 +9,7 @@ Expr <ObjectDecl ["Expr_3"] 9:4-9:27> evaluated to <Eval_Result INT 12>
 
 Expr <ObjectDecl ["Expr_4"] 10:4-10:27> evaluated to <Eval_Result REAL  1.20000000000000E+01>
 
+Expr <ObjectDecl ["Expr_5"] 11:4-11:31> evaluated to <Eval_Result INT 12>
+   Int value is 12
+
 Done.

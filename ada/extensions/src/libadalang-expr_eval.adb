@@ -127,7 +127,8 @@ package body Libadalang.Expr_Eval is
                end if;
 
             when others =>
-               raise LAL.Property_Error;
+               raise LAL.Property_Error with "Cannot transform decl " &
+                  D.Kind'Image;
          end case;
       end Eval_Decl;
 

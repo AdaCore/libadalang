@@ -9,6 +9,9 @@ procedure Test is
    Expr_3 : Integer := 12;
    Expr_4 : Float := 12.0;
    Expr_5 : Integer := Expr_3;
+
+   Tmp : Integer;
+   Expr_6 : Integer := Tmp;
 begin
    null;
 end Test;

@@ -1,10 +1,11 @@
-private with GNAT.Semaphores;
+private with GNATCOLL.Locks;
 
 package Libadalang.Unit_Files is
 private
 
-   GPR_Lock : GNAT.Semaphores.Binary_Semaphore
-     (Initially_Available => True, Ceiling => GNAT.Semaphores.Default_Ceiling);
+   use GNATCOLL.Locks;
+
+   GPR_Lock : aliased Mutual_Exclusion;
    --  Lock to serialize all calls to GNATCOLL.Projects, which is not
    --  thread-safe. Hopefully we will be able to get rid of this lock when
    --  moving to Libgpr2.

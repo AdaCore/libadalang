@@ -1,4 +1,5 @@
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Exceptions; use Ada.Exceptions;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
@@ -9,18 +10,25 @@ procedure Main is
    Unit : Analysis_Unit := Get_From_File (Ctx, "test.adb");
 
    function Is_Object_Decl (N : Ada_Node) return Boolean
-   is (Kind (N) in Ada_Object_Decl);
+   is (Kind (N) in Ada_Object_Decl
+         and then not N.As_Object_Decl.F_Default_Expr.Is_Null);
 begin
    for E of Find (Root (Unit), Is_Object_Decl'Access).Consume loop
-      declare
-         Res : Eval_Result := Expr_Eval (E.As_Object_Decl.F_Default_Expr);
       begin
-         Put_Line ("Expr " & Short_Image (E) & " evaluated to " & Image (Res));
-         if Res.Kind in Int | Enum_Lit then
-            Put_Line ("   Int value is " & As_Int (Res).Image);
-         end if;
-         Put_Line ("");
+         declare
+            Res : Eval_Result := Expr_Eval (E.As_Object_Decl.F_Default_Expr);
+         begin
+            Put_Line
+               ("Expr " & Short_Image (E) & " evaluated to " & Image (Res));
+            if Res.Kind in Int | Enum_Lit then
+               Put_Line ("   Int value is " & As_Int (Res).Image);
+            end if;
+         end;
+      exception
+         when Error : LAL.Property_Error =>
+            Put_Line ("Property_Error: " & Exception_Message (Error));
       end;
+      New_Line;
    end loop;
 
    Destroy (Ctx);

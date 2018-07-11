@@ -13,39 +13,27 @@ package body Libadalang.Unit_Files.Projects is
       Name     : Text_Type;
       Kind     : Unit_Kind) return String
    is
+      Dummy : Scoped_Lock (GPR_Lock'Access);
+
+      Str_Name : constant String :=
+        Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+
+      File : constant Filesystem_String := Prj.File_From_Unit
+        (Project   => Prj.Root_Project (Provider.Project.all),
+         Unit_Name => Str_Name,
+         Part      => Convert (Kind),
+         Language  => "Ada");
    begin
-      GPR_Lock.Seize;
+      if File'Length = 0 then
+         return "";
+      end if;
+
       declare
-
-         Str_Name : constant String :=
-           Libadalang.Unit_Files.Default.Unit_String_Name (Name);
-
-         File : constant Filesystem_String := Prj.File_From_Unit
-           (Project   => Prj.Root_Project (Provider.Project.all),
-            Unit_Name => Str_Name,
-            Part      => Convert (Kind),
-            Language  => "Ada");
+         Path : constant GNATCOLL.VFS.Virtual_File :=
+           Prj.Create (Provider.Project.all, File);
       begin
-
-         if File'Length = 0 then
-            GPR_Lock.Release;
-            return "";
-         end if;
-
-         declare
-            Path : constant GNATCOLL.VFS.Virtual_File :=
-              Prj.Create (Provider.Project.all, File);
-            Ret : String := +Full_Name (Path);
-         begin
-            GPR_Lock.Release;
-            return Ret;
-         end;
+         return +Full_Name (Path);
       end;
-
-   exception
-      when others =>
-         GPR_Lock.Release;
-         raise;
    end Get_Unit_Filename;
 
    --------------
@@ -100,10 +88,10 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding procedure Finalize
-     (Provider : in out Project_Unit_Provider_Type) is
+     (Provider : in out Project_Unit_Provider_Type)
+   is
+      Dummy : Scoped_Lock (GPR_Lock'Access);
    begin
-      GPR_Lock.Seize;
-
       if Provider.Is_Project_Owner then
          Prj.Unload (Provider.Project.all);
          Prj.Free (Provider.Project);
@@ -112,12 +100,6 @@ package body Libadalang.Unit_Files.Projects is
       Provider.Project := null;
       Provider.Env := null;
       Provider.Is_Project_Owner := False;
-
-      GPR_Lock.Release;
-   exception
-      when others =>
-         GPR_Lock.Release;
-         raise;
    end Finalize;
 
 end Libadalang.Unit_Files.Projects;

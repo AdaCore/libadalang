@@ -524,12 +524,12 @@ procedure Nameres is
    ----------------
 
    procedure Show_Stats is
+      Total : constant Natural :=
+        Stats_Data.Nb_Successes + Stats_Data.Nb_Fails;
    begin
-      if Args.Stats.Get then
+      if Args.Stats.Get and then Total > 0 then
          declare
             type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
-            Total : constant Natural :=
-              Stats_Data.Nb_Successes + Stats_Data.Nb_Fails;
             Percent_Successes : constant Percentage := Percentage
               (Float (Stats_Data.Nb_Successes) / Float (Total) * 100.0);
             Percent_Failures : constant Percentage :=

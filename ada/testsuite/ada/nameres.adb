@@ -558,13 +558,19 @@ procedure Nameres is
       Ctx : Analysis_Context := No_Analysis_Context;
       F   : Unbounded_String;
    begin
-      accept Create_Context (UFP : Unit_Provider_Access) do
-         Ctx := Create
-           (Charset       => +Args.Charset.Get,
-            Unit_Provider => Unit_Provider_Access_Cst (UFP));
+      select
+         accept Create_Context (UFP : Unit_Provider_Access) do
+            Ctx := Create
+              (Charset       => +Args.Charset.Get,
+               Unit_Provider => Unit_Provider_Access_Cst (UFP));
 
-         Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
-      end Create_Context;
+            Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
+         end Create_Context;
+      or
+         --  If the main task could not call the Create_Context entry (because
+         --  it raised an exception, for instance), terminate gracefully.
+         terminate;
+      end select;
 
       loop
          select

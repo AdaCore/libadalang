@@ -1,5 +1,5 @@
-with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Exceptions; use Ada.Exceptions;
+with Ada.Text_IO;    use Ada.Text_IO;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;

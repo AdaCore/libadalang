@@ -555,9 +555,8 @@ procedure Nameres is
    --------------------
 
    task body Main_Task_Type is
-      Started : Boolean := False;
-      Ctx     : Analysis_Context := No_Analysis_Context;
-      F       : Unbounded_String;
+      Ctx : Analysis_Context := No_Analysis_Context;
+      F   : Unbounded_String;
    begin
       accept Create_Context (UFP : Unit_Provider_Access) do
          Ctx := Create

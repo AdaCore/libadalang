@@ -123,7 +123,7 @@ package body Libadalang.Expr_Eval is
                   raise LAL.Property_Error with "Object decl does not have "
                     & "a default expression.";
                else
-                  return Expr_Eval(D.As_Object_Decl.F_Default_Expr);
+                  return Expr_Eval (D.As_Object_Decl.F_Default_Expr);
                end if;
 
             when others =>

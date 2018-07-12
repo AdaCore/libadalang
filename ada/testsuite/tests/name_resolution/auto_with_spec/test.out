@@ -3,6 +3,5 @@ Analyzing foo.adb
 
 I resolves to:
     I : Integer := 0;
-    I : Integer := 0;
 
 Done.

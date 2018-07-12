@@ -7891,15 +7891,16 @@ class TerminateAlternative(SimpleStmt):
 class PackageBody(Body):
     env_spec = child_unit(
         '__body',
-        Entity.body_scope(True),
 
-        # Add the __body link to the package decl
+        # Parent link is the package's decl, or private part if there is one
+        Entity.body_scope(follow_private=True),
+
+        # Destination env for the __body link
         dest_env=env.bind(
             Self.initial_env,
-            # If this is a sub package, sub_package
-            Entity.body_decl_scope
-
-            ._or(Entity.body_scope(False))
+            # __body never goes into the private part, and is always in the
+            # decl for nested sub packages.
+            Entity.body_scope(follow_private=False, force_decl=True)
         ),
 
         transitive_parent=True,
@@ -7909,9 +7910,13 @@ class PackageBody(Body):
                       through=T.PackageBody.subunit_pkg_decl,
                       cond=Not(Self.subunit_root.is_null)),
 
+            # If self is not a library level package body (and hence is a
+            # nested package), we need to explicitly reference its package
+            # decl, because it is not in the chain of parents.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      kind=RefKind.transitive)
+                      cond=Not(Self.is_unit_root),
+                      kind=RefKind.prioritary)
         ]
     )
 

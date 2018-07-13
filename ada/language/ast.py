@@ -5998,7 +5998,9 @@ class BaseId(SingleTokNode):
         bd = Var(Self.parents.find(
             lambda p: p.is_a(T.GenericPackageInstantiation)
         ))
-        env_els = Var(Entity.env_elements_baseid)
+        env_els = Var(Entity.env_elements_baseid.filter(
+            lambda e: Self.has_with_visibility(e.el.unit)
+        ))
         pkg = Var(
             env_els.filter(lambda e: Not(e.el == bd)).at(0).cast(T.BasicDecl)
         )

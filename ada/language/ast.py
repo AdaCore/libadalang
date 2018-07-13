@@ -5349,10 +5349,16 @@ class CallExpr(Name):
 
     @langkit_property()
     def designated_env():
-        return Entity.env_elements.map(lambda e: e.match(
-            lambda bd=BasicDecl.entity:       bd.defining_env,
-            lambda _:                         EmptyEnv,
-        )).env_group()
+        typ = Var(Entity.name.name_designated_type)
+
+        return If(
+            Not(typ.is_null),
+            typ.defining_env,
+            Entity.env_elements.map(lambda e: e.match(
+                lambda bd=BasicDecl.entity:       bd.defining_env,
+                lambda _:                         EmptyEnv,
+            )).env_group()
+        )
 
     @langkit_property()
     def env_elements_impl():

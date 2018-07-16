@@ -9,6 +9,7 @@ with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Common;              use Libadalang.Common;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 with String_Utils; use String_Utils;

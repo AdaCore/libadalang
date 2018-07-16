@@ -70,7 +70,7 @@ main(void)
                                  ufp_get_file_from_name);
 
     ada_base_entity root, pragma, args, assoc, expr;
-    ada_entity_array entities;
+    ada_ada_node_array entities;
     ada_text text;
     int i;
 
@@ -116,7 +116,7 @@ main(void)
     }
     if (entities->n == 0)
       printf("  <nothing>\n");
-    ada_entity_array_dec_ref(entities);
+    ada_ada_node_array_dec_ref(entities);
 
     ada_destroy_analysis_context(ctx);
     ada_destroy_unit_provider(ufp);

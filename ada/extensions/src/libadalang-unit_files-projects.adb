@@ -54,16 +54,16 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider_Type;
-      Context     : Analysis_Context;
+      Context     : LP.Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit
+      Reparse     : Boolean := False) return LP.Analysis_Unit
    is
       Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
    begin
       if Filename /= "" then
-         return Get_From_File (Context, Filename, Charset, Reparse);
+         return LP.Get_From_File (Context, Filename, Charset, Reparse);
       else
          declare
             Str_Name : constant String :=
@@ -78,7 +78,7 @@ package body Libadalang.Unit_Files.Projects is
                "Could not find source file for " & Str_Name & " (" & Kind_Name
                & ")";
          begin
-            return Get_With_Error (Context, Dummy_File, Error, Charset);
+            return LP.Get_With_Error (Context, Dummy_File, Error, Charset);
          end;
       end if;
    end Get_Unit;

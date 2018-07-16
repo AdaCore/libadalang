@@ -15,9 +15,11 @@ with GNATCOLL.VFS;       use GNATCOLL.VFS;
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
+
 with Libadalang.Analysis;            use Libadalang.Analysis;
-with Libadalang.Analysis.Implementation;
 with Libadalang.Auto_Provider;       use Libadalang.Auto_Provider;
+with Libadalang.Common;              use Libadalang.Common;
+with Libadalang.Implementation;
 with Libadalang.Iterators;           use Libadalang.Iterators;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
@@ -633,7 +635,7 @@ begin
    begin
 
       if Args.No_Lookup_Cache.Get then
-         Libadalang.Analysis.Implementation
+         Libadalang.Implementation
            .AST_Envs.Activate_Lookup_Cache := False;
       end if;
 

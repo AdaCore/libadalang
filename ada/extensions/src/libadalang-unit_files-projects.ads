@@ -4,14 +4,16 @@ with GNATCOLL.Projects;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;
 
 --  This package provides an Unit_Provider implemetation that relies on a
 --  project file.
 
 package Libadalang.Unit_Files.Projects is
 
-   type Project_Unit_Provider_Type is limited new Unit_Provider_Interface
+   package LP renames Libadalang.Analysis;
+
+   type Project_Unit_Provider_Type is limited new LP.Unit_Provider_Interface
       with private;
    type Project_Unit_Provider_Access is access Project_Unit_Provider_Type;
    --  Unit_Provider implementation that relies on a project file
@@ -35,11 +37,11 @@ package Libadalang.Unit_Files.Projects is
 
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider_Type;
-      Context     : Analysis_Context;
+      Context     : LP.Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit;
+      Reparse     : Boolean := False) return LP.Analysis_Unit;
 
    function Convert (Kind : Unit_Kind) return GNATCOLL.Projects.Unit_Parts is
      (case Kind is
@@ -50,7 +52,7 @@ private
 
    type Project_Unit_Provider_Type is limited
       new Ada.Finalization.Limited_Controlled
-      and Unit_Provider_Interface
+      and LP.Unit_Provider_Interface
    with record
       Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;

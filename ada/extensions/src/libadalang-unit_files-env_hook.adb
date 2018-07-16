@@ -1,21 +1,21 @@
 package body Libadalang.Unit_Files.Env_Hook is
 
    procedure Handle_Unit_With_Parents
-     (Ctx : Analysis_Context; Node : Bare_Basic_Decl);
+     (Ctx : Internal_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
 
-   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Bare_Body);
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body);
    --  Helper for the environment hook to handle library-level unit body nodes
 
-   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Bare_Basic_Decl);
+   procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle sub-units (separates)
 
    --------------
    -- Env_Hook --
    --------------
 
-   procedure Env_Hook (Unit : Analysis_Unit; Node : Bare_Ada_Node) is
-      Ctx : constant Analysis_Context := Get_Context (Unit);
+   procedure Env_Hook (Unit : Internal_Unit; Node : Bare_Ada_Node) is
+      Ctx : constant Internal_Context := Unit.Context;
    begin
       if Node.Parent.all in Bare_Library_Item_Type'Class then
          if Node.all in Bare_Body_Type'Class then
@@ -33,7 +33,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    ------------------------------
 
    procedure Handle_Unit_With_Parents
-     (Ctx : Analysis_Context; Node : Bare_Basic_Decl)
+     (Ctx : Internal_Context; Node : Bare_Basic_Decl)
    is
       N : Bare_Name;
    begin
@@ -56,7 +56,7 @@ package body Libadalang.Unit_Files.Env_Hook is
 
       if N.all in Bare_Dotted_Name_Type'Class then
          declare
-            Dummy : constant Analysis_Unit := Fetch_Unit
+            Dummy : constant Internal_Unit := Fetch_Unit
               (Ctx,
                Bare_Dotted_Name (N).F_Prefix,
                Unit_Specification,
@@ -71,11 +71,11 @@ package body Libadalang.Unit_Files.Env_Hook is
    -- Handle_Subunit --
    --------------------
 
-   procedure Handle_Subunit (Ctx : Analysis_Context; Node : Bare_Basic_Decl)
+   procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl)
    is
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
-      Dummy : constant Analysis_Unit := Fetch_Unit
+      Dummy : constant Internal_Unit := Fetch_Unit
         (Ctx, Bare_Subunit (Node.Parent).F_Name, Unit_Body,
          Load_If_Needed => True);
    begin
@@ -86,7 +86,7 @@ package body Libadalang.Unit_Files.Env_Hook is
    -- Handle_Unit_Body --
    ----------------------
 
-   procedure Handle_Unit_Body (Ctx : Analysis_Context; Node : Bare_Body) is
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body) is
       Names : Entity_Defining_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
@@ -102,7 +102,7 @@ package body Libadalang.Unit_Files.Env_Hook is
 
       declare
          N     : constant Bare_Name := Names.Items (1).El.F_Name;
-         Dummy : Analysis_Unit;
+         Dummy : Internal_Unit;
       begin
          Dec_Ref (Names);
          Dummy := Fetch_Unit (Ctx, N, Unit_Specification,

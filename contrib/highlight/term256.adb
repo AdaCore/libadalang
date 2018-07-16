@@ -1,6 +1,10 @@
 with Langkit_Support.Text;
 
+with Libadalang.Common;
+
 package body Term256 is
+
+   package LALCO renames Libadalang.Common;
 
    ANSI_Reset : constant String := ASCII.ESC & "[0m";
 
@@ -43,20 +47,20 @@ package body Term256 is
       is (Langkit_Support.Text.Image (T));
 
       procedure Put_Token
-        (Token : LAL.Token_Type;
-         Data  : LAL.Token_Data_Type;
-         HL   : Highlighter.Highlight_Type);
+        (Token : LALCO.Token_Type;
+         Data  : LALCO.Token_Data_Type;
+         HL    : Highlighter.Highlight_Type);
       procedure New_Line;
       procedure Add_Whitespace (C : Character);
       --  Generic parameters for Put_Tokens below
 
       procedure Put_Token
-        (Token : LAL.Token_Type;
-         Data  : LAL.Token_Data_Type;
+        (Token : LALCO.Token_Type;
+         Data  : LALCO.Token_Data_Type;
          HL    : Highlighter.Highlight_Type)
       is
          pragma Unreferenced (Data);
-         Text : constant Langkit_Support.Text.Text_Type := LAL.Text (Token);
+         Text : constant Langkit_Support.Text.Text_Type := LALCO.Text (Token);
       begin
          Put
            (Style_To_ANSI (S.Tok_Styles (HL)) & Escape (Text) & ANSI_Reset);

@@ -3,10 +3,13 @@ with Ada.Strings.Unbounded;
 with GNATCOLL.Strings;
 with Langkit_Support.Slocs;
 with Langkit_Support.Text;
+with Libadalang.Common;
 
 --  with GNATCOLL.Iconv;
 
 package body HTML is
+
+   package LALCO renames Libadalang.Common;
 
    Hex_Digits : constant
      array (Colors.Color_Level range 0 .. 15) of Character :=
@@ -92,8 +95,8 @@ package body HTML is
       is (Escape (Langkit_Support.Text.Image (T)));
 
       procedure Put_Token
-        (Token : LAL.Token_Type;
-         Data  : LAL.Token_Data_Type;
+        (Token : LALCO.Token_Type;
+         Data  : LALCO.Token_Data_Type;
          HL   : Highlighter.Highlight_Type);
       procedure New_Line;
       procedure Add_Whitespace (C : Character);
@@ -103,7 +106,7 @@ package body HTML is
       --  For each token, No_Basic_Decl for no cross-reference, or the
       --  declaration to which the token should link.
 
-      function Traverse (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
+      function Traverse (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status;
       --  Callback for AST traversal. Return "Into" in all cases. When visiting
       --  a string literal or an identifier, perform name resolution on it and
       --  record the resulting declaration in the Xrefs array.
@@ -129,16 +132,16 @@ package body HTML is
       ---------------
 
       procedure Put_Token
-        (Token : LAL.Token_Type;
-         Data  : LAL.Token_Data_Type;
+        (Token : LALCO.Token_Type;
+         Data  : LALCO.Token_Data_Type;
          HL    : Highlighter.Highlight_Type)
       is
-         Text : constant Langkit_Support.Text.Text_Type := LAL.Text (Token);
+         Text : constant Langkit_Support.Text.Text_Type := LALCO.Text (Token);
 
          Decl : constant LAL.Basic_Decl :=
-           (if LAL.Is_Trivia (Data)
+           (if LALCO.Is_Trivia (Data)
             then LAL.No_Basic_Decl
-            else Xrefs (Natural (LAL.Index (Token))));
+            else Xrefs (Natural (LALCO.Index (Token))));
          --  The declaration that xrefs associated to this token, if any
       begin
 
@@ -209,27 +212,29 @@ package body HTML is
       -- Traverse --
       --------------
 
-      function Traverse (Node : LAL.Ada_Node'Class) return LAL.Visit_Status is
+      function Traverse (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status
+      is
       begin
          --  We only annnotate leaf nodes for xrefs
-         if Node.Kind not in LAL.Ada_String_Literal | LAL.Ada_Identifier then
-            return LAL.Into;
+         if Node.Kind not in LALCO.Ada_String_Literal | LALCO.Ada_Identifier
+         then
+            return LALCO.Into;
          end if;
 
          --  Try to perform name resolution on this single-token node. Discard
          --  errors.
          declare
-            Token : constant LAL.Token_Type :=
+            Token : constant LALCO.Token_Type :=
                Node.As_Single_Tok_Node.Token_Start;
-            Index : constant Natural := Natural (LAL.Index (Token));
+            Index : constant Natural := Natural (LALCO.Index (Token));
             Decl  : LAL.Basic_Decl renames Xrefs (Index);
          begin
             Decl := Node.P_Referenced_Decl;
          exception
-            when LAL.Property_Error =>
+            when LALCO.Property_Error =>
                Decl := LAL.No_Basic_Decl;
          end;
-         return LAL.Into;
+         return LALCO.Into;
       end Traverse;
 
       procedure Put_Tokens is new Highlighter.Put_Tokens;

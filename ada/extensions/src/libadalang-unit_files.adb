@@ -1,6 +1,9 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
+with Libadalang.Analysis;
 
 package body Libadalang.Unit_Files is
+
+   package LP renames Libadalang.Analysis;
 
    Text_IO        : constant Text_Type := "ada.text_io";
    Integer_IO     : aliased constant Text_Type := "integer_io";  
@@ -185,43 +188,43 @@ package body Libadalang.Unit_Files is
    ----------------
 
    function Fetch_Unit
-     (Ctx            : Analysis_Context;
+     (Ctx            : Internal_Context;
       Name           : Bare_Name;
       Kind           : Unit_Kind;
-      Load_If_Needed : Boolean) return Analysis_Unit is
+      Load_If_Needed : Boolean) return Internal_Unit is
    begin
       return Fetch_Unit
         (Ctx, Name_To_Symbols (Name), 
-         Unit (Create (Bare_Ada_Node (Name))), Kind,
+         Bare_Ada_Node (Name).Unit, Kind,
          Load_If_Needed);
    end Fetch_Unit;
 
    function Fetch_Unit
-     (Ctx            : Analysis_Context;
+     (Ctx            : Internal_Context;
       Name           : Symbol_Type_Array;
-      From_Unit      : Analysis_Unit;
+      From_Unit      : Internal_Unit;
       Kind           : Unit_Kind;
-      Load_If_Needed : Boolean) return Analysis_Unit
+      Load_If_Needed : Boolean) return Internal_Unit
    is
-      procedure Prepare_Nameres (Unit : Analysis_Unit);
+      procedure Prepare_Nameres (Unit : Internal_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
 
       ---------------------
       -- Prepare_Nameres --
       ---------------------
 
-      procedure Prepare_Nameres (Unit : Analysis_Unit) is
+      procedure Prepare_Nameres (Unit : Internal_Unit) is
       begin
-         if not Is_Null (Root (Unit)) then
-            Populate_Lexical_Env (Unit);
+         if Unit.AST_Root /= null then
+            LP.Populate_Lexical_Env (LP.To_Unit (Unit));
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
       end Prepare_Nameres;
 
-      UFP              : constant Unit_Provider_Access_Cst :=
-         Unit_Provider (Ctx);
-      Unit, First_Unit : Analysis_Unit;
+      UFP              : constant Internal_Unit_Provider_Access_Cst :=
+         Ctx.Unit_Provider;
+      Unit, First_Unit : Internal_Unit;
    begin
       if not Load_If_Needed then
          declare
@@ -229,9 +232,9 @@ package body Libadalang.Unit_Files is
                UFP.Get_Unit_Filename (To_String (Name), Kind);
          begin
             if Filename = "" then
-               return No_Analysis_Unit;
-            elsif not Has_Unit (Ctx, Filename) then
-               return No_Analysis_Unit;
+               return null;
+            elsif not LP.Has_Unit (LP.To_Context (Ctx), Filename) then
+               return null;
             end if;
          end;
       end if;
@@ -275,7 +278,7 @@ package body Libadalang.Unit_Files is
             Prepare_Nameres (Unit);
 
             --  The first iteration gives the unit we are required to return
-            if First_Unit = No_Analysis_Unit then
+            if First_Unit = null then
                First_Unit := Unit;
             end if;
          end;
@@ -287,11 +290,12 @@ package body Libadalang.Unit_Files is
    -- Fetch_Standard --
    --------------------
 
-   procedure Fetch_Standard (Context : Analysis_Context) is
-      Std : constant Analysis_Unit :=
-         Get_From_Buffer (Context, "__standard", "ascii", Std_Content);
+   procedure Fetch_Standard (Context : Internal_Context) is
+      Std : constant LP.Analysis_Unit :=
+        LP.Get_From_Buffer
+         (LP.To_Context (Context), "__standard", "ascii", Std_Content);
    begin
-      Populate_Lexical_Env (Std);
+      LP.Populate_Lexical_Env (Std);
    end Fetch_Standard;
 
 end Libadalang.Unit_Files;

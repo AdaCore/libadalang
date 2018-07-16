@@ -3,6 +3,7 @@ with GNATCOLL.GMP.Integers;
 use type GNATCOLL.GMP.Integers.Big_Integer;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
 
 with Langkit_Support.Text;
@@ -105,32 +106,32 @@ package body Libadalang.Expr_Eval is
       function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result is
       begin
          if D.Is_Null then
-            raise LAL.Property_Error with "Invalid decl";
+            raise Property_Error with "Invalid decl";
          end if;
          case D.Kind is
-            when LAL.Ada_Enum_Literal_Decl =>
+            when Ada_Enum_Literal_Decl =>
 
                --  An enum literal declaration evaluates to itself
                return (Enum_Lit,
                        D.As_Enum_Literal_Decl.P_Enum_Type.As_Base_Type_Decl,
                        D.As_Enum_Literal_Decl);
 
-            when LAL.Ada_Number_Decl =>
+            when Ada_Number_Decl =>
 
                --  A number declaration evaluates to the evaluation of its
                --  expression.
                return Expr_Eval (D.As_Number_Decl.F_Expr);
 
-            when LAL.Ada_Object_Decl =>
+            when Ada_Object_Decl =>
                if D.As_Object_Decl.F_Default_Expr.Is_Null then
-                  raise LAL.Property_Error with "Object decl does not have "
+                  raise Property_Error with "Object decl does not have "
                     & "a default expression.";
                else
                   return Expr_Eval (D.As_Object_Decl.F_Default_Expr);
                end if;
 
             when others =>
-               raise LAL.Property_Error with "Cannot transform decl " &
+               raise Property_Error with "Cannot transform decl " &
                   D.Kind'Image;
          end case;
       end Eval_Decl;
@@ -141,23 +142,23 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result is
       begin
          case D.Kind is
-            when LAL.Ada_Name =>
+            when Ada_Name =>
                return Eval_Range_Attr
                  (D.As_Name.P_Referenced_Decl_Internal (Try_Immediate => True)
                   .As_Ada_Node,
                   A);
-            when LAL.Ada_Type_Decl =>
+            when Ada_Type_Decl =>
                return Eval_Range_Attr (D.As_Type_Decl.F_Type_Def.As_Ada_Node,
                                        A);
-            when LAL.Ada_Type_Def =>
+            when Ada_Type_Def =>
                case D.Kind is
-                  when LAL.Ada_Signed_Int_Type_Def =>
+                  when Ada_Signed_Int_Type_Def =>
                      declare
                         Rng : constant LAL.Expr :=
                           D.As_Signed_Int_Type_Def.F_Range.F_Range;
                      begin
                         case Rng.Kind is
-                           when LAL.Ada_Bin_Op_Range =>
+                           when Ada_Bin_Op_Range =>
                               declare
                                  BO   : constant LAL.Bin_Op := Rng.As_Bin_Op;
                                  Expr : constant LAL.Expr :=
@@ -168,27 +169,27 @@ package body Libadalang.Expr_Eval is
                                  return Expr_Eval (Expr);
                               end;
                            when others =>
-                              raise LAL.Property_Error with "Unsupported range"
+                              raise Property_Error with "Unsupported range"
                                 & " expression: " & Rng.Text;
                         end case;
                      end;
                   when others =>
-                     raise LAL.Property_Error with "Cannot get "
+                     raise Property_Error with "Cannot get "
                        & A'Img & " attribute of type def " & D.Kind'Img;
                end case;
             when others =>
-               raise LAL.Property_Error with "Cannot eval "
+               raise Property_Error with "Cannot eval "
                  & A'Img & " attribute of " & D.Kind'Img;
          end case;
       end Eval_Range_Attr;
 
    begin
       case E.Kind is
-         when LAL.Ada_Identifier | LAL.Ada_Dotted_Name =>
+         when Ada_Identifier | Ada_Dotted_Name =>
             return Eval_Decl
               (E.P_Referenced_Decl_Internal (Try_Immediate => True));
 
-         when LAL.Ada_Char_Literal =>
+         when Ada_Char_Literal =>
             declare
                X : LAL.Basic_Decl := E.P_Referenced_Decl_Internal
                                        (Try_Immediate => True);
@@ -204,17 +205,17 @@ package body Libadalang.Expr_Eval is
                end if;
             end;
 
-         when LAL.Ada_Int_Literal =>
+         when Ada_Int_Literal =>
             return (Int,
                     E.P_Universal_Int_Type.As_Base_Type_Decl,
                     E.As_Int_Literal.P_Denoted_Value);
 
-         when LAL.Ada_Real_Literal =>
+         when Ada_Real_Literal =>
             return (Real,
                     E.P_Universal_Real_Type.As_Base_Type_Decl,
                     Long_Float'Value (E.Text));
 
-         when LAL.Ada_Bin_Op =>
+         when Ada_Bin_Op =>
             declare
                BO : constant LAL.Bin_Op := E.As_Bin_Op;
                Op : constant LAL.Op := BO.F_Op;
@@ -256,7 +257,7 @@ package body Libadalang.Expr_Eval is
 
             end;
 
-         when LAL.Ada_Un_Op =>
+         when Ada_Un_Op =>
             declare
                UO          : constant LAL.Un_Op := E.As_Un_Op;
                Op          : constant LAL.Op := UO.F_Op;
@@ -282,7 +283,7 @@ package body Libadalang.Expr_Eval is
                end case;
             end;
 
-         when LAL.Ada_Attribute_Ref =>
+         when Ada_Attribute_Ref =>
             declare
                AR   : constant LAL.Attribute_Ref := E.As_Attribute_Ref;
                Attr : constant LAL.Identifier := AR.F_Attribute;
@@ -300,7 +301,7 @@ package body Libadalang.Expr_Eval is
                     with "Unhandled attribute ref: " & Attr.Text;
                end if;
             end;
-         when LAL.Ada_Paren_Expr =>
+         when Ada_Paren_Expr =>
             return Expr_Eval (E.As_Paren_Expr.F_Expr);
          when others =>
             raise Property_Error with "Unhandled node: " & E.Kind'Img;
@@ -318,7 +319,7 @@ package body Libadalang.Expr_Eval is
             when Int =>
                Result.Set (Self.Int_Result);
             when Real =>
-               raise LAL.Property_Error;
+               raise Property_Error;
             when Enum_Lit =>
                declare
                   Pos : constant Natural := Self.Enum_Result.Child_Index;

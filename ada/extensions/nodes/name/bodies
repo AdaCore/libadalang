@@ -3,7 +3,7 @@
 function P_Internal_Referenced_Unit
   (Node           : access Bare_Name_Type'Class;
    Kind           : Unit_Kind;
-   Load_If_Needed : Boolean) return Analysis_Unit
+   Load_If_Needed : Boolean) return Internal_Unit
 is
 begin
    return Libadalang.Unit_Files.Fetch_Unit

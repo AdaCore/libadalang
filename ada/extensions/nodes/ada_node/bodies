@@ -8,7 +8,7 @@ function P_Get_Unit
   (Node           : access Bare_Ada_Node_Type'Class;
    Name           : Symbol_Type_Array_Access;
    Kind           : Unit_Kind;
-   Load_If_Needed : Boolean) return Analysis_Unit is
+   Load_If_Needed : Boolean) return Internal_Unit is
 begin
    return Libadalang.Unit_Files.Fetch_Unit
      (Node.Unit.Context,
@@ -26,7 +26,12 @@ end P_Get_Unit;
 ---------------------
 
 function P_Standard_Unit
-  (Node : access Bare_Ada_Node_Type'Class) return Analysis_Unit is
+  (Node : access Bare_Ada_Node_Type'Class) return Internal_Unit is
 begin
-   return Get_From_File (Node.Unit.Context, "__standard");
+   return Get_From_File
+     (Context  => Node.Unit.Context,
+      Filename => "__standard",
+      Charset  => "",
+      Reparse  => False,
+      Rule     => Default_Grammar_Rule);
 end P_Standard_Unit;

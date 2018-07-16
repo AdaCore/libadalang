@@ -2,6 +2,7 @@ with Ada.Characters.Conversions; use Ada.Characters.Conversions;
 with Ada.Text_IO;                use Ada.Text_IO;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is

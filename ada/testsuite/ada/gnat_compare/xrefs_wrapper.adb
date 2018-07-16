@@ -1,3 +1,5 @@
+with Libadalang.Common; use Libadalang.Common;
+
 package body Xrefs_Wrapper is
 
    function Subp_Spec_Params (Spec : Subp_Spec) return Param_Spec_List is

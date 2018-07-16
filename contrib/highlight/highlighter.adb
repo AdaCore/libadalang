@@ -4,8 +4,8 @@ package body Highlighter is
 
    package Chars renames Langkit_Support.Text.Chars;
 
-   use type LAL.Token_Type;
-   use type LAL.Ada_Node_Kind_Type;
+   use type LALCO.Token_Type;
+   use type LALCO.Ada_Node_Kind_Type;
    use Libadalang.Lexer;
 
    Basic_Highlights : constant
@@ -81,11 +81,11 @@ package body Highlighter is
 
    function Get
      (Highlights : Highlights_Holder;
-      Token      : LAL.Token_Data_Type) return Highlight_Type
+      Token      : LALCO.Token_Data_Type) return Highlight_Type
    is
-      Index : constant Token_Index := LAL.Index (Token);
+      Index : constant Token_Index := LALCO.Index (Token);
    begin
-      return (if LAL.Is_Trivia (Token)
+      return (if LALCO.Is_Trivia (Token)
               then Highlights.Trivia_Highlights (Index)
               else Highlights.Token_Highlights (Index));
    end Get;
@@ -96,12 +96,12 @@ package body Highlighter is
 
    procedure Set
      (Highlights : in out Highlights_Holder;
-      Token      : LAL.Token_Data_Type;
+      Token      : LALCO.Token_Data_Type;
       HL         : Highlight_Type)
    is
-      Index : constant Token_Index := LAL.Index (Token);
+      Index : constant Token_Index := LALCO.Index (Token);
    begin
-      if LAL.Is_Trivia (Token) then
+      if LALCO.Is_Trivia (Token) then
          Highlights.Trivia_Highlights (Index) := HL;
       else
          Highlights.Token_Highlights (Index) := HL;
@@ -114,15 +114,15 @@ package body Highlighter is
 
    procedure Set_Range
      (Highlights  : in out Highlights_Holder;
-      First, Last : LAL.Token_Type;
+      First, Last : LALCO.Token_Type;
       HL          : Highlight_Type)
    is
-      Cur : LAL.Token_Type := First;
+      Cur : LALCO.Token_Type := First;
    begin
-      while Cur /= LAL.No_Token loop
-         Set (Highlights, LAL.Data (Cur), HL);
+      while Cur /= LALCO.No_Token loop
+         Set (Highlights, LALCO.Data (Cur), HL);
          exit when Cur = Last;
-         Cur := LAL.Next (Cur, Exclude_Trivia => True);
+         Cur := LALCO.Next (Cur, Exclude_Trivia => True);
       end loop;
    end Set_Range;
 
@@ -140,39 +140,39 @@ package body Highlighter is
       end if;
 
       case Name.Kind is
-         when LAL.Ada_Identifier | LAL.Ada_String_Literal =>
+         when LALCO.Ada_Identifier | LALCO.Ada_String_Literal =>
 
             --  Highlight the only token that this node has
 
             declare
-               Tok : constant LAL.Token_Type :=
+               Tok : constant LALCO.Token_Type :=
                   Name.As_Single_Tok_Node.Token_Start;
             begin
-               Set (Highlights, LAL.Data (Tok), HL);
+               Set (Highlights, LALCO.Data (Tok), HL);
             end;
 
-         when LAL.Ada_Dotted_Name =>
+         when LALCO.Ada_Dotted_Name =>
 
             --  Highlight both the prefix, the suffix and the dot token
 
             declare
                Dotted_Name : constant LAL.Dotted_Name := Name.As_Dotted_Name;
-               Dot_Token   : constant LAL.Token_Type :=
-                  LAL.Next (Dotted_Name.F_Prefix.Token_End,
+               Dot_Token   : constant LALCO.Token_Type :=
+                  LALCO.Next (Dotted_Name.F_Prefix.Token_End,
                             Exclude_Trivia => True);
             begin
                Highlight_Name (Dotted_Name.F_Prefix, HL, Highlights);
-               Set (Highlights, LAL.Data (Dot_Token), HL);
+               Set (Highlights, LALCO.Data (Dot_Token), HL);
                Highlight_Name (Dotted_Name.F_Suffix, HL, Highlights);
             end;
 
-         when LAL.Ada_Call_Expr =>
+         when LALCO.Ada_Call_Expr =>
 
             --  Just highlight the name of the called entity
 
             Highlight_Name (Name.As_Call_Expr.F_Name, HL, Highlights);
 
-         when LAL.Ada_Defining_Name =>
+         when LALCO.Ada_Defining_Name =>
 
             --  Highlight inner name
             Highlight_Name (Name.As_Defining_Name.F_Name, HL, Highlights);
@@ -211,9 +211,10 @@ package body Highlighter is
       --  Set style for both the attribute name and the leading 'tick' token
 
       Set (Highlights,
-           LAL.Data (LAL.Previous (Id.Token_Start, Exclude_Trivia => True)),
+           LALCO.Data (LALCO.Previous (Id.Token_Start,
+                                       Exclude_Trivia => True)),
            Attribute_Name);
-      Set (Highlights, LAL.Data (Id.Token_Start), Attribute_Name);
+      Set (Highlights, LALCO.Data (Id.Token_Start), Attribute_Name);
    end Highlight_Attribute_Ref;
 
    -------------------------
@@ -229,10 +230,10 @@ package body Highlighter is
       end if;
 
       case LAL.Kind (Expr) is
-         when LAL.Ada_Anonymous_Type =>
+         when LALCO.Ada_Anonymous_Type =>
             null;
 
-         when LAL.Ada_Subtype_Indication =>
+         when LALCO.Ada_Subtype_Indication =>
             Highlight_Name
               (Expr.As_Subtype_Indication.F_Name, Type_Name, Highlights);
 
@@ -253,7 +254,7 @@ package body Highlighter is
       Highlights : in out Highlights_Holder)
    is
       function Syntax_Highlight
-        (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
+        (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status;
       --  Function to be called on all AST nodes in Unit. This is the
       --  *syntax* highlighting algorithm entry point.
 
@@ -262,7 +263,7 @@ package body Highlighter is
       ----------------------
 
       function Syntax_Highlight
-        (Node : LAL.Ada_Node'Class) return LAL.Visit_Status
+        (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status
       is
       begin
          case Node.Kind is
@@ -275,36 +276,36 @@ package body Highlighter is
             --  name as a Block_Name. For instance: the name of a package, of a
             --  subprogram, of a type declaration, ...
 
-            when LAL.Ada_Base_Package_Decl =>
+            when LALCO.Ada_Base_Package_Decl =>
                declare
                   Pkg_Decl : constant LAL.Base_Package_Decl :=
                      Node.As_Base_Package_Decl;
                begin
                   Highlight_Block_Name (Pkg_Decl.F_Package_Name, Highlights);
                end;
-            when LAL.Ada_Package_Body =>
+            when LALCO.Ada_Package_Body =>
                declare
                   Pkg_Body : constant LAL.Package_Body := Node.As_Package_Body;
                begin
                   Highlight_Block_Name (Pkg_Body.F_Package_Name, Highlights);
                end;
 
-            when LAL.Ada_Package_Renaming_Decl =>
+            when LALCO.Ada_Package_Renaming_Decl =>
                Highlight_Block_Name
                  (Node.As_Package_Renaming_Decl.F_Name, Highlights);
 
-            when LAL.Ada_Generic_Package_Instantiation =>
+            when LALCO.Ada_Generic_Package_Instantiation =>
                Highlight_Block_Name
                  (Node.As_Generic_Package_Instantiation.F_Name, Highlights);
-            when LAL.Ada_Generic_Subp_Instantiation =>
+            when LALCO.Ada_Generic_Subp_Instantiation =>
                Highlight_Block_Name
                  (Node.As_Generic_Subp_Instantiation.F_Subp_Name,
                   Highlights);
 
-            when LAL.Ada_End_Name =>
+            when LALCO.Ada_End_Name =>
                Highlight_Block_Name (Node.As_End_Name.F_Name, Highlights);
 
-            when LAL.Ada_Subp_Spec =>
+            when LALCO.Ada_Subp_Spec =>
                declare
                   Subp_Spec : constant LAL.Subp_Spec := Node.As_Subp_Spec;
                   Params    : constant LAL.Param_Spec_Array :=
@@ -316,16 +317,16 @@ package body Highlighter is
                      Highlight_Type_Expr (Param.F_Type_Expr, Highlights);
                   end loop;
                end;
-            when LAL.Ada_Type_Decl =>
-               Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Type);
+            when LALCO.Ada_Type_Decl =>
+               Set (Highlights, LALCO.Data (Node.Token_Start), Keyword_Type);
                Highlight_Block_Name
                  (Node.As_Type_Decl.F_Name, Highlights);
 
-            when LAL.Ada_Subtype_Decl =>
+            when LALCO.Ada_Subtype_Decl =>
                Highlight_Block_Name
                  (Node.As_Subtype_Decl.F_Name, Highlights);
 
-            when LAL.Ada_Named_Stmt_Decl =>
+            when LALCO.Ada_Named_Stmt_Decl =>
                Highlight_Block_Name
                  (Node.As_Named_Stmt_Decl.F_Name, Highlights);
 
@@ -339,16 +340,16 @@ package body Highlighter is
             --  When it's "useful" (for readers), highlight type names as
             --  Type_Name.
 
-            when LAL.Ada_Type_Access_Def =>
+            when LALCO.Ada_Type_Access_Def =>
                Highlight_Name
                  (Node.As_Type_Access_Def.F_Subtype_Indication.P_Type_Name,
                   Type_Name, Highlights);
 
-            when LAL.Ada_Object_Decl =>
+            when LALCO.Ada_Object_Decl =>
                Highlight_Type_Expr
                  (Node.As_Object_Decl.F_Type_Expr, Highlights);
 
-            when LAL.Ada_Use_Type_Clause =>
+            when LALCO.Ada_Use_Type_Clause =>
                declare
                   Types : constant LAL.Name_List :=
                      Node.As_Use_Type_Clause.F_Types;
@@ -359,10 +360,10 @@ package body Highlighter is
                   end loop;
                end;
 
-            when LAL.Ada_Discriminant_Spec =>
+            when LALCO.Ada_Discriminant_Spec =>
                Highlight_Type_Expr
                  (Node.As_Discriminant_Spec.F_Type_Expr, Highlights);
-            when LAL.Ada_Component_Def =>
+            when LALCO.Ada_Component_Def =>
                Highlight_Type_Expr
                  (Node.As_Component_Def.F_Type_Expr, Highlights);
 
@@ -370,34 +371,36 @@ package body Highlighter is
             -- Misc --
             ----------
 
-            when LAL.Ada_Attribute_Ref =>
+            when LALCO.Ada_Attribute_Ref =>
                Highlight_Attribute_Ref
                  (Node.As_Attribute_Ref.F_Attribute, Highlights);
 
-            when LAL.Ada_Label_Decl =>
+            when LALCO.Ada_Label_Decl =>
                Highlight_Name
                  (Node.As_Label_Decl.F_Name, Label_Name, Highlights);
 
-            when LAL.Ada_Record_Def =>
+            when LALCO.Ada_Record_Def =>
                Set (Highlights,
-                    LAL.Data (LAL.Previous (Node.Token_End,
-                                            Exclude_Trivia => True)),
+                    LALCO.Data (LALCO.Previous (Node.Token_End,
+                                                Exclude_Trivia => True)),
                     Keyword_Type);
 
-            when LAL.Ada_Null_Record_Def =>
+            when LALCO.Ada_Null_Record_Def =>
                Set_Range
                  (Highlights, Node.Token_Start, Node.Token_End, Keyword_Type);
 
-            when LAL.Ada_Aspect_Spec =>
-               Set (Highlights, LAL.Data (Node.Token_Start), Keyword_Special);
+            when LALCO.Ada_Aspect_Spec =>
+               Set (Highlights, LALCO.Data (Node.Token_Start),
+                    Keyword_Special);
 
-            when LAL.Ada_Quantified_Expr =>
-               Set (Highlights, LAL.Data (LAL.Next (Node.Token_Start,
-                                                    Exclude_Trivia => True)),
+            when LALCO.Ada_Quantified_Expr =>
+               Set (Highlights,
+                    LALCO.Data (LALCO.Next (Node.Token_Start,
+                                            Exclude_Trivia => True)),
                     Operator);
 
-            when LAL.Ada_Op =>
-               if Node.Kind /= LAL.Ada_Op_Double_Dot then
+            when LALCO.Ada_Op =>
+               if Node.Kind /= LALCO.Ada_Op_Double_Dot then
                   Set_Range
                     (Highlights, Node.Token_Start, Node.Token_End, Operator);
                end if;
@@ -406,10 +409,10 @@ package body Highlighter is
                null;
          end case;
 
-         return LAL.Into;
+         return LALCO.Into;
       end Syntax_Highlight;
 
-      Token : LAL.Token_Type := LAL.First_Token (Unit);
+      Token : LALCO.Token_Type := LAL.First_Token (Unit);
 
    --  Start of processing for Highlight
 
@@ -417,14 +420,14 @@ package body Highlighter is
       --  Lexical pass: first, assign a "default" highlighting to all tokens
       --  just based on their kind. Also build the list of subhighlights.
 
-      while Token /= LAL.No_Token loop
+      while Token /= LALCO.No_Token loop
          declare
-            TD : constant LAL.Token_Data_Type := LAL.Data (Token);
-            HL : constant Highlight_Type := Basic_Highlights (LAL.Kind (TD));
+            TD : constant LALCO.Token_Data_Type := LALCO.Data (Token);
+            HL : constant Highlight_Type := Basic_Highlights (LALCO.Kind (TD));
          begin
             Set (Highlights, TD, HL);
          end;
-         Token := LAL.Next (Token);
+         Token := LALCO.Next (Token);
       end loop;
 
       --  Syntactic pass: update highlighting for tokens depending on how they
@@ -441,18 +444,19 @@ package body Highlighter is
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlights_Holder)
    is
-      Token : LAL.Token_Type := LAL.First_Token (Unit);
+      Token : LALCO.Token_Type := LAL.First_Token (Unit);
    begin
-      while Token /= LAL.No_Token loop
+      while Token /= LALCO.No_Token loop
          declare
-            TD : constant LAL.Token_Data_Type := LAL.Data (Token);
+            TD : constant LALCO.Token_Data_Type := LALCO.Data (Token);
             HL : constant Highlight_Type := Get (Highlights, TD);
          begin
-            if LAL.Kind (TD) = Ada_Whitespace then
+            if LALCO.Kind (TD) = Ada_Whitespace then
                --  If this is a whitespace token, transmit its code layout
                --  change to the HTML document as appropriate.
 
-               for C of Langkit_Support.Text.Text_Type'(LAL.Text (Token)) loop
+               for C of Langkit_Support.Text.Text_Type'(LALCO.Text (Token))
+               loop
                   case C is
                      when ' ' | Chars.HT | Chars.FF | Chars.CR =>
                         declare
@@ -476,7 +480,7 @@ package body Highlighter is
                Put_Token (Token, TD, HL);
             end if;
          end;
-         Token := LAL.Next (Token);
+         Token := LALCO.Next (Token);
       end loop;
    end Put_Tokens;
 

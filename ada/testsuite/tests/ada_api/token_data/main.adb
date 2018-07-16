@@ -4,6 +4,7 @@ with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Langkit_Support.Text;  use Langkit_Support.Text;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 with Libadalang.Lexer;
 

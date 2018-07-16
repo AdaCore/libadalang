@@ -26,12 +26,12 @@ private package Libadalang.Sources is
 
    function Decode_Character_Literal (Text : Text_Type) return Character_Type;
    --  Turn Text, a valid Ada character literal, into the signified character.
-   --  Raise a Libadalang.Analysis.Property_Error if Text is not a valid
+   --  Raise a Libadalang.Common.Property_Error if Text is not a valid
    --  literal.
 
    function Decode_String_Literal (Text : Text_Type) return Text_Type;
    --  Turn Text, a valid Ada tsring literal, into the signified string.  Raise
-   --  a Libadalang.Analysis.Property_Error if Text is not a valid literal.
+   --  a Libadalang.Common.Property_Error if Text is not a valid literal.
 
    -------------------------------
    -- Numeric literals handling --

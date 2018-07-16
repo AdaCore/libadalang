@@ -2,6 +2,7 @@ with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
@@ -25,7 +26,7 @@ begin
             end if;
          end;
       exception
-         when Error : LAL.Property_Error =>
+         when Error : Property_Error =>
             Put_Line ("Property_Error: " & Exception_Message (Error));
       end;
       New_Line;

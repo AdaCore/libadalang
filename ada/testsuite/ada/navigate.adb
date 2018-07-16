@@ -5,6 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with GNATCOLL.VFS;
 with Langkit_Support.Text;
 with Libadalang.Analysis;
+with Libadalang.Common;
 with Libadalang.Iterators;
 
 with Put_Title;
@@ -13,6 +14,7 @@ procedure Navigate is
 
    package CMD renames Ada.Command_Line;
    package LAL renames Libadalang.Analysis;
+   package LALCO renames Libadalang.Common;
    package LALIT renames Libadalang.Iterators;
 
    function Short_Image (Node : LAL.Ada_Node'Class) return String
@@ -23,7 +25,7 @@ procedure Navigate is
 
    Fatal_Error   : exception;
    Ctx           : LAL.Analysis_Context;
-   Enabled_Kinds : array (LAL.Ada_Node_Kind_Type) of Boolean :=
+   Enabled_Kinds : array (LALCO.Ada_Node_Kind_Type) of Boolean :=
      (others => False);
 
    function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean;
@@ -116,30 +118,30 @@ procedure Navigate is
 
                   --  Packages
 
-                  when LAL.Ada_Base_Package_Decl =>
+                  when LALCO.Ada_Base_Package_Decl =>
 
                      Print_Navigation
                        ("Body", Node,
                         Node.As_Base_Package_Decl.P_Body_Part);
-                  when LAL.Ada_Package_Body =>
+                  when LALCO.Ada_Package_Body =>
                      Print_Navigation
                        ("Decl", Node, Node.As_Package_Body.P_Decl_Part);
 
-                  when LAL.Ada_Generic_Package_Decl =>
+                  when LALCO.Ada_Generic_Package_Decl =>
                      Print_Navigation
                        ("Body", Node,
                         Node.As_Generic_Package_Decl.P_Body_Part);
 
                   --  Subprograms
 
-                  when LAL.Ada_Subp_Decl =>
+                  when LALCO.Ada_Subp_Decl =>
                      Print_Navigation
                        ("Body", Node, Node.As_Subp_Decl.P_Body_Part);
-                  when LAL.Ada_Subp_Body =>
+                  when LALCO.Ada_Subp_Body =>
                      Print_Navigation
                        ("Decl", Node, Node.As_Subp_Body.P_Decl_Part);
 
-                  when LAL.Ada_Generic_Subp_Decl =>
+                  when LALCO.Ada_Generic_Subp_Decl =>
                      Print_Navigation
                        ("Body", Node,
                         Node.As_Generic_Subp_Decl.P_Body_Part);
@@ -150,7 +152,7 @@ procedure Navigate is
                end case;
                At_Least_Once := At_Least_Once or else Processed_Something;
             exception
-               when LAL.Property_Error =>
+               when LALCO.Property_Error =>
                   Put_Line ("Error when processing " & Short_Image (Node));
                   At_Least_Once := True;
             end;
@@ -198,8 +200,8 @@ procedure Navigate is
          if Name'Length /= 0 then
             begin
                declare
-                  Kind : constant LAL.Ada_Node_Kind_Type :=
-                     LAL.Ada_Node_Kind_Type'Value (Name);
+                  Kind : constant LALCO.Ada_Node_Kind_Type :=
+                     LALCO.Ada_Node_Kind_Type'Value (Name);
                begin
                   Enabled_Kinds (Kind) := True;
                end;
@@ -240,7 +242,7 @@ procedure Navigate is
       function Has_Disable_Navigation
         (Aspects : LAL.Aspect_Spec) return Boolean
       is
-         use type LAL.Ada_Node_Kind_Type;
+         use type LALCO.Ada_Node_Kind_Type;
       begin
          if Aspects.Is_Null then
             return False;
@@ -250,7 +252,7 @@ procedure Navigate is
             declare
                Assoc : constant LAL.Aspect_Assoc := Child.As_Aspect_Assoc;
             begin
-               if Assoc.F_Id.Kind = LAL.Ada_Identifier then
+               if Assoc.F_Id.Kind = LALCO.Ada_Identifier then
                   declare
                      Id : constant LAL.Identifier := Assoc.F_Id.As_Identifier;
                   begin
@@ -264,7 +266,7 @@ procedure Navigate is
 
    begin
       case N.Kind is
-         when LAL.Ada_Base_Package_Decl =>
+         when LALCO.Ada_Base_Package_Decl =>
             return Has_Disable_Navigation (N.As_Base_Package_Decl.F_Aspects);
          when others =>
             return False;

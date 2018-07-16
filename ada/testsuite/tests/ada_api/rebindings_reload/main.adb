@@ -7,6 +7,7 @@ with Langkit_Support.Diagnostics;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is

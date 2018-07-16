@@ -1901,7 +1901,7 @@ class RealTypeDef(TypeDef):
 class DiscreteRange(Struct):
     """
     Represents the range of a discrete type or subtype. The bounds are already
-    evaluated, so the type of the fields is LongType.
+    evaluated, so the type of the fields is BigIntegerType.
     """
     low_bound = UserField(type=T.BigIntegerType)
     high_bound = UserField(type=T.BigIntegerType)

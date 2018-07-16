@@ -16,6 +16,7 @@ private with Langkit_Support.Symbols;
 private with Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Common; use Libadalang.Common;
 
 package Libadalang.Auto_Provider is
 

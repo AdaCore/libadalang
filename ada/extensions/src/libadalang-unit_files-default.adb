@@ -32,15 +32,15 @@ package body Libadalang.Unit_Files.Default is
 
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
-      Context     : Analysis_Context;
+      Context     : LP.Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit
+      Reparse     : Boolean := False) return LP.Analysis_Unit
    is
       pragma Unreferenced (Provider);
    begin
-      return Get_From_File
+      return LP.Get_From_File
         (Context, File_From_Unit (Unit_String_Name (Name), Kind), Charset,
          Reparse);
    end Get_Unit;

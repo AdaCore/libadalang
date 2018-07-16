@@ -1,13 +1,15 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;
 
 --  This package provides an Unit_Provider implementation that is the default
 --  one for Analysis_Context.
 
 package Libadalang.Unit_Files.Default is
 
-   type Default_Unit_Provider_Type is new Unit_Provider_Interface
+   package LP renames Libadalang.Analysis;
+
+   type Default_Unit_Provider_Type is new LP.Unit_Provider_Interface
       with private;
    --  Default implementation for the Unit_Provider mechanism. It assumes that
    --  all source files are in the current directory and that they follow the
@@ -23,13 +25,13 @@ package Libadalang.Unit_Files.Default is
 
    overriding function Get_Unit
      (Provider    : Default_Unit_Provider_Type;
-      Context     : Analysis_Context;
+      Context     : LP.Analysis_Context;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit;
+      Reparse     : Boolean := False) return LP.Analysis_Unit;
 
-   Default_Unit_Provider : constant Unit_Provider_Access_Cst;
+   Default_Unit_Provider : constant LP.Unit_Provider_Access_Cst;
    --  Singleton for Default_Unit_Provider_Type. Used as the default parameter
    --  for Libadalang.Analysis.Create.
 
@@ -64,11 +66,11 @@ package Libadalang.Unit_Files.Default is
 
 private
 
-   type Default_Unit_Provider_Type is new Unit_Provider_Interface
+   type Default_Unit_Provider_Type is new LP.Unit_Provider_Interface
       with null record;
 
    Default_Unit_Provider_Object : aliased Default_Unit_Provider_Type;
-   Default_Unit_Provider : constant Unit_Provider_Access_Cst :=
+   Default_Unit_Provider : constant LP.Unit_Provider_Access_Cst :=
       Default_Unit_Provider_Object'Access;
 
 end Libadalang.Unit_Files.Default;

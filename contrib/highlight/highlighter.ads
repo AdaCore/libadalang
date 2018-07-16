@@ -1,9 +1,11 @@
 with Libadalang.Analysis;
+with Libadalang.Common;
 with Libadalang.Lexer;
 
 package Highlighter is
 
    package LAL renames Libadalang.Analysis;
+   package LALCO renames Libadalang.Common;
    subtype Token_Index is Libadalang.Lexer.Token_Data_Handlers.Token_Index;
 
    type Highlight_Type is
@@ -37,18 +39,18 @@ package Highlighter is
 
    function Get
      (Highlights : Highlights_Holder;
-      Token      : LAL.Token_Data_Type) return Highlight_Type;
+      Token      : LALCO.Token_Data_Type) return Highlight_Type;
    --  Return the annotation in Highlights corresponding to Token
 
    procedure Set
      (Highlights : in out Highlights_Holder;
-      Token      : LAL.Token_Data_Type;
+      Token      : LALCO.Token_Data_Type;
       HL         : Highlight_Type);
    --  Assign the HL highlighting type to Token
 
    procedure Set_Range
      (Highlights  : in out Highlights_Holder;
-      First, Last : LAL.Token_Type;
+      First, Last : LALCO.Token_Type;
       HL          : Highlight_Type);
    --  Likewise, for a range of tokens
 
@@ -69,8 +71,8 @@ package Highlighter is
 
    generic
       with procedure Put_Token
-        (Token : LAL.Token_Type;
-         Data  : LAL.Token_Data_Type;
+        (Token : LALCO.Token_Type;
+         Data  : LALCO.Token_Data_Type;
          HL    : Highlight_Type) is <>;
       with procedure New_Line is <>;
       with procedure Add_Whitespace (C : Character) is <>;

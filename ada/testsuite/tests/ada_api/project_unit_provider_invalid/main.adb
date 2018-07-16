@@ -9,6 +9,7 @@ with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Text;        use Langkit_Support.Text;
 
 with Libadalang.Analysis;            use Libadalang.Analysis;
+with Libadalang.Common;              use Libadalang.Common;
 with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 

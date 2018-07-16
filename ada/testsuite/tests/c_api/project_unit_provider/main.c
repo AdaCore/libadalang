@@ -17,7 +17,7 @@ main(void)
     ada_text unit_name = { unit_name_chars, 2, true };
 
     ada_base_entity root, subtype_ind, name;
-    ada_entity_array entities;
+    ada_ada_node_array entities;
     ada_text text;
     int i;
 
@@ -58,7 +58,7 @@ main(void)
     }
     if (entities->n == 0)
       printf("  <nothing>\n");
-    ada_entity_array_dec_ref(entities);
+    ada_ada_node_array_dec_ref(entities);
 
     ada_destroy_analysis_context(ctx);
     puts("Done.");

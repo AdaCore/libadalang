@@ -2,6 +2,7 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Wide_Wide_Characters.Handling;
 
+with Libadalang.Common;                 use Libadalang.Common;
 with Libadalang.Unit_Files.Default;
 
 package body Libadalang.Auto_Provider is

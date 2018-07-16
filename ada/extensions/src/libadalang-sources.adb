@@ -2,7 +2,7 @@ with Ada.Wide_Wide_Characters.Handling;
 
 with Interfaces; use Interfaces;
 
-with Libadalang.Analysis;
+with Libadalang.Common;
 
 package body Libadalang.Sources is
 
@@ -151,7 +151,7 @@ package body Libadalang.Sources is
          or else Text (Text'First) /= '''
          or else Text (Text'Last) /= '''
       then
-         raise Libadalang.Analysis.Property_Error
+         raise Libadalang.Common.Property_Error
             with "Invalid character literal";
       end if;
 
@@ -176,7 +176,7 @@ package body Libadalang.Sources is
 
       procedure Error is
       begin
-         raise Libadalang.Analysis.Property_Error
+         raise Libadalang.Common.Property_Error
             with "Invalid string literal";
       end Error;
 
@@ -334,7 +334,7 @@ package body Libadalang.Sources is
    function Parse_Numeric_Literal
      (Text : Text_Type) return Parsed_Numeric_Literal;
    --  Parse Text as an Ada numeric literal. Raise a
-   --  Libadalang.Analysis.Property_Error if it is invalid. Otherwise, return
+   --  Libadalang.Common.Property_Error if it is invalid. Otherwise, return
    --  information about it.
 
    function Strip_Underscores (Text : Text_Type) return String;
@@ -394,7 +394,7 @@ package body Libadalang.Sources is
 
    procedure Error is
    begin
-      raise Libadalang.Analysis.Property_Error with "invalid numeric literal";
+      raise Libadalang.Common.Property_Error with "invalid numeric literal";
    end Error;
 
    ---------------------------

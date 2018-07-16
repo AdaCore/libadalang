@@ -3,6 +3,7 @@ with Ada.Text_IO;          use Ada.Text_IO;
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is

@@ -104,6 +104,9 @@ package body Libadalang.Expr_Eval is
 
       function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result is
       begin
+         if D.Is_Null then
+            raise LAL.Property_Error with "Invalid decl";
+         end if;
          case D.Kind is
             when LAL.Ada_Enum_Literal_Decl =>
 

@@ -1,9 +1,12 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
+
 with Libadalang.Analysis;
+with Libadalang.Analysis.Converters;
 
 package body Libadalang.Unit_Files is
 
    package LP renames Libadalang.Analysis;
+   package Converters renames Libadalang.Analysis.Converters;
 
    Text_IO        : constant Text_Type := "ada.text_io";
    Integer_IO     : aliased constant Text_Type := "integer_io";  
@@ -216,7 +219,7 @@ package body Libadalang.Unit_Files is
       procedure Prepare_Nameres (Unit : Internal_Unit) is
       begin
          if Unit.AST_Root /= null then
-            LP.Populate_Lexical_Env (LP.To_Unit (Unit));
+            LP.Populate_Lexical_Env (Converters.To_Unit (Unit));
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
@@ -233,7 +236,7 @@ package body Libadalang.Unit_Files is
          begin
             if Filename = "" then
                return null;
-            elsif not LP.Has_Unit (LP.To_Context (Ctx), Filename) then
+            elsif not LP.Has_Unit (Converters.To_Context (Ctx), Filename) then
                return null;
             end if;
          end;
@@ -293,7 +296,7 @@ package body Libadalang.Unit_Files is
    procedure Fetch_Standard (Context : Internal_Context) is
       Std : constant LP.Analysis_Unit :=
         LP.Get_From_Buffer
-         (LP.To_Context (Context), "__standard", "ascii", Std_Content);
+         (Converters.To_Context (Context), "__standard", "ascii", Std_Content);
    begin
       LP.Populate_Lexical_Env (Std);
    end Fetch_Standard;

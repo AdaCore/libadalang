@@ -7,8 +7,7 @@
 function P_Eval_As_Int
   (Node : access Bare_Expr_Type'Class) return Big_Integer_Type
 is
-   N : constant Libadalang.Analysis.Expr :=
-      Create_Entity (Bare_Ada_Node (Node)).As_Expr;
+   N : constant Libadalang.Analysis.Expr := Wrap_Node (Node).As_Expr;
 
    package Eval renames Libadalang.Expr_Eval;
 begin

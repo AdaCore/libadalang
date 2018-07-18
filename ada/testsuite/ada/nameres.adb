@@ -41,10 +41,12 @@ procedure Nameres is
    pragma Warnings (Off, "ref");
 
    package Stats_Data is
-      Nb_Files_Analyzed : Natural := 0;
-      Nb_Successes       : Natural := 0;
-      Nb_Fails           : Natural := 0;
-      Nb_Exception_Fails : Natural := 0;
+      Nb_Files_Analyzed    : Natural := 0;
+      Nb_Successes         : Natural := 0;
+      Nb_Fails             : Natural := 0;
+      Nb_Exception_Fails   : Natural := 0;
+      Max_Nb_Fails         : Natural := 0;
+      File_With_Most_Fails : Unbounded_String;
    end Stats_Data;
 
    package Args is
@@ -226,6 +228,9 @@ procedure Nameres is
    ------------------
 
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
+
+      Nb_File_Fails : Natural := 0;
+
       procedure Resolve_Node (Node : Ada_Node);
       procedure Resolve_Block (Block : Ada_Node);
 
@@ -297,7 +302,7 @@ procedure Nameres is
             Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
          else
             Put_Line ("Resolution failed for node " & Safe_Image (Node));
-            Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
+            Nb_File_Fails := Nb_File_Fails + 1;
          end if;
          if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
             Put_Line ("");
@@ -306,8 +311,8 @@ procedure Nameres is
          when E : others =>
             Put_Line
               ("Resolution failed w. exception for node " & Safe_Image (Node));
-            Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + 1;
             Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
+            Nb_File_Fails := Nb_File_Fails + 1;
             Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
             Put_Line ("");
       end Resolve_Node;
@@ -490,6 +495,13 @@ procedure Nameres is
             New_Line;
          end if;
       end;
+
+      Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + Nb_File_Fails;
+      if Stats_Data.Max_Nb_Fails < Nb_File_Fails then
+         Stats_Data.File_With_Most_Fails := +Filename;
+         Stats_Data.Max_Nb_Fails := Nb_File_Fails;
+      end if;
+
    end Process_File;
 
    ----------------------------
@@ -540,6 +552,9 @@ procedure Nameres is
                       & " successes - " & Percent_Successes'Image & "%");
             Put_Line ("Of which" & Stats_Data.Nb_Fails'Image
                       & " failures - " & Percent_Failures'Image & "%");
+            Put_Line ("File with most failures ("
+                      & Stats_Data.Max_Nb_Fails'Image
+                      & "):" & (+Stats_Data.File_With_Most_Fails));
          end;
       end if;
    end Show_Stats;

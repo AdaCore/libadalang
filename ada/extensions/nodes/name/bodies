@@ -6,7 +6,7 @@ function P_Internal_Referenced_Unit
    Load_If_Needed : Boolean) return Internal_Unit
 is
 begin
-   return Libadalang.Unit_Files.Fetch_Unit
+   return Libadalang.Env_Hooks.Fetch_Unit
      (Node.Unit.Context, Bare_Name (Node), Kind, Load_If_Needed);
 exception
    when Property_Error =>

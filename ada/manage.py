@@ -108,7 +108,7 @@ class Manage(ManageScript):
             default_charset='iso-8859-1',
             verbosity=args.verbosity,
             env_hook_subprogram=LibraryEntity(
-                'Libadalang.Unit_Files.Env_Hook',
+                'Libadalang.Env_Hooks',
                 'Env_Hook'
             ),
             default_unit_provider=LibraryEntity(
@@ -127,7 +127,7 @@ class Manage(ManageScript):
                                 use_clause=True)
 
         ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Unit_Files',
+                            ADA_BODY, 'Libadalang.Env_Hooks',
                             use_clause=True)
 
         # Libadalang needs access to the static expression evaluator, for name

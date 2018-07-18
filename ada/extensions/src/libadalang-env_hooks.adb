@@ -1,12 +1,22 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis;
-with Libadalang.Analysis.Converters;
+with Libadalang.Analysis;   use Libadalang.Analysis;
+with Libadalang.Converters; use Libadalang.Converters;
 
-package body Libadalang.Unit_Files is
+package body Libadalang.Env_Hooks is
 
    package LP renames Libadalang.Analysis;
-   package Converters renames Libadalang.Analysis.Converters;
+   package Converters renames Libadalang.Converters;
+
+   procedure Handle_Unit_With_Parents
+     (Ctx : Internal_Context; Node : Bare_Basic_Decl);
+   --  Helper for the environment hook to handle library-level unit decl nodes
+
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body);
+   --  Helper for the environment hook to handle library-level unit body nodes
+
+   procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl);
+   --  Helper for the environment hook to handle sub-units (separates)
 
    Text_IO        : constant Text_Type := "ada.text_io";
    Integer_IO     : aliased constant Text_Type := "integer_io";  
@@ -219,7 +229,7 @@ package body Libadalang.Unit_Files is
       procedure Prepare_Nameres (Unit : Internal_Unit) is
       begin
          if Unit.AST_Root /= null then
-            LP.Populate_Lexical_Env (Converters.To_Unit (Unit));
+            LP.Populate_Lexical_Env (Converters.Wrap_Unit (Unit));
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
@@ -236,7 +246,8 @@ package body Libadalang.Unit_Files is
          begin
             if Filename = "" then
                return null;
-            elsif not LP.Has_Unit (Converters.To_Context (Ctx), Filename) then
+            elsif not LP.Has_Unit (Converters.Wrap_Context (Ctx), Filename)
+            then
                return null;
             end if;
          end;
@@ -296,9 +307,116 @@ package body Libadalang.Unit_Files is
    procedure Fetch_Standard (Context : Internal_Context) is
       Std : constant LP.Analysis_Unit :=
         LP.Get_From_Buffer
-         (Converters.To_Context (Context), "__standard", "ascii", Std_Content);
+         (Converters.Wrap_Context (Context), "__standard", "ascii",
+          Std_Content);
    begin
       LP.Populate_Lexical_Env (Std);
    end Fetch_Standard;
 
-end Libadalang.Unit_Files;
+   --------------
+   -- Env_Hook --
+   --------------
+
+   procedure Env_Hook (Unit : Internal_Unit; Node : Bare_Ada_Node) is
+      Ctx : constant Internal_Context := Unit.Context;
+   begin
+      if Node.Parent.all in Bare_Library_Item_Type'Class then
+         if Node.all in Bare_Body_Type'Class then
+            Handle_Unit_Body (Ctx, Bare_Body (Node));
+         elsif Node.all in Bare_Basic_Decl_Type'Class then
+            Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
+         end if;
+      elsif Node.Parent.all in Bare_Subunit_Type'Class then
+         Handle_Subunit (Ctx, Bare_Basic_Decl (Node));
+      end if;
+   end Env_Hook;
+
+   ------------------------------
+   -- Handle_Unit_With_Parents --
+   ------------------------------
+
+   procedure Handle_Unit_With_Parents
+     (Ctx : Internal_Context; Node : Bare_Basic_Decl)
+   is
+      N : Bare_Name;
+   begin
+      --  If this not a library-level subprogram/package decl, there is no
+      --  parent spec to process.
+      if Node.all not in
+         Bare_Package_Decl_Type'Class
+         | Bare_Basic_Subp_Decl_Type'Class
+         | Bare_Package_Renaming_Decl_Type'Class
+         | Bare_Generic_Package_Decl_Type'Class
+         | Bare_Generic_Package_Instantiation_Type'Class
+         | Bare_Generic_Subp_Instantiation_Type'Class
+         | Bare_Generic_Subp_Decl_Type'Class
+         | Bare_Subp_Body_Type'Class
+      then
+         return;
+      end if;
+
+      N := Node.P_Defining_Name.El.F_Name;
+
+      if N.all in Bare_Dotted_Name_Type'Class then
+         declare
+            Dummy : constant Internal_Unit := Fetch_Unit
+              (Ctx,
+               Bare_Dotted_Name (N).F_Prefix,
+               Unit_Specification,
+               Load_If_Needed => True);
+         begin
+            null;
+         end;
+      end if;
+   end Handle_Unit_With_Parents;
+
+   --------------------
+   -- Handle_Subunit --
+   --------------------
+
+   procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl)
+   is
+      --  Sub-unit handling is very simple: We just want to fetch the
+      --  containing unit.
+      Dummy : constant Internal_Unit := Fetch_Unit
+        (Ctx, Bare_Subunit (Node.Parent).F_Name, Unit_Body,
+         Load_If_Needed => True);
+   begin
+      null;
+   end Handle_Subunit;
+
+   ----------------------
+   -- Handle_Unit_Body --
+   ----------------------
+
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body) is
+      Names : Entity_Defining_Name_Array_Access;
+   begin
+      --  If this not a library-level subprogram/package body, there is no spec
+      --  to process.
+      if Node.all not in Bare_Package_Body_Type'Class
+         and then Node.all not in Bare_Subp_Body_Type'Class
+      then
+         return;
+      end if;
+
+      Names := Node.P_Defining_Names;
+      pragma Assert (Names.N = 1);
+
+      declare
+         N     : constant Bare_Name := Names.Items (1).El.F_Name;
+         Dummy : Internal_Unit;
+      begin
+         Dec_Ref (Names);
+         Dummy := Fetch_Unit (Ctx, N, Unit_Specification,
+                              Load_If_Needed => True);
+      end;
+
+      if Node.all in Bare_Subp_Body_Type'Class then
+         --  A library level subprogram body does not have to have a spec. So
+         --  we have to compute the parents directly from here.
+         Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
+      end if;
+   end Handle_Unit_Body;
+
+end Libadalang.Env_Hooks;

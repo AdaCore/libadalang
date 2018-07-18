@@ -1,6 +1,7 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;
+with Libadalang.Common; use Libadalang.Common;
 
 --  This package provides an Unit_Provider implementation that is the default
 --  one for Analysis_Context.

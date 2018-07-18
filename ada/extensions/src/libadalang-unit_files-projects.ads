@@ -5,6 +5,7 @@ with GNATCOLL.Projects;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;
+with Libadalang.Common; use Libadalang.Common;
 
 --  This package provides an Unit_Provider implemetation that relies on a
 --  project file.

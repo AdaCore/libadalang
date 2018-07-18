@@ -49,21 +49,21 @@ package body Libadalang.Unit_Files.Default is
    -- Unit_Text_Name --
    --------------------
 
-   function Unit_Text_Name (N : Bare_Name) return Text_Type is
+   function Unit_Text_Name (N : LP.Name) return Text_Type is
    begin
-      if N.all in Bare_Identifier_Type'Class then
+      if N.Kind = Ada_Identifier then
          return N.Text;
 
-      elsif N.all in Bare_Dotted_Name_Type'Class then
+      elsif N.Kind = Ada_Dotted_Name then
          declare
-            DN : constant Bare_Dotted_Name := Bare_Dotted_Name (N);
+            DN : constant LP.Dotted_Name := N.As_Dotted_Name;
          begin
-            if DN.F_Prefix.all in Bare_Name_Type'Class
-               and then DN.F_Suffix.all in Bare_Identifier_Type'Class
+            if DN.F_Prefix.Kind in Ada_Name
+               and then DN.F_Suffix.Kind = Ada_Identifier
             then
-               return (Unit_Text_Name (Bare_Name (DN.F_Prefix))
+               return (Unit_Text_Name (DN.F_Prefix.As_Name)
                        & "."
-                       & Unit_Text_Name (Bare_Name (DN.F_Suffix)));
+                       & Unit_Text_Name (DN.F_Suffix.As_Name));
             end if;
          end;
       end if;
@@ -122,11 +122,7 @@ package body Libadalang.Unit_Files.Default is
    -- File_From_Unit --
    --------------------
 
-   function File_From_Unit
-     (Name : String;
-      Kind : Unit_Kind)
-      return String
-   is
+   function File_From_Unit (Name : String; Kind : Unit_Kind) return String is
    begin
       GPR_Lock.Seize;
 

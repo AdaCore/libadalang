@@ -47,7 +47,7 @@ package body Term256 is
       is (Langkit_Support.Text.Image (T));
 
       procedure Put_Token
-        (Token : LALCO.Token_Type;
+        (Token : LALCO.Token_Reference;
          Data  : LALCO.Token_Data_Type;
          HL    : Highlighter.Highlight_Type);
       procedure New_Line;
@@ -55,7 +55,7 @@ package body Term256 is
       --  Generic parameters for Put_Tokens below
 
       procedure Put_Token
-        (Token : LALCO.Token_Type;
+        (Token : LALCO.Token_Reference;
          Data  : LALCO.Token_Data_Type;
          HL    : Highlighter.Highlight_Type)
       is

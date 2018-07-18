@@ -95,7 +95,7 @@ package body HTML is
       is (Escape (Langkit_Support.Text.Image (T)));
 
       procedure Put_Token
-        (Token : LALCO.Token_Type;
+        (Token : LALCO.Token_Reference;
          Data  : LALCO.Token_Data_Type;
          HL   : Highlighter.Highlight_Type);
       procedure New_Line;
@@ -132,7 +132,7 @@ package body HTML is
       ---------------
 
       procedure Put_Token
-        (Token : LALCO.Token_Type;
+        (Token : LALCO.Token_Reference;
          Data  : LALCO.Token_Data_Type;
          HL    : Highlighter.Highlight_Type)
       is
@@ -224,7 +224,7 @@ package body HTML is
          --  Try to perform name resolution on this single-token node. Discard
          --  errors.
          declare
-            Token : constant LALCO.Token_Type :=
+            Token : constant LALCO.Token_Reference :=
                Node.As_Single_Tok_Node.Token_Start;
             Index : constant Natural := Natural (LALCO.Index (Token));
             Decl  : LAL.Basic_Decl renames Xrefs (Index);

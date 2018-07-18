@@ -50,7 +50,7 @@ package Highlighter is
 
    procedure Set_Range
      (Highlights  : in out Highlights_Holder;
-      First, Last : LALCO.Token_Type;
+      First, Last : LALCO.Token_Reference;
       HL          : Highlight_Type);
    --  Likewise, for a range of tokens
 
@@ -71,7 +71,7 @@ package Highlighter is
 
    generic
       with procedure Put_Token
-        (Token : LALCO.Token_Type;
+        (Token : LALCO.Token_Reference;
          Data  : LALCO.Token_Data_Type;
          HL    : Highlight_Type) is <>;
       with procedure New_Line is <>;

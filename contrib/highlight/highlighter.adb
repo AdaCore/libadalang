@@ -4,7 +4,7 @@ package body Highlighter is
 
    package Chars renames Langkit_Support.Text.Chars;
 
-   use type LALCO.Token_Type;
+   use type LALCO.Token_Reference;
    use type LALCO.Ada_Node_Kind_Type;
    use Libadalang.Lexer;
 
@@ -114,10 +114,10 @@ package body Highlighter is
 
    procedure Set_Range
      (Highlights  : in out Highlights_Holder;
-      First, Last : LALCO.Token_Type;
+      First, Last : LALCO.Token_Reference;
       HL          : Highlight_Type)
    is
-      Cur : LALCO.Token_Type := First;
+      Cur : LALCO.Token_Reference := First;
    begin
       while Cur /= LALCO.No_Token loop
          Set (Highlights, LALCO.Data (Cur), HL);
@@ -145,7 +145,7 @@ package body Highlighter is
             --  Highlight the only token that this node has
 
             declare
-               Tok : constant LALCO.Token_Type :=
+               Tok : constant LALCO.Token_Reference :=
                   Name.As_Single_Tok_Node.Token_Start;
             begin
                Set (Highlights, LALCO.Data (Tok), HL);
@@ -157,7 +157,7 @@ package body Highlighter is
 
             declare
                Dotted_Name : constant LAL.Dotted_Name := Name.As_Dotted_Name;
-               Dot_Token   : constant LALCO.Token_Type :=
+               Dot_Token   : constant LALCO.Token_Reference :=
                   LALCO.Next (Dotted_Name.F_Prefix.Token_End,
                             Exclude_Trivia => True);
             begin
@@ -412,7 +412,7 @@ package body Highlighter is
          return LALCO.Into;
       end Syntax_Highlight;
 
-      Token : LALCO.Token_Type := LAL.First_Token (Unit);
+      Token : LALCO.Token_Reference := LAL.First_Token (Unit);
 
    --  Start of processing for Highlight
 
@@ -444,7 +444,7 @@ package body Highlighter is
      (Unit       : LAL.Analysis_Unit;
       Highlights : Highlights_Holder)
    is
-      Token : LALCO.Token_Type := LAL.First_Token (Unit);
+      Token : LALCO.Token_Reference := LAL.First_Token (Unit);
    begin
       while Token /= LALCO.No_Token loop
          declare

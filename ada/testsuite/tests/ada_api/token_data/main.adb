@@ -16,7 +16,7 @@ procedure Main is
 begin
    declare
       Id       : constant Single_Tok_Node := N.As_Single_Tok_Node;
-      Tok      : constant Token_Type := Id.Token_Start;
+      Tok      : constant Token_Reference := Id.Token_Start;
       Tok_Data : constant Token_Data_Type := Data (Tok);
    begin
       Put_Line ("Token data for the ""foo"" identifier:");

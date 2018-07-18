@@ -21,8 +21,8 @@ procedure Main is
       Ctx   : Analysis_Context := Create (With_Trivia => With_Trivia);
       Unit  : constant Analysis_Unit := Get_From_File (Ctx, Filename);
 
-      Token      : Token_Type := First_Token (Unit);
-      Prev_Token : Token_Type := No_Token;
+      Token      : Token_Reference := First_Token (Unit);
+      Prev_Token : Token_Reference := No_Token;
    begin
       Put ("Tokens for " & Filename & " ");
       Put (if With_Trivia then "(with trivia)" else "(no trivia)");
@@ -30,7 +30,7 @@ procedure Main is
 
       while Token /= No_Token loop
          declare
-            PT : constant Token_Type := Previous (Token);
+            PT : constant Token_Reference := Previous (Token);
          begin
             if Prev_Token /= PT then
                raise Program_Error;

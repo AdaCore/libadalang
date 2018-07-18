@@ -21,8 +21,8 @@ begin
    New_Line;
 
    declare
-      Last  : constant Token_Type := Next (First_Token (Unit));
-      First : constant Token_Type := Previous (Last_Token (Unit));
+      Last  : constant Token_Reference := Next (First_Token (Unit));
+      First : constant Token_Reference := Previous (Last_Token (Unit));
    begin
       Put_Line ("Empty range for the following bounds:");
       Put_Line ("  * " & Image (First));

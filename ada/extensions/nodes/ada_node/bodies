@@ -10,9 +10,9 @@ function P_Get_Unit
    Kind           : Unit_Kind;
    Load_If_Needed : Boolean) return Internal_Unit is
 begin
-   return Libadalang.Unit_Files.Fetch_Unit
+   return Libadalang.Env_Hooks.Fetch_Unit
      (Node.Unit.Context,
-      Libadalang.Unit_Files.Symbol_Type_Array (Name.Items),
+      Libadalang.Env_Hooks.Symbol_Type_Array (Name.Items),
       Node.Unit,
       Kind,
       Load_If_Needed);

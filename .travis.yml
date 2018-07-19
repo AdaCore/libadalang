@@ -5,11 +5,9 @@ python:
 env:
   global:
     - TOOLS_DIR=$HOME/build_tools
-    - GNAT_TAR_PATH=$TOOLS_DIR/gnat-gpl-2017-x86_64-linux-bin.tar.gz
-    - GNATCOLL_TAR_PATH=$TOOLS_DIR/gnatcoll-gpl-2017-src.tar.gz
-    - GNAT_PATH=$TOOLS_DIR/gnat-gpl-2017-x86_64-linux-bin
-    - GNATCOLL_PATH=$TOOLS_DIR/gnatcoll-gpl-2017-src
-    - QUEX_ZIP_PATH=$TOOLS_DIR/quex-0.65.4.zip
+    - INSTALL_DIR=$HOME/install
+    - GNAT_INSTALLER=$TOOLS_DIR/gnat-community-2018-20180528-x86_64-linux-bin
+    - QUEX_ZIP=$TOOLS_DIR/quex-0.65.4.zip
     - QUEX_PATH=$TOOLS_DIR/quex-0.65.4
 
 os:
@@ -19,6 +17,7 @@ cache:
   directories:
   - $HOME/build_tools
   - $HOME/.cache/pip
+  timeout: 1000
 
 install: utils/travis-install.sh
 script:  utils/travis-script.sh

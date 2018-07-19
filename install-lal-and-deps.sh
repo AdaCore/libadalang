@@ -12,19 +12,43 @@ set -e
 ##############################################################
 
 INSTALL_DIR=/path/to/install
+INSTALL_DIR=/home/pmderodat/build/gpl-2018/install
 
-# Install a GNAT Pro or GNAT GPL release for your platform in $INSTALL_DIR (see
-# https://libre.adacore.com/ for GPL releases). Then, get the corresponding
-# version of GNATCOLL. For instance, GNATCOLL GPL 2017:
+# Install a GNAT Pro or GNAT Community release for your platform in
+# $INSTALL_DIR.  Here, for the example we automatically install GNAT Community
+# 2018 for Linux x86_64 (from https://www.adacore.com/download).
 
-wget -O gnatcoll-gpl-2017-src.tar.gz \
-    http://mirrors.cdn.adacore.com/art/5a15c79cc7a4479a23674c66
-tar xf gnatcoll-gpl-2017-src.tar.gz
-if [ -d gnatcoll ]
+GNAT_TARBALL=gnat-community-2018-20180528-x86_64-linux-bin.tar.gz
+if ! [ -f "$GNAT_TARBALL" ]
 then
-    rm -rf gnatcoll
+    wget -O "$GNAT_TARBALL" \
+        http://mirrors.cdn.adacore.com/art/5b0d7bffa3f5d709751e3e04
 fi
-mv gnatcoll-gpl-2017-src gnatcoll
+if ! [ -d gnat_community_install_script ]
+then
+    git clone https://github.com/AdaCore/gnat_community_install_script.git
+else
+    (cd gnat_community_install_script && git pull)
+fi
+sh gnat_community_install_script/install_package.sh \
+    ./"$GNAT_TARBALL" "$INSTALL_DIR"
+
+# Now, get GNATCOLL sources (core and bindings). This should match the version
+# of the compiler you installed: here, we assume that the "master" branch on
+# GitHub fit with the latest GNAT Community release installed above.
+if ! [ -d gnatcoll-core ]
+then
+    wget http://mirrors.cdn.adacore.com/art/5b0819dfc7a447df26c27a99
+    git clone https://github.com/AdaCore/gnatcoll-core.git
+else
+    (cd gnatcoll-core && git pull)
+fi
+if ! [ -d gnatcoll-bindings ]
+then
+    git clone https://github.com/AdaCore/gnatcoll-bindings.git
+else
+    (cd gnatcoll-bindings && git pull)
+fi
 
 ############################################
 # The following should work out of the box #
@@ -34,25 +58,45 @@ export PATH="$INSTALL_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$PATH"
 
 # Build GNATCOLL and install it in $INSTALL_DIR
-cd gnatcoll
-./configure --prefix="$INSTALL_DIR" \
-    --enable-build=Debug --enable-shared --enable-projects
-make PROCESSORS=0
-make install
-cd ..
+(
+    cd gnatcoll-core
+    make setup
+    make PROCESSORS=0
+    make prefix="$INSTALL_DIR" install
+)
+(
+    cd gnatcoll-bindings/iconv
+    python2 setup.py build -j0 --prefix="$INSTALL_DIR"
+    python2 setup.py install --prefix="$INSTALL_DIR"
+)
+(
+    cd gnatcoll-bindings/gmp
+    python2 setup.py build -j0 --prefix="$INSTALL_DIR"
+    python2 setup.py install --prefix="$INSTALL_DIR"
+)
 
 # Get Quex
-wget -O quex-0.65.4.zip "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet"
-unzip quex-0.65.4.zip
+if ! [ -d "quex-0.65.4" ]
+then
+    wget -O quex-0.65.4.zip "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet"
+    unzip quex-0.65.4.zip
+fi
 export QUEX_PATH="$PWD/quex-0.65.4"
 
 # Now prepare the construction of Libadalang itself
-git clone https://github.com/AdaCore/libadalang.git
-cd libadalang
+if ! [ -d libadalang ]
+then
+    git clone https://github.com/AdaCore/libadalang.git
+    cd libadalang
+else
+    cd libadalang
+    git pull
+fi
+rm -rf build
 
 # Create a Python virtualenv and install the Libadalang code generation
 # dependencies.
-virtualenv lal-venv
+virtualenv2 lal-venv
 . lal-venv/bin/activate
 pip install -r REQUIREMENTS.dev
 

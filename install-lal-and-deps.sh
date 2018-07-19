@@ -18,7 +18,7 @@ INSTALL_DIR=/home/pmderodat/build/gpl-2018/install
 # $INSTALL_DIR.  Here, for the example we automatically install GNAT Community
 # 2018 for Linux x86_64 (from https://www.adacore.com/download).
 
-GNAT_TARBALL=gnat-community-2018-20180528-x86_64-linux-bin.tar.gz
+GNAT_TARBALL=gnat-community-2018-20180528-x86_64-linux-bin
 if ! [ -f "$GNAT_TARBALL" ]
 then
     wget -O "$GNAT_TARBALL" \

@@ -49,13 +49,16 @@ else
     (cd $TOOLS_DIR && git clone https://github.com/AdaCore/gnatcoll-bindings)
 fi
 
-# Get Langkit
+# Get Langkit, in particular the branch that corresponds to the Libadalang
+# commit being tested.
 if ! [ -d langkit ]
 then
     git clone https://github.com/AdaCore/langkit
-else
-    (cd langkit && git pull)
 fi
+(
+    cd langkit
+    python2 ../utils/travis-langkit-branch.py
+)
 
 # Install requirements
 pip install -r langkit/REQUIREMENTS.dev

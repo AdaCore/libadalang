@@ -16,6 +16,7 @@ os:
 cache:
   directories:
   - $HOME/build_tools
+  - $HOME/install
   - $HOME/.cache/pip
   timeout: 1000
 

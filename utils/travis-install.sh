@@ -19,7 +19,7 @@ then
 else
     (cd gnat_community_install_script && git pull)
 fi
-if ! [ -f $GNAT_INSTALLER ]
+if ! [ -f $INSTALL_DIR/bin/gcc ]
 then
     wget -O $GNAT_INSTALLER \
         http://mirrors.cdn.adacore.com/art/5b0d7bffa3f5d709751e3e04

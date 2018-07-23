@@ -13,6 +13,12 @@ then
 else
     export LIBRARY_PATH="$LIBICONV_DIR:$LIBRARY_PATH"
 fi
+if [ -z "$LD_LIBRARY_PATH" ]
+then
+    export LD_LIBRARY_PATH=$LIBICONV_DIR
+else
+    export LD_LIBRARY_PATH="$LIBICONV_DIR:$LD_LIBRARY_PATH"
+fi
 
 # Log the toolchain to use
 which gcc

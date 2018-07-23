@@ -20,8 +20,10 @@ IDEs. Its goals encompass, but are not limited to:
   that tools can be written from various ecosystems.
 * Incremental processing of source files.
 
-Come and discuss with us on our [public HipChat
-room](https://www.hipchat.com/g34Il1Cen)!
+If you have problems building or using Libadalang, or want to suggest
+enhancements, please open [a GitHub
+issue](https://github.com/AdaCore/libadalang/issues/). We also gladly accept
+[pull requests](https://github.com/AdaCore/libadalang/pulls)!
 
 High level architecture
 -----------------------

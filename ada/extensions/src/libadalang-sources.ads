@@ -4,9 +4,9 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Lexer; use Libadalang.Lexer;
 
---  Internal unit to deal with sources text decoding
+--  General helpers to deal with sources text decoding
 
-private package Libadalang.Sources is
+package Libadalang.Sources is
 
    procedure Decode_Brackets
      (Pattern : Text_Type;

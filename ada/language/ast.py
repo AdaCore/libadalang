@@ -7676,8 +7676,9 @@ class DelayStmt(SimpleStmt):
 
     @langkit_property()
     def xref_equation():
-        return Entity.expr.sub_equation & TypeBind(
-            Self.expr.type_var, Self.std_entity('Duration')
+        return Entity.expr.sub_equation & If(
+            Self.has_until.as_bool, LogicTrue(),
+            TypeBind(Self.expr.type_var, Self.std_entity('Duration'))
         )
 
 

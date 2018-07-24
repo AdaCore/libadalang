@@ -5031,6 +5031,7 @@ class Name(Expr):
         return If(
             typ.is_null,
             LogicFalse(),
+
             Self.match(
                 lambda ce=T.CallExpr:
                 ce.as_entity.subscriptable_type_equation(typ),
@@ -5396,44 +5397,22 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def general_xref_equation(root=T.Name):
-        """
-        Helper for xref_equation, handles construction of the equation in
-        subprogram call cases.
-        """
-        # List of every applicable subprogram
-        subps = Var(Entity.env_elements)
+    def entity_equation(s=T.BasicDecl.entity, root=T.Name):
+        # The called entity is the matched entity
+        return Bind(Self.name.ref_var, s) & Cond(
 
-        def entity_equation(s):
-            # The called entity is the matched entity
-            return Bind(Self.name.ref_var, s) & Cond(
+            # If s does not have any parameters, then we construct the
+            # chain of name equations starting from self, with the parent
+            # component.
+            s.is_paramless, Entity.parent_name_equation(
+                s.expr_type, root
+            ),
 
-                # If s does not have any parameters, then we construct the
-                # chain of name equations starting from self, with the parent
-                # component.
-                s.is_paramless, Entity.parent_name_equation(
+            # If S can be called in a paramless fashion, but can also be
+            # called with parameters, we are forced to make a disjunction.
+            s.can_be_paramless, Or(
+                Entity.parent_name_equation(
                     s.expr_type, root
-                ),
-
-                # If S can be called in a paramless fashion, but can also be
-                # called with parameters, we are forced to make a disjunction.
-                s.can_be_paramless, Or(
-                    Entity.parent_name_equation(
-                        s.expr_type, root
-                    ),
-
-                    And(
-                        Entity.subprogram_equation(
-                            s.subp_spec_or_null,
-                            s.info.md.dottable_subp,
-                            s.info.md.primitive
-                        ),
-                        Entity.parent_name(root).as_entity.then(
-                            lambda pn:
-                            pn.parent_name_equation(s.expr_type, root),
-                            default_val=LogicTrue()
-                        )
-                    )
                 ),
 
                 And(
@@ -5448,7 +5427,30 @@ class CallExpr(Name):
                         default_val=LogicTrue()
                     )
                 )
+            ),
+
+            And(
+                Entity.subprogram_equation(
+                    s.subp_spec_or_null,
+                    s.info.md.dottable_subp,
+                    s.info.md.primitive
+                ),
+                Entity.parent_name(root).as_entity.then(
+                    lambda pn:
+                    pn.parent_name_equation(s.expr_type, root),
+                    default_val=LogicTrue()
+                )
             )
+        )
+
+    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    def general_xref_equation(root=T.Name):
+        """
+        Helper for xref_equation, handles construction of the equation in
+        subprogram call cases.
+        """
+        # List of every applicable subprogram
+        subps = Var(Entity.env_elements)
 
         return And(
             Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation),
@@ -5458,7 +5460,12 @@ class CallExpr(Name):
             And(
                 subps.logic_any(lambda e: Let(
                     lambda s=e.cast_or_raise(BasicDecl.entity):
-                    entity_equation(s)
+                    If(
+                        s.cast(EntryDecl)._.spec.family_type.is_null,
+                        Entity.entity_equation(s, root),
+                        Self.parent_name(root).cast_or_raise(T.CallExpr)
+                        .as_entity.entity_equation(s, root),
+                    ),
                 )),
                 Bind(Self.ref_var, Self.name.ref_var),
                 Entity.name.sub_equation
@@ -6213,28 +6220,33 @@ class BaseId(SingleTokNode):
 
                     lambda b=BasicDecl:
                     b.subp_spec_or_null.then(
-                        lambda spec:
+                        lambda spec: Let(
+                            lambda real_pc=If(
+                                spec.cast(T.EntrySpec)._.family_type.is_null,
+                                pc, pc.parent.cast_or_raise(T.CallExpr)
+                            ):
 
-                        # Either the subprogram is matching the CallExpr's
-                        # parameters.
-                        And(
-                            spec.is_matching_param_list(
-                                params, b.info.md.dottable_subp
-                            ),
-                            pc.parent.cast(T.CallExpr).then(
-                                lambda ce: ce.check_for_type(b.expr_type),
-                                default_val=True
+                            # Either the subprogram is matching the CallExpr's
+                            # parameters.
+                            And(
+                                spec.is_matching_param_list(
+                                    params, b.info.md.dottable_subp
+                                ),
+                                real_pc.parent.cast(T.CallExpr).then(
+                                    lambda ce: ce.check_for_type(b.expr_type),
+                                    default_val=True
+                                )
                             )
-                        )
 
-                        # Or the entity is parameterless, and the returned
-                        # component (s) matches the callexpr (s).
-                        | And(pc.check_for_type(b.expr_type),
-                              spec.paramless(b.info.md)),
+                            # Or the entity is parameterless, and the returned
+                            # component (s) matches the callexpr (s).
+                            | And(real_pc.check_for_type(b.expr_type),
+                                  spec.paramless(b.info.md)),
 
+                        ),
                         # In the case of ObjectDecls/CompDecls in general,
-                        # verify that the callexpr is valid for the given type
-                        # designator.
+                        # verify that the callexpr is valid for the given
+                        # type designator.
                         default_val=pc.check_for_type(b.expr_type)
                     ),
 
@@ -6526,6 +6538,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         callable via the dot notation.
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
+
         return origin.bind(Entity.name, If(
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: If(

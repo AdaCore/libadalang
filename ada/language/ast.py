@@ -7933,7 +7933,7 @@ class PackageBody(Body):
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.subunit_pkg_decl,
+                      through=T.PackageBody.subunit_pkg_decl_env,
                       cond=Not(Self.subunit_root.is_null)),
 
             # If self is not a library level package body (and hence is a
@@ -7941,7 +7941,7 @@ class PackageBody(Body):
             # decl, because it is not in the chain of parents.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      cond=Not(Self.is_unit_root),
+                      cond=Not(Self.is_unit_root | Self.is_subunit),
                       kind=RefKind.prioritary)
         ]
     )
@@ -7956,10 +7956,16 @@ class PackageBody(Body):
     defining_env = Property(Entity.children_env)
 
     @langkit_property()
-    def subunit_pkg_decl():
+    def subunit_pkg_decl_env():
         return env.bind(
-            Self.subunit_root._.children_env,
-            Entity.defining_name.scope
+            Self.initial_env,
+            Entity.body_scope(True).get(Entity.name_symbol)
+            .find(lambda e: e.is_a(T.PackageDecl))
+            .children_env.then(
+                lambda public_part:
+                public_part.get('__privatepart', recursive=False).at(0)
+                .then(lambda pp: pp.children_env, default_val=public_part)
+            )
         )
 
     @langkit_property()

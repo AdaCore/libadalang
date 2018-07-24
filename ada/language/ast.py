@@ -283,6 +283,10 @@ class AdaNode(ASTNode):
                 head.singleton.concat(tail))
         )
 
+    # We mark this property as memoizable because for the moment, we only ever
+    # get the first result of logic resolution, so we only ever want the result
+    # of the first evaluation of this property. When we change that, we'll
+    # probably change the solving API anyway.
     @langkit_property(call_memoizable=True)
     def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType,
                   try_immediate=(BoolType, False)):

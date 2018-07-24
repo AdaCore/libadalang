@@ -7965,8 +7965,12 @@ class PackageBody(Body):
         return env.bind(
             Self.initial_env,
             Entity.body_scope(True).get(Entity.name_symbol)
-            .find(lambda e: e.is_a(T.PackageDecl))
-            .children_env.then(
+            .find(lambda e: e.is_a(T.PackageDecl, T.GenericPackageDecl))
+            .match(
+                lambda pd=T.PackageDecl: pd.children_env,
+                lambda gpd=T.GenericPackageDecl: gpd.package_decl.children_env,
+                lambda _: PropertyError(LexicalEnvType),
+            ).then(
                 lambda public_part:
                 public_part.get('__privatepart', recursive=False).at(0)
                 .then(lambda pp: pp.children_env, default_val=public_part)

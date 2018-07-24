@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [base-gen_list.adb]
+with_default_project: False

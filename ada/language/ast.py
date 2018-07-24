@@ -7939,7 +7939,7 @@ class PackageBody(Body):
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl_env,
-                      cond=Not(Self.subunit_root.is_null)),
+                      cond=Self.is_subunit),
 
             # If self is not a library level package body (and hence is a
             # nested package), we need to explicitly reference its package

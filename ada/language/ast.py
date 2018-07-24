@@ -7924,9 +7924,14 @@ class PackageBody(Body):
         # Destination env for the __body link
         dest_env=env.bind(
             Self.initial_env,
-            # __body never goes into the private part, and is always in the
-            # decl for nested sub packages.
-            Entity.body_scope(follow_private=False, force_decl=True)
+            If(
+                Self.is_subunit,
+                Entity.subunit_pkg_decl_env,
+
+                # __body never goes into the private part, and is always in the
+                # decl for nested sub packages.
+                Entity.body_scope(follow_private=False, force_decl=True)
+            )
         ),
 
         transitive_parent=True,

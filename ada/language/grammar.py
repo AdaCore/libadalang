@@ -748,7 +748,7 @@ A.add_rules(
 
     entry_body=EntryBody(
         "entry", A.defining_id,
-        Opt(EntryIndexSpec("(", "for", A.identifier, "in",
+        Opt(EntryIndexSpec("(", "for", A.defining_id, "in",
                            A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
         "when", A.expr,

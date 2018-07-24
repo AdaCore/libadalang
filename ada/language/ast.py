@@ -283,7 +283,7 @@ class AdaNode(ASTNode):
                 head.singleton.concat(tail))
         )
 
-    @langkit_property()
+    @langkit_property(call_memoizable=True)
     def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType,
                   try_immediate=(BoolType, False)):
         success = Var(If(
@@ -8032,9 +8032,24 @@ class EntryBody(Body):
     env_spec = EnvSpec(add_env())
 
 
-class EntryIndexSpec(AdaNode):
-    id = Field(type=T.Identifier)
+class EntryIndexSpec(BasicDecl):
+    id = Field(type=T.DefiningName)
     subtype = Field(type=T.AdaNode)
+
+    env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
+
+    defining_names = Property(Entity.id.singleton)
+    defining_env = Property(Entity.expr_type.defining_env)
+    expr_type = Property(Entity.subtype.match(
+        lambda subt=T.SubtypeIndication: subt.designated_type,
+        lambda e: e.expression_type,
+    ))
+
+    @langkit_property()
+    def xref_equation():
+        return Entity.subtype.sub_equation
+
+    xref_entry_point = Property(True)
 
 
 class Subunit(AdaNode):

@@ -88,11 +88,11 @@ private
 
    overriding function Get_Unit
      (Provider    : Auto_Unit_Provider_Type;
-      Context     : Analysis_Context;
+      Context     : Analysis_Context'Class;
       Name        : Text_Type;
       Kind        : Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit;
+      Reparse     : Boolean := False) return Analysis_Unit'Class;
 
    function As_Key
      (Name     : Text_Type;

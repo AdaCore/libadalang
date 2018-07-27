@@ -10,7 +10,7 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 
 procedure Main is
 
-   Ctx   : Analysis_Context := Create;
+   Ctx   : constant Analysis_Context := Create;
    function Get (Filename : String) return Analysis_Unit;
    procedure Dump;
 
@@ -77,6 +77,5 @@ begin
    Child := Get ("pkg-child.ads");
    Dump;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

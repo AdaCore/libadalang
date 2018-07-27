@@ -9,9 +9,9 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 with Libadalang.Lexer;
 
 procedure Main is
-   Ctx    : Analysis_Context := Create;
-   Unit   : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
-   N      : constant Ada_Node := Find_First
+   Ctx  : constant Analysis_Context := Create;
+   Unit : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
+   N    : constant Ada_Node := Find_First
      (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
 begin
    declare
@@ -25,6 +25,5 @@ begin
       Put_Line ("Sloc range: " & Image (Sloc_Range (Tok_Data)));
    end;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

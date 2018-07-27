@@ -169,7 +169,7 @@ procedure Highlight is
       end case;
    end Output_Highlighted;
 
-   Ctx      : LAL.Analysis_Context := LAL.Create (With_Trivia => True);
+   Ctx      : constant LAL.Analysis_Context := LAL.Create;
    Src_File : constant String := Get_Source_File;
 begin
    if Src_File'Length > 0 then
@@ -196,5 +196,4 @@ begin
    else
       Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
    end if;
-   LAL.Destroy (Ctx);
 end Highlight;

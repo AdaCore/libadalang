@@ -571,7 +571,7 @@ procedure Nameres is
    --------------------
 
    task body Main_Task_Type is
-      Ctx : Analysis_Context := No_Analysis_Context;
+      Ctx : Analysis_Context;
       F   : Unbounded_String;
    begin
       select
@@ -623,8 +623,6 @@ procedure Nameres is
                Put_Line ("");
          end;
       end loop;
-
-      Destroy (Ctx);
 
       accept Stop do
          null;

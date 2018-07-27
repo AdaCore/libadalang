@@ -18,8 +18,8 @@ procedure Main is
    -------------
 
    procedure Process (Filename : String; With_Trivia : Boolean) is
-      Ctx   : Analysis_Context := Create (With_Trivia => With_Trivia);
-      Unit  : constant Analysis_Unit := Get_From_File (Ctx, Filename);
+      Ctx  : constant Analysis_Context := Create (With_Trivia => With_Trivia);
+      Unit : constant Analysis_Unit := Get_From_File (Ctx, Filename);
 
       Token      : Token_Reference := First_Token (Unit);
       Prev_Token : Token_Reference := No_Token;
@@ -50,7 +50,6 @@ procedure Main is
          Token := Next (Token);
       end loop;
       New_Line;
-      Destroy (Ctx);
    end Process;
 
    type String_Array is array (Positive range <>) of Unbounded_String;

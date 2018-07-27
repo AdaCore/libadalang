@@ -29,7 +29,7 @@ procedure Main is
    end Load_Project;
 
    UFP : Unit_Provider_Access := Load_Project ("p.gpr");
-   Ctx : Analysis_Context :=
+   Ctx : constant Analysis_Context :=
       Create (Unit_Provider => Unit_Provider_Access_Cst (UFP));
 
    Unit : constant Analysis_Unit :=
@@ -50,7 +50,6 @@ begin
       end loop;
    end;
 
-   Destroy (Ctx);
    Destroy (UFP);
    Put_Line ("Done.");
 end Main;

@@ -1,7 +1,8 @@
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis;   use Libadalang.Analysis;
-with Libadalang.Converters; use Libadalang.Converters;
+with Libadalang.Analysis;       use Libadalang.Analysis;
+with Libadalang.Converters;     use Libadalang.Converters;
+with Libadalang.Implementation; use Libadalang.Implementation;
 
 package body Libadalang.Env_Hooks is
 
@@ -232,7 +233,7 @@ package body Libadalang.Env_Hooks is
          end if;
       end Prepare_Nameres;
 
-      UFP              : constant Internal_Unit_Provider_Access_Cst :=
+      UFP              : constant Internal_Unit_Provider_Access :=
          Ctx.Unit_Provider;
       Unit, First_Unit : Internal_Unit;
    begin
@@ -243,7 +244,7 @@ package body Libadalang.Env_Hooks is
          begin
             if Filename = "" then
                return null;
-            elsif not Has_Unit (Wrap_Context (Ctx), Filename) then
+            elsif not Has_Unit (Ctx, Filename) then
                return null;
             end if;
          end;

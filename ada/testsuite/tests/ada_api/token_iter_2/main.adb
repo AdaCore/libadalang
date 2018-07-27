@@ -7,9 +7,9 @@ with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx    : Analysis_Context := Create;
-   Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
-   CU     : constant Compilation_Unit := Root (Unit).As_Compilation_Unit;
+   Ctx  : constant Analysis_Context := Create;
+   Unit : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
+   CU   : constant Compilation_Unit := Root (Unit).As_Compilation_Unit;
 
    function Find_Binops (N : Ada_Node) return Boolean
    is (N.Kind = Ada_Bin_Op);
@@ -22,6 +22,4 @@ begin
    for Tok of BO.Token_Range loop
       Put_Line (Image (Tok));
    end loop;
-
-   Destroy (Ctx);
 end Main;

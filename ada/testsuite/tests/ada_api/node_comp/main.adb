@@ -8,7 +8,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx   : Analysis_Context := Create;
+   Ctx : constant Analysis_Context := Create;
 
    function Get_Unit (Filename : String) return Analysis_Unit is
       Unit : constant Analysis_Unit := Get_From_File (Ctx, Filename);
@@ -50,6 +50,5 @@ begin
       raise Program_Error with "Entity info ignored";
    end if;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

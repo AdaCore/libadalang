@@ -5,9 +5,6 @@ with Libadalang.Converters; use Libadalang.Converters;
 
 package body Libadalang.Env_Hooks is
 
-   package LP renames Libadalang.Analysis;
-   package Converters renames Libadalang.Converters;
-
    procedure Handle_Unit_With_Parents
      (Ctx : Internal_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
@@ -229,7 +226,7 @@ package body Libadalang.Env_Hooks is
       procedure Prepare_Nameres (Unit : Internal_Unit) is
       begin
          if Unit.AST_Root /= null then
-            LP.Populate_Lexical_Env (Converters.Wrap_Unit (Unit));
+            Populate_Lexical_Env (Wrap_Unit (Unit));
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
@@ -246,8 +243,7 @@ package body Libadalang.Env_Hooks is
          begin
             if Filename = "" then
                return null;
-            elsif not LP.Has_Unit (Converters.Wrap_Context (Ctx), Filename)
-            then
+            elsif not Has_Unit (Wrap_Context (Ctx), Filename) then
                return null;
             end if;
          end;
@@ -305,12 +301,11 @@ package body Libadalang.Env_Hooks is
    --------------------
 
    procedure Fetch_Standard (Context : Internal_Context) is
-      Std : constant LP.Analysis_Unit :=
-        LP.Get_From_Buffer
-         (Converters.Wrap_Context (Context), "__standard", "ascii",
-          Std_Content);
+      Std : constant Analysis_Unit :=
+        Get_From_Buffer (Wrap_Context (Context), "__standard",
+                         "ascii", Std_Content);
    begin
-      LP.Populate_Lexical_Env (Std);
+      Populate_Lexical_Env (Std);
    end Fetch_Standard;
 
    --------------

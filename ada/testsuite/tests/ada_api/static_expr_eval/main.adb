@@ -7,8 +7,8 @@ with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx  : Analysis_Context := Create;
-   Unit : Analysis_Unit := Get_From_File (Ctx, "test.adb");
+   Ctx  : constant Analysis_Context := Create;
+   Unit : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
 
    function Is_Object_Decl (N : Ada_Node) return Boolean
    is (Kind (N) in Ada_Object_Decl
@@ -32,6 +32,5 @@ begin
       New_Line;
    end loop;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

@@ -6,8 +6,8 @@ with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx    : Analysis_Context := Create;
-   Unit   : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
+   Ctx  : constant Analysis_Context := Create;
+   Unit : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
 
    ----------
    -- Proc --
@@ -48,6 +48,5 @@ begin
       Ada_Node_Iterators.Iterate (It, Proc'Access);
    end;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

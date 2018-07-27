@@ -12,7 +12,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx     : Analysis_Context := Create;
+   Ctx     : constant Analysis_Context := Create;
    Foo     : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    Options : constant Analysis_Unit := Get_From_File (Ctx, "options.ads");
    Vectors : constant Analysis_Unit := Get_From_File (Ctx, "vectors.ads");
@@ -75,6 +75,5 @@ begin
    Reload (Vectors);
    Process ("Reloading vectors.ads");
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

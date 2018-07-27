@@ -35,8 +35,8 @@ procedure Main is
       return new Project_Unit_Provider_Type'(Create (Project, Env, True));
    end Load_Project;
 
-   UFP : Unit_Provider_Access := Load_Project ("p.gpr");
-   Ctx  : Analysis_Context :=
+   UFP  : Unit_Provider_Access := Load_Project ("p.gpr");
+   Ctx  : constant Analysis_Context :=
       Create (Unit_Provider => Unit_Provider_Access_Cst (UFP));
    Unit : Analysis_Unit;
 
@@ -68,7 +68,6 @@ begin
       end;
    end loop;
 
-   Destroy (Ctx);
    Destroy (UFP);
    Put_Line ("Done.");
 end Main;

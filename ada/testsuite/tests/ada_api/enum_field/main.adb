@@ -8,7 +8,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx    : Analysis_Context := Create;
+   Ctx    : constant Analysis_Context := Create;
    Unit   : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
    P      : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
      (Kind => Ada_Param_Spec);
@@ -23,6 +23,5 @@ begin
          Put_Line (Image (Name) & " is a: " & Ada_Mode'Image (PP.F_Mode));
       end;
    end loop;
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

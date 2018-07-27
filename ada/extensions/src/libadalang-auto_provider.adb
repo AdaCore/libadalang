@@ -96,7 +96,7 @@ package body Libadalang.Auto_Provider is
       Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset)
    is
-      Context : Analysis_Context := Create (Charset);
+      Context : constant Analysis_Context := Create (Charset);
    begin
       --  Go through every input file and try to parse them
       for File of Input_Files loop
@@ -132,7 +132,6 @@ package body Libadalang.Auto_Provider is
          end;
 
       end loop;
-      Destroy (Context);
    end Create_Auto_Provider;
 
    --------------------------

@@ -24,7 +24,7 @@ procedure Navigate is
       renames Ada.Characters.Handling.To_Lower;
 
    Fatal_Error   : exception;
-   Ctx           : LAL.Analysis_Context;
+   Ctx           : constant LAL.Analysis_Context := LAL.Create;
    Enabled_Kinds : array (LALCO.Ada_Node_Kind_Type) of Boolean :=
      (others => False);
 
@@ -279,7 +279,6 @@ begin
    end if;
 
    Decode_Kinds (CMD.Argument (1));
-   Ctx := LAL.Create;
 
    for I in 2 .. CMD.Argument_Count loop
       declare
@@ -291,7 +290,6 @@ begin
       end;
    end loop;
 
-   LAL.Destroy (Ctx);
    Put_Line ("Done.");
 
 exception

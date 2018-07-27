@@ -7,7 +7,7 @@ with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx   : Analysis_Context := Create;
+   Ctx   : constant Analysis_Context := Create;
    Unit  : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
    Unit2 : constant Analysis_Unit := Get_From_File (Ctx, "test2.adb");
 begin
@@ -61,6 +61,5 @@ begin
    end;
    New_Line;
 
-   Destroy (Ctx);
    Put_Line ("Done.");
 end Main;

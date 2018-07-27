@@ -575,7 +575,6 @@ begin
       end loop;
    end if;
 
-   Destroy (Ctx);
    Free (Project);
    Free (Env);
 end GNAT_Compare;

@@ -340,8 +340,7 @@ begin
    --  Create the analysis context for Libadalang
    UFP := new Libadalang.Unit_Files.Projects.Project_Unit_Provider_Type'
      (Libadalang.Unit_Files.Projects.Create (Prj_Tree, Env, True));
-   Ctx := LAL.Create (Unit_Provider => LAL.Unit_Provider_Access_Cst (UFP),
-                      With_Trivia   => True);
+   Ctx := LAL.Create (Unit_Provider => LAL.Unit_Provider_Access_Cst (UFP));
 
    --  Create the output directories, if needed
    declare
@@ -458,6 +457,5 @@ begin
 
    Emit_HTML_Footer (Index);
    Ada.Text_IO.Close (Index);
-   LAL.Destroy (Ctx);
    LAL.Destroy (UFP);
 end Ada2Web;

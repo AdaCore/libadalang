@@ -83,7 +83,7 @@ begin
               (if SS.F_Subp_Kind.Kind = Ada_Subp_Kind_Function
                then "{} {} is begin return (raise Program_Error); end {};"
                else "{} {} is begin null; end {};");
-            Body_Stub : Node_Rewriting_Handle := Create_From_Template
+            Body_Stub : constant Node_Rewriting_Handle := Create_From_Template
               (Handle    => RH,
                Template  => Template,
                Arguments =>
@@ -105,7 +105,6 @@ begin
    --  context.
 
    Abort_Rewriting (RH);
-   Destroy (Ctx);
 
    Put_Line ("generate_stubs.adb: Done.");
 end Generate_Stubs;

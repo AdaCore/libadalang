@@ -6704,7 +6704,8 @@ class ForLoopSpec(LoopSpec):
                 # iterator.
                 lambda t=T.Name: t.name_designated_type.then(
                     lambda typ:
-                    TypeBind(Self.var_decl.id.type_var, typ.canonical_type),
+                    t.sub_equation
+                    & TypeBind(Self.var_decl.id.type_var, typ.canonical_type),
 
                     default_val=Entity.iterator_xref_equation
                 ),

@@ -6441,7 +6441,12 @@ class ParamMatch(Struct):
 @abstract
 class BaseSubpSpec(BaseFormalParamHolder):
     name = AbstractProperty(type=T.DefiningName, ignore_warn_on_node=True)
-    returns = AbstractProperty(type=T.TypeExpr.entity)
+    returns = AbstractProperty(
+        type=T.TypeExpr.entity, public=True, doc="""
+        Syntax property. Return the type expression node corresponding to the
+        return of this subprogram spec.
+        """
+    )
 
     params = AbstractProperty(
         type=T.ParamSpec.entity.array, public=True, doc="""

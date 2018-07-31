@@ -35,10 +35,11 @@ ada/manage.py generate -P
 
 # Build the Quex-generated lexer alone first, as it takes a huge amount of
 # memory. Only then build the rest in parallel.
-gprbuild -p -j8 -Pbuild/lib/gnat/libadalang.gpr \
+gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
     -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable -XXMLADA_BUILD=relocatable \
     -XLIBADALANG_WARNINGS=true -c -u quex_lexer.c
-ada/manage.py build
+# Restrict parallelism to avoid OOM issues
+ada/manage.py build -j16
 
 # Finally, run the testsuite
-ada/manage.py test
+ada/manage.py test -- -j16

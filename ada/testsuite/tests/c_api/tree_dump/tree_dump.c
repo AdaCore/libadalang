@@ -26,7 +26,7 @@ main(void)
     ada_unit_root(unit, &root);
     dump(&root, 0);
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done");
     return 0;
 }

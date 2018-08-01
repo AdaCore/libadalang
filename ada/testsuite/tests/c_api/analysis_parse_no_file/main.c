@@ -27,7 +27,7 @@ main(void)
 
     dump_diagnostics(unit, "foo.adb");
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

@@ -82,7 +82,7 @@ main(void)
                                  src_buffer_1, src_buffer_1_length);
     check(unit);
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

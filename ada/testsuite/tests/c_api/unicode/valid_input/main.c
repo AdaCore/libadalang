@@ -61,7 +61,7 @@ main(void)
                                              iso_8859_1_length);
     check(unit);
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done");
     return 0;
 }

@@ -125,10 +125,6 @@ package body Libadalang.Auto_Provider is
                      null;
                end case;
             end if;
-
-            --  Discard parsing resources to avoid keeping the whole parsed
-            --  sources in memory.
-            Remove (Context, F);
          end;
 
       end loop;

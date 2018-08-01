@@ -43,7 +43,7 @@ main(void)
 	putchar('\n');
       }
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

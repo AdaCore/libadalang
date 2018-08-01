@@ -38,7 +38,7 @@ main(void)
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a buffer");
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

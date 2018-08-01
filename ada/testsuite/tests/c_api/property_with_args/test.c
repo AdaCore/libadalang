@@ -98,7 +98,7 @@ main(void)
       error ("Call to Foo.p_name_matches(I) failed");
     printf("Foo.p_name_matches(I) = %s\n", bool_image (boolean));
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

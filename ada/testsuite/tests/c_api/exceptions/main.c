@@ -23,14 +23,13 @@ main(void)
     __gnat_initialize (&SEH);
 
     libadalang_initialize();
-    ada_destroy_analysis_context(NULL);
+    ada_context_discard_errors_in_populate_lexical_env(NULL, 0);
 
     exc = ada_get_last_exception();
     if (exc != NULL)
-        printf("ada_destroy_analysis_context raised an exception\n");
+        printf("discard_errors_in_populate_lexical_env raised an exception\n");
     else
-        error("ada_destroy_analysis_context raised no exception,"
-              " unexpectedly\n");
+        error("discard_errors_in_populate_lexical_env raised no exception, unexpectedly\n");
     puts("Done");
     return 0;
 }

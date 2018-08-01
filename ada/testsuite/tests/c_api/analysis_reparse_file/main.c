@@ -87,15 +87,9 @@ main(void)
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
     check(unit);
 
-    remove("foo.adb");
-
-    puts("3. Parsing with deleted file (reparse=true)");
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
-    check(unit);
-
     write_source(src_buffer_2);
 
-    puts("4. Parsing source 2 (reparse=true)");
+    puts("3. Parsing source 2 (reparse=true)");
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 1);
     check(unit);
 
@@ -106,17 +100,17 @@ main(void)
         6. reparsing the unit with a deleted file should wipe the AST and emit
            the corresponding diagnostics.  preserve the unit's tree. */
 
-    puts("5. Reparsing source 1");
+    puts("4. Reparsing source 1");
     ada_unit_reparse_from_file(unit, NULL);
     check(unit);
 
     remove("foo.adb");
 
-    puts("6. Reparsing with deleted file");
+    puts("5. Reparsing with deleted file");
     ada_unit_reparse_from_file(unit, NULL);
     check(unit);
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

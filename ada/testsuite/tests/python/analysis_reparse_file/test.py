@@ -55,15 +55,9 @@ print('2. Parsing source 2 (reparse=false)')
 unit = ctx.get_from_file('foo.adb', reparse=False)
 check(unit)
 
-os.remove('foo.adb')
-
-print('3. Parsing with deleted file (reparse=true)')
-unit = ctx.get_from_file('foo.adb', reparse=True)
-check(unit)
-
 write_source(src_buffer_2)
 
-print('4. Parsing source 2 (reparse=true)')
+print('3. Parsing source 2 (reparse=true)')
 unit = ctx.get_from_file('foo.adb', reparse=True)
 check(unit)
 
@@ -74,13 +68,13 @@ check(unit)
 
 write_source(src_buffer_1)
 
-print('5. Reparsing source 1')
+print('4. Reparsing source 1')
 unit.reparse()
 check(unit)
 
 os.remove('foo.adb')
 
-print('6. Reparsing with deleted file')
+print('5. Reparsing with deleted file')
 unit.reparse()
 check(unit)
 

@@ -60,7 +60,7 @@ main(void)
       printf("  <nothing>\n");
     ada_ada_node_array_dec_ref(entities);
 
-    ada_destroy_analysis_context(ctx);
+    ada_context_decref(ctx);
     puts("Done.");
     return 0;
 }

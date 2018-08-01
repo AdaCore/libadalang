@@ -27,7 +27,6 @@ def process(filename, with_trivia):
         token = token.next
 
     print('')
-    ctx.remove(filename)
 
 
 for filename in ('no_trivia.adb', 'empty.adb'):

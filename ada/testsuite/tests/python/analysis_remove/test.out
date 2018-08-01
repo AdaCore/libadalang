@@ -1,2 +1,0 @@
-Trying to remove the analysis unit for foo.adb twice fails the second time, as expected
-Done.

@@ -3,6 +3,6 @@
    Memcheck:Addr4
    ...
    fun:libadalang__analysis__destroy__2
-   fun:ada_destroy_analysis_context
+   fun:discard_errors_in_populate_lexical_env
    fun:main
 }

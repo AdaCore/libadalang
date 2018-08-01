@@ -4963,7 +4963,7 @@ class Name(Expr):
             bd.cast(T.ParamSpec).decl_param(dn),
 
             bd.then(lambda bd: bd.is_a(Body)),
-            bd.cast(T.Body).decl_part_entity.defining_name,
+            bd.cast(T.Body).decl_part_entity._.defining_name,
 
             bd.then(lambda bd: bd.is_a(BaseTypeDecl)
                     & bd.cast(T.BaseTypeDecl).is_in_private_part),

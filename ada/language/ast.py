@@ -4967,7 +4967,7 @@ class Name(Expr):
 
             bd.then(lambda bd: bd.is_a(BaseTypeDecl)
                     & bd.cast(T.BaseTypeDecl).is_in_private_part),
-            bd.cast(T.BaseTypeDecl).previous_part(True).defining_name,
+            bd.cast(T.BaseTypeDecl).previous_part(True)._.defining_name,
 
             bd.then(lambda bd: bd.is_a(BasicDecl)),
             bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)

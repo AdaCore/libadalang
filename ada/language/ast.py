@@ -1337,10 +1337,6 @@ class BaseFormalParamDecl(BasicDecl):
         doc="Return the type for this formal.", public=True
     )
 
-    el_type = Property(
-        origin.bind(Self, Entity.type_expression._.element_type)
-    )
-
 
 class DiscriminantSpec(BaseFormalParamDecl):
     ids = Field(type=T.DefiningName.list)
@@ -6528,9 +6524,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
         params = Var(Entity.unpacked_formal_params)
         types = Var(origin.bind(
             Self,
-            params.map(lambda p: p.spec.el_type._.canonical_type)
-            .concat(Entity.returns._.designated_type
-                    ._.canonical_type._.singleton)
+            params.map(lambda p: p.spec.type_expression.match(
+                lambda at=T.AnonymousType: at.element_type._.canonical_type,
+                lambda other: other.designated_type._.canonical_type,
+            )).concat(
+                Entity.returns._.designated_type._.canonical_type._.singleton
+            )
         ))
 
         return types.find(lambda typ: typ.then(

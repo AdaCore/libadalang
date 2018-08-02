@@ -9,6 +9,7 @@ Contents:
 
    introduction
    python_api_doc
+   ada_api_doc
 
 Indices and tables
 ==================

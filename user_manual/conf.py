@@ -348,6 +348,10 @@ def setup(app):
         print('ERROR: could not import Libadalang')
         raise
 
+    import docgen
+    app.add_directive("ada_auto_package", docgen.AutoPackage)
+
+
 # TODO: for deployment, update the following URL to an available Langkit
 # documentation site.
 extlinks = {'langkit_doc': ('http://example.org/langkit-doc/%s', None)}

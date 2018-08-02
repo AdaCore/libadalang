@@ -880,6 +880,7 @@ class BasicDecl(AdaNode):
             lambda _=T.LibraryItem: True,
             lambda gen_pkg_decl=T.GenericPackageDecl:
                 gen_pkg_decl.parent.then(lambda p: p.is_a(LibraryItem)),
+            lambda _=T.Subunit: True,
             lambda _: False,
         ))
 

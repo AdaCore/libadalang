@@ -351,7 +351,7 @@ package body Libadalang.Env_Hooks is
          return;
       end if;
 
-      N := Node.P_Defining_Name.El.F_Name;
+      N := Node.P_Defining_Name.Node.F_Name;
 
       if N.all in Bare_Dotted_Name_Type'Class then
          declare
@@ -400,7 +400,7 @@ package body Libadalang.Env_Hooks is
       pragma Assert (Names.N = 1);
 
       declare
-         N     : constant Bare_Name := Names.Items (1).El.F_Name;
+         N     : constant Bare_Name := Names.Items (1).Node.F_Name;
          Dummy : Internal_Unit;
       begin
          Dec_Ref (Names);

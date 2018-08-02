@@ -34,7 +34,7 @@ def default_origin():
 
 def entity_no_md(type, node, rebindings):
     return Let(lambda n=node: type.entity.new(
-        el=n,
+        node=n,
         info=T.entity_info.new(
             rebindings=rebindings,
             md=No(T.env_md)
@@ -215,7 +215,7 @@ class AdaNode(ASTNode):
         new_md = Var(new_metadata(source=Entity.info.md, access_entity=val))
 
         return AdaNode.entity.new(
-            el=Entity.el, info=T.entity_info.new(
+            node=Entity.node, info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
                 md=new_md
             )
@@ -228,7 +228,7 @@ class AdaNode(ASTNode):
         True.
         """
         return AdaNode.entity.new(
-            el=Entity.el,
+            node=Entity.node,
             info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
                 md=new_metadata(source=Entity.info.md, is_call=True)
@@ -664,7 +664,7 @@ class AdaNode(ASTNode):
         gen_decl = Var(Self.as_bare_entity.match(
             lambda pkg_body=T.PackageBody:
                 pkg_body.decl_part_entity.then(
-                    lambda d: d.el.parent.cast(T.GenericPackageDecl)
+                    lambda d: d.node.parent.cast(T.GenericPackageDecl)
                 ),
             lambda bod=T.BaseSubpBody:
                 # We're only searching for generics. We look at index 1 and
@@ -674,8 +674,8 @@ class AdaNode(ASTNode):
                 # lookups, hence doing an infinite recursion.
                 bod.children_env.env_parent.get(bod.name_symbol).then(
                     lambda results:
-                    results.at(1).el.cast(T.GenericSubpDecl)._or(
-                        results.at(2).el.cast(T.GenericSubpDecl)
+                    results.at(1).node.cast(T.GenericSubpDecl)._or(
+                        results.at(2).node.cast(T.GenericSubpDecl)
                     )
                 ).cast(T.AdaNode),
             lambda _: No(T.AdaNode)
@@ -975,7 +975,7 @@ class BasicDecl(AdaNode):
             # the derived type through which we found this primitive
             # (md.primitive_real_type).
 
-            Not(ret_2.is_null) & (Entity.info.md.primitive == ret_2.el),
+            Not(ret_2.is_null) & (Entity.info.md.primitive == ret_2.node),
             entity_no_md(
                 BaseTypeDecl,
                 Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
@@ -1206,22 +1206,24 @@ class Body(BasicDecl):
             # If not a library item, find the matching subprogram spec in the
             # env.
             Entity.children_env.env_parent.get(Entity.name_symbol)
-            .find(lambda sp: And(Not(sp.is_null), Not(sp.el == Self), sp.match(
-                # If this body completes a generic subprogram, then we just
-                # return it (no need to match the signature).
-                lambda _=T.GenericSubpDecl: True,
+            .find(lambda sp: And(Not(sp.is_null),
+                  Not(sp.node == Self),
+                  sp.match(
+                      # If this body completes a generic subprogram, then we
+                      # just return it (no need to match the signature).
+                      lambda _=T.GenericSubpDecl: True,
 
-                lambda subp_decl=T.BasicSubpDecl:
-                subp_decl.subp_decl_spec.match_signature(
-                    Entity.subp_spec_or_null.cast(T.SubpSpec), True
-                ),
+                      lambda subp_decl=T.BasicSubpDecl:
+                      subp_decl.subp_decl_spec.match_signature(
+                          Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                      ),
 
-                lambda subp_stub=T.SubpBodyStub:
-                subp_stub.subp_spec.match_signature(
-                    Entity.subp_spec_or_null.cast(T.SubpSpec), True
-                ),
+                      lambda subp_stub=T.SubpBodyStub:
+                      subp_stub.subp_spec.match_signature(
+                          Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                      ),
 
-                lambda _: False
+                      lambda _: False
             ))).cast_or_raise(T.BasicDecl.entity)
         )
 
@@ -1327,7 +1329,7 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
     """
-    identifiers = Property(Entity.defining_names.map(lambda e: e.el),
+    identifiers = Property(Entity.defining_names.map(lambda e: e.node),
                            memoized=True)
 
     is_mandatory = Property(False)
@@ -1359,7 +1361,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
             Entity.default_expr.then(
                 lambda de:
                 de.sub_equation
-                & Bind(de.el.type_var,
+                & Bind(de.node.type_var,
                        Entity.expr_type,
                        eq_prop=BaseTypeDecl.matching_assign_type),
                 default_val=LogicTrue()
@@ -2064,7 +2066,7 @@ class BaseTypeDecl(BasicDecl):
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
             lambda cw: cw.typedecl, default_val=Entity)
         )
-        return typ.semantic_parent.semantic_parent.el == iifcs
+        return typ.semantic_parent.semantic_parent.node == iifcs
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
@@ -3379,7 +3381,7 @@ class TypeExpr(AdaNode):
         Return the type declaration designated by this type expression as
         viewed from the node given by origin_node.
         """
-        return origin.bind(origin_node.el, Entity.designated_type)
+        return origin.bind(origin_node.node, Entity.designated_type)
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def element_type():
@@ -3607,7 +3609,7 @@ class BasicSubpDecl(BasicDecl):
                       .primitive_subp_of.cast(T.TypeDecl)._.primitives),
             metadata=new_metadata(
                 primitive=(Self.as_bare_entity.subp_decl_spec
-                           .primitive_subp_of.cast(T.AdaNode).el),
+                           .primitive_subp_of.cast(T.AdaNode).node),
             )
         )
     )
@@ -3870,7 +3872,7 @@ class ObjectDecl(BasicDecl):
             & Entity.default_expr.then(
                 lambda de:
                 de.sub_equation
-                & Bind(de.el.type_var,
+                & Bind(de.node.type_var,
                        typ,
                        eq_prop=BaseTypeDecl.matching_assign_type),
                 default_val=LogicTrue()
@@ -3878,7 +3880,7 @@ class ObjectDecl(BasicDecl):
             & Entity.renaming_clause.then(
                 lambda rc:
                 rc.renamed_object.sub_equation
-                & Bind(rc.renamed_object.el.type_var, typ,
+                & Bind(rc.renamed_object.node.type_var, typ,
                        eq_prop=BaseTypeDecl.matching_assign_type),
                 default_val=LogicTrue()
             )
@@ -4050,7 +4052,7 @@ class GenericInstantiation(BasicDecl):
 
             Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
             ._.formal_part.match_param_list(
-                Entity.generic_inst_params.el, False
+                Entity.generic_inst_params.node, False
             ).logic_all(lambda pm: Let(
                 lambda actual_name=pm.actual.assoc.expr.as_entity.cast(T.Name):
                 pm.formal.spec.cast(T.GenericFormal).decl.match(
@@ -4101,11 +4103,11 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         return Self.nonbound_generic_decl.then(
             lambda p: BasicSubpDecl.entity.new(
-                el=p.el.cast(GenericSubpDecl).subp_decl,
+                node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
                     md=p.info.md,
                     rebindings=p.info.rebindings.append_rebinding(
-                        p.el.children_env, Self.instantiation_env
+                        p.node.children_env, Self.instantiation_env
                     )
                 )
             ).cast(T.entity)
@@ -4162,7 +4164,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     def designated_package():
         return Self.nonbound_generic_decl.then(
             lambda p: BasePackageDecl.entity.new(
-                el=p.el.cast(GenericPackageDecl).package_decl,
+                node=p.node.cast(GenericPackageDecl).package_decl,
                 info=T.entity_info.new(
                     md=p.info.md,
 
@@ -4177,8 +4179,8 @@ class GenericPackageInstantiation(GenericInstantiation):
                     # we purposefully want the children env of the P node, with
                     # no rebindings associated, since the rebinding indication
                     # concerns the *naked* generic. Hence we use
-                    # p.el.children_env.
-                    .append_rebinding(p.el.children_env,
+                    # p.node.children_env.
+                    .append_rebinding(p.node.children_env,
                                       Self.instantiation_env)
                 )
             )
@@ -4487,7 +4489,7 @@ class Expr(AdaNode):
     env_elements = Property(
         Entity.env_elements_impl.filter(lambda e: (
             Not(e.cast(T.BasicDecl).is_unit_root)
-            | Self.has_with_visibility(e.el.unit)
+            | Self.has_with_visibility(e.node.unit)
         )),
         dynamic_vars=[env]
     )
@@ -5038,7 +5040,7 @@ class Name(Expr):
 
                 lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
 
-                lambda _: Bind(Self.type_var, No(T.AdaNode.entity).el),
+                lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
                 lambda pn: pn.parent_name_equation(
                     typ.comp_type(
@@ -5200,7 +5202,7 @@ class Name(Expr):
         This compares the symbol for Identifier and StringLiteral nodes. We
         consider that there is no match for all other node kinds.
         """
-        return Self.matches(n.el)
+        return Self.matches(n.node)
 
     @langkit_property()
     def use_package_name_designated_env():
@@ -5252,14 +5254,14 @@ class Name(Expr):
                 i.ref_var.domain(
                     env.get(
                         i.name_symbol,
-                        from_node=If(sequential, Entity.el, No(T.Name)),
+                        from_node=If(sequential, Entity.node, No(T.Name)),
                     ),
                 ),
                 Bind(
                     i.ref_var,
                     env.get_first(
                         i.name_symbol,
-                        from_node=If(sequential, Entity.el, No(T.Name)),
+                        from_node=If(sequential, Entity.node, No(T.Name)),
                         recursive=Self.is_prefix,
                     ),
                 )
@@ -5617,7 +5619,7 @@ class CallExpr(Name):
 
                     # The type of each actual matches the type of the
                     # formal.
-                    If(ft.el.as_bare_entity
+                    If(ft.node.as_bare_entity
                        .matching_type(prim_type.as_bare_entity),
 
                        Bind(pm.actual.assoc.expr.type_var, ft,
@@ -5921,7 +5923,7 @@ class SingleTokNode(Name):
         ).find(
             lambda el:
             Or(Not(el.cast(T.BasicDecl).is_unit_root),
-               Self.has_with_visibility(el.el.unit))
+               Self.has_with_visibility(el.node.unit))
         )
 
 
@@ -5981,7 +5983,7 @@ class BaseId(SingleTokNode):
     def scope():
         elt = Var(env.get_first(Self))
         ret = Var(If(
-            Not(elt.is_null) & elt.el.is_a(
+            Not(elt.is_null) & elt.node.is_a(
                 T.BasicDecl
             ),
             elt.children_env,
@@ -6009,12 +6011,13 @@ class BaseId(SingleTokNode):
         all_env_els = Var(Entity.env_elements_baseid)
         env_els = Var(If(
             Self.is_prefix,
-            all_env_els.filter(lambda e: Self.has_with_visibility(e.el.unit)),
+            all_env_els.filter(lambda e:
+                               Self.has_with_visibility(e.node.unit)),
             all_env_els
         ))
 
         pkg = Var(
-            env_els.filter(lambda e: Not(e.el == bd)).at(0).cast(T.BasicDecl)
+            env_els.filter(lambda e: Not(e.node == bd)).at(0).cast(T.BasicDecl)
         )
 
         return origin.bind(Self, If(
@@ -6334,7 +6337,7 @@ class EnumLiteralDecl(BasicDecl):
             # If this enum literal decl has been found through a primitive env
             # (type of md.primitive matches enum type), then we want  to return
             # the derived type from which we found this enum literal.
-            Entity.info.md.primitive == Entity.enum_type.el,
+            Entity.info.md.primitive == Entity.enum_type.node,
 
             entity_no_md(
                 BaseTypeDecl,
@@ -6354,7 +6357,7 @@ class EnumLiteralDecl(BasicDecl):
         add_to_env_kv(
             Self.name_symbol, Self,
             dest_env=Entity.enum_type.primitives,
-            metadata=new_metadata(primitive=Entity.enum_type.el)
+            metadata=new_metadata(primitive=Entity.enum_type.node)
         )
     )
 
@@ -6470,7 +6473,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 Not(other_ret.is_null), Not(self_ret.is_null),
                 origin.bind(
                     Self,
-                    origin.bind(other.el, other_ret.canonical_type)
+                    origin.bind(other.node, other_ret.canonical_type)
                     .matching_type(self_ret.canonical_type)
                 )
             )
@@ -7444,7 +7447,7 @@ class BaseSubpBody(Body):
         add_to_env_kv(
             '__body', Self,
             dest_env=Entity.decl_part_entity.then(
-                lambda d: d.el.children_env
+                lambda d: d.node.children_env
             ),
         ),
 
@@ -7471,7 +7474,7 @@ class BaseSubpBody(Body):
                       .primitive_subp_of.cast(T.TypeDecl)._.primitives),
             metadata=new_metadata(
                 primitive=(Self.as_bare_entity.subp_spec
-                           .primitive_subp_of.cast(T.AdaNode).el),
+                           .primitive_subp_of.cast(T.AdaNode).node),
             )
         )
     )

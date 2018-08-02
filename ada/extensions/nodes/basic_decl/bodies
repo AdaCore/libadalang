@@ -41,7 +41,7 @@ begin
 
    for I in Children.Items'Range loop
       Append (Ret, """");
-      Append (Ret, Name_Image (Children.Items (I).El));
+      Append (Ret, Name_Image (Children.Items (I).Node));
          Append (Ret, """");
       if I /= Children.Items'Last then
          Append (Ret, ", ");

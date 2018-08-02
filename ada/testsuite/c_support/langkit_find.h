@@ -36,7 +36,7 @@ find_node(ada_base_entity *root, ada_node_kind_enum kind,
             return;
         }
     }
-    result_p->el = NULL;
+    result_p->node = NULL;
 }
 
 #endif

@@ -35,7 +35,7 @@ main(void)
     ada_unit_root(unit, &tmp);
     if (ada_node_kind (&tmp) != ada_compilation_unit)
       error("Unit root is not a CompilationUnit");
-    overriding.el = NULL;
+    overriding.node = NULL;
     if (ada_base_subp_body_f_overriding(&tmp, &overriding))
       error("Getting CompilationUnit.overriding worked (this does not exist)");
     if (!ada_node_is_null(&overriding))

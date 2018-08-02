@@ -5318,7 +5318,8 @@ class Name(Expr):
         """
         Turn this name into an array of symbols.
 
-        For instance, "A.B.C" is turned into ['A', 'B', 'C'].
+        For instance, a node with name ``A.B.C`` is turned into
+        ``['A', 'B', 'C']``.
         """
         return Self.match(
             lambda dname=T.DefiningName: dname.name.as_symbol_array,

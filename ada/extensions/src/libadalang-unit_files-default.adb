@@ -17,7 +17,7 @@ package body Libadalang.Unit_Files.Default is
    -----------------------
 
    overriding function Get_Unit_Filename
-     (Provider : Default_Unit_Provider_Type;
+     (Provider : Default_Unit_Provider;
       Name     : Text_Type;
       Kind     : Unit_Kind) return String
    is
@@ -31,12 +31,12 @@ package body Libadalang.Unit_Files.Default is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_Provider_Type;
-      Context     : LP.Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return LP.Analysis_Unit'Class
+     (Provider : Default_Unit_Provider;
+      Context  : LP.Analysis_Context'Class;
+      Name     : Text_Type;
+      Kind     : Unit_Kind;
+      Charset  : String := "";
+      Reparse  : Boolean := False) return LP.Analysis_Unit'Class
    is
       pragma Unreferenced (Provider);
    begin

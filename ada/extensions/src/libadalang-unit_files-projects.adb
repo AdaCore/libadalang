@@ -9,7 +9,7 @@ package body Libadalang.Unit_Files.Projects is
    -----------------------
 
    overriding function Get_Unit_Filename
-     (Provider : Project_Unit_Provider_Type;
+     (Provider : Project_Unit_Provider;
       Name     : Text_Type;
       Kind     : Unit_Kind) return String
    is
@@ -41,7 +41,7 @@ package body Libadalang.Unit_Files.Projects is
    --------------
 
    overriding function Get_Unit
-     (Provider    : Project_Unit_Provider_Type;
+     (Provider    : Project_Unit_Provider;
       Context     : LP.Analysis_Context'Class;
       Name        : Text_Type;
       Kind        : Unit_Kind;
@@ -71,24 +71,11 @@ package body Libadalang.Unit_Files.Projects is
       end if;
    end Get_Unit;
 
-   ----------------
-   -- Initialize --
-   ----------------
+   -------------
+   -- Release --
+   -------------
 
-   overriding procedure Initialize
-     (Provider : in out Project_Unit_Provider_Type) is
-   begin
-      Provider.Project := null;
-      Provider.Env := null;
-      Provider.Is_Project_Owner := False;
-   end Initialize;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   overriding procedure Finalize
-     (Provider : in out Project_Unit_Provider_Type)
+   overriding procedure Release (Provider : in out Project_Unit_Provider)
    is
       Dummy : Scoped_Lock (GPR_Lock'Access);
    begin
@@ -100,6 +87,6 @@ package body Libadalang.Unit_Files.Projects is
       Provider.Project := null;
       Provider.Env := null;
       Provider.Is_Project_Owner := False;
-   end Finalize;
+   end Release;
 
 end Libadalang.Unit_Files.Projects;

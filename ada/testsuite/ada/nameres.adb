@@ -20,7 +20,6 @@ with Libadalang.Analysis;            use Libadalang.Analysis;
 with Libadalang.Auto_Provider;       use Libadalang.Auto_Provider;
 with Libadalang.Common;              use Libadalang.Common;
 with Libadalang.Iterators;           use Libadalang.Iterators;
-with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 with Put_Title;
@@ -145,7 +144,7 @@ procedure Nameres is
          Allow_Empty => True);
    end Args;
 
-   UFP : Unit_Provider_Access;
+   UFP : Unit_Provider_Reference;
    --  When project file handling is enabled, corresponding unit provider
 
    function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
@@ -562,7 +561,7 @@ procedure Nameres is
    Files : String_Vectors.Vector;
 
    task type Main_Task_Type is
-      entry Create_Context (UFP : Unit_Provider_Access);
+      entry Create_Context (UFP : Unit_Provider_Reference);
       entry Stop;
    end Main_Task_Type;
 
@@ -575,10 +574,10 @@ procedure Nameres is
       F   : Unbounded_String;
    begin
       select
-         accept Create_Context (UFP : Unit_Provider_Access) do
+         accept Create_Context (UFP : Unit_Provider_Reference) do
             Ctx := Create
               (Charset       => +Args.Charset.Get,
-               Unit_Provider => Unit_Provider_Access_Cst (UFP));
+               Unit_Provider => UFP);
 
             Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
          end Create_Context;
@@ -702,7 +701,7 @@ begin
             else
                Load (Project.all, Create (+Filename), Env);
             end if;
-            UFP := new Project_Unit_Provider_Type'
+            UFP := Create_Unit_Provider_Reference
               (Create (Project, Env, True));
 
             if Args.Files_From_Project.Get then
@@ -722,7 +721,8 @@ begin
 
             Files := Find_Files (Directories => Dirs);
 
-            UFP := Create_Auto_Provider (Files.all, +Args.Charset.Get);
+            UFP := Create_Unit_Provider_Reference
+              (Create_Auto_Provider (Files.all, +Args.Charset.Get));
             GNATCOLL.VFS.Unchecked_Free (Files);
          end;
       end if;
@@ -743,8 +743,6 @@ begin
          T.Stop;
       end loop;
    end;
-
-   Destroy (UFP);
 
    Show_Stats;
 

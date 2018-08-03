@@ -10,12 +10,11 @@ with Langkit_Support.Text;        use Langkit_Support.Text;
 
 with Libadalang.Analysis;            use Libadalang.Analysis;
 with Libadalang.Common;              use Libadalang.Common;
-with Libadalang.Unit_Files;          use Libadalang.Unit_Files;
 with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
 
 procedure Main is
 
-   function Load_Project (File : String) return Unit_Provider_Access;
+   function Load_Project (File : String) return Unit_Provider_Reference;
 
    function "+" (S : Wide_Wide_String) return Unbounded_Wide_Wide_String
       renames To_Unbounded_Wide_Wide_String;
@@ -26,18 +25,17 @@ procedure Main is
    -- Load_Project --
    ------------------
 
-   function Load_Project (File : String) return Unit_Provider_Access is
+   function Load_Project (File : String) return Unit_Provider_Reference is
       Env     : Project_Environment_Access;
       Project : constant Project_Tree_Access := new Project_Tree;
    begin
       Initialize (Env);
       Load (Project.all, Create (+File), Env);
-      return new Project_Unit_Provider_Type'(Create (Project, Env, True));
+      return Create_Unit_Provider_Reference (Create (Project, Env, True));
    end Load_Project;
 
-   UFP  : Unit_Provider_Access := Load_Project ("p.gpr");
    Ctx  : constant Analysis_Context :=
-      Create (Unit_Provider => Unit_Provider_Access_Cst (UFP));
+      Create (Unit_Provider => Load_Project ("p.gpr"));
    Unit : Analysis_Unit;
 
    LF    : constant := Character'Pos (ASCII.LF);
@@ -68,6 +66,5 @@ begin
       end;
    end loop;
 
-   Destroy (UFP);
    Put_Line ("Done.");
 end Main;

@@ -78,7 +78,7 @@ procedure Ada2Web is
    --  Subset of projects in Prj_Tree for which we emit highlighted source code
 
    Ctx : LAL.Analysis_Context;
-   UFP : LAL.Unit_Provider_Access;
+   UFP : LAL.Unit_Provider_Reference;
 
    CSS_Filename : constant String := "style.css";
 
@@ -338,9 +338,9 @@ begin
    end if;
 
    --  Create the analysis context for Libadalang
-   UFP := new Libadalang.Unit_Files.Projects.Project_Unit_Provider_Type'
+   UFP := LAL.Create_Unit_Provider_Reference
      (Libadalang.Unit_Files.Projects.Create (Prj_Tree, Env, True));
-   Ctx := LAL.Create (Unit_Provider => LAL.Unit_Provider_Access_Cst (UFP));
+   Ctx := LAL.Create (Unit_Provider => UFP);
 
    --  Create the output directories, if needed
    declare
@@ -457,5 +457,4 @@ begin
 
    Emit_HTML_Footer (Index);
    Ada.Text_IO.Close (Index);
-   LAL.Destroy (UFP);
 end Ada2Web;

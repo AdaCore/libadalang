@@ -7,8 +7,7 @@
    %>
 
    function Scenario_Vars_Count
-     (Scenario_Vars : System.Address)
-      return Natural;
+     (Scenario_Vars : System.Address) return Natural;
    --  Return the number of scenario variables in the Scenario_Vars C-style
    --  array. This counts the number of entries before the first NULL entry.
 
@@ -16,9 +15,7 @@
    -- Scenario_Vars_Count --
    -------------------------
 
-   function Scenario_Vars_Count
-     (Scenario_Vars : System.Address)
-      return Natural
+   function Scenario_Vars_Count (Scenario_Vars : System.Address) return Natural
    is
       Result : Natural := 1;
       SV     : ${scn_var_array} (Positive)
@@ -34,15 +31,11 @@
 
    function ${capi.get_name('create_project_unit_provider')}
      (Project_File  : chars_ptr;
-      Scenario_Vars : System.Address)
-      return ${unit_provider_type}
+      Scenario_Vars : System.Address) return ${unit_provider_type}
    is
       PF      : constant String := Value (Project_File);
-
       Project : Project_Tree_Access := new Project_Tree;
       Env     : Project_Environment_Access;
-
-      Result  : Unit_Provider_Access;
    begin
       Initialize (Env);
       if Scenario_Vars /= System.Null_Address then
@@ -66,9 +59,8 @@
             return ${unit_provider_type} (System.Null_Address);
       end;
 
-      Result :=
-         new Project_Unit_Provider_Type'(Create (Project, Env, True));
-      return Wrap (Result);
+      return Create_Unit_Provider_C_Reference
+        (Project_Unit_Provider'(Create (Project, Env, True)));
    end;
 
    function ${capi.get_name('create_auto_provider')}
@@ -97,15 +89,17 @@
          --  Allocate the array of filenames on the heap, as it may be too
          --  large for the stack.
 
-         Files  : File_Array_Access := new File_Array (1 .. Files_Count);
-         Result : Unit_Provider_Access;
+         Files : File_Array_Access := new File_Array (1 .. Files_Count);
       begin
          for I in Files'Range loop
             Files (I) := Create (+Value (Input_Files_Array (I)));
          end loop;
 
-         Result := Create_Auto_Provider (Files.all, Actual_Charset);
-         Unchecked_Free (Files);
-         return Wrap (Result);
+         return Provider : ${unit_provider_type} :=
+            Create_Unit_Provider_C_Reference
+              (Create_Auto_Provider (Files.all, Actual_Charset))
+         do
+            Unchecked_Free (Files);
+         end return;
       end;
    end;

@@ -113,7 +113,7 @@ class Manage(ManageScript):
             ),
             default_unit_provider=LibraryEntity(
                 'Libadalang.Unit_Files.Default',
-                'Default_Unit_Provider'
+                'Default_Provider'
             ),
             symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
                                                'Canonicalize'),

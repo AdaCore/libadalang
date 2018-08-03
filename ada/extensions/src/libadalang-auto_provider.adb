@@ -8,7 +8,7 @@ with Libadalang.Unit_Files.Default;
 package body Libadalang.Auto_Provider is
 
    procedure Add_Entry
-     (Provider : in out Auto_Unit_Provider_Type;
+     (Provider : in out Auto_Unit_Provider;
       Filename : Virtual_File;
       CU       : Compilation_Unit);
    --  Add a CU -> Filename entry to Provider.Mapping
@@ -18,7 +18,7 @@ package body Libadalang.Auto_Provider is
    ---------------
 
    procedure Add_Entry
-     (Provider : in out Auto_Unit_Provider_Type;
+     (Provider : in out Auto_Unit_Provider;
       Filename : Virtual_File;
       CU       : Compilation_Unit)
    is
@@ -87,12 +87,78 @@ package body Libadalang.Auto_Provider is
       end return;
    end Find_Files;
 
+   -----------------------
+   -- Get_Unit_Filename --
+   -----------------------
+
+   overriding function Get_Unit_Filename
+     (Provider : Auto_Unit_Provider;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String
+   is
+      use CU_To_File_Maps;
+
+      Cur : constant Cursor := Provider.Mapping.Find
+        (As_Key (Name, Kind, Provider));
+   begin
+      if Cur = No_Element then
+         return "";
+      else
+         return +Full_Name (Element (Cur));
+      end if;
+   end Get_Unit_Filename;
+
+   --------------
+   -- Get_Unit --
+   --------------
+
+   overriding function Get_Unit
+     (Provider    : Auto_Unit_Provider;
+      Context     : Analysis_Context'Class;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False) return Analysis_Unit'Class
+   is
+      Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
+   begin
+      if Filename /= "" then
+         return Get_From_File (Context, Filename, Charset, Reparse);
+      else
+         declare
+            Str_Name : constant String :=
+               Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+            Dummy_File : constant String :=
+               Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
+            Kind_Name  : constant String :=
+              (case Kind is
+               when Unit_Specification => "specification file",
+               when Unit_Body          => "body file");
+            Error      : constant String :=
+               "Could not find source file for " & Str_Name & " (" & Kind_Name
+               & ")";
+         begin
+            return Get_With_Error (Context, Dummy_File, Error, Charset);
+         end;
+      end if;
+   end Get_Unit;
+
+   -------------
+   -- Release --
+   -------------
+
+   overriding procedure Release (Provider : in out Auto_Unit_Provider) is
+   begin
+      Provider.Mapping.Clear;
+      Destroy (Provider.Keys);
+   end Release;
+
    --------------------------
    -- Create_Auto_Provider --
    --------------------------
 
    procedure Create_Auto_Provider
-     (Provider    : out Auto_Unit_Provider_Type;
+     (Provider    : out Auto_Unit_Provider;
       Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset)
    is
@@ -136,104 +202,13 @@ package body Libadalang.Auto_Provider is
 
    function Create_Auto_Provider
      (Input_Files : GNATCOLL.VFS.File_Array;
-      Charset     : String := Default_Charset)
-      return Unit_Provider_Interface'Class is
+      Charset     : String := Default_Charset) return Auto_Unit_Provider is
    begin
-      return Provider : Auto_Unit_Provider_Type do
+      return Provider : Auto_Unit_Provider do
+         Provider.Keys := Create;
          Create_Auto_Provider (Provider, Input_Files, Charset);
       end return;
    end Create_Auto_Provider;
-
-   --------------------------
-   -- Create_Auto_Provider --
-   --------------------------
-
-   function Create_Auto_Provider
-     (Input_Files : GNATCOLL.VFS.File_Array;
-      Charset     : String := Default_Charset)
-      return Unit_Provider_Access
-   is
-      Result : Auto_Unit_Provider_Access := new Auto_Unit_Provider_Type;
-   begin
-      Create_Auto_Provider (Result.all, Input_Files, Charset);
-      return Unit_Provider_Access (Result);
-   end Create_Auto_Provider;
-
-   ----------------
-   -- Initialize --
-   ----------------
-
-   overriding procedure Initialize (Provider : in out Auto_Unit_Provider_Type)
-   is
-   begin
-      Provider.Keys := Create;
-   end Initialize;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   overriding procedure Finalize (Provider : in out Auto_Unit_Provider_Type) is
-   begin
-      Provider.Mapping.Clear;
-      Destroy (Provider.Keys);
-   end Finalize;
-
-   -----------------------
-   -- Get_Unit_Filename --
-   -----------------------
-
-   overriding function Get_Unit_Filename
-     (Provider : Auto_Unit_Provider_Type;
-      Name     : Text_Type;
-      Kind     : Unit_Kind) return String
-   is
-      use CU_To_File_Maps;
-
-      Cur : constant Cursor := Provider.Mapping.Find
-        (As_Key (Name, Kind, Provider));
-   begin
-      if Cur = No_Element then
-         return "";
-      else
-         return +Full_Name (Element (Cur));
-      end if;
-   end Get_Unit_Filename;
-
-   --------------
-   -- Get_Unit --
-   --------------
-
-   overriding function Get_Unit
-     (Provider    : Auto_Unit_Provider_Type;
-      Context     : Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit'Class
-   is
-      Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
-   begin
-      if Filename /= "" then
-         return Get_From_File (Context, Filename, Charset, Reparse);
-      else
-         declare
-            Str_Name : constant String :=
-               Libadalang.Unit_Files.Default.Unit_String_Name (Name);
-            Dummy_File : constant String :=
-               Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
-            Kind_Name  : constant String :=
-              (case Kind is
-               when Unit_Specification => "specification file",
-               when Unit_Body          => "body file");
-            Error      : constant String :=
-               "Could not find source file for " & Str_Name & " (" & Kind_Name
-               & ")";
-         begin
-            return Get_With_Error (Context, Dummy_File, Error, Charset);
-         end;
-      end if;
-   end Get_Unit;
 
    ------------
    -- As_Key --
@@ -242,7 +217,7 @@ package body Libadalang.Auto_Provider is
    function As_Key
      (Name     : Text_Type;
       Kind     : Unit_Kind;
-      Provider : Auto_Unit_Provider_Type) return Symbol_Type
+      Provider : Auto_Unit_Provider) return Symbol_Type
    is
       Canon_Name  : constant Text_Type :=
          Ada.Wide_Wide_Characters.Handling.To_Lower (Name);

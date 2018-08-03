@@ -18,8 +18,7 @@
 
    function ${capi.get_name('create_project_unit_provider')}
      (Project_File  : chars_ptr;
-      Scenario_Vars : System.Address)
-      return ${unit_provider_type}
+      Scenario_Vars : System.Address) return ${unit_provider_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name('create_project_unit_provider')}";
@@ -27,8 +26,7 @@
 
    function ${capi.get_name('create_auto_provider')}
      (Input_Files : System.Address;
-      Charset     : chars_ptr)
-      return ${unit_provider_type}
+      Charset     : chars_ptr) return ${unit_provider_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name('create_auto_provider')}";

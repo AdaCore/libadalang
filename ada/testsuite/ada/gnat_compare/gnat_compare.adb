@@ -71,7 +71,7 @@ procedure GNAT_Compare is
       Scenario_Vars : String_Vectors.Vector;
       Project       : out Project_Tree_Access;
       Env           : out Project_Environment_Access;
-      UFP           : out Unit_Provider_Access);
+      UFP           : out Unit_Provider_Reference);
    --  Load the project file called Project_File into Project, according to the
    --  given Scenario_Vars variables. Create UFP accordingly.
 
@@ -109,7 +109,7 @@ procedure GNAT_Compare is
       Scenario_Vars : String_Vectors.Vector;
       Project       : out Project_Tree_Access;
       Env           : out Project_Environment_Access;
-      UFP           : out Unit_Provider_Access) is
+      UFP           : out Unit_Provider_Reference) is
    begin
       Project := new Project_Tree;
       Initialize (Env);
@@ -136,7 +136,7 @@ procedure GNAT_Compare is
       end loop;
 
       Load (Project.all, Create (+Project_File), Env);
-      UFP := new Project_Unit_Provider_Type'(Create (Project, Env, False));
+      UFP := Create_Unit_Provider_Reference (Create (Project, Env, False));
    end Load_Project;
 
    ------------------
@@ -448,7 +448,7 @@ procedure GNAT_Compare is
    Env     : Project_Environment_Access;
    Files   : File_Table_Type;
 
-   UFP : Unit_Provider_Access;
+   UFP : Unit_Provider_Reference;
    Ctx : Analysis_Context;
 
    Source_Files : String_Vectors.Vector;
@@ -518,7 +518,7 @@ begin
 
    --  Browse this database and compare it to what LAL can resolve
 
-   Ctx := Create (Unit_Provider => Unit_Provider_Access_Cst (UFP));
+   Ctx := Create (Unit_Provider => UFP);
 
    Sort (Files, LI_Xrefs);
    for Unit_Xrefs of LI_Xrefs loop

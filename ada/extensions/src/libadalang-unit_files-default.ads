@@ -10,8 +10,7 @@ package Libadalang.Unit_Files.Default is
 
    package LP renames Libadalang.Analysis;
 
-   type Default_Unit_Provider_Type is new LP.Unit_Provider_Interface
-      with private;
+   type Default_Unit_Provider is new LP.Unit_Provider_Interface with private;
    --  Default implementation for the Unit_Provider mechanism. It assumes that
    --  all source files are in the current directory and that they follow the
    --  GNAT convention for file names.
@@ -20,21 +19,24 @@ package Libadalang.Unit_Files.Default is
    --  details.
 
    overriding function Get_Unit_Filename
-     (Provider : Default_Unit_Provider_Type;
+     (Provider : Default_Unit_Provider;
       Name     : Text_Type;
       Kind     : Unit_Kind) return String;
 
    overriding function Get_Unit
-     (Provider    : Default_Unit_Provider_Type;
-      Context     : LP.Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return LP.Analysis_Unit'Class;
+     (Provider : Default_Unit_Provider;
+      Context  : LP.Analysis_Context'Class;
+      Name     : Text_Type;
+      Kind     : Unit_Kind;
+      Charset  : String := "";
+      Reparse  : Boolean := False) return LP.Analysis_Unit'Class;
 
-   Default_Unit_Provider : constant LP.Unit_Provider_Access_Cst;
-   --  Singleton for Default_Unit_Provider_Type. Used as the default parameter
-   --  for Libadalang.Analysis.Create.
+   overriding procedure Release (Provider : in out Default_Unit_Provider)
+      is null;
+
+   Default_Provider : constant Default_Unit_Provider;
+   --  Default_Unit_Provider instance used as the default parameter for
+   --  Libadalang.Analysis.Create.
 
    function Unit_Text_Name (N : LP.Name) return Text_Type;
    --  Turn the name of an unit represented as a Name node into a textual name.
@@ -67,11 +69,9 @@ package Libadalang.Unit_Files.Default is
 
 private
 
-   type Default_Unit_Provider_Type is new LP.Unit_Provider_Interface
+   type Default_Unit_Provider is new LP.Unit_Provider_Interface
       with null record;
 
-   Default_Unit_Provider_Object : aliased Default_Unit_Provider_Type;
-   Default_Unit_Provider : constant LP.Unit_Provider_Access_Cst :=
-      Default_Unit_Provider_Object'Access;
+   Default_Provider : constant Default_Unit_Provider := (null record);
 
 end Libadalang.Unit_Files.Default;

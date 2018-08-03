@@ -6,17 +6,16 @@
 --  does not have its own GPR project file.
 
 private with Ada.Containers.Hashed_Maps;
-with Ada.Finalization;
 
 with GNAT.Regpat;
 
 with GNATCOLL.VFS;
 
 private with Langkit_Support.Symbols;
-private with Langkit_Support.Text;
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
-with Libadalang.Common; use Libadalang.Common;
+with Libadalang.Common;   use Libadalang.Common;
 
 package Libadalang.Auto_Provider is
 
@@ -33,10 +32,27 @@ package Libadalang.Auto_Provider is
    --  Name_Pattern. The result is dynamically allocated, so  the caller must
    --  free it when done with it.
 
+   type Auto_Unit_Provider is
+      new Libadalang.Analysis.Unit_Provider_Interface with private;
+
+   overriding function Get_Unit_Filename
+     (Provider : Auto_Unit_Provider;
+      Name     : Text_Type;
+      Kind     : Unit_Kind) return String;
+
+   overriding function Get_Unit
+     (Provider    : Auto_Unit_Provider;
+      Context     : Analysis_Context'Class;
+      Name        : Text_Type;
+      Kind        : Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False) return Analysis_Unit'Class;
+
+   overriding procedure Release (Provider : in out Auto_Unit_Provider);
+
    function Create_Auto_Provider
      (Input_Files : GNATCOLL.VFS.File_Array;
-      Charset     : String := Default_Charset)
-      return Unit_Provider_Interface'Class;
+      Charset     : String := Default_Charset) return Auto_Unit_Provider;
    --  Return a unit provider that knows which compilation units are to be
    --  found in the given list of source files.
    --
@@ -47,16 +63,9 @@ package Libadalang.Auto_Provider is
    --
    --  TODO??? Find a way to report discarded source files/compilation units.
 
-   function Create_Auto_Provider
-     (Input_Files : GNATCOLL.VFS.File_Array;
-      Charset     : String := Default_Charset)
-      return Unit_Provider_Access;
-   --  Likewise, but return a heap-allocated value
-
 private
 
    use Langkit_Support.Symbols;
-   use Langkit_Support.Text;
 
    use GNATCOLL.VFS;
 
@@ -66,43 +75,23 @@ private
       Hash            => Hash,
       Equivalent_Keys => "=");
 
-   type Auto_Unit_Provider_Type is limited new
-      Ada.Finalization.Limited_Controlled
-      and Libadalang.Analysis.Unit_Provider_Interface
+   type Auto_Unit_Provider is new Libadalang.Analysis.Unit_Provider_Interface
    with record
       Keys    : Symbol_Table;
       Mapping : CU_To_File_Maps.Map;
    end record;
 
-   type Auto_Unit_Provider_Access is access all Auto_Unit_Provider_Type;
-
-   overriding procedure Initialize
-     (Provider : in out Auto_Unit_Provider_Type);
-   overriding procedure Finalize
-     (Provider : in out Auto_Unit_Provider_Type);
-
-   overriding function Get_Unit_Filename
-     (Provider : Auto_Unit_Provider_Type;
-      Name     : Text_Type;
-      Kind     : Unit_Kind) return String;
-
-   overriding function Get_Unit
-     (Provider    : Auto_Unit_Provider_Type;
-      Context     : Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return Analysis_Unit'Class;
+   type Auto_Unit_Provider_Access is access all Auto_Unit_Provider;
 
    function As_Key
      (Name     : Text_Type;
       Kind     : Unit_Kind;
-      Provider : Auto_Unit_Provider_Type) return Symbol_Type;
+      Provider : Auto_Unit_Provider) return Symbol_Type;
    --  Given a compilation unit name and a kind (body? spec?), return a
    --  (unique) key for the unit to file mapping.
 
    procedure Create_Auto_Provider
-     (Provider    : out Auto_Unit_Provider_Type;
+     (Provider    : out Auto_Unit_Provider;
       Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset);
    --  Helper for the Create_Auto_Provider functions

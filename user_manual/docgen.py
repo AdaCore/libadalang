@@ -42,22 +42,40 @@ def get_documentation(decl):
     """
     annotations = {}
     doc = []
-    token = decl.token_end.next
-    if token.kind == 'Whitespace' and token.text.count("\n") == 1:
-        token = token.next
+
+    backwards = False
+
+    class T:
+        token = None
+
+    def next_token():
+        T.token = T.token.previous if backwards else T.token.next
+
+    if isinstance(decl, lal.BasePackageDecl):
+        T.token = decl.token_start.previous
+        if T.token.kind == 'Whitespace':
+            T.token = T.token.previous
+        backwards = True
+    else:
+        T.token = decl.token_end.next
+        if T.token.kind == 'Whitespace' and T.token.text.count("\n") == 1:
+            T.token = T.token.next
+
+    if T.token.kind != "Comment":
+        return doc, annotations
 
     indent_level = -1
-    while token.kind in ["Comment", "Whitespace"]:
-        if token.kind == 'Whitespace':
-            if token.text.count("\n") > 1:
+    while T.token and T.token.kind in ["Comment", "Whitespace"]:
+        if T.token.kind == 'Whitespace':
+            if T.token.text.count("\n") > 1:
                 break
 
-        if token.kind == "Comment":
-            t = token.text[2:]  # Strip the "--"
+        if T.token.kind == "Comment":
+            t = T.token.text[2:]  # Strip the "--"
             if t.startswith("%"):
                 key, val = map(unicode.strip, t[1:].split(":"))
                 annotations[key] = val
-                token = token.next
+                T.token = T.token.next
                 continue
 
             # Compute the indentation level for the whole comment block, if
@@ -68,7 +86,10 @@ def get_documentation(decl):
             # Add the text to the list of lines
             doc.append(t[indent_level:])
 
-        token = token.next
+        next_token()
+
+    if backwards:
+        doc = list(reversed(doc))
 
     return doc, annotations
 
@@ -263,10 +284,28 @@ class AutoPackage(Directive):
 
         ret = []
 
+        pkg_doc, annotations = get_documentation(package_decl)
+
+        # Create the documentation's content
+        wrapper_node = nodes.Element()
+
+        rst = ViewList()
+        title = package_decl.p_defining_name.text + " documentation"
+        rst.append(title, "no_file.rst", 1)
+        rst.append("-" * len(title), "no_file.rst", 2)
+
+        for i, l in enumerate(pkg_doc, 3):
+            rst.append(l, "no_file.rst", i)
+
+        nested_parse_with_titles(self.state, rst, wrapper_node)
+
+        ret += wrapper_node.children
+
         for decl in toplevel_decls:
-            nodes, content_node = self.handle_ada_decl(decl)
-            ret += nodes
+            n, content_node = self.handle_ada_decl(decl)
+            ret += n
             for assoc_decls in associated_decls[decl]:
                 assoc_nodes, _ = self.handle_ada_decl(assoc_decls)
                 content_node += assoc_nodes
+
         return ret

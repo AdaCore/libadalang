@@ -5256,6 +5256,7 @@ class Name(Expr):
                     env.get(
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
+                        recursive=Self.is_prefix,
                     ),
                 ),
                 Bind(

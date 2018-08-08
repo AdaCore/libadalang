@@ -3681,6 +3681,32 @@ class Pragma(AdaNode):
             LogicTrue(),
         )
 
+    @langkit_property()
+    def associated_entity_name():
+        return Cond(
+            Entity.id.name_symbol.any_of(
+                'Import', 'Export', 'Interface', 'Convention'
+            ),
+            Entity.args.at(1).assoc_expr.cast_or_raise(T.BaseId),
+
+            No(T.BaseId.entity),
+        )
+
+    @langkit_property(public=True)
+    def associated_decls():
+        """
+        Return an array of ``BasicDecl`` instances associated with
+        this pragma, or an empty array if non applicable.
+        """
+        return Entity.associated_entity_name.then(
+            lambda name: Entity.parents
+            .find(lambda p: p.is_a(T.DeclarativePart)).then(
+                lambda decl_scope: decl_scope.node_env.get(
+                    name.name_symbol, recursive=False
+                )
+            )
+        )
+
 
 class PragmaArgumentAssoc(BaseAssoc):
     id = Field(type=T.Identifier)

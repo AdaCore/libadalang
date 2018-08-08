@@ -348,22 +348,6 @@ class AdaNode(ASTNode):
             lambda _: No(T.AdaNode),
         )
 
-    @langkit_property(return_type=T.AspectSpec.entity, public=True)
-    def node_aspects():
-        """
-        Return the list of aspects that are attached to this node.
-        """
-        return No(T.AspectSpec.entity)
-
-    @langkit_property(return_type=T.AspectAssoc.entity, public=True)
-    def get_aspect(name=SymbolType):
-        """
-        Return the aspect with name ``name`` for this entity.
-        """
-        return Entity.node_aspects._.aspect_assocs.find(
-            lambda asp: asp.id.cast(T.BaseId).sym == name
-        )
-
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=EquationType, dynamic_vars=[env, origin])
     def xref_equation():
@@ -870,6 +854,22 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 
 @abstract
 class BasicDecl(AdaNode):
+
+    @langkit_property(return_type=T.AspectSpec.entity, public=True)
+    def node_aspects():
+        """
+        Return the list of aspects that are attached to this node.
+        """
+        return No(T.AspectSpec.entity)
+
+    @langkit_property(return_type=T.Expr.entity, public=True)
+    def get_aspect(name=SymbolType):
+        """
+        Return the aspect with name ``name`` for this entity.
+        """
+        return Entity.node_aspects._.aspect_assocs.find(
+            lambda asp: asp.id.cast(T.BaseId).sym == name
+        )._.expr
 
     @langkit_property(public=True)
     def is_unit_root():
@@ -1956,7 +1956,7 @@ class BaseTypeDecl(BasicDecl):
         """
         return (
             Entity.get_aspect('Model_Of')
-            .expr.cast_or_raise(T.Name).name_designated_type
+            .cast_or_raise(T.Name).name_designated_type
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)
@@ -2033,8 +2033,8 @@ class BaseTypeDecl(BasicDecl):
     )
 
     get_imp_deref = Property(
-        No(T.AspectAssoc.entity),
-        doc="Whether Self has an Implicit_Dereference aspect or not"
+        No(T.Expr.entity),
+        doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
     access_def = Property(No(T.AccessDef.entity))
@@ -2464,10 +2464,10 @@ class TypeDecl(BaseTypeDecl):
 
         return Cond(
             Entity.is_array, Entity.comp_type,
-            Not(ie.is_null), ie.expr.cast(T.Name).name_designated_type,
+            Not(ie.is_null), ie.cast(T.Name).name_designated_type,
 
             Not(it.is_null),
-            it.expr.cast(T.Aggregate).assocs.unpacked_params.find(
+            it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_symbol == 'Element'
             ).assoc.expr.as_entity.referenced_decl.expr_type,
 
@@ -2526,7 +2526,7 @@ class TypeDecl(BaseTypeDecl):
             # Here, we need to call defining_env on TypeDef, in order to not
             # recurse for ever (accessed_type is called by defining_env).
             Entity.type_def.defining_env.get_first(
-                imp_deref.expr.cast(T.Name).name_symbol
+                imp_deref.cast(T.Name).name_symbol
             )
 
             # We cast to BaseFormalParamDecl. Following Ada's legality rule,
@@ -2653,9 +2653,9 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def constant_indexing_fns():
-        return Entity.get_aspect('Constant_Indexing').then(
-            lambda a:
-            a.expr.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
+        return (
+            Entity.get_aspect('Constant_Indexing')._.cast_or_raise(T.Name)
+            .all_env_elements(seq=False).filtermap(
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
@@ -2673,7 +2673,7 @@ class TypeDecl(BaseTypeDecl):
     def variable_indexing_fns():
         return origin.bind(Self, Entity.get_aspect('Variable_Indexing').then(
             lambda a:
-            a.expr.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
+            a.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
@@ -3919,7 +3919,7 @@ class DeclarativePart(AdaNode):
         return Self.as_bare_entity.decls.filtermap(
             lambda d: d.cast(T.BaseTypeDecl),
             lambda d:
-            d.is_a(BaseTypeDecl) & Not(d.get_aspect('Model_Of').is_null)
+            Not(d.cast(T.BaseTypeDecl)._.get_aspect('Model_Of').is_null)
         )
 
 

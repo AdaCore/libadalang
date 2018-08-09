@@ -15,6 +15,13 @@ ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
 
 
+def res(text):
+    """
+    Shortcut for reserved words.
+    """
+    return L.Identifier(match_text=text)
+
+
 def sc():
     return recover(";")
 
@@ -86,7 +93,7 @@ A.add_rules(
     parent_list=List(A.static_name, sep="and", list_cls=ParentList),
 
     protected_type_decl=ProtectedTypeDecl(
-        L.Identifier(match_text="protected"),
+        res("protected"),
         "type", A.defining_id, Opt(A.discriminant_part),
         A.aspect_spec,
         "is", Opt("new", A.parent_list, "with"),
@@ -106,7 +113,7 @@ A.add_rules(
     ),
 
     protected_decl=SingleProtectedDecl(
-        L.Identifier(match_text="protected"),
+        res("protected"),
         A.defining_id, A.aspect_spec,
         "is",
         Opt("new", A.parent_list, "with"),
@@ -144,13 +151,13 @@ A.add_rules(
             InterfaceKind.alt_limited("limited"),
             InterfaceKind.alt_task("task"),
             InterfaceKind.alt_protected(
-                L.Identifier(match_text="protected"),
+                res("protected"),
             ),
             InterfaceKind.alt_synchronized(
-                L.Identifier(match_text="synchronized"),
+                res("synchronized"),
             )
         )),
-        L.Identifier(match_text="interface"),
+        res("interface"),
         Opt("and", A.parent_list)
     ),
 
@@ -177,10 +184,10 @@ A.add_rules(
     mod_int_type_def=ModIntTypeDef("mod", A.sexpr_or_box),
 
     derived_type_def=DerivedTypeDef(
-        Abstract("abstract"),
+        Abstract(res("abstract")),
         Limited("limited"),
         Synchronized(
-            L.Identifier(match_text="synchronized")
+            res("synchronized")
         ),
         "new",
         A.subtype_indication,
@@ -268,8 +275,8 @@ A.add_rules(
     ),
 
     record_type_def=RecordTypeDef(
-        Abstract("abstract"),
-        Tagged("tagged"),
+        Abstract(res("abstract")),
+        Tagged(res("tagged")),
         Limited("limited"),
         A.record_def
     ),
@@ -278,7 +285,7 @@ A.add_rules(
         AccessToSubpDef(
             NotNull("not", "null"),
             "access",
-            Protected(L.Identifier(match_text="protected")),
+            Protected(res("protected")),
             A.subp_spec
         ),
         TypeAccessDef(
@@ -317,8 +324,8 @@ A.add_rules(
                 A.type_def,
 
                 PrivateTypeDef(
-                    Abstract("abstract"),
-                    Tagged("tagged"),
+                    Abstract(res("abstract")),
+                    Tagged(res("tagged")),
                     Limited("limited"),
                     "private"
                 ),
@@ -327,7 +334,7 @@ A.add_rules(
         ),
         IncompleteTaggedTypeDecl(
             "type", A.defining_id, Opt(A.discriminant_part),
-            "is", Abstract("abstract"), "tagged", ";"
+            "is", Abstract(res("abstract")), res("tagged"), ";"
         ),
         IncompleteTypeDecl(
             "type", A.defining_id, Opt(A.discriminant_part), ";"
@@ -341,7 +348,7 @@ A.add_rules(
     ),
 
     component_def=ComponentDef(
-        Aliased("aliased"),
+        Aliased(res("aliased")),
         Constant("constant"),
         A.type_expr
     ),
@@ -394,7 +401,7 @@ A.add_rules(
         ),
         AbstractFormalSubpDecl(
             "with", Overriding.alt_unspecified(), A.subp_spec,
-            "is", "abstract",
+            "is", res("abstract"),
             Opt(Or(A.box_expr, A.name, A.null_literal)),
             A.aspect_spec, sc()
         ),
@@ -480,7 +487,7 @@ A.add_rules(
     sub_object_decl=ObjectDecl(
         A.defining_id_list,
         ":",
-        Aliased("aliased"),
+        Aliased(res("aliased")),
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
@@ -493,7 +500,7 @@ A.add_rules(
 
     ext_ret_stmt_object_decl=ExtendedReturnStmtObjectDecl(
         A.defining_id_list,  ":",
-        Aliased("aliased"),
+        Aliased(res("aliased")),
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
@@ -534,10 +541,10 @@ A.add_rules(
 
     overriding_indicator=Or(
         Overriding.alt_overriding(
-            L.Identifier(match_text="overriding")
+            res("overriding")
         ),
         Overriding.alt_not_overriding(
-            "not", L.Identifier(match_text="overriding")
+            "not", res("overriding")
         ),
         Overriding.alt_unspecified()
     ),
@@ -578,7 +585,7 @@ A.add_rules(
     param_spec=ParamSpec(
         List(A.defining_id, sep=","),
         ":",
-        Aliased("aliased"),
+        Aliased(res("aliased")),
         Opt(A.mode),
         A.type_expr,
         Opt(":=", A.expr),
@@ -599,7 +606,7 @@ A.add_rules(
     ),
 
     null_subp_decl=subp_decl(NullSubpDecl, "is", "null"),
-    abstract_subp_decl=subp_decl(AbstractSubpDecl, "is", "abstract"),
+    abstract_subp_decl=subp_decl(AbstractSubpDecl, "is", res("abstract")),
     subp_renaming_decl=subp_decl(SubpRenamingDecl, A.renaming_clause),
     simple_subp_decl=subp_decl(SubpDecl),
 
@@ -759,14 +766,14 @@ A.add_rules(
     ),
 
     protected_body=ProtectedBody(
-        L.Identifier(match_text="protected"),
+        res("protected"),
         "body", A.defining_name, A.aspect_spec,
         "is", A.decl_part.dont_skip("end"),
         end_liblevel_block(), sc()
     ),
 
     protected_body_stub=ProtectedBodyStub(
-        L.Identifier(match_text="protected"),
+        res("protected"),
         "body", A.defining_name, "is", "separate",
         A.aspect_spec, sc()
     ),
@@ -900,7 +907,7 @@ A.add_rules(
         RaiseStmt("raise", Null(Name), Null(Expr), sc()),
     ),
 
-    delay_stmt=DelayStmt("delay", Until("until"), A.expr, sc()),
+    delay_stmt=DelayStmt("delay", Until(res("until")), A.expr, sc()),
 
     abort_stmt=AbortStmt("abort", List(A.name, sep=","), sc()),
 
@@ -974,7 +981,9 @@ A.add_rules(
 
     return_stmt=ReturnStmt("return", Opt(A.expr), sc()),
 
-    requeue_stmt=RequeueStmt("requeue", A.expr, Abort("with", "abort"), sc()),
+    requeue_stmt=RequeueStmt(
+        res("requeue"), A.expr, Abort("with", "abort"), sc()
+    ),
 
     identifier=Identifier(L.Identifier),
     char_literal=CharLiteral(L.Char),
@@ -1002,7 +1011,7 @@ A.add_rules(
 
     quantified_expr=QuantifiedExpr(
         "for",
-        Quantifier.alt_all("all") | Quantifier.alt_some("some"),
+        Quantifier.alt_all("all") | Quantifier.alt_some(res("some")),
         A.for_loop_param_spec, "=>",
         A.expr | A.discrete_range
     ),

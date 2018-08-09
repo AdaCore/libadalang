@@ -871,6 +871,19 @@ class BasicDecl(AdaNode):
             lambda asp: asp.id.cast(T.BaseId).sym == name
         )._.expr
 
+    @langkit_property(return_type=T.Pragma.entity, public=True)
+    def get_pragma(name=SymbolType):
+        """
+        Return the pragma with name ``name`` associated to this entity.
+        """
+        return Entity.declarative_scope.decls.as_entity.find(
+            lambda e: e.cast(T.Pragma).then(lambda pragma: And(
+                pragma.id.name_symbol.equals(name),
+                Not(pragma.associated_decls
+                    .find(lambda d: d == Entity).is_null)
+            ))
+        ).cast(T.Pragma)
+
     @langkit_property(public=True)
     def is_unit_root():
         """
@@ -3536,6 +3549,17 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
+    @langkit_property(public=True)
+    def is_imported():
+        """
+        Whether this subprogram declaration is imported from another language.
+        """
+        return Or(
+            Not(Entity.get_aspect('Import').is_null),
+            Not(Entity.get_pragma('Import').is_null),
+            Not(Entity.get_pragma('Interface').is_null),
+        )
+
     @langkit_property()
     def constrain_prefix(prefix=T.Expr):
         return If(
@@ -3692,7 +3716,7 @@ class Pragma(AdaNode):
             No(T.BaseId.entity),
         )
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, memoized=True)
     def associated_decls():
         """
         Return an array of ``BasicDecl`` instances associated with

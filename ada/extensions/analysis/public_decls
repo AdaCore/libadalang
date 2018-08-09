@@ -1,0 +1,17 @@
+--  vim: ft=ada
+
+type Language_Version is (Ada_83, Ada_95, Ada_2005, Ada_2012);
+--  Enum representing a version of the Ada language.
+
+function Is_Keyword
+  (Ctx     : Analysis_Context;
+   Token   : Token_Reference;
+   Version : Language_Version) return Boolean;
+--  Given an Ada language version, returns whether ``Token`` is an Ada keyword.
+--
+--  Due to the way Libadalang works, every token added after Ada 83 is lexed
+--  as a regular identifier, and then treated specially by the parser in
+--  some circumstances (being akin to the notion of reserved word)
+--
+--  This function returns True for regular lexer keywords, as well as for those
+--  identifiers.

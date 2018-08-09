@@ -1,5 +1,7 @@
 --  vim: ft=ada
 
+--  TODO: This should be implemented in the DSL, as soon as we have support for
+--  enums.
 function Is_Keyword
   (Ctx     : Analysis_Context;
    Token   : Token_Reference;

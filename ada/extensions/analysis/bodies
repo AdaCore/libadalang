@@ -1,0 +1,35 @@
+--  vim: ft=ada
+
+function Is_Keyword
+  (Ctx     : Analysis_Context;
+   Token   : Token_Reference;
+   Version : Language_Version) return Boolean
+is
+   Sym : Symbol_Type;
+   K   : Token_Kind := Kind (Data (Token));
+
+   function "+" (S : Symbol_Literal_Type) return Symbol_Type
+   is (Ctx.Internal.Symbol_Literals (S)); 
+begin
+   --  Every token that is not an identifier is either not a valid identifier,
+   --  either a reserved one.
+   if K /= Ada_Identifier
+      and then Token_Kind_To_Family (K) = Alphanumericals
+   then
+      return True;
+   else
+      Sym := Get_Symbol (Token);
+      case Version is
+         when Ada_83 =>
+            return False;
+         when Ada_95 =>
+            --  TODO: LAL's lexer needs to treat all other Ada 95 keywords as
+            --  reserved words too.
+            return Sym = +Symbol_Protected;
+         when Ada_2005 | Ada_2012 =>
+            --  TODO: "some" should be a reserved word and checked in 2012's case
+            return Sym in +Symbol_Protected | +Symbol_Overriding
+                          | +Symbol_Interface | +Symbol_Synchronized;
+      end case;
+   end if;
+end Is_Keyword;

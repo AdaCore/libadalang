@@ -19,7 +19,6 @@ class Token(LexerToken):
     Elsif = WithText()
     Not = WithText()
     Reverse = WithText()
-    Abstract = WithText()
     End = WithText()
     Null = WithSymbol()
     Accept = WithText()
@@ -29,10 +28,8 @@ class Token(LexerToken):
     Exception = WithText()
     Of = WithText()
     Separate = WithText()
-    Aliased = WithText()
     Exit = WithText()
     Or = WithText()
-    Some = WithText()
     Others = WithText()
     Subtype = WithText()
     And = WithText()
@@ -41,7 +38,6 @@ class Token(LexerToken):
     Array = WithText()
     Function = WithText()
     At = WithText()
-    Tagged = WithText()
     Generic = WithText()
     Package = WithText()
     Task = WithText()
@@ -64,7 +60,6 @@ class Token(LexerToken):
     Declare = WithText()
     Range = WithText()
     Delay = WithText()
-    Until = WithText()
     Limited = WithText()
     Record = WithText()
     When = WithText()
@@ -76,7 +71,6 @@ class Token(LexerToken):
     Renames = WithText()
     Do = WithText()
     Mod = WithText()
-    Requeue = WithText()
     Xor = WithText()
 
     # Punctuation
@@ -123,13 +117,12 @@ class Token(LexerToken):
 
     Alphanumericals = TokenFamily(
         Identifier, All, Abort, Else, New, Return, Abs, Elsif, Not, Reverse,
-        Abstract, End, Null, Accept, Entry, Select, Access, Exception, Of,
-        Separate, Aliased, Exit, Or, Some, Others, Subtype, And, For, Out,
-        Array, Function, At, Tagged, Generic, Package, Task, Begin, Goto,
-        Pragma, Terminate, Body, Private, Then, If, Procedure, Type, Case, In,
-        Constant, Is, Raise, Use, Declare, Range, Delay, Until, Limited,
-        Record, When, Delta, Loop, Rem, While, Digits, Renames, Do, Mod,
-        Requeue, Xor, With, Decimal, Integer
+        End, Null, Accept, Entry, Select, Access, Exception, Of, Separate,
+        Exit, Or, Others, Subtype, And, For, Out, Array, Function, At,
+        Generic, Package, Task, Begin, Goto, Pragma, Terminate, Body, Private,
+        Then, If, Procedure, Type, Case, In, Constant, Is, Raise, Use, Declare,
+        Range, Delay, Limited, Record, When, Delta, Loop, Rem, While, Digits,
+        Renames, Do, Mod, Xor, With, Decimal, Integer
     )
 
 
@@ -196,7 +189,6 @@ rules += [
     (NoCaseLit("elsif"),        Token.Elsif),
     (NoCaseLit("not"),          Token.Not),
     (NoCaseLit("reverse"),      Token.Reverse),
-    (NoCaseLit("abstract"),     Token.Abstract),
     (NoCaseLit("end"),          Token.End),
     (NoCaseLit("null"),         Token.Null),
     (NoCaseLit("accept"),       Token.Accept),
@@ -205,10 +197,8 @@ rules += [
     (NoCaseLit("exception"),    Token.Exception),
     (NoCaseLit("of"),           Token.Of),
     (NoCaseLit("separate"),     Token.Separate),
-    (NoCaseLit("aliased"),      Token.Aliased),
     (NoCaseLit("exit"),         Token.Exit),
     (NoCaseLit("or"),           Token.Or),
-    (NoCaseLit("some"),         Token.Some),
     (NoCaseLit("all"),          Token.All),
     (NoCaseLit("others"),       Token.Others),
     (NoCaseLit("subtype"),      Token.Subtype),
@@ -218,7 +208,6 @@ rules += [
     (NoCaseLit("array"),        Token.Array),
     (NoCaseLit("function"),     Token.Function),
     (NoCaseLit("at"),           Token.At),
-    (NoCaseLit("tagged"),       Token.Tagged),
     (NoCaseLit("generic"),      Token.Generic),
     (NoCaseLit("package"),      Token.Package),
     (NoCaseLit("task"),         Token.Task),
@@ -240,7 +229,6 @@ rules += [
     (NoCaseLit("use"),          Token.Use),
     (NoCaseLit("declare"),      Token.Declare),
     (NoCaseLit("delay"),        Token.Delay),
-    (NoCaseLit("until"),        Token.Until),
     (NoCaseLit("limited"),      Token.Limited),
     (NoCaseLit("record"),       Token.Record),
     (NoCaseLit("when"),         Token.When),
@@ -250,7 +238,6 @@ rules += [
     (NoCaseLit("renames"),      Token.Renames),
     (NoCaseLit("with"),         Token.With),
     (NoCaseLit("do"),           Token.Do),
-    (NoCaseLit("requeue"),      Token.Requeue),
     (NoCaseLit("xor"),          Token.Xor),
 
     # Punctuation

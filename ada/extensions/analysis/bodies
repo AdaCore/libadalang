@@ -13,8 +13,13 @@ is
    function "+" (S : Symbol_Literal_Type) return Symbol_Type
    is (Ctx.Internal.Symbol_Literals (S)); 
 begin
-   --  Every token that is not an identifier is either not a valid identifier,
-   --  either a reserved one.
+   --  Exit early on trivia tokens
+   if Is_Trivia (Token) then
+      return False;
+   end if;
+
+   --  Token that are not identifiers but part of the Alphanumericals family
+   --  are all keywords.
    if K /= Ada_Identifier
       and then Token_Kind_To_Family (K) = Alphanumericals
    then
@@ -25,13 +30,18 @@ begin
          when Ada_83 =>
             return False;
          when Ada_95 =>
-            --  TODO: LAL's lexer needs to treat all other Ada 95 keywords as
-            --  reserved words too.
-            return Sym = +Symbol_Protected;
-         when Ada_2005 | Ada_2012 =>
-            --  TODO: "some" should be a reserved word and checked in 2012's case
-            return Sym in +Symbol_Protected | +Symbol_Overriding
-                          | +Symbol_Interface | +Symbol_Synchronized;
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged;
+         when Ada_2005 =>
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
+                          +Symbol_Overriding | +Symbol_Interface |
+                          +Symbol_Synchronized;
+         when Ada_2012 =>
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
+                          +Symbol_Overriding | +Symbol_Interface |
+                          +Symbol_Synchronized | +Symbol_Some;
       end case;
    end if;
 end Is_Keyword;

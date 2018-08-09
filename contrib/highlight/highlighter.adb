@@ -22,20 +22,20 @@ package body Highlighter is
            | Ada_Generic .. Ada_Body
            | Ada_Then .. Ada_In
            | Ada_Is .. Ada_Declare
-           | Ada_Delay | Ada_Until | Ada_When | Ada_Loop | Ada_While
-           | Ada_Renames | Ada_Do | Ada_Requeue
+           | Ada_Delay | Ada_When | Ada_Loop | Ada_While
+           | Ada_Renames | Ada_Do
          => Keyword,
 
          Ada_Subtype | Ada_Record => Keyword_Type,
 
-         Ada_Abstract | Ada_Access | Ada_Aliased | Ada_Array | Ada_Constant
+           Ada_Access | Ada_Array | Ada_Constant
            | Ada_Delta | Ada_Digits | Ada_Limited | Ada_Of | Ada_Private
-           | Ada_Range | Ada_Tagged
+           | Ada_Range
          => Keyword_Special,
 
          Ada_Par_Close .. Ada_Dot         => Punctuation_Special,
          Ada_Diamond                      => Keyword,
-         Ada_Abs | Ada_And | Ada_Mod | Ada_Not | Ada_Or | Ada_Rem | Ada_Some
+         Ada_Abs | Ada_And | Ada_Mod | Ada_Not | Ada_Or | Ada_Rem
            | Ada_Xor
            | Ada_Lte .. Ada_Divide
          => Operator,
@@ -426,6 +426,12 @@ package body Highlighter is
             HL : constant Highlight_Type := Basic_Highlights (LALCO.Kind (TD));
          begin
             Set (Highlights, TD, HL);
+
+            --  Some keywords don't have a token kind, because they're reserved
+            --  words in LAL. Highlight those too.
+            if LAL.Is_Keyword (LAL.Context (Unit), Token, LAL.Ada_2012) then
+               Set (Highlights, TD, Keyword);
+            end if;
          end;
          Token := LALCO.Next (Token);
       end loop;

@@ -615,7 +615,7 @@ class AdaNode(ASTNode):
         return Let(lambda subpb=Self.cast(T.SubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
 
-            subpb.as_bare_entity.decl_part_entity.then(
+            subpb.as_bare_entity.decl_part.then(
                 lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
                     lambda use_name:
                     origin.bind(use_name, env.bind(
@@ -647,7 +647,7 @@ class AdaNode(ASTNode):
         """
         gen_decl = Var(Self.as_bare_entity.match(
             lambda pkg_body=T.PackageBody:
-                pkg_body.decl_part_entity.then(
+                pkg_body.decl_part.then(
                     lambda d: d.node.parent.cast(T.GenericPackageDecl)
                 ),
             lambda bod=T.BaseSubpBody:
@@ -805,7 +805,7 @@ class AdaNode(ASTNode):
 
                 dbd.is_a(T.BaseSubpBody),
                 dbd.cast(T.BaseSubpBody)
-                .decl_part_entity._or(dbd).defining_name,
+                .decl_part._or(dbd).defining_name,
 
                 ret
             )))
@@ -1206,9 +1206,8 @@ class Body(BasicDecl):
     @langkit_property()
     def subp_previous_part():
         """
-        Return the decl corresponding to this body. For convenience, the
-        default implemention is for subprograms, overloaded in other kinds of
-        bodies.
+        Return the decl corresponding to this body. Specialized implementation
+        for subprogram bodies.
         """
         return If(
             Self.is_unit_root & Not(Self.is_subunit),
@@ -1271,24 +1270,15 @@ class Body(BasicDecl):
             lambda _: No(T.BasicDecl.entity),
         )
 
-    @langkit_property()
-    def decl_part_entity():
-        return Entity.previous_part.then(
-            lambda prev_part: prev_part.match(
-                lambda subp_stub=T.SubpBodyStub:
-                subp_stub.previous_part,
-                lambda other: other
-            )
-        )
-
-    decl_part = Property(
-        Entity.decl_part_entity,
-        public=True,
-        doc="""
+    @langkit_property(public=True)
+    def decl_part():
+        """
         Return the decl corresponding to this node if applicable.
         """
-
-    )
+        return Entity.previous_part.then(lambda prev_part: prev_part.match(
+            lambda subp_stub=T.SubpBodyStub: subp_stub.previous_part,
+            lambda other: other
+        ))
 
     @langkit_property()
     def is_subunit():
@@ -3544,7 +3534,7 @@ class ParamSpec(BaseFormalParamDecl):
             Entity.semantic_parent.is_a(T.BaseSubpBody),
 
             Entity.semantic_parent.cast_or_raise(T.BaseSubpBody)
-            .decl_part_entity.then(
+            .decl_part.then(
                 lambda decl:
                 decl.subp_spec_or_null(follow_generic=True)
                 .unpacked_formal_params.find(
@@ -4100,7 +4090,7 @@ class GenericInstantiation(BasicDecl):
         Self.as_bare_entity.generic_entity_name
         .all_env_elements(seq=True, seq_from=Self).at(0)
         ._.match(
-            lambda b=Body: b.decl_part_entity,
+            lambda b=Body: b.decl_part,
             lambda rd=T.GenericRenamingDecl: rd.resolve,
             lambda d=BasicDecl: d,
             lambda _: No(T.GenericDecl.entity)
@@ -5042,7 +5032,7 @@ class Name(Expr):
             bd.cast(T.ParamSpec).decl_param(dn),
 
             bd.then(lambda bd: bd.is_a(Body)),
-            bd.cast(T.Body).decl_part_entity._.defining_name,
+            bd.cast(T.Body).decl_part._.defining_name,
 
             bd.then(lambda bd: bd.is_a(BaseTypeDecl)
                     & bd.cast(T.BaseTypeDecl).is_in_private_part),
@@ -7539,9 +7529,7 @@ class BaseSubpBody(Body):
         # Add the __body link to the spec, if there is one
         add_to_env_kv(
             '__body', Self,
-            dest_env=Entity.decl_part_entity.then(
-                lambda d: d.node.children_env
-            ),
+            dest_env=Entity.decl_part.then(lambda d: d.node.children_env),
         ),
 
         # Adding subp to the type's environment if the type is tagged and self

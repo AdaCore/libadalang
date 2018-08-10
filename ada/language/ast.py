@@ -1204,7 +1204,7 @@ class Body(BasicDecl):
         )
 
     @langkit_property()
-    def previous_part():
+    def subp_previous_part():
         """
         Return the decl corresponding to this body. For convenience, the
         default implemention is for subprograms, overloaded in other kinds of
@@ -1239,6 +1239,36 @@ class Body(BasicDecl):
 
                       lambda _: False
             ))).cast_or_raise(T.BasicDecl.entity)
+        )
+
+    @langkit_property()
+    def package_previous_part():
+        """
+        Return the BasePackageDecl corresponding to this node.
+
+        If the case of generic package declarations, this returns the
+        "package_decl" field instead of the GenericPackageDecl itself.
+        """
+        return env.bind(
+            Entity.node_env,
+            Entity.defining_name.env_elements.at(0)._.match(
+                lambda pkg_decl=T.PackageDecl: pkg_decl,
+                lambda gen_pkg_decl=T.GenericPackageDecl:
+                    gen_pkg_decl.package_decl,
+                lambda _: No(T.BasicDecl.entity)
+            )
+        )
+
+    @langkit_property(public=True)
+    def previous_part():
+        """
+        Return the previous part for this body. Might be a declaration or a
+        body stub.
+        """
+        return Entity.match(
+            lambda _=T.BaseSubpBody: Entity.subp_previous_part,
+            lambda _=T.PackageBody: Entity.package_previous_part,
+            lambda _: No(T.BasicDecl.entity),
         )
 
     @langkit_property()
@@ -6097,22 +6127,33 @@ class BaseId(SingleTokNode):
         """
         env = Var(bd.defining_env)
 
-        tl_item = Var(Self.top_level_decl(Self.unit).as_entity)
-        tl_item_env = Var(tl_item.children_env)
+        # If the basic_decl is a package decl with a private part, we get it.
+        # Else we keep the defining env.
+        env_private_part = Var(
+            env.get('__privatepart', recursive=False).at(0).then(
+                lambda pp: pp.children_env, default_val=env
+            )
+        )
+
+        top_level_itm = Var(Self.top_level_decl(Self.unit).as_entity)
+        top_level_env = Var(top_level_itm.children_env)
 
         return Cond(
 
-            tl_item.cast(PackageBody).then(lambda ob: bd == ob.previous_part),
-            tl_item_env,
+            # If the top level item of the unit we make the request from is the
+            # body corresponding to basic decl, return the env of the body.
+            top_level_itm.cast(PackageBody)._.node_env == env_private_part,
+            top_level_env,
+
+            # In any case, if the top level item's env is a child of the env of
+            # the declaration, then it means we have visibility over the
+            # private part.
+            Self.is_children_env(env, top_level_env),
+            env_private_part,
 
             # TODO: Probably some special handling for separates here, because
             # they'll have full visibility on the package body in which they're
             # defined.
-
-            Self.is_children_env(env, tl_item_env),
-            env.get('__privatepart', recursive=False).at(0).then(
-                lambda pp: pp.children_env, default_val=env
-            ),
 
             env
         )
@@ -8040,24 +8081,6 @@ class PackageBody(Body):
                 lambda public_part:
                 public_part.get('__privatepart', recursive=False).at(0)
                 .then(lambda pp: pp.children_env, default_val=public_part)
-            )
-        )
-
-    @langkit_property()
-    def decl_part_entity():
-        """
-        Return the BasePackageDecl corresponding to this node.
-
-        If the case of generic package declarations, this returns the
-        "package_decl" field instead of the GenericPackageDecl itself.
-        """
-        return env.bind(
-            Entity.node_env,
-            Entity.package_name.env_elements.at(0)._.match(
-                lambda pkg_decl=T.PackageDecl: pkg_decl,
-                lambda gen_pkg_decl=T.GenericPackageDecl:
-                    gen_pkg_decl.package_decl,
-                lambda _: No(T.BasicDecl.entity)
             )
         )
 

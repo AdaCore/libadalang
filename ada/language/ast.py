@@ -1267,6 +1267,7 @@ class Body(BasicDecl):
         return Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
+            lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _: No(T.BasicDecl.entity),
         )
 
@@ -1276,7 +1277,9 @@ class Body(BasicDecl):
         Return the decl corresponding to this node if applicable.
         """
         return Entity.previous_part.then(lambda prev_part: prev_part.match(
-            lambda subp_stub=T.SubpBodyStub: subp_stub.previous_part,
+            # Stubs have one more previous part. Go back one more level to get
+            # the decl.
+            lambda stub=T.BodyStub: stub.previous_part,
             lambda other: other
         ))
 

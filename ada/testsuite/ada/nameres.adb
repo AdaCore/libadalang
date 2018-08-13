@@ -702,7 +702,7 @@ begin
                Load (Project.all, Create (+Filename), Env);
             end if;
             UFP := Create_Unit_Provider_Reference
-              (Create (Project, Env, True));
+              (Create_Project_Unit_Provider (Project, Env, True));
 
             if Args.Files_From_Project.Get then
                Add_Files_From_Project (Project, Project.Root_Project, Files);

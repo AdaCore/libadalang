@@ -136,7 +136,8 @@ procedure GNAT_Compare is
       end loop;
 
       Load (Project.all, Create (+Project_File), Env);
-      UFP := Create_Unit_Provider_Reference (Create (Project, Env, False));
+      UFP := Create_Unit_Provider_Reference
+        (Create_Project_Unit_Provider (Project, Env, False));
    end Load_Project;
 
    ------------------

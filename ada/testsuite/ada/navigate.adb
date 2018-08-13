@@ -270,8 +270,8 @@ begin
    Project.Root_Project.Delete_Attribute (PRJ.Languages_Attribute);
    Project.Recompute_View;
 
-   UFP :=
-     LAL.Create_Unit_Provider_Reference (LALPRJ.Create (Project, Env, True));
+   UFP := LAL.Create_Unit_Provider_Reference
+     (LALPRJ.Create_Project_Unit_Provider (Project, Env, True));
 
    Ctx := LAL.Create_Context (Unit_Provider => UFP);
 

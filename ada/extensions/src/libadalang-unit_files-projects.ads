@@ -17,7 +17,7 @@ package Libadalang.Unit_Files.Projects is
 
    package Prj renames GNATCOLL.Projects;
 
-   function Create
+   function Create_Project_Unit_Provider
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean)
@@ -55,7 +55,7 @@ private
 
    overriding procedure Release (Provider : in out Project_Unit_Provider);
 
-   function Create
+   function Create_Project_Unit_Provider
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean) return Project_Unit_Provider

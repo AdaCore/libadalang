@@ -10,7 +10,7 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 
 procedure Main is
 
-   Ctx   : constant Analysis_Context := Create;
+   Ctx   : constant Analysis_Context := Create_Context;
    function Get (Filename : String) return Analysis_Unit;
    procedure Dump;
 

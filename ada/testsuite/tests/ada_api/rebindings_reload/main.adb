@@ -12,7 +12,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx     : constant Analysis_Context := Create;
+   Ctx     : constant Analysis_Context := Create_Context;
    Foo     : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    Options : constant Analysis_Unit := Get_From_File (Ctx, "options.ads");
    Vectors : constant Analysis_Unit := Get_From_File (Ctx, "vectors.ads");

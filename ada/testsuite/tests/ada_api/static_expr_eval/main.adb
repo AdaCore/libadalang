@@ -7,7 +7,7 @@ with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx  : constant Analysis_Context := Create;
+   Ctx  : constant Analysis_Context := Create_Context;
    Unit : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
 
    function Is_Object_Decl (N : Ada_Node) return Boolean

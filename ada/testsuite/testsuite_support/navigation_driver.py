@@ -32,6 +32,6 @@ class NavigationDriver(BaseDriver):
     @catch_test_errors
     def run(self):
         self.run_and_check(
-            ['navigate', ','.join(self.kinds)] + self.input_sources,
+            ['navigate', '-k', ','.join(self.kinds)] + self.input_sources,
             for_debug=True, memcheck=True,
         )

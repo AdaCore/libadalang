@@ -11,5 +11,5 @@ is
 
    package Eval renames Libadalang.Expr_Eval;
 begin
-   return Create (Eval.As_Int (Eval.Expr_Eval (N)));
+   return Create_Big_Integer (Eval.As_Int (Eval.Expr_Eval (N)));
 end P_Eval_As_Int;

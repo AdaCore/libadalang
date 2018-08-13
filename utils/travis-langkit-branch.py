@@ -28,8 +28,7 @@ else:
 # tested one...
 langkit_slug = '{}/langkit'.format(slug.split('/')[0])
 
-# Try to build either the same branch, or fall back to master
-trials.append((langkit_slug, 'master'))
+# Try to build either the same branch, or fall back to AdaCore's master
 trials.append((langkit_slug, branch))
 
 for slug, branch in reversed(trials):

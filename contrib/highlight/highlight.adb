@@ -169,7 +169,7 @@ procedure Highlight is
       end case;
    end Output_Highlighted;
 
-   Ctx      : constant LAL.Analysis_Context := LAL.Create;
+   Ctx      : constant LAL.Analysis_Context := LAL.Create_Context;
    Src_File : constant String := Get_Source_File;
 begin
    if Src_File'Length > 0 then

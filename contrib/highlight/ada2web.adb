@@ -340,7 +340,7 @@ begin
    --  Create the analysis context for Libadalang
    UFP := LAL.Create_Unit_Provider_Reference
      (Libadalang.Unit_Files.Projects.Create (Prj_Tree, Env, True));
-   Ctx := LAL.Create (Unit_Provider => UFP);
+   Ctx := LAL.Create_Context (Unit_Provider => UFP);
 
    --  Create the output directories, if needed
    declare

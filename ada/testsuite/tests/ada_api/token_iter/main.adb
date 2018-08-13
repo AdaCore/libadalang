@@ -18,7 +18,8 @@ procedure Main is
    -------------
 
    procedure Process (Filename : String; With_Trivia : Boolean) is
-      Ctx  : constant Analysis_Context := Create (With_Trivia => With_Trivia);
+      Ctx  : constant Analysis_Context :=
+         Create_Context (With_Trivia => With_Trivia);
       Unit : constant Analysis_Unit := Get_From_File (Ctx, Filename);
 
       Token      : Token_Reference := First_Token (Unit);

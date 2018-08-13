@@ -9,7 +9,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 with Libadalang.Lexer;
 
 procedure Main is
-   Ctx  : constant Analysis_Context := Create;
+   Ctx  : constant Analysis_Context := Create_Context;
    Unit : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    N    : constant Ada_Node := Find_First
      (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));

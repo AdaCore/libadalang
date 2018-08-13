@@ -518,7 +518,7 @@ begin
 
    --  Browse this database and compare it to what LAL can resolve
 
-   Ctx := Create (Unit_Provider => UFP);
+   Ctx := Create_Context (Unit_Provider => UFP);
 
    Sort (Files, LI_Xrefs);
    for Unit_Xrefs of LI_Xrefs loop

@@ -7,7 +7,7 @@ with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx   : constant Analysis_Context := Create;
+   Ctx   : constant Analysis_Context := Create_Context;
    Unit  : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
    Unit2 : constant Analysis_Unit := Get_From_File (Ctx, "test2.adb");
 begin

@@ -28,7 +28,7 @@ procedure Main is
    end Load_Project;
 
    Ctx : constant Analysis_Context :=
-      Create (Unit_Provider => Load_Project ("p.gpr"));
+      Create_Context (Unit_Provider => Load_Project ("p.gpr"));
 
    Unit : constant Analysis_Unit :=
       Get_From_Provider (Ctx, "p2", Unit_Specification);

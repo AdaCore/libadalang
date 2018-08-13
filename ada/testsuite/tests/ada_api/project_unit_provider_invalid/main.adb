@@ -35,7 +35,7 @@ procedure Main is
    end Load_Project;
 
    Ctx  : constant Analysis_Context :=
-      Create (Unit_Provider => Load_Project ("p.gpr"));
+      Create_Context (Unit_Provider => Load_Project ("p.gpr"));
    Unit : Analysis_Unit;
 
    LF    : constant := Character'Pos (ASCII.LF);

@@ -273,7 +273,7 @@ begin
    UFP :=
      LAL.Create_Unit_Provider_Reference (LALPRJ.Create (Project, Env, True));
 
-   Ctx := LAL.Create (Unit_Provider => UFP);
+   Ctx := LAL.Create_Context (Unit_Provider => UFP);
 
    for F of Args.Files.Get loop
       declare

@@ -575,7 +575,7 @@ procedure Nameres is
    begin
       select
          accept Create_Context (UFP : Unit_Provider_Reference) do
-            Ctx := Create
+            Ctx := Create_Context
               (Charset       => +Args.Charset.Get,
                Unit_Provider => UFP);
 

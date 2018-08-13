@@ -12,10 +12,10 @@ procedure Main is
 
    Filename : String := "test.adb";
 
-   Ctx      : constant Analysis_Context := Create (With_Trivia => False);
-   Unit     : constant Analysis_Unit := Get_From_File (Ctx, Filename);
-
-   Token    : Token_Reference := First_Token (Unit);
+   Ctx   : constant Analysis_Context :=
+      Create_Context (With_Trivia => False);
+   Unit  : constant Analysis_Unit := Get_From_File (Ctx, Filename);
+   Token : Token_Reference := First_Token (Unit);
 
 begin
    Put_Line ("Keyword tokens for " & Filename & ":");

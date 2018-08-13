@@ -8,7 +8,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx       : constant Analysis_Context := Create;
+   Ctx       : constant Analysis_Context := Create_Context;
    Unit      : constant Analysis_Unit := Get_From_File (Ctx, "pkg.ads");
    P         : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
      (Kind => Ada_Type_Decl);

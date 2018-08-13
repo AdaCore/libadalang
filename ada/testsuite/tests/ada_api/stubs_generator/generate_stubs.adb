@@ -11,7 +11,7 @@ procedure Generate_Stubs is
    Input_File : constant String := Argument (1);
 
    Charset   : constant String := "ISO-8859-1";
-   Ctx       : Analysis_Context := Create (Charset);
+   Ctx       : Analysis_Context := Create_Context (Charset);
 
    Spec_Unit : constant Analysis_Unit := Get_From_File (Ctx, Input_File);
    --  Unit to contain the package specification for which we will generate

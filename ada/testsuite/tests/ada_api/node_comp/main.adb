@@ -8,7 +8,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
 
-   Ctx : constant Analysis_Context := Create;
+   Ctx : constant Analysis_Context := Create_Context;
 
    function Get_Unit (Filename : String) return Analysis_Unit is
       Unit : constant Analysis_Unit := Get_From_File (Ctx, Filename);

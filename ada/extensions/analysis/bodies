@@ -1,7 +1,7 @@
 --  vim: ft=ada
 
---  TODO: This should be implemented in the DSL, as soon as we have support for
---  enums.
+--  TODO??? This should be implemented in the DSL, as soon as we have support
+--  for enums.
 function Is_Keyword
   (Ctx     : Analysis_Context;
    Token   : Token_Reference;
@@ -16,14 +16,14 @@ begin
    --  Exit early on trivia tokens
    if Is_Trivia (Token) then
       return False;
-   end if;
 
    --  Token that are not identifiers but part of the Alphanumericals family
    --  are all keywords.
-   if K /= Ada_Identifier
+   elsif K /= Ada_Identifier
       and then Token_Kind_To_Family (K) = Alphanumericals
    then
       return True;
+
    else
       Sym := Get_Symbol (Token);
       case Version is

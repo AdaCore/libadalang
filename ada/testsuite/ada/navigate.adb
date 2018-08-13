@@ -3,10 +3,13 @@ with Ada.Command_Line;
 with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.VFS;
+with GNATCOLL.Projects;
+
 with Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Common;
 with Libadalang.Iterators;
+with Libadalang.Unit_Files.Projects;
 
 with Put_Title;
 
@@ -16,17 +19,21 @@ procedure Navigate is
    package LAL renames Libadalang.Analysis;
    package LALCO renames Libadalang.Common;
    package LALIT renames Libadalang.Iterators;
+   package PRJ renames GNATCOLL.Projects;
+   package LALPRJ renames Libadalang.Unit_Files.Projects;
+
+
+
+   Fatal_Error   : exception;
+   Ctx           : LAL.Analysis_Context;
+   Enabled_Kinds : array (LALCO.Ada_Node_Kind_Type) of Boolean :=
+     (others => False);
 
    function Short_Image (Node : LAL.Ada_Node'Class) return String
    is (Langkit_Support.Text.Image (Node.Short_Image));
 
    function To_Lower (S : String) return String
       renames Ada.Characters.Handling.To_Lower;
-
-   Fatal_Error   : exception;
-   Ctx           : constant LAL.Analysis_Context := LAL.Create;
-   Enabled_Kinds : array (LALCO.Ada_Node_Kind_Type) of Boolean :=
-     (others => False);
 
    function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean;
 
@@ -123,6 +130,7 @@ procedure Navigate is
                      Print_Navigation
                        ("Body", Node,
                         Node.As_Base_Package_Decl.P_Body_Part);
+
                   when LALCO.Ada_Package_Body =>
                      Print_Navigation
                        ("Decl", Node, Node.As_Package_Body.P_Decl_Part);
@@ -273,10 +281,26 @@ procedure Navigate is
       end case;
    end Is_Navigation_Disabled;
 
+   UFP     : LAL.Unit_Provider_Reference;
+   Project : constant PRJ.Project_Tree_Access := new PRJ.Project_Tree;
+   Env     : PRJ.Project_Environment_Access;
+
 begin
+
    if CMD.Argument_Count < 2 then
       Stop_With_Error ("not enough arguments", True);
    end if;
+
+   PRJ.Initialize (Env);
+   PRJ.Load_Empty_Project (Project.all, Env);
+   Project.Root_Project.Delete_Attribute (PRJ.Source_Dirs_Attribute);
+   Project.Root_Project.Delete_Attribute (PRJ.Languages_Attribute);
+   Project.Recompute_View;
+
+   UFP :=
+     LAL.Create_Unit_Provider_Reference (LALPRJ.Create (Project, Env, True));
+
+   Ctx := LAL.Create (Unit_Provider => UFP);
 
    Decode_Kinds (CMD.Argument (1));
 

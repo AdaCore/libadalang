@@ -1,8 +1,8 @@
 {
-   destroy_null_analysis_context
-   Memcheck:Addr4
+   discard_ple_errors_for_null_analysis_context
+   Memcheck:Addr1
    ...
-   fun:libadalang__analysis__destroy__2
-   fun:discard_errors_in_populate_lexical_env
+   fun:libadalang__implementation__discard_errors_in_populate_lexical_env
+   fun:ada_context_discard_errors_in_populate_lexical_env
    fun:main
 }

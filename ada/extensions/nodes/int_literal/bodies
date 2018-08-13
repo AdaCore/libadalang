@@ -3,5 +3,6 @@
 function P_Denoted_Value
   (Node : access Bare_Int_Literal_Type'Class) return Big_Integer_Type is
 begin
-   return Create (Libadalang.Sources.Decode_Integer_Literal (Node.Text));
+   return Create_Big_Integer
+     (Libadalang.Sources.Decode_Integer_Literal (Node.Text));
 end P_Denoted_Value;

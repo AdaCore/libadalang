@@ -205,7 +205,7 @@ package body Libadalang.Auto_Provider is
       Charset     : String := Default_Charset) return Auto_Unit_Provider is
    begin
       return Provider : Auto_Unit_Provider do
-         Provider.Keys := Create;
+         Provider.Keys := Create_Symbol_Table;
          Create_Auto_Provider (Provider, Input_Files, Charset);
       end return;
    end Create_Auto_Provider;

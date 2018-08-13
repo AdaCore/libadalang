@@ -4,5 +4,6 @@ function P_Denoted_Value
   (Node : access Bare_String_Literal_Type'Class)
    return Character_Type_Array_Access is
 begin
-   return Create (Libadalang.Sources.Decode_String_Literal (Node.Text));
+   return Create_Character_Type_Array
+     (Libadalang.Sources.Decode_String_Literal (Node.Text));
 end P_Denoted_Value;

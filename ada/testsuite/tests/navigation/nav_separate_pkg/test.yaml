@@ -1,0 +1,5 @@
+driver: navigation
+input_sources: [test.adb, test-foo.adb]
+kinds:
+  - Ada_Package_Body_Stub
+  - Ada_Package_Body

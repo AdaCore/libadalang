@@ -1,0 +1,11 @@
+test.adb
+########
+
+Decl of <PackageBodyStub ["Foo"] 11:4-11:33> is <PackageDecl ["Foo"] 4:4-7:12> [test.adb]
+
+test-foo.adb
+############
+
+Decl of <PackageBody ["Foo"] 2:1-8:9> is <PackageDecl ["Foo"] 4:4-7:12> [test.adb]
+
+Done.

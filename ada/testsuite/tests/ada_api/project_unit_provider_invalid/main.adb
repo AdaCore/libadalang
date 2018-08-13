@@ -31,7 +31,8 @@ procedure Main is
    begin
       Initialize (Env);
       Load (Project.all, Create (+File), Env);
-      return Create_Unit_Provider_Reference (Create (Project, Env, True));
+      return Create_Unit_Provider_Reference
+        (Create_Project_Unit_Provider (Project, Env, True));
    end Load_Project;
 
    Ctx  : constant Analysis_Context :=

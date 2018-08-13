@@ -60,7 +60,8 @@
       end;
 
       return Create_Unit_Provider_C_Reference
-        (Project_Unit_Provider'(Create (Project, Env, True)));
+        (Project_Unit_Provider'(Create_Project_Unit_Provider
+           (Project, Env, True)));
    end;
 
    function ${capi.get_name('create_auto_provider')}

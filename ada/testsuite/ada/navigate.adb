@@ -1,10 +1,10 @@
 with Ada.Characters.Handling;
 with Ada.Text_IO; use Ada.Text_IO;
 
-with GNATCOLL.VFS;
-with GNATCOLL.Projects;
 with GNATCOLL.Opt_Parse;
+with GNATCOLL.Projects;
 with GNATCOLL.Strings;
+with GNATCOLL.VFS;
 
 with Langkit_Support.Text;
 with Libadalang.Analysis;
@@ -51,7 +51,7 @@ procedure Navigate is
          Allow_Empty => True);
    end Args;
 
-   Ctx           : LAL.Analysis_Context;
+   Ctx : LAL.Analysis_Context;
 
    function Short_Image (Node : LAL.Ada_Node'Class) return String
    is (Langkit_Support.Text.Image (Node.Short_Image));

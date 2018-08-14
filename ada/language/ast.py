@@ -2418,6 +2418,36 @@ class BaseTypeDecl(BasicDecl):
             )).cast(T.BaseTypeDecl))
         )
 
+    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
+                      memoized=True)
+    def next_part():
+        """
+        Returns the next part for this type decl.
+        """
+
+        return Entity.match(
+            lambda itd=T.IncompleteTypeDecl:
+            itd.node_env.get(itd.name.name_symbol, recursive=False)
+            .find(lambda t: t.is_a(BaseTypeDecl) & (t != Entity))
+            .cast(BaseTypeDecl),
+
+            lambda _: If(
+                Entity.is_private,
+                origin.bind(Self, Entity.canonical_type).then(
+                    lambda ct:
+                    ct.parent.parent.parent.cast(T.BasePackageDecl).then(
+                        lambda p: p.private_part.children_env
+                        .get(ct.name.name_symbol, recursive=False)
+                        .find(lambda t: t.is_a(BaseTypeDecl) & (t != ct))
+                        .cast(BaseTypeDecl),
+                    ),
+                ),
+
+                No(T.BaseTypeDecl.entity)
+            )
+
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl, ignore_warn_on_node=True)
     def canonical_part():
         return Entity.previous_part(True).then(

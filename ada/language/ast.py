@@ -1134,6 +1134,7 @@ class BasicDecl(AdaNode):
         Return the body corresponding to this declaration, if applicable.
         """
         ignore(Var(Self.body_unit))
+
         return If(
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
             Entity.children_env

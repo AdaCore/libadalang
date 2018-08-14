@@ -110,6 +110,10 @@ procedure Navigate is
                     ("Decl", Node,
                      Node.As_Package_Body_Stub.P_Decl_Part);
 
+                  Print_Navigation
+                    ("Body", Node,
+                     Node.As_Package_Body_Stub.P_Body_Part_For_Decl);
+
                when LALCO.Ada_Base_Package_Decl =>
 
                   Print_Navigation

@@ -1144,7 +1144,10 @@ class BasicDecl(AdaNode):
         """
         Return the body corresponding to this declaration, if applicable.
         """
-        return Entity.next_part_for_decl
+        return Entity.next_part_for_decl.then(lambda np: np.match(
+            lambda stub=BodyStub: stub.next_part_for_decl,
+            lambda other: other
+        ))
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(BoolType, True)):

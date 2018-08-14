@@ -2403,9 +2403,10 @@ class BaseTypeDecl(BasicDecl):
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(name=Self.name)
 
-    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
+    @langkit_property(public=True,
+                      return_type=T.BaseTypeDecl.entity,
                       memoized=True)
-    def previous_part(go_to_incomplete=BoolType):
+    def previous_part(go_to_incomplete=(BoolType, True)):
         """
         Returns the previous part for this type decl.
         """
@@ -2502,7 +2503,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
-    def previous_part(go_to_incomplete=BoolType):
+    def previous_part(go_to_incomplete=(BoolType, True)):
         return Entity.typedecl.previous_part(go_to_incomplete).then(
             lambda pp: pp.classwide_type
         )

@@ -1129,7 +1129,7 @@ class BasicDecl(AdaNode):
     name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
 
     @langkit_property(public=True)
-    def body_part_for_decl():
+    def next_part_for_decl():
         """
         Return the body corresponding to this declaration, if applicable.
         """
@@ -1137,7 +1137,14 @@ class BasicDecl(AdaNode):
         return If(
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
             Entity.children_env
-        ).get_first('__body', recursive=False).cast(T.Body)
+        ).get_first('__nextpart', recursive=False).cast(T.Body)
+
+    @langkit_property(public=True)
+    def body_part_for_decl():
+        """
+        Return the body corresponding to this declaration, if applicable.
+        """
+        return Entity.next_part_for_decl
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(BoolType, True)):
@@ -1240,7 +1247,7 @@ class Body(BasicDecl):
             ))).cast_or_raise(T.BasicDecl.entity)
         )
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[env])
     def package_previous_part():
         """
         Return the BasePackageDecl corresponding to this node.
@@ -1248,14 +1255,11 @@ class Body(BasicDecl):
         If the case of generic package declarations, this returns the
         "package_decl" field instead of the GenericPackageDecl itself.
         """
-        return env.bind(
-            Entity.node_env,
-            Entity.defining_name.env_elements.at(0)._.match(
-                lambda pkg_decl=T.PackageDecl: pkg_decl,
-                lambda gen_pkg_decl=T.GenericPackageDecl:
-                    gen_pkg_decl.package_decl,
-                lambda _: No(T.BasicDecl.entity)
-            )
+        return Entity.defining_name.env_elements.at(0)._.match(
+            lambda pkg_decl=T.PackageDecl: pkg_decl,
+            lambda gen_pkg_decl=T.GenericPackageDecl:
+                gen_pkg_decl.package_decl,
+            lambda _: No(T.BasicDecl.entity)
         )
 
     @langkit_property(public=True)
@@ -1264,12 +1268,12 @@ class Body(BasicDecl):
         Return the previous part for this body. Might be a declaration or a
         body stub.
         """
-        return Entity.match(
+        return env.bind(Self.node_env, Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _: No(T.BasicDecl.entity),
-        )
+        ))
 
     @langkit_property(public=True)
     def decl_part():
@@ -7529,9 +7533,9 @@ class BaseSubpBody(Body):
 
         handle_children(),
 
-        # Add the __body link to the spec, if there is one
+        # Add the __nextpart link to the spec, if there is one
         add_to_env_kv(
-            '__body', Self,
+            '__nextpart', Self,
             dest_env=Entity.decl_part.then(lambda d: d.node.children_env),
         ),
 
@@ -8013,20 +8017,20 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     env_spec = child_unit(
-        '__body',
+        '__nextpart',
 
         # Parent link is the package's decl, or private part if there is one
         Entity.body_scope(follow_private=True),
 
-        # Destination env for the __body link
+        # Destination env for the __nextpart link
         dest_env=env.bind(
             Self.initial_env,
             If(
                 Self.is_subunit,
-                Entity.subunit_pkg_decl_env,
+                Entity.subunit_pkg_stub_env,
 
-                # __body never goes into the private part, and is always in the
-                # decl for nested sub packages.
+                # __nextpart never goes into the private part, and is always in
+                # the decl for nested sub packages.
                 Entity.body_scope(follow_private=False, force_decl=True)
             )
         ),
@@ -8057,6 +8061,12 @@ class PackageBody(Body):
 
     defining_names = Property(Entity.package_name.singleton)
     defining_env = Property(Entity.children_env)
+
+    @langkit_property()
+    def subunit_pkg_stub_env():
+        return Entity.subunit_pkg_decl_env.get(
+            '__nextpart', recursive=False
+        ).at(0).children_env
 
     @langkit_property()
     def subunit_pkg_decl_env():
@@ -8099,10 +8109,10 @@ class TaskBody(Body):
 
 class ProtectedBody(Body):
     env_spec = child_unit(
-        '__body',
+        '__nextpart',
         Entity.body_scope(True),
 
-        # Add the __body link to the package decl
+        # Add the __nextpart link to the decl
         dest_env=env.bind(
             Self.initial_env,
             # If this is a sub package, sub_package
@@ -8206,6 +8216,18 @@ class PackageBodyStub(BodyStub):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Entity.name.singleton)
+
+    env_spec = EnvSpec(
+        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
+        add_env(),
+    )
+
+    @langkit_property()
+    def stub_decl_env():
+        return env.bind(
+            Entity.initial_env,
+            Entity.package_previous_part.then(lambda d: d.node.children_env)
+        )
 
 
 class TaskBodyStub(BodyStub):

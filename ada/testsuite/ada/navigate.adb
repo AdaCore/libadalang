@@ -114,6 +114,15 @@ procedure Navigate is
                     ("Body", Node,
                      Node.As_Package_Body_Stub.P_Body_Part_For_Decl);
 
+               when LALCO.Ada_Base_Type_Decl =>
+                  Print_Navigation
+                    ("Type previous part", Node,
+                     Node.As_Base_Type_Decl.P_Previous_Part);
+
+                  Print_Navigation
+                    ("Type next part", Node,
+                     Node.As_Base_Type_Decl.P_Next_Part);
+
                when LALCO.Ada_Base_Package_Decl =>
 
                   Print_Navigation

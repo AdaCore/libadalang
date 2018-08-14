@@ -2425,7 +2425,13 @@ class BaseTypeDecl(BasicDecl):
             default_val=Self,
         )
 
-    is_private = Property(False)
+    is_private = Property(
+        False,
+        doc="""
+        Whether node is a private view of corresponding type.
+        """,
+        public=True,
+    )
 
     discriminants_list = AbstractProperty(
         type=BaseFormalParamDecl.entity.array

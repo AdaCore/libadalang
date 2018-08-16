@@ -268,7 +268,7 @@ procedure Navigate is
    end Is_Navigation_Disabled;
 
    UFP     : LAL.Unit_Provider_Reference;
-   Project : constant PRJ.Project_Tree_Access := new PRJ.Project_Tree;
+   Project : PRJ.Project_Tree_Access;
    Env     : PRJ.Project_Environment_Access;
 
 begin
@@ -278,6 +278,7 @@ begin
    end if;
 
    PRJ.Initialize (Env);
+   Project := new PRJ.Project_Tree;
    PRJ.Load_Empty_Project (Project.all, Env);
    Project.Root_Project.Delete_Attribute (PRJ.Source_Dirs_Attribute);
    Project.Root_Project.Delete_Attribute (PRJ.Languages_Attribute);

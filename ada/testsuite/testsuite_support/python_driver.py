@@ -41,7 +41,7 @@ class PythonDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
-        self.runner.run(self.py_file, [])
+        self.runner.run(self.py_file, self.input_sources)
 
 
 class PythonRunner(object):

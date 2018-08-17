@@ -871,18 +871,49 @@ class BasicDecl(AdaNode):
             lambda asp: asp.id.cast(T.BaseId).sym == name
         )._.expr
 
+    @langkit_property()
+    def pragma_matches(p=T.Pragma.entity, name=SymbolType,
+                       check_association=T.BoolType):
+        """
+        Return whether ``p`` has the given ``name``.  If ``check_association``
+        is true, also check that ``p`` is associated to this entity.
+        """
+        return And(
+            p.id.name_symbol.equals(name),
+            Not(check_association)
+            | Not(p.associated_decls.find(lambda d: d == Entity).is_null)
+        )
+
+    @langkit_property()
+    def library_item_pragmas():
+        """
+        If this entity is a library item, return the compilation unit pragmas.
+        """
+        return Cond(
+            Entity.parent.is_a(T.LibraryItem),
+            Entity.parent.parent.cast(T.CompilationUnit).pragmas,
+
+            Entity.parent.parent.is_a(T.LibraryItem),
+            Entity.parent.parent.parent.cast(T.CompilationUnit).pragmas,
+
+            No(T.Pragma.list.entity)
+        )
+
     @langkit_property(return_type=T.Pragma.entity, public=True)
     def get_pragma(name=SymbolType):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
-        return Entity.declarative_scope.decls.as_entity.find(
-            lambda e: e.cast(T.Pragma).then(lambda pragma: And(
-                pragma.id.name_symbol.equals(name),
-                Not(pragma.associated_decls
-                    .find(lambda d: d == Entity).is_null)
-            ))
-        ).cast(T.Pragma)
+        return Entity.library_item_pragmas.then(
+            lambda plist: plist.find(
+                lambda p: Entity.pragma_matches(p, name, False)
+            ),
+            default_val=Entity.declarative_scope.decls.as_entity.find(
+                lambda d: d.cast(T.Pragma).then(
+                    lambda p: Entity.pragma_matches(p, name, True)
+                )
+            ).cast(T.Pragma)
+        )
 
     @langkit_property(public=True)
     def is_unit_root():
@@ -4518,6 +4549,13 @@ class GenericSubpDecl(GenericDecl):
     )
 
     decl = Property(Entity.subp_decl)
+
+    @langkit_property(public=True)
+    def is_imported():
+        """
+        Whether this subprogram declaration is imported from another language.
+        """
+        return Entity.subp_decl.is_imported
 
 
 class GenericPackageInternal(BasePackageDecl):

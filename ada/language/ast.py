@@ -3837,8 +3837,8 @@ class Pragma(AdaNode):
     @langkit_property(public=True, memoized=True)
     def associated_decls():
         """
-        Return an array of ``BasicDecl`` instances associated with
-        this pragma, or an empty array if non applicable.
+        Return an array of ``BasicDecl`` instances associated with this pragma,
+        or an empty array if non applicable.
         """
         return Entity.associated_entity_name.then(
             lambda name: Entity.parents

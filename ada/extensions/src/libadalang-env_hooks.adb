@@ -10,7 +10,7 @@ package body Libadalang.Env_Hooks is
      (Ctx : Internal_Context; Node : Bare_Basic_Decl);
    --  Helper for the environment hook to handle library-level unit decl nodes
 
-   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body);
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body_Node);
    --  Helper for the environment hook to handle library-level unit body nodes
 
    procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl);
@@ -317,8 +317,8 @@ package body Libadalang.Env_Hooks is
       Ctx : constant Internal_Context := Unit.Context;
    begin
       if Node.Parent.all in Bare_Library_Item_Type'Class then
-         if Node.all in Bare_Body_Type'Class then
-            Handle_Unit_Body (Ctx, Bare_Body (Node));
+         if Node.all in Bare_Body_Node_Type'Class then
+            Handle_Unit_Body (Ctx, Bare_Body_Node (Node));
          elsif Node.all in Bare_Basic_Decl_Type'Class then
             Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
          end if;
@@ -385,7 +385,8 @@ package body Libadalang.Env_Hooks is
    -- Handle_Unit_Body --
    ----------------------
 
-   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body) is
+   procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body_Node)
+   is
       Names : Entity_Defining_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec

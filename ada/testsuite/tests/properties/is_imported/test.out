@@ -1,0 +1,14 @@
+== pkg.ads ==
+<SubpDecl ["P"] 3:4-3:16> -> True
+<SubpDecl ["P"] 5:4-5:30> -> False
+<SubpDecl ["Q"] 7:4-7:16> -> False
+<SubpDecl ["Q"] 8:4-8:42> -> True
+
+== proc1.ads ==
+<SubpDecl ["Proc1"] 1:1-1:17> -> True
+
+== proc2.ads ==
+<GenericSubpDecl ["Proc2"] 1:1-2:17> -> True
+<GenericSubpInternal ["Proc2"] 2:1-2:16> -> True
+
+Done

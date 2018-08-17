@@ -1,0 +1,3 @@
+driver: python
+input_sources: [pkg.ads, proc1.ads, proc2.ads]
+expect_failure: Pragma and overloading interaction, to be fixed in R817-005

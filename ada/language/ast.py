@@ -3765,18 +3765,26 @@ class ClassicSubpDecl(BasicSubpDecl):
 class SubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
+    node_aspects = Property(Entity.aspects)
+
 
 class NullSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
+
+    node_aspects = Property(Entity.aspects)
 
 
 class AbstractSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
+    node_aspects = Property(Entity.aspects)
+
 
 class SubpRenamingDecl(ClassicSubpDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
+
+    node_aspects = Property(Entity.aspects)
 
     xref_entry_point = Property(True)
     xref_equation = Property(Or(
@@ -4477,6 +4485,7 @@ class FormalSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
+    node_aspects = Property(Entity.aspects)
 
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):

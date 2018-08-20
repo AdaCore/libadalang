@@ -1325,6 +1325,7 @@ class Body(BasicDecl):
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
+            lambda _=T.ProtectedBody: Entity.protected_previous_part,
             lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
             lambda _: No(T.BasicDecl.entity),
         ))

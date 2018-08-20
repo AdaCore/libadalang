@@ -1,0 +1,7 @@
+pkg.adb
+#######
+
+Body previous part of <ProtectedBodyStub ["P_Rec"] 3:4-3:37> is <ProtectedTypeDecl ["P_Rec"] 3:4-9:8> [pkg.ads]
+Decl of <ProtectedBodyStub ["P_Rec"] 3:4-3:37> is <ProtectedTypeDecl ["P_Rec"] 3:4-9:8> [pkg.ads]
+
+Done.

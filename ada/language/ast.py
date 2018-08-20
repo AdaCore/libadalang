@@ -1305,7 +1305,17 @@ class Body(BasicDecl):
             lambda _: No(T.BasicDecl.entity)
         )
 
-    @langkit_property(public=True)
+    @langkit_property(dynamic_vars=[env])
+    def protected_previous_part():
+        """
+        Return the ProtectedDef corresponding to this node.
+        """
+        return Entity.defining_name.env_elements.at(0)._.match(
+            lambda prot_decl=T.ProtectedTypeDecl: prot_decl,
+            lambda _: No(T.BasicDecl.entity)
+        )
+
+    @langkit_property(public=True, return_type=T.BasicDecl.entity)
     def previous_part():
         """
         Return the previous part for this body. Might be a declaration or a
@@ -1315,6 +1325,7 @@ class Body(BasicDecl):
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
+            lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
             lambda _: No(T.BasicDecl.entity),
         ))
 

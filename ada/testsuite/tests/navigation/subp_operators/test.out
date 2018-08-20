@@ -8,8 +8,11 @@ Body of <SubpDecl [""and""] 4:4-4:59> is <SubpBody [""AND""] 13:4-16:14> [foo.ad
 foo.adb
 #######
 
+Body previous part of <SubpBody [""+""] 3:4-6:12> is <SubpDecl [""+""] 2:4-2:57> [foo.ads]
 Decl of <SubpBody [""+""] 3:4-6:12> is <SubpDecl [""+""] 2:4-2:57> [foo.ads]
+Body previous part of <SubpBody [""-""] 8:4-11:12> is <SubpDecl [""-""] 3:4-3:57> [foo.ads]
 Decl of <SubpBody [""-""] 8:4-11:12> is <SubpDecl [""-""] 3:4-3:57> [foo.ads]
+Body previous part of <SubpBody [""AND""] 13:4-16:14> is <SubpDecl [""and""] 4:4-4:59> [foo.ads]
 Decl of <SubpBody [""AND""] 13:4-16:14> is <SubpDecl [""and""] 4:4-4:59> [foo.ads]
 
 Done.

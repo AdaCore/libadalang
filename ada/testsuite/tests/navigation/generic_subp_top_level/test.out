@@ -6,6 +6,7 @@ Body of <GenericSubpDecl ["Foo"] 1:1-3:29> is <SubpBody ["Foo"] 1:1-4:9> [foo.ad
 foo.adb
 #######
 
+Body previous part of <SubpBody ["Foo"] 1:1-4:9> is <GenericSubpDecl ["Foo"] 1:1-3:29> [foo.ads]
 Decl of <SubpBody ["Foo"] 1:1-4:9> is <GenericSubpDecl ["Foo"] 1:1-3:29> [foo.ads]
 
 Done.

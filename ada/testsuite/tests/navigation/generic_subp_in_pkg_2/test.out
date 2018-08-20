@@ -7,7 +7,9 @@ Body of <GenericSubpDecl ["Print_T"] 5:4-8:33> is <SubpBody ["Print_T"] 8:4-11:2
 foo.adb
 #######
 
+Body previous part of <SubpBody ["To_String"] 3:4-6:18> is <SubpDecl ["To_String"] 3:4-3:51> [foo.ads]
 Decl of <SubpBody ["To_String"] 3:4-6:18> is <SubpDecl ["To_String"] 3:4-3:51> [foo.ads]
+Body previous part of <SubpBody ["Print_T"] 8:4-11:22> is <GenericSubpDecl ["Print_T"] 5:4-8:33> [foo.ads]
 Decl of <SubpBody ["Print_T"] 8:4-11:22> is <GenericSubpDecl ["Print_T"] 5:4-8:33> [foo.ads]
 
 Done.

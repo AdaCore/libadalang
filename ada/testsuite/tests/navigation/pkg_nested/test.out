@@ -7,7 +7,9 @@ Body of <PackageDecl ["Bar"] 5:4-7:12> is <PackageBody ["Bar"] 3:4-7:12> [foo.ad
 foo.adb
 #######
 
+Body previous part of <PackageBody ["Foo"] 1:1-9:9> is <PackageDecl ["Foo"] 1:1-11:9> [foo.ads]
 Decl of <PackageBody ["Foo"] 1:1-9:9> is <PackageDecl ["Foo"] 1:1-11:9> [foo.ads]
+Body previous part of <PackageBody ["Bar"] 3:4-7:12> is <PackageDecl ["Bar"] 5:4-7:12> [foo.ads]
 Decl of <PackageBody ["Bar"] 3:4-7:12> is <PackageDecl ["Bar"] 5:4-7:12> [foo.ads]
 
 foo_child_only.ads

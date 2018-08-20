@@ -7,6 +7,7 @@ Body of <GenericPackageInternal ["Foo"] 3:1-5:9> is <PackageBody ["Foo"] 1:1-6:9
 foo.adb
 #######
 
+Body previous part of <PackageBody ["Foo"] 1:1-6:9> is <GenericPackageInternal ["Foo"] 3:1-5:9> [foo.ads]
 Decl of <PackageBody ["Foo"] 1:1-6:9> is <GenericPackageInternal ["Foo"] 3:1-5:9> [foo.ads]
 
 Done.

@@ -8,7 +8,9 @@ Body of <GenericPackageInternal ["Nested"] 4:4-6:15> is <PackageBody ["Nested"] 
 foo.adb
 #######
 
+Body previous part of <PackageBody ["Foo"] 1:1-8:9> is <PackageDecl ["Foo"] 1:1-7:9> [foo.ads]
 Decl of <PackageBody ["Foo"] 1:1-8:9> is <PackageDecl ["Foo"] 1:1-7:9> [foo.ads]
+Body previous part of <PackageBody ["Nested"] 2:4-7:15> is <GenericPackageInternal ["Nested"] 4:4-6:15> [foo.ads]
 Decl of <PackageBody ["Nested"] 2:4-7:15> is <GenericPackageInternal ["Nested"] 4:4-6:15> [foo.ads]
 
 Done.

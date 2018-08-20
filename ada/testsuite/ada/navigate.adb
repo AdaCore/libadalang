@@ -103,16 +103,27 @@ procedure Navigate is
          begin
             case Node.Kind is
 
-               --  Packages
+               --  Bodies
 
-               when LALCO.Ada_Package_Body_Stub =>
+               when LALCO.Ada_Body_Node =>
+                  Print_Navigation
+                    ("Body previous part", Node,
+                     Node.As_Body_Node.P_Previous_Part);
+
                   Print_Navigation
                     ("Decl", Node,
-                     Node.As_Package_Body_Stub.P_Decl_Part);
+                     Node.As_Body_Node.P_Decl_Part);
 
-                  Print_Navigation
-                    ("Body", Node,
-                     Node.As_Package_Body_Stub.P_Body_Part_For_Decl);
+                  case Node.Kind is
+                     when LALCO.Ada_Package_Body_Stub =>
+                        Print_Navigation
+                          ("Body", Node,
+                           Node.As_Package_Body_Stub.P_Body_Part_For_Decl);
+
+                     when others => null;
+                  end case;
+
+               --  Packages
 
                when LALCO.Ada_Base_Type_Decl =>
                   Print_Navigation
@@ -129,23 +140,16 @@ procedure Navigate is
                     ("Body", Node,
                      Node.As_Base_Package_Decl.P_Body_Part);
 
-               when LALCO.Ada_Package_Body =>
-                  Print_Navigation
-                    ("Decl", Node, Node.As_Package_Body.P_Decl_Part);
-
                when LALCO.Ada_Generic_Package_Decl =>
                   Print_Navigation
                     ("Body", Node,
                      Node.As_Generic_Package_Decl.P_Body_Part);
 
-                  --  Subprograms
+               --  Subprograms
 
                when LALCO.Ada_Subp_Decl =>
                   Print_Navigation
                     ("Body", Node, Node.As_Subp_Decl.P_Body_Part);
-               when LALCO.Ada_Subp_Body =>
-                  Print_Navigation
-                    ("Decl", Node, Node.As_Subp_Body.P_Decl_Part);
 
                when LALCO.Ada_Generic_Subp_Decl =>
                   Print_Navigation

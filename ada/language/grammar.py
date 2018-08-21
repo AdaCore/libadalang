@@ -394,16 +394,16 @@ A.add_rules(
     ),
 
     formal_subp_decl=Or(
-        ConcreteFormalSubpDecl(
-            "with", Overriding.alt_unspecified(), A.subp_spec,
-            Opt("is", Or(A.box_expr, A.name, A.null_literal)),
-            A.aspect_spec, ";"
-        ),
         AbstractFormalSubpDecl(
             "with", Overriding.alt_unspecified(), A.subp_spec,
             "is", res("abstract"),
             Opt(Or(A.box_expr, A.name, A.null_literal)),
             A.aspect_spec, sc()
+        ),
+        ConcreteFormalSubpDecl(
+            "with", Overriding.alt_unspecified(), A.subp_spec,
+            Opt("is", Or(A.box_expr, A.name, A.null_literal)),
+            A.aspect_spec, ";"
         ),
     ),
 

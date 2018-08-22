@@ -24,7 +24,7 @@ package body Libadalang.Auto_Provider is
    is
       use Ada.Strings.Wide_Wide_Unbounded;
 
-      FQN  : constant Symbol_Type_Array := CU.P_Fully_Qualified_Name;
+      FQN  : constant Unbounded_Text_Type_Array := CU.P_Fully_Qualified_Name;
       Kind : constant Unit_Kind := CU.P_Unit_Kind;
       Name : Unbounded_Wide_Wide_String;
    begin
@@ -32,7 +32,7 @@ package body Libadalang.Auto_Provider is
          if I > FQN'First then
             Append (Name, '.');
          end if;
-         Append (Name, Image (FQN (I)));
+         Append (Name, To_Text (FQN (I)));
       end loop;
 
       declare

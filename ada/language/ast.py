@@ -905,9 +905,13 @@ class BasicDecl(AdaNode):
 
             default_val=Entity.declarative_scope.decls.as_entity.find(
                 lambda d: d.cast(T.Pragma).then(lambda p: And(
-                    # Check pragma's name & check that it's associated to self
+                    # Check pragma's name
                     p.id.name_is(name),
-                    Not(p.associated_decls.find(lambda d: d == Entity).is_null)
+                    # Check that it's associated to self
+                    Not(p.associated_decls.find(lambda d: d == Entity)
+                        .is_null),
+                    # Check that the pragma is after the decl
+                    (Entity.node.cast(T.AdaNode) < p.node.cast(T.AdaNode))
                 ))
             ).cast(T.Pragma)
         )

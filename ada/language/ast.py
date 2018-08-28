@@ -901,12 +901,12 @@ class BasicDecl(AdaNode):
         """
         return Entity.library_item_pragmas.then(
             # Check pragma's name
-            lambda plist: plist.find(lambda p: p.id.name_symbol.equals(name)),
+            lambda plist: plist.find(lambda p: p.id.name_is(name)),
 
             default_val=Entity.declarative_scope.decls.as_entity.find(
                 lambda d: d.cast(T.Pragma).then(lambda p: And(
                     # Check pragma's name & check that it's associated to self
-                    p.id.name_symbol.equals(name),
+                    p.id.name_is(name),
                     Not(p.associated_decls.find(lambda d: d == Entity).is_null)
                 ))
             ).cast(T.Pragma)
@@ -1770,7 +1770,7 @@ class VariantPart(AdaNode):
         """
         # Get the specific discriminant this variant part depends upon
         discr = Var(discriminants.find(
-            lambda d: d.formal.name.name_symbol == Self.discr_name.symbol
+            lambda d: d.formal.name.name_is(Self.discr_name.symbol)
         ))
 
         # Get the variant branch with a choice that matches the discriminant's
@@ -2589,7 +2589,7 @@ class TypeDecl(BaseTypeDecl):
 
             Not(it.is_null),
             it.cast(T.Aggregate).assocs.unpacked_params.find(
-                lambda sa: sa.name.name_symbol == 'Element'
+                lambda sa: sa.name.name_is('Element')
             ).assoc.expr.as_entity.referenced_decl.expr_type,
 
             Entity.type_def.match(
@@ -3629,7 +3629,7 @@ class ParamSpec(BaseFormalParamDecl):
                 lambda decl:
                 decl.subp_spec_or_null(follow_generic=True)
                 .unpacked_formal_params.find(
-                    lambda sf: sf.name.name_symbol == param.name_symbol
+                    lambda sf: sf.name.name_is(param.name_symbol)
                 ).name.as_entity,
                 default_val=param
             ),
@@ -3811,11 +3811,11 @@ class Pragma(AdaNode):
     @langkit_property()
     def xref_equation():
         return Cond(
-            Entity.id.name_symbol == 'Assert',
+            Entity.id.name_is('Assert'),
             Let(lambda expr=Entity.args.at(0).assoc_expr:
                 expr.sub_equation & bool_bind(expr.type_var)),
 
-            Entity.id.name_symbol == 'Unreferenced',
+            Entity.id.name_is('Unreferenced'),
             Entity.args.logic_all(
                 lambda assoc:
                 assoc.assoc_expr.cast_or_raise(T.Name).xref_no_overloading
@@ -3948,7 +3948,7 @@ class AspectAssoc(AdaNode):
         target = Var(Self.parent.parent.parent)
         return Cond(
             # Iterable aspect
-            Entity.id.name_symbol == 'Iterable',
+            Entity.id.name_is('Iterable'),
             Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
                 lambda sa:
                 sa.assoc.expr.as_entity
@@ -5111,6 +5111,13 @@ class Name(Expr):
     )
 
     @langkit_property(public=True, return_type=T.BoolType)
+    def name_is(sym=(T.SymbolType)):
+        """
+        Helper. Check that this name matches ``sym``.
+        """
+        return Self.name_symbol.then(lambda ns: ns == sym)
+
+    @langkit_property(public=True, return_type=T.BoolType)
     def is_call():
         """
         Returns True if this Name corresponds to a call.
@@ -5125,7 +5132,7 @@ class Name(Expr):
         """
         return ref_decl.then(lambda ref_decl: Entity.name_symbol.then(
             lambda rel_name: ref_decl.defining_names.find(
-                lambda dn: dn.name_symbol == rel_name
+                lambda dn: dn.name_is(rel_name)
             )
         )._or(ref_decl.defining_name), default_val=No(T.DefiningName.entity))
 
@@ -5250,7 +5257,7 @@ class Name(Expr):
         """
         return Self.cast(T.AttributeRef).then(
             lambda attr_ref:
-            attr_ref.as_bare_entity.attribute.name_symbol == 'Range'
+            attr_ref.as_bare_entity.attribute.name_is('Range')
         )
 
     scope = Property(
@@ -7064,13 +7071,13 @@ class AttributeRef(Name):
     @langkit_property()
     def designated_env():
         return Cond(
-            Entity.attribute.name_symbol == 'Model',
+            Entity.attribute.name_is('Model'),
             Entity.designated_env_model_attr,
 
             Entity.is_access_attr,
             Entity.prefix.designated_env,
 
-            Entity.attribute.name_symbol == 'Result',
+            Entity.attribute.name_is('Result'),
             Self.parents.find(lambda p: p.is_a(BasicSubpDecl, SubpBody))
             .as_entity.cast(T.BasicDecl).subp_spec_or_null
             .return_type.defining_env,
@@ -7395,7 +7402,7 @@ class AttributeRef(Name):
 
             Entity.prefix.xref_equation
             & If(
-                Entity.attribute.name_symbol == 'Unrestricted_Access',
+                Entity.attribute.name_is('Unrestricted_Access'),
                 Bind(Self.prefix.type_var,
                      Self.type_var,
                      conv_prop=BaseTypeDecl.anonymous_access_type,
@@ -7423,7 +7430,7 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
     def array_attr_equation():
-        is_length = Var(Entity.attribute.name_symbol == 'Length')
+        is_length = Var(Entity.attribute.name_is('Length'))
         typ = Var(Entity.prefix.name_designated_type)
 
         # If the range attribute has an argument, then it's a static expression
@@ -7594,7 +7601,7 @@ class CompilationUnit(AdaNode):
 
                 # If self is Standard package, then register self in the root
                 # env.
-                n.name.is_a(T.BaseId) & (n.name_symbol == 'Standard'),
+                n.name.is_a(T.BaseId) & (n.name_is('Standard')),
                 Self.initial_env,
 
                 Self.std_env

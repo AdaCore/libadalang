@@ -387,7 +387,7 @@ package body Libadalang.Env_Hooks is
 
    procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body_Node)
    is
-      Names : Entity_Defining_Name_Array_Access;
+      Names : Internal_Entity_Defining_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
       --  to process.

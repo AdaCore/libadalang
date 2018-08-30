@@ -35,7 +35,8 @@ is
       end if;
    end Name_Image;
 
-   Children : Entity_Defining_Name_Array_Access := Self.P_Defining_Names;
+   Children : Internal_Entity_Defining_Name_Array_Access :=
+      Self.P_Defining_Names;
 begin
    Append (Ret, "<" & To_Text (Kind_Name (Self)) & " [");
 

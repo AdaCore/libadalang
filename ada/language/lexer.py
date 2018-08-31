@@ -157,17 +157,19 @@ ada_lexer.add_patterns(
 
 rules = [
     # Blanks and trivia
-    (Pattern(r"[ \t\r\n\f]+"),                Token.Whitespace),
-    (Pattern(r"--(.?)+"),                       Token.Comment),
-    (Pattern(r"#(.?)+"),                        Token.PrepLine),
+    (Pattern(r"[ \t\r\n\f]+"), Token.Whitespace),
+    (Pattern(r"--(.?)+"),      Token.Comment),
+    (Pattern(r"#(.?)+"),       Token.PrepLine),
 ]
 
+# Those keywords can also be attributes, which is why they have special
+# handling, for example as in A'Access.
 for kw_text, kw_token in [
-    ("access",       Token.Access),
-    ("range",        Token.Range),
-    ("digits",       Token.Digits),
-    ("delta",        Token.Delta),
-    ("mod",          Token.Mod),
+    ("access", Token.Access),
+    ("range",  Token.Range),
+    ("digits", Token.Digits),
+    ("delta",  Token.Delta),
+    ("mod",    Token.Mod),
 ]:
     rules.append(
         Case(NoCaseLit(kw_text),
@@ -178,9 +180,8 @@ for kw_text, kw_token in [
     )
 
 
-# Keywords. If a tick appeared right before, this is actually an attribute
-# reference, so it's not a keyword.
 rules += [
+    # Keywords
     (NoCaseLit("abort"),        Token.Abort),
     (NoCaseLit("else"),         Token.Else),
     (NoCaseLit("new"),          Token.New),

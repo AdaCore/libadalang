@@ -285,9 +285,13 @@ rules += [
 
     (Pattern("'{bracket_char}'"),               Token.Char),
 
-    # Attribute vs character literal quirk
+    # Attribute vs character literal quirk: A character literal is match via
+    # '.'. However, this sequence of characters can happen in other cases, like
+    # a qualified expression with a char as parameter: A'Class'('b'). In those
+    # cases, we need to send the tick token, rather than the char token.
+
     Case(Pattern("'.'"),
-         Alt(prev_token_cond=(Token.Identifier, Token.All),
+         Alt(prev_token_cond=(Token.Identifier, ),
              send=Token.Tick,
              match_size=1),
          Alt(send=Token.Char, match_size=3)),

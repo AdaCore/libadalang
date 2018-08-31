@@ -911,7 +911,7 @@ class BasicDecl(AdaNode):
                     Not(p.associated_decls.find(lambda d: d == Entity)
                         .is_null),
                     # Check that the pragma is after the decl
-                    (Entity.node.cast(T.AdaNode) < p.node.cast(T.AdaNode))
+                    (Self < p.node)
                 ))
             ).cast(T.Pragma)
         )
@@ -3846,11 +3846,11 @@ class Pragma(AdaNode):
         or an empty array if non applicable.
         """
         return Entity.associated_entity_name.then(
-            lambda name: Entity.parents
-            .find(lambda p: p.is_a(T.DeclarativePart)).then(
+            lambda name:
+            Entity.parents.find(lambda p: p.is_a(T.DeclarativePart)).then(
                 lambda decl_scope: decl_scope.node_env.get(
                     name.name_symbol, recursive=False
-                )
+                ).filter(lambda ent: ent.node < Self)
             )
         )
 

@@ -594,7 +594,7 @@ package body Libadalang.Sources is
       Parsed : constant Parsed_Numeric_Literal :=
          Parse_Numeric_Literal (Text);
    begin
-      return Result : Big_Integer do
+      return Result : GNATCOLL.GMP.Integers.Big_Integer do
          declare
             Numeral : constant String := Slice (Parsed.Numeral);
          begin
@@ -608,7 +608,7 @@ package body Libadalang.Sources is
 
          elsif Parsed.Exponent > 0 then
             declare
-               Exponent : Big_Integer;
+               Exponent : GNATCOLL.GMP.Integers.Big_Integer;
             begin
                Exponent.Set (10);
                Exponent.Raise_To_N (Unsigned_Long (Parsed.Exponent));

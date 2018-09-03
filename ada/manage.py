@@ -10,6 +10,8 @@ import sys
 from env import setenv
 setenv()
 
+import copyright
+
 from langkit.diagnostics import check_source_language
 from langkit.libmanage import ManageScript
 from langkit.utils import Colors, printcol
@@ -140,6 +142,10 @@ class Manage(ManageScript):
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Sources',
                             use_clause=False)
+
+        ctx.post_process_ada = copyright.format_ada
+        ctx.post_process_cpp = copyright.format_c
+        ctx.post_process_python = copyright.format_python
 
         return ctx
 

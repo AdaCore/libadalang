@@ -20,7 +20,7 @@ with GNATCOLL.GMP.Integers;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Lexer; use Libadalang.Lexer;
+with Libadalang.Common; use Libadalang.Common;
 
 --  General helpers to deal with sources text decoding
 

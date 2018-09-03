@@ -2,14 +2,13 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
 
 with Langkit_Support.Text;  use Langkit_Support.Text;
+with Langkit_Support.Token_Data_Handlers;
+use Langkit_Support.Token_Data_Handlers;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
-with Libadalang.Lexer;
 
 procedure Main is
-
-   subtype Token_Index is Libadalang.Lexer.Token_Data_Handlers.Token_Index;
 
    procedure Process (Filename : String; With_Trivia : Boolean);
 
@@ -44,7 +43,7 @@ procedure Main is
             Put_Line
               ("  [" & (if Is_Trivia (TD) then "trivia" else "token ")
                & Token_Index'Image (Index (TD)) & "] "
-               & Libadalang.Lexer.Token_Kind_Name (Kind (TD))
+               & Token_Kind_Name (Kind (TD))
                & " " & Image (Text (Token), With_Quotes => True));
          end;
          Prev_Token := Token;

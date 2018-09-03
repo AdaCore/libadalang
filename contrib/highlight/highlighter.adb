@@ -6,10 +6,10 @@ package body Highlighter is
 
    use type LALCO.Token_Reference;
    use type LALCO.Ada_Node_Kind_Type;
-   use Libadalang.Lexer;
+   use Libadalang.Common;
 
    Basic_Highlights : constant
-     array (Libadalang.Lexer.Token_Kind) of Highlight_Type
+     array (LALCO.Token_Kind) of Highlight_Type
      := (Ada_Termination                  => Text,
          Ada_Lexing_Failure               => Text,
          Ada_Identifier                   => Identifier,

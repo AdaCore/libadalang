@@ -4,4 +4,5 @@ from utils import get_gnatcoll_project_file, run_nameres
 
 
 run_nameres(['--quiet', '--files-from-project',
-             '-P{}'.format(get_gnatcoll_project_file())])
+             '-P{}'.format(get_gnatcoll_project_file()),
+             '-XBUILD=DEBUG', '-XLIBRARY_TYPE=relocatable'])

@@ -52,7 +52,7 @@ def get_gnatcoll_project_file():
         with open(fn) as f:
             return f.read().strip()
     else:
-        return os.path.join(gnatcoll_dir, 'src', 'gnatcoll.gpr')
+        return os.path.join(gnatcoll_dir, 'gnatcoll.gpr')
 
 
 def gprbuild(project_file):

@@ -906,21 +906,32 @@ class BasicDecl(AdaNode):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
+        def pragma_pred(d):
+            """
+            Predicate to check that ``d`` is the pragma we're looking for.
+            """
+            return d.cast(T.Pragma).then(lambda p: And(
+                # Check pragma's name
+                p.id.name_is(name),
+                # Check that it's associated to self
+                Not(p.associated_decls.find(lambda d: d == Entity)
+                    .is_null),
+                # Check that the pragma is after the decl
+                (Self < p.node)
+            ))
+
+        # First look at library level pragmas if Self is a library item
         return Entity.library_item_pragmas.then(
             # Check pragma's name
             lambda plist: plist.find(lambda p: p.id.name_is(name)),
+        )._or(
+            # First look in the scope where Self is declared
+            Entity.declarative_scope._.decls.as_entity.find(pragma_pred)
 
-            default_val=Entity.declarative_scope.decls.as_entity.find(
-                lambda d: d.cast(T.Pragma).then(lambda p: And(
-                    # Check pragma's name
-                    p.id.name_is(name),
-                    # Check that it's associated to self
-                    Not(p.associated_decls.find(lambda d: d == Entity)
-                        .is_null),
-                    # Check that the pragma is after the decl
-                    (Self < p.node)
-                ))
-            ).cast(T.Pragma)
+            # Then, look inside decl, in the first declarative region of decl
+            ._or(Entity.declarative_region._.decls.find(pragma_pred))
+
+            .cast(T.Pragma)
         )
 
     @langkit_property(public=True)

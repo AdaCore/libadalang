@@ -5178,6 +5178,13 @@ class Name(Expr):
         """
         return Entity.referenced_decl.info.md.is_call
 
+    @langkit_property(public=True, return_type=T.BoolType)
+    def is_dot_call():
+        """
+        Returns True if this Name corresponds to a dot notation call.
+        """
+        return Entity.referenced_decl.info.md.dottable_subp
+
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def referenced_id(ref_decl=T.BasicDecl.entity):
         """

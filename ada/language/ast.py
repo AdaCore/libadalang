@@ -7785,6 +7785,8 @@ class SubpBody(BaseSubpBody):
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
 
+    declarative_region = Property(Entity.decls)
+
 
 class HandledStmts(AdaNode):
     annotations = Annotations(snaps=True)

@@ -1,0 +1,10 @@
+== testpr.ads ==
+<PragmaNode 4:1-4:30> -> [<PackageDecl ["Testpr"] 1:1-3:12>] ->> <PragmaNode 4:1-4:30>
+
+== testpr2.ads ==
+<PragmaNode 2:4-2:26> -> [<PackageDecl ["Testpr2"] 1:1-3:13>] ->> <PragmaNode 2:4-2:26>
+
+== testinline.adb ==
+<PragmaNode 3:7-3:27> -> [<SubpBody ["Foo"] 2:4-6:12>] ->> <PragmaNode 3:7-3:27>
+
+Done

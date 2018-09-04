@@ -855,6 +855,13 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    @langkit_property(return_type=T.DeclarativePart.entity)
+    def declarative_region():
+        """
+        Return the (first) declarative region of this BasicDecl, if applicable.
+        """
+        return No(T.DeclarativePart.entity)
+
     @langkit_property(return_type=T.AspectSpec.entity, public=True)
     def node_aspects():
         """
@@ -4135,6 +4142,8 @@ class BasePackageDecl(BasicDecl):
         Return the PackageBody corresponding to this node.
         """
         return Entity.body_part_for_decl.cast(T.PackageBody)
+
+    declarative_region = Property(Entity.public_part)
 
 
 class PackageDecl(BasePackageDecl):
@@ -8172,6 +8181,8 @@ class PackageBody(Body):
 
     defining_names = Property(Entity.package_name.singleton)
     defining_env = Property(Entity.children_env)
+
+    declarative_region = Property(Entity.decls)
 
     @langkit_property()
     def subunit_pkg_stub_env():

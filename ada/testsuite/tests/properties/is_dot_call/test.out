@@ -1,0 +1,6 @@
+== test.adb ==
+<DottedName 7:11-7:15> is not a dot call
+<DottedName 9:4-9:12> is a dot call
+<DottedName 10:4-10:9> is not a dot call
+
+Done

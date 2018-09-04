@@ -3861,19 +3861,45 @@ class Pragma(AdaNode):
             No(T.BaseId.entity),
         )
 
-    @langkit_property(public=True, memoized=True)
+    @langkit_property(public=True)
     def associated_decls():
         """
         Return an array of ``BasicDecl`` instances associated with this pragma,
         or an empty array if non applicable.
         """
-        return Entity.associated_entity_name.then(
-            lambda name:
-            Entity.parents.find(lambda p: p.is_a(T.DeclarativePart)).then(
+        top_level_decl = Var(Self.parent.parent.cast(T.CompilationUnit).then(
+            lambda cu: cu.body.cast_or_raise(T.LibraryItem)
+            .item.as_entity.singleton,
+            default_val=No(BasicDecl.entity.array)
+        ))
+
+        enclosing_program_unit = Var(Self.parents.find(
+            lambda p: p.is_a(T.BasicDecl)
+        ).cast(T.BasicDecl).as_entity)
+
+        # TODO: This should be using a ._or, but is waiting on a fix for
+        # R903-028.
+        return Entity.associated_entity_name.then(lambda name: Let(
+            lambda p=Entity.parents.find(
+                lambda p: p.is_a(T.DeclarativePart)
+            ).then(
                 lambda decl_scope: decl_scope.node_env.get(
                     name.name_symbol, recursive=False
-                ).filter(lambda ent: ent.node < Self)
+                ).filtermap(lambda ent: ent.cast(T.BasicDecl),
+                            lambda ent: ent.node < Self),
+                default_val=top_level_decl,
+            ): If(
+                Not(p.equals(No(T.BasicDecl.entity.array))),
+                p,
+                enclosing_program_unit.then(lambda epu: If(
+                    epu.defining_name.name_matches(name),
+                    epu.singleton,
+                    No(BasicDecl.entity.array)
+                ), default_val=top_level_decl)
             )
+        ),
+            # If no name, then program unit pragma necessarily
+            default_val=enclosing_program_unit.singleton
         )
 
 

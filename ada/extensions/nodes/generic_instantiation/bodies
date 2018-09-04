@@ -8,10 +8,10 @@ function P_Instantiation_Env
   (Node : access Bare_Generic_Instantiation_Type'Class) return Lexical_Env
 is
 begin
-   if Node.F_Inst_Env = Empty_Env then
-      Node.F_Inst_Env :=
+   if Node.Inst_Env = Empty_Env then
+      Node.Inst_Env :=
          AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
-      Register_Destroyable (Node.Unit, Node.F_Inst_Env.Env);
+      Register_Destroyable (Node.Unit, Node.Inst_Env.Env);
    end if;
-   return Node.F_Inst_Env;
+   return Node.Inst_Env;
 end P_Instantiation_Env;

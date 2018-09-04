@@ -8,10 +8,10 @@ function P_Get_Empty_Env
   (Node : access Bare_Compilation_Unit_Type'Class) return Lexical_Env
 is
 begin
-   if Node.F_No_Env = Empty_Env then
-      Node.F_No_Env :=
+   if Node.No_Env = Empty_Env then
+      Node.No_Env :=
          AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
-      Register_Destroyable (Node.Unit, Node.F_No_Env.Env);
+      Register_Destroyable (Node.Unit, Node.No_Env.Env);
    end if;
-   return Node.F_No_Env;
+   return Node.No_Env;
 end P_Get_Empty_Env;

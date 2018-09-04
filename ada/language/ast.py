@@ -3853,6 +3853,10 @@ class Pragma(AdaNode):
                 'Import', 'Export', 'Interface', 'Convention'
             ),
             Entity.args.at(1).assoc_expr.cast_or_raise(T.BaseId),
+            Entity.id.name_symbol.any_of(
+                'Pure', 'Preelaborate', 'Elaborate_Body'
+            ),
+            Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 
             No(T.BaseId.entity),
         )

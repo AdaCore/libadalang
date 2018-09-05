@@ -52,7 +52,14 @@ def format_ada(source):
 
 
 def format_python(source):
-    return concat(format_start('#'), source)
+    # If there is a shebang, add the copyright header after it
+    if source.startswith('#!'):
+        shebang, rest = source.split('\n', 1)
+        shebang += '\n\n'
+    else:
+        shebang = ''
+        rest = source
+    return shebang + concat(format_start('#'), rest)
 
 
 def format_c(source):

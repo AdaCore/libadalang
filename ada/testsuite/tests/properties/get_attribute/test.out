@@ -1,0 +1,10 @@
+== testpr.ads ==
+<PackageDecl ["Testpr"] 1:1-3:12> get_attribute('preelaborate') -> <PragmaNode 4:1-4:30>
+
+== testpr2.ads ==
+<PackageDecl ["Testpr2"] 1:1-3:13> get_attribute('preelaborate') -> <PragmaNode 2:4-2:24>
+
+== testpr3.ads ==
+<PackageDecl ["Testpr3"] 1:1-5:13> get_attribute('preelaborate') -> <AspectAssoc 2:9-2:21>
+
+Done

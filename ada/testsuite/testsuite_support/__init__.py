@@ -86,4 +86,5 @@ class Testsuite(BaseTestsuite):
 
     def write_comment_file(self, _):
         with open(os.path.join(self.output_dir, 'discr'), 'w') as f:
-            f.write(' '.join(discriminants.get_discriminants()))
+            f.write('Discriminants: {}'.format(
+                ' '.join(discriminants.get_discriminants())))

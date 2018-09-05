@@ -4186,6 +4186,8 @@ class BasePackageDecl(BasicDecl):
 
     declarative_region = Property(Entity.public_part)
 
+    node_aspects = Property(Entity.aspects)
+
 
 class PackageDecl(BasePackageDecl):
     """

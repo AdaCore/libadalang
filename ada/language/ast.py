@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     AnalysisUnitKind, AnalysisUnitType, Annotations, ASTNode, BoolType,
-    EnumNode, EquationType, Field, LexicalEnvType, LogicVarType, LongType,
+    EnumNode, EquationType, Field, LexicalEnvType, LogicVarType, IntegerType,
     Struct, SymbolType, T, UserField, abstract, env_metadata,
     has_abstract_list, synthetic
 )
@@ -1012,7 +1012,7 @@ class BasicDecl(AdaNode):
             lambda _: No(T.BaseTypeDecl.entity)
         )
 
-    @langkit_property(dynamic_vars=[origin], return_type=LongType)
+    @langkit_property(dynamic_vars=[origin], return_type=IntegerType)
     def array_ndims():
         return Entity.expr_type.array_ndims
 
@@ -1526,7 +1526,7 @@ class BaseFormalParamHolder(AdaNode):
         Self.as_bare_entity.unpacked_formal_params.filter(
             lambda p: p.spec.is_mandatory
         ).length,
-        type=LongType, public=True, doc="""
+        type=IntegerType, public=True, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.
         """
@@ -1534,7 +1534,7 @@ class BaseFormalParamHolder(AdaNode):
 
     nb_max_params = Property(
         Self.as_bare_entity.unpacked_formal_params.length, public=True,
-        type=LongType, doc="""
+        type=IntegerType, doc="""
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
         """
@@ -2172,7 +2172,7 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     ))
 
-    @langkit_property(dynamic_vars=[origin], return_type=LongType)
+    @langkit_property(dynamic_vars=[origin], return_type=IntegerType)
     def array_ndims():
         return Literal(0)
 
@@ -2308,7 +2308,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
-    def index_type(dim=LongType):
+    def index_type(dim=IntegerType):
         """
         Return the index type for dimension ``dim`` for this type, if
         applicable.
@@ -3118,13 +3118,13 @@ class ModIntTypeDef(TypeDef):
 @abstract
 class ArrayIndices(AdaNode):
     ndims = AbstractProperty(
-        type=LongType,
+        type=IntegerType,
         doc="""Number of dimensions described in this node."""
     )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[origin],
                       kind=AbstractKind.abstract)
-    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
         """
         Add a constraint on an expression passed as the index of an array
         access expression.
@@ -3143,7 +3143,7 @@ class ArrayIndices(AdaNode):
 
     @langkit_property(dynamic_vars=[origin], kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity)
-    def index_type(dim=LongType):
+    def index_type(dim=IntegerType):
         pass
 
 
@@ -3152,11 +3152,11 @@ class UnconstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=EquationType)
-    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
-    def index_type(dim=LongType):
+    def index_type(dim=IntegerType):
         return Entity.types.at(dim).designated_type
 
 
@@ -3166,7 +3166,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.list.length)
 
     @langkit_property(return_type=EquationType)
-    def constrain_index_expr(index_expr=T.Expr, dim=LongType):
+    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
@@ -3183,7 +3183,7 @@ class ConstrainedArrayIndices(ArrayIndices):
         )
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=LongType):
+    def index_type(dim=IntegerType):
         # We might need to solve self's equation to get the index type
         ignore(Var(Self.parents.find(
             lambda p: p.xref_entry_point).as_entity.resolve_names
@@ -3216,7 +3216,7 @@ class ArrayTypeDef(TypeDef):
         return (Entity.component_type.type_expr.designated_type)
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=LongType):
+    def index_type(dim=IntegerType):
         return Entity.indices.index_type(dim)
 
     array_ndims = Property(Self.indices.ndims)
@@ -5017,8 +5017,8 @@ class Aggregate(BaseAggregate):
             default_val=Self
         )
 
-    @langkit_property(return_type=T.LongType)
-    def sub_aggregate_rank(r=(LongType, 0)):
+    @langkit_property(return_type=T.IntegerType)
+    def sub_aggregate_rank(r=(IntegerType, 0)):
         return Self.direct_parent_aggregate.then(
             lambda p: p.sub_aggregate_rank(r + 1),
             default_val=r

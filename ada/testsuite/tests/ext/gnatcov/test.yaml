@@ -2,4 +2,4 @@ driver: python
 input_sources: []
 external_sources: [gnatcoverage, gnatcoll]
 expect_failure: [{'if': ['compiler_stable'],
-                  'then': 'Pending bump of stable-gnat (R515-001)'}]
+                  'then': 'Pending bump of stable-gnat (new pragma)'}]

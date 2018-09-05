@@ -901,6 +901,24 @@ class BasicDecl(AdaNode):
             No(T.Pragma.list.entity)
         )
 
+    @langkit_property(return_type=T.AdaNode.entity, public=True)
+    def get_attribute(name=SymbolType):
+        """
+        Return the attribute with name ``name`` associated to this entity.
+
+        Attribute is the term chosen to unify data that can be set by the user
+        on an Ada entity via three different mechanisms, sometimes
+        interchangeably: Pragmas, aspects and representation clauses.
+
+        This will return the syntactic node corresponding to attribute
+        directly.
+        """
+        # TODO: For the moment, only pragmas and aspects are handled
+        return (
+            Entity.get_pragma(name).cast(T.AdaNode)
+            ._or(Entity.get_aspect(name))
+        )
+
     @langkit_property(return_type=T.Pragma.entity, public=True)
     def get_pragma(name=SymbolType):
         """

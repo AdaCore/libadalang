@@ -388,7 +388,7 @@ class AdaNode(ASTNode):
 
         i = Var(If(
             solve_xref,
-            (Entity.xref_equation & additional_equation)._.solve,
+            (Entity.xref_equation & additional_equation).solve,
             True)
         )
 
@@ -5750,7 +5750,8 @@ class CallExpr(Name):
         rel_name = Var(Entity.name.name_symbol)
 
         def base_name_eq():
-            return Entity.name.base_name._.sub_equation._or(LogicFalse())
+            return Entity.name.base_name.then(lambda n: n.sub_equation,
+                                              default_val=LogicFalse())
 
         return Self.params._.unpacked_params.then(
             lambda params:
@@ -5787,7 +5788,8 @@ class CallExpr(Name):
                 & base_name_eq(),
 
                 LogicFalse()
-            )
+            ),
+            default_val=LogicFalse()
         )
 
     @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
@@ -5900,8 +5902,9 @@ class CallExpr(Name):
                     LogicTrue(),
                     Bind(pm.actual.name.ref_var, pm.formal.spec)
                 )
-            )
-        )._or(LogicFalse())
+            ),
+            default_val=LogicFalse()
+        )
 
     @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
     def check_for_type(typ=T.BaseTypeDecl.entity):
@@ -6040,32 +6043,30 @@ class ExplicitDeref(Name):
     def general_xref_equation(root=(T.Name, No(T.Name))):
         env_els = Var(Entity.env_elements)
 
-        return Entity.prefix.sub_equation & Or(
-            env_els.logic_any(
-                lambda el: el.cast(T.BasicDecl).expr_type.then(
-                    lambda typ:
+        return Entity.prefix.sub_equation & env_els.logic_any(
+            lambda el: el.cast(T.BasicDecl).expr_type.then(
+                lambda typ:
 
-                    # Bind Self's ref var to the entity, with the access_entity
-                    # field set to False, since self designated the non-access
-                    # entity.
-                    Bind(Self.ref_var, el.trigger_access_entity(False))
+                # Bind Self's ref var to the entity, with the access_entity
+                # field set to False, since self designated the non-access
+                # entity.
+                Bind(Self.ref_var, el.trigger_access_entity(False))
 
-                    & Bind(Self.ref_var, Self.prefix.ref_var)
-                    & Entity.eq_for_type(typ)
-                    & typ.access_def.cast(AccessToSubpDef).then(
-                        lambda _: Self.parent_name(root).as_entity.then(
-                            lambda pn: pn.parent_name_equation(typ, root),
-                            default_val=LogicTrue()
-                        ),
-                        default_val=Self.parent_name(root).as_entity.then(
-                            lambda pn: pn.parent_name_equation(
-                                typ.accessed_type, root
-                            ), default_val=LogicTrue()
-                        )
+                & Bind(Self.ref_var, Self.prefix.ref_var)
+                & Entity.eq_for_type(typ)
+                & typ.access_def.cast(AccessToSubpDef).then(
+                    lambda _: Self.parent_name(root).as_entity.then(
+                        lambda pn: pn.parent_name_equation(typ, root),
+                        default_val=LogicTrue()
+                    ),
+                    default_val=Self.parent_name(root).as_entity.then(
+                        lambda pn: pn.parent_name_equation(
+                            typ.accessed_type, root
+                        ), default_val=LogicTrue()
                     )
-                )
-            ),
-
+                ),
+                default_val=LogicFalse()
+            )
         )
 
 
@@ -6853,7 +6854,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
     return_type = Property(Entity.returns._.designated_type)
 
     xref_entry_point = Property(True)
-    xref_equation = Property(Entity.returns._.sub_equation._or(LogicTrue()))
+    xref_equation = Property(Entity.returns.then(lambda r: r.sub_equation,
+                                                 default_val=LogicTrue()))
 
 
 class SubpSpec(BaseSubpSpec):
@@ -7953,8 +7955,9 @@ class ReturnStmt(SimpleStmt):
                 rexpr.type_var,
                 Entity.subp.subp_spec.returns.designated_type,
                 eq_prop=BaseTypeDecl.matching_assign_type
-            )
-        )._or(LogicTrue())
+            ),
+            default_val=LogicTrue()
+        )
 
 
 class RequeueStmt(SimpleStmt):
@@ -8089,7 +8092,8 @@ class BaseLoopStmt(CompositeStmt):
 
     @langkit_property(return_type=EquationType)
     def xref_equation():
-        return Entity.spec._.xref_equation._or(LogicTrue())
+        return Entity.spec.then(lambda s: s.xref_equation,
+                                default_val=LogicTrue())
 
 
 class LoopStmt(BaseLoopStmt):

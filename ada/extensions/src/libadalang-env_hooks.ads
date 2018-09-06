@@ -28,14 +28,14 @@ private package Libadalang.Env_Hooks is
    function Fetch_Unit
      (Ctx            : Internal_Context;
       Name           : Bare_Name;
-      Kind           : Unit_Kind;
+      Kind           : Analysis_Unit_Kind;
       Load_If_Needed : Boolean) return Internal_Unit;
 
    function Fetch_Unit
      (Ctx            : Internal_Context;
       Name           : Symbol_Type_Array;
       From_Unit      : Internal_Unit;
-      Kind           : Unit_Kind;
+      Kind           : Analysis_Unit_Kind;
       Load_If_Needed : Boolean) return Internal_Unit;
    --  Fetch the unit for the file that (Name, Kind) designate. Populate its
    --  lexical environment and reference the result from Name's unit.

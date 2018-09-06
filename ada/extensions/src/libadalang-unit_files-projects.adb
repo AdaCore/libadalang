@@ -29,7 +29,7 @@ package body Libadalang.Unit_Files.Projects is
    overriding function Get_Unit_Filename
      (Provider : Project_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String
+      Kind     : Analysis_Unit_Kind) return String
    is
       Dummy : Scoped_Lock (GPR_Lock'Access);
 
@@ -62,7 +62,7 @@ package body Libadalang.Unit_Files.Projects is
      (Provider    : Project_Unit_Provider;
       Context     : LP.Analysis_Context'Class;
       Name        : Text_Type;
-      Kind        : Unit_Kind;
+      Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return LP.Analysis_Unit'Class
    is

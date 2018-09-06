@@ -39,13 +39,13 @@ package Libadalang.Unit_Files.Default is
    overriding function Get_Unit_Filename
      (Provider : Default_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String;
+      Kind     : Analysis_Unit_Kind) return String;
 
    overriding function Get_Unit
      (Provider : Default_Unit_Provider;
       Context  : LP.Analysis_Context'Class;
       Name     : Text_Type;
-      Kind     : Unit_Kind;
+      Kind     : Analysis_Unit_Kind;
       Charset  : String := "";
       Reparse  : Boolean := False) return LP.Analysis_Unit'Class;
 
@@ -72,7 +72,8 @@ package Libadalang.Unit_Files.Default is
    function Unit_String_Name (N : LP.Name) return String is
      (Unit_String_Name (Unit_Text_Name (N)));
 
-   function File_From_Unit (Name : String; Kind : Unit_Kind) return String;
+   function File_From_Unit
+     (Name : String; Kind : Analysis_Unit_Kind) return String;
    --  Convert an unit name and unit kind into the default filename
 
    function Spec_File_Name (Name : String) return String is

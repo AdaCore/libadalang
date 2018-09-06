@@ -219,7 +219,7 @@ package body Libadalang.Env_Hooks is
    function Fetch_Unit
      (Ctx            : Internal_Context;
       Name           : Bare_Name;
-      Kind           : Unit_Kind;
+      Kind           : Analysis_Unit_Kind;
       Load_If_Needed : Boolean) return Internal_Unit is
    begin
       return Fetch_Unit
@@ -232,7 +232,7 @@ package body Libadalang.Env_Hooks is
      (Ctx            : Internal_Context;
       Name           : Symbol_Type_Array;
       From_Unit      : Internal_Unit;
-      Kind           : Unit_Kind;
+      Kind           : Analysis_Unit_Kind;
       Load_If_Needed : Boolean) return Internal_Unit
    is
       procedure Prepare_Nameres (Unit : Internal_Unit);
@@ -296,7 +296,7 @@ package body Libadalang.Env_Hooks is
          declare
             Current_Name : Symbol_Type_Array := Name (Name'First .. I);
 
-            I_Kind : constant Unit_Kind :=
+            I_Kind : constant Analysis_Unit_Kind :=
               (if I = Name'Last then Kind else Unit_Specification);
             --  When looking for unit A.B, A is a specification even if we mean
             --  to fetch B's body.

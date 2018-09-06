@@ -37,7 +37,7 @@ package body Libadalang.Unit_Files.Default is
    overriding function Get_Unit_Filename
      (Provider : Default_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String
+      Kind     : Analysis_Unit_Kind) return String
    is
       pragma Unreferenced (Provider);
    begin
@@ -52,7 +52,7 @@ package body Libadalang.Unit_Files.Default is
      (Provider : Default_Unit_Provider;
       Context  : LP.Analysis_Context'Class;
       Name     : Text_Type;
-      Kind     : Unit_Kind;
+      Kind     : Analysis_Unit_Kind;
       Charset  : String := "";
       Reparse  : Boolean := False) return LP.Analysis_Unit'Class
    is
@@ -140,7 +140,9 @@ package body Libadalang.Unit_Files.Default is
    -- File_From_Unit --
    --------------------
 
-   function File_From_Unit (Name : String; Kind : Unit_Kind) return String is
+   function File_From_Unit
+     (Name : String; Kind : Analysis_Unit_Kind) return String
+   is
       Dummy : Scoped_Lock (GPR_Lock'Access);
    begin
       return +GNATCOLL.Projects.File_From_Unit

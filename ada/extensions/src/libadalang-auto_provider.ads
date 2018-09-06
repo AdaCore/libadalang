@@ -56,13 +56,13 @@ package Libadalang.Auto_Provider is
    overriding function Get_Unit_Filename
      (Provider : Auto_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String;
+      Kind     : Analysis_Unit_Kind) return String;
 
    overriding function Get_Unit
      (Provider    : Auto_Unit_Provider;
       Context     : Analysis_Context'Class;
       Name        : Text_Type;
-      Kind        : Unit_Kind;
+      Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class;
 
@@ -103,7 +103,7 @@ private
 
    function As_Key
      (Name     : Text_Type;
-      Kind     : Unit_Kind;
+      Kind     : Analysis_Unit_Kind;
       Provider : Auto_Unit_Provider) return Symbol_Type;
    --  Given a compilation unit name and a kind (body? spec?), return a
    --  (unique) key for the unit to file mapping.

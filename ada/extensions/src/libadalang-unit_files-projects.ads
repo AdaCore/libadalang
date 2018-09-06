@@ -48,17 +48,19 @@ package Libadalang.Unit_Files.Projects is
    overriding function Get_Unit_Filename
      (Provider : Project_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String;
+      Kind     : Analysis_Unit_Kind) return String;
 
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider;
       Context     : LP.Analysis_Context'Class;
       Name        : Text_Type;
-      Kind        : Unit_Kind;
+      Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return LP.Analysis_Unit'Class;
 
-   function Convert (Kind : Unit_Kind) return GNATCOLL.Projects.Unit_Parts is
+   function Convert
+     (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts
+   is
      (case Kind is
       when Unit_Specification => GNATCOLL.Projects.Unit_Spec,
       when Unit_Body          => GNATCOLL.Projects.Unit_Body);

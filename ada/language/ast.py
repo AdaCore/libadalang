@@ -3,18 +3,17 @@ from __future__ import absolute_import, division, print_function
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool, EnumNode,
-    Equation, Field, LexicalEnv, LogicVar, Integer, Struct, Symbol, T,
-    UserField, abstract, env_metadata, has_abstract_list, synthetic
+    Equation, Field, LexicalEnv, LogicVar, Int, Struct, Symbol, T, UserField,
+    abstract, env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, add_to_env, add_env, call_env_hook, handle_children, do,
     reference, set_initial_env, RefKind
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, ArrayLiteral as Array,
-    BigIntegerLiteral, Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let,
-    Literal, No, Not, Or, Property, PropertyError, Self, Var, ignore,
-    langkit_property
+    AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
+    Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
+    Or, Property, PropertyError, Self, Var, ignore, langkit_property
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -1013,7 +1012,7 @@ class BasicDecl(AdaNode):
             lambda _: No(T.BaseTypeDecl.entity)
         )
 
-    @langkit_property(dynamic_vars=[origin], return_type=Integer)
+    @langkit_property(dynamic_vars=[origin], return_type=Int)
     def array_ndims():
         return Entity.expr_type.array_ndims
 
@@ -1527,7 +1526,7 @@ class BaseFormalParamHolder(AdaNode):
         Self.as_bare_entity.unpacked_formal_params.filter(
             lambda p: p.spec.is_mandatory
         ).length,
-        type=Integer, public=True, doc="""
+        type=Int, public=True, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.
         """
@@ -1535,7 +1534,7 @@ class BaseFormalParamHolder(AdaNode):
 
     nb_max_params = Property(
         Self.as_bare_entity.unpacked_formal_params.length, public=True,
-        type=Integer, doc="""
+        type=Int, doc="""
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
         """
@@ -1726,7 +1725,7 @@ class Variant(AdaNode):
     components = Field(type=T.ComponentList)
 
     @langkit_property(return_type=Bool)
-    def choice_match(choice=T.AdaNode.entity, val=T.BigInteger):
+    def choice_match(choice=T.AdaNode.entity, val=T.BigInt):
         """
         Checks whether val matches choice.
         """
@@ -2029,10 +2028,10 @@ class RealTypeDef(TypeDef):
 class DiscreteRange(Struct):
     """
     Represents the range of a discrete type or subtype. The bounds are already
-    evaluated, so the type of the fields is BigInteger.
+    evaluated, so the type of the fields is BigInt.
     """
-    low_bound = UserField(type=T.BigInteger)
-    high_bound = UserField(type=T.BigInteger)
+    low_bound = UserField(type=T.BigInt)
+    high_bound = UserField(type=T.BigInt)
 
 
 @abstract
@@ -2173,7 +2172,7 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     ))
 
-    @langkit_property(dynamic_vars=[origin], return_type=Integer)
+    @langkit_property(dynamic_vars=[origin], return_type=Int)
     def array_ndims():
         return Literal(0)
 
@@ -2309,7 +2308,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
-    def index_type(dim=Integer):
+    def index_type(dim=Int):
         """
         Return the index type for dimension ``dim`` for this type, if
         applicable.
@@ -3112,20 +3111,20 @@ class ModIntTypeDef(TypeDef):
 
     @langkit_property()
     def discrete_range():
-        return DiscreteRange.new(low_bound=BigIntegerLiteral(0),
+        return DiscreteRange.new(low_bound=BigIntLiteral(0),
                                  high_bound=Self.expr.eval_as_int)
 
 
 @abstract
 class ArrayIndices(AdaNode):
     ndims = AbstractProperty(
-        type=Integer,
+        type=Int,
         doc="""Number of dimensions described in this node."""
     )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin],
                       kind=AbstractKind.abstract)
-    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
+    def constrain_index_expr(index_expr=T.Expr, dim=Int):
         """
         Add a constraint on an expression passed as the index of an array
         access expression.
@@ -3144,7 +3143,7 @@ class ArrayIndices(AdaNode):
 
     @langkit_property(dynamic_vars=[origin], kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity)
-    def index_type(dim=Integer):
+    def index_type(dim=Int):
         pass
 
 
@@ -3153,11 +3152,11 @@ class UnconstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=Equation)
-    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
+    def constrain_index_expr(index_expr=T.Expr, dim=Int):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
-    def index_type(dim=Integer):
+    def index_type(dim=Int):
         return Entity.types.at(dim).designated_type
 
 
@@ -3167,7 +3166,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.list.length)
 
     @langkit_property(return_type=Equation)
-    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
+    def constrain_index_expr(index_expr=T.Expr, dim=Int):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
@@ -3184,7 +3183,7 @@ class ConstrainedArrayIndices(ArrayIndices):
         )
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=Integer):
+    def index_type(dim=Int):
         # We might need to solve self's equation to get the index type
         ignore(Var(Self.parents.find(
             lambda p: p.xref_entry_point).as_entity.resolve_names
@@ -3217,7 +3216,7 @@ class ArrayTypeDef(TypeDef):
         return (Entity.component_type.type_expr.designated_type)
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=Integer):
+    def index_type(dim=Int):
         return Entity.indices.index_type(dim)
 
     array_ndims = Property(Self.indices.ndims)
@@ -4701,7 +4700,7 @@ class Expr(AdaNode):
     )
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
-                      return_type=T.BigInteger, public=True)
+                      return_type=T.BigInt, public=True)
     def eval_as_int():
         """
         Statically evaluates self, and returns the value of the evaluation as
@@ -5018,8 +5017,8 @@ class Aggregate(BaseAggregate):
             default_val=Self
         )
 
-    @langkit_property(return_type=T.Integer)
-    def sub_aggregate_rank(r=(Integer, 0)):
+    @langkit_property(return_type=T.Int)
+    def sub_aggregate_rank(r=(Int, 0)):
         return Self.direct_parent_aggregate.then(
             lambda p: p.sub_aggregate_rank(r + 1),
             default_val=r
@@ -6678,7 +6677,7 @@ class IntLiteral(NumLiteral):
     def xref_equation():
         return universal_int_bind(Self.type_var)
 
-    @langkit_property(return_type=T.BigInteger, external=True, public=True,
+    @langkit_property(return_type=T.BigInt, external=True, public=True,
                       uses_entity_info=False, uses_envs=False)
     def denoted_value():
         """

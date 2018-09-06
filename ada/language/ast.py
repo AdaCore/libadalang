@@ -2,24 +2,24 @@ from __future__ import absolute_import, division, print_function
 
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
-    AnalysisUnitKind, AnalysisUnitType, Annotations, ASTNode, BoolType,
-    EnumNode, EquationType, Field, LexicalEnvType, LogicVarType, IntegerType,
-    Struct, SymbolType, T, UserField, abstract, env_metadata,
-    has_abstract_list, synthetic
+    AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool, EnumNode,
+    Equation, Field, LexicalEnv, LogicVar, Integer, Struct, Symbol, T,
+    UserField, abstract, env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, add_to_env, add_env, call_env_hook, handle_children, do,
     reference, set_initial_env, RefKind
 )
 from langkit.expressions import (
-    AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigInteger,
-    Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, Self, Var, ignore, langkit_property
+    AbstractKind, AbstractProperty, And, ArrayLiteral as Array,
+    BigIntegerLiteral, Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let,
+    Literal, No, Not, Or, Property, PropertyError, Self, Var, ignore,
+    langkit_property
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 
-env = DynamicVariable('env', LexicalEnvType)
+env = DynamicVariable('env', LexicalEnv)
 origin = DynamicVariable('origin', T.AdaNode)
 
 UnitSpecification = AnalysisUnitKind.unit_specification
@@ -149,15 +149,15 @@ def new_metadata(**kwargs):
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
-        BoolType, doc="Whether the stored element is a subprogram accessed "
-                      "through the dot notation"
+        Bool, doc="Whether the stored element is a subprogram accessed through"
+                  " the dot notation"
     )
     access_entity = UserField(
-        BoolType,
+        Bool,
         doc="Whether the accessed entity is an anonymous access to it or not."
     )
     is_call = UserField(
-        BoolType,
+        Bool,
         doc="Whether the entity represents a call in the original context"
     )
     primitive = UserField(
@@ -196,8 +196,8 @@ class AdaNode(ASTNode):
         .cast(T.CompilationUnit).get_empty_env,
     )
 
-    @langkit_property(return_type=BoolType)
-    def is_children_env(parent=LexicalEnvType, current_env=LexicalEnvType):
+    @langkit_property(return_type=Bool)
+    def is_children_env(parent=LexicalEnv, current_env=LexicalEnv):
         """
         Static property. Will return True if current_env is a children of
         parent.
@@ -209,7 +209,7 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=T.AdaNode.entity)
-    def trigger_access_entity(val=T.BoolType):
+    def trigger_access_entity(val=T.Bool):
         """
         Return Self as an entity, but with the ``access_entity`` field set to
         val. Helper for the 'Unrestricted_Access machinery.
@@ -252,7 +252,7 @@ class AdaNode(ASTNode):
         return No(T.DefiningName.entity)
 
     @langkit_property(public=True)
-    def referenced_decl_internal(try_immediate=BoolType):
+    def referenced_decl_internal(try_immediate=Bool):
         """
         Return the declaration this node references. Try not to run name res if
         already resolved. INTERNAL USE ONLY.
@@ -271,9 +271,9 @@ class AdaNode(ASTNode):
         return Self.generic_instantiations_internal(Entity.info.rebindings)
 
     @langkit_property(return_type=T.GenericInstantiation.entity.array)
-    def generic_instantiations_internal(r=T.EnvRebindingsType):
+    def generic_instantiations_internal(r=T.EnvRebindings):
         return If(
-            r == No(T.EnvRebindingsType),
+            r == No(T.EnvRebindings),
             No(T.GenericInstantiation.entity.array),
 
             Let(lambda
@@ -290,8 +290,8 @@ class AdaNode(ASTNode):
     # of the first evaluation of this property. When we change that, we'll
     # probably change the solving API anyway.
     @langkit_property(call_memoizable=True)
-    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVarType,
-                  try_immediate=(BoolType, False)):
+    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVar,
+                  try_immediate=(Bool, False)):
         success = Var(If(
             try_immediate & Not(lvar.get_value.is_null),
             True,
@@ -301,7 +301,7 @@ class AdaNode(ASTNode):
         return If(success, lvar.get_value, No(T.AdaNode.entity))
 
     @langkit_property(return_type=T.AdaNode.entity)
-    def semantic_parent_helper(env=LexicalEnvType):
+    def semantic_parent_helper(env=LexicalEnv):
         return env.then(lambda env: env.env_node.as_entity._or(
             Entity.semantic_parent_helper(env.env_parent)
         ))
@@ -315,13 +315,13 @@ class AdaNode(ASTNode):
         return Entity.semantic_parent_helper(Entity.node_env)
 
     @langkit_property(
-        return_type=AnalysisUnitType, external=True, uses_entity_info=False,
+        return_type=AnalysisUnit, external=True, uses_entity_info=False,
         uses_envs=False,
         call_non_memoizable_because='Getting an analysis unit cannot appear'
                                     ' in a memoized context'
     )
-    def get_unit(name=SymbolType.array, kind=AnalysisUnitKind,
-                 load_if_needed=BoolType):
+    def get_unit(name=Symbol.array, kind=AnalysisUnitKind,
+                 load_if_needed=Bool):
         """
         Return the analysis unit for the given "kind" corresponding to this
         Name. Return null if this is an illegal unit name, or if
@@ -331,7 +331,7 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
                       ignore_warn_on_node=True, call_memoizable=True)
-    def get_compilation_unit(name=SymbolType.array, kind=AnalysisUnitKind):
+    def get_compilation_unit(name=Symbol.array, kind=AnalysisUnitKind):
         """
         If the corresponding analysis unit is loaded, return the compilation
         unit node for the given analysis unit "kind" and correpsonding to the
@@ -351,7 +351,7 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=EquationType, dynamic_vars=[env, origin])
+                      return_type=Equation, dynamic_vars=[env, origin])
     def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
@@ -366,7 +366,7 @@ class AdaNode(ASTNode):
     xref_stop_resolution = Property(False)
     stop_resolution_equation = Property(LogicTrue())
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def sub_equation():
         """
         Wrapper for xref_equation, meant to be used inside of xref_equation
@@ -379,9 +379,8 @@ class AdaNode(ASTNode):
                   Entity.stop_resolution_equation,
                   Entity.xref_equation)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
-    def resolve_names_internal(initial=BoolType,
-                               additional_equation=EquationType):
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
+    def resolve_names_internal(initial=Bool, additional_equation=Equation):
         """
         Internal helper for resolve_names, implementing the recursive logic.
         """
@@ -417,7 +416,7 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=BoolType, public=True,
+    @langkit_property(return_type=Bool, public=True,
                       memoized=True, call_memoizable=True)
     def resolve_names():
         """
@@ -457,8 +456,8 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=LexicalEnvType)
-    def parent_unit_env_helper(unit=AnalysisUnitType, env=LexicalEnvType):
+    @langkit_property(return_type=LexicalEnv)
+    def parent_unit_env_helper(unit=AnalysisUnit, env=LexicalEnv):
         return env.env_parent.then(lambda parent_env: parent_env.env_node.then(
             lambda parent_node: If(
                 parent_node.unit == unit,
@@ -468,7 +467,7 @@ class AdaNode(ASTNode):
         ))
 
     @langkit_property()
-    def parent_unit_env(env=LexicalEnvType):
+    def parent_unit_env(env=LexicalEnv):
         """
         Given env's AnalysisUnit, return the first env that has a different
         analysis unit in the env parent chain.
@@ -477,7 +476,7 @@ class AdaNode(ASTNode):
             lambda env: Self.parent_unit_env_helper(env.env_node.unit, env)
         )
 
-    @langkit_property(return_type=T.AnalysisUnitType, public=True,
+    @langkit_property(return_type=T.AnalysisUnit, public=True,
                       external=True, uses_entity_info=False, uses_envs=False)
     def standard_unit():
         """
@@ -501,14 +500,14 @@ class AdaNode(ASTNode):
     )
 
     std_entity = Property(
-        lambda sym=SymbolType: Self.unit.root.std_entity_implem(sym),
+        lambda sym=Symbol: Self.unit.root.std_entity_implem(sym),
         public=True,
         doc="Static property. Return an entity from the standard package"
             " with name `sym`."
     )
 
     std_entity_implem = Property(
-        lambda sym=SymbolType: Self.std_env.get_first(sym), memoized=True
+        lambda sym=Symbol: Self.std_env.get_first(sym), memoized=True
     )
 
     bool_type = Property(
@@ -551,8 +550,8 @@ class AdaNode(ASTNode):
         """
     )
 
-    @langkit_property(return_type=BoolType)
-    def has_with_visibility(refd_unit=AnalysisUnitType):
+    @langkit_property(return_type=Bool)
+    def has_with_visibility(refd_unit=AnalysisUnit):
         """
         Return whether Self's unit has "with visibility" on "refd_unit".
 
@@ -688,7 +687,7 @@ class AdaNode(ASTNode):
                                 default_val=Self.children_env)
 
     @langkit_property(ignore_warn_on_node=True, public=True)
-    def top_level_decl(unit=AnalysisUnitType):
+    def top_level_decl(unit=AnalysisUnit):
         """
         Static method. Get the top-level decl in "unit".
         This is the body of a Subunit, or the item of a LibraryItem.
@@ -720,7 +719,7 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
     def match_formals(formal_params=T.BaseFormalParamDecl.entity.array,
                       params=T.AssocList,
-                      is_dottable_subp=BoolType):
+                      is_dottable_subp=Bool):
         """
         For each ParamAssoc in a AssocList, return whether we could find a
         matching formal in Self, and whether this formal is optional (i.e. has
@@ -872,7 +871,7 @@ class BasicDecl(AdaNode):
         return No(T.AspectSpec.entity)
 
     @langkit_property(return_type=T.AspectAssoc.entity, public=True)
-    def get_aspect(name=SymbolType):
+    def get_aspect(name=Symbol):
         """
         Return the aspect with name ``name`` for this entity.
         """
@@ -881,7 +880,7 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=T.Expr.entity, public=True)
-    def get_aspect_expr(name=SymbolType):
+    def get_aspect_expr(name=Symbol):
         """
         Return the expression associated to the aspect with name ``name`` for
         this entity.
@@ -904,7 +903,7 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=T.AdaNode.entity, public=True)
-    def get_attribute(name=SymbolType):
+    def get_attribute(name=Symbol):
         """
         Return the attribute with name ``name`` associated to this entity.
 
@@ -922,7 +921,7 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=T.Pragma.entity, public=True)
-    def get_pragma(name=SymbolType):
+    def get_pragma(name=Symbol):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
@@ -969,7 +968,7 @@ class BasicDecl(AdaNode):
 
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def subp_decl_match_signature(other=T.BasicDecl.entity):
         return (
             Entity.subp_spec_or_null
@@ -1014,7 +1013,7 @@ class BasicDecl(AdaNode):
             lambda _: No(T.BaseTypeDecl.entity)
         )
 
-    @langkit_property(dynamic_vars=[origin], return_type=IntegerType)
+    @langkit_property(dynamic_vars=[origin], return_type=Integer)
     def array_ndims():
         return Entity.expr_type.array_ndims
 
@@ -1078,7 +1077,7 @@ class BasicDecl(AdaNode):
     )
 
     @langkit_property(return_type=T.BaseFormalParamHolder.entity, public=True)
-    def subp_spec_or_null(follow_generic=(BoolType, False)):
+    def subp_spec_or_null(follow_generic=(Bool, False)):
         """
         If Self is a Subp, returns the specification of this subprogram.
 
@@ -1095,7 +1094,7 @@ class BasicDecl(AdaNode):
             lambda _:                   No(SubpSpec.entity),
         )
 
-    @langkit_property(return_type=BoolType, public=True)
+    @langkit_property(return_type=Bool, public=True)
     def is_subprogram():
         """
         Return True if self is a subprogram node in the general sense (which
@@ -1103,9 +1102,9 @@ class BasicDecl(AdaNode):
         """
         return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def is_stream_subprogram_for_type(typ=T.BaseTypeDecl.entity,
-                                      return_obj=BoolType):
+                                      return_obj=Bool):
         root_stream_type = Var(
             Entity
             .get_compilation_unit(['Ada', 'Streams'], UnitSpecification)
@@ -1125,7 +1124,7 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def can_be_paramless():
         """
         Return true if entity can be a paramless subprogram entity, when used
@@ -1136,7 +1135,7 @@ class BasicDecl(AdaNode):
             default_val=True
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def is_paramless():
         """
         Return true if entity is a paramless subprogram entity, when used
@@ -1147,7 +1146,7 @@ class BasicDecl(AdaNode):
             default_val=True
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
     def constrain_prefix(prefix=T.Expr):
         """
         This method is used when self is a candidate suffix in a dotted
@@ -1221,7 +1220,7 @@ class BasicDecl(AdaNode):
         ))
 
     @langkit_property(dynamic_vars=[env])
-    def decl_scope(follow_private=(BoolType, True)):
+    def decl_scope(follow_private=(Bool, True)):
         scope = Var(Entity.defining_name.parent_scope)
 
         # If this the corresponding decl is a generic, go grab the internal
@@ -1263,7 +1262,7 @@ class BasicDecl(AdaNode):
         return If(
             Self.is_unit_root,
             Self.as_bare_entity.defining_name.as_symbol_array,
-            PropertyError(SymbolType.array)
+            PropertyError(Symbol.array)
         )
 
 
@@ -1387,7 +1386,7 @@ class Body(BasicDecl):
         ))
 
     @langkit_property(dynamic_vars=[env])
-    def body_scope(follow_private=BoolType, force_decl=(BoolType, False)):
+    def body_scope(follow_private=Bool, force_decl=(Bool, False)):
         """
         Return the scope for this body.
         If follow_private, then returns the private part if possible.
@@ -1519,7 +1518,7 @@ class BaseFormalParamHolder(AdaNode):
 
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
     def match_param_list(params=T.AssocList,
-                         is_dottable_subp=BoolType):
+                         is_dottable_subp=Bool):
         return Self.match_formals(
             Entity.abstract_formal_params, params, is_dottable_subp
         )
@@ -1528,7 +1527,7 @@ class BaseFormalParamHolder(AdaNode):
         Self.as_bare_entity.unpacked_formal_params.filter(
             lambda p: p.spec.is_mandatory
         ).length,
-        type=IntegerType, public=True, doc="""
+        type=Integer, public=True, doc="""
         Return the minimum number of parameters this subprogram can be called
         while still being a legal call.
         """
@@ -1536,14 +1535,14 @@ class BaseFormalParamHolder(AdaNode):
 
     nb_max_params = Property(
         Self.as_bare_entity.unpacked_formal_params.length, public=True,
-        type=IntegerType, doc="""
+        type=Integer, doc="""
         Return the maximum number of parameters this subprogram can be called
         while still being a legal call.
         """
     )
 
-    @langkit_property(return_type=BoolType)
-    def paramless(md=Metadata, can_be=(BoolType, True)):
+    @langkit_property(return_type=Bool)
+    def paramless(md=Metadata, can_be=(Bool, True)):
         """
         Utility function. Given a subprogram spec and its associated metadata,
         determine if it can be called without parameters (and hence without a
@@ -1555,9 +1554,9 @@ class BaseFormalParamHolder(AdaNode):
             nb_params == 0
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def match_formal_params(other=T.BaseFormalParamHolder.entity,
-                            match_names=(BoolType, True)):
+                            match_names=(Bool, True)):
         # Check that there is the same number of formals and that each
         # formal matches.
 
@@ -1575,8 +1574,8 @@ class BaseFormalParamHolder(AdaNode):
             ))
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[env])
-    def is_matching_param_list(params=T.AssocList, is_dottable_subp=BoolType):
+    @langkit_property(return_type=Bool, dynamic_vars=[env])
+    def is_matching_param_list(params=T.AssocList, is_dottable_subp=Bool):
         """
         Return whether a AssocList is a match for this SubpSpec, i.e.
         whether the argument count (and designators, if any) match.
@@ -1726,8 +1725,8 @@ class Variant(AdaNode):
     choices = Field(type=T.AlternativesList)
     components = Field(type=T.ComponentList)
 
-    @langkit_property(return_type=BoolType)
-    def choice_match(choice=T.AdaNode.entity, val=T.BigIntegerType):
+    @langkit_property(return_type=Bool)
+    def choice_match(choice=T.AdaNode.entity, val=T.BigInteger):
         """
         Checks whether val matches choice.
         """
@@ -1767,7 +1766,7 @@ class Variant(AdaNode):
             lambda _: False,
         )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def matches(expr=T.Expr):
         """
         Check if any choice in the choice list matches expr's value.
@@ -1848,7 +1847,7 @@ class ComponentDecl(BaseFormalParamDecl):
 
     type_expression = Property(Self.component_def.type_expr.as_entity)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def constrain_prefix(prefix=T.Expr):
         # Simple type equivalence
         return Bind(prefix.type_var,
@@ -1895,8 +1894,8 @@ class ComponentList(BaseFormalParamHolder):
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
     def abstract_formal_params_impl(
         discriminants=T.ParamMatch.array,
-        include_discriminants=(BoolType, True),
-        recurse=(BoolType, True)
+        include_discriminants=(Bool, True),
+        recurse=(Bool, True)
     ):
 
         # Get self's components. We pass along discriminants, to get variant
@@ -2013,7 +2012,7 @@ class RecordTypeDef(TypeDef):
         Array([
             Entity.children_env, Entity.previous_part_env
         ]).env_group(),
-        type=LexicalEnvType
+        type=LexicalEnv
     )
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
@@ -2030,10 +2029,10 @@ class RealTypeDef(TypeDef):
 class DiscreteRange(Struct):
     """
     Represents the range of a discrete type or subtype. The bounds are already
-    evaluated, so the type of the fields is BigIntegerType.
+    evaluated, so the type of the fields is BigInteger.
     """
-    low_bound = UserField(type=T.BigIntegerType)
-    high_bound = UserField(type=T.BigIntegerType)
+    low_bound = UserField(type=T.BigInteger)
+    high_bound = UserField(type=T.BigInteger)
 
 
 @abstract
@@ -2054,7 +2053,7 @@ class BaseTypeDecl(BasicDecl):
                 type_decl=Self
             ),
             aspects=No(T.AspectSpec),
-            prims_env=No(T.LexicalEnvType)
+            prims_env=No(T.LexicalEnv)
         ).cast(T.BaseTypeDecl).as_entity
 
     @langkit_property(
@@ -2086,7 +2085,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)
-    def modeled_type(from_unit=AnalysisUnitType):
+    def modeled_type(from_unit=AnalysisUnit):
         """
         Return model type for this type if applicable.
         """
@@ -2096,7 +2095,7 @@ class BaseTypeDecl(BasicDecl):
 
         return types_with_models.find(lambda t: t.model_of_type == Entity)
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
         """
         Predicate that will return true if comp_view is a more complete view of
@@ -2109,7 +2108,7 @@ class BaseTypeDecl(BasicDecl):
             typ.is_view_of_type(comp_view.previous_part(True))
         )
 
-    @langkit_property(dynamic_vars=[origin], return_type=BoolType)
+    @langkit_property(dynamic_vars=[origin], return_type=Bool)
     def is_array_or_rec():
         return Entity.is_array | Entity.is_record_type
 
@@ -2174,7 +2173,7 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     ))
 
-    @langkit_property(dynamic_vars=[origin], return_type=IntegerType)
+    @langkit_property(dynamic_vars=[origin], return_type=Integer)
     def array_ndims():
         return Literal(0)
 
@@ -2217,7 +2216,7 @@ class BaseTypeDecl(BasicDecl):
         return No(T.BaseTypeDecl.entity)
 
     @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
-    def final_accessed_type(first_call=(BoolType, True)):
+    def final_accessed_type(first_call=(Bool, True)):
         """
         Call accessed_type recursively until we get the most nested accessed
         type. For example, for the following code::
@@ -2285,7 +2284,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[default_origin()],
                       return_type=T.BaseTypeDecl.entity, public=True)
-    def comp_type(is_subscript=(BoolType, False)):
+    def comp_type(is_subscript=(Bool, False)):
         """
         Return the component type of `Self`, if applicable. The component type
         is the type you'll get if you call a value whose type is `Self`.  So it
@@ -2310,7 +2309,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
-    def index_type(dim=IntegerType):
+    def index_type(dim=Integer):
         """
         Return the index type for dimension ``dim`` for this type, if
         applicable.
@@ -2321,7 +2320,7 @@ class BaseTypeDecl(BasicDecl):
     # so its type is itself.
     expr_type = Property(Entity)
 
-    @langkit_property(return_type=BoolType,
+    @langkit_property(return_type=Bool,
                       dynamic_vars=[default_origin()], public=True)
     def is_derived_type(other_type=T.BaseTypeDecl.entity):
         """
@@ -2348,7 +2347,7 @@ class BaseTypeDecl(BasicDecl):
     def iterable_comp_type():
         return No(T.BaseTypeDecl.entity)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_prefix_type(container_type=T.BaseTypeDecl.entity):
         """
         Given a dotted expression A.B, where container_type is the container
@@ -2364,7 +2363,7 @@ class BaseTypeDecl(BasicDecl):
             Entity.final_accessed_type._.matching_formal_prim_type(cont_type),
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_access_type(expected_type=T.BaseTypeDecl.entity):
         """
         Whether self is a matching access type for expected_type.
@@ -2380,21 +2379,21 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_prim_type(formal_type=T.BaseTypeDecl.entity):
         return Entity.matching_formal_type_impl(formal_type, True)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_type_inverted(formal_type=T.BaseTypeDecl.entity):
         return formal_type.matching_formal_type_impl(Entity)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_type(formal_type=T.BaseTypeDecl.entity):
         return Entity.matching_formal_type_impl(formal_type)
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_type_impl(formal_type=T.BaseTypeDecl.entity,
-                                  accept_derived=(BoolType, False)):
+                                  accept_derived=(Bool, False)):
         actual_type = Var(Entity)
         return Or(
             And(formal_type.is_classwide | accept_derived,
@@ -2420,7 +2419,7 @@ class BaseTypeDecl(BasicDecl):
             actual_type.matching_type(formal_type)
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_assign_type(expected_type=T.BaseTypeDecl.entity):
         actual_type = Var(Entity)
         return Or(
@@ -2438,7 +2437,7 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(return_type=BoolType,
+    @langkit_property(return_type=Bool,
                       dynamic_vars=[default_origin()], public=True)
     def matching_type(expected_type=T.BaseTypeDecl.entity):
         """
@@ -2464,7 +2463,7 @@ class BaseTypeDecl(BasicDecl):
                    actual_type.matching_access_type(expected_type)))
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_allocator_type(allocated_type=T.BaseTypeDecl.entity):
         return And(
             Entity.is_access_type,
@@ -2488,7 +2487,7 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(public=True,
                       return_type=T.BaseTypeDecl.entity,
                       memoized=True)
-    def previous_part(go_to_incomplete=(BoolType, True)):
+    def previous_part(go_to_incomplete=(Bool, True)):
         """
         Returns the previous part for this type decl.
         """
@@ -2585,7 +2584,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
-    def previous_part(go_to_incomplete=(BoolType, True)):
+    def previous_part(go_to_incomplete=(Bool, True)):
         return Entity.typedecl.previous_part(go_to_incomplete).then(
             lambda pp: pp.classwide_type
         )
@@ -2597,7 +2596,7 @@ class TypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
     aspects = Field(type=T.AspectSpec)
-    prims_env = UserField(type=T.LexicalEnvType, public=False)
+    prims_env = UserField(type=T.LexicalEnv, public=False)
 
     is_iterable_type = Property(
         # TODO: Need to implement on:
@@ -2665,7 +2664,7 @@ class TypeDecl(BaseTypeDecl):
         ))
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
-                      return_type=LexicalEnvType)
+                      return_type=LexicalEnv)
     def primitives():
         pass
 
@@ -2768,14 +2767,14 @@ class TypeDecl(BaseTypeDecl):
 
     xref_entry_point = Property(True)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         # TODO: Handle discriminants
         return Entity.type_def.sub_equation
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
-    @langkit_property(return_type=LexicalEnvType.array)
+    @langkit_property(return_type=LexicalEnv.array)
     def own_primitives_envs():
         # If self has a previous part, it might have primitives too
         return Entity.previous_part(False).cast(T.TypeDecl).then(
@@ -2783,15 +2782,15 @@ class TypeDecl(BaseTypeDecl):
             default_val=Self.primitives.singleton
         )
 
-    @langkit_property(return_type=LexicalEnvType.array)
-    def primitives_envs(include_self=(BoolType, False)):
+    @langkit_property(return_type=LexicalEnv.array)
+    def primitives_envs(include_self=(Bool, False)):
         return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
             lambda bt: bt.own_primitives_envs.concat(
                 bt.primitives_envs
             )
         )).concat(
             If(include_self,
-               Entity.own_primitives_envs, No(LexicalEnvType.array))
+               Entity.own_primitives_envs, No(LexicalEnv.array))
         )
 
     @langkit_property(memoized=True)
@@ -2854,7 +2853,7 @@ class TypeDecl(BaseTypeDecl):
 
 class AnonymousTypeDecl(TypeDecl):
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def access_def_matches(other=BaseTypeDecl.entity):
         """
         Returns whether:
@@ -3063,7 +3062,7 @@ class DerivedTypeDef(TypeDef):
         ).env_group()
     )
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         # We want to make discriminants accessible, so need to evaluate this in
         # Self's children_env.
@@ -3086,7 +3085,7 @@ class PrivateTypeDef(TypeDef):
 
     xref_equation = Property(LogicTrue())
 
-    defining_env = Property(Entity.children_env, type=LexicalEnvType)
+    defining_env = Property(Entity.children_env, type=LexicalEnv)
 
 
 class SignedIntTypeDef(TypeDef):
@@ -3113,20 +3112,20 @@ class ModIntTypeDef(TypeDef):
 
     @langkit_property()
     def discrete_range():
-        return DiscreteRange.new(low_bound=BigInteger(0),
+        return DiscreteRange.new(low_bound=BigIntegerLiteral(0),
                                  high_bound=Self.expr.eval_as_int)
 
 
 @abstract
 class ArrayIndices(AdaNode):
     ndims = AbstractProperty(
-        type=IntegerType,
+        type=Integer,
         doc="""Number of dimensions described in this node."""
     )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[origin],
+    @langkit_property(return_type=Equation, dynamic_vars=[origin],
                       kind=AbstractKind.abstract)
-    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
+    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
         """
         Add a constraint on an expression passed as the index of an array
         access expression.
@@ -3145,7 +3144,7 @@ class ArrayIndices(AdaNode):
 
     @langkit_property(dynamic_vars=[origin], kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity)
-    def index_type(dim=IntegerType):
+    def index_type(dim=Integer):
         pass
 
 
@@ -3153,12 +3152,12 @@ class UnconstrainedArrayIndices(ArrayIndices):
     types = Field(type=T.UnconstrainedArrayIndex.list)
     ndims = Property(Self.types.length)
 
-    @langkit_property(return_type=EquationType)
-    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
+    @langkit_property(return_type=Equation)
+    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
-    def index_type(dim=IntegerType):
+    def index_type(dim=Integer):
         return Entity.types.at(dim).designated_type
 
 
@@ -3167,8 +3166,8 @@ class ConstrainedArrayIndices(ArrayIndices):
 
     ndims = Property(Self.list.length)
 
-    @langkit_property(return_type=EquationType)
-    def constrain_index_expr(index_expr=T.Expr, dim=IntegerType):
+    @langkit_property(return_type=Equation)
+    def constrain_index_expr(index_expr=T.Expr, dim=Integer):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
@@ -3185,7 +3184,7 @@ class ConstrainedArrayIndices(ArrayIndices):
         )
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=IntegerType):
+    def index_type(dim=Integer):
         # We might need to solve self's equation to get the index type
         ignore(Var(Self.parents.find(
             lambda p: p.xref_entry_point).as_entity.resolve_names
@@ -3218,7 +3217,7 @@ class ArrayTypeDef(TypeDef):
         return (Entity.component_type.type_expr.designated_type)
 
     @langkit_property(dynamic_vars=[origin])
-    def index_type(dim=IntegerType):
+    def index_type(dim=Integer):
         return Entity.indices.index_type(dim)
 
     array_ndims = Property(Self.indices.ndims)
@@ -3251,7 +3250,7 @@ class InterfaceTypeDef(TypeDef):
 
     defining_env = Property(Entity.children_env)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
 
@@ -3455,7 +3454,7 @@ class UsePackageClause(UseClause):
         cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
     ))
 
-    @langkit_property(return_type=LexicalEnvType.array)
+    @langkit_property(return_type=LexicalEnv.array)
     def designated_envs():
         """
         Return the array of designated envs corresponding to each package name.
@@ -4237,10 +4236,10 @@ class GenericInstantiation(BasicDecl):
     Instantiations of generics.
     """
 
-    inst_env = UserField(type=T.LexicalEnvType, public=False)
+    inst_env = UserField(type=T.LexicalEnv, public=False)
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
-                      return_type=LexicalEnvType)
+                      return_type=LexicalEnv)
     def instantiation_env():
         pass
 
@@ -4436,7 +4435,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         Entity.designated_package.parent.cast(T.BasicDecl)
     )
 
-    @langkit_property(return_type=LexicalEnvType)
+    @langkit_property(return_type=LexicalEnv)
     def defining_env():
         dp = Var(Entity.designated_package)
         return If(
@@ -4694,7 +4693,7 @@ class GenericPackageDecl(GenericDecl):
 @has_abstract_list
 class Expr(AdaNode):
 
-    type_var = UserField(LogicVarType, public=False)
+    type_var = UserField(LogicVar, public=False)
     type_val = Property(Self.type_var.get_value)
 
     expression_type = Property(
@@ -4702,7 +4701,7 @@ class Expr(AdaNode):
     )
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
-                      return_type=T.BigIntegerType, public=True)
+                      return_type=T.BigInteger, public=True)
     def eval_as_int():
         """
         Statically evaluates self, and returns the value of the evaluation as
@@ -4730,7 +4729,7 @@ class Expr(AdaNode):
         )
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=LexicalEnvType, dynamic_vars=[env, origin])
+                      return_type=LexicalEnv, dynamic_vars=[env, origin])
     def designated_env():
         """
         Returns the lexical environment designated by this name.
@@ -4833,7 +4832,7 @@ class Op(EnumNode):
         """
     )
 
-    ref_var = UserField(type=LogicVarType, public=False)
+    ref_var = UserField(type=LogicVar, public=False)
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def xref():
@@ -4845,7 +4844,7 @@ class UnOp(Expr):
     expr = Field(type=T.Expr)
 
     @langkit_property()
-    def referenced_decl_internal(try_immediate=BoolType):
+    def referenced_decl_internal(try_immediate=Bool):
         return Self.logic_val(
             Entity, Self.op.ref_var, try_immediate
         ).cast_or_raise(T.BasicDecl)
@@ -4877,7 +4876,7 @@ class BinOp(Expr):
     right = Field(type=T.Expr)
 
     @langkit_property()
-    def referenced_decl_internal(try_immediate=BoolType):
+    def referenced_decl_internal(try_immediate=Bool):
         # TODO: Factor all those implems that do the same thing
         return Self.logic_val(
             Entity, Self.op.ref_var, try_immediate
@@ -5019,8 +5018,8 @@ class Aggregate(BaseAggregate):
             default_val=Self
         )
 
-    @langkit_property(return_type=T.IntegerType)
-    def sub_aggregate_rank(r=(IntegerType, 0)):
+    @langkit_property(return_type=T.Integer)
+    def sub_aggregate_rank(r=(Integer, 0)):
         return Self.direct_parent_aggregate.then(
             lambda p: p.sub_aggregate_rank(r + 1),
             default_val=r
@@ -5038,7 +5037,7 @@ class Aggregate(BaseAggregate):
             Entity.general_xref_equation
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation():
 
         # Self might be a sub-aggregate in a multi-dimensional array aggregate.
@@ -5092,7 +5091,7 @@ class Aggregate(BaseAggregate):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def assoc_equation(match=T.ParamMatch):
         """
         Helper for record_equation. Returns the equation for one discriminant
@@ -5106,7 +5105,7 @@ class Aggregate(BaseAggregate):
                Bind(match.actual.name.ref_var, match.formal.spec))
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def record_equation(td=BaseTypeDecl.entity):
         """
         Equation for the case where this is an aggregate for a record
@@ -5178,7 +5177,7 @@ class Name(Expr):
     )
 
     parent_scope = AbstractProperty(
-        type=LexicalEnvType, runtime_check=True,
+        type=LexicalEnv, runtime_check=True,
         dynamic_vars=[env],
         doc="""
         Returns the lexical environment that is the scope in which the
@@ -5186,21 +5185,21 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(public=True, return_type=T.BoolType)
-    def name_is(sym=(T.SymbolType)):
+    @langkit_property(public=True, return_type=T.Bool)
+    def name_is(sym=(T.Symbol)):
         """
         Helper. Check that this name matches ``sym``.
         """
         return Self.name_symbol.then(lambda ns: ns == sym)
 
-    @langkit_property(public=True, return_type=T.BoolType)
+    @langkit_property(public=True, return_type=T.Bool)
     def is_call():
         """
         Returns True if this Name corresponds to a call.
         """
         return Entity.referenced_decl.info.md.is_call
 
-    @langkit_property(public=True, return_type=T.BoolType)
+    @langkit_property(public=True, return_type=T.Bool)
     def is_dot_call():
         """
         Returns True if this Name corresponds to a dot notation call.
@@ -5245,12 +5244,12 @@ class Name(Expr):
     @langkit_property(return_type=AdaNode.entity.array,
                       kind=AbstractKind.abstract_runtime_check,
                       dynamic_vars=[env, origin])
-    def all_env_els_impl(seq=(BoolType, True),
+    def all_env_els_impl(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
         pass
 
     @langkit_property()
-    def all_env_elements(seq=(BoolType, True),
+    def all_env_elements(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
         """
         Return all elements in self's scope corresponding to self.
@@ -5260,7 +5259,7 @@ class Name(Expr):
                            Entity.all_env_els_impl(seq=seq, seq_from=seq_from))
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bottom_up_name_equation():
         return Self.innermost_name.as_entity.match(
             lambda ce=T.CallExpr: ce.general_xref_equation(Self),
@@ -5293,7 +5292,7 @@ class Name(Expr):
                   name.innermost_name,
                   Self)
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
         """
         Construct the xref equation for the chain of parent nested names.
@@ -5320,7 +5319,7 @@ class Name(Expr):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def subtype_indication_equation():
         return Entity.xref_no_overloading
 
@@ -5333,7 +5332,7 @@ class Name(Expr):
                   No(T.Name),
                   Self.parent.cast(T.Name))
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def is_range_attribute():
         """
         Predicate that returns True if self is a range attribute ref.
@@ -5353,7 +5352,7 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(return_type=T.BoolType)
+    @langkit_property(return_type=T.Bool)
     def is_simple_name():
         """
         Returns whether Self is a BaseId or a DottedName composed only of
@@ -5366,7 +5365,7 @@ class Name(Expr):
         )
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=LogicVarType)
+                      return_type=LogicVar)
     def ref_var():
         """
         This property proxies the logic variable that points to the entity that
@@ -5379,7 +5378,7 @@ class Name(Expr):
         pass
 
     @langkit_property()
-    def referenced_decl_internal(try_immediate=BoolType):
+    def referenced_decl_internal(try_immediate=Bool):
         return Self.logic_val(
             Entity, Self.ref_var,
             try_immediate
@@ -5412,13 +5411,13 @@ class Name(Expr):
         return Entity.name_designated_type.cast(T.TypeDecl)._.primitives_env
 
     @langkit_property(
-        return_type=AnalysisUnitType, external=True, uses_entity_info=False,
+        return_type=AnalysisUnit, external=True, uses_entity_info=False,
         uses_envs=False,
         call_non_memoizable_because='Getting an analysis unit cannot appear'
                                     ' in a memoized context'
     )
     def internal_referenced_unit(kind=AnalysisUnitKind,
-                                 load_if_needed=BoolType):
+                                 load_if_needed=Bool):
         """
         Return the analysis unit for the given "kind" corresponding to this
         Name. Return null if this is an illegal unit name. If "load_if_needed"
@@ -5441,7 +5440,7 @@ class Name(Expr):
         """
         return Self.internal_referenced_unit(kind, False)
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def matches(n=T.Name):
         """
         Return whether two names match each other.
@@ -5500,9 +5499,9 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def xref_no_overloading(sequential=(BoolType, True),
-                            all_els=(BoolType, False)):
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def xref_no_overloading(sequential=(Bool, True),
+                            all_els=(Bool, False)):
         """
         Simple xref equation for names. Doesn't try to resolve overloads. If
         ``all_els`` is True, then the name will be bound to the domain of all
@@ -5545,7 +5544,7 @@ class Name(Expr):
             lambda _: LogicFalse()
         )
 
-    @langkit_property(return_type=T.BoolType, memoized=True)
+    @langkit_property(return_type=T.Bool, memoized=True)
     def is_prefix():
         """
         Returns whether Self is the prefix in name. Is used to determine
@@ -5559,7 +5558,7 @@ class Name(Expr):
             Not(Self.parent.is_a(T.DottedName))
         )
 
-    @langkit_property(return_type=T.BoolType, memoized=True)
+    @langkit_property(return_type=T.Bool, memoized=True)
     def is_suffix():
         """
         Returns whether Self is the suffix in name.
@@ -5580,7 +5579,7 @@ class Name(Expr):
         )
     )
 
-    @langkit_property(public=True, return_type=SymbolType.array)
+    @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():
         """
         Turn this name into an array of symbols.
@@ -5594,7 +5593,7 @@ class Name(Expr):
             lambda dot=T.DottedName: dot.prefix.as_symbol_array.concat(
                 dot.suffix.as_symbol_array
             ),
-            lambda _: PropertyError(SymbolType.array),
+            lambda _: PropertyError(Symbol.array),
         )
 
 
@@ -5643,7 +5642,7 @@ class CallExpr(Name):
 
     params = Property(Self.suffix.cast(T.AssocList), ignore_warn_on_node=True)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return If(
             Not(Entity.name.name_designated_type.is_null),
@@ -5656,7 +5655,7 @@ class CallExpr(Name):
             Entity.bottom_up_name_equation
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def type_conv_xref_equation():
         """
         Helper for xref_equation, handles construction of the equation in type
@@ -5668,7 +5667,7 @@ class CallExpr(Name):
             TypeBind(Self.type_var, Self.name.type_var),
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
         return Bind(Self.name.ref_var, s) & Cond(
@@ -5715,7 +5714,7 @@ class CallExpr(Name):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation(root=T.Name):
         """
         Helper for xref_equation, handles construction of the equation in
@@ -5747,7 +5746,7 @@ class CallExpr(Name):
                  LogicFalse())
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def operator_equation():
         rel_name = Var(Entity.name.name_symbol)
 
@@ -5794,9 +5793,9 @@ class CallExpr(Name):
             default_val=LogicFalse()
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def subscriptable_type_equation(typ=T.BaseTypeDecl.entity,
-                                    constrain_params=(BoolType, True)):
+                                    constrain_params=(Bool, True)):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
@@ -5867,9 +5866,9 @@ class CallExpr(Name):
             ),
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
-                            dottable_subp=BoolType,
+                            dottable_subp=Bool,
                             primitive=AdaNode):
 
         prim_type = Var(primitive.cast_or_raise(T.BaseTypeDecl))
@@ -5908,7 +5907,7 @@ class CallExpr(Name):
             default_val=LogicFalse()
         )
 
-    @langkit_property(return_type=BoolType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
     def check_for_type(typ=T.BaseTypeDecl.entity):
         """
         Check that self is an appropriate CallExpr for given type, which must
@@ -6030,7 +6029,7 @@ class ExplicitDeref(Name):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def eq_for_type(typ=T.BaseTypeDecl.entity):
         return And(
             TypeBind(Self.prefix.type_var, typ),
@@ -6041,7 +6040,7 @@ class ExplicitDeref(Name):
     def xref_equation():
         return Entity.bottom_up_name_equation
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation(root=(T.Name, No(T.Name))):
         env_els = Var(Entity.env_elements)
 
@@ -6168,7 +6167,7 @@ class SingleTokNode(Name):
 
     relative_name = Property(Entity)
 
-    r_ref_var = UserField(LogicVarType, public=False)
+    r_ref_var = UserField(LogicVar, public=False)
     """
     This field is the logic variable for this node. It is not used directly,
     instead being retrieved via the ref_var property
@@ -6181,7 +6180,7 @@ class SingleTokNode(Name):
     )
 
     @langkit_property(dynamic_vars=[env])
-    def env_get_first(recursive=BoolType, from_node=T.AdaNode):
+    def env_get_first(recursive=Bool, from_node=T.AdaNode):
         """
         Like env.get_first, but returning the first visible element in the Ada
         sense.
@@ -6298,7 +6297,7 @@ class BaseId(SingleTokNode):
                 Or(Not(pkg.is_unit_root),
                    Self.has_with_visibility(pkg.unit)),
                 Entity.pkg_env(pkg),
-                No(T.LexicalEnvType)
+                No(T.LexicalEnv)
             ),
 
             env_els.map(
@@ -6439,7 +6438,7 @@ class BaseId(SingleTokNode):
         return Entity.env_elements_baseid
 
     @langkit_property()
-    def all_env_els_impl(seq=(BoolType, True),
+    def all_env_els_impl(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
         return env.get(
             Self, recursive=Self.is_prefix,
@@ -6547,7 +6546,7 @@ class BaseId(SingleTokNode):
     def xref_equation():
         return Entity.base_id_xref_equation()
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def base_id_xref_equation():
         return Let(lambda dt=Entity.designated_type_impl: If(
             Not(dt.is_null),
@@ -6558,7 +6557,7 @@ class BaseId(SingleTokNode):
             Entity.general_xref_equation
         ))
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation():
         env_els = Var(Entity.env_elements)
 
@@ -6578,7 +6577,7 @@ class Identifier(BaseId):
 class StringLiteral(BaseId):
     annotations = Annotations(repr_name="Str")
 
-    @langkit_property(return_type=T.StringType, external=True, public=True,
+    @langkit_property(return_type=T.String, external=True, public=True,
                       uses_entity_info=False, uses_envs=False)
     def denoted_value():
         """
@@ -6646,7 +6645,7 @@ class EnumLiteralDecl(BasicDecl):
 class CharLiteral(BaseId):
     annotations = Annotations(repr_name="Chr")
 
-    @langkit_property(return_type=T.CharacterType, external=True, public=True,
+    @langkit_property(return_type=T.Character, external=True, public=True,
                       uses_entity_info=False, uses_envs=False)
     def denoted_value():
         """
@@ -6679,7 +6678,7 @@ class IntLiteral(NumLiteral):
     def xref_equation():
         return universal_int_bind(Self.type_var)
 
-    @langkit_property(return_type=T.BigIntegerType, external=True, public=True,
+    @langkit_property(return_type=T.BigInteger, external=True, public=True,
                       uses_entity_info=False, uses_envs=False)
     def denoted_value():
         """
@@ -6712,7 +6711,7 @@ class ParamMatch(Struct):
 
     Each value relates to one ParamAssoc.
     """
-    has_matched = UserField(type=BoolType, doc="""
+    has_matched = UserField(type=Bool, doc="""
         Whether the matched ParamAssoc a ParamSpec.
     """)
     actual = UserField(type=SingleActual)
@@ -6739,7 +6738,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Entity.params.map(lambda p: p.cast(BaseFormalParamDecl))
     )
 
-    @langkit_property(return_type=BoolType)
+    @langkit_property(return_type=Bool)
     def match_return_type(other=T.BaseSubpSpec.entity):
         # Check that the return type is the same. Caveat: it's not because
         # we could not find the canonical type that it is null!
@@ -6760,8 +6759,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
             )
         )
 
-    @langkit_property(return_type=BoolType)
-    def match_signature(other=T.BaseSubpSpec.entity, match_name=BoolType):
+    @langkit_property(return_type=Bool)
+    def match_signature(other=T.BaseSubpSpec.entity, match_name=Bool):
         """
         Return whether SubpSpec's signature matches Self's.
 
@@ -6778,7 +6777,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             Entity.match_formal_params(other, match_name),
         )
 
-    @langkit_property(return_type=LexicalEnvType,
+    @langkit_property(return_type=LexicalEnv,
                       dynamic_vars=[origin])
     def defining_env():
         """
@@ -6958,7 +6957,7 @@ class ForLoopSpec(LoopSpec):
             typ
         ))
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return Self.loop_type.match(
 
@@ -7022,7 +7021,7 @@ class ForLoopSpec(LoopSpec):
             ))
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def iterator_xref_equation():
         iter_expr = Var(Entity.iter_expr.cast_or_raise(T.Expr))
 
@@ -7050,7 +7049,7 @@ class QuantifiedExpr(Expr):
     loop_spec = Field(type=T.ForLoopSpec)
     expr = Field(type=T.Expr)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         spec_success = Var(Entity.loop_spec.resolve_names)
 
@@ -7077,7 +7076,7 @@ class Allocator(Expr):
             lambda _: No(BaseTypeDecl.entity)
         ))
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return (
             Entity.type_or_expr.sub_equation
@@ -7094,7 +7093,7 @@ class QualExpr(Name):
 
     relative_name = Property(Entity.prefix.relative_name)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         typ = Entity.prefix.designated_type_impl
 
@@ -7170,7 +7169,7 @@ class AttributeRef(Name):
             EmptyEnv
         )
 
-    @langkit_property(return_type=LexicalEnvType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[env, origin])
     def designated_env_model_attr():
         model_types = Var(
             Entity.prefix.env_elements
@@ -7252,7 +7251,7 @@ class AttributeRef(Name):
             LogicTrue()
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def model_attr_equation():
         return (
             Entity.prefix.sub_equation
@@ -7265,14 +7264,14 @@ class AttributeRef(Name):
                        conv_prop=BaseTypeDecl.model_of_type)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def old_attr_equation():
         return And(
             Entity.prefix.sub_equation,
             TypeBind(Self.type_var, Self.prefix.type_var),
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def result_attr_equation():
         containing_subp = Var(Self.parents.find(
             lambda p: p.is_a(BasicSubpDecl, BaseSubpBody)
@@ -7287,7 +7286,7 @@ class AttributeRef(Name):
             Bind(Entity.prefix.ref_var, containing_subp)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def tag_attr_equation():
         tag_type = Var(
             Entity
@@ -7304,8 +7303,8 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, tag_type)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
-    def stream_attrs_equation(return_obj=(BoolType, False)):
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def stream_attrs_equation(return_obj=(Bool, False)):
         typ = Var(Entity.prefix.name_designated_type)
 
         root_stream_type = Var(
@@ -7331,7 +7330,7 @@ class AttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def address_equation():
         address_type = Var(
             Entity
@@ -7342,7 +7341,7 @@ class AttributeRef(Name):
         return (Entity.prefix.sub_equation
                 & TypeBind(Self.type_var, address_type))
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def identity_equation():
         # NOTE: We don't verify that the prefix designates an exception
         # declaration, because that's legality, not name resolution.
@@ -7350,14 +7349,14 @@ class AttributeRef(Name):
                 & TypeBind(Self.prefix.ref_var, Self.type_var,
                            conv_prop=BasicDecl.identity_type))
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def universal_real_equation():
         return (
             universal_real_bind(Self.type_var)
             & Entity.prefix.sub_equation
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def standard_attr_equation():
         return (
             # TODO: run the equation of the prefix (std package), does not
@@ -7365,7 +7364,7 @@ class AttributeRef(Name):
             universal_int_bind(Self.type_var)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def succpred_xref_equation():
         typ = Var(Entity.prefix.name_designated_type)
         arg = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
@@ -7376,7 +7375,7 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, typ)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def minmax_equation():
         typ = Var(Entity.prefix.name_designated_type)
         left = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
@@ -7392,7 +7391,7 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, typ)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def aft_equation():
         typ = Var(Entity.prefix.name_designated_type)
 
@@ -7402,7 +7401,7 @@ class AttributeRef(Name):
             & universal_int_bind(Self.type_var)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def value_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
@@ -7420,7 +7419,7 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, typ)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
         expr = Var(Self.args.cast(T.AssocList).then(lambda al: al.at(0).expr))
@@ -7441,7 +7440,7 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, str_type)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def img_equation(str_type=T.AdaNode.entity):
         return (
             # Prefix is an expression, bind prefix's ref var to it
@@ -7451,7 +7450,7 @@ class AttributeRef(Name):
             & TypeBind(Self.type_var, str_type)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def pos_equation():
         typ = Var(Entity.prefix.name_designated_type)
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
@@ -7464,7 +7463,7 @@ class AttributeRef(Name):
             & expr.as_entity.sub_equation
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def val_equation():
         typ = Var(Entity.prefix.name_designated_type)
         expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
@@ -7476,7 +7475,7 @@ class AttributeRef(Name):
             & expr.as_entity.sub_equation
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def access_equation():
         return Or(
             # Access to subprogram
@@ -7500,7 +7499,7 @@ class AttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def size_equation():
         typ = Var(Entity.prefix.name_designated_type)
         return If(
@@ -7513,7 +7512,7 @@ class AttributeRef(Name):
             & universal_int_bind(Self.type_var)
         )
 
-    @langkit_property(return_type=EquationType, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def array_attr_equation():
         is_length = Var(Entity.attribute.name_is('Length'))
         typ = Var(Entity.prefix.name_designated_type)
@@ -7583,7 +7582,7 @@ class DottedName(Name):
                         Entity.suffix.designated_env_impl)
 
     @langkit_property()
-    def all_env_els_impl(seq=(BoolType, True),
+    def all_env_els_impl(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(pfx_env, Entity.suffix.all_env_els_impl(seq, seq_from))
@@ -7630,10 +7629,10 @@ class CompilationUnit(AdaNode):
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)
-    no_env = UserField(type=T.LexicalEnvType, public=False)
+    no_env = UserField(type=T.LexicalEnv, public=False)
 
     @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
-                      return_type=LexicalEnvType)
+                      return_type=LexicalEnv)
     def get_empty_env():
         """
         Returns an empty env to use in env specs. This is meant as an
@@ -7653,7 +7652,7 @@ class CompilationUnit(AdaNode):
             lambda li=T.LibraryItem: li.item.fully_qualified_name,
             lambda su=T.Subunit: su.fully_qualified_name,
             lambda _: PropertyError(
-                SymbolType.array, 'Unexpected CompilationUnit.f_body attribute'
+                Symbol.array, 'Unexpected CompilationUnit.f_body attribute'
             ),
         )
 
@@ -7764,8 +7763,7 @@ class BaseSubpBody(Body):
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
 
-    @langkit_property(return_type=BoolType,
-                      dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def in_scope():
         """
         Return True if ``origin`` is directly in the scope of this Subprogram
@@ -7776,8 +7774,7 @@ class BaseSubpBody(Body):
             Not(origin.parents.find(lambda p: p == Self).is_null)
         )
 
-    @langkit_property(return_type=LexicalEnvType,
-                      dynamic_vars=[origin])
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():
         return If(
             Entity.in_scope,
@@ -8045,7 +8042,7 @@ class LabelDecl(BasicDecl):
 class Label(SimpleStmt):
     decl = Field(type=T.LabelDecl)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return LogicTrue()
 
@@ -8053,7 +8050,7 @@ class Label(SimpleStmt):
 class WhileLoopSpec(LoopSpec):
     expr = Field(type=T.Expr)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.expr.sub_equation & (
             bool_bind(Self.expr.type_var)
@@ -8092,7 +8089,7 @@ class BaseLoopStmt(CompositeStmt):
     stmts = Field(type=T.StmtList)
     end_name = Field(type=T.EndName)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.spec.then(lambda s: s.xref_equation,
                                 default_val=LogicTrue())
@@ -8132,7 +8129,7 @@ class ExtendedReturnStmt(CompositeStmt):
     decl = Field(type=T.ExtendedReturnStmtObjectDecl)
     stmts = Field(type=T.HandledStmts)
 
-    @langkit_property(return_type=EquationType)
+    @langkit_property(return_type=Equation)
     def xref_equation():
         return LogicTrue()
 
@@ -8275,7 +8272,7 @@ class PackageBody(Body):
             .match(
                 lambda pd=T.PackageDecl: pd.children_env,
                 lambda gpd=T.GenericPackageDecl: gpd.package_decl.children_env,
-                lambda _: PropertyError(LexicalEnvType),
+                lambda _: PropertyError(LexicalEnv),
             ).then(
                 lambda public_part:
                 public_part.get('__privatepart', recursive=False).at(0)

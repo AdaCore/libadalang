@@ -20,7 +20,7 @@ void ufp_destroy(void *data) {
 char *ufp_get_unit_filename(
     void *data,
     ada_text *name,
-    ada_unit_kind kind)
+    ada_analysis_unit_kind kind)
 {
     const char result_static[] = "strange_bar.ads";
     char *result;
@@ -41,7 +41,7 @@ ada_analysis_unit ufp_get_file_from_name(
     void *data,
     ada_analysis_context context,
     ada_text *name,
-    ada_unit_kind kind,
+    ada_analysis_unit_kind kind,
     const char *charset,
     int reparse)
 {

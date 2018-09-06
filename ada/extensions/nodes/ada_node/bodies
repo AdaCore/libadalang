@@ -7,7 +7,7 @@
 function P_Get_Unit
   (Node           : access Bare_Ada_Node_Type'Class;
    Name           : Symbol_Type_Array_Access;
-   Kind           : Unit_Kind;
+   Kind           : Analysis_Unit_Kind;
    Load_If_Needed : Boolean) return Internal_Unit is
 begin
    return Libadalang.Env_Hooks.Fetch_Unit

@@ -43,7 +43,7 @@ package body Libadalang.Auto_Provider is
       use Ada.Strings.Wide_Wide_Unbounded;
 
       FQN  : constant Unbounded_Text_Type_Array := CU.P_Fully_Qualified_Name;
-      Kind : constant Unit_Kind := CU.P_Unit_Kind;
+      Kind : constant Analysis_Unit_Kind := CU.P_Unit_Kind;
       Name : Unbounded_Wide_Wide_String;
    begin
       for I in FQN'Range loop
@@ -112,7 +112,7 @@ package body Libadalang.Auto_Provider is
    overriding function Get_Unit_Filename
      (Provider : Auto_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Unit_Kind) return String
+      Kind     : Analysis_Unit_Kind) return String
    is
       use CU_To_File_Maps;
 
@@ -134,7 +134,7 @@ package body Libadalang.Auto_Provider is
      (Provider    : Auto_Unit_Provider;
       Context     : Analysis_Context'Class;
       Name        : Text_Type;
-      Kind        : Unit_Kind;
+      Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class
    is
@@ -234,7 +234,7 @@ package body Libadalang.Auto_Provider is
 
    function As_Key
      (Name     : Text_Type;
-      Kind     : Unit_Kind;
+      Kind     : Analysis_Unit_Kind;
       Provider : Auto_Unit_Provider) return Symbol_Type
    is
       Canon_Name  : constant Text_Type :=

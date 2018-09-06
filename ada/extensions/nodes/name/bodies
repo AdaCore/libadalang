@@ -2,7 +2,7 @@
 
 function P_Internal_Referenced_Unit
   (Node           : access Bare_Name_Type'Class;
-   Kind           : Unit_Kind;
+   Kind           : Analysis_Unit_Kind;
    Load_If_Needed : Boolean) return Internal_Unit
 is
 begin

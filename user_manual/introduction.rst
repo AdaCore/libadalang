@@ -3,12 +3,12 @@ Introduction
 ************
 
 Libadalang is a library for parsing and semantic analysis of Ada code. It is
-meant as a building block for integration into other tools (IDE,
-static-analyzers, etc..)
+meant as a building block for integration into other tools. (IDE,
+static analyzers, etc.)
 
-The aim of libadalang is to provide complete syntactic analysis with error
-recovery, producing a precise Abstract Syntax Tree, and to provide name
-resolution and precise cross-references on the resulting trees.
+The aim of Libadalang is to provide complete syntactic analysis with error
+recovery, producing a precise syntax tree and to provide name resolution and
+precise cross-references on the resulting trees.
 
 It is not (at the moment) to provide full legality checks for the Ada language.
 If you want such a functionality, you'll need to use a full Ada compiler, such
@@ -21,7 +21,7 @@ The need for Libadalang arises from the conflation of different goals that we
 have while designing Ada tooling at AdaCore. Here are those goals:
 
 * We need to make tooling that is Ada aware, both at the syntactic and the
-  semantic level
+  semantic level.
 
 * We need to avoid repeating ourselves, that is to avoid duplicating the same
   code in dozens of places in our codebase, so we want to have a unified
@@ -30,7 +30,7 @@ have while designing Ada tooling at AdaCore. Here are those goals:
 * We need in some cases (such as IDEs) to make tooling that can work with
   incorrect and/or evolving Ada code.
 
-* We need a tool that can work incrementally, eg. doesn't have to start from
+* We need a tool that can work incrementally, e.g. doesn't have to start from
   scratch if you change a variable name in the dependency of a file you want to
   analyze.
 
@@ -57,16 +57,16 @@ Libadalang, with the Ada API, and with the Python API.
 The Ada API is great for integration in existing Ada programs, and for
 situations where you need some speed and static safety guaranties.
 
-The Python API is great for rapid prototyping of programs using Libadalang. We
-greatly encourage even Ada die-hard to try out the Python API for exploring the
-API, and the tree structures and available accessors. They map directly to the
-Ada API, so the knowledge is shared.
+The Python API is a good fit for rapid prototyping of programs using
+Libadalang. We greatly encourage even Ada die-hard to try out the Python API
+for exploring the API, the tree structures and available accessors. They map
+directly to the Ada API, so the knowledge is shared.
 
 Parsing a file
 **************
 
-Let's say we did put the content of the above Ada snippet in the test.adb file.
-Here is how you can parse the resulting file with Libadalang.
+Let's say we did put the content of the above Ada snippet in the ``test.adb``
+file. Here is how you can parse the resulting file with Libadalang.
 
 .. code-block:: ada
 
@@ -84,8 +84,8 @@ Here is how you can parse the resulting file with Libadalang.
 
 This snippet will create an analysis context, which usually corresponds to the
 context of your whole analysis - be it just one file, a whole project, or
-several projects - and parse our Ada file and return the resulting AnalysisUnit
-instance. Calling the ``Print`` function on the instance will dump the
+several projects - and parse our Ada file and return the resulting analysis
+unit instance. Calling the ``Print`` procedure on the instance will dump the
 resulting tree.
 
 .. code::
@@ -111,7 +111,6 @@ Exploring the tree
 The first thing you can do with this is explore the syntax tree through simple
 accessors.
 
-
 .. code-block:: ada
 
     with Ada.Text_IO;          use Ada.Text_IO;
@@ -128,6 +127,6 @@ accessors.
        Destroy (Ctx);
     end Main;
 
-This code will access the ``SubprogramBody`` of the Test subprogram that
+This code will access the ``Subp_Body`` node of the Test subprogram that
 constitutes the main element of our file. But as you can see, even if it is
 precise, this is not a very practical way of exploring the tree.

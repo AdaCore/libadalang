@@ -26,7 +26,8 @@ for src_dir in ('src1', 'src2'):
             'p.gpr', {'SRC_DIR': src_dir}
         )
     )
-    unit = ctx.get_from_provider('p2', 'specification')
+    unit = ctx.get_from_provider(
+        'p2', libadalang.AnalysisUnitKind.unit_specification)
 
     subtype_ind = unit.root.find(libadalang.SubtypeIndication)
     print('{} resolves to:'.format(subtype_ind))

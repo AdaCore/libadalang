@@ -27,7 +27,7 @@ main(void)
         error("Could not create the analysis context");
 
     unit = ada_get_analysis_unit_from_provider(
-        ctx, &unit_name, ada_unit_kind_specification, NULL, 0
+        ctx, &unit_name, ADA_ANALYSIS_UNIT_KIND_UNIT_SPECIFICATION, NULL, 0
     );
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");

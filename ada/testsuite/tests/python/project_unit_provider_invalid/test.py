@@ -25,7 +25,8 @@ ctx = libadalang.AnalysisContext(
 for filename in ('\n', ' '):
     pflush('Trying to get unit: {}'.format(repr(filename)))
     try:
-        unit = ctx.get_from_provider(filename, 'body')
+        unit = ctx.get_from_provider(
+            filename, libadalang.AnalysisUnitKind.unit_body)
     except libadalang.InvalidUnitNameError as exc:
         pflush('   ... got an exception: {}'.format(exc))
     else:

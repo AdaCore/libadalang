@@ -16,12 +16,14 @@ from langkit.expressions import (
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
     Or, Property, PropertyError, Self, Var, ignore, langkit_property
 )
-from langkit.expressions.analysis_units import UnitBody, UnitSpecification
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 
 env = DynamicVariable('env', LexicalEnvType)
 origin = DynamicVariable('origin', T.AdaNode)
+
+UnitSpecification = AnalysisUnitKind.unit_specification
+UnitBody = AnalysisUnitKind.unit_body
 
 
 def default_origin():

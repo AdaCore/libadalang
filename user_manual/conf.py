@@ -348,6 +348,10 @@ def setup(app):
         print('ERROR: could not import Libadalang')
         raise
 
+    import os
+    import sys
+    sys.path.append(os.getcwd())
+
     import docgen
     app.add_directive("ada_auto_package", docgen.AutoPackage)
 

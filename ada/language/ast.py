@@ -869,7 +869,7 @@ class BasicDecl(AdaNode):
     @langkit_property(public=True)
     def is_imported():
         """
-        Whether this subprogram declaration is imported from another language.
+        Whether this declaration is imported from another language.
         """
         return Or(
             Not(Entity.get_aspect('Import').is_null),

@@ -863,6 +863,15 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    decl_private_part = Property(Entity.match(
+        lambda bpd=T.BasePackageDecl: bpd.private_part,
+        lambda ttd=T.TaskTypeDecl: ttd.definition.private_part,
+        lambda td=T.SingleTaskDecl:     td.task_type.definition.private_part,
+        lambda ptd=T.ProtectedTypeDecl: ptd.definition.private_part,
+        lambda spd=T.SingleProtectedDecl: spd.definition.private_part,
+        lambda _: No(T.PrivatePart.entity),
+    ))
+
     @langkit_property(return_type=T.DeclarativePart.entity)
     def declarative_region():
         """
@@ -3708,6 +3717,57 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
+    @langkit_property()
+    def get_body_in_env(env=T.LexicalEnv):
+        return env.get(Entity.name_symbol, recursive=False).find(
+            lambda ent:
+            ent.cast(T.BaseSubpBody)._.subp_spec
+            .match_signature(Entity.subp_decl_spec, True)
+        ).cast(T.BaseSubpBody)
+
+    @langkit_property(public=True)
+    def next_part_for_decl():
+
+        decl_scope = Var(Entity.declarative_scope)
+        parent_decl = Var(decl_scope.as_entity.then(
+            lambda ds: ds.semantic_parent.cast_or_raise(T.BasicDecl)
+        ))
+
+        return Cond(
+            # Self is a library level subprogram decl. Return the library unit
+            # body's root decl.
+            Self.parent.cast(T.GenericSubpDecl)
+            ._.is_unit_root._or(Self.is_unit_root),
+
+            Entity.defining_name
+            .referenced_unit(UnitBody).root
+            .get_root_decl.cast(T.BaseSubpBody).as_entity,
+
+            # Self is declared in a private part
+            decl_scope.is_a(T.PrivatePart),
+            parent_decl.next_part_for_decl.then(
+                lambda np: Entity.get_body_in_env(np.children_env)
+            ),
+
+            # Self is declared in a public part
+            decl_scope.is_a(T.PublicPart),
+
+            # Search in private part
+            parent_decl.decl_private_part.then(
+                lambda dpp: Entity.get_body_in_env(dpp.children_env),
+            )
+            # If not found, search in body
+            ._or(parent_decl.next_part_for_decl.then(
+                lambda np: Entity.get_body_in_env(np.children_env)
+            )),
+
+            # Self is declared in any other declarative scope. Search for decl
+            # in it directly.
+            Entity.get_body_in_env(decl_scope.children_env)
+
+
+        )
+
     @langkit_property(public=True)
     def is_imported():
         """
@@ -4659,6 +4719,8 @@ class GenericSubpDecl(GenericDecl):
         Whether this subprogram declaration is imported from another language.
         """
         return Entity.subp_decl.is_imported
+
+    next_part_for_decl = Property(Entity.subp_decl.next_part_for_decl)
 
 
 class GenericPackageInternal(BasePackageDecl):
@@ -7730,12 +7792,6 @@ class BaseSubpBody(Body):
         ref_generic_formals(),
 
         handle_children(),
-
-        # Add the __nextpart link to the spec, if there is one
-        add_to_env_kv(
-            '__nextpart', Self,
-            dest_env=Entity.decl_part.then(lambda d: d.node.children_env),
-        ),
 
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.

@@ -355,14 +355,7 @@ class AdaNode(ASTNode):
         # safe to use this property in a memoized context.
         u = Var(Self.get_unit(name, kind, False))
 
-        return u._.root._.match(
-            lambda cu=T.CompilationUnit: cu.body.match(
-                lambda su=T.Subunit: su.body,
-                lambda li=T.LibraryItem: li.item,
-                lambda _: No(T.AdaNode)
-            ),
-            lambda _: No(T.AdaNode),
-        )
+        return u._.root._.get_root_decl
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=Equation, dynamic_vars=[env, origin])

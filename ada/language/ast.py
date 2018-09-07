@@ -5303,6 +5303,11 @@ class Name(Expr):
                     & bd.cast(T.BaseTypeDecl).is_in_private_part),
             bd.cast(T.BaseTypeDecl).previous_part(True)._.defining_name,
 
+            bd.then(lambda bd: bd.is_a(ObjectDecl)),
+            # TODO: Implement jumping to full object decl view for constant
+            # object decls with no value.
+            No(T.DefiningName.entity),
+
             bd.then(lambda bd: bd.is_a(BasicDecl)),
             bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)
             ._or(bd.defining_name),

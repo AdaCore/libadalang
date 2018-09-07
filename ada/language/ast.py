@@ -795,28 +795,31 @@ class AdaNode(ASTNode):
                 )
             ),
 
-            Let(lambda ret=Entity.xref: Let(lambda dbd=ret.basic_decl: Cond(
-                dbd.is_a(T.ParamSpec),
-                dbd.cast(T.ParamSpec).decl_param(ret),
+            Let(lambda ret=Entity.xref: ret.then(
+                lambda _:
+                Let(lambda dbd=ret.basic_decl: Cond(
+                    dbd.is_a(T.ParamSpec),
+                    dbd.cast(T.ParamSpec).decl_param(ret),
 
-                dbd.is_a(T.GenericSubpInternal, T.GenericPackageInternal),
-                dbd.generic_instantiations.at(0).then(
-                    lambda gi: gi.cast_or_raise(T.BasicDecl).defining_name,
-                    default_val=ret
-                ),
+                    dbd.is_a(T.GenericSubpInternal, T.GenericPackageInternal),
+                    dbd.generic_instantiations.at(0).then(
+                        lambda gi: gi.cast_or_raise(T.BasicDecl).defining_name,
+                        default_val=ret
+                    ),
 
-                dbd.is_a(T.ObjectDecl),
-                dbd.cast(T.ObjectDecl).public_part_decl.then(
-                    lambda ppd: ppd.defining_name
-                )._or(ret),
+                    dbd.is_a(T.ObjectDecl),
+                    dbd.cast(T.ObjectDecl).public_part_decl.then(
+                        lambda ppd: ppd.defining_name
+                    )._or(ret),
 
 
-                dbd.is_a(T.BaseSubpBody),
-                dbd.cast(T.BaseSubpBody)
-                .decl_part._or(dbd).defining_name,
+                    dbd.is_a(T.BaseSubpBody),
+                    dbd.cast(T.BaseSubpBody)
+                    .decl_part._or(dbd).defining_name,
 
-                ret
-            )))
+                    ret
+                ))
+            ))
         )
 
 

@@ -1,8 +1,11 @@
 == pkg.ads ==
+<PackageDecl ["Pkg"] 1:1-10:9> -> False
 <SubpDecl ["P"] 3:4-3:16> -> True
 <SubpDecl ["P"] 5:4-5:30> -> False
+<ParamSpec ["I"] 5:17-5:28> -> False
 <SubpDecl ["Q"] 7:4-7:16> -> False
 <SubpDecl ["Q"] 8:4-8:42> -> True
+<ParamSpec ["I"] 8:17-8:28> -> False
 
 == proc1.ads ==
 <SubpDecl ["Proc1"] 1:1-1:17> -> True

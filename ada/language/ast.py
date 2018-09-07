@@ -866,6 +866,17 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    @langkit_property(public=True)
+    def is_imported():
+        """
+        Whether this subprogram declaration is imported from another language.
+        """
+        return Or(
+            Not(Entity.get_aspect('Import').is_null),
+            Not(Entity.get_pragma('Import').is_null),
+            Not(Entity.get_pragma('Interface').is_null),
+        )
+
     decl_private_part = Property(Entity.match(
         lambda bpd=T.BasePackageDecl: bpd.private_part,
         lambda ttd=T.TaskTypeDecl: ttd.definition.private_part,
@@ -3771,17 +3782,6 @@ class BasicSubpDecl(BasicDecl):
 
         )
 
-    @langkit_property(public=True)
-    def is_imported():
-        """
-        Whether this subprogram declaration is imported from another language.
-        """
-        return Or(
-            Not(Entity.get_aspect('Import').is_null),
-            Not(Entity.get_pragma('Import').is_null),
-            Not(Entity.get_pragma('Interface').is_null),
-        )
-
     @langkit_property()
     def constrain_prefix(prefix=T.Expr):
         return If(
@@ -4716,13 +4716,8 @@ class GenericSubpDecl(GenericDecl):
 
     decl = Property(Entity.subp_decl)
 
-    @langkit_property(public=True)
-    def is_imported():
-        """
-        Whether this subprogram declaration is imported from another language.
-        """
-        return Entity.subp_decl.is_imported
-
+    # Overriding properties forwarding to internal subp decl
+    is_imported = Property(Entity.subp_decl.is_imported)
     next_part_for_decl = Property(Entity.subp_decl.next_part_for_decl)
 
 

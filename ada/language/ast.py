@@ -345,10 +345,10 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
                       ignore_warn_on_node=True, call_memoizable=True)
-    def get_compilation_unit(name=Symbol.array, kind=AnalysisUnitKind):
+    def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind):
         """
-        If the corresponding analysis unit is loaded, return the compilation
-        unit node for the given analysis unit "kind" and correpsonding to the
+        If the corresponding analysis unit is loaded, return the root decl
+        node for the given analysis unit "kind" and correpsonding to the
         name "name". If it's not loaded, return none.
         """
         # Because we don't load the unit when it's not already there, it is
@@ -540,7 +540,7 @@ class AdaNode(ASTNode):
 
     exc_id_type = Property(
         Self
-        .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
+        .get_unit_root_decl(['Ada', 'Exceptions'], UnitSpecification)
         ._.children_env.get_first('Exception_Id', recursive=False)
         .cast(T.BaseTypeDecl), doc="""
         Return the type Ada.Exceptions.Exception_Id.
@@ -549,8 +549,8 @@ class AdaNode(ASTNode):
     )
 
     task_id_type = Property(
-        Self.get_compilation_unit(['Ada', 'Task_Identification'],
-                                  UnitSpecification)
+        Self.get_unit_root_decl(['Ada', 'Task_Identification'],
+                                UnitSpecification)
         ._.children_env.get_first('Task_Id', recursive=False)
         .cast(T.BaseTypeDecl), doc="""
         Return the type Ada.Task_Identification.Task_Id.
@@ -1114,7 +1114,7 @@ class BasicDecl(AdaNode):
                                       return_obj=Bool):
         root_stream_type = Var(
             Entity
-            .get_compilation_unit(['Ada', 'Streams'], UnitSpecification)
+            .get_unit_root_decl(['Ada', 'Streams'], UnitSpecification)
             ._.children_env.get_first('Root_Stream_Type', recursive=False)
             .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
         )
@@ -2193,7 +2193,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin], memoized=True)
     def is_iterator_type():
-        iifcs = Var(Entity.get_compilation_unit(
+        iifcs = Var(Entity.get_unit_root_decl(
             ['Ada', 'Iterator_Interfaces'], UnitSpecification
         ))
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
@@ -7297,7 +7297,7 @@ class AttributeRef(Name):
     def tag_attr_equation():
         tag_type = Var(
             Entity
-            .get_compilation_unit(['Ada', 'Tags'], UnitSpecification)
+            .get_unit_root_decl(['Ada', 'Tags'], UnitSpecification)
             ._.children_env.get_first('Tag', recursive=False)
             .cast(T.BaseTypeDecl)
         )
@@ -7316,7 +7316,7 @@ class AttributeRef(Name):
 
         root_stream_type = Var(
             Entity
-            .get_compilation_unit(['Ada', 'Streams'], UnitSpecification)
+            .get_unit_root_decl(['Ada', 'Streams'], UnitSpecification)
             ._.children_env.get_first('Root_Stream_Type', recursive=False)
             .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
         )
@@ -7341,7 +7341,7 @@ class AttributeRef(Name):
     def address_equation():
         address_type = Var(
             Entity
-            .get_compilation_unit(['System'], UnitSpecification)
+            .get_unit_root_decl(['System'], UnitSpecification)
             ._.children_env.get_first('Address', recursive=False)
             .cast(T.BaseTypeDecl)
         )
@@ -7850,7 +7850,7 @@ class ExceptionHandler(BasicDecl):
     def expr_type():
         return (
             Entity
-            .get_compilation_unit(['Ada', 'Exceptions'], UnitSpecification)
+            .get_unit_root_decl(['Ada', 'Exceptions'], UnitSpecification)
             ._.children_env.get_first('Exception_Occurrence', recursive=False)
             .cast(T.BaseTypeDecl)
         )

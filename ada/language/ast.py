@@ -195,6 +195,21 @@ class AdaNode(ASTNode):
         .cast(T.CompilationUnit).get_empty_env,
     )
 
+    @langkit_property(return_type=T.BasicDecl,
+                      ignore_warn_on_node=True, uses_entity_info=False)
+    def get_root_decl():
+        """
+        Unit method. Return the root decl for this node's unit.
+        """
+        return Self.unit.root._.match(
+            lambda cu=T.CompilationUnit: cu.body.match(
+                lambda su=T.Subunit: su.body,
+                lambda li=T.LibraryItem: li.item,
+                lambda _: No(T.BasicDecl)
+            ),
+            lambda _: No(T.BasicDecl),
+        )
+
     @langkit_property(return_type=Bool)
     def is_children_env(parent=LexicalEnv, current_env=LexicalEnv):
         """

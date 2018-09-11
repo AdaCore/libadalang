@@ -8,6 +8,7 @@ Contents:
    :maxdepth: 2
 
    introduction
+   core_concepts
    python_api_doc
    ada_api_doc
 

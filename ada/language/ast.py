@@ -2978,13 +2978,22 @@ class BaseAssoc(AdaNode):
 
 @abstract
 class Constraint(AdaNode):
-    pass
+    subtype = Property(origin.bind(
+        Self,
+        Self.parent.cast_or_raise(T.SubtypeIndication)
+        .as_entity.designated_type
+    ))
 
 
 class RangeConstraint(Constraint):
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(Entity.range.sub_equation)
+    @langkit_property()
+    def xref_equation():
+        return And(
+            TypeBind(Entity.range.range.type_var, Entity.subtype),
+            Entity.range.sub_equation
+        )
 
 
 class DigitsConstraint(Constraint):
@@ -3018,8 +3027,7 @@ class DiscriminantConstraint(Constraint):
 
     @langkit_property()
     def xref_equation():
-        typ = Var(Self.parent.cast_or_raise(T.SubtypeIndication)
-                  .as_entity.designated_type)
+        typ = Var(Entity.subtype)
 
         return If(
             # Due to ambiguities in the grammar, this can actually be parsed as
@@ -3627,8 +3635,7 @@ class SubtypeIndication(TypeExpr):
     # environment the caller is using. However we need to inherit the
     # visibility (origin node) of the caller.
     designated_type = Property(
-        env.bind(Entity.node_env,
-                 Entity.name.designated_type_impl)
+        env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
 
     @langkit_property()

@@ -20,12 +20,12 @@ Expr: <Id "Integer" 5:21-5:28>
   references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <BoxExpr 5:35-5:37>
-  type:       None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Color" 5:39-5:44>
   references: <DefiningName 3:9-3:14>
   type:       None
 Expr: <BoxExpr 5:51-5:53>
-  type:       None
+  type:       <TypeDecl ["Color"] 3:4-3:37>
 Expr: <Id "Natural" 5:58-5:65>
   references: <DefiningName 5:11-5:18>
   type:       None

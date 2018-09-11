@@ -18,7 +18,7 @@ Expr: <Id "Positive" 11:25-11:33>
   references: <DefiningName 6:11-6:19>
   type:       None
 Expr: <BinOp 11:40-11:51>
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <SubtypeDecl ["Positive"] 6:3-6:57>
 Expr: <Int 11:40-11:41>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
@@ -33,7 +33,7 @@ Expr: <Id "Natural" 12:15-12:22>
   references: <DefiningName 5:11-5:18>
   type:       None
 Expr: <BinOp 12:29-12:40>
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <Int 12:29-12:30>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>

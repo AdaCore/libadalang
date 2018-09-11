@@ -16,7 +16,7 @@ Expr: <Id "Integer" 2:21-2:28>
   references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <BoxExpr 2:35-2:37>
-  type:       None
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Integer" 2:42-2:49>
   references: <DefiningName 4:8-4:15>
   type:       None
@@ -28,7 +28,7 @@ Expr: <Id "Integer" 3:18-3:25>
   references: <DefiningName 4:8-4:15>
   type:       None
 Expr: <BinOp 3:32-3:44>
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int 3:32-3:33>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>

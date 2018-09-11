@@ -272,8 +272,9 @@ class AutoPackage(Directive):
             elif decl.is_a(lal.ObjectDecl):
                 # Try to associate object decls to their type, if there is one
                 # in the package.
-                t = types[decl.f_type_expr
-                          .p_designated_type_decl.p_defining_name.text]
+                type_name = (decl.f_type_expr.p_designated_type_decl
+                             .p_defining_name)
+                t = types.get(type_name.text) if type_name else None
                 if t:
                     associated_decls[t].append(decl)
                 else:

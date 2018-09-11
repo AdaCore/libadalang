@@ -1283,16 +1283,26 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, return_type=Symbol.array)
     def fully_qualified_name():
         """
         Return the fully qualified name corresponding to this declaration.
         """
-        # TODO: handle non-library items
+        ent = Var(Self.as_bare_entity)
+        name = Var(ent.defining_name.as_symbol_array)
         return If(
-            Self.is_unit_root,
-            Self.as_bare_entity.defining_name.as_symbol_array,
-            PropertyError(Symbol.array)
+            ent.is_unit_root,
+            name,
+            Let(lambda parent=ent.semantic_parent:
+                Cond(parent.is_a(T.GenericPackageInternal),
+                     parent.parent.cast(T.GenericPackageDecl)
+                     .fully_qualified_name.concat(name),
+
+                     parent.is_a(T.BasicDecl),
+                     parent.cast(T.BasicDecl).fully_qualified_name
+                     .concat(name),
+
+                     PropertyError(Symbol.array)))
         )
 
 

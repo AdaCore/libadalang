@@ -24,6 +24,8 @@ origin = DynamicVariable('origin', T.AdaNode)
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
+noprims = {'inherited_primitives': False, 'others': True}
+
 
 def default_origin():
     """
@@ -514,7 +516,8 @@ class AdaNode(ASTNode):
     )
 
     std_entity_implem = Property(
-        lambda sym=Symbol: Self.std_env.get_first(sym), memoized=True
+        lambda sym=Symbol: Self.std_env.get_first(sym, categories=noprims),
+        memoized=True
     )
 
     bool_type = Property(
@@ -664,7 +667,9 @@ class AdaNode(ASTNode):
                 # will be the separate declaration. NOTE: We don't use
                 # decl_part/previous_part on purpose: They can cause env
                 # lookups, hence doing an infinite recursion.
-                bod.children_env.env_parent.get(bod.name_symbol).then(
+                bod.children_env.env_parent.get(
+                    bod.name_symbol, categories=noprims
+                ).then(
                     lambda results:
                     results.at(1).node.cast(T.GenericSubpDecl)._or(
                         results.at(2).node.cast(T.GenericSubpDecl)
@@ -1001,8 +1006,7 @@ class BasicDecl(AdaNode):
     @langkit_property(return_type=Bool)
     def subp_decl_match_signature(other=T.BasicDecl.entity):
         return (
-            Entity.subp_spec_or_null
-            .cast_or_raise(T.BaseSubpSpec).match_signature(
+            Entity.subp_spec_or_null.match_signature(
                 other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
                 False
             )
@@ -1106,7 +1110,7 @@ class BasicDecl(AdaNode):
         """
     )
 
-    @langkit_property(return_type=T.BaseFormalParamHolder.entity, public=True)
+    @langkit_property(return_type=T.BaseSubpSpec.entity, public=True)
     def subp_spec_or_null(follow_generic=(Bool, False)):
         """
         If Self is a Subp, returns the specification of this subprogram.
@@ -1238,7 +1242,8 @@ class BasicDecl(AdaNode):
         return If(
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
             Entity.children_env
-        ).get_first('__nextpart', lookup=LK.flat).cast(T.Body)
+        ).get_first('__nextpart', lookup=LK.flat,
+                    categories=noprims).cast(T.Body)
 
     @langkit_property(public=True)
     def body_part_for_decl():
@@ -2536,7 +2541,7 @@ class BaseTypeDecl(BasicDecl):
             lambda type_name:
 
             Self.children_env.get(
-                type_name.name_symbol, from_node=Self
+                type_name.name_symbol, from_node=Self, categories=noprims
             ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,
                     pp.cast(T.BaseTypeDecl)._.is_private),
@@ -2554,7 +2559,8 @@ class BaseTypeDecl(BasicDecl):
 
         return Entity.match(
             lambda itd=T.IncompleteTypeDecl:
-            itd.node_env.get(itd.name.name_symbol, lookup=LK.flat)
+            itd.node_env
+            .get(itd.name.name_symbol, LK.flat, categories=noprims)
             .find(lambda t: t.is_a(BaseTypeDecl) & (t != Entity))
             .cast(BaseTypeDecl),
 
@@ -2564,7 +2570,7 @@ class BaseTypeDecl(BasicDecl):
                     lambda ct:
                     ct.parent.parent.parent.cast(T.BasePackageDecl).then(
                         lambda p: p.private_part.children_env
-                        .get(ct.name.name_symbol, lookup=LK.flat)
+                        .get(ct.name.name_symbol, LK.flat, categories=noprims)
                         .find(lambda t: t.is_a(BaseTypeDecl) & (t != ct))
                         .cast(BaseTypeDecl),
                     ),
@@ -2729,7 +2735,7 @@ class TypeDecl(BaseTypeDecl):
             # Here, we need to call defining_env on TypeDef, in order to not
             # recurse for ever (accessed_type is called by defining_env).
             Entity.type_def.defining_env.get_first(
-                imp_deref.cast(T.Name).name_symbol
+                imp_deref.cast(T.Name).name_symbol, categories=noprims
             )
 
             # We cast to BaseFormalParamDecl. Following Ada's legality rule,
@@ -2794,7 +2800,8 @@ class TypeDecl(BaseTypeDecl):
             through=T.TypeDecl.parent_primitives_env,
             kind=RefKind.transitive,
             dest_env=Self.node_env,
-            cond=Self.type_def.is_a(T.DerivedTypeDef)
+            cond=Self.type_def.is_a(T.DerivedTypeDef),
+            category="inherited_primitives"
         ),
     )
 
@@ -3751,7 +3758,7 @@ class BasicSubpDecl(BasicDecl):
 
     @langkit_property()
     def get_body_in_env(env=T.LexicalEnv):
-        return env.get(Entity.name_symbol, lookup=LK.flat).find(
+        return env.get(Entity.name_symbol, LK.flat, categories=noprims).find(
             lambda ent:
             ent.cast(T.BaseSubpBody)._.subp_spec
             .match_signature(Entity.subp_decl_spec, True)
@@ -3991,7 +3998,7 @@ class Pragma(AdaNode):
                 lambda p: p.is_a(T.DeclarativePart)
             ).then(
                 lambda decl_scope: decl_scope.node_env.get(
-                    name.name_symbol, lookup=LK.flat
+                    name.name_symbol, lookup=LK.flat, categories=noprims
                 ).filtermap(lambda ent: ent.cast(T.BasicDecl),
                             lambda ent: ent.node < Self),
                 default_val=top_level_decl,
@@ -4226,7 +4233,8 @@ class ObjectDecl(BasicDecl):
             Entity.is_in_private_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
             .cast(T.BasePackageDecl).public_part.children_env
-            .get_first(Self.name_symbol, lookup=LK.flat).cast(T.BasicDecl),
+            .get_first(Self.name_symbol, LK.flat, categories=noprims)
+            .cast(T.BasicDecl),
             No(T.BasicDecl.entity)
         )
 
@@ -6279,6 +6287,7 @@ class SingleTokNode(Name):
             Self,
             lookup=lookup_type,
             from_node=from_node,
+            categories=noprims
         ).find(
             lambda el:
             Or(Not(el.cast(T.BasicDecl).is_unit_root),
@@ -6340,7 +6349,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def scope():
-        elt = Var(env.get_first(Self))
+        elt = Var(env.get_first(Self, categories=noprims))
         ret = Var(If(
             Not(elt.is_null) & elt.node.is_a(
                 T.BasicDecl
@@ -6407,7 +6416,7 @@ class BaseId(SingleTokNode):
         # If the basic_decl is a package decl with a private part, we get it.
         # Else we keep the defining env.
         env_private_part = Var(
-            env.get('__privatepart', lookup=LK.flat).at(0).then(
+            env.get('__privatepart', LK.flat, categories=noprims).at(0).then(
                 lambda pp: pp.children_env, default_val=env
             )
         )
@@ -6483,10 +6492,9 @@ class BaseId(SingleTokNode):
         ))
 
         # We might have a more complete view of the type at the origin point
-        completer_view = Var(origin.then(
-            lambda o: o.children_env.get_first(Self, from_node=origin))
-            .cast(T.BaseTypeDecl)
-        )
+        completer_view = Var(origin.then(lambda o: o.children_env.get_first(
+            Self, from_node=origin, categories=noprims
+        )).cast(T.BaseTypeDecl))
 
         # If completer_view is a more complete view of the type we're looking
         # up, then return completer_view. Else return des_type.
@@ -8348,7 +8356,7 @@ class PackageBody(Body):
     @langkit_property()
     def subunit_pkg_stub_env():
         return Entity.subunit_pkg_decl_env.get(
-            '__nextpart', lookup=LK.flat
+            '__nextpart', lookup=LK.flat, categories=noprims,
         ).at(0).children_env
 
     @langkit_property()
@@ -8361,11 +8369,9 @@ class PackageBody(Body):
                 lambda pd=T.PackageDecl: pd.children_env,
                 lambda gpd=T.GenericPackageDecl: gpd.package_decl.children_env,
                 lambda _: PropertyError(LexicalEnv),
-            ).then(
-                lambda public_part:
-                public_part.get('__privatepart', lookup=LK.flat).at(0)
-                .then(lambda pp: pp.children_env, default_val=public_part)
-            )
+            ).then(lambda public_part: public_part.get(
+                '__privatepart', LK.flat, categories=noprims
+            ).at(0).then(lambda pp: pp.children_env, default_val=public_part))
         )
 
 
@@ -8385,9 +8391,9 @@ class TaskBody(Body):
 
     @langkit_property()
     def task_type():
-        return Entity.parent.node_env.get(Entity.name_symbol).find(
-            lambda sp: sp.is_a(T.TaskTypeDecl)
-        ).cast(T.TaskTypeDecl)
+        return Entity.parent.node_env.get(
+            Entity.name_symbol, categories=noprims
+        ).find(lambda sp: sp.is_a(T.TaskTypeDecl)).cast(T.TaskTypeDecl)
 
 
 class ProtectedBody(Body):

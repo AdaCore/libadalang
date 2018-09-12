@@ -432,7 +432,7 @@ class AdaNode(ASTNode):
         statement.
         """
         return env.bind(
-            Entity.node_env,
+            Entity.children_env,
             origin.bind(Self, Entity.resolve_names_internal(True, LogicTrue()))
         )
 

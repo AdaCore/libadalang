@@ -8322,7 +8322,7 @@ class PackageBody(Body):
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl_env,
                       cond=Self.is_subunit,
-                      kind=RefKind.prioritary),
+                      kind=RefKind.transitive),
 
             # If self is not a library level package body (and hence is a
             # nested package), we need to explicitly reference its package

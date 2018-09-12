@@ -1,0 +1,39 @@
+Analyzing foo.ads
+#################
+
+Resolving xrefs for node <ExprFunction ["F"] 2:4-2:51>
+******************************************************
+
+Expr: <ParenExpr 2:47-2:50>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "I" 2:48-2:49>
+  references: <DefiningName 2:16-2:17>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+Resolving xrefs for node <ExprFunction ["F"] 9:4-9:74>
+******************************************************
+
+Expr: <ParenExpr 9:51-9:73>
+  type:       <TypeDecl ["Record_Type"] 5:4-7:15>
+Expr: <Aggregate 9:52-9:72>
+  type:       <TypeDecl ["Record_Type"] 5:4-7:15>
+Expr: <Id "I" 9:53-9:54>
+  references: <DefiningName 6:7-6:8>
+  type:       None
+Expr: <Id "I" 9:58-9:59>
+  references: <DefiningName 9:16-9:17>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "J" 9:61-9:62>
+  references: <DefiningName 6:10-6:11>
+  type:       None
+Expr: <BinOp 9:66-9:71>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "I" 9:66-9:67>
+  references: <DefiningName 9:16-9:17>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 9:70-9:71>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

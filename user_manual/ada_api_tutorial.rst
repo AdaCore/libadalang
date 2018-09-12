@@ -188,3 +188,12 @@ the following program:
          end;
       end loop;
    end Main;
+
+If you run this program on its own sources, you should get:
+
+.. code-block:: text
+
+   == main.adb ==
+   Line 33: Context : constant LAL.Analysis_Context := LAL.Create_Context;
+   Line 38: Filename : constant String := Ada.Command_Line.Argument (I);
+   Line 39: Unit     : constant LAL.Analysis_Unit :=\x0a            Context.Get_From_File (Filename);

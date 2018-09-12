@@ -9,6 +9,7 @@ Contents:
 
    introduction
    core_concepts
+   ada_api_tutorial
    python_api_doc
    ada_api_doc
 

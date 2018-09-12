@@ -1,8 +1,13 @@
+#! /usr/bin/env python
+
 """
 Helpers to format copyright headers.
 """
 
 from __future__ import absolute_import, division, print_function
+
+import sys
+
 
 BOX_SIZE = 78
 TEXT_SIZE = 72
@@ -33,13 +38,16 @@ complete copy of the license.
 
 
 def concat(header, source):
-    return '\n'.join(header) + '\n\n' + source.strip()
+    return '\n'.join(header) + '\n\n' + source.lstrip()
 
 
 def format_start(start_char):
     result = []
     result.append(start_char * BOX_SIZE)
-    result.append('')
+    result.append('{c}{c}{padding}{c}{c}'.format(
+        c=start_char,
+        padding=' ' * (BOX_SIZE - 4)
+    ))
     for line in header:
         result.append('{c}{c} {text} {c}{c}'
                       .format(c=start_char, text=line.ljust(TEXT_SIZE)))
@@ -73,3 +81,25 @@ def format_c(source):
             tail = ' */'
         result.append((head + line + tail).rstrip())
     return concat(result, source)
+
+
+def run(argv):
+    for filename in argv:
+        _, ext = filename.rsplit('.', 1)
+        formatter = {
+            'ads': format_ada,
+            'adb': format_ada,
+            'c': format_c,
+            'h': format_c,
+            'py': format_python,
+        }[ext]
+
+        with open(filename, 'rb') as f:
+            content = f.read()
+
+        with open(filename, 'wb') as f:
+            f.write(formatter(content))
+
+
+if __name__ == '__main__':
+    run(sys.argv[1:])

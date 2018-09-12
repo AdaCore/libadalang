@@ -21,7 +21,7 @@ main(void)
     int i;
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context(NULL, 0, NULL);
+    ctx = ada_create_analysis_context(NULL, NULL, 1, 8);
     if (ctx == NULL)
         error("Could not create the analysis context");
 

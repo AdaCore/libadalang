@@ -31,7 +31,7 @@ main(void)
     const size_t utf_8_length = strlen(src_buffer_utf_8);
 
     libadalang_initialize();
-    ctx = ada_create_analysis_context("iso-8859-1", 0, NULL);
+    ctx = ada_create_analysis_context("iso-8859-1", NULL, 1, 8);
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 

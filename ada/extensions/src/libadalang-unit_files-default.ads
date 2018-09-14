@@ -52,9 +52,8 @@ package Libadalang.Unit_Files.Default is
    overriding procedure Release (Provider : in out Default_Unit_Provider)
       is null;
 
-   Default_Provider : constant Default_Unit_Provider;
-   --  Default_Unit_Provider instance used as the default parameter for
-   --  Libadalang.Analysis.Create.
+   function Default_Provider return Default_Unit_Provider;
+   --  Return a Default_Unit_Provider instance
 
    function Unit_Text_Name (N : LP.Name) return Text_Type;
    --  Turn the name of an unit represented as a Name node into a textual name.
@@ -90,7 +89,5 @@ private
 
    type Default_Unit_Provider is new LP.Unit_Provider_Interface
       with null record;
-
-   Default_Provider : constant Default_Unit_Provider := (null record);
 
 end Libadalang.Unit_Files.Default;

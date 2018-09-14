@@ -30,60 +30,37 @@ with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
 
-   -----------------------
-   -- Get_Unit_Filename --
-   -----------------------
-
-   overriding function Get_Unit_Filename
-     (Provider : Default_Unit_Provider;
-      Name     : Text_Type;
-      Kind     : Analysis_Unit_Kind) return String
-   is
-      pragma Unreferenced (Provider);
-   begin
-      return File_From_Unit (Unit_String_Name (Name), Kind);
-   end Get_Unit_Filename;
-
-   --------------
-   -- Get_Unit --
-   --------------
-
-   overriding function Get_Unit
-     (Provider : Default_Unit_Provider;
-      Context  : LP.Analysis_Context'Class;
-      Name     : Text_Type;
-      Kind     : Analysis_Unit_Kind;
-      Charset  : String := "";
-      Reparse  : Boolean := False) return LP.Analysis_Unit'Class
-   is
-      pragma Unreferenced (Provider);
-   begin
-      return LP.Get_From_File
-        (Context, File_From_Unit (Unit_String_Name (Name), Kind), Charset,
-         Reparse);
-   end Get_Unit;
-
    ----------------------
    -- Default_Provider --
    ----------------------
 
-   function Default_Provider return Default_Unit_Provider is
+   function Default_Provider return LAL.Unit_Provider_Interface'Class is
+      use GNATCOLL.Projects;
+      use Libadalang.Unit_Files.Projects;
+
+      Env     : Project_Environment_Access;
+      Project : constant Project_Tree_Access := new Project_Tree;
    begin
-      return (null record);
+      Initialize (Env);
+      Load_Empty_Project (Project.all, Env);
+      Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
+      Project.Root_Project.Delete_Attribute (Languages_Attribute);
+      Project.Recompute_View;
+      return Create_Project_Unit_Provider (Project, Env, True);
    end Default_Provider;
 
    --------------------
    -- Unit_Text_Name --
    --------------------
 
-   function Unit_Text_Name (N : LP.Name) return Text_Type is
+   function Unit_Text_Name (N : LAL.Name) return Text_Type is
    begin
       if N.Kind = Ada_Identifier then
          return N.Text;
 
       elsif N.Kind = Ada_Dotted_Name then
          declare
-            DN : constant LP.Dotted_Name := N.As_Dotted_Name;
+            DN : constant LAL.Dotted_Name := N.As_Dotted_Name;
          begin
             if DN.F_Prefix.Kind in Ada_Name
                and then DN.F_Suffix.Kind = Ada_Identifier

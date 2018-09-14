@@ -289,7 +289,7 @@ begin
    Project.Recompute_View;
 
    UFP := LAL.Create_Unit_Provider_Reference
-     (LALPRJ.Create_Project_Unit_Provider (Project, Env, True));
+     (LALPRJ.Create_Project_Unit_Provider (Project, Env));
 
    Ctx := LAL.Create_Context (Unit_Provider => UFP);
 

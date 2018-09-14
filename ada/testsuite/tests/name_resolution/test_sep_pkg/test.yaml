@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [test_sep-bar.adb]
-with_default_project: False

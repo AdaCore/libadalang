@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [pack.ads]
-with_default_project: False

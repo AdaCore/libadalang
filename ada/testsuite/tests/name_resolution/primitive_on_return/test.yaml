@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [prim_ret.adb]
-with_default_project: False

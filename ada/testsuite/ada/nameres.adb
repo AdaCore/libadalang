@@ -107,10 +107,6 @@ procedure Nameres is
       package Debug is new Parse_Flag
         (Parser, "-D", "--debug", Help => "Debug logic equation solving");
 
-      package With_Default_Project is new Parse_Flag
-        (Parser, "-DP", "--with-default-project",
-         Help => "Use default project");
-
       package Files_From_Project is new Parse_Flag
         (Parser,
          Long => "--files-from-project",
@@ -661,9 +657,7 @@ begin
          end loop;
       end if;
 
-      if Args.With_Default_Project.Get
-        or else Length (Args.Project_File.Get) > 0
-      then
+      if Length (Args.Project_File.Get) > 0 then
          declare
             Filename : constant String := +Args.Project_File.Get;
             Env      : Project_Environment_Access;
@@ -693,14 +687,7 @@ begin
                end;
             end loop;
 
-            if Filename'Length = 0 then
-               Load_Empty_Project (Project.all, Env);
-               Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
-               Project.Root_Project.Delete_Attribute (Languages_Attribute);
-               Project.Recompute_View;
-            else
-               Load (Project.all, Create (+Filename), Env);
-            end if;
+            Load (Project.all, Create (+Filename), Env);
             UFP := Create_Unit_Provider_Reference
               (Create_Project_Unit_Provider (Project, Env, True));
 

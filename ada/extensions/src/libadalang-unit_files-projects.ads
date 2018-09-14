@@ -38,7 +38,7 @@ package Libadalang.Unit_Files.Projects is
    function Create_Project_Unit_Provider
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean)
+      Is_Project_Owner : Boolean := True)
       return Project_Unit_Provider;
    --  Create an unit provider using Project. If Is_Project_Owner is true,
    --  the result owns Project, thus the caller must not deallocate it itself.
@@ -78,7 +78,7 @@ private
    function Create_Project_Unit_Provider
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean) return Project_Unit_Provider
+      Is_Project_Owner : Boolean := True) return Project_Unit_Provider
    is ((Project          => Project,
         Env              => Env,
         Is_Project_Owner => Is_Project_Owner));

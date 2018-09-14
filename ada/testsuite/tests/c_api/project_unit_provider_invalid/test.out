@@ -3,5 +3,5 @@ Trying to get unit: "\x0a"
 Trying to get unit: "unknown_unit"
    ... got an analysis unit:
 Diagnostics for ???
-  Cannot open <somefile>
+  Could not find source file for unknown_unit (specification file)
 Done.

@@ -28,9 +28,9 @@ with Libadalang.Common; use Libadalang.Common;
 
 package Libadalang.Unit_Files.Projects is
 
-   package LP renames Libadalang.Analysis;
+   package LAL renames Libadalang.Analysis;
 
-   type Project_Unit_Provider is new LP.Unit_Provider_Interface with private;
+   type Project_Unit_Provider is new LAL.Unit_Provider_Interface with private;
    --  Unit_Provider implementation that relies on a project file
 
    package Prj renames GNATCOLL.Projects;
@@ -52,11 +52,11 @@ package Libadalang.Unit_Files.Projects is
 
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider;
-      Context     : LP.Analysis_Context'Class;
+      Context     : LAL.Analysis_Context'Class;
       Name        : Text_Type;
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
-      Reparse     : Boolean := False) return LP.Analysis_Unit'Class;
+      Reparse     : Boolean := False) return LAL.Analysis_Unit'Class;
 
    function Convert
      (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts
@@ -67,7 +67,7 @@ package Libadalang.Unit_Files.Projects is
 
 private
 
-   type Project_Unit_Provider is new LP.Unit_Provider_Interface with record
+   type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
       Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean;

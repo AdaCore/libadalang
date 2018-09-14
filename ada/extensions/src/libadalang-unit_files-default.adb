@@ -63,6 +63,15 @@ package body Libadalang.Unit_Files.Default is
          Reparse);
    end Get_Unit;
 
+   ----------------------
+   -- Default_Provider --
+   ----------------------
+
+   function Default_Provider return Default_Unit_Provider is
+   begin
+      return (null record);
+   end Default_Provider;
+
    --------------------
    -- Unit_Text_Name --
    --------------------

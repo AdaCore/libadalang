@@ -13,10 +13,7 @@ class NameResolutionDriver(BaseDriver):
 
     @property
     def run_python(self):
-        # TODO: right now, the Python driver does not support using a default
-        # project or the auto unit provider.
-        return (self.py_runner.is_python_api_available
-                and not self.with_default_project)
+        return self.py_runner.is_python_api_available
 
     @property
     def run_python_only(self):

@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [testwu.adb]
-with_default_project: True

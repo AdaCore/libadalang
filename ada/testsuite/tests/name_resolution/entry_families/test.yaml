@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [entryfam.adb]
-with_default_project: False

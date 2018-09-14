@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [streamable_types.ads]
-with_default_project: True

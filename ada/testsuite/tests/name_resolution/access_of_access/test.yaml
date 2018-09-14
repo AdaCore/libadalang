@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [testaccacc.adb]
-with_default_project: False

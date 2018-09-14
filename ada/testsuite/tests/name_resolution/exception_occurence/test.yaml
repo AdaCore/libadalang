@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [test_exc.adb]
-with_default_project: True

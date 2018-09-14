@@ -352,8 +352,8 @@ def setup(app):
     import sys
     sys.path.append(os.getcwd())
 
-    import docgen
-    app.add_directive("ada_auto_package", docgen.AutoPackage)
+    import ada_docgen
+    app.add_directive("ada_auto_package", ada_docgen.AutoPackage)
 
 
 # TODO: for deployment, update the following URL to an available Langkit

@@ -122,6 +122,7 @@ for src_file in input_sources:
 
     # Configuration for this file
     display_slocs = False
+    display_short_images = False
 
     # Now analyze the source file
     unit = ctx.get_from_file(src_file)
@@ -147,6 +148,8 @@ for src_file in input_sources:
                 value = arg.f_expr
                 if name == u'Display_Slocs':
                     display_slocs = decode_boolean_literal(value)
+                elif name == u'Display_Short_Images':
+                    display_short_images = decode_boolean_literal(value)
                 else:
                     raise ValueError('Invalid configuration: {}'.format(
                         escape_ascii(name)
@@ -173,7 +176,7 @@ for src_file in input_sources:
             # guaranteed to be stable.
             for e in sorted(entities, key=lambda n: n.sloc_range.start.line):
                 print('    {}{}'.format(
-                    escape_ascii(e.text),
+                    repr(e) if display_short_images else escape_ascii(e.text),
                     ' at {}'.format(e.sloc_range.start)
                     if display_slocs else ''
                 ))

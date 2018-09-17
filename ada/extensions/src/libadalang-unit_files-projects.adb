@@ -20,7 +20,7 @@ with GNATCOLL.Locks;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Libadalang.GPR_Lock;
-with Libadalang.Unit_Files.Default;
+with Libadalang.Unit_Files;
 
 package body Libadalang.Unit_Files.Projects is
 
@@ -36,7 +36,7 @@ package body Libadalang.Unit_Files.Projects is
       Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
 
       Str_Name : constant String :=
-        Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+        Libadalang.Unit_Files.Unit_String_Name (Name);
 
       File : constant Filesystem_String := Prj.File_From_Unit
         (Project   => Prj.Root_Project (Provider.Project.all),
@@ -75,9 +75,9 @@ package body Libadalang.Unit_Files.Projects is
       else
          declare
             Str_Name : constant String :=
-               Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+               Libadalang.Unit_Files.Unit_String_Name (Name);
             Dummy_File : constant String :=
-               Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
+               Libadalang.Unit_Files.File_From_Unit (Str_Name, Kind);
             Kind_Name  : constant String :=
               (case Kind is
                when Unit_Specification => "specification file",

@@ -113,10 +113,8 @@ class Manage(ManageScript):
                 'Libadalang.Env_Hooks',
                 'Env_Hook'
             ),
-            default_unit_provider=LibraryEntity(
-                'Libadalang.Unit_Files.Default',
-                'Default_Provider'
-            ),
+            default_unit_provider=LibraryEntity('Libadalang.Unit_Files',
+                                                'Default_Provider'),
             symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
                                                'Canonicalize'),
             documentations=libadalang_docs,

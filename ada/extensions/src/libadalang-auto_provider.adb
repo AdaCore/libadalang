@@ -20,8 +20,8 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Wide_Wide_Characters.Handling;
 
-with Libadalang.Common;                 use Libadalang.Common;
-with Libadalang.Unit_Files.Default;
+with Libadalang.Common; use Libadalang.Common;
+with Libadalang.Unit_Files;
 
 package body Libadalang.Auto_Provider is
 
@@ -145,9 +145,9 @@ package body Libadalang.Auto_Provider is
       else
          declare
             Str_Name : constant String :=
-               Libadalang.Unit_Files.Default.Unit_String_Name (Name);
+               Libadalang.Unit_Files.Unit_String_Name (Name);
             Dummy_File : constant String :=
-               Libadalang.Unit_Files.Default.File_From_Unit (Str_Name, Kind);
+               Libadalang.Unit_Files.File_From_Unit (Str_Name, Kind);
             Kind_Name  : constant String :=
               (case Kind is
                when Unit_Specification => "specification file",

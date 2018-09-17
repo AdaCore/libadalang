@@ -7,10 +7,10 @@ with GNAT.OS_Lib; use GNAT.OS_Lib;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
-with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
-with Libadalang.Analysis;            use Libadalang.Analysis;
-with Libadalang.Common;              use Libadalang.Common;
-with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
+with Langkit_Support.Slocs;       use Langkit_Support.Slocs;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 with String_Utils; use String_Utils;
 with Xrefs;        use Xrefs;

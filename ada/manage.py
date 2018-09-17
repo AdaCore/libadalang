@@ -121,7 +121,7 @@ class Manage(ManageScript):
         )
 
         for unit in ('GNATCOLL.Projects', 'GNATCOLL.VFS',
-                     'Libadalang.Unit_Files.Projects',
+                     'Libadalang.Project_Provider',
                      'Libadalang.Auto_Provider'):
             ctx.add_with_clause('Implementation.C', ADA_BODY, unit,
                                 use_clause=True)

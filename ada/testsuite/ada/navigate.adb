@@ -10,7 +10,7 @@ with Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Common;
 with Libadalang.Iterators;
-with Libadalang.Unit_Files.Projects;
+with Libadalang.Project_Provider;
 
 with Put_Title;
 
@@ -20,7 +20,7 @@ procedure Navigate is
    package LALCO renames Libadalang.Common;
    package LALIT renames Libadalang.Iterators;
    package PRJ renames GNATCOLL.Projects;
-   package LALPRJ renames Libadalang.Unit_Files.Projects;
+   package LALPRJ renames Libadalang.Project_Provider;
    package X renames GNATCOLL.Strings;
 
    type Enabled_Kinds_Type is array (LALCO.Ada_Node_Kind_Type) of Boolean;

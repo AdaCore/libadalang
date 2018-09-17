@@ -22,7 +22,7 @@ with GNATCOLL.VFS; use GNATCOLL.VFS;
 with Libadalang.GPR_Lock;
 with Libadalang.Unit_Files;
 
-package body Libadalang.Unit_Files.Projects is
+package body Libadalang.Project_Provider is
 
    -----------------------
    -- Get_Unit_Filename --
@@ -109,4 +109,4 @@ package body Libadalang.Unit_Files.Projects is
       Provider.Is_Project_Owner := False;
    end Release;
 
-end Libadalang.Unit_Files.Projects;
+end Libadalang.Project_Provider;

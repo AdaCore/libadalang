@@ -30,7 +30,7 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.GPR_Lock;
 with Libadalang.Unit_Files.Projects;
 
-package body Libadalang.Unit_Files.Default is
+package body Libadalang.Unit_Files is
 
    ----------------------
    -- Default_Provider --
@@ -140,4 +140,4 @@ package body Libadalang.Unit_Files.Default is
          "ada");
    end File_From_Unit;
 
-end Libadalang.Unit_Files.Default;
+end Libadalang.Unit_Files;

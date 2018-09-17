@@ -26,7 +26,7 @@ with Libadalang.Common; use Libadalang.Common;
 --  This package provides an Unit_Provider implemetation that relies on a
 --  project file.
 
-package Libadalang.Unit_Files.Projects is
+package Libadalang.Project_Provider is
 
    package LAL renames Libadalang.Analysis;
 
@@ -83,4 +83,4 @@ private
         Env              => Env,
         Is_Project_Owner => Is_Project_Owner));
 
-end Libadalang.Unit_Files.Projects;
+end Libadalang.Project_Provider;

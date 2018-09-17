@@ -10,7 +10,7 @@ with GNATCOLL.Strings;  use GNATCOLL.Strings;
 with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with Libadalang.Analysis;
-with Libadalang.Unit_Files.Projects;
+with Libadalang.Project_Provider;
 
 with Colors;
 with Highlighter;
@@ -339,7 +339,7 @@ begin
 
    --  Create the analysis context for Libadalang
    UFP := LAL.Create_Unit_Provider_Reference
-     (Libadalang.Unit_Files.Projects.Create_Project_Unit_Provider
+     (Libadalang.Project_Provider.Create_Project_Unit_Provider
         (Prj_Tree, Env));
    Ctx := LAL.Create_Context (Unit_Provider => UFP);
 

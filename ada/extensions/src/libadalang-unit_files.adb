@@ -28,7 +28,7 @@ with GNATCOLL.VFS; use GNATCOLL.VFS;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.GPR_Lock;
-with Libadalang.Unit_Files.Projects;
+with Libadalang.Project_Provider;
 
 package body Libadalang.Unit_Files is
 
@@ -38,7 +38,7 @@ package body Libadalang.Unit_Files is
 
    function Default_Provider return LAL.Unit_Provider_Interface'Class is
       use GNATCOLL.Projects;
-      use Libadalang.Unit_Files.Projects;
+      use Libadalang.Project_Provider;
 
       Env     : Project_Environment_Access;
       Project : constant Project_Tree_Access := new Project_Tree;
@@ -136,7 +136,7 @@ package body Libadalang.Unit_Files is
       return +GNATCOLL.Projects.File_From_Unit
         (GNATCOLL.Projects.No_Project,
          Name,
-         Libadalang.Unit_Files.Projects.Convert (Kind),
+         Libadalang.Project_Provider.Convert (Kind),
          "ada");
    end File_From_Unit;
 

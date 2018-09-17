@@ -16,11 +16,11 @@ with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 
-with Libadalang.Analysis;            use Libadalang.Analysis;
-with Libadalang.Auto_Provider;       use Libadalang.Auto_Provider;
-with Libadalang.Common;              use Libadalang.Common;
-with Libadalang.Iterators;           use Libadalang.Iterators;
-with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.Iterators;        use Libadalang.Iterators;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 with Put_Title;
 

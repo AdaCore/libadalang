@@ -21,11 +21,13 @@ with Ada.Strings.Maps.Constants;
 
 with Interfaces; use Interfaces;
 
+with GNATCOLL.Locks;
 with GNATCOLL.Projects;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
+with Libadalang.GPR_Lock;
 with Libadalang.Unit_Files.Projects;
 
 package body Libadalang.Unit_Files.Default is
@@ -129,7 +131,7 @@ package body Libadalang.Unit_Files.Default is
    function File_From_Unit
      (Name : String; Kind : Analysis_Unit_Kind) return String
    is
-      Dummy : Scoped_Lock (GPR_Lock'Access);
+      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
    begin
       return +GNATCOLL.Projects.File_From_Unit
         (GNATCOLL.Projects.No_Project,

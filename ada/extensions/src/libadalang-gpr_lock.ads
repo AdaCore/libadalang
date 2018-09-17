@@ -16,5 +16,13 @@
 -- complete copy of the license.                                            --
 ------------------------------------------------------------------------------
 
-package Libadalang.Unit_Files with Pure is
-end Libadalang.Unit_Files;
+with GNATCOLL.Locks; use GNATCOLL.Locks;
+
+private package Libadalang.GPR_Lock is
+
+   Lock : aliased Mutual_Exclusion;
+   --  Lock to serialize all calls to GNATCOLL.Projects, which is not
+   --  thread-safe. Hopefully we will be able to get rid of this lock when
+   --  moving to Libgpr2.
+
+end Libadalang.GPR_Lock;

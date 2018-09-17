@@ -16,8 +16,10 @@
 -- complete copy of the license.                                            --
 ------------------------------------------------------------------------------
 
+with GNATCOLL.Locks;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
+with Libadalang.GPR_Lock;
 with Libadalang.Unit_Files.Default;
 
 package body Libadalang.Unit_Files.Projects is
@@ -31,7 +33,7 @@ package body Libadalang.Unit_Files.Projects is
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String
    is
-      Dummy : Scoped_Lock (GPR_Lock'Access);
+      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
 
       Str_Name : constant String :=
         Libadalang.Unit_Files.Default.Unit_String_Name (Name);
@@ -95,7 +97,7 @@ package body Libadalang.Unit_Files.Projects is
 
    overriding procedure Release (Provider : in out Project_Unit_Provider)
    is
-      Dummy : Scoped_Lock (GPR_Lock'Access);
+      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
    begin
       if Provider.Is_Project_Owner then
          Prj.Unload (Provider.Project.all);

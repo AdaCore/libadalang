@@ -5,13 +5,13 @@ Contents:
 
 .. toctree::
    :numbered:
-   :maxdepth: 2
+   :maxdepth: 3
 
    introduction
    core_concepts
    ada_api_tutorial
-   python_api_doc
-   ada_api_doc
+   python_api_ref
+   ada_api_ref
 
 Indices and tables
 ==================

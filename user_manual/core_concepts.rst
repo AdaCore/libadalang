@@ -126,6 +126,8 @@ replaced with the new one: any attempt to use references to released nodes will
 raise a ``Stale_Reference_Error`` exception (``StaleReferenceError`` in
 Python).
 
+.. _unit-providers:
+
 Unit providers
 ==============
 

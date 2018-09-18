@@ -197,3 +197,168 @@ If you run this program on its own sources, you should get:
    Line 33: Context : constant LAL.Analysis_Context := LAL.Create_Context;
    Line 38: Filename : constant String := Ada.Command_Line.Argument (I);
    Line 39: Unit     : constant LAL.Analysis_Unit :=\x0a            Context.Get_From_File (Filename);
+
+Follow references
+=================
+
+While the previous section only showed Libadalang's syntactic capabilities, we
+can go further with semantic analysis. The most used feature in this domain is
+the computation of cross references ("xrefs"): the ability to reach the
+definition a particular identifier references.
+
+As mentioned in the :ref:`core-concepts` section, the nature of semantic
+analysis requires to know how to fetch compilation units: which source file and
+where? Teaching Libadalang how to do this is done through the use of :ref:`unit
+providers <unit-providers>`.
+
+The default unit provider, i.e. the one that is used if you don't pass anything
+specific to ``Libadalang.Analysis.Create_Context``, assumes that all
+compilation units follow the `GNAT naming convention
+<http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn/the_gnat_compilation_model.html#file-naming-rules>`_
+and that all source files belong to the current directory.
+
+If the organization of your project is completely custom, you can either
+derive ``Libadalang.Analysis.Unit_Provider_Interface``, implementing the
+corresponding primitives according to your project rules, or use features from
+the ``Libadalang.Auto_Provider`` package to let Libadalang automatically
+discover your source files.
+
+However, if your project can be built with a GPR project file, Libadalang comes
+with a ``GNATCOLL.Projects`` adapter to leverage the knowledge of your GPR
+files: the ``Libadalang.Project_Provider`` package. Using it should be
+straightforward for people familiar with the ``GNATCOLL.Projects`` API:
+
+.. code-block:: ada
+
+   declare
+      package GPR renames GNATCOLL.Projects;
+      package LAL renames Libadalang.Analysis;
+      package LAL_GPR renames Libadalang.Project_Provider;
+
+      Env     : GPR.Project_Environment_Access;
+      Project : constant GPR.Project_Tree_Access :=
+         new GPR.Project_Tree;
+
+      Context  : LAL.Analysis_Context;
+      Provider : LAL.Unit_Provider_Reference;
+   begin
+      GPR.Initialize (Env);
+      --  Use procedures in GNATCOLL.Projects to set scenario
+      --  variables (Change_Environment), to set the target
+      --  and the runtime (Set_Target_And_Runtime), etc.
+
+      Project.Load (My_Project_Filename, Env);
+      Provider := LAL_GPR.Create_Project_Unit_Provider_Reference
+        (Project, Env);
+      Context := LAL.Create_Context (Unit_Provider => Provider);
+   end;
+
+Once this compilation unit lookup matter is solved, all you need to do is to
+call the right properties to get the job done. Let's update the previous little
+program so that it quotes, for each object declaration, the declaration of the
+corresponding type. First, use the above code snippet to load a project file
+from the first command-line argument:
+
+.. code-block:: ada
+
+   function Load_Project return LAL.Unit_Provider_Reference;
+   --  Load the project file designated by the first command-line argument
+
+   ------------------
+   -- Load_Project --
+   ------------------
+
+   function Load_Project return LAL.Unit_Provider_Reference is
+      package GPR renames GNATCOLL.Projects;
+      package LAL_GPR renames Libadalang.Project_Provider;
+      use type GNATCOLL.VFS.Filesystem_String;
+
+      Project_Filename : constant String := Ada.Command_Line.Argument (1);
+      Project_File     : constant GNATCOLL.VFS.Virtual_File :=
+         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
+
+      Env     : GPR.Project_Environment_Access;
+      Project : constant GPR.Project_Tree_Access := new GPR.Project_Tree;
+   begin
+      GPR.Initialize (Env);
+      Project.Load (Project_File, Env);
+      return LAL_GPR.Create_Project_Unit_Provider_Reference
+        (Project, Env);
+   end Load_Project;
+
+Then use it when creating the analysis context:
+
+.. code-block:: ada
+
+   Context : constant LAL.Analysis_Context :=
+      LAL.Create_Context (Unit_Provider => Load_Project);
+
+And finally update the ``Process_Node`` function to use Libadalang's name
+resolution capabilities:
+
+.. code-block:: ada
+
+   function Process_Node (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status
+   is
+     use type LALCO.Ada_Node_Kind_Type;
+   begin
+      if Node.Kind = LALCO.Ada_Object_Decl then
+         Put_Line
+           ("Line"
+            & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
+            & ": " & Node.Text);
+         declare
+            Type_Decl : constant LAL.Base_Type_Decl :=
+               Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
+         begin
+            Put_Line ("   => " & Type_Decl.Text);
+         end;
+      end if;
+      return LALCO.Into;
+   end Process_Node;
+
+The most interesting part is the call to the ``P_Designated_Type_Decl``
+property. Let's decompose it:
+
+* ``Node.As_Object_Decl`` converts the input ``Ada_Node`` object into an
+  ``Object_Decl`` one. We can do this safely since we checked its kind right
+  before.
+
+* The call to ``F_Type_Expr`` (a primitive that is specific to ``Object_Decl``
+  nodes) retrieves its type expression field (the type for the declared
+  object). The result is a ``Type_Expr`` node.
+
+* Finally the call to the ``P_Designated_Type_Decl`` property fetches the type
+  declaration corresponding to this type expression: a ``Base_Type_Decl`` node.
+
+This time, running this updated program on itself will yield something like:
+
+.. code-block:: text
+
+   == main.adb ==
+   Line 30: Project_Filename : constant String := Ada.Command_Line.Argument (1);
+      type is:type String is array (Positive range <>) of Character;
+   Line 31: Project_File     : constant GNATCOLL.VFS.Virtual_File :=\x0a         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
+      type is:type Virtual_File is tagged private;
+   Line 34: Env     : GPR.Project_Environment_Access;
+      type is:type Project_Environment_Access is access all Project_Environment'Class;
+
+We have seen here the ``P_Designated_Type_Decl`` property, which resolves
+references to types, but Libadalang offers many more properties to deal with
+name resolution in Ada:
+
+* ``P_Xref`` property will try to resolve from any node to the corresponding
+  declaration, much like an IDE would do when you Control-click on an
+  identifier, for instance.
+
+* All the ``P_Body_Part*`` and ``P_Decl_Part*`` properties will let you
+  navigate between the specification and body that correspond to each other for
+  various nodes: subprograms, packages, etc.
+
+* ``P_Expression_Type`` returns the type of an expression.
+
+* ``P_Generic_Instantiations`` returns the list of package/subprogram generic
+  instantiations that led to the creation of this node.
+
+You can find these and all the other properties documented in your favorite
+language's API reference.

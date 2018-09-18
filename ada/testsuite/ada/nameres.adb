@@ -707,8 +707,8 @@ begin
 
             Files := Find_Files (Directories => Dirs);
 
-            UFP := Create_Unit_Provider_Reference
-              (Create_Auto_Provider (Files.all, +Args.Charset.Get));
+            UFP := Create_Auto_Provider_Reference
+              (Files.all, +Args.Charset.Get);
             GNATCOLL.VFS.Unchecked_Free (Files);
          end;
       end if;

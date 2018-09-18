@@ -71,6 +71,9 @@ package Libadalang.Auto_Provider is
    function Create_Auto_Provider
      (Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset) return Auto_Unit_Provider;
+   function Create_Auto_Provider_Reference
+     (Input_Files : GNATCOLL.VFS.File_Array;
+      Charset     : String := Default_Charset) return Unit_Provider_Reference;
    --  Return a unit provider that knows which compilation units are to be
    --  found in the given list of source files.
    --
@@ -113,5 +116,11 @@ private
       Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset);
    --  Helper for the Create_Auto_Provider functions
+
+   function Create_Auto_Provider_Reference
+     (Input_Files : GNATCOLL.VFS.File_Array;
+      Charset     : String := Default_Charset) return Unit_Provider_Reference
+   is (Create_Unit_Provider_Reference
+         (Create_Auto_Provider (Input_Files, Charset)));
 
 end Libadalang.Auto_Provider;

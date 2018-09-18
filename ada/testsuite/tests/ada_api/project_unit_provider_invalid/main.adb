@@ -8,9 +8,9 @@ with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 with Langkit_Support.Text;        use Langkit_Support.Text;
 
-with Libadalang.Analysis;            use Libadalang.Analysis;
-with Libadalang.Common;              use Libadalang.Common;
-with Libadalang.Unit_Files.Projects; use Libadalang.Unit_Files.Projects;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Main is
 
@@ -31,8 +31,7 @@ procedure Main is
    begin
       Initialize (Env);
       Load (Project.all, Create (+File), Env);
-      return Create_Unit_Provider_Reference
-        (Create_Project_Unit_Provider (Project, Env, True));
+      return Create_Project_Unit_Provider_Reference (Project, Env, True);
    end Load_Project;
 
    Ctx  : constant Analysis_Context :=

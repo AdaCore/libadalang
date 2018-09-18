@@ -688,8 +688,7 @@ begin
             end loop;
 
             Load (Project.all, Create (+Filename), Env);
-            UFP := Create_Unit_Provider_Reference
-              (Create_Project_Unit_Provider (Project, Env));
+            UFP := Create_Project_Unit_Provider_Reference (Project, Env);
 
             if Args.Files_From_Project.Get then
                Add_Files_From_Project (Project, Project.Root_Project, Files);

@@ -40,6 +40,11 @@ package Libadalang.Project_Provider is
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
       return Project_Unit_Provider;
+   function Create_Project_Unit_Provider_Reference
+     (Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return LAL.Unit_Provider_Reference;
    --  Create an unit provider using Project. If Is_Project_Owner is true,
    --  the result owns Project, thus the caller must not deallocate it itself.
    --  Otherwise, the project pointed by Project must outlive the returned unit
@@ -82,5 +87,13 @@ private
    is ((Project          => Project,
         Env              => Env,
         Is_Project_Owner => Is_Project_Owner));
+
+   function Create_Project_Unit_Provider_Reference
+     (Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return LAL.Unit_Provider_Reference
+   is (LAL.Create_Unit_Provider_Reference
+         (Create_Project_Unit_Provider (Project, Env, Is_Project_Owner)));
 
 end Libadalang.Project_Provider;

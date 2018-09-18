@@ -35,12 +35,13 @@ def default_origin():
     return (origin, No(T.AdaNode))
 
 
-def entity_no_md(type, node, rebindings):
+def entity_no_md(type, node, rebindings, from_rebound):
     return Let(lambda n=node: type.entity.new(
         node=n,
         info=T.entity_info.new(
             rebindings=rebindings,
-            md=No(T.env_md)
+            md=No(T.env_md),
+            from_rebound=from_rebound
         )
     ))
 
@@ -235,7 +236,8 @@ class AdaNode(ASTNode):
         return AdaNode.entity.new(
             node=Entity.node, info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
-                md=new_md
+                md=new_md,
+                from_rebound=Entity.info.from_rebound
             )
         )
 
@@ -249,7 +251,8 @@ class AdaNode(ASTNode):
             node=Entity.node,
             info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
-                md=new_metadata(source=Entity.info.md, is_call=True)
+                md=new_metadata(source=Entity.info.md, is_call=True),
+                from_rebound=Entity.info.from_rebound
             )
         )
 
@@ -1096,7 +1099,8 @@ class BasicDecl(AdaNode):
             entity_no_md(
                 BaseTypeDecl,
                 Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings
+                Entity.info.rebindings,
+                Entity.info.from_rebound,
             ),
             ret_2
         )
@@ -4449,7 +4453,8 @@ class GenericSubpInstantiation(GenericInstantiation):
                     md=p.info.md,
                     rebindings=p.info.rebindings.append_rebinding(
                         p.node.children_env, Self.instantiation_env
-                    )
+                    ),
+                    from_rebound=p.info.from_rebound
                 )
             ).cast(T.entity)
         )
@@ -4522,8 +4527,9 @@ class GenericPackageInstantiation(GenericInstantiation):
                     # concerns the *naked* generic. Hence we use
                     # p.node.children_env.
                     .append_rebinding(p.node.children_env,
-                                      Self.instantiation_env)
-                )
+                                      Self.instantiation_env),
+                    from_rebound=p.info.from_rebound
+                ),
             )
         )
 
@@ -6716,7 +6722,8 @@ class EnumLiteralDecl(BasicDecl):
             entity_no_md(
                 BaseTypeDecl,
                 Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings
+                Entity.info.rebindings,
+                Entity.info.from_rebound
             ),
 
             Entity.enum_type

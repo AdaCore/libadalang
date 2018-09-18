@@ -6390,15 +6390,7 @@ class BaseId(SingleTokNode):
 
         return origin.bind(Self, If(
             pkg._.is_package,
-            # If current item is a library item, we want to check that it
-            # is visible from the current unit.
-            If(
-                Or(Not(pkg.is_unit_root),
-                   Self.has_with_visibility(pkg.unit)),
-                Entity.pkg_env(pkg),
-                No(T.LexicalEnv)
-            ),
-
+            Entity.pkg_env(pkg),
             env_els.map(
                 lambda e: e.cast(BasicDecl).defining_env
             ).env_group()

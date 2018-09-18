@@ -298,9 +298,7 @@ class AdaNode(ASTNode):
             Let(lambda
                 head=(r.rebindings_new_env.env_node
                       .cast_or_raise(T.GenericInstantiation).as_bare_entity),
-                tail=Self.generic_instantiations_internal(
-                    r.rebindings_parent
-                ):
+                tail=Self.generic_instantiations_internal(r.rebindings_parent):
                 head.singleton.concat(tail))
         )
 

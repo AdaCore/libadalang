@@ -5498,10 +5498,17 @@ class Name(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=Bool):
-        return Self.logic_val(
-            Entity, Self.ref_var,
-            try_immediate
-        ).cast_or_raise(T.BasicDecl)
+        return If(
+            Entity.is_defining,
+            PropertyError(
+                T.BasicDecl.entity,
+                "Cannot call referenced_decl on a defining name"
+            ),
+            Self.logic_val(
+                Entity, Self.ref_var,
+                try_immediate
+            ).cast_or_raise(T.BasicDecl)
+        )
 
     designated_type_impl = Property(
         No(BaseTypeDecl.entity),

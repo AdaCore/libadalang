@@ -44,6 +44,9 @@ package Libadalang.Auto_Provider is
 
    Default_Source_Filename_Pattern : constant GNAT.Regpat.Pattern_Matcher :=
       GNAT.Regpat.Compile (".*\.(ad.|a|spc|bdy)");
+   --  Default matcher for Ada source filenames. This matches most usual file
+   --  extensions used for Ada sources: ``.ads``, ``.adb``, ``.ada``, ``.spc``,
+   --  ``.bdy``, etc.
 
    function Find_Files
      (Name_Pattern : GNAT.Regpat.Pattern_Matcher :=
@@ -51,17 +54,19 @@ package Libadalang.Auto_Provider is
       Directories  : GNATCOLL.VFS.File_Array)
       return GNATCOLL.VFS.File_Array_Access;
    --  Return the list of absolute file names for all regular files in the
-   --  given Directories whose name match the given regular expression
-   --  Name_Pattern. The result is dynamically allocated, so  the caller must
-   --  free it when done with it.
+   --  given ``Directories`` whose name match the given regular expression
+   --  ``Name_Pattern``. The result is dynamically allocated, so the caller
+   --  must free it when done with it.
 
    type Auto_Unit_Provider is
       new Libadalang.Analysis.Unit_Provider_Interface with private;
+   --  Unit provider for a given list of files
 
    overriding function Get_Unit_Filename
      (Provider : Auto_Unit_Provider;
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String;
+   --% no-document: True
 
    overriding function Get_Unit
      (Provider    : Auto_Unit_Provider;
@@ -70,24 +75,31 @@ package Libadalang.Auto_Provider is
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class;
+   --% no-document: True
 
    overriding procedure Release (Provider : in out Auto_Unit_Provider);
+   --% no-document: True
 
    function Create_Auto_Provider
      (Input_Files : GNATCOLL.VFS.File_Array;
       Charset     : String := Default_Charset) return Auto_Unit_Provider;
-   function Create_Auto_Provider_Reference
-     (Input_Files : GNATCOLL.VFS.File_Array;
-      Charset     : String := Default_Charset) return Unit_Provider_Reference;
    --  Return a unit provider that knows which compilation units are to be
    --  found in the given list of source files.
    --
-   --  This knowledge is built trying to parse all given Input_Files as Ada
+   --  This knowledge is built trying to parse all given ``Input_Files`` as Ada
    --  source files and listing the compilation units found there. Files that
    --  cannot be parsed properly or redundant compilation units are discarded.
-   --  Source files are decoded using the given Charset.
+   --  Source files are decoded using the given ``Charset``.
    --
-   --  TODO??? Find a way to report discarded source files/compilation units.
+   --  .. todo:: Find a way to report discarded source files/compilation units.
+
+   function Create_Auto_Provider_Reference
+     (Input_Files : GNATCOLL.VFS.File_Array;
+      Charset     : String := Default_Charset) return Unit_Provider_Reference;
+   --  Wrapper around ``Create_Auto_Provider`` as a shortcut to create a unit
+   --  provider reference.
+   --
+   --% belongs-to: Auto_Unit_Provider
 
 private
 

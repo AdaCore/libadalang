@@ -4540,14 +4540,26 @@ class GenericPackageInstantiation(GenericInstantiation):
         Entity.designated_package.parent.cast(T.BasicDecl)
     )
 
-    @langkit_property(return_type=LexicalEnv)
-    def defining_env():
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
+    def defining_env_impl(inst_from_formal=(Bool, False)):
+        """
+        Specialized function for getting the defining env for this generic
+        instantiation.
+
+        If ``inst_from_formal`` is True, we know that this generic package
+        instantiation is coming from a rebound formal package, and that we need
+        visibility on the formals.
+        """
         dp = Var(Entity.designated_package)
         return If(
-            Self.is_formal_pkg,
+            Self.is_formal_pkg | inst_from_formal,
             Array([dp.children_env, dp.parent.children_env]).env_group(),
             dp.children_env
         )
+
+    @langkit_property(return_type=LexicalEnv)
+    def defining_env():
+        return Entity.defining_env_impl
 
     defining_names = Property(Entity.name.singleton)
 
@@ -6383,36 +6395,53 @@ class BaseId(SingleTokNode):
         DottedName when the parent is a library level package.
         """
         bd = Var(Self.parents.find(
-            lambda p: p.is_a(T.GenericPackageInstantiation)
-        ))
-        all_env_els = Var(Entity.env_elements_baseid)
-        env_els = Var(If(
-            Self.is_prefix,
-            all_env_els.filter(lambda e:
-                               Self.has_with_visibility(e.node.unit)),
-            all_env_els
+            lambda p: p.is_a(GenericPackageInstantiation)
         ))
 
-        pkg = Var(
-            env_els.filter(lambda e: Not(e.node == bd)).at(0).cast(T.BasicDecl)
-        )
+        env_els = Var(Entity.env_elements_baseid.then(lambda all_env_els: If(
+            Self.is_prefix,
+            all_env_els.filter(lambda e: And(
+                # Exclude own generic package instantiation from the lookup
+                Not(e.node == bd),
+
+                # Check with visibility, except if the node is a generic
+                # package instantiation coming from a formal package.
+                e.cast(GenericPackageInstantiation)._.info.from_rebound
+                | Self.has_with_visibility(e.node.unit)
+            )),
+            all_env_els
+        )))
+
+        pkg = Var(env_els.at(0).cast(T.BasicDecl))
 
         return origin.bind(Self, If(
             pkg._.is_package,
-            Entity.pkg_env(pkg),
+            Entity.pkg_env(
+                pkg,
+                pkg.is_a(T.GenericPackageInstantiation) & pkg.info.from_rebound
+            ),
             env_els.map(
                 lambda e: e.cast(BasicDecl).defining_env
             ).env_group()
         ))
 
     @langkit_property(dynamic_vars=[env, origin])
-    def pkg_env(bd=T.BasicDecl.entity):
+    def pkg_env(bd=T.BasicDecl.entity, is_inst_from_formal=T.Bool):
         """
         Return the lexical environment for this identifier, should it be a
         package. This method handles resolving to the most visible part of a
         package - private or body - if necessary.
+
+        If ``inst_from_formal`` is True, we know that bd is a generic package
+        instantiation coming from a rebound formal package, and that we need
+        visibility on the formals.
         """
-        env = Var(bd.defining_env)
+
+        env = Var(If(
+            bd.is_a(T.GenericPackageInstantiation) & is_inst_from_formal,
+            bd.cast(T.GenericPackageInstantiation).defining_env_impl(True),
+            bd.defining_env
+        ))
 
         # If the basic_decl is a package decl with a private part, we get it.
         # Else we keep the defining env.

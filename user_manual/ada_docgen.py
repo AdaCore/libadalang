@@ -317,15 +317,25 @@ class AutoPackage(Directive):
 
             if decl.is_a(lal.BasicSubpDecl):
                 # Look for the type under which this subprogram should be
-                # documented.
+                # documented ("owning_type"). This is either the explicitly
+                # asked type ("belongs-to" annotation) or the type that is a
+                # primitive for this subprogram (if the type is declared in the
+                # same file).
+                owning_type = None
                 if annotations.get('belongs-to'):
-                    associated_decls[
-                        types[annotations['belongs-to']]].append(decl)
+                    owning_type = types[annotations['belongs-to']]
                 else:
                     prim_type = decl.f_subp_spec.p_primitive_subp_of
-                    if prim_type:
-                        append_decl(prim_type)
-                        associated_decls[prim_type].append(decl)
+                    if prim_type and prim_type.unit == u:
+                        owning_type = prim_type
+                        append_decl(owning_type)
+
+                # If we found a relevant type, document the subprogram under
+                # it, otherwise document it at the top-level.
+                if owning_type:
+                    associated_decls[owning_type].append(decl)
+                else:
+                    append_decl(decl)
 
             elif decl.is_a(lal.BaseTypeDecl):
                 # New type declaration: document it and register it as a type

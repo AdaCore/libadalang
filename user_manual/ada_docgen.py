@@ -352,7 +352,7 @@ class AutoPackage(Directive):
         wrapper_node = nodes.Element()
 
         rst = ViewList()
-        title = package_decl.p_defining_name.text + ' documentation'
+        title = package_decl.p_defining_name.text
         rst.append(title, 'no_file.rst', 1)
         rst.append('-' * len(title), 'no_file.rst', 2)
 

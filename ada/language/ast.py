@@ -1093,6 +1093,11 @@ class BasicDecl(AdaNode):
             # the derived type through which we found this primitive
             # (md.primitive_real_type).
 
+            # TODO: This code is suspicious because only functions and enum
+            # literals can have a type that is changed by a primitive
+            # environment, and those already have code handling this. Check if
+            # we can remove this.
+
             Not(ret_2.is_null) & (Entity.info.md.primitive == ret_2.node),
             entity_no_md(
                 BaseTypeDecl,
@@ -6951,7 +6956,21 @@ class BaseSubpSpec(BaseFormalParamHolder):
             No(T.BaseTypeDecl.entity)
         ))
 
-    return_type = Property(Entity.returns._.designated_type)
+    @langkit_property()
+    def return_type():
+        ret = Var(Entity.returns._.designated_type)
+        return If(
+            Entity.info.md.primitive == ret.node,
+
+            entity_no_md(
+                BaseTypeDecl,
+                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
+                Entity.info.rebindings,
+                Entity.info.from_rebound
+            ),
+
+            ret
+        )
 
     xref_entry_point = Property(True)
     xref_equation = Property(Entity.returns.then(lambda r: r.sub_equation,

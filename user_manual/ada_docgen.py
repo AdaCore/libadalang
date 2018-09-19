@@ -25,12 +25,19 @@ def get_documentation(decl):
     # type: (lal.BasicDecl) -> Tuple[List[str], Dict[unicode, unicode]]
     """
     Return the documentation for given basic declaration.
+
+    The returned tuple contains:
+
+    1. the list of lines that constitutes the documentation for ``decl``;
+    2. a mapping (key: string, value: string) for the parsed annotations.
     """
     annotations = {}
     doc = []
 
+    # Direction to follow when looking for comments (see below)
     backwards = False
 
+    # Namespace so that local functions can modify ``token``
     class T:
         token = None
 
@@ -38,38 +45,50 @@ def get_documentation(decl):
         T.token = T.token.previous if backwards else T.token.next
 
     if isinstance(decl, lal.BasePackageDecl):
+        # Documentation for packages is assumed to appear before the "package"
+        # keyword.
         T.token = decl.token_start.previous
         if T.token.kind == 'Whitespace':
             T.token = T.token.previous
         backwards = True
+
     else:
+        # Documentation for all other entities is assumed to appear after the
+        # root node representing the entity.
         T.token = decl.token_end.next
-        if T.token.kind == 'Whitespace' and T.token.text.count("\n") == 1:
+        if T.token.kind == 'Whitespace' and T.token.text.count('\n') == 1:
             T.token = T.token.next
 
-    if T.token.kind != "Comment":
+    # No comment in the direction expected? There is no documentation
+    if T.token.kind != 'Comment':
         return doc, annotations
 
-    indent_level = -1
-    while T.token and T.token.kind in ["Comment", "Whitespace"]:
+    # Process as many comments as possible from our starting point, until we
+    # find an empty line or anything else than a comment or a whitespace.
+    indent_level = None
+    while T.token and T.token.kind in ['Comment', 'Whitespace']:
         if T.token.kind == 'Whitespace':
-            if T.token.text.count("\n") > 1:
+            if T.token.text.count('\n') > 1:
                 break
 
-        if T.token.kind == "Comment":
-            t = T.token.text[2:]  # Strip the "--"
-            if t.startswith("%"):
-                key, val = map(unicode.strip, t[1:].split(":"))
+        if T.token.kind == 'Comment':
+            t = T.token.text[2:]  # Strip the '--'
+            if t.startswith('%'):
+                try:
+                    key, val = map(unicode.strip, t[1:].split(':'))
+                except ValueError:
+                    assert False, 'Invalid syntax for annotation: {}'.format(t)
                 annotations[key] = val
-                T.token = T.token.next
+                next_token()
                 continue
 
             # Compute the indentation level for the whole comment block, if
             # processing the first comment.
-            if indent_level == -1:
+            if indent_level is None:
                 indent_level = next(i for i, j in enumerate(t) if j.strip())
 
             # Add the text to the list of lines
+            assert not t[:indent_level].strip(), 'Inconsistent indentation'
             doc.append(t[indent_level:])
 
         next_token()
@@ -84,10 +103,35 @@ def get_signature(decl):
     # type: (lal.BasicDecl) -> unicode
     if decl.is_a(lal.BasicSubpDecl):
         return decl.p_subp_spec_or_null().text
-    return ""
+    return ''
 
 
 class AutoPackage(Directive):
+    """
+    Sphinx directive to generate the documentation of an Ada package from the
+    comments in the package specification source.
+
+    This directive takes one argument: the path to the source file to parse.
+    Two options are accepted:
+
+    * ``project_file``, the path to a project file to load.
+
+    * ``scenario_variables``, a list of scenario variables to pass to the
+      project file. For instance: ``VAR1=somevalue,VAR2=othervalue``.
+
+    Annotations can be added to Ada comments in order to control the
+    documentation generation. The general syntax for annotations is::
+
+        --% key: value
+
+    Here are the supported annotations:
+
+    * ``no-document`` (bool): when true, disable documentation for the current
+      entity.
+
+    * ``belongs-to``: name of the type that must contain the documentation for
+      the current entity.
+    """
 
     required_arguments = 1
     optional_arguments = 0
@@ -103,7 +147,7 @@ class AutoPackage(Directive):
         scen_vars = {}
         if raw_vars:
             for var in raw_vars:
-                k, v = var.split("=")
+                k, v = var.split('=')
                 scen_vars[k] = v
 
         return self.emit_doc(
@@ -113,7 +157,7 @@ class AutoPackage(Directive):
     def handle_ada_decl(self, decl):
         # type: (lal.BasicDecl) -> Tuple[List[nodes.Node], N.desc_content]
 
-        # Get the doc
+        # Get the documentation content
         doc, _ = get_documentation(decl)
 
         # Create sphinx nodes
@@ -138,7 +182,7 @@ class AutoPackage(Directive):
 
         rst = ViewList()
         for i, l in enumerate(doc, 1):
-            rst.append(l, "no_file.rst", i)
+            rst.append(l, 'no_file.rst', i)
 
         nested_parse_with_titles(self.state, rst, content_node)
         return [self.indexnode, node], content_node
@@ -148,7 +192,7 @@ class AutoPackage(Directive):
         # type: (lal.BasicSubpDecl, N.desc, N.desc_signature) -> None
 
         subp_spec = decl.p_subp_spec_or_null().cast(lal.SubpSpec)
-        kind = "function" if subp_spec.p_returns else "procedure"
+        kind = 'function' if subp_spec.p_returns else 'procedure'
         name = decl.p_defining_name.text
 
         node['objtype'] = node['desctype'] = kind
@@ -160,22 +204,22 @@ class AutoPackage(Directive):
         if params:
             signode += nodes.Text(' ')
             param_list = N.desc_parameterlist()
-            param_list.child_text_separator = "; "
+            param_list.child_text_separator = '; '
             signode += param_list
             for param in params:
                 assert isinstance(param, lal.ParamSpec)
                 name = param.text
                 p = N.desc_parameter(name, name)
-                p.child_text_separator = "; "
+                p.child_text_separator = '; '
                 param_list += p
 
     @staticmethod
     def handle_type_decl(decl, node, signode):
         # type: (lal.BaseTypeDecl, N.desc, N.desc_signature) -> None
-        node['objtype'] = node['desctype'] = "type"
+        node['objtype'] = node['desctype'] = 'type'
         name = decl.p_defining_name.text
 
-        signode += N.desc_annotation("type ", "type ")
+        signode += N.desc_annotation('type ', 'type ')
         signode += N.desc_name(name, name)
 
     @staticmethod
@@ -184,8 +228,8 @@ class AutoPackage(Directive):
 
         decl_to_names = [
             (lal.ObjectDecl,
-             lambda od: "constant"
-                        if od.f_has_constant.p_as_bool else "object"),
+             lambda od: 'constant'
+                        if od.f_has_constant.p_as_bool else 'object'),
             (lal.AdaNode, lambda n: type(n).__name__)
         ]
 
@@ -194,15 +238,27 @@ class AutoPackage(Directive):
             decl_to_names
         )
 
-        signode += N.desc_annotation(decl_name + " ", decl_name + " ")
+        signode += N.desc_annotation(decl_name + ' ', decl_name + ' ')
         signode += N.desc_name(decl.text, decl.text)
 
     def emit_doc(self, project, scenario_vars, file_name):
+        """
+        Entry point for the doc generation of one Ada package.
+
+        :param None|str project: Optional path to the project file to load.
+
+        :param scenario_vars: Mapping for scenario variables to use to load the
+            project file.
+        :type scenario_vars: None|dict[str,str]
+
+        :param str file_name: Path of the Ada source file to parse.
+        """
+
         from tempfile import mkdtemp
 
         if not project:
-            with open("{}/default.gpr".format(mkdtemp()), 'w') as f:
-                f.write("project Default is end Default;")
+            with open('{}/default.gpr'.format(mkdtemp()), 'w') as f:
+                f.write('project Default is end Default;')
                 project = f.name
 
         ctx = lal.AnalysisContext(
@@ -210,17 +266,29 @@ class AutoPackage(Directive):
             unit_provider=lal.UnitProvider.for_project(project, scenario_vars)
         )
 
+        # List of top-level declarations to document
         toplevel_decls = []
+
+        # Set mirorring toplevel_decls, used to check whether a decl is part of
+        # it already.
         toplevel_decls_set = set()
 
         def append_decl(decl):
+            """
+            Append ``decl`` to ``toplevel_decls`` if it's not there yet.
+            """
             if decl not in toplevel_decls_set:
                 toplevel_decls.append(decl)
                 toplevel_decls_set.add(decl)
 
+        # Each declaration can group the documentation of several other
+        # declarations. This mapping (decl -> list[decl]) describes this
+        # grouping.
         associated_decls = defaultdict(list)
 
         u = ctx.get_from_file(file_name)
+        assert not u.diagnostics, 'Parsing error in {}'.format(file_name)
+        assert u.root, '{} is empty'.format(file_name)
         try:
             package_decl = (
                 u.root.cast(lal.CompilationUnit).f_body
@@ -228,8 +296,11 @@ class AutoPackage(Directive):
                 .cast(lal.BasePackageDecl)
             )
         except AssertionError:
-            print("Not a package")
+            print('Not a package')
             return
+
+        # Go through all declarations that appear in the top-level package and
+        # organize them in sections the way we want to document them.
 
         decls = package_decl.f_public_part.f_decls
         types = {}
@@ -237,11 +308,13 @@ class AutoPackage(Directive):
         for decl in list(decls):
             _, annotations = get_documentation(decl)
 
+            # Skip documentation for this entity
             if annotations.get('no-document'):
                 continue
 
             if decl.is_a(lal.BasicSubpDecl):
-
+                # Look for the type under which this subprogram should be
+                # documented.
                 if annotations.get('belongs-to'):
                     associated_decls[
                         types[annotations['belongs-to']]].append(decl)
@@ -252,12 +325,13 @@ class AutoPackage(Directive):
                         associated_decls[prim_type].append(decl)
 
             elif decl.is_a(lal.BaseTypeDecl):
+                # New type declaration: document it and register it as a type
                 types[decl.p_defining_name.text] = decl
                 append_decl(decl)
 
             elif decl.is_a(lal.ObjectDecl):
-                # Try to associate object decls to their type, if there is one
-                # in the package.
+                # Try to associate object declarations to their type, if there
+                # is one in the current package.
                 type_name = (decl.f_type_expr.p_designated_type_decl
                              .p_defining_name)
                 t = types.get(type_name.text) if type_name else None
@@ -271,23 +345,25 @@ class AutoPackage(Directive):
 
         ret = []
 
+        # Get documentation for the top-level package itself
         pkg_doc, annotations = get_documentation(package_decl)
 
         # Create the documentation's content
         wrapper_node = nodes.Element()
 
         rst = ViewList()
-        title = package_decl.p_defining_name.text + " documentation"
-        rst.append(title, "no_file.rst", 1)
-        rst.append("-" * len(title), "no_file.rst", 2)
+        title = package_decl.p_defining_name.text + ' documentation'
+        rst.append(title, 'no_file.rst', 1)
+        rst.append('-' * len(title), 'no_file.rst', 2)
 
         for i, l in enumerate(pkg_doc, 3):
-            rst.append(l, "no_file.rst", i)
+            rst.append(l, 'no_file.rst', i)
 
         nested_parse_with_titles(self.state, rst, wrapper_node)
 
         ret += wrapper_node.children
 
+        # Go through all entities to generate their documentation
         for decl in toplevel_decls:
             n, content_node = self.handle_ada_decl(decl)
             ret += n

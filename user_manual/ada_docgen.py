@@ -2,36 +2,22 @@
 
 from __future__ import absolute_import, division, print_function
 
-import argparse
 from collections import defaultdict
-
-import libadalang as lal
-
-from langkit.utils import dispatch_on_type
 
 from docutils import nodes
 from docutils.statemachine import ViewList
-
 from funcy import memoize
-
+from langkit.utils import dispatch_on_type
+import libadalang as lal
 from sphinx import addnodes as N
 from sphinx.util.compat import Directive
 from sphinx.util.nodes import nested_parse_with_titles
-
 
 try:
     from typing import List, Dict, Tuple
     assert List and Dict and Tuple  # Silence pyflakes
 except ImportError:
     pass
-
-
-parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('-P', '--project', default='')
-parser.add_argument('files', help='The files to analyze', nargs='+')
-parser.add_argument(
-    '-X', action='append', help="Scenario variables to pass along to GPR"
-)
 
 
 @memoize

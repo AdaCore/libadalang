@@ -141,6 +141,9 @@ class AutoPackage(Directive):
         'scenario_variables': lambda x: [s.strip() for s in x.split(',')],
     }
 
+    def warn(self, message, *args, **kwargs):
+        self.state.document.reporter.warning(message.format(*args, **kwargs))
+
     def run(self):
         file_name = self.arguments[0].strip()
         raw_vars = self.options.get('scenario_variables') or []
@@ -341,6 +344,8 @@ class AutoPackage(Directive):
                     append_decl(decl)
 
             elif decl.is_a(lal.BasicDecl):
+                self.warn('default entity handling for {}:{}',
+                          decl.unit.filename, decl)
                 append_decl(decl)
 
         ret = []

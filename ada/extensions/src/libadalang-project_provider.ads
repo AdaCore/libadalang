@@ -28,37 +28,42 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
 
---  This package provides an Unit_Provider implemetation that relies on a
+--  This package provides an ``Unit_Provider`` implementation that relies on a
 --  project file.
 
 package Libadalang.Project_Provider is
 
    package LAL renames Libadalang.Analysis;
+   package Prj renames GNATCOLL.Projects;
 
    type Project_Unit_Provider is new LAL.Unit_Provider_Interface with private;
-   --  Unit_Provider implementation that relies on a project file
-
-   package Prj renames GNATCOLL.Projects;
+   --  Unit provider backed up by a project file
 
    function Create_Project_Unit_Provider
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
       return Project_Unit_Provider;
+   --  Create an unit provider using ``Project``. If ``Is_Project_Owner`` is
+   --  true, the result owns ``Project``, thus the caller must not deallocate
+   --  it itself. Otherwise, the project pointed by Project must outlive the
+   --  returned unit file provider.
+
    function Create_Project_Unit_Provider_Reference
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
       return LAL.Unit_Provider_Reference;
-   --  Create an unit provider using Project. If Is_Project_Owner is true,
-   --  the result owns Project, thus the caller must not deallocate it itself.
-   --  Otherwise, the project pointed by Project must outlive the returned unit
-   --  file provider.
+   --  Wrapper around ``Create_Project_Unit_Provider`` as a shortcut to create
+   --  a unit provider reference.
+   --
+   --% belongs-to: Project_Unit_Provider
 
    overriding function Get_Unit_Filename
      (Provider : Project_Unit_Provider;
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String;
+   --% no-document: True
 
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider;
@@ -67,6 +72,7 @@ package Libadalang.Project_Provider is
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return LAL.Analysis_Unit'Class;
+   --% no-document: True
 
    function Convert
      (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts
@@ -74,6 +80,8 @@ package Libadalang.Project_Provider is
      (case Kind is
       when Unit_Specification => GNATCOLL.Projects.Unit_Spec,
       when Unit_Body          => GNATCOLL.Projects.Unit_Body);
+   --  Convert our kind for analysis unit into the corresponding
+   --  ``GNATCOLL.Projects`` value.
 
 private
 

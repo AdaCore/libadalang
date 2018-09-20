@@ -98,13 +98,6 @@ def get_documentation(decl):
     return doc, annotations
 
 
-def get_signature(decl):
-    # type: (lal.BasicDecl) -> unicode
-    if decl.is_a(lal.BasicSubpDecl):
-        return decl.p_subp_spec_or_null().text
-    return ''
-
-
 class AutoPackage(Directive):
     """
     Sphinx directive to generate the documentation of an Ada package from the
@@ -166,12 +159,12 @@ class AutoPackage(Directive):
         self.indexnode = N.index(entries=[])
         node = N.desc()
         node.document = self.state.document
-        signode = N.desc_signature(get_signature(decl), '')
+        signode = N.desc_signature('', '')
         signode['first'] = False
         node.append(signode)
 
         # Do decl-type specific stuff in specialized methods
-        if isinstance(decl, lal.BasicSubpDecl):
+        if isinstance(decl, (lal.BasicSubpDecl, lal.ExprFunction)):
             self.handle_subprogram_decl(decl, node, signode)
         elif isinstance(decl, lal.BaseTypeDecl):
             self.handle_type_decl(decl, node, signode)
@@ -306,7 +299,7 @@ class AutoPackage(Directive):
             if annotations.get('no-document'):
                 continue
 
-            if decl.is_a(lal.BasicSubpDecl):
+            if decl.is_a(lal.BasicSubpDecl, lal.ExprFunction):
                 # Look for the type under which this subprogram should be
                 # documented ("owning_type"). This is either the explicitly
                 # asked type ("belongs-to" annotation) or the type that is a

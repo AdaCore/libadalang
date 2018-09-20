@@ -170,6 +170,8 @@ class AutoPackage(Directive):
             self.handle_type_decl(decl, node, signode)
         elif isinstance(decl, lal.ObjectDecl):
             self.handle_object_decl(decl, node, signode)
+        elif isinstance(decl, lal.PackageRenamingDecl):
+            self.handle_package_renaming_decl(decl, node, signode)
         else:
             self.handle_decl_generic(decl, node, signode)
 
@@ -256,6 +258,19 @@ class AutoPackage(Directive):
 
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(descr, descr)
+
+    @staticmethod
+    def handle_package_renaming_decl(decl, node, signode):
+        # type: (lal.PackageRenamingDecl, N.desc, N.desc_signature) -> None
+        node['objtype'] = node['desctype'] = decl.kind_name
+
+        name = decl.p_defining_name.text
+        renamed = decl.f_renames.f_renamed_object.text
+
+        signode += N.desc_annotation('package ', 'package ')
+        signode += N.desc_name(name, name)
+        signode += N.desc_annotation(' renames ', ' renames ')
+        signode += N.desc_addname(renamed, renamed)
 
     @staticmethod
     def handle_decl_generic(decl, node, signode):

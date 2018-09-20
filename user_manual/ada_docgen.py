@@ -194,6 +194,7 @@ class AutoPackage(Directive):
             (lal.BaseTypeDecl, self.handle_type_decl),
             (lal.ObjectDecl, self.handle_object_decl),
             (lal.PackageRenamingDecl, self.handle_package_renaming_decl),
+            (lal.GenericPackageInstantiation, self.handle_package_inst),
             (lal.ExceptionDecl, self.handle_exception_decl),
         ]
         for h in handlers:
@@ -302,6 +303,20 @@ class AutoPackage(Directive):
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(' renames ', ' renames ')
         signode += N.desc_addname(renamed, renamed)
+
+    def handle_package_inst(self, decl, node, signode, annotations):
+        # type: (lal.PackageRenamingDecl, N.desc, N.desc_signature) -> None
+        node['objtype'] = node['desctype'] = decl.kind_name
+
+        name = decl.p_defining_name.text
+        last_token = (decl.f_params.token_end.next
+                      if decl.f_params else decl.generic_pkg_name.token_end)
+        rest = lal.Token.text_range(decl.p_defining_name.token_start.next,
+                                    last_token)
+
+        signode += N.desc_annotation('package ', 'package ')
+        signode += N.desc_name(name, name)
+        signode += N.desc_annotation(rest, rest)
 
     def handle_exception_decl(self, decl, node, signode, annotations):
         # type: (lal.ExceptionDecl, N.desc, N.desc_signature) -> None

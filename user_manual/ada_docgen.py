@@ -7,7 +7,6 @@ from collections import defaultdict
 from docutils import nodes
 from docutils.statemachine import ViewList
 from funcy import memoize
-from langkit.utils import dispatch_on_type
 import libadalang as lal
 from sphinx import addnodes as N
 from sphinx.util.compat import Directive
@@ -233,20 +232,7 @@ class AutoPackage(Directive):
     @staticmethod
     def handle_decl_generic(decl, node, signode):
         # type: (lal.BasicDecl, N.desc, N.desc_signature) -> None
-
-        decl_to_names = [
-            (lal.ObjectDecl,
-             lambda od: 'constant'
-                        if od.f_has_constant.p_as_bool else 'object'),
-            (lal.AdaNode, lambda n: type(n).__name__)
-        ]
-
-        node['objtype'] = node['desctype'] = decl_name = dispatch_on_type(
-            decl,
-            decl_to_names
-        )
-
-        signode += N.desc_annotation(decl_name + ' ', decl_name + ' ')
+        node['objtype'] = node['desctype'] = decl.kind_name
         signode += N.desc_name(decl.text, decl.text)
 
     def emit_doc(self, project, scenario_vars, file_name):

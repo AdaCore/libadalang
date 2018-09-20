@@ -195,7 +195,8 @@ class AutoPackage(Directive):
         # type: (lal.BasicSubpDecl, N.desc, N.desc_signature) -> None
 
         subp_spec = decl.p_subp_spec_or_null().cast(lal.SubpSpec)
-        kind = 'function' if subp_spec.p_returns else 'procedure'
+        ret_type = subp_spec.p_returns
+        kind = 'function' if ret_type else 'procedure'
         name = decl.p_defining_name.text
 
         node['objtype'] = node['desctype'] = kind
@@ -215,6 +216,10 @@ class AutoPackage(Directive):
                 p = N.desc_parameter(name, name)
                 p.child_text_separator = '; '
                 param_list += p
+
+        if ret_type:
+            signode += N.desc_annotation(' return ', ' return ')
+            signode += N.desc_type(ret_type.text, ret_type.text)
 
     @staticmethod
     def handle_type_decl(decl, node, signode):

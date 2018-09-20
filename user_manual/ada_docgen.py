@@ -195,6 +195,7 @@ class AutoPackage(Directive):
             (lal.ObjectDecl, self.handle_object_decl),
             (lal.PackageRenamingDecl, self.handle_package_renaming_decl),
             (lal.GenericPackageInstantiation, self.handle_package_inst),
+            (lal.GenericSubpInstantiation, self.handle_subp_inst),
             (lal.ExceptionDecl, self.handle_exception_decl),
         ]
         for h in handlers:
@@ -315,6 +316,21 @@ class AutoPackage(Directive):
                                     last_token)
 
         signode += N.desc_annotation('package ', 'package ')
+        signode += N.desc_name(name, name)
+        signode += N.desc_annotation(rest, rest)
+
+    def handle_subp_inst(self, decl, node, signode, annotations):
+        # type: (lal.PackageRenamingDecl, N.desc, N.desc_signature) -> None
+        node['objtype'] = node['desctype'] = decl.kind_name
+
+        kind = decl.token_start.text + u' '
+        name = decl.p_defining_name.text
+        last_token = (decl.f_params.token_end.next
+                      if decl.f_params else decl.generic_subp_name.token_end)
+        rest = lal.Token.text_range(decl.p_defining_name.token_start.next,
+                                    last_token)
+
+        signode += N.desc_annotation(kind, kind)
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(rest, rest)
 
@@ -444,7 +460,8 @@ class AutoPackage(Directive):
             elif decl.is_a(lal.BasicDecl):
                 if not decl.is_a(lal.ExceptionDecl,
                                  lal.PackageRenamingDecl,
-                                 lal.GenericPackageInstantiation):
+                                 lal.GenericPackageInstantiation,
+                                 lal.GenericSubpInstantiation):
                     self.warn('default entity handling for {}:{}',
                               decl.unit.filename, decl)
                 append_decl(decl)

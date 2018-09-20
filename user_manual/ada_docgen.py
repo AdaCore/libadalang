@@ -345,8 +345,10 @@ class AutoPackage(Directive):
                     append_decl(decl)
 
             elif decl.is_a(lal.BasicDecl):
-                self.warn('default entity handling for {}:{}',
-                          decl.unit.filename, decl)
+                if not decl.is_a(lal.PackageRenamingDecl,
+                                 lal.GenericPackageInstantiation):
+                    self.warn('default entity handling for {}:{}',
+                              decl.unit.filename, decl)
                 append_decl(decl)
 
         ret = []

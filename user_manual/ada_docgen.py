@@ -168,6 +168,8 @@ class AutoPackage(Directive):
             self.handle_subprogram_decl(decl, node, signode)
         elif isinstance(decl, lal.BaseTypeDecl):
             self.handle_type_decl(decl, node, signode)
+        elif isinstance(decl, lal.ObjectDecl):
+            self.handle_object_decl(decl, node, signode)
         else:
             self.handle_decl_generic(decl, node, signode)
 
@@ -221,6 +223,39 @@ class AutoPackage(Directive):
 
         signode += N.desc_annotation('type ', 'type ')
         signode += N.desc_name(name, name)
+
+    @staticmethod
+    def handle_object_decl(decl, node, signode):
+        # type: (lal.ObjectTypeDecl, N.desc, N.desc_signature) -> None
+        node['objtype'] = node['desctype'] = 'object'
+        name = decl.p_defining_name.text
+
+        if decl.f_default_expr:
+            # If there is a default expression to describe, do it as an
+            # additional description. The title will only contain the name up
+            # to the type expression.
+            default_expr = decl.f_default_expr.text
+            content = N.desc_content()
+            node.append(content)
+            content += nodes.Text('Value: ')
+            content += N.desc_annotation(default_expr, default_expr)
+
+            last_token = decl.f_type_expr.token_end
+
+        elif decl.f_renaming_clause:
+            # If there is a renaming clause, just put everything until the
+            # renaming clause in the title.
+            last_token = decl.f_renaming_clause.token_end
+
+        else:
+            # By default, go until the type expression
+            last_token = decl.f_type_expr.token_end
+
+        descr = lal.Token.text_range(decl.p_defining_name.token_end.next,
+                                     last_token)
+
+        signode += N.desc_name(name, name)
+        signode += N.desc_annotation(descr, descr)
 
     @staticmethod
     def handle_decl_generic(decl, node, signode):

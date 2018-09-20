@@ -204,14 +204,17 @@ class AutoPackage(Directive):
         if params:
             signode += nodes.Text(' ')
             param_list = N.desc_parameterlist()
-            param_list.child_text_separator = '; '
+            param_list.child_text_separator = ''
             signode += param_list
-            for param in params:
+            for i, param in enumerate(params):
                 assert isinstance(param, lal.ParamSpec)
-                name = param.text
-                p = N.desc_parameter(name, name)
-                p.child_text_separator = '; '
-                param_list += p
+                if i > 0:
+                    param_list += nodes.Text('; ')
+                name = param.f_ids.text
+                ptype = param.f_type_expr.text
+                param_list += N.desc_parameter(name, name)
+                param_list += nodes.Text(' : ')
+                param_list += N.desc_type(ptype, ptype)
 
         if ret_type:
             signode += N.desc_annotation(' return ', ' return ')

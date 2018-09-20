@@ -14,9 +14,7 @@
         from tempfile import mkdtemp
 
         if not self.args.project:
-            with open("{}/default.gpr".format(mkdtemp()), 'w') as f:
-                f.write("project Default is end Default;")
-                self.args.project = f.name
+            return None
 
         self.scen_vars = {}
         if self.args.X:

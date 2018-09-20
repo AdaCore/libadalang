@@ -194,6 +194,7 @@ class AutoPackage(Directive):
             (lal.BaseTypeDecl, self.handle_type_decl),
             (lal.ObjectDecl, self.handle_object_decl),
             (lal.PackageRenamingDecl, self.handle_package_renaming_decl),
+            (lal.ExceptionDecl, self.handle_exception_decl),
         ]
         for h in handlers:
             types, handler = h[:-1], h[-1]
@@ -298,6 +299,15 @@ class AutoPackage(Directive):
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(' renames ', ' renames ')
         signode += N.desc_addname(renamed, renamed)
+
+    def handle_exception_decl(self, decl, node, signode, annotations):
+        # type: (lal.ExceptionDecl, N.desc, N.desc_signature) -> None
+        node['objtype'] = node['desctype'] = decl.kind_name
+
+        name = decl.p_defining_name.text
+
+        signode += N.desc_name(name, name)
+        signode += N.desc_annotation(' : exception', ' : exception')
 
     def handle_decl_generic(self, decl, node, signode, annotations):
         # type: (lal.BasicDecl, N.desc, N.desc_signature) -> None
@@ -414,7 +424,8 @@ class AutoPackage(Directive):
                     append_decl(decl)
 
             elif decl.is_a(lal.BasicDecl):
-                if not decl.is_a(lal.PackageRenamingDecl,
+                if not decl.is_a(lal.ExceptionDecl,
+                                 lal.PackageRenamingDecl,
                                  lal.GenericPackageInstantiation):
                     self.warn('default entity handling for {}:{}',
                               decl.unit.filename, decl)

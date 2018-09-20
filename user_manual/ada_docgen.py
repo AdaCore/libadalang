@@ -19,85 +19,6 @@ except ImportError:
     pass
 
 
-@memoize
-def get_documentation(decl):
-    # type: (lal.BasicDecl) -> Tuple[List[str], Dict[unicode, unicode]]
-    """
-    Return the documentation for given basic declaration.
-
-    The returned tuple contains:
-
-    1. the list of lines that constitutes the documentation for ``decl``;
-    2. a mapping (key: string, value: string) for the parsed annotations.
-    """
-    annotations = {}
-    doc = []
-
-    # Direction to follow when looking for comments (see below)
-    backwards = False
-
-    # Namespace so that local functions can modify ``token``
-    class T:
-        token = None
-
-    def next_token():
-        T.token = T.token.previous if backwards else T.token.next
-
-    if isinstance(decl, lal.BasePackageDecl):
-        # Documentation for packages is assumed to appear before the "package"
-        # keyword.
-        T.token = decl.token_start.previous
-        if T.token.kind == 'Whitespace':
-            T.token = T.token.previous
-        backwards = True
-
-    else:
-        # Documentation for all other entities is assumed to appear after the
-        # root node representing the entity.
-        T.token = decl.token_end.next
-        if T.token.kind == 'Whitespace' and T.token.text.count('\n') == 1:
-            T.token = T.token.next
-
-    # No comment in the direction expected? There is no documentation
-    if T.token.kind != 'Comment':
-        return doc, annotations
-
-    # Process as many comments as possible from our starting point, until we
-    # find an empty line or anything else than a comment or a whitespace.
-    indent_level = None
-    while T.token and T.token.kind in ['Comment', 'Whitespace']:
-        if T.token.kind == 'Whitespace':
-            if T.token.text.count('\n') > 1:
-                break
-
-        if T.token.kind == 'Comment':
-            t = T.token.text[2:]  # Strip the '--'
-            if t.startswith('%'):
-                try:
-                    key, val = map(unicode.strip, t[1:].split(':'))
-                except ValueError:
-                    assert False, 'Invalid syntax for annotation: {}'.format(t)
-                annotations[key] = val
-                next_token()
-                continue
-
-            # Compute the indentation level for the whole comment block, if
-            # processing the first comment.
-            if indent_level is None:
-                indent_level = next(i for i, j in enumerate(t) if j.strip())
-
-            # Add the text to the list of lines
-            assert not t[:indent_level].strip(), 'Inconsistent indentation'
-            doc.append(t[indent_level:])
-
-        next_token()
-
-    if backwards:
-        doc = list(reversed(doc))
-
-    return doc, annotations
-
-
 class AutoPackage(Directive):
     """
     Sphinx directive to generate the documentation of an Ada package from the
@@ -136,6 +57,87 @@ class AutoPackage(Directive):
     def warn(self, message, *args, **kwargs):
         self.state.document.reporter.warning(message.format(*args, **kwargs))
 
+    @memoize
+    def get_documentation(self, decl):
+        # type: (lal.BasicDecl) -> Tuple[List[str], Dict[unicode, unicode]]
+        """
+        Return the documentation for given basic declaration.
+
+        The returned tuple contains:
+
+        1. the list of lines that constitutes the documentation for ``decl``;
+        2. a mapping (key: string, value: string) for the parsed annotations.
+        """
+        annotations = {}
+        doc = []
+
+        # Direction to follow when looking for comments (see below)
+        backwards = False
+
+        # Namespace so that local functions can modify ``token``
+        class T:
+            token = None
+
+        def next_token():
+            T.token = T.token.previous if backwards else T.token.next
+
+        if isinstance(decl, lal.BasePackageDecl):
+            # Documentation for packages is assumed to appear before the
+            # "package" keyword.
+            T.token = decl.token_start.previous
+            if T.token.kind == 'Whitespace':
+                T.token = T.token.previous
+            backwards = True
+
+        else:
+            # Documentation for all other entities is assumed to appear after
+            # the root node representing the entity.
+            T.token = decl.token_end.next
+            if T.token.kind == 'Whitespace' and T.token.text.count('\n') == 1:
+                T.token = T.token.next
+
+        # No comment in the direction expected? There is no documentation
+        if T.token.kind != 'Comment':
+            return doc, annotations
+
+        # Process as many comments as possible from our starting point, until
+        # we find an empty line or anything else than a comment or a
+        # whitespace.
+        indent_level = None
+        while T.token and T.token.kind in ['Comment', 'Whitespace']:
+            if T.token.kind == 'Whitespace':
+                if T.token.text.count('\n') > 1:
+                    break
+
+            if T.token.kind == 'Comment':
+                t = T.token.text[2:]  # Strip the '--'
+                if t.startswith('%'):
+                    try:
+                        key, val = map(unicode.strip, t[1:].split(':'))
+                    except ValueError:
+                        assert False, ('Invalid syntax for annotation: {}'
+                                       .format(t))
+                    annotations[key] = val
+                    next_token()
+                    continue
+
+                # Compute the indentation level for the whole comment block, if
+                # processing the first comment.
+                if indent_level is None:
+                    indent_level = next(i for i, j in enumerate(t)
+                                        if j.strip())
+
+                # Add the text to the list of lines
+                assert not t[:indent_level].strip(), 'Inconsistent indentation'
+                doc.append(t[indent_level:])
+
+            next_token()
+
+        if backwards:
+            doc = list(reversed(doc))
+
+        return doc, annotations
+
     def run(self):
         file_name = self.arguments[0].strip()
         raw_vars = self.options.get('scenario_variables') or []
@@ -153,7 +155,7 @@ class AutoPackage(Directive):
         # type: (lal.BasicDecl) -> Tuple[List[nodes.Node], N.desc_content]
 
         # Get the documentation content
-        doc, _ = get_documentation(decl)
+        doc, _ = self.get_documentation(decl)
 
         # Create sphinx nodes
         self.indexnode = N.index(entries=[])
@@ -186,8 +188,7 @@ class AutoPackage(Directive):
         nested_parse_with_titles(self.state, rst, content_node)
         return [self.indexnode, node], content_node
 
-    @staticmethod
-    def handle_subprogram_decl(decl, node, signode):
+    def handle_subprogram_decl(self, decl, node, signode):
         # type: (lal.BasicSubpDecl, N.desc, N.desc_signature) -> None
 
         subp_spec = decl.p_subp_spec_or_null().cast(lal.SubpSpec)
@@ -220,8 +221,7 @@ class AutoPackage(Directive):
             signode += N.desc_annotation(' return ', ' return ')
             signode += N.desc_type(ret_type.text, ret_type.text)
 
-    @staticmethod
-    def handle_type_decl(decl, node, signode):
+    def handle_type_decl(self, decl, node, signode):
         # type: (lal.BaseTypeDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = 'type'
         name = decl.p_defining_name.text
@@ -229,8 +229,7 @@ class AutoPackage(Directive):
         signode += N.desc_annotation('type ', 'type ')
         signode += N.desc_name(name, name)
 
-    @staticmethod
-    def handle_object_decl(decl, node, signode):
+    def handle_object_decl(self, decl, node, signode):
         # type: (lal.ObjectTypeDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = 'object'
         name = decl.p_defining_name.text
@@ -262,8 +261,7 @@ class AutoPackage(Directive):
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(descr, descr)
 
-    @staticmethod
-    def handle_package_renaming_decl(decl, node, signode):
+    def handle_package_renaming_decl(self, decl, node, signode):
         # type: (lal.PackageRenamingDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = decl.kind_name
 
@@ -275,8 +273,7 @@ class AutoPackage(Directive):
         signode += N.desc_annotation(' renames ', ' renames ')
         signode += N.desc_addname(renamed, renamed)
 
-    @staticmethod
-    def handle_decl_generic(decl, node, signode):
+    def handle_decl_generic(self, decl, node, signode):
         # type: (lal.BasicDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = decl.kind_name
         signode += N.desc_name(decl.text, decl.text)
@@ -346,7 +343,7 @@ class AutoPackage(Directive):
         types = {}
 
         for decl in list(decls):
-            _, annotations = get_documentation(decl)
+            _, annotations = self.get_documentation(decl)
 
             # Skip documentation for this entity
             if annotations.get('no-document'):
@@ -400,7 +397,7 @@ class AutoPackage(Directive):
         ret = []
 
         # Get documentation for the top-level package itself
-        pkg_doc, annotations = get_documentation(package_decl)
+        pkg_doc, annotations = self.get_documentation(package_decl)
 
         # Create the documentation's content
         wrapper_node = nodes.Element()

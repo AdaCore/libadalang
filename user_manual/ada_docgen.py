@@ -54,6 +54,25 @@ class AutoPackage(Directive):
         'scenario_variables': lambda x: [s.strip() for s in x.split(',')],
     }
 
+    annotations = {
+        'no-document': bool,
+        'belongs-to': unicode,
+        'document-value': bool,
+    }
+
+    def decode_annotation(self, key, value):
+        try:
+            atype = self.annotations[key]
+        except KeyError:
+            self.warn('Unknown annotation: {}', key)
+
+        if atype is bool:
+            return {'True': True, 'False': False}[value]
+        elif atype is unicode:
+            return value
+        else:
+            assert False
+
     def warn(self, message, *args, **kwargs):
         self.state.document.reporter.warning(message.format(*args, **kwargs))
 
@@ -117,7 +136,7 @@ class AutoPackage(Directive):
                     except ValueError:
                         assert False, ('Invalid syntax for annotation: {}'
                                        .format(t))
-                    annotations[key] = val
+                    annotations[key] = self.decode_annotation(key, val)
                     next_token()
                     continue
 

@@ -188,14 +188,18 @@ class AutoPackage(Directive):
         node.append(signode)
 
         # Do decl-type specific stuff in specialized methods
-        if isinstance(decl, (lal.BasicSubpDecl, lal.ExprFunction)):
-            self.handle_subprogram_decl(decl, node, signode, annotations)
-        elif isinstance(decl, lal.BaseTypeDecl):
-            self.handle_type_decl(decl, node, signode, annotations)
-        elif isinstance(decl, lal.ObjectDecl):
-            self.handle_object_decl(decl, node, signode, annotations)
-        elif isinstance(decl, lal.PackageRenamingDecl):
-            self.handle_package_renaming_decl(decl, node, signode, annotations)
+        handlers = [
+            (lal.BasicSubpDecl, lal.ExprFunction,
+             self.handle_subprogram_decl),
+            (lal.BaseTypeDecl, self.handle_type_decl),
+            (lal.ObjectDecl, self.handle_object_decl),
+            (lal.PackageRenamingDecl, self.handle_package_renaming_decl),
+        ]
+        for h in handlers:
+            types, handler = h[:-1], h[-1]
+            if isinstance(decl, types):
+                handler(decl, node, signode, annotations)
+                break
         else:
             self.handle_decl_generic(decl, node, signode, annotations)
 

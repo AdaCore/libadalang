@@ -248,6 +248,9 @@ class AutoPackage(Directive):
             signode += N.desc_annotation(' return ', ' return ')
             signode += N.desc_type(ret_type.text, ret_type.text)
 
+        if isinstance(decl, lal.AbstractSubpDecl):
+            signode += N.desc_annotation(' is abstract', ' is abstract')
+
     def handle_type_decl(self, decl, node, signode, annotations):
         # type: (lal.BaseTypeDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = 'type'

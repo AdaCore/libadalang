@@ -3,12 +3,12 @@ from __future__ import absolute_import, division, print_function
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool, EnumNode,
-    Equation, Field, LexicalEnv, LogicVar, Int, Struct, Symbol, T, UserField,
-    abstract, env_metadata, has_abstract_list, synthetic, LookupKind as LK
+    Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK, Struct,
+    Symbol, T, UserField, abstract, env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, add_to_env, add_env, call_env_hook, handle_children, do,
-    reference, set_initial_env, RefKind
+    EnvSpec, RefKind, add_to_env, add_env, call_env_hook, handle_children, do,
+    reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,

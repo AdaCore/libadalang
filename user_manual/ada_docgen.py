@@ -39,11 +39,14 @@ class AutoPackage(Directive):
 
     Here are the supported annotations:
 
-    * ``no-document`` (bool): when true, disable documentation for the current
-      entity.
+    * ``no-document`` (bool): whether to disable documentation for the current
+      entity. False by default.
 
     * ``belongs-to``: name of the type that must contain the documentation for
       the current entity.
+
+    * ``document-value`` (bool): whether to document the value corresponding to
+      object declarations. True by default.
     """
 
     required_arguments = 1
@@ -174,7 +177,7 @@ class AutoPackage(Directive):
         # type: (lal.BasicDecl) -> Tuple[List[nodes.Node], N.desc_content]
 
         # Get the documentation content
-        doc, _ = self.get_documentation(decl)
+        doc, annotations = self.get_documentation(decl)
 
         # Create sphinx nodes
         self.indexnode = N.index(entries=[])
@@ -186,15 +189,15 @@ class AutoPackage(Directive):
 
         # Do decl-type specific stuff in specialized methods
         if isinstance(decl, (lal.BasicSubpDecl, lal.ExprFunction)):
-            self.handle_subprogram_decl(decl, node, signode)
+            self.handle_subprogram_decl(decl, node, signode, annotations)
         elif isinstance(decl, lal.BaseTypeDecl):
-            self.handle_type_decl(decl, node, signode)
+            self.handle_type_decl(decl, node, signode, annotations)
         elif isinstance(decl, lal.ObjectDecl):
-            self.handle_object_decl(decl, node, signode)
+            self.handle_object_decl(decl, node, signode, annotations)
         elif isinstance(decl, lal.PackageRenamingDecl):
-            self.handle_package_renaming_decl(decl, node, signode)
+            self.handle_package_renaming_decl(decl, node, signode, annotations)
         else:
-            self.handle_decl_generic(decl, node, signode)
+            self.handle_decl_generic(decl, node, signode, annotations)
 
         # Create the documentation's content
         content_node = N.desc_content()
@@ -207,7 +210,7 @@ class AutoPackage(Directive):
         nested_parse_with_titles(self.state, rst, content_node)
         return [self.indexnode, node], content_node
 
-    def handle_subprogram_decl(self, decl, node, signode):
+    def handle_subprogram_decl(self, decl, node, signode, annotations):
         # type: (lal.BasicSubpDecl, N.desc, N.desc_signature) -> None
 
         subp_spec = decl.p_subp_spec_or_null().cast(lal.SubpSpec)
@@ -240,7 +243,7 @@ class AutoPackage(Directive):
             signode += N.desc_annotation(' return ', ' return ')
             signode += N.desc_type(ret_type.text, ret_type.text)
 
-    def handle_type_decl(self, decl, node, signode):
+    def handle_type_decl(self, decl, node, signode, annotations):
         # type: (lal.BaseTypeDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = 'type'
         name = decl.p_defining_name.text
@@ -248,12 +251,12 @@ class AutoPackage(Directive):
         signode += N.desc_annotation('type ', 'type ')
         signode += N.desc_name(name, name)
 
-    def handle_object_decl(self, decl, node, signode):
+    def handle_object_decl(self, decl, node, signode, annotations):
         # type: (lal.ObjectTypeDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = 'object'
         name = decl.p_defining_name.text
 
-        if decl.f_default_expr:
+        if decl.f_default_expr and annotations.get('document-value', True):
             # If there is a default expression to describe, do it as an
             # additional description. The title will only contain the name up
             # to the type expression.
@@ -280,7 +283,7 @@ class AutoPackage(Directive):
         signode += N.desc_name(name, name)
         signode += N.desc_annotation(descr, descr)
 
-    def handle_package_renaming_decl(self, decl, node, signode):
+    def handle_package_renaming_decl(self, decl, node, signode, annotations):
         # type: (lal.PackageRenamingDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = decl.kind_name
 
@@ -292,7 +295,7 @@ class AutoPackage(Directive):
         signode += N.desc_annotation(' renames ', ' renames ')
         signode += N.desc_addname(renamed, renamed)
 
-    def handle_decl_generic(self, decl, node, signode):
+    def handle_decl_generic(self, decl, node, signode, annotations):
         # type: (lal.BasicDecl, N.desc, N.desc_signature) -> None
         node['objtype'] = node['desctype'] = decl.kind_name
         signode += N.desc_name(decl.text, decl.text)

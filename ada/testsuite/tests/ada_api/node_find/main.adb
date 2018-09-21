@@ -7,7 +7,7 @@ with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
    Ctx  : constant Analysis_Context := Create_Context;
-   Unit : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
+   Unit : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
 
    procedure Put_Node (N : Ada_Node);
    --  Put the image of N on the standard output
@@ -64,6 +64,11 @@ begin
              Decl_Defines (Ctx, "Foo"));
    Run_Find ("pkg-foo.ads", "All declarations of ""+""",
              Decl_Defines (Ctx, """+"""));
+
+   Run_Find ("pkg-foo.ads",
+             "All declarations of Foo that are types or components",
+             Decl_Defines (Ctx, "Foo") and (Kind_Is (Ada_Type_Decl)
+                                            or Kind_Is (Ada_Component_Decl)));
 
    declare
       Foo_Type : constant Type_Decl := Find_First

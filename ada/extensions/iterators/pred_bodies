@@ -56,3 +56,27 @@ begin
 
    return False;
 end Evaluate;
+
+-------------
+-- Xref_Is --
+-------------
+
+function Xref_Is (Name : Defining_Name) return Ada_Node_Predicate is
+begin
+   return Result : Ada_Node_Predicate do
+      Result.Set (Xref_Predicate'(Name => Name));
+   end return;
+end Xref_Is;
+
+--------------
+-- Evaluate --
+--------------
+
+overriding function Evaluate
+  (P : in out Xref_Predicate; N : Ada_Node) return Boolean is
+begin
+   return not N.Is_Null and then N.P_Xref = P.Name;
+exception
+   when Property_Error =>
+      return False;
+end Evaluate;

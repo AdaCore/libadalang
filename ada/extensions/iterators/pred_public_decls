@@ -4,3 +4,7 @@ function Decl_Defines
   (Context : Analysis_Context; Name : Text_Type) return Ada_Node_Predicate;
 --  Return a predicate that accepts only ``Basic_Decl`` nodes that define the
 --  given ``Name``.
+
+function Xref_Is (Name : Defining_Name) return Ada_Node_Predicate;
+--  Return a predicate that accepts only nodes whose ``P_Xref`` property
+--  returns ``Name``.

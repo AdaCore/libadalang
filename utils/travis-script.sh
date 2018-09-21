@@ -39,7 +39,7 @@ gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
     -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable -XXMLADA_BUILD=relocatable \
     -XLIBADALANG_WARNINGS=true -c -u quex_lexer.c
 # Restrict parallelism to avoid OOM issues
-ada/manage.py build -j16
+ada/manage.py build -j12
 
 # Finally, run the testsuite
 ada/manage.py test -- -j16

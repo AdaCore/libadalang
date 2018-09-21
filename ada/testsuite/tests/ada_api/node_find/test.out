@@ -84,6 +84,11 @@
 [pkg-foo.ads] All declarations of "+":
   <SubpDecl [""+""] 5:4-5:48>
 
+[pkg-foo.ads] All declarations of Foo that are types or components:
+  <TypeDecl ["Foo"] 3:4-3:24>
+  <TypeDecl ["Foo"] 13:4-15:15>
+  <ComponentDecl ["Foo"] 14:7-14:21>
+
 [pkg.ads] All references to the Foo type:
   <DefiningName 3:9-3:12>
   <Id "Foo" 3:9-3:12>

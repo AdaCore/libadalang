@@ -97,7 +97,8 @@ class Manage(ManageScript):
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
-        from langkit.compile_context import ADA_BODY, CompileCtx, LibraryEntity
+        from langkit.compile_context import (ADA_BODY, ADA_SPEC, CompileCtx,
+                                             LibraryEntity)
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
         from language.documentation import libadalang_docs
@@ -140,6 +141,17 @@ class Manage(ManageScript):
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Sources',
                             use_clause=False)
+
+        # Our iterators are implemented using internal data structures
+        ctx.add_with_clause('Iterators',
+                            ADA_SPEC, 'Langkit_Support.Symbols',
+                            is_private=True)
+        ctx.add_with_clause('Iterators',
+                            ADA_BODY, 'Libadalang.Implementation',
+                            use_clause=True)
+        ctx.add_with_clause('Iterators',
+                            ADA_BODY, 'Libadalang.Converters',
+                            use_clause=True)
 
         ctx.post_process_ada = copyright.format_ada
         ctx.post_process_cpp = copyright.format_c

@@ -40,8 +40,7 @@ procedure Main is
 
    procedure Process (Title : String) is
       Call : constant Call_Expr := Find_First
-        (Root (Foo),
-         new Ada_Node_Kind_Filter'(Kind => Ada_Call_Expr)).As_Call_Expr;
+        (Foo.Root, Kind_Is (Ada_Call_Expr)).As_Call_Expr;
    begin
       Put_Line ("== " & Title & " ==");
       if not Call.P_Resolve_Names then

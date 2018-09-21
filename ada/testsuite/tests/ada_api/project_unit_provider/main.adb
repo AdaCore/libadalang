@@ -32,13 +32,12 @@ procedure Main is
 
    Unit : constant Analysis_Unit :=
       Get_From_Provider (Ctx, "p2", Unit_Specification);
-   Root : constant Ada_Node := Libadalang.Analysis.Root (Unit);
+   Root : constant Ada_Node := Unit.Root;
 
 begin
    declare
       Subtype_Ind : constant Subtype_Indication := Find_First
-        (Root, new Ada_Node_Kind_Filter'(Kind => Ada_Subtype_Indication))
-        .As_Subtype_Indication;
+        (Root, Kind_Is (Ada_Subtype_Indication)).As_Subtype_Indication;
       Res_Type    : constant Ada_Node_Array :=
          Subtype_Ind.F_Name.P_Matching_Nodes;
    begin

@@ -1,4 +1,4 @@
-This is the list of all nodes in foo.adb, in prefix depth-first order:
+[foo.adb] All nodes from root:
   <CompilationUnit 1:1-4:9>
   <AdaNodeList 1:1-1:1>
   <LibraryItem 1:1-4:9>
@@ -57,8 +57,10 @@ This is the list of all nodes in foo.adb, in prefix depth-first order:
   <EndName 4:5-4:8>
   <Id "Sum" 4:5-4:8>
   <PragmaNodeList 4:9-4:9>
-Note that we also can iterate on null nodes:
-Alright, now here's the list of all identifier nodes:
+
+[foo.adb] All nodes from null:
+
+[foo.adb] All identifiers:
   <Id "Sum" 1:10-1:13>
   <Id "A" 1:15-1:16>
   <Id "Integer" 1:19-1:26>
@@ -71,4 +73,15 @@ Alright, now here's the list of all identifier nodes:
   <Id "B" 3:15-3:16>
   <Id "C" 3:19-3:20>
   <Id "Sum" 4:5-4:8>
+
+[pkg-foo.ads] All declarations of Foo:
+  <PackageDecl ["Pkg.Foo"] 1:1-17:13>
+  <TypeDecl ["Foo"] 3:4-3:24>
+  <ObjectDecl ["Bar", "Foo"] 8:7-8:26>
+  <TypeDecl ["Foo"] 13:4-15:15>
+  <ComponentDecl ["Foo"] 14:7-14:21>
+
+[pkg-foo.ads] All declarations of "+":
+  <SubpDecl [""+""] 5:4-5:48>
+
 Done.

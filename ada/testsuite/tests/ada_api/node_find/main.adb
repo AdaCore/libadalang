@@ -9,44 +9,61 @@ procedure Main is
    Ctx  : constant Analysis_Context := Create_Context;
    Unit : Analysis_Unit := Get_From_File (Ctx, "foo.adb");
 
-   ----------
-   -- Proc --
-   ----------
+   procedure Put_Node (N : Ada_Node);
+   --  Put the image of N on the standard output
 
-   procedure Proc (N : Ada_Node) is
+   procedure Run_Find
+     (Filename, Label : String;
+      Predicate       : Ada_Node_Predicate);
+   --  Load the Filename unit and then show all nodes that Predicate matches in
+   --  this unit.
+
+   --------------
+   -- Put_Node --
+   --------------
+
+   procedure Put_Node (N : Ada_Node) is
    begin
       Put_Line ("  " & To_String (Short_Image (N)));
-   end Proc;
+   end Put_Node;
+
+   --------------
+   -- Run_Find --
+   --------------
+
+   procedure Run_Find
+     (Filename, Label : String;
+      Predicate       : Ada_Node_Predicate) is
+   begin
+      Put_Line ("[" & Filename & "] " & Label & ":");
+      for Node of Find (Ctx.Get_From_File (Filename).Root, Predicate).Consume
+      loop
+         Put_Node (Node);
+      end loop;
+      New_Line;
+   end Run_Find;
 
 begin
    declare
       It : Ada_Node_Iterators.Iterator'Class := Traverse (Unit.Root);
    begin
-      Put_Line
-        ("This is the list of all nodes in foo.adb, in prefix depth-first"
-         & " order:");
-      Ada_Node_Iterators.Iterate (It, Proc'Access);
+      Put_Line ("[foo.adb] All nodes from root:");
+      Ada_Node_Iterators.Iterate (It, Put_Node'Access);
+      New_Line;
    end;
 
-   declare
-      It : Ada_Node_Iterators.Iterator'Class := Traverse (No_Ada_Node);
-   begin
-      Put_Line
-        ("Note that we also can iterate on null nodes:");
-      Ada_Node_Iterators.Iterate (It, Proc'Access);
-   end;
+   Put_Line
+     ("[foo.adb] All nodes from null:");
+   for Node of Traverse (No_Ada_Node).Consume loop
+      Put_Node (Node);
+   end loop;
+   New_Line;
 
-   declare
-      --  For convenience, we prefer to keep the predicate in this file. It
-      --  does not access non-local variables, so all should be fine.
-
-      It : Ada_Node_Iterators.Iterator'Class :=
-        Find (Unit.Root, Kind_Is (Ada_Identifier));
-   begin
-      Put_Line
-        ("Alright, now here's the list of all identifier nodes:");
-      Ada_Node_Iterators.Iterate (It, Proc'Access);
-   end;
+   Run_Find ("foo.adb", "All identifiers", Kind_Is (Ada_Identifier));
+   Run_Find ("pkg-foo.ads", "All declarations of Foo",
+             Decl_Defines (Ctx, "Foo"));
+   Run_Find ("pkg-foo.ads", "All declarations of ""+""",
+             Decl_Defines (Ctx, """+"""));
 
    Put_Line ("Done.");
 end Main;

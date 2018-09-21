@@ -20,7 +20,7 @@ procedure Main is
 
 begin
    declare
-      It : Ada_Node_Iterators.Iterator'Class := Traverse (Root (Unit));
+      It : Ada_Node_Iterators.Iterator'Class := Traverse (Unit.Root);
    begin
       Put_Line
         ("This is the list of all nodes in foo.adb, in prefix depth-first"
@@ -41,7 +41,7 @@ begin
       --  does not access non-local variables, so all should be fine.
 
       It : Ada_Node_Iterators.Iterator'Class :=
-        Find (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
+        Find (Unit.Root, Kind_Is (Ada_Identifier));
    begin
       Put_Line
         ("Alright, now here's the list of all identifier nodes:");

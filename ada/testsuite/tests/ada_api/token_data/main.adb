@@ -11,7 +11,7 @@ procedure Main is
    Ctx  : constant Analysis_Context := Create_Context;
    Unit : constant Analysis_Unit := Get_From_File (Ctx, "foo.adb");
    N    : constant Ada_Node := Find_First
-     (Root (Unit), new Ada_Node_Kind_Filter'(Kind => Ada_Identifier));
+     (Unit.Root, Kind_Is (Ada_Identifier));
 begin
    declare
       Id       : constant Single_Tok_Node := N.As_Single_Tok_Node;

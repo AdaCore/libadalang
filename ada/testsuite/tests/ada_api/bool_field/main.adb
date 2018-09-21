@@ -10,10 +10,8 @@ procedure Main is
 
    Ctx       : constant Analysis_Context := Create_Context;
    Unit      : constant Analysis_Unit := Get_From_File (Ctx, "pkg.ads");
-   P         : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
-     (Kind => Ada_Type_Decl);
    Type_Defs : constant Ada_Node_Array :=
-      Ada_Node_Array (Find (Root (Unit), P).Consume);
+      Find (Unit.Root, Kind_Is (Ada_Type_Decl)).Consume;
 begin
    for T of Type_Defs loop
       declare

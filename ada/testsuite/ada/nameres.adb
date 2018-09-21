@@ -242,7 +242,9 @@ procedure Nameres is
                 Natural (Sloc_Range (N).Start_Line) = Args.Solve_Line.Get));
       begin
          for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
-            Resolve_Node (Node);
+            if Node /= Block then
+               Resolve_Node (Node);
+            end if;
          end loop;
       end Resolve_Block;
 

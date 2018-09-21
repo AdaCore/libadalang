@@ -24,9 +24,8 @@ procedure Main is
    end Get_Unit;
 
    Unit     : constant Analysis_Unit := Get_Unit ("pkg.ads");
-   P        : constant Ada_Node_Predicate := new Ada_Node_Kind_Filter'
-     (Kind => Ada_Object_Decl);
-   Decls    : constant Ada_Node_Array := Find (Root (Unit), P).Consume;
+   Decls    : constant Ada_Node_Array :=
+      Find (Unit.Root, Kind_Is (Ada_Object_Decl)).Consume;
    D1       : constant Object_Decl := Decls (1).As_Object_Decl;
    D2       : constant Object_Decl := Decls (2).As_Object_Decl;
    N        : constant Expr := D2.F_Default_Expr;

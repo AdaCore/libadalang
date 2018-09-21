@@ -7800,7 +7800,7 @@ class CompilationUnit(AdaNode):
     @langkit_property(public=True)
     def fully_qualified_name():
         """
-        Return the fully qualified name corresponding to this declaration.
+        Return the fully qualified name of this compilation unit.
         """
         return Self.body.match(
             lambda li=T.LibraryItem: li.item.fully_qualified_name,

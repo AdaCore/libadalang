@@ -84,4 +84,13 @@
 [pkg-foo.ads] All declarations of "+":
   <SubpDecl [""+""] 5:4-5:48>
 
+[pkg.ads] All references to the Foo type:
+  <DefiningName 3:9-3:12>
+  <Id "Foo" 3:9-3:12>
+  <Id "Foo" 5:22-5:25>
+  <DottedName 6:15-6:22>
+  <Id "Foo" 6:19-6:22>
+  <Id "Foo" 8:32-8:35>
+  <Id "Foo" 8:44-8:47>
+
 Done.

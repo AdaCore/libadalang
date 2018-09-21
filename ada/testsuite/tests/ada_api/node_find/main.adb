@@ -65,5 +65,14 @@ begin
    Run_Find ("pkg-foo.ads", "All declarations of ""+""",
              Decl_Defines (Ctx, """+"""));
 
+   declare
+      Foo_Type : constant Type_Decl := Find_First
+        (Ctx.Get_From_File ("pkg.ads").Root,
+         Kind_Is (Ada_Type_Decl)).As_Type_Decl;
+   begin
+      Run_Find ("pkg.ads", "All references to the Foo type",
+                Xref_Is (Foo_Type.F_Name));
+   end;
+
    Put_Line ("Done.");
 end Main;

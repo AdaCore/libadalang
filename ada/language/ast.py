@@ -101,6 +101,7 @@ def ref_generic_formals():
         through=T.AdaNode.nested_generic_formal_part,
         cond=Not(Self.is_unit_root),
         kind=RefKind.prioritary,
+        shed_corresponding_rebindings=True,
     )
 
 

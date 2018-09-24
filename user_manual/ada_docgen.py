@@ -125,7 +125,6 @@ class AutoPackage(Directive):
         # Process as many comments as possible from our starting point, until
         # we find an empty line or anything else than a comment or a
         # whitespace.
-        indent_level = None
         while T.token and T.token.kind in ['Comment', 'Whitespace']:
             if T.token.kind == 'Whitespace':
                 if T.token.text.count('\n') > 1:
@@ -143,20 +142,20 @@ class AutoPackage(Directive):
                     next_token()
                     continue
 
-                # Compute the indentation level for the whole comment block, if
-                # processing the first comment.
-                if indent_level is None:
-                    indent_level = next(i for i, j in enumerate(t)
-                                        if j.strip())
-
-                # Add the text to the list of lines
-                assert not t[:indent_level].strip(), 'Inconsistent indentation'
-                doc.append(t[indent_level:])
+                doc.append(t)
 
             next_token()
 
         if backwards:
             doc = list(reversed(doc))
+
+        # Strip common indentation (the documentation itself may contain nested
+        # and thus indented blocks).
+        if doc:
+            indent = min(len(line) - len(line.lstrip())
+                         for line in doc
+                         if line.strip())
+            doc = [line[indent:] for line in doc]
 
         return doc, annotations
 

@@ -61,14 +61,14 @@ begin
 
    Run_Find ("foo.adb", "All identifiers", Kind_Is (Ada_Identifier));
    Run_Find ("pkg-foo.ads", "All declarations of Foo",
-             Decl_Defines (Ctx, "Foo"));
+             Decl_Defines ("Foo"));
    Run_Find ("pkg-foo.ads", "All declarations of ""+""",
-             Decl_Defines (Ctx, """+"""));
+             Decl_Defines ("""+"""));
 
    Run_Find ("pkg-foo.ads",
              "All declarations of Foo that are types or components",
-             Decl_Defines (Ctx, "Foo") and (Kind_Is (Ada_Type_Decl)
-                                            or Kind_Is (Ada_Component_Decl)));
+             Decl_Defines ("Foo") and (Kind_Is (Ada_Type_Decl)
+                                       or Kind_Is (Ada_Component_Decl)));
 
    declare
       Foo_Type : constant Type_Decl := Find_First

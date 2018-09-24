@@ -1,7 +1,13 @@
 ## vim: filetype=makoada
 
-type Decl_Defines_Predicate is new Ada_Node_Predicate_Interface with record
-   Name : Langkit_Support.Symbols.Symbol_Type;
+type Decl_Defines_Predicate (Size : Natural) is
+   new Ada_Node_Predicate_Interface with
+record
+   Name : Text_Type (1 .. Size);
+
+   Context : Analysis_Context;
+   Symbol  : Langkit_Support.Symbols.Symbol_Type;
+   --  Cached symbol converted from Name
 end record;
 
 overriding function Evaluate

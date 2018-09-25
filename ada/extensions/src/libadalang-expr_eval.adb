@@ -193,7 +193,7 @@ package body Libadalang.Expr_Eval is
                               end;
                            when others =>
                               raise Property_Error with "Unsupported range"
-                                & " expression: " & Rng.Text;
+                                & " expression: " & Rng.String_Text;
                         end case;
                      end;
                   when others =>
@@ -236,7 +236,7 @@ package body Libadalang.Expr_Eval is
          when Ada_Real_Literal =>
             return (Real,
                     E.P_Universal_Real_Type.As_Base_Type_Decl,
-                    Long_Float'Value (E.Text));
+                    Long_Float'Value (E.String_Text));
 
          when Ada_Bin_Op =>
             declare
@@ -321,7 +321,7 @@ package body Libadalang.Expr_Eval is
                     (As_Ada_Node (AR.F_Prefix), Range_Last);
                else
                   raise Property_Error
-                    with "Unhandled attribute ref: " & Attr.Text;
+                    with "Unhandled attribute ref: " & Attr.String_Text;
                end if;
             end;
          when Ada_Paren_Expr =>

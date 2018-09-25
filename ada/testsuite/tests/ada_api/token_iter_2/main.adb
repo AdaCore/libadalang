@@ -1,7 +1,5 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
-with Langkit_Support.Text;
-
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Iterators; use Libadalang.Iterators;
@@ -17,8 +15,7 @@ procedure Main is
    BO_Array : constant Ada_Node_Array := Find (CU, Find_Binops'Access).Consume;
    BO       : constant Bin_Op := BO_Array (1).As_Bin_Op;
 begin
-   Put_Line ("Tokens for node "
-             & Langkit_Support.Text.Image (BO.Short_Image) & ":");
+   Put_Line ("Tokens for node " & BO.Short_Image & ":");
    for Tok of BO.Token_Range loop
       Put_Line (Image (Tok));
    end loop;

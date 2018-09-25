@@ -54,7 +54,7 @@ procedure Navigate is
    Ctx : LAL.Analysis_Context;
 
    function Short_Image (Node : LAL.Ada_Node'Class) return String
-   is (Langkit_Support.Text.Image (Node.Short_Image));
+   is (Langkit_Support.Text.Image (Node.Short_Text_Image));
 
    function To_Lower (S : String) return String
       renames Ada.Characters.Handling.To_Lower;

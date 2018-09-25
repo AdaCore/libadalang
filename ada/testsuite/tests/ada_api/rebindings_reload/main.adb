@@ -52,8 +52,8 @@ procedure Main is
       declare
          Ref : constant Basic_Decl := Call.P_Referenced_Decl;
       begin
-         Put_Line (Image (Call.Short_Image));
-         Put_Line ("  resolves to: " & Image (Ref));
+         Put_Line (Call.Short_Image);
+         Put_Line ("  resolves to: " & Ref.Image);
       end;
 
       New_Line;

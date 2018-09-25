@@ -41,9 +41,9 @@ begin
       Res_Type    : constant Ada_Node_Array :=
          Subtype_Ind.F_Name.P_Matching_Nodes;
    begin
-      Put_Line (Image (Subtype_Ind.Short_Image) & " resolves to:");
+      Put_Line (Subtype_Ind.Short_Image & " resolves to:");
       for E of Res_Type loop
-         Put_Line ("  " & Image (E.Short_Image));
+         Put_Line ("  " & E.Short_Image);
       end loop;
    end;
 

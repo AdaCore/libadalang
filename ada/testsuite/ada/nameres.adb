@@ -211,13 +211,6 @@ procedure Nameres is
       end if;
    end Put;
 
-   ----------------
-   -- Safe_Image --
-   ----------------
-
-   function Safe_Image (Node : Ada_Node'Class) return String is
-     (Image (Short_Image (Node)));
-
    ------------------
    -- Process_File --
    ------------------
@@ -265,7 +258,7 @@ procedure Nameres is
             if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
             then
                if not Args.Quiet.Get then
-                  Put_Line ("Expr: " & Safe_Image (N));
+                  Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name then
                      Put_Line
                        ("  references: " & Image (P_Xref (As_Name (N))));
@@ -285,7 +278,7 @@ procedure Nameres is
 
       begin
          if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
-            Put_Title ('*', "Resolving xrefs for node " & Safe_Image (Node));
+            Put_Title ('*', "Resolving xrefs for node " & Node.Short_Image);
          end if;
          if Langkit_Support.Adalog.Debug.Debug then
             Assign_Names_To_Logic_Vars (Node);
@@ -298,7 +291,7 @@ procedure Nameres is
 
             Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
          else
-            Put_Line ("Resolution failed for node " & Safe_Image (Node));
+            Put_Line ("Resolution failed for node " & Node.Short_Image);
             Nb_File_Fails := Nb_File_Fails + 1;
          end if;
          if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
@@ -307,7 +300,7 @@ procedure Nameres is
       exception
          when E : others =>
             Put_Line
-              ("Resolution failed w. exception for node " & Safe_Image (Node));
+              ("Resolution failed w. exception for node " & Node.Short_Image);
             Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
             Nb_File_Fails := Nb_File_Fails + 1;
             Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
@@ -451,7 +444,7 @@ procedure Nameres is
                      Sort (Entities);
                      for E of Entities loop
                         Put ("    " & (if Display_Short_Images
-                                       then Image (Short_Image (E))
+                                       then E.Short_Image
                                        else Text (E)));
                         if Display_Slocs then
                            Put_Line (" at "

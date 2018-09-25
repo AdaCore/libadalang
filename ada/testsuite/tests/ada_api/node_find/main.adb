@@ -24,7 +24,7 @@ procedure Main is
 
    procedure Put_Node (N : Ada_Node) is
    begin
-      Put_Line ("  " & To_String (Short_Image (N)));
+      Put_Line ("  " & Short_Image (N));
    end Put_Node;
 
    --------------

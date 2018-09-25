@@ -3808,6 +3808,9 @@ class BasicSubpDecl(BasicDecl):
                 lambda np: Entity.get_body_in_env(np.children_env)
             )),
 
+            # No declarative scope: Bail out!
+            decl_scope.is_null, No(T.BaseSubpBody.entity),
+
             # Self is declared in any other declarative scope. Search for decl
             # in it directly.
             Entity.get_body_in_env(decl_scope.children_env)

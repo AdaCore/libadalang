@@ -86,18 +86,17 @@ procedure Navigate is
       At_Least_Once : Boolean := False;
 
       function Filter (N : LAL.Ada_Node) return Boolean is
-        (Args.Kinds.Get (LAL.Kind (N))
-         and then not Is_Navigation_Disabled (N));
+        (Args.Kinds.Get (N.Kind) and then not Is_Navigation_Disabled (N));
    begin
-      if LAL.Has_Diagnostics (Unit) then
-         for D of LAL.Diagnostics (Unit) loop
-            Put_Line (LAL.Format_GNU_Diagnostic (Unit, D));
+      if Unit.Has_Diagnostics then
+         for D of Unit.Diagnostics loop
+            Put_Line (Unit.Format_GNU_Diagnostic (D));
          end loop;
          New_Line;
          return;
       end if;
 
-      for Node of LALIT.Find (LAL.Root (Unit), Filter'Access).Consume loop
+      for Node of LALIT.Find (Unit.Root, Filter'Access).Consume loop
          declare
             Processed_Something : Boolean := True;
          begin
@@ -189,7 +188,7 @@ procedure Navigate is
          Put_Line
            (Part_Name & " of " & Short_Image (Orig) & " is "
             & Short_Image (Dest)
-            & " [" & Basename (LAL.Get_Filename (Dest.Unit)) & "]");
+            & " [" & Basename (Dest.Unit.Get_Filename) & "]");
       end if;
    end Print_Navigation;
 
@@ -295,7 +294,7 @@ begin
    for F of Args.Files.Get loop
       declare
          File  : constant String := X.To_String (F);
-         Unit : constant LAL.Analysis_Unit := LAL.Get_From_File (Ctx, File);
+         Unit : constant LAL.Analysis_Unit := Ctx.Get_From_File (File);
       begin
          Put_Title ('#', File);
          Process_File (Unit);

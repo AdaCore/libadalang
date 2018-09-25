@@ -1,0 +1,4 @@
+driver: navigation
+input_sources: [foo.ads]
+kinds:
+   - Ada_Concrete_Formal_Subp_Decl

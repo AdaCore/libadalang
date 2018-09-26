@@ -49,7 +49,9 @@ libadalang_docs = {
 
         This knowledge is built trying to parse all given input files as Ada
         source files and listing the compilation units found there. Files that
-        cannot be parsed properly or redundant compilation units are discarded.
+        cannot be parsed properly are discarded. If two compilation units are
+        found for the same unit, the first that is found in the given input
+        files is taken and the other ones are discarded.
 
         Source files are decoded using the given charset. If it is ``${null}``,
         the default charset (ISO-8859-1) is used.
@@ -62,5 +64,8 @@ libadalang_docs = {
             When done with it, the result must be free'd with
             ``${capi.get_name('destroy_unit_provider')}``.
         % endif
+
+        .. todo:: Find a way to report discarded source files/compilation
+           units.
     """,
 }

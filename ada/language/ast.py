@@ -7692,10 +7692,13 @@ class AttributeRef(Name):
 
         # If the range attribute has an argument, then it's a static expression
         # representing an int that we will use as a dimension.
-        dim = Var(Self.args.then(
-            lambda args:
-            args.cast_or_raise(T.AssocList).at(0).expr.eval_as_int.as_int,
-            default_val=1
+        dim = Var(Entity.args_list.then(lambda a: a.at(0).expr.then(
+            lambda expr: Let(
+                lambda p=expr.as_entity.resolve_names_internal(
+                    True, LogicTrue()
+                ):
+                expr.eval_as_int.as_int
+            ), default_val=1), default_val=1
         ) - 1)
 
         return If(

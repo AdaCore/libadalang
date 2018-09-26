@@ -6031,8 +6031,9 @@ class CallExpr(Name):
 
                     # The type of each actual matches the type of the
                     # formal.
-                    If(ft.node.as_bare_entity
-                       .matching_type(prim_type.as_bare_entity),
+                    If(ft.accessed_type._or(ft).then(
+                        lambda at: at._.canonical_type.node.as_bare_entity
+                       .matching_type(prim_type.as_bare_entity)),
 
                        Bind(pm.actual.assoc.expr.type_var, ft,
                             eq_prop=BaseTypeDecl.matching_formal_prim_type),

@@ -88,7 +88,10 @@ package Libadalang.Auto_Provider is
    --
    --  This knowledge is built trying to parse all given ``Input_Files`` as Ada
    --  source files and listing the compilation units found there. Files that
-   --  cannot be parsed properly or redundant compilation units are discarded.
+   --  cannot be parsed properly are discarded. If two compilation units are
+   --  found for the same unit, the first that is found in ``Input_Files`` is
+   --  taken and the other ones are discarded.
+   --
    --  Source files are decoded using the given ``Charset``.
    --
    --  .. todo:: Find a way to report discarded source files/compilation units.

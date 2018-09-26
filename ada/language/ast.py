@@ -4818,6 +4818,14 @@ class Expr(AdaNode):
         Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
     )
 
+    @langkit_property(public=True)
+    def first_corresponding_decl():
+        """
+        Return the first decl that is lexically named like self in self's
+        scope.
+        """
+        return No(T.BasicDecl.entity)
+
     @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
                       return_type=T.BigInt, public=True)
     def eval_as_int():
@@ -5381,6 +5389,10 @@ class Name(Expr):
             Self, env.bind(Entity.node_env,
                            Entity.all_env_els_impl(seq=seq, seq_from=seq_from))
         )
+
+    @langkit_property(public=True)
+    def first_corresponding_decl():
+        return Entity.all_env_elements().at(0).cast(T.BasicDecl)
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bottom_up_name_equation():

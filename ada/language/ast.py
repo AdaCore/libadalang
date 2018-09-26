@@ -5379,11 +5379,11 @@ class Name(Expr):
                          seq_from=(AdaNode, No(T.AdaNode))):
         pass
 
-    @langkit_property()
+    @langkit_property(public=True)
     def all_env_elements(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
         """
-        Return all elements in self's scope corresponding to self.
+        Return all elements in self's scope that are lexically named like Self.
         """
         return origin.bind(
             Self, env.bind(Entity.node_env,

@@ -39,11 +39,11 @@ def default_origin():
 def entity_no_md(type, node, rebindings, from_rebound):
     return Let(lambda n=node: type.entity.new(
         node=n,
-        info=T.entity_info.new(
+        info=If(n.is_null, No(T.entity_info), T.entity_info.new(
             rebindings=rebindings,
             md=No(T.env_md),
             from_rebound=from_rebound
-        )
+        ))
     ))
 
 

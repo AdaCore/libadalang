@@ -2840,11 +2840,14 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(return_type=LexicalEnv.array)
     def primitives_envs(include_self=(Bool, False)):
-        return Entity.base_types.mapcat(lambda t: t.cast(T.TypeDecl).then(
-            lambda bt: bt.own_primitives_envs.concat(
-                bt.primitives_envs
-            )
-        )).concat(
+        return Entity.base_types.mapcat(lambda t: t.match(
+            lambda td=T.TypeDecl: td,
+            lambda std=T.SubtypeDecl: origin.bind(
+                std.node, std.from_type.cast(T.TypeDecl)
+            ),
+            lambda _: No(T.TypeDecl.entity),
+        ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
+        ).concat(
             If(include_self,
                Entity.own_primitives_envs, No(LexicalEnv.array))
         )

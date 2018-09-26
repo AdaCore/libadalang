@@ -63,6 +63,10 @@ procedure Nameres is
         (Parser, "-C", "--charset", "Charset to use for source decoding",
          Unbounded_String, Default_Val => To_Unbounded_String ("iso-8859-1"));
 
+      package Discard_Errors_In_PLE is new Parse_Flag
+        (Parser, "-D", "--discard-PLE-errors",
+         "Discard errors while constructing lexical envs");
+
       package Quiet is new Parse_Flag
         (Parser, "-q", "--quiet", "Quiet mode (no output on stdout)");
 
@@ -569,6 +573,9 @@ procedure Nameres is
             Ctx := Create_Context
               (Charset       => +Args.Charset.Get,
                Unit_Provider => UFP);
+
+            Discard_Errors_In_Populate_Lexical_Env
+              (Ctx, Args.Discard_Errors_In_PLE.Get);
 
             Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
          end Create_Context;

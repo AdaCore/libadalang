@@ -1,7 +1,8 @@
 ## vim: filetype=makopython
 
     @classmethod
-    def for_project(cls, project_file, scenario_vars=None):
+    def for_project(cls, project_file, scenario_vars=None, target=None,
+                    runtime=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
         # Here and below, acccept 'unicode' instances as well as 'str' ones:
@@ -12,6 +13,10 @@
         # encoding).
         if not isinstance(project_file, basestring):
             raise TypeError('`project_file` argument must be a string')
+
+        for name, value in [('target', target), ('runtime', runtime)]:
+            if value is not None and not isinstance(value, basestring):
+                raise TypeError('`{}` argument must be a string'.format(name))
 
         if scenario_vars:
             items = scenario_vars.items()
@@ -27,7 +32,8 @@
         else:
             scn_vars_array = None
 
-        c_value = _create_project_unit_provider(project_file, scn_vars_array)
+        c_value = _create_project_unit_provider(project_file, scn_vars_array,
+                                                target, runtime)
         if c_value:
             return cls(c_value)
         else:

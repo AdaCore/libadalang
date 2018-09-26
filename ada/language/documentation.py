@@ -12,11 +12,19 @@ libadalang_docs = {
             If provided, ``Scenario_Vars`` must be a dict with key strings and
             key values to describe the set of scenario variables for this
             project.
+
+            In order to load the given project with non-default target and
+            runtimes, pass these as strings to the ``target`` and ``runtime``
+            arguments.
+
         % else:
             If not ``${null}``, ``Scenario_Vars`` must point to an array of
             ``${capi.get_name('project_scenario_variable')}`` couples to
             provide scenario variables for this project. The last element of
             this array must end with a ``{ ${null}, ${null} }`` couple.
+
+            If not ``${null}``, ``target`` and ``runtime`` must point to valid
+            NULL-terminated strings.
         % endif
 
         % if lang == 'c':

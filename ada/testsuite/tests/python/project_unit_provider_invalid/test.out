@@ -1,9 +1,10 @@
-Trying to load invalid project: invalid.gpr
+Trying to load invalid project:
 invalid.gpr:1:01: ":=" expected
    ... got an exception: Cannot open project invalid.gpr
-Trying to load invalid project: does_not_exist.gpr
-invalid.gpr:1:01: ":=" expected
-   ... got an exception: Cannot open project invalid.gpr
+Trying to load not existing:
+   ... got an exception: Cannot open project does_not_exist.gpr
+Trying to load project with unknown target:
+   ... got no exception
 Trying to get unit: '\n'
    ... got an exception: Invalid unit name: '\n' (unit_body)
 Trying to get unit: ' '

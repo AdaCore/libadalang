@@ -5,30 +5,31 @@ libadalang_docs = {
         Couple name/value to define a scenario variable for a project.
     """,
     'libadalang.create_project_unit_provider': """
-        Load the project file at Project_File and return a unit provider that
-        uses it.
+        Load the project file at ``Project_File`` and return a unit provider
+        that uses it.
 
         % if lang == 'python':
-            If provided, Scenario_Vars must be a dict with key strings and key
-            values to describe the set of scenario variables for this project.
+            If provided, ``Scenario_Vars`` must be a dict with key strings and
+            key values to describe the set of scenario variables for this
+            project.
         % else:
-            If not ${null}, Scenario_Vars must point to an array of
-            ${capi.get_name('project_scenario_variable')} couples to provide
-            scenario variables for this project. The last element of this array
-            must end with a { ${null}, ${null} } couple.
+            If not ``${null}``, ``Scenario_Vars`` must point to an array of
+            ``${capi.get_name('project_scenario_variable')}`` couples to
+            provide scenario variables for this project. The last element of
+            this array must end with a ``{ ${null}, ${null} }`` couple.
         % endif
 
         % if lang == 'c':
             When done with it, the result must be free'd with
-            ${capi.get_name('destroy_unit_provider')}.
+            ``${capi.get_name('destroy_unit_provider')}``.
         % endif
 
         If the requested project is invalid (error while opening the file,
         error while analysing its syntax, ...),
         % if lang == 'python':
-            this raises an InvalidProjectError.
+            this raises an ``InvalidProjectError`` exception.
         % else:
-            this returns ${null}.
+            this returns ``${null}``.
         % endif
     """,
     'libadalang.invalid_project_error': """
@@ -42,16 +43,16 @@ libadalang_docs = {
         source files and listing the compilation units found there. Files that
         cannot be parsed properly or redundant compilation units are discarded.
 
-        Source files are decoded using the given charset. If it is ${null}, the
-        default charset (ISO-8859-1) is used.
+        Source files are decoded using the given charset. If it is ``${null}``,
+        the default charset (ISO-8859-1) is used.
 
         % if lang == 'c':
-            `input_files` must point to a NULL-terminated array of filenames.
-            Once this function returns, this array and the strings it contains
-            can be deallocated.
+            `input_files` must point to a ``NULL``-terminated array of
+            filenames.  Once this function returns, this array and the strings
+            it contains can be deallocated.
 
             When done with it, the result must be free'd with
-            ${capi.get_name('destroy_unit_provider')}.
+            ``${capi.get_name('destroy_unit_provider')}``.
         % endif
     """,
 }

@@ -874,6 +874,35 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def unshed_rebindings(rebindings=T.EnvRebindings):
+        """
+        Put ``rebindings`` back on ``Entity`` if ``Entity`` is rebound
+        somewhere in the chain of rebindings. Ensure coherency, eg. that if
+        Entity already has some rebindings, the one that we add are a superset
+        of the one it already has.
+        """
+        return Cond(
+            rebindings == No(T.EnvRebindings),
+            Entity,
+
+            rebindings.rebindings_old_env.env_node == Self,
+            If(
+                rebindings.rebindings_parent == Entity.info.rebindings,
+                BasicDecl.entity.new(
+                    node=Self,
+                    info=T.entity_info.new(
+                        rebindings=rebindings,
+                        md=Entity.info.md,
+                        from_rebound=Entity.info.from_rebound
+                    )
+                ),
+                PropertyError(BasicDecl.entity, "Incorrect rebindings")
+            ),
+
+            Entity.unshed_rebindings(rebindings.rebindings_parent)
+        )
+
     @langkit_property(public=True)
     def is_imported():
         """
@@ -6444,7 +6473,13 @@ class BaseId(SingleTokNode):
         return origin.bind(Self, If(
             pkg._.is_package,
             Entity.pkg_env(
-                pkg,
+                # If pkg is a generic package (non instantiated) and it is
+                # rebound somewhere in the context of Self's rebindings, then
+                # we want to put back those rebindings on it, because it means
+                # we are inside a generic instantiation, so refering to the
+                # generic package actually means referring to the
+                # instantiation.
+                pkg.unshed_rebindings(Entity.info.rebindings),
                 pkg.is_a(T.GenericPackageInstantiation) & pkg.info.from_rebound
             ),
             env_els.map(

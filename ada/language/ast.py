@@ -2631,9 +2631,14 @@ class ClasswideTypeDecl(BaseTypeDecl):
     is_iterable_type = Property(Entity.typedecl.is_iterable_type)
     iterable_comp_type = Property(Entity.typedecl.iterable_comp_type)
     defining_env = Property(Entity.typedecl.defining_env)
-    node_aspects = Property(Entity.typedecl.node_aspects)
     is_private = Property(Entity.typedecl.is_private)
     is_in_private_part = Property(Entity.typedecl.is_in_private_part)
+
+    @langkit_property()
+    def get_aspect(name=Symbol):
+        return Entity.typedecl.node_aspects._.aspect_assocs.find(
+            lambda asp: asp.id.cast(T.BaseId).sym == name
+        )
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 

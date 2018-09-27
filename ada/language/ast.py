@@ -1775,7 +1775,9 @@ class TypeDef(AdaNode):
     )
 
     base_types = Property(
-        Entity.base_type.singleton.concat(Entity.base_interfaces), doc="""
+        Entity.base_type.then(lambda bt: bt.singleton)
+        .concat(Entity.base_interfaces),
+        doc="""
         Return all the base types for this type (base type + base interfaces)
         """
     )
@@ -2341,7 +2343,8 @@ class BaseTypeDecl(BasicDecl):
     )
 
     base_types = Property(
-        Entity.base_type.singleton.concat(Entity.base_interfaces)
+        Entity.base_type.then(lambda bt: bt.singleton)
+        .concat(Entity.base_interfaces)
     )
 
     base_interfaces = Property(No(T.BaseTypeDecl.entity.array))

@@ -2,9 +2,10 @@ from __future__ import absolute_import, division, print_function
 
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
-    AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool, EnumNode,
-    Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK, Struct,
-    Symbol, T, UserField, abstract, env_metadata, has_abstract_list, synthetic
+    AbstractField, AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool,
+    EnumNode, Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK,
+    NullField, Struct, Symbol, T, UserField, abstract, env_metadata,
+    has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, RefKind, add_to_env, add_env, call_env_hook, handle_children, do,
@@ -900,19 +901,16 @@ class BasicDecl(AdaNode):
         """
         return No(T.DeclarativePart.entity)
 
-    @langkit_property(return_type=T.AspectSpec.entity, public=True)
-    def node_aspects():
-        """
+    aspects = AbstractField(type=T.AspectSpec, doc="""
         Return the list of aspects that are attached to this node.
-        """
-        return No(T.AspectSpec.entity)
+    """)
 
     @langkit_property(return_type=T.AspectAssoc.entity, public=True)
     def get_aspect(name=Symbol):
         """
         Return the aspect with name ``name`` for this entity.
         """
-        return Entity.node_aspects._.aspect_assocs.find(
+        return Entity.aspects._.aspect_assocs.find(
             lambda asp: asp.id.cast(T.BaseId).sym == name
         )
 
@@ -1321,6 +1319,7 @@ class BasicDecl(AdaNode):
 
 
 class ErrorDecl(BasicDecl):
+    aspects = NullField()
     defining_names = Property(No(T.DefiningName.entity.array))
 
 
@@ -1524,6 +1523,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
     ids = Field(type=T.DefiningName.list)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
+    aspects = NullField()
 
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
@@ -2619,6 +2619,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     # We don't want to add the classwide type to the environment
     env_spec = EnvSpec()
 
+    aspects = NullField()
+
     typedecl = Property(Self.parent.cast(BaseTypeDecl).as_entity)
 
     is_classwide = Property(True)
@@ -2636,7 +2638,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def get_aspect(name=Symbol):
-        return Entity.typedecl.node_aspects._.aspect_assocs.find(
+        return Entity.typedecl.aspects._.aspect_assocs.find(
             lambda asp: asp.id.cast(T.BaseId).sym == name
         )
 
@@ -2700,8 +2702,6 @@ class TypeDecl(BaseTypeDecl):
             ),
         )._or(Entity.previous_part(False)
               .then(lambda pp: pp.iterable_comp_type))
-
-    node_aspects = Property(Entity.aspects)
 
     @langkit_property()
     def discrete_range():
@@ -3694,6 +3694,7 @@ class ParamSpec(BaseFormalParamDecl):
     mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
+    aspects = NullField()
 
     is_mandatory = Property(Self.default_expr.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))
@@ -3918,26 +3919,18 @@ class ClassicSubpDecl(BasicSubpDecl):
 class SubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
-    node_aspects = Property(Entity.aspects)
-
 
 class NullSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
-
-    node_aspects = Property(Entity.aspects)
 
 
 class AbstractSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
-    node_aspects = Property(Entity.aspects)
-
 
 class SubpRenamingDecl(ClassicSubpDecl):
     renames = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
-
-    node_aspects = Property(Entity.aspects)
 
     xref_entry_point = Property(True)
     xref_equation = Property(Or(
@@ -4096,6 +4089,7 @@ class AtClause(AspectClause):
 
 class SingleTaskDecl(BasicDecl):
     task_type = Field(type=T.SingleTaskTypeDecl)
+    aspects = NullField()
 
     defining_names = Property(Entity.task_type.defining_names)
     expr_type = Property(Entity.task_type)
@@ -4176,6 +4170,7 @@ class AspectAssoc(AdaNode):
 class NumberDecl(BasicDecl):
     ids = Field(type=T.DefiningName.list)
     expr = Field(type=T.Expr)
+    aspects = NullField()
 
     defining_names = Property(Entity.ids.map(lambda id: id))
 
@@ -4316,8 +4311,6 @@ class BasePackageDecl(BasicDecl):
         return Entity.body_part_for_decl.cast(T.PackageBody)
 
     declarative_region = Property(Entity.public_part)
-
-    node_aspects = Property(Entity.aspects)
 
 
 class PackageDecl(BasePackageDecl):
@@ -4687,7 +4680,6 @@ class FormalSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
     defining_names = Property(Self.subp_spec.name.as_entity.singleton)
-    node_aspects = Property(Entity.aspects)
 
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
@@ -4707,6 +4699,7 @@ class GenericFormalPart(BaseFormalParamHolder):
 @abstract
 class GenericFormal(BaseFormalParamDecl):
     decl = Field(T.BasicDecl)
+    aspects = NullField()
     defining_names = Property(Entity.decl.defining_names)
 
 
@@ -4747,6 +4740,7 @@ class GenericSubpDecl(GenericDecl):
                           Self.subp_decl.subp_spec.name.parent_scope)
 
     subp_decl = Field(type=T.GenericSubpInternal)
+    aspects = NullField()
 
     defining_names = Property(
         Self.subp_decl.subp_spec.name.as_entity.singleton)
@@ -4795,6 +4789,7 @@ class GenericPackageDecl(GenericDecl):
     )
 
     package_decl = Field(type=GenericPackageInternal)
+    aspects = NullField()
 
     defining_env = Property(Entity.package_decl.defining_env)
 
@@ -6749,6 +6744,7 @@ class StringLiteral(BaseId):
 
 class EnumLiteralDecl(BasicDecl):
     name = Field(type=T.DefiningName)
+    aspects = NullField()
 
     @langkit_property(public=True)
     def enum_type():
@@ -7078,6 +7074,7 @@ class LoopSpec(AdaNode):
 class ForLoopVarDecl(BasicDecl):
     id = Field(type=T.DefiningName)
     id_type = Field(type=T.SubtypeIndication)
+    aspects = NullField()
 
     defining_names = Property(Entity.id.singleton)
 
@@ -7984,6 +7981,7 @@ class ExceptionHandler(BasicDecl):
     exception_name = Field(type=T.DefiningName)
     handled_exceptions = Field(type=T.AlternativesList)
     stmts = Field(type=T.StmtList)
+    aspects = NullField()
 
     env_spec = EnvSpec(
         add_env(),
@@ -8191,6 +8189,8 @@ class ElsifStmtPart(AdaNode):
 
 class LabelDecl(BasicDecl):
     name = Field(type=T.DefiningName)
+    aspects = NullField()
+
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(add_to_env_kv(Self.name_symbol, Self))
@@ -8219,6 +8219,8 @@ class NamedStmtDecl(BasicDecl):
     BasicDecl that is always the declaration inside a named statement.
     """
     name = Field(type=T.DefiningName)
+    aspects = NullField()
+
     defining_names = Property(Entity.name.singleton)
     defining_env = Property(Self.parent.cast(T.NamedStmt).stmt.children_env)
 
@@ -8495,6 +8497,7 @@ class EntryBody(Body):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
+    aspects = NullField()
 
     defining_names = Property(Entity.entry_name.singleton)
 
@@ -8504,6 +8507,7 @@ class EntryBody(Body):
 class EntryIndexSpec(BasicDecl):
     id = Field(type=T.DefiningName)
     subtype = Field(type=T.AdaNode)
+    aspects = NullField()
 
     env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
 
@@ -8600,6 +8604,7 @@ class RangeSpec(AdaNode):
 
 class IncompleteTypeDecl(BaseTypeDecl):
     discriminants = Field(type=T.DiscriminantPart)
+    aspects = NullField()
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),

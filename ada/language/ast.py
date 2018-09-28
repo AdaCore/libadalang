@@ -7293,6 +7293,9 @@ class AttributeRef(Name):
            Entity.prefix.designated_type_impl)
     )
 
+    args_list = Property(Self.args._.cast_or_raise(T.AssocList),
+                         ignore_warn_on_node=True)
+
     @langkit_property()
     def env_elements_impl():
         return If(
@@ -7474,8 +7477,8 @@ class AttributeRef(Name):
             .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
         )
 
-        stream_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
-        obj_arg = Var(Entity.args.cast_or_raise(T.AssocList).at(1)._.expr)
+        stream_arg = Var(Entity.args_list.at(0).expr)
+        obj_arg = Var(Entity.args_list.at(1)._.expr)
 
         return (
             Entity.prefix.sub_equation
@@ -7527,7 +7530,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def succpred_xref_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        arg = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        arg = Var(Self.args_list.at(0).expr)
 
         return (
             TypeBind(Self.prefix.ref_var, typ)
@@ -7538,8 +7541,8 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def minmax_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        left = Var(Entity.args.cast_or_raise(T.AssocList).at(0).expr)
-        right = Var(Entity.args.cast_or_raise(T.AssocList).at(1).expr)
+        left = Var(Entity.args_list.at(0).expr)
+        right = Var(Entity.args_list.at(1).expr)
 
         return (
             left.as_entity.sub_equation
@@ -7564,7 +7567,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def value_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        expr = Var(Self.args_list.at(0).expr)
 
         return (
             expr.as_entity.sub_equation
@@ -7582,7 +7585,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args.cast(T.AssocList).then(lambda al: al.at(0).expr))
+        expr = Var(Self.args_list.then(lambda al: al.at(0).expr))
 
         return If(
             typ.is_null,
@@ -7613,7 +7616,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def pos_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        expr = Var(Self.args_list.at(0).expr)
 
         return (
             # Prefix is a type, bind prefix's ref var to it
@@ -7626,7 +7629,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def val_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args.cast_or_raise(T.AssocList).at(0).expr)
+        expr = Var(Self.args_list.at(0).expr)
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)

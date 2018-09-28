@@ -691,7 +691,7 @@ class AdaNode(ASTNode):
         Property helper to determine if an entity is a package or not.
         """
         return Self.is_a(PackageDecl, PackageBody, GenericPackageInstantiation,
-                         PackageRenamingDecl)
+                         PackageRenamingDecl, GenericPackageDecl)
 
     @langkit_property()
     def initial_env():

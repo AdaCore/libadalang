@@ -2857,11 +2857,17 @@ class TypeDecl(BaseTypeDecl):
     )
 
     record_def = Property(
-        Self.type_def.match(
+        Entity.type_def.match(
             lambda r=T.RecordTypeDef: r.record_def,
-            lambda d=T.DerivedTypeDef: d.record_extension,
-            lambda _: No(T.BaseRecordDef)
-        ).as_entity
+            # If the derived type is tagged, then return its own record def. If
+            # it isn't tagged, return the base type's record def.
+            lambda d=T.DerivedTypeDef: If(
+                Entity.is_tagged_type,
+                d.record_extension,
+                d.base_type._.record_def
+            ),
+            lambda _: No(T.BaseRecordDef.entity)
+        )
     )
 
     xref_entry_point = Property(True)

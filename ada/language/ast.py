@@ -2447,6 +2447,12 @@ class BaseTypeDecl(BasicDecl):
 
             # Access to derived type case
             Entity.final_accessed_type._.matching_formal_prim_type(cont_type),
+
+            # Dot notation: The prefix can be a value type and the formal an
+            # access type to this value type.
+            cont_type.accessed_type.then(
+                lambda at: Entity.matching_formal_prim_type(at)
+            ),
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])

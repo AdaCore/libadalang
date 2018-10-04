@@ -3161,8 +3161,7 @@ class DerivedTypeDef(TypeDef):
     is_char_type = Property(Entity.base_type.is_char_type)
     accessed_type = Property(Entity.base_type.accessed_type)
     is_tagged_type = Property(
-        Not(Entity.record_extension.is_null)
-        | Entity.has_with_private.as_bool
+        Not(Entity.record_extension.is_null) | Entity.has_with_private.as_bool
     )
 
     is_enum_type = Property(Entity.base_type.is_enum_type)

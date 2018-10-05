@@ -6534,7 +6534,8 @@ class BaseId(SingleTokNode):
 
             # If the top level item of the unit we make the request from is the
             # body corresponding to basic decl, return the env of the body.
-            top_level_itm.cast(PackageBody)._.node_env == env_private_part,
+            top_level_itm.is_a(PackageBody) &
+            (top_level_itm.cast(PackageBody)._.node_env == env_private_part),
             top_level_env,
 
             # In any case, if the top level item's env is a child of the env of

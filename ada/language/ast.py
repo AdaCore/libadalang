@@ -1330,21 +1330,20 @@ class BasicDecl(AdaNode):
         Return the fully qualified name corresponding to this declaration.
         """
         ent = Var(Self.as_bare_entity)
-        name = Var(ent.defining_name.as_symbol_array)
-        return If(
+        fqn = Var(If(
             ent.is_unit_root,
-            name,
-            Let(lambda parent=ent.semantic_parent:
-                Cond(parent.is_a(T.GenericPackageInternal),
-                     parent.parent.cast(T.GenericPackageDecl)
-                     .fully_qualified_name.concat(name),
+            ent.defining_name.as_symbol_array,
 
-                     parent.is_a(T.BasicDecl),
-                     parent.cast(T.BasicDecl).fully_qualified_name
-                     .concat(name),
+            ent.semantic_parent.cast_or_raise(T.BasicDecl)
+            .fully_qualified_name.then(lambda fqn: If(
+                Self.is_a(T.GenericPackageInternal),
+                fqn,
+                fqn.concat(ent.defining_name.as_symbol_array)
+            ))
+        ))
 
-                     PropertyError(Symbol.array)))
-        )
+        return Self.parent.cast(
+            T.Subunit)._.name.as_symbol_array.concat(fqn)._or(fqn)
 
 
 class ErrorDecl(BasicDecl):

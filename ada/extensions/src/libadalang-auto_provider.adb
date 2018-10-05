@@ -47,7 +47,8 @@ package body Libadalang.Auto_Provider is
    is
       use Ada.Strings.Wide_Wide_Unbounded;
 
-      FQN  : constant Unbounded_Text_Type_Array := CU.P_Fully_Qualified_Name;
+      FQN  : constant Unbounded_Text_Type_Array :=
+        CU.P_Syntactic_Fully_Qualified_Name;
       Kind : constant Analysis_Unit_Kind := CU.P_Unit_Kind;
       Name : Unbounded_Wide_Wide_String;
    begin

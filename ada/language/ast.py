@@ -7876,13 +7876,15 @@ class CompilationUnit(AdaNode):
         pass
 
     @langkit_property(public=True)
-    def fully_qualified_name():
+    def syntactic_fully_qualified_name():
         """
-        Return the fully qualified name of this compilation unit.
+        Return the syntactic fully qualified name of this compilation unit.
         """
-        return Self.body.match(
-            lambda li=T.LibraryItem: li.item.fully_qualified_name,
-            lambda su=T.Subunit: su.fully_qualified_name,
+        return Self.as_bare_entity.body.match(
+            lambda li=T.LibraryItem: li.item.defining_name.as_symbol_array,
+            lambda su=T.Subunit: su.name.as_symbol_array.concat(
+                su.body.defining_name.as_symbol_array
+            ),
             lambda _: PropertyError(
                 Symbol.array, 'Unexpected CompilationUnit.f_body attribute'
             ),
@@ -8600,15 +8602,6 @@ class EntryIndexSpec(BasicDecl):
 class Subunit(AdaNode):
     name = Field(type=T.Name)
     body = Field(type=T.Body)
-
-    @langkit_property(public=True)
-    def fully_qualified_name():
-        """
-        Return the fully qualified name corresponding to this subunit.
-        """
-        return Self.name.as_symbol_array.concat(
-            Self.body.fully_qualified_name
-        )
 
 
 class ProtectedBodyStub(BodyStub):

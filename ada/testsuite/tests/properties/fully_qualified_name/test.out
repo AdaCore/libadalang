@@ -6,7 +6,7 @@
 <PackageDecl ["Pkg"] 1:1-10:9> -> pkg
 <TypeDecl ["T"] 2:4-2:26> -> pkg.t
 <GenericPackageDecl ["Nested"] 4:4-7:15> -> pkg.nested
-<GenericPackageInternal ["Nested"] 5:4-7:15> -> pkg.nested.nested
+<GenericPackageInternal ["Nested"] 5:4-7:15> -> pkg.nested
 <SubpDecl ["Proc"] 6:7-6:22> -> pkg.nested.proc
 <SubpDecl ["Stub"] 9:4-9:19> -> pkg.stub
 
@@ -17,6 +17,6 @@
 <SubpBodyStub ["Stub"] 7:4-7:31> -> pkg.stub
 
 == pkg-stub.adb ==
-<SubpBody ["Stub"] 2:1-5:10> -> stub
+<SubpBody ["Stub"] 2:1-5:10> -> pkg.stub
 
 Done

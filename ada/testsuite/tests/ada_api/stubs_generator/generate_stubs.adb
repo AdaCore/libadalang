@@ -95,7 +95,7 @@ begin
             --  the rewriting machinery do its magic.
          begin
             Put_Line ("===");
-            Put_Line (Transcode (Unparse (Body_Stub), Charset));
+            Put_Line (Encode (Unparse (Body_Stub), Charset));
             New_Line;
          end;
       end if;

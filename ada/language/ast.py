@@ -7749,7 +7749,7 @@ class AttributeRef(Name):
         # representing an int that we will use as a dimension.
         dim = Var(Entity.args_list.then(lambda a: a.at(0).expr.then(
             lambda expr: Let(
-                lambda p=expr.as_entity.resolve_names_internal(
+                lambda _=expr.as_entity.resolve_names_internal(
                     True, LogicTrue()
                 ):
                 expr.eval_as_int.as_int

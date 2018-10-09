@@ -30,6 +30,9 @@ private package Libadalang.Env_Hooks is
 
    type Symbol_Type_Array is array (Positive range <>) of Symbol_Type;
 
+   function Name_To_Symbols
+     (Name : access Bare_Name_Type'Class) return Symbol_Type_Array;
+
    function Fetch_Unit
      (Ctx                : Internal_Context;
       Name               : Bare_Name;

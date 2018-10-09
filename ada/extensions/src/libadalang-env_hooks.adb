@@ -222,23 +222,25 @@ package body Libadalang.Env_Hooks is
    ----------------
 
    function Fetch_Unit
-     (Ctx            : Internal_Context;
-      Name           : Bare_Name;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit is
+     (Ctx                : Internal_Context;
+      Name               : Bare_Name;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Do_Prepare_Nameres : Boolean := True) return Internal_Unit is
    begin
       return Fetch_Unit
         (Ctx, Name_To_Symbols (Name), 
          Bare_Ada_Node (Name).Unit, Kind,
-         Load_If_Needed);
+         Load_If_Needed, Do_Prepare_Nameres);
    end Fetch_Unit;
 
    function Fetch_Unit
-     (Ctx            : Internal_Context;
-      Name           : Symbol_Type_Array;
-      From_Unit      : Internal_Unit;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit
+     (Ctx                : Internal_Context;
+      Name               : Symbol_Type_Array;
+      From_Unit          : Internal_Unit;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Do_Prepare_Nameres : Boolean := True) return Internal_Unit
    is
       procedure Prepare_Nameres (Unit : Internal_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
@@ -271,6 +273,12 @@ package body Libadalang.Env_Hooks is
                return null;
             end if;
          end;
+      end if;
+
+      if not Do_Prepare_Nameres then
+         --  If we are not preparing nameres, we can directly return the unit
+         --  corresponding to the entire name.
+         return UFP.Get_Unit (Ctx, To_String (Name), Kind);
       end if;
 
       --  GNAT kludge: as an "optimization", the generic subpackages in
@@ -309,6 +317,7 @@ package body Libadalang.Env_Hooks is
             --  TODO??? Find a proper way to handle file not found, parsing
             --  error, etc.
             Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), I_Kind);
+
             Prepare_Nameres (Unit);
 
             --  The first iteration gives the unit we are required to return

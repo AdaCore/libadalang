@@ -31,19 +31,22 @@ private package Libadalang.Env_Hooks is
    type Symbol_Type_Array is array (Positive range <>) of Symbol_Type;
 
    function Fetch_Unit
-     (Ctx            : Internal_Context;
-      Name           : Bare_Name;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit;
+     (Ctx                : Internal_Context;
+      Name               : Bare_Name;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Do_Prepare_Nameres : Boolean := True) return Internal_Unit;
 
    function Fetch_Unit
-     (Ctx            : Internal_Context;
-      Name           : Symbol_Type_Array;
-      From_Unit      : Internal_Unit;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit;
-   --  Fetch the unit for the file that (Name, Kind) designate. Populate its
-   --  lexical environment and reference the result from Name's unit.
+     (Ctx                : Internal_Context;
+      Name               : Symbol_Type_Array;
+      From_Unit          : Internal_Unit;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Do_Prepare_Nameres : Boolean := True) return Internal_Unit;
+   --  Fetch the unit for the file that (Name, Kind) designate. If
+   --  Do_Prepare_Nameres is set, populate its lexical environment and reference
+   --  the result from Name's unit.
    --
    --  When Name is an illegal unit name (a call expression, for instance),
    --  this raises a Property_Error.

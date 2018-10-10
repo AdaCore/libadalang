@@ -6412,6 +6412,32 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
+    @langkit_property(public=False, return_type=AdaNode.entity.array)
+    def find_all_refs_in(x=AdaNode.entity):
+        """
+        Searches all references to this defining name in the given node.
+        """
+        return x.children.then(
+            lambda c: c.filter(lambda n: Not(n.is_null))
+            .mapcat(lambda n: Self.find_all_refs_in(n))
+        ).concat(x.cast(BaseId).then(lambda i: If(
+            Self.name_is(i.sym) & x.xref.then(lambda ref: ref.node == Self),
+            x.singleton,
+            No(AdaNode.entity.array)
+        )))
+
+    @langkit_property(public=True, return_type=AdaNode.entity.array)
+    def find_all_references(units=AnalysisUnit.array):
+        """
+        Searches all references to this defining name in the given list of
+        units.
+        """
+        return units.mapcat(
+            lambda u: Self.top_level_decl(u).then(
+                lambda r: Self.find_all_refs_in(r.as_entity)
+            )
+        )
+
 
 class EndName(Name):
     name = Field(type=T.Name)

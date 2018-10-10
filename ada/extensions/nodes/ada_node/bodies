@@ -35,3 +35,147 @@ begin
       Reparse  => False,
       Rule     => Default_Grammar_Rule);
 end P_Standard_Unit;
+
+-----------------------------
+-- P_Filter_Is_Imported_By --
+-----------------------------
+
+function P_Filter_Is_Imported_By
+  (Node       : access Bare_Ada_Node_Type'Class;
+   Units      : Internal_Unit_Array_Access;
+   Transitive : Boolean) return Internal_Unit_Array_Access is
+
+   package Analysis_Unit_Vectors is new Ada.Containers.Vectors
+     (Index_Type   => Positive,
+      Element_Type => Internal_Unit);
+
+   package Analysis_Unit_Maps is new Ada.Containers.Hashed_Maps
+     (Key_Type        => Internal_Unit,
+      Element_Type    => Boolean,
+      Hash            => Hash,
+      Equivalent_Keys => "=");
+
+   Target              : Internal_Unit := Node.Unit;
+   Units_Import_Target : Analysis_Unit_Maps.Map;
+
+   function Does_Import_Target (From : in Internal_Unit) return Boolean;
+   --  Predicate that returns True iff the given unit imports the target.
+   --  If Transitive is True, handle transitive imports.
+
+   function Does_Import_Target (From : in Internal_Unit) return Boolean is
+      function Handle_Unit_Name
+        (Symbols : in Libadalang.Env_Hooks.Symbol_Type_Array)
+         return Boolean;
+      --  Fetches the unit associated to the given name and returns whether
+      --  this unit IS the target unit. If Transitive is True, recursively look
+      --  if the target is one of the units imported by the given unit.
+
+      function Handle_Unit_Name
+        (Symbols : in Libadalang.Env_Hooks.Symbol_Type_Array)
+         return Boolean is
+
+         Unit : Internal_Unit := Libadalang.Env_Hooks.Fetch_Unit
+           (Node.Unit.Context, Symbols, Node.Unit,
+            Unit_Specification, True, False);
+      begin
+         if Unit = Target or else
+              (Transitive and then
+               Does_Import_Target (Unit)) then
+            return True;
+         end if;
+         return False;
+      exception
+         when Property_Error =>
+            return False;
+      end Handle_Unit_Name;
+
+      AST     : Bare_Compilation_Unit := Bare_Compilation_Unit (Root (From));
+      Prelude : Bare_Ada_Node_List;
+
+      Memoized_Position : Analysis_Unit_Maps.Cursor :=
+         Units_Import_Target.Find (From);
+   begin
+      if Analysis_Unit_Maps.Has_Element (Memoized_Position) then
+         return Analysis_Unit_Maps.Element (Memoized_Position);
+      elsif AST = null then
+         return False;
+      end if;
+
+      if From = Target then
+         Units_Import_Target.Insert (From, True);
+         return True;
+      end if;
+
+      Units_Import_Target.Insert (From, False);
+
+      --  Add all explicit references by processing "with" clauses.
+
+      Prelude := AST.F_Prelude;
+
+      for I in 1 .. Prelude.Count loop
+         if Prelude.Item (I).Kind = Ada_With_Clause then
+            declare
+               Imported_Packages : Bare_Name_List :=
+                 Bare_With_Clause (Prelude.Item (I)).F_Packages;
+            begin
+               for J in 1 .. Imported_Packages.Count loop
+                  if Handle_Unit_Name (Libadalang.Env_Hooks.Name_To_Symbols
+                                         (Imported_Packages.Item (J))) then
+                     Units_Import_Target.Replace (From, True);
+                     return True;
+                  end if;
+               end loop;
+            end;
+         end if;
+      end loop;
+
+      --  Add all implicit references:
+      --   - If this unit is a body, there is an implicit reference to its
+      --     specification.
+      --   - If this unit is a specification and a child unit, there is an
+      --     implicit reference to its direct parent.
+
+      declare
+         Unit_Name : Symbol_Type_Array_Access :=
+            AST.P_Syntactic_Fully_Qualified_Name;
+
+         Parent_Symbols : Internal_Symbol_Type_Array :=
+           (if AST.P_Unit_Kind = Unit_Body
+            then Unit_Name.Items
+            else Unit_Name.Items
+              (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
+      begin
+         if Parent_Symbols'Length > 0 then
+            if Handle_Unit_Name (Libadalang.Env_Hooks.Symbol_Type_Array
+                                   (Parent_Symbols)) then
+               Units_Import_Target.Replace (From, True);
+               return True;
+            end if;
+         end if;
+      end;
+
+      return False;
+   end Does_Import_Target;
+
+   Result_Vector : Analysis_Unit_Vectors.Vector;
+begin
+   --  Place the units that satisfy the predicate into a temporary vector.
+   for Unit of Units.Items loop
+      if Does_Import_Target (Unit) then
+         Result_Vector.Append (Unit);
+      end if;
+   end loop;
+
+   --  Create the result array from the vector.
+   declare
+      Result : Internal_Unit_Array_Access := Create_Internal_Unit_Array
+        (Natural (Result_Vector.Length));
+      N      : Positive := Result.Items'First;
+   begin
+      for Unit of Result_Vector loop
+         Result.Items (N) := Unit;
+         N := N + 1;
+      end loop;
+      return Result;
+   end;
+end P_Filter_Is_Imported_By;

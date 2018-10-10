@@ -362,6 +362,17 @@ class AdaNode(ASTNode):
 
         return u._.root._.get_root_decl
 
+    @langkit_property(public=True, return_type=AnalysisUnit.array,
+                      external=True, uses_entity_info=False, uses_envs=False)
+    def filter_is_imported_by(units=AnalysisUnit.array, transitive=Bool):
+        """
+        Filters out among the list of given units those that cannot refer to
+        the unit in which this node lies. If transitive is True, the whole
+        transitive closure of imports will be used to find a reference to the
+        unit of this node.
+        """
+        pass
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=Equation, dynamic_vars=[env, origin])
     def xref_equation():

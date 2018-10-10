@@ -141,6 +141,9 @@ class Manage(ManageScript):
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Sources',
                             use_clause=False)
+        ctx.add_with_clause('Implementation',
+                            ADA_BODY, 'Ada.Containers.Hashed_Maps',
+                            use_clause=False)
 
         # Our iterators are implemented using internal data structures
         ctx.add_with_clause('Iterators',

@@ -1,0 +1,11 @@
+test.ads
+########
+
+<IncompleteTypeDecl ["A"] 2:4-2:11> has no type previous part
+Type next part of <IncompleteTypeDecl ["A"] 2:4-2:11> is <TypeDecl ["A"] 4:4-4:22> [test.ads]
+Type previous part of <TypeDecl ["A"] 4:4-4:22> is <IncompleteTypeDecl ["A"] 2:4-2:11> [test.ads]
+Type next part of <TypeDecl ["A"] 4:4-4:22> is <TypeDecl ["A"] 7:4-9:15> [test.ads]
+Type previous part of <TypeDecl ["A"] 7:4-9:15> is <TypeDecl ["A"] 4:4-4:22> [test.ads]
+<TypeDecl ["A"] 7:4-9:15> has no type next part
+
+Done.

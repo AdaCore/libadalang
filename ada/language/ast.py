@@ -6432,7 +6432,7 @@ class DefiningName(Name):
         Searches all references to this defining name in the given list of
         units.
         """
-        return units.mapcat(
+        return Self.filter_is_imported_by(units, True).mapcat(
             lambda u: Self.top_level_decl(u).then(
                 lambda r: Self.find_all_refs_in(r.as_entity)
             )

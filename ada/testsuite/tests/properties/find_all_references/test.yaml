@@ -1,0 +1,2 @@
+driver: python
+input_sources: [a.ads, a.adb, b.ads, b.adb, c.ads, c.adb]

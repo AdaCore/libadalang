@@ -63,24 +63,6 @@ fi
 # Install requirements
 pip install -r langkit/REQUIREMENTS.dev
 
-# TODO: the following is a hack to workaround the fact that 1) in Ubuntu,
-# libiconv is integrated in the libc, so it's not present as a standalone
-# library, 2) the build of gnatcoll-iconv passes -liconv to the linker.
-LIBICONV_DIR=$TOOLS_DIR/libiconv-hack
-rm -rf $LIBICONV_DIR
-mkdir $LIBICONV_DIR
-(
-    cd $LIBICONV_DIR
-    touch libiconv.c
-    gcc -shared -o libiconv.so libiconv.c
-)
-if [ -z "$LIBRARY_PATH" ]
-then
-    export LIBRARY_PATH=$LIBICONV_DIR
-else
-    export LIBRARY_PATH="$LIBICONV_DIR:$LIBRARY_PATH"
-fi
-
 # Log content
 pwd
 export PATH=$INSTALL_DIR/bin:$PATH

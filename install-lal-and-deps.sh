@@ -63,7 +63,7 @@ fi
 ############################################
 
 export PATH="$INSTALL_DIR/bin:$PATH"
-export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$PATH"
+export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$LD_LIBRARY_PATH"
 
 # Build GNATCOLL and install it in $INSTALL_DIR
 (

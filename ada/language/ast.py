@@ -2586,6 +2586,24 @@ class BaseTypeDecl(BasicDecl):
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(name=Self.name)
 
+    @langkit_property(
+        memoized=True, memoize_in_populate=True, ignore_warn_on_node=True
+    )
+    def scalar_base_subtype_node():
+        """
+        Helper for scalar_base_subtype. Return the interned node for the
+        subtype entity.
+        """
+        return DiscreteBaseSubtypeDecl.new(name=Self.name)
+
+    @langkit_property()
+    def scalar_base_subtype():
+        """
+        Return the base subtype for this type. Note that this is only legal for
+        scalar types.
+        """
+        return Self.scalar_base_subtype_node().as_entity
+
     @langkit_property(public=True,
                       return_type=T.BaseTypeDecl.entity,
                       memoized=True)
@@ -3380,10 +3398,8 @@ class InterfaceTypeDef(TypeDef):
         return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
 
 
-class SubtypeDecl(BaseTypeDecl):
-    subtype = Field(type=T.SubtypeIndication)
-    aspects = Field(type=T.AspectSpec)
-
+@abstract
+class BaseSubtypeDecl(BaseTypeDecl):
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def from_type_bound():
         # TODO: This is a hack, to avoid making all of the predicates on types
@@ -3392,15 +3408,13 @@ class SubtypeDecl(BaseTypeDecl):
         # having a dynamic origin parameter.
         return origin.bind(Self, Entity.from_type)
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    @langkit_property(kind=AbstractKind.abstract,
+                      return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
     def from_type():
-        return Entity.subtype.designated_type.match(
-            lambda st=T.SubtypeDecl: st.from_type,
-            lambda t: t
-        )
+        pass
 
-    array_ndims = Property(Entity.subtype.array_ndims)
-    defining_env = Property(Entity.subtype.defining_env)
+    array_ndims = Property(Entity.from_type.array_ndims)
+    defining_env = Property(Entity.from_type.defining_env)
 
     canonical_type = Property(Entity.from_type.canonical_type)
     record_def = Property(Entity.from_type.record_def)
@@ -3423,6 +3437,18 @@ class SubtypeDecl(BaseTypeDecl):
     is_record_type = Property(Entity.from_type_bound.is_record_type)
     is_private = Property(Entity.from_type_bound.is_private)
 
+
+class SubtypeDecl(BaseSubtypeDecl):
+    subtype = Field(type=T.SubtypeIndication)
+    aspects = Field(type=T.AspectSpec)
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    def from_type():
+        return Entity.subtype.designated_type.match(
+            lambda st=T.SubtypeDecl: st.from_type,
+            lambda t: t
+        )
+
     @langkit_property()
     def discrete_range():
         return Entity.subtype.discrete_range
@@ -3432,6 +3458,19 @@ class SubtypeDecl(BaseTypeDecl):
         return Entity.subtype.sub_equation
 
     xref_entry_point = Property(True)
+
+
+@synthetic
+class DiscreteBaseSubtypeDecl(BaseSubtypeDecl):
+    """
+    Specific ``SubtypeDecl`` synthetic subclass for the base type of scalar
+    types.
+    """
+    aspects = NullField()
+
+    from_type = Property(
+        Self.parent.cast_or_raise(T.BaseTypeDecl).as_entity
+    )
 
 
 class TaskDef(AdaNode):
@@ -7390,11 +7429,15 @@ class AttributeRef(Name):
     ref_var = Property(Self.prefix.ref_var)
     relative_name = Property(Entity.prefix.relative_name)
 
-    designated_type_impl = Property(
-        If(Self.attribute.sym == 'Class',
-           Entity.prefix.designated_type_impl._.classwide_type,
-           Entity.prefix.designated_type_impl)
-    )
+    designated_type_impl = Property(Cond(
+        Self.attribute.sym == 'Class',
+        Entity.prefix.designated_type_impl._.classwide_type,
+
+        Self.attribute.sym == 'Base',
+        Entity.prefix.name_designated_type.scalar_base_subtype,
+
+        Entity.prefix.designated_type_impl
+    ))
 
     args_list = Property(Self.args._.cast_or_raise(T.AssocList),
                          ignore_warn_on_node=True)

@@ -12,7 +12,15 @@ set -e
 ##############################################################
 
 INSTALL_DIR=/path/to/install
-INSTALL_DIR=/home/pmderodat/build/gpl-2018/install
+
+# Install the following prerequisites:
+#
+# * Python's virtual env;
+# * The GMP library and its development package
+#
+# On Debian-like systems, the following command should do it:
+#
+#   $ sudo apt-get install python-virtualenv libgmp3-dev
 
 # Install a GNAT Pro or GNAT Community release for your platform in
 # $INSTALL_DIR.  Here, for the example we automatically install GNAT Community

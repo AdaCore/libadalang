@@ -55,7 +55,7 @@ function P_Filter_Is_Imported_By
       Hash            => Hash,
       Equivalent_Keys => "=");
 
-   Target              : Internal_Unit := Node.Unit;
+   Target              : constant Internal_Unit := Node.Unit;
    Units_Import_Target : Analysis_Unit_Maps.Map;
 
    function Does_Import_Target (From : in Internal_Unit) return Boolean;
@@ -74,29 +74,27 @@ function P_Filter_Is_Imported_By
         (Symbols : in Libadalang.Env_Hooks.Symbol_Type_Array)
          return Boolean is
 
-         Unit : Internal_Unit := Libadalang.Env_Hooks.Fetch_Unit
+         Unit : constant Internal_Unit := Libadalang.Env_Hooks.Fetch_Unit
            (Node.Unit.Context, Symbols, Node.Unit,
             Unit_Specification, True, False);
       begin
-         if Unit = Target or else
-              (Transitive and then
-               Does_Import_Target (Unit)) then
-            return True;
-         end if;
-         return False;
+         return (Unit = Target
+                 or else (Transitive and then Does_Import_Target (Unit)));
       exception
          when Property_Error =>
             return False;
       end Handle_Unit_Name;
 
-      AST     : Bare_Compilation_Unit := Bare_Compilation_Unit (Root (From));
+      AST : constant Bare_Compilation_Unit := 
+         Bare_Compilation_Unit (Root (From));
+
       Prelude : Bare_Ada_Node_List;
 
-      Memoized_Position : Analysis_Unit_Maps.Cursor :=
+      From_Cursor : constant Analysis_Unit_Maps.Cursor :=
          Units_Import_Target.Find (From);
    begin
-      if Analysis_Unit_Maps.Has_Element (Memoized_Position) then
-         return Analysis_Unit_Maps.Element (Memoized_Position);
+      if Analysis_Unit_Maps.Has_Element (From_Cursor) then
+         return Analysis_Unit_Maps.Element (From_Cursor);
       elsif AST = null then
          return False;
       end if;
@@ -120,7 +118,8 @@ function P_Filter_Is_Imported_By
             begin
                for J in 1 .. Imported_Packages.Count loop
                   if Handle_Unit_Name (Libadalang.Env_Hooks.Name_To_Symbols
-                                         (Imported_Packages.Item (J))) then
+                                         (Imported_Packages.Item (J)))
+                  then
                      Units_Import_Target.Replace (From, True);
                      return True;
                   end if;
@@ -136,10 +135,10 @@ function P_Filter_Is_Imported_By
       --     implicit reference to its direct parent.
 
       declare
-         Unit_Name : Symbol_Type_Array_Access :=
+         Unit_Name : constant Symbol_Type_Array_Access :=
             AST.P_Syntactic_Fully_Qualified_Name;
 
-         Parent_Symbols : Internal_Symbol_Type_Array :=
+         Parent_Symbols : constant Internal_Symbol_Type_Array :=
            (if AST.P_Unit_Kind = Unit_Body
             then Unit_Name.Items
             else Unit_Name.Items

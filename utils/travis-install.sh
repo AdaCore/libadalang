@@ -83,8 +83,8 @@ gcc -v
     do
         (
             cd $component
-            python setup.py build -j0 --prefix="$INSTALL_DIR"
-            python setup.py install --prefix="$INSTALL_DIR"
+            python setup.py build --reconfigure -j0 --prefix="$INSTALL_DIR"
+            python setup.py install
         )
     done
 )

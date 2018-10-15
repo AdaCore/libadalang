@@ -1,0 +1,18 @@
+A : <AnalysisUnit 'a.ads'> 12:5-12:6
+A : <AnalysisUnit 'a.adb'> 1:14-1:15
+A : <AnalysisUnit 'a.adb'> 7:5-7:6
+A : <AnalysisUnit 'b.ads'> 1:6-1:7
+A : <AnalysisUnit 'b.ads'> 4:45-4:46
+A : <AnalysisUnit 'b.adb'> 2:45-2:46
+X : <AnalysisUnit 'a.adb'> 3:22-3:23
+Y : <AnalysisUnit 'a.adb'> 5:14-5:15
+Get_X : <AnalysisUnit 'a.adb'> 6:8-6:13
+U : <AnalysisUnit 'a.ads'> 4:7-4:8
+U : <AnalysisUnit 'c.adb'> 4:31-4:32
+Rec_Type : <AnalysisUnit 'a.ads'> 3:9-3:17
+Rec_Type : <AnalysisUnit 'b.ads'> 4:47-4:55
+Rec_Type : <AnalysisUnit 'b.adb'> 2:47-2:55
+X : <AnalysisUnit 'b.adb'> 4:15-4:16
+X : <AnalysisUnit 'b.adb'> 4:18-4:19
+Foo : <AnalysisUnit 'c.adb'> 2:13-2:16
+Done

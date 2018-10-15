@@ -885,6 +885,13 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 @abstract
 class BasicDecl(AdaNode):
 
+    @langkit_property(public=True)
+    def is_static_decl():
+        """
+        Return whether this declaration is static.
+        """
+        return False
+
     @langkit_property(return_type=T.BasicDecl.entity)
     def unshed_rebindings(rebindings=T.EnvRebindings):
         """
@@ -1814,6 +1821,7 @@ class TypeDef(AdaNode):
         lambda _=T.IncompleteTypeDecl: EmptyEnv,
         lambda t: t.children_env
     ))
+    is_static = Property(False)
 
 
 class Variant(AdaNode):
@@ -2120,6 +2128,8 @@ class RecordTypeDef(TypeDef):
 class RealTypeDef(TypeDef):
     xref_equation = Property(LogicTrue())
 
+    is_static = Property(True)
+
 
 class DiscreteRange(Struct):
     """
@@ -2137,6 +2147,8 @@ class BaseTypeDecl(BasicDecl):
     env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
 
     defining_names = Property(Entity.name.singleton)
+
+    is_formal_type = Property(Self.parent.is_a(T.GenericFormalTypeDecl))
 
     @langkit_property(return_type=T.BaseTypeDecl.entity, memoized=True)
     def anonymous_access_type():
@@ -2674,6 +2686,8 @@ class BaseTypeDecl(BasicDecl):
         type=BaseFormalParamDecl.entity.array
     )
 
+    root_type = Property(Entity)
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
@@ -2802,6 +2816,7 @@ class TypeDecl(BaseTypeDecl):
     is_fixed_point = Property(Entity.type_def.is_real_type)
     is_int_type = Property(Entity.type_def.is_int_type)
     is_access_type = Property(Self.as_bare_entity.type_def.is_access_type)
+    is_static_decl = Property(Self.as_bare_entity.type_def.is_static)
 
     @langkit_property()
     def accessed_type():
@@ -2845,6 +2860,11 @@ class TypeDecl(BaseTypeDecl):
         lambda atd=T.ArrayTypeDef: atd,
         lambda dtd=T.DerivedTypeDef: dtd.base_type.array_def,
         lambda _: No(T.ArrayTypeDef.entity)
+    ))
+
+    root_type = Property(Entity.type_def.match(
+        lambda dtd=T.DerivedTypeDef: dtd.base_type.root_type,
+        lambda _: Entity
     ))
 
     @langkit_property()
@@ -3038,6 +3058,8 @@ class EnumTypeDef(TypeDef):
 
     xref_equation = Property(LogicTrue())
 
+    is_static = Property(True)
+
 
 class FloatingPointDef(RealTypeDef):
     num_digits = Field(type=T.Expr)
@@ -3079,6 +3101,23 @@ class Constraint(AdaNode):
         Self.parent.cast_or_raise(T.SubtypeIndication)
         .as_entity.designated_type
     ))
+
+    @langkit_property()
+    def is_static():
+        return Entity.match(
+            lambda rc=RangeConstraint: rc.range.range.is_static_expr,
+            lambda ic=IndexConstraint:
+            ic.constraints.all(lambda c: c.match(
+                lambda st=SubtypeIndication: st.is_static,
+                lambda e=Expr: e.is_static_expr,
+                lambda _: False
+            )),
+            lambda dc=DiscriminantConstraint: dc.constraints.all(
+                lambda c: c.expr.as_entity.is_static_expr
+            ),
+            # TODO: Handle constraints for floating point types
+            lambda _: False
+        )
 
 
 class RangeConstraint(Constraint):
@@ -3196,6 +3235,7 @@ class DerivedTypeDef(TypeDef):
     is_record_type = Property(
         Entity.is_tagged_type | Entity.base_type.is_record_type
     )
+    is_static = Property(Entity.subtype_indication.is_static)
 
     defining_env = Property(
         Entity.base_types.map(
@@ -3246,12 +3286,16 @@ class SignedIntTypeDef(TypeDef):
     def discrete_range():
         return Entity.range.range.discrete_range
 
+    is_static = Property(Entity.range.range.is_static_expr)
+
 
 class ModIntTypeDef(TypeDef):
     expr = Field(type=T.Expr)
     is_int_type = Property(True)
 
     xref_equation = Property(Entity.expr.sub_equation)
+
+    is_static = Property(Entity.expr.is_static_expr)
 
     @langkit_property()
     def discrete_range():
@@ -3436,6 +3480,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
     is_record_type = Property(Entity.from_type_bound.is_record_type)
     is_private = Property(Entity.from_type_bound.is_private)
+    root_type = Property(Entity.from_type_bound.root_type)
 
 
 class SubtypeDecl(BaseSubtypeDecl):
@@ -3457,6 +3502,7 @@ class SubtypeDecl(BaseSubtypeDecl):
     def xref_equation():
         return Entity.subtype.sub_equation
 
+    is_static_decl = Property(Entity.subtype.is_static)
     xref_entry_point = Property(True)
 
 
@@ -3467,6 +3513,10 @@ class DiscreteBaseSubtypeDecl(BaseSubtypeDecl):
     types.
     """
     aspects = NullField()
+
+    is_static_decl = Property(
+        True  # TODO: If base subtype is from a formal type, then False
+    )
 
     from_type = Property(
         Self.parent.cast_or_raise(T.BaseTypeDecl).as_entity
@@ -3769,6 +3819,13 @@ class SubtypeIndication(TypeExpr):
     def discrete_range():
         rc = Var(Entity.constraint.cast_or_raise(RangeConstraint))
         return rc._.range.range.discrete_range
+
+    @langkit_property(return_type=Bool)
+    def is_static():
+        return origin.bind(Self, Entity.constraint.then(
+            lambda c: c.is_static,
+            default_val=Entity.designated_type.is_static_decl
+        ))
 
 
 class ConstrainedSubtypeIndication(SubtypeIndication):
@@ -4286,6 +4343,8 @@ class NumberDecl(BasicDecl):
                   Self.universal_real_type).cast(BaseTypeDecl.entity)
 
     xref_entry_point = Property(True)
+
+    is_static_decl = Property(True)
 
     xref_equation = Property(Entity.expr.sub_equation)
 
@@ -4913,6 +4972,57 @@ class Expr(AdaNode):
         Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
     )
 
+    @langkit_property(public=True, return_type=Bool)
+    def is_static_expr():
+        """
+        Return whether this expression is static according to the ARM
+        definition of static. See RM 4.9.
+        """
+        return origin.bind(Self, Entity.match(
+            lambda _=NumLiteral: True,
+            lambda _=StringLiteral: True,
+            lambda ar=AttributeRef: Or(
+
+                Not(ar.prefix.name_designated_type
+                    ._.root_type._.is_formal_type)
+                & (ar.attribute.name_symbol == 'Base'),
+
+                ar.prefix.name_designated_type
+                ._.is_static_decl & ar.attribute.name_symbol.any_of(
+                    'First', 'Last'
+                ),
+                ar.prefix.referenced_decl._.is_array
+                & ar.attribute.name_symbol.any_of(
+                    'First', 'Last', 'Length'
+                ) & ar.args_list._.at(0).expr.as_entity.is_static_expr
+            ),
+            lambda ce=CallExpr:
+            ce.name.name_designated_type._.is_static_decl
+            & ce.params.at(0).expr.as_entity.is_static_expr,
+            lambda qe=QualExpr:
+            qe.prefix.name_designated_type._.is_static_decl
+            & qe.suffix.is_static_expr,
+            lambda n=Name: n.referenced_decl.is_static_decl,
+            lambda me=MembershipExpr:
+            me.expr.is_static_expr & me.membership_exprs.all(
+                lambda e: e.is_static_expr
+            ),
+            lambda bo=BinOp:
+            bo.left.is_static_expr
+            & bo.right.is_static_expr
+            & bo.referenced_decl.is_null,
+            lambda i=IfExpr:
+            i.cond_expr.is_static_expr & i.then_expr.is_static_expr
+            & i.alternatives.all(
+                lambda a:
+                a.cond_expr.is_static_expr
+                & a.then_expr.is_static_expr
+            )
+            & i.else_expr.is_static_expr,
+            lambda pe=ParenExpr: pe.is_static_expr,
+            lambda _: False
+        ))
+
     @langkit_property(public=True)
     def first_corresponding_decl():
         """
@@ -5037,7 +5147,7 @@ class Op(EnumNode):
             lambda _=Op.alt_minus: '"-"',
             lambda _=Op.alt_concat: '"&"',
             lambda _=Op.alt_eq: '"="',
-            lambda _=Op.alt_neq: '"="',
+            lambda _=Op.alt_neq: '"/="',
             lambda _=Op.alt_lt: '"<"',
             lambda _=Op.alt_lte: '"<="',
             lambda _=Op.alt_gt: '">"',
@@ -6888,6 +6998,8 @@ class EnumLiteralDecl(BasicDecl):
     name = Field(type=T.DefiningName)
     aspects = NullField()
 
+    is_static_decl = Property(True)
+
     @langkit_property(public=True)
     def enum_type():
         """
@@ -7269,9 +7381,11 @@ class ForLoopSpec(LoopSpec):
             # Let's handle the different possibilities
             Entity.iter_expr.match(
                 # Anonymous range case: for I in 1 .. 100
-                # In that case, the type of everything is Standard.Integer.
                 lambda binop=T.BinOp:
                 binop.sub_equation
+                # The default type, if there is no other determined type, is
+                # Integer.
+                & Or(TypeBind(binop.type_var, Self.int_type), LogicTrue())
                 & TypeBind(Self.var_decl.id.type_var, binop.type_var),
 
                 # Subtype indication case: the induction variable is of the

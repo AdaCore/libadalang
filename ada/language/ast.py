@@ -6415,7 +6415,8 @@ class DefiningName(Name):
     @langkit_property(public=False, return_type=AdaNode.entity.array)
     def find_all_refs_in(x=AdaNode.entity):
         """
-        Searches all references to this defining name in the given node.
+        Searches all references to this defining name in the given node and its
+        children.
         """
         return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null))

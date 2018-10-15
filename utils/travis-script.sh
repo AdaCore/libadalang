@@ -5,21 +5,6 @@ set -e
 
 export PATH=$INSTALL_DIR/bin:$PATH
 
-# See the corresponding code in travis-install.sh
-LIBICONV_DIR=$TOOLS_DIR/libiconv-hack
-if [ -z "$LIBRARY_PATH" ]
-then
-    export LIBRARY_PATH=$LIBICONV_DIR
-else
-    export LIBRARY_PATH="$LIBICONV_DIR:$LIBRARY_PATH"
-fi
-if [ -z "$LD_LIBRARY_PATH" ]
-then
-    export LD_LIBRARY_PATH=$LIBICONV_DIR
-else
-    export LD_LIBRARY_PATH="$LIBICONV_DIR:$LD_LIBRARY_PATH"
-fi
-
 # Log the toolchain to use
 which gcc
 which gprbuild

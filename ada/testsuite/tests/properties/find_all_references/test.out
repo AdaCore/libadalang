@@ -1,18 +1,26 @@
-A : <AnalysisUnit 'a.ads'> 12:5-12:6
-A : <AnalysisUnit 'a.adb'> 1:14-1:15
-A : <AnalysisUnit 'a.adb'> 7:5-7:6
-A : <AnalysisUnit 'b.ads'> 1:6-1:7
-A : <AnalysisUnit 'b.ads'> 4:45-4:46
-A : <AnalysisUnit 'b.adb'> 2:45-2:46
-X : <AnalysisUnit 'a.adb'> 3:22-3:23
-Y : <AnalysisUnit 'a.adb'> 5:14-5:15
-Get_X : <AnalysisUnit 'a.adb'> 6:8-6:13
-U : <AnalysisUnit 'a.ads'> 4:7-4:8
-U : <AnalysisUnit 'c.adb'> 4:31-4:32
-Rec_Type : <AnalysisUnit 'a.ads'> 3:9-3:17
-Rec_Type : <AnalysisUnit 'b.ads'> 4:47-4:55
-Rec_Type : <AnalysisUnit 'b.adb'> 2:47-2:55
-X : <AnalysisUnit 'b.adb'> 4:15-4:16
-X : <AnalysisUnit 'b.adb'> 4:18-4:19
-Foo : <AnalysisUnit 'c.adb'> 2:13-2:16
+All references to A from a.ads:
+    A (a.ads, 12:5-12:6)
+    package body A is (a.adb, 1:1-7:7)
+    A (a.adb, 7:5-7:6)
+    with A; (b.ads, 1:1-1:8)
+    function Make_Rec_1 (X : Integer) return A.Rec_Type (b.ads, 4:4-4:55)
+    function Make_Rec_1 (X : Integer) return A.Rec_Type (b.adb, 2:4-2:55)
+All references to X from a.ads:
+    Y : Integer := X; (a.adb, 3:7-3:24)
+All references to Y from a.adb:
+    return Y; (a.adb, 5:7-5:16)
+All references to Get_X from a.adb:
+    Get_X (a.adb, 6:8-6:13)
+All references to U from a.ads:
+    U : Integer; (a.ads, 4:7-4:19)
+    return B.Make_Rec_1 (2).U; (c.adb, 4:7-4:33)
+All references to Rec_Type from a.ads:
+    type Rec_Type is record (a.ads, 3:4-6:15)
+    function Make_Rec_1 (X : Integer) return A.Rec_Type (b.ads, 4:4-4:55)
+    function Make_Rec_1 (X : Integer) return A.Rec_Type (b.adb, 2:4-2:55)
+All references to X from b.adb:
+    return (X, X); (b.adb, 4:7-4:21)
+    return (X, X); (b.adb, 4:7-4:21)
+All references to Foo from c.ads:
+    function Foo return Integer (c.adb, 2:4-2:31)
 Done

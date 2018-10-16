@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
+import os
 import sys
 
 import libadalang as lal
@@ -26,18 +27,18 @@ def find_name(unit_name, name_text, line_no=None):
     )
 
 
-def do_test(name):
-    for ref in name.p_find_all_references(all_units):
-        print(ref.text, ":", ref.unit, ref.sloc_range)
+for unit, name in [('a.ads', 'A'), ('a.ads', 'X'), ('a.adb', 'Y'),
+                   ('a.adb', 'Get_X'), ('a.ads', 'U'), ('a.ads', 'Rec_Type'),
+                   ('b.adb', 'X'), ('c.ads', 'Foo')]:
+    print('All references to {} from {}:'.format(name, unit))
+    for ref in find_name(unit, name).p_find_all_references(all_units):
+        while ref.parent is not None and not ref.p_xref_entry_point:
+            ref = ref.parent
 
-
-do_test(find_name("a.ads", "A"))
-do_test(find_name("a.ads", "X"))
-do_test(find_name("a.adb", "Y"))
-do_test(find_name("a.adb", "Get_X"))
-do_test(find_name("a.ads", "U"))
-do_test(find_name("a.ads", "Rec_Type"))
-do_test(find_name("b.adb", "X"))
-do_test(find_name("c.ads", "Foo"))
+        print('    {} ({}, {})'.format(
+            ref.text.splitlines()[0],
+            os.path.basename(ref.unit.filename),
+            ref.sloc_range)
+        )
 
 print('Done')

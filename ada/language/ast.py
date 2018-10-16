@@ -6419,7 +6419,7 @@ class DefiningName(Name):
         children.
         """
         return x.children.then(
-            lambda c: c.filter(lambda n: Not(n.is_null))
+            lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
         ).concat(x.cast(BaseId).then(lambda i: If(
             Self.name_is(i.sym) & x.xref.then(lambda ref: ref.node == Self),

@@ -14,7 +14,7 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, Self, Var, ignore, langkit_property
+    Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -6418,14 +6418,14 @@ class DefiningName(Name):
         Searches all references to this defining name in the given node and its
         children.
         """
-        return x.children.then(
+        return Try(x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
         ).concat(x.cast(BaseId).then(lambda i: If(
             Self.name_is(i.sym) & x.xref.then(lambda ref: ref.node == Self),
             x.singleton,
             No(AdaNode.entity.array)
-        )))
+        ))))
 
     @langkit_property(public=True, return_type=AdaNode.entity.array)
     def find_all_references(units=AnalysisUnit.array):

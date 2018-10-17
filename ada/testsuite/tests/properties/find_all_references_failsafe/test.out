@@ -1,0 +1,4 @@
+All references to X from a.ads:
+    Y : Integer := A.X; (b.adb, 5:7-5:26)
+All references to Y from b.adb:
+Done

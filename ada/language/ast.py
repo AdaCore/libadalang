@@ -5259,13 +5259,30 @@ class BinOp(Expr):
 
             ),
 
+            # We treat .. differently from other binary operators, because in
+            # the case of range of chars, as in 'a' .. 'z', type needs to flow
+            # upward, from the operator to the operands.
+            lambda _=Op.alt_double_dot: And(
+                TypeBind(Self.type_var, Self.left.type_var),
+                TypeBind(Self.type_var, Self.right.type_var)
+            ),
+
+
             lambda _: Or(
-                # Regular case: Both operands and binop are of the same type
-                TypeBind(Self.type_var, Self.left.type_var)
-                & TypeBind(Self.type_var, Self.right.type_var),
+                # Regular case: Both operands and binop are of the same type.
+                # We call canonical_type as a conversion property because
+                # operators are defined on the root subtype, so the return
+                # value will always be of the root subtype.
+                TypeBind(Self.left.type_var, Self.type_var,
+                         conv_prop=BaseTypeDecl.canonical_type)
+                & TypeBind(Self.right.type_var, Self.type_var,
+                           conv_prop=BaseTypeDecl.canonical_type),
 
                 # Universal real with universal int case: Implicit conversion
                 # of the binop to universal real.
+                # TODO: Apparently this is valid only for some operators,
+                # and only in constant decls? Should clarify the legality
+                # scope and only emit the following code when needed.
                 Or(
                     universal_int_bind(Self.left.type_var)
                     & universal_real_bind(Self.right.type_var),

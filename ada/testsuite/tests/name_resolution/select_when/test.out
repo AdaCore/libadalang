@@ -137,9 +137,9 @@ Expr: <Id "Tail" 22:15-22:19>
   references: <DefiningName 13:12-13:16>
   type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
 Expr: <BinOp 22:23-22:42>
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp 22:23-22:38>
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Tail" 22:23-22:27>
   references: <DefiningName 13:12-13:16>
   type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
@@ -157,7 +157,7 @@ Expr: <Id "Length" 23:15-23:21>
   references: <DefiningName 12:6-12:12>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <BinOp 23:25-23:35>
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Length" 23:25-23:31>
   references: <DefiningName 12:6-12:12>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
@@ -210,9 +210,9 @@ Expr: <Id "Head" 29:15-29:19>
   references: <DefiningName 13:6-13:10>
   type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
 Expr: <BinOp 29:23-29:42>
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp 29:23-29:38>
-  type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Head" 29:23-29:27>
   references: <DefiningName 13:6-13:10>
   type:       <SubtypeDecl ["Q_Range"] 11:6-11:52>
@@ -230,7 +230,7 @@ Expr: <Id "Length" 30:15-30:21>
   references: <DefiningName 12:6-12:12>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
 Expr: <BinOp 30:25-30:35>
-  type:       <SubtypeDecl ["Natural"] 5:3-5:57>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Length" 30:25-30:31>
   references: <DefiningName 12:6-12:12>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>

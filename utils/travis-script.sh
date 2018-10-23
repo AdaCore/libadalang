@@ -22,7 +22,7 @@ ada/manage.py generate -P
 # memory. Only then build the rest in parallel.
 gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
     -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable -XXMLADA_BUILD=relocatable \
-    -XLIBADALANG_WARNINGS=true -c -u quex_lexer.c
+    -XLIBADALANG_WARNINGS=true -c -u libadalang_lexer.c
 # Restrict parallelism to avoid OOM issues
 ada/manage.py build -j12
 

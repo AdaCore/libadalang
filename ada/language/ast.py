@@ -902,6 +902,16 @@ class BasicDecl(AdaNode):
             lambda _: No(T.BasicDecl.entity)
         )
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity)
+    def canonical_part():
+        """
+        Return the canonical part for this decl. In the case of decls composed
+        of several parts, the canonical part will be the first part.
+        """
+        return Entity.previous_part_for_decl.then(
+            lambda pp: pp.canonical_part, default_val=Entity
+        )
+
     @langkit_property(public=True)
     def is_static_decl():
         """
@@ -2618,7 +2628,7 @@ class BaseTypeDecl(BasicDecl):
         Return the canonical type declaration for this type declaration. For
         subtypes, it will return the base type declaration.
         """
-        return Entity.canonical_part.as_entity
+        return Entity.canonical_part.cast(T.BaseTypeDecl)
 
     @langkit_property(memoized=True, memoize_in_populate=True,
                       ignore_warn_on_node=True)
@@ -2692,13 +2702,6 @@ class BaseTypeDecl(BasicDecl):
                 No(T.BaseTypeDecl.entity)
             )
 
-        )
-
-    @langkit_property(return_type=T.BaseTypeDecl, ignore_warn_on_node=True)
-    def canonical_part():
-        return Entity.previous_part(True).then(
-            lambda pp: pp.canonical_part,
-            default_val=Self,
         )
 
     is_private = Property(

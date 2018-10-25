@@ -6637,6 +6637,30 @@ class DefiningName(Name):
             )
         )
 
+    @langkit_property()
+    def find_di(bd=BasicDecl.entity):
+        return bd.defining_names.find(
+            lambda di: Entity.name.name_is(di.name_symbol)
+        )
+
+    next_part = Property(
+        Entity.find_di(Entity.basic_decl.next_part_for_decl),
+        public=True,
+        doc="Like ``BasicDecl.next_part_for_decl`` on a defining name"
+    )
+
+    previous_part = Property(
+        Entity.find_di(Entity.basic_decl.previous_part_for_decl),
+        public=True,
+        doc="Like ``BasicDecl.previous_part_for_decl`` on a defining name"
+    )
+
+    canonical_part = Property(
+        Entity.find_di(Entity.basic_decl.canonical_part),
+        public=True,
+        doc="Like ``BasicDecl.canonical_part`` on a defining name"
+    )
+
 
 class EndName(Name):
     name = Field(type=T.Name)

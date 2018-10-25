@@ -2643,7 +2643,7 @@ class BaseTypeDecl(BasicDecl):
         return Self.name.then(
             lambda type_name:
 
-            Self.children_env.get(
+            Entity.children_env.get(
                 type_name.name_symbol, from_node=Self, categories=noprims
             ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,

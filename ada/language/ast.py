@@ -886,6 +886,23 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 class BasicDecl(AdaNode):
 
     @langkit_property(public=True)
+    def previous_part_for_decl():
+        """
+        Return the previous part for this decl, if applicable.
+
+        .. note:: It is not named previous_part, because BaseTypeDecl has a
+            more precise version of previous_part that returns a BaseTypeDecl.
+            Probably, we want to rename the specific versions, and have the
+            root property be named previous_part. (TODO R925-008)
+        """
+        return Entity.match(
+            lambda btd=T.BaseTypeDecl:
+            btd.previous_part(True).cast(T.BasicDecl),
+            lambda bd=T.Body: bd.previous_part,
+            lambda _: No(T.BasicDecl.entity)
+        )
+
+    @langkit_property(public=True)
     def is_static_decl():
         """
         Return whether this declaration is static.

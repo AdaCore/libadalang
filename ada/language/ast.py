@@ -2705,6 +2705,8 @@ class BaseTypeDecl(BasicDecl):
 
     root_type = Property(Entity)
 
+    next_part_for_decl = Property(Entity.next_part.cast(T.BasicDecl.entity))
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):

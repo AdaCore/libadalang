@@ -1305,7 +1305,12 @@ class BasicDecl(AdaNode):
     @langkit_property(public=True)
     def next_part_for_decl():
         """
-        Return the body corresponding to this declaration, if applicable.
+        Return the next part of this declaration, if applicable.
+
+        .. note:: It is not named next_part, because BaseTypeDecl has a
+            more precise version of next_part that returns a BaseTypeDecl.
+            Probably, we want to rename the specific versions, and have the
+            root property be named previous_part. (TODO R925-008)
         """
         ignore(Var(Self.body_unit))
 
@@ -1313,17 +1318,22 @@ class BasicDecl(AdaNode):
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
             Entity.children_env
         ).get_first('__nextpart', lookup=LK.flat,
-                    categories=noprims).cast(T.Body)
+                    categories=noprims).cast(T.BasicDecl)
 
     @langkit_property(public=True)
     def body_part_for_decl():
         """
         Return the body corresponding to this declaration, if applicable.
+
+        .. note:: It is not named body_part, subclasses have more precise
+            versions named body_part and returning a more precise result.
+            Probably, we want to rename the specific versions, and have the
+            root property be named previous_part. (TODO R925-008)
         """
         return Entity.next_part_for_decl.then(lambda np: np.match(
             lambda stub=BodyStub: stub.next_part_for_decl,
             lambda other: other
-        ))
+        )).cast(T.Body)
 
     @langkit_property(dynamic_vars=[env])
     def decl_scope(follow_private=(Bool, True)):

@@ -3962,7 +3962,7 @@ class BasicSubpDecl(BasicDecl):
             .match_signature(Entity.subp_decl_spec, True)
         ).cast(T.BaseSubpBody)
 
-    @langkit_property(public=True)
+    @langkit_property(return_type=T.BasicDecl.entity)
     def next_part_for_decl():
 
         decl_scope = Var(Entity.declarative_scope)

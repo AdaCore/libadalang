@@ -1208,6 +1208,13 @@ class BasicDecl(AdaNode):
             lambda _:                   No(SubpSpec.entity),
         )
 
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    def formal_param_holder_or_null():
+        return Entity.match(
+            lambda t=T.TypeDecl: t.discriminants,
+            lambda _: Entity.subp_spec_or_null(True)
+        )
+
     @langkit_property(return_type=Bool, public=True)
     def is_subprogram():
         """
@@ -1600,6 +1607,41 @@ class BaseFormalParamDecl(BasicDecl):
         origin.bind(Self, Entity.type_expression._.designated_type),
         doc="Return the type for this formal.", public=True
     )
+
+    @langkit_property()
+    def parent_decl():
+        return Entity.semantic_parent.cast(T.BasicDecl)
+
+    @langkit_property(return_type=T.DefiningName.entity)
+    def get_param(part=T.BasicDecl.entity,
+                  param=(T.DefiningName.entity, No(T.DefiningName.entity))):
+
+        p = Var(param._or(Entity.defining_name))
+
+        return part.then(lambda d: (
+            d.formal_param_holder_or_null.unpacked_formal_params
+            .find(lambda sf: sf.name.name_is(p.name_symbol)).name.as_entity
+        ))
+
+    @langkit_property(return_type=T.DefiningName.entity)
+    def decl_param(param=T.DefiningName.entity):
+        """
+        If self is a ParamSpec of a subprogram body, go fetch the equivalent
+        spec in the subprogram decl.
+        """
+        return Entity.get_param(
+            Entity.parent_decl.cast(T.BaseSubpBody)._.decl_part, param
+        )._or(param)
+
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.get_param(
+            Entity.parent_decl._.next_part_for_decl)._.basic_decl
+
+    @langkit_property()
+    def previous_part_for_decl():
+        return Entity.get_param(
+            Entity.parent_decl._.previous_part_for_decl)._.basic_decl
 
 
 class DiscriminantSpec(BaseFormalParamDecl):
@@ -3908,28 +3950,6 @@ class ParamSpec(BaseFormalParamDecl):
         )
 
     xref_entry_point = Property(True)
-
-    @langkit_property(return_type=T.DefiningName.entity)
-    def decl_param(param=T.DefiningName.entity):
-        """
-        If self is a ParamSpec of a subprogram body, go fetch the equivalent
-        spec in the subprogram decl.
-        """
-        return If(
-            Entity.semantic_parent.is_a(T.BaseSubpBody),
-
-            Entity.semantic_parent.cast_or_raise(T.BaseSubpBody)
-            .decl_part.then(
-                lambda decl:
-                decl.subp_spec_or_null(follow_generic=True)
-                .unpacked_formal_params.find(
-                    lambda sf: sf.name.name_is(param.name_symbol)
-                ).name.as_entity,
-                default_val=param
-            ),
-
-            param
-        )
 
 
 class AspectSpec(AdaNode):

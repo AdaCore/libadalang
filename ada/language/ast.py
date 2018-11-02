@@ -4417,6 +4417,12 @@ class ObjectDecl(BasicDecl):
     defining_env = Property(Entity.type_expr.defining_env)
     type_expression = Property(Entity.type_expr)
 
+    @langkit_property(public=True, return_type=Bool)
+    def is_static_decl():
+        return Self.has_constant.as_bool & Entity.default_expr.then(
+            lambda expr: expr.is_static_expr
+        )
+
     @langkit_property()
     def xref_equation():
         typ = Var(Entity.expr_type)

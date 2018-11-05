@@ -376,9 +376,9 @@ class AdaNode(ASTNode):
             No(T.GenericInstantiation.entity.array),
 
             Let(lambda
-                head=(r.rebindings_new_env.env_node
+                head=(r.new_env.env_node
                       .cast_or_raise(T.GenericInstantiation).as_bare_entity),
-                tail=Self.generic_instantiations_internal(r.rebindings_parent):
+                tail=Self.generic_instantiations_internal(r.get_parent):
                 head.singleton.concat(tail))
         )
 
@@ -1045,12 +1045,12 @@ class BasicDecl(AdaNode):
             rebindings == No(T.EnvRebindings),
             Entity,
 
-            rebindings.rebindings_old_env.env_node == Self,
+            rebindings.old_env.env_node == Self,
 
             If(
                 Or(
                     Entity.info.rebindings == No(T.EnvRebindings),
-                    rebindings.rebindings_parent == Entity.info.rebindings,
+                    rebindings.get_parent == Entity.info.rebindings,
                 ),
 
                 BasicDecl.entity.new(
@@ -1064,7 +1064,7 @@ class BasicDecl(AdaNode):
                 PropertyError(BasicDecl.entity, "Incorrect rebindings")
             ),
 
-            Entity.unshed_rebindings(rebindings.rebindings_parent)
+            Entity.unshed_rebindings(rebindings.get_parent)
         )
 
     @langkit_property(public=True)

@@ -283,6 +283,15 @@ class AdaNode(ASTNode):
             Entity.cast(T.Name)._.first_corresponding_decl.defining_name
         )
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
+    def complete():
+        """
+        Return possible completions at this point in the file.
+        """
+        return Self.children_env.get(No(Symbol)).map(
+            lambda n: n.cast(T.BasicDecl)
+        )
+
     @langkit_property(public=True)
     def referenced_decl_internal(try_immediate=Bool):
         """
@@ -8114,6 +8123,15 @@ class DottedName(Name):
     prefix = Field(type=T.Name)
     suffix = Field(type=T.BaseId)
     ref_var = Property(Self.suffix.ref_var)
+
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def complete():
+        return origin.bind(Self, env.bind(
+            Self.node_env,
+            Entity.prefix.designated_env.get(No(Symbol), LK.flat).map(
+                lambda n: n.cast(T.BasicDecl)
+            )
+        ))
 
     @langkit_property()
     def designated_env():

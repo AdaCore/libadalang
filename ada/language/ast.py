@@ -272,6 +272,17 @@ class AdaNode(ASTNode):
         """
         return No(T.DefiningName.entity)
 
+    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    def xref_imprecise():
+        """
+        Return a cross reference from this node to a defining identifier.
+        In case of error or null result, try to return an approximative result
+        based on scopes.
+        """
+        return Try(Entity.xref.then(lambda x: x))._or(
+            Entity.cast(T.Name)._.first_corresponding_decl.defining_name
+        )
+
     @langkit_property(public=True)
     def referenced_decl_internal(try_immediate=Bool):
         """

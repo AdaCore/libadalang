@@ -959,7 +959,7 @@ A.add_rules(
         empty_valid=True, list_cls=StmtList
     ),
 
-    label=Label("<<", LabelDecl(A.defining_id), ">>"),
+    label=Label("<<", cut(), LabelDecl(A.defining_id), ">>"),
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
@@ -973,11 +973,13 @@ A.add_rules(
 
     null_stmt=NullStmt(L.Null, sc()),
 
-    assignment_stmt=AssignStmt(A.name, ":=", A.expr, sc()),
+    assignment_stmt=AssignStmt(A.name, ":=", cut(), A.expr, sc()),
 
-    goto_stmt=GotoStmt("goto", A.static_name, sc()),
+    goto_stmt=GotoStmt("goto", cut(), A.static_name, sc()),
 
-    exit_stmt=ExitStmt("exit", Opt(A.identifier), Opt("when", A.expr), sc()),
+    exit_stmt=ExitStmt(
+        "exit", cut(), Opt(A.identifier), Opt("when", A.expr), sc()
+    ),
 
     return_stmt=ReturnStmt("return", Opt(A.expr), sc()),
 
@@ -998,7 +1000,7 @@ A.add_rules(
     null_literal=NullLiteral(L.Null),
 
     allocator=Allocator(
-        "new", Opt("(", A.name, ")"),
+        "new", cut(), Opt("(", A.name, ")"),
         A.qualified_name | A.subtype_indication
     ),
 

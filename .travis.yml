@@ -4,6 +4,7 @@ python:
 
 env:
   global:
+    - ADALIB_DIR=$HOME/adalib
     - TOOLS_DIR=$HOME/build_tools
     - INSTALL_DIR=$HOME/install
     - GNAT_INSTALLER=$TOOLS_DIR/gnat-community-2018-20180528-x86_64-linux-bin
@@ -22,3 +23,15 @@ cache:
 
 install: utils/travis-install.sh
 script:  utils/travis-script.sh
+
+deploy:
+  on:
+    branch:
+      - master
+      - stable
+  skip_cleanup: true
+  provider: bintray
+  file: utils/bintray.json
+  user: reznikmm
+  key:
+    secure: BO8ZZZJDMrn0fiF+0A4wCCRkanAuIYKC4SVoXazvYbWcayuE8dwtiQOVXmzeLJCouANY65ZUatalaiWbiUlLhXY062KeXNXedGtlbbIv3vHCsbTFRXMQiuFcvTrakLvGs3IgeWnI0mSN0BxIyapbfQgLT1ft9pBWKKTPnbszqD1YqX+4UgTObxuYg54/3e2KpKkqWd8YPNwVvgkcUtsdGcGLcyb6n/p28n/uY5XxI5ByTFaUH7SIL58KNN0hj8G3YAN9MOZfkdE7uQEr6l0zqt5aGW9WBIOGCHbxUBT34GOLlWYjhtCrj9cQusxZiAfZ4zR4s49nTphVqADudAp4qrdiNrI5H58LRc4PktzC+ktb9tIbg86LNwrtCEgOUydZlUS2fEUp0dYSFv+ChFVRb+baJTeo7jwoO5A1De3aENBHoRrIsrsOkwPE6iuiNK1Bl4JtObZuwvQki0rp3OyvVdjH3Re0pY3ggUVh7vnnR5pHcnLRmXDZrS/mNugR2ztdrW8YnqkqX87wtgeSvfa+mSxOYuUIY55emun2GYvXukt0FlgUVJZTlob97rSnBVr0mJx0o3wQGXctiq+95D4SR01sxPD1Ut8GONeith4hmxu214TPad2Iu+3VQa188BlUkWfyyMgFY9SIOEV1uxXWGMFk8nylcP+dN5gQBRT4Bgc=

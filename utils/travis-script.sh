@@ -4,6 +4,7 @@ set -v
 set -e
 
 export PATH=$INSTALL_DIR/bin:$PATH
+export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
 
 # Log the toolchain to use
 which gcc
@@ -28,3 +29,8 @@ ada/manage.py build -j12
 
 # Finally, run the testsuite
 ada/manage.py test -- -j16
+
+# Install result and pack an archive
+ada/manage.py install "$ADALIB_DIR"
+mkdir -p upload
+tar czf upload/libadalang-$TRAVIS_BRANCH-$TRAVIS_OS_NAME.tar.gz -C "$ADALIB_DIR" .

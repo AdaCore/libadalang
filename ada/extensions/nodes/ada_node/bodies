@@ -85,8 +85,8 @@ function P_Filter_Is_Imported_By
             return False;
       end Handle_Unit_Name;
 
-      AST : constant Bare_Compilation_Unit := 
-         Bare_Compilation_Unit (Root (From));
+      Root_Node : constant Bare_Ada_Node := Root (From);
+      Comp_Unit : Bare_Compilation_Unit;
 
       Prelude : Bare_Ada_Node_List;
 
@@ -95,7 +95,7 @@ function P_Filter_Is_Imported_By
    begin
       if Analysis_Unit_Maps.Has_Element (From_Cursor) then
          return Analysis_Unit_Maps.Element (From_Cursor);
-      elsif AST = null then
+      elsif Root_Node = null then
          return False;
       end if;
 
@@ -108,7 +108,13 @@ function P_Filter_Is_Imported_By
 
       --  Add all explicit references by processing "with" clauses.
 
-      Prelude := AST.F_Prelude;
+      if Root_Node.Kind /= Ada_Compilation_Unit then
+         --  todo: handle list of compilation units.
+         return False;
+      end if;
+
+      Comp_Unit := Bare_Compilation_Unit (Root_Node);
+      Prelude := Comp_Unit.F_Prelude;
 
       for I in 1 .. Prelude.Count loop
          if Prelude.Item (I).Kind = Ada_With_Clause then
@@ -136,10 +142,10 @@ function P_Filter_Is_Imported_By
 
       declare
          Unit_Name : constant Symbol_Type_Array_Access :=
-            AST.P_Syntactic_Fully_Qualified_Name;
+            Comp_Unit.P_Syntactic_Fully_Qualified_Name;
 
          Parent_Symbols : constant Internal_Symbol_Type_Array :=
-           (if AST.P_Unit_Kind = Unit_Body
+           (if Comp_Unit.P_Unit_Kind = Unit_Body
             then Unit_Name.Items
             else Unit_Name.Items
               (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));

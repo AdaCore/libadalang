@@ -25,6 +25,7 @@ then
         http://mirrors.cdn.adacore.com/art/5b0d7bffa3f5d709751e3e04
     sh gnat_community_install_script/install_package.sh \
         "$GNAT_INSTALLER" "$INSTALL_DIR"
+    $INSTALL_DIR/bin/gprinstall --uninstall gnatcoll
 fi
 
 # Get QUEX
@@ -66,6 +67,7 @@ pip install -r langkit/REQUIREMENTS.dev
 # Log content
 pwd
 export PATH=$INSTALL_DIR/bin:$PATH
+export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
 which gcc
 gcc -v
 
@@ -73,7 +75,7 @@ gcc -v
 (
     cd $TOOLS_DIR/gnatcoll-core
     make build PROCESSORS=0
-    make install prefix="$INSTALL_DIR"
+    make install prefix="$ADALIB_DIR"
 )
 
 # Build gnatcoll-bindings
@@ -83,7 +85,7 @@ gcc -v
     do
         (
             cd $component
-            python setup.py build --reconfigure -j0 --prefix="$INSTALL_DIR"
+            python setup.py build --reconfigure -j0 --prefix="$ADALIB_DIR"
             python setup.py install
         )
     done

@@ -11,7 +11,7 @@ for filename in sys.argv[1:]:
     assert not u.diagnostics
 
     for n in u.root.findall(lal.DottedName):
-        if n.p_is_dot_call:
+        if n.p_is_dot_call():
             print('{} is a dot call'.format(n))
         else:
             print('{} is not a dot call'.format(n))

@@ -24,7 +24,7 @@ if not d2.p_resolve_names:
     print('Resolution failed')
     sys.exit(1)
 
-resolved = n.p_referenced_decl
+resolved = n.p_referenced_decl()
 print('resolved:', resolved)
 
 if d1 != d1:

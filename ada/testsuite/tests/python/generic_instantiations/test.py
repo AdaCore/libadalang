@@ -17,7 +17,7 @@ c = lal.AnalysisContext()
 u = c.get_from_file('foo.ads')
 
 v_name = u.root.findall(lal.Identifier)[-2]
-v_decl = v_name.p_referenced_decl
+v_decl = v_name.p_referenced_decl()
 print(v_name, '->', v_decl)
 print_insts(v_decl)
 

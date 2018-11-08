@@ -14,7 +14,8 @@ overriding function Evaluate
   (P : in out Decl_Defines_Predicate; N : Ada_Node) return Boolean;
 
 type Xref_Predicate is new Ada_Node_Predicate_Interface with record
-   Name : Defining_Name;
+   Name               : Defining_Name;
+   Imprecise_Fallback : Boolean;
 end record;
 
 overriding function Evaluate

@@ -21,6 +21,7 @@ from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 env = DynamicVariable('env', LexicalEnv)
 origin = DynamicVariable('origin', T.AdaNode)
+imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
@@ -34,6 +35,14 @@ def default_origin():
     No(AdaNode).
     """
     return (origin, No(T.AdaNode))
+
+
+def default_imprecise_fallback():
+    """
+    Helper to return an imprecise fallback dynamic param spec which defaults to
+    False.
+    """
+    return (imprecise_fallback, False)
 
 
 def entity_no_md(type, node, rebindings, from_rebound):
@@ -258,30 +267,31 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(public=True)
+    @langkit_property(public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl():
         """
         Return the declaration this node references after name resolution.
+        If imprecise_fallback is True, errors raised during resolution of the
+        xref equation are catched and a fallback mechanism is triggered, which
+        tries to find the referenced declaration in an ad-hoc way.
         """
-        return Entity.referenced_decl_internal(False)
+        internal_call = Entity.referenced_decl_internal(False)
+        return If(
+            imprecise_fallback,
+            Try(internal_call)._or(
+                Entity.cast(T.Name)._.first_corresponding_decl
+            ),
+            internal_call
+        )
 
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
+    @langkit_property(public=True, return_type=T.DefiningName.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def xref():
         """
         Return a cross reference from this node to a defining identifier.
         """
         return No(T.DefiningName.entity)
-
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
-    def xref_imprecise():
-        """
-        Return a cross reference from this node to a defining identifier.
-        In case of error or null result, try to return an approximative result
-        based on scopes.
-        """
-        return Try(Entity.xref.then(lambda x: x))._or(
-            Entity.cast(T.Name)._.first_corresponding_decl.defining_name
-        )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
     def complete():
@@ -795,7 +805,7 @@ class AdaNode(ASTNode):
             ))
         )))
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def gnat_xref():
         """
         Return a cross reference from this name to a defining identifier,
@@ -932,7 +942,7 @@ class BasicDecl(AdaNode):
             lambda pp: pp.canonical_part, default_val=Entity
         )
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def is_static_decl():
         """
         Return whether this declaration is static.
@@ -1920,7 +1930,7 @@ class TypeDef(AdaNode):
         lambda _=T.IncompleteTypeDecl: EmptyEnv,
         lambda t: t.children_env
     ))
-    is_static = Property(False)
+    is_static = Property(False, dynamic_vars=[default_imprecise_fallback()])
 
 
 class Variant(AdaNode):
@@ -2860,7 +2870,7 @@ class TypeDecl(BaseTypeDecl):
         ie = Var(Entity.get_aspect_expr('Iterator_Element'))
         it = Var(Entity.get_aspect_expr('Iterable'))
 
-        return Cond(
+        return imprecise_fallback.bind(False, Cond(
             Entity.is_array, Entity.comp_type,
             Not(ie.is_null), ie.cast(T.Name).name_designated_type,
 
@@ -2875,7 +2885,7 @@ class TypeDecl(BaseTypeDecl):
                 lambda _: No(T.BaseTypeDecl.entity)
             ),
         )._or(Entity.previous_part(False)
-              .then(lambda pp: pp.iterable_comp_type))
+              .then(lambda pp: pp.iterable_comp_type)))
 
     @langkit_property()
     def discrete_range():
@@ -3196,7 +3206,7 @@ class Constraint(AdaNode):
         .as_entity.designated_type
     ))
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def is_static():
         return Entity.match(
             lambda rc=RangeConstraint: rc.range.range.is_static_expr,
@@ -3914,7 +3924,8 @@ class SubtypeIndication(TypeExpr):
         rc = Var(Entity.constraint.cast_or_raise(RangeConstraint))
         return rc._.range.range.discrete_range
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_static():
         return origin.bind(Self, Entity.constraint.then(
             lambda c: c.is_static,
@@ -5050,7 +5061,8 @@ class Expr(AdaNode):
         Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
     )
 
-    @langkit_property(public=True, return_type=Bool)
+    @langkit_property(public=True, return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_static_expr():
         """
         Return whether this expression is static according to the ARM
@@ -5618,14 +5630,16 @@ class Name(Expr):
         """
         return Self.name_symbol.then(lambda ns: ns == sym)
 
-    @langkit_property(public=True, return_type=T.Bool)
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_call():
         """
         Returns True if this Name corresponds to a call.
         """
         return Entity.referenced_decl.info.md.is_call
 
-    @langkit_property(public=True, return_type=T.Bool)
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_dot_call():
         """
         Returns True if this Name corresponds to a dot notation call.
@@ -6656,7 +6670,8 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
-    @langkit_property(public=False, return_type=AdaNode.entity.array)
+    @langkit_property(public=False, return_type=AdaNode.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
     def find_all_refs_in(x=AdaNode.entity):
         """
         Searches all references to this defining name in the given node and its
@@ -6671,7 +6686,8 @@ class DefiningName(Name):
             No(AdaNode.entity.array)
         ))))
 
-    @langkit_property(public=True, return_type=AdaNode.entity.array)
+    @langkit_property(public=True, return_type=AdaNode.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
     def find_all_references(units=AnalysisUnit.array):
         """
         Searches all references to this defining name in the given list of

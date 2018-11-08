@@ -72,10 +72,13 @@ end Evaluate;
 -- Xref_Is --
 -------------
 
-function Xref_Is (Name : Defining_Name) return Ada_Node_Predicate is
+function Xref_Is
+  (Name               : Defining_Name;
+   Imprecise_Fallback : Boolean := False) return Ada_Node_Predicate is
 begin
    return Result : Ada_Node_Predicate do
-      Result.Set (Xref_Predicate'(Name => Name));
+      Result.Set (Xref_Predicate'
+        (Name => Name, Imprecise_Fallback => Imprecise_Fallback));
    end return;
 end Xref_Is;
 
@@ -86,7 +89,7 @@ end Xref_Is;
 overriding function Evaluate
   (P : in out Xref_Predicate; N : Ada_Node) return Boolean is
 begin
-   return not N.Is_Null and then N.P_Xref = P.Name;
+   return not N.Is_Null and then N.P_Xref (P.Imprecise_Fallback) = P.Name;
 exception
    when Property_Error =>
       return False;

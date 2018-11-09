@@ -6677,14 +6677,14 @@ class DefiningName(Name):
         Searches all references to this defining name in the given node and its
         children.
         """
-        return Try(x.children.then(
+        return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
         ).concat(x.cast(BaseId).then(lambda i: If(
             Self.name_is(i.sym) & x.xref.then(lambda ref: ref.node == Self),
             x.singleton,
             No(AdaNode.entity.array)
-        ))))
+        )))
 
     @langkit_property(public=True, return_type=AdaNode.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])

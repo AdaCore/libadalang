@@ -1,10 +1,27 @@
 Analyzing foo.adb
 #################
 
-Expr: <Id "C_I" 5:7-5:10>, references None, type is None
-Expr: <Id "Integer" 5:13-5:20>, references None, type is None
-Expr: <DottedName 5:24-5:27>, references <ComponentDecl ["I"] 3:7-3:19>, type is <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "C" 5:24-5:25>, references <ParamSpec ["C"] 4:22-4:33>, type is <TypeDecl ["Content"] 2:4-4:15>
-Expr: <Id "I" 5:26-5:27>, references <ComponentDecl ["I"] 3:7-3:19>, type is <TypeDecl ["Integer"] 4:3-4:54>
+Resolving xrefs for node <ObjectDecl ["C_I"] 5:7-5:28>
+******************************************************
+
+Expr: <Id "Integer" 5:13-5:20>
+  references: <DefiningName 4:8-4:15>
+  type:       None
+Expr: <DottedName 5:24-5:27>
+  references: <DefiningName 3:7-3:8>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "C" 5:24-5:25>
+  references: <DefiningName 4:22-4:23>
+  type:       <TypeDecl ["Content"] 2:4-4:15>
+Expr: <Id "I" 5:26-5:27>
+  references: <DefiningName 3:7-3:8>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Analyzing foo.ads
+#################
+
+Analyzing types.ads
+###################
 
 Done.

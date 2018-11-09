@@ -84,6 +84,10 @@ procedure Nameres is
         (Parser, Long => "--only-show-failures",
          Help => "Only output failures on stdout");
 
+      package Imprecise_Fallback is new Parse_Flag
+        (Parser, Long => "--imprecise-fallback",
+         Help => "Activate fallback mechanism for name resolution");
+
       package Dump_Envs is new Parse_Flag
         (Parser, "-E", "--dump-envs",
          Help => "Dump lexical envs after populating them");
@@ -265,7 +269,8 @@ procedure Nameres is
                   Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name then
                      Put_Line
-                       ("  references: " & Image (P_Xref (As_Name (N))));
+                       ("  references: " & Image (P_Xref
+                         (As_Name (N), Args.Imprecise_Fallback.Get)));
                   end if;
                   Put_Line ("  type:       "
                             & Image (P_Expression_Type (As_Expr (N))));
@@ -288,7 +293,7 @@ procedure Nameres is
             Assign_Names_To_Logic_Vars (Node);
          end if;
 
-         if P_Resolve_Names (Node) then
+         if P_Resolve_Names (Node) or else Args.Imprecise_Fallback.Get then
             if not Args.Only_Show_Failures.Get then
                Dummy := Traverse (Node, Print_Node'Access);
             end if;

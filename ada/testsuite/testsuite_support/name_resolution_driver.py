@@ -36,6 +36,9 @@ class NameResolutionDriver(BaseDriver):
 
         self.auto_provider_dirs = self.test_env.get('auto_provider_dirs', None)
 
+        self.imprecise_fallback = self.test_env.get('imprecise_fallback',
+                                                    False)
+
         if self.run_python:
             self.py_runner.setup_environment()
 
@@ -50,6 +53,8 @@ class NameResolutionDriver(BaseDriver):
             args = (['--auto-dir={}'.format(d)
                      for d in self.auto_provider_dirs] +
                     args)
+        if self.imprecise_fallback:
+            args.insert(0, '--imprecise-fallback')
 
         # Depending on whether Python is available and whether we want to run
         # only the Python driver, run both the Python and the Ada drivers for

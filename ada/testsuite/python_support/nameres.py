@@ -59,7 +59,9 @@ def resolve_node(node):
             print('Expr: {}'.format(n))
 
             if n.is_a(lal.Name):
-                print('  references: {}'.format(entity_repr(n.p_xref(False))))
+                print('  references: {}'.format(
+                    entity_repr(n.p_xref(args.imprecise_fallback))
+                ))
 
             print('  type:       {}'.format(entity_repr(n.p_expression_type)))
         if n.p_xref_entry_point and n != node or n.is_a(lal.DefiningName):
@@ -74,7 +76,8 @@ def resolve_node(node):
     print_title('*', "Resolving xrefs for node {}".format(node))
 
     # Perform name resolution on the node, using the p_resolve_names property
-    if node.p_resolve_names:
+    # If --imprecise-fallback, proceed even if p_resolve_names has failed.
+    if node.p_resolve_names or args.imprecise_fallback:
         # If it worked, print the reference value and the type value of
         # every sub expression in the node.
         print_nodes(node)
@@ -92,6 +95,7 @@ parser.add_argument('--discard-errors-in-populate-lexical-env', '-d',
                     action='store_true')
 parser.add_argument('--project', '-P', type=str)
 parser.add_argument('--auto-dir', action='append')
+parser.add_argument('--imprecise-fallback', action='store_true')
 args = parser.parse_args()
 
 input_sources = args.files

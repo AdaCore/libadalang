@@ -29,7 +29,9 @@ def find_name(unit_name, name_text, line_no=None):
 
 for unit, name in [('a.ads', 'X'), ('b.adb', 'Y')]:
     print('All references to {} from {}:'.format(name, unit))
-    for ref in find_name(unit, name).p_find_all_references(all_units):
+    name_node = find_name(unit, name)
+    for ref in name_node.p_find_all_references(all_units,
+                                               imprecise_fallback=True):
         while ref.parent is not None and not ref.p_xref_entry_point:
             ref = ref.parent
 

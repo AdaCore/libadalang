@@ -45,6 +45,17 @@ def default_imprecise_fallback():
     return (imprecise_fallback, False)
 
 
+def _referenced_decl_internal_impl(subject, try_immediate):
+    """
+    Helper to generate the piece of logic that is common to all
+    "referenced_decl_internal" implementations. "subject" is the element which
+    holds the ref_var.
+    """
+    return Self.logic_val(
+        Entity, subject.ref_var, try_immediate
+    ).cast_or_raise(T.BasicDecl)
+
+
 def entity_no_md(type, node, rebindings, from_rebound):
     return Let(lambda n=node: type.entity.new(
         node=n,
@@ -5266,9 +5277,7 @@ class UnOp(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=Bool):
-        return Self.logic_val(
-            Entity, Self.op.ref_var, try_immediate
-        ).cast_or_raise(T.BasicDecl)
+        return _referenced_decl_internal_impl(Self.op, try_immediate)
 
     @langkit_property()
     def xref_equation():
@@ -5298,10 +5307,7 @@ class BinOp(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=Bool):
-        # TODO: Factor all those implems that do the same thing
-        return Self.logic_val(
-            Entity, Self.op.ref_var, try_immediate
-        ).cast_or_raise(T.BasicDecl)
+        return _referenced_decl_internal_impl(Self.op, try_immediate)
 
     @langkit_property()
     def xref_equation():
@@ -5834,10 +5840,7 @@ class Name(Expr):
                 T.BasicDecl.entity,
                 "Cannot call referenced_decl on a defining name"
             ),
-            Self.logic_val(
-                Entity, Self.ref_var,
-                try_immediate
-            ).cast_or_raise(T.BasicDecl)
+            _referenced_decl_internal_impl(Self, try_immediate)
         )
 
     designated_type_impl = Property(

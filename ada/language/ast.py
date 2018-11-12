@@ -53,7 +53,7 @@ def _referenced_decl_internal_impl(subject, try_immediate):
     """
     body = Self.logic_val(
         Entity, subject.ref_var, try_immediate
-    ).cast_or_raise(T.BasicDecl)
+    ).value.cast_or_raise(T.BasicDecl)
 
     return If(
         imprecise_fallback,
@@ -349,7 +349,7 @@ class AdaNode(ASTNode):
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
     # probably change the solving API anyway.
-    @langkit_property(call_memoizable=True)
+    @langkit_property(call_memoizable=True, return_type=T.LogicValResult)
     def logic_val(from_node=T.AdaNode.entity, lvar=LogicVar,
                   try_immediate=(Bool, False)):
         success = Var(If(
@@ -358,7 +358,9 @@ class AdaNode(ASTNode):
             from_node.parents.find(lambda p: p.xref_entry_point).resolve_names
         ))
 
-        return If(success, lvar.get_value, No(T.AdaNode.entity))
+        return LogicValResult.new(success=success, value=If(
+            success, lvar.get_value, No(T.AdaNode.entity)
+        ))
 
     @langkit_property(return_type=T.AdaNode.entity)
     def semantic_parent_helper(env=LexicalEnv):
@@ -2258,6 +2260,16 @@ class DiscreteRange(Struct):
     """
     low_bound = UserField(type=T.BigInt)
     high_bound = UserField(type=T.BigInt)
+
+
+class LogicValResult(Struct):
+    """
+    Represents the result of a call to logic_val. "success" is True iff solving
+    the logic equation was successful, and "value" holds the value of the
+    logic variable.
+    """
+    success = UserField(type=Bool)
+    value = UserField(type=T.AdaNode.entity)
 
 
 @abstract
@@ -5069,7 +5081,8 @@ class Expr(AdaNode):
     type_val = Property(Self.type_var.get_value)
 
     expression_type = Property(
-        Self.logic_val(Entity, Self.type_var).cast_or_raise(T.BaseTypeDecl)
+        Self.logic_val(Entity, Self.type_var)
+            .value.cast_or_raise(T.BaseTypeDecl)
     )
 
     @langkit_property(public=True, return_type=Bool,

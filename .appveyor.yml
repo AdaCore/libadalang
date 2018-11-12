@@ -1,0 +1,36 @@
+install:
+ - set PATH=C:\Python27-x64;%PATH%
+ - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%\langkit
+ - choco install gnat-gpl
+ - echo C:/Projects /Projects ntfs auto 1 1 >> c:\msys64\etc\fstab
+ - C:\msys64\usr\bin\bash --login -c "$(cygpath ${APPVEYOR_BUILD_FOLDER})/utils/appveyor.sh install"
+
+build_script:
+ - C:\msys64\usr\bin\bash --login -c "$(cygpath ${APPVEYOR_BUILD_FOLDER})/utils/appveyor.sh build"
+
+deploy:
+  - provider: BinTray
+    username: reznikmm
+    api_key:
+      secure: jByoFaHihxEov9zwrhttPjUEkN3lzUGs1Yxl1xSBrmzCWtm5Tq7dis34jWX0fdIJ
+    subject: reznikmm
+    repo: libadalang
+    package: libadalang
+    version: 0.1-git
+    publish: true
+    override: true
+    explode: false
+
+for:
+-
+  branches:
+    only:
+      - master
+  artifacts:
+      - path: libadalang-master-windows.zip
+-
+  branches:
+    only:
+      - stable
+  artifacts:
+      - path: libadalang-stable-windows.zip

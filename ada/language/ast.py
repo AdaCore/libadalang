@@ -51,15 +51,28 @@ def _referenced_decl_internal_impl(subject, try_immediate):
     "referenced_decl_internal" implementations. "subject" is the element which
     holds the ref_var.
     """
-    body = Self.logic_val(
+    compute_logic_val = Self.logic_val(
         Entity, subject.ref_var, try_immediate
-    ).value.cast_or_raise(T.BasicDecl)
-
-    return If(
-        imprecise_fallback,
-        Try(body, Entity.cast(T.Expr)._.first_corresponding_decl),
-        body
     )
+
+    try_compute_logic_val = Try(
+        compute_logic_val,
+        LogicValResult.new(success=False, value=No(AdaNode.entity))
+    )
+
+    precise_body = compute_logic_val.value.cast_or_raise(T.BasicDecl.entity)
+
+    imprecise_body = Let(lambda v=try_compute_logic_val: Let(
+        lambda decl=v.value.cast(T.BasicDecl.entity): If(
+            v.success & (decl == v.value),
+            decl,
+            Entity.cast(T.Expr)._.first_corresponding_decl
+        )
+    ))
+
+    # Select the right body according to the value of the dynamic var
+    # "imprecise_fallback".
+    return If(imprecise_fallback, imprecise_body, precise_body)
 
 
 def entity_no_md(type, node, rebindings, from_rebound):

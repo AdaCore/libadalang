@@ -51,9 +51,15 @@ def _referenced_decl_internal_impl(subject, try_immediate):
     "referenced_decl_internal" implementations. "subject" is the element which
     holds the ref_var.
     """
-    return Self.logic_val(
+    body = Self.logic_val(
         Entity, subject.ref_var, try_immediate
     ).cast_or_raise(T.BasicDecl)
+
+    return If(
+        imprecise_fallback,
+        Try(body, Entity.cast(T.Expr)._.first_corresponding_decl),
+        body
+    )
 
 
 def entity_no_md(type, node, rebindings, from_rebound):
@@ -287,14 +293,7 @@ class AdaNode(ASTNode):
         xref equation are catched and a fallback mechanism is triggered, which
         tries to find the referenced declaration in an ad-hoc way.
         """
-        internal_call = Entity.referenced_decl_internal(False)
-        return If(
-            imprecise_fallback,
-            Try(internal_call)._or(
-                Entity.cast(T.Name)._.first_corresponding_decl
-            ),
-            internal_call
-        )
+        return Entity.referenced_decl_internal(False)
 
     @langkit_property(public=True, return_type=T.DefiningName.entity,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -313,7 +312,8 @@ class AdaNode(ASTNode):
             lambda n: n.cast(T.BasicDecl)
         )
 
-    @langkit_property(public=True)
+    @langkit_property(public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl_internal(try_immediate=Bool):
         """
         Return the declaration this node references. Try not to run name res if

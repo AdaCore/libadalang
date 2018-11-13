@@ -45,36 +45,6 @@ def default_imprecise_fallback():
     return (imprecise_fallback, False)
 
 
-def _referenced_decl_internal_impl(subject, try_immediate):
-    """
-    Helper to generate the piece of logic that is common to all
-    "referenced_decl_internal" implementations. "subject" is the element which
-    holds the ref_var.
-    """
-    compute_logic_val = Self.logic_val(
-        Entity, subject.ref_var, try_immediate
-    )
-
-    try_compute_logic_val = Try(
-        compute_logic_val,
-        LogicValResult.new(success=False, value=No(AdaNode.entity))
-    )
-
-    precise_body = compute_logic_val.value.cast_or_raise(T.BasicDecl.entity)
-
-    imprecise_body = Let(lambda v=try_compute_logic_val: Let(
-        lambda decl=v.value.cast(T.BasicDecl.entity): If(
-            v.success & (decl == v.value),
-            decl,
-            Entity.cast(T.Expr)._.first_corresponding_decl
-        )
-    ))
-
-    # Select the right body according to the value of the dynamic var
-    # "imprecise_fallback".
-    return If(imprecise_fallback, imprecise_body, precise_body)
-
-
 def entity_no_md(type, node, rebindings, from_rebound):
     return Let(lambda n=node: type.entity.new(
         node=n,
@@ -335,6 +305,31 @@ class AdaNode(ASTNode):
         # TODO: remove from public API
         ignore(try_immediate)
         return No(T.BasicDecl.entity)
+
+    @langkit_property(public=False,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def referenced_decl_internal_helper(ref_var=T.LogicVar,
+                                        try_immediate=Bool):
+        """
+        Helper to generate the piece of logic that is common to all
+        "referenced_decl_internal" implementations. "ref_var" is the logic
+        variable that contains the reference to return.
+        """
+        return If(
+            imprecise_fallback,
+            Let(lambda v=Try(
+                Self.logic_val(Entity, ref_var, try_immediate),
+                LogicValResult.new(success=False, value=No(AdaNode.entity))
+            ): Let(
+                lambda decl=v.value.cast(T.BasicDecl.entity): If(
+                    v.success & (decl == v.value),
+                    decl,
+                    Entity.cast(T.Expr)._.first_corresponding_decl
+                )
+            )),
+            Self.logic_val(Entity, ref_var, try_immediate)
+                .value.cast_or_raise(T.BasicDecl.entity)
+        )
 
     @langkit_property(public=True)
     def generic_instantiations():
@@ -5303,7 +5298,9 @@ class UnOp(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=Bool):
-        return _referenced_decl_internal_impl(Self.op, try_immediate)
+        return Entity.referenced_decl_internal_helper(
+            Self.op.ref_var, try_immediate
+        )
 
     @langkit_property()
     def xref_equation():
@@ -5333,7 +5330,9 @@ class BinOp(Expr):
 
     @langkit_property()
     def referenced_decl_internal(try_immediate=Bool):
-        return _referenced_decl_internal_impl(Self.op, try_immediate)
+        return Entity.referenced_decl_internal_helper(
+            Self.op.ref_var, try_immediate
+        )
 
     @langkit_property()
     def xref_equation():
@@ -5867,7 +5866,7 @@ class Name(Expr):
                 T.BasicDecl.entity,
                 "Cannot call referenced_decl on a defining name"
             ),
-            _referenced_decl_internal_impl(Self, try_immediate)
+            Entity.referenced_decl_internal_helper(Self.ref_var, try_immediate)
         )
 
     designated_type_impl = Property(

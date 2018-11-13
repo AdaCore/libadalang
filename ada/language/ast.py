@@ -5662,13 +5662,14 @@ class Name(Expr):
         """
         return Self.name_symbol.then(lambda ns: ns == sym)
 
-    @langkit_property(public=True, return_type=T.Bool,
-                      dynamic_vars=[default_imprecise_fallback()])
+    @langkit_property(public=True, return_type=T.Bool)
     def is_call():
         """
         Returns True if this Name corresponds to a call.
         """
-        return Entity.referenced_decl.info.md.is_call
+        return imprecise_fallback.bind(
+            False, Entity.referenced_decl.info.md.is_call
+        )
 
     @langkit_property(public=True, return_type=T.Bool,
                       dynamic_vars=[default_imprecise_fallback()])

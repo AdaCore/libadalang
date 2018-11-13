@@ -1,0 +1,259 @@
+#! /bin/sh
+#
+# Libadalang binary distribution installation script
+# Copyright (c) 2018, AdaCore
+#
+
+####################
+# Global variables #
+####################
+
+version="<version>"
+machine="<machine>"
+prefix="/usr/local/gnat"
+
+TMPDIR=${TEMP:=`pwd`}
+tmpout="${TMPDIR}/install.log"
+tmpvalue="${TMPDIR}/install.$$"
+
+#####################################################
+# Says that a given command was not found and exits #
+#####################################################
+
+command_not_found () {
+    cmd="$1"
+    cat << EOF
+
+The $cmd command could not be found on your PATH. It is required to have
+it in your PATH in order to install successfully $long_qualifier. Please
+add the directory were $cmd can be found on your PATH or contact your
+system administrator to have it installed in a standard location.
+
+
+EOF
+    exit 1
+}
+
+#########################
+# Check the environment #
+#########################
+
+check_env () {
+
+    # type returns 0 on success, >0 on failure
+    for cmd in mkdir tar tee cat clear; do
+	type_out=`type $cmd 2>&1`
+	type_rv=$?
+	if [ $type_rv -ne 0 ]; then
+	    command_not_found $cmd
+	fi
+    done
+}
+
+###################################
+# Set the production descriptions #
+###################################
+
+set_qualifier () {
+    qualifier="Libadalang"
+    long_qualifier="$qualifier"
+}
+
+###########################################
+# Ask for the base installation directory #
+###########################################
+
+ask_base_prefix() {
+
+   cat << EOF
+
+    In which directory do you want to install $qualifier ? [$prefix]:
+EOF
+    read ans_prefix
+
+    if [ "x$ans_prefix" != "x" ]; then
+        prefix=$ans_prefix
+    fi
+}
+
+###################################
+# Install Libadalang into $prefix #
+###################################
+
+standard_installation () {
+
+   # Makes the real installation
+   mkdir -p $prefix
+   dirs="include lib share"
+   if [ -d lib64 ]
+   then
+       dirs="$dirs lib64"
+   fi
+   (tar cf - $dirs | (cd $prefix; tar xf -)) 2>&1 | tee $tmpout
+
+   # Check that installation was OK
+
+   error_exit=false
+
+   if [ ! -f "$tmpout" ]; then
+      error_exit=true
+      cat << EOF
+
+
+   An error occurred during installation. The installation log file,
+   $tmpout, could not be written.
+EOF
+
+   elif [ -s "$tmpout" ]; then
+      error_exit=true
+      cat << EOF
+
+
+   An error occurred during installation. You can find a complete log
+   of the installation in $tmpout.
+EOF
+   fi
+
+   if $error_exit; then
+      cat << EOF
+   Don't hesitate to send a message to report@adacore.com
+   with you customer number on the subject line if you have any
+   question about this installation process.
+
+EOF
+      exit 1
+   fi
+
+   case $machine in
+      *) clear ;;
+   esac
+
+   cat << EOF
+
+
+   $qualifier is now installed. To use it, you must update several
+   environment variables.  Assuming you are using a Bourne-compatible
+   shell, the following commands enable you to do this:
+
+      PATH=$prefix/bin:\$PATH
+      GPR_PROJECT_PATH=$prefix/share/gpr:\$GPR_PROJECT_PATH
+      LIBRARY_PATH=$prefix/lib:\$LIBRARY_PATH
+      LD_LIBRARY_PATH=$prefix/lib:\$LD_LIBRARY_PATH
+      C_INCLUDE_PATH=$prefix/lib:\$C_INCLUDE_PATH
+      export PATH GPR_PROJECT_PATH LIBRARY_PATH LD_LIBRARY_PATH C_INCLUDE_PATH
+
+   Thank you for installing $long_qualifier!
+
+EOF
+}
+
+######################
+#                    #
+# Start installation #
+#                    #
+######################
+
+set_qualifier
+check_env
+
+# This avoids some problems when cd prints the new directory when CDPATH
+# is defined
+unset CDPATH
+
+clear
+cat << EOF
+
+
+   This script is provided to perform the installation of the
+   binary version of the $qualifier package identified as
+
+   $version for $machine
+
+   This package is maintained by AdaCore, For information on commercial
+   support please contact sales@adacore.com.
+
+   Confirmation is required before any write action is taken.
+
+   Please press RETURN to continue.
+
+EOF
+
+read dummy
+
+# Ask information for non-standard installation
+confirm="KO"
+curdir=`pwd`
+while [ "x$confirm" != "xOK" ]; do
+
+    # Ask the base directory for installation
+    clear
+    cat << EOF
+
+
+    To install $qualifier, you need to specify a base directory.
+    All the files will be installed in subdirectories of this base.
+
+    Important Note: You should not use ~ or ~username wildcards
+    when specifying this directory name.
+EOF
+    ask_base_prefix
+    while [ "$prefix" = "$curdir" ]; do
+       #target base directory cannot be the same as the current dir
+       cat << EOF
+
+    The target base directory cannot be the current directory.
+    Please enter another directory name.
+EOF
+       ask_base_prefix
+    done
+
+    # Ask confirmation
+    cat << EOF
+
+
+    The $long_qualifier installation directory will be:
+      $prefix
+    Is this correct ? Type 'Y' if so, otherwise type 'N' and you'll
+    be prompted for another directory name.
+
+    Do you want to continue ? [yY|nN]:
+
+EOF
+    read confirm
+    case $confirm in
+    [yY])
+	confirm="OK"
+	;;
+    *)
+    	confirm="KO"
+	;;
+    esac
+done
+
+# Ask confirmation
+clear
+cat << EOF
+
+
+   $long_qualifier is now about to be installed in
+      $prefix.
+   Type 'Y' if you want to proceed with installation or any other key
+   if you wish to abort.
+
+   Do you want to proceed with installation ? [yY|nN]:
+
+EOF
+read proceed
+case $proceed in
+[yY]*)
+    ;;
+*)
+    echo "Aborting installation on user request"
+    exit 0
+    ;;
+esac
+
+# Do the real installation
+standard_installation
+
+

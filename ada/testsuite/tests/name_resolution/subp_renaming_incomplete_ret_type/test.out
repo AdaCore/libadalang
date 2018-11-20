@@ -1,0 +1,104 @@
+Analyzing foo.ads
+#################
+
+Resolving xrefs for node <TypeDecl ["List"] 2:4-2:36>
+*****************************************************
+
+
+Resolving xrefs for node <TypeDecl ["A_Access"] 6:4-6:40>
+*********************************************************
+
+Expr: <AttributeRef 6:32-6:39>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "A" 6:32-6:33>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "Class" 6:34-6:39>
+  references: None
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["A_List"] 8:4-8:45>
+*******************************************************
+
+Expr: <Id "List" 8:23-8:27>
+  references: <DefiningName 2:9-2:13>
+  type:       None
+
+Resolving xrefs for node <SubpSpec 11:4-11:65>
+**********************************************
+
+Expr: <AttributeRef 11:58-11:65>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "A" 11:58-11:59>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "Class" 11:60-11:65>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["L"] 11:25-11:35>
+******************************************************
+
+Expr: <Id "A_List" 11:29-11:35>
+  references: <DefiningName 8:9-8:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["P"] 11:37-11:49>
+******************************************************
+
+Expr: <Id "Positive" 11:41-11:49>
+  references: <DefiningName 6:11-6:19>
+  type:       None
+
+Resolving xrefs for node <SubpRenamingDecl ["As_A"] 13:4-13:79>
+***************************************************************
+
+Expr: <Id "Element_At" 13:68-13:78>
+  references: <DefiningName 11:13-11:23>
+  type:       None
+
+Resolving xrefs for node <SubpSpec 13:4-13:59>
+**********************************************
+
+Expr: <AttributeRef 13:52-13:59>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "A" 13:52-13:53>
+  references: <DefiningName 4:9-4:10>
+  type:       None
+Expr: <Id "Class" 13:54-13:59>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["X"] 13:19-13:29>
+******************************************************
+
+Expr: <Id "A_List" 13:23-13:29>
+  references: <DefiningName 8:9-8:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["C"] 13:31-13:43>
+******************************************************
+
+Expr: <Id "Positive" 13:35-13:43>
+  references: <DefiningName 6:11-6:19>
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["A"] 15:4-15:33>
+****************************************************
+
+
+Resolving xrefs for node <EndName 16:5-16:8>
+********************************************
+
+Expr: <EndName 16:5-16:8>
+  references: <DefiningName 1:9-1:12>
+  type:       None
+Expr: <Id "Foo" 16:5-16:8>
+  references: <DefiningName 1:9-1:12>
+  type:       None
+
+
+Done.

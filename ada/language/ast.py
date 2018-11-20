@@ -9053,6 +9053,8 @@ class IncompleteTypeDecl(BaseTypeDecl):
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
     has_abstract = Field(type=Abstract)
 
+    is_tagged_type = Property(True)
+
 
 class Params(AdaNode):
     params = Field(type=ParamSpec.list)

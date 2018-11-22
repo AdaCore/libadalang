@@ -1941,15 +1941,12 @@ class TypeDef(AdaNode):
             Self.is_a(T.RecordTypeDef, T.PrivateTypeDef),
             Array([Entity.children_env, Entity.previous_part_env]).env_group(),
 
-            Self.is_a(T.DerivedTypeDef),
+            Self.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             Entity.base_types.map(
                 lambda bt: bt._.defining_env
             ).concat(
                 Array([Entity.children_env, Entity.previous_part_env])
             ).env_group(),
-
-            Self.is_a(T.InterfaceTypeDef),
-            Entity.children_env,
 
             Entity.match(
                 lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,

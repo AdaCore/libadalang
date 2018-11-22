@@ -1938,7 +1938,7 @@ class TypeDef(AdaNode):
     @langkit_property(dynamic_vars=[origin])
     def defining_env():
         return Cond(
-            Self.is_a(T.RecordTypeDef),
+            Self.is_a(T.RecordTypeDef, T.PrivateTypeDef),
             Array([Entity.children_env, Entity.previous_part_env]).env_group(),
 
             Self.is_a(T.DerivedTypeDef),
@@ -1948,7 +1948,7 @@ class TypeDef(AdaNode):
                 Array([Entity.children_env, Entity.previous_part_env])
             ).env_group(),
 
-            Self.is_a(T.PrivateTypeDef, T.InterfaceTypeDef),
+            Self.is_a(T.InterfaceTypeDef),
             Entity.children_env,
 
             Entity.match(

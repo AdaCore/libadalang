@@ -1937,7 +1937,26 @@ class TypeDef(AdaNode):
 
     @langkit_property(dynamic_vars=[origin])
     def defining_env():
-        return EmptyEnv
+        return Cond(
+            Self.is_a(T.RecordTypeDef),
+            Array([Entity.children_env, Entity.previous_part_env]).env_group(),
+
+            Self.is_a(T.DerivedTypeDef),
+            Entity.base_types.map(
+                lambda bt: bt._.defining_env
+            ).concat(
+                Array([Entity.children_env, Entity.previous_part_env])
+            ).env_group(),
+
+            Self.is_a(T.PrivateTypeDef, T.InterfaceTypeDef),
+            Entity.children_env,
+
+            Entity.match(
+                lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,
+                lambda ac=T.AccessDef: ac.accessed_type.defining_env,
+                lambda _: EmptyEnv
+            )
+        )
 
     containing_type = Property(
         Entity.parent.cast_or_raise(T.TypeDecl), doc="""
@@ -2241,13 +2260,6 @@ class RecordTypeDef(TypeDef):
     has_tagged = Field(type=Tagged)
     has_limited = Field(type=Limited)
     record_def = Field(type=T.BaseRecordDef)
-
-    defining_env = Property(
-        Array([
-            Entity.children_env, Entity.previous_part_env
-        ]).env_group(),
-        type=LexicalEnv
-    )
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
     is_record_type = Property(True)
@@ -3373,14 +3385,6 @@ class DerivedTypeDef(TypeDef):
     )
     is_static = Property(Entity.subtype_indication.is_static)
 
-    defining_env = Property(
-        Entity.base_types.map(
-            lambda bt: bt._.defining_env
-        ).concat(
-            Array([Entity.children_env, Entity.previous_part_env])
-        ).env_group()
-    )
-
     @langkit_property(return_type=Equation)
     def xref_equation():
         # We want to make discriminants accessible, so need to evaluate this in
@@ -3403,8 +3407,6 @@ class PrivateTypeDef(TypeDef):
     is_tagged_type = Property(Self.has_tagged.as_bool)
 
     xref_equation = Property(LogicTrue())
-
-    defining_env = Property(Entity.children_env, type=LexicalEnv)
 
 
 class SignedIntTypeDef(TypeDef):
@@ -3552,8 +3554,6 @@ class ArrayTypeDef(TypeDef):
             Entity.component_type.sub_equation
         )
 
-    defining_env = Property(Entity.comp_type.defining_env)
-
     xref_entry_point = Property(True)
 
 
@@ -3570,8 +3570,6 @@ class InterfaceTypeDef(TypeDef):
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
-
-    defining_env = Property(Entity.children_env)
 
     @langkit_property(return_type=Equation)
     def xref_equation():
@@ -3718,7 +3716,6 @@ class AccessDef(TypeDef):
     has_not_null = Field(type=NotNull)
 
     is_access_type = Property(True)
-    defining_env = Property(Entity.accessed_type.defining_env)
 
 
 class AccessToSubpDef(AccessDef):

@@ -1947,10 +1947,11 @@ class TypeDef(AdaNode):
 
     previous_part = Property(Entity.containing_type.previous_part(True))
 
-    previous_part_env = Property(Entity.previous_part._.match(
-        lambda _=T.IncompleteTypeDecl: EmptyEnv,
-        lambda t: t.children_env
-    ))
+    previous_part_env = Property(
+        Entity.previous_part._.defining_env,
+        dynamic_vars=[origin]
+    )
+
     is_static = Property(False, dynamic_vars=[default_imprecise_fallback()])
 
 
@@ -9046,6 +9047,8 @@ class IncompleteTypeDecl(BaseTypeDecl):
         add_to_env_kv(Entity.name_symbol, Self),
         add_env()
     )
+
+    defining_env = Property(Self.children_env, type=LexicalEnv)
 
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 

@@ -2913,7 +2913,10 @@ class TypeDecl(BaseTypeDecl):
 
         return imprecise_fallback.bind(False, Cond(
             Entity.is_array, Entity.comp_type,
-            Not(ie.is_null), ie.cast(T.Name).name_designated_type,
+
+            Not(ie.is_null), ie.cast(T.Name).then(
+                lambda name: env.bind(name.node_env, name.designated_type_impl)
+            ),
 
             Not(it.is_null),
             it.cast(T.Aggregate).assocs.unpacked_params.find(

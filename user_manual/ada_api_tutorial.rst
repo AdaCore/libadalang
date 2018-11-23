@@ -275,7 +275,7 @@ from the first command-line argument:
 
       Project_Filename : constant String := Ada.Command_Line.Argument (1);
       Project_File     : constant GNATCOLL.VFS.Virtual_File :=
-         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
+         GNATCOLL.VFS.Create (+Project_Filename);
 
       Env     : GPR.Project_Environment_Access;
       Project : constant GPR.Project_Tree_Access := new GPR.Project_Tree;
@@ -286,7 +286,16 @@ from the first command-line argument:
         (Project, Env);
    end Load_Project;
 
-Then use it when creating the analysis context:
+This assumes that the first command-line argument is the name of the project
+file to load, so it is necessary to update the iteration on source file
+arguments to start at argument number 2:
+
+.. code-block:: ada
+
+   --  Try to parse all remaining source file given as arguments
+   for I in 2 .. Ada.Command_Line.Argument_Count loop
+
+Then use our new ``Load_Project`` function when creating the analysis context:
 
 .. code-block:: ada
 

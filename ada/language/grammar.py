@@ -759,8 +759,9 @@ A.add_rules(
                            A.discrete_subtype_definition, ")")),
         Opt(A.param_specs),
         "when", A.expr,
-        "is", A.recov_decl_part,
-        recover("begin"),
+        "is", cut(),
+        A.recov_decl_part,
+        "begin",
         A.handled_stmts,
         end_liblevel_block(), sc()
     ),
@@ -780,8 +781,8 @@ A.add_rules(
 
     task_body=TaskBody(
         "task", "body", A.defining_name, A.aspect_spec,
-        "is", A.recov_decl_part,
-        recover("begin"),
+        "is", cut(), A.recov_decl_part,
+        "begin",
         A.handled_stmts,
         end_liblevel_block(), sc()
     ),
@@ -847,12 +848,12 @@ A.add_rules(
 
     iblock_stmt=Or(
         BeginBlock(
-            "begin", A.handled_stmts, end_named_block(), sc()
+            "begin", cut(), A.handled_stmts, end_named_block(), sc()
         ),
         DeclBlock(
-            "declare",
+            "declare", cut(),
             A.recov_decl_part,
-            recover("begin"),
+            "begin",
             A.handled_stmts, end_named_block(), sc()
         ),
     ),
@@ -937,7 +938,7 @@ A.add_rules(
         "is",
         cut(),
         A.recov_decl_part,
-        recover("begin"),
+        "begin",
         A.handled_stmts,
         end_liblevel_block(),
         ";"

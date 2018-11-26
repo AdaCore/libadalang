@@ -1937,10 +1937,17 @@ class TypeDef(AdaNode):
 
     @langkit_property(dynamic_vars=[origin])
     def defining_env():
+        # Regroup implementations for subclasses here instead of overriding to
+        # avoid code duplication (multiple cases have the same implementation).
         return Cond(
+            # A "record" or "private" type def may be the completion of a
+            # previous type declaration, so we need to include the defining
+            # env of its previous part as well.
             Self.is_a(T.RecordTypeDef, T.PrivateTypeDef),
             Array([Entity.children_env, Entity.previous_part_env]).env_group(),
 
+            # Same for "derived" and "interface" type definitions, but we also
+            # need to include the defining environments of their base types.
             Self.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             Entity.base_types.map(
                 lambda bt: bt._.defining_env

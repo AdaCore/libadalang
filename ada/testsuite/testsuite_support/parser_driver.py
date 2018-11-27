@@ -57,8 +57,6 @@ class ParserDriver(BaseDriver):
             input_argv = ['-f', self.input_file]
             misc_argv += ['-E']
         else:
-            if not rule_name:
-                raise SetupError('Parsing rule is missing from test.yaml')
             input_argv = [self.read_file(self.working_dir(self.input_file))]
 
         for lookup in self.get_lookups():

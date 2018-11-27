@@ -40,11 +40,8 @@ class ParserDriver(BaseDriver):
         base_argv = ['parse']
         misc_argv = []
 
-        try:
-            charset = self.test_env['charset']
-        except KeyError:
-            pass
-        else:
+        charset = self.test_env.get('charset', None)
+        if charset:
             base_argv += ['-c', charset]
 
         rule_name = self.test_env.get('rule', None)

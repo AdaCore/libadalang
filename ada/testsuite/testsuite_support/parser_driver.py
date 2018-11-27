@@ -44,6 +44,10 @@ class ParserDriver(BaseDriver):
         if charset:
             base_argv += ['-c', charset]
 
+        check_consistency = self.test_env.get('check-consistency', None)
+        if check_consistency:
+            base_argv += ['-C']
+
         rule_name = self.test_env.get('rule', None)
         if rule_name:
             base_argv += ['-r', rule_name]

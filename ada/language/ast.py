@@ -4352,6 +4352,8 @@ class RecordRepClause(AspectClause):
     at_expr = Field(type=T.Expr)
     components = Field(type=T.AdaNode.list)
 
+    xref_equation = Property(Entity.name.xref_no_overloading)
+
 
 class AtClause(AspectClause):
     name = Field(type=T.BaseId)

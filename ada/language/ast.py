@@ -793,7 +793,7 @@ class AdaNode(ASTNode):
             ))
         )
 
-    @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
+    @langkit_property(return_type=T.ParamMatch.array)
     def match_formals(formal_params=T.BaseFormalParamDecl.entity.array,
                       params=T.AssocList,
                       is_dottable_subp=Bool):

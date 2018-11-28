@@ -6472,6 +6472,15 @@ class MultiDimArrayAssoc(AggregateAssoc):
     pass
 
 
+class ParamActual(Struct):
+    """
+    Data structure used by zip_with_params property. Associates an expression
+    (the actual) to a formal param declaration (the parameter).
+    """
+    param = UserField(type=BaseFormalParamDecl.entity)
+    actual = UserField(type=T.Expr.entity)
+
+
 class AssocList(BasicAssoc.list):
 
     @langkit_property()
@@ -6489,6 +6498,32 @@ class AssocList(BasicAssoc.list):
                 lambda n: n.is_a(T.BaseId),
             )
         )))
+
+    @langkit_property(public=True, return_type=ParamActual.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def zip_with_params():
+        """
+        Returns an array of pairs, associating formal parameters to actual
+        expressions. The formals to match are retrieved by resolving the call
+        which this AssocList represents the actuals of.
+        """
+        is_dottable_subp = Var(Entity.parent.cast(T.Name).then(
+            lambda e: e.is_dot_call
+        ))
+
+        # todo: handle more than CallExpr
+        params = Var(Entity.parent.cast(T.CallExpr).then(
+            lambda e: e.name.referenced_decl.subp_spec_or_null(
+                follow_generic=True
+            ).abstract_formal_params
+        ))
+
+        return Self.match_formals(params, Self, is_dottable_subp).map(
+            lambda m: ParamActual.new(
+                param=m.formal.spec,
+                actual=m.actual.assoc.expr.as_entity
+            )
+        )
 
 
 class DeclList(AdaNode.list):

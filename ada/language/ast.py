@@ -6706,7 +6706,7 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
-    @langkit_property(public=False, return_type=AdaNode.entity.array,
+    @langkit_property(public=True, return_type=AdaNode.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_refs_in(x=AdaNode.entity):
         """

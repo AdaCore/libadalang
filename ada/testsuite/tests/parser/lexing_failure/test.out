@@ -1,7 +1,6 @@
-Parsing failed:
-<input>:1:11: Invalid token, ignored
-<input>:1:17: Invalid token, ignored
-<input>:3:9: Invalid token, ignored
+input:1:11: Invalid token, ignored
+input:1:17: Invalid token, ignored
+input:3:9: Invalid token, ignored
 CompilationUnit[1:1-4:9]
 |prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>

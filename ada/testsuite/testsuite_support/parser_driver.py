@@ -40,6 +40,8 @@ class ParserDriver(BaseDriver):
         base_argv = ['parse']
         misc_argv = []
 
+        base_argv += ['-f', self.input_file]
+
         charset = self.test_env.get('charset', None)
         if charset:
             base_argv += ['-c', charset]
@@ -52,16 +54,10 @@ class ParserDriver(BaseDriver):
         if rule_name:
             base_argv += ['-r', rule_name]
 
-        if self.action == 'pretty-print-file':
-            input_argv = ['-f', self.input_file]
-        elif self.action == 'pp-file-with-trivia':
-            input_argv = ['-f', self.input_file]
+        if self.action == 'pp-file-with-trivia':
             misc_argv += ['-P']
         elif self.action == 'pp-file-with-lexical-envs':
-            input_argv = ['-f', self.input_file]
             misc_argv += ['-E']
-        else:
-            input_argv = [self.read_file(self.working_dir(self.input_file))]
 
         for lookup in self.get_lookups():
             misc_argv.append(
@@ -69,7 +65,7 @@ class ParserDriver(BaseDriver):
             )
 
         # Run a first time, to run the testcase according to "self.action"
-        self.run_and_check(base_argv + input_argv + misc_argv, for_debug=True,
+        self.run_and_check(base_argv + misc_argv, for_debug=True,
                            memcheck=True)
 
         # If specifically asked not to test unparsing, stop now
@@ -88,9 +84,9 @@ class ParserDriver(BaseDriver):
         outputs = {}
         for name, filename, argv in [
             ('base-tree-dump', self.base_tree_dump_file,
-             base_argv + input_argv + ['--hide-slocs']),
+             base_argv + ['--hide-slocs']),
             ('unparsed', self.unparsed_file,
-             base_argv + input_argv + ['-s', '--unparse']),
+             base_argv + ['-s', '--unparse']),
             ('unparsed-tree-dump', self.unparsed_tree_dump_file,
              base_argv + ['-f', self.unparsed_file, '--hide-slocs']),
         ]:

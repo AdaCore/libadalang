@@ -5148,7 +5148,7 @@ class Expr(AdaNode):
                 & a.then_expr.is_static_expr
             )
             & i.else_expr.is_static_expr,
-            lambda pe=ParenExpr: pe.is_static_expr,
+            lambda pe=ParenExpr: pe.expr.is_static_expr,
             lambda _: False
         ))
 

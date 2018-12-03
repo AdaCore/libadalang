@@ -12,7 +12,7 @@ procedure Main is
 
 begin
    for P of Params loop
-      Put_Line (P.F_Ids.String_Text);
+      Put_Line (P.F_Ids.Debug_Text);
    end loop;
 
    Put_Line ("Done.");

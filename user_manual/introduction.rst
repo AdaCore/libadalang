@@ -18,7 +18,7 @@ Libadalang provides mainly the following services to users:
   * General cross references queries (find all references to this entity)
 
 Libadalang does not (at the moment) provide full legality checks for the Ada
-language.  If you want such a functionality, you’ll need to use a full Ada
+language.  If you want such a functionality, you'll need to use a full Ada
 compiler, such as GNAT.
 
 Need

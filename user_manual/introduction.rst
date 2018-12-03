@@ -3,16 +3,23 @@ Introduction
 ************
 
 Libadalang is a library for parsing and semantic analysis of Ada code. It is
-meant as a building block for integration into other tools. (IDE,
-static analyzers, etc.)
+meant as a building block for integration into other tools. (IDE, static
+analyzers, etc.)
 
-The aim of Libadalang is to provide complete syntactic analysis with error
-recovery, producing a precise syntax tree and to provide name resolution and
-precise cross-references on the resulting trees.
+Libadalang provides mainly the following services to users:
 
-It is not (at the moment) to provide full legality checks for the Ada language.
-If you want such a functionality, you'll need to use a full Ada compiler, such
-as GNAT.
+* Complete syntactic analysis with error recovery, producing a precise syntax
+  tree when the source is correct, and a best effort tree when the source is
+  incorrect.
+
+* Semantic queries on top of the syntactic tree, such as, but not limited to:
+  * Resolution of references (what a reference corresponds to)
+  * Resolution of types (what is the type of an expression)
+  * General cross references queries (find all references to this entity)
+
+Libadalang does not (at the moment) provide full legality checks for the Ada
+language.  If you want such a functionality, you’ll need to use a full Ada
+compiler, such as GNAT.
 
 Need
 ####

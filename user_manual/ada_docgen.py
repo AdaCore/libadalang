@@ -9,7 +9,7 @@ from docutils.statemachine import ViewList
 from funcy import memoize
 import libadalang as lal
 from sphinx import addnodes as N
-from sphinx.util.compat import Directive
+from docutils.parsers.rst import Directive
 from sphinx.util.nodes import nested_parse_with_titles
 
 try:

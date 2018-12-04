@@ -115,7 +115,7 @@ specifically the nodes whose kind is ``Ada_Object_Decl``.
     is ``Object_Decl``, and the kind name is ``Ada_Object_Decl``.
 
     For abstract node types with several derived types, such as ``Basic_Decl``,
-    subtypes are exposed with the corresponding name & range (here
+    subtypes are exposed with the corresponding name and range (here
     ``Ada_Basic_Decl``).
 
 Another useful thing to do with nodes is to relate them to the original source
@@ -327,7 +327,8 @@ Resolving types
 ---------------
 
 Finally, let's update the ``Process_Node`` function to use Libadalang's name
-resolution capabilities:
+resolution capabilities: when we find an object declaration, we'll print the
+entity representing the type of the object declaration.
 
 .. code-block:: ada
 
@@ -344,7 +345,7 @@ resolution capabilities:
             Type_Decl : constant LAL.Base_Type_Decl :=
                Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
          begin
-            Put_Line ("type => " & Type_Decl.Text);
+            Put_Line ("   type is: " & Type_Decl.Text);
          end;
       end if;
       return LALCO.Into;
@@ -370,11 +371,11 @@ This time, running this updated program on itself will yield something like:
 
    == main.adb ==
    Line 30: Project_Filename : constant String := Ada.Command_Line.Argument (1);
-      type is:type String is array (Positive range <>) of Character;
+      type is: type String is array (Positive range <>) of Character;
    Line 31: Project_File     : constant GNATCOLL.VFS.Virtual_File :=\x0a         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
-      type is:type Virtual_File is tagged private;
+      type is: type Virtual_File is tagged private;
    Line 34: Env     : GPR.Project_Environment_Access;
-      type is:type Project_Environment_Access is access all Project_Environment'Class;
+      type is: type Project_Environment_Access is access all Project_Environment'Class;
 
 We have seen here the ``P_Designated_Type_Decl`` property, which resolves
 references to types, but Libadalang offers many more properties to deal with

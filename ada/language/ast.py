@@ -645,6 +645,20 @@ class AdaNode(ASTNode):
             .env_node._.has_with_visibility(refd_unit)
         )
 
+    @langkit_property(return_type=Bool)
+    def has_visibility(other_entity=T.AdaNode.entity):
+        return Or(
+            # The node is a generic package instantiation coming from a formal
+            # package.
+            other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
+
+            # The node is not an unit root
+            Not(other_entity.cast(T.BasicDecl).is_unit_root),
+
+            # Else, check with visibility
+            Self.has_with_visibility(other_entity.node.unit)
+        )
+
     @langkit_property()
     def resolve_generic_actual():
         """
@@ -5254,10 +5268,7 @@ class Expr(AdaNode):
         pass
 
     env_elements = Property(
-        Entity.env_elements_impl.filter(lambda e: (
-            Not(e.cast(T.BasicDecl).is_unit_root)
-            | Self.has_with_visibility(e.node.unit)
-        )),
+        Entity.env_elements_impl.filter(lambda e: Self.has_visibility(e)),
         dynamic_vars=[env]
     )
 
@@ -6918,19 +6929,16 @@ class BaseId(SingleTokNode):
             lambda p: p.is_a(GenericPackageInstantiation)
         ))
 
-        env_els = Var(Entity.env_elements_baseid.then(lambda all_env_els: If(
-            Self.is_prefix,
+        env_els = Var(Entity.env_elements_baseid.then(
+            lambda all_env_els:
             all_env_els.filter(lambda e: And(
                 # Exclude own generic package instantiation from the lookup
                 Not(e.node == bd),
 
-                # Check with visibility, except if the node is a generic
-                # package instantiation coming from a formal package.
-                e.cast(GenericPackageInstantiation)._.info.from_rebound
-                | Self.has_with_visibility(e.node.unit)
-            )),
-            all_env_els
-        )))
+                Self.has_visibility(e)
+            ),
+            )
+        ))
 
         pkg = Var(env_els.at(0).cast(T.BasicDecl))
 

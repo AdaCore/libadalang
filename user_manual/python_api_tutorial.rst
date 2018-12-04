@@ -2,14 +2,14 @@ Python API Tutorial
 ###################
 
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's
-actually do some practice with the Ada API.
+actually do some practice with the Python API.
 
 Preliminary setup
 =================
 
-As the previous section says, the first thing to do in order to use Libadalang
-is to create an analysis context. We'll create a simple ``test.py`` file with
-the following content:
+As seen in the section on core concepts, the first thing to do in order to use
+Libadalang is to create an analysis context. We'll create a simple ``test.py``
+file with the following content:
 
 .. code-block:: python
 
@@ -17,7 +17,7 @@ the following content:
    context = lal.AnalysisContext()
 
 
-This very simple program will allow us to make sure the python environment is
+This very simple program will allow us to make sure the Python environment is
 properly setup to use Libadalang. Running the above file should yield no error
 and no result.
 
@@ -59,23 +59,21 @@ to iterate on every node in the tree via a generator:
 
 If there are fatal parsing errors, or if the file cannot be read, the unit
 root will be null, but the unit will have diagnostics that you can access via
-the :meth:`libadalang.AnalysisUnit.diagnostics` property on the analysis unit. The
-property will return a list of :class:`libadalang.Diagnostic`.
+the :meth:`libadalang.AnalysisUnit.diagnostics` property on the analysis unit.
+The property will return a list of :class:`libadalang.Diagnostic`.
 
 .. code-block:: python
 
     if unit.diagnostics:
         for d in unit.diagnostics:
-            print "{}:{}: {}".format(
-                d.sloc_range.start.line, d.sloc_range.start.column, d.message
-            )
+            print("{}: {}".format(d.sloc_range.start, d.message))
 
 Now what can we do with a node? One of the first things to do is to check its
 type: is it a subprogram specification? a call expression? an object
 declaration? The way to do that in Python is by calling the
 :meth:`libadalang.AdaNode.is_a` method on a node, giving a type object as a
-parameter. Here, we want to specifically process the nodes whose type is
-:class:`libadalang.ObjectDecl`.
+parameter (it's just a shortcut for ``isinstance``). Here, we want to
+specifically process the nodes whose type is :class:`libadalang.ObjectDecl`.
 
 Another useful thing to do with nodes is to relate them to the original source
 code. The first obvious way to do this is to get the source code excerpts that
@@ -87,7 +85,7 @@ line/column numbers.
 
 .. code-block:: python
 
-   print "line {}: {}".format(node.sloc_range.start.line, repr(node.text))
+   print("Line {}: {}".format(node.sloc_range.start.line, repr(node.text)))
 
 Put all these bit in the right order, and you should get something similar to
 the following program:
@@ -110,7 +108,8 @@ the following program:
                 print("Line {}: {}".format(
                     node.sloc_range.start.line, repr(node.text)))
 
-If you run this program on the :ref:`ada example program <ada example program>`, you should get:
+If you run this program on the :ref:`ada example program <ada example
+program>`, you should get:
 
 .. code-block:: text
 
@@ -141,7 +140,7 @@ compilation units follow the `GNAT naming convention
 <http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn/the_gnat_compilation_model.html#file-naming-rules>`_
 and that all source files are in the current directory.
 
-If the organization of your project is not so simple, you have three options
+If the organization of your project is not so simple, you have two options
 currently in Python:
 
 * You can use features from the auto-provider, provided by
@@ -149,18 +148,18 @@ currently in Python:
   your source files.
 
 * You can use features from the project provider, provided by
-  :meth:`libadalang.UnitProvider.for_project` to use a GNAT Project file.
+  :meth:`libadalang.UnitProvider.for_project` to use a GNAT project file.
 
-Be aware though, that because of lack of access to proper python bindings to
-the GNAT Project file API, the project facilities in Python are limited for the
+Be aware though, that because of lack of access to proper Python API to process
+GNAT project files, the corresponding facilities in Python are limited for the
 moment. If the above options are not sufficient for you, we recommend using the
-:ref:`Ada API <Ada API Tutorial>`
+:ref:`Ada API <Ada API Tutorial>`.
 
 In our program, we'll create a simple project unit provider if a project file
 is provided. If not, we'll use the default settings.
 
 Finally, let's update our code to use Libadalang's name resolution
-capabilities: When we find an object declaration, we'll print the entity
+capabilities: when we find an object declaration, we'll print the entity
 representing the type of the object declaration.
 
 .. code-block:: python
@@ -219,9 +218,9 @@ This time, running this updated program on the
    Line 39: u'Unit     : constant LAL.Analysis_Unit :=\n            Context.Get_From_File (Filename);'
       type is: u'type Analysis_Unit is tagged private;'
 
-We have seen here the ``p_designated_type_decl`` property, which resolves
-references to types, but Libadalang offers many more properties to deal with
-name resolution in Ada:
+We have seen here :meth:`libadalang.TypeExpr.p_designated_type_decl`, which
+resolves references to types, but Libadalang offers many more properties to
+deal with name resolution in Ada:
 
 * :meth:`libadalang.AdaNode.p_xref` will try to resolve from any node to the
   corresponding declaration, much like an IDE would do when you Control-click
@@ -236,3 +235,6 @@ name resolution in Ada:
 * :meth:`libadalang.AdaNode.p_generic_instantiations` returns the list of
   package/subprogram generic instantiations that led to the creation of this
   node.
+
+You can find these and all the other properties documented in your favorite
+language's API reference.

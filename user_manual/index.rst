@@ -10,8 +10,9 @@ Contents:
    introduction
    core_concepts
    ada_api_tutorial
-   python_api_ref
+   python_api_tutorial
    ada_api_ref
+   python_api_ref
 
 Indices and tables
 ==================

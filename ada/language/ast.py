@@ -4237,6 +4237,14 @@ class Pragma(AdaNode):
                 assoc.assoc_expr.cast_or_raise(T.Name).xref_no_overloading
             ),
 
+            Entity.id.name_symbol.any_of(
+                'Import', 'Export', 'Interface', 'Convention',
+                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body'
+            ),
+            Entity.associated_entity_name.then(
+                lambda n: n.xref_no_overloading, default_val=LogicTrue()
+            ),
+
             LogicTrue(),
         )
 

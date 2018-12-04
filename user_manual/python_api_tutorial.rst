@@ -144,14 +144,11 @@ and that all source files are in the current directory.
 If the organization of your project is not so simple, you have three options
 currently in Python:
 
-- You can either derive :class:`libadalang.UnitProvider`, implementing the
-  corresponding primitives according to your project rules.
-
-- You can use features from the auto-provider, provided by
+* You can use features from the auto-provider, provided by
   :meth:`libadalang.UnitProvider.auto` to let Libadalang automatically discover
   your source files.
 
-- You can use features from a default project provider, provided by
+* You can use features from the project provider, provided by
   :meth:`libadalang.UnitProvider.for_project` to use a GNAT Project file.
 
 Be aware though, that because of lack of access to proper python bindings to

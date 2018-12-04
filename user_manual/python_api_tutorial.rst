@@ -101,23 +101,23 @@ the following program:
 
     for filename in sys.argv[1:]:
         unit = context.get_from_file(filename)
+        print("== {} ==".format(filename))
         for d in unit.diagnostics:
-            print "{}: {}".format(filename, d)
+            print("{}: {}".format(filename, d))
 
         if unit.root:
             for node in unit.root.finditer(lambda n: n.is_a(lal.ObjectDecl)):
-                print "line {}: {}".format(
-                    node.sloc_range.start.line, repr(node.text)
-                )
+                print("Line {}: {}".format(
+                    node.sloc_range.start.line, repr(node.text)))
 
 If you run this program on the :ref:`ada example program <ada example program>`, you should get:
 
 .. code-block:: text
 
    == main.adb ==
-   Line 33: Context : constant LAL.Analysis_Context := LAL.Create_Context;
-   Line 38: Filename : constant String := Ada.Command_Line.Argument (I);
-   Line 39: Unit     : constant LAL.Analysis_Unit :=\x0a            Context.Get_From_File (Filename);
+   Line 33: u'Context : constant LAL.Analysis_Context := LAL.Create_Context;'
+   Line 38: u'Filename : constant String := Ada.Command_Line.Argument (I);'
+   Line 39: u'Unit     : constant LAL.Analysis_Unit :=\n            Context.Get_From_File (Filename);'
 
 Follow references
 =================
@@ -170,7 +170,6 @@ representing the type of the object declaration.
     :linenos:
     :emphasize-lines: 26
 
-    import sys
     import libadalang as lal
     import argparse
 
@@ -179,7 +178,7 @@ representing the type of the object declaration.
     parser.add_argument('files', help='Files to analyze', type=str, nargs='+')
     args = parser.parse_args()
 
-    provider=None
+    provider = None
     if args.project:
         provider = lal.UnitProvider.for_project(args.project)
 
@@ -187,17 +186,18 @@ representing the type of the object declaration.
 
     for filename in args.files:
         unit = context.get_from_file(filename)
+        print("== {} ==".format(filename))
         for d in unit.diagnostics:
-            print "{}: {}".format(filename, d)
+            print("{}: {}".format(filename, d))
 
         if unit.root:
             for node in unit.root.finditer(lambda n: n.is_a(lal.ObjectDecl)):
-                print "line {}: {}".format(
+                print("Line {}: {}".format(
                     node.sloc_range.start.line, repr(node.text)
-                )
+                ))
                 type_decl = node.f_type_expr.p_designated_type_decl
                 if type_decl:
-                    print "type => {}".format(type_decl.text)
+                    print("   type is: {}".format(repr(type_decl.text)))
 
 The most interesting line is emphasized above and does the following:
 
@@ -215,12 +215,12 @@ This time, running this updated program on the
 .. code-block:: text
 
    == main.adb ==
-   Line 30: Project_Filename : constant String := Ada.Command_Line.Argument (1);
-      type => type String is array (Positive range <>) of Character;
-   Line 31: Project_File     : constant GNATCOLL.VFS.Virtual_File :=\x0a         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
-      type => type Virtual_File is tagged private;
-   Line 34: Env     : GPR.Project_Environment_Access;
-      type => type Project_Environment_Access is access all Project_Environment'Class;
+   Line 33: u'Context : constant LAL.Analysis_Context := LAL.Create_Context;'
+      type is: u'type Analysis_Context is tagged private;'
+   Line 38: u'Filename : constant String := Ada.Command_Line.Argument (I);'
+      type is: u'type String is array (Positive range <>) of Character;'
+   Line 39: u'Unit     : constant LAL.Analysis_Unit :=\n            Context.Get_From_File (Filename);'
+      type is: u'type Analysis_Unit is tagged private;'
 
 We have seen here the ``p_designated_type_decl`` property, which resolves
 references to types, but Libadalang offers many more properties to deal with

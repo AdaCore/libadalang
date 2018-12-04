@@ -4294,7 +4294,7 @@ class Pragma(AdaNode):
             lambda p=Entity.parents.find(
                 lambda p: p.is_a(T.DeclarativePart)
             ).then(
-                lambda decl_scope: decl_scope.node_env.get(
+                lambda decl_scope: decl_scope.children_env.get(
                     name.name_symbol, lookup=LK.flat, categories=noprims
                 ).filtermap(lambda ent: ent.cast(T.BasicDecl),
                             lambda ent: ent.node < Self),

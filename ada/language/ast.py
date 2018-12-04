@@ -935,6 +935,10 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 
 @abstract
 class BasicDecl(AdaNode):
+    """
+    Root class for an Ada declaration (RM 3.1). A declaration associates a name
+    with a language entity, for example a type or a variable.
+    """
 
     @langkit_property(public=True)
     def previous_part_for_decl():
@@ -1466,6 +1470,10 @@ class ErrorDecl(BasicDecl):
 
 @abstract
 class Body(BasicDecl):
+    """
+    Base class for an Ada body (RM 3.11). A body is the completion of a
+    declaration.
+    """
 
     @langkit_property()
     def body_decl_scope():
@@ -1640,6 +1648,10 @@ class Body(BasicDecl):
 
 @abstract
 class BodyStub(Body):
+    """
+    Base class for a body stub (RM 10.1.3). A body stub is meant to be
+    completed by .
+    """
     pass
 
 
@@ -1648,6 +1660,8 @@ class BaseFormalParamDecl(BasicDecl):
     """
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
+
+    This is a Libadalang abstaction, that has no ARM existence.
     """
     identifiers = Property(Entity.defining_names.map(lambda e: e.node),
                            memoized=True)
@@ -4232,6 +4246,10 @@ class SubpRenamingDecl(ClassicSubpDecl):
 
 
 class Pragma(AdaNode):
+    """
+    Class for pragmas (RM 2.8). Pragmas are compiler directives, that can be
+    language or compiler defined.
+    """
     id = Field(type=T.Identifier)
     args = Field(type=T.BaseAssoc.list)
 

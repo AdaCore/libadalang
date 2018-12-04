@@ -4281,6 +4281,15 @@ class Pragma(AdaNode):
 
         # TODO: This should be using a ._or, but is waiting on a fix for
         # R903-028.
+
+        # NOTE: The whole reason we have to implement custom resolution for
+        # decls associated to a pragma, is because there can be several
+        # associated decls, so the regular crossref mechanism is not
+        # sufficient, as in the following example::
+        #
+        #     procedure Foo;
+        #     procedure Foo (A : Integer);
+        #     pragma Inline (Foo);
         return Entity.associated_entity_name.then(lambda name: Let(
             lambda p=Entity.parents.find(
                 lambda p: p.is_a(T.DeclarativePart)

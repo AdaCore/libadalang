@@ -1,0 +1,3 @@
+<TypeDecl ["T"] 5:4-5:26> get_attribute('pack') -> <PragmaNode 6:4-6:20>
+
+Done

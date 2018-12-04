@@ -1,3 +1,5 @@
+.. _ada api tutorial:
+
 Ada API Tutorial
 ################
 
@@ -85,8 +87,8 @@ node primitive to call a function on all nodes in this tree:
 
    Unit.Root.Traverse (Process_Node'Access);
 
-If there were fatal parsing, or if the file cannot be read, the unit root will
-be null, but the unit will have diagnostics: see the
+If there are fatal parsing errors, or if the file cannot be read, the unit
+root will be null, but the unit will have diagnostics: see the
 ``Libadalang.Analysis.Has_Diagnostics``, ``Diagnostics`` and
 ``Format_GNU_Diagnostic`` unit primitives to check the presence of diagnostics,
 get their list, and format them into user-friendly error messages.
@@ -107,6 +109,15 @@ returning the appropriate value from the
 ``Libadalang.Common.Ada_Node_Kind_Type`` enumeration. Here, we want to process
 specifically the nodes whose kind is ``Ada_Object_Decl``.
 
+.. attention::
+    There is a correspondence between kind names and type names: The kind is
+    prefixed by the language name, so the type name for an object declaration
+    is ``Object_Decl``, and the kind name is ``Ada_Object_Decl``.
+
+    For abstract node types with several derived types, such as ``Basic_Decl``,
+    subtypes are exposed with the corresponding name & range (here
+    ``Ada_Basic_Decl``).
+
 Another useful thing to do with nodes is to relate them to the original source
 code. The first obvious way to do this is to get the source code excerpts that
 were parsed to create them: the ``Libadalang.Analysis.Text`` node primitive
@@ -125,6 +136,11 @@ expected start/end line/column numbers.
      ("Line"
       & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
       & ": " & Node.Text);
+
+.. _ada example program:
+
+Final program
+-------------
 
 Put all these bit in the right order, and you should get something similar to
 the following program:
@@ -206,6 +222,9 @@ can go further with semantic analysis. The most used feature in this domain is
 the computation of cross references ("xrefs"): the ability to reach the
 definition a particular identifier references.
 
+Resolving files
+---------------
+
 As mentioned in the :ref:`core-concepts` section, the nature of semantic
 analysis requires to know how to fetch compilation units: which source file and
 where? Teaching Libadalang how to do this is done through the use of :ref:`unit
@@ -215,7 +234,7 @@ The default unit provider, i.e. the one that is used if you don't pass anything
 specific to ``Libadalang.Analysis.Create_Context``, assumes that all
 compilation units follow the `GNAT naming convention
 <http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn/the_gnat_compilation_model.html#file-naming-rules>`_
-and that all source files belong to the current directory.
+and that all source files are in the current directory.
 
 If the organization of your project is completely custom, you can either
 derive ``Libadalang.Analysis.Unit_Provider_Interface``, implementing the
@@ -302,7 +321,12 @@ Then use our new ``Load_Project`` function when creating the analysis context:
    Context : constant LAL.Analysis_Context :=
       LAL.Create_Context (Unit_Provider => Load_Project);
 
-And finally update the ``Process_Node`` function to use Libadalang's name
+.. _resolving types:
+
+Resolving types
+---------------
+
+Finally, let's update the ``Process_Node`` function to use Libadalang's name
 resolution capabilities:
 
 .. code-block:: ada
@@ -320,7 +344,7 @@ resolution capabilities:
             Type_Decl : constant LAL.Base_Type_Decl :=
                Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
          begin
-            Put_Line ("   => " & Type_Decl.Text);
+            Put_Line ("type => " & Type_Decl.Text);
          end;
       end if;
       return LALCO.Into;

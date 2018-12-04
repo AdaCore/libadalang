@@ -4471,6 +4471,12 @@ class NumberDecl(BasicDecl):
 
 
 class ObjectDecl(BasicDecl):
+    """
+    Base class for Ada object declarations (RM 3.3.1). Ada object declarations
+    are variables/constants declarations that can be declared in any
+    declarative scope.
+    """
+
     ids = Field(type=T.DefiningName.list)
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)

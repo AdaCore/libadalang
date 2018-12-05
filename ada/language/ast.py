@@ -2376,6 +2376,19 @@ class BaseTypeDecl(BasicDecl):
     def is_array_or_rec():
         return Entity.is_array | Entity.is_record_type
 
+    @langkit_property(return_type=T.RecordRepClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_record_representation_clause():
+        """
+        Return the record representation clause associated to this type decl,
+        if applicable (i.e. this type decl defines a record type).
+        """
+        return Entity.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(T.RecordRepClause).then(
+                lambda p: p.name.referenced_decl == Entity
+            )
+        ).cast(T.RecordRepClause.entity)
+
     is_record_type = Property(False)
     is_task_type = Property(False, doc="Whether type is a task type")
 

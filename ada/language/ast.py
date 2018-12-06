@@ -212,6 +212,12 @@ class AdaNode(ASTNode):
         """
     )
 
+    in_aspect = Property(Not(Self.parents.find(
+        lambda p: p.cast(T.AspectAssoc).then(
+            lambda a: a.id.as_bare_entity.name_symbol.any_of('Pre', 'Post')
+        )
+    ).is_null))
+
     empty_env = Property(
         Self.parents.find(lambda p: p.is_a(T.CompilationUnit))
         .cast(T.CompilationUnit).get_empty_env,
@@ -7132,16 +7138,7 @@ class BaseId(SingleTokNode):
             # If we are in an aspect, then lookup is not sequential.
             # TODO: The fact that this is here is ugly, and also the logic is
             # probably wrong.
-            from_node=If(
-                Not(Self.parents.find(
-                    lambda p: p.cast(T.AspectAssoc).then(
-                        lambda a: a.id.as_entity
-                        .name_symbol.any_of('Pre', 'Post')
-                    )
-                ).is_null),
-                No(T.AdaNode),
-                Self
-            )
+            from_node=If(Self.in_aspect, No(T.AdaNode), Self)
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent

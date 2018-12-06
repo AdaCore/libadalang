@@ -1,0 +1,27 @@
+Analyzing d.adb
+###############
+
+Resolving xrefs for node <CallStmt 4:7-4:25>
+********************************************
+
+Expr: <CallExpr 4:7-4:24>
+  references: <DefiningName 6:14-6:19>
+  type:       None
+Expr: <DottedName 4:7-4:14>
+  references: <DefiningName 6:14-6:19>
+  type:       None
+Expr: <Id "C" 4:7-4:8>
+  references: <DefiningName 3:9-3:10>
+  type:       None
+Expr: <Id "Visit" 4:9-4:14>
+  references: <DefiningName 6:14-6:19>
+  type:       None
+Expr: <Id "R" 4:16-4:17>
+  references: <DefiningName 2:40-2:41>
+  type:       <TypeDecl ["Root_Type"] 4:4-4:34>
+Expr: <Id "Self" 4:19-4:23>
+  references: <DefiningName 2:21-2:25>
+  type:       <TypeDecl ["Foo"] 4:4-4:28>
+
+
+Done.

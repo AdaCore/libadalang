@@ -1,0 +1,35 @@
+Analyzing test_pre_class.ads
+############################
+
+Resolving xrefs for node <SubpSpec 4:4-5:31>
+********************************************
+
+Expr: <Id "Boolean" 5:24-5:31>
+  references: <DefiningName 3:8-3:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Self"] 5:7-5:15>
+******************************************************
+
+Expr: <Id "T" 5:14-5:15>
+  references: <DefiningName 2:9-2:10>
+  type:       None
+
+Resolving xrefs for node <AspectAssoc 6:9-6:24>
+***********************************************
+
+Expr: <Id "Pre" 6:9-6:12>
+  references: None
+  type:       None
+Expr: <DottedName 6:16-6:24>
+  references: <DefiningName 10:13-10:16>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+Expr: <Id "Self" 6:16-6:20>
+  references: <DefiningName 5:7-5:11>
+  type:       <TypeDecl ["T"] 9:4-9:42>
+Expr: <Id "Why" 6:21-6:24>
+  references: <DefiningName 10:13-10:16>
+  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+
+
+Done.

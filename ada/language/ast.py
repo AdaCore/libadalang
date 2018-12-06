@@ -8508,7 +8508,8 @@ class ExprFunction(BaseSubpBody):
 
     xref_equation = Property(
         Entity.expr.sub_equation
-        & TypeBind(Entity.expr.type_var, Entity.subp_spec.return_type)
+        & Bind(Entity.expr.type_var, Entity.subp_spec.return_type,
+               eq_prop=BaseTypeDecl.matching_assign_type)
     )
 
     xref_entry_point = Property(True)

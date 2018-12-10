@@ -7,6 +7,9 @@ with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
+with GNAT.Traceback.Symbolic;
+
+with GNATCOLL.JSON;
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;
@@ -70,6 +73,9 @@ procedure Nameres is
       package Quiet is new Parse_Flag
         (Parser, "-q", "--quiet", "Quiet mode (no output on stdout)");
 
+      package JSON is new Parse_Flag
+        (Parser, "-J", "--json", "JSON mode (Structured output on stdout)");
+
       package Stats is new Parse_Flag
         (Parser, "-S", "--stats", "Output stats at the end of analysis");
 
@@ -115,6 +121,10 @@ procedure Nameres is
       package Debug is new Parse_Flag
         (Parser, "-D", "--debug", Help => "Debug logic equation solving");
 
+      package Sym_Traceback is new Parse_Flag
+        (Parser, Long => "--symbolic-traceback",
+         Help => "Show symbolic tracebacks for exceptions");
+
       package Files_From_Project is new Parse_Flag
         (Parser,
          Long => "--files-from-project",
@@ -147,6 +157,8 @@ procedure Nameres is
          Help        => "Files to analyze",
          Allow_Empty => True);
    end Args;
+
+   function Quiet return Boolean is (Args.Quiet.Get or else Args.JSON.Get);
 
    UFP : Unit_Provider_Reference;
    --  When project file handling is enabled, corresponding unit provider
@@ -194,7 +206,7 @@ procedure Nameres is
 
    procedure New_Line is
    begin
-      if not Args.Quiet.Get then
+      if not Quiet then
          Ada.Text_IO.New_Line;
       end if;
    end New_Line;
@@ -204,7 +216,7 @@ procedure Nameres is
    --------------
 
    procedure Put_Line (S : String) is begin
-      if not Args.Quiet.Get then
+      if not Quiet then
          Ada.Text_IO.Put_Line (S);
       end if;
    end Put_Line;
@@ -214,7 +226,7 @@ procedure Nameres is
    ---------
 
    procedure Put (S : String) is begin
-      if not Args.Quiet.Get then
+      if not Quiet then
          Ada.Text_IO.Put (S);
       end if;
    end Put;
@@ -255,6 +267,8 @@ procedure Nameres is
 
       procedure Resolve_Node (Node : Ada_Node) is
 
+         package J renames GNATCOLL.JSON;
+
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
 
          ----------------
@@ -265,7 +279,7 @@ procedure Nameres is
          begin
             if Kind (N) in Ada_Expr and then Kind (N) not in Ada_Defining_Name
             then
-               if not Args.Quiet.Get then
+               if not Quiet then
                   Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name then
                      Put_Line
@@ -285,12 +299,23 @@ procedure Nameres is
 
          Dummy : Visit_Status;
 
+         Obj : J.JSON_Value;
+
       begin
-         if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
+         if Args.JSON.Get then
+            Obj := J.Create_Object;
+         end if;
+
+         if not (Quiet or else Args.Only_Show_Failures.Get) then
             Put_Title ('*', "Resolving xrefs for node " & Node.Short_Image);
          end if;
          if Langkit_Support.Adalog.Debug.Debug then
             Assign_Names_To_Logic_Vars (Node);
+         end if;
+
+         if Args.JSON.Get then
+            Obj.Set_Field ("file", Filename);
+            Obj.Set_Field ("sloc", Image (Node.Sloc_Range));
          end if;
 
          if P_Resolve_Names (Node) or else Args.Imprecise_Fallback.Get then
@@ -299,21 +324,58 @@ procedure Nameres is
             end if;
 
             Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
+
+            if Args.JSON.Get then
+               Obj.Set_Field ("success", True);
+            end if;
          else
             Put_Line ("Resolution failed for node " & Node.Short_Image);
             Nb_File_Fails := Nb_File_Fails + 1;
+
+            if Args.JSON.Get then
+               Obj.Set_Field ("success", False);
+            end if;
          end if;
-         if not (Args.Quiet.Get or else Args.Only_Show_Failures.Get) then
+
+         if not (Quiet or else Args.Only_Show_Failures.Get) then
             Put_Line ("");
+         end if;
+
+         if Args.JSON.Get then
+            Ada.Text_IO.Put_Line (Obj.Write);
          end if;
       exception
          when E : others =>
             Put_Line
-              ("Resolution failed w. exception for node " & Node.Short_Image);
+              ("Resolution failed w. exception for node "
+               & Node.Short_Image);
+            if Args.Sym_Traceback.Get then
+               Put_Line (Ada.Exceptions.Exception_Message (E));
+               Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+            else
+               Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+               Put_Line ("");
+            end if;
+
+            if Args.JSON.Get then
+               Obj.Set_Field
+                 ("exception_message", Ada.Exceptions.Exception_Message (E));
+
+               if Args.Sym_Traceback.Get then
+                  Obj.Set_Field
+                    ("exception_traceback",
+                     GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+               else
+                  Obj.Set_Field
+                    ("exception_traceback",
+                     Ada.Exceptions.Exception_Information (E));
+               end if;
+
+               Ada.Text_IO.Put_Line (Obj.Write);
+            end if;
+
             Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
             Nb_File_Fails := Nb_File_Fails + 1;
-            Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-            Put_Line ("");
       end Resolve_Node;
 
    begin
@@ -419,7 +481,7 @@ procedure Nameres is
 
                   T : constant Text_Type := Text (Arg);
                begin
-                  if not Args.Quiet.Get then
+                  if not Quiet then
                      Put_Title ('-', Image (T (T'First + 1 .. T'Last - 1)));
                   end if;
                end;
@@ -606,7 +668,7 @@ procedure Nameres is
          begin
             Unit := Get_From_File (Ctx, File);
 
-            if not Args.Quiet.Get then
+            if not Quiet then
                Put_Title ('#', "Analyzing " & Basename);
             end if;
             Process_File (Unit, File);

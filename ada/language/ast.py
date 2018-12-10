@@ -3139,11 +3139,18 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(return_type=LexicalEnv)
     def own_primitives_env():
+        """
+        Return the environment containing the primitives for Self.
+        """
         own_rebindings = Var(Entity.info.rebindings)
         return Entity.primitives.rebind_env(own_rebindings)
 
     @langkit_property(return_type=LexicalEnv.array)
     def own_primitives_envs():
+        """
+        Return the environments containing the primitives for Self and its
+        previous parts, if there are some.
+        """
         # If self has a previous part, it might have primitives too
         return Entity.previous_part(False).cast(T.TypeDecl).then(
             lambda pp: Array([
@@ -3154,6 +3161,10 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(return_type=LexicalEnv.array)
     def primitives_envs(include_self=(Bool, False)):
+        """
+        Return the environments containing the primitives for Self and all its
+        base types.
+        """
         return Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
             lambda std=T.SubtypeDecl: bind_origin(

@@ -3173,8 +3173,7 @@ class TypeDecl(BaseTypeDecl):
             lambda _: No(T.TypeDecl.entity),
         ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
         ).concat(
-            If(include_self,
-               Entity.own_primitives_envs, No(LexicalEnv.array))
+            If(include_self, Entity.own_primitives_envs, No(LexicalEnv.array))
         )
 
     @langkit_property(memoized=True)

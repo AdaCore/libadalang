@@ -3137,12 +3137,19 @@ class TypeDecl(BaseTypeDecl):
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
+    @langkit_property(return_type=LexicalEnv)
+    def own_primitives_env():
+        own_rebindings = Var(Entity.info.rebindings)
+        return Entity.primitives.rebind_env(own_rebindings)
+
     @langkit_property(return_type=LexicalEnv.array)
     def own_primitives_envs():
         # If self has a previous part, it might have primitives too
         return Entity.previous_part(False).cast(T.TypeDecl).then(
-            lambda pp: Array([Self.primitives, pp.primitives]),
-            default_val=Self.primitives.singleton
+            lambda pp: Array([
+                Entity.own_primitives_env, pp.own_primitives_env
+            ]),
+            default_val=Entity.own_primitives_env.singleton
         )
 
     @langkit_property(return_type=LexicalEnv.array)

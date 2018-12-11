@@ -304,6 +304,7 @@ procedure Nameres is
       begin
          if Args.JSON.Get then
             Obj := J.Create_Object;
+            Obj.Set_Field ("kind", "node_resolution");
          end if;
 
          if not (Quiet or else Args.Only_Show_Failures.Get) then
@@ -358,6 +359,7 @@ procedure Nameres is
             end if;
 
             if Args.JSON.Get then
+               Obj.Set_Field ("success", False);
                Obj.Set_Field
                  ("exception_message", Ada.Exceptions.Exception_Message (E));
 

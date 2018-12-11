@@ -24,6 +24,23 @@ function do_install()
 {
     cd $BUILD_FOLDER
 
+    # Get Langkit, in particular the branch that corresponds to the Libadalang
+    # commit being tested.
+    if ! [ -d langkit ]
+    then
+        git clone https://github.com/AdaCore/langkit
+    fi
+    (
+        cd langkit
+        TRAVIS_PULL_REQUEST_SLUG=$APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME
+        TRAVIS_PULL_REQUEST_BRANCH=$APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH
+        TRAVIS_REPO_SLUG=$APPVEYOR_REPO_NAME
+        TRAVIS_BRANCH=$APPVEYOR_REPO_BRANCH
+        export TRAVIS_PULL_REQUEST_SLUG TRAVIS_PULL_REQUEST_BRANCH \
+            TRAVIS_REPO_SLUG TRAVIS_BRANCH
+        python $APPVEYOR_BUILD_FOLDER\\utils\\travis-langkit-branch.py
+    )
+
     # Install libiconv and gmp
     pacman -S --noconfirm mingw-w64-x86_64-libiconv mingw-w64-x86_64-gmp
 
@@ -40,9 +57,6 @@ function do_install()
           --prefix="$ADALIB_DIR"
       python gnatcoll-bindings/$component/setup.py install
     done
-
-    # Get Langkit
-    git clone -q -b stable https://github.com/AdaCore/langkit
 
     # Finally install all Python dependencies for Langkit
     python -m pip install -r langkit/REQUIREMENTS.dev

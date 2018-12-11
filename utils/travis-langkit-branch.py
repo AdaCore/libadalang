@@ -6,8 +6,15 @@ import os
 import subprocess
 
 
+# Slug for the pull request to test (for instance:
+# some-contributor/libadalang), or an empty string if we test a push build.
 pull_request_slug = os.environ.get('TRAVIS_PULL_REQUEST_SLUG')
+
+# Name of the branch that contains the commits to test, or an empty string if
+# we test a push build.
 pull_request_branch = os.environ.get('TRAVIS_PULL_REQUEST_BRANCH')
+
+# Slug for the repository currently being built and the branch name
 repo_slug = os.environ.get('TRAVIS_REPO_SLUG')
 repo_branch = os.environ.get('TRAVIS_BRANCH')
 

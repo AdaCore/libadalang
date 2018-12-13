@@ -5287,6 +5287,14 @@ class Expr(AdaNode):
             lambda _: No(DiscreteRange)
         )
 
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[env, origin])
+    def designated_env_no_overloading():
+        """
+        Returns the lexical environment designated by this name, assuming
+        that this name cannot be overloaded.
+        """
+        return Entity.designated_env
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LexicalEnv, dynamic_vars=[env, origin])
     def designated_env():
@@ -6950,6 +6958,18 @@ class BaseId(SingleTokNode):
 
     designated_env = Property(Entity.designated_env_impl)
 
+    @langkit_property()
+    def designated_env_no_overloading():
+        return Var(env.get_first(
+            Self,
+            lookup=If(Self.is_prefix, LK.recursive, LK.flat),
+            categories=noprims
+        )).cast(T.BasicDecl).then(
+            lambda bd: bind_origin(Self, If(
+                bd._.is_package, Entity.pkg_env(bd), bd.defining_env
+            ))
+        )
+
     @langkit_property(dynamic_vars=[env])
     def designated_env_impl():
         """
@@ -6975,23 +6995,14 @@ class BaseId(SingleTokNode):
 
         return bind_origin(Self, If(
             pkg._.is_package,
-            Entity.pkg_env(
-                # If pkg is a generic package (non instantiated) and it is
-                # rebound somewhere in the context of Self's rebindings, then
-                # we want to put back those rebindings on it, because it means
-                # we are inside a generic instantiation, so refering to the
-                # generic package actually means referring to the
-                # instantiation.
-                pkg.unshed_rebindings(Entity.info.rebindings),
-                pkg.is_a(T.GenericPackageInstantiation) & pkg.info.from_rebound
-            ),
+            Entity.pkg_env(pkg),
             env_els.map(
                 lambda e: e.cast(BasicDecl).defining_env
             ).env_group()
         ))
 
     @langkit_property(dynamic_vars=[env, origin])
-    def pkg_env(bd=T.BasicDecl.entity, is_inst_from_formal=T.Bool):
+    def pkg_env(pkg=T.BasicDecl.entity):
         """
         Return the lexical environment for this identifier, should it be a
         package. This method handles resolving to the most visible part of a
@@ -7001,6 +7012,18 @@ class BaseId(SingleTokNode):
         instantiation coming from a rebound formal package, and that we need
         visibility on the formals.
         """
+
+        bd = Var(
+            # If pkg is a generic package (non instantiated) and it is
+            # rebound somewhere in the context of Self's rebindings, then
+            # we want to put back those rebindings on it, because it means
+            # we are inside a generic instantiation, so refering to the
+            # generic package actually means referring to the
+            # instantiation.
+            pkg.unshed_rebindings(Entity.info.rebindings)
+        )
+        is_inst_from_formal = Var(pkg.is_a(T.GenericPackageInstantiation) &
+                                  pkg.info.from_rebound)
 
         env = Var(If(
             bd.is_a(T.GenericPackageInstantiation) & is_inst_from_formal,
@@ -8305,6 +8328,12 @@ class DottedName(Name):
         ))
 
     @langkit_property()
+    def designated_env_no_overloading():
+        pfx_env = Var(Entity.prefix.designated_env)
+        return env.bind(pfx_env,
+                        Entity.suffix.designated_env_no_overloading)
+
+    @langkit_property()
     def designated_env():
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(pfx_env,
@@ -8333,7 +8362,7 @@ class DottedName(Name):
 
     @langkit_property()
     def designated_type_impl():
-        return env.bind(Entity.prefix.designated_env,
+        return env.bind(Entity.prefix.designated_env_no_overloading,
                         Entity.suffix.designated_type_impl)
 
     @langkit_property()

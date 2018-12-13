@@ -1,0 +1,5 @@
+== test.adb ==
+<TypeDecl ["T"] 2:4-2:29> is a static decl
+<TypeDecl ["NT"] 3:4-3:34> is a static decl
+
+Done

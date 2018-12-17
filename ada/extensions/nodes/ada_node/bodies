@@ -74,10 +74,17 @@ function P_Filter_Is_Imported_By
         (Symbols : in Libadalang.Env_Hooks.Symbol_Type_Array)
          return Boolean is
 
-         Unit : constant Internal_Unit := Libadalang.Env_Hooks.Fetch_Unit
+         Unit : Internal_Unit := Libadalang.Env_Hooks.Fetch_Unit
            (Node.Unit.Context, Symbols, Node.Unit,
             Unit_Specification, True, False);
       begin
+         if Unit.AST_Root = null then
+            --  The unit specification does not exist and the with clause
+            --  actually imports the body.
+            Unit := Libadalang.Env_Hooks.Fetch_Unit
+              (Node.Unit.Context, Symbols, Node.Unit,
+               Unit_Body, True, False);
+         end if;
          return (Unit = Target
                  or else (Transitive and then Does_Import_Target (Unit)));
       end Handle_Unit_Name;

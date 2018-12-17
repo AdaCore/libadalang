@@ -1,0 +1,5 @@
+All references to Hello from hello.adb:
+    with Hello; (main.adb, 2:1-2:12)
+    Hello; (main.adb, 6:4-6:10)
+    Hello (hello.adb, 5:5-5:10)
+Done

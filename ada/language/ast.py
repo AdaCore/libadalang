@@ -143,6 +143,30 @@ def env_mappings(defining_names, entity):
     )
 
 
+def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
+            categories=None):
+    """
+    Wrapper for env.get. Refines from_node so that it starts from the closest
+    BasicSubpDecl / GenericInstantiation.
+    (see AdaNode.env_get_actual_from_node).
+    """
+    return env.get(
+        symbol, lookup, Self.env_get_actual_from_node(from_node), categories
+    )
+
+
+def env_get_first(env, symbol, lookup=None, from_node=No(T.AdaNode),
+                  categories=None):
+    """
+    Wrapper for env.get_first. Refines from_node so that it starts from the
+    closest BasicSubpDecl / GenericInstantiation.
+    (see AdaNode.env_get_actual_from_node).
+    """
+    return env.get_first(
+        symbol, lookup, Self.env_get_actual_from_node(from_node), categories
+    )
+
+
 def new_metadata(**kwargs):
     """
     Constructor for Metadata. Waiting on default values for structs.
@@ -919,6 +943,22 @@ class AdaNode(ASTNode):
                 ))
             ))
         )
+
+    @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
+    def env_get_actual_from_node(from_node=T.AdaNode):
+        """
+        Static property. Finds the closest BasicSubpDecl /
+        GenericInstantiation. Is used by env_get and env_get_first wrappers to
+        refine from_node. The reason is that inside a declaration named D,
+        one can refer to previous declarations named D. But an env lookup
+        from a node inside D would return that D itself, not previous
+        declarations.
+        """
+        return If(from_node.is_null, from_node, Let(
+            lambda c=from_node.parents.find(
+                lambda n: n.is_a(T.BasicSubpDecl, T.GenericInstantiation)
+            ): If(c.is_null, from_node, c)
+        ))
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -2838,9 +2878,9 @@ class BaseTypeDecl(BasicDecl):
         return Self.name.then(
             lambda type_name:
 
-            Entity.children_env.get(
-                type_name.name_symbol, from_node=Self, categories=noprims
-            ).then(lambda previous_parts: previous_parts.find(lambda pp: Or(
+            env_get(Entity.children_env, type_name.name_symbol,
+                    from_node=Self, categories=noprims)
+            .then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,
                     pp.cast(T.BaseTypeDecl)._.is_private),
                 And(go_to_incomplete,
@@ -6115,7 +6155,8 @@ class Name(Expr):
             lambda i=T.BaseId: If(
                 all_els and Self.is_suffix,
                 i.ref_var.domain(
-                    env.get(
+                    env_get(
+                        env,
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
                         lookup=If(Self.is_prefix, LK.recursive, LK.flat),
@@ -6123,7 +6164,8 @@ class Name(Expr):
                 ),
                 Bind(
                     i.ref_var,
-                    env.get_first(
+                    env_get_first(
+                        env,
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
                         lookup=If(Self.is_prefix, LK.recursive, LK.flat),
@@ -6817,7 +6859,8 @@ class SingleTokNode(Name):
         Like env.get_first, but returning the first visible element in the Ada
         sense.
         """
-        return lex_env.get(
+        return env_get(
+            lex_env,
             Self,
             lookup=lookup_type,
             from_node=from_node,
@@ -6960,10 +7003,12 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def designated_env_no_overloading():
-        return Var(env.get_first(
+        return Var(env_get_first(
+            env,
             Self,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-            categories=noprims
+            categories=noprims,
+            from_node=If(Self.in_aspect, No(T.AdaNode), Self)
         )).cast(T.BasicDecl).then(
             lambda bd: bind_origin(Self, If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
@@ -7111,8 +7156,8 @@ class BaseId(SingleTokNode):
         ))
 
         # We might have a more complete view of the type at the origin point
-        completer_view = Var(origin.then(lambda o: o.children_env.get_first(
-            Self, from_node=origin, categories=noprims
+        completer_view = Var(origin.then(lambda o: env_get_first(
+            o.children_env, Self, from_node=origin, categories=noprims
         )).cast(T.BaseTypeDecl))
 
         # If completer_view is a more complete view of the type we're looking
@@ -7159,7 +7204,8 @@ class BaseId(SingleTokNode):
     @langkit_property()
     def all_env_els_impl(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
-        return env.get(
+        return env_get(
+            env,
             Self,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(seq, If(Not(seq_from.is_null), seq_from, Self),
@@ -7172,7 +7218,8 @@ class BaseId(SingleTokNode):
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
         """
-        items = Var(env.get(
+        items = Var(env_get(
+            env,
             Self,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
             # If we are in an aspect, then lookup is not sequential.

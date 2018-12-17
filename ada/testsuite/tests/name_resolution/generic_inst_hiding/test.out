@@ -8,7 +8,7 @@ Expr: <DottedName 12:21-12:24>
   references: <DefiningName 4:15-4:16>
   type:       None
 Expr: <Id "A" 12:21-12:22>
-  references: <DefiningName 12:12-12:13>
+  references: <DefiningName 2:12-2:13>
   type:       None
 Expr: <Id "B" 12:23-12:24>
   references: <DefiningName 4:15-4:16>

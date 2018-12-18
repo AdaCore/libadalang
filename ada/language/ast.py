@@ -148,10 +148,10 @@ def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
     """
     Wrapper for env.get. Refines from_node so that it starts from the closest
     BasicSubpDecl / GenericInstantiation.
-    (see AdaNode.env_get_actual_from_node).
+    (see AdaNode.env_get_real_from_node).
     """
     return env.get(
-        symbol, lookup, Self.env_get_actual_from_node(from_node), categories
+        symbol, lookup, Self.env_get_real_from_node(from_node), categories
     )
 
 
@@ -160,10 +160,10 @@ def env_get_first(env, symbol, lookup=None, from_node=No(T.AdaNode),
     """
     Wrapper for env.get_first. Refines from_node so that it starts from the
     closest BasicSubpDecl / GenericInstantiation.
-    (see AdaNode.env_get_actual_from_node).
+    (see AdaNode.env_get_real_from_node).
     """
     return env.get_first(
-        symbol, lookup, Self.env_get_actual_from_node(from_node), categories
+        symbol, lookup, Self.env_get_real_from_node(from_node), categories
     )
 
 
@@ -945,7 +945,7 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
-    def env_get_actual_from_node(from_node=T.AdaNode):
+    def env_get_real_from_node(from_node=T.AdaNode):
         """
         Static property. Finds the closest BasicSubpDecl /
         GenericInstantiation. Is used by env_get and env_get_first wrappers to

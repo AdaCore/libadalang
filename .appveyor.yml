@@ -12,7 +12,7 @@ deploy:
   - provider: BinTray
     username: reznikmm
     api_key:
-      secure: jByoFaHihxEov9zwrhttPjUEkN3lzUGs1Yxl1xSBrmzCWtm5Tq7dis34jWX0fdIJ
+      secure: xnimwcmOoBR7/hkDg0Bw3uyS5rEebvzJFRQTZ3mqdWEUXNM5CGdeg21K3dGjyZhx
     subject: reznikmm
     repo: libadalang
     package: libadalang

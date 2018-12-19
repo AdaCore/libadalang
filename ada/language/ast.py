@@ -1683,29 +1683,31 @@ class Body(BasicDecl):
         rather than the parent body's scope.
         """
 
-        # Subunits always appear at the top-level in package bodies. So if
-        # this is a subunit, the scope is the same as the scope of the
-        # corresponding "is separate" decl, hence: the defining env of this
-        # top-level package body.
-        scope = Var(Self.subunit_root.then(
-            lambda su: su.children_env,
+        scope = Var(Cond(
+            # Subunits always appear at the top-level in package bodies. So if
+            # this is a subunit, the scope is the same as the scope of the
+            # corresponding "is separate" decl, hence: the defining env of this
+            # top-level package body.
+            Not(Self.subunit_root.is_null), Self.subunit_root.children_env,
 
             # In case this is a library level subprogram that has no spec
-            # (which is legal), we'll register this body in the parent scope.
-            default_val=Cond(
-                Self.is_subprogram & Self.is_unit_root,
-                Let(lambda dns=Entity.defining_name.scope:
-                    # If the scope is self's scope, return parent scope, or
-                    # else we'll have an infinite recursion.
-                    If(dns.is_null | (dns.env_node == Self),
-                       Entity.defining_name.parent_scope,
-                       dns)),
+            # (which is legal), we'll register this body in the parent
+            # scope.
+            Self.is_subprogram & Self.is_unit_root,
+            Let(lambda dns=Entity.defining_name.scope:
+                # If the scope is self's scope, return parent scope, or
+                # else we'll have an infinite recursion.
+                If(dns.is_null | (dns.env_node == Self),
+                   Entity.defining_name.parent_scope,
+                   dns)),
 
-                Self.is_unit_root | force_decl, Entity.defining_name.scope,
+            # If this is a library level unit, or force_decl is True, return
+            # the enclosing decl.
+            Self.is_unit_root | force_decl, Entity.defining_name.scope,
 
-                Self.parent.children_env,
-
-            )
+            # The rest of cases are nested declarations: In that case we want
+            # to take the parent's env.
+            Self.parent.children_env,
         ))
 
         # If this the corresponding decl is a generic, go grab the internal

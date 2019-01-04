@@ -4171,11 +4171,17 @@ class BasicSubpDecl(BasicDecl):
 
     @langkit_property()
     def get_body_in_env(env=T.LexicalEnv):
-        return env.get(Entity.name_symbol, LK.flat, categories=noprims).find(
-            lambda ent:
-            ent.cast(T.BaseSubpBody)._.subp_spec
-            .match_signature(Entity.subp_decl_spec, True)
-        ).cast(T.BaseSubpBody)
+        return (
+            env.get(Entity.name_symbol, LK.flat, categories=noprims).find(
+                lambda ent:
+                # Discard the rebindings of Entity before trying to match
+                # against the tentative body, as those do not carry that info.
+                ent.node.as_bare_entity.cast(T.BaseSubpBody)._.subp_spec
+                .match_signature(Entity.subp_decl_spec.node.as_bare_entity,
+                                 True)
+            )  # If found, reuse the rebindings of the decl on the body.
+            .cast(T.BaseSubpBody).node.as_entity
+        )
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def next_part_for_decl():

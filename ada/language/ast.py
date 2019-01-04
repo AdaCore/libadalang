@@ -1134,7 +1134,8 @@ class BasicDecl(AdaNode):
             No(T.Pragma.list.entity)
         )
 
-    @langkit_property(return_type=T.AdaNode.entity, public=True)
+    @langkit_property(return_type=T.AdaNode.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def get_attribute(name=Symbol):
         """
         Return the attribute with name ``name`` associated to this entity.
@@ -1146,10 +1147,10 @@ class BasicDecl(AdaNode):
         This will return the syntactic node corresponding to attribute
         directly.
         """
-        # TODO: For the moment, only pragmas and aspects are handled
         return (
             Entity.get_pragma(name).cast(T.AdaNode)
             ._or(Entity.get_aspect(name))
+            ._or(Entity.get_representation_clause(name))
         )
 
     @langkit_property(return_type=T.Pragma.entity, public=True)

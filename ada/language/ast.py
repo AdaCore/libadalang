@@ -1185,6 +1185,21 @@ class BasicDecl(AdaNode):
             .cast(T.Pragma)
         )
 
+    @langkit_property(return_type=T.AttributeDefClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_representation_clause(name=Symbol):
+        """
+        Return the representation clause associated to this type decl that
+        defines the given attribute name.
+        """
+        return Entity.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(T.AttributeDefClause).then(lambda p:
+                Let(lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
+                    And(attr.attribute.name_is(name),
+                        attr.prefix.referenced_decl == Entity))
+            )
+        ).cast(T.AttributeDefClause.entity)
+
     @langkit_property(public=True)
     def is_unit_root():
         """

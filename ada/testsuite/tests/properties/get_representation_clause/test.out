@@ -1,0 +1,6 @@
+<SubtypeDecl ["U16"] 2:4-2:49> get_representation_clause('size') -> None
+<SubtypeDecl ["U16"] 2:4-2:49> get_representation_clause('alignment') -> None
+<TypeDecl ["Arr"] 3:4-3:39> get_representation_clause('size') -> <AttributeDefClause 4:4-4:29>
+<TypeDecl ["Arr"] 3:4-3:39> get_representation_clause('alignment') -> <AttributeDefClause 5:4-5:53>
+
+Done

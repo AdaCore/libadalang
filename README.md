@@ -74,77 +74,12 @@ Quick guide to use Libadalang
 -----------------------------
 
 In order to use Libadalang, one has first to generate its code and to build it.
-You can read and run manually the steps in the "Setup" section below, or you
-can use [our script](install-lal-and-deps.sh) to semi-automate this (please
-read and update this script to adapt it to your setup before running it). After
-this, you can either use Libadalang in Ada with the `libadalang.gpr` project
-file, or in Python just import the `libadalang` module.
-
-Setup
------
-
-To generate and build the library itself, you'll need to go through the
-following steps:
-
-* Install the GNAT tools and compiler. You can find Community Editions on
-  <https://www.adacore.com/download>
-* Build and install the GNATcoll library (core, plus Iconv and GMP bindings).
-  You can find its source release on <https://www.adacore.com/download> or
-  directly on GitHub: <https://github.com/AdaCore/gnatcoll-core> and
-  <https://github.com/AdaCore/gnatcoll-bindings> (just make sure you checkout
-  the `gpl-20**` branch corresponding to your GNAT Community release).
-* Install Quex version 0.65.4 -
-  <https://sourceforge.net/projects/quex/files/HISTORY/0.65/quex-0.65.4.tar.gz/download>
-  Follow the installation guide in the Quex `README`
-* Install every Python dependency. We recommend creating a virtualenv and
-  installing them inside of it, this way:
-
-        $ virtualenv env
-        $ source env/bin/activate
-        $ pip install -r REQUIREMENTS.dev
-
-To develop comfortably:
-
-* If you want interactive debugging when code is generated, install IPython
-* If you want to compute code coverage for the code generator, install
-  coverage.py (see `REQUIREMENTS.dev`)
-* If you want to check memory issues, the testsuite has an option to track them
-  using Valgrind.
-
-
-Building
---------
-
-First, let's generate code for Libadalang itself. In the top-level directory,
-run:
-
-    $ python ada/manage.py generate
-
-You can also pass a `-c` flag in order to get a code coverage report in the
-"coverage" directory.
-
-Then, let's build it:
-
-    $ python ada/manage.py build
-
-If you satisfied all the above dependencies and if you did set `QUEX_PATH` and
-the quex executable as said in quex's `README`, it should build fine.
-
-Also, while developing Libadalang you might be happy to use the
-
-    $ python ada/manage.py make
-
-command, that will wrap the two previous commands in one, generating the code
-and building it in one step
-
-
-Install
--------
-
-Once you built Libadalang, you can install the library in any place you want:
-
-    $ python ada/manage.py install $INSTALL_DIR
-
+You can read and run manually the steps in the [User
+Manual](user_manual/building.rst), or you can use [our
+script](install-lal-and-deps.sh) to semi-automate this (please read and update
+this script to adapt it to your setup before running it). After this, you can
+either use Libadalang in Ada with the `libadalang.gpr` project file, or in
+Python just import the `libadalang` module.
 
 Testing
 -------
@@ -191,8 +126,9 @@ $ $BROWSER user_manual/_build/html/index.html
 $ $BROWSER dev_manual/_build/html/index.html
 ```
 
-Note that, as it relies on Python code introspection, you need a working
-Libadalang Python API in order to generate the User Manual.
+Note that, as the User Manual relies on Ada and Python code introspection, you
+need a working Libadalang Python API in order to build it. See [the
+corresponding procedure](user_manual/building.rst) for more details.
 
 Playing
 -------

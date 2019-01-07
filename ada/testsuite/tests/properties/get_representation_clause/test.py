@@ -19,8 +19,8 @@ for f in sys.argv[1:]:
 
     tdecls = u.root.findall(lal.BaseTypeDecl)
 
-    print_attributes(tdecls[0])  # should print none as tdecls[0] is U16.
-    print_attributes(tdecls[1])  # should print both repr clauses of Arr.
+    print_attributes(tdecls[0])  # should print none as tdecls[0] is U16
+    print_attributes(tdecls[1])  # should print both repr clauses of Arr
 
     print('')
     print('Done')

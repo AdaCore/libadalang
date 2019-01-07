@@ -1194,10 +1194,12 @@ class BasicDecl(AdaNode):
         defines the given attribute name.
         """
         return Entity.declarative_scope._.decls.as_entity.find(
-            lambda d: d.cast(T.AttributeDefClause).then(lambda p:
-                Let(lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
-                    And(attr.attribute.name_is(name),
-                        attr.prefix.referenced_decl == Entity))
+            lambda d: d.cast(T.AttributeDefClause).then(
+                lambda p: Let(
+                    lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
+                        And(attr.attribute.name_is(name),
+                            attr.prefix.referenced_decl == Entity)
+                )
             )
         ).cast(T.AttributeDefClause.entity)
 
@@ -4179,7 +4181,7 @@ class BasicSubpDecl(BasicDecl):
                 ent.node.as_bare_entity.cast(T.BaseSubpBody)._.subp_spec
                 .match_signature(Entity.subp_decl_spec.node.as_bare_entity,
                                  True)
-            )  # If found, reuse the rebindings of the decl on the body.
+            )  # If found, reuse the rebindings of the decl on the body
             .cast(T.BaseSubpBody).node.as_entity
         )
 

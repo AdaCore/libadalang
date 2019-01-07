@@ -1,0 +1,21 @@
+Analyzing root-pkg.adb
+######################
+
+Resolving xrefs for node <AssignStmt 8:10-8:23>
+***********************************************
+
+Expr: <DottedName 8:10-8:16>
+  references: <DefiningName 12:7-12:8>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "Inst" 8:10-8:14>
+  references: <DefiningName 6:10-6:14>
+  type:       <TypeDecl ["X"] 11:4-13:15>
+Expr: <Id "Y" 8:15-8:16>
+  references: <DefiningName 12:7-12:8>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Int 8:20-8:22>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+
+Done.

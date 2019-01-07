@@ -4715,6 +4715,21 @@ class DeclarativePart(AdaNode):
             Not(d.cast(T.BaseTypeDecl)._.get_aspect_expr('Model_Of').is_null)
         )
 
+    @langkit_property()
+    def use_clauses_envs():
+        """
+        Returns the envs for all the use clauses declared in this declarative
+        part.
+        """
+        return Entity.decls.children.filtermap(
+            lambda u: u.cast(T.UseClause).match(
+                lambda upc=T.UsePackageClause: upc.designated_envs.env_group(),
+                lambda utc=T.UseTypeClause:
+                utc.types.map(lambda n: n.name_designated_type_env).env_group()
+            ),
+            lambda c: c.is_a(T.UseClause)
+        ).env_group()
+
 
 class PrivatePart(DeclarativePart):
     env_spec = EnvSpec(
@@ -9064,6 +9079,7 @@ class PackageBody(Body):
         transitive_parent=True,
 
         more_rules=[
+
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl_env,
                       cond=Self.is_subunit,
@@ -9072,10 +9088,18 @@ class PackageBody(Body):
             # If self is not a library level package body (and hence is a
             # nested package), we need to explicitly reference its package
             # decl, because it is not in the chain of parents.
+            # The reference is non transitive because if it was it would cause
+            # some visibility order issues.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
                       cond=Not(Self.is_unit_root | Self.is_subunit),
-                      kind=RefKind.prioritary)
+                      kind=RefKind.prioritary),
+
+            # Since the reference to the package decl is non transitive, we
+            # still want to reference the envs that are "used" there.
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.PackageBody.package_decl_uses_clauses_envs,
+                      cond=Not(Self.is_unit_root | Self.is_subunit))
         ]
     )
 
@@ -9089,6 +9113,17 @@ class PackageBody(Body):
     defining_env = Property(Entity.children_env)
 
     declarative_region = Property(Entity.decls)
+
+    @langkit_property()
+    def package_decl_uses_clauses_envs():
+        """
+        Return the environments for the use clauses of the package decl of this
+        body. Used because they need to be explicitly referenced.
+        """
+        pd = Var(Entity.decl_part.cast_or_raise(T.BasePackageDecl))
+
+        return Array([pd.public_part.use_clauses_envs,
+                      pd.private_part._.use_clauses_envs]).env_group()
 
     @langkit_property()
     def subunit_pkg_stub_env():

@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [repro.adb]
+with_default_project: False

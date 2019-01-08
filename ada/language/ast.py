@@ -8067,7 +8067,7 @@ class AttributeRef(Name):
             rel_name == 'Result', Entity.result_attr_equation,
             rel_name == 'Old',    Entity.old_attr_equation,
 
-            rel_name == 'Class',    Entity.prefix.sub_equation,
+            rel_name == 'Class',  Entity.prefix.sub_equation,
 
             rel_name == 'Valid',
             Entity.prefix.sub_equation

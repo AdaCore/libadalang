@@ -1055,8 +1055,13 @@ class BasicDecl(AdaNode):
             Entity,
 
             rebindings.rebindings_old_env.env_node == Self,
+
             If(
-                rebindings.rebindings_parent == Entity.info.rebindings,
+                Or(
+                    Entity.info.rebindings == No(T.EnvRebindings),
+                    rebindings.rebindings_parent == Entity.info.rebindings,
+                ),
+
                 BasicDecl.entity.new(
                     node=Self,
                     info=T.entity_info.new(

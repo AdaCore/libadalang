@@ -1325,6 +1325,7 @@ class BasicDecl(AdaNode):
     type_expression = Property(
         No(T.TypeExpr).as_entity,
         type=T.TypeExpr.entity,
+        public=True,
         doc="""
         Return the type expression for this BasicDecl if applicable, a null
         otherwise.

@@ -99,7 +99,7 @@ Expr: <Id "Insert" 19:22-19:28>
   references: None
   type:       None
 Expr: <EndName 21:19-21:25>
-  references: None
+  references: <DefiningName 5:12-5:18>
   type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 19:30-19:48>
@@ -128,7 +128,12 @@ Expr: <Id "An_Item" 20:32-20:39>
 Resolving xrefs for node <EndName 21:19-21:25>
 **********************************************
 
-Resolution failed for node <EndName 21:19-21:25>
+Expr: <EndName 21:19-21:25>
+  references: <DefiningName 5:12-5:18>
+  type:       None
+Expr: <Id "Insert" 21:19-21:25>
+  references: <DefiningName 5:12-5:18>
+  type:       None
 
 Resolving xrefs for node <AssignStmt 22:15-22:43>
 *************************************************
@@ -172,7 +177,7 @@ Expr: <Id "Remove" 26:22-26:28>
   references: None
   type:       None
 Expr: <EndName 28:19-28:25>
-  references: None
+  references: <DefiningName 6:12-6:18>
   type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] 26:30-26:48>
@@ -201,7 +206,12 @@ Expr: <Id "Head" 27:34-27:38>
 Resolving xrefs for node <EndName 28:19-28:25>
 **********************************************
 
-Resolution failed for node <EndName 28:19-28:25>
+Expr: <EndName 28:19-28:25>
+  references: <DefiningName 6:12-6:18>
+  type:       None
+Expr: <Id "Remove" 28:19-28:25>
+  references: <DefiningName 6:12-6:18>
+  type:       None
 
 Resolving xrefs for node <AssignStmt 29:15-29:43>
 *************************************************

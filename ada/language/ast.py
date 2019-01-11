@@ -9163,13 +9163,21 @@ class TaskBody(Body):
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
+        reference(Self.cast(AdaNode).singleton,
+                  T.TaskBody.task_type_decl_scope)
     )
+
+    task_type_decl_scope = Property(Entity.task_type.children_env)
 
     @langkit_property()
     def task_type():
         return Entity.parent.node_env.get(
             Entity.name_symbol, categories=noprims
-        ).find(lambda sp: sp.is_a(T.TaskTypeDecl)).cast(T.TaskTypeDecl)
+        ).find(lambda sp: sp.is_a(T.TaskTypeDecl, T.SingleTaskDecl)).match(
+            lambda t=T.TaskTypeDecl: t,
+            lambda t=T.SingleTaskDecl: t.task_type,
+            lambda _: PropertyError(T.TaskTypeDecl.entity, "Should not happen")
+        )
 
 
 class ProtectedBody(Body):

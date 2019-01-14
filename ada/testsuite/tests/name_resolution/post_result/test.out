@@ -21,7 +21,7 @@ Expr: <Id "Post" 3:12-3:16>
 Expr: <RelationOp 3:20-3:38>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <AttributeRef 3:20-3:33>
-  references: <DefiningName 2:13-2:19>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Barize" 3:20-3:26>
   references: <DefiningName 2:13-2:19>

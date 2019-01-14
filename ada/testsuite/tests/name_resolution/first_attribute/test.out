@@ -131,7 +131,7 @@ Expr: <Id "C" 16:4-16:5>
   references: <DefiningName 5:4-5:5>
   type:       <TypeDecl ["B"] 3:4-3:45>
 Expr: <AttributeRef 16:9-16:16>
-  references: <DefiningName 3:9-3:10>
+  references: None
   type:       <TypeDecl ["B"] 3:4-3:45>
 Expr: <Id "B" 16:9-16:10>
   references: <DefiningName 3:9-3:10>
@@ -147,7 +147,7 @@ Expr: <Id "Idx" 17:4-17:7>
   references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 17:11-17:18>
-  references: <DefiningName 6:4-6:5>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "D" 17:11-17:12>
   references: <DefiningName 6:4-6:5>
@@ -163,7 +163,7 @@ Expr: <Id "Idx" 19:4-19:7>
   references: <DefiningName 7:4-7:7>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 19:11-19:26>
-  references: <DefiningName 10:7-10:12>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <DottedName 19:11-19:20>
   references: <DefiningName 10:7-10:12>

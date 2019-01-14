@@ -5,7 +5,7 @@ Resolving xrefs for node <AttributeDefClause 14:3-14:26>
 ********************************************************
 
 Expr: <AttributeRef 14:7-14:15>
-  references: <DefiningName 6:8-6:11>
+  references: None
   type:       None
 Expr: <Id "Int" 14:7-14:10>
   references: <DefiningName 6:8-6:11>
@@ -21,7 +21,7 @@ Resolving xrefs for node <AttributeDefClause 17:3-17:27>
 ********************************************************
 
 Expr: <AttributeRef 17:7-17:16>
-  references: <DefiningName 6:8-6:11>
+  references: None
   type:       None
 Expr: <Id "Int" 17:7-17:10>
   references: <DefiningName 6:8-6:11>

@@ -8,7 +8,7 @@ Expr: <Id "String" 4:17-4:23>
   references: <DefiningName 104:8-104:14>
   type:       None
 Expr: <AttributeRef 4:27-4:32>
-  references: <DefiningName 2:4-2:5>
+  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "I" 4:27-4:28>
   references: <DefiningName 2:4-2:5>

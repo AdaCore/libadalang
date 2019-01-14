@@ -26,7 +26,7 @@ Expr: <Id "X" 2:11-2:12>
 Expr: <BinOp 2:15-2:24>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef 2:15-2:20>
-  references: <DefiningName 1:22-1:23>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "X" 2:15-2:16>
   references: <DefiningName 1:22-1:23>

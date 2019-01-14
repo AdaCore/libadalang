@@ -208,7 +208,7 @@ Expr: <Id "g" 32:4-32:5>
   references: <DefiningName 17:4-17:5>
   type:       <TypeDecl ["File_Type_Access"] 14:4-14:50>
 Expr: <AttributeRef 32:9-32:17>
-  references: <DefiningName 16:4-16:5>
+  references: None
   type:       <TypeDecl ["File_Type_Access"] 14:4-14:50>
 Expr: <Id "f" 32:9-32:10>
   references: <DefiningName 16:4-16:5>

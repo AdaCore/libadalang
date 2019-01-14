@@ -64,7 +64,7 @@ Resolving xrefs for node <ForLoopSpec 9:8-9:26>
 ***********************************************
 
 Expr: <AttributeRef 9:13-9:26>
-  references: <DefiningName 4:8-4:15>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Integer" 9:13-9:20>
   references: <DefiningName 4:8-4:15>
@@ -94,7 +94,7 @@ Resolving xrefs for node <ForLoopSpec 13:8-13:23>
 *************************************************
 
 Expr: <AttributeRef 13:13-13:23>
-  references: <DefiningName 5:9-5:13>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Oops" 13:13-13:17>
   references: <DefiningName 5:9-5:13>
@@ -143,7 +143,7 @@ Resolving xrefs for node <ForLoopSpec 18:8-18:22>
 *************************************************
 
 Expr: <AttributeRef 18:13-18:22>
-  references: <DefiningName 7:4-7:7>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "Arr" 18:13-18:16>
   references: <DefiningName 7:4-7:7>

@@ -18,7 +18,7 @@ Expr: <AttributeRef 8:9-8:16>
   type:       <ClasswideTypeDecl ["T"] 2:4-2:33>
 Expr: <Id "T" 8:9-8:10>
   references: <DefiningName 2:9-2:10>
-  type:       <TypeDecl ["T"] 2:4-2:33>
+  type:       None
 Expr: <Id "Class" 8:11-8:16>
   references: None
   type:       None

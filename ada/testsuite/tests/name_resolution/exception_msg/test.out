@@ -13,7 +13,7 @@ Expr: <Str ""Pouet"" 3:32-3:39>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <AttributeRef 3:42-3:60>
-  references: <DefiningName 4:8-4:15>
+  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "Integer" 3:42-3:49>
   references: <DefiningName 4:8-4:15>

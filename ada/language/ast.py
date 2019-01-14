@@ -6187,6 +6187,7 @@ class Name(Expr):
         ``sequential`` determines whether the lookup will be sequential or not.
         """
         return Entity.match(
+
             lambda dn=T.DottedName:
             dn.prefix.xref_no_overloading(sequential, all_els)
             & env.bind(
@@ -6216,9 +6217,14 @@ class Name(Expr):
 
             # xref_no_overloading can be used to resolve type references in
             # generic instantiations. In that case, we might encounter a 'Class
-            # attribute. We just want to resolve the prefix.
-            lambda at=T.AttributeRef:
-            at.prefix.xref_no_overloading(sequential, all_els),
+            # attribute.
+            lambda ar=T.AttributeRef:
+            ar.prefix.xref_no_overloading(sequential, all_els)
+            & If(ar.attribute.sym == 'Class',
+                 Bind(ar.prefix.ref_var, ar.ref_var,
+                      conv_prop=BaseTypeDecl.classwide_type),
+                 LogicTrue()),
+
 
             lambda _: LogicFalse()
         )
@@ -6342,8 +6348,9 @@ class CallExpr(Name):
         """
         return And(
             Self.params.at(0).expr.as_entity.sub_equation,
-            Entity.name.sub_equation,
-            TypeBind(Self.type_var, Self.name.type_var),
+            Entity.name.subtype_indication_equation,
+            Bind(Self.name.ref_var, Self.name.type_var),
+            TypeBind(Self.type_var, Self.name.ref_var),
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -7348,17 +7355,6 @@ class BaseId(SingleTokNode):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def base_id_xref_equation():
-        return Let(lambda dt=Entity.designated_type_impl: If(
-            Not(dt.is_null),
-
-            # Type conversion case
-            Bind(Self.ref_var, dt) & TypeBind(Self.type_var, dt),
-
-            Entity.general_xref_equation
-        ))
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def general_xref_equation():
         env_els = Var(Entity.env_elements)
 
         return (
@@ -7945,7 +7941,9 @@ class AttributeRef(Name):
     attribute = Field(type=T.Identifier)
     args = Field(type=T.AdaNode)
 
-    ref_var = Property(Self.prefix.ref_var)
+    ref_var = Property(Self.r_ref_var)
+    r_ref_var = UserField(type=LogicVar, public=False)
+
     relative_name = Property(Entity.prefix.relative_name)
 
     designated_type_impl = Property(Cond(

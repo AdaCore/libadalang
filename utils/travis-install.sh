@@ -21,8 +21,15 @@ else
 fi
 if ! [ -f $INSTALL_DIR/bin/gcc ]
 then
-    wget -O $GNAT_INSTALLER \
-        http://mirrors.cdn.adacore.com/art/5b0d7bffa3f5d709751e3e04
+    if [ $TRAVIS_OS_NAME = linux ]; then
+        GNAT_INSTALLER=$TOOLS_DIR/gnat-community-2018-20180528-x86_64-linux-bin
+        GNAT_INSTALLER_URL=http://mirrors.cdn.adacore.com/art/5b0d7bffa3f5d709751e3e04
+    else
+        GNAT_INSTALLER=$TOOLS_DIR/gnat-community-2018-20180523-x86_64-darwin-bin.dmg
+        GNAT_INSTALLER_URL=http://mirrors.cdn.adacore.com/art/5b071da0c7a447e573318b01
+    fi
+
+    wget -O $GNAT_INSTALLER $GNAT_INSTALLER_URL
     sh gnat_community_install_script/install_package.sh \
         "$GNAT_INSTALLER" "$INSTALL_DIR"
     $INSTALL_DIR/bin/gprinstall --uninstall gnatcoll

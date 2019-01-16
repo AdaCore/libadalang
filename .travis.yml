@@ -1,18 +1,18 @@
-language: python
-python:
-    "2.7"
-
 env:
   global:
     - ADALIB_DIR=$HOME/adalib
     - TOOLS_DIR=$HOME/build_tools
     - INSTALL_DIR=$HOME/install
-    - GNAT_INSTALLER=$TOOLS_DIR/gnat-community-2018-20180528-x86_64-linux-bin
     - QUEX_ZIP=$TOOLS_DIR/quex-0.65.4.zip
     - QUEX_PATH=$TOOLS_DIR/quex-0.65.4
 
-os:
-  - linux
+matrix:
+  include:
+    - os: linux
+      language: python
+      python: "2.7"
+    - os: osx
+      language: generic
 
 cache:
   directories:

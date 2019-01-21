@@ -226,16 +226,6 @@ class AdaNode(ASTNode):
         warn_on_node=True
     )
 
-    expression_type = Property(
-        No(T.BaseTypeDecl.entity),
-        type=T.BaseTypeDecl.entity,
-        public=True,
-        doc="""
-        Return the declaration corresponding to the type of this expression
-        after name resolution.
-        """
-    )
-
     in_aspect = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
             lambda a: a.id.as_bare_entity.name_symbol.any_of('Pre', 'Post')
@@ -5623,7 +5613,12 @@ class Expr(AdaNode):
 
     expression_type = Property(
         Self.logic_val(Entity, Self.type_var)
-            .value.cast_or_raise(T.BaseTypeDecl)
+            .value.cast_or_raise(T.BaseTypeDecl),
+        public=True,
+        doc="""
+        Return the declaration corresponding to the type of this expression
+        after name resolution.
+        """
     )
 
     @langkit_property(public=True, return_type=Bool,
@@ -9959,7 +9954,7 @@ class EntryIndexSpec(BasicDecl):
     defining_env = Property(Entity.expr_type.defining_env)
     expr_type = Property(Entity.subtype.match(
         lambda subt=T.SubtypeIndication: subt.designated_type,
-        lambda e: e.expression_type,
+        lambda e: e.cast_or_raise(T.Expr).expression_type,
     ))
 
     @langkit_property()

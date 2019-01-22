@@ -1,0 +1,27 @@
+Analyzing pouet.adb
+###################
+
+Resolving xrefs for node <ForLoopSpec 6:8-6:21>
+***********************************************
+
+Expr: <Id "My_Range" 6:13-6:21>
+  references: <DefiningName 2:12-2:20>
+  type:       <SubtypeDecl ["My_Range"] 2:4-2:46>
+
+Resolving xrefs for node <AssignStmt 7:7-7:18>
+**********************************************
+
+Expr: <Id "S" 7:7-7:8>
+  references: <DefiningName 4:4-4:5>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <BinOp 7:12-7:17>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "S" 7:12-7:13>
+  references: <DefiningName 4:4-4:5>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+Expr: <Id "I" 7:16-7:17>
+  references: <DefiningName 6:8-6:9>
+  type:       <TypeDecl ["Integer"] 4:3-4:54>
+
+
+Done.

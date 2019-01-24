@@ -34,15 +34,37 @@
       Scenario_Vars   : System.Address;
       Target, Runtime : chars_ptr) return ${unit_provider_type}
    is
-      PF      : constant String := Value (Project_File);
-      Project : Project_Tree_Access := new Project_Tree;
-      Env     : Project_Environment_Access;
-
+      PF            : constant String := Value (Project_File);
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
       Runtime_Value : constant String :=
         (if Runtime = Null_Ptr then "" else Value (Runtime));
+
+      --  The following locals contain dynamically allocated resources. If
+      --  project loading is successful, the result will own them, but in case
+      --  of error, they should be free'd using the Error function below.
+
+      Project : Project_Tree_Access := new Project_Tree;
+      Env     : Project_Environment_Access;
+
+      function Error return ${unit_provider_type};
+      --  Helper for error handling: free allocated resources and return null
+
+      -----------
+      -- Error --
+      -----------
+
+      function Error return ${unit_provider_type} is
+      begin
+         Free (Env);
+         Free (Project);
+         return ${unit_provider_type} (System.Null_Address);
+      end Error;
+
    begin
+      --  Initialize the environment (target, runtime, externals) before
+      --  loading the project.
+
       Initialize (Env);
       Env.Set_Target_And_Runtime (Target_Value, Runtime_Value);
       if Scenario_Vars /= System.Null_Address then
@@ -57,14 +79,22 @@
          end;
       end if;
 
+      --  Try to load the project
+
       begin
          Load (Project.all, Create (+PF), Env);
       exception
          when Invalid_Project =>
-            Free (Env);
-            Free (Project);
-            return ${unit_provider_type} (System.Null_Address);
+            return Error;
       end;
+
+      --  Reject aggregate projects
+
+      if Project.Root_Project.Is_Aggregate_Project then
+         return Error;
+      end if;
+
+      --  Project loading was successful! Embed allocated data in the result.
 
       return Create_Unit_Provider_C_Reference
         (Project_Unit_Provider'(Create_Project_Unit_Provider

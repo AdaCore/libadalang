@@ -158,3 +158,12 @@ useful providers:
 
 * one that looks for all source files that match a given file name pattern in a
   given list of directory (the "auto unit provider").
+
+Note that due to the very nature of Libadalang's operations regarding name
+resolution, it expects to have exactly one source file for each unit name/kind.
+This assumption allows the "get to the definition" operation to return exactly
+one result.  Because of this, the project unit provider does not support
+aggregate projects, as they allow several source files to be associated to one
+unit name/kind. If you need to process an aggregate project, we recommend to
+collect all non-aggregate sub-projects first, and then iterate through them to
+create one analysis context for each.

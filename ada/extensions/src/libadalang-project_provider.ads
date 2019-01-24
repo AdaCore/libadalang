@@ -43,11 +43,16 @@ package Libadalang.Project_Provider is
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
-      return Project_Unit_Provider;
+      return Project_Unit_Provider
+      with Pre => not Project.Root_Project.Is_Aggregate_Project;
    --  Create an unit provider using ``Project``. If ``Is_Project_Owner`` is
    --  true, the result owns ``Project``, thus the caller must not deallocate
    --  it itself. Otherwise, the project pointed by Project must outlive the
    --  returned unit file provider.
+   --
+   --  As unit providers must guarantee that there exists at most one source
+   --  file for each couple (unit name, unit kind), aggregate projects are not
+   --  supported.
 
    function Create_Project_Unit_Provider_Reference
      (Project          : Prj.Project_Tree_Access;

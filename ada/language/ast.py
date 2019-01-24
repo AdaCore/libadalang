@@ -4335,31 +4335,8 @@ class SubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
 
 
-class NullSubpDecl(ClassicSubpDecl):
-    aspects = Field(type=T.AspectSpec)
-
-
 class AbstractSubpDecl(ClassicSubpDecl):
     aspects = Field(type=T.AspectSpec)
-
-
-class SubpRenamingDecl(ClassicSubpDecl):
-    renames = Field(type=T.RenamingClause)
-    aspects = Field(type=T.AspectSpec)
-
-    xref_entry_point = Property(True)
-    xref_equation = Property(Or(
-        And(
-            Entity.renames.renamed_object.xref_no_overloading(all_els=True),
-            Predicate(BasicDecl.subp_decl_match_signature,
-                      Entity.renames.renamed_object.ref_var,
-                      Entity.cast(T.BasicDecl))
-        ),
-        # Operators might be built-in, so if we cannot find a reference, we'll
-        # just abandon resolution...
-        If(Entity.renames.renamed_object.is_operator_name,
-           LogicTrue(), LogicFalse())
-    ))
 
 
 class Pragma(AdaNode):
@@ -8651,6 +8628,29 @@ class ExprFunction(BaseSubpBody):
     )
 
     xref_entry_point = Property(True)
+
+
+class NullSubpDecl(BaseSubpBody):
+    aspects = Field(type=T.AspectSpec)
+
+
+class SubpRenamingDecl(BaseSubpBody):
+    renames = Field(type=T.RenamingClause)
+    aspects = Field(type=T.AspectSpec)
+
+    xref_entry_point = Property(True)
+    xref_equation = Property(Or(
+        And(
+            Entity.renames.renamed_object.xref_no_overloading(all_els=True),
+            Predicate(BasicDecl.subp_decl_match_signature,
+                      Entity.renames.renamed_object.ref_var,
+                      Entity.cast(T.BasicDecl))
+        ),
+        # Operators might be built-in, so if we cannot find a reference, we'll
+        # just abandon resolution...
+        If(Entity.renames.renamed_object.is_operator_name,
+           LogicTrue(), LogicFalse())
+    ))
 
 
 class SubpBody(BaseSubpBody):

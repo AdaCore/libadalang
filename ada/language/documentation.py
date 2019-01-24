@@ -8,6 +8,10 @@ libadalang_docs = {
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.
 
+        As unit providers must guarantee that there exists at most one source
+        file for each couple (unit name, unit kind), aggregate projects are not
+        supported: trying to load one will yield an error (see below).
+
         % if lang == 'python':
             If provided, ``Scenario_Vars`` must be a dict with key strings and
             key values to describe the set of scenario variables for this
@@ -33,7 +37,8 @@ libadalang_docs = {
         % endif
 
         If the requested project is invalid (error while opening the file,
-        error while analysing its syntax, ...),
+        error while analysing its syntax, ...), or if it is an aggregate
+        project,
         % if lang == 'python':
             this raises an ``InvalidProjectError`` exception.
         % else:

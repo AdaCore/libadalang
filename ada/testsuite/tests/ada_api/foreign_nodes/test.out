@@ -42,6 +42,7 @@ $root = LexEnv(Primary, Parent=null):
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
 @3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+  Referenced: <NullSubpDecl ["P1"] 2:4-2:25>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     <empty>
 
 ## Child ##
@@ -123,6 +124,7 @@ $root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
 @4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+  Referenced: <NullSubpDecl ["P2"] 2:4-2:25>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:15>)
     <empty>
 
 =====================
@@ -169,6 +171,7 @@ $root = LexEnv(Primary, Parent=null):
     p1: [<NullSubpDecl ["P1"] 2:4-2:25>]
 
 @3 = LexEnv(Primary, Parent=@2, Node=<NullSubpDecl ["P1"] 2:4-2:25>):
+  Referenced: <NullSubpDecl ["P1"] 2:4-2:25>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:9>)
     <empty>
 
 ## Child ##
@@ -250,6 +253,7 @@ $root = LexEnv(Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] 1:1-121:14>]
 
 @4 = LexEnv(Primary, Parent=@3, Node=<NullSubpDecl ["P2"] 2:4-2:25>):
+  Referenced: <NullSubpDecl ["P2"] 2:4-2:25>: LexEnv(Primary, Node=<CompilationUnit 1:1-3:15>)
     <empty>
 
 Done.

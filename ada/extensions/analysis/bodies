@@ -1,4 +1,4 @@
---  vim: ft=ada
+##  vim: ft=makoada
 
 --  TODO??? This should be implemented in the DSL, as soon as we have support
 --  for enums.

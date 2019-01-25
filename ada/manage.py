@@ -147,7 +147,7 @@ class Manage(ManageScript):
 
         # Our iterators are implemented using internal data structures
         ctx.add_with_clause('Iterators',
-                            ADA_SPEC, 'Langkit_Support.Symbols',
+                            ADA_SPEC, 'Libadalang.Common',
                             is_private=True)
         ctx.add_with_clause('Iterators',
                             ADA_BODY, 'Libadalang.Implementation',

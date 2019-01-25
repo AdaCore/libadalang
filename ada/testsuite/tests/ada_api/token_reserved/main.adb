@@ -1,11 +1,10 @@
 with Ada.Text_IO;           use Ada.Text_IO;
 
-with Langkit_Support.Text;  use Langkit_Support.Text;
-with Langkit_Support.Token_Data_Handlers;
-use Langkit_Support.Token_Data_Handlers;
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
+use Libadalang.Common.Token_Data_Handlers;
 
 procedure Main is
 
@@ -25,7 +24,7 @@ begin
       begin
          for Lang in Language_Version loop
             if not Is_Trivia (TD) then
-               if Is_Keyword (Ctx, Token, Lang) then
+               if Is_Keyword (Token, Lang) then
                   Put_Line
                     ("Version = " & Lang'Image & ", "
                      & Image (Text (Token), With_Quotes => True)

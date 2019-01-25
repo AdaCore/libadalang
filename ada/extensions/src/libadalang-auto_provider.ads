@@ -34,7 +34,6 @@ with GNAT.Regpat;
 
 with GNATCOLL.VFS;
 
-private with Langkit_Support.Symbols;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
@@ -106,7 +105,7 @@ package Libadalang.Auto_Provider is
 
 private
 
-   use Langkit_Support.Symbols;
+   use Libadalang.Common.Symbols;
 
    use GNATCOLL.VFS;
 

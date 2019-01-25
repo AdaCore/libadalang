@@ -1,0 +1,52 @@
+##  vim: ft=makoada
+
+----------------
+-- Is_Keyword --
+----------------
+
+function Is_Keyword
+  (TDH     : Token_Data_Handler;
+   Index   : Token_Or_Trivia_Index;
+   Version : Language_Version) return Boolean
+is
+   use Libadalang.Common.Symbols;
+   use Libadalang.Common.Token_Data_Handlers;
+
+   Kind       : constant Token_Kind := To_Token_Kind (Data (Index, TDH).Kind);
+   Sym        : Symbol_Type;
+
+   function "+" (S : Precomputed_Symbol_Index) return Symbol_Type is
+     (Precomputed_Symbol (TDH.Symbols, S));
+begin
+   --  Exit early on trivia tokens
+   if Index.Trivia /= No_Token_Index then
+      return False;
+
+   --  Token that are not identifiers but part of the Alphanumericals family
+   --  are all keywords.
+   elsif Kind /= Ada_Identifier
+      and then Token_Kind_To_Family (Kind) = Alphanumericals
+   then
+      return True;
+
+   else
+      Sym := Get_Symbol (Index, TDH);
+      case Version is
+         when Ada_83 =>
+            return False;
+         when Ada_95 =>
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged;
+         when Ada_2005 =>
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
+                          +Symbol_Overriding | +Symbol_Interface |
+                          +Symbol_Synchronized;
+         when Ada_2012 =>
+            return Sym in +Symbol_Protected | +Symbol_Abstract |
+                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
+                          +Symbol_Overriding | +Symbol_Interface |
+                          +Symbol_Synchronized | +Symbol_Some;
+      end case;
+   end if;
+end Is_Keyword;

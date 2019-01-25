@@ -1,46 +1,15 @@
 ##  vim: ft=makoada
 
---  TODO??? This should be implemented in the DSL, as soon as we have support
---  for enums.
+----------------
+-- Is_Keyword --
+----------------
+
 function Is_Keyword
   (Token   : Token_Reference;
    Version : Language_Version) return Boolean
 is
-   Sym : Symbol_Type;
-   K   : Token_Kind := Kind (Data (Token));
-
-   function "+" (S : Precomputed_Symbol_Index) return Symbol_Type
-   is (Precomputed_Symbol (Get_Token_TDH (Token).Symbols, S));
+   TDH   : constant Token_Data_Handler_Access := Get_Token_TDH (Token);
+   Index : constant Token_Or_Trivia_Index := Get_Token_Index (Token);
 begin
-   --  Exit early on trivia tokens
-   if Is_Trivia (Token) then
-      return False;
-
-   --  Token that are not identifiers but part of the Alphanumericals family
-   --  are all keywords.
-   elsif K /= Ada_Identifier
-      and then Token_Kind_To_Family (K) = Alphanumericals
-   then
-      return True;
-
-   else
-      Sym := Get_Symbol (Token);
-      case Version is
-         when Ada_83 =>
-            return False;
-         when Ada_95 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged;
-         when Ada_2005 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
-                          +Symbol_Overriding | +Symbol_Interface |
-                          +Symbol_Synchronized;
-         when Ada_2012 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
-                          +Symbol_Overriding | +Symbol_Interface |
-                          +Symbol_Synchronized | +Symbol_Some;
-      end case;
-   end if;
+   return Libadalang.Lexer.Is_Keyword (TDH.all, Index, Version);
 end Is_Keyword;

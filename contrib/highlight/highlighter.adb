@@ -429,7 +429,7 @@ package body Highlighter is
 
             --  Some keywords don't have a token kind, because they're reserved
             --  words in LAL. Highlight those too.
-            if LAL.Is_Keyword (LAL.Context (Unit), Token, LAL.Ada_2012) then
+            if LAL.Is_Keyword (Token, Libadalang.Common.Ada_2012) then
                Set (Highlights, TD, Keyword);
             end if;
          end;

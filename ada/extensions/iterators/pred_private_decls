@@ -6,7 +6,7 @@ record
    Name : Text_Type (1 .. Size);
 
    Context : Analysis_Context;
-   Symbol  : Langkit_Support.Symbols.Symbol_Type;
+   Symbol  : Libadalang.Common.Symbols.Symbol_Type;
    --  Cached symbol converted from Name
 end record;
 

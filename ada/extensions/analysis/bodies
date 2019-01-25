@@ -3,15 +3,14 @@
 --  TODO??? This should be implemented in the DSL, as soon as we have support
 --  for enums.
 function Is_Keyword
-  (Ctx     : Analysis_Context;
-   Token   : Token_Reference;
+  (Token   : Token_Reference;
    Version : Language_Version) return Boolean
 is
    Sym : Symbol_Type;
    K   : Token_Kind := Kind (Data (Token));
 
-   function "+" (S : Symbol_Literal_Type) return Symbol_Type
-   is (Ctx.Internal.Symbol_Literals (S)); 
+   function "+" (S : Precomputed_Symbol_Index) return Symbol_Type
+   is (Precomputed_Symbol (Get_Token_TDH (Token).Symbols, S));
 begin
    --  Exit early on trivia tokens
    if Is_Trivia (Token) then

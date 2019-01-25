@@ -1,0 +1,14 @@
+##  vim: ft=makoada
+
+function Is_Keyword
+  (TDH     : Token_Data_Handler;
+   Index   : Token_Or_Trivia_Index;
+   Version : Language_Version) return Boolean;
+--  Given an Ada language version, return whether a token is an Ada keyword.
+--
+--  Due to the way Libadalang works, every token added after Ada 83 is lexed
+--  as a regular identifier, and then treated specially by the parser in some
+--  circumstances (being akin to the notion of reserved word).
+--
+--  This function returns True for regular lexer keywords, as well as for those
+--  identifiers.

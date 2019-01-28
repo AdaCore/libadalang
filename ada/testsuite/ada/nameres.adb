@@ -1,3 +1,4 @@
+with Ada.Calendar;          use Ada.Calendar;
 with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Synchronized_Queue_Interfaces;
@@ -103,12 +104,19 @@ procedure Nameres is
          Long => "--reparse",
          Help => "Reparse units 10 times (hardening)");
 
+      package Time is new Parse_Flag
+        (Parser,
+         Long => "--time",
+         Short => "-T",
+         Help => "Show the time it took to nameres each file. "
+                 & "Implies --quiet so that you only have timing info");
+
       package Timeout is new Parse_Option
         (Parser, "-t", "--timeout", "Timeout equation solving after N steps",
          Natural, Default_Val => 100_000);
 
       package Jobs is new Parse_Option
-        (Parser, "-j", "--jobs", "Timeout equation solving after N steps",
+        (Parser, "-j", "--jobs", "Number of parallel jobs to use",
          Natural, Default_Val => 1);
 
       package No_Lookup_Cache is new Parse_Flag
@@ -158,7 +166,8 @@ procedure Nameres is
          Allow_Empty => True);
    end Args;
 
-   function Quiet return Boolean is (Args.Quiet.Get or else Args.JSON.Get);
+   function Quiet return Boolean is
+      (Args.Quiet.Get or else Args.JSON.Get or else Args.Time.Get);
 
    UFP : Unit_Provider_Reference;
    --  When project file handling is enabled, corresponding unit provider
@@ -667,13 +676,25 @@ procedure Nameres is
             Basename : constant String :=
               +Create (+File).Base_Name;
             Unit     : Analysis_Unit;
+            Before, After : Time;
+            Time_Elapsed  : Duration;
          begin
             Unit := Get_From_File (Ctx, File);
 
             if not Quiet then
                Put_Title ('#', "Analyzing " & Basename);
             end if;
+            Before := Clock;
             Process_File (Unit, File);
+            After := Clock;
+
+            Time_Elapsed := After - Before;
+
+            if Args.Time.Get then
+               Ada.Text_IO.Put_Line
+                 ("Time elapsed in process file for "
+                  & Basename & ": " & Time_Elapsed'Image);
+            end if;
 
             Stats_Data.Nb_Files_Analyzed
               := Stats_Data.Nb_Files_Analyzed + 1;
@@ -682,10 +703,8 @@ procedure Nameres is
                 >= Args.File_Limit.Get;
          exception
             when E : others =>
-               Put_Line
-                 ("Resolution failed with exception for file " & File);
-               Put_Line
-                 ("> " & Ada.Exceptions.Exception_Information (E));
+               Put_Line ("Resolution failed with exception for file " & File);
+               Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
                Put_Line ("");
          end;
       end loop;

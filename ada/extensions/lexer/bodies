@@ -35,18 +35,30 @@ begin
          when Ada_83 =>
             return False;
          when Ada_95 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged;
+            return Sym in +Precomputed_Symbol_Abstract
+                        | +Precomputed_Symbol_Protected
+                        | +Precomputed_Symbol_Requeue
+                        | +Precomputed_Symbol_Tagged
+                        | +Precomputed_Symbol_Until;
          when Ada_2005 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
-                          +Symbol_Overriding | +Symbol_Interface |
-                          +Symbol_Synchronized;
+            return Sym in +Precomputed_Symbol_Abstract
+                        | +Precomputed_Symbol_Interface
+                        | +Precomputed_Symbol_Overriding
+                        | +Precomputed_Symbol_Protected
+                        | +Precomputed_Symbol_Requeue
+                        | +Precomputed_Symbol_Synchronized
+                        | +Precomputed_Symbol_Tagged
+                        | +Precomputed_Symbol_Until;
          when Ada_2012 =>
-            return Sym in +Symbol_Protected | +Symbol_Abstract |
-                          +Symbol_Requeue | +Symbol_Until | +Symbol_Tagged |
-                          +Symbol_Overriding | +Symbol_Interface |
-                          +Symbol_Synchronized | +Symbol_Some;
+            return Sym in +Precomputed_Symbol_Abstract
+                        | +Precomputed_Symbol_Interface
+                        | +Precomputed_Symbol_Overriding
+                        | +Precomputed_Symbol_Protected
+                        | +Precomputed_Symbol_Requeue
+                        | +Precomputed_Symbol_Some
+                        | +Precomputed_Symbol_Synchronized
+                        | +Precomputed_Symbol_Tagged
+                        | +Precomputed_Symbol_Until;
       end case;
    end if;
 end Is_Keyword;

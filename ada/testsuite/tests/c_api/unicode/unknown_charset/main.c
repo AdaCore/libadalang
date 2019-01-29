@@ -23,7 +23,8 @@ main(void)
 
     unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_iso_8859_1,
-                                             iso_8859_1_length);
+                                             iso_8859_1_length,
+                                             ada_default_grammar_rule);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 

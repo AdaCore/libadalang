@@ -27,10 +27,12 @@ main(void)
     if (ctx == NULL)
         error("Could not create the analysis context\n");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "test.adb", NULL, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "test.adb", NULL, 0,
+                                           ada_default_grammar_rule);
     if (unit == NULL)
         error("Could not create the analysis unit from test.adb");
-    unit2 = ada_get_analysis_unit_from_file(ctx, "test2.adb", NULL, 0);
+    unit2 = ada_get_analysis_unit_from_file(ctx, "test2.adb", NULL, 0,
+                                           ada_default_grammar_rule);
     if (unit2 == NULL)
         error("Could not create the analysis unit from test2.adb");
 

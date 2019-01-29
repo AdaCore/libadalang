@@ -64,7 +64,8 @@ main(void)
     puts("1. Parsing using buffer 1");
     unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_1,
-                                             src_buffer_1_length);
+                                             src_buffer_1_length,
+                                             ada_default_grammar_rule);
     check(unit);
 
     /* Now make sure getting the unit with reparsing (without the "limited"
@@ -72,7 +73,8 @@ main(void)
     puts("2. Reparsing from context using buffer 2");
     unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
                                              src_buffer_2,
-                                             src_buffer_2_length);
+                                             src_buffer_2_length,
+                                             ada_default_grammar_rule);
     check(unit);
 
     /* Finally make sure reparsing the unit (with the "limited" keyword) sets

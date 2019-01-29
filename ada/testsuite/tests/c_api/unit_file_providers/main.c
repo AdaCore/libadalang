@@ -54,7 +54,8 @@ ada_analysis_unit ufp_get_file_from_name(
     printf("\"\n");
 
     return ada_get_analysis_unit_from_file(context, "strange_bar.ads",
-                                           charset, reparse);
+                                           charset, reparse,
+                                           ada_default_grammar_rule);
 }
 
 int
@@ -79,7 +80,8 @@ main(void)
     if (ctx == NULL)
         error("Could not create the analysis context");
 
-    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0);
+    unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0,
+                                           ada_default_grammar_rule);
     if (unit == NULL)
         error("Could not create the analysis unit from foo.adb");
 

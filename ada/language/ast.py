@@ -5141,7 +5141,7 @@ class GenericInstantiation(BasicDecl):
 
                     lambda subp_decl=T.FormalSubpDecl.entity:
                     Or(
-                        actual_name.xref_no_overloading
+                        actual_name.xref_no_overloading(all_els=True)
                         & Predicate(BasicDecl.subp_decl_match_signature,
                                     actual_name.ref_var,
                                     subp_decl.cast(T.BasicDecl)),
@@ -6567,7 +6567,7 @@ class Name(Expr):
                 dn.suffix.xref_no_overloading(sequential, all_els)
             ),
             lambda i=T.BaseId: If(
-                all_els and Self.is_suffix,
+                all_els & Self.is_suffix,
                 i.ref_var.domain(
                     env_get(
                         env,
@@ -6583,6 +6583,7 @@ class Name(Expr):
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
                         lookup=If(Self.is_prefix, LK.recursive, LK.flat),
+                        categories=noprims,
                     ),
                 )
             ),

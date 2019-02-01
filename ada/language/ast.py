@@ -6061,7 +6061,7 @@ class Aggregate(BaseAggregate):
     @langkit_property()
     def xref_equation():
         return If(
-            Self.parent.is_a(AspectClause, AspectAssoc),
+            Self.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
             Entity.general_xref_equation
         )

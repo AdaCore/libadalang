@@ -281,16 +281,16 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=T.AdaNode.entity)
-    def trigger_is_call():
+    def trigger_is_call(val=(Bool, True)):
         """
         Return Self as an entity, but with the ``is_call`` md field set to
-        True.
+        ``val``.
         """
         return AdaNode.entity.new(
             node=Entity.node,
             info=T.entity_info.new(
                 rebindings=Entity.info.rebindings,
-                md=new_metadata(source=Entity.info.md, is_call=True),
+                md=new_metadata(source=Entity.info.md, is_call=val),
                 from_rebound=Entity.info.from_rebound
             )
         )
@@ -4285,6 +4285,14 @@ class TypeExpr(AdaNode):
         return Entity.designated_type._.canonical_type
 
 
+@synthetic
+class EnumLitSynthTypeExpr(TypeExpr):
+    """
+    Synthetic node. Represents the type expression for an enum literal.
+    """
+    designated_type = Property(Entity.parent.cast(T.EnumLiteralDecl).expr_type)
+
+
 class AnonymousType(TypeExpr):
     """
     Container for inline anonymous array and access types declarations.
@@ -4511,7 +4519,7 @@ class BasicSubpDecl(BasicDecl):
         return Entity.type_expression.then(lambda te: te.designated_type)
 
     subp_decl_spec = AbstractProperty(
-        type=T.SubpSpec.entity, public=True,
+        type=T.BaseSubpSpec.entity, public=True,
         doc='Return the specification for this subprogram'
     )
 
@@ -4859,7 +4867,7 @@ class AspectAssoc(AdaNode):
                     lambda e:
                     e.is_a(T.BasicSubpDecl)
                     & e.cast(T.BasicSubpDecl).subp_decl_spec
-                    .cast_or_raise(T.BaseSubpSpec).match_signature(
+                    .match_signature(
                         target.as_entity.cast_or_raise(T.BasicSubpDecl)
                         .subp_decl_spec,
                         False
@@ -5449,7 +5457,7 @@ class FormalSubpDecl(ClassicSubpDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
 
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
@@ -5552,7 +5560,7 @@ class GenericSubpDecl(GenericDecl):
     aspects = NullField()
 
     defining_names = Property(
-        Self.subp_decl.subp_spec.name.as_entity.singleton)
+        Entity.subp_decl.subp_spec.name.as_entity.singleton)
 
     @langkit_property(public=True)
     def body_part():
@@ -7853,7 +7861,7 @@ class StringLiteral(BaseId):
         )
 
 
-class EnumLiteralDecl(BasicDecl):
+class EnumLiteralDecl(BasicSubpDecl):
     """
     Declaration for an enumeration literal.
     """
@@ -7870,7 +7878,7 @@ class EnumLiteralDecl(BasicDecl):
         """
         return Self.parents.find(
             lambda p: p.is_a(TypeDecl)
-        ).cast(TypeDecl).as_entity
+        ).as_entity.trigger_is_call(False).cast(TypeDecl)
 
     @langkit_property()
     def expr_type():
@@ -7892,7 +7900,16 @@ class EnumLiteralDecl(BasicDecl):
 
     defining_names = Property(Entity.name.singleton)
 
+    @langkit_property(memoized=True)
+    def synth_type_expr():
+        return EnumLitSynthTypeExpr.new().as_entity
+
+    @langkit_property(memoized=True)
+    def subp_decl_spec():
+        return T.EnumSubpSpec.new().as_entity
+
     env_spec = EnvSpec(
+
         add_to_env_kv(Self.name_symbol, Self,
                       dest_env=Entity.enum_type.node_env),
 
@@ -8058,7 +8075,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return And(
             # Check that the names are the same
-            Not(match_name) | Self.name.matches(other.name),
+            Not(match_name) | Entity.name.matches(other.name),
             Entity.match_return_type(other),
             Entity.match_formal_params(other, match_name),
         )
@@ -8159,6 +8176,21 @@ class BaseSubpSpec(BaseFormalParamHolder):
                                                  default_val=LogicTrue()))
 
 
+@synthetic
+class EnumSubpSpec(BaseSubpSpec):
+    """
+    Synthetic node for the abstract subprogram spec of an enum literal.
+
+    NOTE: This has no existence in the ARM. While enum literals are functions
+    semantically, they're not such syntactically.
+    """
+    enum_decl = Property(Self.parent.cast(T.EnumLiteralDecl).as_entity)
+
+    name = Property(Entity.enum_decl.name.node)
+    returns = Property(Entity.enum_decl.synth_type_expr)
+    params = Property(No(T.ParamSpec.entity.array))
+
+
 class SubpSpec(BaseSubpSpec):
     """
     Subprogram specification.
@@ -8182,7 +8214,7 @@ class EntryDecl(BasicDecl):
     spec = Field(type=T.EntrySpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.spec.name.as_entity.singleton)
+    defining_names = Property(Entity.spec.name.as_entity.singleton)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
@@ -9148,7 +9180,7 @@ class BaseSubpBody(Body):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
 
-    defining_names = Property(Self.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def in_scope():
@@ -10015,7 +10047,7 @@ class SubpBodyStub(BodyStub):
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Self.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
     # Note that we don't have to override the defining_env property here since
     # what we put in lexical environment is their SubpSpec child.
 

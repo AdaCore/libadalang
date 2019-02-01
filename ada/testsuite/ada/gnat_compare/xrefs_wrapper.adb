@@ -2,10 +2,9 @@ with Libadalang.Common; use Libadalang.Common;
 
 package body Xrefs_Wrapper is
 
-   function Subp_Spec_Params (Spec : Subp_Spec) return Param_Spec_List is
-     (Spec.F_Subp_Params.F_Params);
-   function Subp_Decl_Params (Decl : Basic_Subp_Decl) return Param_Spec_List is
-     (Subp_Spec_Params (Decl.P_Subp_Decl_Spec));
+   function Subp_Decl_Params (Decl : Basic_Subp_Decl) return Param_Spec_Array
+   is
+     (Decl.P_Subp_Decl_Spec.P_Params);
 
    function Def_Name (BD : Basic_Decl) return Defining_Name
    is (if BD /= No_Basic_Decl then BD.P_Defining_Name else No_Defining_Name);
@@ -45,11 +44,11 @@ package body Xrefs_Wrapper is
       end;
 
       declare
-         Decl_Params : constant Param_Spec_List :=
+         Decl_Params : constant Param_Spec_Array :=
            Subp_Decl_Params (Subp_Decl);
          Formal_Index : constant Positive := Decl.Child_Index + 1;
       begin
-         return Def_Name (Decl_Params.Child (Formal_Index).As_Basic_Decl);
+         return Def_Name (Decl_Params (Formal_Index).As_Basic_Decl);
       end;
    end Subp_Body_Formal;
 

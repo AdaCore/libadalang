@@ -151,8 +151,13 @@ ada_lexer.add_patterns(
      r"{base}[#:]{based_integer}[#:]{exponent}?"),
 
     ('ws', r"[ ]*"),
-    ('identifier', r"\$?(\P{ID_Start}|{bracket_char})"
-                   r"(\P{ID_Continue}*|{bracket_char})*"),
+    # TODO: handle Unicode properties in Langkit and switch back to
+    # \p{ID_Start} and \p{ID_Continue}.
+    ('identifier', r"\$?(\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}"
+                   r"|{bracket_char})"
+                   r"(\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}|\p{Nd}|\p{Mn}"
+                   r"|\p{Mc}"
+                   r"|_|{bracket_char})*"),
 )
 
 rules = [

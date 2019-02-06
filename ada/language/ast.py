@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     AbstractField, AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool,
-    EnumNode, Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK,
+    Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK,
     NullField, Struct, Symbol, T, UserField, abstract, env_metadata,
     has_abstract_list, synthetic
 )
@@ -2355,101 +2355,115 @@ class NullRecordDef(BaseRecordDef):
     pass
 
 
-class Tagged(EnumNode):
+class Tagged(AdaNode):
     """
     Qualifier for the ``tagged`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Abstract(EnumNode):
+class Abstract(AdaNode):
     """
     Qualifier for the ``abstract`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Limited(EnumNode):
+class Limited(AdaNode):
     """
     Qualifier for the ``limited`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Private(EnumNode):
+class Private(AdaNode):
     """
     Qualifier for the ``private`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Aliased(EnumNode):
+class Aliased(AdaNode):
     """
     Qualifier for the ``aliased`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class NotNull(EnumNode):
+class NotNull(AdaNode):
     """
     Qualifier for the ``not null`` keywords.
     """
+    enum_node = True
     qualifier = True
 
 
-class Constant(EnumNode):
+class Constant(AdaNode):
     """
     Qualifier for the ``constant`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class All(EnumNode):
+class All(AdaNode):
     """
     Qualifier for the ``all`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Abort(EnumNode):
+class Abort(AdaNode):
     """
     Qualifier for the ``abort`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Reverse(EnumNode):
+class Reverse(AdaNode):
     """
     Qualifier for the ``reverse`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class WithPrivate(EnumNode):
+class WithPrivate(AdaNode):
     """
     Qualifier for the ``private`` keyword in ``with private`` record clauses.
     """
+    enum_node = True
     qualifier = True
 
 
-class Until(EnumNode):
+class Until(AdaNode):
     """
     Qualifier for the ``until`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Synchronized(EnumNode):
+class Synchronized(AdaNode):
     """
     Qualifier for the ``synchronized`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
-class Protected(EnumNode):
+class Protected(AdaNode):
     """
     Qualifier for the ``protected`` keyword.
     """
+    enum_node = True
     qualifier = True
 
 
@@ -3866,10 +3880,11 @@ class ArrayTypeDef(TypeDef):
     xref_entry_point = Property(True)
 
 
-class InterfaceKind(EnumNode):
+class InterfaceKind(AdaNode):
     """
     Kind of interface type.
     """
+    enum_node = True
     alternatives = ["limited", "task", "protected", "synchronized"]
 
 
@@ -4345,10 +4360,11 @@ class DiscreteSubtypeIndication(SubtypeIndication):
     pass
 
 
-class Mode(EnumNode):
+class Mode(AdaNode):
     """
     Syntactic indicators for passing modes in formals.
     """
+    enum_node = True
     alternatives = ["in", "out", "in_out", "default"]
 
 
@@ -4400,10 +4416,11 @@ class AspectSpec(AdaNode):
     aspect_assocs = Field(type=T.AspectAssoc.list)
 
 
-class Overriding(EnumNode):
+class Overriding(AdaNode):
     """
     Syntactic indicators for subprogram overriding modes.
     """
+    enum_node = True
     alternatives = ["overriding", "not_overriding", "unspecified"]
 
 
@@ -5411,10 +5428,11 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     env_spec = child_unit(Entity.name_symbol, Self.name.parent_scope)
 
 
-class SubpKind(EnumNode):
+class SubpKind(AdaNode):
     """
     Qualifier for a subprogram kind.
     """
+    enum_node = True
     alternatives = ["procedure", "function"]
 
 
@@ -5788,13 +5806,14 @@ class ParenExpr(Expr):
         )
 
 
-class Op(EnumNode):
+class Op(AdaNode):
     """
     Operation in a binary expression.
 
     Note that the ARM does not consider "double_dot" ("..") as a binary
     operator, but we process it this way here anyway to keep things simple.
     """
+    enum_node = True
     alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
                     "not_in", "abs", "not", "pow", "mult", "div", "mod",
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",
@@ -8193,17 +8212,19 @@ class EntrySpec(BaseSubpSpec):
     returns = Property(No(T.TypeExpr.entity))
 
 
-class Quantifier(EnumNode):
+class Quantifier(AdaNode):
     """
     Type for quantified expressions.
     """
+    enum_node = True
     alternatives = ["all", "some"]
 
 
-class IterType(EnumNode):
+class IterType(AdaNode):
     """
     Iteration type for ``for`` loops.
     """
+    enum_node = True
     alternatives = ["in", "of"]
 
 

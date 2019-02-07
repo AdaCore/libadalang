@@ -1337,7 +1337,7 @@ class BasicDecl(AdaNode):
         """
         return Entity.match(
             lambda subp=BasicSubpDecl:  subp.subp_decl_spec,
-            lambda subp=BaseSubpBody:       subp.subp_spec,
+            lambda subp=BaseSubpBody:   subp.subp_spec,
             lambda subp=SubpBodyStub:   subp.subp_spec,
             lambda entry=EntryDecl:     entry.spec,
             lambda gsp=GenericSubpDecl:

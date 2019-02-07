@@ -1560,6 +1560,16 @@ class Body(BasicDecl):
     declaration.
     """
 
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def in_scope():
+        """
+        Return True if ``origin`` is directly in the scope of this body.
+        """
+        return And(
+            origin.unit == Self.unit,
+            Not(origin.parents.find(lambda p: p == Self).is_null)
+        )
+
     @langkit_property()
     def body_decl_scope():
         """
@@ -9181,17 +9191,6 @@ class BaseSubpBody(Body):
     subp_spec = Field(type=T.SubpSpec)
 
     defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
-
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
-    def in_scope():
-        """
-        Return True if ``origin`` is directly in the scope of this Subprogram
-        body.
-        """
-        return And(
-            origin.unit == Self.unit,
-            Not(origin.parents.find(lambda p: p == Self).is_null)
-        )
 
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():

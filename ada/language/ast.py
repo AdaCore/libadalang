@@ -1295,27 +1295,7 @@ class BasicDecl(AdaNode):
             ret
         ))
 
-        return If(
-            # If this basic decl has been found through a primitive env
-            # (md.primitive is set) and this primitive env is the one of the
-            # return type (md.primitive == return type), then we want to return
-            # the derived type through which we found this primitive
-            # (md.primitive_real_type).
-
-            # TODO: This code is suspicious because only functions and enum
-            # literals can have a type that is changed by a primitive
-            # environment, and those already have code handling this. Check if
-            # we can remove this.
-
-            Not(ret_2.is_null) & (Entity.info.md.primitive == ret_2.node),
-            entity_no_md(
-                BaseTypeDecl,
-                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings,
-                Entity.info.from_rebound,
-            ),
-            ret_2
-        )
+        return ret_2
 
     type_expression = Property(
         No(T.TypeExpr).as_entity,
@@ -4300,7 +4280,9 @@ class EnumLitSynthTypeExpr(TypeExpr):
     """
     Synthetic node. Represents the type expression for an enum literal.
     """
-    designated_type = Property(Entity.parent.cast(T.EnumLiteralDecl).expr_type)
+    designated_type = Property(
+        Entity.parent.cast(T.EnumLiteralDecl).enum_type
+    )
 
 
 class AnonymousType(TypeExpr):
@@ -4525,8 +4507,7 @@ class BasicSubpDecl(BasicDecl):
 
     @langkit_property()
     def expr_type():
-
-        return Entity.type_expression.then(lambda te: te.designated_type)
+        return Entity.subp_spec_or_null._.return_type
 
     subp_decl_spec = AbstractProperty(
         type=T.BaseSubpSpec.entity, public=True,
@@ -7890,24 +7871,6 @@ class EnumLiteralDecl(BasicSubpDecl):
             lambda p: p.is_a(TypeDecl)
         ).as_entity.trigger_is_call(False).cast(TypeDecl)
 
-    @langkit_property()
-    def expr_type():
-        return If(
-            # If this enum literal decl has been found through a primitive env
-            # (type of md.primitive matches enum type), then we want  to return
-            # the derived type from which we found this enum literal.
-            Entity.info.md.primitive == Entity.enum_type.node,
-
-            entity_no_md(
-                BaseTypeDecl,
-                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings,
-                Entity.info.from_rebound
-            ),
-
-            Entity.enum_type
-        )
-
     defining_names = Property(Entity.name.singleton)
 
     @langkit_property(memoized=True)
@@ -8171,11 +8134,22 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return If(
             Entity.info.md.primitive == ret.node,
 
-            entity_no_md(
-                BaseTypeDecl,
-                Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                Entity.info.rebindings,
-                Entity.info.from_rebound
+            If(
+                Entity.info.md.primitive_real_type.is_null,
+
+                entity_no_md(
+                    BaseTypeDecl,
+                    ret.node,
+                    Entity.info.rebindings,
+                    Entity.info.from_rebound
+                ),
+
+                entity_no_md(
+                    BaseTypeDecl,
+                    Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
+                    Entity.info.rebindings,
+                    Entity.info.from_rebound
+                ),
             ),
 
             ret
@@ -9210,6 +9184,10 @@ class BaseSubpBody(Body):
         )
 
     type_expression = Property(Entity.subp_spec.returns)
+
+    @langkit_property()
+    def expr_type():
+        return Entity.subp_spec_or_null._.return_type
 
 
 class ExprFunction(BaseSubpBody):

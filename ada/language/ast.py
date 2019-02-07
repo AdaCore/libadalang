@@ -259,6 +259,7 @@ class AdaNode(ASTNode):
         parent.
         """
         return Cond(
+            parent == EmptyEnv, False,
             current_env == parent, True,
             current_env.is_null, False,
             Self.is_children_env(parent, current_env.env_parent)
@@ -1605,7 +1606,9 @@ class Body(BasicDecl):
         If the case of generic package declarations, this returns the
         ``package_decl`` field instead of the ``GenericPackageDecl`` itself.
         """
-        return Entity.defining_name.env_elements.at(0)._.match(
+        return bind_origin(
+            Self, Entity.defining_name.all_env_els_impl
+        ).at(0)._.match(
             lambda pkg_decl=T.PackageDecl: pkg_decl,
             lambda gen_pkg_decl=T.GenericPackageDecl:
                 gen_pkg_decl.package_decl,
@@ -7371,6 +7374,11 @@ class DefiningName(Name):
     ref_var = Property(Self.name.ref_var)
     env_elements_impl = Property(Entity.name.env_elements_impl)
 
+    @langkit_property()
+    def all_env_els_impl(seq=(Bool, True),
+                         seq_from=(AdaNode, No(T.AdaNode))):
+        return Entity.name.all_env_els_impl(seq, seq_from)
+
     basic_decl = Property(
         Self.parents.find(lambda p: p.is_a(T.BasicDecl))
         .cast_or_raise(T.BasicDecl).as_entity,
@@ -7507,12 +7515,12 @@ class BaseId(SingleTokNode):
             categories=noprims,
             from_node=If(Self.in_aspect, No(T.AdaNode), Self)
         )).cast(T.BasicDecl).then(
-            lambda bd: bind_origin(Self, If(
+            lambda bd: If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
-            ))
+            )
         )
 
-    @langkit_property(dynamic_vars=[env])
+    @langkit_property(dynamic_vars=[env, origin])
     def designated_env_impl():
         """
         Decoupled implementation for designated_env, specifically used by
@@ -7535,13 +7543,13 @@ class BaseId(SingleTokNode):
 
         pkg = Var(env_els.at(0).cast(T.BasicDecl))
 
-        return bind_origin(Self, If(
+        return If(
             pkg._.is_package,
             Entity.pkg_env(pkg),
             env_els.map(
                 lambda e: e.cast(BasicDecl).defining_env
             ).env_group()
-        ))
+        )
 
     @langkit_property(dynamic_vars=[env, origin])
     def pkg_env(pkg=T.BasicDecl.entity):
@@ -7575,28 +7583,31 @@ class BaseId(SingleTokNode):
 
         # If the basic_decl is a package decl with a private part, we get it.
         # Else we keep the defining env.
-        env_private_part = Var(
+        private_part_env = Var(
             env.get('__privatepart', LK.flat, categories=noprims).at(0).then(
                 lambda pp: pp.children_env, default_val=env
             )
         )
 
-        top_level_itm = Var(Self.top_level_decl(Self.unit).as_entity)
-        top_level_env = Var(top_level_itm.children_env)
+        package_body_env = Var(
+            private_part_env.get('__nextpart', LK.flat, categories=noprims)
+            .at(0).then(lambda pb: pb.children_env, default_val=EmptyEnv)
+        )
 
         return Cond(
 
-            # If the top level item of the unit we make the request from is the
-            # body corresponding to basic decl, return the env of the body.
-            top_level_itm.is_a(PackageBody) &
-            (top_level_itm.cast(PackageBody)._.node_env == env_private_part),
-            top_level_env,
+            # If we're looking from the body, return a group of all the
+            # relevant envs together.
+            Not(package_body_env.equals(EmptyEnv))
+            & Self.is_children_env(package_body_env,
+                                   (origin._or(Self)).node_env),
+            Array([package_body_env, private_part_env, env]).env_group(),
 
-            # In any case, if the top level item's env is a child of the env of
-            # the declaration, then it means we have visibility over the
-            # private part.
-            Self.is_children_env(env, top_level_env),
-            env_private_part,
+            # If we're looking from the private part, return a group of private
+            # part + public part.
+            Self.is_children_env(private_part_env,
+                                 (origin._or(Self)).node_env),
+            Array([private_part_env, env]).env_group(),
 
             # TODO: Probably some special handling for separates here, because
             # they'll have full visibility on the package body in which they're
@@ -9813,7 +9824,7 @@ class PackageBody(Body):
             )
         ),
 
-        transitive_parent=True,
+        transitive_parent=Self.is_unit_root | Self.is_subunit,
 
         more_rules=[
 

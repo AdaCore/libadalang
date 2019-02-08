@@ -40,13 +40,16 @@ function do_install()
     # Install libiconv and gmp
     pacman -S --noconfirm mingw-w64-x86_64-libiconv mingw-w64-x86_64-gmp
 
-    # Get and build gnatcoll-core and gnatcoll-bindings
+    # Get and build gnatcoll-core and gnatcoll-bindings. Only build relocatable
+    # variants, as we don't need the static and static-pic ones.
     git clone -q https://github.com/AdaCore/gnatcoll-core
-    make build install prefix=$ADALIB_DIR -C gnatcoll-core
+    make prefix=$ADALIB_DIR LIBRARY_TYPES=relocatable -C gnatcoll-core \
+      build install
+
     git clone -q https://github.com/AdaCore/gnatcoll-bindings
     for component in iconv gmp ; do
       python gnatcoll-bindings/$component/setup.py build --reconfigure -j0 \
-          --prefix="$ADALIB_DIR"
+          --prefix="$ADALIB_DIR" --library-types=relocatable
       python gnatcoll-bindings/$component/setup.py install
     done
 
@@ -62,7 +65,7 @@ function do_build()
     # Generate Libadalang. Avoid pretty-printing: gnatpp for GNAT CE 2018 is
     # known not to work on Libadalang and pretty-printing is useless to check
     # pull requests anyway.
-    python ada/manage.py generate -P
+    python ada/manage.py -vdebug generate -P
 
     # Build the generated lexer alone first, as it takes a huge amount of
     # memory. Only then build the rest in parallel.

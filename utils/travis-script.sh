@@ -19,11 +19,11 @@ gprbuild -v
 # to work on Libadalang.
 ada/manage.py generate -P
 
-# Build the Quex-generated lexer alone first, as it takes a huge amount of
-# memory. Only then build the rest in parallel.
+# Build the generated lexer alone first, as it takes a huge amount of memory.
+# Only then build the rest in parallel.
 gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
     -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable -XXMLADA_BUILD=relocatable \
-    -XLIBADALANG_WARNINGS=true -c -u libadalang_lexer.c
+    -XLIBADALANG_WARNINGS=true -c -u libadalang-lexer_state_machine.adb
 # Restrict parallelism to avoid OOM issues
 ada/manage.py build -j12
 

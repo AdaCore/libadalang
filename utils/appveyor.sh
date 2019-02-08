@@ -12,13 +12,9 @@ $BUILD_FOLDER/build/lib/langkit_support.relocatable:\
 /mingw64/bin:\
 $PATH
 export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
-export QUEX_PATH=$BUILD_FOLDER/build_tools/quex-0.65.4
 export LIBRARY_TYPE=relocatable
 export CPATH=/mingw64/include
 export LIBRARY_PATH=/mingw64/lib
-
-export QUEX_URL="https://downloads.sourceforge.net/project/quex/HISTORY/0.65/\
-quex-0.65.4.zip"
 
 function do_install()
 {
@@ -44,10 +40,6 @@ function do_install()
     # Install libiconv and gmp
     pacman -S --noconfirm mingw-w64-x86_64-libiconv mingw-w64-x86_64-gmp
 
-    # Get Quex
-    curl --retry 5 -L -o quex-0.65.4.zip "$QUEX_URL"
-    7z x quex-0.65.4.zip -obuild_tools
-
     # Get and build gnatcoll-core and gnatcoll-bindings
     git clone -q https://github.com/AdaCore/gnatcoll-core
     make build install prefix=$ADALIB_DIR -C gnatcoll-core
@@ -72,12 +64,12 @@ function do_build()
     # pull requests anyway.
     python ada/manage.py generate -P
 
-    # Build the Quex-generated lexer alone first, as it takes a huge amount of
+    # Build the generated lexer alone first, as it takes a huge amount of
     # memory. Only then build the rest in parallel.
     gprbuild -Pbuild/lib/gnat/libadalang.gpr \
         -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable \
         -XXMLADA_BUILD=relocatable -XLIBADALANG_WARNINGS=true \
-        -p -c -u libadalang_lexer.c
+        -p -c -u libadalang-lexer_state_machine.adb
 
     # Restrict parallelism to avoid OOM issues
     python ada/manage.py build -j12

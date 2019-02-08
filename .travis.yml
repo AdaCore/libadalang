@@ -3,8 +3,6 @@ env:
     - ADALIB_DIR=$HOME/adalib
     - TOOLS_DIR=$HOME/build_tools
     - INSTALL_DIR=$HOME/install
-    - QUEX_ZIP=$TOOLS_DIR/quex-0.65.4.zip
-    - QUEX_PATH=$TOOLS_DIR/quex-0.65.4
 
 matrix:
   include:

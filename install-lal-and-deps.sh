@@ -83,14 +83,6 @@ export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$LD_LIBRARY_PATH"
     python2 setup.py install --prefix="$INSTALL_DIR"
 )
 
-# Get Quex
-if ! [ -d "quex-0.65.4" ]
-then
-    wget -O quex-0.65.4.zip "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet"
-    unzip quex-0.65.4.zip
-fi
-export QUEX_PATH="$PWD/quex-0.65.4"
-
 # Now prepare the construction of Libadalang itself
 if ! [ -d libadalang ]
 then

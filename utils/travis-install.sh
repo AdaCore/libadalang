@@ -35,14 +35,6 @@ then
     $INSTALL_DIR/bin/gprinstall --uninstall gnatcoll
 fi
 
-# Get QUEX
-if ! [ -d $QUEX_PATH ]
-then
-    wget -O $QUEX_ZIP \
-        "https://downloads.sourceforge.net/project/quex/HISTORY/0.65/quex-0.65.4.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fquex%2Ffiles%2FHISTORY%2F0.65%2F&ts=1484909333&use_mirror=heanet"
-    unzip -o $QUEX_ZIP -d $TOOLS_DIR
-fi
-
 # Get gnatcoll-core and gnatcoll-bindings
 if [ -d "$TOOLS_DIR/gnatcoll-core" ]
 then

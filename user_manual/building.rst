@@ -16,9 +16,6 @@ following steps:
   `gnatcoll-bindings <https://github.com/AdaCore/gnatcoll-bindings>`_. Just
   make sure you checkout the ``gpl-20**`` branch corresponding to your GNAT
   Community release.
-* Install `Quex version 0.65.4
-  <https://sourceforge.net/projects/quex/files/HISTORY/0.65/quex-0.65.4.tar.gz/download>`_.
-  Follow the installation guide in the Quex ``README``.
 * Install every Python dependency. We recommend creating a virtualenv and
   installing them inside of it, this way:
 
@@ -55,9 +52,8 @@ directory. In order to build this source code into a shared library, run:
 
     $ python ada/manage.py build
 
-Assuming you satisfied all the above dependencies and if you did set
-``QUEX_PATH`` and the ``quex`` executable as required in Quex's ``README``,
-both commands should successfuly run to completion.
+Assuming you satisfied all the above dependencies, both commands should
+successfuly run to completion.
 
 While developing Libadalang you might be happy to use the following command:
 

@@ -73,8 +73,8 @@ gcc -v
 # Build gnatcoll-core
 (
     cd $TOOLS_DIR/gnatcoll-core
-    make build PROCESSORS=0
-    make install prefix="$ADALIB_DIR"
+    make PROCESSORS=0 prefix="$ADALIB_DIR" LIBRARY_TYPES=relocatable \
+       build install
 )
 
 # Build gnatcoll-bindings
@@ -84,7 +84,8 @@ gcc -v
     do
         (
             cd $component
-            python setup.py build --reconfigure -j0 --prefix="$ADALIB_DIR"
+            python setup.py build --reconfigure -j0 --prefix="$ADALIB_DIR" \
+               --library-types=relocatable
             python setup.py install
         )
     done

@@ -22,10 +22,10 @@ begin
    if Index.Trivia /= No_Token_Index then
       return False;
 
-   --  Token that are not identifiers but part of the Alphanumericals family
-   --  are all keywords.
-   elsif Kind /= Ada_Identifier
-      and then Token_Kind_To_Family (Kind) = Alphanumericals
+   --  Token that are not identifiers, decimal or integer literals but part of
+   --  the Alphanumericals family are all keywords.
+   elsif Kind not in Ada_Identifier | Ada_Decimal | Ada_Integer
+         and then Token_Kind_To_Family (Kind) = Alphanumericals
    then
       return True;
 

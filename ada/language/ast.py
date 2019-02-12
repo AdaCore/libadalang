@@ -9824,7 +9824,9 @@ class PackageBody(Body):
             )
         ),
 
-        transitive_parent=Self.is_unit_root | Self.is_subunit,
+        # We make a transitive parent link only when the package is a library
+        # level package.
+        transitive_parent=Self.is_unit_root,
 
         more_rules=[
 
@@ -9848,14 +9850,14 @@ class PackageBody(Body):
             # body_decl_scope return a grouped env with the use clauses in it.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      cond=Not(Self.is_unit_root | Self.is_subunit),
+                      cond=Not(Self.is_unit_root),
                       kind=RefKind.prioritary),
 
             # Since the reference to the package decl is non transitive, we
             # still want to reference the envs that are "used" there.
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.package_decl_uses_clauses_envs,
-                      cond=Not(Self.is_unit_root | Self.is_subunit))
+                      cond=Not(Self.is_unit_root))
         ]
     )
 

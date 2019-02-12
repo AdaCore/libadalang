@@ -9,6 +9,5 @@ Analyzing foo-pkg.adb
 
 I resolves to:
     I : Integer;
-    I : Integer;
 
 Done.

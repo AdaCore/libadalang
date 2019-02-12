@@ -9872,7 +9872,7 @@ class PackageBody(Body):
     def subunit_pkg_decl_env():
         return env.bind(
             Self.initial_env,
-            Entity.body_scope(True).get(Entity.name_symbol)
+            Entity.body_scope(True).get(Entity.name_symbol, categories=noprims)
             .find(lambda e: e.is_a(T.PackageDecl, T.GenericPackageDecl))
             .match(
                 lambda pd=T.PackageDecl: pd.children_env,

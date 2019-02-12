@@ -9817,16 +9817,24 @@ class PackageBody(Body):
 
         more_rules=[
 
+            # Separate packages and nested packages basically need to be
+            # treated the same way:
+            # We cannot use a transitive ref because of hiding issues, so we'll
+            # do a prioritary ref, that groups together the necessary envs.
+            # TODO: We need to ref use clauses, as in the regular package decl
+            # case.
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.subunit_pkg_decl_env,
                       cond=Self.is_subunit,
-                      kind=RefKind.transitive),
+                      kind=RefKind.prioritary),
 
             # If self is not a library level package body (and hence is a
             # nested package), we need to explicitly reference its package
             # decl, because it is not in the chain of parents.
             # The reference is non transitive because if it was it would cause
             # some visibility order issues.
+            # TODO: We can regroup this ref with the following ref, making
+            # body_decl_scope return a grouped env with the use clauses in it.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
                       cond=Not(Self.is_unit_root | Self.is_subunit),
@@ -9876,11 +9884,20 @@ class PackageBody(Body):
             .find(lambda e: e.is_a(T.PackageDecl, T.GenericPackageDecl))
             .match(
                 lambda pd=T.PackageDecl: pd.children_env,
-                lambda gpd=T.GenericPackageDecl: gpd.package_decl.children_env,
+                lambda gpd=T.GenericPackageDecl:
+                # For generic package decls, we regroup the formal part & the
+                # package decl itself, since the reference will be
+                # non-transitive.
+                Array([gpd.children_env, gpd.package_decl.children_env])
+                .env_group(),
                 lambda _: PropertyError(LexicalEnv),
             ).then(lambda public_part: public_part.get(
                 '__privatepart', LK.flat, categories=noprims
-            ).at(0).then(lambda pp: pp.children_env, default_val=public_part))
+            ).at(0).then(
+                # If there is a private part, group it with the rest
+                lambda pp: Array([pp.children_env, public_part]).env_group(),
+                default_val=public_part
+            ))
         )
 
 

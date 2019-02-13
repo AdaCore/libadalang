@@ -722,6 +722,7 @@ A.add_rules(
             A.library_unit_renaming_decl,
             A.generic_decl,
             A.package_decl,
+            Skip(ErrorDecl),
         )
     ),
 

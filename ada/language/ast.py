@@ -115,7 +115,7 @@ def ref_generic_formals():
     environments. Make them available with ref_envs.
     """
     return reference(
-        Self.cast(T.AdaNode).to_array,
+        Self.cast(T.AdaNode)._.singleton,
         through=T.AdaNode.nested_generic_formal_part,
         cond=Not(Self.is_unit_root),
         kind=RefKind.prioritary,
@@ -9135,7 +9135,7 @@ class BaseSubpBody(Body):
         # subprogram, it must "inherit" the use clauses of its declaration, if
         # there is one.
         reference(
-            Self.cast(T.AdaNode).to_array,
+            Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.use_packages_in_spec_of_subp_body,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),

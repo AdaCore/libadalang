@@ -7,9 +7,8 @@
 function Bare_Base_Id_Short_Image
   (Node : access Bare_Base_Id_Type'Class) return Text_Type
 is
-   Self : access ${root_node_value_type}'Class := Node;
 begin
-   return "<" & To_Text (Kind_Name (Self))
+   return "<" & To_Text (Kind_Name (Node))
           & " """ & Node.Text & """ "
           & To_Text (Image (Sloc_Range (Node))) & ">";
 end Bare_Base_Id_Short_Image;

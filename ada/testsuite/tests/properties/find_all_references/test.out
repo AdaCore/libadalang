@@ -18,5 +18,12 @@ All references to Rec_Type from a.ads:
 All references to X from b.adb:
     return (X, X); (b.adb, 4:7-4:21)
     return (X, X); (b.adb, 4:7-4:21)
+All references to Make_Rec_1 from b.adb:
+    Make_Rec_1 (b.adb, 5:8-5:18)
+    return B.Make_Rec_1 (2).U; (c.adb, 4:7-4:33)
 All references to Foo from c.ads:
+    Foo (c.adb, 5:8-5:11)
+All references to T from d.ads:
+    function Get_T return T (d.ads, 4:4-4:27)
+    function Get_T return T (d.adb, 2:4-2:27)
 Done

@@ -7492,7 +7492,7 @@ class DefiningName(Name):
             lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
         ).concat(x.cast(BaseId).then(lambda i: If(
-            Self.name_is(i.sym) & x.xref.then(lambda ref: ref.node == Self),
+            Self.name_is(i.sym) & (x.xref._.canonical_part._.node == Self),
             x.singleton,
             No(AdaNode.entity.array)
         )))
@@ -7504,9 +7504,10 @@ class DefiningName(Name):
         Searches all references to this defining name in the given list of
         units.
         """
-        return Self.filter_is_imported_by(units, True).mapcat(
+        dn = Var(Entity.canonical_part)
+        return dn.filter_is_imported_by(units, True).mapcat(
             lambda u: u.root.then(
-                lambda r: Self.find_all_refs_in(r.as_entity)
+                lambda r: dn.find_all_refs_in(r.as_entity)
             )
         )
 

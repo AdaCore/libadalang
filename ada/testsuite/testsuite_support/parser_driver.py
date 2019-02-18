@@ -60,9 +60,10 @@ class ParserDriver(BaseDriver):
             misc_argv += ['-E']
 
         for lookup in self.get_lookups():
-            misc_argv.append(
+            misc_argv += [
+                '-L',
                 '{}:{}'.format(lookup['line'], lookup['column'])
-            )
+            ]
 
         # Run a first time, to run the testcase according to "self.action"
         self.run_and_check(base_argv + misc_argv, for_debug=True,

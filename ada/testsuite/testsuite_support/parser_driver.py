@@ -40,7 +40,7 @@ class ParserDriver(BaseDriver):
         base_argv = ['parse']
         misc_argv = []
 
-        base_argv += ['-f', self.input_file]
+        file_args = ['-f', self.input_file]
 
         charset = self.test_env.get('charset', None)
         if charset:
@@ -66,7 +66,7 @@ class ParserDriver(BaseDriver):
             ]
 
         # Run a first time, to run the testcase according to "self.action"
-        self.run_and_check(base_argv + misc_argv, for_debug=True,
+        self.run_and_check(base_argv + file_args + misc_argv, for_debug=True,
                            memcheck=True)
 
         # If specifically asked not to test unparsing, stop now
@@ -85,9 +85,9 @@ class ParserDriver(BaseDriver):
         outputs = {}
         for name, filename, argv in [
             ('base-tree-dump', self.base_tree_dump_file,
-             base_argv + ['--hide-slocs']),
+             base_argv + file_args + ['--hide-slocs']),
             ('unparsed', self.unparsed_file,
-             base_argv + ['-s', '--unparse']),
+             base_argv + file_args + ['-s', '--unparse']),
             ('unparsed-tree-dump', self.unparsed_tree_dump_file,
              base_argv + ['-f', self.unparsed_file, '--hide-slocs']),
         ]:

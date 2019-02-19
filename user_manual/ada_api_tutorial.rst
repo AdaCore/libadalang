@@ -120,9 +120,9 @@ specifically the nodes whose kind is ``Ada_Object_Decl``.
 
 Another useful thing to do with nodes is to relate them to the original source
 code. The first obvious way to do this is to get the source code excerpts that
-were parsed to create them: the ``Libadalang.Analysis.Text`` node primitive
-does this. Another way is to get the source location corresponding to the
-first/last tokens that belong to this node: the
+were parsed to create them: the ``Libadalang.Analysis.Debug_Text`` node
+primitive does this. Another way is to get the source location corresponding to
+the first/last tokens that belong to this node: the
 ``Libadalang.Analysis.Sloc_Range`` node primitive will do this, returning a
 ``Langkit_Support.Slocs.Source_Location_Range`` record. This provides the
 expected start/end line/column numbers.
@@ -135,7 +135,7 @@ expected start/end line/column numbers.
    Put_Line
      ("Line"
       & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-      & ": " & Node.Text);
+      & ": " & Node.Debug_Text);
 
 .. _ada example program:
 
@@ -174,7 +174,7 @@ the following program:
             Put_Line
               ("Line"
                & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-               & ": " & Node.Text);
+               & ": " & Node.Debug_Text);
          end if;
          return LALCO.Into;
       end Process_Node;
@@ -340,12 +340,12 @@ entity representing the type of the object declaration.
          Put_Line
            ("Line"
             & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-            & ": " & Node.Text);
+            & ": " & Node.Debug_Text);
          declare
             Type_Decl : constant LAL.Base_Type_Decl :=
                Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
          begin
-            Put_Line ("   type is: " & Type_Decl.Text);
+            Put_Line ("   type is: " & Type_Decl.Debug_Text);
          end;
       end if;
       return LALCO.Into;

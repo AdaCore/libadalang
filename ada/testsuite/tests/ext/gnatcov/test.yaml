@@ -1,3 +1,4 @@
 driver: python
 input_sources: []
 external_sources: [gnatcoverage, gnatcoll]
+expect_failure: Pending resolution of S219-030

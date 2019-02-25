@@ -5,10 +5,10 @@ Resolving xrefs for node <CallStmt 8:4-8:37>
 ********************************************
 
 Expr: <CallExpr 8:4-8:36>
-  references: <DefiningName 263:14-263:22>
+  references: <DefiningName 508:14-508:22>
   type:       None
 Expr: <Id "Put_Line" 8:4-8:12>
-  references: <DefiningName 263:14-263:22>
+  references: <DefiningName 508:14-508:22>
   type:       None
 Expr: <CallExpr 8:14-8:35>
   references: <DefiningName 94:13-94:30>

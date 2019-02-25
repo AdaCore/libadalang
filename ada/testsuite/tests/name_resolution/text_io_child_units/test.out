@@ -2,14 +2,14 @@ Analyzing foo.adb
 #################
 
 Ada.Text_IO.Integer_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Integer_IO"] 43:9-85:28>
+    <GenericPackageDecl ["Ada.Text_IO.Integer_IO"] 43:9-108:28>
 Ada.Text_IO.Float_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Float_IO"] 43:9-89:26>
+    <GenericPackageDecl ["Ada.Text_IO.Float_IO"] 43:9-112:26>
 Ada.Text_IO.Fixed_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Fixed_IO"] 23:9-69:26>
+    <GenericPackageDecl ["Ada.Text_IO.Fixed_IO"] 23:9-92:26>
 Ada.Text_IO.Decimal_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Decimal_IO"] 43:9-89:28>
+    <GenericPackageDecl ["Ada.Text_IO.Decimal_IO"] 43:9-112:28>
 Ada.Text_IO.Enumeration_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Enumeration_IO"] 23:9-55:32>
+    <GenericPackageDecl ["Ada.Text_IO.Enumeration_IO"] 23:9-76:32>
 
 Done.

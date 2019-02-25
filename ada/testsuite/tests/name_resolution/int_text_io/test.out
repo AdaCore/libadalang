@@ -2,6 +2,6 @@ Analyzing foo.adb
 #################
 
 Ada.Text_IO.Decimal_IO resolves to:
-    <GenericPackageDecl ["Ada.Text_IO.Decimal_IO"] 43:9-89:28>
+    <GenericPackageDecl ["Ada.Text_IO.Decimal_IO"] 43:9-112:28>
 
 Done.

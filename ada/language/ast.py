@@ -8183,7 +8183,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def potential_dottable_type():
         """
-        If self meets the criterias for being a subprogram callable via the dot
+        If self meets the criteria for being a subprogram callable via the dot
         notation, return the type of dottable elements.
         """
         return Entity.params._.at(0)._.type_expr._.element_type
@@ -8220,7 +8220,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
     @langkit_property(return_type=BaseTypeDecl.entity)
     def dottable_subp_of():
         """
-        Returns wether the subprogram containing this spec is a subprogram
+        Returns whether the subprogram containing this spec is a subprogram
         callable via the dot notation.
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))

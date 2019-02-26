@@ -5949,7 +5949,7 @@ class Op(AdaNode):
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def xref():
-        return Entity.parent.referenced_decl.defining_name
+        return Entity.parent.referenced_decl._.defining_name
 
 
 class UnOp(Expr):

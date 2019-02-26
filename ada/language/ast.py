@@ -1811,7 +1811,7 @@ class BaseFormalParamDecl(BasicDecl):
         p = Var(param._or(Entity.defining_name))
 
         return part.then(lambda d: (
-            d.formal_param_holder_or_null.unpacked_formal_params
+            d.formal_param_holder_or_null._.unpacked_formal_params
             .find(lambda sf: sf.name.name_is(p.name_symbol)).name.as_entity
         ))
 

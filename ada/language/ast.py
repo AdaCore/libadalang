@@ -7499,11 +7499,14 @@ class DefiningName(Name):
         return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
-        ).concat(x.cast(BaseId).then(lambda i: If(
-            Self.name_is(i.sym) & (x.xref._.canonical_part._.node == Self),
+        ).concat(If(
+            (x.match(lambda i=BaseId: Self.name_is(i.sym),
+                     lambda o=Op:     Self.name_is(o.subprogram_symbol),
+                     lambda _:        False)) &
+            (x.xref._.canonical_part._.node == Self),
             x.singleton,
             No(AdaNode.entity.array)
-        )))
+        ))
 
     @langkit_property(public=True, return_type=AdaNode.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])

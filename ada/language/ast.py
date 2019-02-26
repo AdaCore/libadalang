@@ -8237,7 +8237,20 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # However, since private types don't have components, this
                 # should not ever be a problem with legal Ada.
                 (t.is_tagged_type | t.private_completion._.is_tagged_type)
-                & (t.declarative_scope == bd.declarative_scope),
+                & bd.declarative_scope.then(lambda ds: Or(
+                    ds == t.declarative_scope,
+                    ds.as_entity.parent.cast(T.PackageBody).then(
+                        lambda pbody: env.bind(
+                            pbody.initial_env,
+                            pbody.package_previous_part
+                            .cast(T.BasePackageDecl).node
+                        )
+                    )._or(ds.parent.cast(T.BasePackageDecl)).then(
+                        lambda pdecl: t.declarative_scope.any_of(
+                            pdecl.private_part, pdecl.public_part
+                        )
+                    )
+                )),
 
                 t,
 

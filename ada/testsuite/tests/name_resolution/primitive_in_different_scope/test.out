@@ -1,0 +1,34 @@
+Analyzing pkg.ads
+#################
+
+Analyzing pkg.adb
+#################
+
+Resolving xrefs for node <CallStmt 10:7-10:22>
+**********************************************
+
+Expr: <DottedName 10:7-10:21>
+  references: <DefiningName 9:14-9:26>
+  type:       None
+Expr: <Id "X" 10:7-10:8>
+  references: <DefiningName 8:28-8:29>
+  type:       <AnonymousTypeDecl ["None"] 8:32-8:46>
+Expr: <Id "Private_Prim" 10:9-10:21>
+  references: <DefiningName 9:14-9:26>
+  type:       None
+
+Resolving xrefs for node <CallStmt 16:7-16:19>
+**********************************************
+
+Expr: <DottedName 16:7-16:18>
+  references: <DefiningName 3:14-3:23>
+  type:       None
+Expr: <Id "X" 16:7-16:8>
+  references: <DefiningName 14:28-14:29>
+  type:       <AnonymousTypeDecl ["None"] 14:32-14:46>
+Expr: <Id "Body_Prim" 16:9-16:18>
+  references: <DefiningName 3:14-3:23>
+  type:       None
+
+
+Done.

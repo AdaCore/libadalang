@@ -6142,12 +6142,6 @@ class BaseAggregate(Expr):
     ancestor_expr = Field(type=T.Expr)
     assocs = Field(type=T.AssocList)
 
-
-class Aggregate(BaseAggregate):
-    """
-    Aggregate that is not a ``null record`` aggregate.
-    """
-
     xref_stop_resolution = Property(True)
 
     # An aggregate is resolved separately from the rest of an expression,
@@ -6296,14 +6290,16 @@ class Aggregate(BaseAggregate):
         )
 
 
+class Aggregate(BaseAggregate):
+    """
+    Aggregate that is not a ``null record`` aggregate.
+    """
+
+
 class NullRecordAggregate(BaseAggregate):
     """
     Aggregate for ``null record``.
     """
-
-    @langkit_property()
-    def xref_equation():
-        return LogicTrue()
 
 
 @abstract

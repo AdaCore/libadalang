@@ -30,7 +30,7 @@ def find_name(unit_name, name_text, line_no=None):
 for unit, name in [('a.ads', 'A'), ('a.ads', 'X'), ('a.adb', 'Y'),
                    ('a.adb', 'Get_X'), ('a.ads', 'U'), ('a.ads', 'Rec_Type'),
                    ('b.adb', 'X'), ('b.adb', 'Make_Rec_1'), ('c.ads', 'Foo'),
-                   ('d.ads', 'T')]:
+                   ('d.ads', 'T'), ('a.ads', '"+"')]:
     print('All references to {} from {}:'.format(name, unit))
     for ref in find_name(unit, name).p_find_all_references(all_units):
         while ref.parent is not None and not ref.p_xref_entry_point:

@@ -7,6 +7,8 @@ package A is
 
    function Get_X return Integer;
 
+   function "+" (R : Rec_Type) return Integer;
+
 private
    X : Integer;
 end A;

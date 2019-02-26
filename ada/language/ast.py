@@ -5905,29 +5905,37 @@ class Op(AdaNode):
                     "rem", "plus", "minus", "concat", "eq", "neq", "lt",
                     "lte", "gt", "gte", "double_dot"]
 
-    subprograms = Property(
-        lambda: Self.node_env.get(Self.match(
-            lambda _=Op.alt_and: '"and"',
-            lambda _=Op.alt_or: '"or"',
-            lambda _=Op.alt_xor: '"xor"',
-            lambda _=Op.alt_abs: '"abs"',
-            lambda _=Op.alt_not: '"not"',
-            lambda _=Op.alt_pow: '"**"',
-            lambda _=Op.alt_mult: '"*"',
-            lambda _=Op.alt_div: '"/"',
-            lambda _=Op.alt_mod: '"mod"',
-            lambda _=Op.alt_rem: '"rem"',
-            lambda _=Op.alt_plus: '"+"',
-            lambda _=Op.alt_minus: '"-"',
+    @langkit_property(return_type=T.Symbol)
+    def subprogram_symbol():
+        """
+        Return the symbol that needs to be used to define an overload of this
+        operator.
+        """
+        return Self.match(
+            lambda _=Op.alt_and:    '"and"',
+            lambda _=Op.alt_or:     '"or"',
+            lambda _=Op.alt_xor:    '"xor"',
+            lambda _=Op.alt_abs:    '"abs"',
+            lambda _=Op.alt_not:    '"not"',
+            lambda _=Op.alt_pow:    '"**"',
+            lambda _=Op.alt_mult:   '"*"',
+            lambda _=Op.alt_div:    '"/"',
+            lambda _=Op.alt_mod:    '"mod"',
+            lambda _=Op.alt_rem:    '"rem"',
+            lambda _=Op.alt_plus:   '"+"',
+            lambda _=Op.alt_minus:  '"-"',
             lambda _=Op.alt_concat: '"&"',
-            lambda _=Op.alt_eq: '"="',
-            lambda _=Op.alt_neq: '"/="',
-            lambda _=Op.alt_lt: '"<"',
-            lambda _=Op.alt_lte: '"<="',
-            lambda _=Op.alt_gt: '">"',
-            lambda _=Op.alt_gte: '">="',
-            lambda _: '<<>>',
-        )).filtermap(
+            lambda _=Op.alt_eq:     '"="',
+            lambda _=Op.alt_neq:    '"/="',
+            lambda _=Op.alt_lt:     '"<"',
+            lambda _=Op.alt_lte:    '"<="',
+            lambda _=Op.alt_gt:     '">"',
+            lambda _=Op.alt_gte:    '">="',
+            lambda _:               '<<>>',
+        )
+
+    subprograms = Property(
+        lambda: Self.node_env.get(Self.subprogram_symbol).filtermap(
             lambda e: e.cast_or_raise(T.BasicDecl),
             lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
         ),

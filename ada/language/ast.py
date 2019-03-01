@@ -3244,9 +3244,7 @@ class TypeDecl(BaseTypeDecl):
 
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
-        self_env = Var(
-            env.bind(Entity.children_env, Entity.type_def.defining_env)
-        )
+        self_env = Entity.type_def.defining_env
 
         return Cond(
             Not(imp_deref.is_null),

@@ -1,8 +1,8 @@
 Analyzing prim_ret.adb
 ######################
 
-Resolving xrefs for node <SubpSpec 1:1-1:19>
-********************************************
+Resolving xrefs for node <SubpSpec prim_ret.adb:1:1-1:19>
+*********************************************************
 
 
 Resolving xrefs for node <TypeDecl ["Base"] 3:7-3:32>
@@ -12,64 +12,64 @@ Resolving xrefs for node <TypeDecl ["Base"] 3:7-3:32>
 Resolving xrefs for node <ExprFunction ["Create"] 4:7-4:52>
 ***********************************************************
 
-Expr: <NullRecordAggregate 4:38-4:51>
+Expr: <NullRecordAggregate prim_ret.adb:4:38-4:51>
   type:       <TypeDecl ["Base"] 3:7-3:32>
 
-Resolving xrefs for node <SubpSpec 4:7-4:34>
-********************************************
+Resolving xrefs for node <SubpSpec prim_ret.adb:4:7-4:34>
+*********************************************************
 
-Expr: <Id "Base" 4:30-4:34>
-  references: <DefiningName 3:12-3:16>
+Expr: <Id "Base" prim_ret.adb:4:30-4:34>
+  references: <DefiningName prim_ret.adb:3:12-3:16>
   type:       None
 
-Resolving xrefs for node <EndName 5:8-5:9>
-******************************************
+Resolving xrefs for node <EndName prim_ret.adb:5:8-5:9>
+*******************************************************
 
-Expr: <EndName 5:8-5:9>
-  references: <DefiningName 2:12-2:13>
+Expr: <EndName prim_ret.adb:5:8-5:9>
+  references: <DefiningName prim_ret.adb:2:12-2:13>
   type:       None
-Expr: <Id "A" 5:8-5:9>
-  references: <DefiningName 2:12-2:13>
+Expr: <Id "A" prim_ret.adb:5:8-5:9>
+  references: <DefiningName prim_ret.adb:2:12-2:13>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["Derived"] 7:4-7:31>
 ********************************************************
 
-Expr: <DottedName 7:24-7:30>
-  references: <DefiningName 3:12-3:16>
+Expr: <DottedName prim_ret.adb:7:24-7:30>
+  references: <DefiningName prim_ret.adb:3:12-3:16>
   type:       None
-Expr: <Id "A" 7:24-7:25>
-  references: <DefiningName 2:12-2:13>
+Expr: <Id "A" prim_ret.adb:7:24-7:25>
+  references: <DefiningName prim_ret.adb:2:12-2:13>
   type:       None
-Expr: <Id "Base" 7:26-7:30>
-  references: <DefiningName 3:12-3:16>
+Expr: <Id "Base" prim_ret.adb:7:26-7:30>
+  references: <DefiningName prim_ret.adb:3:12-3:16>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["Inst"] 9:4-9:19>
 *******************************************************
 
-Expr: <Id "Derived" 9:11-9:18>
-  references: <DefiningName 7:9-7:16>
+Expr: <Id "Derived" prim_ret.adb:9:11-9:18>
+  references: <DefiningName prim_ret.adb:7:9-7:16>
   type:       None
 
-Resolving xrefs for node <AssignStmt 12:4-12:19>
-************************************************
+Resolving xrefs for node <AssignStmt prim_ret.adb:12:4-12:19>
+*************************************************************
 
-Expr: <Id "Inst" 12:4-12:8>
-  references: <DefiningName 9:4-9:8>
+Expr: <Id "Inst" prim_ret.adb:12:4-12:8>
+  references: <DefiningName prim_ret.adb:9:4-9:8>
   type:       <TypeDecl ["Derived"] 7:4-7:31>
-Expr: <Id "Create" 12:12-12:18>
-  references: <DefiningName 4:16-4:22>
+Expr: <Id "Create" prim_ret.adb:12:12-12:18>
+  references: <DefiningName prim_ret.adb:4:16-4:22>
   type:       <TypeDecl ["Derived"] 7:4-7:31>
 
-Resolving xrefs for node <EndName 13:5-13:13>
-*********************************************
+Resolving xrefs for node <EndName prim_ret.adb:13:5-13:13>
+**********************************************************
 
-Expr: <EndName 13:5-13:13>
-  references: <DefiningName 1:11-1:19>
+Expr: <EndName prim_ret.adb:13:5-13:13>
+  references: <DefiningName prim_ret.adb:1:11-1:19>
   type:       None
-Expr: <Id "Prim_Ret" 13:5-13:13>
-  references: <DefiningName 1:11-1:19>
+Expr: <Id "Prim_Ret" prim_ret.adb:13:5-13:13>
+  references: <DefiningName prim_ret.adb:1:11-1:19>
   type:       None
 
 

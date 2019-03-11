@@ -1,20 +1,20 @@
 Analyzing testloop.adb
 ######################
 
-Resolving xrefs for node <ForLoopSpec 10:8-10:17>
-*************************************************
+Resolving xrefs for node <ForLoopSpec testloop.adb:10:8-10:17>
+**************************************************************
 
-Expr: <Id "Foo" 10:14-10:17>
-  references: <DefiningName 7:13-7:16>
+Expr: <Id "Foo" testloop.adb:10:14-10:17>
+  references: <DefiningName testloop.adb:7:13-7:16>
   type:       <TypeDecl ["My_Array"] 5:4-5:57>
 
-Resolving xrefs for node <AssignStmt 11:7-11:16>
-************************************************
+Resolving xrefs for node <AssignStmt testloop.adb:11:7-11:16>
+*************************************************************
 
-Expr: <Id "El" 11:7-11:9>
-  references: <DefiningName 10:8-10:10>
+Expr: <Id "El" testloop.adb:11:7-11:9>
+  references: <DefiningName testloop.adb:10:8-10:10>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
-Expr: <Int 11:13-11:15>
+Expr: <Int testloop.adb:11:13-11:15>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

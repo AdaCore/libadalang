@@ -1,30 +1,30 @@
 Analyzing testwu.adb
 ####################
 
-Resolving xrefs for node <WithClause 1:1-1:10>
-**********************************************
+Resolving xrefs for node <WithClause testwu.adb:1:1-1:10>
+*********************************************************
 
-Expr: <Id "Lib" 1:6-1:9>
-  references: <DefiningName 1:9-1:12>
+Expr: <Id "Lib" testwu.adb:1:6-1:9>
+  references: <DefiningName lib.ads:1:9-1:12>
   type:       None
 
-Resolving xrefs for node <UsePackageClause 4:1-4:9>
-***************************************************
+Resolving xrefs for node <UsePackageClause testwu.adb:4:1-4:9>
+**************************************************************
 
-Expr: <Id "Lib" 4:5-4:8>
-  references: <DefiningName 1:9-1:12>
+Expr: <Id "Lib" testwu.adb:4:5-4:8>
+  references: <DefiningName lib.ads:1:9-1:12>
   type:       None
 
-Resolving xrefs for node <CallStmt 9:4-9:21>
-********************************************
+Resolving xrefs for node <CallStmt testwu.adb:9:4-9:21>
+*******************************************************
 
-Expr: <CallExpr 9:4-9:20>
-  references: <DefiningName 2:14-2:22>
+Expr: <CallExpr testwu.adb:9:4-9:20>
+  references: <DefiningName lib.ads:2:14-2:22>
   type:       None
-Expr: <Id "Put_Line" 9:4-9:12>
-  references: <DefiningName 2:14-2:22>
+Expr: <Id "Put_Line" testwu.adb:9:4-9:12>
+  references: <DefiningName lib.ads:2:14-2:22>
   type:       None
-Expr: <Str ""LOL"" 9:14-9:19>
+Expr: <Str ""LOL"" testwu.adb:9:14-9:19>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 

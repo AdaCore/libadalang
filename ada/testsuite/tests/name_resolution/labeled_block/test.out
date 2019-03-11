@@ -1,17 +1,17 @@
 Analyzing testblock.adb
 #######################
 
-Resolving xrefs for node <GotoStmt 8:7-8:18>
-********************************************
+Resolving xrefs for node <GotoStmt testblock.adb:8:7-8:18>
+**********************************************************
 
-Expr: <DottedName 8:12-8:17>
-  references: <DefiningName 7:9-7:10>
+Expr: <DottedName testblock.adb:8:12-8:17>
+  references: <DefiningName testblock.adb:7:9-7:10>
   type:       None
-Expr: <Id "Foo" 8:12-8:15>
-  references: <DefiningName 3:4-3:7>
+Expr: <Id "Foo" testblock.adb:8:12-8:15>
+  references: <DefiningName testblock.adb:3:4-3:7>
   type:       None
-Expr: <Id "B" 8:16-8:17>
-  references: <DefiningName 7:9-7:10>
+Expr: <Id "B" testblock.adb:8:16-8:17>
+  references: <DefiningName testblock.adb:7:9-7:10>
   type:       None
 
 

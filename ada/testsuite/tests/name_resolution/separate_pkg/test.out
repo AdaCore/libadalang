@@ -1,48 +1,48 @@
 Analyzing test-foo.adb
 ######################
 
-Resolving xrefs for node <SubpSpec 3:4-3:17>
-********************************************
+Resolving xrefs for node <SubpSpec test-foo.adb:3:4-3:17>
+*********************************************************
 
 
-Resolving xrefs for node <AssignStmt 5:7-5:15>
-**********************************************
+Resolving xrefs for node <AssignStmt test-foo.adb:5:7-5:15>
+***********************************************************
 
-Expr: <Id "I" 5:7-5:8>
-  references: <DefiningName 5:7-5:8>
+Expr: <Id "I" test-foo.adb:5:7-5:8>
+  references: <DefiningName test.adb:5:7-5:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 5:12-5:14>
+Expr: <Int test-foo.adb:5:12-5:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <AssignStmt 6:7-6:15>
-**********************************************
+Resolving xrefs for node <AssignStmt test-foo.adb:6:7-6:15>
+***********************************************************
 
-Expr: <Id "J" 6:7-6:8>
-  references: <DefiningName 9:4-9:5>
+Expr: <Id "J" test-foo.adb:6:7-6:8>
+  references: <DefiningName test.adb:9:4-9:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 6:12-6:14>
+Expr: <Int test-foo.adb:6:12-6:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <EndName 7:8-7:11>
-*******************************************
+Resolving xrefs for node <EndName test-foo.adb:7:8-7:11>
+********************************************************
 
-Expr: <EndName 7:8-7:11>
-  references: <DefiningName 3:14-3:17>
+Expr: <EndName test-foo.adb:7:8-7:11>
+  references: <DefiningName test-foo.adb:3:14-3:17>
   type:       None
-Expr: <Id "Bar" 7:8-7:11>
-  references: <DefiningName 3:14-3:17>
+Expr: <Id "Bar" test-foo.adb:7:8-7:11>
+  references: <DefiningName test-foo.adb:3:14-3:17>
   type:       None
 
-Resolving xrefs for node <EndName 8:5-8:8>
-******************************************
+Resolving xrefs for node <EndName test-foo.adb:8:5-8:8>
+*******************************************************
 
-Expr: <EndName 8:5-8:8>
-  references: <DefiningName 4:12-4:15>
+Expr: <EndName test-foo.adb:8:5-8:8>
+  references: <DefiningName test.adb:4:12-4:15>
   type:       None
-Expr: <Id "Foo" 8:5-8:8>
-  references: <DefiningName 4:12-4:15>
+Expr: <Id "Foo" test-foo.adb:8:5-8:8>
+  references: <DefiningName test.adb:4:12-4:15>
   type:       None
 
 

@@ -1,11 +1,11 @@
 Analyzing testexc.adb
 #####################
 
-Resolving xrefs for node <RaiseStmt 4:4-4:12>
-*********************************************
+Resolving xrefs for node <RaiseStmt testexc.adb:4:4-4:12>
+*********************************************************
 
-Expr: <Id "A" 4:10-4:11>
-  references: <DefiningName 2:4-2:5>
+Expr: <Id "A" testexc.adb:4:10-4:11>
+  references: <DefiningName testexc.adb:2:4-2:5>
   type:       None
 
 

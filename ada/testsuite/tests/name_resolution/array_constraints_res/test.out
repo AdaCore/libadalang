@@ -1,73 +1,73 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <SubpSpec 1:1-1:15>
-********************************************
+Resolving xrefs for node <SubpSpec test.adb:1:1-1:15>
+*****************************************************
 
 
 Resolving xrefs for node <ExprFunction ["Foo"] 2:4-2:42>
 ********************************************************
 
-Expr: <ParenExpr 2:35-2:41>
+Expr: <ParenExpr test.adb:2:35-2:41>
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Int 2:36-2:40>
+Expr: <Int test.adb:2:36-2:40>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <SubpSpec 2:4-2:31>
-********************************************
+Resolving xrefs for node <SubpSpec test.adb:2:4-2:31>
+*****************************************************
 
-Expr: <Id "Integer" 2:24-2:31>
-  references: <DefiningName 4:8-4:15>
+Expr: <Id "Integer" test.adb:2:24-2:31>
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
 
 Resolving xrefs for node <ExprFunction ["Foo"] 3:4-3:44>
 ********************************************************
 
-Expr: <ParenExpr 3:33-3:43>
+Expr: <ParenExpr test.adb:3:33-3:43>
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
-Expr: <Real 3:34-3:42>
+Expr: <Real test.adb:3:34-3:42>
   references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 
-Resolving xrefs for node <SubpSpec 3:4-3:29>
-********************************************
+Resolving xrefs for node <SubpSpec test.adb:3:4-3:29>
+*****************************************************
 
-Expr: <Id "Float" 3:24-3:29>
-  references: <DefiningName 13:8-13:13>
+Expr: <Id "Float" test.adb:3:24-3:29>
+  references: <DefiningName __standard:13:8-13:13>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["A"] 4:4-4:42>
 **************************************************
 
 
-Resolving xrefs for node <ArrayTypeDef 4:14-4:41>
-*************************************************
+Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
+**********************************************************
 
-Expr: <BinOp 4:21-4:29>
+Expr: <BinOp test.adb:4:21-4:29>
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Int 4:21-4:22>
+Expr: <Int test.adb:4:21-4:22>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Id "Foo" 4:26-4:29>
-  references: <DefiningName 2:13-2:16>
+Expr: <Id "Foo" test.adb:4:26-4:29>
+  references: <DefiningName test.adb:2:13-2:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Integer" 4:34-4:41>
-  references: <DefiningName 4:8-4:15>
+Expr: <Id "Integer" test.adb:4:34-4:41>
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <NullStmt 6:4-6:9>
-*******************************************
+Resolving xrefs for node <NullStmt test.adb:6:4-6:9>
+****************************************************
 
 
-Resolving xrefs for node <EndName 7:5-7:9>
-******************************************
+Resolving xrefs for node <EndName test.adb:7:5-7:9>
+***************************************************
 
-Expr: <EndName 7:5-7:9>
-  references: <DefiningName 1:11-1:15>
+Expr: <EndName test.adb:7:5-7:9>
+  references: <DefiningName test.adb:1:11-1:15>
   type:       None
-Expr: <Id "Test" 7:5-7:9>
-  references: <DefiningName 1:11-1:15>
+Expr: <Id "Test" test.adb:7:5-7:9>
+  references: <DefiningName test.adb:1:11-1:15>
   type:       None
 
 

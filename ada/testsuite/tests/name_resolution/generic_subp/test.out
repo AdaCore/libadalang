@@ -1,16 +1,16 @@
 Analyzing main.adb
 ##################
 
-Resolving xrefs for node <CallStmt 6:4-6:19>
-********************************************
+Resolving xrefs for node <CallStmt main.adb:6:4-6:19>
+*****************************************************
 
-Expr: <CallExpr 6:4-6:18>
-  references: <| DefiningName 8:14-8:21 [main.adb:4:4] |>
+Expr: <CallExpr main.adb:6:4-6:18>
+  references: <| DefiningName foo.ads:8:14-8:21 [main.adb:4:4] |>
   type:       None
-Expr: <Id "Print_Int" 6:4-6:13>
-  references: <| DefiningName 8:14-8:21 [main.adb:4:4] |>
+Expr: <Id "Print_Int" main.adb:6:4-6:13>
+  references: <| DefiningName foo.ads:8:14-8:21 [main.adb:4:4] |>
   type:       None
-Expr: <Int 6:15-6:17>
+Expr: <Int main.adb:6:15-6:17>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

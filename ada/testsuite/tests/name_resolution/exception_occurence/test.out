@@ -1,23 +1,23 @@
 Analyzing test_exc.adb
 ######################
 
-Resolving xrefs for node <CallStmt 8:4-8:37>
-********************************************
+Resolving xrefs for node <CallStmt test_exc.adb:8:4-8:37>
+*********************************************************
 
-Expr: <CallExpr 8:4-8:36>
-  references: <DefiningName 508:14-508:22>
+Expr: <CallExpr test_exc.adb:8:4-8:36>
+  references: <DefiningName a-textio.ads:508:14-508:22>
   type:       None
-Expr: <Id "Put_Line" 8:4-8:12>
-  references: <DefiningName 508:14-508:22>
+Expr: <Id "Put_Line" test_exc.adb:8:4-8:12>
+  references: <DefiningName a-textio.ads:508:14-508:22>
   type:       None
-Expr: <CallExpr 8:14-8:35>
-  references: <DefiningName 94:13-94:30>
+Expr: <CallExpr test_exc.adb:8:14-8:35>
+  references: <DefiningName a-except.ads:94:13-94:30>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "Exception_Message" 8:14-8:31>
-  references: <DefiningName 94:13-94:30>
+Expr: <Id "Exception_Message" test_exc.adb:8:14-8:31>
+  references: <DefiningName a-except.ads:94:13-94:30>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "E" 8:33-8:34>
-  references: <DefiningName 7:6-7:7>
+Expr: <Id "E" test_exc.adb:8:33-8:34>
+  references: <DefiningName test_exc.adb:7:6-7:7>
   type:       <TypeDecl ["Exception_Occurrence"] 63:4-63:49>
 
 

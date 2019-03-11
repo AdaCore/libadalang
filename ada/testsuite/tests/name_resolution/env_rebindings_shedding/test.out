@@ -1,25 +1,25 @@
 Analyzing main.adb
 ##################
 
-Resolving xrefs for node <AssignStmt 6:4-6:37>
-**********************************************
+Resolving xrefs for node <AssignStmt main.adb:6:4-6:37>
+*******************************************************
 
-Expr: <DottedName 6:4-6:31>
-  references: <| DefiningName 8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
+Expr: <DottedName main.adb:6:4-6:31>
+  references: <| DefiningName bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
-Expr: <DottedName 6:4-6:25>
-  references: <| DefiningName 8:12-8:24 [main.adb:4:4] |>
+Expr: <DottedName main.adb:6:4-6:25>
+  references: <| DefiningName foo.ads:8:12-8:24 [main.adb:4:4] |>
   type:       None
-Expr: <Id "Foo_Inst" 6:4-6:12>
-  references: <DefiningName 4:12-4:20>
+Expr: <Id "Foo_Inst" main.adb:6:4-6:12>
+  references: <DefiningName main.adb:4:12-4:20>
   type:       None
-Expr: <Id "Bar_Gen_Inst" 6:13-6:25>
-  references: <| DefiningName 8:12-8:24 [main.adb:4:4] |>
+Expr: <Id "Bar_Gen_Inst" main.adb:6:13-6:25>
+  references: <| DefiningName foo.ads:8:12-8:24 [main.adb:4:4] |>
   type:       None
-Expr: <Id "Count" 6:26-6:31>
-  references: <| DefiningName 8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
+Expr: <Id "Count" main.adb:6:26-6:31>
+  references: <| DefiningName bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
   type:       <SubtypeDecl ["Natural"] 5:3-5:57>
-Expr: <Int 6:35-6:36>
+Expr: <Int main.adb:6:35-6:36>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

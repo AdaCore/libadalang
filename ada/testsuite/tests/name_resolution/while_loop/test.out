@@ -1,28 +1,28 @@
 Analyzing testwhile.adb
 #######################
 
-Resolving xrefs for node <AssignStmt 8:7-8:16>
-**********************************************
+Resolving xrefs for node <AssignStmt testwhile.adb:8:7-8:16>
+************************************************************
 
-Expr: <Id "I" 8:7-8:8>
-  references: <DefiningName 5:4-5:5>
+Expr: <Id "I" testwhile.adb:8:7-8:8>
+  references: <DefiningName testwhile.adb:5:4-5:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Foo" 8:12-8:15>
-  references: <DefiningName 2:13-2:16>
+Expr: <Id "Foo" testwhile.adb:8:12-8:15>
+  references: <DefiningName testwhile.adb:2:13-2:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 
-Resolving xrefs for node <ExitStmt 10:7-10:21>
-**********************************************
+Resolving xrefs for node <ExitStmt testwhile.adb:10:7-10:21>
+************************************************************
 
-Expr: <Id "Foo" 10:17-10:20>
-  references: <DefiningName 3:13-3:16>
+Expr: <Id "Foo" testwhile.adb:10:17-10:20>
+  references: <DefiningName testwhile.adb:3:13-3:16>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
-Resolving xrefs for node <WhileLoopStmt 7:4-12:13>
-**************************************************
+Resolving xrefs for node <WhileLoopStmt testwhile.adb:7:4-12:13>
+****************************************************************
 
-Expr: <Id "Foo" 7:10-7:13>
-  references: <DefiningName 3:13-3:16>
+Expr: <Id "Foo" testwhile.adb:7:10-7:13>
+  references: <DefiningName testwhile.adb:3:13-3:16>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 
 

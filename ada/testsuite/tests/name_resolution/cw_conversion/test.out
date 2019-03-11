@@ -1,29 +1,29 @@
 Analyzing testcwconv.adb
 ########################
 
-Resolving xrefs for node <CallStmt 8:4-8:24>
-********************************************
+Resolving xrefs for node <CallStmt testcwconv.adb:8:4-8:24>
+***********************************************************
 
-Expr: <CallExpr 8:4-8:23>
-  references: <DefiningName 4:14-4:17>
+Expr: <CallExpr testcwconv.adb:8:4-8:23>
+  references: <DefiningName testcwconv.adb:4:14-4:17>
   type:       None
-Expr: <Id "Bar" 8:4-8:7>
-  references: <DefiningName 4:14-4:17>
+Expr: <Id "Bar" testcwconv.adb:8:4-8:7>
+  references: <DefiningName testcwconv.adb:4:14-4:17>
   type:       None
-Expr: <CallExpr 8:9-8:22>
-  references: <DefiningName 2:9-2:10>
+Expr: <CallExpr testcwconv.adb:8:9-8:22>
+  references: <DefiningName testcwconv.adb:2:9-2:10>
   type:       <ClasswideTypeDecl ["T"] 2:4-2:33>
-Expr: <AttributeRef 8:9-8:16>
-  references: <DefiningName 2:9-2:10>
+Expr: <AttributeRef testcwconv.adb:8:9-8:16>
+  references: <DefiningName testcwconv.adb:2:9-2:10>
   type:       <ClasswideTypeDecl ["T"] 2:4-2:33>
-Expr: <Id "T" 8:9-8:10>
-  references: <DefiningName 2:9-2:10>
+Expr: <Id "T" testcwconv.adb:8:9-8:10>
+  references: <DefiningName testcwconv.adb:2:9-2:10>
   type:       None
-Expr: <Id "Class" 8:11-8:16>
+Expr: <Id "Class" testcwconv.adb:8:11-8:16>
   references: None
   type:       None
-Expr: <Id "Foo" 8:18-8:21>
-  references: <DefiningName 6:13-6:16>
+Expr: <Id "Foo" testcwconv.adb:8:18-8:21>
+  references: <DefiningName testcwconv.adb:6:13-6:16>
   type:       <TypeDecl ["T"] 2:4-2:33>
 
 

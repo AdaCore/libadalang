@@ -1,19 +1,19 @@
 Analyzing bar.adb
 #################
 
-Resolving xrefs for node <AssignStmt 6:4-6:19>
-**********************************************
+Resolving xrefs for node <AssignStmt bar.adb:6:4-6:19>
+******************************************************
 
-Expr: <DottedName 6:4-6:13>
-  references: <| DefiningName 4:4-4:5 [bar.adb:4:4] |>
+Expr: <DottedName bar.adb:6:4-6:13>
+  references: <| DefiningName foo.ads:4:4-4:5 [bar.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Foo_Int" 6:4-6:11>
-  references: <DefiningName 4:12-4:19>
+Expr: <Id "Foo_Int" bar.adb:6:4-6:11>
+  references: <DefiningName bar.adb:4:12-4:19>
   type:       None
-Expr: <Id "X" 6:12-6:13>
-  references: <| DefiningName 4:4-4:5 [bar.adb:4:4] |>
+Expr: <Id "X" bar.adb:6:12-6:13>
+  references: <| DefiningName foo.ads:4:4-4:5 [bar.adb:4:4] |>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 6:17-6:18>
+Expr: <Int bar.adb:6:17-6:18>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

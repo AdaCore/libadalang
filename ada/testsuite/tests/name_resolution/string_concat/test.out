@@ -1,118 +1,118 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <SubpSpec 1:1-1:15>
-********************************************
+Resolving xrefs for node <SubpSpec test.adb:1:1-1:15>
+*****************************************************
 
 
 Resolving xrefs for node <ObjectDecl ["A"] 2:4-2:34>
 ****************************************************
 
-Expr: <Id "Character" 2:17-2:26>
-  references: <DefiningName 20:8-20:17>
+Expr: <Id "Character" test.adb:2:17-2:26>
+  references: <DefiningName __standard:20:8-20:17>
   type:       None
-Expr: <Chr "'l'" 2:30-2:33>
+Expr: <Chr "'l'" test.adb:2:30-2:33>
   references: None
   type:       <TypeDecl ["Character"] 20:3-20:27>
 
 Resolving xrefs for node <ObjectDecl ["B"] 3:4-3:40>
 ****************************************************
 
-Expr: <Id "Character" 3:17-3:26>
-  references: <DefiningName 20:8-20:17>
+Expr: <Id "Character" test.adb:3:17-3:26>
+  references: <DefiningName __standard:20:8-20:17>
   type:       None
-Expr: <DottedName 3:30-3:39>
-  references: <DefiningName 24:6-24:9>
+Expr: <DottedName test.adb:3:30-3:39>
+  references: <DefiningName __standard:24:6-24:9>
   type:       <TypeDecl ["Character"] 20:3-20:27>
-Expr: <Id "ASCII" 3:30-3:35>
-  references: <DefiningName 23:11-23:16>
+Expr: <Id "ASCII" test.adb:3:30-3:35>
+  references: <DefiningName __standard:23:11-23:16>
   type:       None
-Expr: <Id "NUL" 3:36-3:39>
-  references: <DefiningName 24:6-24:9>
+Expr: <Id "NUL" test.adb:3:36-3:39>
+  references: <DefiningName __standard:24:6-24:9>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 
 Resolving xrefs for node <ObjectDecl ["E"] 5:4-5:33>
 ****************************************************
 
-Expr: <Id "String" 5:17-5:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" test.adb:5:17-5:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <Str ""oiy"" 5:27-5:32>
+Expr: <Str ""oiy"" test.adb:5:27-5:32>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 
 Resolving xrefs for node <ObjectDecl ["C"] 6:4-6:39>
 ****************************************************
 
-Expr: <Id "String" 6:17-6:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" test.adb:6:17-6:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <BinOp 6:27-6:38>
+Expr: <BinOp test.adb:6:27-6:38>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Chr "'c'" 6:27-6:30>
+Expr: <Chr "'c'" test.adb:6:27-6:30>
   references: None
   type:       <TypeDecl ["Character"] 20:3-20:27>
-Expr: <Str ""lol"" 6:33-6:38>
+Expr: <Str ""lol"" test.adb:6:33-6:38>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 
 Resolving xrefs for node <ObjectDecl ["D"] 7:4-7:37>
 ****************************************************
 
-Expr: <Id "String" 7:17-7:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" test.adb:7:17-7:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <BinOp 7:27-7:36>
+Expr: <BinOp test.adb:7:27-7:36>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "C" 7:27-7:28>
-  references: <DefiningName 6:4-6:5>
+Expr: <Id "C" test.adb:7:27-7:28>
+  references: <DefiningName test.adb:6:4-6:5>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Str ""lol"" 7:31-7:36>
+Expr: <Str ""lol"" test.adb:7:31-7:36>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 
 Resolving xrefs for node <ObjectDecl ["F"] 8:4-8:33>
 ****************************************************
 
-Expr: <Id "String" 8:17-8:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" test.adb:8:17-8:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <BinOp 8:27-8:32>
+Expr: <BinOp test.adb:8:27-8:32>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "A" 8:27-8:28>
-  references: <DefiningName 2:4-2:5>
+Expr: <Id "A" test.adb:8:27-8:28>
+  references: <DefiningName test.adb:2:4-2:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
-Expr: <Id "D" 8:31-8:32>
-  references: <DefiningName 7:4-7:5>
+Expr: <Id "D" test.adb:8:31-8:32>
+  references: <DefiningName test.adb:7:4-7:5>
   type:       <TypeDecl ["String"] 104:3-104:57>
 
 Resolving xrefs for node <ObjectDecl ["G"] 9:4-9:37>
 ****************************************************
 
-Expr: <Id "String" 9:17-9:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" test.adb:9:17-9:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <BinOp 9:27-9:36>
+Expr: <BinOp test.adb:9:27-9:36>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Str ""lol"" 9:27-9:32>
+Expr: <Str ""lol"" test.adb:9:27-9:32>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "B" 9:35-9:36>
-  references: <DefiningName 3:4-3:5>
+Expr: <Id "B" test.adb:9:35-9:36>
+  references: <DefiningName test.adb:3:4-3:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
 
-Resolving xrefs for node <NullStmt 12:4-12:9>
-*********************************************
+Resolving xrefs for node <NullStmt test.adb:12:4-12:9>
+******************************************************
 
 
-Resolving xrefs for node <EndName 13:5-13:9>
-********************************************
+Resolving xrefs for node <EndName test.adb:13:5-13:9>
+*****************************************************
 
-Expr: <EndName 13:5-13:9>
-  references: <DefiningName 1:11-1:15>
+Expr: <EndName test.adb:13:5-13:9>
+  references: <DefiningName test.adb:1:11-1:15>
   type:       None
-Expr: <Id "Test" 13:5-13:9>
-  references: <DefiningName 1:11-1:15>
+Expr: <Id "Test" test.adb:13:5-13:9>
+  references: <DefiningName test.adb:1:11-1:15>
   type:       None
 
 

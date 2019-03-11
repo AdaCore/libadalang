@@ -1,19 +1,19 @@
 Analyzing testaccesstosubp.adb
 ##############################
 
-Resolving xrefs for node <AssignStmt 10:4-10:16>
-************************************************
+Resolving xrefs for node <AssignStmt testaccesstosubp.adb:10:4-10:16>
+*********************************************************************
 
-Expr: <Id "N" 10:4-10:5>
-  references: <DefiningName 8:4-8:5>
+Expr: <Id "N" testaccesstosubp.adb:10:4-10:5>
+  references: <DefiningName testaccesstosubp.adb:8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <CallExpr 10:9-10:15>
-  references: <DefiningName 6:4-6:5>
+Expr: <CallExpr testaccesstosubp.adb:10:9-10:15>
+  references: <DefiningName testaccesstosubp.adb:6:4-6:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "A" 10:9-10:10>
-  references: <DefiningName 6:4-6:5>
+Expr: <Id "A" testaccesstosubp.adb:10:9-10:10>
+  references: <DefiningName testaccesstosubp.adb:6:4-6:5>
   type:       <TypeDecl ["Pouet"] 2:4-2:63>
-Expr: <Int 10:12-10:14>
+Expr: <Int testaccesstosubp.adb:10:12-10:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

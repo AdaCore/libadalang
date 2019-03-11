@@ -4,16 +4,16 @@ Analyzing testnull.adb
 Resolving xrefs for node <ObjectDecl ["B"] 5:4-5:28>
 ****************************************************
 
-Expr: <Id "Int_Ptr" 5:8-5:15>
-  references: <DefiningName 2:9-2:16>
+Expr: <Id "Int_Ptr" testnull.adb:5:8-5:15>
+  references: <DefiningName testnull.adb:2:9-2:16>
   type:       None
-Expr: <AttributeRef 5:19-5:27>
+Expr: <AttributeRef testnull.adb:5:19-5:27>
   references: None
   type:       <TypeDecl ["Int_Ptr"] 2:4-2:35>
-Expr: <Id "A" 5:19-5:20>
-  references: <DefiningName 4:4-4:5>
+Expr: <Id "A" testnull.adb:5:19-5:20>
+  references: <DefiningName testnull.adb:4:4-4:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Access" 5:21-5:27>
+Expr: <Id "Access" testnull.adb:5:21-5:27>
   references: None
   type:       None
 

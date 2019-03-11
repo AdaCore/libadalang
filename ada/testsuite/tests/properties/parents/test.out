@@ -1,191 +1,191 @@
-CompilationUnit 1:1-14:9
+CompilationUnit foo.adb:1:1-14:9
 |prelude:
-|  AdaNodeList 1:1-1:18
+|  AdaNodeList foo.adb:1:1-1:18
 |  |item_0:
-|  |  WithClause 1:1-1:18
+|  |  WithClause foo.adb:1:1-1:18
 |  |  |has_limited:
-|  |  |  LimitedAbsent 1:1-1:1
+|  |  |  LimitedAbsent foo.adb:1:1-1:1
 |  |  |has_private:
-|  |  |  PrivateAbsent 1:1-1:1
+|  |  |  PrivateAbsent foo.adb:1:1-1:1
 |  |  |packages:
-|  |  |  NameList 1:6-1:17
+|  |  |  NameList foo.adb:1:6-1:17
 |  |  |  |item_0:
-|  |  |  |  DottedName 1:6-1:17
+|  |  |  |  DottedName foo.adb:1:6-1:17
 |  |  |  |  |prefix:
-|  |  |  |  |  Id "Ada" 1:6-1:9: Ada
+|  |  |  |  |  Id "Ada" foo.adb:1:6-1:9: Ada
 |  |  |  |  |suffix:
-|  |  |  |  |  Id "Text_IO" 1:10-1:17: Text_IO
+|  |  |  |  |  Id "Text_IO" foo.adb:1:10-1:17: Text_IO
 |body:
-|  LibraryItem 3:1-14:9
+|  LibraryItem foo.adb:3:1-14:9
 |  |has_private:
-|  |  PrivateAbsent 1:18-1:18
+|  |  PrivateAbsent foo.adb:1:18-1:18
 |  |item:
 |  |  SubpBody ["Foo"] 3:1-14:9
 |  |  |overriding:
-|  |  |  OverridingUnspecified 1:18-1:18
+|  |  |  OverridingUnspecified foo.adb:1:18-1:18
 |  |  |subp_spec:
-|  |  |  SubpSpec 3:1-3:14
+|  |  |  SubpSpec foo.adb:3:1-3:14
 |  |  |  |subp_kind:
-|  |  |  |  SubpKindProcedure 3:1-3:10
+|  |  |  |  SubpKindProcedure foo.adb:3:1-3:10
 |  |  |  |subp_name:
-|  |  |  |  DefiningName 3:11-3:14
+|  |  |  |  DefiningName foo.adb:3:11-3:14
 |  |  |  |  |name:
-|  |  |  |  |  Id "Foo" 3:11-3:14: Foo
+|  |  |  |  |  Id "Foo" foo.adb:3:11-3:14: Foo
 |  |  |  |subp_params: None
 |  |  |  |subp_returns: None
 |  |  |aspects: None
 |  |  |decls:
-|  |  |  DeclarativePart 3:17-12:1
+|  |  |  DeclarativePart foo.adb:3:17-12:1
 |  |  |  |decls:
-|  |  |  |  AdaNodeList 4:4-11:13
+|  |  |  |  AdaNodeList foo.adb:4:4-11:13
 |  |  |  |  |item_0:
 |  |  |  |  |  SubpBody ["Fact"] 4:4-11:13
 |  |  |  |  |  |overriding:
-|  |  |  |  |  |  OverridingUnspecified 3:17-3:17
+|  |  |  |  |  |  OverridingUnspecified foo.adb:3:17-3:17
 |  |  |  |  |  |subp_spec:
-|  |  |  |  |  |  SubpSpec 4:4-4:46
+|  |  |  |  |  |  SubpSpec foo.adb:4:4-4:46
 |  |  |  |  |  |  |subp_kind:
-|  |  |  |  |  |  |  SubpKindFunction 4:4-4:12
+|  |  |  |  |  |  |  SubpKindFunction foo.adb:4:4-4:12
 |  |  |  |  |  |  |subp_name:
-|  |  |  |  |  |  |  DefiningName 4:13-4:17
+|  |  |  |  |  |  |  DefiningName foo.adb:4:13-4:17
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id "Fact" 4:13-4:17: Fact
+|  |  |  |  |  |  |  |  Id "Fact" foo.adb:4:13-4:17: Fact
 |  |  |  |  |  |  |subp_params:
-|  |  |  |  |  |  |  Params 4:18-4:31
+|  |  |  |  |  |  |  Params foo.adb:4:18-4:31
 |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  ParamSpecList 4:19-4:30
+|  |  |  |  |  |  |  |  ParamSpecList foo.adb:4:19-4:30
 |  |  |  |  |  |  |  |  |item_0:
 |  |  |  |  |  |  |  |  |  ParamSpec ["N"] 4:19-4:30
 |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  DefiningNameList 4:19-4:20
+|  |  |  |  |  |  |  |  |  |  DefiningNameList foo.adb:4:19-4:20
 |  |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  |  DefiningName 4:19-4:20
+|  |  |  |  |  |  |  |  |  |  |  DefiningName foo.adb:4:19-4:20
 |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  Id "N" 4:19-4:20: N
+|  |  |  |  |  |  |  |  |  |  |  |  Id "N" foo.adb:4:19-4:20: N
 |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  AliasedAbsent 4:22-4:22
+|  |  |  |  |  |  |  |  |  |  AliasedAbsent foo.adb:4:22-4:22
 |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  ModeDefault 4:22-4:22
+|  |  |  |  |  |  |  |  |  |  ModeDefault foo.adb:4:22-4:22
 |  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  SubtypeIndication 4:23-4:30
+|  |  |  |  |  |  |  |  |  |  SubtypeIndication foo.adb:4:23-4:30
 |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent 4:22-4:22
+|  |  |  |  |  |  |  |  |  |  |  NotNullAbsent foo.adb:4:22-4:22
 |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  Id "Integer" 4:23-4:30: Integer
+|  |  |  |  |  |  |  |  |  |  |  Id "Integer" foo.adb:4:23-4:30: Integer
 |  |  |  |  |  |  |  |  |  |  |constraint: None
 |  |  |  |  |  |  |  |  |  |default_expr: None
 |  |  |  |  |  |  |subp_returns:
-|  |  |  |  |  |  |  SubtypeIndication 4:39-4:46
+|  |  |  |  |  |  |  SubtypeIndication foo.adb:4:39-4:46
 |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  NotNullAbsent 4:38-4:38
+|  |  |  |  |  |  |  |  NotNullAbsent foo.adb:4:38-4:38
 |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  Id "Integer" 4:39-4:46: Integer
+|  |  |  |  |  |  |  |  Id "Integer" foo.adb:4:39-4:46: Integer
 |  |  |  |  |  |  |  |constraint: None
 |  |  |  |  |  |aspects: None
 |  |  |  |  |  |decls:
-|  |  |  |  |  |  DeclarativePart 4:49-5:4
+|  |  |  |  |  |  DeclarativePart foo.adb:4:49-5:4
 |  |  |  |  |  |  |decls:
-|  |  |  |  |  |  |  AdaNodeList 4:49-4:49
+|  |  |  |  |  |  |  AdaNodeList foo.adb:4:49-4:49
 |  |  |  |  |  |stmts:
-|  |  |  |  |  |  HandledStmts 5:9-11:4
+|  |  |  |  |  |  HandledStmts foo.adb:5:9-11:4
 |  |  |  |  |  |  |stmts:
-|  |  |  |  |  |  |  StmtList 6:7-10:14
+|  |  |  |  |  |  |  StmtList foo.adb:6:7-10:14
 |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  IfStmt 6:7-10:14
+|  |  |  |  |  |  |  |  IfStmt foo.adb:6:7-10:14
 |  |  |  |  |  |  |  |  |cond_expr:
-|  |  |  |  |  |  |  |  |  RelationOp 6:10-6:15
+|  |  |  |  |  |  |  |  |  RelationOp foo.adb:6:10-6:15
 |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  Id "N" 6:10-6:11: N
+|  |  |  |  |  |  |  |  |  |  Id "N" foo.adb:6:10-6:11: N
 |  |  |  |  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  |  |  |  OpGt 6:12-6:13
+|  |  |  |  |  |  |  |  |  |  OpGt foo.adb:6:12-6:13
 |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  Int 6:14-6:15: 0
+|  |  |  |  |  |  |  |  |  |  Int foo.adb:6:14-6:15: 0
 |  |  |  |  |  |  |  |  |then_stmts:
-|  |  |  |  |  |  |  |  |  StmtList 7:10-7:34
+|  |  |  |  |  |  |  |  |  StmtList foo.adb:7:10-7:34
 |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  ReturnStmt 7:10-7:34
+|  |  |  |  |  |  |  |  |  |  ReturnStmt foo.adb:7:10-7:34
 |  |  |  |  |  |  |  |  |  |  |return_expr:
-|  |  |  |  |  |  |  |  |  |  |  BinOp 7:17-7:33
+|  |  |  |  |  |  |  |  |  |  |  BinOp foo.adb:7:17-7:33
 |  |  |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  |  |  Id "N" 7:17-7:18: N
+|  |  |  |  |  |  |  |  |  |  |  |  Id "N" foo.adb:7:17-7:18: N
 |  |  |  |  |  |  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  |  |  |  |  |  OpMult 7:19-7:20
+|  |  |  |  |  |  |  |  |  |  |  |  OpMult foo.adb:7:19-7:20
 |  |  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  |  CallExpr 7:21-7:33
+|  |  |  |  |  |  |  |  |  |  |  |  CallExpr foo.adb:7:21-7:33
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id "Fact" 7:21-7:25: Fact
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id "Fact" foo.adb:7:21-7:25: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList 7:27-7:32
+|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList foo.adb:7:27-7:32
 |  |  |  |  |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc 7:27-7:32
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc foo.adb:7:27-7:32
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp 7:27-7:32
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp foo.adb:7:27-7:32
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id "N" 7:27-7:28: N
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id "N" foo.adb:7:27-7:28: N
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus 7:29-7:30
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus foo.adb:7:29-7:30
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int 7:31-7:32: 1
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int foo.adb:7:31-7:32: 1
 |  |  |  |  |  |  |  |  |alternatives:
-|  |  |  |  |  |  |  |  |  ElsifStmtPartList 7:34-7:34
+|  |  |  |  |  |  |  |  |  ElsifStmtPartList foo.adb:7:34-7:34
 |  |  |  |  |  |  |  |  |else_stmts:
-|  |  |  |  |  |  |  |  |  StmtList 9:10-9:19
+|  |  |  |  |  |  |  |  |  StmtList foo.adb:9:10-9:19
 |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  ReturnStmt 9:10-9:19
+|  |  |  |  |  |  |  |  |  |  ReturnStmt foo.adb:9:10-9:19
 |  |  |  |  |  |  |  |  |  |  |return_expr:
-|  |  |  |  |  |  |  |  |  |  |  Int 9:17-9:18: 1
+|  |  |  |  |  |  |  |  |  |  |  Int foo.adb:9:17-9:18: 1
 |  |  |  |  |  |  |exceptions:
-|  |  |  |  |  |  |  AdaNodeList 10:13-10:13
+|  |  |  |  |  |  |  AdaNodeList foo.adb:10:13-10:13
 |  |  |  |  |  |end_name:
-|  |  |  |  |  |  EndName 11:8-11:12
+|  |  |  |  |  |  EndName foo.adb:11:8-11:12
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id "Fact" 11:8-11:12: Fact
+|  |  |  |  |  |  |  Id "Fact" foo.adb:11:8-11:12: Fact
 |  |  |stmts:
-|  |  |  HandledStmts 12:6-14:1
+|  |  |  HandledStmts foo.adb:12:6-14:1
 |  |  |  |stmts:
-|  |  |  |  StmtList 13:4-13:40
+|  |  |  |  StmtList foo.adb:13:4-13:40
 |  |  |  |  |item_0:
-|  |  |  |  |  CallStmt 13:4-13:40
+|  |  |  |  |  CallStmt foo.adb:13:4-13:40
 |  |  |  |  |  |call:
-|  |  |  |  |  |  CallExpr 13:4-13:39
+|  |  |  |  |  |  CallExpr foo.adb:13:4-13:39
 |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  Id "Put_Line" 13:4-13:12: Put_Line
+|  |  |  |  |  |  |  Id "Put_Line" foo.adb:13:4-13:12: Put_Line
 |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  AssocList 13:14-13:38
+|  |  |  |  |  |  |  AssocList foo.adb:13:14-13:38
 |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  ParamAssoc 13:14-13:38
+|  |  |  |  |  |  |  |  ParamAssoc foo.adb:13:14-13:38
 |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  AttributeRef 13:14-13:38
+|  |  |  |  |  |  |  |  |  AttributeRef foo.adb:13:14-13:38
 |  |  |  |  |  |  |  |  |  |prefix:
-|  |  |  |  |  |  |  |  |  |  Id "Integer" 13:14-13:21: Integer
+|  |  |  |  |  |  |  |  |  |  Id "Integer" foo.adb:13:14-13:21: Integer
 |  |  |  |  |  |  |  |  |  |attribute:
-|  |  |  |  |  |  |  |  |  |  Id "Image" 13:22-13:27: Image
+|  |  |  |  |  |  |  |  |  |  Id "Image" foo.adb:13:22-13:27: Image
 |  |  |  |  |  |  |  |  |  |args:
-|  |  |  |  |  |  |  |  |  |  AssocList 13:29-13:37
+|  |  |  |  |  |  |  |  |  |  AssocList foo.adb:13:29-13:37
 |  |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  |  ParamAssoc 13:29-13:37
+|  |  |  |  |  |  |  |  |  |  |  ParamAssoc foo.adb:13:29-13:37
 |  |  |  |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  CallExpr 13:29-13:37
+|  |  |  |  |  |  |  |  |  |  |  |  CallExpr foo.adb:13:29-13:37
 |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  Id "Fact" 13:29-13:33: Fact
+|  |  |  |  |  |  |  |  |  |  |  |  |  Id "Fact" foo.adb:13:29-13:33: Fact
 |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList 13:35-13:36
+|  |  |  |  |  |  |  |  |  |  |  |  |  AssocList foo.adb:13:35-13:36
 |  |  |  |  |  |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc 13:35-13:36
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc foo.adb:13:35-13:36
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: None
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int 13:35-13:36: 6
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int foo.adb:13:35-13:36: 6
 |  |  |  |exceptions:
-|  |  |  |  AdaNodeList 13:39-13:39
+|  |  |  |  AdaNodeList foo.adb:13:39-13:39
 |  |  |end_name:
-|  |  |  EndName 14:5-14:8
+|  |  |  EndName foo.adb:14:5-14:8
 |  |  |  |name:
-|  |  |  |  Id "Foo" 14:5-14:8: Foo
+|  |  |  |  Id "Foo" foo.adb:14:5-14:8: Foo
 |pragmas:
-|  PragmaNodeList 14:9-14:9
+|  PragmaNodeList foo.adb:14:9-14:9
 Parents of CompilationUnit[1:1-14:9]:
   - CompilationUnit[1:1-14:9]
 Parents of SubpSpec[3:1-3:14]:

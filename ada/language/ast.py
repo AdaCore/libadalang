@@ -14,7 +14,8 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property
+    Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property,
+    CharacterLiteral as Char
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -1505,9 +1506,10 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(public=True, return_type=Symbol.array)
-    def fully_qualified_name():
+    def fully_qualified_name_array():
         """
-        Return the fully qualified name corresponding to this declaration.
+        Return the fully qualified name corresponding to this declaration, as
+        an array of symbols.
         """
         ent = Var(Self.as_bare_entity)
         fqn = Var(If(
@@ -1515,7 +1517,7 @@ class BasicDecl(AdaNode):
             ent.defining_name.as_symbol_array,
 
             ent.semantic_parent.cast_or_raise(T.BasicDecl)
-            .fully_qualified_name.then(lambda fqn: If(
+            .fully_qualified_name_array.then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal),
                 fqn,
                 fqn.concat(ent.defining_name.as_symbol_array)
@@ -1524,6 +1526,18 @@ class BasicDecl(AdaNode):
 
         return Self.parent.cast(
             T.Subunit)._.name.as_symbol_array.concat(fqn)._or(fqn)
+
+    @langkit_property(public=True, return_type=T.String)
+    def fully_qualified_name():
+        """
+        Return the fully qualified name corresponding to this declaration.
+        """
+        fqn = Var(Entity.fully_qualified_name_array)
+        fqn_len = Var(fqn.length)
+
+        return fqn.mapcat(lambda i, n: (
+            If(i == fqn_len - 1, n.image, n.image.concat(Char('.').singleton))
+        ))
 
 
 class ErrorDecl(BasicDecl):

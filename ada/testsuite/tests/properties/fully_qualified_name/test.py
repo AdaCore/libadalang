@@ -11,7 +11,7 @@ for filename in sys.argv[1:]:
 
     for bd in u.root.findall(lal.BasicDecl):
         try:
-            n = '.'.join(bd.p_fully_qualified_name)
+            n = bd.p_fully_qualified_name
         except lal.PropertyError:
             n = '<error>'
         print('{} -> {}'.format(bd, n))

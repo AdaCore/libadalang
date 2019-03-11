@@ -1,20 +1,20 @@
 Analyzing main.adb
 ##################
 
-Resolving xrefs for node <AssignStmt 14:4-14:25>
-************************************************
+Resolving xrefs for node <AssignStmt main.adb:14:4-14:25>
+*********************************************************
 
-Expr: <Id "V" 14:4-14:5>
-  references: <DefiningName 11:4-11:5>
+Expr: <Id "V" main.adb:14:4-14:5>
+  references: <DefiningName main.adb:11:4-11:5>
   type:       <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
-Expr: <CallExpr 14:9-14:24>
-  references: <| DefiningName 10:13-10:19 [main.adb:4:4, main.adb:9:4] |>
+Expr: <CallExpr main.adb:14:9-14:24>
+  references: <| DefiningName vector_ops.ads:10:13-10:19 [main.adb:4:4, main.adb:9:4] |>
   type:       <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
-Expr: <Id "Filter_Even" 14:9-14:20>
-  references: <| DefiningName 10:13-10:19 [main.adb:4:4, main.adb:9:4] |>
+Expr: <Id "Filter_Even" main.adb:14:9-14:20>
+  references: <| DefiningName vector_ops.ads:10:13-10:19 [main.adb:4:4, main.adb:9:4] |>
   type:       <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
-Expr: <Id "V" 14:22-14:23>
-  references: <DefiningName 11:4-11:5>
+Expr: <Id "V" main.adb:14:22-14:23>
+  references: <DefiningName main.adb:11:4-11:5>
   type:       <| TypeDecl ["Vector"] 4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
 
 

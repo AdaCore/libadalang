@@ -10,5 +10,8 @@ is
 begin
    return "<" & To_Text (Kind_Name (Node))
           & " """ & Node.Text & """ "
+          & To_Text
+            (Ada.Directories.Simple_Name 
+               (Get_Filename (Unit (Node)))) & ":"
           & To_Text (Image (Sloc_Range (Node))) & ">";
 end Bare_Base_Id_Short_Image;

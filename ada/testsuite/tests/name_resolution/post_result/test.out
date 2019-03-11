@@ -1,70 +1,70 @@
 Analyzing test_result_attr.adb
 ##############################
 
-Resolving xrefs for node <SubpSpec 1:1-1:27>
-********************************************
+Resolving xrefs for node <SubpSpec test_result_attr.adb:1:1-1:27>
+*****************************************************************
 
 
-Resolving xrefs for node <SubpSpec 2:4-2:34>
-********************************************
+Resolving xrefs for node <SubpSpec test_result_attr.adb:2:4-2:34>
+*****************************************************************
 
-Expr: <Id "Integer" 2:27-2:34>
-  references: <DefiningName 4:8-4:15>
+Expr: <Id "Integer" test_result_attr.adb:2:27-2:34>
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <AspectAssoc 3:12-3:38>
-************************************************
+Resolving xrefs for node <AspectAssoc test_result_attr.adb:3:12-3:38>
+*********************************************************************
 
-Expr: <Id "Post" 3:12-3:16>
+Expr: <Id "Post" test_result_attr.adb:3:12-3:16>
   references: None
   type:       None
-Expr: <RelationOp 3:20-3:38>
+Expr: <RelationOp test_result_attr.adb:3:20-3:38>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
-Expr: <AttributeRef 3:20-3:33>
+Expr: <AttributeRef test_result_attr.adb:3:20-3:33>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Barize" 3:20-3:26>
-  references: <DefiningName 2:13-2:19>
+Expr: <Id "Barize" test_result_attr.adb:3:20-3:26>
+  references: <DefiningName test_result_attr.adb:2:13-2:19>
   type:       None
-Expr: <Id "Result" 3:27-3:33>
+Expr: <Id "Result" test_result_attr.adb:3:27-3:33>
   references: None
   type:       None
-Expr: <Int 3:36-3:38>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-
-Resolving xrefs for node <SubpSpec 5:4-5:34>
-********************************************
-
-Expr: <Id "Integer" 5:27-5:34>
-  references: <DefiningName 4:8-4:15>
-  type:       None
-
-Resolving xrefs for node <ReturnStmt 7:7-7:17>
-**********************************************
-
-Expr: <Int 7:14-7:16>
+Expr: <Int test_result_attr.adb:3:36-3:38>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <EndName 8:8-8:14>
-*******************************************
+Resolving xrefs for node <SubpSpec test_result_attr.adb:5:4-5:34>
+*****************************************************************
 
-Expr: <EndName 8:8-8:14>
-  references: <DefiningName 5:13-5:19>
-  type:       None
-Expr: <Id "Barize" 8:8-8:14>
-  references: <DefiningName 5:13-5:19>
+Expr: <Id "Integer" test_result_attr.adb:5:27-5:34>
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <EndName 10:5-10:21>
-*********************************************
+Resolving xrefs for node <ReturnStmt test_result_attr.adb:7:7-7:17>
+*******************************************************************
 
-Expr: <EndName 10:5-10:21>
-  references: <DefiningName 1:11-1:27>
+Expr: <Int test_result_attr.adb:7:14-7:16>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+
+Resolving xrefs for node <EndName test_result_attr.adb:8:8-8:14>
+****************************************************************
+
+Expr: <EndName test_result_attr.adb:8:8-8:14>
+  references: <DefiningName test_result_attr.adb:5:13-5:19>
   type:       None
-Expr: <Id "Test_Result_Attr" 10:5-10:21>
-  references: <DefiningName 1:11-1:27>
+Expr: <Id "Barize" test_result_attr.adb:8:8-8:14>
+  references: <DefiningName test_result_attr.adb:5:13-5:19>
+  type:       None
+
+Resolving xrefs for node <EndName test_result_attr.adb:10:5-10:21>
+******************************************************************
+
+Expr: <EndName test_result_attr.adb:10:5-10:21>
+  references: <DefiningName test_result_attr.adb:1:11-1:27>
+  type:       None
+Expr: <Id "Test_Result_Attr" test_result_attr.adb:10:5-10:21>
+  references: <DefiningName test_result_attr.adb:1:11-1:27>
   type:       None
 
 

@@ -152,10 +152,10 @@ $root = LexEnv(Primary, Parent=null):
     bar: [<SubpBody ["Bar"] 2:4-9:12>]
 
 @3 = LexEnv(Primary, Parent=@2, Node=<SubpBody ["Bar"] 2:4-9:12>):
-  Referenced: <SubpBody ["Bar"] 2:4-9:12>: LexEnv(Primary, Node=<CompilationUnit 1:1-10:9>)
+  Referenced: <SubpBody ["Bar"] 2:4-9:12>: LexEnv(Primary, Node=<CompilationUnit input:1:1-10:9>)
     i: [<ParamSpec ["I", "J"] 2:19-2:33>]
     j: [<ParamSpec ["I", "J"] 2:19-2:33>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<DeclBlock 4:7-8:11>):
+@4 = LexEnv(Primary, Parent=@3, Node=<DeclBlock input:4:7-8:11>):
     lol: [<SubtypeDecl ["Lol"] 5:10-5:47>]
 

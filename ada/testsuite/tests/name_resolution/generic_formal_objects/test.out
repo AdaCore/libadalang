@@ -4,37 +4,37 @@ Analyzing genform.adb
 Resolving xrefs for node <GenericPackageInstantiation ["Inst1"] 19:4-19:38>
 ***************************************************************************
 
-Expr: <Id "GF1" 19:25-19:28>
-  references: <DefiningName 10:12-10:15>
+Expr: <Id "GF1" genform.adb:19:25-19:28>
+  references: <DefiningName genform.adb:10:12-10:15>
   type:       None
-Expr: <Id "A" 19:30-19:31>
-  references: <DefiningName 9:7-9:8>
+Expr: <Id "A" genform.adb:19:30-19:31>
+  references: <DefiningName genform.adb:9:7-9:8>
   type:       None
-Expr: <Id "I" 19:35-19:36>
-  references: <DefiningName 6:4-6:5>
+Expr: <Id "I" genform.adb:19:35-19:36>
+  references: <DefiningName genform.adb:6:4-6:5>
   type:       <TypeDecl ["R"] 2:4-4:15>
 
 Resolving xrefs for node <GenericPackageInstantiation ["Inst2"] 22:4-22:54>
 ***************************************************************************
 
-Expr: <Id "GF2" 22:25-22:28>
-  references: <DefiningName 16:12-16:15>
+Expr: <Id "GF2" genform.adb:22:25-22:28>
+  references: <DefiningName genform.adb:16:12-16:15>
   type:       None
-Expr: <Id "T" 22:30-22:31>
-  references: <DefiningName 14:12-14:13>
+Expr: <Id "T" genform.adb:22:30-22:31>
+  references: <DefiningName genform.adb:14:12-14:13>
   type:       None
-Expr: <Id "R" 22:35-22:36>
-  references: <DefiningName 2:9-2:10>
+Expr: <Id "R" genform.adb:22:35-22:36>
+  references: <DefiningName genform.adb:2:9-2:10>
   type:       None
-Expr: <Id "A" 22:38-22:39>
-  references: <DefiningName 15:7-15:8>
+Expr: <Id "A" genform.adb:22:38-22:39>
+  references: <DefiningName genform.adb:15:7-15:8>
   type:       None
-Expr: <Aggregate 22:43-22:52>
+Expr: <Aggregate genform.adb:22:43-22:52>
   type:       <TypeDecl ["R"] 2:4-4:15>
-Expr: <Id "B" 22:44-22:45>
-  references: <DefiningName 3:7-3:8>
+Expr: <Id "B" genform.adb:22:44-22:45>
+  references: <DefiningName genform.adb:3:7-3:8>
   type:       None
-Expr: <Int 22:49-22:51>
+Expr: <Int genform.adb:22:49-22:51>
   references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 

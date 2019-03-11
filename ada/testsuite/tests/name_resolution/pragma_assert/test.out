@@ -1,18 +1,18 @@
 Analyzing p.adb
 ###############
 
-Resolving xrefs for node <PragmaNode 6:7-6:28>
-**********************************************
+Resolving xrefs for node <PragmaNode p.adb:6:7-6:28>
+****************************************************
 
-Expr: <Id "Assert" 6:14-6:20>
+Expr: <Id "Assert" p.adb:6:14-6:20>
   references: None
   type:       None
-Expr: <RelationOp 6:21-6:26>
+Expr: <RelationOp p.adb:6:21-6:26>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "I" 6:21-6:22>
-  references: <DefiningName 4:7-4:8>
+Expr: <Id "I" p.adb:6:21-6:22>
+  references: <DefiningName p.adb:4:7-4:8>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 6:25-6:26>
+Expr: <Int p.adb:6:25-6:26>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

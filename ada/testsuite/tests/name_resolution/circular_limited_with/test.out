@@ -1,26 +1,26 @@
 Analyzing d.adb
 ###############
 
-Resolving xrefs for node <CallStmt 4:7-4:25>
-********************************************
+Resolving xrefs for node <CallStmt d.adb:4:7-4:25>
+**************************************************
 
-Expr: <CallExpr 4:7-4:24>
-  references: <DefiningName 6:14-6:19>
+Expr: <CallExpr d.adb:4:7-4:24>
+  references: <DefiningName c.ads:6:14-6:19>
   type:       None
-Expr: <DottedName 4:7-4:14>
-  references: <DefiningName 6:14-6:19>
+Expr: <DottedName d.adb:4:7-4:14>
+  references: <DefiningName c.ads:6:14-6:19>
   type:       None
-Expr: <Id "C" 4:7-4:8>
-  references: <DefiningName 3:9-3:10>
+Expr: <Id "C" d.adb:4:7-4:8>
+  references: <DefiningName c.ads:3:9-3:10>
   type:       None
-Expr: <Id "Visit" 4:9-4:14>
-  references: <DefiningName 6:14-6:19>
+Expr: <Id "Visit" d.adb:4:9-4:14>
+  references: <DefiningName c.ads:6:14-6:19>
   type:       None
-Expr: <Id "R" 4:16-4:17>
-  references: <DefiningName 2:40-2:41>
+Expr: <Id "R" d.adb:4:16-4:17>
+  references: <DefiningName d.adb:2:40-2:41>
   type:       <TypeDecl ["Root_Type"] 4:4-4:34>
-Expr: <Id "Self" 4:19-4:23>
-  references: <DefiningName 2:21-2:25>
+Expr: <Id "Self" d.adb:4:19-4:23>
+  references: <DefiningName d.adb:2:21-2:25>
   type:       <TypeDecl ["Foo"] 4:4-4:28>
 
 

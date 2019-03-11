@@ -1,8 +1,8 @@
 Analyzing testsucc.adb
 ######################
 
-Resolving xrefs for node <SubpSpec 1:1-1:19>
-********************************************
+Resolving xrefs for node <SubpSpec testsucc.adb:1:1-1:19>
+*********************************************************
 
 
 Resolving xrefs for node <TypeDecl ["Enum"] 2:4-2:30>
@@ -12,63 +12,63 @@ Resolving xrefs for node <TypeDecl ["Enum"] 2:4-2:30>
 Resolving xrefs for node <ObjectDecl ["Inst"] 4:4-4:21>
 *******************************************************
 
-Expr: <Id "Enum" 4:11-4:15>
-  references: <DefiningName 2:9-2:13>
+Expr: <Id "Enum" testsucc.adb:4:11-4:15>
+  references: <DefiningName testsucc.adb:2:9-2:13>
   type:       None
-Expr: <Id "A" 4:19-4:20>
-  references: <DefiningName 2:18-2:19>
+Expr: <Id "A" testsucc.adb:4:19-4:20>
+  references: <DefiningName testsucc.adb:2:18-2:19>
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 
 Resolving xrefs for node <ObjectDecl ["Inst_2"] 5:4-5:37>
 *********************************************************
 
-Expr: <Id "Enum" 5:13-5:17>
-  references: <DefiningName 2:9-2:13>
+Expr: <Id "Enum" testsucc.adb:5:13-5:17>
+  references: <DefiningName testsucc.adb:2:9-2:13>
   type:       None
-Expr: <AttributeRef 5:21-5:36>
+Expr: <AttributeRef testsucc.adb:5:21-5:36>
   references: None
   type:       <TypeDecl ["Enum"] 2:4-2:30>
-Expr: <Id "Enum" 5:21-5:25>
-  references: <DefiningName 2:9-2:13>
+Expr: <Id "Enum" testsucc.adb:5:21-5:25>
+  references: <DefiningName testsucc.adb:2:9-2:13>
   type:       None
-Expr: <Id "Succ" 5:26-5:30>
+Expr: <Id "Succ" testsucc.adb:5:26-5:30>
   references: None
   type:       None
-Expr: <Id "Inst" 5:31-5:35>
+Expr: <Id "Inst" testsucc.adb:5:31-5:35>
   references: None
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 
 Resolving xrefs for node <ObjectDecl ["Inst_3"] 6:4-6:34>
 *********************************************************
 
-Expr: <Id "Enum" 6:13-6:17>
-  references: <DefiningName 2:9-2:13>
+Expr: <Id "Enum" testsucc.adb:6:13-6:17>
+  references: <DefiningName testsucc.adb:2:9-2:13>
   type:       None
-Expr: <AttributeRef 6:21-6:33>
+Expr: <AttributeRef testsucc.adb:6:21-6:33>
   references: None
   type:       <TypeDecl ["Enum"] 2:4-2:30>
-Expr: <Id "Enum" 6:21-6:25>
-  references: <DefiningName 2:9-2:13>
+Expr: <Id "Enum" testsucc.adb:6:21-6:25>
+  references: <DefiningName testsucc.adb:2:9-2:13>
   type:       None
-Expr: <Id "Succ" 6:26-6:30>
+Expr: <Id "Succ" testsucc.adb:6:26-6:30>
   references: None
   type:       None
-Expr: <Id "C" 6:31-6:32>
+Expr: <Id "C" testsucc.adb:6:31-6:32>
   references: None
   type:       <TypeDecl ["Enum"] 2:4-2:30>
 
-Resolving xrefs for node <NullStmt 8:4-8:9>
-*******************************************
+Resolving xrefs for node <NullStmt testsucc.adb:8:4-8:9>
+********************************************************
 
 
-Resolving xrefs for node <EndName 9:5-9:13>
-*******************************************
+Resolving xrefs for node <EndName testsucc.adb:9:5-9:13>
+********************************************************
 
-Expr: <EndName 9:5-9:13>
-  references: <DefiningName 1:11-1:19>
+Expr: <EndName testsucc.adb:9:5-9:13>
+  references: <DefiningName testsucc.adb:1:11-1:19>
   type:       None
-Expr: <Id "Testsucc" 9:5-9:13>
-  references: <DefiningName 1:11-1:19>
+Expr: <Id "Testsucc" testsucc.adb:9:5-9:13>
+  references: <DefiningName testsucc.adb:1:11-1:19>
   type:       None
 
 

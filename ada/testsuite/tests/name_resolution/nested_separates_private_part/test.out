@@ -4,11 +4,11 @@ Analyzing b-c-d.adb
 Resolving xrefs for node <ObjectDecl ["A"] 4:7-4:23>
 ****************************************************
 
-Expr: <Id "Pouet" 4:11-4:16>
-  references: <DefiningName 12:12-12:17>
+Expr: <Id "Pouet" b-c-d.adb:4:11-4:16>
+  references: <DefiningName b.adb:12:12-12:17>
   type:       None
-Expr: <Id "A2" 4:20-4:22>
-  references: <DefiningName 12:26-12:28>
+Expr: <Id "A2" b-c-d.adb:4:20-4:22>
+  references: <DefiningName b.adb:12:26-12:28>
   type:       <TypeDecl ["Pouet"] 12:7-12:38>
 
 

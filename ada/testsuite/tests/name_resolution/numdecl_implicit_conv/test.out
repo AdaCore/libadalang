@@ -1,15 +1,15 @@
 Analyzing testcst.adb
 #####################
 
-Resolving xrefs for node <IfStmt 5:4-7:11>
-******************************************
+Resolving xrefs for node <IfStmt testcst.adb:5:4-7:11>
+******************************************************
 
-Expr: <RelationOp 5:7-5:15>
+Expr: <RelationOp testcst.adb:5:7-5:15>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
-Expr: <Id "B" 5:7-5:8>
-  references: <DefiningName 3:4-3:5>
+Expr: <Id "B" testcst.adb:5:7-5:8>
+  references: <DefiningName testcst.adb:3:4-3:5>
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
-Expr: <Real 5:11-5:15>
+Expr: <Real testcst.adb:5:11-5:15>
   references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 

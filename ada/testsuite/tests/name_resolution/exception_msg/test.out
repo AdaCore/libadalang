@@ -1,27 +1,27 @@
 Analyzing testexcmsg.adb
 ########################
 
-Resolving xrefs for node <RaiseStmt 3:4-3:61>
-*********************************************
+Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
+************************************************************
 
-Expr: <Id "Constraint_Error" 3:10-3:26>
-  references: <DefiningName 115:3-115:19>
+Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
+  references: <DefiningName __standard:115:3-115:19>
   type:       None
-Expr: <BinOp 3:32-3:60>
+Expr: <BinOp testexcmsg.adb:3:32-3:60>
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Str ""Pouet"" 3:32-3:39>
+Expr: <Str ""Pouet"" testexcmsg.adb:3:32-3:39>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <AttributeRef 3:42-3:60>
+Expr: <AttributeRef testexcmsg.adb:3:42-3:60>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "Integer" 3:42-3:49>
-  references: <DefiningName 4:8-4:15>
+Expr: <Id "Integer" testexcmsg.adb:3:42-3:49>
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
-Expr: <Id "Image" 3:50-3:55>
+Expr: <Id "Image" testexcmsg.adb:3:50-3:55>
   references: None
   type:       None
-Expr: <Int 3:57-3:59>
+Expr: <Int testexcmsg.adb:3:57-3:59>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

@@ -4,16 +4,16 @@ Analyzing foo.adb
 Resolving xrefs for node <ObjectDecl ["S"] 4:4-4:33>
 ****************************************************
 
-Expr: <Id "String" 4:17-4:23>
-  references: <DefiningName 104:8-104:14>
+Expr: <Id "String" foo.adb:4:17-4:23>
+  references: <DefiningName __standard:104:8-104:14>
   type:       None
-Expr: <AttributeRef 4:27-4:32>
+Expr: <AttributeRef foo.adb:4:27-4:32>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
-Expr: <Id "I" 4:27-4:28>
-  references: <DefiningName 2:4-2:5>
+Expr: <Id "I" foo.adb:4:27-4:28>
+  references: <DefiningName foo.adb:2:4-2:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Id "Img" 4:29-4:32>
+Expr: <Id "Img" foo.adb:4:29-4:32>
   references: None
   type:       None
 

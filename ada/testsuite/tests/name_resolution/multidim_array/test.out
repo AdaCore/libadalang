@@ -4,28 +4,28 @@ Analyzing test_array_indices.adb
 Resolving xrefs for node <ObjectDecl ["Inst"] 6:4-7:55>
 *******************************************************
 
-Expr: <Id "A" 6:11-6:12>
-  references: <DefiningName 4:9-4:10>
+Expr: <Id "A" test_array_indices.adb:6:11-6:12>
+  references: <DefiningName test_array_indices.adb:4:9-4:10>
   type:       None
-Expr: <Aggregate 6:16-7:54>
+Expr: <Aggregate test_array_indices.adb:6:16-7:54>
   type:       <TypeDecl ["A"] 4:4-4:46>
-Expr: <Id "Yellow" 6:17-6:23>
-  references: <DefiningName 2:19-2:25>
+Expr: <Id "Yellow" test_array_indices.adb:6:17-6:23>
+  references: <DefiningName test_array_indices.adb:2:19-2:25>
   type:       <TypeDecl ["Color"] 2:4-2:54>
-Expr: <Aggregate 6:27-6:41>
+Expr: <Aggregate test_array_indices.adb:6:27-6:41>
   type:       None
-Expr: <Int 6:38-6:40>
+Expr: <Int test_array_indices.adb:6:38-6:40>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Aggregate 7:27-7:53>
+Expr: <Aggregate test_array_indices.adb:7:27-7:53>
   type:       None
-Expr: <Id "Dark" 7:28-7:32>
-  references: <DefiningName 3:19-3:23>
+Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
+  references: <DefiningName test_array_indices.adb:3:19-3:23>
   type:       <TypeDecl ["Shade"] 3:4-3:32>
-Expr: <Int 7:36-7:38>
+Expr: <Int test_array_indices.adb:7:36-7:38>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Int 7:50-7:52>
+Expr: <Int test_array_indices.adb:7:50-7:52>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

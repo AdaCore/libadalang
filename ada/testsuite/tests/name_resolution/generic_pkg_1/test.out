@@ -1,14 +1,14 @@
 Analyzing p.adb
 ###############
 
-Resolving xrefs for node <AssignStmt 5:7-5:21>
-**********************************************
+Resolving xrefs for node <AssignStmt p.adb:5:7-5:21>
+****************************************************
 
-Expr: <Id "New_T" 5:7-5:12>
-  references: <DefiningName 3:7-3:12>
+Expr: <Id "New_T" p.adb:5:7-5:12>
+  references: <DefiningName p.adb:3:7-3:12>
   type:       <TypeDecl ["T"] 2:4-2:22>
-Expr: <Id "Self" 5:16-5:20>
-  references: <DefiningName 2:19-2:23>
+Expr: <Id "Self" p.adb:5:16-5:20>
+  references: <DefiningName p.adb:2:19-2:23>
   type:       <TypeDecl ["T"] 2:4-2:22>
 
 

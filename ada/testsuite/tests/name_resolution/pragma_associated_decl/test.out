@@ -1,14 +1,14 @@
 Analyzing foo.ads
 #################
 
-Resolving xrefs for node <PragmaNode 6:4-6:20>
-**********************************************
+Resolving xrefs for node <PragmaNode foo.ads:6:4-6:20>
+******************************************************
 
-Expr: <Id "Pack" 6:11-6:15>
+Expr: <Id "Pack" foo.ads:6:11-6:15>
   references: None
   type:       None
-Expr: <Id "T" 6:17-6:18>
-  references: <DefiningName 5:9-5:10>
+Expr: <Id "T" foo.ads:6:17-6:18>
+  references: <DefiningName foo.ads:5:9-5:10>
   type:       None
 
 

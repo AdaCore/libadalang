@@ -1,14 +1,14 @@
 Analyzing test1.adb
 ###################
 
-Resolving xrefs for node <AssignStmt 12:4-12:11>
-************************************************
+Resolving xrefs for node <AssignStmt test1.adb:12:4-12:11>
+**********************************************************
 
-Expr: <Id "A" 12:4-12:5>
-  references: <DefiningName 7:4-7:5>
+Expr: <Id "A" test1.adb:12:4-12:5>
+  references: <DefiningName test1.adb:7:4-7:5>
   type:       <TypeDecl ["Int"] 2:4-2:30>
-Expr: <Id "B" 12:9-12:10>
-  references: <DefiningName 10:13-10:14>
+Expr: <Id "B" test1.adb:12:9-12:10>
+  references: <DefiningName test1.adb:10:13-10:14>
   type:       <SubtypeDecl ["Sub_Int"] 5:4-5:40>
 
 

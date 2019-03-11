@@ -1,46 +1,46 @@
 Analyzing test-foo.adb
 ######################
 
-Resolving xrefs for node <SubpSpec 2:1-2:14>
-********************************************
+Resolving xrefs for node <SubpSpec test-foo.adb:2:1-2:14>
+*********************************************************
 
 
-Resolving xrefs for node <SubpSpec 3:4-3:17>
-********************************************
+Resolving xrefs for node <SubpSpec test-foo.adb:3:4-3:17>
+*********************************************************
 
 
-Resolving xrefs for node <AssignStmt 5:7-5:15>
-**********************************************
+Resolving xrefs for node <AssignStmt test-foo.adb:5:7-5:15>
+***********************************************************
 
-Expr: <Id "J" 5:7-5:8>
-  references: <DefiningName 8:4-8:5>
+Expr: <Id "J" test-foo.adb:5:7-5:8>
+  references: <DefiningName test.adb:8:4-8:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
-Expr: <Int 5:12-5:14>
+Expr: <Int test-foo.adb:5:12-5:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <EndName 6:8-6:11>
-*******************************************
+Resolving xrefs for node <EndName test-foo.adb:6:8-6:11>
+********************************************************
 
-Expr: <EndName 6:8-6:11>
-  references: <DefiningName 3:14-3:17>
+Expr: <EndName test-foo.adb:6:8-6:11>
+  references: <DefiningName test-foo.adb:3:14-3:17>
   type:       None
-Expr: <Id "Bar" 6:8-6:11>
-  references: <DefiningName 3:14-3:17>
+Expr: <Id "Bar" test-foo.adb:6:8-6:11>
+  references: <DefiningName test-foo.adb:3:14-3:17>
   type:       None
 
-Resolving xrefs for node <NullStmt 8:4-8:9>
-*******************************************
+Resolving xrefs for node <NullStmt test-foo.adb:8:4-8:9>
+********************************************************
 
 
-Resolving xrefs for node <EndName 9:5-9:8>
-******************************************
+Resolving xrefs for node <EndName test-foo.adb:9:5-9:8>
+*******************************************************
 
-Expr: <EndName 9:5-9:8>
-  references: <DefiningName 2:11-2:14>
+Expr: <EndName test-foo.adb:9:5-9:8>
+  references: <DefiningName test-foo.adb:2:11-2:14>
   type:       None
-Expr: <Id "Foo" 9:5-9:8>
-  references: <DefiningName 2:11-2:14>
+Expr: <Id "Foo" test-foo.adb:9:5-9:8>
+  references: <DefiningName test-foo.adb:2:11-2:14>
   type:       None
 
 

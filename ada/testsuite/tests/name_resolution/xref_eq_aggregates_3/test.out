@@ -1,39 +1,39 @@
 Analyzing array_aggregate.adb
 #############################
 
-Resolving xrefs for node <AssignStmt 8:4-8:27>
-**********************************************
+Resolving xrefs for node <AssignStmt array_aggregate.adb:8:4-8:27>
+******************************************************************
 
-Expr: <Id "Inst" 8:4-8:8>
-  references: <DefiningName 4:4-4:8>
+Expr: <Id "Inst" array_aggregate.adb:8:4-8:8>
+  references: <DefiningName array_aggregate.adb:4:4-4:8>
   type:       <TypeDecl ["A"] 3:4-3:41>
-Expr: <Aggregate 8:12-8:26>
+Expr: <Aggregate array_aggregate.adb:8:12-8:26>
   type:       <TypeDecl ["A"] 3:4-3:41>
-Expr: <Int 8:23-8:25>
+Expr: <Int array_aggregate.adb:8:23-8:25>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 
-Resolving xrefs for node <AssignStmt 11:4-11:43>
-************************************************
+Resolving xrefs for node <AssignStmt array_aggregate.adb:11:4-11:43>
+********************************************************************
 
-Expr: <Id "Inst" 11:4-11:8>
-  references: <DefiningName 4:4-4:8>
+Expr: <Id "Inst" array_aggregate.adb:11:4-11:8>
+  references: <DefiningName array_aggregate.adb:4:4-4:8>
   type:       <TypeDecl ["A"] 3:4-3:41>
-Expr: <Aggregate 11:12-11:42>
+Expr: <Aggregate array_aggregate.adb:11:12-11:42>
   type:       <TypeDecl ["A"] 3:4-3:41>
-Expr: <Int 11:13-11:14>
+Expr: <Int array_aggregate.adb:11:13-11:14>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Int 11:17-11:18>
+Expr: <Int array_aggregate.adb:11:17-11:18>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Int 11:21-11:22>
+Expr: <Int array_aggregate.adb:11:21-11:22>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
-Expr: <Id "I" 11:26-11:27>
-  references: <DefiningName 6:4-6:5>
+Expr: <Id "I" array_aggregate.adb:11:26-11:27>
+  references: <DefiningName array_aggregate.adb:6:4-6:5>
   type:       <TypeDecl ["Integer"] 2:4-2:36>
-Expr: <Int 11:39-11:41>
+Expr: <Int array_aggregate.adb:11:39-11:41>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 

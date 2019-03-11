@@ -4,14 +4,14 @@ Analyzing main.adb
 Resolving xrefs for node <SubtypeDecl ["TT"] 4:4-4:25>
 ******************************************************
 
-Expr: <DottedName 4:18-4:24>
-  references: <| DefiningName 4:12-4:13 [pkg2.ads:2:1] |>
+Expr: <DottedName main.adb:4:18-4:24>
+  references: <| DefiningName pkg.ads:4:12-4:13 [pkg2.ads:2:1] |>
   type:       None
-Expr: <Id "Truc" 4:18-4:22>
-  references: <| DefiningName 3:12-3:16 [pkg2.ads:2:1] |>
+Expr: <Id "Truc" main.adb:4:18-4:22>
+  references: <| DefiningName pkg.ads:3:12-3:16 [pkg2.ads:2:1] |>
   type:       None
-Expr: <Id "T" 4:23-4:24>
-  references: <| DefiningName 4:12-4:13 [pkg2.ads:2:1] |>
+Expr: <Id "T" main.adb:4:23-4:24>
+  references: <| DefiningName pkg.ads:4:12-4:13 [pkg2.ads:2:1] |>
   type:       None
 
 

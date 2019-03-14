@@ -15,7 +15,7 @@ from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
     Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property,
-    CharacterLiteral as Char
+    String
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -227,6 +227,15 @@ class AdaNode(ASTNode):
         warn_on_node=True
     )
 
+    @langkit_property(return_type=T.String)
+    def uit():
+        """
+        Unique identifying text used to recognize this node. Not applicable to
+        all nodes, but on AdaNode because it spans more than one hierarchy of
+        node types.
+        """
+        return String("")
+
     in_aspect = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
             lambda a: a.id.as_bare_entity.name_symbol.any_of('Pre', 'Post')
@@ -237,6 +246,24 @@ class AdaNode(ASTNode):
         Self.parents.find(lambda p: p.is_a(T.CompilationUnit))
         .cast(T.CompilationUnit).get_empty_env,
     )
+
+    @langkit_property(return_type=T.String)
+    def string_join(strns=T.String.array, sep=T.String):
+        """
+        Static method. Return the array of strings joined by separator ``sep``.
+        """
+        arr_len = Var(strns.length)
+
+        return strns.mapcat(lambda i, n: (
+            If(i == arr_len - 1, n, n.concat(sep))
+        ))
+
+    @langkit_property(return_type=T.String)
+    def sym_join(syms=Symbol.array, sep=T.String):
+        """
+        Static method. Return the array of symbols joined by separator ``sep``.
+        """
+        return Entity.string_join(syms.map(lambda s: s.image), sep)
 
     @langkit_property(return_type=T.BasicDecl,
                       ignore_warn_on_node=True, uses_entity_info=False)
@@ -1516,11 +1543,11 @@ class BasicDecl(AdaNode):
             ent.is_unit_root,
             ent.defining_name.as_symbol_array,
 
-            ent.semantic_parent.cast_or_raise(T.BasicDecl)
-            .fully_qualified_name_array.then(lambda fqn: If(
+            ent.semantic_parent.cast(T.BasicDecl)
+            ._.fully_qualified_name_array.then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal),
                 fqn,
-                fqn.concat(ent.defining_name.as_symbol_array)
+                fqn.concat(ent.defining_name._.as_symbol_array)
             ))
         ))
 
@@ -1532,12 +1559,18 @@ class BasicDecl(AdaNode):
         """
         Return the fully qualified name corresponding to this declaration.
         """
-        fqn = Var(Entity.fully_qualified_name_array)
-        fqn_len = Var(fqn.length)
+        return Entity.sym_join(Entity.fully_qualified_name_array, String("."))
 
-        return fqn.mapcat(lambda i, n: (
-            If(i == fqn_len - 1, n.image, n.image.concat(Char('.').singleton))
-        ))
+    @langkit_property(public=True, return_type=T.String)
+    def unique_identifying_name():
+        """
+        Return an unique identifying name for this declaration. In the case of
+        subprograms, this will include the profile.
+        """
+        return Entity.match(
+            lambda atd=T.AnonymousTypeDecl: Entity.uit,
+            lambda _: Entity.fully_qualified_name.concat(Entity.uit)
+        )
 
 
 class ErrorDecl(BasicDecl):
@@ -4299,6 +4332,22 @@ class EnumLitSynthTypeExpr(TypeExpr):
         Entity.parent.cast(T.EnumLiteralDecl).enum_type
     )
 
+    uit = Property(
+        # The UIT is the combination of the enum type name and of the enum
+        # literal name.
+        origin.bind(
+            Self,
+            Entity.designated_type.fully_qualified_name
+            .concat(
+                Entity.sym_join(
+                    Entity.parent.cast(T.EnumLiteralDecl)
+                    .defining_name.as_symbol_array,
+                    String("")
+                )
+            )
+        )
+    )
+
 
 class AnonymousType(TypeExpr):
     """
@@ -4308,6 +4357,13 @@ class AnonymousType(TypeExpr):
 
     designated_type = Property(Entity.type_decl)
     xref_equation = Property(Entity.type_decl.sub_equation)
+
+    # TODO: This implementation is not satisfying, because the formatting will
+    # be the original source formatting, but will do for the moment.
+    # Ideally we would compute a properly formatted version of the anonymous
+    # type declaration. Using unparsing in order to avoid duplicating logic
+    # between parsing/unparsing.
+    uit = Property(Entity.type_decl.text)
 
 
 class SubtypeIndication(TypeExpr):
@@ -4349,6 +4405,11 @@ class SubtypeIndication(TypeExpr):
             lambda c: c.is_static,
             default_val=Entity.designated_type.is_static_decl
         ))
+
+    uit = Property(origin.bind(
+        Self,
+        Entity.designated_type.fully_qualified_name
+    ))
 
 
 class ConstrainedSubtypeIndication(SubtypeIndication):
@@ -4535,6 +4596,22 @@ class BasicSubpDecl(BasicDecl):
         Return the BaseSubpBody corresponding to this node.
         """
         return Entity.body_part_for_decl.cast(BaseSubpBody)
+
+    @langkit_property(return_type=T.String)
+    def uit():
+        # For subprograms, we'll compute their profile as unique identifying
+        # text.
+        return Entity.subp_decl_spec.unpacked_formal_params.then(
+            lambda ufp: String(" (").concat(
+                Entity.string_join(
+                    ufp.map(lambda p: p.spec.type_expression.uit),
+                    String(", ")
+                )
+            )
+            .concat(String(")"))
+        ).concat(Entity.subp_decl_spec.returns.then(
+            lambda r: String(" return ").concat(r.uit)
+        ))
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit

@@ -53,15 +53,19 @@ def decode_boolean_literal(node):
         ))
 
 
-def resolve_node(node):
+def resolve_node(node, show_slocs=True):
     def print_nodes(n):
         if n.is_a(lal.Expr) and not n.is_a(lal.DefiningName):
             print('Expr: {}'.format(n))
 
             if n.is_a(lal.Name):
-                print('  references: {}'.format(
+                refd_decl_img = (
                     entity_repr(n.p_xref(args.imprecise_fallback))
-                ))
+                    if show_slocs
+                    else n.p_xref(args.imprecise_fallback)
+                    .p_basic_decl.p_unique_identifying_name
+                )
+                print('  references: {}'.format(refd_decl_img))
 
             print('  type:       {}'.format(entity_repr(n.p_expression_type)))
         if n.p_xref_entry_point and n != node or n.is_a(lal.DefiningName):
@@ -191,6 +195,16 @@ for src_file in input_sources:
         elif pragma_name == u'Test_Statement':
             assert len(p.f_args) == 0
             resolve_node(p.previous_sibling)
+            empty = False
+
+        elif pragma_name == u'Test_Statement_UID':
+            # Like Test_Statement, but will show the unique_identifying name of
+            # the declarations instead of the node image.  This is used in case
+            # the node might change (for example in tests where we resolve
+            # runtime things).
+
+            assert len(p.f_args) == 0
+            resolve_node(p.previous_sibling, show_slocs=False)
             empty = False
 
         elif pragma_name == u'Test_Block':

@@ -248,7 +248,7 @@ procedure Nameres is
 
       Nb_File_Fails : Natural := 0;
 
-      procedure Resolve_Node (Node : Ada_Node);
+      procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True);
       procedure Resolve_Block (Block : Ada_Node);
 
       -------------------
@@ -274,7 +274,7 @@ procedure Nameres is
       -- Resolve_Node --
       ------------------
 
-      procedure Resolve_Node (Node : Ada_Node) is
+      procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True) is
 
          package J renames GNATCOLL.JSON;
 
@@ -291,9 +291,19 @@ procedure Nameres is
                if not Quiet then
                   Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name then
-                     Put_Line
-                       ("  references: " & Image (P_Xref
-                         (As_Name (N), Args.Imprecise_Fallback.Get)));
+                     declare
+                        Referenced_Decl_Image : String :=
+                           (if Show_Slocs
+                            then Image
+                              (P_Xref (As_Name (N),
+                                       Args.Imprecise_Fallback.Get))
+                            else Image
+                              (P_Unique_Identifying_Name (P_Basic_Decl (P_Xref
+                                (As_Name (N), Args.Imprecise_Fallback.Get)))));
+                     begin
+                        Put_Line
+                          ("  references: " & Referenced_Decl_Image);
+                     end;
                   end if;
                   Put_Line ("  type:       "
                             & Image (P_Expression_Type (As_Expr (N))));
@@ -547,6 +557,17 @@ procedure Nameres is
             elsif Pragma_Name = "Test_Statement" then
                pragma Assert (Children_Count (F_Args (P_Node)) = 0);
                Resolve_Node (Previous_Sibling (P_Node));
+               Empty := False;
+
+            elsif Pragma_Name = "Test_Statement_UID" then
+
+               --  Like Test_Statement, but will show the unique_identifying
+               --  name of the declarations instead of the node image.
+               --  This is used in case the node might change (for example in
+               --  tests where we resolve runtime things).
+
+               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
+               Resolve_Node (Previous_Sibling (P_Node), Show_Slocs => False);
                Empty := False;
 
             elsif Pragma_Name = "Test_Block" then

@@ -292,14 +292,15 @@ procedure Nameres is
                   Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name then
                      declare
-                        Referenced_Decl_Image : String :=
+                        Decl_Name : constant Defining_Name :=
+                           N.As_Name.P_Xref (Args.Imprecise_Fallback.Get);
+
+                        Referenced_Decl_Image : constant String :=
                            (if Show_Slocs
-                            then Image
-                              (P_Xref (As_Name (N),
-                                       Args.Imprecise_Fallback.Get))
+                            then Image (Decl_Name)
                             else Image
-                              (P_Unique_Identifying_Name (P_Basic_Decl (P_Xref
-                                (As_Name (N), Args.Imprecise_Fallback.Get)))));
+                              (Decl_Name.P_Basic_Decl
+                               .P_Unique_Identifying_Name));
                      begin
                         Put_Line
                           ("  references: " & Referenced_Decl_Image);

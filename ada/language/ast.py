@@ -7112,11 +7112,17 @@ class AssocList(BasicAssoc.list):
             lambda e: e.is_dot_call
         ))
 
-        # todo: handle more than CallExpr
-        params = Var(Entity.parent.cast(T.CallExpr).then(
-            lambda e: e.name.referenced_decl.subp_spec_or_null(
+        # todo: handle more than CallExpr and GenericInstantiation?
+        params = Var(Entity.parent._.match(
+            lambda e=T.CallExpr: e.name.referenced_decl.subp_spec_or_null(
                 follow_generic=True
-            ).abstract_formal_params
+            ).abstract_formal_params,
+
+            lambda i=T.GenericInstantiation:
+            i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
+                ._.formal_part.abstract_formal_params,
+
+            lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
         return Self.match_formals(params, Self, is_dottable_subp).map(

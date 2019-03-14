@@ -6,5 +6,5 @@ procedure Test_Exc is begin
 exception
 when E : Constraint_Error =>
    Put_Line (Exception_Message (E));
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 end Test_Exc;

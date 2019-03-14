@@ -1564,7 +1564,7 @@ class BasicDecl(AdaNode):
     @langkit_property(public=True, return_type=T.String)
     def unique_identifying_name():
         """
-        Return an unique identifying name for this declaration. In the case of
+        Return a unique identifying name for this declaration. In the case of
         subprograms, this will include the profile.
         """
         return Entity.match(

@@ -1568,7 +1568,7 @@ class BasicDecl(AdaNode):
         subprograms, this will include the profile.
         """
         return Entity.match(
-            lambda atd=T.AnonymousTypeDecl: Entity.uit,
+            lambda _=T.AnonymousTypeDecl: Entity.uit,
             lambda _: Entity.fully_qualified_name.concat(Entity.uit)
         )
 

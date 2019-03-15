@@ -302,8 +302,7 @@ procedure Nameres is
                               (Decl_Name.P_Basic_Decl
                                .P_Unique_Identifying_Name));
                      begin
-                        Put_Line
-                          ("  references: " & Referenced_Decl_Image);
+                        Put_Line ("  references: " & Referenced_Decl_Image);
                      end;
                   end if;
                   Put_Line ("  type:       "

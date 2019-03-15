@@ -4,30 +4,30 @@ Analyzing pkg.ads
 Analyzing pkg.adb
 #################
 
-Resolving xrefs for node <CallStmt 10:7-10:22>
-**********************************************
+Resolving xrefs for node <CallStmt pkg.adb:10:7-10:22>
+******************************************************
 
-Expr: <DottedName 10:7-10:21>
-  references: <DefiningName 9:14-9:26>
+Expr: <DottedName pkg.adb:10:7-10:21>
+  references: <DefiningName pkg.ads:9:14-9:26>
   type:       None
-Expr: <Id "X" 10:7-10:8>
-  references: <DefiningName 8:28-8:29>
+Expr: <Id "X" pkg.adb:10:7-10:8>
+  references: <DefiningName pkg.adb:8:28-8:29>
   type:       <AnonymousTypeDecl ["None"] 8:32-8:46>
-Expr: <Id "Private_Prim" 10:9-10:21>
-  references: <DefiningName 9:14-9:26>
+Expr: <Id "Private_Prim" pkg.adb:10:9-10:21>
+  references: <DefiningName pkg.ads:9:14-9:26>
   type:       None
 
-Resolving xrefs for node <CallStmt 16:7-16:19>
-**********************************************
+Resolving xrefs for node <CallStmt pkg.adb:16:7-16:19>
+******************************************************
 
-Expr: <DottedName 16:7-16:18>
-  references: <DefiningName 3:14-3:23>
+Expr: <DottedName pkg.adb:16:7-16:18>
+  references: <DefiningName pkg.adb:3:14-3:23>
   type:       None
-Expr: <Id "X" 16:7-16:8>
-  references: <DefiningName 14:28-14:29>
+Expr: <Id "X" pkg.adb:16:7-16:8>
+  references: <DefiningName pkg.adb:14:28-14:29>
   type:       <AnonymousTypeDecl ["None"] 14:32-14:46>
-Expr: <Id "Body_Prim" 16:9-16:18>
-  references: <DefiningName 3:14-3:23>
+Expr: <Id "Body_Prim" pkg.adb:16:9-16:18>
+  references: <DefiningName pkg.adb:3:14-3:23>
   type:       None
 
 

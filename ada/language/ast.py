@@ -7532,11 +7532,9 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def designated_env_no_overloading():
-        return Var(env_get_first(
+        return Var(Self.env_get_first(
             env,
-            Self,
-            lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-            categories=noprims,
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(Self.in_aspect, No(T.AdaNode), Self)
         )).cast(T.BasicDecl).then(
             lambda bd: If(

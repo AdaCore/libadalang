@@ -7380,11 +7380,7 @@ class SingleTokNode(Name):
             lookup=lookup_type,
             from_node=from_node,
             categories=noprims
-        ).find(
-            lambda el:
-            Or(Not(el.cast(T.BasicDecl).is_unit_root),
-               Self.has_with_visibility(el.node.unit))
-        )
+        ).find(lambda el: Self.has_visibility(el))
 
 
 class DefiningName(Name):

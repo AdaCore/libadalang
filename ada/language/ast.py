@@ -8234,7 +8234,17 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # should not ever be a problem with legal Ada.
                 (t.is_tagged_type | t.private_completion._.is_tagged_type)
                 & bd.declarative_scope.then(lambda ds: Or(
+                    # If the subprogram is defined in the same declarative
+                    # scope as t, then it is a dottable subprogram of t.
                     ds == t.declarative_scope,
+
+                    # But in Ada it is also possible to declare a dottable subp
+                    # of a type t in a different declarative scope than where
+                    # t is defined: for example, in the body the package in
+                    # which it is declared, or in its private part. The next
+                    # piece of code handles that by comparing the declarative
+                    # scope of t with the public/private part of the package
+                    # in which the subprogram is declared.
                     ds.as_entity.parent.cast(T.PackageBody).then(
                         lambda pbody: env.bind(
                             pbody.initial_env,

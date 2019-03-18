@@ -95,6 +95,10 @@ procedure Nameres is
         (Parser, Long => "--imprecise-fallback",
          Help => "Activate fallback mechanism for name resolution");
 
+      package Disable_Operator_Resolution is new Parse_Flag
+        (Parser, Long => "--disable-operator-resolution",
+         Help => "Do not resolve unary/binary operations");
+
       package Dump_Envs is new Parse_Flag
         (Parser, "-E", "--dump-envs",
          Help => "Dump lexical envs after populating them");
@@ -291,8 +295,11 @@ procedure Nameres is
                if not Quiet then
                   Put_Line ("Expr: " & N.Short_Image);
                   if Kind (N) in Ada_Name
-                     or else Kind (N) in Ada_Bin_Op_Range
-                     or else Kind (N) in Ada_Un_Op_Range
+                     or else
+                       (not Args.Disable_Operator_Resolution.Get
+                        and then
+                          (Kind (N) in Ada_Bin_Op_Range
+                           or else Kind (N) in Ada_Un_Op_Range))
                   then
                      declare
                         Target : constant Ada_Node := (case Kind (N) is

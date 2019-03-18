@@ -8,6 +8,7 @@ Expr: <Id "A" testop.adb:9:4-9:5>
   references: <DefiningName testop.adb:6:4-6:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp testop.adb:9:9-9:14>
+  references: <DefiningName testop.adb:3:13-3:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "B" testop.adb:9:9-9:10>
   references: <DefiningName testop.adb:6:7-6:8>
@@ -23,6 +24,7 @@ Expr: <Id "Foo" testop.adb:12:4-12:7>
   references: <DefiningName testop.adb:7:4-7:7>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp testop.adb:12:11-12:16>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "B" testop.adb:12:11-12:12>
   references: <DefiningName testop.adb:6:7-6:8>

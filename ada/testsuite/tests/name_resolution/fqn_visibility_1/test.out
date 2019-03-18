@@ -8,8 +8,10 @@ Expr: <Id "Integer" b.adb:4:8-4:15>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 Expr: <BinOp b.adb:4:19-4:60>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp b.adb:4:19-4:47>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <DottedName b.adb:4:19-4:31>
   references: <DefiningName b.ads:3:4-3:14>

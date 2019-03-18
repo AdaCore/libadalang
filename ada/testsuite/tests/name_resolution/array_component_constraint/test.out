@@ -52,6 +52,7 @@ Expr: <Id "Ints" pack.ads:7:16-7:20>
   references: <DefiningName pack.ads:4:9-4:13>
   type:       None
 Expr: <BinOp pack.ads:7:22-7:35>
+  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int pack.ads:7:22-7:23>
   references: None
@@ -68,6 +69,7 @@ Resolving xrefs for node <ArrayTypeDef pack.ads:10:25-10:59>
 ************************************************************
 
 Expr: <BinOp pack.ads:10:32-10:38>
+  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int pack.ads:10:32-10:33>
   references: None

@@ -38,6 +38,7 @@ Expr: <Id "Integer" testrange.adb:5:24-5:31>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 Expr: <BinOp testrange.adb:5:38-5:45>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int testrange.adb:5:38-5:39>
   references: None

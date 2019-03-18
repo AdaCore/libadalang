@@ -276,6 +276,7 @@ Resolving xrefs for node <IfStmt tests1.adb:39:4-41:11>
 *******************************************************
 
 Expr: <RelationOp tests1.adb:39:7-39:12>
+  references: <DefiningName tests1.adb:24:13-24:16>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "h" tests1.adb:39:7-39:8>
   references: <DefiningName tests1.adb:17:7-17:8>

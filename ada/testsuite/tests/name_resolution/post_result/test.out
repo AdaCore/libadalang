@@ -19,6 +19,7 @@ Expr: <Id "Post" test_result_attr.adb:3:12-3:16>
   references: None
   type:       None
 Expr: <RelationOp test_result_attr.adb:3:20-3:38>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <AttributeRef test_result_attr.adb:3:20-3:33>
   references: None

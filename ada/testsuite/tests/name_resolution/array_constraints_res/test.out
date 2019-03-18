@@ -45,6 +45,7 @@ Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
 **********************************************************
 
 Expr: <BinOp test.adb:4:21-4:29>
+  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int test.adb:4:21-4:22>
   references: None

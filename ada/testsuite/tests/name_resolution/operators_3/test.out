@@ -5,10 +5,13 @@ Resolving xrefs for node <IfStmt testop.adb:14:4-16:11>
 *******************************************************
 
 Expr: <BinOp testop.adb:14:7-14:47>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <BinOp testop.adb:14:7-14:25>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp testop.adb:14:7-14:12>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "A" testop.adb:14:7-14:8>
   references: <DefiningName testop.adb:8:4-8:5>
@@ -22,10 +25,12 @@ Expr: <Id "Foo" testop.adb:14:22-14:25>
 Expr: <ParenExpr testop.adb:14:34-14:47>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <RelationOp testop.adb:14:35-14:46>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <ParenExpr testop.adb:14:35-14:42>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp testop.adb:14:36-14:41>
+  references: <DefiningName testop.adb:5:13-5:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "A" testop.adb:14:36-14:37>
   references: <DefiningName testop.adb:8:4-8:5>

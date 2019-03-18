@@ -8,6 +8,7 @@ Expr: <Id "Assert" p.adb:6:14-6:20>
   references: None
   type:       None
 Expr: <RelationOp p.adb:6:21-6:26>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "I" p.adb:6:21-6:22>
   references: <DefiningName p.adb:4:7-4:8>

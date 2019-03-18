@@ -5,6 +5,7 @@ Resolving xrefs for node <IfStmt testcst.adb:5:4-7:11>
 ******************************************************
 
 Expr: <RelationOp testcst.adb:5:7-5:15>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "B" testcst.adb:5:7-5:8>
   references: <DefiningName testcst.adb:3:4-3:5>

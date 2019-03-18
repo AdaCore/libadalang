@@ -8,6 +8,7 @@ Expr: <Id "Float" testexp.adb:2:8-2:13>
   references: <DefiningName __standard:13:8-13:13>
   type:       None
 Expr: <BinOp testexp.adb:2:17-2:36>
+  references: None
   type:       <TypeDecl ["Universal_Real_Type_"] 120:3-120:42>
 Expr: <Real testexp.adb:2:17-2:31>
   references: None

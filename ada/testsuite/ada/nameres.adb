@@ -290,10 +290,23 @@ procedure Nameres is
             then
                if not Quiet then
                   Put_Line ("Expr: " & N.Short_Image);
-                  if Kind (N) in Ada_Name then
+                  if Kind (N) in Ada_Name
+                     or else Kind (N) in Ada_Bin_Op_Range
+                     or else Kind (N) in Ada_Un_Op_Range
+                  then
                      declare
+                        Target : constant Ada_Node := (case Kind (N) is
+                           when Ada_Name =>
+                              N.As_Ada_Node,
+                           when Ada_Bin_Op_Range =>
+                              N.As_Bin_Op.F_Op.As_Ada_Node,
+                           when Ada_Un_Op_Range =>
+                              N.As_Un_Op.F_Op.As_Ada_Node,
+                           when others =>
+                              raise Program_Error);
+
                         Decl_Name : constant Defining_Name :=
-                           N.As_Name.P_Xref (Args.Imprecise_Fallback.Get);
+                           Target.P_Xref (Args.Imprecise_Fallback.Get);
 
                         Referenced_Decl_Image : constant String :=
                            (if Show_Slocs

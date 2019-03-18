@@ -9,6 +9,7 @@ Resolving xrefs for node <TypeDecl ["Typ"] 3:7-3:35>
 ****************************************************
 
 Expr: <BinOp testbinop.adb:3:25-3:34>
+  references: None
   type:       <TypeDecl ["Typ"] 3:7-3:35>
 Expr: <Int testbinop.adb:3:25-3:26>
   references: None

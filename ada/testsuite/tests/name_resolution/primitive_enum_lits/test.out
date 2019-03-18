@@ -16,6 +16,7 @@ Expr: <Id "En" testderenum.adb:4:20-4:22>
   references: <DefiningName testderenum.adb:2:9-2:11>
   type:       None
 Expr: <BinOp testderenum.adb:4:29-4:35>
+  references: None
   type:       <TypeDecl ["En"] 2:4-2:25>
 Expr: <Id "B" testderenum.adb:4:29-4:30>
   references: <DefiningName testderenum.adb:2:19-2:20>

@@ -19,11 +19,13 @@ Expr: <Id "Post" inc.adb:2:3-2:7>
   references: None
   type:       None
 Expr: <RelationOp inc.adb:2:11-2:24>
+  references: None
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "X" inc.adb:2:11-2:12>
   references: <DefiningName inc.adb:1:22-1:23>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp inc.adb:2:15-2:24>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <AttributeRef inc.adb:2:15-2:20>
   references: None

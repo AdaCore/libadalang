@@ -8,6 +8,7 @@ Expr: <Id "Integer" p.adb:4:20-4:27>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 Expr: <UnOp p.adb:4:31-4:33>
+  references: <DefiningName p.adb:2:16-2:19>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int p.adb:4:32-4:33>
   references: None

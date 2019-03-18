@@ -8,6 +8,7 @@ Expr: <Id "String" testslice.adb:6:8-6:14>
   references: <DefiningName __standard:104:8-104:14>
   type:       None
 Expr: <BinOp testslice.adb:6:18-6:32>
+  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "B" testslice.adb:6:18-6:19>
   references: <DefiningName testslice.adb:5:4-5:5>
@@ -19,6 +20,7 @@ Expr: <Id "A" testslice.adb:6:22-6:23>
   references: <DefiningName testslice.adb:2:13-2:14>
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <BinOp testslice.adb:6:25-6:31>
+  references: None
   type:       <SubtypeDecl ["Positive"] 6:3-6:57>
 Expr: <Int testslice.adb:6:25-6:26>
   references: None

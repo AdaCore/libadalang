@@ -15,6 +15,7 @@ Expr: <Id "S" pouet.adb:7:7-7:8>
   references: <DefiningName pouet.adb:4:4-4:5>
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <BinOp pouet.adb:7:12-7:17>
+  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Id "S" pouet.adb:7:12-7:13>
   references: <DefiningName pouet.adb:4:4-4:5>

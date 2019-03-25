@@ -2766,8 +2766,8 @@ class BaseTypeDecl(BasicDecl):
 
     base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
 
-    array_def = Property(No(T.ArrayTypeDef.entity))
     record_def = Property(No(T.BaseRecordDef.entity))
+    array_def = Property(No(T.ArrayTypeDef.entity), dynamic_vars=[origin])
 
     @langkit_property(dynamic_vars=[origin])
     def array_def_with_deref():
@@ -3950,8 +3950,8 @@ class BaseSubtypeDecl(BaseTypeDecl):
     is_char_type = Property(Entity.from_type_bound.is_char_type)
     is_tagged_type = Property(Entity.from_type_bound.is_tagged_type)
     base_type = Property(Entity.from_type_bound.base_type)
-    array_def = Property(Entity.from_type_bound.array_def)
     record_def = Property(Entity.from_type_bound.record_def)
+    array_def = Property(Entity.from_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
     discriminants_list = Property(Entity.from_type_bound.discriminants_list)
     is_iterable_type = Property(Entity.from_type.is_iterable_type)

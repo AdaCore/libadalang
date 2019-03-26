@@ -270,7 +270,7 @@ package body Libadalang.Expr_Eval is
                        (R.Expr_Type,
                         (case Op.Kind is
                          when Ada_Op_Plus  => L.Real_Result + R.Real_Result,
-                         when Ada_Op_Minus => L.Real_Result + R.Real_Result,
+                         when Ada_Op_Minus => L.Real_Result - R.Real_Result,
                          when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
                          when Ada_Op_Div   => L.Real_Result / R.Real_Result,
                          when others   => raise Property_Error));

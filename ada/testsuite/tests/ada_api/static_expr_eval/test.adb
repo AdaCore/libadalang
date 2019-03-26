@@ -13,5 +13,29 @@ procedure Test is
    Tmp : Integer;
    Expr_6 : Integer := Tmp;
 begin
-   null;
+   declare
+      -- Test basic operation on reals
+      X : Float := 3.5;
+      Y : Float := 1.5;
+
+      Plus  : Float := X + Y;
+      Minus : Float := X - Y;
+      Times : Float := X * Y;
+      Div   : Float := X / Y;
+   begin
+      null;
+   end;
+
+   declare
+      -- Test basic operations on integers
+      X : Integer := 3;
+      Y : Integer := 2;
+
+      Plus  : Integer := X + Y;
+      Minus : Integer := X - Y;
+      Times : Integer := X * Y;
+      Div   : Integer := X / Y;
+   begin
+      null;
+   end;
 end Test;

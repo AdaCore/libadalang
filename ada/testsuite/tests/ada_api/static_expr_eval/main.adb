@@ -53,10 +53,12 @@ procedure Main is
                --  Build the final string as the concatenation of:
                --   * The first `3 + Length` characters of the original image
                --     (the sign, the first digit and the dot + the computed
-               --     precision).
+               --     precision), up to a maximum of Img'Last - 4 characters.
+               --     That is because the 4 last characters are taken by the
+               --     exponent.
                --   * The exponent of the original image.
                return "Real "
-                  & Img (1 .. 3 + Length)
+                  & Img (1 .. Integer'Min(3 + Length, Img'Last - 4))
                   & Img (Img'Last - 3 .. Img'Last);
             end;
          when Enum_Lit =>

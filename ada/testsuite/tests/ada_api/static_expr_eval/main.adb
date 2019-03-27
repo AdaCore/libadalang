@@ -11,36 +11,47 @@ procedure Main is
    Unit : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
 
    Float_Precision : constant := 2;
+   --  Controls the number of decimals displayed for real values
 
    function Is_Object_Decl (N : Ada_Node) return Boolean
    is (Kind (N) in Ada_Object_Decl
          and then not N.As_Object_Decl.F_Default_Expr.Is_Null);
 
+   function Eval_Result_To_String (X : Eval_Result) return String;
+   --  Return a representation of the given Eval_Result as a String.
+   --  It uses a custom routine for rendering reals that limit the
+   --  amount of decimals to display, so as to avoid potential
+   --  precision indeterminism across platforms.
+
+   ---------------------------
+   -- Eval_Result_To_String --
+   ---------------------------
+
    function Eval_Result_To_String (X : Eval_Result) return String is
    begin
       if X.Kind = Real then
          declare
-            Img     : String  := X.Real_Result'Image;
+            Img : constant String  := X.Real_Result'Image;
 
-            -- Get the integer value of the exponent. The exponent
-            -- is made of the last two characters of the image.
-            Exp     : Integer :=
+            Exp : constant Integer :=
                Integer'Value (Img (Img'Last - 1 .. Img'Last));
+            --  Get the integer value of the exponent. The exponent
+            --  is made of the last two characters of the image.
 
-            -- Is the exponent positive?
-            Exp_Pos : Boolean := (Img (Img'Last - 2) = '+');
+            Exp_Pos : constant Boolean := (Img (Img'Last - 2) = '+');
+            --  Is the exponent positive?
 
-            -- Compute the number of digits to keep in the final
-            -- representation so as to have exactly `Float_Precision` digits
-            -- of precision.
-            Length  : Integer := Float_Precision
+            Length : constant Integer := Float_Precision
                + (if Exp_Pos then Exp else 0);
+            --  Compute the number of digits to keep in the final
+            --  representation so as to have exactly `Float_Precision` digits
+            --  of precision.
          begin
-            -- Build the final string as the concatenation of:
-            --  * The first `3 + Length` characters of the original image
-            --    (the sign, the first digit and the dot + the computed
-            --    precision).
-            --  * The exponent of the original image.
+            --  Build the final string as the concatenation of:
+            --   * The first `3 + Length` characters of the original image
+            --     (the sign, the first digit and the dot + the computed
+            --     precision).
+            --   * The exponent of the original image.
             return Img (1 .. 3 + Length) & Img (Img'Last - 3 .. Img'Last);
          end;
       else

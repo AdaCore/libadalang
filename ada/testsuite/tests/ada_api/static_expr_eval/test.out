@@ -7,24 +7,24 @@ Expr <ObjectDecl ["Expr_2"] 8:4-8:26> evaluated to <Eval_Result ENUM_LIT <EnumLi
 Expr <ObjectDecl ["Expr_3"] 9:4-9:27> evaluated to <Eval_Result INT 12>
    Int value is 12
 
-Expr <ObjectDecl ["Expr_4"] 10:4-10:27> evaluated to <Eval_Result REAL  1.20000000000000E+01>
+Expr <ObjectDecl ["Expr_4"] 10:4-10:27> evaluated to  1.200E+01
 
 Expr <ObjectDecl ["Expr_5"] 11:4-11:31> evaluated to <Eval_Result INT 12>
    Int value is 12
 
 Property_Error: Object decl does not have a default expression.
 
-Expr <ObjectDecl ["X"] 18:7-18:24> evaluated to <Eval_Result REAL  3.50000000000000E+00>
+Expr <ObjectDecl ["X"] 18:7-18:24> evaluated to  3.50E+00
 
-Expr <ObjectDecl ["Y"] 19:7-19:24> evaluated to <Eval_Result REAL  1.50000000000000E+00>
+Expr <ObjectDecl ["Y"] 19:7-19:24> evaluated to  1.50E+00
 
-Expr <ObjectDecl ["Plus"] 21:7-21:30> evaluated to <Eval_Result REAL  5.00000000000000E+00>
+Expr <ObjectDecl ["Plus"] 21:7-21:30> evaluated to  5.00E+00
 
-Expr <ObjectDecl ["Minus"] 22:7-22:30> evaluated to <Eval_Result REAL  2.00000000000000E+00>
+Expr <ObjectDecl ["Minus"] 22:7-22:30> evaluated to  2.00E+00
 
-Expr <ObjectDecl ["Times"] 23:7-23:30> evaluated to <Eval_Result REAL  5.25000000000000E+00>
+Expr <ObjectDecl ["Times"] 23:7-23:30> evaluated to  5.25E+00
 
-Expr <ObjectDecl ["Div"] 24:7-24:30> evaluated to <Eval_Result REAL  2.33333333333333E+00>
+Expr <ObjectDecl ["Div"] 24:7-24:30> evaluated to  2.33E+00
 
 Expr <ObjectDecl ["X"] 31:7-31:24> evaluated to <Eval_Result INT 3>
    Int value is 3

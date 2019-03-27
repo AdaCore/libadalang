@@ -29,34 +29,39 @@ procedure Main is
 
    function Eval_Result_To_String (X : Eval_Result) return String is
    begin
-      if X.Kind = Real then
-         declare
-            Img : constant String  := X.Real_Result'Image;
+      case X.Kind is
+         when Int =>
+            return "Int " & X.Int_Result.Image;
+         when Real =>
+            declare
+               Img : constant String  := X.Real_Result'Image;
 
-            Exp : constant Integer :=
-               Integer'Value (Img (Img'Last - 1 .. Img'Last));
-            --  Get the integer value of the exponent. The exponent
-            --  is made of the last two characters of the image.
+               Exp : constant Integer :=
+                  Integer'Value (Img (Img'Last - 1 .. Img'Last));
+               --  Get the integer value of the exponent. The exponent
+               --  is made of the last two characters of the image.
 
-            Exp_Pos : constant Boolean := (Img (Img'Last - 2) = '+');
-            --  Is the exponent positive?
+               Exp_Pos : constant Boolean := (Img (Img'Last - 2) = '+');
+               --  Is the exponent positive?
 
-            Length : constant Integer := Float_Precision
-               + (if Exp_Pos then Exp else 0);
-            --  Compute the number of digits to keep in the final
-            --  representation so as to have exactly `Float_Precision` digits
-            --  of precision.
-         begin
-            --  Build the final string as the concatenation of:
-            --   * The first `3 + Length` characters of the original image
-            --     (the sign, the first digit and the dot + the computed
-            --     precision).
-            --   * The exponent of the original image.
-            return Img (1 .. 3 + Length) & Img (Img'Last - 3 .. Img'Last);
-         end;
-      else
-         return Image (X);
-      end if;
+               Length : constant Integer := Float_Precision
+                  + (if Exp_Pos then Exp else 0);
+               --  Compute the number of digits to keep in the final
+               --  representation so as to have exactly `Float_Precision`
+               --  digits of precision.
+            begin
+               --  Build the final string as the concatenation of:
+               --   * The first `3 + Length` characters of the original image
+               --     (the sign, the first digit and the dot + the computed
+               --     precision).
+               --   * The exponent of the original image.
+               return "Real "
+                  & Img (1 .. 3 + Length)
+                  & Img (Img'Last - 3 .. Img'Last);
+            end;
+         when Enum_Lit =>
+            return "Enum_Lit " & X.Enum_Result.Short_Image;
+      end case;
    end Eval_Result_To_String;
 
 begin

@@ -79,7 +79,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |has_all:
 |  |  |  |  |  |  |  AllAbsent[1:74-1:74]
 |  |  |  |  |  |  |has_constant:
-|  |  |  |  |  |  |  ConstantPresent[1:74-1:74]
+|  |  |  |  |  |  |  ConstantPresent[1:75-1:83]
 |  |  |  |  |  |  |subtype_indication:
 |  |  |  |  |  |  |  SubtypeIndication[1:84-1:90]
 |  |  |  |  |  |  |  |has_not_null:

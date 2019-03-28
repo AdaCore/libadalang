@@ -4,7 +4,7 @@ CompilationUnit[1:1-1:55]
 |body:
 |  LibraryItem[1:1-1:55]
 |  |has_private:
-|  |  PrivatePresent[1:1-1:1]
+|  |  PrivatePresent[1:1-1:8]
 |  |item:
 |  |  PackageDecl[1:9-1:55]
 |  |  |package_name:

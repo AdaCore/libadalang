@@ -22,11 +22,11 @@ ObjectDecl[1:1-1:65]
 |  |  |type_def:
 |  |  |  TypeAccessDef[1:8-1:40]
 |  |  |  |has_not_null:
-|  |  |  |  NotNullPresent[1:7-1:7]
+|  |  |  |  NotNullPresent[1:8-1:16]
 |  |  |  |has_all:
 |  |  |  |  AllAbsent[1:23-1:23]
 |  |  |  |has_constant:
-|  |  |  |  ConstantPresent[1:23-1:23]
+|  |  |  |  ConstantPresent[1:24-1:32]
 |  |  |  |subtype_indication:
 |  |  |  |  SubtypeIndication[1:33-1:40]
 |  |  |  |  |has_not_null:

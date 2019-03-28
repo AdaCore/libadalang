@@ -210,21 +210,22 @@ package body Libadalang.Expr_Eval is
       case E.Kind is
          when Ada_Identifier | Ada_Dotted_Name =>
             return Eval_Decl
-              (E.P_Referenced_Decl_Internal (Try_Immediate => True));
+              (E.As_Name.P_Referenced_Decl_Internal (Try_Immediate => True));
 
          when Ada_Char_Literal =>
             declare
-               X : LAL.Basic_Decl := E.P_Referenced_Decl_Internal
-                                       (Try_Immediate => True);
+               Char : LAL.Char_Literal := E.As_Char_Literal;
+               X    : LAL.Basic_Decl := Char.P_Referenced_Decl_Internal
+                                          (Try_Immediate => True);
             begin
                if X = No_Basic_Decl then
                   return Create_Int_Result
-                    (E.P_Expression_Type,
+                    (Char.P_Expression_Type,
                      Langkit_Support.Text.Character_Type'Pos
-                       (As_Char_Literal (E).P_Denoted_Value));
+                       (Char.P_Denoted_Value));
                else
                   return Eval_Decl
-                    (E.P_Referenced_Decl_Internal (Try_Immediate => True));
+                    (Char.P_Referenced_Decl_Internal (Try_Immediate => True));
                end if;
             end;
 

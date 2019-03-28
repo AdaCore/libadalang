@@ -28,11 +28,13 @@ Expr: <Id "Integer" testfirst.adb:3:18-3:25>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 Expr: <BinOp testfirst.adb:3:32-3:44>
-  references: None
   type:       <TypeDecl ["Integer"] 4:3-4:54>
 Expr: <Int testfirst.adb:3:32-3:33>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <OpDoubleDot ".." testfirst.adb:3:34-3:36>
+  references: None
+  type:       None
 Expr: <Int testfirst.adb:3:37-3:44>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
@@ -86,11 +88,13 @@ Expr: <Id "A" testfirst.adb:10:15-10:16>
   references: <DefiningName testfirst.adb:2:9-2:10>
   type:       None
 Expr: <BinOp testfirst.adb:10:18-10:25>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int testfirst.adb:10:18-10:19>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <OpDoubleDot ".." testfirst.adb:10:20-10:22>
+  references: None
+  type:       None
 Expr: <Int testfirst.adb:10:23-10:25>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>

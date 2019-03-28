@@ -58,9 +58,8 @@ def resolve_node(node, show_slocs=True):
         if n.is_a(lal.Expr) and not n.is_a(lal.DefiningName):
             print('Expr: {}'.format(n))
 
-            if n.is_a(lal.Name, lal.BinOp, lal.UnOp):
-                target = n if n.is_a(lal.Name) else n.f_op
-                decl_name = target.p_xref(args.imprecise_fallback)
+            if n.is_a(lal.Name):
+                decl_name = n.p_xref(args.imprecise_fallback)
 
                 refd_decl_img = (
                     entity_repr(decl_name)

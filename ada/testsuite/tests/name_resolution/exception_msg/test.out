@@ -8,11 +8,13 @@ Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
   references: <DefiningName __standard:115:3-115:19>
   type:       None
 Expr: <BinOp testexcmsg.adb:3:32-3:60>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Str ""Pouet"" testexcmsg.adb:3:32-3:39>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
+Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
+  references: None
+  type:       None
 Expr: <AttributeRef testexcmsg.adb:3:42-3:60>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>

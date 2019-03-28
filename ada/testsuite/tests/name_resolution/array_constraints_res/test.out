@@ -45,11 +45,13 @@ Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
 **********************************************************
 
 Expr: <BinOp test.adb:4:21-4:29>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int test.adb:4:21-4:22>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
+  references: None
+  type:       None
 Expr: <Id "Foo" test.adb:4:26-4:29>
   references: <DefiningName test.adb:2:13-2:16>
   type:       <TypeDecl ["Integer"] 4:3-4:54>

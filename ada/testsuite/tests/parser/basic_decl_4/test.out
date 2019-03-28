@@ -58,7 +58,7 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |  |has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
 |  |  |  |  |  |  |  |has_all:
-|  |  |  |  |  |  |  |  AllPresent[1:43-1:43]
+|  |  |  |  |  |  |  |  AllPresent[1:44-1:47]
 |  |  |  |  |  |  |  |has_constant:
 |  |  |  |  |  |  |  |  ConstantAbsent[1:47-1:47]
 |  |  |  |  |  |  |  |subtype_indication:

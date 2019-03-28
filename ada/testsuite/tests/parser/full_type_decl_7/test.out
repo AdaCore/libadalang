@@ -29,7 +29,7 @@ TypeDecl[1:1-1:81]
 |  |has_abstract:
 |  |  AbstractAbsent[1:39-1:39]
 |  |has_tagged:
-|  |  TaggedPresent[1:39-1:39]
+|  |  TaggedPresent[1:40-1:46]
 |  |has_limited:
 |  |  LimitedAbsent[1:46-1:46]
 |  |record_def:

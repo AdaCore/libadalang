@@ -5,9 +5,9 @@ ObjectDecl[1:1-1:51]
 |  |  |name:
 |  |  |  Id[1:1-1:4]: Arr
 |has_aliased:
-|  AliasedPresent[1:6-1:6]
+|  AliasedPresent[1:7-1:14]
 |has_constant:
-|  ConstantPresent[1:14-1:14]
+|  ConstantPresent[1:15-1:23]
 |mode:
 |  ModeDefault[1:23-1:23]
 |type_expr:

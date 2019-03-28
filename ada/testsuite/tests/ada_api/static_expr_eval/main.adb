@@ -34,32 +34,55 @@ procedure Main is
             return "Int " & X.Int_Result.Image;
          when Real =>
             declare
-               Img : constant String  := X.Real_Result'Image;
+               Img         : constant String  := X.Real_Result'Image;
 
-               Exp : constant Integer :=
-                  Integer'Value (Img (Img'Last - 1 .. Img'Last));
-               --  Get the integer value of the exponent. The exponent
-               --  is made of the last two characters of the image.
+               --  We expect a float image matching the following pattern::
+               --
+               --     [mantissa]E[sign][exponent]
+               --
+               --  Where `mantissa` is a read number such as `1.00`, `sign` is
+               --  either `+` or `-`, and `exponent` is a two-digit integer.
+               --
+               --  The following declarations break up the image into these
+               --  various components.
 
-               Exp_Pos : constant Boolean := (Img (Img'Last - 2) = '+');
-               --  Is the exponent positive?
+               pragma Assert (Img'Length > 5);
 
-               Length : constant Integer := Float_Precision
-                  + (if Exp_Pos then Exp else 0);
-               --  Compute the number of digits to keep in the final
-               --  representation so as to have exactly `Float_Precision`
-               --  digits of precision.
+               Sign          : Character renames Img (Img'First);
+               Mantissa      : String renames
+                  Img (Img'First + 1 .. Img'Last - 4);
+               Exponent_Sign : Character renames Img (Img'Last - 2);
+               Exponent      : String renames Img (Img'Last - 1 .. Img'Last);
+
+               pragma Assert (Sign in ' ' | '-');
+               pragma Assert (Exponent_Sign in '+' | '-');
+               pragma Assert (Img (Img'Last - 3) = 'E');
+
+               --  We can now decode the various parts
+
+               Exponent_Value    : constant Integer := Integer'Value (Exponent);
+               Positive_Exponent : constant Boolean := Sign = '+';
+
+               Mantissa_Sign : constant String :=
+                  (if Sign = ' ' then "" else "-");
+
+               Mantissa_Slice : String renames Mantissa
+                 (Mantissa'First
+                  .. Integer'Min (Mantissa'First + 1 + Float_Precision,
+                                  Mantissa'Last));
+               --  Take only the slice of Mantissa that we are interested in to
+               --  keep the expected precision::
+               --
+               --    * the first 2 characters of the original image (the first
+               --      digit and the dot);
+               --
+               --    * additional digits for the expected precision.
+               --
+               --  ... but don't go past the mantissa we have (Mantissa'Last).
             begin
-               --  Build the final string as the concatenation of:
-               --   * The first `3 + Length` characters of the original image
-               --     (the sign, the first digit and the dot + the computed
-               --     precision), up to a maximum of Img'Last - 4 characters.
-               --     That is because the 4 last characters are taken by the
-               --     exponent.
-               --   * The exponent of the original image.
-               return "Real "
-                  & Img (1 .. Integer'Min(3 + Length, Img'Last - 4))
-                  & Img (Img'Last - 3 .. Img'Last);
+               --  Rebuild the image from the mantissa slice and the exponent
+               return ("Real " & Mantissa_Sign & Mantissa_Slice
+                       & 'E' & Exponent_Sign & Exponent);
             end;
          when Enum_Lit =>
             return "Enum_Lit " & X.Enum_Result.Short_Image;
@@ -70,8 +93,8 @@ begin
    for E of Find (Root (Unit), Is_Object_Decl'Access).Consume loop
       begin
          declare
-            Res : Eval_Result := Expr_Eval (E.As_Object_Decl.F_Default_Expr);
-            Img : String := Image (Res);
+            Res : constant Eval_Result :=
+               Expr_Eval (E.As_Object_Decl.F_Default_Expr);
          begin
             Put_Line
                ("Expr " & Short_Image (E) & " evaluated to "

@@ -7617,7 +7617,19 @@ class BaseId(SingleTokNode):
 
         package_body_env = Var(
             private_part_env.get('__nextpart', LK.flat, categories=noprims)
-            .at(0).then(lambda pb: pb.children_env, default_val=EmptyEnv)
+            .at(0).then(
+                lambda pb: If(
+                    # If the package is implemented as a separate, we need to
+                    # jump through one more link to get to the body.
+                    pb.is_a(PackageBodyStub),
+
+                    pb.children_env
+                    .get('__nextpart', LK.flat, categories=noprims)
+                    .at(0).then(lambda pb: pb.children_env),
+
+                    pb.children_env
+                ), default_val=EmptyEnv
+            )
         )
 
         return Cond(

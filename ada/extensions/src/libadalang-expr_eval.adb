@@ -196,6 +196,23 @@ package body Libadalang.Expr_Eval is
                                 & " expression: " & Rng.Debug_Text;
                         end case;
                      end;
+                  when Ada_Enum_Type_Def =>
+                     declare
+                        Lits : constant LAL.Enum_Literal_Decl_List :=
+                          D.As_Enum_Type_Def.F_Enum_Literals;
+                     begin
+                        case A is
+                           when Range_First =>
+                              return  Eval_Decl
+                                (Lits.Child
+                                   (Lits.First_Child_Index).As_Basic_Decl);
+                           when Range_Last  =>
+                              return Eval_Decl
+                                (Lits.Child
+                                   (Lits.Last_Child_Index).As_Basic_Decl);
+                        end case;
+                     end;
+
                   when others =>
                      raise Property_Error with "Cannot get "
                        & A'Img & " attribute of type def " & D.Kind'Img;

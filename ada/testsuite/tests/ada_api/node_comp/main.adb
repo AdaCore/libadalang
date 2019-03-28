@@ -38,7 +38,7 @@ begin
       raise Program_Error with "Resolution failed";
    end if;
 
-   Resolved := N.P_Referenced_Decl.As_Object_Decl;
+   Resolved := N.As_Name.P_Referenced_Decl.As_Object_Decl;
    Put_Line ("Resolved: " & Resolved.Short_Image);
 
    if D1.As_Ada_Node /= D1 then

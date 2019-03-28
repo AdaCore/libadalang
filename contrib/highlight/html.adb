@@ -229,7 +229,7 @@ package body HTML is
             Index : constant Natural := Natural (LALCO.Index (Token));
             Decl  : LAL.Basic_Decl renames Xrefs (Index);
          begin
-            Decl := Node.P_Referenced_Decl;
+            Decl := Node.As_Name.P_Referenced_Decl;
          exception
             when LALCO.Property_Error =>
                Decl := LAL.No_Basic_Decl;

@@ -324,17 +324,6 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(public=True,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def referenced_decl():
-        """
-        Return the declaration this node references after name resolution.
-        If imprecise_fallback is True, errors raised during resolution of the
-        xref equation are catched and a fallback mechanism is triggered, which
-        tries to find the referenced declaration in an ad-hoc way.
-        """
-        return Entity.referenced_decl_internal(False)
-
     @langkit_property(public=True, return_type=T.DefiningName.entity,
                       dynamic_vars=[default_imprecise_fallback()])
     def xref():
@@ -351,17 +340,6 @@ class AdaNode(ASTNode):
         return Self.children_env.get(No(Symbol)).map(
             lambda n: n.cast(T.BasicDecl)
         )
-
-    @langkit_property(public=True,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def referenced_decl_internal(try_immediate=Bool):
-        """
-        Return the declaration this node references. Try not to run name res if
-        already resolved. INTERNAL USE ONLY.
-        """
-        # TODO: remove from public API
-        ignore(try_immediate)
-        return No(T.BasicDecl.entity)
 
     @langkit_property(public=False,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -3191,7 +3169,8 @@ class TypeDecl(BaseTypeDecl):
             Not(it.is_null),
             it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_is('Element')
-            ).assoc.expr.as_entity.referenced_decl.expr_type,
+            ).assoc.expr.as_entity.cast_or_raise(T.Name)
+            .referenced_decl.expr_type,
 
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
@@ -5769,7 +5748,7 @@ class Expr(AdaNode):
             lambda bo=BinOp:
             bo.left.is_static_expr
             & bo.right.is_static_expr
-            & bo.referenced_decl.is_null,
+            & bo.op.referenced_decl.is_null,
             lambda i=IfExpr:
             i.cond_expr.is_static_expr & i.then_expr.is_static_expr
             & i.alternatives.all(
@@ -5901,12 +5880,6 @@ class UnOp(Expr):
     expr = Field(type=T.Expr)
 
     @langkit_property()
-    def referenced_decl_internal(try_immediate=Bool):
-        return Entity.referenced_decl_internal_helper(
-            Self.op.ref_var, try_immediate
-        )
-
-    @langkit_property()
     def xref_equation():
         subps = Var(Entity.op.subprograms.filter(
             lambda s: s.subp_spec_or_null.nb_max_params == 1
@@ -5935,12 +5908,6 @@ class BinOp(Expr):
     left = Field(type=T.Expr)
     op = Field(type=T.Op)
     right = Field(type=T.Expr)
-
-    @langkit_property()
-    def referenced_decl_internal(try_immediate=Bool):
-        return Entity.referenced_decl_internal_helper(
-            Self.op.ref_var, try_immediate
-        )
 
     @langkit_property()
     def xref_equation():
@@ -6476,8 +6443,24 @@ class Name(Expr):
         """
         pass
 
-    @langkit_property()
+    @langkit_property(public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def referenced_decl():
+        """
+        Return the declaration this node references after name resolution.
+        If imprecise_fallback is True, errors raised during resolution of the
+        xref equation are catched and a fallback mechanism is triggered, which
+        tries to find the referenced declaration in an ad-hoc way.
+        """
+        return Entity.referenced_decl_internal(False)
+
+    @langkit_property(public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl_internal(try_immediate=Bool):
+        """
+        Return the declaration this node references. Try not to run name res if
+        already resolved. INTERNAL USE ONLY.
+        """
         return If(
             Entity.is_defining,
             PropertyError(

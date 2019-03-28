@@ -2295,9 +2295,10 @@ class ComponentList(BaseFormalParamHolder):
     type_def = Property(Self.parent.parent.cast(T.TypeDef).as_entity)
     type_decl = Property(Entity.type_def.parent.cast(T.TypeDecl))
 
-    parent_component_list = Property(
+    parent_component_list = Property(origin.bind(
+        Self,
         Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def._.comps
-    )
+    ))
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
     def abstract_formal_params_impl(
@@ -2766,7 +2767,7 @@ class BaseTypeDecl(BasicDecl):
 
     base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
 
-    record_def = Property(No(T.BaseRecordDef.entity))
+    record_def = Property(No(T.BaseRecordDef.entity), dynamic_vars=[origin])
     array_def = Property(No(T.ArrayTypeDef.entity), dynamic_vars=[origin])
 
     @langkit_property(dynamic_vars=[origin])
@@ -3950,7 +3951,6 @@ class BaseSubtypeDecl(BaseTypeDecl):
     is_char_type = Property(Entity.from_type_bound.is_char_type)
     is_tagged_type = Property(Entity.from_type_bound.is_tagged_type)
     base_type = Property(Entity.from_type_bound.base_type)
-    record_def = Property(Entity.from_type_bound.record_def)
     array_def = Property(Entity.from_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
     discriminants_list = Property(Entity.from_type_bound.discriminants_list)

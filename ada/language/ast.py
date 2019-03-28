@@ -3726,9 +3726,13 @@ class SignedIntTypeDef(TypeDef):
     is_int_type = Property(True)
 
     xref_equation = Property(
-        # We consider that the range expression is of the type we're defining.
-        # Not sure how good of an idea this is but works in most cases.
-        TypeBind(Entity.range.range.type_var, Entity.containing_type)
+        # We try to bind the range expression's type to the type we're
+        # defining. If not possible (for example because it's already of
+        # another type), fallback.
+        Or(
+            TypeBind(Entity.range.range.type_var, Entity.containing_type),
+            LogicTrue()
+        )
         & Entity.range.xref_equation
     )
 

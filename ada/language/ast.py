@@ -8843,7 +8843,11 @@ class AttributeRef(Name):
             ._.children_env.get_first('Address', lookup=LK.flat)
             .cast(T.BaseTypeDecl)
         )
-        return (Entity.prefix.sub_equation
+        return (Or(Entity.prefix.sub_equation,
+                   # In case the 'Address is pointing to a subprogram, we use
+                   # xref_no_overloading in order to not filter eagerly on
+                   # parameters.
+                   Entity.prefix.xref_no_overloading)
                 & TypeBind(Self.type_var, address_type))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

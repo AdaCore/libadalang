@@ -9966,7 +9966,7 @@ class PackageBody(Body):
 
         # We make a transitive parent link only when the package is a library
         # level package.
-        transitive_parent=Self.is_unit_root,
+        transitive_parent=And(Self.is_unit_root, Not(Self.is_subunit)),
 
         more_rules=[
 

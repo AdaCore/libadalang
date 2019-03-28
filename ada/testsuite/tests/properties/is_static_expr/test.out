@@ -1,9 +1,11 @@
 == test.adb ==
 <ObjectDecl ["A"] 2:4-2:31> is a static expr
 <ObjectDecl ["B"] 3:4-3:30> is a static expr
-<ObjectDecl ["Test_1"] 5:4-5:39> is a static expr
-<ObjectDecl ["Test_2"] 6:4-6:40> is a static expr
-<ObjectDecl ["Test_3"] 7:4-7:63> is a static expr
-<ObjectDecl ["Test_4"] 8:4-8:39> is not a static expr
+<ObjectDecl ["C"] 4:4-4:33> is a static expr
+<ObjectDecl ["Test_1"] 6:4-6:39> is a static expr
+<ObjectDecl ["Test_2"] 7:4-7:40> is a static expr
+<ObjectDecl ["Test_3"] 8:4-8:63> is a static expr
+<ObjectDecl ["Test_4"] 9:4-9:39> is not a static expr
+<ObjectDecl ["Test_5"] 11:4-11:39> is a static expr
 
 Done

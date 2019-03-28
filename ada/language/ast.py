@@ -5749,6 +5749,9 @@ class Expr(AdaNode):
             bo.left.is_static_expr
             & bo.right.is_static_expr
             & bo.op.referenced_decl.is_null,
+            lambda uo=UnOp:
+            uo.expr.is_static_expr
+            & uo.op.referenced_decl.is_null,
             lambda i=IfExpr:
             i.cond_expr.is_static_expr & i.then_expr.is_static_expr
             & i.alternatives.all(

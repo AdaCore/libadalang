@@ -39,22 +39,26 @@ Expr: <Id "A" test_range.adb:7:11-7:12>
 Expr: <Aggregate test_range.adb:7:16-7:48>
   type:       <TypeDecl ["A"] 5:4-5:66>
 Expr: <BinOp test_range.adb:7:17-7:24>
-  references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Int test_range.adb:7:17-7:18>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+Expr: <OpDoubleDot ".." test_range.adb:7:19-7:21>
+  references: None
+  type:       None
 Expr: <Int test_range.adb:7:22-7:24>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
 Expr: <Aggregate test_range.adb:7:28-7:47>
   type:       None
 Expr: <BinOp test_range.adb:7:29-7:40>
-  references: None
   type:       <TypeDecl ["Color"] 3:4-3:37>
 Expr: <Id "Red" test_range.adb:7:29-7:32>
   references: <DefiningName test_range.adb:3:19-3:22>
   type:       <TypeDecl ["Color"] 3:4-3:37>
+Expr: <OpDoubleDot ".." test_range.adb:7:33-7:35>
+  references: None
+  type:       None
 Expr: <Id "Blue" test_range.adb:7:36-7:40>
   references: <DefiningName test_range.adb:3:31-3:35>
   type:       <TypeDecl ["Color"] 3:4-3:37>

@@ -5892,72 +5892,12 @@ class ParenExpr(Expr):
         )
 
 
-class Op(AdaNode):
-    """
-    Operation in a binary expression.
-
-    Note that the ARM does not consider "double_dot" ("..") as a binary
-    operator, but we process it this way here anyway to keep things simple.
-    """
-    enum_node = True
-    alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
-                    "not_in", "abs", "not", "pow", "mult", "div", "mod",
-                    "rem", "plus", "minus", "concat", "eq", "neq", "lt",
-                    "lte", "gt", "gte", "double_dot"]
-
-    @langkit_property(return_type=T.Symbol)
-    def subprogram_symbol():
-        """
-        Return the symbol that needs to be used to define an overload of this
-        operator.
-        """
-        return Self.match(
-            lambda _=Op.alt_and:    '"and"',
-            lambda _=Op.alt_or:     '"or"',
-            lambda _=Op.alt_xor:    '"xor"',
-            lambda _=Op.alt_abs:    '"abs"',
-            lambda _=Op.alt_not:    '"not"',
-            lambda _=Op.alt_pow:    '"**"',
-            lambda _=Op.alt_mult:   '"*"',
-            lambda _=Op.alt_div:    '"/"',
-            lambda _=Op.alt_mod:    '"mod"',
-            lambda _=Op.alt_rem:    '"rem"',
-            lambda _=Op.alt_plus:   '"+"',
-            lambda _=Op.alt_minus:  '"-"',
-            lambda _=Op.alt_concat: '"&"',
-            lambda _=Op.alt_eq:     '"="',
-            lambda _=Op.alt_neq:    '"/="',
-            lambda _=Op.alt_lt:     '"<"',
-            lambda _=Op.alt_lte:    '"<="',
-            lambda _=Op.alt_gt:     '">"',
-            lambda _=Op.alt_gte:    '">="',
-            lambda _:               '<<>>',
-        )
-
-    subprograms = Property(
-        lambda: Self.node_env.get(Self.subprogram_symbol).filtermap(
-            lambda e: e.cast_or_raise(T.BasicDecl),
-            lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
-        ),
-        doc="""
-        Return the subprograms corresponding to this operator accessible in the
-        lexical environment.
-        """
-    )
-
-    ref_var = UserField(type=LogicVar, public=False)
-
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
-    def xref():
-        return Entity.parent.referenced_decl._.defining_name
-
-
 class UnOp(Expr):
     """
     Unary expression.
     """
 
-    op = Field(type=Op)
+    op = Field(type=T.Op)
     expr = Field(type=T.Expr)
 
     @langkit_property()
@@ -5993,7 +5933,7 @@ class BinOp(Expr):
     """
 
     left = Field(type=T.Expr)
-    op = Field(type=Op)
+    op = Field(type=T.Op)
     right = Field(type=T.Expr)
 
     @langkit_property()
@@ -6112,7 +6052,7 @@ class MembershipExpr(Expr):
     expressions on the right hand side are allowed.
     """
     expr = Field(type=T.Expr)
-    op = Field(type=Op)
+    op = Field(type=T.Op)
     membership_exprs = Field(type=T.ExprAlternativesList)
 
     xref_equation = Property(
@@ -7496,8 +7436,7 @@ class DefiningName(Name):
             lambda c: c.filter(lambda n: Not(n.is_null | n.is_a(DefiningName)))
             .mapcat(lambda n: Self.find_all_refs_in(n))
         ).concat(If(
-            (x.match(lambda i=BaseId: Self.name_is(i.sym),
-                     lambda o=Op:     Self.name_is(o.subprogram_symbol),
+            (x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
                      lambda _:        False)) &
             (x.xref._.canonical_part._.node == Self),
             x.singleton,
@@ -7925,6 +7864,68 @@ class BaseId(SingleTokNode):
             & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type,
                    eq_prop=BaseTypeDecl.matching_type)
         )
+
+
+class Op(BaseId):
+    """
+    Operation in a binary expression.
+
+    Note that the ARM does not consider "double_dot" ("..") as a binary
+    operator, but we process it this way here anyway to keep things simple.
+    """
+    enum_node = True
+    alternatives = ["and", "or", "or_else", "and_then", "xor", "in",
+                    "not_in", "abs", "not", "pow", "mult", "div", "mod",
+                    "rem", "plus", "minus", "concat", "eq", "neq", "lt",
+                    "lte", "gt", "gte", "double_dot"]
+
+    @langkit_property(return_type=T.Symbol)
+    def subprogram_symbol():
+        """
+        Return the symbol that needs to be used to define an overload of this
+        operator.
+        """
+        return Self.match(
+            lambda _=Op.alt_and:    '"and"',
+            lambda _=Op.alt_or:     '"or"',
+            lambda _=Op.alt_xor:    '"xor"',
+            lambda _=Op.alt_abs:    '"abs"',
+            lambda _=Op.alt_not:    '"not"',
+            lambda _=Op.alt_pow:    '"**"',
+            lambda _=Op.alt_mult:   '"*"',
+            lambda _=Op.alt_div:    '"/"',
+            lambda _=Op.alt_mod:    '"mod"',
+            lambda _=Op.alt_rem:    '"rem"',
+            lambda _=Op.alt_plus:   '"+"',
+            lambda _=Op.alt_minus:  '"-"',
+            lambda _=Op.alt_concat: '"&"',
+            lambda _=Op.alt_eq:     '"="',
+            lambda _=Op.alt_neq:    '"/="',
+            lambda _=Op.alt_lt:     '"<"',
+            lambda _=Op.alt_lte:    '"<="',
+            lambda _=Op.alt_gt:     '">"',
+            lambda _=Op.alt_gte:    '">="',
+            lambda _:               '<<>>',
+        )
+
+    subprograms = Property(
+        lambda: Self.node_env.get(Self.subprogram_symbol).filtermap(
+            lambda e: e.cast_or_raise(T.BasicDecl),
+            lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
+        ),
+        doc="""
+        Return the subprograms corresponding to this operator accessible in the
+        lexical environment.
+        """
+    )
+
+    name_symbol = Property(Self.subprogram_symbol)
+
+    @langkit_property()
+    def xref_equation():
+        # An Op can only be a field of a BinOp or UnOp, so its ref var will
+        # be bound in the xref equations of these two types.
+        return LogicFalse()
 
 
 @has_abstract_list

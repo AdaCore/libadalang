@@ -276,11 +276,13 @@ Resolving xrefs for node <IfStmt tests1.adb:39:4-41:11>
 *******************************************************
 
 Expr: <RelationOp tests1.adb:39:7-39:12>
-  references: <DefiningName tests1.adb:24:13-24:16>
   type:       <TypeDecl ["Boolean"] 3:3-3:33>
 Expr: <Id "h" tests1.adb:39:7-39:8>
   references: <DefiningName tests1.adb:17:7-17:8>
   type:       <TypeDecl ["File_Type_Access"] 14:4-14:50>
+Expr: <OpEq "=" tests1.adb:39:9-39:10>
+  references: <DefiningName tests1.adb:24:13-24:16>
+  type:       None
 Expr: <Id "g" tests1.adb:39:11-39:12>
   references: <DefiningName tests1.adb:17:4-17:5>
   type:       <TypeDecl ["File_Type_Access"] 14:4-14:50>

@@ -48,11 +48,13 @@ Expr: <Id "String" test.adb:6:17-6:23>
   references: <DefiningName __standard:104:8-104:14>
   type:       None
 Expr: <BinOp test.adb:6:27-6:38>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Chr "'c'" test.adb:6:27-6:30>
   references: None
   type:       <TypeDecl ["Character"] 20:3-20:27>
+Expr: <OpConcat "&" test.adb:6:31-6:32>
+  references: None
+  type:       None
 Expr: <Str ""lol"" test.adb:6:33-6:38>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -64,11 +66,13 @@ Expr: <Id "String" test.adb:7:17-7:23>
   references: <DefiningName __standard:104:8-104:14>
   type:       None
 Expr: <BinOp test.adb:7:27-7:36>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "C" test.adb:7:27-7:28>
   references: <DefiningName test.adb:6:4-6:5>
   type:       <TypeDecl ["String"] 104:3-104:57>
+Expr: <OpConcat "&" test.adb:7:29-7:30>
+  references: None
+  type:       None
 Expr: <Str ""lol"" test.adb:7:31-7:36>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -80,11 +84,13 @@ Expr: <Id "String" test.adb:8:17-8:23>
   references: <DefiningName __standard:104:8-104:14>
   type:       None
 Expr: <BinOp test.adb:8:27-8:32>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Id "A" test.adb:8:27-8:28>
   references: <DefiningName test.adb:2:4-2:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>
+Expr: <OpConcat "&" test.adb:8:29-8:30>
+  references: None
+  type:       None
 Expr: <Id "D" test.adb:8:31-8:32>
   references: <DefiningName test.adb:7:4-7:5>
   type:       <TypeDecl ["String"] 104:3-104:57>
@@ -96,11 +102,13 @@ Expr: <Id "String" test.adb:9:17-9:23>
   references: <DefiningName __standard:104:8-104:14>
   type:       None
 Expr: <BinOp test.adb:9:27-9:36>
-  references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
 Expr: <Str ""lol"" test.adb:9:27-9:32>
   references: None
   type:       <TypeDecl ["String"] 104:3-104:57>
+Expr: <OpConcat "&" test.adb:9:33-9:34>
+  references: None
+  type:       None
 Expr: <Id "B" test.adb:9:35-9:36>
   references: <DefiningName test.adb:3:4-3:5>
   type:       <TypeDecl ["Character"] 20:3-20:27>

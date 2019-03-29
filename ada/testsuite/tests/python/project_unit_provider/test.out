@@ -10,8 +10,8 @@ Trying to build with (u'p.gpr', {u'SRC_DIR': u'src1'})
    ... success!
 For SRC_DIR=src1:
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:
-  <TypeDecl ["Record_Type"] 2:4-2:36>
+  <TypeDecl ["Record_Type"] p1.ads:2:4-2:36>
 For SRC_DIR=src2:
 <SubtypeIndication p2.ads:5:8-5:22> resolves to:
-  <TypeDecl ["Record_Type"] 3:4-5:15>
+  <TypeDecl ["Record_Type"] p1.ads:3:4-5:15>
 Done.

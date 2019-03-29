@@ -8,16 +8,16 @@ Expr: <Id "Assert" p.adb:6:14-6:20>
   references: None
   type:       None
 Expr: <RelationOp p.adb:6:21-6:26>
-  type:       <TypeDecl ["Boolean"] 3:3-3:33>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "I" p.adb:6:21-6:22>
   references: <DefiningName p.adb:4:7-4:8>
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" p.adb:6:23-6:24>
   references: None
   type:       None
 Expr: <Int p.adb:6:25-6:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
 
 Done.

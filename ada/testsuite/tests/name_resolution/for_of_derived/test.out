@@ -5,8 +5,8 @@ Resolving xrefs for node <SubpSpec for_of_derived.adb:3:1-3:25>
 ***************************************************************
 
 
-Resolving xrefs for node <GenericPackageInstantiation ["My_Vecs"] 4:4-4:54>
-***************************************************************************
+Resolving xrefs for node <GenericPackageInstantiation ["My_Vecs"] for_of_derived.adb:4:4-4:54>
+**********************************************************************************************
 
 Expr: <Id "Vectors" for_of_derived.adb:4:27-4:34>
   references: <DefiningName vectors.ads:46:9-46:16>
@@ -18,8 +18,8 @@ Expr: <Id "Integer" for_of_derived.adb:4:45-4:52>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <TypeDecl ["The_Vec"] 6:4-6:56>
-********************************************************
+Resolving xrefs for node <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
+***************************************************************************
 
 Expr: <DottedName for_of_derived.adb:6:24-6:38>
   references: <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
@@ -31,8 +31,8 @@ Expr: <Id "Vector" for_of_derived.adb:6:32-6:38>
   references: <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
   type:       None
 
-Resolving xrefs for node <ObjectDecl ["V"] 8:4-8:16>
-****************************************************
+Resolving xrefs for node <ObjectDecl ["V"] for_of_derived.adb:8:4-8:16>
+***********************************************************************
 
 Expr: <Id "The_Vec" for_of_derived.adb:8:8-8:15>
   references: <DefiningName for_of_derived.adb:6:9-6:16>
@@ -47,7 +47,7 @@ Resolving xrefs for node <ForLoopSpec for_of_derived.adb:10:8-10:15>
 
 Expr: <Id "V" for_of_derived.adb:10:14-10:15>
   references: <DefiningName for_of_derived.adb:8:4-8:5>
-  type:       <TypeDecl ["The_Vec"] 6:4-6:56>
+  type:       <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
 
 Resolving xrefs for node <NullStmt for_of_derived.adb:11:7-11:12>
 *****************************************************************

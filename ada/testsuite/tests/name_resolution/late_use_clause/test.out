@@ -1,10 +1,10 @@
 Analyzing testuse.adb
 #####################
 
-Resolving xrefs for node <ObjectDecl ["C"] 14:7-14:24>
-******************************************************
+Resolving xrefs for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
+******************************************************************
 
-Resolution failed for node <ObjectDecl ["C"] 14:7-14:24>
+Resolution failed for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
 
 Resolving xrefs for node <UsePackageClause testuse.adb:15:7-15:13>
 ******************************************************************

@@ -1,15 +1,15 @@
 Analyzing main.adb
 ##################
 
-Resolving xrefs for node <SubpRenamingDecl ["Foo"] 4:4-4:36>
-************************************************************
+Resolving xrefs for node <SubpRenamingDecl ["Foo"] main.adb:4:4-4:36>
+*********************************************************************
 
 Expr: <Id "B" main.adb:4:34-4:35>
   references: <DefiningName main.adb:2:15-2:16>
   type:       None
 
-Resolving xrefs for node <GenericPackageInstantiation ["Bar_Inst"] 12:4-12:39>
-******************************************************************************
+Resolving xrefs for node <GenericPackageInstantiation ["Bar_Inst"] main.adb:12:4-12:39>
+***************************************************************************************
 
 Expr: <Id "Bar" main.adb:12:28-12:31>
   references: <DefiningName main.adb:10:12-10:15>

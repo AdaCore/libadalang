@@ -9,7 +9,7 @@ Expr: <AttributeRef streamable_types.ads:14:7-14:15>
   type:       None
 Expr: <Id "Int" streamable_types.ads:14:7-14:10>
   references: <DefiningName streamable_types.ads:6:8-6:11>
-  type:       <TypeDecl ["Int"] 6:3-6:28>
+  type:       <TypeDecl ["Int"] streamable_types.ads:6:3-6:28>
 Expr: <Id "Read" streamable_types.ads:14:11-14:15>
   references: None
   type:       None
@@ -25,7 +25,7 @@ Expr: <AttributeRef streamable_types.ads:17:7-17:16>
   type:       None
 Expr: <Id "Int" streamable_types.ads:17:7-17:10>
   references: <DefiningName streamable_types.ads:6:8-6:11>
-  type:       <TypeDecl ["Int"] 6:3-6:28>
+  type:       <TypeDecl ["Int"] streamable_types.ads:6:3-6:28>
 Expr: <Id "Write" streamable_types.ads:17:11-17:16>
   references: None
   type:       None

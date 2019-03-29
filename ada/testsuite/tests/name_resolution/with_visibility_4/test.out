@@ -1,8 +1,8 @@
 Analyzing main.adb
 ##################
 
-Resolving xrefs for node <SubtypeDecl ["TT"] 4:4-4:25>
-******************************************************
+Resolving xrefs for node <SubtypeDecl ["TT"] main.adb:4:4-4:25>
+***************************************************************
 
 Expr: <DottedName main.adb:4:18-4:24>
   references: <| DefiningName pkg.ads:4:12-4:13 [pkg2.ads:2:1] |>

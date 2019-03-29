@@ -9,15 +9,15 @@ Resolving xrefs for node <SubpSpec test.adb:5:7-5:35>
 *****************************************************
 
 
-Resolving xrefs for node <ParamSpec ["X"] 5:27-5:34>
-****************************************************
+Resolving xrefs for node <ParamSpec ["X"] test.adb:5:27-5:34>
+*************************************************************
 
 Expr: <Id "Foo" test.adb:5:31-5:34>
   references: <DefiningName test.adb:3:12-3:15>
   type:       None
 
-Resolving xrefs for node <TypeDecl ["Foo"] 7:7-7:34>
-****************************************************
+Resolving xrefs for node <TypeDecl ["Foo"] test.adb:7:7-7:34>
+*************************************************************
 
 
 Resolving xrefs for node <EndName test.adb:8:8-8:13>
@@ -30,8 +30,8 @@ Expr: <Id "Pouet" test.adb:8:8-8:13>
   references: <DefiningName test.adb:2:12-2:17>
   type:       None
 
-Resolving xrefs for node <ObjectDecl ["X"] 10:4-10:18>
-******************************************************
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:10:4-10:18>
+***************************************************************
 
 Expr: <DottedName test.adb:10:8-10:17>
   references: <DefiningName test.adb:7:12-7:15>
@@ -51,7 +51,7 @@ Expr: <DottedName test.adb:12:4-12:14>
   type:       None
 Expr: <Id "X" test.adb:12:4-12:5>
   references: <DefiningName test.adb:10:4-10:5>
-  type:       <TypeDecl ["Foo"] 7:7-7:34>
+  type:       <TypeDecl ["Foo"] test.adb:7:7-7:34>
 Expr: <Id "Do_Stuff" test.adb:12:6-12:14>
   references: <DefiningName test.adb:5:17-5:25>
   type:       None

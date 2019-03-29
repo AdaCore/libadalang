@@ -12,7 +12,7 @@ Expr: <DottedName pkg.adb:10:7-10:21>
   type:       None
 Expr: <Id "X" pkg.adb:10:7-10:8>
   references: <DefiningName pkg.adb:8:28-8:29>
-  type:       <AnonymousTypeDecl ["None"] 8:32-8:46>
+  type:       <AnonymousTypeDecl ["None"] pkg.adb:8:32-8:46>
 Expr: <Id "Private_Prim" pkg.adb:10:9-10:21>
   references: <DefiningName pkg.ads:9:14-9:26>
   type:       None
@@ -25,7 +25,7 @@ Expr: <DottedName pkg.adb:16:7-16:18>
   type:       None
 Expr: <Id "X" pkg.adb:16:7-16:8>
   references: <DefiningName pkg.adb:14:28-14:29>
-  type:       <AnonymousTypeDecl ["None"] 14:32-14:46>
+  type:       <AnonymousTypeDecl ["None"] pkg.adb:14:32-14:46>
 Expr: <Id "Body_Prim" pkg.adb:16:9-16:18>
   references: <DefiningName pkg.adb:3:14-3:23>
   type:       None

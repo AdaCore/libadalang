@@ -3,7 +3,7 @@
   <AdaNodeList foo.adb:1:1-1:1>
   <LibraryItem foo.adb:1:1-4:9>
   <PrivateAbsent foo.adb:1:1-1:1>
-  <SubpBody ["Sum"] 1:1-4:9>
+  <SubpBody ["Sum"] foo.adb:1:1-4:9>
   <OverridingUnspecified foo.adb:1:1-1:1>
   <SubpSpec foo.adb:1:1-1:68>
   <SubpKindFunction foo.adb:1:1-1:9>
@@ -11,7 +11,7 @@
   <Id "Sum" foo.adb:1:10-1:13>
   <Params foo.adb:1:14-1:53>
   <ParamSpecList foo.adb:1:15-1:52>
-  <ParamSpec ["A"] 1:15-1:26>
+  <ParamSpec ["A"] foo.adb:1:15-1:26>
   <DefiningNameList foo.adb:1:15-1:16>
   <DefiningName foo.adb:1:15-1:16>
   <Id "A" foo.adb:1:15-1:16>
@@ -20,7 +20,7 @@
   <SubtypeIndication foo.adb:1:19-1:26>
   <NotNullAbsent foo.adb:1:18-1:18>
   <Id "Integer" foo.adb:1:19-1:26>
-  <ParamSpec ["B"] 1:28-1:39>
+  <ParamSpec ["B"] foo.adb:1:28-1:39>
   <DefiningNameList foo.adb:1:28-1:29>
   <DefiningName foo.adb:1:28-1:29>
   <Id "B" foo.adb:1:28-1:29>
@@ -29,7 +29,7 @@
   <SubtypeIndication foo.adb:1:32-1:39>
   <NotNullAbsent foo.adb:1:31-1:31>
   <Id "Integer" foo.adb:1:32-1:39>
-  <ParamSpec ["C"] 1:41-1:52>
+  <ParamSpec ["C"] foo.adb:1:41-1:52>
   <DefiningNameList foo.adb:1:41-1:42>
   <DefiningName foo.adb:1:41-1:42>
   <Id "C" foo.adb:1:41-1:42>
@@ -75,19 +75,19 @@
   <Id "Sum" foo.adb:4:5-4:8>
 
 [pkg-foo.ads] All declarations of Foo:
-  <PackageDecl ["Pkg.Foo"] 1:1-17:13>
-  <TypeDecl ["Foo"] 3:4-3:24>
-  <ObjectDecl ["Bar", "Foo"] 8:7-8:26>
-  <TypeDecl ["Foo"] 13:4-15:15>
-  <ComponentDecl ["Foo"] 14:7-14:21>
+  <PackageDecl ["Pkg.Foo"] pkg-foo.ads:1:1-17:13>
+  <TypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
+  <ObjectDecl ["Bar", "Foo"] pkg-foo.ads:8:7-8:26>
+  <TypeDecl ["Foo"] pkg-foo.ads:13:4-15:15>
+  <ComponentDecl ["Foo"] pkg-foo.ads:14:7-14:21>
 
 [pkg-foo.ads] All declarations of "+":
-  <SubpDecl [""+""] 5:4-5:48>
+  <SubpDecl [""+""] pkg-foo.ads:5:4-5:48>
 
 [pkg-foo.ads] All declarations of Foo that are types or components:
-  <TypeDecl ["Foo"] 3:4-3:24>
-  <TypeDecl ["Foo"] 13:4-15:15>
-  <ComponentDecl ["Foo"] 14:7-14:21>
+  <TypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
+  <TypeDecl ["Foo"] pkg-foo.ads:13:4-15:15>
+  <ComponentDecl ["Foo"] pkg-foo.ads:14:7-14:21>
 
 [pkg.ads] All references to the Foo type:
   <DefiningName pkg.ads:3:9-3:12>

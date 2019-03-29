@@ -9,7 +9,7 @@
 | | | | | <Id "Text_IO" foo.adb:1:10-1:17>
 | <LibraryItem foo.adb:3:1-6:9>
 | | <PrivateAbsent foo.adb:1:18-1:18>
-| | <SubpBody ["Foo"] 3:1-6:9>
+| | <SubpBody ["Foo"] foo.adb:3:1-6:9>
 | | | <OverridingUnspecified foo.adb:1:18-1:18>
 | | | <SubpSpec foo.adb:3:1-3:14>
 | | | | <SubpKindProcedure foo.adb:3:1-3:10>

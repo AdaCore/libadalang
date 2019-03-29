@@ -20,7 +20,7 @@ CompilationUnit foo.adb:1:1-6:9
 |  |has_private:
 |  |  PrivateAbsent foo.adb:1:18-1:18
 |  |item:
-|  |  SubpBody ["Foo"] 3:1-6:9
+|  |  SubpBody ["Foo"] foo.adb:3:1-6:9
 |  |  |overriding:
 |  |  |  OverridingUnspecified foo.adb:1:18-1:18
 |  |  |subp_spec:

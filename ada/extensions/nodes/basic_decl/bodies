@@ -50,6 +50,12 @@ begin
    end loop;
    Dec_Ref (Children);
 
-   Append (Ret, "] " & To_Text (Image (Sloc_Range (Node))) & ">");
+   Append (Ret, "] "
+           & To_Text
+            (Ada.Directories.Simple_Name
+               (Get_Filename (Unit (Node))))
+           & ":"
+           & To_Text (Image (Sloc_Range (Node))) & ">");
+
    return To_Wide_Wide_String (Ret);
 end Bare_Basic_Decl_Short_Image;

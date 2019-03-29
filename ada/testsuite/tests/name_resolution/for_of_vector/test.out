@@ -5,8 +5,8 @@ Resolving xrefs for node <SubpSpec testvec.adb:4:1-4:18>
 ********************************************************
 
 
-Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] 5:4-5:55>
-****************************************************************************
+Resolving xrefs for node <GenericPackageInstantiation ["Int_Vecs"] testvec.adb:5:4-5:55>
+****************************************************************************************
 
 Expr: <Id "Vectors" testvec.adb:5:28-5:35>
   references: <DefiningName vectors.ads:46:9-46:16>
@@ -18,8 +18,8 @@ Expr: <Id "Integer" testvec.adb:5:46-5:53>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <ObjectDecl ["I"] 7:4-7:24>
-****************************************************
+Resolving xrefs for node <ObjectDecl ["I"] testvec.adb:7:4-7:24>
+****************************************************************
 
 Expr: <DottedName testvec.adb:7:8-7:23>
   references: <| DefiningName vectors.ads:59:9-59:15 [testvec.adb:5:4] |>
@@ -31,8 +31,8 @@ Expr: <Id "Vector" testvec.adb:7:17-7:23>
   references: <| DefiningName vectors.ads:59:9-59:15 [testvec.adb:5:4] |>
   type:       None
 
-Resolving xrefs for node <ObjectDecl ["A"] 8:4-8:16>
-****************************************************
+Resolving xrefs for node <ObjectDecl ["A"] testvec.adb:8:4-8:16>
+****************************************************************
 
 Expr: <Id "Integer" testvec.adb:8:8-8:15>
   references: <DefiningName __standard:4:8-4:15>
@@ -49,13 +49,13 @@ Expr: <DottedName testvec.adb:10:4-10:12>
   type:       None
 Expr: <Id "I" testvec.adb:10:4-10:5>
   references: <DefiningName testvec.adb:7:4-7:5>
-  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] vectors.ads:59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" testvec.adb:10:6-10:12>
   references: <| DefiningName vectors.ads:245:14-245:20 [testvec.adb:5:4] |>
   type:       None
 Expr: <Int testvec.adb:10:14-10:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:11:4-11:18>
 **********************************************************
@@ -68,13 +68,13 @@ Expr: <DottedName testvec.adb:11:4-11:12>
   type:       None
 Expr: <Id "I" testvec.adb:11:4-11:5>
   references: <DefiningName testvec.adb:7:4-7:5>
-  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] vectors.ads:59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" testvec.adb:11:6-11:12>
   references: <| DefiningName vectors.ads:245:14-245:20 [testvec.adb:5:4] |>
   type:       None
 Expr: <Int testvec.adb:11:14-11:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:12:4-12:18>
 **********************************************************
@@ -87,13 +87,13 @@ Expr: <DottedName testvec.adb:12:4-12:12>
   type:       None
 Expr: <Id "I" testvec.adb:12:4-12:5>
   references: <DefiningName testvec.adb:7:4-7:5>
-  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] vectors.ads:59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" testvec.adb:12:6-12:12>
   references: <| DefiningName vectors.ads:245:14-245:20 [testvec.adb:5:4] |>
   type:       None
 Expr: <Int testvec.adb:12:14-12:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:13:4-13:18>
 **********************************************************
@@ -106,13 +106,13 @@ Expr: <DottedName testvec.adb:13:4-13:12>
   type:       None
 Expr: <Id "I" testvec.adb:13:4-13:5>
   references: <DefiningName testvec.adb:7:4-7:5>
-  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] vectors.ads:59:4-64:41 [testvec.adb:5:4] |>
 Expr: <Id "Append" testvec.adb:13:6-13:12>
   references: <| DefiningName vectors.ads:245:14-245:20 [testvec.adb:5:4] |>
   type:       None
 Expr: <Int testvec.adb:13:14-13:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] 119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
 Resolving xrefs for node <ForLoopStmt testvec.adb:15:4-17:13>
 *************************************************************
@@ -123,17 +123,17 @@ Resolving xrefs for node <ForLoopSpec testvec.adb:15:8-15:15>
 
 Expr: <Id "I" testvec.adb:15:14-15:15>
   references: <DefiningName testvec.adb:7:4-7:5>
-  type:       <| TypeDecl ["Vector"] 59:4-64:41 [testvec.adb:5:4] |>
+  type:       <| TypeDecl ["Vector"] vectors.ads:59:4-64:41 [testvec.adb:5:4] |>
 
 Resolving xrefs for node <AssignStmt testvec.adb:16:7-16:15>
 ************************************************************
 
 Expr: <Id "A" testvec.adb:16:7-16:8>
   references: <DefiningName testvec.adb:8:4-8:5>
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "El" testvec.adb:16:12-16:14>
   references: <DefiningName testvec.adb:15:8-15:10>
-  type:       <TypeDecl ["Integer"] 4:3-4:54>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <EndName testvec.adb:19:5-19:12>
 *********************************************************

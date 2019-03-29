@@ -20,7 +20,7 @@ CompilationUnit foo.adb:1:1-14:9
 |  |has_private:
 |  |  PrivateAbsent foo.adb:1:18-1:18
 |  |item:
-|  |  SubpBody ["Foo"] 3:1-14:9
+|  |  SubpBody ["Foo"] foo.adb:3:1-14:9
 |  |  |overriding:
 |  |  |  OverridingUnspecified foo.adb:1:18-1:18
 |  |  |subp_spec:
@@ -39,7 +39,7 @@ CompilationUnit foo.adb:1:1-14:9
 |  |  |  |decls:
 |  |  |  |  AdaNodeList foo.adb:4:4-11:13
 |  |  |  |  |item_0:
-|  |  |  |  |  SubpBody ["Fact"] 4:4-11:13
+|  |  |  |  |  SubpBody ["Fact"] foo.adb:4:4-11:13
 |  |  |  |  |  |overriding:
 |  |  |  |  |  |  OverridingUnspecified foo.adb:3:17-3:17
 |  |  |  |  |  |subp_spec:
@@ -55,7 +55,7 @@ CompilationUnit foo.adb:1:1-14:9
 |  |  |  |  |  |  |  |params:
 |  |  |  |  |  |  |  |  ParamSpecList foo.adb:4:19-4:30
 |  |  |  |  |  |  |  |  |item_0:
-|  |  |  |  |  |  |  |  |  ParamSpec ["N"] 4:19-4:30
+|  |  |  |  |  |  |  |  |  ParamSpec ["N"] foo.adb:4:19-4:30
 |  |  |  |  |  |  |  |  |  |ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList foo.adb:4:19-4:20
 |  |  |  |  |  |  |  |  |  |  |item_0:

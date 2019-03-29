@@ -1,8 +1,8 @@
 Analyzing foo.adb
 #################
 
-Resolving xrefs for node <GenericPackageInstantiation ["Dec"] 6:4-6:54>
-***********************************************************************
+Resolving xrefs for node <GenericPackageInstantiation ["Dec"] foo.adb:6:4-6:54>
+*******************************************************************************
 
 Expr: <DottedName foo.adb:6:23-6:45>
   references: ada.text_io.decimal_io

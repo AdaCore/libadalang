@@ -9,8 +9,8 @@ import sys
 ADA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = join(ADA_DIR, '..')
 
-DIRS = ('ada', 'contrib', 'utils')
-EXCLUDES = ('tmp', 'doc',
+DIRS = ['ada', 'contrib', 'utils']
+EXCLUDES = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),
             join('testsuite', 'ext_src'),
@@ -18,7 +18,7 @@ EXCLUDES = ('tmp', 'doc',
             join('testsuite', 'tests', 'python', 'char_literal', 'foo.ads'),
             join('testsuite', 'tests', 'python', 'string_literal', 'foo.ads'),
             join('testsuite', 'tests', 'name_resolution', 'symbol_canon'),
-            join('testsuite', 'tests', 'regressions'))
+            join('testsuite', 'tests', 'regressions')]
 
 sys.path.append(join(ROOT_DIR, 'langkit'))
 
@@ -26,11 +26,8 @@ import langkit.stylechecks
 
 
 def main():
-    if sys.argv[1:]:
-        langkit.stylechecks.main(sys.argv[1], None, None)
-    else:
-        os.chdir(ROOT_DIR)
-        langkit.stylechecks.main(None, DIRS, EXCLUDES)
+    langkit.stylechecks.main(ROOT_DIR, sys.argv[1:], DIRS, EXCLUDES)
+
 
 if __name__ == '__main__':
     main()

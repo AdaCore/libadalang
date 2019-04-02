@@ -3637,7 +3637,7 @@ class DiscriminantConstraint(Constraint):
 @has_abstract_list
 class BasicAssoc(AdaNode):
     """
-    Assocation of one or several names to an expression.
+    Association of one or several names to an expression.
     """
     expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
     names = AbstractProperty(type=T.AdaNode.array)

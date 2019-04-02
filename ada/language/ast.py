@@ -3642,6 +3642,20 @@ class BasicAssoc(AdaNode):
     expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
     names = AbstractProperty(type=T.AdaNode.array)
 
+    @langkit_property(public=True,
+                      return_type=T.BaseFormalParamDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_params():
+        """
+        Return the list of parameters that this association refers to.
+        """
+        return (
+            Entity.parent.cast_or_raise(T.AssocList).zip_with_params.filtermap(
+                lambda m: m.param,
+                lambda m: m.actual.node == Self.expr
+            )
+        )
+
 
 class DiscriminantAssoc(BasicAssoc):
     """
@@ -6693,6 +6707,44 @@ class Name(Expr):
             '"-"', '"&"' '"+"', '"-"', '"not"', '"abs"'
         )
     )
+
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_write_reference():
+        """
+        Whether this name is a write reference.
+
+        For example, `X` is a write reference in the following cases::
+
+          1. `X := 2;`
+          2. `X (2) := 2;`
+          3. `P(F => X)` where F is declared `out`.
+          4. `X'Access`.
+
+        .. note:: This is an experimental feature. There might be some
+            discrepancy with the GNAT concept of "write reference".
+        """
+        # TODO: Missing case for component assignment, etc. Also, this
+        # algorithm should probably be recursive. Think about::
+        #
+        #   A.x (2).y := 3
+        return Entity.parent.match(
+            # handle case 1
+            lambda a=T.AssignStmt: a.dest == Entity,
+            # handle case 2
+            lambda c=T.CallExpr: And(
+                c.name == Entity,
+                c.parent.cast(T.AssignStmt)._.dest == c
+            ),
+            # handle case 3
+            lambda p=T.ParamAssoc: p.get_params.any(
+                lambda m:
+                m.cast(T.ParamSpec)._.mode.is_a(Mode.alt_out, Mode.alt_in_out)
+            ),
+            # handle case 4
+            lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
+            lambda _: False
+        )
 
     @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():

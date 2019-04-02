@@ -1,0 +1,14 @@
+== test.adb ==
+Analyzing references of <DefiningName test.adb:9:4-9:5>
+  Reference <Id "X" test.adb:13:4-13:5> is a write reference.
+  Reference <Id "X" test.adb:14:4-14:5> is a write reference.
+  Reference <Id "X" test.adb:15:9-15:10> is not a write reference.
+  Reference <Id "X" test.adb:15:12-15:13> is a write reference.
+Analyzing references of <DefiningName test.adb:10:4-10:5>
+  Reference <Id "Y" test.adb:11:26-11:27> is a write reference.
+  Reference <Id "Y" test.adb:13:20-13:21> is not a write reference.
+  Reference <Id "Y" test.adb:14:13-14:14> is not a write reference.
+Analyzing references of <DefiningName test.adb:11:4-11:5>
+  Reference <Id "Z" test.adb:16:4-16:5> is not a write reference.
+
+Done

@@ -133,9 +133,13 @@ procedure Nameres is
       package Debug is new Parse_Flag
         (Parser, "-D", "--debug", Help => "Debug logic equation solving");
 
+      package No_Traceback is new Parse_Flag
+        (Parser, Long => "--no-traceback",
+         Help         => "Do not display traceback for exceptions");
+
       package Sym_Traceback is new Parse_Flag
         (Parser, Long => "--symbolic-traceback",
-         Help => "Show symbolic tracebacks for exceptions");
+         Help         => "Show symbolic tracebacks for exceptions");
 
       package Files_From_Project is new Parse_Flag
         (Parser,
@@ -375,14 +379,23 @@ procedure Nameres is
       exception
          when E : others =>
             Put_Line
-              ("Resolution failed w. exception for node "
+              ("Resolution failed with exception for node "
                & Node.Short_Image);
-            if Args.Sym_Traceback.Get then
+            if Args.No_Traceback.Get then
+               --  Do use Exception_Information nor Exception_Message. The
+               --  former includes callbacks and the latter includes line
+               --  numbers in Libadalang: both are bad for testcase output
+               --  consistency.
+               Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
+               New_Line;
+
+            elsif Args.Sym_Traceback.Get then
                Put_Line (Ada.Exceptions.Exception_Message (E));
                Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+
             else
                Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-               Put_Line ("");
+               New_Line;
             end if;
 
             if Args.JSON.Get then

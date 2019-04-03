@@ -55,19 +55,28 @@ class PythonRunner(object):
         """
         return not self.driver.disable_shared
 
+    @staticmethod
+    def add_paths(old_path, *dirnames):
+        """
+        Helper to build environment paths: prepend items in `dirnames` to
+        `old_path`. This inserts `os.path.pathsep` where appropriate.
+
+        :type old_path: str
+        :type dirnames: list[str]
+        :rtype: str
+        """
+        new_paths = os.path.pathsep.join(dirnames)
+        return ('{}{}{}'.format(new_paths, os.path.pathsep, old_path)
+                if old_path else new_paths)
+
     def setup_environment(self):
         """
         Make the common Python modules available from the testcase script.
         """
-        try:
-            pythonpath = os.environ['PYTHONPATH']
-        except KeyError:
-            pythonpath = self.support_dir
-        else:
-            pythonpath = '{}{}{}'.format(
-                self.support_dir, os.path.pathsep, pythonpath
-            )
-        os.environ['PYTHONPATH'] = pythonpath
+        os.environ['PYTHONPATH'] = self.add_paths(
+            os.environ.get('PYTHONPATH'),
+            self.support_dir,
+            self.internal_support_dir)
         os.environ['LIBADALANG_ROOTDIR'] = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             '..', '..', '..'
@@ -93,3 +102,12 @@ class PythonRunner(object):
         Return the absolute path to the directory for support Python modules.
         """
         return os.path.join(self.driver.testsuite_dir, 'python_support')
+
+    @property
+    def internal_support_dir(self):
+        """
+        Return the absolute path to the directory for support Python modules
+        for the internal testsuite.
+        """
+        return os.path.join(self.driver.testsuite_dir, 'tests', 'internal',
+                            'python_support')

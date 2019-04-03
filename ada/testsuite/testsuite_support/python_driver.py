@@ -3,9 +3,7 @@ from __future__ import absolute_import, division, print_function
 import os
 import os.path
 
-from testsuite_support.base_driver import (
-    BaseDriver, catch_test_errors, SetupError,
-)
+from testsuite_support.base_driver import BaseDriver, catch_test_errors
 
 
 class PythonDriver(BaseDriver):
@@ -30,9 +28,7 @@ class PythonDriver(BaseDriver):
         if self.disable_python:
             self.result.set_status('DEAD', 'Python API testing disabled')
 
-        if 'input_sources' not in self.test_env:
-            raise SetupError('Missing "input_sources" key in test.yaml')
-        self.input_sources = self.test_env['input_sources']
+        self.input_sources = self.test_env.get('input_sources', [])
 
         self.check_file(self.py_file)
         self.check_file_list('"input_sources"', self.input_sources)

@@ -1,4 +1,0 @@
-driver: python
-input_sources: []
-external_sources: [acats]
-timeout: 600

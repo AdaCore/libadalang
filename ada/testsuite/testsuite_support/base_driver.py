@@ -93,22 +93,6 @@ class BaseDriver(TestDriver):
             self.valgrind = None
         self.valgrind_errors = []
 
-        # If this test requires sources from external repositories, make sure
-        # we have them at hand. Otherwise skip it.
-        repos = self.test_env.get('external_sources', [])
-        bad_repos_exc = SetupError('Invalid "external_sources" entry: list of'
-                                   ' strings expected')
-        if not isinstance(repos, list):
-            raise bad_repos_exc
-        for repo in repos:
-            if not isinstance(repo, str):
-                raise bad_repos_exc
-            if not os.path.exists(os.path.join(self.testsuite_dir, 'ext_src',
-                                               repo)):
-                self.result.set_status(
-                    'DEAD', 'Missing external source: {}'.format(repo)
-                )
-
         self.check_file(self.expected_file)
 
         # Load the expected failure matcher for this testcase

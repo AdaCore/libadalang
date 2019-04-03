@@ -206,7 +206,7 @@ class Manage(ManageScript):
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
             '--enable-color', '--show-error-output',
         ]
-        if not args.enable_shared:
+        if not args.library_types.relocatable:
             argv.append('--disable-shared')
         argv.extend(getattr(args, 'testsuite-args'))
 

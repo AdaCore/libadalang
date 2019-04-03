@@ -45,6 +45,9 @@ lkex
 lksp
 lktp
 
+# Internal testsuite
+ada/testsuite/tests/internal
+
 # External sources for the testsuite
 ada/testsuite/ext_src
 

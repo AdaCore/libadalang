@@ -6258,11 +6258,17 @@ class Name(Expr):
         """,
     )
 
-    is_defining = Property(
-        Not(Entity.enclosing_defining_name.is_null),
-        public=True,
-        doc="Return True if this name is part of a defining name."
-    )
+    @langkit_property(public=True, return_type=T.Bool)
+    def is_defining():
+        """
+        Return True if this name is part of a defining name.
+        """
+        return Not(Or(
+            Entity.enclosing_defining_name.is_null,
+            Self.parent.cast(T.DottedName).then(
+                lambda dn: dn.suffix != Self
+            )
+        ))
 
     parent_scope = AbstractProperty(
         type=LexicalEnv, runtime_check=True,
@@ -6311,7 +6317,9 @@ class Name(Expr):
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def xref():
-        dn = Var(Entity.enclosing_defining_name)
+        dn = Var(Entity.is_defining.then(
+            lambda _: Entity.enclosing_defining_name
+        ))
         bd = Var(dn.then(lambda dn: dn.basic_decl))
 
         return Cond(
@@ -7535,6 +7543,20 @@ class DefiningName(Name):
         public=True,
         doc="Like ``BasicDecl.canonical_part`` on a defining name"
     )
+
+    @langkit_property()
+    def xref_equation():
+        # The name field of a defining name must be an Identifier or a
+        # DottedName. So we can special case the construction of the xref
+        # equation here.
+        return Entity.name.cast(T.DottedName).then(
+            lambda dn: dn.prefix.xref_equation,
+            default_val=LogicTrue()
+        )
+
+    # There are names to resolve in a defining name only if its name field is
+    # a dotted name, in which case we must resolve its prefix.
+    xref_entry_point = Property(Self.name.is_a(T.DottedName))
 
 
 class EndName(Name):

@@ -55,7 +55,7 @@ def decode_boolean_literal(node):
 
 def resolve_node(node, show_slocs=True):
     def print_nodes(n):
-        if n.is_a(lal.Expr) and not n.is_a(lal.DefiningName):
+        if n.is_a(lal.Expr) and (not n.is_a(lal.Name) or not n.p_is_defining):
             print('Expr: {}'.format(n))
 
             if n.is_a(lal.Name):
@@ -69,7 +69,8 @@ def resolve_node(node, show_slocs=True):
                 print('  references: {}'.format(refd_decl_img))
 
             print('  type:       {}'.format(entity_repr(n.p_expression_type)))
-        if n.p_xref_entry_point and n != node or n.is_a(lal.DefiningName):
+        if ((n.p_xref_entry_point and n != node) or
+                (n.is_a(lal.DefiningName) and not n.p_xref_entry_point)):
             return
         else:
             for c in n:

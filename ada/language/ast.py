@@ -2786,6 +2786,11 @@ class BaseTypeDecl(BasicDecl):
             No(T.ArrayTypeDef.entity)
         )
 
+    is_array_def_with_deref = Property(
+        Not(Entity.array_def_with_deref.is_null),
+        dynamic_vars=[origin]
+    )
+
     @langkit_property(dynamic_vars=[default_origin()],
                       return_type=T.BaseTypeDecl.entity, public=True)
     def comp_type(is_subscript=(Bool, False)):
@@ -9151,10 +9156,14 @@ class AttributeRef(Name):
             # Prefix is not a type: In that case we have permission to resolve
             # prefix separately.
             Let(lambda
-                res=Entity.prefix.resolve_names_internal(True, LogicTrue()),
+                res=Entity.prefix.resolve_names_internal(
+                    True,
+                    Predicate(BaseTypeDecl.is_array_def_with_deref,
+                              Entity.prefix.type_var)
+                ),
                 pfx_typ=Entity.prefix.type_val.cast(T.BaseTypeDecl):
 
-                If(res & Not(pfx_typ.array_def_with_deref.is_null),
+                If(res,
                    If(is_length,
                       universal_int_bind(Self.type_var),
                       TypeBind(Self.type_var, pfx_typ.index_type(dim))),

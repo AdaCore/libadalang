@@ -2879,17 +2879,18 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
-    def matching_access_type(expected_type=T.BaseTypeDecl.entity):
+    def matching_access_type(expected_type=T.BaseTypeDecl.entity,
+                             for_assignment=Bool):
         """
         Whether self is a matching access type for expected_type.
         """
         actual_type = Var(Entity)
         return expected_type.match(
             lambda atd=T.AnonymousTypeDecl.entity:
-            atd.access_def_matches(actual_type),
+            atd.access_def_matches(actual_type, for_assignment),
             lambda _: actual_type.match(
                 lambda atd2=T.AnonymousTypeDecl.entity:
-                atd2.access_def_matches(expected_type),
+                atd2.access_def_matches(expected_type, for_assignment),
                 lambda _: False
             )
         )
@@ -2949,7 +2950,9 @@ class BaseTypeDecl(BasicDecl):
                 Not(actual_type.get_imp_deref.is_null),
                 actual_type
                 .accessed_type.matching_assign_type(expected_type)
-            )
+            ),
+
+            Entity.matching_access_type(expected_type, True)
         )
 
     @langkit_property(return_type=Bool,
@@ -2975,7 +2978,7 @@ class BaseTypeDecl(BasicDecl):
             And(Not(expected_type.is_null),
                 Not(actual_type.is_null),
                 Or(actual_type.canonical_type == expected_type.canonical_type,
-                   actual_type.matching_access_type(expected_type)))
+                   actual_type.matching_access_type(expected_type, False)))
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
@@ -3431,11 +3434,13 @@ class AnonymousTypeDecl(TypeDecl):
     """
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
-    def access_def_matches(other=BaseTypeDecl.entity):
+    def access_def_matches(other=BaseTypeDecl.entity, for_assignment=Bool):
         """
         Returns whether:
-        1. Self and other are both access types.
-        2. Their access def matches structurally.
+          1. Self and other are both access types.
+          2. Their access def matches structurally. If for_assignment is True,
+             matching_assign_type is used instead of matching_type to compare
+             the two access defs.
         """
 
         # If the anonymous type is an access type definition, then verify if
@@ -3449,7 +3454,13 @@ class AnonymousTypeDecl(TypeDecl):
             ),
             lambda ad:
             ad.accessed_type.then(
-                lambda ast: ast.matching_type(other.accessed_type)
+                lambda ast: other.accessed_type.then(
+                    lambda oat: If(
+                        for_assignment,
+                        oat.matching_assign_type(ast),
+                        oat.matching_type(ast)
+                    )
+                )
             )
         )
 

@@ -5970,10 +5970,28 @@ class BinOp(Expr):
         subps = Var(Entity.op.subprograms.filter(
             lambda s: s.subp_spec_or_null.nb_max_params == 2
         ))
+
+        # When the operator is "/=" and there are no explicit overload, we
+        # might refer to the implicit declaration of the "/=" operator that
+        # comes with any overload of "=".
+        refers_to_synthetic_neq = Var(And(
+            subps.length == 0,
+            Self.op.subprogram_symbol == '"/="'
+        ))
+
+        # So if that's the case, look for declarations of "="
+        refined_subps = If(
+            refers_to_synthetic_neq,
+            Self.op.subprograms_for_symbol('"="', Entity).filter(
+                lambda s: s.subp_spec_or_null.nb_max_params == 2
+            ),
+            subps
+        )
+
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation
-        ) & (subps.logic_any(lambda subp: Let(
+        ) & (refined_subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
@@ -5988,8 +6006,12 @@ class BinOp(Expr):
             & TypeBind(Self.type_var,
                        subp.subp_spec_or_null.return_type)
 
-            # The operator references the subprogram
-            & Bind(Self.op.ref_var, subp)
+            # The operator references the subprogram, except when it refers
+            # to the implicitly generated '/='.
+            & Bind(
+                Self.op.ref_var,
+                If(refers_to_synthetic_neq, No(BasicDecl.entity), subp)
+            )
         )) | Self.no_overload_equation)
 
     @langkit_property(dynamic_vars=[origin])
@@ -8013,11 +8035,15 @@ class Op(BaseId):
             lambda _:               '<<>>',
         )
 
-    subprograms = Property(
-        lambda: Self.node_env.get(Self.subprogram_symbol).filtermap(
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def subprograms_for_symbol(sym=T.Symbol, from_node=T.AdaNode.entity):
+        return from_node.node_env.get(sym).filtermap(
             lambda e: e.cast_or_raise(T.BasicDecl),
             lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
-        ),
+        )
+
+    subprograms = Property(
+        Self.subprograms_for_symbol(Self.subprogram_symbol, Entity),
         doc="""
         Return the subprograms corresponding to this operator accessible in the
         lexical environment.

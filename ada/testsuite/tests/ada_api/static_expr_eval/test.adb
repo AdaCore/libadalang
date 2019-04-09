@@ -38,4 +38,15 @@ begin
    begin
       null;
    end;
+
+   --  Type conversions and attributes
+   declare
+      X : Integer := Integer (3.0 * 12.4);
+      Y : Integer := Integer'Max (12, 14);
+      Z : Integer := Float'Max (12.0, 14.5);
+      Z : Integer := Float'Min (12.0, 14.5);
+      Z : Integer := Integer'Min (X, Y);
+   begin
+      null;
+   end;
 end Test;

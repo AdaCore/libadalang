@@ -44,4 +44,17 @@ Expr <ObjectDecl ["Times"] test.adb:36:7-36:32> evaluated to Int 6
 Expr <ObjectDecl ["Div"] test.adb:37:7-37:32> evaluated to Int 1
    Int value is 1
 
+Expr <ObjectDecl ["X"] test.adb:44:7-44:43> evaluated to Int 37
+   Int value is 37
+
+Expr <ObjectDecl ["Y"] test.adb:45:7-45:43> evaluated to Int 14
+   Int value is 14
+
+Expr <ObjectDecl ["Z"] test.adb:46:7-46:45> evaluated to Real 1.45E+01
+
+Expr <ObjectDecl ["Z"] test.adb:47:7-47:45> evaluated to Real 1.20E+01
+
+Expr <ObjectDecl ["Z"] test.adb:48:7-48:41> evaluated to Int 14
+   Int value is 14
+
 Done.

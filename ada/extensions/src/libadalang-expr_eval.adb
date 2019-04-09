@@ -53,6 +53,8 @@ package body Libadalang.Expr_Eval is
    --  Raise Left to the power of Right and return the result. If Right is too
    --  big or if it is negative, raise a Property_Error.
 
+   function To_Integer (Big_Int : Big_Integer) return Integer;
+
    -----------------------
    -- Create_Int_Result --
    -----------------------
@@ -79,6 +81,7 @@ package body Libadalang.Expr_Eval is
    ----------
    -- Copy --
    ----------
+
    function Copy (Result : Eval_Result) return Eval_Result is
    begin
       case Result.Kind is
@@ -115,6 +118,18 @@ package body Libadalang.Expr_Eval is
 
       return Left ** N;
    end Raise_To_N;
+
+   ----------------
+   -- To_Integer --
+   ----------------
+
+   function To_Integer (Big_Int : Big_Integer) return Integer is
+   begin
+      return Integer'Value (Big_Int.Image);
+   exception
+      when Constraint_Error =>
+         raise Property_Error with "out of range big integer";
+   end To_Integer;
 
    ---------------
    -- Expr_Eval --
@@ -344,6 +359,41 @@ package body Libadalang.Expr_Eval is
             end;
          when Ada_Paren_Expr =>
             return Expr_Eval (E.As_Paren_Expr.F_Expr);
+
+         when Ada_Call_Expr =>
+            declare
+               Designated_Type : Base_Type_Decl :=
+                 E.As_Call_Expr.F_Name.P_Name_Designated_Type;
+            begin
+               if Is_Null (Designated_Type) then
+                  raise Property_Error
+                    with "Unhandled call expr: " & E.Debug_Text;
+               elsif Designated_Type.P_Is_Float_Type then
+                  declare
+                     Arg_Val : Eval_Result
+                       := Expr_Eval
+                         (E.As_Call_Expr.F_Suffix.Child (1)
+                          .As_Param_Assoc.F_R_Expr);
+                  begin
+                     return Create_Real_Result
+                       (Designated_Type,
+                        Long_Float (To_Integer (As_Int (Arg_Val))));
+                  end;
+               elsif Designated_Type.P_Is_Int_Type then
+                  declare
+                     Arg_Val : Eval_Result
+                       := Expr_Eval
+                         (E.As_Call_Expr.F_Suffix.Child (1)
+                          .As_Param_Assoc.F_R_Expr);
+                  begin
+                     return Create_Int_Result
+                       (Designated_Type, Integer (Arg_Val.Real_Result));
+                  end;
+               else
+                  raise Property_Error
+                    with "Unhandled type conversion: " & E.Debug_Text;
+               end if;
+            end;
          when others =>
             raise Property_Error with "Unhandled node: " & E.Kind'Img;
       end case;

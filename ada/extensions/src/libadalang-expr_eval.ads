@@ -50,16 +50,17 @@ package Libadalang.Expr_Eval is
       end case;
    end record;
    --  This data type represents the result of the evaluation of an expression
-   
+
    function As_Int (Self : Eval_Result) return Big_Integer;
    --  Return the given evaluation result as an Integer, if applicable. This
    --  will work for enum or int results, not for real results.
-   
+
    function Image (Self : Eval_Result) return String;
    --  Return a string representation of Self. Used for testing/debugging
    --  purposes.
 
    function Expr_Eval (E : LAL.Expr) return Eval_Result;
    --  Evaluate the expression passed as parameter
+
 
 end Libadalang.Expr_Eval;

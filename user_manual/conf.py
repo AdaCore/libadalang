@@ -351,7 +351,10 @@ def setup(app):
 
     import os
     import sys
-    sys.path.append(os.getcwd())
+    from os import path as P
+    laldoc_dir = P.join(P.dirname(os.getcwd()), "contrib", "laldoc")
+    print laldoc_dir
+    sys.path.append(laldoc_dir)
 
     import ada_docgen
     app.add_directive("ada_auto_package", ada_docgen.AutoPackage)

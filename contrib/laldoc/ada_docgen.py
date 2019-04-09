@@ -5,11 +5,11 @@ from __future__ import absolute_import, division, print_function
 from collections import defaultdict
 
 from docutils import nodes
+from docutils.parsers.rst import Directive
 from docutils.statemachine import ViewList
 from funcy import memoize
 import libadalang as lal
 from sphinx import addnodes as N
-from docutils.parsers.rst import Directive
 from sphinx.util.nodes import nested_parse_with_titles
 
 try:
@@ -63,6 +63,12 @@ class AutoPackage(Directive):
         'document-value': bool,
     }
 
+    def parse_into(self, doc, content_node):
+        rst = ViewList()
+        for i, l in enumerate(doc, 1):
+            rst.append(l, 'no_file.rst', i)
+        nested_parse_with_titles(self.state, rst, content_node)
+
     def decode_annotation(self, key, value):
         try:
             atype = self.annotations[key]
@@ -90,48 +96,75 @@ class AutoPackage(Directive):
         1. the list of lines that constitutes the documentation for ``decl``;
         2. a mapping (key: string, value: string) for the parsed annotations.
         """
-        annotations = {}
-        doc = []
+        is_generic_package = (
+            decl.is_a(lal.BasePackageDecl)
+            and decl.parent.is_a(lal.GenericPackageDecl)
+        )
 
-        # Direction to follow when looking for comments (see below)
-        backwards = False
-
-        # Namespace so that local functions can modify ``token``
-        class T:
-            token = None
-
-        def next_token():
-            T.token = T.token.previous if backwards else T.token.next
-
-        if isinstance(decl, lal.BasePackageDecl):
+        if decl.is_a(lal.BasePackageDecl) and not is_generic_package:
             # Documentation for packages is assumed to appear before the
             # "package" keyword.
-            T.token = decl.token_start.previous
-            if T.token.kind == 'Whitespace':
-                T.token = T.token.previous
-            backwards = True
+            doc, annotations = self.extract_doc_from(
+                decl.token_start, backwards=True, skip_white_lines=-1
+            )
+
+            # If not found and the package is a library unit, we try to find
+            # the doc that is before the library unit.
+            if not doc:
+                doc, annotations = self.extract_doc_from(
+                    decl.unit.root.token_start, backwards=True,
+                    skip_white_lines=-1
+                )
+
+            return doc, annotations
 
         else:
             # Documentation for all other entities is assumed to appear after
             # the root node representing the entity.
-            T.token = decl.token_end.next
-            if T.token.kind == 'Whitespace' and T.token.text.count('\n') == 1:
-                T.token = T.token.next
+            return self.extract_doc_from(
+                decl.token_end, backwards=False, skip_white_lines=1
+            )
+
+    def extract_doc_from(self, token, backwards=False, skip_white_lines=0):
+        # Namespace so that local functions can modify ``token``
+        class T:
+            tok = token
+
+        def next_token():
+            T.tok = T.tok.previous if backwards else T.tok.next
+
+        annotations = {}
+        doc = []
+
+        next_token()
+        print(T.tok)
+
+        if skip_white_lines != 0 and T.tok.kind == 'Whitespace':
+            if skip_white_lines == -1:
+                next_token()
+            elif skip_white_lines > 0:
+                if T.tok.text.count('\n') == skip_white_lines:
+                    next_token()
+            else:
+                raise AssertionError(
+                    "Invalid value for skip_white_lines: {}"
+                    .format(skip_white_lines)
+                )
 
         # No comment in the direction expected? There is no documentation
-        if T.token.kind != 'Comment':
+        if T.tok.kind != 'Comment':
             return doc, annotations
 
         # Process as many comments as possible from our starting point, until
         # we find an empty line or anything else than a comment or a
         # whitespace.
-        while T.token and T.token.kind in ['Comment', 'Whitespace']:
-            if T.token.kind == 'Whitespace':
-                if T.token.text.count('\n') > 1:
+        while T.tok and T.tok.kind in ['Comment', 'Whitespace']:
+            if T.tok.kind == 'Whitespace':
+                if T.tok.text.count('\n') > 1:
                     break
 
-            if T.token.kind == 'Comment':
-                t = T.token.text[2:]  # Strip the '--'
+            if T.tok.kind == 'Comment':
+                t = T.tok.text[2:]  # Strip the '--'
                 if t.startswith('%'):
                     try:
                         key, val = map(unicode.strip, t[1:].split(':'))
@@ -172,7 +205,7 @@ class AutoPackage(Directive):
             self.options.get('project_file'), scen_vars, file_name
         )
 
-    def handle_ada_decl(self, decl):
+    def handle_signature_decl(self, decl):
         # type: (lal.BasicDecl) -> Tuple[List[nodes.Node], N.desc_content]
 
         # Get the documentation content
@@ -187,8 +220,8 @@ class AutoPackage(Directive):
         node.append(signode)
 
         # Do decl-type specific stuff in specialized methods
-        handlers = [
-            (lal.BasicSubpDecl, lal.ExprFunction,
+        for h in [
+            ((lal.BasicSubpDecl, lal.ExprFunction),
              self.handle_subprogram_decl),
             (lal.BaseTypeDecl, self.handle_type_decl),
             (lal.ObjectDecl, self.handle_object_decl),
@@ -196,8 +229,7 @@ class AutoPackage(Directive):
             (lal.GenericPackageInstantiation, self.handle_package_inst),
             (lal.GenericSubpInstantiation, self.handle_subp_inst),
             (lal.ExceptionDecl, self.handle_exception_decl),
-        ]
-        for h in handlers:
+        ]:
             types, handler = h[:-1], h[-1]
             if isinstance(decl, types):
                 handler(decl, node, signode, annotations)
@@ -208,12 +240,7 @@ class AutoPackage(Directive):
         # Create the documentation's content
         content_node = N.desc_content()
         node.append(content_node)
-
-        rst = ViewList()
-        for i, l in enumerate(doc, 1):
-            rst.append(l, 'no_file.rst', i)
-
-        nested_parse_with_titles(self.state, rst, content_node)
+        self.parse_into(doc, content_node)
         return [self.indexnode, node], content_node
 
     def handle_subprogram_decl(self, decl, node, signode, annotations):
@@ -372,6 +399,40 @@ class AutoPackage(Directive):
             unit_provider=lal.UnitProvider.for_project(project, scenario_vars)
         )
 
+        self.unit = ctx.get_from_file(file_name)
+
+        if self.unit.diagnostics:
+            self.error('Parsing error in {}'.format(file_name))
+            for diag in self.unit.diagnostics:
+                self.error(
+                    "{}:{}".format(str(diag.sloc_range.start), diag.message)
+                )
+
+        if not self.unit.root:
+            self.error('{} is empty'.format(file_name))
+
+        try:
+            package_decl = (
+                self.unit.root.cast(lal.CompilationUnit).f_body
+                .cast(lal.LibraryItem).f_item
+                .cast(lal.BasePackageDecl)
+            )
+        except AssertionError:
+            print('Not a package')
+            return
+
+        content = []
+        self.handle_package(package_decl, content)
+        return content
+
+    def handle_package(self, package_decl, content):
+        # type: (lal.BasicDecl, List[nodes.Node])
+
+        # Each declaration can group the documentation of several other
+        # declarations. This mapping (decl -> list[decl]) describes this
+        # grouping.
+        associated_decls = defaultdict(list)
+
         # List of top-level declarations to document
         toplevel_decls = []
 
@@ -386,24 +447,6 @@ class AutoPackage(Directive):
             if decl not in toplevel_decls_set:
                 toplevel_decls.append(decl)
                 toplevel_decls_set.add(decl)
-
-        # Each declaration can group the documentation of several other
-        # declarations. This mapping (decl -> list[decl]) describes this
-        # grouping.
-        associated_decls = defaultdict(list)
-
-        u = ctx.get_from_file(file_name)
-        assert not u.diagnostics, 'Parsing error in {}'.format(file_name)
-        assert u.root, '{} is empty'.format(file_name)
-        try:
-            package_decl = (
-                u.root.cast(lal.CompilationUnit).f_body
-                .cast(lal.LibraryItem).f_item
-                .cast(lal.BasePackageDecl)
-            )
-        except AssertionError:
-            print('Not a package')
-            return
 
         # Go through all declarations that appear in the top-level package and
         # organize them in sections the way we want to document them.
@@ -429,7 +472,7 @@ class AutoPackage(Directive):
                     owning_type = types[annotations['belongs-to']]
                 else:
                     prim_type = decl.f_subp_spec.p_primitive_subp_of
-                    if prim_type and prim_type.unit == u:
+                    if prim_type and prim_type.unit == self.unit:
                         owning_type = prim_type
                         append_decl(owning_type)
 
@@ -465,32 +508,35 @@ class AutoPackage(Directive):
                               decl.unit.filename, decl)
                 append_decl(decl)
 
-        ret = []
-
         # Get documentation for the top-level package itself
         pkg_doc, annotations = self.get_documentation(package_decl)
 
         # Create the documentation's content
-        wrapper_node = nodes.Element()
 
-        rst = ViewList()
-        title = package_decl.p_defining_name.text
-        rst.append(title, 'no_file.rst', 1)
-        rst.append('-' * len(title), 'no_file.rst', 2)
+        # Create a section
+        pn = package_decl.p_defining_name.text
+        normalize_pn = pn.replace(".", "-").replace("_", "-").lower()
+        section = nodes.section(ids=normalize_pn)
+        section['names'].append(normalize_pn)
 
-        for i, l in enumerate(pkg_doc, 3):
-            rst.append(l, 'no_file.rst', i)
+        # we create a title and we add it to section
+        section += nodes.title(text=package_decl.p_defining_name.text)
 
-        nested_parse_with_titles(self.state, rst, wrapper_node)
+        content.append(section)
 
-        ret += wrapper_node.children
+        self.parse_into(pkg_doc, section)
 
         # Go through all entities to generate their documentation
         for decl in toplevel_decls:
-            n, content_node = self.handle_ada_decl(decl)
-            ret += n
-            for assoc_decls in associated_decls[decl]:
-                assoc_nodes, _ = self.handle_ada_decl(assoc_decls)
-                content_node += assoc_nodes
+            if decl.is_a(lal.PackageDecl):
+                self.handle_package(decl, section)
+            elif decl.is_a(lal.GenericPackageDecl):
+                self.handle_package(decl.f_package_decl, section)
+            else:
+                n, content_node = self.handle_signature_decl(decl)
+                section += n
+                for assoc_decls in associated_decls[decl]:
+                    assoc_nodes, _ = self.handle_signature_decl(assoc_decls)
+                    content_node += assoc_nodes
 
-        return ret
+        print(content)

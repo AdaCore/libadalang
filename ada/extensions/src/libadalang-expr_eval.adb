@@ -352,6 +352,43 @@ package body Libadalang.Expr_Eval is
                elsif Name = "last" then
                    return Eval_Range_Attr
                     (As_Ada_Node (AR.F_Prefix), Range_Last);
+               elsif Name in "min" | "max" then
+                  declare
+                     Typ : Base_Type_Decl :=
+                       AR.F_Prefix.P_Name_Designated_Type;
+                     Val_1 : Eval_Result :=
+                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
+                     Val_2 : Eval_Result :=
+                       Expr_Eval (AR.F_Args.Child (2).As_Param_Assoc.F_R_Expr);
+                  begin
+                     case Val_1.Kind is
+                        when Int =>
+                           if Name = "min" then
+                              return Create_Int_Result
+                                (Typ,
+                                 Eval_Result'
+                                   (if Val_1.Int_Result < Val_2.Int_Result
+                                    then Val_1 else Val_2).Int_Result);
+                           else
+                              return Create_Int_Result
+                                (Typ,
+                                 Eval_Result'
+                                   (if Val_1.Int_Result > Val_2.Int_Result
+                                    then Val_1 else Val_2).Int_Result);
+                           end if;
+                        when Real =>
+                           return Create_Real_Result
+                             (Typ,
+                              (if Name = "min"
+                               then Long_Float'Min
+                                 (Val_1.Real_Result, Val_2.Real_Result)
+                               else Long_Float'Max
+                                 (Val_1.Real_Result, Val_2.Real_Result)));
+                        when others =>
+                           raise Property_Error
+                             with "min/max not applicable on enum types";
+                     end case;
+                  end;
                else
                   raise Property_Error
                     with "Unhandled attribute ref: " & Attr.Debug_Text;

@@ -2546,6 +2546,10 @@ class BaseTypeDecl(BasicDecl):
             prims_env=No(T.LexicalEnv)
         ).cast(T.BaseTypeDecl).as_entity
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def anonymous_access_type_or_null():
+        return Entity._.anonymous_access_type
+
     @langkit_property(
         return_type=T.BaseTypeDecl.entity, public=True, memoized=True
     )
@@ -9133,7 +9137,7 @@ class AttributeRef(Name):
                 Entity.attribute.name_is('Unrestricted_Access'),
                 Bind(Self.prefix.type_var,
                      Self.type_var,
-                     conv_prop=BaseTypeDecl.anonymous_access_type,
+                     conv_prop=BaseTypeDecl.anonymous_access_type_or_null,
                      eq_prop=BaseTypeDecl.matching_prefix_type),
 
                 Bind(Self.type_var,

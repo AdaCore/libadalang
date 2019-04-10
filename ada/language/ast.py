@@ -4446,8 +4446,12 @@ class SubtypeIndication(TypeExpr):
         return rc._.range.range.discrete_range
 
     @langkit_property(return_type=Bool,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def is_static():
+                      dynamic_vars=[default_imprecise_fallback()],
+                      public=True)
+    def is_static_subtype():
+        """
+        Returns whether Self denotes a static subtype or not.
+        """
         return bind_origin(Self, Entity.constraint.then(
             lambda c: c.is_static,
             default_val=Entity.designated_type.is_static_decl
@@ -6595,6 +6599,15 @@ class Name(Expr):
         """,
         public=True
     )
+
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()],
+                      public=True)
+    def is_static_subtype():
+        """
+        Returns whether Self denotes a static subtype or not.
+        """
+        return Entity.name_designated_type.is_static_decl
 
     @langkit_property(memoized=True)
     def name_designated_type_env():

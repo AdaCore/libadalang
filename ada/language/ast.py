@@ -2956,6 +2956,12 @@ class BaseTypeDecl(BasicDecl):
                 .accessed_type.matching_assign_type(expected_type)
             ),
 
+            And(
+                Not(expected_type.get_imp_deref.is_null),
+                expected_type
+                .accessed_type.matching_assign_type(actual_type)
+            ),
+
             Entity.matching_access_type(expected_type, True)
         )
 

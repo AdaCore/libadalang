@@ -27,5 +27,6 @@ procedure Testindexing is
    A : Integer := Inst (12);
    pragma Test_Statement;
 begin
-   null;
+   Inst (12) := A;
+   pragma Test_Statement;
 end Testindexing;

@@ -2721,11 +2721,14 @@ class BaseTypeDecl(BasicDecl):
         )
         return typ.semantic_parent.semantic_parent.node == iifcs
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[default_origin()], public=True)
     def is_discrete_type():
+        """
+        Whether type is a discrete type or not.
+        """
         return Entity.is_int_type | Entity.is_enum_type
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[default_origin()], public=True)
     def is_int_type():
         """Whether type is an integer type or not."""
         return False
@@ -3585,7 +3588,7 @@ class Constraint(AdaNode):
             lambda rc=RangeConstraint: rc.range.range.is_static_expr,
             lambda ic=IndexConstraint:
             ic.constraints.all(lambda c: c.match(
-                lambda st=SubtypeIndication: st.is_static,
+                lambda st=SubtypeIndication: st.is_static_subtype,
                 lambda e=Expr: e.is_static_expr,
                 lambda _: False
             )),
@@ -3750,7 +3753,7 @@ class DerivedTypeDef(TypeDef):
     is_record_type = Property(
         Entity.is_tagged_type | Entity.base_type.is_record_type
     )
-    is_static = Property(Entity.subtype_indication.is_static)
+    is_static = Property(Entity.subtype_indication.is_static_subtype)
 
     @langkit_property(return_type=Equation)
     def xref_equation():
@@ -4043,7 +4046,7 @@ class SubtypeDecl(BaseSubtypeDecl):
     def xref_equation():
         return Entity.subtype.sub_equation
 
-    is_static_decl = Property(Entity.subtype.is_static)
+    is_static_decl = Property(Entity.subtype.is_static_subtype)
     xref_entry_point = Property(True)
 
 

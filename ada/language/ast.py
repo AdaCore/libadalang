@@ -228,11 +228,11 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(return_type=T.String)
-    def uit():
+    def custom_id_text():
         """
-        Unique identifying text used to recognize this node. Not applicable to
-        all nodes, but on AdaNode because it spans more than one hierarchy of
-        node types.
+        Custom Unique identifying text used to recognize this node. Not
+        applicable to all nodes, but on AdaNode because it spans more than one
+        hierarchy of node types.
         """
         return String("")
 
@@ -1546,24 +1546,26 @@ class BasicDecl(AdaNode):
         subprograms, this will include the profile.
         """
         return Entity.match(
-            lambda _=T.AnonymousTypeDecl: Entity.uit,
-            lambda _: Entity.fully_qualified_name.concat(Entity.uit)
+            lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
+            lambda _: Entity.fully_qualified_name.concat(Entity.custom_id_text)
         )
 
     @langkit_property(return_type=T.String)
-    def uit():
+    def custom_id_text():
         return Entity.subp_spec_or_null.then(
             # For subprograms, we'll compute their profiles as the unique
             # identifying text.
             lambda ss: ss.unpacked_formal_params.then(
                 lambda ufp: String(" (").concat(
                     Entity.string_join(
-                        ufp.map(lambda p: p.spec.type_expression.uit),
+                        ufp.map(
+                            lambda p: p.spec.type_expression.custom_id_text
+                        ),
                         String(", ")
                     )
                 ).concat(String(")"))
             ).concat(ss.returns.then(
-                lambda r: String(" return ").concat(r.uit)
+                lambda r: String(" return ").concat(r.custom_id_text)
             )),
             default_val=String("")
         )
@@ -4373,9 +4375,9 @@ class EnumLitSynthTypeExpr(TypeExpr):
         Entity.parent.cast(T.EnumLiteralDecl).enum_type
     )
 
-    uit = Property(
-        # The UIT is the combination of the enum type name and of the enum
-        # literal name.
+    custom_id_text = Property(
+        # The custom_id_text is the combination of the enum type name and of
+        # the enum literal name.
         origin.bind(
             Self,
             Entity.designated_type.fully_qualified_name
@@ -4405,7 +4407,7 @@ class AnonymousType(TypeExpr):
     # Ideally we would compute a properly formatted version of the anonymous
     # type declaration. Using unparsing in order to avoid duplicating logic
     # between parsing/unparsing.
-    uit = Property(Entity.type_decl.text)
+    custom_id_text = Property(Entity.type_decl.text)
 
 
 class SubtypeIndication(TypeExpr):
@@ -4448,7 +4450,7 @@ class SubtypeIndication(TypeExpr):
             default_val=Entity.designated_type.is_static_decl
         ))
 
-    uit = Property(origin.bind(
+    custom_id_text = Property(origin.bind(
         Self,
         Entity.designated_type.fully_qualified_name
     ))

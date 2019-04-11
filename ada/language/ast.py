@@ -8845,7 +8845,7 @@ class AttributeRef(Name):
             rel_name == 'Val', Entity.val_equation,
 
             rel_name.any_of('Max_Size_In_Storage_Elements',
-                            'Object_Size', 'Value_Size'),
+                            'Object_Size', 'Value_Size', 'Aft'),
             Entity.subtype_attr_equation,
 
             rel_name.any_of('Access',
@@ -8870,7 +8870,6 @@ class AttributeRef(Name):
             rel_name == 'Wide_Wide_Value',
             Entity.value_equation(Self.std_entity('Wide_Wide_String')),
 
-            rel_name == 'Aft', Entity.aft_equation,
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
 
@@ -9047,16 +9046,6 @@ class AttributeRef(Name):
             & TypeBind(left.type_var, right.type_var)
             & TypeBind(Self.type_var, left.type_var)
             & TypeBind(Self.type_var, typ)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def aft_equation():
-        typ = Var(Entity.prefix.name_designated_type)
-
-        return (
-            # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
-            & universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

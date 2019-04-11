@@ -1550,6 +1550,24 @@ class BasicDecl(AdaNode):
             lambda _: Entity.fully_qualified_name.concat(Entity.uit)
         )
 
+    @langkit_property(return_type=T.String)
+    def uit():
+        return Entity.subp_spec_or_null.then(
+            # For subprograms, we'll compute their profiles as the unique
+            # identifying text.
+            lambda ss: ss.unpacked_formal_params.then(
+                lambda ufp: String(" (").concat(
+                    Entity.string_join(
+                        ufp.map(lambda p: p.spec.type_expression.uit),
+                        String(", ")
+                    )
+                ).concat(String(")"))
+            ).concat(ss.returns.then(
+                lambda r: String(" return ").concat(r.uit)
+            )),
+            default_val=String("")
+        )
+
 
 class ErrorDecl(BasicDecl):
     """
@@ -4351,6 +4369,7 @@ class EnumLitSynthTypeExpr(TypeExpr):
         origin.bind(
             Self,
             Entity.designated_type.fully_qualified_name
+            .concat(String("."))
             .concat(
                 Entity.sym_join(
                     Entity.parent.cast(T.EnumLiteralDecl)
@@ -4609,22 +4628,6 @@ class BasicSubpDecl(BasicDecl):
         Return the BaseSubpBody corresponding to this node.
         """
         return Entity.body_part_for_decl.cast(BaseSubpBody)
-
-    @langkit_property(return_type=T.String)
-    def uit():
-        # For subprograms, we'll compute their profile as unique identifying
-        # text.
-        return Entity.subp_decl_spec.unpacked_formal_params.then(
-            lambda ufp: String(" (").concat(
-                Entity.string_join(
-                    ufp.map(lambda p: p.spec.type_expression.uit),
-                    String(", ")
-                )
-            )
-            .concat(String(")"))
-        ).concat(Entity.subp_decl_spec.returns.then(
-            lambda r: String(" return ").concat(r.uit)
-        ))
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit

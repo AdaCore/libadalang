@@ -7044,6 +7044,17 @@ class CallExpr(Name):
         )
 
         return Cond(
+            # First handle the case where this is an access to subprogram
+            typ.access_def.is_a(AccessToSubpDef),
+            typ.access_def.cast(AccessToSubpDef).then(
+                lambda asd:
+                Entity.subprogram_equation(asd.subp_spec, False, No(AdaNode))
+                & Entity.params.logic_all(
+                    lambda pa: pa.expr.as_entity.sub_equation
+                ),
+                default_val=LogicFalse(),
+            ),
+
             Not(atd._.indices.is_null), Self.suffix.match(
                 # Regular array access
                 lambda _=T.AssocList: Self.params._.logic_all(
@@ -7094,14 +7105,7 @@ class CallExpr(Name):
                 & TypeBind(param.type_var, formal.spec.formal_type)
             )),
 
-            typ.access_def.cast(AccessToSubpDef).then(
-                lambda asd:
-                Entity.subprogram_equation(asd.subp_spec, False, No(AdaNode))
-                & Entity.params.logic_all(
-                    lambda pa: pa.expr.as_entity.sub_equation
-                ),
-                default_val=LogicFalse(),
-            ),
+            LogicFalse()
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

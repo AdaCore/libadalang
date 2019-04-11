@@ -8844,6 +8844,10 @@ class AttributeRef(Name):
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
 
+            rel_name.any_of('Max_Size_In_Storage_Elements',
+                            'Object_Size', 'Value_Size'),
+            Entity.subtype_attr_equation,
+
             rel_name.any_of('Access',
                             'Unchecked_Access', 'Unrestricted_Access'),
             Entity.access_equation,
@@ -9215,6 +9219,17 @@ class AttributeRef(Name):
                       universal_int_bind(Self.type_var),
                       TypeBind(Self.type_var, pfx_typ.index_type(dim))),
                    LogicFalse()))
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def subtype_attr_equation():
+        """
+        Generates the xref equation for a an attribute that is defined on any
+        subtype and that evaluates to an universal integer.
+        """
+        return (
+            Bind(Self.prefix.ref_var, Entity.prefix.name_designated_type) &
+            universal_int_bind(Self.type_var)
         )
 
 

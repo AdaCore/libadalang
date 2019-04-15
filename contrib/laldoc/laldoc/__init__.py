@@ -137,7 +137,6 @@ class AutoPackage(Directive):
         doc = []
 
         next_token()
-        print(T.tok)
 
         if skip_white_lines != 0 and T.tok.kind == 'Whitespace':
             if skip_white_lines == -1:
@@ -538,5 +537,3 @@ class AutoPackage(Directive):
                 for assoc_decls in associated_decls[decl]:
                     assoc_nodes, _ = self.handle_signature_decl(assoc_decls)
                     content_node += assoc_nodes
-
-        print(content)

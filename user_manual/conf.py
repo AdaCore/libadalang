@@ -349,15 +349,8 @@ def setup(app):
         print('ERROR: could not import Libadalang')
         raise
 
-    import os
-    import sys
-    from os import path as P
-    laldoc_dir = P.join(P.dirname(os.getcwd()), "contrib", "laldoc")
-    print laldoc_dir
-    sys.path.append(laldoc_dir)
-
-    import ada_docgen
-    app.add_directive("ada_auto_package", ada_docgen.AutoPackage)
+    import laldoc
+    app.add_directive('ada_auto_package', laldoc.AutoPackage)
 
 
 # TODO: for deployment, update the following URL to an available Langkit

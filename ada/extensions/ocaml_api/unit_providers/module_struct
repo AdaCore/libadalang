@@ -1,0 +1,16 @@
+  let create_project_unit_provider = foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
+    (string @-> ptr void @-> ptr char @-> ptr char @-> raisable c_type)
+
+  let destroy_unit_provider = foreign ~from:c_lib "${capi.get_name("destroy_unit_provider")}"
+    (c_type @-> raisable void)
+
+  let for_project project_file =
+    let char_null = from_voidp char null in
+    let c_value =
+      create_project_unit_provider project_file null char_null char_null
+    in
+    if is_null c_value then
+      raise (InvalidProjectError ("Cannot open project " ^ project_file))
+    else
+      (Gc.finalise (fun x -> destroy_unit_provider x) c_value;
+      c_value)

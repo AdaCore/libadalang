@@ -6140,6 +6140,16 @@ class MembershipExpr(Expr):
     )
 
 
+class MultidimAggregateInfo(Struct):
+    """
+    Struct enclosing information about aggregates for multidimensional array
+    types.
+    """
+    agg = UserField(type=T.BaseAggregate.entity, doc="the top level aggregate")
+    typ = UserField(type=T.BaseTypeDecl.entity, doc="the type of the array")
+    rank = UserField(type=Int, doc="the rank of the original sub-aggregate")
+
+
 @abstract
 class BaseAggregate(Expr):
     """
@@ -6159,23 +6169,30 @@ class BaseAggregate(Expr):
         Self, Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)
     ))
 
-    @langkit_property(return_type=T.BaseAggregate, ignore_warn_on_node=True)
-    def root_direct_parent_aggregate():
-        return Self.direct_parent_aggregate.then(
-            lambda p: p.root_direct_parent_aggregate,
-            default_val=Self
-        )
+    @langkit_property(return_type=MultidimAggregateInfo, dynamic_vars=[origin])
+    def multidim_root_aggregate(r=(Int, 0)):
+        """
+        Return the root parent aggregate if Self is part of a multidimensional
+        array aggregate (either the root or a sub-aggregate).
+        """
+        # Nested aggregates of a multidimensional array have no types, so we're
+        # searching for the first aggregate with a type inside type_val.
+        return Entity.type_val.cast(BaseTypeDecl).then(
+            lambda tv: If(
+                # If we have a multidimensional array type here, return all the
+                # needed info (rank, root aggregate and type of the array).
+                tv.array_ndims > 1,
+                MultidimAggregateInfo.new(agg=Entity, typ=tv, rank=r),
 
-    @langkit_property(return_type=T.Int)
-    def sub_aggregate_rank(r=(Int, 0)):
-        return Self.direct_parent_aggregate.then(
-            lambda p: p.sub_aggregate_rank(r + 1),
-            default_val=r
+                # If we're here, we found a type, and it's not a multidim
+                # array: Stop there.
+                No(T.MultidimAggregateInfo)
+            ),
+            # If we're here, there is a parent aggregate and no type_val:
+            # recurse up.
+            default_val=Entity.parent.parent.parent.cast(T.Aggregate)
+            ._.multidim_root_aggregate(r + 1)
         )
-
-    @langkit_property(ignore_warn_on_node=True)
-    def direct_parent_aggregate():
-        return Self.parent.parent.parent.cast(T.Aggregate)
 
     @langkit_property()
     def xref_equation():
@@ -6188,24 +6205,17 @@ class BaseAggregate(Expr):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation():
 
-        # Self might be a sub-aggregate in a multi-dimensional array aggregate.
-        # So we'll go and grab the root direct parent aggregate, which is the
-        # aggregate that is really an aggregate if this corresponds to a
-        # multi-dimensional array.
-        rtd = Var(Self.root_direct_parent_aggregate
-                  .type_val.cast(BaseTypeDecl.entity))
+        # Self might be part of a multidim array aggregate. In that case, get
+        # the root parent aggregate.
+        mra = Var(Entity.multidim_root_aggregate)
 
-        # We take the number of dimensions of this root rype, if it exists
-        is_multidim = Var(rtd.then(lambda rtd: rtd.array_ndims > 1))
-
-        # If the root type def exists is multi-dimensional, then take it. Else,
-        # this is a regular aggregate. In this case grab the type in type_val.
-        td = Var(If(is_multidim, rtd, Self.type_val.cast(BaseTypeDecl.entity)))
-
-        # If this is a sub aggregate, compute the rank of it in the dimensions
-        rank = Var(If(is_multidim, Self.sub_aggregate_rank, 0))
+        # If we're part of a multidim aggregate, then take the root aggregate's
+        # type. Else, this is a regular aggregate. In this case grab the type
+        # in type_val.
+        td = Var(If(mra.is_null, Self.type_val.cast(BaseTypeDecl), mra.typ))
 
         atd = Var(td.array_def)
+
         return Cond(
             atd.is_null,
 
@@ -6219,12 +6229,16 @@ class BaseAggregate(Expr):
             Entity.assocs.logic_all(
                 lambda assoc:
                 If(
-                    Or(Not(is_multidim),
-                       rank == rtd.array_ndims - 1),
+                    # If the array is monodimensional, or we're on the last
+                    # dimension of a multidimensional array ..
+                    Or(mra.is_null, mra.rank == td.array_ndims - 1),
 
+                    # .. Then we want to match the component type
                     assoc.expr.as_entity.sub_equation
                     & TypeBind(assoc.expr.type_var, atd.comp_type),
 
+                    # .. Else we're on an intermediate dimension of a
+                    # multidimensional array: do nothing.
                     LogicTrue()
                 )
 
@@ -6232,7 +6246,8 @@ class BaseAggregate(Expr):
                     lambda n:
                     n.as_entity.sub_equation
                     & n.cast(T.Expr).then(
-                        lambda n: TypeBind(n.type_var, atd.index_type(rank)),
+                        lambda n: TypeBind(n.type_var,
+                                           atd.index_type(mra.rank)),
                         default_val=LogicTrue()
                     )
                 )

@@ -1,0 +1,2 @@
+  val for_project : string -> t
+  ${ocaml_doc('libadalang.create_project_unit_provider', 1)}

@@ -2639,6 +2639,10 @@ class BaseTypeDecl(BasicDecl):
             )
         ).cast(T.RecordRepClause.entity)
 
+    @langkit_property(memoized=True)
+    def primitives_env():
+        return EmptyEnv
+
     is_record_type = Property(False)
     is_task_type = Property(False, doc="Whether type is a task type")
 
@@ -3412,7 +3416,7 @@ class TypeDecl(BaseTypeDecl):
             lambda _: Self.empty_env
         )
 
-    @langkit_property(memoized=True)
+    @langkit_property()
     def primitives_env():
         return Entity.primitives_envs(include_self=True).env_group()
 
@@ -3998,6 +4002,8 @@ class BaseSubtypeDecl(BaseTypeDecl):
                       return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
     def from_type():
         pass
+
+    primitives_env = Property(Entity.from_type_bound.primitives_env)
 
     array_ndims = Property(Entity.from_type.array_ndims)
     defining_env = Property(Entity.from_type.defining_env)
@@ -6626,7 +6632,7 @@ class Name(Expr):
 
     @langkit_property(memoized=True)
     def name_designated_type_env():
-        return Entity.name_designated_type.cast(T.TypeDecl)._.primitives_env
+        return Entity.name_designated_type._.primitives_env
 
     @langkit_property(
         return_type=AnalysisUnit, external=True, uses_entity_info=False,

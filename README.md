@@ -130,6 +130,10 @@ Note that, as the User Manual relies on Ada and Python code introspection, you
 need a working Libadalang Python API in order to build it. See [the
 corresponding procedure](user_manual/building.rst) for more details.
 
+You can also read Libadalang's documentation corresponding to its `stable`
+branch directly from the [AdaCore Live
+Docs](http://docs.adacore.com/live/wave/libadalang/html/libadalang_ug/index.html).
+
 Playing
 -------
 

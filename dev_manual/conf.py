@@ -334,20 +334,6 @@ epub_exclude_files = ['search.html']
 # If false, no index is generated.
 #epub_use_index = True
 
-def setup(app):
-    """
-    This hook will be automatically executed when building the documentation.
-
-    It will generate the source code for libadalang, so that it is available
-    for API doc generation.
-    """
-    # Make sure we can import Libadalang
-    try:
-        import libadalang
-    except:
-        print('ERROR: could not import Libadalang')
-        raise
-
 # TODO: for deployment, update the following URL to an available Langkit
 # documentation site.
 extlinks = {'langkit_doc': ('http://example.org/langkit-doc/%s', None)}

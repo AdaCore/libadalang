@@ -8,14 +8,14 @@ from langkit.dsl import (
     has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_to_env, add_env, call_env_hook, handle_children, do,
-    reference, set_initial_env
+    EnvSpec, RefKind, add_to_env, add_to_env_kv, add_env, call_env_hook,
+    handle_children, do, reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
     Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property,
-    String
+    String, new_env_assoc
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -124,23 +124,15 @@ def ref_generic_formals():
     )
 
 
-def add_to_env_kv(key, val, *args, **kwargs):
-    """
-    Wrapper around envs.add_to_env, that takes a key and a val expression, and
-    creates the intermediate env_assoc Struct.
-    """
-    return add_to_env(
-        T.env_assoc.new(key=key, val=val), *args, **kwargs
-    )
-
-
-def env_mappings(defining_names, entity):
+def env_mappings(defining_names, entity, dest_env=None):
     """
     Creates an env mapping array from a list of BaseId to be used as keys, and
     an entity to be used as value in the mappings.
     """
     return defining_names.map(
-        lambda n: T.env_assoc.new(key=n.name_symbol, val=entity)
+        lambda n: new_env_assoc(
+            key=n.name_symbol, val=entity, dest_env=dest_env
+        )
     )
 
 
@@ -902,10 +894,11 @@ class AdaNode(ASTNode):
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
             bd.cast(T.AbstractSubpDecl).subp_decl_spec
-            .primitive_subp_of.defining_name,
+            .first_primitive_subp_of.defining_name,
 
             bd.then(lambda bd: bd.is_a(T.BasicSubpDecl)),
-            bd.cast(T.BasicSubpDecl).subp_decl_spec.primitive_subp_of.then(
+            bd.cast(T.BasicSubpDecl).subp_decl_spec.first_primitive_subp_of
+            .then(
                 lambda prim_typ:
                 prim_typ.is_tagged_type.then(
                     lambda _: prim_typ.private_completion.then(
@@ -978,11 +971,6 @@ def child_unit(name_expr, scope_expr, dest_env=None,
     """
     more_rules = list(more_rules)
 
-    add_to_env_expr = (
-        add_to_env_kv(name_expr, Self, dest_env=dest_env)
-        if dest_env else add_to_env_kv(name_expr, Self)
-    )
-
     return EnvSpec(
         call_env_hook(Self),
         set_initial_env(
@@ -990,7 +978,12 @@ def child_unit(name_expr, scope_expr, dest_env=None,
                 lambda scope=scope_expr: If(scope == EmptyEnv, env, scope)
             ))
         ),
-        add_to_env_expr,
+        add_to_env(
+            dest_env.then(lambda env:
+                          new_env_assoc(key=name_expr, val=Self, dest_env=env))
+            if dest_env is not None
+            else new_env_assoc(key=name_expr, val=Self)
+        ),
         add_env(transitive_parent=transitive_parent),
         ref_used_packages(),
         ref_generic_formals(),
@@ -4677,27 +4670,26 @@ class BasicSubpDecl(BasicDecl):
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.
         add_to_env(
-            T.env_assoc.new(key=Entity.name_symbol, val=Self),
-            dest_env=Self.as_bare_entity.subp_decl_spec
-            .dottable_subp_of._.children_env,
-            # We pass custom metadata, marking the entity as a dottable
-            # subprogram.
-            metadata=new_metadata(dottable_subp=True)
+            Self.as_bare_entity.subp_decl_spec.dottable_subp_of.map(
+                lambda t: new_env_assoc(
+                    key=Entity.name_symbol, val=Self,
+                    dest_env=t.children_env,
+                    # We pass custom metadata, marking the entity as a dottable
+                    # subprogram.
+                    metadata=new_metadata(dottable_subp=True)
+                )
+            ),
         ),
 
-        # Adding subp to the primitives env if the subp is a primitive. TODO:
-        # Ada allows a subprogram to be a primitive of several types. This is
-        # not handled for the moment, due to the limitations of the current env
-        # spec format. We could modify dest_env to take an array optionally,
-        # but that's one more kludge to the pile.
-
+        # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
-            T.env_assoc.new(key=Entity.name_symbol, val=Self),
-            dest_env=(Self.as_bare_entity.subp_decl_spec
-                      .primitive_subp_of.cast(T.TypeDecl)._.primitives),
-            metadata=new_metadata(
-                primitive=(Self.as_bare_entity.subp_decl_spec
-                           .primitive_subp_of.cast(T.AdaNode).node),
+            Self.as_bare_entity.subp_decl_spec.primitive_subp_of.filtermap(
+                lambda t: new_env_assoc(
+                    key=Entity.name_symbol, val=Self,
+                    dest_env=t.cast_or_raise(T.TypeDecl).primitives,
+                    metadata=new_metadata(primitive=t.node)
+                ),
+                lambda t: t.is_a(T.TypeDecl)
             )
         )
     )
@@ -5377,11 +5369,11 @@ class GenericSubpInstantiation(GenericInstantiation):
                 Self.initial_env,
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Self.params, False
-                ).map(lambda pm: T.env_assoc.new(
-                    key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr
+                ).map(lambda pm: new_env_assoc(
+                    key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr,
+                    dest_env=Self.instantiation_env
                 ))
             ),
-            dest_env=Self.instantiation_env,
             resolver=AdaNode.resolve_generic_actual,
         ),
         add_to_env_kv(
@@ -5494,11 +5486,12 @@ class GenericPackageInstantiation(GenericInstantiation):
                    No(T.env_assoc.array),
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Self.params, False
-                   ).map(lambda pm: T.env_assoc.new(
-                       key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr
+                   ).map(lambda pm: new_env_assoc(
+                       key=pm.formal.name.name_symbol,
+                       val=pm.actual.assoc.expr,
+                       dest_env=Self.instantiation_env
                    )))
             ),
-            dest_env=Self.instantiation_env,
             resolver=AdaNode.resolve_generic_actual,
         )
     )
@@ -8372,10 +8365,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.params._.at(0)._.type_expr._.element_type
 
-    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
+    @langkit_property(return_type=BaseTypeDecl.entity.array, public=True)
     def primitive_subp_of():
         """
-        Return the type of which this subprogram is a primitive of.
+        Return the types of which this subprogram is a primitive of.
         """
 
         # TODO: This might be improved by checking for spelling before looking
@@ -8393,7 +8386,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             )
         ))
 
-        return types.find(lambda typ: typ.then(
+        return types.filter(lambda typ: typ.then(
             lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(
                 bd.declarative_scope,
                 bd.declarative_scope._.parent.cast(BasePackageDecl)
@@ -8401,7 +8394,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ))
         ))
 
-    @langkit_property(return_type=BaseTypeDecl.entity)
+    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
+    def first_primitive_subp_of():
+        """
+        Return the first type of which this subprogram is a primitive of.
+        """
+        return Entity.primitive_subp_of.then(lambda p: p.at(0))
+
+    @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():
         """
         Returns whether the subprogram containing this spec is a subprogram
@@ -8446,11 +8446,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
                     )
                 )),
 
-                t,
+                t.singleton,
 
-                No(T.BaseTypeDecl.entity)
+                No(T.BaseTypeDecl.entity.array)
             )),
-            No(T.BaseTypeDecl.entity)
+            No(T.BaseTypeDecl.entity.array)
         ))
 
     @langkit_property()
@@ -9473,27 +9473,26 @@ class BaseSubpBody(Body):
         # Adding subp to the type's environment if the type is tagged and self
         # is a primitive of it.
         add_to_env(
-            T.env_assoc.new(key=Entity.name_symbol, val=Self),
-            dest_env=Self.as_bare_entity.subp_spec
-            .dottable_subp_of._.children_env,
-            # We pass custom metadata, marking the entity as a dottable
-            # subprogram.
-            metadata=new_metadata(dottable_subp=True)
+            Self.as_bare_entity.subp_spec.dottable_subp_of.map(
+                lambda t: new_env_assoc(
+                    key=Entity.name_symbol, val=Self,
+                    dest_env=t.children_env,
+                    # We pass custom metadata, marking the entity as a dottable
+                    # subprogram.
+                    metadata=new_metadata(dottable_subp=True)
+                )
+            ),
         ),
 
-        # Adding subp to the primitives env if the subp is a primitive. TODO:
-        # Ada allows a subprogram to be a primitive of several types. This is
-        # not handled for the moment, due to the limitations of the current env
-        # spec format. We could modify dest_env to take an array optionally,
-        # but that's one more kludge to the pile.
-
+        # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
-            T.env_assoc.new(key=Entity.name_symbol, val=Self),
-            dest_env=(Self.as_bare_entity.subp_spec
-                      .primitive_subp_of.cast(T.TypeDecl)._.primitives),
-            metadata=new_metadata(
-                primitive=(Self.as_bare_entity.subp_spec
-                           .primitive_subp_of.cast(T.AdaNode).node),
+            Self.as_bare_entity.subp_spec.primitive_subp_of.filtermap(
+                lambda t: new_env_assoc(
+                    key=Entity.name_symbol, val=Self,
+                    dest_env=t.cast_or_raise(T.TypeDecl).primitives,
+                    metadata=new_metadata(primitive=t.node)
+                ),
+                lambda t: t.is_a(T.TypeDecl)
             )
         )
     )
@@ -9613,8 +9612,7 @@ class ExceptionHandler(BasicDecl):
         add_env(),
         add_to_env(
             env_mappings(Entity.exception_name.then(lambda n: n.singleton),
-                         Self),
-            dest_env=Self.children_env
+                         Self, dest_env=Self.children_env),
         )
     )
 

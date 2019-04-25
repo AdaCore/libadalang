@@ -18,9 +18,8 @@ if not os.environ.get('WITHOUT_GNATPYTHON'):
     else:
         with_gnatpython = True
 if not with_gnatpython:
-    from testsuite_support.polyfill import (
-        fileutils, PIPE, Run, STDOUT, TestDriver
-    )
+    from testsuite_support.polyfill import (PIPE, Run, STDOUT, TestDriver,
+                                            fileutils)
 # pyflakes on
 
 import testsuite_support.discriminants as discriminants

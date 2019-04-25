@@ -13,7 +13,7 @@ from sphinx import addnodes as N
 from sphinx.util.nodes import nested_parse_with_titles
 
 try:
-    from typing import List, Dict, Tuple
+    from typing import Dict, List, Tuple
     assert List and Dict and Tuple  # Silence pyflakes
 except ImportError:
     pass

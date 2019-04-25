@@ -1103,7 +1103,7 @@ class BasicDecl(AdaNode):
         Return the aspect with name ``name`` for this entity.
         """
         return Entity.aspects._.aspect_assocs.find(
-            lambda asp: asp.id.cast(T.BaseId).sym == name
+            lambda asp: asp.aspect_name(asp.id) == name.image
         )
 
     @langkit_property(return_type=T.Expr.entity, public=True)
@@ -5023,6 +5023,25 @@ class AspectAssoc(AdaNode):
             ),
 
             LogicTrue()
+        )
+
+    @langkit_property(return_type=T.String)
+    def aspect_name(n=T.Name.entity):
+        """
+        Return the string representation of the given name, which must be a
+        Name that can appear in an aspect association id.
+        """
+        # TODO: would be cleaner to implement a general "image" function in
+        # class Name directly.
+        return n.match(
+            lambda bid=T.BaseId: bid.sym.image,
+            lambda ar=T.AttributeRef: Self.aspect_name(ar.prefix)
+                                          .concat(String("'"))
+                                          .concat(ar.attribute.sym.image),
+            lambda _: PropertyError(
+                T.String,
+                "aspect_name called on an invalid aspect name"
+            ),
         )
 
 

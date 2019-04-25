@@ -4892,6 +4892,25 @@ class ComponentClause(AdaNode):
     position = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        # Find the record representation clause in which the component clause
+        # appears.
+        rep_clause = Var(Entity.parent.parent.cast_or_raise(T.RecordRepClause))
+
+        # rep_clause.name must refer to a subtype, so it's safe to use
+        # designated_env_no_overloading.
+        record_env = Var(rep_clause.name.designated_env_no_overloading)
+
+        return And(
+            # Resolve `id` in the environment of the original record
+            env.bind(record_env, Entity.id.xref_equation),
+            Entity.position.sub_equation,
+            Entity.range.xref_equation
+        )
+
 
 class RecordRepClause(AspectClause):
     """
@@ -4901,7 +4920,15 @@ class RecordRepClause(AspectClause):
     at_expr = Field(type=T.Expr)
     components = Field(type=T.AdaNode.list)
 
-    xref_equation = Property(Entity.name.xref_no_overloading)
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Entity.name.xref_no_overloading,
+            Entity.at_expr.then(
+                lambda e: e.sub_equation,
+                default_val=LogicTrue()
+            )
+        )
 
 
 class AtClause(AspectClause):

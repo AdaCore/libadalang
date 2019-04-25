@@ -3147,9 +3147,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def get_aspect(name=Symbol):
-        return Entity.typedecl.aspects._.aspect_assocs.find(
-            lambda asp: asp.id.cast(T.BaseId).sym == name
-        )
+        return Entity.typedecl.get_aspect(name)
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 

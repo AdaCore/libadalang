@@ -2,20 +2,20 @@ from __future__ import absolute_import, division, print_function
 
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
-    AbstractField, AnalysisUnitKind, AnalysisUnit, Annotations, ASTNode, Bool,
-    Equation, Field, LexicalEnv, Int, LogicVar, LookupKind as LK,
+    ASTNode, AbstractField, AnalysisUnit, AnalysisUnitKind, Annotations, Bool,
+    Equation, Field, Int, LexicalEnv, LogicVar, LookupKind as LK,
     NullField, Struct, Symbol, T, UserField, abstract, env_metadata,
     has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_to_env, add_to_env_kv, add_env, call_env_hook,
-    handle_children, do, reference, set_initial_env
+    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, call_env_hook, do,
+    handle_children, reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, Self, Var, Try, ignore, langkit_property,
-    String, new_env_assoc
+    Or, Property, PropertyError, Self, String, Try, Var, ignore,
+    langkit_property, new_env_assoc
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 

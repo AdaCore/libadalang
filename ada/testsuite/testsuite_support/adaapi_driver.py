@@ -1,8 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
-from testsuite_support.base_driver import (
-    BaseDriver, catch_test_errors, SetupError,
-)
+from testsuite_support.base_driver import (BaseDriver, SetupError,
+                                           catch_test_errors)
 
 
 class AdaAPIDriver(BaseDriver):

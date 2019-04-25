@@ -10,16 +10,16 @@ from __future__ import print_function, absolute_import, division
 import argparse
 from collections import defaultdict
 import cPickle
-from funcy import split_by, partition_by, cat, memoize, chunks
+from funcy import cat, chunks, memoize, partition_by, split_by
 from glob import glob
 import os
 import Queue
 import re
 import subprocess
-from threading import Thread, Event
+from threading import Event, Thread
 import time
 
-from langkit.utils import col, Colors
+from langkit.utils import Colors, col
 
 try:
     from progressbar import ProgressBar

@@ -5382,7 +5382,10 @@ class GenericSubpInstantiation(GenericInstantiation):
                 node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
                     md=p.info.md,
-                    rebindings=p.info.rebindings.append_rebinding(
+                    rebindings=Entity.info.rebindings
+                    # Append the rebindings from the decl
+                    .concat_rebindings(p._.decl.info.rebindings)
+                    .append_rebinding(
                         p.node.children_env, Self.instantiation_env
                     ),
                     from_rebound=p.info.from_rebound

@@ -1,6 +1,6 @@
 == test.adb ==
-<SubpDecl ["Bar"] test.adb:3:9-3:59>:
+<SubpDecl ["Bar"] test.adb:3:4-3:54>:
   import aspect: None
-  post'class aspect: <AspectAssoc test.adb:3:40-3:58>
+  post'class aspect: <AspectAssoc test.adb:3:35-3:53>
 
 Done

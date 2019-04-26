@@ -356,7 +356,20 @@ class AdaNode(ASTNode):
             )),
             Self.logic_val(Entity, ref_var, try_immediate)
                 .value.cast_or_raise(T.BasicDecl.entity)
-        )
+        ).then(lambda x: x.match(
+            # If the logic variable is bound to a GenericSubpInternal, retrieve
+            # the instantiation leading to it instead.
+            lambda g=T.GenericSubpInternal: entity_no_md(
+                type=T.BasicDecl,
+                node=g.info.rebindings.new_env.env_node
+                .cast_or_raise(T.GenericInstantiation),
+                # Since we return the instantiation itself, remove it from
+                # its rebindings.
+                rebindings=x.info.rebindings.get_parent,
+                from_rebound=x.info.from_rebound
+            ),
+            lambda _: x
+        ))
 
     @langkit_property(public=True)
     def generic_instantiations():

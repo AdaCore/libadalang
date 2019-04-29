@@ -871,7 +871,7 @@ class AdaNode(ASTNode):
                 unpacked_formals.at(idx).then(lambda sp: matches(sp, a))),
 
             # Named parameter case: make sure the designator is
-            # actualy a name and that there is a corresponding
+            # actually a name and that there is a corresponding
             # formal.
             a.name.then(lambda id: (
                 unpacked_formals.find(lambda p: p.name.matches(id)).then(

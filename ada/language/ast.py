@@ -7367,7 +7367,7 @@ class AssocList(BasicAssoc.list):
         params = Var(Entity.parent._.match(
             lambda e=T.CallExpr: e.name.referenced_decl.subp_spec_or_null(
                 follow_generic=True
-            ).abstract_formal_params,
+            )._.abstract_formal_params,
 
             lambda i=T.GenericInstantiation:
             i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
@@ -7376,11 +7376,12 @@ class AssocList(BasicAssoc.list):
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
-        return Self.match_formals(params, Self, is_dottable_subp).map(
+        return Self.match_formals(params, Self, is_dottable_subp).filtermap(
             lambda m: ParamActual.new(
                 param=m.formal.spec,
                 actual=m.actual.assoc.expr.as_entity
-            )
+            ),
+            lambda m: m.has_matched
         )
 
 

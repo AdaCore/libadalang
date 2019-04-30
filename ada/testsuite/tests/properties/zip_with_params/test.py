@@ -13,7 +13,7 @@ for filename in sys.argv[1:]:
     for assocs in u.root.findall(lal.AssocList):
         binds = assocs.p_zip_with_params()
         print("Binds for {} : {}".format(assocs, [
-            "{}: {}".format(b.param.p_defining_names[0].text, b.actual.text)
+            "{}: {}".format(b.param.text, b.actual.text)
             for b in binds
         ]))
 

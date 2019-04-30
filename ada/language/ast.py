@@ -3700,7 +3700,7 @@ class BasicAssoc(AdaNode):
     names = AbstractProperty(type=T.AdaNode.array)
 
     @langkit_property(public=True,
-                      return_type=T.BaseFormalParamDecl.entity.array,
+                      return_type=T.DefiningName.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def get_params():
         """
@@ -6892,8 +6892,9 @@ class Name(Expr):
             ),
             # handle case 3
             lambda p=T.ParamAssoc: p.get_params.any(
-                lambda m:
-                m.cast(T.ParamSpec)._.mode.is_a(Mode.alt_out, Mode.alt_in_out)
+                lambda m: m.basic_decl.cast(T.ParamSpec)._.mode.is_a(
+                    Mode.alt_out, Mode.alt_in_out
+                )
             ),
             # handle case 4
             lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
@@ -7325,7 +7326,7 @@ class ParamActual(Struct):
     Data structure used by zip_with_params property. Associates an expression
     (the actual) to a formal param declaration (the parameter).
     """
-    param = UserField(type=BaseFormalParamDecl.entity)
+    param = UserField(type=T.DefiningName.entity)
     actual = UserField(type=T.Expr.entity)
 
 
@@ -7381,7 +7382,7 @@ class AssocList(BasicAssoc.list):
 
         return Self.match_formals(params, Self, is_dottable_subp).filtermap(
             lambda m: ParamActual.new(
-                param=m.formal.spec,
+                param=m.formal.name.as_bare_entity,
                 actual=m.actual.assoc.expr.as_entity
             ),
             lambda m: m.has_matched

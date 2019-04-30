@@ -1,9 +1,12 @@
 == test.adb ==
 Binds for <AssocList test.adb:12:31-12:47> : ['A: Integer', 'B: Boolean']
 Binds for <AssocList test.adb:13:31-13:57> : ['B: Boolean', 'A: Integer']
-Binds for <AssocList test.adb:16:24-16:25> : []
-Binds for <AssocList test.adb:18:9-18:38> : ['Y: True', 'Z: False', 'X: 3']
-Binds for <AssocList test.adb:19:9-19:34> : ['X: 42', 'Y: True', 'Z: False']
-Binds for <AssocList test.adb:20:9-20:24> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:19:13-19:42> : ['Y: True', 'Z: False', 'X: 3']
+Binds for <AssocList test.adb:20:13-20:38> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:21:13-21:28> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:24:24-24:25> : []
+Binds for <AssocList test.adb:26:9-26:38> : ['Y: True', 'Z: False', 'X: 3']
+Binds for <AssocList test.adb:27:9-27:34> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:28:9-28:24> : ['X: 42', 'Y: True', 'Z: False']
 
 Done

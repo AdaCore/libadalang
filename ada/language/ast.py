@@ -7373,6 +7373,10 @@ class AssocList(BasicAssoc.list):
             i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
                 ._.formal_part.abstract_formal_params,
 
+            lambda c=T.DiscriminantConstraint:
+            c.subtype.cast(T.TypeDecl)._.discriminants
+            ._.abstract_formal_params,
+
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 

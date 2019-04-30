@@ -12,6 +12,14 @@ procedure Main is
    package Inst_1 is new Pkg (Integer, Boolean);
    package Inst_2 is new Pkg (B => Boolean, A => Integer);
 
+   type R (X : Integer; Y : Boolean; Z : Boolean) is record
+      null;
+   end record;
+
+   X_1 : R (Y => True, Z => False, X => 3);
+   X_2 : R (42, Y => True, Z => False);
+   X_3 : R (42, True, False);
+
    A : Array_Type;
    Tmp : Integer := A (2);
 begin

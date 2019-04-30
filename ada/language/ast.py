@@ -6877,21 +6877,18 @@ class Name(Expr):
           2. `X (2) := 2;`
           3. `P(F => X)` where F is declared `out`.
           4. `X'Access`.
+          5. `X.C := 2`, `R.X := 2`
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "write reference".
         """
-        # TODO: Missing case for component assignment, etc. Also, this
-        # algorithm should probably be recursive. Think about::
-        #
-        #   A.x (2).y := 3
         return Entity.parent.match(
             # handle case 1
             lambda a=T.AssignStmt: a.dest == Entity,
             # handle case 2
             lambda c=T.CallExpr: And(
                 c.name == Entity,
-                c.parent.cast(T.AssignStmt)._.dest == c
+                c.is_write_reference
             ),
             # handle case 3
             lambda p=T.ParamAssoc: p.get_params.any(
@@ -6900,6 +6897,8 @@ class Name(Expr):
             ),
             # handle case 4
             lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
+            # handle case 5
+            lambda d=T.DottedName: d.is_write_reference,
             lambda _: False
         )
 

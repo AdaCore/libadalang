@@ -42,13 +42,13 @@ class Testsuite(BaseTestsuite):
             '--discriminants',
             help='Comma-separated list of additional discriminants')
         self.main.add_option(
-            '--valgrind', action='store_true', default=False,
+            '--valgrind', action='store_true',
             help='Run tests within Valgrind to check memory issues.')
         self.main.add_option(
-            '--disable-shared', action='store_true', default=False,
+            '--disable-shared', action='store_true',
             help='Disable tests involving shared libraries.')
         self.main.add_option(
-            '--disable-python', action='store_true', default=False,
+            '--disable-python', action='store_true',
             help='Disable tests involving Python API.')
         self.main.add_option(
             '--with-python', default=None,

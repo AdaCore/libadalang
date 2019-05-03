@@ -77,6 +77,14 @@ class BaseDriver(TestDriver):
         super(BaseDriver, self).tear_up()
         self.create_test_workspace()
 
+        # If requested, skip internal testcases
+        if (
+            self.global_env['options'].skip_internal_tests and
+            self.test_env['test_name'].startswith('internal-tests')
+        ):
+            self.result.set_status('DEAD', 'Skipping internal testcase')
+            return
+
         discriminants.add_discriminants(self.global_env['options']
                                         .discriminants)
 

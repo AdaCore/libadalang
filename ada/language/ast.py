@@ -7371,7 +7371,7 @@ class AssocList(BasicAssoc.list):
             lambda e: e.is_dot_call
         ))
 
-        # todo: handle more than CallExpr and GenericInstantiation?
+        # TODO: check potential missing cases
         params = Var(Entity.parent._.match(
             lambda e=T.CallExpr: e.name.referenced_decl.subp_spec_or_null(
                 follow_generic=True

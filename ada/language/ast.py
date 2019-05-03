@@ -7388,12 +7388,12 @@ class AssocList(BasicAssoc.list):
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
-        return Self.match_formals(params, Self, is_dottable_subp).filtermap(
-            lambda m: ParamActual.new(
-                param=m.formal.name.as_bare_entity,
-                actual=m.actual.assoc.expr.as_entity
-            ),
-            lambda m: m.has_matched
+        return params.then(
+            lambda _: Self.match_formals(params, Self, is_dottable_subp).map(
+                lambda m:
+                ParamActual.new(param=m.formal.name.as_bare_entity,
+                                actual=m.actual.assoc.expr.as_entity),
+            )
         )
 
 

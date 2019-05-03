@@ -53,6 +53,9 @@ class Testsuite(BaseTestsuite):
         self.main.add_option(
             '--with-python', default=None,
             help='If provided, use as the Python interpreter in testcases.')
+        self.main.add_option(
+            '--skip-internal-tests', action='store_true',
+            help='Skip tests from the internal testsuite')
 
         #
         # Convenience options for developpers

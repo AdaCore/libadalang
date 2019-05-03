@@ -6875,7 +6875,7 @@ class Name(Expr):
 
           1. `X := 2;`
           2. `X (2) := 2;`
-          3. `P(F => X)` where F is declared `out`.
+          3. `P(F => X)` where F is declared `out` or `in out`.
           4. `X'Access`.
           5. `X.C := 2`, `R.X := 2`
 
@@ -6883,23 +6883,31 @@ class Name(Expr):
             discrepancy with the GNAT concept of "write reference".
         """
         return Entity.parent.match(
-            # handle case 1
+            # Handle assignment case::
+            #     X := 2;
             lambda a=T.AssignStmt: a.dest == Entity,
-            # handle case 2
+
+            # Handle assignment to component case::
+            #     X (2) := 2;
             lambda c=T.CallExpr: And(
-                c.name == Entity,
+                c.name == Entity,  # Self is the name of component access
                 c.is_write_reference
             ),
-            # handle case 3
+            # Handle assignment to component case::
+            #    X.C := 2
+            #    R.X := 2
+            lambda d=T.DottedName: d.is_write_reference,
+
+            # Handle out/inout param case
             lambda p=T.ParamAssoc: p.get_params.any(
                 lambda m: m.basic_decl.cast(T.ParamSpec)._.mode.is_a(
                     Mode.alt_out, Mode.alt_in_out
                 )
             ),
-            # handle case 4
+
+            # handle 'Access case
             lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
-            # handle case 5
-            lambda d=T.DottedName: d.is_write_reference,
+
             lambda _: False
         )
 

@@ -852,9 +852,9 @@ class AdaNode(ASTNode):
                       params=T.AssocList,
                       is_dottable_subp=Bool):
         """
-        For each ParamAssoc in a AssocList, return whether we could find a
-        matching formal in Self, and whether this formal is optional (i.e. has
-        a default value).
+        Static method. For each ParamAssoc in a AssocList, return whether we
+        could find a matching formal in Self, and whether this formal is
+        optional (i.e. has a default value).
         """
         def matches(formal, actual):
             return ParamMatch.new(has_matched=True,
@@ -2325,6 +2325,45 @@ class ComponentList(BaseFormalParamHolder):
         Self,
         Entity.type_def.cast(T.DerivedTypeDef)._.base_type.record_def._.comps
     ))
+
+    @langkit_property(return_type=BaseFormalParamDecl.entity.array,
+                      dynamic_vars=[default_origin()])
+    def abstract_formal_params_for_assocs(assocs=T.AssocList):
+
+        td = Var(Entity.type_decl)
+        discriminants = Var(td.discriminants_list)
+
+        # Get param matches for discriminants only
+        discriminants_matches = Var(Self.match_formals(
+            td.discriminants_list, assocs, False
+        ).filter(
+            lambda pm: Not(discriminants
+                           .find(lambda d: d == pm.formal.spec)
+                           .is_null)
+        ))
+
+        # We run resolution for discriminants, because need ref and type
+        # information to statically evaluate their values.
+        ignore(Var(discriminants_matches.map(lambda dm: env.bind(
+            Self.node_env,
+            dm.actual.assoc.expr.as_entity.resolve_names_internal(
+                True, And(
+                    TypeBind(dm.actual.assoc.expr.type_var,
+                             dm.formal.spec.type_expression.designated_type),
+                    If(dm.actual.name.is_null,
+                       LogicTrue(),
+                       Bind(dm.actual.name.ref_var, dm.formal.spec))
+                )
+            )
+        ))))
+
+        # Get param matches for all aggregates' params. Here, we use and pass
+        # down the discriminant matches, so that abstract_formal_params_impl is
+        # able to calculate the list of components belonging to variant parts,
+        # depending on the static value of discriminants.
+        return td.record_def.comps.abstract_formal_params_impl(
+            discriminants=discriminants_matches
+        )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
     def abstract_formal_params_impl(
@@ -6314,51 +6353,15 @@ class BaseAggregate(Expr):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def assoc_equation(match=T.ParamMatch):
-        """
-        Helper for record_equation. Returns the equation for one discriminant
-        assoc. Meant to be passed as additional equation to resolve_names.
-        """
-        return And(
-            TypeBind(match.actual.assoc.expr.type_var,
-                     match.formal.spec.type_expression.designated_type),
-            If(match.actual.name.is_null,
-               LogicTrue(),
-               Bind(match.actual.name.ref_var, match.formal.spec))
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def record_equation(td=BaseTypeDecl.entity):
         """
         Equation for the case where this is an aggregate for a record
         type.
         """
-        discriminants = Var(td.discriminants_list)
 
-        # Get param matches for discriminants only
-        discriminants_matches = Var(Self.match_formals(
-            td.discriminants_list, Self.assocs, False
-        ).filter(
-            lambda pm: Not(discriminants
-                           .find(lambda d: d == pm.formal.spec)
-                           .is_null)
-        ))
-
-        # We run resolution for discriminants, because need ref and type
-        # information to statically evaluate their values.
-        ignore(Var(discriminants_matches.map(
-            lambda dm: dm.actual.assoc.expr.as_entity.resolve_names_internal(
-                True, Self.assoc_equation(dm)
-            )
-        )))
-
-        # Get param matches for all aggregates' params. Here, we use and pass
-        # down the discriminant matches, so that abstract_formal_params_impl is
-        # able to calculate the list of components belonging to variant parts,
-        # depending on the static value of discriminants.
-        all_params = Var(td.record_def.comps.abstract_formal_params_impl(
-            discriminants=discriminants_matches
-        ))
+        all_params = (
+            td.record_def.comps.abstract_formal_params_for_assocs(Self.assocs)
+        )
 
         # Match formals to actuals, and compute equations
         return Self.match_formals(all_params, Self.assocs, False).logic_all(
@@ -7371,19 +7374,23 @@ class AssocList(BasicAssoc.list):
             lambda e: e.is_dot_call
         ))
 
-        # TODO: check potential missing cases
         params = Var(Entity.parent._.match(
-            lambda e=T.CallExpr: e.name.referenced_decl.subp_spec_or_null(
-                follow_generic=True
-            )._.abstract_formal_params,
+            lambda e=T.CallExpr: e.name.referenced_decl
+            .subp_spec_or_null(follow_generic=True)._.abstract_formal_params,
 
             lambda i=T.GenericInstantiation:
             i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
-                ._.formal_part.abstract_formal_params,
+            ._.formal_part.abstract_formal_params,
 
             lambda c=T.DiscriminantConstraint:
             c.subtype.cast(T.TypeDecl)._.discriminants
             ._.abstract_formal_params,
+
+            lambda a=T.BaseAggregate: origin.bind(
+                Self,
+                a.expression_type.record_def
+                ._.components.abstract_formal_params_for_assocs(Self),
+            ),
 
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))

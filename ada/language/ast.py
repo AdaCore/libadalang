@@ -5385,7 +5385,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     generic_entity_name = Property(Entity.generic_subp_name)
     generic_inst_params = Property(Entity.params)
 
-    @langkit_property()
+    @langkit_property(public=True)
     def designated_subp():
         """
         Return the subprogram decl designated by this instantiation.

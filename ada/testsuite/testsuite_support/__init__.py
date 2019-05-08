@@ -38,23 +38,28 @@ class Testsuite(BaseTestsuite):
     }
 
     def add_options(self):
+        # Depending on the testsuite framework involved (gnatpython or
+        # polyfill), the option handling backend will be based either on
+        # optparse or argparse. Both have different behaviors regarding
+        # store_true options: we need to add default=False to canonicalize the
+        # result of arguments parsing.
         self.main.add_option(
             '--discriminants',
             help='Comma-separated list of additional discriminants')
         self.main.add_option(
-            '--valgrind', action='store_true',
+            '--valgrind', action='store_true', default=False,
             help='Run tests within Valgrind to check memory issues.')
         self.main.add_option(
-            '--disable-shared', action='store_true',
+            '--disable-shared', action='store_true', default=False,
             help='Disable tests involving shared libraries.')
         self.main.add_option(
-            '--disable-python', action='store_true',
+            '--disable-python', action='store_true', default=False,
             help='Disable tests involving Python API.')
         self.main.add_option(
             '--with-python', default=None,
             help='If provided, use as the Python interpreter in testcases.')
         self.main.add_option(
-            '--skip-internal-tests', action='store_true',
+            '--skip-internal-tests', action='store_true', default=False,
             help='Skip tests from the internal testsuite')
 
         #

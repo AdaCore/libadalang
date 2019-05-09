@@ -2355,6 +2355,8 @@ class ComponentList(BaseFormalParamHolder):
                        Bind(dm.actual.name.ref_var, dm.formal.spec))
                 )
             )
+            # Explicitly raise an error if resolution of discriminants failed
+            ._or(PropertyError(Bool, "Resolution failed in discriminants"))
         ))))
 
         # Get param matches for all aggregates' params. Here, we use and pass

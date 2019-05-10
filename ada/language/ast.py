@@ -849,7 +849,7 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=T.ParamMatch.array)
     def match_formals(formal_params=T.BaseFormalParamDecl.entity.array,
-                      params=T.AssocList,
+                      params=T.AssocList.entity,
                       is_dottable_subp=Bool):
         """
         Static method. For each ParamAssoc in a AssocList, return whether we
@@ -1895,7 +1895,7 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
-    def match_param_list(params=T.AssocList,
+    def match_param_list(params=T.AssocList.entity,
                          is_dottable_subp=Bool):
         return Self.match_formals(
             Entity.abstract_formal_params, params, is_dottable_subp
@@ -1953,7 +1953,8 @@ class BaseFormalParamHolder(AdaNode):
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[env])
-    def is_matching_param_list(params=T.AssocList, is_dottable_subp=Bool):
+    def is_matching_param_list(params=T.AssocList.entity,
+                               is_dottable_subp=Bool):
         """
         Return whether a AssocList is a match for this SubpSpec, i.e.
         whether the argument count (and designators, if any) match.
@@ -2190,15 +2191,15 @@ class Variant(AdaNode):
         )
 
     @langkit_property(return_type=Bool)
-    def matches(expr=T.Expr):
+    def matches(expr=T.Expr.entity):
         """
         Check if any choice in the choice list matches expr's value.
         """
         # Statically evaluate expr
         expr_val = Var(expr.eval_as_int)
 
-        return Self.choices.any(
-            lambda c: Self.choice_match(c.as_entity, expr_val)
+        return Entity.choices.any(
+            lambda c: Self.choice_match(c, expr_val)
         )
 
 
@@ -2244,9 +2245,9 @@ class VariantPart(AdaNode):
 
         # Get the variant branch with a choice that matches the discriminant's
         # value.
-        variant = Var(Self.variant.find(
-            lambda v: v.as_entity.matches(discr.actual.assoc.expr)
-        ).as_entity)
+        variant = Var(Entity.variant.find(
+            lambda v: v.matches(discr.actual.assoc.expr)
+        ))
 
         # Get the components for this variant branch. We're passing down
         # discriminants, because there might be a nested variant part in this
@@ -2328,7 +2329,7 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
-    def abstract_formal_params_for_assocs(assocs=T.AssocList):
+    def abstract_formal_params_for_assocs(assocs=T.AssocList.entity):
 
         td = Var(Entity.type_decl)
         discriminants = Var(td.discriminants_list)
@@ -2414,7 +2415,7 @@ class BaseRecordDef(AdaNode):
     components = Field(type=T.ComponentList)
 
     # TODO: Kludge, to remove when Q619-018 is implemented
-    comps = Property(Self.components.as_entity)
+    comps = Property(Entity.components)
 
 
 class RecordDef(BaseRecordDef):
@@ -3260,7 +3261,7 @@ class TypeDecl(BaseTypeDecl):
             Not(it.is_null),
             it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_is('Element')
-            ).assoc.expr.as_entity.cast_or_raise(T.Name)
+            ).assoc.expr.cast_or_raise(T.Name)
             .referenced_decl.expr_type,
 
             Entity.type_def.match(
@@ -3642,7 +3643,7 @@ class Constraint(AdaNode):
                 lambda _: False
             )),
             lambda dc=DiscriminantConstraint: dc.constraints.all(
-                lambda c: c.expr.as_entity.is_static_expr
+                lambda c: c.expr.is_static_expr
             ),
             # TODO: Handle constraints for floating point types
             lambda _: False
@@ -3715,14 +3716,14 @@ class DiscriminantConstraint(Constraint):
 
             # Index constraints imply no overloading
             Entity.constraints.logic_all(
-                lambda c: c.expr.as_entity.sub_equation
+                lambda c: c.expr.sub_equation
             ),
 
             # Regular discriminant constraint case
             Self.match_formals(
-                typ.discriminants_list, Self.constraints, False
+                typ.discriminants_list, Entity.constraints, False
             ).logic_all(
-                lambda pm: pm.actual.assoc.expr.as_entity.xref_equation
+                lambda pm: pm.actual.assoc.expr.xref_equation
                 & Bind(
                     pm.actual.assoc.expr.type_var, pm.formal.spec.formal_type,
                     eq_prop=BaseTypeDecl.matching_formal_type
@@ -3737,7 +3738,7 @@ class BasicAssoc(AdaNode):
     """
     Association of one or several names to an expression.
     """
-    expr = AbstractProperty(type=T.Expr, ignore_warn_on_node=True)
+    expr = AbstractProperty(type=T.Expr.entity)
     names = AbstractProperty(type=T.AdaNode.array)
 
     @langkit_property(public=True,
@@ -3750,7 +3751,7 @@ class BasicAssoc(AdaNode):
         return (
             Entity.parent.cast_or_raise(T.AssocList).zip_with_params.filtermap(
                 lambda m: m.param,
-                lambda m: m.actual.node == Self.expr
+                lambda m: m.actual == Entity.expr
             )
         )
 
@@ -3762,7 +3763,7 @@ class DiscriminantAssoc(BasicAssoc):
     ids = Field(type=T.DiscriminantChoiceList)
     discr_expr = Field(type=T.Expr)
 
-    expr = Property(Self.discr_expr)
+    expr = Property(Entity.discr_expr)
     names = Property(Self.ids.map(lambda i: i.cast(T.AdaNode)))
 
 
@@ -3885,7 +3886,7 @@ class ArrayIndices(AdaNode):
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin],
                       kind=AbstractKind.abstract)
-    def constrain_index_expr(index_expr=T.Expr, dim=Int):
+    def constrain_index_expr(index_expr=T.Expr.entity, dim=Int):
         """
         Add a constraint on an expression passed as the index of an array
         access expression.
@@ -3916,7 +3917,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.types.length)
 
     @langkit_property(return_type=Equation)
-    def constrain_index_expr(index_expr=T.Expr, dim=Int):
+    def constrain_index_expr(index_expr=T.Expr.entity, dim=Int):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
@@ -3933,7 +3934,7 @@ class ConstrainedArrayIndices(ArrayIndices):
     ndims = Property(Self.list.length)
 
     @langkit_property(return_type=Equation)
-    def constrain_index_expr(index_expr=T.Expr, dim=Int):
+    def constrain_index_expr(index_expr=T.Expr.entity, dim=Int):
         return TypeBind(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
@@ -5040,7 +5041,7 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Iterable'),
             Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
                 lambda sa:
-                sa.assoc.expr.as_entity
+                sa.assoc.expr
                 .cast_or_raise(T.Name).xref_no_overloading(sequential=False)
             ),
 
@@ -5378,9 +5379,9 @@ class GenericInstantiation(BasicDecl):
 
             Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
             ._.formal_part.match_param_list(
-                Entity.generic_inst_params.node, False
+                Entity.generic_inst_params, False
             ).logic_all(lambda pm: Let(
-                lambda actual_name=pm.actual.assoc.expr.as_entity.cast(T.Name):
+                lambda actual_name=pm.actual.assoc.expr.cast(T.Name):
                 pm.formal.spec.cast(T.GenericFormal).decl.match(
                     lambda _=T.TypeDecl: actual_name.xref_no_overloading,
 
@@ -5394,7 +5395,7 @@ class GenericInstantiation(BasicDecl):
                     ),
 
                     lambda obj_decl=T.ObjectDecl:
-                    pm.actual.assoc.expr.as_entity.sub_equation
+                    pm.actual.assoc.expr.sub_equation
                     & TypeBind(pm.actual.assoc.expr.type_var,
                                obj_decl.expr_type),
 
@@ -5469,9 +5470,10 @@ class GenericSubpInstantiation(GenericInstantiation):
             env.bind(
                 Self.initial_env,
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
-                    Self.params, False
+                    Entity.params, False
                 ).map(lambda pm: new_env_assoc(
-                    key=pm.formal.name.name_symbol, val=pm.actual.assoc.expr,
+                    key=pm.formal.name.name_symbol,
+                    val=pm.actual.assoc.expr.node,
                     dest_env=Self.instantiation_env
                 ))
             ),
@@ -5586,10 +5588,10 @@ class GenericPackageInstantiation(GenericInstantiation):
                 If(Entity.is_any_formal,
                    No(T.env_assoc.array),
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
-                       Self.params, False
+                       Entity.params, False
                    ).map(lambda pm: new_env_assoc(
                        key=pm.formal.name.name_symbol,
-                       val=pm.actual.assoc.expr,
+                       val=pm.actual.assoc.expr.node,
                        dest_env=Self.instantiation_env
                    )))
             ),
@@ -5907,11 +5909,11 @@ class Expr(AdaNode):
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length'
-                ) & ar.args_list._.at(0).expr.as_entity.is_static_expr
+                ) & ar.args_list._.at(0).expr.is_static_expr
             ),
             lambda ce=CallExpr:
             ce.name.name_designated_type._.is_static_decl
-            & ce.params.at(0).expr.as_entity.is_static_expr,
+            & ce.params.at(0).expr.is_static_expr,
             lambda qe=QualExpr:
             qe.prefix.name_designated_type._.is_static_decl
             & qe.suffix.is_static_expr,
@@ -6334,7 +6336,7 @@ class BaseAggregate(Expr):
                     Or(mra.is_null, mra.rank == td.array_ndims - 1),
 
                     # .. Then we want to match the component type
-                    assoc.expr.as_entity.sub_equation
+                    assoc.expr.sub_equation
                     & TypeBind(assoc.expr.type_var, atd.comp_type),
 
                     # .. Else we're on an intermediate dimension of a
@@ -6362,15 +6364,16 @@ class BaseAggregate(Expr):
         """
 
         all_params = (
-            td.record_def.comps.abstract_formal_params_for_assocs(Self.assocs)
+            td.record_def
+            .comps.abstract_formal_params_for_assocs(Entity.assocs)
         )
 
         # Match formals to actuals, and compute equations
-        return Self.match_formals(all_params, Self.assocs, False).logic_all(
+        return Self.match_formals(all_params, Entity.assocs, False).logic_all(
             lambda pm:
             TypeBind(pm.actual.assoc.expr.type_var,
                      pm.formal.spec.type_expression.designated_type)
-            & pm.actual.assoc.expr.as_entity.sub_equation
+            & pm.actual.assoc.expr.sub_equation
             & pm.actual.name.then(lambda n: Bind(n.ref_var, pm.formal.spec),
                                   LogicTrue())
         )
@@ -6985,7 +6988,7 @@ class CallExpr(Name):
     # subtypes for discriminated records or arrays.
     designated_type_impl = Property(Entity.name.designated_type_impl)
 
-    params = Property(Self.suffix.cast(T.AssocList), ignore_warn_on_node=True)
+    params = Property(Entity.suffix.cast(T.AssocList))
 
     @langkit_property(return_type=Equation)
     def xref_equation():
@@ -7007,7 +7010,7 @@ class CallExpr(Name):
         conversion cases.
         """
         return And(
-            Self.params.at(0).expr.as_entity.sub_equation,
+            Entity.params.at(0).expr.sub_equation,
             Entity.name.subtype_indication_equation,
             Bind(Self.name.ref_var, Self.name.type_var),
             TypeBind(Self.type_var, Self.name.ref_var),
@@ -7070,7 +7073,7 @@ class CallExpr(Name):
         subps = Var(Entity.env_elements)
 
         return And(
-            Self.params.logic_all(lambda pa: pa.expr.as_entity.sub_equation),
+            Entity.params.logic_all(lambda pa: pa.expr.sub_equation),
 
             # For each potential entity match, we want to express the
             # following constraints:
@@ -7100,7 +7103,7 @@ class CallExpr(Name):
             return Entity.name.base_name.then(lambda n: n.sub_equation,
                                               default_val=LogicFalse())
 
-        return Self.params._.unpacked_params.then(
+        return Entity.params._.unpacked_params.then(
             lambda params:
             Cond(
                 (params.length == 2)
@@ -7158,17 +7161,17 @@ class CallExpr(Name):
                 lambda asd:
                 Entity.subprogram_equation(asd.subp_spec, False, No(AdaNode))
                 & Entity.params.logic_all(
-                    lambda pa: pa.expr.as_entity.sub_equation
+                    lambda pa: pa.expr.sub_equation
                 ),
                 default_val=LogicFalse(),
             ),
 
-            Not(atd._.indices.is_null), Self.suffix.match(
+            Not(atd._.indices.is_null), Entity.suffix.match(
                 # Regular array access
-                lambda _=T.AssocList: Self.params._.logic_all(
+                lambda _=T.AssocList: Entity.params._.logic_all(
                     lambda i, pa: If(
                         constrain_params,
-                        pa.expr.as_entity.sub_equation,
+                        pa.expr.sub_equation,
                         LogicTrue()
                     )
                     & atd.indices.constrain_index_expr(pa.expr, i)
@@ -7181,18 +7184,18 @@ class CallExpr(Name):
                 & atd.indices.constrain_index_expr(bo.right, 0)
                 & TypeBind(bo.type_var, bo.right.type_var)
                 & TypeBind(Self.type_var, real_typ)
-                & bo.as_entity.left.sub_equation
-                & bo.as_entity.right.sub_equation,
+                & bo.left.sub_equation
+                & bo.right.sub_equation,
 
                 # Range attribute
                 lambda ar=T.AttributeRef:
-                ar.as_entity.sub_equation
+                ar.sub_equation
                 & atd.indices.constrain_index_expr(ar, 0)
                 & TypeBind(Self.type_var, real_typ),
 
                 # Subtype indication
                 lambda st=T.SubtypeIndication:
-                st.as_entity.sub_equation
+                st.sub_equation
                 & TypeBind(Self.type_var, real_typ),
 
                 lambda _: LogicFalse(),
@@ -7205,11 +7208,11 @@ class CallExpr(Name):
                 lambda
                 formal=fn.subp_spec_or_null.unpacked_formal_params.at(1),
                 ret_type=fn.subp_spec_or_null.return_type,
-                param=Self.params.at(0).expr:
+                param=Entity.params.at(0).expr:
 
                 TypeBind(Self.type_var, ret_type)
                 & If(constrain_params,
-                     param.as_entity.sub_equation, LogicTrue())
+                     param.sub_equation, LogicTrue())
                 & TypeBind(param.type_var, formal.spec.formal_type)
             )),
 
@@ -7232,7 +7235,7 @@ class CallExpr(Name):
             # For each parameter, the type of the expression matches
             # the expected type for this subprogram.
             & subp_spec.match_param_list(
-                Self.params, dottable_subp
+                Entity.params, dottable_subp
             ).logic_all(
                 lambda pm: Let(
                     lambda ft=pm.formal.spec.type_expression.designated_type:
@@ -7287,7 +7290,7 @@ class CallExpr(Name):
                 # Accesses to subprograms
                 typ.access_def.cast(T.AccessToSubpDef).then(
                     lambda sa:
-                    sa.subp_spec.is_matching_param_list(Self.params, False)
+                    sa.subp_spec.is_matching_param_list(Entity.params, False)
                 ),
 
                 # Types with user defined indexing
@@ -7295,7 +7298,7 @@ class CallExpr(Name):
                 & Self.suffix.cast(T.AssocList).then(lambda al: al.length == 1)
             ),
 
-            Self.parent.cast(T.CallExpr).then(
+            Entity.parent.cast(T.CallExpr).then(
                 lambda ce: ce.check_for_type(
                     bind_origin(Self, typ.expr_type)
                 ), default_val=True
@@ -7310,7 +7313,7 @@ class ParamAssoc(BasicAssoc):
     designator = Field(type=T.AdaNode)
     r_expr = Field(type=T.Expr)
 
-    expr = Property(Self.r_expr)
+    expr = Property(Entity.r_expr)
     names = Property(If(Self.designator.is_null,
                         No(T.AdaNode.array), Self.designator.singleton))
 
@@ -7322,7 +7325,7 @@ class AggregateAssoc(BasicAssoc):
     designators = Field(type=T.AlternativesList)
     r_expr = Field(type=T.Expr)
 
-    expr = Property(Self.r_expr)
+    expr = Property(Entity.r_expr)
     names = Property(Self.designators.map(lambda d: d))
 
 
@@ -7355,7 +7358,7 @@ class AssocList(BasicAssoc.list):
         several actual parameters at once, create an unpacked list of
         SingleActual instances.
         """
-        return Self.mapcat(lambda pa: Let(lambda names=pa.names: If(
+        return Entity.mapcat(lambda pa: Let(lambda names=pa.names: If(
             names.length == 0,
             SingleActual.new(name=No(Identifier), assoc=pa).singleton,
             names.filtermap(
@@ -7391,17 +7394,17 @@ class AssocList(BasicAssoc.list):
             lambda a=T.BaseAggregate: origin.bind(Self, env.bind(
                 Self.node_env,
                 a.expression_type.record_def
-                ._.components.abstract_formal_params_for_assocs(Self),
+                ._.components.abstract_formal_params_for_assocs(Entity),
             )),
 
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
         return params.then(
-            lambda _: Self.match_formals(params, Self, is_dottable_subp).map(
+            lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
                 lambda m:
                 ParamActual.new(param=m.formal.name.as_bare_entity,
-                                actual=m.actual.assoc.expr.as_entity),
+                                actual=m.actual.assoc.expr),
             )
         )
 
@@ -7977,7 +7980,7 @@ class BaseId(SingleTokNode):
             des_type
         )
 
-    @langkit_property(return_type=CallExpr, ignore_warn_on_node=True)
+    @langkit_property(return_type=CallExpr.entity)
     def parent_callexpr():
         """
         If this BaseId is the main symbol qualifying the prefix in a call
@@ -7996,7 +7999,7 @@ class BaseId(SingleTokNode):
             C (12, 15);
                ^ parent_callexpr = null
         """
-        return Self.parents.take_while(lambda p: Or(
+        return Entity.parents.take_while(lambda p: Or(
             p.is_a(CallExpr),
             p.is_a(DottedName, BaseId) & p.parent.match(
                 lambda pfx=DottedName: pfx.suffix == p,
@@ -8039,7 +8042,7 @@ class BaseId(SingleTokNode):
         # TODO: there is a big smell here: We're doing the filtering for parent
         # expressions in the baseid env_elements. We should solve that.
 
-        pc = Var(Self.parent_callexpr)
+        pc = Var(Entity.parent_callexpr)
 
         return bind_origin(Self, Cond(
             pc.is_null,
@@ -8351,7 +8354,7 @@ class SingleFormal(Struct):
 
 class SingleActual(Struct):
     name = UserField(type=BaseId)
-    assoc = UserField(type=T.BasicAssoc)
+    assoc = UserField(type=T.BasicAssoc.entity)
 
 
 class ParamMatch(Struct):
@@ -8908,8 +8911,7 @@ class AttributeRef(Name):
         Entity.prefix.designated_type_impl
     ))
 
-    args_list = Property(Self.args._.cast_or_raise(T.AssocList),
-                         ignore_warn_on_node=True)
+    args_list = Property(Entity.args._.cast_or_raise(T.AssocList))
 
     @langkit_property()
     def env_elements_impl():
@@ -9100,14 +9102,14 @@ class AttributeRef(Name):
 
         return (
             Entity.prefix.sub_equation
-            & stream_arg.as_entity.sub_equation
+            & stream_arg.sub_equation
             & TypeBind(stream_arg.type_var,
                        root_stream_type.anonymous_access_type)
             & If(
                 return_obj,
                 TypeBind(Self.type_var, typ),
                 TypeBind(obj_arg.type_var, typ)
-                & obj_arg.as_entity.sub_equation
+                & obj_arg.sub_equation
             )
         )
 
@@ -9152,7 +9154,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def succpred_xref_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        arg = Var(Self.args_list.at(0).expr)
+        arg = Var(Entity.args_list.at(0).expr)
 
         return (
             TypeBind(Self.prefix.ref_var, typ)
@@ -9167,8 +9169,7 @@ class AttributeRef(Name):
         right = Var(Entity.args_list.at(1).expr)
 
         return (
-            left.as_entity.sub_equation
-            & right.as_entity.sub_equation
+            left.sub_equation & right.sub_equation
             # Prefix is a type, bind prefix's ref var to it
             & TypeBind(Self.prefix.ref_var, typ)
             & TypeBind(left.type_var, right.type_var)
@@ -9179,10 +9180,10 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def value_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args_list.at(0).expr)
+        expr = Var(Entity.args_list.at(0).expr)
 
         return (
-            expr.as_entity.sub_equation
+            expr.sub_equation
 
             # Prefix is a type, bind prefix's ref var to it
             & Bind(Self.prefix.ref_var, typ)
@@ -9197,7 +9198,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args_list.then(lambda al: al.at(0).expr))
+        expr = Var(Entity.args_list.then(lambda al: al.at(0).expr))
 
         return If(
             typ.is_null,
@@ -9206,7 +9207,7 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & TypeBind(Self.type_var, str_type),
 
-            expr.as_entity.sub_equation
+            expr.sub_equation
             # Prefix is a type, bind prefix's ref var to it
             & Bind(Self.prefix.ref_var, typ)
             # Type of expression is designated type
@@ -9228,26 +9229,26 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def pos_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args_list.at(0).expr)
+        expr = Var(Entity.args_list.at(0).expr)
 
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             & universal_int_bind(Self.type_var)
             & Bind(expr.type_var, typ)
-            & expr.as_entity.sub_equation
+            & expr.sub_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def val_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Self.args_list.at(0).expr)
+        expr = Var(Entity.args_list.at(0).expr)
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             & TypeBind(Self.type_var, typ)
             & universal_int_bind(expr.type_var)
-            & expr.as_entity.sub_equation
+            & expr.sub_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -9296,7 +9297,7 @@ class AttributeRef(Name):
         # representing an int that we will use as a dimension.
         dim = Var(Entity.args_list.then(lambda a: a.at(0).expr.then(
             lambda expr: Let(
-                lambda _=expr.as_entity.resolve_names_internal(
+                lambda _=expr.resolve_names_internal(
                     True, LogicTrue()
                 ):
                 expr.eval_as_int.as_int

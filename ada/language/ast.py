@@ -2691,7 +2691,20 @@ class BaseTypeDecl(BasicDecl):
     def primitives_env():
         return EmptyEnv
 
-    is_record_type = Property(False)
+    @langkit_property(public=True)
+    def is_record_type():
+        """
+        Return whether this type is a record type.
+        """
+        return False
+
+    @langkit_property(public=True, dynamic_vars=[default_origin()])
+    def is_array_type():
+        """
+        Return whether this type is an array type.
+        """
+        return Entity.is_array
+
     is_task_type = Property(False, doc="Whether type is a task type")
 
     is_real_type = Property(False, doc="Whether type is a real type or not.",

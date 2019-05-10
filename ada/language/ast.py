@@ -2327,7 +2327,7 @@ class ComponentList(BaseFormalParamHolder):
     ))
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
-                      dynamic_vars=[default_origin()])
+                      dynamic_vars=[env, default_origin()])
     def abstract_formal_params_for_assocs(assocs=T.AssocList):
 
         td = Var(Entity.type_decl)
@@ -2344,20 +2344,20 @@ class ComponentList(BaseFormalParamHolder):
 
         # We run resolution for discriminants, because need ref and type
         # information to statically evaluate their values.
-        ignore(Var(discriminants_matches.map(lambda dm: env.bind(
-            Self.node_env,
-            dm.actual.assoc.expr.as_entity.resolve_names_internal(
+        ignore(Var(discriminants_matches.map(
+            lambda match: match.actual.assoc.expr.resolve_names_internal(
                 True, And(
-                    TypeBind(dm.actual.assoc.expr.type_var,
-                             dm.formal.spec.type_expression.designated_type),
-                    If(dm.actual.name.is_null,
+                    TypeBind(match.actual.assoc.expr.type_var,
+                             match.formal.spec
+                             .type_expression.designated_type),
+                    If(match.actual.name.is_null,
                        LogicTrue(),
-                       Bind(dm.actual.name.ref_var, dm.formal.spec))
+                       Bind(match.actual.name.ref_var, match.formal.spec))
                 )
             )
             # Explicitly raise an error if resolution of discriminants failed
-            ._or(PropertyError(Bool, "Resolution failed in discriminants"))
-        ))))
+            ._or(PropertyError(Bool, "Failure in discriminants' resolution"))
+        )))
 
         # Get param matches for all aggregates' params. Here, we use and pass
         # down the discriminant matches, so that abstract_formal_params_impl is
@@ -7388,11 +7388,11 @@ class AssocList(BasicAssoc.list):
             c.subtype.cast(T.TypeDecl)._.discriminants
             ._.abstract_formal_params,
 
-            lambda a=T.BaseAggregate: origin.bind(
-                Self,
+            lambda a=T.BaseAggregate: origin.bind(Self, env.bind(
+                Self.node_env,
                 a.expression_type.record_def
                 ._.components.abstract_formal_params_for_assocs(Self),
-            ),
+            )),
 
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))

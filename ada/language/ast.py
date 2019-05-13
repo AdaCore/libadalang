@@ -7055,6 +7055,17 @@ class Name(Expr):
             )
         )
 
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_static_call():
+        """
+        Returns True if this Name corresponds to a static non-dispatching call.
+
+        .. note:: This is an experimental feature. There might be some
+            discrepancy with the GNAT concept of "static call".
+        """
+        return Entity.is_call & Not(Entity.is_dispatching_call)
+
     @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():
         """

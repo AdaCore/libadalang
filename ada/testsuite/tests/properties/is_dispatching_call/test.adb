@@ -63,4 +63,14 @@ begin
    X.Foo_1;
    I := X.Bar_1;
    I := X.Bar_2 (3);
+
+   Foo_1 (A);
+   Foo_2 (3, A);
+   I := Bar_1 (A);
+   I := Bar_2 (A, 3);
+   A := Foo_Bar;
+
+   A.Foo_1;
+   I := A.Bar_1;
+   I := A.Bar_2 (3);
 end Main;

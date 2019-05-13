@@ -6404,6 +6404,15 @@ class NullRecordAggregate(BaseAggregate):
     """
 
 
+class ExpectedTypeForExpr(Struct):
+    """
+    Struct used by ``potential_actuals_for_dispatch`` to store an expression
+    together with the type that is expected for it.
+    """
+    expected_type = UserField(type=T.TypeExpr.entity)
+    expr = UserField(type=T.Expr.entity)
+
+
 @abstract
 class Name(Expr):
     """
@@ -6957,6 +6966,93 @@ class Name(Expr):
             lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
 
             lambda _: False
+        )
+
+    @langkit_property(return_type=ExpectedTypeForExpr.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def potential_actuals_for_dispatch():
+        """
+        Assuming Self is a call to a subprogram, return an array of pairs
+        (expected_type, expression) for each expression in and around the call
+        that could be used for performing a dynamic dispatch for this call.
+        """
+        spec = Var(Entity.referenced_decl.subp_spec_or_null)
+
+        # Handle the case where the dispatch is done on the tag of the
+        # LHS expr of an assign statement. In that case, its expected type
+        # is the return type of the called subprogram.
+        ret = Var(
+            spec.returns.then(lambda rt: Entity.parent.cast(T.AssignStmt).then(
+                lambda a: ExpectedTypeForExpr.new(
+                    expected_type=rt,
+                    expr=a.dest
+                ).singleton
+            ))
+        )
+
+        # Handle calls done using the dot notation. Retrieve the prefix and
+        # match it with the type of the first parameter of the called
+        # subprogram.
+        prefix = Var(
+            Entity.is_dot_call.then(lambda _: Entity.match(
+                lambda c=T.CallExpr: c.name.cast_or_raise(T.DottedName),
+                lambda d=T.DottedName: d,
+                lambda i=T.Identifier: i.parent.cast_or_raise(T.DottedName),
+                lambda _: No(T.DottedName.entity)
+            ).then(lambda d: ExpectedTypeForExpr.new(
+                expected_type=spec.unpacked_formal_params.at(0)
+                .spec.type_expression,
+                expr=d.prefix
+            ).singleton))
+        )
+
+        # Handle the rest of the arguments if this is a CallExpr, matching
+        # them with the types of the parameters of the called subprogram.
+        args = Var(
+            Entity.cast(T.CallExpr)._.params._.zip_with_params.map(
+                lambda pm: ExpectedTypeForExpr.new(
+                    expected_type=pm.param.basic_decl.type_expression,
+                    expr=pm.actual
+                )
+            )
+        )
+
+        return ret.concat(prefix).concat(args)
+
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_dispatching_call():
+        """
+        Returns True if this Name corresponds to a dispatching call.
+
+        .. note:: This is an experimental feature. There might be some
+            discrepancy with the GNAT concept of "dispatching call".
+        """
+        return Entity.is_call & Let(
+            lambda
+            decl=Entity.referenced_decl,
+
+            # Retrieve the candidate expressions on which the tag check could
+            # be made, together with the expected type for them.
+            candidates=Entity.parent_callexpr.cast(T.Name.entity)
+            ._or(Entity).then(lambda e: e.potential_actuals_for_dispatch):
+
+            Let(
+                # For all candidate pair (expected_type, expression), check
+                # that the expected type can indeed designate a type of
+                # which the called subprogram is a primitive, and that
+                # the corresponding expression is its classwide type.
+                lambda s=decl.canonical_part.subp_spec_or_null: candidates.any(
+                    lambda c: And(
+                        Not(s.candidate_type_for_primitive(c.expected_type)
+                            .is_null),
+                        # No need to check that the type of the expression
+                        # is exactly the classwide type of the expected
+                        # type, but simply that it is classwide.
+                        c.expr.expression_type.is_classwide
+                    )
+                )
+            )
         )
 
     @langkit_property(public=True, return_type=Symbol.array)
@@ -8462,6 +8558,28 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.params._.at(0)._.type_expr._.element_type
 
+    @langkit_property(return_type=BaseTypeDecl.entity)
+    def candidate_type_for_primitive(typ=T.TypeExpr.entity):
+        """
+        If the given type expression designates a type of which Self is a
+        primitive, return that designated type. Otherwise return null.
+        """
+        bd = Var(Entity.parent.cast_or_raise(BasicDecl))
+        tpe = Var(bind_origin(Self, typ.match(
+            lambda at=T.AnonymousType: at.element_type._.canonical_type,
+            lambda other: other.designated_type._.canonical_type
+        )))
+
+        return If(
+            tpe._.declarative_scope.then(lambda ds: ds.any_of(
+                bd.declarative_scope,
+                bd.declarative_scope._.parent.cast(BasePackageDecl)
+                ._.public_part
+            )),
+            tpe,
+            No(BaseTypeDecl.entity)
+        )
+
     @langkit_property(return_type=BaseTypeDecl.entity.array, public=True)
     def primitive_subp_of():
         """
@@ -8471,25 +8589,16 @@ class BaseSubpSpec(BaseFormalParamHolder):
         # TODO: This might be improved by checking for spelling before looking
         # up every type.
 
-        bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         params = Var(Entity.unpacked_formal_params)
-        types = Var(bind_origin(
-            Self,
-            params.map(lambda p: p.spec.type_expression.match(
-                lambda at=T.AnonymousType: at.element_type._.canonical_type,
-                lambda other: other.designated_type._.canonical_type,
-            )).concat(
-                Entity.returns._.designated_type._.canonical_type._.singleton
-            )
+        types = Var(params.map(lambda p: p.spec.type_expression).concat(
+            Entity.returns._.singleton
         ))
 
-        return types.filter(lambda typ: typ.then(
-            lambda typ: typ.declarative_scope.then(lambda ds: ds.any_of(
-                bd.declarative_scope,
-                bd.declarative_scope._.parent.cast(BasePackageDecl)
-                ._.public_part
-            ))
-        ))
+        return types.map(
+            lambda t: Entity.candidate_type_for_primitive(t)
+        ).filter(
+            lambda t: Not(t.is_null)
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True)
     def first_primitive_subp_of():

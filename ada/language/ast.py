@@ -6601,6 +6601,33 @@ class Name(Expr):
                   No(T.Name),
                   Self.parent.cast(T.Name))
 
+    @langkit_property(return_type=T.CallExpr.entity)
+    def parent_callexpr():
+        """
+        If this name qualifies the prefix in a call expression, this returns
+        the corresponding CallExpr node. Return null otherwise. For example::
+
+            C (12, 15);
+            ^ parent_callexpr = <CallExpr>
+
+            A.B.C (12, 15);
+                ^ parent_callexpr = <CallExpr>
+
+            A.B.C (12, 15);
+              ^ parent_callexpr = null
+
+            C (12, 15);
+               ^ parent_callexpr = null
+        """
+        return Entity.parents.take_while(lambda p: Or(
+            p.is_a(CallExpr),
+            p.is_a(DottedName, BaseId) & p.parent.match(
+                lambda pfx=DottedName: pfx.suffix == p,
+                lambda ce=CallExpr: ce.name == p,
+                lambda _: False
+            )
+        )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
+
     @langkit_property(return_type=Bool)
     def is_range_attribute():
         """
@@ -7992,34 +8019,6 @@ class BaseId(SingleTokNode):
             completer_view,
             des_type
         )
-
-    @langkit_property(return_type=CallExpr.entity)
-    def parent_callexpr():
-        """
-        If this BaseId is the main symbol qualifying the prefix in a call
-        expression, this returns the corresponding CallExpr node. Return null
-        otherwise. For example::
-
-            C (12, 15);
-            ^ parent_callexpr = <CallExpr>
-
-            A.B.C (12, 15);
-                ^ parent_callexpr = <CallExpr>
-
-            A.B.C (12, 15);
-              ^ parent_callexpr = null
-
-            C (12, 15);
-               ^ parent_callexpr = null
-        """
-        return Entity.parents.take_while(lambda p: Or(
-            p.is_a(CallExpr),
-            p.is_a(DottedName, BaseId) & p.parent.match(
-                lambda pfx=DottedName: pfx.suffix == p,
-                lambda ce=CallExpr: ce.name == p,
-                lambda _: False
-            )
-        )).find(lambda p: p.is_a(CallExpr)).cast(CallExpr)
 
     @langkit_property(dynamic_vars=[env])
     def env_elements_impl():

@@ -6461,8 +6461,10 @@ class Name(Expr):
         """
         Returns True if this Name corresponds to a call.
         """
-        return imprecise_fallback.bind(
-            False, Entity.referenced_decl.info.md.is_call
+        return And(
+            Not(Entity.is_defining),
+            imprecise_fallback.bind(False,
+                                    Entity.referenced_decl.info.md.is_call)
         )
 
     @langkit_property(public=True, return_type=T.Bool,
@@ -6471,7 +6473,10 @@ class Name(Expr):
         """
         Returns True if this Name corresponds to a dot notation call.
         """
-        return Entity.referenced_decl.info.md.dottable_subp
+        return And(
+            Not(Entity.is_defining),
+            Entity.referenced_decl.info.md.dottable_subp
+        )
 
     @langkit_property(public=True, return_type=T.DefiningName.entity)
     def referenced_id(ref_decl=T.BasicDecl.entity):

@@ -15,7 +15,7 @@ for subp in root_pkg.findall((lal.SubpDecl, lal.ExprFunction)):
     name = subp.f_subp_spec.f_subp_name
     print("Analyzing references of {} ({})".format(name.text, name))
     for ref in name.p_find_all_references([u]):
-        if not ref.p_is_defining and ref.p_is_call:
+        if ref.p_is_call:
             print("  Reference {} is {}".format(
                 ref,
                 "a dispatching call." if ref.p_is_dispatching_call()

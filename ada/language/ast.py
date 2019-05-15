@@ -7407,7 +7407,15 @@ class CallExpr(Name):
                     # are designators.
                     pm.actual.name.is_null,
                     LogicTrue(),
-                    Bind(pm.actual.name.ref_var, pm.formal.spec)
+                    Bind(
+                        pm.actual.name.ref_var,
+                        Let(lambda n=pm.formal.spec: entity_no_md(
+                            AdaNode,
+                            n.node,
+                            n.info.rebindings,
+                            n.info.from_rebound
+                        ))
+                    )
                 )
             ),
             default_val=LogicFalse()

@@ -1449,6 +1449,20 @@ class BasicDecl(AdaNode):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
 
+    @langkit_property()
+    def basic_decl_next_part_for_decl():
+        """
+        Implementation of next_part_for_decl for basic decls, that can be
+        reused by subclasses when they override next_part_for_decl.
+        """
+        ignore(Var(Self.body_unit))
+
+        return If(
+            Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
+            Entity.children_env
+        ).get_first('__nextpart', lookup=LK.flat,
+                    categories=noprims).cast(T.BasicDecl)
+
     @langkit_property(public=True)
     def next_part_for_decl():
         """
@@ -1459,13 +1473,7 @@ class BasicDecl(AdaNode):
             Probably, we want to rename the specific versions, and have the
             root property be named previous_part. (TODO R925-008)
         """
-        ignore(Var(Self.body_unit))
-
-        return If(
-            Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
-            Entity.children_env
-        ).get_first('__nextpart', lookup=LK.flat,
-                    categories=noprims).cast(T.BasicDecl)
+        return Entity.basic_decl_next_part_for_decl
 
     @langkit_property(public=True)
     def body_part_for_decl():
@@ -4194,6 +4202,8 @@ class ProtectedTypeDecl(BaseTypeDecl):
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 
     defining_env = Property(Entity.children_env)
+
+    next_part_for_decl = Property(Entity.basic_decl_next_part_for_decl)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
@@ -10512,9 +10522,8 @@ class ProtectedBody(Body):
         dest_env=env.bind(
             Self.initial_env,
             # If this is a sub package, sub_package
-            Entity.body_decl_scope
-
-            ._or(Entity.body_scope(False))
+            Entity.body_scope(False, True)
+            ._or(Entity.body_scope(False, False))
         ),
 
         more_rules=[

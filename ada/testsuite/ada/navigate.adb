@@ -129,9 +129,22 @@ procedure Navigate is
                     ("Type previous part", Node,
                      Node.As_Base_Type_Decl.P_Previous_Part);
 
-                  Print_Navigation
-                    ("Type next part", Node,
-                     Node.As_Base_Type_Decl.P_Next_Part);
+                  case Node.Kind is
+                     when LALCO.Ada_Protected_Type_Decl =>
+                        Print_Navigation
+                          ("Protected decl next part", Node,
+                           Node.As_Basic_Decl.P_Next_Part_For_Decl);
+
+                        Print_Navigation
+                          ("Protected decl body part", Node,
+                           Node.As_Basic_Decl.P_Body_Part_For_Decl);
+
+                     when others =>
+                        --  Protected type decls don't have a type next part
+                        Print_Navigation
+                          ("Type next part", Node,
+                           Node.As_Base_Type_Decl.P_Next_Part);
+                  end case;
 
                when LALCO.Ada_Base_Package_Decl =>
 

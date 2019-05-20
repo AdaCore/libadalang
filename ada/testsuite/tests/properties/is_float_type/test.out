@@ -1,0 +1,9 @@
+== test.adb ==
+<TypeDecl ["My_Float"] test.adb:2:4-2:31> is a floating point type.
+<TypeDecl ["My_New_Float"] test.adb:3:4-3:38> is a floating point type.
+<SubtypeDecl ["My_Sub_Float"] test.adb:4:4-4:58> is a floating point type.
+<TypeDecl ["My_Int"] test.adb:6:4-6:33> is not a floating point type.
+<TypeDecl ["My_New_Int"] test.adb:7:4-7:34> is not a floating point type.
+<SubtypeDecl ["My_Sub_Int"] test.adb:8:4-8:51> is not a floating point type.
+
+Done

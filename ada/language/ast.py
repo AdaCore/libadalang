@@ -3816,6 +3816,7 @@ class DerivedTypeDef(TypeDef):
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)
     is_float_type = Property(Entity.base_type.is_float_type)
+    is_fixed_point = Property(Entity.base_type.is_fixed_point)
     accessed_type = Property(Entity.base_type.accessed_type)
     is_tagged_type = Property(
         Not(Entity.record_extension.is_null) | Entity.has_with_private.as_bool
@@ -4083,6 +4084,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     is_discrete_type = Property(Entity.from_type.is_discrete_type)
     is_real_type = Property(Entity.from_type_bound.is_real_type)
     is_float_type = Property(Entity.from_type_bound.is_float_type)
+    is_fixed_point = Property(Entity.from_type_bound.is_fixed_point)
     is_enum_type = Property(Entity.from_type_bound.is_enum_type)
     is_access_type = Property(Entity.from_type.is_access_type)
     access_def = Property(Entity.from_type_bound.access_def)

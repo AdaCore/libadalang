@@ -2799,7 +2799,7 @@ class BaseTypeDecl(BasicDecl):
         """
         Whether type is a discrete type or not.
         """
-        return Entity.is_int_type | Entity.is_enum_type
+        return Entity.is_int_type | Entity.is_enum_type | Entity.is_char_type
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def is_int_type():
@@ -3811,7 +3811,6 @@ class DerivedTypeDef(TypeDef):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
-    is_real_type = Property(Entity.base_type.is_real_type)
     is_int_type = Property(Entity.base_type.is_int_type)
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)

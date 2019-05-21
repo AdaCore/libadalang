@@ -550,8 +550,8 @@ A.add_rules(
 
     entry_decl=EntryDecl(
         A.overriding_indicator,
-        "entry",
         EntrySpec(
+            "entry",
             A.defining_id,
             Opt("(",
                 A.constrained_subtype_indication

@@ -2,7 +2,7 @@ EntryDecl[1:1-1:37]
 |overriding:
 |  OverridingUnspecified[1:1-1:1]
 |spec:
-|  EntrySpec[1:7-1:36]
+|  EntrySpec[1:1-1:36]
 |  |entry_name:
 |  |  DefiningName[1:7-1:8]
 |  |  |name:

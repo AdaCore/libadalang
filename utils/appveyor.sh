@@ -40,8 +40,15 @@ function do_install()
     # Install libiconv and gmp
     pacman -S --noconfirm mingw-w64-x86_64-libiconv mingw-w64-x86_64-gmp
 
-    # Get and build gnatcoll-core and gnatcoll-bindings. Only build relocatable
-    # variants, as we don't need the static and static-pic ones.
+    # Get and build libgpr, gnatcoll-core and gnatcoll-bindings. Only build
+    # relocatable variants, as we don't need the static and static-pic ones.
+    git clone -q https://github.com/AdaCore/gprbuild
+    (
+        cd gprbuild
+        make BUILD=production prefix="$ADALIB_DIR" libgpr.build.shared
+        make BUILD=production prefix="$ADALIB_DIR" libgpr.install.shared
+    )
+
     git clone -q https://github.com/AdaCore/gnatcoll-core
     make prefix=$ADALIB_DIR LIBRARY_TYPES=relocatable -C gnatcoll-core \
       build install

@@ -5340,6 +5340,13 @@ class ExceptionDecl(BasicDecl):
     aspects = Field(type=T.AspectSpec)
     defining_names = Property(Entity.ids.map(lambda id: id))
 
+    @langkit_property()
+    def next_part_for_decl():
+        """
+        An exception declaration never has a next part.
+        """
+        return No(BasicDecl.entity)
+
     env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
 
 

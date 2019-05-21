@@ -17,7 +17,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:40-1:40]
 |  |  |  |  |spec:
-|  |  |  |  |  EntrySpec[1:47-1:74]
+|  |  |  |  |  EntrySpec[1:41-1:74]
 |  |  |  |  |  |entry_name:
 |  |  |  |  |  |  DefiningName[1:47-1:53]
 |  |  |  |  |  |  |name:
@@ -50,7 +50,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |overriding:
 |  |  |  |  |  OverridingUnspecified[1:75-1:75]
 |  |  |  |  |spec:
-|  |  |  |  |  EntrySpec[1:82-1:109]
+|  |  |  |  |  EntrySpec[1:76-1:109]
 |  |  |  |  |  |entry_name:
 |  |  |  |  |  |  DefiningName[1:82-1:88]
 |  |  |  |  |  |  |name:

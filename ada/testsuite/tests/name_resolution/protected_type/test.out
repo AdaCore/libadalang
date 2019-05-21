@@ -12,8 +12,8 @@ Expr: <Id "Integer" testpro.adb:2:21-2:28>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 
-Resolving xrefs for node <EntrySpec testpro.adb:5:15-5:42>
-**********************************************************
+Resolving xrefs for node <EntrySpec testpro.adb:5:9-5:42>
+*********************************************************
 
 
 Resolving xrefs for node <ParamSpec ["An_Item"] testpro.adb:5:23-5:41>
@@ -23,8 +23,8 @@ Expr: <Id "Item" testpro.adb:5:37-5:41>
   references: <DefiningName testpro.adb:2:9-2:13>
   type:       None
 
-Resolving xrefs for node <EntrySpec testpro.adb:6:15-6:42>
-**********************************************************
+Resolving xrefs for node <EntrySpec testpro.adb:6:9-6:42>
+*********************************************************
 
 
 Resolving xrefs for node <ParamSpec ["An_Item"] testpro.adb:6:23-6:41>

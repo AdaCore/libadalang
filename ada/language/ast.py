@@ -3103,6 +3103,11 @@ class BaseTypeDecl(BasicDecl):
         """
         return Entity.canonical_part.cast(T.BaseTypeDecl)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[(origin, No(T.AdaNode))])
+    def canonical_type_or_null():
+        return Entity._.canonical_type
+
     @langkit_property(memoized=True, memoize_in_populate=True,
                       ignore_warn_on_node=True)
     def classwide_type_node():
@@ -6209,9 +6214,9 @@ class BinOp(Expr):
                 # operators are defined on the root subtype, so the return
                 # value will always be of the root subtype.
                 TypeBind(Self.left.type_var, Self.type_var,
-                         conv_prop=BaseTypeDecl.canonical_type)
+                         conv_prop=BaseTypeDecl.canonical_type_or_null)
                 & TypeBind(Self.right.type_var, Self.type_var,
-                           conv_prop=BaseTypeDecl.canonical_type),
+                           conv_prop=BaseTypeDecl.canonical_type_or_null),
 
                 # Universal real with universal int case: Implicit conversion
                 # of the binop to universal real.

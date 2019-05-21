@@ -35,6 +35,14 @@ then
     $INSTALL_DIR/bin/gprinstall --uninstall gnatcoll
 fi
 
+# Get gprbuild (to build libgpr)
+if [ -d "$TOOLS_DIR/gprbuild" ]
+then
+    (cd $TOOLS_DIR/gprbuild && git pull)
+else
+    (cd $TOOLS_DIR && git clone https://github.com/AdaCore/gprbuild)
+fi
+
 # Get gnatcoll-core and gnatcoll-bindings
 if [ -d "$TOOLS_DIR/gnatcoll-core" ]
 then
@@ -69,6 +77,13 @@ export PATH=$INSTALL_DIR/bin:$PATH
 export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
 which gcc
 gcc -v
+
+# Build libgpr
+(
+    cd $TOOLS_DIR/gprbuild
+    make BUILD=production prefix="$ADALIB_DIR" libgpr.build.shared
+    make BUILD=production prefix="$ADALIB_DIR" libgpr.install.shared
+)
 
 # Build gnatcoll-core
 (

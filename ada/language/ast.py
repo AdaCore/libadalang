@@ -7593,8 +7593,15 @@ class AssocList(BasicAssoc.list):
         return params.then(
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
                 lambda m:
-                ParamActual.new(param=m.formal.name.as_bare_entity,
-                                actual=m.actual.assoc.expr),
+                ParamActual.new(
+                    param=entity_no_md(
+                        T.DefiningName,
+                        m.formal.name,
+                        m.formal.spec.info.rebindings,
+                        m.formal.spec.info.from_rebound
+                    ),
+                    actual=m.actual.assoc.expr
+                ),
             )
         )
 

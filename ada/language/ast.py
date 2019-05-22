@@ -181,7 +181,7 @@ def new_metadata(**kwargs):
         if k not in kwargs:
             kwargs[k] = v if not source else getattr(Entity.info.md, k)
 
-    return Metadata.new(**kwargs)
+    return T.Metadata.new(**kwargs)
 
 
 @env_metadata
@@ -359,14 +359,19 @@ class AdaNode(ASTNode):
         ).then(lambda x: x.match(
             # If the logic variable is bound to a GenericSubpInternal, retrieve
             # the instantiation leading to it instead.
-            lambda g=T.GenericSubpInternal: entity_no_md(
-                type=T.BasicDecl,
+            lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
                 node=g.info.rebindings.new_env.env_node
                 .cast_or_raise(T.GenericInstantiation),
-                # Since we return the instantiation itself, remove it from
-                # its rebindings.
-                rebindings=x.info.rebindings.get_parent,
-                from_rebound=x.info.from_rebound
+                info=T.entity_info.new(
+                    # Since we return the instantiation itself, remove it from
+                    # its rebindings.
+                    rebindings=x.info.rebindings.get_parent,
+                    from_rebound=x.info.from_rebound,
+                    md=new_metadata(
+                        is_call=x.info.md.is_call,
+                        dottable_subp=x.info.md.dottable_subp
+                    )
+                )
             ),
             lambda _: x
         ))

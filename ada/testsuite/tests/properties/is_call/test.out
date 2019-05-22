@@ -1,0 +1,51 @@
+== test.adb ==
+Is call    Entity
+--------------------------------------------------
+NO         <Id "Integer" test.adb:2:22-2:29>
+NO         <Id "Integer" test.adb:2:38-2:45>
+NO         <Int test.adb:2:50-2:52>
+NO         <EndName test.adb:6:8-6:16>
+NO         <Id "Foo_Proc" test.adb:6:8-6:16>
+NO         <Id "TT" test.adb:10:29-10:31>
+NO         <EndName test.adb:11:8-11:9>
+NO         <Id "T" test.adb:11:8-11:9>
+NO         <Id "Integer" test.adb:15:24-15:31>
+NO         <Id "Integer" test.adb:15:40-15:47>
+NO         <Id "Integer" test.adb:17:24-17:31>
+NO         <Id "Integer" test.adb:17:40-17:47>
+NO         <Int test.adb:17:52-17:54>
+NO         <Id "Foo_G" test.adb:19:26-19:31>
+NO         <Id "Integer" test.adb:19:33-19:40>
+NO         <Id "Integer" test.adb:22:28-22:35>
+NO         <Id "Integer" test.adb:22:44-22:51>
+NO         <EndName test.adb:24:8-24:13>
+NO         <Id "Pkg_G" test.adb:24:8-24:13>
+NO         <Id "Pkg_G" test.adb:26:25-26:30>
+NO         <Id "Foo" test.adb:26:32-26:35>
+NO         <Id "Pkg_G" test.adb:27:25-27:30>
+NO         <Id "Foo_I" test.adb:27:32-27:37>
+NO         <DottedName test.adb:29:11-29:15>
+NO         <Id "T" test.adb:29:11-29:12>
+NO         <Id "TT" test.adb:29:13-29:15>
+NO         <Id "Integer" test.adb:30:8-30:15>
+NO         <Id "R" test.adb:32:4-32:5>
+YES        <CallExpr test.adb:32:9-32:16>
+YES        <Id "Foo" test.adb:32:9-32:12>
+NO         <Int test.adb:32:14-32:15>
+YES        <Id "Foo_Proc" test.adb:33:4-33:12>
+YES        <DottedName test.adb:35:4-35:12>
+NO         <Id "Inst" test.adb:35:4-35:8>
+YES        <Id "Foo" test.adb:35:9-35:12>
+YES        <CallExpr test.adb:36:4-36:16>
+YES        <DottedName test.adb:36:4-36:9>
+NO         <Id "T" test.adb:36:4-36:5>
+YES        <Id "Foo" test.adb:36:6-36:9>
+NO         <Id "Inst" test.adb:36:11-36:15>
+NO         <Id "R" test.adb:38:4-38:5>
+YES        <CallExpr test.adb:38:9-38:18>
+YES        <Id "Foo_I" test.adb:38:9-38:14>
+NO         <Int test.adb:38:16-38:17>
+NO         <EndName test.adb:39:5-39:9>
+NO         <Id "Test" test.adb:39:5-39:9>
+
+Done

@@ -6062,6 +6062,25 @@ class Expr(AdaNode):
         """
         return env.bind(Self.node_env, Entity.env_elements)
 
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def call_argument_equation(formal_type=T.BaseTypeDecl.entity,
+                               call_is_primitive_of=T.BaseTypeDecl):
+        """
+        Generate the equation that binds the type_var of the this expression
+        given its expected type in the context of a subprogram call. Handles
+        the case where that call is a primitive of the given
+        call_is_primitive_of type.
+        """
+        return If(formal_type.accessed_type._or(formal_type).then(
+            lambda at: at._.canonical_type.node.as_bare_entity.matching_type(
+                call_is_primitive_of.as_bare_entity
+            )),
+            Bind(Entity.type_var, formal_type,
+                 eq_prop=BaseTypeDecl.matching_formal_prim_type),
+            Bind(Entity.type_var, formal_type,
+                 eq_prop=BaseTypeDecl.matching_formal_type)
+        )
+
 
 class ContractCaseAssoc(BaseAssoc):
     """
@@ -6108,11 +6127,15 @@ class UnOp(Expr):
             lambda s: s.subp_spec_or_null.nb_max_params == 1
         ))
         return Entity.expr.sub_equation & (subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
+            lambda
+            ps=subp.subp_spec_or_null.unpacked_formal_params,
+            prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
 
             # The subprogram's first argument must match Self's left
             # operand.
-            TypeBind(Self.expr.type_var, ps.at(0).spec.formal_type)
+            Entity.expr.call_argument_equation(
+                ps.at(0).spec.formal_type, prim_type
+            )
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
@@ -6159,15 +6182,21 @@ class BinOp(Expr):
             Entity.left.sub_equation
             & Entity.right.sub_equation
         ) & (refined_subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
+            lambda
+            ps=subp.subp_spec_or_null.unpacked_formal_params,
+            prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
 
             # The subprogram's first argument must match Self's left
             # operand.
-            TypeBind(Self.left.type_var, ps.at(0).spec.formal_type)
+            Entity.left.call_argument_equation(
+                ps.at(0).spec.formal_type, prim_type
+            )
 
             # The subprogram's second argument must match Self's right
             # operand.
-            & TypeBind(Self.right.type_var, ps.at(1).spec.formal_type)
+            & Entity.right.call_argument_equation(
+                ps.at(1).spec.formal_type, prim_type
+            )
 
             # The subprogram's return type is the type of Self
             & TypeBind(Self.type_var,
@@ -7419,19 +7448,8 @@ class CallExpr(Name):
             & subp_spec.match_param_list(
                 Entity.params, dottable_subp
             ).logic_all(
-                lambda pm: Let(
-                    lambda ft=pm.formal.spec.type_expression.designated_type:
-
-                    # The type of each actual matches the type of the
-                    # formal.
-                    If(ft.accessed_type._or(ft).then(
-                        lambda at: at._.canonical_type.node.as_bare_entity
-                       .matching_type(prim_type.as_bare_entity)),
-
-                       Bind(pm.actual.assoc.expr.type_var, ft,
-                            eq_prop=BaseTypeDecl.matching_formal_prim_type),
-                       Bind(pm.actual.assoc.expr.type_var, ft,
-                            eq_prop=BaseTypeDecl.matching_formal_type))
+                lambda pm: pm.actual.assoc.expr.call_argument_equation(
+                    pm.formal.spec.type_expression.designated_type, prim_type
                 ) & If(
                     # Bind actuals designators to parameters if there
                     # are designators.

@@ -1008,12 +1008,48 @@ def child_unit(name_expr, scope_expr, dest_env=None,
     )
 
 
+class DocAnnotation(Struct):
+    """
+    Documentation annotation.
+    """
+    key = UserField(T.String)
+    val = UserField(T.String)
+
+
 @abstract
 class BasicDecl(AdaNode):
     """
     Root class for an Ada declaration (RM 3.1). A declaration associates a name
     with a language entity, for example a type or a variable.
     """
+
+    @langkit_property(public=True, external=True,
+                      return_type=DocAnnotation.array,
+                      uses_entity_info=False, uses_envs=False)
+    def get_doc_annotations():
+        """
+        Return the documentation annotations associated with this decl.
+        Annotations are any comment line of the form::
+
+            --% [annotation_name]: [annotation]
+
+        ALPHA! NOTE: For the moment, this function uses very simple hard-coded
+        heuristics. It is not configurable, and thus not usable with every
+        coding style.
+        """
+        pass
+
+    @langkit_property(public=True, external=True, return_type=T.String,
+                      uses_entity_info=False, uses_envs=False)
+    def get_documentation():
+        """
+        Return the documentation associated with this decl.
+
+        ALPHA! NOTE: For the moment, this function uses very simple hard-coded
+        heuristics. It is not configurable, and thus not usable with every
+        coding style.
+        """
+        pass
 
     @langkit_property(public=True)
     def previous_part_for_decl():

@@ -368,8 +368,7 @@ class AdaNode(ASTNode):
                     rebindings=x.info.rebindings.get_parent,
                     from_rebound=x.info.from_rebound,
                     md=new_metadata(
-                        is_call=x.info.md.is_call,
-                        dottable_subp=x.info.md.dottable_subp
+                        is_call=x.info.md.is_call
                     )
                 )
             ),
@@ -6066,7 +6065,7 @@ class Expr(AdaNode):
     def call_argument_equation(formal_type=T.BaseTypeDecl.entity,
                                call_is_primitive_of=T.BaseTypeDecl):
         """
-        Generate the equation that binds the type_var of the this expression
+        Generate the equation that binds the type_var of this expression
         given its expected type in the context of a subprogram call. Handles
         the case where that call is a primitive of the given
         call_is_primitive_of type.

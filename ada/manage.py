@@ -137,6 +137,10 @@ class Manage(ManageScript):
                             ADA_BODY, 'Libadalang.Expr_Eval',
                             use_clause=False)
 
+        ctx.add_with_clause('Implementation',
+                            ADA_BODY, 'Libadalang.Doc_Utils',
+                            use_clause=False)
+
         # It also needs access to the literal decoders
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Sources',

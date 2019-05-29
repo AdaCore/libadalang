@@ -74,7 +74,7 @@ pip install -r langkit/REQUIREMENTS.dev
 # Log content
 pwd
 export PATH=$INSTALL_DIR/bin:$PATH
-export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
+export GPR_PROJECT_PATH=$ADALIB_DIR/share/gpr
 which gcc
 gcc -v
 

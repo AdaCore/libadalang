@@ -846,7 +846,7 @@ class AdaNode(ASTNode):
     @langkit_property()
     def unpack_formals_impl(formal_params=T.BaseFormalParamDecl.entity.array):
         return formal_params.mapcat(
-            lambda spec: spec.identifiers.map(lambda id: SingleFormal.new(
+            lambda spec: spec.defining_names.map(lambda id: SingleFormal.new(
                 name=id, spec=spec
             ))
         )
@@ -1806,9 +1806,6 @@ class BaseFormalParamDecl(BasicDecl):
 
     This is a Libadalang abstaction, that has no ARM existence.
     """
-    identifiers = Property(Entity.defining_names.map(lambda e: e.node),
-                           memoized=True)
-
     is_mandatory = Property(False)
 
     formal_type = Property(
@@ -1828,7 +1825,7 @@ class BaseFormalParamDecl(BasicDecl):
 
         return part.then(lambda d: (
             d.formal_param_holder_or_null._.unpacked_formal_params
-            .find(lambda sf: sf.name.name_is(p.name_symbol)).name.as_entity
+            .find(lambda sf: sf.name.name_is(p.name_symbol)).name
         ))
 
     @langkit_property(return_type=T.DefiningName.entity)
@@ -1955,7 +1952,8 @@ class BaseFormalParamHolder(AdaNode):
         return And(
             self_params.length == other_params.length,
             self_params.all(lambda i, p: And(
-                p.name.matches(other_params.at(i).name) | Not(match_names),
+                Or(p.name.matches(other_params.at(i).name.node),
+                   Not(match_names)),
                 bind_origin(
                     Self,
                     p.spec.formal_type
@@ -5444,7 +5442,8 @@ class GenericInstantiation(BasicDecl):
                     lambda _: LogicTrue(),
                 ) & pm.actual.name.then(
                     lambda n:
-                    Bind(n.ref_var, pm.formal.name.as_bare_entity.basic_decl),
+                    Bind(n.ref_var,
+                         pm.formal.name.node.as_bare_entity.basic_decl),
                     default_val=LogicTrue()
                 )
             ))
@@ -7611,12 +7610,7 @@ class AssocList(BasicAssoc.list):
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
                 lambda m:
                 ParamActual.new(
-                    param=entity_no_md(
-                        T.DefiningName,
-                        m.formal.name,
-                        m.formal.spec.info.rebindings,
-                        m.formal.spec.info.from_rebound
-                    ),
+                    param=m.formal.name,
                     actual=m.actual.assoc.expr
                 ),
             )
@@ -8534,7 +8528,7 @@ class NullLiteral(SingleTokNode):
 
 
 class SingleFormal(Struct):
-    name = UserField(type=DefiningName)
+    name = UserField(type=DefiningName.entity)
     spec = UserField(type=BaseFormalParamDecl.entity)
 
 

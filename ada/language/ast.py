@@ -8031,8 +8031,6 @@ class BaseId(SingleTokNode):
             default_val=ret
         )
 
-    designated_env = Property(Entity.designated_env_impl)
-
     @langkit_property()
     def designated_env_no_overloading():
         return Var(Self.env_get_first(
@@ -8046,7 +8044,7 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property(dynamic_vars=[env, origin])
-    def designated_env_impl():
+    def designated_env():
         """
         Decoupled implementation for designated_env, specifically used by
         DottedName when the parent is a library level package.
@@ -9613,8 +9611,7 @@ class DottedName(Name):
     @langkit_property()
     def designated_env():
         pfx_env = Var(Entity.prefix.designated_env)
-        return env.bind(pfx_env,
-                        Entity.suffix.designated_env_impl)
+        return env.bind(pfx_env, Entity.suffix.designated_env)
 
     @langkit_property()
     def all_env_els_impl(seq=(Bool, True),

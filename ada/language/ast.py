@@ -8053,25 +8053,27 @@ class BaseId(SingleTokNode):
             lambda p: p.is_a(GenericPackageInstantiation)
         ))
 
-        env_els = Var(Entity.env_elements_baseid.then(
-            lambda all_env_els:
-            all_env_els.filter(lambda e: And(
-                # Exclude own generic package instantiation from the lookup
-                Not(e.node == bd),
-
-                Self.has_visibility(e)
-            ),
-            )
-        ))
-
-        pkg = Var(env_els.at(0).cast(T.BasicDecl))
+        env_el = Var(Self.env_get_first(
+            env,
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+            from_node=If(Self.in_aspect, No(T.AdaNode), Self),
+        )).cast(T.BasicDecl)
 
         return If(
-            pkg._.is_package,
-            Entity.pkg_env(pkg),
-            env_els.map(
-                lambda e: e.cast(BasicDecl).defining_env
-            ).env_group()
+            # If first element is a package, then return the pkg env
+            env_el._.is_package & Not(env_el.node == bd),
+            Entity.pkg_env(env_el),
+
+            Entity.env_elements_baseid.then(
+                lambda all_env_els:
+                all_env_els.filter(lambda e: And(
+                    # Exclude own generic package instantiation from the lookup
+                    Not(e.node == bd),
+
+                    Self.has_visibility(e)
+                ),
+                )
+            ).map(lambda e: e.cast(BasicDecl).defining_env).env_group(),
         )
 
     @langkit_property(dynamic_vars=[env, origin])

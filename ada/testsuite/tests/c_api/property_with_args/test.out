@@ -1,7 +1,7 @@
 This should be Foo:
-  Identifier: Foo
+  DefiningName: Foo
 This should be I:
-  Identifier: I
+  DefiningName: I
 Foo.p_name_matches(Foo) = True
 Foo.p_name_matches(I) = False
 Done.

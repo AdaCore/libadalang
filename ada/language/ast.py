@@ -9604,7 +9604,7 @@ class DottedName(Name):
 
     @langkit_property()
     def designated_env_no_overloading():
-        pfx_env = Var(Entity.prefix.designated_env)
+        pfx_env = Var(Entity.prefix.designated_env_no_overloading)
         return env.bind(pfx_env,
                         Entity.suffix.designated_env_no_overloading)
 

@@ -7441,18 +7441,29 @@ class CallExpr(Name):
             ),
 
             Not(atd._.indices.is_null), Entity.suffix.match(
-                # Regular array access
-                lambda _=T.AssocList: Entity.params._.logic_all(
-                    lambda i, pa: If(
-                        constrain_params,
-                        pa.expr.sub_equation,
-                        LogicTrue()
+                lambda _=T.AssocList: Or(
+                    # Either a regular array access
+                    Entity.params._.logic_all(
+                        lambda i, pa: If(
+                            constrain_params,
+                            pa.expr.sub_equation,
+                            LogicTrue()
+                        )
+                        & atd.indices.constrain_index_expr(pa.expr, i)
                     )
-                    & atd.indices.constrain_index_expr(pa.expr, i)
-                )
-                & TypeBind(Self.type_var, atd.comp_type),
+                    & TypeBind(Self.type_var, atd.comp_type),
 
-                # Slice access
+                    # Or an array slice through subtype indication
+                    Entity.params._.at(0)._.expr.cast(Name).then(
+                        lambda name: And(
+                            name.xref_no_overloading,
+                            TypeBind(Self.type_var, real_typ)
+                        ),
+                        default_val=LogicFalse()
+                    )
+                ),
+
+                # Explicit slice access
                 lambda bo=T.BinOp:
                 atd.indices.constrain_index_expr(bo.left, 0)
                 & atd.indices.constrain_index_expr(bo.right, 0)

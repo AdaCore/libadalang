@@ -6570,6 +6570,10 @@ class Name(Expr):
             # object decls with no value.
             No(T.DefiningName.entity),
 
+            bd.then(lambda bd: bd.is_a(NumberDecl)),
+            # Number decls cannot have a next part, always return None
+            No(T.DefiningName.entity),
+
             bd.then(lambda bd: bd.is_a(BasicDecl)),
             bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)
             ._or(bd.defining_name),

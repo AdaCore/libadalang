@@ -11,7 +11,7 @@ $BUILD_FOLDER/build/lib/langkit_support.relocatable:\
 /c/GNAT/bin:\
 /mingw64/bin:\
 $PATH
-export ADA_PROJECT_PATH=$ADALIB_DIR/share/gpr
+export GPR_PROJECT_PATH=$ADALIB_DIR/share/gpr
 export LIBRARY_TYPE=relocatable
 export CPATH=/mingw64/include
 export LIBRARY_PATH=/mingw64/lib

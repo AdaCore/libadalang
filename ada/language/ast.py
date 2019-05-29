@@ -3481,11 +3481,23 @@ class TypeDecl(BaseTypeDecl):
             If(include_self, Entity.own_primitives_envs, No(LexicalEnv.array))
         )
 
+    @langkit_property(memoized=True, return_type=T.PrimTypeAccessor,
+                      ignore_warn_on_node=True)
+    def primitive_type_accessor():
+        """
+        Return a synthetic node that wraps around this type as an entity. This
+        works around the fact that we cannot store an entity in the entity
+        info, allowing us to access the full primitive_real_type.
+        """
+        return T.PrimTypeAccessor.new(prim_type=Entity)
+
     @langkit_property(memoized=True)
     def parent_primitives_env():
         return Self.type_def.match(
             lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
-                with_md=new_metadata(primitive_real_type=Self)
+                with_md=new_metadata(
+                    primitive_real_type=Entity.primitive_type_accessor
+                )
             ),
             lambda _: Self.empty_env
         )
@@ -3537,6 +3549,16 @@ class TypeDecl(BaseTypeDecl):
                 )
             )
         )
+
+
+@synthetic
+class PrimTypeAccessor(AdaNode):
+    """
+    Synthetic node wrapping around a primitive type entity. Used in metadata.
+    """
+    prim_type = UserField(T.BaseTypeDecl.entity)
+
+    get_prim_type = Property(Self.prim_type)
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -8751,12 +8773,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
                     Entity.info.from_rebound
                 ),
 
-                entity_no_md(
-                    BaseTypeDecl,
-                    Entity.info.md.primitive_real_type.cast(BaseTypeDecl),
-                    Entity.info.rebindings,
-                    Entity.info.from_rebound
-                ),
+                Entity.info.md.primitive_real_type
+                .cast(T.PrimTypeAccessor).get_prim_type,
             ),
 
             ret

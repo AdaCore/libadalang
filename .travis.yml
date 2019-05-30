@@ -3,6 +3,7 @@ env:
     - ADALIB_DIR=$HOME/adalib
     - TOOLS_DIR=$HOME/build_tools
     - INSTALL_DIR=$HOME/install
+    - LIBRARY_PATH=/usr/local/lib
 
 matrix:
   include:

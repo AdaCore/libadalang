@@ -95,6 +95,8 @@ gcc -v
 # Build gnatcoll-bindings
 (
     cd $TOOLS_DIR/gnatcoll-bindings
+    #  Darwin has gmp installed at /usr/local/
+    export CPATH=/usr/local/include
     for component in iconv gmp
     do
         (

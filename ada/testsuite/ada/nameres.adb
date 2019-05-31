@@ -319,8 +319,18 @@ procedure Nameres is
                         Put_Line ("  references: " & Referenced_Decl_Image);
                      end;
                   end if;
-                  Put_Line ("  type:       "
-                            & Image (P_Expression_Type (As_Expr (N))));
+
+                  declare
+                     Decl : constant Base_Type_Decl :=
+                        P_Expression_Type (As_Expr (N));
+
+                     Decl_Image : constant String :=
+                       (if Show_Slocs or else Decl.Is_Null
+                        then Image (Decl)
+                        else Image (Decl.P_Unique_Identifying_Name));
+                  begin
+                     Put_Line ("  type:       " & Decl_Image);
+                  end;
                end if;
             end if;
             return

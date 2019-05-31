@@ -68,7 +68,12 @@ def resolve_node(node, show_slocs=True):
                 )
                 print('  references: {}'.format(refd_decl_img))
 
-            print('  type:       {}'.format(entity_repr(n.p_expression_type)))
+            decl = n.p_expression_type
+            decl_image = (entity_repr(decl)
+                          if show_slocs or not decl else
+                          decl.p_unique_identifying_name)
+            print('  type:       {}'.format(decl_image))
+
         if ((n.p_xref_entry_point and n != node) or
                 (n.is_a(lal.DefiningName) and not n.p_xref_entry_point)):
             return

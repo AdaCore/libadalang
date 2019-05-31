@@ -96,100 +96,10 @@ class AutoPackage(Directive):
         1. the list of lines that constitutes the documentation for ``decl``;
         2. a mapping (key: string, value: string) for the parsed annotations.
         """
-        is_generic_package = (
-            decl.is_a(lal.BasePackageDecl)
-            and decl.parent.is_a(lal.GenericPackageDecl)
-        )
-
-        if decl.is_a(lal.BasePackageDecl) and not is_generic_package:
-            # Documentation for packages is assumed to appear before the
-            # "package" keyword.
-            doc, annotations = self.extract_doc_from(
-                decl.token_start, backwards=True, skip_white_lines=-1
-            )
-
-            # If not found and the package is a library unit, we try to find
-            # the doc that is before the library unit.
-            if not doc:
-                doc, annotations = self.extract_doc_from(
-                    decl.unit.root.token_start, backwards=True,
-                    skip_white_lines=-1
-                )
-
-            return doc, annotations
-
-        else:
-            # Documentation for all other entities is assumed to appear after
-            # the root node representing the entity.
-            return self.extract_doc_from(
-                decl.token_end, backwards=False, skip_white_lines=1
-            )
-
-    def extract_doc_from(self, token, backwards=False, skip_white_lines=0):
-        # Namespace so that local functions can modify ``token``
-        class T:
-            tok = token
-
-        def next_token():
-            T.tok = T.tok.previous if backwards else T.tok.next
-
-        annotations = {}
-        doc = []
-
-        next_token()
-
-        if skip_white_lines != 0 and T.tok.kind == 'Whitespace':
-            if skip_white_lines == -1:
-                next_token()
-            elif skip_white_lines > 0:
-                if T.tok.text.count('\n') == skip_white_lines:
-                    next_token()
-            else:
-                raise AssertionError(
-                    "Invalid value for skip_white_lines: {}"
-                    .format(skip_white_lines)
-                )
-
-        # No comment in the direction expected? There is no documentation
-        if T.tok.kind != 'Comment':
-            return doc, annotations
-
-        # Process as many comments as possible from our starting point, until
-        # we find an empty line or anything else than a comment or a
-        # whitespace.
-        while T.tok and T.tok.kind in ['Comment', 'Whitespace']:
-            if T.tok.kind == 'Whitespace':
-                if T.tok.text.count('\n') > 1:
-                    break
-
-            if T.tok.kind == 'Comment':
-                t = T.tok.text[2:]  # Strip the '--'
-                if t.startswith('%'):
-                    try:
-                        key, val = map(unicode.strip, t[1:].split(':'))
-                    except ValueError:
-                        assert False, ('Invalid syntax for annotation: {}'
-                                       .format(t))
-                    annotations[key] = self.decode_annotation(key, val)
-                    next_token()
-                    continue
-
-                doc.append(t)
-
-            next_token()
-
-        if backwards:
-            doc = list(reversed(doc))
-
-        # Strip common indentation (the documentation itself may contain nested
-        # and thus indented blocks).
-        if doc:
-            indent = min(len(line) - len(line.lstrip())
-                         for line in doc
-                         if line.strip())
-            doc = [line[indent:] for line in doc]
-
-        return doc, annotations
+        doc = decl.p_get_documentation.splitlines()
+        annots = {a.key: self.decode_annotation(a.key, a.val)
+                  for a in decl.p_get_doc_annotations}
+        return doc, annots
 
     def run(self):
         file_name = self.arguments[0].strip()
@@ -453,7 +363,7 @@ class AutoPackage(Directive):
         decls = package_decl.f_public_part.f_decls
         types = {}
 
-        for decl in list(decls):
+        for decl in list(d for d in decls if d.is_a(lal.BasicDecl)):
             _, annotations = self.get_documentation(decl)
 
             # Skip documentation for this entity

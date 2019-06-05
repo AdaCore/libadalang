@@ -176,13 +176,30 @@ package body Libadalang.Doc_Utils is
    function Get_Documentation
      (Decl : Basic_Decl) return Doc_Type
    is
+      Doc : Doc_Type;
    begin
       if Decl.Kind in Ada_Base_Package_Decl
         and then Decl.Kind /= Ada_Generic_Package_Decl
       then
-         return Extract_Doc_From
+         --  Documentation for packages is assumed to appear before the
+         --  "package" keyword.
+         Doc := Extract_Doc_From
            (Decl.Token_Start, Backwards => True, Skip_White_Lines => -1);
+
+         --  If not found and the package is a library unit, search before the
+         --  prelude.
+         if Doc.Doc = Null_XString and then Decl.P_Is_Unit_Root then
+            Doc := Extract_Doc_From
+              (Decl.Unit.Root.Token_Start,
+               Backwards => True,
+               Skip_White_Lines => -1);
+         end if;
+
+         return Doc;
+
       else
+         --  Documentation for all other entities is assumed to appear after the
+         --  node representing the entity.
          return Extract_Doc_From
            (Decl.Token_End, Backwards => False, Skip_White_Lines => 1);
       end if;

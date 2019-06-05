@@ -70,8 +70,8 @@ is
    use Libadalang.Doc_Utils;
    Decl : constant Libadalang.Analysis.Basic_Decl
      := Wrap_Node (Node).As_Basic_Decl;
-   Doc : Doc_Type := Get_Documentation (Decl);
-   Ret : Character_Type_Array_Access
+   Doc  : Doc_Type := Get_Documentation (Decl);
+   Ret  : Character_Type_Array_Access
      := Create_Character_Type_Array (Doc.Doc.Length);
 begin
    Ret.Items := Doc.Doc.To_String;
@@ -89,11 +89,11 @@ is
    use Libadalang.Doc_Utils;
    Decl : constant Libadalang.Analysis.Basic_Decl
      := Wrap_Node (Node).As_Basic_Decl;
-   Doc : Doc_Type := Get_Documentation (Decl);
-   Ret : Internal_Doc_Annotation_Array_Access
+   Doc  : Doc_Type := Get_Documentation (Decl);
+   Ret  : Internal_Doc_Annotation_Array_Access
      := Create_Internal_Doc_Annotation_Array
           (Natural (Doc.Annotations.Length));
-   Idx : Positive := 1;
+   Idx  : Positive := 1;
 begin
    for El in Doc.Annotations.Iterate loop
       declare

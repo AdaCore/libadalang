@@ -103,7 +103,7 @@ package body Libadalang.Doc_Utils is
                T := T.Slice (3, T.Length);
 
                --  If this is an annotation then
-               if T.Starts_With ("%")  then
+               if T.Starts_With ("%") then
                   declare
                      --  Try to split on the ":"
                      X : XString_Array := T.Split (":");

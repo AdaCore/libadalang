@@ -1033,9 +1033,9 @@ class BasicDecl(AdaNode):
 
             --% [annotation_name]: [annotation]
 
-        ALPHA! NOTE: For the moment, this function uses very simple hard-coded
-        heuristics. It is not configurable, and thus not usable with every
-        coding style.
+        .. ATTENTION:: This is an experimental feature, so even if it is
+           exposed to allow experiments, it is totally unsupported and the API
+           and behavior are very likely to change in the future.
         """
         pass
 
@@ -1045,9 +1045,9 @@ class BasicDecl(AdaNode):
         """
         Return the documentation associated with this decl.
 
-        ALPHA! NOTE: For the moment, this function uses very simple hard-coded
-        heuristics. It is not configurable, and thus not usable with every
-        coding style.
+        .. ATTENTION:: This is an experimental feature, so even if it is
+           exposed to allow experiments, it is totally unsupported and the API
+           and behavior are very likely to change in the future.
         """
         pass
 

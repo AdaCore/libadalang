@@ -109,6 +109,8 @@ package body Libadalang.Doc_Utils is
 
             when Ada_Comment =>
                T := To_XString (Text (Tok));
+
+               --  Strip the "--" from the comment
                T := T.Slice (3, T.Length);
 
                --  If this is an annotation then

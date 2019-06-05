@@ -108,7 +108,7 @@ package body Libadalang.Doc_Utils is
                      --  Try to split on the ":"
                      X : XString_Array := T.Split (":");
                      K : Wide_Wide_String :=
-                       X (1).Slice (3, X (1).Length).To_String;
+                       X (1).Slice (2, X (1).Length).Trim.To_String;
                      --      ^ Strip % prefix
                      V : Wide_Wide_String := X (2).Trim.To_String;
                   begin

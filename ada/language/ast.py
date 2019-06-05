@@ -1012,8 +1012,8 @@ class DocAnnotation(Struct):
     """
     Documentation annotation.
     """
-    key = UserField(T.String)
-    val = UserField(T.String)
+    key = UserField(T.String, doc="Annotation key")
+    val = UserField(T.String, doc="Annotation value")
 
 
 @abstract

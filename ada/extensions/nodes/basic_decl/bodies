@@ -60,11 +60,11 @@ begin
    return To_Wide_Wide_String (Ret);
 end Bare_Basic_Decl_Short_Image;
 
--------------------------
--- P_Get_Documentation --
--------------------------
+-----------
+-- P_Doc --
+-----------
 
-function P_Get_Documentation
+function P_Doc
   (Node : access Bare_Basic_Decl_Type'Class) return Character_Type_Array_Access
 is
    use Libadalang.Doc_Utils;
@@ -76,13 +76,13 @@ is
 begin
    Ret.Items := Doc.Doc.To_String;
    return Ret;
-end P_Get_Documentation;
+end P_Doc;
 
----------------------------
--- P_Get_Doc_Annotations --
----------------------------
+-----------------------
+-- P_Doc_Annotations --
+-----------------------
 
-function P_Get_Doc_Annotations
+function P_Doc_Annotations
   (Node : access Bare_Basic_Decl_Type'Class)
   return Internal_Doc_Annotation_Array_Access
 is
@@ -113,4 +113,4 @@ begin
       end;
    end loop;
    return Ret;
-end P_Get_Doc_Annotations;
+end P_Doc_Annotations;

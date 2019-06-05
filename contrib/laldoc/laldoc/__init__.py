@@ -96,9 +96,9 @@ class AutoPackage(Directive):
         1. the list of lines that constitutes the documentation for ``decl``;
         2. a mapping (key: string, value: string) for the parsed annotations.
         """
-        doc = decl.p_get_documentation.splitlines()
+        doc = decl.p_doc.splitlines()
         annots = {a.key: self.decode_annotation(a.key, a.val)
-                  for a in decl.p_get_doc_annotations}
+                  for a in decl.p_doc_annotations}
         return doc, annots
 
     def run(self):

@@ -30,6 +30,15 @@ package body Libadalang.Doc_Utils is
 
    use XStrings;
 
+   function Extract_Doc_From
+     (Token            : Token_Reference;
+      Backwards        : Boolean;
+      Skip_White_Lines : Integer := -1) return Doc_Type;
+   --  Extract documentation from ``Token``. If ``Backwards`` is ``True``,
+   --  then search for documentation backwards. Skip up to ``Skip_White_Lines``
+   --  white lines separating the first doc comment from ``Token``. If
+   --  ``Skip_White_Lines`` is -1, skip any number of white lines.
+
    ----------------------
    -- Extract_Doc_From --
    ----------------------

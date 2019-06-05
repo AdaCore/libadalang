@@ -7948,13 +7948,13 @@ class DefiningName(Name):
 
     @langkit_property(public=True, return_type=AdaNode.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
-    def find_all_refs_in(x=AdaNode.entity, origin=AdaNode.entity):
+    def find_all_refs_in(x=AdaNode.entity, origin=AdaNode):
         """
         Searches all references to this defining name in the given node and its
         children.
         """
         return x.children.then(
-            lambda c: c.filter(lambda n: Not(n.is_null | (n == origin)))
+            lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
             .mapcat(lambda n: Self.find_all_refs_in(n, origin))
         ).concat(If(
             (x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
@@ -7974,7 +7974,7 @@ class DefiningName(Name):
         dn = Var(Entity.canonical_part)
         return dn.filter_is_imported_by(units, True).mapcat(
             lambda u: u.root.then(
-                lambda r: dn.find_all_refs_in(r.as_entity, Entity)
+                lambda r: dn.find_all_refs_in(r.as_bare_entity, Self)
             )
         )
 

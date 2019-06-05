@@ -1026,7 +1026,7 @@ class BasicDecl(AdaNode):
     @langkit_property(public=True, external=True,
                       return_type=DocAnnotation.array,
                       uses_entity_info=False, uses_envs=False)
-    def get_doc_annotations():
+    def doc_annotations():
         """
         Return the documentation annotations associated with this decl.
         Annotations are any comment line of the form::
@@ -1041,7 +1041,7 @@ class BasicDecl(AdaNode):
 
     @langkit_property(public=True, external=True, return_type=T.String,
                       uses_entity_info=False, uses_envs=False)
-    def get_documentation():
+    def doc():
         """
         Return the documentation associated with this decl.
 

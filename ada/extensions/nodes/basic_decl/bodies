@@ -111,6 +111,7 @@ begin
          Ann.Val := DSL_Val;
          Ret.Items (Idx) := Ann;
       end;
+      Idx := Idx + 1;
    end loop;
    return Ret;
 end P_Doc_Annotations;

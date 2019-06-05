@@ -1,0 +1,24 @@
+Test that we can extract doc before the prelude
+===============================================
+
+Documentation for the package
+Bla bla bla
+
+Test that we can extract doc after the prelude
+==============================================
+
+Documentation for the package
+Bla bla bla
+
+Test annotation extraction
+==========================
+
+[<DocAnnotation key=random-annotation val=True>, <DocAnnotation key=belongs-to val=Bar>, <DocAnnotation key=other-annotation val=False>]
+This is the documentation for foo
+
+Test invalid documentation flagging
+===================================
+
+raised LIBADALANG.COMMON.PROPERTY_ERROR : Invalidly formatted documentation comment
+
+

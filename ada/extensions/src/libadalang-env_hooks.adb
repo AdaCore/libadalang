@@ -25,7 +25,6 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;       use Libadalang.Analysis;
 with Libadalang.Converters;     use Libadalang.Converters;
-with Libadalang.Implementation; use Libadalang.Implementation;
 
 package body Libadalang.Env_Hooks is
 
@@ -40,21 +39,21 @@ package body Libadalang.Env_Hooks is
    --  Helper for the environment hook to handle sub-units (separates)
 
    Text_IO        : constant Text_Type := "ada.text_io";
-   Integer_IO     : aliased constant Text_Type := "integer_io";  
+   Integer_IO     : aliased constant Text_Type := "integer_io";
    Float_IO       : aliased constant Text_Type := "float_io";
    Fixed_IO       : aliased constant Text_Type := "fixed_io";
    Decimal_IO     : aliased constant Text_Type := "decimal_io";
    Enumeration_IO : aliased constant Text_Type := "enumeration_io";
 
    Text_IO_Subpackages :
-     constant array (Positive range <>) of access constant Text_Type 
+     constant array (Positive range <>) of access constant Text_Type
        := (Integer_IO'Access, Float_IO'Access, Fixed_IO'Access,
            Decimal_IO'Access, Enumeration_IO'Access);
 
    --  The content of the following string literal has been generated running
    --  GNAT with flag -gnatS, and then post-processed by hand.
 
-   Std_Content : String :=
+   Std_Content : constant String :=
      "package Standard is" & ASCII.LF &
      "pragma Pure(Standard);" & ASCII.LF &
      "  type Boolean is (False, True);" & ASCII.LF &
@@ -186,8 +185,8 @@ package body Libadalang.Env_Hooks is
    -- Name_To_Symbols --
    ---------------------
 
-   function Name_To_Symbols 
-      (Name : access Bare_Name_Type'Class) return Symbol_Type_Array 
+   function Name_To_Symbols
+      (Name : access Bare_Name_Type'Class) return Symbol_Type_Array
    is
      (case Name.Kind is
 
@@ -229,7 +228,7 @@ package body Libadalang.Env_Hooks is
       Do_Prepare_Nameres : Boolean := True) return Internal_Unit is
    begin
       return Fetch_Unit
-        (Ctx, Name_To_Symbols (Name), 
+        (Ctx, Name_To_Symbols (Name),
          Bare_Ada_Node (Name).Unit, Kind,
          Load_If_Needed, Do_Prepare_Nameres);
    end Fetch_Unit;
@@ -307,7 +306,8 @@ package body Libadalang.Env_Hooks is
 
       for I in reverse Name'Range loop
          declare
-            Current_Name : Symbol_Type_Array := Name (Name'First .. I);
+            Current_Name : constant Symbol_Type_Array :=
+               Name (Name'First .. I);
 
             I_Kind : constant Analysis_Unit_Kind :=
               (if I = Name'Last then Kind else Unit_Specification);

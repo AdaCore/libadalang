@@ -30,8 +30,6 @@ with GNATCOLL.Locks;
 with GNATCOLL.Projects;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.GPR_Lock;
 with Libadalang.Project_Provider;
 

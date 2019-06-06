@@ -25,7 +25,6 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Wide_Wide_Characters.Handling;
 
-with Libadalang.Common; use Libadalang.Common;
 with Libadalang.Unit_Files;
 
 package body Libadalang.Auto_Provider is
@@ -102,7 +101,7 @@ package body Libadalang.Auto_Provider is
          end;
       end loop;
 
-      return R : File_Array_Access :=
+      return R : constant File_Array_Access :=
          new File_Array (1 .. Natural (Result.Length))
       do
          for Cur in Result.Iterate loop

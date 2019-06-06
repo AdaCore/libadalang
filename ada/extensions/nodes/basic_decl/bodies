@@ -68,11 +68,11 @@ function P_Doc
   (Node : access Bare_Basic_Decl_Type'Class) return Character_Type_Array_Access
 is
    use Libadalang.Doc_Utils;
-   Decl : constant Libadalang.Analysis.Basic_Decl
-     := Wrap_Node (Node).As_Basic_Decl;
-   Doc  : Doc_Type := Get_Documentation (Decl);
-   Ret  : Character_Type_Array_Access
-     := Create_Character_Type_Array (Doc.Doc.Length);
+   Decl : constant Libadalang.Analysis.Basic_Decl :=
+      Wrap_Node (Node).As_Basic_Decl;
+   Doc  : constant Doc_Type := Get_Documentation (Decl);
+   Ret  : constant Character_Type_Array_Access :=
+      Create_Character_Type_Array (Doc.Doc.Length);
 begin
    Ret.Items := Doc.Doc.To_String;
    return Ret;
@@ -84,32 +84,29 @@ end P_Doc;
 
 function P_Doc_Annotations
   (Node : access Bare_Basic_Decl_Type'Class)
-  return Internal_Doc_Annotation_Array_Access
+   return Internal_Doc_Annotation_Array_Access
 is
    use Libadalang.Doc_Utils;
    Decl : constant Libadalang.Analysis.Basic_Decl
      := Wrap_Node (Node).As_Basic_Decl;
-   Doc  : Doc_Type := Get_Documentation (Decl);
-   Ret  : Internal_Doc_Annotation_Array_Access
-     := Create_Internal_Doc_Annotation_Array
-          (Natural (Doc.Annotations.Length));
+   Doc  : constant Doc_Type := Get_Documentation (Decl);
+   Ret  : constant Internal_Doc_Annotation_Array_Access :=
+      Create_Internal_Doc_Annotation_Array
+        (Natural (Doc.Annotations.Length));
    Idx  : Positive := 1;
 begin
    for El in Doc.Annotations.Iterate loop
       declare
-         Key : Text_Type := Annotations_Maps.Key (El);
-         Val : Text_Type := Annotations_Maps.Element (El);
-         DSL_Key : Character_Type_Array_Access :=
+         Key     : constant Text_Type := Annotations_Maps.Key (El);
+         Val     : constant Text_Type := Annotations_Maps.Element (El);
+         DSL_Key : constant Character_Type_Array_Access :=
            Create_Character_Type_Array (Key'Length);
-         DSL_Val : Character_Type_Array_Access :=
+         DSL_Val : constant Character_Type_Array_Access :=
            Create_Character_Type_Array (Val'Length);
-         Ann : Internal_Doc_Annotation;
       begin
          DSL_Key.Items := Key;
          DSL_Val.Items := Val;
-         Ann.Key := DSL_Key;
-         Ann.Val := DSL_Val;
-         Ret.Items (Idx) := Ann;
+         Ret.Items (Idx) := (Key => DSL_Key, Val => DSL_Val);
       end;
       Idx := Idx + 1;
    end loop;

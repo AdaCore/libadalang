@@ -55,7 +55,72 @@ function P_Filter_Is_Imported_By
       Hash            => Hash,
       Equivalent_Keys => "=");
 
-   Target              : constant Internal_Unit := Node.Unit;
+   Context : constant Internal_Context := Node.Unit.Context;
+
+   Ada_Text_IO_Symbol_Array : constant Internal_Symbol_Type_Array :=
+     (1 => Lookup_Symbol (Context, "ada"),
+      2 => Lookup_Symbol (Context, "text_io"));
+
+   Ada_Text_IO_Special_Packages : constant Internal_Symbol_Type_Array :=
+     (Lookup_Symbol (Context, "integer_io"),
+      Lookup_Symbol (Context, "modular_io"),
+      Lookup_Symbol (Context, "float_io"),
+      Lookup_Symbol (Context, "fixed_io"),
+      Lookup_Symbol (Context, "decimal_io"),
+      Lookup_Symbol (Context, "enumeration_io"));
+
+   function Is_Special_Unit_Name
+     (Symbols : Internal_Symbol_Type_Array) return Boolean;
+   --  Return True iff the given name (as an array of symbols) matches
+   --  the name of one of those special units:
+   --  Ada.Text_IO.{Integer_IO, Modular_IO, Float_IO, Fixed_IO,
+   --               Decimal_IO, Enumeration_IO}
+   --  See `Actual_Target` to find out why these are considered special.
+
+   function Is_Special_Unit_Name
+     (Symbols : Internal_Symbol_Type_Array) return Boolean is
+   begin
+      --  Check that `Symbols` is of the form ("ada", "text_io", "xxx_io")
+      --  with xxx_io being the name of one of the special packages.
+      return Symbols'Length = 3 and then
+             Symbols (1 .. 2) = Ada_Text_IO_Symbol_Array and then
+             (for some Special_Package_Name of Ada_Text_IO_Special_Packages =>
+                Symbols (3) = Special_Package_Name);
+   end Is_Special_Unit_Name;
+
+   function Actual_Target return Internal_Unit;
+   --  There are special packages in the Ada runtime that are handled
+   --  in an ad-hoc way by GNAT: they are viewed as nested packages of
+   --  Ada.Text_IO by the users but are actually written as *child* packages
+   --  of Ada.Text_IO.
+   --  This procedure checks whether the given target is not one of those and
+   --  if it is, it modifies the target so it points to the unit defining
+   --  Ada.Text_IO instead, which allows the correct behavior of this whole
+   --  routine.
+
+   function Actual_Target return Internal_Unit is
+      Target : constant Internal_Unit := Node.Unit;
+      T_Root : constant Bare_Ada_Node := Root (Target);
+   begin
+      if T_Root /= null and then T_Root.Kind = Ada_Compilation_Unit then
+         declare
+            Qualified_Name : constant Internal_Symbol_Type_Array :=
+               Bare_Compilation_Unit
+                 (T_Root).P_Syntactic_Fully_Qualified_Name.Items;
+         begin
+            if Is_Special_Unit_Name (Qualified_Name) then
+               return Libadalang.Env_Hooks.Fetch_Unit
+                 (Context,
+                  Libadalang.Env_Hooks.Symbol_Type_Array
+                    (Ada_Text_IO_Symbol_Array),
+                  Node.Unit, Unit_Specification, True, False);
+            end if;
+         end;
+      end if;
+      return Target;
+   end Actual_Target;
+
+   Target              : constant Internal_Unit := Actual_Target;
    Units_Import_Target : Analysis_Unit_Maps.Map;
 
    function Does_Import_Target (From : in Internal_Unit) return Boolean;

@@ -60,8 +60,9 @@ package Libadalang.Doc_Utils is
      (Text_Type, Text_Type, Ada.Strings.Wide_Wide_Hash, "=");
 
    type Doc_Type is record
-      Doc         : XStrings.XString;
+      Doc : XStrings.XString;
       --  Documentation, where every line is concatenated as one XString
+
       Annotations : Annotations_Maps.Map;
       --  Annotations, as a key-value map of strings
    end record;

@@ -52,6 +52,8 @@ package Libadalang.Doc_Utils is
    --  Type representing the documentation of an entity
 
    function Get_Documentation (Decl : Basic_Decl) return Doc_Type;
-   --  Return the documentation for given Basic_Decl
+   --  Return the documentation for given Basic_Decl.
+   --
+   --  Will raise a ``Property_Error`` if the doc is incorrectly formatted.
 
 end Libadalang.Doc_Utils;

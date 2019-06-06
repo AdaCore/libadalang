@@ -1033,6 +1033,8 @@ class BasicDecl(AdaNode):
 
             --% [annotation_name]: [annotation]
 
+        Raises a property error if the doc is incorrectly formatted.
+
         .. ATTENTION:: This is an experimental feature, so even if it is
            exposed to allow experiments, it is totally unsupported and the API
            and behavior are very likely to change in the future.
@@ -1043,7 +1045,8 @@ class BasicDecl(AdaNode):
                       uses_entity_info=False, uses_envs=False)
     def doc():
         """
-        Return the documentation associated with this decl.
+        Return the documentation associated with this decl. Raises a property
+        error if the doc is incorrectly formatted.
 
         .. ATTENTION:: This is an experimental feature, so even if it is
            exposed to allow experiments, it is totally unsupported and the API

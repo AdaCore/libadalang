@@ -365,8 +365,8 @@ class AutoPackage(Directive):
         # Go through all declarations that appear in the top-level package and
         # organize them in sections the way we want to document them.
 
-        decls = list(d for d in package_decl.f_public_part.f_decls
-                     if d.is_a(lal.BasicDecl))
+        decls = [d for d in package_decl.f_public_part.f_decls
+                 if d.is_a(lal.BasicDecl)]
 
         types = {}
 

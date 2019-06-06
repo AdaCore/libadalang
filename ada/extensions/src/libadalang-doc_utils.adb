@@ -38,6 +38,8 @@ package body Libadalang.Doc_Utils is
    --  then search for documentation backwards. Skip up to ``Skip_White_Lines``
    --  white lines separating the first doc comment from ``Token``. If
    --  ``Skip_White_Lines`` is -1, skip any number of white lines.
+   --
+   --  Will raise a ``Property_Error`` if the doc is incorrectly formatted.
 
    ----------------------
    -- Extract_Doc_From --

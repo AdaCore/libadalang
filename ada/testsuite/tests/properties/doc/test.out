@@ -13,8 +13,12 @@ Bla bla bla
 Test annotation extraction
 ==========================
 
-[<DocAnnotation key=random-annotation val=True>, <DocAnnotation key=belongs-to val=Bar>, <DocAnnotation key=other-annotation val=False>]
 This is the documentation for foo
+
+Annotations:
+  * random-annotation = True
+  * belongs-to = Bar
+  * other-annotation = False
 
 Test invalid documentation flagging
 ===================================
@@ -22,3 +26,4 @@ Test invalid documentation flagging
 raised LIBADALANG.COMMON.PROPERTY_ERROR : Invalidly formatted documentation comment
 
 
+test.py: done

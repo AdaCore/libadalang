@@ -96,9 +96,14 @@ class AutoPackage(Directive):
         1. the list of lines that constitutes the documentation for ``decl``;
         2. a mapping (key: string, value: string) for the parsed annotations.
         """
-        doc = decl.p_doc.splitlines()
-        annots = {a.key: self.decode_annotation(a.key, a.val)
-                  for a in decl.p_doc_annotations}
+        try:
+            doc = decl.p_doc.splitlines()
+            annots = {a.key: self.decode_annotation(a.key, a.val)
+                      for a in decl.p_doc_annotations}
+        except lal.PropertyError:
+            self.warn('Badly formatted doc for {}'.format(decl.entity_repr))
+            return [], {}
+
         return doc, annots
 
     def run(self):

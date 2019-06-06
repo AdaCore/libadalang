@@ -25,8 +25,6 @@ with Ada.Wide_Wide_Characters.Handling;
 
 with Interfaces; use Interfaces;
 
-with Libadalang.Common;
-
 package body Libadalang.Sources is
 
    ---------------------

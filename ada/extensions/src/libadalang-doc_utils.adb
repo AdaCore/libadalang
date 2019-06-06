@@ -55,6 +55,10 @@ package body Libadalang.Doc_Utils is
       T   : XStrings.XString;
       LF  : constant Wide_Wide_Character := To_Wide_Wide_Character (ASCII.LF);
 
+      procedure Next_Token;
+      --  Set Tok to the token after it (if Backwards is False) or to the token
+      --  before it (if Backwards it True).
+
       procedure Next_Token is
       begin
          if Backwards then

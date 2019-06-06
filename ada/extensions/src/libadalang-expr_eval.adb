@@ -41,11 +41,16 @@ package body Libadalang.Expr_Eval is
    function Create_Int_Result
      (Expr_Type  : LAL.Base_Type_Decl;
       Value      : Big_Integer) return Eval_Result;
+   function Create_Int_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Integer) return Eval_Result;
+   --  Helpers to create Eval_Result values to wrap integers
 
    function Create_Real_Result
      (Expr_Type  : LAL.Base_Type_Decl;
       Value      : Long_Float) return Eval_Result
    is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
+   --  Helper to create Eval_Result values to wrap real numbers
 
    function Copy (Result : Eval_Result) return Eval_Result;
 
@@ -137,6 +142,16 @@ package body Libadalang.Expr_Eval is
 
    function Expr_Eval (E : LAL.Expr) return Eval_Result is
 
+      type Range_Attr is (Range_First, Range_Last);
+      --  Reference to either the 'First or the 'Last attribute
+
+      function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result;
+      --  Helper to evaluate the value associated to a declaration
+
+      function Eval_Range_Attr
+        (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
+      --  Helper to evaluate a 'First or 'Last attribute reference
+
       ---------------
       -- Eval_Decl --
       ---------------
@@ -174,7 +189,9 @@ package body Libadalang.Expr_Eval is
          end case;
       end Eval_Decl;
 
-      type Range_Attr is (Range_First, Range_Last);
+      ---------------------
+      -- Eval_Range_Attr --
+      ---------------------
 
       function Eval_Range_Attr
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result is
@@ -246,9 +263,9 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Char_Literal =>
             declare
-               Char : LAL.Char_Literal := E.As_Char_Literal;
-               X    : LAL.Basic_Decl := Char.P_Referenced_Decl_Internal
-                                          (Try_Immediate => True);
+               Char : constant LAL.Char_Literal := E.As_Char_Literal;
+               X    : constant LAL.Basic_Decl :=
+                 Char.P_Referenced_Decl_Internal (Try_Immediate => True);
             begin
                if X = No_Basic_Decl then
                   return Create_Int_Result
@@ -350,15 +367,15 @@ package body Libadalang.Expr_Eval is
                   return Eval_Range_Attr
                     (As_Ada_Node (AR.F_Prefix), Range_First);
                elsif Name = "last" then
-                   return Eval_Range_Attr
+                  return Eval_Range_Attr
                     (As_Ada_Node (AR.F_Prefix), Range_Last);
                elsif Name in "min" | "max" then
                   declare
-                     Typ : Base_Type_Decl :=
+                     Typ   : constant Base_Type_Decl :=
                        AR.F_Prefix.P_Name_Designated_Type;
-                     Val_1 : Eval_Result :=
+                     Val_1 : constant Eval_Result :=
                        Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
-                     Val_2 : Eval_Result :=
+                     Val_2 : constant Eval_Result :=
                        Expr_Eval (AR.F_Args.Child (2).As_Param_Assoc.F_R_Expr);
                   begin
                      case Val_1.Kind is
@@ -399,7 +416,7 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Call_Expr =>
             declare
-               Designated_Type : Base_Type_Decl :=
+               Designated_Type : constant Base_Type_Decl :=
                  E.As_Call_Expr.F_Name.P_Name_Designated_Type;
             begin
                if Is_Null (Designated_Type) then
@@ -407,10 +424,9 @@ package body Libadalang.Expr_Eval is
                     with "Unhandled call expr: " & E.Debug_Text;
                elsif Designated_Type.P_Is_Float_Type then
                   declare
-                     Arg_Val : Eval_Result
-                       := Expr_Eval
-                         (E.As_Call_Expr.F_Suffix.Child (1)
-                          .As_Param_Assoc.F_R_Expr);
+                     Arg_Val : constant Eval_Result := Expr_Eval
+                       (E.As_Call_Expr.F_Suffix.Child (1)
+                        .As_Param_Assoc.F_R_Expr);
                   begin
                      return Create_Real_Result
                        (Designated_Type,
@@ -418,10 +434,9 @@ package body Libadalang.Expr_Eval is
                   end;
                elsif Designated_Type.P_Is_Int_Type then
                   declare
-                     Arg_Val : Eval_Result
-                       := Expr_Eval
-                         (E.As_Call_Expr.F_Suffix.Child (1)
-                          .As_Param_Assoc.F_R_Expr);
+                     Arg_Val : constant Eval_Result := Expr_Eval
+                       (E.As_Call_Expr.F_Suffix.Child (1)
+                        .As_Param_Assoc.F_R_Expr);
                   begin
                      return Create_Int_Result
                        (Designated_Type, Integer (Arg_Val.Real_Result));

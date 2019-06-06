@@ -47,8 +47,8 @@ private package Libadalang.Env_Hooks is
       Load_If_Needed     : Boolean;
       Do_Prepare_Nameres : Boolean := True) return Internal_Unit;
    --  Fetch the unit for the file that (Name, Kind) designate. If
-   --  Do_Prepare_Nameres is set, populate its lexical environment and reference
-   --  the result from Name's unit.
+   --  Do_Prepare_Nameres is set, populate its lexical environment and
+   --  reference the result from Name's unit.
    --
    --  When Name is an illegal unit name (a call expression, for instance),
    --  this raises a Property_Error.

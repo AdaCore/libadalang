@@ -52,7 +52,7 @@ package body Libadalang.Doc_Utils is
    is
       Tok : Token_Reference := Token;
       T   : XStrings.XString;
-      LF  : Wide_Wide_Character := To_Wide_Wide_Character (ASCII.LF);
+      LF  : constant Wide_Wide_Character := To_Wide_Wide_Character (ASCII.LF);
 
       procedure Next_Token is
       begin
@@ -119,11 +119,11 @@ package body Libadalang.Doc_Utils is
                if T.Starts_With ("%") then
                   declare
                      --  Try to split on the ":"
-                     X : XString_Array := T.Split (":");
-                     K : Wide_Wide_String :=
+                     X : constant XString_Array := T.Split (":");
+                     K : constant Wide_Wide_String :=
                        X (1).Slice (2, X (1).Length).Trim.To_String;
-                     --      ^ Strip % prefix
-                     V : Wide_Wide_String := X (2).Trim.To_String;
+                     --             ^ Strip % prefix
+                     V : constant Wide_Wide_String := X (2).Trim.To_String;
                   begin
                      Ret.Annotations.Include (K, V);
                   exception
@@ -141,19 +141,18 @@ package body Libadalang.Doc_Utils is
       end loop;
 
       --  Reverse the Doc vector if lines were searched backwards
-
       if Backwards then
          Doc_Vec.Reverse_Elements;
       end if;
 
       --  Transform the doc vector into a string
       declare
-         Last_Index : Natural := Doc_Vec.Last_Index;
+         Last_Index : constant Natural := Doc_Vec.Last_Index;
 
-         First_Line : XString :=
+         First_Line : constant XString :=
            (if Last_Index /= 0 then Doc_Vec.First_Element else Null_XString);
 
-         Offset     : Positive :=
+         Offset : constant Positive :=
            First_Line.Length - First_Line.Trim.Length + 1;
          --  Offset for the first non whitespace char on the first line. Will
          --  be used as the offset to start every subsequent doc line.

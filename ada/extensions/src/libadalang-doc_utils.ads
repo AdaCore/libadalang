@@ -30,6 +30,22 @@ with GNATCOLL.Strings_Impl; use GNATCOLL.Strings_Impl;
 with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.Analysis; use Libadalang.Analysis;
 
+--  This package provides basic capability to extract documentation associated
+--  to declarations in sources files.
+--
+--  For now, it assumes that documentation is encoded in comments located near
+--  the relevant source constructs, according to the GNAT coding style.
+--
+--  It also supports specially formatted comments called annotations,
+--  interpreted as a key/value associations. Annotations are any comment line
+--  of the form::
+--
+--     --% [annotation-name]: [annotation-value]
+--
+--  .. ATTENTION:: This is an experimental feature, so even if it is exposed to
+--  allow experiments, it is totally unsupported and the API is very likely to
+--  change in the future.
+
 package Libadalang.Doc_Utils is
 
    package XStrings is

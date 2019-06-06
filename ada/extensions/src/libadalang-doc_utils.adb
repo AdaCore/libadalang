@@ -34,10 +34,11 @@ package body Libadalang.Doc_Utils is
      (Token            : Token_Reference;
       Backwards        : Boolean;
       Skip_White_Lines : Integer := -1) return Doc_Type;
-   --  Extract documentation from ``Token``. If ``Backwards`` is ``True``,
-   --  then search for documentation backwards. Skip up to ``Skip_White_Lines``
-   --  white lines separating the first doc comment from ``Token``. If
-   --  ``Skip_White_Lines`` is -1, skip any number of white lines.
+   --  Extract documentation from comments starting at ``Token``. If
+   --  ``Backwards`` is ``True``, then search for documentation backwards.
+   --  Skip up to ``Skip_White_Lines`` white lines separating the first doc
+   --  comment from ``Token``. If ``Skip_White_Lines`` is -1, skip any number
+   --  of white lines.
    --
    --  Will raise a ``Property_Error`` if the doc is incorrectly formatted.
 
@@ -74,13 +75,11 @@ package body Libadalang.Doc_Utils is
       Next_Token;
       if Skip_White_Lines /= 0 and then Kind (Data (Tok)) = Ada_Whitespace then
          if Skip_White_Lines = -1 then
-
             --  If told to skip all white lines, go ahead
 
             Next_Token;
 
          elsif Skip_White_Lines > 0 then
-
             --  If told to skip a certain number of white lines, verify that
             --  the next token indeed contains said number of white lines.
 
@@ -93,7 +92,6 @@ package body Libadalang.Doc_Utils is
       end if;
 
       --  No comment in the direction expected? There is no doc!
-
       if Kind (Data (Tok)) /= Ada_Comment then
          return Ret;
       end if;
@@ -101,7 +99,6 @@ package body Libadalang.Doc_Utils is
      --  Process as many comments as possible from our starting point,
      --  until we find an empty line or anything else than a comment or
      --  a whitespace.
-
       while Tok /= No_Token  loop
          K := Kind (Data (Tok));
          case K is
@@ -185,9 +182,7 @@ package body Libadalang.Doc_Utils is
    -- Get_Documentation --
    -----------------------
 
-   function Get_Documentation
-     (Decl : Basic_Decl) return Doc_Type
-   is
+   function Get_Documentation (Decl : Basic_Decl) return Doc_Type is
       Doc : Doc_Type;
    begin
       if Decl.Kind in Ada_Base_Package_Decl
@@ -203,15 +198,15 @@ package body Libadalang.Doc_Utils is
          if Doc.Doc = Null_XString and then Decl.P_Is_Unit_Root then
             Doc := Extract_Doc_From
               (Decl.Unit.Root.Token_Start,
-               Backwards => True,
+               Backwards        => True,
                Skip_White_Lines => -1);
          end if;
 
          return Doc;
 
       else
-         --  Documentation for all other entities is assumed to appear after the
-         --  node representing the entity.
+         --  Documentation for all other entities is assumed to appear after
+         --  the node representing the entity.
          return Extract_Doc_From
            (Decl.Token_End, Backwards => False, Skip_White_Lines => 1);
       end if;

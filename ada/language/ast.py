@@ -179,7 +179,7 @@ def new_metadata(**kwargs):
 
     for k, v in vals:
         if k not in kwargs:
-            kwargs[k] = v if not source else getattr(Entity.info.md, k)
+            kwargs[k] = v if not source else getattr(source, k)
 
     return T.Metadata.new(**kwargs)
 

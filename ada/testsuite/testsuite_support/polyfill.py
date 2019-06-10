@@ -368,7 +368,7 @@ class BaseTestsuite(object):
         # First load data provided by this testcase
         try:
             with open(os.path.join(test_dir, 'test.yaml'), 'r') as f:
-                test_data = yaml.load(f)
+                test_data = yaml.safe_load(f)
         except (IOError, yaml.error.YAMLError) as exc:
             status = 'PROBLEM'
             message = 'Invalid test.yaml: {}'.format(exc)

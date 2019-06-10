@@ -43,6 +43,7 @@ test('Test that we can extract doc after the prelude', """
 with A; use A;
 
 --  Documentation for the package
+--
 --  Bla bla bla
 
 package Foo is

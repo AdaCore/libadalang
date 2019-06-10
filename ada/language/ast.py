@@ -7950,7 +7950,7 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
-    @langkit_property(public=True, return_type=AdaNode.entity.array,
+    @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_refs_in(x=AdaNode.entity, origin=AdaNode):
         """
@@ -7964,11 +7964,11 @@ class DefiningName(Name):
             (x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
                      lambda _:        False)) &
             (x.xref._.canonical_part._.node == Self),
-            x.singleton,
-            No(AdaNode.entity.array)
+            x.cast(BaseId).singleton,
+            No(BaseId.entity.array)
         ))
 
-    @langkit_property(public=True, return_type=AdaNode.entity.array,
+    @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_references(units=AnalysisUnit.array):
         """

@@ -1,0 +1,7 @@
+Foo from test.adb is called by:
+    Z : F_T := Foo'Access; (test.adb, 17:4-17:26)
+    X := Foo; (test.adb, 19:4-19:13)
+Bar from base.ads is called by:
+    Y.Bar; (test.adb, 22:4-22:10)
+Bar from derived.ads is called by:
+Done

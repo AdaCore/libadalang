@@ -3595,7 +3595,7 @@ class PrimTypeAccessor(AdaNode):
     """
     Synthetic node wrapping around a primitive type entity. Used in metadata.
     """
-    prim_type = UserField(T.BaseTypeDecl.entity)
+    prim_type = UserField(T.BaseTypeDecl.entity, public=False)
 
     get_prim_type = Property(Self.prim_type)
 

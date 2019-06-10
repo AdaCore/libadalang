@@ -98,7 +98,7 @@ class AutoPackage(Directive):
         """
         try:
             doc = decl.p_doc.splitlines()
-            annots = {a.key: self.decode_annotation(a.key, a.val)
+            annots = {a.key: self.decode_annotation(a.key, a.value)
                       for a in decl.p_doc_annotations}
         except lal.PropertyError:
             self.warn('Badly formatted doc for {}'.format(decl.entity_repr))

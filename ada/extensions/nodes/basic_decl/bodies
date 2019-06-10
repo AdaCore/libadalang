@@ -106,7 +106,7 @@ begin
       begin
          DSL_Key.Items := Key;
          DSL_Val.Items := Val;
-         Ret.Items (Idx) := (Key => DSL_Key, Val => DSL_Val);
+         Ret.Items (Idx) := (Key => DSL_Key, Value => DSL_Val);
       end;
       Idx := Idx + 1;
    end loop;

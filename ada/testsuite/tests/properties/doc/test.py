@@ -25,7 +25,7 @@ def test(label, buffer):
     if annotations:
         print('Annotations:')
         for a in annotations:
-            print('  * {} = {}'.format(a.key, a.val))
+            print('  * {} = {}'.format(a.key, a.value))
         print()
 
 

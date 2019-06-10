@@ -7992,6 +7992,21 @@ class DefiningName(Name):
             lambda di: Entity.name.name_is(di.name_symbol)
         )
 
+    @langkit_property(public=True, return_type=T.BaseId.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_called_by(units=AnalysisUnit.array):
+        """
+        Return the list of all possible calls to the subprogram which Self is
+        the defining name of.
+
+        .. todo:: This currently only handles direct calls. Need to add support
+           for: dispatching calls, access-to-subprograms and calls done inside
+           generics.
+        """
+        return Entity.find_all_references(units).filter(
+            lambda r: r.is_call & r.referenced_decl.is_subprogram
+        )
+
     next_part = Property(
         Entity.find_matching_name(Entity.basic_decl.next_part_for_decl),
         public=True,

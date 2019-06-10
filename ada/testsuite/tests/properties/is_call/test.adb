@@ -26,8 +26,12 @@ procedure Test is
    package Pkg_I is new Pkg_G (Foo);
    package Pkg_I is new Pkg_G (Foo_I);
 
+   function Bar return Integer is (42);
+   type Fun_Type is access function return Integer;
+
    Inst : T.TT;
    R : Integer;
+   F : Fun_Type := Bar'Access;
 begin
    R := Foo (3);
    Foo_Proc;
@@ -36,4 +40,5 @@ begin
    T.Foo (Inst);
 
    R := Foo_I (3);
+   R := F.all;
 end Test;

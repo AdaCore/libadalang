@@ -8383,8 +8383,14 @@ class BaseId(SingleTokNode):
                 ))
             ), default_val=items)
         )).map(
-            lambda e: If(e.cast(T.BasicDecl).subp_spec_or_null.is_null,
-                         e, e.trigger_is_call)
+            lambda e: If(
+                Or(
+                    e.cast(T.BasicDecl).subp_spec_or_null.is_null,
+                    Entity.parent.cast(AttributeRef)._.is_access_attr
+                ),
+                e,
+                e.trigger_is_call
+            )
         )
 
     @langkit_property()

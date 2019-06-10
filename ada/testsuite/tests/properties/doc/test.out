@@ -8,6 +8,7 @@ Test that we can extract doc after the prelude
 ==============================================
 
 Documentation for the package
+
 Bla bla bla
 
 Test annotation extraction

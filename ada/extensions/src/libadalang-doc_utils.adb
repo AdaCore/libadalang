@@ -166,7 +166,11 @@ package body Libadalang.Doc_Utils is
 
                --  Check that every character we're going to strip is a white
                --  space; else, raise an error.
-               if not (for all C of L.Slice (1, Offset - 1) => Is_Space (C))
+               if not L.Is_Empty
+                 and then
+                 (Offset > L.Length
+                  or else
+                    not (for all C of L.Slice (1, Offset - 1) => Is_Space (C)))
                then
                   raise Property_Error
                     with "Invalidly formatted documentation comment";

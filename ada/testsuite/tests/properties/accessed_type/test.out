@@ -1,0 +1,11 @@
+== test.adb ==
+<TypeDecl ["A"] test.adb:2:4-2:33>:
+  accessed type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+<TypeDecl ["B"] test.adb:4:4-5:38>:
+  accessed type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+<AnonymousTypeDecl ["None"] test.adb:4:16-4:30>:
+  accessed type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+<AnonymousTypeDecl ["None"] test.adb:7:8-7:23>:
+  accessed type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Done

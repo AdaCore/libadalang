@@ -2855,8 +2855,12 @@ class BaseTypeDecl(BasicDecl):
 
     is_not_null_char_type = Property(Not(Self.is_null) & Entity.is_char_type)
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[default_origin()], public=True)
     def accessed_type():
+        """
+        If this type is an access type, or a type with an Implicit_Dereference
+        aspect, return the type of a dereference of an instance of this type.
+        """
         return No(T.BaseTypeDecl.entity)
 
     @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)

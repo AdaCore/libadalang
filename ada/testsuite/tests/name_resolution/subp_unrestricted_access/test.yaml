@@ -1,2 +1,3 @@
 driver: name-resolution
 input_sources: [test.adb]
+expect_failure: Waiting for resolution of S611-004

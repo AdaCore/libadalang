@@ -81,18 +81,17 @@ file. Here is how you can parse the resulting file with Libadalang.
     with Libadalang.Analysis;  use Libadalang.Analysis;
 
     procedure Main is
-       Ctx  : Analysis_Context := Create;
-       Unit : Analysis_Unit := Get_From_File (Ctx, "test.adb");
+       Ctx  : Analysis_Context := Create_Context;
+       Unit : Analysis_Unit := Ctx.Get_From_File ("test.adb");
     begin
-       Print (Unit);
-       Destroy (Ctx);
+       Unit.Print;
        Put_Line ("Done.");
     end Main;
 
 This snippet will create an analysis context, which usually corresponds to the
 context of your whole analysis - be it just one file, a whole project, or
 several projects - and parse our Ada file and return the resulting analysis
-unit instance. Calling the ``Print`` procedure on the instance will dump the
+unit instance. Calling the ``Print`` primitive on the instance will dump the
 resulting tree.
 
 .. code::
@@ -124,14 +123,13 @@ accessors.
     with Libadalang.Analysis;  use Libadalang.Analysis;
 
     procedure Main is
-       Ctx  : Analysis_Context := Create;
-       Unit : Analysis_Unit    := Get_From_File (Ctx, "test.adb");
-       CU   : Compilation_Unit := Root (Unit).As_Compilation_Unit;
+       Ctx  : Analysis_Context := Create_Context;
+       Unit : Analysis_Unit    := Ctx.Get_From_File ("test.adb");
+       CU   : Compilation_Unit := Unit.Root.As_Compilation_Unit;
        Bod  : Library_Item     := CU.F_Body.As_Library_Item;
        Subp : Subp_Body        := Bod.F_Item.As_Subp_Body;
     begin
        Subp.Print;
-       Destroy (Ctx);
     end Main;
 
 This code will access the ``Subp_Body`` node of the Test subprogram that

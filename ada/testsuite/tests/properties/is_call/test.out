@@ -1,61 +1,52 @@
 == test.adb ==
-Is call    Entity
---------------------------------------------------
-NO         <Id "Integer" test.adb:2:22-2:29>
-NO         <Id "Integer" test.adb:2:38-2:45>
-NO         <Int test.adb:2:50-2:52>
-NO         <EndName test.adb:6:8-6:16>
-NO         <Id "Foo_Proc" test.adb:6:8-6:16>
-NO         <Id "TT" test.adb:10:29-10:31>
-NO         <EndName test.adb:11:8-11:9>
-NO         <Id "T" test.adb:11:8-11:9>
-NO         <Id "Integer" test.adb:15:24-15:31>
-NO         <Id "Integer" test.adb:15:40-15:47>
-NO         <Id "Integer" test.adb:17:24-17:31>
-NO         <Id "Integer" test.adb:17:40-17:47>
-NO         <Int test.adb:17:52-17:54>
-NO         <Id "Foo_G" test.adb:19:26-19:31>
-NO         <Id "Integer" test.adb:19:33-19:40>
-NO         <Id "Integer" test.adb:22:28-22:35>
-NO         <Id "Integer" test.adb:22:44-22:51>
-NO         <EndName test.adb:24:8-24:13>
-NO         <Id "Pkg_G" test.adb:24:8-24:13>
-NO         <Id "Pkg_G" test.adb:26:25-26:30>
-NO         <Id "Foo" test.adb:26:32-26:35>
-NO         <Id "Pkg_G" test.adb:27:25-27:30>
-NO         <Id "Foo_I" test.adb:27:32-27:37>
-NO         <Id "Integer" test.adb:29:24-29:31>
-NO         <Int test.adb:29:36-29:38>
-NO         <Id "Integer" test.adb:30:44-30:51>
-NO         <DottedName test.adb:32:11-32:15>
-NO         <Id "T" test.adb:32:11-32:12>
-NO         <Id "TT" test.adb:32:13-32:15>
-NO         <Id "Integer" test.adb:33:8-33:15>
-NO         <Id "Fun_Type" test.adb:34:8-34:16>
-NO         <AttributeRef test.adb:34:20-34:30>
-NO         <Id "Bar" test.adb:34:20-34:23>
-NO         <Id "Access" test.adb:34:24-34:30>
-NO         <Id "R" test.adb:36:4-36:5>
-YES        <CallExpr test.adb:36:9-36:16>
-YES        <Id "Foo" test.adb:36:9-36:12>
-NO         <Int test.adb:36:14-36:15>
-YES        <Id "Foo_Proc" test.adb:37:4-37:12>
-YES        <DottedName test.adb:39:4-39:12>
-NO         <Id "Inst" test.adb:39:4-39:8>
-YES        <Id "Foo" test.adb:39:9-39:12>
-YES        <CallExpr test.adb:40:4-40:16>
-YES        <DottedName test.adb:40:4-40:9>
-NO         <Id "T" test.adb:40:4-40:5>
-YES        <Id "Foo" test.adb:40:6-40:9>
-NO         <Id "Inst" test.adb:40:11-40:15>
-NO         <Id "R" test.adb:42:4-42:5>
-YES        <CallExpr test.adb:42:9-42:18>
-YES        <Id "Foo_I" test.adb:42:9-42:14>
-NO         <Int test.adb:42:16-42:17>
-NO         <Id "R" test.adb:43:4-43:5>
-NO         <ExplicitDeref test.adb:43:9-43:14>
-NO         <Id "F" test.adb:43:9-43:10>
-NO         <EndName test.adb:44:5-44:9>
-NO         <Id "Test" test.adb:44:5-44:9>
+
+   R := Foo (3);
+        ^^^^^^^
+   R := Foo (3);
+        ^^^
+   Foo_Proc;
+   ^^^^^^^^
+   Inst.Foo;
+   ^^^^^^^^
+   Inst.Foo;
+        ^^^
+   T.Foo (Inst);
+   ^^^^^^^^^^^^
+   T.Foo (Inst);
+   ^^^^^
+   T.Foo (Inst);
+     ^^^
+   R := Bar;
+        ^^^
+   R := Foo_I (3);
+        ^^^^^^^^^
+   R := Foo_I (3);
+        ^^^^^
+   R := Get_Ptr (2).all;
+        ^^^^^^^^^^^^^^^
+   R := Get_Ptr (2).all;
+        ^^^^^^^^^^^
+   R := Get_Ptr (2).all;
+        ^^^^^^^
+   R := Get_Fun (4)(2);
+        ^^^^^^^^^^^^^^
+   R := Get_Fun (4)(2);
+        ^^^^^^^^^^^
+   R := Get_Fun (4)(2);
+        ^^^^^^^
+   R := Get_Fun_2 (4);
+        ^^^^^^^^^^^^^
+   R := Get_Fun_2 (4);
+        ^^^^^^^^^
+   R := Get_Fun_2.all (4);
+        ^^^^^^^^^^^^^^^^^
+   R := Get_Fun_2.all (4);
+        ^^^^^^^^^^^^^
+   R := Get_Fun_2.all (4);
+        ^^^^^^^^^
+   R := Get_Fun_3.all;
+        ^^^^^^^^^^^^^
+   R := Get_Fun_3.all;
+        ^^^^^^^^^
 
 Done

@@ -5704,14 +5704,32 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def renamed_package():
+        """
+        Return the declaration of the package that is renamed by Self.
+        """
+        return env.bind(
+            Entity.node_env,
+            Entity.renames.renamed_object.env_elements.at(0)._.cast(BasicDecl)
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def final_renamed_package():
+        """
+        Return the declaration of the package that is ultimately renamed by
+        Self, skipping through all intermediate package renamings.
+        """
+        pkg = Var(Entity.renamed_package)
+        return pkg.cast(PackageRenamingDecl).then(
+            lambda r: r.final_renamed_package,
+            default_val=pkg
+        )
+
     env_spec = child_unit(Entity.name_symbol, Self.name.parent_scope)
 
     defining_names = Property(Entity.name.singleton)
-    defining_env = Property(env.bind(
-        Entity.node_env,
-        Entity.renames.renamed_object.env_elements.at(0)
-        ._.cast(BasicDecl).defining_env
-    ))
+    defining_env = Property(Entity.renamed_package.defining_env)
 
     xref_entry_point = Property(True)
     xref_equation = Property(
@@ -8201,7 +8219,7 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property(dynamic_vars=[env, origin])
-    def pkg_env(pkg=T.BasicDecl.entity):
+    def pkg_env(from_pkg=T.BasicDecl.entity):
         """
         Return the lexical environment for this identifier, should it be a
         package. This method handles resolving to the most visible part of a
@@ -8211,6 +8229,11 @@ class BaseId(SingleTokNode):
         instantiation coming from a rebound formal package, and that we need
         visibility on the formals.
         """
+
+        pkg = Var(from_pkg.cast(PackageRenamingDecl).then(
+            lambda r: r.final_renamed_package,
+            default_val=from_pkg
+        ))
 
         bd = Var(
             # If pkg is a generic package (non instantiated) and it is
@@ -8222,7 +8245,7 @@ class BaseId(SingleTokNode):
             pkg.unshed_rebindings(Entity.info.rebindings)
         )
         is_inst_from_formal = Var(pkg.is_a(T.GenericPackageInstantiation) &
-                                  pkg.info.from_rebound)
+                                  from_pkg.info.from_rebound)
 
         env = Var(If(
             bd.is_a(T.GenericPackageInstantiation) & is_inst_from_formal,

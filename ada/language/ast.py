@@ -407,7 +407,7 @@ class AdaNode(ASTNode):
         success = Var(If(
             try_immediate & Not(lvar.get_value.is_null),
             True,
-            from_node.parents.find(lambda p: p.xref_entry_point).resolve_names
+            from_node.resolve_names_from_closest_entry_point
         ))
 
         return LogicValResult.new(success=success, value=If(
@@ -546,6 +546,10 @@ class AdaNode(ASTNode):
             Entity.children_env,
             bind_origin(Self, Entity.resolve_names_internal(True, LogicTrue()))
         )
+
+    resolve_names_from_closest_entry_point = Property(
+        Entity.parents.find(lambda p: p.xref_entry_point).resolve_names
+    )
 
     # TODO: Navigation properties are not ready to deal with units containing
     # multiple packages.
@@ -6585,8 +6589,7 @@ class Name(Expr):
         """
         return And(
             Not(Entity.is_defining),
-            imprecise_fallback.bind(False,
-                                    Entity.referenced_decl.info.md.is_call)
+            Not(Entity.called_subp_spec.is_null)
         )
 
     @langkit_property(public=True, return_type=T.Bool,
@@ -6714,7 +6717,10 @@ class Name(Expr):
                 lambda ce=T.CallExpr:
                 ce.as_entity.subscriptable_type_equation(typ),
 
-                lambda ed=T.ExplicitDeref: ed.as_entity.eq_for_type(typ),
+                lambda ed=T.ExplicitDeref:
+                ed.as_entity.eq_for_type(typ)
+                & Bind(Self.subp_spec_var,
+                       typ.access_def.cast(AccessToSubpDef)._.subp_spec),
 
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
@@ -6812,6 +6818,41 @@ class Name(Expr):
         The dotted name's ref var is the one of the SingleTokNode B.
         """
         pass
+
+    @langkit_property(kind=AbstractKind.abstract_runtime_check,
+                      return_type=LogicVar)
+    def subp_spec_var():
+        """
+        This logic variable holds the specification of the subprogram or
+        subprogram access that is being called by this exact Name.
+        """
+        pass
+
+    @langkit_property(return_type=T.Bool)
+    def defines_subp_spec_var():
+        # A null logic variable could have been used instead of this additional
+        # property to indicate that an AST node does not define subp_spec_var.
+        # Unfortunately, No(LogicVar) is not a valid dsl expression. Therefore,
+        # we provide a default implementation for this property, which is then
+        # overriden in relevant child classes to indicate that one can call
+        # p_subp_spec_var.
+        return False
+
+    @langkit_property(public=True, return_type=T.BaseFormalParamHolder.entity)
+    def called_subp_spec():
+        """
+        Return the subprogram specification of the subprogram or subprogram
+        access that is being called by this exact Name, if relevant.
+        """
+        return If(
+            Self.defines_subp_spec_var,
+            Let(
+                lambda _=Entity.resolve_names_from_closest_entry_point:
+                Self.subp_spec_var.get_value
+                .cast_or_raise(BaseFormalParamHolder)
+            ),
+            No(BaseFormalParamHolder.entity)
+        )
 
     @langkit_property(public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -7243,6 +7284,11 @@ class CallExpr(Name):
 
     ref_var = Property(Self.name.ref_var)
 
+    r_called_spec = UserField(LogicVar, public=False)
+
+    subp_spec_var = Property(Self.r_called_spec)
+    defines_subp_spec_var = Property(True)
+
     relative_name = Property(Entity.name.relative_name)
 
     @langkit_property()
@@ -7521,6 +7567,8 @@ class CallExpr(Name):
             # subprogram.
             TypeBind(Self.type_var, subp_spec.return_type)
 
+            & Bind(Self.subp_spec_var, subp_spec)
+
             # For each parameter, the type of the expression matches
             # the expected type for this subprogram.
             & subp_spec.match_param_list(
@@ -7719,6 +7767,11 @@ class ExplicitDeref(Name):
     prefix = Field(type=T.Name)
     ref_var = Property(Self.prefix.ref_var)
 
+    r_called_spec = UserField(LogicVar, public=False)
+
+    subp_spec_var = Property(Self.r_called_spec)
+    defines_subp_spec_var = Property(True)
+
     relative_name = Property(Entity.prefix.relative_name)
 
     @langkit_property()
@@ -7765,10 +7818,10 @@ class ExplicitDeref(Name):
                 & Bind(Self.ref_var, Self.prefix.ref_var)
                 & Entity.eq_for_type(typ)
                 & typ.access_def.cast(AccessToSubpDef).then(
-                    lambda _: Self.parent_name(root).as_entity.then(
+                    lambda ad: Self.parent_name(root).as_entity.then(
                         lambda pn: pn.parent_name_equation(typ, root),
                         default_val=LogicTrue()
-                    ),
+                    ) & Bind(Self.subp_spec_var, ad.subp_spec),
                     default_val=Self.parent_name(root).as_entity.then(
                         lambda pn: pn.parent_name_equation(
                             typ.accessed_type, root
@@ -7906,6 +7959,11 @@ class SingleTokNode(Name):
     """
 
     ref_var = Property(Self.r_ref_var)
+
+    r_called_spec = UserField(LogicVar, public=False)
+
+    subp_spec_var = Property(Self.r_called_spec)
+    defines_subp_spec_var = Property(True)
 
     sym = Property(
         Self.symbol, doc="Shortcut to get the symbol of this node"
@@ -8405,6 +8463,9 @@ class BaseId(SingleTokNode):
             Self.ref_var.domain(env_els)
             & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type,
                    eq_prop=BaseTypeDecl.matching_type)
+
+            & Bind(Self.ref_var, Self.subp_spec_var,
+                   conv_prop=BasicDecl.subp_spec_or_null)
         )
 
 
@@ -9669,6 +9730,9 @@ class DottedName(Name):
     prefix = Field(type=T.Name)
     suffix = Field(type=T.BaseId)
     ref_var = Property(Self.suffix.ref_var)
+
+    subp_spec_var = Property(Self.suffix.subp_spec_var)
+    defines_subp_spec_var = Property(True)
 
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def complete():

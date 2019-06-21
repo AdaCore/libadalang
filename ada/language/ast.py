@@ -7586,7 +7586,7 @@ class CallExpr(Name):
 
             Entity.parent.cast(T.CallExpr).then(
                 lambda ce: ce.check_for_type(
-                    bind_origin(Self, typ.expr_type)
+                    bind_origin(Self, typ.comp_type(True))
                 ), default_val=True
             )
         )))

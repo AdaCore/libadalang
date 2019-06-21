@@ -4,7 +4,7 @@ Analyzing test.adb
 Pouet (5) resolves to:
     function Pouet return Int_Array_Array is (A);
 Pouet (5) (5) (5) resolves to:
-    function Pouet return Int_Array_Array is (A);
+    <none>
 Pouet (5) (5) resolves to:
     function Pouet return Int_Array_Array is (A);
 Resolving xrefs for node <AssignStmt test.adb:20:4-20:15>

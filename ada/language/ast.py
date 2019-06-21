@@ -6583,6 +6583,17 @@ class Name(Expr):
         return Self.name_symbol.then(lambda ns: ns == sym)
 
     @langkit_property(public=True, return_type=T.Bool)
+    def is_direct_call():
+        """
+        Return True iff this name represents a call to a statically known
+        subprogram (i.e. not through a subprogram access).
+        """
+        return And(
+            Entity.is_call,
+            Not(Entity.called_subp_spec.parent.is_a(AccessToSubpDef))
+        )
+
+    @langkit_property(public=True, return_type=T.Bool)
     def is_call():
         """
         Returns True if this Name corresponds to a call.
@@ -7200,7 +7211,7 @@ class Name(Expr):
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "dispatching call".
         """
-        return Entity.is_call & Let(
+        return Entity.is_direct_call & Let(
             lambda
             decl=Entity.referenced_decl,
 
@@ -7236,7 +7247,7 @@ class Name(Expr):
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "static call".
         """
-        return Entity.is_call & Not(Entity.is_dispatching_call)
+        return Entity.is_direct_call & Not(Entity.is_dispatching_call)
 
     @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():

@@ -174,7 +174,6 @@ def new_metadata(**kwargs):
         ("primitive", No(T.AdaNode)),
         ("primitive_real_type", No(T.AdaNode)),
         ("access_entity", False),
-        ("is_call", False),
     ]
 
     for k, v in vals:
@@ -193,10 +192,6 @@ class Metadata(Struct):
     access_entity = UserField(
         Bool,
         doc="Whether the accessed entity is an anonymous access to it or not."
-    )
-    is_call = UserField(
-        Bool,
-        doc="Whether the entity represents a call in the original context"
     )
     primitive = UserField(
         T.AdaNode,
@@ -301,21 +296,6 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(return_type=T.AdaNode.entity)
-    def trigger_is_call(val=(Bool, True)):
-        """
-        Return Self as an entity, but with the ``is_call`` md field set to
-        ``val``.
-        """
-        return AdaNode.entity.new(
-            node=Entity.node,
-            info=T.entity_info.new(
-                rebindings=Entity.info.rebindings,
-                md=new_metadata(source=Entity.info.md, is_call=val),
-                from_rebound=Entity.info.from_rebound
-            )
-        )
-
     @langkit_property(public=True, return_type=T.DefiningName.entity,
                       dynamic_vars=[default_imprecise_fallback()])
     def xref():
@@ -367,9 +347,7 @@ class AdaNode(ASTNode):
                     # its rebindings.
                     rebindings=x.info.rebindings.get_parent,
                     from_rebound=x.info.from_rebound,
-                    md=new_metadata(
-                        is_call=x.info.md.is_call
-                    )
+                    md=new_metadata()
                 )
             ),
             lambda _: x
@@ -8457,16 +8435,7 @@ class BaseId(SingleTokNode):
                     lambda _: False
                 ))
             ), default_val=items)
-        )).map(
-            lambda e: If(
-                Or(
-                    e.cast(T.BasicDecl).subp_spec_or_null.is_null,
-                    Entity.parent.cast(AttributeRef)._.is_access_attr
-                ),
-                e,
-                e.trigger_is_call
-            )
-        )
+        ))
 
     @langkit_property()
     def xref_equation():
@@ -8608,7 +8577,7 @@ class EnumLiteralDecl(BasicSubpDecl):
         """
         return Self.parents.find(
             lambda p: p.is_a(TypeDecl)
-        ).as_entity.trigger_is_call(False).cast(TypeDecl)
+        ).as_entity.cast(TypeDecl)
 
     defining_names = Property(Entity.name.singleton)
 

@@ -7705,8 +7705,10 @@ class AssocList(BasicAssoc.list):
         expressions. The formals to match are retrieved by resolving the call
         which this AssocList represents the actuals of.
         """
-        is_dottable_subp = Var(Entity.parent.cast(T.Name).then(
-            lambda e: e.is_dot_call
+        # Bind imprecise_fallback to False for now because
+        # first_corresponding_decl is not implemented on CallExpr.
+        is_dottable_subp = Var(imprecise_fallback.bind(
+            False, Entity.parent.cast(T.Name).then(lambda e: e.is_dot_call)
         ))
 
         params = Var(Entity.parent._.match(

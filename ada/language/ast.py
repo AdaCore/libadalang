@@ -6736,8 +6736,15 @@ class Name(Expr):
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
                 lambda pn: pn.parent_name_equation(
-                    typ.comp_type(
-                        is_subscript=Not(Self.is_a(T.ExplicitDeref))
+                    # An ExplicitDeref will access the comp_type itself, so
+                    # it expects to get "typ" without dereference.
+                    If(
+                        And(typ.access_def.is_a(AccessToSubpDef),
+                            Self.is_a(ExplicitDeref)),
+                        typ,
+                        typ.comp_type(
+                            is_subscript=Not(Self.is_a(T.ExplicitDeref))
+                        )
                     ),
                     root
                 ),

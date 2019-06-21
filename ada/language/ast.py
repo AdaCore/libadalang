@@ -8079,7 +8079,7 @@ class DefiningName(Name):
            generics.
         """
         return Entity.find_all_references(units).filter(
-            lambda r: r.is_call & r.referenced_decl.is_subprogram
+            lambda r: r.is_direct_call
         )
 
     next_part = Property(

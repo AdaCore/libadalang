@@ -13,6 +13,8 @@ for filename in sys.argv[1:]:
     )
 
     for assocs in u.root.findall(lal.AssocList):
+        if assocs.parent.is_a(lal.CallExpr):
+            print(assocs.parent.p_is_call)
         binds = assocs.p_zip_with_params()
         print("Binds for {} : {}".format(assocs, [
             "{}: {}".format(b.param.text, b.actual.text)

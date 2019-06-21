@@ -1,5 +1,5 @@
 procedure Main is
-   procedure Foo (X : Integer; Y, Z : Boolean);
+   procedure Foo (X : Integer; Y, Z : Boolean) is null;
 
    type Array_Type is array (Integer range 1 .. 3) of Integer;
 
@@ -36,11 +36,18 @@ procedure Main is
       end case;
    end record;
 
+   type P_Access is access procedure (E, F : Integer);
+   type P_Arr is array (Integer range 1 .. 10) of P_Access;
+
    E : Expr_Type := (Bin_Op, new Expr_Type'(K => Lit, Val => 12),
                              new Expr_Type'(Lit, 12));
+
+   P_A : P_Arr;
 
 begin
    Foo (Y => True, Z => False, X => 3);
    Foo (42, Y => True, Z => False);
    Foo (42, True, False);
+   P_A (4) (F => 42, E => 28);
+   P_A (5).all (1, 2);
 end Main;

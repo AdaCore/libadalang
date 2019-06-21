@@ -7732,8 +7732,7 @@ class AssocList(BasicAssoc.list):
         ))
 
         params = Var(Entity.parent._.match(
-            lambda e=T.CallExpr: e.name.referenced_decl
-            .subp_spec_or_null(follow_generic=True)._.abstract_formal_params,
+            lambda e=T.CallExpr: e.called_subp_spec._.abstract_formal_params,
 
             lambda i=T.GenericInstantiation:
             i.generic_entity_name.referenced_decl.cast(T.GenericDecl)

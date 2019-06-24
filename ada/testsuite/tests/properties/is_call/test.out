@@ -1,5 +1,9 @@
 == test.adb ==
 
+      function Foo (X : Integer) return Integer is (F (X));
+                                                    ^^^^^
+      function Foo (X : Integer) return Integer is (F (X));
+                                                    ^
    R := Foo (3);
         ^^^^^^^
    R := Foo (3);
@@ -72,5 +76,15 @@
         ^^^^^^^^^^^^^
    Arr_3 (1) (42, 12);
    ^^^^^^^^^^^^^^^^^^
+   R := Pkg_I.Foo (42);
+        ^^^^^^^^^^^^^^
+   R := Pkg_I.Foo (42);
+        ^^^^^^^^^
+   R := Pkg_I.Foo (42);
+              ^^^
+   R := Foo_I (42);
+        ^^^^^^^^^^
+   R := Foo_I (42);
+        ^^^^^
 
 Done

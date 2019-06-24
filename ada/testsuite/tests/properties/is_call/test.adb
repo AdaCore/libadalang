@@ -21,6 +21,7 @@ procedure Test is
    generic
       with function F (X : Integer) return Integer;
    package Pkg_G is
+      function Foo (X : Integer) return Integer is (F (X));
    end Pkg_G;
 
    package Pkg_I is new Pkg_G (Foo);
@@ -72,4 +73,7 @@ begin
    R := Arr_2 (1) (12);
    R := Arr_2 (1).all (42);
    Arr_3 (1) (42, 12);
+
+   R := Pkg_I.Foo (42);
+   R := Foo_I (42);
 end Test;

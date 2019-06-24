@@ -18,8 +18,6 @@ Resolving xrefs for node <ArrayTypeDef pack.ads:4:17-4:52>
 Expr: <Id "Natural" pack.ads:4:24-4:31>
   references: <DefiningName __standard:5:11-5:18>
   type:       None
-Expr: <BoxExpr pack.ads:4:38-4:40>
-  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Integer" pack.ads:4:45-4:52>
   references: <DefiningName __standard:4:8-4:15>
   type:       None

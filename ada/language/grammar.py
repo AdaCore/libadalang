@@ -217,7 +217,9 @@ A.add_rules(
         "delta", A.simple_expr, Opt(A.range_spec)
     ),
 
-    range_constraint=RangeConstraint(A.range_spec),
+    range_constraint=RangeConstraint(
+        RangeSpec("range", A.discrete_range | A.name)
+    ),
 
     constraint=Or(A.digits_constraint, A.delta_constraint,
                   A.range_constraint,

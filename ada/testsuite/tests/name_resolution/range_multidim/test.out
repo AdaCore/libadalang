@@ -19,13 +19,9 @@ Resolving xrefs for node <ArrayTypeDef test_range.adb:5:14-5:65>
 Expr: <Id "Integer" test_range.adb:5:21-5:28>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
-Expr: <BoxExpr test_range.adb:5:35-5:37>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Color" test_range.adb:5:39-5:44>
   references: <DefiningName test_range.adb:3:9-3:14>
   type:       None
-Expr: <BoxExpr test_range.adb:5:51-5:53>
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
 Expr: <Id "Natural" test_range.adb:5:58-5:65>
   references: <DefiningName __standard:5:11-5:18>
   type:       None

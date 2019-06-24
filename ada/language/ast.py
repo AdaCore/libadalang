@@ -4039,6 +4039,12 @@ class UnconstrainedArrayIndices(ArrayIndices):
     def index_type(dim=Int):
         return Entity.types.at(dim).designated_type
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.types.logic_all(
+            lambda typ: typ.subtype_indication.sub_equation
+        )
+
 
 class ConstrainedArrayIndices(ArrayIndices):
     """

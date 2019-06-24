@@ -15,8 +15,6 @@ Resolving xrefs for node <ArrayTypeDef testfirst.adb:2:14-2:49>
 Expr: <Id "Integer" testfirst.adb:2:21-2:28>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
-Expr: <BoxExpr testfirst.adb:2:35-2:37>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" testfirst.adb:2:42-2:49>
   references: <DefiningName __standard:4:8-4:15>
   type:       None

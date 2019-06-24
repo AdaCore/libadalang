@@ -3227,6 +3227,35 @@ class BaseTypeDecl(BasicDecl):
 
         )
 
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_origin()], public=True)
+    def is_definite_subtype():
+        """
+        Returns whether this is a definite subtype.
+
+        For convenience, this will return ``False`` for incomplete types, even
+        though the correct answer is more akin to "non applicable".
+        """
+        return Entity.match(
+            lambda itd=T.IncompleteTypeDecl: False,
+            lambda td=T.TypeDecl: td.discriminants.is_null & td.type_def.match(
+                lambda dtd=T.DerivedTypeDef:
+                Not(dtd.subtype_indication.constraint.is_null)
+                | dtd.base_type.is_definite_subtype,
+
+                lambda atd=T.ArrayTypeDef:
+                atd.indices.is_a(T.ConstrainedArrayIndices),
+                lambda _: True,
+            ),
+            lambda st=T.SubtypeDecl:
+            Not(st.subtype.constraint.is_null)
+            | st.from_type.is_definite_subtype,
+            lambda cwtd=T.ClasswideTypeDecl: False,
+            lambda ttd=T.TaskTypeDecl: ttd.discriminants.is_null,
+            lambda ptd=T.ProtectedTypeDecl: ptd.discriminants.is_null,
+            lambda _: True
+        )
+
     is_private = Property(
         False,
         doc="""

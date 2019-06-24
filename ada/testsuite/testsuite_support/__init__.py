@@ -54,7 +54,10 @@ class Testsuite(BaseTestsuite):
             help='Disable tests involving shared libraries.')
         self.main.add_option(
             '--disable-python', action='store_true', default=False,
-            help='Disable tests involving Python API.')
+            help='Disable tests involving the Python API.')
+        self.main.add_option(
+            '--disable-ocaml', action='store_true', default=False,
+            help='Disable tests involving the OCaml API.')
         self.main.add_option(
             '--with-python', default=None,
             help='If provided, use as the Python interpreter in testcases.')

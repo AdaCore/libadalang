@@ -5704,7 +5704,7 @@ class PackageRenamingDecl(BasicDecl):
     renames = Field(type=RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
-    @langkit_property(return_type=T.BasicDecl.entity)
+    @langkit_property(return_type=T.BasicDecl.entity, public=True)
     def renamed_package():
         """
         Return the declaration of the package that is renamed by Self.
@@ -5714,7 +5714,7 @@ class PackageRenamingDecl(BasicDecl):
             Entity.renames.renamed_object.env_elements.at(0)._.cast(BasicDecl)
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity)
+    @langkit_property(return_type=T.BasicDecl.entity, public=True)
     def final_renamed_package():
         """
         Return the declaration of the package that is ultimately renamed by

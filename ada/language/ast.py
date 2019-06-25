@@ -7647,9 +7647,18 @@ class CallExpr(Name):
             ),
 
             Entity.parent.cast(T.CallExpr).then(
-                lambda ce: ce.check_for_type(
-                    bind_origin(Self, typ.comp_type(True))
-                ), default_val=True
+                # Since the result type of Self is ``typ``, the result type of
+                # its parent CallExpr (if it exists) must be the component type
+                # of ``typ`` (we use subscript=True because a CallExpr will
+                # dereference implicitly).
+                lambda ce: ce.check_for_type(typ.comp_type(is_subscript=True)),
+
+                # We are done if the parent is not a CallExpr. We could
+                # actually do more here by considering ExplicitDerefs, but
+                # this should be sufficient for the current purpose of
+                # check_for_type (e.g. to preemptively discard inadequate
+                # candidates in env_elements_baseid).
+                default_val=True
             )
         )))
 

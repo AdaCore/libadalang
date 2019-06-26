@@ -6585,12 +6585,23 @@ class Name(Expr):
     @langkit_property(public=True, return_type=T.Bool)
     def is_direct_call():
         """
-        Return True iff this name represents a call to a statically known
-        subprogram (i.e. not through a subprogram access).
+        Return True iff this name represents a call to a subprogram which is
+        referred by its defining name. (i.e. not through a subprogram access).
         """
         return And(
             Entity.is_call,
             Not(Entity.called_subp_spec.parent.is_a(AccessToSubpDef))
+        )
+
+    @langkit_property(public=True, return_type=T.Bool)
+    def is_access_call():
+        """
+        Return True iff this name represents a call to subprogram through
+        an access type.
+        """
+        return And(
+            Entity.is_call,
+            Entity.called_subp_spec.parent.is_a(AccessToSubpDef)
         )
 
     @langkit_property(public=True, return_type=T.Bool)
@@ -7248,12 +7259,14 @@ class Name(Expr):
                       dynamic_vars=[default_imprecise_fallback()])
     def is_dispatching_call():
         """
-        Returns True if this Name corresponds to a dispatching call.
+        Returns True if this Name corresponds to a dispatching call, including:
+         - calls done through subprogram access types.
+         - calls to dispatching subprograms, in the object-oriented sense.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "dispatching call".
         """
-        return Entity.is_direct_call & Let(
+        return Or(Entity.is_access_call, Entity.is_direct_call & Let(
             lambda
             decl=Entity.referenced_decl,
 
@@ -7278,18 +7291,20 @@ class Name(Expr):
                     )
                 )
             )
-        )
+        ))
 
     @langkit_property(public=True, return_type=T.Bool,
                       dynamic_vars=[default_imprecise_fallback()])
     def is_static_call():
         """
         Returns True if this Name corresponds to a static non-dispatching call.
+        In other words, this will return True if and only if the target of the
+        call is known statically.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "static call".
         """
-        return Entity.is_direct_call & Not(Entity.is_dispatching_call)
+        return Entity.is_call & Not(Entity.is_dispatching_call)
 
     @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():

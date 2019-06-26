@@ -6730,8 +6730,11 @@ class Name(Expr):
 
                 lambda ed=T.ExplicitDeref:
                 ed.as_entity.eq_for_type(typ)
-                & Bind(Self.subp_spec_var,
-                       typ.access_def.cast(AccessToSubpDef)._.subp_spec),
+
+                # If ``typ`` is an access to subprogram, it means Self (an
+                # ExplicitDeref) is actually a call to that subprogram. So,
+                # bind its subp_spec_var to the subprogram spec of the access.
+                & Bind(Self.subp_spec_var, as_subp_access._.subp_spec),
 
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
@@ -7585,6 +7588,8 @@ class CallExpr(Name):
             # subprogram.
             TypeBind(Self.type_var, subp_spec.return_type)
 
+            # This node represents a call to a subprogram which specification
+            # is given by ``subp_spec``.
             & Bind(Self.subp_spec_var, subp_spec)
 
             # For each parameter, the type of the expression matches
@@ -8477,6 +8482,11 @@ class BaseId(SingleTokNode):
             & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type,
                    eq_prop=BaseTypeDecl.matching_type)
 
+            # If this BaseId represents a call, the called subprogram will be
+            # held in Self.ref_var, in which case subp_spec_or_null will
+            # return the specification of the called subprogram. If ref_var
+            # does not contain a subprogram, this BaseId cannot be a call,
+            # and subp_spec_or_null would indeed return null in this case.
             & Bind(Self.ref_var, Self.subp_spec_var,
                    conv_prop=BasicDecl.subp_spec_or_null)
         )

@@ -1408,7 +1408,9 @@ class BasicDecl(AdaNode):
         in an expression context.
         """
         return Entity.subp_spec_or_null.then(
-            lambda ss: ss.paramless(Entity.info.md, can_be=True),
+            lambda ss: ss.paramless(
+                Entity.info.md.dottable_subp, can_be=True
+            ),
             default_val=True
         )
 
@@ -1419,7 +1421,9 @@ class BasicDecl(AdaNode):
         in an expression context.
         """
         return Entity.subp_spec_or_null.then(
-            lambda ss: ss.paramless(Entity.info.md, can_be=False),
+            lambda ss: ss.paramless(
+                Entity.info.md.dottable_subp, can_be=False
+            ),
             default_val=True
         )
 
@@ -1950,15 +1954,15 @@ class BaseFormalParamHolder(AdaNode):
     )
 
     @langkit_property(return_type=Bool)
-    def paramless(md=Metadata, can_be=(Bool, True)):
+    def paramless(dottable_subp=Bool, can_be=(Bool, True)):
         """
-        Utility function. Given a subprogram spec and its associated metadata,
-        determine if it can be called without parameters (and hence without a
-        callexpr).
+        Utility function. Given a subprogram spec and whether the subprogram
+        was referenced using the dot notation, determine if it can be called
+        without parameters (and hence without a callexpr).
         """
         nb_params = Var(If(can_be, Self.nb_min_params, Self.nb_max_params))
         return Or(
-            md.dottable_subp & (nb_params == 1),
+            dottable_subp & (nb_params == 1),
             nb_params == 0
         )
 
@@ -8457,7 +8461,7 @@ class BaseId(SingleTokNode):
                             # Or the entity is parameterless, and the returned
                             # component (s) matches the callexpr (s).
                             | And(real_pc.check_for_type(b.expr_type),
-                                  spec.paramless(b.info.md)),
+                                  spec.paramless(b.info.md.dottable_subp)),
 
                         ),
                         # In the case of ObjectDecls/CompDecls in general,
@@ -9965,7 +9969,7 @@ class BaseSubpBody(Body):
 
             If(
                 Entity.subp_spec_or_null
-                ._.paramless(Entity.info.md, can_be=True),
+                ._.paramless(Entity.info.md.dottable_subp, can_be=True),
                 Array([
                     Entity.children_env, Entity.subp_spec.defining_env
                 ]).env_group(),

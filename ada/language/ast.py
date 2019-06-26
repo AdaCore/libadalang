@@ -8282,13 +8282,17 @@ class BaseId(SingleTokNode):
         """
         Return the lexical environment for this identifier, should it be a
         package. This method handles resolving to the most visible part of a
-        package - private or body - if necessary.
+        package - private or body - if necessary. It also unwinds package
+        renamings if necessary.
 
         If ``inst_from_formal`` is True, we know that bd is a generic package
         instantiation coming from a rebound formal package, and that we need
         visibility on the formals.
         """
 
+        # If the given package is a renaming (after potentially several levels
+        # of renamings) of another package P, do the rest of the work on P
+        # instead.
         pkg = Var(from_pkg.cast(PackageRenamingDecl).then(
             lambda r: r.final_renamed_package,
             default_val=from_pkg

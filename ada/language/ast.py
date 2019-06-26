@@ -7844,18 +7844,7 @@ class ExplicitDeref(Name):
                 Bind(Self.ref_var, el.trigger_access_entity(False))
 
                 & Bind(Self.ref_var, Self.prefix.ref_var)
-                & Entity.eq_for_type(typ)
-                & typ.access_def.cast(AccessToSubpDef).then(
-                    lambda ad: Self.parent_name(root).as_entity.then(
-                        lambda pn: pn.parent_name_equation(typ, root),
-                        default_val=LogicTrue()
-                    ) & Bind(Self.subp_spec_var, ad.subp_spec),
-                    default_val=Self.parent_name(root).as_entity.then(
-                        lambda pn: pn.parent_name_equation(
-                            typ.accessed_type, root
-                        ), default_val=LogicTrue()
-                    )
-                ),
+                & Entity.parent_name_equation(typ, root),
                 default_val=LogicFalse()
             )
         )

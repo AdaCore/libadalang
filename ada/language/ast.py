@@ -6720,6 +6720,18 @@ class Name(Expr):
         """
         Construct the xref equation for the chain of parent nested names.
         """
+        as_subp_access = Var(typ._.access_def.cast(AccessToSubpDef))
+        is_paramless = Var(as_subp_access._.subp_spec.paramless(
+            dottable_subp=False,
+            can_be=False
+        ))
+        can_be_paramless = Var(as_subp_access._.subp_spec.paramless(
+            dottable_subp=False,
+            can_be=True
+        ))
+        comp_type = Var(
+            typ._.comp_type(is_subscript=Not(Self.is_a(ExplicitDeref)))
+        )
         return If(
             typ.is_null,
             LogicFalse(),
@@ -6738,18 +6750,38 @@ class Name(Expr):
 
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
-                lambda pn: pn.parent_name_equation(
-                    # An ExplicitDeref will access the comp_type itself, so
-                    # it expects to get "typ" without dereference.
-                    If(
-                        And(typ.access_def.is_a(AccessToSubpDef),
-                            Self.is_a(ExplicitDeref)),
-                        typ,
-                        typ.comp_type(
-                            is_subscript=Not(Self.is_a(T.ExplicitDeref))
-                        )
+                lambda pn: If(
+                    Self.is_a(T.ExplicitDeref) & Not(as_subp_access.is_null),
+
+                    # If Self is an explicit deref of a subprogram access type,
+                    # we need to handle several cases:
+                    Cond(
+                        # The subprogram doesn't take parameters, in which case
+                        # the explicit dereference necessarily means accessing
+                        # the component type of the access type (it represents
+                        # the call).
+                        is_paramless,
+                        pn.parent_name_equation(comp_type, root),
+
+                        # The subprogram can be called without parameters, in
+                        # which case we don't know for sure whether the
+                        # explicit dereference accesses the component type or
+                        # if it is the parent CallExpr that will.
+                        can_be_paramless,
+                        Or(
+                            pn.parent_name_equation(comp_type, root),
+                            pn.parent_name_equation(typ, root),
+                        ),
+
+                        # The subprogram must be called with parameters, in
+                        # which case the parent CallExpr will expect the non-
+                        # dereferenced type.
+                        pn.parent_name_equation(typ, root)
                     ),
-                    root
+
+                    # Otherwise the explicit deref necessarily accesses the
+                    # component type of typ.
+                    pn.parent_name_equation(comp_type, root)
                 ),
                 default_val=LogicTrue()
             )
@@ -7597,22 +7629,27 @@ class CallExpr(Name):
             & subp_spec.match_param_list(
                 Entity.params, dottable_subp
             ).logic_all(
-                lambda pm: pm.actual.assoc.expr.call_argument_equation(
-                    pm.formal.spec.type_expression.designated_type, prim_type
-                ) & If(
-                    # Bind actuals designators to parameters if there
-                    # are designators.
-                    pm.actual.name.is_null,
-                    LogicTrue(),
-                    Bind(
-                        pm.actual.name.ref_var,
-                        Let(lambda n=pm.formal.spec: entity_no_md(
-                            AdaNode,
-                            n.node,
-                            n.info.rebindings,
-                            n.info.from_rebound
-                        ))
-                    )
+                lambda pm: If(
+                    pm.has_matched,
+                    pm.actual.assoc.expr.call_argument_equation(
+                        pm.formal.spec.type_expression.designated_type,
+                        prim_type
+                    ) & If(
+                        # Bind actuals designators to parameters if there
+                        # are designators.
+                        pm.actual.name.is_null,
+                        LogicTrue(),
+                        Bind(
+                            pm.actual.name.ref_var,
+                            Let(lambda n=pm.formal.spec: entity_no_md(
+                                AdaNode,
+                                n.node,
+                                n.info.rebindings,
+                                n.info.from_rebound
+                            ))
+                        )
+                    ),
+                    LogicFalse()
                 )
             ),
             default_val=LogicFalse()

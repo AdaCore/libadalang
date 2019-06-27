@@ -43,12 +43,9 @@ main(void)
       error("Getting CompilationUnit.overriding failed but nevertheless output"
             " something");
 
-
     with_clause = tmp;
     if (ada_node_child(&tmp, 3, &tmp))
         error("ada_node_child returned a child that does not exist");
-    if (memcmp(&tmp, &with_clause, sizeof(tmp)))
-        error("ada_node_child failed but nevertheless output something");
     tmp = with_clause;
 
     if (!ada_node_child(&tmp, 0, &tmp))

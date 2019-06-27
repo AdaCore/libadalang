@@ -209,6 +209,7 @@ class Manage(ManageScript):
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
             '--enable-color', '--show-error-output',
+            '--with-ocaml-bindings', os.path.join('build', 'ocaml')
         ]
         if not args.library_types.relocatable:
             argv.append('--disable-shared')

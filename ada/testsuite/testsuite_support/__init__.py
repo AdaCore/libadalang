@@ -21,6 +21,7 @@ import testsuite_support.capi_driver
 import testsuite_support.discriminants as discriminants
 import testsuite_support.name_resolution_driver
 import testsuite_support.navigation_driver
+import testsuite_support.ocaml_driver
 import testsuite_support.parser_driver
 import testsuite_support.python_driver
 
@@ -31,6 +32,7 @@ class Testsuite(BaseTestsuite):
         'ada-api': testsuite_support.adaapi_driver.AdaAPIDriver,
         'c-api': testsuite_support.capi_driver.CAPIDriver,
         'navigation': testsuite_support.navigation_driver.NavigationDriver,
+        'ocaml': testsuite_support.ocaml_driver.OCamlDriver,
         'parser': testsuite_support.parser_driver.ParserDriver,
         'python': testsuite_support.python_driver.PythonDriver,
         'name-resolution':
@@ -56,8 +58,11 @@ class Testsuite(BaseTestsuite):
             '--disable-python', action='store_true', default=False,
             help='Disable tests involving the Python API.')
         self.main.add_option(
-            '--disable-ocaml', action='store_true', default=False,
-            help='Disable tests involving the OCaml API.')
+            '--with-ocaml-bindings', default=None,
+            help='If provided, must be a path from the current directory to'
+                 ' the directory in which the OCaml bindings were generated.'
+                 ' This enables tests involving the OCaml API (they are'
+                 ' disabled by default).')
         self.main.add_option(
             '--with-python', default=None,
             help='If provided, use as the Python interpreter in testcases.')
@@ -94,6 +99,11 @@ class Testsuite(BaseTestsuite):
 
         assert not opts.valgrind or not opts.debug, (
             'Debugging while checking memory with Valgrind is not supported.')
+
+        ocaml_bindings = opts.with_ocaml_bindings
+        self.global_env['ocaml_bindings'] = (
+            os.path.abspath(ocaml_bindings) if ocaml_bindings else None
+        )
 
     def write_comment_file(self, _):
         with open(os.path.join(self.output_dir, 'discr'), 'w') as f:

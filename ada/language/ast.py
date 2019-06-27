@@ -2154,7 +2154,11 @@ class TypeDef(AdaNode):
 
             Entity.match(
                 lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,
-                lambda ac=T.AccessDef: ac.accessed_type.defining_env,
+
+                # An access to procedure will have a null accessed_type, hence
+                # the use of the underscore.
+                lambda ac=T.AccessDef: ac.accessed_type._.defining_env,
+
                 lambda _: EmptyEnv
             )
         )

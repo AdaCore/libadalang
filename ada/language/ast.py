@@ -4876,7 +4876,11 @@ class Pragma(AdaNode):
     @langkit_property()
     def xref_equation():
         return Cond(
-            Entity.id.name_is('Assert'),
+            Or(
+                Entity.id.name_is('Assert'),
+                Entity.id.name_is('Compile_Time_Warning'),
+                Entity.id.name_is('Compile_Time_Error'),
+            ),
             Let(lambda expr=Entity.args.at(0).assoc_expr:
                 expr.sub_equation & bool_bind(expr.type_var)),
 

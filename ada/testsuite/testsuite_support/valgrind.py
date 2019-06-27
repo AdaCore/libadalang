@@ -70,7 +70,7 @@ class Valgrind(object):
         for error in errors:
             for frame in error.stack:
                 result.append('  {}'.format(format_stack_frame(frame)))
-            result.append(error.message)
+            result.append(str(error.message))
             result.append('')
         return '\n'.join(result)
 

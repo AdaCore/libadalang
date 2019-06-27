@@ -109,6 +109,21 @@ def ref_used_packages():
     )
 
 
+def populate_dependent_units():
+    return do(If(
+        Self.is_unit_root,
+        Self.top_level_with_package_clauses.map(
+            lambda package_name:
+            # First fetch the spec
+            package_name.referenced_unit(UnitSpecification)
+            # If no spec exists, maybe it is a library level subprogram with
+            # just a body, so fetch the body.
+            .root._or(package_name.referenced_unit(UnitBody).root)
+        ),
+        No(AdaNode.array)
+    ))
+
+
 def ref_generic_formals():
     """
     If Self is a generic package/subprogram and not a library item,
@@ -722,6 +737,21 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property(return_type=T.Name.array)
+    def top_level_with_package_clauses():
+        """
+        If Self is a library item or a subunit, return a flat list of all
+        package names that are with'ed by top-level WithClause nodes.
+        """
+        return (
+            Self.parent.parent.cast_or_raise(T.CompilationUnit)
+            .prelude
+            .filter(lambda p: p.is_a(WithClause))
+            .mapcat(
+                lambda p: p.cast_or_raise(WithClause).packages.map(lambda n: n)
+            )
+        )
+
     @langkit_property()
     def use_packages_in_spec_of_subp_body():
         """
@@ -984,6 +1014,7 @@ def child_unit(name_expr, scope_expr, dest_env=None,
             else new_env_assoc(key=name_expr, val=Self)
         ),
         add_env(transitive_parent=transitive_parent),
+        populate_dependent_units(),
         ref_used_packages(),
         ref_generic_formals(),
         *more_rules
@@ -4353,15 +4384,6 @@ class WithClause(AdaNode):
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list)
 
-    env_spec = EnvSpec(do(Self.packages.map(
-        lambda package_name:
-        # First fetch the spec
-        package_name.referenced_unit(UnitSpecification)
-        # If no spec exists, maybe it is a library level subprogram with
-        # just a body, so fetch the body.
-        .root._or(package_name.referenced_unit(UnitBody).root)
-    )))
-
     xref_entry_point = Property(True)
     xref_equation = Property(
         Entity.packages.logic_all(lambda p: p.xref_no_overloading)
@@ -4804,6 +4826,7 @@ class BasicSubpDecl(BasicDecl):
             )
         ),
         add_env(),
+        populate_dependent_units(),
         ref_used_packages(),
 
         handle_children(),
@@ -5563,6 +5586,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         ),
 
         add_env(),
+        populate_dependent_units(),
         ref_used_packages(),
 
         handle_children(),
@@ -5679,6 +5703,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
+        populate_dependent_units(),
         ref_used_packages(),
 
         handle_children(),
@@ -5935,6 +5960,7 @@ class GenericSubpDecl(GenericDecl):
         ),
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
+        populate_dependent_units(),
         ref_used_packages(),
     )
 
@@ -9978,6 +10004,7 @@ class BaseSubpBody(Body):
                                         Entity.body_scope(False))),
 
         add_env(transitive_parent=True),
+        populate_dependent_units(),
         ref_used_packages(),
 
         # If Self, which is assumed to be a SubpBody, is a library-level

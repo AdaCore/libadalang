@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [p-a.ads, p-a-b.ads]

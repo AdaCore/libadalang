@@ -1,5 +1,5 @@
-Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "bar"
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
+Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "bar"
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
 Calling ufp_get_unit_filename (some_field=42, kind=0) with name: "foo"
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"

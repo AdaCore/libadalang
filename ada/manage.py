@@ -46,6 +46,10 @@ class Manage(ManageScript):
             help='Do not use GNATpython in the testsuite'
         )
         test_parser.add_argument(
+            '--disable-ocaml', action='store_true',
+            help='Disable tests involving the OCaml API'
+        )
+        test_parser.add_argument(
             'testsuite-args', nargs='*',
             help='Arguments to pass to testsuite.py.'
         )
@@ -208,9 +212,11 @@ class Manage(ManageScript):
         argv = [
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
-            '--enable-color', '--show-error-output',
-            '--with-ocaml-bindings', os.path.join('build', 'ocaml')
+            '--enable-color', '--show-error-output'
         ]
+        if not args.disable_ocaml:
+            argv.append('--with-ocaml-bindings')
+            argv.append(os.path.join('build', 'ocaml'))
         if not args.library_types.relocatable:
             argv.append('--disable-shared')
         argv.extend(getattr(args, 'testsuite-args'))

@@ -28,7 +28,10 @@ gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
 ada/manage.py build -j12
 
 # Finally, run the testsuite
-ada/manage.py test -- -j16
+#
+# TODO: adjust the Travis CI setup to provide a viable OCaml environment and
+# enable the corresponding testcases.
+ada/manage.py test --disable-ocaml -- -j16
 
 # Install result and pack an archive
 ada/manage.py install "$ADALIB_DIR"

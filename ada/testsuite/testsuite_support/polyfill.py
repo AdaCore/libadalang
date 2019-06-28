@@ -18,6 +18,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import traceback
 import yaml
 
 from testsuite_support.parallel_map import pmap
@@ -394,17 +395,23 @@ class BaseTestsuite(object):
                 'test_relpath': test_relpath,
                 'test_name': test_name,
             })
-            testcase = driver_class(test_data, self.global_env)
-            testcase.tear_up()
-            if not testcase.has_status:
-                testcase.run()
-                testcase.tear_down()
-            if not testcase.has_status:
-                testcase.analyze()
-
-            status = testcase.result.status
-            message = testcase.result.message
-            output = testcase.result.actual_output
+            try:
+                testcase = driver_class(test_data, self.global_env)
+                testcase.tear_up()
+                if not testcase.has_status:
+                    testcase.run()
+                    testcase.tear_down()
+                if not testcase.has_status:
+                    testcase.analyze()
+            except Exception as exc:
+                status = 'PROBLEM'
+                message = 'Test driver crashed: {}: {}'.format(
+                    type(exc).__name__, exc)
+                output = traceback.format_exc()
+            else:
+                status = testcase.result.status
+                message = testcase.result.message
+                output = testcase.result.actual_output
         else:
             output = None
 

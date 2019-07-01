@@ -9196,8 +9196,9 @@ class ForLoopSpec(LoopSpec):
                 # Subtype indication case: the induction variable is of the
                 # type.
                 lambda t=T.SubtypeIndication:
-                TypeBind(Self.var_decl.id.type_var,
-                         t.designated_type.canonical_type),
+                t.sub_equation
+                & TypeBind(Self.var_decl.id.type_var,
+                           t.designated_type.canonical_type),
 
                 lambda r=T.AttributeRef:
                 r.sub_equation

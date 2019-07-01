@@ -4,7 +4,7 @@ procedure Testloop is
 begin
    for J in My_Int range 1 .. 58 loop
       B := J;
-      pragma Test_Statement;
    end loop;
+   pragma Test_Block;
 
 end Testloop;

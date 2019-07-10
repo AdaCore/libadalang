@@ -4066,7 +4066,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
     @langkit_property()
     def index_type(dim=Int):
-        return Entity.types.at(dim).designated_type
+        return Entity.types.at(dim)._.designated_type
 
     @langkit_property()
     def xref_equation():

@@ -4370,6 +4370,10 @@ class AccessToSubpDef(AccessDef):
 
     accessed_type = Property(Entity.subp_spec.return_type)
 
+    # We need to add an env to contain the subp_spec's parameters, so that they
+    # don't leak in the external scope.
+    env_spec = EnvSpec(add_env())
+
 
 @abstract
 class BaseTypeAccessDef(AccessDef):

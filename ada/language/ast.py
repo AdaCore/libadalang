@@ -229,6 +229,15 @@ class AdaNode(ASTNode):
         warn_on_node=True
     )
 
+    declarative_scope = Property(
+        Self.parents.find(
+            lambda p: p.is_a(T.DeclarativePart)
+        ).cast(T.DeclarativePart),
+        doc="Return the scope of definition of this basic declaration.",
+        ignore_warn_on_node=True,
+        public=True
+    )
+
     @langkit_property(return_type=T.String)
     def custom_id_text():
         """
@@ -1244,6 +1253,13 @@ class BasicDecl(AdaNode):
             # First look in the scope where Self is declared
             Entity.declarative_scope._.decls.as_entity.find(pragma_pred)
 
+            # Then, if entity is declared in the public part of a package,
+            # corresponding pragma might be in the private part.
+            ._or(Entity.declarative_scope.cast(T.PublicPart).then(
+                lambda pp: pp.parent.cast_or_raise(T.BasePackageDecl)
+                .private_part._.decls.as_entity.find(pragma_pred)
+            ))
+
             # Then, look inside decl, in the first declarative region of decl
             ._or(Entity.declarative_region._.decls.find(pragma_pred))
 
@@ -1484,15 +1500,6 @@ class BasicDecl(AdaNode):
         # constraint to the xref equation.
         ignore(prefix)
         return LogicTrue()
-
-    declarative_scope = Property(
-        Self.parents.find(
-            lambda p: p.is_a(T.DeclarativePart)
-        ).cast(T.DeclarativePart),
-        doc="Return the scope of definition of this basic declaration.",
-        ignore_warn_on_node=True,
-        public=True
-    )
 
     relative_name = Property(
         Entity.defining_name.relative_name, public=True, doc="""
@@ -4950,7 +4957,8 @@ class Pragma(AdaNode):
 
             Entity.id.name_symbol.any_of(
                 'Import', 'Export', 'Interface', 'Convention',
-                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body'
+                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body',
+                'Inline'
             ),
             Entity.associated_entity_name.then(
                 lambda n: n.xref_no_overloading, default_val=LogicTrue()
@@ -4973,11 +4981,26 @@ class Pragma(AdaNode):
             ),
             Entity.args.at(1).assoc_expr.cast_or_raise(T.BaseId),
             Entity.id.name_symbol.any_of(
-                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body'
+                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline'
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 
             No(T.BaseId.entity),
+        )
+
+    @langkit_property()
+    def associated_decls_helper():
+        return Entity.associated_entity_name.then(
+            # Find the current declarative scope
+            lambda name: Entity.declarative_scope.then(
+                # Get entities in it
+                lambda decl_scope: decl_scope.children_env.get(
+                    name.name_symbol, lookup=LK.flat, categories=noprims
+                )
+            )
+            # Only get entities that are after self in the source
+            .filtermap(lambda ent: ent.cast(T.BasicDecl),
+                       lambda ent: ent.node < Self)
         )
 
     @langkit_property(public=True)
@@ -5008,15 +5031,7 @@ class Pragma(AdaNode):
         #     procedure Foo (A : Integer);
         #     pragma Inline (Foo);
         return Entity.associated_entity_name.then(lambda name: Let(
-            lambda p=Entity.parents.find(
-                lambda p: p.is_a(T.DeclarativePart)
-            ).then(
-                lambda decl_scope: decl_scope.children_env.get(
-                    name.name_symbol, lookup=LK.flat, categories=noprims
-                ).filtermap(lambda ent: ent.cast(T.BasicDecl),
-                            lambda ent: ent.node < Self),
-                default_val=top_level_decl,
-            ): If(
+            lambda p=Entity.associated_decls_helper._or(top_level_decl): If(
                 Not(p.equals(No(T.BasicDecl.entity.array))),
                 p,
                 enclosing_program_unit.then(lambda epu: If(

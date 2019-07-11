@@ -6,5 +6,6 @@
 
 == testinline.adb ==
 <PragmaNode testinline.adb:3:7-3:27> -> [<SubpBody ["Foo"] testinline.adb:2:4-6:12>] ->> <PragmaNode testinline.adb:3:7-3:27>
+<PragmaNode testinline.adb:11:7-11:27> -> [<SubpDecl ["Bar"] testinline.adb:9:7-9:21>] ->> <PragmaNode testinline.adb:11:7-11:27>
 
 Done

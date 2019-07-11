@@ -9679,6 +9679,7 @@ class AttributeRef(Name):
             TypeBind(Self.prefix.ref_var, typ)
             & TypeBind(arg.type_var, typ)
             & TypeBind(Self.type_var, typ)
+            & arg.sub_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

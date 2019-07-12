@@ -1,0 +1,2 @@
+driver: python
+input_sources: [pack.ads, pack.adb]

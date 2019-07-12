@@ -1763,6 +1763,9 @@ class Body(BasicDecl):
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _=T.ProtectedBody: Entity.protected_previous_part,
             lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
+            lambda _=T.TaskBody: bind_origin(
+                Self, Entity.defining_name.all_env_els_impl
+            ).at(0).cast(T.BasicDecl),
             lambda _: No(T.BasicDecl.entity),
         ))
 
@@ -3298,7 +3301,10 @@ class BaseTypeDecl(BasicDecl):
 
     root_type = Property(Entity)
 
-    next_part_for_decl = Property(Entity.next_part.cast(T.BasicDecl.entity))
+    next_part_for_decl = Property(Entity.match(
+        lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
+        lambda _: Entity.next_part.cast(T.BasicDecl.entity)
+    ))
 
 
 @synthetic
@@ -10857,11 +10863,20 @@ class TaskBody(Body):
 
     defining_names = Property(Entity.name.singleton)
 
-    env_spec = EnvSpec(
-        add_to_env_kv(Entity.name_symbol, Self),
-        add_env(),
-        reference(Self.cast(AdaNode).singleton,
-                  T.TaskBody.task_type_decl_scope)
+    env_spec = child_unit(
+        name_expr='__nextpart',
+        scope_expr=Entity.body_scope(True),
+
+        dest_env=env.bind(
+            Self.initial_env,
+            Entity.body_scope(False, True)
+            ._or(Entity.body_scope(False, False))
+        ),
+
+        more_rules=[
+            reference(Self.cast(AdaNode).singleton,
+                      T.TaskBody.task_type_decl_scope)
+        ]
     )
 
     task_type_decl_scope = Property(Entity.task_type.children_env)

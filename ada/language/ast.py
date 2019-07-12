@@ -7583,6 +7583,9 @@ class CallExpr(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def operator_equation():
+        """
+        Equation for built-in operators.
+        """
         rel_name = Var(Entity.name.name_symbol)
 
         def base_name_eq():

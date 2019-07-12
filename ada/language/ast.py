@@ -6792,6 +6792,7 @@ class Name(Expr):
         return Self.innermost_name.as_entity.match(
             lambda ce=T.CallExpr: ce.general_xref_equation(Self),
             lambda ed=T.ExplicitDeref: ed.general_xref_equation(Self),
+            lambda qe=T.QualExpr: qe.general_xref_equation(Self),
             lambda _: LogicFalse(),
         )
 
@@ -6816,9 +6817,11 @@ class Name(Expr):
 
         ))
 
-        return If(name.is_a(T.CallExpr, T.ExplicitDeref),
-                  name.innermost_name,
-                  Self)
+        return Cond(
+            name.is_a(T.CallExpr, T.ExplicitDeref), name.innermost_name,
+            name.is_a(T.QualExpr), name,
+            Self
+        )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
@@ -7478,16 +7481,7 @@ class CallExpr(Name):
 
     @langkit_property(return_type=Equation)
     def xref_equation():
-        return If(
-            Not(Entity.name.name_designated_type.is_null),
-
-            # Type conversion case
-            Entity.type_conv_xref_equation,
-
-            # General case. We'll call general_xref_equation on the innermost
-            # call expression, to handle nested call expression cases.
-            Entity.bottom_up_name_equation
-        )
+        return Entity.bottom_up_name_equation
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def type_conv_xref_equation():
@@ -7555,30 +7549,40 @@ class CallExpr(Name):
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.
         """
-        # List of every applicable subprogram
-        subps = Var(Entity.env_elements)
+        return If(
+            Not(Entity.name.is_a(QualExpr))
+            & Not(Entity.name.name_designated_type.is_null),
 
-        return And(
-            Entity.params.logic_all(lambda pa: pa.expr.sub_equation),
+            # Type conversion case
+            Entity.type_conv_xref_equation
+            & Entity.parent_name(root).as_entity.then(
+                lambda pn:
+                pn.parent_name_equation(
+                    Entity.name.name_designated_type, root),
+                default_val=LogicTrue()
+            ),
 
-            # For each potential entity match, we want to express the
-            # following constraints:
             And(
-                subps.logic_any(lambda e: Let(
-                    lambda s=e.cast_or_raise(BasicDecl.entity):
-                    If(
-                        s.cast(EntryDecl)._.spec.family_type.is_null,
-                        Entity.entity_equation(s, root),
-                        Self.parent_name(root).cast_or_raise(T.CallExpr)
-                        .as_entity.entity_equation(s, root),
-                    ),
-                )),
-                Bind(Self.ref_var, Self.name.ref_var),
-                Entity.name.sub_equation
+                Entity.params.logic_all(lambda pa: pa.expr.sub_equation),
+
+                # For each potential entity match, we want to express the
+                # following constraints:
+                Let(lambda subps=Entity.env_elements: And(
+                    subps.logic_any(lambda e: Let(
+                        lambda s=e.cast_or_raise(BasicDecl.entity):
+                        If(
+                            s.cast(EntryDecl)._.spec.family_type.is_null,
+                            Entity.entity_equation(s, root),
+                            Self.parent_name(root).cast_or_raise(T.CallExpr)
+                            .as_entity.entity_equation(s, root),
+                        ),
+                    )),
+                    Bind(Self.ref_var, Self.name.ref_var),
+                    Entity.name.sub_equation
+                )) | If(Entity.name.is_simple_name,
+                        Entity.operator_equation,
+                        LogicFalse())
             )
-            | If(Entity.name.is_simple_name,
-                 Entity.operator_equation,
-                 LogicFalse())
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -9388,6 +9392,17 @@ class QualExpr(Name):
     ref_var = Property(Self.prefix.ref_var)
 
     relative_name = Property(Entity.prefix.relative_name)
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def general_xref_equation(root=(T.Name, No(T.Name))):
+        return And(
+            Entity.xref_equation,
+            Self.parent_name(root).as_entity.then(
+                lambda pn:
+                pn.parent_name_equation(Entity.name_designated_type, root),
+                default_val=LogicTrue()
+            )
+        )
 
     @langkit_property(return_type=Equation)
     def xref_equation():

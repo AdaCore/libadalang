@@ -1538,7 +1538,7 @@ class BasicDecl(AdaNode):
         .. note:: It is not named next_part, because BaseTypeDecl has a
             more precise version of next_part that returns a BaseTypeDecl.
             Probably, we want to rename the specific versions, and have the
-            root property be named previous_part. (TODO R925-008)
+            root property be named next_part. (TODO R925-008)
         """
         return Entity.basic_decl_next_part_for_decl
 

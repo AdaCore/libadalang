@@ -10898,13 +10898,11 @@ class ProtectedBody(Body):
     """
 
     env_spec = child_unit(
-        '__nextpart',
-        Entity.body_scope(True),
+        name_expr='__nextpart',
+        scope_expr=Entity.body_scope(True),
 
-        # Add the __nextpart link to the decl
         dest_env=env.bind(
             Self.initial_env,
-            # If this is a sub package, sub_package
             Entity.body_scope(False, True)
             ._or(Entity.body_scope(False, False))
         ),

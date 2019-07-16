@@ -29,6 +29,14 @@ def test(label, buffer):
         print()
 
 
+test('Test that there is no crash when doc is missing', """
+with A; use A;
+
+package Foo is
+end Foo;
+""")
+
+
 test('Test that we can extract doc before the prelude', """
 --  Documentation for the package
 --  Bla bla bla

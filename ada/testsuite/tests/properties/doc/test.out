@@ -1,3 +1,8 @@
+Test that there is no crash when doc is missing
+===============================================
+
+
+
 Test that we can extract doc before the prelude
 ===============================================
 

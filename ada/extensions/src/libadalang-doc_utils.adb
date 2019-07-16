@@ -96,7 +96,7 @@ package body Libadalang.Doc_Utils is
       end if;
 
       --  No comment in the direction expected? There is no doc!
-      if Kind (Data (Tok)) /= Ada_Comment then
+      if Tok = No_Token or else Kind (Data (Tok)) /= Ada_Comment then
          return Ret;
       end if;
 

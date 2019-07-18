@@ -9040,7 +9040,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # notation on private types with a tagged completion.
                 # However, since private types don't have components, this
                 # should not ever be a problem with legal Ada.
-                (t.is_tagged_type | t.private_completion._.is_tagged_type)
+                Not(t.is_a(BaseSubtypeDecl))
+                & (t.is_tagged_type | t.private_completion._.is_tagged_type)
                 & bd.declarative_scope.then(lambda ds: Or(
                     # If the subprogram is defined in the same declarative
                     # scope as t, then it is a dottable subprogram of t.

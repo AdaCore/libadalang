@@ -4386,7 +4386,7 @@ class SubtypeDecl(BaseSubtypeDecl):
 @synthetic
 class DiscreteBaseSubtypeDecl(BaseSubtypeDecl):
     """
-    Specific ``SubtypeDecl`` synthetic subclass for the base type of scalar
+    Specific ``BaseSubtypeDecl`` synthetic subclass for the base type of scalar
     types.
     """
     aspects = NullField()

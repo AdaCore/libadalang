@@ -27,7 +27,8 @@ from testsuite_support.valgrind import Valgrind
 
 
 class SetupError(Exception):
-    """Exception to raise when the testcase is invalid.
+    """
+    Exception to raise when the testcase is invalid.
 
     Helper exception to work with catch_test_errors: see below.
     """
@@ -35,7 +36,8 @@ class SetupError(Exception):
 
 
 class TestError(Exception):
-    """Exception to raise when the testcase fails.
+    """
+    Exception to raise when the testcase fails.
 
     Helper exception to work with catch_test_errors: see below.
     """

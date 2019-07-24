@@ -22,6 +22,6 @@
                 k, v = var.split("=")
                 self.scen_vars[k] = v
 
-        return ${module_name}.UnitProvider.for_project(
+        return UnitProvider.for_project(
             self.args.project, self.scen_vars
         )

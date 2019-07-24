@@ -1,16 +1,45 @@
-  let create_project_unit_provider = foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
-    (string @-> ptr void @-> ptr char @-> ptr char @-> raisable c_type)
+  type project_scenario_variable
 
-  let destroy_unit_provider = foreign ~from:c_lib "${capi.get_name("destroy_unit_provider")}"
-    (c_type @-> raisable void)
+  let c_project_scenario_variable : project_scenario_variable structure typ =
+    structure "project_scenario_variable"
 
-  let for_project project_file =
-    let char_null = from_voidp char null in
+  let scenario_var_name = field c_project_scenario_variable "name" string
+
+  let scenario_var_value = field c_project_scenario_variable "value" string
+
+  let () = seal c_project_scenario_variable
+
+  let create_project_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
+    (string @-> ptr c_project_scenario_variable @-> string @-> string
+     @-> raisable c_type)
+
+  let destroy_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("destroy_unit_provider")}"
+      (c_type @-> raisable void)
+
+  let for_project ?(scenario_vars = []) ?(target = "") ?(runtime = "")
+      project_file =
+    (* One more to store (null, null)*)
+    let scenario_vars_len = List.length scenario_vars + 1 in
+    let c_scenario_vars =
+      (* Allocates a fresh array with given size, fill with zeros. Thus,
+       the last cell is already (null, null) *)
+      allocate_n c_project_scenario_variable ~count:scenario_vars_len
+    in
+    let fill_scenario_vars i (name, value) =
+      let c_struct = make c_project_scenario_variable in
+      setf c_struct scenario_var_name name ;
+      setf c_struct scenario_var_value value ;
+      c_scenario_vars +@ i <-@ c_struct
+    in
+    List.iteri fill_scenario_vars scenario_vars ;
     let c_value =
-      create_project_unit_provider project_file null char_null char_null
+      create_project_unit_provider project_file c_scenario_vars target runtime
     in
     if is_null c_value then
       raise (InvalidProjectError ("Cannot open project " ^ project_file))
-    else
-      (Gc.finalise (fun x -> destroy_unit_provider x) c_value;
-      c_value)
+    else (
+      Gc.finalise (fun x -> destroy_unit_provider x) c_value;
+      c_value
+    )

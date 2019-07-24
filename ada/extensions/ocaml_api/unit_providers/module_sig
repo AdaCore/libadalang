@@ -1,2 +1,7 @@
-  val for_project : string -> t
+  val for_project :
+    ?scenario_vars:(string * string) list
+    -> ?target:string
+    -> ?runtime:string
+    -> string
+    -> t
   ${ocaml_doc('libadalang.create_project_unit_provider', 1)}

@@ -185,23 +185,31 @@ package body Libadalang.Env_Hooks is
    -- Name_To_Symbols --
    ---------------------
 
-   function Name_To_Symbols
-      (Name : access Bare_Name_Type'Class) return Symbol_Type_Array
-   is
-     (case Name.Kind is
+   function Name_To_Symbols (Name : Bare_Name) return Symbol_Type_Array is
+      N : constant Bare_Ada_Node := Convert_From_Name (Name);
+   begin
+      case N.Kind is
+         when Ada_Base_Id =>
+            return (1 => Get_Symbol (N));
 
-      when Ada_Base_Id =>
-        (1 => Get_Symbol (Bare_Identifier (Name))),
+         when Ada_Dotted_Name =>
+            declare
+               D : constant Bare_Dotted_Name :=
+                  Convert_To_Dotted_Name (N);
+               S : constant Bare_Name := Convert_To_Name
+                 (Convert_From_Base_Id (D.F_Suffix));
+            begin
+               return Name_To_Symbols (D.F_Prefix) & Name_To_Symbols (S);
+            end;
 
-      when Ada_Dotted_Name =>
-        Name_To_Symbols (Bare_Dotted_Name (Name).F_Prefix)
-        & Name_To_Symbols (Bare_Dotted_Name (Name).F_Suffix),
+         when Ada_Defining_Name =>
+            return Name_To_Symbols
+              (Convert_To_Defining_Name (N).F_Name);
 
-      when Ada_Defining_Name =>
-        Name_To_Symbols (Bare_Defining_Name (Name).F_Name),
-
-      when others =>
-         raise Property_Error with "Wrong node in Name_To_Symbols");
+         when others =>
+            return (raise Property_Error with "Wrong node in Name_To_Symbols");
+      end case;
+   end Name_To_Symbols;
 
    ---------------
    -- To_String --
@@ -229,7 +237,7 @@ package body Libadalang.Env_Hooks is
    begin
       return Fetch_Unit
         (Ctx, Name_To_Symbols (Name),
-         Bare_Ada_Node (Name).Unit, Kind,
+         Convert_From_Name (Name).Unit, Kind,
          Load_If_Needed, Do_Prepare_Nameres);
    end Fetch_Unit;
 
@@ -348,14 +356,15 @@ package body Libadalang.Env_Hooks is
    procedure Env_Hook (Unit : Internal_Unit; Node : Bare_Ada_Node) is
       Ctx : constant Internal_Context := Unit.Context;
    begin
-      if Node.Parent.all in Bare_Library_Item_Type'Class then
-         if Node.all in Bare_Body_Node_Type'Class then
-            Handle_Unit_Body (Ctx, Bare_Body_Node (Node));
-         elsif Node.all in Bare_Basic_Decl_Type'Class then
-            Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
+      if Node.Parent.Kind = Ada_Library_Item then
+         if Node.Kind in Ada_Body_Node then
+            Handle_Unit_Body (Ctx, Convert_To_Body_Node (Node));
+         elsif Node.Kind in Ada_Basic_Decl then
+            Handle_Unit_With_Parents
+              (Ctx, Convert_To_Basic_Decl (Node));
          end if;
-      elsif Node.Parent.all in Bare_Subunit_Type'Class then
-         Handle_Subunit (Ctx, Bare_Basic_Decl (Node));
+      elsif Node.Parent.Kind = Ada_Subunit then
+         Handle_Subunit (Ctx, Convert_To_Basic_Decl (Node));
       end if;
    end Env_Hook;
 
@@ -366,30 +375,35 @@ package body Libadalang.Env_Hooks is
    procedure Handle_Unit_With_Parents
      (Ctx : Internal_Context; Node : Bare_Basic_Decl)
    is
-      N : Bare_Name;
+      Node_N : constant Bare_Ada_Node :=
+         Convert_From_Basic_Decl (Node);
+
+      Name   : Bare_Name;
+      Name_N : Bare_Ada_Node;
    begin
       --  If this not a library-level subprogram/package decl, there is no
       --  parent spec to process.
-      if Node.all not in
-         Bare_Package_Decl_Type'Class
-         | Bare_Basic_Subp_Decl_Type'Class
-         | Bare_Package_Renaming_Decl_Type'Class
-         | Bare_Generic_Package_Decl_Type'Class
-         | Bare_Generic_Package_Instantiation_Type'Class
-         | Bare_Generic_Subp_Instantiation_Type'Class
-         | Bare_Generic_Subp_Decl_Type'Class
-         | Bare_Subp_Body_Type'Class
+      if Node_N.Kind not in
+         Ada_Package_Decl
+         | Ada_Basic_Subp_Decl
+         | Ada_Package_Renaming_Decl
+         | Ada_Generic_Package_Decl
+         | Ada_Generic_Package_Instantiation
+         | Ada_Generic_Subp_Instantiation
+         | Ada_Generic_Subp_Decl
+         | Ada_Subp_Body
       then
          return;
       end if;
 
-      N := Node.P_Defining_Name.Node.F_Name;
+      Name := P_Defining_Name (Node).Node.F_Name;
+      Name_N := Convert_From_Name (Name);
 
-      if N.all in Bare_Dotted_Name_Type'Class then
+      if Name_N.Kind in Ada_Dotted_Name then
          declare
             Dummy : constant Internal_Unit := Fetch_Unit
               (Ctx,
-               Bare_Dotted_Name (N).F_Prefix,
+               Convert_To_Dotted_Name (Name_N).F_Prefix,
                Unit_Specification,
                Load_If_Needed => True);
          begin
@@ -404,10 +418,12 @@ package body Libadalang.Env_Hooks is
 
    procedure Handle_Subunit (Ctx : Internal_Context; Node : Bare_Basic_Decl)
    is
+      N : constant Bare_Ada_Node := Convert_From_Basic_Decl (Node);
+
       --  Sub-unit handling is very simple: We just want to fetch the
       --  containing unit.
       Dummy : constant Internal_Unit := Fetch_Unit
-        (Ctx, Bare_Subunit (Node.Parent).F_Name, Unit_Body,
+        (Ctx, Convert_To_Subunit (N.Parent).F_Name, Unit_Body,
          Load_If_Needed => True);
    begin
       null;
@@ -419,17 +435,16 @@ package body Libadalang.Env_Hooks is
 
    procedure Handle_Unit_Body (Ctx : Internal_Context; Node : Bare_Body_Node)
    is
+      N     : constant Bare_Ada_Node := Convert_From_Body_Node (Node);
       Names : Internal_Entity_Defining_Name_Array_Access;
    begin
       --  If this not a library-level subprogram/package body, there is no spec
       --  to process.
-      if Node.all not in Bare_Package_Body_Type'Class
-         and then Node.all not in Bare_Subp_Body_Type'Class
-      then
+      if N.Kind not in Ada_Package_Body | Ada_Subp_Body then
          return;
       end if;
 
-      Names := Node.P_Defining_Names;
+      Names := P_Defining_Names (Convert_To_Basic_Decl (N));
       pragma Assert (Names.N = 1);
 
       declare
@@ -441,10 +456,10 @@ package body Libadalang.Env_Hooks is
                               Load_If_Needed => True);
       end;
 
-      if Node.all in Bare_Subp_Body_Type'Class then
+      if N.Kind = Ada_Subp_Body then
          --  A library level subprogram body does not have to have a spec. So
          --  we have to compute the parents directly from here.
-         Handle_Unit_With_Parents (Ctx, Bare_Basic_Decl (Node));
+         Handle_Unit_With_Parents (Ctx, Convert_To_Basic_Decl (N));
       end if;
    end Handle_Unit_Body;
 

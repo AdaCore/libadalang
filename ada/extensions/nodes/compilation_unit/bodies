@@ -4,14 +4,13 @@
 -- P_Get_Empty_Env --
 ---------------------
 
-function P_Get_Empty_Env
-  (Node : access Bare_Compilation_Unit_Type'Class) return Lexical_Env
-is
+function P_Get_Empty_Env (Node : Bare_Compilation_Unit) return Lexical_Env is
+   N : constant Bare_Ada_Node := Convert_From_Compilation_Unit (Node);
 begin
    if Node.No_Env = Empty_Env then
       Node.No_Env :=
-         AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
-      Register_Destroyable (Node.Unit, Node.No_Env.Env);
+         AST_Envs.Create_Lexical_Env (No_Env_Getter, N, Owner => N.Unit);
+      Register_Destroyable (N.Unit, Node.No_Env.Env);
    end if;
    return Node.No_Env;
 end P_Get_Empty_Env;

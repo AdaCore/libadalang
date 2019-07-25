@@ -4,10 +4,9 @@
 -- P_Eval_As_Int --
 -------------------
 
-function P_Eval_As_Int
-  (Node : access Bare_Expr_Type'Class) return Big_Integer_Type
-is
-   N : constant Libadalang.Analysis.Expr := Wrap_Node (Node).As_Expr;
+function P_Eval_As_Int (Node : Bare_Expr) return Big_Integer_Type is
+   N : constant Libadalang.Analysis.Expr :=
+      Wrap_Node (Convert_From_Expr (Node)).As_Expr;
 
    package Eval renames Libadalang.Expr_Eval;
 begin

@@ -4,14 +4,13 @@
 -- P_Primitives --
 ------------------
 
-function P_Primitives
-  (Node : access Bare_Type_Decl_Type'Class) return Lexical_Env
-is
+function P_Primitives (Node : Bare_Type_Decl) return Lexical_Env is
+   N : constant Bare_Ada_Node := Convert_From_Type_Decl (Node);
 begin
    if Node.Prims_Env = Empty_Env then
       Node.Prims_Env :=
-         AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
-      Register_Destroyable (Node.Unit, Node.Prims_Env.Env);
+         AST_Envs.Create_Lexical_Env (No_Env_Getter, N, Owner => N.Unit);
+      Register_Destroyable (N.Unit, Node.Prims_Env.Env);
    end if;
    return Node.Prims_Env;
 end P_Primitives;

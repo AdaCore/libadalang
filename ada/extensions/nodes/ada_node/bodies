@@ -5,7 +5,7 @@
 ----------------
 
 function P_Get_Unit
-  (Node           : access Bare_Ada_Node_Type'Class;
+  (Node           : Bare_Ada_Node;
    Name           : Symbol_Type_Array_Access;
    Kind           : Analysis_Unit_Kind;
    Load_If_Needed : Boolean) return Internal_Unit is
@@ -26,7 +26,7 @@ end P_Get_Unit;
 ---------------------
 
 function P_Standard_Unit
-  (Node : access Bare_Ada_Node_Type'Class) return Internal_Unit is
+  (Node : Bare_Ada_Node) return Internal_Unit is
 begin
    return Get_From_File
      (Context  => Node.Unit.Context,
@@ -41,7 +41,7 @@ end P_Standard_Unit;
 -----------------------------
 
 function P_Filter_Is_Imported_By
-  (Node       : access Bare_Ada_Node_Type'Class;
+  (Node       : Bare_Ada_Node;
    Units      : Internal_Unit_Array_Access;
    Transitive : Boolean) return Internal_Unit_Array_Access is
 
@@ -118,8 +118,8 @@ function P_Filter_Is_Imported_By
       if T_Root /= null and then T_Root.Kind = Ada_Compilation_Unit then
          declare
             Qualified_Name : constant Internal_Symbol_Type_Array :=
-               Bare_Compilation_Unit
-                 (T_Root).P_Syntactic_Fully_Qualified_Name.Items;
+               P_Syntactic_Fully_Qualified_Name
+                 (Convert_To_Compilation_Unit (T_Root)).Items;
          begin
             if Is_Special_Unit_Name (Qualified_Name) then
                return Libadalang.Env_Hooks.Fetch_Unit
@@ -172,7 +172,7 @@ function P_Filter_Is_Imported_By
       Root_Node : constant Bare_Ada_Node := Root (From);
       Comp_Unit : Bare_Compilation_Unit;
 
-      Prelude : Bare_Ada_Node_List;
+      Prelude : Bare_Ada_Node;
 
       From_Cursor : constant Analysis_Unit_Maps.Cursor :=
          Units_Import_Target.Find (From);
@@ -198,22 +198,28 @@ function P_Filter_Is_Imported_By
             "Filter_Is_Imported_By: Unhandled type " & Root_Node.Kind'Image;
       end if;
 
-      Comp_Unit := Bare_Compilation_Unit (Root_Node);
-      Prelude := Comp_Unit.F_Prelude;
+      Comp_Unit := Convert_To_Compilation_Unit (Root_Node);
+      Prelude := Convert_From_Ada_Node_List (Comp_Unit.F_Prelude);
 
-      for I in 1 .. Prelude.Count loop
-         if Prelude.Item (I).Kind = Ada_With_Clause then
+      for I in 1 .. Children_Count (Prelude) loop
+         if Child (Prelude, I).Kind = Ada_With_Clause then
             declare
-               Imported_Packages : constant Bare_Name_List :=
-                 Bare_With_Clause (Prelude.Item (I)).F_Packages;
+               Imported_Packages : constant Bare_Ada_Node :=
+                  Convert_From_Name_List
+                    (Convert_To_With_Clause (Child (Prelude, I)).F_Packages);
             begin
-               for J in 1 .. Imported_Packages.Count loop
-                  if Handle_Unit_Name (Libadalang.Env_Hooks.Name_To_Symbols
-                                         (Imported_Packages.Item (J)))
-                  then
-                     Units_Import_Target.Replace (From, True);
-                     return True;
-                  end if;
+               for J in 1 .. Children_Count (Imported_Packages) loop
+                  declare
+                     Pkg : constant Bare_Name :=
+                        Convert_To_Name (Child (Imported_Packages, J));
+                     Symbols : constant Symbol_Type_Array :=
+                        Libadalang.Env_Hooks.Name_To_Symbols (Pkg);
+                  begin
+                     if Handle_Unit_Name (Symbols) then
+                        Units_Import_Target.Replace (From, True);
+                        return True;
+                     end if;
+                  end;
                end loop;
             end;
          end if;
@@ -227,17 +233,17 @@ function P_Filter_Is_Imported_By
 
       declare
          Unit_Name : constant Symbol_Type_Array_Access :=
-            Comp_Unit.P_Syntactic_Fully_Qualified_Name;
+            P_Syntactic_Fully_Qualified_Name (Comp_Unit);
 
          Parent_Symbols : constant Internal_Symbol_Type_Array :=
-           (if Comp_Unit.P_Unit_Kind = Unit_Body
+           (if P_Unit_Kind (Comp_Unit) = Unit_Body
             then Unit_Name.Items
             else Unit_Name.Items
               (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
       begin
          if Parent_Symbols'Length > 0 then
             if Handle_Unit_Name
-                 (Libadalang.Env_Hooks.Symbol_Type_Array (Parent_Symbols))
+              (Libadalang.Env_Hooks.Symbol_Type_Array (Parent_Symbols))
             then
                Units_Import_Target.Replace (From, True);
                return True;

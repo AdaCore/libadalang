@@ -24,9 +24,19 @@ overriding function Evaluate
 is
    use type Libadalang.Common.Symbols.Symbol_Type;
 
-   function Check_Base_Id (Id : Base_Id) return Boolean
-   is (P_Sym (Bare_Single_Tok_Node (Unwrap_Node (Id))) = P.Symbol);
+   function Check_Base_Id (Id : Base_Id) return Boolean;
    --  Return whether the symbol for Id matches P.Name
+
+   -------------------
+   -- Check_Base_Id --
+   -------------------
+
+   function Check_Base_Id (Id : Base_Id) return Boolean is
+      N : constant Bare_Single_Tok_Node :=
+         Convert_To_Single_Tok_Node (Unwrap_Node (Id));
+   begin
+      return P_Sym (N) = P.Symbol;
+   end Check_Base_Id;
 
 begin
    if N.Is_Null or else N.Kind not in Ada_Basic_Decl then

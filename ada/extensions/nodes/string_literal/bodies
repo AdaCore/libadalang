@@ -1,9 +1,10 @@
 --  vim: ft=ada
 
 function P_Denoted_Value
-  (Node : access Bare_String_Literal_Type'Class)
-   return Character_Type_Array_Access is
+  (Node : Bare_String_Literal) return Character_Type_Array_Access
+is
+   N_Text : constant Text_Type := Text (Convert_From_String_Literal (Node));
 begin
    return Create_Character_Type_Array
-     (Libadalang.Sources.Decode_String_Literal (Node.Text));
+     (Libadalang.Sources.Decode_String_Literal (N_Text));
 end P_Denoted_Value;

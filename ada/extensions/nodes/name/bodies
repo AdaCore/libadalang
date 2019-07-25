@@ -1,13 +1,14 @@
 --  vim: ft=ada
 
 function P_Internal_Referenced_Unit
-  (Node           : access Bare_Name_Type'Class;
+  (Node           : Bare_Name;
    Kind           : Analysis_Unit_Kind;
    Load_If_Needed : Boolean) return Internal_Unit
 is
+   N : constant Bare_Ada_Node := Convert_From_Name (Node);
 begin
    return Libadalang.Env_Hooks.Fetch_Unit
-     (Node.Unit.Context, Bare_Name (Node), Kind, Load_If_Needed);
+     (N.Unit.Context, Bare_Name (Node), Kind, Load_If_Needed);
 exception
    when Property_Error =>
       return No_Analysis_Unit;

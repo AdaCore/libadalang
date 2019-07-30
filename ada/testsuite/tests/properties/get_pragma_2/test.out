@@ -1,0 +1,7 @@
+Declaration of U => <TypeDecl ["U"] test.adb:4:7-4:29>
+   get_pragma ('pack') => <PragmaNode test.adb:5:7-5:23>
+
+Declaration of U with rebindings of Pkg_I => <TypeDecl ["U"] test.adb:4:7-4:29>
+   get_pragma ('pack') => <PragmaNode test.adb:5:7-5:23>
+
+Done

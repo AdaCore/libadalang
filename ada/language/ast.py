@@ -5004,7 +5004,7 @@ class Pragma(AdaNode):
             # Find the current declarative scope
             lambda name: Entity.declarative_scope.then(
                 # Get entities in it
-                lambda decl_scope: decl_scope.children_env.get(
+                lambda decl_scope: decl_scope.as_entity.children_env.get(
                     name.name_symbol, lookup=LK.flat, categories=noprims
                 )
             )

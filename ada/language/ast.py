@@ -3268,7 +3268,7 @@ class BaseTypeDecl(BasicDecl):
         though the correct answer is more akin to "non applicable".
         """
         return Entity.match(
-            lambda itd=T.IncompleteTypeDecl: False,
+            lambda _=T.IncompleteTypeDecl: False,
             lambda td=T.TypeDecl: td.discriminants.is_null & td.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
                 Not(dtd.subtype_indication.constraint.is_null)
@@ -3281,7 +3281,7 @@ class BaseTypeDecl(BasicDecl):
             lambda st=T.SubtypeDecl:
             Not(st.subtype.constraint.is_null)
             | st.from_type.is_definite_subtype,
-            lambda cwtd=T.ClasswideTypeDecl: False,
+            lambda _=T.ClasswideTypeDecl: False,
             lambda ttd=T.TaskTypeDecl: ttd.discriminants.is_null,
             lambda ptd=T.ProtectedTypeDecl: ptd.discriminants.is_null,
             lambda _: True

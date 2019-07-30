@@ -432,6 +432,12 @@ package body Libadalang.Env_Hooks is
       Names := Node.P_Defining_Names;
       pragma Assert (Names.N = 1);
 
+      --  When there is a parsing error, we can get null nodes, so avoid
+      --  Constraint_Errors.
+      if Names.Items (1).Node = null then
+         raise Property_Error;
+      end if;
+
       declare
          N     : constant Bare_Name := Names.Items (1).Node.F_Name;
          Dummy : Internal_Unit;

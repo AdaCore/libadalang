@@ -3281,7 +3281,20 @@ class BaseTypeDecl(BasicDecl):
                     pp.cast(T.BaseTypeDecl)._.is_private),
                 And(go_to_incomplete,
                     pp.is_a(T.IncompleteTypeDecl)),
-            )).cast(T.BaseTypeDecl))
+            )))._or(
+                # the previous part of this type is not in its semantic
+                # parents: this must mean we are in a package body and
+                # therefore the previous part must be in the private part of
+                # the package spec (RM 3.10.1).
+                Entity.semantic_parent.cast(PackageBody).then(
+                    lambda p: p.previous_part.cast(BasePackageDecl)
+                    .private_part.then(
+                        lambda pp: pp.children_env.get(
+                            type_name.name_symbol, LK.flat, categories=noprims
+                        ).find(lambda t: t.is_a(BaseTypeDecl))
+                    )
+                )
+            ).cast(T.BaseTypeDecl)
         )
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
@@ -3293,10 +3306,24 @@ class BaseTypeDecl(BasicDecl):
 
         return Entity.match(
             lambda itd=T.IncompleteTypeDecl:
+            # The next part of a (non-private) incomplete type declaration must
+            # either be in the same declarative scope...
             itd.node_env
             .get(itd.name.name_symbol, LK.flat, categories=noprims)
             .find(lambda t: t.is_a(BaseTypeDecl) & (t != Entity))
-            .cast(BaseTypeDecl),
+
+            # Or in the particular case where the incomplete decl is in the
+            # private part of the package spec, the next part can be found in
+            # the package's body (RM 3.10.1).
+            ._or(Entity.is_in_private_part.then(
+                lambda _:
+                Entity.parent.parent.parent
+                .cast(T.BasePackageDecl).body_part.then(
+                    lambda p: p.children_env
+                    .get(itd.name.name_symbol, LK.flat, categories=noprims)
+                    .find(lambda t: t.is_a(BaseTypeDecl))
+                )
+            )).cast(BaseTypeDecl),
 
             lambda _: If(
                 Entity.is_private,

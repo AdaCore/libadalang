@@ -5079,7 +5079,7 @@ class Pragma(AdaNode):
             Entity.id.name_symbol.any_of(
                 'Import', 'Export', 'Interface', 'Convention'
             ),
-            Entity.args.at(1).assoc_expr.cast_or_raise(T.BaseId),
+            Entity.args.at(1).assoc_expr.cast_or_raise(T.Name),
             Entity.id.name_symbol.any_of(
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline'
             ),

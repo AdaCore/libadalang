@@ -27,7 +27,7 @@ def find_name(unit_name, name_text, line_no=None):
     )
 
 for unit, name in [('test.adb', 'Foo'), ('base.ads', 'Bar'),
-                   ('derived.ads', 'Bar')]:
+                   ('derived.ads', 'Bar'), ('derived_3.ads', 'Bar')]:
     print('{} from {} is called by:'.format(name, unit))
     for ref in find_name(unit, name).p_is_called_by(all_units):
         while ref.parent is not None and not ref.p_xref_entry_point:

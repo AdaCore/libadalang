@@ -1307,6 +1307,63 @@ class BasicDecl(AdaNode):
             )
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True)
+    def base_subp_declarations():
+        """
+        If Self declares a primitive subprogram of some tagged type T, return
+        the set of all subprogram declarations that it overrides (including
+        itself).
+        """
+        return Entity.is_subprogram.then(
+            lambda _: Entity.subp_spec_or_null.then(
+                lambda spec: spec.primitive_subp_of.find(
+                    lambda t:
+                    t.is_tagged_type | t.private_completion._.is_tagged_type
+                ).then(
+                    lambda t:
+                    t.primitives_env.get(Entity.name_symbol).filtermap(
+                        lambda bd: bd.cast(BasicDecl),
+                        lambda bd: bd.is_a(BasicDecl)
+                    )
+                )
+            )
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity, public=True,
+                      dynamic_vars=[default_origin()])
+    def root_subp_declaration():
+        """
+        If Self declares a primitive subprogram of some tagged type T, return
+        the root subprogram declaration that it overrides.
+        """
+        # Get all the parent overrides defined for this subprogram. That is,
+        # if this subprogram is a primitive of some type T and overrides some
+        # subprogram P, get all the other overrides of P which are primitives
+        # of parent types of T.
+        base_decls = Var(Entity.base_subp_declarations)
+
+        # Compute the set of all such types for which an override is declared
+        base_types = Var(base_decls.map(
+            lambda d: d.info.md.primitive.cast(BaseTypeDecl).as_bare_entity
+        ))
+
+        # Among this set of type, find the one which is not derived from any
+        # of the other, i.e. the base-most type on which the original
+        # subprogram is declared.
+        return base_types.find(
+            lambda t: Not(base_types.any(
+                lambda u: And(
+                    t != u,
+                    t.is_derived_type(u)
+                )
+            ))
+        ).then(
+            # Get back the subprogram
+            lambda root_type: base_decls.find(
+                lambda d: d.info.md.primitive == root_type.node
+            )
+        )
+
     annotations = Annotations(custom_short_image=True)
 
     defining_names = AbstractProperty(
@@ -8183,6 +8240,38 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_referenced_by(x=AdaNode.entity):
+        """
+        Returns True iff the given node is an identifier referring to Self.
+        Note that this takes into account both direct references as well as
+        potential references.
+
+        Potential references can occur in the context of dispatching calls: an
+        identifier having for direct reference the declaration of an
+        overridable subprogram is considered a potential reference to all
+        subprograms that override it if the identifier appears in a dispatching
+        call.
+        """
+        return And(
+            x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
+                    lambda _: False),
+            Let(lambda canon=x.xref._.canonical_part._.node: Or(
+                # Either `x` is a direct reference
+                canon == Self,
+
+                # Or `x` refers to one of the base subprograms of defined by
+                # Self, and `x` appears in a dispatching call context.
+                Entity.basic_decl.base_subp_declarations.then(
+                    lambda decls: And(
+                        decls.any(lambda d: d.defining_name.node == canon),
+                        x.cast(Name).is_dispatching_call
+                    )
+                )
+            ))
+        )
+
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_refs_in(x=AdaNode.entity, origin=AdaNode):
@@ -8192,12 +8281,10 @@ class DefiningName(Name):
         """
         return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
-            .mapcat(lambda n: Self.find_all_refs_in(n, origin))
+            .mapcat(lambda n: Entity.find_all_refs_in(n, origin))
         ).concat(If(
-            (x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
-                     lambda _:        False)) &
-            (x.xref._.canonical_part._.node == Self),
-            x.cast(BaseId).singleton,
+            Entity.is_referenced_by(x),
+            x.cast_or_raise(BaseId).singleton,
             No(BaseId.entity.array)
         ))
 
@@ -8209,7 +8296,16 @@ class DefiningName(Name):
         units.
         """
         dn = Var(Entity.canonical_part)
-        return dn.filter_is_imported_by(units, True).mapcat(
+
+        # If `dn` defines a subprogram which overrides some subprogram P, we
+        # need to do the unit filtering from the declaration of P so that we
+        # don't omit units in which we may have potential references to Self
+        # through dispatching calls.
+        base = Var(origin.bind(
+            Self, dn.basic_decl.root_subp_declaration._or(dn)
+        ))
+
+        return base.filter_is_imported_by(units, True).mapcat(
             lambda u: u.root.then(
                 lambda r: dn.find_all_refs_in(r.as_bare_entity, Self)
             )

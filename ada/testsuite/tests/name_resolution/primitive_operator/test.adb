@@ -7,10 +7,17 @@ procedure Main is
 
    use Pkg;
 
-   type My_T is new T with null record;
+   package Pkg_D is
+      type My_T is new Pkg.T with null record;
+   end Pkg_D;
+
+   use type Pkg_D.My_T;
 
    X : T;
+   Y : Pkg_D.My_T;
 begin
    X := X & 2;
+   pragma Test_Statement;
+   Y := Y & 2;
    pragma Test_Statement;
 end Main;

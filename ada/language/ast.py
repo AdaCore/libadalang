@@ -3682,19 +3682,25 @@ class TypeDecl(BaseTypeDecl):
         return T.PrimTypeAccessor.new(prim_type=Entity)
 
     @langkit_property(memoized=True)
+    def compute_primitives_env(include_self=(Bool, True)):
+        return Entity.primitives_envs(include_self=include_self).env_group(
+            with_md=new_metadata(
+                primitive_real_type=Entity.primitive_type_accessor
+            )
+        )
+
+    @langkit_property()
     def parent_primitives_env():
         return Self.type_def.match(
-            lambda _=T.DerivedTypeDef: Entity.primitives_envs.env_group(
-                with_md=new_metadata(
-                    primitive_real_type=Entity.primitive_type_accessor
-                )
-            ),
+            lambda _=T.DerivedTypeDef:
+            Entity.compute_primitives_env(include_self=False),
+
             lambda _: Self.empty_env
         )
 
     @langkit_property()
     def primitives_env():
-        return Entity.primitives_envs(include_self=True).env_group()
+        return Entity.compute_primitives_env(include_self=True)
 
     get_imp_deref = Property(Entity.get_aspect_expr('Implicit_Dereference'))
 

@@ -430,6 +430,16 @@ class AdaNode(ASTNode):
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity)
+    def parent_basic_decl():
+        """
+        Return the parent basic decl for this node, if applicable, null
+        otherwise.
+        """
+        return Entity.semantic_parent.then(
+            lambda sp: sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
+        )
+
     @langkit_property(
         return_type=AnalysisUnit, external=True, uses_entity_info=False,
         uses_envs=False,
@@ -1696,7 +1706,7 @@ class BasicDecl(AdaNode):
             ent.is_unit_root,
             ent.defining_name.as_symbol_array,
 
-            ent.semantic_parent.cast(T.BasicDecl)
+            ent.parent_basic_decl
             ._.fully_qualified_name_array.then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal),
                 fqn,

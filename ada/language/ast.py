@@ -1317,8 +1317,7 @@ class BasicDecl(AdaNode):
         return Entity.is_subprogram.then(
             lambda _: Entity.subp_spec_or_null.then(
                 lambda spec: spec.primitive_subp_of.find(
-                    lambda t:
-                    t.is_tagged_type | t.private_completion._.is_tagged_type
+                    lambda t: t.full_view.is_tagged_type
                 ).then(
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
@@ -3339,6 +3338,17 @@ class BaseTypeDecl(BasicDecl):
                 No(T.BaseTypeDecl.entity)
             )
 
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      public=True)
+    def full_view():
+        """
+        Return the full completion of this type.
+        """
+        return Entity.next_part.then(
+            lambda np: np.full_view,
+            default_val=Entity
         )
 
     @langkit_property(return_type=Bool,
@@ -9169,7 +9179,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # However, since private types don't have components, this
                 # should not ever be a problem with legal Ada.
                 Not(t.is_a(BaseSubtypeDecl))
-                & (t.is_tagged_type | t.private_completion._.is_tagged_type)
+                & t.full_view.is_tagged_type
                 & bd.declarative_scope.then(lambda ds: Or(
                     # If the subprogram is defined in the same declarative
                     # scope as t, then it is a dottable subprogram of t.

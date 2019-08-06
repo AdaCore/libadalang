@@ -182,13 +182,35 @@ Expr: <Id "First" testfirst.adb:19:21-19:26>
   references: None
   type:       None
 
-Resolving xrefs for node <EndName testfirst.adb:20:5-20:14>
+Resolving xrefs for node <AssignStmt testfirst.adb:20:4-20:21>
+**************************************************************
+
+Expr: <CallExpr testfirst.adb:20:4-20:15>
+  references: <DefiningName testfirst.adb:6:4-6:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "D" testfirst.adb:20:4-20:5>
+  references: <DefiningName testfirst.adb:6:4-6:5>
+  type:       <TypeDecl ["A"] testfirst.adb:2:4-2:50>
+Expr: <AttributeRef testfirst.adb:20:7-20:14>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "D" testfirst.adb:20:7-20:8>
+  references: <DefiningName testfirst.adb:6:4-6:5>
+  type:       <TypeDecl ["A"] testfirst.adb:2:4-2:50>
+Expr: <Id "First" testfirst.adb:20:9-20:14>
+  references: None
+  type:       None
+Expr: <Int testfirst.adb:20:19-20:20>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
+Resolving xrefs for node <EndName testfirst.adb:21:5-21:14>
 ***********************************************************
 
-Expr: <EndName testfirst.adb:20:5-20:14>
+Expr: <EndName testfirst.adb:21:5-21:14>
   references: <DefiningName testfirst.adb:1:11-1:20>
   type:       None
-Expr: <Id "Testfirst" testfirst.adb:20:5-20:14>
+Expr: <Id "Testfirst" testfirst.adb:21:5-21:14>
   references: <DefiningName testfirst.adb:1:11-1:20>
   type:       None
 

@@ -1,5 +1,8 @@
 #! /usr/bin/env sh
 
+# This script is used both as a travis install script, and as a helper to get a
+# quick user/developper Libadalang setup.
+
 set -v
 set -e
 

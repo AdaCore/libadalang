@@ -18,6 +18,8 @@ pull_request_branch = os.environ.get('TRAVIS_PULL_REQUEST_BRANCH')
 repo_slug = os.environ.get('TRAVIS_REPO_SLUG')
 repo_branch = os.environ.get('TRAVIS_BRANCH')
 
+print("REPO SLUG: ", repo_slug)
+
 
 # Queue of couples (slug, branch) for the Langkit branches to test. The last
 # one is tested first.

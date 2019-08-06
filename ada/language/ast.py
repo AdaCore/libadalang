@@ -2986,6 +2986,16 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=Bool)
+    def is_generic_formal():
+        """
+        Return whether this type declaration is a generic formal.
+        """
+        return Or(
+            Self.parent.is_a(GenericFormalTypeDecl),
+            Self.parent.cast(BaseTypeDecl)._.is_generic_formal
+        )
+
     is_tagged_type = Property(False, doc="Whether type is tagged or not")
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
@@ -3313,7 +3323,8 @@ class BaseTypeDecl(BasicDecl):
             )).cast(BaseTypeDecl),
 
             lambda _: If(
-                Entity.is_private,
+                Entity.is_private
+                & Not(Entity.is_generic_formal),
                 bind_origin(Self, Entity.canonical_type).then(
                     lambda ct:
                     Entity.declarative_scope.parent

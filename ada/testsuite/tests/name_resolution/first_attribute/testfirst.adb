@@ -17,5 +17,6 @@ begin
    Idx := D'First;
 
    Idx := Foo.Pouet'First;
+   D (D'First) := 2;
 end Testfirst;
 pragma Test_Block;

@@ -3020,7 +3020,7 @@ class BaseTypeDecl(BasicDecl):
         )
 
     is_array_def_with_deref = Property(
-        Not(Entity.array_def_with_deref.is_null),
+        Not(Self.is_null) & Not(Entity.array_def_with_deref.is_null),
         dynamic_vars=[origin]
     )
 
@@ -10009,7 +10009,10 @@ class AttributeRef(Name):
                 If(res,
                    If(is_length,
                       universal_int_bind(Self.type_var),
-                      TypeBind(Self.type_var, pfx_typ.index_type(dim))),
+                      TypeBind(Self.type_var, pfx_typ.index_type(dim)))
+                   & Entity.prefix.xref_equation
+                   & Predicate(BaseTypeDecl.is_array_def_with_deref,
+                               Entity.prefix.type_var),
                    LogicFalse()))
         )
 

@@ -8342,7 +8342,11 @@ class DefiningName(Name):
         # If `dn` defines a subprogram which overrides some subprogram P, we
         # need to do the unit filtering from the declaration of P so that we
         # don't omit units in which we may have potential references to Self
-        # through dispatching calls.
+        # through dispatching calls. This is valid because all units that would
+        # import `dn` will necessarily import `base` as well, as `dn`
+        # necessarily imports `base` to define its overriding subprogram.
+        # This only works if filter_is_imported_by is called with transitive
+        # set to True.
         base = Var(origin.bind(
             Self, dn.basic_decl.root_subp_declaration._or(dn)
         ))

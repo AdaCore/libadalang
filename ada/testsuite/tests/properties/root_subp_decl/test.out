@@ -1,0 +1,9 @@
+The root declaration of <NullSubpDecl ["Foo"] test.adb:5:7-5:37> is <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+The root declaration of <NullSubpDecl ["Foo"] test.adb:6:7-6:50> is <NullSubpDecl ["Foo"] test.adb:6:7-6:50>
+The root declaration of <ExprFunction ["Foo"] test.adb:7:7-7:46> is <ExprFunction ["Foo"] test.adb:7:7-7:46>
+The root declaration of <NullSubpDecl ["Foo"] test.adb:13:7-13:48> is <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+The root declaration of <NullSubpDecl ["Foo"] test.adb:17:7-17:48> is <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+The root declaration of <NullSubpDecl ["Foo"] test.adb:23:7-23:48> is <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+The root declaration of <NullSubpDecl ["Foo"] test.adb:24:7-24:61> is <NullSubpDecl ["Foo"] test.adb:6:7-6:50>
+The root declaration of <ExprFunction ["Foo"] test.adb:25:7-25:57> is <ExprFunction ["Foo"] test.adb:7:7-7:46>
+Done

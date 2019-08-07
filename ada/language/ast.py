@@ -1316,9 +1316,7 @@ class BasicDecl(AdaNode):
         """
         return Entity.is_subprogram.then(
             lambda _: Entity.subp_spec_or_null.then(
-                lambda spec: spec.primitive_subp_of.find(
-                    lambda t: t.full_view.is_tagged_type
-                ).then(
+                lambda spec: spec.primitive_subp_of_tagged.then(
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
                         lambda bd: bd.cast(BasicDecl),
@@ -9162,6 +9160,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Return the first type of which this subprogram is a primitive of.
         """
         return Entity.primitive_subp_of.then(lambda p: p.at(0))
+
+    @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
+    def primitive_subp_of_tagged():
+        return Entity.primitive_subp_of.find(
+            lambda t: t.full_view.is_tagged_type
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():

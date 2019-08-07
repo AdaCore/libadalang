@@ -1,4 +1,5 @@
 with Base;
+with Derived;
 with Pkg_G;
 
 procedure Test is
@@ -15,9 +16,11 @@ procedure Test is
    X : Integer;
    Y : Base.T'Class := My_T;
    Z : F_T := Foo'Access;
+   YY : Derived.T'Class;
 begin
    X := Foo;
    X := Z.all;
    X := Pkg_I.Baz;
    Y.Bar;
+   YY.Bar;
 end Test;

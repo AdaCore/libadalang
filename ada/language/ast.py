@@ -1320,7 +1320,15 @@ class BasicDecl(AdaNode):
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
                         lambda bd: bd.cast(BasicDecl),
-                        lambda bd: bd.is_a(BasicDecl)
+                        lambda bd: bd.cast(BasicDecl)._.subp_spec_or_null.then(
+                            lambda s:
+                            # Since `s` is retrieved from `t`'s primitives env,
+                            # its metadata fields `primitive` and
+                            # `primitive_real_type` are set and therefore
+                            # the following `match_signature` call will return
+                            # true if `s` is overridable by `spec`.
+                            s.match_signature(spec, match_name=False)
+                        )
                     )
                 )
             )
@@ -2061,27 +2069,6 @@ class BaseFormalParamHolder(AdaNode):
             nb_params == 0
         )
 
-    @langkit_property(return_type=Bool)
-    def match_formal_params(other=T.BaseFormalParamHolder.entity,
-                            match_names=(Bool, True)):
-        # Check that there is the same number of formals and that each
-        # formal matches.
-
-        self_params = Var(Entity.unpacked_formal_params)
-        other_params = Var(other.unpacked_formal_params)
-        return And(
-            self_params.length == other_params.length,
-            self_params.all(lambda i, p: And(
-                Or(p.name.matches(other_params.at(i).name.node),
-                   Not(match_names)),
-                bind_origin(
-                    Self,
-                    p.spec.formal_type
-                    ._.matching_type(other_params.at(i).spec.formal_type)
-                )
-            ))
-        )
-
     @langkit_property(return_type=Bool, dynamic_vars=[env])
     def is_matching_param_list(params=T.AssocList.entity,
                                is_dottable_subp=Bool):
@@ -2103,15 +2090,6 @@ class BaseFormalParamHolder(AdaNode):
                 lambda m: m.formal.spec.is_mandatory
             ).length == nb_min_params,
         )
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[default_origin()], public=True)
-    def return_type():
-        """
-        Returns the return type of Self, if applicable (eg. if Self is a
-        subprogram). Else, returns null.
-        """
-        return No(T.BaseTypeDecl.entity)
 
 
 @abstract
@@ -4675,7 +4653,8 @@ class TypeExpr(AdaNode):
             Entity.accessed_type,
         )
 
-    @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
+    @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin],
+                      warn_on_unused=False)
     def canonical_type():
         return Entity.designated_type._.canonical_type
 
@@ -7831,7 +7810,7 @@ class CallExpr(Name):
             lambda subp_spec:
             # The type of the expression is the expr_type of the
             # subprogram.
-            TypeBind(Self.type_var, subp_spec.return_type)
+            TypeBind(Self.type_var, subp_spec.cast(BaseSubpSpec)._.return_type)
 
             # This node represents a call to a subprogram which specification
             # is given by ``subp_spec``.
@@ -9063,18 +9042,34 @@ class BaseSubpSpec(BaseFormalParamHolder):
         #
         # TODO: simplify this code when SubpSpec provides a kind to
         # distinguish functions and procedures.
-        self_ret = Var(Entity.returns)
-        other_ret = Var(other.returns)
+        self_ret = Var(bind_origin(Self, Entity.return_type))
+        other_ret = Var(bind_origin(other.node, other.return_type))
         return Or(
             And(other_ret.is_null, self_ret.is_null),
             And(
                 Not(other_ret.is_null), Not(self_ret.is_null),
-                bind_origin(
-                    Self,
-                    bind_origin(other.node, other_ret.canonical_type)
-                    .matching_type(self_ret.canonical_type)
-                )
+                bind_origin(Self, self_ret.matching_type(other_ret))
             )
+        )
+
+    @langkit_property(return_type=Bool)
+    def match_formal_params(other=T.BaseSubpSpec.entity,
+                            match_names=(Bool, True)):
+        # Check that there is the same number of formals and that each
+        # formal matches.
+        self_params = Var(Entity.unpacked_formal_params)
+        other_params = Var(other.unpacked_formal_params)
+
+        self_types = Var(bind_origin(Self, Entity.param_types))
+        other_types = Var(bind_origin(other.node, other.param_types))
+        return And(
+            self_params.length == other_params.length,
+            bind_origin(Self, self_params.all(
+                lambda i, p:
+                Or(Not(match_names),
+                   p.name.matches(other_params.at(i).name.node))
+                & self_types.at(i).matching_type(other_types.at(i))
+            ))
         )
 
     @langkit_property(return_type=Bool)
@@ -9083,7 +9078,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Return whether SubpSpec's signature matches Self's.
 
         Note that the comparison for types isn't just a name comparison: it
-        compares the canonical types.
+        compares the canonical types. Moreover, if Entity's metadata has
+        values for fields `primitive` and `primitive_real_type` (e.g. if it was
+        retrieved from a primitive_env), those will be taken into account and
+        match_signature will return True if `other` overrides `Entity`.
 
         If match_name is False, then the name of subprogram will not be
         checked.
@@ -9221,17 +9219,16 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ))
 
     @langkit_property()
-    def return_type():
-        ret = Var(Entity.returns._.designated_type)
+    def real_type(tpe=T.BaseTypeDecl.entity):
         return If(
-            Entity.info.md.primitive == ret.node,
+            Entity.info.md.primitive == tpe.node,
 
             If(
                 Entity.info.md.primitive_real_type.is_null,
 
                 entity_no_md(
                     BaseTypeDecl,
-                    ret.node,
+                    tpe.node,
                     Entity.info.rebindings,
                     Entity.info.from_rebound
                 ),
@@ -9240,7 +9237,28 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 .cast(T.PrimTypeAccessor).get_prim_type,
             ),
 
-            ret
+            tpe
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity.array,
+                      dynamic_vars=[default_origin()], public=True)
+    def param_types():
+        """
+        Returns the type of each parameter of Self.
+        """
+        return Entity.unpacked_formal_params.map(
+            lambda fp: Entity.real_type(fp.spec.formal_type)
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()], public=True)
+    def return_type():
+        """
+        Returns the return type of Self, if applicable (eg. if Self is a
+        subprogram). Else, returns null.
+        """
+        return Entity.returns._.designated_type.then(
+            lambda t: Entity.real_type(t)
         )
 
     xref_entry_point = Property(True)

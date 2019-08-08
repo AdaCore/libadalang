@@ -7,29 +7,25 @@ import libadalang as lal
 
 
 ctx = lal.AnalysisContext()
-all_units = [
-    ctx.get_from_file(f) for f in sys.argv[1:]
-]
+unit = ctx.get_from_file("test.adb")
 
 
-for unit in all_units:
-    if len(unit.diagnostics) > 0:
-        print(unit.diagnostics)
+if len(unit.diagnostics) > 0:
+    print(unit.diagnostics)
 
 
-def find_name(unit_name, name_text, line_no=None):
-    unit = ctx.get_from_file(unit_name)
-    return unit.root.find(
-        lambda x: (
-            x.is_a(lal.DefiningName) and x.text == name_text and
-            line_no is None or x.sloc_range.start.line == line_no
-        )
-    )
+main = unit.root.find(lal.SubpBody)
 
-for unit, name in [('test.adb', 'Foo'), ('base.ads', 'Bar'),
-                   ('derived.ads', 'Bar'), ('derived_3.ads', 'Bar')]:
-    print('{} from {} is called by:'.format(name, unit))
-    for ref in find_name(unit, name).p_is_called_by(all_units):
+
+for subp in main.findall(lal.BasicDecl):
+    if not subp.p_is_subprogram:
+        continue
+    node = subp.p_defining_name
+    print('{} at line {} is called by:'.format(
+        node.text,
+        node.sloc_range.start.line
+    ))
+    for ref in node.p_is_called_by([unit]):
         while ref.parent is not None and not ref.p_xref_entry_point:
             ref = ref.parent
 

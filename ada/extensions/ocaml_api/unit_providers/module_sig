@@ -5,3 +5,6 @@
     -> string
     -> t
   ${ocaml_doc('libadalang.create_project_unit_provider', 1)}
+
+  val auto : string list -> t
+  ${ocaml_doc('libadalang.create_auto_provider', 1)}

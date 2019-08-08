@@ -9,7 +9,7 @@ from testsuite_support.base_driver import BaseDriver, catch_test_errors
 class PythonDriver(BaseDriver):
 
     #
-    # Driver entry poins
+    # Driver entry point
     #
 
     py_file = 'test.py'

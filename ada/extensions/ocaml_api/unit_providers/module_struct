@@ -43,3 +43,13 @@
       Gc.finalise (fun x -> destroy_unit_provider x) c_value;
       c_value
     )
+
+  let create_auto_provider =
+    foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"
+      (ptr string @-> raisable c_type)
+
+  let auto input_files =
+    let ptr = CArray.start (CArray.of_list string input_files) in
+    let c_value = create_auto_provider ptr in
+    Gc.finalise (fun x -> destroy_unit_provider x) c_value ;
+    c_value

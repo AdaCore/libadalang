@@ -1327,7 +1327,8 @@ class BasicDecl(AdaNode):
                             # `primitive_real_type` are set and therefore
                             # the following `match_signature` call will return
                             # true if `s` is overridable by `spec`.
-                            s.match_signature(spec, match_name=False)
+                            s.match_signature(spec, match_name=False,
+                                              use_entity_info=True)
                         )
                     )
                 )
@@ -1774,12 +1775,18 @@ class Body(BasicDecl):
 
                       lambda subp_decl=T.BasicSubpDecl:
                       subp_decl.subp_decl_spec.match_signature(
-                          Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                          Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                          # We set use_entity_info to False so as to not match
+                          # base subprograms.
+                          use_entity_info=False
                       ),
 
                       lambda subp_stub=T.SubpBodyStub:
                       subp_stub.subp_spec.match_signature(
-                          Entity.subp_spec_or_null.cast(T.SubpSpec), True
+                          Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                          # We set use_entity_info to False so as to not match
+                          # base subprograms.
+                          use_entity_info=False
                       ),
 
                       lambda _: False
@@ -9073,24 +9080,28 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=Bool)
-    def match_signature(other=T.BaseSubpSpec.entity, match_name=Bool):
+    def match_signature(other=T.BaseSubpSpec.entity, match_name=Bool,
+                        use_entity_info=(Bool, True)):
         """
         Return whether SubpSpec's signature matches Self's.
 
         Note that the comparison for types isn't just a name comparison: it
-        compares the canonical types. Moreover, if Entity's metadata has
-        values for fields `primitive` and `primitive_real_type` (e.g. if it was
-        retrieved from a primitive_env), those will be taken into account and
-        match_signature will return True if `other` overrides `Entity`.
+        compares the canonical types.
 
         If match_name is False, then the name of subprogram will not be
         checked.
+
+        If use_entity_info is True and Entity's metadata has values for fields
+        `primitive` and `primitive_real_type` (e.g. if it was retrieved from a
+        primitive_env), those will be taken into account and match_signature
+        will return True if `other` overrides `Entity`.
         """
+        ent = Var(If(use_entity_info, Entity, Self.as_bare_entity))
         return And(
             # Check that the names are the same
-            Not(match_name) | Entity.name.matches(other.name),
-            Entity.match_return_type(other),
-            Entity.match_formal_params(other, match_name),
+            Not(match_name) | ent.name.matches(other.name),
+            ent.match_return_type(other),
+            ent.match_formal_params(other, match_name),
         )
 
     @langkit_property(return_type=LexicalEnv,

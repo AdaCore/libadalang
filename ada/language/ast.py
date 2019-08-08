@@ -3706,6 +3706,10 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(memoized=True)
     def compute_primitives_env(include_self=(Bool, True)):
+        """
+        Return a environment containing all primitives accessible to Self,
+        with the adjusted `primitive_real_type` metadata field.
+        """
         return Entity.primitives_envs(include_self=include_self).env_group(
             with_md=new_metadata(
                 primitive_real_type=Entity.primitive_type_accessor

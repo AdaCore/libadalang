@@ -24,6 +24,26 @@ procedure Test is
       overriding procedure Foo (X : V; Y : Integer) is null;
       overriding function Foo return V is (null record);
    end Derived_2;
+
+   package Interfaces is
+      type I is interface;
+      type J is interface;
+
+      procedure Foo (X : I) is abstract;
+      procedure Foo (X : J) is abstract;
+   end Interfaces;
+
+   package Interfaces_2 is
+      type K is interface and Interfaces.I and Interfaces.J;
+
+      overriding procedure Foo (X : K) is null;
+   end Interfaces_2;
+
+   package Derived_4 is
+      type D is new Derived_2.V and Interfaces_2.K with null record;
+
+      overriding procedure Foo (X : D) is null;
+   end Derived_4;
 begin
    null;
 end Test;

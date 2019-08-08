@@ -470,6 +470,28 @@ class AdaNode(ASTNode):
         """
         pass
 
+    @langkit_property(return_type=AnalysisUnit.array)
+    def unique_units(list_of_units=AnalysisUnit.array):
+        """
+        Remove the duplicate units from the given list of analysis units.
+        """
+        return Self.unique_units_impl(list_of_units, 0, No(AnalysisUnit.array))
+
+    @langkit_property(return_type=AnalysisUnit.array)
+    def unique_units_impl(list_of_units=AnalysisUnit.array, i=Int,
+                          result=AnalysisUnit.array):
+        return If(
+            i < list_of_units.length,
+            Self.unique_units_impl(
+                list_of_units,
+                i + 1,
+                If(result.contains(list_of_units.at(i)),
+                   result,
+                   result.concat(list_of_units.at(i).singleton))
+            ),
+            result
+        )
+
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=Equation, dynamic_vars=[env, origin])
     def xref_equation():
@@ -1335,12 +1357,21 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity, public=True,
+    @langkit_property(return_type=T.BasicDecl.entity.array, public=True,
                       dynamic_vars=[default_origin()])
-    def root_subp_declaration():
+    def root_subp_declarations():
         """
         If Self declares a primitive subprogram of some tagged type T, return
-        the root subprogram declaration that it overrides.
+        the root subprogram declarations that it overrides. There can be
+        several, as in the following scenario:
+
+        - package Root defines the root tagged type T and subprogram Foo.
+        - package Itf defines interface I and abstract subprogram Foo.
+        - package D defines "type U is new Root.T and Itf.I" and an overriding
+          subprogram Foo.
+
+        Here, root_subp_declarations of Foo defined in package D will return
+        both Foo from package Root and Foo from package Itf.
         """
         # Get all the parent overrides defined for this subprogram. That is,
         # if this subprogram is a primitive of some type T and overrides some
@@ -1356,14 +1387,14 @@ class BasicDecl(AdaNode):
         # Among this set of type, find the one which is not derived from any
         # of the other, i.e. the base-most type on which the original
         # subprogram is declared.
-        return base_types.find(
+        return base_types.filter(
             lambda t: Not(base_types.any(
                 lambda u: And(
                     t != u,
                     t.is_derived_type(u)
                 )
             ))
-        ).then(
+        ).map(
             # Get back the subprogram
             lambda root_type: base_decls.find(
                 lambda d: d.info.md.primitive == root_type.node
@@ -8331,11 +8362,16 @@ class DefiningName(Name):
         # necessarily imports `base` to define its overriding subprogram.
         # This only works if filter_is_imported_by is called with transitive
         # set to True.
-        base = Var(origin.bind(
-            Self, dn.basic_decl.root_subp_declaration._or(dn)
+        bases = Var(origin.bind(
+            Self,
+            dn.basic_decl.root_subp_declarations._or(dn.basic_decl.singleton)
         ))
 
-        return base.filter_is_imported_by(units, True).mapcat(
+        all_units = Self.unique_units(bases.mapcat(
+            lambda base: base.filter_is_imported_by(units, True)
+        ))
+
+        return all_units.mapcat(
             lambda u: u.root.then(
                 lambda r: dn.find_all_refs_in(r.as_bare_entity, Self)
             )

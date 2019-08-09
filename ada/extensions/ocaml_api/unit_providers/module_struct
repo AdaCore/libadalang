@@ -46,10 +46,14 @@
 
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"
-      (ptr string @-> raisable c_type)
+      (ptr string @-> string @-> raisable c_type)
 
   let auto input_files =
-    let ptr = CArray.start (CArray.of_list string input_files) in
-    let c_value = create_auto_provider ptr in
+    (* Make a carray from the list input_files with one additional null element
+     * that marks its end. *)
+    let array = CArray.make string (List.length input_files + 1) in
+    List.iteri (fun i x -> CArray.set array i x) input_files ;
+    let ptr = CArray.start array in
+    let c_value = create_auto_provider ptr "" in
     Gc.finalise (fun x -> destroy_unit_provider x) c_value ;
     c_value

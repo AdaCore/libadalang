@@ -3338,24 +3338,13 @@ class BaseTypeDecl(BasicDecl):
             lambda _: If(
                 Entity.is_private
                 & Not(Entity.is_generic_formal),
-                bind_origin(Self, Entity.canonical_type).then(
-                    lambda ct:
-                    Entity.declarative_scope.parent
-                    .cast_or_raise(T.BasePackageDecl).then(
-                        lambda p: p.private_part.children_env
-                        .get(ct.name.name_symbol, LK.flat, categories=noprims)
-                        .find(lambda t: t.is_a(BaseTypeDecl) & (t != ct))
-                        .cast(BaseTypeDecl),
-                    ),
-                ),
-
+                Entity.private_completion,
                 No(T.BaseTypeDecl.entity)
             )
 
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      public=True)
+    @langkit_property(return_type=T.BaseTypeDecl.entity, public=True)
     def full_view():
         """
         Return the full completion of this type.

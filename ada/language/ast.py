@@ -9081,10 +9081,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
         self_ret = Var(bind_origin(Self, Entity.return_type))
         other_ret = Var(bind_origin(other.node, other.return_type))
         return Or(
-            And(other_ret.is_null, self_ret.is_null),
+            And(Entity.returns.is_null, other.returns.is_null),
             And(
-                Not(other_ret.is_null), Not(self_ret.is_null),
-                bind_origin(Self, self_ret.matching_type(other_ret))
+                Not(Entity.returns.is_null), Not(other.returns.is_null),
+                bind_origin(Self, self_ret._.matching_type(other_ret))
             )
         )
 
@@ -9104,7 +9104,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 lambda i, p:
                 Or(Not(match_names),
                    p.name.matches(other_params.at(i).name.node))
-                & self_types.at(i).matching_type(other_types.at(i))
+                & self_types.at(i)._.matching_type(other_types.at(i))
             ))
         )
 

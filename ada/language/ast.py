@@ -6225,11 +6225,11 @@ class Expr(AdaNode):
 
                 ar.prefix.name_designated_type
                 ._.is_static_decl & ar.attribute.name_symbol.any_of(
-                    'First', 'Last'
+                    'First', 'Last', 'Range'
                 ),
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
-                    'First', 'Last', 'Length'
+                    'First', 'Last', 'Length', 'Range'
                 ) & ar.args_list._.at(0).expr.is_static_expr
             ),
             lambda ce=CallExpr:

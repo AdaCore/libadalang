@@ -1,10 +1,10 @@
 --  vim: ft=ada
 
-----------------
--- P_Get_Unit --
-----------------
+-------------------------
+-- Ada_Node_P_Get_Unit --
+--------------------------
 
-function P_Get_Unit
+function Ada_Node_P_Get_Unit
   (Node           : Bare_Ada_Node;
    Name           : Symbol_Type_Array_Access;
    Kind           : Analysis_Unit_Kind;
@@ -19,14 +19,14 @@ begin
 exception
    when Property_Error =>
       return No_Analysis_Unit;
-end P_Get_Unit;
+end Ada_Node_P_Get_Unit;
 
----------------------
--- P_Standard_Unit --
----------------------
+------------------------------
+-- Ada_Node_P_Standard_Unit --
+------------------------------
 
-function P_Standard_Unit
-  (Node : Bare_Ada_Node) return Internal_Unit is
+function Ada_Node_P_Standard_Unit (Node : Bare_Ada_Node) return Internal_Unit
+is
 begin
    return Get_From_File
      (Context  => Node.Unit.Context,
@@ -34,13 +34,13 @@ begin
       Charset  => "",
       Reparse  => False,
       Rule     => Default_Grammar_Rule);
-end P_Standard_Unit;
+end Ada_Node_P_Standard_Unit;
 
------------------------------
--- P_Filter_Is_Imported_By --
------------------------------
+--------------------------------------
+-- Ada_Node_P_Filter_Is_Imported_By --
+--------------------------------------
 
-function P_Filter_Is_Imported_By
+function Ada_Node_P_Filter_Is_Imported_By
   (Node       : Bare_Ada_Node;
    Units      : Internal_Unit_Array_Access;
    Transitive : Boolean) return Internal_Unit_Array_Access is
@@ -118,8 +118,8 @@ function P_Filter_Is_Imported_By
       if T_Root /= null and then T_Root.Kind = Ada_Compilation_Unit then
          declare
             Qualified_Name : constant Internal_Symbol_Type_Array :=
-               P_Syntactic_Fully_Qualified_Name
-                 (Convert_To_Compilation_Unit (T_Root)).Items;
+               Compilation_Unit_P_Syntactic_Fully_Qualified_Name
+                 (T_Root).Items;
          begin
             if Is_Special_Unit_Name (Qualified_Name) then
                return Libadalang.Env_Hooks.Fetch_Unit
@@ -169,11 +169,8 @@ function P_Filter_Is_Imported_By
                  or else (Transitive and then Does_Import_Target (Unit)));
       end Handle_Unit_Name;
 
-      Root_Node : constant Bare_Ada_Node := Root (From);
-      Comp_Unit : Bare_Compilation_Unit;
-
-      Prelude : Bare_Ada_Node;
-
+      Root_Node   : constant Bare_Ada_Node := Root (From);
+      Prelude     : Bare_Ada_Node;
       From_Cursor : constant Analysis_Unit_Maps.Cursor :=
          Units_Import_Target.Find (From);
    begin
@@ -198,20 +195,17 @@ function P_Filter_Is_Imported_By
             "Filter_Is_Imported_By: Unhandled type " & Root_Node.Kind'Image;
       end if;
 
-      Comp_Unit := Convert_To_Compilation_Unit (Root_Node);
-      Prelude := Convert_From_Ada_Node_List (Comp_Unit.F_Prelude);
+      Prelude := Root_Node.Compilation_Unit_F_Prelude;
 
       for I in 1 .. Children_Count (Prelude) loop
          if Child (Prelude, I).Kind = Ada_With_Clause then
             declare
                Imported_Packages : constant Bare_Ada_Node :=
-                  Convert_From_Name_List
-                    (Convert_To_With_Clause (Child (Prelude, I)).F_Packages);
+                  Child (Prelude, I).With_Clause_F_Packages;
             begin
                for J in 1 .. Children_Count (Imported_Packages) loop
                   declare
-                     Pkg : constant Bare_Name :=
-                        Convert_To_Name (Child (Imported_Packages, J));
+                     Pkg : constant Bare_Name := Child (Imported_Packages, J);
                      Symbols : constant Symbol_Type_Array :=
                         Libadalang.Env_Hooks.Name_To_Symbols (Pkg);
                   begin
@@ -233,10 +227,10 @@ function P_Filter_Is_Imported_By
 
       declare
          Unit_Name : constant Symbol_Type_Array_Access :=
-            P_Syntactic_Fully_Qualified_Name (Comp_Unit);
+            Compilation_Unit_P_Syntactic_Fully_Qualified_Name (Root_Node);
 
          Parent_Symbols : constant Internal_Symbol_Type_Array :=
-           (if P_Unit_Kind (Comp_Unit) = Unit_Body
+           (if Compilation_Unit_P_Unit_Kind (Root_Node) = Unit_Body
             then Unit_Name.Items
             else Unit_Name.Items
               (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
@@ -275,4 +269,4 @@ begin
       end loop;
       return Result;
    end;
-end P_Filter_Is_Imported_By;
+end Ada_Node_P_Filter_Is_Imported_By;

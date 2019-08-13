@@ -1,14 +1,13 @@
 --  vim: ft=ada
 
-------------------------------
--- Bare_Base_Id_Short_Image --
-------------------------------
+-------------------------
+-- Base_Id_Short_Image --
+-------------------------
 
-function Bare_Base_Id_Short_Image (Node : Bare_Base_Id) return Text_Type is
-   N : constant Bare_Ada_Node := Convert_From_Base_Id (Node);
+function Base_Id_Short_Image (Node : Bare_Base_Id) return Text_Type is
 begin
-   return "<" & To_Text (Kind_Name (N))
-          & " """ & Text (N) & """ "
-          & To_Text (Ada.Directories.Simple_Name (Get_Filename (Unit (N))))
-          & ":" & To_Text (Image (Sloc_Range (N))) & ">";
-end Bare_Base_Id_Short_Image;
+   return "<" & To_Text (Kind_Name (Node))
+          & " """ & Text (Node) & """ "
+          & To_Text (Ada.Directories.Simple_Name (Get_Filename (Unit (Node))))
+          & ":" & To_Text (Image (Sloc_Range (Node))) & ">";
+end Base_Id_Short_Image;

@@ -1,16 +1,15 @@
 ## vim: ft=makoada
 
-------------------
--- P_Primitives --
-------------------
+----------------------------
+-- Type_Decl_P_Primitives --
+----------------------------
 
-function P_Primitives (Node : Bare_Type_Decl) return Lexical_Env is
-   N : constant Bare_Ada_Node := Convert_From_Type_Decl (Node);
+function Type_Decl_P_Primitives (Node : Bare_Type_Decl) return Lexical_Env is
 begin
-   if Node.Prims_Env = Empty_Env then
-      Node.Prims_Env :=
-         AST_Envs.Create_Lexical_Env (No_Env_Getter, N, Owner => N.Unit);
-      Register_Destroyable (N.Unit, Node.Prims_Env.Env);
+   if Node.Type_Decl_Prims_Env = Empty_Env then
+      Node.Type_Decl_Prims_Env :=
+         AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
+      Register_Destroyable (Node.Unit, Node.Type_Decl_Prims_Env.Env);
    end if;
-   return Node.Prims_Env;
-end P_Primitives;
+   return Node.Type_Decl_Prims_Env;
+end Type_Decl_P_Primitives;

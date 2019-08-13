@@ -1,18 +1,16 @@
 ## vim: ft=makoada
 
--------------------------
--- P_Instantiation_Env --
--------------------------
+-----------------------------------------------
+-- Generic_Instantiation_P_Instantiation_Env --
+-----------------------------------------------
 
-function P_Instantiation_Env
-  (Node : Bare_Generic_Instantiation) return Lexical_Env
-is
-   N : constant Bare_Ada_Node := Convert_From_Generic_Instantiation (Node);
+function Generic_Instantiation_P_Instantiation_Env
+  (Node : Bare_Generic_Instantiation) return Lexical_Env is
 begin
-   if Node.Inst_Env = Empty_Env then
-      Node.Inst_Env :=
-         AST_Envs.Create_Lexical_Env (No_Env_Getter, N, Owner => N.Unit);
-      Register_Destroyable (N.Unit, Node.Inst_Env.Env);
+   if Node.Generic_Instantiation_Inst_Env = Empty_Env then
+      Node.Generic_Instantiation_Inst_Env :=
+         AST_Envs.Create_Lexical_Env (No_Env_Getter, Node, Owner => Node.Unit);
+      Register_Destroyable (Node.Unit, Node.Generic_Instantiation_Inst_Env.Env);
    end if;
-   return Node.Inst_Env;
-end P_Instantiation_Env;
+   return Node.Generic_Instantiation_Inst_Env;
+end Generic_Instantiation_P_Instantiation_Env;

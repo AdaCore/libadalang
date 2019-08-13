@@ -1,41 +1,32 @@
 ## vim: ft=makoada
 
----------------------------------
--- Bare_Basic_Decl_Short_Image --
----------------------------------
+----------------------------
+-- Basic_Decl_Short_Image --
+----------------------------
 
-function Bare_Basic_Decl_Short_Image (Node : Bare_Basic_Decl) return Text_Type
+function Basic_Decl_Short_Image (Node : Bare_Basic_Decl) return Text_Type
 is
-   N    : constant Bare_Ada_Node := Convert_From_Basic_Decl (Node);
-   Ret  : Unbounded_Wide_Wide_String;
+   Ret : Unbounded_Wide_Wide_String;
 
    function Name_Image (Node : Bare_Expr) return Text_Type;
    --  Print a Dotted Name
 
    function Name_Image (Node : Bare_Expr) return Text_Type is
-      N : constant Bare_Ada_Node := Convert_From_Expr (Node);
-      D : Bare_Dotted_Name;
    begin
       if Node = null then
          return "None";
       end if;
 
-      case Ada_Expr (Convert_From_Expr (Node).Kind) is
+      case Ada_Expr (Node.Kind) is
          when Ada_Single_Tok_Node =>
-            return Text (N);
+            return Text (Node);
 
          when Ada_Dotted_Name =>
-            D := Convert_To_Dotted_Name (N);
-            return
-              (Name_Image (Convert_To_Expr (Convert_From_Name (D.F_Prefix)))
-               & "."
-               & Name_Image
-                   (Convert_To_Expr (Convert_From_Base_Id (D.F_Suffix))));
+            return (Name_Image (Node.Dotted_Name_F_Prefix)
+                    & "." & Name_Image (Node.Dotted_Name_F_Suffix));
 
          when Ada_Defining_Name =>
-            return Name_Image
-              (Convert_To_Expr
-                 (Convert_From_Name (Convert_To_Defining_Name (N).F_Name)));
+            return Name_Image (Node.Defining_Name_F_Name);
 
          when others =>
             return "<>";
@@ -43,18 +34,16 @@ is
    end Name_Image;
 
    Children : Internal_Entity_Defining_Name_Array_Access :=
-      P_Defining_Names (Node);
+      Dispatcher_Basic_Decl_P_Defining_Names (Node);
 begin
-   Append (Ret, "<" & To_Text (Kind_Name (N)) & " [");
+   Append (Ret, "<" & To_Text (Kind_Name (Node)) & " [");
 
    for I in Children.Items'Range loop
       Append (Ret, """");
       Append
         (Ret,
-         Name_Image
-           (Convert_To_Expr
-              (Convert_From_Defining_Name (Children.Items (I).Node))));
-         Append (Ret, """");
+         Name_Image (Children.Items (I).Node));
+      Append (Ret, """");
       if I /= Children.Items'Last then
          Append (Ret, ", ");
       end if;
@@ -62,38 +51,40 @@ begin
    Dec_Ref (Children);
 
    Append (Ret, "] "
-           & To_Text (Ada.Directories.Simple_Name (Get_Filename (N.Unit)))
-           & ":" & To_Text (Image (Sloc_Range (N))) & ">");
+           & To_Text (Ada.Directories.Simple_Name (Get_Filename (Node.Unit)))
+           & ":" & To_Text (Image (Sloc_Range (Node))) & ">");
 
    return To_Wide_Wide_String (Ret);
-end Bare_Basic_Decl_Short_Image;
+end Basic_Decl_Short_Image;
 
------------
--- P_Doc --
------------
+----------------------
+-- Basic_Decl_P_Doc --
+----------------------
 
-function P_Doc (Node : Bare_Basic_Decl) return Character_Type_Array_Access is
+function Basic_Decl_P_Doc
+  (Node : Bare_Basic_Decl) return Character_Type_Array_Access
+is
    use Libadalang.Doc_Utils;
    Decl : constant Libadalang.Analysis.Basic_Decl :=
-      Wrap_Node (Convert_From_Basic_Decl (Node)).As_Basic_Decl;
+      Wrap_Node (Node).As_Basic_Decl;
    Doc  : constant Doc_Type := Get_Documentation (Decl);
    Ret  : constant Character_Type_Array_Access :=
       Create_Character_Type_Array (Doc.Doc.Length);
 begin
    Ret.Items := Doc.Doc.To_String;
    return Ret;
-end P_Doc;
+end Basic_Decl_P_Doc;
 
------------------------
--- P_Doc_Annotations --
------------------------
+----------------------------------
+-- Basic_Decl_P_Doc_Annotations --
+----------------------------------
 
-function P_Doc_Annotations
+function Basic_Decl_P_Doc_Annotations
   (Node : Bare_Basic_Decl) return Internal_Doc_Annotation_Array_Access
 is
    use Libadalang.Doc_Utils;
    Decl : constant Libadalang.Analysis.Basic_Decl :=
-      Wrap_Node (Convert_From_Basic_Decl (Node)).As_Basic_Decl;
+      Wrap_Node (Node).As_Basic_Decl;
    Doc  : constant Doc_Type := Get_Documentation (Decl);
    Ret  : constant Internal_Doc_Annotation_Array_Access :=
       Create_Internal_Doc_Annotation_Array
@@ -116,4 +107,4 @@ begin
       Idx := Idx + 1;
    end loop;
    return Ret;
-end P_Doc_Annotations;
+end Basic_Decl_P_Doc_Annotations;

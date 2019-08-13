@@ -1,5 +1,5 @@
 --  vim: ft=ada
 
-function Bare_Base_Id_Short_Image (Node : Bare_Base_Id) return Text_Type;
+function Base_Id_Short_Image (Node : Bare_Base_Id) return Text_Type;
 --  Custom version of Short_Image for basic declarations, that will print the
 --  names of the entities it declares.

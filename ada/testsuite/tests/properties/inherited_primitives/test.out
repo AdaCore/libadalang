@@ -1,0 +1,15 @@
+Primitives inherited by <TypeDecl ["U"] test.adb:10:7-10:42>:
+  <ExprFunction ["F"] test.adb:5:7-5:42>
+  <NullSubpDecl ["G"] test.adb:6:7-6:35>
+Primitives inherited by <TypeDecl ["U"] test.adb:14:7-14:42>:
+  <NullSubpDecl ["G"] test.adb:6:7-6:35>
+  <ExprFunction ["F"] test.adb:16:7-16:53>
+Primitives inherited by <TypeDecl ["U"] test.adb:32:7-32:42>:
+  <ExprFunction ["F"] test.adb:16:7-16:53>
+  <NullSubpDecl ["G"] test.adb:6:7-6:35>
+Primitives inherited by <TypeDecl ["U"] test.adb:36:7-36:50>:
+  <ExprFunction ["F"] test.adb:16:7-16:53>
+  <NullSubpDecl ["G"] test.adb:6:7-6:35>
+  <NullSubpDecl ["A"] test.adb:22:7-22:35>
+  <NullSubpDecl ["B"] test.adb:26:7-26:35>
+Done

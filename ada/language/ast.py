@@ -3752,6 +3752,44 @@ class TypeDecl(BaseTypeDecl):
     def primitives_env():
         return Entity.compute_primitives_env(include_self=True)
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
+    def get_primitives(only_inherited=(Bool, False)):
+        """
+        Return the list of all primitive operations that are available on this
+        type. If `only_inherited` is True, it will only return the primitives
+        that are implicitly inherited by this type, discarding those explicitly
+        defined on this type.
+        """
+        prim_env = Var(If(
+            only_inherited,
+            Entity.parent_primitives_env,
+            Entity.primitives_env
+        ))
+
+        bds = Var(prim_env.get(symbol=No(T.Symbol)).map(
+            lambda t: t.cast(BasicDecl)
+        ))
+
+        # Make sure to return only one instance of each primitive: the most
+        # "overriding" one.
+        return bind_origin(Self, bds.filter(
+            lambda a: bds.all(lambda b: Let(
+                lambda
+                a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl),
+                b_prim=b.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
+
+                # If two primitives have the same signature, keep the one on
+                # the most derived type.
+                Or(
+                    Not(a.subp_spec_or_null.match_signature(
+                        b.subp_spec_or_null,
+                        match_name=True, use_entity_info=True
+                    )),
+                    a_prim.is_derived_type(b_prim)
+                )
+            ))
+        ))
+
     get_imp_deref = Property(Entity.get_aspect_expr('Implicit_Dereference'))
 
     has_ud_indexing = Property(

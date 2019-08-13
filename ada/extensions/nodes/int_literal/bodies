@@ -1,8 +1,10 @@
 --  vim: ft=ada
 
-function P_Denoted_Value (Node : Bare_Int_Literal) return Big_Integer_Type is
-   N_Text : constant Text_Type := Text (Convert_From_Int_Literal (Node));
+function Int_Literal_P_Denoted_Value
+  (Node : Bare_Int_Literal) return Big_Integer_Type
+is
+   N_Text : constant Text_Type := Text (Node);
 begin
    return Create_Big_Integer
      (Libadalang.Sources.Decode_Integer_Literal (N_Text));
-end P_Denoted_Value;
+end Int_Literal_P_Denoted_Value;

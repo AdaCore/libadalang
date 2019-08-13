@@ -1,14 +1,13 @@
 ## vim: ft=makoada
 
--------------------
--- P_Eval_As_Int --
--------------------
+------------------------
+-- Expr_P_Eval_As_Int --
+------------------------
 
-function P_Eval_As_Int (Node : Bare_Expr) return Big_Integer_Type is
-   N : constant Libadalang.Analysis.Expr :=
-      Wrap_Node (Convert_From_Expr (Node)).As_Expr;
+function Expr_P_Eval_As_Int (Node : Bare_Expr) return Big_Integer_Type is
+   N : constant Libadalang.Analysis.Expr := Wrap_Node (Node).As_Expr;
 
    package Eval renames Libadalang.Expr_Eval;
 begin
    return Create_Big_Integer (Eval.As_Int (Eval.Expr_Eval (N)));
-end P_Eval_As_Int;
+end Expr_P_Eval_As_Int;

@@ -8978,7 +8978,10 @@ class CharLiteral(BaseId):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_not_null_char_type, Self.type_var)
+        return Or(
+            Entity.base_id_xref_equation,
+            Predicate(BaseTypeDecl.is_not_null_char_type, Self.type_var)
+        )
 
 
 @abstract

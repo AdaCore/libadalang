@@ -16,27 +16,24 @@ if not with_gnatpython:
 # pyflakes on
 
 
-import testsuite_support.adaapi_driver
-import testsuite_support.capi_driver
-import testsuite_support.discriminants as discriminants
-import testsuite_support.name_resolution_driver
-import testsuite_support.navigation_driver
-import testsuite_support.ocaml_driver
-import testsuite_support.parser_driver
-import testsuite_support.python_driver
+from testsuite_support import (
+    adaapi_driver, capi_driver, discriminants, inline_pg_driver,
+    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
+    python_driver
+)
 
 
 class Testsuite(BaseTestsuite):
     TEST_SUBDIR = 'tests'
     DRIVERS = {
-        'ada-api': testsuite_support.adaapi_driver.AdaAPIDriver,
-        'c-api': testsuite_support.capi_driver.CAPIDriver,
-        'navigation': testsuite_support.navigation_driver.NavigationDriver,
-        'ocaml': testsuite_support.ocaml_driver.OCamlDriver,
-        'parser': testsuite_support.parser_driver.ParserDriver,
-        'python': testsuite_support.python_driver.PythonDriver,
-        'name-resolution':
-            testsuite_support.name_resolution_driver.NameResolutionDriver,
+        'ada-api': adaapi_driver.AdaAPIDriver,
+        'c-api': capi_driver.CAPIDriver,
+        'navigation': navigation_driver.NavigationDriver,
+        'ocaml': ocaml_driver.OCamlDriver,
+        'parser': parser_driver.ParserDriver,
+        'python': python_driver.PythonDriver,
+        'name-resolution': name_resolution_driver.NameResolutionDriver,
+        'inline-playground': inline_pg_driver.InlinePlaygroundDriver
     }
 
     def add_options(self):

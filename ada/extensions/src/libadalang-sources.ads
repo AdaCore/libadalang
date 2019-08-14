@@ -23,13 +23,13 @@
 
 with GNATCOLL.GMP.Integers;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Common; use Libadalang.Common;
 
 --  General helpers to deal with sources text decoding
 
 package Libadalang.Sources is
+
+   use Support.Text;
 
    procedure Decode_Brackets
      (Pattern : Text_Type;

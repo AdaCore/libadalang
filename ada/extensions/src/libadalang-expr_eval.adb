@@ -21,8 +21,6 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with GNATCOLL.GMP.Integers;
-
 use type GNATCOLL.GMP.Integers.Big_Integer;
 
 with Libadalang.Analysis; use Libadalang.Analysis;

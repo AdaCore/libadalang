@@ -23,8 +23,6 @@
 
 with GNATCOLL.Projects;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
 
@@ -32,6 +30,8 @@ with Libadalang.Common; use Libadalang.Common;
 --  project file.
 
 package Libadalang.Project_Provider is
+
+   use Support.Text;
 
    package LAL renames Libadalang.Analysis;
    package Prj renames GNATCOLL.Projects;

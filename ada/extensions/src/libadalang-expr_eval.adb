@@ -28,8 +28,6 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
 
-with Langkit_Support.Text;
-
 package body Libadalang.Expr_Eval is
 
    use type GNATCOLL.GMP.Integers.Big_Integer;
@@ -279,7 +277,7 @@ package body Libadalang.Expr_Eval is
                if X = No_Basic_Decl then
                   return Create_Int_Result
                     (Char.P_Expression_Type,
-                     Langkit_Support.Text.Character_Type'Pos
+                     Support.Text.Character_Type'Pos
                        (Char.P_Denoted_Value));
                else
                   return Eval_Decl

@@ -34,12 +34,12 @@ with GNAT.Regpat;
 
 with GNATCOLL.VFS;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 
 package Libadalang.Auto_Provider is
+
+   use Support.Text;
 
    Default_Source_Filename_Pattern : constant GNAT.Regpat.Pattern_Matcher :=
       GNAT.Regpat.Compile (".*\.(ad.|a|spc|bdy)");

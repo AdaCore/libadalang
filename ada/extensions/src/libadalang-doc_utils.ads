@@ -27,7 +27,6 @@ with Ada.Wide_Wide_Characters.Handling; use Ada.Wide_Wide_Characters.Handling;
 
 with GNATCOLL.Strings_Impl; use GNATCOLL.Strings_Impl;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
 with Libadalang.Analysis; use Libadalang.Analysis;
 
 --  This package provides basic capability to extract documentation associated
@@ -47,6 +46,8 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 --  change in the future.
 
 package Libadalang.Doc_Utils is
+
+   use Support.Text;
 
    package XStrings is
    new GNATCOLL.Strings_Impl.Strings

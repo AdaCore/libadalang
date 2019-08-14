@@ -21,12 +21,12 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Analysis;       use Libadalang.Analysis;
 with Libadalang.Converters;     use Libadalang.Converters;
 
 package body Libadalang.Env_Hooks is
+
+   use Support.Text;
 
    procedure Handle_Unit_With_Parents
      (Ctx : Internal_Context; Node : Bare_Basic_Decl);

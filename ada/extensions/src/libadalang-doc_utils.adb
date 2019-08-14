@@ -87,7 +87,7 @@ package body Libadalang.Doc_Utils is
             --  If told to skip a certain number of white lines, verify that
             --  the next token indeed contains said number of white lines.
 
-            T := To_XString (Text (Tok));
+            T := To_XString (Common.Text (Tok));
 
             if T.Count (LF) = Skip_White_Lines then
                Next_Token;
@@ -107,11 +107,11 @@ package body Libadalang.Doc_Utils is
          K := Kind (Data (Tok));
          case K is
             when Ada_Whitespace =>
-               T := To_XString (Text (Tok));
+               T := To_XString (Common.Text (Tok));
                exit when T.Count (LF) > 1;
 
             when Ada_Comment =>
-               T := To_XString (Text (Tok));
+               T := To_XString (Common.Text (Tok));
 
                --  Strip the "--" from the comment
                T := T.Slice (3, T.Length);

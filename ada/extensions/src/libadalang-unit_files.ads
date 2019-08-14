@@ -21,12 +21,12 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
 
 package Libadalang.Unit_Files is
+
+   use Support.Text;
 
    package LAL renames Libadalang.Analysis;
 

@@ -59,6 +59,7 @@ package body Libadalang.Expr_Eval is
    --  big or if it is negative, raise a Property_Error.
 
    function To_Integer (Big_Int : Big_Integer) return Integer;
+   --  Convert a Big_Integer to an Integer
 
    -----------------------
    -- Create_Int_Result --

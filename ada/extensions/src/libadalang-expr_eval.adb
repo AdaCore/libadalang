@@ -21,8 +21,6 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-use type GNATCOLL.GMP.Integers.Big_Integer;
-
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
@@ -30,6 +28,8 @@ with Libadalang.Sources;  use Libadalang.Sources;
 with Langkit_Support.Text;
 
 package body Libadalang.Expr_Eval is
+
+   use type GNATCOLL.GMP.Integers.Big_Integer;
 
    function Create_Enum_Result
      (Expr_Type : LAL.Base_Type_Decl;

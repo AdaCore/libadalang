@@ -21,6 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Strings.Wide_Wide_Unbounded;
+use Ada.Strings.Wide_Wide_Unbounded;
+
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
@@ -30,6 +33,9 @@ with Langkit_Support.Text;
 package body Libadalang.Expr_Eval is
 
    use type GNATCOLL.GMP.Integers.Big_Integer;
+
+   function "+" (S : Wide_Wide_String) return Unbounded_Wide_Wide_String
+                 renames To_Unbounded_Wide_Wide_String;
 
    function Create_Enum_Result
      (Expr_Type : LAL.Base_Type_Decl;
@@ -58,6 +64,10 @@ package body Libadalang.Expr_Eval is
 
    function To_Integer (Big_Int : Big_Integer) return Integer;
    --  Convert a Big_Integer to an Integer
+
+   function As_Bool (Self : Eval_Result) return Boolean;
+   --  Return ``Self`` as a Boolean, if it is indeed of type
+   --  ``Standard.Boolean``.
 
    -----------------------
    -- Create_Int_Result --
@@ -293,6 +303,18 @@ package body Libadalang.Expr_Eval is
                Op : constant LAL.Op := BO.F_Op;
                L  : constant Eval_Result := Expr_Eval (BO.F_Left);
                R  : constant Eval_Result := Expr_Eval (BO.F_Right);
+               Bool_Type   : constant LAL.Base_Type_Decl
+                 := BO.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
+               True_Decl   : constant LAL.Enum_Literal_Decl
+                 := BO.P_Std_Entity (+"True").As_Enum_Literal_Decl;
+
+               False_Decl   : constant LAL.Enum_Literal_Decl
+                 := BO.P_Std_Entity (+"False").As_Enum_Literal_Decl;
+
+               function To_Decl (B : Boolean) return LAL.Enum_Literal_Decl is
+                 (if B then True_Decl else False_Decl);
+               --  Return the Basic_Decl from Standard corresponding to the
+               --  boolean value of ``B``.
             begin
                if L.Kind /= R.Kind then
                   raise Property_Error;
@@ -330,7 +352,19 @@ package body Libadalang.Expr_Eval is
                          when Ada_Op_Div   => L.Real_Result / R.Real_Result,
                          when others   => raise Property_Error));
                   when Enum_Lit =>
-                     raise Property_Error;
+
+                     --  Handle relational operators on boolean values
+
+                     return Create_Enum_Result
+                       (Bool_Type, To_Decl
+                          (case Op.Kind is
+                              when Ada_Op_And | Ada_Op_And_Then =>
+                                 As_Bool (L) and then As_Bool (R),
+                              when Ada_Op_Or | Ada_Op_Or_Else   =>
+                                 As_Bool (L) or else As_Bool (R),
+                              when others                       =>
+                                 raise Property_Error
+                                   with "Wrong op kind for enum lit"));
                end case;
 
             end;
@@ -477,6 +511,26 @@ package body Libadalang.Expr_Eval is
          end case;
       end return;
    end As_Int;
+
+   -------------
+   -- As_Bool --
+   -------------
+
+   function As_Bool (Self : Eval_Result) return Boolean is
+      Bool_Type   : LAL.Base_Type_Decl;
+   begin
+      case Self.Kind is
+         when Enum_Lit =>
+            Bool_Type :=
+              Self.Enum_Result.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
+            if Self.Expr_Type /= Bool_Type then
+               raise Property_Error with "Wrong type for enum for As_Bool";
+            end if;
+            return Self.Enum_Result.Text = "True";
+         when others =>
+            raise Property_Error with "Wrong value kind for As_Bool";
+      end case;
+   end As_Bool;
 
    -----------
    -- Image --

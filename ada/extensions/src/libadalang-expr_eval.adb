@@ -302,6 +302,9 @@ package body Libadalang.Expr_Eval is
 
                case R.Kind is
                   when Int =>
+
+                     --  Handle arithmetic operators on Int values
+
                      return Create_Int_Result
                        (R.Expr_Type,
                         (case Op.Kind is
@@ -315,6 +318,9 @@ package body Libadalang.Expr_Eval is
                            raise Property_Error
                            with "Unhandled operator: " & Op.Kind'Img));
                   when Real =>
+
+                     --  Handle arithmetic operators on Real values
+
                      return Create_Real_Result
                        (R.Expr_Type,
                         (case Op.Kind is

@@ -1345,11 +1345,14 @@ class BasicDecl(AdaNode):
             # First look in the scope where Self is declared
             Entity.declarative_scope._.decls.as_entity.find(pragma_pred)
 
-            # Then, if entity is declared in the public part of a package,
-            # corresponding pragma might be in the private part.
+            # Then, if entity is declared in the public part of a package or
+            # protected def, corresponding pragma might be in the private part.
             ._or(Entity.declarative_scope.cast(T.PublicPart).then(
-                lambda pp: pp.parent.cast_or_raise(T.BasePackageDecl)
-                .private_part._.decls.as_entity.find(pragma_pred)
+                lambda pp: pp.parent.match(
+                    lambda pkg=T.BasePackageDecl: pkg.private_part,
+                    lambda ptd=T.ProtectedDef: ptd.private_part,
+                    lambda _: No(T.PrivatePart)
+                )._.decls.as_entity.find(pragma_pred)
             ))
 
             # Then, look inside decl, in the first declarative region of decl

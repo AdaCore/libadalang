@@ -2,7 +2,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-from langkit.utils.colors import Colors, col
 import libadalang as lal
 import os
 import sys
@@ -15,6 +14,13 @@ expression in a context containing the following variables:
 - `node` is the ast node immediately preceding the comment.
 - `lal` is the libadalang module.
 """
+
+
+YELLOW = '\033[33m'
+
+
+def col(msg, color):
+    return msg if not sys.stdout.isatty() else color + msg + '\033[0m'
 
 
 class InlinePlayground(lal.App):
@@ -51,14 +57,14 @@ class InlinePlayground(lal.App):
                     previous_not_trivia(tok).sloc_range.start
                 )
                 print("Eval '{}' on node {}".format(
-                    col(expr_text, Colors.YELLOW),
-                    col(current_node.entity_repr, Colors.YELLOW)
+                    col(expr_text, YELLOW),
+                    col(current_node.entity_repr, YELLOW)
                 ))
                 print("Result: {}".format(
                     col(repr(eval(expr_text, None,
                                   {'lal': lal,
                                    'node': current_node})),
-                        Colors.YELLOW)
+                        YELLOW)
                 ))
                 print()
 

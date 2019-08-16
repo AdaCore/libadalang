@@ -1,0 +1,10 @@
+== testpr.ads ==
+<PackageDecl ["Testpr"] testpr.ads:1:1-3:12> get_aspect('preelaborate') -> <Aspect exists=True node=<PragmaNode testpr.ads:4:1-4:30> value=None>
+
+== testpr2.ads ==
+<PackageDecl ["Testpr2"] testpr2.ads:1:1-3:13> get_aspect('preelaborate') -> <Aspect exists=True node=<PragmaNode testpr2.ads:2:4-2:24> value=None>
+
+== testpr3.ads ==
+<PackageDecl ["Testpr3"] testpr3.ads:1:1-5:13> get_aspect('preelaborate') -> <Aspect exists=True node=<AspectAssoc testpr3.ads:2:9-2:21> value=None>
+
+Done

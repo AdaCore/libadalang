@@ -5431,7 +5431,11 @@ class AspectAssoc(AdaNode):
                 )
             ),
 
-            LogicTrue()
+            # Default resolution: For the moment we didn't encode specific
+            # resolution rules for every aspect, so by default at least try to
+            # name resolve the expression.
+            Entity.expr.then(lambda e: e.sub_equation, default_val=LogicTrue())
+            | LogicTrue()
         )
 
     @langkit_property(return_type=T.String)

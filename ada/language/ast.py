@@ -1094,6 +1094,17 @@ class DocAnnotation(Struct):
     value = UserField(T.String, doc="Annotation value")
 
 
+class Aspect(Struct):
+    """
+    Composite field representing the aspect of an entity (RM 13).
+    """
+    exists = UserField(Bool, doc="Whether the aspect is defined or not")
+    node = UserField(T.AdaNode.entity,
+                     doc="Syntactic node that defines the aspect")
+    value = UserField(T.Expr.entity,
+                      doc="Expr node defining the value of the aspect")
+
+
 @abstract
 class BasicDecl(AdaNode):
     """
@@ -1206,7 +1217,7 @@ class BasicDecl(AdaNode):
         Whether this declaration is imported from another language.
         """
         return Or(
-            Not(Entity.get_aspect('Import').is_null),
+            Not(Entity.get_aspect_assoc('Import').is_null),
             Not(Entity.get_pragma('Import').is_null),
             Not(Entity.get_pragma('Interface').is_null),
         )
@@ -1232,7 +1243,7 @@ class BasicDecl(AdaNode):
     """)
 
     @langkit_property(return_type=T.AspectAssoc.entity, public=True)
-    def get_aspect(name=Symbol):
+    def get_aspect_assoc(name=Symbol):
         """
         Return the aspect with name ``name`` for this entity.
         """
@@ -1241,12 +1252,12 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=T.Expr.entity, public=True)
-    def get_aspect_expr(name=Symbol):
+    def get_aspect_spec_expr(name=Symbol):
         """
         Return the expression associated to the aspect with name ``name`` for
         this entity.
         """
-        return Entity.get_aspect(name)._.expr
+        return Entity.get_aspect_assoc(name)._.expr
 
     @langkit_property()
     def library_item_pragmas():
@@ -1263,23 +1274,48 @@ class BasicDecl(AdaNode):
             No(T.Pragma.list.entity)
         )
 
-    @langkit_property(return_type=T.AdaNode.entity, public=True,
+    @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
-    def get_attribute(name=Symbol):
+    def get_aspect(name=Symbol):
         """
-        Return the attribute with name ``name`` associated to this entity.
+        Return the aspect with name ``name`` associated to this entity.
 
-        Attribute is the term chosen to unify data that can be set by the user
-        on an Ada entity via three different mechanisms, sometimes
-        interchangeably: Pragmas, aspects and representation clauses.
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
 
         This will return the syntactic node corresponding to attribute
         directly.
         """
+        def new_aspect(node, expr):
+            return Aspect.new(exists=True, node=node, value=expr)
+
         return (
-            Entity.get_pragma(name).cast(T.AdaNode)
-            ._or(Entity.get_aspect(name))
-            ._or(Entity.get_representation_clause(name))
+            Entity.get_pragma(name).then(
+                lambda p: new_aspect(p, p.args._.at(1)._.assoc_expr)
+            )._or(Entity.get_aspect_assoc(name).then(
+                lambda aa: new_aspect(aa, aa.expr)
+            ))._or(Entity.get_representation_clause(name).then(
+                lambda rc: new_aspect(rc, rc.expr)
+            ))
+        )
+
+    @langkit_property(return_type=Bool, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def has_aspect(name=Symbol):
+        """
+        Returns whether the boolean aspect named ``name`` is set on the entity
+        represented by this node.
+
+        "Aspect" is used as in RM terminology (see RM 13).
+        """
+        a = Var(Entity.get_aspect(name))
+
+        return And(
+            a.exists,
+            a.value.then(
+                lambda val: (val.eval_as_int == BigIntLiteral(1)),
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=T.Pragma.entity, public=True)
@@ -2826,7 +2862,7 @@ class BaseTypeDecl(BasicDecl):
         Return the type for which this type is a model, if applicable.
         """
         return (
-            Entity.get_aspect_expr('Model_Of')
+            Entity.get_aspect_spec_expr('Model_Of')
             .cast_or_raise(T.Name).name_designated_type
         )
 
@@ -3465,8 +3501,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     is_in_private_part = Property(Entity.typedecl.is_in_private_part)
 
     @langkit_property()
-    def get_aspect(name=Symbol):
-        return Entity.typedecl.get_aspect(name)
+    def get_aspect_assoc(name=Symbol):
+        return Entity.typedecl.get_aspect_assoc(name)
 
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 
@@ -3495,8 +3531,8 @@ class TypeDecl(BaseTypeDecl):
         #   * Spark iterable types (Iterable aspect).
         Or(
             Entity.is_array,
-            Not(Entity.get_aspect_expr('Iterator_Element').is_null),
-            Not(Entity.get_aspect_expr('Iterable').is_null),
+            Not(Entity.get_aspect_spec_expr('Iterator_Element').is_null),
+            Not(Entity.get_aspect_spec_expr('Iterable').is_null),
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.is_iterable_type),
@@ -3512,8 +3548,8 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def iterable_comp_type():
-        ie = Var(Entity.get_aspect_expr('Iterator_Element'))
-        it = Var(Entity.get_aspect_expr('Iterable'))
+        ie = Var(Entity.get_aspect_spec_expr('Iterator_Element'))
+        it = Var(Entity.get_aspect_spec_expr('Iterable'))
 
         return imprecise_fallback.bind(False, Cond(
             Entity.is_array, Entity.comp_type,
@@ -3790,18 +3826,20 @@ class TypeDecl(BaseTypeDecl):
             ))
         ))
 
-    get_imp_deref = Property(Entity.get_aspect_expr('Implicit_Dereference'))
+    get_imp_deref = Property(
+        Entity.get_aspect_spec_expr('Implicit_Dereference')
+    )
 
     has_ud_indexing = Property(
-        Not(Entity.get_aspect_expr('Constant_Indexing').is_null)
-        | Not(Entity.get_aspect_expr('Variable_Indexing').is_null)
+        Not(Entity.get_aspect_spec_expr('Constant_Indexing').is_null)
+        | Not(Entity.get_aspect_spec_expr('Variable_Indexing').is_null)
     )
 
     @langkit_property()
     def constant_indexing_fns():
         return (
-            Entity.get_aspect_expr('Constant_Indexing')._.cast_or_raise(T.Name)
-            .all_env_elements(seq=False).filtermap(
+            Entity.get_aspect_spec_expr('Constant_Indexing')
+            ._.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
@@ -3819,7 +3857,7 @@ class TypeDecl(BaseTypeDecl):
     def variable_indexing_fns():
         return bind_origin(
             Self,
-            Entity.get_aspect_expr('Variable_Indexing').then(
+            Entity.get_aspect_spec_expr('Variable_Indexing').then(
                 lambda a: a.cast_or_raise(T.Name).all_env_elements(seq=False)
                 .filtermap(
                     lambda e: e.cast(T.BasicDecl),
@@ -5580,7 +5618,8 @@ class DeclarativePart(AdaNode):
         return Self.as_bare_entity.decls.filtermap(
             lambda d: d.cast(T.BaseTypeDecl),
             lambda d:
-            Not(d.cast(T.BaseTypeDecl)._.get_aspect_expr('Model_Of').is_null)
+            Not(d.cast(T.BaseTypeDecl)
+                ._.get_aspect_spec_expr('Model_Of').is_null)
         )
 
     @langkit_property()

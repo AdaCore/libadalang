@@ -1,0 +1,24 @@
+Types deriving from test.p.t:
+  test.q.u
+  test.r.u
+  test.s.u
+  test.t.u
+Types deriving from test.q.u:
+  test.r.u
+  test.s.u
+  test.t.u
+Types deriving from test.r.u:
+  test.s.u
+  test.t.u
+Types deriving from test.i.t:
+  test.i.w
+  test.t.u
+Types deriving from test.i.v:
+  test.i.w
+  test.t.u
+Types deriving from test.i.w:
+  test.t.u
+Types deriving from test.s.u:
+  test.t.u
+Types deriving from test.t.u:
+Done

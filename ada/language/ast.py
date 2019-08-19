@@ -1519,6 +1519,47 @@ class BasicDecl(AdaNode):
             )
         )
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def find_all_overrides(units=T.AnalysisUnit.array):
+        """
+        If Self is the declaration of a primitive of some type T, return
+        the list of all subprogram that override this subprogram among the
+        given units.
+        """
+        spec = Var(Entity.subp_spec_or_null)
+        prim_type = Var(spec._.primitive_subp_of_tagged)
+        derivations = Var(prim_type._.find_all_derived_types(units))
+
+        return derivations.mapcat(
+            lambda t: Let(
+                # Get all primitives that are named just like Self
+                lambda prims=t.primitives_env.get(Entity.name_symbol).map(
+                    lambda p: p.cast_or_raise(BasicDecl)
+                ): Let(
+                    # Retrieve Self among the primitives, so that it carries
+                    # the adequate real_primitive_type metadata field.
+                    lambda base_p=prims.find(lambda p: p.node == Self):
+
+                    prims.filter(
+                        # Among all the primitives ``p`` available on type
+                        # ``t``, keep ``p`` if it both:
+                        lambda p: And(
+                            # is a primitive "owned" by ``t`` (i.e. not an
+                            # inherited one).
+                            p.info.md.primitive == t.node,
+
+                            # overrides Self
+                            base_p.subp_spec_or_null.match_signature(
+                                p.subp_spec_or_null,
+                                match_name=False, use_entity_info=True
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
     annotations = Annotations(custom_short_image=True)
 
     defining_names = AbstractProperty(

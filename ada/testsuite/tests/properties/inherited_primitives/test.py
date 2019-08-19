@@ -13,7 +13,8 @@ types = u.root.findall(
 
 for tpe in types:
     print("Primitives inherited by {}:".format(tpe))
-    for p in tpe.p_get_primitives(False):
+    # TODO: remove the sort once S819-034 is done
+    for p in sorted(tpe.p_get_primitives(False)):
         print("  {}".format(p))
 
 print('Done')

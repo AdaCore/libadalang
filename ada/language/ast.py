@@ -32,6 +32,7 @@ noprims = {'inherited_primitives': False, 'others': True}
 
 class FindAllMode(Enum):
     References = EnumValue()
+    DerivedTypes = EnumValue()
 
 
 def bind_origin(node, expr):
@@ -1055,6 +1056,11 @@ class AdaNode(ASTNode):
             Cond(
                 mode == FindAllMode.References,
                 Entity.cast_or_raise(DefiningName).is_referenced_by(x),
+
+                mode == FindAllMode.DerivedTypes,
+                x.cast(TypeDecl)._.is_derived_type(
+                    Entity.cast_or_raise(BaseTypeDecl)
+                ),
 
                 False
             ),
@@ -3153,6 +3159,22 @@ class BaseTypeDecl(BasicDecl):
     )
 
     base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
+
+    @langkit_property(public=True, return_type=T.TypeDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def find_all_derived_types(units=T.AnalysisUnit.array):
+        """
+        Return the list of all types that inherit (directly or inderictly) from
+        Self among the given units.
+        """
+        return origin.bind(
+            Self, Let(
+                lambda canon=Entity.canonical_type: canon.find_all_driver(
+                    units=canon.filter_is_imported_by(units, True),
+                    mode=FindAllMode.DerivedTypes
+                )
+            )
+        ).map(lambda n: n.cast_or_raise(TypeDecl))
 
     record_def = Property(No(T.BaseRecordDef.entity), dynamic_vars=[origin])
     array_def = Property(No(T.ArrayTypeDef.entity), dynamic_vars=[origin])

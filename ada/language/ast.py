@@ -10376,6 +10376,21 @@ class CompilationUnit(AdaNode):
             ),
         )
 
+    @langkit_property(return_type=Bool, public=True)
+    def is_preelaborable():
+        """
+        Whether this compilation unit is preelaborable or not.
+        """
+        return Entity.body.cast(T.BasicDecl).then(
+            lambda unit_decl: imprecise_fallback.bind(False, Or(
+                unit_decl.has_aspect('Pure'),
+                unit_decl.has_aspect('Preelaborate'),
+                unit_decl.has_aspect('Shared_Passive'),
+                unit_decl.has_aspect('Remote_Types'),
+                unit_decl.has_aspect('Remote_Call_Interface'),
+            ))
+        )
+
     env_spec = EnvSpec(
         set_initial_env(Let(
             lambda n=Self.body.cast(T.LibraryItem).then(

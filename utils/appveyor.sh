@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Terminate on any error
+# Stop at the first error and show all run commands
 set -e
+set -x
 
 export BUILD_FOLDER=/Projects/$APPVEYOR_PROJECT_NAME
 export ADALIB_DIR=$BUILD_FOLDER/adalib

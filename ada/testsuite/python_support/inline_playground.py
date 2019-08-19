@@ -6,6 +6,7 @@ import libadalang as lal
 import os
 import sys
 
+
 desc = """
 Go over Ada files given as argument, processing any lines starting with --% and
 containing a python expression starting with $. For those lines, eval the

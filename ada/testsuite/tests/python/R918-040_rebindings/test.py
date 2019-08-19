@@ -1,9 +1,11 @@
-from __future__ import absolute_import, division, print_function
-
 """
 Test that env shedding works correctly when resolving from the body of a
 generic instantiation.
 """
+
+from __future__ import absolute_import, division, print_function
+
+import libadalang as lal
 
 
 def type_from_subp_body(call):
@@ -12,7 +14,6 @@ def type_from_subp_body(call):
         .f_subp_returns.p_designated_type_decl.entity_repr
     )
 
-import libadalang as lal
 
 c = lal.AnalysisContext('utf-8')
 u = c.get_from_file("main.adb")

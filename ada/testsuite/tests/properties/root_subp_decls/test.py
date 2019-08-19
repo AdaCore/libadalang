@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang as lal
 
+
 ctx = lal.AnalysisContext()
 u = ctx.get_from_file("test.adb")
 

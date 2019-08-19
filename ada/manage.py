@@ -6,9 +6,13 @@ import os.path
 import subprocess
 import sys
 
+
 # Set the environment
 from env import setenv
+
+
 setenv()
+
 
 import copyright
 

@@ -7,6 +7,7 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang as lal
 
+
 c = lal.AnalysisContext('utf-8')
 u = c.get_from_file('foo.ads')
 

@@ -10,6 +10,7 @@ from language.lexer import ada_lexer as L
 from langkit.parsers import (Grammar, List, NoBacktrack as cut, Null, Opt, Or,
                              Pick, Predicate, Skip, _)
 
+
 ada_grammar = Grammar(main_rule_name='compilation')
 A = ada_grammar
 

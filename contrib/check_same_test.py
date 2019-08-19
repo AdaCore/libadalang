@@ -10,6 +10,7 @@ from __future__ import (absolute_import, division, print_function)
 import argparse
 import libadalang as lal
 
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('files', help='The files to analyze',
                     type=str, nargs='+', metavar='F')

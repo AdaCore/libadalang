@@ -21,6 +21,7 @@ import time
 
 from langkit.utils import Colors, col
 
+
 try:
     from progressbar import ProgressBar
 except ImportError:

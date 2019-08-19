@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang
 
+
 ctx = libadalang.AnalysisContext('iso-8859-1')
 unit = ctx.get_from_file('foo.adb')
 

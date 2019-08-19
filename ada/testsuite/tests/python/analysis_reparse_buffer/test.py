@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang
 
+
 src_buffer_1 = """
 limited with Ada.Text_IO;
 

@@ -111,7 +111,7 @@ def ref_used_packages():
 
 def populate_dependent_units():
     return do(If(
-        Self.is_unit_root,
+        Self.is_compilation_unit_root,
         Self.top_level_with_package_clauses.map(
             lambda package_name:
             # First fetch the spec
@@ -133,7 +133,7 @@ def ref_generic_formals():
     return reference(
         Self.cast(T.AdaNode)._.singleton,
         through=T.AdaNode.nested_generic_formal_part,
-        cond=Not(Self.is_unit_root),
+        cond=Not(Self.is_compilation_unit_root),
         kind=RefKind.prioritary,
         shed_corresponding_rebindings=True,
     )
@@ -759,7 +759,7 @@ class AdaNode(ASTNode):
             other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
 
             # The node is not an unit root
-            Not(other_entity.cast(T.BasicDecl).is_unit_root),
+            Not(other_entity.cast(T.BasicDecl).is_compilation_unit_root),
 
             # Else, check with visibility
             Self.has_with_visibility(other_entity.node.unit)
@@ -1379,7 +1379,7 @@ class BasicDecl(AdaNode):
         ).cast(T.AttributeDefClause.entity)
 
     @langkit_property(public=True)
-    def is_unit_root():
+    def is_compilation_unit_root():
         """
         Whether a BasicDecl is the root decl for its unit.
         """
@@ -1766,7 +1766,7 @@ class BasicDecl(AdaNode):
         """
         ent = Var(Self.as_bare_entity)
         fqn = Var(If(
-            ent.is_unit_root,
+            ent.is_compilation_unit_root,
             ent.defining_name.as_symbol_array,
 
             ent.parent_basic_decl
@@ -1861,7 +1861,7 @@ class Body(BasicDecl):
         for subprogram bodies.
         """
         return If(
-            Self.is_unit_root & Not(Self.is_subunit),
+            Self.is_compilation_unit_root & Not(Self.is_subunit),
 
             # If library item, we just return the spec. We don't check if it's
             # a valid and matching subprogram because that's an error case.
@@ -1987,7 +1987,7 @@ class Body(BasicDecl):
             # In case this is a library level subprogram that has no spec
             # (which is legal), we'll register this body in the parent
             # scope.
-            Self.is_subprogram & Self.is_unit_root,
+            Self.is_subprogram & Self.is_compilation_unit_root,
             Let(lambda dns=Entity.defining_name.scope:
                 # If the scope is self's scope, return parent scope, or
                 # else we'll have an infinite recursion.
@@ -1997,7 +1997,8 @@ class Body(BasicDecl):
 
             # If this is a library level unit, or force_decl is True, return
             # the enclosing decl.
-            Self.is_unit_root | force_decl, Entity.defining_name.scope,
+            Self.is_compilation_unit_root | force_decl,
+            Entity.defining_name.scope,
 
             # The rest of cases are nested declarations: In that case we want
             # to take the parent's env.
@@ -5018,7 +5019,7 @@ class BasicSubpDecl(BasicDecl):
             # Self is a library level subprogram decl. Return the library unit
             # body's root decl.
             Self.parent.cast(T.GenericSubpDecl)
-            ._.is_unit_root._or(Self.is_unit_root),
+            ._.is_compilation_unit_root._or(Self.is_compilation_unit_root),
 
             Entity.defining_name
             .referenced_unit(UnitBody).root
@@ -11128,7 +11129,9 @@ class PackageBody(Body):
 
         # We make a transitive parent link only when the package is a library
         # level package.
-        transitive_parent=And(Self.is_unit_root, Not(Self.is_subunit)),
+        transitive_parent=And(
+            Self.is_compilation_unit_root, Not(Self.is_subunit)
+        ),
 
         more_rules=[
 
@@ -11152,14 +11155,14 @@ class PackageBody(Body):
             # body_decl_scope return a grouped env with the use clauses in it.
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      cond=Not(Self.is_unit_root),
+                      cond=Not(Self.is_compilation_unit_root),
                       kind=RefKind.prioritary),
 
             # Since the reference to the package decl is non transitive, we
             # still want to reference the envs that are "used" there.
             reference(Self.cast(AdaNode).singleton,
                       through=T.PackageBody.package_decl_uses_clauses_envs,
-                      cond=Not(Self.is_unit_root))
+                      cond=Not(Self.is_compilation_unit_root))
         ]
     )
 

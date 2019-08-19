@@ -203,7 +203,8 @@ package body Libadalang.Doc_Utils is
 
          --  If not found and the package is a library unit, search before the
          --  prelude.
-         if Doc.Doc = Null_XString and then Decl.P_Is_Unit_Root then
+         if Doc.Doc = Null_XString and then Decl.P_Is_Compilation_Unit_Root
+         then
             Doc := Extract_Doc_From
               (Decl.Unit.Root.Token_Start,
                Backwards        => True,

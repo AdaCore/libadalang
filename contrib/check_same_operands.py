@@ -11,6 +11,7 @@ import argparse
 
 import libadalang as lal
 
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument(
     'files', help='A file to analyze', type=str, nargs='+', metavar='file'

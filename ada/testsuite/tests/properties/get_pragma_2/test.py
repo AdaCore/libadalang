@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import libadalang as lal
 
+
 u = lal.AnalysisContext().get_from_file("test.adb")
 assert not u.diagnostics
 

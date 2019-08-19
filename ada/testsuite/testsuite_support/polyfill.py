@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 """
 Provide in-place substitutes for our GNATpython-based testsuite.
 
@@ -7,6 +5,8 @@ This modules provides various items that are compatible with GNATpython in
 order to make it possible to run our GNATpython-based testsuite without
 GNATpython itself (hence the "polyfill" name).
 """
+
+from __future__ import absolute_import, division, print_function
 
 import argparse
 import collections

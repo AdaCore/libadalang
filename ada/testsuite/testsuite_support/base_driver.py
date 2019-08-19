@@ -6,6 +6,7 @@ import pipes
 import subprocess
 import sys
 
+
 # pyflakes off
 with_gnatpython = False
 if not os.environ.get('WITHOUT_GNATPYTHON'):

@@ -30,6 +30,7 @@ import itertools
 import libadalang as lal
 import os.path
 
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('files', help='The directory or files to analyze',
                     type=str, nargs='+', metavar='F')

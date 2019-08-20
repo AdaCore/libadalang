@@ -7,6 +7,10 @@ from os.path import join
 import sys
 
 
+def in_test(*args):
+    return join('testsuite', 'tests', *args)
+
+
 ADA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = join(ADA_DIR, '..')
 
@@ -15,12 +19,13 @@ EXCLUDES = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),
             join('testsuite', 'ext_src'),
-            join('testsuite', 'tests', 'contrib'),
-            join('testsuite', 'tests', 'internal'),
-            join('testsuite', 'tests', 'python', 'char_literal', 'foo.ads'),
-            join('testsuite', 'tests', 'python', 'string_literal', 'foo.ads'),
-            join('testsuite', 'tests', 'name_resolution', 'symbol_canon'),
-            join('testsuite', 'tests', 'regressions')]
+            in_test('contrib'),
+            in_test('internal'),
+            in_test('ada_api', 'static_expr_eval', 'test.adb'),
+            in_test('python', 'char_literal', 'foo.ads'),
+            in_test('python', 'string_literal', 'foo.ads'),
+            in_test('name_resolution', 'symbol_canon'),
+            in_test('regressions')]
 
 sys.path.append(join(ROOT_DIR, 'langkit'))
 

@@ -49,4 +49,18 @@ begin
    begin
       null;
    end;
+
+   --  Characters
+   declare
+      A : Character := 'a';
+      C : Character := 'c';
+
+      Wide_A     : Wide_Character := 'a';
+      Wide_Gamma : Wide_Character := 'γ';
+
+      Wide_Wide_A      : Wide_Wide_Character := 'a';
+      Wide_Wide_Smiley : Wide_Wide_Character := '😀';
+   begin
+      null;
+   end;
 end Test;

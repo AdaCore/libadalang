@@ -270,16 +270,43 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Char_Literal =>
             declare
-               Char : constant LAL.Char_Literal := E.As_Char_Literal;
-               X    : constant LAL.Basic_Decl :=
-                 Char.P_Referenced_Decl_Internal (Try_Immediate => True);
+               Char      : constant LAL.Char_Literal := E.As_Char_Literal;
+               Node_Type : constant LAL.Base_Type_Decl :=
+                  Char.P_Expression_Type;
+
+               --  Fetch the standard character types
+
+               Std_Char_Type : constant LAL.Base_Type_Decl :=
+                  Char.P_Std_Entity (+"Character").As_Base_Type_Decl;
+
+               Std_Wide_Char_Type : constant LAL.Base_Type_Decl :=
+                  Char.P_Std_Entity (+"Wide_Character").As_Base_Type_Decl;
+
+               Std_Wide_Wide_Char_Type : constant LAL.Base_Type_Decl :=
+                  Char.P_Std_Entity
+                    (+"Wide_Wide_Character").As_Base_Type_Decl;
             begin
-               if X = No_Basic_Decl then
+               --  A character literal is an enum value like any other and so
+               --  its value should be its position in the enum. However, due
+               --  to how we define our artifical __standard unit, this
+               --  assumption does not hold for the Character type and its
+               --  variants (Wide_Character, etc.) as they are not defined in
+               --  their exact shape. We must therefore implement a specific
+               --  path to handle them here.
+               if Node_Type in Std_Char_Type
+                             | Std_Wide_Char_Type
+                             | Std_Wide_Wide_Char_Type
+               then
+                  --  Note that Langkit_Support's Character_Type is a
+                  --  Wide_Wide_Character which can therefore also be used to
+                  --  handle the Character and Wide_Character types.
                   return Create_Int_Result
                     (Char.P_Expression_Type,
                      Support.Text.Character_Type'Pos
                        (Char.P_Denoted_Value));
                else
+                  --  If it's not a standard character type, evaluate it just
+                  --  as any other enum literal.
                   return Eval_Decl
                     (Char.P_Referenced_Decl_Internal (Try_Immediate => True));
                end if;

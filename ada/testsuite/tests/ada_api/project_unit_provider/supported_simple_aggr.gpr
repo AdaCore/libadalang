@@ -1,0 +1,5 @@
+with "abstract_project";
+
+aggregate project Supported_Simple_Aggr is
+   for Project_Files use ("p.gpr");
+end Supported_Simple_Aggr ;

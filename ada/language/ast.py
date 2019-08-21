@@ -6945,12 +6945,14 @@ class Name(Expr):
             Entity.referenced_decl.info.md.dottable_subp
         )
 
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
-    def referenced_id(ref_decl=T.BasicDecl.entity):
+    @langkit_property(public=True, return_type=T.DefiningName.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def referenced_defining_name():
         """
         Like ``referenced_decl``, but will return the defining identifier for
         the decl, rather than the basic declaration node itself.
         """
+        ref_decl = Var(Entity.referenced_decl)
         return ref_decl.then(lambda ref_decl: Entity.name_symbol.then(
             lambda rel_name: ref_decl.defining_names.find(
                 lambda dn: dn.name_is(rel_name)
@@ -6988,7 +6990,7 @@ class Name(Expr):
             bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)
             ._or(bd.defining_name),
 
-            Entity.referenced_id(Entity.referenced_decl)
+            Entity.referenced_defining_name
         )
 
     @langkit_property(return_type=AdaNode.entity.array,

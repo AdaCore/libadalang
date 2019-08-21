@@ -320,14 +320,6 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(public=True, return_type=T.DefiningName.entity,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def xref():
-        """
-        Return a cross reference from this node to a defining identifier.
-        """
-        return No(T.DefiningName.entity)
-
     @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
     def complete():
         """
@@ -355,7 +347,8 @@ class AdaNode(ASTNode):
                 lambda decl=v.value.cast(T.BasicDecl.entity): If(
                     v.success & (decl == v.value),
                     decl,
-                    Entity.cast(T.Expr)._.first_corresponding_decl
+                    # We're only calling first_c
+                    Entity.cast(T.Name)._.first_corresponding_decl
                 )
             )),
             Self.logic_val(Entity, ref_var, try_immediate)
@@ -1001,8 +994,8 @@ class AdaNode(ASTNode):
                 )
             ),
 
-            Let(lambda ret=Entity.xref: ret.then(
-                lambda _:
+            Entity.cast(T.Name)._.gnat_xref_decl.then(
+                lambda ret:
                 Let(lambda dbd=ret.basic_decl: Cond(
                     dbd.is_a(T.ParamSpec),
                     dbd.cast(T.ParamSpec).decl_param(ret),
@@ -1025,7 +1018,7 @@ class AdaNode(ASTNode):
 
                     ret
                 ))
-            ))
+            )
         )
 
     @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
@@ -6959,8 +6952,13 @@ class Name(Expr):
             )
         )._or(ref_decl.defining_name), default_val=No(T.DefiningName.entity))
 
-    @langkit_property(public=True, return_type=T.DefiningName.entity)
-    def xref():
+    @langkit_property(return_type=T.DefiningName.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def gnat_xref_decl():
+        """
+        Implementation helper for DefiningName.gnat_xref. TODO: Get rid of that
+        by inlining in DefiningName.gnat_xref.
+        """
         dn = Var(Entity.is_defining.then(
             lambda _: Entity.enclosing_defining_name
         ))
@@ -8425,23 +8423,24 @@ class DefiningName(Name):
         subprograms that override it if the identifier appears in a dispatching
         call.
         """
-        return And(
-            x.match(lambda i=BaseId: Self.name_is(i.name_symbol),
-                    lambda _: False),
-            Let(lambda canon=x.xref._.canonical_part._.node: Or(
-                # Either `x` is a direct reference
-                canon == Self,
+        return x.cast(BaseId).then(lambda i: And(
+            i.name_is(i.name_symbol),
+            Let(lambda
+                canon=If(i.is_defining,
+                         i.enclosing_defining_name,
+                         i.referenced_defining_name)._.canonical_part._.node:
 
-                # Or `x` refers to one of the base subprograms of defined by
-                # Self, and `x` appears in a dispatching call context.
-                Entity.basic_decl.base_subp_declarations.then(
-                    lambda decls: And(
-                        decls.any(lambda d: d.defining_name.node == canon),
-                        x.cast(Name).is_dispatching_call
-                    )
-                )
-            ))
-        )
+                Or(canon == Self,  # Either `x` is a direct reference
+
+                   # Or `x` refers to one of the base subprograms of defined
+                   # by Self, and `x` appears in a dispatching call context.
+                   Entity.basic_decl.base_subp_declarations.then(
+                       lambda decls: And(
+                           decls.any(lambda d: d.defining_name.node == canon),
+                           x.cast(Name).is_dispatching_call
+                       )
+                   )))
+        ))
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -8810,7 +8809,7 @@ class BaseId(SingleTokNode):
                          seq_from=(AdaNode, No(T.AdaNode))):
         return env_get(
             env,
-            Self,
+            Self.name_symbol,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(seq, If(Not(seq_from.is_null), seq_from, Self),
                          No(T.AdaNode))

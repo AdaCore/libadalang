@@ -6,7 +6,7 @@ set -x
 
 export BUILD_FOLDER=/Projects/$APPVEYOR_PROJECT_NAME
 export ADALIB_DIR=$BUILD_FOLDER/adalib
-export PATH=$ADALIB_DIR/bin:\
+export PATH=/c/Python27-x64:$ADALIB_DIR/bin:\
 $BUILD_FOLDER/build/lib/libadalang.relocatable:\
 $BUILD_FOLDER/build/lib/langkit_support.relocatable:\
 /c/GNAT/bin:\

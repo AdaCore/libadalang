@@ -90,6 +90,13 @@ procedure Main is
    end Eval_Result_To_String;
 
 begin
+   if Unit.Has_Diagnostics then
+      for D of Unit.Diagnostics loop
+         Put_Line (Unit.Format_GNU_Diagnostic (D));
+      end loop;
+      return;
+   end if;
+
    for E of Find (Root (Unit), Is_Object_Decl'Access).Consume loop
       begin
          declare

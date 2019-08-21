@@ -54,8 +54,34 @@ package Libadalang.Project_Provider is
    --  file for each couple (unit name, unit kind), aggregate projects are not
    --  supported.
 
+   function Create_Project_Unit_Provider
+     (Tree             : Prj.Project_Tree_Access;
+      Project          : Prj.Project_Type := Prj.No_Project;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return Project_Unit_Provider;
+   --  Likewise, but allow the use of aggregate projects.
+   --
+   --  If a non-null Project is given, use it to provide units. Raise an
+   --  Invalid_Project exception if an aggregate projects that aggregates more
+   --  than one project is in its closure.
+   --
+   --  If Project is not provided, use the Tree's root project (the same
+   --  restriction as above applies for it).
+
    function Create_Project_Unit_Provider_Reference
      (Project          : Prj.Project_Tree_Access;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return LAL.Unit_Provider_Reference;
+   --  Wrapper around ``Create_Project_Unit_Provider`` as a shortcut to create
+   --  a unit provider reference.
+   --
+   --% belongs-to: Project_Unit_Provider
+
+   function Create_Project_Unit_Provider_Reference
+     (Tree             : Prj.Project_Tree_Access;
+      Project          : Prj.Project_Type := Prj.No_Project;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
       return LAL.Unit_Provider_Reference;
@@ -91,7 +117,8 @@ package Libadalang.Project_Provider is
 private
 
    type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
-      Project          : Prj.Project_Tree_Access;
+      Tree             : Prj.Project_Tree_Access;
+      Project          : Prj.Project_Type;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean;
    end record;
@@ -102,9 +129,8 @@ private
      (Project          : Prj.Project_Tree_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True) return Project_Unit_Provider
-   is ((Project          => Project,
-        Env              => Env,
-        Is_Project_Owner => Is_Project_Owner));
+   is (Create_Project_Unit_Provider (Project, Project.Root_Project, Env,
+                                     Is_Project_Owner));
 
    function Create_Project_Unit_Provider_Reference
      (Project          : Prj.Project_Tree_Access;
@@ -113,5 +139,15 @@ private
       return LAL.Unit_Provider_Reference
    is (LAL.Create_Unit_Provider_Reference
          (Create_Project_Unit_Provider (Project, Env, Is_Project_Owner)));
+
+   function Create_Project_Unit_Provider_Reference
+     (Tree             : Prj.Project_Tree_Access;
+      Project          : Prj.Project_Type := Prj.No_Project;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return LAL.Unit_Provider_Reference
+   is (LAL.Create_Unit_Provider_Reference
+         (Create_Project_Unit_Provider (Tree, Project, Env,
+                                        Is_Project_Owner)));
 
 end Libadalang.Project_Provider;

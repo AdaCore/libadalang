@@ -29,6 +29,53 @@ with Libadalang.Unit_Files;
 
 package body Libadalang.Project_Provider is
 
+   ----------------------------------
+   -- Create_Project_Unit_Provider --
+   ----------------------------------
+
+   function Create_Project_Unit_Provider
+     (Tree             : Prj.Project_Tree_Access;
+      Project          : Prj.Project_Type := Prj.No_Project;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean := True)
+      return Project_Unit_Provider
+   is
+      use type Prj.Project_Type;
+   begin
+      return Result : Project_Unit_Provider :=
+        ((Tree             => Tree,
+          Project          => Project,
+          Env              => Env,
+          Is_Project_Owner => Is_Project_Owner))
+      do
+         --  If no project was given, peel the aggregate project layers (if
+         --  any) around Tree's root project.
+
+         if Result.Project = Prj.No_Project then
+            Result.Project := Tree.Root_Project;
+            while Result.Project.Is_Aggregate_Project loop
+               declare
+                  Subprojects : Prj.Project_Array_Access :=
+                     Result.Project.Aggregated_Projects;
+                  Leave_Loop  : constant Boolean :=
+                     Subprojects.all'Length /= 1;
+               begin
+                  if not Leave_Loop then
+                     Result.Project := Subprojects.all (Subprojects.all'First);
+                  end if;
+                  Prj.Unchecked_Free (Subprojects);
+                  exit when Leave_Loop;
+               end;
+            end loop;
+         end if;
+
+         if Result.Project.Is_Aggregate_Project then
+            raise Prj.Invalid_Project with
+               "aggregate project has too many sub-projects";
+         end if;
+      end return;
+   end Create_Project_Unit_Provider;
+
    -----------------------
    -- Get_Unit_Filename --
    -----------------------
@@ -44,7 +91,7 @@ package body Libadalang.Project_Provider is
         Libadalang.Unit_Files.Unit_String_Name (Name);
 
       File : constant Filesystem_String := Prj.File_From_Unit
-        (Project   => Prj.Root_Project (Provider.Project.all),
+        (Project   => Provider.Project,
          Unit_Name => Str_Name,
          Part      => Convert (Kind),
          Language  => "Ada");
@@ -55,9 +102,9 @@ package body Libadalang.Project_Provider is
 
       declare
          Path : constant GNATCOLL.VFS.Virtual_File :=
-           Prj.Create (Provider.Project.all, File);
+           Prj.Create_From_Project (Provider.Project, File).File;
       begin
-         return +Full_Name (Path);
+         return +Path.Full_Name;
       end;
    end Get_Unit_Filename;
 
@@ -104,12 +151,13 @@ package body Libadalang.Project_Provider is
    is
       Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
    begin
+      Provider.Project := Prj.No_Project;
       if Provider.Is_Project_Owner then
-         Prj.Unload (Provider.Project.all);
-         Prj.Free (Provider.Project);
+         Prj.Unload (Provider.Tree.all);
+         Prj.Free (Provider.Tree);
          Prj.Free (Provider.Env);
       end if;
-      Provider.Project := null;
+      Provider.Tree := null;
       Provider.Env := null;
       Provider.Is_Project_Owner := False;
    end Release;

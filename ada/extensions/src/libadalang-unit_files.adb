@@ -51,7 +51,16 @@ package body Libadalang.Unit_Files is
       Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
       Project.Root_Project.Delete_Attribute (Languages_Attribute);
       Project.Recompute_View;
-      return Create_Project_Unit_Provider (Project, Env, True);
+
+      --  TODO??? Do not use the simple return statement to work around a GNAT
+      --  finalization bug: Result.Project.Data would be set to null, while we
+      --  need it to be set to Result.Tree.Root_Project (that's what
+      --  Create_Project_Unit_Provider does).
+      return Result : LAL.Unit_Provider_Interface'Class :=
+         Create_Project_Unit_Provider (Project, Env, True)
+      do
+         null;
+      end return;
    end Default_Provider;
 
    --------------------

@@ -1,0 +1,15 @@
+type: api-change
+title: Replace ``Name.p_referenced_id`` by ``Name.p_referenced_defining_name``
+short_title: Get rid of Name.p_referenced_id
+
+description: |
+    ``referenced_defining_name`` doesn't take any argument, and uses
+    the result of ``referenced_decl`` on ``self``.
+
+    Existing calls to ``self.referenced_id(self.referenced_decl)`` can just be
+    replaced by ``self.referenced_defining_name``.
+
+    Calls to ``self.referenced_id(other_decl)`` have no simple remplacement,
+    but are considered non-important.
+
+date: 2019-08-21

@@ -9,7 +9,7 @@ function Decl_Defines (Name : Text_Type) return Ada_Node_Predicate;
 function Xref_Is
   (Name               : Defining_Name;
    Imprecise_Fallback : Boolean := False) return Ada_Node_Predicate;
---  Return a predicate that accepts only nodes whose ``P_Xref`` property
+--  Return a predicate that accepts only nodes whose ``P_Gnat_Xref`` property
 --  returns ``Name``.
    --
    --% belongs-to: Ada_Node_Predicate

@@ -89,7 +89,7 @@ end Xref_Is;
 overriding function Evaluate
   (P : in out Xref_Predicate; N : Ada_Node) return Boolean is
 begin
-   return not N.Is_Null and then N.P_Xref (P.Imprecise_Fallback) = P.Name;
+   return not N.Is_Null and then N.P_Gnat_Xref (P.Imprecise_Fallback) = P.Name;
 exception
    when Property_Error =>
       return False;

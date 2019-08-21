@@ -59,7 +59,9 @@ def resolve_node(node, show_slocs=True):
             print('Expr: {}'.format(n))
 
             if n.is_a(lal.Name):
-                decl_name = n.p_xref(args.imprecise_fallback)
+                decl_name = n.p_referenced_defining_name(
+                    args.imprecise_fallback
+                )
 
                 refd_decl_img = (
                     entity_repr(decl_name)

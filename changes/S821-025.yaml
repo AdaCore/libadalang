@@ -1,0 +1,12 @@
+type: api-change
+title: Get rid of ``Name.p_xref``
+
+description: |
+    Its behavior is considered non intuitive, and is not properly
+    documented, nor tested.
+
+    The workaround is to replace calls to ``p_xref`` by the equivalent set of
+    navigation property calls, such as ``p_previous_part``/``p_next_part`` for
+    declarations and bodies.
+
+date: 2019-08-21

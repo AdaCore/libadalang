@@ -7,7 +7,7 @@ with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
 with Libadalang.Iterators; use Libadalang.Iterators;
 
 procedure Main is
-   Ctx  : constant Analysis_Context := Create_Context (Charset => "utf8");
+   Ctx  : constant Analysis_Context := Create_Context (Charset => "utf-8");
    Unit : constant Analysis_Unit := Get_From_File (Ctx, "test.adb");
 
    Float_Precision : constant := 2;

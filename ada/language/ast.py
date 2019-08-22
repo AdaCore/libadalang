@@ -8505,15 +8505,15 @@ class DefiningName(Name):
         ))
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def find_all_in(x=AdaNode.entity, origin=AdaNode, mode=FindAllMode):
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def find_all_in(x=AdaNode.entity, mode=FindAllMode):
         """
         Searches all references to this defining name in the given node and its
         children.
         """
         return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
-            .mapcat(lambda n: Entity.find_all_in(n, origin, mode))
+            .mapcat(lambda n: Entity.find_all_in(n, mode))
         ).concat(If(
             Cond(
                 mode == FindAllMode.References,
@@ -8526,16 +8526,15 @@ class DefiningName(Name):
         ))
 
     @langkit_property(return_type=T.BaseId.entity.array,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def find_all_driver(units=AnalysisUnit.array, origin=AdaNode,
-                        mode=FindAllMode):
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def find_all_driver(units=AnalysisUnit.array, mode=FindAllMode):
         """
         Searches all references to this defining name in the given list of
         units.
         """
         return units.mapcat(
             lambda u: u.root.then(
-                lambda r: Entity.find_all_in(r.as_bare_entity, origin, mode)
+                lambda r: Entity.find_all_in(r.as_bare_entity, mode)
             )
         )
 
@@ -8565,7 +8564,10 @@ class DefiningName(Name):
             lambda base: base.filter_is_imported_by(units, True)
         ))
 
-        return dn.find_all_driver(all_units, Self, mode=FindAllMode.References)
+        return origin.bind(
+            Self,
+            dn.find_all_driver(all_units, mode=FindAllMode.References)
+        )
 
     @langkit_property()
     def find_matching_name(bd=BasicDecl.entity):

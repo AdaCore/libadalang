@@ -3,9 +3,9 @@ from __future__ import absolute_import, division, print_function
 from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     ASTNode, AbstractField, AnalysisUnit, AnalysisUnitKind, Annotations, Bool,
-    Equation, Field, Int, LexicalEnv, LogicVar, LookupKind as LK,
-    NullField, Struct, Symbol, T, UserField, abstract, env_metadata,
-    has_abstract_list, synthetic
+    Enum, EnumValue, Equation, Field, Int, LexicalEnv, LogicVar,
+    LookupKind as LK, NullField, Struct, Symbol, T, UserField, abstract,
+    env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, call_env_hook, do,
@@ -28,6 +28,10 @@ UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
 noprims = {'inherited_primitives': False, 'others': True}
+
+
+class FindAllMode(Enum):
+    References = EnumValue()
 
 
 def bind_origin(node, expr):
@@ -8502,19 +8506,38 @@ class DefiningName(Name):
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
-    def find_all_refs_in(x=AdaNode.entity, origin=AdaNode):
+    def find_all_in(x=AdaNode.entity, origin=AdaNode, mode=FindAllMode):
         """
         Searches all references to this defining name in the given node and its
         children.
         """
         return x.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
-            .mapcat(lambda n: Entity.find_all_refs_in(n, origin))
+            .mapcat(lambda n: Entity.find_all_in(n, origin, mode))
         ).concat(If(
-            Entity.is_referenced_by(x),
+            Cond(
+                mode == FindAllMode.References,
+                Entity.is_referenced_by(x),
+
+                False
+            ),
             x.cast_or_raise(BaseId).singleton,
             No(BaseId.entity.array)
         ))
+
+    @langkit_property(return_type=T.BaseId.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def find_all_driver(units=AnalysisUnit.array, origin=AdaNode,
+                        mode=FindAllMode):
+        """
+        Searches all references to this defining name in the given list of
+        units.
+        """
+        return units.mapcat(
+            lambda u: u.root.then(
+                lambda r: Entity.find_all_in(r.as_bare_entity, origin, mode)
+            )
+        )
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -8542,11 +8565,7 @@ class DefiningName(Name):
             lambda base: base.filter_is_imported_by(units, True)
         ))
 
-        return all_units.mapcat(
-            lambda u: u.root.then(
-                lambda r: dn.find_all_refs_in(r.as_bare_entity, Self)
-            )
-        )
+        return dn.find_all_driver(all_units, Self, mode=FindAllMode.References)
 
     @langkit_property()
     def find_matching_name(bd=BasicDecl.entity):

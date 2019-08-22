@@ -82,7 +82,10 @@
       --  Try to load the project
 
       begin
-         Load (Project.all, Create (+PF), Env);
+         Load (Self                => Project.all,
+               Root_Project_Path   => Create (+PF),
+               Env                 => Env,
+               Report_Missing_Dirs => False);
       exception
          when Invalid_Project =>
             return Error;

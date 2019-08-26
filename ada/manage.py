@@ -122,8 +122,9 @@ class Manage(ManageScript):
                 'Libadalang.Env_Hooks',
                 'Env_Hook'
             ),
-            default_unit_provider=LibraryEntity('Libadalang.Unit_Files',
-                                                'Default_Provider'),
+            default_unit_provider=LibraryEntity(
+                'Libadalang.Internal_Default_Provider', 'Create'
+            ),
             symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
                                                'Canonicalize'),
             documentations=libadalang_docs,
@@ -135,8 +136,24 @@ class Manage(ManageScript):
             ctx.add_with_clause('Implementation.C', ADA_BODY, unit,
                                 use_clause=True)
 
+        # For development convenience, we purposedly use the public Ada API
+        # from intenals in Libadalang. That's ok, as we always want to provide
+        # an Ada API for Libadalang.
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Env_Hooks',
+                            use_clause=True)
+        ctx.add_with_clause('Implementation',
+                            ADA_BODY, 'Libadalang.Analysis',
+                            use_clause=True)
+        ctx.add_with_clause('Implementation',
+                            ADA_BODY, 'Libadalang.Public_Converters',
+                            use_clause=True)
+
+        ctx.add_with_clause('Implementation.C',
+                            ADA_BODY, 'Libadalang.Analysis',
+                            use_clause=True)
+        ctx.add_with_clause('Implementation.C',
+                            ADA_BODY, 'Libadalang.Public_Converters',
                             use_clause=True)
 
         # Libadalang needs access to the static expression evaluator, for name
@@ -165,7 +182,7 @@ class Manage(ManageScript):
                             ADA_BODY, 'Libadalang.Implementation',
                             use_clause=True)
         ctx.add_with_clause('Iterators',
-                            ADA_BODY, 'Libadalang.Converters',
+                            ADA_BODY, 'Libadalang.Public_Converters',
                             use_clause=True)
 
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
@@ -191,8 +208,10 @@ class Manage(ManageScript):
                                                     'gnat_compare'}
 
     def do_generate(self, args):
-        # Always generate the unparsing machinery
+        # Always generate the unparsing machinery and report unused
+        # documentation entries.
         args.generate_unparser = True
+        args.report_unused_doc_entries = True
         super(Manage, self).do_generate(args)
     do_generate.__doc__ = ManageScript.do_generate.__doc__
 

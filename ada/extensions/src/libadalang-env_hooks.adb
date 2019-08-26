@@ -21,8 +21,8 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Libadalang.Analysis;       use Libadalang.Analysis;
-with Libadalang.Converters;     use Libadalang.Converters;
+with Libadalang.Analysis;          use Libadalang.Analysis;
+with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
 package body Libadalang.Env_Hooks is
 

@@ -6,6 +6,10 @@
       scn_var_array = capi.get_name('project_scenario_variable_array')
    %>
 
+   function To_C_Provider
+     (Provider : Unit_Provider_Reference) return ${unit_provider_type}
+   is (Wrap_Private_Provider (Wrap_Public_Provider (Provider)));
+
    function Scenario_Vars_Count
      (Scenario_Vars : System.Address) return Natural;
    --  Return the number of scenario variables in the Scenario_Vars C-style
@@ -99,9 +103,8 @@
 
       --  Project loading was successful! Embed allocated data in the result.
 
-      return Create_Unit_Provider_C_Reference
-        (Project_Unit_Provider'(Create_Project_Unit_Provider
-           (Project, Env, True)));
+      return To_C_Provider
+        (Create_Project_Unit_Provider_Reference (Project, Env, True));
    end;
 
    function ${capi.get_name('create_auto_provider')}
@@ -136,9 +139,8 @@
             Files (I) := Create (+Value (Input_Files_Array (I)));
          end loop;
 
-         return Provider : ${unit_provider_type} :=
-            Create_Unit_Provider_C_Reference
-              (Create_Auto_Provider (Files.all, Actual_Charset))
+         return Provider : ${unit_provider_type} := To_C_Provider
+           (Create_Auto_Provider_Reference (Files.all, Actual_Charset))
          do
             Unchecked_Free (Files);
          end return;

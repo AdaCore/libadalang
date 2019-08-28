@@ -339,8 +339,14 @@ def setup(app):
     """
     This hook will be automatically executed when building the documentation.
 
-    It will generate the source code for libadalang, so that it is available
-    for API doc generation.
+    It will:
+
+    - Generate the source code for libadalang, so that it is available for API
+      doc generation.
+
+    - Add the laldoc directive.
+
+    - Generate the api_changes.rst file for the LAL's 'change' directory.
     """
     # Make sure we can import Libadalang
     try:
@@ -351,6 +357,19 @@ def setup(app):
 
     import laldoc
     app.add_directive('ada_auto_package', laldoc.AutoPackage)
+
+    import subprocess
+    from os import path as P
+    import sys
+
+    rst_content = subprocess.check_output([
+        sys.executable, P.join("..", "changes", "process_changes.py"),
+        "create-rst"
+    ])
+
+    with open(P.join(P.dirname(P.abspath(__file__)), "api_changes.rst"),
+              "w") as f:
+        f.write(rst_content)
 
 
 # TODO: for deployment, update the following URL to an available Langkit

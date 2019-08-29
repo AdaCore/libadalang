@@ -102,7 +102,7 @@ main(void)
     if (!ada_expr_p_matching_nodes(&expr, &entities))
       error("Could not get PragmaNode.f_args[0].f_expr.p_matching_nodes");
 
-    text = ada_node_short_image(&expr);
+    ada_node_short_image(&expr, &text);
     fprint_text(stdout, text, false);
     ada_destroy_text(&text);
     printf(" resolves to:\n");
@@ -111,7 +111,7 @@ main(void)
         ada_base_entity *ent = &entities->items[i];
 
         printf("  ");
-        text = ada_node_short_image(ent);
+        ada_node_short_image(ent, &text);
         fprint_text(stdout, text, false);
         ada_destroy_text(&text);
         printf("\n");

@@ -80,7 +80,8 @@ main(void)
     if (!ada_base_subp_body_f_overriding(&subp_body, &overriding))
         error("Could not get SubpBody.overriding");
 
-    const ada_text kind = ada_kind_name(ada_node_kind(&overriding));
+    ada_text kind;
+    ada_kind_name(ada_node_kind(&overriding), &kind);
     printf("SubpBody: overriding = ");
     fprint_text(stdout, kind, 0);
     printf("\n");

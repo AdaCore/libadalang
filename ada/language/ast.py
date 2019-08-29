@@ -3325,8 +3325,8 @@ class BaseTypeDecl(BasicDecl):
         """
         access_type = Var(Entity)
         return access_type.access_def.cast(AccessToSubpDef).then(
-            lambda sa: sa.subp_spec.match_signature(
-                entity.subp_spec_or_null.cast(T.SubpSpec), False
+            lambda sa: entity.subp_spec_or_null.then(
+                lambda se: sa.subp_spec.match_signature(se, False)
             )
         )
 

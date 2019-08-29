@@ -51,7 +51,7 @@ dump(ada_base_entity *node, int level)
     }
 
     kind = ada_node_kind(node);
-    kind_name = ada_kind_name(kind);
+    ada_kind_name(kind, &kind_name);
     print_indent(level);
     putchar('<');
     fprint_text(stdout, kind_name, false);
@@ -80,7 +80,7 @@ dump_short_image(ada_base_entity *node, int level)
         return;
     }
 
-    img = ada_node_short_image(node);
+    ada_node_short_image(node, &img);
     print_indent(level);
     fprint_text(stdout, img, false);
     printf("\n");

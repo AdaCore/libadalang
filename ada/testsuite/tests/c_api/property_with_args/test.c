@@ -8,7 +8,8 @@
 static void
 dump_identifier(ada_base_node id)
 {
-    const ada_text kind = ada_kind_name(ada_node_kind(id));
+    ada_text kind;
+    ada_kind_name(ada_node_kind(id), &kind);
     ada_token name;
 
     printf("  ");

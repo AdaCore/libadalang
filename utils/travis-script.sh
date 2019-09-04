@@ -27,6 +27,13 @@ gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
 # Restrict parallelism to avoid OOM issues
 ada/manage.py build -j12
 
+# The testsuite heavily relies on shared libraries, which we don't support on
+# macOS, so do not run the testsuite on this platform.
+if [ "$TRAVIS_OS_NAME" = osx ]
+then
+   exit 0
+fi
+
 # Finally, run the testsuite
 #
 # TODO: adjust the Travis CI setup to provide a viable OCaml environment and

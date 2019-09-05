@@ -25,12 +25,12 @@ try:
         try:
             J.validate(entry, json_schema())
         except J.ValidationError as e:
-            print("Error when validating entry for {}".format(tn))
+            print('Error when validating entry for {}'.format(tn))
             print(e)
 
 except ImportError:
-    print("WARNING: jsonschema is not available. "
-          "Entries will not be validated!")
+    print('WARNING: jsonschema is not available. Entries will not be'
+          ' validated!')
 
     def validate_entry(tn, entry, no_schema=False):
         pass
@@ -49,7 +49,7 @@ def all_entries():
 
     entries_names = [f for f in glob('*.yaml') if f != 'entry_schema.yaml']
     for fname in entries_names:
-        tn = fname.split(".")[0]
+        tn = fname.split('.')[0]
         with open(fname) as f:
             entry = yaml.safe_load(f)
             entry['tn'] = tn
@@ -72,7 +72,7 @@ def print_all_changes_rst():
         print_rst(change_type)
 
 
-def print_rst(change_type="api-change"):
+def print_rst(change_type='api-change'):
     """
     Print RST on stdout for all the change entries for a given
     ``change_type``.
@@ -83,42 +83,42 @@ def print_rst(change_type="api-change"):
         """
         Format a header.
         """
-        return "{}\n{}\n".format(title, header_char * len(title))
+        return '{}\n{}\n'.format(title, header_char * len(title))
 
     def field(name, value):
         """
         Format a field list entry.
         """
-        return ":{}:\n    {}".format(name, value)
+        return ':{}:\n    {}'.format(name, value)
 
     def format_apis(apis):
         """
         Format the API field content. If absent, return "all".
         """
         if apis:
-            return ", ".join(apis)
+            return ', '.join(apis)
         else:
-            return "all"
+            return 'all'
 
-    entries = sorted((e for e in all_entries() if e["type"] == change_type),
+    entries = sorted((e for e in all_entries() if e['type'] == change_type),
                      key=lambda e: e['date'], reverse=True)
 
     if entries == []:
         return
 
-    print(header("Libadalang API {}".format(header_chunk), "#"))
+    print(header('Libadalang API {}'.format(header_chunk), '#'))
 
     for entry in entries:
-        print(header(entry["title"], "="))
-        print(entry["description"])
-        print(field("tn", entry["tn"]))
-        print(field("apis", format_apis(entry.get("apis"))))
+        print(header(entry['title'], '='))
+        print(entry['description'])
+        print(field('tn', entry['tn']))
+        print(field('apis', format_apis(entry.get('apis'))))
         print()
 
 
 @memoize
 def json_schema():
-    with open("entry_schema.yaml") as f:
+    with open('entry_schema.yaml') as f:
         schema = f.read()
     return yaml.safe_load(schema)
 
@@ -128,17 +128,14 @@ def validate():
     Validate all yaml entries.
     """
     def strip_title(title):
-        return title.replace("``", "")
+        return title.replace('``', '')
 
     # jsonschema validation happens as part of the iterator
     for entry in all_entries():
-        if len(strip_title(entry["title"])) > 52:
-            assert entry.get("short_title"), (
-                "Entry {}: "
-                "stripped title is more than 52 chars long, "
-                "and no short_title key".format(
-                    entry["tn"]
-                )
+        if len(strip_title(entry['title'])) > 52:
+            assert entry.get('short_title'), (
+                'Entry {}:stripped title is more than 52 chars long, and no'
+                ' short_title key'.format(entry['tn'])
             )
 
 

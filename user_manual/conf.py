@@ -363,12 +363,12 @@ def setup(app):
     import sys
 
     rst_content = subprocess.check_output([
-        sys.executable, P.join("..", "changes", "process_changes.py"),
-        "create-rst"
+        sys.executable, P.join('..', 'changes', 'process_changes.py'),
+        'create-rst'
     ])
 
-    with open(P.join(P.dirname(P.abspath(__file__)), "api_changes.rst"),
-              "w") as f:
+    with open(P.join(P.dirname(P.abspath(__file__)), 'api_changes.rst'),
+              'w') as f:
         f.write(rst_content)
 
 

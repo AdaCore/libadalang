@@ -9,9 +9,19 @@ from collections import OrderedDict
 from glob import glob
 import os
 import os.path as P
+import sys
 import yaml
 
 from funcy import memoize
+
+
+def print_err(*args, **kwargs):
+    """
+    Print a message on the standard error file.
+
+    This forwards ``**args`` and ``**kwargs`` to the ``print`` function.
+    """
+    print(*args, file=sys.stderr, **kwargs)
 
 
 # TODO: This is a workaround the fact that jsonschema is not available in
@@ -26,12 +36,12 @@ try:
         try:
             J.validate(entry, json_schema())
         except J.ValidationError as e:
-            print('Error when validating entry for {}'.format(tn))
-            print(e)
+            print_err('Error when validating entry for {}'.format(tn))
+            print_err(e)
 
 except ImportError:
-    print('WARNING: jsonschema is not available. Entries will not be'
-          ' validated!')
+    print_err('WARNING: jsonschema is not available. Entries will not be'
+              ' validated!')
 
     def validate_entry(tn, entry, no_schema=False):
         pass

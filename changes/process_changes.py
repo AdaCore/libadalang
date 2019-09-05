@@ -5,6 +5,7 @@ This script is an entry point to process change files for Libadalang.
 from __future__ import absolute_import, division, print_function
 
 import argparse as A
+from collections import OrderedDict
 from glob import glob
 import os
 import os.path as P
@@ -57,10 +58,10 @@ def all_entries():
             yield entry
 
 
-types_to_header = {
-    'api-change': 'breaking changes',
-    'new-feature': 'new features'
-}
+types_to_header = OrderedDict((
+    ('api-change', 'breaking changes'),
+    ('new-feature', 'new features')
+))
 
 
 def print_all_changes_rst():
@@ -68,7 +69,7 @@ def print_all_changes_rst():
     Print RST on stdout for all the change entries for all change types.
     """
 
-    for change_type in ['api-change', 'new-feature']:
+    for change_type in types_to_header.keys():
         print_rst(change_type)
 
 

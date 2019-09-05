@@ -1105,6 +1105,14 @@ class BasicDecl(AdaNode):
     with a language entity, for example a type or a variable.
     """
 
+    is_formal = Property(
+        Self.parent.is_a(T.GenericFormal),
+        public=True,
+        doc="""
+        Whether this decl is the nested decl of a generic formal declaration.
+        """
+    )
+
     @langkit_property(public=True, external=True,
                       return_type=DocAnnotation.array,
                       uses_entity_info=False, uses_envs=False)
@@ -2815,8 +2823,6 @@ class BaseTypeDecl(BasicDecl):
     env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
 
     defining_names = Property(Entity.name.singleton)
-
-    is_formal_type = Property(Self.parent.is_a(T.GenericFormalTypeDecl))
 
     @langkit_property(return_type=T.BaseTypeDecl.entity, memoized=True)
     def anonymous_access_type():
@@ -5947,7 +5953,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         dp = Var(Entity.designated_package)
         return Array([
             If(
-                Self.is_formal_pkg | inst_from_formal,
+                Self.is_formal | inst_from_formal,
                 Array([dp.children_env, dp.parent.children_env]).env_group(),
                 dp.children_env
             ),
@@ -5970,14 +5976,12 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     defining_names = Property(Entity.name.singleton)
 
-    is_formal_pkg = Property(Self.parent.is_a(T.GenericFormalPackage))
-
     env_spec = EnvSpec(
         call_env_hook(Self),
 
         set_initial_env(env.bind(
             Self.initial_env,
-            If(Self.is_formal_pkg, Self.initial_env, Entity.decl_scope(False))
+            If(Self.is_formal, Self.initial_env, Entity.decl_scope(False))
         )),
 
         add_to_env_kv(Entity.name_symbol, Self),
@@ -6149,7 +6153,8 @@ class GenericFormalPart(BaseFormalParamHolder):
 @abstract
 class GenericFormal(BaseFormalParamDecl):
     """
-    Declaration for a generic formal.
+    Enclosing declaration for a generic formal. The real declaration is
+    accessible via the ``decl`` field.
     """
     decl = Field(T.BasicDecl)
     aspects = NullField()
@@ -6322,7 +6327,7 @@ class Expr(AdaNode):
             lambda ar=AttributeRef: Or(
 
                 Not(ar.prefix.name_designated_type
-                    ._.root_type._.is_formal_type)
+                    ._.root_type._.is_formal)
                 & (ar.attribute.name_symbol == 'Base'),
 
                 ar.prefix.name_designated_type

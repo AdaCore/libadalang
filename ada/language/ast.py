@@ -3392,7 +3392,7 @@ class BaseTypeDecl(BasicDecl):
             # The next part of a (non-private) incomplete type declaration must
             # either be in the same declarative scope...
             itd.node_env
-            .get(itd.name.name_symbol, LK.flat, categories=noprims)
+            .get(itd.name.name_symbol, LK.minimal, categories=noprims)
             .find(lambda t: t.is_a(BaseTypeDecl) & (t != Entity))
 
             # Or in the particular case of taft-amendment types where the
@@ -3403,7 +3403,7 @@ class BaseTypeDecl(BasicDecl):
                 Entity.declarative_scope.parent
                 .cast_or_raise(T.BasePackageDecl).as_entity.body_part.then(
                     lambda p: p.children_env
-                    .get(itd.name.name_symbol, LK.flat, categories=noprims)
+                    .get(itd.name.name_symbol, LK.minimal, categories=noprims)
                     .find(lambda t: t.is_a(BaseTypeDecl))
                 )
             )).cast(BaseTypeDecl),

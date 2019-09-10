@@ -5221,7 +5221,12 @@ class Pragma(AdaNode):
                Entity.args.at(1).assoc_expr.cast(T.BaseId).sub_equation,
                LogicTrue()),
 
-            LogicTrue(),
+            Entity.args.logic_all(
+                # In the default case, we try to resolve every associated
+                # expression, but we never fail, in order to not generate
+                # diagnostics for unknown/implementation defined pragmas.
+                lambda a: Or(a.assoc_expr.sub_equation, LogicTrue())
+            )
         )
 
     @langkit_property()

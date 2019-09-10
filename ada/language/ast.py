@@ -5193,6 +5193,7 @@ class Pragma(AdaNode):
         return Cond(
             Or(
                 Entity.id.name_is('Assert'),
+                Entity.id.name_is('Loop_Invariant'),
                 Entity.id.name_is('Compile_Time_Warning'),
                 Entity.id.name_is('Compile_Time_Error'),
             ),

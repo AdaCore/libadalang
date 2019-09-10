@@ -5,6 +5,7 @@ procedure Main is
 
       procedure Foo_1 (Self : T) is null;
       procedure Foo_2 (X : Integer; Self : T) is null;
+      procedure Foo_3 (Self : access T) is null;
 
       function Bar_1 (Self : T) return Integer is (1);
       function Bar_2 (Self : T; X : Integer) return Integer is (2);
@@ -17,6 +18,7 @@ procedure Main is
 
       overriding procedure Foo_1 (Self : U) is null;
       overriding procedure Foo_2 (X : Integer; Self : U) is null;
+      overriding procedure Foo_3 (Self : access U) is null;
 
       overriding function Bar_1 (Self : U) return Integer is (11);
       overriding function Bar_2 (Self : U; X : Integer) return Integer is (22);
@@ -29,6 +31,8 @@ procedure Main is
    A : PT.T;
    B : PU.U;
    X : PT.T'Class := B;
+   Y : access PT.T'Class;
+   Z : access PT.T;
    I : Integer;
 
 begin
@@ -51,4 +55,9 @@ begin
    A.Foo_1;
    I := A.Bar_1;
    I := A.Bar_2 (3);
+
+   Foo_3 (Y);
+   Foo_3 (Z);
+   Y.Foo_3;
+   Z.Foo_3;
 end Main;

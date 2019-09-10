@@ -1,23 +1,28 @@
 Analyzing references of Foo_1 (<DefiningName test.adb:6:17-6:22>)
-  Reference <Id "Foo_1" test.adb:57:4-57:9> is a dispatching call.
-  Reference <Id "Foo_1" test.adb:63:6-63:11> is a dispatching call.
-  Reference <Id "Foo_1" test.adb:67:4-67:9> is not a dispatching call.
-  Reference <Id "Foo_1" test.adb:73:6-73:11> is not a dispatching call.
+  Reference <Id "Foo_1" test.adb:39:4-39:9> is a dispatching call.
+  Reference <Id "Foo_1" test.adb:45:6-45:11> is a dispatching call.
+  Reference <Id "Foo_1" test.adb:49:4-49:9> is not a dispatching call.
+  Reference <Id "Foo_1" test.adb:55:6-55:11> is not a dispatching call.
 Analyzing references of Foo_2 (<DefiningName test.adb:7:17-7:22>)
-  Reference <Id "Foo_2" test.adb:58:4-58:9> is a dispatching call.
-  Reference <Id "Foo_2" test.adb:68:4-68:9> is not a dispatching call.
-Analyzing references of Bar_1 (<DefiningName test.adb:9:16-9:21>)
-  Reference <Id "Bar_1" test.adb:59:9-59:14> is a dispatching call.
-  Reference <Id "Bar_1" test.adb:64:11-64:16> is a dispatching call.
-  Reference <Id "Bar_1" test.adb:69:9-69:14> is not a dispatching call.
-  Reference <Id "Bar_1" test.adb:74:11-74:16> is not a dispatching call.
-Analyzing references of Bar_2 (<DefiningName test.adb:10:16-10:21>)
-  Reference <Id "Bar_2" test.adb:60:9-60:14> is a dispatching call.
-  Reference <Id "Bar_2" test.adb:65:11-65:16> is a dispatching call.
-  Reference <Id "Bar_2" test.adb:70:9-70:14> is not a dispatching call.
-  Reference <Id "Bar_2" test.adb:75:11-75:16> is not a dispatching call.
-Analyzing references of Foo_Bar (<DefiningName test.adb:12:16-12:23>)
-  Reference <Id "Foo_Bar" test.adb:61:9-61:16> is a dispatching call.
-  Reference <Id "Foo_Bar" test.adb:71:9-71:16> is not a dispatching call.
+  Reference <Id "Foo_2" test.adb:40:4-40:9> is a dispatching call.
+  Reference <Id "Foo_2" test.adb:50:4-50:9> is not a dispatching call.
+Analyzing references of Foo_3 (<DefiningName test.adb:8:17-8:22>)
+  Reference <Id "Foo_3" test.adb:59:4-59:9> is a dispatching call.
+  Reference <Id "Foo_3" test.adb:60:4-60:9> is not a dispatching call.
+  Reference <Id "Foo_3" test.adb:61:6-61:11> is a dispatching call.
+  Reference <Id "Foo_3" test.adb:62:6-62:11> is not a dispatching call.
+Analyzing references of Bar_1 (<DefiningName test.adb:10:16-10:21>)
+  Reference <Id "Bar_1" test.adb:41:9-41:14> is a dispatching call.
+  Reference <Id "Bar_1" test.adb:46:11-46:16> is a dispatching call.
+  Reference <Id "Bar_1" test.adb:51:9-51:14> is not a dispatching call.
+  Reference <Id "Bar_1" test.adb:56:11-56:16> is not a dispatching call.
+Analyzing references of Bar_2 (<DefiningName test.adb:11:16-11:21>)
+  Reference <Id "Bar_2" test.adb:42:9-42:14> is a dispatching call.
+  Reference <Id "Bar_2" test.adb:47:11-47:16> is a dispatching call.
+  Reference <Id "Bar_2" test.adb:52:9-52:14> is not a dispatching call.
+  Reference <Id "Bar_2" test.adb:57:11-57:16> is not a dispatching call.
+Analyzing references of Foo_Bar (<DefiningName test.adb:13:16-13:23>)
+  Reference <Id "Foo_Bar" test.adb:43:9-43:16> is a dispatching call.
+  Reference <Id "Foo_Bar" test.adb:53:9-53:16> is not a dispatching call.
 
 Done

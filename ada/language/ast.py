@@ -7615,7 +7615,12 @@ class Name(Expr):
                         # No need to check that the type of the expression
                         # is exactly the classwide type of the expected
                         # type, but simply that it is classwide.
-                        c.expr.expression_type.is_classwide
+                        c.expr.expression_type.then(
+                            lambda t: bind_origin(Self, Or(
+                                t.is_classwide,
+                                t.accessed_type._.is_classwide
+                            ))
+                        )
                     )
                 )
             )

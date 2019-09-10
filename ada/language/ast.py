@@ -5221,6 +5221,17 @@ class Pragma(AdaNode):
                Entity.args.at(1).assoc_expr.cast(T.BaseId).sub_equation,
                LogicTrue()),
 
+            # Pragmas we want to deliberately not resolve, either because there
+            # is nothing to resolve in there, or because we don't know how to
+            # resolve them and don't want to spend effort implementing
+            # resolution for them (for example, other compilers implementation
+            # defined pragmas).
+            Entity.id.name_symbol.any_of(
+                'Style_Checks', 'Warnings', 'Import_Function',
+                'Import_Procedure'
+            ),
+            LogicTrue(),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate

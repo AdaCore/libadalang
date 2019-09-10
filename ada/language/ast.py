@@ -9874,7 +9874,7 @@ class AttributeRef(Name):
 
     @langkit_property()
     def env_elements_impl():
-        return If(
+        return Cond(
             Self.attribute.sym == 'Unrestricted_Access',
             Entity.prefix.env_elements_impl.map(
                 lambda e:
@@ -9882,6 +9882,15 @@ class AttributeRef(Name):
                 # anonymous access to entities, so mark the entities as such.
                 e.cast_or_raise(T.BasicDecl).trigger_access_entity(True)
             ),
+
+            # TODO: This is a hack, because the result of 'Old and 'Loop_Entry
+            # don't really refer to the decl of the left side of the attr. This
+            # works around a bug in CallExpr's equation, where you can only
+            # index something that has a corresponding decl in the toplevel
+            # call expr.
+            Self.attribute.sym.any_of('Old', 'Loop_Entry'),
+            Entity.prefix.env_elements_impl,
+
             No(T.AdaNode.entity.array),
         )
 

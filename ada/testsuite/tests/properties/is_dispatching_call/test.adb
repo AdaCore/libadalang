@@ -3,8 +3,8 @@ procedure Main is
    package PT is
       type T is tagged null record;
 
-      procedure Foo_1 (Self : T);
-      procedure Foo_2 (X : Integer; Self : T);
+      procedure Foo_1 (Self : T) is null;
+      procedure Foo_2 (X : Integer; Self : T) is null;
 
       function Bar_1 (Self : T) return Integer is (1);
       function Bar_2 (Self : T; X : Integer) return Integer is (2);
@@ -12,38 +12,16 @@ procedure Main is
       function Foo_Bar return T is (null record);
    end PT;
 
-   package body PT is
-      procedure Foo_1 (Self : T) is
-      begin
-         null;
-      end Foo_1;
-      procedure Foo_2 (X : Integer; Self : T) is
-      begin
-         null;
-      end Foo_2;
-   end PT;
-
    package PU is
       type U is new PT.T with null record;
 
-      overriding procedure Foo_1 (Self : U);
-      overriding procedure Foo_2 (X : Integer; Self : U);
+      overriding procedure Foo_1 (Self : U) is null;
+      overriding procedure Foo_2 (X : Integer; Self : U) is null;
 
       overriding function Bar_1 (Self : U) return Integer is (11);
       overriding function Bar_2 (Self : U; X : Integer) return Integer is (22);
 
       overriding function Foo_Bar return U is (null record);
-   end PU;
-
-   package body PU is
-      procedure Foo_1 (Self : U) is
-      begin
-         null;
-      end Foo_1;
-      procedure Foo_2 (X : Integer; Self : U) is
-      begin
-         null;
-      end Foo_2;
    end PU;
 
    use PT;

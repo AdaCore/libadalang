@@ -9937,7 +9937,9 @@ class AttributeRef(Name):
             rel_name == 'Tag', Entity.tag_attr_equation,
 
             rel_name == 'Result', Entity.result_attr_equation,
-            rel_name == 'Old',    Entity.old_attr_equation,
+
+            rel_name.any_of('Old', 'Loop_Entry'),
+            Entity.bind_to_prefix_eq,
 
             rel_name == 'Class',  Entity.prefix.sub_equation,
 
@@ -9965,7 +9967,7 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def old_attr_equation():
+    def bind_to_prefix_eq():
         return And(
             Entity.prefix.sub_equation,
             TypeBind(Self.type_var, Self.prefix.type_var),

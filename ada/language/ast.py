@@ -5218,7 +5218,7 @@ class Pragma(AdaNode):
             Entity.id.name_is('Warnings'),
             If(And(Entity.args.length == 2,
                    Entity.args.at(1).assoc_expr.is_a(T.BaseId)),
-               Entity.args.at(1).assoc_expr.cast(T.BaseId).xref_equation,
+               Entity.args.at(1).assoc_expr.cast(T.BaseId).sub_equation,
                LogicTrue()),
 
             LogicTrue(),

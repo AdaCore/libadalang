@@ -14,8 +14,8 @@
     (string @-> ptr c_project_scenario_variable @-> string @-> string
      @-> raisable c_type)
 
-  let destroy_unit_provider =
-    foreign ~from:c_lib "${capi.get_name("destroy_unit_provider")}"
+  let dec_ref_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("dec_ref_unit_provider")}"
       (c_type @-> raisable void)
 
   let for_project ?(scenario_vars = []) ?(target = "") ?(runtime = "")
@@ -40,7 +40,7 @@
     if is_null c_value then
       raise (InvalidProjectError ("Cannot open project " ^ project_file))
     else (
-      Gc.finalise (fun x -> destroy_unit_provider x) c_value;
+      Gc.finalise (fun x -> dec_ref_unit_provider x) c_value;
       c_value
     )
 
@@ -55,5 +55,5 @@
     List.iteri (fun i x -> CArray.set array i x) input_files ;
     let ptr = CArray.start array in
     let c_value = create_auto_provider ptr "" in
-    Gc.finalise (fun x -> destroy_unit_provider x) c_value ;
+    Gc.finalise (fun x -> dec_ref_unit_provider x) c_value ;
     c_value

@@ -9,7 +9,7 @@ assert not u.diagnostics
 
 root_pkg = u.root.findall(lal.PackageDecl)[0]
 
-for subp in root_pkg.findall((lal.SubpDecl, lal.ExprFunction)):
+for subp in root_pkg.findall((lal.NullSubpDecl, lal.ExprFunction)):
     name = subp.f_subp_spec.f_subp_name
     print("Analyzing references of {} ({})".format(name.text, name))
     for ref in name.p_find_all_references([u]):

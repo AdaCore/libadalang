@@ -9048,7 +9048,33 @@ class Identifier(BaseId):
     """
 
     annotations = Annotations(repr_name="Id")
-    is_not_class_id = Property(Not(Self.symbol == 'Class'))
+
+    # Some attributes return functions in Ada. However, LAL incorrectly parses
+    # an "AttributeRef with arguments" as something magical rather than a
+    # regular call (which is why AttributeRef has an `args` field.
+    #
+    # Additionally, resolution for a number of them was implemented as "magic
+    # attributes" rather than built-in functions. This is wrong and needs to be
+    # fixed (see S910-057). However, for the moment, we parse them as
+    # ``AttributeRef (pfx, attr, args)``, and resolve them specially
+    # rather than  ``CallExpr (AttrRef (pfx, attr), args)``.
+    #
+    # For other args, we deactivate this parsing, so that they're correctly
+    # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
+    is_attr_with_args = Property(
+        Self.symbol.any_of(
+            # Attributes that return functions and are - wrongly - handled (see
+            # S910-057 for more details).
+            'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min',
+            'Max', 'Image', 'Value', 'Pos', 'Val', 'First', 'Last', 'Range',
+            'Length',
+
+            # Those attributes return functions but were never implemented. We
+            # still parse them in the old "wrong" fashion, in order not to
+            # trigger a resolution failure.
+            'Rounding', 'Round', "Ceiling", 'Floor'
+        )
+    )
 
 
 class StringLiteral(BaseId):

@@ -1132,7 +1132,7 @@ A.add_rules(
 
         # General Attributes
         AttributeRef(A.name, "'",
-                     Predicate(A.identifier, T.Identifier.is_not_class_id),
+                     Predicate(A.identifier, T.Identifier.is_attr_with_args),
                      Opt("(", A.call_suffix, ")")),
 
         # Class attribute

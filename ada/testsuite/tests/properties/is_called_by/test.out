@@ -1,16 +1,20 @@
 Foo at line 4 is called by:
-    X := Foo; (test.adb, 54:4-54:13)
+    X := Foo; (test.adb, 57:4-57:13)
 Bar at line 12 is called by:
-    Y.Bar; (test.adb, 57:4-57:10)
-Bar at line 18 is called by:
-    Y.Bar; (test.adb, 57:4-57:10)
-    Derived.Bar (YY); (test.adb, 58:4-58:21)
-Bar at line 28 is called by:
-    Y.Bar; (test.adb, 57:4-57:10)
-    Derived.Bar (YY); (test.adb, 58:4-58:21)
-Bar at line 34 is called by:
-    ZZ.Bar; (test.adb, 59:4-59:11)
-Bar at line 40 is called by:
-    Y.Bar; (test.adb, 57:4-57:10)
-    ZZ.Bar; (test.adb, 59:4-59:11)
+    Y.Bar; (test.adb, 60:4-60:10)
+Baz at line 13 is called by:
+    Acc.Baz; (test.adb, 63:4-63:12)
+Bar at line 19 is called by:
+    Y.Bar; (test.adb, 60:4-60:10)
+    Derived.Bar (YY); (test.adb, 61:4-61:21)
+Bar at line 29 is called by:
+    Y.Bar; (test.adb, 60:4-60:10)
+    Derived.Bar (YY); (test.adb, 61:4-61:21)
+Baz at line 30 is called by:
+    Acc.Baz; (test.adb, 63:4-63:12)
+Bar at line 36 is called by:
+    ZZ.Bar; (test.adb, 62:4-62:11)
+Bar at line 42 is called by:
+    Y.Bar; (test.adb, 60:4-60:10)
+    ZZ.Bar; (test.adb, 62:4-62:11)
 Done

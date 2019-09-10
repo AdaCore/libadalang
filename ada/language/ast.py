@@ -9395,9 +9395,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
             No(T.BaseTypeDecl.entity.array)
         ))
 
-    @langkit_property()
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()])
     def real_type(tpe=T.BaseTypeDecl.entity):
-        return If(
+        return Cond(
             Entity.info.md.primitive == tpe.node,
 
             If(
@@ -9413,6 +9414,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 Entity.info.md.primitive_real_type
                 .cast(T.PrimTypeAccessor).get_prim_type,
             ),
+
+            tpe.is_a(AnonymousTypeDecl),
+            Entity.real_type(tpe.accessed_type).anonymous_access_type,
 
             tpe
         )

@@ -10,6 +10,7 @@ procedure Test is
       type T is tagged null record;
 
       procedure Bar (Self : T) is null;
+      procedure Baz (Self : access T) is null;
    end Base;
 
    package Derived is
@@ -26,6 +27,7 @@ procedure Test is
       type T is new Derived_2.T with null record;
 
       overriding procedure Bar (Self : T) is null;
+      overriding procedure Baz (Self : access T) is null;
    end Derived_3;
 
    package Pkg_Interface is
@@ -50,6 +52,7 @@ procedure Test is
    Z : F_T := Foo'Access;
    YY : Derived.T'Class := Derived.T' (null record);
    ZZ : Pkg_Interface.I'Class := Derived_4.T' (null record);
+   Acc : access Base.T'Class := null;
 begin
    X := Foo;
    X := Z.all;
@@ -57,4 +60,5 @@ begin
    Y.Bar;
    Derived.Bar (YY);
    ZZ.Bar;
+   Acc.Baz;
 end Test;

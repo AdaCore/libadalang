@@ -121,7 +121,7 @@ main(void)
     ada_ada_node_array_dec_ref(entities);
 
     ada_context_decref(ctx);
-    ada_destroy_unit_provider(ufp);
+    ada_dec_ref_unit_provider(ufp);
     puts("Done.");
     return 0;
 }

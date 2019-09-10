@@ -8429,7 +8429,7 @@ class DefiningName(Name):
         call.
         """
         return x.cast(BaseId).then(lambda i: And(
-            i.name_is(i.name_symbol),
+            Self.name_is(i.name_symbol),
             Let(lambda
                 canon=If(i.is_defining,
                          i.enclosing_defining_name,

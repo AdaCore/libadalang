@@ -213,29 +213,34 @@ package body Libadalang.Expr_Eval is
             when Ada_Type_Decl =>
                return Eval_Range_Attr
                  (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
+
+            when Ada_Bin_Op_Range =>
+               declare
+                  BO   : constant LAL.Bin_Op := D.As_Bin_Op;
+                  Expr : constant LAL.Expr :=
+                    (case A is
+                        when Range_First => BO.F_Left,
+                        when Range_Last  => BO.F_Right);
+               begin
+                  return Expr_Eval (Expr);
+               end;
+
             when Ada_Type_Def =>
                case D.Kind is
-                  when Ada_Signed_Int_Type_Def =>
+                  when Ada_Derived_Type_Def =>
                      declare
-                        Rng : constant LAL.Expr :=
-                          D.As_Signed_Int_Type_Def.F_Range.F_Range;
+                        Cst : constant LAL.Constraint :=
+                          D.As_Derived_Type_Def
+                            .F_Subtype_Indication.F_Constraint;
                      begin
-                        case Rng.Kind is
-                           when Ada_Bin_Op_Range =>
-                              declare
-                                 BO   : constant LAL.Bin_Op := Rng.As_Bin_Op;
-                                 Expr : constant LAL.Expr :=
-                                   (case A is
-                                    when Range_First => BO.F_Left,
-                                    when Range_Last  => BO.F_Right);
-                              begin
-                                 return Expr_Eval (Expr);
-                              end;
-                           when others =>
-                              raise Property_Error with "Unsupported range"
-                                & " expression: " & Rng.Debug_Text;
-                        end case;
+                        return Eval_Range_Attr
+                          (Cst.As_Range_Constraint.F_Range.F_Range.As_Ada_Node,
+                           A);
                      end;
+                  when Ada_Signed_Int_Type_Def =>
+                     return Eval_Range_Attr
+                       (D.As_Signed_Int_Type_Def.F_Range.F_Range.As_Ada_Node,
+                        A);
                   when Ada_Enum_Type_Def =>
                      declare
                         Lits : constant LAL.Enum_Literal_Decl_List :=

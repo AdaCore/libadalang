@@ -1,0 +1,18 @@
+Is preelaborable?
+proc1.adb:      False
+proc2.adb:      True
+proc3.adb:      True
+pkg1.ads:       False
+pkg1.adb:       False
+pkg1-foo.adb:   False
+pkg2.ads:       True
+pkg2.adb:       True
+pkg2-foo.adb:   True
+pkg3.ads:       True
+pkg3.adb:       False
+pkg3-foo.adb:   False
+pkg4.ads:       True
+pkg4.adb:       True
+pkg4-nested1.adb: True
+pkg4-nested1-foo.adb: True
+Done

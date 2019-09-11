@@ -1,0 +1,22 @@
+driver: python
+input_sources:
+    - proc1.adb
+    - proc2.adb
+    - proc3.adb
+
+    - pkg1.ads
+    - pkg1.adb
+    - pkg1-foo.adb
+
+    - pkg2.ads
+    - pkg2.adb
+    - pkg2-foo.adb
+
+    - pkg3.ads
+    - pkg3.adb
+    - pkg3-foo.adb
+
+    - pkg4.ads
+    - pkg4.adb
+    - pkg4-nested1.adb
+    - pkg4-nested1-foo.adb

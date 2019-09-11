@@ -78,4 +78,11 @@ procedure Foo;
 test('Test toplevel package without token before "package"',
      "package Lol is end Lol;")
 
+
+test('Test resilience to wrong annotation format', """
+procedure Foo;
+--% belongs-to
+""")
+
+
 print('test.py: done')

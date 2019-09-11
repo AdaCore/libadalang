@@ -7859,6 +7859,8 @@ class CallExpr(Name):
                 )) | If(Entity.name.is_simple_name,
                         Entity.operator_equation,
                         LogicFalse())
+                # TODO: Bug here: if operator equation, then parent equation is
+                # not called!
             )
         )
 

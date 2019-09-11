@@ -49,7 +49,7 @@ class InlinePlayground(lal.App):
                 ret = ret.previous
             return ret
 
-        for tok in unit.root.tokens:
+        for tok in unit.iter_tokens():
             if tok.kind == 'Comment' and tok.text.startswith('--%'):
                 expr_text = tok.text[3:].strip()
                 if expr_text.startswith('$'):

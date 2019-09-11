@@ -363,7 +363,7 @@ def setup(app):
     import sys
 
     rst_content = subprocess.check_output([
-        sys.executable, P.join('..', 'changes', 'process_changes.py'),
+        sys.executable, P.join('changes', 'process_changes.py'),
         'create-rst'
     ])
 

@@ -7615,6 +7615,10 @@ class Name(Expr):
                         # No need to check that the type of the expression
                         # is exactly the classwide type of the expected
                         # type, but simply that it is classwide.
+                        # Also note that the primitive can be on a an anonymous
+                        # access of the tagged type, which means we should also
+                        # accept the argument if it's type is an access on a
+                        # classwide type.
                         c.expr.expression_type.then(
                             lambda t: bind_origin(Self, Or(
                                 t.is_classwide,
@@ -9415,6 +9419,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 .cast(T.PrimTypeAccessor).get_prim_type,
             ),
 
+            # Handle the case where the primitive is defined on an anonymous
+            # access type, by returning an anonymous access type over the
+            # real_type of the accessed type.
             tpe.is_a(AnonymousTypeDecl),
             Entity.real_type(tpe.accessed_type).anonymous_access_type,
 

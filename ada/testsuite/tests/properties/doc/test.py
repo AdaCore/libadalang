@@ -75,4 +75,7 @@ procedure Foo;
 -- Invalidly formatted
 """)
 
+test('Test toplevel package without token before "package"',
+     "package Lol is end Lol;")
+
 print('test.py: done')

@@ -32,4 +32,9 @@ Test invalid documentation flagging
 raised LIBADALANG.COMMON.PROPERTY_ERROR : Invalidly formatted documentation comment
 
 
+Test toplevel package without token before "package"
+====================================================
+
+
+
 test.py: done

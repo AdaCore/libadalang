@@ -130,7 +130,11 @@ package body Libadalang.Doc_Utils is
                      K : constant Wide_Wide_String :=
                        X (1).Slice (2, X (1).Length).Trim.To_String;
                      --             ^ Strip % prefix
-                     V : constant Wide_Wide_String := X (2).Trim.To_String;
+                     V : constant Wide_Wide_String :=
+                       (if X'Length < 2
+                        then raise Property_Error
+                          with "Incorrectly formatted docstring"
+                        else X (2).Trim.To_String);
                   begin
                      Ret.Annotations.Include (K, V);
                   exception

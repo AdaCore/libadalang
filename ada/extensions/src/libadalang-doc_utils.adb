@@ -77,6 +77,12 @@ package body Libadalang.Doc_Utils is
       Doc_Vec : XString_Vectors.Vector;
    begin
       Next_Token;
+
+      --  There is no next token: exit
+      if Tok = No_Token then
+         return Ret;
+      end if;
+
       if Skip_White_Lines /= 0 and then Kind (Data (Tok)) = Ada_Whitespace then
          if Skip_White_Lines = -1 then
             --  If told to skip all white lines, go ahead

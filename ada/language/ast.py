@@ -1819,6 +1819,28 @@ class BasicDecl(AdaNode):
             default_val=String("")
         )
 
+    @langkit_property(return_type=Bool)
+    def does_aspects_make_preelaborable(from_body=T.Bool):
+        """
+        Implementation helper for ``CompilationUnit.is_preelaborable``.
+
+        Return whether ``Entity`` has aspects that make it preelaborable.
+
+        If ``from_body``, consider that ``Entity`` is a spec and that we are
+        computing whether its body is preelaborable.
+        """
+        return imprecise_fallback.bind(False, Or(
+            # The following aspects apply to bodies...
+            Entity.has_aspect('Pure'),
+            Entity.has_aspect('Preelaborate'),
+            Entity.has_aspect('Shared_Passive'),
+            Not(from_body) & Or(
+                # ... but the ones below apply only to specs
+                Entity.has_aspect('Remote_Types'),
+                Entity.has_aspect('Remote_Call_Interface')
+            )
+        ))
+
 
 class ErrorDecl(BasicDecl):
     """
@@ -10397,20 +10419,63 @@ class CompilationUnit(AdaNode):
             ),
         )
 
+    @langkit_property(return_type=Bool)
+    def is_preelaborable_impl(from_body=T.Bool):
+        """
+        Implementation helper for ``is_preelaborable``.
+
+        Return whether ``Entity`` or its spec (if any) make it preelaborable.
+        ``from_body`` has the same semantics as in
+        ``does_aspects_make_preelaborate``.
+        """
+        return Entity.body.match(
+            # Subunits are preelaborable iff the body they relate to is
+            # preelaborable.
+            lambda su=T.Subunit: (
+                su.body_root.parent.parent.cast_or_raise(T.CompilationUnit)
+                .is_preelaborable_impl(from_body=True)
+            ),
+
+            lambda li=T.LibraryItem: li.item.match(
+                lambda subp_decl=T.SubpDecl: (
+                    subp_decl.does_aspects_make_preelaborable(from_body)
+                ),
+                lambda subp_body=T.SubpBody: Or(
+                    # Subprogram bodies can have elaboration pragmas, so look
+                    # for them, first.
+                    subp_body.does_aspects_make_preelaborable(from_body=False),
+
+                    # Otherwise recurse on the corresponding procedure spec (if
+                    # any).
+                    subp_body.decl_part.then(lambda dp: (
+                        dp.parent.parent
+                        .cast_or_raise(T.CompilationUnit)
+                        .is_preelaborable_impl(from_body=True)
+                    ))
+                ),
+                lambda pkg_decl=T.PackageDecl: (
+                    pkg_decl.does_aspects_make_preelaborable(from_body)
+                ),
+                lambda pkg_body=T.PackageBody: (
+                    # Elaboration control pragmas cannot appear in package
+                    # bodies, so recurse on the corresponding package spec.
+                    pkg_body.decl_part.parent.parent
+                    .cast_or_raise(T.CompilationUnit)
+                    .is_preelaborable_impl(from_body=True)
+                ),
+
+                lambda _: False,
+            ),
+
+            lambda _: False
+        )
+
     @langkit_property(return_type=Bool, public=True)
     def is_preelaborable():
         """
         Whether this compilation unit is preelaborable or not.
         """
-        return Entity.body.cast(T.BasicDecl).then(
-            lambda unit_decl: imprecise_fallback.bind(False, Or(
-                unit_decl.has_aspect('Pure'),
-                unit_decl.has_aspect('Preelaborate'),
-                unit_decl.has_aspect('Shared_Passive'),
-                unit_decl.has_aspect('Remote_Types'),
-                unit_decl.has_aspect('Remote_Call_Interface'),
-            ))
-        )
+        return Entity.is_preelaborable_impl(from_body=False)
 
     env_spec = EnvSpec(
         set_initial_env(Let(

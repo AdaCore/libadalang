@@ -1964,9 +1964,7 @@ class Body(BasicDecl):
         """
         If self is a subunit, return the body in which it is rooted.
         """
-        return Self.parent.cast(T.Subunit).then(lambda su: Self.top_level_decl(
-            su.name.referenced_unit_or_null(UnitBody)
-        ))
+        return Self.parent.cast(T.Subunit).then(lambda su: su.body_root)
 
     @langkit_property(dynamic_vars=[env])
     def body_scope(follow_private=Bool, force_decl=(Bool, False)):
@@ -11365,6 +11363,15 @@ class Subunit(AdaNode):
 
     name = Field(type=T.Name)
     body = Field(type=T.Body)
+
+    @langkit_property(public=True)
+    def body_root():
+        """
+        Return the body in which this subunit is rooted.
+        """
+        return Self.top_level_decl(
+            Self.name.referenced_unit_or_null(UnitBody)
+        ).as_bare_entity
 
 
 class ProtectedBodyStub(BodyStub):

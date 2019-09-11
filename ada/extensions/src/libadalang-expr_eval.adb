@@ -206,12 +206,13 @@ package body Libadalang.Expr_Eval is
          case D.Kind is
             when Ada_Name =>
                return Eval_Range_Attr
-                 (D.As_Name.P_Referenced_Decl_Internal (Try_Immediate => True)
+                 (D.As_Name
+                  .P_Referenced_Decl_Internal (Try_Immediate => True)
                   .As_Ada_Node,
                   A);
             when Ada_Type_Decl =>
-               return Eval_Range_Attr (D.As_Type_Decl.F_Type_Def.As_Ada_Node,
-                                       A);
+               return Eval_Range_Attr
+                 (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
             when Ada_Type_Def =>
                case D.Kind is
                   when Ada_Signed_Int_Type_Def =>

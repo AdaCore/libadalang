@@ -94,6 +94,8 @@ class Testsuite(BaseTestsuite):
         opts = self.global_env['options']
 
         discriminants.add_discriminants(opts.discriminants)
+        if opts.valgrind:
+            discriminants.add_discriminants('valgrind')
 
         assert not opts.valgrind or not opts.debug, (
             'Debugging while checking memory with Valgrind is not supported.')

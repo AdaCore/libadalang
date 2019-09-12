@@ -4,6 +4,7 @@ with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Containers.Vectors;
+with Ada.Directories; use Ada.Directories;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
@@ -38,6 +39,8 @@ procedure Nameres is
 
    package String_Queues
    is new Ada.Containers.Unbounded_Synchronized_Queues (String_QI);
+
+   package J renames GNATCOLL.JSON;
 
    Queue : String_Queues.Queue;
 
@@ -217,6 +220,13 @@ procedure Nameres is
    procedure Put_Line (S : String);
    procedure Put (S : String);
 
+   procedure Dump_Exception
+     (E   : Ada.Exceptions.Exception_Occurrence;
+      Obj : access J.JSON_Value := null);
+   --  Dump the exception ``E``, honoring the ``Args.No_Traceback`` flag (eg.
+   --  don't show tracebacks when asked not to). If ``Obj`` is passed and
+   --  ``Args.JSON`` is set, also set fields in ``Obj``.
+
    --------------
    -- New_Line --
    --------------
@@ -247,6 +257,51 @@ procedure Nameres is
          Ada.Text_IO.Put (S);
       end if;
    end Put;
+
+   --------------------
+   -- Dump_Exception --
+   --------------------
+
+   procedure Dump_Exception
+     (E   : Ada.Exceptions.Exception_Occurrence;
+      Obj : access J.JSON_Value := null)
+   is
+   begin
+      if Args.No_Traceback.Get then
+         --  Do not use Exception_Information nor Exception_Message. The
+         --  former includes tracebacks and the latter includes line
+         --  numbers in Libadalang: both are bad for testcase output
+         --  consistency.
+         Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
+         New_Line;
+
+      elsif Args.Sym_Traceback.Get then
+         Put_Line (Ada.Exceptions.Exception_Message (E));
+         Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+
+      else
+         Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+         New_Line;
+      end if;
+
+      if Args.JSON.Get then
+         Obj.Set_Field ("success", False);
+         Obj.Set_Field
+           ("exception_message", Ada.Exceptions.Exception_Message (E));
+
+         if Args.Sym_Traceback.Get then
+            Obj.Set_Field
+              ("exception_traceback",
+               GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+         else
+            Obj.Set_Field
+              ("exception_traceback",
+               Ada.Exceptions.Exception_Information (E));
+         end if;
+
+         Ada.Text_IO.Put_Line (Obj.Write);
+      end if;
+   end Dump_Exception;
 
    ------------------
    -- Process_File --
@@ -283,8 +338,6 @@ procedure Nameres is
       ------------------
 
       procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True) is
-
-         package J renames GNATCOLL.JSON;
 
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
 
@@ -343,7 +396,7 @@ procedure Nameres is
 
          Dummy : Visit_Status;
 
-         Obj : J.JSON_Value;
+         Obj : aliased J.JSON_Value;
 
       begin
          if Args.JSON.Get then
@@ -394,41 +447,7 @@ procedure Nameres is
             Put_Line
               ("Resolution failed with exception for node "
                & Node.Short_Image);
-            if Args.No_Traceback.Get then
-               --  Do use Exception_Information nor Exception_Message. The
-               --  former includes callbacks and the latter includes line
-               --  numbers in Libadalang: both are bad for testcase output
-               --  consistency.
-               Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
-               New_Line;
-
-            elsif Args.Sym_Traceback.Get then
-               Put_Line (Ada.Exceptions.Exception_Message (E));
-               Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
-
-            else
-               Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-               New_Line;
-            end if;
-
-            if Args.JSON.Get then
-               Obj.Set_Field ("success", False);
-               Obj.Set_Field
-                 ("exception_message", Ada.Exceptions.Exception_Message (E));
-
-               if Args.Sym_Traceback.Get then
-                  Obj.Set_Field
-                    ("exception_traceback",
-                     GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
-               else
-                  Obj.Set_Field
-                    ("exception_traceback",
-                     Ada.Exceptions.Exception_Information (E));
-               end if;
-
-               Ada.Text_IO.Put_Line (Obj.Write);
-            end if;
-
+            Dump_Exception (E, Obj'Access);
             Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
             Nb_File_Fails := Nb_File_Fails + 1;
       end Resolve_Node;
@@ -758,9 +777,9 @@ procedure Nameres is
                 >= Args.File_Limit.Get;
          exception
             when E : others =>
-               Put_Line ("Resolution failed with exception for file " & File);
-               Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-               Put_Line ("");
+               Put_Line
+                 ("PLE failed with exception for file " & Simple_Name (File));
+               Dump_Exception (E, null);
          end;
       end loop;
 

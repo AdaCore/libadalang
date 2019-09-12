@@ -8631,9 +8631,13 @@ class EndName(Name):
         doc="Returns this EndName's basic declaration"
     )
 
-    xref_equation = Property(If(
+    xref_equation = Property(Cond(
         Entity.basic_decl.is_a(T.SubpBody),
         Bind(Self.ref_var, Entity.basic_decl),
+
+        Entity.parent.is_a(T.AcceptStmtWithStmts),
+        Bind(Self.ref_var, Entity.parent.cast(T.AcceptStmt).designated_entry),
+
         Entity.name.xref_no_overloading,
     ))
 
@@ -9586,6 +9590,24 @@ class EntrySpec(BaseSubpSpec):
         )
     )
     returns = Property(No(T.TypeExpr.entity))
+
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def match_accept_signature(accept_stmt=T.AcceptStmt.entity):
+        # TODO: remove once S916-013 is done
+        self_params = Var(Entity.entry_params._.formal_params.then(
+            lambda p: Self.unpack_formals(p)
+        ))
+        accept_params = Var(accept_stmt.params._.formal_params.then(
+            lambda p: Self.unpack_formals(p)
+        ))
+        return And(
+            self_params.length == accept_params.length,
+            self_params.all(
+                lambda i, p: p.spec.formal_type.matching_type(
+                    accept_params.at(i).spec.formal_type
+                )
+            )
+        )
 
 
 class Quantifier(AdaNode):
@@ -11204,7 +11226,24 @@ class AcceptStmt(CompositeStmt):
 
     env_spec = EnvSpec(add_env())
 
-    xref_equation = Property(LogicTrue())
+    @langkit_property(return_type=T.EntryDecl.entity,
+                      dynamic_vars=[origin, env])
+    def designated_entry():
+        return Entity.name.all_env_els_impl.find(
+            lambda e: e.cast(EntryDecl).then(
+                lambda d: d.spec.match_accept_signature(Entity)
+            )
+        ).cast(EntryDecl)
+
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Bind(Self.name.ref_var, Entity.designated_entry),
+            Entity.entry_index_expr.then(
+                lambda e: e.sub_equation,
+                default_val=LogicTrue()
+            )
+        )
 
 
 class AcceptStmtWithStmts(AcceptStmt):
@@ -11214,8 +11253,6 @@ class AcceptStmtWithStmts(AcceptStmt):
 
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
-
-    xref_equation = Property(LogicTrue())
 
 
 class SelectStmt(CompositeStmt):
@@ -11629,6 +11666,10 @@ class Params(AdaNode):
     """
 
     params = Field(type=ParamSpec.list)
+
+    formal_params = Property(Entity.params.map(
+        lambda t: t.cast(BaseFormalParamDecl)
+    ))
 
 
 class ParentList(Name.list):

@@ -70,7 +70,8 @@ def all_entries():
 
 types_to_header = OrderedDict((
     ('api-change', 'breaking changes'),
-    ('new-feature', 'new features')
+    ('new-feature', 'new features'),
+    ('bugfix', 'bug fixes'),
 ))
 
 

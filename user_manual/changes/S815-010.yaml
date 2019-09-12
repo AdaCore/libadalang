@@ -1,0 +1,22 @@
+type: new-feature
+title: Improved handling of aggregate projects
+
+description: |
+   Until now, project unit providers used to reject all aggregate projects.
+   This is impractical as it is not always possible to load directly aggregated
+   projects. Hence, the goal of this enhancement is to enable Libadalang users
+   to load aggregate projects as long as we can guarantee non-ambiguous
+   resolution of dependencies.
+
+   The project unit provider in all APIs now accepts aggregate projects as long
+   as there is only one aggregated project.
+
+   Additionally, the project unit provider in the Ada API
+   (``Libadalang.Project_Provider``) provides two additional constructors
+   (``Create_Project_Unit_Provider`` and
+   ``Create_Project_Unit_Provider_Reference``) which take any project tree
+   (including all aggregate ones) plus one non-aggregate project in that tree.
+   The project provider will then consider only this sub-project to resolve
+   dependencies unambiguously.
+
+date: 2019-09-10

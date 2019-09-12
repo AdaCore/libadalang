@@ -29,16 +29,16 @@ ada/manage.py build -j12
 
 # The testsuite heavily relies on shared libraries, which we don't support on
 # macOS, so do not run the testsuite on this platform.
-if [ "$TRAVIS_OS_NAME" = osx ]
+if [ "$TRAVIS_OS_NAME" != osx ]
 then
-   exit 0
-fi
 
-# Finally, run the testsuite
-#
-# TODO: adjust the Travis CI setup to provide a viable OCaml environment and
-# enable the corresponding testcases.
-ada/manage.py test --disable-ocaml -- -j16
+  # Finally, run the testsuite
+  #
+  # TODO: adjust the Travis CI setup to provide a viable OCaml environment and
+  # enable the corresponding testcases.
+  ada/manage.py test --disable-ocaml -- -j16
+
+fi
 
 # Install result and pack an archive
 ada/manage.py install "$ADALIB_DIR"

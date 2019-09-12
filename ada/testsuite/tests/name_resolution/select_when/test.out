@@ -108,7 +108,7 @@ Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:19:15-21:26>
 *************************************************************************
 
 Expr: <Id "Insert" selectwhen.adb:19:22-19:28>
-  references: None
+  references: <DefiningName selectwhen.adb:5:12-5:18>
   type:       None
 Expr: <EndName selectwhen.adb:21:19-21:25>
   references: <DefiningName selectwhen.adb:5:12-5:18>
@@ -195,7 +195,7 @@ Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:26:15-28:26>
 *************************************************************************
 
 Expr: <Id "Remove" selectwhen.adb:26:22-26:28>
-  references: None
+  references: <DefiningName selectwhen.adb:6:12-6:18>
   type:       None
 Expr: <EndName selectwhen.adb:28:19-28:25>
   references: <DefiningName selectwhen.adb:6:12-6:18>

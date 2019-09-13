@@ -11430,7 +11430,8 @@ class TaskBody(Body):
 
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
-                      T.TaskBody.task_type_decl_scope)
+                      T.TaskBody.task_type_decl_scope,
+                      kind=RefKind.prioritary)
         ]
     )
 

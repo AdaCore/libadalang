@@ -55,5 +55,19 @@ Expr: <Id "X" test.adb:38:19-38:20>
   references: <DefiningName test.adb:30:7-30:8>
   type:       <SubtypeDecl ["My_Range"] test.adb:2:4-2:45>
 
+Resolving xrefs for node <AcceptStmt test.adb:53:10-53:21>
+**********************************************************
+
+Expr: <Id "Foo" test.adb:53:17-53:20>
+  references: <DefiningName test.adb:48:16-48:19>
+  type:       None
+
+Resolving xrefs for node <AcceptStmt test.adb:57:7-57:18>
+*********************************************************
+
+Expr: <Id "Foo" test.adb:57:14-57:17>
+  references: <DefiningName test.adb:43:13-43:16>
+  type:       None
+
 
 Done.

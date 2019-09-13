@@ -38,6 +38,25 @@ procedure Test is
       accept Bar (X);
       pragma Test_Statement;
    end Tsk_T;
+
+   task Tsk_2 is
+      entry Foo;
+   end Tsk_2;
+
+   task body Tsk_2 is
+      task Nested is
+         entry Foo;
+      end Nested;
+
+      task body Nested is
+      begin
+         accept Foo;
+         pragma Test_Statement;
+      end Nested;
+   begin
+      accept Foo;
+      pragma Test_Statement;
+   end Tsk_2;
 begin
    null;
 end Test;

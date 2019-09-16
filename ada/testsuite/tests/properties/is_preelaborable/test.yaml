@@ -4,6 +4,11 @@ input_sources:
     - proc2.adb
     - proc3.adb
 
+    - proc4.ads
+    - proc4.adb
+    - proc5.ads
+    - proc5.adb
+
     - pkg1.ads
     - pkg1.adb
     - pkg1-foo.adb
@@ -20,3 +25,6 @@ input_sources:
     - pkg4.adb
     - pkg4-nested1.adb
     - pkg4-nested1-foo.adb
+
+    - pkg5.ads
+    - pkg6.ads

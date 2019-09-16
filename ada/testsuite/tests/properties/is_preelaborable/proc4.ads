@@ -1,0 +1,2 @@
+generic
+procedure Proc4;

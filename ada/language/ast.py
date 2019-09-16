@@ -10566,6 +10566,34 @@ class BaseSubpBody(Body):
     Base class for subprogram bodies.
     """
 
+    overriding = Field(type=Overriding)
+    subp_spec = Field(type=T.SubpSpec)
+
+    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
+
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
+    def defining_env():
+        return If(
+            Entity.in_scope,
+
+            If(
+                Entity.subp_spec_or_null
+                ._.paramless(Entity.info.md.dottable_subp, can_be=True),
+                Array([
+                    Entity.children_env, Entity.subp_spec.defining_env
+                ]).env_group(),
+                Entity.children_env
+            ),
+
+            Entity.subp_spec.defining_env
+        )
+
+    type_expression = Property(Entity.subp_spec.returns)
+
+    @langkit_property()
+    def expr_type():
+        return Entity.subp_spec_or_null._.return_type
+
     env_spec = EnvSpec(
         call_env_hook(Self),
 
@@ -10621,34 +10649,6 @@ class BaseSubpBody(Body):
             )
         )
     )
-
-    overriding = Field(type=Overriding)
-    subp_spec = Field(type=T.SubpSpec)
-
-    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
-
-    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
-    def defining_env():
-        return If(
-            Entity.in_scope,
-
-            If(
-                Entity.subp_spec_or_null
-                ._.paramless(Entity.info.md.dottable_subp, can_be=True),
-                Array([
-                    Entity.children_env, Entity.subp_spec.defining_env
-                ]).env_group(),
-                Entity.children_env
-            ),
-
-            Entity.subp_spec.defining_env
-        )
-
-    type_expression = Property(Entity.subp_spec.returns)
-
-    @langkit_property()
-    def expr_type():
-        return Entity.subp_spec_or_null._.return_type
 
 
 class ExprFunction(BaseSubpBody):

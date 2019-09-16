@@ -10895,7 +10895,7 @@ class RequeueStmt(SimpleStmt):
     ``requeue`` statement.
     """
 
-    call_name = Field(type=T.Expr)
+    call_name = Field(type=T.Name)
     has_abort = Field(type=Abort)
 
 

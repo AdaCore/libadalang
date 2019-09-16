@@ -988,7 +988,7 @@ A.add_rules(
     return_stmt=ReturnStmt("return", Opt(A.expr), sc()),
 
     requeue_stmt=RequeueStmt(
-        res("requeue"), A.expr, Abort("with", "abort"), sc()
+        res("requeue"), A.name, Abort("with", "abort"), sc()
     ),
 
     identifier=Identifier(L.Identifier),

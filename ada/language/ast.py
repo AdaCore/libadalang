@@ -2225,6 +2225,29 @@ class BaseFormalParamHolder(AdaNode):
             tpe
         )
 
+    @langkit_property(return_type=Bool)
+    def match_formal_params(other=T.BaseFormalParamHolder.entity,
+                            match_names=(Bool, True)):
+        """
+        Check whether self's params match other's.
+        """
+        # Check that there is the same number of formals and that each
+        # formal matches.
+        self_params = Var(Entity.unpacked_formal_params)
+        other_params = Var(other.unpacked_formal_params)
+
+        self_types = Var(bind_origin(Self, Entity.param_types))
+        other_types = Var(bind_origin(other.node, other.param_types))
+        return And(
+            self_params.length == other_params.length,
+            bind_origin(Self, self_params.all(
+                lambda i, p:
+                Or(Not(match_names),
+                   p.name.matches(other_params.at(i).name.node))
+                & self_types.at(i)._.matching_type(other_types.at(i))
+            ))
+        )
+
 
 @abstract
 class DiscriminantPart(BaseFormalParamHolder):
@@ -9296,26 +9319,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 Not(Entity.returns.is_null), Not(other.returns.is_null),
                 bind_origin(Self, self_ret._.matching_type(other_ret))
             )
-        )
-
-    @langkit_property(return_type=Bool)
-    def match_formal_params(other=T.BaseSubpSpec.entity,
-                            match_names=(Bool, True)):
-        # Check that there is the same number of formals and that each
-        # formal matches.
-        self_params = Var(Entity.unpacked_formal_params)
-        other_params = Var(other.unpacked_formal_params)
-
-        self_types = Var(bind_origin(Self, Entity.param_types))
-        other_types = Var(bind_origin(other.node, other.param_types))
-        return And(
-            self_params.length == other_params.length,
-            bind_origin(Self, self_params.all(
-                lambda i, p:
-                Or(Not(match_names),
-                   p.name.matches(other_params.at(i).name.node))
-                & self_types.at(i)._.matching_type(other_types.at(i))
-            ))
         )
 
     @langkit_property(return_type=Bool)

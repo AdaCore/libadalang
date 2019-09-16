@@ -10496,6 +10496,10 @@ class CompilationUnit(AdaNode):
                 lambda subp_decl=T.SubpDecl: (
                     subp_decl.does_aspects_make_preelaborable(from_body)
                 ),
+                lambda gen_subp_decl=T.GenericSubpDecl: (
+                    gen_subp_decl.decl
+                    .does_aspects_make_preelaborable(from_body)
+                ),
                 lambda subp_body=T.SubpBody: Or(
                     # Subprogram bodies can have elaboration pragmas, so look
                     # for them, first.
@@ -10512,10 +10516,14 @@ class CompilationUnit(AdaNode):
                 lambda pkg_decl=T.PackageDecl: (
                     pkg_decl.does_aspects_make_preelaborable(from_body)
                 ),
+                lambda gen_pkg_decl=T.GenericPackageDecl: (
+                    gen_pkg_decl.package_decl
+                    .does_aspects_make_preelaborable(from_body)
+                ),
                 lambda pkg_body=T.PackageBody: (
                     # Elaboration control pragmas cannot appear in package
                     # bodies, so recurse on the corresponding package spec.
-                    pkg_body.decl_part.parent.parent
+                    pkg_body.decl_part.unit.root.as_bare_entity
                     .cast_or_raise(T.CompilationUnit)
                     .is_preelaborable_impl(from_body=True)
                 ),

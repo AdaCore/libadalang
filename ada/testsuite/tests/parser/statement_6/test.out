@@ -10,27 +10,29 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  Id[1:17-1:22]: Store
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params:
-|  |  |  |  |  Params[1:23-1:42]
+|  |  |  |  |  EntryCompletionFormalParams[1:23-1:42]
 |  |  |  |  |  |params:
-|  |  |  |  |  |  ParamSpecList[1:24-1:41]
-|  |  |  |  |  |  |  ParamSpec[1:24-1:41]
-|  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  DefiningNameList[1:24-1:31]
-|  |  |  |  |  |  |  |  |  DefiningName[1:24-1:31]
+|  |  |  |  |  |  Params[1:23-1:42]
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  ParamSpecList[1:24-1:41]
+|  |  |  |  |  |  |  |  ParamSpec[1:24-1:41]
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:24-1:31]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:24-1:31]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:24-1:31]: An_Item
+|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  AliasedAbsent[1:33-1:33]
+|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  ModeIn[1:34-1:36]
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  SubtypeIndication[1:37-1:41]
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:24-1:31]: An_Item
-|  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[1:33-1:33]
-|  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeIn[1:34-1:36]
-|  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  SubtypeIndication[1:37-1:41]
-|  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[1:37-1:41]: Item
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  Id[1:37-1:41]: Item
+|  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:45-1:64]
 |  |  |  |  |  |stmts:
@@ -55,27 +57,29 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  Id[1:85-1:90]: Fetch
 |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |params:
-|  |  |  |  |  Params[1:91-1:111]
+|  |  |  |  |  EntryCompletionFormalParams[1:91-1:111]
 |  |  |  |  |  |params:
-|  |  |  |  |  |  ParamSpecList[1:92-1:110]
-|  |  |  |  |  |  |  ParamSpec[1:92-1:110]
-|  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  DefiningNameList[1:92-1:99]
-|  |  |  |  |  |  |  |  |  DefiningName[1:92-1:99]
+|  |  |  |  |  |  Params[1:91-1:111]
+|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  ParamSpecList[1:92-1:110]
+|  |  |  |  |  |  |  |  ParamSpec[1:92-1:110]
+|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  DefiningNameList[1:92-1:99]
+|  |  |  |  |  |  |  |  |  |  DefiningName[1:92-1:99]
+|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  Id[1:92-1:99]: An_Item
+|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  AliasedAbsent[1:101-1:101]
+|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  ModeOut[1:102-1:105]
+|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  SubtypeIndication[1:106-1:110]
+|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:105-1:105]
 |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  Id[1:92-1:99]: An_Item
-|  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  AliasedAbsent[1:101-1:101]
-|  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  ModeOut[1:102-1:105]
-|  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  SubtypeIndication[1:106-1:110]
-|  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  NotNullAbsent[1:105-1:105]
-|  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  Id[1:106-1:110]: Item
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  Id[1:106-1:110]: Item
+|  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:114-1:133]
 |  |  |  |  |  |stmts:

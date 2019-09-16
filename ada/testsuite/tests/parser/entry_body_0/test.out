@@ -5,27 +5,29 @@ EntryBody[1:1-1:101]
 |  |  Id[1:7-1:13]: insert
 |index_spec: <null>
 |params:
-|  Params[1:14-1:34]
+|  EntryCompletionFormalParams[1:14-1:34]
 |  |params:
-|  |  ParamSpecList[1:15-1:33]
-|  |  |  ParamSpec[1:15-1:33]
-|  |  |  |ids:
-|  |  |  |  DefiningNameList[1:15-1:22]
-|  |  |  |  |  DefiningName[1:15-1:22]
+|  |  Params[1:14-1:34]
+|  |  |params:
+|  |  |  ParamSpecList[1:15-1:33]
+|  |  |  |  ParamSpec[1:15-1:33]
+|  |  |  |  |ids:
+|  |  |  |  |  DefiningNameList[1:15-1:22]
+|  |  |  |  |  |  DefiningName[1:15-1:22]
+|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  Id[1:15-1:22]: an_item
+|  |  |  |  |has_aliased:
+|  |  |  |  |  AliasedAbsent[1:24-1:24]
+|  |  |  |  |mode:
+|  |  |  |  |  ModeIn[1:25-1:27]
+|  |  |  |  |type_expr:
+|  |  |  |  |  SubtypeIndication[1:29-1:33]
+|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  NotNullAbsent[1:27-1:27]
 |  |  |  |  |  |name:
-|  |  |  |  |  |  Id[1:15-1:22]: an_item
-|  |  |  |has_aliased:
-|  |  |  |  AliasedAbsent[1:24-1:24]
-|  |  |  |mode:
-|  |  |  |  ModeIn[1:25-1:27]
-|  |  |  |type_expr:
-|  |  |  |  SubtypeIndication[1:29-1:33]
-|  |  |  |  |has_not_null:
-|  |  |  |  |  NotNullAbsent[1:27-1:27]
-|  |  |  |  |name:
-|  |  |  |  |  Id[1:29-1:33]: item
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr: <null>
+|  |  |  |  |  |  Id[1:29-1:33]: item
+|  |  |  |  |  |constraint: <null>
+|  |  |  |  |default_expr: <null>
 |barrier:
 |  Id[1:40-1:45]: empty
 |decls:

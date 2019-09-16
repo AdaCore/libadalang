@@ -9569,24 +9569,6 @@ class EntrySpec(BaseSubpSpec):
     )
     returns = Property(No(T.TypeExpr.entity))
 
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
-    def match_accept_signature(accept_stmt=T.AcceptStmt.entity):
-        # TODO: remove once S916-013 is done
-        self_params = Var(Entity.entry_params._.formal_params.then(
-            lambda p: Self.unpack_formals(p)
-        ))
-        accept_params = Var(accept_stmt.params._.formal_params.then(
-            lambda p: Self.unpack_formals(p)
-        ))
-        return And(
-            self_params.length == accept_params.length,
-            self_params.all(
-                lambda i, p: p.spec.formal_type.matching_type(
-                    accept_params.at(i).spec.formal_type
-                )
-            )
-        )
-
 
 class Quantifier(AdaNode):
     """
@@ -11193,6 +11175,18 @@ class CaseStmtAlternative(AdaNode):
     stmts = Field(type=T.StmtList)
 
 
+class EntryCompletionFormalParams(BaseFormalParamHolder):
+    """
+    Formal parameters for the completion of an ``EntryDecl`` (either an
+    ``EntryBody`` or an ``AcceptStmt``).
+    """
+    params = Field(type=T.Params)
+
+    abstract_formal_params = Property(
+        Entity.params._.params.map(lambda p: p.cast(BaseFormalParamDecl))
+    )
+
+
 class AcceptStmt(CompositeStmt):
     """
     ``accept`` statement.
@@ -11200,7 +11194,7 @@ class AcceptStmt(CompositeStmt):
 
     name = Field(type=T.Identifier)
     entry_index_expr = Field(type=T.Expr)
-    params = Field(type=T.Params)
+    params = Field(type=T.EntryCompletionFormalParams)
 
     env_spec = EnvSpec(add_env())
 
@@ -11209,7 +11203,7 @@ class AcceptStmt(CompositeStmt):
     def designated_entry():
         return Entity.name.all_env_els_impl.find(
             lambda e: e.cast(EntryDecl).then(
-                lambda d: d.spec.match_accept_signature(Entity)
+                lambda d: d.spec.match_formal_params(Entity.params)
             )
         ).cast(EntryDecl)
 
@@ -11468,7 +11462,7 @@ class EntryBody(Body):
 
     entry_name = Field(type=T.DefiningName)
     index_spec = Field(type=T.EntryIndexSpec)
-    params = Field(type=T.Params)
+    params = Field(type=T.EntryCompletionFormalParams)
     barrier = Field(type=T.Expr)
 
     decls = Field(type=T.DeclarativePart)
@@ -11659,10 +11653,6 @@ class Params(AdaNode):
     """
 
     params = Field(type=ParamSpec.list)
-
-    formal_params = Property(Entity.params.map(
-        lambda t: t.cast(BaseFormalParamDecl)
-    ))
 
 
 class ParentList(Name.list):

@@ -174,27 +174,29 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  Id[11:20-11:26]: Insert
 |  |  |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  Params[11:27-11:47]
+|  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[11:27-11:47]
 |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[11:28-11:46]
-|  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[11:28-11:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[11:28-11:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[11:28-11:35]
+|  |  |  |  |  |  |  |  |  |  |  Params[11:27-11:47]
+|  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[11:28-11:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[11:28-11:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[11:28-11:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[11:28-11:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:37-11:37]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ModeIn[11:38-11:40]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[11:42-11:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[11:40-11:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
-|  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:37-11:37]
-|  |  |  |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  |  |  |  ModeIn[11:38-11:40]
-|  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[11:42-11:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[11:40-11:40]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[11:50-13:13]
 |  |  |  |  |  |  |  |  |  |  |stmts:
@@ -262,27 +264,29 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  Id[17:20-17:26]: Remove
 |  |  |  |  |  |  |  |  |  |entry_index_expr: <null>
 |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  Params[17:27-17:47]
+|  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[17:27-17:47]
 |  |  |  |  |  |  |  |  |  |  |params:
-|  |  |  |  |  |  |  |  |  |  |  ParamSpecList[17:28-17:46]
-|  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[17:28-17:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |ids:
-|  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[17:28-17:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[17:28-17:35]
+|  |  |  |  |  |  |  |  |  |  |  Params[17:27-17:47]
+|  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[17:28-17:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[17:28-17:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[17:28-17:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[17:28-17:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:37-17:37]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ModeOut[17:38-17:41]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[17:42-17:46]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[17:41-17:41]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
-|  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
-|  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:37-17:37]
-|  |  |  |  |  |  |  |  |  |  |  |  |mode:
-|  |  |  |  |  |  |  |  |  |  |  |  |  ModeOut[17:38-17:41]
-|  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
-|  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[17:42-17:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[17:41-17:41]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
 |  |  |  |  |  |  |  |  |  |stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[17:50-19:13]
 |  |  |  |  |  |  |  |  |  |  |stmts:

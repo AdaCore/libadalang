@@ -760,7 +760,7 @@ A.add_rules(
         "entry", A.defining_id,
         Opt(EntryIndexSpec("(", "for", A.defining_id, "in",
                            A.discrete_subtype_definition, ")")),
-        Opt(A.param_specs),
+        Opt(EntryCompletionFormalParams(A.param_specs)),
         "when", A.expr,
         "is", cut(),
         A.recov_decl_part,
@@ -825,11 +825,11 @@ A.add_rules(
     accept_stmt=Or(
         AcceptStmt(
             "accept", A.identifier, Opt("(", A.expr, ")"),
-            Opt(A.param_specs), ";"
+            EntryCompletionFormalParams(Opt(A.param_specs)), ";"
         ),
         AcceptStmtWithStmts(
             "accept", A.identifier, Opt("(", A.expr, ")"),
-            Opt(A.param_specs),
+            EntryCompletionFormalParams(Opt(A.param_specs)),
             "do", A.handled_stmts, end_named_block(), sc()
         ),
     ),

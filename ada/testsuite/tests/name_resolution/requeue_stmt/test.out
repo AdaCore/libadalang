@@ -1,0 +1,12 @@
+Analyzing test_requeue.adb
+##########################
+
+Resolving xrefs for node <RequeueStmt test_requeue.adb:29:13-29:34>
+*******************************************************************
+
+Expr: <Id "Wait_For_Get" test_requeue.adb:29:21-29:33>
+  references: <DefiningName test_requeue.adb:14:13-14:25>
+  type:       None
+
+
+Done.

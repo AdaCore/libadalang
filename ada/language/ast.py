@@ -7511,7 +7511,6 @@ class Name(Expr):
                       conv_prop=BaseTypeDecl.classwide_type),
                  LogicTrue()),
 
-
             lambda _: LogicFalse()
         )
 
@@ -10897,6 +10896,61 @@ class RequeueStmt(SimpleStmt):
 
     call_name = Field(type=T.Name)
     has_abort = Field(type=Abort)
+
+    innermost_entry_or_accept_stmt_params = Property(
+        Entity.parents.find(
+            lambda p: p.is_a(AcceptStmtWithStmts, EntryBody)
+        ).match(
+            lambda a=T.AcceptStmtWithStmts: a.params,
+            lambda b=T.EntryBody: b.params,
+            lambda _: No(T.EntryCompletionFormalParams.entity)
+        ).cast(T.BaseFormalParamHolder.entity)
+    )
+
+    @langkit_property()
+    def xref_equation():
+        ce = Var(Entity.call_name.cast(CallExpr))
+        name = Var(ce.then(lambda ce: ce.name,
+                           default_val=Entity.call_name))
+
+        entries = Var(name.all_env_elements.filter(
+            # RM 9.5.4: the name shall resolve to denote a procedure or entry,
+            # where either:
+            lambda n: n.cast(EntryDecl).then(lambda e: Or(
+                # 1. The profile is empty
+                e.subp_spec_or_null.then(lambda ss: And(
+                    ss.nb_max_params == 0,
+                    ss.returns.is_null
+                )),
+                # 2. The profile matches the profile of the enclosing entry
+                e.spec.match_formal_params(
+                    Entity.innermost_entry_or_accept_stmt_params
+                )
+            ))
+        ))
+
+        return And(
+            # We call xref_no_overloading to make sure that sub-names are
+            # bound.
+            name.xref_no_overloading,
+
+            # Then, bind the name to any entry that fits the bills
+            entries.logic_any(lambda e: Let(
+                # If we're binding to an entry from an entry family, resolve
+                # the expression in the call expr, knowing that it can be used
+                # to resolve overloads.
+                lambda fam_type=e.cast(EntryDecl)._.spec.family_type
+                .cast(SubtypeIndication)._.designated_type,
+
+                first_param=ce._.params._.at(0)._.expr:
+
+                Bind(name.ref_var, e) & first_param.then(
+                    lambda p: p.sub_equation & fam_type.then(
+                        lambda eft: TypeBind(p.type_var, eft), LogicTrue()
+                    ), LogicTrue()
+                )
+            ))
+        )
 
 
 class AbortStmt(SimpleStmt):

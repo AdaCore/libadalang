@@ -88,8 +88,7 @@ class BaseDriver(TestDriver):
             self.result.set_status('DEAD', 'Skipping internal testcase')
             return
 
-        discriminants.add_discriminants(self.global_env['options']
-                                        .discriminants)
+        discriminants.add_discriminants(self.global_env['discriminants'])
 
         # If asked to run under Valgrind, prepare a Valgrind instance
         if self.global_env['options'].valgrind:

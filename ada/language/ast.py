@@ -2178,6 +2178,53 @@ class BaseFormalParamHolder(AdaNode):
             ).length == nb_min_params,
         )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity.array,
+                      dynamic_vars=[default_origin()], public=True)
+    def param_types():
+        """
+        Returns the type of each parameter of Self.
+        """
+        return Entity.unpacked_formal_params.map(
+            lambda fp: Entity.real_type(fp.spec.formal_type)
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()])
+    def real_type(tpe=T.BaseTypeDecl.entity):
+        """
+        Return the real type denoted by ``tpe``, taking into account that
+        ``tpe`` might be the type of a derived primitive. In that case, return
+        the derived primitive type.
+        """
+        prim_type = Var(Entity.info.md.primitive.cast(BaseTypeDecl))
+        canon_prim_type = Var(prim_type._.as_bare_entity.canonical_type)
+        canon_tpe = Var(tpe.node.as_bare_entity.canonical_type)
+        return Cond(
+            canon_prim_type.node == canon_tpe.node,
+
+            If(
+                Entity.info.md.primitive_real_type.is_null,
+
+                entity_no_md(
+                    BaseTypeDecl,
+                    tpe.node,
+                    Entity.info.rebindings,
+                    Entity.info.from_rebound
+                ),
+
+                Entity.info.md.primitive_real_type
+                .cast(T.PrimTypeAccessor).get_prim_type,
+            ),
+
+            # Handle the case where the primitive is defined on an anonymous
+            # access type, by returning an anonymous access type over the
+            # real_type of the accessed type.
+            tpe.is_a(AnonymousTypeDecl),
+            Entity.real_type(tpe.accessed_type).anonymous_access_type,
+
+            tpe
+        )
+
 
 @abstract
 class DiscriminantPart(BaseFormalParamHolder):
@@ -9439,48 +9486,6 @@ class BaseSubpSpec(BaseFormalParamHolder):
             )),
             No(T.BaseTypeDecl.entity.array)
         ))
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[default_origin()])
-    def real_type(tpe=T.BaseTypeDecl.entity):
-        prim_type = Var(Entity.info.md.primitive.cast(BaseTypeDecl))
-        canon_prim_type = Var(prim_type._.as_bare_entity.canonical_type)
-        canon_tpe = Var(tpe.node.as_bare_entity.canonical_type)
-        return Cond(
-            canon_prim_type.node == canon_tpe.node,
-
-            If(
-                Entity.info.md.primitive_real_type.is_null,
-
-                entity_no_md(
-                    BaseTypeDecl,
-                    tpe.node,
-                    Entity.info.rebindings,
-                    Entity.info.from_rebound
-                ),
-
-                Entity.info.md.primitive_real_type
-                .cast(T.PrimTypeAccessor).get_prim_type,
-            ),
-
-            # Handle the case where the primitive is defined on an anonymous
-            # access type, by returning an anonymous access type over the
-            # real_type of the accessed type.
-            tpe.is_a(AnonymousTypeDecl),
-            Entity.real_type(tpe.accessed_type).anonymous_access_type,
-
-            tpe
-        )
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity.array,
-                      dynamic_vars=[default_origin()], public=True)
-    def param_types():
-        """
-        Returns the type of each parameter of Self.
-        """
-        return Entity.unpacked_formal_params.map(
-            lambda fp: Entity.real_type(fp.spec.formal_type)
-        )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()], public=True)

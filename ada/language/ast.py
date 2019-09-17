@@ -9580,6 +9580,7 @@ class SubpSpec(BaseSubpSpec):
     returns = Property(Entity.subp_returns)
 
 
+# TODO: Shouldn't this be a subprogram decl??
 class EntryDecl(BasicDecl):
     """
     Entry declaration.

@@ -1931,13 +1931,13 @@ class Body(BasicDecl):
             lambda _: No(T.BasicDecl.entity)
         )
 
-    @langkit_property(public=True, return_type=T.BasicDecl.entity)
-    def previous_part():
+    @langkit_property(return_type=T.BasicDecl.entity, dynamic_vars=[env])
+    def unbound_previous_part():
         """
         Return the previous part for this body. Might be a declaration or a
         body stub.
         """
-        return env.bind(Self.node_env, Entity.match(
+        return Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
@@ -1947,7 +1947,22 @@ class Body(BasicDecl):
                 Self, Entity.defining_name.all_env_els_impl
             ).at(0).cast(T.BasicDecl),
             lambda _: No(T.BasicDecl.entity),
-        ))
+        )
+
+    @langkit_property()
+    def stub_decl_env():
+        return env.bind(
+            Entity.initial_env,
+            Entity.unbound_previous_part.then(lambda d: d.node.children_env)
+        )
+
+    @langkit_property(public=True, return_type=T.BasicDecl.entity)
+    def previous_part():
+        """
+        Return the previous part for this body. Might be a declaration or a
+        body stub.
+        """
+        return env.bind(Self.node_env, Entity.unbound_previous_part)
 
     @langkit_property(public=True)
     def decl_part():
@@ -11620,13 +11635,6 @@ class PackageBodyStub(BodyStub):
         add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
         add_env(),
     )
-
-    @langkit_property()
-    def stub_decl_env():
-        return env.bind(
-            Entity.initial_env,
-            Entity.package_previous_part.then(lambda d: d.node.children_env)
-        )
 
 
 class TaskBodyStub(BodyStub):

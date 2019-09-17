@@ -1,69 +1,30 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <SubpSpec test.adb:1:1-1:15>
-*****************************************************
+Resolving xrefs for node <CallStmt test.adb:20:10-20:23>
+********************************************************
 
-
-Resolving xrefs for node <SubpSpec test.adb:5:7-5:35>
-*****************************************************
-
-
-Resolving xrefs for node <ParamSpec ["X"] test.adb:5:27-5:34>
-*************************************************************
-
-Expr: <Id "Foo" test.adb:5:31-5:34>
-  references: <DefiningName test.adb:3:12-3:15>
+Expr: <CallExpr test.adb:20:10-20:22>
+  references: <DefiningName test.adb:5:17-5:25>
   type:       None
-
-Resolving xrefs for node <TypeDecl ["Foo"] test.adb:7:7-7:38>
-*************************************************************
-
-
-Resolving xrefs for node <EndName test.adb:8:8-8:13>
-****************************************************
-
-Expr: <EndName test.adb:8:8-8:13>
-  references: <DefiningName test.adb:2:12-2:17>
+Expr: <Id "Do_Stuff" test.adb:20:10-20:18>
+  references: <DefiningName test.adb:5:17-5:25>
   type:       None
-Expr: <Id "Pouet" test.adb:8:8-8:13>
-  references: <DefiningName test.adb:2:12-2:17>
-  type:       None
+Expr: <Id "X" test.adb:20:20-20:21>
+  references: <DefiningName test.adb:18:10-18:11>
+  type:       <TypeDecl ["Foo"] test.adb:11:7-11:50>
 
-Resolving xrefs for node <ObjectDecl ["X"] test.adb:10:4-10:18>
-***************************************************************
-
-Expr: <DottedName test.adb:10:8-10:17>
-  references: <DefiningName test.adb:7:12-7:15>
-  type:       None
-Expr: <Id "Pouet" test.adb:10:8-10:13>
-  references: <DefiningName test.adb:2:12-2:17>
-  type:       None
-Expr: <Id "Foo" test.adb:10:14-10:17>
-  references: <DefiningName test.adb:7:12-7:15>
-  type:       None
-
-Resolving xrefs for node <CallStmt test.adb:12:4-12:15>
+Resolving xrefs for node <CallStmt test.adb:27:4-27:15>
 *******************************************************
 
-Expr: <DottedName test.adb:12:4-12:14>
+Expr: <DottedName test.adb:27:4-27:14>
   references: <DefiningName test.adb:5:17-5:25>
   type:       None
-Expr: <Id "X" test.adb:12:4-12:5>
-  references: <DefiningName test.adb:10:4-10:5>
+Expr: <Id "X" test.adb:27:4-27:5>
+  references: <DefiningName test.adb:25:4-25:5>
   type:       <TypeDecl ["Foo"] test.adb:7:7-7:38>
-Expr: <Id "Do_Stuff" test.adb:12:6-12:14>
+Expr: <Id "Do_Stuff" test.adb:27:6-27:14>
   references: <DefiningName test.adb:5:17-5:25>
-  type:       None
-
-Resolving xrefs for node <EndName test.adb:13:5-13:9>
-*****************************************************
-
-Expr: <EndName test.adb:13:5-13:9>
-  references: <DefiningName test.adb:1:11-1:15>
-  type:       None
-Expr: <Id "Test" test.adb:13:5-13:9>
-  references: <DefiningName test.adb:1:11-1:15>
   type:       None
 
 

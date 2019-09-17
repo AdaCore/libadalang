@@ -9363,10 +9363,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ).filter(
             lambda t: Not(t.is_null)
         ).map(
-            lambda t: t.cast(AdaNode)
-        ).unique.map(
-            lambda t: t.cast(BaseTypeDecl)
-        )
+            lambda t: t.cast(IncompleteTypeDecl).then(
+                lambda i: i.next_part,
+                default_val=t
+            )
+        ).unique
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True)
     def first_primitive_subp_of():

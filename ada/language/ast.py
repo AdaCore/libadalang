@@ -1937,7 +1937,7 @@ class Body(BasicDecl):
         Return the previous part for this body. Might be a declaration or a
         body stub.
         """
-        return Entity.match(
+        pp = Var(Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
@@ -1947,6 +1947,22 @@ class Body(BasicDecl):
                 Self, Entity.defining_name.all_env_els_impl
             ).at(0).cast(T.BasicDecl),
             lambda _: No(T.BasicDecl.entity),
+        ))
+
+        # HACK: All previous_part implems except the one for subprograms skip
+        # stubs. In that case, go forward again to find the stub if there is
+        # one. TODO: It would be cleaner if the previous_part implems returned
+        # the stubs, but for the moment they're not even added to the lexical
+        # environments.
+
+        return If(
+            Entity.is_subprogram | Entity.is_a(BodyStub),
+            pp,
+            Let(lambda pp_next_part=pp._.next_part_for_decl: If(
+                pp_next_part.is_a(BodyStub),
+                pp_next_part,
+                pp
+            ))
         )
 
     @langkit_property()

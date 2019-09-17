@@ -28,6 +28,7 @@ gnatinspect.db-*
 *-loc.xml
 *.ali
 .gdb_history
+.gnatdebug
 
 # IDEA junk
 .idea
@@ -35,7 +36,7 @@ gnatinspect.db-*
 # Ignore langkit repo
 langkit
 
-# Also ignore a couple of symbolic links
+# Also ignore a couple of symbolic links and custom conf files
 extsrc
 lg
 lk
@@ -44,6 +45,7 @@ lkgdb
 lkex
 lksp
 lktp
+.build_mode
 
 # Internal testsuite
 ada/testsuite/tests/internal

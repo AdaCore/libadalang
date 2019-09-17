@@ -1811,6 +1811,36 @@ class Body(BasicDecl):
     declaration.
     """
 
+    @langkit_property()
+    def subunit_stub_env():
+        return Entity.subunit_decl_env.get(
+            '__nextpart', lookup=LK.flat, categories=noprims,
+        ).at(0).children_env
+
+    @langkit_property()
+    def subunit_decl_env():
+        return env.bind(
+            Self.initial_env,
+            Entity.body_scope(True).get(Entity.name_symbol, categories=noprims)
+            .at(0)
+            .match(
+                lambda gpd=T.GenericPackageDecl:
+                # For generic package decls, we regroup the formal part & the
+                # package decl itself, since the reference will be
+                # non-transitive.
+                Array([gpd.children_env, gpd.package_decl.children_env])
+                .env_group(),
+                lambda pd=T.BasicDecl: pd.children_env,
+                lambda _: PropertyError(LexicalEnv),
+            ).then(lambda public_part: public_part.get(
+                '__privatepart', LK.flat, categories=noprims
+            ).at(0).then(
+                # If there is a private part, group it with the rest
+                lambda pp: Array([pp.children_env, public_part]).env_group(),
+                default_val=public_part
+            ))
+        )
+
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def in_scope():
         """
@@ -11336,7 +11366,7 @@ class PackageBody(Body):
             Self.initial_env,
             If(
                 Self.is_subunit,
-                Entity.subunit_pkg_stub_env,
+                Entity.subunit_stub_env,
 
                 # __nextpart never goes into the private part, and is always in
                 # the decl for nested sub packages.
@@ -11359,7 +11389,7 @@ class PackageBody(Body):
             # TODO: We need to ref use clauses, as in the regular package decl
             # case.
             reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.subunit_pkg_decl_env,
+                      through=T.Body.subunit_decl_env,
                       cond=Self.is_subunit,
                       kind=RefKind.prioritary),
 
@@ -11404,36 +11434,6 @@ class PackageBody(Body):
 
         return Array([pd.public_part.use_clauses_envs,
                       pd.private_part._.use_clauses_envs]).env_group()
-
-    @langkit_property()
-    def subunit_pkg_stub_env():
-        return Entity.subunit_pkg_decl_env.get(
-            '__nextpart', lookup=LK.flat, categories=noprims,
-        ).at(0).children_env
-
-    @langkit_property()
-    def subunit_pkg_decl_env():
-        return env.bind(
-            Self.initial_env,
-            Entity.body_scope(True).get(Entity.name_symbol, categories=noprims)
-            .find(lambda e: e.is_a(T.PackageDecl, T.GenericPackageDecl))
-            .match(
-                lambda pd=T.PackageDecl: pd.children_env,
-                lambda gpd=T.GenericPackageDecl:
-                # For generic package decls, we regroup the formal part & the
-                # package decl itself, since the reference will be
-                # non-transitive.
-                Array([gpd.children_env, gpd.package_decl.children_env])
-                .env_group(),
-                lambda _: PropertyError(LexicalEnv),
-            ).then(lambda public_part: public_part.get(
-                '__privatepart', LK.flat, categories=noprims
-            ).at(0).then(
-                # If there is a private part, group it with the rest
-                lambda pp: Array([pp.children_env, public_part]).env_group(),
-                default_val=public_part
-            ))
-        )
 
 
 class TaskBody(Body):

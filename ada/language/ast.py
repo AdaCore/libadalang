@@ -3354,6 +3354,15 @@ class BaseTypeDecl(BasicDecl):
             ))).cast(T.BaseTypeDecl)
         )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def find_next_part_in(decl_part=T.DeclarativePart.entity):
+        return decl_part.decls.find(
+            lambda t: t.cast(BaseTypeDecl).then(
+                lambda btd:
+                btd.name.name_is(Self.name_symbol) & (btd != Entity)
+            )
+        ).cast(BaseTypeDecl)
+
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
     def next_part():
@@ -3365,9 +3374,9 @@ class BaseTypeDecl(BasicDecl):
             lambda itd=T.IncompleteTypeDecl:
             # The next part of a (non-private) incomplete type declaration must
             # either be in the same declarative scope...
-            itd.node_env
-            .get(itd.name.name_symbol, LK.minimal, categories=noprims)
-            .find(lambda t: t.is_a(BaseTypeDecl) & (t != Entity))
+            itd.declarative_scope.then(
+                lambda s: Entity.find_next_part_in(s.as_entity)
+            )
 
             # Or in the particular case of taft-amendment types where the
             # incomplete decl is in the private part of the package spec,
@@ -3376,11 +3385,9 @@ class BaseTypeDecl(BasicDecl):
                 lambda _:
                 Entity.declarative_scope.parent
                 .cast_or_raise(T.BasePackageDecl).as_entity.body_part.then(
-                    lambda p: p.children_env
-                    .get(itd.name.name_symbol, LK.minimal, categories=noprims)
-                    .find(lambda t: t.is_a(BaseTypeDecl))
+                    lambda p: Entity.find_next_part_in(p.decls)
                 )
-            )).cast(BaseTypeDecl),
+            )),
 
             lambda _: If(
                 Entity.is_private

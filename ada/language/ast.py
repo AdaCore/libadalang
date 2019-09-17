@@ -707,7 +707,7 @@ class AdaNode(ASTNode):
         If Self is a library-level SubpBody, fetch the environments USE'd in
         its declaration.
         """
-        return Let(lambda subpb=Self.cast(T.SubpBody): If(
+        return Let(lambda subpb=Self.cast(T.BaseSubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
 
             subpb.as_bare_entity.decl_part.then(

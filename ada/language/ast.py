@@ -436,8 +436,12 @@ class AdaNode(ASTNode):
     @langkit_property(
         return_type=AnalysisUnit, external=True, uses_entity_info=False,
         uses_envs=False,
-        call_non_memoizable_because='Getting an analysis unit cannot appear'
-                                    ' in a memoized context'
+        # TODO (S917-027): re-enable this protection or remove it once we
+        # moved forward on memoization soundness issues in Langkit.
+        call_non_memoizable_because=(
+            None and
+            'Getting an analysis unit cannot appear in a memoized context'
+        )
     )
     def get_unit(name=Symbol.array, kind=AnalysisUnitKind,
                  load_if_needed=Bool):
@@ -7431,7 +7435,6 @@ class Name(Expr):
     @langkit_property(
         return_type=AnalysisUnit, external=True, uses_entity_info=False,
         uses_envs=False,
-
         # TODO (S917-027): re-enable this protection or remove it once we
         # moved forward on memoization soundness issues in Langkit.
         call_non_memoizable_because=(

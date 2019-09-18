@@ -11542,7 +11542,13 @@ class ProtectedBody(Body):
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.body_decl_scope,
-                      kind=RefKind.transitive)
+                      kind=RefKind.transitive),
+
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.Body.subunit_decl_env,
+                      cond=Self.is_subunit,
+                      kind=RefKind.prioritary),
+
         ]
     )
 

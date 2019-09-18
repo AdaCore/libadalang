@@ -2075,7 +2075,15 @@ class BodyStub(Body):
     Base class for a body stub (RM 10.1.3). A body stub is meant to be
     completed by .
     """
-    pass
+
+    @langkit_property(public=True)
+    def next_part_for_decl():
+        # Fetch the unit in which the separate body is declared
+        ignore(Var(
+            Entity.get_unit(Entity.fully_qualified_name_array, UnitBody, True)
+        ))
+        # Then, just call the default implem
+        return Entity.basic_decl_next_part_for_decl
 
 
 @abstract

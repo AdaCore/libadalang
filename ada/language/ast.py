@@ -11533,8 +11533,10 @@ class ProtectedBody(Body):
 
         dest_env=env.bind(
             Self.initial_env,
-            Entity.body_scope(False, True)
-            ._or(Entity.body_scope(False, False))
+            If(Self.is_subunit,
+               Entity.subunit_stub_env,
+               Entity.body_scope(False, True)
+               ._or(Entity.body_scope(False, False)))
         ),
 
         more_rules=[

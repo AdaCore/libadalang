@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [test_protected.adb, pr.ads, pr.adb]

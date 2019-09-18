@@ -9330,16 +9330,30 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
         tpe = Var(bind_origin(Self, typ.match(
-            lambda at=T.AnonymousType: at.element_type._.canonical_type,
+            lambda at=T.AnonymousType: at.element_type.then(
+                # TODO: remove this check once S918-021 is done, since it will
+                # be checked below in any case.
+                lambda et: Not(et.is_classwide).then(
+                    lambda _: et.canonical_type
+                )
+            ),
             lambda other: other.designated_type._.canonical_type
         )))
 
         return If(
-            tpe._.declarative_scope.then(lambda ds: ds.any_of(
-                bd.declarative_scope,
-                bd.declarative_scope._.parent.cast(BasePackageDecl)
-                ._.public_part
-            )),
+            And(
+                # A subprogram may not be a primitive of a classwide type
+                Not(tpe._.is_classwide),
+
+                # A subprogram may not be a primitive of a type which is not
+                # declared in the same declarative scope as Self, or in the
+                # private part of the package in which Self is defined.
+                tpe._.declarative_scope.then(lambda ds: ds.any_of(
+                    bd.declarative_scope,
+                    bd.declarative_scope._.parent.cast(BasePackageDecl)
+                    ._.public_part
+                ))
+            ),
             tpe,
             No(BaseTypeDecl.entity)
         )

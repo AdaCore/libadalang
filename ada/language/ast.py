@@ -9452,8 +9452,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
     def real_type(tpe=T.BaseTypeDecl.entity):
+        prim_type = Var(Entity.info.md.primitive.cast(BaseTypeDecl))
+        canon_prim_type = Var(prim_type._.as_bare_entity.canonical_type)
+        canon_tpe = Var(tpe.node.as_bare_entity.canonical_type)
         return Cond(
-            Entity.info.md.primitive == tpe.node,
+            canon_prim_type.node == canon_tpe.node,
 
             If(
                 Entity.info.md.primitive_real_type.is_null,

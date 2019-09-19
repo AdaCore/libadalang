@@ -10120,9 +10120,8 @@ class QualExpr(Name):
     # q.prefix.designated_type.
     designated_type = Property(
         env.bind(Entity.node_env,
-                 bind_origin(Self, Entity.designated_type_impl)),
+                 bind_origin(Self, Entity.prefix.designated_type_impl)),
     )
-    designated_type_impl = Property(Entity.prefix.designated_type_impl)
 
     @langkit_property()
     def designated_env():

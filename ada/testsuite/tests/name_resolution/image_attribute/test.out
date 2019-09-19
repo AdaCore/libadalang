@@ -36,5 +36,29 @@ Expr: <Id "Image" test.adb:6:33-6:38>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["On_Qualified_Expr"] test.adb:9:4-9:52>
+*****************************************************************************
+
+Expr: <Id "String" test.adb:9:24-9:30>
+  references: <DefiningName __standard:104:8-104:14>
+  type:       None
+Expr: <AttributeRef test.adb:9:34-9:51>
+  references: None
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <QualExpr test.adb:9:34-9:45>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Float" test.adb:9:34-9:39>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <ParenExpr test.adb:9:40-9:45>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <Real test.adb:9:41-9:44>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <Id "Image" test.adb:9:46-9:51>
+  references: None
+  type:       None
+
 
 Done.

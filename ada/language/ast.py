@@ -3354,15 +3354,6 @@ class BaseTypeDecl(BasicDecl):
             ))).cast(T.BaseTypeDecl)
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
-    def find_next_part_in(decl_part=T.DeclarativePart.entity):
-        return decl_part.decls.find(
-            lambda t: t.cast(BaseTypeDecl).then(
-                lambda btd:
-                btd.name.name_is(Self.name_symbol) & (btd != Entity)
-            )
-        ).cast(BaseTypeDecl)
-
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
     def next_part():
@@ -3375,7 +3366,7 @@ class BaseTypeDecl(BasicDecl):
             # The next part of a (non-private) incomplete type declaration must
             # either be in the same declarative scope...
             itd.declarative_scope.then(
-                lambda s: Entity.find_next_part_in(s.as_entity)
+                lambda s: itd.find_next_part_in(s.as_entity)
             )
 
             # Or in the particular case of taft-amendment types where the
@@ -3385,7 +3376,7 @@ class BaseTypeDecl(BasicDecl):
                 lambda _:
                 Entity.declarative_scope.parent
                 .cast_or_raise(T.BasePackageDecl).as_entity.body_part.then(
-                    lambda p: Entity.find_next_part_in(p.decls)
+                    lambda p: itd.find_next_part_in(p.decls)
                 )
             )),
 
@@ -11619,6 +11610,20 @@ class IncompleteTypeDecl(BaseTypeDecl):
 
     discriminants = Field(type=T.DiscriminantPart)
     aspects = NullField()
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def find_next_part_in(decl_part=T.DeclarativePart.entity):
+        """
+        Searches for the next part of Self inside the given declarative part.
+        Since Self is an IncompleteTypeDecl, the next part will necessarily be
+        the first type declaration of the same name that is not Self.
+        """
+        return decl_part.decls.find(
+            lambda t: t.cast(BaseTypeDecl).then(
+                lambda btd:
+                btd.name.name_is(Self.name_symbol) & (btd != Entity)
+            )
+        ).cast(BaseTypeDecl)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),

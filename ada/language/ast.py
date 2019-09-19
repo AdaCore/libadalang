@@ -473,52 +473,6 @@ class AdaNode(ASTNode):
         """
         pass
 
-    @langkit_property(return_type=AnalysisUnit.array)
-    def unique_units(list_of_units=AnalysisUnit.array):
-        """
-        Remove the duplicate units from the given list of analysis units.
-        """
-        return Self.unique_units_impl(list_of_units, 0, No(AnalysisUnit.array))
-
-    @langkit_property(return_type=AnalysisUnit.array)
-    def unique_units_impl(list_of_units=AnalysisUnit.array, i=Int,
-                          result=AnalysisUnit.array):
-        return If(
-            i < list_of_units.length,
-            Self.unique_units_impl(
-                list_of_units,
-                i + 1,
-                If(result.contains(list_of_units.at(i)),
-                   result,
-                   result.concat(list_of_units.at(i).singleton))
-            ),
-            result
-        )
-
-    @langkit_property(return_type=T.AdaNode.entity.array)
-    def unique_nodes(list_of_nodes=T.AdaNode.entity.array):
-        """
-        Remove the duplicate nodes from the given list of nodes.
-        """
-        return Self.unique_nodes_impl(
-            list_of_nodes, 0, No(T.AdaNode.entity.array)
-        )
-
-    @langkit_property(return_type=T.AdaNode.entity.array)
-    def unique_nodes_impl(list_of_nodes=T.AdaNode.entity.array, i=Int,
-                          result=T.AdaNode.entity.array):
-        return If(
-            i < list_of_nodes.length,
-            Self.unique_nodes_impl(
-                list_of_nodes,
-                i + 1,
-                If(result.contains(list_of_nodes.at(i)),
-                   result,
-                   result.concat(list_of_nodes.at(i).singleton))
-            ),
-            result
-        )
-
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=Equation, dynamic_vars=[env, origin])
     def xref_equation():
@@ -8538,9 +8492,9 @@ class DefiningName(Name):
             dn.basic_decl.root_subp_declarations._or(dn.basic_decl.singleton)
         ))
 
-        all_units = Self.unique_units(bases.mapcat(
+        all_units = bases.mapcat(
             lambda base: base.filter_is_imported_by(units, True)
-        ))
+        ).unique
 
         return all_units.mapcat(
             lambda u: u.root.then(
@@ -9397,13 +9351,13 @@ class BaseSubpSpec(BaseFormalParamHolder):
             Entity.returns._.singleton
         ))
 
-        return Self.unique_nodes(types.map(
+        return types.map(
             lambda t: Entity.candidate_type_for_primitive(t)
         ).filter(
             lambda t: Not(t.is_null)
         ).map(
-            lambda t: t.cast(AdaNode))
-        ).map(
+            lambda t: t.cast(AdaNode)
+        ).unique.map(
             lambda t: t.cast(BaseTypeDecl)
         )
 

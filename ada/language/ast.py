@@ -1924,7 +1924,7 @@ class Body(BasicDecl):
     @langkit_property(dynamic_vars=[env])
     def protected_previous_part():
         """
-        Return the ProtectedDef corresponding to this node.
+        Return the ProtectedDecl corresponding to this node.
         """
         return Entity.defining_name.env_elements.at(0)._.match(
             lambda prot_decl=T.ProtectedTypeDecl: prot_decl,

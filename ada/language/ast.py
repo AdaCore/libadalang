@@ -11555,6 +11555,7 @@ class ProtectedBody(Body):
                       through=T.Body.body_decl_scope,
                       kind=RefKind.transitive),
 
+            # Reference stub's env if the body is a separate
             reference(Self.cast(AdaNode).singleton,
                       through=T.Body.subunit_decl_env,
                       cond=Self.is_subunit,

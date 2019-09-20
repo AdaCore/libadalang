@@ -14,7 +14,9 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:32-1:37]: SEIZE
 |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params: <null>
+|  |  |  |  |params:
+|  |  |  |  |  EntryCompletionFormalParams[1:37-1:37]
+|  |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:40-1:55]
 |  |  |  |  |  |stmts:
@@ -35,7 +37,9 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |name:
 |  |  |  |  |  Id[1:70-1:77]: RELEASE
 |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params: <null>
+|  |  |  |  |params:
+|  |  |  |  |  EntryCompletionFormalParams[1:77-1:77]
+|  |  |  |  |  |params: <null>
 |  |  |  |  |stmts:
 |  |  |  |  |  HandledStmts[1:80-1:96]
 |  |  |  |  |  |stmts:

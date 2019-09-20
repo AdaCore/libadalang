@@ -1924,6 +1924,15 @@ class Body(BasicDecl):
         )
 
     @langkit_property(dynamic_vars=[env])
+    def task_previous_part():
+        """
+        Return the task decl corresponding to this node.
+        """
+        return bind_origin(
+            Self, Entity.defining_name.all_env_els_impl
+        ).at(0).cast(T.BasicDecl)
+
+    @langkit_property(dynamic_vars=[env])
     def protected_previous_part():
         """
         Return the ProtectedDecl corresponding to this node.
@@ -1946,9 +1955,8 @@ class Body(BasicDecl):
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _=T.ProtectedBody: Entity.protected_previous_part,
             lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
-            lambda _=T.TaskBody: bind_origin(
-                Self, Entity.defining_name.all_env_els_impl
-            ).at(0).cast(T.BasicDecl),
+            lambda _=T.TaskBody: Entity.task_previous_part,
+            lambda _=T.TaskBodyStub: Entity.task_previous_part,
             lambda _: No(T.BasicDecl.entity),
         ))
 

@@ -11526,9 +11526,7 @@ class TaskBody(Body):
 
     @langkit_property()
     def task_type():
-        return Entity.parent.node_env.get(
-            Entity.name_symbol, categories=noprims
-        ).find(lambda sp: sp.is_a(T.TaskTypeDecl, T.SingleTaskDecl)).match(
+        return Entity.decl_part.match(
             lambda t=T.TaskTypeDecl: t,
             lambda t=T.SingleTaskDecl: t.task_type,
             lambda _: PropertyError(T.TaskTypeDecl.entity, "Should not happen")

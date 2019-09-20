@@ -5535,7 +5535,10 @@ class SingleTaskDecl(BasicDecl):
     defining_names = Property(Entity.task_type.defining_names)
     expr_type = Property(Entity.task_type)
 
-    env_spec = EnvSpec(add_to_env_kv(Self.name_symbol, Self))
+    env_spec = EnvSpec(
+        add_to_env_kv(Self.name_symbol, Self),
+        add_env()
+    )
 
 
 class SingleProtectedDecl(BasicDecl):

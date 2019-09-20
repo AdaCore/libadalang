@@ -2077,12 +2077,11 @@ class BodyStub(Body):
 
     @langkit_property(public=True)
     def next_part_for_decl():
-        # Fetch the unit in which the separate body is declared
-        ignore(Var(
-            Entity.get_unit(Entity.fully_qualified_name_array, UnitBody, True)
-        ))
-        # Then, just call the default implem
-        return Entity.basic_decl_next_part_for_decl
+        # Fetch the unit in which the separate body is declared, and return the
+        # root decl.
+        return Entity.get_unit_root_decl(
+            Entity.fully_qualified_name_array, UnitBody, True
+        ).cast(T.BasicDecl).as_entity
 
 
 @abstract

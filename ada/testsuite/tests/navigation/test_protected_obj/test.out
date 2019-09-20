@@ -9,7 +9,7 @@ Eval 'node.p_next_part_for_decl' on node <ProtectedTypeDecl ["A"] pr.ads:2:4-6:1
 Result: <ProtectedBodyStub ["A"] pr.adb:3:4-3:33>
 
 Eval 'node.p_body_part_for_decl' on node <ProtectedTypeDecl ["A"] pr.ads:2:4-6:10>
-Result: None
+Result: <ProtectedBody ["A"] pr-a.adb:2:1-8:7>
 
 
 

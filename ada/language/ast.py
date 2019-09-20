@@ -5112,11 +5112,11 @@ class BasicSubpDecl(BasicDecl):
                 lambda ent:
                 # Discard the rebindings of Entity before trying to match
                 # against the tentative body, as those do not carry that info.
-                ent.node.as_bare_entity.cast(T.BaseSubpBody)._.subp_spec
+                ent.node.as_bare_entity.cast(T.Body)._.subp_spec_or_null
                 .match_signature(Entity.subp_decl_spec.node.as_bare_entity,
                                  True)
             )  # If found, reuse the rebindings of the decl on the body
-            .cast(T.BaseSubpBody).node.as_entity
+            .cast(T.Body).node.as_entity
         )
 
     @langkit_property(return_type=T.BasicDecl.entity)
@@ -5135,7 +5135,7 @@ class BasicSubpDecl(BasicDecl):
 
             Entity.defining_name
             .referenced_unit(UnitBody).root
-            .get_root_decl.cast(T.BaseSubpBody).as_entity,
+            .get_root_decl.cast(T.Body).as_entity,
 
             # Self is declared in a private part
             decl_scope.is_a(T.PrivatePart),
@@ -5156,7 +5156,7 @@ class BasicSubpDecl(BasicDecl):
             )),
 
             # No declarative scope: Bail out!
-            decl_scope.is_null, No(T.BaseSubpBody.entity),
+            decl_scope.is_null, No(T.Body.entity),
 
             # Self is declared in any other declarative scope. Search for decl
             # in it directly.

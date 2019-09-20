@@ -11654,8 +11654,6 @@ class SubpBodyStub(BodyStub):
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
-        # TODO: If subp body stubs can be separates, we need to handle that
-        # here.
         add_env(),
     )
 

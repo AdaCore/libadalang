@@ -1941,6 +1941,7 @@ class Body(BasicDecl):
         """
         pp = Var(Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
+            lambda _=T.SubpBodyStub: Entity.subp_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _=T.ProtectedBody: Entity.protected_previous_part,

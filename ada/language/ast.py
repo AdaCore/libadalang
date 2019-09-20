@@ -11701,6 +11701,11 @@ class TaskBodyStub(BodyStub):
 
     defining_names = Property(Entity.name.singleton)
 
+    env_spec = EnvSpec(
+        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
+        add_env(),
+    )
+
 
 class LibraryItem(AdaNode):
     """

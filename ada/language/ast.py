@@ -1530,7 +1530,6 @@ class BasicDecl(AdaNode):
             lambda subp=BasicSubpDecl:  subp.subp_decl_spec,
             lambda subp=BaseSubpBody:   subp.subp_spec,
             lambda subp=SubpBodyStub:   subp.subp_spec,
-            lambda entry=EntryDecl:     entry.spec,
             lambda gsp=GenericSubpDecl:
             If(follow_generic, gsp.subp_decl.subp_spec, No(SubpSpec.entity)),
             lambda _:                   No(SubpSpec.entity),
@@ -9607,14 +9606,15 @@ class SubpSpec(BaseSubpSpec):
     returns = Property(Entity.subp_returns)
 
 
-# TODO: Shouldn't this be a subprogram decl??
-class EntryDecl(BasicDecl):
+class EntryDecl(BasicSubpDecl):
     """
     Entry declaration.
     """
     overriding = Field(type=Overriding)
     spec = Field(type=T.EntrySpec)
     aspects = Field(type=T.AspectSpec)
+
+    subp_decl_spec = Property(Entity.spec)
 
     defining_names = Property(Entity.spec.name.as_entity.singleton)
 

@@ -10,6 +10,7 @@ Contents:
    introduction
    building
    core_concepts
+   standard_unit
    ada_api_tutorial
    python_api_tutorial
    ada_api_ref

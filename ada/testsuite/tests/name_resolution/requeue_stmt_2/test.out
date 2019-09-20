@@ -1,0 +1,38 @@
+Analyzing test_requeue.adb
+##########################
+
+Resolving xrefs for node <RequeueStmt test_requeue.adb:14:10-14:20>
+*******************************************************************
+
+Expr: <Id "B" test_requeue.adb:14:18-14:19>
+  references: <DefiningName test_requeue.adb:7:13-7:14>
+  type:       None
+
+Resolving xrefs for node <RequeueStmt test_requeue.adb:37:13-37:29>
+*******************************************************************
+
+Expr: <CallExpr test_requeue.adb:37:21-37:28>
+  references: <DefiningName test_requeue.adb:26:13-26:14>
+  type:       None
+Expr: <Id "B" test_requeue.adb:37:21-37:22>
+  references: <DefiningName test_requeue.adb:26:13-26:14>
+  type:       None
+Expr: <Id "Foo" test_requeue.adb:37:24-37:27>
+  references: <DefiningName test_requeue.adb:33:19-33:22>
+  type:       <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
+
+Resolving xrefs for node <RequeueStmt test_requeue.adb:41:13-41:29>
+*******************************************************************
+
+Expr: <CallExpr test_requeue.adb:41:21-41:28>
+  references: <DefiningName test_requeue.adb:27:13-27:14>
+  type:       None
+Expr: <Id "C" test_requeue.adb:41:21-41:22>
+  references: <DefiningName test_requeue.adb:27:13-27:14>
+  type:       None
+Expr: <Id "Foo" test_requeue.adb:41:24-41:27>
+  references: <DefiningName test_requeue.adb:33:19-33:22>
+  type:       <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
+
+
+Done.

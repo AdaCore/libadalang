@@ -453,16 +453,15 @@ class AdaNode(ASTNode):
         pass
 
     @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
-                      ignore_warn_on_node=True, call_memoizable=True)
-    def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind):
+                      ignore_warn_on_node=True)
+    def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
+                           load_if_needed=(Bool, False)):
         """
         If the corresponding analysis unit is loaded, return the root decl
         node for the given analysis unit ``kind`` and correpsonding to the
         name ``name``. If it's not loaded, return none.
         """
-        # Because we don't load the unit when it's not already there, it is
-        # safe to use this property in a memoized context.
-        u = Var(Self.get_unit(name, kind, False))
+        u = Var(Self.get_unit(name, kind, load_if_needed))
 
         return u._.root._.get_root_decl
 

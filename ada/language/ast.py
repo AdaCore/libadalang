@@ -11524,7 +11524,14 @@ class TaskBody(Body):
         more_rules=[
             reference(Self.cast(AdaNode).singleton,
                       T.TaskBody.task_type_decl_scope,
-                      kind=RefKind.prioritary)
+                      kind=RefKind.prioritary),
+
+            # Reference stub's env if the body is a separate
+            reference(Self.cast(AdaNode).singleton,
+                      through=T.Body.subunit_decl_env,
+                      cond=Self.is_subunit,
+                      kind=RefKind.prioritary),
+
         ]
     )
 

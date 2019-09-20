@@ -10662,10 +10662,16 @@ class BaseSubpBody(Body):
             env.bind(Self.initial_env, Entity.body_scope(False)),
         ),
 
-        # Add the body to its own parent env
-        add_to_env_kv(Entity.name_symbol, Self,
-                      dest_env=env.bind(Self.initial_env,
-                                        Entity.body_scope(False))),
+        # Add the body to its own parent env, if it's not the body of a stub
+        # (in which case the stub will act as the body).
+        add_to_env(
+            Not(Self.is_subunit)
+            .then(lambda _: new_env_assoc(
+                Entity.name_symbol,
+                Self,
+                dest_env=env.bind(Self.initial_env, Entity.body_scope(False))
+            ).singleton),
+        ),
 
         add_env(transitive_parent=True),
         populate_dependent_units(),

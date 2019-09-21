@@ -31,9 +31,10 @@ issue](https://github.com/AdaCore/libadalang/issues/). We also gladly accept
 High level architecture
 -----------------------
 
-Libadalang is a library that can be used from Ada and Python. Most of its code
-is Ada code, generated from the language specification that you can find in
-[ada/language](ada/language).
+Libadalang is a library that can be used from Ada (2012) and Python 2, amongst
+other languages (we also have a C API, and an experimental OCaml API). Most of
+its code is Ada code, generated from the language specification that you can
+find in [ada/language](ada/language).
 
 *WARNING*: You will *not* find the generated code in the repository. You have
 to generate it yourself. We're thinking about some plans to auto-generate the

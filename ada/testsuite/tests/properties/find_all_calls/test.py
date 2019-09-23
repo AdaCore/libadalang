@@ -24,7 +24,7 @@ for subp in main.findall(lal.BasicDecl):
         node.text,
         node.sloc_range.start.line
     ))
-    for ref in node.p_is_called_by([unit]):
+    for ref in node.p_find_all_calls([unit]):
         while ref.parent is not None and not ref.p_xref_entry_point:
             ref = ref.parent
 

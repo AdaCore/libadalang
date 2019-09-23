@@ -14,9 +14,16 @@
     (string @-> ptr c_project_scenario_variable @-> string @-> string
      @-> raisable c_type)
 
-  let dec_ref_unit_provider =
-    foreign ~from:c_lib "${capi.get_name("dec_ref_unit_provider")}"
-      (c_type @-> raisable void)
+  let dec_ref =
+    let f =
+      foreign ~from:c_lib "${capi.get_name("dec_ref_unit_provider")}"
+        (c_type @-> raisable void)
+    in
+    (fun v ->
+      f (!@ v))
+
+  let wrap v =
+    allocate ~finalise:dec_ref (ptr void) v
 
   let for_project ?(scenario_vars = []) ?(target = "") ?(runtime = "")
       project_file =
@@ -34,15 +41,13 @@
       c_scenario_vars +@ i <-@ c_struct
     in
     List.iteri fill_scenario_vars scenario_vars ;
-    let c_value =
+    let result =
       create_project_unit_provider project_file c_scenario_vars target runtime
     in
-    if is_null c_value then
+    if is_null result then
       raise (InvalidProjectError ("Cannot open project " ^ project_file))
-    else (
-      Gc.finalise (fun x -> dec_ref_unit_provider x) c_value;
-      c_value
-    )
+    else
+      wrap result
 
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"
@@ -54,6 +59,5 @@
     let array = CArray.make string (List.length input_files + 1) in
     List.iteri (fun i x -> CArray.set array i x) input_files ;
     let ptr = CArray.start array in
-    let c_value = create_auto_provider ptr "" in
-    Gc.finalise (fun x -> dec_ref_unit_provider x) c_value ;
-    c_value
+    let result = create_auto_provider ptr "" in
+    wrap result

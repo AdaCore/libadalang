@@ -8748,13 +8748,14 @@ class DefiningName(Name):
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
-    def is_called_by(units=AnalysisUnit.array):
+    def find_all_calls(units=AnalysisUnit.array):
         """
         Return the list of all possible calls to the subprogram which Self is
         the defining name of.
 
-        This will return the name corresponding to the call, including the
-        parameters if there are any.
+        This will return the name corresponding to the call, excluding the
+        parameters if there are any. For instance, it will return `A` for the
+        `A (B)` call.
 
         .. note:: This currently only handles direct calls. Need to add support
            for: dispatching calls, access-to-subprograms and calls done inside

@@ -8,6 +8,7 @@ u = ctx.get_from_file("test.adb")
 
 assert not u.diagnostics
 
+
 def subp_fqn(subp):
     return "{} (line {})".format(
         subp.p_fully_qualified_name,

@@ -8753,6 +8753,9 @@ class DefiningName(Name):
         Return the list of all possible calls to the subprogram which Self is
         the defining name of.
 
+        This will return the name corresponding to the call, including the
+        parameters if there are any.
+
         .. note:: This currently only handles direct calls. Need to add support
            for: dispatching calls, access-to-subprograms and calls done inside
            generics.

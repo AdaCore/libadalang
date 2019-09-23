@@ -325,6 +325,19 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property(return_type=T.AdaNode.entity)
+    def without_md():
+        """
+        Return Entity with an empty metadata field.
+        """
+        return AdaNode.entity.new(
+            node=Entity.node, info=T.entity_info.new(
+                rebindings=Entity.info.rebindings,
+                md=No(Metadata),
+                from_rebound=Entity.info.from_rebound
+            )
+        )
+
     @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
     def complete():
         """
@@ -2360,11 +2373,21 @@ class BaseFormalParamHolder(AdaNode):
         ``tpe`` might be the type of a derived primitive. In that case, return
         the derived primitive type.
         """
-        prim_type = Var(Entity.info.md.primitive.cast(BaseTypeDecl))
-        canon_prim_type = Var(prim_type._.as_bare_entity.canonical_type)
-        canon_tpe = Var(tpe.node.as_bare_entity.canonical_type)
+        # Compute the type entity of which self is a primitive
+        prim_type = Var(entity_no_md(
+            BaseTypeDecl,
+            Entity.info.md.primitive.cast(BaseTypeDecl),
+            Entity.info.rebindings,
+            Entity.info.from_rebound
+        ))
+
+        # Compute the canonical types and discard the metadata fields for a
+        # more robust comparison.
+        canon_prim_type = Var(prim_type._.canonical_type._.without_md)
+        canon_tpe = Var(tpe.canonical_type.without_md)
+
         return Cond(
-            canon_prim_type.node == canon_tpe.node,
+            canon_prim_type == canon_tpe,
 
             If(
                 Entity.info.md.primitive_real_type.is_null,

@@ -939,7 +939,7 @@ class AdaNode(ASTNode):
         bd = Var(Entity.cast(T.Name).enclosing_defining_name
                  .then(lambda dn: dn.basic_decl))
 
-        return Cond(
+        return origin.bind(Self, Cond(
             bd.then(lambda bd: bd.is_a(T.ParamSpec))
             & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction,
                                       T.GenericSubpInternal,
@@ -994,7 +994,7 @@ class AdaNode(ASTNode):
                     ret
                 ))
             )
-        )
+        ))
 
     @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
     def env_get_real_from_node(from_node=T.AdaNode):
@@ -2492,12 +2492,18 @@ class TypeDef(AdaNode):
 
     is_real_type = Property(
         Entity.is_float_type | Entity.is_fixed_point,
+        dynamic_vars=[origin],
         doc="Whether type is a real type or not."
     )
 
-    is_float_type = Property(False, doc="Whether type is a float type or not.")
-    is_fixed_point = Property(False,
-                              doc="Whether type is a fixed point type or not.")
+    is_float_type = Property(
+        False, doc="Whether type is a float type or not.",
+        dynamic_vars=[origin]
+    )
+    is_fixed_point = Property(
+        False, doc="Whether type is a fixed point type or not.",
+        dynamic_vars=[origin]
+    )
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
@@ -2514,15 +2520,18 @@ class TypeDef(AdaNode):
         dynamic_vars=[origin]
     )
 
-    is_char_type = Property(False)
-    is_enum_type = Property(False)
-    is_record_type = Property(False)
+    is_char_type = Property(False, dynamic_vars=[default_origin()])
+    is_enum_type = Property(False, dynamic_vars=[default_origin()])
+
+    @langkit_property(dynamic_vars=[origin])
+    def is_record_type():
+        return False
 
     @langkit_property(dynamic_vars=[origin])
     def accessed_type():
         return No(BaseTypeDecl.entity)
 
-    @langkit_property(public=True)
+    @langkit_property(dynamic_vars=[default_origin()])
     def is_tagged_type():
         """
         Return whether this type is tagged.
@@ -2532,7 +2541,8 @@ class TypeDef(AdaNode):
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type definition.
-        """
+        """,
+        dynamic_vars=[origin]
     )
 
     base_types = Property(
@@ -2540,7 +2550,8 @@ class TypeDef(AdaNode):
         .concat(Entity.base_interfaces),
         doc="""
         Return all the base types for this type (base type + base interfaces)
-        """
+        """,
+        dynamic_vars=[origin]
     )
 
     base_interfaces = Property(
@@ -3145,7 +3156,7 @@ class BaseTypeDecl(BasicDecl):
     def primitives_env():
         return EmptyEnv
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_origin()])
     def is_record_type():
         """
         Return whether this type is a record type.
@@ -3161,15 +3172,24 @@ class BaseTypeDecl(BasicDecl):
 
     is_task_type = Property(False, doc="Whether type is a task type")
 
-    is_real_type = Property(False, doc="Whether type is a real type or not.",
-                            public=True)
-    is_float_type = Property(False, doc="Whether type is a float type or not.",
-                             public=True)
+    is_real_type = Property(
+        False, doc="Whether type is a real type or not.", public=True,
+        dynamic_vars=[default_origin()]
+    )
+    is_float_type = Property(
+        False, doc="Whether type is a float type or not.", public=True,
+        dynamic_vars=[default_origin()]
+    )
     is_fixed_point = Property(
-        False, doc="Whether type is a fixed point type or not.", public=True
+        False, doc="Whether type is a fixed point type or not.", public=True,
+        dynamic_vars=[default_origin()]
     )
 
-    is_enum_type = Property(False)
+    is_enum_type = Property(
+        False, doc="Whether type is an enum type", public=True,
+        dynamic_vars=[default_origin()]
+    )
+
     is_classwide = Property(False)
 
     is_access_type = Property(
@@ -3208,16 +3228,21 @@ class BaseTypeDecl(BasicDecl):
         doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
-    access_def = Property(No(T.AccessDef.entity))
+    access_def = Property(No(T.AccessDef.entity), dynamic_vars=[origin])
 
-    is_char_type = Property(False,
-                            doc="Whether type is a character type or not")
+    is_char_type = Property(
+        False,
+        doc="Whether type is a character type or not",
+        dynamic_vars=[default_origin()],
+        public=True
+    )
 
-    classwide_type = Property(If(
+    # TODO: Not clear if the below origin.bind is correct, investigate later
+    classwide_type = Property(origin.bind(Self, If(
         Entity.is_tagged_type,
         Self.classwide_type_node.as_entity,
         No(T.ClasswideTypeDecl.entity)
-    ))
+    )))
 
     @langkit_property(dynamic_vars=[origin], return_type=Int)
     def array_ndims():
@@ -3258,7 +3283,9 @@ class BaseTypeDecl(BasicDecl):
             Entity.is_array & Entity.comp_type._.is_char_type
         )
 
-    is_not_null_char_type = Property(Not(Self.is_null) & Entity.is_char_type)
+    is_not_null_char_type = Property(
+        Not(Self.is_null) & Entity.is_char_type, dynamic_vars=[origin]
+    )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def accessed_type():
@@ -3313,19 +3340,28 @@ class BaseTypeDecl(BasicDecl):
             Self.parent.cast(BaseTypeDecl)._.is_generic_formal
         )
 
-    is_tagged_type = Property(False, doc="Whether type is tagged or not")
+    is_tagged_type = Property(
+        False, doc="Whether type is tagged or not", public=True,
+        dynamic_vars=[default_origin()]
+    )
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
-        Return the base type entity for this derived type declaration.
-        """, public=True
+        Return the base type entity for this derived type declaration
+        """, public=True, dynamic_vars=[default_origin()]
     )
 
     base_types = Property(
         Entity.base_type.then(lambda bt: bt.singleton)
-        .concat(Entity.base_interfaces)
+        .concat(Entity.base_interfaces),
+        public=True, dynamic_vars=[default_origin()],
+        doc="Return the list of base types for Self."
+
     )
 
-    base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
+    base_interfaces = Property(
+        No(T.BaseTypeDecl.entity.array), dynamic_vars=[origin]
+    )
 
     @langkit_property(public=True, return_type=T.TypeDecl.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -3713,7 +3749,14 @@ class BaseTypeDecl(BasicDecl):
         type=BaseFormalParamDecl.entity.array
     )
 
-    root_type = Property(Entity)
+    root_type = Property(
+        Entity,
+        dynamic_vars=[origin],
+        doc="""
+        If this type is tagged, return the type that is at the root of the
+        derivation hierarchy (ignoring secondary interfaces derivations)
+        """
+    )
 
     next_part_for_decl = Property(Entity.match(
         lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
@@ -3826,7 +3869,8 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def discriminants_list():
-        base_type = Var(Entity.base_type)
+        # TODO: investigate if below origin.bind is valid
+        base_type = Var(origin.bind(Self, Entity.base_type))
         self_discs = Var(Entity.discriminants.then(
             lambda d: d.abstract_formal_params)
         )
@@ -3990,7 +4034,9 @@ class TypeDecl(BaseTypeDecl):
         Return the environments containing the primitives for Self and all its
         base types.
         """
-        return Entity.base_types.mapcat(lambda t: t.match(
+        # TODO: Not clear if the below origin.bind is correct, investigate
+        # later.
+        return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
             lambda std=T.SubtypeDecl: bind_origin(
                 std.node, std.from_type.cast(T.TypeDecl)
@@ -3999,7 +4045,7 @@ class TypeDecl(BaseTypeDecl):
         ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
         ).concat(
             If(include_self, Entity.own_primitives_envs, No(LexicalEnv.array))
-        )
+        ))
 
     @langkit_property(memoized=True, return_type=T.PrimTypeAccessor,
                       ignore_warn_on_node=True)
@@ -4686,23 +4732,24 @@ class BaseSubtypeDecl(BaseTypeDecl):
     accessed_type = Property(Entity.from_type.accessed_type)
     is_int_type = Property(Entity.from_type.is_int_type)
     is_discrete_type = Property(Entity.from_type.is_discrete_type)
-    is_real_type = Property(Entity.from_type_bound.is_real_type)
-    is_float_type = Property(Entity.from_type_bound.is_float_type)
-    is_fixed_point = Property(Entity.from_type_bound.is_fixed_point)
-    is_enum_type = Property(Entity.from_type_bound.is_enum_type)
+
+    is_real_type = Property(Entity.from_type.is_real_type)
+    is_float_type = Property(Entity.from_type.is_float_type)
+    is_fixed_point = Property(Entity.from_type.is_fixed_point)
+    is_enum_type = Property(Entity.from_type.is_enum_type)
     is_access_type = Property(Entity.from_type.is_access_type)
-    access_def = Property(Entity.from_type_bound.access_def)
-    is_char_type = Property(Entity.from_type_bound.is_char_type)
-    is_tagged_type = Property(Entity.from_type_bound.is_tagged_type)
-    base_type = Property(Entity.from_type_bound.base_type)
+    access_def = Property(Entity.from_type.access_def)
+    is_char_type = Property(Entity.from_type.is_char_type)
+    is_tagged_type = Property(Entity.from_type.is_tagged_type)
+    base_type = Property(Entity.from_type.base_type)
     array_def = Property(Entity.from_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
     discriminants_list = Property(Entity.from_type_bound.discriminants_list)
     is_iterable_type = Property(Entity.from_type.is_iterable_type)
     iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
-    is_record_type = Property(Entity.from_type_bound.is_record_type)
+    is_record_type = Property(Entity.from_type.is_record_type)
     is_private = Property(Entity.from_type_bound.is_private)
-    root_type = Property(Entity.from_type_bound.root_type)
+    root_type = Property(Entity.from_type.root_type)
 
 
 class SubtypeDecl(BaseSubtypeDecl):
@@ -9624,9 +9671,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
     def primitive_subp_of_tagged():
-        return Entity.primitive_subp_of.find(
+        return origin.bind(Self, Entity.primitive_subp_of.find(
             lambda t: t.full_view.is_tagged_type
-        )
+        ))
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():

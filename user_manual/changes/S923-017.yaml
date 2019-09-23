@@ -1,0 +1,34 @@
+type: new-feature
+title: Add several utility properties on ``BaseTypeDecl``
+
+description: |
+    Those properties include several predicates, allowing to transparently
+    query aspects of a type, without caring about it's syntactic/semantic
+    aspects:
+
+    * ``p_is_record_type`` returns whether the type is a record type.
+    * ``p_is_char_type`` returns whether the type is a Character type.
+    * ``p_is_tagged_type`` returns whether the type is a tagged type.
+    * ``p_is_enum_type`` returns whether the type is an enum type.
+
+    Also included is ``p_base_types`` which will return all the base types of a
+    tagged type.
+
+    Note that all those properties take an ``origin`` optional parameter, which
+    will be used to determine the view that is available to you on the type. By
+    default, the view is from the node you query.
+
+    Some existing properties (``p_is_float_type`` and ``p_is_fixed_point``) now
+    take an origin parameter. That means that, in the python API at least, you
+    now need to put parentheses when you call them:
+
+    .. code-block:: python
+
+        # Before:
+        typ.p_is_float_type
+
+        # After:
+        typ.p_is_float_type
+        typ.p_is_float_type(origin=typ)
+
+date: 2019-09-23

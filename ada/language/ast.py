@@ -8757,9 +8757,7 @@ class DefiningName(Name):
         parameters if there are any. For instance, it will return `A` for the
         `A (B)` call.
 
-        .. note:: This currently only handles direct calls. Need to add support
-           for: dispatching calls, access-to-subprograms and calls done inside
-           generics.
+        .. note:: This does not yet support calls done inside generics.
         """
         return Entity.find_all_references(units).filter(
             lambda r: r.is_direct_call

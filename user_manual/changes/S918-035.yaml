@@ -1,0 +1,9 @@
+type: api-change
+title: Change the grammar of ``AcceptStmt`` and ``EntryBody``
+
+description: |
+    To simplify the matching of those with an ``EntryDecl``, a new intermediate
+    node, ``EntryCompletionFormalParams`` has been added, and contains the spec
+    of entry completion parameters.
+
+date: 2019-09-23

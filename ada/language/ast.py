@@ -1001,27 +1001,27 @@ class AdaNode(ASTNode):
 
     @langkit_property(public=True, return_type=T.AdaNode.entity.array,
                       dynamic_vars=[origin, default_imprecise_fallback()])
-    def find_all_in(x=T.AdaNode.entity, mode=FindAllMode):
+    def find_all_in(root=T.AdaNode.entity, mode=FindAllMode):
         """
         Searches all references to this defining name in the given node and its
         children.
         """
-        return x.children.then(
+        return root.children.then(
             lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
             .mapcat(lambda n: Entity.find_all_in(n, mode))
         ).concat(If(
             Cond(
                 mode == FindAllMode.References,
-                Entity.cast_or_raise(DefiningName).is_referenced_by(x),
+                Entity.cast_or_raise(DefiningName).is_referenced_by(root),
 
                 mode == FindAllMode.DerivedTypes,
-                x.cast(TypeDecl)._.is_derived_type(
+                root.cast(TypeDecl)._.is_derived_type(
                     Entity.cast_or_raise(BaseTypeDecl)
                 ),
 
                 False
             ),
-            x.singleton,
+            root.singleton,
             No(AdaNode.entity.array)
         ))
 

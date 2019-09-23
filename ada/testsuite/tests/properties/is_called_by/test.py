@@ -6,7 +6,7 @@ import libadalang as lal
 
 
 ctx = lal.AnalysisContext()
-unit = ctx.get_from_file("test.adb")
+unit = ctx.get_from_file('test.adb')
 
 
 if len(unit.diagnostics) > 0:

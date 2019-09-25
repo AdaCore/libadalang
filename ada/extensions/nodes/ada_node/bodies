@@ -55,6 +55,8 @@ function Ada_Node_P_Filter_Is_Imported_By
       Hash            => Hash,
       Equivalent_Keys => "=");
 
+   type CU_Array is array (Positive range <>) of Bare_Compilation_Unit;
+
    Context : constant Internal_Context := Node.Unit.Context;
 
    Ada_Text_IO_Symbol_Array : constant Internal_Symbol_Type_Array :=
@@ -86,6 +88,11 @@ function Ada_Node_P_Filter_Is_Imported_By
    --  if it is, it modifies the target so it points to the unit defining
    --  Ada.Text_IO instead, which allows the correct behavior of this whole
    --  routine.
+
+   function All_Compilation_Units_From
+     (Root : Bare_Ada_Node) return CU_Array;
+   --  Given a node that is the root of an analysis unit, return all the
+   --  compilation units that are defined inside of it.
 
    function Does_Import_Target (From : in Internal_Unit) return Boolean;
    --  Predicate that returns True iff the given unit imports the target.
@@ -133,6 +140,37 @@ function Ada_Node_P_Filter_Is_Imported_By
       return Target;
    end Actual_Target;
 
+   ---------------------------
+   -- All_Compilation_Units --
+   ---------------------------
+
+   function All_Compilation_Units_From
+     (Root : Bare_Ada_Node) return CU_Array is
+   begin
+      if Root = null then
+         return (1 .. 0 => <>);
+      end if;
+
+      case Root.Kind is
+         when Ada_Compilation_Unit =>
+            return (1 => Bare_Compilation_Unit (Root));
+         when Ada_Compilation_Unit_List =>
+            declare
+               List : constant Bare_Compilation_Unit_List :=
+                  Bare_Compilation_Unit_List (Root);
+
+               Res : CU_Array (1 .. List.Count);
+            begin
+               for I in 1 .. List.Count loop
+                  Res (I) := List.Nodes (I);
+               end loop;
+               return Res;
+            end;
+         when others =>
+            return (1 .. 0 => <>);
+      end case;
+   end All_Compilation_Units_From;
+
    Target              : constant Internal_Unit := Actual_Target;
    Units_Import_Target : Analysis_Unit_Maps.Map;
 
@@ -170,6 +208,9 @@ function Ada_Node_P_Filter_Is_Imported_By
       end Handle_Unit_Name;
 
       Root_Node   : constant Bare_Ada_Node := Root (From);
+      Units       : constant CU_Array :=
+         All_Compilation_Units_From (Root_Node);
+
       Prelude     : Bare_Ada_Node;
       From_Cursor : constant Analysis_Unit_Maps.Cursor :=
          Units_Import_Target.Find (From);
@@ -189,34 +230,30 @@ function Ada_Node_P_Filter_Is_Imported_By
 
       --  Add all explicit references by processing "with" clauses.
 
-      if Root_Node.Kind /= Ada_Compilation_Unit then
-         --  TODO: handle list of compilation units.
-         raise Property_Error with
-            "Filter_Is_Imported_By: Unhandled type " & Root_Node.Kind'Image;
-      end if;
-
-      Prelude := Root_Node.Compilation_Unit_F_Prelude;
-
-      for I in 1 .. Children_Count (Prelude) loop
-         if Child (Prelude, I).Kind = Ada_With_Clause then
-            declare
-               Imported_Packages : constant Bare_Ada_Node :=
-                  Child (Prelude, I).With_Clause_F_Packages;
-            begin
-               for J in 1 .. Children_Count (Imported_Packages) loop
-                  declare
-                     Pkg : constant Bare_Name := Child (Imported_Packages, J);
-                     Symbols : constant Symbol_Type_Array :=
-                        Libadalang.Env_Hooks.Name_To_Symbols (Pkg);
-                  begin
-                     if Handle_Unit_Name (Symbols) then
-                        Units_Import_Target.Replace (From, True);
-                        return True;
-                     end if;
-                  end;
-               end loop;
-            end;
-         end if;
+      for Unit of Units loop
+         Prelude := Unit.Compilation_Unit_F_Prelude;
+         for I in 1 .. Children_Count (Prelude) loop
+            if Child (Prelude, I).Kind = Ada_With_Clause then
+               declare
+                  Imported_Packages : constant Bare_Ada_Node :=
+                     Child (Prelude, I).With_Clause_F_Packages;
+               begin
+                  for J in 1 .. Children_Count (Imported_Packages) loop
+                     declare
+                        Pkg : constant Bare_Name :=
+                           Child (Imported_Packages, J);
+                        Symbols : constant Symbol_Type_Array :=
+                           Libadalang.Env_Hooks.Name_To_Symbols (Pkg);
+                     begin
+                        if Handle_Unit_Name (Symbols) then
+                           Units_Import_Target.Replace (From, True);
+                           return True;
+                        end if;
+                     end;
+                  end loop;
+               end;
+            end if;
+         end loop;
       end loop;
 
       --  Add all implicit references:

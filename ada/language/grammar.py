@@ -760,7 +760,7 @@ A.add_rules(
         "entry", A.defining_id,
         Opt(EntryIndexSpec("(", "for", A.defining_id, "in",
                            A.discrete_subtype_definition, ")")),
-        Opt(EntryCompletionFormalParams(A.param_specs)),
+        EntryCompletionFormalParams(Opt(A.param_specs)),
         "when", A.expr,
         "is", cut(),
         A.recov_decl_part,

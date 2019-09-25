@@ -2367,10 +2367,10 @@ class BaseFormalParamHolder(AdaNode):
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
-    def real_type(tpe=T.BaseTypeDecl.entity):
+    def real_type(typ=T.BaseTypeDecl.entity):
         """
-        Return the real type denoted by ``tpe``, taking into account that
-        ``tpe`` might be the type of a derived primitive. In that case, return
+        Return the real type denoted by ``typ``, taking into account that
+        ``typ`` might be the type of a derived primitive. In that case, return
         the derived primitive type.
         """
         # Compute the type entity of which self is a primitive
@@ -2384,17 +2384,17 @@ class BaseFormalParamHolder(AdaNode):
         # Compute the canonical types and discard the metadata fields for a
         # more robust comparison.
         canon_prim_type = Var(prim_type._.canonical_type._.without_md)
-        canon_tpe = Var(tpe.canonical_type.without_md)
+        canon_typ = Var(typ.then(lambda t: t.canonical_type.without_md))
 
         return Cond(
-            canon_prim_type == canon_tpe,
+            canon_prim_type == canon_typ,
 
             If(
                 Entity.info.md.primitive_real_type.is_null,
 
                 entity_no_md(
                     BaseTypeDecl,
-                    tpe.node,
+                    typ.node,
                     Entity.info.rebindings,
                     Entity.info.from_rebound
                 ),
@@ -2406,10 +2406,10 @@ class BaseFormalParamHolder(AdaNode):
             # Handle the case where the primitive is defined on an anonymous
             # access type, by returning an anonymous access type over the
             # real_type of the accessed type.
-            tpe.is_a(AnonymousTypeDecl),
-            Entity.real_type(tpe.accessed_type).anonymous_access_type,
+            typ.is_a(AnonymousTypeDecl),
+            Entity.real_type(typ.accessed_type).anonymous_access_type,
 
-            tpe
+            typ
         )
 
     @langkit_property(return_type=Bool)

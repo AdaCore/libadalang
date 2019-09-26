@@ -1,3 +1,4 @@
 --  vim: filetype=ada
 
-for Switches ("libadalang-unit_files.adb") use ("-O1");
+for Switches ("libadalang-unit_files.adb") use
+   Common_Ada_Cargs & Manual_Ada_Cargs & ("-O1");

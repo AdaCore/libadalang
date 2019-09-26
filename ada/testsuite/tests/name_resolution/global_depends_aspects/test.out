@@ -1,0 +1,170 @@
+Analyzing test_globals.adb
+##########################
+
+Resolving xrefs for node <SubpSpec test_globals.adb:7:4-7:17>
+*************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:8:12-8:57>
+*****************************************************************
+
+Expr: <Id "Global" test_globals.adb:8:12-8:18>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:8:22-8:57>
+  type:       None
+Expr: <Id "Input" test_globals.adb:8:23-8:28>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:8:32-8:38>
+  type:       None
+Expr: <Id "A" test_globals.adb:8:33-8:34>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "B" test_globals.adb:8:36-8:37>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Output" test_globals.adb:8:40-8:46>
+  references: None
+  type:       None
+Expr: <Id "Result" test_globals.adb:8:50-8:56>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:9:12-9:41>
+*****************************************************************
+
+Expr: <Id "Depends" test_globals.adb:9:12-9:19>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:9:23-9:41>
+  type:       None
+Expr: <Id "Result" test_globals.adb:9:24-9:30>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Aggregate test_globals.adb:9:34-9:40>
+  type:       None
+Expr: <Id "A" test_globals.adb:9:35-9:36>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "B" test_globals.adb:9:38-9:39>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test_globals.adb:17:4-17:18>
+***************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:18:12-18:68>
+*******************************************************************
+
+Expr: <Id "Global" test_globals.adb:18:12-18:18>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:18:22-18:68>
+  type:       None
+Expr: <Id "Input" test_globals.adb:18:23-18:28>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:18:32-18:38>
+  type:       None
+Expr: <Id "A" test_globals.adb:18:33-18:34>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "B" test_globals.adb:18:36-18:37>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Output" test_globals.adb:18:40-18:46>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:18:50-18:67>
+  type:       None
+Expr: <Id "Result" test_globals.adb:18:51-18:57>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Result2" test_globals.adb:18:59-18:66>
+  references: <DefiningName test_globals.adb:5:12-5:19>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:19:12-19:52>
+*******************************************************************
+
+Expr: <Id "Depends" test_globals.adb:19:12-19:19>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:19:23-19:52>
+  type:       None
+Expr: <Aggregate test_globals.adb:19:24-19:41>
+  type:       None
+Expr: <Id "Result" test_globals.adb:19:25-19:31>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Result2" test_globals.adb:19:33-19:40>
+  references: <DefiningName test_globals.adb:5:12-5:19>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Aggregate test_globals.adb:19:45-19:51>
+  type:       None
+Expr: <Id "A" test_globals.adb:19:46-19:47>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "B" test_globals.adb:19:49-19:50>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test_globals.adb:28:4-28:22>
+***************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:29:12-29:58>
+*******************************************************************
+
+Expr: <Id "Global" test_globals.adb:29:12-29:18>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:29:23-29:58>
+  type:       None
+Expr: <Id "Input" test_globals.adb:29:24-29:29>
+  references: None
+  type:       None
+Expr: <Id "A" test_globals.adb:29:33-29:34>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "In_Out" test_globals.adb:29:36-29:42>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:29:46-29:57>
+  type:       None
+Expr: <Id "B" test_globals.adb:29:47-29:48>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Result" test_globals.adb:29:50-29:56>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:30:12-30:42>
+*******************************************************************
+
+Expr: <Id "Depends" test_globals.adb:30:12-30:19>
+  references: None
+  type:       None
+Expr: <Aggregate test_globals.adb:30:23-30:42>
+  type:       None
+Expr: <Aggregate test_globals.adb:30:24-30:35>
+  type:       None
+Expr: <Id "B" test_globals.adb:30:25-30:26>
+  references: <DefiningName test_globals.adb:4:7-4:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Result" test_globals.adb:30:28-30:34>
+  references: <DefiningName test_globals.adb:5:4-5:10>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <UnOp test_globals.adb:30:39-30:41>
+  type:       None
+Expr: <OpPlus "+" test_globals.adb:30:39-30:40>
+  references: None
+  type:       None
+Expr: <Id "A" test_globals.adb:30:40-30:41>
+  references: <DefiningName test_globals.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

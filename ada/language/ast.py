@@ -258,6 +258,15 @@ class AdaNode(ASTNode):
         )
     ).is_null))
 
+    @langkit_property()
+    def in_aspect(name=T.Symbol):
+        """
+        Return whether Self is contained by an aspect whose name is ``name``.
+        """
+        return Self.parents.any(
+            lambda p: p.cast(AspectAssoc).then(lambda a: a.id.name_is(name))
+        )
+
     empty_env = Property(
         Self.parents.find(lambda p: p.is_a(T.CompilationUnit))
         .cast(T.CompilationUnit).get_empty_env,
@@ -5784,6 +5793,10 @@ class AspectAssoc(AdaNode):
                 )
             ),
 
+            # Global aspect. Depends is always an aggregate, so doesn't need an
+            # entry.
+            Entity.id.name_is('Global'), Entity.expr.sub_equation,
+
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
             # name resolve the expression.
@@ -6820,27 +6833,31 @@ class UnOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        subps = Var(Entity.op.subprograms.filter(
-            lambda s: s.subp_spec_or_null.nb_max_params == 1
-        ))
-        return Entity.expr.sub_equation & (subps.logic_any(lambda subp: Let(
-            lambda
-            ps=subp.subp_spec_or_null.unpacked_formal_params,
-            prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
+        return Entity.expr.sub_equation & If(
+            Self.in_aspect('Depends'),
+            Entity.expr.sub_equation,
 
-            # The subprogram's first argument must match Self's left
-            # operand.
-            Entity.expr.call_argument_equation(
-                ps.at(0).spec.formal_type, prim_type
-            )
+            Entity.op.subprograms.filter(
+                lambda s: s.subp_spec_or_null.nb_max_params == 1
+            ).logic_any(lambda subp: Let(
+                lambda
+                ps=subp.subp_spec_or_null.unpacked_formal_params,
+                prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
 
-            # The subprogram's return type is the type of Self
-            & TypeBind(Self.type_var,
-                       subp.subp_spec_or_null.return_type)
+                # The subprogram's first argument must match Self's left
+                # operand.
+                Entity.expr.call_argument_equation(
+                    ps.at(0).spec.formal_type, prim_type
+                )
 
-            # The operator references the subprogram
-            & Bind(Self.op.ref_var, subp)
-        )) | TypeBind(Self.type_var, Self.expr.type_var))
+                # The subprogram's return type is the type of Self
+                & TypeBind(Self.type_var,
+                           subp.subp_spec_or_null.return_type)
+
+                # The operator references the subprogram
+                & Bind(Self.op.ref_var, subp)
+            )) | TypeBind(Self.type_var, Self.expr.type_var)
+        )
 
 
 class BinOp(Expr):
@@ -7036,9 +7053,12 @@ class BaseAggregate(Expr):
     # however, resolution of the containing expression can leverage the
     # knowledge that self is an aggregate, by accepting only type that can be
     # represented by an aggregate (eg. records and arrays).
-    stop_resolution_equation = Property(bind_origin(
-        Self, Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)
-    ))
+    stop_resolution_equation = Property(If(
+        Self.in_aspect('Global') | Self.in_aspect('Depends'),
+        LogicTrue(),
+        bind_origin(Self,
+                    Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)))
+    )
 
     @langkit_property(return_type=MultidimAggregateInfo, dynamic_vars=[origin])
     def multidim_root_aggregate(r=(Int, 0)):
@@ -7067,10 +7087,44 @@ class BaseAggregate(Expr):
 
     @langkit_property()
     def xref_equation():
-        return If(
+        return Cond(
+            Self.in_aspect('Global'), Entity.globals_equation,
+
+            Self.in_aspect('Depends'), Entity.depends_equation,
+
             Self.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
+
             Entity.general_xref_equation
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def globals_equation():
+        return Entity.assocs.logic_all(
+            # Assoc expr can either be a name or an aggregate. If a name, then
+            # resolve. If an aggregate, resolution will be handled recursively
+            # by solve.
+            lambda assoc: assoc.expr.sub_equation
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def depends_equation():
+        return Entity.assocs.logic_all(
+            lambda assoc:
+
+            # For both the name and the expr, same as in `globals_equation`, we
+            # call sub_equation: If it's a name it will resolve the name. If
+            # it's an aggregate it will return LogicTrue() and the content will
+            # be resolved separately.
+
+            assoc.expr.sub_equation
+            # Here, we go fetch the first element of the list of names. Since
+            # we parse this as an aggregate, the list is elements separated by
+            # pipes (alternatives_list), which will ever only have one element
+            # in this case.
+            & assoc.names.at(0).as_entity.then(
+                lambda n: n.sub_equation, default_val=LogicTrue()
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

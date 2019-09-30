@@ -3079,6 +3079,18 @@ class BaseTypeDecl(BasicDecl):
 
     defining_names = Property(Entity.name.singleton)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()])
+    def base_subtype():
+        """
+        If this type decl is a subtype decl, return the base subtype. If not,
+        return ``Self``.
+        """
+        return Entity.match(
+            lambda st=T.BaseSubtypeDecl: st.from_type.base_subtype,
+            lambda _: Entity
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity, memoized=True)
     def anonymous_access_type():
         return T.SynthAnonymousTypeDecl.new(
@@ -3630,8 +3642,8 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[(origin, No(T.AdaNode))])
-    def canonical_type_or_null():
-        return Entity._.canonical_type
+    def base_subtype_or_null():
+        return Entity._.base_subtype
 
     @langkit_property(memoized=True, memoize_in_populate=True,
                       ignore_warn_on_node=True)
@@ -4722,6 +4734,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     """
     Base class for subtype declarations.
     """
+
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def from_type_bound():
         # TODO: This is a hack, to avoid making all of the predicates on types
@@ -6974,13 +6987,13 @@ class BinOp(Expr):
 
             lambda _: Or(
                 # Regular case: Both operands and binop are of the same type.
-                # We call canonical_type as a conversion property because
+                # We call base_subtype as a conversion property because
                 # operators are defined on the root subtype, so the return
                 # value will always be of the root subtype.
                 TypeBind(Self.left.type_var, Self.type_var,
-                         conv_prop=BaseTypeDecl.canonical_type_or_null)
+                         conv_prop=BaseTypeDecl.base_subtype_or_null)
                 & TypeBind(Self.right.type_var, Self.type_var,
-                           conv_prop=BaseTypeDecl.canonical_type_or_null),
+                           conv_prop=BaseTypeDecl.base_subtype_or_null),
 
                 # Universal real with universal int case: Implicit conversion
                 # of the binop to universal real.

@@ -1,0 +1,30 @@
+type: bugfix
+title: Resolution of binop for private types with scalar completion
+
+description: |
+    So far name resolution did fail on some very simple cases where a type is
+    private but is a scalar type in the private view, such as:
+
+    .. code:: ada
+
+        procedure Test_Binop_Res is
+           package P is
+              type A is private;
+           private
+              type A is range 1 .. 20;
+           end P;
+
+           package body P is
+              C : A := 12;
+              B : A := 12 * C;
+              pragma Test_Statement;
+           end P;
+        begin
+           null;
+        end Test_Binop_Res;
+
+    This is because  the resolution of built-in operators resolved to the
+    canonical type to get the base subtype, which is wrong. This is now fixed.
+
+
+date: 2019-10-02

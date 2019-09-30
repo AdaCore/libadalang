@@ -339,6 +339,9 @@ procedure Nameres is
 
       procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True) is
 
+         procedure Put_XFAIL_Message;
+         --  If there is an XFAIL message for this node, show it
+
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
 
          ----------------
@@ -398,6 +401,30 @@ procedure Nameres is
 
          Obj : aliased J.JSON_Value;
 
+         -----------------------
+         -- Put_XFAIL_Message --
+         -----------------------
+
+         procedure Put_XFAIL_Message is
+            N : constant Ada_Node := Next_Sibling (Node);
+         begin
+            if not Is_Null (N) and then Kind (N) = Ada_Pragma_Node then
+               if Child (N, 1).Text = "XFAIL_Nameres" then
+                  declare
+                     Arg : constant String_Literal :=
+                        N.As_Pragma_Node.F_Args.Child (1)
+                        .As_Base_Assoc.P_Assoc_Expr.As_String_Literal;
+                  begin
+                     if Arg.Is_Null then
+                        raise Program_Error
+                          with "Invalid arg for " & N.Short_Image;
+                     end if;
+                     Put_Line ("XFAIL: " & Image (Arg.P_Denoted_Value, False));
+                     Put_Line ("");
+                  end;
+               end if;
+            end if;
+         end Put_XFAIL_Message;
       begin
          if Args.JSON.Get then
             Obj := J.Create_Object;
@@ -428,6 +455,8 @@ procedure Nameres is
             end if;
          else
             Put_Line ("Resolution failed for node " & Node.Short_Image);
+            Put_XFAIL_Message;
+
             Nb_File_Fails := Nb_File_Fails + 1;
 
             if Args.JSON.Get then
@@ -448,6 +477,7 @@ procedure Nameres is
               ("Resolution failed with exception for node "
                & Node.Short_Image);
             Dump_Exception (E, Obj'Access);
+            Put_XFAIL_Message;
             Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
             Nb_File_Fails := Nb_File_Fails + 1;
       end Resolve_Node;

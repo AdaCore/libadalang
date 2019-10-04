@@ -61,12 +61,15 @@ class InlinePlayground(lal.App):
                     col(expr_text, YELLOW),
                     col(current_node.entity_repr, YELLOW)
                 ))
-                print("Result: {}".format(
-                    col(repr(eval(expr_text, None,
-                                  {'lal': lal,
-                                   'node': current_node})),
-                        YELLOW)
-                ))
+                try:
+                    print("Result: {}".format(
+                        col(repr(eval(expr_text, None,
+                                      {'lal': lal,
+                                       'node': current_node})),
+                            YELLOW)
+                    ))
+                except lal.PropertyError as pe:
+                    print("Exception:", pe.message)
                 print()
 
         print()

@@ -10314,6 +10314,14 @@ class AttributeRef(Name):
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 
+            rel_name.any_of('Width', 'Component_Size', 'Position',
+                            'Mantissa', 'Model_Mantissa', 'Machine_Mantissa',
+                            'Fore', 'Aft', 'Digits', 'Modulus',
+                            'Address_Size', 'System_Allocator_Alignment',
+                            'Finalization_Size', 'Descriptor_Size',
+                            'Alignment'),
+            Entity.prefix.sub_equation & universal_int_bind(Self.type_var),
+
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
             rel_name == 'Type_Class', Entity.type_class_equation,

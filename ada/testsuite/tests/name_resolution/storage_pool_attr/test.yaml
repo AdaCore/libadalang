@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [storage_pool_attr.adb]
+with_default_project: False

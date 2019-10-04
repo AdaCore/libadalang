@@ -2209,10 +2209,13 @@ class BaseFormalParamDecl(BasicDecl):
     """
     is_mandatory = Property(False)
 
-    formal_type = Property(
-        bind_origin(Self, Entity.type_expression._.designated_type),
-        doc="Return the type for this formal.", public=True
-    )
+    @langkit_property(return_type=T.BaseTypeDecl.entity, public=True,
+                      dynamic_vars=[default_origin()])
+    def formal_type():
+        """
+        Return the type for this formal.
+        """
+        return Entity.type_expression._.designated_type
 
     @langkit_property()
     def parent_decl():

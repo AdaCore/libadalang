@@ -1,0 +1,9 @@
+type: bugfix
+title: Handle full type view resolution correctly in case of hiding
+
+description: |
+    In some complex situations where an entity similarly caused hiding, full
+    view of a type might not be resolved correctly, causing name resolution
+    failures.
+
+date: 2019-10-04

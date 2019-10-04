@@ -3,20 +3,20 @@
 
 package Foo is
 
-   type Kind_Type is (Integer, Character, Boolean);
+   type Kind_Type is (Int, Char, Bool);
 
    type Record_Type (K : Kind_Type) is record
       case K is
-         when Integer =>
+         when Int =>
             I : Integer;
-         when Character =>
+         when Char =>
             C : Character;
          when others =>
             B : Boolean;
       end case;
    end record;
 
-   R : Record_Type := (K => Integer, I => 0);
+   R : Record_Type := (K => Int, I => 0);
 
    pragma Test (R.K);
    pragma Test (R.I);
@@ -24,4 +24,18 @@ package Foo is
    pragma Test (R.B);
    pragma Test (R.Z);
 
+   subtype Int_And_Char is Kind_Type range Int .. Char;
+   subtype Good_Kinds is Int_And_Char;
+
+   type Record_Type_2 (K : Kind_Type) is record
+      case K is
+         when Good_Kinds =>
+            X : Integer;
+         when others =>
+            Y : Boolean;
+      end case;
+   end record;
+
+   R2 : Record_Type_2 := (Bool, True);
+   pragma Test_Statement;
 end Foo;

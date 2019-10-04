@@ -476,6 +476,38 @@ package body Libadalang.Expr_Eval is
                              with "min/max not applicable on enum types";
                      end case;
                   end;
+               elsif Name in "succ" | "pred" then
+                  declare
+                     Typ       : constant Base_Type_Decl :=
+                       AR.F_Prefix.P_Name_Designated_Type;
+                     Val       : constant Eval_Result :=
+                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
+                     Enum_Val  : Enum_Literal_Decl;
+                  begin
+                     case Val.Kind is
+                     when Int =>
+                        return Create_Int_Result
+                          (Typ,
+                           (if Name = "succ"
+                            then Val.Int_Result + 1
+                            else Val.Int_Result - 1));
+                     when Real =>
+                        raise Property_Error
+                          with "pred/succ not applicable to reals";
+                     when others =>
+                        Enum_Val := Ada_Node'
+                          (if Name = "succ"
+                           then Val.Enum_Result.Next_Sibling
+                           else Val.Enum_Result.Previous_Sibling)
+                          .As_Enum_Literal_Decl;
+
+                        if Enum_Val.Is_Null then
+                           raise Property_Error with
+                             "out of bounds pred/succ on enum";
+                        end if;
+                        return Create_Enum_Result (Typ, Enum_Val);
+                     end case;
+                  end;
                else
                   raise Property_Error
                     with "Unhandled attribute ref: " & Attr.Debug_Text;

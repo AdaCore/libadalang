@@ -248,7 +248,7 @@ package body Libadalang.Expr_Eval is
                      begin
                         case A is
                            when Range_First =>
-                              return  Eval_Decl
+                              return Eval_Decl
                                 (Lits.Child
                                    (Lits.First_Child_Index).As_Basic_Decl);
                            when Range_Last  =>

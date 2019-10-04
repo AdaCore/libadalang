@@ -1,0 +1,17 @@
+type: bugfix
+title: Handle missing standard & implementation defined attributes
+
+description: |
+    We implemented name resolution for a lot of attributes that were missing,
+    both standard and implementation defined. The common characteristic is
+    being supported by GNAT.
+
+    Here is the full list: ``Ceiling``, ``Floor``, ``Rounding``, ``Callable``,
+    ``Type_Class``, ``Storage_Pool``, ``Width``, ``Component_Size``,
+    ``Position``, ``Mantissa``, ``Model_Mantissa``, ``Machine_Mantissa``,
+    ``Fore``, ``Aft``, ``Digits``, ``Modulus``, ``Epsilon``, ``Model_Epsilon``,
+    ``Safe_Large``, ``Safe_Small``.
+
+    In addition, resolution for unhandled attributes now fails explicitly.
+
+date: 2019-10-04

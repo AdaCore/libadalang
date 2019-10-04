@@ -1,0 +1,70 @@
+Analyzing test_float_attrs.adb
+##############################
+
+Resolving xrefs for node <ObjectDecl ["A"] test_float_attrs.adb:2:4-2:36>
+*************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:2:8-2:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:2:17-2:35>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Float" test_float_attrs.adb:2:17-2:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Floor" test_float_attrs.adb:2:23-2:28>
+  references: None
+  type:       None
+Expr: <Real test_float_attrs.adb:2:30-2:34>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+
+Resolving xrefs for node <ObjectDecl ["B"] test_float_attrs.adb:5:4-5:36>
+*************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:5:8-5:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:5:17-5:35>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Float" test_float_attrs.adb:5:17-5:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Rounding" test_float_attrs.adb:5:23-5:31>
+  references: None
+  type:       None
+Expr: <Id "A" test_float_attrs.adb:5:33-5:34>
+  references: <DefiningName test_float_attrs.adb:2:4-2:5>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+
+Resolving xrefs for node <ObjectDecl ["C"] test_float_attrs.adb:8:4-8:42>
+*************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:8:8-8:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:8:17-8:41>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Float" test_float_attrs.adb:8:17-8:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Ceiling" test_float_attrs.adb:8:23-8:30>
+  references: None
+  type:       None
+Expr: <BinOp test_float_attrs.adb:8:32-8:40>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "B" test_float_attrs.adb:8:32-8:33>
+  references: <DefiningName test_float_attrs.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <OpPlus "+" test_float_attrs.adb:8:34-8:35>
+  references: None
+  type:       None
+Expr: <Real test_float_attrs.adb:8:36-8:40>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+
+
+Done.

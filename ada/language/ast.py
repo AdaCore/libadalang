@@ -10306,7 +10306,27 @@ class AttributeRef(Name):
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 
+            rel_name.any_of('Ceiling', 'Floor', 'Rounding'),
+            Entity.float_funcs_equation,
+
             LogicTrue()
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def float_funcs_equation():
+        """
+        Equation for float function attributes with profile (T) -> T with T
+        being any float type.
+        """
+        typ = Var(Entity.prefix.name_designated_type)
+
+        arg = Var(Entity.args_list.at(0).expr)
+
+        return (
+            Entity.prefix.sub_equation
+            & arg.sub_equation
+            & TypeBind(arg.type_var, typ)
+            & TypeBind(Self.type_var, typ)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

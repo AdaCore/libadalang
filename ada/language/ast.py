@@ -10287,7 +10287,8 @@ class AttributeRef(Name):
             rel_name.any_of('Maximum_Alignment', 'Word_Size'),
             Entity.standard_attr_equation,
 
-            rel_name.any_of('Small', 'Large'),
+            rel_name.any_of('Small', 'Large', 'Epsilon', 'Model_Epsilon',
+                            'Safe_Large', 'Safe_Small'),
             Entity.universal_real_equation,
 
             rel_name == 'Img',

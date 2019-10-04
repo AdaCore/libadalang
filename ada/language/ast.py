@@ -9178,16 +9178,22 @@ class BaseId(SingleTokNode):
             des_type_1
         ))
 
-        # We might have a more complete view of the type at the origin point
-        completer_view = Var(origin.then(lambda o: env_get_first(
+        # We might have a more complete view of the type at the origin point,
+        # so look for every entity named like the type, to see if any is a
+        # completer view of the type.
+        completer_view = Var(origin.then(lambda o: env_get(
             o.children_env, Self, from_node=origin, categories=noprims
-        )).cast(T.BaseTypeDecl))
+        )).filtermap(
+            lambda n: n.cast(BaseTypeDecl),
+            lambda n:
+            n.is_a(BaseTypeDecl)
+            & des_type.then(lambda d: d.is_view_of_type(n.cast(BaseTypeDecl)))
+        ).at(0))
 
         # If completer_view is a more complete view of the type we're looking
         # up, then return completer_view. Else return des_type.
         return If(
-            Not(completer_view.is_null)
-            & des_type.then(lambda d: d.is_view_of_type(completer_view)),
+            Not(completer_view.is_null),
             completer_view,
             des_type
         )

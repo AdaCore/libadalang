@@ -398,6 +398,32 @@ class AdaNode(ASTNode):
         """
         pass
 
+    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
+    def designated_compilation_unit(name=T.Symbol.array,
+                                    kind=AnalysisUnitKind):
+        """
+        Fetch the compilation unit designated by the given name defined in an
+        analysis unit of the given kind.
+        """
+        designated_analysis_unit = Var(
+            Self.get_unit(name, kind, load_if_needed=True)
+        )
+
+        return designated_analysis_unit.root._.match(
+            # If the root of the analysis unit is a single compilation unit,
+            # it is necessarily the one we look for.
+            lambda single=CompilationUnit: single,
+
+            # If the root of the analysis unit comprises multiple compilation
+            # units, look for the one with a matching fully qualified name.
+            lambda multi=CompilationUnit.list: multi.find(
+                lambda c: c.syntactic_fully_qualified_name == name
+            ),
+
+            lambda _: PropertyError(CompilationUnit,
+                                    "Unexpected analysis unit root")
+        )
+
     @langkit_property(return_type=T.BasicDecl, uses_entity_info=False,
                       ignore_warn_on_node=True)
     def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
@@ -11312,6 +11338,76 @@ class CompilationUnit(AdaNode):
             lambda _: PropertyError(
                 AnalysisUnitKind, 'Unexpected CompilationUnit.f_body attribute'
             ),
+        )
+
+    @langkit_property(return_type=T.CompilationUnit.entity.array,
+                      memoized=True, public=True)
+    def withed_units():
+        """
+        Look for all "with" clauses at the top of this compilation unit and
+        return all the compilation units designated by them.
+        """
+        return Self.top_level_with_package_clauses.map(
+            # Try to fetch the compilation unit in a spec file first. If this
+            # fails, the "with" must designate a body without spec (e.g. a
+            # library-level procedure).
+            lambda p: Self.designated_compilation_unit(
+                p.as_symbol_array,
+                kind=UnitSpecification
+            )._or(Self.designated_compilation_unit(
+                p.as_symbol_array,
+                kind=UnitBody
+            )).as_bare_entity
+        )
+
+    @langkit_property(return_type=T.CompilationUnit.entity.array,
+                      memoized=True, public=True)
+    def imported_units():
+        """
+        Return all the compilation units that are directly imported by this
+        one. This includes "with"ed units as well as the direct parent unit.
+        """
+        return Self.withed_units.concat(
+            Self.decl._.node_env._.env_node.then(
+                lambda n:
+                n.enclosing_compilation_unit.as_bare_entity.singleton
+            )
+        )
+
+    @langkit_property(return_type=T.CompilationUnit.entity.array)
+    def unit_dependencies_helper(visited=T.CompilationUnit.entity.array,
+                                 to_visit=T.CompilationUnit.entity.array):
+        """
+        Helper function for "unit_dependencies" that computes transitively
+        the unit dependencies of the given ``to_visit`` units. The ``visited``
+        set of units is used to terminate the search once a fix-point has
+        been reached, which is when all direct dependencies of ``to_visit`` are
+        already included in the ``visited`` set.
+        """
+        now_visited = Var(visited.concat(to_visit))
+        new_imports = Var(to_visit.mapcat(lambda c: c.imported_units).unique)
+        to_visit_next = Var(
+            new_imports.filter(lambda c: Not(now_visited.contains(c)))
+        )
+        return If(
+            to_visit_next.length > 0,
+            Self.unit_dependencies_helper(now_visited, to_visit_next),
+            now_visited
+        )
+
+    @langkit_property(return_type=T.CompilationUnit.entity.array,
+                      memoized=True, public=True)
+    def unit_dependencies():
+        """
+        Return the list of all the compilation units that are (direct and
+        indirect) dependencies of this one.
+        """
+        return Self.unit_dependencies_helper(
+            No(T.CompilationUnit.entity.array),
+            Entity.singleton
+        ).unique.filter(
+            # Remove Self from the list of dependencies
+            lambda u: u.node != Self
         )
 
     @langkit_property(public=True, return_type=BasicDecl,

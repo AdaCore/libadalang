@@ -1,0 +1,9 @@
+project Prj is
+   package Naming is
+      for Spec ("Pkg.Foo") use "subunits.ads" at 1;
+      for Spec ("Pkg.Bar") use "subunits.ads" at 2;
+      for Body ("Pkg.Foo") use "subunits.adb" at 1;
+      for Body ("Pkg.Bar") use "subunits.adb" at 2;
+      for Body ("Pkg.Bar.G") use "subunits-g.adb";
+   end Naming;
+end Prj;

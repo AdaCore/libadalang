@@ -1,0 +1,9 @@
+type: bugfix
+title: Handle Pred/Succ attributes in static evaluator
+
+description: |
+    So far, the static evaluator wouldn't properly evaluate Pred and Succ
+    attributes, which could in turn cause failures in name resolution. This is
+    now handled.
+
+date: 2019-10-04

@@ -1,0 +1,24 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:13:4-13:24>
+*******************************************************
+
+Expr: <CallExpr test.adb:13:4-13:23>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <Id "Foo" test.adb:13:4-13:7>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <AttributeRef test.adb:13:9-13:22>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Inst" test.adb:13:9-13:13>
+  references: <DefiningName test.adb:11:4-11:8>
+  type:       <TaskTypeDecl ["T"] test.adb:4:4-4:16>
+Expr: <Id "Callable" test.adb:13:14-13:22>
+  references: None
+  type:       None
+
+
+Done.

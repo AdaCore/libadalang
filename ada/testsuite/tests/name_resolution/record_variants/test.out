@@ -11,5 +11,20 @@ R.B resolves to:
     B : Boolean;
 R.Z resolves to:
     <none>
+Resolving xrefs for node <ObjectDecl ["R2"] foo.ads:39:4-39:39>
+***************************************************************
+
+Expr: <Id "Record_Type_2" foo.ads:39:9-39:22>
+  references: <DefiningName foo.ads:30:9-30:22>
+  type:       None
+Expr: <Aggregate foo.ads:39:26-39:38>
+  type:       <TypeDecl ["Record_Type_2"] foo.ads:30:4-37:15>
+Expr: <Id "Bool" foo.ads:39:27-39:31>
+  references: <DefiningName foo.ads:6:34-6:38>
+  type:       <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
+Expr: <Id "True" foo.ads:39:33-39:37>
+  references: <DefiningName __standard:3:27-3:31>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
 
 Done.

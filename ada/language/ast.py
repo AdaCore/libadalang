@@ -5182,7 +5182,12 @@ class SubtypeIndication(TypeExpr):
     @langkit_property()
     def discrete_range():
         rc = Var(Entity.constraint.cast_or_raise(RangeConstraint))
-        return rc.then(lambda r: r.range.range.discrete_range)
+        return rc.then(
+            lambda r: r.range.range.discrete_range,
+            # If no additional range constraint is specified, the range is
+            # that of the indicated subtype.
+            default_val=Entity.designated_type_decl.discrete_range
+        )
 
     @langkit_property(return_type=Bool,
                       dynamic_vars=[default_imprecise_fallback()],

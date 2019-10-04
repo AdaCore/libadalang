@@ -1,0 +1,16 @@
+type: new-feature
+title: Add properties for computing unit dependencies
+
+description: |
+    This change adds three new properties that are about computing the set
+    of units upon with a given one depends.
+    - P_Withed_Units returns the set of units that are "with"ed by the given
+      unit.
+    - P_Imported_Units returns the set of units that are directly imported by
+      the given unit, which the set of "with"ed units along with the parent
+      unit in case it's a child unit, etc.
+    - P_Unit_Dependencies is like P_Imported_Units but includes transitive
+      dependencies, effectively returning the whole closure of units which
+      the given one depends upon.
+
+date: 2020-01-22

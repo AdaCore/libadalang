@@ -10306,6 +10306,8 @@ class AttributeRef(Name):
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 
+            rel_name == 'Storage_Pool', Entity.storage_pool_equation,
+
             rel_name == 'Type_Class', Entity.type_class_equation,
 
             rel_name == 'Callable',
@@ -10345,6 +10347,20 @@ class AttributeRef(Name):
             .get_unit_root_decl(['System', 'Aux_DEC'], UnitSpecification)
             ._.children_env.get_first('Type_Class', lookup=LK.flat)
             .cast(T.BaseTypeDecl)
+        )
+
+        return Entity.prefix.xref_equation & TypeBind(Self.type_var, typ)
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def storage_pool_equation():
+        """
+        Equation for the Storage_Pool attribute.
+        """
+        typ = Var(
+            Entity
+            .get_unit_root_decl(['System', 'Storage_Pools'], UnitSpecification)
+            ._.children_env.get_first('Root_Storage_Pool', lookup=LK.flat)
+            .cast(T.BaseTypeDecl).classwide_type
         )
 
         return Entity.prefix.xref_equation & TypeBind(Self.type_var, typ)

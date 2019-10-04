@@ -10333,7 +10333,7 @@ class AttributeRef(Name):
             rel_name.any_of('Ceiling', 'Floor', 'Rounding'),
             Entity.float_funcs_equation,
 
-            LogicTrue()
+            PropertyError(Equation, "Unhandled attribute")
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

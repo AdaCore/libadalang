@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [type_class_attr.adb]
+with_default_project: False

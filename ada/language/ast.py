@@ -10314,6 +10314,8 @@ class AttributeRef(Name):
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 
+            rel_name == 'Type_Class', Entity.type_class_equation,
+
             rel_name == 'Callable',
             Entity.prefix.sub_equation & bool_bind(Self.type_var),
 
@@ -10339,6 +10341,21 @@ class AttributeRef(Name):
             & TypeBind(arg.type_var, typ)
             & TypeBind(Self.type_var, typ)
         )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def type_class_equation():
+        """
+        Implementation of the Type_Class attribute, provided for compatibility
+        with DEC 83.
+        """
+        typ = Var(
+            Entity
+            .get_unit_root_decl(['System', 'Aux_DEC'], UnitSpecification)
+            ._.children_env.get_first('Type_Class', lookup=LK.flat)
+            .cast(T.BaseTypeDecl)
+        )
+
+        return Entity.prefix.xref_equation & TypeBind(Self.type_var, typ)
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def model_attr_equation():

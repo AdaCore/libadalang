@@ -1,0 +1,52 @@
+Analyzing repro.adb
+###################
+
+Resolving xrefs for node <ObjectDecl ["Inst"] repro.adb:19:7-19:35>
+*******************************************************************
+
+Expr: <Id "Typ" repro.adb:19:14-19:17>
+  references: <DefiningName repro.adb:15:12-15:15>
+  type:       None
+Expr: <BinOp repro.adb:19:21-19:34>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Id "I1" repro.adb:19:21-19:23>
+  references: <DefiningName repro.adb:17:7-17:9>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <OpAnd "and" repro.adb:19:24-19:27>
+  references: <DefiningName repro.adb:6:16-6:21>
+  type:       None
+Expr: <Aggregate repro.adb:19:28-19:34>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Int repro.adb:19:29-19:30>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Int repro.adb:19:32-19:33>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
+Resolving xrefs for node <ObjectDecl ["Inst2"] repro.adb:22:7-22:39>
+********************************************************************
+
+Expr: <Id "Typ" repro.adb:22:15-22:18>
+  references: <DefiningName repro.adb:15:12-15:15>
+  type:       None
+Expr: <CallExpr repro.adb:22:22-22:38>
+  references: <DefiningName repro.adb:7:16-7:19>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Id "Wat" repro.adb:22:22-22:25>
+  references: <DefiningName repro.adb:7:16-7:19>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Id "I1" repro.adb:22:27-22:29>
+  references: <DefiningName repro.adb:17:7-17:9>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Aggregate repro.adb:22:31-22:37>
+  type:       <TypeDecl ["Typ"] repro.adb:15:7-15:45>
+Expr: <Int repro.adb:22:32-22:33>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Int repro.adb:22:35-22:36>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
+
+Done.

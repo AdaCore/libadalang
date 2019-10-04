@@ -2646,8 +2646,12 @@ class Variant(AdaNode):
 
             # If choice is a name, it is either a subtype name, either a
             # constant number name.
-            lambda n=T.Name: n.name_designated_type._.discrete_range.then(
-                lambda dr: And(val >= dr.low_bound, val <= dr.high_bound),
+            lambda n=T.Name: n.name_designated_type.then(
+                lambda dt: Let(
+                    lambda dr=dt.discrete_range: And(
+                        val >= dr.low_bound, val <= dr.high_bound
+                    )
+                ),
                 default_val=(val == n.eval_as_int)
             ),
 

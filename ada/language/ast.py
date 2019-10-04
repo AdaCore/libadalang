@@ -10306,6 +10306,9 @@ class AttributeRef(Name):
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
 
+            rel_name == 'Callable',
+            Entity.prefix.sub_equation & bool_bind(Self.type_var),
+
             rel_name.any_of('Ceiling', 'Floor', 'Rounding'),
             Entity.float_funcs_equation,
 

@@ -138,7 +138,7 @@ def ref_generic_formals():
     return reference(
         Self.cast(T.AdaNode)._.singleton,
         through=T.AdaNode.nested_generic_formal_part,
-        cond=Not(Self.is_compilation_unit_root),
+        cond=Self.should_ref_generic_formals,
         kind=RefKind.prioritary,
         shed_corresponding_rebindings=True,
     )
@@ -1414,6 +1414,22 @@ class BasicDecl(AdaNode):
             lambda _=T.Subunit: True,
             lambda _: False,
         ))
+
+    @langkit_property(return_type=Bool)
+    def should_ref_generic_formals():
+        """
+        Helper property used to determine whether we should add a
+        referenced_env to the generic formal part of a given entity.
+        """
+        # The reasoning is that if we are a compilation unit root but not a
+        # subunit, for example the top-level body of a top-level generic
+        # subprogram, then generic formals part is one of our parent envs,
+        # so we don't need to add a reference to it. We should in all the other
+        # cases.
+        return Or(
+            Not(Self.is_compilation_unit_root),
+            Self.parent.is_a(Subunit)
+        )
 
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 

@@ -73,6 +73,7 @@ fi
 
 # Install requirements
 pip install -r langkit/REQUIREMENTS.dev
+pip install jsonschema
 
 # Log content
 pwd

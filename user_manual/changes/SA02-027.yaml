@@ -1,5 +1,6 @@
 type: bugfix
 title: Resolution of binop for private types with scalar completion
+short_title: Binop for private types with scalar completion
 
 description: |
     So far name resolution did fail on some very simple cases where a type is

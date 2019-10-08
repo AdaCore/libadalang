@@ -1,0 +1,12 @@
+type: bugfix
+title: Resolution of top-level child generic subp bodies.
+
+description: |
+    So far name resolution could fail in certain cases when trying to resolve
+    references inside a top-level generic child subprogram body, in particular
+    those that would refer to names declared in the private part of the parent
+    unit, because the body would not have full visibility on the parent.
+    This change fixes this by adjusting the env spec of generic subp decls to
+    rectify the parent env.
+
+date: 2019-10-22

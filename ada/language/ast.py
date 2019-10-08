@@ -6603,16 +6603,23 @@ class GenericSubpDecl(GenericDecl):
         return Entity.body_part_for_decl.cast(BaseSubpBody)
 
     env_spec = EnvSpec(
-        # Process eventual parent unit
+        # Call the env hook to parse eventual parent unit
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Entity.defining_name.parent_scope)
+            env.bind(Self.initial_env, Entity.decl_scope)
         ),
-        add_to_env_kv(Entity.name_symbol, Self),
+
+        add_to_env_kv(
+            Entity.name_symbol, Self,
+            dest_env=env.bind(
+                Self.initial_env,
+                Self.as_bare_entity.defining_name.parent_scope
+            )
+        ),
         add_env(),
         populate_dependent_units(),
-        ref_used_packages(),
+        ref_used_packages()
     )
 
     decl = Property(Entity.subp_decl)

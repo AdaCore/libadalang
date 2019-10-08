@@ -187,6 +187,10 @@ package body Libadalang.Env_Hooks is
 
    function Name_To_Symbols (Name : Bare_Name) return Symbol_Type_Array is
    begin
+      if Name = null then
+         raise Property_Error with "fatal parsing error in Name_To_Symbols";
+      end if;
+
       case Name.Kind is
          when Ada_Base_Id =>
             return (1 => Get_Symbol (Name));

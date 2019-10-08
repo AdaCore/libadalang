@@ -1,0 +1,24 @@
+Analyzing test_target_name.adb
+##############################
+
+Resolving xrefs for node <CallStmt test_target_name.adb:5:4-5:36>
+*****************************************************************
+
+Expr: <CallExpr test_target_name.adb:5:4-5:35>
+  references: <DefiningName a-textio.ads:508:14-508:22>
+  type:       None
+Expr: <Id "Put_Line" test_target_name.adb:5:4-5:12>
+  references: <DefiningName a-textio.ads:508:14-508:22>
+  type:       None
+Expr: <AttributeRef test_target_name.adb:5:14-5:34>
+  references: None
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Standard" test_target_name.adb:5:14-5:22>
+  references: None
+  type:       None
+Expr: <Id "Target_Name" test_target_name.adb:5:23-5:34>
+  references: None
+  type:       None
+
+
+Done.

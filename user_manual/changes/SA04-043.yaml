@@ -1,5 +1,6 @@
 type: bugfix
 title: Handle missing standard & implementation defined attributes
+short_title: Standard & implementation defined attributes
 
 description: |
     We implemented name resolution for a lot of attributes that were missing,

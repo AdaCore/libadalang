@@ -1,5 +1,6 @@
 type: bugfix
 title: Handle full type view resolution correctly in case of hiding
+short_title: Full type view resolution and hiding
 
 description: |
     In some complex situations where an entity similarly caused hiding, full

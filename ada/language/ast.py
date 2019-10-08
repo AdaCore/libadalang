@@ -10323,6 +10323,9 @@ class AttributeRef(Name):
                             'Alignment'),
             Entity.prefix.sub_equation & universal_int_bind(Self.type_var),
 
+            rel_name == 'Target_Name',
+            TypeBind(Self.type_var, Self.std_entity('String')),
+
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
             rel_name == 'Type_Class', Entity.type_class_equation,

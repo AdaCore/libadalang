@@ -5759,6 +5759,8 @@ class SingleTaskDecl(BasicDecl):
     defining_names = Property(Entity.task_type.defining_names)
     expr_type = Property(Entity.task_type)
 
+    defining_env = Property(Entity.task_type.defining_env)
+
     env_spec = EnvSpec(
         add_to_env_kv(Self.name_symbol, Self),
         add_env()
@@ -9073,8 +9075,7 @@ class BaseId(SingleTokNode):
                     Not(e.node == bd),
 
                     Self.has_visibility(e)
-                ),
-                )
+                ))
             ).map(lambda e: e.cast(BasicDecl).defining_env).env_group(),
         )
 

@@ -40,6 +40,8 @@ procedure Test is
       overriding function F return U is (null record);
       overriding procedure A (X : U);
       overriding procedure B (X : U) is null;
+
+      overriding procedure A (X : U) is null;
    end T;
 begin
    null;

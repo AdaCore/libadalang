@@ -1553,10 +1553,13 @@ class BasicDecl(AdaNode):
                                 match_name=False, use_entity_info=True
                             )
                         )
+                    ).map(
+                        lambda p:
+                        p.canonical_part.without_md.cast_or_raise(BasicDecl)
                     )
                 )
             )
-        )
+        ).unique
 
     annotations = Annotations(custom_short_image=True)
 

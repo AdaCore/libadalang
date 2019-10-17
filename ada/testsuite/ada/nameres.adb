@@ -50,6 +50,7 @@ procedure Nameres is
       Nb_Files_Analyzed    : Natural := 0;
       Nb_Successes         : Natural := 0;
       Nb_Fails             : Natural := 0;
+      Nb_Xfails            : Natural := 0;
       Nb_Exception_Fails   : Natural := 0;
       Max_Nb_Fails         : Natural := 0;
       File_With_Most_Fails : Unbounded_String;
@@ -339,8 +340,9 @@ procedure Nameres is
 
       procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True) is
 
-         procedure Put_XFAIL_Message;
-         --  If there is an XFAIL message for this node, show it
+         function XFAIL return Boolean;
+         --  If there is an XFAIL pragma for the node being resolved, show the
+         --  message, and return True.
 
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
 
@@ -401,11 +403,11 @@ procedure Nameres is
 
          Obj : aliased J.JSON_Value;
 
-         -----------------------
-         -- Put_XFAIL_Message --
-         -----------------------
+         -----------
+         -- XFAIL --
+         -----------
 
-         procedure Put_XFAIL_Message is
+         function XFAIL return Boolean is
             N : constant Ada_Node := Next_Sibling (Node);
          begin
             if not Is_Null (N) and then Kind (N) = Ada_Pragma_Node then
@@ -423,8 +425,10 @@ procedure Nameres is
                      Put_Line ("");
                   end;
                end if;
+               return True;
             end if;
-         end Put_XFAIL_Message;
+            return False;
+         end XFAIL;
       begin
          if Args.JSON.Get then
             Obj := J.Create_Object;
@@ -455,9 +459,11 @@ procedure Nameres is
             end if;
          else
             Put_Line ("Resolution failed for node " & Node.Short_Image);
-            Put_XFAIL_Message;
-
-            Nb_File_Fails := Nb_File_Fails + 1;
+            if XFAIL then
+               Stats_Data.Nb_Xfails := Stats_Data.Nb_Xfails + 1;
+            else
+               Nb_File_Fails := Nb_File_Fails + 1;
+            end if;
 
             if Args.JSON.Get then
                Obj.Set_Field ("success", False);
@@ -477,9 +483,14 @@ procedure Nameres is
               ("Resolution failed with exception for node "
                & Node.Short_Image);
             Dump_Exception (E, Obj'Access);
-            Put_XFAIL_Message;
-            Stats_Data.Nb_Exception_Fails := Stats_Data.Nb_Exception_Fails + 1;
-            Nb_File_Fails := Nb_File_Fails + 1;
+
+            if XFAIL then
+               Stats_Data.Nb_Xfails := Stats_Data.Nb_Xfails + 1;
+            else
+               Stats_Data.Nb_Exception_Fails :=
+                 Stats_Data.Nb_Exception_Fails + 1;
+               Nb_File_Fails := Nb_File_Fails + 1;
+            end if;
       end Resolve_Node;
 
    begin
@@ -713,7 +724,7 @@ procedure Nameres is
 
    procedure Show_Stats is
       Total : constant Natural :=
-        Stats_Data.Nb_Successes + Stats_Data.Nb_Fails;
+        Stats_Data.Nb_Successes + Stats_Data.Nb_Fails + Stats_Data.Nb_Xfails;
    begin
       if Args.Stats.Get and then Total > 0 then
          declare
@@ -722,12 +733,19 @@ procedure Nameres is
               (Float (Stats_Data.Nb_Successes) / Float (Total) * 100.0);
             Percent_Failures : constant Percentage :=
               Percentage (Float (Stats_Data.Nb_Fails) / Float (Total) * 100.0);
+
+            Percent_XFAIL : constant Percentage :=
+              Percentage
+                (Float (Stats_Data.Nb_Xfails) / Float (Total) * 100.0);
          begin
             Put_Line ("Resolved " & Total'Image & " nodes");
             Put_Line ("Of which" & Stats_Data.Nb_Successes'Image
                       & " successes - " & Percent_Successes'Image & "%");
             Put_Line ("Of which" & Stats_Data.Nb_Fails'Image
                       & " failures - " & Percent_Failures'Image & "%");
+
+            Put_Line ("Of which" & Stats_Data.Nb_Xfails'Image
+                      & " XFAILS - " & Percent_XFAIL'Image & "%");
             Put_Line ("File with most failures ("
                       & Stats_Data.Max_Nb_Fails'Image
                       & "):" & (+Stats_Data.File_With_Most_Fails));

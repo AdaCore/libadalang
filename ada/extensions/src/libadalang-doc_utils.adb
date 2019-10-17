@@ -160,15 +160,23 @@ package body Libadalang.Doc_Utils is
       declare
          Last_Index : constant Natural := Doc_Vec.Last_Index;
 
-         First_Line : constant XString :=
-           (if Last_Index /= 0 then Doc_Vec.First_Element else Null_XString);
-
-         Offset : constant Positive :=
-           First_Line.Length - First_Line.Trim.Length + 1;
-         --  Offset for the first non whitespace char on the first line. Will
-         --  be used as the offset to start every subsequent doc line.
+         Offset : Positive := Positive'Last;
+         --  Offset for the leftmost first non whitespace char in all the
+         --  docstring.
 
       begin
+         for I in Doc_Vec.First_Index .. Last_Index loop
+            declare
+               L       : XString renames Doc_Vec (I);
+               Trimmed : XString renames L.Trim;
+            begin
+               if Trimmed.Length > 0 then
+                  Offset := Positive'Min
+                    (Offset, L.Length - Trimmed.Length + 1);
+               end if;
+            end;
+         end loop;
+
          for I in Doc_Vec.First_Index .. Last_Index loop
             declare
                L : XString renames Doc_Vec (I);
@@ -176,15 +184,13 @@ package body Libadalang.Doc_Utils is
 
                --  Check that every character we're going to strip is a white
                --  space; else, raise an error.
-               if not L.Is_Empty
-                 and then
-                 (Offset > L.Length
-                  or else
-                    not (for all C of L.Slice (1, Offset - 1) => Is_Space (C)))
-               then
-                  raise Property_Error
-                    with "Invalidly formatted documentation comment";
-               end if;
+               pragma Assert
+                 (L.Is_Empty
+                    or else
+                    (Offset < L.Length
+                     and then
+                       (for all C
+                        of L.Slice (1, Offset - 1) => Is_Space (C))));
 
                Ret.Doc.Append (L.Slice (Offset, L.Length));
                if I /= Last_Index then

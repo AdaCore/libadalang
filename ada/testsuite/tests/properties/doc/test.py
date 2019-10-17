@@ -66,13 +66,13 @@ procedure Foo;
 --  This is the documentation for foo
 """)
 
-test('Test invalid documentation flagging', """
+test('Test whitespace stripping', """
 procedure Foo;
 --% belongs-to: Bar
 --%        random-annotation: True
 --%other-annotation: False
 --  This is the documentation for foo
--- Invalidly formatted
+-- Weirdly formatted
 """)
 
 test('Test toplevel package without token before "package"',

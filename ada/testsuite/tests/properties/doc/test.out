@@ -26,11 +26,16 @@ Annotations:
   * belongs-to = Bar
   * other-annotation = False
 
-Test invalid documentation flagging
-===================================
+Test whitespace stripping
+=========================
 
-raised LIBADALANG.COMMON.PROPERTY_ERROR : Invalidly formatted documentation comment
+ This is the documentation for foo
+Weirdly formatted
 
+Annotations:
+  * random-annotation = True
+  * belongs-to = Bar
+  * other-annotation = False
 
 Test toplevel package without token before "package"
 ====================================================

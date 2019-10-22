@@ -530,9 +530,20 @@ package body Libadalang.Expr_Eval is
                        (E.As_Call_Expr.F_Suffix.Child (1)
                         .As_Param_Assoc.F_R_Expr);
                   begin
-                     return Create_Real_Result
-                       (Designated_Type,
-                        Long_Float (To_Integer (As_Int (Arg_Val))));
+                     case Arg_Val.Kind is
+                        when Int =>
+                           --  Cast int to float, cast the integer to a float
+                           return Create_Real_Result
+                             (Designated_Type,
+                              Long_Float (To_Integer (As_Int (Arg_Val))));
+                        when Real =>
+                           --  Cast float to float, return Arg_Val with its
+                           --  new type.
+                           return Create_Real_Result
+                             (Designated_Type, Arg_Val.Real_Result);
+                        when Enum_Lit =>
+                           raise Property_Error;
+                     end case;
                   end;
                elsif Designated_Type.P_Is_Int_Type then
                   declare
@@ -540,8 +551,19 @@ package body Libadalang.Expr_Eval is
                        (E.As_Call_Expr.F_Suffix.Child (1)
                         .As_Param_Assoc.F_R_Expr);
                   begin
-                     return Create_Int_Result
-                       (Designated_Type, Integer (Arg_Val.Real_Result));
+                     case Arg_Val.Kind is
+                        when Int =>
+                           --  Cast int to int, return Arg_Val with its new
+                           --  type.
+                           return Create_Int_Result
+                             (Designated_Type, Arg_Val.Int_Result);
+                        when Real =>
+                           --  Cast float to int, cast the float to an integer
+                           return Create_Int_Result
+                             (Designated_Type, Integer (Arg_Val.Real_Result));
+                        when Enum_Lit =>
+                           raise Property_Error;
+                     end case;
                   end;
                else
                   raise Property_Error

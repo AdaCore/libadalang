@@ -3405,8 +3405,21 @@ class BaseTypeDecl(BasicDecl):
         No(T.BaseTypeDecl.entity.array), dynamic_vars=[origin]
     )
 
+    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[origin])
+    def base_most_type():
+        """
+        Return the type that is at the root of the tagged type hierarchy which
+        this type belongs to.
+        """
+        return Entity.base_type.then(
+            lambda t: t.base_most_type,
+            default_val=Entity
+        )
+
     @langkit_property(public=True, return_type=T.TypeDecl.entity.array,
-                      dynamic_vars=[default_imprecise_fallback()])
+                      dynamic_vars=[default_imprecise_fallback()],
+                      memoized=True)
     def find_all_derived_types(units=T.AnalysisUnit.array):
         """
         Return the list of all types that inherit (directly or inderictly) from
@@ -3420,6 +3433,25 @@ class BaseTypeDecl(BasicDecl):
                 )
             )
         ).map(lambda n: n.cast_or_raise(TypeDecl))
+
+    @langkit_property(public=True, return_type=T.TypeDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def find_direct_derived_types(units=T.AnalysisUnit.array):
+        """
+        Return the list of all types that directly inherit from this type.
+        """
+        # First, find all the types belonging to the type hierarchy which
+        # Self belongs to. The reason why we do this is that this set of types
+        # can be memoized and therefore each call to find_direct_derived_types
+        # on a particular derived type will be able to reuse this information.
+        # We then simply filter out from that list the types of which Self is
+        # not the base type.
+        return bind_origin(
+            Self,
+            Entity.base_most_type.find_all_derived_types(units).filter(
+                lambda t: t.base_types.contains(Entity)
+            )
+        )
 
     record_def = Property(No(T.BaseRecordDef.entity), dynamic_vars=[origin])
     array_def = Property(No(T.ArrayTypeDef.entity), dynamic_vars=[origin])
@@ -8005,7 +8037,8 @@ class Name(Expr):
         return ret.concat(prefix).concat(args)
 
     @langkit_property(public=True, return_type=T.Bool,
-                      dynamic_vars=[default_imprecise_fallback()])
+                      dynamic_vars=[default_imprecise_fallback()],
+                      call_memoizable=True)
     def is_dispatching_call():
         """
         Returns True if this Name corresponds to a dispatching call, including:

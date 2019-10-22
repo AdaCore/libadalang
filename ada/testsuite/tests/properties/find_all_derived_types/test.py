@@ -16,5 +16,9 @@ for tpe in types:
     print("Types deriving from {}:".format(tpe.p_fully_qualified_name))
     for t in tpe.p_find_all_derived_types([u]):
         print("  {}".format(t.p_fully_qualified_name))
+    print("Among which the direct derived types are:")
+    for t in tpe.p_find_direct_derived_types([u]):
+        print("  {}".format(t.p_fully_qualified_name))
+    print("")
 
 print('Done')

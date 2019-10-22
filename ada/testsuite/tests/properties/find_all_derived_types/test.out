@@ -3,22 +3,45 @@ Types deriving from test.p.t:
   test.r.u
   test.s.u
   test.t.u
+Among which the direct derived types are:
+  test.q.u
+
 Types deriving from test.q.u:
   test.r.u
   test.s.u
   test.t.u
+Among which the direct derived types are:
+  test.r.u
+
 Types deriving from test.r.u:
   test.s.u
   test.t.u
+Among which the direct derived types are:
+  test.s.u
+
 Types deriving from test.i.t:
   test.i.w
   test.t.u
+Among which the direct derived types are:
+  test.i.w
+
 Types deriving from test.i.v:
   test.i.w
   test.t.u
+Among which the direct derived types are:
+  test.i.w
+
 Types deriving from test.i.w:
   test.t.u
+Among which the direct derived types are:
+  test.t.u
+
 Types deriving from test.s.u:
   test.t.u
+Among which the direct derived types are:
+  test.t.u
+
 Types deriving from test.t.u:
+Among which the direct derived types are:
+
 Done

@@ -57,22 +57,28 @@ Expr <ObjectDecl ["Z"] test.adb:47:7-47:45> evaluated to Real 1.20E+01
 Expr <ObjectDecl ["Z"] test.adb:48:7-48:41> evaluated to Int 14
    Int value is 14
 
-Expr <ObjectDecl ["A"] test.adb:55:7-55:28> evaluated to Int 97
+Expr <ObjectDecl ["Z"] test.adb:49:7-49:34> evaluated to Int 3
+   Int value is 3
+
+Expr <ObjectDecl ["E"] test.adb:50:7-50:34> evaluated to Enum_Lit <EnumLiteralDecl ["B"] test.adb:2:24-2:25>
+   Int value is 1
+
+Expr <ObjectDecl ["A"] test.adb:57:7-57:28> evaluated to Int 97
    Int value is 97
 
-Expr <ObjectDecl ["C"] test.adb:56:7-56:28> evaluated to Int 99
+Expr <ObjectDecl ["C"] test.adb:58:7-58:28> evaluated to Int 99
    Int value is 99
 
-Expr <ObjectDecl ["Wide_A"] test.adb:58:7-58:42> evaluated to Int 97
+Expr <ObjectDecl ["Wide_A"] test.adb:60:7-60:42> evaluated to Int 97
    Int value is 97
 
-Expr <ObjectDecl ["Wide_Gamma"] test.adb:59:7-59:42> evaluated to Int 947
+Expr <ObjectDecl ["Wide_Gamma"] test.adb:61:7-61:42> evaluated to Int 947
    Int value is 947
 
-Expr <ObjectDecl ["Wide_Wide_A"] test.adb:61:7-61:53> evaluated to Int 97
+Expr <ObjectDecl ["Wide_Wide_A"] test.adb:63:7-63:53> evaluated to Int 97
    Int value is 97
 
-Expr <ObjectDecl ["Wide_Wide_Smiley"] test.adb:62:7-62:53> evaluated to Int 128512
+Expr <ObjectDecl ["Wide_Wide_Smiley"] test.adb:64:7-64:53> evaluated to Int 128512
    Int value is 128512
 
 Done.

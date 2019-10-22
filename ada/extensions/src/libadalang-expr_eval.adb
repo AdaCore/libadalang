@@ -565,6 +565,24 @@ package body Libadalang.Expr_Eval is
                            raise Property_Error;
                      end case;
                   end;
+               elsif Designated_Type.P_Is_Enum_Type then
+                  declare
+                     Arg_Val : constant Eval_Result := Expr_Eval
+                       (E.As_Call_Expr.F_Suffix.Child (1)
+                        .As_Param_Assoc.F_R_Expr);
+                  begin
+                     case Arg_Val.Kind is
+                        when Int =>
+                           raise Property_Error;
+                        when Real =>
+                           raise Property_Error;
+                        when Enum_Lit =>
+                           --  Cast an enum to another enum, return Arg_Val
+                           --  with its new type.
+                           return Create_Enum_Result
+                              (Designated_Type, Arg_Val.Enum_Result);
+                     end case;
+                  end;
                else
                   raise Property_Error
                     with "Unhandled type conversion: " & E.Debug_Text;

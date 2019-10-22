@@ -46,6 +46,8 @@ begin
       Z : Integer := Float'Max (12.0, 14.5);
       Z : Integer := Float'Min (12.0, 14.5);
       Z : Integer := Integer'Min (X, Y);
+      Z : Integer := Integer (3);
+      E : My_Enum := My_Enum (B);
    begin
       null;
    end;

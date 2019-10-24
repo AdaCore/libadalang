@@ -325,12 +325,24 @@ procedure Nameres is
                (Args.Solve_Line.Get = 0
                 or else
                 Natural (Sloc_Range (N).Start_Line) = Args.Solve_Line.Get));
-      begin
-         for Node of Find (Block, Is_Xref_Entry_Point'Access).Consume loop
+
+         procedure Resolve_Entry_Point (Node : Ada_Node);
+
+         -------------------------
+         -- Resolve_Entry_Point --
+         -------------------------
+
+         procedure Resolve_Entry_Point (Node : Ada_Node) is
+         begin
             if Node /= Block then
                Resolve_Node (Node);
             end if;
-         end loop;
+         end Resolve_Entry_Point;
+
+         It : Ada_Node_Iterators.Iterator'Class :=
+            Find (Block, Is_Xref_Entry_Point'Access);
+      begin
+         It.Iterate (Resolve_Entry_Point'Access);
       end Resolve_Block;
 
       ------------------

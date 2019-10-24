@@ -7509,7 +7509,7 @@ class Name(Expr):
 
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
             ) & Self.parent_name(root).as_entity.then(
-                lambda pn: If(
+                lambda pn: Cond(
                     Self.is_a(T.ExplicitDeref) & Not(as_subp_access.is_null),
 
                     # If Self is an explicit deref of a subprogram access type,
@@ -7538,7 +7538,11 @@ class Name(Expr):
                         pn.parent_name_equation(typ, root)
                     ),
 
-                    # Otherwise the explicit deref necessarily accesses the
+                    # If Self is an array slice, we recurse with the same type
+                    Entity.cast(CallExpr)._.check_array_slice(typ),
+                    pn.parent_name_equation(typ, root),
+
+                    # Otherwise the name necessarily accesses the
                     # component type of typ.
                     pn.parent_name_equation(comp_type, root)
                 ),
@@ -8158,6 +8162,36 @@ class CallExpr(Name):
 
     params = Property(Entity.suffix.cast(T.AssocList))
 
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def check_array_slice(typ=T.BaseTypeDecl.entity):
+        """
+        Return whether this CallExpr can correspond to taking a slice of the
+        given array type.
+        """
+        atd = Var(typ.then(lambda t: t.array_def_with_deref))
+        return And(
+            Not(atd.is_null),
+            Entity.suffix.then(
+                lambda sfx: Or(
+                    # array slice using the ``(A .. B)`` notation
+                    sfx.is_a(BinOp),
+                    # array slice using the ``(X'Range)`` notation
+                    sfx.is_a(AttributeRef),
+                    # array slice using the ``(Subtype range ..)`` notation
+                    sfx.is_a(SubtypeIndication),
+                    # array slice using the ``(Subtype)`` notation
+                    sfx.cast(AssocList).then(
+                        lambda al: And(
+                            al.length == 1,
+                            al.at(0).expr.cast(Name).then(
+                                lambda n: Not(n.name_designated_type.is_null)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
     @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.bottom_up_name_equation
@@ -8493,8 +8527,11 @@ class CallExpr(Name):
                     # Array indexing case
                     lambda al=AssocList: atd.array_ndims == al.length,
 
-                    # Array slice case
+                    # Array slice cases
                     lambda _=BinOp: atd.array_ndims == 1,
+                    lambda _=SubtypeIndication: atd.array_ndims == 1,
+                    lambda _=AttributeRef: atd.array_ndims == 1,
+
                     lambda _: False
                 ), default_val=False),
 
@@ -8512,9 +8549,14 @@ class CallExpr(Name):
             Entity.parent.cast(T.CallExpr).then(
                 # Since the result type of Self is ``typ``, the result type of
                 # its parent CallExpr (if it exists) must be the component type
-                # of ``typ`` (we use subscript=True because a CallExpr will
-                # dereference implicitly).
-                lambda ce: ce.check_for_type(typ.comp_type(is_subscript=True)),
+                # of ``typ``, except in case of an array slice.
+                # Note: we use subscript=True because a CallExpr will
+                # dereference implicitly.
+                lambda ce: ce.check_for_type(If(
+                    Entity.check_array_slice(typ),
+                    typ,
+                    typ.comp_type(is_subscript=True)
+                )),
 
                 # We are done if the parent is not a CallExpr. We could
                 # actually do more here by considering ExplicitDerefs, but

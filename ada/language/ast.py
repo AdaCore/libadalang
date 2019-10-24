@@ -8192,6 +8192,16 @@ class CallExpr(Name):
             )
         )
 
+    @langkit_property(public=True, return_type=Bool)
+    def is_array_slice():
+        """
+        Return whether this CallExpr is actually an access to a slice of
+        the array denoted by the prefix of this CallExpr.
+        """
+        return bind_origin(
+            Self, Entity.check_array_slice(Entity.name.expression_type)
+        )
+
     @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.bottom_up_name_equation

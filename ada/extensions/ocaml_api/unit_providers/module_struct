@@ -45,7 +45,7 @@
       create_project_unit_provider project_file c_scenario_vars target runtime
     in
     if is_null result then
-      raise (InvalidProjectError ("Cannot open project " ^ project_file))
+      raise (InvalidProjectError ("Cannot open or interpret project " ^ project_file))
     else
       wrap result
 

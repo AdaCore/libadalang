@@ -8138,7 +8138,23 @@ class CallExpr(Name):
 
     # CallExpr can appear in type expressions: they are used to create implicit
     # subtypes for discriminated records or arrays.
-    designated_type_impl = Property(Entity.name.designated_type_impl)
+    @langkit_property()
+    def designated_type_impl():
+        prefix_tpe = Var(Entity.name.designated_type_impl)
+        matches_formals = Var(Entity.params.then(
+            lambda ps: Self.match_formals(
+                prefix_tpe._.discriminants_list, ps, False
+            ).all(
+                lambda pm: And(
+                    pm.has_matched,
+                    pm.formal.spec.formal_type.matching_type(
+                        pm.actual.assoc.expr.cast(Name)._.name_designated_type
+                    )
+                )
+            ),
+            default_val=True
+        ))
+        return If(matches_formals, prefix_tpe, No(BaseTypeDecl.entity))
 
     params = Property(Entity.suffix.cast(T.AssocList))
 
@@ -8212,7 +8228,7 @@ class CallExpr(Name):
         Helper for xref_equation, handles construction of the equation in
         subprogram call cases.
         """
-        return If(
+        return Cond(
             Not(Entity.name.is_a(QualExpr))
             & Not(Entity.name.name_designated_type.is_null),
 
@@ -8224,6 +8240,26 @@ class CallExpr(Name):
                     Entity.name.name_designated_type, root),
                 default_val=LogicTrue()
             ),
+
+            # Attribute ref case where the prefix denotes a type.
+            # TODO: This is an enormous hack, and a completely wrong
+            # implementation of attribute ref resolution. This was introduced
+            # with SA31-013 to mimic the old behavior. This should be
+            # completely rewritten together with the refactoring to handle
+            # function attributes correctly.
+            Entity.name.cast(AttributeRef).then(
+                lambda ar: Not(ar.prefix.name_designated_type.is_null)
+            ),
+            Entity.type_conv_xref_equation
+            & Entity.parent_name(root).as_entity.then(
+                lambda pn:
+                pn.parent_name_equation(
+                    Entity.name.cast(AttributeRef).prefix.name_designated_type,
+                    root
+                ),
+                default_val=LogicTrue()
+            ),
+
 
             And(
                 Entity.params.logic_all(lambda pa: pa.expr.sub_equation),
@@ -10208,7 +10244,7 @@ class AttributeRef(Name):
         Self.attribute.sym == 'Base',
         Entity.prefix.name_designated_type.scalar_base_subtype,
 
-        Entity.prefix.designated_type_impl
+        No(BaseTypeDecl.entity)
     ))
 
     args_list = Property(Entity.args._.cast_or_raise(T.AssocList))

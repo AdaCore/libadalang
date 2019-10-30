@@ -8406,7 +8406,20 @@ class CallExpr(Name):
 
             Not(atd._.indices.is_null), Entity.suffix.match(
                 lambda _=T.AssocList: Or(
-                    # Either a regular array access
+                    # Either an array slice through subtype indication
+                    Entity.params._.at(0)._.expr.cast(Name).then(
+                        lambda name: If(
+                            name.name_designated_type.is_null,
+                            LogicFalse(),
+                            And(
+                                name.xref_no_overloading,
+                                TypeBind(Self.type_var, real_typ)
+                            )
+                        ),
+                        default_val=LogicFalse()
+                    ),
+
+                    # Or a regular array access
                     Entity.params._.logic_all(
                         lambda i, pa: If(
                             constrain_params,
@@ -8415,16 +8428,7 @@ class CallExpr(Name):
                         )
                         & atd.indices.constrain_index_expr(pa.expr, i)
                     )
-                    & TypeBind(Self.type_var, atd.comp_type),
-
-                    # Or an array slice through subtype indication
-                    Entity.params._.at(0)._.expr.cast(Name).then(
-                        lambda name: And(
-                            name.xref_no_overloading,
-                            TypeBind(Self.type_var, real_typ)
-                        ),
-                        default_val=LogicFalse()
-                    )
+                    & TypeBind(Self.type_var, atd.comp_type)
                 ),
 
                 # Explicit slice access

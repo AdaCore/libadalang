@@ -1,7 +1,7 @@
 invalid.gpr:1:27: ":=" expected
-got InvalidProjectError Cannot open project invalid.gpr
+got InvalidProjectError Cannot open or interpret project invalid.gpr
 
-got InvalidProjectError Cannot open project does_not_exist.gpr
+got InvalidProjectError Cannot open or interpret project does_not_exist.gpr
 
 For SRC_DIR=src1
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:

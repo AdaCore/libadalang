@@ -6,8 +6,10 @@ procedure Test is
    type A2 is array (Index_T) of A1;
    type A3 is array (Index_T) of A2;
 
+   V : A1;
    X : A3;
    Y : Integer;
 begin
    Y := X (Sub_Index_T) (2) (1 .. 4) (3) (Sub_Index_T range 2 .. 3) (2);
+   Y := V (Sub_Index_T) (Sub_Index_T)'Size;
 end Test;

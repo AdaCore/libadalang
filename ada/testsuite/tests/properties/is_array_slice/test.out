@@ -1,9 +1,11 @@
 == test.adb ==
-<CallExpr test.adb:12:9-12:72> is not an array slice
-<CallExpr test.adb:12:9-12:68> is an array slice
-<CallExpr test.adb:12:9-12:41> is not an array slice
-<CallExpr test.adb:12:9-12:37> is an array slice
-<CallExpr test.adb:12:9-12:28> is not an array slice
-<CallExpr test.adb:12:9-12:24> is an array slice
+<CallExpr test.adb:13:9-13:72> is not an array slice
+<CallExpr test.adb:13:9-13:68> is an array slice
+<CallExpr test.adb:13:9-13:41> is not an array slice
+<CallExpr test.adb:13:9-13:37> is an array slice
+<CallExpr test.adb:13:9-13:28> is not an array slice
+<CallExpr test.adb:13:9-13:24> is an array slice
+<CallExpr test.adb:14:9-14:38> is an array slice
+<CallExpr test.adb:14:9-14:24> is an array slice
 
 Done

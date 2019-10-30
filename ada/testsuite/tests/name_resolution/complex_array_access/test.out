@@ -24,7 +24,7 @@ Expr: <CallExpr test.adb:12:9-12:28>
   type:       <TypeDecl ["A2"] test.adb:6:4-6:37>
 Expr: <CallExpr test.adb:12:9-12:24>
   references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["A2"] test.adb:6:4-6:37>
+  type:       <TypeDecl ["A3"] test.adb:7:4-7:37>
 Expr: <Id "X" test.adb:12:9-12:10>
   references: <DefiningName test.adb:9:4-9:5>
   type:       <TypeDecl ["A3"] test.adb:7:4-7:37>

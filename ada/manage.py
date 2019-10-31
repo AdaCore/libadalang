@@ -58,6 +58,7 @@ class Manage(ManageScript):
             help='Arguments to pass to testsuite.py.'
         )
         test_parser.set_defaults(func=self.do_test)
+        self.add_build_mode_arg(test_parser)
 
         #############
         # Perf Test #
@@ -227,7 +228,7 @@ class Manage(ManageScript):
         self.set_context(args)
 
         # Make builds available from testcases
-        env = self.derived_env()
+        env = self.derived_env(args.build_mode)
 
         if not args.with_gnatpython:
             env[b'WITHOUT_GNATPYTHON'] = b'1'

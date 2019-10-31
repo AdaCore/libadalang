@@ -10367,7 +10367,7 @@ class AttributeRef(Name):
             rel_name.any_of('First', 'Last', 'Range', 'Length'),
             Entity.array_attr_equation,
 
-            rel_name == 'Size', Entity.size_equation,
+            rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
 

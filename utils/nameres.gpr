@@ -1,0 +1,39 @@
+--  Project file to ease the recompilation of the "nameres" program out of
+--  Libadalang's regular build process.
+
+with "gnatcoll";
+with "langkit_support";
+with "libadalang";
+
+project Nameres is
+
+   type Build_Mode_Type is ("dev", "prod");
+   Build_Mode : Build_Mode_Type := external ("BUILD_MODE", "dev");
+
+   for Languages use ("Ada");
+
+   for Source_Dirs use
+     ("../ada/testsuite/ada",
+      "../ada/testsuite/ada/gnat_compare");
+   for Main use ("nameres.adb");
+   for Object_Dir use "obj-nameres/" & Build_Mode;
+
+   package Builder is
+      for Executable ("nameres.adb") use "lal_nameres";
+   end Builder;
+
+   package Compiler is
+      case Build_Mode is
+         when "dev" =>
+            for Default_Switches ("Ada") use ("-g", "-O0", "-gnata");
+
+         when "prod" =>
+            for Default_Switches ("Ada") use ("-g", "-Ofast");
+      end case;
+   end Compiler;
+
+   package Binder is
+      for Switches ("ada") use ("-E");
+   end Binder;
+
+end Nameres;

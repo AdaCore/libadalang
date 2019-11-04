@@ -20,6 +20,7 @@ langkit.prof
 README.html
 core.*
 valgrind.out
+utils/obj-*
 
 # GNAT/GPS/GDB junk
 auto.cgpr

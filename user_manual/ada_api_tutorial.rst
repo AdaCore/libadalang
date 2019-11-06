@@ -9,6 +9,11 @@ actually do some practice with the Ada API.
 Preliminary setup
 =================
 
+.. attention:: This whole section is going to show you how to create a
+    Libadalang app from scratch. This is good, and walks you over the concepts
+    about how to use Libadalang. However, if all you want is a command line
+    generic application, you should consider using the :ref:`ada-generic-app`.
+
 As the previous section says, the first thing to do in order to use Libadalang
 is to create an analysis context:
 
@@ -396,3 +401,92 @@ name resolution in Ada:
 
 You can find these and all the other properties documented in your favorite
 language's API reference.
+
+.. _ada-generic-app:
+
+Ada generic application framework
+=================================
+
+In order to facilitate the creation of Ada command line applications,
+we have added an ``App`` generic package, that you can simply
+instantiate in order to create a command line application with a lot
+of common functionality already built-in, so that you don't have to reinvent it
+every time.
+
+The way it works is that it handles all the logic for you. You just pass it one
+or two callbacks:
+
+- One callback, ``Process_Unit``, will be called for each new ``Analysis_Unit``
+  that the application processes.
+- One callback, ``Process_Context``, will be called at the end when every
+  ``Analysis_Unit`` has been processed.
+
+Let's say you want to create a simple application that will flag all the
+``goto`` statements in a given closure. Here is what it would look like:
+
+
+.. code-block:: ada
+
+    --  app.ads
+
+    with Libadalang.Analysis; use Libadalang.Analysis;
+    with Libadalang.Helpers;
+
+    package App is
+
+       procedure Process_Unit (Unit : Analysis_Unit);
+
+       package App is new Libadalang.Helpers.App
+         ("Example app. Will flag goto statements",
+          Process_Unit => Process_Unit);
+
+    end App;
+
+    --  app.adb
+
+    with Ada.Text_IO; use Ada.Text_IO;
+    with Libadalang.Common; use Libadalang.Common;
+
+    package body App is
+
+       procedure Process_Unit (Unit : Analysis_Unit) is
+          function Visit (Node : Ada_Node'Class) return Visit_Status;
+
+          function Visit (Node : Ada_Node'Class) return Visit_Status is
+          begin
+             case Node.Kind is
+             when Ada_Goto_Stmt =>
+                Put_Line ("Found goto stmt: " & Node.Short_Image);
+                return Over;
+             when others =>
+                return Into;
+             end case;
+          end Visit;
+       begin
+          Unit.Root.Traverse (Visit'Access);
+       end Process_Unit;
+    end App;
+
+    --  main.adb
+
+    with App;
+
+    procedure Main is
+    begin
+       App.App.Run;
+    end Main;
+
+Then, running the app on a project is as simple as
+
+.. code:: bash
+
+    # Files are automatically deduced from the project file
+    $ ./main -P my_project.gpr
+
+    # Files are passed explicitly. Default project is used
+    $ ./main *.adb
+
+    # Analyze file.adb in the context of project.gpr, with scenario variable
+    # BUILD_TYPE set to prod
+    $ ./main file.adb -P project.gpr -XBUILD_TYPE=prod
+

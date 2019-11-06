@@ -1,0 +1,11 @@
+type: new-feature
+title: Add a command line app framework for Ada API
+
+description: |
+    Add a new package ``Libadalang.Helpers``, with a generic package ``App``,
+    that allows users to easily create command line applications with default
+    features such as automatic project handling/scenario variables handling.
+    Learn more in Libadalang's Ada tutorial, or Ada API doc.
+
+date: 2019-11-08
+apis: [ada]

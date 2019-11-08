@@ -1,0 +1,13 @@
+type: bugfix
+title: |
+    P_syntactic_fully_qualified_name can crash in presence of parsing
+    errors
+
+short_title: P_SFQN is vulnerable to parsing errors
+
+description: |
+    The p_syntactic_fully_qualified_name property could crash when called on
+    a unit with parsing errors because we didn't handle the case where its
+    body would be an ErrorDecl. This is now fixed.
+
+date: 2019-11-13

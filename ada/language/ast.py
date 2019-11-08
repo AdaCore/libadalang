@@ -272,6 +272,17 @@ class AdaNode(ASTNode):
         .cast(T.CompilationUnit).get_empty_env,
     )
 
+    @langkit_property(return_type=Bool)
+    def is_not_null():
+        """
+        Return True iff this node is not null.
+        """
+        # TODO: Remove this once we have better logic predicates: it is
+        # currently not possible to pass an arbitrary DSL expression to a
+        # predicate, so we must have a property for every expression that we
+        # might want to pass to a predicate.
+        return Not(Entity.is_null)
+
     @langkit_property(return_type=T.String)
     def string_join(strns=T.String.array, sep=T.String):
         """
@@ -3332,10 +3343,6 @@ class BaseTypeDecl(BasicDecl):
         return Self.is_null | (
             Entity.is_array & Entity.comp_type._.is_char_type
         )
-
-    is_not_null_char_type = Property(
-        Not(Self.is_null) & Entity.is_char_type, dynamic_vars=[origin]
-    )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def accessed_type():
@@ -9643,7 +9650,8 @@ class CharLiteral(BaseId):
     def xref_equation():
         return Or(
             Entity.base_id_xref_equation,
-            Predicate(BaseTypeDecl.is_not_null_char_type, Self.type_var)
+            Predicate(AdaNode.is_not_null, Self.type_var)
+            & Predicate(BaseTypeDecl.is_char_type, Self.type_var)
         )
 
 

@@ -10949,7 +10949,7 @@ class CompilationUnit(AdaNode):
         Return the syntactic fully qualified name of this compilation unit.
         """
         return Self.as_bare_entity.body.match(
-            lambda li=T.LibraryItem: li.item.defining_name.as_symbol_array,
+            lambda li=T.LibraryItem: li.item.defining_name._.as_symbol_array,
             lambda su=T.Subunit: su.name.as_symbol_array.concat(
                 su.body.defining_name.as_symbol_array
             ),

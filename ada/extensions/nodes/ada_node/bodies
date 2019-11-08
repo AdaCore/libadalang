@@ -228,9 +228,10 @@ function Ada_Node_P_Filter_Is_Imported_By
 
       Units_Import_Target.Insert (From, False);
 
-      --  Add all explicit references by processing "with" clauses.
-
       for Unit of Units loop
+
+         --  Add all explicit references by processing "with" clauses.
+
          Prelude := Unit.Compilation_Unit_F_Prelude;
          for I in 1 .. Children_Count (Prelude) loop
             if Child (Prelude, I).Kind = Ada_With_Clause then
@@ -254,33 +255,33 @@ function Ada_Node_P_Filter_Is_Imported_By
                end;
             end if;
          end loop;
-      end loop;
 
-      --  Add all implicit references:
-      --   - If this unit is a body, there is an implicit reference to its
-      --     specification.
-      --   - If this unit is a specification and a child unit, there is an
-      --     implicit reference to its direct parent.
+         --  Add all implicit references:
+         --   - If this unit is a body, there is an implicit reference to its
+         --     specification.
+         --   - If this unit is a specification and a child unit, there is an
+         --     implicit reference to its direct parent.
 
-      declare
-         Unit_Name : constant Symbol_Type_Array_Access :=
-            Compilation_Unit_P_Syntactic_Fully_Qualified_Name (Root_Node);
+         declare
+            Unit_Name : constant Symbol_Type_Array_Access :=
+               Compilation_Unit_P_Syntactic_Fully_Qualified_Name (Unit);
 
-         Parent_Symbols : constant Internal_Symbol_Type_Array :=
-           (if Compilation_Unit_P_Unit_Kind (Root_Node) = Unit_Body
-            then Unit_Name.Items
-            else Unit_Name.Items
-              (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
-      begin
-         if Parent_Symbols'Length > 0 then
-            if Handle_Unit_Name
-              (Libadalang.Env_Hooks.Symbol_Type_Array (Parent_Symbols))
-            then
-               Units_Import_Target.Replace (From, True);
-               return True;
+            Parent_Symbols : constant Internal_Symbol_Type_Array :=
+              (if Compilation_Unit_P_Unit_Kind (Unit) = Unit_Body
+               then Unit_Name.Items
+               else Unit_Name.Items
+                 (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
+         begin
+            if Parent_Symbols'Length > 0 then
+               if Handle_Unit_Name
+                 (Libadalang.Env_Hooks.Symbol_Type_Array (Parent_Symbols))
+               then
+                  Units_Import_Target.Replace (From, True);
+                  return True;
+               end if;
             end if;
-         end if;
-      end;
+         end;
+      end loop;
 
       return False;
    end Does_Import_Target;

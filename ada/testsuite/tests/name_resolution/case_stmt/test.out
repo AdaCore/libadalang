@@ -1,13 +1,13 @@
 Analyzing test_case.adb
 #######################
 
-Resolving xrefs for node <CaseStmt test_case.adb:7:4-10:13>
+Resolving xrefs for node <CaseStmt test_case.adb:8:4-11:13>
 ***********************************************************
 
-Expr: <Id "Foo" test_case.adb:7:9-7:12>
+Expr: <Id "Foo" test_case.adb:8:9-8:12>
   references: <DefiningName test_case.adb:4:13-4:16>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Int test_case.adb:8:12-8:14>
+Expr: <Int test_case.adb:9:12-9:14>
   references: None
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 

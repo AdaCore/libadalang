@@ -11731,8 +11731,9 @@ class CaseStmt(CompositeStmt):
     @langkit_property()
     def xref_equation():
         ignore(Var(Entity.expr.resolve_names_internal(
-            True, Predicate(BaseTypeDecl.is_discrete_type,
-                            Self.expr.type_var)
+            True,
+            Predicate(AdaNode.is_not_null, Self.expr.type_var)
+            & Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 
         return Entity.alternatives.logic_all(lambda alt: (

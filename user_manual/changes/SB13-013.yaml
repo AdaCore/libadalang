@@ -1,0 +1,24 @@
+type: bugfix
+title: Crash when resolving ambiguous case stmts
+
+description: |
+    Consider the following code pattern:
+
+    .. code:: ada
+        function Foo return Integer;
+        procedure Foo;
+
+        ...
+
+        case Foo is
+            when ... => ...
+        end case;
+
+    Name resolution would crash here while attempting to construct
+    the xref equation for the case statement due to the presence of
+    procedure ``Foo``, which by definition has no return type and
+    therefore would provoke a null dereference. This is now fixed.
+
+
+date: 2019-11-13
+

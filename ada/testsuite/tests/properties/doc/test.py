@@ -6,13 +6,26 @@ import libadalang as lal
 ctx = lal.AnalysisContext()
 
 
-def test(label, buffer):
+def test(label, buffer, pred=None):
+    """
+    Test a given p_doc scenario.
+
+    :param str label: Description of the test.
+    :param str buffer: Ada code on which to run the test.
+    :param fn pred: Predicate function to choose the decl on which to run
+        p_doc, in the source tree. Defaults to ``lambda n: True``.
+    """
+
     print(label)
     print('=' * len(label))
     print()
 
     u = ctx.get_from_buffer('test.adb', buffer)
-    decl = u.root.find(lal.BasicDecl)
+    if pred:
+        decl = u.root.find(lambda n: pred(n) and n.is_a(lal.BasicDecl))
+    else:
+        decl = u.root.find(lal.BasicDecl)
+
     try:
         print(decl.p_doc)
     except lal.PropertyError as exc:
@@ -83,6 +96,28 @@ test('Test resilience to wrong annotation format', """
 procedure Foo;
 --% belongs-to
 """)
+
+test('Test generic package doc', """
+package Foo is
+    --  This is the documentation for package Bar
+    generic
+        A : Integer;
+        --  Documentation for a formal.
+    package Bar is
+    end Bar;
+end Foo;
+ """, lambda n: n.is_a(lal.GenericPackageDecl))
+
+test('Test internal generic package doc', """
+package Foo is
+    --  This is the documentation for package Bar
+    generic
+        A : Integer;
+        --  Documentation for a formal.
+    package Bar is
+    end Bar;
+end Foo;
+ """, lambda n: n.is_a(lal.GenericPackageInternal))
 
 
 print('test.py: done')

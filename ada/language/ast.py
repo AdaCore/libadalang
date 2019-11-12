@@ -9425,7 +9425,7 @@ class BaseId(SingleTokNode):
 
                     lambda _: False
                 ))
-            ), default_val=items)
+            ), default_val=items.filter(lambda e: Not(e.is_a(BaseTypeDecl))))
         ))
 
     @langkit_property()

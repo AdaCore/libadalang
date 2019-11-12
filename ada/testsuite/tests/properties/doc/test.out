@@ -48,4 +48,14 @@ Test resilience to wrong annotation format
 raised LIBADALANG.COMMON.PROPERTY_ERROR : Incorrectly formatted docstring
 
 
+Test generic package doc
+========================
+
+This is the documentation for package Bar
+
+Test internal generic package doc
+=================================
+
+This is the documentation for package Bar
+
 test.py: done

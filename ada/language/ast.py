@@ -11736,7 +11736,11 @@ class CaseStmt(CompositeStmt):
     def xref_equation():
         ignore(Var(Entity.expr.resolve_names_internal(
             True,
+            # First make sure null is not a possible value for the type of
+            # the expression so as to avoid a null check in subsequent
+            # predicates.
             Predicate(AdaNode.is_not_null, Self.expr.type_var)
+            # Then make sure it is a discrete type
             & Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 

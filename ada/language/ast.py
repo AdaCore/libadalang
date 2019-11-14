@@ -9393,8 +9393,8 @@ class BaseId(SingleTokNode):
             # * arrays for which the number of dimensions match
             # * any type that has a user defined indexing aspect.
 
-            pc.suffix.cast(AssocList).then(lambda params: (
-                items.filter(lambda e: e.match(
+            pc.suffix.cast(AssocList).then(
+                lambda params: items.filter(lambda e: e.match(
                     # Type conversion case
                     lambda _=BaseTypeDecl: params.length == 1,
 
@@ -9431,8 +9431,12 @@ class BaseId(SingleTokNode):
                     ),
 
                     lambda _: False
-                ))
-            ), default_val=items.filter(lambda e: Not(e.is_a(BaseTypeDecl))))
+                )),
+
+                # Discard BaseTypeDecls when resolving a CallExpr that cannot
+                # be a type conversion.
+                default_val=items.filter(lambda e: Not(e.is_a(BaseTypeDecl)))
+            )
         ))
 
     @langkit_property()

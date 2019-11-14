@@ -24,6 +24,16 @@ procedure Test is
    procedure Pouet5 is null
       with Inline => False;
    --% $node.p_has_aspect('inline')
+
+   type Small is record
+      A, B : Character;
+   end record;
+   --% $node.p_has_aspect('size')
+   for Small'Size use 0;
+
+   type Angle is delta Pi/2.0**31 range -Pi .. Pi;
+   --% $node.p_has_aspect('small')
+   for Angle'Small use 0.001;
 begin
    null;
 end Test;

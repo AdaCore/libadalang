@@ -1347,10 +1347,13 @@ class BasicDecl(AdaNode):
 
         return And(
             a.exists,
-            a.value.then(
-                lambda val: (val.eval_as_int == BigIntLiteral(1)),
-                default_val=True
-            )
+            a.value.then(lambda val: Or(
+                # Only check the value of the expression if it is determined to
+                # be of a boolean type, so we don't erroneously try to cast a
+                # value to bool when it would be wrong.
+                Not(val.expression_type == Self.bool_type),
+                val.eval_as_int == BigIntLiteral(1)
+            ), default_val=True)
         )
 
     @langkit_property(return_type=T.Pragma.entity, public=True)

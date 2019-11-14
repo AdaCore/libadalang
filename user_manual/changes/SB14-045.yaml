@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix behavior of ``BasicDecl.has_aspect``
+
+description: |
+    The behavior of the ``BasicDecl.has_aspect`` property was invalid when the
+    aspect was non boolean-valued. It is now fixed.
+
+date: 2019-11-14

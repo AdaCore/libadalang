@@ -7915,13 +7915,16 @@ class Name(Expr):
             Not(Self.parent.is_a(T.DottedName))
         )
 
-    is_operator_name = Property(
-        Entity.name_symbol.any_of(
+    @langkit_property(public=True)
+    def is_operator_name():
+        """
+        Return whether the name that Self designates is an operator.
+        """
+        return Entity.name_symbol.any_of(
             '"="',  '"="', '"/="', '"<"', '"<="', '">"', '">="', '"and"',
             '"or"', '"xor"', '"abs"', '"*"', '"/"', '"mod"', '"rem"', '"+"',
             '"-"', '"&"' '"+"', '"-"', '"not"', '"abs"'
         )
-    )
 
     @langkit_property(public=True, return_type=T.Bool,
                       dynamic_vars=[default_imprecise_fallback()])

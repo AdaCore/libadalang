@@ -1,0 +1,8 @@
+type: new-feature
+title: Add a ``Name.is_operator_name`` property
+
+description: |
+    The new ``Name.is_operator_name`` property returns whether a given name
+    designates an operator.
+
+date: 2019-11-15

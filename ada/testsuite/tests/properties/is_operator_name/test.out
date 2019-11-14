@@ -1,0 +1,13 @@
+Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["A"] foo.ads:5:4-5:24>
+Result: True
+
+Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["B"] foo.ads:8:4-8:30>
+Result: True
+
+Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["C"] foo.ads:11:4-11:35>
+Result: True
+
+Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["D"] foo.ads:14:4-14:36>
+Result: False
+
+

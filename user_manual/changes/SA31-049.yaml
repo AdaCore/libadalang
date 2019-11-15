@@ -1,8 +1,8 @@
 type: new-feature
-title: Add is_array_slice property
+title: Add an ``is_array_slice`` property
 
 description: |
-    Adds an is_array_slice property, which tells whether the given CallExpr
-    represents an array slice or not.
+    Add an ``is_array_slice`` property, which tells whether the given
+    ``CallExpr`` represents an array slice or not.
 
 date: 2019-10-31

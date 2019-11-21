@@ -1,16 +1,16 @@
-with Ada.Command_Line;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
 
 with GNAT.OS_Lib; use GNAT.OS_Lib;
 
+with GNATCOLL.Opt_Parse;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
-with Langkit_Support.Slocs;       use Langkit_Support.Slocs;
-with Libadalang.Analysis;         use Libadalang.Analysis;
-with Libadalang.Common;           use Libadalang.Common;
-with Libadalang.Project_Provider; use Libadalang.Project_Provider;
+with Langkit_Support.Slocs; use Langkit_Support.Slocs;
+with Libadalang.Analysis;   use Libadalang.Analysis;
+with Libadalang.Common;     use Libadalang.Common;
+with Libadalang.Helpers;    use Libadalang.Helpers;
 
 with String_Utils; use String_Utils;
 with Xrefs;        use Xrefs;
@@ -36,10 +36,52 @@ procedure GNAT_Compare is
      );
    --  Kind for differences between xrefs in GNAT and xrefs in LAL
 
-   Enabled : array (Comparison_Type) of Boolean := (others => True);
+   type Comparison_Set is array (Comparison_Type) of Boolean;
+
+   function Convert (Arg : String) return Comparison_Set;
+
+   procedure Process_Context_Before
+     (Context : Analysis_Context; Project : Project_Tree_Access);
+   --  Import command line arguments to our global state and load xrefs from
+   --  the Library Files in Project.
+
+   procedure Process_Context_After
+     (Context : Analysis_Context;
+      Project : GNATCOLL.Projects.Project_Tree_Access;
+      Units   : Unit_Vectors.Vector);
+
+   package App is new Libadalang.Helpers.App
+     (Description            => "Compare GNAT's xrefs and Libadalang's",
+      Process_Context_Before => Process_Context_Before,
+      Process_Context_After  => Process_Context_After);
+
+   package Args is
+      use GNATCOLL.Opt_Parse;
+
+      package Comparisons is new Parse_Option_List
+        (App.Args.Parser, "-d", "--comparisons",
+         "Select what differences between GNAT's xrefs and Libadalang's to"
+         & " report",
+         Accumulate => True,
+         Arg_Type   => Comparison_Set);
+
+      package Show_Nodes is new Parse_Flag
+        (App.Args.Parser, "-n", "--show-nodes",
+         "Print the declarations to which Libadalang resolved");
+
+      package Ignore_Columns is new Parse_Flag
+        (App.Args.Parser, "-c", "--ignore-columns",
+         "Ignore differences in column numbers");
+
+      package Skip_Build is new Parse_Flag
+        (App.Args.Parser, "-b", "--skip-build",
+         "Skip the build of the project to process");
+   end Args;
+
+   Enabled : Comparison_Set := (others => True);
    --  For each kind of xrefs difference, determine whether we should report it
 
-   Count_Enabled : array (Comparison_Type) of Boolean := (others => True);
+   Count_Enabled : Comparison_Set := (others => True);
    --  For each kind of xrefs difference, say whether we should compute stats
    --  about it.
 
@@ -55,8 +97,9 @@ procedure GNAT_Compare is
    Ignore_Columns : Boolean := False;
    --  Whether to ignore differences in column numbers for referenced entities
 
-   Skip_Build : Boolean := False;
-   --  Assume the input project file is already build and don't run GPRbuild
+   Source_Files : String_Vectors.Vector;
+   Files        : File_Table_Type;
+   LI_Xrefs     : Unit_Xrefs_Vectors.Vector;
 
    procedure Report
      (Files               : File_Table_Type;
@@ -66,20 +109,8 @@ procedure GNAT_Compare is
    --  Depending on the Enabled array, emit a diagnostic for the comparison
    --  between GNAT_Xref and LAL_Xref, whose kind is Comp.
 
-   procedure Load_Project
-     (Project_File  : String;
-      Scenario_Vars : String_Vectors.Vector;
-      Project       : out Project_Tree_Access;
-      Env           : out Project_Environment_Access;
-      UFP           : out Unit_Provider_Reference);
-   --  Load the project file called Project_File into Project, according to the
-   --  given Scenario_Vars variables. Create UFP accordingly.
-
-   procedure Run_GPRbuild
-     (Project_File  : String;
-      Scenario_Vars : String_Vectors.Vector);
-   --  Run "gprbuild" on Project_File, passing to it the given Scenario_Vars
-   --  varibles.
+   procedure Run_GPRbuild (Project_File : String);
+   --  Run "gprbuild" on Project_File
 
    procedure Load_All_Xrefs_From_LI
      (Project      : Project_Tree'Class;
@@ -100,54 +131,145 @@ procedure GNAT_Compare is
    --  resolve all xrefs. Compare both, reporting the differences using the
    --  Report procedure above.
 
-   ------------------
-   -- Load_Project --
-   ------------------
+   -------------
+   -- Convert --
+   -------------
 
-   procedure Load_Project
-     (Project_File  : String;
-      Scenario_Vars : String_Vectors.Vector;
-      Project       : out Project_Tree_Access;
-      Env           : out Project_Environment_Access;
-      UFP           : out Unit_Provider_Reference) is
+   function Convert (Arg : String) return Comparison_Set is
    begin
-      Project := new Project_Tree;
-      Initialize (Env);
+      return Result : Comparison_Set := (others => False) do
+         for C of Arg loop
+            declare
+               Comp : constant Comparison_Type :=
+                 (case C is
+                  when 'o' => Ok,
+                  when 'd' => Different,
+                  when 'e' => Error,
+                  when 'm' => Missing,
+                  when 'a' => Additional,
+                  when others => raise Constraint_Error
+                                 with "Invalid comparison: " & C);
+            begin
+               Result (Comp) := False;
+            end;
+         end loop;
+      end return;
+   end Convert;
 
-      --  Set scenario variables
-      for Assoc of Scenario_Vars loop
-         declare
-            A        : constant String := +Assoc;
-            Eq_Index : Natural := A'First;
-         begin
-            while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop
-               Eq_Index := Eq_Index + 1;
-            end loop;
-            if Eq_Index not in A'Range then
-               Put_Line ("Invalid scenario variable: -X" & A);
-               raise Program_Error;
-               return;
+   ----------------------------
+   -- Process_Context_Before --
+   ----------------------------
+
+   procedure Process_Context_Before
+     (Context : Analysis_Context; Project : Project_Tree_Access)
+   is
+      pragma Unreferenced (Context);
+
+      Project_File : constant String := To_String (App.Args.Project_File.Get);
+   begin
+      if Project = null then
+         Abort_App ("Please provide a project file (-P/--project).");
+      end if;
+
+      Show_Nodes := Args.Show_Nodes.Get;
+      Ignore_Columns := Args.Ignore_Columns.Get;
+
+      for Comparison_Set of Args.Comparisons.Get loop
+         for Comp in Comparison_Set'Range loop
+            if Comparison_Set (Comp) then
+               Enabled (Comp) := False;
+
+               Count_Enabled (Comp) := Comp = Ok;
+               --  Count OK xrefs even when they are not displayed in the
+               --  report.  This is less surprising.
             end if;
-            Change_Environment
-              (Env.all,
-               A (A'First .. Eq_Index - 1),
-               A (Eq_Index + 1 .. A'Last));
+         end loop;
+      end loop;
+
+      --  Build the input project (if requested) and import the resulting xrefs
+      --  database.
+
+      if Project_File /= "" and then not Args.Skip_Build.Get then
+         Run_GPRbuild (Project_File);
+      end if;
+      Load_All_Xrefs_From_LI (Project.all, Files, LI_Xrefs, Source_Files);
+   end Process_Context_Before;
+
+   ---------------------------
+   -- Process_Context_After --
+   ---------------------------
+
+   procedure Process_Context_After
+     (Context : Analysis_Context;
+      Project : GNATCOLL.Projects.Project_Tree_Access;
+      Units   : Unit_Vectors.Vector)
+   is
+      pragma Unreferenced (Units);
+      Prj : constant Project_Type := Project.Root_Project;
+   begin
+      --  Browse this database and compare it to what LAL can resolve
+
+      Sort (Files, LI_Xrefs);
+      for Unit_Xrefs of LI_Xrefs loop
+         declare
+            Name : constant String := Filename (Files, Unit_Xrefs.Unit);
+            Path : constant String :=
+              +Prj.Create_From_Project (+Name).File.Full_Name;
+            Unit : constant Analysis_Unit := Context.Get_From_File (Path);
+         begin
+            Put_Line ("== " & Name & " ==");
+
+            if Unit.Has_Diagnostics then
+               for D of Unit.Diagnostics loop
+                  Put_Line (Standard_Error, Unit.Format_GNU_Diagnostic (D));
+               end loop;
+               Abort_App;
+            end if;
+
+            Sort (Files, Unit_Xrefs.Xrefs);
+            Remove_Duplicates (Unit_Xrefs.Xrefs);
+
+            GNAT_Xref_Count :=
+              GNAT_Xref_Count + Natural (Unit_Xrefs.Xrefs.Length);
+
+            Compare_Xrefs (Files, Root (Unit), Unit_Xrefs.Xrefs);
+            Free (Unit_Xrefs);
          end;
       end loop;
 
-      Load (Project.all, Create (+Project_File), Env);
-      UFP := Create_Project_Unit_Provider_Reference
-        (Project, Project.Root_Project, Env, False);
-   end Load_Project;
+      New_Line;
+      if GNAT_Xref_Count = 0 then
+         Put_Line ("No stats");
+      else
+         Put_Line ("Stats:");
+         Put_Line
+           ("GNAT xrefs have" & Natural'Image (GNAT_Xref_Count) & " entries");
+         Put_Line ("LAL xrefs have:");
+         for Comp in Comparison_Type'Range loop
+            if Count_Enabled (Comp) then
+               declare
+                  type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
+
+                  Count : constant Natural := Counts (Comp);
+                  P     : constant Float :=
+                    100.0 * Float (Count) / Float (GNAT_Xref_Count);
+                  P_Img : constant String := Percentage'Image (Percentage (P));
+               begin
+                  Put_Line
+                    ("  *" & Natural'Image (Count)
+                     & " " & Comparison_Type'Image (Comp) & " entries ("
+                     & P_Img (P_Img'First + 1 .. P_Img'Last) & "%)");
+               end;
+            end if;
+         end loop;
+      end if;
+   end Process_Context_After;
 
    ------------------
    -- Run_GPRbuild --
    ------------------
 
-   procedure Run_GPRbuild
-     (Project_File  : String;
-      Scenario_Vars : String_Vectors.Vector)
-   is
+   procedure Run_GPRbuild (Project_File : String) is
       Path    : GNAT.OS_Lib.String_Access := Locate_Exec_On_Path ("gprbuild");
       Args    : String_Vectors.Vector;
       Success : Boolean;
@@ -159,7 +281,7 @@ procedure GNAT_Compare is
       Args.Append (+"-q");
       Args.Append (+"-p");
       Args.Append (+"-P" & Project_File);
-      for V of Scenario_Vars loop
+      for V of App.Args.Scenario_Vars.Get loop
          Args.Append ("-X" & V);
       end loop;
 
@@ -173,8 +295,7 @@ procedure GNAT_Compare is
       end;
 
       if not Success then
-         Put_Line ("Could not spawn gprbuild");
-         raise Program_Error;
+         Abort_App ("Could not spawn gprbuild");
       end if;
    end Run_GPRbuild;
 
@@ -315,7 +436,7 @@ procedure GNAT_Compare is
          begin
             Ref := Node.P_Gnat_Xref;
          exception
-            when Exc : Property_Error =>
+            when Property_Error =>
                Error := True;
          end;
 
@@ -444,140 +565,6 @@ procedure GNAT_Compare is
       New_Line;
    end Report;
 
-   Project_File  : Unbounded_String;
-   Scenario_Vars : String_Vectors.Vector;
-
-   Project : Project_Tree_Access;
-   Env     : Project_Environment_Access;
-   Files   : File_Table_Type;
-
-   UFP : Unit_Provider_Reference;
-   Ctx : Analysis_Context;
-
-   Source_Files : String_Vectors.Vector;
-   LI_Xrefs     : Unit_Xrefs_Vectors.Vector;
-
 begin
-
-   --  Decode all command-line arguments
-
-   for I in 1 .. Ada.Command_Line.Argument_Count loop
-      declare
-         Arg : constant String := Ada.Command_Line.Argument (I);
-      begin
-         if Starts_With (Arg, "-P") then
-            Project_File := +Strip_Prefix (Arg, "-P");
-
-         elsif Starts_With (Arg, "-X") then
-            Scenario_Vars.Append (+Strip_Prefix (Arg, "-X"));
-
-         elsif Starts_With (Arg, "-d") then
-            for C of Strip_Prefix (Arg, "-d") loop
-               declare
-                  Comp : constant Comparison_Type :=
-                    (case C is
-                        when 'o' => Ok,
-                        when 'd' => Different,
-                        when 'e' => Error,
-                        when 'm' => Missing,
-                        when 'a' => Additional,
-                        when others => raise Program_Error
-                          with "Invalid character: " & C);
-               begin
-                  Enabled (Comp) := False;
-
-                  Count_Enabled (Comp) := Comp = Ok;
-                  --  Count OK xrefs even when they are not displayed in the
-                  --  report. This is less surprising.
-               end;
-            end loop;
-
-         elsif Arg = "-n" then
-            Show_Nodes := True;
-
-         elsif Arg = "-c" then
-            Ignore_Columns := True;
-
-         elsif Arg = "-b" then
-            Skip_Build := True;
-
-         elsif Arg (Arg'First) = '-' then
-            Put_Line ("Invalid argument: " & Arg);
-            raise Program_Error;
-
-         else
-            Source_Files.Append (+Arg);
-         end if;
-      end;
-   end loop;
-
-   --  Build the input project and import the resulting xrefs database
-
-   Load_Project (+Project_File, Scenario_Vars, Project, Env, UFP);
-   if not Skip_Build then
-      Run_GPRbuild (+Project_File, Scenario_Vars);
-   end if;
-   Load_All_Xrefs_From_LI (Project.all, Files, LI_Xrefs, Source_Files);
-
-   --  Browse this database and compare it to what LAL can resolve
-
-   Ctx := Create_Context (Unit_Provider => UFP);
-
-   Sort (Files, LI_Xrefs);
-   for Unit_Xrefs of LI_Xrefs loop
-      declare
-         Name : constant String := Filename (Files, Unit_Xrefs.Unit);
-         Path : constant String :=
-           +Full_Name (Project.Create (+Name));
-         Unit : constant Analysis_Unit := Get_From_File (Ctx, Path);
-      begin
-         Put_Line ("== " & Name & " ==");
-
-         if Has_Diagnostics (Unit) then
-            for D of Diagnostics (Unit) loop
-               Put_Line (Format_GNU_Diagnostic (Unit, D));
-            end loop;
-            raise Program_Error;
-         end if;
-
-         Sort (Files, Unit_Xrefs.Xrefs);
-         Remove_Duplicates (Unit_Xrefs.Xrefs);
-
-         GNAT_Xref_Count :=
-           GNAT_Xref_Count + Natural (Unit_Xrefs.Xrefs.Length);
-
-         Compare_Xrefs (Files, Root (Unit), Unit_Xrefs.Xrefs);
-         Free (Unit_Xrefs);
-      end;
-   end loop;
-
-   New_Line;
-   if GNAT_Xref_Count = 0 then
-      Put_Line ("No stats");
-   else
-      Put_Line ("Stats:");
-      Put_Line
-        ("GNAT xrefs have" & Natural'Image (GNAT_Xref_Count) & " entries");
-      Put_Line ("LAL xrefs have:");
-      for Comp in Comparison_Type'Range loop
-         if Count_Enabled (Comp) then
-            declare
-               type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
-
-               Count : constant Natural := Counts (Comp);
-               P     : constant Float :=
-                 100.0 * Float (Count) / Float (GNAT_Xref_Count);
-               P_Img : constant String := Percentage'Image (Percentage (P));
-            begin
-               Put_Line
-                 ("  *" & Natural'Image (Count)
-                  & " " & Comparison_Type'Image (Comp) & " entries ("
-                  & P_Img (P_Img'First + 1 .. P_Img'Last) & "%)");
-            end;
-         end if;
-      end loop;
-   end if;
-
-   Free (Project);
-   Free (Env);
+   App.Run;
 end GNAT_Compare;

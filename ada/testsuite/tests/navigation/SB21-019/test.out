@@ -1,0 +1,7 @@
+Eval 'node.p_canonical_part' on node <SubpBody ["F"] test.adb:4:4-7:10>
+Result: <SubpDecl ["F"] test.adb:2:4-2:53>
+
+Eval 'node.p_canonical_part' on node <SubpBody ["G"] test.adb:12:4-15:10>
+Result: <SubpDecl ["G"] test.adb:10:4-10:67>
+
+

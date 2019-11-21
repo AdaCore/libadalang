@@ -2454,7 +2454,9 @@ class BaseFormalParamHolder(AdaNode):
             # Handle the case where the primitive is defined on an anonymous
             # access type, by returning an anonymous access type over the
             # real_type of the accessed type.
-            typ.is_a(AnonymousTypeDecl),
+            typ.cast(AnonymousTypeDecl).then(
+                lambda td: Not(td.type_def.is_a(AccessToSubpDef))
+            ),
             Entity.real_type(typ.accessed_type).anonymous_access_type,
 
             typ

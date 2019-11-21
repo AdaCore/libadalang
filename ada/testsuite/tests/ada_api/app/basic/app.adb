@@ -1,9 +1,13 @@
 with Ada.Text_IO; use Ada.Text_IO;
-with Libadalang.Common; use Libadalang.Common;
+
+with Libadalang.Common;  use Libadalang.Common;
+with Libadalang.Helpers; use Libadalang.Helpers;
 
 package body App is
 
-   procedure Process_Unit (Unit : Analysis_Unit) is
+   procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
+      pragma Unreferenced (Context);
+
       function Visit (Node : Ada_Node'Class) return Visit_Status;
 
       function Visit (Node : Ada_Node'Class) return Visit_Status is

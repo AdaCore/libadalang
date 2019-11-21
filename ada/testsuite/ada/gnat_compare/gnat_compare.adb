@@ -40,20 +40,16 @@ procedure GNAT_Compare is
 
    function Convert (Arg : String) return Comparison_Set;
 
-   procedure Process_Context_Before
-     (Context : Analysis_Context; Project : Project_Tree_Access);
+   procedure Job_Setup (Context : App_Job_Context);
    --  Import command line arguments to our global state and load xrefs from
    --  the Library Files in Project.
 
-   procedure Process_Context_After
-     (Context : Analysis_Context;
-      Project : GNATCOLL.Projects.Project_Tree_Access;
-      Units   : Unit_Vectors.Vector);
+   procedure Job_Tear_Down (Context : App_Job_Context);
 
    package App is new Libadalang.Helpers.App
-     (Description            => "Compare GNAT's xrefs and Libadalang's",
-      Process_Context_Before => Process_Context_Before,
-      Process_Context_After  => Process_Context_After);
+     (Description   => "Compare GNAT's xrefs and Libadalang's",
+      Job_Setup     => Job_Setup,
+      Job_Tear_Down => Job_Tear_Down);
 
    package Args is
       use GNATCOLL.Opt_Parse;
@@ -156,15 +152,12 @@ procedure GNAT_Compare is
       end return;
    end Convert;
 
-   ----------------------------
-   -- Process_Context_Before --
-   ----------------------------
+   ---------------
+   -- Job_Setup --
+   ---------------
 
-   procedure Process_Context_Before
-     (Context : Analysis_Context; Project : Project_Tree_Access)
-   is
-      pragma Unreferenced (Context);
-
+   procedure Job_Setup (Context : App_Job_Context) is
+      Project      : constant Project_Tree_Access := Context.App_Ctx.Project;
       Project_File : constant String := To_String (App.Args.Project_File.Get);
    begin
       if Project = null then
@@ -193,19 +186,14 @@ procedure GNAT_Compare is
          Run_GPRbuild (Project_File);
       end if;
       Load_All_Xrefs_From_LI (Project.all, Files, LI_Xrefs, Source_Files);
-   end Process_Context_Before;
+   end Job_Setup;
 
    ---------------------------
    -- Process_Context_After --
    ---------------------------
 
-   procedure Process_Context_After
-     (Context : Analysis_Context;
-      Project : GNATCOLL.Projects.Project_Tree_Access;
-      Units   : Unit_Vectors.Vector)
-   is
-      pragma Unreferenced (Units);
-      Prj : constant Project_Type := Project.Root_Project;
+   procedure Job_Tear_Down (Context : App_Job_Context) is
+      Prj : constant Project_Type := Context.App_Ctx.Project.Root_Project;
    begin
       --  Browse this database and compare it to what LAL can resolve
 
@@ -215,7 +203,8 @@ procedure GNAT_Compare is
             Name : constant String := Filename (Files, Unit_Xrefs.Unit);
             Path : constant String :=
               +Prj.Create_From_Project (+Name).File.Full_Name;
-            Unit : constant Analysis_Unit := Context.Get_From_File (Path);
+            Unit : constant Analysis_Unit :=
+               Context.Analysis_Ctx.Get_From_File (Path);
          begin
             Put_Line ("== " & Name & " ==");
 
@@ -263,7 +252,7 @@ procedure GNAT_Compare is
             end if;
          end loop;
       end if;
-   end Process_Context_After;
+   end Job_Tear_Down;
 
    ------------------
    -- Run_GPRbuild --

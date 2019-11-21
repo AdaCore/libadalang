@@ -2,15 +2,14 @@ with Ada.Characters.Handling;
 with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.Projects;
 with GNATCOLL.Strings;
 with GNATCOLL.VFS;
 
 with Langkit_Support.Text;
 with Libadalang.Analysis;
 with Libadalang.Common;
+with Libadalang.Helpers;
 with Libadalang.Iterators;
-with Libadalang.Project_Provider;
 
 with Put_Title;
 
@@ -19,8 +18,7 @@ procedure Navigate is
    package LAL renames Libadalang.Analysis;
    package LALCO renames Libadalang.Common;
    package LALIT renames Libadalang.Iterators;
-   package PRJ renames GNATCOLL.Projects;
-   package LALPRJ renames Libadalang.Project_Provider;
+
    package X renames GNATCOLL.Strings;
 
    type Enabled_Kinds_Type is array (LALCO.Ada_Node_Kind_Type) of Boolean;
@@ -28,30 +26,24 @@ procedure Navigate is
 
    function String_To_Kinds (List : String) return Enabled_Kinds_Type;
 
+   procedure Process_File (Unit : LAL.Analysis_Unit);
+
+   package App is new Libadalang.Helpers.App
+     (Description     => "Navigate between AST nodes (spec/body/...).",
+      Process_Unit    => Process_File);
+
    package Args is
       use GNATCOLL.Opt_Parse;
 
-      Parser : Argument_Parser := Create_Argument_Parser
-        (Help => "Navigate between AST nodes (spec/body/...).");
-
       package Kinds is new Parse_Option
-        (Parser, "-k", "--kinds",
-         "Comma-separated list of AST node kind names, like "
-         & """Ada_Subp_Body,Ada_Package_Decl"". This will filter the "
-         & "nodes on which we navigate",
+        (App.Args.Parser, "-k", "--kinds",
+         "Comma-separated list of AST node kind names, like"
+         & " ""Ada_Subp_Body,Ada_Package_Decl"". This will filter the"
+         & " nodes on which we navigate.",
          Enabled_Kinds_Type,
          Default_Val => All_Kinds,
          Convert     => String_To_Kinds);
-
-      package Files is new Parse_Positional_Arg_List
-        (Parser,
-         Name        => "files",
-         Arg_Type    => X.XString,
-         Help        => "Files to analyze",
-         Allow_Empty => True);
    end Args;
-
-   Ctx : LAL.Analysis_Context;
 
    function Short_Image (Node : LAL.Ada_Node'Class) return String
    is (Langkit_Support.Text.Image (Node.Short_Text_Image));
@@ -61,7 +53,6 @@ procedure Navigate is
 
    function Is_Navigation_Disabled (N : LAL.Ada_Node) return Boolean;
 
-   procedure Process_File (Unit : LAL.Analysis_Unit);
    procedure Print_Navigation
      (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class);
 
@@ -83,11 +74,15 @@ procedure Navigate is
    ------------------
 
    procedure Process_File (Unit : LAL.Analysis_Unit) is
+      use GNATCOLL.VFS;
+
       At_Least_Once : Boolean := False;
 
       function Filter (N : LAL.Ada_Node) return Boolean is
         (Args.Kinds.Get (N.Kind) and then not Is_Navigation_Disabled (N));
    begin
+      Put_Title ('#', +Create (+Unit.Get_Filename).Base_Name);
+
       if Unit.Has_Diagnostics then
          for D of Unit.Diagnostics loop
             Put_Line (Unit.Format_GNU_Diagnostic (D));
@@ -283,37 +278,7 @@ procedure Navigate is
       end case;
    end Is_Navigation_Disabled;
 
-   UFP     : LAL.Unit_Provider_Reference;
-   Project : PRJ.Project_Tree_Access;
-   Env     : PRJ.Project_Environment_Access;
-
 begin
-
-   if not Args.Parser.Parse then
-      return;
-   end if;
-
-   PRJ.Initialize (Env);
-   Project := new PRJ.Project_Tree;
-   PRJ.Load_Empty_Project (Project.all, Env);
-   Project.Root_Project.Delete_Attribute (PRJ.Source_Dirs_Attribute);
-   Project.Root_Project.Delete_Attribute (PRJ.Languages_Attribute);
-   Project.Recompute_View;
-
-   UFP := LALPRJ.Create_Project_Unit_Provider_Reference
-     (Project, Project.Root_Project, Env);
-
-   Ctx := LAL.Create_Context (Unit_Provider => UFP);
-
-   for F of Args.Files.Get loop
-      declare
-         File  : constant String := X.To_String (F);
-         Unit : constant LAL.Analysis_Unit := Ctx.Get_From_File (File);
-      begin
-         Put_Title ('#', File);
-         Process_File (Unit);
-      end;
-   end loop;
-
+   App.Run;
    Put_Line ("Done.");
 end Navigate;

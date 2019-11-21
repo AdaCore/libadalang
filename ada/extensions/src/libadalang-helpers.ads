@@ -48,11 +48,14 @@ package Libadalang.Helpers is
       Description : String;
       --  Description for the application. Will be used in the help string.
 
+      with procedure Process_Context_Before (Ctx : Analysis_Context) is null;
+      --  This procedure will be called right before going through units
+
       with procedure Process_Unit
         (Unit : Analysis_Unit) is null;
       --  This procedure will be called once right after a unit is parsed
 
-      with procedure Process_Context
+      with procedure Process_Context_After
         (Ctx : Analysis_Context; Units : Unit_Vectors.Vector) is null;
       --  This procedure will be called once after all units have been parsed
 

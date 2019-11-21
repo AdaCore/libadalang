@@ -437,7 +437,7 @@ Let's say you want to create a simple application that will flag all the
        procedure Process_Unit (Unit : Analysis_Unit);
 
        package App is new Libadalang.Helpers.App
-         ("Example app. Will flag goto statements",
+         (Description  => "Example app. Will flag goto statements",
           Process_Unit => Process_Unit);
 
     end App;

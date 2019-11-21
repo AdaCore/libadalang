@@ -134,6 +134,8 @@ package body Libadalang.Helpers is
            (Charset       => +Args.Charset.Get,
             Unit_Provider => UFP);
 
+         Process_Context_Before (Ctx);
+
          for File of Files loop
             declare
                Unit : constant Analysis_Unit := Get_From_File (Ctx, +File);
@@ -143,7 +145,7 @@ package body Libadalang.Helpers is
             end;
          end loop;
 
-         Process_Context (Ctx, Units);
+         Process_Context_After (Ctx, Units);
       end Run;
    end App;
 

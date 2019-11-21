@@ -1,9 +1,9 @@
 with Libadalang.Analysis; use Libadalang.Analysis;
-with Libadalang.Helpers;
+with Libadalang.Helpers;  use Libadalang.Helpers;
 
 package App is
 
-   procedure Process_Unit (Unit : Analysis_Unit);
+   procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
 
    package App is new Libadalang.Helpers.App
      ("Example app. Will flag goto statements",

@@ -26,7 +26,8 @@ procedure Navigate is
 
    function String_To_Kinds (List : String) return Enabled_Kinds_Type;
 
-   procedure Process_File (Unit : LAL.Analysis_Unit);
+   procedure Process_File
+     (Context : Libadalang.Helpers.App_Job_Context; Unit : LAL.Analysis_Unit);
 
    package App is new Libadalang.Helpers.App
      (Description     => "Navigate between AST nodes (spec/body/...).",
@@ -73,7 +74,10 @@ procedure Navigate is
    -- Process_File --
    ------------------
 
-   procedure Process_File (Unit : LAL.Analysis_Unit) is
+   procedure Process_File
+     (Context : Libadalang.Helpers.App_Job_Context; Unit : LAL.Analysis_Unit)
+   is
+      pragma Unreferenced (Context);
       use GNATCOLL.VFS;
 
       At_Least_Once : Boolean := False;

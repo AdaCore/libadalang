@@ -22,7 +22,12 @@
 ------------------------------------------------------------------------------
 
 with Ada.Command_Line;
+with Ada.Containers.Synchronized_Queue_Interfaces;
+with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Unchecked_Deallocation;
+
+with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;
@@ -38,6 +43,11 @@ package body Libadalang.Helpers is
 
    procedure Print_Error (Message : String);
    --  Shortcut for Put_Line (Standard_Error, Message)
+
+   package String_QI is new Ada.Containers.Synchronized_Queue_Interfaces
+     (Unbounded_String);
+   package String_Queues is new Ada.Containers.Unbounded_Synchronized_Queues
+     (String_QI);
 
    -----------------
    -- Print_Error --
@@ -73,6 +83,53 @@ package body Libadalang.Helpers is
 
    package body App is
 
+      --  The following protected object is used for a job to signal to the
+      --  other jobs that it has aborted. In this case, the other jobs must
+      --  finish processing their current analysis unit and stop there.
+
+      protected Abortion is
+         procedure Signal_Abortion;
+         function Abort_Signaled return Boolean;
+      private
+         Abort_Signaled_State : Boolean := False;
+      end Abortion;
+
+      protected body Abortion is
+         procedure Signal_Abortion is
+         begin
+            Abort_Signaled_State := True;
+         end Signal_Abortion;
+
+         function Abort_Signaled return Boolean is
+         begin
+            return Abort_Signaled_State;
+         end Abort_Signaled;
+      end Abortion;
+
+      --------------------
+      -- Dump_Exception --
+      --------------------
+
+      procedure Dump_Exception (E : Ada.Exceptions.Exception_Occurrence) is
+      begin
+         if Args.No_Traceback.Get then
+            --  Do not use Exception_Information nor Exception_Message. The
+            --  former includes tracebacks and the latter includes line
+            --  numbers in Libadalang: both are bad for testcase output
+            --  consistency.
+            Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
+            New_Line;
+
+         elsif Args.Sym_Traceback.Get then
+            Put_Line (Ada.Exceptions.Exception_Message (E));
+            Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+
+         else
+            Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
+            New_Line;
+         end if;
+      end Dump_Exception;
+
       ---------
       -- Run --
       ---------
@@ -88,11 +145,101 @@ package body Libadalang.Helpers is
          UFP : Unit_Provider_Reference;
          --  When project file handling is enabled, corresponding unit provider
 
-         Ctx : Analysis_Context;
+         type App_Job_Context_Array_Access is access App_Job_Context_Array;
+         procedure Free is new Ada.Unchecked_Deallocation
+           (App_Job_Context_Array, App_Job_Context_Array_Access);
+
+         App_Ctx      : aliased App_Context;
+         Job_Contexts : App_Job_Context_Array_Access;
 
          Files : String_Vectors.Vector;
+         Queue : String_Queues.Queue;
 
-         Units : Unit_Vectors.Vector;
+         task type Main_Task_Type is
+            entry Start (ID : Job_ID);
+            entry Stop;
+         end Main_Task_Type;
+
+         task body Main_Task_Type is
+            F   : Unbounded_String;
+            JID : Job_ID;
+         begin
+            --  Wait for the signal to start jobs
+
+            accept Start (ID : Job_ID) do
+               JID := ID;
+            end Start;
+
+            --  We can now do our processings and invoke user callbacks when
+            --  appropriate.
+
+            declare
+               Job_Ctx : App_Job_Context renames Job_Contexts (JID);
+
+               type Any_Step is (Setup, In_Unit, Tear_Down);
+               Step : Any_Step := Setup;
+            begin
+               Job_Setup (Job_Ctx);
+               Step := In_Unit;
+               loop
+                  --  Stop as soon as we noticed that another job requested
+                  --  abortion.
+
+                  if Abortion.Abort_Signaled then
+                     Job_Ctx.Aborted := True;
+                     exit;
+                  end if;
+
+                  --  Pick the next file and process it
+
+                  select
+                     Queue.Dequeue (F);
+                  or
+                     delay 0.1;
+                     exit;
+                  end select;
+
+                  declare
+                     Unit : constant Analysis_Unit :=
+                        Job_Ctx.Analysis_Ctx.Get_From_File (+F);
+                  begin
+                     Process_Unit (Job_Ctx, Unit);
+                     Job_Ctx.Units_Processed.Append (Unit);
+                  end;
+               end loop;
+               Step := Tear_Down;
+               Job_Tear_Down (Job_Ctx);
+
+            --  Make sure to handle properly uncaught errors (they have nowhere
+            --  to propagate once here) and abortion requests.
+
+            exception
+               when Abort_App_Exception =>
+                  Job_Ctx.Aborted := True;
+                  Abortion.Signal_Abortion;
+
+               when E : others =>
+                  Job_Ctx.Aborted := True;
+                  Abortion.Signal_Abortion;
+                  declare
+                     Context : constant String :=
+                       (case Step is
+                        when Setup     => "in Job_Setup",
+                        when In_Unit   => "in Process_Unit for " & (+F),
+                        when Tear_Down => "in Job_Tear_Down");
+                  begin
+                     Put_Line
+                       (Standard_Error,
+                        "Unhandled error " & Context
+                        & " (job" & JID'Image & ")");
+                     Dump_Exception (E);
+                  end;
+            end;
+
+            accept Stop do
+               null;
+            end Stop;
+         end Main_Task_Type;
 
       begin
          --  Setup traces from config file
@@ -183,26 +330,48 @@ package body Libadalang.Helpers is
             end loop;
          end if;
 
-         --  Finally, create the project and invoke all callbacks as expected
+         --  Initialize contexts
 
-         Ctx := Create_Context
-           (Charset       => +Args.Charset.Get,
-            Unit_Provider => UFP);
-
-         Process_Context_Before (Ctx, Project);
-
-         for File of Files loop
-            declare
-               Unit : constant Analysis_Unit := Get_From_File (Ctx, +File);
-            begin
-               Process_Unit (Unit);
-               Units.Append (Unit);
-            end;
+         App_Ctx := (Project => Project);
+         Job_Contexts := new App_Job_Context_Array'
+           (1 .. Job_ID (Args.Jobs.Get) =>
+            (App_Ctx => App_Ctx'Unchecked_Access, others => <>));
+         for JID in Job_Contexts.all'Range loop
+            Job_Contexts (JID) :=
+              (ID              => JID,
+               App_Ctx         => App_Ctx'Unchecked_Access,
+               Analysis_Ctx    => Create_Context
+                                    (Charset       => +Args.Charset.Get,
+                                     Unit_Provider => UFP),
+               Units_Processed => <>,
+               Aborted         => False);
          end loop;
 
-         Process_Context_After (Ctx, Project, Units);
+         --  Finally, create all jobs, and one context per job to process unit
+         --  files.
+
+         App_Setup (App_Ctx, Job_Contexts.all);
+         declare
+            Task_Pool : array (Job_Contexts.all'Range) of Main_Task_Type;
+         begin
+            for JID in Task_Pool'Range loop
+               Task_Pool (JID).Start (JID);
+            end loop;
+
+            for F of Files loop
+               Queue.Enqueue (F);
+            end loop;
+
+            for T of Task_Pool loop
+               T.Stop;
+            end loop;
+         end;
+         App_Tear_Down (App_Ctx, Job_Contexts.all);
+         Free (Job_Contexts);
+
       exception
          when Abort_App_Exception =>
+            Free (Job_Contexts);
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       end Run;
    end App;

@@ -22,6 +22,7 @@
 ------------------------------------------------------------------------------
 
 with Ada.Containers.Vectors;
+with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Opt_Parse;
@@ -39,6 +40,36 @@ package Libadalang.Helpers is
    --  If provided, print Message to the standard error output and raise an
    --  Abort_App_Exception.
 
+   type App_Context is record
+      Project : GNATCOLL.Projects.Project_Tree_Access;
+      --  If the App loaded a context, reference to it, null otherwise
+   end record;
+
+   type Job_ID is new Positive;
+   --  Identifier for a job in App. Unless Enable_Parallelism is False, there
+   --  is only one job, whose ID is 1. If there are multiple jobs, their IDs go
+   --  from 1 up to the number of jobs.
+
+   type App_Job_Context is record
+      ID : Job_ID;
+      --  Identifier for this job
+
+      App_Ctx : not null access constant App_Context;
+      --  Reference to the app-wide context
+
+      Analysis_Ctx : Analysis_Context;
+      --  Context to analyze source file (each job gets its own context)
+
+      Units_Processed : Unit_Vectors.Vector;
+      --  List of analysis units that this job processed so far
+
+      Aborted : Boolean;
+      --  Whether this jobs was aborted (see the Abort_App_Exception/Abort_App
+      --  entities above).
+   end record;
+
+   type App_Job_Context_Array is array (Job_ID range <>) of App_Job_Context;
+
    --  This package is a convenient and easy way to create an application based
    --  on Libadalang, with out of the box facilities such as:
    --
@@ -54,21 +85,45 @@ package Libadalang.Helpers is
       Description : String;
       --  Description for the application. Will be used in the help string.
 
-      with procedure Process_Context_Before
-        (Ctx     : Analysis_Context;
-         Project : GNATCOLL.Projects.Project_Tree_Access) is null;
+      Enable_Parallelism : Boolean := False;
+      --  If True, add a -j/--jobs command line option to allow multiple jobs
+      --  to run in parallel. In this mode, we create one analysis context per
+      --  job, and the files to process are distributed on each job. All the
+      --  callbacks below are called concurrently in all jobs:
+      --
+      --  First, the main task calls App_Setup. Then all jobs start:
+      --
+      --    * Job 1 calls Job_Setup, then several Process_Units, then
+      --      Job_Tear_Down.
+      --
+      --    * Job 2 calls Job_Setup, then several Process_Units, then
+      --      Job_Tear_Down.
+      --
+      --    * Job 3 calls ...
+      --
+      --  Finally, once all jobs are done, the main task calls App_Tear_Down.
+
+      with procedure App_Setup
+        (Context : App_Context; Jobs : App_Job_Context_Array) is null;
+      --  This procedure is called right after command line options are parsed,
+      --  the project is loaded (if present) and the list of files to process
+      --  is computed.
+
+      with procedure Job_Setup (Context : App_Job_Context) is null;
       --  This procedure will be called right before going through units.  If a
       --  project was loaded, Project refers to it, otherwise it is null.
 
       with procedure Process_Unit
-        (Unit : Analysis_Unit) is null;
+        (Context : App_Job_Context; Unit : Analysis_Unit) is null;
       --  This procedure will be called once right after a unit is parsed
 
-      with procedure Process_Context_After
-        (Ctx     : Analysis_Context;
-         Project : GNATCOLL.Projects.Project_Tree_Access;
-         Units   : Unit_Vectors.Vector) is null;
-      --  This procedure will be called once after all units have been parsed
+      with procedure Job_Tear_Down (Context : App_Job_Context) is null;
+      --  This procedure will be called once after all units have been parsed.
+      --  Note it will be called once per job.
+
+      with procedure App_Tear_Down
+        (Context : App_Context; Jobs : App_Job_Context_Array) is null;
+      --  This procedure is called once all jobs are done
 
    package App is
 
@@ -100,6 +155,21 @@ package Libadalang.Helpers is
             Default_Val => Null_Unbounded_String,
             Help        => "Project file to use");
 
+         package Jobs is new Parse_Option
+           (Parser, "-j", "--jobs",
+            Arg_Type    => Natural,
+            Default_Val => 1,
+            Help        => "Number of parallel jobs to use",
+            Enabled     => Enable_Parallelism);
+
+         package No_Traceback is new Parse_Flag
+           (Parser, Long => "--no-traceback",
+            Help         => "Do not display traceback for exceptions");
+
+         package Sym_Traceback is new Parse_Flag
+           (Parser, Long => "--symbolic-traceback",
+            Help         => "Show symbolic tracebacks for exceptions");
+
          package Files is new Parse_Positional_Arg_List
            (Parser,
             Name        => "files",
@@ -116,6 +186,10 @@ package Libadalang.Helpers is
       --  If one callback raises an Abort_App_Error exception, this catches it
       --  (i.e. the exception is not propagated to callers), set the process
       --  exit status to Failure (see Ada.Command_Line) and returns.
+
+      procedure Dump_Exception (E : Ada.Exceptions.Exception_Occurrence);
+      --  Dump the exception E, honoring the Args.No_Traceback flag (i.e.
+      --  don't show tracebacks when asked not to).
    end App;
 
 end Libadalang.Helpers;

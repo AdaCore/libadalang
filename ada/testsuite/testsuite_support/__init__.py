@@ -18,9 +18,9 @@ if not with_gnatpython:
 
 
 from testsuite_support import (
-    adaapi_driver, capi_driver, discriminants, inline_pg_driver,
-    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
-    python_driver
+    adaapi_driver, capi_driver, discriminants, gnat_compare_driver,
+    inline_pg_driver, name_resolution_driver, navigation_driver, ocaml_driver,
+    parser_driver, python_driver
 )
 
 
@@ -33,6 +33,7 @@ class Testsuite(BaseTestsuite):
         'ocaml': ocaml_driver.OCamlDriver,
         'parser': parser_driver.ParserDriver,
         'python': python_driver.PythonDriver,
+        'gnat_compare': gnat_compare_driver.GNATCompareDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver
     }

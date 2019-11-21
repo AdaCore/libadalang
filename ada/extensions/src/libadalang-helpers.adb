@@ -36,7 +36,24 @@ package body Libadalang.Helpers is
                  renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
 
+   ---------------
+   -- Abort_App --
+   ---------------
+
+   procedure Abort_App (Message : String := "") is
+   begin
+      if Message /= "" then
+         Put_Line (Standard_Error, Message);
+      end if;
+      raise Abort_App_Exception;
+   end Abort_App;
+
    package body App is
+
+      ---------
+      -- Run --
+      ---------
+
       procedure Run is
 
          package String_Vectors is new Ada.Containers.Vectors
@@ -83,10 +100,7 @@ package body Libadalang.Helpers is
                         Eq_Index := Eq_Index + 1;
                      end loop;
                      if Eq_Index not in A'Range then
-                        Put_Line ("Invalid scenario variable: -X" & A);
-                        Ada.Command_Line.Set_Exit_Status
-                          (Ada.Command_Line.Failure);
-                        return;
+                        Abort_App ("Invalid scenario variable: -X" & A);
                      end if;
                      Change_Environment
                        (Env.all,
@@ -149,6 +163,9 @@ package body Libadalang.Helpers is
          end loop;
 
          Process_Context_After (Ctx, Project, Units);
+      exception
+         when Abort_App_Exception =>
+            Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       end Run;
    end App;
 

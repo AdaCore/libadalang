@@ -34,6 +34,11 @@ package Libadalang.Helpers is
    package Unit_Vectors is new
      Ada.Containers.Vectors (Positive, Analysis_Unit);
 
+   Abort_App_Exception : exception;
+   procedure Abort_App (Message : String := "") with No_Return;
+   --  If provided, print Message to the standard error output and raise an
+   --  Abort_App_Exception.
+
    --  This package is a convenient and easy way to create an application based
    --  on Libadalang, with out of the box facilities such as:
    --
@@ -107,6 +112,10 @@ package Libadalang.Helpers is
       procedure Run;
       --  Run the app. You should just call this from your main procedure for
       --  your project.
+      --
+      --  If one callback raises an Abort_App_Error exception, this catches it
+      --  (i.e. the exception is not propagated to callers), set the process
+      --  exit status to Failure (see Ada.Command_Line) and returns.
    end App;
 
 end Libadalang.Helpers;

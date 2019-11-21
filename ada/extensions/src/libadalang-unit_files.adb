@@ -57,7 +57,8 @@ package body Libadalang.Unit_Files is
       --  need it to be set to Result.Tree.Root_Project (that's what
       --  Create_Project_Unit_Provider does).
       return Result : LAL.Unit_Provider_Interface'Class :=
-         Create_Project_Unit_Provider (Project, Env, True)
+         Create_Project_Unit_Provider
+           (Project, Project.Root_Project, Env, True)
       do
          null;
       end return;

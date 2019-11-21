@@ -93,7 +93,8 @@ package body Libadalang.Helpers is
                end loop;
 
                Load (Project.all, Create (+Filename), Env);
-               UFP := Create_Project_Unit_Provider_Reference (Project, Env);
+               UFP := Create_Project_Unit_Provider_Reference
+                 (Project, Project.Root_Project, Env);
 
                if Args.Files.Get'Length > 0 then
                   for F of Args.Files.Get loop

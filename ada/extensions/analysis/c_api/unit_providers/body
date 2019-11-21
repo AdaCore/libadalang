@@ -95,16 +95,16 @@
             return Error;
       end;
 
-      --  Reject aggregate projects
-
-      if Project.Root_Project.Is_Aggregate_Project then
-         return Error;
-      end if;
-
       --  Project loading was successful! Embed allocated data in the result.
 
-      return To_C_Provider
-        (Create_Project_Unit_Provider_Reference (Project, Env, True));
+      begin
+         return To_C_Provider
+           (Create_Project_Unit_Provider_Reference
+              (Project, Project.Root_Project, Env, True));
+      exception
+         when Invalid_Project =>
+            return Error;
+      end;
    end;
 
    function ${capi.get_name('create_auto_provider')}

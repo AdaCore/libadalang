@@ -1,0 +1,12 @@
+type: bugfix
+title: Navigation of subprograms with anonymous access parameters
+short_title: Subprograms with anonymous access parameters
+
+description: |
+    Navigation, for example through ``p_canonical_part``, was broken when
+    used on subprograms that themselves take as parameter an anonymous
+    access on another subprogram. This was fixed by handling anonymous
+    access on subprograms in a piece of logic that previously would
+    take them into account.
+
+date: 2019-11-21

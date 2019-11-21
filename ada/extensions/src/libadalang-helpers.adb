@@ -36,6 +36,29 @@ package body Libadalang.Helpers is
                  renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
 
+   procedure Print_Error (Message : String);
+   --  Shortcut for Put_Line (Standard_Error, Message)
+
+   -----------------
+   -- Print_Error --
+   -----------------
+
+   procedure Print_Error (Message : String) is
+   begin
+      --  If Message's last character is a newline, leave it out and let
+      --  Put_Line append it. This avoids the additional line break that
+      --  Text_IO would append later otherwise.
+
+      if Message = "" then
+         return;
+      elsif Message (Message'Last) = ASCII.LF then
+         Put_Line
+           (Standard_Error, Message (Message'First .. Message'Last - 1));
+      else
+         Put (Standard_Error, Message);
+      end if;
+   end Print_Error;
+
    ---------------
    -- Abort_App --
    ---------------
@@ -109,16 +132,29 @@ package body Libadalang.Helpers is
                   end;
                end loop;
 
-               Load (Project.all, Create (+Filename), Env);
+               --  Load the project tree, and beware of loading errors. Wrap
+               --  the project in a unit provider.
+               begin
+                  Project.Load
+                    (Root_Project_Path => Create (+Filename),
+                     Env               => Env,
+                     Errors            => Print_Error'Access);
+               exception
+                  when Invalid_Project =>
+                     Free (Project);
+                     Free (Env);
+                     Abort_App;
+               end;
                UFP := Create_Project_Unit_Provider_Reference
                  (Project, Project.Root_Project, Env);
 
+               --  Build the list of source files to process
                if Args.Files.Get'Length > 0 then
                   for F of Args.Files.Get loop
                      Files.Append (F);
                   end loop;
-               else
 
+               else
                   --  If no explicit file list was passed, get a sorted list of
                   --  source files to get deterministic execution.
                   List := Project.Root_Project.Source_Files;
@@ -146,6 +182,8 @@ package body Libadalang.Helpers is
                Files.Append (F);
             end loop;
          end if;
+
+         --  Finally, create the project and invoke all callbacks as expected
 
          Ctx := Create_Context
            (Charset       => +Args.Charset.Get,

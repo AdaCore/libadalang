@@ -25,6 +25,7 @@ with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Opt_Parse;
+with GNATCOLL.Projects;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
@@ -48,15 +49,20 @@ package Libadalang.Helpers is
       Description : String;
       --  Description for the application. Will be used in the help string.
 
-      with procedure Process_Context_Before (Ctx : Analysis_Context) is null;
-      --  This procedure will be called right before going through units
+      with procedure Process_Context_Before
+        (Ctx     : Analysis_Context;
+         Project : GNATCOLL.Projects.Project_Tree_Access) is null;
+      --  This procedure will be called right before going through units.  If a
+      --  project was loaded, Project refers to it, otherwise it is null.
 
       with procedure Process_Unit
         (Unit : Analysis_Unit) is null;
       --  This procedure will be called once right after a unit is parsed
 
       with procedure Process_Context_After
-        (Ctx : Analysis_Context; Units : Unit_Vectors.Vector) is null;
+        (Ctx     : Analysis_Context;
+         Project : GNATCOLL.Projects.Project_Tree_Access;
+         Units   : Unit_Vectors.Vector) is null;
       --  This procedure will be called once after all units have been parsed
 
    package App is

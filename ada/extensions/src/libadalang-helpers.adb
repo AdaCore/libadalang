@@ -42,6 +42,9 @@ package body Libadalang.Helpers is
          package String_Vectors is new Ada.Containers.Vectors
            (Positive, Unbounded_String);
 
+         Project : Project_Tree_Access;
+         --  Reference to the loaded project tree, if any. Null otherwise.
+
          UFP : Unit_Provider_Reference;
          --  When project file handling is enabled, corresponding unit provider
 
@@ -64,9 +67,9 @@ package body Libadalang.Helpers is
             declare
                Filename : constant String := +Args.Project_File.Get;
                Env      : Project_Environment_Access;
-               Project  : constant Project_Tree_Access := new Project_Tree;
                List     : File_Array_Access;
             begin
+               Project := new Project_Tree;
                Initialize (Env);
 
                --  Set scenario variables
@@ -134,7 +137,7 @@ package body Libadalang.Helpers is
            (Charset       => +Args.Charset.Get,
             Unit_Provider => UFP);
 
-         Process_Context_Before (Ctx);
+         Process_Context_Before (Ctx, Project);
 
          for File of Files loop
             declare
@@ -145,7 +148,7 @@ package body Libadalang.Helpers is
             end;
          end loop;
 
-         Process_Context_After (Ctx, Units);
+         Process_Context_After (Ctx, Project, Units);
       end Run;
    end App;
 

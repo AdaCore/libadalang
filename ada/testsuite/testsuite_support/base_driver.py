@@ -278,7 +278,7 @@ class BaseDriver(TestDriver):
     #
 
     def run_and_check(self, argv, for_debug=False, memcheck=False,
-                      append_output=True):
+                      append_output=True, status_code=0):
         """
         Run a subprocess with `argv` and check it completes with status code 0.
 
@@ -289,6 +289,8 @@ class BaseDriver(TestDriver):
         If `memcheck` is True then the program is run under Valgrind if asked
         to in the main testsuite driver. Any memory issue will be reported and
         turned into a testcase failure.
+
+        Check that the subprocess's status code is `status_code`.
 
         In case of failure, the test output is appended to the actual output
         and a TestError is raised.
@@ -322,9 +324,10 @@ class BaseDriver(TestDriver):
             with open(self.output_file, 'a') as f:
                 f.write(p.out)
 
-        if p.status != 0:
+        if p.status != status_code:
             self.result.actual_output += (
-                '{} returned status code {}\n'.format(program, p.status))
+                '{} returned status code {} ({} expected)\n'
+                .format(program, p.status, status_code))
             self.result.actual_output += p.out
             raise TestError(
                 '{} returned status code {}'.format(program, p.status))

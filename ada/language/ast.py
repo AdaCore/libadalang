@@ -8159,7 +8159,12 @@ class CallExpr(Name):
     # subtypes for discriminated records or arrays.
     @langkit_property()
     def designated_type_impl():
+        # Retrieve the type designated by the prefix
         prefix_tpe = Var(Entity.name.designated_type_impl)
+
+        # Check that this CallExpr is a valid type, which in this context
+        # is the case if and only if the arguments of this CallExpr match
+        # the discriminant list of the type designated by the prefix.
         matches_formals = Var(Entity.params.then(
             lambda ps: Self.match_formals(
                 prefix_tpe._.discriminants_list, ps, False
@@ -8173,6 +8178,9 @@ class CallExpr(Name):
             ),
             default_val=True
         ))
+
+        # Make sure to not return the type designated by the prefix if this
+        # CallExpr does not designate a type!
         return If(matches_formals, prefix_tpe, No(BaseTypeDecl.entity))
 
     params = Property(Entity.suffix.cast(T.AssocList))

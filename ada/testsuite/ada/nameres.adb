@@ -1,10 +1,6 @@
 with Ada.Calendar;          use Ada.Calendar;
-with Ada.Command_Line;
 with Ada.Containers.Generic_Array_Sort;
-with Ada.Containers.Synchronized_Queue_Interfaces;
-with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Containers.Vectors;
-with Ada.Directories; use Ada.Directories;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
@@ -13,19 +9,16 @@ with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.JSON;
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.Projects;  use GNATCOLL.Projects;
-with GNATCOLL.Traces;
-with GNATCOLL.VFS;       use GNATCOLL.VFS;
+with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 
-with Libadalang.Analysis;         use Libadalang.Analysis;
-with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
-with Libadalang.Common;           use Libadalang.Common;
-with Libadalang.Iterators;        use Libadalang.Iterators;
-with Libadalang.Project_Provider; use Libadalang.Project_Provider;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Common;    use Libadalang.Common;
+with Libadalang.Helpers;   use Libadalang.Helpers;
+with Libadalang.Iterators; use Libadalang.Iterators;
 
 with Put_Title;
 
@@ -34,17 +27,7 @@ procedure Nameres is
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
 
-   package String_QI
-   is new Ada.Containers.Synchronized_Queue_Interfaces (Unbounded_String);
-
-   package String_Queues
-   is new Ada.Containers.Unbounded_Synchronized_Queues (String_QI);
-
    package J renames GNATCOLL.JSON;
-
-   Queue : String_Queues.Queue;
-
-   pragma Warnings (Off, "ref");
 
    package Stats_Data is
       Nb_Files_Analyzed    : Natural := 0;
@@ -56,133 +39,97 @@ procedure Nameres is
       File_With_Most_Fails : Unbounded_String;
    end Stats_Data;
 
+   procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
+   procedure Job_Setup (Context : App_Job_Context);
+   procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
+   procedure App_Tear_Down
+     (Context : App_Context; Jobs : App_Job_Context_Array);
+
+   package App is new Libadalang.Helpers.App
+     (Description   =>
+         "Run Libadalang's name resolution on a file, set of files or project",
+      App_Setup     => App_Setup,
+      Job_Setup     => Job_Setup,
+      Process_Unit  => Process_Unit,
+      App_Tear_Down => App_Tear_Down);
+
    package Args is
       use GNATCOLL.Opt_Parse;
-      Parser : Argument_Parser := Create_Argument_Parser
-        (Help =>
-           "Run Libadalang's name resolution on a file, set of file, "
-           & "or project");
 
       package File_Limit is new Parse_Option
-        (Parser, "-l", "--file-limit", "Stop program after N files", Integer,
-         Default_Val => -1);
-
-      package Charset is new Parse_Option
-        (Parser, "-C", "--charset", "Charset to use for source decoding",
-         Unbounded_String, Default_Val => To_Unbounded_String ("iso-8859-1"));
+        (App.Args.Parser, "-l", "--file-limit", "Stop program after N files",
+         Integer, Default_Val => -1);
 
       package Discard_Errors_In_PLE is new Parse_Flag
-        (Parser, "-D", "--discard-PLE-errors",
+        (App.Args.Parser, "-D", "--discard-PLE-errors",
          "Discard errors while constructing lexical envs");
 
       package Quiet is new Parse_Flag
-        (Parser, "-q", "--quiet", "Quiet mode (no output on stdout)");
+        (App.Args.Parser, "-q", "--quiet", "Quiet mode (no output on stdout)");
 
       package JSON is new Parse_Flag
-        (Parser, "-J", "--json", "JSON mode (Structured output on stdout)");
+        (App.Args.Parser, "-J", "--json",
+         "JSON mode (Structured output on stdout)");
 
       package Stats is new Parse_Flag
-        (Parser, "-S", "--stats", "Output stats at the end of analysis");
+        (App.Args.Parser, "-S", "--stats",
+         "Output stats at the end of analysis");
 
       package Resolve_All is new Parse_Flag
-        (Parser, "-A", "--all", "Resolve every cross reference");
+        (App.Args.Parser, "-A", "--all", "Resolve every cross reference");
 
       package Solve_Line is new Parse_Option
-        (Parser, "-L", "--solve-line", "Only analyze line N",
+        (App.Args.Parser, "-L", "--solve-line", "Only analyze line N",
          Natural, Default_Val => 0);
 
       package Only_Show_Failures is new Parse_Flag
-        (Parser, Long => "--only-show-failures",
+        (App.Args.Parser, Long => "--only-show-failures",
          Help => "Only output failures on stdout");
 
       package Imprecise_Fallback is new Parse_Flag
-        (Parser, Long => "--imprecise-fallback",
+        (App.Args.Parser, Long => "--imprecise-fallback",
          Help => "Activate fallback mechanism for name resolution");
 
       package Disable_Operator_Resolution is new Parse_Flag
-        (Parser, Long => "--disable-operator-resolution",
+        (App.Args.Parser, Long => "--disable-operator-resolution",
          Help => "Do not resolve unary/binary operations");
 
       package Dump_Envs is new Parse_Flag
-        (Parser, "-E", "--dump-envs",
+        (App.Args.Parser, "-E", "--dump-envs",
          Help => "Dump lexical envs after populating them");
 
       package Do_Reparse is new Parse_Flag
-        (Parser,
+        (App.Args.Parser,
          Long => "--reparse",
          Help => "Reparse units 10 times (hardening)");
 
       package Time is new Parse_Flag
-        (Parser,
+        (App.Args.Parser,
          Long => "--time",
          Short => "-T",
          Help => "Show the time it took to nameres each file. "
                  & "Implies --quiet so that you only have timing info");
 
       package Timeout is new Parse_Option
-        (Parser, "-t", "--timeout", "Timeout equation solving after N steps",
+        (App.Args.Parser, "-t", "--timeout",
+         "Timeout equation solving after N steps",
          Natural, Default_Val => 100_000);
 
-      package Jobs is new Parse_Option
-        (Parser, "-j", "--jobs", "Number of parallel jobs to use",
-         Natural, Default_Val => 1);
-
       package No_Lookup_Cache is new Parse_Flag
-        (Parser,
+        (App.Args.Parser,
          Long => "--no-lookup-cache", Help => "Deactivate lookup cache");
 
       package Trace is new Parse_Flag
-        (Parser, "-T", "--trace", Help => "Trace logic equation solving");
+        (App.Args.Parser, "-T", "--trace",
+         Help => "Trace logic equation solving");
 
       package Debug is new Parse_Flag
-        (Parser, "-D", "--debug", Help => "Debug logic equation solving");
-
-      package No_Traceback is new Parse_Flag
-        (Parser, Long => "--no-traceback",
-         Help         => "Do not display traceback for exceptions");
-
-      package Sym_Traceback is new Parse_Flag
-        (Parser, Long => "--symbolic-traceback",
-         Help         => "Show symbolic tracebacks for exceptions");
-
-      package Files_From_Project is new Parse_Flag
-        (Parser,
-         Long => "--files-from-project",
-         Help => "Take files from specified project file");
-
-      package Auto_Dirs is new Parse_Option_List
-        (Parser, "-A", "--auto-dir",
-         Arg_Type   => Unbounded_String,
-         Accumulate => True,
-         Help       =>
-            "Directories to use for the auto provider. If one is passed, "
-            & "auto provider will be used, and project options ignored");
-
-      package Scenario_Vars is new Parse_Option_List
-        (Parser, Short => "-X", Long => "--scenario-variables",
-         Arg_Type   => Unbounded_String,
-         Accumulate => True,
-         Help       => "Scenario variables to pass to the project file");
-
-      package Project_File is new Parse_Option
-        (Parser, "-P", "--project",
-         Arg_Type    => Unbounded_String,
-         Default_Val => Null_Unbounded_String,
-         Help        => "Project file to use");
-
-      package Files is new Parse_Positional_Arg_List
-        (Parser,
-         Name        => "files",
-         Arg_Type    => Unbounded_String,
-         Help        => "Files to analyze",
-         Allow_Empty => True);
+        (App.Args.Parser, "-D", "--debug",
+         Help => "Debug logic equation solving");
    end Args;
 
    function Quiet return Boolean is
       (Args.Quiet.Get or else Args.JSON.Get or else Args.Time.Get);
-
-   UFP : Unit_Provider_Reference;
-   --  When project file handling is enabled, corresponding unit provider
 
    function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
 
@@ -203,13 +150,6 @@ procedure Nameres is
      (Boolean'Wide_Wide_Value (T));
    procedure Process_File (Unit : Analysis_Unit; Filename : String);
 
-   procedure Add_Files_From_Project
-     (PT    : Project_Tree_Access;
-      P     : Project_Type;
-      Files : in out String_Vectors.Vector);
-
-   procedure Show_Stats;
-
    function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array is
      (P_Matching_Nodes (Arg));
    --  Do the resolution associated to a Test pragma.
@@ -223,7 +163,7 @@ procedure Nameres is
 
    procedure Dump_Exception
      (E   : Ada.Exceptions.Exception_Occurrence;
-      Obj : access J.JSON_Value := null);
+      Obj : in out J.JSON_Value);
    --  Dump the exception ``E``, honoring the ``Args.No_Traceback`` flag (eg.
    --  don't show tracebacks when asked not to). If ``Obj`` is passed and
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
@@ -265,32 +205,16 @@ procedure Nameres is
 
    procedure Dump_Exception
      (E   : Ada.Exceptions.Exception_Occurrence;
-      Obj : access J.JSON_Value := null)
-   is
+      Obj : in out J.JSON_Value) is
    begin
-      if Args.No_Traceback.Get then
-         --  Do not use Exception_Information nor Exception_Message. The
-         --  former includes tracebacks and the latter includes line
-         --  numbers in Libadalang: both are bad for testcase output
-         --  consistency.
-         Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
-         New_Line;
-
-      elsif Args.Sym_Traceback.Get then
-         Put_Line (Ada.Exceptions.Exception_Message (E));
-         Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
-
-      else
-         Put_Line ("> " & Ada.Exceptions.Exception_Information (E));
-         New_Line;
-      end if;
+      App.Dump_Exception (E);
 
       if Args.JSON.Get then
          Obj.Set_Field ("success", False);
          Obj.Set_Field
            ("exception_message", Ada.Exceptions.Exception_Message (E));
 
-         if Args.Sym_Traceback.Get then
+         if App.Args.Sym_Traceback.Get then
             Obj.Set_Field
               ("exception_traceback",
                GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
@@ -303,6 +227,81 @@ procedure Nameres is
          Ada.Text_IO.Put_Line (Obj.Write);
       end if;
    end Dump_Exception;
+
+   ---------------
+   -- App_Setup --
+   ---------------
+
+   procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array) is
+      pragma Unreferenced (Context, Jobs);
+   begin
+      if Args.No_Lookup_Cache.Get then
+         Disable_Lookup_Cache (True);
+      end if;
+
+      if Args.Trace.Get then
+         Set_Debug_State (Trace);
+      elsif Args.Debug.Get then
+         Set_Debug_State (Step);
+      end if;
+   end App_Setup;
+
+   ---------------
+   -- Job_Setup --
+   ---------------
+
+   procedure Job_Setup (Context : App_Job_Context) is
+      Ctx : Analysis_Context renames Context.Analysis_Ctx;
+   begin
+      Ctx.Discard_Errors_In_Populate_Lexical_Env
+        (Args.Discard_Errors_In_PLE.Get);
+      Ctx.Set_Logic_Resolution_Timeout (Args.Timeout.Get);
+   end Job_Setup;
+
+   ------------------
+   -- Process_Unit --
+   ------------------
+
+   procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
+      pragma Unreferenced (Context);
+
+      Basename : constant String :=
+         +Create (+Unit.Get_Filename).Base_Name;
+
+      Before, After : Time;
+      Time_Elapsed  : Duration;
+   begin
+      if not Quiet then
+         Put_Title ('#', "Analyzing " & Basename);
+      end if;
+      Before := Clock;
+
+      begin
+         Process_File (Unit, Unit.Get_Filename);
+      exception
+         when E : others =>
+            Put_Line ("PLE failed with exception for file " & Basename);
+            App.Dump_Exception (E);
+            return;
+      end;
+      After := Clock;
+
+      Time_Elapsed := After - Before;
+
+      if Args.Time.Get then
+         Ada.Text_IO.Put_Line
+           ("Time elapsed in process file for "
+            & Basename & ": " & Time_Elapsed'Image);
+      end if;
+
+      Stats_Data.Nb_Files_Analyzed := Stats_Data.Nb_Files_Analyzed + 1;
+      if Args.File_Limit.Get /= -1
+         and then Stats_Data.Nb_Files_Analyzed
+                  >= Args.File_Limit.Get
+      then
+         Abort_App ("Requested file limit reached: aborting");
+      end if;
+   end Process_Unit;
 
    ------------------
    -- Process_File --
@@ -494,7 +493,7 @@ procedure Nameres is
             Put_Line
               ("Resolution failed with exception for node "
                & Node.Short_Image);
-            Dump_Exception (E, Obj'Access);
+            Dump_Exception (E, Obj);
 
             if XFAIL then
                Stats_Data.Nb_Xfails := Stats_Data.Nb_Xfails + 1;
@@ -703,38 +702,14 @@ procedure Nameres is
 
    end Process_File;
 
-   ----------------------------
-   -- Add_Files_From_Project --
-   ----------------------------
+   -------------------
+   -- App_Tear_Down --
+   -------------------
 
-   procedure Add_Files_From_Project
-     (PT    : Project_Tree_Access;
-      P     : Project_Type;
-      Files : in out String_Vectors.Vector)
+   procedure App_Tear_Down
+     (Context : App_Context; Jobs : App_Job_Context_Array)
    is
-      List : File_Array_Access := P.Source_Files;
-   begin
-      Sort (List.all);
-
-      for F of List.all loop
-         declare
-            FI        : constant File_Info := PT.Info (F);
-            Full_Name : Filesystem_String renames F.Full_Name.all;
-            Name      : constant String := +Full_Name;
-         begin
-            if FI.Language = "ada" then
-               Files.Append (+Name);
-            end if;
-         end;
-      end loop;
-      Unchecked_Free (List);
-   end Add_Files_From_Project;
-
-   ----------------
-   -- Show_Stats --
-   ----------------
-
-   procedure Show_Stats is
+      pragma Unreferenced (Context, Jobs);
       Total : constant Natural :=
         Stats_Data.Nb_Successes + Stats_Data.Nb_Fails + Stats_Data.Nb_Xfails;
    begin
@@ -763,203 +738,10 @@ procedure Nameres is
                       & "):" & (+Stats_Data.File_With_Most_Fails));
          end;
       end if;
-   end Show_Stats;
 
-   Files : String_Vectors.Vector;
-
-   task type Main_Task_Type is
-      entry Create_Context (UFP : Unit_Provider_Reference);
-      entry Stop;
-   end Main_Task_Type;
-
-   --------------------
-   -- Main_Task_Type --
-   --------------------
-
-   task body Main_Task_Type is
-      Ctx : Analysis_Context;
-      F   : Unbounded_String;
-   begin
-      select
-         accept Create_Context (UFP : Unit_Provider_Reference) do
-            Ctx := Create_Context
-              (Charset       => +Args.Charset.Get,
-               Unit_Provider => UFP);
-
-            Discard_Errors_In_Populate_Lexical_Env
-              (Ctx, Args.Discard_Errors_In_PLE.Get);
-
-            Set_Logic_Resolution_Timeout (Ctx, Args.Timeout.Get);
-         end Create_Context;
-      or
-         --  If the main task could not call the Create_Context entry (because
-         --  it raised an exception, for instance), terminate gracefully.
-         terminate;
-      end select;
-
-      loop
-         select
-            Queue.Dequeue (F);
-         or
-            delay 0.1;
-            exit;
-         end select;
-
-         declare
-            File     : constant String := +F;
-            Basename : constant String :=
-              +Create (+File).Base_Name;
-            Unit     : Analysis_Unit;
-            Before, After : Time;
-            Time_Elapsed  : Duration;
-         begin
-            Unit := Get_From_File (Ctx, File);
-
-            if not Quiet then
-               Put_Title ('#', "Analyzing " & Basename);
-            end if;
-            Before := Clock;
-            Process_File (Unit, File);
-            After := Clock;
-
-            Time_Elapsed := After - Before;
-
-            if Args.Time.Get then
-               Ada.Text_IO.Put_Line
-                 ("Time elapsed in process file for "
-                  & Basename & ": " & Time_Elapsed'Image);
-            end if;
-
-            Stats_Data.Nb_Files_Analyzed
-              := Stats_Data.Nb_Files_Analyzed + 1;
-            exit when Args.File_Limit.Get /= -1
-              and then Stats_Data.Nb_Files_Analyzed
-                >= Args.File_Limit.Get;
-         exception
-            when E : others =>
-               Put_Line
-                 ("PLE failed with exception for file " & Simple_Name (File));
-               Dump_Exception (E, null);
-         end;
-      end loop;
-
-      accept Stop do
-         null;
-      end Stop;
-   end Main_Task_Type;
+      Put_Line ("Done.");
+   end App_Tear_Down;
 
 begin
-
-   --  Setup traces from config file
-   GNATCOLL.Traces.Parse_Config_File;
-
-   --
-   --  Set up of file & project data from command line arguments
-   --
-
-   if not Args.Parser.Parse then
-      return;
-   end if;
-
-   declare
-      Task_Pool : array (0 .. Args.Jobs.Get - 1) of Main_Task_Type;
-   begin
-
-      if Args.No_Lookup_Cache.Get then
-         Disable_Lookup_Cache (True);
-      end if;
-
-      if Args.Trace.Get then
-         Set_Debug_State (Trace);
-      elsif Args.Debug.Get then
-         Set_Debug_State (Step);
-      end if;
-
-      if not Args.Files_From_Project.Get then
-         for F of Args.Files.Get loop
-            Files.Append (F);
-         end loop;
-      end if;
-
-      if Length (Args.Project_File.Get) > 0 then
-         declare
-            Filename : constant String := +Args.Project_File.Get;
-            Env      : Project_Environment_Access;
-            Project  : constant Project_Tree_Access := new Project_Tree;
-         begin
-            Initialize (Env);
-
-            --  Set scenario variables
-            for Assoc of Args.Scenario_Vars.Get loop
-               declare
-                  A        : constant String := +Assoc;
-                  Eq_Index : Natural := A'First;
-               begin
-                  while Eq_Index <= A'Length and then A (Eq_Index) /= '=' loop
-                     Eq_Index := Eq_Index + 1;
-                  end loop;
-                  if Eq_Index not in A'Range then
-                     Put_Line ("Invalid scenario variable: -X" & A);
-                     Ada.Command_Line.Set_Exit_Status
-                       (Ada.Command_Line.Failure);
-                     return;
-                  end if;
-                  Change_Environment
-                    (Env.all,
-                     A (A'First .. Eq_Index - 1),
-                     A (Eq_Index + 1 .. A'Last));
-               end;
-            end loop;
-
-            Load (Project.all, Create (+Filename), Env);
-            UFP := Create_Project_Unit_Provider_Reference
-              (Project, Project.Root_Project, Env);
-
-            if Args.Files_From_Project.Get then
-               Add_Files_From_Project (Project, Project.Root_Project, Files);
-            end if;
-         end;
-
-      elsif Args.Auto_Dirs.Get'Length > 0 then
-         declare
-            Auto_Dirs : Args.Auto_Dirs.Result_Array renames Args.Auto_Dirs.Get;
-            Dirs      : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
-            Files     : GNATCOLL.VFS.File_Array_Access;
-         begin
-            for I in Dirs'Range loop
-               Dirs (I) := Create (+To_String (Auto_Dirs (I)));
-            end loop;
-
-            Files := Find_Files (Directories => Dirs);
-
-            UFP := Create_Auto_Provider_Reference
-              (Files.all, +Args.Charset.Get);
-            GNATCOLL.VFS.Unchecked_Free (Files);
-         end;
-      end if;
-
-      --
-      --  Main logic
-      --
-
-      for T of Task_Pool loop
-         T.Create_Context (UFP);
-      end loop;
-
-      for F of Files loop
-         Queue.Enqueue (F);
-      end loop;
-
-      for T of Task_Pool loop
-         T.Stop;
-      end loop;
-   end;
-
-   Show_Stats;
-
-   Put_Line ("Done.");
-exception
-   when others =>
-      Show_Stats;
-      raise;
+   App.Run;
 end Nameres;

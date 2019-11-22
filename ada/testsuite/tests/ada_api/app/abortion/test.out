@@ -1,0 +1,12 @@
+== SETUP ==
+Has job 1 aborted: FALSE
+Has job 2 aborted: FALSE
+
+== IN_UNIT ==
+At least one job has aborted: TRUE
+
+== TEAR_DOWN ==
+Has job 1 aborted: TRUE
+Has job 2 aborted: TRUE
+Abort in unit
+

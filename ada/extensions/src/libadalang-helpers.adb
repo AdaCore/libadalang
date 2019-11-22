@@ -49,6 +49,9 @@ package body Libadalang.Helpers is
    package String_Queues is new Ada.Containers.Unbounded_Synchronized_Queues
      (String_QI);
 
+   package String_Vectors is new Ada.Containers.Vectors
+     (Positive, Unbounded_String);
+
    -----------------
    -- Print_Error --
    -----------------
@@ -94,6 +97,23 @@ package body Libadalang.Helpers is
          Abort_Signaled_State : Boolean := False;
       end Abortion;
 
+      procedure Load_Project
+        (Project_File  : String;
+         Scenario_Vars : Args.Scenario_Vars.Result_Array;
+         Project       : out Project_Tree_Access;
+         Env           : out Project_Environment_Access);
+      --  Load Project_File using the given scenario variables
+
+      procedure List_Sources_From_Project
+        (Project : Project_Tree'Class; Files : out String_Vectors.Vector);
+      --  Append the list of all source files in Project's root project to
+      --  Files.
+
+      function Files_From_Args
+        (Files : out String_Vectors.Vector) return Boolean;
+      --  If source files are passed on the command line, append them to Files
+      --  and return True. Do nothing and return False otherwise.
+
       protected body Abortion is
          procedure Signal_Abortion is
          begin
@@ -130,14 +150,107 @@ package body Libadalang.Helpers is
          end if;
       end Dump_Exception;
 
+      ------------------
+      -- Load_Project --
+      ------------------
+
+      procedure Load_Project
+        (Project_File  : String;
+         Scenario_Vars : Args.Scenario_Vars.Result_Array;
+         Project       : out Project_Tree_Access;
+         Env           : out Project_Environment_Access) is
+      begin
+         Project := new Project_Tree;
+         Initialize (Env);
+
+         --  Set scenario variables
+         for Assoc of Scenario_Vars loop
+            declare
+               A        : constant String := +Assoc;
+               Eq_Index : Natural := A'First;
+            begin
+               while Eq_Index <= A'Last
+                 and then A (Eq_Index) /= '=' loop
+                  Eq_Index := Eq_Index + 1;
+               end loop;
+               if Eq_Index not in A'Range then
+                  Abort_App ("Invalid scenario variable: -X" & A);
+               end if;
+               Change_Environment
+                 (Env.all,
+                  A (A'First .. Eq_Index - 1),
+                  A (Eq_Index + 1 .. A'Last));
+            end;
+         end loop;
+
+         --  Load the project tree, and beware of loading errors. Wrap
+         --  the project in a unit provider.
+         begin
+            Project.Load
+              (Root_Project_Path => Create (+Project_File),
+               Env               => Env,
+               Errors            => Print_Error'Access);
+         exception
+            when Invalid_Project =>
+               Free (Project);
+               Free (Env);
+               Abort_App;
+         end;
+      end Load_Project;
+
+      -------------------------------
+      -- List_Sources_From_Project --
+      -------------------------------
+
+      procedure List_Sources_From_Project
+        (Project : Project_Tree'Class; Files : out String_Vectors.Vector)
+      is
+         --  Get a sorted list of source files in Project's root project.
+         --  Sorting gets the output deterministic and thus helps
+         --  reproducibility.
+
+         List : File_Array_Access := Project.Root_Project.Source_Files;
+      begin
+         Sort (List.all);
+
+         for F of List.all loop
+            declare
+               FI        : constant File_Info := Project.Info (F);
+               Full_Name : Filesystem_String renames F.Full_Name.all;
+               Name      : constant String := +Full_Name;
+            begin
+               if FI.Language = "ada" then
+                  Files.Append (+Name);
+               end if;
+            end;
+         end loop;
+         Unchecked_Free (List);
+      end List_Sources_From_Project;
+
+      ---------------------
+      -- Files_From_Args --
+      ---------------------
+
+      function Files_From_Args
+        (Files : out String_Vectors.Vector) return Boolean
+      is
+         Arg_Files : constant Args.Files.Result_Array := Args.Files.Get;
+      begin
+         if Arg_Files'Length = 0 then
+            return False;
+         else
+            for F of Arg_Files loop
+               Files.Append (F);
+            end loop;
+            return True;
+         end if;
+      end Files_From_Args;
+
       ---------
       -- Run --
       ---------
 
       procedure Run is
-
-         package String_Vectors is new Ada.Containers.Vectors
-           (Positive, Unbounded_String);
 
          Project : Project_Tree_Access;
          --  Reference to the loaded project tree, if any. Null otherwise.
@@ -249,85 +362,34 @@ package body Libadalang.Helpers is
             return;
          end if;
 
-         --  Handle project file
          if Length (Args.Project_File.Get) > 0 then
+            --  Handle project file and build the list of source files to
+            --  process.
             declare
-               Filename : constant String := +Args.Project_File.Get;
-               Env      : Project_Environment_Access;
-               List     : File_Array_Access;
+               Env : Project_Environment_Access;
             begin
-               Project := new Project_Tree;
-               Initialize (Env);
-
-               --  Set scenario variables
-               for Assoc of Args.Scenario_Vars.Get loop
-                  declare
-                     A        : constant String := +Assoc;
-                     Eq_Index : Natural := A'First;
-                  begin
-                     while Eq_Index <= A'Last
-                       and then A (Eq_Index) /= '=' loop
-                        Eq_Index := Eq_Index + 1;
-                     end loop;
-                     if Eq_Index not in A'Range then
-                        Abort_App ("Invalid scenario variable: -X" & A);
-                     end if;
-                     Change_Environment
-                       (Env.all,
-                        A (A'First .. Eq_Index - 1),
-                        A (Eq_Index + 1 .. A'Last));
-                  end;
-               end loop;
-
-               --  Load the project tree, and beware of loading errors. Wrap
-               --  the project in a unit provider.
-               begin
-                  Project.Load
-                    (Root_Project_Path => Create (+Filename),
-                     Env               => Env,
-                     Errors            => Print_Error'Access);
-               exception
-                  when Invalid_Project =>
-                     Free (Project);
-                     Free (Env);
-                     Abort_App;
-               end;
+               Load_Project
+                 (Project_File  => +Args.Project_File.Get,
+                  Scenario_Vars => Args.Scenario_Vars.Get,
+                  Project       => Project,
+                  Env           => Env);
                UFP := Create_Project_Unit_Provider_Reference
                  (Project, Project.Root_Project, Env);
-
-               --  Build the list of source files to process
-               if Args.Files.Get'Length > 0 then
-                  for F of Args.Files.Get loop
-                     Files.Append (F);
-                  end loop;
-
-               else
-                  --  If no explicit file list was passed, get a sorted list of
-                  --  source files to get deterministic execution.
-                  List := Project.Root_Project.Source_Files;
-
-                  Sort (List.all);
-
-                  for F of List.all loop
-                     declare
-                        FI        : constant File_Info := Project.Info (F);
-                        Full_Name : Filesystem_String renames F.Full_Name.all;
-                        Name      : constant String := +Full_Name;
-                     begin
-                        if FI.Language = "ada" then
-                           Files.Append (+Name);
-                        end if;
-                     end;
-                  end loop;
-                  Unchecked_Free (List);
-
+               if not Files_From_Args (Files) then
+                  List_Sources_From_Project (Project.all, Files);
                end if;
             end;
+
          else
-            --  No project passed: process the files passed explicitly
-            for F of Args.Files.Get loop
-               Files.Append (F);
-            end loop;
+            declare
+               Dummy : Boolean := Files_From_Args (Files);
+            begin
+               null;
+            end;
+         end if;
+
+         if Files.Is_Empty then
+            Put_Line (Standard_Error, "No source file to process");
          end if;
 
          --  Initialize contexts

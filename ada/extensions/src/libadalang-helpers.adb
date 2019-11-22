@@ -33,6 +33,7 @@ with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;
 with GNATCOLL.VFS;       use GNATCOLL.VFS;
 
+with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 package body Libadalang.Helpers is
@@ -378,6 +379,31 @@ package body Libadalang.Helpers is
                if not Files_From_Args (Files) then
                   List_Sources_From_Project (Project.all, Files);
                end if;
+            end;
+
+         elsif Args.Auto_Dirs.Get'Length > 0 then
+            --  The auto provider is requested: initialize it with the given
+            --  directories. Also build the list of source files to process.
+            declare
+               Auto_Dirs  : Args.Auto_Dirs.Result_Array renames
+                  Args.Auto_Dirs.Get;
+               Dirs       : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
+               Found_Files : GNATCOLL.VFS.File_Array_Access;
+            begin
+               for I in Dirs'Range loop
+                  Dirs (I) := Create (+To_String (Auto_Dirs (I)));
+               end loop;
+               Found_Files := Find_Files (Directories => Dirs);
+               UFP := Create_Auto_Provider_Reference
+                 (Found_Files.all, +Args.Charset.Get);
+
+               if not Files_From_Args (Files) then
+                  Sort (Found_Files.all);
+                  for F of Found_Files.all loop
+                     Files.Append (To_Unbounded_String (+F.Full_Name));
+                  end loop;
+               end if;
+               Unchecked_Free (Found_Files);
             end;
 
          else

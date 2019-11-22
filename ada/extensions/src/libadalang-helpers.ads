@@ -155,6 +155,15 @@ package Libadalang.Helpers is
             Default_Val => Null_Unbounded_String,
             Help        => "Project file to use");
 
+         package Auto_Dirs is new Parse_Option_List
+           (Parser, "-A", "--auto-dir",
+            Arg_Type   => Unbounded_String,
+            Accumulate => True,
+            Help       =>
+               "Directories to use for the auto provider. If at least one is"
+               & " passed, the auto provider will be used, and project options"
+               & " ignored");
+
          package Jobs is new Parse_Option
            (Parser, "-j", "--jobs",
             Arg_Type    => Natural,

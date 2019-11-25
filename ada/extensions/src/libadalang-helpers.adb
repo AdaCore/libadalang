@@ -104,6 +104,11 @@ package body Libadalang.Helpers is
          Env           : out Project_Environment_Access);
       --  Load Project_File using the given scenario variables
 
+      function Project_To_Provider
+        (Project : Project_Tree_Access) return Unit_Provider_Reference;
+      --  Try to create a unit provider out of Project. If not possible, call
+      --  Abort_App.
+
       procedure List_Sources_From_Project
         (Project : Project_Tree'Class; Files : out String_Vectors.Vector);
       --  Append the list of all source files in Project's root project to
@@ -200,6 +205,30 @@ package body Libadalang.Helpers is
          end;
          Trace.Trace ("Loading succeeded");
       end Load_Project;
+
+      -------------------------
+      -- Project_To_Provider --
+      -------------------------
+
+      function Project_To_Provider
+        (Project : Project_Tree_Access) return Unit_Provider_Reference
+      is
+         Partition : Provider_And_Projects_Array_Access :=
+            Create_Project_Unit_Providers (Project);
+      begin
+         --  Reject partitions with multiple parts: we cannot analyze it with
+         --  only one provider.
+
+         if Partition.all'Length /= 1 then
+            Abort_App ("This aggregate project contains conflicting sources");
+         end if;
+
+         return Result : constant Unit_Provider_Reference :=
+            Partition.all (Partition'First).Provider
+         do
+            Free (Partition);
+         end return;
+      end Project_To_Provider;
 
       -------------------------------
       -- List_Sources_From_Project --
@@ -390,8 +419,7 @@ package body Libadalang.Helpers is
                   Scenario_Vars => Args.Scenario_Vars.Get,
                   Project       => Project,
                   Env           => Env);
-               UFP := Create_Project_Unit_Provider_Reference
-                 (Project, Project.Root_Project, Env);
+               UFP := Project_To_Provider (Project);
                if not Files_From_Args (Files) then
                   List_Sources_From_Project (Project.all, Files);
                end if;

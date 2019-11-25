@@ -1,0 +1,5 @@
+with "p1";
+
+project P2 is
+   for Source_Dirs use ("src2");
+end P2;

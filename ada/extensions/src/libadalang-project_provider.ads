@@ -2,7 +2,7 @@
 --                                                                          --
 --                                Libadalang                                --
 --                                                                          --
---                     Copyright (C) 2014-2018, AdaCore                     --
+--                     Copyright (C) 2014-2019, AdaCore                     --
 --                                                                          --
 -- Libadalang is free software;  you can redistribute it and/or modify  it  --
 -- under terms of the GNU General Public License  as published by the Free  --
@@ -22,6 +22,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOLL.Projects;
+with GNATCOLL.Traces; use GNATCOLL.Traces;
 
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
@@ -36,23 +37,40 @@ package Libadalang.Project_Provider is
    package LAL renames Libadalang.Analysis;
    package Prj renames GNATCOLL.Projects;
 
+   Trace : constant GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
+     ("LIBADALANG.PROJECT_PROVIDER", GNATCOLL.Traces.From_Config);
+
    type Project_Unit_Provider is new LAL.Unit_Provider_Interface with private;
    --  Unit provider backed up by a project file
 
-   function Create_Project_Unit_Provider
-     (Project          : Prj.Project_Tree_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True)
-      return Project_Unit_Provider
-      with Pre => not Project.Root_Project.Is_Aggregate_Project;
-   --  Create an unit provider using ``Project``. If ``Is_Project_Owner`` is
-   --  true, the result owns ``Project``, thus the caller must not deallocate
-   --  it itself. Otherwise, the project pointed by Project must outlive the
-   --  returned unit file provider.
+   type Provider_And_Projects is record
+      Provider : LAL.Unit_Provider_Reference;
+      Projects : Prj.Project_Array_Access;
+   end record;
+   --  Associates one project unit provider with all the projects on which it
+   --  has visibility.
+
+   type Provider_And_Projects_Array is
+      array (Positive range <>) of Provider_And_Projects;
+   type Provider_And_Projects_Array_Access is
+      access all Provider_And_Projects_Array;
+   procedure Free (PAP_Array : in out Provider_And_Projects_Array_Access);
+
+   function Create_Project_Unit_Providers
+     (Tree : Prj.Project_Tree_Access)
+      return Provider_And_Projects_Array_Access;
+   --  Create unit providers for consistent sets of projects in ``Tree``.
    --
    --  As unit providers must guarantee that there exists at most one source
-   --  file for each couple (unit name, unit kind), aggregate projects are not
-   --  supported.
+   --  file for each couple (unit name, unit kind), this creates more than one
+   --  unit providers when Project is an aggregate project that contains
+   --  multiple definitions for the same unit.
+   --
+   --  The project pointed to by ``Tree`` and ``Env`` must outlive the returned
+   --  unit file providers, and it is up to callers must deallocate
+   --  ``Tree``/``Env`` themselves.
+   --
+   --% belongs-to: Project_Unit_Provider
 
    function Create_Project_Unit_Provider
      (Tree             : Prj.Project_Tree_Access;
@@ -60,7 +78,7 @@ package Libadalang.Project_Provider is
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
       return Project_Unit_Provider;
-   --  Likewise, but allow the use of aggregate projects.
+   --  Likewise, but create only one unit provider.
    --
    --  If a non-null Project is given, use it to provide units. Raise an
    --  Invalid_Project exception if an aggregate projects that aggregates more
@@ -68,16 +86,10 @@ package Libadalang.Project_Provider is
    --
    --  If Project is not provided, use the Tree's root project (the same
    --  restriction as above applies for it).
-
-   function Create_Project_Unit_Provider_Reference
-     (Project          : Prj.Project_Tree_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True)
-      return LAL.Unit_Provider_Reference;
-   --  Wrapper around ``Create_Project_Unit_Provider`` as a shortcut to create
-   --  a unit provider reference.
    --
-   --% belongs-to: Project_Unit_Provider
+   --  If ``Is_Project_Owner`` is true, the result owns ``Tree``, thus the
+   --  caller must not deallocate it itself.  Otherwise, the project pointed to
+   --  by Project must outlive the returned unit file provider.
 
    function Create_Project_Unit_Provider_Reference
      (Tree             : Prj.Project_Tree_Access;
@@ -118,27 +130,12 @@ private
 
    type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
       Tree             : Prj.Project_Tree_Access;
-      Project          : Prj.Project_Type;
+      Projects         : Prj.Project_Array_Access;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean;
    end record;
 
    overriding procedure Release (Provider : in out Project_Unit_Provider);
-
-   function Create_Project_Unit_Provider
-     (Project          : Prj.Project_Tree_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True) return Project_Unit_Provider
-   is (Create_Project_Unit_Provider (Project, Project.Root_Project, Env,
-                                     Is_Project_Owner));
-
-   function Create_Project_Unit_Provider_Reference
-     (Project          : Prj.Project_Tree_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True)
-      return LAL.Unit_Provider_Reference
-   is (LAL.Create_Unit_Provider_Reference
-         (Create_Project_Unit_Provider (Project, Env, Is_Project_Owner)));
 
    function Create_Project_Unit_Provider_Reference
      (Tree             : Prj.Project_Tree_Access;

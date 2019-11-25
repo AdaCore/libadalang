@@ -33,7 +33,8 @@ procedure Main is
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
-     ("Count object declarations in source files",
+     (Name               => "test",
+      Description        => "Count object declarations in source files",
       Enable_Parallelism => True,
       App_Setup          => App_Setup,
       Process_Unit       => Process_Unit,

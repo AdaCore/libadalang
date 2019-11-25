@@ -46,7 +46,8 @@ procedure Nameres is
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
-     (Description   =>
+     (Name          => "nameres",
+      Description   =>
          "Run Libadalang's name resolution on a file, set of files or project",
       App_Setup     => App_Setup,
       Job_Setup     => Job_Setup,

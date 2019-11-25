@@ -30,7 +30,6 @@ with Ada.Unchecked_Deallocation;
 with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.Projects;  use GNATCOLL.Projects;
-with GNATCOLL.Traces;
 with GNATCOLL.VFS;       use GNATCOLL.VFS;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
@@ -161,6 +160,7 @@ package body Libadalang.Helpers is
          Project       : out Project_Tree_Access;
          Env           : out Project_Environment_Access) is
       begin
+         Trace.Trace ("Loading project " & Project_File);
          Project := new Project_Tree;
          Initialize (Env);
 
@@ -193,10 +193,12 @@ package body Libadalang.Helpers is
                Errors            => Print_Error'Access);
          exception
             when Invalid_Project =>
+               Trace.Trace ("Loading failed");
                Free (Project);
                Free (Env);
                Abort_App;
          end;
+         Trace.Trace ("Loading succeeded");
       end Load_Project;
 
       -------------------------------
@@ -288,18 +290,24 @@ package body Libadalang.Helpers is
             --  appropriate.
 
             declare
-               Job_Ctx : App_Job_Context renames Job_Contexts (JID);
+               Job_Name : constant String := "Job" & JID'Image;
+               Job_Ctx  : App_Job_Context renames Job_Contexts (JID);
 
                type Any_Step is (Setup, In_Unit, Tear_Down);
                Step : Any_Step := Setup;
             begin
+               Trace.Increase_Indent ("Setting up " & Job_Name);
                Job_Setup (Job_Ctx);
+               Trace.Decrease_Indent;
+
                Step := In_Unit;
                loop
                   --  Stop as soon as we noticed that another job requested
                   --  abortion.
 
                   if Abortion.Abort_Signaled then
+                     Trace.Trace
+                       (Job_Name & " leaving after another job aborted");
                      Job_Ctx.Aborted := True;
                      exit;
                   end if;
@@ -313,6 +321,7 @@ package body Libadalang.Helpers is
                      exit;
                   end select;
 
+                  Trace.Increase_Indent (Job_Name & ": Processing " & (+F));
                   declare
                      Unit : constant Analysis_Unit :=
                         Job_Ctx.Analysis_Ctx.Get_From_File (+F);
@@ -320,15 +329,21 @@ package body Libadalang.Helpers is
                      Process_Unit (Job_Ctx, Unit);
                      Job_Ctx.Units_Processed.Append (Unit);
                   end;
+                  Trace.Decrease_Indent;
+
                end loop;
+
+               Trace.Increase_Indent ("Tearing down " & Job_Name);
                Step := Tear_Down;
                Job_Tear_Down (Job_Ctx);
+               Trace.Decrease_Indent;
 
             --  Make sure to handle properly uncaught errors (they have nowhere
             --  to propagate once here) and abortion requests.
 
             exception
                when Abort_App_Exception =>
+                  Trace.Trace (Job_Name & " aborted the app");
                   Job_Ctx.Aborted := True;
                   Abortion.Signal_Abortion;
 
@@ -363,6 +378,7 @@ package body Libadalang.Helpers is
             return;
          end if;
 
+         Trace.Increase_Indent ("Setting up the unit provider");
          if Length (Args.Project_File.Get) > 0 then
             --  Handle project file and build the list of source files to
             --  process.
@@ -417,6 +433,7 @@ package body Libadalang.Helpers is
          if Files.Is_Empty then
             Put_Line (Standard_Error, "No source file to process");
          end if;
+         Trace.Decrease_Indent;
 
          --  Initialize contexts
 
@@ -438,7 +455,10 @@ package body Libadalang.Helpers is
          --  Finally, create all jobs, and one context per job to process unit
          --  files.
 
+         Trace.Trace ("Setting up the app");
          App_Setup (App_Ctx, Job_Contexts.all);
+
+         Trace.Trace ("Running jobs");
          declare
             Task_Pool : array (Job_Contexts.all'Range) of Main_Task_Type;
          begin
@@ -454,11 +474,15 @@ package body Libadalang.Helpers is
                T.Stop;
             end loop;
          end;
+         Trace.Trace ("Tearing down the app");
          App_Tear_Down (App_Ctx, Job_Contexts.all);
          Free (Job_Contexts);
 
+         Trace.Trace ("Done");
+
       exception
          when Abort_App_Exception =>
+            Trace.Trace ("App aborted");
             Free (Job_Contexts);
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       end Run;

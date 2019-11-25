@@ -301,6 +301,20 @@ class AdaNode(ASTNode):
         """
         return Entity.string_join(syms.map(lambda s: s.image), sep)
 
+    @langkit_property(return_type=T.CompilationUnit,
+                      ignore_warn_on_node=True)
+    def enclosing_compilation_unit():
+        """
+        Return the compilation unit containing this node.
+
+        .. note:: This returns the ``CompilationUnit`` node, which is different
+           from the ``AnalysisUnit``. In particular, an analysis unit can
+           contain multiple compilation units.
+        """
+        return Self.parents.find(
+            lambda n: n.is_a(CompilationUnit)
+        ).cast_or_raise(CompilationUnit)
+
     @langkit_property(return_type=T.BasicDecl,
                       ignore_warn_on_node=True, uses_entity_info=False)
     def get_root_decl():
@@ -308,11 +322,7 @@ class AdaNode(ASTNode):
         Unit method. Return the root decl for this node's unit.
         """
         return Self.unit.root._.match(
-            lambda cu=T.CompilationUnit: cu.body.match(
-                lambda su=T.Subunit: su.body,
-                lambda li=T.LibraryItem: li.item,
-                lambda _: No(T.BasicDecl)
-            ),
+            lambda cu=T.CompilationUnit: cu.decl,
             lambda _: No(T.BasicDecl),
         )
 
@@ -597,33 +607,6 @@ class AdaNode(ASTNode):
         Entity.parents.find(lambda p: p.xref_entry_point).resolve_names
     )
 
-    # TODO: Navigation properties are not ready to deal with units containing
-    # multiple packages.
-
-    body_unit = Property(
-        Self.top_level_decl(Self.unit)._.match(
-            lambda body=T.Body: body.unit,
-            lambda decl=T.BasicDecl:
-                decl.as_bare_entity.defining_name.referenced_unit(UnitBody),
-        ),
-
-        public=True, doc="""
-        If this unit has a body, fetch and return it.
-        """
-    )
-
-    spec_unit = Property(
-        Self.top_level_decl(Self.unit)
-        .cast(T.Body)._.as_bare_entity.defining_name
-        .referenced_unit_or_null(UnitSpecification),
-
-        public=True, doc="""
-        If this unit has a spec, fetch and return it. Return the null analysis
-        unit otherwise. Note that this returns null for specs, as they don't
-        have another spec themselves.
-        """
-    )
-
     @langkit_property(return_type=LexicalEnv)
     def parent_unit_env_helper(unit=AnalysisUnit, env=LexicalEnv):
         return env.env_parent.then(lambda parent_env: parent_env.env_node.then(
@@ -892,14 +875,7 @@ class AdaNode(ASTNode):
         Static method. Get the top-level decl in ``unit``.  This is the body of
         a Subunit, or the item of a ``LibraryItem``.
         """
-        return unit._.root.then(
-            lambda root:
-                root.cast_or_raise(T.CompilationUnit).body.match(
-                    lambda li=T.LibraryItem: li.item,
-                    lambda su=T.Subunit: su.body,
-                    lambda _: No(T.BasicDecl),
-                )
-        )
+        return unit._.root._.cast_or_raise(T.CompilationUnit).decl
 
     @langkit_property()
     def unpack_formals(formal_params=T.BaseFormalParamDecl.entity.array):
@@ -1789,7 +1765,10 @@ class BasicDecl(AdaNode):
         Implementation of next_part_for_decl for basic decls, that can be
         reused by subclasses when they override next_part_for_decl.
         """
-        ignore(Var(Self.body_unit))
+        ignore(Var(
+            Self.enclosing_compilation_unit.decl.as_bare_entity
+            ._.defining_name._.referenced_unit(UnitBody)
+        ))
 
         return If(
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
@@ -2012,42 +1991,40 @@ class Body(BasicDecl):
         Return the decl corresponding to this body. Specialized implementation
         for subprogram bodies.
         """
-        return If(
+        env = Var(If(
             Self.is_compilation_unit_root & Not(Self.is_subunit),
+            Self.std_env,
+            Entity.children_env.env_parent
+        ))
+        return env.get(Entity.name_symbol).find(
+            lambda sp: And(
+                Not(sp.is_null),
+                Not(sp.node == Self),
+                sp.match(
+                    # If this body completes a generic subprogram, then we
+                    # just return it (no need to match the signature).
+                    lambda _=T.GenericSubpDecl: True,
 
-            # If library item, we just return the spec. We don't check if it's
-            # a valid and matching subprogram because that's an error case.
-            Self.top_level_decl(Self.spec_unit).as_entity,
+                    lambda subp_decl=T.BasicSubpDecl:
+                    subp_decl.subp_decl_spec.match_signature(
+                        Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                        # We set use_entity_info to False so as to not match
+                        # base subprograms.
+                        use_entity_info=False
+                    ),
 
-            # If not a library item, find the matching subprogram spec in the
-            # env.
-            Entity.children_env.env_parent.get(Entity.name_symbol)
-            .find(lambda sp: And(Not(sp.is_null),
-                  Not(sp.node == Self),
-                  sp.match(
-                      # If this body completes a generic subprogram, then we
-                      # just return it (no need to match the signature).
-                      lambda _=T.GenericSubpDecl: True,
+                    lambda subp_stub=T.SubpBodyStub:
+                    subp_stub.subp_spec.match_signature(
+                        Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                        # We set use_entity_info to False so as to not match
+                        # base subprograms.
+                        use_entity_info=False
+                    ),
 
-                      lambda subp_decl=T.BasicSubpDecl:
-                      subp_decl.subp_decl_spec.match_signature(
-                          Entity.subp_spec_or_null.cast(T.SubpSpec), True,
-                          # We set use_entity_info to False so as to not match
-                          # base subprograms.
-                          use_entity_info=False
-                      ),
-
-                      lambda subp_stub=T.SubpBodyStub:
-                      subp_stub.subp_spec.match_signature(
-                          Entity.subp_spec_or_null.cast(T.SubpSpec), True,
-                          # We set use_entity_info to False so as to not match
-                          # base subprograms.
-                          use_entity_info=False
-                      ),
-
-                      lambda _: False
-            ))).cast_or_raise(T.BasicDecl.entity)
-        )
+                    lambda _: False
+                )
+            )
+        ).cast_or_raise(T.BasicDecl.entity)
 
     @langkit_property(dynamic_vars=[env])
     def package_previous_part():
@@ -10990,6 +10967,18 @@ class CompilationUnit(AdaNode):
             lambda _: PropertyError(
                 AnalysisUnitKind, 'Unexpected CompilationUnit.f_body attribute'
             ),
+        )
+
+    @langkit_property(public=True, return_type=BasicDecl,
+                      ignore_warn_on_node=True)
+    def decl():
+        """
+        Get the root basic decl defined in this compilation unit.
+        """
+        return Self.body.match(
+            lambda li=T.LibraryItem: li.item,
+            lambda su=T.Subunit: su.body,
+            lambda _: No(T.BasicDecl),
         )
 
     @langkit_property(return_type=Bool)

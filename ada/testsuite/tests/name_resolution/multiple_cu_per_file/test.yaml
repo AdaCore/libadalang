@@ -1,4 +1,3 @@
 driver: name-resolution
 input_sources: [foo.adb, specs.ada, bodies.ada]
 project_file: p.gpr
-expect_failure: Pending resolution of R219-008

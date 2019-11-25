@@ -27,6 +27,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.Projects;
+with GNATCOLL.Traces; use GNATCOLL.Traces;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
@@ -82,6 +83,9 @@ package Libadalang.Helpers is
    --  procedure, that will process one unit out of the set of units
    --  to process.
    generic
+      Name : String;
+      --  Name for the application. Used to create the GNATCOLL trace.
+
       Description : String;
       --  Description for the application. Will be used in the help string.
 
@@ -126,6 +130,10 @@ package Libadalang.Helpers is
       --  This procedure is called once all jobs are done
 
    package App is
+
+      Trace : constant GNATCOLL.Traces.Trace_Handle :=
+         GNATCOLL.Traces.Create
+           ("LIBADALANG.APP." & Name, GNATCOLL.Traces.From_Config);
 
       --  This package contains the arguments parser for your app. It contains
       --  the instantiation of the parser, and the set of default arguments, so

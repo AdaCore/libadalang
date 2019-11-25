@@ -47,7 +47,8 @@ procedure GNAT_Compare is
    procedure Job_Tear_Down (Context : App_Job_Context);
 
    package App is new Libadalang.Helpers.App
-     (Description   => "Compare GNAT's xrefs and Libadalang's",
+     (Name          => "gnat_compare",
+      Description   => "Compare GNAT's xrefs and Libadalang's",
       Job_Setup     => Job_Setup,
       Job_Tear_Down => Job_Tear_Down);
 

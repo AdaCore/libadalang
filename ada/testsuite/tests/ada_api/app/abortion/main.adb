@@ -14,7 +14,8 @@ procedure Main is
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
-     ("Test App",
+     (Name               => "test",
+      Description        => "Test App",
       Enable_Parallelism => True,
       Process_Unit       => Process_Unit,
       App_Tear_Down      => App_Tear_Down);

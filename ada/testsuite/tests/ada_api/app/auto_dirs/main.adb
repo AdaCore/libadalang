@@ -10,7 +10,8 @@ procedure Main is
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
 
    package App is new Libadalang.Helpers.App
-     ("Test App for the auto provider",
+     (Name         => "test",
+      Description  => "Test App for the auto provider",
       Process_Unit => Process_Unit);
 
    ------------------

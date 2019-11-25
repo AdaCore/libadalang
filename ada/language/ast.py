@@ -1773,8 +1773,11 @@ class BasicDecl(AdaNode):
         return If(
             Self.is_a(T.GenericSubpInternal), Entity.parent.children_env,
             Entity.children_env
-        ).get_first('__nextpart', lookup=LK.flat,
-                    categories=noprims).cast(T.BasicDecl)
+        ).get_first(
+            If(Self.is_a(BasicSubpDecl), Self.name_symbol, '__nextpart'),
+            lookup=LK.flat,
+            categories=noprims
+        ).cast(T.BasicDecl)
 
     @langkit_property(public=True)
     def next_part_for_decl():
@@ -5357,9 +5360,7 @@ class BasicSubpDecl(BasicDecl):
             Self.parent.cast(T.GenericSubpDecl)
             ._.is_compilation_unit_root._or(Self.is_compilation_unit_root),
 
-            Entity.defining_name
-            .referenced_unit(UnitBody).root
-            .get_root_decl.cast(T.Body).as_entity,
+            Entity.basic_decl_next_part_for_decl,
 
             # Self is declared in a private part
             decl_scope.is_a(T.PrivatePart),

@@ -16,7 +16,7 @@ Contents:
    ada_api_ref
    python_api_ref
    api_changes
-   roadmap/index.rst
+   design_documents/index.rst
 
 Indices and tables
 ==================

@@ -1,0 +1,6 @@
+Loading the project:
+  * P1 P2
+  * P3
+
+<DottedName p2.ads:4:24-4:28> resolves to <ObjectDecl ["I"] p1.ads:2:4-2:16>
+Done.

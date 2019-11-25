@@ -5547,7 +5547,7 @@ class Pragma(AdaNode):
             Entity.id.name_symbol.any_of(
                 'Import', 'Export', 'Interface', 'Convention',
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body',
-                'Inline'
+                'Inline', 'Volatile'
             ),
             Entity.associated_entity_name.then(
                 lambda n: n.xref_no_overloading, default_val=LogicTrue()
@@ -5586,7 +5586,8 @@ class Pragma(AdaNode):
             ),
             Entity.args.at(1).assoc_expr.cast_or_raise(T.Name),
             Entity.id.name_symbol.any_of(
-                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline'
+                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline',
+                'Volatile'
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 

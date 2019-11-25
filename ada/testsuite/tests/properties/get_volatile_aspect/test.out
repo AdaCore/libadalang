@@ -1,0 +1,7 @@
+<SubpBody ["Test"] test.adb:1:1-9:10>:
+  volatile aspect: <Aspect exists=False node=None value=None>
+<TypeDecl ["VolatileType"] test.adb:2:4-2:37>:
+  volatile aspect: <Aspect exists=True node=<PragmaNode test.adb:3:4-3:35> value=None>
+<ObjectDecl ["VolatileVariable"] test.adb:5:4-5:31>:
+  volatile aspect: <Aspect exists=True node=<PragmaNode test.adb:6:4-6:39> value=None>
+Done.

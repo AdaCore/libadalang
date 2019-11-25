@@ -1,0 +1,6 @@
+project Test is
+   package Naming is
+      for Body ("Pkg1") use "multi_units.adb" at 1;
+      for Body ("Pkg2") use "multi_units.adb" at 2;
+   end Naming;
+end Test;

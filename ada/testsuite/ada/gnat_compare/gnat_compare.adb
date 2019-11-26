@@ -310,10 +310,12 @@ procedure GNAT_Compare is
       is
          Ref : Defining_Name;
       begin
+         Error := False;
+
          begin
             Ref := Node.P_Gnat_Xref;
          exception
-            when Property_Error =>
+            when Exc : Property_Error =>
                Error := True;
          end;
 

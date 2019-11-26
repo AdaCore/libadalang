@@ -212,6 +212,10 @@ class BaseDriver(TestDriver):
         return self.global_env['options'].disable_python
 
     @property
+    def build_mode(self):
+        return self.global_env['options'].build_mode
+
+    @property
     def python_interpreter(self):
         choices = {
             'default': self.global_env['options'].with_python or 'python',
@@ -346,7 +350,8 @@ class BaseDriver(TestDriver):
         """
         library_type = 'static' if self.disable_shared else 'relocatable'
         return ['-XLIBRARY_TYPE={}'.format(library_type),
-                '-XXMLADA_BUILD={}'.format(library_type)]
+                '-XXMLADA_BUILD={}'.format(library_type),
+                '-XBUILD_MODE={}'.format(self.build_mode)]
 
     #
     # Analysis helpers

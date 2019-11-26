@@ -68,6 +68,9 @@ class Testsuite(BaseTestsuite):
         self.main.add_option(
             '--skip-internal-tests', action='store_true', default=False,
             help='Skip tests from the internal testsuite')
+        self.main.add_option(
+            '--build-mode', default='dev',
+            help='Build mode for Libadalang')
 
         #
         # Convenience options for developpers

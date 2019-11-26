@@ -236,7 +236,8 @@ class Manage(ManageScript):
         argv = [
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
-            '--enable-color', '--show-error-output'
+            '--enable-color', '--show-error-output',
+            '--build-mode={}'.format(args.build_mode)
         ]
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')

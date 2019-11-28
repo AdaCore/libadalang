@@ -3,13 +3,13 @@ from __future__ import absolute_import, division, print_function
 import libadalang as lal
 
 
-bla_1 = """procedure bla is
+bla_1 = b"""procedure bla is
 begin
    null;
 end;
 """
 
-bla_2 = """procedure  is
+bla_2 = b"""procedure  is
 begin
    null;
 end;

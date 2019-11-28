@@ -2,9 +2,11 @@
 
 from __future__ import absolute_import, division, print_function
 
-import libadalang as lal
 import os
 import sys
+
+import libadalang as lal
+from libadalang import _py2to3
 
 
 desc = """
@@ -37,7 +39,7 @@ class InlinePlayground(lal.App):
         self.parser.add_argument(
             '--pretty-out', action='store_true',
             default=os.isatty(sys.stdout.fileno()),
-            help="Prettify output for cli use"
+            help='Prettify output for CLI use'
         )
         super(InlinePlayground, self).add_arguments()
 
@@ -62,14 +64,19 @@ class InlinePlayground(lal.App):
                     col(current_node.entity_repr, YELLOW)
                 ))
                 try:
-                    print("Result: {}".format(
-                        col(repr(eval(expr_text, None,
-                                      {'lal': lal,
-                                       'node': current_node})),
-                            YELLOW)
-                    ))
+                    value = eval(
+                        expr_text, None,
+                        {'lal': lal, 'node': current_node}
+                    )
                 except lal.PropertyError as pe:
-                    print("Exception:", pe.message)
+                    print('Exception:', *pe.args)
+                else:
+
+                    # Hide discrepancies between Python2 and Python3
+                    value_repr = (_py2to3.text_repr(value)
+                                  if isinstance(value, _py2to3.text_type) else
+                                  repr(value))
+                    print('Result: {}'.format(col(value_repr, YELLOW)))
                 print()
 
         print()

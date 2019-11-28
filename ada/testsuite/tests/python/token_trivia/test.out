@@ -1,4 +1,4 @@
-Comment u'--  This is a comment'
-Whitespace u'\n'
+Comment '--  This is a comment'
+Whitespace '\n'
 Termination
 Done.

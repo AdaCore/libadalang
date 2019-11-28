@@ -1,2 +1,5 @@
 driver: python
 input_sources: []
+expect_failure:
+    - {if: [python3],
+       then: 'XXX'}

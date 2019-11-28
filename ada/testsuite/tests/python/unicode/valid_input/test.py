@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import libadalang
+from libadalang._py2to3 import text_repr
 
 from unicode_utils import (
     get_string_literal, src_buffer_iso_8859_1, src_buffer_utf_8
@@ -12,7 +13,7 @@ ctx = libadalang.AnalysisContext('iso-8859-1')
 
 def check(unit):
     assert unit, 'Could not create the analysis unit from foo.adb'
-    print('  Got: {}'.format(repr(get_string_literal(unit))))
+    print('  Got: {}'.format(text_repr(get_string_literal(unit))))
 
 # Check that at unit creation, we use the context-specific default
 # charset.

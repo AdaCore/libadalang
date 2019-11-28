@@ -1,10 +1,10 @@
 Eval 'node.p_canonical_text' on node <Id "["03C0"]" foo.ads:2:4-2:12>
-Result: u'\u03c0'
+Result: '\u03c0'
 
 Eval 'node.p_canonical_text' on node <Id "This_Is_["03C0"]" foo.ads:5:4-5:20>
-Result: u'this_is_\u03c0'
+Result: 'this_is_\u03c0'
 
 Eval 'node.p_canonical_text' on node <Id "["000003C0"]_Name" foo.ads:8:4-8:21>
-Result: u'\u03c0_name'
+Result: '\u03c0_name'
 
 

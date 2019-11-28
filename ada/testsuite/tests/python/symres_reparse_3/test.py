@@ -4,7 +4,7 @@ import libadalang as lal
 
 
 def read_file(name):
-    with open(name, 'r') as f:
+    with open(name, 'rb') as f:
         return f.read()
 
 ctx = lal.AnalysisContext()

@@ -1,16 +1,35 @@
 from __future__ import absolute_import, division, print_function
 
 import libadalang
+from libadalang import _py2to3
+
+
+def unirepr(value):
+    if isinstance(value, _py2to3.bytes_type):
+        return _py2to3.bytes_repr(value)
+    elif isinstance(value, _py2to3.text_type):
+        return _py2to3.text_repr(value)
+    elif isinstance(value, dict):
+        return '{{{}}}'.format(', '.join(
+            '{}: {}'.format(unirepr(key), unirepr(item))
+            for key, item in value.items()
+        ))
+    elif isinstance(value, tuple):
+        if len(value) == 1:
+            return '({},)'.format(unirepr(value[0]))
+        return '({})'.format(', '.join(unirepr(item) for item in value))
+    else:
+        return repr(value)
 
 
 for args in [
     (None, ),
     (1, ),
-    ('p.gpr', {1: 'bar'}),
-    ('p.gpr', {'bar': 1}),
+    (b'p.gpr', {1: b'bar'}),
+    (b'p.gpr', {b'bar': 1}),
     (u'p.gpr', {u'SRC_DIR': u'src1'}),
 ]:
-    print('Trying to build with', args)
+    print('Trying to build with', unirepr(args))
     try:
         libadalang.UnitProvider.for_project(*args)
     except TypeError as exc:

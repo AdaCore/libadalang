@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import libadalang as lal
+from libadalang import _py2to3
 
 
 def process(filename, with_trivia):
@@ -21,7 +22,7 @@ def process(filename, with_trivia):
             typ='trivia' if token.is_trivia else 'token ',
             index=token.index,
             kind=token.kind,
-            image=repr(token.text),
+            image=_py2to3.text_repr(token.text),
         ))
         prev_token = token
         token = token.next

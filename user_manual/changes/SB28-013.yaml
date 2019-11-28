@@ -1,0 +1,8 @@
+type: new-feature
+title: Implement ``SingleTokNode.canonical_text``
+
+description: |
+    Return the text of a single token node, but canonicalized, eg. case folded
+    and with GNAT brackets encoding decoded.
+
+date: 2019-11-28

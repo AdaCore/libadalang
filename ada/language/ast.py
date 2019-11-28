@@ -9884,7 +9884,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.primitive_subp_types.then(lambda p: p.at(0))
 
-    @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
+    @langkit_property(return_type=BaseTypeDecl.entity,
+                      public=True, memoized=True)
     def primitive_subp_tagged_type():
         """
         If this subprogram is a primitive for a tagged type, then return this

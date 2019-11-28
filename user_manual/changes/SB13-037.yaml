@@ -1,0 +1,10 @@
+type: new-feature
+title: Introduce ``BasicSubpDecl.primitive_subp_tagged_type``
+short_title: Introduce ``primitive_subp_tagged_type``
+
+description: |
+    Introduce a new property, ``BasicSubpDecl.primitive_subp_tagged_type``,
+    that returns the tagged type of which the subprogram is a primitive of, if
+    applicable.
+
+date: 2019-11-28

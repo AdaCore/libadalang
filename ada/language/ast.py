@@ -8903,8 +8903,20 @@ class SingleTokNode(Name):
     defines_subp_spec_var = Property(True)
 
     sym = Property(
-        Self.symbol, doc="Shortcut to get the symbol of this node"
+        Self.symbol,
+        doc="""
+        Shortcut to get the symbol of this node. We keep this short form, even
+        though the public property canonical_text is equivalent because it is
+        very used inside of the internal properties
+        """
     )
+
+    @langkit_property(public=True)
+    def canonical_text():
+        """
+        Return a canonicalized version of this node's text.
+        """
+        return Self.sym
 
     @langkit_property()
     def env_get_first(lex_env=LexicalEnv, lookup_type=LK, from_node=T.AdaNode):

@@ -1444,7 +1444,7 @@ class BasicDecl(AdaNode):
         """
         return Entity.is_subprogram.then(
             lambda _: Entity.subp_spec_or_null.then(
-                lambda spec: spec.primitive_subp_of_tagged.then(
+                lambda spec: spec.primitive_subp_tagged_type.then(
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
                         lambda bd: bd.cast(BasicDecl),
@@ -1516,7 +1516,7 @@ class BasicDecl(AdaNode):
         given units.
         """
         spec = Var(Entity.subp_spec_or_null)
-        prim_type = Var(spec._.primitive_subp_of_tagged)
+        prim_type = Var(spec._.primitive_subp_tagged_type)
         derivations = Var(prim_type._.find_all_derived_types(units))
 
         return derivations.mapcat(
@@ -9885,7 +9885,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return Entity.primitive_subp_types.then(lambda p: p.at(0))
 
     @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
-    def primitive_subp_of_tagged():
+    def primitive_subp_tagged_type():
+        """
+        If this subprogram is a primitive for a tagged type, then return this
+        type.
+        """
         return origin.bind(Self, Entity.primitive_subp_types.find(
             lambda t: t.full_view.is_tagged_type
         ))

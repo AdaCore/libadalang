@@ -976,10 +976,10 @@ class AdaNode(ASTNode):
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
             bd.cast(T.AbstractSubpDecl).subp_decl_spec
-            .first_primitive_subp_of.defining_name,
+            .primitive_subp_first_type.defining_name,
 
             bd.then(lambda bd: bd.is_a(T.BasicSubpDecl)),
-            bd.cast(T.BasicSubpDecl).subp_decl_spec.first_primitive_subp_of
+            bd.cast(T.BasicSubpDecl).subp_decl_spec.primitive_subp_first_type
             .then(
                 lambda prim_typ:
                 prim_typ.is_tagged_type.then(
@@ -5479,7 +5479,7 @@ class BasicSubpDecl(BasicDecl):
 
         # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
-            Self.as_bare_entity.subp_decl_spec.primitive_subp_of.filtermap(
+            Self.as_bare_entity.subp_decl_spec.primitive_subp_types.filtermap(
                 lambda t: new_env_assoc(
                     key=Entity.name_symbol, val=Self,
                     dest_env=t.cast_or_raise(T.TypeDecl).primitives,
@@ -9872,7 +9872,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity.array, public=True)
-    def primitive_subp_of():
+    def primitive_subp_types():
         """
         Return the types of which this subprogram is a primitive of.
         """
@@ -9897,15 +9897,15 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ).unique
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True)
-    def first_primitive_subp_of():
+    def primitive_subp_first_type():
         """
         Return the first type of which this subprogram is a primitive of.
         """
-        return Entity.primitive_subp_of.then(lambda p: p.at(0))
+        return Entity.primitive_subp_types.then(lambda p: p.at(0))
 
     @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
     def primitive_subp_of_tagged():
-        return origin.bind(Self, Entity.primitive_subp_of.find(
+        return origin.bind(Self, Entity.primitive_subp_types.find(
             lambda t: t.full_view.is_tagged_type
         ))
 
@@ -11176,7 +11176,7 @@ class BaseSubpBody(Body):
 
         # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
-            Self.as_bare_entity.subp_spec.primitive_subp_of.filtermap(
+            Self.as_bare_entity.subp_spec.primitive_subp_types.filtermap(
                 lambda t: new_env_assoc(
                     key=Entity.name_symbol, val=Self,
                     dest_env=t.cast_or_raise(T.TypeDecl).primitives,

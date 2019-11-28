@@ -1,32 +1,37 @@
 ## vim: filetype=makopython
 
+    # No matter the Python version, take bytes (forwarded as-is to C) but
+    # also accept text (encoded using the system encoding).
+
+    @staticmethod
+    def _coerce_bytes(label, value, what='a bytes string', or_none=False):
+        if value is None and or_none:
+            return None
+        elif isinstance(value, _py2to3.bytes_type):
+            return value
+        elif isinstance(value, _py2to3.text_type):
+            return value.encode()
+        else:
+            raise TypeError('`{}` argument must be {}'.format(label, what))
+
     @classmethod
     def for_project(cls, project_file, scenario_vars=None, target=None,
                     runtime=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
-        # Here and below, acccept 'unicode' instances as well as 'str' ones:
-        # ctypes will automatically take care of converting unicode instances
-        # for C functions accepting c_char_p arguments. The behavior will be
-        # the same as when using str-based API in standard Python modules
-        # (encoding error if transcoding is not possible with default
-        # encoding).
-        if not isinstance(project_file, basestring):
-            raise TypeError('`project_file` argument must be a string')
-
-        for name, value in [('target', target), ('runtime', runtime)]:
-            if value is not None and not isinstance(value, basestring):
-                raise TypeError('`{}` argument must be a string'.format(name))
+        project_file = cls._coerce_bytes('project_file', project_file)
+        project_file_text = _py2to3.bytes_to_text(project_file)
+        target = cls._coerce_bytes('target', target, or_none=True)
+        runtime = cls._coerce_bytes('runtime', runtime, or_none=True)
 
         if scenario_vars:
             items = scenario_vars.items()
             scn_vars_array_type = _project_scenario_variable * (len(items) + 1)
             scn_vars_array = scn_vars_array_type()
             for i, (name, value) in enumerate(items):
-                if (not isinstance(name, basestring) or
-                        not isinstance(value, basestring)):
-                    raise TypeError('`scenario_vars` must be a dict mapping'
-                                    ' strings to strings')
+                what = 'a dict mapping bytes strings to bytes strings'
+                name = cls._coerce_bytes('scenario_vars', name, what)
+                value = cls._coerce_bytes('scenario_vars', value, what)
                 scn_vars_array[i] = _project_scenario_variable(name, value)
             scn_vars_array[-1] = _project_scenario_variable(None, None)
         else:
@@ -38,7 +43,7 @@
             return cls(c_value)
         else:
             raise InvalidProjectError(
-                'Cannot open project {}'.format(project_file)
+                'Cannot open project {}'.format(project_file_text)
             )
 
     @classmethod
@@ -46,7 +51,11 @@
         ${py_doc('libadalang.create_auto_provider', 8)}
 
         # Create a NULL-terminated array of strings
-        c_strings = [ctypes.c_char_p(f) for f in input_files]
+        c_strings = [
+            ctypes.c_char_p(cls._coerce_bytes('input_files', f,
+                                              'a list of bytes strings'))
+            for f in input_files
+        ]
         c_array_type = ctypes.c_char_p * (len(input_files) + 1)
         c_array = c_array_type()
         for i, c_str in enumerate(c_strings):

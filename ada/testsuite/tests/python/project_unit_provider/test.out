@@ -1,12 +1,12 @@
 Trying to build with (None,)
-   ... got a TypeError exception: `project_file` argument must be a string
+   ... got a TypeError exception: `project_file` argument must be a bytes string
 Trying to build with (1,)
-   ... got a TypeError exception: `project_file` argument must be a string
-Trying to build with ('p.gpr', {1: 'bar'})
-   ... got a TypeError exception: `scenario_vars` must be a dict mapping strings to strings
-Trying to build with ('p.gpr', {'bar': 1})
-   ... got a TypeError exception: `scenario_vars` must be a dict mapping strings to strings
-Trying to build with (u'p.gpr', {u'SRC_DIR': u'src1'})
+   ... got a TypeError exception: `project_file` argument must be a bytes string
+Trying to build with (b'p.gpr', {1: b'bar'})
+   ... got a TypeError exception: `scenario_vars` argument must be a dict mapping bytes strings to bytes strings
+Trying to build with (b'p.gpr', {b'bar': 1})
+   ... got a TypeError exception: `scenario_vars` argument must be a dict mapping bytes strings to bytes strings
+Trying to build with ('p.gpr', {'SRC_DIR': 'src1'})
    ... success!
 For SRC_DIR=src1:
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:

@@ -11,7 +11,7 @@ def show_resolve(pragma):
     print('{} resolves to {}'.format(e, list(ents)))
 
 
-new_foo = """
+new_foo = b"""
 package Foo is
    type Integer is range 1 .. 10000;
    A : Integer  := 12;

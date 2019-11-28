@@ -1,9 +1,9 @@
 1. Parsing buffer (a) with context default charset
-  Got: u'"H\xe9llo w\xf6rld!"'
+  Got: '"H\xe9llo w\xf6rld!"'
 2. Reparsing buffer (b) with another charset
-  Got: u'"H\xe8llo w\xf5rld!"'
+  Got: '"H\xe8llo w\xf5rld!"'
 3. Reparsing buffer (b) with the unit default charset
-  Got: u'"H\xe8llo w\xf5rld!"'
+  Got: '"H\xe8llo w\xf5rld!"'
 4. Reparsing buffer (a) with the original charset
-  Got: u'"H\xe9llo w\xf6rld!"'
+  Got: '"H\xe9llo w\xf6rld!"'
 Done

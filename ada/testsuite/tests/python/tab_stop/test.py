@@ -9,7 +9,7 @@ import libadalang as lal
 
 
 c = lal.AnalysisContext('utf-8', tab_stop=20)
-u = c.get_from_buffer('foo.ads', '\tprocedure Foo;\n')
+u = c.get_from_buffer('foo.ads', b'\tprocedure Foo;\n')
 print(u.root.sloc_range)
 
 

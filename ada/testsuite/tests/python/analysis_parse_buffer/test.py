@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 import libadalang
 
 
-src_buffer = """
+src_buffer = b"""
 limited with Ada.Text_IO;
 
 procedure Foo is

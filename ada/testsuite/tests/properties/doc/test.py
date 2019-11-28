@@ -29,7 +29,7 @@ def test(label, buffer, pred=None):
     try:
         print(decl.p_doc)
     except lal.PropertyError as exc:
-        print(exc.message)
+        print(*exc.args)
         print()
         return
     print()
@@ -42,7 +42,7 @@ def test(label, buffer, pred=None):
         print()
 
 
-test('Test that there is no crash when doc is missing', """
+test('Test that there is no crash when doc is missing', b"""
 with A; use A;
 
 package Foo is
@@ -50,7 +50,7 @@ end Foo;
 """)
 
 
-test('Test that we can extract doc before the prelude', """
+test('Test that we can extract doc before the prelude', b"""
 --  Documentation for the package
 --  Bla bla bla
 
@@ -60,7 +60,7 @@ package Foo is
 end Foo;
 """)
 
-test('Test that we can extract doc after the prelude', """
+test('Test that we can extract doc after the prelude', b"""
 with A; use A;
 
 --  Documentation for the package
@@ -71,7 +71,7 @@ package Foo is
 end Foo;
 """)
 
-test('Test annotation extraction', """
+test('Test annotation extraction', b"""
 procedure Foo;
 --% belongs-to: Bar
 --%        random-annotation: True
@@ -79,7 +79,7 @@ procedure Foo;
 --  This is the documentation for foo
 """)
 
-test('Test whitespace stripping', """
+test('Test whitespace stripping', b"""
 procedure Foo;
 --% belongs-to: Bar
 --%        random-annotation: True
@@ -89,15 +89,15 @@ procedure Foo;
 """)
 
 test('Test toplevel package without token before "package"',
-     "package Lol is end Lol;")
+     b"package Lol is end Lol;")
 
 
-test('Test resilience to wrong annotation format', """
+test('Test resilience to wrong annotation format', b"""
 procedure Foo;
 --% belongs-to
 """)
 
-test('Test generic package doc', """
+test('Test generic package doc', b"""
 package Foo is
     --  This is the documentation for package Bar
     generic
@@ -108,7 +108,7 @@ package Foo is
 end Foo;
  """, lambda n: n.is_a(lal.GenericPackageDecl))
 
-test('Test internal generic package doc', """
+test('Test internal generic package doc', b"""
 package Foo is
     --  This is the documentation for package Bar
     generic

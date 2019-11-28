@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 import libadalang
 
 
-src_buffer_1 = """
+src_buffer_1 = b"""
 limited with Ada.Text_IO;
 
 procedure Foo is
@@ -13,7 +13,7 @@ begin
 end Foo;
 """
 
-src_buffer_2 = src_buffer_1.split(' ', 1)[1]
+src_buffer_2 = src_buffer_1.split(b' ', 1)[1]
 
 
 def check(unit):

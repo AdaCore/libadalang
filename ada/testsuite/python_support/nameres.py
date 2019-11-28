@@ -6,6 +6,7 @@ import re
 import sys
 
 import libadalang as lal
+from libadalang import _py2to3
 
 
 def unicode_image(ustr):
@@ -25,10 +26,9 @@ def unicode_image(ustr):
 
 
 def escape_ascii(string):
-    if isinstance(string, unicode):
-        return unicode_image(string)
-    else:
-        return string
+    if isinstance(string, _py2to3.bytes_type):
+        string = string.decode()
+    return unicode_image(string)
 
 
 def entity_repr(e):

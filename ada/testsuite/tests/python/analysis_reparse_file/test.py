@@ -5,7 +5,7 @@ import os
 import libadalang
 
 
-src_buffer_1 = """
+src_buffer_1 = b"""
 limited with Ada.Text_IO;
 
 procedure Foo is
@@ -15,11 +15,11 @@ begin
 end Foo;
 """
 
-src_buffer_2 = src_buffer_1.split(' ', 1)[1]
+src_buffer_2 = src_buffer_1.split(b' ', 1)[1]
 
 
 def write_source(buffer):
-    with open('foo.adb', 'w') as f:
+    with open('foo.adb', 'wb') as f:
         f.write(buffer)
 
 ctx = libadalang.AnalysisContext('iso-8859-1')

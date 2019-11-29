@@ -1,10 +1,6 @@
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "bar"
 Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
-Calling ufp_get_unit_filename (some_field=42, kind=0) with name: "foo"
-Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
-Calling ufp_get_unit_filename (some_field=42, kind=0) with name: "foo"
-Calling ufp_get_file_from_name (some_field=42, kind=0) with name: "foo"
 <DottedName foo.adb:5:17-5:22> resolves to:
   <ObjectDecl ["I"] strange_bar.ads:2:4-2:21>
 Calling ufp_destroy (some_field=42)

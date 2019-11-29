@@ -1,2 +1,2 @@
-References to pkg.foo: []
+References to pkg.foo: [<Id "Foo" syntax_error.adb:6:8-6:11>]
 Done

@@ -2042,11 +2042,15 @@ class Body(BasicDecl):
         """
         return bind_origin(
             Self, Entity.defining_name.all_env_els_impl
-        ).at(0)._.match(
-            lambda pkg_decl=T.PackageDecl: pkg_decl,
-            lambda gen_pkg_decl=T.GenericPackageDecl:
-                gen_pkg_decl.package_decl,
-            lambda _: No(T.BasicDecl.entity)
+        ).map(
+            lambda e: e.match(
+                lambda pkg_decl=T.PackageDecl: pkg_decl,
+                lambda gen_pkg_decl=T.GenericPackageDecl:
+                    gen_pkg_decl.package_decl,
+                lambda _: No(T.BasicDecl.entity)
+            )
+        ).find(
+            lambda e: Not(e.is_null)
         )
 
     @langkit_property(dynamic_vars=[env])

@@ -1766,8 +1766,11 @@ class BasicDecl(AdaNode):
         reused by subclasses when they override next_part_for_decl.
         """
         ignore(Var(
-            Self.enclosing_compilation_unit.decl.as_bare_entity
-            ._.defining_name._.referenced_unit(UnitBody)
+            Self.enclosing_compilation_unit.decl.match(
+                lambda _=Body: No(AnalysisUnit),
+                lambda b=BasicDecl:
+                b.as_bare_entity._.defining_name._.referenced_unit(UnitBody)
+            )
         ))
 
         return If(

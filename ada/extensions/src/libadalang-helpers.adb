@@ -326,7 +326,7 @@ package body Libadalang.Helpers is
                Job_Name : constant String := "Job" & JID'Image;
                Job_Ctx  : App_Job_Context renames Job_Contexts (JID);
 
-               type Any_Step is (Setup, In_Unit, Tear_Down);
+               type Any_Step is (Setup, In_Unit, Post_Process);
                Step : Any_Step := Setup;
             begin
                Trace.Increase_Indent ("Setting up " & Job_Name);
@@ -367,8 +367,8 @@ package body Libadalang.Helpers is
                end loop;
 
                Trace.Increase_Indent ("Tearing down " & Job_Name);
-               Step := Tear_Down;
-               Job_Tear_Down (Job_Ctx);
+               Step := Post_Process;
+               Job_Post_Process (Job_Ctx);
                Trace.Decrease_Indent;
 
             --  Make sure to handle properly uncaught errors (they have nowhere
@@ -386,9 +386,9 @@ package body Libadalang.Helpers is
                   declare
                      Context : constant String :=
                        (case Step is
-                        when Setup     => "in Job_Setup",
-                        when In_Unit   => "in Process_Unit for " & (+F),
-                        when Tear_Down => "in Job_Tear_Down");
+                        when Setup        => "in Job_Setup",
+                        when In_Unit      => "in Process_Unit for " & (+F),
+                        when Post_Process => "in Job_Post_Process");
                   begin
                      Put_Line
                        (Standard_Error,
@@ -507,7 +507,7 @@ package body Libadalang.Helpers is
             end loop;
          end;
          Trace.Trace ("Tearing down the app");
-         App_Tear_Down (App_Ctx, Job_Contexts.all);
+         App_Post_Process (App_Ctx, Job_Contexts.all);
          Free (Job_Contexts);
 
          Trace.Trace ("Done");

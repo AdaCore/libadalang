@@ -97,14 +97,15 @@ package Libadalang.Helpers is
       --  First, the main task calls App_Setup. Then all jobs start:
       --
       --    * Job 1 calls Job_Setup, then several Process_Units, then
-      --      Job_Tear_Down.
+      --      Job_Post_Process.
       --
       --    * Job 2 calls Job_Setup, then several Process_Units, then
-      --      Job_Tear_Down.
+      --      Job_Post_Process.
       --
       --    * Job 3 calls ...
       --
-      --  Finally, once all jobs are done, the main task calls App_Tear_Down.
+      --  Finally, once all jobs are done, the main task calls
+      --  App_Post_Process.
 
       with procedure App_Setup
         (Context : App_Context; Jobs : App_Job_Context_Array) is null;
@@ -120,11 +121,11 @@ package Libadalang.Helpers is
         (Context : App_Job_Context; Unit : Analysis_Unit) is null;
       --  This procedure will be called once right after a unit is parsed
 
-      with procedure Job_Tear_Down (Context : App_Job_Context) is null;
+      with procedure Job_Post_Process (Context : App_Job_Context) is null;
       --  This procedure will be called once after all units have been parsed.
       --  Note it will be called once per job.
 
-      with procedure App_Tear_Down
+      with procedure App_Post_Process
         (Context : App_Context; Jobs : App_Job_Context_Array) is null;
       --  This procedure is called once all jobs are done
 

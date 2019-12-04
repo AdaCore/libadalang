@@ -388,7 +388,7 @@ class AutoPackage(Directive):
                 if annotations.get('belongs-to'):
                     owning_type = types[annotations['belongs-to']]
                 else:
-                    prim_type = decl.f_subp_spec.p_first_primitive_subp_of
+                    prim_type = decl.f_subp_spec.p_primitive_subp_first_type
                     if prim_type and prim_type.unit == self.unit:
                         owning_type = prim_type
                         append_decl(owning_type)

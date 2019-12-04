@@ -213,7 +213,23 @@ package body Libadalang.Expr_Eval is
             when Ada_Type_Decl =>
                return Eval_Range_Attr
                  (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
-
+            when Ada_Subtype_Decl =>
+               declare
+                  Constraint : constant LAL.Range_Constraint :=
+                     D.As_Subtype_Decl.F_Subtype.F_Constraint
+                     .As_Range_Constraint;
+               begin
+                  --  If subtype decl with a range constraint, eval the range
+                  --  constraint. Else, eval the attribute on the canonical
+                  --  type.
+                  if not Constraint.Is_Null then
+                     return Eval_Range_Attr
+                       (Constraint.F_Range.F_Range.As_Ada_Node, A);
+                  else
+                     return Eval_Range_Attr
+                       (D.As_Subtype_Decl.P_Canonical_Type.As_Ada_Node, A);
+                  end if;
+               end;
             when Ada_Bin_Op_Range =>
                declare
                   BO   : constant LAL.Bin_Op := D.As_Bin_Op;

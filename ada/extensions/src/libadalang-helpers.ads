@@ -41,12 +41,15 @@ package Libadalang.Helpers is
 
    procedure Abort_App (Message : String := "") with No_Return;
    --  If provided, print Message to the standard error output and abort the
-   --  current App.
+   --  current App. This will set the process exit status to Failure (see
+   --  Ada.Command_Line).
 
    type App_Context is record
       Project : GNATCOLL.Projects.Project_Tree_Access;
-      --  If the App loaded a context, reference to it, null otherwise
+      --  If the App loaded a context, this is a reference to it. Null
+      --  otherwise.
    end record;
+   --  Context information for the whole application
 
    type Job_ID is new Positive;
    --  Identifier for a job in App. Unless Enable_Parallelism is False, there
@@ -70,6 +73,7 @@ package Libadalang.Helpers is
       --  Whether this jobs was aborted (see the Abort_App_Exception/Abort_App
       --  entities above).
    end record;
+   --  Context information for a single job
 
    type App_Job_Context_Array is array (Job_ID range <>) of App_Job_Context;
 
@@ -204,8 +208,8 @@ package Libadalang.Helpers is
       --  your project.
 
       procedure Dump_Exception (E : Ada.Exceptions.Exception_Occurrence);
-      --  Dump the exception E, honoring the Args.No_Traceback flag (i.e.
-      --  don't show tracebacks when asked not to).
+      --  Dump the exception ``E``, honoring the ``Args.No_Traceback`` flag
+      --  (i.e.  don't show tracebacks when asked not to).
    end App;
 
 end Libadalang.Helpers;

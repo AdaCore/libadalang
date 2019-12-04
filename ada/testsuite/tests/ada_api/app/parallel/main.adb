@@ -29,7 +29,7 @@ procedure Main is
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
@@ -38,7 +38,7 @@ procedure Main is
       Enable_Parallelism => True,
       App_Setup          => App_Setup,
       Process_Unit       => Process_Unit,
-      App_Tear_Down      => App_Tear_Down);
+      App_Post_Process   => App_Post_Process);
 
    --------------------
    -- Stripped_Image --
@@ -110,11 +110,11 @@ procedure Main is
       Map.Insert (File, Count);
    end Process_Unit;
 
-   -------------------
-   -- App_Tear_Down --
-   -------------------
+   ----------------------
+   -- App_Post_Process --
+   ----------------------
 
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array)
    is
       use Decl_Count_Maps;
@@ -139,7 +139,7 @@ procedure Main is
             Put_Line (File & ":" & Count'Image);
          end;
       end loop;
-   end App_Tear_Down;
+   end App_Post_Process;
 begin
    Generate_Sources;
    App.Run;

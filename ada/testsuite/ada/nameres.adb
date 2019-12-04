@@ -42,17 +42,17 @@ procedure Nameres is
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Job_Setup (Context : App_Job_Context);
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
-     (Name          => "nameres",
-      Description   =>
+     (Name             => "nameres",
+      Description      =>
          "Run Libadalang's name resolution on a file, set of files or project",
-      App_Setup     => App_Setup,
-      Job_Setup     => Job_Setup,
-      Process_Unit  => Process_Unit,
-      App_Tear_Down => App_Tear_Down);
+      App_Setup        => App_Setup,
+      Job_Setup        => Job_Setup,
+      Process_Unit     => Process_Unit,
+      App_Post_Process => App_Post_Process);
 
    package Args is
       use GNATCOLL.Opt_Parse;
@@ -703,11 +703,11 @@ procedure Nameres is
 
    end Process_File;
 
-   -------------------
-   -- App_Tear_Down --
-   -------------------
+   ----------------------
+   -- App_Post_Process --
+   ----------------------
 
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array)
    is
       pragma Unreferenced (Context, Jobs);
@@ -741,7 +741,7 @@ procedure Nameres is
       end if;
 
       Put_Line ("Done.");
-   end App_Tear_Down;
+   end App_Post_Process;
 
 begin
    App.Run;

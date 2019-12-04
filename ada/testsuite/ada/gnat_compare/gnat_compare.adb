@@ -44,13 +44,13 @@ procedure GNAT_Compare is
    --  Import command line arguments to our global state and load xrefs from
    --  the Library Files in Project.
 
-   procedure Job_Tear_Down (Context : App_Job_Context);
+   procedure Job_Post_Process (Context : App_Job_Context);
 
    package App is new Libadalang.Helpers.App
-     (Name          => "gnat_compare",
-      Description   => "Compare GNAT's xrefs and Libadalang's",
-      Job_Setup     => Job_Setup,
-      Job_Tear_Down => Job_Tear_Down);
+     (Name             => "gnat_compare",
+      Description      => "Compare GNAT's xrefs and Libadalang's",
+      Job_Setup        => Job_Setup,
+      Job_Post_Process => Job_Post_Process);
 
    package Args is
       use GNATCOLL.Opt_Parse;
@@ -189,11 +189,11 @@ procedure GNAT_Compare is
       Load_All_Xrefs_From_LI (Project.all, Files, LI_Xrefs, Source_Files);
    end Job_Setup;
 
-   ---------------------------
-   -- Process_Context_After --
-   ---------------------------
+   ----------------------
+   -- Job_Post_Process --
+   ----------------------
 
-   procedure Job_Tear_Down (Context : App_Job_Context) is
+   procedure Job_Post_Process (Context : App_Job_Context) is
       Prj : constant Project_Type := Context.App_Ctx.Project.Root_Project;
    begin
       --  Browse this database and compare it to what LAL can resolve
@@ -253,7 +253,7 @@ procedure GNAT_Compare is
             end if;
          end loop;
       end if;
-   end Job_Tear_Down;
+   end Job_Post_Process;
 
    ------------------
    -- Run_GPRbuild --

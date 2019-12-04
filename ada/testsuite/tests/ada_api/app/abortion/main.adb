@@ -5,12 +5,12 @@ with Libadalang.Helpers;  use Libadalang.Helpers;
 
 procedure Main is
 
-   type Abort_Location is (Setup, In_Unit, Tear_Down);
+   type Abort_Location is (Setup, In_Unit, Post_Process);
    Location : Abort_Location;
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
@@ -18,7 +18,7 @@ procedure Main is
       Description        => "Test App",
       Enable_Parallelism => True,
       Process_Unit       => Process_Unit,
-      App_Tear_Down      => App_Tear_Down);
+      App_Post_Process   => App_Post_Process);
 
    ---------------
    -- App_Setup --
@@ -44,11 +44,11 @@ procedure Main is
       end if;
    end Process_Unit;
 
-   -------------------
-   -- App_Tear_Down --
-   -------------------
+   ----------------------
+   -- App_Post_Process --
+   ----------------------
 
-   procedure App_Tear_Down
+   procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array)
    is
       pragma Unreferenced (Context);
@@ -66,10 +66,10 @@ procedure Main is
          end loop;
       end if;
 
-      if Location = Tear_Down then
+      if Location = Post_Process then
          Abort_App ("Abort in unit");
       end if;
-   end App_Tear_Down;
+   end App_Post_Process;
 
 begin
    for Loc in Abort_Location loop

@@ -31,6 +31,9 @@ with GNATCOLL.Traces; use GNATCOLL.Traces;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
+--  This package provides various helpers to build applications based on
+--  Libadalang.
+
 package Libadalang.Helpers is
 
    package Unit_Vectors is new

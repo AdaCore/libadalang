@@ -5,6 +5,7 @@ description: |
     Consider the following code pattern:
 
     .. code:: ada
+
         function Foo return Integer;
         procedure Foo;
 
@@ -19,6 +20,4 @@ description: |
     procedure ``Foo``, which by definition has no return type and
     therefore would provoke a null dereference. This is now fixed.
 
-
 date: 2019-11-13
-

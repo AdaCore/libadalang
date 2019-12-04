@@ -248,10 +248,17 @@ package body Libadalang.Expr_Eval is
                         Cst : constant LAL.Constraint :=
                           D.As_Derived_Type_Def
                             .F_Subtype_Indication.F_Constraint;
+                        Base : constant LAL.Base_Type_Decl
+                          := D.Parent.As_Base_Type_Decl.P_Base_Type;
                      begin
-                        return Eval_Range_Attr
-                          (Cst.As_Range_Constraint.F_Range.F_Range.As_Ada_Node,
-                           A);
+                        if Cst.Is_Null then
+                           return Eval_Range_Attr (Base.As_Ada_Node, A);
+                        else
+                           return Eval_Range_Attr
+                             (Cst.As_Range_Constraint
+                              .F_Range.F_Range.As_Ada_Node,
+                              A);
+                        end if;
                      end;
                   when Ada_Signed_Int_Type_Def =>
                      return Eval_Range_Attr

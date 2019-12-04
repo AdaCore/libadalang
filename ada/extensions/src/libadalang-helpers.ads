@@ -36,10 +36,9 @@ package Libadalang.Helpers is
    package Unit_Vectors is new
      Ada.Containers.Vectors (Positive, Analysis_Unit);
 
-   Abort_App_Exception : exception;
    procedure Abort_App (Message : String := "") with No_Return;
-   --  If provided, print Message to the standard error output and raise an
-   --  Abort_App_Exception.
+   --  If provided, print Message to the standard error output and abort the
+   --  current App.
 
    type App_Context is record
       Project : GNATCOLL.Projects.Project_Tree_Access;
@@ -199,10 +198,6 @@ package Libadalang.Helpers is
       procedure Run;
       --  Run the app. You should just call this from your main procedure for
       --  your project.
-      --
-      --  If one callback raises an Abort_App_Error exception, this catches it
-      --  (i.e. the exception is not propagated to callers), set the process
-      --  exit status to Failure (see Ada.Command_Line) and returns.
 
       procedure Dump_Exception (E : Ada.Exceptions.Exception_Occurrence);
       --  Dump the exception E, honoring the Args.No_Traceback flag (i.e.

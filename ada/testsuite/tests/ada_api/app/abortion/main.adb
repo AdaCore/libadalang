@@ -40,7 +40,7 @@ procedure Main is
       pragma Unreferenced (Context, Unit);
    begin
       if Location = In_Unit then
-         raise Abort_App_Exception;
+         Abort_App;
       end if;
    end Process_Unit;
 

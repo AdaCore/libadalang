@@ -165,7 +165,7 @@ procedure Nameres is
    procedure Dump_Exception
      (E   : Ada.Exceptions.Exception_Occurrence;
       Obj : in out J.JSON_Value);
-   --  Dump the exception ``E``, honoring the ``Args.No_Traceback`` flag (eg.
+   --  Dump the exception ``E``, honoring the ``Args.No_Traceback`` flag (e.g.
    --  don't show tracebacks when asked not to). If ``Obj`` is passed and
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
 

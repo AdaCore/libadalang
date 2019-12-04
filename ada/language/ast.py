@@ -1192,7 +1192,7 @@ class BasicDecl(AdaNode):
     def unshed_rebindings(rebindings=T.EnvRebindings):
         """
         Put ``rebindings`` back on ``Entity`` if ``Entity`` is rebound
-        somewhere in the chain of rebindings. Ensure coherency, eg. that if
+        somewhere in the chain of rebindings. Ensure coherency, e.g. that if
         Entity already has some rebindings, the one that we add are a superset
         of the one it already has.
         """
@@ -7104,7 +7104,7 @@ class BaseAggregate(Expr):
     # An aggregate is resolved separately from the rest of an expression,
     # however, resolution of the containing expression can leverage the
     # knowledge that self is an aggregate, by accepting only type that can be
-    # represented by an aggregate (eg. records and arrays).
+    # represented by an aggregate (e.g. records and arrays).
     stop_resolution_equation = Property(If(
         Self.in_aspect('Global') | Self.in_aspect('Depends'),
         LogicTrue(),
@@ -9968,7 +9968,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                       dynamic_vars=[default_origin()], public=True)
     def return_type():
         """
-        Returns the return type of Self, if applicable (eg. if Self is a
+        Returns the return type of Self, if applicable (e.g. if Self is a
         subprogram). Else, returns null.
         """
         return Entity.returns._.designated_type.then(

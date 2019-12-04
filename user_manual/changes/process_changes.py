@@ -52,8 +52,8 @@ def all_entries():
     Iterator on all change entries. Each entry is a dict loaded from yaml
     containing the expected entry fields.
 
-    This iterator will validate entries, eg. make sure that the entries conform
-    to the entry schema.
+    This iterator will validate entries, e.g. make sure that the entries
+    conform to the entry schema.
 
     :rtype: generator[dict]
     """

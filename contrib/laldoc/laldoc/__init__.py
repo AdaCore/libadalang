@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+# TODO: include generic formals in the generated documentation
+
 from __future__ import absolute_import, division, print_function
 
 from collections import defaultdict

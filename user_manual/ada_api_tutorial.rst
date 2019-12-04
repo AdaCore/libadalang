@@ -407,23 +407,32 @@ language's API reference.
 Ada generic application framework
 =================================
 
+Basics
+------
+
 In order to facilitate the creation of Ada command line applications,
-we have added an ``App`` generic package, that you can simply
-instantiate in order to create a command line application with a lot
-of common functionality already built-in, so that you don't have to reinvent it
-every time.
+Libadalang ships an ``App`` generic package (in the ``Libadalang.Helpers``
+unit), that you can simply instantiate in order to create a command line
+application with a lot of common functionality already built-in, so that you
+don't have to reinvent it every time.
 
-The way it works is that it handles all the logic for you. You just pass it one
-or two callbacks:
+The way it works is simple: you instantiate it, providing it several callbacks
+(see blow) and call its ``Run`` procedure in your main. It then handles all the
+logistic around your application:
 
-- One callback, ``Process_Unit``, will be called for each new ``Analysis_Unit``
-  that the application processes.
-- One callback, ``Process_Context``, will be called at the end when every
-  ``Analysis_Unit`` has been processed.
+* parsing command-line arguments,
+* setting up unit providers,
+* creating analysis contexts,
+* creating the list of source files to process for you.
+
+Your callbacks are then invoked when appropriate. The main ones are:
+
+* ``App_Setup`` right after command line options are parsed;
+* ``Process_Unit`` when processing one source file;
+* ``App_Post_Process`` after all source files are processed.
 
 Let's say you want to create a simple application that will flag all the
 ``goto`` statements in a given closure. Here is what it would look like:
-
 
 .. code-block:: ada
 
@@ -488,6 +497,34 @@ Then, running the app on a project is as simple as
     $ ./main *.adb
 
     # Analyze file.adb in the context of project.gpr, with scenario variable
-    # BUILD_TYPE set to prod
+    # BUILD_TYPE set to prod.
     $ ./main file.adb -P project.gpr -XBUILD_TYPE=prod
 
+
+Parallelism
+-----------
+
+Even though it is disabled by default, ``App`` has supports for parallelism. If
+the generic instantiation passes ``True`` to the ``Enable_Parallelism`` formal,
+then your application will be able to process several units at the same time.
+
+Most of Libadalang is not thread safe, so how could this possibly work? When
+running the application, pass for instance the ``-j8`` argument to run 8 jobs
+in parallel.  Each job will get its own ``Analysis_Context`` instance, so that
+each job actually deals with thread-local data, avoiding concurrency issues.
+
+Working with parallel job requires special attention, which is why it is
+disabled by default:
+
+* Calls to ``Job_Setup``, ``Process_Unit`` and ``Job_Post_Process`` happen in
+  parallel, so access to data that is not local to a thread must be properly
+  synchronized. For instance, concurrent calls to ``Ada.Text_IO.Put_Line`` (on
+  the same file) must be protected to avoid mixing line content, counters must
+  be protected to avoid ABA problems, etc.
+
+* Since each job creates its own ``Analysis_Context`` instance, each job will
+  probably parse and run name resolution on the same units (results are not
+  shared between contexts). This means that using 8 jobs will not magically
+  divide computing time by 8. This also means that in the worst case, using 8
+  jobs can consume up to 8 times the memory required to process the same list
+  of units without parallelism.

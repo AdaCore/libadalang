@@ -37,6 +37,10 @@ with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 package body Libadalang.Helpers is
 
+   Abort_App_Exception : exception;
+   --  Exception used to abort the execution of an App in a user callback. See
+   --  the Abort_App procedure.
+
    function "+" (S : String) return Unbounded_String
                  renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;

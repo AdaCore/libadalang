@@ -1,0 +1,8 @@
+type: new-feature
+title: Add property ``BaseTypeDecl.p_discrete_range``
+
+description: |
+    Add a property, ``BaseTypeDecl.p_discrete_range``
+
+
+date: 2019-08-21

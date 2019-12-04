@@ -46,7 +46,7 @@ package body Libadalang.Helpers is
    function "+" (S : Unbounded_String) return String renames To_String;
 
    procedure Print_Error (Message : String);
-   --  Shortcut for Put_Line (Standard_Error, Message)
+   --  Helper to print Message on the standard error
 
    package String_QI is new Ada.Containers.Synchronized_Queue_Interfaces
      (Unbounded_String);

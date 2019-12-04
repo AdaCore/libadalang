@@ -283,6 +283,19 @@ class AdaNode(ASTNode):
         # might want to pass to a predicate.
         return Not(Entity.is_null)
 
+    @langkit_property(return_type=T.EvalDiscreteRange)
+    def eval_discrete_range(dr=T.DiscreteRange):
+        """
+        Static method. Evaluate the bounds of ``dr``.
+        """
+        return T.EvalDiscreteRange.new(
+            low_bound=dr.low_bound.then(
+                lambda lb: lb.eval_as_int,
+                default_val=BigIntLiteral(0)
+            ),
+            high_bound=dr.high_bound.eval_as_int
+        )
+
     @langkit_property(return_type=T.String)
     def string_join(strns=T.String.array, sep=T.String):
         """
@@ -2676,7 +2689,7 @@ class Variant(AdaNode):
             # constant number name.
             lambda n=T.Name: n.name_designated_type.then(
                 lambda dt: Let(
-                    lambda dr=dt.discrete_range: And(
+                    lambda dr=Self.eval_discrete_range(dt.discrete_range): And(
                         val >= dr.low_bound, val <= dr.high_bound
                     )
                 ),
@@ -2684,7 +2697,8 @@ class Variant(AdaNode):
             ),
 
             # If choice is a subtype indication, then get the range
-            lambda st=T.SubtypeIndication: st.discrete_range.then(
+            lambda st=T.SubtypeIndication:
+            Self.eval_discrete_range(st.discrete_range).then(
                 lambda dr: And(val >= dr.low_bound,
                                val <= dr.high_bound)
             ),
@@ -3077,13 +3091,23 @@ class RealTypeDef(TypeDef):
     is_static = Property(True)
 
 
-class DiscreteRange(Struct):
+class EvalDiscreteRange(Struct):
     """
     Represent the range of a discrete type or subtype. The bounds are already
     evaluated, so the type of the fields is BigInt.
     """
     low_bound = UserField(type=T.BigInt)
     high_bound = UserField(type=T.BigInt)
+
+
+class DiscreteRange(Struct):
+    """
+    Represent the range of a discrete type or subtype. The bounds are not
+    evaluated, you need to call ``eval_as_int`` on them, if they're static, to
+    get their value.
+    """
+    low_bound = UserField(type=T.Expr.entity)
+    high_bound = UserField(type=T.Expr.entity)
 
 
 class LogicValResult(Struct):
@@ -3301,7 +3325,7 @@ class BaseTypeDecl(BasicDecl):
     def array_ndims():
         return Literal(0)
 
-    @langkit_property(return_type=DiscreteRange)
+    @langkit_property(return_type=DiscreteRange, public=True)
     def discrete_range():
         """
         Return the discrete range for this type decl, if applicable.
@@ -4586,8 +4610,8 @@ class ModIntTypeDef(TypeDef):
 
     @langkit_property()
     def discrete_range():
-        return DiscreteRange.new(low_bound=BigIntLiteral(0),
-                                 high_bound=Self.expr.eval_as_int)
+        return DiscreteRange.new(low_bound=No(T.Expr.entity),
+                                 high_bound=Entity.expr)
 
 
 @abstract
@@ -6777,7 +6801,7 @@ class Expr(AdaNode):
             ),
 
             lambda bo=T.BinOp: DiscreteRange.new(
-                low_bound=bo.left.eval_as_int, high_bound=bo.right.eval_as_int
+                low_bound=bo.left, high_bound=bo.right
             ),
             lambda _: No(DiscreteRange)
         )

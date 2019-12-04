@@ -2624,10 +2624,11 @@ class TypeDef(AdaNode):
             # Same for "derived" and "interface" type definitions, but we also
             # need to include the defining environments of their base types.
             Self.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
-            Entity.base_types.map(
-                lambda bt: bt._.defining_env
-            ).concat(
-                Array([Entity.children_env, Entity.previous_part_env])
+            # Make sure to put own defining env before base types' defining
+            # envs in the result, so that most-overriden subprograms will be
+            # considered first during name resolution.
+            Array([Entity.children_env, Entity.previous_part_env]).concat(
+                Entity.base_types.map(lambda bt: bt._.defining_env)
             ).env_group(),
 
             Entity.match(

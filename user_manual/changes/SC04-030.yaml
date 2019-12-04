@@ -1,0 +1,12 @@
+type: bugfix
+title: Resolution of calls to primitives
+
+description: |
+    So far for calls of the form `X.Foo`, libadalang would always resolve
+    `Foo` to the base-most declaration of the subprogram `Foo`. This is
+    not accurate in case the type of `X` is statically known to be a child
+    type which provides an override of `Foo`. After this change, `Foo` in `X.Foo`
+    now correctly resolves to the most precise override available of `Foo` for
+    `X`.
+
+date: 2019-12-04

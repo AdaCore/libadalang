@@ -34,13 +34,14 @@ python user_manual/changes/process_changes.py validate
 # macOS, so do not run the testsuite on this platform.
 if [ "$TRAVIS_OS_NAME" != osx ]
 then
+    # Finally, run the testsuite
+    #
+    # TODO: adjust the Travis CI setup to provide a viable OCaml environment and
+    # enable the corresponding testcases.
+    ada/manage.py test --disable-ocaml -- -j16 | tee TESTSUITE_OUT
 
-  # Finally, run the testsuite
-  #
-  # TODO: adjust the Travis CI setup to provide a viable OCaml environment and
-  # enable the corresponding testcases.
-  ada/manage.py test --disable-ocaml -- -j16
-
+    # Exit with an error if there is a FAILED line in TESTSUITE_OUT
+    ! grep "FAILED   " TESTSUITE_OUT > /dev/null
 fi
 
 # Install result and pack an archive

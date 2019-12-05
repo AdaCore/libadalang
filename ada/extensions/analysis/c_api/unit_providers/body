@@ -106,7 +106,7 @@
 
       Tree : Project_Tree_Access;
       Env  : Project_Environment_Access;
-      Prj  : Project_Type;
+      Prj  : Project_Type := No_Project;
 
       function Error return ${unit_provider_type};
       --  Helper for error handling: free allocated resources and return null
@@ -128,18 +128,14 @@
          return ${unit_provider_type} (System.Null_Address);
       end if;
 
-      --  Look for the requested project
-
-      if P = "" then
-         Prj := Tree.Root_Project;
-      else
+      if P /= "" then
+         --  A specific project was requested: try to build one unit provider
+         --  just for it.
          Prj := Tree.Project_From_Name (P);
          if Prj = No_Project then
             return Error;
          end if;
       end if;
-
-      --  Project loading was successful! Embed allocated data in the result.
 
       begin
          return To_C_Provider

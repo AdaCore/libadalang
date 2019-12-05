@@ -1,0 +1,3 @@
+aggregate project AP2 is
+   for Project_Files use ("p1.gpr", "p2.gpr");
+end AP2;

@@ -46,13 +46,14 @@ procedure Nameres is
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
-     (Name             => "nameres",
-      Description      =>
+     (Name               => "nameres",
+      Description        =>
          "Run Libadalang's name resolution on a file, set of files or project",
-      App_Setup        => App_Setup,
-      Job_Setup        => Job_Setup,
-      Process_Unit     => Process_Unit,
-      App_Post_Process => App_Post_Process);
+      Enable_Parallelism => True,
+      App_Setup          => App_Setup,
+      Job_Setup          => Job_Setup,
+      Process_Unit       => Process_Unit,
+      App_Post_Process   => App_Post_Process);
 
    package Args is
       use GNATCOLL.Opt_Parse;

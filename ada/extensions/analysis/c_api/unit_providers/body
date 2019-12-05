@@ -15,6 +15,15 @@
    --  Return the number of scenario variables in the Scenario_Vars C-style
    --  array. This counts the number of entries before the first NULL entry.
 
+   procedure Load_Project
+     (Project_File    : chars_ptr;
+      Scenario_Vars   : System.Address;
+      Target, Runtime : chars_ptr;
+      Tree            : out Project_Tree_Access;
+      Env             : out Project_Environment_Access);
+   --  Helper to load a project file from C arguments. In case of failure,
+   --  set Tree and Env to null and just return (no exception propagated).
+
    -------------------------
    -- Scenario_Vars_Count --
    -------------------------
@@ -33,45 +42,28 @@
       return Result - 1;
    end Scenario_Vars_Count;
 
-   function ${capi.get_name('create_project_unit_provider')}
-     (Project_File, Project : chars_ptr;
-      Scenario_Vars         : System.Address;
-      Target, Runtime       : chars_ptr) return ${unit_provider_type}
+   ------------------
+   -- Load_Project --
+   ------------------
+
+   procedure Load_Project
+     (Project_File    : chars_ptr;
+      Scenario_Vars   : System.Address;
+      Target, Runtime : chars_ptr;
+      Tree            : out Project_Tree_Access;
+      Env             : out Project_Environment_Access)
    is
       PF            : constant String := Value (Project_File);
-      P             : constant String :=
-        (if Project = Null_Ptr then "" else Value (Project));
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
       Runtime_Value : constant String :=
         (if Runtime = Null_Ptr then "" else Value (Runtime));
-
-      --  The following locals contain dynamically allocated resources. If
-      --  project loading is successful, the result will own them, but in case
-      --  of error, they should be free'd using the Error function below.
-
-      Tree : Project_Tree_Access := new Project_Tree;
-      Env  : Project_Environment_Access;
-      Prj  : Project_Type;
-
-      function Error return ${unit_provider_type};
-      --  Helper for error handling: free allocated resources and return null
-
-      -----------
-      -- Error --
-      -----------
-
-      function Error return ${unit_provider_type} is
-      begin
-         Free (Env);
-         Free (Tree);
-         return ${unit_provider_type} (System.Null_Address);
-      end Error;
-
    begin
+
       --  Initialize the environment (target, runtime, externals) before
       --  loading the project.
 
+      Tree := new Project_Tree;
       Initialize (Env);
       Env.Set_Target_And_Runtime (Target_Value, Runtime_Value);
       if Scenario_Vars /= System.Null_Address then
@@ -95,8 +87,46 @@
                Report_Missing_Dirs => False);
       exception
          when Invalid_Project =>
-            return Error;
+            Free (Tree);
+            Free (Env);
       end;
+   end Load_Project;
+
+   function ${capi.get_name('create_project_unit_provider')}
+     (Project_File, Project : chars_ptr;
+      Scenario_Vars         : System.Address;
+      Target, Runtime       : chars_ptr) return ${unit_provider_type}
+   is
+      P : constant String :=
+        (if Project = Null_Ptr then "" else Value (Project));
+
+      --  The following locals contain dynamically allocated resources. If
+      --  project loading is successful, the result will own them, but in case
+      --  of error, they should be free'd using the Error function below.
+
+      Tree : Project_Tree_Access;
+      Env  : Project_Environment_Access;
+      Prj  : Project_Type;
+
+      function Error return ${unit_provider_type};
+      --  Helper for error handling: free allocated resources and return null
+
+      -----------
+      -- Error --
+      -----------
+
+      function Error return ${unit_provider_type} is
+      begin
+         Free (Env);
+         Free (Tree);
+         return ${unit_provider_type} (System.Null_Address);
+      end Error;
+
+   begin
+      Load_Project (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
+      if Env = null then
+         return ${unit_provider_type} (System.Null_Address);
+      end if;
 
       --  Look for the requested project
 

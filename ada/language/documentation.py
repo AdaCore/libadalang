@@ -9,6 +9,9 @@ libadalang_docs = {
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.
 
+        If ``Project`` is passed, use it to provide units, otherwise, use the
+        whole project tree.
+
         As unit providers must guarantee that there exists at most one source
         file for each couple (unit name, unit kind), aggregate projects that
         aggregate more than one "regular" project are not supported: trying to

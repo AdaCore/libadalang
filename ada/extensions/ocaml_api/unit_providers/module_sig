@@ -1,5 +1,6 @@
   val for_project :
-    ?scenario_vars:(string * string) list
+    ?project:string
+    -> ?scenario_vars:(string * string) list
     -> ?target:string
     -> ?runtime:string
     -> string

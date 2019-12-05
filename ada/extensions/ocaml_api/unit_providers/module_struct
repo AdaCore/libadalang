@@ -11,8 +11,8 @@
 
   let create_project_unit_provider =
     foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
-    (string @-> ptr c_project_scenario_variable @-> string @-> string
-     @-> raisable c_type)
+    (string @-> string @-> ptr c_project_scenario_variable @-> string
+     @-> string @-> raisable c_type)
 
   let dec_ref =
     let f =
@@ -25,7 +25,11 @@
   let wrap v =
     allocate ~finalise:dec_ref (ptr void) v
 
-  let for_project ?(scenario_vars = []) ?(target = "") ?(runtime = "")
+  let for_project
+      ?(project = "")
+      ?(scenario_vars = [])
+      ?(target = "")
+      ?(runtime = "")
       project_file =
     (* One more to store (null, null)*)
     let scenario_vars_len = List.length scenario_vars + 1 in
@@ -41,8 +45,10 @@
       c_scenario_vars +@ i <-@ c_struct
     in
     List.iteri fill_scenario_vars scenario_vars ;
-    let result =
-      create_project_unit_provider project_file c_scenario_vars target runtime
+    let result = create_project_unit_provider
+                 project_file project
+                 c_scenario_vars
+                 target runtime
     in
     if is_null result then
       raise (InvalidProjectError ("Cannot open or interpret project " ^ project_file))

@@ -1,15 +1,31 @@
 open Libadalang
 
 let () =
-  let load_project name =
-    try ignore (UnitProvider.for_project name : UnitProvider.t)
+  let load_project
+        ?(project = "")
+        ?(scenario_vars = [])
+        ?(target = "")
+        ?(runtime = "")
+        project_file
+  =
+    try ignore (UnitProvider.for_project
+                  ~project:project
+                  ~scenario_vars:scenario_vars
+                  ~target:target
+                  ~runtime:runtime
+                  project_file : UnitProvider.t)
     with InvalidProjectError s ->
       Format.printf "@[<v>got InvalidProjectError %s@ @ @]" s
   in
-  (* Try to load a project that is not valid *)
+  (* Try to load a project file that is not valid *)
   load_project "invalid.gpr" ;
-  (* Try to load a project that does not exist *)
-  load_project "does_not_exist.gpr"
+  (* Try to load a project file that does not exist *)
+  load_project "does_not_exist.gpr" ;
+  (* Try to load a project that does not exist in the loaded tree *)
+  load_project
+    ~project:"does_not_exist"
+    ~scenario_vars:[("SRC_DIR", "src1")]
+    "p.gpr"
 
 (* Test that the unit provider correclty works and Libadalang is able to
  * get the reference of a node that is declared in another unit *)

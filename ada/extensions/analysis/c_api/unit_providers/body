@@ -34,11 +34,13 @@
    end Scenario_Vars_Count;
 
    function ${capi.get_name('create_project_unit_provider')}
-     (Project_File  : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr) return ${unit_provider_type}
+     (Project_File, Project : chars_ptr;
+      Scenario_Vars         : System.Address;
+      Target, Runtime       : chars_ptr) return ${unit_provider_type}
    is
       PF            : constant String := Value (Project_File);
+      P             : constant String :=
+        (if Project = Null_Ptr then "" else Value (Project));
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
       Runtime_Value : constant String :=
@@ -48,8 +50,9 @@
       --  project loading is successful, the result will own them, but in case
       --  of error, they should be free'd using the Error function below.
 
-      Project : Project_Tree_Access := new Project_Tree;
-      Env     : Project_Environment_Access;
+      Tree : Project_Tree_Access := new Project_Tree;
+      Env  : Project_Environment_Access;
+      Prj  : Project_Type;
 
       function Error return ${unit_provider_type};
       --  Helper for error handling: free allocated resources and return null
@@ -61,7 +64,7 @@
       function Error return ${unit_provider_type} is
       begin
          Free (Env);
-         Free (Project);
+         Free (Tree);
          return ${unit_provider_type} (System.Null_Address);
       end Error;
 
@@ -86,7 +89,7 @@
       --  Try to load the project
 
       begin
-         Load (Self                => Project.all,
+         Load (Self                => Tree.all,
                Root_Project_Path   => Create (+PF),
                Env                 => Env,
                Report_Missing_Dirs => False);
@@ -95,12 +98,22 @@
             return Error;
       end;
 
+      --  Look for the requested project
+
+      if P = "" then
+         Prj := Tree.Root_Project;
+      else
+         Prj := Tree.Project_From_Name (P);
+         if Prj = No_Project then
+            return Error;
+         end if;
+      end if;
+
       --  Project loading was successful! Embed allocated data in the result.
 
       begin
          return To_C_Provider
-           (Create_Project_Unit_Provider_Reference
-              (Project, Project.Root_Project, Env, True));
+           (Create_Project_Unit_Provider_Reference (Tree, Prj, Env, True));
       exception
          when Invalid_Project =>
             return Error;

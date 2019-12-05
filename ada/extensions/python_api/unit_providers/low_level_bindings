@@ -7,6 +7,7 @@ class _project_scenario_variable(ctypes.Structure):
 _create_project_unit_provider = _import_func(
     '${capi.get_name("create_project_unit_provider")}',
     [ctypes.c_char_p,
+     ctypes.c_char_p,
      ctypes.POINTER(_project_scenario_variable),
      ctypes.c_char_p,
      ctypes.c_char_p],

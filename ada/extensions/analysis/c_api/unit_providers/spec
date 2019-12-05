@@ -17,9 +17,9 @@
       with Convention => C;
 
    function ${capi.get_name('create_project_unit_provider')}
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr) return ${unit_provider_type}
+     (Project_File, Project : chars_ptr;
+      Scenario_Vars         : System.Address;
+      Target, Runtime       : chars_ptr) return ${unit_provider_type}
       with Export        => True,
            Convention    => C,
            External_name => "${capi.get_name('create_project_unit_provider')}";

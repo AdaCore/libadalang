@@ -12,6 +12,7 @@ ${c_doc('libadalang.create_project_unit_provider')}
 extern ${unit_provider_type}
 ${capi.get_name('create_project_unit_provider')}(
    char *project_file,
+   char *project,
    ${scn_var_type} *scenario_vars,
    char *target,
    char *runtime

@@ -16,12 +16,11 @@
         if not self.args.project:
             return None
 
-        self.scen_vars = {}
+        self.scenario_vars = {}
         if self.args.X:
             for var in self.args.X:
                 k, v = var.split("=")
-                self.scen_vars[k] = v
+                self.scenario_vars[k] = v
 
-        return UnitProvider.for_project(
-            self.args.project, self.scen_vars
-        )
+        return UnitProvider.for_project(self.args.project,
+                                        scenario_vars=self.scenario_vars)

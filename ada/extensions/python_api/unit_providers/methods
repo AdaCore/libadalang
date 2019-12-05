@@ -16,12 +16,13 @@
                             .format(label, what, _type_fullname(type(value))))
 
     @classmethod
-    def for_project(cls, project_file, scenario_vars=None, target=None,
-                    runtime=None):
+    def for_project(cls, project_file, project=None, scenario_vars=None,
+                    target=None, runtime=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
         project_file = cls._coerce_bytes('project_file', project_file)
         project_file_text = _py2to3.bytes_to_text(project_file)
+        project = cls._coerce_bytes('project', project, or_none=True)
         target = cls._coerce_bytes('target', target, or_none=True)
         runtime = cls._coerce_bytes('runtime', runtime, or_none=True)
 
@@ -38,8 +39,9 @@
         else:
             scn_vars_array = None
 
-        c_value = _create_project_unit_provider(project_file, scn_vars_array,
-                                                target, runtime)
+        c_value = _create_project_unit_provider(
+            project_file, project, scn_vars_array, target, runtime
+        )
         if c_value:
             return cls(c_value)
         else:

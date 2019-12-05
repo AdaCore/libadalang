@@ -3,6 +3,8 @@ got InvalidProjectError Cannot open or interpret project invalid.gpr
 
 got InvalidProjectError Cannot open or interpret project does_not_exist.gpr
 
+got InvalidProjectError Cannot open or interpret project p.gpr
+
 For SRC_DIR=src1
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:
   <TypeDecl ["Record_Type"] p1.ads:2:4-2:36>

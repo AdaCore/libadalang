@@ -22,18 +22,24 @@ def unirepr(value):
         return repr(value)
 
 
+vars = {'SRC_DIR': 'src1'}
+
+
 for args in [
-    (None, ),
-    (1, ),
-    (b'p.gpr', {1: b'bar'}),
-    (b'p.gpr', {b'bar': 1}),
-    (u'p.gpr', {u'SRC_DIR': u'src1'}),
+    dict(project_file=None),
+    dict(project_file=1),
+    dict(project_file=b'p.gpr', scenario_vars={1: b'bar'}),
+    dict(project_file=b'p.gpr', scenario_vars={b'bar': 1}),
+    dict(project_file=u'p.gpr', scenario_vars=vars),
+    dict(project_file='p.gpr', project=b'no_such_project', scenario_vars=vars),
+    dict(project_file='p.gpr', project='no_such_project', scenario_vars=vars),
+    dict(project_file='p.gpr', project='q', scenario_vars=vars),
 ]:
     print('Trying to build with', unirepr(args))
     try:
-        libadalang.UnitProvider.for_project(*args)
-    except TypeError as exc:
-        print('   ... got a TypeError exception:', exc)
+        libadalang.UnitProvider.for_project(**args)
+    except (TypeError, libadalang.InvalidProjectError) as exc:
+        print('   ... got a {} exception: {}'.format(type(exc).__name__, exc))
     else:
         print('   ... success!')
 
@@ -42,7 +48,8 @@ for src_dir in ('src1', 'src2'):
     print('For SRC_DIR={}:'.format(src_dir))
     ctx = libadalang.AnalysisContext(
         unit_provider=libadalang.UnitProvider.for_project(
-            'p.gpr', {'SRC_DIR': src_dir}
+            project_file='p.gpr',
+            scenario_vars={'SRC_DIR': src_dir}
         )
     )
     unit = ctx.get_from_provider(

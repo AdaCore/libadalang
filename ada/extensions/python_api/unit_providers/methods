@@ -12,7 +12,8 @@
         elif isinstance(value, _py2to3.text_type):
             return value.encode()
         else:
-            raise TypeError('`{}` argument must be {}'.format(label, what))
+            raise TypeError('`{}` argument must be {} (got {})'
+                            .format(label, what, _type_fullname(type(value))))
 
     @classmethod
     def for_project(cls, project_file, scenario_vars=None, target=None,

@@ -79,8 +79,8 @@ package Libadalang.Project_Provider is
    --  Invalid_Project exception if an aggregate projects that aggregates more
    --  than one project is in its closure.
    --
-   --  If Project is not provided, use the Tree's root project (the same
-   --  restriction as above applies for it).
+   --  If Project is not provided, run Create_Project_Unit_Providers: if it
+   --  returns only one provider, return it, otherwise raise an error.
    --
    --  If ``Is_Project_Owner`` is true, the result owns ``Tree``, thus the
    --  caller must not deallocate it itself.  Otherwise, the project pointed to

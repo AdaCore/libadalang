@@ -755,8 +755,6 @@ class AdaNode(ASTNode):
         Helper property to resolve the actuals of generic instantiations.
         """
         return Entity.match(
-            lambda te=T.TypeExpr.entity: bind_origin(Self, te.designated_type),
-
             # TODO: depending on the formal that matches this actual, this name
             # can be both an object or a type. For now, we assume it's a type
             # but we should handle objects too.

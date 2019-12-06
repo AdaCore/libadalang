@@ -6392,11 +6392,21 @@ class GenericPackageInstantiation(GenericInstantiation):
                    No(T.env_assoc.array),
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Entity.params, False
-                   ).map(lambda pm: new_env_assoc(
-                       key=pm.formal.name.name_symbol,
-                       val=pm.actual.assoc.expr.node,
-                       dest_env=Self.instantiation_env
-                   )))
+                   ).filtermap(
+                       lambda pm: new_env_assoc(
+                           key=pm.formal.name.name_symbol,
+                           val=pm.actual.assoc.expr.node,
+                           dest_env=Self.instantiation_env
+                       ),
+                       # Do not include generic formal object decls, since in
+                       # some cases they cannot be resolved (because they're
+                       # literals). TODO: It is not clear whether that's a good
+                       # solution to this problem, but it is the simplest as
+                       # far as pure name resolution is concerned. Revisit when
+                       # we overhaul the instantiation system.
+                       lambda pm:
+                       Not(pm.formal.spec.is_a(T.GenericFormalObjDecl)),
+                   ))
             ),
             resolver=AdaNode.resolve_generic_actual,
         )

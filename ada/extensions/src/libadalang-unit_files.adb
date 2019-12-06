@@ -39,7 +39,7 @@ package body Libadalang.Unit_Files is
    -- Default_Provider --
    ----------------------
 
-   function Default_Provider return LAL.Unit_Provider_Interface'Class is
+   function Default_Provider return LAL.Unit_Provider_Reference is
       use GNATCOLL.Projects;
       use Libadalang.Project_Provider;
 
@@ -56,12 +56,13 @@ package body Libadalang.Unit_Files is
       --  finalization bug: Result.Project.Data would be set to null, while we
       --  need it to be set to Result.Tree.Root_Project (that's what
       --  Create_Project_Unit_Provider does).
-      return Result : LAL.Unit_Provider_Interface'Class :=
-         Create_Project_Unit_Provider
-           (Project, Project.Root_Project, Env, True)
-      do
-         null;
-      end return;
+      declare
+         Provider : constant Project_Unit_Provider :=
+            Create_Project_Unit_Provider
+              (Project, Project.Root_Project, Env, True);
+      begin
+         return LAL.Create_Unit_Provider_Reference (Provider);
+      end;
    end Default_Provider;
 
    --------------------

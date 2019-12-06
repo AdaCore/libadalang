@@ -30,7 +30,7 @@ package Libadalang.Unit_Files is
 
    package LAL renames Libadalang.Analysis;
 
-   function Default_Provider return LAL.Unit_Provider_Interface'Class;
+   function Default_Provider return LAL.Unit_Provider_Reference;
    --  Default implementation for the Unit_Provider mechanism. It assumes that
    --  each compilation unit gets its own source file in the current directory,
    --  named according to the GNAT convention: See

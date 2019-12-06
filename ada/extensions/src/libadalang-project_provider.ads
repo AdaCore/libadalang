@@ -40,9 +40,6 @@ package Libadalang.Project_Provider is
    Trace : constant GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
      ("LIBADALANG.PROJECT_PROVIDER", GNATCOLL.Traces.From_Config);
 
-   type Project_Unit_Provider is new LAL.Unit_Provider_Interface with private;
-   --  Unit provider backed up by a project file
-
    type Provider_And_Projects is record
       Provider : LAL.Unit_Provider_Reference;
       Projects : Prj.Project_Array_Access;
@@ -69,15 +66,13 @@ package Libadalang.Project_Provider is
    --  The project pointed to by ``Tree`` and ``Env`` must outlive the returned
    --  unit file providers, and it is up to callers must deallocate
    --  ``Tree``/``Env`` themselves.
-   --
-   --% belongs-to: Project_Unit_Provider
 
    function Create_Project_Unit_Provider
      (Tree             : Prj.Project_Tree_Access;
       Project          : Prj.Project_Type := Prj.No_Project;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
-      return Project_Unit_Provider;
+      return LAL.Unit_Provider_Reference;
    --  Likewise, but create only one unit provider.
    --
    --  If a non-null Project is given, use it to provide units. Raise an
@@ -91,32 +86,6 @@ package Libadalang.Project_Provider is
    --  caller must not deallocate it itself.  Otherwise, the project pointed to
    --  by Project must outlive the returned unit file provider.
 
-   function Create_Project_Unit_Provider_Reference
-     (Tree             : Prj.Project_Tree_Access;
-      Project          : Prj.Project_Type := Prj.No_Project;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True)
-      return LAL.Unit_Provider_Reference;
-   --  Wrapper around ``Create_Project_Unit_Provider`` as a shortcut to create
-   --  a unit provider reference.
-   --
-   --% belongs-to: Project_Unit_Provider
-
-   overriding function Get_Unit_Filename
-     (Provider : Project_Unit_Provider;
-      Name     : Text_Type;
-      Kind     : Analysis_Unit_Kind) return String;
-   --% no-document: True
-
-   overriding function Get_Unit
-     (Provider    : Project_Unit_Provider;
-      Context     : LAL.Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Analysis_Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return LAL.Analysis_Unit'Class;
-   --% no-document: True
-
    function Convert
      (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts
    is
@@ -125,26 +94,5 @@ package Libadalang.Project_Provider is
       when Unit_Body          => GNATCOLL.Projects.Unit_Body);
    --  Convert our kind for analysis unit into the corresponding
    --  ``GNATCOLL.Projects`` value.
-
-private
-
-   type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
-      Tree             : Prj.Project_Tree_Access;
-      Projects         : Prj.Project_Array_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean;
-   end record;
-
-   overriding procedure Release (Provider : in out Project_Unit_Provider);
-
-   function Create_Project_Unit_Provider_Reference
-     (Tree             : Prj.Project_Tree_Access;
-      Project          : Prj.Project_Type := Prj.No_Project;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True)
-      return LAL.Unit_Provider_Reference
-   is (LAL.Create_Unit_Provider_Reference
-         (Create_Project_Unit_Provider (Tree, Project, Env,
-                                        Is_Project_Owner)));
 
 end Libadalang.Project_Provider;

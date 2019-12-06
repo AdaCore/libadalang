@@ -31,7 +31,7 @@ procedure Main is
    begin
       Initialize (Env);
       Load (Project.all, Create (+File), Env);
-      return Create_Project_Unit_Provider_Reference
+      return Create_Project_Unit_Provider
         (Project, Project.Root_Project, Env, True);
    end Load_Project;
 

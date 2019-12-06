@@ -40,7 +40,7 @@ procedure Main is
          Prj := Tree.Project_From_Name (Project);
          pragma Assert (Prj /= No_Project);
       end if;
-      return Create_Project_Unit_Provider_Reference (Tree, Prj, Env, True);
+      return Create_Project_Unit_Provider (Tree, Prj, Env, True);
    exception
       when others =>
          Prj := No_Project;

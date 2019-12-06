@@ -1,0 +1,10 @@
+type: bugfix
+title: Fix nameres involving generic instantiations with formal objects
+short_title: Nameres fix for formal objects in instances
+
+description: |
+    In some complex name resolution situations, we would try to resolve a
+    formal object in an instance. That would cause a crash if the formal object
+    was completed by a literal.
+
+date: 2019-12-06

@@ -338,7 +338,7 @@ begin
    end if;
 
    --  Create the analysis context for Libadalang
-   UFP := Libadalang.Project_Provider.Create_Project_Unit_Provider_Reference
+   UFP := Libadalang.Project_Provider.Create_Project_Unit_Provider
      (Prj_Tree, Prj_Tree.Root_Project, Env);
    Ctx := LAL.Create_Context (Unit_Provider => UFP);
 

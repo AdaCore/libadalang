@@ -39,6 +39,29 @@ package body Libadalang.Project_Provider is
    package US renames Ada.Strings.Unbounded;
    use type US.Unbounded_String;
 
+   type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
+      Tree             : Prj.Project_Tree_Access;
+      Projects         : Prj.Project_Array_Access;
+      Env              : Prj.Project_Environment_Access;
+      Is_Project_Owner : Boolean;
+   end record;
+   --  Unit provider backed up by a project file
+
+   overriding function Get_Unit_Filename
+     (Provider : Project_Unit_Provider;
+      Name     : Text_Type;
+      Kind     : Analysis_Unit_Kind) return String;
+
+   overriding function Get_Unit
+     (Provider    : Project_Unit_Provider;
+      Context     : LAL.Analysis_Context'Class;
+      Name        : Text_Type;
+      Kind        : Analysis_Unit_Kind;
+      Charset     : String := "";
+      Reparse     : Boolean := False) return LAL.Analysis_Unit'Class;
+
+   overriding procedure Release (Provider : in out Project_Unit_Provider);
+
    ------------------------------------------
    -- Helpers to create project partitions --
    ------------------------------------------
@@ -455,7 +478,7 @@ package body Libadalang.Project_Provider is
       Project          : Prj.Project_Type := Prj.No_Project;
       Env              : Prj.Project_Environment_Access;
       Is_Project_Owner : Boolean := True)
-      return Project_Unit_Provider
+      return LAL.Unit_Provider_Reference
    is
       use type Prj.Project_Type;
 
@@ -487,11 +510,15 @@ package body Libadalang.Project_Provider is
             "aggregate project has too many sub-projects";
       end if;
 
-      return
-        ((Tree             => Tree,
-          Projects         => new Prj.Project_Array'(1 => Actual_Project),
-          Env              => Env,
-          Is_Project_Owner => Is_Project_Owner));
+      declare
+         Provider : constant Project_Unit_Provider :=
+           (Tree             => Tree,
+            Projects         => new Prj.Project_Array'(1 => Actual_Project),
+            Env              => Env,
+            Is_Project_Owner => Is_Project_Owner);
+      begin
+         return LAL.Create_Unit_Provider_Reference (Provider);
+      end;
    end Create_Project_Unit_Provider;
 
    -----------------------

@@ -484,26 +484,50 @@ package body Libadalang.Project_Provider is
 
       Actual_Project : Prj.Project_Type := Project;
    begin
-      --  If no project was given, peel the aggregate project layers (if
-      --  any) around Tree's root project.
+      --  If no project was given, try to run the partitionner
 
       if Actual_Project = Prj.No_Project then
-         Actual_Project := Tree.Root_Project;
-         while Actual_Project.Is_Aggregate_Project loop
-            declare
-               Subprojects : Prj.Project_Array_Access :=
-                  Actual_Project.Aggregated_Projects;
-               Leave_Loop  : constant Boolean :=
-                  Subprojects.all'Length /= 1;
-            begin
-               if not Leave_Loop then
-                  Actual_Project := Subprojects.all (Subprojects.all'First);
-               end if;
-               Prj.Unchecked_Free (Subprojects);
-               exit when Leave_Loop;
-            end;
-         end loop;
+         declare
+            Result   : LAL.Unit_Provider_Reference;
+            Provider : LAL.Unit_Provider_References.Element_Access;
+            PAPs     : Provider_And_Projects_Array_Access :=
+               Create_Project_Unit_Providers (Tree);
+         begin
+            if PAPs.all'Length > 1 then
+               Free (PAPs);
+               raise Prj.Invalid_Project with "inconsistent units found";
+            end if;
+
+            --  We only have one provider: make it the owner of Tree/Env and we
+            --  are done.
+
+            Result := PAPs.all (PAPs.all'First).Provider;
+            Free (PAPs);
+            Provider := Result.Unchecked_Get;
+            Project_Unit_Provider (Provider.all).Env := Env;
+            Project_Unit_Provider (Provider.all).Is_Project_Owner := True;
+            return Result;
+         end;
       end if;
+
+      --  Peel the aggregate project layers (if any) around Actual_Project. If
+      --  we find an aggregate project with more than one aggregated project,
+      --  this is an unsupported case.
+
+      while Actual_Project.Is_Aggregate_Project loop
+         declare
+            Subprojects : Prj.Project_Array_Access :=
+               Actual_Project.Aggregated_Projects;
+            Leave_Loop  : constant Boolean :=
+               Subprojects.all'Length /= 1;
+         begin
+            if not Leave_Loop then
+               Actual_Project := Subprojects.all (Subprojects.all'First);
+            end if;
+            Prj.Unchecked_Free (Subprojects);
+            exit when Leave_Loop;
+         end;
+      end loop;
 
       if Actual_Project.Is_Aggregate_Project then
          raise Prj.Invalid_Project with

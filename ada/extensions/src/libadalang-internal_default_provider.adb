@@ -21,7 +21,6 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 with Libadalang.Unit_Files;
 
@@ -33,8 +32,7 @@ package body Libadalang.Internal_Default_Provider is
 
    function Create return Internal_Unit_Provider_Access is
    begin
-      return Wrap_Public_Provider
-        (Create_Unit_Provider_Reference (Unit_Files.Default_Provider));
+      return Wrap_Public_Provider (Unit_Files.Default_Provider);
    end Create;
 
 end Libadalang.Internal_Default_Provider;

@@ -288,7 +288,12 @@ package body Libadalang.Helpers is
 
       procedure Run is
 
+         procedure Finalize;
+         --  Clean up local resources. This must be called both on normal
+         --  termination and during abortion.
+
          Project : Project_Tree_Access;
+         Env     : Project_Environment_Access;
          --  Reference to the loaded project tree, if any. Null otherwise.
 
          UFP : Unit_Provider_Reference;
@@ -308,6 +313,26 @@ package body Libadalang.Helpers is
             entry Start (ID : Job_ID);
             entry Stop;
          end Main_Task_Type;
+
+         --------------
+         -- Finalize --
+         --------------
+
+         procedure Finalize is
+         begin
+            UFP := No_Unit_Provider_Reference;
+            if Project /= null then
+               Project.Unload;
+               Free (Project);
+               Free (Env);
+            end if;
+
+            Free (Job_Contexts);
+         end Finalize;
+
+         --------------------
+         -- Main_Task_Type --
+         --------------------
 
          task body Main_Task_Type is
             F   : Unbounded_String;
@@ -415,19 +440,15 @@ package body Libadalang.Helpers is
          if Length (Args.Project_File.Get) > 0 then
             --  Handle project file and build the list of source files to
             --  process.
-            declare
-               Env : Project_Environment_Access;
-            begin
-               Load_Project
-                 (Project_File  => +Args.Project_File.Get,
-                  Scenario_Vars => Args.Scenario_Vars.Get,
-                  Project       => Project,
-                  Env           => Env);
-               UFP := Project_To_Provider (Project);
-               if not Files_From_Args (Files) then
-                  List_Sources_From_Project (Project.all, Files);
-               end if;
-            end;
+            Load_Project
+              (Project_File  => +Args.Project_File.Get,
+               Scenario_Vars => Args.Scenario_Vars.Get,
+               Project       => Project,
+               Env           => Env);
+            UFP := Project_To_Provider (Project);
+            if not Files_From_Args (Files) then
+               List_Sources_From_Project (Project.all, Files);
+            end if;
 
          elsif Args.Auto_Dirs.Get'Length > 0 then
             --  The auto provider is requested: initialize it with the given
@@ -508,14 +529,14 @@ package body Libadalang.Helpers is
          end;
          Trace.Trace ("Tearing down the app");
          App_Post_Process (App_Ctx, Job_Contexts.all);
-         Free (Job_Contexts);
+         Finalize;
 
          Trace.Trace ("Done");
 
       exception
          when Abort_App_Exception =>
             Trace.Trace ("App aborted");
-            Free (Job_Contexts);
+            Finalize;
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       end Run;
    end App;

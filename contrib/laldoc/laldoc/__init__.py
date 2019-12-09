@@ -313,7 +313,9 @@ class AutoPackage(Directive):
 
         ctx = lal.AnalysisContext(
             'utf-8', with_trivia=True,
-            unit_provider=lal.UnitProvider.for_project(project, scenario_vars)
+            unit_provider=lal.UnitProvider.for_project(
+                project, scenario_vars=scenario_vars
+            )
         )
 
         self.unit = ctx.get_from_file(file_name)

@@ -498,14 +498,16 @@ package body Libadalang.Project_Provider is
                raise Prj.Invalid_Project with "inconsistent units found";
             end if;
 
-            --  We only have one provider: make it the owner of Tree/Env and we
-            --  are done.
+            --  We only have one provider. Grant ownership to Result if
+            --  requested and we are done.
 
             Result := PAPs.all (PAPs.all'First).Provider;
             Free (PAPs);
-            Provider := Result.Unchecked_Get;
-            Project_Unit_Provider (Provider.all).Env := Env;
-            Project_Unit_Provider (Provider.all).Is_Project_Owner := True;
+            if Is_Project_Owner then
+               Provider := Result.Unchecked_Get;
+               Project_Unit_Provider (Provider.all).Env := Env;
+               Project_Unit_Provider (Provider.all).Is_Project_Owner := True;
+            end if;
             return Result;
          end;
       end if;

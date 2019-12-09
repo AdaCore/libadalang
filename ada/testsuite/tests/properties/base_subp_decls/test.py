@@ -12,8 +12,13 @@ procs = u.root.findall(
     lambda n: n.is_a(lal.BasicDecl) and n.p_defining_name.text == "Foo"
 )
 for proc in procs:
-    print("The root declarations of {} are {}".format(
-        proc, proc.p_root_subp_declarations()
+    print("{}:".format(proc))
+    print("  Base declarations: {}".format(
+        proc.p_base_subp_declarations
     ))
+    print("  Root declarations: {}".format(
+        proc.p_root_subp_declarations()
+    ))
+    print("")
 
 print('Done')

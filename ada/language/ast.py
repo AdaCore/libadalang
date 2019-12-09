@@ -1446,7 +1446,8 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True)
+    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
+                      public=True)
     def base_subp_declarations():
         """
         If Self declares a primitive subprogram of some tagged type T, return

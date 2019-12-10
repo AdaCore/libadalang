@@ -1,4 +1,4 @@
-kind: new-feature
+type: new-feature
 title: Add a ``base_subp_declarations`` property
 description: |
     When called on a given subprogram, this property returns a list of all

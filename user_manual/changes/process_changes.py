@@ -38,6 +38,7 @@ try:
         except J.ValidationError as e:
             print_err('Error when validating entry for {}'.format(tn))
             print_err(e)
+            sys.exit(1)
 
 except ImportError:
     print_err('WARNING: jsonschema is not available. Entries will not be'

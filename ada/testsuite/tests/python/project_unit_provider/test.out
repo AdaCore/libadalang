@@ -1,18 +1,18 @@
-Trying to build with {b'project_file': None}
+Trying to build with {project_file: None}
    ... got a TypeError exception: `project_file` argument must be a bytes string (got NoneType)
-Trying to build with {b'project_file': 1}
+Trying to build with {project_file: 1}
    ... got a TypeError exception: `project_file` argument must be a bytes string (got int)
-Trying to build with {b'scenario_vars': {1: b'bar'}, b'project_file': b'p.gpr'}
+Trying to build with {project_file: b'p.gpr', scenario_vars: {1: b'bar'}}
    ... got a TypeError exception: `scenario_vars` argument must be a dict mapping bytes strings to bytes strings (got int)
-Trying to build with {b'scenario_vars': {b'bar': 1}, b'project_file': b'p.gpr'}
+Trying to build with {project_file: b'p.gpr', scenario_vars: {b'bar': 1}}
    ... got a TypeError exception: `scenario_vars` argument must be a dict mapping bytes strings to bytes strings (got int)
-Trying to build with {b'scenario_vars': {b'SRC_DIR': b'src1'}, b'project_file': 'p.gpr'}
+Trying to build with {project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... success!
-Trying to build with {b'project': b'no_such_project', b'scenario_vars': {b'SRC_DIR': b'src1'}, b'project_file': b'p.gpr'}
+Trying to build with {project: b'no_such_project', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... got a InvalidProjectError exception: Cannot open project p.gpr
-Trying to build with {b'project': b'no_such_project', b'scenario_vars': {b'SRC_DIR': b'src1'}, b'project_file': b'p.gpr'}
+Trying to build with {project: 'no_such_project', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... got a InvalidProjectError exception: Cannot open project p.gpr
-Trying to build with {b'project': b'q', b'scenario_vars': {b'SRC_DIR': b'src1'}, b'project_file': b'p.gpr'}
+Trying to build with {project: 'q', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... success!
 For SRC_DIR=src1:
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:

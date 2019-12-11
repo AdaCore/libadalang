@@ -4,15 +4,18 @@ import libadalang
 from libadalang import _py2to3
 
 
-def unirepr(value):
+def unirepr(value, native_dict_keys=False):
     if isinstance(value, _py2to3.bytes_type):
         return _py2to3.bytes_repr(value)
     elif isinstance(value, _py2to3.text_type):
         return _py2to3.text_repr(value)
     elif isinstance(value, dict):
         return '{{{}}}'.format(', '.join(
-            '{}: {}'.format(unirepr(key), unirepr(item))
-            for key, item in value.items()
+            '{}: {}'.format(
+                key if native_dict_keys else unirepr(key),
+                unirepr(item)
+            )
+            for key, item in sorted(value.items())
         ))
     elif isinstance(value, tuple):
         if len(value) == 1:
@@ -22,7 +25,7 @@ def unirepr(value):
         return repr(value)
 
 
-vars = {'SRC_DIR': 'src1'}
+vars = {b'SRC_DIR': b'src1'}
 
 
 for args in [
@@ -31,11 +34,13 @@ for args in [
     dict(project_file=b'p.gpr', scenario_vars={1: b'bar'}),
     dict(project_file=b'p.gpr', scenario_vars={b'bar': 1}),
     dict(project_file=u'p.gpr', scenario_vars=vars),
-    dict(project_file='p.gpr', project=b'no_such_project', scenario_vars=vars),
-    dict(project_file='p.gpr', project='no_such_project', scenario_vars=vars),
-    dict(project_file='p.gpr', project='q', scenario_vars=vars),
+    dict(project_file=u'p.gpr',
+         project=b'no_such_project', scenario_vars=vars),
+    dict(project_file=u'p.gpr',
+         project=u'no_such_project', scenario_vars=vars),
+    dict(project_file=u'p.gpr', project=u'q', scenario_vars=vars),
 ]:
-    print('Trying to build with', unirepr(args))
+    print('Trying to build with', unirepr(args, native_dict_keys=True))
     try:
         libadalang.UnitProvider.for_project(**args)
     except (TypeError, libadalang.InvalidProjectError) as exc:

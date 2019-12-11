@@ -20,7 +20,7 @@ description: |
     Third, the C, Python and OCaml APIs now provide the ability to create a
     project unit provider with a view narrowed to a sub-project (see the
     ``project`` project unit provider constructor argument). If no sub-project
-    is not specified, then the constructor fallbacks to the project partition
+    is specified, then the constructor fallbacks to the project partition
     strategy described above: when the loaded project tree contains
     inconsistent units (i.e. multiple unit providers would be required), an
     error is raised.

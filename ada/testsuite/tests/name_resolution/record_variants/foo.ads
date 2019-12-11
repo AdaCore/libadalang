@@ -38,4 +38,25 @@ package Foo is
 
    R2 : Record_Type_2 := (Bool, True);
    pragma Test_Statement;
+
+   subtype Int_And_Bool_1 is Kind_Type
+      with Predicate => Int_And_Bool_1 in Int | Bool;
+
+   type Record_Type_3 (K : Kind_Type) is record
+      case K is
+         when Int_And_Bool_1 =>
+            X : Integer;
+         when others =>
+            Y : Boolean;
+      end case;
+   end record;
+
+   R3_A : Record_Type_3 := (Int, 12);
+   pragma Test_Statement;
+
+   R3_B : Record_Type_3 := (Char, True);
+   pragma Test_Statement;
+
+   R3_C : Record_Type_3 := (Bool, 42);
+   pragma Test_Statement;
 end Foo;

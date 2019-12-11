@@ -288,12 +288,19 @@ class AdaNode(ASTNode):
         """
         Static method. Evaluate the bounds of ``dr``.
         """
-        return T.EvalDiscreteRange.new(
-            low_bound=dr.low_bound.then(
-                lambda lb: lb.eval_as_int,
-                default_val=BigIntLiteral(0)
+        return If(
+            dr == No(T.DiscreteRange),
+            PropertyError(
+                EvalDiscreteRange,
+                "Attempting to evaluate a null discrete range"
             ),
-            high_bound=dr.high_bound.eval_as_int
+            T.EvalDiscreteRange.new(
+                low_bound=dr.low_bound.then(
+                    lambda lb: lb.eval_as_int,
+                    default_val=BigIntLiteral(0)
+                ),
+                high_bound=dr.high_bound.eval_as_int
+            )
         )
 
     @langkit_property(return_type=T.String)
@@ -2688,19 +2695,23 @@ class Variant(AdaNode):
             # If choice is a name, it is either a subtype name, either a
             # constant number name.
             lambda n=T.Name: n.name_designated_type.then(
-                lambda dt: Let(
-                    lambda dr=Self.eval_discrete_range(dt.discrete_range): And(
-                        val >= dr.low_bound, val <= dr.high_bound
+                lambda dt: dt.discrete_range.then(
+                    lambda dr: Let(
+                        lambda edr=Self.eval_discrete_range(dr): And(
+                            val >= edr.low_bound, val <= edr.high_bound
+                        )
                     )
                 ),
                 default_val=(val == n.eval_as_int)
             ),
 
             # If choice is a subtype indication, then get the range
-            lambda st=T.SubtypeIndication:
-            Self.eval_discrete_range(st.discrete_range).then(
-                lambda dr: And(val >= dr.low_bound,
-                               val <= dr.high_bound)
+            lambda st=T.SubtypeIndication: st.discrete_range.then(
+                lambda dr: Let(
+                    lambda edr=Self.eval_discrete_range(dr): And(
+                        val >= edr.low_bound, val <= edr.high_bound
+                    )
+                )
             ),
 
             # If it is an expr, then just check for equality

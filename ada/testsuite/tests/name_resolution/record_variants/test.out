@@ -26,5 +26,30 @@ Expr: <Id "True" foo.ads:39:33-39:37>
   references: <DefiningName __standard:3:27-3:31>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
+Resolving xrefs for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
+*****************************************************************
+
+Resolution failed for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
+
+Resolving xrefs for node <ObjectDecl ["R3_B"] foo.ads:57:4-57:41>
+*****************************************************************
+
+Expr: <Id "Record_Type_3" foo.ads:57:11-57:24>
+  references: <DefiningName foo.ads:45:9-45:22>
+  type:       None
+Expr: <Aggregate foo.ads:57:28-57:40>
+  type:       <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
+Expr: <Id "Char" foo.ads:57:29-57:33>
+  references: <DefiningName foo.ads:6:28-6:32>
+  type:       <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
+Expr: <Id "True" foo.ads:57:35-57:39>
+  references: <DefiningName __standard:3:27-3:31>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
+*****************************************************************
+
+Resolution failed for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
+
 
 Done.

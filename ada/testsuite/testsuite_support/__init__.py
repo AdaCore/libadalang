@@ -99,6 +99,8 @@ class Testsuite(BaseTestsuite):
         discriminants.add_discriminants(opts.discriminants)
         if opts.valgrind:
             discriminants.add_discriminants('valgrind')
+        if opts.with_python and 'python3' in opts.with_python:
+            discriminants.add_discriminants('python3')
         self.global_env['discriminants'] = ','.join(
             sorted(discriminants.get_discriminants())
         )

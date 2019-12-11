@@ -29,7 +29,8 @@ def col(msg, color):
 class InlinePlayground(lal.App):
 
     def main(self):
-        for unit in self.units.values():
+        # Sort unit by filename to have a deterministic processing order
+        for _, unit in sorted(self.units.items()):
             self.process_unit(unit)
 
     def description(self):

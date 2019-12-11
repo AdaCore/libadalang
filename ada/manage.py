@@ -131,9 +131,10 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
         )
 
-        for unit in ('GNATCOLL.Projects', 'GNATCOLL.VFS',
+        for unit in ('GNATCOLL.Projects', 'GNATCOLL.Locks', 'GNATCOLL.VFS',
                      'Libadalang.Project_Provider',
-                     'Libadalang.Auto_Provider'):
+                     'Libadalang.Auto_Provider',
+                     'Libadalang.GPR_Lock'):
             ctx.add_with_clause('Implementation.C', ADA_BODY, unit,
                                 use_clause=True)
 

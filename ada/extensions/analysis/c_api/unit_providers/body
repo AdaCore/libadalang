@@ -53,6 +53,8 @@
       Tree            : out Project_Tree_Access;
       Env             : out Project_Environment_Access)
    is
+      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
+
       PF            : constant String := Value (Project_File);
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
@@ -97,6 +99,7 @@
       Scenario_Vars         : System.Address;
       Target, Runtime       : chars_ptr) return ${unit_provider_type}
    is
+
       P : constant String :=
         (if Project = Null_Ptr then "" else Value (Project));
 

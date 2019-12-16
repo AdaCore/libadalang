@@ -3240,6 +3240,19 @@ class BaseTypeDecl(BasicDecl):
             )
         ).cast(T.RecordRepClause.entity)
 
+    @langkit_property(return_type=T.EnumRepClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_enum_representation_clause():
+        """
+        Return the enum representation clause associated to this type decl,
+        if applicable (i.e. this type decl defines an enum type).
+        """
+        return Entity.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(T.EnumRepClause).then(
+                lambda p: p.type_name.referenced_decl == Entity
+            )
+        ).cast(T.EnumRepClause.entity)
+
     @langkit_property(memoized=True)
     def primitives_env():
         return EmptyEnv
@@ -5698,6 +5711,11 @@ class EnumRepClause(AspectClause):
     """
     type_name = Field(type=T.Name)
     aggregate = Field(type=T.BaseAggregate)
+
+    @langkit_property()
+    def xref_equation():
+        # TODO: resolve names in ``aggregate``
+        return Entity.type_name.xref_no_overloading
 
 
 class AttributeDefClause(AspectClause):

@@ -520,7 +520,7 @@ class AdaNode(ASTNode):
         """
         pass
 
-    @langkit_property(return_type=T.AdaNode, uses_entity_info=False,
+    @langkit_property(return_type=T.BasicDecl, uses_entity_info=False,
                       ignore_warn_on_node=True)
     def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
                            load_if_needed=(Bool, False)):
@@ -530,8 +530,19 @@ class AdaNode(ASTNode):
         name ``name``. If it's not loaded, return none.
         """
         u = Var(Self.get_unit(name, kind, load_if_needed))
+        return u._.root.match(
+            # If the root of the analysis unit is a single compilation unit,
+            # it is necessarily the one we look for.
+            lambda single=CompilationUnit: single.decl,
 
-        return u._.root._.get_root_decl
+            # If the root of the analysis unit comprises multiple compilation
+            # units, look for the one with a matching fully qualified name.
+            lambda multi=CompilationUnit.list: multi.find(
+                lambda c: c.syntactic_fully_qualified_name == name
+            )._.decl,
+
+            lambda _: PropertyError(BasicDecl, "Unexpected analysis unit root")
+        )
 
     @langkit_property(public=True, return_type=AnalysisUnit.array,
                       external=True, uses_entity_info=False, uses_envs=False)
@@ -2234,11 +2245,9 @@ class BodyStub(Body):
 
     @langkit_property(public=True)
     def next_part_for_decl():
-        # Fetch the unit in which the separate body is declared, and return the
-        # root decl.
-        return Entity.get_unit_root_decl(
+        return Self.get_unit_root_decl(
             Entity.fully_qualified_name_array, UnitBody, True
-        ).cast(T.BasicDecl).as_entity
+        ).as_entity
 
 
 @abstract
@@ -12195,8 +12204,8 @@ class Subunit(AdaNode):
         """
         Return the body in which this subunit is rooted.
         """
-        return Self.top_level_decl(
-            Self.name.referenced_unit_or_null(UnitBody)
+        return Self.get_unit_root_decl(
+            Self.name.as_symbol_array, UnitBody, True
         ).as_bare_entity
 
 

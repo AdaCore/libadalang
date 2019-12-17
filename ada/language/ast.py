@@ -335,17 +335,6 @@ class AdaNode(ASTNode):
             lambda n: n.is_a(CompilationUnit)
         ).cast_or_raise(CompilationUnit)
 
-    @langkit_property(return_type=T.BasicDecl,
-                      ignore_warn_on_node=True, uses_entity_info=False)
-    def get_root_decl():
-        """
-        Unit method. Return the root decl for this node's unit.
-        """
-        return Self.unit.root._.match(
-            lambda cu=T.CompilationUnit: cu.decl,
-            lambda _: No(T.BasicDecl),
-        )
-
     @langkit_property(return_type=Bool)
     def is_children_env(parent=LexicalEnv, current_env=LexicalEnv):
         """
@@ -7839,13 +7828,6 @@ class Name(Expr):
         Shortcut for: `.internal_referenced_unit(kind, True)`.
         """
         return Self.internal_referenced_unit(kind, True)
-
-    @langkit_property(call_memoizable=True)
-    def referenced_unit_or_null(kind=AnalysisUnitKind):
-        """
-        Shortcut for: `.internal_referenced_unit(kind, False)`.
-        """
-        return Self.internal_referenced_unit(kind, False)
 
     @langkit_property(return_type=Bool)
     def matches(n=T.Name):

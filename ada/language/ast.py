@@ -607,6 +607,11 @@ class AdaNode(ASTNode):
         Designates entities that are entry point for the xref solving
         infrastructure. If this returns true, then resolve_names can be called
         on it.
+
+        .. note::
+            For convenience, and unlike what is defined in the ARM wrt.
+            complete contexts for name resolution, ``xref_entry_points`` can be
+            nested.
         """
     )
 

@@ -65,4 +65,22 @@ begin
    begin
       null;
    end;
+
+   --  Subtypes AttributeRef
+   declare
+      type A is range -100 .. 100;
+      subtype B is A range -10 .. 10;
+      subtype C is B;
+
+      A_First : A := A'First;
+      A_Last  : A := A'Last;
+
+      B_First : B := B'First;
+      B_Last  : B := B'Last;
+
+      C_First : C := C'First;
+      C_Last  : C := C'Last;
+   begin
+      null;
+   end;
 end Test;

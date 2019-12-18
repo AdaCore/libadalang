@@ -1,8 +1,9 @@
-with Ada.Calendar;          use Ada.Calendar;
+with Ada.Calendar;                    use Ada.Calendar;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Vectors;
 with Ada.Exceptions;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded;           use Ada.Strings.Unbounded;
+with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
@@ -43,8 +44,17 @@ procedure Nameres is
    procedure Merge (Stats : in out Stats_Record; Other : Stats_Record);
    --  Merge data from Stats and Other into Stats
 
+   type Config_Record is record
+      Display_Slocs : Boolean := False;
+      --  Whether to display slocs for resolved names
+
+      Display_Short_Images : Boolean := False;
+      --  Whether to display short images for resolved names
+   end record;
+
    type Job_Data_Record is record
-      Stats : Stats_Record;
+      Stats  : Stats_Record;
+      Config : Config_Record;
    end record;
 
    type Job_Data_Array is array (Job_ID range <>) of Job_Data_Record;
@@ -153,6 +163,8 @@ procedure Nameres is
    function "+" (S : String) return Unbounded_String
       renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
+   function "+" (S : Unbounded_Text_Type) return Text_Type
+      renames To_Wide_Wide_String;
 
    function "<" (Left, Right : Ada_Node) return Boolean is
      (Sloc_Range (Left).Start_Line < Sloc_Range (Right).Start_Line);
@@ -189,6 +201,55 @@ procedure Nameres is
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
 
    procedure Increment (Counter : in out Natural);
+
+   type Supported_Pragma is
+     (Ignored_Pragma, Error_In_Pragma, Pragma_Config, Pragma_Section,
+      Pragma_Test, Pragma_Test_Statement, Pragma_Test_Statement_UID,
+      Pragma_Test_Block);
+   type Decoded_Pragma (Kind : Supported_Pragma) is record
+      case Kind is
+         when Ignored_Pragma =>
+            --  Nameres does not handle this pragma
+            null;
+
+         when Error_In_Pragma =>
+            --  We had trouble decoding this pragma
+            Error_Sloc    : Source_Location;
+            Error_Message : Unbounded_String;
+
+         when Pragma_Config =>
+            --  Tune nameres' settings
+            Config_Name : Unbounded_Text_Type;
+            Config_Expr : Expr;
+
+         when Pragma_Section =>
+            --  Output headlines
+            Section_Name : Unbounded_Text_Type;
+
+         when Pragma_Test =>
+            --  Run name resolution on the given expression
+            Test_Expr  : Expr;
+            Test_Debug : Boolean;
+
+         when Pragma_Test_Statement
+            | Pragma_Test_Statement_UID
+            | Pragma_Test_Block
+         =>
+            --  Run name resolution on the statement that precedes this pragma.
+            --
+            --  For the UID version, but show the unique_identifying name of
+            --  the declarations instead of the node image.  This is used in
+            --  case the node might change (for example in tests where we
+            --  resolve runtime things).
+            --
+            --  For the block version, run name resolution on all xref entry
+            --  points in the statement that precedes this pragma, or on the
+            --  whole compilation unit if top-level.
+            Test_Target : Ada_Node;
+      end case;
+   end record;
+
+   function Decode_Pragma (Node : Pragma_Node) return Decoded_Pragma;
 
    -----------
    -- Merge --
@@ -279,6 +340,122 @@ procedure Nameres is
       Counter := Counter + 1;
    end Increment;
 
+   -------------------
+   -- Decode_Pragma --
+   -------------------
+
+   function Decode_Pragma (Node : Pragma_Node) return Decoded_Pragma is
+
+      Name         : constant String := Text (Node.F_Id);
+      Untyped_Args : constant Ada_Node_Array := Node.F_Args.Children;
+      Args         : array (Untyped_Args'Range) of Pragma_Argument_Assoc;
+
+      function Error (Message : String) return Decoded_Pragma
+      is ((Error_In_Pragma, Start_Sloc (Node.Sloc_Range), +Message));
+      --  Shortcut to build Error_In_Pragma records
+
+      function N_Args_Error (Expected : Natural) return Decoded_Pragma
+      is (Error ("expected " & Expected'Image & " pragma arguments, got"
+                 & Args'Length'Image));
+      function N_Args_Error
+        (At_Least, At_Most : Natural) return Decoded_Pragma
+      is (Error ("expected between" & At_Least'Image & " and" & At_Most'Image
+                 & " pragma arguments, got" & Args'Length'Image));
+      --  Return an Error_In_Pragma record for an unexpected number of pragma
+      --  arguments.
+
+   begin
+      for I in Untyped_Args'Range loop
+         Args (I) := Untyped_Args (I).As_Pragma_Argument_Assoc;
+      end loop;
+
+      if Name = "Config" then
+         if Args'Length /= 1 then
+            return N_Args_Error (1);
+         elsif Args (1).F_Id.Is_Null then
+            return Error ("Missing argument name");
+         elsif Args (1).F_Id.Kind /= Ada_Identifier then
+            return Error ("Argument name must be an identifier");
+         else
+            return (Pragma_Config,
+                    To_Unbounded_Text (Args (1).F_Id.Text),
+                    Args (1).F_Expr);
+         end if;
+
+      elsif Name = "Section" then
+         if Args'Length /= 1 then
+            return N_Args_Error (1);
+         elsif not Args (1).F_Id.Is_Null then
+            return Error ("No argument name allowed");
+         elsif Args (1).F_Expr.Kind /= Ada_String_Literal then
+            return Error ("Section name must be a string literal");
+         else
+            return (Pragma_Section,
+                    To_Unbounded_Text (Args (1).F_Expr
+                    .As_String_Literal.P_Denoted_Value));
+         end if;
+
+      elsif Name = "Test" then
+         if Args'Length not in 1 | 2 then
+            return N_Args_Error (1, 2);
+         end if;
+
+         declare
+            Result : Decoded_Pragma (Pragma_Test);
+         begin
+            if not Args (1).F_Id.Is_Null then
+               return Error ("No argument name allowed");
+            end if;
+            Result.Test_Expr := Args (1).F_Expr;
+
+            if Args'Length > 1 then
+               if not Args (2).F_Id.Is_Null then
+                  return Error ("No argument name allowed");
+               elsif Args (2).F_Expr.Kind /= Ada_Identifier
+                     or else Args (2).F_Expr.Text /= "Debug"
+               then
+                  return Error ("When present, the second argument must be the"
+                                & "Debug identifier");
+               end if;
+               Result.Test_Debug := True;
+            else
+               Result.Test_Debug := False;
+            end if;
+
+            return Result;
+         end;
+
+      elsif Name = "Test_Statement" then
+         if Args'Length /= 0 then
+            return N_Args_Error (0);
+         end if;
+         return (Pragma_Test_Statement, Node.Previous_Sibling);
+
+      elsif Name = "Test_Statement_UID" then
+         if Args'Length /= 0 then
+            return N_Args_Error (0);
+         end if;
+         return (Pragma_Test_Statement_UID, Node.Previous_Sibling);
+
+      elsif Name = "Test_Block" then
+         if Args'Length /= 0 then
+            return N_Args_Error (0);
+         end if;
+         declare
+            Parent : constant Ada_Node := Node.Parent.Parent;
+            Target : constant Ada_Node :=
+              (if Parent.Kind = Ada_Compilation_Unit
+               then Parent.As_Compilation_Unit.F_Body
+               else Node.Previous_Sibling);
+         begin
+            return (Pragma_Test_Block, Target);
+         end;
+
+      else
+         return (Kind => Ignored_Pragma);
+      end if;
+   end Decode_Pragma;
+
    ---------------
    -- App_Setup --
    ---------------
@@ -363,10 +540,22 @@ procedure Nameres is
       Unit     : Analysis_Unit;
       Filename : String)
    is
-
       Nb_File_Fails : Natural := 0;
       --  Number of name resolution failures not covered by XFAILs we had in
       --  this file.
+
+      Config : Config_Record renames Job_Data.Config;
+
+      Empty : Boolean := True;
+      --  False if processing pragmas has output at least one line. True
+      --  otherwise.
+
+      function Is_Pragma_Node (N : Ada_Node) return Boolean is
+        (Kind (N) = Ada_Pragma_Node);
+
+      procedure Process_Pragma (Node : Ada_Node);
+      --  Decode a pragma node and run actions accordingly (trigger name
+      --  resolution, output a section name, ...).
 
       procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True);
       --  Run name resolution testing on Node.
@@ -387,6 +576,79 @@ procedure Nameres is
       procedure Resolve_Block (Block : Ada_Node);
       --  Call Resolve_Node on all xref entry points (according to
       --  Is_Xref_Entry_Point) in Block except for Block itself.
+
+      --------------------
+      -- Process_Pragma --
+      --------------------
+
+      procedure Process_Pragma (Node : Ada_Node) is
+         P : constant Decoded_Pragma := Decode_Pragma (Node.As_Pragma_Node);
+      begin
+         case P.Kind is
+         when Ignored_Pragma =>
+            null;
+
+         when Error_In_Pragma =>
+            Put_Line (Image (P.Error_Sloc) & ": " & (+P.Error_Message));
+            Empty := False;
+
+         when Pragma_Config =>
+            declare
+               Value : constant Text_Type := Text (P.Config_Expr);
+            begin
+               if P.Config_Name = "Display_Slocs" then
+                  Config.Display_Slocs := Decode_Boolean_Literal (Value);
+               elsif P.Config_Name = "Display_Short_Images" then
+                  Config.Display_Short_Images :=
+                     Decode_Boolean_Literal (Value);
+               else
+                  raise Program_Error with
+                     "Invalid configuration: " & Image (+P.Config_Name);
+               end if;
+            end;
+
+         when Pragma_Section =>
+            if not Quiet then
+               Put_Title ('-', Image (To_Wide_Wide_String (P.Section_Name)));
+            end if;
+            Empty := True;
+
+         when Pragma_Test =>
+            Trigger_Envs_Debug (P.Test_Debug);
+
+            declare
+               Entities : Ada_Node_Array := Do_Pragma_Test (P.Test_Expr);
+            begin
+               Put_Line (Text (P.Test_Expr) & " resolves to:");
+               Sort (Entities);
+               for E of Entities loop
+                  Put ("    " & (if Config.Display_Short_Images
+                                 then E.Short_Image
+                                 else E.Debug_Text));
+                  if Config.Display_Slocs then
+                     Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
+                  else
+                     New_Line;
+                  end if;
+               end loop;
+               if Entities'Length = 0 then
+                  Put_Line ("    <none>");
+               end if;
+            end;
+
+            Empty := False;
+            Trigger_Envs_Debug (False);
+
+         when Pragma_Test_Statement | Pragma_Test_Statement_UID =>
+            Resolve_Node (Node       => P.Test_Target,
+                          Show_Slocs => P.Kind /= Pragma_Test_Statement_UID);
+            Empty := False;
+
+         when Pragma_Test_Block =>
+            Resolve_Block (P.Test_Target);
+            Empty := False;
+         end case;
+      end Process_Pragma;
 
       -------------------
       -- Resolve_Block --
@@ -579,20 +841,28 @@ procedure Nameres is
       end Resolve_Node;
 
    begin
+      --  Make sure there is no diagnostic for this unit. If there are, print
+      --  them and do nothing else.
+
       if Has_Diagnostics (Unit) then
          for D of Diagnostics (Unit) loop
             Put_Line (Format_GNU_Diagnostic (Unit, D));
          end loop;
          return;
       end if;
-      Populate_Lexical_Env (Unit);
 
+      --  Manually trigger PLE first, and if requested reparse the unit, to
+      --  make sure that rebuilding lexical envs works correctly.
+
+      Populate_Lexical_Env (Unit);
       if Args.Do_Reparse.Get then
          for I in 1 .. 10 loop
             Reparse (Unit);
             Populate_Lexical_Env (Unit);
          end loop;
       end if;
+
+      Job_Data.Config := (others => <>);
 
       if Args.Dump_Envs.Get then
          Put_Title ('-', "Dumping envs for " & Filename);
@@ -603,170 +873,19 @@ procedure Nameres is
          Resolve_Block (Root (Unit));
       end if;
 
+      --  Run through all pragmas and execute the associated actions
+
       declare
-         --  Configuration for this unit
-         Display_Slocs        : Boolean := False;
-         Display_Short_Images : Boolean := False;
-
-         Empty     : Boolean := True;
-         P_Node    : Pragma_Node;
-
-         function Is_Pragma_Node (N : Ada_Node) return Boolean is
-           (Kind (N) = Ada_Pragma_Node);
-
-         function Pragma_Name return String is (Text (F_Id (P_Node)));
-
-         procedure Handle_Pragma_Config (Id : Identifier; E : Expr);
-
-         --------------------------
-         -- Handle_Pragma_Config --
-         --------------------------
-
-         procedure Handle_Pragma_Config (Id : Identifier; E : Expr) is
-            Name : constant Text_Type := Text (Id);
-         begin
-            if Kind (E) /= Ada_Identifier then
-               raise Program_Error with
-                 ("Invalid config value for " & Image (Name, True) & ": "
-                  & Text (E));
-            end if;
-
-            declare
-               Value : constant Text_Type := Text (E);
-            begin
-               if Name = "Display_Slocs" then
-                  Display_Slocs := Decode_Boolean_Literal (Value);
-               elsif Name = "Display_Short_Images" then
-                  Display_Short_Images := Decode_Boolean_Literal (Value);
-               else
-                  raise Program_Error with
-                    ("Invalid configuration: " & Image (Name, True));
-               end if;
-            end;
-         end Handle_Pragma_Config;
-
+         It : Traverse_Iterator'Class :=
+            Find (Unit.Root, Is_Pragma_Node'Access);
       begin
-         --  Print what entities are found for expressions X in all the "pragma
-         --  Test (X)" we can find in this unit.
-         for Node of Find (Root (Unit), Is_Pragma_Node'Access).Consume loop
-
-            P_Node := As_Pragma_Node (Node);
-
-            if Pragma_Name = "Config" then
-               --  Handle testcase configuration pragmas for this file
-               for Arg of Ada_Node_Array'(Children (F_Args (P_Node))) loop
-                  declare
-                     A : constant Pragma_Argument_Assoc :=
-                        As_Pragma_Argument_Assoc (Arg);
-                  begin
-                     if Is_Null (F_Id (A)) then
-                        raise Program_Error with
-                           "Name missing in pragma Config";
-                     elsif Kind (F_Id (A)) /= Ada_Identifier then
-                        raise Program_Error with
-                           "Name in pragma Config must be an identifier";
-                     end if;
-
-                     Handle_Pragma_Config (F_Id (A), F_Expr (A));
-                  end;
-               end loop;
-
-            elsif Pragma_Name = "Section" then
-               --  Print headlines
-               declare
-                  pragma Assert (Children_Count (F_Args (P_Node)) = 1);
-                  Arg : constant Expr :=
-                     P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
-                  pragma Assert (Kind (Arg) = Ada_String_Literal);
-
-                  T : constant Text_Type := Text (Arg);
-               begin
-                  if not Quiet then
-                     Put_Title ('-', Image (T (T'First + 1 .. T'Last - 1)));
-                  end if;
-               end;
-               Empty := True;
-
-            elsif Pragma_Name = "Test" then
-               --  Perform name resolution
-               declare
-                  pragma Assert (Children_Count (F_Args (P_Node)) in 1 | 2);
-
-                  Arg      : constant Expr :=
-                     P_Assoc_Expr (As_Base_Assoc (Child (F_Args (P_Node), 1)));
-
-                  Debug_Lookup : Boolean := False;
-
-               begin
-                  if Children_Count (F_Args (P_Node)) = 2 then
-                     Debug_Lookup := Text
-                       (P_Assoc_Expr (As_Base_Assoc
-                         (Child (F_Args (P_Node), 2))))
-                          = String'("Debug");
-                  end if;
-
-                  Trigger_Envs_Debug (Debug_Lookup);
-
-                  declare
-                     Entities : Ada_Node_Array := Do_Pragma_Test (Arg);
-                  begin
-
-                     Put_Line (Text (Arg) & " resolves to:");
-                     Sort (Entities);
-                     for E of Entities loop
-                        Put ("    " & (if Display_Short_Images
-                                       then E.Short_Image
-                                       else Text (E)));
-                        if Display_Slocs then
-                           Put_Line (" at "
-                                     & Image (Start_Sloc (Sloc_Range (E))));
-                        else
-                           New_Line;
-                        end if;
-                     end loop;
-                     if Entities'Length = 0 then
-                        Put_Line ("    <none>");
-                     end if;
-                  end;
-               end;
-
-               Empty := False;
-               Trigger_Envs_Debug (False);
-
-            elsif Pragma_Name = "Test_Statement" then
-               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
-               Resolve_Node (Previous_Sibling (P_Node));
-               Empty := False;
-
-            elsif Pragma_Name = "Test_Statement_UID" then
-
-               --  Like Test_Statement, but will show the unique_identifying
-               --  name of the declarations instead of the node image.
-               --  This is used in case the node might change (for example in
-               --  tests where we resolve runtime things).
-
-               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
-               Resolve_Node (Previous_Sibling (P_Node), Show_Slocs => False);
-               Empty := False;
-
-            elsif Pragma_Name = "Test_Block" then
-               pragma Assert (Children_Count (F_Args (P_Node)) = 0);
-               declare
-                  Parent_1 : constant Ada_Node := Parent (P_Node);
-                  Parent_2 : constant Ada_Node := Parent (Parent_1);
-               begin
-                  Resolve_Block
-                    (if Kind (Parent_2) = Ada_Compilation_Unit
-                     then F_Body (As_Compilation_Unit (Parent_2))
-                     else Previous_Sibling (P_Node));
-               end;
-               Empty := False;
-            end if;
-         end loop;
-         if not Empty then
-            New_Line;
-         end if;
+         It.Iterate (Process_Pragma'Access);
       end;
+      if not Empty then
+         New_Line;
+      end if;
+
+      --  Update statistics
 
       Job_Data.Stats.Nb_Fails := Job_Data.Stats.Nb_Fails + Nb_File_Fails;
       if Job_Data.Stats.Max_Nb_Fails < Nb_File_Fails then

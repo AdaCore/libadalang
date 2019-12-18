@@ -4,6 +4,7 @@ with Ada.Containers.Vectors;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
+with Ada.Unchecked_Deallocation;
 
 with GNAT.Traceback.Symbolic;
 
@@ -29,7 +30,7 @@ procedure Nameres is
 
    package J renames GNATCOLL.JSON;
 
-   package Stats_Data is
+   type Stats_Record is record
       Nb_Files_Analyzed    : Natural := 0;
       Nb_Successes         : Natural := 0;
       Nb_Fails             : Natural := 0;
@@ -37,7 +38,21 @@ procedure Nameres is
       Nb_Exception_Fails   : Natural := 0;
       Max_Nb_Fails         : Natural := 0;
       File_With_Most_Fails : Unbounded_String;
-   end Stats_Data;
+   end record;
+
+   procedure Merge (Stats : in out Stats_Record; Other : Stats_Record);
+   --  Merge data from Stats and Other into Stats
+
+   type Job_Data_Record is record
+      Stats : Stats_Record;
+   end record;
+
+   type Job_Data_Array is array (Job_ID range <>) of Job_Data_Record;
+   type Job_Data_Array_Access is access all Job_Data_Array;
+   procedure Free is new Ada.Unchecked_Deallocation
+     (Job_Data_Array, Job_Data_Array_Access);
+
+   Job_Data : Job_Data_Array_Access;
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Job_Setup (Context : App_Job_Context);
@@ -150,7 +165,10 @@ procedure Nameres is
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean is
      (Boolean'Wide_Wide_Value (T));
-   procedure Process_File (Unit : Analysis_Unit; Filename : String);
+   procedure Process_File
+     (Job_Data : in out Job_Data_Record;
+      Unit     : Analysis_Unit;
+      Filename : String);
 
    function Do_Pragma_Test (Arg : Expr) return Ada_Node_Array is
      (P_Matching_Nodes (Arg));
@@ -171,6 +189,26 @@ procedure Nameres is
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
 
    procedure Increment (Counter : in out Natural);
+
+   -----------
+   -- Merge --
+   -----------
+
+   procedure Merge (Stats : in out Stats_Record; Other : Stats_Record) is
+   begin
+      Stats.Nb_Files_Analyzed :=
+         Stats.Nb_Files_Analyzed + Other.Nb_Files_Analyzed;
+      Stats.Nb_Successes := Stats.Nb_Successes + Other.Nb_Successes;
+      Stats.Nb_Fails := Stats.Nb_Fails + Other.Nb_Fails;
+      Stats.Nb_Xfails := Stats.Nb_Xfails + Other.Nb_Xfails;
+      Stats.Nb_Exception_Fails :=
+         Stats.Nb_Exception_Fails + Other.Nb_Exception_Fails;
+
+      if Stats.Max_Nb_Fails < Other.Max_Nb_Fails then
+         Stats.Max_Nb_Fails := Other.Max_Nb_Fails;
+         Stats.File_With_Most_Fails := Other.File_With_Most_Fails;
+      end if;
+   end Merge;
 
    --------------
    -- New_Line --
@@ -246,7 +284,7 @@ procedure Nameres is
    ---------------
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array) is
-      pragma Unreferenced (Context, Jobs);
+      pragma Unreferenced (Context);
    begin
       if Args.No_Lookup_Cache.Get then
          Disable_Lookup_Cache (True);
@@ -257,6 +295,8 @@ procedure Nameres is
       elsif Args.Debug.Get then
          Set_Debug_State (Step);
       end if;
+
+      Job_Data := new Job_Data_Array'(Jobs'Range => (others => <>));
    end App_Setup;
 
    ---------------
@@ -276,10 +316,8 @@ procedure Nameres is
    ------------------
 
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
-      pragma Unreferenced (Context);
-
-      Basename : constant String :=
-         +Create (+Unit.Get_Filename).Base_Name;
+      Job_Data : Job_Data_Record renames Nameres.Job_Data (Context.ID);
+      Basename : constant String := +Create (+Unit.Get_Filename).Base_Name;
 
       Before, After : Time;
       Time_Elapsed  : Duration;
@@ -290,7 +328,7 @@ procedure Nameres is
       Before := Clock;
 
       begin
-         Process_File (Unit, Unit.Get_Filename);
+         Process_File (Job_Data, Unit, Unit.Get_Filename);
       exception
          when E : others =>
             Put_Line ("PLE failed with exception for file " & Basename);
@@ -307,9 +345,9 @@ procedure Nameres is
             & Basename & ": " & Time_Elapsed'Image);
       end if;
 
-      Increment (Stats_Data.Nb_Files_Analyzed);
+      Increment (Job_Data.Stats.Nb_Files_Analyzed);
       if Args.File_Limit.Get /= -1
-         and then Stats_Data.Nb_Files_Analyzed
+         and then Job_Data.Stats.Nb_Files_Analyzed
                   >= Args.File_Limit.Get
       then
          Abort_App ("Requested file limit reached: aborting");
@@ -320,7 +358,11 @@ procedure Nameres is
    -- Process_File --
    ------------------
 
-   procedure Process_File (Unit : Analysis_Unit; Filename : String) is
+   procedure Process_File
+     (Job_Data : in out Job_Data_Record;
+      Unit     : Analysis_Unit;
+      Filename : String)
+   is
 
       Nb_File_Fails : Natural := 0;
       --  Number of name resolution failures not covered by XFAILs we had in
@@ -495,7 +537,7 @@ procedure Nameres is
                Dummy := Traverse (Node, Print_Node'Access);
             end if;
 
-            Increment (Stats_Data.Nb_Successes);
+            Increment (Job_Data.Stats.Nb_Successes);
 
             if Output_JSON then
                Obj.Set_Field ("success", True);
@@ -503,7 +545,7 @@ procedure Nameres is
          else
             Put_Line ("Resolution failed for node " & Node.Short_Image);
             if XFAIL then
-               Increment (Stats_Data.Nb_Xfails);
+               Increment (Job_Data.Stats.Nb_Xfails);
             else
                Increment (Nb_File_Fails);
             end if;
@@ -529,9 +571,9 @@ procedure Nameres is
             Dump_Exception (E, Obj);
 
             if XFAIL then
-               Increment (Stats_Data.Nb_Xfails);
+               Increment (Job_Data.Stats.Nb_Xfails);
             else
-               Increment (Stats_Data.Nb_Exception_Fails);
+               Increment (Job_Data.Stats.Nb_Exception_Fails);
                Increment (Nb_File_Fails);
             end if;
       end Resolve_Node;
@@ -726,10 +768,10 @@ procedure Nameres is
          end if;
       end;
 
-      Stats_Data.Nb_Fails := Stats_Data.Nb_Fails + Nb_File_Fails;
-      if Stats_Data.Max_Nb_Fails < Nb_File_Fails then
-         Stats_Data.File_With_Most_Fails := +Filename;
-         Stats_Data.Max_Nb_Fails := Nb_File_Fails;
+      Job_Data.Stats.Nb_Fails := Job_Data.Stats.Nb_Fails + Nb_File_Fails;
+      if Job_Data.Stats.Max_Nb_Fails < Nb_File_Fails then
+         Job_Data.Stats.File_With_Most_Fails := +Filename;
+         Job_Data.Stats.Max_Nb_Fails := Nb_File_Fails;
       end if;
 
    end Process_File;
@@ -741,35 +783,45 @@ procedure Nameres is
    procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array)
    is
-      pragma Unreferenced (Context, Jobs);
-      Total : constant Natural :=
-        Stats_Data.Nb_Successes + Stats_Data.Nb_Fails + Stats_Data.Nb_Xfails;
+      pragma Unreferenced (Context);
+
+      Stats : Stats_Record;
+      Total : Natural;
    begin
+      --  Aggregate statistics from all jobs
+
+      Stats := Job_Data (Jobs'First).Stats;
+      for I in Jobs'First + 1 .. Jobs'Last loop
+         Merge (Stats, Job_Data (I).Stats);
+      end loop;
+      Total := Stats.Nb_Successes + Stats.Nb_Fails + Stats.Nb_Xfails;
+
       if Args.Stats.Get and then Total > 0 then
          declare
             type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
             Percent_Successes : constant Percentage := Percentage
-              (Float (Stats_Data.Nb_Successes) / Float (Total) * 100.0);
+              (Float (Stats.Nb_Successes) / Float (Total) * 100.0);
             Percent_Failures : constant Percentage :=
-              Percentage (Float (Stats_Data.Nb_Fails) / Float (Total) * 100.0);
+              Percentage (Float (Stats.Nb_Fails) / Float (Total) * 100.0);
 
             Percent_XFAIL : constant Percentage :=
-              Percentage
-                (Float (Stats_Data.Nb_Xfails) / Float (Total) * 100.0);
+              Percentage (Float (Stats.Nb_Xfails) / Float (Total) * 100.0);
          begin
             Put_Line ("Resolved " & Total'Image & " nodes");
-            Put_Line ("Of which" & Stats_Data.Nb_Successes'Image
+            Put_Line ("Of which" & Stats.Nb_Successes'Image
                       & " successes - " & Percent_Successes'Image & "%");
-            Put_Line ("Of which" & Stats_Data.Nb_Fails'Image
+            Put_Line ("Of which" & Stats.Nb_Fails'Image
                       & " failures - " & Percent_Failures'Image & "%");
 
-            Put_Line ("Of which" & Stats_Data.Nb_Xfails'Image
+            Put_Line ("Of which" & Stats.Nb_Xfails'Image
                       & " XFAILS - " & Percent_XFAIL'Image & "%");
             Put_Line ("File with most failures ("
-                      & Stats_Data.Max_Nb_Fails'Image
-                      & "):" & (+Stats_Data.File_With_Most_Fails));
+                      & Stats.Max_Nb_Fails'Image
+                      & "):" & (+Stats.File_With_Most_Fails));
          end;
       end if;
+
+      Free (Job_Data);
 
       Put_Line ("Done.");
    end App_Post_Process;

@@ -6557,6 +6557,21 @@ class FormalSubpDecl(ClassicSubpDecl):
 
     defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
 
+    xref_equation = Property(
+        Entity.default_expr.then(lambda e: e.match(
+            lambda _=T.NullLiteral: LogicTrue(),
+
+            lambda _=T.BoxExpr: LogicTrue(),
+
+            lambda n=T.Name:
+            And(n.xref_no_overloading(all_els=True),
+                Predicate(BasicDecl.subp_decl_match_signature,
+                          n.ref_var, Entity.cast(T.BasicDecl))),
+
+            lambda _: PropertyError(Equation, "Should not happen")
+        ), default_val=LogicTrue())
+    )
+
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
     """
@@ -6592,6 +6607,9 @@ class GenericFormal(BaseFormalParamDecl):
     decl = Field(T.BasicDecl)
     aspects = NullField()
     defining_names = Property(Entity.decl.defining_names)
+
+    xref_entry_point = Property(True)
+    xref_equation = Property(Entity.decl.xref_equation)
 
 
 class GenericFormalObjDecl(GenericFormal):

@@ -170,6 +170,8 @@ procedure Nameres is
    --  don't show tracebacks when asked not to). If ``Obj`` is passed and
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
 
+   procedure Increment (Counter : in out Natural);
+
    --------------
    -- New_Line --
    --------------
@@ -229,6 +231,15 @@ procedure Nameres is
          Ada.Text_IO.Put_Line (Obj.Write);
       end if;
    end Dump_Exception;
+
+   ---------------
+   -- Increment --
+   ---------------
+
+   procedure Increment (Counter : in out Natural) is
+   begin
+      Counter := Counter + 1;
+   end Increment;
 
    ---------------
    -- App_Setup --
@@ -296,7 +307,7 @@ procedure Nameres is
             & Basename & ": " & Time_Elapsed'Image);
       end if;
 
-      Stats_Data.Nb_Files_Analyzed := Stats_Data.Nb_Files_Analyzed + 1;
+      Increment (Stats_Data.Nb_Files_Analyzed);
       if Args.File_Limit.Get /= -1
          and then Stats_Data.Nb_Files_Analyzed
                   >= Args.File_Limit.Get
@@ -312,23 +323,37 @@ procedure Nameres is
    procedure Process_File (Unit : Analysis_Unit; Filename : String) is
 
       Nb_File_Fails : Natural := 0;
+      --  Number of name resolution failures not covered by XFAILs we had in
+      --  this file.
 
       procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True);
+      --  Run name resolution testing on Node.
+      --
+      --  This involves running P_Resolve_Names on Node, displaying resolved
+      --  references, updating statistics, creating a JSON report if requested,
+      --  etc.
+
+      function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
+      is (P_Xref_Entry_Point (N)
+          and then
+            (Args.Solve_Line.Get = 0
+             or else
+             Natural (Sloc_Range (N).Start_Line) = Args.Solve_Line.Get));
+      --  Return whether we should use N as an entry point for name resolution
+      --  testing.
+
       procedure Resolve_Block (Block : Ada_Node);
+      --  Call Resolve_Node on all xref entry points (according to
+      --  Is_Xref_Entry_Point) in Block except for Block itself.
 
       -------------------
       -- Resolve_Block --
       -------------------
 
       procedure Resolve_Block (Block : Ada_Node) is
-         function Is_Xref_Entry_Point (N : Ada_Node) return Boolean
-         is (P_Xref_Entry_Point (N)
-             and then
-               (Args.Solve_Line.Get = 0
-                or else
-                Natural (Sloc_Range (N).Start_Line) = Args.Solve_Line.Get));
 
          procedure Resolve_Entry_Point (Node : Ada_Node);
+         --  Callback for tree traversal in Block
 
          -------------------------
          -- Resolve_Entry_Point --
@@ -358,6 +383,7 @@ procedure Nameres is
          --  message, and return True.
 
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
+         --  Callback for the tree traversal in Node. Print xref info for N.
 
          ----------------
          -- Print_Node --
@@ -412,10 +438,6 @@ procedure Nameres is
                else Into);
          end Print_Node;
 
-         Dummy : Visit_Status;
-
-         Obj : aliased J.JSON_Value;
-
          -----------
          -- XFAIL --
          -----------
@@ -442,52 +464,61 @@ procedure Nameres is
             end if;
             return False;
          end XFAIL;
+
+         Verbose     : constant Boolean :=
+            not (Quiet or else Args.Only_Show_Failures.Get);
+         Output_JSON : constant Boolean := Args.JSON.Get;
+
+         Dummy : Visit_Status;
+         Obj   : aliased J.JSON_Value;
+
       begin
-         if Args.JSON.Get then
+         --  Pre-processing output
+
+         if Output_JSON then
             Obj := J.Create_Object;
             Obj.Set_Field ("kind", "node_resolution");
+            Obj.Set_Field ("file", Filename);
+            Obj.Set_Field ("sloc", Image (Node.Sloc_Range));
          end if;
-
-         if not (Quiet or else Args.Only_Show_Failures.Get) then
+         if Verbose then
             Put_Title ('*', "Resolving xrefs for node " & Node.Short_Image);
          end if;
          if Langkit_Support.Adalog.Debug.Debug then
             Assign_Names_To_Logic_Vars (Node);
          end if;
 
-         if Args.JSON.Get then
-            Obj.Set_Field ("file", Filename);
-            Obj.Set_Field ("sloc", Image (Node.Sloc_Range));
-         end if;
+         --  Perform name resolution
 
          if P_Resolve_Names (Node) or else Args.Imprecise_Fallback.Get then
             if not Args.Only_Show_Failures.Get then
                Dummy := Traverse (Node, Print_Node'Access);
             end if;
 
-            Stats_Data.Nb_Successes := Stats_Data.Nb_Successes + 1;
+            Increment (Stats_Data.Nb_Successes);
 
-            if Args.JSON.Get then
+            if Output_JSON then
                Obj.Set_Field ("success", True);
             end if;
          else
             Put_Line ("Resolution failed for node " & Node.Short_Image);
             if XFAIL then
-               Stats_Data.Nb_Xfails := Stats_Data.Nb_Xfails + 1;
+               Increment (Stats_Data.Nb_Xfails);
             else
-               Nb_File_Fails := Nb_File_Fails + 1;
+               Increment (Nb_File_Fails);
             end if;
 
-            if Args.JSON.Get then
+            if Output_JSON then
                Obj.Set_Field ("success", False);
             end if;
          end if;
 
-         if not (Quiet or else Args.Only_Show_Failures.Get) then
+         --  Post-processing output
+
+         if Verbose then
             Put_Line ("");
          end if;
-
-         if Args.JSON.Get then
+         if Output_JSON then
             Ada.Text_IO.Put_Line (Obj.Write);
          end if;
       exception
@@ -498,11 +529,10 @@ procedure Nameres is
             Dump_Exception (E, Obj);
 
             if XFAIL then
-               Stats_Data.Nb_Xfails := Stats_Data.Nb_Xfails + 1;
+               Increment (Stats_Data.Nb_Xfails);
             else
-               Stats_Data.Nb_Exception_Fails :=
-                 Stats_Data.Nb_Exception_Fails + 1;
-               Nb_File_Fails := Nb_File_Fails + 1;
+               Increment (Stats_Data.Nb_Exception_Fails);
+               Increment (Nb_File_Fails);
             end if;
       end Resolve_Node;
 

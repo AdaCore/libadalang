@@ -417,8 +417,8 @@ application with a lot of common functionality already built-in, so that you
 don't have to reinvent it every time.
 
 The way it works is simple: you instantiate it, providing it several callbacks
-(see blow) and call its ``Run`` procedure in your main. It then handles all the
-logistic around your application:
+(see below) and call its ``Run`` procedure in your main. It then handles all
+the logistic around your application:
 
 * parsing command-line arguments,
 * setting up unit providers,

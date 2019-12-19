@@ -62,3 +62,5 @@ begin
    ZZ.Bar;
    Acc.Baz;
 end Test;
+
+pragma Find_All_References (Calls);

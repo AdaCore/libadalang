@@ -1,19 +1,29 @@
-Subprograms overriding test (line 1):
-Subprograms overriding test.p.f (line 5):
-  test.r.f (line 17)
-  test.t.f (line 39)
-Subprograms overriding test.p.f (line 6):
-  test.t.f (line 40)
-Subprograms overriding test.p.g (line 7):
-Subprograms overriding test.r.f (line 17):
-  test.t.f (line 39)
-Subprograms overriding test.i.a (line 23):
-  test.t.a (line 41)
-Subprograms overriding test.i.b (line 27):
-  test.t.b (line 42)
-Subprograms overriding test.t.f (line 39):
-Subprograms overriding test.t.f (line 40):
-Subprograms overriding test.t.a (line 41):
-Subprograms overriding test.t.b (line 42):
-Subprograms overriding test.t.a (line 44):
-Done
+Analyzing test.adb
+##################
+
+Overridings for Test (test.adb, 1:11-1:15)
+   <none>
+Overridings for F (test.adb, 5:16-5:17)
+   overriding function F (X : U) return U is (X); (test.adb, 17:7-17:53)
+   overriding function F (X : U) return U is (X); (test.adb, 39:7-39:53)
+Overridings for F (test.adb, 6:16-6:17)
+   overriding function F return U is (null record); (test.adb, 40:7-40:55)
+Overridings for G (test.adb, 7:17-7:18)
+   <none>
+Overridings for F (test.adb, 17:27-17:28)
+   overriding function F (X : U) return U is (X); (test.adb, 39:7-39:53)
+Overridings for A (test.adb, 23:17-23:18)
+   procedure Test is (test.adb, 1:1-50:40)
+Overridings for B (test.adb, 27:17-27:18)
+   procedure Test is (test.adb, 1:1-50:40)
+Overridings for F (test.adb, 39:27-39:28)
+   <none>
+Overridings for F (test.adb, 40:27-40:28)
+   <none>
+Overridings for A (test.adb, 41:28-41:29)
+   <none>
+Overridings for B (test.adb, 42:28-42:29)
+   <none>
+Overridings for A (test.adb, 44:28-44:29)
+   <none>
+Done.

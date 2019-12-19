@@ -8,4 +8,6 @@ procedure Main is
    Str : String := "42";
 begin
    Int_IO.Get (Str, R, Last);
+   pragma Find_All_References (Any, Previous_Referenced_Decl,
+                               Show_Slocs => False);
 end Main;

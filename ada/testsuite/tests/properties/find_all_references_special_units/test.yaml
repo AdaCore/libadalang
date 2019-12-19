@@ -1,2 +1,2 @@
-driver: python
+driver: name-resolution
 input_sources: [test.adb]

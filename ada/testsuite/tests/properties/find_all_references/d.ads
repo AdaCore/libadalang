@@ -1,5 +1,6 @@
 package D is
    type T;
+   pragma Find_All_References (Any);
 
    function Get_T return T;
 

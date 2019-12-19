@@ -1,5 +1,14 @@
-All references to X from a.ads:
-    Y : Integer := A.X; (b.adb, 5:7-5:26)
-All references to Y from b.adb:
-    return Y + X; (b.adb, 7:7-7:20)
-Done
+Analyzing a.ads
+###############
+
+Analyzing b.ads
+###############
+
+Analyzing b.adb
+###############
+
+References to X (a.ads, 3:4-3:5)
+   Y : Integer := A.X; (b.adb, 5:7-5:26)
+References to Y (b.adb, 5:7-5:8)
+   return Y + X; (b.adb, 8:7-8:20)
+Done.

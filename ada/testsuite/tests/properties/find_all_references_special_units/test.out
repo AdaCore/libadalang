@@ -1,3 +1,6 @@
-References to Ada.Text_IO.Integer_IO.Get:
-<Id "Get" test.adb:10:11-10:14>
-Done
+Analyzing test.adb
+##################
+
+References to Get (a-tiinio.ads)
+   Int_IO.Get (Str, R, Last); (test.adb)
+Done.

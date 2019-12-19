@@ -1,2 +1,11 @@
-[<Id "Test" multi_units.adb:7:6-7:10>, <Id "Test" multi_units.adb:11:4-11:8>]
-Done
+Analyzing test.adb
+##################
+
+Analyzing multi_units.adb
+#########################
+
+References to Test (test.adb, 1:11-1:15)
+   Test (test.adb, 4:5-4:9)
+   with Test; (multi_units.adb, 7:1-7:11)
+   Test; (multi_units.adb, 11:4-11:9)
+Done.

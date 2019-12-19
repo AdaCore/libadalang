@@ -1,2 +1,2 @@
-driver: python
-input_sources: [syntax_error.adb, empty.adb]
+driver: name-resolution
+input_sources: [syntax_error.adb, empty.adb, pkg.ads]

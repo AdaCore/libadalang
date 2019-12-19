@@ -1,2 +1,14 @@
-References to pkg.foo: [<Id "Foo" syntax_error.adb:6:8-6:11>]
-Done
+Analyzing syntax_error.adb
+##########################
+
+syntax_error.adb:1:13: Skipped token dummyyy
+syntax_error.adb:1:20: Skipped token ;
+Analyzing empty.adb
+###################
+
+Analyzing pkg.ads
+#################
+
+References to Foo (pkg.ads, 2:14-2:17)
+   Pkg.Foo; (syntax_error.adb, 6:4-6:12)
+Done.

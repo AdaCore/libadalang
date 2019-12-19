@@ -124,11 +124,13 @@ function Ada_Node_P_Filter_Is_Imported_By
    begin
       if T_Root /= null and then T_Root.Kind = Ada_Compilation_Unit then
          declare
-            Qualified_Name : constant Internal_Symbol_Type_Array :=
-               Compilation_Unit_P_Syntactic_Fully_Qualified_Name
-                 (T_Root).Items;
+            Qualified_Name : Symbol_Type_Array_Access :=
+               Compilation_Unit_P_Syntactic_Fully_Qualified_Name (T_Root);
+            Is_Special     : constant Boolean :=
+               Is_Special_Unit_Name (Qualified_Name.Items);
          begin
-            if Is_Special_Unit_Name (Qualified_Name) then
+            Dec_Ref (Qualified_Name);
+            if Is_Special then
                return Libadalang.Env_Hooks.Fetch_Unit
                  (Context,
                   Libadalang.Env_Hooks.Symbol_Type_Array
@@ -263,7 +265,7 @@ function Ada_Node_P_Filter_Is_Imported_By
          --     implicit reference to its direct parent.
 
          declare
-            Unit_Name : constant Symbol_Type_Array_Access :=
+            Unit_Name : Symbol_Type_Array_Access :=
                Compilation_Unit_P_Syntactic_Fully_Qualified_Name (Unit);
 
             Parent_Symbols : constant Internal_Symbol_Type_Array :=
@@ -276,10 +278,12 @@ function Ada_Node_P_Filter_Is_Imported_By
                if Handle_Unit_Name
                  (Libadalang.Env_Hooks.Symbol_Type_Array (Parent_Symbols))
                then
+                  Dec_Ref (Unit_Name);
                   Units_Import_Target.Replace (From, True);
                   return True;
                end if;
             end if;
+            Dec_Ref (Unit_Name);
          end;
       end loop;
 

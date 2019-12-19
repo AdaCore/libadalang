@@ -52,9 +52,26 @@ procedure Nameres is
       --  Whether to display short images for resolved names
    end record;
 
+   type Reference_Kind is (Any, Subp_Call, Subp_Overriding, Type_Derivation);
+   --  Kind of reference for Find_All_References pragmas. Each kind leads to a
+   --  specific find-all-references property: see Process_Refs below for
+   --  associations.
+
+   type Refs_Request is record
+      Kind               : Reference_Kind;
+      Target             : Basic_Decl;
+      Imprecise_Fallback : Boolean;
+      Show_Slocs         : Boolean;
+      From_Pragma        : Pragma_Node;
+   end record;
+
+   package Refs_Request_Vectors is new Ada.Containers.Vectors
+     (Positive, Refs_Request);
+
    type Job_Data_Record is record
-      Stats  : Stats_Record;
-      Config : Config_Record;
+      Stats         : Stats_Record;
+      Config        : Config_Record;
+      Refs_Requests : Refs_Request_Vectors.Vector;
    end record;
 
    type Job_Data_Array is array (Job_ID range <>) of Job_Data_Record;
@@ -67,6 +84,7 @@ procedure Nameres is
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Job_Setup (Context : App_Job_Context);
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
+   procedure Job_Post_Process (Context : App_Job_Context);
    procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array);
 
@@ -78,6 +96,7 @@ procedure Nameres is
       App_Setup          => App_Setup,
       Job_Setup          => Job_Setup,
       Process_Unit       => Process_Unit,
+      Job_Post_Process   => Job_Post_Process,
       App_Post_Process   => App_Post_Process);
 
    package Args is
@@ -205,7 +224,7 @@ procedure Nameres is
    type Supported_Pragma is
      (Ignored_Pragma, Error_In_Pragma, Pragma_Config, Pragma_Section,
       Pragma_Test, Pragma_Test_Statement, Pragma_Test_Statement_UID,
-      Pragma_Test_Block);
+      Pragma_Test_Block, Pragma_Find_All_References);
    type Decoded_Pragma (Kind : Supported_Pragma) is record
       case Kind is
          when Ignored_Pragma =>
@@ -246,6 +265,16 @@ procedure Nameres is
             --  points in the statement that precedes this pragma, or on the
             --  whole compilation unit if top-level.
             Test_Target : Ada_Node;
+
+         when Pragma_Find_All_References =>
+            --  Run the find-all-references property designated by Refs_Kind on
+            --  Refs_Target, for all loaded units. If Refs_Target is null, run
+            --  the find-all-reference property on all applicable nodes in this
+            --  unit.
+            Refs_Kind               : Reference_Kind;
+            Refs_Target             : Basic_Decl;
+            Refs_Imprecise_Fallback : Boolean;
+            Refs_Show_Slocs         : Boolean;
       end case;
    end record;
 
@@ -451,6 +480,158 @@ procedure Nameres is
             return (Pragma_Test_Block, Target);
          end;
 
+      elsif Name = "Find_All_References" then
+         if Args'Length not in 1 .. 4 then
+            return N_Args_Error (1, 4);
+         end if;
+
+         declare
+            Result : Decoded_Pragma (Pragma_Find_All_References);
+
+            N : Positive := 1;
+            --  Logical index of the next positional argument to process
+
+            Target : Ada_Node := Node.Previous_Sibling;
+            --  Temporary to compute the find-all-refs target. By default,
+            --  target the declaration that precedes the pragma.
+
+            Imprecise_Fallback : Boolean renames
+               Result.Refs_Imprecise_Fallback;
+            Show_Slocs         : Boolean renames Result.Refs_Show_Slocs;
+         begin
+            Imprecise_Fallback := False;
+            Show_Slocs := True;
+
+            for A of Args loop
+               if A.F_Id.Is_Null then
+                  --  This is a positional pragma argument
+
+                  case N is
+                  when 1 =>
+                     if A.F_Expr.Kind /= Ada_Identifier then
+                        return Error ("Identifier expected");
+                     end if;
+
+                     declare
+                        Name : constant Text_Type := A.F_Expr.Text;
+                     begin
+                        --  The first argument is the reference kind
+                        if Name = "Any" then
+                           Result.Refs_Kind := Any;
+                        elsif Name = "Calls" then
+                           Result.Refs_Kind := Subp_Call;
+                        elsif Name = "Overrides" then
+                           Result.Refs_Kind := Subp_Overriding;
+                        elsif Name = "Derived" then
+                           Result.Refs_Kind := Type_Derivation;
+                        else
+                           return Error
+                             ("Invalid reference kind: " & Image (Name));
+                        end if;
+                     end;
+
+                  when 2 =>
+                     --  The optional second argument is the find-all-refs
+                     --  target.
+                     case A.F_Expr.Kind is
+                     when Ada_Identifier =>
+                        --  Raw identifier: directive to locate the target
+                        declare
+                           Name : constant Text_Type := A.F_Expr.Text;
+                        begin
+                           if Name = "All_Decls" then
+                              Target := No_Ada_Node;
+
+                           elsif Name = "Previous_Decl" then
+                              null;
+
+                           elsif Name = "Previous_Referenced_Decl" then
+                              --  Assume that the previous statement is a call:
+                              --  the target is the callee.
+                              Target := Target.As_Call_Stmt.F_Call.As_Ada_Node;
+                              if Target.Kind = Ada_Call_Expr then
+                                 Target := Target.As_Call_Expr.F_Name
+                                      .P_Referenced_Decl.As_Ada_Node;
+                              end if;
+
+                           else
+                              return Error ("Invalid target: " & Image (Name));
+                           end if;
+                        end;
+
+                     when Ada_String_Literal =>
+                        --  String literal: name of the target. Look for the
+                        --  last declaration with this name that appears in
+                        --  the source before this pragma.
+                        declare
+                           Name : constant Text_Type :=
+                              A.F_Expr.As_String_Literal.P_Denoted_Value;
+                           It   : Traverse_Iterator'Class := Find
+                             (Node.Unit.Root, Kind_In (Ada_Basic_Decl'First,
+                                                       Ada_Basic_Decl'Last));
+                           N    : Ada_Node;
+
+                           Pragma_Sloc : constant Source_Location :=
+                              Start_Sloc (Node.Sloc_Range);
+                        begin
+                           Target := No_Ada_Node;
+                           Decl_Loop : while It.Next (N)
+                              and Start_Sloc (N.Sloc_Range) < Pragma_Sloc
+                           loop
+                              for DN of N.As_Basic_Decl.P_Defining_Names loop
+                                 if DN.Text = Name then
+                                    Target := N;
+                                    exit Decl_Loop;
+                                 end if;
+                              end loop;
+                           end loop Decl_Loop;
+
+                           if Target.Is_Null then
+                              return Error
+                                ("No declaration for " & Image (Name));
+                           end if;
+                        end;
+
+                     when others =>
+                        return Error ("Unexpected expression (identifier or"
+                                      & " string literal expected)");
+                     end case;
+
+                  when others =>
+                     return Error ("Too many positional arguments");
+                  end case;
+                  N := N + 1;
+
+               else
+                  --  This is a named argument. The grammar should make sure
+                  --  that names for pragma arguments are identifiers.
+                  declare
+                     pragma Assert (A.F_Id.Kind = Ada_Identifier);
+                     Name : constant Text_Type := A.F_Id.Text;
+                  begin
+                     if Name = "Imprecise_Fallback" then
+                        Imprecise_Fallback := Decode_Boolean_Literal
+                          (A.F_Expr.Text);
+                     elsif Name = "Show_Slocs" then
+                        Show_Slocs := Decode_Boolean_Literal
+                          (A.F_Expr.Text);
+                     else
+                        return Error ("Unknown argument: " & Image (Name));
+                     end if;
+                  end;
+               end if;
+            end loop;
+
+            --  Make sure we received at least one positional argument
+
+            if N = 1 then
+               return Error ("Missing first positional argument");
+            end if;
+
+            Result.Refs_Target := Target.As_Basic_Decl;
+            return Result;
+         end;
+
       else
          return (Kind => Ignored_Pragma);
       end if;
@@ -647,6 +828,14 @@ procedure Nameres is
          when Pragma_Test_Block =>
             Resolve_Block (P.Test_Target);
             Empty := False;
+
+         when Pragma_Find_All_References =>
+            Job_Data.Refs_Requests.Append
+              ((P.Refs_Kind,
+                P.Refs_Target,
+                P.Refs_Imprecise_Fallback,
+                P.Refs_Show_Slocs,
+                Node.As_Pragma_Node));
          end case;
       end Process_Pragma;
 
@@ -894,6 +1083,177 @@ procedure Nameres is
       end if;
 
    end Process_File;
+
+   ----------------------
+   -- Job_Post_Process --
+   ----------------------
+
+   procedure Job_Post_Process (Context : App_Job_Context) is
+      Job_Data : Job_Data_Record renames Nameres.Job_Data (Context.ID);
+      Units    : Analysis_Unit_Array
+        (1 .. Natural (Context.Units_Processed.Length));
+
+      function Is_Refs_Target
+        (Decl : Basic_Decl;
+         Kind : Reference_Kind) return Boolean
+      is (case Kind is
+          when Any                         => True,
+          when Subp_Call | Subp_Overriding => Decl.P_Is_Subprogram,
+          when Type_Derivation             => Decl.Kind = Ada_Type_Decl);
+      --  Return whether Decl is a valid target for the given Kind request
+
+      procedure Process_Refs
+        (Target             : Basic_Decl;
+         Kind               : Reference_Kind;
+         Imprecise_Fallback : Boolean;
+         Show_Slocs         : Boolean);
+      --  Call the find-all-reference property corresponding to Kind on Target
+
+      ------------------
+      -- Process_Refs --
+      ------------------
+
+      procedure Process_Refs
+        (Target             : Basic_Decl;
+         Kind               : Reference_Kind;
+         Imprecise_Fallback : Boolean;
+         Show_Slocs         : Boolean)
+      is
+         Empty : Boolean := True;
+         What  : constant String :=
+           (case Kind is
+            when Any             => "References to ",
+            when Subp_Call       => "Calls to ",
+            when Subp_Overriding => "Overridings for ",
+            when Type_Derivation => "Derivations for ");
+
+         function Locator (Node : Ada_Node'Class) return String;
+         --  Return a location string for Node suitable for test output
+
+         procedure Print_Ref (Ref : Ada_Node'Class);
+
+         -------------
+         -- Locator --
+         -------------
+
+         function Locator (Node : Ada_Node'Class) return String is
+            File : constant String :=
+               +Create (+Node.Unit.Get_Filename).Base_Name;
+            Sloc : constant String := Image (Node.Sloc_Range);
+         begin
+            return
+               "(" & File & (if Show_Slocs
+                             then ", " & Sloc
+                             else "") & ")";
+         end Locator;
+
+         ---------------
+         -- Print_Ref --
+         ---------------
+
+         procedure Print_Ref (Ref : Ada_Node'Class) is
+            Ref_Decl : Ada_Node := Ref.As_Ada_Node;
+         begin
+            --  Follow Ref's parents chain until we have an xref entry point,
+            --  to get meaningful references.
+            while not Ref_Decl.Is_Null
+                  and then not Ref_Decl.Parent.Is_Null
+                  and then not Ref_Decl.P_Xref_Entry_Point
+            loop
+               Ref_Decl := Ref_Decl.Parent;
+            end loop;
+
+            declare
+               Text      : constant Text_Type := Ref_Decl.Text;
+               Text_Last : Natural := Text'Last;
+            begin
+               --  Look for the first line break in Text
+               for I in Text'Range loop
+                  if Text (I) in Chars.CR | Chars.LF then
+                     Text_Last := I - 1;
+                     exit;
+                  end if;
+               end loop;
+
+               Put_Line ("   " & Image (Text (Text'First .. Text_Last)) & " "
+                         & Locator (Ref_Decl));
+            end;
+
+            Empty := False;
+         end Print_Ref;
+
+      begin
+         for DN of Target.P_Defining_Names loop
+            Put_Line (What & DN.Debug_Text & " " & Locator (DN));
+            case Kind is
+            when Any =>
+               for R of DN.P_Find_All_References (Units, Imprecise_Fallback)
+               loop
+                  Print_Ref (R);
+               end loop;
+
+            when Subp_Call =>
+               for R of DN.P_Find_All_Calls (Units, Imprecise_Fallback)
+               loop
+                  Print_Ref (R);
+               end loop;
+
+            when Subp_Overriding =>
+               for R of DN.P_Semantic_Parent.As_Basic_Decl.P_Find_All_Overrides
+                 (Units, Imprecise_Fallback)
+               loop
+                  Print_Ref (R);
+               end loop;
+
+            when Type_Derivation =>
+               for R of DN.P_Semantic_Parent.As_Type_Decl
+                        .P_Find_All_Derived_Types (Units, Imprecise_Fallback)
+               loop
+                  Print_Ref (R);
+               end loop;
+            end case;
+         end loop;
+
+         if Empty then
+            Put_Line ("   <none>");
+         end if;
+      end Process_Refs;
+
+   begin
+      --  Compute the list of units
+
+      for I in Units'Range loop
+         Units (I) := Context.Units_Processed (I);
+      end loop;
+
+      --  Process all Find_All_References requests
+
+      for R of Job_Data.Refs_Requests loop
+         if R.Target.Is_Null then
+            --  If there is no target, run the request on all valid targets in
+            --  the unit that contains the pragma.
+            declare
+               It     : Traverse_Iterator'Class := Find
+                 (R.From_Pragma.Unit.Root,
+                  Kind_In (Ada_Basic_Decl'First, Ada_Basic_Decl'Last));
+               Target : Ada_Node;
+               T      : Basic_Decl;
+            begin
+               while It.Next (Target) loop
+                  T := Target.As_Basic_Decl;
+                  if Is_Refs_Target (T, R.Kind) then
+                     Process_Refs
+                       (T, R.Kind, R.Imprecise_Fallback, R.Show_Slocs);
+                  end if;
+               end loop;
+            end;
+
+         else
+            Process_Refs
+              (R.Target, R.Kind, R.Imprecise_Fallback, R.Show_Slocs);
+         end if;
+      end loop;
+   end Job_Post_Process;
 
    ----------------------
    -- App_Post_Process --

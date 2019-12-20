@@ -1899,8 +1899,14 @@ class BasicDecl(AdaNode):
     @langkit_property(public=True, return_type=T.String)
     def unique_identifying_name():
         """
-        Return a unique identifying name for this declaration. In the case of
-        subprograms, this will include the profile.
+        Return a unique identifying name for this declaration, provided this
+        declaration is a public declaration. In the case of subprograms, this
+        will include the profile.
+
+        .. attention::
+            This will only return a unique name for public declarations.
+            Notably, anything nested in an unnamed declare block won't be
+            handled correctly.
         """
         return Entity.match(
             lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,

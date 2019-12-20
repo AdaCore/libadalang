@@ -2250,7 +2250,7 @@ class BaseFormalParamDecl(BasicDecl):
     Base class for formal parameter declarations. This is used both for records
     components and for subprogram parameters.
 
-    This is a Libadalang abstaction, that has no ARM existence.
+    This is a Libadalang abstraction, that has no ARM existence.
     """
     is_mandatory = Property(False)
 

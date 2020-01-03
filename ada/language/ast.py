@@ -485,9 +485,47 @@ class AdaNode(ASTNode):
         """
         Return the parent basic decl for this node, if applicable, null
         otherwise.
+
+        .. note:: If the parent BasicDecl of the given node is a generic
+            declaration, this call will return the instantiation from which
+            the node was retrieved instead, if any.
         """
         return Entity.semantic_parent.then(
-            lambda sp: sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
+            lambda sp: If(
+                sp.is_a(GenericPackageInternal) | sp.is_a(GenericSubpInternal),
+                Let(
+                    lambda
+                    inst=sp.info.rebindings._.new_env.env_node.cast(BasicDecl):
+
+                    # If the parent is a generic package and the top-most
+                    # rebinding is an instantiation of this package, return
+                    # the instantiation instead. Make sure to drop the top-most
+                    # rebinding in the returned entity.
+                    Let(
+                        lambda designated=If(
+                            sp.is_a(GenericPackageInternal),
+
+                            inst.cast(GenericPackageInstantiation)
+                            .as_bare_entity._.designated_package,
+
+                            inst.cast(GenericSubpInstantiation)
+                            .as_bare_entity._.designated_subp
+                        ): If(
+                            designated.node == sp.node,
+                            T.BasicDecl.entity.new(
+                                node=inst,
+                                info=T.entity_info.new(
+                                    md=No(T.Metadata),
+                                    rebindings=sp.info.rebindings.get_parent,
+                                    from_rebound=False
+                                )
+                            ),
+                            sp.cast(T.BasicDecl)
+                        )
+                    )
+                ),
+                sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
+            )
         )
 
     @langkit_property(
@@ -1873,16 +1911,15 @@ class BasicDecl(AdaNode):
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
         """
-        ent = Var(Self.as_bare_entity)
         fqn = Var(If(
-            ent.is_compilation_unit_root,
-            ent.defining_name.as_symbol_array,
+            Entity.is_compilation_unit_root,
+            Entity.defining_name.as_symbol_array,
 
-            ent.parent_basic_decl
+            Entity.parent_basic_decl
             ._.fully_qualified_name_array.then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal),
                 fqn,
-                fqn.concat(ent.defining_name._.as_symbol_array)
+                fqn.concat(Entity.defining_name._.as_symbol_array)
             ))
         ))
 

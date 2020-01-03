@@ -1,6 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
+import glob
 import os
+import shutil
 
 
 # pyflakes off
@@ -16,6 +18,7 @@ if not with_gnatpython:
     from testsuite_support.polyfill import BaseTestsuite
 # pyflakes on
 
+from langkit.coverage import GNATcov
 
 from testsuite_support import (
     adaapi_driver, capi_driver, discriminants, gnat_compare_driver,
@@ -71,6 +74,20 @@ class Testsuite(BaseTestsuite):
         self.main.add_option(
             '--build-mode', default='dev',
             help='Build mode for Libadalang')
+        self.main.add_option(
+            '--coverage', default=None,
+            help='When provided, compute the code coverage of the testsuite'
+                 ' and produce a report in the given directory. This requires'
+                 ' GNATcoverage and a coverage build of Libadalang.'
+        )
+        self.main.add_option(
+            '--gnatcov-args', action='append',
+            help='Options to pass to "gnatcov coverage".'
+        )
+        self.main.add_option(
+            '--gnatcov-instr-dir',
+            help='Directory that contains instrumentation data files.'
+        )
 
         #
         # Convenience options for developpers
@@ -112,6 +129,31 @@ class Testsuite(BaseTestsuite):
         self.global_env['ocaml_bindings'] = (
             os.path.abspath(ocaml_bindings) if ocaml_bindings else None
         )
+
+        # Ensure the testsuite starts with an empty directory to store
+        # source trace files.
+        traces_dir = os.path.join(self.global_env['working_dir'], 'traces')
+        if os.path.exists(traces_dir):
+            shutil.rmtree(traces_dir)
+        os.mkdir(traces_dir)
+        self.global_env['traces_dir'] = traces_dir
+
+    def tear_down(self):
+        opts = self.global_env['options']
+
+        # If requested, produce a coverage report
+        if opts.coverage:
+            GNATcov().generate_report(
+                title='Libadalang Coverage Report',
+                gnatcov_args=opts.gnatcov_args,
+                instr_dir=opts.gnatcov_instr_dir,
+                traces=glob.glob(os.path.join(self.global_env['traces_dir'],
+                                              '*', '*.srctrace')),
+                output_dir=opts.coverage,
+                working_dir=self.global_env['working_dir'],
+            )
+
+        super(Testsuite, self).tear_down()
 
     def write_comment_file(self, _):
         with open(os.path.join(self.output_dir, 'discr'), 'w') as f:

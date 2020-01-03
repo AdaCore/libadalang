@@ -238,7 +238,15 @@ class Manage(ManageScript):
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
             '--enable-color', '--show-error-output',
-            '--build-mode={}'.format(args.build_mode)
+            '--build-mode={}'.format(args.build_mode),
+
+            # Arguments to pass to GNATcoverage, just in case coverage is
+            # requested.
+            '--gnatcov-instr-dir={}'.format(
+                os.path.join(args.build_dir, 'obj', 'libadalang', 'instr')
+            ),
+            '--gnatcov-arg=-P{}'.format(self.lib_project),
+            '--gnatcov-arg=-XLIBADALANG_COVINSTR=true',
         ]
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')

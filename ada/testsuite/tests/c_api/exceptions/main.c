@@ -22,7 +22,6 @@ main(void)
     /* Initialize the SEH context */
     __gnat_initialize (&SEH);
 
-    libadalang_initialize();
     ada_context_discard_errors_in_populate_lexical_env(NULL, 0);
 
     exc = ada_get_last_exception();

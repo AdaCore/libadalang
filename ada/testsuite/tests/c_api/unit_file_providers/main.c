@@ -75,7 +75,6 @@ main(void)
     ada_text text;
     int i;
 
-    libadalang_initialize();
     ctx = ada_create_analysis_context(NULL, ufp, 1, 8);
     if (ctx == NULL)
         error("Could not create the analysis context");

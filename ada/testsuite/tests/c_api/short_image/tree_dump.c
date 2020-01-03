@@ -14,7 +14,6 @@ main(void)
     ada_analysis_unit unit;
     ada_base_entity root;
 
-    libadalang_initialize();
     ctx = ada_create_analysis_context(NULL, NULL, 1, 8);
     if (ctx == NULL)
         error("Could not create the analysis context\n");

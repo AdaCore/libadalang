@@ -22,7 +22,6 @@ main(void)
     ada_token first, last, empty_first, empty_last, other_unit;
     ada_text text;
 
-    libadalang_initialize();
     ctx = ada_create_analysis_context(NULL, NULL, 0, 8);
     if (ctx == NULL)
         error("Could not create the analysis context\n");

@@ -137,6 +137,12 @@ class BaseDriver(TestDriver):
                                      timeout))
             self.timeout = timeout
 
+        self.process_counter = 0
+        """
+        Counter for subprocesses. Used to create unique filenames for a
+        testcase.
+        """
+
     def read_file(self, filename):
         """Return the content of `filename`."""
         with open(filename, 'r') as f:
@@ -299,6 +305,22 @@ class BaseDriver(TestDriver):
         In case of failure, the test output is appended to the actual output
         and a TestError is raised.
         """
+        # If this testcase produced trace files, move them to the
+        # testsuite-wide directory for later use.
+
+        # In coverage mode, tell the subprogram to create its trace file in the
+        # a testcase-specific subdir of the global traces directory. Create
+        # that subdir if needed.
+        if self.global_env['options'].coverage:
+            traces_dir = os.path.join(self.global_env['traces_dir'],
+                                      os.path.basename(self.working_dir()))
+            if not os.path.exists(traces_dir):
+                os.mkdir(traces_dir)
+            self.process_counter += 1
+            os.environ['LIBADALANG_TRACE_FILE'] = os.path.join(
+                traces_dir, 'trace-{}.srctrace'.format(self.process_counter)
+            )
+
         opts = self.global_env['options']
         program = argv[0]
 

@@ -106,8 +106,7 @@ class Manage(ManageScript):
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
-        from langkit.compile_context import (ADA_BODY, ADA_SPEC, CompileCtx,
-                                             LibraryEntity)
+        from langkit.compile_context import ADA_BODY, CompileCtx, LibraryEntity
         from language.lexer import ada_lexer
         from language.grammar import ada_grammar
         from language.documentation import libadalang_docs
@@ -162,16 +161,9 @@ class Manage(ManageScript):
                             ADA_BODY, 'Ada.Containers.Hashed_Maps',
                             use_clause=False)
 
-        # Our iterators are implemented using internal data structures
+        # Bind Libadalang's custom iterators to the public API
         ctx.add_with_clause('Iterators',
-                            ADA_SPEC, 'Libadalang.Common',
-                            is_private=True)
-        ctx.add_with_clause('Iterators',
-                            ADA_BODY, 'Libadalang.Implementation',
-                            use_clause=True)
-        ctx.add_with_clause('Iterators',
-                            ADA_BODY, 'Libadalang.Public_Converters',
-                            use_clause=True)
+                            ADA_BODY, 'Libadalang.Iterators.Extensions')
 
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
         ctx.add_with_clause('Analysis',

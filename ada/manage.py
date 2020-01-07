@@ -131,13 +131,6 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
         )
 
-        for unit in ('GNATCOLL.Projects', 'GNATCOLL.Locks', 'GNATCOLL.VFS',
-                     'Libadalang.Project_Provider',
-                     'Libadalang.Auto_Provider',
-                     'Libadalang.GPR_Lock'):
-            ctx.add_with_clause('Implementation.C', ADA_BODY, unit,
-                                use_clause=True)
-
         # For development convenience, we purposedly use the public Ada API
         # from intenals in Libadalang. That's ok, as we always want to provide
         # an Ada API for Libadalang.
@@ -148,13 +141,6 @@ class Manage(ManageScript):
                             ADA_BODY, 'Libadalang.Analysis',
                             use_clause=True)
         ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Public_Converters',
-                            use_clause=True)
-
-        ctx.add_with_clause('Implementation.C',
-                            ADA_BODY, 'Libadalang.Analysis',
-                            use_clause=True)
-        ctx.add_with_clause('Implementation.C',
                             ADA_BODY, 'Libadalang.Public_Converters',
                             use_clause=True)
 

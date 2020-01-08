@@ -244,9 +244,7 @@ class Manage(ManageScript):
             # requested.
             '--gnatcov-instr-dir={}'.format(
                 os.path.join(args.build_dir, 'obj', 'libadalang', 'instr')
-            ),
-            '--gnatcov-arg=-P{}'.format(self.lib_project),
-            '--gnatcov-arg=-XLIBADALANG_COVINSTR=true',
+            )
         ]
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')

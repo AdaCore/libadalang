@@ -68,16 +68,6 @@ def TypeBind(*args, **kwargs):
     return Bind(*args, **kwargs)
 
 
-def bool_bind(type_var):
-    """
-    Decouple the logic of binding to a Boolean type. We use
-    matching_formal_prim_type because in name resolution, Ada expects any type
-    derived from bool.
-    """
-    return Bind(type_var, Self.bool_type,
-                eq_prop=BaseTypeDecl.matching_formal_prim_type)
-
-
 def universal_int_bind(type_var):
     """
     Return an equation that will bind type_var to any integer value,
@@ -1112,6 +1102,15 @@ class AdaNode(ASTNode):
                 from_rebound=from_rebound
             ))
         )
+
+    @langkit_property(dynamic_vars=[origin])
+    def bool_bind(type_var=T.LogicVar):
+        """
+        Static property. Return a logic bind of ``type_var`` match the boolean
+        type.
+        """
+        return Bind(type_var, Self.bool_type,
+                    eq_prop=BaseTypeDecl.matching_formal_prim_type)
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -5620,7 +5619,7 @@ class Pragma(AdaNode):
                 Entity.id.name_is('Compile_Time_Error'),
             ),
             Let(lambda expr=Entity.args.at(0).assoc_expr:
-                expr.sub_equation & bool_bind(expr.type_var)),
+                expr.sub_equation & Self.bool_bind(expr.type_var)),
 
             Entity.id.name_is('Unreferenced'),
             Entity.args.logic_all(
@@ -5917,7 +5916,7 @@ class AspectAssoc(AdaNode):
             ),
 
             Entity.expr.sub_equation
-            & bool_bind(Self.expr.type_var),
+            & Self.bool_bind(Self.expr.type_var),
 
             # Model_Of aspect on types
             target.is_a(T.BaseTypeDecl)
@@ -7188,7 +7187,7 @@ class RelationOp(BinOp):
     """
     no_overload_equation = Property(
         TypeBind(Self.left.type_var, Self.right.type_var)
-        & bool_bind(Self.type_var)
+        & Self.bool_bind(Self.type_var)
     )
 
 
@@ -7204,7 +7203,7 @@ class MembershipExpr(Expr):
     membership_exprs = Field(type=T.ExprAlternativesList)
 
     xref_equation = Property(
-        bool_bind(Self.type_var)
+        Self.bool_bind(Self.type_var)
         & Entity.expr.sub_equation
         &
         Entity.membership_exprs.logic_all(
@@ -8492,7 +8491,7 @@ class CallExpr(Name):
                                   '">="'),
                 TypeBind(params.at(0).assoc.expr.type_var,
                          params.at(1).assoc.expr.type_var)
-                & bool_bind(Self.type_var)
+                & Self.bool_bind(Self.type_var)
                 & base_name_eq(),
 
 
@@ -8947,19 +8946,19 @@ class IfExpr(Expr):
                 & TypeBind(Self.then_expr.type_var, Self.else_expr.type_var),
 
                 # If no else, then the then_expression has type bool
-                bool_bind(Self.then_expr.type_var)
+                Self.bool_bind(Self.then_expr.type_var)
             ) & Entity.alternatives.logic_all(lambda elsif: (
                 # Build the sub equations for cond and then exprs
                 elsif.cond_expr.sub_equation
                 & elsif.then_expr.sub_equation
 
                 # The condition is boolean
-                & bool_bind(elsif.cond_expr.type_var)
+                & Self.bool_bind(elsif.cond_expr.type_var)
 
                 # The elsif branch then expr has the same type as Self's
                 # then_expr.
                 & TypeBind(Self.then_expr.type_var, elsif.then_expr.type_var)
-            )) & bool_bind(Self.cond_expr.type_var)
+            )) & Self.bool_bind(Self.cond_expr.type_var)
             & TypeBind(Self.then_expr.type_var, Self.type_var)
         )
 
@@ -10362,7 +10361,7 @@ class QuantifiedExpr(Expr):
         return If(
             spec_success,
             Entity.expr.sub_equation
-            & bool_bind(Entity.expr.type_var),
+            & Self.bool_bind(Entity.expr.type_var),
             LogicFalse()
         )
 
@@ -10594,7 +10593,7 @@ class AttributeRef(Name):
 
             rel_name == 'Valid',
             Entity.prefix.sub_equation
-            & bool_bind(Self.type_var),
+            & Self.bool_bind(Self.type_var),
 
             # Lal checkers specific
             rel_name == 'Model', Entity.model_attr_equation,
@@ -10615,7 +10614,7 @@ class AttributeRef(Name):
             rel_name == 'Type_Class', Entity.type_class_equation,
 
             rel_name == 'Callable',
-            Entity.prefix.sub_equation & bool_bind(Self.type_var),
+            Entity.prefix.sub_equation & Self.bool_bind(Self.type_var),
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding'),
             Entity.float_funcs_equation,
@@ -11548,7 +11547,7 @@ class ExitStmt(SimpleStmt):
         return And(
             Entity.cond_expr.then(lambda cond: (
                 cond.sub_equation
-                & bool_bind(cond.type_var)
+                & Self.bool_bind(cond.type_var)
             ), default_val=LogicTrue()),
 
             Entity.loop_name.then(
@@ -11719,10 +11718,10 @@ class IfStmt(CompositeStmt):
     def xref_equation():
         return (
             Entity.cond_expr.sub_equation
-            & bool_bind(Self.cond_expr.type_var)
+            & Self.bool_bind(Self.cond_expr.type_var)
             & Entity.alternatives.logic_all(
                 lambda elsif: elsif.cond_expr.sub_equation
-                & bool_bind(elsif.cond_expr.type_var)
+                & Self.bool_bind(elsif.cond_expr.type_var)
             )
         )
 
@@ -11771,7 +11770,7 @@ class WhileLoopSpec(LoopSpec):
     @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.expr.sub_equation & (
-            bool_bind(Self.expr.type_var)
+            Self.bool_bind(Self.expr.type_var)
         )
 
 
@@ -12007,7 +12006,7 @@ class SelectWhenPart(AdaNode):
     def xref_equation():
         return Entity.cond_expr.then(
             lambda c:
-            c.sub_equation & bool_bind(Self.cond_expr.type_var),
+            c.sub_equation & Self.bool_bind(Self.cond_expr.type_var),
             default_val=LogicTrue()
         )
 

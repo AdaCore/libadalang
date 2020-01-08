@@ -81,10 +81,6 @@ class Testsuite(BaseTestsuite):
                  ' GNATcoverage and a coverage build of Libadalang.'
         )
         self.main.add_option(
-            '--gnatcov-args', action='append',
-            help='Options to pass to "gnatcov coverage".'
-        )
-        self.main.add_option(
             '--gnatcov-instr-dir',
             help='Directory that contains instrumentation data files.'
         )
@@ -145,7 +141,6 @@ class Testsuite(BaseTestsuite):
         if opts.coverage:
             GNATcov().generate_report(
                 title='Libadalang Coverage Report',
-                gnatcov_args=opts.gnatcov_args,
                 instr_dir=opts.gnatcov_instr_dir,
                 traces=glob.glob(os.path.join(self.global_env['traces_dir'],
                                               '*', '*.srctrace')),

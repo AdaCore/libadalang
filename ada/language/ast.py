@@ -59,17 +59,6 @@ def default_imprecise_fallback():
     return (imprecise_fallback, False)
 
 
-def entity_no_md(type, node, rebindings, from_rebound):
-    return Let(lambda n=node: type.entity.new(
-        node=n,
-        info=If(n.is_null, No(T.entity_info), T.entity_info.new(
-            rebindings=rebindings,
-            md=No(T.env_md),
-            from_rebound=from_rebound
-        ))
-    ))
-
-
 def TypeBind(*args, **kwargs):
     check_source_language(
         'eq_prop' not in kwargs.keys(),
@@ -1106,6 +1095,22 @@ class AdaNode(ASTNode):
             lambda u: u.root.then(
                 lambda r: Entity.find_all_in(r.as_bare_entity, mode)
             )
+        )
+
+    @langkit_property()
+    def entity_no_md(n=T.AdaNode, rebindings=T.EnvRebindings,
+                     from_rebound=T.Bool):
+        """
+        Static property. Create an entity from the arguments with a null
+        metadata.
+        """
+        return T.Entity.new(
+            node=n,
+            info=If(n.is_null, No(T.entity_info), T.entity_info.new(
+                rebindings=rebindings,
+                md=No(T.env_md),
+                from_rebound=from_rebound
+            ))
         )
 
 
@@ -2474,12 +2479,11 @@ class BaseFormalParamHolder(AdaNode):
         the derived primitive type.
         """
         # Compute the type entity of which self is a primitive
-        prim_type = Var(entity_no_md(
-            BaseTypeDecl,
-            Entity.info.md.primitive.cast(BaseTypeDecl),
+        prim_type = Var(Entity.entity_no_md(
+            Entity.info.md.primitive,
             Entity.info.rebindings,
             Entity.info.from_rebound
-        ))
+        ).cast(BaseTypeDecl))
 
         # Compute the canonical types and discard the metadata fields for a
         # more robust comparison.
@@ -2492,12 +2496,11 @@ class BaseFormalParamHolder(AdaNode):
             If(
                 Entity.info.md.primitive_real_type.is_null,
 
-                entity_no_md(
-                    BaseTypeDecl,
+                Entity.entity_no_md(
                     typ.node,
                     Entity.info.rebindings,
                     Entity.info.from_rebound
-                ),
+                ).cast(BaseTypeDecl),
 
                 Entity.info.md.primitive_real_type
                 .cast(T.PrimTypeAccessor).get_prim_type,
@@ -8646,8 +8649,7 @@ class CallExpr(Name):
                         LogicTrue(),
                         Bind(
                             pm.actual.name.ref_var,
-                            Let(lambda n=pm.formal.spec: entity_no_md(
-                                AdaNode,
+                            Let(lambda n=pm.formal.spec: Entity.entity_no_md(
                                 n.node,
                                 n.info.rebindings,
                                 n.info.from_rebound

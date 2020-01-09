@@ -23,12 +23,14 @@
 
 with Ada.Strings.Maps;
 with Ada.Strings.Maps.Constants;
-
-with Interfaces; use Interfaces;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Wide_Wide_Characters.Handling;
 
 with GNATCOLL.Locks;
 with GNATCOLL.Projects;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.GPR_Lock;
 with Libadalang.Project_Provider;
@@ -82,51 +84,44 @@ package body Libadalang.Unit_Files is
       raise Property_Error with "invalid AST node for unit name";
    end Unit_Text_Name;
 
-   Dot        : constant := Character'Pos ('.');
-   Dash       : constant := Character'Pos ('-');
-   Underscore : constant := Character'Pos ('_');
-   Zero       : constant := Character'Pos ('0');
-   Nine       : constant := Character'Pos ('9');
-   Lower_A    : constant := Character'Pos ('a');
-   Upper_A    : constant := Character'Pos ('A');
-   Lower_Z    : constant := Character'Pos ('z');
-   Upper_Z    : constant := Character'Pos ('Z');
-
    ----------------------
    -- Unit_String_Name --
    ----------------------
 
    function Unit_String_Name (Name : Text_Type) return String is
-      Result : String (Name'Range);
+      Result : Unbounded_String;
    begin
-
-      --  Make Name lower case. Only allow ASCII.
+      --  Make Name lower case. Process ASCII separately to keep the process of
+      --  lowering the case efficient in the common case.
+      --
+      --  TODO??? This assumes that the file system uses UTF-8. It's not clear
+      --  where this information should come from.
 
       for I in Name'Range loop
          declare
-            C  : constant Wide_Wide_Character := Name (I);
-            CN : constant Unsigned_32 := Wide_Wide_Character'Pos (C);
+            C : constant Wide_Wide_Character := Name (I);
          begin
-            case CN is
-               when Dot
-                    | Underscore
-                    | Dash
-                    | Zero .. Nine
-                    | Upper_A .. Upper_Z
-                    | Lower_A .. Lower_Z =>
-                  Result (I) := Ada.Strings.Maps.Value
-                    (Ada.Strings.Maps.Constants.Lower_Case_Map,
-                     Character'Val (CN));
+            case C is
+               when Wide_Wide_Character'Val (0)
+                 .. Wide_Wide_Character'Val (255)
+               =>
+                  Append
+                    (Result,
+                     Ada.Strings.Maps.Value
+                       (Ada.Strings.Maps.Constants.Lower_Case_Map,
+                        Character'Val (Wide_Wide_Character'Pos (C))));
                when others =>
-                  raise Property_Error with
-                    ("unhandled unit name: character "
-                     & Image (T => (1 => C), With_Quotes => True)
-                     & " not supported");
+                  declare
+                     Lower : constant Wide_Wide_Character :=
+                        Ada.Wide_Wide_Characters.Handling.To_Lower (C);
+                  begin
+                     Append (Result, To_UTF8 ((1 => Lower)));
+                  end;
             end case;
          end;
       end loop;
 
-      return Result;
+      return To_String (Result);
    end Unit_String_Name;
 
    --------------------
@@ -134,13 +129,13 @@ package body Libadalang.Unit_Files is
    --------------------
 
    function File_From_Unit
-     (Name : String; Kind : Analysis_Unit_Kind) return String
+     (Name : Text_Type; Kind : Analysis_Unit_Kind) return String
    is
       Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
    begin
       return +GNATCOLL.Projects.File_From_Unit
         (GNATCOLL.Projects.No_Project,
-         Name,
+         Unit_String_Name (Name),
          Libadalang.Project_Provider.Convert (Kind),
          "ada");
    end File_From_Unit;

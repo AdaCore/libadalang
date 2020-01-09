@@ -44,26 +44,19 @@ package Libadalang.Unit_Files is
    --  is not a valid unit name.
 
    function Unit_String_Name (Name : Text_Type) return String;
-   --  Assuming Name contains only characters in the following subset::
-   --
-   --     '.' | '-' | '_' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z'
-   --
-   --  then turn it into a lower-case ASCII strings. Raise a Property_Error if
-   --  this assumption is false.
-
-   function Unit_String_Name (N : LAL.Name) return String is
-     (Unit_String_Name (Unit_Text_Name (N)));
+   --  Return Name after lowering its case and encoding it appropriately for
+   --  the file system.
 
    function File_From_Unit
-     (Name : String; Kind : Analysis_Unit_Kind) return String;
+     (Name : Text_Type; Kind : Analysis_Unit_Kind) return String;
    --  Convert an unit name and unit kind into the default filename
 
-   function Spec_File_Name (Name : String) return String is
+   function Spec_File_Name (Name : Text_Type) return String is
      (File_From_Unit (Name, Unit_Specification));
    --  Convert an unit name string into the default filename we expect for its
    --  specification. For instance, this turns "Foo.Bar" into "foo-bar.ads".
 
-   function Body_File_Name (Name : String) return String is
+   function Body_File_Name (Name : Text_Type) return String is
      (File_From_Unit (Name, Unit_Body));
    --  Convert an unit name string into the default filename we expect for its
    --  body. For instance, this turns "Foo.Bar" into "foo-bar.adb".

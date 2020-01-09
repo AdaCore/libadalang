@@ -17,28 +17,23 @@ def print_heading(string):
     print('#{}'.format(string))
 
 
-def safe_print(obj, method):
-    # Hide hexadecimal addresses since they will vary across runs/platforms
-    string = method(obj)
-    print(ADDR_RE.sub('0x...', string))
-
-
 print('# Printing diagnostics list (repr)')
-safe_print(unit.diagnostics, repr)
+print(repr(unit.diagnostics))
 print('')
 
+
 print('# Printing diagnostics list (str)')
-safe_print(unit.diagnostics, str)
+print(str(unit.diagnostics))
 print('')
 
 print('# Printing each diagnostic individually (repr)')
 for diag in unit.diagnostics:
-    safe_print(diag, repr)
+    print(repr(diag))
 print('')
 
 print('# Printing each diagnostic individually (str)')
 for diag in unit.diagnostics:
-    safe_print(diag, str)
+    print(str(diag))
 print('')
 
 print('Done.')

@@ -1,17 +1,17 @@
 # Printing diagnostics list (repr)
-DiagnosticsList([<Diagnostic '1:1-1:5: Skipped token This' at 0x...>, <Diagnostic '1:6-1:8: Skipped token is' at 0x...>, <Diagnostic '1:9-1:11: Skipped token an' at 0x...>, <Diagnostic '1:12-1:19: Skipped token invalid' at 0x...>, <Diagnostic '1:20-1:23: Skipped token Ada' at 0x...>, <Diagnostic '1:24-1:30: Skipped token source' at 0x...>, <Diagnostic '1:30-1:31: Skipped token .' at 0x...>])
+DiagnosticsList([<Diagnostic 1:1-1:5: Skipped token This>, <Diagnostic 1:6-1:8: Skipped token is>, <Diagnostic 1:9-1:11: Skipped token an>, <Diagnostic 1:12-1:19: Skipped token invalid>, <Diagnostic 1:20-1:23: Skipped token Ada>, <Diagnostic 1:24-1:30: Skipped token source>, <Diagnostic 1:30-1:31: Skipped token .>])
 
 # Printing diagnostics list (str)
-DiagnosticsList([<Diagnostic '1:1-1:5: Skipped token This' at 0x...>, <Diagnostic '1:6-1:8: Skipped token is' at 0x...>, <Diagnostic '1:9-1:11: Skipped token an' at 0x...>, <Diagnostic '1:12-1:19: Skipped token invalid' at 0x...>, <Diagnostic '1:20-1:23: Skipped token Ada' at 0x...>, <Diagnostic '1:24-1:30: Skipped token source' at 0x...>, <Diagnostic '1:30-1:31: Skipped token .' at 0x...>])
+DiagnosticsList([<Diagnostic 1:1-1:5: Skipped token This>, <Diagnostic 1:6-1:8: Skipped token is>, <Diagnostic 1:9-1:11: Skipped token an>, <Diagnostic 1:12-1:19: Skipped token invalid>, <Diagnostic 1:20-1:23: Skipped token Ada>, <Diagnostic 1:24-1:30: Skipped token source>, <Diagnostic 1:30-1:31: Skipped token .>])
 
 # Printing each diagnostic individually (repr)
-<Diagnostic '1:1-1:5: Skipped token This' at 0x...>
-<Diagnostic '1:6-1:8: Skipped token is' at 0x...>
-<Diagnostic '1:9-1:11: Skipped token an' at 0x...>
-<Diagnostic '1:12-1:19: Skipped token invalid' at 0x...>
-<Diagnostic '1:20-1:23: Skipped token Ada' at 0x...>
-<Diagnostic '1:24-1:30: Skipped token source' at 0x...>
-<Diagnostic '1:30-1:31: Skipped token .' at 0x...>
+<Diagnostic 1:1-1:5: Skipped token This>
+<Diagnostic 1:6-1:8: Skipped token is>
+<Diagnostic 1:9-1:11: Skipped token an>
+<Diagnostic 1:12-1:19: Skipped token invalid>
+<Diagnostic 1:20-1:23: Skipped token Ada>
+<Diagnostic 1:24-1:30: Skipped token source>
+<Diagnostic 1:30-1:31: Skipped token .>
 
 # Printing each diagnostic individually (str)
 1:1-1:5: Skipped token This

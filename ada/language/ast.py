@@ -108,18 +108,6 @@ def ref_generic_formals():
     )
 
 
-def env_mappings(defining_names, entity, dest_env=None):
-    """
-    Creates an env mapping array from a list of BaseId to be used as keys, and
-    an entity to be used as value in the mappings.
-    """
-    return defining_names.map(
-        lambda n: new_env_assoc(
-            key=n.name_symbol, val=entity, dest_env=dest_env
-        )
-    )
-
-
 def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
             categories=None):
     """
@@ -1096,6 +1084,15 @@ class AdaNode(ASTNode):
         """
         return Bind(type_var, Self.bool_type,
                     eq_prop=BaseTypeDecl.matching_formal_prim_type)
+
+    @langkit_property()
+    def env_mappings(defining_names=T.DefiningName.list, value=T.AdaNode):
+        """
+        Static method. Create an env mapping array from a list of BaseId to be
+        used as keys, and a node to be used as value in the mappings.
+        """
+        return defining_names.map(lambda n:
+                                  new_env_assoc(key=n.name_symbol, val=value))
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -2354,7 +2351,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
     default_expr = Field(type=T.Expr)
     aspects = NullField()
 
-    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+    env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))
     defining_env = Property(Entity.type_expr.defining_env)
@@ -2847,7 +2844,7 @@ class ComponentDecl(BaseFormalParamDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+    env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
     defining_env = Property(
         Entity.component_def.type_expr.defining_env,
@@ -5377,7 +5374,7 @@ class ParamSpec(BaseFormalParamDecl):
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))
 
     env_spec = EnvSpec(
-        add_to_env(env_mappings(Self.ids, Self))
+        add_to_env(Self.env_mappings(Self.ids, Self))
     )
 
     type_expression = Property(Entity.type_expr)
@@ -5982,7 +5979,7 @@ class NumberDecl(BasicDecl):
 
     defining_names = Property(Entity.ids.map(lambda id: id))
 
-    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+    env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
     @langkit_property(call_memoizable=True)
     def expr_type():
@@ -6021,7 +6018,7 @@ class ObjectDecl(BasicDecl):
     renaming_clause = Field(type=T.RenamingClause)
     aspects = Field(type=T.AspectSpec)
 
-    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+    env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
     defining_names = Property(Entity.ids.map(lambda id: id))
     defining_env = Property(Entity.type_expr.defining_env)
@@ -6189,7 +6186,7 @@ class ExceptionDecl(BasicDecl):
         """
         return No(BasicDecl.entity)
 
-    env_spec = EnvSpec(add_to_env(env_mappings(Self.ids, Self)))
+    env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
 
 @abstract
@@ -11419,8 +11416,12 @@ class ExceptionHandler(BasicDecl):
     env_spec = EnvSpec(
         add_env(),
         add_to_env(
-            env_mappings(Entity.exception_name.then(lambda n: n.singleton),
-                         Self, dest_env=Self.children_env),
+            Entity.exception_name.then(lambda n: n.singleton.map(
+                lambda n:
+                new_env_assoc(key=n.name_symbol,
+                              val=Self,
+                              dest_env=Self.children_env)
+            ))
         )
     )
 

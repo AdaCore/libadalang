@@ -5,8 +5,12 @@ Trying to load not existing:
    ... got an exception: Cannot open project does_not_exist.gpr
 Trying to load project with unknown target:
    ... got no exception
-Trying to get unit: '\n'
-   ... got an exception: Invalid unit name: '\n' (unit_body)
+Trying to get unit: '\xe9'
+   ... got no exception
+   ... but we got diagnostics:
+0:0-0:0: 'Could not find source file for \xe9 (body file)'
 Trying to get unit: ' '
-   ... got an exception: Invalid unit name: ' ' (unit_body)
+   ... got no exception
+   ... but we got diagnostics:
+0:0-0:0: 'Could not find source file for   (body file)'
 Done.

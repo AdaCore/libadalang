@@ -6,7 +6,7 @@
 #include "langkit_dump.h"
 #include "langkit_text.h"
 
-static uint32_t filename_1[] = {'\n'};
+static uint32_t filename_1[] = {233};
 static uint32_t filename_2[] = {'u', 'n', 'k', 'n', 'o', 'w', 'n', '_',
                                 'u', 'n', 'i', 't'};
 

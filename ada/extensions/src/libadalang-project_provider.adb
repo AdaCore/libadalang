@@ -610,16 +610,14 @@ package body Libadalang.Project_Provider is
          return LAL.Get_From_File (Context, Filename, Charset, Reparse);
       else
          declare
-            Str_Name : constant String :=
-               Libadalang.Unit_Files.Unit_String_Name (Name);
             Dummy_File : constant String :=
-               Libadalang.Unit_Files.File_From_Unit (Str_Name, Kind);
-            Kind_Name  : constant String :=
+               Libadalang.Unit_Files.File_From_Unit (Name, Kind);
+            Kind_Name  : constant Text_Type :=
               (case Kind is
                when Unit_Specification => "specification file",
                when Unit_Body          => "body file");
-            Error      : constant String :=
-               "Could not find source file for " & Str_Name & " (" & Kind_Name
+            Error      : constant Text_Type :=
+               "Could not find source file for " & Name & " (" & Kind_Name
                & ")";
          begin
             return LAL.Get_With_Error (Context, Dummy_File, Error, Charset);

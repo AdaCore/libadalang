@@ -39,11 +39,8 @@ procedure Main is
       Create_Context (Unit_Provider => Load_Project ("p.gpr"));
    Unit : Analysis_Unit;
 
-   LF    : constant := Character'Pos (ASCII.LF);
-   Space : constant := Character'Pos (' ');
-
    Filenames : array (Positive range <>) of Unbounded_Wide_Wide_String :=
-     (+(1 => Wide_Wide_Character'Val (LF)),
+     (+(1 => Wide_Wide_Character'Val (233)),
       +"unknown_unit");
 
 begin

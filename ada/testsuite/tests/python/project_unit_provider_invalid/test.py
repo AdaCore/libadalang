@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import sys
 
 import libadalang
+from libadalang import _py2to3
 
 
 def pflush(message):
@@ -34,14 +35,21 @@ ctx = libadalang.AnalysisContext(
 )
 
 # And try to load units with various invalid names
-for filename in ('\n', ' '):
-    pflush('Trying to get unit: {}'.format(repr(filename)))
+for filename in (u'\xe9', u' '):
+    pflush('Trying to get unit: {}'.format(_py2to3.text_repr(filename)))
     try:
         unit = ctx.get_from_provider(
             filename, libadalang.AnalysisUnitKind.unit_body)
     except libadalang.InvalidUnitNameError as exc:
         pflush('   ... got an exception: {}'.format(exc))
     else:
-        pflush('   ... got no exception. Unacceptable!')
+        pflush('   ... got no exception')
+        if unit.diagnostics:
+            pflush('   ... but we got diagnostics:')
+            for d in unit.diagnostics:
+                print('{}: {}'.format(
+                    d.sloc_range,
+                    _py2to3.text_repr(d.message)
+                ))
 
 print('Done.')

@@ -93,21 +93,6 @@ def ref_used_packages():
     )
 
 
-def populate_dependent_units():
-    return do(If(
-        Self.is_compilation_unit_root,
-        Self.top_level_with_package_clauses.map(
-            lambda package_name:
-            # First fetch the spec
-            package_name.referenced_unit(UnitSpecification)
-            # If no spec exists, maybe it is a library level subprogram with
-            # just a body, so fetch the body.
-            .root._or(package_name.referenced_unit(UnitBody).root)
-        ),
-        No(AdaNode.array)
-    ))
-
-
 def ref_generic_formals():
     """
     If Self is a generic package/subprogram and not a library item,
@@ -1147,7 +1132,7 @@ def child_unit(name_expr, scope_expr, dest_env=None,
             else new_env_assoc(key=name_expr, val=Self)
         ),
         add_env(transitive_parent=transitive_parent),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages(),
         ref_generic_formals(),
         *more_rules
@@ -1469,6 +1454,21 @@ class BasicDecl(AdaNode):
             lambda _=T.Subunit: True,
             lambda _: False,
         ))
+
+    @langkit_property()
+    def populate_dependent_units():
+        return If(
+            Self.is_compilation_unit_root,
+            Self.top_level_with_package_clauses.map(
+                lambda package_name:
+                # First fetch the spec
+                package_name.referenced_unit(UnitSpecification)
+                # If no spec exists, maybe it is a library level subprogram
+                # with just a body, so fetch the body.
+                .root._or(package_name.referenced_unit(UnitBody).root)
+            ),
+            No(AdaNode.array)
+        )
 
     @langkit_property(return_type=Bool)
     def should_ref_generic_formals():
@@ -5539,7 +5539,7 @@ class BasicSubpDecl(BasicDecl):
             )
         ),
         add_env(),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages(),
 
         handle_children(),
@@ -6344,7 +6344,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         ),
 
         add_env(),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages(),
 
         handle_children(),
@@ -6459,7 +6459,7 @@ class GenericPackageInstantiation(GenericInstantiation):
 
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages(),
 
         handle_children(),
@@ -6750,7 +6750,7 @@ class GenericSubpDecl(GenericDecl):
             )
         ),
         add_env(),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages()
     )
 
@@ -11290,7 +11290,7 @@ class BaseSubpBody(Body):
         ),
 
         add_env(transitive_parent=True),
-        populate_dependent_units(),
+        do(Self.populate_dependent_units),
         ref_used_packages(),
 
         # If Self, which is assumed to be a SubpBody, is a library-level

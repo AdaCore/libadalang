@@ -130,35 +130,12 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
         )
 
-        # For development convenience, we purposedly use the public Ada API
-        # from intenals in Libadalang. That's ok, as we always want to provide
-        # an Ada API for Libadalang.
+        # Internals need to access environment hooks and the symbolizer
         ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Env_Hooks',
                             use_clause=True)
         ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Analysis',
-                            use_clause=True)
-        ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Public_Converters',
-                            use_clause=True)
-
-        # Libadalang needs access to the static expression evaluator, for name
-        # resolution of aggregates.
-        ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Expr_Eval',
-                            use_clause=False)
-
-        ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Doc_Utils',
-                            use_clause=False)
-
-        # It also needs access to the literal decoders
-        ctx.add_with_clause('Implementation',
                             ADA_BODY, 'Libadalang.Sources',
-                            use_clause=False)
-        ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Ada.Containers.Hashed_Maps',
                             use_clause=False)
 
         # Bind Libadalang's custom iterators to the public API
@@ -166,8 +143,7 @@ class Manage(ManageScript):
                             ADA_BODY, 'Libadalang.Iterators.Extensions')
 
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
-        ctx.add_with_clause('Analysis',
-                            ADA_BODY, 'Libadalang.Lexer')
+        ctx.add_with_clause('Analysis', ADA_BODY, 'Libadalang.Lexer')
 
         ctx.post_process_ada = copyright.format_ada
         ctx.post_process_cpp = copyright.format_c

@@ -80,34 +80,6 @@ def universal_real_bind(type_var):
     return TypeBind(type_var, Self.universal_real_type)
 
 
-def ref_used_packages():
-    """
-    If Self is a library item or a subunit, reference the environments for
-    packages that are used at the top-level here. See
-    UsePackageClause's ref_env_nodes for the rationale.
-    """
-    return reference(
-        Self.top_level_use_package_clauses,
-        through=T.Name.use_package_name_designated_env,
-        cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-    )
-
-
-def ref_generic_formals():
-    """
-    If Self is a generic package/subprogram and not a library item,
-    then the generic formals are not available in parent
-    environments. Make them available with ref_envs.
-    """
-    return reference(
-        Self.cast(T.AdaNode)._.singleton,
-        through=T.AdaNode.nested_generic_formal_part,
-        cond=Self.should_ref_generic_formals,
-        kind=RefKind.prioritary,
-        shed_corresponding_rebindings=True,
-    )
-
-
 def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
             categories=None):
     """
@@ -1130,8 +1102,18 @@ def child_unit(name_expr, scope_expr, dest_env=None,
         ),
         add_env(transitive_parent=transitive_parent),
         do(Self.populate_dependent_units),
-        ref_used_packages(),
-        ref_generic_formals(),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
         *more_rules
     )
 
@@ -5537,7 +5519,11 @@ class BasicSubpDecl(BasicDecl):
         ),
         add_env(),
         do(Self.populate_dependent_units),
-        ref_used_packages(),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
 
@@ -6342,7 +6328,11 @@ class GenericSubpInstantiation(GenericInstantiation):
 
         add_env(),
         do(Self.populate_dependent_units),
-        ref_used_packages(),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
         add_to_env(
@@ -6457,7 +6447,11 @@ class GenericPackageInstantiation(GenericInstantiation):
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
         do(Self.populate_dependent_units),
-        ref_used_packages(),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
         add_to_env(
@@ -6748,7 +6742,11 @@ class GenericSubpDecl(GenericDecl):
         ),
         add_env(),
         do(Self.populate_dependent_units),
-        ref_used_packages()
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        )
     )
 
     decl = Property(Entity.subp_decl)
@@ -11288,7 +11286,11 @@ class BaseSubpBody(Body):
 
         add_env(transitive_parent=True),
         do(Self.populate_dependent_units),
-        ref_used_packages(),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         # If Self, which is assumed to be a SubpBody, is a library-level
         # subprogram, it must "inherit" the use clauses of its declaration, if
@@ -11299,7 +11301,13 @@ class BaseSubpBody(Body):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
 
-        ref_generic_formals(),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
 
         handle_children(),
 

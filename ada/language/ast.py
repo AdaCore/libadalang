@@ -68,18 +68,6 @@ def TypeBind(*args, **kwargs):
     return Bind(*args, **kwargs)
 
 
-def universal_int_bind(type_var):
-    """
-    Return an equation that will bind type_var to any integer value,
-    corresponding to the notion of universal_integer in the Ada RM.
-    """
-    return TypeBind(type_var, Self.universal_int_type)
-
-
-def universal_real_bind(type_var):
-    return TypeBind(type_var, Self.universal_real_type)
-
-
 def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
             categories=None):
     """
@@ -1065,6 +1053,25 @@ class AdaNode(ASTNode):
         """
         return defining_names.map(lambda n:
                                   new_env_assoc(key=n.name_symbol, val=value))
+
+    @langkit_property(dynamic_vars=[origin])
+    def universal_int_bind(type_var=T.LogicVar):
+        """
+        Static method. Return an equation that will bind type_var to any
+        integer value, corresponding to the notion of universal_integer in the
+        Ada RM.
+        """
+        return Bind(type_var, Self.universal_int_type,
+                    eq_prop=BaseTypeDecl.matching_type)
+
+    @langkit_property(dynamic_vars=[origin])
+    def universal_real_bind(type_var=T.LogicVar):
+        """
+        Static method. Return an equation that will bind type_var to any real
+        value, corresponding to the notion of universal_real in the Ada RM.
+        """
+        return Bind(type_var, Self.universal_real_type,
+                    eq_prop=BaseTypeDecl.matching_type)
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -7166,12 +7173,12 @@ class BinOp(Expr):
                 # and only in constant decls? Should clarify the legality
                 # scope and only emit the following code when needed.
                 Or(
-                    universal_int_bind(Self.left.type_var)
-                    & universal_real_bind(Self.right.type_var),
+                    Self.universal_int_bind(Self.left.type_var)
+                    & Self.universal_real_bind(Self.right.type_var),
 
-                    universal_real_bind(Self.left.type_var)
-                    & universal_int_bind(Self.right.type_var)
-                ) & universal_real_bind(Self.type_var)
+                    Self.universal_real_bind(Self.left.type_var)
+                    & Self.universal_int_bind(Self.right.type_var)
+                ) & Self.universal_real_bind(Self.type_var)
             )
         )
 
@@ -9818,7 +9825,7 @@ class RealLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return universal_real_bind(Self.type_var)
+        return Self.universal_real_bind(Self.type_var)
 
 
 class IntLiteral(NumLiteral):
@@ -9830,7 +9837,7 @@ class IntLiteral(NumLiteral):
 
     @langkit_property()
     def xref_equation():
-        return universal_int_bind(Self.type_var)
+        return Self.universal_int_bind(Self.type_var)
 
     @langkit_property(return_type=T.BigInt, external=True, public=True,
                       uses_entity_info=False, uses_envs=False)
@@ -10599,7 +10606,8 @@ class AttributeRef(Name):
                             'Address_Size', 'System_Allocator_Alignment',
                             'Finalization_Size', 'Descriptor_Size',
                             'Alignment'),
-            Entity.prefix.sub_equation & universal_int_bind(Self.type_var),
+            Entity.prefix.sub_equation
+            & Self.universal_int_bind(Self.type_var),
 
             rel_name == 'Target_Name',
             TypeBind(Self.type_var, Self.std_entity('String')),
@@ -10768,7 +10776,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def universal_real_equation():
         return (
-            universal_real_bind(Self.type_var)
+            Self.universal_real_bind(Self.type_var)
             & Entity.prefix.sub_equation
         )
 
@@ -10777,7 +10785,7 @@ class AttributeRef(Name):
         return (
             # TODO: run the equation of the prefix (std package), does not
             # work for the moment because the architecture is wrong.
-            universal_int_bind(Self.type_var)
+            Self.universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10864,7 +10872,7 @@ class AttributeRef(Name):
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
-            & universal_int_bind(Self.type_var)
+            & Self.universal_int_bind(Self.type_var)
             & Bind(expr.type_var, typ)
             & expr.sub_equation
         )
@@ -10877,7 +10885,7 @@ class AttributeRef(Name):
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
             & TypeBind(Self.type_var, typ)
-            & universal_int_bind(expr.type_var)
+            & Self.universal_int_bind(expr.type_var)
             & expr.sub_equation
         )
 
@@ -10912,10 +10920,10 @@ class AttributeRef(Name):
             Not(typ.is_null),
 
             Bind(Self.prefix.ref_var, typ)
-            & universal_int_bind(Self.type_var),
+            & Self.universal_int_bind(Self.type_var),
 
             Entity.prefix.sub_equation
-            & universal_int_bind(Self.type_var)
+            & Self.universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10939,7 +10947,8 @@ class AttributeRef(Name):
 
             # Prefix is a type
             Bind(Self.prefix.ref_var, typ) & Cond(
-                typ.is_array & is_length, universal_int_bind(Self.type_var),
+                typ.is_array & is_length,
+                Self.universal_int_bind(Self.type_var),
 
                 # If it's an array, take the appropriate index type
                 typ.is_array, TypeBind(Self.type_var, typ.index_type(dim)),
@@ -10964,7 +10973,7 @@ class AttributeRef(Name):
 
                 If(res,
                    If(is_length,
-                      universal_int_bind(Self.type_var),
+                      Self.universal_int_bind(Self.type_var),
                       TypeBind(Self.type_var, pfx_typ.index_type(dim)))
                    & Entity.prefix.xref_equation
                    & Predicate(BaseTypeDecl.is_array_def_with_deref,
@@ -10980,7 +10989,7 @@ class AttributeRef(Name):
         """
         return (
             Bind(Self.prefix.ref_var, Entity.prefix.name_designated_type) &
-            universal_int_bind(Self.type_var)
+            Self.universal_int_bind(Self.type_var)
         )
 
 

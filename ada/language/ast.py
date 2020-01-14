@@ -34,14 +34,6 @@ class FindAllMode(Enum):
     DerivedTypes = EnumValue()
 
 
-def bind_origin(node, expr):
-    """
-    Bind the origin iff we're in the definition of an aspect clause where
-    sequential lookup needs to be deactivated.
-    """
-    return origin.bind(If(node.in_prepost, No(T.AdaNode), node), expr)
-
-
 def default_origin():
     """
     Helper to return an origin dynamic param spec wich defaults to
@@ -565,7 +557,8 @@ class AdaNode(ASTNode):
         """
         return env.bind(
             Entity.children_env,
-            bind_origin(Self, Entity.resolve_names_internal(True, LogicTrue()))
+            origin.bind(Self.origin_node,
+                        Entity.resolve_names_internal(True, LogicTrue()))
         )
 
     resolve_names_from_closest_entry_point = Property(
@@ -763,7 +756,7 @@ class AdaNode(ASTNode):
             subpb.as_bare_entity.decl_part.then(
                 lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
                     lambda use_name:
-                    bind_origin(use_name, env.bind(
+                    origin.bind(use_name.origin_node, env.bind(
                         use_name.node_env,
                         use_name.cast_or_raise(T.Name)
                         .as_bare_entity.designated_env
@@ -1074,6 +1067,14 @@ class AdaNode(ASTNode):
         value, corresponding to the notion of universal_real in the Ada RM.
         """
         return Self.type_bind_val(type_var, Self.universal_real_type)
+
+    @langkit_property(ignore_warn_on_node=True)
+    def origin_node():
+        """
+        Return a null node iff we are in the definition of an aspect clause
+        where sequential lookup needs to be deactivated. Return Self otherwise.
+        """
+        return If(Self.in_prepost, No(T.AdaNode), Self)
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -1734,8 +1735,8 @@ class BasicDecl(AdaNode):
         )
         params = Var(Entity.subp_spec_or_null._.unpacked_formal_params)
 
-        return bind_origin(
-            Self,
+        return origin.bind(
+            Self.origin_node,
             Self.is_subprogram
             & params.at(0).spec.formal_type.is_access_to(root_stream_type)
             & If(
@@ -2099,8 +2100,8 @@ class Body(BasicDecl):
         If the case of generic package declarations, this returns the
         ``package_decl`` field instead of the ``GenericPackageDecl`` itself.
         """
-        return bind_origin(
-            Self, Entity.defining_name.all_env_els_impl
+        return origin.bind(
+            Self.origin_node, Entity.defining_name.all_env_els_impl
         ).map(
             lambda e: e.match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
@@ -2117,8 +2118,8 @@ class Body(BasicDecl):
         """
         Return the task decl corresponding to this node.
         """
-        return bind_origin(
-            Self, Entity.defining_name.all_env_els_impl
+        return origin.bind(
+            Self.origin_node, Entity.defining_name.all_env_els_impl
         ).at(0).cast(T.BasicDecl)
 
     @langkit_property(dynamic_vars=[env])
@@ -2515,11 +2516,12 @@ class BaseFormalParamHolder(AdaNode):
         self_params = Var(Entity.unpacked_formal_params)
         other_params = Var(other.unpacked_formal_params)
 
-        self_types = Var(bind_origin(Self, Entity.param_types))
-        other_types = Var(bind_origin(other.node, other.param_types))
+        self_types = Var(origin.bind(Self.origin_node, Entity.param_types))
+        other_types = Var(origin.bind(other.node.origin_node,
+                                      other.param_types))
         return And(
             self_params.length == other_params.length,
-            bind_origin(Self, self_params.all(
+            origin.bind(Self.origin_node, self_params.all(
                 lambda i, p:
                 Or(Not(match_names),
                    p.name.matches(other_params.at(i).name.node))
@@ -4008,7 +4010,7 @@ class TypeDecl(BaseTypeDecl):
             lambda d: d.abstract_formal_params)
         )
 
-        return bind_origin(Self, Cond(
+        return origin.bind(Self.origin_node, Cond(
             Entity.is_access_type,
             Entity.accessed_type.discriminants_list,
 
@@ -4171,8 +4173,8 @@ class TypeDecl(BaseTypeDecl):
         # later.
         return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
-            lambda std=T.SubtypeDecl: bind_origin(
-                std.node, std.from_type.cast(T.TypeDecl)
+            lambda std=T.SubtypeDecl: origin.bind(
+                std.node.origin_node, std.from_type.cast(T.TypeDecl)
             ),
             lambda _: No(T.TypeDecl.entity),
         ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
@@ -4235,7 +4237,7 @@ class TypeDecl(BaseTypeDecl):
 
         # Make sure to return only one instance of each primitive: the most
         # "overriding" one.
-        return bind_origin(Self, bds.filter(
+        return origin.bind(Self.origin_node, bds.filter(
             lambda a: bds.all(lambda b: Let(
                 lambda
                 a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl),
@@ -4271,8 +4273,8 @@ class TypeDecl(BaseTypeDecl):
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
                     lambda ss:
-                    bind_origin(
-                        Self,
+                    origin.bind(
+                        Self.origin_node,
                         ss.unpacked_formal_params.at(0)
                         ._.spec.formal_type.matching_formal_type(Entity)
                     )
@@ -4282,8 +4284,8 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def variable_indexing_fns():
-        return bind_origin(
-            Self,
+        return origin.bind(
+            Self.origin_node,
             Entity.get_aspect_spec_expr('Variable_Indexing').then(
                 lambda a: a.cast_or_raise(T.Name).all_env_elements(seq=False)
                 .filtermap(
@@ -4425,8 +4427,8 @@ class Constraint(AdaNode):
     """
     Base class for type constraints.
     """
-    subtype = Property(bind_origin(
-        Self,
+    subtype = Property(origin.bind(
+        Self.origin_node,
         Self.parent.cast_or_raise(T.SubtypeIndication)
         .as_entity.designated_type
     ))
@@ -4582,7 +4584,8 @@ class DerivedTypeDef(TypeDef):
 
     # TODO: this origin bind is erroneous
     base_type = Property(
-        bind_origin(Self, Entity.subtype_indication.designated_type)
+        origin.bind(Self.origin_node,
+                    Entity.subtype_indication.designated_type)
     )
 
     base_interfaces = Property(
@@ -4850,7 +4853,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
         # take an origin. But ultimately, for semantic correctness, it will be
         # necessary to remove this, and migrate every property using it to
         # having a dynamic origin parameter.
-        return bind_origin(Self, Entity.from_type)
+        return origin.bind(Self.origin_node, Entity.from_type)
 
     @langkit_property(kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
@@ -5124,7 +5127,8 @@ class UsePackageClause(UseClause):
         return Self.packages.map(
             lambda n:
             env.bind(Self.node_env,
-                     bind_origin(n, n.as_bare_entity.designated_env))
+                     origin.bind(n.origin_node,
+                                 n.as_bare_entity.designated_env))
         )
 
     xref_equation = Property(
@@ -5169,7 +5173,7 @@ class TypeExpr(AdaNode):
     """
 
     array_ndims = Property(
-        bind_origin(Self, Entity.designated_type.array_ndims)
+        origin.bind(Self.origin_node, Entity.designated_type.array_ndims)
     )
 
     type_name = Property(
@@ -5196,7 +5200,7 @@ class TypeExpr(AdaNode):
     )
 
     designated_type_decl = Property(
-        bind_origin(Self, Entity.designated_type),
+        origin.bind(Self.origin_node, Entity.designated_type),
         public=True,
         doc="""
         Returns the type declaration designated by this type expression.
@@ -5209,7 +5213,8 @@ class TypeExpr(AdaNode):
         Return the type declaration designated by this type expression as
         viewed from the node given by origin_node.
         """
-        return bind_origin(origin_node.node, Entity.designated_type)
+        return origin.bind(origin_node.node.origin_node,
+                           Entity.designated_type)
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def element_type():
@@ -5318,7 +5323,7 @@ class SubtypeIndication(TypeExpr):
         """
         Returns whether Self denotes a static subtype or not.
         """
-        return bind_origin(Self, Entity.constraint.then(
+        return origin.bind(Self.origin_node, Entity.constraint.then(
             lambda c: c.is_static,
             default_val=Entity.designated_type.is_static_decl
         ))
@@ -6832,7 +6837,7 @@ class Expr(AdaNode):
         Return whether this expression is static according to the ARM
         definition of static. See RM 4.9.
         """
-        return bind_origin(Self, Entity.match(
+        return origin.bind(Self.origin_node, Entity.match(
             lambda _=NumLiteral: True,
             lambda _=StringLiteral: True,
             lambda ar=AttributeRef: Or(
@@ -7254,7 +7259,7 @@ class BaseAggregate(Expr):
     stop_resolution_equation = Property(If(
         Self.in_aspect('Global') | Self.in_aspect('Depends'),
         LogicTrue(),
-        bind_origin(Self,
+        origin.bind(Self.origin_node,
                     Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var)))
     )
 
@@ -7573,9 +7578,10 @@ class Name(Expr):
         """
         Return all elements in self's scope that are lexically named like Self.
         """
-        return bind_origin(
-            Self, env.bind(Entity.node_env,
-                           Entity.all_env_els_impl(seq=seq, seq_from=seq_from))
+        return origin.bind(
+            Self.origin_node,
+            env.bind(Entity.node_env,
+                     Entity.all_env_els_impl(seq=seq, seq_from=seq_from))
         )
 
     @langkit_property(public=True)
@@ -7854,7 +7860,7 @@ class Name(Expr):
 
     name_designated_type = Property(
         env.bind(Entity.node_env,
-                 bind_origin(Self, Entity.designated_type_impl)),
+                 origin.bind(Self.origin_node, Entity.designated_type_impl)),
         doc="""
         Like SubtypeIndication.designated_type, but on names, since because of
         Ada's ambiguous grammar, some subtype indications will be parsed as
@@ -8187,7 +8193,7 @@ class Name(Expr):
                         # accept the argument if it's type is an access on a
                         # classwide type.
                         c.expr.expression_type.then(
-                            lambda t: bind_origin(Self, Or(
+                            lambda t: origin.bind(Self.origin_node, Or(
                                 t.is_classwide,
                                 t.accessed_type._.is_classwide
                             ))
@@ -8346,8 +8352,9 @@ class CallExpr(Name):
         Return whether this CallExpr is actually an access to a slice of
         the array denoted by the prefix of this CallExpr.
         """
-        return bind_origin(
-            Self, Entity.check_array_slice(Entity.name.expression_type)
+        return origin.bind(
+            Self.origin_node,
+            Entity.check_array_slice(Entity.name.expression_type)
         )
 
     @langkit_property(return_type=Equation)
@@ -8684,7 +8691,7 @@ class CallExpr(Name):
 
         atd = Var(typ.then(lambda t: t.array_def_with_deref))
 
-        return bind_origin(Self, typ.then(lambda typ: And(
+        return origin.bind(Self.origin_node, typ.then(lambda typ: And(
             Or(
                 # Arrays
                 atd.then(lambda _: Self.suffix.match(
@@ -8875,8 +8882,8 @@ class ExplicitDeref(Name):
 
     @langkit_property()
     def env_elements_impl():
-        return bind_origin(
-            Self,
+        return origin.bind(
+            Self.origin_node,
             Entity.prefix.env_elements_impl.filter(
                 # Env elements for access derefs need to be of an access type
                 lambda e:
@@ -9527,7 +9534,7 @@ class BaseId(SingleTokNode):
 
         pc = Var(Entity.parent_callexpr)
 
-        return bind_origin(Self, Cond(
+        return origin.bind(Self.origin_node, Cond(
             pc.is_null,
 
             # If it is not the main id in a CallExpr: either the name
@@ -9923,13 +9930,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
         #
         # TODO: simplify this code when SubpSpec provides a kind to
         # distinguish functions and procedures.
-        self_ret = Var(bind_origin(Self, Entity.return_type))
-        other_ret = Var(bind_origin(other.node, other.return_type))
+        self_ret = Var(origin.bind(Self.origin_node, Entity.return_type))
+        other_ret = Var(origin.bind(other.node.origin_node, other.return_type))
         return Or(
             And(Entity.returns.is_null, other.returns.is_null),
             And(
                 Not(Entity.returns.is_null), Not(other.returns.is_null),
-                bind_origin(Self, self_ret._.matching_type(other_ret))
+                origin.bind(Self.origin_node,
+                            self_ret._.matching_type(other_ret))
             )
         )
 
@@ -9982,7 +9990,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         primitive, return that designated type. Otherwise return null.
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
-        tpe = Var(bind_origin(Self, typ.match(
+        tpe = Var(origin.bind(Self.origin_node, typ.match(
             lambda at=T.AnonymousType: at.element_type.then(
                 # TODO: remove this check once S918-021 is done, since it will
                 # be checked below in any case.
@@ -10062,7 +10070,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         bd = Var(Entity.parent.cast_or_raise(BasicDecl))
 
-        return bind_origin(Entity.name, If(
+        return origin.bind(Entity.name.origin_node, If(
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: If(
                 # Dot notation only works on tagged types, needs to be declared
@@ -10261,7 +10269,7 @@ class ForLoopSpec(LoopSpec):
                      .type_var.get_value.cast(T.BaseTypeDecl),
                      No(BaseTypeDecl.entity)))
 
-        return bind_origin(Self, If(
+        return origin.bind(Self.origin_node, If(
             typ.is_implicit_deref,
             typ.accessed_type,
             typ
@@ -10394,7 +10402,7 @@ class Allocator(Expr):
         """
         Return the allocated type for this allocator.
         """
-        return bind_origin(Self, Entity.type_or_expr.match(
+        return origin.bind(Self.origin_node, Entity.type_or_expr.match(
             lambda t=SubtypeIndication.entity: t.designated_type,
             lambda q=QualExpr.entity: q.designated_type,
             lambda _: No(BaseTypeDecl.entity)
@@ -10449,7 +10457,8 @@ class QualExpr(Name):
     # q.prefix.designated_type.
     designated_type = Property(
         env.bind(Entity.node_env,
-                 bind_origin(Self, Entity.prefix.designated_type_impl)),
+                 origin.bind(Self.origin_node,
+                             Entity.prefix.designated_type_impl)),
     )
 
     @langkit_property()
@@ -11050,7 +11059,7 @@ class DottedName(Name):
 
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def complete():
-        return bind_origin(Self, env.bind(
+        return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
             Entity.prefix.designated_env.get(No(Symbol), LK.flat).map(
                 lambda n: n.cast(T.BasicDecl)
@@ -11086,7 +11095,8 @@ class DottedName(Name):
 
     @langkit_property()
     def env_elements_impl():
-        pfx_env = Var(bind_origin(Self, Entity.prefix.designated_env))
+        pfx_env = Var(origin.bind(Self.origin_node,
+                                  Entity.prefix.designated_env))
         return env.bind(pfx_env, Entity.suffix.env_elements_baseid)
 
     @langkit_property()

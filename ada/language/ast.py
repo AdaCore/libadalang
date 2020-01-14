@@ -1,6 +1,5 @@
 from __future__ import absolute_import, division, print_function
 
-from langkit.diagnostics import check_source_language
 from langkit.dsl import (
     ASTNode, AbstractField, AnalysisUnit, AnalysisUnitKind, Annotations, Bool,
     Enum, EnumValue, Equation, Field, Int, LexicalEnv, LogicVar,
@@ -57,15 +56,6 @@ def default_imprecise_fallback():
     False.
     """
     return (imprecise_fallback, False)
-
-
-def TypeBind(*args, **kwargs):
-    check_source_language(
-        'eq_prop' not in kwargs.keys(),
-        "You cannot pass an eq_prop to TypeBind"
-    )
-    kwargs['eq_prop'] = BaseTypeDecl.matching_type
-    return Bind(*args, **kwargs)
 
 
 def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
@@ -1055,14 +1045,27 @@ class AdaNode(ASTNode):
                                   new_env_assoc(key=n.name_symbol, val=value))
 
     @langkit_property(dynamic_vars=[origin])
+    def type_bind_val(left=T.LogicVar, right=T.AdaNode.entity):
+        return Bind(left, right, eq_prop=BaseTypeDecl.matching_type)
+
+    @langkit_property(dynamic_vars=[origin])
+    def type_bind_var(left=T.LogicVar, right=T.LogicVar):
+        return Bind(left, right, eq_prop=BaseTypeDecl.matching_type)
+
+    @langkit_property(dynamic_vars=[origin])
+    def comp_bind(left=T.LogicVar, right=T.LogicVar):
+        return Bind(left, right,
+                    eq_prop=BaseTypeDecl.matching_type,
+                    conv_prop=BaseTypeDecl.comp_type)
+
+    @langkit_property(dynamic_vars=[origin])
     def universal_int_bind(type_var=T.LogicVar):
         """
         Static method. Return an equation that will bind type_var to any
         integer value, corresponding to the notion of universal_integer in the
         Ada RM.
         """
-        return Bind(type_var, Self.universal_int_type,
-                    eq_prop=BaseTypeDecl.matching_type)
+        return Self.type_bind_val(type_var, Self.universal_int_type)
 
     @langkit_property(dynamic_vars=[origin])
     def universal_real_bind(type_var=T.LogicVar):
@@ -1070,8 +1073,7 @@ class AdaNode(ASTNode):
         Static method. Return an equation that will bind type_var to any real
         value, corresponding to the notion of universal_real in the Ada RM.
         """
-        return Bind(type_var, Self.universal_real_type,
-                    eq_prop=BaseTypeDecl.matching_type)
+        return Self.type_bind_val(type_var, Self.universal_real_type)
 
 
 def child_unit(name_expr, scope_expr, dest_env=None,
@@ -2791,7 +2793,7 @@ class VariantPart(AdaNode):
             var.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                TypeBind(e.type_var, Self.discr_name.type_val)
+                Self.type_bind_val(e.type_var, Self.discr_name.type_val)
                 & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
@@ -2915,9 +2917,9 @@ class ComponentList(BaseFormalParamHolder):
         ignore(Var(discriminants_matches.map(
             lambda match: match.actual.assoc.expr.resolve_names_internal(
                 True, And(
-                    TypeBind(match.actual.assoc.expr.type_var,
-                             match.formal.spec
-                             .type_expression.designated_type),
+                    Self.type_bind_val(match.actual.assoc.expr.type_var,
+                                       match.formal.spec
+                                       .type_expression.designated_type),
                     If(match.actual.name.is_null,
                        LogicTrue(),
                        Bind(match.actual.name.ref_var, match.formal.spec))
@@ -4456,7 +4458,7 @@ class RangeConstraint(Constraint):
     @langkit_property()
     def xref_equation():
         return And(
-            TypeBind(Entity.range.range.type_var, Entity.subtype),
+            Self.type_bind_val(Entity.range.range.type_var, Entity.subtype),
             Entity.range.sub_equation
         )
 
@@ -4642,7 +4644,8 @@ class SignedIntTypeDef(TypeDef):
         # defining. If not possible (for example because it's already of
         # another type), fallback.
         Or(
-            TypeBind(Entity.range.range.type_var, Entity.containing_type),
+            Self.type_bind_val(Entity.range.range.type_var,
+                               Entity.containing_type),
             LogicTrue()
         )
         & Entity.range.xref_equation
@@ -4716,7 +4719,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=Equation)
     def constrain_index_expr(index_expr=T.Expr.entity, dim=Int):
-        return TypeBind(index_expr.type_var, Entity.index_type(dim))
+        return Self.type_bind_val(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
     def index_type(dim=Int):
@@ -4739,7 +4742,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
     @langkit_property(return_type=Equation)
     def constrain_index_expr(index_expr=T.Expr.entity, dim=Int):
-        return TypeBind(index_expr.type_var, Entity.index_type(dim))
+        return Self.type_bind_val(index_expr.type_var, Entity.index_type(dim))
 
     @langkit_property()
     def xref_equation():
@@ -4748,7 +4751,7 @@ class ConstrainedArrayIndices(ArrayIndices):
             index.sub_equation
             & index.cast(T.Expr).then(
                 lambda expr:
-                TypeBind(expr.type_var, Self.int_type)
+                Self.type_bind_val(expr.type_var, Self.int_type)
                 | Predicate(BaseTypeDecl.is_discrete_type, expr.type_var),
                 default_val=LogicTrue()
             )
@@ -6266,8 +6269,8 @@ class GenericInstantiation(BasicDecl):
 
                     lambda obj_decl=T.ObjectDecl:
                     pm.actual.assoc.expr.sub_equation
-                    & TypeBind(pm.actual.assoc.expr.type_var,
-                               obj_decl.expr_type),
+                    & Self.type_bind_val(pm.actual.assoc.expr.type_var,
+                                         obj_decl.expr_type),
 
                     lambda _: LogicTrue(),
                 ) & pm.actual.name.then(
@@ -7013,7 +7016,7 @@ class ParenExpr(Expr):
     def xref_equation():
         return (
             Entity.expr.sub_equation
-            & TypeBind(Self.expr.type_var, Self.type_var)
+            & Self.type_bind_var(Self.expr.type_var, Self.type_var)
         )
 
 
@@ -7045,12 +7048,12 @@ class UnOp(Expr):
                 )
 
                 # The subprogram's return type is the type of Self
-                & TypeBind(Self.type_var,
-                           subp.subp_spec_or_null.return_type)
+                & Self.type_bind_val(Self.type_var,
+                                     subp.subp_spec_or_null.return_type)
 
                 # The operator references the subprogram
                 & Bind(Self.op.ref_var, subp)
-            )) | TypeBind(Self.type_var, Self.expr.type_var)
+            )) | Self.type_bind_var(Self.type_var, Self.expr.type_var)
         )
 
 
@@ -7107,8 +7110,8 @@ class BinOp(Expr):
             )
 
             # The subprogram's return type is the type of Self
-            & TypeBind(Self.type_var,
-                       subp.subp_spec_or_null.return_type)
+            & Self.type_bind_val(Self.type_var,
+                                 subp.subp_spec_or_null.return_type)
 
             # The operator references the subprogram, except when it refers
             # to the implicitly generated '/='.
@@ -7127,24 +7130,21 @@ class BinOp(Expr):
         return Self.op.match(
             lambda _=Op.alt_pow:
 
-            TypeBind(Self.right.type_var, Self.universal_int_type)
-            & TypeBind(Self.left.type_var, Self.type_var),
+            Self.universal_int_bind(Self.right.type_var)
+            & Self.type_bind_var(Self.left.type_var, Self.type_var),
 
             lambda _=Op.alt_concat: Or(
-                TypeBind(Self.type_var, Self.left.type_var)
-                & TypeBind(Self.type_var, Self.right.type_var),
+                Self.type_bind_var(Self.type_var, Self.left.type_var)
+                & Self.type_bind_var(Self.type_var, Self.right.type_var),
 
-                TypeBind(Self.type_var, Self.left.type_var)
-                & TypeBind(Self.left.type_var, Self.right.type_var,
-                           conv_prop=BaseTypeDecl.comp_type),
+                Self.type_bind_var(Self.type_var, Self.left.type_var)
+                & Self.comp_bind(Self.left.type_var, Self.right.type_var),
 
-                TypeBind(Self.type_var, Self.right.type_var)
-                & TypeBind(Self.right.type_var, Self.left.type_var,
-                           conv_prop=BaseTypeDecl.comp_type),
+                Self.type_bind_var(Self.type_var, Self.right.type_var)
+                & Self.comp_bind(Self.right.type_var, Self.left.type_var),
 
-                TypeBind(Self.right.type_var, Self.left.type_var)
-                & TypeBind(Self.type_var, Self.right.type_var,
-                           conv_prop=BaseTypeDecl.comp_type)
+                Self.type_bind_var(Self.right.type_var, Self.left.type_var)
+                & Self.comp_bind(Self.type_var, Self.right.type_var)
 
             ),
 
@@ -7152,8 +7152,8 @@ class BinOp(Expr):
             # the case of range of chars, as in 'a' .. 'z', type needs to flow
             # upward, from the operator to the operands.
             lambda _=Op.alt_double_dot: And(
-                TypeBind(Self.type_var, Self.left.type_var),
-                TypeBind(Self.type_var, Self.right.type_var)
+                Self.type_bind_var(Self.type_var, Self.left.type_var),
+                Self.type_bind_var(Self.type_var, Self.right.type_var)
             ),
 
 
@@ -7162,10 +7162,14 @@ class BinOp(Expr):
                 # We call base_subtype as a conversion property because
                 # operators are defined on the root subtype, so the return
                 # value will always be of the root subtype.
-                TypeBind(Self.left.type_var, Self.type_var,
-                         conv_prop=BaseTypeDecl.base_subtype_or_null)
-                & TypeBind(Self.right.type_var, Self.type_var,
-                           conv_prop=BaseTypeDecl.base_subtype_or_null),
+                #
+                # TODO: inlining of the TypeBind macro.
+                Bind(Self.left.type_var, Self.type_var,
+                     eq_prop=BaseTypeDecl.matching_type,
+                     conv_prop=BaseTypeDecl.base_subtype_or_null)
+                & Bind(Self.right.type_var, Self.type_var,
+                       eq_prop=BaseTypeDecl.matching_type,
+                       conv_prop=BaseTypeDecl.base_subtype_or_null),
 
                 # Universal real with universal int case: Implicit conversion
                 # of the binop to universal real.
@@ -7188,7 +7192,7 @@ class RelationOp(BinOp):
     Binary operation that compares two value, producing a boolean.
     """
     no_overload_equation = Property(
-        TypeBind(Self.left.type_var, Self.right.type_var)
+        Self.type_bind_var(Self.left.type_var, Self.right.type_var)
         & Self.bool_bind(Self.type_var)
     )
 
@@ -7214,7 +7218,7 @@ class MembershipExpr(Expr):
                 lambda _: m.cast(T.Name).xref_no_overloading,
 
                 # Regular membership check
-                default_val=m.sub_equation & TypeBind(
+                default_val=m.sub_equation & Self.type_bind_var(
                     Entity.expr.type_var, m.type_var
                 )
             )
@@ -7354,7 +7358,7 @@ class BaseAggregate(Expr):
 
                     # .. Then we want to match the component type
                     assoc.expr.sub_equation
-                    & TypeBind(assoc.expr.type_var, atd.comp_type),
+                    & Self.type_bind_val(assoc.expr.type_var, atd.comp_type),
 
                     # .. Else we're on an intermediate dimension of a
                     # multidimensional array: do nothing.
@@ -7365,8 +7369,8 @@ class BaseAggregate(Expr):
                     lambda n:
                     n.as_entity.sub_equation
                     & n.cast(T.Expr).then(
-                        lambda n: TypeBind(n.type_var,
-                                           atd.index_type(mra.rank)),
+                        lambda n: Self.type_bind_val(n.type_var,
+                                                     atd.index_type(mra.rank)),
                         default_val=LogicTrue()
                     )
                 )
@@ -7388,8 +7392,8 @@ class BaseAggregate(Expr):
         # Match formals to actuals, and compute equations
         return Self.match_formals(all_params, Entity.assocs, False).logic_all(
             lambda pm:
-            TypeBind(pm.actual.assoc.expr.type_var,
-                     pm.formal.spec.type_expression.designated_type)
+            Self.type_bind_val(pm.actual.assoc.expr.type_var,
+                               pm.formal.spec.type_expression.designated_type)
             & pm.actual.assoc.expr.sub_equation
             & pm.actual.name.then(lambda n: Bind(n.ref_var, pm.formal.spec),
                                   LogicTrue())
@@ -8360,7 +8364,7 @@ class CallExpr(Name):
             Entity.params.at(0).expr.sub_equation,
             Entity.name.subtype_indication_equation,
             Bind(Self.name.ref_var, Self.name.type_var),
-            TypeBind(Self.type_var, Self.name.ref_var),
+            Self.type_bind_var(Self.type_var, Self.name.ref_var),
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -8491,8 +8495,8 @@ class CallExpr(Name):
                 (params.length == 2)
                 & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="', '">"',
                                   '">="'),
-                TypeBind(params.at(0).assoc.expr.type_var,
-                         params.at(1).assoc.expr.type_var)
+                Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                   params.at(1).assoc.expr.type_var)
                 & Self.bool_bind(Self.type_var)
                 & base_name_eq(),
 
@@ -8502,21 +8506,23 @@ class CallExpr(Name):
                     '"and"', '"or"', '"xor"', '"abs"', '"*"',
                     '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
                 ),
-                TypeBind(params.at(0).assoc.expr.type_var,
-                         params.at(1).assoc.expr.type_var)
-                & TypeBind(params.at(0).assoc.expr.type_var,
-                           Self.type_var)
+                Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                   params.at(1).assoc.expr.type_var)
+                & Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                     Self.type_var)
                 & base_name_eq(),
 
                 (params.length == 2) & (rel_name == '"**"'),
-                TypeBind(params.at(1).assoc.expr.type_var,
-                         Self.universal_int_type)
-                & TypeBind(params.at(0).assoc.expr.type_var, Self.type_var)
+                Self.type_bind_val(params.at(1).assoc.expr.type_var,
+                                   Self.universal_int_type)
+                & Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                     Self.type_var)
                 & base_name_eq(),
 
                 (params.length == 1)
                 & rel_name.any_of('"+"', '"-"', '"not"', '"abs"'),
-                TypeBind(params.at(0).assoc.expr.type_var, Self.type_var)
+                Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                   Self.type_var)
                 & base_name_eq(),
 
                 LogicFalse()
@@ -8557,7 +8563,7 @@ class CallExpr(Name):
                             LogicFalse(),
                             And(
                                 name.xref_no_overloading,
-                                TypeBind(Self.type_var, real_typ)
+                                Self.type_bind_val(Self.type_var, real_typ)
                             )
                         ),
                         default_val=LogicFalse()
@@ -8572,15 +8578,15 @@ class CallExpr(Name):
                         )
                         & atd.indices.constrain_index_expr(pa.expr, i)
                     )
-                    & TypeBind(Self.type_var, atd.comp_type)
+                    & Self.type_bind_val(Self.type_var, atd.comp_type)
                 ),
 
                 # Explicit slice access
                 lambda bo=T.BinOp:
                 atd.indices.constrain_index_expr(bo.left, 0)
                 & atd.indices.constrain_index_expr(bo.right, 0)
-                & TypeBind(bo.type_var, bo.right.type_var)
-                & TypeBind(Self.type_var, real_typ)
+                & Self.type_bind_var(bo.type_var, bo.right.type_var)
+                & Self.type_bind_val(Self.type_var, real_typ)
                 & bo.left.sub_equation
                 & bo.right.sub_equation,
 
@@ -8588,12 +8594,12 @@ class CallExpr(Name):
                 lambda ar=T.AttributeRef:
                 ar.sub_equation
                 & atd.indices.constrain_index_expr(ar, 0)
-                & TypeBind(Self.type_var, real_typ),
+                & Self.type_bind_val(Self.type_var, real_typ),
 
                 # Subtype indication
                 lambda st=T.SubtypeIndication:
                 st.sub_equation
-                & TypeBind(Self.type_var, real_typ),
+                & Self.type_bind_val(Self.type_var, real_typ),
 
                 lambda _: LogicFalse(),
             ),
@@ -8607,10 +8613,10 @@ class CallExpr(Name):
                 ret_type=fn.subp_spec_or_null.return_type,
                 param=Entity.params.at(0).expr:
 
-                TypeBind(Self.type_var, ret_type)
+                Self.type_bind_val(Self.type_var, ret_type)
                 & If(constrain_params,
                      param.sub_equation, LogicTrue())
-                & TypeBind(param.type_var, formal.spec.formal_type)
+                & Self.type_bind_val(param.type_var, formal.spec.formal_type)
             )),
 
             LogicFalse()
@@ -8627,7 +8633,8 @@ class CallExpr(Name):
             lambda subp_spec:
             # The type of the expression is the expr_type of the
             # subprogram.
-            TypeBind(Self.type_var, subp_spec.cast(BaseSubpSpec)._.return_type)
+            Self.type_bind_val(Self.type_var,
+                               subp_spec.cast(BaseSubpSpec)._.return_type)
 
             # This node represents a call to a subprogram which specification
             # is given by ``subp_spec``.
@@ -8880,8 +8887,8 @@ class ExplicitDeref(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def eq_for_type(typ=T.BaseTypeDecl.entity):
         return And(
-            TypeBind(Self.prefix.type_var, typ),
-            TypeBind(Self.type_var, typ.accessed_type)
+            Self.type_bind_val(Self.prefix.type_var, typ),
+            Self.type_bind_val(Self.type_var, typ.accessed_type)
         )
 
     @langkit_property()
@@ -8945,7 +8952,8 @@ class IfExpr(Expr):
                 # If there is an else, then construct sub equation
                 Entity.else_expr.sub_equation
                 # And bind the then expr's and the else expr's types
-                & TypeBind(Self.then_expr.type_var, Self.else_expr.type_var),
+                & Self.type_bind_var(Self.then_expr.type_var,
+                                     Self.else_expr.type_var),
 
                 # If no else, then the then_expression has type bool
                 Self.bool_bind(Self.then_expr.type_var)
@@ -8959,9 +8967,10 @@ class IfExpr(Expr):
 
                 # The elsif branch then expr has the same type as Self's
                 # then_expr.
-                & TypeBind(Self.then_expr.type_var, elsif.then_expr.type_var)
+                & Self.type_bind_var(Self.then_expr.type_var,
+                                     elsif.then_expr.type_var)
             )) & Self.bool_bind(Self.cond_expr.type_var)
-            & TypeBind(Self.then_expr.type_var, Self.type_var)
+            & Self.type_bind_var(Self.then_expr.type_var, Self.type_var)
         )
 
 
@@ -8992,7 +9001,7 @@ class CaseExpr(Expr):
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                TypeBind(e.type_var, Self.expr.type_val)
+                Self.type_bind_val(e.type_var, Self.expr.type_val)
                 & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
@@ -9005,7 +9014,7 @@ class CaseExpr(Expr):
             # The type of self is the type of each expr. Also, the type of
             # every expr is bound together by the conjunction of this bind for
             # every branch.
-            & TypeBind(Self.type_var, alt.expr.type_var)
+            & Self.type_bind_var(Self.type_var, alt.expr.type_var)
         ))
 
 
@@ -9735,7 +9744,7 @@ class StringLiteral(BaseId):
             Self.parent.is_a(Name),
             Entity.base_id_xref_equation,
             Or(
-                TypeBind(Self.type_var, Self.std_entity('String')),
+                Self.type_bind_val(Self.type_var, Self.std_entity('String')),
                 Predicate(BaseTypeDecl.is_str_type_or_null, Self.type_var)
             )
         )
@@ -10272,19 +10281,21 @@ class ForLoopSpec(LoopSpec):
                 binop.sub_equation
                 # The default type, if there is no other determined type, is
                 # Integer.
-                & Or(TypeBind(binop.type_var, Self.int_type), LogicTrue())
-                & TypeBind(Self.var_decl.id.type_var, binop.type_var),
+                & Or(Self.type_bind_val(binop.type_var, Self.int_type),
+                     LogicTrue())
+                & Self.type_bind_var(Self.var_decl.id.type_var,
+                                     binop.type_var),
 
                 # Subtype indication case: the induction variable is of the
                 # type.
                 lambda t=T.SubtypeIndication:
                 t.sub_equation
-                & TypeBind(Self.var_decl.id.type_var,
-                           t.designated_type.canonical_type),
+                & Self.type_bind_val(Self.var_decl.id.type_var,
+                                     t.designated_type.canonical_type),
 
                 lambda r=T.AttributeRef:
                 r.sub_equation
-                & TypeBind(Self.var_decl.id.type_var, r.type_var),
+                & Self.type_bind_var(Self.var_decl.id.type_var, r.type_var),
 
                 # Name case: Either the name is a subtype indication, or an
                 # attribute on a subtype indication, in which case the logic is
@@ -10293,7 +10304,8 @@ class ForLoopSpec(LoopSpec):
                 lambda t=T.Name: t.name_designated_type.then(
                     lambda typ:
                     t.sub_equation
-                    & TypeBind(Self.var_decl.id.type_var, typ.canonical_type),
+                    & Self.type_bind_val(Self.var_decl.id.type_var,
+                                         typ.canonical_type),
 
                     default_val=Entity.iterator_xref_equation
                 ),
@@ -10311,15 +10323,16 @@ class ForLoopSpec(LoopSpec):
 
                 # Then we want the type of the induction variable to be the
                 # component type of the type of the expression.
-                & TypeBind(Self.var_decl.id.type_var,
-                           it_typ.iterable_comp_type)
+                & Self.type_bind_val(Self.var_decl.id.type_var,
+                                     it_typ.iterable_comp_type)
 
                 # If there is a type annotation, then the type of var should be
                 # conformant.
                 & If(Self.var_decl.id_type.is_null,
                      LogicTrue(),
-                     TypeBind(Self.var_decl.id.type_var,
-                              Entity.var_decl.id_type.designated_type)),
+                     Self.type_bind_val(
+                         Self.var_decl.id.type_var,
+                         Entity.var_decl.id_type.designated_type)),
 
                 LogicFalse()
             ))
@@ -10337,7 +10350,7 @@ class ForLoopSpec(LoopSpec):
 
         return If(
             p,
-            TypeBind(
+            Self.type_bind_val(
                 Self.var_decl.id.type_var,
                 iter_expr.type_var.get_value
                 .children_env.get_first('Cursor').cast_or_raise(T.BaseTypeDecl)
@@ -10426,9 +10439,9 @@ class QualExpr(Name):
         return (
             Entity.suffix.sub_equation
             & Bind(Self.prefix.ref_var, typ)
-            & TypeBind(Self.prefix.type_var, typ)
-            & TypeBind(Self.suffix.type_var, typ)
-            & TypeBind(Self.type_var, typ)
+            & Self.type_bind_val(Self.prefix.type_var, typ)
+            & Self.type_bind_val(Self.suffix.type_var, typ)
+            & Self.type_bind_val(Self.type_var, typ)
         )
 
     # TODO: once we manage to turn prefix into a subtype indication, remove
@@ -10610,7 +10623,7 @@ class AttributeRef(Name):
             & Self.universal_int_bind(Self.type_var),
 
             rel_name == 'Target_Name',
-            TypeBind(Self.type_var, Self.std_entity('String')),
+            Self.type_bind_val(Self.type_var, Self.std_entity('String')),
 
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
@@ -10638,8 +10651,8 @@ class AttributeRef(Name):
         return (
             Entity.prefix.sub_equation
             & arg.sub_equation
-            & TypeBind(arg.type_var, typ)
-            & TypeBind(Self.type_var, typ)
+            & Self.type_bind_val(arg.type_var, typ)
+            & Self.type_bind_val(Self.type_var, typ)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10655,7 +10668,8 @@ class AttributeRef(Name):
             .cast(T.BaseTypeDecl)
         )
 
-        return Entity.prefix.xref_equation & TypeBind(Self.type_var, typ)
+        return (Entity.prefix.xref_equation
+                & Self.type_bind_val(Self.type_var, typ))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def storage_pool_equation():
@@ -10669,7 +10683,8 @@ class AttributeRef(Name):
             .cast(T.BaseTypeDecl).classwide_type
         )
 
-        return Entity.prefix.xref_equation & TypeBind(Self.type_var, typ)
+        return (Entity.prefix.xref_equation
+                & Self.type_bind_val(Self.type_var, typ))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def model_attr_equation():
@@ -10680,15 +10695,18 @@ class AttributeRef(Name):
                 .cast_or_raise(T.PackageDecl).public_part
                 .types_with_models.map(lambda t: t.cast(T.AdaNode))
             )
-            & TypeBind(Self.type_var, Self.prefix.type_var,
-                       conv_prop=BaseTypeDecl.model_of_type)
+
+            # TODO: inlining of the TypeBind macro
+            & Bind(Self.type_var, Self.prefix.type_var,
+                   eq_prop=BaseTypeDecl.matching_type,
+                   conv_prop=BaseTypeDecl.model_of_type)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bind_to_prefix_eq():
         return And(
             Entity.prefix.sub_equation,
-            TypeBind(Self.type_var, Self.prefix.type_var),
+            Self.type_bind_var(Self.type_var, Self.prefix.type_var),
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10702,7 +10720,7 @@ class AttributeRef(Name):
         ))
 
         return And(
-            TypeBind(Self.type_var, returns),
+            Self.type_bind_val(Self.type_var, returns),
             Bind(Entity.prefix.ref_var, containing_subp)
         )
 
@@ -10720,7 +10738,7 @@ class AttributeRef(Name):
             Entity.prefix.xref_equation
 
             # Type of self is String
-            & TypeBind(Self.type_var, tag_type)
+            & Self.type_bind_val(Self.type_var, tag_type)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10740,12 +10758,12 @@ class AttributeRef(Name):
         return (
             Entity.prefix.sub_equation
             & stream_arg.sub_equation
-            & TypeBind(stream_arg.type_var,
-                       root_stream_type.anonymous_access_type)
+            & Self.type_bind_val(stream_arg.type_var,
+                                 root_stream_type.anonymous_access_type)
             & If(
                 return_obj,
-                TypeBind(Self.type_var, typ),
-                TypeBind(obj_arg.type_var, typ)
+                Self.type_bind_val(Self.type_var, typ),
+                Self.type_bind_val(obj_arg.type_var, typ)
                 & obj_arg.sub_equation
             )
         )
@@ -10763,15 +10781,18 @@ class AttributeRef(Name):
                    # xref_no_overloading in order to not filter eagerly on
                    # parameters.
                    Entity.prefix.xref_no_overloading)
-                & TypeBind(Self.type_var, address_type))
+                & Self.type_bind_val(Self.type_var, address_type))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def identity_equation():
         # NOTE: We don't verify that the prefix designates an exception
         # declaration, because that's legality, not name resolution.
         return (Entity.prefix.sub_equation
-                & TypeBind(Self.prefix.ref_var, Self.type_var,
-                           conv_prop=BasicDecl.identity_type))
+
+                # TODO: inlining of the TypeBind macro
+                & Bind(Self.prefix.ref_var, Self.type_var,
+                       eq_prop=BaseTypeDecl.matching_type,
+                       conv_prop=BasicDecl.identity_type))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def universal_real_equation():
@@ -10794,9 +10815,9 @@ class AttributeRef(Name):
         arg = Var(Entity.args_list.at(0).expr)
 
         return (
-            TypeBind(Self.prefix.ref_var, typ)
-            & TypeBind(arg.type_var, typ)
-            & TypeBind(Self.type_var, typ)
+            Self.type_bind_val(Self.prefix.ref_var, typ)
+            & Self.type_bind_val(arg.type_var, typ)
+            & Self.type_bind_val(Self.type_var, typ)
             & arg.sub_equation
         )
 
@@ -10809,10 +10830,10 @@ class AttributeRef(Name):
         return (
             left.sub_equation & right.sub_equation
             # Prefix is a type, bind prefix's ref var to it
-            & TypeBind(Self.prefix.ref_var, typ)
-            & TypeBind(left.type_var, right.type_var)
-            & TypeBind(Self.type_var, left.type_var)
-            & TypeBind(Self.type_var, typ)
+            & Self.type_bind_val(Self.prefix.ref_var, typ)
+            & Self.type_bind_var(left.type_var, right.type_var)
+            & Self.type_bind_var(Self.type_var, left.type_var)
+            & Self.type_bind_val(Self.type_var, typ)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10827,10 +10848,10 @@ class AttributeRef(Name):
             & Bind(Self.prefix.ref_var, typ)
 
             # Type of expression is str_type
-            & TypeBind(expr.type_var, str_type)
+            & Self.type_bind_val(expr.type_var, str_type)
 
             # Type of self is designated type
-            & TypeBind(Self.type_var, typ)
+            & Self.type_bind_val(Self.type_var, typ)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10843,15 +10864,15 @@ class AttributeRef(Name):
 
             # If prefix is not a type, then it is an expression
             Entity.prefix.sub_equation
-            & TypeBind(Self.type_var, str_type),
+            & Self.type_bind_val(Self.type_var, str_type),
 
             expr.sub_equation
             # Prefix is a type, bind prefix's ref var to it
             & Bind(Self.prefix.ref_var, typ)
             # Type of expression is designated type
-            & TypeBind(expr.type_var, typ)
+            & Self.type_bind_val(expr.type_var, typ)
             # Type of self is String
-            & TypeBind(Self.type_var, str_type)
+            & Self.type_bind_val(Self.type_var, str_type)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10861,7 +10882,7 @@ class AttributeRef(Name):
             Entity.prefix.xref_equation
 
             # Type of self is String
-            & TypeBind(Self.type_var, str_type)
+            & Self.type_bind_val(Self.type_var, str_type)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -10884,7 +10905,7 @@ class AttributeRef(Name):
         return (
             # Prefix is a type, bind prefix's ref var to it
             Bind(Self.prefix.ref_var, typ)
-            & TypeBind(Self.type_var, typ)
+            & Self.type_bind_val(Self.type_var, typ)
             & Self.universal_int_bind(expr.type_var)
             & expr.sub_equation
         )
@@ -10951,12 +10972,13 @@ class AttributeRef(Name):
                 Self.universal_int_bind(Self.type_var),
 
                 # If it's an array, take the appropriate index type
-                typ.is_array, TypeBind(Self.type_var, typ.index_type(dim)),
+                typ.is_array,
+                Self.type_bind_val(Self.type_var, typ.index_type(dim)),
 
                 # If it's a discrete type, then bind to the discrete type
                 typ.is_discrete_type | typ.is_real_type & Not(is_length),
 
-                TypeBind(Self.type_var, typ),
+                Self.type_bind_val(Self.type_var, typ),
 
                 LogicFalse()
             ),
@@ -10974,7 +10996,8 @@ class AttributeRef(Name):
                 If(res,
                    If(is_length,
                       Self.universal_int_bind(Self.type_var),
-                      TypeBind(Self.type_var, pfx_typ.index_type(dim)))
+                      Self.type_bind_val(Self.type_var,
+                                         pfx_typ.index_type(dim)))
                    & Entity.prefix.xref_equation
                    & Predicate(BaseTypeDecl.is_array_def_with_deref,
                                Entity.prefix.type_var),
@@ -11083,7 +11106,7 @@ class DottedName(Name):
             base & Entity.env_elements.logic_any(lambda e: (
                 Bind(Self.suffix.ref_var, e)
                 & e.cast(BasicDecl.entity).constrain_prefix(Self.prefix)
-                & TypeBind(Self.type_var, Self.suffix.type_var)
+                & Self.type_bind_var(Self.type_var, Self.suffix.type_var)
             ))
         )
 
@@ -11658,7 +11681,8 @@ class RequeueStmt(SimpleStmt):
 
                 Bind(name.ref_var, e) & first_param.then(
                     lambda p: p.sub_equation & fam_type.then(
-                        lambda eft: TypeBind(p.type_var, eft), LogicTrue()
+                        lambda eft: Self.type_bind_val(p.type_var, eft),
+                        LogicTrue()
                     ), LogicTrue()
                 )
             ))
@@ -11693,7 +11717,7 @@ class DelayStmt(SimpleStmt):
     def xref_equation():
         return Entity.expr.sub_equation & If(
             Self.has_until.as_bool, LogicTrue(),
-            TypeBind(Self.expr.type_var, Self.std_entity('Duration'))
+            Self.type_bind_val(Self.expr.type_var, Self.std_entity('Duration'))
         )
 
 
@@ -11929,7 +11953,8 @@ class CaseStmt(CompositeStmt):
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr:
-                TypeBind(e.type_var, Self.expr.type_val) & e.sub_equation,
+                Self.type_bind_val(e.type_var, Self.expr.type_val)
+                & e.sub_equation,
 
                 # TODO: Bind other cases: SubtypeIndication and Range
                 lambda _: LogicTrue()

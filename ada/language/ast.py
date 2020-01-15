@@ -1077,53 +1077,6 @@ class AdaNode(ASTNode):
         return If(Self.in_prepost, No(T.AdaNode), Self)
 
 
-def child_unit(name_expr, scope_expr, dest_env=None,
-               transitive_parent=False, more_rules=[]):
-    """
-    This macro will add the properties and the env specification necessary
-    to make a node implement the specification of a library child unit in
-    Ada, so that you can declare new childs to an unit outside of its own
-    scope.
-
-    :param AbstractExpression name_expr: The expression that will retrieve
-        the name symbol for the decorated node.
-
-    :param AbstractExpression scope_expr: The expression that will retrieve the
-        scope node for the decorated node. If the scope node is not found, it
-        should return EmptyEnv: in this case, the actual scope will become the
-        root environment.
-
-    :rtype: EnvSpec
-    """
-    more_rules = list(more_rules)
-
-    return EnvSpec(
-        call_env_hook(Self),
-        set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(scope_expr))),
-        add_to_env(
-            Self.env_assoc(name_expr, dest_env)
-            if dest_env is not None
-            else new_env_assoc(key=name_expr, val=Self)
-        ),
-        add_env(transitive_parent=transitive_parent),
-        do(Self.populate_dependent_units),
-        reference(
-            Self.top_level_use_package_clauses,
-            through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
-        ),
-        *more_rules
-    )
-
-
 class DocAnnotation(Struct):
     """
     Documentation annotation.
@@ -6161,9 +6114,28 @@ class PackageDecl(BasePackageDecl):
     """
     Non-generic package declarations.
     """
-    env_spec = child_unit(
-        Entity.name_symbol, Entity.decl_scope,
-        dest_env=env.bind(Self.parent.node_env, Entity.decl_scope(False))
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Entity.decl_scope))),
+        add_to_env(Self.env_assoc(
+            Entity.name_symbol,
+            env.bind(Self.parent.node_env, Entity.decl_scope(False))
+        )),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        )
     )
 
 
@@ -6533,7 +6505,26 @@ class PackageRenamingDecl(BasicDecl):
             default_val=pkg
         )
 
-    env_spec = child_unit(Entity.name_symbol, Self.name.parent_scope)
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Entity.name.parent_scope))),
+        add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
+    )
 
     defining_names = Property(Entity.name.singleton)
     defining_env = Property(Entity.renamed_package.defining_env)
@@ -6575,7 +6566,26 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     defining_env = Property(Entity.resolve.defining_env)
     renaming_name = Property(Entity.renames)
 
-    env_spec = child_unit(Entity.name_symbol, Self.name.parent_scope)
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Self.name.parent_scope))),
+        add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
+    )
 
 
 class SubpKind(AdaNode):
@@ -6590,7 +6600,26 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     """
     Declaration for a generic subprogram renaming.
     """
-    env_spec = child_unit(Entity.name_symbol, Self.name.parent_scope)
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Self.name.parent_scope))),
+        add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        )
+    )
 
     kind = Field(type=T.SubpKind)
     name = Field(type=T.DefiningName)
@@ -6783,10 +6812,28 @@ class GenericPackageDecl(GenericDecl):
     """
     Generic package declaration.
     """
-    env_spec = child_unit(
-        Entity.name_symbol,
-        Entity.decl_scope,
-        dest_env=env.bind(Self.parent.node_env, Entity.decl_scope(False))
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Entity.decl_scope))),
+        add_to_env(Self.env_assoc(
+            Entity.name_symbol,
+            env.bind(Self.parent.node_env, Entity.decl_scope(False))
+        )),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        )
     )
 
     package_decl = Field(type=GenericPackageInternal)
@@ -12076,62 +12123,81 @@ class PackageBody(Body):
     Package body.
     """
 
-    env_spec = child_unit(
-        '__nextpart',
+    env_spec = EnvSpec(
+        call_env_hook(Self),
 
         # Parent link is the package's decl, or private part if there is one
-        Entity.body_scope(follow_private=True),
-
-        # Destination env for the __nextpart link
-        dest_env=env.bind(
+        set_initial_env(env.bind(
             Self.default_initial_env,
-            If(
-                Self.is_subunit,
-                Entity.subunit_stub_env,
+            Self.initial_env(Entity.body_scope(follow_private=True))
+        )),
 
-                # __nextpart never goes into the private part, and is always in
-                # the decl for nested sub packages.
-                Entity.body_scope(follow_private=False, force_decl=True)
+        add_to_env(Self.env_assoc(
+            '__nextpart',
+            env.bind(
+                Self.default_initial_env,
+                If(
+                    Self.is_subunit,
+                    Entity.subunit_stub_env,
+
+                    # __nextpart never goes into the private part, and is
+                    # always in the decl for nested sub packages.
+                    Entity.body_scope(follow_private=False, force_decl=True)
+                )
             )
-        ),
+        )),
 
         # We make a transitive parent link only when the package is a library
         # level package.
-        transitive_parent=And(
+        add_env(transitive_parent=And(
             Self.is_compilation_unit_root, Not(Self.is_subunit)
+        )),
+
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
         ),
 
-        more_rules=[
+        # Separate packages and nested packages basically need to be treated
+        # the same way: we cannot use a transitive ref because of hiding
+        # issues, so we'll do a prioritary ref, that groups together the
+        # necessary envs.
+        #
+        # TODO: We need to ref use clauses, as in the regular package decl
+        # case.
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.Body.subunit_decl_env,
+                  cond=Self.is_subunit,
+                  kind=RefKind.prioritary),
 
-            # Separate packages and nested packages basically need to be
-            # treated the same way:
-            # We cannot use a transitive ref because of hiding issues, so we'll
-            # do a prioritary ref, that groups together the necessary envs.
-            # TODO: We need to ref use clauses, as in the regular package decl
-            # case.
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.subunit_decl_env,
-                      cond=Self.is_subunit,
-                      kind=RefKind.prioritary),
+        # If Self is not a library level package body (and hence is a nested
+        # package), we need to explicitly reference its package decl, because
+        # it is not in the chain of parents.
+        #
+        # The reference is non transitive because if it was it would cause some
+        # visibility order issues.
+        #
+        # TODO: We can regroup this ref with the following ref, making
+        # body_decl_scope return a grouped env with the use clauses in it.
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.Body.body_decl_scope,
+                  cond=Not(Self.is_compilation_unit_root),
+                  kind=RefKind.prioritary),
 
-            # If self is not a library level package body (and hence is a
-            # nested package), we need to explicitly reference its package
-            # decl, because it is not in the chain of parents.
-            # The reference is non transitive because if it was it would cause
-            # some visibility order issues.
-            # TODO: We can regroup this ref with the following ref, making
-            # body_decl_scope return a grouped env with the use clauses in it.
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.body_decl_scope,
-                      cond=Not(Self.is_compilation_unit_root),
-                      kind=RefKind.prioritary),
-
-            # Since the reference to the package decl is non transitive, we
-            # still want to reference the envs that are "used" there.
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.PackageBody.package_decl_uses_clauses_envs,
-                      cond=Not(Self.is_compilation_unit_root))
-        ]
+        # Since the reference to the package decl is non transitive, we still
+        # want to reference the envs that are "used" there.
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.PackageBody.package_decl_uses_clauses_envs,
+                  cond=Not(Self.is_compilation_unit_root))
     )
 
     package_name = Field(type=T.DefiningName)
@@ -12170,31 +12236,44 @@ class TaskBody(Body):
 
     defining_names = Property(Entity.name.singleton)
 
-    env_spec = child_unit(
-        name_expr='__nextpart',
-        scope_expr=Entity.body_scope(True),
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Entity.body_scope(True)))),
+        add_to_env(Self.env_assoc(
+            '__nextpart',
+            env.bind(
+                Self.default_initial_env,
 
-        dest_env=env.bind(
-            Self.default_initial_env,
-
-            If(Self.is_subunit,
-               Entity.subunit_stub_env,
-               Entity.body_scope(False, True)
-               ._or(Entity.body_scope(False, False)))
+                If(Self.is_subunit,
+                   Entity.subunit_stub_env,
+                   Entity.body_scope(False, True)
+                   ._or(Entity.body_scope(False, False)))
+            ),
+        )),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
+        reference(Self.cast(AdaNode).singleton,
+                  T.TaskBody.task_type_decl_scope,
+                  kind=RefKind.prioritary),
 
-        more_rules=[
-            reference(Self.cast(AdaNode).singleton,
-                      T.TaskBody.task_type_decl_scope,
-                      kind=RefKind.prioritary),
-
-            # Reference stub's env if the body is a separate
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.subunit_decl_env,
-                      cond=Self.is_subunit,
-                      kind=RefKind.prioritary),
-
-        ]
+        # Reference stub's env if the body is a separate
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.Body.subunit_decl_env,
+                  cond=Self.is_subunit,
+                  kind=RefKind.prioritary),
     )
 
     task_type_decl_scope = Property(Entity.task_type.children_env)
@@ -12213,30 +12292,43 @@ class ProtectedBody(Body):
     Protected object body.
     """
 
-    env_spec = child_unit(
-        name_expr='__nextpart',
-        scope_expr=Entity.body_scope(True),
-
-        dest_env=env.bind(
-            Self.default_initial_env,
-            If(Self.is_subunit,
-               Entity.subunit_stub_env,
-               Entity.body_scope(False, True)
-               ._or(Entity.body_scope(False, False)))
+    env_spec = EnvSpec(
+        call_env_hook(Self),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(Entity.body_scope(True)))),
+        add_to_env(Self.env_assoc(
+            '__nextpart',
+            env.bind(
+                Self.default_initial_env,
+                If(Self.is_subunit,
+                   Entity.subunit_stub_env,
+                   Entity.body_scope(False, True)
+                   ._or(Entity.body_scope(False, False)))
+            )
+        )),
+        add_env(),
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.Body.body_decl_scope,
+                  kind=RefKind.transitive),
 
-        more_rules=[
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.body_decl_scope,
-                      kind=RefKind.transitive),
-
-            # Reference stub's env if the body is a separate
-            reference(Self.cast(AdaNode).singleton,
-                      through=T.Body.subunit_decl_env,
-                      cond=Self.is_subunit,
-                      kind=RefKind.prioritary),
-
-        ]
+        # Reference stub's env if the body is a separate
+        reference(Self.cast(AdaNode).singleton,
+                  through=T.Body.subunit_decl_env,
+                  cond=Self.is_subunit,
+                  kind=RefKind.prioritary),
     )
 
     name = Field(type=T.DefiningName)

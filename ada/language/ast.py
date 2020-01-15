@@ -799,12 +799,31 @@ class AdaNode(ASTNode):
                          PackageRenamingDecl, GenericPackageDecl)
 
     @langkit_property()
-    def initial_env():
+    def default_initial_env():
         """
-        Provide a lexical environment to use in EnvSpec's initial_env.
+        Provide the default lexical environment to use in EnvSpec's
+        initial_env.
         """
         return Self.parent.then(lambda p: p.children_env,
                                 default_val=Self.children_env)
+
+    @langkit_property(dynamic_vars=[env])
+    def initial_env(scope=T.LexicalEnv):
+        """
+        Static method. Return ``scope`` if it is not EmptyEnv, and ``env``
+        otherwise.
+        """
+        return scope.then(lambda s: s, default_val=env)
+
+    @langkit_property()
+    def env_assoc(key=T.Symbol, dest_env=T.LexicalEnv):
+        """
+        Static method, helper for EnvSpecs. Return the env assoc for ``key``,
+        ``Self`` and ``dest`` if ``dest_env`` is not null, and a null env assoc
+        otherwise.
+        """
+        return dest_env.then(lambda env:
+                             new_env_assoc(key=key, val=Self, dest_env=env))
 
     @langkit_property(ignore_warn_on_node=True, public=True)
     def top_level_decl(unit=AnalysisUnit):
@@ -1080,14 +1099,10 @@ def child_unit(name_expr, scope_expr, dest_env=None,
 
     return EnvSpec(
         call_env_hook(Self),
-        set_initial_env(
-            env.bind(Self.initial_env, Let(
-                lambda scope=scope_expr: If(scope == EmptyEnv, env, scope)
-            ))
-        ),
+        set_initial_env(env.bind(Self.default_initial_env,
+                                 Self.initial_env(scope_expr))),
         add_to_env(
-            dest_env.then(lambda env:
-                          new_env_assoc(key=name_expr, val=Self, dest_env=env))
+            Self.env_assoc(name_expr, dest_env)
             if dest_env is not None
             else new_env_assoc(key=name_expr, val=Self)
         ),
@@ -1991,7 +2006,7 @@ class Body(BasicDecl):
     @langkit_property()
     def subunit_decl_env():
         return env.bind(
-            Self.initial_env,
+            Self.default_initial_env,
             Entity.body_scope(True).get(Entity.name_symbol, categories=noprims)
             .at(0)
             .match(
@@ -2028,7 +2043,7 @@ class Body(BasicDecl):
         Return the scope of this body's decl.
         """
         return env.bind(
-            Self.initial_env,
+            Self.default_initial_env,
             Entity.body_scope(True, True)
         )
 
@@ -2150,7 +2165,7 @@ class Body(BasicDecl):
     @langkit_property()
     def stub_decl_env():
         return env.bind(
-            Entity.initial_env,
+            Entity.default_initial_env,
             Entity.unbound_previous_part.then(lambda d: d.node.children_env)
         )
 
@@ -5503,13 +5518,13 @@ class BasicSubpDecl(BasicDecl):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Entity.decl_scope)
+            env.bind(Self.default_initial_env, Entity.decl_scope)
         ),
 
         add_to_env_kv(
             Entity.name_symbol, Self,
             dest_env=env.bind(
-                Self.initial_env,
+                Self.default_initial_env,
                 Self.as_bare_entity.subp_decl_spec.name.parent_scope
             )
         ),
@@ -6316,7 +6331,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Let(
+            env.bind(Self.default_initial_env, Let(
                 lambda scope=Self.as_bare_entity.defining_name.parent_scope:
                 If(scope == EmptyEnv, env, scope)
             ))
@@ -6333,7 +6348,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         handle_children(),
         add_to_env(
             env.bind(
-                Self.initial_env,
+                Self.default_initial_env,
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Entity.params, False
                 ).map(lambda pm: new_env_assoc(
@@ -6436,8 +6451,10 @@ class GenericPackageInstantiation(GenericInstantiation):
         call_env_hook(Self),
 
         set_initial_env(env.bind(
-            Self.initial_env,
-            If(Self.is_formal, Self.initial_env, Entity.decl_scope(False))
+            Self.default_initial_env,
+            If(Self.is_formal,
+               Self.default_initial_env,
+               Entity.decl_scope(False))
         )),
 
         add_to_env_kv(Entity.name_symbol, Self),
@@ -6452,7 +6469,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         handle_children(),
         add_to_env(
             env.bind(
-                Self.initial_env,
+                Self.default_initial_env,
                 If(Entity.is_any_formal,
                    No(T.env_assoc.array),
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
@@ -6726,13 +6743,13 @@ class GenericSubpDecl(GenericDecl):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Entity.decl_scope)
+            env.bind(Self.default_initial_env, Entity.decl_scope)
         ),
 
         add_to_env_kv(
             Entity.name_symbol, Self,
             dest_env=env.bind(
-                Self.initial_env,
+                Self.default_initial_env,
                 Self.as_bare_entity.defining_name.parent_scope
             )
         ),
@@ -10078,7 +10095,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
                     # in which the subprogram is declared.
                     ds.as_entity.parent.cast(T.PackageBody).then(
                         lambda pbody: env.bind(
-                            pbody.initial_env,
+                            pbody.default_initial_env,
                             pbody.package_previous_part
                             .cast(T.BasePackageDecl).node
                         )
@@ -11242,12 +11259,12 @@ class CompilationUnit(AdaNode):
             Cond(
                 Self.body.is_a(T.Subunit), Self.std_env,
 
-                n.is_null, Self.initial_env,
+                n.is_null, Self.default_initial_env,
 
                 # If self is Standard package, then register self in the root
                 # env.
                 n.name.is_a(T.BaseId) & (n.name_is('Standard')),
-                Self.initial_env,
+                Self.default_initial_env,
 
                 Self.std_env
             )
@@ -11293,7 +11310,7 @@ class BaseSubpBody(Body):
         call_env_hook(Self),
 
         set_initial_env(
-            env.bind(Self.initial_env, Entity.body_scope(False)),
+            env.bind(Self.default_initial_env, Entity.body_scope(False)),
         ),
 
         # Add the body to its own parent env, if it's not the body of a stub
@@ -11303,7 +11320,8 @@ class BaseSubpBody(Body):
             .then(lambda _: new_env_assoc(
                 Entity.name_symbol,
                 Self,
-                dest_env=env.bind(Self.initial_env, Entity.body_scope(False))
+                dest_env=env.bind(Self.default_initial_env,
+                                  Entity.body_scope(False))
             ).singleton),
         ),
 
@@ -12066,7 +12084,7 @@ class PackageBody(Body):
 
         # Destination env for the __nextpart link
         dest_env=env.bind(
-            Self.initial_env,
+            Self.default_initial_env,
             If(
                 Self.is_subunit,
                 Entity.subunit_stub_env,
@@ -12157,7 +12175,7 @@ class TaskBody(Body):
         scope_expr=Entity.body_scope(True),
 
         dest_env=env.bind(
-            Self.initial_env,
+            Self.default_initial_env,
 
             If(Self.is_subunit,
                Entity.subunit_stub_env,
@@ -12200,7 +12218,7 @@ class ProtectedBody(Body):
         scope_expr=Entity.body_scope(True),
 
         dest_env=env.bind(
-            Self.initial_env,
+            Self.default_initial_env,
             If(Self.is_subunit,
                Entity.subunit_stub_env,
                Entity.body_scope(False, True)

@@ -74,46 +74,27 @@ def env_get_first(env, symbol, lookup=None, from_node=No(T.AdaNode),
     )
 
 
-def new_metadata(**kwargs):
-    """
-    Constructor for Metadata. Waiting on default values for structs.
-    """
-    source = None
-    if "source" in kwargs:
-        source = kwargs["source"]
-        del kwargs["source"]
-
-    vals = [
-        ("dottable_subp", False),
-        ("primitive", No(T.AdaNode)),
-        ("primitive_real_type", No(T.AdaNode)),
-        ("access_entity", False),
-    ]
-
-    for k, v in vals:
-        if k not in kwargs:
-            kwargs[k] = v if not source else getattr(source, k)
-
-    return T.Metadata.new(**kwargs)
-
-
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
         Bool, doc="Whether the stored element is a subprogram accessed through"
-                  " the dot notation"
+                  " the dot notation",
+        default_value=False
     )
     access_entity = UserField(
         Bool,
-        doc="Whether the accessed entity is an anonymous access to it or not."
+        doc="Whether the accessed entity is an anonymous access to it or not.",
+        default_value=False
     )
     primitive = UserField(
         T.AdaNode,
-        doc="The type for which this subprogram is a primitive, if any"
+        doc="The type for which this subprogram is a primitive, if any",
+        default_value=No(T.AdaNode)
     )
     primitive_real_type = UserField(
         T.AdaNode,
-        doc="The type for which this subprogram is a primitive, if any"
+        doc="The type for which this subprogram is a primitive, if any",
+        default_value=No(T.AdaNode)
     )
 
 
@@ -248,7 +229,7 @@ class AdaNode(ASTNode):
         Return Self as an entity, but with the ``access_entity`` field set to
         val. Helper for the 'Unrestricted_Access machinery.
         """
-        new_md = Var(new_metadata(source=Entity.info.md, access_entity=val))
+        new_md = Var(Entity.info.md.update(access_entity=val))
 
         return AdaNode.entity.new(
             node=Entity.node, info=T.entity_info.new(
@@ -315,7 +296,7 @@ class AdaNode(ASTNode):
                     # its rebindings.
                     rebindings=x.info.rebindings.get_parent,
                     from_rebound=x.info.from_rebound,
-                    md=new_metadata()
+                    md=T.Metadata.new()
                 )
             ),
             lambda _: x
@@ -4199,7 +4180,7 @@ class TypeDecl(BaseTypeDecl):
         with the adjusted `primitive_real_type` metadata field.
         """
         return Entity.primitives_envs(include_self=include_self).env_group(
-            with_md=new_metadata(
+            with_md=T.Metadata.new(
                 primitive_real_type=Entity.primitive_type_accessor
             )
         )
@@ -5551,7 +5532,7 @@ class BasicSubpDecl(BasicDecl):
                     dest_env=t.children_env,
                     # We pass custom metadata, marking the entity as a dottable
                     # subprogram.
-                    metadata=new_metadata(dottable_subp=True)
+                    metadata=T.Metadata.new(dottable_subp=True)
                 )
             ),
         ),
@@ -5562,7 +5543,7 @@ class BasicSubpDecl(BasicDecl):
                 lambda t: new_env_assoc(
                     key=Entity.name_symbol, val=Self,
                     dest_env=t.cast_or_raise(T.TypeDecl).primitives,
-                    metadata=new_metadata(primitive=t.node)
+                    metadata=T.Metadata.new(primitive=t.node)
                 ),
                 lambda t: t.is_a(T.TypeDecl)
             )
@@ -9794,7 +9775,7 @@ class EnumLiteralDecl(BasicSubpDecl):
         add_to_env_kv(
             Self.name_symbol, Self,
             dest_env=Entity.enum_type.primitives,
-            metadata=new_metadata(primitive=Entity.enum_type.node)
+            metadata=T.Metadata.new(primitive=Entity.enum_type.node)
         )
     )
 
@@ -11362,7 +11343,7 @@ class BaseSubpBody(Body):
                     dest_env=t.children_env,
                     # We pass custom metadata, marking the entity as a dottable
                     # subprogram.
-                    metadata=new_metadata(dottable_subp=True)
+                    metadata=T.Metadata.new(dottable_subp=True)
                 )
             ),
         ),
@@ -11373,7 +11354,7 @@ class BaseSubpBody(Body):
                 lambda t: new_env_assoc(
                     key=Entity.name_symbol, val=Self,
                     dest_env=t.cast_or_raise(T.TypeDecl).primitives,
-                    metadata=new_metadata(primitive=t.node)
+                    metadata=T.Metadata.new(primitive=t.node)
                 ),
                 lambda t: t.is_a(T.TypeDecl)
             )

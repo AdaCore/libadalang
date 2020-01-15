@@ -118,10 +118,6 @@ class Manage(ManageScript):
             grammar=ada_grammar,
             default_charset='iso-8859-1',
             verbosity=args.verbosity,
-            env_hook_subprogram=LibraryEntity(
-                'Libadalang.Env_Hooks',
-                'Env_Hook'
-            ),
             default_unit_provider=LibraryEntity(
                 'Libadalang.Internal_Default_Provider', 'Create'
             ),

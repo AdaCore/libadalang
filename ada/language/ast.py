@@ -7,8 +7,8 @@ from langkit.dsl import (
     env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, call_env_hook, do,
-    handle_children, reference, set_initial_env
+    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, do, handle_children,
+    reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
@@ -1076,6 +1076,24 @@ class AdaNode(ASTNode):
         """
         return If(Self.in_prepost, No(T.AdaNode), Self)
 
+    @langkit_property()
+    def env_hook():
+        """
+        Hook for the EnvSpec of units.
+
+        Return value is not significant: the only purpose of this property lies
+        in its side effects.
+        """
+        return Self.parent.match(
+            lambda _=T.LibraryItem: Self.match(
+                lambda b=T.Body: b.env_hook_body,
+                lambda bd=T.BasicDecl: bd.env_hook_basic_decl,
+                lambda _: False,
+            ),
+            lambda su=T.Subunit: su.env_hook_subunit,
+            lambda _: False,
+        )
+
 
 class DocAnnotation(Struct):
     """
@@ -1102,6 +1120,27 @@ class BasicDecl(AdaNode):
     Root class for an Ada declaration (RM 3.1). A declaration associates a name
     with a language entity, for example a type or a variable.
     """
+
+    @langkit_property()
+    def env_hook_basic_decl():
+        """
+        Helper for AdaNode.env_hook. Handle library-level unit decl nodes.
+        """
+        return If(
+            # For library-level subprogram/package declarations, process the
+            # parent spec.
+            Self.is_a(T.PackageDecl, T.BasicSubpDecl, T.PackageRenamingDecl,
+                      T.GenericPackageDecl, T.GenericPackageInstantiation,
+                      T.GenericSubpInstantiation, T.GenericSubpDecl,
+                      T.SubpBody),
+            Self.as_bare_entity.defining_name.name.cast(T.DottedName).then(
+                lambda dn:
+                Self.get_unit(dn.prefix.as_symbol_array,
+                              UnitSpecification,
+                              load_if_needed=True).then(lambda _: False)
+            ),
+            False
+        )
 
     is_formal = Property(
         Self.parent.is_a(T.GenericFormal),
@@ -1949,6 +1988,33 @@ class Body(BasicDecl):
     Base class for an Ada body (RM 3.11). A body is the completion of a
     declaration.
     """
+
+    @langkit_property()
+    def env_hook_body():
+        """
+        Helper for the AdaNode.env_hook. Handle library-level unit body nodes.
+        """
+        return If(
+            # If this a library-level subprogram/package body, load the spec
+            # corresponding to this body.
+            Self.is_a(T.PackageBody, T.SubpBody),
+
+            Let(
+                lambda _=Self.get_unit(
+                    Self.as_bare_entity.defining_name.as_symbol_array,
+                    UnitSpecification,
+                    load_if_needed=True
+                ):
+
+                # A library level subprogram body does not have to have a spec.
+                # So we have to compute the parents directly from here.
+                Self.cast(T.SubpBody).then(
+                    lambda subp_body: subp_body.env_hook_basic_decl
+                )
+            ),
+
+            False,
+        )
 
     @langkit_property()
     def subunit_stub_env():
@@ -5468,7 +5534,7 @@ class BasicSubpDecl(BasicDecl):
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         set_initial_env(
             env.bind(Self.default_initial_env, Entity.decl_scope)
@@ -6115,7 +6181,7 @@ class PackageDecl(BasePackageDecl):
     Non-generic package declarations.
     """
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Entity.decl_scope))),
         add_to_env(Self.env_assoc(
@@ -6300,7 +6366,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     )
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         set_initial_env(
             env.bind(Self.default_initial_env, Let(
@@ -6420,7 +6486,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         set_initial_env(env.bind(
             Self.default_initial_env,
@@ -6506,7 +6572,7 @@ class PackageRenamingDecl(BasicDecl):
         )
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Entity.name.parent_scope))),
         add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
@@ -6567,7 +6633,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     renaming_name = Property(Entity.renames)
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Self.name.parent_scope))),
         add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
@@ -6601,7 +6667,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     Declaration for a generic subprogram renaming.
     """
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Self.name.parent_scope))),
         add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
@@ -6769,7 +6835,7 @@ class GenericSubpDecl(GenericDecl):
 
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         set_initial_env(
             env.bind(Self.default_initial_env, Entity.decl_scope)
@@ -6813,7 +6879,7 @@ class GenericPackageDecl(GenericDecl):
     Generic package declaration.
     """
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Entity.decl_scope))),
         add_to_env(Self.env_assoc(
@@ -11354,7 +11420,7 @@ class BaseSubpBody(Body):
         return Entity.subp_spec_or_null._.return_type
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         set_initial_env(
             env.bind(Self.default_initial_env, Entity.body_scope(False)),
@@ -12124,7 +12190,7 @@ class PackageBody(Body):
     """
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
 
         # Parent link is the package's decl, or private part if there is one
         set_initial_env(env.bind(
@@ -12237,7 +12303,7 @@ class TaskBody(Body):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Entity.body_scope(True)))),
         add_to_env(Self.env_assoc(
@@ -12293,7 +12359,7 @@ class ProtectedBody(Body):
     """
 
     env_spec = EnvSpec(
-        call_env_hook(Self),
+        do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
                                  Self.initial_env(Entity.body_scope(True)))),
         add_to_env(Self.env_assoc(
@@ -12391,6 +12457,17 @@ class Subunit(AdaNode):
 
     name = Field(type=T.Name)
     body = Field(type=T.Body)
+
+    @langkit_property()
+    def env_hook_subunit():
+        """
+        Helper for AdaNode.env_hook. Handle sub-units (separates).
+        """
+        # Subunit handling is very simple: we just want to fetch the containing
+        # unit.
+        return Self.get_unit(Self.name.as_symbol_array,
+                             UnitBody,
+                             load_if_needed=True).then(lambda _: False)
 
     @langkit_property(public=True)
     def body_root():

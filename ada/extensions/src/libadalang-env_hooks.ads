@@ -60,9 +60,4 @@ private package Libadalang.Env_Hooks is
    --  Create the "Standard" analysis unit in Context. This unit will be called
    --  "__standard".
 
-   procedure Env_Hook (Unit : Internal_Unit; Node : Bare_Ada_Node);
-   --  Callback for the lexical environment hook. Fetch the analysis units
-   --  that are designated by Node. Node is assumed to be a list of names
-   --  coming from a With_Decl node.
-
 end Libadalang.Env_Hooks;

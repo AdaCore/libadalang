@@ -50,30 +50,6 @@ def default_imprecise_fallback():
     return (imprecise_fallback, False)
 
 
-def env_get(env, symbol, lookup=None, from_node=No(T.AdaNode),
-            categories=None):
-    """
-    Wrapper for env.get. Refines from_node so that it starts from the closest
-    BasicSubpDecl / GenericInstantiation.
-    (see AdaNode.env_get_real_from_node).
-    """
-    return env.get(
-        symbol, lookup, Self.env_get_real_from_node(from_node), categories
-    )
-
-
-def env_get_first(env, symbol, lookup=None, from_node=No(T.AdaNode),
-                  categories=None):
-    """
-    Wrapper for env.get_first. Refines from_node so that it starts from the
-    closest BasicSubpDecl / GenericInstantiation.
-    (see AdaNode.env_get_real_from_node).
-    """
-    return env.get_first(
-        symbol, lookup, Self.env_get_real_from_node(from_node), categories
-    )
-
-
 @env_metadata
 class Metadata(Struct):
     dottable_subp = UserField(
@@ -1093,6 +1069,39 @@ class AdaNode(ASTNode):
             lambda su=T.Subunit: su.env_hook_subunit,
             lambda _: False,
         )
+
+    @langkit_property()
+    def env_get(
+        env=T.LexicalEnv,
+        symbol=T.Symbol,
+        lookup=(T.LookupKind, LK.recursive),
+        from_node=(T.AdaNode, No(T.AdaNode)),
+        categories=(T.RefCategories, RefCategories(default=True))
+    ):
+        """
+        Wrapper for ``env.get``. Refine ``from_node`` so that it starts from
+        the closest ``BasicSubpDecl``/``GenericInstantiation``. (see
+        ``AdaNode.env_get_real_from_node``).
+        """
+        return env.get(symbol, lookup, Self.env_get_real_from_node(from_node),
+                       categories)
+
+    @langkit_property()
+    def env_get_first(
+        env=T.LexicalEnv,
+        symbol=T.Symbol,
+        lookup=(T.LookupKind, LK.recursive),
+        from_node=(T.AdaNode, No(T.AdaNode)),
+        categories=(T.RefCategories, RefCategories(default=True))
+    ):
+        """
+        Wrapper for ``env.get_first``. Refine ``from_node`` so that it starts
+        from the closest ``BasicSubpDecl``/``GenericInstantiation``. (see
+        ``AdaNode.env_get_real_from_node``).
+        """
+        return env.get_first(symbol, lookup,
+                             Self.env_get_real_from_node(from_node),
+                             categories)
 
 
 class DocAnnotation(Struct):
@@ -3803,8 +3812,8 @@ class BaseTypeDecl(BasicDecl):
         return Self.name.then(
             lambda type_name:
 
-            env_get(Entity.children_env, type_name.name_symbol,
-                    from_node=Self, categories=noprims)
+            Self.env_get(Entity.children_env, type_name.name_symbol,
+                         from_node=Self, categories=noprims)
             .then(lambda previous_parts: previous_parts.find(lambda pp: Or(
                 And(Entity.is_in_private_part,
                     pp.cast(T.BaseTypeDecl)._.is_private),
@@ -8100,7 +8109,7 @@ class Name(Expr):
             lambda i=T.BaseId: If(
                 all_els & Self.is_suffix,
                 i.ref_var.domain(
-                    env_get(
+                    Self.env_get(
                         env,
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
@@ -8109,7 +8118,7 @@ class Name(Expr):
                 ),
                 Bind(
                     i.ref_var,
-                    env_get_first(
+                    Self.env_get_first(
                         env,
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
@@ -9191,9 +9200,9 @@ class SingleTokNode(Name):
         Like env.get_first, but returning the first visible element in the Ada
         sense.
         """
-        return env_get(
+        return Self.env_get(
             lex_env,
-            Self,
+            Self.symbol,
             lookup=lookup_type,
             from_node=from_node,
             categories=noprims
@@ -9594,8 +9603,8 @@ class BaseId(SingleTokNode):
         # We might have a more complete view of the type at the origin point,
         # so look for every entity named like the type, to see if any is a
         # completer view of the type.
-        completer_view = Var(origin.then(lambda o: env_get(
-            o.children_env, Self, from_node=origin, categories=noprims
+        completer_view = Var(origin.then(lambda o: Self.env_get(
+            o.children_env, Self.symbol, from_node=origin, categories=noprims
         )).filtermap(
             lambda n: n.cast(BaseTypeDecl),
             lambda n:
@@ -9618,7 +9627,7 @@ class BaseId(SingleTokNode):
     @langkit_property()
     def all_env_els_impl(seq=(Bool, True),
                          seq_from=(AdaNode, No(T.AdaNode))):
-        return env_get(
+        return Self.env_get(
             env,
             Self.name_symbol,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
@@ -9632,9 +9641,9 @@ class BaseId(SingleTokNode):
         Decoupled implementation for env_elements_impl, specifically used by
         designated_env when the parent is a library level package.
         """
-        items = Var(env_get(
+        items = Var(Self.env_get(
             env,
-            Self,
+            Self.symbol,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
             # If we are in an aspect, then lookup is not sequential.
             # TODO: The fact that this is here is ugly, and also the logic is

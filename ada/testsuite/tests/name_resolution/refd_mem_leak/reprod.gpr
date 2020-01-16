@@ -1,0 +1,6 @@
+with "libadalang";
+
+project Reprod is
+for main use ("reprod.adb");
+for object_dir use "obj";
+end Reprod;

@@ -13,7 +13,7 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, Self, String, Try, Var, ignore,
+    Or, Property, PropertyError, RefCategories, Self, String, Try, Var, ignore,
     langkit_property, new_env_assoc
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
@@ -26,7 +26,7 @@ imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
-noprims = {'inherited_primitives': False, 'others': True}
+noprims = RefCategories(inherited_primitives=False, default=True)
 
 
 class FindAllMode(Enum):

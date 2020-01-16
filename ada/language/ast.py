@@ -9184,7 +9184,9 @@ class SingleTokNode(Name):
         return Self.sym
 
     @langkit_property()
-    def env_get_first(lex_env=LexicalEnv, lookup_type=LK, from_node=T.AdaNode):
+    def env_get_first_visible(lex_env=LexicalEnv,
+                              lookup_type=LK,
+                              from_node=T.AdaNode):
         """
         Like env.get_first, but returning the first visible element in the Ada
         sense.
@@ -9414,7 +9416,7 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def designated_env_no_overloading():
-        return Var(Self.env_get_first(
+        return Var(Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(Self.in_prepost, No(T.AdaNode), Self)
@@ -9434,7 +9436,7 @@ class BaseId(SingleTokNode):
             lambda p: p.is_a(GenericPackageInstantiation)
         ))
 
-        env_el = Var(Self.env_get_first(
+        env_el = Var(Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(Self.in_prepost, No(T.AdaNode), Self),
@@ -9555,7 +9557,7 @@ class BaseId(SingleTokNode):
             )
 
         # This is the view of the type where it is referenced
-        des_type_1 = Var(Self.env_get_first(
+        des_type_1 = Var(Self.env_get_first_visible(
             env,
             from_node=Self,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
@@ -9564,7 +9566,7 @@ class BaseId(SingleTokNode):
         ))
 
         # This is the view of the type where it is used
-        des_type_2 = Var(Self.env_get_first(
+        des_type_2 = Var(Self.env_get_first_visible(
             env,
             from_node=origin,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),

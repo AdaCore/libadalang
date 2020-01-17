@@ -29,7 +29,15 @@ private package Libadalang.Env_Hooks is
 
    type Symbol_Type_Array is array (Positive range <>) of Symbol_Type;
 
-   function Name_To_Symbols (Name : Bare_Name) return Symbol_Type_Array;
+   subtype Defining_Name_Nodes is Ada_Node_Kind_Type with Static_Predicate =>
+      Defining_Name_Nodes in Ada_Base_Id | Ada_Dotted_Name | Ada_Defining_Name;
+   --  Nodes that can appear inside a defining name. These are produced by the
+   --  "simple_name" grammar rule, so by construction, it is not possible to
+   --  get other nodes.
+
+   function Name_To_Symbols (Name : Bare_Name) return Symbol_Type_Array
+      with Pre => Name = null or else Name.Kind in Defining_Name_Nodes;
+   --  Turn a simple name into the corresponding array of symbols
 
    function Fetch_Unit
      (Ctx                : Internal_Context;

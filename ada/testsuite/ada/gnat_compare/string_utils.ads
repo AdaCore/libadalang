@@ -1,12 +1,10 @@
-with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNAT.Strings; use GNAT.Strings;
 
-package String_Utils is
+with Libadalang.Helpers;
 
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
+package String_Utils is
 
    function "+" (S : String) return Unbounded_String
                     renames To_Unbounded_String;
@@ -57,6 +55,6 @@ package String_Utils is
    --  Determine whether C appears in Set
 
    function To_String_List
-     (Strings : String_Vectors.Vector) return String_List;
+     (Strings : Libadalang.Helpers.String_Vectors.Vector) return String_List;
 
 end String_Utils;

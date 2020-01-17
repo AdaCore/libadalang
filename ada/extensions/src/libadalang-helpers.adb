@@ -53,9 +53,6 @@ package body Libadalang.Helpers is
    package String_Queues is new Ada.Containers.Unbounded_Synchronized_Queues
      (String_QI);
 
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
-
    -----------------
    -- Print_Error --
    -----------------
@@ -465,6 +462,9 @@ package body Libadalang.Helpers is
                List_Sources_From_Project (Project.all, Files);
             end if;
 
+            --  Fill in the provider
+            App_Ctx.Provider := (Kind => Project_File, Project => Project);
+
          elsif Args.Auto_Dirs.Get'Length > 0 then
             --  The auto provider is requested: initialize it with the given
             --  directories. Also build the list of source files to process.
@@ -487,6 +487,18 @@ package body Libadalang.Helpers is
                      Files.Append (To_Unbounded_String (+F.Full_Name));
                   end loop;
                end if;
+
+               --  Fill in the provider
+               App_Ctx.Provider := (Kind => Auto_Dir, others => <>);
+               for D of Dirs loop
+                  App_Ctx.Provider.Dirs.Append
+                    (To_Unbounded_String (+D.Full_Name));
+               end loop;
+               for F of Found_Files.all loop
+                  App_Ctx.Provider.Dirs.Append
+                    (To_Unbounded_String (+F.Full_Name));
+               end loop;
+
                Unchecked_Free (Found_Files);
             end;
 
@@ -494,7 +506,8 @@ package body Libadalang.Helpers is
             declare
                Dummy : Boolean := Files_From_Args (Files);
             begin
-               null;
+               --  Fill in the provider
+               App_Ctx.Provider := (Kind => Default);
             end;
          end if;
 
@@ -505,7 +518,6 @@ package body Libadalang.Helpers is
 
          --  Initialize contexts
 
-         App_Ctx := (Project => Project);
          Job_Contexts := new App_Job_Context_Array'
            (1 .. Job_ID (Args.Jobs.Get) =>
             (App_Ctx => App_Ctx'Unchecked_Access, others => <>));

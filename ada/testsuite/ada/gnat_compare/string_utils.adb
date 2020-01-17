@@ -1,3 +1,5 @@
+with Ada.Containers.Vectors;
+
 package body String_Utils is
 
    -----------
@@ -91,7 +93,7 @@ package body String_Utils is
    --------------------
 
    function To_String_List
-     (Strings : String_Vectors.Vector) return String_List
+     (Strings : Libadalang.Helpers.String_Vectors.Vector) return String_List
    is
       Result : String_List (1 .. Strings.Last_Index);
    begin

@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+input_sources: [test.adb]
+argv: [-Pp.gpr, --target=nosuchtarget-elf, test.adb]

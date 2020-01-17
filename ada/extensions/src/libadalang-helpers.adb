@@ -102,10 +102,11 @@ package body Libadalang.Helpers is
       end Abortion;
 
       procedure Load_Project
-        (Project_File  : String;
-         Scenario_Vars : Args.Scenario_Vars.Result_Array;
-         Project       : out Project_Tree_Access;
-         Env           : out Project_Environment_Access);
+        (Project_File             : String;
+         Scenario_Vars            : Args.Scenario_Vars.Result_Array;
+         Target, RTS, Config_File : String;
+         Project                  : out Project_Tree_Access;
+         Env                      : out Project_Environment_Access);
       --  Load Project_File using the given scenario variables
 
       function Project_To_Provider
@@ -164,10 +165,11 @@ package body Libadalang.Helpers is
       ------------------
 
       procedure Load_Project
-        (Project_File  : String;
-         Scenario_Vars : Args.Scenario_Vars.Result_Array;
-         Project       : out Project_Tree_Access;
-         Env           : out Project_Environment_Access) is
+        (Project_File             : String;
+         Scenario_Vars            : Args.Scenario_Vars.Result_Array;
+         Target, RTS, Config_File : String;
+         Project                  : out Project_Tree_Access;
+         Env                      : out Project_Environment_Access) is
       begin
          Trace.Trace ("Loading project " & Project_File);
          Project := new Project_Tree;
@@ -192,6 +194,16 @@ package body Libadalang.Helpers is
                   A (Eq_Index + 1 .. A'Last));
             end;
          end loop;
+
+         --  Set the target/runtime or use the config file
+         if Config_File = "" then
+            Env.Set_Target_And_Runtime (Target, RTS);
+            Env.Set_Automatic_Config_File;
+         elsif Target /= "" or else RTS /= "" then
+            Abort_App ("--config not allowed if --target or --RTS are passed");
+         else
+            Env.Set_Config_File (Create (+Config_File));
+         end if;
 
          --  Load the project tree, and beware of loading errors. Wrap
          --  the project in a unit provider.
@@ -443,6 +455,9 @@ package body Libadalang.Helpers is
             Load_Project
               (Project_File  => +Args.Project_File.Get,
                Scenario_Vars => Args.Scenario_Vars.Get,
+               Target        => +Args.Target.Get,
+               RTS           => +Args.RTS.Get,
+               Config_File   => +Args.Config_File.Get,
                Project       => Project,
                Env           => Env);
             UFP := Project_To_Provider (Project);

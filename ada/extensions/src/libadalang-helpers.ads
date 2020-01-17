@@ -158,17 +158,38 @@ package Libadalang.Helpers is
             Unbounded_String,
             Default_Val => To_Unbounded_String ("iso-8859-1"));
 
+         package Project_File is new Parse_Option
+           (Parser, "-P", "--project",
+            Arg_Type    => Unbounded_String,
+            Default_Val => Null_Unbounded_String,
+            Help        => "Project file to use");
+
          package Scenario_Vars is new Parse_Option_List
            (Parser, Short => "-X", Long => "--scenario-variable",
             Arg_Type      => Unbounded_String,
             Accumulate    => True,
             Help          => "Scenario variables to pass to the project file");
 
-         package Project_File is new Parse_Option
-           (Parser, "-P", "--project",
-            Arg_Type    => Unbounded_String,
-            Default_Val => Null_Unbounded_String,
-            Help        => "Project file to use");
+         package Target is new Parse_Option
+           (Parser, Long => "--target",
+            Arg_Type      => Unbounded_String,
+            Default_Val   => Null_Unbounded_String,
+            Help          => "Name of the target to use when loading the"
+                             & " project");
+
+         package RTS is new Parse_Option
+           (Parser, Long => "--RTS",
+            Arg_Type      => Unbounded_String,
+            Default_Val   => Null_Unbounded_String,
+            Help          => "Name of the runtime (RTS) to use when loading"
+                             & " the project");
+         package Config_File is new Parse_Option
+           (Parser, Long => "--config",
+            Arg_Type      => Unbounded_String,
+            Default_Val   => Null_Unbounded_String,
+            Help          => "Name of the configuration project file. If"
+                             & " passed, thid file must exist and neither"
+                             & " --target, nor --RTS must be passed.");
 
          package Auto_Dirs is new Parse_Option_List
            (Parser, "-A", "--auto-dir",

@@ -38,11 +38,6 @@ package Libadalang.Unit_Files is
    --  /the_gnat_compilation_model.html#file-naming-rules> for more details. It
    --  also assumes these sources use GNAT's default native runtime.
 
-   function Unit_Text_Name (N : LAL.Name) return Text_Type;
-   --  Turn the name of an unit represented as a Name node into a textual name.
-   --  For instance: "Foo.Bar". Raise a Property_Error if a Property_Error if N
-   --  is not a valid unit name.
-
    function Unit_String_Name (Name : Text_Type) return String;
    --  Return Name after lowering its case and encoding it appropriately for
    --  the file system.
@@ -50,15 +45,5 @@ package Libadalang.Unit_Files is
    function File_From_Unit
      (Name : Text_Type; Kind : Analysis_Unit_Kind) return String;
    --  Convert an unit name and unit kind into the default filename
-
-   function Spec_File_Name (Name : Text_Type) return String is
-     (File_From_Unit (Name, Unit_Specification));
-   --  Convert an unit name string into the default filename we expect for its
-   --  specification. For instance, this turns "Foo.Bar" into "foo-bar.ads".
-
-   function Body_File_Name (Name : Text_Type) return String is
-     (File_From_Unit (Name, Unit_Body));
-   --  Convert an unit name string into the default filename we expect for its
-   --  body. For instance, this turns "Foo.Bar" into "foo-bar.adb".
 
 end Libadalang.Unit_Files;

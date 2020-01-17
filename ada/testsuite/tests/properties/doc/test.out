@@ -26,6 +26,14 @@ Annotations:
   * belongs-to = Bar
   * other-annotation = False
 
+Test double annotation
+======================
+
+
+
+Annotations:
+  * a = Bar
+
 Test whitespace stripping
 =========================
 

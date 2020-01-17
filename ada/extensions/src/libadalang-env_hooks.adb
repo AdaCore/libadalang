@@ -181,7 +181,7 @@ package body Libadalang.Env_Hooks is
          raise Property_Error with "fatal parsing error in Name_To_Symbols";
       end if;
 
-      case Name.Kind is
+      case Defining_Name_Nodes (Name.Kind) is
          when Ada_Base_Id =>
             return (1 => Get_Symbol (Name));
 
@@ -191,9 +191,6 @@ package body Libadalang.Env_Hooks is
 
          when Ada_Defining_Name =>
             return Name_To_Symbols (Name.Defining_Name_F_Name);
-
-         when others =>
-            return (raise Property_Error with "Wrong node in Name_To_Symbols");
       end case;
    end Name_To_Symbols;
 

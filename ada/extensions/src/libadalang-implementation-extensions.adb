@@ -389,8 +389,8 @@ package body Libadalang.Implementation.Extensions is
             return "None";
          end if;
 
-         case Ada_Expr (Node.Kind) is
-            when Ada_Single_Tok_Node =>
+         case Env_Hooks.Defining_Name_Nodes (Node.Kind) is
+            when Ada_Base_Id =>
                return Text (Node);
 
             when Ada_Dotted_Name =>
@@ -399,9 +399,6 @@ package body Libadalang.Implementation.Extensions is
 
             when Ada_Defining_Name =>
                return Name_Image (Node.Defining_Name_F_Name);
-
-            when others =>
-               return "<>";
          end case;
       end Name_Image;
 

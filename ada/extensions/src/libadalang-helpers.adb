@@ -447,6 +447,10 @@ package body Libadalang.Helpers is
 
          Trace.Increase_Indent ("Setting up the unit provider");
          if Length (Args.Project_File.Get) > 0 then
+            if Args.Auto_Dirs.Get'Length /= 0 then
+               Abort_App ("--auto-dir conflicts with -P");
+            end if;
+
             --  Handle project file and build the list of source files to
             --  process.
             Load_Project
@@ -466,12 +470,16 @@ package body Libadalang.Helpers is
             App_Ctx.Provider := (Kind => Project_File, Project => Project);
 
          elsif Args.Auto_Dirs.Get'Length > 0 then
+            if Args.Project_File.Get /= Null_Unbounded_String then
+               Abort_App ("-P conflicts with --auto-dir");
+            end if;
+
             --  The auto provider is requested: initialize it with the given
             --  directories. Also build the list of source files to process.
             declare
-               Auto_Dirs  : Args.Auto_Dirs.Result_Array renames
+               Auto_Dirs   : Args.Auto_Dirs.Result_Array renames
                   Args.Auto_Dirs.Get;
-               Dirs       : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
+               Dirs        : GNATCOLL.VFS.File_Array (Auto_Dirs'Range);
                Found_Files : GNATCOLL.VFS.File_Array_Access;
             begin
                for I in Dirs'Range loop
@@ -509,6 +517,17 @@ package body Libadalang.Helpers is
                --  Fill in the provider
                App_Ctx.Provider := (Kind => Default);
             end;
+         end if;
+
+         --  Make sure project-specific options are used only with -P
+         if App_Ctx.Provider.Kind /= Project_File then
+            if Args.Target.Get /= Null_Unbounded_String then
+               Abort_App ("--target requires -P");
+            elsif Args.RTS.Get /= Null_Unbounded_String then
+               Abort_App ("--RTS requires -P");
+            elsif Args.Config_File.Get /= Null_Unbounded_String then
+               Abort_App ("--config requires -P");
+            end if;
          end if;
 
          if Files.Is_Empty then

@@ -393,8 +393,8 @@ class AdaNode(ASTNode):
                  load_if_needed=Bool):
         """
         Return the analysis unit for the given ``kind`` corresponding to this
-        Name. Return null if this is an illegal unit name, or if
-        ``load_if_needed`` is false and the unit is not loaded yet.
+        Name. Return null if ``load_if_needed`` is false and the unit is not
+        loaded yet.
         """
         pass
 

@@ -58,32 +58,6 @@ package body Libadalang.Unit_Files is
         (Project, Project.Root_Project, Env, True);
    end Default_Provider;
 
-   --------------------
-   -- Unit_Text_Name --
-   --------------------
-
-   function Unit_Text_Name (N : LAL.Name) return Text_Type is
-   begin
-      if N.Kind = Ada_Identifier then
-         return N.Text;
-
-      elsif N.Kind = Ada_Dotted_Name then
-         declare
-            DN : constant LAL.Dotted_Name := N.As_Dotted_Name;
-         begin
-            if DN.F_Prefix.Kind in Ada_Name
-               and then DN.F_Suffix.Kind = Ada_Identifier
-            then
-               return (Unit_Text_Name (DN.F_Prefix.As_Name)
-                       & "."
-                       & Unit_Text_Name (DN.F_Suffix.As_Name));
-            end if;
-         end;
-      end if;
-
-      raise Property_Error with "invalid AST node for unit name";
-   end Unit_Text_Name;
-
    ----------------------
    -- Unit_String_Name --
    ----------------------

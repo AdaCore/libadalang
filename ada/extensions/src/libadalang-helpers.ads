@@ -85,9 +85,30 @@ package Libadalang.Helpers is
    --
    --  * Automatic command line option parser, with descriptive help.
    --
-   --  As a user, all you have to do is to provide a ``Process_Unit``
-   --  procedure, that will process one unit out of the set of units
-   --  to process.
+   --  As an application author, all you have to do is to provide a
+   --  ``Process_Unit`` procedure, that will process one unit out of the set of
+   --  units to process. Users then have several options in order to run
+   --  applications:
+   --
+   --  * Run it with project-related options (at least ``-P``): by default, the
+   --    app will process all units that belong to the root project that is
+   --    passed. If the user passes at least one file name as additional
+   --    command-line arguments, the app will process only these units.
+   --
+   --  * Run it with one or several ``--auto-dir`` options. In this case, the
+   --    app will consider all Ada sources present in the given directories,
+   --    and will call ``Process_Unit`` on all of them, unless the user passes
+   --    one file name as additional command-line arguments: the app will
+   --    process only these units.
+   --
+   --  * Just pass at least one file name on the command-line. In this case,
+   --    the app will consider only Ada sources in the current directory and
+   --    process only files passed on the command-line.
+   --
+   --  Note that name resolution in Ada units requires the app to know where
+   --  the sources are located: this is automatic when loading a project file,
+   --  but just passing files on the command-line is not enough if all source
+   --  files are not in the current directory.
    generic
       Name : String;
       --  Name for the application. Used to create the GNATCOLL trace.

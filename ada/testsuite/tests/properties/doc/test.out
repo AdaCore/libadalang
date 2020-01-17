@@ -1,25 +1,22 @@
 Test that there is no crash when doc is missing
 ===============================================
 
-
+Doc: ''
 
 Test that we can extract doc before the prelude
 ===============================================
 
-Documentation for the package
-Bla bla bla
+Doc: 'Documentation for the package\nBla bla bla'
 
 Test that we can extract doc after the prelude
 ==============================================
 
-Documentation for the package
-
-Bla bla bla
+Doc: 'Documentation for the package\n\nBla bla bla'
 
 Test annotation extraction
 ==========================
 
-This is the documentation for foo
+Doc: 'This is the documentation for foo'
 
 Annotations:
   * random-annotation = True
@@ -29,7 +26,7 @@ Annotations:
 Test double annotation
 ======================
 
-
+Doc: ''
 
 Annotations:
   * a = Bar
@@ -37,8 +34,7 @@ Annotations:
 Test whitespace stripping
 =========================
 
- This is the documentation for foo
-Weirdly formatted
+Doc: ' This is the documentation for foo\nWeirdly formatted'
 
 Annotations:
   * random-annotation = True
@@ -48,22 +44,22 @@ Annotations:
 Test toplevel package without token before "package"
 ====================================================
 
-
+Doc: ''
 
 Test resilience to wrong annotation format
 ==========================================
 
-raised LIBADALANG.COMMON.PROPERTY_ERROR : Incorrectly formatted docstring
+Exception: raised LIBADALANG.COMMON.PROPERTY_ERROR : Incorrectly formatted docstring
 
 
 Test generic package doc
 ========================
 
-This is the documentation for package Bar
+Doc: 'This is the documentation for package Bar'
 
 Test internal generic package doc
 =================================
 
-This is the documentation for package Bar
+Doc: 'This is the documentation for package Bar'
 
 test.py: done

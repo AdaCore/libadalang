@@ -33,6 +33,7 @@ with Libadalang.Env_Hooks;
 with Libadalang.Expr_Eval;
 with Libadalang.Public_Converters;
 with Libadalang.Sources;
+with Libadalang.Unit_Files;
 
 --  Extension to store the code for external properties
 
@@ -192,7 +193,7 @@ package body Libadalang.Implementation.Extensions is
             return (1 .. 0 => <>);
          end if;
 
-         case Root.Kind is
+         case Unit_Files.Root_Nodes (Root.Kind) is
             when Ada_Compilation_Unit =>
                return (1 => Bare_Compilation_Unit (Root));
             when Ada_Compilation_Unit_List =>
@@ -207,8 +208,6 @@ package body Libadalang.Implementation.Extensions is
                   end loop;
                   return Res;
                end;
-            when others =>
-               return (1 .. 0 => <>);
          end case;
       end All_Compilation_Units_From;
 

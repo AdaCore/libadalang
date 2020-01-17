@@ -198,18 +198,13 @@ package body Libadalang.Auto_Provider is
                --  contains to our internal mapping.
                --
                --  TODO??? Somehow report parsing errors.
-               case R.Kind is
+               case Unit_Files.Root_Nodes (R.Kind) is
                   when Ada_Compilation_Unit =>
                      Add_Entry (Provider, File, R.As_Compilation_Unit);
                   when Ada_Compilation_Unit_List =>
                      for CU of R.Children loop
                         Add_Entry (Provider, File, CU.As_Compilation_Unit);
                      end loop;
-                  when others =>
-                     --  Ignore anything else: can can't determine what
-                     --  compilation unit this file corresponds to if there is
-                     --  no Compilation_Unit node.
-                     null;
                end case;
             end if;
          end;

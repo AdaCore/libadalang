@@ -36,18 +36,38 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 
 package Libadalang.Helpers is
 
-   package Unit_Vectors is new
-     Ada.Containers.Vectors (Positive, Analysis_Unit);
+   package Unit_Vectors is new Ada.Containers.Vectors
+     (Positive, Analysis_Unit);
+   package String_Vectors is new Ada.Containers.Vectors
+     (Positive, Unbounded_String);
 
    procedure Abort_App (Message : String := "") with No_Return;
    --  If provided, print Message to the standard error output and abort the
    --  current App. This will set the process exit status to Failure (see
    --  Ada.Command_Line).
 
+   --  Method to discover source files to process:
+   --
+   --  * Default (look in the current directory);
+   --  * Project_File (from a GPR project file);
+   --  * Auto_dir (files in a list of directories).
+
+   type Source_Provider_Kind is (Default, Project_File, Auto_Dir);
+   type Source_Provider
+     (Kind : Source_Provider_Kind := Source_Provider_Kind'First) is
+   record
+      case Kind is
+         when Default =>
+            null;
+         when Project_File =>
+            Project : GNATCOLL.Projects.Project_Tree_Access;
+         when Auto_Dir =>
+            Dirs, Found_Files : String_Vectors.Vector;
+      end case;
+   end record;
+
    type App_Context is record
-      Project : GNATCOLL.Projects.Project_Tree_Access;
-      --  If the App loaded a context, this is a reference to it. Null
-      --  otherwise.
+      Provider : Source_Provider;
    end record;
    --  Context information for the whole application
 

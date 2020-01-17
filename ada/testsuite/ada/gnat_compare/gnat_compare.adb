@@ -128,6 +128,9 @@ procedure GNAT_Compare is
    --  resolve all xrefs. Compare both, reporting the differences using the
    --  Report procedure above.
 
+   function Get_Project (Context : App_Job_Context) return Project_Tree_Access;
+   --  If a project file was loaded, return it. Return null otherwise.
+
    -------------
    -- Convert --
    -------------
@@ -153,12 +156,25 @@ procedure GNAT_Compare is
       end return;
    end Convert;
 
+   -----------------
+   -- Get_Project --
+   -----------------
+
+   function Get_Project (Context : App_Job_Context) return Project_Tree_Access
+   is
+      Provider : Source_Provider renames Context.App_Ctx.Provider;
+   begin
+      return (if Provider.Kind = Project_File
+              then Provider.Project
+              else null);
+   end Get_Project;
+
    ---------------
    -- Job_Setup --
    ---------------
 
    procedure Job_Setup (Context : App_Job_Context) is
-      Project      : constant Project_Tree_Access := Context.App_Ctx.Project;
+      Project      : constant Project_Tree_Access := Get_Project (Context);
       Project_File : constant String := To_String (App.Args.Project_File.Get);
    begin
       if Project = null then
@@ -194,7 +210,7 @@ procedure GNAT_Compare is
    ----------------------
 
    procedure Job_Post_Process (Context : App_Job_Context) is
-      Prj : constant Project_Type := Context.App_Ctx.Project.Root_Project;
+      Prj : constant Project_Type := Get_Project (Context).Root_Project;
    begin
       --  Browse this database and compare it to what LAL can resolve
 

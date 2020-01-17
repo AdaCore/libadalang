@@ -27,12 +27,13 @@ def test(label, buffer, pred=None):
         decl = u.root.find(lal.BasicDecl)
 
     try:
-        print(decl.p_doc)
+        doc = decl.p_doc
+        print('Doc:', lal._py2to3.text_repr(doc))
+        print()
     except lal.PropertyError as exc:
-        print(*exc.args)
+        print('Exception:', *exc.args)
         print()
         return
-    print()
 
     annotations = decl.p_doc_annotations
     if annotations:

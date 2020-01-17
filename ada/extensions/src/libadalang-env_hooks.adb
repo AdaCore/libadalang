@@ -250,24 +250,20 @@ package body Libadalang.Env_Hooks is
       UFP              : constant Internal_Unit_Provider_Access :=
          Ctx.Unit_Provider;
       Unit, First_Unit : Internal_Unit;
+      Unit_Name        : constant Text_Type := To_String (Name);
    begin
-      if not Load_If_Needed then
-         declare
-            Filename : constant String :=
-               UFP.Get_Unit_Filename (To_String (Name), Kind);
-         begin
-            if Filename = "" then
-               return null;
-            elsif not Has_Unit (Ctx, Filename) then
-               return null;
-            end if;
-         end;
+      --  If we must not load missing units and this one is missing, do
+      --  nothing.
+      if not Load_If_Needed
+         and then not Has_Unit (Ctx, UFP.Get_Unit_Filename (Unit_Name, Kind))
+      then
+         return null;
       end if;
 
       if not Do_Prepare_Nameres then
          --  If we are not preparing nameres, we can directly return the unit
          --  corresponding to the entire name.
-         return UFP.Get_Unit (Ctx, To_String (Name), Kind);
+         return UFP.Get_Unit (Ctx, Unit_Name, Kind);
       end if;
 
       --  GNAT kludge: as an "optimization", the generic subpackages in
@@ -278,7 +274,7 @@ package body Libadalang.Env_Hooks is
       --  Here, try to import these child unit as soon as someone WITHes
       --  Ada.Text_IO.
 
-      if Kind = Unit_Specification and then To_String (Name) = Text_IO then
+      if Kind = Unit_Specification and then Unit_Name = Text_IO then
          for SP of Text_IO_Subpackages loop
             declare
                SP_Symbol : constant Symbol_Type :=

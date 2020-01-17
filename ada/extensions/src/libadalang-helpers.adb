@@ -72,7 +72,7 @@ package body Libadalang.Helpers is
          Put_Line
            (Standard_Error, Message (Message'First .. Message'Last - 1));
       else
-         Put (Standard_Error, Message);
+         Put_Line (Standard_Error, Message);
       end if;
    end Print_Error;
 

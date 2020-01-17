@@ -55,9 +55,6 @@ package body Libadalang.Implementation.Extensions is
          Node.Unit,
          Kind,
          Load_If_Needed);
-   exception
-      when Property_Error =>
-         return No_Analysis_Unit;
    end Ada_Node_P_Get_Unit;
 
    ------------------------------

@@ -8,6 +8,9 @@ package Pkg.Foo is
       Bar, Foo : Integer;
    end Nested;
 
+   package 'C' is
+   end;
+
 private
 
    type Foo is record

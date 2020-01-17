@@ -137,10 +137,6 @@ package body Libadalang.Doc_Utils is
                         else X (2).Trim.To_String);
                   begin
                      Ret.Annotations.Include (K, V);
-                  exception
-                     when Constraint_Error =>
-                        raise Property_Error
-                          with "Improper format for annotation";
                   end;
                else
                   Doc_Vec.Append (T);

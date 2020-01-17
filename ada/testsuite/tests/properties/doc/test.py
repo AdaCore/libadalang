@@ -79,6 +79,12 @@ procedure Foo;
 --  This is the documentation for foo
 """)
 
+test('Test double annotation', b"""
+procedure Foo;
+--% a: Foo
+--% a: Bar
+""")
+
 test('Test whitespace stripping', b"""
 procedure Foo;
 --% belongs-to: Bar

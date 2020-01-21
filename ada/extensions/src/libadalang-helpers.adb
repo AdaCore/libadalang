@@ -195,7 +195,6 @@ package body Libadalang.Helpers is
          --  Set the target/runtime or use the config file
          if Config_File = "" then
             Env.Set_Target_And_Runtime (Target, RTS);
-            Env.Set_Automatic_Config_File;
          elsif Target /= "" or else RTS /= "" then
             Abort_App ("--config not allowed if --target or --RTS are passed");
          else

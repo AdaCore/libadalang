@@ -689,16 +689,13 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.Name.array)
     def top_level_with_package_clauses():
         """
-        If Self is a library item or a subunit, return a flat list of all
-        package names that are with'ed by top-level WithClause nodes.
+        Return a flat list of all package names that are with'ed by top-level
+        WithClause nodes of the compilation unit this node lies in.
         """
         return (
-            Self.parent.parent.cast_or_raise(T.CompilationUnit)
+            Self.enclosing_compilation_unit
             .prelude
-            .filter(lambda p: p.is_a(WithClause))
-            .mapcat(
-                lambda p: p.cast_or_raise(WithClause).packages.map(lambda n: n)
-            )
+            .mapcat(lambda p: p.cast(WithClause)._.packages.as_array)
         )
 
     @langkit_property()

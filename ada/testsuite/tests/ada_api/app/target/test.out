@@ -1,3 +1,1 @@
 Could not locate exec nosuchtarget-elf-gnatls
-gprconfig: can't find a toolchain for the following configuration:
-gprconfig: language 'ada', target 'nosuchtarget-elf', default runtime

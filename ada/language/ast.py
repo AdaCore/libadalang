@@ -400,13 +400,14 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
     def designated_compilation_unit(name=T.Symbol.array,
-                                    kind=AnalysisUnitKind):
+                                    kind=AnalysisUnitKind,
+                                    load_if_needed=(Bool, True)):
         """
         Fetch the compilation unit designated by the given name defined in an
         analysis unit of the given kind.
         """
         designated_analysis_unit = Var(
-            Self.get_unit(name, kind, load_if_needed=True)
+            Self.get_unit(name, kind, load_if_needed)
         )
 
         return designated_analysis_unit.root._.match(
@@ -433,20 +434,8 @@ class AdaNode(ASTNode):
         node for the given analysis unit ``kind`` and correpsonding to the
         name ``name``. If it's not loaded, return none.
         """
-        u = Var(Self.get_unit(name, kind, load_if_needed))
-        return u._.root.match(
-            # If the root of the analysis unit is a single compilation unit,
-            # it is necessarily the one we look for.
-            lambda single=CompilationUnit: single.decl,
-
-            # If the root of the analysis unit comprises multiple compilation
-            # units, look for the one with a matching fully qualified name.
-            lambda multi=CompilationUnit.list: multi.find(
-                lambda c: c.syntactic_fully_qualified_name == name
-            )._.decl,
-
-            lambda _: PropertyError(BasicDecl, "Unexpected analysis unit root")
-        )
+        cu = Var(Self.designated_compilation_unit(name, kind, load_if_needed))
+        return cu._.decl
 
     @langkit_property(public=True, return_type=AnalysisUnit.array,
                       external=True, uses_entity_info=False, uses_envs=False)

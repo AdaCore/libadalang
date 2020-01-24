@@ -4,6 +4,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
+with GNATCOLL.Traces;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
 
 with Libadalang.Analysis;         use Libadalang.Analysis;
@@ -22,6 +23,7 @@ procedure Main is
    PAPs : Provider_And_Projects_Array_Access;
 
 begin
+   GNATCOLL.Traces.Parse_Config ("LIBADALANG.PROJECT_PROVIDER=yes");
    Put_Line ("Loading the project:");
    Initialize (Env);
    Load (Tree.all, Create (+"ap1.gpr"), Env);

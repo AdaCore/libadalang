@@ -21,6 +21,7 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Characters.Handling;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Hashed_Maps;
 with Ada.Containers.Vectors;
@@ -179,6 +180,12 @@ package body Libadalang.Project_Provider is
          --  objects, while the only instance of this type is File_Info. So the
          --  above conversion should always succeed.
       begin
+         --  Consider only Ada source files
+
+         if Ada.Characters.Handling.To_Lower (FI.Language) /= "ada" then
+            return;
+         end if;
+
          --  Info_Set returns a project-less file info when called of files
          --  that are not part of the project tree. Here, all our source files
          --  belong to Tree, so the following assertion should hold.

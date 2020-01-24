@@ -67,10 +67,14 @@ procedure Main is
 
 begin
    Try_Loading_Project ("unsupported_aggr.gpr");
+   Try_Loading_Project ("unsupported_aggr.gpr", "unsupported_aggr");
    Try_Loading_Project ("unsupported_aggr.gpr", "p");
    Try_Loading_Project ("supported_no_conflict.gpr");
    Try_Loading_Project ("supported_simple_aggr.gpr");
+   Try_Loading_Project ("supported_simple_aggr.gpr", "supported_simple_aggr");
    Try_Loading_Project ("supported_chained_aggr.gpr");
+   Try_Loading_Project ("supported_chained_aggr.gpr",
+                        "supported_chained_aggr");
 
    declare
       Ctx  : constant Analysis_Context :=

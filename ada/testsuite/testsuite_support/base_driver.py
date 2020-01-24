@@ -305,6 +305,12 @@ class BaseDriver(TestDriver):
         In case of failure, the test output is appended to the actual output
         and a TestError is raised.
         """
+        # Depending on the testsuite engine (gnatpython.testsuite or polyfill),
+        # all test drivers can run in the same process. Because of this, we
+        # must avoid concurrent mutations of the environment: work on a copy
+        # instead.
+        env = dict(os.environ)
+
         # If this testcase produced trace files, move them to the
         # testsuite-wide directory for later use.
 
@@ -317,7 +323,7 @@ class BaseDriver(TestDriver):
             if not os.path.exists(traces_dir):
                 os.mkdir(traces_dir)
             self.process_counter += 1
-            os.environ['LIBADALANG_TRACE_FILE'] = os.path.join(
+            env['LIBADALANG_TRACE_FILE'] = os.path.join(
                 traces_dir, 'trace-{}.srctrace'.format(self.process_counter)
             )
 
@@ -333,7 +339,7 @@ class BaseDriver(TestDriver):
             ))
             argv = [opts.debugger, '--args'] + argv
             print(' '.join(pipes.quote(arg) for arg in argv))
-            subprocess.check_call(argv, cwd=self.working_dir())
+            subprocess.check_call(argv, cwd=self.working_dir(), env=env)
             raise TestError('Test was running from a debugger: no result')
             return
 
@@ -344,7 +350,8 @@ class BaseDriver(TestDriver):
         p = Run(argv, cwd=self.working_dir(),
                 timeout=self.timeout,
                 output=PIPE,
-                error=STDOUT)
+                error=STDOUT,
+                env=env)
 
         if append_output:
             with open(self.output_file, 'a') as f:

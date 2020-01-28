@@ -205,6 +205,12 @@ package body Libadalang.Auto_Provider is
                      for CU of R.Children loop
                         Add_Entry (Provider, File, CU.As_Compilation_Unit);
                      end loop;
+
+                  when Ada_Pragma_Node_List =>
+                     --  This could be a configuration pragma file, or a body
+                     --  that contains just "pragma No_Body;". In any case,
+                     --  there is no entry to register here.
+                     null;
                end case;
             end if;
          end;

@@ -47,7 +47,8 @@ package Libadalang.Unit_Files is
    --  Convert an unit name and unit kind into the default filename
 
    subtype Root_Nodes is Ada_Node_Kind_Type with Static_Predicate =>
-      Root_Nodes in Ada_Compilation_Unit | Ada_Compilation_Unit_List;
+      Root_Nodes in Ada_Compilation_Unit | Ada_Compilation_Unit_List
+                  | Ada_Pragma_Node_List;
    --  Possible nodes at the root of analysis units. Since the grammar allows
    --  for empty lists of compilation units, it is safe to assume that all
    --  analysis units have non-null roots, even when there are parsing errors.

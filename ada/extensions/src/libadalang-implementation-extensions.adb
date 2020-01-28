@@ -205,6 +205,8 @@ package body Libadalang.Implementation.Extensions is
                   end loop;
                   return Res;
                end;
+            when Ada_Pragma_Node_List =>
+               return (1 .. 0 => <>);
          end case;
       end All_Compilation_Units_From;
 

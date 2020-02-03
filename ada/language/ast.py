@@ -3623,6 +3623,18 @@ class BaseTypeDecl(BasicDecl):
         dynamic_vars=[origin]
     )
 
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_origin()], public=True)
+    def is_interface_type():
+        """
+        Return True iff this type declaration is an interface definition.
+        """
+        return Entity.full_view._.match(
+            lambda td=TypeDecl: td.type_def.is_a(InterfaceTypeDef),
+            lambda sb=SubtypeDecl: sb.from_type.is_interface_type,
+            lambda _: False
+        )
+
     @langkit_property(dynamic_vars=[origin])
     def iterable_comp_type():
         return No(T.BaseTypeDecl.entity)

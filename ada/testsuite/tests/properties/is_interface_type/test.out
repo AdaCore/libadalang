@@ -1,0 +1,22 @@
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["R"] test.adb:2:4-2:26>
+Result: False
+
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["I"] test.adb:5:4-5:24>
+Result: True
+
+Eval 'node.p_is_interface_type()' on node <SubtypeDecl ["J"] test.adb:8:4-8:19>
+Result: True
+
+Eval 'node.p_is_interface_type()' on node <SubtypeDecl ["K"] test.adb:11:4-11:19>
+Result: False
+
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["JJ"] test.adb:14:4-14:31>
+Result: True
+
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["T"] test.adb:17:4-17:33>
+Result: False
+
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["TT"] test.adb:20:4-20:27>
+Result: False
+
+

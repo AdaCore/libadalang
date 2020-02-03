@@ -1,0 +1,8 @@
+type: new-feature
+title: Add is_interface_type property
+
+description: |
+    Add p_is_interface_type on BaseTypeDecls, which returns whether the
+    given type corresponds to an interface type or not.
+
+date: 2020-02-03

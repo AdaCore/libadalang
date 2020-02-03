@@ -901,7 +901,7 @@ procedure Nameres is
                           (Args.Imprecise_Fallback.Get);
 
                      Referenced_Decl_Image : constant String :=
-                        (if Show_Slocs
+                        (if Show_Slocs or else Decl_Name.Is_Null
                          then Image (Decl_Name)
                          else Image
                            (Decl_Name.P_Basic_Decl

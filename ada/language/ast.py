@@ -6244,6 +6244,15 @@ class ExceptionDecl(BasicDecl):
 
     env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Entity.renames.then(
+            lambda c: c.renamed_object.xref_no_overloading,
+            default_val=LogicTrue()
+        )
+
 
 @abstract
 class GenericInstantiation(BasicDecl):

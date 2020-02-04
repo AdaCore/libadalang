@@ -1,10 +1,21 @@
 Analyzing testexc.adb
 #####################
 
-Resolving xrefs for node <RaiseStmt testexc.adb:4:4-4:12>
+Resolving xrefs for node <ExceptionDecl ["A", "B"] testexc.adb:2:4-2:21>
+************************************************************************
+
+
+Resolving xrefs for node <ExceptionDecl ["C"] testexc.adb:5:4-5:28>
+*******************************************************************
+
+Expr: <Id "A" testexc.adb:5:26-5:27>
+  references: <DefiningName testexc.adb:2:4-2:5>
+  type:       None
+
+Resolving xrefs for node <RaiseStmt testexc.adb:8:4-8:12>
 *********************************************************
 
-Expr: <Id "A" testexc.adb:4:10-4:11>
+Expr: <Id "A" testexc.adb:8:10-8:11>
   references: <DefiningName testexc.adb:2:4-2:5>
   type:       None
 

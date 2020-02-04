@@ -1,0 +1,8 @@
+type: bugfix
+title: Crash when resolving exception renaming clause.
+
+description: |
+    Until now, nameres would crash when attempting to resolve any name
+    appearing on the right-hand side of an exception renaming clause.
+
+date: 2020-02-04

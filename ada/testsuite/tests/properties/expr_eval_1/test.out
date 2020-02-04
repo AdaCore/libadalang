@@ -8,7 +8,7 @@ Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst"] testpredsu
 Result: 1
 
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst"] testpredsucc.adb:12:4-12:38>
-Exception: raised LIBADALANG.COMMON.PROPERTY_ERROR : out of bounds pred/succ on enum
+Exception: raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : out of bounds pred/succ on enum
 
 
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst2"] testpredsucc.adb:15:4-15:29>

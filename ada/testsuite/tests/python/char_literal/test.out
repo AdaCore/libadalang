@@ -1,3 +1,0 @@
-A ("'a'") -> 'a'
-Single_Quote ("'''") -> "'"
-Eacute ("'\xe9'") -> '\xe9'

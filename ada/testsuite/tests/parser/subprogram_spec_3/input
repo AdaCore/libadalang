@@ -1,1 +1,0 @@
-procedure I (A : in out access procedure (A : Integer); B : Integer)

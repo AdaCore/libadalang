@@ -1,7 +1,0 @@
-Analyzing testaccesstosubp.adb
-##############################
-
-A (12) resolves to:
-    A : Pouet := I'Access;
-
-Done.

@@ -1,5 +1,0 @@
-RequeueStmt[1:1-1:13]
-|call_name:
-|  Id[1:9-1:12]: Lol
-|has_abort:
-|  AbortAbsent[1:12-1:12]

@@ -1,2 +1,0 @@
-driver: python
-input_sources: [proc.adb, pkg.ads, pkg.adb, pkg-stub.adb]

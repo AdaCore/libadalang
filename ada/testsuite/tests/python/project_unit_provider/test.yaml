@@ -1,6 +1,0 @@
-driver: python
-input_sources: [
-    p.gpr,
-    src1/p1.ads, src1/p2.ads,
-    src2/p1.ads, src2/p2.ads,
-]

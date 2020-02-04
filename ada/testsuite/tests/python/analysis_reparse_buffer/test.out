@@ -1,7 +1,0 @@
-1. Parsing using buffer 1
-WithClause: has_limited = <LimitedPresent foo.adb:2:1-2:8>
-2. Parsing using buffer 2
-WithClause: has_limited = <LimitedAbsent foo.adb:1:1-1:1>
-3. Reparsing using buffer 1
-WithClause: has_limited = <LimitedPresent foo.adb:2:1-2:8>
-Done.

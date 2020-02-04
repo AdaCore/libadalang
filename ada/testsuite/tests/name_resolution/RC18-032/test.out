@@ -1,9 +1,0 @@
-Foo is a call and is not a dot call
-X is not a call and is not a dot call
-2 is not a call and is not a dot call
-E.Bar is a call and is a dot call
-E is not a call and is not a dot call
-Bar is a call and is a dot call
-X is not a call and is not a dot call
-2 is not a call and is not a dot call
-Done.

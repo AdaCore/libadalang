@@ -1,1 +1,0 @@
-accept Store (An_Item : in Item) do Datum := An_Item; end Store; loop select   accept Store (An_Item : in Item) do Datum := An_Item; end Store; or accept Fetch (An_Item : out Item) do An_Item := Datum; end Fetch; end select; end loop;

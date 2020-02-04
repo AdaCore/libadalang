@@ -1,9 +1,0 @@
-Analyzing foo.adb
-#################
-
-\u03a0 resolves to:
-    \u03c0        : constant Float := 3.14;
-\xc9 resolves to:
-    ["00E9"] : Wide_Character := '["00E9"]';
-
-Done.

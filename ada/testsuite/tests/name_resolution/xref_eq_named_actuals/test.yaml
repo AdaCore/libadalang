@@ -1,2 +1,0 @@
-driver: name-resolution
-input_sources: [proc_call_named.adb]

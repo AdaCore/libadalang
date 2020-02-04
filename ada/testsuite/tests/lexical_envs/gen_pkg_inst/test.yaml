@@ -1,3 +1,0 @@
-driver: parser
-action: pp-file-with-lexical-envs
-input_file: test.adb

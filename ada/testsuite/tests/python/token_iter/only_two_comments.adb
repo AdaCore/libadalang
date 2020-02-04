@@ -1,2 +1,0 @@
---  This source file contains only two comments.
---  Here is the second line.

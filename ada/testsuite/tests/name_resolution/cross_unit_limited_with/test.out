@@ -1,7 +1,0 @@
-Analyzing foo.ads
-#################
-
-F.B resolves to:
-    B : access Bar_Type;
-
-Done.

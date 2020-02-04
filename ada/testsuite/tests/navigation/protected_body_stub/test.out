@@ -1,9 +1,0 @@
-pkg.adb
-#######
-
-Body previous part of <ProtectedBody ["Regular"] pkg.adb:3:4-13:8> is <ProtectedTypeDecl ["Regular"] pkg.ads:3:4-8:8> [pkg.ads]
-Decl of <ProtectedBody ["Regular"] pkg.adb:3:4-13:8> is <ProtectedTypeDecl ["Regular"] pkg.ads:3:4-8:8> [pkg.ads]
-Body previous part of <ProtectedBodyStub ["P_Rec"] pkg.adb:15:4-15:37> is <ProtectedTypeDecl ["P_Rec"] pkg.ads:10:4-16:8> [pkg.ads]
-Decl of <ProtectedBodyStub ["P_Rec"] pkg.adb:15:4-15:37> is <ProtectedTypeDecl ["P_Rec"] pkg.ads:10:4-16:8> [pkg.ads]
-
-Done.

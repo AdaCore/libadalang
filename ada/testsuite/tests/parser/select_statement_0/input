@@ -1,1 +1,0 @@
-select when not BUSY => accept SEIZE do BUSY := TRUE; end; or accept RELEASE do BUSY := FALSE; end; or terminate; end select;

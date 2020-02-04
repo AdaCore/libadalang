@@ -1,7 +1,0 @@
-Analyzing foo.adb
-#################
-
-Pkg_1.Bar resolves to:
-    procedure Bar;
-
-Done.

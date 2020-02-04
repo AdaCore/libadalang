@@ -1,5 +1,0 @@
-AbortStmt[1:1-1:16]
-|names:
-|  NameList[1:7-1:15]
-|  |  Id[1:7-1:10]: Lol
-|  |  Id[1:12-1:15]: Wat

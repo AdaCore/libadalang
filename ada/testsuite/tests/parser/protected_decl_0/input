@@ -1,1 +1,0 @@
-protected Protected_Buffer is entry Insert (An_Item : in  Item); entry Remove (An_Item : out Item); end Protected_Buffer;

@@ -1,1 +1,0 @@
-protected body protected_buffer_type is entry insert (an_item : in  item) when empty is begin buffer := an_item; empty := false; end insert; entry remove (an_item : out item) when not empty is begin an_item := buffer; empty := true; end remove; end protected_buffer_type;

@@ -1,1 +1,0 @@
-Arr : aliased constant array (1 .. 12) of Integer;

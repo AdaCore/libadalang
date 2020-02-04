@@ -1,7 +1,0 @@
-Analyzing foo.ads
-#################
-
-Foo.Opt_Type resolves to:
-    type Opt_Type (Present : Boolean) is record\x0a         case Present is\x0a            when True  => Value : T;\x0a            when False => null;\x0a         end case;\x0a      end record;
-
-Done.

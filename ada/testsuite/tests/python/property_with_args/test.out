@@ -1,7 +1,0 @@
-This should be Foo:
-  Id "Foo" foo.adb:1:11-1:14: Foo
-This should be I:
-  Id "I" foo.adb:1:16-1:17: I
-Foo.p_name_matches(Foo) = True
-Foo.p_name_matches(I) = False
-Done.

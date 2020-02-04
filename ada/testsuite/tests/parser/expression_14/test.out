@@ -1,8 +1,0 @@
-QualExpr[1:1-1:24]
-|prefix:
-|  Id[1:1-1:10]: User_Data
-|suffix:
-|  NullRecordAggregate[1:11-1:24]
-|  |ancestor_expr: <null>
-|  |assocs:
-|  |  AssocList[1:23-1:23]: <empty list>

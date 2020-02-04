@@ -1,6 +1,0 @@
-some_task: <TaskBody ["Some_Task"] pack.adb:7:4-12:18>
-previous part: <TaskTypeDecl ["Some_Task"] pack.ads:14:4-16:18>
-canonical part: <IncompleteTypeDecl ["Some_Task"] pack.ads:3:4-3:19>
-canonical_part.next_part: <TypeDecl ["Some_Task"] pack.ads:5:4-5:38>
-canonical_part.next_part.next_part: <TaskTypeDecl ["Some_Task"] pack.ads:14:4-16:18>
-canonical_part.next_part.next_part.next_part: <TaskBody ["Some_Task"] pack.adb:7:4-12:18>

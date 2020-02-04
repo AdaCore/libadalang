@@ -1,6 +1,0 @@
-procedure Test is
-begin
-    <<れながら>>
-    Put_Line("Hello world");
-    goto れながら;
-end Test;

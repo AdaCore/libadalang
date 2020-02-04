@@ -1,1 +1,0 @@
-type Rec is new A with record A, B : Integer; end record;

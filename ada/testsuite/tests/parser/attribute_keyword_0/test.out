@@ -1,6 +1,0 @@
-AttributeRef[1:1-1:18]
-|prefix:
-|  Id[1:1-1:11]: identifier
-|attribute:
-|  Id[1:12-1:18]: access
-|args: <null>

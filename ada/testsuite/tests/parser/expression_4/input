@@ -1,1 +1,0 @@
-7 + (if B then 4 else 5) / (case A is when 12 => 15, when 14 => 16)

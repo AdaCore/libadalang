@@ -1,1 +1,0 @@
-generic type Element_T is private; procedure Swap (X, Y : in out Element_T);

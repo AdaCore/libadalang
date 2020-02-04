@@ -1,8 +1,0 @@
-== test_private_completion.ads ==
-<PackageDecl ["Pkg"] test_private_completion.ads:1:1-12:9> canonical part -> <PackageDecl ["Pkg"] test_private_completion.ads:1:1-12:9>
-<TypeDecl ["Base"] test_private_completion.ads:2:4-2:36> canonical part -> <TypeDecl ["Base"] test_private_completion.ads:2:4-2:36>
-<TypeDecl ["Derived"] test_private_completion.ads:4:4-4:42> canonical part -> <TypeDecl ["Derived"] test_private_completion.ads:4:4-4:42>
-<TypeDecl ["Derived"] test_private_completion.ads:8:4-10:15> canonical part -> <TypeDecl ["Derived"] test_private_completion.ads:4:4-4:42>
-<ComponentDecl ["X"] test_private_completion.ads:9:7-9:19> canonical part -> <ComponentDecl ["X"] test_private_completion.ads:9:7-9:19>
-
-Done

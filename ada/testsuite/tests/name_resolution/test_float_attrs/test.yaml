@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [test_float_attrs.adb]
-with_default_project: False

@@ -1,7 +1,0 @@
-===
-overriding procedure Foo is begin null;end Foo;
-
-===
-function Bar(I:Integer)return Boolean is begin return(raise Program_Error);end Bar;
-
-generate_stubs.adb: Done.

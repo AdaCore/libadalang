@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [repro_multidim.adb]
-with_default_project: False

@@ -1,3 +1,0 @@
-driver: ada-api
-main: main.adb
-argv: [--auto-dir=src]

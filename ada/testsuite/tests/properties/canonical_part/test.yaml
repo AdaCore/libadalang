@@ -1,2 +1,0 @@
-driver: python
-input_sources: [test_private_completion.ads]

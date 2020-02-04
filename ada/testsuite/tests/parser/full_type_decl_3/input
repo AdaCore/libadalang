@@ -1,1 +1,0 @@
-type Rec (Discr : Integer) is record A, B : Integer; end record;

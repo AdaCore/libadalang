@@ -1,6 +1,0 @@
-Analyzing test.adb
-##################
-
-References to Get (a-tiinio.ads)
-   Int_IO.Get (Str, R, Last); (test.adb)
-Done.

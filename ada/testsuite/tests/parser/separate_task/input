@@ -1,6 +1,0 @@
-package body S is
-   task type share;
-   task body share is separate;
-begin
-   null;
-end S;

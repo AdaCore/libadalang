@@ -1,6 +1,0 @@
-Lookup 0:0: None
-Lookup 1:1: <LimitedPresent foo.adb:1:1-1:8>
-Lookup 5:80: <HandledStmts foo.adb:5:6-7:1>
-Lookup 6:16: <Id "Put_Line" foo.adb:6:16-6:24>
-Lookup 8:12: None
-Done.

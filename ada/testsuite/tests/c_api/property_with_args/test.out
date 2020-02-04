@@ -1,7 +1,0 @@
-This should be Foo:
-  DefiningName: Foo
-This should be I:
-  DefiningName: I
-Foo.p_name_matches(Foo) = True
-Foo.p_name_matches(I) = False
-Done.

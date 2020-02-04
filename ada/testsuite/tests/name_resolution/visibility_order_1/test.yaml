@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [foo.ads]
-with_default_project: False

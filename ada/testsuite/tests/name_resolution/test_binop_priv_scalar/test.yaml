@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [test_binop_res.adb]
-with_default_project: False

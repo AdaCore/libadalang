@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [unreal_attrs.adb]
-with_default_project: False

@@ -1,4 +1,0 @@
-package Enum_Rep is
-   type Enum is (Red);
-   for Enum use (Red => 1);
-end Enum_Rep;

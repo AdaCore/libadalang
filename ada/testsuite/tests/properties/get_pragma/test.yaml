@@ -1,2 +1,0 @@
-driver: python
-input_sources: [testpr.ads, testpr2.ads, testinline.adb]

@@ -1,4 +1,0 @@
-driver: parser
-action: pretty-print-file
-charset: unknown-charset
-test-unparsing: false

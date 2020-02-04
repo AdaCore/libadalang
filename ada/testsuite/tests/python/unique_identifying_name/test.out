@@ -1,9 +1,0 @@
-<SubpBody ["A"] test.adb:1:1-18:7> uuid is a
-<SubpBody ["Bar"] test.adb:2:4-5:12> uuid is a.bar (standard.integer, standard.integer) return standard.boolean
-<SubpBody ["Bar"] test.adb:6:4-9:12> uuid is a.bar (standard.integer) return standard.boolean
-<SubpBody ["Bar"] test.adb:10:4-13:12> uuid is a.bar (standard.integer)
-<SubpDecl ["Foo"] test.ads:3:4-3:73> uuid is test.foo (standard.integer, standard.integer, standard.integer) return standard.positive
-<SubpDecl ["Foo"] test.ads:4:4-4:61> uuid is test.foo (standard.integer, standard.natural, standard.natural) return standard.natural
-<EnumLiteralDecl ["B"] test.ads:6:15-6:16> uuid is test.a.b return test.a.b
-<EnumLiteralDecl ["C"] test.ads:6:18-6:19> uuid is test.a.c return test.a.c
-<EnumLiteralDecl ["D"] test.ads:6:21-6:22> uuid is test.a.d return test.a.d

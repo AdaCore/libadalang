@@ -1,5 +1,0 @@
-WithClause: is_limited = true
-WithClause: is_private = false
-SubpBody: overriding = OverridingUnspecified
-Identifier: tok = Foo
-Done.

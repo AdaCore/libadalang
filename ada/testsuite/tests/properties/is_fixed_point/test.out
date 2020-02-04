@@ -1,9 +1,0 @@
-== test.adb ==
-<TypeDecl ["My_Fixed_Point"] test.adb:2:4-2:55> is a fixed point type.
-<TypeDecl ["My_New_Fixed_Point"] test.adb:3:4-3:50> is a fixed point type.
-<SubtypeDecl ["My_Sub_Fixed_Point"] test.adb:4:4-4:70> is a fixed point type.
-<TypeDecl ["My_Int"] test.adb:6:4-6:33> is not a fixed point type.
-<TypeDecl ["My_New_Int"] test.adb:7:4-7:34> is not a fixed point type.
-<SubtypeDecl ["My_Sub_Int"] test.adb:8:4-8:51> is not a fixed point type.
-
-Done

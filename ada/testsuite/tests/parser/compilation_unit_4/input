@@ -1,1 +1,0 @@
-with Foo; with Bar; package A.B.C is new B (C);

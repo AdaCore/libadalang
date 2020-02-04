@@ -1,3 +1,0 @@
-driver: navigation
-input_sources: [foo.ads, qux.ads]
-kinds: [Ada_Package_Decl, Ada_Package_Body]

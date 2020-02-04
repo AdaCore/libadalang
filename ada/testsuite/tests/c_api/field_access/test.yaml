@@ -1,3 +1,0 @@
-driver: c-api
-compile_units: [few_field_accesses.c]
-input_sources: [foo.adb]

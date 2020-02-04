@@ -1,1 +1,0 @@
-procedure Lines_Add_Hook (Buffer : access Source_Buffer_Record'Class; Start  : Buffer_Line_Type; Number : Buffer_Line_Type);

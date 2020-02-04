@@ -1,5 +1,0 @@
-driver: ada-api
-main: main.adb
-input_sources: []
-expect_failure:
-    - {if: [valgrind], then: 'Pending resolution of S912-003'}

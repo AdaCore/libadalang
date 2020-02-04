@@ -1,3 +1,0 @@
-driver: inline-playground
-input_sources: [pkg1.ads, pkg2.ads, multi_units.adb]
-project_file: test.gpr

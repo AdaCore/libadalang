@@ -1,3 +1,0 @@
-<DottedName pkg.adb:10:7-10:12> p_referenced_decl -> <SubpBody ["Foo"] pkg.adb:3:4-6:12>
-now reparsing...
-<DottedName pkg.adb:5:7-5:12> p_referenced_decl -> None

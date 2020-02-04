@@ -1,6 +1,0 @@
-driver: navigation
-input_sources: [test-foo.adb, test.adb]
-kinds:
-  - Ada_Package_Body_Stub
-  - Ada_Package_Body
-  - Ada_Package_Decl

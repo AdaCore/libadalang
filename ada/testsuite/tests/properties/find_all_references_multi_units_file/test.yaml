@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [test.adb, multi_units.adb]
-project_file: test.gpr

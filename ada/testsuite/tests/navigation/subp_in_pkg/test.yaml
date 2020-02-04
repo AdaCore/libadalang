@@ -1,3 +1,0 @@
-driver: navigation
-input_sources: [foo.ads, foo.adb]
-kinds: [Ada_Subp_Decl, Ada_Subp_Body]

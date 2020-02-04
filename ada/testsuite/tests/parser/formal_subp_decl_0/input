@@ -1,1 +1,0 @@
-with function Pouet (X, Y: Element_T) return Element_T is abstract <>;

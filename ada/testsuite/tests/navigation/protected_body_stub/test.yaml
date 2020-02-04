@@ -1,5 +1,0 @@
-driver: navigation
-input_sources: [pkg.adb]
-kinds:
-    - Ada_Protected_Body
-    - Ada_Protected_Body_Stub

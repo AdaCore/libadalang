@@ -1,3 +1,0 @@
-aggregate project Supported_No_Conflict is
-   for Project_Files use ("p.gpr", "q.gpr");
-end Supported_No_Conflict;

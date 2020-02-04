@@ -1,5 +1,0 @@
-driver: parser
-rule: object_decl
-lookups:
-  - {line: 1, column: 4}
-  - {line: 1, column: 5}

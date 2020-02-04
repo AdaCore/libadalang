@@ -1,5 +1,0 @@
-project P is
-   type Src_Dir_Type is ("src1", "src2");
-   Src_Dir : Src_Dir_Type := external ("SRC_DIR");
-   for Source_Dirs use (Src_Dir);
-end P;

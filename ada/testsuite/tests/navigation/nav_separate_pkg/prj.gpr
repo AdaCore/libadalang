@@ -1,3 +1,0 @@
-project Prj is
-   for Source_Dirs use (".");
-end Prj;

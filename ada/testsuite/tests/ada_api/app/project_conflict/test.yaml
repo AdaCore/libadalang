@@ -1,4 +1,0 @@
-driver: ada-api
-main: main.adb
-argv: [--target=foo-elf]
-status_code: 1

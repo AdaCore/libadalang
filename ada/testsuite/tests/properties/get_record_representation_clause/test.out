@@ -1,3 +1,0 @@
-<TypeDecl ["T"] foo.ads:2:4-4:15> get_record_representation_clause -> <RecordRepClause foo.ads:6:4-8:15>
-
-Done

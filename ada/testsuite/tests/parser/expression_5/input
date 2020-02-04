@@ -1,1 +1,0 @@
-12 + (if (for all A in B => A = 12) then 15 else 16)

@@ -1,6 +1,0 @@
-IncompleteTypeDecl[1:1-1:8]
-|name:
-|  DefiningName[1:6-1:7]
-|  |name:
-|  |  Id[1:6-1:7]: A
-|discriminants: <null>

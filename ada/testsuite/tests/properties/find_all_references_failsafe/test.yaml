@@ -1,2 +1,0 @@
-driver: name-resolution
-input_sources: [a.ads, b.ads, b.adb]

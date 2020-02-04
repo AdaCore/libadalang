@@ -1,1 +1,0 @@
-type Rec (Discr : Integer) is record A, B : Integer; case Discr is when 12 | 15 => C : Integer; end case; end record;

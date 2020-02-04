@@ -1,6 +1,0 @@
-PragmaNodeList[1:1-1:16]
-|  PragmaNode[1:1-1:16]
-|  |id:
-|  |  Id[1:8-1:15]: No_Body
-|  |args:
-|  |  BaseAssocList[1:7-1:7]: <empty list>

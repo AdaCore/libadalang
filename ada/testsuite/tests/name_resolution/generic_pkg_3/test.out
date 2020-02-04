@@ -1,7 +1,0 @@
-Analyzing p.adb
-###############
-
-Foo resolves to:
-    function Foo return T;
-
-Done.

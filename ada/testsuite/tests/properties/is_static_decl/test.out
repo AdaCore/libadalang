@@ -1,5 +1,0 @@
-== test.adb ==
-<TypeDecl ["T"] test.adb:2:4-2:29> is a static decl
-<TypeDecl ["NT"] test.adb:3:4-3:34> is a static decl
-
-Done

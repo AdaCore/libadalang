@@ -1,5 +1,0 @@
-WithClause: has_limited = <LimitedPresent foo.adb:1:1-1:8>
-WithClause: has_private = <PrivateAbsent foo.adb:1:8-1:8>
-WithClause: overriding = <OverridingUnspecified foo.adb:1:26-1:26>
-DefiningName: text = Foo
-Done.

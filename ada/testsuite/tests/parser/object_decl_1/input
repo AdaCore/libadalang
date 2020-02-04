@@ -1,1 +1,0 @@
-A, B : not null access constant Integer := null with Foo => Bar;

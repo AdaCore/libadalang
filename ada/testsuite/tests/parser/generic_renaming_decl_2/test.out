@@ -1,8 +1,0 @@
-GenericPackageRenamingDecl[1:1-1:29]
-|name:
-|  DefiningName[1:17-1:18]
-|  |name:
-|  |  Id[1:17-1:18]: A
-|renames:
-|  Id[1:27-1:28]: B
-|aspects: <null>

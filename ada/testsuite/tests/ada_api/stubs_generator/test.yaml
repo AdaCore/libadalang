@@ -1,3 +1,0 @@
-driver: ada-api
-main: generate_stubs.adb
-input_sources: [specs.ads]

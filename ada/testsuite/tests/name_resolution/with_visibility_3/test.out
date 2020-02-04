@@ -1,7 +1,0 @@
-Analyzing foo.adb
-#################
-
-Bar.Helper resolves to:
-    procedure Helper;
-
-Done.

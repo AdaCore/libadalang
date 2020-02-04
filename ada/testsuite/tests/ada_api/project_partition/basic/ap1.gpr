@@ -1,3 +1,0 @@
-aggregate project AP1 is
-   for Project_Files use ("p1.gpr", "p2.gpr", "p3.gpr");
-end AP1;

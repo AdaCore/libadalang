@@ -1,7 +1,0 @@
-Analyzing foo.adb
-#################
-
-Array_Type resolves to:
-    type Array_Type is array (Positive range <>) of Integer;
-
-Done.

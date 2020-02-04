@@ -1,1 +1,0 @@
-task type Buffer_Pool_Task is entry Insert (Buffer_Id) (An_Item : in Item); entry Remove (Buffer_Id) (An_Item : out Item); end Buffer_Pool_Task;

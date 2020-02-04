@@ -1,3 +1,0 @@
-foo.adb:16:7: duplicate operand with line 8
-foo.adb:21:16: duplicate operand with line 20
-foo.adb:26:50: duplicate operand with line 26

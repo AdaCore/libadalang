@@ -1,2 +1,0 @@
-driver: name-resolution
-input_sources: [simple_aggregate.adb]

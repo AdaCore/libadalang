@@ -1,1 +1,0 @@
-if Temperature >= 40.0 then Put_Line ("Wow"); Put_Line ("It's extremely hot"); end if;

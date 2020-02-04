@@ -1,3 +1,0 @@
-driver: parser
-rule: compilation_unit
-expect_failure: Pending resolution of O525-031

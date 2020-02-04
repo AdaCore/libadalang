@@ -1,9 +1,0 @@
-foo.ads
-#######
-
-Type previous part of <ProtectedTypeDecl ["T"] foo.ads:6:4-10:10> is <TypeDecl ["T"] foo.ads:2:4-2:30> [foo.ads]
-Protected decl next part of <ProtectedTypeDecl ["T"] foo.ads:6:4-10:10> is <ProtectedBody ["T"] foo.adb:2:4-7:10> [foo.adb]
-Protected decl body part of <ProtectedTypeDecl ["T"] foo.ads:6:4-10:10> is <ProtectedBody ["T"] foo.adb:2:4-7:10> [foo.adb]
-Body of <SubpDecl ["Test"] foo.ads:7:7-7:22> is <SubpBody ["Test"] foo.adb:3:7-6:16> [foo.adb]
-
-Done.

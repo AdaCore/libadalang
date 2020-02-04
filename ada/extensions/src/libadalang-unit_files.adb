@@ -25,6 +25,7 @@ with Ada.Strings.Maps;
 with Ada.Strings.Maps.Constants;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Wide_Wide_Characters.Handling;
+with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.Locks;
 with GNATCOLL.Projects;
@@ -48,11 +49,16 @@ package body Libadalang.Unit_Files is
       Env     : Project_Environment_Access;
       Project : constant Project_Tree_Access := new Project_Tree;
    begin
+      Put_Line ("DEFAULT_PROVIDER 1");
       Initialize (Env);
+      Put_Line ("DEFAULT_PROVIDER 2");
       Load_Empty_Project (Project.all, Env);
+      Put_Line ("DEFAULT_PROVIDER 3");
       Project.Root_Project.Delete_Attribute (Source_Dirs_Attribute);
       Project.Root_Project.Delete_Attribute (Languages_Attribute);
+      Put_Line ("DEFAULT_PROVIDER 4");
       Project.Recompute_View;
+      Put_Line ("DEFAULT_PROVIDER 5");
 
       return Create_Project_Unit_Provider
         (Project, Project.Root_Project, Env, True);

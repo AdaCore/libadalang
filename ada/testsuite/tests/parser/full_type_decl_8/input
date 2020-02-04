@@ -1,1 +1,0 @@
-type B is new A (Discr_1 | Discr_2 => 12) with record D : Integer; end record;

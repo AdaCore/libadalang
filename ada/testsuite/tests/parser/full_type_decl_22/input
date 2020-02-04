@@ -1,1 +1,0 @@
-type Ref is not null access A;

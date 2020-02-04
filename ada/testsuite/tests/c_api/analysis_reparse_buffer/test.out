@@ -1,7 +1,0 @@
-1. Parsing using buffer 1
-WithClause: is_limited = true
-2. Reparsing from context using buffer 2
-WithClause: is_limited = false
-3. Reparsing from unit using buffer 1
-WithClause: is_limited = true
-Done.

@@ -1,8 +1,0 @@
-LoopStmt[1:1-1:22]
-|spec: <null>
-|stmts:
-|  StmtList[1:6-1:12]
-|  |  CallStmt[1:6-1:12]
-|  |  |call:
-|  |  |  Id[1:6-1:11]: World
-|end_name: <null>

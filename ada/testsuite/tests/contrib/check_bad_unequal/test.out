@@ -1,2 +1,0 @@
-foo.adb:3:22: expression is always true, "X" is always different from 1 or 2
-himoco-blockdiagramcmg.adb:675:26: expression is always true, "Code_Gen_Mode" is always different from "Function" or "Reusable function"

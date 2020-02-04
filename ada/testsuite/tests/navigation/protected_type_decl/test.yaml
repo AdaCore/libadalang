@@ -1,3 +1,0 @@
-driver: navigation
-input_sources: [foo.ads]
-kinds: [Ada_Subp_Decl, Ada_Protected_Type_Decl]

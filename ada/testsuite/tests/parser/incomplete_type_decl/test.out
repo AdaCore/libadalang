@@ -1,8 +1,0 @@
-IncompleteTaggedTypeDecl[1:1-1:27]
-|name:
-|  DefiningName[1:6-1:7]
-|  |name:
-|  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|has_abstract:
-|  AbstractPresent[1:11-1:19]

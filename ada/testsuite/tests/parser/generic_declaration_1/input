@@ -1,7 +1,0 @@
-generic
-    Max: Positive;
-    type Element_T is private;
-package Generic_Stack is
-    procedure Push (E: Element_T);
-    function Pop return Element_T;
-end Generic_Stack;

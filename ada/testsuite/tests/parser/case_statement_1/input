@@ -1,7 +1,0 @@
-procedure Testcs is
-begin
-   case Mode is
-      when TSSL.CRYPTO_LOCK or TSSL.CRYPTO_WRITE =>
-         Locker.Write;
-   end case;
-end Testcs;

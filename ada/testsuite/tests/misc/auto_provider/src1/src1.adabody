@@ -1,3 +1,0 @@
-package body Pkg is
-   procedure Src1 is separate;
-end Pkg;

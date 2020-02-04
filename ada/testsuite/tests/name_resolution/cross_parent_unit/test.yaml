@@ -1,2 +1,0 @@
-driver: name-resolution
-input_sources: [p1.ads, p1-child.ads, p2.ads]

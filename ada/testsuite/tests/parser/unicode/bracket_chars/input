@@ -1,7 +1,0 @@
-procedure Foo is
-   ["03C0"] : constant := 3.14;
-   This_Is_["03C0"] : constant := 3.14;
-   ["000003C0"]_Name : constant String := "["0003C0"]";
-begin
-   null;
-end Foo;

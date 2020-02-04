@@ -1,1 +1,0 @@
-entry insert (an_item : in  item) when empty is begin buffer := an_item; empty := false; end insert;

@@ -1,4 +1,0 @@
-D1: <ObjectDecl ["I"] pkg.ads:5:7-5:19>
-D2: <ObjectDecl ["I"] pkg.ads:10:4-10:26>
-Resolved: <ObjectDecl ["I"] pkg.ads:5:7-5:19>
-Done.

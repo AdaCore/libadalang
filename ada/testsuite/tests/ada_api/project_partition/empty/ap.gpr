@@ -1,3 +1,0 @@
-aggregate project AP is
-   for Project_Files use ();
-end AP;

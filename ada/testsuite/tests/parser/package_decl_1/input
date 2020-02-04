@@ -1,1 +1,0 @@
-package A is procedure B (C, D : Integer); C : constant := 15; D : access constant Double := null; end A;

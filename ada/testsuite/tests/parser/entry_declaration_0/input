@@ -1,1 +1,0 @@
-entry Insert (Buffer_Id) (An_Item : in Item);

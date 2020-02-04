@@ -1,8 +1,0 @@
-foo.adb:31:10: duplicate test with line 29
-gnatdoc-frontend-comment_parser.adb:311:22: duplicate test with line 282
-po_createref_parse_cmd.adb:177:22: duplicate test with line 135
-sem_attr.adb:9665:16: duplicate test with line 9644
-sem_ch4.adb:7380:25: duplicate test with line 7377
-sem_eval.adb:5866:22: duplicate test with line 5858
-sem_prag.adb:4908:19: duplicate test with line 4888
-sem_res.adb:6803:13: duplicate test with line 6774

@@ -1,5 +1,0 @@
-DelayStmt[1:1-1:11]
-|has_until:
-|  UntilAbsent[1:6-1:6]
-|expr:
-|  Id[1:7-1:10]: Del

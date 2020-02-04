@@ -1,1 +1,0 @@
-generic package A is procedure Set; end A;

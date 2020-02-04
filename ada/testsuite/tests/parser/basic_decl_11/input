@@ -1,1 +1,0 @@
-function A (B : Integer) return Integer is (if 1 then 2 else 3);

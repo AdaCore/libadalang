@@ -1,4 +1,0 @@
-Eval 'node.p_fully_qualified_name' on node <SubpDecl ["Baz"] foo.ads:4:4-4:18>
-Result: 'foo.baz'
-
-

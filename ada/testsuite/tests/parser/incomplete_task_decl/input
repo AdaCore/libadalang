@@ -1,6 +1,0 @@
-procedure Main is
-   type A;
-   task Pouet;
-begin
-   null;
-end Main;

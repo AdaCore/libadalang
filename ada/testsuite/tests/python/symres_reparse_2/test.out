@@ -1,6 +1,0 @@
-<Id "A" foo-bar.ads:4:17-4:18> resolves to [<ObjectDecl ["A"] foo.ads:3:4-3:22>]
-<DottedName foo-bar.ads:5:17-5:26> resolves to [<ObjectDecl ["B"] foo-bar.ads:2:4-2:21>]
-<Id "NN" foo-bar.ads:6:17-6:19> resolves to []
-<Id "A" foo-bar.ads:4:17-4:18> resolves to [<ObjectDecl ["A"] foo.ads:3:4-3:23>]
-<DottedName foo-bar.ads:5:17-5:26> resolves to [<ObjectDecl ["B"] foo-bar.ads:2:4-2:21>]
-<Id "NN" foo-bar.ads:6:17-6:19> resolves to [<ObjectDecl ["NN"] foo.ads:4:4-4:25>]

@@ -1,3 +1,0 @@
-driver: name-resolution
-input_sources: [test_new_int.adb]
-with_default_project: False

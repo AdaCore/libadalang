@@ -1,9 +1,0 @@
-project Test is
-   package Naming is
-      for Body ("Pkg.Foo") use "multi_units.adb" at 1;
-      for Body ("Pkg.Bar") use "multi_units.adb" at 2;
-      for Spec ("Baz") use "multi_units.adb" at 3;
-      for Body ("Baz") use "multi_units.adb" at 4;
-      for Body ("Baz.Bazz") use "multi_units.adb" at 5;
-   end Naming;
-end Test;

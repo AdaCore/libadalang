@@ -1,6 +1,0 @@
-foo.ads
-#######
-
-<ConcreteFormalSubpDecl ["Bar"] foo.ads:2:4-2:23> has no body
-
-Done.

@@ -1,5 +1,0 @@
-procedure Pouet is
-   A : Integer := 12;
-begin
-   A := @ + A;
-end Pouet;

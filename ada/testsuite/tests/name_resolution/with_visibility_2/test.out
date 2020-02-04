@@ -1,9 +1,0 @@
-Analyzing pkg_c.ads
-###################
-
-Pkg_A.I resolves to:
-    I : Integer;
-Pkg_A.Pkg_B.I resolves to:
-    I : Integer;
-
-Done.

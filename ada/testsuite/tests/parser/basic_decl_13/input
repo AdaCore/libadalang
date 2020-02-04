@@ -1,1 +1,0 @@
-Columns_Config : Line_Info_Display_Array_Access renames Buffer.Editable_Line_Info_Columns.all;

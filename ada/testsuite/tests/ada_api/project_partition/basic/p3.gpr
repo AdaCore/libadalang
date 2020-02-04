@@ -1,3 +1,0 @@
-project P3 is
-   for Source_Dirs use ("src3");
-end P3;

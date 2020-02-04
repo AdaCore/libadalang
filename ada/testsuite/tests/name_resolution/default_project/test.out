@@ -1,7 +1,0 @@
-Analyzing foo.adb
-#################
-
-Bar.I resolves to:
-    I : Integer;
-
-Done.

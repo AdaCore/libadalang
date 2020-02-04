@@ -1,4 +1,0 @@
-driver: ada-api
-main: main.adb
-argv: [-j2, -Pp.gpr]
-status_code: 1

@@ -41,7 +41,7 @@ then
     ada/manage.py test --disable-ocaml -- -j16 | tee TESTSUITE_OUT
 
     # Exit with an error if there is a FAILED line in TESTSUITE_OUT
-    ! grep "FAILED   " TESTSUITE_OUT > /dev/null
+    ! grep "FAILED" TESTSUITE_OUT > /dev/null
 fi
 
 # Install result and pack an archive

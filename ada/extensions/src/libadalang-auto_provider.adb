@@ -2,7 +2,7 @@
 --                                                                          --
 --                                Libadalang                                --
 --                                                                          --
---                     Copyright (C) 2014-2018, AdaCore                     --
+--                     Copyright (C) 2014-2020, AdaCore                     --
 --                                                                          --
 -- Libadalang is free software;  you can redistribute it and/or modify  it  --
 -- under terms of the GNU General Public License  as published by the Free  --

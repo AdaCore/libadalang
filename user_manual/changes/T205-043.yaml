@@ -1,0 +1,8 @@
+type: new-feature
+title: Add a ``root_type`` property
+
+description: |
+    When called on a base type declaration, this property returns the root
+    of the derivation hierarchy.
+
+date: 2020-02-05

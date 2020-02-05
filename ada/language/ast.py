@@ -3934,11 +3934,12 @@ class BaseTypeDecl(BasicDecl):
 
     root_type = Property(
         Entity,
-        dynamic_vars=[origin],
+        dynamic_vars=[default_origin()],
         doc="""
-        If this type is tagged, return the type that is at the root of the
-        derivation hierarchy (ignoring secondary interfaces derivations)
-        """
+        Return the type that is at the root of the derivation hierarchy
+        (ignoring secondary interfaces derivations for tagged types)
+        """,
+        public=True,
     )
 
     next_part_for_decl = Property(Entity.match(

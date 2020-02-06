@@ -24,7 +24,7 @@ def process_compilation_unit(cu):
         print("  - {}".format(identify(dep)))
 
 
-for source_name in glob("*.ad?"):
+for source_name in sorted(glob("*.ad?")):
     u = ctx.get_from_file(source_name)
     assert not u.diagnostics
     if u.root.is_a(lal.CompilationUnit):

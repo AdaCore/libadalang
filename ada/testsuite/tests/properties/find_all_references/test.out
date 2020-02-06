@@ -22,6 +22,9 @@ Analyzing d.ads
 Analyzing d.adb
 ###############
 
+Analyzing pragmas.ads
+#####################
+
 References to A (a.ads, 1:9-1:10)
    A (a.ads, 19:5-19:6)
    package body A is (a.adb, 1:1-14:7)

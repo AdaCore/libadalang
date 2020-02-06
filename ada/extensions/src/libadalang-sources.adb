@@ -565,7 +565,7 @@ package body Libadalang.Sources is
          Lower_Ext_Digits_Last  : constant Wide_Wide_Character :=
             Wide_Wide_Character'Val
               (Wide_Wide_Character'Pos (Lower_Ext_Digits_First)
-               + Result.Base - 9);
+               + Result.Base - 11);
 
          Upper_Ext_Digits_First : constant Wide_Wide_Character := 'A';
          Upper_Ext_Digits_Last  : constant Wide_Wide_Character :=

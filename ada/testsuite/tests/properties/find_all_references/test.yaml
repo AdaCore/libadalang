@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [a.ads, a.adb, b.ads, b.adb, c.ads, c.adb, d.ads, d.adb]
+input_sources: [a.ads, a.adb, b.ads, b.adb, c.ads, c.adb, d.ads, d.adb, pragmas.ads]

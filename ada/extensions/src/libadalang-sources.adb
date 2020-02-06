@@ -217,9 +217,12 @@ package body Libadalang.Sources is
    begin
       --  TODO: handle brackets encoding
 
+      --  Ensure we have valid delimiters at the start and the end of the input
+      --  text, and ensure they are the same delimiters.
+
       if Text'Length < 2
          or else Text (Text'First) not in '"' | '%'
-         or else Text (Text'Last) /= Text (Text'Last)
+         or else Text (Text'First) /= Text (Text'Last)
       then
          Error;
       end if;

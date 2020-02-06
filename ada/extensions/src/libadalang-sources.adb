@@ -437,6 +437,9 @@ package body Libadalang.Sources is
       Base_First_Delimiter  : Index := No_Index;
       Base_Second_Delimiter : Index := No_Index;
    begin
+      if Text = "" then
+         Error;
+      end if;
 
       --  First, look for the two base delimiters ('#' or ':' characters)
       for I in Text'Range loop

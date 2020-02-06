@@ -60,10 +60,15 @@ package Libadalang.Sources is
    -- Numeric literals handling --
    -------------------------------
 
-   function Decode_Integer_Literal
-     (Text : Text_Type) return GNATCOLL.GMP.Integers.Big_Integer;
+   procedure Decode_Integer_Literal
+     (Text   : Text_Type;
+      Result : out GNATCOLL.GMP.Integers.Big_Integer);
    --  Turn Text, a valid Ada integer literal, into the signified integer
    --  (arbitrary precision). Raise a Libadalang.Analysis.Property_Error if
    --  Text is not a valid literal.
+   --
+   --  TODO(T206-025): use an OUT parameter instead of a function return type
+   --  to workaround a GNAT finalization bug when the function raises an
+   --  exception.
 
 end Libadalang.Sources;

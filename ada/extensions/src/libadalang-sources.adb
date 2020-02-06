@@ -588,8 +588,9 @@ package body Libadalang.Sources is
    -- Decode_Integer_Literal --
    ----------------------------
 
-   function Decode_Integer_Literal
-     (Text : Text_Type) return GNATCOLL.GMP.Integers.Big_Integer
+   procedure Decode_Integer_Literal
+     (Text   : Text_Type;
+      Result : out GNATCOLL.GMP.Integers.Big_Integer)
    is
       use GNATCOLL.GMP;
       use GNATCOLL.GMP.Integers;
@@ -600,28 +601,27 @@ package body Libadalang.Sources is
       Parsed : constant Parsed_Numeric_Literal :=
          Parse_Numeric_Literal (Text);
    begin
-      return Result : GNATCOLL.GMP.Integers.Big_Integer do
+      --  Evaluate the numeral part of the literal
+      declare
+         Numeral : constant String := Slice (Parsed.Numeral);
+      begin
+         Result.Set (Numeral, Int (Parsed.Base));
+      end;
+
+      --  Then evaluate and apply the exponent. For integer literals, negative
+      --  exponents are invalid.
+      if Parsed.Exponent < 0 then
+         Error;
+
+      elsif Parsed.Exponent > 0 then
          declare
-            Numeral : constant String := Slice (Parsed.Numeral);
+            Exponent : GNATCOLL.GMP.Integers.Big_Integer;
          begin
-            Result.Set (Numeral, Int (Parsed.Base));
+            Exponent.Set (10);
+            Exponent.Raise_To_N (Unsigned_Long (Parsed.Exponent));
+            Result.Multiply (Exponent);
          end;
-
-         --  Evaluate and apply the exponent. For integer literals, negative
-         --  exponents are invalid.
-         if Parsed.Exponent < 0 then
-            Error;
-
-         elsif Parsed.Exponent > 0 then
-            declare
-               Exponent : GNATCOLL.GMP.Integers.Big_Integer;
-            begin
-               Exponent.Set (10);
-               Exponent.Raise_To_N (Unsigned_Long (Parsed.Exponent));
-               Result.Multiply (Exponent);
-            end;
-         end if;
-      end return;
+      end if;
    end Decode_Integer_Literal;
 
 end Libadalang.Sources;

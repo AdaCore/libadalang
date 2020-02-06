@@ -25,6 +25,8 @@ with Ada.Containers.Vectors;
 with Ada.Directories;
 with Ada.Strings.Wide_Wide_Unbounded;
 
+with GNATCOLL.GMP.Integers;
+
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
@@ -542,9 +544,10 @@ package body Libadalang.Implementation.Extensions is
      (Node : Bare_Int_Literal) return Big_Integer_Type
    is
       N_Text : constant Text_Type := Text (Node);
+      Number : GNATCOLL.GMP.Integers.Big_Integer;
    begin
-      return Create_Big_Integer
-        (Sources.Decode_Integer_Literal (N_Text));
+      Sources.Decode_Integer_Literal (N_Text, Number);
+      return Create_Big_Integer (Number);
    end Int_Literal_P_Denoted_Value;
 
    -------------------------------------

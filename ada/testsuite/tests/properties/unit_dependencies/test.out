@@ -1,40 +1,34 @@
-Unit dependencies of types (from types.adb):
-  - types (from types.ads)
+Unit dependencies of conversions.ranges (from conversions-ranges.adb):
   - conversions.ranges (from conversions-ranges.ads)
-  - standard (from __standard)
   - conversions (from conversions.ads)
-
-Unit dependencies of pkg (from pkg.ads):
   - standard (from __standard)
 
 Unit dependencies of conversions.ranges (from conversions-ranges.ads):
   - conversions (from conversions.ads)
   - standard (from __standard)
 
-Unit dependencies of pkg.foo (from subunits.ads):
-  - types (from types.ads)
-  - pkg (from pkg.ads)
-  - conversions.ranges (from conversions-ranges.ads)
-  - standard (from __standard)
-  - conversions (from conversions.ads)
-Unit dependencies of pkg.bar (from subunits.ads):
-  - pkg (from pkg.ads)
-  - standard (from __standard)
-
-Unit dependencies of conversions.ranges (from conversions-ranges.adb):
-  - conversions.ranges (from conversions-ranges.ads)
-  - conversions (from conversions.ads)
-  - standard (from __standard)
-
-Unit dependencies of impl (from impl.ads):
+Unit dependencies of conversions (from conversions.ads):
   - standard (from __standard)
 
 Unit dependencies of impl (from impl.adb):
   - impl (from impl.ads)
   - standard (from __standard)
 
-Unit dependencies of conversions (from conversions.ads):
+Unit dependencies of impl (from impl.ads):
   - standard (from __standard)
+
+Unit dependencies of main (from main.adb):
+  - standard (from __standard)
+
+Unit dependencies of pkg (from pkg.ads):
+  - standard (from __standard)
+
+Unit dependencies of pkg.bar.g (from subunits-g.adb):
+  - impl (from impl.ads)
+  - pkg.bar (from subunits.adb)
+  - standard (from __standard)
+  - pkg.bar (from subunits.ads)
+  - pkg (from pkg.ads)
 
 Unit dependencies of pkg.foo (from subunits.adb):
   - pkg.foo (from subunits.ads)
@@ -48,19 +42,25 @@ Unit dependencies of pkg.bar (from subunits.adb):
   - pkg (from pkg.ads)
   - standard (from __standard)
 
-Unit dependencies of main (from main.adb):
+Unit dependencies of pkg.foo (from subunits.ads):
+  - types (from types.ads)
+  - pkg (from pkg.ads)
+  - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
+  - conversions (from conversions.ads)
+Unit dependencies of pkg.bar (from subunits.ads):
+  - pkg (from pkg.ads)
+  - standard (from __standard)
+
+Unit dependencies of types (from types.adb):
+  - types (from types.ads)
+  - conversions.ranges (from conversions-ranges.ads)
+  - standard (from __standard)
+  - conversions (from conversions.ads)
 
 Unit dependencies of types (from types.ads):
   - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
   - conversions (from conversions.ads)
-
-Unit dependencies of pkg.bar.g (from subunits-g.adb):
-  - impl (from impl.ads)
-  - pkg.bar (from subunits.adb)
-  - standard (from __standard)
-  - pkg.bar (from subunits.ads)
-  - pkg (from pkg.ads)
 
 Done

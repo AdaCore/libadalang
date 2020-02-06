@@ -41,6 +41,11 @@ Annotations:
   * belongs-to = Bar
   * other-annotation = False
 
+Test carriage return stripping
+==============================
+
+Doc: 'This is a regular comment.\n\nExcept that we have carriage returns.'
+
 Test toplevel package without token before "package"
 ====================================================
 

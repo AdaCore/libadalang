@@ -119,6 +119,11 @@ package body Libadalang.Doc_Utils is
             when Ada_Comment =>
                T := To_XString (Common.Text (Tok));
 
+               --  Strip potential CR at the end of the line
+               if not T.Is_Empty and then T.Get (T.Length) = Chars.CR then
+                  T := T.Slice (1, T.Length - 1);
+               end if;
+
                --  Strip the "--" from the comment
                T := T.Slice (3, T.Length);
 

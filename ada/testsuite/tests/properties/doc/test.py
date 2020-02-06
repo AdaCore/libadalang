@@ -95,6 +95,13 @@ procedure Foo;
 -- Weirdly formatted
 """)
 
+test('Test carriage return stripping', b"""\r
+procedure Foo;\r
+--  This is a regular comment.\r
+--\r
+--  Except that we have carriage returns.\r
+""")
+
 test('Test toplevel package without token before "package"',
      b"package Lol is end Lol;")
 

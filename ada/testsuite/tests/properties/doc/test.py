@@ -102,6 +102,20 @@ procedure Foo;\r
 --  Except that we have carriage returns.\r
 """)
 
+test('Test handling of erroneous carriage returns', b"""\r
+procedure Foo;\r
+--  This is a regular comment.\r
+--\r\r
+--  Except that we have tabs and erroneous carriage returns.\r
+""")
+
+test('Test handling of tabs', b"""
+procedure Foo;
+--  This is a regular comment.
+--\t
+--  Except that we have tabs and erroneous carriage returns.
+""")
+
 test('Test toplevel package without token before "package"',
      b"package Lol is end Lol;")
 

@@ -185,13 +185,14 @@ package body Libadalang.Doc_Utils is
 
                --  Check that every character we're going to strip is a white
                --  space; else, raise an error.
-               pragma Assert
-                 (L.Is_Empty
-                    or else
-                    (Offset < L.Length
-                     and then
-                       (for all C
-                        of L.Slice (1, Offset - 1) => Is_Space (C))));
+               if not L.Is_Empty
+                  and then (Offset >= L.Length
+                            or else (for all C
+                                     of L.Slice (1, Offset - 1)
+                                     => not Is_Space (C)))
+               then
+                  raise Property_Error with "Incorrectly formatted docstring";
+               end if;
 
                Ret.Doc.Append (L.Slice (Offset, L.Length));
                if I /= Last_Index then

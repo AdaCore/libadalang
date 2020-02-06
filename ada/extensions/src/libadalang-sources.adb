@@ -450,6 +450,13 @@ package body Libadalang.Sources is
                Error;
             elsif Base_First_Delimiter /= No_Index then
                Base_Second_Delimiter := I;
+
+               --  When we have the second delimiter, make sure it is the same
+               --  as the first one.
+               if Text (Base_First_Delimiter) /= Text (Base_Second_Delimiter)
+               then
+                  Error;
+               end if;
             else
                Base_First_Delimiter := I;
             end if;

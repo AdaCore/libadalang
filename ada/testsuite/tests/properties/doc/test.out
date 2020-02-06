@@ -46,6 +46,18 @@ Test carriage return stripping
 
 Doc: 'This is a regular comment.\n\nExcept that we have carriage returns.'
 
+Test handling of erroneous carriage returns
+===========================================
+
+Exception: raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : Incorrectly formatted docstring
+
+
+Test handling of tabs
+=====================
+
+Exception: raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : Incorrectly formatted docstring
+
+
 Test toplevel package without token before "package"
 ====================================================
 

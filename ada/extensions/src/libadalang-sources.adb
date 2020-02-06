@@ -362,7 +362,7 @@ package body Libadalang.Sources is
    --  information about it.
 
    function Strip_Underscores (Text : Text_Type) return String;
-   --  Turn Text, a wide wide string that contains only alphanumerics and
+   --  Turn Text, a wide wide string that contains only base-16 digits and
    --  underscores, into a simple string, with the underscores stripped.
 
    function Evaluate_Simple_Number (Text : Text_Type) return Integer is
@@ -376,10 +376,12 @@ package body Libadalang.Sources is
    -----------------------
 
    function Strip_Underscores (Text : Text_Type) return String is
+      subtype Expected_Character is Character_Type with Static_Predicate =>
+         Expected_Character in '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_';
 
-      Result : String (Text'Range);
-      Next   : Natural := Result'First;
-
+      Text_First : Positive;
+      Result     : String (Text'Range);
+      Next       : Natural := Result'First;
       procedure Put (I : Positive);
       --  Append Text (I) to Result, incrementing Next
 
@@ -394,19 +396,19 @@ package body Libadalang.Sources is
       end Put;
 
    begin
-      for I in Text'Range loop
-         case Text (I) is
-            when '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' => Put (I);
+      --  Process the sign, if present
+      if Text /= "" and then Text (Text'First) in '+' | '-' then
+         Put (Text'First);
+         Text_First := Text'First + 1;
+      else
+         Text_First := Text'First;
+      end if;
 
-            when '+' | '-'  =>
-               if I /= Text'First then
-                  Error;
-               else
-                  Put (I);
-               end if;
-
+      --  Then process digits
+      for I in Text_First .. Text'Last loop
+         case Expected_Character (Text (I)) is
+            when '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' => Put (I);
             when '_'    => null;
-            when others => Error;
          end case;
       end loop;
       return Result (Result'First .. Next - 1);

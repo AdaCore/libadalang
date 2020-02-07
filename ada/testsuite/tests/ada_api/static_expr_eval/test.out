@@ -81,22 +81,25 @@ Expr <ObjectDecl ["Wide_Wide_A"] test.adb:63:7-63:53> evaluated to Int 97
 Expr <ObjectDecl ["Wide_Wide_Smiley"] test.adb:64:7-64:53> evaluated to Int 128512
    Int value is 128512
 
-Expr <ObjectDecl ["A_First"] test.adb:75:7-75:30> evaluated to Int -100
+Expr <ObjectDecl ["Lower_C"] test.adb:68:7-68:40> evaluated to Int 99
+   Int value is 99
+
+Expr <ObjectDecl ["A_First"] test.adb:79:7-79:30> evaluated to Int -100
    Int value is -100
 
-Expr <ObjectDecl ["A_Last"] test.adb:76:7-76:29> evaluated to Int 100
+Expr <ObjectDecl ["A_Last"] test.adb:80:7-80:29> evaluated to Int 100
    Int value is 100
 
-Expr <ObjectDecl ["B_First"] test.adb:78:7-78:30> evaluated to Int -10
+Expr <ObjectDecl ["B_First"] test.adb:82:7-82:30> evaluated to Int -10
    Int value is -10
 
-Expr <ObjectDecl ["B_Last"] test.adb:79:7-79:29> evaluated to Int 10
+Expr <ObjectDecl ["B_Last"] test.adb:83:7-83:29> evaluated to Int 10
    Int value is 10
 
-Expr <ObjectDecl ["C_First"] test.adb:81:7-81:30> evaluated to Int -10
+Expr <ObjectDecl ["C_First"] test.adb:85:7-85:30> evaluated to Int -10
    Int value is -10
 
-Expr <ObjectDecl ["C_Last"] test.adb:82:7-82:29> evaluated to Int 10
+Expr <ObjectDecl ["C_Last"] test.adb:86:7-86:29> evaluated to Int 10
    Int value is 10
 
 Done.

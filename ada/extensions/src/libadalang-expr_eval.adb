@@ -303,7 +303,7 @@ package body Libadalang.Expr_Eval is
             declare
                Char      : constant LAL.Char_Literal := E.As_Char_Literal;
                Node_Type : constant LAL.Base_Type_Decl :=
-                  Char.P_Expression_Type;
+                  Char.P_Expression_Type.P_Root_Type;
 
                --  Fetch the standard character types
 

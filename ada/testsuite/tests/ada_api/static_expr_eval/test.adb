@@ -62,6 +62,10 @@ begin
 
       Wide_Wide_A      : Wide_Wide_Character := 'a';
       Wide_Wide_Smiley : Wide_Wide_Character := '😀';
+
+      type Lower_Character is new Character range 'a' .. 'z';
+
+      Lower_C : Lower_Character := 'c';
    begin
       null;
    end;

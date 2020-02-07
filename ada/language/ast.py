@@ -3419,6 +3419,31 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     )))
 
+    @langkit_property(return_type=Bool)
+    def is_universal_type():
+        """
+        Return whether this type is one of the two universal types (universal
+        integer or universal real).
+
+        .. note::
+            Returns False if Self is null.
+        """
+        return Not(Entity.is_null) & Or(
+            Entity == Self.universal_int_type,
+            Entity == Self.universal_real_type
+        )
+
+    @langkit_property(return_type=Bool)
+    def is_not_universal_type():
+        """
+        Return whether this type is *not* one of the two universal types
+        (universal integer or universal real).
+
+        .. note::
+            Returns False if Self is null.
+        """
+        return Not(Entity.is_null) & Not(Entity.is_universal_type)
+
     @langkit_property(dynamic_vars=[origin], return_type=Int)
     def array_ndims():
         return Literal(0)
@@ -7317,31 +7342,74 @@ class BinOp(Expr):
 
 
             lambda _: Or(
-                # Regular case: Both operands and binop are of the same type.
-                # We call base_subtype as a conversion property because
-                # operators are defined on the root subtype, so the return
-                # value will always be of the root subtype.
-                #
-                # TODO: inlining of the TypeBind macro.
-                Bind(Self.left.type_var, Self.type_var,
-                     eq_prop=BaseTypeDecl.matching_type,
-                     conv_prop=BaseTypeDecl.base_subtype_or_null)
+                # TODO: several inlinings of the TypeBind macro below.
+                # TODO: the 4 cases below can be made into a single equation
+                # once we have conversion properties that can take multiple
+                # logic variables as parameters.
+
+                # note: in the relevant cases below, we call base_subtype as a
+                # conversion property because operators are defined on the root
+                # subtype, so the return value will always be of the root
+                # subtype.
+
+                # Case 1: Both operands have an universal type: set the result
+                # type to that universal type.
+                Predicate(BaseTypeDecl.is_universal_type,
+                          Self.left.type_var)
+                & Predicate(BaseTypeDecl.is_universal_type,
+                            Self.right.type_var)
+                & Or(
+                    # Universal real with universal int case: Implicit
+                    # conversion of the binop to universal real.
+                    # TODO: Apparently this is valid only for some operators,
+                    # and only in constant decls? Should clarify the legality
+                    # scope and only emit the following code when needed.
+                    Or(
+                        Self.universal_int_bind(Self.left.type_var)
+                        & Self.universal_real_bind(Self.right.type_var),
+
+                        Self.universal_real_bind(Self.left.type_var)
+                        & Self.universal_int_bind(Self.right.type_var)
+                    ) & Self.universal_real_bind(Self.type_var),
+
+                    # Else both universal types are the same, so propagate that
+                    # type to the result.
+                    Bind(Self.left.type_var, Self.type_var)
+                ),
+
+                # Case 2: First operand has universal type but not the second:
+                # set the result type to the non-universal type of the RHS.
+                Predicate(BaseTypeDecl.is_universal_type,
+                          Self.left.type_var)
+                & Predicate(BaseTypeDecl.is_not_universal_type,
+                            Self.right.type_var)
                 & Bind(Self.right.type_var, Self.type_var,
                        eq_prop=BaseTypeDecl.matching_type,
                        conv_prop=BaseTypeDecl.base_subtype_or_null),
 
-                # Universal real with universal int case: Implicit conversion
-                # of the binop to universal real.
-                # TODO: Apparently this is valid only for some operators,
-                # and only in constant decls? Should clarify the legality
-                # scope and only emit the following code when needed.
-                Or(
-                    Self.universal_int_bind(Self.left.type_var)
-                    & Self.universal_real_bind(Self.right.type_var),
+                # Case 3: Second operand has universal type but not the first:
+                # set the result type to the non-universal type of the LHS.
+                Predicate(BaseTypeDecl.is_not_universal_type,
+                          Self.left.type_var)
+                & Predicate(BaseTypeDecl.is_universal_type,
+                            Self.right.type_var)
+                & Bind(Self.left.type_var, Self.type_var,
+                       eq_prop=BaseTypeDecl.matching_type,
+                       conv_prop=BaseTypeDecl.base_subtype_or_null),
 
-                    Self.universal_real_bind(Self.left.type_var)
-                    & Self.universal_int_bind(Self.right.type_var)
-                ) & Self.universal_real_bind(Self.type_var)
+                # Case 4: Neither operand have an universal type: set the
+                # result type to the type of both operands (which will succeed
+                # iff both have the same type).
+                Predicate(BaseTypeDecl.is_not_universal_type,
+                          Self.left.type_var)
+                & Predicate(BaseTypeDecl.is_not_universal_type,
+                            Self.right.type_var)
+                & Bind(Self.left.type_var, Self.type_var,
+                       eq_prop=BaseTypeDecl.matching_type,
+                       conv_prop=BaseTypeDecl.base_subtype_or_null)
+                & Bind(Self.right.type_var, Self.type_var,
+                       eq_prop=BaseTypeDecl.matching_type,
+                       conv_prop=BaseTypeDecl.base_subtype_or_null),
             )
         )
 

@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import os
 import os.path
 import pipes
+import re
 import subprocess
 import sys
 
@@ -65,6 +66,13 @@ def catch_test_errors(func):
     return wrapper
 
 
+def indent(text, indent='  '):
+    """
+    Add indentation to all lines in ``text``.
+    """
+    return '\n'.join((indent + line) for line in text.splitlines())
+
+
 class BaseDriver(TestDriver):
     """
     Base class to provide common test driver helpers.
@@ -122,6 +130,9 @@ class BaseDriver(TestDriver):
             self.expect_failure_comment = (self.expect_failure_comment
                                            .replace('\n', ' ').strip())
             self.expect_failure = True
+
+        # Whether to consider the baseline as a regular expression
+        self.baseline_regexp = self.test_env.get('baseline_regexp', False)
 
         # Use the specified timeout if any, otherwise fallback to the default
         # one.
@@ -387,21 +398,38 @@ class BaseDriver(TestDriver):
     #
 
     def analyze(self):
-        rewrite = (self.global_env['options'].rewrite
-                   and not self.expect_failure)
         failures = []
 
         # Check for the test output itself
-        diff = self.diff(self.expected_file, self.output_file)
-        if diff:
-            if rewrite:
-                new_baseline = self.read_file(self.output_file)
-                with open(self.original_expected_file, 'w') as f:
-                    f.write(new_baseline)
-            self.result.actual_output += diff
-            failures.append('output is not as expected{}'.format(
-                ' (baseline updated)' if rewrite else ''
-            ))
+        if self.baseline_regexp:
+            with open(self.expected_file, 'r') as f:
+                pattern = f.read()
+            with open(self.output_file, 'r') as f:
+                output = f.read()
+
+            if not re.match(pattern, output):
+                failures.append('output is not as expected')
+                self.result.actual_output += (
+                    'Output:'
+                    '\n{}'
+                    '\nDoes not match the expected pattern:'
+                    '\n{}'
+                    .format(indent(output), indent(pattern))
+                )
+
+        else:
+            diff = self.diff(self.expected_file, self.output_file)
+            if diff:
+                rewrite = (self.global_env['options'].rewrite
+                           and not self.expect_failure)
+                if rewrite:
+                    new_baseline = self.read_file(self.output_file)
+                    with open(self.original_expected_file, 'w') as f:
+                        f.write(new_baseline)
+                self.result.actual_output += diff
+                failures.append('output is not as expected{}'.format(
+                    ' (baseline updated)' if rewrite else ''
+                ))
 
         # Check memory issues if asked to
         if self.valgrind_errors:

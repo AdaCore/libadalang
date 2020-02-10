@@ -399,7 +399,7 @@ package body Libadalang.Helpers is
 
                end loop;
 
-               Trace.Increase_Indent ("Tearing down " & Job_Name);
+               Trace.Increase_Indent (Job_Name & ": Post-processing");
                Step := Post_Process;
                Job_Post_Process (Job_Ctx);
                Trace.Decrease_Indent;
@@ -572,7 +572,7 @@ package body Libadalang.Helpers is
                T.Stop;
             end loop;
          end;
-         Trace.Trace ("Tearing down the app");
+         Trace.Trace ("Running app post-processing");
          App_Post_Process (App_Ctx, Job_Contexts.all);
          Finalize;
 

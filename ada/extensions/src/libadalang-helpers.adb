@@ -469,10 +469,6 @@ package body Libadalang.Helpers is
             App_Ctx.Provider := (Kind => Project_File, Project => Project);
 
          elsif Args.Auto_Dirs.Get'Length > 0 then
-            if Args.Project_File.Get /= Null_Unbounded_String then
-               Abort_App ("-P conflicts with --auto-dir");
-            end if;
-
             --  The auto provider is requested: initialize it with the given
             --  directories. Also build the list of source files to process.
             declare

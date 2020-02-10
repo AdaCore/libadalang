@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+argv: [-Pp.gpr, --config=config.cgpr, --target=arm-elf]
+status_code: 1

@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+argv: [-Pfoo.gpr, --auto-dir=foo]
+status_code: 1

@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+argv: [-Pp.gpr, -Xfoo]
+status_code: 1

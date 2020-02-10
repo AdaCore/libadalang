@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+argv: [--no-such-flag]
+check_output: False

@@ -1,0 +1,3 @@
+driver: ada-api
+main: main.adb
+argv: [-Pp.gpr, --config=foo.cgpr]

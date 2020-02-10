@@ -572,6 +572,17 @@ package body Libadalang.Helpers is
                T.Stop;
             end loop;
          end;
+
+         --  If there is at least one job that triggered abortion, make sure
+         --  the program stops with an error exit status. We still want to run
+         --  post-processing in this case.
+
+         if Abortion.Abort_Signaled then
+            Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
+         end if;
+
+         --  Run post-process routines and finalize the app
+
          Trace.Trace ("Running app post-processing");
          App_Post_Process (App_Ctx, Job_Contexts.all);
          Finalize;

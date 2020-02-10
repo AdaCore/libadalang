@@ -17,6 +17,7 @@ class AdaAPIDriver(BaseDriver):
         self.input_sources = self.test_env.get('input_sources', [])
         self.argv = self.test_env.get('argv', []) + self.input_sources
         self.status_code = self.test_env.get('status_code', 0)
+        self.check_output = self.test_env.get('check_output', True)
 
         with open(self.working_dir('gen.gpr'), 'w') as f:
             f.write('''
@@ -42,15 +43,21 @@ class AdaAPIDriver(BaseDriver):
 
     @catch_test_errors
     def run(self):
+        # Make sure we start with an empty actual.out text file, since the
+        # second call to run_and_check may not create one.
+        with open(self.output_file, 'w'):
+            pass
+
         # Build the test program and then run it. Whether we use static or
         # shared libraries, make it explicit: some dependencies (such as
         # GNATcoll) use shared ones by default while others such as gnat_util
         # use static ones.
-        argv = ['gprbuild', '-Pgen'] + self.gpr_scenario_vars
-        self.run_and_check(argv, append_output=False)
+        self.run_and_check(['gprbuild', '-Pgen'] + self.gpr_scenario_vars,
+                           append_output=False)
         self.run_and_check([self.test_program] + self.argv,
                            for_debug=True, memcheck=True,
-                           status_code=self.status_code)
+                           status_code=self.status_code,
+                           append_output=self.check_output)
 
     #
     # Helpers

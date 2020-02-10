@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+argv: [--config=foo.cgpr]
+status_code: 1

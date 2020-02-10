@@ -1,0 +1,5 @@
+driver: ada-api
+main: main.adb
+argv: [-Pp.gpr, --no-traceback]
+status_code: 1
+baseline_regexp: True

@@ -575,14 +575,15 @@ package body Libadalang.Expr_Eval is
                   end;
                elsif Name in "succ" | "pred" then
                   declare
-                     Typ       : constant Base_Type_Decl :=
+                     Typ      : constant Base_Type_Decl :=
                        AR.F_Prefix.P_Name_Designated_Type;
-                     Val       : constant Eval_Result :=
+                     Val      : constant Eval_Result :=
                        Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
-                     Enum_Val  : Enum_Literal_Decl;
+                     Enum_Val : Enum_Literal_Decl;
                   begin
                      case Val.Kind is
                      when Int =>
+                        --  TODO??? Properly handle modular types
                         return Create_Int_Result
                           (Typ,
                            (if Name = "succ"

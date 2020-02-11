@@ -1,0 +1,26 @@
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Succ"] invalid.ads:3:4-3:56>
+Exception: out of bounds 'Pred/'Succ on enum
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Pred"] invalid.ads:6:4-6:57>
+Exception: out of bounds 'Pred/'Succ on enum
+
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Int_Succ"] valid.ads:3:4-3:52>
+Result: 2
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Int_Pred"] valid.ads:6:4-6:52>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Succ_1"] valid.ads:11:4-11:59>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Succ_2"] valid.ads:14:4-14:59>
+Result: 2
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Pred_1"] valid.ads:17:4-17:59>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Pred_2"] valid.ads:20:4-20:59>
+Result: 1
+
+

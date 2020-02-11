@@ -1,0 +1,23 @@
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Value"] invalid.ads:4:4-4:33>
+Exception: Invalid decl
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["C1"] invalid.ads:7:4-7:46>
+Exception: Invalid decl
+
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["C1"] valid.ads:5:4-5:35>
+Result: 65
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["C2"] valid.ads:8:4-8:35>
+Result: 90
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["C3"] valid.ads:11:4-11:34>
+Result: 65
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["E1"] valid.ads:14:4-14:30>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["E2"] valid.ads:17:4-17:30>
+Result: 1
+
+

@@ -590,8 +590,8 @@ package body Libadalang.Expr_Eval is
                             then Val.Int_Result + 1
                             else Val.Int_Result - 1));
                      when Real =>
-                        raise Property_Error
-                          with "pred/succ not applicable to reals";
+                        raise Property_Error with
+                           "'Pred/'Succ not applicable to reals";
                      when others =>
                         Enum_Val := Ada_Node'
                           (if Name = "succ"
@@ -601,7 +601,7 @@ package body Libadalang.Expr_Eval is
 
                         if Enum_Val.Is_Null then
                            raise Property_Error with
-                             "out of bounds pred/succ on enum";
+                             "out of bounds 'Pred/'Succ on enum";
                         end if;
                         return Create_Enum_Result (Typ, Enum_Val);
                      end case;

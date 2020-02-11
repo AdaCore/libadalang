@@ -1,0 +1,68 @@
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Div_By_0"] invalid.ads:3:4-3:37>
+Exception: Division by zero
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Big_Pow"] invalid.ads:6:4-6:48>
+Exception: Exponent is too large
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Neg_Pow"] invalid.ads:9:4-9:41>
+Exception: Exponent must be positive
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Int_And_Then"] invalid.ads:12:4-12:54>
+Exception: Unhandled operator: ADA_OP_AND_THEN
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Inconsistent_Types"] invalid.ads:15:4-15:45>
+Exception: Unsupported type discrepancy
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Invalid_Types"] invalid.ads:18:4-18:44>
+Exception: Wrong operator for boolean: ADA_OP_PLUS
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Incomplete_Binop"] invalid.ads:21:4-24:1>
+Exception: attempt to evaluate a null node
+
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Add"] valid.ads:7:4-7:32>
+Result: 5
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Sub"] valid.ads:10:4-10:32>
+Result: -1
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Mul"] valid.ads:13:4-13:32>
+Result: 6
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Div"] valid.ads:16:4-16:32>
+Result: 0
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Pow"] valid.ads:19:4-19:33>
+Result: 8
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_And_Then_1"] valid.ads:29:4-29:61>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_And_Then_2"] valid.ads:32:4-32:62>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_And_Then_3"] valid.ads:35:4-35:63>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_And_Then_4"] valid.ads:38:4-38:62>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_And_Then_5"] valid.ads:41:4-41:57>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_Or_Else_1"] valid.ads:44:4-44:59>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_Or_Else_2"] valid.ads:47:4-47:60>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_Or_Else_3"] valid.ads:50:4-50:61>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_Or_Else_4"] valid.ads:53:4-53:60>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bool_Or_Else_5"] valid.ads:56:4-56:55>
+Result: 1
+
+

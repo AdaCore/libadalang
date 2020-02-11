@@ -1,0 +1,32 @@
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I1"] invalid.ads:3:4-3:37>
+Exception: Unhandled call expr: Foo (1)
+
+Eval 'node.previous_sibling.previous_sibling.f_default_expr.p_eval_as_int' on node <ErrorDecl [] invalid.ads:6:39-6:40>
+Exception: Unhandled call expr: Integer (
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I3"] invalid.ads:9:4-9:44>
+Exception: Invalid enum argument
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["B1"] invalid.ads:12:4-12:41>
+Exception: Invalid integer argument
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["B2"] invalid.ads:15:4-15:43>
+Exception: Invalid real argument
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["R1"] invalid.ads:20:4-20:36>
+Exception: Unhandled type conversion: Rec (True)
+
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I1"] valid.ads:7:4-7:42>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I2"] valid.ads:10:4-10:34>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["E1"] valid.ads:16:4-16:28>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["E2"] valid.ads:19:4-19:44>
+Result: 0
+
+

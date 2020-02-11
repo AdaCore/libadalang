@@ -121,7 +121,7 @@ package body Libadalang.Expr_Eval is
       N : Unsigned_Long;
    begin
       if Right < 0 then
-         raise Property_Error with "Expected natural exponent";
+         raise Property_Error with "Exponent must be positive";
       end if;
 
       begin

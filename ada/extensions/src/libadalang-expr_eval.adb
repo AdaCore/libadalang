@@ -296,6 +296,15 @@ package body Libadalang.Expr_Eval is
       end Eval_Range_Attr;
 
    begin
+      --  Processings on invalid Ada sources may lead to calling Expr_Eval on a
+      --  null node. In this case, regular Ada runtime checks in code below
+      --  will trigger a Constaint_Error, while we want here to propagate
+      --  Property_Error exceptions on invalid code. So do the check ourselves.
+
+      if E.Is_Null then
+         raise Property_Error with "attempt to evaluate a null node";
+      end if;
+
       case E.Kind is
          when Ada_Identifier | Ada_Dotted_Name =>
             return Eval_Decl

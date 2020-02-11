@@ -580,6 +580,12 @@ package body Libadalang.Expr_Eval is
                      end case;
                   end;
                elsif Name in "succ" | "pred" then
+                  if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 1
+                  then
+                     raise Property_Error with
+                        "'Pred/'Succ require exactly two arguments";
+                  end if;
+
                   declare
                      Typ      : constant Base_Type_Decl :=
                        AR.F_Prefix.P_Name_Designated_Type;

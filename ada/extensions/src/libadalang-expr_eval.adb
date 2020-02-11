@@ -21,8 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Strings.Wide_Wide_Unbounded;
-use Ada.Strings.Wide_Wide_Unbounded;
+with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
@@ -56,7 +57,7 @@ package body Libadalang.Expr_Eval is
 
    function Copy (Result : Eval_Result) return Eval_Result;
 
-   function Raise_To_N (Left, Right : Big_Integer) return Big_Integer;
+   procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer);
    --  Raise Left to the power of Right and return the result. If Right is too
    --  big or if it is negative, raise a Property_Error.
 
@@ -113,7 +114,8 @@ package body Libadalang.Expr_Eval is
    -- Raise_To_N --
    ----------------
 
-   function Raise_To_N (Left, Right : Big_Integer) return Big_Integer is
+   procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer)
+   is
       use GNATCOLL.GMP;
       N : Unsigned_Long;
    begin
@@ -128,7 +130,7 @@ package body Libadalang.Expr_Eval is
             raise Property_Error with "Exponent is too large";
       end;
 
-      return Left ** N;
+      Result.Set (Left ** N);
    end Raise_To_N;
 
    ----------------
@@ -359,70 +361,86 @@ package body Libadalang.Expr_Eval is
                Op : constant LAL.Op := BO.F_Op;
                L  : constant Eval_Result := Expr_Eval (BO.F_Left);
                R  : constant Eval_Result := Expr_Eval (BO.F_Right);
-               Bool_Type   : constant LAL.Base_Type_Decl
-                 := BO.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
-               True_Decl   : constant LAL.Enum_Literal_Decl
-                 := BO.P_Std_Entity (+"True").As_Enum_Literal_Decl;
-
-               False_Decl   : constant LAL.Enum_Literal_Decl
-                 := BO.P_Std_Entity (+"False").As_Enum_Literal_Decl;
-
-               function To_Decl (B : Boolean) return LAL.Enum_Literal_Decl is
-                 (if B then True_Decl else False_Decl);
-               --  Return the Basic_Decl from Standard corresponding to the
-               --  boolean value of ``B``.
             begin
                if L.Kind /= R.Kind then
-                  raise Property_Error;
                   --  TODO??? There are actually some rules about implicit
                   --  conversions that we might have to implement someday.
+                  raise Property_Error with "Unsupported type discrepancy";
                end if;
 
                case R.Kind is
-                  when Int =>
+               when Int =>
+                  --  Handle arithmetic operators on Int values
+                  declare
+                     Result : Big_Integer;
+                  begin
+                     case Op.Kind is
+                     when Ada_Op_Plus =>
+                        Result.Set (L.Int_Result + R.Int_Result);
+                     when Ada_Op_Minus =>
+                        Result.Set (L.Int_Result - R.Int_Result);
+                     when Ada_Op_Mult =>
+                        Result.Set (L.Int_Result * R.Int_Result);
+                     when Ada_Op_Div =>
+                        Result.Set (L.Int_Result / R.Int_Result);
+                     when Ada_Op_Pow =>
+                        Raise_To_N (L.Int_Result, R.Int_Result, Result);
+                     when others =>
+                        raise Property_Error with
+                           "Unhandled operator: " & Op.Kind'Image;
+                     end case;
 
-                     --  Handle arithmetic operators on Int values
+                     return Create_Int_Result (R.Expr_Type, Result);
+                  end;
 
-                     return Create_Int_Result
-                       (R.Expr_Type,
-                        (case Op.Kind is
-                         when Ada_Op_Plus => L.Int_Result + R.Int_Result,
-                         when Ada_Op_Minus => L.Int_Result - R.Int_Result,
-                         when Ada_Op_Mult  => L.Int_Result * R.Int_Result,
-                         when Ada_Op_Div   => L.Int_Result / R.Int_Result,
-                         when Ada_Op_Pow   =>
-                            Raise_To_N (L.Int_Result, R.Int_Result),
-                         when others   =>
-                           raise Property_Error
-                           with "Unhandled operator: " & Op.Kind'Img));
-                  when Real =>
+               when Real =>
+                  --  Handle arithmetic operators on Real values
+                  declare
+                     Result : Long_Float;
+                  begin
+                     case Op.Kind is
+                     when Ada_Op_Plus =>
+                        Result := L.Real_Result + R.Real_Result;
+                     when Ada_Op_Minus =>
+                        Result := L.Real_Result - R.Real_Result;
+                     when Ada_Op_Mult =>
+                        Result := L.Real_Result * R.Real_Result;
+                     when Ada_Op_Div =>
+                        Result := L.Real_Result / R.Real_Result;
+                     when others =>
+                        raise Property_Error with
+                           "Unhandled operator: " & Op.Kind'Image;
+                     end case;
+                     return Create_Real_Result (R.Expr_Type, Result);
+                  end;
 
-                     --  Handle arithmetic operators on Real values
+               when Enum_Lit =>
+                  --  Handle relational operators on boolean values
+                  declare
+                     LB        : constant Boolean := As_Bool (L);
+                     RB        : constant Boolean := As_Bool (R);
+                     Result    : Boolean;
+                     Bool_Type : constant LAL.Base_Type_Decl :=
+                        BO.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
+                  begin
+                     case Op.Kind is
+                     when Ada_Op_And | Ada_Op_And_Then =>
+                        Result := LB and then RB;
+                     when Ada_Op_Or | Ada_Op_Or_Else =>
+                        Result := LB or else RB;
+                     when others =>
+                        raise Property_Error with
+                           "Wrong operator for boolean: " & Op.Kind'Image;
+                     end case;
 
-                     return Create_Real_Result
-                       (R.Expr_Type,
-                        (case Op.Kind is
-                         when Ada_Op_Plus  => L.Real_Result + R.Real_Result,
-                         when Ada_Op_Minus => L.Real_Result - R.Real_Result,
-                         when Ada_Op_Mult  => L.Real_Result * R.Real_Result,
-                         when Ada_Op_Div   => L.Real_Result / R.Real_Result,
-                         when others   => raise Property_Error));
-                  when Enum_Lit =>
-
-                     --  Handle relational operators on boolean values
-
+                     --  Get the enumerator value declaration correspnoding to
+                     --  Result in Standard's Boolean.
                      return Create_Enum_Result
-                       (Bool_Type, To_Decl
-                          (case Op.Kind is
-                              when Ada_Op_And | Ada_Op_And_Then =>
-                                 As_Bool (L) and then As_Bool (R),
-                              when Ada_Op_Or | Ada_Op_Or_Else   =>
-                                 As_Bool (L) or else As_Bool (R),
-                              when others                       =>
-                                 raise Property_Error
-                                   with "Wrong op kind for enum lit"));
+                       (Bool_Type,
+                        BO.P_Std_Entity (+To_Text (Result'Image))
+                        .As_Enum_Literal_Decl);
+                  end;
                end case;
-
             end;
 
          when Ada_Un_Op =>

@@ -56,8 +56,6 @@ package body Libadalang.Expr_Eval is
    is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
    --  Helper to create Eval_Result values to wrap real numbers
 
-   function Copy (Result : Eval_Result) return Eval_Result;
-
    procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer);
    --  Raise Left to the power of Right and return the result. If Right is too
    --  big or if it is negative, raise a Property_Error.
@@ -91,25 +89,6 @@ package body Libadalang.Expr_Eval is
       return Create_Int_Result
          (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
-
-   ----------
-   -- Copy --
-   ----------
-
-   function Copy (Result : Eval_Result) return Eval_Result is
-   begin
-      case Result.Kind is
-         when Enum_Lit =>
-            return Create_Enum_Result
-              (Result.Expr_Type, Result.Enum_Result);
-         when Int =>
-            return Create_Int_Result
-              (Result.Expr_Type, Result.Int_Result);
-         when Real =>
-            return Create_Real_Result
-              (Result.Expr_Type, Result.Real_Result);
-      end case;
-   end Copy;
 
    ----------------
    -- Raise_To_N --
@@ -465,27 +444,77 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Un_Op =>
             declare
-               UO          : constant LAL.Un_Op := E.As_Un_Op;
-               Op          : constant LAL.Op := UO.F_Op;
-               Operand_Val : constant Eval_Result := Expr_Eval (UO.F_Expr);
+               UO           : constant LAL.Un_Op := E.As_Un_Op;
+               Op           : constant LAL.Op := UO.F_Op;
+               Operand_Val  : constant Eval_Result := Expr_Eval (UO.F_Expr);
+               Operand_Type : LAL.Base_Type_Decl renames Operand_Val.Expr_Type;
+
+               subtype Valid_Unop_Kind is Ada_Node_Kind_Type with
+                  Static_Predicate => Valid_Unop_Kind in
+                     Ada_Op_Minus | Ada_Op_Plus | Ada_Op_Abs | Ada_Op_Not;
+               Op_Kind : constant Valid_Unop_Kind := Op.Kind;
+               --  Parsers can only build unary operators with the above
+               --  operations. Using a subtype here saves us from writing dead
+               --  code.
             begin
-               case Op.Kind is
-                  when Ada_Op_Minus =>
-                     case Operand_Val.Kind is
-                        when Int =>
-                           return Create_Int_Result
-                             (Operand_Val.Expr_Type, -Operand_Val.Int_Result);
-                        when Real =>
-                           return Create_Real_Result
-                             (Operand_Val.Expr_Type, -Operand_Val.Real_Result);
-                        when Enum_Lit =>
-                           raise Property_Error;
+               case Operand_Val.Kind is
+               when Enum_Lit =>
+                  --  Unary operators are not valid on enums. This is not a
+                  --  legality check: since we process standard character types
+                  --  as integers, this guard will not reject them, but at
+                  --  least code below can assume we are dealing with integers
+                  --  or reals.
+                  raise Property_Error with
+                     "Unary operator invalid on enumerations";
+
+               when Int =>
+                  declare
+                     Operand : Big_Integer renames Operand_Val.Int_Result;
+                     Result  : Big_Integer;
+                  begin
+                     case Op_Kind is
+                     when Ada_Op_Minus =>
+                        Result.Set (-Operand);
+                     when Ada_Op_Plus =>
+                        Result.Set (Operand);
+                     when Ada_Op_Abs =>
+                        Result.Set (abs Operand);
+                     when Ada_Op_Not =>
+                        --  TODO??? Here, we need to check that the operand
+                        --  type is a modular type, and flip bits according to
+                        --  its size.
+                        raise Property_Error with
+                           """not"" not implemented yet";
                      end case;
-                  when Ada_Op_Plus =>
-                     return Copy (Operand_Val);
-                  when others =>
-                     raise Property_Error
-                     with "Unhandled operator: " & Op.Kind'Img;
+                     return Create_Int_Result (Operand_Type, Result);
+                  end;
+
+               when Real =>
+                  declare
+                     Operand : Long_Float renames Operand_Val.Real_Result;
+                     Result  : Long_Float;
+                  begin
+                     begin
+                        case Op_Kind is
+                        when Ada_Op_Minus =>
+                           Result := -Operand;
+                        when Ada_Op_Plus =>
+                           Result := Operand;
+                        when Ada_Op_Abs =>
+                           Result := abs Operand;
+                        when Ada_Op_Not =>
+                           raise Property_Error with
+                              "Invalid ""not"" operator for floating point"
+                              & " value";
+                        end case;
+                     exception
+                        when Exc : Constraint_Error =>
+                           raise Property_Error with
+                              "Floating point computation error: "
+                              & Ada.Exceptions.Exception_Message (Exc);
+                     end;
+                     return Create_Real_Result (Operand_Type, Result);
+                  end;
                end case;
             end;
 

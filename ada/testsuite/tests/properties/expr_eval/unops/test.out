@@ -1,0 +1,26 @@
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Not"] invalid.ads:3:4-3:35>
+Exception: "not" not implemented yet
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Neg"] invalid.ads:8:4-8:37>
+Exception: Unary operator invalid on enumerations
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Plus"] invalid.ads:11:4-11:38>
+Exception: Unary operator invalid on enumerations
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Abs"] invalid.ads:14:4-14:40>
+Exception: Unary operator invalid on enumerations
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Not"] invalid.ads:17:4-17:40>
+Exception: Unary operator invalid on enumerations
+
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Neg"] valid.ads:3:4-3:31>
+Result: -1
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Plus"] valid.ads:6:4-6:32>
+Result: 1
+
+Eval 'node.f_expr.p_eval_as_int' on node <NumberDecl ["Int_Abs"] valid.ads:9:4-9:35>
+Result: 1
+
+

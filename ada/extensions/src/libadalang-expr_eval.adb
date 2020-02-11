@@ -21,6 +21,7 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Exceptions;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
@@ -391,6 +392,9 @@ package body Libadalang.Expr_Eval is
                      when Ada_Op_Mult =>
                         Result.Set (L.Int_Result * R.Int_Result);
                      when Ada_Op_Div =>
+                        if R.Int_Result = 0 then
+                           raise Property_Error with "Division by zero";
+                        end if;
                         Result.Set (L.Int_Result / R.Int_Result);
                      when Ada_Op_Pow =>
                         Raise_To_N (L.Int_Result, R.Int_Result, Result);
@@ -407,19 +411,26 @@ package body Libadalang.Expr_Eval is
                   declare
                      Result : Long_Float;
                   begin
-                     case Op.Kind is
-                     when Ada_Op_Plus =>
-                        Result := L.Real_Result + R.Real_Result;
-                     when Ada_Op_Minus =>
-                        Result := L.Real_Result - R.Real_Result;
-                     when Ada_Op_Mult =>
-                        Result := L.Real_Result * R.Real_Result;
-                     when Ada_Op_Div =>
-                        Result := L.Real_Result / R.Real_Result;
-                     when others =>
-                        raise Property_Error with
-                           "Unhandled operator: " & Op.Kind'Image;
-                     end case;
+                     begin
+                        case Op.Kind is
+                        when Ada_Op_Plus =>
+                           Result := L.Real_Result + R.Real_Result;
+                        when Ada_Op_Minus =>
+                           Result := L.Real_Result - R.Real_Result;
+                        when Ada_Op_Mult =>
+                           Result := L.Real_Result * R.Real_Result;
+                        when Ada_Op_Div =>
+                           Result := L.Real_Result / R.Real_Result;
+                        when others =>
+                           raise Property_Error with
+                              "Unhandled operator: " & Op.Kind'Image;
+                        end case;
+                     exception
+                        when Exc : Constraint_Error =>
+                           raise Property_Error with
+                              "Floating point computation error: "
+                              & Ada.Exceptions.Exception_Message (Exc);
+                     end;
                      return Create_Real_Result (R.Expr_Type, Result);
                   end;
 

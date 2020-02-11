@@ -1,7 +1,16 @@
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inconsistent_Type"] invalid.ads:3:4-3:65>
 Exception: Inconsistent inputs for 'Min/'Max
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["For_Enum"] invalid.ads:6:4-6:61>
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["No_Args"] invalid.ads:6:4-6:46>
+Exception: 'Min/'Max require exactly two arguments
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["One_Arg"] invalid.ads:9:4-9:50>
+Exception: 'Min/'Max require exactly two arguments
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Three_Args"] invalid.ads:12:4-12:59>
+Exception: 'Min/'Max require exactly two arguments
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["For_Enum"] invalid.ads:15:4-15:61>
 Exception: 'Min/'Max not applicable on enum types
 
 

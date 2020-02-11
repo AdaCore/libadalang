@@ -540,6 +540,11 @@ package body Libadalang.Expr_Eval is
                      Val_2 : constant Eval_Result :=
                        Expr_Eval (AR.F_Args.Child (2).As_Param_Assoc.F_R_Expr);
                   begin
+                     if Val_1.Kind /= Val_2.Kind then
+                        raise Property_Error with
+                           "Inconsistent inputs for 'Min/'Max";
+                     end if;
+
                      case Val_1.Kind is
                         when Int =>
                            if Name = "min" then
@@ -564,8 +569,8 @@ package body Libadalang.Expr_Eval is
                                else Long_Float'Max
                                  (Val_1.Real_Result, Val_2.Real_Result)));
                         when others =>
-                           raise Property_Error
-                             with "min/max not applicable on enum types";
+                           raise Property_Error with
+                              "'Min/'Max not applicable on enum types";
                      end case;
                   end;
                elsif Name in "succ" | "pred" then

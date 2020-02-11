@@ -628,76 +628,78 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Call_Expr =>
             declare
+               C               : constant Call_Expr := E.As_Call_Expr;
+               S               : constant Ada_Node := C.F_Suffix;
+               Arg             : Expr;
                Designated_Type : constant Base_Type_Decl :=
-                 E.As_Call_Expr.F_Name.P_Name_Designated_Type;
+                  C.F_Name.P_Name_Designated_Type;
             begin
-               if Is_Null (Designated_Type) then
+               --  Make sure that C's name designates a type and that C has
+               --  exactly one argument.
+               if Designated_Type.Is_Null
+                  or else S.Is_Null
+                  or else S.Children_Count /= 1
+               then
                   raise Property_Error
                     with "Unhandled call expr: " & E.Debug_Text;
-               elsif Designated_Type.P_Is_Float_Type then
+               end if;
+
+               Arg := S.Child (1).As_Param_Assoc.F_R_Expr;
+               if Designated_Type.P_Is_Float_Type then
                   declare
-                     Arg_Val : constant Eval_Result := Expr_Eval
-                       (E.As_Call_Expr.F_Suffix.Child (1)
-                        .As_Param_Assoc.F_R_Expr);
+                     Arg_Val : constant Eval_Result := Expr_Eval (Arg);
+                     Result  : Long_Float;
                   begin
                      case Arg_Val.Kind is
-                        when Int =>
-                           --  Cast int to float, cast the integer to a float
-                           return Create_Real_Result
-                             (Designated_Type,
-                              Long_Float (To_Integer (As_Int (Arg_Val))));
-                        when Real =>
-                           --  Cast float to float, return Arg_Val with its
-                           --  new type.
-                           return Create_Real_Result
-                             (Designated_Type, Arg_Val.Real_Result);
-                        when Enum_Lit =>
-                           raise Property_Error;
+                     when Int =>
+                        Result := Long_Float (To_Integer (Arg_Val.Int_Result));
+                     when Real =>
+                        Result := Arg_Val.Real_Result;
+                     when Enum_Lit =>
+                        raise Property_Error with "Invalid enum argument";
                      end case;
+                     return Create_Real_Result (Designated_Type, Result);
                   end;
+
                elsif Designated_Type.P_Is_Int_Type then
                   declare
-                     Arg_Val : constant Eval_Result := Expr_Eval
-                       (E.As_Call_Expr.F_Suffix.Child (1)
-                        .As_Param_Assoc.F_R_Expr);
+                     Arg_Val : constant Eval_Result := Expr_Eval (Arg);
+                     Result  : Big_Integer;
                   begin
                      case Arg_Val.Kind is
-                        when Int =>
-                           --  Cast int to int, return Arg_Val with its new
-                           --  type.
-                           return Create_Int_Result
-                             (Designated_Type, Arg_Val.Int_Result);
-                        when Real =>
-                           --  Cast float to int, cast the float to an integer
-                           return Create_Int_Result
-                             (Designated_Type, Integer (Arg_Val.Real_Result));
-                        when Enum_Lit =>
-                           raise Property_Error;
+                     when Int =>
+                        Result.Set (Arg_Val.Int_Result);
+                     when Real =>
+                        Result.Set (GNATCOLL.GMP.Long (Arg_Val.Real_Result));
+                     when Enum_Lit =>
+                        raise Property_Error with "Invalid enum argument";
                      end case;
+                     return Create_Int_Result (Designated_Type, Result);
                   end;
+
                elsif Designated_Type.P_Is_Enum_Type then
                   declare
-                     Arg_Val : constant Eval_Result := Expr_Eval
-                       (E.As_Call_Expr.F_Suffix.Child (1)
-                        .As_Param_Assoc.F_R_Expr);
+                     Arg_Val : constant Eval_Result := Expr_Eval (Arg);
                   begin
                      case Arg_Val.Kind is
-                        when Int =>
-                           raise Property_Error;
-                        when Real =>
-                           raise Property_Error;
-                        when Enum_Lit =>
-                           --  Cast an enum to another enum, return Arg_Val
-                           --  with its new type.
-                           return Create_Enum_Result
-                              (Designated_Type, Arg_Val.Enum_Result);
+                     when Int =>
+                        raise Property_Error with "Invalid integer argument";
+                     when Real =>
+                        raise Property_Error with "Invalid real argument";
+                     when Enum_Lit =>
+                        --  Convert an enum to another enum: return Arg_Val
+                        --  with its new type.
+                        return Create_Enum_Result
+                           (Designated_Type, Arg_Val.Enum_Result);
                      end case;
                   end;
+
                else
                   raise Property_Error
                     with "Unhandled type conversion: " & E.Debug_Text;
                end if;
             end;
+
          when others =>
             raise Property_Error with "Unhandled node: " & E.Kind'Img;
       end case;

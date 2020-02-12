@@ -1,0 +1,35 @@
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bad_Decl"] invalid.ads:6:4-6:43>
+Exception: Cannot resolve attribute prefix
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Bad_Type"] invalid.ads:9:4-9:45>
+Exception: Cannot resolve attribute prefix
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Unknown_Decl"] invalid.ads:14:4-14:61>
+Exception: Cannot resolve attribute prefix
+
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I1"] valid.ads:10:4-10:35>
+Result: -100
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I2"] valid.ads:13:4-13:34>
+Result: 100
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I3"] valid.ads:16:4-16:36>
+Result: 100
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I4"] valid.ads:19:4-19:36>
+Result: 100
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I5"] valid.ads:22:4-22:35>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I6"] valid.ads:25:4-25:35>
+Result: 1
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["B1"] valid.ads:28:4-28:43>
+Result: 0
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["B2"] valid.ads:31:4-31:42>
+Result: 1
+
+

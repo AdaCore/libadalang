@@ -185,6 +185,10 @@ package body Libadalang.Expr_Eval is
       function Eval_Range_Attr
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result is
       begin
+         if D.Is_Null then
+            raise Property_Error with "Cannot resolve attribute prefix";
+         end if;
+
          case D.Kind is
          when Ada_Name =>
             return Eval_Range_Attr

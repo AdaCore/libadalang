@@ -7330,9 +7330,9 @@ class Expr(AdaNode):
             experiments, it is totally unsupported and the API and behavior are
             very likely to change in the future.
         """
-        return Self.eval_as_int_in_env(No(Substitution.array))
+        return Entity.eval_as_int_in_env(No(Substitution.array))
 
-    @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
+    @langkit_property(external=True, uses_entity_info=True, uses_envs=False,
                       return_type=T.BigInt, public=True)
     def eval_as_int_in_env(env=T.Substitution.array):
         """

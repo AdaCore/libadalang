@@ -251,7 +251,7 @@ package body Libadalang.Expr_Eval is
                --  expression.
                return Expr_Eval (D.As_Number_Decl.F_Expr);
 
-            when Ada_Object_Decl =>
+            when Ada_Object_Decl_Range =>
                if not D.As_Object_Decl.F_Renaming_Clause.Is_Null then
                   return Expr_Eval
                     (D.As_Object_Decl.F_Renaming_Clause

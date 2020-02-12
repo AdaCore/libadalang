@@ -513,10 +513,11 @@ package body Libadalang.Implementation.Extensions is
    -------------------------------
 
    function Expr_P_Eval_As_Int_In_Env
-     (Node : Bare_Expr; Env : Internal_Substitution_Array_Access)
-      return Big_Integer_Type
+     (Node   : Bare_Expr;
+      Env    : Internal_Substitution_Array_Access;
+      E_Info : Internal_Entity_Info) return Big_Integer_Type
    is
-      N : constant Expr := Public_Converters.Wrap_Node (Node).As_Expr;
+      N : constant Expr := Public_Converters.Wrap_Node (Node, E_Info).As_Expr;
       E : Substitution_Array (Env.Items'First .. Env.Items'Last);
 
       package Eval renames Libadalang.Expr_Eval;

@@ -711,6 +711,8 @@ class AdaNode(ASTNode):
         Helper property to resolve the actuals of generic instantiations.
         """
         return Entity.match(
+            lambda aod=T.AnonymousObjectDecl.entity: aod,
+
             # TODO: depending on the formal that matches this actual, this name
             # can be both an object or a type. For now, we assume it's a type
             # but we should handle objects too.
@@ -5609,6 +5611,14 @@ class Mode(AdaNode):
     enum_node = True
     alternatives = ["in", "out", "in_out", "default"]
 
+    @langkit_property()
+    def is_writable():
+        """
+        Return whether this mode allows the qualified entity to be written or
+        not.
+        """
+        return Self.is_a(Mode.alt_out, Mode.alt_in_out)
+
 
 class ParamSpec(BaseFormalParamDecl):
     """
@@ -6330,6 +6340,17 @@ class ObjectDecl(BasicDecl):
     xref_entry_point = Property(True)
 
 
+@synthetic
+class AnonymousObjectDecl(ObjectDecl):
+    """
+    """
+    defining_names = Property(No(T.DefiningName.entity.array))
+
+    @langkit_property(public=True, return_type=Bool)
+    def is_static_decl():
+        return Entity.default_expr.is_static_expr
+
+
 class ExtendedReturnStmtObjectDecl(ObjectDecl):
     """
     Object declaration that is part of an extended return statement.
@@ -6764,20 +6785,20 @@ class GenericPackageInstantiation(GenericInstantiation):
                    No(T.env_assoc.array),
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Entity.params, False
-                   ).filtermap(
+                   ).map(
                        lambda pm: new_env_assoc(
                            key=pm.formal.name.name_symbol,
-                           val=pm.actual.assoc.expr.node,
+                           val=If(
+                               pm.formal.spec.is_a(T.GenericFormalObjDecl),
+                               pm.actual.assoc.expr.create_object_decl_wrapper(
+                                   type_expr=pm.formal.spec.type_expression,
+                                   as_renaming=pm.formal.spec
+                                   .cast(GenericFormalObjDecl).mode.is_writable
+                               ),
+                               pm.actual.assoc.expr.node
+                           ),
                            dest_env=Self.instantiation_env
-                       ),
-                       # Do not include generic formal object decls, since in
-                       # some cases they cannot be resolved (because they're
-                       # literals). TODO: It is not clear whether that's a good
-                       # solution to this problem, but it is the simplest as
-                       # far as pure name resolution is concerned. Revisit when
-                       # we overhaul the instantiation system.
-                       lambda pm:
-                       Not(pm.formal.spec.is_a(T.GenericFormalObjDecl)),
+                       )
                    ))
             ),
             resolver=AdaNode.resolve_generic_actual,
@@ -6790,6 +6811,15 @@ class RenamingClause(AdaNode):
     Renaming clause, used everywhere renamings are valid.
     """
     renamed_object = Field(type=T.Name)
+
+
+@synthetic
+class SyntheticRenamingClause(RenamingClause):
+    """
+    Synthetic renaming clause. Used to synthesize object decls with renamings.
+    (See to_anonymous_object_decl).
+    """
+    pass
 
 
 class PackageRenamingDecl(BasicDecl):
@@ -7014,6 +7044,7 @@ class GenericFormal(BaseFormalParamDecl):
     decl = Field(T.BasicDecl)
     aspects = NullField()
     defining_names = Property(Entity.decl.defining_names)
+    type_expression = Property(Entity.decl.type_expression)
 
     xref_entry_point = Property(True)
     xref_equation = Property(Entity.decl.xref_equation)
@@ -7023,8 +7054,7 @@ class GenericFormalObjDecl(GenericFormal):
     """
     Formal declaration for an object.
     """
-
-    pass
+    mode = Property(Entity.decl.cast_or_raise(ObjectDecl).mode)
 
 
 class GenericFormalTypeDecl(GenericFormal):
@@ -7401,6 +7431,36 @@ class Expr(AdaNode):
                  eq_prop=BaseTypeDecl.matching_formal_prim_type),
             Bind(Entity.type_var, formal_type,
                  eq_prop=BaseTypeDecl.matching_formal_type)
+        )
+
+    @langkit_property(return_type=T.AnonymousObjectDecl, memoized=True,
+                      ignore_warn_on_node=True)
+    def create_object_decl_wrapper(type_expr=T.TypeExpr.entity,
+                                   as_renaming=T.Bool):
+        """
+        Create an anonymous object decl in which Self appears either as the
+        default expression (when ``as_renaming`` is False), or as the renamed
+        object (when ``as_renaming`` is True).
+        """
+        renaming_clause = Var(If(
+            as_renaming,
+            SyntheticRenamingClause.new(
+                renamed_object=Self.cast_or_raise(Name)
+            ),
+            No(T.RenamingClause)
+        ))
+
+        default_expr = Var(If(as_renaming, No(T.Expr), Self))
+
+        return T.AnonymousObjectDecl.new(
+            ids=No(T.DefiningName.list),
+            has_aliased=No(T.Aliased),
+            has_constant=No(T.Constant),
+            mode=No(T.Mode),
+            renaming_clause=renaming_clause,
+            aspects=No(T.AspectSpec),
+            default_expr=default_expr,
+            type_expr=type_expr.node,
         )
 
 

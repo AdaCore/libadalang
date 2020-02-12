@@ -1,0 +1,6 @@
+type: new-feature
+title: Add is_in_private_part property
+description: |
+    This property returns whether the given BasicDecl is declared inside
+    the private part of a package or not.
+date: 2020-02-12

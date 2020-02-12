@@ -1487,7 +1487,13 @@ class BasicDecl(AdaNode):
             Self.parent.is_a(Subunit)
         )
 
-    is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
+    is_in_private_part = Property(
+        Self.parent.parent.is_a(T.PrivatePart),
+        public=True,
+        doc="""
+        Whether this decl is declared in a private part.
+        """
+    )
 
     @langkit_property(return_type=Bool)
     def subp_decl_match_signature(other=T.BasicDecl.entity):

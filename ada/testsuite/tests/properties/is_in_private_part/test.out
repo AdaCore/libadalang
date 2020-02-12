@@ -1,0 +1,11 @@
+Eval 'node.p_is_in_private_part' on node <ExprFunction ["Baz"] test.adb:2:4-2:40>
+Result: False
+
+
+Eval 'node.p_is_in_private_part' on node <SubpDecl ["Foo"] test.ads:2:4-2:32>
+Result: False
+
+Eval 'node.p_is_in_private_part' on node <SubpDecl ["Bar"] test.ads:7:4-7:32>
+Result: True
+
+

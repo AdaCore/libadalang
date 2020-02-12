@@ -1,0 +1,4 @@
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["I"] pkg.ads:8:4-8:32>
+Exception: Cannot eval decl ADA_COMPONENT_DECL
+
+

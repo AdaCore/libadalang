@@ -186,92 +186,85 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result is
       begin
          case D.Kind is
-            when Ada_Name =>
-               return Eval_Range_Attr
-                 (D.As_Name
-                  .P_Referenced_Decl_Internal (Try_Immediate => True)
-                  .As_Ada_Node,
-                  A);
-            when Ada_Type_Decl =>
-               return Eval_Range_Attr
-                 (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
-            when Ada_Subtype_Decl =>
+         when Ada_Name =>
+            return Eval_Range_Attr
+              (D.As_Name
+               .P_Referenced_Decl_Internal (Try_Immediate => True)
+               .As_Ada_Node,
+               A);
+
+         when Ada_Type_Decl =>
+            return Eval_Range_Attr
+              (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
+
+         when Ada_Subtype_Decl =>
+            declare
+               Subtype_Indication : constant LAL.Subtype_Indication :=
+                  D.As_Subtype_Decl.F_Subtype;
+               Constraint         : constant LAL.Range_Constraint :=
+                  Subtype_Indication.F_Constraint.As_Range_Constraint;
+
+               --  If the subtype declaration has a range constraint, evaluate
+               --  this constraint. Else, recurse on the designated subtype.
+               Target : constant LAL.Ada_Node :=
+                 (if Constraint.Is_Null
+                  then Subtype_Indication.P_Designated_Type_Decl.As_Ada_Node
+                  else Constraint.F_Range.F_Range.As_Ada_Node);
+            begin
+               return Eval_Range_Attr (Target, A);
+            end;
+
+         when Ada_Bin_Op_Range =>
+            declare
+               BO   : constant LAL.Bin_Op := D.As_Bin_Op;
+               Expr : constant LAL.Expr :=
+                 (case A is
+                  when Range_First => BO.F_Left,
+                  when Range_Last  => BO.F_Right);
+            begin
+               return Expr_Eval (Expr);
+            end;
+
+         when Ada_Type_Def =>
+            case D.Kind is
+            when Ada_Derived_Type_Def =>
                declare
-                  Subtype_Indication : constant LAL.Subtype_Indication :=
-                     D.As_Subtype_Decl.F_Subtype;
-                  Constraint : constant LAL.Range_Constraint :=
-                     Subtype_Indication.F_Constraint.As_Range_Constraint;
+                  Cst  : constant LAL.Constraint :=
+                     D.As_Derived_Type_Def.F_Subtype_Indication.F_Constraint;
+
+                  --  If the derived type declaration has a range constraint,
+                  --  evaluate it. Otherwise, recurse on the base type.
+                  Target : constant Ada_Node :=
+                    (if Cst.Is_Null
+                     then D.Parent.As_Base_Type_Decl.P_Base_Type.As_Ada_Node
+                     else Cst.As_Range_Constraint.F_Range.F_Range.As_Ada_Node);
                begin
-                  --  If subtype decl with a range constraint, eval the range
-                  --  constraint. Else, eval the attribute on the designated
-                  --  subtype.
-                  if not Constraint.Is_Null then
-                     return Eval_Range_Attr
-                       (Constraint.F_Range.F_Range.As_Ada_Node, A);
-                  else
-                     return Eval_Range_Attr
-                       (Subtype_Indication.P_Designated_Type_Decl.As_Ada_Node,
-                        A);
-                  end if;
+                  return Eval_Range_Attr (Target, A);
                end;
-            when Ada_Bin_Op_Range =>
+            when Ada_Signed_Int_Type_Def =>
+               return Eval_Range_Attr
+                 (D.As_Signed_Int_Type_Def.F_Range.F_Range.As_Ada_Node, A);
+            when Ada_Enum_Type_Def =>
                declare
-                  BO   : constant LAL.Bin_Op := D.As_Bin_Op;
-                  Expr : constant LAL.Expr :=
+                  Lits      : constant LAL.Enum_Literal_Decl_List :=
+                    D.As_Enum_Type_Def.F_Enum_Literals;
+                  Lit_Index : constant Positive :=
                     (case A is
-                        when Range_First => BO.F_Left,
-                        when Range_Last  => BO.F_Right);
+                     when Range_First => Lits.First_Child_Index,
+                     when Range_Last  => Lits.Last_Child_Index);
                begin
-                  return Expr_Eval (Expr);
+                  return Eval_Decl (Lits.Child (Lit_Index).As_Basic_Decl);
                end;
 
-            when Ada_Type_Def =>
-               case D.Kind is
-                  when Ada_Derived_Type_Def =>
-                     declare
-                        Cst : constant LAL.Constraint :=
-                          D.As_Derived_Type_Def
-                            .F_Subtype_Indication.F_Constraint;
-                        Base : constant LAL.Base_Type_Decl
-                          := D.Parent.As_Base_Type_Decl.P_Base_Type;
-                     begin
-                        if Cst.Is_Null then
-                           return Eval_Range_Attr (Base.As_Ada_Node, A);
-                        else
-                           return Eval_Range_Attr
-                             (Cst.As_Range_Constraint
-                              .F_Range.F_Range.As_Ada_Node,
-                              A);
-                        end if;
-                     end;
-                  when Ada_Signed_Int_Type_Def =>
-                     return Eval_Range_Attr
-                       (D.As_Signed_Int_Type_Def.F_Range.F_Range.As_Ada_Node,
-                        A);
-                  when Ada_Enum_Type_Def =>
-                     declare
-                        Lits : constant LAL.Enum_Literal_Decl_List :=
-                          D.As_Enum_Type_Def.F_Enum_Literals;
-                     begin
-                        case A is
-                           when Range_First =>
-                              return Eval_Decl
-                                (Lits.Child
-                                   (Lits.First_Child_Index).As_Basic_Decl);
-                           when Range_Last  =>
-                              return Eval_Decl
-                                (Lits.Child
-                                   (Lits.Last_Child_Index).As_Basic_Decl);
-                        end case;
-                     end;
-
-                  when others =>
-                     raise Property_Error with "Cannot get "
-                       & A'Img & " attribute of type def " & D.Kind'Img;
-               end case;
             when others =>
-               raise Property_Error with "Cannot eval "
-                 & A'Img & " attribute of " & D.Kind'Img;
+               raise Property_Error with
+                  "Cannot get " & A'Image & " attribute of type def "
+                  & D.Kind'Image;
+            end case;
+
+         when others =>
+            raise Property_Error with
+               "Cannot eval " & A'Image & " attribute of " & D.Kind'Image;
          end case;
       end Eval_Range_Attr;
 

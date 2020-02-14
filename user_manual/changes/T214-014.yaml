@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix name resolution crash on AttributeDefClause.
+description: |
+    Libadalang would previously crash when resolving names on an
+    AttributeDefClause of the form ``for X'Address use Y'Address`` when
+    the ``System`` package was not visible from the clause.
+date: 2020-02-14

@@ -10937,7 +10937,8 @@ class AttributeRef(Name):
     def address_equation():
         address_type = Var(
             Entity
-            .get_unit_root_decl(['System'], UnitSpecification)
+            .get_unit_root_decl(['System'], UnitSpecification,
+                                load_if_needed=True)
             ._.children_env.get_first('Address', lookup=LK.flat)
             .cast(T.BaseTypeDecl)
         )

@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [foo.ads]
+input_sources: [foo.ads, foo.adb]

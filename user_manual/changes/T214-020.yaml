@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix p_primitive_subp_* result on subp body specs.
+description: |
+    Previously, calling one of the p_primitive_subp_* properties (e.g.
+    p_primitive_subp_tagged_type) on the subprogram spec of the *body* of a
+    subprogram would always yield none instead of the expected result.
+date: 2020-02-18

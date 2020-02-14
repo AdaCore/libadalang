@@ -1,0 +1,27 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AttributeDefClause test.adb:3:4-3:32>
+***************************************************************
+
+Expr: <AttributeRef test.adb:3:8-3:17>
+  references: None
+  type:       None
+Expr: <Id "Y" test.adb:3:8-3:9>
+  references: <DefiningName test.adb:2:7-2:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Address" test.adb:3:10-3:17>
+  references: None
+  type:       None
+Expr: <AttributeRef test.adb:3:22-3:31>
+  references: None
+  type:       <TypeDecl ["Address"] system.ads:67:4-67:28>
+Expr: <Id "X" test.adb:3:22-3:23>
+  references: <DefiningName test.adb:2:4-2:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Address" test.adb:3:24-3:31>
+  references: None
+  type:       None
+
+
+Done.

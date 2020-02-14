@@ -1,0 +1,3 @@
+In instantiation <GenericPackageInstantiation ["P"] test.adb:11:4-11:35>:
+  R_Arr's index range is 1 .. 10
+Done

@@ -232,6 +232,7 @@ package body Libadalang.Helpers is
          --  only one provider.
 
          if Partition.all'Length /= 1 then
+            Free (Partition);
             Abort_App ("This aggregate project contains conflicting sources");
          end if;
 

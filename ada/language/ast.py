@@ -4666,9 +4666,29 @@ class IndexConstraint(Constraint):
     """
     constraints = Field(type=T.ConstraintList)
 
-    xref_equation = Property(
-        Entity.constraints.logic_all(lambda c: c.xref_equation)
-    )
+    @langkit_property()
+    def xref_equation():
+        typ = Var(Entity.subtype)
+        return Entity.constraints.logic_all(
+            lambda i, c:
+            c.xref_equation
+
+            # If the index constraint is an expression (which means it is
+            # either a BinOp (first .. last) or an AttributeRef (X'Range)),
+            # we assign to the type of that expression the type of the index
+            # which we are constraining, or else it would be resolved without
+            # any context and we could get erroneous types in some cases.
+            # Consider for example ``subtype T is List ('A' .. 'B')``: here,
+            # 'A' and 'B' could type to e.g. ``Character`` although the index
+            # type of ``List`` is for example ``My_Character``. But if we bind
+            # the type of ``'A' .. 'B'`` to ``My_Character`` as we now do,
+            # the type will be propagated to both 'A' and 'B' and therefore
+            # they will get the correct types.
+            & c.cast(T.Expr).then(
+                lambda e: Self.type_bind_val(e.type_var, typ.index_type(i)),
+                default_val=LogicTrue()
+            )
+        )
 
 
 class DiscriminantConstraint(Constraint):

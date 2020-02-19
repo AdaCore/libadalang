@@ -15,6 +15,7 @@ with GNATCOLL.Memory;
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
+with Langkit_Support.Adalog;         use Langkit_Support.Adalog;
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Lexical_Envs;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
@@ -132,6 +133,11 @@ procedure Nameres is
         (App.Args.Parser, "-L", "--solve-line", "Only analyze line N",
          Natural, Default_Val => 0);
 
+      package Solver_Mode is new Parse_Enum_Option
+        (App.Args.Parser, "", "--solver",
+         "Which solver to use to resolve name resolution equations",
+         Valid_Solver_Kind, Default_Val => State_Machine);
+
       package Only_Show_Failures is new Parse_Flag
         (App.Args.Parser, Long => "--only-show-failures",
          Help => "Only output failures on stdout");
@@ -178,10 +184,6 @@ procedure Nameres is
          Arg_Type    => Langkit_Support.Lexical_Envs.Lookup_Cache_Kind,
          Default_Val => Langkit_Support.Lexical_Envs.Full,
          Help        => "Set the lookup cache mode (ADVANCED)");
-
-      package Trace is new Parse_Flag
-        (App.Args.Parser, "-T", "--trace",
-         Help => "Trace logic equation solving");
 
       package Debug is new Parse_Flag
         (App.Args.Parser, "-D", "--debug",
@@ -680,10 +682,8 @@ procedure Nameres is
 
       Set_Lookup_Cache_Mode (Lookup_Cache_Mode);
 
-      if Args.Trace.Get then
+      if Args.Debug.Get then
          Set_Debug_State (Trace);
-      elsif Args.Debug.Get then
-         Set_Debug_State (Step);
       end if;
 
       if Args.Time.Get then
@@ -703,6 +703,7 @@ procedure Nameres is
       Ctx.Discard_Errors_In_Populate_Lexical_Env
         (Args.Discard_Errors_In_PLE.Get);
       Ctx.Set_Logic_Resolution_Timeout (Args.Timeout.Get);
+      Libadalang.Analysis.Set_Solver_Kind (Args.Solver_Mode.Get);
    end Job_Setup;
 
    ------------------

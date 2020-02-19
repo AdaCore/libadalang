@@ -179,10 +179,6 @@ procedure Nameres is
          Default_Val => Langkit_Support.Lexical_Envs.Full,
          Help        => "Set the lookup cache mode (ADVANCED)");
 
-      package Trace is new Parse_Flag
-        (App.Args.Parser, "-T", "--trace",
-         Help => "Trace logic equation solving");
-
       package Debug is new Parse_Flag
         (App.Args.Parser, "-D", "--debug",
          Help => "Debug logic equation solving");
@@ -680,10 +676,11 @@ procedure Nameres is
 
       Set_Lookup_Cache_Mode (Lookup_Cache_Mode);
 
-      if Args.Trace.Get then
+      if Args.Debug.Get then
+         Langkit_Support.Adalog.Solver_Trace.Set_Active (True);
+         Langkit_Support.Adalog.Solv_Trace.Set_Active (True);
+         Langkit_Support.Adalog.Sol_Trace.Set_Active (True);
          Set_Debug_State (Trace);
-      elsif Args.Debug.Get then
-         Set_Debug_State (Step);
       end if;
 
       if Args.Time.Get then

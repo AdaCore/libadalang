@@ -668,6 +668,7 @@ package body Libadalang.Implementation.Extensions is
       E_Info : Internal_Entity_Info := No_Entity_Info) return Boolean
    is
       use Nameres_Maps;
+      use Libadalang.Implementation.Solver;
 
       R : Relation;
       C : constant Cursor := Node.Unit.Nodes_Nameres.Find (Node);

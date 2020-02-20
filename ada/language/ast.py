@@ -7374,7 +7374,8 @@ class BinOp(Expr):
 
                     # Else both universal types are the same, so propagate that
                     # type to the result.
-                    Bind(Self.left.type_var, Self.type_var)
+                    Bind(Self.left.type_var, Self.type_var,
+                         eq_prop=BaseTypeDecl.matching_type)
                 ),
 
                 # Case 2: First operand has universal type but not the second:

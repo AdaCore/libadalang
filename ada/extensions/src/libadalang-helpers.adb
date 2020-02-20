@@ -166,7 +166,20 @@ package body Libadalang.Helpers is
          Scenario_Vars            : Args.Scenario_Vars.Result_Array;
          Target, RTS, Config_File : String;
          Project                  : out Project_Tree_Access;
-         Env                      : out Project_Environment_Access) is
+         Env                      : out Project_Environment_Access)
+      is
+         procedure Cleanup;
+         --  Cleanup helpers for error handling
+
+         -------------
+         -- Cleanup --
+         -------------
+
+         procedure Cleanup is
+         begin
+            Free (Project);
+            Free (Env);
+         end Cleanup;
       begin
          Trace.Trace ("Loading project " & Project_File);
          Project := new Project_Tree;
@@ -183,6 +196,7 @@ package body Libadalang.Helpers is
                   Eq_Index := Eq_Index + 1;
                end loop;
                if Eq_Index not in A'Range then
+                  Cleanup;
                   Abort_App ("Invalid scenario variable: -X" & A);
                end if;
                Change_Environment
@@ -196,6 +210,7 @@ package body Libadalang.Helpers is
          if Config_File = "" then
             Env.Set_Target_And_Runtime (Target, RTS);
          elsif Target /= "" or else RTS /= "" then
+            Cleanup;
             Abort_App ("--config not allowed if --target or --RTS are passed");
          else
             Env.Set_Config_File (Create (+Config_File));
@@ -211,8 +226,7 @@ package body Libadalang.Helpers is
          exception
             when Invalid_Project =>
                Trace.Trace ("Loading failed");
-               Free (Project);
-               Free (Env);
+               Cleanup;
                Abort_App;
          end;
          Trace.Trace ("Loading succeeded");

@@ -8440,6 +8440,21 @@ class Name(Expr):
         """
         return Entity.is_call & Not(Entity.is_dispatching_call)
 
+    @langkit_property(return_type=T.SingleTokNode.array)
+    def as_single_tok_node_array():
+        """
+        Return the array of SingleTokNode nodes that compose this name.
+        """
+        return Self.match(
+            lambda dname=T.DefiningName: dname.name.as_single_tok_node_array,
+            lambda tok=T.SingleTokNode: tok.singleton,
+            lambda dot=T.DottedName:
+            dot.prefix.as_single_tok_node_array.concat(
+                dot.suffix.as_single_tok_node_array
+            ),
+            lambda _: PropertyError(T.SingleTokNode.array),
+        )
+
     @langkit_property(public=True, return_type=Symbol.array)
     def as_symbol_array():
         """
@@ -8448,14 +8463,7 @@ class Name(Expr):
         For instance, a node with name ``A.B.C`` is turned into
         ``['A', 'B', 'C']``.
         """
-        return Self.match(
-            lambda dname=T.DefiningName: dname.name.as_symbol_array,
-            lambda tok=T.SingleTokNode: tok.symbol.singleton,
-            lambda dot=T.DottedName: dot.prefix.as_symbol_array.concat(
-                dot.suffix.as_symbol_array
-            ),
-            lambda _: PropertyError(Symbol.array),
-        )
+        return Self.as_single_tok_node_array.map(lambda t: t.symbol)
 
 
 class DiscreteSubtypeName(Name):

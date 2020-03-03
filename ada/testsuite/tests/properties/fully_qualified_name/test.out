@@ -1,22 +1,22 @@
 == proc.adb ==
-<SubpBody ["Proc"] proc.adb:1:1-5:10> -> proc
-<ObjectDecl ["I"] proc.adb:2:4-2:16> -> proc.i
+<SubpBody ["Proc"] proc.adb:1:1-5:10> -> Proc
+<ObjectDecl ["I"] proc.adb:2:4-2:16> -> Proc.I
 
 == pkg.ads ==
-<PackageDecl ["Pkg"] pkg.ads:1:1-10:9> -> pkg
-<TypeDecl ["T"] pkg.ads:2:4-2:26> -> pkg.t
-<GenericPackageDecl ["Nested"] pkg.ads:4:4-7:15> -> pkg.nested
-<GenericPackageInternal ["Nested"] pkg.ads:5:4-7:15> -> pkg.nested
-<SubpDecl ["Proc"] pkg.ads:6:7-6:22> -> pkg.nested.proc
-<SubpDecl ["Stub"] pkg.ads:9:4-9:19> -> pkg.stub
+<PackageDecl ["Pkg"] pkg.ads:1:1-10:9> -> Pkg
+<TypeDecl ["T"] pkg.ads:2:4-2:26> -> Pkg.T
+<GenericPackageDecl ["Nested"] pkg.ads:4:4-7:15> -> Pkg.Nested
+<GenericPackageInternal ["Nested"] pkg.ads:5:4-7:15> -> Pkg.Nested
+<SubpDecl ["Proc"] pkg.ads:6:7-6:22> -> Pkg.Nested.Proc
+<SubpDecl ["Stub"] pkg.ads:9:4-9:19> -> Pkg.Stub
 
 == pkg.adb ==
-<PackageBody ["Pkg"] pkg.adb:1:1-9:9> -> pkg
-<PackageBody ["Nested"] pkg.adb:3:4-5:15> -> pkg.nested
-<NullSubpDecl ["Proc"] pkg.adb:4:7-4:30> -> pkg.nested.proc
-<SubpBodyStub ["Stub"] pkg.adb:7:4-7:31> -> pkg.stub
+<PackageBody ["Pkg"] pkg.adb:1:1-9:9> -> Pkg
+<PackageBody ["Nested"] pkg.adb:3:4-5:15> -> Pkg.Nested
+<NullSubpDecl ["Proc"] pkg.adb:4:7-4:30> -> Pkg.Nested.Proc
+<SubpBodyStub ["Stub"] pkg.adb:7:4-7:31> -> Pkg.Stub
 
 == pkg-stub.adb ==
-<SubpBody ["Stub"] pkg-stub.adb:2:1-5:10> -> pkg.stub
+<SubpBody ["Stub"] pkg-stub.adb:2:1-5:10> -> Pkg.Stub
 
 Done

@@ -9430,7 +9430,10 @@ class CaseExpr(Expr):
                 Self.type_bind_val(e.type_var, Self.expr.type_val)
                 & e.sub_equation,
 
-                # TODO: Bind other cases: SubtypeIndication and Range
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
+
+                # TODO: Bind other cases: Range
                 lambda _: LogicTrue()
             ))
 
@@ -12513,7 +12516,10 @@ class CaseStmt(CompositeStmt):
                 Self.type_bind_val(e.type_var, Self.expr.type_val)
                 & e.sub_equation,
 
-                # TODO: Bind other cases: SubtypeIndication and Range
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
+
+                # TODO: Bind other cases: Range
                 lambda _: LogicTrue()
             ))
         ))

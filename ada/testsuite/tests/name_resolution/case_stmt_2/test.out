@@ -1,0 +1,26 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CaseStmt test.adb:6:4-11:13>
+******************************************************
+
+Expr: <Id "X" test.adb:6:9-6:10>
+  references: <DefiningName test.adb:4:4-4:5>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:24>
+Expr: <Id "T" test.adb:7:12-7:13>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       None
+Expr: <BinOp test.adb:7:20-7:26>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:24>
+Expr: <Id "A" test.adb:7:20-7:21>
+  references: <DefiningName test.adb:2:15-2:16>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:24>
+Expr: <OpDoubleDot ".." test.adb:7:22-7:24>
+  references: None
+  type:       None
+Expr: <Id "B" test.adb:7:25-7:26>
+  references: <DefiningName test.adb:2:18-2:19>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:24>
+
+
+Done.

@@ -1976,26 +1976,34 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(public=True, return_type=Symbol.array)
-    def fully_qualified_name_array():
+    @langkit_property(return_type=T.SingleTokNode.array)
+    def fully_qualified_name_impl():
         """
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
         """
         fqn = Var(If(
             Entity.is_compilation_unit_root,
-            Entity.defining_name.as_symbol_array,
+            Entity.defining_name.as_single_tok_node_array,
 
             Entity.parent_basic_decl
-            ._.fully_qualified_name_array.then(lambda fqn: If(
+            ._.fully_qualified_name_impl.then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal),
                 fqn,
-                fqn.concat(Entity.defining_name._.as_symbol_array)
+                fqn.concat(Entity.defining_name._.as_single_tok_node_array)
             ))
         ))
 
         return Self.parent.cast(
-            T.Subunit)._.name.as_symbol_array.concat(fqn)._or(fqn)
+            T.Subunit)._.name.as_single_tok_node_array.concat(fqn)._or(fqn)
+
+    @langkit_property(public=True, return_type=Symbol.array)
+    def fully_qualified_name_array():
+        """
+        Return the fully qualified name corresponding to this declaration, as
+        an array of symbols.
+        """
+        return Entity.fully_qualified_name_impl.map(lambda t: t.symbol)
 
     @langkit_property(public=True, return_type=T.String)
     def fully_qualified_name():

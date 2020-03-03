@@ -278,8 +278,9 @@ rules += [
 
     # Literals
     (Pattern('{integer_literal}'),       Token.Integer),
-    (Pattern('{decimal_literal}'),       Token.Decimal),
     (Pattern('{based_integer_literal}'), Token.Integer),
+
+    (Pattern('{decimal_literal}'),       Token.Decimal),
     (Pattern('{based_decimal_literal}'), Token.Decimal),
 
     (Pattern('{p_string}'),         Token.String),

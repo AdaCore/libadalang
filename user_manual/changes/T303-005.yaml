@@ -1,0 +1,8 @@
+type: new-feature
+title: Preserve casing in fully_qualified_name output
+description: |
+    So far, the ``p_fully_qualified_name`` would always output the fully
+    qualified name as a string in lower case. This fixes it by reusing
+    the casing of the names that compose the fully qualified name as they
+    appear in the source code.
+date: 2020-03-12

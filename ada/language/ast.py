@@ -2010,7 +2010,21 @@ class BasicDecl(AdaNode):
         """
         Return the fully qualified name corresponding to this declaration.
         """
-        return Entity.sym_join(Entity.fully_qualified_name_array, String("."))
+        return Entity.string_join(
+            Entity.fully_qualified_name_impl.map(lambda t: t.text),
+            String(".")
+        )
+
+    @langkit_property(public=True, return_type=T.String)
+    def canonical_fully_qualified_name():
+        """
+        Return a canonical representation of the fully qualified name
+        corresponding to this declaration.
+        """
+        return Entity.string_join(
+            Entity.fully_qualified_name_array.map(lambda t: t.image),
+            String(".")
+        )
 
     @langkit_property(public=True, return_type=T.String)
     def unique_identifying_name():
@@ -2026,7 +2040,9 @@ class BasicDecl(AdaNode):
         """
         return Entity.match(
             lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
-            lambda _: Entity.fully_qualified_name.concat(Entity.custom_id_text)
+            lambda _: Entity.canonical_fully_qualified_name.concat(
+                Entity.custom_id_text
+            )
         )
 
     @langkit_property(return_type=T.String)
@@ -5404,7 +5420,7 @@ class EnumLitSynthTypeExpr(TypeExpr):
         # the enum literal name.
         origin.bind(
             Self,
-            Entity.designated_type.fully_qualified_name
+            Entity.designated_type.canonical_fully_qualified_name
             .concat(String("."))
             .concat(
                 Entity.sym_join(
@@ -5485,7 +5501,7 @@ class SubtypeIndication(TypeExpr):
 
     custom_id_text = Property(origin.bind(
         Self,
-        Entity.designated_type.fully_qualified_name
+        Entity.designated_type.canonical_fully_qualified_name
     ))
 
 

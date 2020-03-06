@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [pkg.ads, pkg-impl_g.ads, pkg-impl_g.adb]

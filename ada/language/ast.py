@@ -9641,6 +9641,11 @@ class BaseId(SingleTokNode):
             )
         )
 
+        formals_env = Var(bd.cast(GenericPackageDecl).then(
+            lambda pkg_g: pkg_g.formal_part.children_env,
+            default_val=EmptyEnv
+        ))
+
         return Cond(
 
             # If we're looking from the body, return a group of all the
@@ -9648,13 +9653,15 @@ class BaseId(SingleTokNode):
             Not(package_body_env.equals(EmptyEnv))
             & Self.is_children_env(package_body_env,
                                    (origin._or(Self)).node_env),
-            Array([package_body_env, private_part_env, env]).env_group(),
+            Array([
+                package_body_env, private_part_env, env, formals_env
+            ]).env_group(),
 
             # If we're looking from the private part, return a group of private
             # part + public part.
             Self.is_children_env(private_part_env,
                                  (origin._or(Self)).node_env),
-            Array([private_part_env, env]).env_group(),
+            Array([private_part_env, env, formals_env]).env_group(),
 
             # TODO: Probably some special handling for separates here, because
             # they'll have full visibility on the package body in which they're

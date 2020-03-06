@@ -659,6 +659,8 @@ class AdaNode(ASTNode):
             # package.
             other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
 
+            other_entity.cast(PackageRenamingDecl)._.info.from_rebound,
+
             # The node is not an unit root
             Not(other_entity.cast(T.BasicDecl).is_compilation_unit_root),
 

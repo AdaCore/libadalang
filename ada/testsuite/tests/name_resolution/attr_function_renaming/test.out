@@ -1,0 +1,10 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["Foo"] test.adb:2:4-2:67>
+*********************************************************************
+
+Resolution failed for node <SubpRenamingDecl ["Foo"] test.adb:2:4-2:67>
+
+
+Done.

@@ -11765,7 +11765,16 @@ class SubpRenamingDecl(BaseSubpBody):
             Entity.renames.renamed_object.xref_no_overloading(all_els=True),
             Predicate(BasicDecl.subp_decl_match_signature,
                       Entity.renames.renamed_object.ref_var,
-                      Entity.cast(T.BasicDecl))
+                      Entity.cast(T.BasicDecl)),
+
+            # TODO: since we don't yet represent function attributes ('Image,
+            # etc.) as proper functions, the xref_equation as written so far
+            # would always fail with a PropertyError because the ref_var for
+            # the attribute is never bound. In order to fail a bit more
+            # gracefully, we force the equation to be unsatisfiable using a
+            # LogicFalse, which prevents the crash.
+            If(Entity.renames.renamed_object.is_a(AttributeRef),
+               LogicFalse(), LogicTrue())
         ),
         # Operators might be built-in, so if we cannot find a reference, we'll
         # just abandon resolution...

@@ -2109,6 +2109,10 @@ class Body(BasicDecl):
                     # just return it (no need to match the signature).
                     lambda _=T.GenericSubpDecl: True,
 
+                    # A formal subprogram cannot be the previous part of any
+                    # subprogram.
+                    lambda _=T.FormalSubpDecl: False,
+
                     lambda subp_decl=T.BasicSubpDecl:
                     subp_decl.subp_decl_spec.match_signature(
                         Entity.subp_spec_or_null.cast(T.SubpSpec), True,

@@ -15,6 +15,7 @@ Contents:
    python_api_tutorial
    ada_api_ref
    python_api_ref
+   examples/index.rst
    api_changes
    design_documents/index.rst
 

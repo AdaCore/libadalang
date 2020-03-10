@@ -62,4 +62,8 @@ package Libadalang.Expr_Eval is
    function Expr_Eval (E : LAL.Expr) return Eval_Result;
    --  Evaluate the expression passed as parameter
 
+   function Expr_Eval_In_Env
+     (E : LAL.Expr; Env : LAL.Substitution_Array) return Eval_Result;
+   --  Evaluate the given expression in the context of the given environment
+
 end Libadalang.Expr_Eval;

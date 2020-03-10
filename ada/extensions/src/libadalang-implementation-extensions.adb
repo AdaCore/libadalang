@@ -508,17 +508,33 @@ package body Libadalang.Implementation.Extensions is
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;
 
-   ------------------------
-   -- Expr_P_Eval_As_Int --
-   ------------------------
+   -------------------------------
+   -- Expr_P_Eval_As_Int_In_Env --
+   -------------------------------
 
-   function Expr_P_Eval_As_Int (Node : Bare_Expr) return Big_Integer_Type is
+   function Expr_P_Eval_As_Int_In_Env
+     (Node : Bare_Expr; Env : Internal_Substitution_Array_Access)
+      return Big_Integer_Type
+   is
       N : constant Expr := Public_Converters.Wrap_Node (Node).As_Expr;
+      E : Substitution_Array (Env.Items'First .. Env.Items'Last);
 
       package Eval renames Libadalang.Expr_Eval;
    begin
-      return Create_Big_Integer (Eval.As_Int (Eval.Expr_Eval (N)));
-   end Expr_P_Eval_As_Int;
+      for I in Env.Items'Range loop
+         declare
+            Bare_Subst : constant Internal_Substitution := Env.Items (I);
+         begin
+            E (I) := Create_Substitution
+              (From_Decl => Public_Converters.Wrap_Node
+                 (Bare_Subst.From_Decl.Node).As_Basic_Decl,
+               Value_Type => Public_Converters.Wrap_Node
+                 (Bare_Subst.Value_Type.Node).As_Base_Type_Decl,
+               To_Value  => Bare_Subst.To_Value.Value);
+         end;
+      end loop;
+      return Create_Big_Integer (Eval.As_Int (Eval.Expr_Eval_In_Env (N, E)));
+   end Expr_P_Eval_As_Int_In_Env;
 
    -----------------------------------------------
    -- Generic_Instantiation_P_Instantiation_Env --

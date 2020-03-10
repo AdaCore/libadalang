@@ -138,4 +138,16 @@ Expr <ObjectDecl ["Test_Multi_4"] test.adb:109:7-109:48> evaluated to Enum_Lit <
 Expr <ObjectDecl ["Test_Multi_5"] test.adb:110:7-110:49> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
    Int value is 1
 
+Expr <ObjectDecl ["Test_1"] test.adb:120:7-120:35> evaluated to Int 4
+   Int value is 4
+
+Expr <ObjectDecl ["Test_2"] test.adb:121:7-121:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_3"] test.adb:122:7-122:39> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_4"] test.adb:123:7-123:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
 Done.

@@ -63,6 +63,15 @@ package body Libadalang.Expr_Eval is
    --  type.
    --  todo: N is only used to access the fake free function P_Std_Entity.
 
+   function Create_Result_From_Subst
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Big_Integer) return Eval_Result;
+   --  Helper to create Eval_Result values from a given substitution value.
+   --  The resulting Eval_Result's Kind will depend on the given Expr_Type:
+   --   - If the Expr_Type is an rnum Type, the Kind will be Enum_Lit.
+   --   - If the Expr_Type is a real Type, the Kind will be Real.
+   --   - If the Expr_Type is a integer Type, the Kind will be Int.
+
    procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer);
    --  Raise Left to the power of Right and return the result. If Right is too
    --  big or if it is negative, raise a Property_Error.
@@ -97,6 +106,27 @@ package body Libadalang.Expr_Eval is
          (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
 
+   function Create_Result_From_Subst
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Big_Integer) return Eval_Result is
+   begin
+      if Expr_Type.P_Is_Enum_Type then
+         declare
+            Base_Type_Decl : constant LAL.Type_Decl :=
+               P_Base_Subtype (Expr_Type).As_Type_Decl;
+
+            Enum_Def : constant LAL.Enum_Type_Def :=
+               F_Type_Def (Base_Type_Decl).As_Enum_Type_Def;
+         begin
+            return Create_Enum_Result
+              (Expr_Type,
+               Child
+                 (F_Enum_Literals (Enum_Def),
+                  Positive (To_Integer (Value) + 1)).As_Enum_Literal_Decl);
+         end;
+      end if;
+      return Create_Int_Result (Expr_Type, Value);
+   end Create_Result_From_Subst;
 
    function Create_Bool_Result
      (Value : Boolean; N : LAL.Ada_Node) return Eval_Result
@@ -152,7 +182,17 @@ package body Libadalang.Expr_Eval is
    ---------------
 
    function Expr_Eval (E : LAL.Expr) return Eval_Result is
+   begin
+      return Expr_Eval_In_Env (E, (1 .. 0 => <>));
+   end Expr_Eval;
 
+   ----------------------
+   -- Expr_Eval_In_Env --
+   ----------------------
+
+   function Expr_Eval_In_Env
+     (E : LAL.Expr; Env : LAL.Substitution_Array) return Eval_Result
+   is
       type Range_Attr is (Range_First, Range_Last);
       --  Reference to either the 'First or the 'Last attribute
 
@@ -163,6 +203,10 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
       --  Helper to evaluate a 'First or 'Last attribute reference
 
+      function Expr_Eval (E : LAL.Expr) return Eval_Result is
+        (Expr_Eval_In_Env (E, Env));
+      --  Helper to evaluate the given expr in the current environment
+
       ---------------
       -- Eval_Decl --
       ---------------
@@ -172,6 +216,17 @@ package body Libadalang.Expr_Eval is
          if D.Is_Null then
             raise Property_Error with "Invalid decl";
          end if;
+
+         --  Check if the environment contains a substitution for the given
+         --  basic declaration. If so, return the value from the substitution.
+         for Subst of Env loop
+            if From_Decl (Subst) = D then
+               return Create_Result_From_Subst
+                 (Expr_Type => Value_Type (Subst).As_Base_Type_Decl,
+                  Value => To_Value (Subst));
+            end if;
+         end loop;
+
          case D.Kind is
             when Ada_Enum_Literal_Decl =>
 
@@ -739,7 +794,7 @@ package body Libadalang.Expr_Eval is
          when others =>
             raise Property_Error with "Unhandled node: " & E.Kind'Img;
       end case;
-   end Expr_Eval;
+   end Expr_Eval_In_Env;
 
    ------------
    -- As_Int --

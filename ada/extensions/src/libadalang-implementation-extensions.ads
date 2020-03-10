@@ -83,7 +83,9 @@ package Libadalang.Implementation.Extensions is
    -- Expr --
    ----------
 
-   function Expr_P_Eval_As_Int (Node : Bare_Expr) return Big_Integer_Type;
+   function Expr_P_Eval_As_Int_In_Env
+     (Node : Bare_Expr; Env : Internal_Substitution_Array_Access)
+      return Big_Integer_Type;
 
    ---------------------------
    -- Generic_Instantiation --

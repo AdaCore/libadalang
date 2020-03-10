@@ -3230,7 +3230,8 @@ class BaseTypeDecl(BasicDecl):
     defining_names = Property(Entity.name.singleton)
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[default_origin()])
+                      dynamic_vars=[default_origin()],
+                      public=True)
     def base_subtype():
         """
         If this type decl is a subtype decl, return the base subtype. If not,
@@ -7003,6 +7004,27 @@ class GenericPackageDecl(GenericDecl):
     decl = Property(Entity.package_decl)
 
 
+class Substitution(Struct):
+    """
+    Represent a substitution of a BasicDecl by a given value. This can then
+    be used as part of an environment in the eval_as_*_in_env property. See
+    the declaration of those properties for more details.
+    """
+
+    from_decl = UserField(type=T.BasicDecl.entity,
+                          doc="The declaration to substitute.")
+
+    # TODO: once we can call expr_eval from the DSL and get an actual
+    # discriminated type, use that type instead of BigInt.
+    # For now however, we only ever need to do BigInt substitutions.
+    to_value = UserField(type=T.BigInt,
+                         doc="The value by which to substitute the"
+                             " declaration.")
+
+    value_type = UserField(type=T.BaseTypeDecl.entity,
+                           doc="The type of the substituted value.")
+
+
 @abstract
 @has_abstract_list
 class Expr(AdaNode):
@@ -7086,12 +7108,32 @@ class Expr(AdaNode):
         """
         return No(T.BasicDecl.entity)
 
-    @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
-                      return_type=T.BigInt, public=True)
+    @langkit_property(return_type=T.BigInt, public=True)
     def eval_as_int():
         """
         Statically evaluates self, and returns the value of the evaluation as
         an integer.
+
+        .. note::
+            In order for a call to this not to raise, the expression needs to
+            be a static expression, as specified in the ARM section 4.9. You
+            can verify whether an expression is static with the
+            ``is_static_expr`` property.
+
+        .. ATTENTION::
+            This is an experimental feature, so even if it is exposed to allow
+            experiments, it is totally unsupported and the API and behavior are
+            very likely to change in the future.
+        """
+        return Self.eval_as_int_in_env(No(Substitution.array))
+
+    @langkit_property(external=True, uses_entity_info=False, uses_envs=False,
+                      return_type=T.BigInt, public=True)
+    def eval_as_int_in_env(env=T.Substitution.array):
+        """
+        Statically evaluates self, and returns the value of the evaluation as
+        an integer. The given environment is used to substitute references
+        to declarations by actual values.
 
         .. note::
             In order for a call to this not to raise, the expression needs to

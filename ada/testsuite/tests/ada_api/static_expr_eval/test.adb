@@ -111,4 +111,17 @@ begin
    begin
       null;
    end;
+
+   --  With substitutions
+   declare
+      function Foo (X : Integer) return Integer is (X + 2);
+      function Bar (X, Y : Integer) return Boolean is (X + Y in -10 .. 10);
+
+      Test_1 : Integer := Foo (2);
+      Test_2 : Boolean := Bar (2, 3);
+      Test_3 : Boolean := Bar (-3, 2);
+      Test_4 : Boolean := Bar (6, 5);
+   begin
+      null;
+   end;
 end Test;

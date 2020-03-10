@@ -462,8 +462,6 @@ package body Libadalang.Expr_Eval is
                      LB        : constant Boolean := As_Bool (L);
                      RB        : constant Boolean := As_Bool (R);
                      Result    : Boolean;
-                     Bool_Type : constant LAL.Base_Type_Decl :=
-                        BO.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
                   begin
                      case Op.Kind is
                      when Ada_Op_And | Ada_Op_And_Then =>
@@ -475,12 +473,7 @@ package body Libadalang.Expr_Eval is
                            "Wrong operator for boolean: " & Op.Kind'Image;
                      end case;
 
-                     --  Get the enumerator value declaration correspnoding to
-                     --  Result in Standard's Boolean.
-                     return Create_Enum_Result
-                       (Bool_Type,
-                        BO.P_Std_Entity (+To_Text (Result'Image))
-                        .As_Enum_Literal_Decl);
+                     return Create_Bool_Result (Result, BO.As_Ada_Node);
                   end;
                end case;
             end;

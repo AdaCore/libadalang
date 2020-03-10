@@ -29,7 +29,17 @@ Expr: <Id "True" foo.ads:39:33-39:37>
 Resolving xrefs for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
 *****************************************************************
 
-Resolution failed for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
+Expr: <Id "Record_Type_3" foo.ads:54:11-54:24>
+  references: <DefiningName foo.ads:45:9-45:22>
+  type:       None
+Expr: <Aggregate foo.ads:54:28-54:37>
+  type:       <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
+Expr: <Id "Int" foo.ads:54:29-54:32>
+  references: <DefiningName foo.ads:6:23-6:26>
+  type:       <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
+Expr: <Int foo.ads:54:34-54:36>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["R3_B"] foo.ads:57:4-57:41>
 *****************************************************************
@@ -49,7 +59,17 @@ Expr: <Id "True" foo.ads:57:35-57:39>
 Resolving xrefs for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
 *****************************************************************
 
-Resolution failed for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
+Expr: <Id "Record_Type_3" foo.ads:60:11-60:24>
+  references: <DefiningName foo.ads:45:9-45:22>
+  type:       None
+Expr: <Aggregate foo.ads:60:28-60:38>
+  type:       <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
+Expr: <Id "Bool" foo.ads:60:29-60:33>
+  references: <DefiningName foo.ads:6:34-6:38>
+  type:       <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
+Expr: <Int foo.ads:60:35-60:37>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

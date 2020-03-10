@@ -871,6 +871,63 @@ class AdaNode(ASTNode):
             ))
         )))
 
+    @langkit_property(return_type=Bool, public=True)
+    def choice_match(value=T.BigInt):
+        """
+        Assuming that self is a choice expression (such as what can appear in
+        an alternative of a case statement or in the RHS of a membership
+        expression, this property returns whether the given value satisfies it.
+
+        .. ATTENTION::
+            This is an experimental feature, so even if it is exposed to allow
+            experiments, it is totally unsupported and the API and behavior are
+            very likely to change in the future.
+        """
+        return Entity.match(
+
+            # If choice is a binop, it is either a range, or a static
+            # arithmetic expression.
+            lambda bo=T.BinOp: If(
+                # If choice is a range, then check that val is in the range
+                bo.op.is_a(Op.alt_double_dot),
+
+                And(value >= bo.left.eval_as_int,
+                    value <= bo.right.eval_as_int),
+
+                value == bo.eval_as_int,
+            ),
+
+            # If choice is a name, it is either a subtype name, either a
+            # constant number name.
+            lambda n=T.Name: n.name_designated_type.then(
+                lambda dt: dt.discrete_range.then(
+                    lambda dr: Let(
+                        lambda edr=Self.eval_discrete_range(dr): And(
+                            value >= edr.low_bound, value <= edr.high_bound
+                        )
+                    )
+                ),
+                default_val=(value == n.eval_as_int)
+            ),
+
+            # If choice is a subtype indication, then get the range
+            lambda st=T.SubtypeIndication: st.discrete_range.then(
+                lambda dr: Let(
+                    lambda edr=Self.eval_discrete_range(dr): And(
+                        value >= edr.low_bound, value <= edr.high_bound
+                    )
+                )
+            ),
+
+            # If it is an expr, then just check for equality
+            lambda e=T.Expr: value == e.eval_as_int,
+
+            # If 'others', always return true
+            lambda _=T.OthersDesignator: True,
+
+            lambda _: False,
+        )
+
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def gnat_xref():
         """
@@ -2754,56 +2811,6 @@ class Variant(AdaNode):
     components = Field(type=T.ComponentList)
 
     @langkit_property(return_type=Bool)
-    def choice_match(choice=T.AdaNode.entity, val=T.BigInt):
-        """
-        Checks whether val matches choice.
-        """
-        return choice.match(
-
-            # If choice is a binop, it is either a range, or a static
-            # arithmetic expression.
-            lambda bo=T.BinOp: If(
-                # If choice is a range, then check that val is in the range
-                bo.op.is_a(Op.alt_double_dot),
-
-                And(val >= bo.left.eval_as_int,
-                    val <= bo.right.eval_as_int),
-
-                val == bo.eval_as_int,
-            ),
-
-            # If choice is a name, it is either a subtype name, either a
-            # constant number name.
-            lambda n=T.Name: n.name_designated_type.then(
-                lambda dt: dt.discrete_range.then(
-                    lambda dr: Let(
-                        lambda edr=Self.eval_discrete_range(dr): And(
-                            val >= edr.low_bound, val <= edr.high_bound
-                        )
-                    )
-                ),
-                default_val=(val == n.eval_as_int)
-            ),
-
-            # If choice is a subtype indication, then get the range
-            lambda st=T.SubtypeIndication: st.discrete_range.then(
-                lambda dr: Let(
-                    lambda edr=Self.eval_discrete_range(dr): And(
-                        val >= edr.low_bound, val <= edr.high_bound
-                    )
-                )
-            ),
-
-            # If it is an expr, then just check for equality
-            lambda e=T.Expr: val == e.eval_as_int,
-
-            # If 'others', always return true
-            lambda _=T.OthersDesignator: True,
-
-            lambda _: False,
-        )
-
-    @langkit_property(return_type=Bool)
     def matches(expr=T.Expr.entity):
         """
         Check if any choice in the choice list matches expr's value.
@@ -2812,7 +2819,7 @@ class Variant(AdaNode):
         expr_val = Var(expr.eval_as_int)
 
         return Entity.choices.any(
-            lambda c: Self.choice_match(c, expr_val)
+            lambda c: c.choice_match(expr_val)
         )
 
 

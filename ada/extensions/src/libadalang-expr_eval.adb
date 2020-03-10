@@ -56,6 +56,13 @@ package body Libadalang.Expr_Eval is
    is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
    --  Helper to create Eval_Result values to wrap real numbers
 
+   function Create_Bool_Result
+     (Value : Boolean; N : LAL.Ada_Node) return Eval_Result;
+   --  Helper to create an Eval_Result with Enum_Lit_Kind which denotes
+   --  the standard True or False literal decls from the standart Boolean
+   --  type.
+   --  todo: N is only used to access the fake free function P_Std_Entity.
+
    procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer);
    --  Raise Left to the power of Right and return the result. If Right is too
    --  big or if it is negative, raise a Property_Error.
@@ -90,6 +97,21 @@ package body Libadalang.Expr_Eval is
          (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
 
+
+   function Create_Bool_Result
+     (Value : Boolean; N : LAL.Ada_Node) return Eval_Result
+   is
+      --  Get the standard Boolean type declaration
+      Bool_Type : constant LAL.Base_Type_Decl :=
+         N.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
+   begin
+      --  Get the enumerator value declaration correspnoding to
+      --  Result in Standard's Boolean.
+      return Create_Enum_Result
+        (Bool_Type,
+         N.P_Std_Entity (+To_Text (Value'Image))
+         .As_Enum_Literal_Decl);
+   end Create_Bool_Result;
    ----------------
    -- Raise_To_N --
    ----------------
@@ -340,6 +362,30 @@ package body Libadalang.Expr_Eval is
             return (Real,
                     E.P_Universal_Real_Type.As_Base_Type_Decl,
                     Long_Float'Value (E.Debug_Text));
+
+         when Ada_Membership_Expr =>
+            declare
+               MB        : constant LAL.Membership_Expr :=
+                  E.As_Membership_Expr;
+
+               Result    : Boolean := False;
+               Op        : constant LAL.Op := F_Op (MB);
+               Alts      : constant LAL.Expr_Alternatives_List :=
+                  F_Membership_Exprs (MB);
+
+               Choice_Value : constant Big_Integer := As_Int
+                 (Expr_Eval (F_Expr (MB)));
+            begin
+               for C of Alts.Children loop
+                  Result := Result or else P_Choice_Match (C, Choice_Value);
+               end loop;
+
+               if Op.Kind = Ada_Op_Not_In then
+                  Result := not Result;
+               end if;
+
+               return Create_Bool_Result (Result, E.As_Ada_Node);
+            end;
 
          when Ada_Bin_Op =>
             declare

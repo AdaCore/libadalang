@@ -11770,7 +11770,11 @@ class BaseSubpBody(Body):
         do(Self.env_hook),
 
         set_initial_env(
-            env.bind(Self.default_initial_env, Entity.body_scope(False)),
+            env.bind(Self.default_initial_env, Entity.body_scope(
+                # If this is a library-level subprogram declaration, we have
+                # visibility on the private part of our parent package, if any.
+                follow_private=Self.is_compilation_unit_root
+            )),
         ),
 
         # Add the body to its own parent env, if it's not the body of a stub

@@ -905,6 +905,11 @@ class AdaNode(ASTNode):
                         lambda edr=Self.eval_discrete_range(dr): And(
                             value >= edr.low_bound, value <= edr.high_bound
                         )
+                    ),
+                    default_val=True
+                ) & origin.bind(
+                    Self, imprecise_fallback.bind(
+                        False, dt.satisfies_type_predicates(value)
                     )
                 ),
                 default_val=(value == n.eval_as_int)
@@ -916,6 +921,11 @@ class AdaNode(ASTNode):
                     lambda edr=Self.eval_discrete_range(dr): And(
                         value >= edr.low_bound, value <= edr.high_bound
                     )
+                ),
+                default_val=True
+            ) & origin.bind(
+                Self, imprecise_fallback.bind(
+                    False, st.designated_type.satisfies_type_predicates(value)
                 )
             ),
 
@@ -3468,6 +3478,55 @@ class BaseTypeDecl(BasicDecl):
         Return the discrete range for this type decl, if applicable.
         """
         return No(DiscreteRange)
+
+    @langkit_property(return_type=T.Expr.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def static_predicate():
+        """
+        Return the expression from the Static_Predicate or the Predicate aspect
+        defined on this type.
+        """
+        return Entity.get_aspect('Static_Predicate').value._or(
+            Entity.get_aspect('Predicate').value
+        )
+
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback(),
+                                    default_origin()])
+    def satisfies_type_predicates(value=T.BigInt):
+        """
+        Return true if the given value satisfies all of this type's static
+        predicates, including its parent predicates (in case this is a derived
+        type) and its base type predicate (if this is a subtype declaration).
+        Return true if no type predicates are defined for this type.
+        """
+        true_val = Var(BigIntLiteral(1))
+
+        satisfies_own_predicate = Var(
+            Entity.static_predicate.then(
+                lambda pred: true_val == pred.eval_as_int_in_env(
+                    Substitution.new(
+                        from_decl=Entity,
+                        value_type=Entity,
+                        to_value=value
+                    ).singleton
+                ),
+                default_val=True
+            )
+        )
+
+        from_type = Var(Entity.cast(T.BaseSubtypeDecl)._.from_type)
+        base_type = Var(Entity.base_type)
+
+        return satisfies_own_predicate & Cond(
+            Not(from_type.is_null),
+            from_type.satisfies_type_predicates(value),
+
+            Not(base_type.is_null),
+            base_type.satisfies_type_predicates(value),
+
+            True
+        )
 
     @langkit_property(dynamic_vars=[origin], memoized=True)
     def is_iterator_type():

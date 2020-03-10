@@ -87,4 +87,28 @@ begin
    begin
       null;
    end;
+
+   --  Membership expressions
+   declare
+      type A is range -10 .. 10;
+      subtype B is A range -10 .. 0;
+      subtype C is A range 1 .. 10;
+
+      Test_1 : Boolean := -11 in A;
+      Test_2 : Boolean := -10 in A;
+      Test_3 : Boolean := 5 in A;
+      Test_4 : Boolean := 10 in A;
+      Test_5 : Boolean := 11 in A;
+
+      Test_Not_1 : Boolean := 4 not in A;
+      Test_Not_2 : Boolean := -12 not in A;
+
+      Test_Multi_1 : Boolean := -11 in B | C;
+      Test_Multi_2 : Boolean := -3 in B | C;
+      Test_Multi_3 : Boolean := 3 in B | C;
+      Test_Multi_4 : Boolean := 4 not in B | C;
+      Test_Multi_5 : Boolean := 11 not in B | C;
+   begin
+      null;
+   end;
 end Test;

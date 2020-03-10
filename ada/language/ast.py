@@ -7733,19 +7733,42 @@ class BaseAggregate(Expr):
         type.
         """
 
-        all_params = (
+        all_params = Var(
             td.record_def
             .comps.abstract_formal_params_for_assocs(Entity.assocs)
         )
 
+        matches = Var(Self.match_formals(all_params, Entity.assocs, False))
+
+        others_assoc = Entity.assocs.find(
+            lambda assoc: assoc.names.any(
+                lambda n: n.is_a(OthersDesignator)
+            )
+        )
+
         # Match formals to actuals, and compute equations
-        return Self.match_formals(all_params, Entity.assocs, False).logic_all(
+        return matches.logic_all(
             lambda pm:
             Self.type_bind_val(pm.actual.assoc.expr.type_var,
                                pm.formal.spec.type_expression.designated_type)
             & pm.actual.assoc.expr.sub_equation
             & pm.actual.name.then(lambda n: Bind(n.ref_var, pm.formal.spec),
                                   LogicTrue())
+        ) & others_assoc.then(
+            # Since all the formals designated by "others" should have the same
+            # type, we look for the first formal that was not yet matched and
+            # use its type as the type of the expression associated to
+            # "others".
+            lambda oa: Self.unpack_formals(all_params).find(
+                lambda f: Not(matches.any(lambda m: m.formal == f))
+            ).then(
+                lambda unmatched_formal: Self.type_bind_val(
+                    oa.expr.type_var,
+                    unmatched_formal.spec.type_expression.designated_type
+                ),
+                default_val=LogicTrue()
+            ),
+            default_val=LogicTrue()
         )
 
 

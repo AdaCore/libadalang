@@ -103,7 +103,7 @@ Resolving xrefs for node <ExprFunction ["Foo"] testfirst.adb:13:4-13:46>
 Expr: <Aggregate testfirst.adb:13:31-13:45>
   type:       <TypeDecl ["Lol"] testfirst.adb:9:4-11:15>
 Expr: <BoxExpr testfirst.adb:13:42-13:44>
-  type:       None
+  type:       <TypeDecl ["A"] testfirst.adb:2:4-2:50>
 
 Resolving xrefs for node <SubpSpec testfirst.adb:13:4-13:27>
 ************************************************************

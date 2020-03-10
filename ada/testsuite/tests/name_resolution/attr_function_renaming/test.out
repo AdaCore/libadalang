@@ -6,5 +6,10 @@ Resolving xrefs for node <SubpRenamingDecl ["Foo"] test.adb:2:4-2:67>
 
 Resolution failed for node <SubpRenamingDecl ["Foo"] test.adb:2:4-2:67>
 
+Resolving xrefs for node <GenericFormalSubpDecl ["Bar"] test.adb:6:7-6:71>
+**************************************************************************
+
+Resolution failed for node <GenericFormalSubpDecl ["Bar"] test.adb:6:7-6:71>
+
 
 Done.

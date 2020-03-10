@@ -6854,10 +6854,16 @@ class FormalSubpDecl(ClassicSubpDecl):
 
             lambda _=T.BoxExpr: LogicTrue(),
 
-            lambda n=T.Name:
-            And(n.xref_no_overloading(all_els=True),
-                Predicate(BasicDecl.subp_decl_match_signature,
-                          n.ref_var, Entity.cast(T.BasicDecl))),
+            lambda n=T.Name: And(
+                And(n.xref_no_overloading(all_els=True),
+                    Predicate(BasicDecl.subp_decl_match_signature,
+                              n.ref_var, Entity.cast(T.BasicDecl))),
+
+                # TODO: change this once we synthesize function attributes
+                # Do not crash on attributes which denotes functions. Ssee
+                # equivalent logic in SubpRenamingDecl's xref_equation.
+                If(n.is_a(AttributeRef), LogicFalse(), LogicTrue())
+            ),
 
             lambda _: PropertyError(Equation, "Should not happen")
         ), default_val=LogicTrue())

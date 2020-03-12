@@ -9238,8 +9238,9 @@ class CaseExpr(Expr):
                 # SubtypeIndication case (``when Color range Red .. Blue``)
                 lambda t=T.SubtypeIndication: t.xref_equation,
 
-                # TODO: Bind other cases: Range
-                lambda _: LogicTrue()
+                lambda _=T.OthersDesignator: LogicTrue(),
+
+                lambda _: PropertyError(T.Equation, "Should not happen")
             ))
 
             # Equations for the dependent expressions
@@ -12304,8 +12305,9 @@ class CaseStmt(CompositeStmt):
                 # SubtypeIndication case (``when Color range Red .. Blue``)
                 lambda t=T.SubtypeIndication: t.xref_equation,
 
-                # TODO: Bind other cases: Range
-                lambda _: LogicTrue()
+                lambda _=T.OthersDesignator: LogicTrue(),
+
+                lambda _: PropertyError(T.Equation, "Should not happen")
             ))
         ))
 

@@ -1,0 +1,8 @@
+type: new-feature
+title: Handle type's static predicates in nameres
+description: |
+   Until now, the name resolution mechanism would not take into account
+   static predicates defined on a type when it should, for example to infer
+   which variant of a record is being initialized by an aggregate, where
+   the case conditions are types with static predicates.
+date: 2020-03-11

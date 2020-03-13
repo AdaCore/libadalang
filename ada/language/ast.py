@@ -10960,7 +10960,8 @@ class QuantifiedExpr(Expr):
         return If(
             spec_success,
             Entity.expr.sub_equation
-            & Self.bool_bind(Entity.expr.type_var),
+            & Self.bool_bind(Entity.expr.type_var)
+            & Self.bool_bind(Entity.type_var),
             LogicFalse()
         )
 

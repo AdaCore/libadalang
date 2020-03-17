@@ -203,9 +203,10 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
       --  Helper to evaluate a 'First or 'Last attribute reference
 
-      function Expr_Eval (E : LAL.Expr) return Eval_Result is
-        (Expr_Eval_In_Env (E, Env));
-      --  Helper to evaluate the given expr in the current environment
+      function Expr_Eval (E : LAL.Expr) return Eval_Result;
+      --  Helper to evaluate the given expr in the current environment. Note
+      --  that this is a regular function (instead of an expression function)
+      --  to workaround a GNAT bug.
 
       ---------------
       -- Eval_Decl --
@@ -348,6 +349,15 @@ package body Libadalang.Expr_Eval is
                "Cannot eval " & A'Image & " attribute of " & D.Kind'Image;
          end case;
       end Eval_Range_Attr;
+
+      ---------------
+      -- Expr_Eval --
+      ---------------
+
+      function Expr_Eval (E : LAL.Expr) return Eval_Result is
+      begin
+         return Expr_Eval_In_Env (E, Env);
+      end Expr_Eval;
 
    begin
       --  Processings on invalid Ada sources may lead to calling Expr_Eval on a

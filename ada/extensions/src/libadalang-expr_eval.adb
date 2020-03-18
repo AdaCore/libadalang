@@ -106,6 +106,10 @@ package body Libadalang.Expr_Eval is
          (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
 
+   ------------------------------
+   -- Create_Result_From_Subst --
+   ------------------------------
+
    function Create_Result_From_Subst
      (Expr_Type  : LAL.Base_Type_Decl;
       Value      : Big_Integer) return Eval_Result is
@@ -128,6 +132,10 @@ package body Libadalang.Expr_Eval is
       return Create_Int_Result (Expr_Type, Value);
    end Create_Result_From_Subst;
 
+   ------------------------
+   -- Create_Bool_Result --
+   ------------------------
+
    function Create_Bool_Result
      (Value : Boolean; N : LAL.Ada_Node) return Eval_Result
    is
@@ -142,6 +150,7 @@ package body Libadalang.Expr_Eval is
          N.P_Std_Entity (+To_Text (Value'Image))
          .As_Enum_Literal_Decl);
    end Create_Bool_Result;
+
    ----------------
    -- Raise_To_N --
    ----------------

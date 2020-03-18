@@ -2881,8 +2881,12 @@ class VariantPart(AdaNode):
                 Self.type_bind_val(e.type_var, Self.discr_name.type_val)
                 & e.sub_equation,
 
-                # TODO: Bind other cases: SubtypeIndication and Range
-                lambda _: LogicTrue()
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
+
+                lambda _=T.OthersDesignator: LogicTrue(),
+
+                lambda _: PropertyError(T.Equation, "Should not happen")
             ))
         ))
 

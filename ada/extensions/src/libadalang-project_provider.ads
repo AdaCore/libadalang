@@ -64,7 +64,7 @@ package Libadalang.Project_Provider is
    --  multiple definitions for the same unit.
    --
    --  The project pointed to by ``Tree`` and ``Env`` must outlive the returned
-   --  unit file providers, and it is up to callers must deallocate
+   --  unit file providers, and it is up to callers to deallocate
    --  ``Tree``/``Env`` themselves.
 
    function Create_Project_Unit_Provider

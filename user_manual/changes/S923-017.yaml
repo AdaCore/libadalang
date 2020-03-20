@@ -19,7 +19,7 @@ description: |
     default, the view is from the node you query.
 
     Some existing properties (``p_is_float_type`` and ``p_is_fixed_point``) now
-    take an origin parameter. That means that, in the python API at least, you
+    take an origin parameter. That means that, in the Python API at least, you
     now need to put parentheses when you call them:
 
     .. code-block:: python

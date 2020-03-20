@@ -2,8 +2,9 @@ type: bugfix
 title: Memory leak in properties to find-all-references
 
 description: |
-    All calls to the find-all-references properties (p_find_all_references,
-    p_find_all_overrides, p_find_all_calls, p_find_all_derived_types) triggered
-    memory leaks. This is now fixed.
+    All calls to the find-all-references properties (``p_find_all_references``,
+    ``p_find_all_overrides``, ``p_find_all_calls``,
+    ``p_find_all_derived_types``) used to trigger memory leaks. This is now
+    fixed.
 
 date: 2019-12-19

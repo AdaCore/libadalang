@@ -4,6 +4,6 @@ title: Add built-in ``AdaNode.full_sloc_image``
 description: |
     A new built-in method has been added on nodes, ``full_sloc_image``. It will
     return a GNU conformant source location in the format
-    ``file:line:column: ``, to make it easier to build diagnostics from nodes.
+    ``file:line:column:``, to make it easier to build diagnostics from nodes.
 
 date: 2020-01-02

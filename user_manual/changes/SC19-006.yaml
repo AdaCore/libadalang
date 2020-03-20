@@ -4,8 +4,10 @@ title: Add node iterator predicate ``Kind_In``
 description: |
     The new ``Kind_In`` node predicate in the ``Libadalang.Iterators`` API
     allows one to filter nodes whose kind is in a given range. This makes it
-    easy to look for nodes that derive from an abstract type. For instance, the
-    following iterator will return all nodes that derive from ``Basic_Decl``.
+    easy to look for nodes that derive from an abstract type.
+
+    For instance, the following iterator will return all nodes that derive from
+    ``Basic_Decl``:
 
     .. code-block:: ada
 

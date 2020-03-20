@@ -1,8 +1,8 @@
 type: bugfix
-title: Fix static evaluator on character literal
+title: Fix static evaluator on character literals
 
 description: |
    The static evaluator was wrongly evaluating a character literal whose
-   type derives Standard.Character.
+   type derives ``Standard.Character``.
 
 date: 2020-02-05

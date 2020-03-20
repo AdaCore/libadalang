@@ -1,27 +1,27 @@
 type: new-feature
-title: Implement ``BasicDecl.p_is_formal``
+title: Add a ``BasicDecl.p_is_formal`` property
 
 description: |
-    Returns whether a declaration is the nested declaration inside a
-    GenericFormal.
+    This new property retruns whether a declaration is the nested declaration
+    inside a ``GenericFormal`` node.
 
-    Given the following Ada code
+    Given the following Ada code:
 
     .. code:: ada
 
-        generic
-           type T is private;
-        package T is end T;
+       generic
+          type T is private;
+       package T is end T;
 
-    You'll get the following output
+    You'll get the following output:
 
     .. code:: python
 
-        >>> u.root.find(lal.TypeDecl).p_is_formal
-        True
+       >>> u.root.find(lal.TypeDecl).p_is_formal
+       True
 
-        # GenericFormals are not the nested declaration, so it will return false
-        >>> u.root.find(lal.GenericFormal).p_is_formal
-        False
+       # GenericFormals are not the nested declaration, so it will return false
+       >>> u.root.find(lal.GenericFormal).p_is_formal
+       False
 
 date: 2019-09-05

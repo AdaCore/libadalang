@@ -1,8 +1,8 @@
 type: bugfix
-title: Fix crash on top-level subprogram renamings.
+title: Fix crash on top-level subprogram renamings
 
 description: |
-    Libadalang would crash when the nameres mechanism encountered an analysis
+    Libadalang used to crash when the nameres mechanism encountered an analysis
     unit containing a single subprogram renaming at the top-level.
 
 date: 2020-01-22

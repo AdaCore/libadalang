@@ -1,5 +1,5 @@
 type: bugfix
-title: Resolution of top-level child generic subp bodies.
+title: Resolution of top-level child generic subp bodies
 
 description: |
     So far name resolution could fail in certain cases when trying to resolve

@@ -3,8 +3,10 @@ title: Various bug fixes in name resolution
 description: |
    This fixes various bugs in libadalang's name resolution mechanism,
    including:
-      - A crash when trying to resolve a formal subprogram's default
-        value being a built-in attribute reference.
-      - A bug where library-level subprogram would not have visibility
-        on the private part of their parent package.
+
+   * A crash when trying to resolve a formal subprogram's default value being a
+     built-in attribute reference.
+   * A bug where library-level subprogram would not have visibility on the
+     private part of their parent package.
+
 date: 2020-03-11

@@ -3,7 +3,7 @@ title: Resolve more SPARK specific attributes and pragmas
 
 description: |
     Some SPARK specific pragmas and attributes were not yet resolved.
-    The ``Loop_Invariant`` pragma and the `Loop_Entry` attribute were not
+    The ``Loop_Invariant`` pragma and the ``Loop_Entry`` attribute were not
     resolved correctly. In addition, some bugs wrt. indexing the result of some
     attributes, such as ``'Old/'Loop_Invariant`` have been fixed.
 

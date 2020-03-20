@@ -1,8 +1,7 @@
 type: bugfix
-title: |
-    Fix name resolution of binary operations when one or both operands are of
-    universal type.
-short_title: Fix bug in name resolution of binops.
+title: Fix name resolution of binary operations when at least one operand has a
+    universal type
+short_title: Fix bug in name resolution of binops
 description: |
     Libadalang would often wrongly assume that both operands of a binary
     operation have the same type, overlooking the case where one of the

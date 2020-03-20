@@ -2,7 +2,7 @@ type: new-feature
 title: More helpful error message for ``As_*`` node converters
 apis: ["ada"]
 description: |
-    ``As_*`` node conversion functions raise a ``Constraint_Error` when the
+    ``As_*`` node conversion functions raise a ``Constraint_Error`` when the
     input value does not fit in the output type. The message attached to this
     exception has been enhanced to contain input/output type information and
     mention Libadalang, so that it is easier to investigate complex code

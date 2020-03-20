@@ -4,16 +4,17 @@ title: Fix fully_qualified_name for generic decls
 
 description: |
     Consider the following snippet:
+
     .. code:: ada
 
-        package Foo is
-            generic
-            package Bar is
-                X : Integer;
-            end Bar;
+       package Foo is
+           generic
+           package Bar is
+               X : Integer;
+           end Bar;
 
-            package My_Bar is new Bar;
-        end Foo;
+           package My_Bar is new Bar;
+       end Foo;
 
     Previously, calling ``fully_qualified_name`` on the declaration of ``X``
     would return ``Foo.Bar.X`` no matter how ``X`` was retrieved.

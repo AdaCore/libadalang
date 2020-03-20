@@ -10,17 +10,16 @@ description: |
 
     .. code-block:: ada
 
-        type A is range 1 .. 10;
-        type B is new A;
+       type A is range 1 .. 10;
+       type B is new A;
 
     Similarly, subtypes would not be handled at all, so the evaluation of the
     range of any subtypes would crash.
 
     .. code-block:: ada
 
-        type A is range 1 .. 10;
-        subtype B is A;  --  CRASH
-        subtype B is A range 1 .. 5;  --  CRASH
-
+       type A is range 1 .. 10;
+       subtype B is A;  --  CRASH
+       subtype B is A range 1 .. 5;  --  CRASH
 
 date: 2019-12-05

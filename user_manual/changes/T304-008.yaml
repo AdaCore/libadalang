@@ -3,10 +3,11 @@ title: Various bug fixes in name resolution
 description: |
    This fixes various bugs in libadalang's name resolution mechanism,
    including:
-      - A bug related to the use of a package renaming as an actual for
-        a generic formal package.
-      - A bug related to visibility on a generic package's formals when
-        using a qualified name to access it.
-      - A crash when trying to resolve a subprogram renaming a built-in
-        attribute.
+
+   * A bug related to the use of a package renaming as an actual for
+     a generic formal package.
+   * A bug related to visibility on a generic package's formals when
+     using a qualified name to access it.
+   * A crash when trying to resolve a subprogram renaming a built-in
+     attribute.
 date: 2020-03-11

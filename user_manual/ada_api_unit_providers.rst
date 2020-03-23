@@ -1,3 +1,5 @@
+.. _ada-unit-providers:
+
 Unit providers
 ==============
 

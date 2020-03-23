@@ -1,0 +1,7 @@
+Load without project scope
+   exception InvalidProjectError: Cannot open project agg.gpr
+Load with ambiguous scope
+   exception InvalidProjectError: Cannot open project agg.gpr
+Load with a project scope
+   success
+Done.

@@ -159,11 +159,95 @@ useful providers:
 * one that looks for all source files that match a given file name pattern in a
   given list of directory (the "auto unit provider").
 
-Note that due to the very nature of Libadalang's operations regarding name
-resolution, it expects to have exactly one source file for each unit name/kind.
-This assumption allows the "get to the definition" operation to return exactly
-one result.  Because of this, the project unit provider does not support
-aggregate projects, as they allow several source files to be associated to one
-unit name/kind. If you need to process an aggregate project, we recommend to
-collect all non-aggregate sub-projects first, and then iterate through them to
-create one analysis context for each.
+.. _unit-providers-aggregate:
+
+Aggregate projects
+------------------
+
+Due to the very nature of Libadalang's operations regarding name resolution, it
+expects exactly one source file for each unit name/kind. This assumption
+allows the "get to the definition" operation to return exactly one result. The
+`aggregate project
+<https://docs.adacore.com/gprbuild-docs/html/gprbuild_ug/gnat_project_manager.html#aggregate-projects>`_
+formalism is lax and allows concurrent declarations and implementations to
+coexist in a single project tree, which violates the assumption described in
+the previous paragraph.
+
+For instance, consider the following aggregate project:
+
+.. code-block:: ada
+
+   --  "agg.gpr"
+
+   aggregate project Agg is
+      for Project_Files use ("arch32/arch.gpr", "arch64/arch.gpr");
+   end Agg;
+
+The two following projects (two alternative implementations of the same
+package):
+
+.. code-block:: ada
+
+   --  "arch32/arch.gpr"
+   project Arch is
+   end Arch;
+
+   --  "arch32/arch.ads"
+   package Arch is
+      type Target_Address is mod 2 ** 32;
+   end Arch;
+
+   --  "arch64/arch.gpr"
+   project Arch is
+   end Arch;
+
+   --  "arch64/arch.ads"
+   package Arch is
+      type Target_Address is mod 2 ** 64;
+   end Arch;
+
+And finally the following project:
+
+.. code-block:: ada
+
+   --  "main.gpr"
+   with "arch";
+   project Main is
+      for Main use ("main.adb");
+   end Main;
+
+   --  "main.gpr"
+   with Ada.Text_IO, Arch;
+   procedure Main is
+   begin
+      Ada.Text_IO.Put_Line
+        ("Arch.Target_Address'Size =" & Arch.Target_Address'Size'Image);
+   end;
+
+Just like the output of the "main" program depends on which ``Arch`` package is
+used, the result of the "get to the definition" query on
+``Arch.Target_Address`` above depends on it.
+
+Because of this, Libadalang's project provider has restrictions on the
+aggregate projects passed to it:
+
+1. Either the given aggregate project must not contain at most one source file
+   per unit name/kind. It is not the case in the example above, because there
+   are two files (``arch32/arch.ads`` and ``arch64/arch.ads``) associated to
+   the spec of the ``Arch`` unit.
+
+2. Either the aggregate project must come with a reference to a specific
+   project file in the whole project tree. The unit provider will consider only
+   the source files that this project file and all its dependencies contain.
+   In the example above, this means that one could give the ``agg.gpr`` project
+   file plus a reference to the ``arch32/arch.gpr`` project: Libadalang would
+   then only analyze the ``arch32/arch.ads`` source file.
+
+3. Libadalang can also create several project providers, each one having a
+   restricted view on the sub-project it has access to, so that only one source
+   file is available for each unit name/kind.
+
+While the two first options are available in all Libadalang APIs, option 3. is
+currently available only in its Ada API.
+
+See the :ref:`examples_aggregate_projects` section for related code examples.

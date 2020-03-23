@@ -27,6 +27,8 @@ Python
 
 .. code-block:: python
 
+   import libadalang as lal
+
    # Getting the fully qualified name of the generic instantiation's parameter
 
    print unit.root.find(

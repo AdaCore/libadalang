@@ -22,6 +22,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOLL.Locks;
+with GNATCOLL.VFS;      use GNATCOLL.VFS;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
@@ -165,8 +166,12 @@ package body Libadalang.Implementation.C.Extensions is
 
       if P /= "" then
          --  A specific project was requested: try to build one unit provider
-         --  just for it.
+         --  just for it. Lookup the project by name, and then if not found, by
+         --  path.
          Prj := Tree.Project_From_Name (P);
+         if Prj = No_Project then
+            Prj := Tree.Project_From_Path (Create (+P));
+         end if;
          if Prj = No_Project then
             return Error;
          end if;

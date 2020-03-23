@@ -1556,7 +1556,43 @@ class BasicDecl(AdaNode):
             Self.parent.is_a(Subunit)
         )
 
+    is_in_public_part = Property(Self.parent.parent.is_a(T.PublicPart))
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
+
+    @langkit_property(return_type=Bool, public=True)
+    def is_visible(from_node=T.AdaNode.entity):
+        """
+        Return whether this declaration is visible from the point of view of
+        the given ``origin`` node.
+
+        .. ATTENTION::
+            Only package-level (public or private) declarations are supported
+            for now.
+        """
+        return Cond(
+            # If Self is declared in a private part, check that we can find it
+            # from origin's env.
+            Entity.is_in_private_part,
+            from_node.node_env.get(Entity.name_symbol).contains(Entity),
+
+            # If Self is declared in a public part, origin has visibility on it
+            # iff it has visibility on the parent of Self: do a recursive call
+            # on the parent scope.
+            Entity.is_in_public_part,
+            Entity.parent_basic_decl.is_visible(from_node),
+
+            # If Self is declared at the top-level (but is not a subunit), we
+            # necessarily have visibility on it.
+            And(
+                Entity.is_compilation_unit_root,
+                Not(Entity.cast(Body)._.is_subunit)
+            ),
+            True,
+
+            # Unhandled case: raise PropertyError
+            PropertyError(Bool, "Only package-level declaration support"
+                                " visibility checks for now.")
+        )
 
     @langkit_property(return_type=Bool)
     def subp_decl_match_signature(other=T.BasicDecl.entity):

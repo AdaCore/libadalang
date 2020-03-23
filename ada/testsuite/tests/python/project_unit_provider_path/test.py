@@ -6,7 +6,6 @@ project from its path.
 from __future__ import absolute_import, division, print_function
 
 import libadalang
-from libadalang import _py2to3
 
 
 def try_load(*args, **kwargs):
@@ -26,6 +25,5 @@ try_load('agg.gpr', project='arch')
 
 print('Load with a project scope')
 try_load('agg.gpr', project='arch32/arch.gpr')
-
 
 print('Done.')

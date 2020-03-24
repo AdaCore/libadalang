@@ -149,7 +149,7 @@ def validate():
     for entry in all_entries():
         if len(strip_title(entry['title'])) > 52:
             assert entry.get('short_title'), (
-                'Entry {}:stripped title is more than 52 chars long, and no'
+                'Entry {}: stripped title is more than 52 chars long, and no'
                 ' short_title key'.format(entry['tn'])
             )
 

@@ -231,10 +231,10 @@ used, the result of the "get to the definition" query on
 Because of this, Libadalang's project provider has restrictions on the
 aggregate projects passed to it:
 
-1. Either the given aggregate project must not contain at most one source file
-   per unit name/kind. It is not the case in the example above, because there
-   are two files (``arch32/arch.ads`` and ``arch64/arch.ads``) associated to
-   the spec of the ``Arch`` unit.
+1. Either the given aggregate project must contain at most one source file per
+   unit name/kind. It is not the case in the example above, because there are
+   two files (``arch32/arch.ads`` and ``arch64/arch.ads``) associated to the
+   spec of the ``Arch`` unit.
 
 2. Either the aggregate project must come with a reference to a specific
    project file in the whole project tree. The unit provider will consider only

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 """
 This script is an entry point to process change files for Libadalang.
 """

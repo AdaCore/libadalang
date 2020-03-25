@@ -15,6 +15,9 @@ gprbuild -v
 # Log which Langkit commit is used
 (cd langkit && git log HEAD^..HEAD | cat)
 
+# Make sure libpythonlang is available for proper DSL unparsing
+eval `langkit/scripts/manage.sh setenv`
+
 # Avoid pretty-printing, for now: gnatpp from GNAT Community 2018 is known not
 # to work on Libadalang.
 ada/manage.py generate -P

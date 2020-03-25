@@ -847,26 +847,32 @@ class AdaNode(ASTNode):
         could find a matching formal in Self, and whether this formal is
         optional (i.e. has a default value).
         """
-        def matches(formal, actual):
-            return ParamMatch.new(has_matched=True,
-                                  formal=formal, actual=actual)
-
         unpacked_formals = Var(Self.unpack_formals(formal_params))
 
         return params.then(lambda p: p.unpacked_params.map(lambda i, a: If(
             a.name.is_null,
 
-            Let(lambda idx=If(is_dottable_subp, i + 1, i):
+            Let(
+                lambda idx=If(is_dottable_subp, i + 1, i):
                 # Positional parameter case: if this parameter has no
                 # name association, make sure we have enough formals.
-                unpacked_formals.at(idx).then(lambda sp: matches(sp, a))),
+                unpacked_formals.at(idx).then(
+                    lambda sp: ParamMatch.new(
+                        has_matched=True,
+                        formal=sp, actual=a
+                    )
+                )
+            ),
 
             # Named parameter case: make sure the designator is
             # actually a name and that there is a corresponding
             # formal.
             a.name.then(lambda id: (
                 unpacked_formals.find(lambda p: p.name.matches(id)).then(
-                    lambda sp: matches(sp, a)
+                    lambda sp: ParamMatch.new(
+                        has_matched=True,
+                        formal=sp, actual=a
+                    )
                 )
             ))
         )))
@@ -1414,16 +1420,15 @@ class BasicDecl(AdaNode):
         This will return the syntactic node corresponding to attribute
         directly.
         """
-        def new_aspect(node, expr):
-            return Aspect.new(exists=True, node=node, value=expr)
-
         return (
             Entity.get_pragma(name).then(
-                lambda p: new_aspect(p, p.args._.at(1)._.assoc_expr)
+                lambda p: Aspect.new(
+                    exists=True, node=p, value=p.args._.at(1)._.assoc_expr
+                )
             )._or(Entity.get_aspect_assoc(name).then(
-                lambda aa: new_aspect(aa, aa.expr)
+                lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
             ))._or(Entity.get_representation_clause(name).then(
-                lambda rc: new_aspect(rc, rc.expr)
+                lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
             ))
         )
 
@@ -1449,16 +1454,15 @@ class BasicDecl(AdaNode):
             ), default_val=True)
         )
 
-    @langkit_property(return_type=T.Pragma.entity, public=True)
-    def get_pragma(name=Symbol):
+    @langkit_property(return_type=T.Bool)
+    def is_valid_pragma_for_name(name=Symbol, decl=AdaNode.entity):
         """
-        Return the pragma with name ``name`` associated to this entity.
+        Helper property for ``get_pragma``. Used to check that ``decl`` is a
+        pragma declaration that has the given name and is a valid pragma for
+        this declaration.
         """
-        def pragma_pred(d):
-            """
-            Predicate to check that ``d`` is the pragma we're looking for.
-            """
-            return d.cast(T.Pragma).then(lambda p: And(
+        return decl.cast(T.Pragma).then(
+            lambda p: And(
                 # Check pragma's name
                 p.id.name_is(name),
                 # Check that it's associated to self
@@ -1466,7 +1470,14 @@ class BasicDecl(AdaNode):
                     .is_null),
                 # Check that the pragma is after the decl
                 (Self < p.node)
-            ))
+            )
+        )
+
+    @langkit_property(return_type=T.Pragma.entity, public=True)
+    def get_pragma(name=Symbol):
+        """
+        Return the pragma with name ``name`` associated to this entity.
+        """
 
         # First look at library level pragmas if Self is a library item
         return Entity.library_item_pragmas.then(
@@ -1474,7 +1485,9 @@ class BasicDecl(AdaNode):
             lambda plist: plist.find(lambda p: p.id.name_is(name)),
         )._or(
             # First look in the scope where Self is declared
-            Entity.declarative_scope._.decls.as_entity.find(pragma_pred)
+            Entity.declarative_scope._.decls.as_entity.find(
+                lambda d: Entity.is_valid_pragma_for_name(name, d)
+            )
 
             # Then, if entity is declared in the public part of a package or
             # protected def, corresponding pragma might be in the private part.
@@ -1483,11 +1496,15 @@ class BasicDecl(AdaNode):
                     lambda pkg=T.BasePackageDecl: pkg.private_part,
                     lambda ptd=T.ProtectedDef: ptd.private_part,
                     lambda _: No(T.PrivatePart)
-                )._.decls.as_entity.find(pragma_pred)
+                )._.decls.as_entity.find(
+                    lambda d: Entity.is_valid_pragma_for_name(name, d)
+                )
             ))
 
             # Then, look inside decl, in the first declarative region of decl
-            ._or(Entity.declarative_region._.decls.find(pragma_pred))
+            ._or(Entity.declarative_region._.decls.find(
+                lambda d: Entity.is_valid_pragma_for_name(name, d)
+            ))
 
             .cast(T.Pragma)
         )
@@ -2604,10 +2621,12 @@ class BaseFormalParamHolder(AdaNode):
         """
         bare = Var(Self.as_bare_entity)
         match_list = Var(bare.match_param_list(params, is_dottable_subp))
-        nb_max_params = If(is_dottable_subp, bare.nb_max_params - 1,
-                           bare.nb_max_params)
-        nb_min_params = If(is_dottable_subp, bare.nb_min_params - 1,
-                           bare.nb_min_params)
+        nb_max_params = Var(
+            If(is_dottable_subp, bare.nb_max_params - 1, bare.nb_max_params)
+        )
+        nb_min_params = Var(
+            If(is_dottable_subp, bare.nb_min_params - 1, bare.nb_min_params)
+        )
 
         return And(
             params.length <= nb_max_params,
@@ -3366,9 +3385,9 @@ class BaseTypeDecl(BasicDecl):
         """
         Return model type for this type if applicable.
         """
-        types_with_models = (Self.top_level_decl(from_unit)
-                             .cast_or_raise(T.PackageDecl).public_part
-                             .types_with_models)
+        types_with_models = Var(Self.top_level_decl(from_unit)
+                                .cast_or_raise(T.PackageDecl).public_part
+                                .types_with_models)
 
         return types_with_models.find(lambda t: t.model_of_type == Entity)
 
@@ -7470,13 +7489,13 @@ class BinOp(Expr):
         ))
 
         # So if that's the case, look for declarations of "="
-        refined_subps = If(
+        refined_subps = Var(If(
             refers_to_synthetic_neq,
             Self.op.subprograms_for_symbol('"="', Entity).filter(
                 lambda s: s.subp_spec_or_null.nb_max_params == 2
             ),
             subps
-        )
+        ))
 
         return (
             Entity.left.sub_equation
@@ -8951,47 +8970,49 @@ class CallExpr(Name):
         """
         rel_name = Var(Entity.name.name_symbol)
 
-        def base_name_eq():
-            return Entity.name.base_name.then(lambda n: n.sub_equation,
-                                              default_val=LogicFalse())
-
         return Entity.params._.unpacked_params.then(
-            lambda params:
-            Cond(
-                (params.length == 2)
-                & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="', '">"',
-                                  '">="'),
-                Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                   params.at(1).assoc.expr.type_var)
-                & Self.bool_bind(Self.type_var)
-                & base_name_eq(),
+            lambda params: Let(
+                lambda base_name_eq=Entity.name.base_name.then(
+                    lambda n: n.sub_equation,
+                    default_val=LogicFalse()
+                ): Cond(
+                    (params.length == 2)
+                    & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="',
+                                      '">"', '">="'),
+                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                       params.at(1).assoc.expr.type_var)
+                    & Self.bool_bind(Self.type_var)
+                    & base_name_eq,
 
 
-                (params.length == 2)
-                & rel_name.any_of(
-                    '"and"', '"or"', '"xor"', '"abs"', '"*"',
-                    '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
-                ),
-                Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                   params.at(1).assoc.expr.type_var)
-                & Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                     Self.type_var)
-                & base_name_eq(),
+                    (params.length == 2)
+                    & rel_name.any_of(
+                        '"and"', '"or"', '"xor"', '"abs"', '"*"',
+                        '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
+                    ),
+                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                       params.at(1).assoc.expr.type_var)
+                    & Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                         Self.type_var)
+                    & base_name_eq,
 
-                (params.length == 2) & (rel_name == '"**"'),
-                Self.type_bind_val(params.at(1).assoc.expr.type_var,
-                                   Self.universal_int_type)
-                & Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                     Self.type_var)
-                & base_name_eq(),
 
-                (params.length == 1)
-                & rel_name.any_of('"+"', '"-"', '"not"', '"abs"'),
-                Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                   Self.type_var)
-                & base_name_eq(),
+                    (params.length == 2) & (rel_name == '"**"'),
+                    Self.type_bind_val(params.at(1).assoc.expr.type_var,
+                                       Self.universal_int_type)
+                    & Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                         Self.type_var)
+                    & base_name_eq,
 
-                LogicFalse()
+
+                    (params.length == 1)
+                    & rel_name.any_of('"+"', '"-"', '"not"', '"abs"'),
+                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
+                                       Self.type_var)
+                    & base_name_eq,
+
+                    LogicFalse()
+                )
             ),
             default_val=LogicFalse()
         )
@@ -9631,9 +9652,9 @@ class DefiningName(Name):
             dn.basic_decl.root_subp_declarations._or(dn.basic_decl.singleton)
         ))
 
-        all_units = bases.mapcat(
+        all_units = Var(bases.mapcat(
             lambda base: base.filter_is_imported_by(units, True)
-        ).unique
+        ).unique)
 
         return origin.bind(
             Self,
@@ -9768,11 +9789,11 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def designated_env_no_overloading():
-        return Var(Self.env_get_first_visible(
+        return Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=If(Self.in_prepost, No(T.AdaNode), Self)
-        )).cast(T.BasicDecl).then(
+        ).cast(T.BasicDecl).then(
             lambda bd: If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
             )
@@ -9906,22 +9927,26 @@ class BaseId(SingleTokNode):
     parent_scope = Property(env)
 
     @langkit_property()
+    def designated_type_impl_get_real_type(n=AdaNode.entity):
+        """
+        Helper property for ``designated_type_impl``. Returns the actual type
+        defined by the given node, if any.
+        """
+        return n.match(
+            lambda t=T.BaseTypeDecl.entity: t,
+            lambda tb=T.TaskBody.entity: tb.task_type,
+            lambda _: No(BaseTypeDecl.entity)
+        )
+
+    @langkit_property()
     def designated_type_impl():
-
-        def get_real_type(basic_decl):
-            return basic_decl.match(
-                lambda t=T.BaseTypeDecl.entity: t,
-                lambda tb=T.TaskBody.entity: tb.task_type,
-                lambda _: No(BaseTypeDecl.entity)
-            )
-
         # This is the view of the type where it is referenced
         des_type_1 = Var(Self.env_get_first_visible(
             env,
             from_node=Self,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
         ).then(
-            lambda env_el: get_real_type(env_el)
+            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))
 
         # This is the view of the type where it is used
@@ -9930,7 +9955,7 @@ class BaseId(SingleTokNode):
             from_node=origin,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
         ).then(
-            lambda env_el: get_real_type(env_el)
+            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))
 
         des_type = Var(Cond(

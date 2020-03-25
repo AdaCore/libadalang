@@ -216,7 +216,7 @@ And finally the following project:
       for Main use ("main.adb");
    end Main;
 
-   --  "main.gpr"
+   --  "main.adb"
    with Ada.Text_IO, Arch;
    procedure Main is
    begin

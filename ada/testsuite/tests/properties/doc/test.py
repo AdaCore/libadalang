@@ -72,6 +72,20 @@ package Foo is
 end Foo;
 """)
 
+test('Test that we can extract boxed documentation', b"""
+------------------------------------
+--        Awesome package         --
+--  Documentation for the package --
+--                                --
+--  Bla bla bla                   --
+------------------------------------
+
+with A; use A;
+
+package Foo is
+end Foo;
+""")
+
 test('Test annotation extraction', b"""
 procedure Foo;
 --% belongs-to: Bar

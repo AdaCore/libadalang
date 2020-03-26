@@ -13,6 +13,11 @@ Test that we can extract doc after the prelude
 
 Doc: 'Documentation for the package\n\nBla bla bla'
 
+Test that we can extract boxed documentation
+============================================
+
+Doc: '----------------------------------\n        Awesome package         --\n  Documentation for the package --\n                                --\n  Bla bla bla                   --\n----------------------------------'
+
 Test annotation extraction
 ==========================
 

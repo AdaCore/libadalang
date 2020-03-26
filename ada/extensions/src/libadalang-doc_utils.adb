@@ -187,7 +187,7 @@ package body Libadalang.Doc_Utils is
                --  space; else, raise an error.
                if not L.Is_Empty
                   and then (Offset >= L.Length
-                            or else (for all C
+                            or else (for some C
                                      of L.Slice (1, Offset - 1)
                                      => not Is_Space (C)))
                then

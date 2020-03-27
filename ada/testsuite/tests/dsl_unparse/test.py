@@ -5,14 +5,15 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import subprocess
+import sys
 
 
 unparse_dest = os.path.abspath('lal.lkt')
 unparse_script = 'to:{},lexer,grammar,nodes'.format(unparse_dest)
 
 status = subprocess.call(
-    ['ada/manage.py', '-v=none', 'generate', '-P',
-     '--unparse-script', unparse_script],
+    [sys.executable, os.path.join('ada', 'manage.py'), '-v=none',
+     'generate', '-P', '--unparse-script', unparse_script],
     cwd=os.environ['LIBADALANG_ROOTDIR']
 )
 if status == 0:

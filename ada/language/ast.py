@@ -371,7 +371,7 @@ class AdaNode(ASTNode):
                                     from_rebound=False
                                 )
                             ),
-                            sp.cast(T.BasicDecl)
+                            sp.parent.cast(T.BasicDecl)
                         )
                     )
                 ),

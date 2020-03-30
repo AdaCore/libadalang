@@ -1,1 +1,2 @@
 driver: python
+use_testsuite_python: true

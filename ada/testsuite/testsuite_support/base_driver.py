@@ -154,6 +154,14 @@ class BaseDriver(TestDriver):
         testcase.
         """
 
+        # If False (the default), use the Python interpreter from the
+        # testsuite's --with-python option. Otherwise, use the Python
+        # interpreter that runs the testsuite.
+        self.use_testsuite_python = bool(
+            self.test_env.get('use_testsuite_python', False)
+        )
+        print('use testsuite python:', self.use_testsuite_python)
+
     def read_file(self, filename):
         """Return the content of `filename`."""
         with open(filename, 'r') as f:

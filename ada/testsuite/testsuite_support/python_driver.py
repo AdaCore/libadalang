@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import os.path
+import sys
 
 from testsuite_support.base_driver import BaseDriver, catch_test_errors
 
@@ -91,10 +92,17 @@ class PythonRunner(object):
 
         Make sure you called the "setup_environment" method once first.
         """
-        return self.driver.run_and_check(
-            [self.driver.python_interpreter, py_file] + py_args,
-            for_debug=True
-        )
+        return self.driver.run_and_check([self.interpreter, py_file] + py_args,
+                                         for_debug=True)
+
+    @property
+    def interpreter(self):
+        """
+        Return the Python interpreter to use.
+        """
+        return (sys.executable
+                if self.driver.use_testsuite_python else
+                self.driver.python_interpreter)
 
     @property
     def support_dir(self):

@@ -237,6 +237,29 @@ class AdaNode(ASTNode):
             lambda n: n.cast(T.BasicDecl)
         )
 
+    @langkit_property(public=True, return_type=T.Symbol.array)
+    def valid_keywords():
+        """
+        Return the list of keywords that are valid at this point in the file.
+
+        .. note::
+            This is work in progress. It will return all keywords for now,
+            without looking at the context.
+        """
+        return Array([
+            "abort", "abs", "abstract", "accept", "access", "aliased", "all",
+            "and", "array", "at", "begin", "body", "case", "constant",
+            "declare", "delay", "delta", "digits", "do", "else", "elsif",
+            "end", "entry", "exception", "exit", "for", "function", "generic",
+            "goto", "if", "in", "interface", "is", "limited", "loop", "mod",
+            "new", "not", "null", "others", "out", "of", "or", "overriding",
+            "package", "pragma", "private", "procedure", "protected", "raise",
+            "range", "record", "rem", "renames", "requeue", "return",
+            "reverse", "select", "separate", "some", "subtype", "synchronized",
+            "tagged", "task", "terminate", "then", "type", "until", "use",
+            "when", "while", "with", "xor"
+        ])
+
     @langkit_property(public=False,
                       dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl_internal_helper(ref_var=T.LogicVar,

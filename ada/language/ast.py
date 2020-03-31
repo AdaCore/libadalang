@@ -1061,17 +1061,16 @@ class AdaNode(ASTNode):
             lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
             .mapcat(lambda n: Entity.find_all_in(n, mode))
         ).concat(If(
-            Cond(
-                mode == FindAllMode.References,
-                Entity.cast_or_raise(DefiningName).is_referenced_by(root),
+            Or(And(mode == FindAllMode.References,
+                   root.cast(BaseId).then(
+                       lambda id:
+                       Entity.cast_or_raise(DefiningName).is_referenced_by(id)
+                   )),
 
-                mode == FindAllMode.DerivedTypes,
-                root.cast(TypeDecl)._.is_derived_type(
-                    Entity.cast_or_raise(BaseTypeDecl)
-                ),
-
-                False
-            ),
+               And(mode == FindAllMode.DerivedTypes,
+                   root.cast(TypeDecl)._.is_derived_type(
+                       Entity.cast_or_raise(BaseTypeDecl)
+                   ))),
             root.singleton,
             No(AdaNode.entity.array)
         ))
@@ -9644,7 +9643,7 @@ class DefiningName(Name):
 
     @langkit_property(return_type=Bool,
                       dynamic_vars=[default_imprecise_fallback()])
-    def is_referenced_by(x=AdaNode.entity):
+    def is_referenced_by(id=T.BaseId.entity):
         """
         Returns True iff the given node is an identifier referring to Self.
         Note that this takes into account both direct references as well as
@@ -9656,12 +9655,12 @@ class DefiningName(Name):
         subprograms that override it if the identifier appears in a dispatching
         call.
         """
-        return x.cast(BaseId).then(lambda i: And(
-            Self.name_is(i.name_symbol),
+        return And(
+            Self.name_is(id.name_symbol),
             Let(lambda
-                canon=If(i.is_defining,
-                         i.enclosing_defining_name,
-                         i.referenced_defining_name)._.canonical_part._.node:
+                canon=If(id.is_defining,
+                         id.enclosing_defining_name,
+                         id.referenced_defining_name)._.canonical_part._.node:
 
                 Or(canon == Self,  # Either `x` is a direct reference
 
@@ -9670,10 +9669,10 @@ class DefiningName(Name):
                    Entity.basic_decl.base_subp_declarations.then(
                        lambda decls: And(
                            decls.any(lambda d: d.defining_name.node == canon),
-                           x.cast(Name).is_dispatching_call
+                           id.is_dispatching_call
                        )
                    )))
-        ))
+        )
 
     @langkit_property(public=True, return_type=T.BaseId.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])

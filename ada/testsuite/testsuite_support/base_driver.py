@@ -160,7 +160,6 @@ class BaseDriver(TestDriver):
         self.use_testsuite_python = bool(
             self.test_env.get('use_testsuite_python', False)
         )
-        print('use testsuite python:', self.use_testsuite_python)
 
     def read_file(self, filename):
         """Return the content of `filename`."""

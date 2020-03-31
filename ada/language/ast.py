@@ -11204,7 +11204,7 @@ class AttributeRef(Name):
                             'Fore', 'Aft', 'Digits', 'Modulus',
                             'Address_Size', 'System_Allocator_Alignment',
                             'Finalization_Size', 'Descriptor_Size',
-                            'Alignment'),
+                            'Alignment', 'First_Bit', 'Last_Bit'),
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 

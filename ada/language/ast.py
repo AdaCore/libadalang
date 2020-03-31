@@ -2770,7 +2770,12 @@ class TypeDef(AdaNode):
 
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
-        return Entity.is_int_type | Entity.is_enum_type | Entity.is_char_type
+        return Entity.base_type.then(
+            lambda bt: bt.is_discrete_type,
+            default_val=Or(
+                Entity.is_int_type, Entity.is_enum_type, Entity.is_char_type
+            )
+        )
 
     @langkit_property(dynamic_vars=[origin])
     def is_int_type():

@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [test_derived_discrete.adb]

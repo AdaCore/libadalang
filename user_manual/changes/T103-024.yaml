@@ -1,0 +1,33 @@
+type: new-feature
+title: Resolve generic formal objects
+description: |
+    When analyzing generic code from an instantiation, libadalang's name
+    resolution mechanism now resolves references to generic formal objects to
+    their actual wrapped in a synthetic object declaration, instead of
+    resolving to the declaration of the formal. Take for example:
+
+    .. code:: ada
+        generic
+            X : Integer;
+        package Foo_G is
+            type T is range 1 .. X;
+        end Foo_G;
+
+        package Foo_10 is new Foo_G (X => 10);
+        subtype U is Foo_10.T;
+
+    By calling ``P_Designated_Type_Decl`` on node ``Foo_10.T``, you will reach
+    ``type T is range 1 .. X``. Previously, calling ``P_Referenced_Decl`` on
+    ``X``, would return the declaration ``X : Integer`` from the generic
+    formal part.
+
+    Now, it will instead generate a new object decl which contains the
+    expression of the actual used for ``X``, which would be ``10`` here,
+    thus allowing users to reflect upon the value used in the instantiation.
+
+    Thanks to this, the static expression evaluator can now correctly evaluate
+    static expressions inside generic code that refer to static formal
+    objects. As such, calling ``P_Eval_As_Int`` on ``X`` taken from above will
+    now correctly yield ``10`` instead of an error.
+
+date: 2020-04-01

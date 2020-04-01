@@ -1,0 +1,7 @@
+Eval 'node.f_default_expr.p_is_static_expr()' on node <ObjectDecl ["Z"] test.adb:6:4-6:21>
+Result: True
+
+Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Z"] test.adb:6:4-6:21>
+Result: 12
+
+

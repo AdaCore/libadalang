@@ -12,7 +12,7 @@ Expr <ObjectDecl ["Expr_4"] test.adb:10:4-10:27> evaluated to Real 1.20E+01
 Expr <ObjectDecl ["Expr_5"] test.adb:11:4-11:31> evaluated to Int 12
    Int value is 12
 
-Property_Error: Object decl does not have a default expression.
+Property_Error: Object decl does not have a default expression nor a renaming clause.
 
 Expr <ObjectDecl ["X"] test.adb:18:7-18:24> evaluated to Real 3.50E+00
 

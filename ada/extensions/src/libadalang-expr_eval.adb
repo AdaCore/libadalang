@@ -252,11 +252,15 @@ package body Libadalang.Expr_Eval is
                return Expr_Eval (D.As_Number_Decl.F_Expr);
 
             when Ada_Object_Decl =>
-               if D.As_Object_Decl.F_Default_Expr.Is_Null then
-                  raise Property_Error with "Object decl does not have "
-                    & "a default expression.";
-               else
+               if not D.As_Object_Decl.F_Renaming_Clause.Is_Null then
+                  return Expr_Eval
+                    (D.As_Object_Decl.F_Renaming_Clause
+                     .F_Renamed_Object.As_Expr);
+               elsif not D.As_Object_Decl.F_Default_Expr.Is_Null then
                   return Expr_Eval (D.As_Object_Decl.F_Default_Expr);
+               else
+                  raise Property_Error with "Object decl does not have "
+                    & "a default expression nor a renaming clause.";
                end if;
 
             when others =>

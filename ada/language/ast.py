@@ -6282,8 +6282,11 @@ class ObjectDecl(BasicDecl):
 
     @langkit_property(public=True, return_type=Bool)
     def is_static_decl():
-        return Self.has_constant.as_bool & Entity.default_expr.then(
-            lambda expr: expr.is_static_expr
+        return Or(
+            Self.has_constant.as_bool & Entity.default_expr.then(
+                lambda expr: expr.is_static_expr
+            ),
+            Entity.renaming_clause._.renamed_object.is_static_expr
         )
 
     @langkit_property()

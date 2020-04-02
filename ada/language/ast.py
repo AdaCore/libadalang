@@ -9575,7 +9575,7 @@ class SingleTokNode(Name):
     r_ref_var = UserField(LogicVar, public=False)
     """
     This field is the logic variable for this node. It is not used directly,
-    instead being retrieved via the ref_var property
+    instead being retrieved via the ref_var property.
     """
 
     ref_var = Property(Self.r_ref_var)

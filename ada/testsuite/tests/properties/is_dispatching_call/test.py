@@ -13,10 +13,10 @@ for subp in root_pkg.findall((lal.NullSubpDecl, lal.ExprFunction)):
     name = subp.f_subp_spec.f_subp_name
     print("Analyzing references of {} ({})".format(name.text, name))
     for ref in name.p_find_all_references([u]):
-        if ref.p_is_call:
+        if ref.ref.p_is_call:
             print("  Reference {} is {}".format(
                 ref,
-                "a dispatching call." if ref.p_is_dispatching_call()
+                "a dispatching call." if ref.ref.p_is_dispatching_call()
                 else "not a dispatching call."
             ))
 

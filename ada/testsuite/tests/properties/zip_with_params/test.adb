@@ -20,6 +20,10 @@ procedure Main is
    X_2 : R (42, Y => True, Z => False);
    X_3 : R (42, True, False);
 
+   type R_Access is access R;
+
+   X_4 : R_Access (42, Z => True, Y => False);
+
    A : Array_Type;
    Tmp : Integer := A (2);
 

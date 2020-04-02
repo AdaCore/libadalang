@@ -4797,10 +4797,15 @@ class DiscriminantConstraint(Constraint):
             Self.match_formals(
                 typ.discriminants_list, Entity.constraints, False
             ).logic_all(
-                lambda pm: pm.actual.assoc.expr.xref_equation
+                lambda pm:
+                pm.actual.assoc.expr.xref_equation
                 & Bind(
                     pm.actual.assoc.expr.type_var, pm.formal.spec.formal_type,
                     eq_prop=BaseTypeDecl.matching_formal_type
+                )
+                & pm.actual.name.then(
+                    lambda name: Bind(name.ref_var, pm.formal.spec),
+                    default_val=LogicTrue()
                 )
             )
         )

@@ -260,47 +260,6 @@ class AdaNode(ASTNode):
             "when", "while", "with", "xor"
         ])
 
-    @langkit_property(public=False,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def referenced_decl_internal_helper(ref_var=T.LogicVar,
-                                        try_immediate=Bool):
-        """
-        Helper to generate the piece of logic that is common to all
-        ``referenced_decl_internal`` implementations. ``ref_var`` is the logic
-        variable that contains the reference to return.
-        """
-        return If(
-            imprecise_fallback,
-            Let(lambda v=Try(
-                Self.logic_val(Entity, ref_var, try_immediate),
-                LogicValResult.new(success=False, value=No(AdaNode.entity))
-            ): Let(
-                lambda decl=v.value.cast(T.BasicDecl.entity): If(
-                    v.success & (decl == v.value),
-                    decl,
-                    # We're only calling first_c
-                    Entity.cast(T.Name)._.first_corresponding_decl
-                )
-            )),
-            Self.logic_val(Entity, ref_var, try_immediate)
-                .value.cast_or_raise(T.BasicDecl.entity)
-        ).then(lambda x: x.match(
-            # If the logic variable is bound to a GenericSubpInternal, retrieve
-            # the instantiation leading to it instead.
-            lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
-                node=g.info.rebindings.new_env.env_node
-                .cast_or_raise(T.GenericInstantiation),
-                info=T.entity_info.new(
-                    # Since we return the instantiation itself, remove it from
-                    # its rebindings.
-                    rebindings=x.info.rebindings.get_parent,
-                    from_rebound=x.info.from_rebound,
-                    md=T.Metadata.new()
-                )
-            ),
-            lambda _: x
-        ))
-
     @langkit_property(public=True)
     def generic_instantiations():
         """
@@ -8341,7 +8300,37 @@ class Name(Expr):
                 T.BasicDecl.entity,
                 "Cannot call referenced_decl on a defining name"
             ),
-            Entity.referenced_decl_internal_helper(Self.ref_var, try_immediate)
+            If(
+                imprecise_fallback,
+                Let(lambda v=Try(
+                    Self.logic_val(Entity, Self.ref_var, try_immediate),
+                    LogicValResult.new(success=False, value=No(AdaNode.entity))
+                ): Let(
+                    lambda decl=v.value.cast(T.BasicDecl.entity): If(
+                        v.success & (decl == v.value),
+                        decl,
+                        # We're only calling first_c
+                        Entity._.first_corresponding_decl
+                    )
+                )),
+                Self.logic_val(Entity, Self.ref_var, try_immediate)
+                    .value.cast_or_raise(T.BasicDecl.entity)
+            ).then(lambda x: x.match(
+                # If the logic variable is bound to a GenericSubpInternal,
+                # retrieve the instantiation leading to it instead.
+                lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
+                    node=g.info.rebindings.new_env.env_node
+                    .cast_or_raise(T.GenericInstantiation),
+                    info=T.entity_info.new(
+                        # Since we return the instantiation itself, remove it
+                        # from its rebindings.
+                        rebindings=x.info.rebindings.get_parent,
+                        from_rebound=x.info.from_rebound,
+                        md=T.Metadata.new()
+                    )
+                ),
+                lambda _: x
+            ))
         )
 
     designated_type_impl = Property(

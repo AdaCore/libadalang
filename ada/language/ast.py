@@ -7882,6 +7882,32 @@ class ExpectedTypeForExpr(Struct):
     expr = UserField(type=T.Expr.entity)
 
 
+class RefResultKind(Enum):
+    """
+    Kind for the result of a cross reference operation.
+
+    - ``NoRef`` is for no reference, it is the null value for this enum.
+    - ``Precise`` is when the reference result is precise.
+    - ``Imprecise`` is when there was an error computing the precise result,
+      and a result was gotten in an imprecise fashion.
+    - ``Error`` is for unrecoverable errors (either there is no imprecise path
+      for the request you made, or the imprecise path errored out too.
+    """
+    NoRef = EnumValue(is_default=True)
+    Precise = EnumValue()
+    Imprecise = EnumValue()
+    Error = EnumValue()
+
+
+class RefdDecl(Struct):
+    """
+    Result for a cross reference query returning a referenced decl.
+    """
+    decl = UserField(type=T.BasicDecl.entity,
+                     default_value=No(T.BasicDecl.entity))
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+
+
 @abstract
 class Name(Expr):
     """
@@ -8285,9 +8311,21 @@ class Name(Expr):
         xref equation are catched and a fallback mechanism is triggered, which
         tries to find the referenced declaration in an ad-hoc way.
         """
-        return Entity.referenced_decl_internal(False)
+        return Entity.referenced_decl_internal(False).decl
 
-    @langkit_property(public=True,
+    @langkit_property(public=True, return_type=RefdDecl,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def failsafe_referenced_decl():
+        """
+        Failsafe version of ``referenced_decl``. Returns a ``RefdDecl``, which
+        can be precise, imprecise, or error.
+        """
+        return Try(
+            Entity.referenced_decl_internal(False),
+            RefdDecl.new(kind=RefResultKind.Error)
+        )
+
+    @langkit_property(public=True, return_type=RefdDecl,
                       dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl_internal(try_immediate=Bool):
         """
@@ -8295,41 +8333,63 @@ class Name(Expr):
         already resolved. INTERNAL USE ONLY.
         """
         return If(
+            # First, error out on people trying to call that on a defining
+            # name. TODO: why not return self's decl?
             Entity.is_defining,
             PropertyError(
-                T.BasicDecl.entity,
+                RefdDecl,
                 "Cannot call referenced_decl on a defining name"
             ),
+
             If(
                 imprecise_fallback,
+
+                # The imprecise_fallback path cannot raise
                 Let(lambda v=Try(
                     Self.logic_val(Entity, Self.ref_var, try_immediate),
                     LogicValResult.new(success=False, value=No(AdaNode.entity))
-                ): Let(
-                    lambda decl=v.value.cast(T.BasicDecl.entity): If(
-                        v.success & (decl == v.value),
-                        decl,
-                        # We're only calling first_c
-                        Entity._.first_corresponding_decl
+                ): If(
+                    v.success,
+                    # If we resolved correctly using full nameres, return a
+                    # precise result.
+                    RefdDecl.new(
+                        decl=v.value.cast(T.BasicDecl.entity),
+                        kind=RefResultKind.Precise
+                    ),
+
+                    # Else, just take the first corresponding declaration,
+                    # return as an imprecise result.
+                    Entity._.first_corresponding_decl.then(
+                        lambda fcd:
+                        RefdDecl.new(decl=fcd, kind=RefResultKind.Imprecise),
+                        default_val=RefdDecl.new(kind=RefResultKind.Error)
                     )
                 )),
-                Self.logic_val(Entity, Self.ref_var, try_immediate)
-                    .value.cast_or_raise(T.BasicDecl.entity)
-            ).then(lambda x: x.match(
-                # If the logic variable is bound to a GenericSubpInternal,
-                # retrieve the instantiation leading to it instead.
-                lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
-                    node=g.info.rebindings.new_env.env_node
-                    .cast_or_raise(T.GenericInstantiation),
-                    info=T.entity_info.new(
-                        # Since we return the instantiation itself, remove it
-                        # from its rebindings.
-                        rebindings=x.info.rebindings.get_parent,
-                        from_rebound=x.info.from_rebound,
-                        md=T.Metadata.new()
-                    )
-                ),
-                lambda _: x
+
+                # No fallback path
+                RefdDecl.new(
+                    decl=Self.logic_val(Entity, Self.ref_var, try_immediate)
+                    .value.cast_or_raise(T.BasicDecl.entity),
+                    kind=RefResultKind.Precise
+                )
+
+            ).then(lambda res: Let(
+                lambda real_decl=res.decl._.match(
+                    # If the logic variable is bound to a GenericSubpInternal,
+                    # retrieve the instantiation leading to it instead.
+                    lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
+                        node=g.info.rebindings.new_env.env_node
+                        .cast_or_raise(T.GenericInstantiation),
+                        info=T.entity_info.new(
+                            # Since we return the instantiation itself, remove
+                            # it from its rebindings.
+                            rebindings=res.decl.info.rebindings.get_parent,
+                            from_rebound=res.decl.info.from_rebound,
+                            md=T.Metadata.new()
+                        )
+                    ),
+                    lambda _: res.decl
+                ): RefdDecl.new(decl=real_decl, kind=res.kind)
             ))
         )
 

@@ -1189,13 +1189,13 @@ procedure Nameres is
             when Any =>
                for R of DN.P_Find_All_References (Units, Imprecise_Fallback)
                loop
-                  Print_Ref (R);
+                  Print_Ref (Ref (R));
                end loop;
 
             when Subp_Call =>
                for R of DN.P_Find_All_Calls (Units, Imprecise_Fallback)
                loop
-                  Print_Ref (R);
+                  Print_Ref (Ref (R));
                end loop;
 
             when Subp_Overriding =>

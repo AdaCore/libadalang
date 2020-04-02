@@ -7,8 +7,8 @@ from langkit.dsl import (
     env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, do, handle_children,
-    reference, set_initial_env
+    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, do,
+    handle_children, reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
@@ -1008,44 +1008,6 @@ class AdaNode(ASTNode):
                 lambda n: n.is_a(T.BasicSubpDecl, T.GenericInstantiation)
             ): If(c.is_null, from_node, c)
         ))
-
-    @langkit_property(public=True, return_type=T.AdaNode.entity.array,
-                      dynamic_vars=[origin, default_imprecise_fallback()])
-    def find_all_in(root=T.AdaNode.entity, mode=FindAllMode):
-        """
-        Searches all references to this defining name in the given node and its
-        children.
-        """
-        return root.children.then(
-            lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
-            .mapcat(lambda n: Entity.find_all_in(n, mode))
-        ).concat(If(
-            Or(And(mode == FindAllMode.References,
-                   root.cast(BaseId).then(
-                       lambda id:
-                       Entity.cast_or_raise(DefiningName).is_referenced_by(id)
-                   )),
-
-               And(mode == FindAllMode.DerivedTypes,
-                   root.cast(TypeDecl)._.is_derived_type(
-                       Entity.cast_or_raise(BaseTypeDecl)
-                   ))),
-            root.singleton,
-            No(AdaNode.entity.array)
-        ))
-
-    @langkit_property(return_type=T.AdaNode.entity.array,
-                      dynamic_vars=[origin, default_imprecise_fallback()])
-    def find_all_driver(units=AnalysisUnit.array, mode=FindAllMode):
-        """
-        Searches all references to this defining name in the given list of
-        units.
-        """
-        return units.mapcat(
-            lambda u: u.root.then(
-                lambda r: Entity.find_all_in(r.as_bare_entity, mode)
-            )
-        )
 
     @langkit_property()
     def entity_no_md(n=T.AdaNode, rebindings=T.EnvRebindings,
@@ -3438,6 +3400,22 @@ class BaseTypeDecl(BasicDecl):
         """
         return Entity.is_array
 
+    @langkit_property(public=True, return_type=T.TypeDecl.entity.array,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def find_derived_types(root=T.AdaNode.entity):
+        """
+        Find types derived from self in the given ``root`` and its children.
+        """
+        # TODO: Factor the traversal between this and `find_derived_types`
+        return root.children.then(
+            lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
+            .mapcat(lambda n: Entity.find_derived_types(n))
+        ).concat(root.cast(TypeDecl).then(
+            lambda type_decl: type_decl.is_derived_type(Entity).then(
+                lambda _: type_decl.singleton
+            )
+        ))
+
     is_task_type = Property(False, doc="Whether type is a task type")
 
     is_real_type = Property(
@@ -3709,13 +3687,12 @@ class BaseTypeDecl(BasicDecl):
         Self among the given units.
         """
         return origin.bind(
-            Self, Let(
-                lambda canon=Entity.canonical_type: canon.find_all_driver(
-                    units=canon.filter_is_imported_by(units, True),
-                    mode=FindAllMode.DerivedTypes
-                )
-            )
-        ).map(lambda n: n.cast_or_raise(TypeDecl))
+            Self,
+            Entity.canonical_type.filter_is_imported_by(units, True)
+            .mapcat(lambda u: u.root.then(
+                lambda r: Entity.find_derived_types(r.as_bare_entity)
+            )),
+        )
 
     record_def = Property(No(T.BaseRecordDef.entity), dynamic_vars=[origin])
     array_def = Property(No(T.ArrayTypeDef.entity), dynamic_vars=[origin])
@@ -7922,6 +7899,14 @@ class RefdDef(Struct):
     kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
 
 
+class RefResult(Struct):
+    """
+    Result for a cross reference query returning a reference.
+    """
+    ref = UserField(type=T.BaseId.entity)
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+
+
 @abstract
 class Name(Expr):
     """
@@ -9724,7 +9709,31 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
-    @langkit_property(return_type=Bool,
+    @langkit_property(public=True, return_type=T.RefResult.array,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def find_refs(root=T.AdaNode.entity):
+        """
+        Find all references to this defining name in the given ``root`` and its
+        children.
+        """
+        # TODO: Factor the traversal between this and `find_derived_types`
+        return root.children.then(
+            lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
+            .mapcat(lambda n: Entity.find_refs(n))
+        ).concat(
+            root.cast(BaseId).then(
+                lambda id: Entity.is_referenced_by(id)
+                .then(lambda ref_kind: If(
+                    ref_kind.any_of(
+                        RefResultKind.Precise, RefResultKind.Imprecise
+                    ),
+                    RefResult.new(ref=id, kind=ref_kind).singleton,
+                    No(RefResult.array)
+                ))
+            )
+        )
+
+    @langkit_property(return_type=RefResultKind,
                       dynamic_vars=[default_imprecise_fallback()])
     def is_referenced_by(id=T.BaseId.entity):
         """
@@ -9738,26 +9747,43 @@ class DefiningName(Name):
         subprograms that override it if the identifier appears in a dispatching
         call.
         """
-        return And(
+        return If(
             Self.name_is(id.name_symbol),
-            Let(lambda
-                canon=If(id.is_defining,
-                         id.enclosing_defining_name,
-                         id.referenced_defining_name)._.canonical_part._.node:
 
-                Or(canon == Self,  # Either `x` is a direct reference
+            If(id.is_defining,
+               RefdDef.new(def_name=id.enclosing_defining_name,
+                           kind=RefResultKind.Precise),
+               id.failsafe_referenced_def_name)
 
-                   # Or `x` refers to one of the base subprograms of defined
-                   # by Self, and `x` appears in a dispatching call context.
-                   Entity.basic_decl.base_subp_declarations.then(
-                       lambda decls: And(
-                           decls.any(lambda d: d.defining_name.node == canon),
-                           id.is_dispatching_call
-                       )
-                   )))
+            .then(
+                lambda def_res: Let(
+                    lambda canon=def_res.def_name._.canonical_part._.node:
+
+                    If(
+                        Or(
+                            # Either `id` is a direct reference
+                            (canon == Self),
+
+                            # Or `id` refers to one of the base subprograms of
+                            # defined by Self, and `x` appears in a dispatching
+                            # call context.
+                            Entity.basic_decl.base_subp_declarations.then(
+                                lambda decls: decls.any(
+                                    lambda d: d.defining_name.node == canon
+                                )
+                                & id.is_dispatching_call
+                            ),
+                        ),
+                        def_res.kind,
+                        RefResultKind.NoRef
+                    )
+                )
+            ),
+
+            RefResultKind.NoRef
         )
 
-    @langkit_property(public=True, return_type=T.BaseId.entity.array,
+    @langkit_property(public=True, return_type=T.RefResult.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_references(units=AnalysisUnit.array):
         """
@@ -9783,12 +9809,9 @@ class DefiningName(Name):
             lambda base: base.filter_is_imported_by(units, True)
         ).unique)
 
-        return origin.bind(
-            Self,
-            dn.find_all_driver(all_units, mode=FindAllMode.References)
-        ).map(
-            lambda n: n.cast_or_raise(BaseId)
-        )
+        return origin.bind(Self, all_units.mapcat(lambda u: u.root.then(
+            lambda r: dn.find_refs(r.as_bare_entity)
+        )))
 
     @langkit_property()
     def find_matching_name(bd=BasicDecl.entity):
@@ -9800,7 +9823,7 @@ class DefiningName(Name):
             lambda di: Entity.name.name_is(di.name_symbol)
         )
 
-    @langkit_property(public=True, return_type=T.BaseId.entity.array,
+    @langkit_property(public=True, return_type=T.RefResult.array,
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_calls(units=AnalysisUnit.array):
         """
@@ -9814,7 +9837,7 @@ class DefiningName(Name):
         .. note:: This does not yet support calls done inside generics.
         """
         return Entity.find_all_references(units).filter(
-            lambda r: r.is_direct_call
+            lambda r: r.ref.is_direct_call
         )
 
     next_part = Property(

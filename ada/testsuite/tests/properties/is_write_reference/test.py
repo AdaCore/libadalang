@@ -15,7 +15,7 @@ for filename in sys.argv[1:]:
         for ref in name.p_find_all_references([u]):
             print("  Reference {} is {}".format(
                 ref,
-                "a write reference." if ref.p_is_write_reference()
+                "a write reference." if ref.ref.p_is_write_reference()
                 else "not a write reference."
             ))
 

@@ -9,7 +9,8 @@ for filename in sys.argv[1:]:
     print('== {} =='.format(filename))
     u = lal.AnalysisContext().get_from_file(filename)
     assert not u.diagnostics, (
-        "\n".join("{}:{}".format(d.line, d.message) for d in u.diagnostics)
+        "\n".join("{}:{}".format(d.sloc_range.start.line, d.message)
+                  for d in u.diagnostics)
     )
 
     for assocs in u.root.findall(lal.AssocList):

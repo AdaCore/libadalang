@@ -46,6 +46,10 @@ procedure Main is
    E : Expr_Type := (Bin_Op, new Expr_Type'(K => Lit, Val => 12),
                              new Expr_Type'(Lit, 12));
 
+   E_2 : Expr_Type := (Bin_Op, others => null);
+   E_3 : Expr_Type := (Bin_Op, new Expr_Type'(K => Lit, others => 3),
+                               others => null);
+
    P_A : P_Arr;
 
 begin

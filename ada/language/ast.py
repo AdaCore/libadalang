@@ -7908,6 +7908,15 @@ class RefdDecl(Struct):
     kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
 
 
+class RefdDef(Struct):
+    """
+    Result for a cross reference query returning a referenced defining name.
+    """
+    def_name = UserField(type=T.DefiningName.entity,
+                         default_value=No(T.DefiningName.entity))
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+
+
 @abstract
 class Name(Expr):
     """
@@ -7993,6 +8002,26 @@ class Name(Expr):
             Not(Entity.is_defining),
             Entity.referenced_decl.info.md.dottable_subp
         )
+
+    @langkit_property(return_type=RefdDef, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def failsafe_referenced_def_name():
+        """
+        Failsafe version of ``referenced_defining_name``. Returns a
+        ``RefdDef``, which can be precise, imprecise, or error.
+        """
+        ref_decl = Var(Entity.failsafe_referenced_decl)
+
+        def_name = Var(ref_decl.decl.then(
+            lambda ref_decl: Entity.name_symbol.then(
+                lambda rel_name: ref_decl.defining_names.find(
+                    lambda dn: dn.name_is(rel_name)
+                )
+            )._or(ref_decl.defining_name),
+            default_val=No(T.DefiningName.entity)
+        ))
+
+        return RefdDef.new(def_name=def_name, kind=ref_decl.kind)
 
     @langkit_property(public=True, return_type=T.DefiningName.entity,
                       dynamic_vars=[default_imprecise_fallback()])

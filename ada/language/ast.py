@@ -9341,14 +9341,32 @@ class AssocList(BasicAssoc.list):
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
+        others_assoc = Entity.find(
+            lambda assoc: assoc.names.any(
+                lambda n: n.is_a(OthersDesignator)
+            )
+        )
+
         return params.then(
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
-                lambda m:
-                ParamActual.new(
+                lambda m: ParamActual.new(
                     param=m.formal.name,
                     actual=m.actual.assoc.expr
                 ),
-            )
+            ).then(lambda matches: matches.concat(
+                # If there is an 'others' designator, find all unmatched
+                # formals and for each of them append a mapping from that param
+                # to the expression of the 'others' assoc.
+                others_assoc.then(
+                    lambda oa: Self.unpack_formals(params).filtermap(
+                        lambda p: ParamActual.new(
+                            param=p.name,
+                            actual=oa.expr
+                        ),
+                        lambda p: Not(matches.any(lambda m: m.param == p.name))
+                    )
+                )
+            ))
         )
 
 

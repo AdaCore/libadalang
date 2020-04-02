@@ -8276,7 +8276,7 @@ class Name(Expr):
             No(BaseFormalParamHolder.entity)
         )
 
-    @langkit_property(public=True,
+    @langkit_property(public=True, return_type=T.BasicDecl.entity,
                       dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl():
         """

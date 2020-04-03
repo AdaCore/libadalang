@@ -74,6 +74,11 @@ class Metadata(Struct):
     )
 
 
+class CompletionItem(Struct):
+    decl = UserField(T.BasicDecl.entity)
+    is_dot_call = UserField(T.Bool, default_value=False)
+
+
 @abstract
 class AdaNode(ASTNode):
     """
@@ -228,13 +233,16 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
+    @langkit_property(public=True, return_type=T.CompletionItem.array)
     def complete():
         """
         Return possible completions at this point in the file.
         """
         return Self.children_env.get(No(Symbol)).map(
-            lambda n: n.cast(T.BasicDecl)
+            lambda n: CompletionItem.new(
+                decl=n.cast(T.BasicDecl),
+                is_dot_call=n.info.md.dottable_subp
+            )
         )
 
     @langkit_property(public=True, return_type=T.Symbol.array)
@@ -11740,12 +11748,15 @@ class DottedName(Name):
     subp_spec_var = Property(Self.suffix.subp_spec_var)
     defines_subp_spec_var = Property(True)
 
-    @langkit_property(return_type=T.BasicDecl.entity.array)
+    @langkit_property(return_type=T.CompletionItem.array)
     def complete():
         return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
             Entity.prefix.designated_env.get(No(Symbol), LK.flat).map(
-                lambda n: n.cast(T.BasicDecl)
+                lambda n: CompletionItem.new(
+                    decl=n.cast(T.BasicDecl),
+                    is_dot_call=n.info.md.dottable_subp
+                )
             )
         ))
 

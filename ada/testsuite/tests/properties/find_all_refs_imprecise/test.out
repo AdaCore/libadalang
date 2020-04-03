@@ -1,0 +1,9 @@
+Analyzing main.adb
+##################
+
+References to T (main.adb, 3:12-3:13)
+   A : T := (null record); (main.adb, 6:7-6:30)
+References to Baz (main.adb, 11:16-11:19)
+   A : Float := Baz (12); (main.adb, 16:7-16:29)
+   B : Integer := Baz (12); (main.adb, 17:7-17:31)
+Done.

@@ -118,15 +118,16 @@ types_to_header = OrderedDict((
 ))
 
 
-def print_all_changes_rst():
+def rst(entries):
     """
-    Print RST on stdout for all the change entries for all change types.
+    Print RST for all entries, structured by change type, with headers for each
+    change type.
     """
     for change_type in types_to_header.keys():
         header_chunk = types_to_header[change_type]
 
         entries = sorted(
-            (e for e in all_entries() if e['type'] == change_type),
+            (e for e in entries if e['type'] == change_type),
             key=lambda e: e['date'], reverse=True
         )
 
@@ -139,7 +140,7 @@ def print_all_changes_rst():
             print_entry(entry)
 
 
-def validate():
+def validate(entries):
     """
     Validate all yaml entries.
     """
@@ -147,7 +148,7 @@ def validate():
         return title.replace('``', '')
 
     # jsonschema validation happens as part of the iterator
-    for entry in all_entries():
+    for entry in entries:
         if len(strip_title(entry['title'])) > 52:
             assert entry.get('short_title'), (
                 'Entry {}: stripped title is more than 52 chars long, and no'
@@ -160,13 +161,18 @@ if __name__ == '__main__':
     parser = A.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers()
 
-    create_rst_parser = subparsers.add_parser(
-        'create-rst', help=print_all_changes_rst.__doc__
-    )
-    create_rst_parser.set_defaults(func=lambda args: print_all_changes_rst())
+    def create_command(func, name=None):
+        def wrapper(args):
+            entries = [e for e in all_entries()]
+            func(entries)
 
-    validate_parser = subparsers.add_parser('validate', help=validate.__doc__)
-    validate_parser.set_defaults(func=lambda args: validate())
+        subp = subparsers.add_parser(
+            name or func.__name__.replace("_", "-"), help=func.__doc__
+        )
+        subp.set_defaults(func=wrapper)
+
+    create_command(rst)
+    create_command(validate)
 
     args = parser.parse_args()
     args.func(args)

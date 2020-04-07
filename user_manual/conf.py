@@ -364,7 +364,7 @@ def setup(app):
 
     rst_content = subprocess.check_output([
         sys.executable, P.join('changes', 'process_changes.py'),
-        'create-rst'
+        'rst'
     ])
 
     with open(P.join(P.dirname(P.abspath(__file__)), 'api_changes.rst'),

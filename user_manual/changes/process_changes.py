@@ -26,6 +26,13 @@ def print_err(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
+@memoize
+def json_schema():
+    with open('entry_schema.yaml') as f:
+        schema = f.read()
+    return yaml.safe_load(schema)
+
+
 # TODO: This is a workaround the fact that jsonschema is not available in
 # production. Pending resolution of S905-005.
 try:
@@ -48,6 +55,39 @@ except ImportError:
 
     def validate_entry(tn, entry, no_schema=False):
         pass
+
+
+def header(title, header_char):
+    """
+    Format a header.
+    """
+    return '{}\n{}\n'.format(title, header_char * len(title))
+
+
+def print_entry(entry):
+    """
+    Print one entry as RST.
+    """
+    def field(name, value):
+        """
+        Format a field list entry.
+        """
+        return ':{}:\n    {}'.format(name, value)
+
+    def format_apis(apis):
+        """
+        Format the API field content. If absent, return "all".
+        """
+        if apis:
+            return ', '.join(apis)
+        else:
+            return 'all'
+
+    print(header(entry['title'], '='))
+    print(entry['description'])
+    print(field('tn', entry['tn']))
+    print(field('apis', format_apis(entry.get('apis'))))
+    print()
 
 
 def all_entries():
@@ -82,60 +122,21 @@ def print_all_changes_rst():
     """
     Print RST on stdout for all the change entries for all change types.
     """
-
     for change_type in types_to_header.keys():
-        print_rst(change_type)
+        header_chunk = types_to_header[change_type]
 
+        entries = sorted(
+            (e for e in all_entries() if e['type'] == change_type),
+            key=lambda e: e['date'], reverse=True
+        )
 
-def print_rst(change_type='api-change'):
-    """
-    Print RST on stdout for all the change entries for a given
-    ``change_type``.
-    """
-    header_chunk = types_to_header[change_type]
+        if entries == []:
+            return
 
-    def header(title, header_char):
-        """
-        Format a header.
-        """
-        return '{}\n{}\n'.format(title, header_char * len(title))
+        print(header('Libadalang API {}'.format(header_chunk), '#'))
 
-    def field(name, value):
-        """
-        Format a field list entry.
-        """
-        return ':{}:\n    {}'.format(name, value)
-
-    def format_apis(apis):
-        """
-        Format the API field content. If absent, return "all".
-        """
-        if apis:
-            return ', '.join(apis)
-        else:
-            return 'all'
-
-    entries = sorted((e for e in all_entries() if e['type'] == change_type),
-                     key=lambda e: e['date'], reverse=True)
-
-    if entries == []:
-        return
-
-    print(header('Libadalang API {}'.format(header_chunk), '#'))
-
-    for entry in entries:
-        print(header(entry['title'], '='))
-        print(entry['description'])
-        print(field('tn', entry['tn']))
-        print(field('apis', format_apis(entry.get('apis'))))
-        print()
-
-
-@memoize
-def json_schema():
-    with open('entry_schema.yaml') as f:
-        schema = f.read()
-    return yaml.safe_load(schema)
+        for entry in entries:
+            print_entry(entry)
 
 
 def validate():

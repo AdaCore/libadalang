@@ -1,5 +1,10 @@
 type: api-change
-title: ``DefiningName.find_all_references/calls`` returns ``RefResult`` array
+
+title: |
+    ``DefiningName.find_all_refs/calls`` returns ``RefResult`` array
+
+short_title: |
+    ``find_all_refs/calls`` returns ``RefResult`` array
 
 description: |
     ``DefiningName.find_all_references/calls`` returns ``RefResult`` array,

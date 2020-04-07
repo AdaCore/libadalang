@@ -64,9 +64,11 @@ def header(title, header_char):
     return '{}\n{}\n'.format(title, header_char * len(title))
 
 
-def print_entry(entry):
+def print_entry(entry, show_date=False):
     """
     Print one entry as RST.
+
+    :param bool show_date: Whether to show the date.
     """
     def field(name, value):
         """
@@ -87,6 +89,8 @@ def print_entry(entry):
     print(entry['description'])
     print(field('tn', entry['tn']))
     print(field('apis', format_apis(entry.get('apis'))))
+    if show_date:
+        print(field('date', entry['date']))
     print()
 
 
@@ -118,7 +122,7 @@ types_to_header = OrderedDict((
 ))
 
 
-def rst(entries):
+def rst(entries, args):
     """
     Print RST for all entries, structured by change type, with headers for each
     change type.
@@ -126,21 +130,31 @@ def rst(entries):
     for change_type in types_to_header.keys():
         header_chunk = types_to_header[change_type]
 
-        entries = sorted(
+        filtered_entries = sorted(
             (e for e in entries if e['type'] == change_type),
             key=lambda e: e['date'], reverse=True
         )
 
-        if entries == []:
-            return
+        if filtered_entries == []:
+            continue
 
         print(header('Libadalang API {}'.format(header_chunk), '#'))
 
-        for entry in entries:
-            print_entry(entry)
+        for entry in filtered_entries:
+            print_entry(entry, args.show_date)
 
 
-def validate(entries):
+def raw(entries, args):
+    """
+    Print all entries raw.
+    """
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+    for entry in entries:
+        pp.pprint(entry)
+
+
+def validate(entries, args):
     """
     Validate all yaml entries.
     """
@@ -159,19 +173,44 @@ def validate(entries):
 if __name__ == '__main__':
     os.chdir(P.dirname(P.abspath(__file__)))
     parser = A.ArgumentParser(description=__doc__)
+
+    parser.add_argument(
+        "--filter", help="Python expression to filter the entries. "
+        "`e` designates the entry"
+    )
+
     subparsers = parser.add_subparsers()
 
     def create_command(func, name=None):
         def wrapper(args):
-            entries = [e for e in all_entries()]
-            func(entries)
+            if args.filter:
+                import datetime
+                globs = {'Date': datetime.date}
+                direct_fields = [
+                    'title', 'apis', 'description', 'tn', 'type', 'date'
+                ]
+                filter_fn = eval(
+                    "lambda e, {}: {}".format(", ".join(direct_fields),
+                                              args.filter),
+                    globs
+                )
+                entries = [e for e in all_entries()
+                           if filter_fn(e, *[e.get(f, None)
+                                             for f in direct_fields])]
+            else:
+                entries = [e for e in all_entries()]
+            func(entries, args)
 
         subp = subparsers.add_parser(
             name or func.__name__.replace("_", "-"), help=func.__doc__
         )
         subp.set_defaults(func=wrapper)
+        return subp
 
-    create_command(rst)
+    rst_cmd = create_command(rst)
+    rst_cmd.add_argument('--show-date', action='store_true')
+
+    create_command(raw)
     create_command(validate)
 
     args = parser.parse_args()

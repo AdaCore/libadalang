@@ -467,32 +467,48 @@ class AdaNode(ASTNode):
                   Entity.stop_resolution_equation,
                   Entity.xref_equation)
 
+    @langkit_property(return_type=Bool, memoized=True, call_memoizable=True,
+                      dynamic_vars=[env, origin])
+    def resolve_own_names():
+        """
+        Internal helper for resolve_names. Resolve names for this node up to
+        xref_entry_point and xref_stop_resolution boundaries.
+        """
+        return Entity.xref_equation.solve
+
     @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
-    def resolve_names_internal(initial=Bool, additional_equation=Equation):
+    def resolve_children_names():
         """
-        Internal helper for resolve_names, implementing the recursive logic.
+        Internal helper for resolve_names, implementing the recursive logic
+        needed to resolve names across xref_stop_resolution boundaries.
         """
-
-        solve_xref = Var(initial | Self.xref_stop_resolution)
-
-        i = Var(If(
-            solve_xref,
-            (Entity.xref_equation & additional_equation).solve,
-            True)
-        )
-
-        j = Var(Self.children.all(lambda c: c.then(
-            # Do not explore nodes that are xref entry points, and are not the
-            # initial node.
+        return Self.children.all(lambda c: c.then(
+            # Only resolve nodes that have xref_stop_resolution set, and do not
+            # recursively explore nodes that are xref entry points.
             lambda c: If(
                 c.xref_entry_point,
                 True,
-                c.as_entity.resolve_names_internal(False, LogicTrue()),
+                If(c.xref_stop_resolution, c.as_entity.resolve_own_names, True)
+                & c.as_entity.resolve_children_names,
             ),
             default_val=True
-        )))
+        ))
 
-        return i & j
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
+    def resolve_names_internal():
+        """
+        Resolves names for this node up to xref_entry_point boundaries.
+        """
+        return Entity.resolve_own_names & Entity.resolve_children_names
+
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
+    def resolve_names_internal_with_eq(additional_equation=Equation):
+        """
+        Resolves names in this node with an additional constraint given by
+        ``additional_equation``, up to xref_entry_point boundaries.
+        """
+        return ((Entity.xref_equation & additional_equation).solve
+                & Entity.resolve_children_names)
 
     xref_entry_point = Property(
         False,
@@ -519,13 +535,49 @@ class AdaNode(ASTNode):
         """
         return env.bind(
             Entity.children_env,
-            origin.bind(Self.origin_node,
-                        Entity.resolve_names_internal(True, LogicTrue()))
+            origin.bind(Self.origin_node, Entity.resolve_names_internal)
         )
 
-    resolve_names_from_closest_entry_point = Property(
-        Entity.parents.find(lambda p: p.xref_entry_point).resolve_names
-    )
+    @langkit_property(return_type=Bool)
+    def resolve_names_from_closest_entry_point():
+        """
+        Resolve names from the closest entry point up to this node. Note that
+        unlike ``resolve_names``, this will *not* trigger resolution of every
+        node with stop_resolution that lie in the sub-tree formed by the
+        closest entry point. It will only resolve those that are in the path to
+        resolving Self. Consider for example the following entry point:
+
+        .. code::
+
+            R := (A, B);
+
+        Since aggregate association nodes have ``stop_resolution`` set to True,
+        calling ``resolve_names_from_closest_entry_point`` on ``B`` will
+        resolve nodes ``R`` and ``B`` but not ``A``, because ``A`` does not lie
+        on the path to ``B``.
+
+        This can be useful for resolving aggregates of variant records, because
+        resolution of a component association can safely call the resolution
+        of a discriminant association without triggering an infinite recursion,
+        as both are on different "paths".
+        """
+        return If(
+            Entity.xref_entry_point,
+            env.bind(
+                Entity.children_env,
+                origin.bind(Self.origin_node, Entity.resolve_own_names)
+            ),
+
+            Entity.parent.resolve_names_from_closest_entry_point & If(
+                Entity.xref_stop_resolution,
+                env.bind(
+                    Entity.children_env,
+                    origin.bind(Self.origin_node,
+                                Entity.resolve_own_names)
+                ),
+                True
+            )
+        )
 
     @langkit_property(return_type=LexicalEnv)
     def parent_unit_env_helper(unit=AnalysisUnit, env=LexicalEnv):
@@ -2881,9 +2933,7 @@ class VariantPart(AdaNode):
 
     @langkit_property()
     def xref_equation():
-        ignore(Var(
-            Entity.discr_name.resolve_names_internal(True, LogicTrue()))
-        )
+        ignore(Var(Entity.discr_name.resolve_names_internal))
 
         return Entity.variant.logic_all(lambda var: (
             var.choices.logic_all(lambda c: c.match(
@@ -9600,8 +9650,8 @@ class CaseExpr(Expr):
     def xref_equation():
         # We solve Self.expr separately because it is not dependent on the rest
         # of the semres.
-        ignore(Var(Entity.expr.resolve_names_internal(
-            True, Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
+        ignore(Var(Entity.expr.resolve_names_internal_with_eq(
+            Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 
         return Entity.cases.logic_all(lambda alt: (
@@ -11039,8 +11089,7 @@ class ForLoopSpec(LoopSpec):
     def iterator_xref_equation():
         iter_expr = Var(Entity.iter_expr.cast_or_raise(T.Expr))
 
-        p = Var(iter_expr.resolve_names_internal(
-            True,
+        p = Var(iter_expr.resolve_names_internal_with_eq(
             Predicate(BaseTypeDecl.is_iterator_type,
                       iter_expr.type_var)
         ))
@@ -11656,9 +11705,7 @@ class AttributeRef(Name):
         # representing an int that we will use as a dimension.
         dim = Var(Entity.args_list.then(lambda a: a.at(0).expr.then(
             lambda expr: Let(
-                lambda _=expr.resolve_names_internal(
-                    True, LogicTrue()
-                ):
+                lambda _=expr.resolve_names_internal:
                 expr.eval_as_int.as_int
             ), default_val=1), default_val=1
         ) - 1)
@@ -11686,8 +11733,7 @@ class AttributeRef(Name):
             # Prefix is not a type: In that case we have permission to resolve
             # prefix separately.
             Let(lambda
-                res=Entity.prefix.resolve_names_internal(
-                    True,
+                res=Entity.prefix.resolve_names_internal_with_eq(
                     Predicate(BaseTypeDecl.is_array_def_with_deref,
                               Entity.prefix.type_var)
                 ),
@@ -12727,8 +12773,7 @@ class CaseStmt(CompositeStmt):
 
     @langkit_property()
     def xref_equation():
-        ignore(Var(Entity.expr.resolve_names_internal(
-            True,
+        ignore(Var(Entity.expr.resolve_names_internal_with_eq(
             # First make sure null is not a possible value for the type of
             # the expression so as to avoid a null check in subsequent
             # predicates.

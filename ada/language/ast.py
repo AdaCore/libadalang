@@ -295,13 +295,8 @@ class AdaNode(ASTNode):
     # of the first evaluation of this property. When we change that, we'll
     # probably change the solving API anyway.
     @langkit_property(call_memoizable=True, return_type=T.LogicValResult)
-    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVar,
-                  try_immediate=(Bool, False)):
-        success = Var(If(
-            try_immediate & Not(lvar.get_value.is_null),
-            True,
-            from_node.resolve_names_from_closest_entry_point
-        ))
+    def logic_val(from_node=T.AdaNode.entity, lvar=LogicVar):
+        success = Var(from_node.resolve_names_from_closest_entry_point)
 
         return LogicValResult.new(success=success, value=If(
             success, lvar.get_value, No(T.AdaNode.entity)
@@ -8317,7 +8312,7 @@ class Name(Expr):
         xref equation are catched and a fallback mechanism is triggered, which
         tries to find the referenced declaration in an ad-hoc way.
         """
-        return Entity.referenced_decl_internal(False).decl
+        return Entity.referenced_decl_internal.decl
 
     @langkit_property(public=True, return_type=RefdDecl,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -8327,13 +8322,13 @@ class Name(Expr):
         can be precise, imprecise, or error.
         """
         return Try(
-            Entity.referenced_decl_internal(False),
+            Entity.referenced_decl_internal,
             RefdDecl.new(kind=RefResultKind.Error)
         )
 
     @langkit_property(public=True, return_type=RefdDecl,
                       dynamic_vars=[default_imprecise_fallback()])
-    def referenced_decl_internal(try_immediate=Bool):
+    def referenced_decl_internal():
         """
         Return the declaration this node references. Try not to run name res if
         already resolved. INTERNAL USE ONLY.
@@ -8352,7 +8347,7 @@ class Name(Expr):
 
                 # The imprecise_fallback path cannot raise
                 Let(lambda v=Try(
-                    Self.logic_val(Entity, Self.ref_var, try_immediate),
+                    Self.logic_val(Entity, Self.ref_var),
                     LogicValResult.new(success=False, value=No(AdaNode.entity))
                 ): If(
                     v.success,
@@ -8374,7 +8369,7 @@ class Name(Expr):
 
                 # No fallback path
                 RefdDecl.new(
-                    decl=Self.logic_val(Entity, Self.ref_var, try_immediate)
+                    decl=Self.logic_val(Entity, Self.ref_var)
                     .value.cast_or_raise(T.BasicDecl.entity),
                     kind=RefResultKind.Precise
                 )

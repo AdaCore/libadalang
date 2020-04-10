@@ -85,6 +85,10 @@ Expr: <Id "Inst" test_range.adb:11:13-11:17>
 Expr: <Id "Range" test_range.adb:11:18-11:23>
   references: None
   type:       None
+
+Resolving xrefs for node <ParamAssoc test_range.adb:11:25-11:26>
+****************************************************************
+
 Expr: <Int test_range.adb:11:25-11:26>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
@@ -105,6 +109,10 @@ Expr: <Id "Inst" test_range.adb:12:16-12:20>
 Expr: <Id "Range" test_range.adb:12:21-12:26>
   references: None
   type:       None
+
+Resolving xrefs for node <ParamAssoc test_range.adb:12:28-12:29>
+****************************************************************
+
 Expr: <Int test_range.adb:12:28-12:29>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>

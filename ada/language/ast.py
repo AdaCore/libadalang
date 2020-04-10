@@ -9312,6 +9312,21 @@ class ParamAssoc(BasicAssoc):
     names = Property(If(Self.designator.is_null,
                         No(T.AdaNode.array), Self.designator.singleton))
 
+    xref_entry_point = Property(Self.is_static_attribute_assoc)
+    xref_equation = Property(If(
+        Self.xref_entry_point,
+        Entity.expr.sub_equation,
+        LogicFalse()
+    ))
+
+    @langkit_property(return_type=Bool)
+    def is_static_attribute_assoc():
+        return Self.parent.parent.cast(AttributeRef).then(
+            lambda ar: ar.attribute.name_symbol.any_of(
+                'First', 'Last', 'Range', 'Length'
+            )
+        )
+
 
 class AggregateAssoc(BasicAssoc):
     """

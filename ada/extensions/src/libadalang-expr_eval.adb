@@ -279,11 +279,7 @@ package body Libadalang.Expr_Eval is
          case D.Kind is
          when Ada_Name =>
             return Eval_Range_Attr
-              (Decl
-                 (D.As_Name
-                  .P_Referenced_Decl_Internal (Try_Immediate => True))
-               .As_Ada_Node,
-               A);
+              (D.As_Name.P_Referenced_Decl.As_Ada_Node, A);
 
          when Ada_Type_Decl =>
             return Eval_Range_Attr
@@ -381,10 +377,7 @@ package body Libadalang.Expr_Eval is
 
       case E.Kind is
          when Ada_Identifier | Ada_Dotted_Name =>
-            return Eval_Decl
-              (Decl
-                 (E.As_Name.P_Referenced_Decl_Internal
-                      (Try_Immediate => True)).As_Basic_Decl);
+            return Eval_Decl (E.As_Name.P_Referenced_Decl);
 
          when Ada_Char_Literal =>
             declare
@@ -425,10 +418,7 @@ package body Libadalang.Expr_Eval is
                else
                   --  If it's not a standard character type, evaluate it just
                   --  as any other enum literal.
-                  return Eval_Decl
-                    (Decl
-                      (Char.P_Referenced_Decl_Internal
-                        (Try_Immediate => True)).As_Basic_Decl);
+                  return Eval_Decl (Char.P_Referenced_Decl);
                end if;
             end;
 

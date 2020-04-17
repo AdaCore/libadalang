@@ -10597,7 +10597,7 @@ class Identifier(BaseId):
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
-            'Rounding', 'Round', "Ceiling", 'Floor'
+            'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation'
         )
     )
 
@@ -11549,7 +11549,7 @@ class AttributeRef(Name):
             rel_name == 'Callable',
             Entity.prefix.sub_equation & Self.bool_bind(Self.type_var),
 
-            rel_name.any_of('Ceiling', 'Floor', 'Rounding'),
+            rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation'),
             Entity.float_funcs_equation,
 
             PropertyError(Equation, "Unhandled attribute")

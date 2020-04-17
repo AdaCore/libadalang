@@ -1988,7 +1988,7 @@ class BasicDecl(AdaNode):
         .. note:: It is not named body_part, subclasses have more precise
             versions named body_part and returning a more precise result.
             Probably, we want to rename the specific versions, and have the
-            root property be named previous_part. (TODO R925-008)
+            root property be named body_part. (TODO R925-008)
         """
         return Entity.next_part_for_decl.then(lambda np: np.match(
             lambda stub=BodyStub: stub.next_part_for_decl,

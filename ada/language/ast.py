@@ -5737,7 +5737,7 @@ class BasicSubpDecl(BasicDecl):
                 lambda dpp: Entity.get_body_in_env(dpp.children_env),
             )
             # If not found, search in body
-            ._or(parent_decl.next_part_for_decl.then(
+            ._or(parent_decl.body_part_for_decl.then(
                 lambda np: Entity.get_body_in_env(np.children_env)
             )),
 

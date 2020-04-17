@@ -7,6 +7,9 @@ procedure Test_Float_Attrs is
 
    C : Float := Float'Ceiling (B + 15.0);
    pragma Test_Statement;
+
+   D : Float := Float'Truncation (C + 0.120834);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

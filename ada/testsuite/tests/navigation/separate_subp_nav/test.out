@@ -1,3 +1,7 @@
+Eval 'node.p_next_part_for_decl' on node <SubpDecl ["Boo"] p.adb:6:7-6:21>
+Result: <SubpBody ["Boo"] p-nested.adb:3:4-6:12>
+
+
 Eval 'node.p_next_part_for_decl' on node <SubpDecl ["X"] p.ads:3:4-3:30>
 Result: <SubpBodyStub ["X"] p.adb:3:4-3:42>
 

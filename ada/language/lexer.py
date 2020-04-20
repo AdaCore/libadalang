@@ -76,6 +76,8 @@ class Token(LexerToken):
     # Punctuation
     ParClose = WithText()
     ParOpen = WithText()
+    BrackClose = WithText()
+    BrackOpen = WithText()
     Semicolon = WithText()
     Colon = WithText()
     Comma = WithText()
@@ -249,6 +251,8 @@ rules += [
     # Punctuation
     (Literal("("),  Token.ParOpen),
     (Literal(")"),  Token.ParClose),
+    (Literal("["),  Token.BrackOpen),
+    (Literal("]"),  Token.BrackClose),
     (Literal(";"),  Token.Semicolon),
     (Literal(":"),  Token.Colon),
     (Literal(","),  Token.Comma),

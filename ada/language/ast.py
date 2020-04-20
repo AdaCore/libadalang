@@ -8048,6 +8048,25 @@ class NullRecordAggregate(BaseAggregate):
     """
 
 
+class BracketAggregate(Aggregate):
+    """
+    Bracket array or container aggregate (Ada 2020).
+    """
+
+
+class DeltaAggregate(BaseAggregate):
+    """
+    """
+    pass
+
+
+class BracketDeltaAggregate(DeltaAggregate):
+    """
+    Bracket delta aggregate (Ada 2020).
+    """
+    pass
+
+
 class ExpectedTypeForExpr(Struct):
     """
     Struct used by ``potential_actuals_for_dispatch`` to store an expression
